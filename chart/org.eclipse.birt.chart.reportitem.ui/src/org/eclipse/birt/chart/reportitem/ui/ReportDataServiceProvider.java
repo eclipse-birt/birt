@@ -1058,13 +1058,36 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private Object[] findDataType( String expression,
 			ReportItemHandle itemHandle )
 	{
+		// Below calling 'ChartReportItemUtil.checkStringInExpression' exists
+		// problem, it just check special case, like row["a"]+"Q"+row["b"].
+		// In fact, if expression is a script, it should be no way to get the
+		// return type.
+		// Now the only thing we can do is to try to consider more situations
+		// and avoid wrong check, we will just check the single line expression.
+		// If it is not a single line expression, the data type will no be
+		// checked. Of course even if we just check single line expression, it
+		// still will get wrong result for valid expression, but it will avoid
+		// error check in many situations.
+		// The ChartReportItemUtil.checkStringInExpression will be refactored.
+		
+		boolean complexScripts = false;
+		for ( int i = 0 ; i < expression.length( ); i++ )
+		{
+			if ( expression.charAt( i ) == '\n' && i != ( expression.length( ) - 1 ) )
+			{
+				complexScripts = true;
+				break;
+			}
+		}
+		
 		// Checks if expression contains string
-		if ( ChartReportItemUtil.checkStringInExpression( expression ) )
+		if ( !complexScripts && ChartReportItemUtil.checkStringInExpression( expression ) )
 		{
 			return new Object[]{
 					true, DataType.TEXT_LITERAL
 			};
 		}
+		
 		// simple means one binding expression without js function
 		if ( !ChartReportItemUtil.isSimpleExpression( expression ) )
 		{
@@ -1866,7 +1889,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					}
 
 					// Get a unique name.
-					String name = ChartUtil.getValueSeriesFullExpression( qry,
+					String name = ChartUtil.generateBindingNameOfValueSeries( qry,
 							orthSD,
 							baseSD );
 					if ( fNameSet.contains( name ) )
@@ -2325,7 +2348,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						!bindingExprsMap.containsKey( expr ) )
 				{
 					String name = StructureFactory.newComputedColumn( itemHandle,
-							ChartUtil.removeInvalidSymbols( expr ) )
+							ChartUtil.escapeSpecialCharacters( expr ) )
 							.getName( );
 					queryDefn.addBinding( new Binding( name,
 							new ScriptExpression( expr ) ) );

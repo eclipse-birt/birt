@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -793,15 +795,37 @@ public class ChartUtil
 	 * @param expression
 	 * @return
 	 * @since 2.3.1
+	 * @deprecated Use {@link #escapeSpecialCharacters(String)} instead.
 	 */
 	public static String removeInvalidSymbols( String expression )
 	{
-		return expression.replaceAll( "\"", "" )//$NON-NLS-1$ //$NON-NLS-2$
-				.replaceAll( "\\n", "" )//$NON-NLS-1$ //$NON-NLS-2$
-				.replaceAll( new String( new char[]{
-					(char) -1
-				} ), "" )//$NON-NLS-1$
-				.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
+		return escapeSpecialCharacters( expression );
+	}
+	
+	/**
+	 * The method escapes '"','\n',EOF,'\r' and so on from specified expression/script
+	 * expression, it returns an expression that can be used as binding name.
+	 * 
+	 * @param expression
+	 * @return
+	 * @since 2.5.1
+	 */
+	public static String escapeSpecialCharacters( String expression )
+	{
+		try
+		{
+			return URLEncoder.encode( expression, "UTF-8" );//$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			return expression.replaceAll( "\\\\\"", "" ) //$NON-NLS-1$ //$NON-NLS-2$
+					.replaceAll( "\"", "" )//$NON-NLS-1$ //$NON-NLS-2$
+					.replaceAll( "\\n", "" )//$NON-NLS-1$ //$NON-NLS-2$
+					.replaceAll( new String( new char[]{
+						(char) -1
+					} ), "" )//$NON-NLS-1$
+					.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
+		}
 	}
 	
 	/**
@@ -876,11 +900,30 @@ public class ChartUtil
 	 * @param categorySD
 	 * @throws ChartException
 	 * @since 2.3
+	 * @deprecated Use {@link #generateBindingNameOfValueSeries(Query, SeriesDefinition, SeriesDefinition)} instead.
 	 * 
 	 */
 	public static String getValueSeriesFullExpression( Query orthQuery,
 			SeriesDefinition orthoSD, SeriesDefinition categorySD )
 			throws ChartException
+	{
+		return generateBindingNameOfValueSeries( orthQuery, orthoSD, categorySD );
+	}
+
+	/**
+	 * Returns a binding name for a value series.
+	 * 
+	 * @param orthQuery
+	 * @param orthoSD
+	 * @param categorySD
+	 * @return
+	 * @throws ChartException
+	 * 
+	 * @since 2.5.1
+	 */
+	public static String generateBindingNameOfValueSeries(
+			Query orthQuery, SeriesDefinition orthoSD,
+			SeriesDefinition categorySD ) throws ChartException
 	{
 		String returnExpr = null;
 		String fullAggExpr = getFullAggregateExpression( orthoSD,
@@ -894,9 +937,9 @@ public class ChartUtil
 		{
 			returnExpr = orthQuery.getDefinition( ) + "_" + fullAggExpr; //$NON-NLS-1$
 		}
-		return removeInvalidSymbols( returnExpr );
+		return escapeSpecialCharacters( returnExpr );
 	}
-
+	
 	/**
 	 * Returns row full expression of value series.
 	 * 
@@ -920,7 +963,7 @@ public class ChartUtil
 		}
 		else
 		{
-			return ExpressionUtil.createRowExpression( removeInvalidSymbols( ( orthQuery.getDefinition( )
+			return ExpressionUtil.createRowExpression( escapeSpecialCharacters( ( orthQuery.getDefinition( )
 					+ "_" + fullAggExpr ) ) ); //$NON-NLS-1$
 		}
 	}

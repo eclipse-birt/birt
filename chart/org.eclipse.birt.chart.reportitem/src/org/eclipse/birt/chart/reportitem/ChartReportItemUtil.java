@@ -1077,11 +1077,25 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static boolean checkStringInExpression( String expression )
 	{
 		boolean haveString = false;
-
+		int squareBracketPairingCount = 0;
 		for ( int i = 0; i < expression.length( ); i++ )
 		{
+			if ( expression.charAt(i) == '[' )
+			{
+				squareBracketPairingCount++;
+			}
+			if ( expression.charAt(i) == ']' )
+			{
+				squareBracketPairingCount--;
+			}
+			
 			if ( expression.charAt( i ) == '"' )
 			{
+				if ( squareBracketPairingCount != 0 )
+				{
+					haveString = false;
+					continue;
+				}
 				if ( i == 0 || i == expression.length( ) - 1 )
 				{
 					haveString = true;
@@ -1089,7 +1103,30 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				}
 				else
 				{
-					if ( expression.charAt( i - 1 ) != '['
+					boolean isStrOperation = false;
+					for ( int j = (i - 1); j >=0; j-- )
+					{
+						if ( expression.charAt( j ) == ' ' )
+						{
+							continue;
+						}
+						else if ( expression.charAt( j ) != '+' || expression.charAt( j ) != '-' )
+						{
+							isStrOperation = true;
+							break;
+						}
+						else
+						{
+							isStrOperation = false;
+							break;
+						}
+					}
+					if ( isStrOperation )
+					{
+						haveString= true;
+						break;
+					}
+					else if ( expression.charAt( i - 1 ) != '['
 							&& expression.charAt( i + 1 ) != ']' )
 					{
 						haveString = true;
@@ -1354,7 +1391,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		if ( isRowBinding( expr, true ) )
 		{
-			return ChartUtil.removeInvalidSymbols( expr );
+			return ChartUtil.escapeSpecialCharacters( expr );
 		}
 		return expr; // The specified expression might be a binding name,
 						// directly return.

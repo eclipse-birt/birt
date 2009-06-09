@@ -172,7 +172,7 @@ public abstract class AbstractChartBaseQueryGenerator
 				}
 				
 				// Get a unique name.
-				String name = ChartUtil.getValueSeriesFullExpression( qry,
+				String name = ChartUtil.generateBindingNameOfValueSeries( qry,
 						orthSD,
 						baseSD );
 				if ( fNameSet.contains( name ) )
@@ -269,7 +269,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	protected String generateUniqueBindingName( String expr )
 	{
 		String name = StructureFactory.newComputedColumn( fReportItemHandle,
-				ChartUtil.removeInvalidSymbols( expr ) )
+				ChartUtil.escapeSpecialCharacters( expr ) )
 				.getName( );
 		if ( fNameSet.contains( name ) )
 		{
