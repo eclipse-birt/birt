@@ -567,6 +567,13 @@ public class ChartAggregationCellViewProvider extends
 			{
 				return false;
 			}
+
+			// If axis chart in total cell, don't allow to switch it to Chart view.
+			Object content = ChartXTabUtil.getFirstContent( cell );
+			if ( ChartXTabUtil.isAxisChart( ( (DesignElementHandle) content ) ) )
+			{
+				return false;
+			}
 		}
 
 		// Not allow to switch string measure to chart
