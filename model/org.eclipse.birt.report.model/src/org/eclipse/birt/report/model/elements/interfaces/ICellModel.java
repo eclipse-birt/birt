@@ -153,6 +153,11 @@ public interface ICellModel
 	public static final String BOOKMARK_PROP = "bookmark"; //$NON-NLS-1$
 
 	/**
+	 * Name of the display name property for bookmark
+	 */
+	public static final String BOOKMARK_DISPLAY_NAME_PROP = "bookmarkDisplayName"; //$NON-NLS-1$
+
+	/**
 	 * Name of the headers property. User can choose book mark defined as
 	 * headers of the data cell.
 	 */

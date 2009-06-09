@@ -2363,6 +2363,7 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportItem" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="false" name="ReportItem" nameSpace="element" since="1.0">
     <Property displayNameID="Element.ReportItem.bookmark" name="bookmark" returnType="string" since="2.0" type="expression"/>
+    <Property displayNameID="Element.ReportItem.bookmarkDisplayName" name="bookmarkDisplayName" runtimeSettable="false" since="2.5" type="string"/>
     <Property detailType="TOCStructure" name="toc" displayNameID="Element.ReportItem.toc"  since="2.2" type="structure" />
     <Property detailType="DataSet" displayNameID="Element.ReportItem.dataSet" name="dataSet" runtimeSettable="false" since="1.0" type="elementRef">
       <Trigger validator="DataSetRequiredValidator"/>
@@ -2744,7 +2745,8 @@
     <Property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.ListingGroup.filter" isList="true" name="filter" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="TOCStructure" displayNameID="Element.ListingGroup.toc" name="toc" since="2.2" type="structure"  />
-    <Property displayNameID="Element.ListingGroup.bookmark" name="bookmark" returnType="string" since="2.2" type="expression"/>    
+    <Property displayNameID="Element.ListingGroup.bookmark" name="bookmark" returnType="string" since="2.2" type="expression"/>
+    <Property displayNameID="Element.ListingGroup.bookmarkDisplayName" name="bookmarkDisplayName" runtimeSettable="false" since="2.5" type="string"/>    
     <Property displayNameID="Element.ListingGroup.hideDetail" name="hideDetail" runtimeSettable="false" since="2.1" type="boolean">
       <Default>false</Default>
     </Property>
@@ -3039,7 +3041,8 @@
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
     <Property detailType="HideRule" displayNameID="Element.Row.visibility" isList="true" name="visibility" since="1.0" type="structure"/>
     <Property displayNameID="Element.Row.height" name="height" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
-    <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="2.0" type="expression"/>    
+    <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="2.0" type="expression"/>
+    <Property displayNameID="Element.Row.bookmarkDisplayName" name="bookmarkDisplayName" runtimeSettable="false" since="2.5" type="string"/>    
     <Property displayNameID="Element.Row.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <Property displayNameID="Element.Row.newHandlerOnEachEvent" name="newHandlerOnEachEvent" runtimeSettable="true" since="2.5" type="boolean">
     	<Default>false</Default>
@@ -3064,8 +3067,7 @@
     <Method context="presentation" displayNameID="Element.Row.onRender" name="onRender" since="1.0" toolTipID="Element.Row.onRender.toolTip">
       <Argument name="this" tagID="Element.Row.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IRowInstance"/>
       <Argument name="reportContext" tagID="Element.Row.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-    </Method>
-    <PropertyVisibility name="bookmark" visibility="hide"/>
+    </Method>    
     <PropertyVisibility name="viewAction" visibility="hide"/>                                                      
     <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0">
       <Type name="Cell"/>
@@ -3098,6 +3100,7 @@
     </Property>
     <Property detailType="scopeType" displayNameID="Element.Cell.scope" name="scope" runtimeSettable="false" since="2.5" type="choice"/>
     <Property displayNameID="Element.Cell.bookmark" name="bookmark" returnType="string" runtimeSettable="false" since="2.5" type="expression"/>
+    <Property displayNameID="Element.Cell.bookmarkDisplayName" name="bookmarkDisplayName" runtimeSettable="false" since="2.5" type="string"/>
     <Property displayNameID="Element.Cell.headers" name="headers" returnType="string" runtimeSettable="false" since="2.5" type="expression"/>
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Cell.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>

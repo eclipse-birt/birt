@@ -91,6 +91,7 @@
                     <expression name="valueExpr">excel, 10 people</expression>
                 </structure>
             </list-property>
+            <property name="bookmarkDisplayName">new display name</property>
             <structure name="toc">
                 <expression name="expressionValue">new 2005 statistics</expression>
             </structure>

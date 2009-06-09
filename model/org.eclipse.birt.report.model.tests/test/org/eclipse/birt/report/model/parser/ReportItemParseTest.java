@@ -126,6 +126,9 @@ public class ReportItemParseTest extends BaseTestCase
 		assertEquals( "birt.js.labelHandler", labelHandle //$NON-NLS-1$
 				.getEventHandlerClass( ) );
 
+		// check bookmark display name property
+		assertEquals( "Bookmark Display Name", labelHandle.getBookmarkDisplayName( ) ); //$NON-NLS-1$
+		
 		// check zIndex properties.
 
 		assertEquals( 2, labelHandle.getZIndex( ) );
@@ -285,6 +288,8 @@ public class ReportItemParseTest extends BaseTestCase
 		// test cube
 		labelHandle.setCube( designHandle.findCube( "testCube_one" ) ); //$NON-NLS-1$
 
+		labelHandle.setBookmarkDisplayName( "new display name" ); //$NON-NLS-1$
+		
 		labelHandle.setZIndex( 1 );
 		labelHandle.setOnCreate( "my new label on create" ); //$NON-NLS-1$
 		labelHandle.setOnRender( null );

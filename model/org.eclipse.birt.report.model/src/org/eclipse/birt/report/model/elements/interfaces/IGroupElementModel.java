@@ -158,6 +158,11 @@ public interface IGroupElementModel
 	public static final String BOOKMARK_PROP = "bookmark"; //$NON-NLS-1$
 
 	/**
+	 * Name of the display name property for bookmark
+	 */
+	public static final String BOOKMARK_DISPLAY_NAME_PROP = "bookmarkDisplayName"; //$NON-NLS-1$
+
+	/**
 	 * Name of the on-create property. It is for a script executed when the
 	 * element is created in the Factory. Called after the item is created, but
 	 * before the item is saved to the report document file.

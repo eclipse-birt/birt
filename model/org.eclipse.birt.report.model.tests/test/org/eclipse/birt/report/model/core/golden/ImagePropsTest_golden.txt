@@ -55,6 +55,7 @@ textOverline
 textLineThrough
 verticalAlign
 bookmark
+bookmarkDisplayName
 toc
 dataSet
 cube

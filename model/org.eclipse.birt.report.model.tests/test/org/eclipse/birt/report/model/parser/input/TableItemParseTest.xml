@@ -149,7 +149,7 @@
             </header>
             <group>
 				<property name="eventHandlerClass">birt.js.myGroup1Handler</property>
-				<property name="newHandlerOnEachEvent">true</property>
+				<property name="newHandlerOnEachEvent">true</property>				
 				<method name="onPrepare"><![CDATA[prepare on the group]]></method>
 				<method name="onCreate"><![CDATA[create on the group]]></method>
 				<method name="onRender"><![CDATA[render on the group]]></method>				
@@ -157,6 +157,8 @@
                 <property name="intervalRange">3.0</property>
                 <property name="sortDirection">desc</property>
                 <expression name="keyExpr">[Country]</expression>
+                <expression name="bookmark">Group Bookmark</expression>
+                <property name="bookmarkDisplayName">Group Bookmark Display Name</property>
                 <structure name="toc">
             		<expression name="expressionValue">toc Country</expression>
            		</structure>
@@ -232,6 +234,8 @@
             </group>
             <detail>
                 <row>
+                	<expression name="bookmark">Row Bookmark</expression>
+					<property name="bookmarkDisplayName">Row Bookmark Display Name</property>                
 					<property name="suppressDuplicates">true</property>
 					<property name="eventHandlerClass">birt.js.myDetailRowHandler</property>
 					<property name="newHandlerOnEachEvent">true</property>
@@ -241,6 +245,8 @@
                     <cell>
 						<property name="eventHandlerClass">birt.js.myDetailCellHandler</property>
 						<property name="newHandlerOnEachEvent">true</property>
+						<expression name="bookmark">Cell Bookmark</expression>
+						<property name="bookmarkDisplayName">Cell Bookmark Display Name</property>
 						<method name="onPrepare"><![CDATA[prepare on the cell]]></method>
 						<method name="onCreate"><![CDATA[create on the cell]]></method>
 						<method name="onRender"><![CDATA[render on the cell]]></method>	

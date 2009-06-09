@@ -228,7 +228,7 @@ public class PropertyBindingTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testDelect( ) throws Exception
+	public void testDelete( ) throws Exception
 	{
 		openDesign( FILE_NAME );
 		assertNotNull( designHandle );

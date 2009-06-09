@@ -2118,6 +2118,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, ITableRowModel.HEIGHT_PROP );
 		property( obj, ITableRowModel.BOOKMARK_PROP );
+		property( obj, ITableRowModel.BOOKMARK_DISPLAY_NAME_PROP );
 		property( obj, ITableRowModel.SUPPRESS_DUPLICATES_PROP );
 		property( obj, ITableRowModel.REPEATABLE_PROP );
 
@@ -2177,6 +2178,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );
 		property( obj, ICellModel.SCOPE_PROP );
 		property( obj, ICellModel.BOOKMARK_PROP );
+		property( obj, ICellModel.BOOKMARK_DISPLAY_NAME_PROP );
 		property( obj, ICellModel.HEADERS_PROP );
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );
@@ -3207,6 +3209,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 		property( obj, IReportItemModel.BOOKMARK_PROP );
+		property( obj, IReportItemModel.BOOKMARK_DISPLAY_NAME_PROP );
 		writeStructure( obj, IReportItemModel.TOC_PROP );
 
 		writeContents( obj, IReportItemModel.MULTI_VIEWS_PROP );
@@ -3338,6 +3341,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IGroupElementModel.KEY_EXPR_PROP );
 
 		property( obj, IGroupElementModel.BOOKMARK_PROP );
+		property( obj, IGroupElementModel.BOOKMARK_DISPLAY_NAME_PROP );
 		writeStructure( obj, IGroupElementModel.TOC_PROP );
 
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );

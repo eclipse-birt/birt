@@ -75,6 +75,7 @@ repeatHeader
 pageBreakInterval
 sortByGroups
 bookmark
+bookmarkDisplayName
 toc
 dataSet
 cube

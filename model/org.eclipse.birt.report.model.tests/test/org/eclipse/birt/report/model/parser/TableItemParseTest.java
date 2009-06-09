@@ -267,8 +267,11 @@ public class TableItemParseTest extends ParserTestCase
 		// checks suppress dupliactes flag
 		assertTrue( row.suppressDuplicates( ) );
 
+		// check bookmark and its display name
+		assertEquals( "Row Bookmark", row.getBookmark( ) ); //$NON-NLS-1
+		assertEquals( "Row Bookmark Display Name", row.getBookmarkDisplayName( ) ); //$NON-NLS-1
+		
 		// checks event handler
-
 		assertEquals( "birt.js.myDetailRowHandler", row //$NON-NLS-1$
 				.getEventHandlerClass( ) );
 
@@ -303,6 +306,10 @@ public class TableItemParseTest extends ParserTestCase
 
 		CellHandle cell = (CellHandle) cells.get( 0 );
 
+		// check bookmark and its display name
+		assertEquals( "Cell Bookmark", cell.getBookmark( ) ); //$NON-NLS-1$
+		assertEquals( "Cell Bookmark Display Name", cell.getBookmarkDisplayName( ) ); //$NON-NLS-1$
+		
 		// checks event handler
 
 		assertEquals( "birt.js.myDetailCellHandler", cell //$NON-NLS-1$
@@ -330,12 +337,15 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "desc", group.getSortDirection( ) ); //$NON-NLS-1$
 		assertEquals( "[Country]", group.getKeyExpr( ) ); //$NON-NLS-1$
 		assertEquals( "toc Country", group.getTOC( ).getExpression( ) ); //$NON-NLS-1$
-
+				
 		assertEquals( "acl expression test", group.getACLExpression( ) ); //$NON-NLS-1$
 		assertFalse( group.cascadeACL( ) );
 
-		// checks event handler
+		// check bookmark and its display name
+		assertEquals( "Group Bookmark", group.getBookmark( ) ); //$NON-NLS-1
+		assertEquals( "Group Bookmark Display Name", group.getBookmarkDisplayName( ) ); //$NON-NLS-1
 
+		// checks event handler
 		assertEquals( "birt.js.myGroup1Handler", group //$NON-NLS-1$
 				.getEventHandlerClass( ) );
 
@@ -527,6 +537,8 @@ public class TableItemParseTest extends ParserTestCase
 		group.setInterval( DesignChoiceConstants.INTERVAL_DAY );
 		group.setIntervalRange( 99 );
 		group.setKeyExpr( "new expression" ); //$NON-NLS-1$
+		group.setBookmark( "group bookmark" ); //$NON-NLS-1$
+		group.setBookmarkDisplayName( "group bookmark display name" ); //$NON-NLS-1$
 		group.getTOC( ).setExpression( "new toc expression" ); //$NON-NLS-1$
 		group.setEventHandlerClass( "birt.js.newGroup1Handler" ); //$NON-NLS-1$
 		group.setOnPrepare( "new prepare on group" ); //$NON-NLS-1$
@@ -554,6 +566,9 @@ public class TableItemParseTest extends ParserTestCase
 		row.setOnPrepare( "new prepare on row" ); //$NON-NLS-1$
 		row.setOnRender( null );
 
+		row.setBookmark( "row bookmark" ); //$NON-NLS-1$
+		row.setBookmarkDisplayName( "row bookmark display name" ); //$NON-NLS-1$
+		
 		SlotHandle cells = row.getCells( );
 		assertNotNull( cells );
 		assertEquals( 1, cells.getCount( ) );
@@ -566,6 +581,9 @@ public class TableItemParseTest extends ParserTestCase
 		cell.setOnCreate( null );
 		cell.setOnPrepare( "new prepare on cell" ); //$NON-NLS-1$
 		cell.setOnRender( "new render on cell" ); //$NON-NLS-1$
+
+		cell.setBookmark( "cell bookmark" ); //$NON-NLS-1$
+		cell.setBookmarkDisplayName( "cell bookmark display name" ); //$NON-NLS-1$
 
 		UserPropertyDefn prop = new UserPropertyDefn( );
 		prop.setName( "hello" ); //$NON-NLS-1$

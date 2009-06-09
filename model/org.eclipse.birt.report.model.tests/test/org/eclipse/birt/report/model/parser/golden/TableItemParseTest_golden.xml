@@ -150,6 +150,8 @@
                 <property name="intervalRange">99.0</property>
                 <property name="sortDirection">desc</property>
                 <expression name="keyExpr">new expression</expression>
+                <expression name="bookmark">group bookmark</expression>
+                <property name="bookmarkDisplayName">group bookmark display name</property>
                 <structure name="toc">
                     <expression name="expressionValue">new toc expression</expression>
                 </structure>
@@ -226,6 +228,8 @@
             </group>
             <detail>
                 <row id="31">
+    	            <expression name="bookmark">row bookmark</expression>
+	                <property name="bookmarkDisplayName">row bookmark display name</property>                
                     <property name="suppressDuplicates">false</property>
                     <property name="eventHandlerClass">birt.js.newRowHandler</property>
                     <property name="newHandlerOnEachEvent">true</property>
@@ -236,6 +240,8 @@
                         <property name="rowSpan">1</property>
                         <property name="eventHandlerClass">birt.js.newNewHandler</property>
                         <property name="newHandlerOnEachEvent">true</property>
+                   		<expression name="bookmark">cell bookmark</expression>
+	                	<property name="bookmarkDisplayName">cell bookmark display name</property>                                        
                         <method name="onPrepare"><![CDATA[new prepare on cell]]></method>
                         <method name="onRender"><![CDATA[new render on cell]]></method>
                         <list-property name="userProperties">

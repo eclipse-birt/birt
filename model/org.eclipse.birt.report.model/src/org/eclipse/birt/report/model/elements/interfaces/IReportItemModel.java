@@ -59,6 +59,11 @@ public interface IReportItemModel
 	 */
 
 	public static final String BOOKMARK_PROP = "bookmark"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the display name property for bookmark
+	 */
+	public static final String BOOKMARK_DISPLAY_NAME_PROP = "bookmarkDisplayName"; //$NON-NLS-1$
 
 	/**
 	 * Name of the TOC entry expression property.

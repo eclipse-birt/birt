@@ -81,7 +81,7 @@
             <property name="height">0.25mm</property>
             <property name="width">1mm</property>	
             <property name="zIndex">2</property>	
-			<property name="eventHandlerClass">birt.js.labelHandler</property>	
+			<property name="eventHandlerClass">birt.js.labelHandler</property>				
             <list-property name="visibility">
                 <structure>
                     <property name="format">pdf</property>
@@ -92,6 +92,7 @@
                     <expression name="valueExpr">excel, 10 people</expression>
                 </structure>
             </list-property>
+            <property name="bookmarkDisplayName">Bookmark Display Name</property>
             <method name="onCreate"><![CDATA[hello, show me on create.]]></method>
             <method name="onRender"><![CDATA[hello, show me on render.]]></method>
 			<method name="onPrepare"><![CDATA[hello, show me on prepare.]]></method>

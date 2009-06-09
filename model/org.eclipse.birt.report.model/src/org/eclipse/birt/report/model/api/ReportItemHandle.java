@@ -1425,4 +1425,26 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				: null;
 	}
 
+	/**
+	 * Gets the display name of the bookmark.
+	 * 
+	 * @return the display name of the bookmark.
+	 */
+	public String getBookmarkDisplayName( )
+	{
+		return getStringProperty( BOOKMARK_DISPLAY_NAME_PROP );
+	}
+
+	/**
+	 * Sets the display name of the bookmark.
+	 * 
+	 * @param bookmarkDisplayName
+	 *            the display name of the bookmark to set
+	 * @throws SemanticException
+	 */
+	public void setBookmarkDisplayName( String bookmarkDisplayName )
+			throws SemanticException
+	{
+		setStringProperty( BOOKMARK_DISPLAY_NAME_PROP, bookmarkDisplayName );
+	}
 }

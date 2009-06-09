@@ -8,6 +8,7 @@ eventHandlerClass
 newHandlerOnEachEvent
 scope
 bookmark
+bookmarkDisplayName
 headers
 viewAction
 diagonalNumber
