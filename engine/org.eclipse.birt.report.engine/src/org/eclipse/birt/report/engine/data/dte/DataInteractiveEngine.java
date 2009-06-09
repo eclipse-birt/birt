@@ -180,12 +180,14 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			parentQueryResults = parentResult.getQueryResults( );
 		}
 
-		String resultSetID = loadResultSetID( parentResult, queryID );		
+		String resultSetID = loadResultSetID( parentResult, queryID );
+		// in update mode, resultsetid isn't a must
+		/*
 		if ( resultSetID == null )
 		{
 			throw new EngineException(MessageConstants.REPORT_QUERY_LOADING_ERROR , query.getClass( ).getName( ) );
 		}
-
+		*/
 		// Interactive do not support CUBE?
 		((QueryDefinition)query).setQueryResultsID( resultSetID );
 		// invoke the engine extension to process the queries
@@ -286,11 +288,13 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 
 		String resultSetID = loadResultSetID( parentResult, queryID );
+		// in update mode, resultsetid isn't a must
+		/*
 		if ( resultSetID == null )
 		{
 			throw new EngineException(MessageConstants.REPORT_QUERY_LOADING_ERROR , queryID);
 		}
-
+		*/
 		if ( useCache )
 		{
 			String rsetId = String.valueOf( cachedQueryToResults.get( query ) );
