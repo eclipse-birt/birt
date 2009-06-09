@@ -1131,6 +1131,10 @@ public class GroupDialog extends BaseDialog
 			{
 				inputGroup.setBookmark( bookmark );
 			}
+			else
+			{
+				inputGroup.setBookmark( null );
+			}
 
 			String newToc = UIUtil.convertToModelString( tocEditor.getText( ),
 					true );
@@ -1219,7 +1223,7 @@ public class GroupDialog extends BaseDialog
 				if ( slotHandle != null )
 				{
 					// bugzilla 224242, add data item when cell is empty
-					if ( slotHandle.getContents( ).size( )==0 )
+					if ( slotHandle.getContents( ).size( ) == 0 )
 					{
 						DataItemHandle dataItemHandle = inputGroup.getElementFactory( )
 								.newDataItem( null );
