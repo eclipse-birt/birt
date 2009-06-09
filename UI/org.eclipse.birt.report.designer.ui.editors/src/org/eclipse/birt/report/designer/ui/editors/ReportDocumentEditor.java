@@ -150,9 +150,10 @@ public class ReportDocumentEditor extends EditorPart
 				0,
 				0 );
 		continer.setBackground( fBackgroundColor );
+		IReportDocument document = null;
 		try
 		{
-			IReportDocument document = engine.openReportDocument( getFileName( ) );
+			document = engine.openReportDocument( getFileName( ) );
 			Label nameScript = createScriptgLabel( continer,
 					Messages.getString( "ReportDocumentEditor.3" ) ); //$NON-NLS-1$
 			Label name = createScriptgLabel( continer, document.getName( ) );
@@ -171,6 +172,13 @@ public class ReportDocumentEditor extends EditorPart
 		{
 			this.e = e;
 			createErrorControl( continer );
+		}
+		finally
+		{
+			if (document != null)
+			{
+				document.close( );
+			}
 		}
 
 	}
