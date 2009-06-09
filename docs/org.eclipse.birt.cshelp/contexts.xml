@@ -101,7 +101,6 @@ Define output columns for data in the scripted data source. A <b>scripted data s
 <description>
 Specify the JDBC driver properties for display, including a URL Template, such as jdbc:mysql://localhost/table_name.
 </description>
-
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.4.html#191466" label="Editing a JDBC driver URL template"/>
 </context>
 
@@ -265,7 +264,7 @@ Specify a template name, and optionally a description. Browse to the location of
 <context id="FormatBuilder_ID" title="Format Builder">
 <!-- SEQUENCE: In Data Explorer, expand Report Parameters, then choose the report parameter to edit. Choose Change.  Updated. khahn 20090512 no relevant link 20090604 -->
 <description>
-A report parameter value appears unformatted in a prompt to the user when the report runs. Reformat the report parameter value in a number of predefined formats, such as currency, or in a custom format.  
+A report parameter value appears unformatted in a prompt when the report runs. Reformat the report parameter value using a predefined format, such as currency, or a custom format.  
 </description>
 
 </context>
@@ -290,7 +289,7 @@ Create a style to apply a set of formats to report elements.
 <context id="StyleBuilderFont_ID" title="New Style - Font Page">
 <!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Font. Updated. khahn 20090512 no relevant link 20090604 -->
 <description>
-Set the font properties for the style. The user must have the font installed.
+Set the font properties for the style. The user must have the font installed. 
 </description>
 </context>
 
@@ -311,7 +310,7 @@ Set the CSS text block properties for a style.
 </context>
 
 <context id="StyleBuilderBox_ID" title="New Style - Box Page">
-<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Box. Updated. khahn 20090512 -->
+<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Box. Updated. no relevant link. khahn 20090512 -->
 <description>
 Set the CSS box properties for a style.
 </description>
@@ -322,7 +321,7 @@ Set the CSS box properties for a style.
 <description>
 Set the CSS border properties for a style.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.1.html" label="Formatting Report Content"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/grouping.8.10.html" label="Separate each group with a line"/>
 </context>
 
 <context id="StyleBuilderFormatNumber_ID" title="New Style - Format Number Page">
@@ -333,10 +332,11 @@ Set the number formatting for a style.
 </context>
 
 <context id="StyleBuilderFormatDateTime_ID" title="New Style - Format Date Time Page">
-<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Format DateTime. Updated. khahn 20090512 no relevant link -->
+<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Format DateTime. Updated. khahn 20090512  -->
 <description>
 Set the date and time formatting for a style.
 </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/subreport.13.16.html" label="Change the date formats"/>
 </context>
 
 <context id="StyleBuilderFormatString_ID" title="New Style - Format String Page">
@@ -356,7 +356,7 @@ Set a page break for a style.
 <context id="StyleBuilderMap_ID" title="New Style - Map Page">
 <!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Map. Updated. khahn 20090512 no relevant link -->
 <description>
-Set alternate values for a style o display instead of data as it appears in the database. 
+Set alternate values for a style to display instead of data as it appears in the database. 
 </description>
 </context>
 
@@ -386,8 +386,7 @@ Define a hyperlink for a data, label, image, or chart element.
 <context id="ExpressionBuilder_ID" title="Expression Builder">
 <!-- SEQUENCE: Select a table in layout editor, select the Binding tab in property editor, double-click an expression, choose Fx. Updated. khahn 20090602 linked 20090604-->
 <description>
-Create expressions using a combination of constants, controls, functions, literal values, names of fields,
-and operators that evaluate to a single value.
+Create expressions using a combination of constants, controls, functions, literal values, names of fields, and operators that evaluate to a single value.
 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ScriptingReference.25.1.html" label="Scripting Reference"/>
@@ -410,82 +409,56 @@ Define report parameters that have a hierarchical relationship.
 </context>
 
 <context id="ImageBuilder_ID" title="New Image Item">
-<!--  linked khahn 20090604 -->
+<!--  SEQUENCE: Drag the image element from the palette, and drop it in the page. updated and linked khahn 20090604 -->
 <description>
-Use this dialog box to insert an image directly on the page or into any container element.
-
-To insert a linked image, select the <b>URI</b> radio button. In Enter URI, specify the location of the image file. Enclose the URI in double quotation marks (" ").
-
-To insert an image file from a shared resource, select the <b>Image file in shared resources</b> radio button. For Enter resource file, choose Browse, and then specify the location of the image file.
-
-To insert an embedded image, select the <b>Embedded image</b> radio button, and then choose <b>Add Image</b> to select the image that you want to embed.
-
-Typically, you insert data source images in the detail row of a table to display all the pictures stored in the data source. To insert an image that is stored in a data source, select the <b>Dynamic image</b> radio button, and then choose <b>Select Image Data</b> to specify the field in the data set.
+Specify the location from which to select the image.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/layout.5.5.html" label="How to insert a linked image"/>
 </context>
 
-<context id="TableOptionDialog_ID" title="Insert Table or Grid">
-<!--  linked khahn 20090605 -->
+<context id="TableOptionDialog_ID" title="Insert Table">
+<!--  SEQUENCE: Drag a table element from the palette to the layout. updated 20090606 linked khahn 20090605 -->
 <description>
-Use this dialog box to insert a Table element.
-
-You can specify the number of columns, the number of detail rows, and the data set from which the table retrieves data.
-
-A Table element presents data from a data set using a tabular layout that displays the following content:
-
- - The header appears at the top of the table and on each new page. Typically, the header contains labels for the data values in the columns. 
- - The optional columns property defines the columns. 
- - Optional groups. To specify a group, right-click in the table and choose <b>Insert Group - Above</b> or <b>Insert Group - Below</b>. In New Group, specify the group. 
- - The footer displays totals and appears at the bottom of the table. The detail appears for every row in the data set.
+Insert a Table element, specifying the data set from which to retrieve tabular data. In Number of details, specify the number of rows between the header and footer rows.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.8.html" label="Lay out the report"/>
 </context>
 
 <context id="GridOptionDialog_ID" title="Insert Grid">
-<!--  linked khahn 20090605 -->
+<!--  updated 20090606 linked khahn 20090605 -->
 <description>
-Use this dialog box to insert a Grid element.
-
-Use a grid to arrange static elements, such as text and images, within a section.
+Insert a Grid element and use the grid to arrange static elements, such as text and images, within a section.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/subreport.13.14.html" label="Display the subreports next to one another"/>
 </context>
 
 <context id="TextEditor_ID" title="Edit Text Item">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: Double-click a text element. updated 20090606 linked khahn 20090605 -->
 <description>
-Use this dialog box to edit and format a Text element.
-
-The Text element displays a multi-line block of text defined within the report. This element can contain embedded formatting and value expressions.
-
-The report developer uses the Text item to add text to the report design. Text can be localized and in either HTML or plain text format. HTML text can contain placeholders for data and expressions, much like the mail merge feature of a word processing program.
+Edit and format a Text element. From one drop-down list, select the formatting type, HTML or Plain. From the other drop-down list, select the type of HTML tags to use, or select Dynamic Text. Select Dynamic Text to embed an expression in the text.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/text.6.1.html" label="Displaying Text"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/text.6.2.html" label="How to use a dynamic text element"/>
 </context>
 
 <context id="GroupDialog_ID" title="New Group">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: right-click in the table and choose <b>Insert Group - Above</b> or <b>Insert Group - Below<  updated 20090608 linked khahn 20090605 -->
 <description>
-Use this dialog box to define and configure groups.
-
-Grouping data in a report can make the data easier to interpret and use. For example, you can group customer data by credit limit.
+Define and configure groups. Grouping data in a report can make the data easier to interpret and use. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/grouping.8.7.html" label="Group customer data by credit limit"/>
 </context>
 
 <context id="DataBindingDialog_ID" title="Select Data Binding">
-<!--  linked khahn 20090605 -->
+<!--  SEQUENCE: Create data set with image field. Drag image element from Palette to detail row of table in Layout. In Edit Image Item, choose Select Image Data updated 20090608 linked khahn 20090605 -->
 <description>
-Use this dialog box to bind data columns or expressions to names.
-
-As well as selecting the appropriate data set and column, you can define calculated fields that items inside a list or table can use.
+Bind a column to a report element. Accept the default data set or report item, or select another that contains the column. In Name, select the column to bind to the report element. You can define a calculated field for an element contained in a list or table.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/layout.5.7.html" label="How to insert images that are stored in a data source"/>
 </context>
 
 <context id="HighlightRuleBuilder_ID" title="New Highlight">
-<!--  linked khahn 20090605 -->
+<!-- Select report element, choose Highlights tab in Property Editor. Choose Add. linked khahn 20090605 -->
 <description>
 Use this dialog box to specify the condition, or rule, for applying a particular format to a report element.
 
@@ -538,13 +511,13 @@ A library is a customizable, pre-defined set of rules that helps a user quickly 
 A BIRT library includes both formatting information and rules that help you create a report. A library is like a skin for a report; it takes the data, structure, and layout of a report, and applies formatting defined in the library to transform the appearance of the report.
 
 A library can start with a style sheet, a set of common styles to apply to all reports within an application. The library can then add commonly used data sources, reusable components, translated text, images and more.
+
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.20.1.html" label="Building a Shared Report Development Framework"/>
 </context>
 
 
 <context id="Preference_BIRT_Preview_ID" title="Preferences - Preview page">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: Window>PReferences>Report Design>PReview linked khahn 20090605 -->
 <description>Use this page to control how reports are previewed in web browsers.
 
 To add a browser, select Custom Browser and type the command to open it.
@@ -695,7 +668,7 @@ Note that you must assign a resource file to the report before you can define lo
 </context>
 
 <context id="Preference_BIRT_DataSetEditor_XML_ID" title="Preferences - XML Data Set">
-<!--  no relevant link khahn 20090605 -->
+<!--  The only Preferences - XML Data Set dialog I can find in in Preferences>Data Management>Connectivity>XML Data SEt and it does not display this help. no relevant link khahn 20090605 -->
 <description>Use this page to control the column mapping page.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.1.html" label="Retrieving data"/>
@@ -939,7 +912,7 @@ Create a group level.
 </context>
 
 <context id="MeasureDialog_ID" title="Summary Field Properties">
-<!--  no relevant link khahn 20090605 -->
+<!--  SEQUENCE: In Data Explorer, select cube, select Groups and Summaries. Select a summary field, select add. no relevant link khahn 20090605 -->
 <description>
 Create a summary.
 </description>

@@ -6,7 +6,7 @@
 
   <topic label="Learning the Basics" href="birt/getstarted.1.1.html" >
     <topic label="About the report design environment" href="birt/getstarted.1.2.html" />
-    <topic label="Tutorial 1: . Building a simple listing report" href="birt/getstarted.1.3.html" >
+    <topic label="Tutorial 1: Building a simple listing report" href="birt/getstarted.1.3.html" >
       <topic label="Task 1: Create a new project" href="birt/getstarted.1.4.html" />
       <topic label="Task 2: Create a new report" href="birt/getstarted.1.5.html" />
       <topic label="Task 3: Build a data source" href="birt/getstarted.1.6.html" />
@@ -127,12 +127,12 @@
       </topic>
   <topic label="Using a Chart" href="birt/ChartBasics.14.1.html" >
     <topic label="Tutorial 4: Creating a standalone chart" href="birt/ChartBasics.14.2.html" >
-      <topic label="Task 15: Set up and query the data source" href="birt/ChartBasics.14.3.html" />
-      <topic label="Task 16: Add the chart to the report" href="birt/ChartBasics.14.4.html" />
-      <topic label="Task 17: Provide data for a chart" href="birt/ChartBasics.14.5.html" />
-      <topic label="Task 18: Enlarge the chart and preview the report" href="birt/ChartBasics.14.6.html" />
-      <topic label="Task 19: Change the chart title" href="birt/ChartBasics.14.7.html" />
-      <topic label="Task 20: Refine the chart appearance" href="birt/ChartBasics.14.8.html" />
+      <topic label="Task 1: Set up and query the data source" href="birt/ChartBasics.14.3.html" />
+      <topic label="Task 2: Add the chart to the report" href="birt/ChartBasics.14.4.html" />
+      <topic label="Task 3: Provide data for a chart" href="birt/ChartBasics.14.5.html" />
+      <topic label="Task 4: Enlarge the chart and preview the report" href="birt/ChartBasics.14.6.html" />
+      <topic label="Task 5: Change the chart title" href="birt/ChartBasics.14.7.html" />
+      <topic label="Task 6: Refine the chart appearance" href="birt/ChartBasics.14.8.html" />
       </topic>
       </topic>
   <topic label="Displaying Data in Charts" href="birt/ChartData.15.1.html" >
@@ -141,7 +141,7 @@
     </topic>
   <topic label="Laying Out and Formatting a Chart" href="birt/ChartFormatting.16.1.html" >
     <topic label="How to set a chart’s background color" href="birt/ChartFormatting.16.2.html" />
-    <topic label=", How to modify the plot area" href="birt/ChartFormatting.16.3.html" />
+    <topic label="How to modify the plot area" href="birt/ChartFormatting.16.3.html" />
     <topic label="How to format an axis title" href="birt/ChartFormatting.16.4.html" />
     <topic label="How to set the data type and format of an axis" href="birt/ChartFormatting.16.5.html" />
     </topic>
