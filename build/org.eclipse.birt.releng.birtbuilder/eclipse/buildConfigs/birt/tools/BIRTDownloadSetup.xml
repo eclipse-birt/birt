@@ -307,7 +307,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**"/>
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
-				<exclude name="org.eclipse.birt.sdk*/**"/>
 			</zipfileset>
 			<zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
 				<patternset refid="orbit.include.jars" />
