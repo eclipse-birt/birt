@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Aggreg
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.So
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.swt.custom.CTabItem;
 
 /**
@@ -66,8 +68,16 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 		}
 		else if ( tabKey.equals( FILTERTITLE ) )
 		{
+			AbstractFilterHandleProvider filterProvider = (AbstractFilterHandleProvider) ElementAdapterManager.getAdapter( this,
+					AbstractFilterHandleProvider.class );
+
+			if ( filterProvider == null )
+			{
+				filterProvider = new FilterHandleProvider( );
+			}
+			
 			page = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
-					new FilterHandleProvider( ),
+					filterProvider,
 					true,
 					true );
 		}

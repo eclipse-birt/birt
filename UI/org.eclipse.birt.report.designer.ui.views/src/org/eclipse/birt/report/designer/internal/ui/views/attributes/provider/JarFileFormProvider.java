@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
@@ -139,7 +140,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		return EMPTY_STRING;
 	}
 
-	public String getImagePath( Object element, int columnIndex )
+	public Image getImage( Object element, int columnIndex )
 	{
 		return null;
 	}

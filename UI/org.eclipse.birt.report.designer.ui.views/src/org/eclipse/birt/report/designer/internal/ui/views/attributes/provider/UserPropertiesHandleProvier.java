@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.command.UserPropertyEvent;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
@@ -99,7 +100,7 @@ public class UserPropertiesHandleProvier extends AbstractFormHandleProvider
 		return def.getType( ).getDisplayName( );
 	}
 
-	public String getImagePath( Object element, int columnIndex )
+	public Image getImage( Object element, int columnIndex )
 	{
 		return null;
 	}

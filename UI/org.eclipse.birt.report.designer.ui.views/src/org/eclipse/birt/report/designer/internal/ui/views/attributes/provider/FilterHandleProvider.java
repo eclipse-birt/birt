@@ -38,6 +38,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
@@ -270,7 +271,7 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getImagePath(java.lang.Object,
 	 *      int)
 	 */
-	public String getImagePath( Object element, int columnIndex )
+	public Image getImage( Object element, int columnIndex )
 	{
 		return null;
 	}

@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 
@@ -197,9 +198,9 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getImagePath(java.lang.Object, int)
 	 */
-	public String getImagePath( Object element, int columnIndex )
+	public Image getImage( Object element, int columnIndex )
 	{
-		return fProvider.getImagePath( element, columnIndex );
+		return fProvider.getImage( element, columnIndex );
 	}
 
 	/* (non-Javadoc)

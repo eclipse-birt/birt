@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
@@ -98,15 +99,15 @@ public interface IFormProvider extends IDescriptorProvider
 	String getColumnText( Object element, int columnIndex );
 
 	/**
-	 * Gets the image path for the element under given index.
+	 * Gets the image for the element under given index.
 	 * 
 	 * @param element
 	 *            The data object.
 	 * @param columnIndex
 	 *            The table column index.
-	 * @return The image path for the element under given index
+	 * @return The image for the element under given index
 	 */
-	String getImagePath( Object element, int columnIndex );
+	Image getImage( Object element, int columnIndex );
 
 	/**
 	 * Gets all elements of the given input.

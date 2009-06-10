@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 
@@ -184,7 +185,7 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getImagePath(java.lang.Object,
 	 *      int)
 	 */
-	public String getImagePath( Object element, int columnIndex )
+	public Image getImage( Object element, int columnIndex )
 	{
 		return null;
 	}

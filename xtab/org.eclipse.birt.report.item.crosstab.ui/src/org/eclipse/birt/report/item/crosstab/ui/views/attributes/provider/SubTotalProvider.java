@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
@@ -404,7 +405,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getImagePath(java.lang.Object,
 	 *      int)
 	 */
-	public String getImagePath( Object element, int columnIndex )
+	public Image getImage( Object element, int columnIndex )
 	{
 		// TODO Auto-generated method stub
 		return null;

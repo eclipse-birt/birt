@@ -223,7 +223,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TabPage#setInput(java.util.List)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TabPage
+	 * #setInput(java.util.List)
 	 */
 	public void setInput( Object input )
 	{
@@ -325,7 +327,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		{
 			btnDel.setText( Messages.getString( "FormPage.Button.Delete.Alt1" ) ); //$NON-NLS-1$
 		}
-		
+
 		btnDel.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -401,7 +403,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 						.createButton( formPanel, "", SWT.PUSH ); //$NON-NLS-1$
 			else
 				btnUp = new Button( formPanel, SWT.BORDER );
-			
+
 			if ( 0 == index )
 			{
 				btnUp.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
@@ -431,7 +433,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			{
 				btnDown.setText( Messages.getString( "FormPage.Button.Down.Alt1" ) ); //$NON-NLS-1$
 			}
-			
+
 			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) ); //$NON-NLS-1$
 			btnDown.addSelectionListener( new SelectionAdapter( ) {
 
@@ -477,6 +479,8 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		if ( !( (AbstractFormHandleProvider) getDescriptorProvider( ) ).edit( pos ) )
 			return;
 
+		if ( table.isDisposed( ) )
+			return;
 		table.setSelection( pos );
 
 	}
@@ -532,13 +536,18 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			IFormProvider provider = (IFormProvider) getDescriptorProvider( );
 			if ( provider.isEnable( ) )
 			{
-				if(btnAdd.isEnabled( ))btnAdd.setEnabled( provider.isAddEnable( ) );
-				if(btnEdit.isEnabled( ))btnEdit.setEnabled( provider.isEditEnable( ) );
-				if(btnDel.isEnabled( ))btnDel.setEnabled( provider.isDeleteEnable( ) );
+				if ( btnAdd.isEnabled( ) )
+					btnAdd.setEnabled( provider.isAddEnable( ) );
+				if ( btnEdit.isEnabled( ) )
+					btnEdit.setEnabled( provider.isEditEnable( ) );
+				if ( btnDel.isEnabled( ) )
+					btnDel.setEnabled( provider.isDeleteEnable( ) );
 				if ( style != NO_UP_DOWN )
 				{
-					if(btnUp.isEnabled( ))btnUp.setEnabled( provider.isUpEnable( ) );
-					if(btnDown.isEnabled( ))btnDown.setEnabled( provider.isDownEnable( ) );
+					if ( btnUp.isEnabled( ) )
+						btnUp.setEnabled( provider.isUpEnable( ) );
+					if ( btnDown.isEnabled( ) )
+						btnDown.setEnabled( provider.isDownEnable( ) );
 				}
 			}
 		}
@@ -876,19 +885,21 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object,
-		 *      int)
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
+		 * .lang.Object, int)
 		 */
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			return null;
+			return ( (IFormProvider) getDescriptorProvider( ) ).getImage( element, columnIndex );
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
-		 *      int)
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
+		 * lang.Object, int)
 		 */
 		public String getColumnText( Object element, int columnIndex )
 		{
@@ -903,8 +914,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
-		 *      java.lang.String)
+		 * @see
+		 * org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
+		 * java.lang.String)
 		 */
 		public boolean canModify( Object element, String property )
 		{
@@ -915,8 +927,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
-		 *      java.lang.String)
+		 * @see
+		 * org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
+		 * java.lang.String)
 		 */
 		public Object getValue( Object element, String property )
 		{
@@ -928,7 +941,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
-		 *      java.lang.String, java.lang.Object)
+		 * java.lang.String, java.lang.Object)
 		 */
 		public void modify( Object element, String property, Object value )
 		{
@@ -969,8 +982,10 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			WidgetUtil.processError( btnAdd.getShell( ), e );
 			return;
 		}
-
-		table.setSelection( table.getItemCount( ) - 1 );
+		if ( table.isDisposed( ) )
+			return;
+		if ( table.getItemCount( ) > 0 )
+			table.setSelection( table.getItemCount( ) - 1 );
 		updateArraw( );
 	}
 
@@ -1029,8 +1044,8 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		{
 			int itemCount = table.getItemCount( );
 			int pos = table.getSelectionIndex( );
-			
-			if(pos < 0) // select nothing
+
+			if ( pos < 0 ) // select nothing
 			{
 				return;
 			}
@@ -1105,7 +1120,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	{
 		eventList.clear( );
 	}
-	
+
 	public boolean isOverdued( )
 	{
 		return getControl( ) == null || getControl( ).isDisposed( );

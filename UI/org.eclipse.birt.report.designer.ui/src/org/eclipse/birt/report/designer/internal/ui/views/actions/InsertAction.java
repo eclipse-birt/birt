@@ -48,9 +48,24 @@ public class InsertAction extends AbstractElementAction
 
 	private SlotHandle slotHandle;
 
+	protected SlotHandle getSlotHandle( )
+	{
+		return slotHandle;
+	}
+
 	private String position;
 
+	protected String getPosition( )
+	{
+		return position;
+	}
+
 	private String type = null;
+
+	protected String getType( )
+	{
+		return type;
+	}
 
 	/**
 	 * Create a new insert action with given selection and text at specified
@@ -147,7 +162,7 @@ public class InsertAction extends AbstractElementAction
 	 * 
 	 * @return Returns the default slot handle to insert
 	 */
-	private SlotHandle getDefaultSlotHandle( )
+	protected SlotHandle getDefaultSlotHandle( )
 	{
 		Object obj = getSelection( );
 		// if ( obj instanceof ReportElementModel )
