@@ -71,6 +71,7 @@ public class SeriesValueFormat
 		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
+		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 
 		// Y-Axis
 		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
@@ -108,7 +109,6 @@ public class SeriesValueFormat
 		sdX.getSeriesPalette( ).shift( -1 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
-		sdX.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 
 		//Y-Series 
 		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
