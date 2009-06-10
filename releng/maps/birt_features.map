@@ -51,16 +51,16 @@ feature@org.eclipse.birt.dtp.nl=v200902201427,:pserver:anonymous@dev.eclipse.org
 
 
 !*** Apache Xerces**************************************************************************** 
-feature@org.apache.commons.codec=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
+feature@org.apache.commons.codec=v20090611,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
 
-feature@com.lowagie.itext=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature
+feature@com.lowagie.itext=v20090611,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature
 plugin@com.lowagie.itext=v20090608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
-feature@org.apache.derby.core=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature
+feature@org.apache.derby.core=v20090611,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature
 plugin@org.apache.derby.core=v20090608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
 
-feature@org.mozilla.rhino=v20090521,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
+feature@org.mozilla.rhino=v20090611,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
 plugin@org.mozilla.rhino=v20090608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
-feature@org.w3c.sac=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
+feature@org.w3c.sac=v20090611,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
 plugin@org.w3c.sac=v20090608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
