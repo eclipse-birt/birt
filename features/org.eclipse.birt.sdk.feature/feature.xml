@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.birt.sdk.all"
+      id="org.eclipse.birt.sdk"
       label="%featureName"
       version="2.5.0.qualifier"
       provider-name="%providerName"
@@ -58,19 +58,19 @@
    <includes
          id="org.eclipse.birt.report.designer"
          version="0.0.0"/>
-         
+
    <includes
          id="org.eclipse.birt.chart.runtime"
          version="0.0.0"/>
-         
+
    <includes
          id="org.eclipse.birt.report.designer.debug"
          version="0.0.0"/>
-         
+
    <includes
          id="org.eclipse.birt.crosstab"
          version="0.0.0"/>
-                                              
+
    <includes
          id="org.eclipse.birt.source"
          version="0.0.0"/>
@@ -78,7 +78,7 @@
    <includes
          id="org.eclipse.birt.chart.source"
          version="0.0.0"/>
-   
+
    <includes
          id="org.eclipse.birt.report.designer.editor.xml.wtp.source"
          version="0.0.0"/>
@@ -86,7 +86,7 @@
    <includes
          id="org.eclipse.birt.example.source"
          version="0.0.0"/>
-         
+
    <includes
          id="org.eclipse.birt.chart.runtime.source"
          version="0.0.0"/>
@@ -105,5 +105,6 @@
 
    <includes
          id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature.source"
-         version="0.0.0"/>         
+         version="0.0.0"/>
+
 </feature>
