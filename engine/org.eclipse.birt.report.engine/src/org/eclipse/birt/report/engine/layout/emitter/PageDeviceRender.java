@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
@@ -896,6 +897,15 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			{
 				style.setLetterSpacing( getScaledValue( style.getLetterSpacing( ) ) );
 				style.setWordSpacing( getScaledValue( style.getWordSpacing( ) ) );
+			}
+		}
+		if ( text instanceof TextArea )
+		{
+			TextArea ta = (TextArea) text;
+			if ( ( ta.getRunLevel( ) & 1 ) != 0 )
+			{
+				style = new TextStyle( style );
+				style.setDirection( TextStyle.DIRECTION_RTL );
 			}
 		}
 		drawTextAt( text, x, y, getWidth( text ), getHeight( text ), style );
