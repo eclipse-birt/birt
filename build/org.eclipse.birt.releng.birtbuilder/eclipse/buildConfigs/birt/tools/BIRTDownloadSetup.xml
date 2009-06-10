@@ -175,6 +175,22 @@
 			<include name="org.eclipse.birt.report.model*/model.jar" />
 		</patternset>
 
+		<!-- obsolete feature list -->
+	    <patternset id="third.party.features">
+	        <exclude name="com.lowagie.itext_*/**"/>
+	        <exclude name="org.apache.commons.codec_*/**"/>
+	        <exclude name="org.w3c.sac_*/**"/>
+	        <exclude name="org.mozilla.rhino_*/**"/>
+	        <exclude name="org.apache.derby.core_*/**"/>
+            <exclude name="org.eclipse.birt.chart.runtime*/**"/>
+            <exclude name="org.eclipse.birt.crosstab*/**"/>
+            <exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
+            <exclude name="org.eclipse.birt.report.designer_*/**"/>
+            <exclude name="org.eclipse.birt.report.designer.source_*/**"/>
+            <exclude name="org.eclipse.birt.report.designer.debug*/**"/>
+            <exclude name="org.eclipse.birt.report.runtime*/**"/>
+	    </patternset>
+		
 		<!-- Define the Orbit project jars -->
 		<patternset id="orbit.include.jars">
 			<include name="org.apache.batik.*jar"/>
@@ -481,16 +497,9 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
-				<exclude name="org.eclipse.birt.chart.runtime*/**"/>
-				<exclude name="org.eclipse.birt.crosstab*/**"/>
-				<exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
-				<exclude name="org.eclipse.birt.report.designer_*/**"/>
-				<exclude name="org.eclipse.birt.report.designer.source_*/**"/>
-				<exclude name="org.eclipse.birt.report.designer.debug*/**"/>
-				<exclude name="org.eclipse.birt.report.runtime*/**"/>
-                <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
 				<exclude name="org.eclipse.birt.doc.isv*/**"/>
+				<patternset refid="third.party.features"/>
 			</zipfileset>
 			<!--
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
@@ -545,16 +554,9 @@
 				<exclude name="org.eclipse.birt.rcp*/**"/>
 	            <exclude name="org.eclipse.birt.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
-                <exclude name="org.eclipse.birt.chart.runtime*/**"/>
-                <exclude name="org.eclipse.birt.crosstab*/**"/>
-                <exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
-                <exclude name="org.eclipse.birt.report.designer_*/**"/>
-                <exclude name="org.eclipse.birt.report.designer.source_*/**"/>
-                <exclude name="org.eclipse.birt.report.designer.debug*/**"/>
-                <exclude name="org.eclipse.birt.report.runtime*/**"/>
-                <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
                 <exclude name="org.eclipse.birt.doc.isv*/**"/>
+				<patternset refid="third.party.features"/>
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/temp/eclipse" overwrite="true">
@@ -723,11 +725,12 @@
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}/features">
 			<fileset dir="${deposit}/eclipse/features">
 			        <include name="**/*" />
-                                <exclude name="org.eclipse.birt.sdk*/**" />
-                                <exclude name="org.eclipse.birt*source*/**" />
-                                <exclude name="org.eclipse.birt.integration.wtp*/**"/>
-                                <exclude name="org.eclipse.birt.thirdparty*/**"/>
-                                <exclude name="org.eclipse.birt.rcp*/**"/>
+                    <exclude name="org.eclipse.birt.sdk*/**" />
+                    <exclude name="org.eclipse.birt*source*/**" />
+                    <exclude name="org.eclipse.birt.integration.wtp*/**"/>
+                    <exclude name="org.eclipse.birt.thirdparty*/**"/>
+                    <exclude name="org.eclipse.birt.rcp*/**"/>
+			        <patternset refid="third.party.features"/>
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}">
