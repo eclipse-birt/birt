@@ -187,7 +187,7 @@ class FilterExprDefinition implements IFilterExprDefinition
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_BOTTOM_N == birtOperator )
 		{
 			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N;
-			this.birtFilterDisplayName = "Botton N";
+			this.birtFilterDisplayName = "Bottom N";
 			this.maxArgs = 1;
 			this.minArgs = 1;
 			this.supportUnboundedMaxArgs = false;
@@ -195,7 +195,7 @@ class FilterExprDefinition implements IFilterExprDefinition
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_BOTTOM_PERCENT == birtOperator )
 		{
 			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT;
-			this.birtFilterDisplayName = "Botton Percent";
+			this.birtFilterDisplayName = "Bottom Percent";
 			this.maxArgs = 1;
 			this.minArgs = 1;
 			this.supportUnboundedMaxArgs = false;
