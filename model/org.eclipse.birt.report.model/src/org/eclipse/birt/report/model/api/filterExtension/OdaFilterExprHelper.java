@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.api.filterExtension;
 
-import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
@@ -21,7 +19,7 @@ import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprD
  * OdaFilterExprHelper
  */
 
-public class OdaFilterExprHelper
+public class OdaFilterExprHelper extends OdaFilterExprHelperImpl
 {
 
 	/**
@@ -36,26 +34,11 @@ public class OdaFilterExprHelper
 	 *            oda dataset extension id.
 	 * @return List of IFilterExprDefinition instance.
 	 */
+
 	public static List<IFilterExprDefinition> getMappedFilterExprDefinitions(
 			String dataSetExtId, String dataSourceExtId )
 	{
-
-		Object delegateObject = ExternalDelegateUtil.getExternalFilterHelper( );
-		if ( delegateObject != null )
-		{
-			Method method = ExternalDelegateUtil.getMethod(
-					"getMappedFilterExprDefinitions",
-					delegateObject.getClass( ), new Class[]{String.class,
-							String.class} );
-			if ( method != null )
-			{
-				return (List<IFilterExprDefinition>) ExternalDelegateUtil
-						.invokeMethod( method, delegateObject, new Object[]{
-								dataSetExtId, dataSourceExtId} );
-			}
-		}
-
-		return Collections.emptyList( );
+		return birtFilterExprDefList;
 	}
 
 	/**
@@ -77,22 +60,23 @@ public class OdaFilterExprHelper
 	public static IFilterExprDefinition getFilterExpressionDefn(
 			String birtFilterExprId, String datasetExtId, String datasourceExtId )
 	{
-		Object delegateObject = ExternalDelegateUtil.getExternalFilterHelper( );
-		if ( delegateObject != null )
+
+		if ( !birtPredefinedFilterConstants.contains( birtFilterExprId ) )
+			throw new IllegalArgumentException(
+					"The Birt filter expression Id is not valid." );
+
+		List feds = birtFilterExprDefList;
+		if ( feds.size( ) > 0 )
 		{
-			Method method = ExternalDelegateUtil.getMethod(
-					"getFilterExpressionDefn", delegateObject.getClass( ),
-					new Class[]{String.class, String.class, String.class} );
-			if ( method != null )
+			for ( int i = 0; i < feds.size( ); i++ )
 			{
-				return (IFilterExprDefinition) ExternalDelegateUtil
-						.invokeMethod( method, delegateObject,
-								new Object[]{birtFilterExprId, datasetExtId,
-										datasourceExtId} );
+				IFilterExprDefinition fed = (IFilterExprDefinition) feds
+						.get( i );
+				if ( fed.getBirtFilterExprId( ).equals( birtFilterExprId ) )
+					return fed;
 			}
 		}
-
-		return null;
+		return new FilterExprDefinition( birtFilterExprId );
 	}
 
 	/**
@@ -100,21 +84,9 @@ public class OdaFilterExprHelper
 	 * 
 	 * @return true if support, false if not.
 	 */
+
 	public static boolean supportOdaExtensionFilters( )
 	{
-		Object delegateObject = ExternalDelegateUtil.getExternalFilterHelper( );
-		if ( delegateObject != null )
-		{
-			Method method = ExternalDelegateUtil.getMethod(
-					"supportOdaExtensionFilters", delegateObject.getClass( ),
-					null );
-			if ( method != null )
-			{
-				return ( (Boolean) ExternalDelegateUtil.invokeMethod( method,
-						delegateObject, null ) ).booleanValue( );
-			}
-		}
-
 		return false;
 	}
 }
