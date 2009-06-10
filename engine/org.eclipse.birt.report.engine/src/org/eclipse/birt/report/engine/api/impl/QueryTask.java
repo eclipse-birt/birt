@@ -11,19 +11,20 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.InstanceID;
 
 public class QueryTask
 {
 
-	IBaseQueryDefinition query;
+	IDataQueryDefinition query;
 	DataSetID parent;
 	int rowId;
+	String cellId;
 	InstanceID iid;
 
-	QueryTask( IBaseQueryDefinition query, DataSetID parent, int rowId,
+	QueryTask( IDataQueryDefinition query, DataSetID parent, int rowId,
 			InstanceID iid )
 	{
 		this.query = query;
@@ -32,12 +33,21 @@ public class QueryTask
 		this.iid = iid;
 	}
 
-	public IBaseQueryDefinition getQuery( )
+	QueryTask( IDataQueryDefinition query, DataSetID parent, String cellId,
+			InstanceID iid )
+	{
+		this.query = query;
+		this.parent = parent;
+		this.cellId = cellId;
+		this.iid = iid;
+	}
+
+	public IDataQueryDefinition getQuery( )
 	{
 		return query;
 	}
 
-	public void setQuery( IBaseQueryDefinition query )
+	public void setQuery( IDataQueryDefinition query )
 	{
 		this.query = query;
 	}
@@ -70,5 +80,10 @@ public class QueryTask
 	public void setInstanceID( InstanceID iid )
 	{
 		this.iid = iid;
+	}
+	
+	public String getCellID( )
+	{
+		return cellId;
 	}
 }

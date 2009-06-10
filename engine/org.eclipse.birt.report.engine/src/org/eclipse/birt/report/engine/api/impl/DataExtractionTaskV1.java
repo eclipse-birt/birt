@@ -658,7 +658,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		for ( int current = plan.size( ) - 1; current >= index; current-- )
 		{
 			QueryTask task = plan.get( current );
-			IBaseQueryDefinition query = task.getQuery( );
+			IBaseQueryDefinition query = (IBaseQueryDefinition)task.getQuery( );
 			if ( task.getParent( ) == null )
 			{
 				// this is a top query
@@ -666,9 +666,9 @@ public class DataExtractionTaskV1 extends EngineTask
 				String rsID = getResultsetID( null, -1, queryId );
 				assert rsID != null;
 
-				IQueryResults qryRS = QueryUtil.executeQuery( rsID,
-						(QueryDefinition) query, executionContext );
-				if( qryRS == null )
+				IQueryResults qryRS = (IQueryResults) QueryUtil.executeQuery(
+						null, (QueryDefinition) query, rsID, executionContext );
+				if ( qryRS == null )
 				{
 					return null;
 				}
@@ -693,8 +693,10 @@ public class DataExtractionTaskV1 extends EngineTask
 					String rsID = getResultsetID( parent.getQueryResultsID( ),
 							rowId, queryId );
 					assert rsID != null;
-					IQueryResults qryRS = QueryUtil.executeQuery( rsID,
-							(QueryDefinition) query, executionContext );
+					IQueryResults qryRS = (IQueryResults) QueryUtil
+							.executeQuery( parent.getQueryResults( ),
+									(QueryDefinition) query, rsID,
+									executionContext );
 					if( qryRS == null )
 					{
 						return null;
@@ -806,7 +808,7 @@ public class DataExtractionTaskV1 extends EngineTask
 			throws BirtException
 	{
 		assert instanceId != null;
-		ArrayList<QueryTask> plan = QueryUtil.createPlan( report, instanceId );
+		ArrayList<QueryTask> plan = QueryUtil.createTablePlan( report, instanceId );
 		if ( plan.size( ) == 0 )
 		{
 			return null;
@@ -815,7 +817,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		IQueryResults queryResults = null;
 
 		QueryTask task = plan.get( 0 );
-		IBaseQueryDefinition query = task.getQuery( );
+		IBaseQueryDefinition query = (IBaseQueryDefinition)task.getQuery( );
 		if ( groupMode )
 		{
 			IBaseQueryDefinition newQuery = null;

@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -25,16 +26,23 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
+import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -45,6 +53,9 @@ import org.mozilla.javascript.Scriptable;
 public class QueryUtil
 {
 
+	/*
+	 * Fetch all the result sets that the instanceID refers to.
+	 */
 	public static List<IBaseResultSet> getResultSet( ReportContent report,
 			InstanceID instanceID )
 	{
@@ -64,9 +75,9 @@ public class QueryUtil
 	}
 
 	/*
-	 * create a plan.
+	 * create a plan which contains only table queries.
 	 */
-	static public ArrayList<QueryTask> createPlan( Report report,
+	static public ArrayList<QueryTask> createTablePlan( Report report,
 			InstanceID instanceId ) throws EngineException
 	{
 		InstanceID iid = instanceId;
@@ -140,6 +151,78 @@ public class QueryUtil
 		return plan;
 	}
 
+	/*
+	 * create a plan; this plan gets all data queries.
+	 */
+	static public ArrayList<QueryTask> createPlan( Report report,
+			InstanceID instanceId )
+	{
+		ArrayList<IDataQueryDefinition> queries = new ArrayList<IDataQueryDefinition>( );
+		InstanceID iid = instanceId;
+		InstanceID dsIID = null;
+		while ( iid != null )
+		{
+			long id = iid.getComponentID( );
+			ReportItemDesign design = (ReportItemDesign) report
+					.getReportItemByID( id );
+			IDataQueryDefinition query = design.getQuery( );
+			if ( query != null )
+			{
+				queries.add( query );
+				if ( dsIID == null )
+				{
+					dsIID = iid;
+				}
+			}
+			iid = iid.getParentID( );
+		}
+		if ( queries.size( ) == 0 )
+			return null;
+		ArrayList datasets = new ArrayList( );
+		ArrayList plan = new ArrayList( );
+		for ( IDataQueryDefinition query : queries )
+		{
+			while ( dsIID != null )
+			{
+				if ( dsIID.getDataID( ) != null )
+				{
+					DataID dataId = dsIID.getDataID( );
+					DataSetID dsId = dataId.getDataSetID( );
+					if ( !datasets.contains( dsId ) )
+					{
+						datasets.add( dsId );
+						QueryTask task = null;
+						if ( dataId.getCellID( ) != null )
+						{
+							task = new QueryTask( query, dsId, dataId
+									.getCellID( ), iid );
+						}
+						else
+						{
+							task = new QueryTask( query, dsId, (int) dataId
+									.getRowID( ), iid );
+						}
+						plan.add( task );
+						break;
+					}
+
+				}
+				dsIID = dsIID.getParentID( );
+			}
+			if ( dsIID == null )
+			{
+				break;
+			}
+		}
+		QueryTask task = new QueryTask( queries.get( queries.size( ) - 1 ),
+				null, -1, null );
+		plan.add( task );
+		return plan;
+	}
+
+	/*
+	 * 
+	 */
 	static public List executePlan( ExecutionContext executionContext,
 			ArrayList<QueryTask> plan ) throws EngineException
 	{
@@ -148,7 +231,7 @@ public class QueryUtil
 			return null;
 		}
 		List results = new ArrayList( );
-		QueryResultSet parent = null;
+		IBaseResultSet parent = null;
 		try
 		{
 			for ( int current = plan.size( ) - 1; current >= 0; current-- )
@@ -158,19 +241,33 @@ public class QueryUtil
 					results.add( parent );
 				}
 				QueryTask task = plan.get( current );
-				IBaseQueryDefinition query = task.query;
-				if ( task.parent == null )
+				IDataQueryDefinition query = task.getQuery( );
+				if ( task.getParent( ) == null )
 				{
 					// this is a top query
-					IQueryResults qryRS = executeQuery( null,
-							(QueryDefinition) query, executionContext );
-					if ( qryRS == null )
+					IBaseQueryResults baseResults = executeQuery( null, query,
+							null, executionContext );
+					if ( baseResults == null )
+						return null;
+					if ( baseResults instanceof IQueryResults )
 					{
+						parent = new QueryResultSet( executionContext
+								.getDataEngine( ), executionContext,
+								(IQueryDefinition) query,
+								(IQueryResults) baseResults );
+					}
+					else if ( baseResults instanceof ICubeQueryResults )
+					{
+						parent = new CubeResultSet( executionContext
+								.getDataEngine( ), executionContext,
+								(ICubeQueryDefinition) query,
+								(ICubeQueryResults) baseResults );
+					}
+					else
+					{
+						// should not go here
 						return null;
 					}
-					parent = new QueryResultSet( executionContext
-							.getDataEngine( ), executionContext,
-							(IQueryDefinition) query, qryRS );
 				}
 				else
 				{
@@ -179,35 +276,65 @@ public class QueryUtil
 						throw new EngineException(
 								MessageConstants.RESULTSET_EXTRACT_ERROR );
 					}
-					IResultIterator parentItr = parent.getResultIterator( );
-					parentItr.moveTo( task.rowId );
-					if ( query instanceof IQueryDefinition )
+
+					// skip parent to the proper position
+					if ( parent instanceof IQueryResultSet )
 					{
-						// this is a nested query
-						IQueryResults qryRS = executeQuery( null,
-								(QueryDefinition) query, executionContext );
-						if ( qryRS == null )
-						{
-							return null;
-						}
-						parent = new QueryResultSet( executionContext
-								.getDataEngine( ), executionContext, parent,
-								(IQueryDefinition) query, qryRS );
+						IResultIterator parentItr = ( (IQueryResultSet) parent )
+								.getResultIterator( );
+						parentItr.moveTo( task.getRowID( ) );
 					}
-					else if ( query instanceof ISubqueryDefinition )
+					else if ( parent instanceof ICubeResultSet )
 					{
-						// this is a sub query
+						( (ICubeResultSet) parent ).skipTo( task.getCellID( ) );
+					}
+
+					if ( query instanceof ISubqueryDefinition )
+					{
+						IResultIterator parentItr = ( (QueryResultSet) parent )
+								.getResultIterator( );
 						String queryName = query.getName( );
 						Scriptable scope = executionContext.getSharedScope( );
-						IResultIterator itr2 = parentItr.getSecondaryIterator(
+						IResultIterator itr = parentItr.getSecondaryIterator(
 								queryName, scope );
-						parent = new QueryResultSet( parent,
-								(ISubqueryDefinition) query, itr2 );
+						parent = new QueryResultSet( (QueryResultSet) parent,
+								(ISubqueryDefinition) query, itr );
 					}
 					else
 					{
-						// should not enter here
-						return null;
+						IBaseQueryResults baseResults = executeQuery( parent
+								.getQueryResults( ), query, null,
+								executionContext );
+						if ( baseResults instanceof IQueryResults )
+						{
+							parent = new QueryResultSet( executionContext
+									.getDataEngine( ), executionContext,
+									parent, (IQueryDefinition) query,
+									(IQueryResults) baseResults );
+						}
+						else if ( baseResults instanceof ICubeQueryResults )
+						{
+							if ( query instanceof ICubeQueryDefinition )
+							{
+								parent = new CubeResultSet( executionContext
+										.getDataEngine( ), executionContext,
+										parent, (ICubeQueryDefinition) query,
+										(ICubeQueryResults) baseResults );
+							}
+							else if ( query instanceof ISubCubeQueryDefinition )
+							{
+								parent = new CubeResultSet( executionContext
+										.getDataEngine( ), executionContext,
+										parent,
+										(ISubCubeQueryDefinition) query,
+										(ICubeQueryResults) baseResults );
+							}
+						}
+						else
+						{
+							// should not go here
+							return null;
+						}
 					}
 				}
 			}
@@ -220,7 +347,7 @@ public class QueryUtil
 		{
 			throw new EngineException( ex );
 		}
-		if( parent != null && !results.contains( parent ) )
+		if ( parent != null && !results.contains( parent ) )
 		{
 			results.add( parent );
 		}
@@ -247,35 +374,58 @@ public class QueryUtil
 		}
 	}
 
-	static public IQueryResults executeQuery( String rset,
-			QueryDefinition query, ExecutionContext executionContext )
-			throws EngineException
+	/**
+	 * This method executes IQueryDefinition, ICubeQueryDefinition and
+	 * ISubCubeQueryDefinition; ISubqueryDefinition is not included here.
+	 */
+	static public IBaseQueryResults executeQuery( IBaseQueryResults parent,
+			IDataQueryDefinition query, String rset,
+			ExecutionContext executionContext ) throws EngineException
 	{
 		try
 		{
-			( (QueryDefinition) query ).setQueryResultsID( rset );
-
 			DataRequestSession dataSession = executionContext.getDataEngine( )
 					.getDTESession( );
-			Scriptable scope = executionContext.getSharedScope( );
-			Map appContext = executionContext.getAppContext( );
-			// prepare the query
-			processQueryExtensions( query, executionContext );
-
 			if ( dataSession == null )
-			{
 				return null;
-			}
-			IPreparedQuery pQuery = dataSession.prepare( query, appContext );
-			if ( pQuery == null )
+			Map appContext = executionContext.getAppContext( );
+			Scriptable scope = executionContext.getSharedScope( );
+
+			processQueryExtensions( query, executionContext );
+			if ( query instanceof QueryDefinition )
 			{
-				return null;
+				QueryDefinition tmpQuery = (QueryDefinition) query;
+				tmpQuery.setQueryResultsID( rset );
+				IPreparedQuery pQuery = dataSession.prepare( tmpQuery,
+						appContext );
+				if ( pQuery == null )
+					return null;
+				return pQuery.execute( parent, scope );
 			}
-			return pQuery.execute( scope );
+			else if ( query instanceof ICubeQueryDefinition )
+			{
+				ICubeQueryDefinition cubeQuery = (ICubeQueryDefinition) query;
+				cubeQuery.setQueryResultsID( rset );
+				IPreparedCubeQuery pQuery = dataSession.prepare( cubeQuery,
+						appContext );
+				if ( pQuery == null )
+					return null;
+				return pQuery.execute( parent, scope );
+			}
+			else if ( query instanceof ISubCubeQueryDefinition )
+			{
+				ISubCubeQueryDefinition cubeQuery = (ISubCubeQueryDefinition) query;
+				IPreparedCubeQuery pQuery = dataSession.prepare( cubeQuery,
+						appContext );
+				if ( pQuery == null )
+					return null;
+				return pQuery.execute( parent, scope );
+			}
 		}
 		catch ( BirtException ex )
 		{
 			throw new EngineException( ex );
 		}
+		return null;
 	}
 }
