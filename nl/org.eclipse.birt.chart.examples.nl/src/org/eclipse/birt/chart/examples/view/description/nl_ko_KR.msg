@@ -64,7 +64,7 @@ MDialSRegionMeter=개별 다이얼 보드의 복수 바늘입니다.
 SDialSRegionMeter=개별 다이얼 보드의 바늘입니다.
 PercentageValueFormat=계열 값을 백분율 수치로 표시합니다.
 PlotFormat=플롯 및 클라이언트 영역의 모양을 지정합니다.
-SeriesValueFormat=값 데이터($###,###.00) 및 범주 데이터(MM/dd/yyyy)의 서식을 지정합니다.
+SeriesValueFormat=Specify the format for value data ($###,###.00) and x-axis label (MM/dd/yyyy).
 
 ###########################################################
 #Scripted Charts

@@ -64,7 +64,7 @@ MDialSRegionMeter=Múltiples indicadores en un tablón de cuadrante individual.
 SDialSRegionMeter=Un indicador en un tablón de cuadrante individual.
 PercentageValueFormat=Presente el valor de serie como una figura de porcentaje.
 PlotFormat=Especifique la apariencia de un área de dibujo y del cliente.
-SeriesValueFormat=Especifique el formato de los datos de valor ($###,###.00) y datos de categoría (MM/dd/yyyy).
+SeriesValueFormat=Specify the format for value data ($###,###.00) and x-axis label (MM/dd/yyyy).
 
 ###########################################################
 #Scripted Charts

@@ -64,7 +64,7 @@ MDialSRegionMeter=单个刻度盘上多个指针。
 SDialSRegionMeter=单个刻度盘上一个指针。
 PercentageValueFormat=系列值显示为百分比数字。
 PlotFormat=指定绘图区域和客户区域的外观。
-SeriesValueFormat=指定值数据($###,###.00)和类别数据(MM/dd/yyyy)的格式。
+SeriesValueFormat=Specify the format for value data ($###,###.00) and x-axis label (MM/dd/yyyy).
 
 ###########################################################
 #Scripted Charts

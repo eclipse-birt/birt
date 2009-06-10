@@ -64,7 +64,7 @@ MDialSRegionMeter=1 つのダイヤルボードに複数の針で値を出力します。
 SDialSRegionMeter=1 つのダイヤルボードに 1 つの針で値を出力します。
 PercentageValueFormat=各系列の値を比率 (%) で出力します。
 PlotFormat=プロットとクライアント面積の外観を指定します。
-SeriesValueFormat=値データ (\\###,###) とカテゴリデータ (yyyy/mm/dd) の形式を指定します。
+SeriesValueFormat=Specify the format for value data ($###,###.00) and x-axis label (MM/dd/yyyy).
 
 ###########################################################
 #Scripted Charts

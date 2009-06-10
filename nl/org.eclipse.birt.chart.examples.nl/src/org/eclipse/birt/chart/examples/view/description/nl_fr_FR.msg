@@ -64,7 +64,7 @@ MDialSRegionMeter=Plusieurs aiguilles dans un même tableau à cadran.
 SDialSRegionMeter=Une aiguille dans un seul tableau à cadran.
 PercentageValueFormat=Représentez la valeur de série en tant que valeur de pourcentage.
 PlotFormat=Spécifiez l'apparence de la zone de tracé et de la zone client.
-SeriesValueFormat=Spécifiez le format des données de valeur ($###,###.00) et des données de catégorie (MM/dd/yyyy).
+SeriesValueFormat=Specify the format for value data ($###,###.00) and x-axis label (MM/dd/yyyy).
 
 ###########################################################
 #Scripted Charts

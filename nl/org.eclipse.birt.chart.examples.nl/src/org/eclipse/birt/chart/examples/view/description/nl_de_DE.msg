@@ -64,7 +64,7 @@ MDialSRegionMeter=Mehrere Nadeln in einem einzelnen Tachometer.
 SDialSRegionMeter=Eine Nadel in einem einzelnen Tachometer.
 PercentageValueFormat=Stellen Sie den Datenreihenwert als Prozentzahl dar.
 PlotFormat=Geben Sie die Darstellung der Diagramm- und Client-Fläche an.
-SeriesValueFormat=Geben Sie das Format für Wertedaten ($###,###.00) und Kategoriedaten (dd/MM/yyyy) an.
+SeriesValueFormat=Specify the format for value data ($###,###.00) and x-axis label (MM/dd/yyyy).
 
 ###########################################################
 #Scripted Charts
