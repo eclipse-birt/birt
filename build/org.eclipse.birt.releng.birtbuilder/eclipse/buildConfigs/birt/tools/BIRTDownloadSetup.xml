@@ -430,6 +430,13 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+                <exclude name="org.eclipse.birt.chart.runtime*/**"/>
+                <exclude name="org.eclipse.birt.crosstab*/**"/>
+                <exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
+                <exclude name="org.eclipse.birt.report.designer_*/**"/>
+                <exclude name="org.eclipse.birt.report.designer.source_*/**"/>
+                <exclude name="org.eclipse.birt.report.designer.debug*/**"/>
+                <exclude name="org.eclipse.birt.report.runtime*/**"/>
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -458,7 +465,10 @@
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*.jar" />
-                                <exclude name="org.eclipse.birt.chart.doc.isv_*.jar"/>
+				<exclude name="org.eclipse.birt.chart.runtime_*/**"/>
+				<exclude name="org.eclipse.birt.report.designer_*/**"/>
+				<exclude name="org.eclipse.birt.report.runtime_*/**"/>
+                <exclude name="org.eclipse.birt.chart.doc.isv_*.jar"/>
 				<exclude name="org.eclipse.birt.doc.isv_*.jar"/>
 				<patternset refid="exclude.jars" />
 			</zipfileset>
@@ -470,8 +480,16 @@
 				<exclude name="org.eclipse.birt.*.sdk*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
-                                <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
-                                <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
+                <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+				<exclude name="org.eclipse.birt.chart.runtime*/**"/>
+				<exclude name="org.eclipse.birt.crosstab*/**"/>
+				<exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
+				<exclude name="org.eclipse.birt.report.designer_*/**"/>
+				<exclude name="org.eclipse.birt.report.designer.source_*/**"/>
+				<exclude name="org.eclipse.birt.report.designer.debug*/**"/>
+				<exclude name="org.eclipse.birt.report.runtime*/**"/>
+                <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+                <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
 				<exclude name="org.eclipse.birt.doc.isv*/**"/>
 			</zipfileset>
 			<!--
@@ -506,6 +524,9 @@
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
                 <exclude name="org.eclipse.birt.chart.integration.wtp.ui*/**" />
                 <exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
+                <exclude name="org.eclipse.birt.chart.runtime_*/**"/>
+                <exclude name="org.eclipse.birt.report.designer_*/**"/>
+                <exclude name="org.eclipse.birt.report.runtime_*/**"/>
                 <exclude name="org.eclipse.birt.chart.doc.isv_*.jar"/>
                 <exclude name="org.eclipse.birt.doc.isv_*.jar"/>
 				<patternset refid="exclude.jars" />
@@ -523,9 +544,17 @@
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="org.eclipse.birt.rcp*/**"/>
 	            <exclude name="org.eclipse.birt.integration.wtp*/**"/>
-                    <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
-                    <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
-                    <exclude name="org.eclipse.birt.doc.isv*/**"/>
+                <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+                <exclude name="org.eclipse.birt.chart.runtime*/**"/>
+                <exclude name="org.eclipse.birt.crosstab*/**"/>
+                <exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
+                <exclude name="org.eclipse.birt.report.designer_*/**"/>
+                <exclude name="org.eclipse.birt.report.designer.source_*/**"/>
+                <exclude name="org.eclipse.birt.report.designer.debug*/**"/>
+                <exclude name="org.eclipse.birt.report.runtime*/**"/>
+                <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+                <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
+                <exclude name="org.eclipse.birt.doc.isv*/**"/>
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/temp/eclipse" overwrite="true">
@@ -1106,6 +1135,7 @@
 				<include name="org.eclipse.birt.chart*/*" />
 				<include name="org.mozilla.rhino*/*" />
 				<include name="org.apache.commons.codec*/*" />
+				<exclude name="org.eclipse.birt.chart.runtime*/*" />
 				<exclude name="*.source*/*" />
 				<exclude name="*.doc.isv*/*" />
 				<exclude name="*.cshelp*/*" />
