@@ -146,7 +146,7 @@ public class QueryExecutor
 				//save rs back to report document
 				AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
 						.getDocWriter( ) );
-				
+				executor.setQueryResultsId( id );				
 			}
 		}
 		
