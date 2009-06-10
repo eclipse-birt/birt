@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter;
 
+import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -80,8 +81,8 @@ public class XMLWriter
 			 * disable the autoflush, I remember there is some bug about the the
 			 * autoflush, but just close it for performance.
 			 */
-			this.printWriter = new PrintWriter( new OutputStreamWriter(
-					outputStream, encoding ), false );
+			this.printWriter = new PrintWriter( new BufferedWriter(
+					new OutputStreamWriter( outputStream, encoding ) ), false );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
