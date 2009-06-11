@@ -153,7 +153,7 @@ public class CubeQueryDefinitionUtil
 			if ( cubeAggrDefn.getFilter( ) != null )
 			{
 				IJSFacttableFilterEvalHelper filterEvalHelper = new JSFacttableFilterEvalHelper( scope, cx,
-						new FilterDefinition( cubeAggrDefn.getFilter( ) ) );
+						new FilterDefinition( cubeAggrDefn.getFilter( ) ) , null, null );
 				result[index].setFilterEvalHelper( filterEvalHelper );
 			}
 			index++;
@@ -213,7 +213,7 @@ public class CubeQueryDefinitionUtil
 			if ( cubeAggrDefn.getFilter( ) != null )
 			{
 				IJSFacttableFilterEvalHelper filterEvalHelper = new JSFacttableFilterEvalHelper( scope, cx,
-						new FilterDefinition( cubeAggrDefn.getFilter( ) ));
+						new FilterDefinition( cubeAggrDefn.getFilter( ) ), null, null );
 				newCm.setFilterEvalHelper( filterEvalHelper );
 			}
 			manager.addCalculatedMembersFromCubeOperation( new CalculatedMember[]{newCm} );

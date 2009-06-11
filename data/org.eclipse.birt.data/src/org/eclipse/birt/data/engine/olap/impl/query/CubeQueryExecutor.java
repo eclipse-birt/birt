@@ -117,7 +117,7 @@ public class CubeQueryExecutor
 				{
 					this.advancedFacttableBasedFilterEvalHelper.add( new JSFacttableFilterEvalHelper( scope,
 							this.session.getEngineContext( ).getScriptContext( ),
-							filter ) );
+							filter, this.outResults, this.defn ) );
 				}
 			}
 		}		

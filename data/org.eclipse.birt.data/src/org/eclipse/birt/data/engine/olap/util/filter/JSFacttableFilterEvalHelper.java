@@ -19,9 +19,12 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
@@ -39,10 +42,14 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	private DummyDimensionObject dimObj;
 	private IBaseExpression expr;
 	private ScriptContext cx;
-	public JSFacttableFilterEvalHelper( Scriptable parentScope, ScriptContext cx, IFilterDefinition cubeFilter) throws DataException
+
+	public JSFacttableFilterEvalHelper( Scriptable parentScope,
+			ScriptContext cx, IFilterDefinition cubeFilter,
+			IBaseQueryResults outerResults, ICubeQueryDefinition query )
+			throws DataException
 	{
 		assert cubeFilter!=null;
-		initialize( parentScope, cubeFilter, cx );
+		initialize( parentScope, cubeFilter, cx, outerResults, query  );
 	}
 	
 	/**
@@ -53,17 +60,37 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	 */
 	private void initialize( Scriptable parentScope,
 			IFilterDefinition cubeFilter,
-			ScriptContext cx )
+			ScriptContext cx, IBaseQueryResults outerResults, ICubeQueryDefinition query )
 	{
 		this.scope = cx.getContext( ).initStandardObjects( );
 		this.scope.setParentScope( parentScope );
-		this.measureObj = new DummyMeasureObject();
-		this.dimObj = new DummyDimensionObject();
+		this.measureObj = new DummyMeasureObject( );
+		this.dimObj = new DummyDimensionObject( );
 		this.expr = cubeFilter.getExpression( );
 		OLAPExpressionCompiler.compile( cx.getContext( ), this.expr );
 		this.cx = cx;
-		this.scope.put( org.eclipse.birt.data.engine.script.ScriptConstants.MEASURE_SCRIPTABLE, this.scope, this.measureObj );
-		this.scope.put( org.eclipse.birt.data.engine.script.ScriptConstants.DIMENSION_SCRIPTABLE, this.scope, this.dimObj );
+		this.scope.put( org.eclipse.birt.data.engine.script.ScriptConstants.MEASURE_SCRIPTABLE,
+				this.scope,
+				this.measureObj );
+		this.scope.put( org.eclipse.birt.data.engine.script.ScriptConstants.DIMENSION_SCRIPTABLE,
+				this.scope,
+				this.dimObj );
+		if ( query != null )
+		{	
+			try
+			{
+				new DataJSObjectPopulator( outerResults,
+								scope,
+								query.getBindings( ),
+								false,
+								cx ).doInit( );
+			}
+			catch ( DataException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/*

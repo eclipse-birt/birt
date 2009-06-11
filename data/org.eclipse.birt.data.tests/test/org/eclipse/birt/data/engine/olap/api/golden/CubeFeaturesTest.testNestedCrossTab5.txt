@@ -1,0 +1,14 @@
+
+OUTER RESULT:55
+
+		[Total]
+		
+		
+[Total]		[null]		
+OUTER RESULT:34
+
+		US		US		US		[Total]
+		LA		LA		[Total]		
+		LA		[Total]		    		
+2002		35.0		[35.0]		[35.0]		[35.0]
+[Total]		35.0		[35.0]		[35.0]		[35.0]		
