@@ -491,13 +491,14 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		{
 			int ix = e.x / MARKER_BLOCK_WIDTH;
 			int iy = e.y / MARKER_BLOCK_HEIGHT + iStartRow;
-			iSelectedIndex = iy * MARKER_ROW_MAX_NUMBER + ix;
+			int clickIndex = iy * MARKER_ROW_MAX_NUMBER + ix;
 			if ( ix >= MARKER_ROW_MAX_NUMBER
-					|| iSelectedIndex >= getMarkers( ).size( ) )
+					|| clickIndex >= getMarkers( ).size( ) )
 			{
 				// Keep the previous selection if the current is out of bound
 				return;
 			}
+			iSelectedIndex = clickIndex;
 			this.cnvMarkers.redraw( );
 
 			setEnabledState( );
