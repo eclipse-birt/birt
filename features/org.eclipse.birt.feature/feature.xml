@@ -24,6 +24,11 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.5"/>
    </url>
 
+   <includes
+         id="org.eclipse.birt.report.designer.editor.xml.wtp"
+         version="0.0.0"
+         optional="true"/>
+
    <requires>
       <import feature="org.eclipse.datatools.sqldevtools.sqlbuilder.feature" version="1.6.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.enablement.feature" version="1.6.0" match="greaterOrEqual"/>
@@ -59,8 +64,6 @@
       <import plugin="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.change" version="2.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.xmi" version="2.2.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.wst.common_ui.feature" version="3.0.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.wst.xml_ui.feature" version="3.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.core" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.debug.ui" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.pde.ui" version="3.2.0" match="compatible"/>
@@ -604,13 +607,6 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.birt.report.designer.ui.editor.xml.wtp"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.eclipse.birt.report.debug.ui"
