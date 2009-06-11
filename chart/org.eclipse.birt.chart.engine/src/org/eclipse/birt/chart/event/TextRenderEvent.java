@@ -253,13 +253,9 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * Updates the event by given LabelBlock object.
 	 */
-	public final String updateFrom( LabelBlock lb, double dScale,
+	public final void updateFrom( LabelBlock lb, double dScale,
 			RunTimeContext rtc )
 	{
-		final String sPreviousValue = lb.getLabel( ).getCaption( ).getValue( );
-		lb.getLabel( )
-				.getCaption( )
-				.setValue( rtc.externalizedMessage( sPreviousValue ) );
 		setLabel( lb.getLabel( ) );
 
 		Bounds bo = goFactory.scaleBounds( lb.getBounds( ), dScale );
@@ -271,7 +267,6 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 				.getFont( )
 				.getAlignment( ) );
 		setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-		return sPreviousValue;
 	}
 
 	/*

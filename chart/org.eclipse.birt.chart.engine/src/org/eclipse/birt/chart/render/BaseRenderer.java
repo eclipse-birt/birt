@@ -413,7 +413,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final Enumeration<Block> e = bl.children( true );
 		final BlockGenerationEvent bge = new BlockGenerationEvent( this );
 		final IDeviceRenderer idr = getDevice( );
-		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
 
 		if ( bFirstInSequence )
 		{
@@ -1221,7 +1221,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				valueLa,
 				dataIndex,
 				fPaletteEntry );
-		AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY,
 				la,
@@ -1759,7 +1759,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			return;
 		}
+
 		final LabelBlock lb = (LabelBlock) b;
+		Label la = lb.getLabel( );
+
+		final String sPreviousValue = la.getCaption( ).getValue( );
+		la.getCaption( ).setValue( rtc.externalizedMessage( sPreviousValue ) );
+
 		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
 		LabelLimiter lbLimiter = mapLimiter.get( lb.getLabel( ) );
 
@@ -1779,7 +1785,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final TextRenderEvent tre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				TextRenderEvent.class );
 		// need backup original non-externalized value.
-		final String sRestoreValue = tre.updateFrom( lb, dScale, rtc );
+		tre.updateFrom( lb, dScale, rtc );
 		if ( lb.getLabel( ).isVisible( ) )
 		{
 			if ( rtc.isRightToLeftText( ) )
@@ -1788,7 +1794,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			ipr.drawText( tre );
 		}
-		lb.getLabel( ).getCaption( ).setValue( sRestoreValue );
+		lb.getLabel( ).getCaption( ).setValue( sPreviousValue );
 	}
 
 	/**
