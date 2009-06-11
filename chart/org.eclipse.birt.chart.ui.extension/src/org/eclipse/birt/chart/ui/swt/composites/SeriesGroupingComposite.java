@@ -260,11 +260,19 @@ public class SeriesGroupingComposite extends Composite implements
 			lblAggregate.setLayoutData( gdLBLAggregate );
 			lblAggregate.setText( Messages.getString( "SeriesGroupingComposite.Lbl.AggregateExpression" ) ); //$NON-NLS-1$
 
-			cmbAggregate = new Combo( fCmpAggregate, SWT.DROP_DOWN |
-					SWT.READ_ONLY );
+			cmbAggregate = new Combo( fCmpAggregate, SWT.DROP_DOWN
+					| SWT.READ_ONLY );
 			cmbAggregate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			cmbAggregate.addSelectionListener( this );
 			
+			// Use series queries size to check if UI is needed
+			Series series = fChartContext.getChartType( ).getSeries( );
+			if ( ChartUIUtil.getSeriesUIProvider( series )
+					.validationIndex( series ).length > 1 )
+			{
+				lblAggregate.setVisible( false );
+				cmbAggregate.setVisible( false );
+			}
 		}
 		
 		if ( fbAggEnabled )
