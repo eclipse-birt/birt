@@ -705,12 +705,12 @@ datasource.error.title.noReportDesign=Fehler
 datasource.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
 datasource.exprotToCP.title=Exportieren
 datasource.exportToCP.message=Sie sind dabei, '{0}' in den Datenquellen-Explorer zu exportieren.
-datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
-datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
-datasource.exportToCP.label.specifyName=Conn&ection profile name:
-datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
-datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
-datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
+datasource.exportToCP.checkBox=&Verbindungsprofilspeicher für die exportierte Datenquelle erstellen
+datasource.exportToCP.externalCheckBox=Externalisiertes Verbind&ungsprofil in der Datenquelle verwenden
+datasource.exportToCP.label.specifyName=V&erbindungsprofilname:
+datasource.exportToCP.error.emptyFileName=Der Verbindungsprofilname darf nicht leer sein.
+datasource.exportToCP.error.invalidFileName=Der angegebene Verbindungsprofilname enthält mindestens ein ungültiges Zeichen.
+datasource.exportToCP.error.duplicatedFileName=Der Verbindungsprofilname existierte bereits!
 
 
 ###########################################################
@@ -1437,7 +1437,7 @@ ExportToLibraryAction.Message.RememberDecision=Antwort merken
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=In Bibliothek e&xportieren...
-ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
+ExportToCPSouceAction.action.text=An Verbindungspr&ofil externalisieren...
 
 
 ###########################################################
@@ -1524,9 +1524,9 @@ ExpressionProvider.Operators.Logical=Logische
 ExpressionProvider.EditBindings=Bindungen bearbeiten...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=Ausdruck, der die aktuelle Zeilenanzahl zurückgibt.
-ExpressionProvider.Variables=Variables
-ExpressionProvider.Variables.Report=Report Variables
-ExpressionProvider.Variables.Page=Page Variables
+ExpressionProvider.Variables=Variablen
+ExpressionProvider.Variables.Report=Berichtvariablen
+ExpressionProvider.Variables.Page=Seitenvariablen
 ExpressionTreeSupport.Category.Global=Global
 
 ###########################################################
@@ -4572,26 +4572,26 @@ ReloadImageAction.Text=Bild neu laden
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=New Variable
-VariablesNodeProvider.NodeName=Variables
+VariablesNodeProvider.NewActionName=Neue Variable
+VariablesNodeProvider.NodeName=Variablen
 
 ###########################################################
 #VariableNodeProvider
-VariableNodeProvider.DialogTitle=Edit Variable
+VariableNodeProvider.DialogTitle=Variable bearbeiten
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=&Available Variables:
-SelectVariableDialog.PageSeperator=----- Page Variables -----
-SelectVariableDialog.ReportSeperator=----- Report Variables -----
-SelectVariableDialog.Title=Insert Variable
+SelectVariableDialog.AvailableVariables=Verfügbare V&ariablen:
+SelectVariableDialog.PageSeperator=----- Seitenvariablen -----
+SelectVariableDialog.ReportSeperator=----- Berichtvariablen -----
+SelectVariableDialog.Title=Variable einfügen
 
 ###########################################################
 #VariableDialog
 VariableDialog.DataType=Daten&typ:
 VariableDialog.DefaultValue=&Standardwert:
 VariableDialog.Name=&Name:
-VariableDialog.PageVariable=&Page Variable
-VariableDialog.ReportVariable=&Report Variable
-VariableDialog.VariableType=Typ:
-VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.
+VariableDialog.PageVariable=Sei&tenvariable
+VariableDialog.ReportVariable=&Berichtvariable
+VariableDialog.VariableType=Geben Sie Folgendes ein:
+VariableDialog.Error.NameDuplicate=Der Name \"{0}\" ist bereits vorhanden. Bitte wählen Sie einen anderen Namen aus.

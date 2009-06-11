@@ -705,12 +705,12 @@ datasource.error.title.noReportDesign=Erreur
 datasource.error.msg.noReportDesign=Aucun modèle d'état disponible.
 datasource.exprotToCP.title=Exporter
 datasource.exportToCP.message=Vous exportez "{0}" vers l'explorateur de source de données.
-datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
-datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
-datasource.exportToCP.label.specifyName=Conn&ection profile name:
-datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
-datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
-datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
+datasource.exportToCP.checkBox=&Créez un emplacement de stockage des profils de connexion pour la source de données exportée.
+datasource.exportToCP.externalCheckBox=&Utilisez le profil de connexion externalisé dans la source de données.
+datasource.exportToCP.label.specifyName=Nom du profil de conn&exion :
+datasource.exportToCP.error.emptyFileName=Vous devez indiquer un nom de profil de connexion non vide !
+datasource.exportToCP.error.invalidFileName=Le nom du profil de connexion indiqué contient un ou des caractères non valides !
+datasource.exportToCP.error.duplicatedFileName=Le nom du profil de connexion existe déjà !
 
 
 ###########################################################
@@ -1180,7 +1180,7 @@ Element.OdaDataSource.publicDriverProperties=Propriétés de pilote public :
 Element.Parameter.helpText=Texte d'aide :
 Element.Parameter.helpTextID=C&lé du texte d'aide :
 Element.Parameter.hidden=Masqué :
-Element.Parameter.promptTextID=&Clé du texte de l'invite :
+Element.Parameter.promptTextID=C&lé du texte de l'invite :
 Element.ParameterGroup.helpText=Texte d'aide :
 Element.ParameterGroup.helpTextID=C&lé du texte d'aide :
 Element.ParameterGroup.slot.parameters=Paramètres :
@@ -1437,7 +1437,7 @@ ExportToLibraryAction.Message.RememberDecision=Mémoriser ma décision.
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=E&xporter vers la bibliothèque...
-ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
+ExportToCPSouceAction.action.text=Externaliser vers le profil de c&onnexion...
 
 
 ###########################################################
@@ -1525,8 +1525,8 @@ ExpressionProvider.EditBindings=Modification des liaisons...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=Expression qui renvoie le nombre de lignes actuel.
 ExpressionProvider.Variables=Variables
-ExpressionProvider.Variables.Report=Report Variables
-ExpressionProvider.Variables.Page=Page Variables
+ExpressionProvider.Variables.Report=Variables de l'état
+ExpressionProvider.Variables.Page=Variables de la page
 ExpressionTreeSupport.Category.Global=Global
 
 ###########################################################
@@ -4572,26 +4572,26 @@ ReloadImageAction.Text=Recharger image
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=New Variable
+VariablesNodeProvider.NewActionName=Nouvelle variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################
 #VariableNodeProvider
-VariableNodeProvider.DialogTitle=Edit Variable
+VariableNodeProvider.DialogTitle=Modifier variable
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=&Available Variables:
-SelectVariableDialog.PageSeperator=----- Page Variables -----
-SelectVariableDialog.ReportSeperator=----- Report Variables -----
-SelectVariableDialog.Title=Insert Variable
+SelectVariableDialog.AvailableVariables=Variables disponibles :
+SelectVariableDialog.PageSeperator=----- Variables de la page -----
+SelectVariableDialog.ReportSeperator=----- Variables de l'état -----
+SelectVariableDialog.Title=Insérer variable
 
 ###########################################################
 #VariableDialog
 VariableDialog.DataType=&Type de données :
 VariableDialog.DefaultValue=&Valeur par défaut :
 VariableDialog.Name=&Nom :
-VariableDialog.PageVariable=&Page Variable
-VariableDialog.ReportVariable=&Report Variable
+VariableDialog.PageVariable=Variable de la &page
+VariableDialog.ReportVariable=Va&riable de l'état
 VariableDialog.VariableType=Type :
-VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.
+VariableDialog.Error.NameDuplicate=Le nom \"{0}"\ est le doublon d'un nom existant. Choisissez un autre nom.

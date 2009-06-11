@@ -705,12 +705,12 @@ datasource.error.title.noReportDesign=エラー
 datasource.error.msg.noReportDesign=使用できるレポートデザインがありません。
 datasource.exprotToCP.title=エクスポート
 datasource.exportToCP.message="{0}" をデータソースのエクスプローラにエクスポート中です。
-datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
-datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
-datasource.exportToCP.label.specifyName=Conn&ection profile name:
-datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
-datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
-datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
+datasource.exportToCP.checkBox=エクスポートされたデータソース用の接続プロファイルストアを作成する(&C)
+datasource.exportToCP.externalCheckBox=データソースの外部化した接続プロファイルを使用する(&U)
+datasource.exportToCP.label.specifyName=接続プロファイル名(&E) :
+datasource.exportToCP.error.emptyFileName=空でない接続プロファイル名を指定してください。
+datasource.exportToCP.error.invalidFileName=指定された接続プロファイル名には無効な文字が含まれています。
+datasource.exportToCP.error.duplicatedFileName=この接続プロファイル名はすでに存在します。
 
 
 ###########################################################
@@ -1437,7 +1437,7 @@ ExportToLibraryAction.Message.RememberDecision=次回から同じ設定を使う
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=ライブラリにエクスポート(&X)...
-ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
+ExportToCPSouceAction.action.text=接続プロファイルへの外部化(&O)...
 
 
 ###########################################################
@@ -1524,9 +1524,9 @@ ExpressionProvider.Operators.Logical=論理
 ExpressionProvider.EditBindings=バインドの編集...
 ExpressionProvider.Expression.RowNumName=行番号
 ExpressionProvider.Expression.RowNumTooltip=現在の行番号を返す式です。
-ExpressionProvider.Variables=Variables
-ExpressionProvider.Variables.Report=Report Variables
-ExpressionProvider.Variables.Page=Page Variables
+ExpressionProvider.Variables=変数
+ExpressionProvider.Variables.Report=レポート変数
+ExpressionProvider.Variables.Page=ページ変数
 ExpressionTreeSupport.Category.Global=グローバル
 
 ###########################################################
@@ -2523,8 +2523,8 @@ MasterPagePaletteFactory.elementLabel.pageOf=n/m ページ
 MasterPagePaletteFactory.paletteDrawerName.autoText=定型句
 MasterPagePaletteFactory.ToolTip.Grid=グリッドのレポート項目
 MasterPagePaletteFactory.ToolTip.Text=テキストのレポート項目
-MasterPagePaletteFactory.Autotext.Variable=Variable
-MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
+MasterPagePaletteFactory.Autotext.Variable=変数
+MasterPagePaletteFactory.AutotextTooltip.Variable=変数
 
 ###########################################################
 #MasterPageProcess properties
@@ -4572,26 +4572,26 @@ ReloadImageAction.Text=イメージの再ロード
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=New Variable
-VariablesNodeProvider.NodeName=Variables
+VariablesNodeProvider.NewActionName=新しい変数
+VariablesNodeProvider.NodeName=変数
 
 ###########################################################
 #VariableNodeProvider
-VariableNodeProvider.DialogTitle=Edit Variable
+VariableNodeProvider.DialogTitle=変数の編集
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=&Available Variables:
-SelectVariableDialog.PageSeperator=----- Page Variables -----
-SelectVariableDialog.ReportSeperator=----- Report Variables -----
-SelectVariableDialog.Title=Insert Variable
+SelectVariableDialog.AvailableVariables=使用可能な変数(&A) :
+SelectVariableDialog.PageSeperator=----- ページ変数 -----
+SelectVariableDialog.ReportSeperator=----- レポート変数 -----
+SelectVariableDialog.Title=変数の挿入
 
 ###########################################################
 #VariableDialog
 VariableDialog.DataType=データ型(&T) :
 VariableDialog.DefaultValue=デフォルト値(&V) :
 VariableDialog.Name=名前(&N) :
-VariableDialog.PageVariable=&Page Variable
-VariableDialog.ReportVariable=&Report Variable
-VariableDialog.VariableType=種類 :
-VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.
+VariableDialog.PageVariable=ページ変数(&P)
+VariableDialog.ReportVariable=レポート変数(&R)
+VariableDialog.VariableType=型 :
+VariableDialog.Error.NameDuplicate=この名前 \"{0}\" は、すでに使用されています。別の名前を付けてください。

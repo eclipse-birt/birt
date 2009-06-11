@@ -705,12 +705,12 @@ datasource.error.title.noReportDesign=오류
 datasource.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 datasource.exprotToCP.title=내보내기
 datasource.exportToCP.message=데이터 원본 탐색기로 "{0}"을(를) 내보내고 있습니다.
-datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
-datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
-datasource.exportToCP.label.specifyName=Conn&ection profile name:
-datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
-datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
-datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
+datasource.exportToCP.checkBox=내보낸 데이터 원본에 대한 연결 프로필 저장소 생성(&C)
+datasource.exportToCP.externalCheckBox=데이터 원본에 있는 외부화된 연결 프로필 사용(&U)
+datasource.exportToCP.label.specifyName=연결 프로필 이름(&E):
+datasource.exportToCP.error.emptyFileName=비어 있지 않은 연결 프로필 이름을 지정해야 합니다!
+datasource.exportToCP.error.invalidFileName=지정된 연결 프로필 이름에 잘못된 문자가 있습니다!
+datasource.exportToCP.error.duplicatedFileName=연결 프로필 이름이 이미 있습니다!
 
 
 ###########################################################
@@ -1437,7 +1437,7 @@ ExportToLibraryAction.Message.RememberDecision=선택을 저장합니다.
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=라이브러리로 내보내기(&X)...
-ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
+ExportToCPSouceAction.action.text=연결 프로필로 외부화(&O)...
 
 
 ###########################################################
@@ -1524,9 +1524,9 @@ ExpressionProvider.Operators.Logical=논리
 ExpressionProvider.EditBindings=바인딩 편집...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=현재 행 개수를 반환하는 식
-ExpressionProvider.Variables=Variables
-ExpressionProvider.Variables.Report=Report Variables
-ExpressionProvider.Variables.Page=Page Variables
+ExpressionProvider.Variables=변수
+ExpressionProvider.Variables.Report=보고서 변수
+ExpressionProvider.Variables.Page=페이지 변수
 ExpressionTreeSupport.Category.Global=전역
 
 ###########################################################
@@ -2523,8 +2523,8 @@ MasterPagePaletteFactory.elementLabel.pageOf=n / m페이지
 MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
 MasterPagePaletteFactory.ToolTip.Grid=눈금 보고서 항목
 MasterPagePaletteFactory.ToolTip.Text=텍스트 보고서 항목
-MasterPagePaletteFactory.Autotext.Variable=Variable
-MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
+MasterPagePaletteFactory.Autotext.Variable=변수
+MasterPagePaletteFactory.AutotextTooltip.Variable=변수
 
 ###########################################################
 #MasterPageProcess properties
@@ -4572,26 +4572,26 @@ ReloadImageAction.Text=이미지 다시 로드
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=New Variable
-VariablesNodeProvider.NodeName=Variables
+VariablesNodeProvider.NewActionName=새 변수
+VariablesNodeProvider.NodeName=변수
 
 ###########################################################
 #VariableNodeProvider
-VariableNodeProvider.DialogTitle=Edit Variable
+VariableNodeProvider.DialogTitle=변수 편집
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=&Available Variables:
-SelectVariableDialog.PageSeperator=----- Page Variables -----
-SelectVariableDialog.ReportSeperator=----- Report Variables -----
-SelectVariableDialog.Title=Insert Variable
+SelectVariableDialog.AvailableVariables=사용 가능한 변수(&A):
+SelectVariableDialog.PageSeperator=----- 페이지 변수 -----
+SelectVariableDialog.ReportSeperator=----- 보고서 변수 -----
+SelectVariableDialog.Title=변수 삽입
 
 ###########################################################
 #VariableDialog
 VariableDialog.DataType=데이터 형식(&T):
 VariableDialog.DefaultValue=기본값(&V):
 VariableDialog.Name=이름(&N):
-VariableDialog.PageVariable=&Page Variable
-VariableDialog.ReportVariable=&Report Variable
-VariableDialog.VariableType=유형:
-VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.
+VariableDialog.PageVariable=페이지 변수(&P)
+VariableDialog.ReportVariable=보고서 변수(&R)
+VariableDialog.VariableType=다음을 입력합니다.
+VariableDialog.Error.NameDuplicate=이름 \"{0}\"이(가) 기존 이름과 중복됩니다. 다른 이름을 선택하십시오.

@@ -705,12 +705,12 @@ datasource.error.title.noReportDesign=Error
 datasource.error.msg.noReportDesign=Diseño de informe no disponible.
 datasource.exprotToCP.title=Exportar
 datasource.exportToCP.message=Está exportando "{0}" al explorador de fuentes de datos.
-datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
-datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
-datasource.exportToCP.label.specifyName=Conn&ection profile name:
-datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
-datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
-datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
+datasource.exportToCP.checkBox=&Crear almacenamiento de perfil de conexión para la fuente de datos exportada.
+datasource.exportToCP.externalCheckBox=&Utilizar el perfil de conexión externalizado de la fuente de datos.
+datasource.exportToCP.label.specifyName=Nombre del perfil de con&exión:
+datasource.exportToCP.error.emptyFileName=Debe especificar un nombre de perfil de conexión que no esté vacío.
+datasource.exportToCP.error.invalidFileName=El nombre del perfil de conexión especificado incluye caracteres no válidos.
+datasource.exportToCP.error.duplicatedFileName=El nombre del perfil de conexión ya existe.
 
 
 ###########################################################
@@ -1437,7 +1437,7 @@ ExportToLibraryAction.Message.RememberDecision=Recordar mi decisión.
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=E&xportar a librería...
-ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
+ExportToCPSouceAction.action.text=Externalizar a p&erfil de conexión...
 
 
 ###########################################################
@@ -1525,8 +1525,8 @@ ExpressionProvider.EditBindings=Editar enlaces...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=Expresión que devuelve el número actual de filas.
 ExpressionProvider.Variables=Variables
-ExpressionProvider.Variables.Report=Report Variables
-ExpressionProvider.Variables.Page=Page Variables
+ExpressionProvider.Variables.Report=Variables de informe
+ExpressionProvider.Variables.Page=Variables de página
 ExpressionTreeSupport.Category.Global=Global
 
 ###########################################################
@@ -4572,26 +4572,26 @@ ReloadImageAction.Text=Volver a cargar la imagen
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=New Variable
+VariablesNodeProvider.NewActionName=Nueva variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################
 #VariableNodeProvider
-VariableNodeProvider.DialogTitle=Edit Variable
+VariableNodeProvider.DialogTitle=Editar variable
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=&Available Variables:
-SelectVariableDialog.PageSeperator=----- Page Variables -----
-SelectVariableDialog.ReportSeperator=----- Report Variables -----
-SelectVariableDialog.Title=Insert Variable
+SelectVariableDialog.AvailableVariables=&Variables disponibles:
+SelectVariableDialog.PageSeperator=----- Variables de página -----
+SelectVariableDialog.ReportSeperator=----- Variables de informe -----
+SelectVariableDialog.Title=Insertar variable
 
 ###########################################################
 #VariableDialog
 VariableDialog.DataType=&Tipo de datos:
 VariableDialog.DefaultValue=&Valor predeterminado:
 VariableDialog.Name=&Nombre:
-VariableDialog.PageVariable=&Page Variable
-VariableDialog.ReportVariable=&Report Variable
+VariableDialog.PageVariable=Variable de &página
+VariableDialog.ReportVariable=Variable de &informe
 VariableDialog.VariableType=Tipo:
-VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.
+VariableDialog.Error.NameDuplicate=El nombre \"{0}\" duplica un nombre existente. Elija un nombre diferente.
