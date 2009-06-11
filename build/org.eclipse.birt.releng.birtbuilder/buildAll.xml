@@ -512,6 +512,10 @@
 		
 		<unpackUpdateJars site="${wtptmpsite}/eclipse" output="${wtptmpsite}/new/eclipse"/>
 		
+		<copy todir="${wtptmpsite}/new/eclipse" failonerror="false">
+			<fileset dir="${baseLocation}/../PackageFiles/template/legal" includes="epl-v10.html,notice.html"/>
+		</copy>
+		
 		<exec executable="zip" dir="${wtptmpsite}/new">
 			<arg line="-q ${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
 		</exec>
