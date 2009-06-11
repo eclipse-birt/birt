@@ -108,4 +108,10 @@ public interface ICrosstabReportItemConstants
 	 * Name of the onPageBreak method
 	 */
 	//String ON_PAGEBREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines some filter conditions.
+	 */
+	String FILTER_PROP = "filter"; //$NON-NLS-1$
+
 }

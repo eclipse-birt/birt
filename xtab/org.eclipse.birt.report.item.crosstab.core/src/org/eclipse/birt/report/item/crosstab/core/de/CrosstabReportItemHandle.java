@@ -495,6 +495,24 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
+	 * Returns the iterator for filter list defined on Crosstab. The element in
+	 * the iterator is the corresponding <code>DesignElementHandle</code> that
+	 * deal with a <code>FilterConditionElementHandle</code> in the list.
+	 * 
+	 * @return the iterator for <code>FilterConditionElementHandle</code>
+	 *         element list
+	 */
+	public Iterator filtersIterator( )
+	{
+		PropertyHandle propHandle = handle.getPropertyHandle( FILTER_PROP );
+		if ( propHandle == null )
+		{
+			return Collections.EMPTY_LIST.iterator( );
+		}
+		return propHandle.getListValue( ).iterator( );
+	}
+
+	/**
 	 * @since 2.3
 	 */
 	public CrosstabCellHandle getHeader( )

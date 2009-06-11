@@ -125,38 +125,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 								.getFunction( ) ) );
 
 				// add measure filters
-				Iterator mfitr = mv.filtersIterator( );
-
-				if ( mfitr != null )
-				{
-					while ( mfitr.hasNext( ) )
-					{
-						FilterConditionElementHandle filterCon = (FilterConditionElementHandle) mfitr.next( );
-
-						ConditionalExpression filterCondExpr;
-
-						if ( ModuleUtil.isListFilterValue( filterCon ) )
-						{
-							filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
-									DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-									filterCon.getValue1List( ) );
-						}
-						else
-						{
-							filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
-									DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-									filterCon.getValue1( ),
-									filterCon.getValue2( ) );
-						}
-
-						ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
-								null,
-								null,
-								null );
-
-						cubeQuery.addFilter( filterDef );
-					}
-				}
+				addFactTableOrMeasureFilter( mv.filtersIterator( ), cubeQuery );
 			}
 		}
 
@@ -273,6 +242,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			}
 
 		}
+
+		// add fact table filters on Crosstab
+		addFactTableOrMeasureFilter( crosstabItem.filtersIterator( ), cubeQuery );
 
 		// add sorting/filter
 		if ( needSorting )
@@ -475,6 +447,42 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 					cubeQuery.addFilter( filterDef );
 				}
+			}
+		}
+	}
+
+	private static void addFactTableOrMeasureFilter(
+			Iterator<FilterConditionElementHandle> filters,
+			ICubeQueryDefinition cubeQuery ) throws BirtException
+	{
+		if ( filters != null )
+		{
+			while ( filters.hasNext( ) )
+			{
+				FilterConditionElementHandle filterCon = filters.next( );
+
+				ConditionalExpression filterCondExpr;
+
+				if ( ModuleUtil.isListFilterValue( filterCon ) )
+				{
+					filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+							DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
+							filterCon.getValue1List( ) );
+				}
+				else
+				{
+					filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+							DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
+							filterCon.getValue1( ),
+							filterCon.getValue2( ) );
+				}
+
+				ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
+						null,
+						null,
+						null );
+
+				cubeQuery.addFilter( filterDef );
 			}
 		}
 	}

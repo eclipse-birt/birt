@@ -197,6 +197,16 @@
                name="summary"
                type="string">
          </property>
+         <property
+               canInherit="true"
+               isEncryptable="false"
+               isList="true"
+               name="filter"
+               type="contentElement">
+            <elementType
+                  name="FilterConditionElement">
+            </elementType>
+         </property>
          <!--method
                context="presentation"
                displayNameID="Method.onPageBreak"
