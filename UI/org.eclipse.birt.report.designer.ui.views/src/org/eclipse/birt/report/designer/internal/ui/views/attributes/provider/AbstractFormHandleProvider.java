@@ -14,6 +14,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.graphics.Image;
 
 public abstract class AbstractFormHandleProvider extends
 		AbstractDescriptorProvider implements IFormProvider
@@ -227,6 +228,32 @@ public abstract class AbstractFormHandleProvider extends
 	}
 
 	public boolean needRebuilded( NotificationEvent event )
+	{
+		return false;
+	}
+
+	public boolean doMoveItem( int oldPos, int newPos ) throws Exception
+	{
+		return false;
+	}
+
+	public Image getImage( Object element, int columnIndex )
+	{
+		return null;
+	}
+
+	public boolean modify( Object data, String property, Object value )
+			throws Exception
+	{
+		return false;
+	}
+	
+	public boolean needRefreshed( NotificationEvent event )
+	{
+		return false;
+	}
+	
+	public boolean canModify( Object element, String property )
 	{
 		return false;
 	}
