@@ -66,14 +66,14 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		ConfigurableOption fontSubstitution = new ConfigurableOption(
 				IPDFRenderOption.PDF_FONT_SUBSTITUTION );
 		fontSubstitution.setDisplayName( Messages
-				.getString( "OptionDisplayValue.fontSubstitution" ) );
+				.getString( "OptionDisplayValue.FontSubstitution" ) );
 		fontSubstitution.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		fontSubstitution
 				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		fontSubstitution.setDefaultValue( Boolean.TRUE );
 		fontSubstitution.setToolTip( null );
 		fontSubstitution.setDescription( Messages
-				.getString( "OptionDescription.fontSubstitution" ) ); //$NON-NLS-1$
+				.getString( "OptionDescription.FontSubstitution" ) ); //$NON-NLS-1$
 
 		// Initializes the option for PageOverFlow.
 		ConfigurableOption pageOverFlow = new ConfigurableOption(
