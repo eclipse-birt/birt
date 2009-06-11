@@ -33,21 +33,23 @@ public class LibraryDescriptorProvider extends AbstractDescriptorProvider implem
 		DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement( input );
 		if ( handle.getExtends( ) == null )
 			return ""; //$NON-NLS-1$
+		String filePath = null;
 		try
 		{
-			String filePath = DEUtil.getFilePathFormURL( new URL( handle.getExtends( )
+			filePath = DEUtil.getFilePathFormURL( new URL( handle.getExtends( )
 					.getRoot( )
 					.getFileName( ) ) );
-			if ( filePath != null )
-			{
-				File libraryFile = new File( filePath );
-				if ( libraryFile.exists( ) )
-					return libraryFile.getAbsolutePath( );
-			}
+			
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			filePath = handle.getExtends( ).getRoot( ).getFileName( );
+		}
+		if ( filePath != null )
+		{
+			File libraryFile = new File( filePath );
+			if ( libraryFile.exists( ) )
+				return libraryFile.getAbsolutePath( );
 		}
 		return ""; //$NON-NLS-1$
 	}
