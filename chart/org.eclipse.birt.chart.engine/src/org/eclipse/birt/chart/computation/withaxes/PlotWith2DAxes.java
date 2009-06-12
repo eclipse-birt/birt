@@ -974,6 +974,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		// #9026, pass the bounds which takes the overlay axes into accounts
 		growBaseAxis( aax, goFactory.createBounds( dX, dY, dW, dH ) );
 
+		adjustOverlayAxesDueToEndShifts( );
+
 		// Update for overlays
 		final OneAxis axPH = aax.areAxesSwapped( ) ? aax.getPrimaryOrthogonal( )
 				: aax.getPrimaryBase( );
@@ -988,6 +990,27 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		computePlotWithMargin( axPH, axPV );
 	}
 
+	private void adjustOverlayAxesDueToEndShifts( )
+	{
+		if ( aax != null
+				&& aax.getOverlayCount( ) > 0
+				&& !aax.getPrimaryBase( ).isCategoryScale( ) )
+		{
+			int iCount = aax.getOverlayCount( );
+			AutoScale scBase = aax.getPrimaryBase( ).getScale( );
+
+			for ( int i = 0; i < iCount; i++ )
+			{
+				OneAxis oax = aax.getOverlay( i );
+				if ( oax.getIntersectionValue( ) == IntersectionValue.MAX_VALUE )
+				{
+					oax.setAxisCoordinate( oax.getAxisCoordinate( )
+							- scBase.getEndShift( ) );
+				}
+			}
+		}
+
+	}
 
 	/**
 	 * @param axPH
