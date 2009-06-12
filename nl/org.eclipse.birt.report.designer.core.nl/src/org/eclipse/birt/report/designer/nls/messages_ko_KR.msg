@@ -608,6 +608,13 @@ JointDataSetPage.pageDescription=조인 데이터 집합 정의
 JointDataSetPage.query=쿼리
 
 ###########################################################
+#DerivedDataSet properties
+
+DerivedDataSet.action.error.message.NoDataSet=No available data set found.
+DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+
+###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=계산된 열을 정의합니다. 

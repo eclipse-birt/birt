@@ -608,6 +608,13 @@ JointDataSetPage.pageDescription=Definir conjunto de datos de combinación
 JointDataSetPage.query=Consulta
 
 ###########################################################
+#DerivedDataSet properties
+
+DerivedDataSet.action.error.message.NoDataSet=No available data set found.
+DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+
+###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Definir columnas procesadas. 

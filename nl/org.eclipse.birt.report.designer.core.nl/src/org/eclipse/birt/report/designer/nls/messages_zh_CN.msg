@@ -608,6 +608,13 @@ JointDataSetPage.pageDescription=定义联接数据集
 JointDataSetPage.query=查询
 
 ###########################################################
+#DerivedDataSet properties
+
+DerivedDataSet.action.error.message.NoDataSet=No available data set found.
+DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+
+###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=定义计算列。 

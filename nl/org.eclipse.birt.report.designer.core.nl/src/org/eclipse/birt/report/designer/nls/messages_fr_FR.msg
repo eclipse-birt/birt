@@ -608,6 +608,13 @@ JointDataSetPage.pageDescription=Définir le jeu de données de jointure
 JointDataSetPage.query=Requête
 
 ###########################################################
+#DerivedDataSet properties
+
+DerivedDataSet.action.error.message.NoDataSet=No available data set found.
+DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+
+###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Définissez les colonnes de calcul. 
