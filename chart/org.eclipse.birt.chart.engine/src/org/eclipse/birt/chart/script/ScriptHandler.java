@@ -294,11 +294,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	protected boolean callRegularJavaFunction( String functionName,
 			Object[] arguments )
 	{
-		if ( !sJavaFunctoinMap.containsKey( functionName ) )
-		{
-			return false;
-		}
-		
+		boolean called = false;
 		// use regular interface call instead of reflection to gain performance.
 		/*
 		 * if ( ScriptHandler.ON_PREPARE.equals( name ) ) {
@@ -310,183 +306,215 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 			javahandler.beforeDataSetFilled( (Series) arguments[0],
 					(IDataSetProcessor) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DATA_SET_FILLED.equals( functionName ) )
 		{
 			javahandler.afterDataSetFilled( (Series) arguments[0],
 					(DataSet) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_GENERATION.equals( functionName ) )
 		{
 			javahandler.beforeGeneration( (Chart) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_GENERATION.equals( functionName ) )
 		{
 			javahandler.afterGeneration( (GeneratedChartState) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_COMPUTATIONS.equals( functionName ) )
 		{
 			javahandler.beforeComputations( (Chart) arguments[0],
 					(PlotComputation) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_COMPUTATIONS.equals( functionName ) )
 		{
 			javahandler.afterComputations( (Chart) arguments[0],
 					(PlotComputation) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_RENDERING.equals( functionName ) )
 		{
 			javahandler.beforeRendering( (GeneratedChartState) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_RENDERING.equals( functionName ) )
 		{
 			javahandler.afterRendering( (GeneratedChartState) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_BLOCK.equals( functionName ) )
 		{
 			javahandler.beforeDrawBlock( (Block) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_BLOCK.equals( functionName ) )
 		{
 			javahandler.afterDrawBlock( (Block) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY.equals( functionName ) )
 		{
 			javahandler.beforeDrawLegendEntry( (Label) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_LEGEND_ENTRY.equals( functionName ) )
 		{
 			javahandler.afterDrawLegendEntry( (Label) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_LEGEND_ITEM.equals( functionName ) )
 		{
 			javahandler.beforeDrawLegendItem( (LegendEntryRenderingHints) arguments[0],
 					(Bounds) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_LEGEND_ITEM.equals( functionName ) )
 		{
 			javahandler.afterDrawLegendItem( (LegendEntryRenderingHints) arguments[0],
 					(Bounds) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_SERIES.equals( functionName ) )
 		{
 			javahandler.beforeDrawSeries( (Series) arguments[0],
 					(ISeriesRenderer) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_SERIES.equals( functionName ) )
 		{
 			javahandler.afterDrawSeries( (Series) arguments[0],
 					(ISeriesRenderer) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_SERIES_TITLE.equals( functionName ) )
 		{
 			javahandler.beforeDrawSeriesTitle( (Series) arguments[0],
 					(Label) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_SERIES_TITLE.equals( functionName ) )
 		{
 			javahandler.afterDrawSeriesTitle( (Series) arguments[0],
 					(Label) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_MARKER_LINE.equals( functionName ) )
 		{
 			javahandler.beforeDrawMarkerLine( (Axis) arguments[0],
 					(MarkerLine) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_MARKER_LINE.equals( functionName ) )
 		{
 			javahandler.afterDrawMarkerLine( (Axis) arguments[0],
 					(MarkerLine) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_MARKER_RANGE.equals( functionName ) )
 		{
 			javahandler.beforeDrawMarkerRange( (Axis) arguments[0],
 					(MarkerRange) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_MARKER_RANGE.equals( functionName ) )
 		{
 			javahandler.afterDrawMarkerRange( (Axis) arguments[0],
 					(MarkerRange) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_DATA_POINT.equals( functionName ) )
 		{
 			javahandler.beforeDrawDataPoint( (DataPointHints) arguments[0],
 					(Fill) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_DATA_POINT.equals( functionName ) )
 		{
 			javahandler.afterDrawDataPoint( (DataPointHints) arguments[0],
 					(Fill) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_DATA_POINT_LABEL.equals( functionName ) )
 		{
 			javahandler.beforeDrawDataPointLabel( (DataPointHints) arguments[0],
 					(Label) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_DATA_POINT_LABEL.equals( functionName ) )
 		{
 			javahandler.afterDrawDataPointLabel( (DataPointHints) arguments[0],
 					(Label) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_FITTING_CURVE.equals( functionName ) )
 		{
 			javahandler.beforeDrawFittingCurve( (CurveFitting) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_FITTING_CURVE.equals( functionName ) )
 		{
 			javahandler.afterDrawFittingCurve( (CurveFitting) arguments[0],
 					(IChartScriptContext) arguments[1] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_AXIS_LABEL.equals( functionName ) )
 		{
 			javahandler.beforeDrawAxisLabel( (Axis) arguments[0],
 					(Label) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_AXIS_LABEL.equals( functionName ) )
 		{
 			javahandler.afterDrawAxisLabel( (Axis) arguments[0],
 					(Label) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_AXIS_TITLE.equals( functionName ) )
 		{
 			javahandler.beforeDrawAxisTitle( (Axis) arguments[0],
 					(Label) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		else if ( ScriptHandler.AFTER_DRAW_AXIS_TITLE.equals( functionName ) )
 		{
 			javahandler.afterDrawAxisTitle( (Axis) arguments[0],
 					(Label) arguments[1],
 					(IChartScriptContext) arguments[2] );
+			called = true;
 		}
 		
-		return true;
+		return called;
 	}
 
 	/* (non-Javadoc)

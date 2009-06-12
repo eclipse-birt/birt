@@ -425,6 +425,10 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	}
 
 	/**
+	 * This method calls actual regular java function, returns true if the
+	 * specified function is registered and called, else returns false.Sub-class
+	 * will override this method to implement own process.
+	 * 
 	 * @param functionName
 	 * @param arguments
 	 */
