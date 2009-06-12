@@ -161,9 +161,19 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 		return cell.hasDiagonalLine( );
 	}
 
+	public void setDiagonalNumber( int diagonalNumber )
+	{
+		cell.setDiagonalNumber( diagonalNumber );
+	}
+
 	public int getDiagonalNumber( )
 	{
 		return cell.getDiagonalNumber( );
+	}
+
+	public void setDiagonalStyle( String diagonalStyle )
+	{
+		cell.setDiagonalStyle( diagonalStyle );
 	}
 
 	public String getDiagonalStyle( )
@@ -171,14 +181,29 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 		return cell.getDiagonalStyle( );
 	}
 
+	public void setDiagonalWidth( DimensionType diagonalWidth )
+	{
+		cell.setDiagonalWidth( diagonalWidth );
+	}
+
 	public DimensionType getDiagonalWidth( )
 	{
 		return cell.getDiagonalWidth( );
 	}
-	
+
+	public void setDiagonalColor( String diagonalColor )
+	{
+		cell.setDiagonalColor( diagonalColor );
+	}
+
 	public String getDiagonalColor( )
 	{
 		return cell.getDiagonalColor( );
+	}
+
+	public void setAntidiagonalNumber( int antidiagonalNumber )
+	{
+		cell.setAntidiagonalNumber( antidiagonalNumber );
 	}
 
 	public int getAntidiagonalNumber( )
@@ -186,16 +211,31 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 		return cell.getAntidiagonalNumber( );
 	}
 
+	public void setAntidiagonalStyle( String antidiagonalStyle )
+	{
+		cell.setAntidiagonalStyle( antidiagonalStyle );
+	}
+
 	public String getAntidiagonalStyle( )
 	{
 		return cell.getAntidiagonalStyle( );
+	}
+
+	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
+	{
+		cell.setAntidiagonalWidth( antidiagonalWidth );
 	}
 
 	public DimensionType getAntidiagonalWidth( )
 	{
 		return cell.getAntidiagonalWidth( );
 	}
-	
+
+	public void setAntidiagonalColor( String antidiagonalColor )
+	{
+		cell.setAntidiagonalColor( antidiagonalColor );
+	}
+
 	public String getAntidiagonalColor( )
 	{
 		return cell.getAntidiagonalColor( );

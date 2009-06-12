@@ -76,6 +76,43 @@ public class CellContent extends AbstractContent implements ICellContent
 
 	private String drop;
 	
+	/**
+	 * Does the cell has diagonal line or antidiagonal line.
+	 */
+	private Boolean hasDiagonalLine = null;
+	/**
+	 * The number of the diagonal line.
+	 */
+	private int diagonalNumber = -1;
+	/**
+	 * The style of the diagonal line.
+	 */
+	private String diagonalStyle = null;
+	/**
+	 * The width of the diagonal line.
+	 */
+	private DimensionType diagonalWidth = null;
+	/**
+	 * The color of the diagonal line.
+	 */
+	private String diagonalColor = null;
+	/**
+	 * The number of the antidiagonal line.
+	 */
+	private int antidiagonalNumber = -1;
+	/**
+	 * The style of the antidiagonal line.
+	 */
+	private String antidiagonalStyle = null;
+	/**
+	 * The width of the antidiagonal line.
+	 */
+	private DimensionType antidiagonalWidth = null;
+	/**
+	 * The color of the antidiagonal line.
+	 */
+	private String antidiagonalColor = null;
+	
 	public int getContentType( )
 	{
 		return CELL_CONTENT;
@@ -246,6 +283,14 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected short FIELD_HEADERS = 112;
 	static final protected short FIELD_SCOPE = 113;
 	static final protected short FIELD_REPEAT_CONTENT = 114;
+	static final protected short FIELD_DIAGONAL_NUMBER = 115 ;
+	static final protected short FIELD_DIAGONAL_STYLE = 116 ;
+	static final protected short FIELD_DIAGONAL_WIDTH = 117 ;
+	static final protected short FIELD_DIAGONAL_COLOR = 118 ;
+	static final protected short FIELD_ANTIDIAGONAL_NUMBER = 119 ;
+	static final protected short FIELD_ANTIDIAGONAL_STYLE = 120 ;
+	static final protected short FIELD_ANTIDIAGONAL_WIDTH = 121 ;
+	static final protected short FIELD_ANTIDIAGONAL_COLOR = 122 ;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -290,6 +335,46 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeShort( out, FIELD_REPEAT_CONTENT );
 			IOUtil.writeBool( out, true );
 		}
+		if ( diagonalNumber > 0 )
+		{
+			IOUtil.writeShort( out, FIELD_DIAGONAL_NUMBER );
+			IOUtil.writeInt( out, diagonalNumber );
+			if ( diagonalStyle != null )
+			{
+				IOUtil.writeShort( out, FIELD_DIAGONAL_STYLE );
+				IOUtil.writeString( out, diagonalStyle );
+			}
+			if ( diagonalWidth != null )
+			{
+				IOUtil.writeShort( out, FIELD_DIAGONAL_WIDTH );
+				diagonalWidth.writeObject( out );
+			}
+			if ( diagonalColor != null )
+			{
+				IOUtil.writeShort( out, FIELD_DIAGONAL_COLOR );
+				IOUtil.writeString( out, diagonalColor );
+			}
+		}
+		if ( antidiagonalNumber > 0 )
+		{
+			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_NUMBER );
+			IOUtil.writeInt( out, antidiagonalNumber );
+			if ( antidiagonalStyle != null )
+			{
+				IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_STYLE );
+				IOUtil.writeString( out, antidiagonalStyle );
+			}
+			if ( antidiagonalWidth != null )
+			{
+				IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_WIDTH );
+				antidiagonalWidth.writeObject( out );
+			}
+			if ( antidiagonalColor != null )
+			{
+				IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_COLOR );
+				IOUtil.writeString( out, antidiagonalColor );
+			}
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in,
@@ -324,6 +409,32 @@ public class CellContent extends AbstractContent implements ICellContent
 			case FIELD_REPEAT_CONTENT :
 				repeatContent = IOUtil.readBool( in );
 				break;
+			case FIELD_DIAGONAL_NUMBER :
+				diagonalNumber = IOUtil.readInt( in );
+				break;
+			case FIELD_DIAGONAL_STYLE :
+				diagonalStyle = IOUtil.readString( in );
+				break;
+			case FIELD_DIAGONAL_WIDTH :
+				diagonalWidth = new DimensionType( );
+				diagonalWidth.readObject( in );
+				break;
+			case FIELD_DIAGONAL_COLOR :
+				diagonalColor = IOUtil.readString( in );
+				break;
+			case FIELD_ANTIDIAGONAL_NUMBER :
+				antidiagonalNumber = IOUtil.readInt( in );
+				break;
+			case FIELD_ANTIDIAGONAL_STYLE :
+				antidiagonalStyle = IOUtil.readString( in );
+				break;
+			case FIELD_ANTIDIAGONAL_WIDTH :
+				antidiagonalWidth = new DimensionType( );
+				antidiagonalWidth.readObject( in );
+				break;
+			case FIELD_ANTIDIAGONAL_COLOR :
+				antidiagonalColor = IOUtil.readString( in );
+				break;
 			default :
 				super.readField( version, filedId, in, loader );
 				break;
@@ -337,6 +448,10 @@ public class CellContent extends AbstractContent implements ICellContent
 			return true;
 		}
 		if ( displayGroupIcon != null || headers != null || scope != null )
+		{
+			return true;
+		}
+		if ( this.diagonalNumber > 0 || this.antidiagonalNumber > 0 )
 		{
 			return true;
 		}
@@ -388,82 +503,174 @@ public class CellContent extends AbstractContent implements ICellContent
 	{
 		return new CellContent(this);
 	}
-	
+
 	public boolean hasDiagonalLine( )
 	{
-		if ( cellDesign != null )
+		if ( hasDiagonalLine != null )
+		{
+			return hasDiagonalLine.booleanValue( );
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.hasDiagonalLine( );
 		}
 		return false;
 	}
 
+	public void setDiagonalNumber( int diagonalNumber )
+	{
+		this.diagonalNumber = diagonalNumber;
+		if ( getDiagonalNumber( ) > 0 || getAntidiagonalNumber( ) > 0 )
+		{
+			hasDiagonalLine = Boolean.TRUE;
+		}
+		else
+		{
+			hasDiagonalLine = Boolean.FALSE;
+		}
+	}
+
 	public int getDiagonalNumber( )
 	{
-		if ( cellDesign != null )
+		if ( diagonalNumber >= 0 )
+		{
+			return diagonalNumber;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getDiagonalNumber( );
 		}
 		return 0;
 	}
 
+	public void setDiagonalStyle( String diagonalStyle )
+	{
+		this.diagonalStyle = diagonalStyle;
+	}
+
 	public String getDiagonalStyle( )
 	{
-		if ( cellDesign != null )
+		if ( diagonalStyle != null )
+		{
+			return diagonalStyle;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getDiagonalStyle( );
 		}
 		return null;
 	}
 
+	public void setDiagonalWidth( DimensionType diagonalWidth )
+	{
+		this.diagonalWidth = diagonalWidth;
+	}
+
 	public DimensionType getDiagonalWidth( )
 	{
-		if ( cellDesign != null )
+		if ( diagonalWidth != null )
+		{
+			return diagonalWidth;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getDiagonalWidth( );
 		}
 		return null;
 	}
-	
+
+	public void setDiagonalColor( String diagonalColor )
+	{
+		this.diagonalColor = diagonalColor;
+	}
+
 	public String getDiagonalColor( )
 	{
-		if ( cellDesign != null )
+		if ( diagonalColor != null )
+		{
+			return diagonalColor;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getDiagonalColor( );
 		}
 		return null;
 	}
 
+	public void setAntidiagonalNumber( int antidiagonalNumber )
+	{
+		this.antidiagonalNumber = antidiagonalNumber;
+		if ( getDiagonalNumber( ) > 0 || getAntidiagonalNumber( ) > 0 )
+		{
+			hasDiagonalLine = Boolean.TRUE;
+		}
+		else
+		{
+			hasDiagonalLine = Boolean.FALSE;
+		}
+	}
+
 	public int getAntidiagonalNumber( )
 	{
-		if ( cellDesign != null )
+		if ( antidiagonalNumber >= 0 )
+		{
+			return antidiagonalNumber;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getAntidiagonalNumber( );
 		}
 		return 0;
 	}
 
+	public void setAntidiagonalStyle( String antidiagonalStyle )
+	{
+		this.antidiagonalStyle = antidiagonalStyle;
+	}
+
 	public String getAntidiagonalStyle( )
 	{
-		if ( cellDesign != null )
+		if ( antidiagonalStyle != null )
+		{
+			return antidiagonalStyle;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getAntidiagonalStyle( );
 		}
 		return null;
 	}
 
+	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
+	{
+		this.antidiagonalWidth = antidiagonalWidth;
+	}
+
 	public DimensionType getAntidiagonalWidth( )
 	{
-		if ( cellDesign != null )
+		if ( antidiagonalWidth != null )
+		{
+			return antidiagonalWidth;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getAntidiagonalWidth( );
 		}
 		return null;
 	}
-	
+
+	public void setAntidiagonalColor( String antidiagonalColor )
+	{
+		this.antidiagonalColor = antidiagonalColor;
+	}
+
 	public String getAntidiagonalColor( )
 	{
-		if ( cellDesign != null )
+		if ( antidiagonalColor != null )
+		{
+			return antidiagonalColor;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getAntidiagonalColor( );
 		}

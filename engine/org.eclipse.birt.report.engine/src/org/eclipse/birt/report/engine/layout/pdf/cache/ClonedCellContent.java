@@ -375,9 +375,19 @@ public class ClonedCellContent implements ICellContent
 		return cellContent.hasDiagonalLine( );
 	}
 
+	public void setDiagonalNumber( int diagonalNumber )
+	{
+		cellContent.setDiagonalNumber( diagonalNumber );
+	}
+
 	public int getDiagonalNumber( )
 	{
 		return cellContent.getDiagonalNumber( );
+	}
+
+	public void setDiagonalStyle( String diagonalStyle )
+	{
+		cellContent.setDiagonalStyle( diagonalStyle );
 	}
 
 	public String getDiagonalStyle( )
@@ -385,14 +395,29 @@ public class ClonedCellContent implements ICellContent
 		return cellContent.getDiagonalStyle( );
 	}
 
+	public void setDiagonalWidth( DimensionType diagonalWidth )
+	{
+		cellContent.setDiagonalWidth( diagonalWidth );
+	}
+
 	public DimensionType getDiagonalWidth( )
 	{
 		return cellContent.getDiagonalWidth( );
 	}
-	
+
+	public void setDiagonalColor( String diagonalColor )
+	{
+		cellContent.setDiagonalColor( diagonalColor );
+	}
+
 	public String getDiagonalColor( )
 	{
 		return cellContent.getDiagonalColor( );
+	}
+
+	public void setAntidiagonalNumber( int antidiagonalNumber )
+	{
+		cellContent.setAntidiagonalNumber( antidiagonalNumber );
 	}
 
 	public int getAntidiagonalNumber( )
@@ -400,16 +425,31 @@ public class ClonedCellContent implements ICellContent
 		return cellContent.getAntidiagonalNumber( );
 	}
 
+	public void setAntidiagonalStyle( String antidiagonalStyle )
+	{
+		cellContent.setAntidiagonalStyle( antidiagonalStyle );
+	}
+
 	public String getAntidiagonalStyle( )
 	{
 		return cellContent.getAntidiagonalStyle( );
+	}
+
+	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
+	{
+		cellContent.setAntidiagonalWidth( antidiagonalWidth );
 	}
 
 	public DimensionType getAntidiagonalWidth( )
 	{
 		return cellContent.getAntidiagonalWidth( );
 	}
-	
+
+	public void setAntidiagonalColor( String antidiagonalColor )
+	{
+		cellContent.setAntidiagonalColor( antidiagonalColor );
+	}
+
 	public String getAntidiagonalColor( )
 	{
 		return cellContent.getAntidiagonalColor( );

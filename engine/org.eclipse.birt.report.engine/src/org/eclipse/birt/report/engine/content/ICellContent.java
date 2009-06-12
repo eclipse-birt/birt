@@ -61,19 +61,35 @@ public interface ICellContent extends IContainerContent
 
 	public int getDiagonalNumber( );
 
+	public void setDiagonalNumber( int diagonalNumber );
+
 	public String getDiagonalStyle( );
 
+	public void setDiagonalStyle( String diagonalStyle );
+
 	public DimensionType getDiagonalWidth( );
-	
+
+	public void setDiagonalWidth( DimensionType diagonalWidth );
+
 	public String getDiagonalColor( );
+
+	public void setDiagonalColor( String diagonalColor );
 
 	public int getAntidiagonalNumber( );
 
+	public void setAntidiagonalNumber( int antidiagonalNumber );
+
 	public String getAntidiagonalStyle( );
 
+	public void setAntidiagonalStyle( String antidiagonalStyle );
+
 	public DimensionType getAntidiagonalWidth( );
-	
+
+	public void setAntidiagonalWidth( DimensionType antidiagonalWidth );
+
 	public String getAntidiagonalColor( );
+
+	public void setAntidiagonalColor( String antidiagonalColor );
 
 	public String getHeaders( );
 
