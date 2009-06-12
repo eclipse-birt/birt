@@ -121,5 +121,33 @@
 }def
 /startDefImage{currentfile /ASCIIHexDecode filter /FlateDecode filter /ReusableStreamDecode filter} def
 /endDefImage{<</source 6 -1 roll /width 6 -1 roll /height 7 -1 roll>> def} def
+/Identity-H/CMap resourcestatus
+{
+  pop pop
+}
+{
+  /CIDInit/ProcSet findresource begin
+    12 dict begin
+      begincmap
+        /CIDSystemInfo 3 dict dup begin
+          /Registry(Adobe)def
+          /Ordering(Identity)def
+          /Supplement 0 def
+	    end def
+        /CMapName/Identity-H def
+        /CMapVersion 1.000 def
+        /CMapType 1 def
+        1 begincodespacerange
+          <0000><FFFF>
+        endcodespacerange
+        1 begincidrange
+          <0000><FFFF>0
+        endcidrange
+      endcmap
+      CMapName currentdict/CMap defineresource pop
+    end
+  end
+}
+ifelse
 %%EndResource
 %%EndSetup
