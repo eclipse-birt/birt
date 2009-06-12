@@ -422,7 +422,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					&& ( !context.getDataServiceProvider( )
 							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) || isSharingChart ) )
 			{
-				txtDefinition.setEnabled( false );
+				// allow y-optional if contains definition
+				if ( !ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
+						|| !provider.checkState( IDataServiceProvider.SHARE_TABLE_QUERY )
+						|| getQuery( ).getDefinition( ) == null
+						|| getQuery( ).getDefinition( ).trim( ).length( ) == 0 )
+				{
+					txtDefinition.setEnabled( false );
+				}
 			}
 
 			btnBuilder.setEnabled( false );
