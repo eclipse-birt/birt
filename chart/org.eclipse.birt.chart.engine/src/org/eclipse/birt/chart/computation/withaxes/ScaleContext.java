@@ -41,8 +41,7 @@ public class ScaleContext extends Methods
 
 	private final int iType;
 
-	private int iUnit;
-
+	private Object oUnit;
 	private Object oMin;
 	private Object oMax;
 	private Object oStep;
@@ -54,12 +53,40 @@ public class ScaleContext extends Methods
 
 	private boolean bExpandMinmax = true;
 
-	public ScaleContext( int iMarginPercent, int iType, int iUnit,
+	public ScaleContext copy( )
+	{
+		ScaleContext dest = new ScaleContext( iMarginPercent, iType );
+
+		dest.oMinAuto = oMinAuto;
+		dest.oMaxAuto = oMaxAuto;
+		dest.oMinFixed = oMinFixed;
+		dest.oMaxFixed = oMaxFixed;
+		dest.oStepNumber = oStepNumber;
+		dest.oUnit = oUnit;
+		dest.oMin = oMin;
+		dest.oMax = oMax;
+		dest.oStep = oStep;
+		dest.bMinimumFixed = bMinimumFixed;
+		dest.bMaximumFixed = bMaximumFixed;
+		dest.bStepFixed = bStepFixed;
+		dest.bMargin = bMargin;
+		dest.bExpandMinmax = bExpandMinmax;
+
+		return dest;
+	}
+
+	public ScaleContext( int iMarginPercent, int iType )
+	{
+		this.iMarginPercent = iMarginPercent;
+		this.iType = iType;
+	}
+
+	public ScaleContext( int iMarginPercent, int iType, Object oUnit,
 			Object oMinValue, Object oMaxValue, Object oStep )
 	{
 		this.iMarginPercent = iMarginPercent;
 		this.iType = iType;
-		this.iUnit = iUnit;
+		this.oUnit = oUnit;
 
 		this.oMinAuto = oMinValue;
 		this.oMaxAuto = oMaxValue;
@@ -80,7 +107,7 @@ public class ScaleContext extends Methods
 	 */
 	public void updateShared( ScaleContext that )
 	{
-		this.iUnit = that.iUnit;
+		this.oUnit = that.oUnit;
 		this.oStep = that.oStep;
 	}
 
@@ -137,6 +164,11 @@ public class ScaleContext extends Methods
 		return oMin;
 	}
 
+	public void setMin( Object oMin )
+	{
+		this.oMin = oMin;
+	}
+
 	/**
 	 * Returns the maximum of the scale
 	 * 
@@ -145,6 +177,11 @@ public class ScaleContext extends Methods
 	public Object getMax( )
 	{
 		return oMax;
+	}
+
+	public void setMax( Object oMax )
+	{
+		this.oMax = oMax;
 	}
 
 	/**
@@ -158,6 +195,11 @@ public class ScaleContext extends Methods
 		return oMinAuto;
 	}
 
+	public void setMinWithMargin( Object oMinAuto )
+	{
+		this.oMinAuto = oMinAuto;
+	}
+
 	/**
 	 * Returns the maximum plus margin. Margin means extra space for rendering
 	 * and clipping. If margin is 0, or no margin needed, return null.
@@ -169,9 +211,29 @@ public class ScaleContext extends Methods
 		return oMaxAuto;
 	}
 
+	public void setMaxWithMargin( Object oMaxAuto )
+	{
+		this.oMaxAuto = oMaxAuto;
+	}
+
 	public Object getStep( )
 	{
 		return oStep;
+	}
+
+	public void setStep( Object oStep )
+	{
+		this.oStep = oStep;
+	}
+
+	public Integer getStepNumber( )
+	{
+		return oStepNumber;
+	}
+
+	public void setStepNumber( Integer oStepNumber )
+	{
+		this.oStepNumber = oStepNumber;
 	}
 
 	public void computeMinMax( )
@@ -434,6 +496,8 @@ public class ScaleContext extends Methods
 		CDateTime cdtMaxValue = bMaximumFixed ? asDateTime( oMaxFixed )
 				: asDateTime( oMaxAuto );
 
+		int iUnit = ( (Integer) oUnit ).intValue( );
+
 		if ( bMaximumFixed && !bMinimumFixed )
 		{
 			oMax = cdtMaxValue;
@@ -533,9 +597,14 @@ public class ScaleContext extends Methods
 	/**
 	 * @return Returns the iUnit.
 	 */
-	public int getUnit( )
+	public Object getUnit( )
 	{
-		return iUnit;
+		return oUnit;
+	}
+
+	public void setUnit( Object oUnit )
+	{
+		this.oUnit = oUnit;
 	}
 
 	/**
