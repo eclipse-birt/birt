@@ -23,7 +23,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -186,13 +186,13 @@ public class DataAdapterUtil
 	 * @param source
 	 */
 	public static void registerJSObject( Scriptable targetScope,
-			ILinkedResult source )
+			ILinkedResult source, ScriptContext context )
 	{
 		int type = ( (ILinkedResult) source ).getCurrentResultType( );
 		if ( type == ILinkedResult.TYPE_TABLE )
 		{
 			targetScope.put( "row", targetScope, new JSResultIteratorObject(
-					(ILinkedResult) source ) );
+					(ILinkedResult) source, context ) );
 		}
 		else if ( type == ILinkedResult.TYPE_CUBE )
 		{
@@ -592,10 +592,12 @@ public class DataAdapterUtil
 		private static final long serialVersionUID = 684728008759347940L;
 		private ILinkedResult it;
 		private IResultIterator currentIterator;
+		private ScriptContext sContext;
 		
-		JSResultIteratorObject( ILinkedResult it )
+		JSResultIteratorObject( ILinkedResult it, ScriptContext context )
 		{
 			this.it = it;
+			this.sContext = context;
 			if ( it.getCurrentResultType( ) == ILinkedResult.TYPE_TABLE )
 				this.currentIterator = (IResultIterator) it.getCurrentResult( );
 		}
@@ -622,9 +624,9 @@ public class DataAdapterUtil
 				}
 				if ( "_outer".equalsIgnoreCase( arg0 ) )
 				{
-					return new JSResultIteratorObject( it.getParent( ) );
+					return new JSResultIteratorObject( it.getParent( ), sContext );
 				}
-				return JavascriptEvalUtil.convertToJavascriptValue( this.currentIterator.getValue( arg0 ) );
+				return sContext.javaToJs( this.currentIterator.getValue( arg0 ));
 			}
 			catch ( BirtException e )
 			{

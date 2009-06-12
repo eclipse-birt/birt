@@ -1868,7 +1868,7 @@ public class ExecutionContext
 			{
 				Scriptable scope = getScriptContext( ).getRootScope( );
 				DataAdapterUtil.registerJSObject( scope,
-						new ResultIteratorTree( rsets[0] ) );
+						new ResultIteratorTree( rsets[0] ), this.getScriptContext( ) );
 			}
 		}
 		else
