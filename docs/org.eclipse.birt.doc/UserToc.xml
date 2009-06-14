@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Field Guide to BIRT" >
- <topic label="Field Guide to BIRT" >
+<toc label="Designing Reports using BIRT" >
+ <topic label="Designing Reports using BIRT" >
 
   <topic label="Learning the Basics" href="birt/getstarted.1.1.html" >
     <topic label="About the report design environment" href="birt/getstarted.1.2.html" />
@@ -52,6 +52,7 @@
     </topic>
   <topic label="Displaying Text" href="birt/text.6.1.html" >
     <topic label="How to use a dynamic text element" href="birt/text.6.2.html" />
+    <topic label="Setting text flow direction for a report" href="birt/text.6.3.html" />
     </topic>
   <topic label="Formatting Report Content" href="birt/format.7.1.html" >
     <topic label="How to create a style" href="birt/format.7.2.html" />
@@ -66,9 +67,14 @@
     <topic label="How to resize a column or row by dragging its boundary" href="birt/format.7.11.html" />
     <topic label="How to specify a row height" href="birt/format.7.12.html" />
     <topic label="How to specify a column width" href="birt/format.7.13.html" />
-    <topic label="How to merge table or grid cells" href="birt/format.7.14.html" />
-    <topic label="How to hide an element conditionally" href="birt/format.7.15.html" />
-    </topic>
+    <topic label="Resizing margins, borders, and padding of elements" href="birt/format.7.14.html" >
+      <topic label="How to merge table or grid cells" href="birt/format.7.15.html" />
+      </topic>
+    <topic label="Specifying alternate values for display" href="birt/format.7.16.html" >
+      <topic label="How to map data values to different display values" href="birt/format.7.16.html#407154" />
+      <topic label="How to hide an element conditionally" href="birt/format.7.17.html" />
+      </topic>
+      </topic>
   <topic label="Sorting and Grouping Data" href="birt/grouping.8.1.html" >
     <topic label="Tutorial 2: Grouping report data" href="birt/grouping.8.2.html" >
       <topic label="Task 1: Open the report design" href="birt/grouping.8.3.html" />
@@ -106,7 +112,13 @@
     <topic label="How to insert a parameter marker in the SQL query" href="birt/parameter.12.1.html#192655" />
     <topic label="How to define a data set parameter" href="birt/parameter.12.1.html#140491" />
     <topic label="How to update a filter condition dynamically when the report runs" href="birt/parameter.12.2.html" />
-    </topic>
+    <topic label="Providing the user with a list of values" href="birt/parameter.12.3.html" >
+      <topic label="How to specify static report parameter values for users to select" href="birt/parameter.12.4.html" />
+      <topic label="How to format a report parameter value" href="birt/parameter.12.5.html" />
+      <topic label="How to create a parameter group" href="birt/parameter.12.5.html#412350" />
+      <topic label="How to create cascading parameters that use a single data set" href="birt/parameter.12.5.html#412493" />
+      </topic>
+      </topic>
   <topic label="Building a Report That Contains Subreports" href="birt/subreport.13.1.html" >
     <topic label="Tutorial 3: Building a report containing side-by-side subreports" href="birt/subreport.13.2.html" >
       <topic label="Task 1: Create a new report" href="birt/subreport.13.3.html" />
@@ -152,136 +164,152 @@
       <topic label="Task 3: Build a data set" href="birt/crosstab.17.5.html" />
       <topic label="Task 4: Set up data for the cross tab" href="birt/crosstab.17.6.html" />
       <topic label="Task 5: Add a cross tab to the report" href="birt/crosstab.17.7.html" />
-      <topic label="Task 6: Add grand totals" href="birt/crosstab.17.8.html" />
-      </topic>
-      </topic>
+      <topic label="Task 6: Add grand totals" href="birt/crosstab.17.8.html" >
+        <topic label="How to create data sets for a multi-dataset cube" href="birt/crosstab.17.8.html#399281" />
+        <topic label="How to create a multi-dataset cube" href="birt/crosstab.17.8.html#399308" />
+        <topic label="How to display or hide levels" href="birt/crosstab.17.9.html" />
+        <topic label="How to display subtotals and grand totals" href="birt/crosstab.17.10.html" />
+        <topic label="How to sort cross tab data" href="birt/crosstab.17.11.html" />
+        <topic label="How to filter data at the cross tab level" href="birt/crosstab.17.12.html" />
+        </topic>
+        </topic>
+        </topic>
   <topic label="Designing a Multipage Report" href="birt/multipage.18.1.html" >
     <topic label="How to display text in the header and footer" href="birt/multipage.18.2.html" />
     <topic label="How to specify a header or footer size" href="birt/multipage.18.3.html" />
     <topic label="How to exclude header content from the first page" href="birt/multipage.18.4.html" />
     </topic>
-  <topic label="Adding Interactive Viewing Features" href="birt/viewing.19.1.html" >
-    <topic label="How to define a bookmark" href="birt/viewing.19.2.html" />
-    <topic label="How to create a hyperlink that links two sections in a report" href="birt/viewing.19.3.html" />
-    <topic label="How to link two reports" href="birt/viewing.19.4.html" />
-    <topic label="How to create a table of contents entry" href="birt/viewing.19.5.html" />
+  <topic label="Building a Shared Report Development Framework" href="birt/SharedWorking.19.1.html" >
+    <topic label="Understanding the resource folder" href="birt/SharedWorking.19.1.html#247868" />
+    <topic label="How to publish a library from your workspace" href="birt/SharedWorking.19.1.html#247902" />
+    <topic label="How to add an external library to the resource folder" href="birt/SharedWorking.19.1.html#247922" />
+    <topic label="How to set a theme for a report design" href="birt/SharedWorking.19.2.html" />
+    <topic label="How to drop a theme from a report design" href="birt/SharedWorking.19.3.html" />
+    <topic label="How to add an element to a library" href="birt/SharedWorking.19.4.html" />
+    <topic label="How to create a template report item" href="birt/SharedWorking.19.5.html" />
+    <topic label="How to set up a template folder" href="birt/SharedWorking.19.6.html" />
+    <topic label="How to publish a template" href="birt/SharedWorking.19.7.html" />
+    <topic label="How to use a template report item" href="birt/SharedWorking.19.8.html" />
     </topic>
-  <topic label="Building a Shared Report Development Framework" href="birt/SharedWorking.20.1.html" >
-    <topic label="How to set a theme for a report design" href="birt/SharedWorking.20.2.html" />
-    <topic label="How to drop a theme from a report design" href="birt/SharedWorking.20.3.html" />
-    <topic label="How to add an element to a library" href="birt/SharedWorking.20.4.html" />
-    <topic label="How to create a template report item" href="birt/SharedWorking.20.5.html" />
-    <topic label="How to set up a template folder" href="birt/SharedWorking.20.6.html" />
-    <topic label="How to publish a template" href="birt/SharedWorking.20.7.html" />
-    <topic label="How to use a template report item" href="birt/SharedWorking.20.8.html" />
+  <topic label="Localizing Text" href="birt/localization.20.1.html" >
+    <topic label="How to assign a resource file to a report" href="birt/localization.20.2.html" />
+    <topic label="How to assign an existing resource key to a label or text element" href="birt/localization.20.3.html" />
+    <topic label="How to preview a report in a different locale" href="birt/localization.20.4.html" />
     </topic>
-  <topic label="Localizing Text" href="birt/localization.21.1.html" >
-    <topic label="How to assign a resource file to a report" href="birt/localization.21.2.html" />
-    <topic label="How to assign an existing resource key to a label or text element" href="birt/localization.21.3.html" />
-    <topic label="How to preview a report in a different locale" href="birt/localization.21.4.html" />
-    </topic>
-  <topic label="Using Scripting in a Report Design" href="birt/UsingScripting.22.1.html" >
-    <topic label="Overview of BIRT scripting" href="birt/UsingScripting.22.2.html" >
-      <topic label="Choosing between JavaScript and Java" href="birt/UsingScripting.22.3.html" />
-      <topic label="Using both JavaScript and Java to write event handlers" href="birt/UsingScripting.22.4.html" />
+  <topic label="Using Scripting in a Report Design" href="birt/UsingScripting.21.1.html" >
+    <topic label="Overview of BIRT scripting" href="birt/UsingScripting.21.2.html" >
+      <topic label="Choosing between JavaScript and Java" href="birt/UsingScripting.21.3.html" />
+      <topic label="Using both JavaScript and Java to write event handlers" href="birt/UsingScripting.21.4.html" />
+      <topic label="Using named expressions" href="birt/UsingScripting.21.5.html" />
       </topic>
       </topic>
-  <topic label="Using JavaScript to Write an Event Handler" href="birt/ScriptingWithJavaScript.23.1.html" >
-    <topic label="How to use BIRT Report Designer to enter a JavaScript event handler" href="birt/ScriptingWithJavaScript.23.1.html#150919" />
-    <topic label="Determining method execution sequence" href="birt/ScriptingWithJavaScript.23.2.html" >
-      <topic label="Providing the ReportDesign.initialize code" href="birt/ScriptingWithJavaScript.23.3.html" >
-        <topic label="How to provide code for the ReportDesign.initialize method" href="birt/ScriptingWithJavaScript.23.3.html#151640" />
+  <topic label="Using JavaScript to Write an Event Handler" href="birt/ScriptingWithJavaScript.22.1.html" >
+    <topic label="How to use BIRT Report Designer to enter a JavaScript event handler" href="birt/ScriptingWithJavaScript.22.1.html#150919" />
+    <topic label="Determining method execution sequence" href="birt/ScriptingWithJavaScript.22.2.html" >
+      <topic label="Providing the ReportDesign.initialize code" href="birt/ScriptingWithJavaScript.22.3.html" >
+        <topic label="How to provide code for the ReportDesign.initialize method" href="birt/ScriptingWithJavaScript.22.3.html#151640" />
         </topic>
-      <topic label="Providing code for the methods you want to track" href="birt/ScriptingWithJavaScript.23.4.html" />
-      <topic label="Providing the ReportDesign.afterFactory code" href="birt/ScriptingWithJavaScript.23.5.html" />
+      <topic label="Providing code for the methods you want to track" href="birt/ScriptingWithJavaScript.22.4.html" />
+      <topic label="Providing the ReportDesign.afterFactory code" href="birt/ScriptingWithJavaScript.22.5.html" />
       </topic>
       </topic>
   <topic label="Using Java to Write an Event Handler" href="birt/ScriptingWithJava.html" >
     <topic label="How to create an event handler class and add it to the Java project" href="birt/ScriptingWithJava.html#182543" />
     <topic label="How to associate a Java class with a report element" href="birt/ScriptingWithJava.html#190654" />
     </topic>
-  <topic label="Scripting Reference" href="birt/ScriptingReference.25.1.html" >
-    <topic label="Class BirtComp" href="birt/ScriptingReference.25.2.html" >
-      <topic label="BirtComp.anyOf" href="birt/ScriptingReference.25.2.html#275953" />
-      <topic label="BirtComp.between" href="birt/ScriptingReference.25.2.html#280059" />
-      <topic label="BirtComp.compareString" href="birt/ScriptingReference.25.2.html#287732" />
-      <topic label="BirtComp.equalTo" href="birt/ScriptingReference.25.2.html#280965" />
-      <topic label="BirtComp.greaterOrEqual" href="birt/ScriptingReference.25.2.html#285949" />
-      <topic label="BirtComp.greaterThan" href="birt/ScriptingReference.25.2.html#286072" />
-      <topic label="BirtComp.lessOrEqual" href="birt/ScriptingReference.25.2.html#286109" />
-      <topic label="BirtComp.lessThan" href="birt/ScriptingReference.25.2.html#285537" />
-      <topic label="BirtComp.like" href="birt/ScriptingReference.25.2.html#286184" />
-      <topic label="BirtComp.match" href="birt/ScriptingReference.25.2.html#287271" />
-      <topic label="BirtComp.notBetween" href="birt/ScriptingReference.25.2.html#280508" />
-      <topic label="BirtComp.notEqual" href="birt/ScriptingReference.25.2.html#285068" />
-      <topic label="BirtComp.notLike" href="birt/ScriptingReference.25.2.html#286853" />
+  <topic label="Scripting Reference" href="birt/ScriptingReference.24.1.html" >
+    <topic label="Class BirtComp" href="birt/ScriptingReference.24.2.html" >
+      <topic label="BirtComp.anyOf" href="birt/ScriptingReference.24.2.html#275953" />
+      <topic label="BirtComp.between" href="birt/ScriptingReference.24.2.html#280059" />
+      <topic label="BirtComp.compareString" href="birt/ScriptingReference.24.2.html#287732" />
+      <topic label="BirtComp.equalTo" href="birt/ScriptingReference.24.2.html#280965" />
+      <topic label="BirtComp.greaterOrEqual" href="birt/ScriptingReference.24.2.html#285949" />
+      <topic label="BirtComp.greaterThan" href="birt/ScriptingReference.24.2.html#286072" />
+      <topic label="BirtComp.lessOrEqual" href="birt/ScriptingReference.24.2.html#286109" />
+      <topic label="BirtComp.lessThan" href="birt/ScriptingReference.24.2.html#285537" />
+      <topic label="BirtComp.like" href="birt/ScriptingReference.24.2.html#286184" />
+      <topic label="BirtComp.match" href="birt/ScriptingReference.24.2.html#287271" />
+      <topic label="BirtComp.notBetween" href="birt/ScriptingReference.24.2.html#280508" />
+      <topic label="BirtComp.notEqual" href="birt/ScriptingReference.24.2.html#285068" />
+      <topic label="BirtComp.notLike" href="birt/ScriptingReference.24.2.html#286853" />
       </topic>
-    <topic label="Class BirtDateTime" href="birt/ScriptingReference.25.3.html" >
-      <topic label="BirtDateTime.addDay" href="birt/ScriptingReference.25.3.html#237678" />
-      <topic label="BirtDateTime.addHour" href="birt/ScriptingReference.25.3.html#238714" />
-      <topic label="BirtDateTime.addMinute" href="birt/ScriptingReference.25.3.html#240681" />
-      <topic label="BirtDateTime.addMonth" href="birt/ScriptingReference.25.3.html#241080" />
-      <topic label="BirtDateTime.addQuarter" href="birt/ScriptingReference.25.3.html#250566" />
-      <topic label="BirtDateTime.addSecond" href="birt/ScriptingReference.25.3.html#250699" />
-      <topic label="BirtDateTime.addWeek" href="birt/ScriptingReference.25.3.html#251173" />
-      <topic label="BirtDateTime.addYear" href="birt/ScriptingReference.25.3.html#251319" />
-      <topic label="BirtDateTime.day" href="birt/ScriptingReference.25.3.html#299888" />
-      <topic label="BirtDateTime.diffDay" href="birt/ScriptingReference.25.3.html#299854" />
-      <topic label="BirtDateTime.diffHour" href="birt/ScriptingReference.25.3.html#253604" />
-      <topic label="BirtDateTime.diffMinute" href="birt/ScriptingReference.25.3.html#254614" />
-      <topic label="BirtDateTime.diffMonth" href="birt/ScriptingReference.25.3.html#256490" />
-      <topic label="BirtDateTime.diffQuarter" href="birt/ScriptingReference.25.3.html#256921" />
-      <topic label="BirtDateTime.diffSecond" href="birt/ScriptingReference.25.3.html#257251" />
-      <topic label="BirtDateTime.diffWeek" href="birt/ScriptingReference.25.3.html#257380" />
-      <topic label="BirtDateTime.diffYear" href="birt/ScriptingReference.25.3.html#257633" />
-      <topic label="BirtDateTime.month" href="birt/ScriptingReference.25.3.html#259860" />
-      <topic label="BirtDateTime.now" href="birt/ScriptingReference.25.3.html#261363" />
-      <topic label="BirtDateTime.quarter" href="birt/ScriptingReference.25.3.html#260047" />
-      <topic label="BirtDateTime.today" href="birt/ScriptingReference.25.3.html#261571" />
-      <topic label="BirtDateTime.week" href="birt/ScriptingReference.25.3.html#260568" />
-      <topic label="BirtDateTime.weekDay" href="birt/ScriptingReference.25.3.html#260744" />
-      <topic label="BirtDateTime.year" href="birt/ScriptingReference.25.3.html#261090" />
+    <topic label="Class BirtDateTime" href="birt/ScriptingReference.24.3.html" >
+      <topic label="BirtDateTime.addDay" href="birt/ScriptingReference.24.3.html#237678" />
+      <topic label="BirtDateTime.addHour" href="birt/ScriptingReference.24.3.html#238714" />
+      <topic label="BirtDateTime.addMinute" href="birt/ScriptingReference.24.3.html#240681" />
+      <topic label="BirtDateTime.addMonth" href="birt/ScriptingReference.24.3.html#241080" />
+      <topic label="BirtDateTime.addQuarter" href="birt/ScriptingReference.24.3.html#250566" />
+      <topic label="BirtDateTime.addSecond" href="birt/ScriptingReference.24.3.html#250699" />
+      <topic label="BirtDateTime.addWeek" href="birt/ScriptingReference.24.3.html#251173" />
+      <topic label="BirtDateTime.addYear" href="birt/ScriptingReference.24.3.html#251319" />
+      <topic label="BirtDateTime.day" href="birt/ScriptingReference.24.3.html#299888" />
+      <topic label="BirtDateTime.diffDay" href="birt/ScriptingReference.24.3.html#299854" />
+      <topic label="BirtDateTime.diffHour" href="birt/ScriptingReference.24.3.html#253604" />
+      <topic label="BirtDateTime.diffMinute" href="birt/ScriptingReference.24.3.html#254614" />
+      <topic label="BirtDateTime.diffMonth" href="birt/ScriptingReference.24.3.html#256490" />
+      <topic label="BirtDateTime.diffQuarter" href="birt/ScriptingReference.24.3.html#256921" />
+      <topic label="BirtDateTime.diffSecond" href="birt/ScriptingReference.24.3.html#257251" />
+      <topic label="BirtDateTime.diffWeek" href="birt/ScriptingReference.24.3.html#257380" />
+      <topic label="BirtDateTime.diffYear" href="birt/ScriptingReference.24.3.html#257633" />
+      <topic label="BirtDateTime.month" href="birt/ScriptingReference.24.3.html#259860" />
+      <topic label="BirtDateTime.now" href="birt/ScriptingReference.24.3.html#261363" />
+      <topic label="BirtDateTime.quarter" href="birt/ScriptingReference.24.3.html#260047" />
+      <topic label="BirtDateTime.today" href="birt/ScriptingReference.24.3.html#261571" />
+      <topic label="BirtDateTime.week" href="birt/ScriptingReference.24.3.html#260568" />
+      <topic label="BirtDateTime.weekDay" href="birt/ScriptingReference.24.3.html#260744" />
+      <topic label="BirtDateTime.year" href="birt/ScriptingReference.24.3.html#261090" />
       </topic>
-    <topic label="Class BirtMath" href="birt/ScriptingReference.25.4.html" >
-      <topic label="BirtMath.add" href="birt/ScriptingReference.25.4.html#267942" />
-      <topic label="BirtMath.ceiling" href="birt/ScriptingReference.25.4.html#271050" />
-      <topic label="BirtMath.divide" href="birt/ScriptingReference.25.4.html#270549" />
-      <topic label="BirtMath.mod" href="birt/ScriptingReference.25.4.html#271580" />
-      <topic label="BirtMath.multiply" href="birt/ScriptingReference.25.4.html#270911" />
-      <topic label="BirtMath.round" href="birt/ScriptingReference.25.4.html#274568" />
-      <topic label="BirtMath.roundDown" href="birt/ScriptingReference.25.4.html#274754" />
-      <topic label="BirtMath.roundUp" href="birt/ScriptingReference.25.4.html#275084" />
-      <topic label="BirtMath.safeDivide" href="birt/ScriptingReference.25.4.html#275121" />
-      <topic label="BirtMath.subtract" href="birt/ScriptingReference.25.4.html#270972" />
+    <topic label="Class BirtDuration" href="birt/ScriptingReference.24.4.html" >
+      <topic label="BirtDuration.day" href="birt/ScriptingReference.24.4.html#316868" />
+      <topic label="BirtDuration.hour" href="birt/ScriptingReference.24.4.html#320437" />
+      <topic label="BirtDuration.isLongerThan" href="birt/ScriptingReference.24.4.html#321505" />
+      <topic label="BirtDuration.isShorterThan" href="birt/ScriptingReference.24.4.html#322168" />
+      <topic label="BirtDuration.minute" href="birt/ScriptingReference.24.4.html#320752" />
+      <topic label="BirtDuration.month" href="birt/ScriptingReference.24.4.html#320850" />
+      <topic label="BirtDuration.second" href="birt/ScriptingReference.24.4.html#320871" />
+      <topic label="BirtDuration.timeInMills" href="birt/ScriptingReference.24.4.html#321357" />
+      <topic label="BirtDuration.year" href="birt/ScriptingReference.24.4.html#321213" />
       </topic>
-    <topic label="Class BirtStr" href="birt/ScriptingReference.25.5.html" >
-      <topic label="BirtStr.charLength" href="birt/ScriptingReference.25.5.html#261859" />
-      <topic label="BirtStr.concat" href="birt/ScriptingReference.25.5.html#263870" />
-      <topic label="BirtStr.indexOf" href="birt/ScriptingReference.25.5.html#264323" />
-      <topic label="BirtStr.left" href="birt/ScriptingReference.25.5.html#264831" />
-      <topic label="BirtStr.right" href="birt/ScriptingReference.25.5.html#265393" />
-      <topic label="BirtStr.search" href="birt/ScriptingReference.25.5.html#265763" />
-      <topic label="BirtStr.toLower" href="birt/ScriptingReference.25.5.html#266634" />
-      <topic label="BirtStr.toUpper" href="birt/ScriptingReference.25.5.html#266740" />
-      <topic label="BirtStr.trim" href="birt/ScriptingReference.25.5.html#267084" />
-      <topic label="BirtStr.trimLeft" href="birt/ScriptingReference.25.5.html#267249" />
-      <topic label="BirtStr.trimRight" href="birt/ScriptingReference.25.5.html#267327" />
+    <topic label="Class BirtMath" href="birt/ScriptingReference.24.5.html" >
+      <topic label="BirtMath.add" href="birt/ScriptingReference.24.5.html#267942" />
+      <topic label="BirtMath.ceiling" href="birt/ScriptingReference.24.5.html#271050" />
+      <topic label="BirtMath.divide" href="birt/ScriptingReference.24.5.html#270549" />
+      <topic label="BirtMath.mod" href="birt/ScriptingReference.24.5.html#271580" />
+      <topic label="BirtMath.multiply" href="birt/ScriptingReference.24.5.html#270911" />
+      <topic label="BirtMath.round" href="birt/ScriptingReference.24.5.html#274568" />
+      <topic label="BirtMath.roundDown" href="birt/ScriptingReference.24.5.html#274754" />
+      <topic label="BirtMath.roundUp" href="birt/ScriptingReference.24.5.html#275084" />
+      <topic label="BirtMath.safeDivide" href="birt/ScriptingReference.24.5.html#275121" />
+      <topic label="BirtMath.subtract" href="birt/ScriptingReference.24.5.html#270972" />
       </topic>
-    <topic label="Class Finance" href="birt/ScriptingReference.25.6.html" >
-      <topic label="Finance.ddb" href="birt/ScriptingReference.25.6.html#188895" />
-      <topic label="Finance.fv" href="birt/ScriptingReference.25.6.html#188935" />
-      <topic label="Finance.ipmt" href="birt/ScriptingReference.25.6.html#188995" />
-      <topic label="Finance.irr" href="birt/ScriptingReference.25.6.html#189056" />
-      <topic label="Finance.mirr" href="birt/ScriptingReference.25.6.html#189095" />
-      <topic label="Finance.nper" href="birt/ScriptingReference.25.6.html#189131" />
-      <topic label="Finance.npv" href="birt/ScriptingReference.25.6.html#189190" />
-      <topic label="Finance.percent" href="birt/ScriptingReference.25.6.html#189214" />
-      <topic label="Finance.pmt" href="birt/ScriptingReference.25.6.html#189238" />
-      <topic label="Finance.ppmt" href="birt/ScriptingReference.25.6.html#189296" />
-      <topic label="Finance.pv" href="birt/ScriptingReference.25.6.html#189358" />
-      <topic label="Finance.rate" href="birt/ScriptingReference.25.6.html#189421" />
-      <topic label="Finance.sln" href="birt/ScriptingReference.25.6.html#189487" />
-      <topic label="Finance.syd" href="birt/ScriptingReference.25.6.html#189516" />
+    <topic label="Class BirtStr" href="birt/ScriptingReference.24.6.html" >
+      <topic label="BirtStr.charLength" href="birt/ScriptingReference.24.6.html#261859" />
+      <topic label="BirtStr.concat" href="birt/ScriptingReference.24.6.html#263870" />
+      <topic label="BirtStr.indexOf" href="birt/ScriptingReference.24.6.html#264323" />
+      <topic label="BirtStr.left" href="birt/ScriptingReference.24.6.html#264831" />
+      <topic label="BirtStr.right" href="birt/ScriptingReference.24.6.html#265393" />
+      <topic label="BirtStr.search" href="birt/ScriptingReference.24.6.html#265763" />
+      <topic label="BirtStr.toLower" href="birt/ScriptingReference.24.6.html#266634" />
+      <topic label="BirtStr.toUpper" href="birt/ScriptingReference.24.6.html#266740" />
+      <topic label="BirtStr.trim" href="birt/ScriptingReference.24.6.html#267084" />
+      <topic label="BirtStr.trimLeft" href="birt/ScriptingReference.24.6.html#267249" />
+      <topic label="BirtStr.trimRight" href="birt/ScriptingReference.24.6.html#267327" />
+      </topic>
+    <topic label="Class Finance" href="birt/ScriptingReference.24.7.html" >
+      <topic label="Finance.ddb" href="birt/ScriptingReference.24.7.html#188895" />
+      <topic label="Finance.fv" href="birt/ScriptingReference.24.7.html#188935" />
+      <topic label="Finance.ipmt" href="birt/ScriptingReference.24.7.html#188995" />
+      <topic label="Finance.irr" href="birt/ScriptingReference.24.7.html#189056" />
+      <topic label="Finance.mirr" href="birt/ScriptingReference.24.7.html#189095" />
+      <topic label="Finance.nper" href="birt/ScriptingReference.24.7.html#189131" />
+      <topic label="Finance.npv" href="birt/ScriptingReference.24.7.html#189190" />
+      <topic label="Finance.percent" href="birt/ScriptingReference.24.7.html#189214" />
+      <topic label="Finance.pmt" href="birt/ScriptingReference.24.7.html#189238" />
+      <topic label="Finance.ppmt" href="birt/ScriptingReference.24.7.html#189296" />
+      <topic label="Finance.pv" href="birt/ScriptingReference.24.7.html#189358" />
+      <topic label="Finance.rate" href="birt/ScriptingReference.24.7.html#189421" />
+      <topic label="Finance.sln" href="birt/ScriptingReference.24.7.html#189487" />
+      <topic label="Finance.syd" href="birt/ScriptingReference.24.7.html#189516" />
       </topic>
       </topic>
 
