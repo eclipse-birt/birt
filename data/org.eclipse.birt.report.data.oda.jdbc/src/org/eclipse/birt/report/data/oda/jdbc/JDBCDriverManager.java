@@ -724,25 +724,39 @@ public class JDBCDriverManager
 		}
 		catch ( ClassNotFoundException e )
 		{
-				if ( logger.isLoggable( Level.FINE ) )
-				{
-					logger.info( "Driver class not in class path: "
-							+ className
-							+ ". Trying to locate driver in drivers directory" );
-				}
-
-				// Driver not in plugin class path; find it in drivers directory
-				driverClass = loadExtraDriver( className, true, refreshClassLoader, driverClassPath );
-
-				// if driver class still cannot be found,
-				if ( driverClass == null )
-				{
-					logger.warning( "Failed to load JDBC driver class: "
-							+ className );
-					throw new JDBCException( ResourceConstants.CANNOT_LOAD_DRIVER,
-							null,
-							className );
+			if ( logger.isLoggable( Level.FINE ) )
+			{
+				logger.info( "Driver class not in class path: "
+						+ className
+						+ ". Trying to locate driver in drivers directory" );
 			}
+
+			// Driver not in plugin class path; find it in drivers directory
+			driverClass = loadExtraDriver( className, true, refreshClassLoader, driverClassPath );
+
+			// if driver class still cannot be found,
+			if ( driverClass == null )
+			{
+				ClassLoader loader = Thread.currentThread( ).getContextClassLoader( );
+				if ( loader != null )
+				{
+					try
+					{
+						driverClass = Class.forName( className, true, loader );
+					}
+					catch ( ClassNotFoundException e1 )
+					{
+						driverClass = null;
+					}
+				}
+			}
+		}
+		if ( driverClass == null )
+		{
+			logger.warning( "Failed to load JDBC driver class: " + className );
+			throw new JDBCException( ResourceConstants.CANNOT_LOAD_DRIVER,
+					null,
+					className );
 		}
 		Driver driver = null;
 		try
