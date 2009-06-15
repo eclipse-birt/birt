@@ -249,7 +249,9 @@ public class CopyUtil
 		if ( slotID >= container.getDefn( ).getSlotCount( ) )
 			return false;
 
-		return ContextCopyPastePolicy.getInstance( ).isValidCopy( copy );
+		return ContextCopyPastePolicy.getInstance( ).isValidCopy(
+				new ContainerContext( container.getElement( ), slotID ),
+				container.getModule( ), copy );
 
 	}
 
@@ -277,7 +279,9 @@ public class CopyUtil
 		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
 			return false;
 
-		return ContextCopyPastePolicy.getInstance( ).isValidCopy( copy );
+		return ContextCopyPastePolicy.getInstance( ).isValidCopy(
+				new ContainerContext( container.getElement( ), propName ),
+				container.getModule( ), copy );
 	}
 
 	/**

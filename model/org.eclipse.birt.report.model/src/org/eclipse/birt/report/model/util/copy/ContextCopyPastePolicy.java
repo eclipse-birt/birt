@@ -227,6 +227,10 @@ public class ContextCopyPastePolicy
 	 * <li>the instance does not contain the localized copy.
 	 * </ul>
 	 * 
+	 * @param context
+	 *            the context of container
+	 * @param module
+	 *            the module of the element to paste
 	 * @param copy
 	 *            the given copy
 	 * 
@@ -234,16 +238,19 @@ public class ContextCopyPastePolicy
 	 *         <code>false</code>.
 	 */
 
-	public boolean isValidCopy( IElementCopy copy )
+	public boolean isValidCopy( ContainerContext context, Module module,
+			IElementCopy copy )
 	{
 		if ( !( copy instanceof ContextCopiedElement ) )
 			return false;
 
-		ContextCopiedElement copied = (ContextCopiedElement) copy;
+		DesignElement copied = ( (ContextCopiedElement) copy )
+				.getLocalizedCopy( );
 
-		if ( copied.getLocalizedCopy( ) == null )
+		if ( copied == null )
 			return false;
 
-		return true;
+		return context.canContain( module, copied );
 	}
+
 }
