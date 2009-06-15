@@ -37,13 +37,23 @@
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-dynamicFilterParameter">dynamicFilterParameter</a></dt>
+<dd></dd>
 <dt><a href="#Property-expr">expr</a></dt>
 <dd></dd>
+<dt><a href="#Property-extensionExprId">extensionExprId</a></dt>
+<dd></dd>
+<dt><a href="#Property-extensionName">extensionName</a></dt>
+<dd></dd>
 <dt><a href="#Property-filterTarget">filterTarget</a></dt>
+<dd></dd>
+<dt><a href="#Property-isOptional">isOptional</a></dt>
 <dd></dd>
 <dt><a href="#Property-member">member</a></dt>
 <dd></dd>
 <dt><a href="#Property-operator">operator</a></dt>
+<dd></dd>
+<dt><a href="#Property-pushDown">pushDown</a></dt>
 <dd></dd>
 <dt><a href="#Property-value1">value1</a></dt>
 <dd></dd>
@@ -53,6 +63,36 @@
 
 <h1>Property Detail</h1>
 
+<h2><a name="Property-dynamicFilterParameter">dynamicFilterParameter Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Dynamic Filter Parameter</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-expr">expr Property</a></h2>
 
 <p class="section-text"></p>
@@ -87,6 +127,66 @@
 
 
 <hr>
+<h2><a name="Property-extensionExprId">extensionExprId Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Extension Expression Id</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-extensionName">extensionName Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Extension Name</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-filterTarget">filterTarget Property</a></h2>
 
 <p class="section-text"></p>
@@ -100,7 +200,7 @@
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Filter Target</td></tr>
+<td>Filter target</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -129,7 +229,41 @@
 <td>Result Set</td>
 <td>ResultSet</td>
 <td></td></tr>
+<tr><td>OdaDataSet</td>
+<td>ODA Data Set</td>
+<td>OdaDataSet</td>
+<td></td></tr>
 </tbody></table><br>
+
+<hr>
+<h2><a name="Property-isOptional">isOptional Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Is optional</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-member">member Property</a></h2>
@@ -276,7 +410,45 @@
 <td>Not Match</td>
 <td>not-match</td>
 <td></td></tr>
+<tr><td>in</td>
+<td>In</td>
+<td>in</td>
+<td></td></tr>
+<tr><td>not-in</td>
+<td>Not In</td>
+<td>not-in</td>
+<td></td></tr>
 </tbody></table><br>
+
+<hr>
+<h2><a name="Property-pushDown">pushDown Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Push Down</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-value1">value1 Property</a></h2>
@@ -286,11 +458,7 @@
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#expression">expression</a></td></tr>
-<tr><td>Context:</td>
-<td></td></tr>
-<tr><td>Expression Type:</td>
-<td>None</td></tr>
+<td><a href="../types.html#list">list</a></td></tr>
 <tr><td>Since:</td>
 <td>2.2</td></tr>
 <tr><td>Required:</td>

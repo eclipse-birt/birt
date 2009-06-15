@@ -39,7 +39,11 @@
 <dl class="section-text">
 <dt><a href="#Property-dataType">dataType</a></dt>
 <dd></dd>
+<dt><a href="#Property-dateTimeFormat">dateTimeFormat</a></dt>
+<dd></dd>
 <dt><a href="#Property-dateTimeLevelType">dateTimeLevelType</a></dt>
+<dd></dd>
+<dt><a href="#Property-defaultValue">defaultValue</a></dt>
 <dd></dd>
 <dt><a href="#Property-interval">interval</a></dt>
 <dd></dd>
@@ -65,6 +69,7 @@
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
@@ -84,7 +89,7 @@
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Data Type</td></tr>
+<td>Data type</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -105,10 +110,6 @@
 <thead><tr><td>Name</td><td>Display Name</td>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
-<tr><td>any</td>
-<td>Any</td>
-<td>any</td>
-<td></td></tr>
 <tr><td>integer</td>
 <td>Integer</td>
 <td>integer</td>
@@ -141,7 +142,41 @@
 <td>Time</td>
 <td>time</td>
 <td></td></tr>
+<tr><td>blob</td>
+<td>Blob</td>
+<td>blob</td>
+<td></td></tr>
 </tbody></table><br>
+
+<hr>
+<h2><a name="Property-dateTimeFormat">dateTimeFormat Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Date time format</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-dateTimeLevelType">dateTimeLevelType Property</a></h2>
@@ -157,7 +192,7 @@
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Date Time Level Type</td></tr>
+<td>Date time level type</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -225,6 +260,40 @@
 </tbody></table><br>
 
 <hr>
+<h2><a name="Property-defaultValue">defaultValue Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Default value</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-interval">interval Property</a></h2>
 
 <p class="section-text"></p>
@@ -260,7 +329,7 @@
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No interval</td>
+<td>No Interval</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>prefix</td>
@@ -347,7 +416,7 @@
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Level Type</td></tr>
+<td>Level type</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -392,7 +461,7 @@
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Static Values</td></tr>
+<td>Static values</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>

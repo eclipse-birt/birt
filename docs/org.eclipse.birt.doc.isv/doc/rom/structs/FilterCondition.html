@@ -23,13 +23,23 @@ Defines a fileter criteria.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-dynamicFilterParameter">dynamicFilterParameter</a></dt>
+<dd></dd>
 <dt><a href="#Property-expr">expr</a></dt>
 <dd>The name of a data row column or an aggregate 
 expression.</dd>
+<dt><a href="#Property-extensionExprId">extensionExprId</a></dt>
+<dd></dd>
+<dt><a href="#Property-extensionName">extensionName</a></dt>
+<dd></dd>
 <dt><a href="#Property-filterTarget">filterTarget</a></dt>
+<dd></dd>
+<dt><a href="#Property-isOptional">isOptional</a></dt>
 <dd></dd>
 <dt><a href="#Property-operator">operator</a></dt>
 <dd>The operator to apply to the expression.</dd>
+<dt><a href="#Property-pushDown">pushDown</a></dt>
+<dd></dd>
 <dt><a href="#Property-value1">value1</a></dt>
 <dd>The first (or only) operand.</dd>
 <dt><a href="#Property-value2">value2</a></dt>
@@ -81,6 +91,30 @@ account for at least 5% of total sales:</p>
 <pre class="code-block">Total.sum( row.InvoiceAmt ) &gt;= Total.sum_overall( row.InvoiceAmt ) * 0.05</pre></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-dynamicFilterParameter">dynamicFilterParameter Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Dynamic Filter Parameter</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-expr">expr Property</a></h2>
 
 <p class="section-text">The name of a data row column or an aggregate 
@@ -116,6 +150,54 @@ an aggregate expression. A filter only makes sense when computed using a data
 row column. BIRT accepts a value such as 1 or &quot;hello, world&quot;, but then the same 
 filter criteria will be applied to every row. Such behavior may be useful when 
 testing, but seldom in a production report.</p></div>
+
+<hr>
+<h2><a name="Property-extensionExprId">extensionExprId Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Extension Expression Id</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-extensionName">extensionName Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Extension Name</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-filterTarget">filterTarget Property</a></h2>
@@ -154,7 +236,35 @@ testing, but seldom in a production report.</p></div>
 <td>Result Set</td>
 <td>ResultSet</td>
 <td></td></tr>
+<tr><td>OdaDataSet</td>
+<td>ODA Data Set</td>
+<td>OdaDataSet</td>
+<td></td></tr>
 </tbody></table><br>
+
+<hr>
+<h2><a name="Property-isOptional">isOptional Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Is Optional</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-operator">operator Property</a></h2>
@@ -275,6 +385,14 @@ itself already expresses the full filter condition.</td></tr>
 <td>Not Match</td>
 <td>not-match</td>
 <td></td></tr>
+<tr><td>in</td>
+<td>In</td>
+<td>in</td>
+<td></td></tr>
+<tr><td>not-in</td>
+<td>Not In</td>
+<td>not-in</td>
+<td></td></tr>
 </tbody></table><br>
 <h3>Description</h3>
 
@@ -307,6 +425,30 @@ customers by sales. Suppose we have the following customers and sales:</p>
 because A and D both have the same sales amount.</p></div>
 
 <hr>
+<h2><a name="Property-pushDown">pushDown Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Push Down</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-value1">value1 Property</a></h2>
 
 <p class="section-text">The first (or only) operand.</p>
@@ -314,11 +456,7 @@ because A and D both have the same sales amount.</p></div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#expression">expression</a></td></tr>
-<tr><td>Context:</td>
-<td></td></tr>
-<tr><td>Expression Type:</td>
-<td>any</td></tr>
+<td><a href="../types.html#list">list</a></td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>

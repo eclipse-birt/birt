@@ -41,10 +41,16 @@ Abstract base element for all visual report items.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-ACLExpression">ACLExpression</a></dt>
+<dd></dd>
+<dt><a href="#Property-allowExport">allowExport</a></dt>
+<dd></dd>
 <dt><a href="#Property-bookmark">bookmark</a></dt>
 <dd>Defines this item as a hyperlink target.</dd>
 <dt><a href="#Property-boundDataColumns">boundDataColumns</a></dt>
 <dd>Bindings the data set column and expressions with the  property values..</dd>
+<dt><a href="#Property-cascadeACL">cascadeACL</a></dt>
+<dd></dd>
 <dt><a href="#Property-cube">cube</a></dt>
 <dd></dd>
 <dt><a href="#Property-dataBindingRef">dataBindingRef</a></dt>
@@ -53,6 +59,8 @@ Abstract base element for all visual report items.</div>
 <dd>The name of the data set that provides data for this item.</dd>
 <dt><a href="#Property-height">height</a></dt>
 <dd>Height of the item.</dd>
+<dt><a href="#Property-multiViews">multiViews</a></dt>
+<dd></dd>
 <dt><a href="#Property-paramBindings">paramBindings</a></dt>
 <dd>Bindings between input parameters in the included design and values in the main design.</dd>
 <dt><a href="#Property-refTemplateParameter">refTemplateParameter</a></dt>
@@ -83,6 +91,7 @@ Abstract base element for all visual report items.</div>
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
@@ -115,6 +124,70 @@ container that contains itself. (A determined user can still create this
 scenario within a library, however.)</p></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-ACLExpression">ACLExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>ACL expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-allowExport">allowExport Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Allow export</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>true</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-bookmark">bookmark Property</a></h2>
 
 <p class="section-text">Defines this item as a hyperlink target.</p>
@@ -203,6 +276,36 @@ items.</p></div>
 <p>&nbsp;</p></div>
 
 <hr>
+<h2><a name="Property-cascadeACL">cascadeACL Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Cascade ACL</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>true</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-cube">cube Property</a></h2>
 
 <p class="section-text"></p>
@@ -216,7 +319,7 @@ items.</p></div>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Cube</td></tr>
+<td>Data cube</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -226,7 +329,7 @@ items.</p></div>
 <tr><td>Runtime Settable:</td>
 <td>No</td></tr>
 <tr><td>Property Sheet Visibility:</td>
-<td>Visible</td></tr>
+<td>Hidden</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>
@@ -353,6 +456,36 @@ tall as required to display its content.</p></p></div>
 
 <div class="section-text">
 <p>Report Item <code> width</code> property</p></div>
+
+<hr>
+<h2><a name="Property-multiViews">multiViews Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#element">element</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Multiple views</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-paramBindings">paramBindings Property</a></h2>

@@ -2,37 +2,37 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Composites for series type specific Attribute and Data definitions</title>
-<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/plugins/org.eclipse.sdk_3.3.0.v20070228-0800/book.css");</style>
-<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/configuration/org.eclipse.osgi/bundles/355/1/.cp/schema.css");</style>
+<style type="text/css">@import url("file:/C:/Program Files/BIRT_2_5_0/S20090609/eclipse/plugins/org.eclipse.platform_3.3.200.v200906051444/book.css");</style>
+<style type="text/css">@import url("file:/C:/Program Files/BIRT_2_5_0/S20090609/eclipse/configuration/org.eclipse.osgi/bundles/165/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
-<H1><CENTER>Composites for series type specific Attribute and Data definitions</CENTER></H1>
+<H1 style="text-align:center">Composites for series type specific Attribute and Data definitions</H1>
 <p></p>
-<h6 class=CaptionFigColumn id=header>Identifier: </h6>org.eclipse.birt.chart.ui.seriescomposites<p></p>
-<h6 class=CaptionFigColumn id=header>Since: </h6>1.0.0
+<h6 class="CaptionFigColumn SchemaHeader">Identifier: </h6>org.eclipse.birt.chart.ui.seriescomposites<p></p>
+<h6 class="CaptionFigColumn SchemaHeader">Since: </h6>1.0.0
 <p></p>
 
-<p>
-<h6 class=CaptionFigColumn id=header>Description: </h6>The SeriesComposites extension point provides hooks using which the chart builder can show customized UI elements to set properties specific to custom series types.</p>
-<p><h6 class=CaptionFigColumn id=header>Configuration Markup:</h6></p>
-<p class=code id=dtd>&lt;!ELEMENT <a name="e.extension">extension</a> (<a href="#e.seriescomposite">seriescomposite</a>)&gt;</p>
-<p class=code id=dtd>&lt;!ATTLIST extension</p>
-<p class=code id=dtdAttlist>point&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>name&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<h6 class="CaptionFigColumn SchemaHeader">Description: </h6>The SeriesComposites extension point provides hooks using which the chart builder can show customized UI elements to set properties specific to custom series types.<p></p>
+<h6 class="CaptionFigColumn SchemaHeader">Configuration Markup:</h6>
 <p></p>
-<ul class=ConfigMarkup id=attlistDesc>
+<p class="code SchemaDtd">&lt;!ELEMENT <a name="e.extension">extension</a> (<a href="#e.seriescomposite">seriescomposite</a>)&gt;</p>
+<p class="code SchemaDtd">&lt;!ATTLIST extension</p>
+<p class="code SchemaDtdAttlist">point&nbsp;CDATA #REQUIRED</p><p class="code SchemaDtdAttlist">id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED</p><p class="code SchemaDtdAttlist">name&nbsp;&nbsp;CDATA #IMPLIED</p>&gt;</p>
+<p></p>
+<ul class="ConfigMarkupAttlistDesc">
 </ul>
-<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.seriescomposite">seriescomposite</a> EMPTY&gt;</p>
-<p class=code id=dtd>&lt;!ATTLIST seriescomposite</p>
-<p class=code id=dtdAttlist>seriesType&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>seriesUIProvider&nbsp;CDATA #IMPLIED&gt;</p>
+<br><p class="code SchemaDtd">&lt;!ELEMENT <a name="e.seriescomposite">seriescomposite</a> EMPTY&gt;</p>
+<p class="code SchemaDtd">&lt;!ATTLIST seriescomposite</p>
+<p class="code SchemaDtdAttlist">seriesType&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED</p><p class="code SchemaDtdAttlist">seriesUIProvider&nbsp;CDATA #IMPLIED</p>&gt;</p>
 <p></p>
-<p class=ConfigMarkup id=elementDesc>
+<p class="ConfigMarkupElementDesc">
 Defines a series composite provider for a custom series type.</p>
 <br>
-<ul class=ConfigMarkup id=attlistDesc>
+<ul class="ConfigMarkupAttlistDesc">
 <li><b>seriesType</b> - Series implementation class. This should be a fully qualified class name of the Series implementation class in the model for which this extension provides UI components.</li>
 <li><b>seriesUIProvider</b> - Class name of ISeriesUIProvider implementation for this series type. This class will be used to create Attribute and Data composites for this series for use in the Chart Builder.</li>
 </ul>
-<br><h6 class=CaptionFigColumn id=header>Examples: </h6><extension
+<br><h6 class="CaptionFigColumn SchemaHeader">Examples: </h6><extension
          point="org.eclipse.birt.chart.ui.seriescomposites">
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.SeriesUIProvider"
@@ -55,17 +55,13 @@ Defines a series composite provider for a custom series type.</p>
    </extension>
 <p></p>
 
-<h6 class=CaptionFigColumn id=header>API Information: </h6>Please refer to the javadocs for ISeriesUIProvider interface in the <i>org.eclipse.birt.chart.ui.swt.interfaces</i> package.
-<p></p>
-
-<h6 class=CaptionFigColumn id=header>Supplied Implementation: </h6>The <i>org.eclipse.birt.chart.ui.extension</i> plug-in provides implementations of the SeriesComposites extension point.
+<h6 class="CaptionFigColumn SchemaHeader">Supplied Implementation: </h6>The <i>org.eclipse.birt.chart.ui.extension</i> plug-in provides implementations of the SeriesComposites extension point.
 <p></p>
 
 <br>
-<p class=note id=copyright>
+<p class="note SchemaCopyright">
 Copyright (c) 2004-2005 Actuate Corporation.
 All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
-<p></p>
 
 </p>
 </BODY>

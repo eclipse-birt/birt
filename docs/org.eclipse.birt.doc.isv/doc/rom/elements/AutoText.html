@@ -41,6 +41,8 @@ Describes the page number of the report.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-pageVariable">pageVariable</a></dt>
+<dd></dd>
 <dt><a href="#Property-type">type</a></dt>
 <dd>The display type of the auto text.</dd>
 </dl>
@@ -61,8 +63,11 @@ Describes the page number of the report.</div>
 <h3>Inherited Properties</h3>
 
 <p class="section-text">
+<a href="ReportItem.html#Property-ACLExpression">ACLExpression</a>, 
+<a href="ReportItem.html#Property-allowExport">allowExport</a>, 
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
 <a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
+<a href="ReportItem.html#Property-cascadeACL">cascadeACL</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
 <a href="ReportItem.html#Property-cube">cube</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
@@ -73,7 +78,9 @@ Describes the page number of the report.</div>
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportItem.html#Property-height">height</a>, 
+<a href="ReportItem.html#Property-multiViews">multiViews</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="ReportItem.html#Property-paramBindings">paramBindings</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="ReportItem.html#Property-refTemplateParameter">refTemplateParameter</a>, 
@@ -96,6 +103,7 @@ Describes the page number of the report.</div>
 <a href="Style.html#Property-backgroundPositionX">backgroundPositionX</a>, 
 <a href="Style.html#Property-backgroundPositionY">backgroundPositionY</a>, 
 <a href="Style.html#Property-backgroundRepeat">backgroundRepeat</a>, 
+<a href="Style.html#Property-bidiTextDirection">bidiTextDirection</a>, 
 <a href="Style.html#Property-borderBottomColor">borderBottomColor</a>, 
 <a href="Style.html#Property-borderBottomStyle">borderBottomStyle</a>, 
 <a href="Style.html#Property-borderBottomWidth">borderBottomWidth</a>, 
@@ -156,6 +164,36 @@ Each autotext can show one of followings:</p>
 </ul></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-pageVariable">pageVariable Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Page variable</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-type">type Property</a></h2>
 
 <p class="section-text">The display type of the auto text.</p>
@@ -169,7 +207,7 @@ Each autotext can show one of followings:</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>type of autotext</td></tr>
+<td>Type of autotext</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -198,6 +236,18 @@ Each autotext can show one of followings:</p>
 <td>Total Page</td>
 <td>total-page</td>
 <td>the count of report pages.</td></tr>
+<tr><td>page-number-unfiltered</td>
+<td>Page Number unfiltered</td>
+<td>page-number-unfiltered</td>
+<td></td></tr>
+<tr><td>total-page-unfiltered</td>
+<td>Total Page unfiltered</td>
+<td>total-page-unfiltered</td>
+<td></td></tr>
+<tr><td>page-variable</td>
+<td>Page Variable</td>
+<td>page-variable</td>
+<td></td></tr>
 </tbody></table><br>
 <h3>Description</h3>
 

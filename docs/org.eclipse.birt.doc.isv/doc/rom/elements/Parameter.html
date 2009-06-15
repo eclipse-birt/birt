@@ -46,6 +46,10 @@ all types of parameters.</div>
 <dd>Resource key for the helpText</dd>
 <dt><a href="#Property-hidden">hidden</a></dt>
 <dd>Hides the parameter from the parameter UI.</dd>
+<dt><a href="#Property-promptText">promptText</a></dt>
+<dd></dd>
+<dt><a href="#Property-promptTextID">promptTextID</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Method Summary</h3>
@@ -65,6 +69,7 @@ all types of parameters.</div>
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
@@ -197,6 +202,66 @@ scripts. Parameters are visible by default.</p></div>
 <div class="section-text">
 <p><code>concealValue</code> property of 
 the Scalar Parameter</p></div>
+
+<hr>
+<h2><a name="Property-promptText">promptText Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Prompt text</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-promptTextID">promptTextID Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#resourceKey">resourceKey</a></td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Prompt text key</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 <h1>Method Detail</h1>
 
 <h2><a name="Method-validate">validate Method</a></h2>
@@ -211,7 +276,7 @@ the Scalar Parameter</p></div>
 
 <table class="detail-table">
 <tr><td>Since:</td>
-<td>reserved</td></tr>
+<td>2.5</td></tr>
 <tr><td>Context:</td>
 <td>factory</td></tr>
 <tr><td>Arguments:</td>

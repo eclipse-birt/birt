@@ -47,6 +47,8 @@ Displays an image within the report.</div>
 <dd>An optional text message to display in place of the image in a web browser.</dd>
 <dt><a href="#Property-altTextID">altTextID</a></dt>
 <dd>Resource key for the altText property.</dd>
+<dt><a href="#Property-fitToContainer">fitToContainer</a></dt>
+<dd></dd>
 <dt><a href="#Property-helpText">helpText</a></dt>
 <dd>An optional help text for the image.</dd>
 <dt><a href="#Property-helpTextID">helpTextID</a></dt>
@@ -84,8 +86,11 @@ size.</dd>
 <h3>Inherited Properties</h3>
 
 <p class="section-text">
+<a href="ReportItem.html#Property-ACLExpression">ACLExpression</a>, 
+<a href="ReportItem.html#Property-allowExport">allowExport</a>, 
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
 <a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
+<a href="ReportItem.html#Property-cascadeACL">cascadeACL</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
 <a href="ReportItem.html#Property-cube">cube</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
@@ -96,7 +101,9 @@ size.</dd>
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportItem.html#Property-height">height</a>, 
+<a href="ReportItem.html#Property-multiViews">multiViews</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="ReportItem.html#Property-paramBindings">paramBindings</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="ReportItem.html#Property-refTemplateParameter">refTemplateParameter</a>, 
@@ -364,6 +371,36 @@ altText property.</p>
 
 <div class="section-text">
 <p>altText property</p></div>
+
+<hr>
+<h2><a name="Property-fitToContainer">fitToContainer Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Fit to container</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-helpText">helpText Property</a></h2>
@@ -636,7 +673,7 @@ Release 1.0. That is, the image cannot be retrieved from a database in Release
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Type exprssion</td></tr>
+<td>Type expression</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -715,7 +752,7 @@ The type of image is inferred from the image file content or HTTP response.</p><
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Value exprssion</td></tr>
+<td>Value expression</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>

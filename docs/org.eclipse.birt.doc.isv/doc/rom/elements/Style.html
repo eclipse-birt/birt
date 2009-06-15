@@ -51,6 +51,12 @@ Describes a Style element.</div>
 <dd></dd>
 <dt><a href="#Property-backgroundRepeat">backgroundRepeat</a></dt>
 <dd></dd>
+<dt><a href="#Property-backgroundSizeHeight">backgroundSizeHeight</a></dt>
+<dd></dd>
+<dt><a href="#Property-backgroundSizeWidth">backgroundSizeWidth</a></dt>
+<dd></dd>
+<dt><a href="#Property-bidiTextDirection">bidiTextDirection</a></dt>
+<dd></dd>
 <dt><a href="#Property-borderBottomColor">borderBottomColor</a></dt>
 <dd></dd>
 <dt><a href="#Property-borderBottomStyle">borderBottomStyle</a></dt>
@@ -171,6 +177,7 @@ Describes a Style element.</div>
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
@@ -512,6 +519,149 @@ Describes a Style element.</div>
 </tbody></table><br>
 
 <hr>
+<h2><a name="Property-backgroundSizeHeight">backgroundSizeHeight Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#dimension">dimension</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Background size height</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>auto</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Background</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>auto</td>
+<td>Auto</td>
+<td>auto</td>
+<td></td></tr>
+<tr><td>contain</td>
+<td>Contain</td>
+<td>contain</td>
+<td></td></tr>
+<tr><td>cover</td>
+<td>Cover</td>
+<td>cover</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-backgroundSizeWidth">backgroundSizeWidth Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#dimension">dimension</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Background size width</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>auto</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Background</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>auto</td>
+<td>Auto</td>
+<td>auto</td>
+<td></td></tr>
+<tr><td>contain</td>
+<td>Contain</td>
+<td>contain</td>
+<td></td></tr>
+<tr><td>cover</td>
+<td>Cover</td>
+<td>cover</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-bidiTextDirection">bidiTextDirection Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (bidiDirection)</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Text direction</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Text</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>ltr</td>
+<td>Left To Right</td>
+<td>ltr</td>
+<td></td></tr>
+<tr><td>rtl</td>
+<td>Right To Left</td>
+<td>rtl</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
 <h2><a name="Property-borderBottomColor">borderBottomColor Property</a></h2>
 
 <p class="section-text"></p>
@@ -652,7 +802,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line style</td>
+<td>No Line Style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -879,7 +1029,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line style</td>
+<td>No Line Style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -1106,7 +1256,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line style</td>
+<td>No Line Style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -1333,7 +1483,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line style</td>
+<td>No Line Style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -1598,7 +1748,7 @@ Describes a Style element.</div>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Date/Time format</td></tr>
+<td>Date Time format</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1658,7 +1808,7 @@ Describes a Style element.</div>
 <td>inline</td>
 <td></td></tr>
 <tr><td>none</td>
-<td>No display</td>
+<td>No Display</td>
 <td>none</td>
 <td></td></tr>
 </tbody></table><br>
@@ -2302,7 +2452,7 @@ Describes a Style element.</div>
 <tr><td>Default Value:</td>
 <td>None</td></tr>
 <tr><td>Inherited:</td>
-<td>Yes</td></tr>
+<td>No</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
@@ -2785,7 +2935,7 @@ Describes a Style element.</div>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>left</td></tr>
+<td>None</td></tr>
 <tr><td>Inherited:</td>
 <td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
@@ -2886,7 +3036,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line through text</td>
+<td>No Line Through Text</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>line-through</td>
@@ -2931,7 +3081,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line over text</td>
+<td>No Line Over Text</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>overline</td>
@@ -2988,7 +3138,7 @@ Describes a Style element.</div>
 <td>lowercase</td>
 <td></td></tr>
 <tr><td>none</td>
-<td>No transformation</td>
+<td>No Transformation</td>
 <td>none</td>
 <td></td></tr>
 </tbody></table><br>
@@ -3029,7 +3179,7 @@ Describes a Style element.</div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No underline</td>
+<td>No Underline</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>underline</td>
@@ -3086,7 +3236,7 @@ Describes a Style element.</div>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>baseline</td></tr>
+<td>None</td></tr>
 <tr><td>Inherited:</td>
 <td>No</td></tr>
 <tr><td>Runtime Settable:</td>

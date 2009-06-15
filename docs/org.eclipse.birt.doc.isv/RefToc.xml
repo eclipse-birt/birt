@@ -12,8 +12,6 @@
        <topic label="Data Engine API Reference" href="data/api/index.html"/>
     </topic>
     <topic label="Extension Points Reference" >
-      <topic label="org_eclipse_birt_data_aggregation" href="ref/ext/org_eclipse_birt_data_aggregation.html" />
-      <topic label="org_eclipse_birt_report_data_oda_jdbc_driverinfo" href="ref/ext/org_eclipse_birt_report_data_oda_jdbc_driverinfo.html" />
       <topic label="org_eclipse_birt_report_designer_ui_editors_multiPageEditorContributor" href="ref/ext/org_eclipse_birt_report_designer_ui_editors_multiPageEditorContributor.html" />
       <topic label="org_eclipse_birt_report_designer_ui_reportitemUI" href="ref/ext/org_eclipse_birt_report_designer_ui_reportitemUI.html" />
       <topic label="org_eclipse_birt_report_engine_emitters" href="ref/ext/org_eclipse_birt_report_engine_emitters.html" />
