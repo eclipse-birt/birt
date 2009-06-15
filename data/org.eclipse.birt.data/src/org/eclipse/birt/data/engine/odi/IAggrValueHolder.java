@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.odi;
 
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -19,5 +22,11 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 public interface IAggrValueHolder
 {
+	public Set<String> getAggrNames( ) throws DataException;
+	
 	public Object getAggrValue( String aggrName ) throws DataException;
+	
+	public List getAggrValues( String aggrName ) throws DataException;
+	
+	public IAggrInfo getAggrInfo( String aggrName ) throws DataException;
 }

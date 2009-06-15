@@ -22,12 +22,14 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -169,13 +171,17 @@ public class ReportDocumentTest extends RDTestCase
 		//		 prepare
 		rowExprName = new String[]{"CITY1","CITY2","COUNTRY1","COUNTRY2","AMOUNT1","AMOUNT2"};
 		
-		prepareExprNameAndQuery( rowExprName, rowBeArray, new String[0], new IBaseExpression[0], query );
+		for ( int i = 0; i < rowExprName.length; i++ )
+		{
+		
+			query.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
+		}
 		
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( query ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, new IBaseExpression[0] );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		while ( ri.next( ) )
@@ -208,16 +214,16 @@ public class ReportDocumentTest extends RDTestCase
 		QueryDefinition qd = newReportQuery( );
 		// prepare
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+
 		rowExprName = getRowExprName();
 		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( rowExprName,rowBeArray, totalExprName, totalBeArray, qd );
+		prepareExprNameAndQuery( qd );
 		
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		while ( ri.next( ) )
@@ -225,7 +231,7 @@ public class ReportDocumentTest extends RDTestCase
 			for ( int i = 0; i < rowBeArray.length; i++ )
 				expectedValue.add( ri.getValue( rowExprName[i] ) );
 
-			for ( int i = 0; i < totalBeArray.length; i++ )
+			for ( int i = 0; i < totalExprName.length; i++ )
 				expectedValue.add( ri.getValue( totalExprName[i] ) );
 		}
 
@@ -234,6 +240,41 @@ public class ReportDocumentTest extends RDTestCase
 		qr.close( );
 		qr.close( );
 		myGenDataEngine.shutdown( );
+	}
+	
+	
+	private void prepareExprNameAndQuery( BaseQueryDefinition qd ) throws DataException
+	{
+		// prepare
+		IBaseExpression[] rowBeArray = getRowExpr( );
+		
+		IBaseExpression[] totalBeArray = new IBaseExpression[2];
+		this.rowExprName = this.getRowExprName( );
+		
+		
+		totalBeArray[0] = new ScriptExpression( null );
+		totalBeArray[1] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		
+		totalExprName = new String[totalBeArray.length];
+		this.totalExprName[0] = "TOTAL_COUNT_1";
+		this.totalExprName[1] = "TOTAL_AMOUNT_1";
+		
+		IBinding total1 = new Binding( this.totalExprName[0], totalBeArray[0]);
+		total1.setAggrFunction( "count" );
+		
+		IBinding total2 = new Binding( this.totalExprName[1], totalBeArray[1]);
+		total2.setAggrFunction( "sum" );
+		
+
+		qd.addBinding( total1 );
+		qd.addBinding( total2 );
+		for ( int i = 0; i < rowExprName.length; i++ )
+		{
+		
+			qd.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
+		}
+
+		
 	}
 	
 	/**
@@ -509,7 +550,7 @@ public class ReportDocumentTest extends RDTestCase
 		IBaseExpression[] totalBeArray = getAggrExpr( );
 		rowExprName = getRowExprName();
 		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( rowExprName,rowBeArray, totalExprName,totalBeArray, qd );
+		prepareExprNameAndQuery( qd );
 		
 		GroupDefinition groupDefn = new GroupDefinition( );
 		groupDefn.setKeyColumn( "COUNTRY" );
@@ -523,7 +564,7 @@ public class ReportDocumentTest extends RDTestCase
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		while ( ri.next( ) )
@@ -634,7 +675,7 @@ public class ReportDocumentTest extends RDTestCase
 		rowExprName = getRowExprName();
 		totalExprName = getAggrExprName();
 		
-		prepareExprNameAndQuery( rowExprName,rowBeArray, totalExprName,totalBeArray, qd );
+		prepareExprNameAndQuery( qd );
 		
 		GroupDefinition groupDefn = new GroupDefinition( );
 		groupDefn.setKeyColumn( "COUNTRY" );
@@ -648,7 +689,7 @@ public class ReportDocumentTest extends RDTestCase
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );
 		ri.next( );
@@ -705,17 +746,13 @@ public class ReportDocumentTest extends RDTestCase
 			IBaseExpression[] totalBeArray = getAggrExpr( );
 			rowExprName = getRowExprName( );
 			totalExprName = getAggrExprName( );
-			prepareExprNameAndQuery( rowExprName,
-					rowBeArray,
-					totalExprName,
-					totalBeArray,
-					qd );
+			prepareExprNameAndQuery( qd );
 
 			// generation
 			IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
 
 			// important step
-			saveForPresentation( qr, rowBeArray, totalBeArray );
+			saveForPresentation( qr );
 
 			IResultIterator ri = qr.getResultIterator( );
 
@@ -814,12 +851,7 @@ public class ReportDocumentTest extends RDTestCase
 		QueryDefinition qd = newReportQuery( );
 		qd.setUsesDetails( false );
 
-		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
-		rowExprName = getRowExprName();
-		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( rowExprName,rowBeArray, totalExprName,totalBeArray, qd );
+		prepareExprNameAndQuery( qd );
 		
 		GroupDefinition groupDefn = new GroupDefinition( );
 		groupDefn.setKeyColumn( "COUNTRY" );
@@ -833,15 +865,15 @@ public class ReportDocumentTest extends RDTestCase
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		while ( ri.next( ) )
 		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
+			for ( int i = 0; i < rowExprName.length; i++ )
 				expectedValue.add( ri.getValue( rowExprName[i] ) );
 
-			for ( int i = 0; i < totalBeArray.length; i++ )
+			for ( int i = 0; i < totalExprName.length; i++ )
 				expectedValue.add( ri.getValue( totalExprName[i] ) );
 			
 			this.expectedStartingGroupLevelValueList.add( new Integer( ri.getStartingGroupLevel( ) ) );
@@ -927,13 +959,9 @@ public class ReportDocumentTest extends RDTestCase
 		GroupDefinition groupDefn = new GroupDefinition( );
 		groupDefn.setKeyColumn( "COUNTRY" );
 		queryDefn.addGroup( groupDefn );
-		//		 prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
-		rowExprName = getRowExprName();
-		totalExprName = getAggrExprName();
+
 		
-		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray,queryDefn );
+		prepareExprNameAndQuery(queryDefn );
 		
 		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
 		groupDefn.addSubquery( subQueryDefn );
@@ -945,13 +973,13 @@ public class ReportDocumentTest extends RDTestCase
 		subQueryDefn.addSort( sortDefn );
 		
 		
-		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray, subQueryDefn );
+		prepareExprNameAndQuery( subQueryDefn );
 
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		
@@ -963,10 +991,10 @@ public class ReportDocumentTest extends RDTestCase
 
 		while ( ri2.next( ) )
 		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
+			for ( int i = 0; i < rowExprName.length; i++ )
 				expectedValue.add( ri2.getValue( rowExprName[i] ) );
 
-			for ( int i = 0; i < totalBeArray.length; i++ )
+			for ( int i = 0; i < totalExprName.length; i++ )
 				expectedValue.add( ri2.getValue( totalExprName[i] ) );
 		}
 
@@ -1027,17 +1055,13 @@ public class ReportDocumentTest extends RDTestCase
 		queryDefn.addSubquery( subQueryDefn );
 		
 		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
-		rowExprName = getRowExprName();
-		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray, subQueryDefn );
+		prepareExprNameAndQuery( subQueryDefn );
 
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		
@@ -1047,10 +1071,10 @@ public class ReportDocumentTest extends RDTestCase
 
 		while ( ri2.next( ) )
 		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
+			for ( int i = 0; i < rowExprName.length; i++ )
 				expectedValue.add( ri2.getValue( rowExprName[i] ) );
 
-			for ( int i = 0; i < totalBeArray.length; i++ )
+			for ( int i = 0; i < totalExprName.length; i++ )
 				expectedValue.add( ri2.getValue( totalExprName[i] ) );
 		}
 
@@ -1106,17 +1130,13 @@ public class ReportDocumentTest extends RDTestCase
 		queryDefn.addSubquery( subQueryDefn );
 		
 		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
-		rowExprName = getRowExprName();
-		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray, subQueryDefn );
+		prepareExprNameAndQuery( subQueryDefn );
 		
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		
@@ -1127,10 +1147,10 @@ public class ReportDocumentTest extends RDTestCase
 			
 			while ( ri2.next( ) )
 			{
-				for ( int i = 0; i < rowBeArray.length; i++ )
+				for ( int i = 0; i < rowExprName.length; i++ )
 					expectedValue.add( ri2.getValue( rowExprName[i] ) );
 				
-				for ( int i = 0; i < totalBeArray.length; i++ )
+				for ( int i = 0; i < totalExprName.length; i++ )
 					expectedValue.add( ri2.getValue( totalExprName[i] ) );
 			}
 			ri2.close( );
@@ -1200,8 +1220,11 @@ public class ReportDocumentTest extends RDTestCase
 		IBaseExpression[] rowBeArray = new IBaseExpression[1];
 		rowBeArray[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
 		
-		prepareExprNameAndQuery( rowExprName, rowBeArray, new String[0], null,queryDefn );
+		for ( int i = 0; i < rowExprName.length; i++ )
+		{
 		
+			queryDefn.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
+		}
 		rowBeArray = getRowExpr( );
 		IBaseExpression[] totalBeArray = getAggrExpr( );
 		rowExprName = getRowExprName( );
@@ -1214,13 +1237,13 @@ public class ReportDocumentTest extends RDTestCase
 		groupDefn.addSubquery( subQueryDefn );
 		subQueryDefn.setUsesDetails( false );
 		
-		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray, subQueryDefn );
+		prepareExprNameAndQuery( subQueryDefn );
 
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		
@@ -1404,13 +1427,13 @@ public class ReportDocumentTest extends RDTestCase
 		IBaseExpression[] totalBeArray = getAggrExpr( );
 		rowExprName = getRowExprName();
 		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray, subOfSubQueryDefn );
+		prepareExprNameAndQuery( subOfSubQueryDefn );
 
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( subScope );
 				
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation(  qr );
 		
 		IResultIterator ri = qr.getResultIterator( );
 
@@ -1480,12 +1503,8 @@ public class ReportDocumentTest extends RDTestCase
 	{
 		QueryDefinition qd = newReportQuery( );
 
-		// prepare
-		IBaseExpression[] rowBeArray1 = getRowExpr( );
-		IBaseExpression[] totalBeArray1 = getAggrExpr( );
-		rowExprName = getRowExprName();
-		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( rowExprName, rowBeArray1, totalExprName, totalBeArray1, qd );
+
+		prepareExprNameAndQuery( qd );
 		
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
@@ -1509,23 +1528,35 @@ public class ReportDocumentTest extends RDTestCase
 		}
 		IBaseExpression[] totalBeArray2 = getAggrExpr( );
 		
-		totalExprName = getAggrExprName();
+		IBinding total1 = new Binding( this.totalExprName[0], totalBeArray2[0]);
+		total1.setAggrFunction( "count" );
 		
-		prepareExprNameAndQuery( rowExprName, rowBeArray2, totalExprName,totalBeArray2, nestedQD );
+		IBinding total2 = new Binding( this.totalExprName[1], totalBeArray2[1]);
+		total2.setAggrFunction( "sum" );
+		
+
+		nestedQD.addBinding( total1 );
+		nestedQD.addBinding( total2 );
+		for ( int i = 0; i < rowExprName.length; i++ )
+		{
+		
+			nestedQD.addBinding( new Binding( this.rowExprName[i], rowBeArray2[i]) );
+		}
+	
 
 		IQueryResults qr2 = myGenDataEngine.prepare( nestedQD ).execute( qr,
 				nestedScope );
 		IResultIterator ri = qr2.getResultIterator( );
 
 		// important step
-		saveForPresentation( qr2, rowBeArray2, totalBeArray2 );
+		saveForPresentation( qr2 );
 
 		while ( ri.next( ) )
 		{
 			for ( int i = 0; i < rowBeArray2.length; i++ )
 				expectedValue.add( ri.getValue( rowExprName[i] ) );
 
-			for ( int i = 0; i < totalBeArray2.length; i++ )
+			for ( int i = 0; i < totalBeArray2.length; i++)
 				expectedValue.add( ri.getValue( totalExprName[i] ) );
 		}
 
@@ -1601,13 +1632,29 @@ public class ReportDocumentTest extends RDTestCase
 		
 		IBaseExpression[] totalBeArray = getAggrExpr( );
 		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray, qd );
+		IBaseExpression[] totalBeArray2 = getAggrExpr( );
+		
+		IBinding total1 = new Binding( this.totalExprName[0], totalBeArray2[0]);
+		total1.setAggrFunction( "count" );
+		
+		IBinding total2 = new Binding( this.totalExprName[1], totalBeArray2[1]);
+		total2.setAggrFunction( "sum" );
+		
+
+		qd.addBinding( total1 );
+		qd.addBinding( total2 );
+		for ( int i = 0; i < rowExprName.length; i++ )
+		{
+		
+			qd.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
+		}
+	
 		
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
 		
 		// important step
-		saveForPresentation( qr, rowBeArray, totalBeArray );
+		saveForPresentation( qr );
 		
 		IResultIterator ri = qr.getResultIterator( );		
 		while ( ri.next( ) )
@@ -1670,8 +1717,8 @@ public class ReportDocumentTest extends RDTestCase
 	{
 		int num2 = 2;
 		IBaseExpression[] totalBeArray = new IBaseExpression[num2];
-		totalBeArray[0] = new ScriptExpression( "Total.Count( )" );
-		totalBeArray[1] = new ScriptExpression( "Total.Sum( dataSetRow.AMOUNT )" );
+		totalBeArray[0] = new ScriptExpression( null );
+		totalBeArray[1] = new ScriptExpression( "dataSetRow.AMOUNT" );
 
 		return totalBeArray;
 	}
@@ -1688,30 +1735,15 @@ public class ReportDocumentTest extends RDTestCase
 
 		return totalBeArray;
 	}
-	/**
-	 * Add expression on the row of group
-	 * @param rowBeArray
-	 * @param totalBeArray
-	 * @param qd
-	 */
-	private void prepareExprNameAndQuery( String[] rowBeName, IBaseExpression[] rowBeArray,
-			String[] totalBeName, IBaseExpression[] totalBeArray, BaseQueryDefinition qd )
-	{
-		for ( int i = 0; i < rowBeName.length; i++ )
-			qd.addResultSetExpression( rowBeName[i], rowBeArray[i]);
 
-		for ( int i = 0; i < totalBeName.length; i++ )
-			qd.addResultSetExpression( totalBeName[i], totalBeArray[i]);
-	}
 	
 	/**
 	 * @param rowBeArray
 	 * @param totalBeArray
 	 */
-	private void saveForPresentation( IQueryResults queryResuls,
-			IBaseExpression[] rowBeArray, IBaseExpression[] totalBeArray )
+	private void saveForPresentation(  IQueryResults qr )
 	{
-		queryResultID = queryResuls.getID( );
+		queryResultID = qr.getID( );
 	}
 
 	/**

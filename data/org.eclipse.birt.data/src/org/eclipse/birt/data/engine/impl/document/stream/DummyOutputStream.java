@@ -37,6 +37,7 @@ public class DummyOutputStream extends OutputStream
 	private StreamID id;
 	private int type;
 	private boolean isClosed;
+
 	
 	DummyOutputStream( DataEngineContext context, StreamID id, int type )
 	{
@@ -87,6 +88,11 @@ public class DummyOutputStream extends OutputStream
 			}
 		}
 		return result;
+	}
+	
+	public long getOffset()
+	{
+		return BUFF_SIZE*(cachedByteArray.size( ) - 1)+this.nextArrayIndex-1;
 	}
 	
 	/*

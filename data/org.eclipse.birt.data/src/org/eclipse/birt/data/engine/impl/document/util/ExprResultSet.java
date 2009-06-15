@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.CacheProvider;
+import org.eclipse.birt.data.engine.impl.document.RDAggrUtil;
 import org.eclipse.birt.data.engine.impl.document.RDGroupUtil;
 import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -50,6 +51,9 @@ public class ExprResultSet implements IExprResultSet
 	protected DataSetResultSet dataSetResultSet;
 	
 	protected String tempDir;
+	
+	private RDAggrUtil aggrUtil = null;;
+	
 	/**
 	 * @param streamManager
 	 * @param rdGroupUtil
@@ -86,7 +90,15 @@ public class ExprResultSet implements IExprResultSet
 		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( tempDir, streamManager,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
-		
+		if( version >=VersionManager.VERSION_2_5_1_0 )
+		{
+			if ( streamManager.hasInStream( DataEngineContext.AGGR_INDEX_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE ) )
+			{
+				this.aggrUtil = new RDAggrUtil( streamManager );
+			}
+		}
 		if ( this.isBasedOnSecondRD == false )
 		{
 			rowExprsRAIs = streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
@@ -138,13 +150,23 @@ public class ExprResultSet implements IExprResultSet
 	 */
 	public Object getValue( String name ) throws DataException
 	{
-		Map exprValueMap = this.exprResultReader.getRowValue( );     
+		Map exprValueMap = this.exprResultReader.getRowValue( );
 
 		if ( exprValueMap == null )
-			throw new DataException( ResourceConstants.RD_EXPR_RESULT_SET_NOT_START);
-		
+			throw new DataException( ResourceConstants.RD_EXPR_RESULT_SET_NOT_START );
+
 		if ( exprValueMap.containsKey( name ) == false )
-			throw new DataException( ResourceConstants.RD_EXPR_INVALID_ERROR );
+		{
+			if ( this.aggrUtil == null || !this.aggrUtil.contains( name ) )
+				throw new DataException( ResourceConstants.RD_EXPR_INVALID_ERROR );
+			else
+			{
+				return this.aggrUtil.getValue( name,
+						this.aggrUtil.isRunningAggr( name )
+								? this.getCurrentIndex( )
+								: this.rdGroupUtil.getCurrentGroupIndex( this.aggrUtil.getGroupLevel( name ) ) );
+			}
+		}
 
 		return exprValueMap.get( name );
 	}

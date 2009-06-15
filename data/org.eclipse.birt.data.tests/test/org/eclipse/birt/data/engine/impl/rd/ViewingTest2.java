@@ -20,12 +20,14 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -65,6 +67,7 @@ public class ViewingTest2 extends RDTestCase
 	private boolean GEN_add_sort;
 	private boolean GEN_print;
 	private boolean GEN_use_invalid_column;
+	private boolean GEN_USE_RUNNING_AGGR;
 	
 	private int UPDATE_add_filter;
 	private boolean UPDATE_add_sort;
@@ -145,7 +148,7 @@ public class ViewingTest2 extends RDTestCase
 		this.GEN_add_group = false;
 		// print information
 		this.GEN_print = false;
-		
+		this.GEN_USE_RUNNING_AGGR = false;
 		this.GEN_use_invalid_column = false;
 		
 		// row.AMOUNT_1>200 -> dataSetRow.AMOUNT>200
@@ -477,6 +480,30 @@ public class ViewingTest2 extends RDTestCase
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_group1 = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.updatePreBasicIV( );
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+
+		this.checkOutputFile();
+	}
+	
+	/**
+	 * Without filter
+	 * @throws BirtException
+	 */
+	public void testBasic8( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_group1 = true;
+		this.GEN_USE_RUNNING_AGGR = true;
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
 
@@ -1589,7 +1616,7 @@ public class ViewingTest2 extends RDTestCase
 
 			// add basic column binding
 			IBaseExpression[] rowBeArray = getRowExpr( );
-			IBaseExpression[] totalBeArray = getAggrExpr( );
+			IBinding[] totalBeArray = getAggrExpr( );
 			populateColumnBinding( qd1, rowBeArray, totalBeArray );
 
 			qd1.addFilter( new FilterDefinition( new ScriptExpression( "false" ) ) );
@@ -1660,16 +1687,15 @@ public class ViewingTest2 extends RDTestCase
 	 * @param qd1
 	 * @param rowBeArray
 	 * @param totalBeArray
+	 * @throws DataException 
 	 */
-	private void populateColumnBinding( QueryDefinition qd1, IBaseExpression[] rowBeArray, IBaseExpression[] totalBeArray )
+	private void populateColumnBinding( QueryDefinition qd1, IBaseExpression[] rowBeArray, IBinding[] totalBeArray ) throws DataException
 	{
 		for ( int i = 0; i < rowBeArray.length; i++ )
 			qd1.addResultSetExpression( this.rowExprName[i], rowBeArray[i] );
 
 		for ( int i = 0; i < totalBeArray.length; i++ )
-			qd1.addResultSetExpression( this.totalExprName[i],
-					totalBeArray[i] );
-	}
+			qd1.addBinding( totalBeArray[i] );	}
 	
 	/**
 	 * 
@@ -1682,7 +1708,7 @@ public class ViewingTest2 extends RDTestCase
 
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrExpr( );
 		populateColumnBinding( qd1, rowBeArray, totalBeArray );
 		
 		// generation
@@ -1752,7 +1778,7 @@ public class ViewingTest2 extends RDTestCase
 		
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrExpr( );
 		QueryDefinition qd = new QueryDefinition( );
 		populateColumnBinding( qd, rowBeArray, totalBeArray );
 				
@@ -2412,7 +2438,7 @@ public class ViewingTest2 extends RDTestCase
 
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrExpr( );
 		populateColumnBinding( qd1, rowBeArray, totalBeArray );
 		
 		// generation
@@ -2512,7 +2538,7 @@ public class ViewingTest2 extends RDTestCase
 		
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrExpr( );
 		QueryDefinition qd = new QueryDefinition( );
 		
 		populateColumnBinding( qd, rowBeArray, totalBeArray );
@@ -2678,14 +2704,15 @@ public class ViewingTest2 extends RDTestCase
 	
 	/**
 	 * @return
+	 * @throws DataException 
 	 */
-	private QueryDefinition newGenIVReportQuery( )
+	private QueryDefinition newGenIVReportQuery( ) throws DataException
 	{
 		QueryDefinition qd = newReportQuery( );
 
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrExpr( );
 		for ( int i = 0; i < rowBeArray.length; i++ )
 			qd.addResultSetExpression( this.rowExprName[i], rowBeArray[i] );
 		if( this.GEN_use_invalid_column )
@@ -2693,8 +2720,7 @@ public class ViewingTest2 extends RDTestCase
 		if (!this.notIncludeAggr) 
 		{
 			for (int i = 0; i < totalBeArray.length; i++)
-				qd.addResultSetExpression(this.totalExprName[i],
-						totalBeArray[i]);
+				qd.addBinding(totalBeArray[i]);
 		}
 		// add filter
 		if ( this.GEN_add_filter == true )
@@ -2944,20 +2970,21 @@ public class ViewingTest2 extends RDTestCase
 	 * IV request is applied here
 	 *
 	 * @return query definition for interactive viewing
+	 * @throws DataException 
 	 */
 	private QueryDefinition newPreIVReportQuery( int filterNeeded,
-			boolean sortNeeded, int groupNeeded, int mode )
+			boolean sortNeeded, int groupNeeded, int mode ) throws DataException
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.setDataSetName( "Dummy" );
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrExpr( );
 		for ( int i = 0; i < rowBeArray.length; i++ )
 			qd.addResultSetExpression( this.rowExprName[i], rowBeArray[i] );
 
 		for ( int i = 0; i < totalBeArray.length; i++ )
-			qd.addResultSetExpression( this.totalExprName[i], totalBeArray[i] );
+			qd.addBinding( totalBeArray[i] );
 		
 		if ( this.updateNewBindingName != null && this.updateNewBindingName.trim( ).length( ) > 0 )
 		{
@@ -3144,22 +3171,38 @@ public class ViewingTest2 extends RDTestCase
 
 	/**
 	 * @return aggregation expression array
+	 * @throws DataException 
 	 */
-	private IBaseExpression[] getAggrExpr( )
+	private IBinding[] getAggrExpr( ) throws DataException
 	{
 		if( this.notIncludeAggr )
-			return new IBaseExpression[0];
-		int num2 = 2;
-		IBaseExpression[] totalBeArray = new IBaseExpression[num2];
-		totalBeArray[0] = new ScriptExpression( "Total.Count( )" );
-		if( this.USE_ROW_IN_AGGREGATION )
-			totalBeArray[1] = new ScriptExpression( "Total.Sum( row.AMOUNT_1 )" );
-		else
-			totalBeArray[1] = new ScriptExpression( "Total.Sum( dataSetRow.AMOUNT )" );
-
-		totalExprName = new String[totalBeArray.length];
+			return new IBinding[0];
+		
+		totalExprName = new String[2];
 		this.totalExprName[0] = "TOTAL_COUNT_1";
 		this.totalExprName[1] = "TOTAL_AMOUNT_1";
+		
+		int num2 = 2;
+		IBinding[] totalBeArray = new IBinding[num2];
+		totalBeArray[0] = new Binding( this.totalExprName[0], new ScriptExpression( null ));
+		if( this.GEN_USE_RUNNING_AGGR )
+			totalBeArray[0].setAggrFunction( "runningcount" );
+		else
+			totalBeArray[0].setAggrFunction( "count" );
+		if( this.USE_ROW_IN_AGGREGATION )
+		{
+			totalBeArray[1] = new Binding( this.totalExprName[1], new ScriptExpression( "row.AMOUNT_1" ));
+		}
+		else
+		{
+			totalBeArray[1] = new Binding( this.totalExprName[1], new ScriptExpression( "dataSetRow.AMOUNT" ));
+		}
+		if( this.GEN_USE_RUNNING_AGGR )
+			totalBeArray[1].setAggrFunction( "runningsum" );
+		else
+			totalBeArray[1].setAggrFunction( "sum" );
+
+		
 
 		return totalBeArray;
 

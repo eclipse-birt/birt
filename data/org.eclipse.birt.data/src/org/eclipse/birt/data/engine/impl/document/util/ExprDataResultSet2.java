@@ -54,26 +54,6 @@ public class ExprDataResultSet2 extends BaseExprDataResultSet
 		super.init( inExprMetas, exprDataReader );
 	}
 	
-	/**
-	 * @param rowIs
-	 * @param rowLenIs
-	 * @param destRowIndex
-	 * @param inExprMetas
-	 */
-	public ExprDataResultSet2( String tempDir, RAInputStream rowIs, RAInputStream rowLenIs,
-			int destRowIndex[], ExprMetaInfo[] inExprMetas, int version )
-			throws DataException
-	{
-		this.rowIs = rowIs;
-		this.rowLenIs = rowLenIs;
-
-		IExprDataReader exprDataReader = new ExprDataReader3( tempDir, rowIs, rowLenIs, destRowIndex, version );
-		this.rowCount = exprDataReader.getCount( );
-		
-		super.init( inExprMetas, exprDataReader );
-	}
-	
-	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#close()
 	 */

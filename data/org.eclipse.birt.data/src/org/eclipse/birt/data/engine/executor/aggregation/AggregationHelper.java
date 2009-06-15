@@ -68,7 +68,7 @@ public class AggregationHelper implements IAggrValueHolder
 	
 	private Set invalidAggrSet;
 	private Map invalidAggrMsg;
-	
+	private Set<String> aggrNames;
 	
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
@@ -88,7 +88,7 @@ public class AggregationHelper implements IAggrValueHolder
 
 	private void populateAggregations( String tempDir ) throws DataException
 	{
-		
+			this.aggrNames = new HashSet<String>();
 			this.currentAggrCount = manager.getAggrCount( );
 			if ( currentAggrCount > 0 )
 			{
@@ -102,10 +102,11 @@ public class AggregationHelper implements IAggrValueHolder
 					// Initialize argument array for this aggregate expression
 					aggrArgs[i] = new Object[aggrInfo.getAggregation( )
 							.getParameterDefn( ).length];
+					this.aggrNames.add( this.manager.getAggrDefn( i ).getName( ) );
 				}
 				accumulatorManagers = new AccumulatorManager[currentAggrCount];
+				
 			}
-
 			this.calculate( );
 	}
 	/**
@@ -600,7 +601,6 @@ public class AggregationHelper implements IAggrValueHolder
 	private void first( int groupLevel ) throws DataException
 	{
 		this.populator.getResultIterator( ).first( groupLevel );
-		//this.populator.getGroupProcessorManager( ).getGroupCalculationUtil( ).getGroupInformationUtil( ).first( groupLevel );
 	}
 	
 	/**
@@ -642,6 +642,11 @@ public class AggregationHelper implements IAggrValueHolder
 		{
 			throw e;
 		}
+	}
+	
+	public List getAggrValues( String name ) throws DataException
+	{
+		return this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )];
 	}
 	
 	public boolean hasAggr( String name ) throws DataException
@@ -718,5 +723,17 @@ public class AggregationHelper implements IAggrValueHolder
 		{
 			this.cursor = -1;
 		}
+	}
+
+	public Set<String> getAggrNames( ) throws DataException
+	{
+		return this.aggrNames;
+	}
+
+	public IAggrInfo getAggrInfo( String aggrName ) throws DataException
+	{
+		if( this.hasAggr( aggrName ))
+			return this.manager.getAggrDefn( aggrName );
+		return null;
 	}
 }

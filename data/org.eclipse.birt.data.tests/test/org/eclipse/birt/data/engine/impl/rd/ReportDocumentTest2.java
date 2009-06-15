@@ -19,9 +19,11 @@ import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -118,10 +120,7 @@ public class ReportDocumentTest2 extends APITestCase
 		//------------generation----------------
 		QueryDefinition qd = newReportQuery( );
 		
-		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
-		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
+		prepareExprNameAndQuery( qd );
 		
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
@@ -179,14 +178,11 @@ public class ReportDocumentTest2 extends APITestCase
 		String columnBindingNameGroup = "COUNTRY";
 		IBaseExpression columnBindingExprGroup = new ScriptExpression( "dataSetRow.COUNTRY" );
 		gd.setKeyColumn( "COUNTRY" );
-		qd.addResultSetExpression( columnBindingNameGroup,
-				columnBindingExprGroup );
+		qd.addBinding( new Binding( columnBindingNameGroup,
+				columnBindingExprGroup) );
 		qd.addGroup( gd );
 		
-		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
-		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
+		prepareExprNameAndQuery( qd );
 		
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
@@ -219,10 +215,8 @@ public class ReportDocumentTest2 extends APITestCase
 		//------------generation----------------
 		QueryDefinition qd = newReportQuery( );
 		
-		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
-		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
+		
+		prepareExprNameAndQuery( qd );
 		
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
@@ -304,42 +298,44 @@ public class ReportDocumentTest2 extends APITestCase
 	}
 	
 	/**
-	 * @return aggregation expression array
+	 * Add expression on the row of group
+	 * @param rowBeArray
+	 * @param totalBeArray
+	 * @param qd
+	 * @throws DataException 
 	 */
-	private IBaseExpression[] getAggrExpr( )
+	private void prepareExprNameAndQuery( BaseQueryDefinition qd ) throws DataException
 	{
-		int num2 = 2;
-		IBaseExpression[] totalBeArray = new IBaseExpression[num2];
-		totalBeArray[0] = new ScriptExpression( "Total.Count( )" );
-		totalBeArray[1] = new ScriptExpression( "Total.Sum( dataSetRow.AMOUNT )" );
+		// prepare
+		IBaseExpression[] rowBeArray = getRowExpr( );
+		
+		IBaseExpression[] totalBeArray = new IBaseExpression[2];
+		
+		
+		
+		totalBeArray[0] = new ScriptExpression( null );
+		totalBeArray[1] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		
 		totalExprName = new String[totalBeArray.length];
 		this.totalExprName[0] = "TOTAL_COUNT_1";
 		this.totalExprName[1] = "TOTAL_AMOUNT_1";
 		
-		return totalBeArray;
-	}
-	
-	/**
-	 * Add expression on the row of group
-	 * @param rowBeArray
-	 * @param totalBeArray
-	 * @param qd
-	 */
-	private void prepareExprNameAndQuery( IBaseExpression[] rowBeArray,
-			IBaseExpression[] totalBeArray, BaseQueryDefinition qd )
-	{
-		int num = rowBeArray.length;
+		IBinding total1 = new Binding( this.totalExprName[0], totalBeArray[0]);
+		total1.setAggrFunction( "count" );
 		
-		for ( int i = 0; i < num; i++ )
-			qd.addResultSetExpression( this.rowExprName[i], rowBeArray[i] );
+		IBinding total2 = new Binding( this.totalExprName[1], totalBeArray[1]);
+		total2.setAggrFunction( "sum" );
+		
 
-		if ( totalBeArray != null )
+		qd.addBinding( total1 );
+		qd.addBinding( total2 );
+		for ( int i = 0; i < rowExprName.length; i++ )
 		{
-			int num2 = totalBeArray.length;
-			for ( int i = 0; i < num2; i++ )
-				qd.addResultSetExpression( this.totalExprName[i], totalBeArray[i] );
+		
+			qd.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
 		}
+
+		
 	}
 	
 	/**

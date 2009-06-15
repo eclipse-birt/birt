@@ -64,16 +64,6 @@ class ExprDataReader2 implements IExprDataReader
 	private DataSetResultSet dataSetResultSet;
 	private Map bindingNameTypeMap;
 	private ClassLoader currentClassLoader;
-	/**
-	 * @param rowExprsIs
-	 * @param rowLenIs
-	 * @throws DataException 
-	 */
-	protected ExprDataReader2( String tempDir, RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, int version ) throws DataException
-	{
-		this.version = version;
-		initialize( tempDir, rowExprsIs, rowLenIs, rowCount, null );
-	}
 
 	/**
 	 * @param rowExprsIs

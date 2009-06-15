@@ -122,17 +122,6 @@ public class RDLoad
 	}
 	
 	/**
-	 * @return
-	 * @throws DataException
-	 */
-	public RDGroupUtil loadRootGroupUtil( ) throws DataException
-	{
-		return RDLoadUtil.loadGroupUtil( tempDir, streamManager,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE );
-	}
-	
-	/**
 	 * This is used for UPDATE, the data in report document as data source for
 	 * transformation.
 	 * 

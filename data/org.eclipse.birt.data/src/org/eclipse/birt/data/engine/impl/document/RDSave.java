@@ -134,6 +134,13 @@ class RDSave implements IRDSave
 					}
 				}
 			}
+			
+			if( streamManager.getVersion( ) >= VersionManager.VERSION_2_5_1_0 )
+			{
+				if( binding.getAggrFunction( )!= null )
+					continue;
+			}
+				
 			if( bindingNameColumnName.get( binding.getBindingName( ) ) == null )
 				bindingNamesToSave.add( binding.getBindingName( ) );
 			bindingNameType.put( binding.getBindingName( ), new Integer(binding.getDataType( )) );

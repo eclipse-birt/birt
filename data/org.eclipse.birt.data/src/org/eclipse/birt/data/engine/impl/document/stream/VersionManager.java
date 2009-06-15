@@ -50,6 +50,9 @@ public class VersionManager
 	//In version 2_5_0_1 the Sort strength is saved.
 	public final static int VERSION_2_5_0_1 = 100;
 	
+	//In version 2_5_1_0 the aggregation value is saved separately
+	public final static int VERSION_2_5_1_0 = 110;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -123,7 +126,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_5_0_1;
+		return VERSION_2_5_1_0;
 	}
 
 }

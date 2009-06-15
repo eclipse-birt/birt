@@ -18,19 +18,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
-import org.eclipse.birt.data.engine.executor.aggregation.AggregationHelper;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
+import org.eclipse.birt.data.engine.odi.AggrHolderManager;
 import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -53,7 +56,7 @@ public class CachedResultSet implements IResultIterator
 	private ResultSet resultSet;
 	private static String className = CachedResultSet.class.getName( );
 	private static Logger logger = Logger.getLogger( className ); 
-	private List aggrHolder = new ArrayList();
+	private AggrHolderManager aggrHolderManager = new AggrHolderManager();
 	/**
 	 * Nothing, only for new an instance, needs to be used with care. Currently
 	 * it is only used in report document saving when there is no data set.
@@ -281,6 +284,21 @@ public class CachedResultSet implements IResultIterator
 				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
+		
+		if ( streamsWrapper.getStreamManager( ).getVersion( ) >= VersionManager.VERSION_2_5_1_0 )
+		{
+			if ( !aggrHolderManager.isEmpty( ) )
+			{
+				aggrHolderManager.doSave( streamsWrapper.getStreamManager( )
+						.getOutStream( DataEngineContext.AGGR_INDEX_STREAM,
+								StreamManager.ROOT_STREAM,
+								StreamManager.BASE_SCOPE ),
+						streamsWrapper.getStreamManager( )
+								.getOutStream( DataEngineContext.AGGR_VALUE_STREAM,
+										StreamManager.ROOT_STREAM,
+										StreamManager.BASE_SCOPE ) );
+			}
+		}
 	}
 	
 	/*
@@ -460,32 +478,27 @@ public class CachedResultSet implements IResultIterator
 	public Object getAggrValue( String aggrName )
 			throws DataException
 	{
-		for ( int i = 0; i < this.aggrHolder.size( ); i++ )
-		{
-			AggregationHelper helper = (AggregationHelper)this.aggrHolder.get( i );
-			if( helper.hasAggr( aggrName ))
-				return helper.getAggrValue( aggrName );
-		}
-		
-		throw new DataException( "Target Aggregation Name does not exist");
+		return this.aggrHolderManager.getAggrValue( aggrName );
 	}
 	
 	/**
 	 * Set the aggregation value holder from which the aggregation values are
 	 * fetched.
 	 * @param holder
+	 * @throws DataException 
 	 */
-	public void addAggrValueHolder( IAggrValueHolder holder )
+	public void addAggrValueHolder( IAggrValueHolder holder ) throws DataException
 	{
-		this.aggrHolder.add( holder );
+		this.aggrHolderManager.addAggrValueHolder( holder );
 	}
 	
 	/**
 	 * Clear the aggregation value holder for the re-calculation.
+	 * @throws DataException 
 	 */
-	public void clearAggrValueHolder( )
+	public void clearAggrValueHolder( ) throws DataException
 	{
-		this.aggrHolder.clear( );
+		this.aggrHolderManager.clear( );
 	}
 
 }

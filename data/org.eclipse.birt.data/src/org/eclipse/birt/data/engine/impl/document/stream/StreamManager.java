@@ -508,6 +508,10 @@ public class StreamManager
 				return false;
 			case DataEngineContext.META_INDEX_STREAM :
 				return false;
+			case DataEngineContext.AGGR_INDEX_STREAM :
+				return true;
+			case DataEngineContext.AGGR_VALUE_STREAM :
+				return true;
 			default :
 				return false;
 				

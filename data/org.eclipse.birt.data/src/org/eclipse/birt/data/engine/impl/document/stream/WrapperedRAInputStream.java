@@ -20,13 +20,13 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-class WrapperedRAInputStream extends RAInputStream
+public class WrapperedRAInputStream extends RAInputStream
 {
 	private RAInputStream raIn;
 	private long startOffset;
-	private int size;
+	private long size;
 	
-	WrapperedRAInputStream( RAInputStream input, long startOffset, int size ) throws DataException
+	public WrapperedRAInputStream( RAInputStream input, long startOffset, long size ) throws DataException
 	{
 		this.raIn = input;
 		this.startOffset = startOffset;

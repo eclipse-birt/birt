@@ -127,6 +127,11 @@ public class DataEngineContext
 	public final static int NAMING_RELATION_STREAM = 101;
 	
 	public final static int PLS_GROUPLEVEL_STREAM = 102;
+	
+	public final static int AGGR_INDEX_STREAM = 103;
+	
+	public final static int AGGR_VALUE_STREAM = 104;
+	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
@@ -596,6 +601,12 @@ public class DataEngineContext
 				break;
 			case PLS_GROUPLEVEL_STREAM:
 				relativePath = "PlsGroupLevel";
+				break;
+			case AGGR_INDEX_STREAM:
+				relativePath = "AggrIndex";
+				break;
+			case AGGR_VALUE_STREAM:
+				relativePath = "AggrValue";
 				break;
 			default :
 				assert false; // impossible

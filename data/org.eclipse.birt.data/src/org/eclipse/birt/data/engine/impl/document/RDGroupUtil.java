@@ -85,30 +85,6 @@ public final class RDGroupUtil
 	}
 	
 	/**
-	 * @param outputStream
-	 * @throws IOException
-	 */
-	public void saveGroupsToStream( OutputStream outputStream ) throws IOException
-	{
-		int size = groups.length;
-		IOUtil.writeInt( outputStream, size );
-		for ( int i = 0; i < size; i++ )
-		{
-			List list = groups[i];
-
-			int asize = list.size( );
-			IOUtil.writeInt( outputStream, asize );
-
-			for ( int j = 0; j < asize; j++ )
-			{
-				GroupInfo groupInfo = (GroupInfo) list.get( j );
-				IOUtil.writeInt( outputStream, groupInfo.parent );
-				IOUtil.writeInt( outputStream, groupInfo.firstChild );
-			}
-		}
-	}
-	
-	/**
 	 * @param inputStream
 	 * @param cacheProvider
 	 * @throws DataException
