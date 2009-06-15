@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddThemeStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ApplyLayoutPreferenceAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ChangeDataColumnPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyCellContentsContextAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreateChartAction;
@@ -72,6 +73,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.ApplyThemeMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.DeleteStyleMenuAction;
@@ -105,6 +108,7 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.ContextMenuProvider;
@@ -156,6 +160,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private static final String DELETE_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteStyle" ); //$NON-NLS-1$
 
 	private static final String NEW_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.NewStyle" ); //$NON-NLS-1$
+
+	private static final String LAYOUT_PREF_MENU_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Layout" ); //$NON-NLS-1$
 
 	private IMenuListener proxy;
 
@@ -253,6 +259,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			if ( ( (IAdaptable) firstSelectedElement ).getAdapter( DesignElementHandle.class ) instanceof ExtendedItemHandle )
 				isExtended = true;
+		}
+		
+		if ( selectedElements instanceof ReportDesignHandle )
+		{
+			createLayoutPrefMenu( (ReportDesignHandle) selectedElements,
+					menuManager,
+					GEFActionConstants.GROUP_VIEW,
+					( (ReportDesignHandle) selectedElements ).getLayoutPreference( ) );
 		}
 
 		// special for dealing with multi selected elements (items).
@@ -837,6 +851,29 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			menu.add( subMenu );
 
 		}
+	}
+
+	/**
+	 * Creates report layout preference menu in the specified action group of
+	 * the specified menu manager.
+	 * 
+	 * @param menuManager
+	 *            The menu manager contains the action group.
+	 * @param group_name
+	 *            The action group contains the sub menu.
+	 */
+	private void createLayoutPrefMenu( ReportDesignHandle handle,
+			IMenuManager menuManager, String group_name, String layout )
+	{
+		MenuManager menu = new MenuManager( LAYOUT_PREF_MENU_TEXT,
+				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_LAYOUT_PREFERENCE ),
+				null );
+
+		menu.add( new ApplyLayoutPreferenceAction( handle,
+				DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT ) );
+		menu.add( new ApplyLayoutPreferenceAction( handle,
+				DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT ) );
+		menuManager.appendToGroup( group_name, menu );
 	}
 
 	/**

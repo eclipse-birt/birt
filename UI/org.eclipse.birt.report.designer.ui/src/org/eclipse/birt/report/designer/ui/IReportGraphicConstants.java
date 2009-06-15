@@ -122,9 +122,11 @@ public interface IReportGraphicConstants
 	
 	public final static String ICON_ELEMENT_VARIABLE = ReportDesignConstants.VARIABLE_ELEMENT;
 	
-	public final static String ICON_ELEMENT_VARIABLE_REPORT = ReportDesignConstants.VARIABLE_ELEMENT + "report";
+	public final static String ICON_ELEMENT_VARIABLE_REPORT = ReportDesignConstants.VARIABLE_ELEMENT
+			+ "report"; //$NON-NLS-1$
 	
-	public final static String ICON_ELEMENT_VARIABLE_PAGE = ReportDesignConstants.VARIABLE_ELEMENT + "page";
+	public final static String ICON_ELEMENT_VARIABLE_PAGE = ReportDesignConstants.VARIABLE_ELEMENT
+			+ "page"; //$NON-NLS-1$
 
 	// Library report item icons
 	public final static String LINK = "LINK"; //$NON-NLS-1$
@@ -471,20 +473,26 @@ public interface IReportGraphicConstants
 
 	public static final String ICON_SCRIPTS_METHOD_NODE = "Script Method Node"; //$NON-NLS-1$
 
-	public static final String ICON_TOOL_CALENDAR = "Calendar";
+	public static final String ICON_TOOL_CALENDAR = "Calendar"; //$NON-NLS-1$
 
-	public static final String ICON_STATUS_ERROR = "Error";
+	public static final String ICON_STATUS_ERROR = "Error"; //$NON-NLS-1$
 
 	// bidi_hcg BiDi-specific property
 	public static final String REPORT_BIDIORIENTATION_PROPERTY = "bidiLayoutOrientation";//$NON-NLS-1$ 
 
-	public static final String ICON_GROUP_SORT = "GroupSort";
+	public static final String ICON_GROUP_SORT = "GroupSort"; //$NON-NLS-1$
 
-	public static final String ICON_LOCAL_PROPERTIES = "LocalProperties";
+	public static final String ICON_LOCAL_PROPERTIES = "LocalProperties"; //$NON-NLS-1$
 
-	public static final String ICON_STYLE_MODIFIED = "StyleModified";
+	public static final String ICON_STYLE_MODIFIED = "StyleModified"; //$NON-NLS-1$
 
-	public static final String ICON_STYLE_DEFAULT = "StyleDefault";
+	public static final String ICON_STYLE_DEFAULT = "StyleDefault"; //$NON-NLS-1$
 
-	public static final String ICON_STYLE_RESOTRE = "StyleRestore";
+	public static final String ICON_STYLE_RESOTRE = "StyleRestore"; //$NON-NLS-1$
+
+	public static final String ICON_LAYOUT_AUTO = "LayoutAuto"; //$NON-NLS-1$
+
+	public static final String ICON_LAYOUT_FIXED = "LayoutFixed"; //$NON-NLS-1$
+
+	public static final String ICON_LAYOUT_PREFERENCE = "LayoutPreference"; //$NON-NLS-1$
 }

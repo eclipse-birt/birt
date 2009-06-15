@@ -72,6 +72,7 @@ public class ReportPlatformUIImages
 	public final static String DATA_PATH = "data/"; //$NON-NLS-1$
 	public final static String OTHERS_PATH = "others/"; //$NON-NLS-1$
 	public final static String OVR16_PATH = "ovr16/"; //$NON-NLS-1$
+	public final static String LAYOUT16_PATH = "layout16/"; //$NON-NLS-1$
 
 	static
 	{
@@ -766,6 +767,16 @@ public class ReportPlatformUIImages
 				+ OBJ16_PATH
 				+ "style_restore.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_LAYOUT_AUTO, ICONS_PATH
+				+ LAYOUT16_PATH
+				+ "autoLayout.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_LAYOUT_FIXED, ICONS_PATH
+				+ LAYOUT16_PATH
+				+ "fixedLayout.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_LAYOUT_PREFERENCE, ICONS_PATH
+				+ LAYOUT16_PATH
+				+ "layoutPreference.gif" ); //$NON-NLS-1$
 	}
 
 	/**
