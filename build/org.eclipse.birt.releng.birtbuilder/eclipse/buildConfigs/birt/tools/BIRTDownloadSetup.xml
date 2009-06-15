@@ -175,6 +175,22 @@
 			<include name="org.eclipse.birt.report.model*/model.jar" />
 		</patternset>
 
+		<!-- obsolete feature list -->
+	    <patternset id="third.party.features">
+	        <exclude name="com.lowagie.itext_*/**"/>
+	        <exclude name="org.apache.commons.codec_*/**"/>
+	        <exclude name="org.w3c.sac_*/**"/>
+	        <exclude name="org.mozilla.rhino_*/**"/>
+	        <exclude name="org.apache.derby.core_*/**"/>
+            <exclude name="org.eclipse.birt.chart.runtime*/**"/>
+            <exclude name="org.eclipse.birt.crosstab*/**"/>
+            <exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
+            <exclude name="org.eclipse.birt.report.designer_*/**"/>
+            <exclude name="org.eclipse.birt.report.designer.source_*/**"/>
+            <exclude name="org.eclipse.birt.report.designer.debug*/**"/>
+            <exclude name="org.eclipse.birt.report.runtime*/**"/>
+	    </patternset>
+		
 		<!-- Define the Orbit project jars -->
 		<patternset id="orbit.include.jars">
 			<include name="org.apache.batik.*jar"/>
@@ -291,7 +307,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**"/>
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
-				<exclude name="org.eclipse.birt.sdk*/**"/>
 			</zipfileset>
 			<zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
 				<patternset refid="orbit.include.jars" />
@@ -430,6 +445,13 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+                <exclude name="org.eclipse.birt.chart.runtime*/**"/>
+                <exclude name="org.eclipse.birt.crosstab*/**"/>
+                <exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
+                <exclude name="org.eclipse.birt.report.designer_*/**"/>
+                <exclude name="org.eclipse.birt.report.designer.source_*/**"/>
+                <exclude name="org.eclipse.birt.report.designer.debug*/**"/>
+                <exclude name="org.eclipse.birt.report.runtime*/**"/>
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -458,7 +480,10 @@
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*.jar" />
-				<exclude name="org.eclipse.birt.chart.doc.isv_*.jar"/>
+				<exclude name="org.eclipse.birt.chart.runtime_*/**"/>
+				<exclude name="org.eclipse.birt.report.designer_*/**"/>
+				<exclude name="org.eclipse.birt.report.runtime_*/**"/>
+                <exclude name="org.eclipse.birt.chart.doc.isv_*.jar"/>
 				<exclude name="org.eclipse.birt.doc.isv_*.jar"/>
 				<patternset refid="exclude.jars" />
 			</zipfileset>
@@ -471,8 +496,9 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
-				<exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
+                <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
 				<exclude name="org.eclipse.birt.doc.isv*/**"/>
+				<patternset refid="third.party.features"/>
 			</zipfileset>
 			<!--
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
@@ -506,6 +532,11 @@
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
                 <exclude name="org.eclipse.birt.chart.integration.wtp.ui*/**" />
                 <exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
+                <exclude name="org.eclipse.birt.chart.runtime_*/**"/>
+                <exclude name="org.eclipse.birt.report.designer_*/**"/>
+                <exclude name="org.eclipse.birt.report.runtime_*/**"/>
+                <exclude name="org.eclipse.birt.chart.doc.isv_*.jar"/>
+                <exclude name="org.eclipse.birt.doc.isv_*.jar"/>
 				<patternset refid="exclude.jars" />
 			</fileset>
             <fileset dir="${buildDirectory}/plugins" >
@@ -522,6 +553,9 @@
 				<exclude name="org.eclipse.birt.rcp*/**"/>
 	            <exclude name="org.eclipse.birt.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+                <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
+                <exclude name="org.eclipse.birt.doc.isv*/**"/>
+				<patternset refid="third.party.features"/>
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/temp/eclipse" overwrite="true">
@@ -690,11 +724,12 @@
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}/features">
 			<fileset dir="${deposit}/eclipse/features">
 			        <include name="**/*" />
-                                <exclude name="org.eclipse.birt.sdk*/**" />
-                                <exclude name="org.eclipse.birt*source*/**" />
-                                <exclude name="org.eclipse.birt.integration.wtp*/**"/>
-                                <exclude name="org.eclipse.birt.thirdparty*/**"/>
-                                <exclude name="org.eclipse.birt.rcp*/**"/>
+                    <exclude name="org.eclipse.birt.sdk*/**" />
+                    <exclude name="org.eclipse.birt*source*/**" />
+                    <exclude name="org.eclipse.birt.integration.wtp*/**"/>
+                    <exclude name="org.eclipse.birt.thirdparty*/**"/>
+                    <exclude name="org.eclipse.birt.rcp*/**"/>
+			        <patternset refid="third.party.features"/>
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}">
@@ -1082,13 +1117,13 @@
 				    <patternset refid="exclude.jars" />
 				</fileset>
 				<fileset dir="${buildDirectory}/plugins">
-	                            <patternset refid="orbit.include.jars" />
+	                <patternset refid="orbit.include.jars" />
 				</fileset>
 				<fileset dir="${baseLocation}/plugins">
-                                    <include name="org.apache.xerces_*.jar"/>
-                                    <include name="org.apache.xml.resolver_*.jar"/>
-                                    <include name="javax.xml_*.jar"/>
-                                    <include name="org.apache.xml.serializer_*.jar"/>
+                    <include name="org.apache.xerces_*.jar"/>
+                    <include name="org.apache.xml.resolver_*.jar"/>
+                    <include name="javax.xml_*.jar"/>
+                    <include name="org.apache.xml.serializer_*.jar"/>
 				</fileset>
 				<fileset dir="${all.in.one.file.dir}/../jee/eclipse/plugins">
 				    <include name="org.eclipse.draw2d_*.jar"/>
@@ -1100,8 +1135,9 @@
 		<copy todir="${runtime.download.tmp}/ChartRuntime/eclipse/features">
 			<fileset dir="${deposit}/eclipse/features">
 				<include name="org.eclipse.birt.chart*/*" />
-				<include name="org.mozilla.rhino*/*" />
-				<include name="org.apache.commons.codec*/*" />
+				<!--<include name="org.mozilla.rhino*/*" />
+				<include name="org.apache.commons.codec*/*" />-->
+				<exclude name="org.eclipse.birt.chart.runtime*/*" />
 				<exclude name="*.source*/*" />
 				<exclude name="*.doc.isv*/*" />
 				<exclude name="*.cshelp*/*" />
@@ -1127,7 +1163,7 @@
 		</copy>
 		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse/plugins">
 			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" />
+				<!--<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" />-->
 				<include name="org.eclipse.birt.chart.*source_*/**"/>
 				<include name="org.eclipse.birt.doc_*/**" />
 				<include name="org.eclipse.birt.chart.cshelp_*/**"/>
@@ -1139,8 +1175,8 @@
 		    <fileset dir="${deposit}/eclipse/features">
 		        <include name="org.eclipse.birt.chart.doc.isv*/**"/>
 		        <include name="org.eclipse.birt.chart.cshelp*/**"/>
-		        <include name="org.eclipse.birt.chart.*source*/**"/>
-		        <include name="org.eclipse.birt.chart.integration*/**"/>
+		        <include name="org.eclipse.birt.chart.source*/**"/>
+		        <!--<include name="org.eclipse.birt.chart.integration*/**"/>-->
 		    </fileset>			
 		</copy>
 		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse" overwrite="true">
