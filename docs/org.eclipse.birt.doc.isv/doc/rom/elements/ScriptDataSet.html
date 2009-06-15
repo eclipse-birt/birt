@@ -39,21 +39,21 @@ A data set defined in JavaScript.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
-<dt><a href="#Property-parameters">parameters</a></dt>
-<dd>Defines the data access attributes of the list of input and/or output parameters.</dd>
+<dt><a href="#Property-dataSource">dataSource</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Method Summary</h3>
 
 <dl class="section-text">
 <dt><a href="#Method-close">close</a></dt>
-<dd>Called by BIRT to close the data set.</dd>
+<dd></dd>
 <dt><a href="#Method-describe">describe</a></dt>
-<dd>Dynamically describes the result set definition in JavaScript.</dd>
+<dd></dd>
 <dt><a href="#Method-fetch">fetch</a></dt>
-<dd>Fetches a row from the data set.</dd>
+<dd></dd>
 <dt><a href="#Method-open">open</a></dt>
-<dd>Opens the data set.</dd>
+<dd></dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -65,14 +65,16 @@ A data set defined in JavaScript.</div>
 <a href="DataSet.html#Property-computedColumns">computedColumns</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
 <a href="SimpleDataSet.html#Property-dataSetRowLimit">dataSetRowLimit</a>, 
-<a href="SimpleDataSet.html#Property-dataSource">dataSource</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
 <a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="DataSet.html#Property-filter">filter</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="DataSet.html#Property-needsCache">needsCache</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="SimpleDataSet.html#Property-paramBindings">paramBindings</a>, 
+<a href="DataSet.html#Property-parameters">parameters</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="SimpleDataSet.html#Property-refTemplateParameter">refTemplateParameter</a>, 
 <a href="DataSet.html#Property-resultSetHints">resultSetHints</a>, 
@@ -102,20 +104,20 @@ themselves and an optional result set definition.</p></div>
 <p><code>DataSet</code> scripting object</p></div>
 <h1>Property Detail</h1>
 
-<h2><a name="Property-parameters">parameters Property</a></h2>
+<h2><a name="Property-dataSource">dataSource Property</a></h2>
 
-<p class="section-text">Defines the data access attributes of the list of input and/or output parameters.</p>
+<p class="section-text"></p>
 <h3>Details</h3>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td>List of <a href="../structs/DataSetParam.html">DataSetParam</a> Structures</td></tr>
+<td><a href="../elements/DataSource.html">DataSource</a> Reference</td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>
-<td>No</td></tr>
+<td>Yes</td></tr>
 <tr><td>Display Name:</td>
-<td>Data set parameters</td></tr>
+<td>Data source</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -125,26 +127,16 @@ themselves and an optional result set definition.</p></div>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
-<td>Hidden</td></tr>
+<td>Visible</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>
 
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Many data sets allow parameters, which can be of input and/or output modes. For some, the user must define the parameters as part of the data set definition. For other data sets, the driver itself can provide the set of parameter definitions from the information available in a data set query. In the latter case, parameter definitions are derived data and <i>are not</i> stored in the parameter definition.</p>
-<p>Some drivers refer to a parameter by position. Others can refer to a parameter by name. Also, for some data sets, the data set definition can omit parameter definitions for optional parameters not used within the report. &nbsp;Not all parameter properties are required. If a property is omitted. BIRT assumes that the data set implementation can provide it at run time. If the driver cannot provide the information, then a runtime error occurs.&nbsp;This is an optional list of data set parameter definitions, used only when the underlying data provider cannot provide this information.&nbsp;When contradicting meta-data are found between those provided dynamically by a data provider and&nbsp;those specified in a data set definition, the data provider&iuml;&iquest;&frac12;s meta-data takes precedence.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>DataSetParam structure</code></p>
-<p><code>ParamBinding structure</code></p></div>
 <h1>Method Detail</h1>
 
 <h2><a name="Method-close">close Method</a></h2>
 
-<p class="section-text">Called by BIRT to close the data set.</p>
+<p class="section-text"></p>
 <h3>Synopsis
 </h3>
 
@@ -163,20 +155,11 @@ themselves and an optional result set definition.</p></div>
 <td>None</td></tr>
 </table>
 
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Closes the data set. Optional.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>beforeClose</code> method</p>
-<p><code>afterClose</code> method</p></div>
 
 <hr>
 <h2><a name="Method-describe">describe Method</a></h2>
 
-<p class="section-text">Dynamically describes the result set definition in JavaScript.</p>
+<p class="section-text"></p>
 <h3>Synopsis
 </h3>
 
@@ -195,44 +178,11 @@ themselves and an optional result set definition.</p></div>
 <td>ColumnDefn[]</td></tr>
 </table>
 
-<h3>Return</h3>
-
-<div class="section-text">
-<p>The Describe method can return null, which tells BIRT to use the static 
-definition instead. The script can access the static description using the 
-design object within the script.</p>
-
-<p>If the method returns a column array, then the array must satisfy the 
-following constraints:</p>
-
-<ul>
-  <li>The array must have at least two entries,</li>
-  <li>The entry in position 0 (which represents the row number column) is 
-  ignored.</li>
-  <li>The entry in position 1 must exist.</li>
-  <li>There must be no empty positions in the array.</li>
-  <li>Each position must contain an object of type ResultSetColumn.</li>
-  <li>The column names must be unique within the result set definition.</li>
-  <li>Each column definition in the array must have a one-to-one match with the 
-  corresponding column in the DataRow object returned by the fetch method.</li>
-</ul></div>
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Called before BIRT calls the
-<code>beforeOpen</code> method. Creates a 
-runt-time definition of the result set columns. Returns an array of 
-ResultSetColumn objects. Each object describes a column in the expected result 
-set. Optional.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>ResultSetColumn</code> structure</p></div>
 
 <hr>
 <h2><a name="Method-fetch">fetch Method</a></h2>
 
-<p class="section-text">Fetches a row from the data set.</p>
+<p class="section-text"></p>
 <h3>Synopsis
 </h3>
 
@@ -251,28 +201,11 @@ set. Optional.</p></div>
 <td>DataRow</td></tr>
 </table>
 
-<h3>Return</h3>
-
-<div class="section-text">
-<p>Returns <code>true</code> if there is another row to fetch, <code>false</code> if there are no more 
-rows. When the data set has returned the last row from the result set, 
-subsequent calls to
-<code>fetch</code> should return <code>false</code>. </p></div>
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Fetches a row from the data set on each call, and populates the current row 
-available in the <code>row</code> property.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>onFetch</code> method</p>
-<p><code>DataRow scripting object</code></p></div>
 
 <hr>
 <h2><a name="Method-open">open Method</a></h2>
 
-<p class="section-text">Opens the data set.</p>
+<p class="section-text"></p>
 <h3>Synopsis
 </h3>
 
@@ -291,16 +224,5 @@ available in the <code>row</code> property.</p></div>
 <td>None</td></tr>
 </table>
 
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Opens the external data set. Throws a JavaScript 
-exception if the open fails. Often refers to report parameters or user-defined 
-parameters for information about the data set. Optional.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>beforeOpen</code> method</p>
-<p><code>afterOpen</code> method</p></div>
 </body>
 </html>

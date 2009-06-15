@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>Data Group Element (Eclipse BIRT ROM Documentation)</title>
+<link rel="stylesheet" href="../style/style.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<p class="title">Eclipse BIRT Report Object Model (ROM)</p>
+<p class="subtitle">DataGroup Element</p>
+<h1>Element Overview</h1>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Display Name:</td>
+<td>Data Group</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>XML Element:</td>
+<td><code>data-group</code></td></tr>
+<tr><td>Extends:</td>
+<td>None</td></tr>
+<tr><td>Extendable:</td>
+<td>No</td></tr>
+<tr><td>Abstract:</td>
+<td>No</td></tr>
+<tr><td>Name Space:</td>
+<td>None</td></tr>
+<tr><td>Name Requirement:</td>
+<td>Not Supported</td></tr>
+<tr><td>Allows User Properties:</td>
+<td>No</td></tr>
+<tr><td>Has Style:</td>
+<td>No</td></tr>
+</table>
+
+<h3>Property Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Property-filter">filter</a></dt>
+<dd></dd>
+<dt><a href="#Property-groupName">groupName</a></dt>
+<dd></dd>
+<dt><a href="#Property-interval">interval</a></dt>
+<dd></dd>
+<dt><a href="#Property-intervalBase">intervalBase</a></dt>
+<dd></dd>
+<dt><a href="#Property-intervalRange">intervalRange</a></dt>
+<dd></dd>
+<dt><a href="#Property-keyExpr">keyExpr</a></dt>
+<dd></dd>
+<dt><a href="#Property-sort">sort</a></dt>
+<dd></dd>
+<dt><a href="#Property-sortDirection">sortDirection</a></dt>
+<dd></dd>
+<dt><a href="#Property-sortType">sortType</a></dt>
+<dd></dd>
+</dl>
+
+<h1>Property Detail</h1>
+
+<h2><a name="Property-filter">filter Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/FilterCondition.html">FilterCondition</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Filter</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-groupName">groupName Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Name</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-interval">interval Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (interval)</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Interval</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>none</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Interval</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>none</td>
+<td>No Interval</td>
+<td>none</td>
+<td></td></tr>
+<tr><td>prefix</td>
+<td>Prefix</td>
+<td>prefix</td>
+<td></td></tr>
+<tr><td>year</td>
+<td>Year</td>
+<td>year</td>
+<td></td></tr>
+<tr><td>quarter</td>
+<td>Quarter</td>
+<td>quarter</td>
+<td></td></tr>
+<tr><td>month</td>
+<td>Month</td>
+<td>month</td>
+<td></td></tr>
+<tr><td>week</td>
+<td>Week</td>
+<td>week</td>
+<td></td></tr>
+<tr><td>day</td>
+<td>Day</td>
+<td>day</td>
+<td></td></tr>
+<tr><td>hour</td>
+<td>Hour</td>
+<td>hour</td>
+<td></td></tr>
+<tr><td>minute</td>
+<td>Minute</td>
+<td>minute</td>
+<td></td></tr>
+<tr><td>second</td>
+<td>Second</td>
+<td>second</td>
+<td></td></tr>
+<tr><td>interval</td>
+<td>Interval</td>
+<td>interval</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-intervalBase">intervalBase Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Interval base</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Interval</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-intervalRange">intervalRange Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#float">float</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Interval range</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Interval</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-keyExpr">keyExpr Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>any</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>Yes</td></tr>
+<tr><td>Display Name:</td>
+<td>Key expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-sort">sort Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/SortKey.html">SortKey</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Sort</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-sortDirection">sortDirection Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (sortDirection)</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Sort direction</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>asc</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>asc</td>
+<td>Ascending</td>
+<td>asc</td>
+<td></td></tr>
+<tr><td>desc</td>
+<td>Descending</td>
+<td>desc</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-sortType">sortType Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (sortType)</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Sort type</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>none</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>none</td>
+<td>No Sort Type</td>
+<td>none</td>
+<td></td></tr>
+<tr><td>sort-on-group-key</td>
+<td>Sort on Group Key</td>
+<td>sort-on-group-key</td>
+<td></td></tr>
+<tr><td>complex-sort</td>
+<td>Complex Sort</td>
+<td>complex-sort</td>
+<td></td></tr>
+</tbody></table><br>
+</body>
+</html>

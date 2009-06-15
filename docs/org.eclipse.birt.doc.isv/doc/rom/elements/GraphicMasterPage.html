@@ -38,15 +38,6 @@ A master page with free-form page decorations.</div>
 <td><a href="../styles.html#page">page</a></td></tr>
 </table>
 
-<h3>Property Summary</h3>
-
-<dl class="section-text">
-<dt><a href="#Property-columnSpacing">columnSpacing</a></dt>
-<dd>The amount of space between columns.</dd>
-<dt><a href="#Property-columns">columns</a></dt>
-<dd>The number of columns on the page</dd>
-</dl>
-
 <h3>Slot Summary</h3>
 
 <dl class="section-text">
@@ -58,6 +49,8 @@ A master page with free-form page decorations.</div>
 
 <p class="section-text">
 <a href="MasterPage.html#Property-bottomMargin">bottomMargin</a>, 
+<a href="MasterPage.html#Property-columnSpacing">columnSpacing</a>, 
+<a href="MasterPage.html#Property-columns">columns</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
@@ -67,6 +60,7 @@ A master page with free-form page decorations.</div>
 <a href="MasterPage.html#Property-height">height</a>, 
 <a href="MasterPage.html#Property-leftMargin">leftMargin</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="MasterPage.html#Property-orientation">orientation</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="MasterPage.html#Property-rightMargin">rightMargin</a>, 
@@ -86,6 +80,9 @@ A master page with free-form page decorations.</div>
 <a href="Style.html#Property-backgroundPositionX">backgroundPositionX</a>, 
 <a href="Style.html#Property-backgroundPositionY">backgroundPositionY</a>, 
 <a href="Style.html#Property-backgroundRepeat">backgroundRepeat</a>, 
+<a href="Style.html#Property-backgroundSizeHeight">backgroundSizeHeight</a>, 
+<a href="Style.html#Property-backgroundSizeWidth">backgroundSizeWidth</a>, 
+<a href="Style.html#Property-bidiTextDirection">bidiTextDirection</a>, 
 <a href="Style.html#Property-borderBottomColor">borderBottomColor</a>, 
 <a href="Style.html#Property-borderBottomStyle">borderBottomStyle</a>, 
 <a href="Style.html#Property-borderBottomWidth">borderBottomWidth</a>, 
@@ -141,6 +138,11 @@ A master page with free-form page decorations.</div>
 <a href="Style.html#Property-widows">widows</a>, 
 <a href="Style.html#Property-wordSpacing">wordSpacing</a>
 </p>
+<h3>Inherited Methods</h3>
+
+<p class="section-text">
+<a href="MasterPage.html#Method-onPageStart">onPageStart</a>, 
+<a href="MasterPage.html#Method-onPageEnd">onPageEnd</a></p>
 <h3>Description</h3>
 
 <div class="section-text">
@@ -167,75 +169,6 @@ footer appear in the printed page footer.
 </li>
 <li>Any element that appears outside the header or footer areas is ignored for the simple HTML and FO formats.</li>
 </ul></div>
-<h1>Property Detail</h1>
-
-<h2><a name="Property-columnSpacing">columnSpacing Property</a></h2>
-
-<p class="section-text">The amount of space between columns.</p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td><a href="../types.html#dimension">dimension</a></td></tr>
-<tr><td>Since:</td>
-<td>1.0</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Column space</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>0.5pt</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>Yes</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Visible</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
-<h3>Description</h3>
-
-<div class="section-text">
-<p>The amount of space between columns.</p></div>
-
-<hr>
-<h2><a name="Property-columns">columns Property</a></h2>
-
-<p class="section-text">The number of columns on the page</p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td><a href="../types.html#integer">integer</a></td></tr>
-<tr><td>Since:</td>
-<td>1.0</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Columns</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>1</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>Yes</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Visible</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
-<h3>Description</h3>
-
-<div class="section-text">
-<p>The number of columns on the page. A multi-column page prints like a phone book or a dictionary: the left 
-column is filled from top to bottom, then the next column, and so on until all columns are full.</p></div>
 <h1>Slot Detail</h1>
 
 <h2><a name="Slot-contents">contents Slot</a></h2>

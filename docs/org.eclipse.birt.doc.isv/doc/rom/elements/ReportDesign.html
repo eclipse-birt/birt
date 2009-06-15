@@ -39,6 +39,12 @@ The report design element represents report as a whole.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-ACLExpression">ACLExpression</a></dt>
+<dd></dd>
+<dt><a href="#Property-bidiLayoutOrientation">bidiLayoutOrientation</a></dt>
+<dd></dd>
+<dt><a href="#Property-cascadeACL">cascadeACL</a></dt>
+<dd></dd>
 <dt><a href="#Property-cheatSheet">cheatSheet</a></dt>
 <dd>A string containing the file name of the cheat sheet.</dd>
 <dt><a href="#Property-cssStyleSheets">cssStyleSheets</a></dt>
@@ -47,11 +53,19 @@ The report design element represents report as a whole.</div>
 <dd>Display name of the report design</dd>
 <dt><a href="#Property-displayNameID">displayNameID</a></dt>
 <dd>Resource key for the localizable display name property.</dd>
+<dt><a href="#Property-enableACL">enableACL</a></dt>
+<dd></dd>
 <dt><a href="#Property-eventHandlerClass">eventHandlerClass</a></dt>
 <dd>The full qulified name of the event handler class.</dd>
 <dt><a href="#Property-iconFile">iconFile</a></dt>
 <dd>The design icon/thumbnail file path</dd>
+<dt><a href="#Property-imageDPI">imageDPI</a></dt>
+<dd></dd>
 <dt><a href="#Property-layoutPreference">layoutPreference</a></dt>
+<dd></dd>
+<dt><a href="#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a></dt>
+<dd></dd>
+<dt><a href="#Property-pageVariables">pageVariables</a></dt>
 <dd></dd>
 <dt><a href="#Property-refreshRate">refreshRate</a></dt>
 <dd>The refresh rate when viewing the report.</dd>
@@ -73,6 +87,10 @@ The report design element represents report as a whole.</div>
 <dt><a href="#Method-initialize">initialize</a></dt>
 <dd>Called when the report starts executing in either the 
 Factory or Presentation engine.</dd>
+<dt><a href="#Method-onPageEnd">onPageEnd</a></dt>
+<dd></dd>
+<dt><a href="#Method-onPageStart">onPageStart</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Slot Summary</h3>
@@ -119,6 +137,7 @@ items can extend these items. Defines a &quot;private library&quot; for this des
 <a href="Module.html#Property-libraries">libraries</a>, 
 <a href="Module.html#Property-propertyBindings">propertyBindings</a>, 
 <a href="Module.html#Property-scriptLibs">scriptLibs</a>, 
+<a href="Module.html#Property-subject">subject</a>, 
 <a href="Module.html#Property-theme">theme</a>, 
 <a href="Module.html#Property-title">title</a>, 
 <a href="Module.html#Property-titleID">titleID</a>, 
@@ -149,6 +168,115 @@ cannot extend another design.</p>
 <p>Library element</p></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-ACLExpression">ACLExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>ACL expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-bidiLayoutOrientation">bidiLayoutOrientation Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (bidiDirection)</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Report orientation</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>ltr</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>ltr</td>
+<td>Left To Right</td>
+<td>ltr</td>
+<td></td></tr>
+<tr><td>rtl</td>
+<td>Right To Left</td>
+<td>rtl</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-cascadeACL">cascadeACL Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Cascade ACL</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>true</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-cheatSheet">cheatSheet Property</a></h2>
 
 <p class="section-text">A string containing the file name of the cheat sheet.</p>
@@ -282,6 +410,36 @@ cannot extend another design.</p>
 be looked up from a resource file relating to the current locale.</p></div>
 
 <hr>
+<h2><a name="Property-enableACL">enableACL Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Enable ACL</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-eventHandlerClass">eventHandlerClass Property</a></h2>
 
 <p class="section-text">The full qulified name of the event handler class.</p>
@@ -351,6 +509,36 @@ which define the scripting behavior that will be executed at runtime.</p></div>
 <p>The design icon/thumbnail file path</p></div>
 
 <hr>
+<h2><a name="Property-imageDPI">imageDPI Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Image DPI</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-layoutPreference">layoutPreference Property</a></h2>
 
 <p class="section-text"></p>
@@ -368,7 +556,7 @@ which define the scripting behavior that will be executed at runtime.</p></div>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>auto layout</td></tr>
+<td>fixed layout</td></tr>
 <tr><td>Inherited:</td>
 <td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
@@ -394,6 +582,66 @@ which define the scripting behavior that will be executed at runtime.</p></div>
 <td>auto layout</td>
 <td></td></tr>
 </tbody></table><br>
+
+<hr>
+<h2><a name="Property-newHandlerOnEachEvent">newHandlerOnEachEvent Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>New handler on each event</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-pageVariables">pageVariables Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../types.html#element">element</a>s</td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Page variables</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-refreshRate">refreshRate Property</a></h2>
@@ -456,7 +704,7 @@ rate of 0 means no refresh.</p></div>
 <tr><td>Runtime Settable:</td>
 <td>No</td></tr>
 <tr><td>Property Sheet Visibility:</td>
-<td>Visible</td></tr>
+<td>Hidden</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>
@@ -686,6 +934,52 @@ not visa-versa. This is the generally accepted meaning of an include.</p></div>
 <div class="section-text">
 <p>Report Design <code>beforeFactory</code> method</p>
 <p>Report Design <code>beforeRender</code> method</p></div>
+
+<hr>
+<h2><a name="Method-onPageEnd">onPageEnd Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onPageEnd(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Method-onPageStart">onPageStart Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onPageStart(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
 <h1>Slot Detail</h1>
 
 <h2><a name="Slot-styles">styles Slot</a></h2>
@@ -919,7 +1213,7 @@ definition allows. For example, a grid can contain other items.</li>
 <tr><td>XML Element:</td>
 <td><code>body</code></td></tr>
 <tr><td>Contents:</td>
-<td>List of <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="List.html">List</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
+<td>List of <a href="AutoText.html">AutoText</a>, <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="List.html">List</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
 </table>
 
 <h3>Description</h3>

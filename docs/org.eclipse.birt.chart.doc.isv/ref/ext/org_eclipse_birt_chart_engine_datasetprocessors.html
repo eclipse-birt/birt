@@ -2,33 +2,33 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Contains definition of chart DataSet processors</title>
-<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/plugins/org.eclipse.sdk_3.3.0.v20070228-0800/book.css");</style>
-<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/configuration/org.eclipse.osgi/bundles/355/1/.cp/schema.css");</style>
+<style type="text/css">@import url("file:/C:/Program Files/BIRT_2_5_0/S20090609/eclipse/plugins/org.eclipse.platform_3.3.200.v200906051444/book.css");</style>
+<style type="text/css">@import url("file:/C:/Program Files/BIRT_2_5_0/S20090609/eclipse/configuration/org.eclipse.osgi/bundles/165/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
-<H1><CENTER>Contains definition of chart DataSet processors</CENTER></H1>
+<H1 style="text-align:center">Contains definition of chart DataSet processors</H1>
 <p></p>
-<h6 class=CaptionFigColumn id=header>Identifier: </h6>org.eclipse.birt.chart.engine.datasetprocessors<p></p>
-<h6 class=CaptionFigColumn id=header>Since: </h6>1.0.0
+<h6 class="CaptionFigColumn SchemaHeader">Identifier: </h6>org.eclipse.birt.chart.engine.datasetprocessors<p></p>
+<h6 class="CaptionFigColumn SchemaHeader">Since: </h6>1.0.0
 <p></p>
 
-<p>
-<h6 class=CaptionFigColumn id=header>Description: </h6>A dataset processor extension point specifies a mapping entry between a series type identified by a fully qualified implementing class name against a class that is capable of processing each row of data provided in its dataset. For further information, please refer to the documentation provided for each extension point schema element</p>
-<p><h6 class=CaptionFigColumn id=header>Configuration Markup:</h6></p>
-<p class=code id=dtd>&lt;!ELEMENT <a name="e.extension">extension</a> (<a href="#e.datasetProcessor">datasetProcessor</a>)&gt;</p>
-<p class=code id=dtd>&lt;!ATTLIST extension</p>
-<p class=code id=dtdAttlist>point&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>name&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<h6 class="CaptionFigColumn SchemaHeader">Description: </h6>A dataset processor extension point specifies a mapping entry between a series type identified by a fully qualified implementing class name against a class that is capable of processing each row of data provided in its dataset. For further information, please refer to the documentation provided for each extension point schema element<p></p>
+<h6 class="CaptionFigColumn SchemaHeader">Configuration Markup:</h6>
 <p></p>
-<ul class=ConfigMarkup id=attlistDesc>
+<p class="code SchemaDtd">&lt;!ELEMENT <a name="e.extension">extension</a> (<a href="#e.datasetProcessor">datasetProcessor</a>)&gt;</p>
+<p class="code SchemaDtd">&lt;!ATTLIST extension</p>
+<p class="code SchemaDtdAttlist">point&nbsp;CDATA #REQUIRED</p><p class="code SchemaDtdAttlist">id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED</p><p class="code SchemaDtdAttlist">name&nbsp;&nbsp;CDATA #IMPLIED</p>&gt;</p>
+<p></p>
+<ul class="ConfigMarkupAttlistDesc">
 </ul>
-<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.datasetProcessor">datasetProcessor</a> EMPTY&gt;</p>
-<p class=code id=dtd>&lt;!ATTLIST datasetProcessor</p>
-<p class=code id=dtdAttlist>series&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>processor&nbsp;CDATA #IMPLIED&gt;</p>
+<br><p class="code SchemaDtd">&lt;!ELEMENT <a name="e.datasetProcessor">datasetProcessor</a> EMPTY&gt;</p>
+<p class="code SchemaDtd">&lt;!ATTLIST datasetProcessor</p>
+<p class="code SchemaDtdAttlist">series&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED</p><p class="code SchemaDtdAttlist">processor&nbsp;CDATA #IMPLIED</p>&gt;</p>
 <p></p>
-<p class=ConfigMarkup id=elementDesc>
+<p class="ConfigMarkupElementDesc">
 A dataset processor extension point specifies a mapping entry between a series type identified by a fully qualified implementing class name against a class that is capable of processing each row of data provided in its dataset. Note that all dataset processor implementations must subclass the base dataset processor implementation provided i.e. org.eclipse.birt.chart.datafeed.DataSetAdapter and override methods as needed. A dataset processor is responsible for introspecting each row of custom data that may be provided in a dataset for use in series rendering.</p>
 <br>
-<ul class=ConfigMarkup id=attlistDesc>
+<ul class="ConfigMarkupAttlistDesc">
 <li><b>series</b> - The series type class name for which a dataset processor is being defined. Series class implementations are located at org.eclipse.birt.chart.model.type.impl.*
 
 e.g.
@@ -38,7 +38,7 @@ org.eclipse.birt.chart.model.type.impl.BarSeriesImpl</li>
 e.g.
 org.eclipse.birt.chart.datafeed.StockDataSetProcessorImpl</li>
 </ul>
-<br><h6 class=CaptionFigColumn id=header>Examples: </h6><extension
+<br><h6 class="CaptionFigColumn SchemaHeader">Examples: </h6><extension
          point="org.eclipse.birt.chart.engine.datasetprocessors">
       <datasetProcessor
             processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
@@ -61,17 +61,13 @@ org.eclipse.birt.chart.datafeed.StockDataSetProcessorImpl</li>
    </extension>
 <p></p>
 
-<h6 class=CaptionFigColumn id=header>API Information: </h6>Please refer to the IDataSetProcessor interface javadocs in <i>org.eclipse.birt.chart.datafeed</i> package.
-<p></p>
-
-<h6 class=CaptionFigColumn id=header>Supplied Implementation: </h6>The <i>org.eclipse.birt.chart.engine.extension</i> plug-in defines DataSetProcessor extensions for the default series types.
+<h6 class="CaptionFigColumn SchemaHeader">Supplied Implementation: </h6>The <i>org.eclipse.birt.chart.engine.extension</i> plug-in defines DataSetProcessor extensions for the default series types.
 <p></p>
 
 <br>
-<p class=note id=copyright>
+<p class="note SchemaCopyright">
 Copyright (c) 2004-2005 Actuate Corporation.
 All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
-<p></p>
 
 </p>
 </BODY>

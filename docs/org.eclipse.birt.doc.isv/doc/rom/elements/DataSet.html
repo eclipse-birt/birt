@@ -47,6 +47,10 @@ Parent of simple data set and joint data set.</div>
 <dd>User-defined columns in the result set.</dd>
 <dt><a href="#Property-filter">filter</a></dt>
 <dd>An optional set of filters to apply to the result set before any other data transforms.</dd>
+<dt><a href="#Property-needsCache">needsCache</a></dt>
+<dd></dd>
+<dt><a href="#Property-parameters">parameters</a></dt>
+<dd></dd>
 <dt><a href="#Property-resultSetHints">resultSetHints</a></dt>
 <dd></dd>
 <dt><a href="#Property-rowFetchLimit">rowFetchLimit</a></dt>
@@ -63,6 +67,7 @@ Parent of simple data set and joint data set.</div>
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
@@ -268,6 +273,66 @@ scripting variable.</p></div>
 <p>Listing <code>filter</code> property</p>
 <p>ListingGroup <code>filter</code> 
 property</p></div>
+
+<hr>
+<h2><a name="Property-needsCache">needsCache Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Needs cache for data-engine</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-parameters">parameters Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/DataSetParam.html">DataSetParam</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Data set parameters</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-resultSetHints">resultSetHints Property</a></h2>

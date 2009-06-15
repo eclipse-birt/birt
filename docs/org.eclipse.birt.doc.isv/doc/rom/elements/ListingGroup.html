@@ -40,7 +40,11 @@ list and table groups.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-ACLExpression">ACLExpression</a></dt>
+<dd></dd>
 <dt><a href="#Property-bookmark">bookmark</a></dt>
+<dd></dd>
+<dt><a href="#Property-cascadeACL">cascadeACL</a></dt>
 <dd></dd>
 <dt><a href="#Property-eventHandlerClass">eventHandlerClass</a></dt>
 <dd>The full qulified name of the event handler class.</dd>
@@ -58,6 +62,8 @@ list and table groups.</div>
 <dd>Number of contiguous groups to merge to create a single group.</dd>
 <dt><a href="#Property-keyExpr">keyExpr</a></dt>
 <dd>The expression for the group key.</dd>
+<dt><a href="#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a></dt>
+<dd></dd>
 <dt><a href="#Property-pageBreakAfter">pageBreakAfter</a></dt>
 <dd></dd>
 <dt><a href="#Property-pageBreakBefore">pageBreakBefore</a></dt>
@@ -78,6 +84,15 @@ list and table groups.</div>
 <dd></dd>
 </dl>
 
+<h3>Method Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Method-onCreate">onCreate</a></dt>
+<dd></dd>
+<dt><a href="#Method-onRender">onRender</a></dt>
+<dd></dd>
+</dl>
+
 <h3>Description</h3>
 
 <div class="section-text">
@@ -90,6 +105,40 @@ column from the query. If the group key is a time field then user often want to
 group on an <i>interval</i> such as month or quarter.</p></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-ACLExpression">ACLExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>ACL expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-bookmark">bookmark Property</a></h2>
 
 <p class="section-text"></p>
@@ -118,6 +167,36 @@ group on an <i>interval</i> such as month or quarter.</p></div>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
 <td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-cascadeACL">cascadeACL Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Cascade ACL</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>true</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>
@@ -299,7 +378,7 @@ as explained in the scripting specification.</p></div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No interval</td>
+<td>No Interval</td>
 <td>none</td>
 <td>Group on individual 
     values.</td></tr>
@@ -525,6 +604,36 @@ the group key might be &quot;<code>row.state</code>&quot;. A level break
 occurs each time the key changes. At each level break, the current group is 
 ended, and a new group started. The expression most often is just a column, but 
 can be a computed value.</p></div>
+
+<hr>
+<h2><a name="Property-newHandlerOnEachEvent">newHandlerOnEachEvent Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>New handler on each event</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-pageBreakAfter">pageBreakAfter Property</a></h2>
@@ -761,7 +870,7 @@ customers by total sales or by customer name.</p></div>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Sort Direction</td></tr>
+<td>Sort direction</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -840,15 +949,15 @@ default group sort key is the group key.</p></div>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No sort type</td>
+<td>No Sort Type</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>sort-on-group-key</td>
-<td>Sort on group key</td>
+<td>Sort on Group Key</td>
 <td>sort-on-group-key</td>
 <td></td></tr>
 <tr><td>complex-sort</td>
-<td>Complex sort</td>
+<td>Complex Sort</td>
 <td>complex-sort</td>
 <td></td></tr>
 </tbody></table><br>
@@ -944,5 +1053,51 @@ value of the expression appears for the table of contents for the report.</p></d
 <td>Deleted</td>
 <td></td></tr>
 </tbody></table><br>
+<h1>Method Detail</h1>
+
+<h2><a name="Method-onCreate">onCreate Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onCreate(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Method-onRender">onRender Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onRender(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Context:</td>
+<td>presentation</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
 </body>
 </html>

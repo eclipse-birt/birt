@@ -27,6 +27,8 @@ Represents a toc;each toc consists of an expression, style, and corresponding fo
 <dd>style for toc</dd>
 <dt><a href="#Property-backgroundColor">backgroundColor</a></dt>
 <dd></dd>
+<dt><a href="#Property-bidiTextDirection">bidiTextDirection</a></dt>
+<dd></dd>
 <dt><a href="#Property-borderBottomColor">borderBottomColor</a></dt>
 <dd></dd>
 <dt><a href="#Property-borderBottomStyle">borderBottomStyle</a></dt>
@@ -107,7 +109,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>style of TOC</td></tr>
+<td>Style of TOC</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -135,7 +137,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>background color</td></tr>
+<td>Background Color</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -221,6 +223,45 @@ in the Table of Contents for this item or its container</dd>
 </tbody></table><br>
 
 <hr>
+<h2><a name="Property-bidiTextDirection">bidiTextDirection Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (bidiDirection)</td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Text Direction</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>ltr</td>
+<td>Left To Right</td>
+<td>ltr</td>
+<td></td></tr>
+<tr><td>rtl</td>
+<td>Right To Left</td>
+<td>rtl</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
 <h2><a name="Property-borderBottomColor">borderBottomColor Property</a></h2>
 
 <p class="section-text"></p>
@@ -234,7 +275,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border bottom color</td></tr>
+<td>Border Bottom Color</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -333,7 +374,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border bottom style</td></tr>
+<td>Border Bottom Style</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -349,7 +390,7 @@ in the Table of Contents for this item or its container</dd>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line style</td>
+<td>No Line Style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -400,7 +441,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border bottom width</td></tr>
+<td>Border Bottom Width</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -443,7 +484,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>bordre Left color</td></tr>
+<td>Border Left Color</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -542,7 +583,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border Left style</td></tr>
+<td>Border Left Style</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -558,7 +599,7 @@ in the Table of Contents for this item or its container</dd>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line style</td>
+<td>No Line Style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -609,7 +650,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border Left width</td></tr>
+<td>Border Left Width</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -652,7 +693,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border right color</td></tr>
+<td>Border Right Color</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -751,7 +792,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border right style</td></tr>
+<td>Border Right Style</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -767,7 +808,7 @@ in the Table of Contents for this item or its container</dd>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line style</td>
+<td>No Line Style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -818,7 +859,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border right width</td></tr>
+<td>Border Right Width</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -861,7 +902,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border Top color</td></tr>
+<td>Border Top Color</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -960,7 +1001,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border Top style</td></tr>
+<td>Border Top Style</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -976,7 +1017,7 @@ in the Table of Contents for this item or its container</dd>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line style</td>
+<td>No Line Style</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>solid</td>
@@ -1027,7 +1068,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>border Top width</td></tr>
+<td>Border Top Width</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1070,7 +1111,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font color</td></tr>
+<td>Font Color</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1169,7 +1210,7 @@ in the Table of Contents for this item or its container</dd>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>format dateTime</td></tr>
+<td>Date Time Format</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1198,7 +1239,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>expression</td></tr>
+<td>Expression</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1226,7 +1267,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font family</td></tr>
+<td>Font Family</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1277,7 +1318,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font size</td></tr>
+<td>Font Size</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1344,7 +1385,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font style</td></tr>
+<td>Font Style</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1387,7 +1428,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font variant</td></tr>
+<td>Font Variant</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1426,7 +1467,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font weight</td></tr>
+<td>Font Weight</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1509,7 +1550,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>format number align</td></tr>
+<td>Number Align Format</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1556,7 +1597,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>format number</td></tr>
+<td>Number Format</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1580,7 +1621,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>format string</td></tr>
+<td>String Format</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1604,7 +1645,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>text align</td></tr>
+<td>Text Align</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1651,7 +1692,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>text indent</td></tr>
+<td>Text Indent</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1675,7 +1716,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font text linethrough</td></tr>
+<td>Font Text Linethrough</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1691,7 +1732,7 @@ in the Table of Contents for this item or its container</p>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line through text</td>
+<td>No Line Through Text</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>line-through</td>
@@ -1714,7 +1755,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font text overline</td></tr>
+<td>Font Text Overline</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1730,7 +1771,7 @@ in the Table of Contents for this item or its container</p>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No line over text</td>
+<td>No Line Over Text</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>overline</td>
@@ -1753,7 +1794,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>text transform</td></tr>
+<td>Text Transform</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1781,7 +1822,7 @@ in the Table of Contents for this item or its container</p>
 <td>lowercase</td>
 <td></td></tr>
 <tr><td>none</td>
-<td>No transformation</td>
+<td>No Transformation</td>
 <td>none</td>
 <td></td></tr>
 </tbody></table><br>
@@ -1800,7 +1841,7 @@ in the Table of Contents for this item or its container</p>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>font text underline</td></tr>
+<td>Font Text Underline</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -1816,7 +1857,7 @@ in the Table of Contents for this item or its container</p>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>none</td>
-<td>No underline</td>
+<td>No Underline</td>
 <td>none</td>
 <td></td></tr>
 <tr><td>underline</td>

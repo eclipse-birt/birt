@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>Derived Data Set Element (Eclipse BIRT ROM Documentation)</title>
+<link rel="stylesheet" href="../style/style.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<p class="title">Eclipse BIRT Report Object Model (ROM)</p>
+<p class="subtitle">DerivedDataSet Element</p>
+<h1>Element Overview</h1>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Display Name:</td>
+<td>Derived Data Set</td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>XML Element:</td>
+<td><code>derived-data-set</code></td></tr>
+<tr><td>Extends:</td>
+<td><a href="SimpleDataSet.html">SimpleDataSet</a></td></tr>
+<tr><td>Extendable:</td>
+<td>Yes</td></tr>
+<tr><td>Abstract:</td>
+<td>No</td></tr>
+<tr><td>Name Space:</td>
+<td>Data Sets</td></tr>
+<tr><td>Name Requirement:</td>
+<td>Required</td></tr>
+<tr><td>Allows User Properties:</td>
+<td>Yes</td></tr>
+<tr><td>Has Style:</td>
+<td>No</td></tr>
+</table>
+
+<h3>Property Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Property-extensionID">extensionID</a></dt>
+<dd></dd>
+<dt><a href="#Property-inputDataSets">inputDataSets</a></dt>
+<dd></dd>
+<dt><a href="#Property-queryText">queryText</a></dt>
+<dd></dd>
+</dl>
+
+<h3>Inherited Properties</h3>
+
+<p class="section-text">
+<a href="DataSet.html#Property-cachedMetaData">cachedMetaData</a>, 
+<a href="DataSet.html#Property-columnHints">columnHints</a>, 
+<a href="ReportElement.html#Property-comments">comments</a>, 
+<a href="DataSet.html#Property-computedColumns">computedColumns</a>, 
+<a href="DesignElement.html#Property-customXml">customXml</a>, 
+<a href="SimpleDataSet.html#Property-dataSetRowLimit">dataSetRowLimit</a>, 
+<a href="ReportElement.html#Property-displayName">displayName</a>, 
+<a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
+<a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
+<a href="ReportElement.html#Property-extends">extends</a>, 
+<a href="DataSet.html#Property-filter">filter</a>, 
+<a href="ReportElement.html#Property-name">name</a>, 
+<a href="DataSet.html#Property-needsCache">needsCache</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
+<a href="SimpleDataSet.html#Property-paramBindings">paramBindings</a>, 
+<a href="DataSet.html#Property-parameters">parameters</a>, 
+<a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
+<a href="SimpleDataSet.html#Property-refTemplateParameter">refTemplateParameter</a>, 
+<a href="DataSet.html#Property-resultSetHints">resultSetHints</a>, 
+<a href="DataSet.html#Property-rowFetchLimit">rowFetchLimit</a>, 
+<a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportElement.html#Property-viewAction">viewAction</a>
+</p>
+<h3>Inherited Methods</h3>
+
+<p class="section-text">
+<a href="SimpleDataSet.html#Method-beforeOpen">beforeOpen</a>, 
+<a href="SimpleDataSet.html#Method-beforeClose">beforeClose</a>, 
+<a href="SimpleDataSet.html#Method-onFetch">onFetch</a>, 
+<a href="SimpleDataSet.html#Method-afterOpen">afterOpen</a>, 
+<a href="SimpleDataSet.html#Method-afterClose">afterClose</a></p>
+<h1>Property Detail</h1>
+
+<h2><a name="Property-extensionID">extensionID Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Extension ID</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-inputDataSets">inputDataSets Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#list">list</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Input data sets</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-queryText">queryText Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#xml">xml</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Query</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+</body>
+</html>

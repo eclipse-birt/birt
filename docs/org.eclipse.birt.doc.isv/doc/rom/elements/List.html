@@ -67,8 +67,11 @@ This section describes the list itself.</div>
 <h3>Inherited Properties</h3>
 
 <p class="section-text">
+<a href="ReportItem.html#Property-ACLExpression">ACLExpression</a>, 
+<a href="ReportItem.html#Property-allowExport">allowExport</a>, 
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
 <a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
+<a href="ReportItem.html#Property-cascadeACL">cascadeACL</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
 <a href="ReportItem.html#Property-cube">cube</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
@@ -80,13 +83,16 @@ This section describes the list itself.</div>
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="Listing.html#Property-filter">filter</a>, 
 <a href="ReportItem.html#Property-height">height</a>, 
+<a href="ReportItem.html#Property-multiViews">multiViews</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="Listing.html#Property-pageBreakInterval">pageBreakInterval</a>, 
 <a href="ReportItem.html#Property-paramBindings">paramBindings</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="ReportItem.html#Property-refTemplateParameter">refTemplateParameter</a>, 
 <a href="Listing.html#Property-repeatHeader">repeatHeader</a>, 
 <a href="Listing.html#Property-sort">sort</a>, 
+<a href="Listing.html#Property-sortByGroups">sortByGroups</a>, 
 <a href="ReportItem.html#Property-style">style</a>, 
 <a href="ReportItem.html#Property-toc">toc</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
@@ -106,6 +112,9 @@ This section describes the list itself.</div>
 <a href="Style.html#Property-backgroundPositionX">backgroundPositionX</a>, 
 <a href="Style.html#Property-backgroundPositionY">backgroundPositionY</a>, 
 <a href="Style.html#Property-backgroundRepeat">backgroundRepeat</a>, 
+<a href="Style.html#Property-backgroundSizeHeight">backgroundSizeHeight</a>, 
+<a href="Style.html#Property-backgroundSizeWidth">backgroundSizeWidth</a>, 
+<a href="Style.html#Property-bidiTextDirection">bidiTextDirection</a>, 
 <a href="Style.html#Property-borderBottomColor">borderBottomColor</a>, 
 <a href="Style.html#Property-borderBottomStyle">borderBottomStyle</a>, 
 <a href="Style.html#Property-borderBottomWidth">borderBottomWidth</a>, 
@@ -303,7 +312,7 @@ preferred place for visual customizations.</p></div>
 <tr><td>XML Element:</td>
 <td><code>header</code></td></tr>
 <tr><td>Contents:</td>
-<td>List of <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="List.html">List</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
+<td>List of <a href="AutoText.html">AutoText</a>, <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="List.html">List</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
 <tr><td>Default Style:</td>
 <td><a href="../styles.html#list-header">list-header</a></td></tr>
 </table>
@@ -368,7 +377,7 @@ header, a footer and more.</p></div>
 <tr><td>XML Element:</td>
 <td><code>detail</code></td></tr>
 <tr><td>Contents:</td>
-<td>List of <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="List.html">List</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
+<td>List of <a href="AutoText.html">AutoText</a>, <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="List.html">List</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
 <tr><td>Default Style:</td>
 <td><a href="../styles.html#list-detail">list-detail</a></td></tr>
 </table>
@@ -400,7 +409,7 @@ customer’s sales this month.</p></div>
 <tr><td>XML Element:</td>
 <td><code>footer</code></td></tr>
 <tr><td>Contents:</td>
-<td>List of <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="List.html">List</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
+<td>List of <a href="AutoText.html">AutoText</a>, <a href="Data.html">Data</a>, <a href="ExtendedItem.html">ExtendedItem</a>, <a href="FreeForm.html">FreeForm</a>, <a href="Grid.html">Grid</a>, <a href="Image.html">Image</a>, <a href="Label.html">Label</a>, <a href="List.html">List</a>, <a href="Table.html">Table</a>, <a href="TemplateReportItem.html">TemplateReportItem</a>, <a href="Text.html">Text</a>, <a href="TextData.html">TextData</a></td></tr>
 <tr><td>Default Style:</td>
 <td><a href="../styles.html#list-footer">list-footer</a></td></tr>
 </table>

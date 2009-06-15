@@ -38,6 +38,17 @@ Represents a Grid item, it's divided into a series of rows and columns.</div>
 <td><a href="../styles.html#grid">grid</a></td></tr>
 </table>
 
+<h3>Property Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Property-caption">caption</a></dt>
+<dd></dd>
+<dt><a href="#Property-captionID">captionID</a></dt>
+<dd></dd>
+<dt><a href="#Property-summary">summary</a></dt>
+<dd></dd>
+</dl>
+
 <h3>Method Summary</h3>
 
 <dl class="section-text">
@@ -63,8 +74,11 @@ Represents a Grid item, it's divided into a series of rows and columns.</div>
 <h3>Inherited Properties</h3>
 
 <p class="section-text">
+<a href="ReportItem.html#Property-ACLExpression">ACLExpression</a>, 
+<a href="ReportItem.html#Property-allowExport">allowExport</a>, 
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
 <a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
+<a href="ReportItem.html#Property-cascadeACL">cascadeACL</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
 <a href="ReportItem.html#Property-cube">cube</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
@@ -75,7 +89,9 @@ Represents a Grid item, it's divided into a series of rows and columns.</div>
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportItem.html#Property-height">height</a>, 
+<a href="ReportItem.html#Property-multiViews">multiViews</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="ReportItem.html#Property-paramBindings">paramBindings</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="ReportItem.html#Property-refTemplateParameter">refTemplateParameter</a>, 
@@ -98,6 +114,9 @@ Represents a Grid item, it's divided into a series of rows and columns.</div>
 <a href="Style.html#Property-backgroundPositionX">backgroundPositionX</a>, 
 <a href="Style.html#Property-backgroundPositionY">backgroundPositionY</a>, 
 <a href="Style.html#Property-backgroundRepeat">backgroundRepeat</a>, 
+<a href="Style.html#Property-backgroundSizeHeight">backgroundSizeHeight</a>, 
+<a href="Style.html#Property-backgroundSizeWidth">backgroundSizeWidth</a>, 
+<a href="Style.html#Property-bidiTextDirection">bidiTextDirection</a>, 
 <a href="Style.html#Property-borderBottomColor">borderBottomColor</a>, 
 <a href="Style.html#Property-borderBottomStyle">borderBottomStyle</a>, 
 <a href="Style.html#Property-borderBottomWidth">borderBottomWidth</a>, 
@@ -237,6 +256,96 @@ as a whole.</p>
 <li>Row alignment: how to align items within a row. Options are top, middle, bottom or baseline (described below).</li>
 
 </ul></div>
+<h1>Property Detail</h1>
+
+<h2><a name="Property-caption">caption Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Caption</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-captionID">captionID Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#resourceKey">resourceKey</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Caption key</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-summary">summary Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.3</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Summary</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 <h1>Method Detail</h1>
 
 <h2><a name="Method-onCreate">onCreate Method</a></h2>

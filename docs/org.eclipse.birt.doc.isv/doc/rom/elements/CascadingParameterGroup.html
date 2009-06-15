@@ -43,8 +43,6 @@ Visual grouping of report cascading parameters.</div>
 <dd>The name of the data set that provides data for the dynamic parameters within the group.</dd>
 <dt><a href="#Property-dataSetMode">dataSetMode</a></dt>
 <dd></dd>
-<dt><a href="#Property-promptText">promptText</a></dt>
-<dd></dd>
 </dl>
 
 <h3>Slot Summary</h3>
@@ -66,6 +64,9 @@ Visual grouping of report cascading parameters.</div>
 <a href="ParameterGroup.html#Property-helpText">helpText</a>, 
 <a href="ParameterGroup.html#Property-helpTextID">helpTextID</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
+<a href="ParameterGroup.html#Property-promptText">promptText</a>, 
+<a href="ParameterGroup.html#Property-promptTextID">promptTextID</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="ParameterGroup.html#Property-startExpanded">startExpanded</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
@@ -165,36 +166,6 @@ Parameters in a cascading parameter group share a same data set.</p></div>
 <td>multiple</td>
 <td></td></tr>
 </tbody></table><br>
-
-<hr>
-<h2><a name="Property-promptText">promptText Property</a></h2>
-
-<p class="section-text"></p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td><a href="../types.html#string">string</a></td></tr>
-<tr><td>Since:</td>
-<td>2.1</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Prompt text</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>None</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>No</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Visible</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
 <h1>Slot Detail</h1>
 
 <h2><a name="Slot-parameters">parameters Slot</a></h2>
@@ -210,7 +181,7 @@ Parameters in a cascading parameter group share a same data set.</p></div>
 <tr><td>XML Element:</td>
 <td><code>parameters</code></td></tr>
 <tr><td>Contents:</td>
-<td>List of <a href="Parameter.html">Parameter</a></td></tr>
+<td>List of <a href="ScalarParameter.html">ScalarParameter</a></td></tr>
 </table>
 
 <h3>Description</h3>

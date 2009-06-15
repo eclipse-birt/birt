@@ -33,6 +33,8 @@ A user-defined column in the result set.</div>
 <dd>Column data type property.</dd>
 <dt><a href="#Property-displayName">displayName</a></dt>
 <dd></dd>
+<dt><a href="#Property-displayNameID">displayNameID</a></dt>
+<dd></dd>
 <dt><a href="#Property-expression">expression</a></dt>
 <dd>The BIRT expression that defines the value of the computed column.</dd>
 <dt><a href="#Property-filterExpr">filterExpr</a></dt>
@@ -56,7 +58,7 @@ retrieved directly from the underlying data provider.</p></div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#choice">choice</a> (aggregationFunction)</td></tr>
+<td><a href="../types.html#string">string</a></td></tr>
 <tr><td>Since:</td>
 <td>2.2</td></tr>
 <tr><td>Required:</td>
@@ -71,129 +73,6 @@ retrieved directly from the underlying data provider.</p></div>
 <td>Yes</td></tr>
 </table>
 
-<h3>Choices</h3>
-
-<table class="section-table">
-<thead><tr><td>Name</td><td>Display Name</td>
-<td>Value</td><td>Description</td></tr></thead>
-<tbody>
-<tr><td>sum</td>
-<td>SUM</td>
-<td>sum</td>
-<td></td></tr>
-<tr><td>count</td>
-<td>COUNT</td>
-<td>count</td>
-<td></td></tr>
-<tr><td>min</td>
-<td>MIN</td>
-<td>min</td>
-<td></td></tr>
-<tr><td>max</td>
-<td>MAX</td>
-<td>max</td>
-<td></td></tr>
-<tr><td>average</td>
-<td>AVERAGE</td>
-<td>average</td>
-<td></td></tr>
-<tr><td>weighted-avg</td>
-<td>WEIGHTEDAVG</td>
-<td>weighted-avg</td>
-<td></td></tr>
-<tr><td>stddev</td>
-<td>STDDEV</td>
-<td>stddev</td>
-<td></td></tr>
-<tr><td>first</td>
-<td>FIRST</td>
-<td>first</td>
-<td></td></tr>
-<tr><td>last</td>
-<td>LAST</td>
-<td>last</td>
-<td></td></tr>
-<tr><td>mode</td>
-<td>MODE</td>
-<td>mode</td>
-<td></td></tr>
-<tr><td>moving-ave</td>
-<td>MOVINGAVE</td>
-<td>moving-ave</td>
-<td></td></tr>
-<tr><td>median</td>
-<td>MEDIAN</td>
-<td>median</td>
-<td></td></tr>
-<tr><td>variance</td>
-<td>VARIANCE</td>
-<td>variance</td>
-<td></td></tr>
-<tr><td>running-sum</td>
-<td>RUNNINGSUM</td>
-<td>running-sum</td>
-<td></td></tr>
-<tr><td>irr</td>
-<td>IRR</td>
-<td>irr</td>
-<td></td></tr>
-<tr><td>mirr</td>
-<td>MIRR</td>
-<td>mirr</td>
-<td></td></tr>
-<tr><td>npv</td>
-<td>NPV</td>
-<td>npv</td>
-<td></td></tr>
-<tr><td>running-npv</td>
-<td>RUNNINGNPV</td>
-<td>running-npv</td>
-<td></td></tr>
-<tr><td>count-distinct</td>
-<td>COUNTDISTINCT</td>
-<td>count-distinct</td>
-<td></td></tr>
-<tr><td>running-count</td>
-<td>RUNNINGCOUNT</td>
-<td>running-count</td>
-<td></td></tr>
-<tr><td>is-top-n</td>
-<td>IS-TOP-N</td>
-<td>is-top-n</td>
-<td></td></tr>
-<tr><td>is-bottom-n</td>
-<td>IS-BOTTOM-N</td>
-<td>is-bottom-n</td>
-<td></td></tr>
-<tr><td>is-top-n-percent</td>
-<td>IS-TOP-N-PERCENT</td>
-<td>is-top-n-percent</td>
-<td></td></tr>
-<tr><td>is-bottom-n-percent</td>
-<td>IS-BOTTOM-N-PERCENT</td>
-<td>is-bottom-n-percent</td>
-<td></td></tr>
-<tr><td>percent-rank</td>
-<td>PERCENT-RANK</td>
-<td>percent-rank</td>
-<td></td></tr>
-<tr><td>percentile</td>
-<td>PERCENTILE </td>
-<td>percentile</td>
-<td></td></tr>
-<tr><td>quartile</td>
-<td>QUARTILE   </td>
-<td>quartile</td>
-<td></td></tr>
-<tr><td>percent-sum</td>
-<td>PERCENT-SUM</td>
-<td>percent-sum</td>
-<td></td></tr>
-<tr><td>rank</td>
-<td>RANK</td>
-<td>rank</td>
-<td></td></tr>
-</tbody></table><br>
 
 <hr>
 <h2><a name="Property-aggregateOn">aggregateOn Property</a></h2>
@@ -261,7 +140,7 @@ retrieved directly from the underlying data provider.</p></div>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>any</td></tr>
+<td>None</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>No</td></tr>
 </table>
@@ -272,10 +151,6 @@ retrieved directly from the underlying data provider.</p></div>
 <thead><tr><td>Name</td><td>Display Name</td>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
-<tr><td>any</td>
-<td>Any</td>
-<td>any</td>
-<td></td></tr>
 <tr><td>integer</td>
 <td>Integer</td>
 <td>integer</td>
@@ -308,6 +183,10 @@ retrieved directly from the underlying data provider.</p></div>
 <td>Time</td>
 <td>time</td>
 <td></td></tr>
+<tr><td>blob</td>
+<td>Blob</td>
+<td>blob</td>
+<td></td></tr>
 </tbody></table><br>
 <h3>Description</h3>
 
@@ -339,6 +218,30 @@ retrieved directly from the underlying data provider.</p></div>
 
 
 <hr>
+<h2><a name="Property-displayNameID">displayNameID Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Column Display Name ID</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-expression">expression Property</a></h2>
 
 <p class="section-text">The BIRT expression that defines the value of the computed column.</p>
@@ -354,7 +257,7 @@ retrieved directly from the underlying data provider.</p></div>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>
-<td>Yes</td></tr>
+<td>No</td></tr>
 <tr><td>Display Name:</td>
 <td>Expression</td></tr>
 <tr><td>JavaScript Type:</td>
@@ -389,7 +292,7 @@ value assigned to the computed column.</p></div>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Fiilter Expression</td></tr>
+<td>Filter Expression</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>

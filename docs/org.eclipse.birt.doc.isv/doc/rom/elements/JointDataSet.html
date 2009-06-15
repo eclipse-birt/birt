@@ -43,10 +43,8 @@ Represents a data set joined by serveral data sets on respective join conditions
 <dd></dd>
 <dt><a href="#Property-joinConditions">joinConditions</a></dt>
 <dd>The join conditions on which the source data sets joined.</dd>
-<dt><a href="#Property-parameters">parameters</a></dt>
-<dd>Defines the data access attributes of the list of input and/or output parameters.</dd>
 <dt><a href="#Property-resultSet">resultSet</a></dt>
-<dd>Defines the columns of the expected result set.</dd>
+<dd></dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -63,6 +61,9 @@ Represents a data set joined by serveral data sets on respective join conditions
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="DataSet.html#Property-filter">filter</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="DataSet.html#Property-needsCache">needsCache</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
+<a href="DataSet.html#Property-parameters">parameters</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DataSet.html#Property-resultSetHints">resultSetHints</a>, 
 <a href="DataSet.html#Property-rowFetchLimit">rowFetchLimit</a>, 
@@ -146,49 +147,9 @@ The left expression, right expression and operator constitute the condition.</p>
 </p></p></p></div>
 
 <hr>
-<h2><a name="Property-parameters">parameters Property</a></h2>
-
-<p class="section-text">Defines the data access attributes of the list of input and/or output parameters.</p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td>List of <a href="../structs/DataSetParam.html">DataSetParam</a> Structures</td></tr>
-<tr><td>Since:</td>
-<td>1.0</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Data set parameters</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>None</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>Yes</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Hidden</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Many data sets allow parameters, which can be of input and/or output modes. For some, the user must define the parameters as part of the data set definition. For other data sets, the driver itself can provide the set of parameter definitions from the information available in a data set query. In the latter case, parameter definitions are derived data and <i>are not</i> stored in the parameter definition.</p>
-<p>Some drivers refer to a parameter by position. Others can refer to a parameter by name. Also, for some data sets, the data set definition can omit parameter definitions for optional parameters not used within the report. &nbsp;Not all parameter properties are required. If a property is omitted. BIRT assumes that the data set implementation can provide it at run time. If the driver cannot provide the information, then a runtime error occurs.&nbsp;This is an optional list of data set parameter definitions, used only when the underlying data provider cannot provide this information.&nbsp;When contradicting meta-data are found between those provided dynamically by a data provider and&nbsp;those specified in a data set definition, the data provider&iuml;&iquest;&frac12;s meta-data takes precedence.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>DataSetParam structure</code></p>
-<p><code>ParamBinding structure</code></p></div>
-
-<hr>
 <h2><a name="Property-resultSet">resultSet Property</a></h2>
 
-<p class="section-text">Defines the columns of the expected result set.</p>
+<p class="section-text"></p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -214,13 +175,5 @@ The left expression, right expression and operator constitute the condition.</p>
 <td>Top</td></tr>
 </table>
 
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Defines the data access attributes of&nbsp;the list of columns in the expected primary result set. This is an optional list of result set column definitions, used only when the underlying data provider cannot provide this information.&nbsp;When contradicting meta-data are found between those provided dynamically by a data provider and&nbsp;those specified in a data set definition, the data provider&iuml;&iquest;&frac12;s meta-data takes precedence.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>ResultSetColumn structure</code></p></div>
 </body>
 </html>

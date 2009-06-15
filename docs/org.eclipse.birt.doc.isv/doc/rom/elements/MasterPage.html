@@ -43,6 +43,10 @@ Base element for master pages within a report.</div>
 <dl class="section-text">
 <dt><a href="#Property-bottomMargin">bottomMargin</a></dt>
 <dd>The amount of white space at the bottom of each page.</dd>
+<dt><a href="#Property-columnSpacing">columnSpacing</a></dt>
+<dd></dd>
+<dt><a href="#Property-columns">columns</a></dt>
+<dd></dd>
 <dt><a href="#Property-height">height</a></dt>
 <dd>The height of a custom-sized page.</dd>
 <dt><a href="#Property-leftMargin">leftMargin</a></dt>
@@ -66,6 +70,15 @@ Legal or A4.</dd>
 size.)</dd>
 </dl>
 
+<h3>Method Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Method-onPageEnd">onPageEnd</a></dt>
+<dd></dd>
+<dt><a href="#Method-onPageStart">onPageStart</a></dt>
+<dd></dd>
+</dl>
+
 <h3>Inherited Properties</h3>
 
 <p class="section-text">
@@ -76,6 +89,7 @@ size.)</dd>
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
+<a href="ReportElement.html#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
@@ -121,7 +135,7 @@ the margins.</p></div>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>1in</td></tr>
+<td>0.25in</td></tr>
 <tr><td>Inherited:</td>
 <td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
@@ -138,6 +152,66 @@ the margins.</p></div>
 <p>The amount of white space at the margins of each page. Each dimension must be 
 in physical units. The dimension cannot use relative units (percent, em, or ex.) 
 The size also cannot be in pixels.</p></div>
+
+<hr>
+<h2><a name="Property-columnSpacing">columnSpacing Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#dimension">dimension</a></td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Column spacing</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>12pt</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-columns">columns Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Columns</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>1</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-height">height Property</a></h2>
@@ -194,7 +268,7 @@ page.</p>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>1.25in</td></tr>
+<td>0.25in</td></tr>
 <tr><td>Inherited:</td>
 <td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
@@ -294,7 +368,7 @@ page.</p>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>1.25in</td></tr>
+<td>0.25in</td></tr>
 <tr><td>Inherited:</td>
 <td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
@@ -377,7 +451,7 @@ or a shared style.</p></div>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>1in</td></tr>
+<td>0.25in</td></tr>
 <tr><td>Inherited:</td>
 <td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
@@ -504,5 +578,51 @@ size.)</p>
 <p>Required if the page type is Custom.The width of a page. (Set only for a custom page size.) 
 The dimension must be in physical units. The dimension cannot use relative units 
 (percent, em, or ex.) The size also cannot be in pixels.</p></div>
+<h1>Method Detail</h1>
+
+<h2><a name="Method-onPageEnd">onPageEnd Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onPageEnd(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Method-onPageStart">onPageStart Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onPageStart(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
 </body>
 </html>
