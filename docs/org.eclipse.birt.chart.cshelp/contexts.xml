@@ -20,9 +20,13 @@ The plot area of a chart without axes, such as a pie or meter chart, includes th
 <context id="ChartCustomProperties_ID" title="Custom Properties">
 <!-- updated JAHT 20090614 -->
 <!-- SEQUENCE: On chart wizard, Format Chart->on left, select Chart Area->choose Custom Properties JAHT 20090614 -->
-<description>A custom property associates a value or expression with each instance of a chart. Use a custom property in an event handler to modify the default behavior of a chart.
+<description>A custom property associates a value or expression with each instance of a chart. Use a custom property in an event handler to modify the default behavior of a chart.<br /><br />
 
-To add a custom property, type a name in the text box below the list of custom properties. Then, choose <b>Add</b> Next, type a value or expression to set the initial value of the custom property.
+To add a custom property, type a name in the text box below the list of custom properties.
+Then, choose <b>Add</b> Next, type a value or expression to set the initial value of the custom property.<br /><br />
+
+To use the custom property in an event handler, write code similar to the following line:<br />
+chart.getExtendedProperties().get(0).getValue()
 </description>
 <!-- link updated JAHT 20090607  No available topic -->
 </context>
@@ -30,7 +34,8 @@ To add a custom property, type a name in the text box below the list of custom p
 <context id="ChartGeneralProperties_ID" title="General Properties">
 <!-- updated JAHT 20090614 -->
 <!-- SEQUENCE: On chart wizard, Format Chart->on left, select Chart Area->choose General Properties JAHT 20090614 -->
-<description>General properties define the standard features for the current chart type.
+<description>General properties define the standard features for the current chart type.<br /><br />
+You can use the general properties in an event handler by calling the chart's getter methods.
 </description>
 
 <!-- link updated JAHT 20090607  No available topic apparent to me -->
