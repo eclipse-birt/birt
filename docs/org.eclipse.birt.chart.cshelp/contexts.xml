@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?NLS type="org.eclipse.help.contexts"?>
+<!-- updates based on Designer Version 2.5.0.v20090609 and later JAHT 20090614 -->
 
 <contexts>
 <context id="dummy_outer_container" title="BIRT Chart contexts">
-<description/>
+Contexts for chart items identified by Actuate, 06/2009</description>
 </context>
 <context id="AreaFormat_ID" title="Area Format">
-<description>Use this dialog box to modify the appearance of the area that includes the axes and of the area within the axes, the <b>plot area</b>.
-
-You can change chart placement and padding, configure outlines, or add a shadow to the plot area.
-
-Use the Hint parameters for height and width to place constraints on the calculated height and width of the chart area. Use the Inset parameters to adjust padding.
-
-Note: Before you can configure an outline, you must make it visible. To do this, in the Plot page, select the Visible check box for the outline that you want.
+<!-- updated JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, expand Chart Area->select Plot->select Area Format JAHT 20090614 -->
+<description>The plot area of a chart with axes includes the axes and the area within the axes.<br />
+The plot area of a chart without axes, such as a pie or meter chart, includes the client area, which contains the chart.
 </description>
 
 <!-- link updated JAHT 20090607 -->
@@ -20,33 +18,39 @@ Note: Before you can configure an outline, you must make it visible. To do this,
 </context>
 
 <context id="ChartCustomProperties_ID" title="Custom Properties">
-<description>Use this dialog box to define keys associated with your chart.
+<!-- updated JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, select Chart Area->choose Custom Properties JAHT 20090614 -->
+<description>A custom property associates a value or expression with each instance of a chart. Use a custom property in an event handler to modify the default behavior of a chart.
 
-To add a key, type the key name in the text box below the list of keys and choose <b>Add</b>.
+To add a custom property, type a name in the text box below the list of custom properties. Then, choose <b>Add</b> Next, type a value or expression to set the initial value of the custom property.
 </description>
 <!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="ChartGeneralProperties_ID" title="General Properties">
-<description>Use this dialog box to set chart area properties.
-
-The fields available in this dialog box change according to the type of chart you are defining. For three-dimensional charts and charts with depth, for example, you can define values for the "wall" and "floor" of the chart, and use the Series Depth setting to control how deep you want the chart to look.
+<!-- updated JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, select Chart Area->choose General Properties JAHT 20090614 -->
+<description>General properties define the standard features for the current chart type.
 </description>
 
 <!-- link updated JAHT 20090607  No available topic apparent to me -->
 </context>
 
 <context id="CurveFitting_ID" title="Curve Fitting Line">
-<description>Use this dialog box to format the style, width, and color of the curve fitting line for the chart, and also to define and format an optional label.
+<!-- updated JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard for a chart with axes, Format Chart->on left, expand Series->select Value (Y) series->select Show Curve Fitting Line->Choose Curve Fitting Line JAHT 20090614 -->
+<description>A curve fitting line displays a curve that passes through all the points on a chart with axes.
+You use this line to estimate the values between those that appear on the chart.<br /><br />
+On Curve Fitting Line, set the appearance of the line. You can add a title to the line, with an optional outline.
 </description>
 
 <!-- link updated JAHT 20090607  No available topic -->
 </context>
 
-<context id="DataPointLabels_ID" title="Labels">
-<description>Use this dialog box to define and format labels for the value-series elements in your chart.
-
-In addition to selecting the data to be displayed in the labels, you can specify the labels style. For example, you can position them inside or outside their associated chart element, change the font attributes by choosing the button next to the Font field, and specify a background, outline, or additional padding by defining insets.
+<context id="DataPointLabels_ID" title="Series Labels">
+<!-- updated JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, expand Series->select Value (Y) series->select Show Series Labels->Choose Labels JAHT 20090614 -->
+<description>Series labels display values related to the point on the chart. For example, you can show the percentage of the total that the point represents.
 </description>
 
 <!-- link updated JAHT 20090607 -->
@@ -54,55 +58,63 @@ In addition to selecting the data to be displayed in the labels, you can specify
 </context>
 
 <context id="DataSetFilter_ID" title="Filters">
-<description>Use this dialog box to define filter expressions for selecting specific records to be included in your report.
-
-For example, you can create filters to select customers in a certain region, or customers with a certain credit rank.
-
-To make entries, choose  a field. For Value 2, specify a value only if you selected the Between or Not Between operator.
+<!-- updated JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard, Select Data->Select Filters JAHT 20090614 -->
+<description>A filter restricts the set of records to include in a chart. A filter does not restrict the set of records in the data set itself.
+For example, you can create filters to select customers in a certain region, or customers with a certain credit rank.<br /><br />
+Choose Add to add a new filter. <br />
+Filters are applied in the order that they appear in the list. If you have more than one filter, you can choose Up or Down to reorder the selected filter.
 </description>
 
 <!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="DataSetParameter_ID" title="Parameters">
-<description>Use this dialog box to define data set parameters to allow the user to filter report data.
-
-If you bind a chart to a data set in which you defined parameters, you can access those parameters by choosing <b>Chart</b>   &gt; <b>Select Data</b> .
+<!-- updated JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard, Select Data->Select Parameters JAHT 20090614 -->
+<description>A parameter restricts the set of records in a data set based on the value of an individual field.
+If a data set provides a parameter, you can set a value or expression to define the records that you require.
+The value or expression must return a value of the correct data type for the field from the data set.<br /><br />
+If a data set does not provide parameters, you can restrict the values that the chart displays by using Filter.
 </description>
 
 <!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="EditURL_ID" title="Hyperlink Options">
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, expand Series->select Value (Y) series OR select Chart Area OR expand Chart Area->select Title or Legend->->Choose Interactivity->in Action, select Hyperlink->choose Add (or select the hyperlink and choose Edit if a Hyperlink is already available)->on Hyperlink Editor, choose Edit Base URL JAHT 20090614 -->
 <!-- JAHT 20090607  I think this topic is obsolete. Chart UI now seems to use standard BIRT UI for Hyperlink Options -->
-<description>Use this dialog box to link a chart to a web page, document, or image. You can also use it to link two reports, or two sections of a report.
-
-If you are linking to an external report in HTML format, select a Target option. The target options are equivalent to the HTML Target attribute, which defines where the linked document opens. For example, Blank opens the document in a new browser window. For more information about Target, see HTML documentation about this attribute.
+<description>A hyperlink can link a part of a chart to a web site, another location within the same report, or a location within a different report.
 </description>
 
-<!-- link updated JAHT 20090607  No available topic -->
+<!-- link updated JAHT 20090614 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.19.3.html" label="How to create a hyperlink that links two sections in a report"/>
 </context>
 
 <context id="ExpressionBuilder_ID" title="Expression Builder - Specify Data Definition">
+<!-- SEQUENCE: On chart wizard, Select Data->choose fx button wherever available JAHT 20090614 -->
 <!-- JAHT 20090607  I think this topic is obsolete. Chart UI now seems to use standard BIRT UI for Expression Builder -->
-<description>Use this dialog box to create expressions.
-
-You can either type in the complete expression, or use the controls in the dialog box to guide you.
+<description>
+Create expressions using a combination of constants, controls, functions, literal values, names of fields, and operators that evaluate to a single value.
 </description>
 
-<!-- link updated JAHT 20090607 -->
+<!-- link updated JAHT 20090614 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ScriptingReference.25.1.html" label="Scripting Reference"/>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/expressions.html" label="Writing Expressions"/>
 </context>
 
 <context id="ExternalizeText_ID" title="Externalize Text">
-<description>Use this dialog box to externalize chart text elements. Externalizing text separates it from the chart in a file of its own and so makes localization easier.
+<!-- SEQUENCE: On chart wizard, wherever you type a literal string, Externalize Text is available JAHT 20090614 -->
+<description>Externalizing text supports localization of static string values into multiple languages.
 </description>
 
-<!-- link updated JAHT 20090607  No available topic -->
+<!-- link updated JAHT 20090614 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.20.1.html" label="Scripting Reference"/>
 </context>
 
 <context id="FormatChartArea_ID" title="Edit Chart and New Chart: Chart Area">
-<description>Use this page to define the appearance of the area surrounding the chart, and to enable interactive linking for the chart area and the chart title.
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, select Chart Area JAHT 20090614 -->
+<description>The chart area includes the plot area, the title area, the legend area, and the axes if the chart uses axes.
 </description>
 
 <!-- link updated JAHT 20090607 -->
@@ -112,7 +124,8 @@ You can either type in the complete expression, or use the controls in the dialo
 </context>
 
 <context id="FormatChartAxis_ID" title="Edit Chart and New Chart: Axis">
-<description>Use this page to define the appearance of the chart axes.
+<!-- SEQUENCE: On chart wizard for a chart with axes, Format Chart->on left, expand Chart Area->select Axis JAHT 20090614 -->
+<description>A chart axis can display ticks, labels, and a title to inform a user about the values on the chart.
 </description>
 
 <!-- link updated JAHT 20090607 -->
@@ -120,9 +133,9 @@ You can either type in the complete expression, or use the controls in the dialo
 </context>
 
 <context id="FormatChartLegend_ID" title="Edit Chart and New Chart: Legend">
-<description>Use this page to define the title and the background color for the chart legend.
-
-Note: The legend title will not be visible unless the legend is set to visible. To make the legend visible, you may have to choose Layout, and then select Visible in the Layout Legend dialog box.
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, expand Chart Area->select Legend JAHT 20090614 -->
+<description>
+A chart legend displays a key of category colors and names to assist a user in interpreting chart values.
 </description>
 
 <!-- link updated JAHT 20090607 -->
@@ -131,12 +144,9 @@ Note: The legend title will not be visible unless the legend is set to visible. 
 
 
 <context id="FormatChartPlot_ID" title="Edit Chart and New Chart: Plot">
-<!-- JAHT 20090607  I think this topic is obsolete. I can only find Chart Area on the UI, not Plot -->
-<description>Use this page to specify the background color for the area that is included within the axes and for the area that contains the axes. You can also choose whether to provide visible outlines for these areas.
-
-For outline formatting options, choose <b>Client Area</b>.
-
-To specify the background color for the area outside the axes, use the Chart Area page.
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, expand Chart Area->select Plot JAHT 20090614 -->
+<description>The plot area of a chart with axes includes the axes and the area within the axes.<br />
+The plot area of a chart without axes, such as a pie or meter chart, includes the client area, which contains the chart.
 </description>
 
 <!-- link updated JAHT 20090607 -->
@@ -145,44 +155,44 @@ To specify the background color for the area outside the axes, use the Chart Are
 </context>
 
 <context id="FormatChartSeries_ID" title="Edit Chart and New Chart: Series">
-<description>Use this page to define the title and type of the series that are included in the graph.
-
-Changing the "Color By" option changes which series the color-coding in the chart uses as a base. It also changes the legend to reflect the selected series.
+<!-- SEQUENCE: On chart wizard, Format Chart->on left, select Series JAHT 20090614 -->
+<description>
+A series is a set of related values.<br />
+On a chart with axes, category series relate to the x-axis and value series map to the y-axis.<br />
+On a pie chart, a slice appears for each item in a category series. The value series sets the size of each slice.<br /><br />
+You can set general series properties, such as title, visibility, and the set of colors to use for slices and bars.
 </description>
 
-<!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
+<!-- link updated JAHT 20090614  No available topic -->
 </context>
 
 <context id="FormatChartXAxis_ID" title="Edit Chart and New Chart: X-Axis">
-<description>Use this page to specify title, type, and position of the x-axis with respect to the y-axis.
-
-For additional formatting options, choose <b>Scale</b>, <b>Text Format</b>, <b>Gridlines</b>, and <b>Markers</b>.
-
-Note that if you want the x-axis title to be displayed, you may have to choose <b>Text Format</b> and select <b>Visible</b>.
+<!-- SEQUENCE: On chart wizard for a chart with axes, Format Chart->on left, expand Chart Area->expand Axis->select X-Axis JAHT 20090614 -->
+<description>
+The x-axis displays values for a category series. Its values can be of any data type.<br />
+Use this page to specify title, type, position of the x-axis with respect to the y-axis, and labels.<br /><br />
+For additional formatting options, choose <b>Scale</b>, <b>Title</b>, <b>Label</b>, <b>Gridlines</b>, <b>Markers</b>, and <b>Interactivity</b>.
 </description>
 
-<!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
+<!-- link updated JAHT 20090614  No available topic -->
 </context>
 
-<context id="FormatChartXSeries_ID" title="Edit Chart and New Chart: Category (X) Series">
-<description>Use this page to format the "category" series (x axis) of the chart.
-
-You can define how the category series data is sorted.
-
-You can also enable and define grouping. To define grouping, perform the following steps:
-
-  1. For Type, specify the type of data that the category series contains. You can also specify the units.
-  2. For Interval, select a number that represents the size of the groups to create. For example, to group three-row sequences of text data, select 3. To group numeric data in sections of four, select 4.
-  3. In Aggregate Expression, select the function to use to aggregate the data in the group: Average or Sum (that is, total).
+<context id="FormatChartXSeries_ID" title="Edit Chart and New Chart: Category Series">
+<!-- SEQUENCE: On chart wizard for a pie or meter chart, Format Chart->on left, expand Series->select Category Series JAHT 20090614 -->
+<description>
+The category series determines the number of slices in a pie chart. Its values can be of any data type.<br />
+To combine the slices for categories having values below a threshold into a single slice, type a value in Minimum Slice.
+Then, in Slice Label, type text to use as the category label for the combined slice.
 </description>
 
-<!-- link updated JAHT 20090608  No available topic -->
+<!-- link updated JAHT 20090614  No available topic -->
 </context>
 
 <context id="FormatBarChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Bar Charts">
-<description>Use this page to format the bars and bar outlines in the chart.
+<!-- SEQUENCE: On chart wizard for a bar chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<description>
+The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.<br />
+Use this page to format the bars and bar outlines in the chart.
 
 Note that you can select "Show Curve Fitting Line" to add a curve fitting line in addition to the bars.
 
@@ -193,7 +203,11 @@ Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons t
 </context>
 
 <context id="FormatAreaChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Area Charts">
-<description>Use this page to format the properties of the "value" series (y axis) of the chart.
+<!-- SEQUENCE: On chart wizard for an area chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<description>
+The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.<br />
+
+Use this page to format the properties of the "value" series (y axis) of the chart.
 
 Note that you can select "Show Lines as Curves" to curve the line between data points, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
 
@@ -204,7 +218,10 @@ Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons t
 </context>
 
 <context id="FormatLineChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Line Charts">
-<description>Use this page to format the properties of the "value" series (y axis) of the chart.
+<!-- SEQUENCE: On chart wizard for a line chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<description>
+The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.<br />
+Use this page to format the properties of the "value" series (y axis) of the chart.
 
 Note that you can select "Show Lines as Curves" to replace straight lines between data points with curves, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
 
@@ -215,7 +232,10 @@ Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons t
 </context>
 
 <context id="FormatScatterChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Scatter Charts">
-<description>Use this page to format the properties of the "value" series (y axis) of the chart, including markers and lines.
+<!-- SEQUENCE: On chart wizard for a scatter chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<description>
+The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.<br />
+Use this page to format the properties of the "value" series (y axis) of the chart, including markers and lines.
 
 Note that you can select "Show Lines as Curves" to use curved lines between data points, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
 
@@ -226,7 +246,10 @@ Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons t
 </context>
 
 <context id="FormatStockChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Stock Charts">
-<description>Use this page to format the properties of the "value" series of the chart, including box color and candlestick line properties.
+<!-- SEQUENCE: On chart wizard for a stock chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<description>
+The y-axis displays values for a value series. Its values must be numeric.<br />
+Use this page to format the properties of the "value" series of the chart, including box color and candlestick line properties.
 
 Use the <b>Interactivity</b> and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 </description>
@@ -234,26 +257,30 @@ Use the <b>Interactivity</b> and <b>Series Palette</b> buttons to further refine
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
-<context id="FormatPieChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Pie Charts">
-<description>Use this page to format the properties of the "value" series of the chart, including leader line properties and pie slice properties.
-
-Use the <b>Labels</b>, <b>Titles</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+<context id="FormatPieChartYSeries_ID" title="Edit Chart and New Chart: Value Series, Pie Charts">
+<!-- SEQUENCE: On chart wizard for a pie chart, on left, expand Series->select Value Series JAHT 20090614 -->
+<description>
+The value series determines the size of slices in a pie chart. Its values must be numeric.<br />
 </description>
 
 <!-- link updated JAHT 20090608 -->
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
 </context>
 
-<context id="FormatMeterChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Meter Charts">
-<description>Use this page to format the properties of the "value" series of the chart, including the configuration of the dial and the needle.
+<context id="FormatMeterChartYSeries_ID" title="Edit Chart and New Chart: Value Series, Meter Charts">
+<!-- SEQUENCE: On chart wizard for a meter chart, on left, expand Series->select Value Series JAHT 20090614 -->
+<description>
+The value series determines the position of the needle in a meter chart. Its values must be numeric.<br />
+Use this page to format the properties of the "value" series of the chart, including the configuration of the dial and the needle.
 
-Use the <b>Labels</b>, <b>Regions</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+Use the <b>Dial Labels</b>, <b>Needles</b>, <b>Regions</b>, <b>Ticks</b>, <b>Scale</b>, and <b>Interactivity</b> buttons to further refine the formatting of the value series.
 </description>
 
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="FormatData_ID" title="Edit Format">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to define a format for the selected Data Type.
 </description>
 
@@ -262,6 +289,7 @@ Use the <b>Labels</b>, <b>Regions</b>, <b>Interactivity</b>, and <b>Series Palet
 </context>
 
 <context id="Gridlines_ID" title="Gridlines">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to display or hide the selected axis line and gridlines that run parallel to the axis. Use it also to customize their appearance.
 </description>
 
@@ -269,6 +297,7 @@ Use the <b>Labels</b>, <b>Regions</b>, <b>Interactivity</b>, and <b>Series Palet
 </context>
 
 <context id="Interactivity_ID" title="Interactivity">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this dialog box to define interactive features of your chart, both the types of interactivity and the actions that trigger the interactive responses.
 </description>
@@ -278,6 +307,7 @@ Use this dialog box to define interactive features of your chart, both the types
 </context>
 
 <context id="LegendLayout_ID" title="Legend Layout">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this page to format the legend for the chart.
 </description>
 
@@ -285,6 +315,7 @@ Use this dialog box to define interactive features of your chart, both the types
 </context>
 
 <context id="Markers_ID" title="Markers">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to create axis markers, define marker position and other marker properties, and define marker label properties. Markers can be single lines or ranges, and call attention to a specific location on the axis.
 
 Select a marker in the text box to work with its definition.
@@ -296,6 +327,7 @@ You can you can access additional formatting options by choosing the buttons to 
 </context>
 
 <context id="NewDataSet_ID" title="New Data Set">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <!-- JAHT 20090608  I think this topic is obsolete. Chart UI now seems to use standard BIRT UI for New Data Set -->
 <description>Use this dialog box to define a data set for charting.
 </description>
@@ -305,6 +337,7 @@ You can you can access additional formatting options by choosing the buttons to 
 </context>
 
 <context id="Outline_ID" title="Outline">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to indicate whether you want to frame the chart with a visible outline, and to specify the properties of the outline.
 
 Specify insets to adjust the padding between chart and outline.
@@ -317,6 +350,7 @@ The default unit for specifying insets is points. To change the default units, f
 </context>
 
 <context id="Scale_ID" title="Scale">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to set the minimum and maximum values displayed on a numerical axis.
 
 For both numerical and non-numerical axes, you can set the number of minor, or secondary, gridlines displayed for each unit on the axis.
@@ -328,6 +362,7 @@ Note: If the minor gridlines are not displayed, choose <b>Gridlines</b>, then se
 </context>
 
 <context id="SelectChartData_ID" title="Edit Chart and New Chart: Select Data">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this page to select a data set, or choose Create New to open the <b>New Data Set</b> dialog box.
 
 Bind data colums to the chart by selecting a series field, by using the expression builder, or by dragging the column head to the appropriate field.
@@ -342,6 +377,7 @@ In a Difference chart, the values in the positive and negative series appear wit
 </context>
 
 <context id="SelectChartType_ID" title="Edit Chart and New Chart: Select Chart Type">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this page to specify the type of chart you want.
 
 All chart types can be fine-tuned using this page. Some have sub-types, some can be displayed in three dimensions, and some can be displayed as "deep" charts (charts with a three-dimensional appearance, but conveying no additional information in the third dimension). Some charts permit you to add another axis.
@@ -359,12 +395,14 @@ Choose <b>Finish</b> to save your selections.
 </context>
 
 <context id="SeriesPalette_ID" title="Series Palette">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to select colors for members of the series. Double-click a bar to display the options.
 </description>
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="FontEditor_ID" title="Edit Font">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to format the font for a text item. When you change a font option, the change is displayed in the Preview text box.
 
 You can set the orientation of the text item either by dragging the Rotation dial or by specifying degrees.
@@ -374,6 +412,7 @@ You can set the orientation of the text item either by dragging the Rotation dia
 </context>
 
 <context id="TextFormat_ID" title="Text Format">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to customize text format.
 
 This dialog box is used to format text for many chart elements. The fields that are available for input depend on the element that you are working with.
@@ -384,6 +423,7 @@ This dialog box is used to format text for many chart elements. The fields that 
 </context>
 
 <context id="TitleFormat_ID" title="Title Format">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <!-- JAHT 20090608  I think this topic is obsolete. Chart UI now seems to use Title Layout for this functionality -->
 <description>Use this dialog box to format the title area and the title text.
 
@@ -397,6 +437,7 @@ If you want to change the title font, choose <b>...</b> next to Format.
 </context>
 
 <context id="Preferences_BIRTChart_ID" title="Preferences: Chart">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this page to enable or disable interactive chart previews as you modify the chart definition. Use it also to set the maximum number of rows in the chart data preview on the Select Data page of the chart builder.
 </description>
 
@@ -405,6 +446,7 @@ If you want to change the title font, choose <b>...</b> next to Format.
 </context>
 
 <context id="FormatChartZAxis_ID" title="Edit Chart and New Chart: Z-Axis">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this page to specify the title of the z-axis, and to specify whether the labels are visible.
 
 For additional formatting options, choose <b>Text Format</b>, <b>Gridlines</b>, and <b>Interactivity</b>.
@@ -415,18 +457,21 @@ Note that if you want the z-axis title to be displayed, you may have to choose <
 </context>
 
 <context id="FormatLineChartSeriesMarkers_ID" title="Series Markers">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to add and remove line markers in your chart.
 </description>
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="MeterChartRegions_ID" title="Regions">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to add and remove regions in your chart, and to specify the properties of the regions that you add.
 </description>
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="SelectDataBinding_ID" title="Select Data Binding">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <!-- JAHT 20090608  I think this topic is obsolete. Chart UI now seems to use standard BIRT UI for Select Data Binding -->
 <description>Use this dialog box to bind data to columns, and to specify aggregations.
 
@@ -438,6 +483,7 @@ Note that you can also bind data in the Select Data page by dragging and droppin
 </context>
 
 <context id="GradientEditor_ID" title="Gradient Editor">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to specify the starting and ending colors for gradual background color changes, and to specify the orientation of the gradient.
 </description>
 
@@ -446,6 +492,7 @@ Note that you can also bind data in the Select Data page by dragging and droppin
 </context>
 
 <context id="SelectImage_ID" title="Select Image">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to select an image for the chart background.
 </description>
 
@@ -455,6 +502,7 @@ Note that you can also bind data in the Select Data page by dragging and droppin
 </context>
 
 <context id="FormatChartAreaBackground_ID" title="Format Chart Area Background">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to format the chart background. For the additional options, graduated color, custom color, and images, choose the appropriate buttons.
 </description>
 
@@ -463,6 +511,7 @@ Note that you can also bind data in the Select Data page by dragging and droppin
 </context>
 
 <context id="BackgroundColor_ID" title="Color">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this dialog box to select the background color for the chart.
 </description>
 
@@ -471,6 +520,7 @@ Note that you can also bind data in the Select Data page by dragging and droppin
 </context>
 
 <context id="FormatChartYAxis_ID" title="Edit Chart and New Chart: Y-Axis">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this page to specify title, type, and position of the y-axis with respect to the x-axis.
 
 For additional formatting options, choose <b>Scale</b>, <b>Text Format</b>, <b>Gridlines</b>, and <b>Markers</b>.
@@ -482,6 +532,7 @@ Note that if you want the y-axis title to be displayed, you may have to choose <
 </context>
 
 <context id="FormatChartTitle_ID" title="Format Chart Title">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this page to replace the default title, such as Bar Chart Title, with a name for your chart.  You can specify a font for the title or accept the default font.
 </description>
@@ -491,6 +542,7 @@ Use this page to replace the default title, such as Bar Chart Title, with a name
 </context>
 
 <context id="FormatGanttChartYSeries_ID" title="Format Gantt Chart">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this page to format a Gantt chart. Gantt charts often represent project schedules and tasks using bars that correlate to beginning and ending dates. You can color-code the bars to show status, for example. 
 
@@ -502,6 +554,7 @@ With multiple Gantt series, for each category that represents the main task, you
 </context>
 
 <context id="FormatBubbleChartYSeries_ID" title="Format Bubble Chart Y Series">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this page to format a bubble chart, which is basically a scatter plot with a third value that is used to size the bubble. You can specify the style and orientation of the acceleration line to the bubble.  From this page, you can choose Markers to specify any marker type that is available to the line and scatter charts. The default marker type of the chart is circular.
 </description>
@@ -509,6 +562,7 @@ Use this page to format a bubble chart, which is basically a scatter plot with a
 </context>
 
 <context id="TitleText_ID" title="Chart Title Text">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this dialog to change the background and shadow of the text in the chart title from transparent, the default, to another color. Also specify the style, width, and color of the title text outline, and its visibility. Pad the chart title text to control the spacing between it and the chart by using insets.  
 </description>
@@ -519,6 +573,7 @@ Use this dialog to change the background and shadow of the text in the chart tit
 </context>
 
 <context id="TitleBlock_ID" title="Title Layout">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 The title block is the modular area of the title that can be positioned within the title bounds. Select an Anchor location to position the chart title at the top, bottom, left, or right side of the chart. In Stretch, you can specify how the content of the block fills up available space, horizontally, vertically, or in both directions. Also specify the style, width, and color of the title block outline, and its visibility. Pad the chart title block to control the spacing between it and the chart by using insets. 
 </description>
@@ -527,6 +582,7 @@ The title block is the modular area of the title that can be positioned within t
 </context>
 
 <context id="LegendTitle_ID" title="Chart Legend Title">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this dialog to make a title for the chart legend. By default, the title appears above the legend items. You can modify the font style and the color of the title, add an outline, background color, shadow, or move the position of the legend title. 
 </description>
@@ -537,6 +593,7 @@ Use this dialog to make a title for the chart legend. By default, the title appe
 </context>
 
 <context id="LegendBlock_ID" title="Chart Legend Block">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 The legend block is the modular area of a legend that can be positioned within the legend bounds. Use this dialog to change the font style and size of the legend text.  You can also add an outline, background color, or shadow to the legend text. Control the spacing of the legend by using insets. If the chart uses more than one series, you can add a separator line between the items in one series and the items in the next. You can control the visibility of legend text outlines and separators using this dialog.
 </description>
@@ -545,6 +602,7 @@ The legend block is the modular area of a legend that can be positioned within t
 </context>
 
 <context id="DialLabels_ID" title="Dial Labels">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 A meter chart displays labels, similar to axis labels, that identify points on a dial. Use this dialog to format the font, background color, and shadow of the dial labels. Create a visible or invisible outline around each dial label. Pad labels to control the spacing between them by using insets. The Format option sets the numbering format of the dial labels.
 
@@ -557,6 +615,7 @@ You show or hide the dial labels themselves in Format Chart.
 </context>
 
 <context id="DialNeedles_ID" title="Dial Needles">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this dialog to modify the appearance of the needle for a meter chart. You can specify the following characteristics of the needle:
 
@@ -570,6 +629,7 @@ To change the color of the needle, change the value-series palette.
 </context>
 
 <context id="GroupAndSort_ID" title="Grouping and Sorting">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this dialog to sort and group chart data. You can group up to two levels along the x-axis, for example by year and months. You can group by date-time and range. You can group multiple Y aggregates for X series grouping, where each Y series can use its own aggregate function. You can group multiple Y series grouping, where each Y series can have its own grouping key. You can group along the linear axis for Line, Bar, Area charts that are not stacked. You can scale datetime and integers and customize steps numbering.
 </description>
@@ -579,6 +639,7 @@ Use this dialog to sort and group chart data. You can group up to two levels alo
 </context>
 
 <context id="FormatDifferenceChartYSeries_ID" title="Format Difference Chart Y Series">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this page to format a difference chart, which displays two related line plots with a colored band between them.
 - Select the format and color of the line to display for the positive and negative series.
@@ -591,6 +652,7 @@ Use this page to format a difference chart, which displays two related line plot
 </context>
 
 <context id="ChartExamples_ID" title="Chart Examples">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>
 Use this page to access Charting API examples, including Java code for building several chart types using the Chart Engine API. Select an example to see a preview of the type of chart it constructs. Select Open to see the Java snippet in the code window. You can copy the code if you want. Save the XML code and study it to learn how to create such a chart using the API.
 </description>
@@ -599,6 +661,7 @@ Use this page to access Charting API examples, including Java code for building 
 </context>
 
 <context id="Preference_Chart_Content_Assist_ID" title="Preferences - Chart Content Assist page">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this page to control the behavior of the content assist tool in the chart builder. Content assist is available in fields for which you supply an expression. Use it to insert an expression in a field.
 </description>
 <!-- link updated JAHT 20090608  No available topic -->
@@ -606,6 +669,7 @@ Use this page to access Charting API examples, including Java code for building 
 
 
 <context id="Preference_Chart_Field_Assist_ID" title="Preferences - Chart Field Assist page">
+<!-- SEQUENCE: On chart wizard,  JAHT 20090614 -->
 <description>Use this page to control the behavior of field assist in the chart builder. You can choose whether or not to identify required fields with a symbol. You can also specify the position of the symbol relative to the field.
 </description>
 

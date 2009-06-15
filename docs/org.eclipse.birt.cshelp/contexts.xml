@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?NLS type="org.eclipse.help.contexts"?>
 
-<!-- updates based on Designer Version 2.5.0.v20090423-1014 Build <2.5.0.v20090423-0630> and later khahn 20090427 -->
-
 <contexts>
 <context id="dummy_outer_container" title="BIRT contexts">
-<description>Contexts for items identified by Actuate, 04/2009</description>
+<description>Contexts for items identified by Actuate, 06/2009</description>
 </context>
 
 <context id="NewReportProjectWizard_ID" title="New Report Project">
 <!-- updated khahn 20090507 linked 20090604 -->
 <description>
-Eclipse requires that all files are organized in a project.   
+Eclipse requires that all files are organized in a project. Give the project an arbitrary name. To create the project outside your default workspace, deselect the option to use the default location, and browse to a different location.  
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.4.html" label="Create a new project"/>
 </context>
@@ -19,7 +17,7 @@ Eclipse requires that all files are organized in a project.
 <context id="NewReportWizard_ID" title="New Report - Create a new report">
 <!-- updated khahn 20090507 linked 20090604 -->
 <description>
-After creating a project or selecting an existing project, create a new report.  
+After creating a project or selecting an existing project, create a new report.  Select a parent folder from the list of project folders. Specify the file name of the report.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.5.html" label="Create a new report"/>
 </context>
@@ -43,30 +41,30 @@ The data source specifies how the report connects to the database, file, or web 
 <context id="Wizard_Dataset_ID" title="New Data Set">
 <!-- updated khahn 20090507 linked 20090604 -->
 <description>
-A <b>data set</b> is a query that specifies which data to retrieve from the data source. Type part or all of a name to filter the list of choices for a data source. 
+A <b>data set</b> is a query that specifies which data to retrieve from the data source. Type a name, or part of a name, to filter the list of data sources. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.7.html" label="Build a data set"/>
 </context>
 
 <context id="Wizard_SQLQuery_Dataset_ID" title="New SQL Select Query">
-<!-- SEQUENCE: Make a new data set based on a connection profile. Not updated. Written by Diana. There is nothing in the Field Guide about this topic, so we use the full description here. khahn 20090507 -->
-<description>Create the SQL Select query that specifies the data to retrieve from the data source. Use the middle pane to select tables and columns, and to join tables. Use the items in the lower pane to specify the following: how to sort data, what subset of the data to retrieve, what data to group for aggregations, and the criteria for returning specific aggregate data. Based on the selections you make in these panes, the top pane displays the SQL Select statement. 
+<!-- SEQUENCE: Make a new data set based on a connection profile. There is nothing in the Field Guide about this topic, so we use the full description here. khahn 20090507 Updated 20090613 -->
+<description>Create the SQL Select query to retrieve data from the data source. Select and join tables. Specify how to sort data, what data to retrieve and group for aggregations, and the criteria for returning aggregate data. 
 </description>
 </context>
 
 <context id="Wizard_DatasourceProfile_ID" title="Data Source Profile">
-<!-- updated khahn 20090507 linked, abbreviated label 20090604-->
+<!-- updated khahn 20090507 linked, abbreviated label 20090604 -->
 <description>
-The data source profile specifies how to connect the report to a database, file, or web service. The Classic Models data source is preconfigured for use with BIRT Report Designer.
+Specify how to connect the report to a database, file, or web service. The Classic Models data source is preconfigured and ready to use with BIRT.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.3.html" label="How to specify connection information for a data source"/>
 </context>
 
 <context id="Wizard_JDBC_Datasource_ID" title="New JDBC Data Source Profile">
-<!-- updated khahn 20090507 linked, abbreviated label 20090604-->
+<!-- updated khahn 20090507 linked, abbreviated label 20090604 -->
 <!-- SEQUENCE 1: In Data Explorer, right-click a data source, select New. Choose JDBC Data Source. Choose Next. > Talk to Diana about using, "To connect a report to data in a database using Java Database Connectivity (JDBC), specify a driver class, the driver URL, such as jdbc:mysql://localhost/table_name, and the database user name and password.  Optionally, specify the URL to the Java Naming and Directory Interface (JNDI) connection pooling service." JNDI and driver URL example is not in the Field Guide. khahn 20090505 -->
 <description>
-Specify the information to connect to the database using JDBC. 
+Specify a driver class, the driver URL, such as jdbc:mysql://localhost/table_name, and the database user name and password.  Optionally, specify the URL to the Java Naming and Directory Interface (JNDI) connection pooling service.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.3.html" label="How to specify connection information for a data source"/>
 </context>
@@ -74,15 +72,15 @@ Specify the information to connect to the database using JDBC.
 <context id="Dialog_JDBC_ManageDrivers_ID" title="Manage JDBC Drivers">
 <!-- SEQUENCE: In Data Explorer, right-click a data source, select New. Choose JDBC Data Source. Choose Next. Choose Manage Drivers. TALK TO DIANA ABOUT HER MARKUP: We to describe the add function on the JAR Files tab and on the Drivers tab, you must specify a URL template or the data source will not work. Diana says describe tabs. khahn 20090507 linked 20090604 -->
 <description>
-On the JAR Files tab, add a driver in JAR file format. On the Drivers tab, type a URL template, which is a connection syntax, such as jdbc:mysql://localhost/table_name. 
+On JAR Files, add a driver in JAR file format. On Drivers, type a URL template, such as jdbc:mysql://localhost/table_name. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.4.html" label="How to add a JDBC driver"/>
 </context>
 
 <context id="Wizard_JDBCDataset_ID" title="Query">
-<!-- updates based on Designer Version 2.5.0.v20090423-1014 Build <2.5.0.v20090423-0630> khahn 20090428 linked 20090604 -->
+<!-- updated khahn 20090428 linked 20090604 -->
 <description>
-Complete the SELECT statement to define a SQL query. Type the entire statement or double-click available items, such as tables and fields, to complete the query definition. 
+Complete the SELECT statement to define an SQL query. Type the entire statement or double-click available items, such as tables and fields, to complete the query definition. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.7.html" label="Build a data set"/>
 </context>
@@ -91,7 +89,7 @@ Complete the SELECT statement to define a SQL query. Type the entire statement o
 <!-- Updated using 2.5 Build <2.5.0.v20090423-0630>. khahn 20090505 linked 20090604 -->
 <!-- SEQUENCE: Create a scripted data source>New scripted data set>Next  -->
 <description>
-Define output columns for data in the scripted data source. A <b>scripted data source</b> is a Java object that contains tabular data that you retrieve using JavaScript.   
+Define output columns for data in the scripted data source. A <b>scripted data source</b> is a Java object that contains tabular data, retrieved using JavaScript.   
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.5.html" label="How to view and change output columns"/>
 </context>
@@ -99,22 +97,22 @@ Define output columns for data in the scripted data source. A <b>scripted data s
 <context id="Dialog_JDBCDriver_ID" title="Edit JDBC Drivers">
 <!-- Cannot find this help in 2.5 Build <2.5.0.v20090423-0630>. khahn 20090505 linked 20090604 Need to check anchor name in the link each time we rebuild the help. -->
 <description>
-Specify the JDBC driver properties for display, including a URL Template, such as jdbc:mysql://localhost/table_name.
+Specify the JDBC driver properties for display, including a URL template, such as jdbc:mysql://localhost/table_name.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.4.html#191466" label="Editing a JDBC driver URL template"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.4.html#216732" label="Editing a JDBC driver URL template"/>
 </context>
 
 <context id="Wizard_JointDataSet_ID" title="New Data Set - Joint Data Set">
 <!-- Updated using 2.5 Build <2.5.0.v20090423-0630>. khahn 20090505 linked 20090604 -->
 <!-- SEQUENCE: In Data Explorer, right-click Data Sets>New Joint Data Set -->
 <description>
-Create a <b>joint data set</b> that uses data from different data sources or from non-relational data sources. 
+Create a <b>joint data set</b>, which uses data from different data sources or from non-relational data sources. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.7.html" label="How to join data sets"/>
 </context>
 
 <context id="Dialog_DatasourceEdit_ID" title="Edit Data Source - Data Source">
-<!-- Updated using 2.5 Build <2.5.0.v20090423-0630>. khahn 20090505 linked 20090604 Read about the bug in sequences below. -->
+<!-- Updated khahn 20090505 linked 20090604 Read about the bug in sequences below. -->
 <!-- SEQUENCE 1: In Data Explorer, double-click a data source type, select ?. The first time this topic is displayed you see this topic. Subsequently, a DTP topic, depending on the data source type you selected, is displayed. SEQUENCE 2: Select Property Binding, select ?> khahn 20090505 -->
 <description>
 Follow on-screen prompts, which vary by data source type, to edit the data source.   
@@ -123,7 +121,7 @@ Follow on-screen prompts, which vary by data source type, to edit the data sourc
 </context>
 
 <context id="Dialog_DatasetEdit_ID" title="Edit Data Set - Data Set">
-<!-- Updated using 2.5 Build <2.5.0.v20090423-0630>. khahn 20090505 linked 20090604 -->
+<!-- Updated khahn 20090505 linked 20090604 -->
 <!-- SEQUENCE: In Data Explorer, double-click a data set. -->
 <description>
 Edit or view the attributes of the <b>data set</b>. 
@@ -136,13 +134,13 @@ Edit or view the attributes of the <b>data set</b>.
 <description>
 Use this page to define the run-time attributes of a JDBC data source. Values that you set on this page override the values defined on the other pages of Edit Data Source. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
 
-* JDBC Driver Class: Type an expression for the JDBC driver. This driver specifies the brand of database you use.
-* JDBC Driver URL: Type an expression for the URL for the machine that runs the database.
-* User Name: Type an expression for the user name you use to access the database.
-* Password: Type an expression for the Password for the user name.
-* JNDI URL: Type an expression for the URL for the JNDI name you use to access the database.
-* Connection Profile Name: Type an expression for the name of the connection profile.
-* Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
+- JDBC Driver Class: Type an expression for the JDBC driver. This driver specifies the brand of database you use.
+- JDBC Driver URL: Type an expression for the URL for the machine that runs the database.
+- User Name: Type an expression for the user name you use to access the database.
+- Password: Type an expression for the Password for the user name.
+- JNDI URL: Type an expression for the URL for the JNDI name you use to access the database.
+- Connection Profile Name: Type an expression for the name of the connection profile.
+- Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
 </description>
 </context>
 
@@ -151,17 +149,17 @@ Use this page to define the run-time attributes of a JDBC data source. Values th
 <description>
 Use this page to define the run-time attributes of a flat file data source. Values that you set on this page override the values defined on the other pages of Edit Data Source. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
 
-* Home Folder: Type an expression for the path to a folder that contains the flat file to use as a data source.
-* CSV Type: Type an expression for the data format. Valid values are:
+- Home Folder: Type an expression for the path to a folder that contains the flat file to use as a data source.
+- CSV Type: Type an expression for the data format. Valid values are:
   - CSV for comma-separated values
   - PSV for pipe-separated values
   - SSV for space-separated values
   - TSV for tab-separated values
-* Character Set: Type an expression for the character set that the data values use.
-* Use First Line as Column Name Indicator: Type an expression for a Boolean value. True indicates that the file provides data field names in its first line. False indicates that the first line does not contain data field names.
-* Use Second Line as Data Type Indicator: If the value of Use First Line as Column Name Indicator is false, this field applies to the first line of the flat file, rather than the second line. Type an expression for a Boolean value. True indicates that the file provides data types for the data fields. False indicates that the line does not contain data field types.
-* Connection Profile Name: Type an expression for the name of the connection profile.
-* Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
+- Character Set: Type an expression for the character set that the data values use.
+- Use First Line as Column Name Indicator: Type an expression for a Boolean value. True indicates that the file provides data field names in its first line. False indicates that the first line does not contain data field names.
+- Use Second Line as Data Type Indicator: If the value of Use First Line as Column Name Indicator is false, this field applies to the first line of the flat file, rather than the second line. Type an expression for a Boolean value. True indicates that the file provides data types for the data fields. False indicates that the line does not contain data field types.
+- Connection Profile Name: Type an expression for the name of the connection profile.
+- Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
 </description>
 </context>
 
@@ -170,13 +168,13 @@ Use this page to define the run-time attributes of a flat file data source. Valu
 <description>
 Use this page to define the run-time attributes of a web service data source. Values that you set on this page override the values defined on the other pages of Edit Data Source. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
 
-* SOAP End Point: Leave this field empty if the descriptor defines the end point or if the WSDL does not require a SOAP end point. If your WSDL does require a SOAP end point, type an expression for the URL here.
-* Connection Class: If you have written a Java class to perform the connection to and of the WSDL data source, type an expression for the fully qualified path to this class. This class must implement the <code>org.eclipse.datatools.enablement.oda.ws.api.IWSDriver</code> interface.
-* Connection Time Out: Type an expression for the length of time, in seconds, to wait for the connection to succeed.
-* WSDL URL: Type an expression for the URL for Web Services data that is a network resource.
-* Driver ClassPath: If you have a custom driver class, type an expression to list the JAR files or folders to search for the class in Driver Class Path. Separate multiple folders and JAR files with semicolon (;) characters in the normal way.
-* Connection Profile Name: Type an expression for the name of the connection profile.
-* Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
+- SOAP End Point: Leave this field empty if the descriptor defines the end point or if the WSDL does not require a SOAP end point. If your WSDL does require a SOAP end point, type an expression for the URL here.
+- Connection Class: If you have written a Java class to perform the connection to and of the WSDL data source, type an expression for the fully qualified path to this class. This class must implement the <code>org.eclipse.datatools.enablement.oda.ws.api.IWSDriver</code> interface.
+- Connection Time Out: Type an expression for the length of time, in seconds, to wait for the connection to succeed.
+- WSDL URL: Type an expression for the URL for Web Services data that is a network resource.
+- Driver ClassPath: If you have a custom driver class, type an expression to list the JAR files or folders to search for the class in Driver Class Path. Separate multiple folders and JAR files with semicolon (;) characters in the normal way.
+- Connection Profile Name: Type an expression for the name of the connection profile.
+- Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
 </description>
 </context>
 
@@ -185,11 +183,11 @@ Use this page to define the run-time attributes of a web service data source. Va
 <description>
 Use this page to define the run-time attributes of a XML data source. Values that you set on this page override the values defined on the other pages of Edit Data Source. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
 
-* XML Data Source File: Type an expression for the full name of the XML file to use as the data source.
-* XML Data Source Encoding: Type an expression for the character encoding that the XML data uses.
-* XML Data Source Schema File: Type an expression for the full name of the schema to use for the XML file.
-* Connection Profile Name: Type an expression for the name of the connection profile.
-* Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
+- XML Data Source File: Type an expression for the full name of the XML file to use as the data source.
+- XML Data Source Encoding: Type an expression for the character encoding that the XML data uses.
+- XML Data Source Schema File: Type an expression for the full name of the schema to use for the XML file.
+- Connection Profile Name: Type an expression for the name of the connection profile.
+- Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
 </description>
 </context>
 
@@ -198,8 +196,8 @@ Use this page to define the run-time attributes of a XML data source. Values tha
 <description>
 Use this page to define the run-time attributes of a JDBC data set. Values that you set on this page override the values defined on the other pages of Edit Data Set. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
 
-* Query Text: Type an expression for the SQL statement for the query.
-* Query Time Out: Type an expression for the length of time, in seconds, to wait for the query to return the first data row.
+- Query Text: Type an expression for the SQL statement for the query.
+- Query Time Out: Type an expression for the length of time, in seconds, to wait for the query to return the first data row.
 </description>
 </context>
 
@@ -217,9 +215,9 @@ In Query Text, type an expression for the query. Use the XML source tab in the R
 <description>
 Use this page to define the run-time attributes of a web service data set. Values that you set on this page override the values defined on the other pages of Edit Data Set. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
 
-* Query Text: Type an expression for the SOAP request template for the query. Use the XML source tab in the Report Design Perspective to locate the QueryText element of an existing web service data set. Use this element as a template for the required syntax.
-* XML File: Type an expression for the name of the XML file that contains sample data for the SOAP response.
-* Schema File: Type an expression for the name of the XML schema file for the SOAP response on the file system.
+- Query Text: Type an expression for the SOAP request template for the query. Use the XML source tab in the Report Design Perspective to locate the QueryText element of an existing web service data set. Use this element as a template for the required syntax.
+- XML File: Type an expression for the name of the XML file that contains sample data for the SOAP response.
+- Schema File: Type an expression for the name of the XML schema file for the SOAP response on the file system.
 </description>
 </context>
 
@@ -235,30 +233,30 @@ An XML data set does not use any property binding values.
 <description>
 Create a template to define a straightforward way to use a custom layout and master pages for a suite of reports.  
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.20.1.html" label="Building a Shared Report Development Framework"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.1.html" label="Building a Shared Report Development Framework"/>
 </context>
 
 <context id="NewLibraryWizard_ID" title="New Library">
-<!-- SEQUENCE: File>New>Library. khahn 20090512 linked 20090604 -->
+<!-- SEQUENCE: File>New>Library. khahn 20090512 linked 20090604 updated 20090609 -->
 <description>
 Create a library to store common report elements, such as images and styles. Design libraries for sharing among a suite of reports.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.20.1.html" label="Building a Shared Report Development Framework"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.1.html" label="Building a Shared Report Development Framework"/>
 </context>
 
 <context id="SaveReportAsWizard_ID" title="Save as">
-<!-- SEQUENCE: File>SaveAs. khahn 20090512 -->
+<!-- SEQUENCE: File>SaveAs. updated khahn 20090512 -->
 <description>
-Choose Finish to save the file by its current name and in its current folder, or specify another file name or location.
+Save the file by its current name and in its current folder, or specify another file name or location.
 </description>
 </context>
 
 <context id="PublishTemplateWizard_ID" title="Template properties">
-<!-- SEQUENCE: File>New>Template>Next. khahn 20090512 linked 20090604 -->
+<!-- SEQUENCE: File>New>Template>Next. updated khahn 20090512 linked 20090604 -->
 <description>
-Specify a template name, and optionally a description. Browse to the location of an image for the template, or choose Finish to accept the default image.
+Specify a template name, and optionally a description. Browse to an image for the template, or choose Finish to accept the default image.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.20.1.html" label="Building a Shared Report Development Framework"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.1.html" label="Building a Shared Report Development Framework"/>
 </context>
 
 <context id="FormatBuilder_ID" title="Format Builder">
@@ -287,7 +285,7 @@ Create a style to apply a set of formats to report elements.
 </context>
 
 <context id="StyleBuilderFont_ID" title="New Style - Font Page">
-<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Font. Updated. khahn 20090512 no relevant link 20090604 -->
+<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Font. Updated. khahn 20090512 no relevant link, Diana to fix 20090604 -->
 <description>
 Set the font properties for the style. The user must have the font installed. 
 </description>
@@ -296,7 +294,7 @@ Set the font properties for the style. The user must have the font installed.
 <context id="StyleBuilderBackground_ID" title="New Style - Background Page">
 <!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Background. Updated. khahn 20090512 link check anchor when we rebuild help 20090604 -->
 <description>
-Set the CSS background properties for a style.
+Set the cascading style sheet (CSS) background properties for a style.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.10.html#138935" label="Background properties in New Style"/>
 </context>
@@ -304,22 +302,23 @@ Set the CSS background properties for a style.
 <context id="StyleBuilderTextBlock_ID" title="New Style - Text Block Page">
 <!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Text Block. Updated. khahn 20090512 no relevant link -->
 <description>
-Set the CSS text block properties for a style.
+Set the cascading style sheet (CSS) text block properties for a style.
 </description>
 
 </context>
 
 <context id="StyleBuilderBox_ID" title="New Style - Box Page">
-<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Box. Updated. no relevant link. khahn 20090512 -->
+<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Box. Updated. no relevant link, Diana  20090612 -->
 <description>
-Set the CSS box properties for a style.
+Set the cascading style sheet (CSS) box properties for a style.
 </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.14.html" label="Resizing margins, borders, and padding of elements"/>
 </context>
 
 <context id="StyleBuilderBorder_ID" title="New Style - Border Page">
 <!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Border. Updated. khahn 20090512 linked 20090604 -->
 <description>
-Set the CSS border properties for a style.
+Set the cascading style sheet (CSS) border properties for a style.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/grouping.8.10.html" label="Separate each group with a line"/>
 </context>
@@ -336,25 +335,25 @@ Set the number formatting for a style.
 <description>
 Set the date and time formatting for a style.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/subreport.13.16.html" label="Change the date formats"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/subreport.13.16.html#339726" label="Change the date formats"/>
 </context>
 
 <context id="StyleBuilderFormatString_ID" title="New Style - Format String Page">
-<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Format String. Updated. khahn 20090512 no relevant link -->
+<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Format String. Updated. khahn 20090512 no relevant link, Diana to fix -->
 <description>
 Set a string format, such as uppercase, for a style.
 </description>
 </context>
 
 <context id="StyleBuilderPageBreak_ID" title="New Style - Page Break Page">
-<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Page Break. Updated. khahn 20090512 no relevant link -->
+<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Page Break. Updated. no relevant link, diana 20090612 -->
 <description>
-Set a page break for a style.
+Set page break properties for a style. In Widows and Orphans, specify the mininum number of lines to display at the top or bottom of a page when a section displays text on multiple pages. In Before, specify if a page break is inserted before the element to which the style is applied. In After, specify if a page break is inserted after the element to which the style is applied.
 </description>
 </context>
 
 <context id="StyleBuilderMap_ID" title="New Style - Map Page">
-<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Map. Updated. khahn 20090512 no relevant link -->
+<!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Map. Updated. khahn 20090512 no relevant link, Diana to fix -->
 <description>
 Set alternate values for a style to display instead of data as it appears in the database. 
 </description>
@@ -371,32 +370,30 @@ Set a formatting rule for a style that defines when and how to change the appear
 <context id="ParameterGroupDialog_ID" title="New Parameter Group">
 <!-- SEQUENCE: Right-click Report Parameters and choose New Parameter Group. Updated. khahn 20090512 no relevant link -->
 <description>
-If you create many parameters or want to provide the user with a prompt for certain sets of parameters, use parameter groups. 
+If you create many parameters, or want the report to prompt for a certain set of parameters, use parameter groups. 
 </description>
 </context>
 
 <context id="HyperlinkBuilder_ID" title="Hyperlink Options">
-<!-- SEQUENCE: Select a label in layout editor, select Hyperlink in property editor, choose the elipsis. Updated. khahn 20090512 linked 20090604 -->
+<!-- SEQUENCE: Select a label in layout editor, select Hyperlink in property editor, choose the elipsis. Updated. khahn 20090512 no link 20090604 -->
 <description>
 Define a hyperlink for a data, label, image, or chart element. 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.19.3.html" label="How to create a hyperlink that links two sections in a report"/>
+
 </context>
 
 <context id="ExpressionBuilder_ID" title="Expression Builder">
-<!-- SEQUENCE: Select a table in layout editor, select the Binding tab in property editor, double-click an expression, choose Fx. Updated. khahn 20090602 linked 20090604-->
+<!-- SEQUENCE: Select a table in layout editor, select the Binding tab in property editor, double-click an expression, choose Fx. Updated. khahn 20090602 linked 20090604 -->
 <description>
-Create expressions using a combination of constants, controls, functions, literal values, names of fields, and operators that evaluate to a single value.
-
+Create expressions using a combination of constants, controls, functions, literal values, field names, and operators that evaluate to a single value.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ScriptingReference.25.1.html" label="Scripting Reference"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ScriptingReference.24.1.html" label="Scripting Reference"/>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/expressions.html" label="Writing Expressions"/>
 </context>
 
 <context id="ParameterDialog_ID" title="New Parameter">
 <!-- SEQUENCE: In Data Explorer, right-click Report Parameter, and choose New Parameter. Updated. khahn 20090602 linked 20090604 -->
-<description>Define a parameter that prompts a user to provide a
-value as input to the execution of the report.
+<description>Define a parameter that prompts a user to provide input when the report runs.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/parameter.12.1.html" label="Enabling the User to Filter Data"/>
 </context>
@@ -419,7 +416,7 @@ Specify the location from which to select the image.
 <context id="TableOptionDialog_ID" title="Insert Table">
 <!--  SEQUENCE: Drag a table element from the palette to the layout. updated 20090606 linked khahn 20090605 -->
 <description>
-Insert a Table element, specifying the data set from which to retrieve tabular data. In Number of details, specify the number of rows between the header and footer rows.
+Insert a Table element, specifying the data set from which to retrieve tabular data. Specify the number of rows between the header and footer rows.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.8.html" label="Lay out the report"/>
 </context>
@@ -435,9 +432,9 @@ Insert a Grid element and use the grid to arrange static elements, such as text 
 <context id="TextEditor_ID" title="Edit Text Item">
 <!-- SEQUENCE: Double-click a text element. updated 20090606 linked khahn 20090605 -->
 <description>
-Edit and format a Text element. From one drop-down list, select the formatting type, HTML or Plain. From the other drop-down list, select the type of HTML tags to use, or select Dynamic Text. Select Dynamic Text to embed an expression in the text.
+Edit and format a Text element. Select the formatting type, HTML or Plain. Select the type of HTML tags to use, or select Dynamic Text. Select Dynamic Text to embed an expression in the text.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/text.6.1.html" label="Displaying Text"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/text.6.1.html" label="Displaying text"/>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/text.6.2.html" label="How to use a dynamic text element"/>
 </context>
 
@@ -450,58 +447,46 @@ Define and configure groups. Grouping data in a report can make the data easier 
 </context>
 
 <context id="DataBindingDialog_ID" title="Select Data Binding">
-<!--  SEQUENCE: Create data set with image field. Drag image element from Palette to detail row of table in Layout. In Edit Image Item, choose Select Image Data updated 20090608 linked khahn 20090605 -->
+<!--  Obsolete? SEQUENCE: see ColumnBindingDialog_ID. Cannot find this one of two Select Data Binding help topics. updated 20090608 linked khahn 20090605 -->
 <description>
-Bind a column to a report element. Accept the default data set or report item, or select another that contains the column. In Name, select the column to bind to the report element. You can define a calculated field for an element contained in a list or table.
+Bind data columns or expressions to names. Select the appropriate data set and column, and define calculated fields that items inside a list or table can use.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/layout.5.7.html" label="How to insert images that are stored in a data source"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/data_binding.4.1.html" label="Binding data"/>
 </context>
 
 <context id="HighlightRuleBuilder_ID" title="New Highlight">
-<!-- Select report element, choose Highlights tab in Property Editor. Choose Add. linked khahn 20090605 -->
+<!-- Select report element, choose Highlights tab in Property Editor. Choose Add. linked khahn 20090605 updated 20090608 -->
 <description>
-Use this dialog box to specify the condition, or rule, for applying a particular format to a report element.
-
-The dialog box helps you specify the If and Then parts of a rule by breaking them down into more specific parts.
+First, specify the condition for formatting a report element. Next, specify the formatting. Select from the common conditions or open expression builder and define a condition. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.8.html" label="How to create a formatting rule"/>
 </context>
 
 <context id="Preference_BIRT_BIDI_ID" title="Preferences - Bidirectional Properties page">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this page to set the default layout direction for new report designs.
-
-The setting, Left to Right, is suitable for designing reports in languages such as English or Russian that write text from the left of the page to the right. The setting, Right to Left, is suitable for languages such as Arabic or Hebrew that write in the opposite direction.
-
-For example:
-When the report orientation is left to right:
-* The handles for table, grid, and cross-tab rows appear on the left of the element in the layout editor.
-* When you drag a data set into the layout, the data columns are added from the left of the table to the right.
-* Scroll bars appear on the right edge of the layout editor windows.
-
-When the report orientation is right to left:
-* The handles for table, grid, and cross-tab rows appear on the right of the element in the layout editor.
-* When you drag a data set into the layout, the data columns are added from the right of the table to the left.
-* Scroll bars appear on the left edge of the layout editor windows.
+<!-- SEQUENCE: Window>Preferences>Report Design>Bidirectional Properties -->
+<!--  no relevant link khahn 20090605 updated 20090609 -->
+<description>Set the default base text direction and design interface orientation for new report designs. To design reports in languages such as English, choose Left to Right. To design reports in languages such as Hebrew, choose Right to Left.  
 </description>
 </context>
 
 <context id="Preference_BIRT_DataSetEditor_ID" title="Preferences - Data Set Editor page">
-<!--  linked khahn 20090605 -->
-<description>Use this page to control how the Data Set Editor displays SQL queries and report previews.
+<!-- SEQUENCE: Window>Preferences>Report Design>Data Set Editor linked khahn 20090605 updated Diana 20090610 -->
+<description>Specify the maximum number of database schemas and tables to make available for data set editing.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.8.html" label="How to change the number of rows that appear in Preview Results"/>
 </context>
 
 
 <context id="Preference_BIRT_ElementNames_ID" title="Preferences - Element Names page">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this page to assign default names to elements of the Report Object Model (ROM).
+<!--  no relevant link, Diana 20090605 -->
+<description>
+Assign custom default names to elements that you use in your report. Each name you specify appears in the element's Name property on the General properties page of Property Editor. For example, if you assign CustomerReportTable as the default name for the table element, and you insert three tables in the report, the first table's name is CustomerReportTable, the second table's name is CustomerReportTable1, and the third table's name is CustomerReportTable2.
 </description>
 </context>
 
 <context id="Preference_BIRT_Library_ID" title="Preferences - Library page">
-<!--  no relevant link khahn 20090605 -->
+<!--  no relevant link, Obsolete, no library on preferences list khahn 20090605 -->
 <description>Use this page to add or remove libraries.
 
 A BIRT report library is a collection of report components that can be used in a report design. Report components include reusable visual report items, data sources, data sets, parameters, translations and more.
@@ -517,167 +502,149 @@ A library can start with a style sheet, a set of common styles to apply to all r
 
 
 <context id="Preference_BIRT_Preview_ID" title="Preferences - Preview page">
-<!-- SEQUENCE: Window>PReferences>Report Design>PReview linked khahn 20090605 -->
-<description>Use this page to control how reports are previewed in web browsers.
-
-To add a browser, select Custom Browser and type the command to open it.
-
-You can enable an SVG device renderer for the chart engine. This reference implementation (located in the org.eclipse.birt.chart.device.svg plug-in) defines basic SVG drawing primitives based on the SVG 1.1 specification.
-</description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.21.4.html" label="How to preview a report in a different locale"/>
+<!-- SEQUENCE: Window>PReferences>Report Design>PReview linked khahn 20090605 updated 20090610-->
+<description>Select a bidirectional text setting to orient text in previews. The Report Designer interface follows the orientation of the text. To preview reports in languages such as English, choose Left to Right. To preview reports in languages such as Hebrew, choose Right to Left. Enable a Scalable Vector Graphics (SVG) device renderer for the chart engine. </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.20.4.html" label="How to preview a report in a different locale"/>
 </context>
 
 
 <context id="Preference_BIRT_PreviewServer_ID" title="Preferences - Preview Server page">
-<!--  Tested link to Web Tools Platform User Guide khahn 20090605 -->
-<description>Use this page to set up an internal application server to preview your reports.
+<!--  SEQUENCE: Window>PReferences>Report Design>PReview>Preview Server. Tested link to Web Tools Platform User Guide and it worked last week, but now it does not. no relevant link khahn 20090605 -->
+<description>
+Specify the BIRT server and port values. The default Tomcat server runs under Eclipse and serves report previews to users. 
 </description>
-<topic filter="plugin=org.eclipse.wst.server.ui.doc.user" href="../org.eclipse.wst.server.ui.doc.user/topics/twcrtins.html" label="Internal Application Server"/>
 </context>
 
 
 <context id="Preference_BIRT_Template_ID" title="Preferences - Template page">
-<!--  linked khahn 20090605 -->
-<description>Use this page to specify the folder that contains your templates.
+<!-- SEQUENCE: Window>PReferences>Report Design>PReview>Templates linked khahn 20090605 updated 20090610 -->
+<description>By default, BIRT stores templates in a location that is not shared. To share report templates, specify a folder that contains your templates.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.20.6.html" label="How to set up a template folder"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.6.html" label="How to set up a template folder"/>
 </context>
 
 
 <context id="ImportCssStyle_ID" title="Import CSS Styles">
-<!--  linked khahn 20090605 -->
-<description>Use this dialog box to import CSS styles into your report design.
+<!-- SEQUENCE: right-click a report. Choose Style>Import CSS Style  linked khahn 20090605 updated 20090611 -->
+<description>Browse to and select a cascading style sheet (CSS) file. Select styles you want from the list of the report’s styles. BIRT renames any incompatible style name, lists the unique name, and imports the styles. Notifications appear about any unsupported CSS syntax contained in the file.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.3.html" label="How to import styles"/>
 </context>
 
 
 <context id="Preference_BIRT_CommentTemplate_ID" title="Preferences - Comment Template">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this page to add a comment to a report design.
+<!--  no relevant link, Diana  20090605 -->
+<description>Add a boilerplate comment to every report design you create. The comment appears in a report's Comments page under Properties in Property Editor.
 </description>
 </context>
 
 
 <context id="Preference_BIRT_Resource_ID" title="Preferences - Resource">
-<!--  linked khahn 20090605 -->
-<description>Use this page to select the default Resource Folder for the localized text files and the Library Explorer.
+<!--  linked khahn 20090605 updated 20090611 -->
+<description>To share resources with other developers, change the location of resources from your workspace to a shared location. Browse to a shared folder relative to your workspace, or browse the file system. Alternatively, browse Eclipse variables and select a variable that represents a folder, such as eclipse_home. 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.21.1.html" label="Localizing text"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.20.1.html" label="Localizing text"/>
 </context>
 
 
 <context id="PublishLibraryDialog_ID" title="Publish Library">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this dialog box to publish a library to a resource folder.
-
-Publishing a library makes it available for reuse.
+<!-- SEQUENCE: Open library, File>Place Library in Resource Folder. no relevant link khahn 20090605 updated 20090611 -->
+<description>To share a library, publish it to a resource folder. Change the file name and accept the default folder, or browse to a subfolder of the resource folder.  
 </description>
 </context>
 
 <context id="ResourceSelectDialog_ID" title="Browse resource folders">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this dialog box to select the resource folder to use for publishing the library.
+<!-- SEQUENCE: select an item in layout, right-click and choose export to library, type a name, choose OK. no relevant link khahn 20090605 updated 20090611 -->
+<description>Choose the arrow to filter the list of resource folders contained in Resource Explorer. Select a resource folder in which to publish the library.
 </description>
 </context>
 
 
 <context id="ExportToLibrary_ID" title="Export">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this dialog box to export a report design to a library.
+<!--  SEQUENCE: Right-click an element in layout, select Export to Library. no relevant link khahn 20090605 updated 20090611 -->
+<description>Type a name for the item you want to export to a library, or choose OK to use the default name.
 </description>
 </context>
 
 
 <context id="CreateTemplateReportItem_ID" title="Create Template Report Item">
-<!--  linked khahn 20090605 -->
-<description>Use this dialog box to define the properties of template report items.
-
-Template report items are items that you intend report developers to modify for new report designs. Provide the necessary information about making modifications in the Instructions field.
+<!-- SEQUENCE: Right-click the Report Title label of a template, and choose Create Template Report Item.  linked khahn 20090605 updated 20090611 -->
+<description>Provide a name for the report item and instructions for the user about how to use the template.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.20.5.html" label="How to create a template report item"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.5.html" label="How to create a template report item"/>
 </context>
 
 
 <context id="AddEditMapRule_ID" title="New or Edit Map Rule">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this dialog box to define map rules.
-
-Map rules define the rules for mapping values in a database column to values in a report column. Each map rule contains a condition and a display value. For example, a set of map rules for a gender database column might map the values null, M, and F into display values No data, Male, and Female respectively.
+<!-- SEQUENCE: Choose Map tab>Add. no relevant link khahn 20090605 edited, resource key feature does not seem to work. 20090611 -->
+<description>Define rules that map values from a database column to values in a report column. Each map rule contains a condition and a display value. For example, a set of map rules for a gender database column might map the values null, M, and F into display values No data, Male, and Female respectively.
 </description>
 </context>
 
 
 <context id="AddEditUserProperties_ID" title="Add or Edit User Properties">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this dialog box to specify user properties for BIRT classes.
-
-User properties can provide indirect access to the BIRT JavaScript classes for BIRT event handlers written in Java code.
+<!--  no relevant link khahn 20090605 updated 20090611 -->
+<description>Type a unique name and select a data type to store information, such as state, in any items in a report. User properties can provide indirect access to the JavaScript classes for BIRT event handlers written in Java code.
 </description>
 </context>
 
 <context id="AddEditNamedExpression_ID" title="New or Edit Named Expressions">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this dialog box to define named expressions.
-
-The name facilitates reuse.
+<!--  SEQUENCE: select a data element, in Property Editor, choose Named Expression, choose Add. no relevant link, khahn 20090605 updated 20090610 -->
+<description>Give the expression a unique name, such as rowCustomerName. To specify a default value, open the expression builder. Build an expression, such as ["CUSTOMERLASTNAME"] + "," + row["CUSTOMERFIRSTNAME"].
 </description>
 </context>
 
 
 <context id="ResourceEditDialog_ID" title="Property Editor - Localization">
-<!--  linked khahn 20090605 -->
+<!-- In the layout editor, select the label or text element. In Property Editor, choose Localization. linked khahn 20090605 updated 20090611 -->
 <description>
-Use this page to define localization properties.
-
-To do this, choose the " <b>. . .</b> " button.
-
-Note that you must assign a resource file to the report before you can define localization properties. The " <b>. . .</b> " button is not active until a resource file is assigned.
+Assign an existing resource key to a label or text element. Browse to and select a key from the list of keys defined in the report's resource file. Assign a resource file to the report to enable browsing.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.21.3.html" label="How to assign an existing resource key to a label or text element"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.20.2.html" label="How to assign a resource file to a report"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.20.3.html" label="How to assign an existing resource key to a label or text element"/>
 </context>
 
 
 <context id="AddLibraryDialog_ID" title="Add Library">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this dialog box to add a library to the resource folder.
+<!-- Obsolete. SEQUENCE: cannot find this dialog box. I think AddResourceDialog_ID has replaced it.  no relevant link khahn 20090605 not updated. -->
+<description>Add a library to the resource folder.
 </description>
 </context>
 
 
 <context id="AddResourceDialog_ID" title="Add Resource">
-<!--  linked khahn 20090605 -->
-<description>Use this dialog box to add a shared resource, such as a library, an image, and a CSS file, to the resource folder. 
+<!-- SEQUENCE: In Resource Explorer, choose Add. linked khahn 20090605 updated 20090611 -->
+<description>Specify the source file by browsing to and selecting a resource, such as a library, an image, or a cascading style sheet (CSS) file. Provide the file name. Browse to and select a shared resource folder if you want to share the resource.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.4.html" label="How to link a CSS file"/>
 </context>
 
 
 <context id="ColumnBindingDialog_ID" title="Select Data Binding">
-<!--  linked khahn 20090605 -->
-<description>Use this dialog box to bind data to columns in a data set.
+<!-- SEQUENCE: Drag the image element from the palette, and drop it in report. On Edit Image Item, select Dynamic image. Choose Select Image Data. linked khahn 20090605 updated 20090611 -->
+<description>Bind a column to a report element. Select the data set that contains the column. Select the name of a column to bind to the report element. Add an aggregation to define a calculated field for an element contained in a list or table.
 </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/layout.5.7.html" label="How to insert images that are stored in a data source"/>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/data_binding.4.1.html" label="Binding data"/>
 </context>
 
 
 <context id="Preference_BIRT_DataSetEditor_JDBC_ID" title="Preferences - JDBC Data Set">
-<!--  no relevant link khahn 20090605 -->
-<description>Use this page to control the query page display.
+<!--  no relevant link, Diana 20090612 -->
+<description>Specify the maximum number of database schemas and tables to display in Available Items on the Query page of the data set editor.
 </description>
 </context>
 
 <context id="Preference_BIRT_DataSetEditor_XML_ID" title="Preferences - XML Data Set">
-<!--  The only Preferences - XML Data Set dialog I can find in in Preferences>Data Management>Connectivity>XML Data SEt and it does not display this help. no relevant link khahn 20090605 -->
+<!--  Obsolete? The only Preferences - XML Data Set dialog I can find in in Preferences>Data Management>Connectivity>XML Data SEt and it does not display this help. no relevant link khahn 20090605 -->
 <description>Use this page to control the column mapping page.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.1.html" label="Retrieving data"/>
 </context>
 
 
 <context id="Preference_BIRT_CrossTab_ID">
-<!--  no relevant link khahn 20090605 -->
-   <description>Use this page to control the behavior of the crosstab editor.
+<!--  no relevant link, Diana  20090612 -->
+   <description>Set options to control the behavior of the cross tab builder.
    
 In Filter Limit, specify the number of values to retrieve from the data source when selecting values for a filter.
 
@@ -687,8 +654,8 @@ You can also choose how the report designer treats unused data bindings after yo
 </context>
 
 <context id="Preference_BIRT_GENERAL_ID">
-<!-- SEQUENCE: Window>Preferences>Report Design  no relevant link khahn 20090605 -->
-   <description>Use this page to set the appearance of a selected item in the report layout editor.
+<!-- SEQUENCE: Window>Preferences>Report Design  no relevant link, Diana  20090612 -->
+   <description>Set the appearance of a selected item in the report layout editor.
 
 To display a selected item with an animated highlight, select Enable animated selection.
 
@@ -698,108 +665,86 @@ To display a selected item with a simple outline with handles, deselect both Ena
 </context>
 
 <context id="Preference_BIRT_Preview_DATA_ID">
-<!--  SEQUENCE: Window>Preference>REport Design>Preview>Data no relevant link khahn 20090605 -->
-   <description>Use this page to control the amount of data that a report displays in the Preview pane of the report designer. Reducing any of these values makes the report preview faster. Increasing these values produces a report preview that contains more of the data in your data set.
+<!--  SEQUENCE: Window>Preference>REport Design>Preview>Data no relevant link, Diana 20090612 -->
+   <description>Specify the maximum amount of data that a report displays in the Preview page of the report editor. Reducing any of these values makes the report preview faster. Increasing these values produces a report preview that contains more of the data in your data set.
 
-To set the maximum number of rows that the report preview fetches from the data set, type a value in Maximum number of rows to display.
+To display all the rows returned by the data set, select No limits on the number of rows to display. To set the maximum number of rows, type a value in Number of rows to display.
 
-To set the maximum number of rows to display in a group in a table or crosstab, type a value in  Maximum member count of each row level to display.
+To set the maximum number of rows to display in a group in a table or cross tab, type a value in Member count of each row level to display.
 
-To set the maximum number of columns to display in a horizontal group in a crosstab, type a value in  Maximum member count of each column level to display.
+To set the maximum number of columns to display in a horizontal group in a cross tab, type a value in Member count of each column level to display.
 
-To limit the size of a data cube structure in memory, type the number of megabytes in Maximum in-memory cube size.</description>
+To limit the size of a data cube structure in memory, type the  number of megabytes in In-memory cube size.</description>
 </context>
 
 
 <context id="ParameterBindingDialog_ID" title="Dataset Parameter Binding">
-<!--  linked khahn 20090605 -->
-<description>Use the dialog box to verify parameter bindings.
-
-Use the Value column to check or change the report parameter to which the data set parameter is bound.
+<!--  linked khahn 20090605 updated 20090611 -->
+<description>Check or change the binding of a parameter to a data set field. Edit the value that a data set parameter uses for the report item.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/subreport.13.10.html" label="Link the orders subreport to the customers master report"/>
 </context>
 
 
 <context id="NewSectionDialog_ID" title="Insert Element">
-<!-- no relevant link  khahn 20090605 -->
+<!-- no relevant link, Diana to fix  khahn 20090605 -->
 <description>Select an element to insert and choose OK.
 </description>
 </context>
 
 
 <context id="DeleteWarningDialog_ID" title="Reference Found">
-<!-- no relevant link  khahn 20090605 -->
-<description>BIRT Report Designer has analyzed your report design. Some report elements are using a report element that you selected to delete. This dialog lists the elements that other elements use. If you confirm that you want to delete them, you need to modify the elements that use them in order for your report to run.
-
-To confirm deletion of the report element, choose Yes.
+<!-- SEQUENCE: cannot find one. no relevant link  khahn 20090605 updated 20090611 -->
+<description>The report item that you selected to delete is used by other items. This list shows items that are dependent on the item you want to delete. If you delete this item,  remove the dependencies before attempting to run the report.
 </description>
 </context>
 
 
 <context id="DimensionBuilderDialog_ID" title="Dimension Builder">
-<!-- no relevant link  khahn 20090605 -->
-<description>In Measure, type the size of the property that you selected to edit.
-In Units, select the unit of measure for the size.
-
-To set these values, choose OK.
+<!-- SEQUENCE: cannot find this topic. no relevant link, not updated. khahn 20090605 -->
+<description>In Measure, type the size of the property that you selected to edit. In Units, select the unit of measure for the size. 
 </description>
 </context>
 
 
 <context id="HandlerClassSelectionDialog_ID" title="Class Selection">
-<!-- no relevant link  khahn 20090605 -->
+<!-- SEQUENCE: In Property editor, select Event Handler. Choose Browse. no relevant link  khahn 20090605 updated 20090611 -->
 
-<description>This dialog shows the available event handlers that are appropriate to the report item that you currently selected in your report design.
-
-Select the one that you need to get the event handling behavior that you want.
+<description>Choose an event handler from the list of applicable event handlers.
 </description>
 </context>
 
 
 <context id="NewResourceFileDialog_ID" title="Browse Resource Files">
-<!-- linked  khahn 20090605 -->
+<!-- SEQUENCE: Select a library in outline>Place library in resource folder>Browse linked  khahn 20090605 updated 20090611-->
 
-<description>This dialog shows the available resource files in the BIRT resource folder.
-
-Select the one that accesses the localized string values that you need.
+<description>Select a resource file from the available list of resource files in the BIRT resource folder.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.21.2.html" label="How to assign a resource file to a report"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.20.2.html" label="How to assign a resource file to a report"/>
 </context>
 
 
 <context id="AddJarResourceFileFolderSelectionDialog_ID" title="Browse Resource Files">
-<!-- No relevant link   khahn 20090605 -->
+<!-- SEQUENCE: Choose Resources in Property Editor. In Jar files, choose Add. No relevant link   khahn 20090605 updated 20090611 -->
 <description>
-This dialog shows the available resource JAR files in the BIRT resource folder.
-
-Select the one that accesses the set of localized string values that you need.
+Select a JAR file from the BIRT resource folder.
 </description>
 </context>
 
 
 <context id="DataColumnBindingDialog_ID" title="Data Binding">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: Drag data element to layout or double-click an aggregation in layout. BUG: Aggregation Builder and New Data Binding are using the same context ID and topics are not interchangeable. linked khahn 20090605 updated 20090611 -->
 <description>
-Use this dialog to bind a data expression to a name.
-Data items use the name to display the result of the expression in a report.
-
-The data expression can be a simple reference to a data field or a more complex calculation. To build an expression or access data fields, choose the builder button beside the expression field.
-You also use this dialog to set the data type that the expression returns.
+Bind an expression to the selected Data element. Specify a unique display name, a data type, such as String, and an expression, such as new Date(). 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/data_binding.4.1.html" label="Binding data"/>
 </context>
 
 
 <context id="DataItemBindingDialog_ID" title="Data Item">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: cannot find this topic. linked khahn 20090605 -->
 <description>
-Use this dialog to set the data expression for a data item.
-The data expression can be a simple reference to a data field or a more complex calculation.
-
-In Name, type a name for the expression. This name must be unique within a data set.
-In Data Type, select the data type that the expression returns.
-In Expression, type an expression. Alternatively, to build an expression or access data fields, choose the builder button beside the Expression field.
+Specify a unique display name, a data type, and an expression that specifies an operation on the data item. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/data_binding.4.2.html" label="How to create a column binding"/>
 </context>
@@ -807,80 +752,58 @@ In Expression, type an expression. Alternatively, to build an expression or acce
 
 <context id="Dialog_PropertyHandle_ID" title="Computed Column/Filter/Parameter">
 <!--  linked khahn 20090605 -->
-<!-- SEQUENCE: Double-click a data set>select Output Columns or anything except Query>In Define output columns or whatever, choose a column or whatever>choose Edit>choose ?  -->
+<!-- SEQUENCE: Double-click a data set>select Output Columns or anything except Query>In Define output columns, choose a column >choose Edit> This help topic does not work properly. Deleted most of the original verbage that applied to other selections. updated 20090611  -->
 <description>
-Set or modify a property of a data set.
-
-To create a computed column, provide a name, data type, and expression. The column will be available to all report items that use this data set.
-
-Add or change the display name of a column in a table to improve the presentation of report. BIRT uses the display name in Data Explorer and in tabular headings in a report. 
- 
-Add or change an alias to use a simpler name for the column in expressions. In lieu of a display name for the column, BIRT uses the alias in Data Explorer and tabular headings in a report.
-
-To create a filter, provide an expression to test, the test operator, and an expression that filters the test expression. Use this type of filter when the data source does not support the filtering in the query.
-
-To create a parameter to filter the result set in a query, provide a name, data type, and direction. Direction can be Input, Output, or Input/Output. Only stored procedures support Output and Input/Output parameters. Provide a default value for the parameter or link it to a report parameter.
+Set or modify a property of a data set. To create a computed column, provide a name, data type, and expression. All report items that use the data set can use the computed column. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.6.html" label="How to add a computed field to a data set"/>
 </context>
 
 
 <context id="DataSetParameterBindingInputDialog_ID" title="Data Set Parameter Binding">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: Select data in layout, select Binding tab in property editor, choose Data Set Parameter Binding, select the parameter, choose Edit. linked khahn 20090605 updated 20090612 -->
 <description>
-Use this dialog to modify the value that a data set parameter uses for this report item. For example, if a data set parameter takes its value from a report parameter that the user supplies, you can override that value in this dialog.
+Open expression builder and build an expression that defines the query for the data set parameter
 
-Type a new expression in Value. Alternatively, to build an expression or access data fields, choose the builder button beside the Value field.
+BIRT supports two types of parameters, report and data set. You typically define both types in master-detail report design. One query defines a report parameter. Another defines a data set operation that uses results of the first query at run time.  
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/subreport.13.10.html" label="Link the orders subreport to the customers master report"/>
 </context>
 
 <context id="AddEditSortkey_ID" title="Sort Key">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: Select a table. Choose the Sorting tab, choose Add. linked khahn 20090605 updated 20090612 -->
 <description>
-Use this dialog to create or edit a sort key for this report item.
-
-In Key, select a data field to sort on from the drop-down menu.  Alternatively, you can use the expression builder to create a complex sorting condition.
-
-In Direction, select ascending or descending to indicate how to sort the report item.
+Create or edit a sort key for this report item. In Key, select a data field on which to sort. Alternatively, open expression builder and create a sorting condition. Specify the sorting direction, ascending or descending.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.9.html" label="Sort the data"/>
 </context>
 
 <context id="AddEditFilterCondition_ID" title="Filter Condition">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: Select a table. Choose Filters tab.  linked khahn 20090605 updated 20090612 -->
 <description>
-Use this dialog to create or edit a filter condition for this report item.
-
-Select a data field as the filter from the drop-down menu, and then add a logical function and a value to filter by.
+To specify the data to retrieve from the data source, open expression builder and build a filter condition. Alternatively, select a data field, a conditional operator, such as Between, and values for the operation.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/aggregate.9.2.html" label="How to display aggregate data"/>
 </context>
 
 <context id="ThumbnailBuilder_ID" title="Thumbnail Builder">
-<!--  linked khahn 20090605 -->
+<!--  SEQUENCE: Open template, In Outline, select report root. In property editor-General, next to Thumbnail,choose . . . linked khahn 20090605 updated 20090613 -->
 <description>
-Use this dialog to create or edit a thumbnail for your template.
-
-Choose Generate from the report to produce an thumbnail that resembles the template Layout.
-
-Choose Browse the file system to choose a thumbnail image from your file system.
-
-Choose Import from shared resources to import a thumbnail image from your eclipse workspace, including the thumbnail for an existing template.
+Generate a thumbnail that resembles the report, browse to a thumbnail on the file system, or use a thumbnail in the eclipse workspace.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.20.7.html" label="How to publish a template"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.7.html" label="How to publish a template"/>
 </context>
 
 <context id="SelectionChoiceDialog_ID" title="">
-<!--  SEQUENCE: right-click Report Parameters in Data Explored and choose New Parameter. In Display Type, choose combo box. Choose New. no relevant link khahn 20090605 -->
+<!--  SEQUENCE: right-click Report Parameters in Data Explorer and choose New Parameter. In Display Type, choose list box, combo box, or radio button. Choose New. khahn 20090605 updated 20090613 -->
 <description>
-Use this dialog to select the values for a static parameter of display type list box, combo box, or radio button.
+Specify the display text and value of the parameter.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/parameter.12.7.html" label="Static parameter example"/> 
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/parameter.12.4.html" label="How to specify static report parameter values"/> 
 </context>
 
 <context id="CubeBuilderDataSetSelectionPage_ID" title="Data Set Selection Page ">
-<!--  linked khahn 20090605 -->
+<!--  Cannot find this topic. linked khahn 20090605 -->
 <description>
 Select a data set to go into the group or summary categories.
 </description>
@@ -888,7 +811,7 @@ Select a data set to go into the group or summary categories.
 </context>
 
 <context id="CubeBuilderGroupsPage_ID" title="Groups Page">
-<!--  linked khahn 20090605 -->
+<!--  Cannot find this topic. linked khahn 20090605 -->
 <description>
 Create a group.
 </description>
@@ -896,74 +819,70 @@ Create a group.
 </context>
 
 <context id="CubeBuilderLinkGroupsPage_ID" title="Link Groups Page">
-<!--  linked khahn 20090605 -->
+<!--  This topic does not seem to be appearing in the Help. File a bug. linked khahn 20090605 -->
 <description>
 Create a group link.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.8.html" label="How to create a multi-dataset cube"/> 
 </context>
 
-<context id="LevelPropertyDialog_ID" title="Group Level Page">
-<!--  linked khahn 20090605 -->
+<context id="LevelPropertyDialog_ID" title="Edit Group Level">
+<!-- SEQUENCE: In Cross Tab Builder, double-click a data field name in a group. linked-link turned out to be unrelated. updated khahn 20090613 -->
 <description>
-Create a group level.
+To specify user-defined values for row and column headings for this dimension, choose Static. To specify values from the data source for row and column headings, choose Dynamic. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
 </context>
 
 <context id="MeasureDialog_ID" title="Summary Field Properties">
-<!--  SEQUENCE: In Data Explorer, select cube, select Groups and Summaries. Select a summary field, select add. no relevant link khahn 20090605 -->
+<!--  SEQUENCE: In Data Explorer, select cube, select Groups and Summaries. Select a summary field, select add. no relevant link, Diana 20090612 -->
 <description>
-Create a summary.
+Edit the properties of the summary field. When you drag an item from Available Fields to create a new summary field, the cube builder uses default values for the summary field's name, aggregate function, data type, and expression. You can change any of these values.
 </description>
 </context>
 
 <context id="AddEditSubTotal_ID" title="Subtotal">
-<!--  no relevant link khahn 20090605 -->
+<!--  SEQUENCE: Select the cross tab. Choose Row Area in Property Editor. Choose Sub Totals. Select Data Field. Choose Edit. khahn 20090605 updated 20090613 -->
 <description>
-Add a subtotal to a row or column in a cross tab, or edit an existing subtotal.
+Add a subtotal to a row or column in a cross tab, or edit an existing subtotal. Specify a data field and an aggregate function.
 </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.8.html" label="Add grand totals"/> 
 </context>
 
 <context id="AddEditGrandTotal_ID" title="Grand Total">
-<!--  linked khahn 20090605 -->
+<!-- SEQUENCE: Select the cross tab. Choose Row Area in Property Editor. Choose Grand Totals. Select Data Field. Choose Edit. linked khahn 20090605 updated 20090613 -->
 <description>
-Add a grand total to a row or column in a cross tab, or edit an existing grand total.
+Add a grand total to a row or column in a cross tab, or edit an existing grand total. Specify a data field and an aggregate function.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.8.html" label="Add grand totals"/> 
 </context>
 
 <context id="AddEditPageBreakDialog_ID" title="Page Break">
-<!--  no relevant link khahn 20090605 -->
+<!--  no relevant link, Diana 20090612 -->
 <description>
-Add a page break before or after a group level in a cross tab, or edit an existing page break definition.
+Add a page break before or after a group level in the cross tab. Alternatively, add a page break after a fixed number of columns in a group by typing a value in Page Break Interval.
 </description>
 
 </context>
 
 <context id="CrossTabFilterConditionBuilder_ID" title="Filter Condition">
-<!--  no relevant link khahn 20090605 -->
+<!--  Diana 20090612 -->
 <description>
-Use this dialog to create or edit a filter condition for a group level on a cross tab.
-
-Select a data field as the filter from the drop-down menu, and then add a logical function and a value to filter by.
+Create or edit a filter condition to limit the data that the cross tab displays. You can filter on any dimension (group), dimension level, or measure.
 </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.12.html" label="How to filter data at the cross tab level"/>
 </context>
 
 <context id="CrossTabSorterBuilder_ID" title="sort Key">
-<!--  no relevant link khahn 20090605 -->
+<!--  Diana  20090612 -->
 <description>
-Use this dialog to create or edit a sort key for a group level on a cross tab.
-
-In Key, select a data field to sort on from the drop-down menu.  Alternatively, you can use the expression builder to create a complex sorting condition.
-
-In Direction, select ascending or descending to indicate how to sort the group.
+Create or edit a sort condition to sort the cross tab data in a different order. 
 </description>
-
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.11.html" label="How to sort cross tab data"/>
 </context>
 
 <context id="CrossTabFilterSelectValueDialog_ID" title="Select Value">
-<!--  no relevant link khahn 20090605 -->
+<!--  The help does not display the decription in contexts.xml. It displays  The context help for this user interface element could not be found.  Case of mismatched ID? no relevant link khahn 20090605 -->
 <description>
 Select a value from the list to filter the cross tab group.
 </description>
@@ -971,81 +890,71 @@ Select a value from the list to filter the cross tab group.
 </context>
 
 <context id="CrossTabShowSummaryFieldDialog_ID" title="Show Summary Field">
-<!--  linked khahn 20090605 -->
+<!--  SEQUENCE: Cannot find this topic. linked khahn 20090605 -->
 <description>
-Use this dialog to show or hide a summary field on a group level on a cross tab.
+Show or hide a summary field on a crosstab's group level.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
 </context>
 
 <context id="CrossTabLevelViewDialog_ID" title="Show Hide Group Level">
-<!--  no relevant link khahn 20090605 -->
+<!-- SEQUENCE: Double-click a group in layout. Diana 20090612 -->
 <description>
-Use this dialog to show or hide a group level on a cross tab with a hierarchical dimension, such as year, quarter, month.
+Select the dimension levels to display or hide. You can skip levels. For example, if there are three levels, you can display the first and the third levels and skip the second.
 </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.9.html" label="How to display or hide levels"/> 
 </context>
 
-<context id="CrossTabAggregationDialog_ID" title="Aggregation Builder">
-<!--  linked khahn 20090605 -->
+<context id="CrossTabAggregationDialog_ID" title="Totals">
+<!--  SEQUENCE: From the context menu of a group icon in cross tab, choose Totals. linked updated khahn 20090613 -->
 <description>
-Use this dialog to build or modify an aggregate expression.
-- In Display Name, type the display name.
-- In Data Type, select the type of the data to display.
-- In Function, select the aggregation function.
-- In Data Field, select the field on which to aggregate.
-- In Filter Condition, type an expression to select the rows to aggregate.
-- In Aggregate On, select a grouping level.
-Choose OK.
+To hide or display sums, deselect or select subtotals and grand totals in the cross tab. To show sums as text or as a chart, click a row. From the drop-down menu, make a selection. To specify the position of the sum relative to other members in a group, click the sum. From the drop-down menu, select Before or After.  
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/aggregate.9.2html" label="How to display aggregate data"/>
 </context>
 
 <context id="CubeBuilderGroupDialog_ID" title="Group Level">
+<!--  no relevant link Diana 20090612 -->
 <description>
-Set or modify the properties of the group.
+Select the group levels to include in the cube.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
 </context>
 
-<context id="CubeBuilderDateLevelDialog_ID" title="Group Level">
-<!--  no relevant links khahn 20090605 -->
+<context id="CubeBuilderDateLevelDialog_ID" title="Edit Date Level">
+<!--  no relevant link  Diana 20090612 -->
 <description>
-Set or modify the properties of a date time group.
+Edit the properties of the date group.
 </description>
 </context>
 
 <context id="CubeBuilderFilterListDialog_ID" title="Filter">
-<!--  no relevant links khahn 20090605 -->
+<!--  SEQUENCE: drag cube to layout editor. In Data Set Selection, choose Filter. Diana 20090612 -->
 <description>
-Use this dialog to create or edit a filter condition for the data set rows that the cube uses.
-
-Select a data field as the filter from the drop-down menu, and then add a logical function and a value to filter by.
+Create, edit, or delete a filter that limits the data rows that the cube uses.
 </description>
 </context>
 
 <context id="AddCSSDialog_ID" title="Add CSS File">
-<!--  linked khahn 20090605 -->
+<!--  Obsolete? Cannot find this topic. I think it has been replaced by AddResourceDialog_ID linked khahn 20090605 -->
 <description>
 Add a cascading style sheet (CSS) file as a resource.
-- In Source File, type or browse to an existing CSS file.
-- In File Name, accept the default or type a new name to save the file in the project.
-- In Folder, browse to a folder to save the CSS file.
-Choose Finish.
+- Type a file name or browse to an existing CSS file.
+- Accept the default or type a new name to save the file in the project.
+- Browse to a folder to save the CSS file.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.4.html" label="How to link a CSS file"/> 
 </context>
 
 <context id="PublishCSSDialog_ID" title="Publish CSS File">
-<!--  no relevant link khahn 20090605 -->
+<!--  Obsolete? cannot find this dialog. In previous releases, there was an  Add CSS File  option and a  Add CSS File  dialog. In the current release, it is Add Resource no relevant link diana 20090612 -->
 <description>
 Publish a cascading style sheet (CSS) file to the resource folder.
 </description>
 </context>
 
 <context id="UseCssInReportDialog_ID" title="Use CSS">
-<!--  linked khahn 20090605 -->
+<!--  linked khahn 20090605 updated 20090612 -->
 <description>
-Select a cascading style sheet (CSS) file to use in the report design. The valid CSS styles are displayed in Available styles. CSS styles that BIRT cannot use are displayed in Notifications.
+Select a cascading style sheet (CSS) file from the list of CSS styles. If your selection includes any CSS styles that are invalid in BIRT, a notification appears.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.4.html" label="How to link a CSS file"/> 
 </context>
