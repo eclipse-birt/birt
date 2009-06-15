@@ -2160,13 +2160,13 @@ InsertExpressionMenuAction.text.Expression=식...
 ###########################################################
 #InsertGroupAction properties
 
-InsertGroupAction.actionMsg.group=그룹 삽입(&N)
+InsertGroupAction.actionMsg.group=그룹 삽입(&G)
 InsertGroupAction.stackMsg.addGroup=그룹 추가
 
 ###########################################################
 #InsertGroupActionFactory properties
 
-InsertGroupActionFactory.label.insertGroup=그룹 삽입(&N)
+InsertGroupActionFactory.label.insertGroup=그룹 삽입(&G)
 
 ###########################################################
 #InsertInLayoutAction properties
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=값/식 편집(&V)...
 SchematicContextMenuProvider.ActionText.editLabel=편집(&E)
 SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&G)
 SchematicContextMenuProvider.Menu.Insert=삽입(&I)
-SchematicContextMenuProvider.Menu.insertElement=삽입(&I)
+SchematicContextMenuProvider.Menu.insertElement=I&nsert
 SchematicContextMenuProvider.Menu.insertRow=행(&R)
 SchematicContextMenuProvider.Menu.List=목록
 SchematicContextMenuProvider.Menu.Show=표시
@@ -3389,6 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=스타일(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=스타일 적용(&P)
 SchematicContextMenuProvider.Menu.Theme=테마(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=테마 적용(&P)
+SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3401,6 +3402,12 @@ SchematicContextMenuProvider.Menu.DeleteStyle=스타일 제거(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=그룹 삭제(&L)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=그룹 머리글/바닥글 삽입(&H)
 SchematicContextMenuProvider.Menu.NewStyle=새 스타일(&Y)
+
+###########################################################
+#ApplyLayoutPreferenceAction properties
+
+ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
+ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties
@@ -4519,7 +4526,7 @@ ReportDocumentEditor.errorMessage=편집기에서 문서를 여는 동안 오류가 발생했습니�
 #Export Element Dialog
 ExportElementDialog.Dialog.Title=요소 내보내기 
 ExportElementDialog.Dialog.Message=요소를 설정할 위치를 선택하십시오. 
-ExportElementDialog.label.NewFile=새 파일 이름:
+ExportElementDialog.label.NewFile=새 파일 이름(&N):
 ExportElementDialog.ErrorMessage=파일 이름은 .rptlibrary로 끝나야 합니다. 
 ExportElementDialog.ErrorMessageInvalid=파일 이름이 잘못되었습니다. 
 ExportElementDialog.ErrorMessageDuplicate=라이브러리에 해당 요소가 이미 있습니다. 
@@ -4545,7 +4552,7 @@ ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 �
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=테마:
+ExportStyleDialog.Label.Text=테마(&T):
 ExportStyleDialog.Message=라이브러리에서 내보낼 테마를 선택합니다.
 ExportStyleDialog.Title=테마 선택
 
@@ -4560,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=파일 삭제 실패: {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=속성(&E)
+ShowPropertiesViewMenu.ActionName=Propert&ies
 ShowPropertiesViewMenu.ErrorMessage=속성 뷰를 열지 못했습니다.
 ShowPropertiesViewMenu.ErrorTitle=오류
 

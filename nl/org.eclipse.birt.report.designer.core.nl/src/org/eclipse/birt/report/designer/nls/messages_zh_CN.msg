@@ -2160,13 +2160,13 @@ InsertExpressionMenuAction.text.Expression=表达式...
 ###########################################################
 #InsertGroupAction properties
 
-InsertGroupAction.actionMsg.group=插入组(&N)
+InsertGroupAction.actionMsg.group=插入组(&G)
 InsertGroupAction.stackMsg.addGroup=添加组
 
 ###########################################################
 #InsertGroupActionFactory properties
 
-InsertGroupActionFactory.label.insertGroup=插入组(&N)
+InsertGroupActionFactory.label.insertGroup=插入组(&G)
 
 ###########################################################
 #InsertInLayoutAction properties
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=编辑值/表达式(&V)...
 SchematicContextMenuProvider.ActionText.editLabel=编辑(&E)
 SchematicContextMenuProvider.Menu.EditGroup=编辑组(&G)
 SchematicContextMenuProvider.Menu.Insert=插入(&I)
-SchematicContextMenuProvider.Menu.insertElement=插入(&I)
+SchematicContextMenuProvider.Menu.insertElement=I&nsert
 SchematicContextMenuProvider.Menu.insertRow=行(&R)
 SchematicContextMenuProvider.Menu.List=列表
 SchematicContextMenuProvider.Menu.Show=显示
@@ -3389,6 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=样式(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.Theme=主题(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=应用主题(&P)
+SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3401,6 +3402,12 @@ SchematicContextMenuProvider.Menu.DeleteStyle=删除样式(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=删除组(&L)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=插入组页眉/页脚(&H)
 SchematicContextMenuProvider.Menu.NewStyle=新样式(&Y)
+
+###########################################################
+#ApplyLayoutPreferenceAction properties
+
+ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
+ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties
@@ -4519,7 +4526,7 @@ ReportDocumentEditor.errorMessage=在编辑器中打开文档时出错。
 #Export Element Dialog
 ExportElementDialog.Dialog.Title=导出元素 
 ExportElementDialog.Dialog.Message=选择要将元素移动到的位置。 
-ExportElementDialog.label.NewFile=新文件名:
+ExportElementDialog.label.NewFile=新文件名称(&N):
 ExportElementDialog.ErrorMessage=文件名必须以 .rptlibrary 结尾。 
 ExportElementDialog.ErrorMessageInvalid=文件名无效。 
 ExportElementDialog.ErrorMessageDuplicate=元素在库中已存在。 
@@ -4545,7 +4552,7 @@ ExportElementToLibraryAction.waringMsg=元素没有名称，但不能为其设置名称。
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=主题:
+ExportStyleDialog.Label.Text=主题(&T):
 ExportStyleDialog.Message=在库中选择要导出的主题。
 ExportStyleDialog.Title=选择主题
 
@@ -4560,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=删除文件失败: {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=属性(&E)
+ShowPropertiesViewMenu.ActionName=Propert&ies
 ShowPropertiesViewMenu.ErrorMessage=无法打开属性视图
 ShowPropertiesViewMenu.ErrorTitle=错误
 

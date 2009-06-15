@@ -2160,13 +2160,13 @@ InsertExpressionMenuAction.text.Expression=®...
 ###########################################################
 #InsertGroupAction properties
 
-InsertGroupAction.actionMsg.group=ƒOƒ‹[ƒv‚ğ‘}“ü(&N)
+InsertGroupAction.actionMsg.group=ƒOƒ‹[ƒv‚Ì‘}“ü(&G)
 InsertGroupAction.stackMsg.addGroup=ƒOƒ‹[ƒv‚Ì’Ç‰Á
 
 ###########################################################
 #InsertGroupActionFactory properties
 
-InsertGroupActionFactory.label.insertGroup=ƒOƒ‹[ƒv‚ğ‘}“ü(&N)
+InsertGroupActionFactory.label.insertGroup=ƒOƒ‹[ƒv‚Ì‘}“ü(&G)
 
 ###########################################################
 #InsertInLayoutAction properties
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=’l/®‚Ì•ÒW(&V)...
 SchematicContextMenuProvider.ActionText.editLabel=•ÒW(&E)
 SchematicContextMenuProvider.Menu.EditGroup=•Ï”‚Ì•ÒW(&G)
 SchematicContextMenuProvider.Menu.Insert=‘}“ü(&I)
-SchematicContextMenuProvider.Menu.insertElement=‘}“ü(&I)
+SchematicContextMenuProvider.Menu.insertElement=I&nsert
 SchematicContextMenuProvider.Menu.insertRow=s(&R)
 SchematicContextMenuProvider.Menu.List=ƒŠƒXƒg
 SchematicContextMenuProvider.Menu.Show=•\¦
@@ -3389,6 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=ƒXƒ^ƒCƒ‹(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=ƒXƒ^ƒCƒ‹‚Ì“K—p(&P)
 SchematicContextMenuProvider.Menu.Theme=ƒe[ƒ}(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=ƒe[ƒ}‚Ì“K—p(&P)
+SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3401,6 +3402,12 @@ SchematicContextMenuProvider.Menu.DeleteStyle=ƒXƒ^ƒCƒ‹‚Ìíœ(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=ƒOƒ‹[ƒv‚Ìíœ(&L)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=ƒOƒ‹[ƒvƒwƒbƒ_/ƒtƒbƒ^‚Ì‘}“ü(&H)
 SchematicContextMenuProvider.Menu.NewStyle=ƒXƒ^ƒCƒ‹‚ÌV‹Kì¬(&Y)
+
+###########################################################
+#ApplyLayoutPreferenceAction properties
+
+ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
+ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties
@@ -4519,7 +4526,7 @@ ReportDocumentEditor.errorMessage=ƒGƒfƒBƒ^‚Å•¶‘‚ğŠJ‚¢‚½Û‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½
 #Export Element Dialog
 ExportElementDialog.Dialog.Title=—v‘f‚ÌƒGƒNƒXƒ|[ƒg 
 ExportElementDialog.Dialog.Message=—v‘f‚Ìİ’èæ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B 
-ExportElementDialog.label.NewFile=V‹Kƒtƒ@ƒCƒ‹–¼ :
+ExportElementDialog.label.NewFile=V‹Kƒtƒ@ƒCƒ‹–¼(&N) :
 ExportElementDialog.ErrorMessage=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚Í .rptlibrary ‚É‚µ‚Ä‚­‚¾‚³‚¢B 
 ExportElementDialog.ErrorMessageInvalid=ƒtƒ@ƒCƒ‹–¼‚ª–³Œø‚Å‚·B 
 ExportElementDialog.ErrorMessageDuplicate=‚±‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚É‚Í‚·‚Å‚É—v‘f‚ª‚ ‚è‚Ü‚·B 
@@ -4545,7 +4552,7 @@ ExportElementToLibraryAction.waringMsg=—v‘f‚É–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ‚ªA–¼‘O‚ğİ’è‚
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=ƒe[ƒ} : 
+ExportStyleDialog.Label.Text=ƒe[ƒ}(&T) :
 ExportStyleDialog.Message=ƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg‚·‚éƒe[ƒ}‚ğ‘I‘ğ‚µ‚Ü‚·B
 ExportStyleDialog.Title=ƒe[ƒ}‚Ì‘I‘ğ
 
@@ -4560,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=ƒtƒ@ƒCƒ‹‚ğíœ‚Å‚«‚Ü‚¹‚ñ : {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=ƒvƒƒpƒeƒB(&E)
+ShowPropertiesViewMenu.ActionName=Propert&ies
 ShowPropertiesViewMenu.ErrorMessage=ƒvƒƒpƒeƒBƒrƒ…[‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½
 ShowPropertiesViewMenu.ErrorTitle=ƒGƒ‰[
 

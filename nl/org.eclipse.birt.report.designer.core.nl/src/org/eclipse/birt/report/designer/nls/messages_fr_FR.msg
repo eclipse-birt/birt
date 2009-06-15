@@ -2160,13 +2160,13 @@ InsertExpressionMenuAction.text.Expression=Expression...
 ###########################################################
 #InsertGroupAction properties
 
-InsertGroupAction.actionMsg.group=I&nsérer le groupe
+InsertGroupAction.actionMsg.group=Insérer le &groupe
 InsertGroupAction.stackMsg.addGroup=Ajouter un groupe
 
 ###########################################################
 #InsertGroupActionFactory properties
 
-InsertGroupActionFactory.label.insertGroup=I&nsérer le groupe
+InsertGroupActionFactory.label.insertGroup=Insérer le &groupe
 
 ###########################################################
 #InsertInLayoutAction properties
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=Modifier &Valeur/Expression...
 SchematicContextMenuProvider.ActionText.editLabel=&Modifier
 SchematicContextMenuProvider.Menu.EditGroup=Modifier le &groupe
 SchematicContextMenuProvider.Menu.Insert=&Insérer
-SchematicContextMenuProvider.Menu.insertElement=&Insérer
+SchematicContextMenuProvider.Menu.insertElement=I&nsert
 SchematicContextMenuProvider.Menu.insertRow=&Ligne
 SchematicContextMenuProvider.Menu.List=Liste
 SchematicContextMenuProvider.Menu.Show=Afficher
@@ -3389,6 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=St&yle
 SchematicContextMenuProvider.Menu.Style.Apply=A&ppliquer un style
 SchematicContextMenuProvider.Menu.Theme=Thè&me
 SchematicContextMenuProvider.Menu.Theme.Apply=A&ppliquer le thème
+SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3401,6 +3402,12 @@ SchematicContextMenuProvider.Menu.DeleteStyle=Supprimer le &style
 SchematicContextMenuProvider.Menu.DeleteGroup=Supprimer &le groupe
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insérer &En-tête/Pied de page de groupe
 SchematicContextMenuProvider.Menu.NewStyle=Nouveau st&yle
+
+###########################################################
+#ApplyLayoutPreferenceAction properties
+
+ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
+ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties
@@ -4519,7 +4526,7 @@ ReportDocumentEditor.errorMessage=Une erreur s'est produite lors de l'ouverture 
 #Export Element Dialog
 ExportElementDialog.Dialog.Title=Exporter l'élément 
 ExportElementDialog.Dialog.Message=Sélectionnez l'emplacement où placer l'élément. 
-ExportElementDialog.label.NewFile=Nom du nouveau fichier :
+ExportElementDialog.label.NewFile=&Nom du nouveau fichier :
 ExportElementDialog.ErrorMessage=Le nom de fichier doit se terminer par .rptlibrary. 
 ExportElementDialog.ErrorMessageInvalid=Le nom de fichier est incorrect. 
 ExportElementDialog.ErrorMessageDuplicate=Cet élément existe déjà dans la bibliothèque. 
@@ -4545,7 +4552,7 @@ ExportElementToLibraryAction.waringMsg=L'élément ne porte pas de nom, mais il es
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=Thème :
+ExportStyleDialog.Label.Text=&Thème :
 ExportStyleDialog.Message=Sélectionnez un thème à exporter dans la bibliothèque.
 ExportStyleDialog.Title=Sélectionner le thème
 
@@ -4560,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=Echec de la suppression de fichi
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=P&ropriétés
+ShowPropertiesViewMenu.ActionName=Propert&ies
 ShowPropertiesViewMenu.ErrorMessage=Echec d'ouverture de la vue des propriétés
 ShowPropertiesViewMenu.ErrorTitle=Erreur
 
