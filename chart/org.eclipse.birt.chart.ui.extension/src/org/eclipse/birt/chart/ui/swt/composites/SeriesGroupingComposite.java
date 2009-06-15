@@ -21,12 +21,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.type.StockChart;
@@ -582,10 +577,9 @@ public class SeriesGroupingComposite extends Composite implements
 				lblAggregate.setEnabled( bEnableUI );
 				cmbAggregate.setEnabled( bEnableUI );
 
-				if ( fGrouping.getGroupType( ).getValue( ) == DataType.DATE_TIME
-						&& fChartContext.getChartType( ) instanceof StockChart )
+				if ( fChartContext.getChartType( ) instanceof StockChart )
 				{
-					updateStockAggregations( );
+					ChartUIUtil.updateDefaultAggregations( fChartContext.getModel( ) );
 				}
 			}
 		}
@@ -791,38 +785,5 @@ public class SeriesGroupingComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
-	}
-	
-	private void updateStockAggregations( )
-	{
-		for ( SeriesDefinition vsd : ChartUIUtil.getAllOrthogonalSeriesDefinitions( fChartContext.getModel( ) ) )
-		{
-			Series vs = vsd.getDesignTimeSeries( );
-			if ( vs instanceof StockSeries )
-			{
-				EList<Query> queries = vs.getDataDefinition( );
-				while ( queries.size( ) < 4 )
-				{
-					queries.add( QueryImpl.create( "" ) ); //$NON-NLS-1$
-				}
-				setSeriesAggregation( queries.get( 0 ), "Max" );//High //$NON-NLS-1$
-				setSeriesAggregation( queries.get( 1 ), "Min" );//Low //$NON-NLS-1$
-				setSeriesAggregation( queries.get( 2 ), "First" );//Open //$NON-NLS-1$
-				setSeriesAggregation( queries.get( 3 ), "Last" );//Close //$NON-NLS-1$
-			}
-		}
-	}
-	
-	private void setSeriesAggregation( Query query, String aggFunc )
-	{
-		SeriesGrouping grouping = query.getGrouping( );
-		if ( grouping == null )
-		{
-			grouping = SeriesGroupingImpl.create( );
-			query.setGrouping( grouping );
-		}
-		grouping.setEnabled( true );
-		grouping.setAggregateExpression( aggFunc );
-		query.setGrouping( grouping );
 	}
 }

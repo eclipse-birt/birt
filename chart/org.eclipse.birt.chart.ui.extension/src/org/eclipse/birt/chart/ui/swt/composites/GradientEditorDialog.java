@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -88,7 +89,7 @@ public class GradientEditorDialog extends TrayDialog implements
 	{
 		this( shellParent,
 				wizardContext,
-				ChartUIUtil.createDefaultGradient( selectedColor ),
+				FillUtil.createDefaultGradient( selectedColor ),
 				bSupportAngle );
 	}
 

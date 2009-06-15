@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -31,13 +30,11 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
-import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -50,7 +47,9 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
@@ -75,9 +74,6 @@ import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.graphics.Color;
@@ -1815,104 +1811,48 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Creates Gradient fill by default.
+	 * Sets default aggregation functions for model
 	 * 
-	 * @param color
-	 *            color to create Gradient
-	 * @return default gradient
+	 * @param cm
+	 *            model
+	 * @since 2.5.1
 	 */
-	public static Gradient createDefaultGradient( ColorDefinition color )
+	public static void updateDefaultAggregations( Chart cm )
 	{
-		if ( color == null )
+		SeriesGrouping sg = getBaseSeriesDefinitions( cm ).get( 0 )
+				.getGrouping( );
+		if ( sg.getGroupType( ).getValue( ) == DataType.DATE_TIME )
 		{
-			return null;
-		}
-		Gradient gradient = AttributeFactory.eINSTANCE.createGradient( );
-		int currentLuminance = convertRGBToLuminance( color.getRed( ),
-				color.getGreen( ),
-				color.getBlue( ) );
-		if ( currentLuminance < 200 )
-		{
-			ColorDefinition newStartColor = color.copyInstance( );
-			newStartColor.eAdapters( ).addAll( color.eAdapters( ) );
-			gradient.setStartColor( newStartColor );
-
-			ColorDefinition newColor = color.copyInstance( );
-			newColor.eAdapters( ).addAll( color.eAdapters( ) );
-
-			int lumDiff = 240 - currentLuminance;
-			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
-			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
-			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
-			gradient.setEndColor( newColor );
-		}
-		else
-		{
-			ColorDefinition newEndColor = color.copyInstance( );
-			newEndColor.eAdapters( ).addAll( color.eAdapters( ) );
-			gradient.setEndColor( newEndColor );
-
-			ColorDefinition newColor = color.copyInstance( );
-			newColor.eAdapters( ).addAll( color.eAdapters( ) );
-
-			int lumDiff = -100;
-			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
-			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
-			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
-			gradient.setStartColor( newColor );
-		}
-		return gradient;
-	}
-
-	private static int convertRGBToLuminance( int red, int green, int blue )
-	{
-		return (int) ( 0.3 * red + 0.59 * green + 0.11 * blue );
-	}
-
-	private static int getNewColor( int lumDiff, int oldColor,
-			double coefficient )
-	{
-		int newColor = (int) ( lumDiff * coefficient ) + oldColor;
-		if ( newColor < 0 )
-		{
-			return 0;
-		}
-		return newColor < 255 ? newColor : 255;
-	}
-
-	private static void applyAdapter( EObject dest, EObject src )
-	{
-		if ( dest == null || src == null )
-		{
-			return;
-		}
-
-		dest.eAdapters( ).addAll( src.eAdapters( ) );
-
-		if ( dest.eClass( ) == src.eClass( ) )
-		{
-			EClass eClass = dest.eClass( );
-			for ( EReference ref : eClass.getEAllReferences( ) )
+			for ( SeriesDefinition vsd : getAllOrthogonalSeriesDefinitions( cm ) )
 			{
-				if ( ref.isMany( ) )
+				Series vs = vsd.getDesignTimeSeries( );
+				if ( vs instanceof StockSeries )
 				{
-					if ( ref.getEReferenceType( ).getInstanceClass( ) == Map.Entry.class )
+					EList<Query> queries = vs.getDataDefinition( );
+					while ( queries.size( ) < 4 )
 					{
-
+						queries.add( QueryImpl.create( "" ) ); //$NON-NLS-1$
 					}
-					else
-					{
-						List list = (List) dest.eGet( ref );
-					}
-				}
-				else
-				{
-					applyAdapter( (EObject) dest.eGet( ref ),
-							(EObject) src.eGet( ref ) );
+					setSeriesAggregation( queries.get( 0 ), "Max" );//High //$NON-NLS-1$
+					setSeriesAggregation( queries.get( 1 ), "Min" );//Low //$NON-NLS-1$
+					setSeriesAggregation( queries.get( 2 ), "First" );//Open //$NON-NLS-1$
+					setSeriesAggregation( queries.get( 3 ), "Last" );//Close //$NON-NLS-1$
 				}
 			}
 		}
+	}
 
+	private static void setSeriesAggregation( Query query, String aggFunc )
+	{
+		SeriesGrouping grouping = query.getGrouping( );
+		if ( grouping == null )
+		{
+			grouping = SeriesGroupingImpl.create( );
+			query.setGrouping( grouping );
+		}
+		grouping.setEnabled( true );
+		grouping.setAggregateExpression( aggFunc );
+		query.setGrouping( grouping );
 	}
 
 }
