@@ -313,6 +313,8 @@ public class ExecutionContext
 
 	private boolean needOutputResultSet;
 	
+	private boolean isFixedLayout = false;
+
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -2065,16 +2067,16 @@ public class ExecutionContext
 
 	public void optimizeExecution( )
 	{
-// TODO Do not optimize for fixed layout
-//		if ( ( task != null ) && ( task.getTaskType( ) == IEngineTask.TASK_RUN ) )
-//		{
-//			String[] engineExts = getEngineExtensions( );
-//			if ( engineExts == null || engineExts.length == 0 )
-//			{
-//				executionPolicy = new ExecutionOptimize( )
-//						.optimize( getReport( ) );
-//			}
-//		}
+		if ( ( task != null ) && ( task.getTaskType( ) == IEngineTask.TASK_RUN )
+				&& !isFixedLayout )
+		{
+			String[] engineExts = getEngineExtensions( );
+			if ( engineExts == null || engineExts.length == 0 )
+			{
+				executionPolicy = new ExecutionOptimize( )
+						.optimize( getReport( ) );
+			}
+		}
 	}
 
 	public ExecutionPolicy getExecutionPolicy( )
@@ -2257,5 +2259,15 @@ public class ExecutionContext
 	public void addPageVariable( PageVariable var )
 	{
 		pageVariables.put( var.getName( ), var );
+	}
+	
+	public boolean isFixedLayout( )
+	{
+		return isFixedLayout;
+	}
+
+	public void setFixedLayout( boolean isFixedLayout )
+	{
+		this.isFixedLayout = isFixedLayout;
 	}
 }

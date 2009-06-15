@@ -186,15 +186,13 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		{
 			progressMonitor.onProgress( IProgressMonitor.START_TASK, TASK_RUN );
 		}
-		
-		boolean isFixedLayout = false;
 		loadDataSource( );
 		doValidateParameters( );
 		ReportDesignHandle design = executionContext.getDesign( );
 		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
 				.equals( design.getLayoutPreference( ) ) )
 		{
-			isFixedLayout = true;
+			executionContext.setFixedLayout( true );
 			setupRenderOption( );
 			updateRtLFlag( );
 		}
@@ -217,7 +215,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				if (!executionContext.isCanceled( ))
 				{
 					documentBuilder = new ReportDocumentBuilder(
-							executionContext, writer, isFixedLayout );
+							executionContext, writer );
 				}
 			}
 			
@@ -234,16 +232,14 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				executor = createReportExtensionExecutor( executor );
 				executor = new ReportEmitterExecutor( executor, emitter );
 				executor = new SuppressDuplciateReportExecutor( executor );
-				if ( isFixedLayout )
+				if ( executionContext.isFixedLayout( ) )
 				{
-				//code review: need not to localize.
 					executor = new LocalizedReportExecutor( executionContext,
 							executor );
 				}				
 				executionContext.setExecutor( executor );
-
+				
 				initializeContentEmitter( emitter, executor );
-
 				documentBuilder.build( );
 			}
 						

@@ -142,15 +142,13 @@ public class ReportDocumentBuilder
 	 * handle used to receive the layout page events
 	 */
 	protected CompositeLayoutPageHandler layoutPageHandler;
-	
-	protected boolean isFixedLayout;
 
 	public ReportDocumentBuilder( ExecutionContext context,
-			ReportDocumentWriter document, boolean isFixedLayout ) throws EngineException
+			ReportDocumentWriter document ) throws EngineException
 	{
 		this.executionContext = context;
 		this.document = document;
-		this.isFixedLayout = isFixedLayout;
+
 		OnPageBreakLayoutPageHandle onPageBreakHandler = new OnPageBreakLayoutPageHandle(
 				context );
 		// output emitter is used to receive the layout content.
@@ -168,7 +166,7 @@ public class ReportDocumentBuilder
 		// hint, so it should added before the layout page handler
 		layoutPageHandler.addPageHandler( onPageBreakHandler );
 		// used to write the page hint, created by itself.
-		if ( isFixedLayout )
+		if ( executionContext.isFixedLayout( ) )
 		{
 			layoutPageHandler.addPageHandler( new FixedLayoutPageHandler( ) );
 		}
@@ -227,7 +225,7 @@ public class ReportDocumentBuilder
 				IEngineTask.TASK_RUN ) );
 		engine.setPageHandler( layoutPageHandler );
 		IReportContent report = executor.execute( );
-		if ( isFixedLayout && engine instanceof HTMLReportLayoutEngine )
+		if ( executionContext.isFixedLayout( ) && engine instanceof HTMLReportLayoutEngine )
 		{
 			HTMLLayoutContext htmlContext = ( (HTMLReportLayoutEngine) engine )
 					.getContext( );
