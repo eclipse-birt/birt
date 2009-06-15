@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
 public abstract class RepeatableArea extends BlockContainerArea
 {
-
 	protected List repeatList = null;
 
 	protected int repeatHeight = 0;
@@ -62,6 +61,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 						{
 							((RowArea)cloneRow).needResolveBorder = true;
 						}
+						cloneRow.finished = true;
 						children.add( i, cloneRow );
 						cloneRow.setParent( this );
 						update( cloneRow );

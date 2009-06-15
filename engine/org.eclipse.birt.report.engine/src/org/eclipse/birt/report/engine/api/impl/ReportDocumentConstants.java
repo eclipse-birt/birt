@@ -187,6 +187,7 @@ public interface ReportDocumentConstants
 	static final String PAGE_HINT_VERSION_1 = "1";
 	static final String PAGE_HINT_VERSION_2 = "2";
 	static final String PAGE_HINT_VERSION_3 = "3";
+	static final String PAGE_HINT_VERSION_FIXED_LAYOUT = "4";
 	
 	/**
 	 * build number, the number is get from the org.eclipse.birt.report.engine

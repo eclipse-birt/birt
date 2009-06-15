@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea.TableLayoutInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
@@ -104,13 +105,13 @@ public class TableLayout
 
 	public void remove( TableArea table )
 	{
-		ArrayList rowColloection = new ArrayList( );
-		add( table, rowColloection );
+		ArrayList rowCollection = new ArrayList( );
+		add( table, rowCollection );
 		Iterator iter = rows.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			RowArea row = (RowArea) iter.next( );
-			if ( rowColloection.contains( row ) )
+			if ( rowCollection.contains( row ) )
 			{
 				iter.remove( );
 			}
@@ -167,7 +168,6 @@ public class TableLayout
 
 		if ( lastRow != null )
 		{
-			
 			preRowStyle = lastRow.getContent( ).getComputedStyle( );
 			CellArea cell = lastRow.getCell( columnID );
 			if ( cell != null && cell.getContent( ) != null )
@@ -862,5 +862,63 @@ public class TableLayout
 	{
 		return rows;
 	}
+
+/*
+	//---------debug
+	
+	
+	// a method for debugging.
+	
+	public static void getInfo( IArea area, int offsetX, int offsetY )
+	{
+		if( area instanceof CellArea )
+		{
+			System.out.println( "------------------Cell------------------" );
+			//top border
+			int x = offsetX + area.getX( );
+			int y = offsetY + area.getY( );
+			int rx = offsetX + area.getX( ) + area.getWidth();
+			int by = offsetY + area.getY( ) + area.getHeight();
+			System.out.print("Top border:");
+			System.out.print("(" + x+", " + y + ")\t" +"(" + rx +", " + y + ")\n"  );
+//			System.out.println("style: " + area.getStyle( ).getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE ) );
+//			System.out.println("color: " + area.getStyle( ).getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR ) );
+//			System.out.println("width: " + area.getStyle( ).getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
+			//left border
+			System.out.print("Left border:");
+			System.out.print("(" + x+", " + y + ")\t" +"(" + x +", " + by + ")\n"  );
+//			System.out.println("style: " + area.getStyle( ).getProperty( StyleConstants.STYLE_BORDER_LEFT_STYLE ) );
+//			System.out.println("color: " + area.getStyle( ).getProperty( StyleConstants.STYLE_BORDER_LEFT_COLOR ) );
+//			System.out.println("width: " + area.getStyle( ).getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
+			traverse( area, offsetX, offsetY );
+			System.out.println( "------------------Cell end---------------" );
+		}
+		else if ( area instanceof TextArea )
+		{
+			TextArea textArea = (TextArea )area;
+			System.out.println( "$$text$$" + textArea.getText( ) );
+		}
+		else if ( area instanceof ContainerArea )
+		{
+			traverse( area, offsetX, offsetY );
+		}
+	}
+
+	private static void traverse( IArea area, int offsetX, int offsetY )
+	{
+		ContainerArea container = (ContainerArea) area;
+		offsetX = offsetX + area.getX( );
+		offsetY = offsetY + area.getY( );
+		for ( Iterator i = container.getChildren( ); i.hasNext( ); )
+		{
+			getInfo( (IArea) i.next( ), offsetX, offsetY );
+		}
+		offsetX = offsetX - area.getX( );
+		offsetY = offsetY - area.getY( );
+	}
+	
+*/	
+	
+	
 
 }

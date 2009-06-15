@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.nLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
@@ -19,12 +21,14 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
+import org.eclipse.birt.report.engine.nLayout.area.impl.FixedLayoutPageHintGenerator;
+import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class LayoutContext
 {
-
 	protected int maxWidth;
 
 	protected int maxHeight;
@@ -50,6 +54,18 @@ public class LayoutContext
 	protected boolean finished = false;
 	
 	protected boolean isFixedLayout = false;
+	
+	protected HTMLLayoutContext htmlLayoutContext = null;
+	
+	public HTMLLayoutContext getHtmlLayoutContext( )
+	{
+		return htmlLayoutContext;
+	}
+	
+	public void setHtmlLayoutContext( HTMLLayoutContext htmlLayoutContext )
+	{
+		this.htmlLayoutContext = htmlLayoutContext;
+	}
 
 	public boolean isFinished( )
 	{
@@ -371,4 +387,60 @@ public class LayoutContext
 	{
 		this.isFixedLayout = isFixedLayout;
 	}
+	
+	// handle page hint.
+	protected FixedLayoutPageHintGenerator pageHintGenerator = null;
+	
+	public void createPageHintGenerator( )
+	{
+		if ( isFixedLayout )
+		{
+			this.pageHintGenerator = new FixedLayoutPageHintGenerator( this );
+		}
+	}
+
+	public FixedLayoutPageHintGenerator getPageHintGenerator( )
+	{
+		return pageHintGenerator;
+	}
+	
+//	public HashMap<String, SizeBasedContent> getSizeBasedContentMapping( )
+//	{
+//		return htmlLayoutContext.getPageHintManager( )
+//				.getSizeBasedContentMapping( );
+//	}
+	
+	
+	// The following methods are used in run task.
+	public String getMasterPage( )
+	{
+		return htmlLayoutContext.getMasterPage( );
+	}
+	
+	/**
+	 * Gets the common hints.
+	 */
+	public ArrayList getPageHint()
+	{
+		return pageHintGenerator.getPageHint( );
+	}
+	
+	/**
+	 * Gets column hints.
+	 */
+	public List getTableColumnHints()
+	{
+		return htmlLayoutContext.getPageHintManager( ).getTableColumnHints( );
+	}
+	
+	/**
+	 * Gets unresolved hints.
+	 * @return
+	 */
+	public List<UnresolvedRowHint> getUnresolvedRowHints( )
+	{
+		return pageHintGenerator.getUnresolvedRowHints( );
+	}
+	
+
 }

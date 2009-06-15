@@ -32,8 +32,11 @@ import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.emitter.ReportEmitterExecutor;
+import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * A task for running a report design to get a report document
@@ -183,8 +186,18 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		{
 			progressMonitor.onProgress( IProgressMonitor.START_TASK, TASK_RUN );
 		}
+		
+		boolean isFixedLayout = false;
 		loadDataSource( );
 		doValidateParameters( );
+		ReportDesignHandle design = executionContext.getDesign( );
+		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+				.equals( design.getLayoutPreference( ) ) )
+		{
+			isFixedLayout = true;
+			setupRenderOption( );
+			updateRtLFlag( );
+		}
 		loadDesign( );
 		prepareDesign( );
 		startFactory( );
@@ -204,7 +217,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				if (!executionContext.isCanceled( ))
 				{
 					documentBuilder = new ReportDocumentBuilder(
-							executionContext, writer );
+							executionContext, writer, isFixedLayout );
 				}
 			}
 			
@@ -221,8 +234,12 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				executor = createReportExtensionExecutor( executor );
 				executor = new ReportEmitterExecutor( executor, emitter );
 				executor = new SuppressDuplciateReportExecutor( executor );
-//				IReportExecutor lExecutor = new LocalizedReportExecutor( executionContext,
-//						executor );
+				if ( isFixedLayout )
+				{
+				//code review: need not to localize.
+					executor = new LocalizedReportExecutor( executionContext,
+							executor );
+				}				
 				executionContext.setExecutor( executor );
 
 				initializeContentEmitter( emitter, executor );

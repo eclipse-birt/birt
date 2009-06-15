@@ -68,6 +68,4 @@ public class TextLineArea extends LineArea
 	{
 		return true;
 	}
-	
-
 }

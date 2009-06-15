@@ -30,17 +30,20 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IProgressMonitor;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ContextPageBreakHandler;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
@@ -55,6 +58,7 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentWriterV3;
+import org.eclipse.birt.report.engine.internal.document.v4.FixedLayoutPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.v4.PageHintWriterV4;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
@@ -67,6 +71,10 @@ import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
+import org.eclipse.birt.report.engine.layout.html.HTMLReportLayoutEngine;
+import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.LayoutEngine;
+import org.eclipse.birt.report.engine.nLayout.area.impl.SizeBasedContent;
 
 /**
  * Used in run task. To builder the report document.
@@ -74,7 +82,7 @@ import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
  * In builder, will call IReportLayoutEngine to lay out the report and create
  * the document. This means write page hint, page contents and all body contents
  * to the document. And in each page closing, we will call page handler's
- * onPage() to do some sepcial process, like write the current page's page hint,
+ * onPage() to do some special process, like write the current page's page hint,
  * evaluate the OnpageBreak script, reset the page row count to be 0 in layout
  * engine.
  * 
@@ -87,7 +95,7 @@ import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
  * script, collected by its PageContentEmitter. ContextPageBreakHandler: used to
  * call the onPageBreak of IPageBreakListener to reset the page row count.
  * IContentEmitter: ContentEmitter: used to write the content stream.
- * IPageHandler: used to recevie the document page events, mostly implemented by
+ * IPageHandler: used to receive the document page events, mostly implemented by
  * user.
  * 
  */
@@ -124,22 +132,25 @@ public class ReportDocumentBuilder
 	protected IPageHintWriter pageHintWriter;
 
 	/**
-	 * page handler used to recevie the document page events.
+	 * page handler used to receive the document page events.
 	 */
 	protected IPageHandler pageHandler;
 
 	protected IReportLayoutEngine engine;
 
 	/**
-	 * handle used to recive the layout page events
+	 * handle used to receive the layout page events
 	 */
 	protected CompositeLayoutPageHandler layoutPageHandler;
+	
+	protected boolean isFixedLayout;
 
 	public ReportDocumentBuilder( ExecutionContext context,
-			ReportDocumentWriter document ) throws EngineException
+			ReportDocumentWriter document, boolean isFixedLayout ) throws EngineException
 	{
 		this.executionContext = context;
 		this.document = document;
+		this.isFixedLayout = isFixedLayout;
 		OnPageBreakLayoutPageHandle onPageBreakHandler = new OnPageBreakLayoutPageHandle(
 				context );
 		// output emitter is used to receive the layout content.
@@ -157,7 +168,14 @@ public class ReportDocumentBuilder
 		// hint, so it should added before the layout page handler
 		layoutPageHandler.addPageHandler( onPageBreakHandler );
 		// used to write the page hint, created by itself.
-		layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
+		if ( isFixedLayout )
+		{
+			layoutPageHandler.addPageHandler( new FixedLayoutPageHandler( ) );
+		}
+		else
+		{
+			layoutPageHandler.addPageHandler( new AutoLayoutPageHandler( ) );
+		}
 		// used to call the onPageBreak of IPageBreakListener to reset the page
 		// row count.
 		layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
@@ -209,11 +227,37 @@ public class ReportDocumentBuilder
 				IEngineTask.TASK_RUN ) );
 		engine.setPageHandler( layoutPageHandler );
 		IReportContent report = executor.execute( );
+		if ( isFixedLayout && engine instanceof HTMLReportLayoutEngine )
+		{
+			HTMLLayoutContext htmlContext = ( (HTMLReportLayoutEngine) engine )
+					.getContext( );
+			LayoutEngine pdfEmitter = new LayoutEngine( executor, htmlContext,
+					null/* emitter */, null/* renderOptions */,
+					executionContext.getLocale( ), 0/* totalpage */);
+			pdfEmitter.setPageHandler( layoutPageHandler );
+			outputEmitters.addEmitter( pdfEmitter );
+			initializeContentEmitter( pdfEmitter, executor );
+			pdfEmitter.createPageHintGenerator( );
+		}
 		outputEmitters.start( report );
 		engine.layout( executor, report, outputEmitters, true );
 		engine.close( );
 		outputEmitters.end( report );
 		engine = null;
+	}
+	
+	protected void initializeContentEmitter( IContentEmitter emitter,
+			IReportExecutor executor ) throws BirtException
+	{
+		// create the emitter services object that is needed in the emitters.
+		//HashMap configs = engine.getConfig( ).getEmitterConfigs( );
+		IReportContext reportContext = executionContext.getReportContext( );
+		IRenderOption options = executionContext.getRenderOption( );
+		EngineEmitterServices services = new EngineEmitterServices(
+				reportContext, options, null/*configs*/ );
+
+		// emitter is not null
+		emitter.initialize( services );
 	}
 
 	public void cancel( )
@@ -491,16 +535,16 @@ public class ReportDocumentBuilder
 		}
 	}
 
-	class LayoutPageHandler implements ILayoutPageHandler
+	class AutoLayoutPageHandler implements ILayoutPageHandler
 	{
 
 		IPageHintWriter hintWriter;
-
-		LayoutPageHandler( )
+		
+		AutoLayoutPageHandler( )
 		{
 		}
 
-		boolean ensureOpen( )
+		protected boolean ensureOpen( )
 		{
 			if ( hintWriter != null )
 			{
@@ -527,7 +571,7 @@ public class ReportDocumentBuilder
 			hintWriter = null;
 		}
 
-		void writeTotalPage( long pageNumber )
+		protected void writeTotalPage( long pageNumber )
 		{
 			if ( ensureOpen( ) )
 			{
@@ -564,6 +608,28 @@ public class ReportDocumentBuilder
 
 		void writePageHint( PageHint pageHint )
 		{
+//			HTMLLayoutContext htmlContext = null;
+//			if ( context instanceof HTMLLayoutContext )
+//			{
+//				htmlContext = (HTMLLayoutContext) context;
+//			}
+//			if ( htmlContext == null )
+//			{
+//				return;
+//			}
+//			ArrayList pageHintList = htmlContext.getPageHintManager( ).getPageHint( );
+//			PageHint hint = new PageHint( pageNumber, htmlContext
+//					.getMasterPage( ) );
+//			for ( int i = 0; i < pageHintList.size( ); i++ )
+//			{
+//				IContent[] range = (IContent[]) pageHintList.get( i );
+//				PageSection section = createPageSection( range[0], range[1] );
+//				hint.addSection( section );
+//			}
+//			hint
+//					.addUnresolvedRowHints( htmlContext
+//							.getPageHintManager( ).getUnresolvedRowHints( ) );
+//			hint.addTableColumnHints( htmlContext.getPageHintManager( ).getTableColumnHints( ) );
 			if ( ensureOpen( ) )
 			{
 				try
@@ -596,7 +662,7 @@ public class ReportDocumentBuilder
 
 		}
 
-		private InstanceIndex[] createInstanceIndexes( IContent content )
+		protected InstanceIndex[] createInstanceIndexes( IContent content )
 		{
 			LinkedList indexes = new LinkedList( );
 
@@ -619,6 +685,7 @@ public class ReportDocumentBuilder
 			section.ends = createInstanceIndexes( end );
 			return section;
 		}
+		
 
 		private Collection<PageVariable> getReportVariable( )
 		{
@@ -675,7 +742,7 @@ public class ReportDocumentBuilder
 						checkpoint = true;
 					}
 				}
-
+				
 				ArrayList pageHint = htmlContext.getPageHintManager( ).getPageHint( );
 				PageHint hint = new PageHint( pageNumber, htmlContext
 						.getMasterPage( ) );
@@ -694,14 +761,13 @@ public class ReportDocumentBuilder
 				hint.getPageVariables( ).addAll( vars );
 
 				writePageHint( hint );
-
+				
 				if ( checkpoint )
 				{
 					try
 					{
 						IDocArchiveWriter archive = document.getArchive( );
 						writeTotalPage( pageNumber );
-						
 						document
 								.savePersistentObjects( ReportDocumentBuilder.this.executionContext
 										.getGlobalBeans( ) );
@@ -730,6 +796,135 @@ public class ReportDocumentBuilder
 					IProgressMonitor.END_PAGE, (int) pageNumber );
 		}
 	}
+	
+	class FixedLayoutPageHandler extends AutoLayoutPageHandler implements ILayoutPageHandler
+	{
+		FixedLayoutPageHandler( )
+		{
+		}
+
+		protected boolean ensureOpen( )
+		{
+			if ( hintWriter != null )
+			{
+				return true;
+			}
+			try
+			{
+				hintWriter = new FixedLayoutPageHintWriter( document.getArchive( ) );
+			}
+			catch ( IOException ex )
+			{
+				logger.log( Level.SEVERE, "Can't open the hint stream", ex );
+				return false;
+			}
+			return true;
+		}
+
+		protected void writePageHint( LayoutContext pdfContext )
+		{
+			ArrayList pageHintList = pdfContext.getPageHint( );
+			PageHint hint = new PageHint( pdfContext.getPageNumber( ), pdfContext
+					.getMasterPage( ) );
+			for ( int i = 0; i < pageHintList.size( ); i++ )
+			{
+				SizeBasedContent[] range = (SizeBasedContent[]) pageHintList.get( i );
+				PageSection section = createPageSection( range[0], range[1] );
+				hint.addSection( section );
+			}
+			hint
+					.addUnresolvedRowHints( pdfContext
+							.getUnresolvedRowHints( ) );
+			hint.addTableColumnHints( pdfContext.getTableColumnHints( ) );
+			if ( ensureOpen( ) )
+			{
+				try
+				{
+					hintWriter.writePageHint( hint );
+				}
+				catch ( IOException ex )
+				{
+					logger.log( Level.SEVERE, "Failed to save the page hint",
+							ex );
+					close( );
+				}
+			}
+		}
+		
+		private SizeBasedPageSection createPageSection( SizeBasedContent start, SizeBasedContent end )
+		{
+			SizeBasedPageSection section = new SizeBasedPageSection();
+			section.starts = createInstanceIndexes( start.content );
+			section.ends = createInstanceIndexes( end.content );
+			section.start = start;
+			section.end = end;
+			return section;
+		}
+
+		public void onPage( long pageNumber, Object context )
+		{
+			if ( context instanceof LayoutContext )
+			{
+				LayoutContext pdfContext = (LayoutContext) context;
+				document.setPageCount( pageNumber );
+
+				boolean reportFinished = pdfContext.isFinished( );
+				if ( reportFinished )
+				{
+					writeTotalPage( pageNumber );
+					close( );
+					return;
+				}
+
+				boolean checkpoint = false;
+				if ( executionContext.isProgressiveViewingEnable( ) )
+				{
+					// check points for page 1, 10, 50, 100, 200 ...
+					// the end of report should also be check point.
+					if ( pageNumber == 1 || pageNumber == 10
+							|| pageNumber == 50 || pageNumber % 100 == 0 )
+					{
+						checkpoint = true;
+					}
+				}
+				writePageHint( pdfContext );
+
+				if ( checkpoint )
+				{
+					try
+					{
+						IDocArchiveWriter archive = document.getArchive( );
+						writeTotalPage( pageNumber );
+						document
+								.savePersistentObjects( ReportDocumentBuilder.this.executionContext
+										.getGlobalBeans( ) );
+						document.saveCoreStreams( );
+						archive.flush( );
+					}
+					catch ( Exception e )
+					{
+						logger.log( Level.WARNING, " check point failed ", e );
+					}
+				}
+				// notify the page handler
+				if ( pageHandler != null )
+				{
+					// if user has canceled the task, we should not do onPage.
+					// FIXME it seems not able to cancel the task from pdf layout engine.
+					// if ( !pdfContext.getCancelFlag( ) )
+					{
+						IReportDocumentInfo docInfo = new ReportDocumentInfo(
+								executionContext, pageNumber, false );
+						pageHandler.onPage( (int) pageNumber, checkpoint,
+								docInfo );
+					}
+				}
+			}
+			executionContext.getProgressMonitor( ).onProgress(
+					IProgressMonitor.END_PAGE, (int) pageNumber );
+		}
+	}
+
 
 	class ProcessorEmitter extends ContentEmitterAdapter
 	{

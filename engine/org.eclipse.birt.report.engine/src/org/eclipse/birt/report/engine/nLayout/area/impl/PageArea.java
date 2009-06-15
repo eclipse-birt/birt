@@ -678,6 +678,11 @@ public class PageArea extends BlockContainerArea
 
 	public void outputPage( IPageContent page ) throws BirtException
 	{
+		FixedLayoutPageHintGenerator gen = context.getPageHintGenerator( );
+		if ( null != gen )
+		{
+			gen.generatePageHints( page );
+		}
 		emitter.outputPage( page );
 		// context.pageNumber++;
 	}

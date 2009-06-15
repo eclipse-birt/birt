@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.internal.index.DocumentIndexWriter;
 import org.eclipse.birt.report.engine.ir.EngineIRWriter;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
@@ -54,6 +55,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	private DocumentIndexWriter indexWriter;
 	private int checkpoint = CHECKPOINT_INIT;
 	private long pageCount = PAGECOUNT_INIT;
+	
+	private static final int AUTO_LAYOUT_DESIGN = 0;
+	private static final int FIXED_LAYOUT_DESIGN = 1;
+	private int designType = AUTO_LAYOUT_DESIGN;
 	
 	public ReportDocumentWriter( IReportEngine engine, IDocArchiveWriter archive )
 			throws EngineException
@@ -155,7 +160,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			}
 		}
 	}
-
+	
 	/**
 	 * save the design into the stream.
 	 * 
@@ -170,6 +175,11 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			ReportDesignHandle design = runnable.getReport( );
+			if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+					.equals( design.getLayoutPreference( ) ) )
+			{
+				designType = FIXED_LAYOUT_DESIGN;
+			}
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
 			// design.serialize( out );
 			ReportDesignHandle newDesign = DocumentUtil.serialize( design, out );
@@ -259,7 +269,14 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION );
 			
 			HashMap properties = new HashMap( );
-			properties.put( PAGE_HINT_VERSION_KEY, PAGE_HINT_VERSION_3 );
+			if ( designType == AUTO_LAYOUT_DESIGN )
+			{
+				properties.put( PAGE_HINT_VERSION_KEY, PAGE_HINT_VERSION_3 );	
+			}
+			else
+			{
+				properties.put( PAGE_HINT_VERSION_KEY, PAGE_HINT_VERSION_FIXED_LAYOUT );
+			}
 			properties.put( BIRT_ENGINE_VERSION_KEY, BIRT_ENGINE_VERSION );
 			properties.put( BIRT_ENGINE_BUILD_NUMBER_KEY, getBuildNumber( ) );
 			if ( extensions != null )

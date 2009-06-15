@@ -13,12 +13,16 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IBandContent;
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
@@ -33,6 +37,7 @@ import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class TableArea extends RepeatableArea
 {
@@ -261,10 +266,48 @@ public class TableArea extends RepeatableArea
 			}
 			tableResult.resolveBottomBorder( );
 			layout.setUnresolvedRow( unresolvedRow );
+			if ( context.isFixedLayout( ) )
+			{
+				FixedLayoutPageHintGenerator pageHintGenerator = context
+						.getPageHintGenerator( );
+				if ( pageHintGenerator != null )
+				{
+					pageHintGenerator.addUnresolvedRowHint( unresolvedRow
+							.getTableArea( ).getContent( ).getInstanceID( )
+							.toUniqueString( ),
+							convertRowToHint( unresolvedRow ) );
+				}
+			}
 		}
 		relayoutChildren( );
-
 		return result;
+	}
+	
+	private UnresolvedRowHint convertRowToHint ( RowArea row )
+	{
+		IRowContent rowContent = (IRowContent)row.getContent( );
+		ITableContent table = rowContent.getTable( );
+		InstanceID tableId = table.getInstanceID( );
+		InstanceID rowId = rowContent.getInstanceID( );
+		UnresolvedRowHint hint = new UnresolvedRowHint( tableId
+				.toUniqueString( ), rowId.toUniqueString( ) );
+		for ( Iterator i = row.getChildren( ); i.hasNext( ); )
+		{
+			AbstractArea area = (AbstractArea) i.next( );
+			String style = null;
+			if ( area instanceof CellArea )
+			{
+				CellArea cell = (CellArea) area;
+				ICellContent cellContent = (ICellContent) cell.getContent( );
+				if ( cellContent != null )
+				{
+					style = cellContent.getStyle( ).getCssText( );
+				}
+				hint.addUnresolvedCell( style, cell.columnID, cell.colSpan,
+						cell.rowSpan );
+			}
+		}
+		return hint;
 	}
 
 	protected RowArea getLastRow( ContainerArea container )

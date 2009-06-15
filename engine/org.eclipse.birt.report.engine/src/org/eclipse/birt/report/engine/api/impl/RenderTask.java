@@ -494,12 +494,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 					( (HTMLReportLayoutEngine) layoutEngine ).getContext( ) );
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				LayoutEngine pdfEmitter = new LayoutEngine( executor, emitter,
+				LayoutEngine pdfEmitter = new LayoutEngine(
+						executor,
+						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
+						emitter,
 						renderOptions, executionContext.getLocale( ),
 						getTotalPage( ) );
 				pdfEmitter.setPageHandler( layoutPageHandler );
-
+				
 				emitter = pdfEmitter;
+				initializeContentEmitter( emitter, executor );
 			}
 			else
 			{
@@ -521,7 +525,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 						layoutEngine.setLayoutPageHint( getPageHint(
 								pagesExecutor, pageNumber ) );
 					}
-
 					layoutEngine.layout( executor, report, emitter, true );
 				}
 				else
@@ -639,8 +642,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 			// paper size output need re-paginate
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				emitter = new LayoutEngine( executor, emitter, renderOptions,
-						executionContext.getLocale( ), getTotalPage( ) );
+				emitter = new LayoutEngine(
+						executor,
+						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
+						emitter, renderOptions, executionContext.getLocale( ),
+						getTotalPage( ) );
 			}
 
 			startRender( );

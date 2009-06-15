@@ -20,7 +20,6 @@ import java.util.ListIterator;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
@@ -209,13 +208,13 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		LinkedList result = new LinkedList( );
 		int size = children.size( );
 		SplitResult childSplit = null;
-		int status = SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL;
+		int status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
 		for ( int i = size - 1; i >= 0; i-- )
 		{
 			ContainerArea child = (ContainerArea) children.get( i );
 			int ah = child.getAllocatedHeight( );
 			childSplit = child.splitLines( lineCount );
-			if ( childSplit.status == SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL )
+			if ( childSplit.status == SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL )
 			{
 				result.addFirst( child );
 				contentHeight -= ah;
@@ -238,7 +237,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 						contentHeight = contentHeight - ah
 								+ child.getAllocatedHeight( );
 						BlockContainerArea newContainer = cloneArea( );
-						newContainer.setContentHeight( contentHeight );
+						newContainer.updateContentHeight( contentHeight );
 						Iterator iter = children.iterator( );
 						while ( iter.hasNext( ) )
 						{
@@ -275,7 +274,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				contentHeight = contentHeight - ah
 						+ splitChildArea.getAllocatedHeight( );
 				BlockContainerArea newContainer = cloneArea( );
-				newContainer.setContentHeight( contentHeight );
+				newContainer.updateContentHeight( contentHeight );
 				Iterator iter = children.iterator( );
 				while ( iter.hasNext( ) )
 				{
@@ -337,7 +336,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			}
 		}
 		BlockContainerArea newContainer = null;
-		int status = SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL;
+		int status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
 		int cheight = getContentHeight( height );
 		ListIterator iter = children.listIterator( );
 		int contentHeight = 0;
@@ -369,7 +368,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 					contentHeight += splitChildArea.getAllocatedHeight( );
 					break;
 				}
-				else if ( splitResult.status == SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL )
+				else if ( splitResult.status == SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL )
 				{
 					if ( force )
 					{
@@ -393,7 +392,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 						{
 							if ( previous.isPageBreakAfterAvoid( ) )
 							{
-								status = SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL;
+								status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
 								break;
 							}
 							else
@@ -431,7 +430,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			status = SplitResult.SPLIT_SUCCEED_WITH_PART;
 		}
 
-		if ( !force && status == SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL )
+		if ( !force && status == SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL )
 		{
 			if ( result.size( ) == 0 )
 			{
@@ -444,7 +443,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				current = (ContainerArea) iter.previous( );
 				int ah = current.getAllocatedHeight( );
 				SplitResult splitResult = current.splitLines( 1 );
-				if ( splitResult.status == SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL )
+				if ( splitResult.status == SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL )
 				{
 					result.remove( current );
 					contentHeight -= ah;
@@ -508,7 +507,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				newContainer.addChild( child );
 				children.remove( child );
 			}
-			newContainer.setContentHeight( contentHeight );
+			newContainer.updateContentHeight( contentHeight );
 
 		}
 
@@ -568,6 +567,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 
 	public void updateChildrenPosition( ) throws BirtException
 	{
+		first = false;
 		currentBP = 0;
 		if ( children.size( ) > 0 )
 		{

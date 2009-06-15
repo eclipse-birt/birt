@@ -20,12 +20,44 @@ import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 
 public class BlockTextArea extends BlockContainerArea implements ILayout
 {
+	int splitOffset;
+	int splitHeight;
+	
+	public int getSplitOffset( )
+	{
+		return splitOffset;
+	}
+
+	public int getSplitHeight( )
+	{
+		return splitHeight;
+	}
+	
+	/**
+	 * lastTotalHeight indicates the total height that is split from the original text area.
+	 * This value will be used as the splitOffset of the remain blockTextArea.
+	 */
+	private int lastTotalHeight;
+	
+	private int fixedDimension;
+	
 	public BlockTextArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
 		super( parent, context, content );
+//		InstanceID id = content.getInstanceID( );
+//		if ( id != null )
+//		{
+//			SizeBasedContent hint = (SizeBasedContent) context
+//					.getSizeBasedContentMapping( ).get( id.toUniqueString( ) );
+//			if ( hint != null )
+//			{
+//				currentBP -= hint.offsetInContent;
+//				fixedDimension = hint.dimension;
+//			}
+//		}
 	}
-	
+
 	public BlockTextArea(BlockTextArea area)
 	{
 		super(area);
@@ -47,10 +79,19 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 	
 	public BlockTextArea cloneArea()
 	{
-		return new BlockTextArea(this);
+		BlockTextArea newBlockText =  new BlockTextArea(this);
+		newBlockText.lastTotalHeight = lastTotalHeight;
+		return newBlockText;
 	}
 	
-
+	protected void updateContentHeight( int height )
+	{
+		super.updateContentHeight( height );
+		splitOffset = lastTotalHeight;
+		splitHeight = height;
+		lastTotalHeight += splitHeight;
+	}
+	
 	protected void update( ) throws BirtException
 	{
 		if ( parent != null )
@@ -95,6 +136,10 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 					parent.autoPageBreak( );
 					aHeight = getAllocatedHeight( );
 				}
+			}
+			if ( fixedDimension > 0 )
+			{
+				this.setAllocatedHeight( fixedDimension );
 			}
 			parent.update( this );
 		}

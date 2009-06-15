@@ -41,6 +41,12 @@ public interface IPageHintConstant
 	 * this is the version used by 2.3M6 release.
 	 */
 	static final int VERSION_5 = 5;
+	
+	/**
+	 * this is the version used by fixed layout.
+	 */
+	static final int VERSION_FIXED_LAYOUT = 6;
+	
 	/**
 	 * used after 2.5.0RC1 release, add page variable support
 	 */

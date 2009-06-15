@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.nLayout.area.impl.SizeBasedContent;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.PageSection;
+import org.eclipse.birt.report.engine.presentation.SizeBasedPageSection;
 import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
@@ -16,9 +19,15 @@ public class HTMLLayoutPageHintManager
 {
 	protected HTMLLayoutContext context;
 	
+	/**
+	 * cache the content is finished or not
+	 */
 	protected HashMap layoutHint = new HashMap( );
 	
-	protected HashMap sizeBasedPageBreakHints = new HashMap( );
+	/**
+	 * content instanceID to size based content mapping.
+	 */
+	protected HashMap<String, SizeBasedContent> sizeBasedContentMapping = new HashMap<String, SizeBasedContent>( );
 
 	protected ArrayList pageHints = new ArrayList( );
 	
@@ -173,18 +182,32 @@ public class HTMLLayoutPageHintManager
 					docRangeUnresolvedRowHints.put( key, hint );
 				}
 			}
-//			// size based page break hints
-//			for ( int i = 0; i < pageHint.getSectionCount( ); i++ )
-//			{
-//				PageSection section = pageHint.getSection( i );
-//				if ( section instanceof SizeBasedPageSection )
-//				{
-//					SizeBasedPageSection sizeBasedSection = (SizeBasedPageSection)section;
-//					sizeBasedPageBreakHints.put( section.startOffset, sizeBasedSection.start );
-//					sizeBasedPageBreakHints.put( section.endOffset, sizeBasedSection.end );
-//				}
-//			}
+			// size based page break hints
+			for ( int i = 0; i < pageHint.getSectionCount( ); i++ )
+			{
+				PageSection section = pageHint.getSection( i );
+				if ( section instanceof SizeBasedPageSection )
+				{
+					SizeBasedPageSection sizeBasedSection = (SizeBasedPageSection)section;
+					InstanceID startID = sizeBasedSection.starts[sizeBasedSection.starts.length - 1 ].getInstanceID( );
+					InstanceID endID = sizeBasedSection.ends[sizeBasedSection.ends.length - 1 ].getInstanceID( );
+					if( startID != null )
+					{
+						sizeBasedContentMapping.put( startID.toUniqueString( ), sizeBasedSection.start );		
+					}
+					if( endID != null )
+					{
+						sizeBasedContentMapping.put( endID.toUniqueString( ), sizeBasedSection.end );		
+					}
+				}
+			}
 		}
+	}
+	
+	
+	public HashMap<String, SizeBasedContent> getSizeBasedContentMapping( )
+	{
+		return sizeBasedContentMapping;
 	}
 	
 	public String getHintMapKey(String tableId)

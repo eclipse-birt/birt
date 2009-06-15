@@ -409,6 +409,7 @@ public class LineArea extends InlineStackingArea
 			checkPageBreak( );
 			parent.add( this );
 			parent.update( this );
+			this.finished = true;
 		}
 		else
 		{
@@ -419,6 +420,7 @@ public class LineArea extends InlineStackingArea
 			children = new ArrayList( );
 			parent.add( area );
 			parent.update( area );
+			area.finished = true;
 			// setPosition(parent.currentIP + parent.getOffsetX( ),
 			// parent.getOffsetY() + parent.currentBP);
 			height = 0;

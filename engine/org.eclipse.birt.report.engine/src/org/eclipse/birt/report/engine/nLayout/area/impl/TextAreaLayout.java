@@ -44,6 +44,8 @@ public class TextAreaLayout implements ILayout
 	
 	private static HashSet splitChar = new HashSet();
 	
+	private FixedLayoutInlineTextListener listener = null;
+	
 	static 
 	{
 		splitChar.add( new Character( ' ' ) );
@@ -90,7 +92,12 @@ public class TextAreaLayout implements ILayout
 		} while ( true );
 	}
 	
-	public 	static TextStyle buildTextStyle( IContent content, FontInfo fontInfo )
+	public void addListener( FixedLayoutInlineTextListener listener )
+	{
+		this.listener = listener;
+	}
+	
+	public static TextStyle buildTextStyle( IContent content, FontInfo fontInfo )
 	{
 		IStyle style = content.getComputedStyle( );
 		TextStyle textStyle = new TextStyle( fontInfo );
@@ -176,19 +183,29 @@ public class TextAreaLayout implements ILayout
 	{
 		return false;
 	}
-
+	
 	public void addTextArea( AbstractArea textArea ) throws BirtException
 	{
 		parentLM.add( textArea );
 		parentLM.update( textArea );
+		if ( parentLM instanceof InlineTextArea )
+		{
+			if( listener != null )
+				listener.onAddEvent( (InlineTextArea)parentLM );
+		}
 	}
 	
 	/**
 	 * true if succeed to new a line.
 	 */
-	public void newLine(boolean endParagraph ) throws BirtException
+	public void newLine( boolean endParagraph ) throws BirtException
 	{
 		parentLM.endLine( endParagraph );
+		if ( parentLM instanceof InlineTextArea )
+		{
+			if( listener != null )
+				listener.onNewLineEvent( );
+		}
 	}
 
 	public int getFreeSpace( )

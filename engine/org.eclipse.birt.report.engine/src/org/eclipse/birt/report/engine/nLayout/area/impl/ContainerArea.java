@@ -79,7 +79,8 @@ public abstract class ContainerArea extends AbstractArea
 
 	protected transient boolean isInInlineStacking = false;
 
-	protected transient boolean finished = true;
+	protected transient boolean first = true;
+	protected transient boolean finished = false;
 
 	protected CSSValue pageBreakAfter = null;
 
@@ -93,6 +94,7 @@ public abstract class ContainerArea extends AbstractArea
 		this.parent = parent;
 		this.context = context;
 		this.content = content;
+		first = true;
 		finished = false;
 	}
 
@@ -104,6 +106,7 @@ public abstract class ContainerArea extends AbstractArea
 	ContainerArea( ContainerArea area )
 	{
 		super( area );
+		this.first = area.first;
 		this.boxStyle = area.getBoxStyle( );
 		this.needClip = area.needClip( );
 		this.hasStyle = area.hasStyle;
@@ -1257,10 +1260,10 @@ public abstract class ContainerArea extends AbstractArea
 
 		public final static int SPLIT_SUCCEED_WITH_PART = 0;
 		public final static int SPLIT_SUCCEED_WITH_NULL = 1;
-		public final static int SPLIT_BREFORE_AVOID_WITH_NULL = 2;
+		public final static int SPLIT_BEFORE_AVOID_WITH_NULL = 2;
 
 		public static SplitResult BEFORE_AVOID_WITH_NULL = new SplitResult(
-				null, SPLIT_BREFORE_AVOID_WITH_NULL );
+				null, SPLIT_BEFORE_AVOID_WITH_NULL );
 		public static SplitResult SUCCEED_WITH_NULL = new SplitResult( null,
 				SPLIT_SUCCEED_WITH_NULL );
 
@@ -1282,6 +1285,11 @@ public abstract class ContainerArea extends AbstractArea
 			return result == null;
 		}
 
+	}
+	
+	protected void updateContentHeight( int height )
+	{
+		setContentHeight( height );
 	}
 
 }

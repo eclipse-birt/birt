@@ -60,7 +60,6 @@ public class RootArea extends BlockContainerArea
 		if ( result.getResult( )!= null )
 		{
 			page.setBody( result.getResult( ) );
-			context.setFinished( false );
 			page.close( );
 		}
 		updateChildrenPosition( );
@@ -160,7 +159,6 @@ public class RootArea extends BlockContainerArea
 	public void close( ) throws BirtException
 	{
 			page.setBody( this );
-			context.setFinished( true );
 			page.close( );
 			finished = true;
 	}

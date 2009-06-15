@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
 import org.eclipse.birt.report.engine.internal.document.v3.PageHintReaderV3;
+import org.eclipse.birt.report.engine.internal.document.v4.FixedLayoutPageHintReader;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 /**
@@ -46,6 +47,10 @@ public class PageHintReader implements IPageHintReader
 		{
 			this.reader = new PageHintReaderV2( document.getArchive( ) );
 		}
+		else if ( ReportDocumentConstants.PAGE_HINT_VERSION_FIXED_LAYOUT.equals( version ) )
+		{
+			this.reader = new FixedLayoutPageHintReader( document.getArchive( ) );
+		} 
 		else
 		{
 			this.reader = new PageHintReaderV3( document.getArchive( ) );

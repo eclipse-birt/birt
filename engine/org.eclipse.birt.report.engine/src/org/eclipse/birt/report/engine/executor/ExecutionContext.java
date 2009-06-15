@@ -2065,15 +2065,16 @@ public class ExecutionContext
 
 	public void optimizeExecution( )
 	{
-		if ( ( task != null ) && ( task.getTaskType( ) == IEngineTask.TASK_RUN ) )
-		{
-			String[] engineExts = getEngineExtensions( );
-			if ( engineExts == null || engineExts.length == 0 )
-			{
-				executionPolicy = new ExecutionOptimize( )
-						.optimize( getReport( ) );
-			}
-		}
+// TODO Do not optimize for fixed layout
+//		if ( ( task != null ) && ( task.getTaskType( ) == IEngineTask.TASK_RUN ) )
+//		{
+//			String[] engineExts = getEngineExtensions( );
+//			if ( engineExts == null || engineExts.length == 0 )
+//			{
+//				executionPolicy = new ExecutionOptimize( )
+//						.optimize( getReport( ) );
+//			}
+//		}
 	}
 
 	public ExecutionPolicy getExecutionPolicy( )

@@ -203,7 +203,11 @@ public interface IContent extends IElement, CSSStylableElement, IStyledElement
 	void setACL( String acl );
 
 	IBaseResultSet getResultSet( );
-
+	
+	boolean isLastChild( );
+	
+	void setLastChild( boolean isLastChild );
+	
 	Map<String, Object> getUserProperties( );
 
 	void setUserProperties( Map<String, Object> values );

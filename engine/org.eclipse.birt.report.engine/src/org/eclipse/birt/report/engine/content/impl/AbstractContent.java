@@ -84,7 +84,7 @@ abstract public class AbstractContent extends AbstractElement
 
 	transient protected long offset = -1;
 	
-	transient protected IContent lastChild = null;
+	transient protected boolean isLastChild = false;
 	
 	transient protected int version = -1;
 
@@ -870,4 +870,15 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		this.userProperties = properties;
 	}
+	
+	public boolean isLastChild( )
+	{
+		return isLastChild;
+	}
+
+	public void setLastChild( boolean isLastChild )
+	{
+		this.isLastChild = isLastChild;
+	}
+
 }

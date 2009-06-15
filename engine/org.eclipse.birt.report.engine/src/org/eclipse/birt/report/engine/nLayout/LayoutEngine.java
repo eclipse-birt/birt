@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEmitterAdapter;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
@@ -60,6 +61,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.RepeatableArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextAreaLayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -95,14 +97,27 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		af = new AreaFactory(this);
 		//FIXME
 		setupLayoutOptions( renderOptions );
+		String format = null;
 		if ( renderOptions != null )
 		{
-			String format = renderOptions.getOutputFormat( );
-			context.setFormat( format );
+			format = renderOptions.getOutputFormat( );
 		}
+		if ( format == null )
+		{
+			format = "pdf";
+		}
+		context.setFormat( "pdf" );
 		context.setLocale( locale );
 		context.totalPage = totalPage;
-
+		
+	}
+	
+	public LayoutEngine( IReportExecutor executor,
+			HTMLLayoutContext htmlLayoutContext, IContentEmitter emitter,
+			IRenderOption renderOptions, Locale locale, long totalPage )
+	{
+		this( executor, emitter, renderOptions, locale, totalPage );
+		context.setHtmlLayoutContext( htmlLayoutContext );
 	}
 	
 	public LayoutEngine( LayoutContext context )
@@ -113,7 +128,10 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void initialize( IEmitterServices service ) throws BirtException
 	{
-		emitter.initialize( service );
+		if ( emitter != null )
+		{
+			emitter.initialize( service );
+		}
 		ReportDesignHandle designHandle = (ReportDesignHandle) service
 				.getReportRunnable( ).getDesignHandle( );
 		if ( designHandle != null )
@@ -123,6 +141,11 @@ public class LayoutEngine extends LayoutEmitterAdapter
 					.setFixedLayout( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
 							.equals( reportLayoutPreference ) );
 		}
+	}
+	
+	public void createPageHintGenerator( )
+	{
+		context.createPageHintGenerator( );
 	}
 	
 	protected void setupLayoutOptions( IRenderOption renderOptions )
@@ -248,28 +271,40 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			// }
 		}
 	}
-
-
+	
 	public String getOutputFormat( )
 	{
-		return emitter.getOutputFormat( );
+		if( null != emitter )
+		{
+			return emitter.getOutputFormat( );
+		}
+		return null;
 	}
 
 	public void start( IReportContent report ) throws BirtException
 	{
-		emitter.start( report );
+		if( null != emitter )
+		{
+			emitter.start( report );
+		}
 		context.setReport( report );
 	}
 
 	public void end( IReportContent report ) throws BirtException
 	{
-		resolveTotalPage( emitter );
+		if ( emitter != null )
+		{
+			resolveTotalPage( emitter );
+		}
+		context.setFinished( true );
 		if ( pageHandler != null )
 		{
 			pageHandler.onPage( context.pageNumber, context );
 		}
-
-		emitter.end( report );
+		if ( null != emitter )
+		{
+			emitter.end( report );
+		}
 	}
 
 	public void startContainer( IContainerContent container )
@@ -742,8 +777,11 @@ public class LayoutEngine extends LayoutEmitterAdapter
 				}
 			}
 		}
-		emitter.startPage( page );
-		emitter.endPage( page );
+		if ( null != emitter )
+		{
+			emitter.startPage( page );
+			emitter.endPage( page );
+		}
 		context.pageCount++;
 		if ( pageHandler != null )
 		{

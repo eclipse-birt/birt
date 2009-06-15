@@ -13,17 +13,29 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 
 public class InlineTextArea extends InlineContainerArea implements ILayout
 {
-
+	int splitOffset= 0;
+	//protected int fixedDimension = 0;
+	
 	public InlineTextArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
 		super( parent, context, content );
+//		InstanceID id = content.getInstanceID( );
+//		if ( id != null )
+//		{
+//			SizeBasedContent hint = (SizeBasedContent) context
+//					.getSizeBasedContentMapping( ).get( id.toUniqueString( ) );
+//			if ( hint != null )
+//			{
+//				currentIP += hint.floatPos - hint.offsetInContent;
+//				//fixedDimension = hint.dimension;
+//			}
+//		}
 	}
 
 	public void layout( ) throws BirtException
@@ -31,6 +43,10 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 		initialize( );
 		TextAreaLayout inlineText = new TextAreaLayout( this, context, content );
 		inlineText.initialize( );
+		if ( context.isFixedLayout( ) )
+		{
+			inlineText.addListener( new FixedLayoutInlineTextListener() );
+		}
 		inlineText.layout( );
 		inlineText.close( );
 		close( );

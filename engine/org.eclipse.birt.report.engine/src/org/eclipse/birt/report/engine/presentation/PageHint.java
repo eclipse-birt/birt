@@ -18,14 +18,25 @@ import org.eclipse.birt.report.engine.executor.PageVariable;
 
 public class PageHint implements IPageHint
 {
-
-	ArrayList sections = new ArrayList( );
 	protected long pageNumber;
 	protected long offset;
-	ArrayList hints = new ArrayList( );
 	protected String masterPage;
-	ArrayList columnInfo = new ArrayList( );
 	protected Collection<PageVariable> pageVariables = new ArrayList<PageVariable>( );
+	
+	/**
+	 * page sections
+	 */
+	ArrayList sections = new ArrayList( );
+	
+	/**
+	 * unresolved row hints
+	 */
+	ArrayList unresolvedRowHints = new ArrayList();
+	
+	/**
+	 * table column hints
+	 */
+	ArrayList columnInfo = new ArrayList();
 
 	public PageHint( )
 	{
@@ -38,20 +49,6 @@ public class PageHint implements IPageHint
 		this.pageNumber = pageNumber;
 		offset = pageOffset;
 	}
-
-	/**
-	 * @param pageNumber
-	 * @param pageOffset
-	 * @param pageStart
-	 * @param pageEnd
-	 */
-	public PageHint( long pageNumber, long pageOffset, long pageStart,
-			long pageEnd )
-	{
-		this.pageNumber = pageNumber;
-		offset = pageOffset;
-		addSection( pageStart, pageEnd );
-	}
 	
 	/**
 	 * @param pageNumber
@@ -61,20 +58,6 @@ public class PageHint implements IPageHint
 	{
 		this.pageNumber = pageNumber;
 		this.masterPage = masterPage;
-	}
-
-	/**
-	 * @param pageNumber
-	 * @param maserPage
-	 * @param pageStart
-	 * @param pageEnd
-	 */
-	public PageHint( long pageNumber, String maserPage, long pageStart,
-			long pageEnd )
-	{
-		this.pageNumber = pageNumber;
-		this.masterPage = masterPage;
-		addSection( pageStart, pageEnd );
 	}
 
 
@@ -96,24 +79,18 @@ public class PageHint implements IPageHint
 		return offset;
 	}
 
+	//method for test
 	public long getSectionStart( int i )
 	{
 		PageSection section = (PageSection) sections.get( i );
 		return section.startOffset;
 	}
-
+	
+	//method for test
 	public long getSectionEnd( int i )
 	{
 		PageSection section = (PageSection) sections.get( i );
 		return section.endOffset;
-	}
-
-	public void addSection( long start, long end )
-	{
-		PageSection section = new PageSection( );
-		section.startOffset = start;
-		section.endOffset = end;
-		sections.add( section );
 	}
 
 	public PageSection getSection( int i )
@@ -128,23 +105,23 @@ public class PageHint implements IPageHint
 
 	public void addUnresolvedRowHints( Collection hints )
 	{
-		this.hints.addAll( hints );
+		this.unresolvedRowHints.addAll( hints );
 	}
 	
 	public int getUnresolvedRowCount( )
 	{
-		return hints.size( );
+		return unresolvedRowHints.size( );
 	}
 
 	public UnresolvedRowHint getUnresolvedRowHint( int index )
 	{
-		assert index >= 0 && index < hints.size( );
-		return (UnresolvedRowHint)hints.get( index );
+		assert index >= 0 && index < unresolvedRowHints.size( );
+		return (UnresolvedRowHint)unresolvedRowHints.get( index );
 	}
 	
 	public void addUnresolvedRowHint(UnresolvedRowHint hint)
 	{
-		hints.add( hint );
+		unresolvedRowHints.add( hint );
 	}
 	
 	public void setMasterPage( String masterPage )

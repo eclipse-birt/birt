@@ -69,6 +69,7 @@ public abstract class InlineStackingArea extends ContainerArea
 	
 	public void updateChildrenPosition( ) throws BirtException
 	{
+		first = false;
 		currentIP = 0;
 		if ( children.size( ) > 0 )
 		{

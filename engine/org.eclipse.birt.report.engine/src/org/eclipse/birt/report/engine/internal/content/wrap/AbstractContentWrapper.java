@@ -467,6 +467,21 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	{
 		return content.getResultSet( );
 	}
+	
+	public boolean isLastChild( )
+	{
+		return content.isLastChild( );
+	}
+	
+	public void setLastChild( boolean isLastChild )
+	{
+		content.setLastChild( isLastChild );
+	}
+	
+	public IContent getContent( )
+	{
+		return content;
+	}
 
 	public Map<String, Object> getUserProperties( )
 	{
