@@ -36,10 +36,8 @@
                     <property name="analysis">detail</property>
                     <property name="parentLevel">new level</property>
                     <property name="format">new format</property>
-                    <property name="displayName">new display name</property>
-                    <property name="displayNameID">new display name id</property>
-                    <property name="helpText">new help text</property>
-                    <property name="helpTextID">new help text id</property>
+                    <text-property name="displayName" key="new display name id">new display name</text-property>
+                    <text-property name="helpText" key="new help text id">new help text</text-property>
                 </structure>
             </list-property>
             <list-property name="filter">

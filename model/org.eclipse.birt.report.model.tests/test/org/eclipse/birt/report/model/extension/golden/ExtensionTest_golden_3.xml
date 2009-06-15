@@ -143,23 +143,23 @@
                             <simple-property-list name="value1">
                             	<value>"X"</value>
                             </simple-property-list>
-                            <property name="display">Closed</property>
+                            <text-property name="display">Closed</text-property>
                         </structure>
                         <structure>
                             <property name="operator">is-true</property>
-                            <property name="display">Open</property>
+                            <text-property name="display">Open</text-property>
                         </structure>
                         <structure>
                             <property name="operator">like</property>
-                            <property name="display">Unknown</property>
+                            <text-property name="display">Unknown</text-property>
                         </structure>
                         <structure>
                             <property name="operator">is-not-null</property>
-                            <property name="display">Unknown</property>
+                            <text-property name="display">Unknown</text-property>
                         </structure>
                         <structure>
                             <property name="operator">not-between</property>
-                            <property name="display">Unknown</property>
+                            <text-property name="display">Unknown</text-property>
                         </structure>
                     </list-property>
                     <list-property name="highlightRules">

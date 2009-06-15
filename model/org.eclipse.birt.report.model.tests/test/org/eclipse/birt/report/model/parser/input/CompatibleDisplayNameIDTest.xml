@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19">
+    <data-sets>
+    	<joint-data-set name="JointDataSet">
+    		<list-property name="computedColumns">
+                <structure>
+                    <property name="displayName">User Name</property>
+                    <property name="displayNameID">message.computedColumn.username</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="displayName">User Name</property>
+                    <property name="displayNameID">message.column-hint.username</property>
+                    <property name="helpText">Help me!</property>
+                    <property name="helpTextID">message.column-hint.help</property>
+                </structure>
+            </list-property>
+    	</joint-data-set>
+    </data-sets>
+    <parameters>
+        <scalar-parameter name="Param 1">
+        	<property name="displayName">displayName</property>
+            <property name="displayNameID">message.computedColumn.displayName</property>
+        </scalar-parameter>
+    </parameters>
+    <body>
+        <data name="Body Data">
+			<list-property name="boundDataColumns">
+				<structure>
+					<property name="displayName">Display data value</property>
+					<property name="displayNameID">ResourceKey.DisplayName</property>	
+				</structure>
+			</list-property>
+        </data>
+    </body>
+</report>

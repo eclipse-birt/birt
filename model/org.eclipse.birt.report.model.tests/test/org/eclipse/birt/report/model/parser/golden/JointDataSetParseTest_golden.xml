@@ -33,10 +33,8 @@
                     <property name="analysis">dimension</property>
                     <property name="parentLevel">4</property>
                     <property name="format">##.###</property>
-                    <property name="displayName">User Name</property>
-                    <property name="displayNameID">message.column-hint.username</property>
-                    <property name="helpText">Help me!</property>
-                    <property name="helpTextID">message.column-hint.help</property>
+                    <text-property name="displayName" key="message.column-hint.username">User Name</text-property>
+                    <text-property name="helpText" key="message.column-hint.help">Help me!</text-property>
                 </structure>
             </list-property>
             <list-property name="filter">

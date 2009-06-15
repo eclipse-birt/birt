@@ -542,8 +542,8 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * new OdaDataSet.resultSet.
 	 * <p>
 	 * The rule is by taking 1) the current ResultSet�s column name as the
-	 * �nativeName�, and 2) the ResultSetHints�s column name as the
-	 * �name�, in the merged OdaResultSetColumn structure.
+	 * �nativeName�, and 2) the ResultSetHints�s column name as the �name�, in
+	 * the merged OdaResultSetColumn structure.
 	 * 
 	 * 
 	 * @throws Exception
@@ -976,10 +976,25 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 */
 	public void testReportLayoutPreference( ) throws Exception
 	{
-		openDesign("CompatibleReportLayoutPreferenceTest.xml"); //$NON-NLS-1$
-		
-		save();
-		
+		openDesign( "CompatibleReportLayoutPreferenceTest.xml" ); //$NON-NLS-1$
+
+		save( );
+
 		assertTrue( compareFile( "CompatibleReportLayoutPreferenceTest_golden.xml" ) );//$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the compatibility about the display name id. In 3.2.20, the
+	 * displayNameID is converted from string type to resourceKey type.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDisplayNameID( ) throws Exception
+	{
+		openDesign( "CompatibleDisplayNameIDTest.xml" ); //$NON-NLS-1$
+
+		save( );
+
+		assertTrue( compareFile( "CompatibleDisplayNameIDTest_golden.xml" ) );//$NON-NLS-1$
 	}
 }

@@ -1273,7 +1273,7 @@
     <Member displayNameID="Structure.UserProperty.isVisible" name="isVisible" since="2.2" type="boolean">
     	<Default>true</Default>
     </Member>
-    <Member displayNameID="Structure.UserProperty.displayNameID" name="displayNameID" since="1.0" type="string"/>
+    <Member displayNameID="Structure.UserProperty.displayNameID" name="displayNameID" since="1.0" type="resourceKey"/>
     <Member displayNameID="Structure.UserProperty.displayName" name="displayName" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.UserMethod" name="UserMethod" since="reserved">
@@ -1406,7 +1406,7 @@
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
     <Member displayNameID="Structure.ComputedColumn.name" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
   	<Member displayNameID="Structure.ComputedColumn.displayName" name="displayName" runtimeSettable="false" since="2.2" type="string"/>
-  	<Member displayNameID="Structure.ComputedColumn.displayNameID" name="displayNameID" runtimeSettable="false" since="2.5" type="string"/>
+  	<Member displayNameID="Structure.ComputedColumn.displayNameID" name="displayNameID" runtimeSettable="false" since="2.5" type="resourceKey"/>
   	<Member context="factory" displayNameID="Structure.ComputedColumn.expression" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" />
   	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" name="dataType" runtimeSettable="false" since="2.0" type="choice"/>
     <Member displayNameID="Structure.ComputedColumn.aggregateOn" name="aggregateOn" since="2.2" subType="string" type="list" />	  
@@ -1430,9 +1430,9 @@
     <Member displayNameID="Structure.ColumnHint.parentLevel" name="parentLevel" runtimeSettable="false" since="reserved" type="string"/>
     <Member displayNameID="Structure.ColumnHint.format" name="format" runtimeSettable="false" since="reserved" type="string" />
     <Member displayNameID="Structure.ColumnHint.displayName" name="displayName" runtimeSettable="false" since="1.0" type="string"/>
-    <Member displayNameID="Structure.ColumnHint.displayNameID" name="displayNameID" since="1.0" type="string"/>
+    <Member displayNameID="Structure.ColumnHint.displayNameID" name="displayNameID" since="1.0" type="resourceKey"/>
     <Member displayNameID="Structure.ColumnHint.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
-    <Member displayNameID="Structure.ColumnHint.helpTextID" name="helpTextID" since="1.0" type="string"/>
+    <Member displayNameID="Structure.ColumnHint.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
   </Structure>
   <Structure displayNameID="Structure.SearchKey" name="SearchKey" since="reserved">
     <Member displayNameID="Structure.SearchKey.expression" isIntrinsic="true" name="expression" returnType="string" runtimeSettable="true" since="reserved" type="expression"/>

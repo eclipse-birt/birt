@@ -62,8 +62,7 @@
 			<list-property name="boundDataColumns">
 				<structure>
 					<property name="name">column1</property>
-					<property name="displayName">Display data value</property>
-					<property name="displayNameID">ResourceKey.DisplayName</property>
+					<text-property name="displayName" key="ResourceKey.DisplayName">Display data value</text-property>
 					<expression name="expression">column1 expr</expression>						
 					<property name="dataType">integer</property>	
 					<simple-property-list name="aggregateOn">

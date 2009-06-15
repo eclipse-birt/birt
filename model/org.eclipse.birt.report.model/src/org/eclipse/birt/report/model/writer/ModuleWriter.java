@@ -957,6 +957,18 @@ public abstract class ModuleWriter extends ElementVisitor
 		// structure/structure list again.
 
 		String propName = propDefn.getName( );
+		String propNameKey = propName + IDesignElementModel.ID_SUFFIX;
+
+		StructureDefn structDefn = (StructureDefn) struct.getDefn( );
+		StructPropertyDefn propKeyDefn = (StructPropertyDefn) structDefn
+				.getMember( propNameKey );
+		if ( propKeyDefn != null
+				&& propKeyDefn.getType( ).getTypeCode( ) == IPropertyType.RESOURCE_KEY_TYPE )
+		{
+			resourceKey( struct, propNameKey, propName );
+			return;
+		}
+
 		switch ( propDefn.getTypeCode( ) )
 		{
 			case IPropertyType.STRUCT_TYPE :
@@ -1161,6 +1173,11 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				PropertyDefn memberDefn = (PropertyDefn) memberIter.next( );
 
+				if ( memberDefn.getType( ).getTypeCode( ) == IPropertyType.RESOURCE_KEY_TYPE )
+				{
+					continue;
+				}
+
 				// for example: highlightrule structure contains
 				// StringFormat,DateTimeFormat
 				// structure.
@@ -1239,6 +1256,11 @@ public abstract class ModuleWriter extends ElementVisitor
 			while ( memberIter.hasNext( ) )
 			{
 				PropertyDefn memberDefn = (PropertyDefn) memberIter.next( );
+
+				if ( memberDefn.getType( ).getTypeCode( ) == IPropertyType.RESOURCE_KEY_TYPE )
+				{
+					continue;
+				}
 
 				// for example: highlightrule structure contains
 				// StringFormat,DateTimeFormat
@@ -2363,7 +2385,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.SCALAR_PARAMETER_TAG );
 
 		super.visitScalarParameter( obj );
-		
+
 		property( obj, IScalarParameterModel.PARAM_TYPE_PROP );
 
 		property( obj, IScalarParameterModel.CONCEAL_VALUE_PROP );

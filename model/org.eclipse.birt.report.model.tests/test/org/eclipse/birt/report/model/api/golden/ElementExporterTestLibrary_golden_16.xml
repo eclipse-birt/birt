@@ -17,13 +17,13 @@
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">CUSTOMERNUMBER</property>
-                    <property name="displayName">CUSTOMERNUMBER</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
                     <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="name">CUSTOMERNAME</property>
-                    <property name="displayName">CUSTOMERNAME</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
                     <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
                     <property name="dataType">string</property>
                 </structure>
@@ -105,13 +105,13 @@
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">CUSTOMERNUMBER</property>
-                    <property name="displayName">CUSTOMERNUMBER</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
                     <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="name">CUSTOMERNAME</property>
-                    <property name="displayName">CUSTOMERNAME</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
                     <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
                     <property name="dataType">string</property>
                 </structure>
