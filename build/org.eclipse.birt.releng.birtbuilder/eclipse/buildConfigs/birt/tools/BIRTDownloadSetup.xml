@@ -1117,13 +1117,13 @@
 				    <patternset refid="exclude.jars" />
 				</fileset>
 				<fileset dir="${buildDirectory}/plugins">
-	                            <patternset refid="orbit.include.jars" />
+	                <patternset refid="orbit.include.jars" />
 				</fileset>
 				<fileset dir="${baseLocation}/plugins">
-                                    <include name="org.apache.xerces_*.jar"/>
-                                    <include name="org.apache.xml.resolver_*.jar"/>
-                                    <include name="javax.xml_*.jar"/>
-                                    <include name="org.apache.xml.serializer_*.jar"/>
+                    <include name="org.apache.xerces_*.jar"/>
+                    <include name="org.apache.xml.resolver_*.jar"/>
+                    <include name="javax.xml_*.jar"/>
+                    <include name="org.apache.xml.serializer_*.jar"/>
 				</fileset>
 				<fileset dir="${all.in.one.file.dir}/../jee/eclipse/plugins">
 				    <include name="org.eclipse.draw2d_*.jar"/>
@@ -1135,8 +1135,8 @@
 		<copy todir="${runtime.download.tmp}/ChartRuntime/eclipse/features">
 			<fileset dir="${deposit}/eclipse/features">
 				<include name="org.eclipse.birt.chart*/*" />
-				<include name="org.mozilla.rhino*/*" />
-				<include name="org.apache.commons.codec*/*" />
+				<!--<include name="org.mozilla.rhino*/*" />
+				<include name="org.apache.commons.codec*/*" />-->
 				<exclude name="org.eclipse.birt.chart.runtime*/*" />
 				<exclude name="*.source*/*" />
 				<exclude name="*.doc.isv*/*" />
@@ -1163,7 +1163,7 @@
 		</copy>
 		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse/plugins">
 			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" />
+				<!--<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" />-->
 				<include name="org.eclipse.birt.chart.*source_*/**"/>
 				<include name="org.eclipse.birt.doc_*/**" />
 				<include name="org.eclipse.birt.chart.cshelp_*/**"/>
@@ -1175,8 +1175,8 @@
 		    <fileset dir="${deposit}/eclipse/features">
 		        <include name="org.eclipse.birt.chart.doc.isv*/**"/>
 		        <include name="org.eclipse.birt.chart.cshelp*/**"/>
-		        <include name="org.eclipse.birt.chart.*source*/**"/>
-		        <include name="org.eclipse.birt.chart.integration*/**"/>
+		        <include name="org.eclipse.birt.chart.source*/**"/>
+		        <!--<include name="org.eclipse.birt.chart.integration*/**"/>-->
 		    </fileset>			
 		</copy>
 		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse" overwrite="true">
