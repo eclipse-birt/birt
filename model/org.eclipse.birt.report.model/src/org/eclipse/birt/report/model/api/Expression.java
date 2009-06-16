@@ -50,7 +50,7 @@ public class Expression
 
 	public String toString( )
 	{
-		return expr.toString( );
+		return expr == null ? null : expr.toString( );
 	}
 
 	/**
