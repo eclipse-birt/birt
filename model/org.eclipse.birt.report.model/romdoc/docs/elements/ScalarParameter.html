@@ -37,7 +37,7 @@ list:</p>
 
 <h3>See Also</h3>
 
-<h2 class="property">dataType</h2>
+<!-- h2 class="property">dataType</h2>
 
 <p>The data type for the parameter. </p>
 
@@ -63,7 +63,7 @@ list:</p>
 
 <p>The data type for the parameter. The data type controls 
 how the Requester formats, parses and validates the parameter. Every type can optionally provide a choice list. 
-And, the parameter can require that the user select one of the choices.</p>
+And, the parameter can require that the user select one of the choices.</p -->
 
 <h3>See Also</h3>
 
@@ -85,7 +85,7 @@ show the entry in plain text.</p>
 
 <p><code>hidden</code> Property</p>
 
-<h2 class="property">defaultValue</h2>
+<!-- h2 class="property">defaultValue</h2>
 
 <p>The default value of the parameter.</p>
 
@@ -94,9 +94,9 @@ show the entry in plain text.</p>
 <p>The default value for the parameter. The default value 
 can be an expression, but cannot reference any other parameters.</p>
 
-<h3>See Also</h3>
+<h3>See Also</h3 -->
 
-<h2 class="property">allowNull</h2>
+<!-- h2 class="property">allowNull</h2>
 
 <p>Whether the value of the parameter can be null.</p>
 
@@ -106,9 +106,9 @@ can be an expression, but cannot reference any other parameters.</p>
 default is false. The user must enter a value for the parameter if no default is 
 provided.</p>
 
-<h3>See Also</h3>
+<h3>See Also</h3 -->
 
-<h2 class="property">allowBlank</h2>
+<!-- h2 class="property">allowBlank</h2>
 
 <p>Whether to allow a blank value for string parameters.</p>
 
@@ -118,26 +118,26 @@ provided.</p>
 says whether to allow a blank string value. The default is true. Ignored for 
 parameters of type other than string.</p>
 
-<h3>See Also</h3>
+<h3>See Also</h3 -->
 
-<h2 class="property">listLimit</h2>
+<!-- h2 class="property">listLimit</h2>
 <p>List limitation number. </p>
 
 <h3>Description</h3>
 <p>Value for the list limitation number. If the limitation is provided, only the top-n choices will 
-be available in the parameter request dialog.</p>
+be available in the parameter request dialog.</p -->
 
-<h2 class="property">promptText</h2>
+<!-- h2 class="property">promptText</h2>
 <p>The prompt text displayed when user input the parameter value.</p>
 
 <h3>Description</h3>
-<p>The text that will be displayed to the user when he/she is prompt for the parameter value.</p>
+<p>The text that will be displayed to the user when he/she is prompt for the parameter value.</p -->
 
-<h2 class="property">valueType</h2>
+<!-- h2 class="property">valueType</h2>
 <p>Type of the parameter</p>
 
 <h3>Description</h3>
-<p>Type of the parameter, can be static or dynamic</p>
+<p>Type of the parameter, can be static or dynamic</p -->
 
 <h2 class="property">format</h2>
 
@@ -222,7 +222,7 @@ auto (default), left, center or right.</p>
 
 <h3>See Also</h3>
 
-<h2 class="property">selectionList</h2>
+<!-- h2 class="property">selectionList</h2>
 
 <p>Defines a selection list for the parameter: static 
 list of values from which the user can choose.</p>
@@ -233,7 +233,7 @@ list of values from which the user can choose.</p>
 Every choice has two parts: a choice and a label. The label can be externalized 
 and appears in the UI. The choice is the value passed to the report. For 
 example, labels may be “Open? and “Closed?, while the values are ?0? and ?1?.</p>
-<p>The items in the list are of the type given by the parameter data type.</p>
+<p>The items in the list are of the type given by the parameter data type.</p -->
 
 <h3>See Also</h3>
 
@@ -274,13 +274,13 @@ defined.</p>
 
 <p><code>dynamicList</code> property</p>
 
-<h2 class="property">dataSetName</h2>
+<!-- h2 class="property">dataSetName</h2>
 
 <p>The name of the data set to execute to obtain a selection list dynamically.</p>
 
 <h3>Description</h3>
 
-<p>The name of the data set to execute to obtain the list.</p>
+<p>The name of the data set to execute to obtain the list.</p -->
 
 <p>This element defines or references a query that defines a dynamic selection 
 list for the parameter. The data set can reference other parameters, but only 
@@ -297,7 +297,7 @@ parameter values are “R?, “C?, and “G?.</p>
 
 <h3>See Also</h3>
 
-<h2 class="property">valueExpr</h2>
+<!-- h2 class="property">valueExpr</h2>
 
 <p>An expression on the data set row to return the value 
 of each choice in a dynamic list.</p>
@@ -307,9 +307,9 @@ of each choice in a dynamic list.</p>
 <p>An expression on the data row from the dynamic list data set that returns the 
 value for the choice. If omitted, then BIRT uses the first column.</p>
 
-<h3>See Also</h3>
+<h3>See Also</h3 -->
 
-<h2 class="property">labelExpr</h2>
+<!-- h2 class="property">labelExpr</h2>
 
 <p>An expression on the data row to return the display 
 value for each choice in a dynamic list.</p>
@@ -317,7 +317,7 @@ value for each choice in a dynamic list.</p>
 <h3>Description</h3>
 
 <p>An expression on the data row from the dynamic list data set that returns the 
-prompt for the choice. If omitted, then BIRT uses the value as the label.</p>
+prompt for the choice. If omitted, then BIRT uses the value as the label.</p -->
 
 <h3>See Also</h3>
 <p>&nbsp;</p>

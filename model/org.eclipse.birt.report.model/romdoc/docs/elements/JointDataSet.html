@@ -39,13 +39,6 @@ The left expression, right expression and operator constitute the condition.</p>
 </p></p></p>
 
 <h3>See Also</h3>
-
-<h2 class="property">parameters</h2>
-<p>Defines the data access attributes of the list of input and/or output parameters.</p>
-<h3>Description</h3>
-<p>Many data sets allow parameters, which can be of input and/or output modes. For some, the user must define the parameters as part of the data set definition. For other data sets, the driver itself can provide the set of parameter definitions from the information available in a data set query. In the latter case, parameter definitions are derived data and <i>are not</i> stored in the parameter definition.</p>
-<p>Some drivers refer to a parameter by position. Others can refer to a parameter by name. Also, for some data sets, the data set definition can omit parameter definitions for optional parameters not used within the report. &nbsp;Not all parameter properties are required. If a property is omitted. BIRT assumes that the data set implementation can provide it at run time. If the driver cannot provide the information, then a runtime error occurs.&nbsp;This is an optional list of data set parameter definitions, used only when the underlying data provider cannot provide this information.&nbsp;When contradicting meta-data are found between those provided dynamically by a data provider and&nbsp;those specified in a data set definition, the data provider&iuml;&iquest;&frac12;s meta-data takes precedence.</p>
-<h3>See Also</h3>
 <p><code>DataSetParam structure</code></p>
 <p><code>ParamBinding structure</code></p>
 <h2 class="property">resultSet</h2>
