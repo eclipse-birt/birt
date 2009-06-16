@@ -110,7 +110,10 @@ public class ChartExpressionProvider extends ExpressionProvider
 				|| ( this._categoryStyle & CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT
 				|| ( this._categoryStyle & CATEGORY_WITH_LEGEND_ITEMS ) == CATEGORY_WITH_LEGEND_ITEMS )
 		{
-			list.add( CHART_VARIABLES );
+			if ( !list.contains( CHART_VARIABLES ) )
+			{
+				list.add( CHART_VARIABLES );
+			}
 		}
 		return list;
 	}
