@@ -1912,8 +1912,6 @@ Structure.ConfigVar.value=값
 #7. SortKey
 Structure.SortKey.key=정렬 키
 Structure.SortKey.direction=정렬 방향
-Structure.SortKey.strength=수준 정렬
-Structure.SortKey.locale=로케일 정렬
 
 #8. Hide
 Structure.HideRule.format=서식
@@ -2573,7 +2571,6 @@ Element.Style.wordSpacing=단어 간격
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=책갈피
-Element.ReportItem.bookmarkDisplayName=Bookmark display name
 Element.ReportItem.toc=목차
 Element.ReportItem.dataSet=데이터 집합
 Element.ReportItem.cube=데이터 큐브
@@ -2669,7 +2666,6 @@ Element.Text.hasExpression=식 값
 Element.ListingGroup.keyExpr=키 식
 Element.ListingGroup.sort=정렬
 Element.ListingGroup.bookmark=책갈피
-Element.ListingGroup.bookmarkDisplayName=Bookmark display name
 Element.ListingGroup.toc=목차
 Element.ListingGroup.hideDetail=상세 정보 숨기기
 Element.ListingGroup.groupName=이름
@@ -2742,7 +2738,6 @@ Element.ListGroup.onPageBreak.reportContext=보고서 컨텍스트
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=캡션
 Element.Table.summary=요약
-Element.Table.isSummaryTable=요약 테이블
 Element.Table.captionID=캡션 키
 Element.Table.slot.header=머리글
 Element.Table.slot.groups=그룹
@@ -2793,7 +2788,6 @@ Element.Column.viewAction=작업 보기
 Element.Row.visibility=표시 유형
 Element.Row.height=높이
 Element.Row.bookmark=책갈피
-Element.Row.bookmarkDisplayName=Bookmark display name
 Element.Row.eventHandlerClass=이벤트 처리기 클래스
 Element.Row.newHandlerOnEachEvent=각 이벤트 시 새 처리기
 Element.Row.slot.cells=셀
@@ -2826,7 +2820,6 @@ Element.Cell.eventHandlerClass=이벤트 처리기 클래스
 Element.Cell.newHandlerOnEachEvent=각 이벤트 시 새 처리기
 Element.Cell.scope=범위
 Element.Cell.bookmark=책갈피
-Element.Cell.bookmarkDisplayName=Bookmark display name
 Element.Cell.headers=머리글
 Element.Cell.onPrepare=준비 중
 Element.Cell.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
@@ -3185,8 +3178,6 @@ Element.MemberValue.memberValues=구성원 값
 Element.SortElement.key=키
 Element.SortElement.direction=방향
 Element.SortElement.member=구성원
-Element.SortElement.strength=수준 정렬
-Element.SortElement.locale=로케일 정렬
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=연산자

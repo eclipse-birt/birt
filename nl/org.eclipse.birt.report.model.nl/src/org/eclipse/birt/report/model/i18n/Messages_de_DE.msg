@@ -1912,8 +1912,6 @@ Structure.ConfigVar.value=Wert
 #7. SortKey
 Structure.SortKey.key=Sortierschlüssel
 Structure.SortKey.direction=Sortierreihenfolge
-Structure.SortKey.strength=Sortierungsstärke
-Structure.SortKey.locale=Sortierungsgebietsschema
 
 #8. Hide
 Structure.HideRule.format=Format
@@ -2573,7 +2571,6 @@ Element.Style.wordSpacing=Wortabstand
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Lesezeichen
-Element.ReportItem.bookmarkDisplayName=Bookmark display name
 Element.ReportItem.toc=Inhalt
 Element.ReportItem.dataSet=Datensatz
 Element.ReportItem.cube=Datenquader
@@ -2669,7 +2666,6 @@ Element.Text.hasExpression=Enthält Ausdruck
 Element.ListingGroup.keyExpr=Schlüsselausdruck
 Element.ListingGroup.sort=Sortieren
 Element.ListingGroup.bookmark=Lesezeichen
-Element.ListingGroup.bookmarkDisplayName=Bookmark display name
 Element.ListingGroup.toc=Inhalt
 Element.ListingGroup.hideDetail=Details ausblenden
 Element.ListingGroup.groupName=Name
@@ -2742,7 +2738,6 @@ Element.ListGroup.onPageBreak.reportContext=Berichtkontext
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Beschriftung
 Element.Table.summary=Zusammenfassung
-Element.Table.isSummaryTable=Ist eine Zusammenfassungstabelle
 Element.Table.captionID=Beschriftungsschlüssel
 Element.Table.slot.header=Kopfzeile
 Element.Table.slot.groups=Gruppen
@@ -2793,7 +2788,6 @@ Element.Column.viewAction=Aktion anzeigen
 Element.Row.visibility=Sichtbarkeit
 Element.Row.height=Höhe
 Element.Row.bookmark=Lesezeichen
-Element.Row.bookmarkDisplayName=Bookmark display name
 Element.Row.eventHandlerClass=Ereignis-Handler-Klasse
 Element.Row.newHandlerOnEachEvent=Neuer Handler für jedes Ereignis
 Element.Row.slot.cells=Zellen
@@ -2826,7 +2820,6 @@ Element.Cell.eventHandlerClass=Ereignis-Handler-Klasse
 Element.Cell.newHandlerOnEachEvent=Neuer Handler für jedes Ereignis
 Element.Cell.scope=Umfang
 Element.Cell.bookmark=Lesezeichen
-Element.Cell.bookmarkDisplayName=Bookmark display name
 Element.Cell.headers=Kopfzeilen
 Element.Cell.onPrepare=Beim Vorbereiten
 Element.Cell.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
@@ -3185,8 +3178,6 @@ Element.MemberValue.memberValues=Mitgliedswerte
 Element.SortElement.key=Schlüssel
 Element.SortElement.direction=Richtung
 Element.SortElement.member=Mitglied
-Element.SortElement.strength=Sortierungsstärke
-Element.SortElement.locale=Sortierungsgebietsschema
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=Operator

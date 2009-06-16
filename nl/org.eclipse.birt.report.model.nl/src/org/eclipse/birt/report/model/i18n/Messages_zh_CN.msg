@@ -1912,8 +1912,6 @@ Structure.ConfigVar.value=值
 #7. SortKey
 Structure.SortKey.key=排序关键字
 Structure.SortKey.direction=排序方向
-Structure.SortKey.strength=排序强度
-Structure.SortKey.locale=排序区域设置
 
 #8. Hide
 Structure.HideRule.format=格式
@@ -2573,7 +2571,6 @@ Element.Style.wordSpacing=字间距
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=书签
-Element.ReportItem.bookmarkDisplayName=Bookmark display name
 Element.ReportItem.toc=目录
 Element.ReportItem.dataSet=数据集
 Element.ReportItem.cube=多维数据集
@@ -2669,7 +2666,6 @@ Element.Text.hasExpression=具有表达式
 Element.ListingGroup.keyExpr=关键字表达式
 Element.ListingGroup.sort=排序
 Element.ListingGroup.bookmark=书签
-Element.ListingGroup.bookmarkDisplayName=Bookmark display name
 Element.ListingGroup.toc=目录
 Element.ListingGroup.hideDetail=隐藏明细数据
 Element.ListingGroup.groupName=名称
@@ -2742,7 +2738,6 @@ Element.ListGroup.onPageBreak.reportContext=报表上下文
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=标题
 Element.Table.summary=摘要
-Element.Table.isSummaryTable=摘要表
 Element.Table.captionID=标题关键字
 Element.Table.slot.header=题头
 Element.Table.slot.groups=组
@@ -2793,7 +2788,6 @@ Element.Column.viewAction=查看操作
 Element.Row.visibility=可见性
 Element.Row.height=高度
 Element.Row.bookmark=书签
-Element.Row.bookmarkDisplayName=Bookmark display name
 Element.Row.eventHandlerClass=事件处理程序类
 Element.Row.newHandlerOnEachEvent=在每个事件上新建处理程序
 Element.Row.slot.cells=单元格
@@ -2826,7 +2820,6 @@ Element.Cell.eventHandlerClass=事件处理程序类
 Element.Cell.newHandlerOnEachEvent=在每个事件上新建处理程序
 Element.Cell.scope=范围
 Element.Cell.bookmark=书签
-Element.Cell.bookmarkDisplayName=Bookmark display name
 Element.Cell.headers=页眉
 Element.Cell.onPrepare=准备时
 Element.Cell.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
@@ -3185,8 +3178,6 @@ Element.MemberValue.memberValues=成员值
 Element.SortElement.key=关键字
 Element.SortElement.direction=方向
 Element.SortElement.member=成员
-Element.SortElement.strength=排序强度
-Element.SortElement.locale=排序区域设置
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=运算符

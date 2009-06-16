@@ -1912,8 +1912,6 @@ Structure.ConfigVar.value=Valeur
 #7. SortKey
 Structure.SortKey.key=Clé de tri
 Structure.SortKey.direction=Direction du tri
-Structure.SortKey.strength=Tri par longueur
-Structure.SortKey.locale=Tri par paramètres régionaux
 
 #8. Hide
 Structure.HideRule.format=Format
@@ -2573,7 +2571,6 @@ Element.Style.wordSpacing=Espacement des mots
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Signet
-Element.ReportItem.bookmarkDisplayName=Bookmark display name
 Element.ReportItem.toc=Sommaire
 Element.ReportItem.dataSet=Jeu de données
 Element.ReportItem.cube=Cube de données
@@ -2669,7 +2666,6 @@ Element.Text.hasExpression=Est doté de l'expression
 Element.ListingGroup.keyExpr=Expression clé
 Element.ListingGroup.sort=Trier
 Element.ListingGroup.bookmark=Signet
-Element.ListingGroup.bookmarkDisplayName=Bookmark display name
 Element.ListingGroup.toc=Sommaire
 Element.ListingGroup.hideDetail=Masquer les détails
 Element.ListingGroup.groupName=Nom
@@ -2742,7 +2738,6 @@ Element.ListGroup.onPageBreak.reportContext=Contexte d'état
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Légende
 Element.Table.summary=Résumé
-Element.Table.isSummaryTable=Est une table résumée
 Element.Table.captionID=Clé de légende
 Element.Table.slot.header=En-tête
 Element.Table.slot.groups=Groupes
@@ -2793,7 +2788,6 @@ Element.Column.viewAction=Afficher l'action
 Element.Row.visibility=Visibilité
 Element.Row.height=Hauteur
 Element.Row.bookmark=Signet
-Element.Row.bookmarkDisplayName=Bookmark display name
 Element.Row.eventHandlerClass=Classe de gestionnaire d'événements
 Element.Row.newHandlerOnEachEvent=Nouveau gestionnaire pour chaque événement
 Element.Row.slot.cells=Cellules
@@ -2826,7 +2820,6 @@ Element.Cell.eventHandlerClass=Classe de gestionnaire d'événements
 Element.Cell.newHandlerOnEachEvent=Nouveau gestionnaire pour chaque événement
 Element.Cell.scope=Etendue
 Element.Cell.bookmark=Signet
-Element.Cell.bookmarkDisplayName=Bookmark display name
 Element.Cell.headers=En-têtes
 Element.Cell.onPrepare=A la préparation
 Element.Cell.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
@@ -3185,8 +3178,6 @@ Element.MemberValue.memberValues=Valeurs de membre
 Element.SortElement.key=Clé
 Element.SortElement.direction=Direction
 Element.SortElement.member=Membre
-Element.SortElement.strength=Tri par longueur
-Element.SortElement.locale=Tri par paramètre régionaux
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=Opérateur

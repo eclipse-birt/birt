@@ -1912,8 +1912,6 @@ Structure.ConfigVar.value=Valor
 #7. SortKey
 Structure.SortKey.key=Clave de ordenación
 Structure.SortKey.direction=Dirección de orden
-Structure.SortKey.strength=Ordenar intensidad
-Structure.SortKey.locale=Ordenar local
 
 #8. Hide
 Structure.HideRule.format=Formato
@@ -2573,7 +2571,6 @@ Element.Style.wordSpacing=Separación de palabras
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Marcador
-Element.ReportItem.bookmarkDisplayName=Bookmark display name
 Element.ReportItem.toc=TDC
 Element.ReportItem.dataSet=Conjunto de datos
 Element.ReportItem.cube=Cubo de datos
@@ -2669,7 +2666,6 @@ Element.Text.hasExpression=Tiene la expresión
 Element.ListingGroup.keyExpr=Expresión clave:
 Element.ListingGroup.sort=Orden
 Element.ListingGroup.bookmark=Marcador
-Element.ListingGroup.bookmarkDisplayName=Bookmark display name
 Element.ListingGroup.toc=TDC
 Element.ListingGroup.hideDetail=Ocultar detalle
 Element.ListingGroup.groupName=Nombre
@@ -2742,7 +2738,6 @@ Element.ListGroup.onPageBreak.reportContext=Contexto de informe
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Título
 Element.Table.summary=Resumen
-Element.Table.isSummaryTable=Es una tabla de resumen
 Element.Table.captionID=Clave de título
 Element.Table.slot.header=Encabezado
 Element.Table.slot.groups=Grupos
@@ -2793,7 +2788,6 @@ Element.Column.viewAction=Ver acción
 Element.Row.visibility=Visibilidad
 Element.Row.height=Altura
 Element.Row.bookmark=Marcador
-Element.Row.bookmarkDisplayName=Bookmark display name
 Element.Row.eventHandlerClass=Clase de controlador de evento
 Element.Row.newHandlerOnEachEvent=Nuevo controlador en cada evento
 Element.Row.slot.cells=Celdas
@@ -2826,7 +2820,6 @@ Element.Cell.eventHandlerClass=Clase de controlador de evento
 Element.Cell.newHandlerOnEachEvent=Nuevo controlador en cada evento
 Element.Cell.scope=Alcance
 Element.Cell.bookmark=Marcador
-Element.Cell.bookmarkDisplayName=Bookmark display name
 Element.Cell.headers=Encabezados
 Element.Cell.onPrepare=En preparación
 Element.Cell.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
@@ -3185,8 +3178,6 @@ Element.MemberValue.memberValues=Valores de miembro
 Element.SortElement.key=Clave
 Element.SortElement.direction=Dirección
 Element.SortElement.member=Miembro
-Element.SortElement.strength=Ordenar intensidad
-Element.SortElement.locale=Ordenar local
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=Operador

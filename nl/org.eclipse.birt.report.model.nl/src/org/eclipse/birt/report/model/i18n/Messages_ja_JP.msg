@@ -1912,8 +1912,6 @@ Structure.ConfigVar.value=値
 #7. SortKey
 Structure.SortKey.key=ソートキー
 Structure.SortKey.direction=ソートの方向
-Structure.SortKey.strength=ソートの度合い
-Structure.SortKey.locale=ソートのロケール
 
 #8. Hide
 Structure.HideRule.format=書式
@@ -2573,7 +2571,6 @@ Element.Style.wordSpacing=単語間の間隔
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=ブックマーク
-Element.ReportItem.bookmarkDisplayName=Bookmark display name
 Element.ReportItem.toc=目次
 Element.ReportItem.dataSet=データセット
 Element.ReportItem.cube=データキューブ
@@ -2669,7 +2666,6 @@ Element.Text.hasExpression=式あり
 Element.ListingGroup.keyExpr=キーの式
 Element.ListingGroup.sort=ソート
 Element.ListingGroup.bookmark=ブックマーク
-Element.ListingGroup.bookmarkDisplayName=Bookmark display name
 Element.ListingGroup.toc=目次
 Element.ListingGroup.hideDetail=詳細の非表示
 Element.ListingGroup.groupName=名前
@@ -2742,7 +2738,6 @@ Element.ListGroup.onPageBreak.reportContext=レポートのコンテキスト
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=キャプション
 Element.Table.summary=サマリ
-Element.Table.isSummaryTable=サマリテーブルの設定
 Element.Table.captionID=キャプションキー
 Element.Table.slot.header=ヘッダ
 Element.Table.slot.groups=グループ
@@ -2793,7 +2788,6 @@ Element.Column.viewAction=アクションの表示
 Element.Row.visibility=可視性
 Element.Row.height=高さ
 Element.Row.bookmark=ブックマーク
-Element.Row.bookmarkDisplayName=Bookmark display name
 Element.Row.eventHandlerClass=イベントハンドラのクラス
 Element.Row.newHandlerOnEachEvent=各イベントの新しいハンドラ
 Element.Row.slot.cells=セル
@@ -2826,7 +2820,6 @@ Element.Cell.eventHandlerClass=イベントハンドラのクラス
 Element.Cell.newHandlerOnEachEvent=各イベントの新しいハンドラ
 Element.Cell.scope=スコープ
 Element.Cell.bookmark=ブックマーク
-Element.Cell.bookmarkDisplayName=Bookmark display name
 Element.Cell.headers=ヘッダ
 Element.Cell.onPrepare=準備時
 Element.Cell.onPrepare.toolTip=スクリプトのスタートアップフェーズ用です。まだデータバインドはありません。ここで要素のデザインを変更できます。
@@ -3185,8 +3178,6 @@ Element.MemberValue.memberValues=メンバ値
 Element.SortElement.key=キー
 Element.SortElement.direction=方向
 Element.SortElement.member=メンバ
-Element.SortElement.strength=ソートの度合い
-Element.SortElement.locale=ソートのロケール
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=演算子
