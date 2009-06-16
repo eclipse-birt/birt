@@ -535,13 +535,8 @@ public class ScaleContext extends Methods
 			else
 			{
 				cdtMinValue.clearBelow( iUnit );
-				long lMax0 = cdtMaxValue.getTimeInMillis( );
-				cdtMaxValue.clearBelow( iUnit );
-				if ( lMax0 > cdtMaxValue.getTimeInMillis( ) )
-				{
-					cdtMaxValue = cdtMaxValue.forward( iUnit, 1 );
-				}
 			}
+
 			oMin = cdtMinValue;
 
 			double diff = CDateTime.computeDifference( cdtMaxValue,
