@@ -136,12 +136,14 @@
 				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
 				<include name="org.eclipse.emf.ecore_*.jar" />
 			</fileset>
-            <fileset dir="${buildDirectory}/plugins">
+			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.w3c.css.sac_*.jar"/>
 				<include name="org.w3c.dom*.jar"/>
-				<include name="org.apache.batik.*jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
-            </fileset>
+				<include name="org.apache.batik.*jar"/>				
+				<exclude name="org.apache.batik.swing_*.jar"/>
+				<exclude name="org.apache.batik.extension_*.jar"/>
+			</fileset>
 		</copy>
 	</target>
 
