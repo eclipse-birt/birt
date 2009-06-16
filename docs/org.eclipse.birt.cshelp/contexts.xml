@@ -47,7 +47,7 @@ A <b>data set</b> is a query that specifies which data to retrieve from the data
 </context>
 
 <context id="Wizard_SQLQuery_Dataset_ID" title="New SQL Select Query">
-<!-- SEQUENCE: Make a new data set based on a connection profile. There is nothing in the Field Guide about this topic, so we use the full description here. khahn 20090507 Updated 20090613 -->
+<!-- SEQUENCE: Per Diana, make a new data set based on a connection profile. I did it and still cannot file this topic. khahn 20090507 Updated 20090613 -->
 <description>Create the SQL Select query to retrieve data from the data source. Select and join tables. Specify how to sort data, what data to retrieve and group for aggregations, and the criteria for returning aggregate data. 
 </description>
 </context>
@@ -62,7 +62,7 @@ Specify how to connect the report to a database, file, or web service. The Class
 
 <context id="Wizard_JDBC_Datasource_ID" title="New JDBC Data Source Profile">
 <!-- updated khahn 20090507 linked, abbreviated label 20090604 -->
-<!-- SEQUENCE 1: In Data Explorer, right-click a data source, select New. Choose JDBC Data Source. Choose Next. > Talk to Diana about using, "To connect a report to data in a database using Java Database Connectivity (JDBC), specify a driver class, the driver URL, such as jdbc:mysql://localhost/table_name, and the database user name and password.  Optionally, specify the URL to the Java Naming and Directory Interface (JNDI) connection pooling service." JNDI and driver URL example is not in the Field Guide. khahn 20090505 -->
+<!-- SEQUENCE 1: In Data Explorer, right-click a data source, select New. Choose JDBC Data Source. Choose Next.  khahn 20090505 -->
 <description>
 Specify a driver class, the driver URL, such as jdbc:mysql://localhost/table_name, and the database user name and password.  Optionally, specify the URL to the Java Naming and Directory Interface (JNDI) connection pooling service.
 </description>
@@ -121,12 +121,22 @@ Follow on-screen prompts, which vary by data source type, to edit the data sourc
 </context>
 
 <context id="Dialog_DatasetEdit_ID" title="Edit Data Set - Data Set">
-<!-- Updated khahn 20090505 linked 20090604 -->
+<!-- Updated khahn 20090505 linked 20090604 enhanced per Nola 20090616-->
 <!-- SEQUENCE: In Data Explorer, double-click a data set. -->
 <description>
-Edit or view the attributes of the <b>data set</b>. 
+Edit or view the following attributes of the data set:
+- Data Source - Change the data source for the data set. 
+- Output Columns - Add an alias or display name for each column that BIRT uses in Data Explorer and in column headings of a table. Specify a display name ID that specifies the resource key.
+- Computed Columns - Add the result of an expression to the data set.
+- Parameters - Create a data set parameter to filter the result set in a query. At runtime, the data set parameter provides a replacement for the ? parameter marker in the WHERE clause of the query.
+- Filters - Filter the data set as an alternative to filtering the data source.
+- Property Binding - Bind the data set parameter to the report parameter. Specify a time limit for the query request. Typically, the report parameter prompts the user for a value and passes it to the data set parameter to use in the query.
+- Settings - Include all rows in the preview of query results, or limit the number of rows. BIRT ignores this setting when the data set editor preferences specifies fewer rows.
+- Preview Results - View column names and field values that the query retrieves from the data source.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.1.html" label="Retrieving Data"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.5.html" label="How to view and change output columns"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.6.html" label="How to add a computed field to a data set"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/parameter.12.1.html" label="How to define a data set parameter"/>
 </context>
 
 <context id="Wizard_DataSourcePropertyBinding(org_eclipse_birt_report_data_oda_jdbc)_ID" title="Edit Data Source - JDBC Data Source - Property Binding">
@@ -260,10 +270,11 @@ Specify a template name, and optionally a description. Browse to an image for th
 </context>
 
 <context id="FormatBuilder_ID" title="Format Builder">
-<!-- SEQUENCE: In Data Explorer, expand Report Parameters, then choose the report parameter to edit. Choose Change.  Updated. khahn 20090512 no relevant link 20090604 -->
+<!-- SEQUENCE: In Data Explorer, expand Report Parameters, then choose the report parameter to edit. Choose Change.  Updated. khahn 20090512 linked 20090616 -->
 <description>
 A report parameter value appears unformatted in a prompt when the report runs. Reformat the report parameter value using a predefined format, such as currency, or a custom format.  
 </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/parameter.12.5.html" label="How to format a report parameter value"/>
 
 </context>
 
@@ -471,8 +482,8 @@ First, specify the condition for formatting a report element. Next, specify the 
 </context>
 
 <context id="Preference_BIRT_DataSetEditor_ID" title="Preferences - Data Set Editor page">
-<!-- SEQUENCE: Window>Preferences>Report Design>Data Set Editor linked khahn 20090605 updated Diana 20090610 -->
-<description>Specify the maximum number of database schemas and tables to make available for data set editing.
+<!-- SEQUENCE: Window>Preferences>Report Design>Data Set Editor linked khahn 20090605 updated Diana 20090610 Corrected 20090616 -->
+<description>Specify how many rows to retrieve from the data source for previewing query results. 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.8.html" label="How to change the number of rows that appear in Preview Results"/>
 </context>
@@ -752,11 +763,18 @@ Specify a unique display name, a data type, and an expression that specifies an 
 
 <context id="Dialog_PropertyHandle_ID" title="Computed Column/Filter/Parameter">
 <!--  linked khahn 20090605 -->
-<!-- SEQUENCE: Double-click a data set>select Output Columns or anything except Query>In Define output columns, choose a column >choose Edit> This help topic does not work properly. Deleted most of the original verbage that applied to other selections. updated 20090611  -->
+<!-- SEQUENCE: Double-click a data set>select Output Columns or anything except Query>In Define output columns, choose a column >choose Edit> This help topic does not work properly. Deleted most of the original verbage that applied to other selections. updated 20090611 Reverted back to the original verbage, and edited it. khahn 20090616  -->
 <description>
-Set or modify a property of a data set. To create a computed column, provide a name, data type, and expression. All report items that use the data set can use the computed column. 
+Set or modify a property of a data set. 
+
+To create a computed column, provide an arbitrary name and a data type. Specify how to compute the column using an aggregation function or an expression, or both. Specify any filtering required for the computation. 
+
+To create a filter, select a column or build an expression that specifies the data to filter. Select a conditional operator and values for the operation. Use this type of filter when the data source does not support filtering in the query.
+
+To create a parameter to filter the results of a query, provide a name, data type, and direction. Direction can be Input, Output, or Input/Output. Only stored procedures support Output and Input/Output. Provide a default value for the parameter or link it to a report parameter.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.6.html" label="How to add a computed field to a data set"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/parameter.12.1.html" label="How to define a data set parameter"/>
 </context>
 
 
@@ -803,7 +821,7 @@ Specify the display text and value of the parameter.
 </context>
 
 <context id="CubeBuilderDataSetSelectionPage_ID" title="Data Set Selection Page ">
-<!--  Cannot find this topic. linked khahn 20090605 -->
+<!--  SEQUENCE: In Data Explorer, double-click a data cube. Choose Dataset. Choose ? linked khahn 20090616 -->
 <description>
 Select a data set to go into the group or summary categories.
 </description>
@@ -819,7 +837,7 @@ Create a group.
 </context>
 
 <context id="CubeBuilderLinkGroupsPage_ID" title="Link Groups Page">
-<!--  This topic does not seem to be appearing in the Help. File a bug. linked khahn 20090605 -->
+<!--  In Data Explorer, double-click a data cube. Choose Link Groups. Choose ? linked khahn 20090616 -->
 <description>
 Create a group link.
 </description>
@@ -917,6 +935,7 @@ To hide or display sums, deselect or select subtotals and grand totals in the cr
 <description>
 Select the group levels to include in the cube.
 </description>
+
 </context>
 
 <context id="CubeBuilderDateLevelDialog_ID" title="Edit Date Level">
