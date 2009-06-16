@@ -4,7 +4,7 @@
 
 <contexts>
 <context id="dummy_outer_container" title="BIRT Chart contexts">
-Contexts for chart items identified by Actuate, 06/2009</description>
+<description>Contexts for chart items identified by Actuate, 06/2009</description>
 </context>
 <context id="AreaFormat_ID" title="Area Format">
 <!-- updated JAHT 20090614 -->
@@ -194,76 +194,69 @@ Then, in Slice Label, type text to use as the category label for the combined sl
 </context>
 
 <context id="FormatBarChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Bar Charts">
-<!-- SEQUENCE: On chart wizard for a bar chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard for a bar chart, Format Chart->on left, expand Series->select Value (Y) Series JAHT 20090615 -->
 <description>
 The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.<br />
-Use this page to format the bars and bar outlines in the chart.
-
-Note that you can select "Show Curve Fitting Line" to add a curve fitting line in addition to the bars.
-
-Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+Use this page to format the bar outlines in the chart.<br />
+You can add labels and a curve-fitting line to value series for this chart type.<br />
+Use <b>Labels</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
 
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="FormatAreaChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Area Charts">
-<!-- SEQUENCE: On chart wizard for an area chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard for an area chart, Format Chart->on left, expand Series->select Value (Y) Series JAHT 20090615 -->
 <description>
 The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.<br />
-
-Use this page to format the properties of the "value" series (y axis) of the chart.
-
-Note that you can select "Show Lines as Curves" to curve the line between data points, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
-
-Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+Use this page to format the line that delimits the value series area in the chart.<br />
+You can add labels, markers, and a curve-fitting line to value series for this chart type.<br />
+Use <b>Labels</b>, <b>Markers</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
 
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="FormatLineChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Line Charts">
-<!-- SEQUENCE: On chart wizard for a line chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard for a line chart, Format Chart->on left, expand Series->select Value (Y) Series JAHT 20090615 -->
 <description>
 The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.<br />
-Use this page to format the properties of the "value" series (y axis) of the chart.
-
-Note that you can select "Show Lines as Curves" to replace straight lines between data points with curves, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
-
-Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+Use this page to format the line in the chart.<br />
+To join the line when there are no values, for example, for a day in a category series of dates, select Connect Missing Values. <br />
+You can add labels, markers, and a curve-fitting line to value series for this chart type.<br />
+Use <b>Labels</b>, <b>Markers</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
 
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="FormatScatterChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Scatter Charts">
-<!-- SEQUENCE: On chart wizard for a scatter chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard for a scatter chart, Format Chart->on left, expand Series->select Value (Y) Series JAHT 20090615 -->
 <description>
 The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.<br />
-Use this page to format the properties of the "value" series (y axis) of the chart, including markers and lines.
-
-Note that you can select "Show Lines as Curves" to use curved lines between data points, and "Show Curve Fitting Line" to add a curve fitting line to the chart.
-
-Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+Use this page to format the markers in the chart.<br />
+If you select Visible in Line, a scatter chart behaves similarly to a line chart. <br />
+You can add labels, markers, and a curve-fitting line to value series for this chart type.<br />
+Use <b>Labels</b>, <b>Markers</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
 
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="FormatStockChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Stock Charts">
-<!-- SEQUENCE: On chart wizard for a stock chart, on left, expand Series->select Value (Y) Series JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard for a stock chart, Format Chart->on left, expand Series->select Value (Y) Series JAHT 20090615 -->
 <description>
 The y-axis displays values for a value series. Its values must be numeric.<br />
-Use this page to format the properties of the "value" series of the chart, including box color and candlestick line properties.
-
-Use the <b>Interactivity</b> and <b>Series Palette</b> buttons to further refine the formatting of the value series.
+Use this page to format the box color and candlestick line in the chart.<br />
+You can add labels and a curve-fitting line to value series for this chart type.<br />
+Use <b>Labels</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
 
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
 <context id="FormatPieChartYSeries_ID" title="Edit Chart and New Chart: Value Series, Pie Charts">
-<!-- SEQUENCE: On chart wizard for a pie chart, on left, expand Series->select Value Series JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard for a pie chart, Format Chart->on left, expand Series->select Value Series JAHT 20090614 -->
 <description>
 The value series determines the size of slices in a pie chart. Its values must be numeric.<br />
 </description>
@@ -273,11 +266,11 @@ The value series determines the size of slices in a pie chart. Its values must b
 </context>
 
 <context id="FormatMeterChartYSeries_ID" title="Edit Chart and New Chart: Value Series, Meter Charts">
-<!-- SEQUENCE: On chart wizard for a meter chart, on left, expand Series->select Value Series JAHT 20090614 -->
+<!-- SEQUENCE: On chart wizard for a meter chart, Format Chart->on left, expand Series->select Value Series JAHT 20090615 -->
 <description>
 The value series determines the position of the needle in a meter chart. Its values must be numeric.<br />
-Use this page to format the properties of the "value" series of the chart, including the configuration of the dial and the needle.
-
+Use this page to format the appearance of the dial and the needle.<br />
+You can add labels to value series for this chart type.<br />
 Use the <b>Dial Labels</b>, <b>Needles</b>, <b>Regions</b>, <b>Ticks</b>, <b>Scale</b>, and <b>Interactivity</b> buttons to further refine the formatting of the value series.
 </description>
 
