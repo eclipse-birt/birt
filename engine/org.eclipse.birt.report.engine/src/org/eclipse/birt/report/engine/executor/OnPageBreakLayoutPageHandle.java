@@ -171,7 +171,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 		{
 			onPageBreakVisitor.onPageBreak( content );
 		}
-		onPageBreakVisitor.onPageStart( pageContent, contents );
+		onPageBreakVisitor.onPageEnd( pageContent, contents );
 		onPageBreakVisitor.onPageEnd( report, pageContent, contents );
 		contents.clear( );
 		pageContent = null;
