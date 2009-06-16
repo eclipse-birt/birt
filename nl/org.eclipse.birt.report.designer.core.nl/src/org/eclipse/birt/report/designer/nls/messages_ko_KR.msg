@@ -608,13 +608,6 @@ JointDataSetPage.pageDescription=조인 데이터 집합 정의
 JointDataSetPage.query=쿼리
 
 ###########################################################
-#DerivedDataSet properties
-
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
-
-###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=계산된 열을 정의합니다. 
@@ -1019,11 +1012,6 @@ DeleteGroupAction.stackMsg.deleteGroup=그룹 삭제
 #EditLabelAction properties
 
 EditLabelAction.text=편집(&E)
-EditorDragGuidePolicy.pixels.label=픽셀
-EditorGuide.bottom.label=아래쪽:
-EditorGuide.left.label=왼쪽:
-EditorGuide.right.label=오른쪽:
-EditorGuide.top.label=위쪽:
 
 ###########################################################
 #Element properties
@@ -3389,7 +3377,6 @@ SchematicContextMenuProvider.Menu.Style=스타일(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=스타일 적용(&P)
 SchematicContextMenuProvider.Menu.Theme=테마(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=테마 적용(&P)
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3402,12 +3389,6 @@ SchematicContextMenuProvider.Menu.DeleteStyle=스타일 제거(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=그룹 삭제(&L)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=그룹 머리글/바닥글 삽입(&H)
 SchematicContextMenuProvider.Menu.NewStyle=새 스타일(&Y)
-
-###########################################################
-#ApplyLayoutPreferenceAction properties
-
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties

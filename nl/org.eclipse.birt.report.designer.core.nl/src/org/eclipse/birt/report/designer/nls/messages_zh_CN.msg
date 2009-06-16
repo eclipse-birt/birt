@@ -608,13 +608,6 @@ JointDataSetPage.pageDescription=定义联接数据集
 JointDataSetPage.query=查询
 
 ###########################################################
-#DerivedDataSet properties
-
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
-
-###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=定义计算列。 
@@ -1019,11 +1012,6 @@ DeleteGroupAction.stackMsg.deleteGroup=删除组
 #EditLabelAction properties
 
 EditLabelAction.text=编辑(&E)
-EditorDragGuidePolicy.pixels.label=像素
-EditorGuide.bottom.label=底部:
-EditorGuide.left.label=左:
-EditorGuide.right.label=右:
-EditorGuide.top.label=顶部:
 
 ###########################################################
 #Element properties
@@ -3389,7 +3377,6 @@ SchematicContextMenuProvider.Menu.Style=样式(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.Theme=主题(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=应用主题(&P)
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3402,12 +3389,6 @@ SchematicContextMenuProvider.Menu.DeleteStyle=删除样式(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=删除组(&L)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=插入组页眉/页脚(&H)
 SchematicContextMenuProvider.Menu.NewStyle=新样式(&Y)
-
-###########################################################
-#ApplyLayoutPreferenceAction properties
-
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties

@@ -608,13 +608,6 @@ JointDataSetPage.pageDescription=Definir conjunto de datos de combinación
 JointDataSetPage.query=Consulta
 
 ###########################################################
-#DerivedDataSet properties
-
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
-
-###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Definir columnas procesadas. 
@@ -1019,11 +1012,6 @@ DeleteGroupAction.stackMsg.deleteGroup=Eliminar grupo
 #EditLabelAction properties
 
 EditLabelAction.text=&Editar
-EditorDragGuidePolicy.pixels.label=píxeles
-EditorGuide.bottom.label=Inferior:
-EditorGuide.left.label=Izquierdo:
-EditorGuide.right.label=Derecho:
-EditorGuide.top.label=Superior:
 
 ###########################################################
 #Element properties
@@ -3389,7 +3377,6 @@ SchematicContextMenuProvider.Menu.Style=Es&tilo
 SchematicContextMenuProvider.Menu.Style.Apply=A&plicar estilo
 SchematicContextMenuProvider.Menu.Theme=Te&ma
 SchematicContextMenuProvider.Menu.Theme.Apply=A&plicar tema
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3402,12 +3389,6 @@ SchematicContextMenuProvider.Menu.DeleteStyle=Quitar e&stilo
 SchematicContextMenuProvider.Menu.DeleteGroup=E&liminar grupo
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insertar e&ncabezado/pie de página de grupo
 SchematicContextMenuProvider.Menu.NewStyle=Nuevo Est%ilo
-
-###########################################################
-#ApplyLayoutPreferenceAction properties
-
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties

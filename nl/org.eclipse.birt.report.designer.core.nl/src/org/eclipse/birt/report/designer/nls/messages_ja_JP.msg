@@ -608,13 +608,6 @@ JointDataSetPage.pageDescription=ジョイントデータセットの定義
 JointDataSetPage.query=クエリ
 
 ###########################################################
-#DerivedDataSet properties
-
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
-
-###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=計算列の定義。
@@ -1019,11 +1012,6 @@ DeleteGroupAction.stackMsg.deleteGroup=グループの削除
 #EditLabelAction properties
 
 EditLabelAction.text=編集(&E)
-EditorDragGuidePolicy.pixels.label=ピクセル
-EditorGuide.bottom.label=下 :
-EditorGuide.left.label=左 :
-EditorGuide.right.label=右 :
-EditorGuide.top.label=上 :
 
 ###########################################################
 #Element properties
@@ -3389,7 +3377,6 @@ SchematicContextMenuProvider.Menu.Style=スタイル(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=スタイルの適用(&P)
 SchematicContextMenuProvider.Menu.Theme=テーマ(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=テーマの適用(&P)
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3402,12 +3389,6 @@ SchematicContextMenuProvider.Menu.DeleteStyle=スタイルの削除(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=グループの削除(&L)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=グループヘッダ/フッタの挿入(&H)
 SchematicContextMenuProvider.Menu.NewStyle=スタイルの新規作成(&Y)
-
-###########################################################
-#ApplyLayoutPreferenceAction properties
-
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties

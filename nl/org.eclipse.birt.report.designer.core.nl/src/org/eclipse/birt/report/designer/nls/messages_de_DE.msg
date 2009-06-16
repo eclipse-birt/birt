@@ -608,13 +608,6 @@ JointDataSetPage.pageDescription=Verknüpfungsdatensatz definieren
 JointDataSetPage.query=Abfrage
 
 ###########################################################
-#DerivedDataSet properties
-
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
-
-###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Geben Sie die berechneten Spalten an. 
@@ -1019,11 +1012,6 @@ DeleteGroupAction.stackMsg.deleteGroup=Gruppe löschen
 #EditLabelAction properties
 
 EditLabelAction.text=&Bearbeiten
-EditorDragGuidePolicy.pixels.label=Pixel
-EditorGuide.bottom.label=Unten:
-EditorGuide.left.label=Links:
-EditorGuide.right.label=Rechts:
-EditorGuide.top.label=Oben:
 
 ###########################################################
 #Element properties
@@ -3389,7 +3377,6 @@ SchematicContextMenuProvider.Menu.Style=S&til
 SchematicContextMenuProvider.Menu.Style.Apply=Stil an&wenden
 SchematicContextMenuProvider.Menu.Theme=The&ma
 SchematicContextMenuProvider.Menu.Theme.Apply=Thema ver&wenden
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3402,12 +3389,6 @@ SchematicContextMenuProvider.Menu.DeleteStyle=&Stil entfernen
 SchematicContextMenuProvider.Menu.DeleteGroup=Gruppe &löschen
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Gruppen&kopf-/fußzeile einfügen
 SchematicContextMenuProvider.Menu.NewStyle=Neuer St&il
-
-###########################################################
-#ApplyLayoutPreferenceAction properties
-
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties

@@ -608,13 +608,6 @@ JointDataSetPage.pageDescription=Définir le jeu de données de jointure
 JointDataSetPage.query=Requête
 
 ###########################################################
-#DerivedDataSet properties
-
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
-
-###########################################################
 #DataSetComputedColumnsPage properties
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Définissez les colonnes de calcul. 
@@ -1019,11 +1012,6 @@ DeleteGroupAction.stackMsg.deleteGroup=Supprimer le groupe
 #EditLabelAction properties
 
 EditLabelAction.text=&Modifier
-EditorDragGuidePolicy.pixels.label=pixels
-EditorGuide.bottom.label=Bas :
-EditorGuide.left.label=Gauche :
-EditorGuide.right.label=Droite :
-EditorGuide.top.label=Haut :
 
 ###########################################################
 #Element properties
@@ -3389,7 +3377,6 @@ SchematicContextMenuProvider.Menu.Style=St&yle
 SchematicContextMenuProvider.Menu.Style.Apply=A&ppliquer un style
 SchematicContextMenuProvider.Menu.Theme=Thè&me
 SchematicContextMenuProvider.Menu.Theme.Apply=A&ppliquer le thème
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3402,12 +3389,6 @@ SchematicContextMenuProvider.Menu.DeleteStyle=Supprimer le &style
 SchematicContextMenuProvider.Menu.DeleteGroup=Supprimer &le groupe
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insérer &En-tête/Pied de page de groupe
 SchematicContextMenuProvider.Menu.NewStyle=Nouveau st&yle
-
-###########################################################
-#ApplyLayoutPreferenceAction properties
-
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
 
 ###########################################################
 #SectionProcess properties
