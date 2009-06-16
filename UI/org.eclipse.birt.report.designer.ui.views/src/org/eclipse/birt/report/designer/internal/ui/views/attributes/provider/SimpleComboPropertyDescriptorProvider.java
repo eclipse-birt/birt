@@ -117,7 +117,7 @@ public class SimpleComboPropertyDescriptorProvider extends
 					}
 					catch ( StyleSheetException e )
 					{
-						// TODO Auto-generated catch block
+						e.printStackTrace( );
 						continue;
 					}
 
@@ -199,6 +199,20 @@ public class SimpleComboPropertyDescriptorProvider extends
 
 		super.save( value );
 
+	}
+
+	@Override
+	public Object load( )
+	{
+		Object obj = super.load( );
+		String[] styleNamesArray = getAllStyles( );
+		String[] modifiedArray = getModifiedStyles( );
+		int index = Arrays.asList( styleNamesArray ).indexOf( obj );
+		if ( index >= 0 )
+		{
+			obj = modifiedArray[index];
+		}
+		return obj;
 	}
 
 }
