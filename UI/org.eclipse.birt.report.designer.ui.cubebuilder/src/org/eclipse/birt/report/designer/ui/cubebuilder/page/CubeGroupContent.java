@@ -595,8 +595,8 @@ public class CubeGroupContent extends Composite implements Listener
 													.rollback( );
 										}
 									}
-
-									stack.commit( );
+									else
+										stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
@@ -642,7 +642,8 @@ public class CubeGroupContent extends Composite implements Listener
 													.rollback( );
 										}
 									}
-									stack.commit( );
+									else
+										stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
@@ -682,7 +683,8 @@ public class CubeGroupContent extends Composite implements Listener
 													.rollback( );
 										}
 									}
-									stack.commit( );
+									else
+										stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
@@ -744,7 +746,8 @@ public class CubeGroupContent extends Composite implements Listener
 													.rollback( );
 										}
 									}
-									stack.commit( );
+									else
+										stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
@@ -802,7 +805,8 @@ public class CubeGroupContent extends Composite implements Listener
 													.rollback( );
 										}
 									}
-									stack.commit( );
+									else
+										stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
@@ -922,11 +926,8 @@ public class CubeGroupContent extends Composite implements Listener
 												}
 											}
 											else
-											{
 												stack.commit( );
-											}
 										}
-										// }
 									}
 									else
 									{
@@ -948,7 +949,8 @@ public class CubeGroupContent extends Composite implements Listener
 														.rollback( );
 											}
 										}
-										stack.commit( );
+										else
+											stack.commit( );
 									}
 								}
 								catch ( SemanticException e )
