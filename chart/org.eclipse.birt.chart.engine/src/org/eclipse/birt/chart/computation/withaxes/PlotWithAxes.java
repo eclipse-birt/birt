@@ -138,7 +138,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	 * @param ax
 	 * @return
 	 */
-	protected static final int getAxisType( Axis ax )
+	static final int getAxisType( Axis ax )
 	{
 		int iAxisType = UNDEFINED;
 		final AxisType at = ax.getType( );

@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.internal.factory;
 import java.text.FieldPosition;
 import java.util.Date;
 
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
+
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
@@ -70,9 +72,11 @@ public class DateFormatWrapperFactory
 						locale ) );
 				break;
 			case Calendar.MONTH :
+			case GroupingUnitType.QUARTERS :
 				df = new MonthDateFormat( locale );
 				break;
 			case Calendar.DATE :
+			case Calendar.WEEK_OF_YEAR :
 				df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.LONG,
 						locale ) );
 				break;

@@ -42,7 +42,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
@@ -612,19 +611,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 		AutoScale scPrimaryBase = null;
 		dStart = dX;
 		dEnd = dX + dW;
-		Scale sc = context.axPrimaryBase.getScale( );
 		scPrimaryBase = AutoScale.computeScale( ids,
 				context.oaxPrimaryBase,
 				context.dsiPrimaryBase,
 				context.iPrimaryAxisType,
 				dStart,
 				dEnd,
-				sc,
-				context.axPrimaryBase.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
 				xZoom,
-				0 );
+				0,
+				this );
 		context.oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
 		// AXIS
 
@@ -632,19 +629,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 		AutoScale scAncillaryBase = null;
 		dStart = dZ;
 		dEnd = dZ + dWZ;
-		sc = context.axAncillaryBase.getScale( );
 		scAncillaryBase = AutoScale.computeScale( ids,
 				context.oaxAncillaryBase,
 				context.dsiAncillary,
 				context.iAncillaryAxisType,
 				dStart,
 				dEnd,
-				sc,
-				context.axAncillaryBase.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
 				zZoom,
-				0 );
+				0,
+				this );
 		context.oaxAncillaryBase.set( scAncillaryBase ); // UPDATE SCALE ON
 		// ANCILLARY-BASE AXIS
 
@@ -652,19 +647,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 		AutoScale scPrimaryOrthogonal = null;
 		dStart = dY;
 		dEnd = dY + dH;
-		sc = context.axPrimaryOrthogonal.getScale( );
 		scPrimaryOrthogonal = AutoScale.computeScale( ids,
 				context.oaxPrimaryOrthogonal,
 				context.dsiOrthogonal,
 				context.iOrthogonalAxisType,
 				dStart,
 				dEnd,
-				sc,
-				context.axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
 				yZoom,
-				0 );
+				0,
+				this );
 		context.oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
 
 

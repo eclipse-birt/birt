@@ -28,6 +28,8 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.factory.RunTimeContext.StateKey;
+import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
+import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -52,7 +54,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.util.ChartUtil;
 
-import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.util.Calendar;
 
 /**
  * A helper class for Legend computation.
@@ -487,7 +489,6 @@ public final class LegendBuilder implements IConstants
 		// 2. ONE SERIES PER ARRAYLIST
 		// 3. ALL OTHERS
 
-		final Legend lg = cm.getLegend( );
 		LegendData lgData = new LegendData( xs, cm, seda, rtc );
 
 		// Get maximum block width/height available
@@ -696,7 +697,6 @@ public final class LegendBuilder implements IConstants
 					lgData.cm,
 					lgData.seda );
 			this.dfCache = new ChartUtil.CacheDecimalFormat( lgData.rtc.getULocale( ) );
-
 		}
 
 		public static ContentProvider newInstance( LegendData lgData )
@@ -728,9 +728,10 @@ public final class LegendBuilder implements IConstants
 
 		protected String format( Object oText ) throws ChartException
 		{
-			// Format numerical category data with default pattern if no format
+			// Format numerical and datetime category data with default pattern
+			// if no format
 			// specified
-			DecimalFormat df = null;
+			Object df = null;
 			if ( fs == null && oText instanceof Number )
 			{
 				String sPattern = ValueFormatter.getNumericPattern( ( (Number) oText ).doubleValue( ) );
@@ -788,6 +789,7 @@ public final class LegendBuilder implements IConstants
 	private static class CategoryContentProvider extends ContentProvider
 	{
 
+		private IDateFormatWrapper defaultDateFormat = null;
 		private SeriesDefinition sdBase = null;
 		private DataSetIterator dsiBase = null;
 		private Series seBase = null;
@@ -806,6 +808,15 @@ public final class LegendBuilder implements IConstants
 			dsiBase = createDataSetIterator( seBase, lgData.cm );
 
 			fs = lgData.cm.getLegend( ).getFormatSpecifier( );
+
+			int iDateTimeUnit = ChartUtil.computeDateTimeCategoryUnit( lgData.cm,
+					dsiBase );
+
+			if ( iDateTimeUnit != IConstants.UNDEFINED )
+			{
+				defaultDateFormat = DateFormatWrapperFactory.getPreferredDateFormat( iDateTimeUnit,
+						lgData.rtc.getULocale( ) );
+			}
 
 			boolean bDataReverse = bNeedInvert;
 			if ( lgData.cm instanceof ChartWithAxes )
@@ -867,7 +878,23 @@ public final class LegendBuilder implements IConstants
 			}
 		}
 
-
+		@Override
+		protected String format( Object oText ) throws ChartException
+		{
+			if ( defaultDateFormat != null
+					&& fs == null
+					&& oText instanceof Calendar )
+			{
+				return ValueFormatter.format( oText,
+						fs,
+						lgData.rtc.getULocale( ),
+						defaultDateFormat );
+			}
+			else
+			{
+				return super.format( oText );
+			}
+		}
 	}
 
 	private static class ValueContentProvider extends ContentProvider

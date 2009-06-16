@@ -26,13 +26,16 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
+import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.GObjectFactory;
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.Polygon;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.internal.datafeed.GroupingUtil;
 import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.model.Chart;
@@ -1920,4 +1923,35 @@ public class ChartUtil
 		
 		return null;
 	}
+
+	/**
+	 * 
+	 * @param cm
+	 * @param dsi
+	 * @return
+	 */
+	public static int computeDateTimeCategoryUnit( Chart cm, DataSetIterator dsi )
+	{
+		int iDateTimeUnit = IConstants.UNDEFINED;
+
+		SeriesDefinition sdBase = ChartUtil.getBaseSeriesDefinitions( cm )
+				.get( 0 );
+		SeriesGrouping grouping = sdBase.getGrouping( );
+
+		if ( grouping != null
+				&& grouping.isEnabled( )
+				&& grouping.getGroupType( ) == DataType.DATE_TIME_LITERAL )
+		{
+			iDateTimeUnit = GroupingUtil.groupingUnit2CDateUnit( grouping.getGroupingUnit( ) );
+		}
+		else if ( dsi.getDataType( ) == IConstants.DATE_TIME )
+		{
+			dsi.reset( );
+			iDateTimeUnit = CDateTime.computeUnit( dsi );
+			dsi.reset( );
+		}
+
+		return iDateTimeUnit;
+	}
+
 }

@@ -10,7 +10,7 @@ import com.ibm.icu.util.Calendar;
  * The class defines some static methods for grouping.
  * @since 2.3
  */
-final class GroupingUtil
+public final class GroupingUtil
 {
 
 	/**
@@ -47,7 +47,7 @@ final class GroupingUtil
 	 * @return CDateUnit type of integer.
      * @since 2.3, it is merged from <code>DataProcessor</code>, make the method to be a static usage.
 	 */
-	static int groupingUnit2CDateUnit( GroupingUnitType groupingUnitType )
+	public static int groupingUnit2CDateUnit( GroupingUnitType groupingUnitType )
 	{
 		if ( groupingUnitType != null )
 		{

@@ -39,7 +39,6 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
@@ -762,7 +761,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			return;
 		}
 		
-		if ( ChartUtil.hasMultipleYAxes( getModel( ) ) && ( (ChartWithAxes) getModel( ) ).isStudyLayout( ) )
+		if ( ChartUtil.hasMultipleYAxes( getModel( ) )
+				&& getModel( ).isStudyLayout( ) )
 		{
 			computeWithStudyLayout( );
 		}
@@ -850,7 +850,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		final Axis[] axa = cwa.getPrimaryBaseAxes( );
 		final Axis axPrimaryBase = axa[0];
 		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
-		Scale sc = axPrimaryBase.getScale( );
 
 		// 2. Compute primary-base-axis properties and its scale
 		AutoScale scPrimaryBase = null;
@@ -887,12 +886,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				iAxisType,
 				dStart,
 				dEnd,
-				sc,
-				axPrimaryBase.getFormatSpecifier( ),
 				rtc,
 				iDirection,
 				1,
-				iMarginPercent );
+				iMarginPercent,
+				this );
 
 		// Update scale on primary-base axis
 		oaxPrimaryBase.set( scPrimaryBase );
@@ -927,20 +925,18 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 		dStart = ( aax.areAxesSwapped( ) ) ? dX : dY + dH;
 		dEnd = ( aax.areAxesSwapped( ) ) ? dX + dW : dY;
-		sc = axPrimaryOrthogonal.getScale( );
 		scPrimaryOrthogonal = AutoScale.computeScale( ids,
 				oaxPrimaryOrthogonal,
 				dsi,
 				iAxisType,
 				dStart,
 				dEnd,
-				sc,
 				oaxPrimaryBase.getModelAxis( ).getOrigin( ),
-				axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
 				AUTO,
 				1,
-				iMarginPercent );
+				iMarginPercent,
+				this );
 
 		// Update scale on primary-orthogonal axis
 		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal );
@@ -1369,7 +1365,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		int iOrientation = aax.getOrientation( );
 		double dStart, dEnd, dAxisLabelsThickness;
 		Label laAxisTitle;
-		Scale scModel;
 
 		Series[] sea = getModel( ).getSeries( IConstants.ORTHOGONAL );
 		Map<Series, LegendItemRenderingHints> seriesRenderingHints = rtc.getSeriesRenderers( );
@@ -1387,7 +1382,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			laAxisTitle = oaxOverlay.getTitle( );
 			iAxisType = getAxisType( axaOrthogonal[j] );
 
-			scModel = axaOrthogonal[j].getScale( );
 			sc = AutoScale.computeScale( ids,
 					oaxOverlay,
 					new DataSetIterator( getMinMax( axaOrthogonal[j], iAxisType ),
@@ -1395,12 +1389,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					iAxisType,
 					dAxisStart,
 					dAxisEnd,
-					scModel,
-					axaOrthogonal[j].getFormatSpecifier( ),
 					rtc,
 					AUTO,
 					1,
-					iMarginPercent );
+					iMarginPercent,
+					this );
 
 			oaxOverlay.set( sc );
 			iv = oaxOverlay.getIntersectionValue( );
@@ -2327,13 +2320,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					iAxisType,
 					0,// dStart,
 					0,// dEnd,
-					axPrimaryOrthogonal.getScale( ),
 					axPrimaryBase.getOrigin( ),
-					axPrimaryOrthogonal.getFormatSpecifier( ),
 					rtc,
 					IConstants.AUTO,
 					1,
-					iMarginPercent );
+					iMarginPercent,
+					this );
 			// Compute the axis label height to replace the zero
 			double axisHeight = scPrimaryOrthogonal.computeAxisLabelThickness( ids,
 					axPrimaryOrthogonal.getLabel( ),
@@ -2419,21 +2411,18 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			double dEnd)
 			throws ChartException
 	{
-		Scale sc = oax.getModelAxis( ).getScale( );
 		AutoScale scValueAxis = AutoScale.computeScale( ids,
 				oax,
 				dsi,
 				iAxisType,
 				dStart,
 				dEnd,
-				sc,
 				oax.getModelAxis( ).getOrigin( ),
-				oax.getModelAxis( ).getFormatSpecifier( ),
 				rtc,
 				AUTO,
 				1,
-				iMarginPercent );
-
+				iMarginPercent,
+				this );
 		// Update scale.
 		oax.set( scValueAxis );
 		scValueAxis.resetShifts( );

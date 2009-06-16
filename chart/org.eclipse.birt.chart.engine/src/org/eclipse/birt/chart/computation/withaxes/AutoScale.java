@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.computation.EllipsisHelper;
 import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.computation.Point;
 import org.eclipse.birt.chart.computation.Rectangle;
 import org.eclipse.birt.chart.computation.RotatedRectangle;
@@ -68,6 +69,8 @@ public final class AutoScale extends Methods implements Cloneable
 	public static class ScaleInfo
 	{
 
+		public final PlotComputation plotComp;
+		public final OneAxis oax;
 		public final int type;
 		private final RunTimeContext rtc;
 		private final CacheDecimalFormat cacheNumFormat;
@@ -96,9 +99,12 @@ public final class AutoScale extends Methods implements Cloneable
 		private Object oMinimumFixed;
 		private Object oMaximumFixed;
 
-		public ScaleInfo( int iType, RunTimeContext rtc, FormatSpecifier fs,
+		public ScaleInfo( PlotComputation plotComp, int iType,
+				RunTimeContext rtc, FormatSpecifier fs,
 				OneAxis ax, int iScaleDirection, boolean bExpandMinMax )
 		{
+			this.plotComp = plotComp;
+			this.oax = ax;
 			this.type = iType;
 			this.rtc = rtc;
 			this.fs = fs;
@@ -1638,10 +1644,13 @@ public final class AutoScale extends Methods implements Cloneable
 		DataSetIterator dsi = getData( );
 		dsi.reset( );
 
-		final int iDateTimeUnit = ( info.type == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
-				: IConstants.UNDEFINED;
+		int iDateTimeUnit = IConstants.UNDEFINED;
 
-		dsi.reset( );
+		if ( info.type == IConstants.DATE_TIME )
+		{
+			iDateTimeUnit = ChartUtil.computeDateTimeCategoryUnit( info.plotComp.getModel( ),
+					dsi );
+		}
 
 		CateLabVisTester tester = this.createCateLabVisTester( xs,
 				la,
@@ -1906,8 +1915,8 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
-			Scale scModel, FormatSpecifier fs, RunTimeContext rtc,
-			int direction, double zoomFactor, int iMarginPercent )
+			RunTimeContext rtc, int direction, double zoomFactor,
+			int iMarginPercent, PlotComputation plotComp )
 			throws ChartException
 	{
 		return computeScale( xs,
@@ -1916,13 +1925,12 @@ public final class AutoScale extends Methods implements Cloneable
 				iType,
 				dStart,
 				dEnd,
-				scModel,
 				null,
-				fs,
 				rtc,
 				direction,
 				zoomFactor,
-				iMarginPercent );
+				iMarginPercent,
+				plotComp );
 
 	}
 
@@ -1934,9 +1942,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param iType
 	 * @param dStart
 	 * @param dEnd
-	 * @param scModel
 	 * @param axisOrigin
-	 * @param fs
 	 * @param rtc
 	 * @param direction
 	 * @param zoomFactor
@@ -1949,10 +1955,12 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
-			Scale scModel, AxisOrigin axisOrigin, FormatSpecifier fs,
-			RunTimeContext rtc, int direction, double zoomFactor,
-			int iMarginPercent ) throws ChartException
+			AxisOrigin axisOrigin, RunTimeContext rtc, int direction,
+			double zoomFactor, int iMarginPercent, PlotComputation plotComp )
+			throws ChartException
 	{
+		final Scale scModel = ax.getModelAxis( ).getScale( );
+		final FormatSpecifier fs = ax.getFormatSpecifier( );
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
 		final int iOrientation = ax.getOrientation( );
@@ -2000,20 +2008,6 @@ public final class AutoScale extends Methods implements Cloneable
 						bIsPercent );
 			}
 			
-
-			// // modify min and max to include zero point
-			// if ( dMinValue * dMaxValue > 0 )
-			// {
-			// if ( dMinValue > 0)
-			// {
-			// dMinValue = 0d;
-			// }
-			// else
-			// {
-			// dMaxValue = 0d;
-			// }
-			// }
-
 			// if minimum value is set , then take it
 			if ( oMinimum != null && oMinimum instanceof NumberDataElement )
 			{
@@ -2043,7 +2037,8 @@ public final class AutoScale extends Methods implements Cloneable
 					dStep = dPrecision;
 				}
 			}
-			ScaleInfo info = new ScaleInfo( iType,
+			ScaleInfo info = new ScaleInfo( plotComp,
+					iType,
 					rtc,
 					fs,
 					ax,
@@ -2088,7 +2083,8 @@ public final class AutoScale extends Methods implements Cloneable
 		// the following code didn't change in factor enhancement:210913
 		if ( ( iType & TEXT ) == TEXT || ax.isCategoryScale( ) )
 		{
-			ScaleInfo info = new ScaleInfo( iType,
+			ScaleInfo info = new ScaleInfo( plotComp,
+					iType,
 					rtc,
 					fs,
 					ax,
@@ -2171,7 +2167,8 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 			}
-			ScaleInfo info = new ScaleInfo( iType,
+			ScaleInfo info = new ScaleInfo( plotComp,
+					iType,
 					rtc,
 					fs,
 					ax,
@@ -2244,7 +2241,8 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 			}
 
-			ScaleInfo info = new ScaleInfo( iType,
+			ScaleInfo info = new ScaleInfo( plotComp,
+					iType,
 					rtc,
 					fs,
 					ax,
@@ -2349,7 +2347,8 @@ public final class AutoScale extends Methods implements Cloneable
 			cdtMinAxis.clearBelow( iUnit );
 			cdtMaxAxis.clearBelow( iUnit );
 
-			ScaleInfo info = new ScaleInfo( DATE_TIME,
+			ScaleInfo info = new ScaleInfo( plotComp,
+					DATE_TIME,
 					rtc,
 					fs,
 					ax,
