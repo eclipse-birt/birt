@@ -1336,9 +1336,8 @@ public class BirtViewerReportService implements IViewerReportService
 				: scalarParamHandle.getValueExpr( );
 		int controlType = engineParam.getControlType( );
 		boolean hidden = engineParam.isHidden( );
-		boolean allowNull = !engineParam.isRequired( );
-		boolean allowBlank = ( engineParam.getDataType( ) == IScalarParameterDefn.TYPE_STRING || engineParam
-				.getDataType( ) == IScalarParameterDefn.TYPE_ANY );
+		boolean allowNull = engineParam.allowNull( );
+		boolean allowBlank = engineParam.allowBlank( );
 		boolean isRequired = engineParam.isRequired( );
 		boolean mustMatch = scalarParamHandle == null ? false
 				: scalarParamHandle.isMustMatch( );
