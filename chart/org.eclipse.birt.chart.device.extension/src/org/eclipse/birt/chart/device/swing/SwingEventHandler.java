@@ -21,7 +21,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -640,6 +639,10 @@ public final class SwingEventHandler
 	{
 		TooltipValue tv = (TooltipValue) ac.getValue( );
 
+		if ( tv.getText( ) == null )
+		{
+			return;
+		}
 		// Handle character conversion of \n in the tooltip
 		String tooltip = tv.getText( ).replaceAll( "\\\n", "<br>" ); //$NON-NLS-1$//$NON-NLS-2$
 		if ( !tooltip.equals( tv.getText( ) ) )
