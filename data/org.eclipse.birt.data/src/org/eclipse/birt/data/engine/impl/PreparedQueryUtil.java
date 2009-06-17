@@ -171,7 +171,7 @@ public class PreparedQueryUtil
 							IOdaDataSetDesign.class,
 							IQueryDefinition.class );
 					Object o = optimizationUtil.newInstance( );
-					m.invoke( o,
+					querySpec = (QuerySpecification) m.invoke( o,
 							dataEngine.getContext( ).getScriptContext( ),
 							dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) )
 									.getExtensionID( ),
