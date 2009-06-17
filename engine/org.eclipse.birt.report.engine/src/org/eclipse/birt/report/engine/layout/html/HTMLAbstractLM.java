@@ -438,16 +438,16 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 			if ( childExecutor != null )
 			{
 				IContent childContent = childExecutor.execute( );
-				if ( ! executor.hasNextChild( ) )
-				{
-					childContent.setLastChild( true );
-				}
-				else
-				{
-					childContent.setLastChild( false );
-				}
 				if ( childContent != null )
 				{
+					if ( ! executor.hasNextChild( ) )
+					{
+						childContent.setLastChild( true );
+					}
+					else
+					{
+						childContent.setLastChild( false );
+					}
 					if ( !content.getChildren( ).contains( childContent ) )
 					{
 						content.getChildren( ).add( childContent );
