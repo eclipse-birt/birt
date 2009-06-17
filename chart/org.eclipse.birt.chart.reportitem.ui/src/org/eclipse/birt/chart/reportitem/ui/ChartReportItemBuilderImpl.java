@@ -22,6 +22,12 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Interactivity;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
@@ -46,7 +52,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -161,6 +166,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 			final Chart cmClone = ( cm == null ) ? null : cm.copyInstance( );
+			if ( cmClone != null )
+			{
+				maintainCompatibility( cmClone );
+			}
 			
 			// This array is for storing the latest chart data before pressing
 			// apply button
@@ -279,9 +288,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						contextResult.getModel( ),
 						contextResult.getOutputFormat( ),
 						contextResult.isInheritColumnsOnly( ) );
-				if ( dataProvider.isPartChart( ) && ChartXTabUtil.getXtabContainerCell( extendedHandle ) instanceof AggregationCellHandle )
+				if ( dataProvider.isPartChart( ) )
 				{
-					ChartXTabUIUtil.updateXTabForAxis( (AggregationCellHandle) ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(ChartWithAxes) contextResult.getModel( ) );
@@ -301,10 +310,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						(Chart) applyData[0],
 						(String) applyData[1],
 						(Boolean) applyData[2] );
-				if ( dataProvider.isPartChart( ) && ChartXTabUtil.getXtabContainerCell( extendedHandle ) instanceof AggregationCellHandle )
+				if ( dataProvider.isPartChart( ) )
 				{
 					commandStack.startTrans( TRANS_NAME );
-					ChartXTabUIUtil.updateXTabForAxis( (AggregationCellHandle) ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(ChartWithAxes) applyData[0] );
@@ -329,14 +338,34 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			isChartWizardOpen = false;
 		}
 	}
+	
+	private void maintainCompatibility( Chart cm )
+	{
+		// Revise chart version to current.
+		ChartUtil.reviseVersion( cm );
+		
+		// Make it compatible with old model
+		if ( cm.getInteractivity( ) == null )
+		{
+			Interactivity interactivity = InteractivityImpl.create( );
+			interactivity.eAdapters( ).addAll( cm.eAdapters( ) );
+			cm.setInteractivity( interactivity );
+		}
+		if ( cm.getLegend( ).getSeparator( ) == null )
+		{
+			LineAttributes separator = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+					LineStyle.SOLID_LITERAL,
+					1 );
+			separator.setVisible( true );
+			separator.eAdapters( ).addAll( cm.eAdapters( ) );
+			cm.getLegend( ).setSeparator( separator );
+		}
+	}
 
 	private void updateModel( ExtendedItemHandle eih, ChartWizard chartBuilder,
 			ChartReportItemImpl crii, Chart cmOld, Chart cmNew,
 			String outputFormat, boolean bInheritColumnsOnly )
-	{
-		// Revise chart version to current.
-		ChartUtil.reviseVersion( cmNew );
-		
+	{		
 		try
 		{
 			// update the output format property information.
@@ -458,6 +487,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getRegisteredKeys()
 	 */
+	@SuppressWarnings("unchecked")
 	public final List getRegisteredKeys( )
 	{
 		return extendedHandle.getModuleHandle( ).getMessageKeys( );

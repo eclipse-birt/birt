@@ -357,7 +357,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			}
 			return list;
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	private static boolean isEmptyInAllGrandTotalCells(
@@ -427,6 +427,10 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			ExtendedItemHandle hostChartHandle, boolean bTransOld,
 			ChartWithAxes cmNew ) throws BirtException
 	{
+		if ( cell == null )
+		{
+			return;
+		}
 		boolean bTransNew = cmNew.isTransposed( );
 		if ( bTransOld != bTransNew )
 		{
@@ -641,8 +645,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 
 	private static boolean isYAxisVisible( ChartWithAxes cwa )
 	{
-		Axis yAxis = (Axis) ( (Axis) cwa.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 );
+		Axis yAxis = cwa.getAxes( ).get( 0 ).getAssociatedAxes( ).get( 0 );
 		return yAxis.getLineAttributes( ).isVisible( );
 	}
 

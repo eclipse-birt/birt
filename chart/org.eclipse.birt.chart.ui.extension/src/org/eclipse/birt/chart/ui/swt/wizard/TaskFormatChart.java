@@ -26,12 +26,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.Interactivity;
-import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
@@ -567,8 +561,6 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	public void createControl( Composite parent )
 	{
-		manipulateCompatible( );
-
 		// Initialize all components.
 		initControl( parent );
 
@@ -1041,28 +1033,6 @@ public class TaskFormatChart extends TreeCompoundTask implements
 					addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 				}
 			}
-		}
-	}
-
-	private void manipulateCompatible( )
-	{
-		// Make it compatible with old model
-		if ( getCurrentModelState( ).getInteractivity( ) == null )
-		{
-			Interactivity interactivity = InteractivityImpl.create( );
-			interactivity.eAdapters( )
-					.addAll( getCurrentModelState( ).eAdapters( ) );
-			getCurrentModelState( ).setInteractivity( interactivity );
-		}
-		if ( getCurrentModelState( ).getLegend( ).getSeparator( ) == null )
-		{
-			LineAttributes separator = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-					LineStyle.SOLID_LITERAL,
-					1 );
-			separator.setVisible( true );
-			separator.eAdapters( )
-					.addAll( getCurrentModelState( ).eAdapters( ) );
-			getCurrentModelState( ).getLegend( ).setSeparator( separator );
 		}
 	}
 
