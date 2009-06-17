@@ -114,30 +114,27 @@ public final class ExpressionUtil
 	public static IConditionalExpression transformConditionalExpression(
 			IConditionalExpression ce )
 	{
-		String prefix = null;
+		boolean needTransform = false;
 		
 		switch ( ce.getOperator( ) )
 		{
 			case IConditionalExpression.OP_TOP_N :
-				prefix = "Total.isTopN";
-				break;
-			case IConditionalExpression.OP_TOP_PERCENT :
-				prefix = "Total.isTopNPercent";
-				break;
 			case IConditionalExpression.OP_BOTTOM_N :
-				prefix = "Total.isBottomN";
-				break;
-			case IConditionalExpression.OP_BOTTOM_PERCENT :
-				prefix = "Total.isBottomNPercent";
+			case IConditionalExpression.OP_TOP_PERCENT :
+			case IConditionalExpression.OP_BOTTOM_PERCENT :	 
+			 		 needTransform = true;
+			 		 break;
+			default:
+				needTransform = false;
 				break;
 		}
 		
-		if( prefix != null )
+		if( needTransform )
 		{
-			ce = new ConditionalExpression( prefix+"("
-					+ ce.getExpression( ).getText( ) + "," +
-					( (IScriptExpression) ce.getOperand1( ) ).getText( ) + ")",
-					IConditionalExpression.OP_TRUE );
+			ce = new ToBeTransformTopBottomConditionalExpression( ce.getExpression( ),
+					ce.getOperator( ),
+					ce.getOperand1( ),
+					ce.getOperand2( ) );
 		}
 		return ce;
 	}
@@ -154,7 +151,7 @@ public final class ExpressionUtil
 		{
 			IConditionalExpression ce = key.getConditionalExpression( );
 
-			if ( !hasAggregationInFilter( ce ) )
+			if ( !hasAggregationInFilter( ce ) && !(ce instanceof ToBeTransformTopBottomConditionalExpression) )
 			{
 				result.addNewExpression( key );
 				return;
@@ -165,6 +162,17 @@ public final class ExpressionUtil
 			String bindingName = TOTAL_PREFIX + totalColumnSuffix;
 			totalColumnSuffix++;
 
+			if( ce instanceof ToBeTransformTopBottomConditionalExpression)
+			{
+				List allColumnBindings = new ArrayList( );
+
+				allColumnBindings.add( ((ToBeTransformTopBottomConditionalExpression)ce).transform( bindingName, groupName ) );
+				result.addColumnBindings( allColumnBindings );
+				
+				result.addNewExpression(Expression.newScript( org.eclipse.birt.core.data.ExpressionUtil
+						.createJSRowExpression( bindingName ) ));
+				return;
+			}
 			Binding columnBinding = new Binding( bindingName, ce );
 
 			if ( groupName != null )
