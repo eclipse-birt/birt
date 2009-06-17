@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import org.eclipse.birt.report.model.api.AutoTextHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 /**
  *  Provides support for AutoText edit parts.
@@ -41,7 +42,7 @@ public class AutoTextEditPart extends LabelEditPart
 	 */
 	protected String getText( )
 	{
-		String text = ( (AutoTextHandle) getModel( ) ).getDisplayLabel( );
+		String text = ( (AutoTextHandle) getModel( ) ).getDisplayLabel( IDesignElementModel.FULL_LABEL );
 		if ( text == null )
 		{
 			text = ELEMENT_DEFAULT_TEXT;
