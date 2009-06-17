@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.IFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -493,7 +492,7 @@ public class FormPage extends Composite implements Listener
 		}
 		stack.commit( );
 		table.setSelection( pos );
-
+		refresh( );
 	}
 
 	private void updateArraw( )
