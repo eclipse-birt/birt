@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBaseResultIterator;
-import org.eclipse.birt.data.engine.api.IBaseResultMetaData;
 import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -36,6 +35,7 @@ import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.IQueryService;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -190,9 +190,37 @@ public class QueryResults implements IQueryResults, IQueryService
 		if ( bindingMetaData == null )
 		{
 			ExprMetaInfo[] metaInfo = getRDLoad( subQueryName, queryResultID ).loadExprMetaInfo( );
-			bindingMetaData = new BindingMetaData( metaInfo );
+
+			if ( ExprMetaUtil.isBasedOnRD( metaInfo ) )
+			{
+				ExprMetaInfo[] infos = new ExprMetaInfo[metaInfo.length - 1];
+
+				for ( int i = 0, k = 0; i < infos.length; i++, k++ )
+				{
+					if ( isInternalMetaInfo( metaInfo[k] ) )
+						i--;
+					else
+						infos[i] = metaInfo[k];
+				}
+				bindingMetaData = new BindingMetaData( infos );
+			}
+			else
+			{
+				bindingMetaData = new BindingMetaData( metaInfo );
+			}
 		}
 		return bindingMetaData;
+	}
+
+	/**
+	 * Checks whether the ExprMetaInfo is for the internal use
+	 * 
+	 * @param exprMeta
+	 * @return
+	 */
+	private static boolean isInternalMetaInfo( ExprMetaInfo exprMeta )
+	{
+		return ExprMetaUtil.POS_NAME.equals( exprMeta.getName( ) );
 	}
 
 	/*
