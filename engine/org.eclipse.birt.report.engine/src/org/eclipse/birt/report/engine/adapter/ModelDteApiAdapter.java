@@ -284,7 +284,7 @@ public class ModelDteApiAdapter
 			}
 
 		}
-		dteSession.defineDataSet( createDataSetDesign( dataSet ) );
+		dteSession.defineDataSet( dteSession.getModelAdaptor( ).adaptDataSet( dataSet ) );
 	}
 
 	/**
