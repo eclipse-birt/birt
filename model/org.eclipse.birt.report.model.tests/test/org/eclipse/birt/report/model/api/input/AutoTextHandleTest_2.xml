@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">    
+    <page-setup>
+        <simple-master-page name="My Page">
+            <page-header>
+                <auto-text name="sf1">
+                    <property name="type">page-variable</property>
+                    <property name="pageVariable">a</property>
+                </auto-text>
+            </page-header>
+            <page-footer>
+                <auto-text name="sf2">
+                    <property name="type">page-variable</property>
+                    <property name="pageVariable">b</property>
+                </auto-text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <property name="pageVariables">
+        <variable-element name="a">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="b">
+            <property name="type">page</property>
+        </variable-element>
+    </property>
+</report>

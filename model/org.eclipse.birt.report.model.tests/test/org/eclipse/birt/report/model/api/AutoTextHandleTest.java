@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -31,6 +30,7 @@ public class AutoTextHandleTest extends BaseTestCase
 	private final static String INPUT_FILE = "AutoTextHandleTest.xml"; //$NON-NLS-1$
 	private final static String OUTPUT_FILE = "AutoTextHandleTest_golden.xml";//$NON-NLS-1$
 	private final static String INPUT_FILE_ONE = "AutoTextHandleTest_1.xml";//$NON-NLS-1$
+	private final static String INPUT_FILE_TWO = "AutoTextHandleTest_2.xml";//$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -105,5 +105,30 @@ public class AutoTextHandleTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( OUTPUT_FILE ) );
+	}
+	
+	/**
+	 * Tests the display value of the auto text. Added for bugzilla 280232
+	 * @throws Exception 
+	 */
+	public void testAutoTextDisplayValue( ) throws Exception
+	{
+		openDesign( INPUT_FILE_TWO );
+
+		AutoTextHandle autoText = (AutoTextHandle) designHandle
+				.findElement( "sf1" );
+		String displayName = autoText
+				.getDisplayLabel( DesignElement.FULL_LABEL );
+
+		assertEquals( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE, autoText
+				.getAutoTextType( ) );
+		assertEquals( "Report Variable(a)", displayName );
+
+		autoText = (AutoTextHandle) designHandle.findElement( "sf2" );
+		displayName = autoText.getDisplayLabel( DesignElement.FULL_LABEL );
+
+		assertEquals( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE, autoText
+				.getAutoTextType( ) );
+		assertEquals( "Page Variable(b)", displayName );
 	}
 }

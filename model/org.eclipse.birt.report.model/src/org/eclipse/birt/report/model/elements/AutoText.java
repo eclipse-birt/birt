@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
+import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
@@ -174,4 +175,40 @@ public class AutoText extends ReportItem implements IAutoTextModel
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
+	 * eclipse.birt.report.model.core.Module, int)
+	 */
+	public String getDisplayLabel( Module module, int level )
+	{
+		if ( level == FULL_LABEL )
+		{ // Added for bugzilla 280232
+			if ( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE
+					.equals( getProperty( module,
+							IAutoTextModel.AUTOTEXT_TYPE_PROP ) ) )
+			{
+				String variableName = (String) getProperty( module,
+						IAutoTextModel.PAGE_VARIABLE_PROP );
+				if ( module instanceof ReportDesign )
+				{
+					VariableElement variable = ( (ReportDesign) module )
+							.findVariableElement( variableName );
+					if ( variable != null
+							&& variable.getProperty( module,
+									IVariableElementModel.TYPE_PROP ) != null )
+					{
+						String displayLable = variable.getDisplayProperty(
+								module, IVariableElementModel.TYPE_PROP );
+						displayLable += "(" + limitStringLength( variableName ) //$NON-NLS-1$
+								+ ")"; //$NON-NLS-1$
+						return displayLable;
+					}
+				}
+			}
+		}
+		return super.getDisplayLabel( module, level );
+	}
 }
