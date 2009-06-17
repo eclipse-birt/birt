@@ -661,8 +661,8 @@ Choices.dynamicFilterChoice.simple=簡易
 Choices.dynamicFilterChoice.advanced=詳細設定
 
 #81 variableType
-Choices.variableType.report=レポート
-Choices.variableType.page=ページ
+Choices.variableType.report=Report Variable
+Choices.variableType.page=ページ変数
 
 ###########################################################
 # Classes
