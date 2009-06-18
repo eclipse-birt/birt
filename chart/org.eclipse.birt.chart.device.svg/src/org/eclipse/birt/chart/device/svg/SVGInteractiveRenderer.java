@@ -751,10 +751,10 @@ public class SVGInteractiveRenderer
 		sb.append( "\n" ); //$NON-NLS-1$
 		
 		EMap<String, String> stylesMap = muv.getPropertiesMap( );
-		String menuStyle = stylesMap.get( MenuStylesKeyType.MENU.getName( ) ); 
-		String textStyle = stylesMap.get( MenuStylesKeyType.MENU_ITEM.getName( ) );
-		String onmouseoverStyle = stylesMap.get( MenuStylesKeyType.ON_MOUSE_OVER.getName( ) );
-		String onmouseoutStyle =  stylesMap.get( MenuStylesKeyType.ON_MOUSE_OUT.getName( ) );
+		String menuStyle = CSSHelper.getStylingHyphenFormat( stylesMap.get( MenuStylesKeyType.MENU.getName( ) ) ); 
+		String textStyle = CSSHelper.getStylingHyphenFormat( stylesMap.get( MenuStylesKeyType.MENU_ITEM.getName( ) ) );
+		String onmouseoverStyle = CSSHelper.getStylingHyphenFormat( stylesMap.get( MenuStylesKeyType.ON_MOUSE_OVER.getName( ) ) );
+		String onmouseoutStyle =  CSSHelper.getStylingHyphenFormat( stylesMap.get( MenuStylesKeyType.ON_MOUSE_OUT.getName( ) ) );
 		sb.append( " 	var menuStyles = new Array(4); \n"); //$NON-NLS-1$
 		sb.append( "	menuStyles[0] = \"" + menuStyle  + "\";\n") //$NON-NLS-1$ //$NON-NLS-2$
 		  .append( "	menuStyles[1] = \"" +  textStyle + "\";\n") //$NON-NLS-1$ //$NON-NLS-2$

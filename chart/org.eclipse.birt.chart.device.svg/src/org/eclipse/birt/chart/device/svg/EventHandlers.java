@@ -522,447 +522,489 @@ public final class EventHandlers
     	.append( "	}\n" ) //$NON-NLS-1$
 	 /////////////////////////////////////////////////////////////////////////////////////////
 	 //
-	 // Follow code defines scripts to display hyperlink menu in svg.
+	 // Follow code define scripts to display hyperlink menu in svg.
     /////////////////////////////////////////////////////////////////////////////////////////
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    function MenuLayout() {		\n") //$NON-NLS-1$
-    	.append("    	this.width = 0;		\n") //$NON-NLS-1$
-    	.append("    	this.height = 0;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    MenuLayout.prototype.updateMenuWidth = function(width ) {		\n") //$NON-NLS-1$
-    	.append("    	if ( width > this.width ) this.width = width;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    function HM() {		\n") //$NON-NLS-1$
-    	.append("    	this.hideTimer;		\n") //$NON-NLS-1$
-    	.append("    	this.TEXT_STYLES;		\n") //$NON-NLS-1$
-    	.append("    	this.menuStyles;		\n") //$NON-NLS-1$
-    	.append("    	this.hyperlinks;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    // Hide tooltip		\n") //$NON-NLS-1$
-    	.append("    HM.remove = function HM_removeMenu(){    		\n") //$NON-NLS-1$
-    	.append("    	if (typeof this.group != 'undefined'){    		\n") //$NON-NLS-1$
-    	.append("    	this.group.removeNode();		\n") //$NON-NLS-1$
-    	.append("    	this.group = undefined;		\n") //$NON-NLS-1$
-    	.append("    	}    		\n") //$NON-NLS-1$
-    	.append("    }  		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    HM.show = function HM_showMenu( evt, source, categoryData, valueData, valueSeriesName, hyperlinks, menustyles ) {		\n") //$NON-NLS-1$
-    	.append("    	this.TEXT_STYLES = \"font:font-family:font-size:font-size-adjust:font-stretch:font-style:font-variant:font-weight:direction:letter-spacing:text-decoration:unicode-bidi:word-spacing:alignment-baseline:baseline-shift:dominant-baseline:glyph-orientation-horizontal:glyph-orientation-vertical:kerning:text-anchor:writing-mode:cursor:color:\";		\n") //$NON-NLS-1$
-    	.append("    	this.hyperlinks = hyperlinks;		\n") //$NON-NLS-1$
-    	.append("    	this.menuStyles = menustyles;		\n") //$NON-NLS-1$
-    	.append("    	this.menuLayout = new MenuLayout();		\n") //$NON-NLS-1$
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    	if ( typeof id != 'undefined' ){    		\n") //$NON-NLS-1$
-    	.append("    	    var mainSvg = evt.target.ownerDocument;    		\n") //$NON-NLS-1$
-    	.append("    	    var comp = mainSvg.getElementById(id);    		\n") //$NON-NLS-1$
-    	.append("    	    var styleStr = comp.getAttribute(\"style\");    		\n") //$NON-NLS-1$
-    	.append("    	    rHiddenExp=/visibility:[ ]*hidden/g;    		\n") //$NON-NLS-1$
-    	.append("    	    results = styleStr.search(rHiddenExp);    		\n") //$NON-NLS-1$
-    	.append("    	    if (results != -1)    		\n") //$NON-NLS-1$
-    	.append("    	        return;    		\n") //$NON-NLS-1$
-    	.append("    	 }		\n") //$NON-NLS-1$
-    	.append("    	    		\n") //$NON-NLS-1$
-    	.append("    	 x = evt.clientX;    		\n") //$NON-NLS-1$
-    	.append("    	 y = evt.clientY;    		\n") //$NON-NLS-1$
-    	.append("    	 		\n") //$NON-NLS-1$
-    	.append("    	 update = true;		\n") //$NON-NLS-1$
-    	.append("    	 if ( this.oldX != 'undefined' ){		\n") //$NON-NLS-1$
-    	.append("    	     diffX = ( x - this.oldX );		\n") //$NON-NLS-1$
-    	.append("    	     if (diffX < 0)		\n") //$NON-NLS-1$
-    	.append("    			diffX= diffX*(-1);		\n") //$NON-NLS-1$
-    	.append("    	     diffY = ( y - this.oldY);		\n") //$NON-NLS-1$
-    	.append("    	     if (diffY < 0) diffY= diffY*(-1);		\n") //$NON-NLS-1$
-    	.append("    	     if ((diffY > 5) || (diffX > 5))		\n") //$NON-NLS-1$
-    	.append("    	        update = true;		\n") //$NON-NLS-1$
-    	.append("    	 }		\n") //$NON-NLS-1$
-    	.append("    	     		\n") //$NON-NLS-1$
-    	.append("    	 if (update)		\n") //$NON-NLS-1$
-    	.append("    	     HM.remove();            		\n") //$NON-NLS-1$
-    	.append("    	     		\n") //$NON-NLS-1$
-    	.append("    	 if (typeof this.group == 'undefined'){    		\n") //$NON-NLS-1$
-    	.append("    	     this.oldX = x;		\n") //$NON-NLS-1$
-    	.append("    	     this.oldY = y;        		\n") //$NON-NLS-1$
-    	.append("    	     this.xPadding = 5;    		\n") //$NON-NLS-1$
-    	.append("    	     this.yPadding = 2;		\n") //$NON-NLS-1$
-    	.append("    	     var mainSvg = evt.target.ownerDocument.documentElement;		\n") //$NON-NLS-1$
-    	.append("    	     var off = mainSvg.currentTranslate;		\n") //$NON-NLS-1$
-    	.append("    	     var scl = mainSvg.currentScale;		\n") //$NON-NLS-1$
-    	.append("    	     var adjustedX = ( x - off.x ) / scl;		\n") //$NON-NLS-1$
-    	.append("    	     var adjustedY = ( y - off.y ) / scl;		\n") //$NON-NLS-1$
-    	.append("    	     this.group = new BuildHelper(\"g\",		\n") //$NON-NLS-1$
-    	.append("    	         { opacity:0.8,		\n") //$NON-NLS-1$
-    	.append("    	           display: \"row-group\",		\n") //$NON-NLS-1$
-    	.append("    	           transform:\"translate(\"+ adjustedX + \",\"+ adjustedY +\")\"		\n") //$NON-NLS-1$
-    	.append("    	         }		\n") //$NON-NLS-1$
-    	.append("    	     );		\n") //$NON-NLS-1$
-    	.append("    	     this.group.addToParent(mainSvg);		\n") //$NON-NLS-1$
-    	.append("    	     		\n") //$NON-NLS-1$
-    	.append("    	     // Create a menu item		\n") //$NON-NLS-1$
-    	.append("    	     this.menu = new Array(2);		\n") //$NON-NLS-1$
-    	.append("    		 this.textItem = new Array(2);		\n") //$NON-NLS-1$
-    	.append("    		 var menuX = 0;		\n") //$NON-NLS-1$
-    	.append("    		 var menuY = 0;		\n") //$NON-NLS-1$
-    	.append("    		 var textX = this.xPadding;		\n") //$NON-NLS-1$
-    	.append("    		 var textY = this.yPadding;		\n") //$NON-NLS-1$
-    	.append("    		 		\n") //$NON-NLS-1$
-    	.append("    		 var menu = HM.createMenu( evt, menuX, menuY, scl);		\n") //$NON-NLS-1$
-    	.append("    		 menuX = menuX + 1;		\n") //$NON-NLS-1$
-    	.append("    		 menuY = menuY + 1;		\n") //$NON-NLS-1$
-    	.append("    		 		\n") //$NON-NLS-1$
-    	.append("       		 for (var i = 0; i < this.hyperlinks.length; i ++ ) {		\n") //$NON-NLS-1$
-    	.append("    					\n") //$NON-NLS-1$
-    	.append("       			this.menu[i] = HM.createMenuItem( evt, menuX, menuY, scl, i ); 				\n") //$NON-NLS-1$
-    	.append("       			this.textItem[i] = HM.createTextItem( evt, textX, textY , scl, i );				\n") //$NON-NLS-1$
-    	.append("       			var outline = this.textItem[i].element.getBBox();				\n") //$NON-NLS-1$
-    	.append("       			this.textItem[i].element.setAttributeNS(null, \"y\", textY + outline.height );				\n") //$NON-NLS-1$
-    	.append("       			menuY = menuY + this.yPadding * 2 + outline.height;				\n") //$NON-NLS-1$
-    	.append("       			textY = textY + outline.height + this.yPadding * 2 ;				\n") //$NON-NLS-1$
-    	.append("       			this.menuLayout.updateMenuWidth( this.xPadding * 2 + outline.width );				\n") //$NON-NLS-1$
-    	.append("       			var height = this.yPadding * 2 + outline.height;				\n") //$NON-NLS-1$
-    	.append("       			this.menu[i].element.setAttributeNS(null, \"height\", height );				\n") //$NON-NLS-1$
-    	.append("       			this.menuLayout.height = this.menuLayout.height + height;				\n") //$NON-NLS-1$
-    	.append("           	}				\n") //$NON-NLS-1$
-    	.append("		\n") //$NON-NLS-1$
-    	.append("    		menu.element.setAttributeNS( null, \"width\", this.menuLayout.width + 1);		\n") //$NON-NLS-1$
-    	.append("    		menu.element.setAttributeNS( null, \"height\", this.menuLayout.height + 1 );		\n") //$NON-NLS-1$
-    	.append("    		 		\n") //$NON-NLS-1$
-    	.append("    		// Update menu item bounds.		\n") //$NON-NLS-1$
-    	.append("    		for ( var i = 0; i < this.menu.length; i++ ) {		\n") //$NON-NLS-1$
-    	.append("    			this.menu[i].element.setAttributeNS(null, \"width\", this.menuLayout.width);		\n") //$NON-NLS-1$
-    	.append("    		}		\n") //$NON-NLS-1$
-    	.append("    				\n") //$NON-NLS-1$
-    	.append("    		// Adjust position of menu.		\n") //$NON-NLS-1$
-    	.append("    		var root=evt.target.ownerDocument.documentElement;		\n") //$NON-NLS-1$
-    	.append("    		var rootWidth =root.getAttribute('width');		\n") //$NON-NLS-1$
-    	.append("    		var rootHeight = root.getAttribute('height');		\n") //$NON-NLS-1$
-    	.append("    		var menuWidth = this.menuLayout.menuitemWidth;		\n") //$NON-NLS-1$
-    	.append("    		var menuHeight = this.menuLayout.height;		\n") //$NON-NLS-1$
-    	.append("    		if (((y + menuHeight ) > rootHeight) || ((x+ menuWidth)> rootWidth)){		\n") //$NON-NLS-1$
-    	.append("    			var transformX = x + this.xPadding;		\n") //$NON-NLS-1$
-    	.append("    			var transformY = y + this.yPadding;		\n") //$NON-NLS-1$
-    	.append("    			if ( ( y + menuHeight ) > rootHeight )		\n") //$NON-NLS-1$
-    	.append("    				transformY  = ( rootHeight - menuHeight ) - this.yPadding;		\n") //$NON-NLS-1$
-    	.append("    			if ( ( x + menuWidth ) > rootWidth )		\n") //$NON-NLS-1$
-    	.append("    				transformX  = ( rootWidth - menuWidth ) - this.xPadding;		\n") //$NON-NLS-1$
-    	.append("    			this.group.element.setAttributeNS(null, \"transform\", \"translate(\"+(transformX*xScale)+\", \"+(transformY*yScale)+\")\");		\n") //$NON-NLS-1$
-    	.append("    		}		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    	stopBubble(evt);		\n") //$NON-NLS-1$
-    	.append("    	stopDefault(evt);		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("		\n") //$NON-NLS-1$
-    	.append("       HM.createMenu = function HM_createMenu( evt, xOff, yOff, scl ) {				\n") //$NON-NLS-1$
-    	.append("       	var rectangle = new BuildHelper(\"rect\",				\n") //$NON-NLS-1$
-    	.append("       	    {id: \"hyperlinkmenu\",				\n") //$NON-NLS-1$
-    	.append("       	     x: xOff,				\n") //$NON-NLS-1$
-    	.append("       	     y: yOff,				\n") //$NON-NLS-1$
-    	.append("       		 stroke:\"black\",				\n") //$NON-NLS-1$
-    	.append("       	     transform:\"scale(\"+(1/scl)+\",\"+(1/scl)+\")\",				\n") //$NON-NLS-1$
-    	.append("                style: \"fill: white; cursor: pointer; stroke: black; stroke-width: 1px;\"				\n") //$NON-NLS-1$
-    	.append("       	    }				\n") //$NON-NLS-1$
-    	.append("       	);				\n") //$NON-NLS-1$
-    	.append("       				\n") //$NON-NLS-1$
-    	.append("       	rectangle.addToParent(this.group.element);		\n") //$NON-NLS-1$
-    	.append("       	setStyles( rectangle.element, HM.getMenuStyles( this.menuStyles[0] ) );		\n") //$NON-NLS-1$
-    	.append("           return rectangle;				\n") //$NON-NLS-1$
-    	.append("       }		\n") //$NON-NLS-1$
-    	.append("		\n") //$NON-NLS-1$
-    	.append("    HM.createMenuItem = function HM_createMenuItem( evt, xOff, yOff, scl, index ) {		\n") //$NON-NLS-1$
-    	.append("    	var menuID = \"menuitem_\" + this.hyperlinks[index][0];		\n") //$NON-NLS-1$
-    	.append("    	var rectangle = new BuildHelper(\"rect\",		\n") //$NON-NLS-1$
-    	.append("    	    {id: menuID,		\n") //$NON-NLS-1$
-    	.append("    	     x: xOff,		\n") //$NON-NLS-1$
-    	.append("    	     y: yOff,		\n") //$NON-NLS-1$
-    	.append("    		 stroke:\"black\",		\n") //$NON-NLS-1$
-    	.append("    	     transform:\"scale(\"+(1/scl)+\",\"+(1/scl)+\")\",		\n") //$NON-NLS-1$
-    	.append("                style: \"fill: white; cursor: pointer; stroke: none;\",		\n") //$NON-NLS-1$
-    	.append("    	     onmouseover: \"HM.onMouseOver(evt)\",		\n") //$NON-NLS-1$
-    	.append("    	     onmouseout: \"HM.onMouseOut(evt)\",		\n") //$NON-NLS-1$
-    	.append("    		 onclick: \"HM.redirect(\\\"\" + this.hyperlinks[index][1] + \"\\\", \\\"\" + this.hyperlinks[index][2] + \"\\\"); \"		\n") //$NON-NLS-1$
-    	.append("    	    }		\n") //$NON-NLS-1$
-    	.append("    	);		\n") //$NON-NLS-1$
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    	rectangle.addToParent(this.group.element);		\n") //$NON-NLS-1$
-    	.append("    	setStyles( rectangle.element, HM.getMenuStyles( this.menuStyles[1] ) );		\n") //$NON-NLS-1$
-    	.append("    	HM.createTooltipItem(evt, rectangle, this.hyperlinks[index][3] );		\n") //$NON-NLS-1$
-    	.append("        return rectangle;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    HM.createTextItem = function HM_createTextItem( evt, xOff, yOff, scl, index ) {		\n") //$NON-NLS-1$
-    	.append("    	var menuID = \"menuitem_\" + this.hyperlinks[index][0];		\n") //$NON-NLS-1$
-    	.append("    	var textObj = new BuildHelper(\"text\",		\n") //$NON-NLS-1$
-    	.append("    		{id: \"text_\" + menuID,		\n") //$NON-NLS-1$
-    	.append("            x: xOff,		\n") //$NON-NLS-1$
-    	.append("            y: yOff,		\n") //$NON-NLS-1$
-    	.append("            transform:\"scale(\"+(1/scl)+\",\"+(1/scl)+\")\",		\n") //$NON-NLS-1$
-    	.append("               style: \"text-anchor:start; fill:black; cursor: pointer\", 		\n") //$NON-NLS-1$
-    	.append("    	    onmouseover: \"HM.onMouseOver(evt)\",		\n") //$NON-NLS-1$
-    	.append("    	    onmouseout: \"HM.onMouseOut(evt)\",		\n") //$NON-NLS-1$
-    	.append("    		onclick: \"HM.redirect(\\\"\" + this.hyperlinks[index][1] + \"\\\", \\\"\" + this.hyperlinks[index][2] + \"\\\"); \"		\n") //$NON-NLS-1$
-    	.append("    		}					\n") //$NON-NLS-1$
-    	.append("    		);		\n") //$NON-NLS-1$
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    	textObj.addToParent(this.group.element);		\n") //$NON-NLS-1$
-    	.append("    	HM.setContent(evt, textObj, this.hyperlinks[index][0], this.hyperlinks[index][3]);		\n") //$NON-NLS-1$
-    	.append("    	setStyles( textObj.element, HM.getTextStyles( this.menuStyles[1] ) );		\n") //$NON-NLS-1$
-    	.append("    	return textObj;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    HM.setContent = function HM_setContent(evt, textElement, text, tooltip ){		\n") //$NON-NLS-1$
-    	.append("       text = text.replace(/\\n/g, \"\\\\n\");		\n") //$NON-NLS-1$
-    	.append("       var multiLine = text.split(/\\n/);		\n") //$NON-NLS-1$
-    	.append("       for (var x=0; x<multiLine.length; x++){		\n") //$NON-NLS-1$
-    	.append("           if (x == 0){		\n") //$NON-NLS-1$
-    	.append("               textObj = new BuildHelper(\"tspan\",		\n") //$NON-NLS-1$
-    	.append("                              {x: 5, onmouseover: \"HM.showTooltip(evt);\", onmouseout:\"try{TM.remove();}catch(e){}\"},		\n") //$NON-NLS-1$
-    	.append("                              multiLine[x]);		\n") //$NON-NLS-1$
-    	.append("            }		\n") //$NON-NLS-1$
-    	.append("            else{		\n") //$NON-NLS-1$
-    	.append("                textObj = new BuildHelper(\"tspan\",		\n") //$NON-NLS-1$
-    	.append("                           {x: 5,		\n") //$NON-NLS-1$
-    	.append("                             dy:17, onmouseover: \"HM.showTooltip(evt);\", onmouseout:\"try{TM.remove();}catch(e){}\"		\n") //$NON-NLS-1$
-    	.append("                        },multiLine[x]);		\n") //$NON-NLS-1$
-    	.append("            }		\n") //$NON-NLS-1$
-    	.append("            textObj.addToParent(textElement.element);		\n") //$NON-NLS-1$
-    	.append("            HM.createTooltipItem(evt, textObj, tooltip );	\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    HM.createTooltipItem = function HM_createTooltipItem( evt, parent, tooltip ) {		\n") //$NON-NLS-1$
-    	.append("        if ( typeof tooltip == 'undefined' ) return null; 		\n") //$NON-NLS-1$
-    	.append("        var title = new BuildHelper(\"title\", 		\n") //$NON-NLS-1$               
-    	.append("            {id: \"title_\" + tooltip}                		\n") //$NON-NLS-1$
-    	.append("        );              		\n") //$NON-NLS-1$
-    	.append("        title.addToParent( parent.element );		\n") //$NON-NLS-1$
-    	.append("        var textObj = evt.target.ownerDocument.createTextNode( tooltip );		\n") //$NON-NLS-1$
-    	.append("        title.element.appendChild( textObj );		\n") //$NON-NLS-1$
-    	.append("        return title;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("                		\n") //$NON-NLS-1$
-    	.append("    HM.showTooltip = function HM_showTooltip( evt ) {		\n") //$NON-NLS-1$
-    	.append("        try {		\n") //$NON-NLS-1$
-    	.append("            var elem = HM.getTitleElement( evt.currentTarget );		\n") //$NON-NLS-1$
-    	.append("            if ( elem != null ) TM.show( evt, null, elem );		\n") //$NON-NLS-1$
-    	.append("        } catch ( e ) {}		\n") //$NON-NLS-1$
-    	.append("	 return;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("           		\n") //$NON-NLS-1$
-    	.append("    HM.getTitleElement = function TM_getTitleElement(elem){		\n") //$NON-NLS-1$
-    	.append("        if (elem == null ) return;  		\n") //$NON-NLS-1$
-    	.append("        var childs = elem.childNodes;		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("        for (var x=0; x<childs.length; x++){		\n") //$NON-NLS-1$
-    	.append("            if (childs.item(x).nodeType == 1 && childs.item(x).nodeName == \"title\")		\n") //$NON-NLS-1$
-    	.append("                return childs.item(x);		\n") //$NON-NLS-1$
-    	.append("    		 var e = HM.getTitleElement( childs.item(x) );		\n") //$NON-NLS-1$
-    	.append("    		if ( e != null ) return e;		\n") //$NON-NLS-1$
-    	.append("        }		\n") //$NON-NLS-1$
-    	.append("        return null;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    HM.redirect = function(url, urlTarget) {		\n") //$NON-NLS-1$
-    	.append("    	try {		\n") //$NON-NLS-1$
-    	.append("    		TM.remove();		\n") //$NON-NLS-1$
-    	.append("    	} catch ( e ) {};  		\n") //$NON-NLS-1$ 
-    	.append("    	HM.remove();		\n") //$NON-NLS-1$
-    	.append("    	if ( url.indexOf(\"#\", 0) == 0 ) {		\n") //$NON-NLS-1$
-    	.append("    		top.document.location.hash = url;		\n") //$NON-NLS-1$
-    	.append("    		return;		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	if ( url.indexOf(\"javascript:\", 0) == 0 ) {		\n") //$NON-NLS-1$
-    	.append("    		eval( url.substring( 11, url.length -1 ) );		\n") //$NON-NLS-1$
-    	.append("    		return;		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	var target = 'null';		\n") //$NON-NLS-1$
-    	.append("    	if ( urlTarget && urlTarget != '' ) target = urlTarget;		\n") //$NON-NLS-1$
-    	.append("        try {		\n") //$NON-NLS-1$
-    	.append("    		parent.redirect(target, url);		\n") //$NON-NLS-1$
-    	.append("    	} catch( e ) {		\n") //$NON-NLS-1$
-    	.append("    		redirect(target, url );		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    HM.onMouseOver = function HM_onMouseOver(evt)		\n") //$NON-NLS-1$
-    	.append("    {		\n") //$NON-NLS-1$
-    	.append("    	var target = evt.currentTarget;		\n") //$NON-NLS-1$
-    	.append("    	if ( target == null ) return;		\n") //$NON-NLS-1$
-    	.append("    	var id = target.id;		\n") //$NON-NLS-1$
-    	.append("    	if ( id.substr(0, \"text_\".length ) == \"text_\" ) {		\n") //$NON-NLS-1$
-    	.append("    		var mainSvg = evt.target.ownerDocument;		\n") //$NON-NLS-1$
-    	.append("    		var menuComp = mainSvg.getElementById( id.substring(\"text_\".length, id.length ) );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( menuComp,  \"stroke: none;\" );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[2]) );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( target,  HM.getTextStyles(this.menuStyles[2]) );		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	else {		\n") //$NON-NLS-1$
-    	.append("    		var mainSvg = evt.target.ownerDocument;		\n") //$NON-NLS-1$
-    	.append("    		var menuComp = mainSvg.getElementById( id );		\n") //$NON-NLS-1$
-    	.append("    		var textComp = mainSvg.getElementById( \"text_\" + id );		\n") //$NON-NLS-1$
-    	.append("    				\n") //$NON-NLS-1$
-    	.append("    		setStyles( menuComp,  \"stroke: none;\" );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[2]) );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( textComp,  HM.getTextStyles(this.menuStyles[2]) ); 		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	HM.showTooltip( evt );  \n") //$NON-NLS-1$
-    	.append("    	try {		\n") //$NON-NLS-1$
-    	.append("    		window.clearTimeout( this.hideTimer );		\n") //$NON-NLS-1$
-    	.append("    	} catch ( e) {};		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    HM.onMouseOut = function HM_onMouseOut(evt)		\n") //$NON-NLS-1$
-    	.append("    {		\n") //$NON-NLS-1$
-    	.append("    	var target = evt.currentTarget;		\n") //$NON-NLS-1$
-    	.append("    	if ( target == null ) return;		\n") //$NON-NLS-1$
-    	.append("    	var id = target.id;		\n") //$NON-NLS-1$
-    	.append("    	if ( id.substr(0, \"text_\".length ) == \"text_\" ) {		\n") //$NON-NLS-1$
-    	.append("    		var mainSvg = evt.target.ownerDocument;		\n") //$NON-NLS-1$
-    	.append("    		var menuComp = mainSvg.getElementById( id.substring(\"text_\".length, id.length ) );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( menuComp,  \"stroke: none;\" );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[3]) );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( target,  HM.getTextStyles(this.menuStyles[3]) );		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	else {		\n") //$NON-NLS-1$
-    	.append("    		var mainSvg = evt.target.ownerDocument;		\n") //$NON-NLS-1$
-    	.append("    		var menuComp = mainSvg.getElementById( id );		\n") //$NON-NLS-1$
-    	.append("    		var textComp = mainSvg.getElementById( \"text_\" + id );		\n") //$NON-NLS-1$
-    	.append("    				\n") //$NON-NLS-1$
-    	.append("    		setStyles( menuComp,  \"stroke: none;\" );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[3]) );		\n") //$NON-NLS-1$
-    	.append("    		setStyles( textComp,  HM.getTextStyles(this.menuStyles[3]) ); 		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	try {		\n") //$NON-NLS-1$
-    	.append("    		TM.remove();		\n") //$NON-NLS-1$
-    	.append("    	} catch ( e ) {};  		\n") //$NON-NLS-1$ 
-    	.append("    	this.hideTimer = window.setTimeout(\"HM.remove();\", 300);		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    HM.getTextStyles = function HM_getTextStyles( styles )		\n") //$NON-NLS-1$
-    	.append("    {		\n") //$NON-NLS-1$
-    	.append("        var total;		\n") //$NON-NLS-1$
-    	.append("    	if ( !isArray(styles ) ) {		\n") //$NON-NLS-1$
-    	.append("    		total = getStylesArray( styles );		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	else {		\n") //$NON-NLS-1$
-    	.append("    		total = styles;		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    	var styleString = \"\";		\n") //$NON-NLS-1$
-    	.append("    	for ( var i = 0; i < total.length; i++ ) {		\n") //$NON-NLS-1$
-    	.append("    		if ( this.TEXT_STYLES.search( total[i][0] +\":\" ) < 0 ) continue;		\n") //$NON-NLS-1$
-    	.append("    		if ( total[i][0] == \"backgroundColor\" ) continue;		\n") //$NON-NLS-1$
-    	.append("    		if ( total[i][0] == \"fill\" ) continue;		\n") //$NON-NLS-1$
-    	.append("    		if (total[i][0] == \"color\") {		\n") //$NON-NLS-1$
-    	.append("    			styleString += \"fill\"; 		\n") //$NON-NLS-1$
-    	.append("    		}		\n") //$NON-NLS-1$
-    	.append("    		else styleString += total[i][0];		\n") //$NON-NLS-1$
-    	.append("    		styleString += \": \" + total[i][1] + \";\";		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	return styleString;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    HM.getMenuStyles = function HM_getMenuStyles( styles )		\n") //$NON-NLS-1$
-    	.append("    {		\n") //$NON-NLS-1$
-    	.append("        var total;		\n") //$NON-NLS-1$
-    	.append("    	if ( !isArray(styles ) ) {		\n") //$NON-NLS-1$
-    	.append("    		total = getStylesArray( styles );		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	else {		\n") //$NON-NLS-1$
-    	.append("    		total = styles;		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    	var styleString = \"\";		\n") //$NON-NLS-1$
-    	.append("    	for ( var i = 0; i < total.length; i++ ) {		\n") //$NON-NLS-1$
-    	.append("    		if ( this.TEXT_STYLES.search( total[i][0] +\":\" ) >= 0 ) continue;		\n") //$NON-NLS-1$
-    	.append("    		if (total[i][0] == \"color\") continue;		\n") //$NON-NLS-1$
-    	.append("    		if (total[i][0] == \"backgroundColor\") {		\n") //$NON-NLS-1$
-    	.append("    			styleString += \"fill\"; 		\n") //$NON-NLS-1$
-    	.append("    		}		\n") //$NON-NLS-1$
-    	.append("    		else styleString += total[i][0];		\n") //$NON-NLS-1$
-    	.append("    		styleString += \": \" + total[i][1] + \";\";		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	return styleString;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("		\n") //$NON-NLS-1$
-    	.append("    function getStylesArray( stylesStr )		\n") //$NON-NLS-1$
-    	.append("    {		\n") //$NON-NLS-1$
-    	.append("    	var stylesArray = stylesStr.split(\";\");		\n") //$NON-NLS-1$
-    	.append("    	var total = new Array( stylesArray.length );		\n") //$NON-NLS-1$
-    	.append("    	for ( var i = 0; i < stylesArray.length; i++ ) {		\n") //$NON-NLS-1$
-    	.append("    		var unit = stylesArray[i].split(\":\");		\n") //$NON-NLS-1$
-    	.append("    		total[i] = new Array( 2);		\n") //$NON-NLS-1$
-    	.append("    		total[i][0] = unit[0];		\n") //$NON-NLS-1$
-    	.append("    		total[i][1] = unit[1];		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	return total;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("		\n") //$NON-NLS-1$
-    	.append("    function setStyles( element, styles )		\n") //$NON-NLS-1$
-    	.append("    {		\n") //$NON-NLS-1$
-    	.append("    	var total;		\n") //$NON-NLS-1$
-    	.append("    	if ( !isArray( styles ) ) {		\n") //$NON-NLS-1$
-    	.append("    		total = getStylesArray( styles );		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	else {		\n") //$NON-NLS-1$
-    	.append("    		total = styles;		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    			\n") //$NON-NLS-1$
-    	.append("    	var styleAttr = element.getAttribute( \"style\" );		\n") //$NON-NLS-1$
-    	.append("    	for ( var i = 0; i < total.length; i ++ ) {		\n") //$NON-NLS-1$
-    	.append("    		var key = total[i][0];		\n") //$NON-NLS-1$
-    	.append("    		var value = total[i][1];		\n") //$NON-NLS-1$
-    	.append("    		if ( key == \"\" || typeof value == 'undefined' ) continue;		\n") //$NON-NLS-1$
-    	.append("    		styleAttr = updateStyle( styleAttr, key, value );		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	element.setAttribute( \"style\", styleAttr );		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    function updateStyle(styleStr, key, value )		\n") //$NON-NLS-1$
-    	.append("    {		\n") //$NON-NLS-1$
-    	.append("    	if ( !styleStr )		\n") //$NON-NLS-1$
-    	.append("    		return key + \":\" + value + \";\";		\n") //$NON-NLS-1$
-    	.append("    	var styleAttr = styleStr;		\n") //$NON-NLS-1$
-    	.append("    	var index = styleAttr.search( \"[ ]*\" + key + \":\" );		\n") //$NON-NLS-1$
-    	.append("    	if (  index >= 0 ) {		\n") //$NON-NLS-1$
-    	.append("    	//	var regExpr = new RegExp( key + \":\\\\s*[\\\\S ^;]+\\\\s*;\" );		\n") //$NON-NLS-1$
-    	.append("    		var index2 = styleAttr.indexOf(\";\", index);		\n") //$NON-NLS-1$
-    	.append("    		var s = styleAttr.substring(index, index2 + 1 );		\n") //$NON-NLS-1$
-    	.append("    		styleAttr = styleAttr.replace( s, key + \":\" + value + \";\");		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	else {		\n") //$NON-NLS-1$
-    	.append("    		styleAttr = styleAttr + key + \":\" + value + \";\";		\n") //$NON-NLS-1$
-    	.append("    	}		\n") //$NON-NLS-1$
-    	.append("    	return styleAttr;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("    		\n") //$NON-NLS-1$
-    	.append("    function isArray(arr) {		\n") //$NON-NLS-1$
-    	.append("    	return !!arr && arr.constructor == Array;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("		\n") //$NON-NLS-1$
-    	.append("    // Stop the event bubble.		\n") //$NON-NLS-1$
-    	.append("    function stopBubble(e) {		\n") //$NON-NLS-1$
-    	.append("    	// If the e exists, then it isn't in IE.		\n") //$NON-NLS-1$
-    	.append("    	try {		\n") //$NON-NLS-1$
-    	.append("    	if ( e && e.stopPropagation )		\n") //$NON-NLS-1$
-    	.append("    		e.stopPropagation();		\n") //$NON-NLS-1$
-    	.append("    	else		\n") //$NON-NLS-1$
-    	.append("    		window.event.cancelBubble = true;		\n") //$NON-NLS-1$
-    	.append("    	} catch( e ) {};		\n") //$NON-NLS-1$
-    	.append("    	return false;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("		\n") //$NON-NLS-1$
-    	.append("    // Stop default action of Browser for event.		\n") //$NON-NLS-1$
-    	.append("    function stopDefault( e ) {		\n") //$NON-NLS-1$
-    	.append("    	// If the e exists, the it isn't in IE.		\n") //$NON-NLS-1$
-    	.append("    	try {		\n") //$NON-NLS-1$
-    	.append("    	if ( e && e.preventDefault )		\n") //$NON-NLS-1$
-    	.append("    		e.preventDefault();		\n") //$NON-NLS-1$
-    	.append("    	else		\n") //$NON-NLS-1$
-    	.append("    		window.event.returnValue = false;		\n") //$NON-NLS-1$
-    	.append("    	} catch( e ) {};		\n") //$NON-NLS-1$
-    	.append("    	return false;		\n") //$NON-NLS-1$
-    	.append("    }		\n") //$NON-NLS-1$
-    	.append("		\n"); //$NON-NLS-1$
+    	.append( "    function MenuLayout() {		\n" )//$NON-NLS-1$
+    	.append( "    	this.width = 0;		\n" )//$NON-NLS-1$
+    	.append( "    	this.height = 0;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    MenuLayout.prototype.updateMenuWidth = function(width ) {		\n" )//$NON-NLS-1$
+    	.append( "    	if ( width > this.width ) this.width = width;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    function HM() {		\n" )//$NON-NLS-1$
+    	.append( "    	this.hideTimer;		\n" )//$NON-NLS-1$
+    	.append( "    	this.TEXT_STYLES;		\n" )//$NON-NLS-1$
+    	.append( "    	this.menuStyles;		\n" )//$NON-NLS-1$
+    	.append( "    	this.hyperlinks;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    // Hide tooltip		\n" )//$NON-NLS-1$
+    	.append( "    HM.remove = function HM_removeMenu(){    		\n" )//$NON-NLS-1$
+    	.append( "    	if (typeof this.group != 'undefined'){    		\n" )//$NON-NLS-1$
+    	.append( "    	this.group.removeNode();		\n" )//$NON-NLS-1$
+    	.append( "    	this.group = undefined;		\n" )//$NON-NLS-1$
+    	.append( "    	}    		\n" )//$NON-NLS-1$
+    	.append( "    }  		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    HM.show = function HM_showMenu( evt, source, categoryData, valueData, valueSeriesName, hyperlinks, menustyles ) {		\n" )//$NON-NLS-1$
+    	.append( "    	this.TEXT_STYLES = \"font:font-family:font-size:font-size-adjust:font-stretch:font-style:font-variant:font-weight:direction:letter-spacing:text-decoration:unicode-bidi:word-spacing:alignment-baseline:baseline-shift:dominant-baseline:glyph-orientation-horizontal:glyph-orientation-vertical:kerning:text-anchor:writing-mode:cursor:color:\";		\n" )//$NON-NLS-1$
+    	.append( "    	this.hyperlinks = hyperlinks;		\n" )//$NON-NLS-1$
+    	.append( "    	this.menuStyles = menustyles;		\n" )//$NON-NLS-1$
+    	.append( "    	this.menuLayout = new MenuLayout();		\n" )//$NON-NLS-1$
+    	.append( "    			\n" )//$NON-NLS-1$
+    	.append( "    	if ( typeof id != 'undefined' ){    		\n" )//$NON-NLS-1$
+    	.append( "    	    var mainSvg = evt.target.ownerDocument;    		\n" )//$NON-NLS-1$
+    	.append( "    	    var comp = mainSvg.getElementById(id);    		\n" )//$NON-NLS-1$
+    	.append( "    	    var styleStr = comp.getAttribute(\"style\");    		\n" )//$NON-NLS-1$
+    	.append( "    	    rHiddenExp=/visibility:[ ]*hidden/g;    		\n" )//$NON-NLS-1$
+    	.append( "    	    results = styleStr.search(rHiddenExp);    		\n" )//$NON-NLS-1$
+    	.append( "    	    if (results != -1)    		\n" )//$NON-NLS-1$
+    	.append( "    	        return;    		\n" )//$NON-NLS-1$
+    	.append( "    	 }		\n" )//$NON-NLS-1$
+    	.append( "    	    		\n" )//$NON-NLS-1$
+    	.append( "    	 x = evt.clientX;    		\n" )//$NON-NLS-1$
+    	.append( "    	 y = evt.clientY;    		\n" )//$NON-NLS-1$
+    	.append( "    	 		\n" )//$NON-NLS-1$
+    	.append( "    	 update = true;		\n" )//$NON-NLS-1$
+    	.append( "    	 if ( this.oldX != 'undefined' ){		\n" )//$NON-NLS-1$
+    	.append( "    	     diffX = ( x - this.oldX );		\n" )//$NON-NLS-1$
+    	.append( "    	     if (diffX < 0)		\n" )//$NON-NLS-1$
+    	.append( "    			diffX= diffX*(-1);		\n" )//$NON-NLS-1$
+    	.append( "    	     diffY = ( y - this.oldY);		\n" )//$NON-NLS-1$
+    	.append( "    	     if (diffY < 0) diffY= diffY*(-1);		\n" )//$NON-NLS-1$
+    	.append( "    	     if ((diffY > 5) || (diffX > 5))		\n" )//$NON-NLS-1$
+    	.append( "    	        update = true;		\n" )//$NON-NLS-1$
+    	.append( "    	 }		\n" )//$NON-NLS-1$
+    	.append( "    	     		\n" )//$NON-NLS-1$
+    	.append( "    	 if (update)		\n" )//$NON-NLS-1$
+    	.append( "    	     HM.remove();            		\n" )//$NON-NLS-1$
+    	.append( "    	     		\n" )//$NON-NLS-1$
+    	.append( "    	 if (typeof this.group == 'undefined'){    		\n" )//$NON-NLS-1$
+    	.append( "    	     this.oldX = x;		\n" )//$NON-NLS-1$
+    	.append( "    	     this.oldY = y;        		\n" )//$NON-NLS-1$
+    	.append( "    	     this.xPadding = 5;    		\n" )//$NON-NLS-1$
+    	.append( "    	     this.yPadding = 5;		\n" )//$NON-NLS-1$
+    	.append( "    	     var mainSvg = evt.target.ownerDocument.documentElement;		\n" )//$NON-NLS-1$
+    	.append( "    	     var off = mainSvg.currentTranslate;		\n" )//$NON-NLS-1$
+    	.append( "    	     var scl = mainSvg.currentScale;		\n" )//$NON-NLS-1$
+    	.append( "    	     var adjustedX = ( x - off.x ) / scl;		\n" )//$NON-NLS-1$
+    	.append( "    	     var adjustedY = ( y - off.y ) / scl;		\n" )//$NON-NLS-1$
+    	.append( "    	     this.group = new BuildHelper(\"g\",		\n" )//$NON-NLS-1$
+    	.append( "    	         { display: \"inline\",\n" )//$NON-NLS-1$
+    	.append( "    	           transform:\"translate(\"+ adjustedX + \",\"+ adjustedY +\")\"		\n" )//$NON-NLS-1$
+    	.append( "    	         }		\n" )//$NON-NLS-1$
+    	.append( "    	     );		\n" )//$NON-NLS-1$
+    	.append( "    	     this.group.addToParent(mainSvg);		\n" )//$NON-NLS-1$
+    	.append( "    	     		\n" )//$NON-NLS-1$
+    	.append( "    	     // Create a menu item		\n" )//$NON-NLS-1$
+    	.append( "    	     this.menu = new Array(2);		\n" )//$NON-NLS-1$
+    	.append( "    		 this.textItem = new Array(2);		\n" )//$NON-NLS-1$
+    	.append( "    		 var menuX = 0;		\n" )//$NON-NLS-1$
+    	.append( "    		 var menuY = 0;		\n" )//$NON-NLS-1$
+    	.append( "    		 \n" )//$NON-NLS-1$
+    	.append( "    		 // Create menu.\n" )//$NON-NLS-1$
+    	.append( "    		 var menu = HM.createMenu( evt, this.group, menuX, menuY, scl);		\n" )//$NON-NLS-1$
+    	.append( "    		 menuX = menuX + 1;		\n" )//$NON-NLS-1$
+    	.append( "    		 menuY = menuY + 1;		\n" )//$NON-NLS-1$
+    	.append( "    		 \n" )//$NON-NLS-1$
+    	.append( "			 var offset = 0;\n" )//$NON-NLS-1$
+    	.append( "       		 for (var i = 0; i < this.hyperlinks.length; i ++ ) {		\n" )//$NON-NLS-1$
+    	.append( "				\n" )//$NON-NLS-1$
+    	.append( "       			// Create a menu item.\n" )//$NON-NLS-1$
+    	.append( "       			// 1. Create a menu item group.\n" )//$NON-NLS-1$
+    	.append( "				var menuItemGrouop = new BuildHelper(\"g\",		\n" )//$NON-NLS-1$
+    	.append( "    	         { opacity: 1,		\n" )//$NON-NLS-1$
+    	.append( "    	           display: \"inline\"\n" )//$NON-NLS-1$
+    	.append( "    	         }		\n" )//$NON-NLS-1$
+    	.append( "				);	\n" )//$NON-NLS-1$
+    	.append( "				// Add to parent.\n" )//$NON-NLS-1$
+    	.append( "				menuItemGrouop.addToParent( this.group.element );\n" )//$NON-NLS-1$
+    	.append( "			 \n" )//$NON-NLS-1$
+    	.append( "				// 2. Create outline of menu item.\n" )//$NON-NLS-1$
+    	.append( "       			this.menu[i] = HM.createMenuItem( evt, menuItemGrouop, menuX, menuY, scl, this.hyperlinks[i] );\n" )//$NON-NLS-1$
+    	.append( "       			// 3. Create menu item text.\n" )//$NON-NLS-1$
+    	.append( "       			this.textItem[i] = HM.createTextItem( evt, menuItemGrouop, menuX + this.xPadding , menuY + this.yPadding, scl, this.hyperlinks[i] );				\n" )//$NON-NLS-1$
+    	.append( "       			var outline = this.textItem[i].element.getBBox();\n" )//$NON-NLS-1$
+    	.append( "				// 4. Adjust menu item bounds.\n" )//$NON-NLS-1$
+    	.append( "				var menuHeight = this.yPadding * 2 + outline.height;\n" )//$NON-NLS-1$
+    	.append( "				var menuWidth = this.xPadding * 2 + outline.width;\n" )//$NON-NLS-1$
+    	.append( "				this.menu[i].element.setAttribute( \"height\", menuHeight );				\n" )//$NON-NLS-1$
+    	.append( "       			this.menuLayout.updateMenuWidth( menuWidth );				\n" )//$NON-NLS-1$
+    	.append( "       			this.menuLayout.height += menuHeight;\n" )//$NON-NLS-1$
+    	.append( "				menuY = menuY + menuHeight;	\n" )//$NON-NLS-1$
+    	.append( "				\n" )//$NON-NLS-1$
+    	.append( "				// 5. Adjust menu item text bounds.\n" )//$NON-NLS-1$
+    	.append( "				if ( outline.y < 0 )\n" )//$NON-NLS-1$
+    	.append( "				{\n" )//$NON-NLS-1$
+    	.append( "				   offset += Math.abs( outline.y );\n" )//$NON-NLS-1$
+    	.append( "				}\n" )//$NON-NLS-1$
+    	.append( "				var curY = this.textItem[i].element.getAttribute(\"y\" );\n" )//$NON-NLS-1$
+    	.append( "       			this.textItem[i].element.setAttribute( \"y\", parseInt(curY) + offset + this.yPadding );	\n" )//$NON-NLS-1$
+    	.append( "          	}				\n" )//$NON-NLS-1$
+    	.append( "		\n" )//$NON-NLS-1$
+    	.append( "			// Set menu layout and styles.\n" )//$NON-NLS-1$
+    	.append( "    		menu.element.setAttribute( \"width\", this.menuLayout.width + 2);		\n" )//$NON-NLS-1$
+    	.append( "    		menu.element.setAttribute( \"height\", this.menuLayout.height + 2 );		\n" )//$NON-NLS-1$
+    	.append( "			menu.element.setAttribute( \"stroke\", \"black\");\n" )//$NON-NLS-1$
+    	.append( "			menu.element.setAttribute( \"stroke-width\",\"1px\");\n" )//$NON-NLS-1$
+    	.append( "			setStyles( menu.element, HM.getMenuStyles( this.menuStyles[0] ) );	\n" )//$NON-NLS-1$
+    	.append( "					\n" )//$NON-NLS-1$
+    	.append( "    		// Update all menu items bounds.		\n" )//$NON-NLS-1$
+    	.append( "    		for ( var i = 0; i < this.menu.length; i++ ) {		\n" )//$NON-NLS-1$
+    	.append( "    			this.menu[i].element.setAttribute(\"width\", this.menuLayout.width);		\n" )//$NON-NLS-1$
+    	.append( "    		}		\n" )//$NON-NLS-1$
+    	.append( "    				\n" )//$NON-NLS-1$
+    	.append( "    		// Adjust position of menu.		\n" )//$NON-NLS-1$
+    	.append( "    		var root=evt.target.ownerDocument.documentElement;		\n" )//$NON-NLS-1$
+    	.append( "    		var rootWidth =root.getAttribute('width');		\n" )//$NON-NLS-1$
+    	.append( "    		var rootHeight = root.getAttribute('height');		\n" )//$NON-NLS-1$
+    	.append( "    		var menuWidth = this.menuLayout.width;		\n" )//$NON-NLS-1$
+    	.append( "    		var menuHeight = this.menuLayout.height;		\n" )//$NON-NLS-1$
+    	.append( "    		if (((y + menuHeight ) > rootHeight) || ((x+ menuWidth)> rootWidth)){		\n" )//$NON-NLS-1$
+    	.append( "    			var transformX = x + this.xPadding;		\n" )//$NON-NLS-1$
+    	.append( "    			var transformY = y + this.yPadding;		\n" )//$NON-NLS-1$
+    	.append( "    			if ( ( y + menuHeight ) > rootHeight )		\n" )//$NON-NLS-1$
+    	.append( "    				transformY  = ( rootHeight - menuHeight ) - this.yPadding;		\n" )//$NON-NLS-1$
+    	.append( "    			if ( ( x + menuWidth ) > rootWidth )		\n" )//$NON-NLS-1$
+    	.append( "    				transformX  = ( rootWidth - menuWidth ) - this.xPadding;		\n" )//$NON-NLS-1$
+    	.append( "    			this.group.element.setAttribute( \"transform\", \"translate(\"+(transformX / scl )+\", \"+(transformY / scl )+\")\");		\n" )//$NON-NLS-1$
+    	.append( "    		}		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    			\n" )//$NON-NLS-1$
+    	.append( "    	stopBubble(evt);		\n" )//$NON-NLS-1$
+    	.append( "    	stopDefault(evt);		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "		\n" )//$NON-NLS-1$
+    	.append( "    HM.createMenu = function HM_createMenu( evt, group, xOff, yOff, scl ) {				\n" )//$NON-NLS-1$
+    	.append( "       	var rectangle = new BuildHelper(\"rect\",				\n" )//$NON-NLS-1$
+    	.append( "       	    {id: \"hyperlinkmenu\",				\n" )//$NON-NLS-1$
+    	.append( "       	     x: xOff,				\n" )//$NON-NLS-1$
+    	.append( "       	     y: yOff,\n" )//$NON-NLS-1$
+    	.append( "       	     height: 1,\n" )//$NON-NLS-1$
+    	.append( "       	     width: 1,\n" )//$NON-NLS-1$
+    	.append( "			 fill:\"white\",\n" )//$NON-NLS-1$
+    	.append( "       	     transform:\"scale(\"+(1/scl)+\",\"+(1/scl)+\")\"\n" )//$NON-NLS-1$
+    	.append( "       	    }				\n" )//$NON-NLS-1$
+    	.append( "       	);				\n" )//$NON-NLS-1$
+    	.append( "       				\n" )//$NON-NLS-1$
+    	.append( "       	rectangle.addToParent( group.element );		\n" )//$NON-NLS-1$
+    	.append( "        return rectangle;				\n" )//$NON-NLS-1$
+    	.append( "       }		\n" )//$NON-NLS-1$
+    	.append( "		\n" )//$NON-NLS-1$
+    	.append( "    HM.createMenuItem = function HM_createMenuItem( evt, group, xOff, yOff, scl, entityArr ) {		\n" )//$NON-NLS-1$
+    	.append( "    	var menuID = \"menuitem_\" + entityArr[0];		\n" )//$NON-NLS-1$
+    	.append( "    	var rectangle = new BuildHelper(\"rect\",		\n" )//$NON-NLS-1$
+    	.append( "    	    {id: menuID,		\n" )//$NON-NLS-1$
+    	.append( "    	     x: xOff,		\n" )//$NON-NLS-1$
+    	.append( "    	     y: yOff,	\n" )//$NON-NLS-1$
+    	.append( "    	     height: 1,\n" )//$NON-NLS-1$
+    	.append( "    		 width: 1,\n" )//$NON-NLS-1$
+    	.append( "    	     transform:\"scale(\"+(1/scl)+\",\"+(1/scl)+\")\",		\n" )//$NON-NLS-1$
+    	.append( "             fill: \"white\",\n" )//$NON-NLS-1$
+    	.append( "			 stroke: \"none\",		\n" )//$NON-NLS-1$
+    	.append( "    	     onmouseover: \"HM.onMouseOver(evt)\",		\n" )//$NON-NLS-1$
+    	.append( "    	     onmouseout: \"HM.onMouseOut(evt)\",		\n" )//$NON-NLS-1$
+    	.append( "    		 onclick: \"HM.redirect(\\\"\" + entityArr[1] + \"\\\", \\\"\" + entityArr[2] + \"\\\"); \"		\n" )//$NON-NLS-1$
+    	.append( "    	    }		\n" )//$NON-NLS-1$
+    	.append( "    	);		\n" )//$NON-NLS-1$
+    	.append( "    			\n" )//$NON-NLS-1$
+    	.append( "    	rectangle.addToParent( group.element );		\n" )//$NON-NLS-1$
+    	.append( "    	setStyles( rectangle.element, HM.getMenuStyles( this.menuStyles[1] ) );		\n" )//$NON-NLS-1$
+    	.append( "    	HM.createTooltipItem(evt, rectangle, entityArr[3] );		\n" )//$NON-NLS-1$
+    	.append( "        return rectangle;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    HM.createTextItem = function HM_createTextItem( evt, group, xOff, yOff, scl, entityArr ) {		\n" )//$NON-NLS-1$
+    	.append( "    	var menuID = \"menuitem_\" + entityArr[0];		\n" )//$NON-NLS-1$
+    	.append( "    	var textObj = new BuildHelper(\"text\",		\n" )//$NON-NLS-1$
+    	.append( "    		{id: \"text_\" + menuID,		\n" )//$NON-NLS-1$
+    	.append( "            x: xOff,		\n" )//$NON-NLS-1$
+    	.append( "            y: yOff,\n" )//$NON-NLS-1$
+    	.append( "            transform:\"scale(\"+(1/scl)+\",\"+(1/scl)+\")\",		\n" )//$NON-NLS-1$
+    	.append( "               style: \"text-anchor:start; fill:black\", 		\n" )//$NON-NLS-1$
+    	.append( "    	    onmouseover: \"HM.onMouseOver(evt)\",		\n" )//$NON-NLS-1$
+    	.append( "    	    onmouseout: \"HM.onMouseOut(evt)\",		\n" )//$NON-NLS-1$
+    	.append( "    		onclick: \"HM.redirect(\\\"\" + entityArr[1] + \"\\\", \\\"\" + entityArr[2] + \"\\\"); \"		\n" )//$NON-NLS-1$
+    	.append( "    		}					\n" )//$NON-NLS-1$
+    	.append( "    		);		\n" )//$NON-NLS-1$
+    	.append( "	\n" )//$NON-NLS-1$
+    	.append( "    	textObj.addToParent( group.element );		\n" )//$NON-NLS-1$
+    	.append( "		var styles = HM.getTextStyles( this.menuStyles[1] )\n" )//$NON-NLS-1$
+    	.append( "    	HM.setContent( evt, textObj, styles, entityArr[0], entityArr[3] );		\n" )//$NON-NLS-1$
+    	.append( "    	setStyles( textObj.element, styles );		\n" )//$NON-NLS-1$
+    	.append( "		if ( !HM.isSetCursor( styles ) )\n" )//$NON-NLS-1$
+    	.append( "			textObj.element.setAttribute( \"pointer-events\", \"none\" );\n" )//$NON-NLS-1$
+    	.append( "			\n" )//$NON-NLS-1$
+    	.append( "    	return textObj;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    HM.setContent = function HM_setContent(evt, textElement, styles, text, tooltip ){		\n" )//$NON-NLS-1$
+    	.append( "       text = text.replace(/\\n/g, \"\\\\n\");		\n" )//$NON-NLS-1$
+    	.append( "       var multiLine = text.split(/\\n/);		\n" )//$NON-NLS-1$
+    	.append( "       for (var x=0; x<multiLine.length; x++){		\n" )//$NON-NLS-1$
+    	.append( "           if (x == 0){		\n" )//$NON-NLS-1$
+    	.append( "               textObj = new BuildHelper(\"tspan\",		\n" )//$NON-NLS-1$
+    	.append( "                              {x: 5,\n" )//$NON-NLS-1$
+    	.append( "							  onmouseover: \"HM.showTooltip(evt);\",\n" )//$NON-NLS-1$
+    	.append( "							  onmouseout:\"try{TM.remove();}catch(e){}\"},		\n" )//$NON-NLS-1$
+    	.append( "                              multiLine[x]);		\n" )//$NON-NLS-1$
+    	.append( "            }		\n" )//$NON-NLS-1$
+    	.append( "            else{		\n" )//$NON-NLS-1$
+    	.append( "                textObj = new BuildHelper(\"tspan\",		\n" )//$NON-NLS-1$
+    	.append( "                           { x: 5,		\n" )//$NON-NLS-1$
+    	.append( "                             dy:17,\n" )//$NON-NLS-1$
+    	.append( "							 onmouseover: \"HM.showTooltip(evt);\",\n" )//$NON-NLS-1$
+    	.append( "							 onmouseout:\"try{TM.remove();}catch(e){}\"		\n" )//$NON-NLS-1$
+    	.append( "                        },multiLine[x]);		\n" )//$NON-NLS-1$
+    	.append( "            }		\n" )//$NON-NLS-1$
+    	.append( "            textObj.addToParent(textElement.element);\n" )//$NON-NLS-1$
+    	.append( "			setStyles( textObj.element, styles );			\n" )//$NON-NLS-1$
+    	.append( "			if ( !HM.isSetCursor( styles ) )\n" )//$NON-NLS-1$
+    	.append( "				textObj.element.setAttribute( \"pointer-events\", \"none\" );\n" )//$NON-NLS-1$
+    	.append( "            HM.createTooltipItem(evt, textElement, tooltip );	\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    			\n" )//$NON-NLS-1$
+    	.append( "    HM.createTooltipItem = function HM_createTooltipItem( evt, parent, tooltip ) {		\n" )//$NON-NLS-1$
+    	.append( "        if ( typeof tooltip == 'undefined' ) return null; 		\n" )//$NON-NLS-1$
+    	.append( "        var title = new BuildHelper(\"title\", 		\n" )//$NON-NLS-1$
+    	.append( "            {id: \"title_\" + tooltip}                		\n" )//$NON-NLS-1$
+    	.append( "        );              		\n" )//$NON-NLS-1$
+    	.append( "        title.addToParent( parent.element );		\n" )//$NON-NLS-1$
+    	.append( "        var textObj = evt.target.ownerDocument.createTextNode( tooltip );\n" )//$NON-NLS-1$
+    	.append( "        title.element.appendChild( textObj );		\n" )//$NON-NLS-1$
+    	.append( "        return title;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "                		\n" )//$NON-NLS-1$
+    	.append( "    HM.showTooltip = function HM_showTooltip( evt ) {		\n" )//$NON-NLS-1$
+    	.append( "        try {		\n" )//$NON-NLS-1$
+    	.append( "            var elem = HM.getTitleElement( evt.currentTarget );		\n" )//$NON-NLS-1$
+    	.append( "            if ( elem != null ) TM.show( evt, null, elem );		\n" )//$NON-NLS-1$
+    	.append( "        } catch ( e ) {}		\n" )//$NON-NLS-1$
+    	.append( "	 return;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "           		\n" )//$NON-NLS-1$
+    	.append( "    HM.getTitleElement = function TM_getTitleElement(elem){		\n" )//$NON-NLS-1$
+    	.append( "        if (elem == null ) return;  		\n" )//$NON-NLS-1$
+    	.append( "        var childs = elem.childNodes;		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "        for (var x=0; x<childs.length; x++){		\n" )//$NON-NLS-1$
+    	.append( "            if (childs.item(x).nodeType == 1 && childs.item(x).nodeName == \"title\")		\n" )//$NON-NLS-1$
+    	.append( "                return childs.item(x);		\n" )//$NON-NLS-1$
+    	.append( "    		 var e = HM.getTitleElement( childs.item(x) );		\n" )//$NON-NLS-1$
+    	.append( "    		if ( e != null ) return e;		\n" )//$NON-NLS-1$
+    	.append( "        }		\n" )//$NON-NLS-1$
+    	.append( "        return null;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    HM.redirect = function(url, urlTarget) {		\n" )//$NON-NLS-1$
+    	.append( "    	try {		\n" )//$NON-NLS-1$
+    	.append( "    		TM.remove();		\n" )//$NON-NLS-1$
+    	.append( "    	} catch ( e ) {};  		\n" )//$NON-NLS-1$
+    	.append( "    	HM.remove();		\n" )//$NON-NLS-1$
+    	.append( "    	if ( url.indexOf(\"#\", 0) == 0 ) {		\n" )//$NON-NLS-1$
+    	.append( "    		top.document.location.hash = url;		\n" )//$NON-NLS-1$
+    	.append( "    		return;		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	if ( url.indexOf(\"javascript:\", 0) == 0 ) {		\n" )//$NON-NLS-1$
+    	.append( "    		eval( url.substring( 11, url.length -1 ) );		\n" )//$NON-NLS-1$
+    	.append( "    		return;		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	var target = 'null';		\n" )//$NON-NLS-1$
+    	.append( "    	if ( urlTarget && urlTarget != '' ) target = urlTarget;		\n" )//$NON-NLS-1$
+    	.append( "        try {		\n" )//$NON-NLS-1$
+    	.append( "    		parent.redirect(target, url);		\n" )//$NON-NLS-1$
+    	.append( "    	} catch( e ) {		\n" )//$NON-NLS-1$
+    	.append( "    		redirect(target, url );		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    HM.onMouseOver = function HM_onMouseOver(evt)		\n" )//$NON-NLS-1$
+    	.append( "    {		\n" )//$NON-NLS-1$
+    	.append( "    	var target = evt.currentTarget;		\n" )//$NON-NLS-1$
+    	.append( "    	if ( target == null ) return;		\n" )//$NON-NLS-1$
+    	.append( "    	var id = target.id;		\n" )//$NON-NLS-1$
+    	.append( "    	if ( id.substr(0, \"text_\".length ) == \"text_\" ) {		\n" )//$NON-NLS-1$
+    	.append( "    		var mainSvg = evt.target.ownerDocument;		\n" )//$NON-NLS-1$
+    	.append( "    		var menuComp = mainSvg.getElementById( id.substring(\"text_\".length, id.length ) );		\n" )//$NON-NLS-1$
+    	.append( "    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[2]) );		\n" )//$NON-NLS-1$
+    	.append( "          var textStyle = HM.getTextStyles(this.menuStyles[2]); \n")//$NON-NLS-1$
+    	.append( "    		setStyles( target,  textStyle );		\n" )//$NON-NLS-1$
+    	.append( "          setStyles( target.childNodes.item(0), textStyle ); \n")//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	else {		\n" )//$NON-NLS-1$
+    	.append( "    		var mainSvg = evt.target.ownerDocument;		\n" )//$NON-NLS-1$
+    	.append( "    		var menuComp = mainSvg.getElementById( id );		\n" )//$NON-NLS-1$
+    	.append( "    		var textComp = mainSvg.getElementById( \"text_\" + id );		\n" )//$NON-NLS-1$
+    	.append( "    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[2]) );		\n" )//$NON-NLS-1$
+    	.append( "          var textStyle = HM.getTextStyles(this.menuStyles[2]); \n")//$NON-NLS-1$
+    	.append( "    		setStyles( textComp,  textStyle ); 		\n" )//$NON-NLS-1$
+    	.append( "          setStyles( textComp.childNodes.item(0), textStyle ); \n")//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	HM.showTooltip( evt );  \n" )//$NON-NLS-1$
+    	.append( "    	try {		\n" )//$NON-NLS-1$
+    	.append( "    		window.clearTimeout( this.hideTimer );		\n" )//$NON-NLS-1$
+    	.append( "    	} catch ( e) {};		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    HM.onMouseOut = function HM_onMouseOut(evt)		\n" )//$NON-NLS-1$
+    	.append( "    {		\n" )//$NON-NLS-1$
+    	.append( "    	var target = evt.currentTarget;		\n" )//$NON-NLS-1$
+    	.append( "    	if ( target == null ) return;		\n" )//$NON-NLS-1$
+    	.append( "    	var id = target.id;		\n" )//$NON-NLS-1$
+    	.append( "    	if ( id.substr(0, \"text_\".length ) == \"text_\" ) {		\n" )//$NON-NLS-1$
+    	.append( "    		var mainSvg = evt.target.ownerDocument;		\n" )//$NON-NLS-1$
+    	.append( "    		var menuComp = mainSvg.getElementById( id.substring(\"text_\".length, id.length ) );		\n" )//$NON-NLS-1$
+    	.append( "    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[3]) );		\n" )//$NON-NLS-1$
+    	.append( "          var textStyle = HM.getTextStyles(this.menuStyles[3]); \n")//$NON-NLS-1$
+    	.append( "    		setStyles( target,  textStyle );		\n" )//$NON-NLS-1$
+    	.append( "          setStyles( target.childNodes.item(0), textStyle ); \n")//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	else {		\n" )//$NON-NLS-1$
+    	.append( "    		var mainSvg = evt.target.ownerDocument;		\n" )//$NON-NLS-1$
+    	.append( "    		var menuComp = mainSvg.getElementById( id );		\n" )//$NON-NLS-1$
+    	.append( "    		var textComp = mainSvg.getElementById( \"text_\" + id );		\n" )//$NON-NLS-1$
+    	.append( "    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[3]) );		\n" )//$NON-NLS-1$
+    	.append( "          var textStyle = HM.getTextStyles(this.menuStyles[3]); \n")//$NON-NLS-1$
+    	.append( "    		setStyles( textComp,  textStyle ); 		\n" )//$NON-NLS-1$
+    	.append( "          setStyles( textComp.childNodes.item(0), textStyle ); \n")//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	try {		\n" )//$NON-NLS-1$
+    	.append( "    		TM.remove();		\n" )//$NON-NLS-1$
+    	.append( "    	} catch ( e ) {};  		\n" )//$NON-NLS-1$
+    	.append( "    	this.hideTimer = window.setTimeout(\"HM.remove();\", 300);		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    HM.getTextStyles = function HM_getTextStyles( styles )		\n" )//$NON-NLS-1$
+    	.append( "    {		\n" )//$NON-NLS-1$
+    	.append( "        var total;		\n" )//$NON-NLS-1$
+    	.append( "    	if ( !isArray(styles ) ) {		\n" )//$NON-NLS-1$
+    	.append( "    		total = getStylesArray( styles );		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	else {		\n" )//$NON-NLS-1$
+    	.append( "    		total = styles;		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    			\n" )//$NON-NLS-1$
+    	.append( "    	var styleString = \"\";		\n" )//$NON-NLS-1$
+    	.append( "    	for ( var i = 0; i < total.length; i++ ) {		\n" )//$NON-NLS-1$
+    	.append( "    		if ( this.TEXT_STYLES.search( total[i][0] +\":\" ) < 0 ) continue;		\n" )//$NON-NLS-1$
+    	.append( "    		if ( total[i][0] == \"backgroundColor\" || total[i][0] == \"background-color\" ) continue;		\n" )//$NON-NLS-1$
+    	.append( "    		if ( total[i][0] == \"fill\" ) continue;		\n" )//$NON-NLS-1$
+    	.append( "    		if (total[i][0] == \"color\") {		\n" )//$NON-NLS-1$
+    	.append( "    			styleString += \"fill\"; 		\n" )//$NON-NLS-1$
+    	.append( "    		}		\n" )//$NON-NLS-1$
+    	.append( "    		else styleString += total[i][0];		\n" )//$NON-NLS-1$
+    	.append( "    		styleString += \": \" + total[i][1] + \";\";		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "		\n" )//$NON-NLS-1$
+    	.append( "		return styleString;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    HM.getMenuStyles = function HM_getMenuStyles( styles )		\n" )//$NON-NLS-1$
+    	.append( "    {		\n" )//$NON-NLS-1$
+    	.append( "        var total;		\n" )//$NON-NLS-1$
+    	.append( "    	if ( !isArray(styles ) ) {		\n" )//$NON-NLS-1$
+    	.append( "    		total = getStylesArray( styles );		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	else {		\n" )//$NON-NLS-1$
+    	.append( "    		total = styles;		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    			\n" )//$NON-NLS-1$
+    	.append( "    	var styleString = \"\";		\n" )//$NON-NLS-1$
+    	.append( "    	for ( var i = 0; i < total.length; i++ ) {		\n" )//$NON-NLS-1$
+    	.append( "    		if ( this.TEXT_STYLES.search( total[i][0] +\":\" ) >= 0 ) continue;		\n" )//$NON-NLS-1$
+    	.append( "    		if (total[i][0] == \"color\") continue;		\n" )//$NON-NLS-1$
+    	.append( "    		if (total[i][0] == \"backgroundColor\" || total[i][0] == \"background-color\") {		\n" )//$NON-NLS-1$
+    	.append( "    			styleString += \"fill\"; 		\n" )//$NON-NLS-1$
+    	.append( "    		}		\n" )//$NON-NLS-1$
+    	.append( "    		else styleString += total[i][0];		\n" )//$NON-NLS-1$
+    	.append( "    		styleString += \": \" + total[i][1] + \";\";		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "			return styleString;					\n" )//$NON-NLS-1$
+    	.append( "	}\n" )//$NON-NLS-1$
+    	.append( "		\n" )//$NON-NLS-1$
+    	.append( "	HM.isSetCursor = function HM_isSetCursor( styleStr )\n" )//$NON-NLS-1$
+    	.append( "	{\n" )//$NON-NLS-1$
+    	.append( "		if ( styleStr.search( \"cursor[ ]*:\" ) >= 0 ) return true;\n" )//$NON-NLS-1$
+    	.append( "		return false;		\n" )//$NON-NLS-1$
+    	.append( "	}\n" )//$NON-NLS-1$
+    	.append( "	\n" )//$NON-NLS-1$
+    	.append( "    function getStylesArray( stylesStr )		\n" )//$NON-NLS-1$
+    	.append( "    {		\n" )//$NON-NLS-1$
+    	.append( "    	var stylesArray = stylesStr.split(\";\");		\n" )//$NON-NLS-1$
+    	.append( "    	var total = new Array( stylesArray.length );		\n" )//$NON-NLS-1$
+    	.append( "    	for ( var i = 0; i < stylesArray.length; i++ ) {		\n" )//$NON-NLS-1$
+    	.append( "    		var unit = stylesArray[i].split(\":\");		\n" )//$NON-NLS-1$
+    	.append( "    		total[i] = new Array( 2);		\n" )//$NON-NLS-1$
+    	.append( "    		total[i][0] = unit[0];		\n" )//$NON-NLS-1$
+    	.append( "    		total[i][1] = unit[1];		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	return total;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "		\n" )//$NON-NLS-1$
+    	.append( "    function setStyles( element, styles )		\n" )//$NON-NLS-1$
+    	.append( "    {		\n" )//$NON-NLS-1$
+    	.append( "    	var total;		\n" )//$NON-NLS-1$
+    	.append( "    	if ( !isArray( styles ) ) {		\n" )//$NON-NLS-1$
+    	.append( "    		total = getStylesArray( styles );		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	else {		\n" )//$NON-NLS-1$
+    	.append( "    		total = styles;		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    			\n" )//$NON-NLS-1$
+    	.append( "    	var styleAttr = element.getAttribute( \"style\" );		\n" )//$NON-NLS-1$
+    	.append( "    	for ( var i = 0; i < total.length; i ++ ) {		\n" )//$NON-NLS-1$
+    	.append( "    		var key = total[i][0];		\n" )//$NON-NLS-1$
+    	.append( "    		var value = total[i][1];		\n" )//$NON-NLS-1$
+    	.append( "    		if ( key == \"\" || typeof value == 'undefined' ) continue;		\n" )//$NON-NLS-1$
+    	.append( "    		styleAttr = updateStyle( styleAttr, key, value );		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	element.setAttribute( \"style\", styleAttr );		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    function updateStyle( styleStr, key, value )		\n" )//$NON-NLS-1$
+    	.append( "    {		\n" )//$NON-NLS-1$
+    	.append( "    	if ( !styleStr )		\n" )//$NON-NLS-1$
+    	.append( "    		return key + \":\" + value + \";\";		\n" )//$NON-NLS-1$
+    	.append( "    	var styleAttr = styleStr;		\n" )//$NON-NLS-1$
+    	.append( "    	var index = styleAttr.search( \"[ ]*\" + key + \":\" );		\n" )//$NON-NLS-1$
+    	.append( "    	if (  index >= 0 ) {		\n" )//$NON-NLS-1$
+    	.append( "    		var index2 = styleAttr.indexOf(\";\", index);		\n" )//$NON-NLS-1$
+    	.append( "    		var s = styleAttr.substring(index, index2 + 1 );		\n" )//$NON-NLS-1$
+    	.append( "    		styleAttr = styleAttr.replace( s, key + \":\" + value + \";\");		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	else {		\n" )//$NON-NLS-1$
+    	.append( "    		styleAttr = styleAttr + key + \":\" + value + \";\";		\n" )//$NON-NLS-1$
+    	.append( "    	}		\n" )//$NON-NLS-1$
+    	.append( "    	return styleAttr;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "    		\n" )//$NON-NLS-1$
+    	.append( "    function isArray(arr) {		\n" )//$NON-NLS-1$
+    	.append( "    	return !!arr && arr.constructor == Array;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "		\n" )//$NON-NLS-1$
+    	.append( "    // Stop the event bubble.		\n" )//$NON-NLS-1$
+    	.append( "    function stopBubble(e) {		\n" )//$NON-NLS-1$
+    	.append( "    	// If the e exists, then it isn't in IE.		\n" )//$NON-NLS-1$
+    	.append( "    	try {		\n" )//$NON-NLS-1$
+    	.append( "    	if ( e && e.stopPropagation )		\n" )//$NON-NLS-1$
+    	.append( "    		e.stopPropagation();		\n" )//$NON-NLS-1$
+    	.append( "    	else		\n" )//$NON-NLS-1$
+    	.append( "    		window.event.cancelBubble = true;		\n" )//$NON-NLS-1$
+    	.append( "    	} catch( e ) {};		\n" )//$NON-NLS-1$
+    	.append( "    	return false;		\n" )//$NON-NLS-1$
+    	.append( "    }		\n" )//$NON-NLS-1$
+    	.append( "		\n" )//$NON-NLS-1$
+    	.append( "    // Stop default action of Browser for event.		\n" )//$NON-NLS-1$
+    	.append( "    function stopDefault( e ) {		\n" )//$NON-NLS-1$
+    	.append( "    	// If the e exists, the it isn't in IE.		\n" )//$NON-NLS-1$
+    	.append( "    	try {		\n" )//$NON-NLS-1$
+    	.append( "    	if ( e && e.preventDefault )		\n" )//$NON-NLS-1$
+    	.append( "    		e.preventDefault();		\n" )//$NON-NLS-1$
+    	.append( "    	else		\n" )//$NON-NLS-1$
+    	.append( "    		window.event.returnValue = false;		\n" )//$NON-NLS-1$
+    	.append( "    	} catch( e ) {};		\n" )//$NON-NLS-1$
+    	.append( "    	return false;		\n" )//$NON-NLS-1$
+    	.append( "    }	\n" );//$NON-NLS-1$
 }

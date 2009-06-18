@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.device.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.attribute.Cursor;
@@ -101,5 +103,134 @@ public class CSSHelper
 		}
 
 		return value ;
+	}
+	
+	/**
+	 * Converts CSS properties to hyphen format.
+	 * 
+	 * @param cssProperties
+	 * @return
+	 * @since 2.5.1
+	 */
+	public static String getStylingHyphenFormat( String cssProperties )
+	{
+		if ( cssProperties == null )
+		{
+			return null;
+		}
+
+		StringBuilder returnStr = new StringBuilder( );
+		String[] properties = cssProperties.split( ";" ); //$NON-NLS-1$
+		if ( properties == null || properties.length == 0 )
+		{
+			return cssProperties;
+		}
+		
+		for ( int j = 0; j < properties.length; j++ )
+		{
+			if ( j != 0 )
+			{
+				returnStr.append( ";" ); //$NON-NLS-1$
+			}
+			String[] pair = properties[j].split( ":" );//$NON-NLS-1$
+			if ( pair == null || pair.length <= 1 )
+			{
+				returnStr.append( properties[j] ).append( ";" );//$NON-NLS-1$
+				continue;
+			}
+
+			List<String> words = new ArrayList<String>( 3 );
+			int begin = 0;
+			int i = 0;
+			for ( ; i < pair[0].length( ); i++ )
+			{
+				if ( Character.isUpperCase( pair[0].charAt( i ) ) && i != 0 )
+				{
+					words.add( pair[0].substring( begin, i ).toLowerCase( ) );
+					begin = i;
+				}
+			}
+			if ( begin != i )
+			{
+				words.add( pair[0].substring( begin, i ).toLowerCase( ) );
+			}
+			StringBuilder sb = new StringBuilder( );
+			i = 0;
+			for ( i = 0; i < words.size( ); i++ )
+			{
+				if ( i != 0 )
+				{
+					sb.append( "-" );//$NON-NLS-1$
+				}
+				sb.append( words.get( i ) );
+			}
+
+			returnStr.append( sb );
+			for ( i = 1; i < pair.length; i++ )
+			{
+				returnStr.append( ":" ).append( pair[i] );//$NON-NLS-1$
+			}
+			
+		}
+
+		return returnStr.toString( );
+	}
+
+	/**
+	 * Converts CSS properties to non-hyphen format.
+	 * 
+	 * @param cssProperties
+	 * @return
+	 * @since 2.5.1
+	 */
+	public static String getStylingNonHyphenFormat( String cssProperties )
+	{
+		if ( cssProperties == null )
+		{
+			return null;
+		}
+
+		StringBuilder returnStr = new StringBuilder( );
+		String[] properties = cssProperties.split( ";" ); //$NON-NLS-1$
+		if ( properties == null || properties.length == 0 )
+		{
+			return cssProperties;
+		}
+
+		for ( int j = 0; j < properties.length; j++ )
+		{
+			if ( j != 0 )
+			{
+				returnStr.append( ";" ); //$NON-NLS-1$
+			}
+			String[] pair = properties[j].split( ":" );//$NON-NLS-1$
+			if ( pair == null || pair.length <= 1 )
+			{
+				returnStr.append( properties[j] ).append( ";" );//$NON-NLS-1$
+				continue;
+			}
+
+			StringBuilder wordsStr = new StringBuilder( );
+			String[] words = pair[0].split( "-" );//$NON-NLS-1$
+			for ( int i = 0; i < words.length; i++ )
+			{
+				if ( i == 0 )
+				{
+					wordsStr.append( words[i] );
+				}
+				else
+				{
+					wordsStr.append( Character.toUpperCase( words[i].charAt( 0 ) ) )
+							.append( words[i].substring( 1 ) );
+				}
+			}
+			returnStr.append( wordsStr );
+			for ( int i = 1; i < pair.length; i++ )
+			{
+				returnStr.append( ":" ).append( pair[i] );//$NON-NLS-1$
+			}
+		}
+
+		return returnStr.toString( );
 	}
 }
