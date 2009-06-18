@@ -49,6 +49,7 @@ public class ChartWizard extends WizardBase
 	public static final String StaChartDSh_switch_ID = "StandardChartDataSheet.swtichDataSet"; //$NON-NLS-1$
 	public static final String StaChartDSh_dPreview_ID = "StandChartDataSheet.dataPreview"; //$NON-NLS-1$
 	public static final String StaChartDSh_gHeaders_ID = "StandardChartDataSheet.getPreviewHeaders"; //$NON-NLS-1$
+	public static final String StaChartDSh_checCube_ID = "StandardChartDataSheet.checkCubeColumnBinding"; //$NON-NLS-1$
 	public static final String ChartColBinDia_ID = "ChartColumnBindingDialog"; //$NON-NLS-1$
 	public static final String FormatSpeciCom_ID = "FormatSpecifierComposite"; //$NON-NLS-1$
 	public static final String MarkerEdiCom_ID = "MarkerEditorComposite"; //$NON-NLS-1$
@@ -289,8 +290,11 @@ public class ChartWizard extends WizardBase
 
 	public static void showException( String key, String errorMessage )
 	{
-		WizardBase.showException( errorMessage );
-		errors.put( key, errorMessage );
+		if ( errorMessage != null )
+		{
+			WizardBase.showException( errorMessage );
+			errors.put( key, errorMessage );
+		}
 	}
 
 	public static void removeException( String key )

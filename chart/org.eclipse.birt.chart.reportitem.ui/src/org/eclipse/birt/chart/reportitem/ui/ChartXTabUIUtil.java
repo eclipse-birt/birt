@@ -697,4 +697,32 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			}
 		}
 	}
+
+	/**
+	 * Check if current column bindings contain one dimension and one measure at
+	 * least.
+	 * 
+	 * @param columnBindings
+	 * @return check result
+	 */
+	public static boolean checkColumnbindingForCube( Iterator columnBindings )
+	{
+		String expression;
+		boolean containDimension = false;
+		boolean containMeasure = false;
+		while ( columnBindings.hasNext( ) )
+		{
+			ComputedColumnHandle cc = (ComputedColumnHandle) columnBindings.next( );
+			expression = cc.getExpression( );
+			if ( !containDimension && isDimensionExpresion( expression ) )
+			{
+				containDimension = true;
+			}
+			if ( !containMeasure && isMeasureExpresion( expression ) )
+			{
+				containMeasure = true;
+			}
+		}
+		return containDimension && containMeasure;
+	}
 }

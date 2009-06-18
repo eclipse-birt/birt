@@ -943,6 +943,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		initDataSelector( );
 		updatePredefinedQueries( );
+		checkColBindingForCube( );
 		if ( dataProvider.checkState( IDataServiceProvider.IN_MULTI_VIEWS ) )
 		{
 			autoSelect( false );
@@ -1029,6 +1030,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			handle.getModuleHandle( ).getCommandStack( ).commit( );
 			updatePredefinedQueries( );
+			checkColBindingForCube( );
 		}
 		else
 		{
@@ -1417,6 +1419,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					getContext().setShowingDataPreview( Boolean.valueOf( w.getSelection( ) ) );
 					updateDragDataSource( );
 				}
+				checkColBindingForCube( );
 				ChartWizard.removeException( ChartWizard.StaChartDSh_switch_ID );
 			}
 			catch ( ChartException e1 )
@@ -1429,7 +1432,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private void autoSelect( boolean force )
 	{
-		if ( dataProvider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+		if ( dataProvider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY )
+				&& !dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
 		{
 			// if only one item,select it for user
 			Query query = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getContext( ).getModel( ) )
@@ -2647,6 +2651,20 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				q.setDefinition( expr );
 			}
+		}
+	}
+
+	private void checkColBindingForCube( )
+	{
+		if ( getCube( ) != null
+				&& !ChartXTabUIUtil.checkColumnbindingForCube( DEUtil.getBindingColumnIterator( DEUtil.getBindingHolder( itemHandle ) ) ) )
+		{
+			ChartWizard.showException( ChartWizard.StaChartDSh_checCube_ID,
+					Messages.getString("StandardChartDataSheet.CheckCubeWarning") ); //$NON-NLS-1$
+		}
+		else
+		{
+			ChartWizard.removeException( ChartWizard.StaChartDSh_checCube_ID );
 		}
 	}
 }
