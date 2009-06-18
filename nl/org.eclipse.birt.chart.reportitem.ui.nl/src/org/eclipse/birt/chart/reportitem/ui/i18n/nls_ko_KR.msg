@@ -53,6 +53,7 @@ ReportDataServiceProvider.Tooltip.GroupExpression=그룹 식:
 ReportDataServiceProvider.Tooltip.OnGroup=그룹 위치: 
 
 ShowAxisAction.Text.ShowValueAxis=값 축 표시
+StandardChartDataSheet.CheckCubeWarning=Column bindings should contain at least one dimension and one measure.
 StandardChartDataSheet.Combo.DataCubes=---------데이터 큐브---------
 StandardChartDataSheet.Combo.DataSets=----------데이터 집합----------
 StandardChartDataSheet.Combo.InheritColumnsGroups=열 및 그룹 상속
