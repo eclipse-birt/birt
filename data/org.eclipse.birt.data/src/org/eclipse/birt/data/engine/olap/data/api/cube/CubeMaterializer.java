@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Hierarchy;
+import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
 
 /**
  * 
@@ -62,6 +63,7 @@ public class CubeMaterializer
 	{
 		this.dataEngine = dataEngine;
 		setShutdownListener( );
+		TempPathManager.setTempPath( dataEngine.getSession( ).getTempDir( ) );
 		documentManager = DocumentManagerFactory.createFileDocumentManager( dataEngine.getSession( ).getTempDir( ), managerName, cacheSize );
 		if ( this.dataEngine != null )
 		{

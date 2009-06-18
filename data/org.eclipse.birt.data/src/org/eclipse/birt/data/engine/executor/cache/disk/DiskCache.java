@@ -22,8 +22,10 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.cache.SimpleCachedObject;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
+import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
@@ -32,6 +34,8 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
+import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
 
 /**
  * Disk cache implementation of ResultSetCache
@@ -66,6 +70,8 @@ public class DiskCache implements ResultSetCache
 	
 	private DataEngineSession session;
 	
+	private boolean needCache;
+	private BufferedStructureArray cache;
 	/**
 	 * The MemoryCacheRowCount indicates the upper limitation of how many rows
 	 * can be loaded into memory. Note this value is included as well. Look at
@@ -139,25 +145,53 @@ public class DiskCache implements ResultSetCache
 		if ( currResultIndex > countOfResult - 1 )
 		{
 			currResultObject = null;
+			return false;
 		}
 		else
 		{
 			currResultIndex++;
 			if ( currResultIndex == countOfResult )
+			{
 				currResultObject = null;
-			else
-				try
+				return false;
+			}
+		}
+		try
+		{
+			if ( needCache )
+			{
+				if( currResultIndex < cache.size( ) )
+				{
+					SimpleCachedObject cachedRow = ( SimpleCachedObject )cache.get( currResultIndex );
+					currResultObject = new ResultObject( rsMeta, cachedRow.getFieldValues( ) );
+				}
+				else
 				{
 					currResultObject = diskBasedResultSet.nextRow( );
+					cache.add( new SimpleCachedObject( getAllFields( currResultObject ) ) );
 				}
-				catch ( IOException e )
-				{
-					throw new DataException( ResourceConstants.READ_TEMPFILE_ERROR,
-							e );
-				}
+			}
+			else
+			{
+				currResultObject = diskBasedResultSet.nextRow( );
+			}
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.READ_TEMPFILE_ERROR, e );
 		}
 		
 		return currResultObject != null;
+	}
+	
+	private static Object[] getAllFields( IResultObject obj ) throws DataException
+	{
+		Object[] fields = new Object[obj.getResultClass( ).getFieldCount( )];
+		for ( int i = 0; i < fields.length; i++ )
+		{
+			fields[i] = obj.getFieldValue( i + 1 );
+		}
+		return fields;
 	}
 	
 	/*
@@ -184,18 +218,46 @@ public class DiskCache implements ResultSetCache
 		}
 		else
 		{
-			reset( );
-			advancedStep = destIndex + 1;
+			if ( !needCache )
+			{
+				reset( );
+				initCache( );
+				advancedStep = destIndex + 1;
+				for ( int i = 0; i < advancedStep; i++ )
+					next( );
+			}
+			else
+			{
+				SimpleCachedObject cachedRow;
+				try
+				{
+					cachedRow = (SimpleCachedObject) cache.get( destIndex );
+					currResultObject = new ResultObject( rsMeta,
+							cachedRow.getFieldValues( ) );
+				}
+				catch ( IOException e )
+				{
+					throw new DataException( ResourceConstants.READ_TEMPFILE_ERROR,
+							e );
+				}
+			}
 		}
-
-		for ( int i = 0; i < advancedStep; i++ )
-			next( );
-
+		
 		currResultIndex = destIndex;
 		
 		// currResultObject needs to be updated
 		if ( currResultIndex == -1 || currResultIndex == countOfResult )
 			currResultObject = null;
+	}
+
+	/**
+	 * 
+	 */
+	private void initCache( )
+	{
+		needCache = true;
+		TempPathManager.setTempPath( this.session.getTempDir( ) );
+		cache = new BufferedStructureArray( SimpleCachedObject.getCreator( ), 0 );
 	}
 
 	/**
@@ -228,7 +290,19 @@ public class DiskCache implements ResultSetCache
 	public void reset( ) throws DataException
 	{		
 		diskBasedResultSet.reset( );
-		
+		needCache = false;
+		if( cache != null )
+		{
+			try
+			{
+				cache.close( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.READ_TEMPFILE_ERROR, e );
+			}
+			cache = null;
+		}
 		currResultIndex = -1;
 		currResultObject = null;
 	}
@@ -237,7 +311,19 @@ public class DiskCache implements ResultSetCache
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#close()
 	 */
 	public void close( ) throws DataException
-	{		
+	{	
+		if( cache != null )
+		{
+			try
+			{
+				cache.close( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.READ_TEMPFILE_ERROR, e );
+			}
+			cache = null;
+		}
 		diskBasedResultSet.close( );
 		
 		File goalFile = new File( goalFileStr );

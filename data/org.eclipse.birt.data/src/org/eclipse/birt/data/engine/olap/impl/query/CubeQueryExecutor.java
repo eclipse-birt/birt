@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
+import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
 import org.eclipse.birt.data.engine.olap.util.ComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
@@ -79,6 +80,7 @@ public class CubeQueryExecutor
 		this.scope = scope;
 		this.context = context;
 		this.session = session;
+		TempPathManager.setTempPath( session.getTempDir( ) );
 		this.outResults = outResults;
 		this.dimensionFilterEvalHelpers = new ArrayList<IJSFilterHelper> ();
 		this.aggrMeasureFilterEvalHelpers = new ArrayList<IAggrMeasureFilterEvalHelper>();
