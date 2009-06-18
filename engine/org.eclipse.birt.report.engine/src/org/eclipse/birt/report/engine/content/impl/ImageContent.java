@@ -173,11 +173,16 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public String getURI( )
 	{
-		if ( sourceType == IMAGE_NAME )
+		switch ( sourceType )
 		{
-			return getImageName( );
+			case IMAGE_NAME :
+				return getImageName( );
+			case IMAGE_FILE :
+			case IMAGE_URL :
+				return getImageURI( );
+			default :
+				return uri;
 		}
-		return getImageURI( );
 	}
 
 	public int getImageSource( )
@@ -304,13 +309,18 @@ public class ImageContent extends AbstractContent implements IImageContent
 	 */
 	public void setURI( String uri )
 	{
-		if ( sourceType == IMAGE_NAME )
+		switch ( sourceType )
 		{
-			setImageName( uri );
-		}
-		else
-		{
-			setImageURI( uri );
+			case IMAGE_NAME :
+				setImageName( uri );
+				break;
+			case IMAGE_FILE :
+			case IMAGE_URL :
+				setImageURI( uri );
+				break;
+			default :
+				this.uri = uri;
+				break;
 		}
 	}
 
