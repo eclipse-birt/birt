@@ -1134,7 +1134,7 @@
 		</copy>
 		<copy todir="${runtime.download.tmp}/ChartRuntime/eclipse/features">
 			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.chart*/*" />
+				<include name="org.eclipse.birt.chart*/**" />
 				<!--<include name="org.mozilla.rhino*/*" />
 				<include name="org.apache.commons.codec*/*" />-->
 				<exclude name="org.eclipse.birt.chart.runtime*/*" />
