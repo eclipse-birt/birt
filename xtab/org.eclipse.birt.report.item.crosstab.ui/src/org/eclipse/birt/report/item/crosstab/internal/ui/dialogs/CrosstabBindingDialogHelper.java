@@ -664,13 +664,35 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( expression != null )
 		{
-			// if ( cmbDataField != null && !cmbDataField.isDisposed( ) )
-			// {
-			// cmbDataField.setText( expression );
-			// }
-			if ( txtExpression != null && !txtExpression.isDisposed( ) )
+			if ( isAggregate( ) )
 			{
-				txtExpression.setText( expression );
+				IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
+				if ( function != null )
+				{
+					IParameterDefn[] params = function.getParameterDefn( );
+					for ( final IParameterDefn param : params )
+					{
+						if ( param.isDataField( ) )
+						{
+							Control control = paramsMap.get( param.getName( ) );
+							if ( control instanceof Text )
+							{
+								( (Text) control ).setText( expression );
+							}
+							else if ( control instanceof Combo )
+							{
+								( ( Combo) control ).setText( expression );
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				if ( txtExpression != null && !txtExpression.isDisposed( ) )
+				{
+					txtExpression.setText( expression );
+				}
 			}
 		}
 	}
@@ -857,7 +879,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			else
 			{
 				( (GridData) paramsComposite.getLayoutData( ) ).heightHint = 0;
-//				( (GridData) paramsComposite.getLayoutData( ) ).exclude = true;
+				// ( (GridData) paramsComposite.getLayoutData( ) ).exclude =
+				// true;
 			}
 
 			// this.cmbDataField.setEnabled( function.needDataField( ) );
@@ -1021,7 +1044,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					}
 				}
 			}
-			
+
 			dialog.setCanFinish( true );
 			this.messageLine.setText( "" ); //$NON-NLS-1$
 			this.messageLine.setImage( null );
