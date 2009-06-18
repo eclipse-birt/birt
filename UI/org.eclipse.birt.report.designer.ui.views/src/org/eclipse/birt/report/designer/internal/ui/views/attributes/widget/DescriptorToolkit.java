@@ -173,4 +173,11 @@ public class DescriptorToolkit
 		return descriptor;
 	}
 
+	public static DualRadioButtonPropertyDescriptor createRadioButtonPropertyDescriptor(
+			boolean formStyle )
+	{
+		DualRadioButtonPropertyDescriptor descriptor = new DualRadioButtonPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
 }

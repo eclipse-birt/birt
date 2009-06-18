@@ -16,8 +16,10 @@ import java.io.ByteArrayOutputStream;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DualRadioButtonPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.DualRadioButtonSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndTwoButtonSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -47,16 +49,6 @@ public class ReportPage extends ModulePage
 	{
 		super.buildUI( parent );
 
-		ComboPropertyDescriptorProvider layoutProvider = new ComboPropertyDescriptorProvider( ReportDesignHandle.LAYOUT_PREFERENCE_PROP,
-				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
-		ComboSection layoutSection = new ComboSection( layoutProvider.getDisplayName( ),
-				container,
-				true );
-		layoutSection.setProvider( layoutProvider );
-		layoutSection.setWidth( 500 );
-		layoutSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.REPORT_LAYOUT_PREFERENCE, layoutSection );
-
 		/*
 		 * If BiDi support is enabled - BiDi Orientation should be added to
 		 * properties view
@@ -82,6 +74,8 @@ public class ReportPage extends ModulePage
 		displaySection.setWidth( 500 );
 		displaySection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.REPORT_DISPLAY, displaySection );
+
+
 
 		TextPropertyDescriptorProvider prvImageProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.ICON_FILE_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
@@ -162,12 +156,22 @@ public class ReportPage extends ModulePage
 		} );
 
 		prvImageSection.setWidth( 500 );
+		prvImageSection.setGridPlaceholder( 1, true );
 		// prvImageSection.setFristButtonText( Messages.getString(
 		// "ReportPage.text.Browse" ) );
 		prvImageSection.setSecondButtonText( "..." ); //$NON-NLS-1$
 		prvImageSection.setSecondButtonTooltipText( Messages.getString( "ReportPage.PreviewImage.Button.ToolTip" ) ); //$NON-NLS-1$
 
 		addSection( PageSectionId.REPORT_PRVIMAGE, prvImageSection );
+
+		DualRadioButtonPropertyDescriptorProvider layoutProvider = new DualRadioButtonPropertyDescriptorProvider( ReportDesignHandle.LAYOUT_PREFERENCE_PROP,
+				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
+		DualRadioButtonSection layoutSection = new DualRadioButtonSection( layoutProvider.getDisplayName( ),
+				container,
+				true );
+		layoutSection.setProvider( layoutProvider );
+		layoutSection.setWidth( 500 );
+		addSection( PageSectionId.REPORT_LAYOUT_PREFERENCE, layoutSection );
 
 		createSections( );
 		layoutSections( );
