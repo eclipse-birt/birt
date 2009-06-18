@@ -1344,11 +1344,23 @@ public class ExecutionContext
 
 	public String getOutputFormat( )
 	{
+		String outputFormat = null;
 		if ( renderOption != null )
 		{
-			return renderOption.getOutputFormat( );
+			outputFormat = renderOption.getOutputFormat( );
 		}
-		return IRenderOption.OUTPUT_FORMAT_HTML;
+		if ( outputFormat == null )
+		{
+			if ( isFixedLayout( ) )
+			{
+				outputFormat = IRenderOption.OUTPUT_EMITTERID_PDF;
+			}
+			else
+			{
+				outputFormat = IRenderOption.OUTPUT_FORMAT_HTML;
+			}
+		}
+		return outputFormat;
 	}
 
 	public class ElementExceptionInfo
