@@ -610,9 +610,9 @@ JointDataSetPage.query=查询
 ###########################################################
 #DerivedDataSet properties
 
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+DerivedDataSet.action.error.message.NoDataSet=未找到可用数据集。
+DerivedDataSet.action.error.title.createDerivedDataSet=创建衍生数据集时出错
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=可用的数据集数少于两个。
 
 ###########################################################
 #DataSetComputedColumnsPage properties
@@ -1021,8 +1021,8 @@ DeleteGroupAction.stackMsg.deleteGroup=删除组
 EditLabelAction.text=编辑(&E)
 EditorDragGuidePolicy.pixels.label=像素
 EditorGuide.bottom.label=底部:
-EditorGuide.left.label=左:
-EditorGuide.right.label=右:
+EditorGuide.left.label=左侧:
+EditorGuide.right.label=右侧:
 EditorGuide.top.label=顶部:
 
 ###########################################################
@@ -4278,7 +4278,7 @@ ThumbnailBuilder.FileDialog.FileNameError.Title=错误
 ThumbnailBuilder.FileDialog.FileNameError.Message=您选择的文件不是图像。
 ThumbnailBuilder.Button.GenerateFromReport=从报表生成(&N)
 ThumbnailBuilder.Button.BrowseFromFileSystem=从文件系统浏览(&W)
-ThumbnailBuilder.Button.ImportFromResource=I&mport from shared resources
+ThumbnailBuilder.Button.ImportFromResource=从共享资源导入(&M)
 ThumbnailBuilder.Image.DefaultName=缩略图
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=您选择了大图像(大于 1014x768)，可能导致内存不足异常。\n是否继续?

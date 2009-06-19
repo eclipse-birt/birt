@@ -610,9 +610,9 @@ JointDataSetPage.query=Consulta
 ###########################################################
 #DerivedDataSet properties
 
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+DerivedDataSet.action.error.message.NoDataSet=No se ha encontrado ningún conjunto de datos disponible.
+DerivedDataSet.action.error.title.createDerivedDataSet=Error al crear conjunto de datos derivados
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=El número de conjuntos de datos disponibles es inferior a dos.
 
 ###########################################################
 #DataSetComputedColumnsPage properties
@@ -4278,7 +4278,7 @@ ThumbnailBuilder.FileDialog.FileNameError.Title=Error
 ThumbnailBuilder.FileDialog.FileNameError.Message=El archivo seleccionado no es una imagen.
 ThumbnailBuilder.Button.GenerateFromReport=Ge&nerar desde el informe
 ThumbnailBuilder.Button.BrowseFromFileSystem=E&xplorar desde el sistema de archivos
-ThumbnailBuilder.Button.ImportFromResource=I&mport from shared resources
+ThumbnailBuilder.Button.ImportFromResource=I&mportar desde los recursos compartidos
 ThumbnailBuilder.Image.DefaultName=Imagen en miniatura
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Advertencia
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=Ha seleccionado una imagen de gran tamaño (superior a 1014 x 768) que puede provocar una excepción por memoria insuficiente.\n¿Desea continuar?

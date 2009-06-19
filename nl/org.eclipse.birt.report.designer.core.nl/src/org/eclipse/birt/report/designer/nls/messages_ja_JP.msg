@@ -610,9 +610,9 @@ JointDataSetPage.query=クエリ
 ###########################################################
 #DerivedDataSet properties
 
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+DerivedDataSet.action.error.message.NoDataSet=使用可能なデータセットが見つかりません。
+DerivedDataSet.action.error.title.createDerivedDataSet=派生データセット作成時のエラー
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=使用可能なデータセットの数が 2 つ未満です。
 
 ###########################################################
 #DataSetComputedColumnsPage properties
@@ -4278,7 +4278,7 @@ ThumbnailBuilder.FileDialog.FileNameError.Title=エラー
 ThumbnailBuilder.FileDialog.FileNameError.Message=選択したファイルは、イメージではありません。
 ThumbnailBuilder.Button.GenerateFromReport=レポートから生成(&N)
 ThumbnailBuilder.Button.BrowseFromFileSystem=ファイルシステムの参照(&W)
-ThumbnailBuilder.Button.ImportFromResource=I&mport from shared resources
+ThumbnailBuilder.Button.ImportFromResource=共有リソースからインポート(&M)
 ThumbnailBuilder.Image.DefaultName=サムネイルのイメージ
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=サイズの大きいイメージ (1014x768 以上) を選択しました。これによりメモリ不足の例外が発生する可能性があります。\n続けますか ?

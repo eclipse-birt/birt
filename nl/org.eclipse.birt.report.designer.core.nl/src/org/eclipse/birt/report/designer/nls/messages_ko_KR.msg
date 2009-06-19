@@ -610,9 +610,9 @@ JointDataSetPage.query=쿼리
 ###########################################################
 #DerivedDataSet properties
 
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+DerivedDataSet.action.error.message.NoDataSet=사용 가능한 데이터 집합을 찾을 수 없습니다.
+DerivedDataSet.action.error.title.createDerivedDataSet=파생 데이터 집합을 생성할 수 없습니다.
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=사용 가능한 데이터 집합 수가 2보다 작습니다.
 
 ###########################################################
 #DataSetComputedColumnsPage properties
@@ -4278,7 +4278,7 @@ ThumbnailBuilder.FileDialog.FileNameError.Title=오류
 ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니다.
 ThumbnailBuilder.Button.GenerateFromReport=보고서에서 생성(&N)
 ThumbnailBuilder.Button.BrowseFromFileSystem=파일 시스템에서 찾아보기(&W)
-ThumbnailBuilder.Button.ImportFromResource=I&mport from shared resources
+ThumbnailBuilder.Button.ImportFromResource=공유 리소스에서 가져오기(&M)
 ThumbnailBuilder.Image.DefaultName=축소판 이미지
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=경고
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=너무 큰 이미지(1014x768 이상)를 선택하여 메모리 부족 예외가 발생할 수 있습니다.\n계속하시겠습니까?

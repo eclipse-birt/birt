@@ -610,9 +610,9 @@ JointDataSetPage.query=Abfrage
 ###########################################################
 #DerivedDataSet properties
 
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+DerivedDataSet.action.error.message.NoDataSet=Kein verfügbarer Datensatz gefunden.
+DerivedDataSet.action.error.title.createDerivedDataSet=Fehler beim Erstellen von abgeleitetem Datensatz.
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=Die Anzahl der verfügbaren Datensätze ist geringer als zwei.
 
 ###########################################################
 #DataSetComputedColumnsPage properties
@@ -4278,7 +4278,7 @@ ThumbnailBuilder.FileDialog.FileNameError.Title=Fehler
 ThumbnailBuilder.FileDialog.FileNameError.Message=Die ausgewählte Datei ist keine Bilddatei.
 ThumbnailBuilder.Button.GenerateFromReport=Aus Bericht ge&nerieren
 ThumbnailBuilder.Button.BrowseFromFileSystem=Dateisystem durch&suchen
-ThumbnailBuilder.Button.ImportFromResource=I&mport from shared resources
+ThumbnailBuilder.Button.ImportFromResource=Aus gemeinsamen Ressourcen i&mportieren
 ThumbnailBuilder.Image.DefaultName=Miniaturbild
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Warnung
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=Das ausgewählte Bild ist größer als 1014 x 768. Möglicherweise reicht der Speicher dafür nicht aus.\nMöchten Sie dennoch fortfahren?

@@ -610,9 +610,9 @@ JointDataSetPage.query=Requête
 ###########################################################
 #DerivedDataSet properties
 
-DerivedDataSet.action.error.message.NoDataSet=No available data set found.
-DerivedDataSet.action.error.title.createDerivedDataSet=Error to create derived data set
-DerivedDataSet.action.error.message.InvalidNumber.DataSet=The number of the available data sets is less than two.
+DerivedDataSet.action.error.message.NoDataSet=Aucun jeu de données disponible n'a été trouvé.
+DerivedDataSet.action.error.title.createDerivedDataSet=Echec de la création du jeu de données dérivées
+DerivedDataSet.action.error.message.InvalidNumber.DataSet=Le nombre de jeux de données disponibles est inférieur à deux.
 
 ###########################################################
 #DataSetComputedColumnsPage properties
@@ -4278,7 +4278,7 @@ ThumbnailBuilder.FileDialog.FileNameError.Title=Erreur
 ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est pas une image.
 ThumbnailBuilder.Button.GenerateFromReport=Gé&nérer à partir de l'état
 ThumbnailBuilder.Button.BrowseFromFileSystem=&Parcourir depuis le système de fichiers
-ThumbnailBuilder.Button.ImportFromResource=I&mport from shared resources
+ThumbnailBuilder.Button.ImportFromResource=I&mporter à partir de ressources partagées
 ThumbnailBuilder.Image.DefaultName=Image miniature
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Avertissement
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=Vous avez sélectionné une image volumineuse (supérieure à 1 014 x 768). Ceci peut entraîner la génération d'une exception de type "Mémoire insuffisante".\nSouhaitez-vous continuer ?
