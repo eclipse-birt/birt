@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
@@ -23,6 +24,9 @@ import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
+import org.eclipse.birt.data.engine.olap.data.util.IStructure;
+import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
 
 /**
  * The instance of this class is used by CachedResultSet to deal with
@@ -690,19 +694,61 @@ public class GroupInformationUtil
 	 * @param higherGroup
 	 * @param lowerGroup
 	 * @return
+	 * @throws IOException 
 	 */
 	private List mergeTwoGroupBoundaryInfoGroups( List higherGroup,
-			List lowerGroup )
+			List lowerGroup ) throws IOException
 	{
 		List result = new CachedList( tempDir, DataEngineSession.getCurrentClassLoader( ), GroupBoundaryInfo.getCreator( ) );
+		GroupInfoWithIndex groupInfoWithIndex;
+		DiskSortedStack higherSortedStack = new DiskSortedStack( 0,
+				false,
+				new GroupInfoWithIndexComparator( GroupInfoWithIndexComparator.START_INDEX_KEY ),
+				GroupInfoWithIndex.getCreator( ) );
+		DiskSortedStack lowerSortedStack = new DiskSortedStack( 0,
+				false,
+				new GroupInfoWithIndexComparator( GroupInfoWithIndexComparator.START_INDEX_KEY ),
+				GroupInfoWithIndex.getCreator( ) );
+		//sort higher group boundary info objects 
 		for ( int i = 0; i < higherGroup.size( ); i++ )
 		{
-			GroupBoundaryInfo gbi1 = (GroupBoundaryInfo) higherGroup.get( i );
-			for ( int j = 0; j < lowerGroup.size( ); j++ )
+			groupInfoWithIndex = new GroupInfoWithIndex( );
+			groupInfoWithIndex.groupIndex = i;
+			groupInfoWithIndex.groupBoundaryInfo = (GroupBoundaryInfo) higherGroup.get( i );
+			higherSortedStack.push( groupInfoWithIndex );
+		}
+		//sort lower group boundary info objects
+		for ( int i = 0; i < lowerGroup.size( ); i++ )
+		{
+			groupInfoWithIndex = new GroupInfoWithIndex( );
+			groupInfoWithIndex.groupIndex = i;
+			groupInfoWithIndex.groupBoundaryInfo = (GroupBoundaryInfo) lowerGroup.get( i );
+			lowerSortedStack.push( groupInfoWithIndex );
+		}
+		
+		DiskSortedStack resultSortedStack = new DiskSortedStack( 0,
+				false,
+				new GroupInfoWithIndexComparator( GroupInfoWithIndexComparator.PARENT_GROUP_INDEX_KEY ),
+				GroupInfoWithIndex.getCreator( ) );
+		
+		GroupInfoWithIndex gbiH;
+		GroupInfoWithIndex gbiL = (GroupInfoWithIndex)lowerSortedStack.pop( );
+		for ( int i = 0; i < higherSortedStack.size( ); i++ )
+		{
+			gbiH = (GroupInfoWithIndex)higherSortedStack.pop( );
+			while ( gbiL != null && gbiL.groupBoundaryInfo.getStartIndex( ) <= gbiH.groupBoundaryInfo.getEndIndex( ) )
 			{
-				if ( gbi1.isInBoundary( (GroupBoundaryInfo) lowerGroup.get( j ) ) )
-					result.add( lowerGroup.get( j ) );
+				if ( gbiH.groupBoundaryInfo.isInBoundary( gbiL.groupBoundaryInfo ) )
+				{
+					gbiL.parentGroupIndex = gbiH.groupIndex;
+					resultSortedStack.push( gbiL );
+				}
+				gbiL = (GroupInfoWithIndex)lowerSortedStack.pop( );
 			}
+		}
+		for ( int i = 0; i < resultSortedStack.size( ); i++ )
+		{
+			result.add( ((GroupInfoWithIndex)resultSortedStack.pop( )).groupBoundaryInfo );
 		}
 
 		return result;
@@ -720,8 +766,16 @@ public class GroupInformationUtil
 		// First merge all GroupBoundaryInfos groups
 		for ( int i = 1; i < groups.length; i++ )
 		{
-			groups[i] = mergeTwoGroupBoundaryInfoGroups( groups[i - 1],
-					groups[i] );
+			try
+			{
+				groups[i] = mergeTwoGroupBoundaryInfoGroups( groups[i - 1],
+						groups[i] );
+			}
+			catch ( IOException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		// Then populate the OrderingInfo
@@ -732,5 +786,82 @@ public class GroupInformationUtil
 					( (GroupBoundaryInfo) groups[groups.length - 1].get( i ) ).getEndIndex( ) );
 		}
 		return odInfo;
+	}
+}
+
+class GroupInfoWithIndex implements IStructure
+{
+	int parentGroupIndex;
+	int groupIndex;
+	GroupBoundaryInfo groupBoundaryInfo;
+	
+	public Object[] getFieldValues( )
+	{
+		Object[] groupFields = groupBoundaryInfo.getFieldValues( );
+		Object[] fields = new Object[groupFields.length + 2];
+		System.arraycopy( groupFields, 0, fields, 0, groupFields.length );
+		fields[fields.length - 2] = new Integer( parentGroupIndex );
+		fields[fields.length - 1] = new Integer( groupIndex );
+		return fields;
+	}
+	
+	public static IStructureCreator getCreator( )
+	{
+		return new GroupInfoWithIndexCreator( );
+	}
+}
+
+class GroupInfoWithIndexCreator implements IStructureCreator
+{
+
+	public IStructure createInstance( Object[] fields )
+	{
+		GroupInfoWithIndex groupInfoWithIndex = new GroupInfoWithIndex( );
+		groupInfoWithIndex.parentGroupIndex = ( (Integer) fields[fields.length - 2] ).intValue( );
+		groupInfoWithIndex.groupIndex = ( (Integer) fields[fields.length - 1] ).intValue( );
+		Object[] groupFields = new Object[fields.length - 2];
+		System.arraycopy( fields, 0, groupFields, 0, fields.length - 2 );
+		groupInfoWithIndex.groupBoundaryInfo = (GroupBoundaryInfo) GroupBoundaryInfo.getCreator( )
+				.createInstance( groupFields );
+		return groupInfoWithIndex;
+	}
+}
+
+final class GroupInfoWithIndexComparator implements Comparator
+{
+	final static int PARENT_GROUP_INDEX_KEY = 1;
+	final static int START_INDEX_KEY = 2;
+	private int keyType;
+	
+	GroupInfoWithIndexComparator( int keyType )
+	{
+		this.keyType = keyType;
+	}
+	/**
+	 * 
+	 */
+
+	public int compare( Object o1, Object o2 )
+	{
+		if( keyType == START_INDEX_KEY )
+		{
+			return compare( ( (GroupInfoWithIndex) o1 ).groupBoundaryInfo.getStartIndex( ),
+					( (GroupInfoWithIndex) o2 ).groupBoundaryInfo.getStartIndex( ) );
+		}
+		else if( keyType == PARENT_GROUP_INDEX_KEY )
+		{
+			int result = compare( ( (GroupInfoWithIndex) o1 ).parentGroupIndex,
+					( (GroupInfoWithIndex) o2 ).parentGroupIndex );
+			if ( result != 0 )
+				return result;
+			return compare( ( (GroupInfoWithIndex) o1 ).groupIndex,
+						( (GroupInfoWithIndex) o2 ).groupIndex );
+		}
+		return 0;
+	}
+	
+	private int compare( int i1, int i2 )
+	{
+		return ( i1 < i2 ? -1 : ( i1 == i2 ? 0 : 1 ) );
 	}
 }
