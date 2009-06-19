@@ -356,4 +356,17 @@ class FilterExprDefinition implements IFilterExprDefinition
 					"The Birt filter expression Id is not valid." );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
+	 * IFilterExprDefinition#isNegatedExtExprId()
+	 */
+	
+	public boolean isNegatedExtExprId( )
+	{
+		// the default value is false.
+		return false;
+	}
+
 }

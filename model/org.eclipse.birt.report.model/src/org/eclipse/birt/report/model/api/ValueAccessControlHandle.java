@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IValueAccessControlMode
  * 
  * </dl>
  * 
+ * @deprecated
  */
 
 public class ValueAccessControlHandle extends AccessControlHandle
@@ -63,7 +64,7 @@ public class ValueAccessControlHandle extends AccessControlHandle
 	 *            the value
 	 * @throws SemanticException
 	 */
-	
+
 	public void addValue( String value ) throws SemanticException
 	{
 		PropertyHandle propHandle = getPropertyHandle( VALUES_PROP );

@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IAccessControlModel;
  * 
  * </dl>
  * 
+ * @deprecated
  */
 
 public class AccessControlHandle extends ContentElementHandle

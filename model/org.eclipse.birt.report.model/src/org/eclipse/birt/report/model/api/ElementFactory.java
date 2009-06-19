@@ -1196,6 +1196,8 @@ public class ElementFactory
 	 * Creates an access control element.
 	 * 
 	 * @return the access control element
+	 * 
+	 * @deprecated
 	 */
 
 	public AccessControlHandle newAccessControl( )
@@ -1208,6 +1210,8 @@ public class ElementFactory
 	 * Creates a value access control element.
 	 * 
 	 * @return the value access control element
+	 * 
+	 * @deprecated
 	 */
 
 	public ValueAccessControlHandle newValueAccessControl( )

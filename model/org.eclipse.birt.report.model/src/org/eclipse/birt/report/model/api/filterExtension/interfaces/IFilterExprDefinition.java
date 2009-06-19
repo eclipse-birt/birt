@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.filterExtension.interfaces;
 
-
 /**
  * IFilterExprDefinition
  */
@@ -112,8 +111,22 @@ public interface IFilterExprDefinition
 	 * Returns the number of arguments that this filter definition can maximize
 	 * supported.
 	 * 
-	 * @return
+	 * @return the maximal number of arguments.
 	 */
 	public Integer getMaxArguments( );
+
+	/**
+	 * Indicates whether the expression is mapped to the negated data base
+	 * expression, i.e. the database expression should be nested within a
+	 * NotExpression.
+	 * <p>
+	 * One example is that: the database may use eq and negated eq to represent
+	 * BIRT EQ and NE.
+	 * 
+	 * @return <code>true</code> if mapped to a negated provider expression;
+	 *         <code>false</code> otherwise.
+	 */
+
+	public boolean isNegatedExtExprId( );
 
 }
