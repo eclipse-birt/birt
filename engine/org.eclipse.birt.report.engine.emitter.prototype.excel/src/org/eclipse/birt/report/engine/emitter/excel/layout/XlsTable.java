@@ -14,15 +14,15 @@ public class XlsTable extends XlsContainer
 		super(entry, sizeInfo, parent );
 	}
 	
-	public XlsTable( TableInfo table, StyleEntry entry,
+	public XlsTable( ColumnsInfo table, StyleEntry entry,
 			ContainerSizeInfo sizeInfo, XlsContainer parent )
 	{
 		this( entry, sizeInfo, parent );
-		width = table.getTableWidth( );		
+		width = table.getTotalWidth( );
 		columnWidths = table.getColumns( );
 	}
 	
-	public XlsTable( TableInfo table, XlsContainer container )
+	public XlsTable( ColumnsInfo table, XlsContainer container )
 	{
 		this( table, container.getStyle( ), container.getSizeInfo( ), container );
 	}

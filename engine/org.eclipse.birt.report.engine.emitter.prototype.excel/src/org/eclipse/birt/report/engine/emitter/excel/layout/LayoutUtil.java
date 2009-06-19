@@ -2,24 +2,41 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 
 
 public class LayoutUtil
 {
-	public static TableInfo createTable(int col, int width)
+	public static ColumnsInfo createTable( int col, int width )
 	{
-		return new DefaultTableInfo(col, width);
+		return new ColumnsInfo( col, width );
 	}	
 	
-	public static TableInfo createTable(IListContent list, int width)
+	public static ColumnsInfo createTable( IListContent list, int width )
 	{
 		width = getElementWidth(list, width);
 		int[] column = new int[] {width};
-		return new DefaultTableInfo(column);
+		return new ColumnsInfo( column );
+	}
+
+	public static ColumnsInfo createChart( IForeignContent content, int width )
+	{
+		ExtendedItemDesign design = (ExtendedItemDesign) content
+				.getGenerateBy( );
+		DimensionType value = design.getWidth( );
+
+		if ( value != null )
+		{
+			width = Math.min( ExcelUtil.covertDimensionType( value, width ),
+					width );
+		}
+		int[] column = new int[]{width};
+		return new ColumnsInfo( column );
 	}
 	
 	private static int getElementWidth(IContent content, int width)
@@ -43,7 +60,7 @@ public class LayoutUtil
 
 	}
 	
-	public static TableInfo createTable( ITableContent table, int width )
+	public static ColumnsInfo createTable( ITableContent table, int width )
 	{		
 		int tableWidth = getElementWidth( table, width );
 		
@@ -104,7 +121,7 @@ public class LayoutUtil
 			}
 			columns[index] = leftWidth - per * ( unassignedCount - 1 );
 		}
-		return new DefaultTableInfo( columns );
+		return new ColumnsInfo( columns );
 	}
 	
 	private static int resize( int width, int total, int left )

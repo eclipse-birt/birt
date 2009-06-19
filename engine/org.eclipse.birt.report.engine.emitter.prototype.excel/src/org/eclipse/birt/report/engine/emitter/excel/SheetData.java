@@ -31,7 +31,7 @@ public abstract class SheetData
 
 	int rowIndex;
 
-	private double rowHeight;
+	protected double rowHeight;
 
 	private static final String HYPERLINK_COLOR = "#0000FF";
 	private static final String HYPERLINK_UNDERLINE = "1";

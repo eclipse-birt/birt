@@ -114,4 +114,9 @@ public class ImageData extends SheetData
 	{
 		return imageInfo;
 	}
+
+	public double getRowHeight( )
+	{
+		return height > rowHeight ? height : rowHeight;
+	}
 }

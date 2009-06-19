@@ -38,12 +38,12 @@ import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ColumnsInfo;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
-import org.eclipse.birt.report.engine.emitter.excel.layout.TableInfo;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.MapDesign;
@@ -190,7 +190,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		ContainerSizeInfo sizeInfo = engine.getCurrentContainer( ).getSizeInfo( );
 		int width = sizeInfo.getWidth( );
-		TableInfo info = LayoutUtil.createTable( table, width );
+		ColumnsInfo info = LayoutUtil.createTable( table, width );
 		
 		if( info == null ) {
 		   return;	
@@ -239,7 +239,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void startList( IListContent list )
 	{		
 		ContainerSizeInfo size = engine.getCurrentContainer( ).getSizeInfo( );
-		TableInfo table = LayoutUtil.createTable( list, size.getWidth( ) );
+		ColumnsInfo table = LayoutUtil.createTable( list, size.getWidth( ) );
 		engine.addTable( list, table, size );
 		
 		if(list.getChildren( ) == null)

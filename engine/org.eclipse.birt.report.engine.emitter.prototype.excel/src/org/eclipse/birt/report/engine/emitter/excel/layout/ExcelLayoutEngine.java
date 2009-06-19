@@ -158,24 +158,30 @@ public class ExcelLayoutEngine
 		topContainer.setStyle( StyleBuilder.createStyleEntry( style ) );
 	}
 	
-	public void addTable( IContainerContent content, TableInfo table,
+	public void addTable( IContainerContent content, ColumnsInfo table,
 			ContainerSizeInfo size )
 	{
 		IStyle style = content.getComputedStyle( );
 		XlsContainer currentContainer = getCurrentContainer( );
 		ContainerSizeInfo parentSizeInfo = currentContainer.getSizeInfo( );
-		int startCoordinate = parentSizeInfo.getStartCoordinate( );
-		int endCoordinate = parentSizeInfo.getEndCoordinate( );
-
-		int[] columnStartCoordinates = calculateColumnCoordinates( table,
-				startCoordinate, endCoordinate );
-
-		splitColumns( startCoordinate, endCoordinate, columnStartCoordinates );
-
+		int[] columnStartCoordinates = splitColumns( table, parentSizeInfo );
 		createTable( table, style, currentContainer, columnStartCoordinates );
 	}
 
-	private void createTable( TableInfo tableInfo, IStyle style,
+	protected int[] splitColumns( ColumnsInfo columnsInfo,
+			ContainerSizeInfo parentSizeInfo )
+	{
+		int startCoordinate = parentSizeInfo.getStartCoordinate( );
+		int endCoordinate = parentSizeInfo.getEndCoordinate( );
+
+		int[] columnStartCoordinates = calculateColumnCoordinates( columnsInfo,
+				startCoordinate, endCoordinate );
+
+		splitColumns( startCoordinate, endCoordinate, columnStartCoordinates );
+		return columnStartCoordinates;
+	}
+
+	private void createTable( ColumnsInfo tableInfo, IStyle style,
 			XlsContainer currentContainer, int[] columnStartCoordinates )
 	{
 		int leftCordinate = columnStartCoordinates[0];
@@ -216,7 +222,7 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	private int[] calculateColumnCoordinates( TableInfo table,
+	private int[] calculateColumnCoordinates( ColumnsInfo table,
 			int startCoordinate,
 			int endCoordinate )
 	{
@@ -885,28 +891,16 @@ public class ExcelLayoutEngine
 				{
 					continue;
 				}
-
 				if ( d.isProcessed( ) )
 				{
 					continue;
 				}
-
 				d.setProcessed( true );
 				data.add( row[i] );
-				if ( d instanceof ImageData )
-				{
-					ImageData imagedata = (ImageData) d;
-					double height = imagedata.getHeight( );
-					if ( height > rowHeight )
-						rowHeight = height;
-				}
-				else
-				{
-					double height = d.getRowHeight( );
-					rowHeight = height > rowHeight ? height : rowHeight;
-				}
-			}
 
+				double height = d.getRowHeight( );
+				rowHeight = height > rowHeight ? height : rowHeight;
+			}
 			SheetData[] rowdata = new SheetData[data.size( )];
 			data.toArray( rowdata );
 			return new RowData( rowdata, rowHeight );
