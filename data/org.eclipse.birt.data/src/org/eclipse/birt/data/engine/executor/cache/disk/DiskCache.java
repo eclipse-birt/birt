@@ -215,6 +215,8 @@ public class DiskCache implements ResultSetCache
 		if ( destIndex >= currResultIndex )
 		{
 			advancedStep = destIndex - currResultIndex;
+			for ( int i = 0; i < advancedStep; i++ )
+				next( );
 		}
 		else
 		{
