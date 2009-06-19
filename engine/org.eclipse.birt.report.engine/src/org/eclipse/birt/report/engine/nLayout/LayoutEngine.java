@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
@@ -61,7 +62,6 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.RepeatableArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextAreaLayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
-import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -604,6 +604,12 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			_startContainer( foreign );
 			// build content DOM tree for HTML text
 			HTML2Content.html2Content( foreign );
+			if( context.isFixedLayout( ) )
+			{
+				IStyle style = foreign.getStyle( );
+				style.setProperty( IStyle.STYLE_PAGE_BREAK_INSIDE,
+						IStyle.AVOID_VALUE );
+			}
 			java.util.Collection children = foreign.getChildren( );
 			if ( children != null && !children.isEmpty( ) )
 			{

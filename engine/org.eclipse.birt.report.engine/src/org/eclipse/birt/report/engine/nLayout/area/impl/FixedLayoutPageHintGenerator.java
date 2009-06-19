@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.internal.content.wrap.AbstractContentWrapper;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -118,6 +119,10 @@ public class FixedLayoutPageHintGenerator
 	{
 		if ( area instanceof ContainerArea )
 		{
+			if ( ( (ContainerArea) area ).content instanceof ForeignContent )
+			{
+				return;
+			}
 			if ( area instanceof TableArea )
 			{
 				tableIds.add( ( (TableArea) area ).getContent( )
@@ -236,7 +241,13 @@ public class FixedLayoutPageHintGenerator
 			{
 				return false;
 			}
-			if ( content2.getInstanceID( ).getUniqueID( ) == 0 )
+			InstanceID id1 = content1.getInstanceID( );
+			InstanceID id2 = content2.getInstanceID( );
+			if ( id1 == null || id2 == null )
+			{
+				return false;
+			}
+			if ( id2.getUniqueID( ) == 0 )
 			{
 				// first child
 				return equals( content1, (IContent) content2.getParent( ) );
@@ -247,8 +258,7 @@ public class FixedLayoutPageHintGenerator
 				content1 = (IContent) content1.getParent( );
 				return isNextWith( content1, content2 );
 			}
-			else if ( content1.getInstanceID( ).getUniqueID( ) + 1 == content2
-					.getInstanceID( ).getUniqueID( ) )
+			else if ( id1.getUniqueID( ) + 1 == id2.getUniqueID( ) )
 			{
 				// the siblings
 				IContent parent1 = (IContent) content1.getParent( );
