@@ -705,7 +705,7 @@ public final class DataTypeUtil
 	public static Date toDate( String source, Locale locale )
 			throws BirtException
 	{
-		return toDate( source, ULocale.forLocale( locale ) );
+		return toDate( source );
 	}
 
 	/**
@@ -897,19 +897,12 @@ public final class DataTypeUtil
 		return resultDate;
 	}
 
-	/**
-	 * Boolean -> Double
-	 * 		true 	-> 1
-	 * 		others 	-> 0 
-	 * Date -> Double
-	 * 		Date.getTime();
-	 * String -> Double
-	 * 		Double.valueOf(String);
-	 * @param source
-	 * @return
-	 * @throws BirtException
-	 */
-	public static Double toDouble( Object source ) throws BirtException
+	public static Double toDouble( Object source, Locale locale ) throws CoreException
+	{
+		return toDouble( source, ULocale.forLocale( locale ));
+	}
+	
+	public static Double toDouble( Object source, ULocale locale ) throws CoreException
 	{
 		if ( source == null )
 			return null;
@@ -951,7 +944,8 @@ public final class DataTypeUtil
 			{
 				try
 				{
-					Number number = NumberFormat.getInstance( JRE_DEFAULT_LOCALE )
+					Number number = NumberFormat.getInstance( locale == null
+							? JRE_DEFAULT_LOCALE : locale )
 							.parse( (String) source );
 					if( number != null )
 					{
@@ -987,6 +981,22 @@ public final class DataTypeUtil
 							source.toString( ), "Double"
 					});
 		}
+	}
+	/**
+	 * Boolean -> Double
+	 * 		true 	-> 1
+	 * 		others 	-> 0 
+	 * Date -> Double
+	 * 		Date.getTime();
+	 * String -> Double
+	 * 		Double.valueOf(String);
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
+	public static Double toDouble( Object source ) throws BirtException
+	{
+		return toDouble( source, JRE_DEFAULT_LOCALE );
 	}
 
 	
