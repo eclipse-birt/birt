@@ -43,6 +43,13 @@ public class ValueCombo extends Combo
 		public String doSelection( String input );
 	}
 
+	public static interface ISelection2 extends ISelection
+	{
+
+		public String doSelection( String comboValue, int selectedIndex,
+				String selectedValue );
+	}
+
 	Map<Integer, ISelection> actionMap = new HashMap<Integer, ISelection>( );
 
 	// super.addSelectionListener( listener )
@@ -57,7 +64,7 @@ public class ValueCombo extends Combo
 		{
 			// TODO Auto-generated method stub
 
-//			System.out.print( "Selection Listener is involved.\n" );
+			// System.out.print( "Selection Listener is involved.\n" );
 
 			String eText = e.text;
 			ValueCombo combo = (ValueCombo) e.widget;
@@ -84,7 +91,17 @@ public class ValueCombo extends Combo
 					return;
 				}
 
-				String text = action.doSelection( oldValue );
+				String text = null;
+				if ( action instanceof ISelection2 )
+				{
+					text = ( (ISelection2) action ).doSelection( oldValue,
+							index,
+							comboText );
+				}
+				else if ( action instanceof ISelection )
+				{
+					text = action.doSelection( oldValue );
+				}
 				if ( text != null )
 				{
 					oldValue = text;
@@ -108,7 +125,8 @@ public class ValueCombo extends Combo
 			ValueCombo combo = (ValueCombo) e.widget;
 			String comboText = combo.getText( );
 
-//			System.out.print( "Modify Listener is involved." + comboText + "\n" );
+			// System.out.print( "Modify Listener is involved." + comboText +
+			// "\n" );
 
 			if ( selected )
 			{
@@ -135,7 +153,7 @@ public class ValueCombo extends Combo
 		public void verifyText( VerifyEvent e )
 		{
 			// TODO Auto-generated method stub
-//			System.out.print( "Verify Listener is involved.\n" );
+			// System.out.print( "Verify Listener is involved.\n" );
 
 			selected = false;
 			String eText = e.text;
@@ -253,6 +271,11 @@ public class ValueCombo extends Combo
 	public void removeSelectionListener( int index )
 	{
 		actionMap.remove( index );
+	}
+
+	public void clearSelectionListeners( )
+	{
+		actionMap.clear( );
 	}
 
 }

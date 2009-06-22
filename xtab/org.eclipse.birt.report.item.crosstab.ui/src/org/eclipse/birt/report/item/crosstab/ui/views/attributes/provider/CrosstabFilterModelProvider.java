@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
@@ -251,6 +252,18 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 					return cubeMeasure.getFullName( );
 				}
 			}
+			else if ( target instanceof CrosstabReportItemHandle )
+			{
+				CubeHandle cube = ( (CrosstabReportItemHandle) target ).getCube( );
+				if ( cube == null )
+				{
+					return EMPTY_STRING;
+				}
+				else
+				{
+					return cube.getFullName( );
+				}
+			}
 
 		}
 
@@ -352,6 +365,14 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 						(FilterConditionElementHandle) iter.next( ) );
 				list.add( levelSortKeyHandle );
 			}
+		}
+		
+		Iterator iter = crossTab.filtersIterator( );
+		while ( iter.hasNext( ) )
+		{
+			TargetFilterConditionHandle levelSortKeyHandle = new TargetFilterConditionHandle( crossTab,
+					(FilterConditionElementHandle) iter.next( ) );
+			list.add( levelSortKeyHandle );
 		}
 
 		return list.toArray( );
