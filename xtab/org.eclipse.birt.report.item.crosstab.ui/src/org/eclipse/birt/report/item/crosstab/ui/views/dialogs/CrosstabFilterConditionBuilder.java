@@ -698,7 +698,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				.create( ) );
 		new Label( parentControl, SWT.NONE );
 		cubeBtn = new Button( parentControl, SWT.RADIO );
-		cubeBtn.setText( "Data Cube" ); //$NON-NLS-1$
+		cubeBtn.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.Cube" ) ); //$NON-NLS-1$
 		cubeBtn.setLayoutData( GridDataFactory.swtDefaults( )
 				.span( 2, 1 )
 				.create( ) );
@@ -833,7 +833,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		else if ( cubeBtn.getSelection( ) )
 		{
 			memberValueGroup.setVisible( true );
-			targetLabel.setText( "Group Level" ); //$NON-NLS-1$
+			targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
 			comboGroupLevel.removeAll( );
 			comboGroupLevel.setEnabled( false );
 
