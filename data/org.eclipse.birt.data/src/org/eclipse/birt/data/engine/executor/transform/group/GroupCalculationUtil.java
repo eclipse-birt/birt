@@ -461,7 +461,6 @@ final class GroupBoundaryInfo implements ICachedObject
 		else
 		{
 			fields.add( null );
-			fields.add( null );
 		}
 		
 		
@@ -655,6 +654,7 @@ class GroupBoundaryInfoCreator implements ICachedObjectCreator
 			}
 		}
 		int[] sortStrength = null;
+		ULocale[] locales = null;
 		if ( fields[2 + sortKeysTotalLength*2] != null )
 		{
 			sortStrength = new int[( (Integer) fields[2 + sortKeysTotalLength*2] ).intValue( )];
@@ -664,21 +664,14 @@ class GroupBoundaryInfoCreator implements ICachedObjectCreator
 				sortStrength[i] = ( (Integer) fields[3 + sortKeysTotalLength*2 + i ] ).intValue( );
 				
 			}
-		}
-		
-		ULocale[] locales = null;
-		if ( fields[2 + sortKeysTotalLength*3] != null )
-		{
-			locales = new ULocale[( (Integer) fields[2 + sortKeysTotalLength*3] ).intValue( )];
-			
+			locales = new ULocale[sortStrength.length];
 			for ( int i = 0; i < sortStrength.length; i++ )
 			{
-				Object locale = fields[3 + sortKeysTotalLength*3 + i ];
+				Object locale = fields[2 + sortKeysTotalLength*3 + i ];
 				if( locale!= null )
 					locales[i] =  new ULocale( (String)locale) ;
 			}
 		}
-		
 		
 		groupBoundaryInfo.setSortCondition( sortKeys, sortDirections, sortStrength, locales );
 		
