@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
-import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
@@ -43,7 +42,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.swt.series.BubbleSeriesUIProvider;
-import org.eclipse.birt.chart.ui.swt.type.GanttChart;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -480,70 +478,6 @@ public class TaskSelectData extends SimpleTask implements
 			{
 				ChartWizard.removeAllExceptions( "" + notification.getOldValue( ) //$NON-NLS-1$
 						.hashCode( ) );
-			}
-
-			// Only data definition query (not group query) will be validated
-			if ( ( notification.getNotifier( ) instanceof Query && ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series ) )
-			{
-				Query query = (Query) notification.getNotifier( );
-				checkDataType( query, (Series) query.eContainer( ) );
-				
-				// add default category grouping for data set binding
-				if ( !( ( (ChartWizardContext) getContext( ) ).getChartType( ) instanceof GanttChart )
-						&& !getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_QUERY )
-						&& getDataServiceProvider( ).checkState( IDataServiceProvider.HAS_DATA_SET ) )
-				{
-					if ( getChartModel( ) instanceof ChartWithAxes )
-					{
-						Axis axisWithCurrentQuery = (Axis) ( (Query) notification.getNotifier( ) ).eContainer( )
-								.eContainer( )
-								.eContainer( );
-
-						// after adding definition on value series
-						if ( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChartModel( ) )
-								.isCategoryAxis( )
-								&& axisWithCurrentQuery.eContainer( ) instanceof Axis )
-						{
-							SeriesDefinition base = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
-									.get( 0 );
-							// has no grouping
-							if ( !base.getGrouping( ).isEnabled( ) )
-							{
-								base.getGrouping( ).setEnabled( true );
-							}
-							// if it's date time type, set the 'first'
-							// aggregation.
-							if ( axisWithCurrentQuery.getType( ) == AxisType.DATE_TIME_LITERAL
-									|| getDataServiceProvider( ).getDataType( query.getDefinition( ) ) == DataType.DATE_TIME_LITERAL )
-							{
-								if ( query.getGrouping( ) == null )
-								{
-									query.setGrouping( DataFactoryImpl.init( )
-											.createSeriesGrouping( ) );
-								}
-								SeriesGrouping group = query.getGrouping( );
-								group.setEnabled( true );
-								group.setAggregateExpression( "First" ); //$NON-NLS-1$
-							}
-						}
-					}
-					else
-					{
-						if ( ( (Query) notification.getNotifier( ) ).eContainer( )
-								.eContainer( )
-								.eContainer( ) instanceof SeriesDefinition )
-						{
-							SeriesDefinition base = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
-									.get( 0 );
-							// has no grouping
-							if ( !base.getGrouping( ).isEnabled( ) )
-							{
-								base.getGrouping( ).setEnabled( true );
-							}
-						}
-					}
-				}
-				
 			}
 
 			if ( notification.getNotifier( ) instanceof SeriesDefinition

@@ -15,10 +15,12 @@ import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -39,6 +41,7 @@ import org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.type.GanttChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -1090,6 +1093,28 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			// ChartUIUtil.getDataQuery(), assume current null is a grouping
 			// query
 			seriesdefinition.setQuery( query );
+		}
+		if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
+		{
+			if ( !( context.getChartType( ) instanceof GanttChart )
+					&& !context.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.SHARE_QUERY )
+					&& context.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.HAS_DATA_SET ) )
+			{
+				if ( context.getDataServiceProvider( ).getDataType( expression ) == DataType.DATE_TIME_LITERAL )
+				{
+					if ( query.getGrouping( ) == null )
+					{
+						query.setGrouping( DataFactoryImpl.init( )
+								.createSeriesGrouping( ) );
+					}
+					SeriesGrouping group = query.getGrouping( );
+					group.setEnabled( true );
+					group.setAggregateExpression( "First" ); //$NON-NLS-1$
+				}
+			}
+
 		}
 	}
 
