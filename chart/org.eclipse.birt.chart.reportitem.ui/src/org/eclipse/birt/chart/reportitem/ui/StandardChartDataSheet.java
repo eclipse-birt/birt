@@ -1419,17 +1419,20 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					getContext().setShowingDataPreview( Boolean.valueOf( w.getSelection( ) ) );
 					updateDragDataSource( );
 				}
-				SeriesDefinition base = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
-						.get( 0 );
-				if ( selectDataTypes.get( cmbDataItems.getSelectionIndex( ) )
-						.intValue( ) == SELECT_DATA_SET
-						&& !ChartUIConstants.TYPE_GANTT.equals( getChartModel( ).getType( ) ) )
+				if ( event.widget == btnInherit || event.widget == cmbDataItems )
 				{
-					base.getGrouping( ).setEnabled( true );
-				}
-				else
-				{
-					base.getGrouping( ).setEnabled( false );
+					SeriesDefinition base = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
+							.get( 0 );
+					if ( selectDataTypes.get( cmbDataItems.getSelectionIndex( ) )
+							.intValue( ) == SELECT_DATA_SET
+							&& !ChartUIConstants.TYPE_GANTT.equals( getChartModel( ).getType( ) ) )
+					{
+						base.getGrouping( ).setEnabled( true );
+					}
+					else
+					{
+						base.getGrouping( ).setEnabled( false );
+					}
 				}
 				checkColBindingForCube( );
 				ChartWizard.removeException( ChartWizard.StaChartDSh_switch_ID );
