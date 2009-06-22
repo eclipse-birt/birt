@@ -23,47 +23,47 @@ import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
  * is provided to a custom data set processor that is capable of converting the
  * resultset subset content into the expected chart dataset format.
  */
-public final class ResultSetDataSet implements IResultSetDataSet
+public class ResultSetDataSet implements IResultSetDataSet
 {
 
 	/**
 	 * Indexes of the columns extracted from the parent resultset
 	 */
-	private final int[] iaColumnIndexes;
+	protected final int[] iaColumnIndexes;
 
 	/**
 	 * Bounds of the subset with respect to the parent resultset
 	 */
-	private final long lStartRow, lEndRow;
+	protected final long lStartRow, lEndRow;
 
 	/**
 	 * An internal iterator capable of visiting each row in the resultset subset
 	 */
-	private final Iterator it;
+	protected final Iterator it;
 
 	/**
 	 * The current row number being visited
 	 */
-	private long lRow = 0;
+	protected long lRow = 0;
 
 	/**
 	 * The parent resultset wrapper of which this instance is a subset
 	 */
-	private final ResultSetWrapper rsw;
+	protected final ResultSetWrapper rsw;
 
 	/**
 	 * Temporary variable used in conjunction with the iterator
 	 */
-	private final Object[] oaTuple;
+	protected final Object[] oaTuple;
 
 	/**
 	 * Number of columns in this resultset subset
 	 */
-	private final int iColumnCount;
+	protected final int iColumnCount;
 
-	private final boolean listMode;
+	protected final boolean listMode;
 
-	private final int listDataType;
+	protected final int listDataType;
 
 	/**
 	 * The constructor that creates an instance of a resultset subset by

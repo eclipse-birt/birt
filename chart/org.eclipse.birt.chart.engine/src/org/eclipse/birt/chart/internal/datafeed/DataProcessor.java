@@ -587,11 +587,11 @@ public class DataProcessor
 								.buildExpr( seOrthogonalDesignSeries.getDataDefinition( ),
 										sdOrthogonal,
 										sdBase ),
-								aggExp ),
+								aggExp, true ),
 						getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
 								iae ), // Just use trigger expression as
 						// the key.
-						rsw.getSubset( triggerExprs, aggExp ) );
+						rsw.getSubset( triggerExprs, aggExp, false ) );
 				seOrthogonalRuntimeSeries.setSeriesIdentifier( seOrthogonalDesignSeries.getSeriesIdentifier( ) );
 				sdOrthogonal.getSeries( ).add( seOrthogonalRuntimeSeries );
 			}
@@ -643,8 +643,8 @@ public class DataProcessor
 									.buildExpr( seOrthogonalDesignSeries.getDataDefinition( ),
 											sdOrthogonal,
 											sdBase ),
-									aggExp ),
-							rsw.getSubset( k, triggerExprs, aggExp ) );
+									aggExp, true ),
+							rsw.getSubset( k, triggerExprs, aggExp, false ) );
 
 					odata[3] = Integer.valueOf( rsw.getGroupRowCount( k ) );
 					odata[4] = Integer.valueOf( k );
@@ -814,11 +814,11 @@ public class DataProcessor
 									.buildExpr( seOrthogonalDesignSeries.getDataDefinition( ),
 											sdOrthogonal,
 											sdBase ),
-									aggExp ),
+									aggExp, true ),
 							getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
 									iae ), // Just use trigger expression as
 							// the key.
-							rsw.getSubset( triggerExprs, aggExp ) );
+							rsw.getSubset( triggerExprs, aggExp, false ) );
 					seOrthogonalRuntimeSeries.setSeriesIdentifier( seOrthogonalDesignSeries.getSeriesIdentifier( ) );
 					sdOrthogonal.getSeries( ).add( seOrthogonalRuntimeSeries );
 				}
@@ -873,8 +873,8 @@ public class DataProcessor
 												.buildExpr( seOrthogonalDesignSeries.getDataDefinition( ),
 														sdOrthogonal,
 														sdBase ),
-										aggExp ),
-								rsw.getSubset( k, triggerExprs, aggExp ) );
+										aggExp, true ),
+								rsw.getSubset( k, triggerExprs, aggExp, false ) );
 
 						odata[3] = Integer.valueOf( rsw.getGroupRowCount( k ) );
 						odata[4] = Integer.valueOf( k );

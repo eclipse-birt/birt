@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NullDataSetImpl;
@@ -76,7 +77,14 @@ public class UserDataSetProcessor
 						final Double[] doaDataSet = new Double[(int) lRowCount];
 						ds[k] = NumberDataSetImpl.create( doaDataSet );
 						break;
-
+						
+					case IConstants.BOOLEAN :
+						final Boolean[] boaDataSet = new Boolean[(int) lRowCount];
+						DataSet bDS = DataFactory.eINSTANCE.createDataSet( );
+						bDS.setValues( boaDataSet );
+						ds[k] = bDS;
+						break;
+						
 					default :
 						boolean allNullValues = true;
 						while ( rsds.hasNext( ) )
@@ -125,7 +133,11 @@ public class UserDataSetProcessor
 						case IConstants.NUMERICAL :
 							value = Methods.asDouble( row[k] );
 							break;
-
+							
+						case IConstants.BOOLEAN :
+							value = row[k];
+							break;
+							
 						default :
 							throw new ChartException( ChartEnginePlugin.ID,
 									ChartException.DATA_SET,

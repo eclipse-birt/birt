@@ -56,6 +56,8 @@ public interface IConstants
 	public final int DATE_TIME = 8;
 
 	public final int TEXT = 16;
+	
+	public final int BOOLEAN = 17;
 
 	public final int PERCENT = 32;
 

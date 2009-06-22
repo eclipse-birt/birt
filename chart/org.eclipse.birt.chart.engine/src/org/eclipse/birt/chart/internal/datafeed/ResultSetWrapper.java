@@ -441,24 +441,7 @@ public final class ResultSetWrapper
 				}
 				else if ( oaTuple[i] instanceof Boolean )
 				{
-					iaDataTypes[i] = IConstants.NUMERICAL;
-					// Some new aggregates( Top, TopPercent, Bottom,
-					// BottomPercent ) will return boolean type data, but now
-					// chart doesn't support boolean data type, so convert boolean data as
-					// integer, the true is treated as 1, the false is treated
-					// as 0.
-					for ( int j = 0; j < workingResultSet.size( ); j++ )
-					{
-						Object[] aTuple = (Object[]) workingResultSet.get( j );
-						if ( ( (Boolean) aTuple[i] ).booleanValue( ) )
-						{
-							aTuple[i] = Integer.valueOf( 1 );
-						}
-						else
-						{
-							aTuple[i] = Integer.valueOf( 0 );
-						}
-					}
+					iaDataTypes[i] = IConstants.BOOLEAN;
 				}
 
 				for ( int j = 0; j < iColumnCount; j++ )
@@ -1321,11 +1304,15 @@ public final class ResultSetWrapper
 	 *            The group number for which a subset is requested
 	 * @param sExpressionKeys
 	 *            The expression columns for which a subset is requested
+	 * @param aggExp
+	 *            The aggregation function name.           
+	 * @param isValueSeries
+	 * 			  indicates if the sub-dataset is retrieved for value series.           
 	 * 
 	 * @return An instance of the resultset subset
 	 */
 	public ResultSetDataSet getSubset( int iGroupIndex,
-			String[] sExpressionKeys, String aggExp )
+			String[] sExpressionKeys, String aggExp, boolean isValueSeries )
 	{
 		if ( sExpressionKeys == null )
 		{
@@ -1334,6 +1321,14 @@ public final class ResultSetWrapper
 
 		final int[] iaColumnIndexes = htLookup.findBatchIndex( sExpressionKeys,
 				aggExp );
+		if ( isValueSeries )
+		{
+			return new VSResultSetDataSet( this,
+					iaColumnIndexes,
+					( iGroupIndex <= 0 ) ? 0 : iaGroupBreaks[iGroupIndex - 1],
+					( iGroupIndex > iaGroupBreaks.length - 1 ) ? getRowCount( )
+							: iaGroupBreaks[iGroupIndex] );
+		}
 		return new ResultSetDataSet( this,
 				iaColumnIndexes,
 				( iGroupIndex <= 0 ) ? 0 : iaGroupBreaks[iGroupIndex - 1],
@@ -1418,11 +1413,16 @@ public final class ResultSetWrapper
 	 * @param sExpressionKeys
 	 *            The expression columns for which a resultset subset is being
 	 *            requested
+	 * @param aggExp
+	 *            The aggregation function name.           
+	 * @param isValueSeries
+	 * 			  indicates if the sub-dataset is retrieved for value series.
 	 * 
 	 * @return The resultset subset containing the requested columns and all
 	 *         rows of the resultset
+	 *         
 	 */
-	public ResultSetDataSet getSubset( String[] sExpressionKeys, String aggExp )
+	public ResultSetDataSet getSubset( String[] sExpressionKeys, String aggExp, boolean isValueSeries )
 			throws ChartException
 	{
 		if ( sExpressionKeys == null )
@@ -1432,6 +1432,10 @@ public final class ResultSetWrapper
 
 		final int[] iaColumnIndexes = htLookup.findBatchIndex( sExpressionKeys,
 				aggExp );
+		if ( isValueSeries )
+		{
+			return new VSResultSetDataSet( this, iaColumnIndexes, 0, getRowCount( ) );
+		}
 		return new ResultSetDataSet( this, iaColumnIndexes, 0, getRowCount( ) );
 	}
 
