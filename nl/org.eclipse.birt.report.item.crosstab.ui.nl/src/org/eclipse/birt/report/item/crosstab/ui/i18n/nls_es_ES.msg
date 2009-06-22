@@ -175,6 +175,7 @@ CrosstabFilterConditionBuilder.label.value=Valor
 CrosstabFilterConditionBuilder.Label.Target=Destino:
 CrosstabFilterConditionBuilder.Button.GroupLevel=&Nivel de grupo
 CrosstabFilterConditionBuilder.Button.Measure=&Medida
+CrosstabFilterConditionBuilder.Button.Cube=&Cube
 
 FilterbyTree.Bindings.Catogory.Measures=Medida
 FilterbyTree.Bindings.Catogory.Dimension=Dimensión

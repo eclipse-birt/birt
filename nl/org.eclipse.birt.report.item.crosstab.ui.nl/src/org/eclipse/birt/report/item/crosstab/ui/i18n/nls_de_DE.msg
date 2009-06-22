@@ -175,6 +175,7 @@ CrosstabFilterConditionBuilder.label.value=Wert
 CrosstabFilterConditionBuilder.Label.Target=Ziel:
 CrosstabFilterConditionBuilder.Button.GroupLevel=&Gruppenebene
 CrosstabFilterConditionBuilder.Button.Measure=Maﬂ&einheit
+CrosstabFilterConditionBuilder.Button.Cube=&Cube
 
 FilterbyTree.Bindings.Catogory.Measures=Maﬂeinheit
 FilterbyTree.Bindings.Catogory.Dimension=Dimension

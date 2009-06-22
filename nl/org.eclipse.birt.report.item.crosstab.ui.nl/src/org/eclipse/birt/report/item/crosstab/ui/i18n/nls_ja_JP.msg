@@ -175,6 +175,7 @@ CrosstabFilterConditionBuilder.label.value=値
 CrosstabFilterConditionBuilder.Label.Target=ターゲット :
 CrosstabFilterConditionBuilder.Button.GroupLevel=グループレベル(&G)
 CrosstabFilterConditionBuilder.Button.Measure=メジャー(&U)
+CrosstabFilterConditionBuilder.Button.Cube=&Cube
 
 FilterbyTree.Bindings.Catogory.Measures=メジャー
 FilterbyTree.Bindings.Catogory.Dimension=ディメンジョン

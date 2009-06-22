@@ -175,6 +175,7 @@ CrosstabFilterConditionBuilder.label.value=값
 CrosstabFilterConditionBuilder.Label.Target=대상:
 CrosstabFilterConditionBuilder.Button.GroupLevel=그룹 수준(&G)
 CrosstabFilterConditionBuilder.Button.Measure=측정값(&U)
+CrosstabFilterConditionBuilder.Button.Cube=&Cube
 
 FilterbyTree.Bindings.Catogory.Measures=측정
 FilterbyTree.Bindings.Catogory.Dimension=차원
