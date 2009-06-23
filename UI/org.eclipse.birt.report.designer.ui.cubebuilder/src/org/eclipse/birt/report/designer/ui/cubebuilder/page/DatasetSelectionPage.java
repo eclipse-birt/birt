@@ -64,9 +64,6 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 	public Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.CUBE_BUILDER_DATASET_SELECTION_PAGE );
-
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 3;
@@ -174,6 +171,8 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 	public void pageActivated( )
 	{
+		UIUtil.bindHelp( builder.getShell( ),
+				IHelpContextIds.CUBE_BUILDER_DATASET_SELECTION_PAGE );
 		getContainer( ).setMessage( Messages.getString( "DatasetPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
 		builder.setTitleTitle( Messages.getString( "DatasetPage.Title.Title" ) ); //$NON-NLS-1$

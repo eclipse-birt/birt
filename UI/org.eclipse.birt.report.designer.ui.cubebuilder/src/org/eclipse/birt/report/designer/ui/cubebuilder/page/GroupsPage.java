@@ -37,14 +37,14 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 
 	public Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_GROUPS_PAGE );
-		
 		cubeGroup = new CubeGroupContent( parent, SWT.NONE );
 		return cubeGroup;
 	}
 
 	public void pageActivated( )
 	{
+		UIUtil.bindHelp( builder.getShell( ),
+				IHelpContextIds.CUBE_BUILDER_GROUPS_PAGE );
 		getContainer( ).setMessage( Messages.getString( "GroupsPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
 		builder.setTitleTitle( Messages.getString( "GroupsPage.Title.Title" ) ); //$NON-NLS-1$

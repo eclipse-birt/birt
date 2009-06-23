@@ -17,8 +17,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
 import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
-import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -64,7 +62,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_ID );
+		// UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_ID );
 		return super.createDialogArea( parent );
 	}
 

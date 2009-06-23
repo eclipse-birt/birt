@@ -60,8 +60,6 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 
 	public Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_LINK_GROUPS_PAGE );
-
 		Composite contents = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.verticalSpacing = 0;
@@ -151,6 +149,8 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 
 	public void pageActivated( )
 	{
+		UIUtil.bindHelp( builder.getShell( ),
+				IHelpContextIds.CUBE_BUILDER_LINK_GROUPS_PAGE );
 		getContainer( ).setMessage( Messages.getString( "LinkGroupsPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
 		builder.setTitleTitle( Messages.getString( "LinkGroupsPage.Title.Title" ) ); //$NON-NLS-1$
