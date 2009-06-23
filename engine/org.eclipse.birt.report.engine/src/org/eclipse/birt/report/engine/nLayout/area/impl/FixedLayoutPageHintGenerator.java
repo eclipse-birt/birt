@@ -36,8 +36,6 @@ public class FixedLayoutPageHintGenerator
 	protected SizeBasedContent currentContent = null;
 
 	protected HTMLLayoutContext htmlLayoutContext = null;
-	//private List<IContent[]> htmlPageBreakHints = null;
-	//private ArrayList<SizeBasedContent[]> sizeBasedHints = new ArrayList<SizeBasedContent[]>( );
 	private ArrayList<SizeBasedContent[]> fixedLayoutPageHints = new ArrayList<SizeBasedContent[]>( );
 
 	protected HashSet<String> tableIds = new HashSet<String>( );
@@ -119,10 +117,6 @@ public class FixedLayoutPageHintGenerator
 	{
 		if ( area instanceof ContainerArea )
 		{
-			if ( ( (ContainerArea) area ).content instanceof ForeignContent )
-			{
-				return;
-			}
 			if ( area instanceof TableArea )
 			{
 				tableIds.add( ( (TableArea) area ).getContent( )
@@ -133,10 +127,13 @@ public class FixedLayoutPageHintGenerator
 			{
 				start( container );
 			}
-			for ( Iterator<IArea> i = container.getChildren( ); i.hasNext( ); )
+			if ( !( container.content instanceof ForeignContent ) )
 			{
-				IArea child = i.next( );
-				traverse( child );
+				for ( Iterator<IArea> i = container.getChildren( ); i.hasNext( ); )
+				{
+					IArea child = i.next( );
+					traverse( child );
+				}
 			}
 		}
 	}
