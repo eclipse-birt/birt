@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.type.GanttChart;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -1081,6 +1082,31 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	private void setQueryExpression( String expression )
 	{
+		if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
+		{
+			if ( !( context.getChartType( ) instanceof GanttChart )
+					&& !context.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.SHARE_QUERY )
+					&& context.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.HAS_DATA_SET ) )
+			{
+				if ( context.getDataServiceProvider( ).getDataType( expression ) == DataType.DATE_TIME_LITERAL )
+				{
+					ChartAdapter.beginIgnoreNotifications( );
+					if ( query.getGrouping( ) == null )
+					{
+						query.setGrouping( DataFactoryImpl.init( )
+								.createSeriesGrouping( ) );
+					}
+					SeriesGrouping group = query.getGrouping( );
+					group.setEnabled( true );
+					group.setAggregateExpression( "First" ); //$NON-NLS-1$
+					ChartAdapter.endIgnoreNotifications( );
+				}
+			}
+
+		}
+
 		if ( query != null )
 		{
 			query.setDefinition( expression );
@@ -1094,28 +1120,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			// query
 			seriesdefinition.setQuery( query );
 		}
-		if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
-		{
-			if ( !( context.getChartType( ) instanceof GanttChart )
-					&& !context.getDataServiceProvider( )
-							.checkState( IDataServiceProvider.SHARE_QUERY )
-					&& context.getDataServiceProvider( )
-							.checkState( IDataServiceProvider.HAS_DATA_SET ) )
-			{
-				if ( context.getDataServiceProvider( ).getDataType( expression ) == DataType.DATE_TIME_LITERAL )
-				{
-					if ( query.getGrouping( ) == null )
-					{
-						query.setGrouping( DataFactoryImpl.init( )
-								.createSeriesGrouping( ) );
-					}
-					SeriesGrouping group = query.getGrouping( );
-					group.setEnabled( true );
-					group.setAggregateExpression( "First" ); //$NON-NLS-1$
-				}
-			}
 
-		}
 	}
 
 	/*

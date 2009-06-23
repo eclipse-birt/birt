@@ -480,6 +480,12 @@ public class TaskSelectData extends SimpleTask implements
 						.hashCode( ) );
 			}
 
+			if ( ( notification.getNotifier( ) instanceof Query && ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series ) )
+			{
+				checkDataType( (Query) notification.getNotifier( ),
+						(Series) ( (Query) notification.getNotifier( ) ).eContainer( ) );
+			}
+
 			if ( notification.getNotifier( ) instanceof SeriesDefinition
 					&& getChartModel( ) instanceof ChartWithAxes )
 			{
