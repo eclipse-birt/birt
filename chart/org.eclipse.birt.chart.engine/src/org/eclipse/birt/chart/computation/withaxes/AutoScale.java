@@ -313,7 +313,7 @@ public final class AutoScale extends Methods implements Cloneable
 	/**
 	 * Returns the scale direction.
 	 * 
-	 * @return
+	 * @return direction
 	 */
 	public int getDirection( )
 	{
@@ -643,7 +643,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * Returns an auto computed decimal format pattern for representing axis
 	 * labels on a numeric axis
 	 * 
-	 * @return
+	 * @return pattern
 	 */
 	public final String getNumericPattern( )
 	{
@@ -666,10 +666,6 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final int getType( )
 	{
 		return info.type;
@@ -684,27 +680,16 @@ public final class AutoScale extends Methods implements Cloneable
 		info.dsiData( _oaData );
 	}
 
-	/**
-	 * @return
-	 */
 	public final FormatSpecifier getFormatSpecifier( )
 	{
 		return info.fs;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final Object getUnit( )
 	{
 		return context.getUnit( );
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final DataSetIterator getData( )
 	{
 		return info.dsiData;
@@ -724,10 +709,6 @@ public final class AutoScale extends Methods implements Cloneable
 		this.atcTickCoordinates = atc;
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 */
 	public final boolean isTickLabelVisible( int index )
 	{
 		assert labelVisHelper != null;
@@ -741,47 +722,32 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
-	 * returns a list of all visible indexes, in the moment works only for
-	 * categorey.
+	 * Returns a list of all visible indexes, in the moment works only for
+	 * category.
 	 * 
-	 * @return
+	 * @return id
 	 */
 	public final Collection<Integer> getVisibleLabelIds( )
 	{
 		return hmComputedLabelText.keySet( );
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 */
 	public final boolean isTickLabelStaggered( int index )
 	{
 		assert staggeredHelper != null;
 		return staggeredHelper.isTickLabelStaggered( index );
 	}
 
-	/**
-	 * @return
-	 */
 	public final boolean isAxisLabelStaggered( )
 	{
 		return info.bAxisLabelStaggered;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final boolean isTickBetweenCategories( )
 	{
 		return info.bTickBetweenCategories;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final AxisTickCoordinates getTickCordinates( )
 	{
 		return this.atcTickCoordinates;
@@ -790,7 +756,7 @@ public final class AutoScale extends Methods implements Cloneable
 	/**
 	 * Returns the normalized start point. always be Zero.
 	 * 
-	 * @return
+	 * @return start point
 	 */
 	public final double getNormalizedStart( )
 	{
@@ -798,10 +764,10 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
-	 * Returns the normalized end point. this will be the (orginal end - orginal
+	 * Returns the normalized end point. this will be the (original end - original
 	 * start).
 	 * 
-	 * @return
+	 * @return end point
 	 */
 	public final double getNormalizedEnd( )
 	{
@@ -811,7 +777,7 @@ public final class AutoScale extends Methods implements Cloneable
 	/**
 	 * Returns the normalized start and end point.
 	 * 
-	 * @return
+	 * @return start and end point
 	 */
 	public final double[] getNormalizedEndPoints( )
 	{
@@ -820,10 +786,6 @@ public final class AutoScale extends Methods implements Cloneable
 		};
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final double[] getEndPoints( )
 	{
 		return new double[]{
@@ -991,7 +953,7 @@ public final class AutoScale extends Methods implements Cloneable
 	/**
 	 * Returns the absolute value of the scale unit.
 	 * 
-	 * @return
+	 * @return unit size
 	 */
 	public final double getUnitSize( )
 	{
@@ -1005,10 +967,6 @@ public final class AutoScale extends Methods implements Cloneable
 		return Math.abs( atcTickCoordinates.getStep( ) );
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final Object getMinimum( )
 	{
 		return context.getMin( );
@@ -1022,10 +980,6 @@ public final class AutoScale extends Methods implements Cloneable
 		context.setMin( o );
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final Object getMaximum( )
 	{
 		return context.getMax( );
@@ -1265,7 +1219,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param la
 	 * @param iLabelLocation
 	 * 
-	 * @return
+	 * @return fit or not
 	 */
 	public final boolean checkFit( IDisplayServer xs, Label la,
 			int iLabelLocation ) throws ChartException
@@ -1606,7 +1560,6 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param xs
 	 * @param la
 	 * @param iLabelLocation
-	 * @return
 	 * @throws ChartException
 	 */
 	final protected void checkTickLabelsVisibility( IDisplayServer xs,
@@ -1857,19 +1810,11 @@ public final class AutoScale extends Methods implements Cloneable
 		dEndShift = 0;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final double getStart( )
 	{
 		return dStart;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final double getEnd( )
 	{
 		return dEnd;
@@ -2594,7 +2539,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @param precision
 	 * @param value
-	 * @return
+	 * @return precision
 	 */
 	protected static double getPrecision( double precision, double pValue,
 			FormatSpecifier fs, ULocale locale, boolean bIsPercent )
@@ -2603,10 +2548,11 @@ public final class AutoScale extends Methods implements Cloneable
 		value = getValidDouble( value );
 		if ( value == 0 )
 		{
-			if ( precision < 0 )
-				return precision;
-			else if ( precision >= 0 )
-				return 1;
+			// Bugzilla#280620 zero should be considered correctly
+			// if ( precision < 0 )
+			return precision;
+			// else if ( precision >= 0 )
+			// return 1;
 		}
 
 		if ( precision == 0 )
@@ -2881,7 +2827,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @param iType
 	 * @param oValue
-	 * @return
+	 * @return formatted string
 	 */
 	public final String formatCategoryValue( int iType, Object oValue,
 			int iDateTimeUnit )
@@ -3693,13 +3639,6 @@ public final class AutoScale extends Methods implements Cloneable
 		return 0;
 	}
 
-	/**
-	 * @param xs
-	 * @param la
-	 * @param iOrientation
-	 * @return
-	 * @throws ChartException
-	 */
 	public final double computeStaggeredAxisLabelOffset( IDisplayServer xs,
 			Label la, int iOrientation ) throws ChartException
 	{
@@ -4008,9 +3947,6 @@ public final class AutoScale extends Methods implements Cloneable
 		return 0;
 	}
 
-	/**
-	 * @return
-	 */
 	public final boolean isStepFixed( )
 	{
 		return info.bStepFixed;
@@ -4024,9 +3960,6 @@ public final class AutoScale extends Methods implements Cloneable
 		info.bStepFixed( v );
 	}
 
-	/**
-	 * @return
-	 */
 	public final boolean isMinimumFixed( )
 	{
 		return info.bMinimumFixed;
@@ -4040,9 +3973,6 @@ public final class AutoScale extends Methods implements Cloneable
 		info.bMinimumFixed( v );
 	}
 
-	/**
-	 * @return
-	 */
 	public final boolean isMaximumFixed( )
 	{
 		return info.bMaximumFixed;
@@ -4059,18 +3989,13 @@ public final class AutoScale extends Methods implements Cloneable
 	/**
 	 * Checks if axis is category style or Text type
 	 * 
-	 * @return
+	 * @return category scale or not
 	 */
 	public final boolean isCategoryScale( )
 	{
 		return info.bCategoryScale;
 	}
 
-	/**
-	 * 
-	 * @param iMinorUnitsPerMajor
-	 * @return
-	 */
 	public final double[] getMinorCoordinates( int iMinorUnitsPerMajor )
 	{
 		if ( atcTickCoordinates == null || iMinorUnitsPerMajor <= 0 )
@@ -4102,9 +4027,6 @@ public final class AutoScale extends Methods implements Cloneable
 		return da;
 	}
 
-	/**
-	 * @return
-	 */
 	public final RunTimeContext getRunTimeContext( )
 	{
 		return info.rtc;
