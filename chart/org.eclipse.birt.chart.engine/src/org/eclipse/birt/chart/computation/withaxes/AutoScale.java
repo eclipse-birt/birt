@@ -2549,10 +2549,10 @@ public final class AutoScale extends Methods implements Cloneable
 		if ( value == 0 )
 		{
 			// Bugzilla#280620 zero should be considered correctly
-			// if ( precision < 0 )
-			return precision;
-			// else if ( precision >= 0 )
-			// return 1;
+			if ( precision < 0 )
+				return precision;
+			else if ( precision >= 0 )
+				return 1;
 		}
 
 		if ( precision == 0 )
