@@ -53,9 +53,8 @@ public class ExportDataSourceDialog extends StatusDialog
 	{
 		this( parentShell, title );
 		this.dataSourceHandle = selection;
-		this.fileName = this.dataSourceHandle.getQualifiedName( );
+		initProfileName( );
 	}
-
 
 	protected Control createContents( Composite parent )
 	{
@@ -194,6 +193,23 @@ public class ExportDataSourceDialog extends StatusDialog
 		return fileName;
 	}
 
+	private void initProfileName( )
+	{
+		this.fileName = this.dataSourceHandle.getQualifiedName( );
+
+		int count = 1;
+		if ( isDuplicatedName( ) )
+		{
+			fileName += "_" + count;
+			while ( isDuplicatedName( ) )
+			{
+				count++;
+				fileName = fileName.substring( 0, fileName.length( ) - 1 )
+						+ count;
+			}
+		}
+	}
+
 	private void validate( )
 	{
 		Status status;
@@ -264,7 +280,7 @@ public class ExportDataSourceDialog extends StatusDialog
 	 */
 	protected Status getMiscStatus( int severity, String message )
 	{
-		return new Status( severity, PlatformUI.PLUGIN_ID, IStatus.OK, message, null );
+		return new Status( severity, PlatformUI.PLUGIN_ID, severity, message, null );
 	}
 
 }
