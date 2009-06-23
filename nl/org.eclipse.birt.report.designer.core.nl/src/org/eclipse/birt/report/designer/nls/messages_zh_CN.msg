@@ -1532,7 +1532,7 @@ ExpressionProvider.EditBindings=编辑绑定...
 ExpressionProvider.Expression.RowNumName=行数
 ExpressionProvider.Expression.RowNumTooltip=返回当前行数的表达式。
 ExpressionProvider.Variables=变量
-ExpressionProvider.Variables.Report=报告变量
+ExpressionProvider.Variables.Report=报表变量
 ExpressionProvider.Variables.Page=页面变量
 ExpressionTreeSupport.Category.Global=全局
 
@@ -4597,7 +4597,7 @@ VariableNodeProvider.DialogTitle=编辑变量
 #SelectVariableDialog
 SelectVariableDialog.AvailableVariables=可用变量(&A):
 SelectVariableDialog.PageSeperator=----- 页面变量 -----
-SelectVariableDialog.ReportSeperator=----- 报告变量 -----
+SelectVariableDialog.ReportSeperator=----- 报表变量 -----
 SelectVariableDialog.Title=插入变量
 
 ###########################################################
@@ -4606,6 +4606,6 @@ VariableDialog.DataType=数据类型(&T):
 VariableDialog.DefaultValue=默认值(&V):
 VariableDialog.Name=名称(&N):
 VariableDialog.PageVariable=页面变量(&P)
-VariableDialog.ReportVariable=报告变量(&R)
+VariableDialog.ReportVariable=报表变量(&R)
 VariableDialog.VariableType=类型:
 VariableDialog.Error.NameDuplicate=名称“{0}”与现有名称重复。请选择一个不同的名称。
