@@ -358,6 +358,7 @@
                   <arg line="-source ${repo}"/>
                   <arg line="-configs gtk.linux.x86"/>
                   <arg line="-compress"/>
+            	  <arg line="-reusePack200Files"/>
                   <arg line="-publishArtifacts"/>
             </java>
             <delete file="${repo}/site.xml"/>
@@ -384,7 +385,7 @@
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc.isv}" token="@FEATURE.BIRT.DOC.ISV@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.source}" token="@FEATURE.BIRT.SOURCE@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart}" token="@@FEATURE.CHART@@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart}" token="@FEATURE.CHART@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.cshelp}" token="@FEATURE.CHART.CSHELP@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.doc.isv}" token="@FEATURE.CHART.DOC.ISV@"/>
