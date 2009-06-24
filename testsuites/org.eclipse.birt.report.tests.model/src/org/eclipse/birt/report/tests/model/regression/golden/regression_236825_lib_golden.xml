@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
     <property name="units">in</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="5">
@@ -13,15 +13,15 @@
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">OFFICECODE</property>
-                    <property name="displayName">OFFICECODE</property>
+                    <text-property name="displayName">OFFICECODE</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CITY</property>
-                    <property name="displayName">CITY</property>
+                    <text-property name="displayName">CITY</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">COUNTRY</property>
-                    <property name="displayName">COUNTRY</property>
+                    <text-property name="displayName">COUNTRY</text-property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -148,19 +148,19 @@ from CLASSICMODELS.OFFICES]]></xml-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">OFFICECODE</property>
-                    <property name="displayName">OFFICECODE</property>
+                    <text-property name="displayName">OFFICECODE</text-property>
                     <expression name="expression">dataSetRow["OFFICECODE"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">CITY</property>
-                    <property name="displayName">CITY</property>
+                    <text-property name="displayName">CITY</text-property>
                     <expression name="expression">dataSetRow["CITY"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">COUNTRY</property>
-                    <property name="displayName">COUNTRY</property>
+                    <text-property name="displayName">COUNTRY</text-property>
                     <expression name="expression">dataSetRow["COUNTRY"]</expression>
                     <property name="dataType">string</property>
                 </structure>

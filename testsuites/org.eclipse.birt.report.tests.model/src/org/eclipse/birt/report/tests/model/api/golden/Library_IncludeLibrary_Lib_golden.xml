@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
     <property name="theme">defaultTheme</property>
     <list-property name="libraries">
         <structure>
@@ -10,10 +10,10 @@
     <parameters>
         <scalar-parameter name="Parameter1" id="2">
             <property name="isRequired">false</property>
+            <property name="dataType">string</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">abc</value>
             </simple-property-list>
-            <property name="dataType">string</property>
             <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.1" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <property name="layoutPreference">auto layout</property>
     <list-property name="libraries">
         <structure>
-            <property name="fileName">Reg_130271.xml</property>
+            <property name="fileName">Reg_130271_lib.xml</property>
             <property name="namespace">lib</property>
         </structure>
     </list-property>
