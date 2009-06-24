@@ -174,13 +174,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.swing"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.apache.batik.util"
          download-size="0"
          install-size="0"
