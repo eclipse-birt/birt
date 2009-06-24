@@ -106,7 +106,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		{
 			format = "pdf";
 		}
-		context.setFormat( "pdf" );
+		context.setFormat( format );
 		context.setLocale( locale );
 		context.totalPage = totalPage;
 		

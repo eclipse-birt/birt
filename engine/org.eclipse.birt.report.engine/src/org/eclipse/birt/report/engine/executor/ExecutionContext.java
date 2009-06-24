@@ -1353,7 +1353,7 @@ public class ExecutionContext
 		{
 			if ( isFixedLayout( ) )
 			{
-				outputFormat = IRenderOption.OUTPUT_EMITTERID_PDF;
+				outputFormat = IRenderOption.OUTPUT_FORMAT_PDF;
 			}
 			else
 			{
@@ -2281,5 +2281,10 @@ public class ExecutionContext
 	public void setFixedLayout( boolean isFixedLayout )
 	{
 		this.isFixedLayout = isFixedLayout;
+	}
+	
+	public int getTaskType( )
+	{
+		return task.getTaskType( );
 	}
 }
