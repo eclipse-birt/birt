@@ -26,10 +26,6 @@ plugin@org.apache.batik.ext.awt,1.6.0=GET,http://download.eclipse.org/tools/orbi
 
 plugin@org.apache.batik.ext.awt.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.ext.awt.source_1.6.0.v200805290154.jar
 
-plugin@org.apache.batik.extension,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.extension_1.6.0.v200805290154.jar
-
-plugin@org.apache.batik.extension.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.extension.source_1.6.0.v200805290154.jar
-
 plugin@org.apache.batik.parser,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.parser_1.6.0.v200805290154.jar
 
 plugin@org.apache.batik.parser.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.parser.source_1.6.0.v200805290154.jar
@@ -39,10 +35,6 @@ plugin@org.apache.batik.pdf,1.6.0=GET,http://download.eclipse.org/tools/orbit/do
 plugin@org.apache.batik.svggen,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.svggen_1.6.0.v200805290154.jar
 
 plugin@org.apache.batik.svggen.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.svggen.source_1.6.0.v200805290154.jar
-
-plugin@org.apache.batik.swing,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.swing_1.6.0.v200805290154.jar
-
-plugin@org.apache.batik.swing.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.svggen.source_1.6.0.v200805290154.jar
 
 plugin@org.apache.batik.transcoder,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20090529135407/bundles/org.apache.batik.transcoder_1.6.0.v200805290154.jar
 
