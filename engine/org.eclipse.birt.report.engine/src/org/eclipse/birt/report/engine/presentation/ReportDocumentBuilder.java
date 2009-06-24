@@ -699,7 +699,7 @@ public class ReportDocumentBuilder
 			return reportVars;
 		}
 
-		private Collection<PageVariable> getPageVariable( )
+		protected Collection<PageVariable> getPageVariable( )
 		{
 			Collection<PageVariable> pageVars = new ArrayList<PageVariable>( );
 			Collection<PageVariable> vars = executionContext.getPageVariables( );
@@ -834,6 +834,9 @@ public class ReportDocumentBuilder
 					.addUnresolvedRowHints( pdfContext
 							.getUnresolvedRowHints( ) );
 			hint.addTableColumnHints( pdfContext.getTableColumnHints( ) );
+			Collection<PageVariable> vars = getPageVariable( );
+			hint.getPageVariables( ).addAll( vars );
+			
 			if ( ensureOpen( ) )
 			{
 				try
@@ -869,6 +872,7 @@ public class ReportDocumentBuilder
 				boolean reportFinished = pdfContext.isFinished( );
 				if ( reportFinished )
 				{
+					writePageVariables( );
 					writeTotalPage( pageNumber );
 					close( );
 					return;
