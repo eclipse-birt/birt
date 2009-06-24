@@ -46,11 +46,9 @@
       <plugin id="org.apache.batik.dom"/>
       <plugin id="org.apache.batik.dom.svg"/>
       <plugin id="org.apache.batik.ext.awt"/>
-      <plugin id="org.apache.batik.extension"/>
       <plugin id="org.apache.batik.parser"/>
       <plugin id="org.apache.batik.pdf"/>
       <plugin id="org.apache.batik.svggen"/>
-      <plugin id="org.apache.batik.swing"/>
       <plugin id="org.apache.batik.transcoder"/>
       <plugin id="org.apache.batik.util"/>
       <plugin id="org.apache.batik.util.gui"/>
