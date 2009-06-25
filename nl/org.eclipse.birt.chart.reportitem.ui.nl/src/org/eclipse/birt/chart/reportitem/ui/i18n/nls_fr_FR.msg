@@ -53,7 +53,7 @@ ReportDataServiceProvider.Tooltip.GroupExpression=Expression de groupe :
 ReportDataServiceProvider.Tooltip.OnGroup=Dans le groupe : 
 
 ShowAxisAction.Text.ShowValueAxis=Afficher l'axe de valeurs
-StandardChartDataSheet.CheckCubeWarning=Column bindings should contain at least one dimension and one measure.
+StandardChartDataSheet.CheckCubeWarning=Les liaisons de colonnes doivent contenir au moins une dimension et une mesure.
 StandardChartDataSheet.Combo.DataCubes=---------Cubes de données---------
 StandardChartDataSheet.Combo.DataSets=----------Jeux de données----------
 StandardChartDataSheet.Combo.InheritColumnsGroups=Hériter des colonnes et des groupes

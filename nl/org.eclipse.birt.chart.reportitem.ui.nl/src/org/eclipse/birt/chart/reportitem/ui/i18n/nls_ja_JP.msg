@@ -53,7 +53,7 @@ ReportDataServiceProvider.Tooltip.GroupExpression=グループ式 :
 ReportDataServiceProvider.Tooltip.OnGroup=グループ : 
 
 ShowAxisAction.Text.ShowValueAxis=値軸の表示
-StandardChartDataSheet.CheckCubeWarning=Column bindings should contain at least one dimension and one measure.
+StandardChartDataSheet.CheckCubeWarning=列バインドには、ディメンジョンとメジャーを少なくとも 1 つずつ含める必要があります。
 StandardChartDataSheet.Combo.DataCubes=---------データキューブ---------
 StandardChartDataSheet.Combo.DataSets=----------データセット----------
 StandardChartDataSheet.Combo.InheritColumnsGroups=列とグループを継承

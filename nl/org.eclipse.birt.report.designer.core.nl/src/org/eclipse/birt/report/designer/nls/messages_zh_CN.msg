@@ -1194,7 +1194,7 @@ Element.ParameterGroup.slot.parameters=参数:
 Element.ParameterGroup.startExpanded=开始展开:
 Element.ParameterGroup.promptTextID=提示文本关键字(&Y):
 Element.ReportDesign.afterCloseDoc.toolTip=仅在生成阶段关闭报表文档文件之后调用。
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=布局首选项:
 Element.ReportDesign.afterCloseDoc=关闭文档后:
 Element.ReportDesign.afterFactory.toolTip=在生成阶段结束时并且在关闭报表文档（如果有）之后调用。这是生成阶段调用的最后一个方法。
 Element.ReportDesign.afterFactory=出厂后:
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=编辑值/表达式(&V)...
 SchematicContextMenuProvider.ActionText.editLabel=编辑(&E)
 SchematicContextMenuProvider.Menu.EditGroup=编辑组(&G)
 SchematicContextMenuProvider.Menu.Insert=插入(&I)
-SchematicContextMenuProvider.Menu.insertElement=I&nsert
+SchematicContextMenuProvider.Menu.insertElement=插入(&N)
 SchematicContextMenuProvider.Menu.insertRow=行(&R)
 SchematicContextMenuProvider.Menu.List=列表
 SchematicContextMenuProvider.Menu.Show=显示
@@ -3389,7 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=样式(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.Theme=主题(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=应用主题(&P)
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
+SchematicContextMenuProvider.Menu.Layout=布局首选项(&A)
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3406,8 +3406,8 @@ SchematicContextMenuProvider.Menu.NewStyle=新样式(&Y)
 ###########################################################
 #ApplyLayoutPreferenceAction properties
 
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
+ApplyLayoutPreferenceAction.autoLayout=自动布局(&A)
+ApplyLayoutPreferenceAction.fixedLayout=混合布局(&F)
 
 ###########################################################
 #SectionProcess properties
@@ -4567,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=删除文件失败: {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=Propert&ies
+ShowPropertiesViewMenu.ActionName=属性(&I)
 ShowPropertiesViewMenu.ErrorMessage=无法打开属性视图
 ShowPropertiesViewMenu.ErrorTitle=错误
 

@@ -892,14 +892,14 @@ BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=No se pueden sel
 BaseGroupSortingDialog.Label.SortOn=&Ordenar según:
 
 MarkerEditorComposite.Button.Outline=C&ontorno
-MarkerIconDialog.Button.EmbeddedImage=E&mbedded image
+MarkerIconDialog.Button.EmbeddedImage=I&magen incrustada
 MarkerIconDialog.Title.MarkerIconSelector=Selector de icono de marcador
 MarkerIconDialog.Label.Description.EmbeddedImage=Seleccionar imagen incrustada como icono de marcador.
 MarkerIconDialog.Lbl.SelectIconFrom=Seleccionar icono desde:
 MarkerIconDialog.Lbl.URL=&URL
 MarkerIconDialog.Lbl.Local=&Local
-MarkerIconDialog.Lbl.EnterURL=&Enter URL:
-MarkerIconDialog.Lbl.Browse=&Browse
+MarkerIconDialog.Lbl.EnterURL=&Introducir URL:
+MarkerIconDialog.Lbl.Browse=&Examinar
 MarkerIconDialog.Lbl.Preview=&Vista previa
 MarkerIconDialog.Lbl.Add=Añadir
 MarkerIconDialog.Chooser.Title=Selector de icono de marcador

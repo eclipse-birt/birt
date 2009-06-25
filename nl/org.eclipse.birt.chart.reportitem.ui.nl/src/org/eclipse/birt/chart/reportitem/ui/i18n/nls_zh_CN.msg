@@ -53,7 +53,7 @@ ReportDataServiceProvider.Tooltip.GroupExpression=组表达式:
 ReportDataServiceProvider.Tooltip.OnGroup=按组: 
 
 ShowAxisAction.Text.ShowValueAxis=显示值轴
-StandardChartDataSheet.CheckCubeWarning=Column bindings should contain at least one dimension and one measure.
+StandardChartDataSheet.CheckCubeWarning=列绑定应包含至少一个维和一个度量。
 StandardChartDataSheet.Combo.DataCubes=---------多维数据集---------
 StandardChartDataSheet.Combo.DataSets=----------数据集----------
 StandardChartDataSheet.Combo.InheritColumnsGroups=继承列和组

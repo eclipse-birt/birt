@@ -1194,7 +1194,7 @@ Element.ParameterGroup.slot.parameters=Parámetros:
 Element.ParameterGroup.startExpanded=Iniciar expandido:
 Element.ParameterGroup.promptTextID=Clave de texto de &solicitud:
 Element.ReportDesign.afterCloseDoc.toolTip=Llamado justo después de cerrar el documento de informe en la fase de generación.
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=Preferencia de diseño:
 Element.ReportDesign.afterCloseDoc=Después de cerrar documento:
 Element.ReportDesign.afterFactory.toolTip=Llamado al final de la fase de generación, después de cerrar el documento de informes (si existe). Éste es el último método llamado en la fase de generación.
 Element.ReportDesign.afterFactory=Después de fábrica:
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=Editar &valor/expresión...
 SchematicContextMenuProvider.ActionText.editLabel=&Editar
 SchematicContextMenuProvider.Menu.EditGroup=Editar &grupo
 SchematicContextMenuProvider.Menu.Insert=In&sertar
-SchematicContextMenuProvider.Menu.insertElement=I&nsert
+SchematicContextMenuProvider.Menu.insertElement=I&nsertar
 SchematicContextMenuProvider.Menu.insertRow=&Fila
 SchematicContextMenuProvider.Menu.List=Lista
 SchematicContextMenuProvider.Menu.Show=Mostrar
@@ -3389,7 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=Es&tilo
 SchematicContextMenuProvider.Menu.Style.Apply=A&plicar estilo
 SchematicContextMenuProvider.Menu.Theme=Te&ma
 SchematicContextMenuProvider.Menu.Theme.Apply=A&plicar tema
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
+SchematicContextMenuProvider.Menu.Layout=P&referencia de diseño
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3406,8 +3406,8 @@ SchematicContextMenuProvider.Menu.NewStyle=Nuevo Est%ilo
 ###########################################################
 #ApplyLayoutPreferenceAction properties
 
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
+ApplyLayoutPreferenceAction.autoLayout=Diseño a&utomático
+ApplyLayoutPreferenceAction.fixedLayout=Diseño &fijo
 
 ###########################################################
 #SectionProcess properties
@@ -4567,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=Error al eliminar archivo: {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=Propert&ies
+ShowPropertiesViewMenu.ActionName=Propiedad&es
 ShowPropertiesViewMenu.ErrorMessage=Error al abrir la vista de propiedades
 ShowPropertiesViewMenu.ErrorTitle=Error
 

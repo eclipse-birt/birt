@@ -1194,7 +1194,7 @@ Element.ParameterGroup.slot.parameters=Parameter:
 Element.ParameterGroup.startExpanded=Erweiterte starten:
 Element.ParameterGroup.promptTextID=Aufforderungstexts&chlüssel:
 Element.ReportDesign.afterCloseDoc.toolTip=Wird direkt nach dem Schließen des Berichtdokuments in der Erstellungsphase aufgerufen.
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=Layoutvoreinstellungen:
 Element.ReportDesign.afterCloseDoc=Nach dem Schließen des Dokuments:
 Element.ReportDesign.afterFactory.toolTip=Wird am Ende der Erstellungsphase nach dem Schließen des Berichtdokuments (falls vorhanden) aufgerufen. Dies ist die letzte in der Erstellungsphase aufgerufene Methode.
 Element.ReportDesign.afterFactory=Nach Factory:
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=&Wert/Ausdruck bearbeiten...
 SchematicContextMenuProvider.ActionText.editLabel=&Bearbeiten
 SchematicContextMenuProvider.Menu.EditGroup=&Gruppe bearbeiten
 SchematicContextMenuProvider.Menu.Insert=E&infügen
-SchematicContextMenuProvider.Menu.insertElement=I&nsert
+SchematicContextMenuProvider.Menu.insertElement=Ei&nfügen
 SchematicContextMenuProvider.Menu.insertRow=&Zeile
 SchematicContextMenuProvider.Menu.List=Liste
 SchematicContextMenuProvider.Menu.Show=Anzeigen
@@ -3389,7 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=S&til
 SchematicContextMenuProvider.Menu.Style.Apply=Stil an&wenden
 SchematicContextMenuProvider.Menu.Theme=The&ma
 SchematicContextMenuProvider.Menu.Theme.Apply=Thema ver&wenden
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
+SchematicContextMenuProvider.Menu.Layout=L&ayoutvoreinstellungen
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3406,8 +3406,8 @@ SchematicContextMenuProvider.Menu.NewStyle=Neuer St&il
 ###########################################################
 #ApplyLayoutPreferenceAction properties
 
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
+ApplyLayoutPreferenceAction.autoLayout=&Automatisches Layout
+ApplyLayoutPreferenceAction.fixedLayout=&Festes Layout
 
 ###########################################################
 #SectionProcess properties
@@ -4567,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=Fehler beim Löschen von Datei: {
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=Propert&ies
+ShowPropertiesViewMenu.ActionName=E&igenschaften
 ShowPropertiesViewMenu.ErrorMessage=Fehler beim Öffnen der Eigenschaftenansicht.
 ShowPropertiesViewMenu.ErrorTitle=Fehler
 

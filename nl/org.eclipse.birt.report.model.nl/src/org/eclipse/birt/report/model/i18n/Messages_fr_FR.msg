@@ -661,7 +661,7 @@ Choices.dynamicFilterChoice.simple=Simple
 Choices.dynamicFilterChoice.advanced=Avancé
 
 #81 variableType
-Choices.variableType.report=Report Variable
+Choices.variableType.report=Variable de l'état
 Choices.variableType.page=Variable de la page
 
 ###########################################################

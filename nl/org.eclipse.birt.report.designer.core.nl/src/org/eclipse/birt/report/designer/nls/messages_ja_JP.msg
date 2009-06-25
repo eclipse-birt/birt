@@ -1194,7 +1194,7 @@ Element.ParameterGroup.slot.parameters=パラメタ :
 Element.ParameterGroup.startExpanded=開始時に展開 :
 Element.ParameterGroup.promptTextID=プロンプトテキストキー(&K) :
 Element.ReportDesign.afterCloseDoc.toolTip=生成フェーズでレポート文書ファイルを閉じた直後に呼び出されます。
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=レイアウトの設定 :
 Element.ReportDesign.afterCloseDoc=文書を閉じた後 :
 Element.ReportDesign.afterFactory.toolTip=生成フェーズでの処理が終了した際に、レポート文書 (該当する場合) を閉じた後に呼び出されます。これは、生成フェーズで呼び出される最後のメソッドです。
 Element.ReportDesign.afterFactory=Factory での処理後 :
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=値/式の編集(&V)...
 SchematicContextMenuProvider.ActionText.editLabel=編集(&E)
 SchematicContextMenuProvider.Menu.EditGroup=変数の編集(&G)
 SchematicContextMenuProvider.Menu.Insert=挿入(&I)
-SchematicContextMenuProvider.Menu.insertElement=I&nsert
+SchematicContextMenuProvider.Menu.insertElement=挿入(&N)
 SchematicContextMenuProvider.Menu.insertRow=行(&R)
 SchematicContextMenuProvider.Menu.List=リスト
 SchematicContextMenuProvider.Menu.Show=表示
@@ -3389,7 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=スタイル(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=スタイルの適用(&P)
 SchematicContextMenuProvider.Menu.Theme=テーマ(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=テーマの適用(&P)
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
+SchematicContextMenuProvider.Menu.Layout=レイアウトの設定(&A)
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3406,8 +3406,8 @@ SchematicContextMenuProvider.Menu.NewStyle=スタイルの新規作成(&Y)
 ###########################################################
 #ApplyLayoutPreferenceAction properties
 
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
+ApplyLayoutPreferenceAction.autoLayout=自動レイアウト(&A)
+ApplyLayoutPreferenceAction.fixedLayout=固定レイアウト(&F)
 
 ###########################################################
 #SectionProcess properties
@@ -4567,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=ファイルを削除できません : {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=Propert&ies
+ShowPropertiesViewMenu.ActionName=プロパティ(&I)
 ShowPropertiesViewMenu.ErrorMessage=プロパティビューを開けませんでした
 ShowPropertiesViewMenu.ErrorTitle=エラー
 

@@ -661,7 +661,7 @@ Choices.dynamicFilterChoice.simple=Einfach
 Choices.dynamicFilterChoice.advanced=Erweitert
 
 #81 variableType
-Choices.variableType.report=Report Variable
+Choices.variableType.report=Berichtvariable
 Choices.variableType.page=Seitenvariable
 
 ###########################################################

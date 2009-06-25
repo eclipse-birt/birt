@@ -1194,7 +1194,7 @@ Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
 Element.ParameterGroup.promptTextID=프롬프트 텍스트 키(&K):
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=레이아웃 기본 설정:
 Element.ReportDesign.afterCloseDoc=문서 닫기 이후:
 Element.ReportDesign.afterFactory.toolTip=생성 단계의 끝과 보고서 문서(있는 경우)를 닫은 직후 호출됩니다. 생성 단계에서 호출되는 마지막 메서드입니다.
 Element.ReportDesign.afterFactory=공장 이후:
@@ -3381,7 +3381,7 @@ SchematicContextMenuProvider.ActionText.editData=값/식 편집(&V)...
 SchematicContextMenuProvider.ActionText.editLabel=편집(&E)
 SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&G)
 SchematicContextMenuProvider.Menu.Insert=삽입(&I)
-SchematicContextMenuProvider.Menu.insertElement=I&nsert
+SchematicContextMenuProvider.Menu.insertElement=삽입(&N)
 SchematicContextMenuProvider.Menu.insertRow=행(&R)
 SchematicContextMenuProvider.Menu.List=목록
 SchematicContextMenuProvider.Menu.Show=표시
@@ -3389,7 +3389,7 @@ SchematicContextMenuProvider.Menu.Style=스타일(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=스타일 적용(&P)
 SchematicContextMenuProvider.Menu.Theme=테마(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=테마 적용(&P)
-SchematicContextMenuProvider.Menu.Layout=L&ayout Preference
+SchematicContextMenuProvider.Menu.Layout=레이아웃 기본 설정(&A)
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -3406,8 +3406,8 @@ SchematicContextMenuProvider.Menu.NewStyle=새 스타일(&Y)
 ###########################################################
 #ApplyLayoutPreferenceAction properties
 
-ApplyLayoutPreferenceAction.autoLayout=&Auto Layout
-ApplyLayoutPreferenceAction.fixedLayout=&Fixed Layout
+ApplyLayoutPreferenceAction.autoLayout=자동 레이아웃(&A)
+ApplyLayoutPreferenceAction.fixedLayout=고정 레이아웃(&F)
 
 ###########################################################
 #SectionProcess properties
@@ -4567,7 +4567,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=파일 삭제 실패: {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=Propert&ies
+ShowPropertiesViewMenu.ActionName=속성(&I)
 ShowPropertiesViewMenu.ErrorMessage=속성 뷰를 열지 못했습니다.
 ShowPropertiesViewMenu.ErrorTitle=오류
 

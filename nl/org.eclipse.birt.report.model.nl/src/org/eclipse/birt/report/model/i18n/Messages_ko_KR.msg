@@ -661,7 +661,7 @@ Choices.dynamicFilterChoice.simple=단순
 Choices.dynamicFilterChoice.advanced=고급
 
 #81 variableType
-Choices.variableType.report=Report Variable
+Choices.variableType.report=보고서 변수
 Choices.variableType.page=페이지 변수
 
 ###########################################################
