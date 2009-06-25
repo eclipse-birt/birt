@@ -334,7 +334,7 @@
                   dir="${updateJarWorkingDir}">
                   <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
                   <arg line="-application org.eclipse.update.core.siteOptimizer -verbose"/>
-                  <arg line="-jarProcessor -outputDir ${repo} -processAll -pack eclipse"/>
+                  <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse"/>
             </java>
 
             <!--generator features and plugins metadata -->
@@ -345,7 +345,6 @@
                           artifactRepositoryName="${p2.repo.name}"
                           publishArtifacts="true" p2OS="linux" mode="incremental"
                           site="file:${updateJarWorkingDir}/site/site.xml"/-->
-            <copy file="${updateJarWorkingDir}/site/site.xml" todir="${repo}"/>
             <java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
                   fork="true"
                   timeout="10800000"
@@ -355,13 +354,15 @@
                   <arg line="-application org.eclipse.equinox.p2.publisher.UpdateSitePublisher"/>
                   <arg line="-metadataRepository file:${repo}"/>
                   <arg line="-artifactRepository file:${repo}"/>
-                  <arg line="-source ${repo}"/>
+                  <arg line="-source ${updateJarWorkingDir}/site"/>
                   <arg line="-configs gtk.linux.x86"/>
                   <arg line="-compress"/>
             	  <arg line="-reusePack200Files"/>
                   <arg line="-publishArtifacts"/>
             </java>
-            <delete file="${repo}/site.xml"/>
+        	<copy todir="${repo}/features">
+        	   <fileset dir="${updateJarWorkingDir}/site/features" includes="*.pack.gz"/>
+        	</copy>
             
             <!--try create composite repository-->
             <p2.composite.artifact.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
