@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 
 /**
  * Regression description:
@@ -239,7 +240,7 @@ public class Regression_109622_1 extends ChartTestCase
 		sdX.getGrouping( ).setGroupType( DataType.DATE_TIME_LITERAL );
 		sdX.getGrouping( ).setAggregateExpression( "Sum" );
 		sdX.getGrouping( ).setGroupingInterval( 1 );
-
+		sdX.getGrouping().setGroupingUnit(GroupingUnitType.DAYS_LITERAL);
 		// -------------------------------------------------------------
 
 		// Y-Series
