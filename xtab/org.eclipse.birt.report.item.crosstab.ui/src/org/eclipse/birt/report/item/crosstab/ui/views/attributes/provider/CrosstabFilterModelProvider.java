@@ -17,10 +17,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
@@ -151,23 +153,11 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 
 		try
 		{
-			if ( target instanceof LevelViewHandle )
-			{
-				LevelViewHandle level = (LevelViewHandle) target;
-				level.getModelHandle( ).drop( ILevelViewConstants.FILTER_PROP,
-						filterCondition );
-			}
-			else if ( target instanceof MeasureViewHandle )
-			{
-				MeasureViewHandle measure = (MeasureViewHandle) target;
-				measure.getModelHandle( )
-						.drop( ILevelViewConstants.FILTER_PROP, filterCondition );
-			}
-
+			filterCondition.drop( );
 		}
 		catch ( SemanticException e )
 		{
-			// TODO Auto-generated catch block
+			ExceptionHandler.handle( e );
 			return false;
 		}
 
