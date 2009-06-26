@@ -1,0 +1,38 @@
+#/*******************************************************************************
+# * Copyright (c) 2008 Actuate Corporation.
+# * All rights reserved. This program and the accompanying materials
+# * are made available under the terms of the Eclipse Public License v1.0
+# * which accompanies this distribution, and is available at
+# * http://www.eclipse.org/legal/epl-v10.html
+# *
+# * Contributors:
+# *  Actuate Corporation  - initial API and implementation
+# *******************************************************************************/
+
+###########################################################
+#HTML Emitter
+HTMLEmitter.Description=Configure options for rendering a report in HTML (HyperText Markup Language) format.
+HTMLEmitter.DisplayName=HTML
+
+###########################################################
+#Option Display Value
+OptionDisplayValue.AgentStyleEngine=Delegate style processing to User Agent
+OptionDisplayValue.Enable=Enable
+OptionDisplayValue.Disable=Disable
+OptionDisplayValue.OutputMasterPageMargins=Output margins of master page
+OptionDisplayValue.MasterPageContent=Output page header and footer
+OptionDisplayValue.PageFooterFloat=Floating page footer
+OptionDisplayValue.LayoutPrefrence=Layout prefrence:
+OptionDisplayValue.FixedLayout=Fixed Layout
+OptionDisplayValue.AutoLayout=Auto Layout
+OptionDisplayValue.HTMLType=Output type:
+OptionDisplayValue.CompleteHTML=Complete HTML
+OptionDisplayValue.HTMLNoCSS=HTML without CSS
+
+###########################################################
+#Option Description
+OptionDescription.AgentStyleEngine=True: means the HTML emitter will output the BIRT styles directly to the report and depends on the browser to implement the style calculation.\nFalse: means the HTML emitter will use BIRT style engine to calculate the styles and output the result to the report.
+OptionDescription.OutputMasterPageMargins=Output the master page's margins for the auto layout report.
+OptionDescription.MasterPageContent=Contains page header and footer, only effect if the Pagination is enable.
+OptionDescription.PageFooterFloat=Floating the page footer, only effect if the Pagination is enable.
+OptionDescription.HTMLType=HTML type.
