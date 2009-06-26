@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nl Fragment
+Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.config.pdf.nl
+Bundle-Version: 2.5.0.qualifier
+Fragment-Host: org.eclipse.birt.report.engine.emitter.pdf.config;bundle-version="[2.1.0,3.0.0)"
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: nl_fragment
