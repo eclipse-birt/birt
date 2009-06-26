@@ -599,9 +599,9 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
+		_startContainer( foreign );
 		if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
 		{
-			_startContainer( foreign );
 			// build content DOM tree for HTML text
 			HTML2Content.html2Content( foreign );
 			if( context.isFixedLayout( ) )
@@ -619,12 +619,8 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			}
 			// FIXME
 			foreign.getChildren( ).clear( );
-			_endContainer( foreign );
 		}
-		else
-		{
-			startContent( foreign );
-		}
+		_endContainer( foreign );
 	}
 
 	protected void resolveTotalPage( IContentEmitter emitter )

@@ -964,25 +964,24 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			try
 			{
 				Object output = itemPresentation.onRowSets( resultSets );
+				int type = itemPresentation.getOutputType( );
+				String imageMIMEType = itemPresentation.getImageMIMEType( );
+				Size size = itemPresentation.getSize( );
 				if ( output != null )
 				{
-					int type = itemPresentation.getOutputType( );
-					String imageMIMEType = itemPresentation.getImageMIMEType( );
-					Size size = itemPresentation.getSize( );
 					generatedContent = processExtendedContent( content, type,
 							output, imageMIMEType, size );
-					if ( size != null )
-					{
-						DimensionType height = new DimensionType( size.getHeight( ), size.getUnit( ) );
-						DimensionType width = new DimensionType( size.getWidth( ), size.getUnit( ) );
-						generatedContent.setHeight( height );
-						generatedContent.setWidth( width );
-					}
 				}
-				else
+				if ( size != null )
 				{
-					generatedContent = null;
+					DimensionType height = new DimensionType(
+							size.getHeight( ), size.getUnit( ) );
+					DimensionType width = new DimensionType( size.getWidth( ),
+							size.getUnit( ) );
+					generatedContent.setHeight( height );
+					generatedContent.setWidth( width );
 				}
+
 				itemPresentation.finish( );
 			}
 			catch ( BirtException ex )
