@@ -304,6 +304,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 			throws EngineException, IOException
 	{
 		HTMLRenderOption options = new HTMLRenderOption( );
+		options.setSupportedImageFormats( "PNG;GIF;JPG;BMP;SWF;SVG" );
 		RenderResult result = getRenderResult( designFile, isRenderTask, options );
 		checkOutput( result.content, result.instanceIDs, bookmarksWithMetadata,
 				bookmarksWithoutMetadata );
