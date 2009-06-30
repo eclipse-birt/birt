@@ -122,7 +122,7 @@
 		
 	</target>
 	
-	<target name="CheckNewThirdPartyJar" unless="skip.check.newjars">
+	<target name="CheckNewThirdPartyJar" if="CheckNewJars">
 		<exec executable="${eclipse.build.configs}/../../extras/checkNewJars.sh">
 			<arg value="${buildDirectory}"/>
 		    <arg value="${eclipse.build.configs}/../../extras"/>
