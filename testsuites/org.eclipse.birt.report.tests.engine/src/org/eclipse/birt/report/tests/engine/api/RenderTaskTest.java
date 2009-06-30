@@ -451,6 +451,7 @@ public class RenderTaskTest extends EngineCase
 				outputFileName = outputPath + docName + "/html/" + type
 						+ ".html";
 				htmlRenderOptions.setOutputFileName( outputFileName );
+				htmlRenderOptions.setEmitterID( null );
 				htmlRenderOptions.setOutputFormat( "html" );
 				task.setAppContext( appContext );
 				task.setRenderOption( htmlRenderOptions );
@@ -465,6 +466,7 @@ public class RenderTaskTest extends EngineCase
 				outputFileName = outputPath + docName + "/pdf/" + type + ".pdf";
 				htmlRenderOptions.setOutputFileName( outputFileName );
 				htmlRenderOptions.setOutputFormat( "pdf" );
+				htmlRenderOptions.setEmitterID( null );
 				task.setRenderOption( htmlRenderOptions );
 				task.setInstanceID( iid );
 				task.setAppContext( appContext );
@@ -521,6 +523,7 @@ public class RenderTaskTest extends EngineCase
 					+ ".html";
 			htmlRenderOptions.setOutputFileName( outputFileName );
 			htmlRenderOptions.setOutputFormat( "html" );
+			htmlRenderOptions.setEmitterID( null );
 
 			if ( toc )
 			{
@@ -544,6 +547,7 @@ public class RenderTaskTest extends EngineCase
 			outputFileName = outputPath + docName + "/pdf/" + bookmark + ".pdf";
 			htmlRenderOptions.setOutputFileName( outputFileName );
 			htmlRenderOptions.setOutputFormat( "pdf" );
+			htmlRenderOptions.setEmitterID( null );
 			task.setRenderOption( htmlRenderOptions );
 			task.setReportlet( s_toc );
 			task.render( );
@@ -743,6 +747,7 @@ public class RenderTaskTest extends EngineCase
 					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 			options.setOutputFormat( "html" );
+			options.setEmitterID( null );
 			options.getOutputSetting( ).put(
 					HTMLRenderOption.URL_ENCODING,
 					"UTF-8" );
@@ -776,6 +781,7 @@ public class RenderTaskTest extends EngineCase
 					+ bookmark + ".pdf";
 			options.setOutputFileName( outputFileName );
 			options.setOutputFormat( "pdf" );
+			options.setEmitterID( null );
 			task = engine.createRenderTask( reportDoc );
 			task.setLocale( Locale.ENGLISH );
 			task.setAppContext( appContext );
