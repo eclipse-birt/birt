@@ -116,19 +116,25 @@
 			</fileset>
 		</jar>
 		<delete dir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/temp.folder" failonerror="false"/>
+		
 		<!-- check new third party jar -->
+		<antcall target="CheckNewThirdPartyJar" />
+		
+	</target>
+	
+	<target name="CheckNewThirdPartyJar" unless="skip.check.newjars">
 		<exec executable="${eclipse.build.configs}/../../extras/checkNewJars.sh">
 			<arg value="${buildDirectory}"/>
-                        <arg value="${eclipse.build.configs}/../../extras"/>
-		</exec>
-                <condition property="CheckThirdpartylog" value="true">
-                   <not>
-                     <filesmatch file1="${buildDirectory}/thirdPartyJar.log"
-                                 file2="${eclipse.build.configs}/../../extras/thirdPartyJar.log.template" textfile="true"/>
-                   </not>
-                </condition>
-                <ant antfile="${eclipse.build.configs}/../helper.xml" target="ThirdPartyJarCheckNotification"/>
-	</target>
+		    <arg value="${eclipse.build.configs}/../../extras"/>
+	    </exec>
+		<condition property="CheckThirdpartylog" value="true">
+		    <not>
+		       <filesmatch file1="${buildDirectory}/thirdPartyJar.log"
+		                   file2="${eclipse.build.configs}/../../extras/thirdPartyJar.log.template" textfile="true"/>
+		    </not>
+		</condition>
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="ThirdPartyJarCheckNotification"/>
+    </target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do before generating build scripts -->
