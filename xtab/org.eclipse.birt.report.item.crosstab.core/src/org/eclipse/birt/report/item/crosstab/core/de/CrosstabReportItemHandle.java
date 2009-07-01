@@ -951,6 +951,23 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
+	 * Swaps the crosstab row area and column area. Note this call is not
+	 * equivalent to calling <code>pivotDimension</code> to interchange
+	 * dimensions from row area to column area. Specifically this call will
+	 * retain all the original subtotal and grandtotal info in both area after
+	 * the swapping, while <code>pivotDimension</code> may remove the grandtotal
+	 * or recreate some cells during the processing.
+	 * 
+	 * @throws SemanticException
+	 * 
+	 * @since 2.5.1
+	 */
+	public void pivotCrosstab( ) throws SemanticException
+	{
+		new CrosstabReportItemTask( this ).pivotCrosstab( );
+	}
+
+	/**
 	 * Gets the row/column grand total cell of this crosstab. The axis type can
 	 * be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.

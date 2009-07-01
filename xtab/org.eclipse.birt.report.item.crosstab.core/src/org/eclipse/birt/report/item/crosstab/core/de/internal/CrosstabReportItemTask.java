@@ -20,6 +20,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -31,8 +32,11 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * CrosstabReportItemTask
@@ -245,6 +249,176 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Swaps the crosstab row area and column area. Note this call is not
+	 * equivalent to calling <code>pivotDimension</code> to interchange
+	 * dimensions from row area to column area. Specifically this call will
+	 * retain all the original subtotal and grandtotal info in both area after
+	 * the swapping, while <code>pivotDimension</code> may remove the grandtotal
+	 * or recreate some cells during the processing.
+	 * 
+	 * @throws SemanticException
+	 */
+	public void pivotCrosstab( ) throws SemanticException
+	{
+		CommandStack stack = crosstab.getCommandStack( );
+		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.pivot.crosstab" ) ); //$NON-NLS-1$
+
+		try
+		{
+			// swap the dimension views
+			int transfered = transferDimensions( ROW_AXIS_TYPE, 0 );
+			transferDimensions( COLUMN_AXIS_TYPE, transfered );
+
+			// swap the grandtotals
+			CrosstabCellHandle replaced = transferGrandTotal( ROW_AXIS_TYPE,
+					null );
+			transferGrandTotal( COLUMN_AXIS_TYPE, replaced );
+
+			// swap the aggregationOn property on measure aggregation cells
+			for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+			{
+				MeasureViewHandle mv = crosstab.getMeasure( i );
+
+				swapAggregateOn( mv.getCell( ) );
+
+				for ( int j = 0; j < mv.getAggregationCount( ); j++ )
+				{
+					swapAggregateOn( mv.getAggregationCell( j ) );
+				}
+			}
+
+			// swap the measure direction
+			String oldDirction = crosstab.getMeasureDirection( );
+			String newDirection = MEASURE_DIRECTION_HORIZONTAL.equals( oldDirction ) ? MEASURE_DIRECTION_VERTICAL
+					: MEASURE_DIRECTION_HORIZONTAL;
+			crosstab.getModelHandle( )
+					.setStringProperty( MEASURE_DIRECTION_PROP, newDirection );
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
+	}
+
+	private void swapAggregateOn( AggregationCellHandle aggCell )
+			throws SemanticException
+	{
+		if ( aggCell == null )
+		{
+			return;
+		}
+
+		LevelHandle rowLevel = aggCell.getAggregationOnRow( );
+		LevelHandle colLevel = aggCell.getAggregationOnColumn( );
+
+		aggCell.setAggregationOnColumn( rowLevel );
+		aggCell.setAggregationOnRow( colLevel );
+	}
+
+	private int transferDimensions( int srcAxis, int offset )
+			throws SemanticException
+	{
+		int transfered = 0;
+
+		int dimCount = crosstab.getDimensionCount( srcAxis ) - offset;
+
+		if ( dimCount > 0 )
+		{
+			int targetAxis = CrosstabModelUtil.getOppositeAxisType( srcAxis );
+
+			CrosstabViewHandle targetCrosstabView = crosstab.getCrosstabView( targetAxis );
+			if ( targetCrosstabView == null )
+			{
+				targetCrosstabView = crosstab.addCrosstabView( targetAxis );
+			}
+
+			DesignElementHandle targetViewHandle = targetCrosstabView.getModelHandle( );
+
+			for ( int i = 0; i < dimCount; i++ )
+			{
+				DimensionViewHandle dv = crosstab.getDimension( srcAxis, offset
+						+ i );
+
+				dv.getModelHandle( ).moveTo( targetViewHandle,
+						ICrosstabViewConstants.VIEWS_PROP,
+						i );
+
+				transfered++;
+			}
+		}
+
+		return transfered;
+	}
+
+	private CrosstabCellHandle transferGrandTotal( int srcAxis,
+			CrosstabCellHandle oldGT ) throws SemanticException
+	{
+		CrosstabCellHandle srcGT = null;
+
+		if ( oldGT == null )
+		{
+			CrosstabViewHandle srcView = crosstab.getCrosstabView( srcAxis );
+			srcGT = srcView != null ? srcView.getGrandTotal( ) : null;
+		}
+		else
+		{
+			srcGT = oldGT;
+		}
+
+		CrosstabCellHandle targetReplaced = null;
+
+		if ( srcGT != null )
+		{
+			int targetAxis = CrosstabModelUtil.getOppositeAxisType( srcAxis );
+			CrosstabViewHandle targetView = crosstab.getCrosstabView( targetAxis );
+
+			if ( targetView == null )
+			{
+				targetView = crosstab.addCrosstabView( targetAxis );
+			}
+
+			targetReplaced = targetView.getGrandTotal( );
+
+			// clear grandtotal on source view
+			if ( srcGT.getModelHandle( ).getContainer( ) != null )
+			{
+				CrosstabCellHandle srcClone = (CrosstabCellHandle) CrosstabUtil.getReportItem( srcGT.getModelHandle( )
+						.copy( )
+						.getHandle( crosstab.getModuleHandle( ).getModule( ) ) );
+
+				srcGT.getModelHandle( ).drop( );
+
+				srcGT = srcClone;
+			}
+
+			if ( targetReplaced != null )
+			{
+				CrosstabCellHandle targetClone = (CrosstabCellHandle) CrosstabUtil.getReportItem( targetReplaced.getModelHandle( )
+						.copy( )
+						.getHandle( crosstab.getModuleHandle( ).getModule( ) ) );
+
+				targetReplaced.getModelHandle( ).drop( );
+
+				targetReplaced = targetClone;
+			}
+
+			// add grandtotal to target view
+			PropertyHandle targetPropertyHandle = targetView.getGrandTotalProperty( );
+
+			if ( targetPropertyHandle.getContentCount( ) <= 0 )
+			{
+				targetPropertyHandle.add( srcGT.getModelHandle( ) );
+			}
+
+		}
+
+		return targetReplaced;
 	}
 
 	/**
