@@ -57,12 +57,12 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	protected boolean htmlRtLFlag = false;
 	
 	public HTMLVisionOptimize( HTMLReportEmitter reportEmitter,
-			HTMLWriter writer, String layoutPreference,
-			boolean enableInlineStyle, boolean htmlRtLFlag, int browserVersion )
+			HTMLWriter writer, boolean fixedReport, boolean enableInlineStyle,
+			boolean htmlRtLFlag, int browserVersion )
 	{
 		super( reportEmitter,
 				writer,
-				layoutPreference,
+				fixedReport,
 				enableInlineStyle,
 				browserVersion );
 		this.htmlRtLFlag = htmlRtLFlag;
@@ -215,7 +215,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		}
 
 		// implement table-layout
-		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+		if ( fixedReport )
 		{
 			// shrink table will not output table-layout;
 			if ( !"true".equalsIgnoreCase( style.getCanShrink( ) ) )
@@ -346,10 +346,10 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	 * Build the style of cell content.
 	 */
 	public void buildCellStyle( ICellContent cell, StringBuffer styleBuffer,
-			boolean isHead )
+			boolean isHead, boolean fixedCellHeight )
 	{
 		// implement the cell's clip.
-		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+		if ( fixedReport )
 		{
 			styleBuffer.append( "overflow:hidden;" );
 		}
@@ -406,10 +406,26 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		if ( null != style )
 		{
 			AttributeBuilder.buildMargins( styleBuffer, style );
-			AttributeBuilder.buildPaddings( styleBuffer, style );
+			if ( fixedCellHeight )
+			{
+				// Fixed cell height requires the padding must be 0px.
+				styleBuffer.append( " padding: 0px;" );
+			}
+			else
+			{
+				AttributeBuilder.buildPaddings( styleBuffer, style );
+			}
 		}
 		AttributeBuilder.buildMargins( styleBuffer, cellMergedStyle );
-		AttributeBuilder.buildPaddings( styleBuffer, cellMergedStyle );
+		if ( fixedCellHeight )
+		{
+			// Fixed cell height requires the padding must be 0px.
+			styleBuffer.append( " padding: 0px;" );
+		}
+		else
+		{
+			AttributeBuilder.buildPaddings( styleBuffer, cellMergedStyle );
+		}
 		// build the cell's border
 		buildCellBorder( cell, styleBuffer );
 
@@ -427,11 +443,10 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	}
 
 	/**
-	 * Handles the alignment property of the element content.
+	 * Handles the vertical align property of the element content.
 	 */
-	public void handleCellAlign( ICellContent cell )
+	public void handleCellVAlign( ICellContent cell )
 	{
-		
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = cell.getStyle( );
 		
@@ -451,13 +466,6 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			// The default vertical-align value has already been outputted on
 			// the parent row.
 			writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
-		}
-		
-		// Build the Text-Align property.
-		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
-		if ( null != hAlign )
-		{
-			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
 		}
 	}
 

@@ -40,7 +40,7 @@ public abstract class HTMLEmitter
 
 	protected HTMLReportEmitter reportEmitter;
 	protected HTMLWriter writer;
-	protected String layoutPreference;
+	protected boolean fixedReport = false;
 	protected boolean enableInlineStyle = false;
 	protected int browserVersion = -1;
 	
@@ -50,11 +50,11 @@ public abstract class HTMLEmitter
 	protected Stack containerDisplayStack = new Stack( );
 
 	public HTMLEmitter( HTMLReportEmitter reportEmitter, HTMLWriter writer,
-			String layoutPreference, boolean enableInlineStyle, int browserVersion )
+			boolean fixedReport, boolean enableInlineStyle, int browserVersion )
 	{
 		this.reportEmitter = reportEmitter;
 		this.writer = writer;
-		this.layoutPreference = layoutPreference;
+		this.fixedReport = fixedReport;
 		this.enableInlineStyle = enableInlineStyle;
 		this.browserVersion = browserVersion;
 	}
@@ -83,9 +83,25 @@ public abstract class HTMLEmitter
 	public abstract void handleRowAlign( IRowContent row );
 
 	public abstract void buildCellStyle( ICellContent cell,
-			StringBuffer styleBuffer, boolean isHead );
+			StringBuffer styleBuffer, boolean isHead, boolean fixedCellHeight );
 
-	public abstract void handleCellAlign( ICellContent cell );
+	/**
+	 * Handles the text align property of the element content.
+	 */
+	public void handleCellAlign( ICellContent cell )
+	{
+		// The method getStyle( ) will nevel return a null value;
+		IStyle style = cell.getStyle( );
+
+		// Build the Text-Align property.
+		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
+		if ( null != hAlign )
+		{
+			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
+		}
+	}
+
+	public abstract void handleCellVAlign( ICellContent cell );
 
 	public abstract void buildContainerStyle( IContainerContent container,
 			StringBuffer styleBuffer );

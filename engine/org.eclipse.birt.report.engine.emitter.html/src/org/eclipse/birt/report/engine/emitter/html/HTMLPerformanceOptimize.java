@@ -35,12 +35,12 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 {
 
 	public HTMLPerformanceOptimize( HTMLReportEmitter reportEmitter,
-			HTMLWriter writer, String layoutPreference,
-			boolean enableInlineStyle, int browserVersion )
+			HTMLWriter writer, boolean fixedReport, boolean enableInlineStyle,
+			int browserVersion )
 	{
 		super( reportEmitter,
 				writer,
-				layoutPreference,
+				fixedReport,
 				enableInlineStyle,
 				browserVersion );
 	}
@@ -200,7 +200,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		}
 
 		// implement table-layout
-		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+		if ( fixedReport )
 		{
 			// shrink table will not output table-layout;
 			if ( !"true".equalsIgnoreCase( style.getCanShrink( ) ) )
@@ -353,10 +353,10 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	 * Build the style of cell content.
 	 */
 	public void buildCellStyle( ICellContent cell, StringBuffer styleBuffer,
-			boolean isHead )
+			boolean isHead, boolean fixedCellHeight )
 	{
 		// implement the cell's clip.
-		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+		if ( fixedReport )
 		{
 			styleBuffer.append( "overflow:hidden;" );
 		}
@@ -374,21 +374,36 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		style = getElementStyle( cell );
 		if ( style == null )
 		{
+			if ( fixedCellHeight )
+			{
+				// Fixed cell height requires the padding must be 0px.
+				styleBuffer.append( " padding: 0px;" );
+			}
 			return;
 		}
 		
 		AttributeBuilder.buildFont( styleBuffer, style );
-		AttributeBuilder.buildBox( styleBuffer, style );
+		AttributeBuilder.buildMargins( styleBuffer, style );
+		if ( fixedCellHeight )
+		{
+			// Fixed cell height requires the padding must be 0px.
+			styleBuffer.append( " padding: 0px;" );
+		}
+		else
+		{
+			AttributeBuilder.buildPaddings( styleBuffer, style );
+		}
+		AttributeBuilder.buildBorders( styleBuffer, style );
 		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		AttributeBuilder.buildTextDecoration( styleBuffer, style );
 	}
-
+	
 	/**
-	 * Handles the alignment property of the element content.
+	 * Handles the vertical align property of the element content.
 	 */
-	public void handleCellAlign( ICellContent cell )
+	public void handleCellVAlign( ICellContent cell )
 	{
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = cell.getStyle( );
@@ -404,13 +419,6 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			// The default vertical-align value has already been outputted on
 			// the parent row.
 			writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
-		}
-		
-		// Build the Text-Align property.
-		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
-		if ( null != hAlign )
-		{
-			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
 		}
 	}
 

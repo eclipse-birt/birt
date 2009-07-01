@@ -296,6 +296,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected IDGenerator idGenerator = new IDGenerator( );
 	
 	private String layoutPreference;
+	private boolean fixedReport = false;
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
 	private IMetadataFilter metadataFilter = null;
@@ -314,6 +315,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
+	protected Stack<DimensionType> fixedRowHeightStack = new Stack<DimensionType>( );
 	
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -586,18 +588,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( reportLayoutPreference ) )
 				{
 					layoutPreference = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED;
+					fixedReport = true;
 				}
 				else if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals( reportLayoutPreference ) )
 				{
 					layoutPreference = HTMLRenderOption.LAYOUT_PREFERENCE_AUTO;
+					fixedReport = false;
 				}
 			}
+		}
+		else
+		{
+			fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference );
 		}
 		if ( enableAgentStyleEngine )
 		{
 			htmlEmitter = new HTMLPerformanceOptimize( this,
 					writer,
-					layoutPreference,
+					fixedReport,
 					enableInlineStyle,
 					browserVersion );
 		}
@@ -606,7 +614,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// we will use HTMLVisionOptimize as the default emitter.
 			htmlEmitter = new HTMLVisionOptimize( this,
 					writer,
-					layoutPreference,
+					fixedReport,
 					enableInlineStyle,
 					htmlRtLFlag,
 					browserVersion );
@@ -1299,8 +1307,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.writeCode( " <div style=\"visibility: hidden; height: 0px; overflow: hidden; page-break-after: always;\">page separator</div>" );
 		}
 
-		boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED
-				.equals( layoutPreference );
 		// out put the page tag
 		DimensionType width = null;
 		DimensionType height = null;
@@ -1890,6 +1896,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, bookmark );
 			startedGroups.remove( group );
 		}
+		
+		if ( fixedReport )
+		{
+			DimensionType rowHeight = row.getHeight( );
+			if ( rowHeight != null && !"%".equals( rowHeight.getUnits( ) ) )
+			{
+				fixedRowHeightStack.push( rowHeight );
+			}
+			else
+			{
+				fixedRowHeightStack.push( null );
+			}
+		}
 	}
 	
 	/*
@@ -1907,6 +1926,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//
 		// currentData.adjustCols( );
 		writer.closeTag( HTMLTags.TAG_TR );
+
+		if ( fixedReport )
+		{
+			fixedRowHeightStack.pop( );
+		}
 	}
 
 	private boolean isCellInHead( ICellContent cell )
@@ -1972,18 +1996,39 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
 		}
 
+		boolean fixedCellHeight = false;
+		DimensionType cellHeight = null;
 		// rowspan
-		int rowSpan = cell.getRowSpan( ); 
+		int rowSpan = cell.getRowSpan( );
 		if ( rowSpan > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_ROWSPAN, rowSpan );
 		}
+		else if ( fixedReport )
+		{
+			// fixed cell height requires the rowspan to be 1.
+			cellHeight = (DimensionType) fixedRowHeightStack.peek( );
+			if ( cellHeight != null )
+			{
+				fixedCellHeight = true;
+			}
+		}
 
 		StringBuffer styleBuffer = new StringBuffer( );
-		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
+		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead, fixedCellHeight );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+
 		htmlEmitter.handleCellAlign( cell );
-		
+		if ( fixedCellHeight )
+		{
+			// Fixed cell height requires the vertical aline must be top.
+			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
+		}
+		else
+		{
+			htmlEmitter.handleCellVAlign( cell );
+		}
+
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
@@ -2018,24 +2063,47 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			startedGroups.clear( );
 		}
-		
-		if ( cell.hasDiagonalLine( ) )
+
+		if ( fixedCellHeight )
 		{
-			startDiagonalCell( cell );
+			writer.openTag( HTMLTags.TAG_DIV );
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					"position: relative; height: 100%;" );
+			if ( cell.hasDiagonalLine( ) )
+			{
+				outputDiagonalImage( cell, cellHeight );
+			}
+			writer.openTag( HTMLTags.TAG_DIV );
+			styleBuffer.setLength( 0 );
+			styleBuffer.append( " height: " );
+			styleBuffer.append( cellHeight.toString( ) );
+			styleBuffer.append( "; width: 100%; overflow: hidden; position: absolute; left: 0px;" );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		}
-		
+		else if ( cell.hasDiagonalLine( ) )
+		{
+			if ( cellHeight == null )
+			{
+				cellHeight = getCellHeight( cell );
+			}
+			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
+			{
+				writer.openTag( HTMLTags.TAG_DIV );
+				writer.attribute( HTMLTags.ATTR_STYLE,
+						"position: relative; height: 100%;" );
+				outputDiagonalImage( cell, cellHeight );
+			}
+		}
+
 		if ( enableMetadata )
 		{
 			metadataEmitter.startCell( cell );
 		}
 	}
 	
-	protected void startDiagonalCell( ICellContent cell )
+	protected void outputDiagonalImage( ICellContent cell,
+			DimensionType cellHeight )
 	{
-		DimensionType cellWidth = getCellWidth( cell );
-		DimensionType cellHeight = getCellHeight( cell );
-		if ( cellWidth == null || cellHeight == null )
-			return;
 		String imgUri = diagonalCellImageMap.get( cell.getInstanceID( )
 				.getComponentID( ) );
 		if ( imgUri == null )
@@ -2051,7 +2119,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					cell.getAntidiagonalWidth( ),
 					cell.getAntidiagonalColor( ) );
 			imageCreater.setImageDpi( imageDpi );
-			imageCreater.setImageSize( cellWidth, cellHeight );
+			imageCreater.setImageSize( getCellWidth( cell ), cellHeight );
 			IStyle cellComputedStyle = cell.getComputedStyle( );
 			String strColor = cellComputedStyle.getColor( );
 			imageCreater.setColor( PropertyUtil.getColor( strColor ) );
@@ -2068,7 +2136,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( imageByteArray != null )
 			{
 				// get the image URI.
-				Image image = new Image( imageByteArray, cell.getInstanceID( ).toUniqueString( ), ".png" );
+				Image image = new Image( imageByteArray, cell.getInstanceID( )
+						.toUniqueString( ), ".png" );
 				image.setReportRunnable( runnable );
 				image.setRenderOption( renderOption );
 				imgUri = imageHandler.onCustomImage( image, reportContext );
@@ -2085,16 +2154,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// the diagonal line image.
 		// FIXME: We still need to solve the confilct between the cell's
 		// background and the diagonal line imag.
-		writer.openTag( HTMLTags.TAG_DIV );
-		writer.attribute( HTMLTags.ATTR_STYLE,
-				"position: relative; height: 100%;" );
 		if ( imgUri != null )
 		{
 			writer.openTag( HTMLTags.TAG_IMAGE );
 			writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
-			writer.attribute( HTMLTags.ATTR_STYLE,
-					"position: absolute; width: 100%; height: 100%; z-index: -1; left:0px;" );
+			StringBuffer styleBuffer = new StringBuffer( );
+			styleBuffer.append( " min-height: " );
+			styleBuffer.append( cellHeight.toString( ) );
+			styleBuffer.append( "; height: 100%; width: 100%; position: absolute; z-index: -1; left: 0px;" );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			if ( null == htmlIDNamespace )
 			{
 				writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
@@ -2142,9 +2211,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endCell( cell );
 		}
 		
-		if ( cell.hasDiagonalLine( ) )
+		boolean fixedRowHeight = ( fixedReport && fixedRowHeightStack.peek( ) != null );
+		if ( fixedRowHeight && cell.getRowSpan( ) == 1 )
 		{
-			endDiagonalCell( cell );
+			writer.closeTag( HTMLTags.TAG_DIV );
+			writer.closeTag( HTMLTags.TAG_DIV );
+		}
+		else if ( cell.hasDiagonalLine( ) )
+		{
+			DimensionType cellHeight = getCellHeight( cell );
+			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
+			{
+				writer.closeTag( HTMLTags.TAG_DIV );
+			}
 		}
 		
 		if ( isCellInHead( cell )	)
@@ -2155,15 +2234,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.closeTag( HTMLTags.TAG_TD );
 		}
-	}
-
-	protected void endDiagonalCell( ICellContent cell )
-	{
-		DimensionType cellWidth = getCellWidth( cell );
-		DimensionType cellHeight = getCellHeight( cell );
-		if ( cellWidth == null || cellHeight == null )
-			return;
-		writer.closeTag( HTMLTags.TAG_DIV );
 	}
 
 	/*
