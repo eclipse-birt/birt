@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,7 +65,6 @@ import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
@@ -524,11 +524,14 @@ public class ReportDocumentBuilder
 
 		public void startContent( IContent content )
 		{
-			// save the bookmark index
-			String bookmark = content.getBookmark( );
-			if ( bookmark != null )
+			if(!ReportDocumentBuilder.this.executionContext.isFixedLayout())
 			{
-				document.setPageNumberOfBookmark( bookmark, pageNumber );
+				// save the bookmark index
+				String bookmark = content.getBookmark( );
+				if ( bookmark != null )
+				{
+					document.setPageNumberOfBookmark( bookmark, pageNumber );
+				}
 			}
 		}
 	}
@@ -861,6 +864,16 @@ public class ReportDocumentBuilder
 			section.end = end;
 			return section;
 		}
+		
+		protected void addBookmarkMap(LayoutContext pdfContext)
+		{
+			Map<String, Long> map = pdfContext.getBookmarkMap();
+			for ( String bookmark : map.keySet())
+			{
+				document.setPageNumberOfBookmark( bookmark, map.get( bookmark )
+						.longValue( ) );
+			}
+		}
 
 		public void onPage( long pageNumber, Object context )
 		{
@@ -872,6 +885,7 @@ public class ReportDocumentBuilder
 				boolean reportFinished = pdfContext.isFinished( );
 				if ( reportFinished )
 				{
+					addBookmarkMap( pdfContext );
 					writePageVariables( );
 					writeTotalPage( pageNumber );
 					close( );

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -57,9 +58,24 @@ public class LayoutContext
 	
 	protected HTMLLayoutContext htmlLayoutContext = null;
 	
+	protected HashMap<String, Long> bookmarkMap = new HashMap<String, Long>();
+	
 	public HTMLLayoutContext getHtmlLayoutContext( )
 	{
 		return htmlLayoutContext;
+	}
+	
+	public void addBookmarkMap(long pageNumber, String bookmark)
+	{
+		if ( !bookmarkMap.containsKey( bookmark ) )
+		{
+			bookmarkMap.put( bookmark, pageNumber );
+		}
+	}
+	
+	public Map<String, Long> getBookmarkMap()
+	{
+		return bookmarkMap;
 	}
 	
 	public void setHtmlLayoutContext( HTMLLayoutContext htmlLayoutContext )
