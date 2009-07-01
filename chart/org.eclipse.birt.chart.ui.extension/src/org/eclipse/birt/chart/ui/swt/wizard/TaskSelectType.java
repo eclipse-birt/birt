@@ -269,7 +269,11 @@ public class TaskSelectType extends SimpleTask implements
 		createTypeArea( );
 		setDefaultTypeSelection( );
 
-		refreshChart( );
+		if ( chartModel == null )
+		{
+			// Do not reset model when it exists.
+			refreshChart( );
+		}
 		populateSeriesTypesList( );
 	}
 
