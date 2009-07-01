@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.chart.render;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
@@ -3642,4 +3645,100 @@ public abstract class AxesRenderer extends BaseRenderer
 				rtc );
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.render.BaseRenderer#isFirstVisibleSeries()
+	 */
+	protected boolean isFirstVisibleSeries( )
+	{
+		// The study layout for multiple Y axes, we just check if the series is
+		// first visible in current axes.
+		if ( ChartUtil.hasMultipleYAxes( getModel( ) )
+				&& ( (ChartWithAxes) getModel( ) ).isStudyLayout( ) )
+		{
+			List<SeriesDefinition> sdList = new ArrayList<SeriesDefinition>( ax.getSeriesDefinitions( ) );
+			Collections.sort( sdList, zOrderComparatorImpl );
+			List<Series> seList = new ArrayList<Series>( );
+			for ( SeriesDefinition sd : sdList )
+			{
+				seList.addAll( sd.getRunTimeSeries( ) );
+			}
+
+			BaseRenderer renderer = getRenderer( iSeriesIndex );
+			Series s = renderer.getSeries( );
+			for ( Series series : seList )
+			{
+				if ( !series.isVisible( ) )
+				{
+					continue;
+				}
+
+				return ( s == series );
+			}
+		}
+		else
+		{
+			if ( iSeriesIndex == 0 )
+			{
+				return false;
+			}
+			for ( int i = 1; i < iSeriesCount; i++ )
+			{
+				BaseRenderer renderer = getRenderer( i );
+				if ( renderer.getSeries( ).isVisible( ) )
+				{
+					return ( i == iSeriesIndex );
+				}
+			}
+		}
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.render.BaseRenderer#isLastVisibleSeries()
+	 */
+	protected boolean isLastVisibleSeries( )
+	{
+		//The study layout for multiple Y axes, we just check if the series is
+		// last visible in current axes.
+		if ( ChartUtil.hasMultipleYAxes( getModel( ) )
+				&& ( (ChartWithAxes) getModel( ) ).isStudyLayout( ) )
+		{
+			List<SeriesDefinition> sdList = new ArrayList<SeriesDefinition>( ax.getSeriesDefinitions( ) );
+			Collections.sort( sdList, zOrderComparatorImpl );
+			List<Series> seList = new ArrayList<Series>( );
+			for ( SeriesDefinition sd : sdList )
+			{
+				seList.addAll( sd.getRunTimeSeries( ) );
+			}
+
+			BaseRenderer renderer = getRenderer( iSeriesIndex );
+			Series s = renderer.getSeries( );
+			for ( int i = ( seList.size( ) - 1 ); i >= 0; i-- )
+			{
+				Series series = seList.get( i );
+				if ( !series.isVisible( ) )
+				{
+					continue;
+				}
+
+				return ( s == series );
+			}
+		}
+		else
+		{
+			if ( iSeriesIndex == 0 )
+			{
+				return false;
+			}
+			for ( int i = iSeriesCount - 1; i > 0; i-- )
+			{
+				BaseRenderer renderer = getRenderer( i );
+				if ( renderer.getSeries( ).isVisible( ) )
+				{
+					return ( i == iSeriesIndex );
+				}
+			}
+		}
+		return false;
+	}
 }

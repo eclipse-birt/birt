@@ -218,22 +218,36 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
+	/** The comparator compares the order of SeriesDefinition objects. */
+	static Comparator<SeriesDefinition> zOrderComparatorImpl = new Comparator<SeriesDefinition>( ) {
+
+		public int compare( SeriesDefinition o1, SeriesDefinition o2 )
+		{
+			if ( o1 != null
+					&& o2 != null )
+			{
+				return o1.getZOrder( )
+						- o2.getZOrder( );
+			}
+			return 0;
+		}
+	};
+	
+	/** The comparator compares the order of BaseRender objects. */
 	static Comparator<BaseRenderer> zOrderComparator = new Comparator<BaseRenderer>( ) {
 
 		public int compare( BaseRenderer o1, BaseRenderer o2 )
 		{
 			if ( o1 != null
-					&& o1.getSeriesDefinition( ) != null
-					&& o2 != null
-					&& o2.getSeriesDefinition( ) != null )
+					&& o2 != null )
 			{
-				return o1.getSeriesDefinition( ).getZOrder( )
-						- o2.getSeriesDefinition( ).getZOrder( );
+				return zOrderComparatorImpl.compare( o1.getSeriesDefinition( ),
+						o2.getSeriesDefinition( ) );
 			}
 			return 0;
 		}
 	};
-
+	
 	/**
 	 * The internal constructor that must be defined as public
 	 * 
@@ -3327,7 +3341,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 	}
 	
-	protected final boolean isFirstVisibleSeries( )
+	protected boolean isFirstVisibleSeries( )
 	{
 		if ( iSeriesIndex == 0 )
 		{
@@ -3344,7 +3358,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		return false;
 	}
 
-	protected final boolean isLastVisibleSeries( )
+	protected boolean isLastVisibleSeries( )
 	{
 		if ( iSeriesIndex == 0 )
 		{

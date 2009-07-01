@@ -2265,7 +2265,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				udsh.next( dpa[i] );
 			}
 		}
-		return new SeriesRenderingHints( this,
+		
+		SeriesRenderingHints srh = new SeriesRenderingHints( this,
 				oaxBase.getAxisCoordinate( ),
 				scOrthogonal.getStart( ),
 				dOrthogonalZero,
@@ -2277,6 +2278,48 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				ssl,
 				dsiDataBase,
 				dsiDataOrthogonal );
+		
+		// Set client area bounds, it will be used to clip valid area for blocks
+		// rendering of chart.
+		setClientAreaBounds( oaxOrthogonal, srh );
+		
+		return srh;
+	}
+
+	/**
+	 * @param oaxOrthogonal
+	 * @param srh
+	 */
+	private void setClientAreaBounds( OneAxis oaxOrthogonal,
+			SeriesRenderingHints srh )
+	{
+		Bounds boClientArea = goFactory.copyOf( getPlotBounds( ) );
+		
+		// The study layout case, each axis should have own client area.
+		if ( ChartUtil.hasMultipleYAxes( getModel( ) )
+				&& getModel( ).isStudyLayout( ) )
+		{
+			double points[] = oaxOrthogonal.getScale( ).getEndPoints( );
+			double start = points[0];
+			double end = points[1];
+			if ( !aax.areAxesSwapped( ) )
+			{
+				boClientArea.setTop( end );
+				boClientArea.setHeight( start - end );
+			}
+			else
+			{
+				boClientArea.setLeft( start );
+				boClientArea.setWidth( end - start );
+			}
+			
+			if ( iDimension == TWO_5_D ) // 2D+
+			{
+				boClientArea.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
+			}
+		}
+		
+		srh.setClientAreaBounds(  boClientArea );
 	}
 
 	public final StackedSeriesLookup getStackedSeriesLookup( )

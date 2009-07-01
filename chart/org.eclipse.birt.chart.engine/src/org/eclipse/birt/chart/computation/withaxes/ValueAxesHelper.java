@@ -107,7 +107,7 @@ class ValueAxesHelper
 		{
 			plotWithAxes.updateValueAxis( fAllValueAxes[fCrossingIndex],
 					fTop + fHeight,
-					fHeight,
+					fTop,
 					plotWithAxes.getModel( ).isReverseCategory( ) );
 
 			HorizontalAxisAdjuster haa = new HorizontalAxisAdjuster( aax.getPrimaryBase( ),

@@ -58,6 +58,8 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
+	/** The client area. */
+	private Bounds clientArea;
 	/**
 	 * 
 	 * @param _dAxisLocation
@@ -248,18 +250,29 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	}
 
 	/**
-	 * 
+	 * Returns client area bounds for current series.
+     *
 	 * @param bReduceByInsets
 	 * @return
 	 */
 	public final Bounds getClientAreaBounds( boolean bReduceByInsets )
 	{
-		final Bounds boClientArea = goFactory.copyOf( pwa.getPlotBounds( ) );
+		final Bounds boClientArea = goFactory.copyOf( clientArea );
 		if ( bReduceByInsets )
 		{
 			boClientArea.adjust( pwa.getPlotInsets( ) );
 		}
 		return boClientArea;
+	}
+	
+	/**
+     * Set client area bounds for current series.
+     *
+	 * @param bounds
+	 */
+	public final void setClientAreaBounds( Bounds bounds )
+	{
+		clientArea = bounds;
 	}
 
 	/*
