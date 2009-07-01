@@ -133,8 +133,8 @@ public class EngineIRReaderTest extends EngineCase
 
 	String removeSpace( String v )
 	{
-		return v;
-/*		StringBuilder sb = new StringBuilder( v.length( ) );
+		// return v;
+		StringBuilder sb = new StringBuilder( v.length( ) );
 		try
 		{
 			BufferedReader reader = new BufferedReader( new StringReader( v ) );
@@ -153,6 +153,6 @@ public class EngineIRReaderTest extends EngineCase
 		catch ( IOException ex )
 		{
 		}
-		return sb.toString( );*/
+		return sb.toString( );
 	}
 }

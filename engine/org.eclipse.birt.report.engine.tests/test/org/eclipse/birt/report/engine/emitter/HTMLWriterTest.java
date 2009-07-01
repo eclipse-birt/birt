@@ -75,7 +75,7 @@ public class HTMLWriterTest extends TestCase
 		writer.endWriter( );
 
 		assertEquals(
-				"&#xa0;a&#xa0; b&#xa0;<br>&#xa0; abc&#xa0;&#xa0;<br>&#xa0;&#xa0; abc cde", //$NON-NLS-1$
+				"&#xa0;a&#xa0; b&#xa0;<br/>&#xa0; abc&#xa0;&#xa0;<br/>&#xa0;&#xa0; abc cde", //$NON-NLS-1$
 				stream.toString( ).replaceAll( "[\\r|\\t|\\n]*", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		stream.close( );
