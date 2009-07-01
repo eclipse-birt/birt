@@ -121,7 +121,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			
 			
 			boolean paginate = true;
-			if ( ExtensionManager.PAGE_BREAK_PAGINATION.equalsIgnoreCase( pagination ) ) //$NON-NLS-1$
+			if ( FORMAT_HTML.equalsIgnoreCase( format )
+					|| FORMAT_XHTML.equalsIgnoreCase( format ) ) //$NON-NLS-1$
 			{
 				HTMLRenderOption htmlOption = new HTMLRenderOption(
 						renderOptions );

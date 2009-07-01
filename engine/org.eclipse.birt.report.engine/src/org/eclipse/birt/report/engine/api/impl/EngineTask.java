@@ -103,6 +103,7 @@ public abstract class EngineTask implements IEngineTask
 	protected String pagination;
 
 	protected final static String FORMAT_HTML = "html";
+	protected final static String FORMAT_XHTML = "xhtml";
 	/**
 	 * is cancel called
 	 */
