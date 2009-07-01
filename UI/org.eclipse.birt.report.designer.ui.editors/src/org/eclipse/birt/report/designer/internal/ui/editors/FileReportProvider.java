@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
@@ -243,11 +245,12 @@ public class FileReportProvider implements IReportProvider
 			{
 				if ( file.exists( ) || file.createNewFile( ) )
 				{
-					FileOutputStream out = new FileOutputStream( file );
+					OutputStream out = new BufferedOutputStream(new FileOutputStream( file ), 8192*2);
 
 					try
 					{
 						moduleHandle.serialize( out );
+						out.flush( );
 					}
 					finally
 					{
