@@ -275,7 +275,7 @@ public class DataSetBasePage extends WizardPage
 		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASET_NEW );
 	}
-
+	
 	private void setDataSourceTreeViewer( )
 	{
 
@@ -303,6 +303,8 @@ public class DataSetBasePage extends WizardPage
 							types[i] = (DataSourceType) iter.next( );
 							i++;
 						}
+						//This tree is reconstructed, no data source is selected
+						setPageComplete( false );
 						return types;
 					}
 
