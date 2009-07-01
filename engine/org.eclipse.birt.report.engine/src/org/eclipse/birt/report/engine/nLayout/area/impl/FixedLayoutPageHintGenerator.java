@@ -41,9 +41,12 @@ public class FixedLayoutPageHintGenerator
 	protected HashSet<String> tableIds = new HashSet<String>( );
 	HashMap<String, UnresolvedRowHint> htmlUnresolvedRowHints = null;
 	HashMap<String, UnresolvedRowHint> unresolvedRowHints = null;
+	
+	protected LayoutContext context;
 
 	public FixedLayoutPageHintGenerator( LayoutContext context )
 	{
+		this.context = context;
 		htmlLayoutContext = context.getHtmlLayoutContext( );
 	}
 
@@ -135,6 +138,11 @@ public class FixedLayoutPageHintGenerator
 					traverse( child );
 				}
 			}
+		}
+		String bookmark = area.getBookmark();
+		if ( bookmark != null )
+		{
+			context.addBookmarkMap( context.getPageNumber( ), bookmark  );
 		}
 	}
 
