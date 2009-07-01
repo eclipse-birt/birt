@@ -735,5 +735,21 @@
          </dynamic>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.birt.report.designer.ui.elementAdapters">
+      <adaptable
+            class="java.lang.String">
+         <adapter
+               class="org.eclipse.birt.report.designer.internal.ui.script.JSExpressionSupport"
+               id="org.eclipse.birt.report.designer.ui.JSExpressionSupport"
+               singleton="true"
+               type="org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport">
+            <enablement>
+               <equals
+                     value="javascript">
+               </equals></enablement>
+         </adapter>
+      </adaptable>
+   </extension>
    
 </plugin>

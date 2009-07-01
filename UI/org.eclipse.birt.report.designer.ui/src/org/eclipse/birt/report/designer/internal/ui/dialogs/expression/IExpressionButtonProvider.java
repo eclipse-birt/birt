@@ -14,9 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.expression;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ * IExpressionButtonProvider
  */
-
 public interface IExpressionButtonProvider
 {
 

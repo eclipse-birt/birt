@@ -57,17 +57,13 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.ITextOperationTarget;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
-import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.IVerticalRulerColumn;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -400,15 +396,15 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private IExpressionProvider provider;
 	private SourceViewer sourceViewer;
 	private JSSourceViewerConfiguration sourceViewerConfiguration = new JSSourceViewerConfiguration( );
-	
+
 	private IPreferenceStore preferenceStore;
 	private Color backgroundColor;
 	private Color foregroundColor;
-	
-	private String expression = null;
+
 	private FormText messageLine;
 
-	private String title;
+	protected String expression = null;
+	protected String title;
 
 	private boolean useSorting = false;
 	private Object[] defaultSelection;
@@ -1032,9 +1028,22 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * @param provider
 	 *            the expression provider
 	 */
-	public void setExpressionProvier( IExpressionProvider provider )
+	public void setExpressionProvider( IExpressionProvider provider )
 	{
 		this.provider = provider;
+	}
+
+	/**
+	 * Sets the expression provider for the expression builder
+	 * 
+	 * @param provider
+	 *            the expression provider
+	 * 
+	 * @deprecated use {@link #setExpressionProvider(IExpressionProvider)}
+	 */
+	public void setExpressionProvier( IExpressionProvider provider )
+	{
+		setExpressionProvider( provider );
 	}
 
 	/**

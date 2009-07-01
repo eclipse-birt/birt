@@ -12,9 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs.expression;
 
 /**
- * 
+ * ExpressionChangeListener
  */
-
 public interface ExpressionChangeListener
 {
 

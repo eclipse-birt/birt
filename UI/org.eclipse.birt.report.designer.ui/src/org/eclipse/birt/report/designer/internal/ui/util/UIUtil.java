@@ -127,7 +127,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.osgi.service.environment.Constants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTError;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
@@ -185,7 +188,9 @@ public class UIUtil
 	 * Regex pattern for neutral chars in Bidi Algorithm.
 	 */
 	static Pattern punctuation = Pattern.compile( "\\p{Punct}||\\p{Blank}||\\p{Space}" ); //$NON-NLS-1$
-	public static Object listArea;
+
+	private static boolean embeddedBrowserTested = false;
+	private static boolean embeddedBrowserAvailable = false;
 
 	/**
 	 * Returns the length in pixels of given string in a control.
@@ -1749,12 +1754,20 @@ public class UIUtil
 
 	}
 
-	public static ExpressionButton createExpressionButton(
-			Composite parent, int style )
+	public static ExpressionButton createExpressionButton( Composite parent,
+			int style )
 	{
-		ExpressionButton button = new ExpressionButton( parent, style );
+		return createExpressionButton( parent, style, true );
+	}
+
+	public static ExpressionButton createExpressionButton( Composite parent,
+			int style, boolean allowConstant )
+	{
+		ExpressionButton button = new ExpressionButton( parent,
+				style,
+				allowConstant );
 		IExpressionButtonProvider provider = (IExpressionButtonProvider) ElementAdapterManager.getAdapter( button,
-					IExpressionButtonProvider.class );
+				IExpressionButtonProvider.class );
 		if ( provider != null )
 			button.setExpressionButtonProvider( provider );
 
@@ -1918,7 +1931,6 @@ public class UIUtil
 		}
 		catch ( DesignFileException e )
 		{
-			// TODO Auto-generated catch block
 			ExceptionHandler.handle( e );
 			retBoolean = false;
 		}
@@ -2006,7 +2018,7 @@ public class UIUtil
 
 	public static boolean canPreviewWithErrors( ModuleHandle model )
 	{
-		if (model == null)
+		if ( model == null )
 		{
 			return false;
 		}
@@ -2180,9 +2192,9 @@ public class UIUtil
 		}
 		boolean bool = false;
 		if ( cubeQueryUtil != null )
-			bool =  cubeQueryUtil.isValidDimensionName( name );
-		
-		if (session != null)
+			bool = cubeQueryUtil.isValidDimensionName( name );
+
+		if ( session != null )
 		{
 			session.shutdown( );
 		}
@@ -2466,7 +2478,7 @@ public class UIUtil
 		return buffer.toString( ).trim( );
 	}
 
-	public static Object[] getInsertPamaterElements(Object[] newObjs)
+	public static Object[] getInsertPamaterElements( Object[] newObjs )
 	{
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
@@ -2482,8 +2494,7 @@ public class UIUtil
 				{
 					try
 					{
-						if ( UIUtil.includeLibrary( moduleHandle,
-								library ) )
+						if ( UIUtil.includeLibrary( moduleHandle, library ) )
 						{
 							elementHandle = moduleHandle.getElementFactory( )
 									.newElementFrom( elementHandle,
@@ -2502,5 +2513,59 @@ public class UIUtil
 			}
 		}
 		return insertedObjs;
+	}
+
+	public synchronized static boolean isEmbeddedBrowserAvailable( )
+	{
+		Display.getDefault( ).syncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				test( );
+			}
+		} );
+		embeddedBrowserTested = true;
+		return embeddedBrowserAvailable;
+	}
+
+	/**
+	 * Must run on UI thread
+	 * 
+	 * @return
+	 */
+	private static boolean test( )
+	{
+		if ( !Constants.OS_WIN32.equalsIgnoreCase( Platform.getOS( ) )
+				&& !Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ) )
+		{
+			return false;
+		}
+		if ( !embeddedBrowserTested )
+		{
+			embeddedBrowserTested = true;
+			Shell sh = new Shell( );
+			try
+			{
+				new Browser( sh, SWT.NONE );
+				embeddedBrowserAvailable = true;
+			}
+			catch ( SWTError se )
+			{
+				if ( se.code == SWT.ERROR_NO_HANDLES )
+				{
+					// Browser not implemented
+					embeddedBrowserAvailable = false;
+				}
+			}
+			catch ( Exception e )
+			{
+				// Browser not implemented
+			}
+			if ( sh != null && !sh.isDisposed( ) )
+			{
+				sh.dispose( );
+			}
+		}
+		return embeddedBrowserAvailable;
 	}
 }

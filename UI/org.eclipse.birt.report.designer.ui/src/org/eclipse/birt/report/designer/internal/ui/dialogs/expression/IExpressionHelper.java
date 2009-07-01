@@ -14,9 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.expression;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 
 /**
- * 
+ * IExpressionHelper
  */
-
 public interface IExpressionHelper
 {
 
@@ -25,7 +24,7 @@ public interface IExpressionHelper
 	public void setExpression( String expression );
 
 	public String getExpressionType( );
-	
+
 	public void setExpressionType( String exprType );
 
 	public void notifyExpressionChangeEvent( String oldExpression,

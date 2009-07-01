@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs.expression;
 
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionBuilder;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MenuButton;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -23,10 +23,19 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Widget;
 
+/**
+ * ExpressionButton
+ */
 public class ExpressionButton
 {
 
 	private MenuButton button;
+
+	private IExpressionHelper helper;
+
+	private IExpressionButtonProvider provider;
+
+	private Menu menu;
 
 	private SelectionAdapter listener = new SelectionAdapter( ) {
 
@@ -48,7 +57,7 @@ public class ExpressionButton
 
 	};
 
-	public ExpressionButton( Composite parent, int style )
+	public ExpressionButton( Composite parent, int style, boolean allowConstant )
 	{
 		button = new MenuButton( parent, style );
 		button.addSelectionListener( listener );
@@ -56,7 +65,7 @@ public class ExpressionButton
 		menu = new Menu( parent.getShell( ), SWT.POP_UP );
 		button.setDropDownMenu( menu );
 
-		setExpressionButtonProvider( new ExpressionButtonProvider( ) );
+		setExpressionButtonProvider( new ExpressionButtonProvider( allowConstant ) );
 		refresh( );
 	}
 
@@ -94,8 +103,10 @@ public class ExpressionButton
 	public String getExpression( )
 	{
 		if ( helper != null )
+		{
 			return helper.getExpression( );
-		return "";
+		}
+		return ""; //$NON-NLS-1$
 	}
 
 	public void setExpression( String expression )
@@ -104,17 +115,23 @@ public class ExpressionButton
 			helper.setExpression( expression );
 	}
 
-	protected void openExpressionBuilder( )
+	protected void openExpressionBuilder( IExpressionBuilder builder )
 	{
-		ExpressionBuilder builder = new ExpressionBuilder( getExpression( ) );
+		builder.setExpression( getExpression( ) );
+
 		if ( helper != null )
-			builder.setExpressionProvier( helper.getExpressionProvider( ) );
+		{
+			builder.setExpressionProvider( helper.getExpressionProvider( ) );
+		}
+
 		if ( builder.open( ) == Window.OK )
 		{
 			if ( helper != null )
 			{
 				String oldExpression = getExpression( );
-				String newExpression = builder.getResult( );
+				Object result = builder.getExpression( );
+				String newExpression = result == null ? null
+						: result.toString( );
 				helper.setExpression( newExpression );
 				notifyExpressionChangeEvent( oldExpression, newExpression );
 			}
@@ -128,8 +145,6 @@ public class ExpressionButton
 			helper.notifyExpressionChangeEvent( oldExpression, newExpression );
 	}
 
-	private IExpressionHelper helper;
-
 	public void setExpressionHelper( IExpressionHelper helper )
 	{
 		this.helper = helper;
@@ -140,10 +155,6 @@ public class ExpressionButton
 		button.setImage( provider.getImage( getExpressionType( ) ) );
 		button.setToolTipText( provider.getTooltipText( getExpressionType( ) ) );
 	}
-
-	private IExpressionButtonProvider provider;
-
-	private Menu menu;
 
 	public void setExpressionButtonProvider( IExpressionButtonProvider provider )
 	{

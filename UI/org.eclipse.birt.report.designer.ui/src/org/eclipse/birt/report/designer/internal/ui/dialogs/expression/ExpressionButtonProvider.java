@@ -11,6 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs.expression;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionSupportManager;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionBuilder;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -18,15 +26,40 @@ import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ * ExpressionButtonProvider
  */
-
 public class ExpressionButtonProvider implements IExpressionButtonProvider
 {
 
-	private static final String CONSTANT = Messages.getString("ExpressionButtonProvider.Constant"); //$NON-NLS-1$
-	private static final String JAVA_SCRIPT = Messages.getString("ExpressionButtonProvider.Javascript"); //$NON-NLS-1$
+	private static final String CONSTANT = Messages.getString( "ExpressionButtonProvider.Constant" ); //$NON-NLS-1$
+
 	private ExpressionButton input;
+
+	private Map<String, IExpressionSupport> supports = new HashMap<String, IExpressionSupport>( );
+	private String[] supportedTypes;
+
+	public ExpressionButtonProvider( boolean allowConstant )
+	{
+		List<String> types = new ArrayList<String>( );
+
+		if ( allowConstant )
+		{
+			types.add( ExpressionType.CONSTANT );
+		}
+
+		IExpressionSupport[] exts = ExpressionSupportManager.getExpressionSupports( );
+
+		if ( exts != null )
+		{
+			for ( IExpressionSupport ex : exts )
+			{
+				types.add( ex.getName( ) );
+				supports.put( ex.getName( ), ex );
+			}
+		}
+
+		supportedTypes = types.toArray( new String[types.size( )] );
+	}
 
 	public void setInput( ExpressionButton input )
 	{
@@ -35,64 +68,62 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider
 
 	public String[] getExpressionTypes( )
 	{
-		return new String[]{
-				ExpressionType.CONSTANT, ExpressionType.JAVASCRIPT
-		};
+		return supportedTypes;
 	}
 
 	public Image getImage( String exprType )
 	{
-		String imageName = null;
 		if ( ExpressionType.CONSTANT.equals( exprType ) )
 		{
-			if ( input.isEnabled( ) )
-			{
-				imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT;
-			}
-			else
-			{
-				imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_CONSTANT;
-			}
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT );
 		}
 		else
 		{
-			if ( input.isEnabled( ) )
+			IExpressionSupport spt = supports.get( exprType );
+
+			if ( spt != null )
 			{
-				imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_JAVASCRIPT;
-			}
-			else
-			{
-				imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_JAVASCRIPT;
+				return spt.getImage( );
 			}
 		}
-		return ReportPlatformUIImages.getImage( imageName );
+		return null;
 	}
 
 	public String getText( String exprType )
 	{
 		if ( ExpressionType.CONSTANT.equals( exprType ) )
+		{
 			return CONSTANT;
-		else if ( ExpressionType.JAVASCRIPT.equals( exprType ) )
-			return JAVA_SCRIPT;
-		else 
-			return ""; //$NON-NLS-1$
+		}
+
+		IExpressionSupport spt = supports.get( exprType );
+
+		if ( spt != null )
+		{
+			return spt.getDisplayName( );
+		}
+
+		return ""; //$NON-NLS-1$
 	}
 
 	public String getTooltipText( String exprType )
 	{
-		if ( ExpressionType.CONSTANT.equals( exprType ) )
-			return CONSTANT;
-		else if ( ExpressionType.JAVASCRIPT.equals( exprType ) )
-			return JAVA_SCRIPT;
-		else
-			return ""; //$NON-NLS-1$
+		return getText( exprType );
 	}
 
 	public void handleSelectionEvent( String exprType )
 	{
-		if ( ExpressionType.JAVASCRIPT.equals( exprType ) )
+		IExpressionSupport spt = supports.get( exprType );
+
+		if ( spt != null )
 		{
-			input.openExpressionBuilder( );
+			IExpressionBuilder builder = spt.createBuilder( input.getControl( )
+					.getShell( ), null );
+
+			if ( builder != null )
+			{
+				input.openExpressionBuilder( builder );
+			}
 		}
 	}
 
