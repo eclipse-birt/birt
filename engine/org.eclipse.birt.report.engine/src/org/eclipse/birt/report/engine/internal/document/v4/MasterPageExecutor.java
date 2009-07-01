@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.executor.PageVariable;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -43,6 +44,7 @@ public class MasterPageExecutor extends ContainerExecutor
 	private SimpleMasterPageDesign masterPage;
 
 	private int nextBand;
+	IBaseResultSet[] rs;
 
 	protected MasterPageExecutor( ExecutorManager manager,  long pageNumber, MasterPageDesign masterPage )
 	{
@@ -57,6 +59,7 @@ public class MasterPageExecutor extends ContainerExecutor
 	public void close( )
 	{
 		context.setExecutingMasterPage( false );
+		context.setResultSets(rs);
 		pageNumber = 0;
 		if ( pageOffset != -1 )
 		{
@@ -73,6 +76,7 @@ public class MasterPageExecutor extends ContainerExecutor
 			return content;
 		}
 		context.setExecutingMasterPage( true );
+		rs = context.getResultSets();
 		context.setPageNumber( pageNumber );
 		executed = true;
 		try

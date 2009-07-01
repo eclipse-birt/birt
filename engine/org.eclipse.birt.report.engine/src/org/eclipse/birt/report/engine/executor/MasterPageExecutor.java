@@ -17,6 +17,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
@@ -29,6 +30,7 @@ public class MasterPageExecutor extends ReportItemExecutor
 	long pageNumber;
 	TOCBuilder tocBuilder;
 	int nextBand;
+	IBaseResultSet[] rs;
 	static final int HEADER_BAND = 0;
 	static final int BODY_BAND = 1;
 	static final int FOOTER_BAND = 2;
@@ -49,6 +51,7 @@ public class MasterPageExecutor extends ReportItemExecutor
 		// disable the tocBuilder
 		tocBuilder = context.getTOCBuilder( );
 		context.setTOCBuilder( null );
+		rs = context.getResultSets();
 		context.setExecutingMasterPage( true );
 
 		IPageContent pageContent = report.createPageContent( );
@@ -67,6 +70,7 @@ public class MasterPageExecutor extends ReportItemExecutor
 		context.setExecutingMasterPage( false );
 		// reenable the TOC
 		context.setTOCBuilder( tocBuilder );
+		context.setResultSets(rs);
 		super.close( );
 	}
 
