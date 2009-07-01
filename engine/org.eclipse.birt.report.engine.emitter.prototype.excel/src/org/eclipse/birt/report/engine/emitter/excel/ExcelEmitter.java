@@ -299,8 +299,12 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		Object generateBy = data.getGenerateBy( );
 		IStyle style = data.getComputedStyle( );
 		DataFormatValue dataformat = style.getDataFormat( );
-		DataItemDesign design = (DataItemDesign) generateBy;
-		MapDesign map = design.getMap( );
+		MapDesign map = null;
+		if(generateBy instanceof DataItemDesign )
+		{
+			DataItemDesign design = (DataItemDesign) generateBy;
+			map = design.getMap( );
+		}
 		if ( map != null && map.getRuleCount( ) > 0
 				&& data.getLabelText( ) != null )
 		{
