@@ -422,5 +422,53 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
+         
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.excel.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.pdf.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.html.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.ppt.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.postscript.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.wpml.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>       
 
 </feature>
