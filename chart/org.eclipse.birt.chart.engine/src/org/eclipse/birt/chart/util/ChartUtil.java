@@ -1118,13 +1118,13 @@ public class ChartUtil
 		}
 		return strBaseAggExp;
 	}
-	
+
 	/**
 	 * The method checks if specified aggregate function is a magic aggregate,
 	 * it means these aggregates operations will change data type.
 	 * <p>
 	 * Now the magic aggregates in chart include Count, DistinctCount, Top,
-	 * TopPercent, Bottom, BottomPercent, Rank and PercentRank.
+	 * TopPercent, Bottom, BottomPercent, Rank, PercentRank and Running Count.
 	 * 
 	 * @param aggFunc
 	 * @return if magic aggregate
@@ -1139,7 +1139,8 @@ public class ChartUtil
 				|| PluginSettings.DefaultAggregations.BOTTOM.equals( aggFunc )
 				|| PluginSettings.DefaultAggregations.BOTTOM_PERCENT.equals( aggFunc )
 				|| PluginSettings.DefaultAggregations.RANK.equals( aggFunc )
-				|| PluginSettings.DefaultAggregations.PERCENT_RANK.equals( aggFunc );
+				|| PluginSettings.DefaultAggregations.PERCENT_RANK.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.RUNNING_COUNT.equals( aggFunc );
 	}
 	
 	
