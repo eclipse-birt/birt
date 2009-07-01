@@ -1,10 +1,10 @@
 #Properties file for org.eclipse.birt.core.script.bre
 Bundle-Name.0 = 関数プラグイン
-dataType.String=文字列
-dataType.Any=任意
-dataType.DateTime=日時
-dataType.Integer=整数
-dataType.Double=二重
-dataType.Number=番号 
+dataType.String=String
+dataType.Any=Any
+dataType.DateTime=DateTime
+dataType.Integer=String
+dataType.Double=Double 
+dataType.Number=Number 
 dataType.Boolean=Boolean
-dataType.DoubleArray=二重 []
+dataType.DoubleArray=Double  []
