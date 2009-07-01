@@ -29,6 +29,10 @@ import org.eclipse.birt.report.engine.emitter.config.pdf.i18n.Messages;
 public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 {
 
+	private static final String FONT_SUBSTITUTION = "FontSubstitution";
+	private static final String BIDI_PROCESSING = "BIDIProcessing";
+	private static final String TEXT_WRAPPING = "TextWrapping";
+
 	private IConfigurableOption[] options;
 
 	public PDFEmitterDescriptor( )
@@ -40,7 +44,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	{
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
-				IPDFRenderOption.PDF_BIDI_PROCESSING );
+				BIDI_PROCESSING );
 		bidiProcessing.setDisplayName( Messages
 				.getString( "OptionDisplayValue.BidiProcessing" ) ); //$NON-NLS-1$
 		bidiProcessing.setDataType( IConfigurableOption.DataType.BOOLEAN );
@@ -51,8 +55,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 				.getString( "OptionDescription.BidiProcessing" ) ); //$NON-NLS-1$
 
 		// Initializes the option for TextWrapping.
-		ConfigurableOption textWrapping = new ConfigurableOption(
-				IPDFRenderOption.PDF_TEXT_WRAPPING );
+		ConfigurableOption textWrapping = new ConfigurableOption( TEXT_WRAPPING );
 		textWrapping.setDisplayName( Messages
 				.getString( "OptionDisplayValue.TextWrapping" ) ); //$NON-NLS-1$
 		textWrapping.setDataType( IConfigurableOption.DataType.BOOLEAN );
@@ -64,7 +67,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 
 		// Initializes the option for fontSubstitution.
 		ConfigurableOption fontSubstitution = new ConfigurableOption(
-				IPDFRenderOption.PDF_FONT_SUBSTITUTION );
+				FONT_SUBSTITUTION );
 		fontSubstitution.setDisplayName( Messages
 				.getString( "OptionDisplayValue.FontSubstitution" ) );
 		fontSubstitution.setDataType( IConfigurableOption.DataType.BOOLEAN );
@@ -150,6 +153,24 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		return "org.eclipse.birt.report.engine.emitter.pdf"; //$NON-NLS-1$
 	}
 
+	public String getRenderOptionName( String name )
+	{
+		assert name != null;
+		if ( TEXT_WRAPPING.equals( name ) )
+		{
+			return IPDFRenderOption.PDF_TEXT_WRAPPING;
+		}
+		if ( BIDI_PROCESSING.equals( name ) )
+		{
+			return IPDFRenderOption.PDF_BIDI_PROCESSING;
+		}
+		if ( FONT_SUBSTITUTION.equals( name ) )
+		{
+			return IPDFRenderOption.PDF_FONT_SUBSTITUTION;
+		}
+		return name;
+	}
+
 	/**
 	 * PDFOptionObserver
 	 */
@@ -172,8 +193,8 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 			{
 				if ( optionValue != null )
 				{
-					renderOption.setOption( optionValue.getName( ), optionValue
-							.getValue( ) );
+					renderOption.setOption( getRenderOptionName( optionValue
+							.getName( ) ), optionValue.getValue( ) );
 				}
 			}
 

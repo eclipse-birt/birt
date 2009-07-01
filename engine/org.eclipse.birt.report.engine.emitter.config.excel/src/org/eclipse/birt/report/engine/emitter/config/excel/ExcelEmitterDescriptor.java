@@ -28,6 +28,8 @@ import org.eclipse.birt.report.engine.emitter.config.excel.i18n.Messages;
 public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 {
 
+	private static final String TEXT_WRAPPING = "TextWrapping";
+
 	private IConfigurableOption[] options;
 
 	public ExcelEmitterDescriptor( )
@@ -38,8 +40,7 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 	private void initOptions( )
 	{
 		// Initializes the option for WrappingText.
-		ConfigurableOption wrappingText = new ConfigurableOption(
-				IExcelRenderOption.WRAPPING_TEXT );
+		ConfigurableOption wrappingText = new ConfigurableOption( TEXT_WRAPPING );
 		wrappingText.setDisplayName( Messages
 				.getString( "OptionDisplayValue.WrappingText" ) ); //$NON-NLS-1$
 		wrappingText.setDataType( IConfigurableOption.DataType.BOOLEAN );
@@ -92,6 +93,16 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 		return "org.eclipse.birt.report.engine.emitter.prototype.excel"; //$NON-NLS-1$
 	}
 
+	public String getRenderOptionName( String name )
+	{
+		assert name != null;
+		if ( TEXT_WRAPPING.equals( name ) )
+		{
+			return IExcelRenderOption.WRAPPING_TEXT;
+		}
+		return name;
+	}
+
 	/**
 	 * ExcelOptionObserver
 	 */
@@ -115,8 +126,8 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 			{
 				if ( optionValue != null )
 				{
-					renderOption.setOption( optionValue.getName( ), optionValue
-							.getValue( ) );
+					renderOption.setOption( getRenderOptionName( optionValue
+							.getName( ) ), optionValue.getValue( ) );
 				}
 			}
 
