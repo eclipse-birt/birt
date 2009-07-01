@@ -10,13 +10,21 @@
 	<target name="noDefault">
 		<echo message="This file must be called with explicit targets" />
 	</target>
-
 	<!-- ===================================================================== -->
 	<!-- Steps to do before the target build.jars                              -->
 	<!-- Available parameters :                                                -->
 	<!--   build.result.folder - folder to contain the build results           -->
 	<!-- ===================================================================== -->
 	<target name="pre.viewer.jar">
+
+		<property name="basedir" location="." />
+		<property name="birt.dir" value="birt" />
+		<property name="build.result.folder" value="${basedir}" />
+
+		<mkdir dir="${build.result.folder}/viewerservletssrc"/>
+		<copy todir="${build.result.folder}/viewerservletssrc" overwrite="true">
+			<fileset dir="${birt.dir}/WEB-INF/classes/" includes="**/*.java"			/>
+		</copy>
 	</target>
 	<target name="pre.build.jars">
 	</target>
@@ -132,6 +140,7 @@
 	<!--   build.result.folder - folder to contain the build results           -->
 	<!-- ===================================================================== -->
 	<target name="pre.build.sources">
+
 	</target>
 
 	<!-- ===================================================================== -->
@@ -140,11 +149,7 @@
 	<!--   build.result.folder - folder to contain the build results           -->
 	<!-- ===================================================================== -->
 	<target name="post.build.sources">
-		<property name="birt.dir" value="birt" />
-		<mkdir dir="${build.result.folder}"/>
-		<zip destfile="${build.result.folder}/viewerservletssrc.zip" filesonly="false" whenempty="skip" update="false">
-			<fileset dir="${birt.dir}/WEB-INF/classes/" includes="**/*.java"			/>
-		</zip>
+
 	</target>
 
 	<!-- ===================================================================== -->
