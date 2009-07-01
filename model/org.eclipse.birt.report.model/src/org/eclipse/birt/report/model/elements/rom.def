@@ -3206,6 +3206,8 @@
       <Argument name="this" tagID="Element.Image.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.IImageInstance"/>
       <Argument name="reportContext" tagID="Element.Image.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method> 
+    <PropertyVisibility name="scale" visibility="hide"/>
+    <PropertyVisibility name="size" visibility="hide"/>
     <StyleProperty name="backgroundColor"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
