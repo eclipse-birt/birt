@@ -321,6 +321,7 @@ public class RowArea extends ContainerArea
 					}
 					result.addChild( cell );
 					result.setCell( cell );
+					cell.setParent( result );
 				}
 				i = cells[i].getColSpan( ) + i - 1;
 			}

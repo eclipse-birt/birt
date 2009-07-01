@@ -187,6 +187,7 @@ public class TextAreaLayout implements ILayout
 	public void addTextArea( AbstractArea textArea ) throws BirtException
 	{
 		parentLM.add( textArea );
+		textArea.setParent( parentLM );
 		parentLM.update( textArea );
 		if ( parentLM instanceof InlineTextArea )
 		{

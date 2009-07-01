@@ -452,6 +452,7 @@ class ConcreteImageLayout implements ILayout
 		Dimension contentDimension = getSpecifiedDimension( image, root
 				.getContentWidth( ), true );
 		ImageArea imageArea = createImageArea( image );
+		imageArea.setParent( root );
 		// implement fitToContainer
 		int maxHeight = root.getMaxAvaHeight( );
 		int maxWidth = root.getMaxAvaWidth( );

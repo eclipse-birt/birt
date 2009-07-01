@@ -417,6 +417,12 @@ public class LineArea extends InlineStackingArea
 			LineArea area = cloneArea( );
 			area.children = children;
 			area.setParent( parent );
+			Iterator iter = area.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea child = (AbstractArea) iter.next( );
+				child.setParent( area );
+			}
 			children = new ArrayList( );
 			parent.add( area );
 			parent.update( area );

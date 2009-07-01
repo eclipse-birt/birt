@@ -180,14 +180,21 @@ public class AreaFactory
 				break;
 
 			case IContent.FOREIGN_CONTENT :
+				ContainerArea area;
 				if ( PropertyUtil.isInlineElement( content ) )
 				{
-					return new InlineContainerArea( parent, context, content );
+					area = new InlineContainerArea( parent, context, content );
 				}
 				else
 				{
-					return new BlockContainerArea( parent, context, content );
+					area = new BlockContainerArea( parent, context, content );
 				}
+				if ( context.isFixedLayout( ) )
+				{
+					area.setPageBreakInside( IStyle.AVOID_VALUE );
+				}
+				return area;
+
 
 			case IContent.IMAGE_CONTENT :
 				break;

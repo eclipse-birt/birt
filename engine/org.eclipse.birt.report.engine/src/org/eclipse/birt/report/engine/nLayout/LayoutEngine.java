@@ -604,12 +604,6 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		{
 			// build content DOM tree for HTML text
 			HTML2Content.html2Content( foreign );
-			if( context.isFixedLayout( ) )
-			{
-				IStyle style = foreign.getStyle( );
-				style.setProperty( IStyle.STYLE_PAGE_BREAK_INSIDE,
-						IStyle.AVOID_VALUE );
-			}
 			java.util.Collection children = foreign.getChildren( );
 			if ( children != null && !children.isEmpty( ) )
 			{
