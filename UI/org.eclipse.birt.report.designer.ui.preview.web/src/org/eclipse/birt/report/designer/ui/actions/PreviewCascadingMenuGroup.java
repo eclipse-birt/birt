@@ -13,11 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preview.Activator;
 import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
-import org.eclipse.birt.report.designer.ui.util.UIHelper;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -29,7 +30,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -42,7 +42,8 @@ public class PreviewCascadingMenuGroup implements
 		IWorkbenchWindowPulldownDelegate2
 {
 
-	private static Map typeMap = new HashMap( );
+	private static Map<String, String> typeMap = new HashMap<String, String>( );
+
 	public static final String TYPE_DOC = "doc"; //$NON-NLS-1$
 	public static final String TYPE_HTML = "html"; //$NON-NLS-1$
 	public static final String TYPE_PDF = "pdf"; //$NON-NLS-1$
@@ -132,12 +133,13 @@ public class PreviewCascadingMenuGroup implements
 
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
 		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.run.webviewer" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		previewWebViewer.setImage( UIHelper.getImage( IMG_FILE_WEB ) );
+		previewWebViewer.setImage( UIHelper.getImage( Activator.getDefault( )
+				.getBundle( ), IMG_FILE_WEB ) );
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				preview( TYPE_HTML, true ); //$NON-NLS-1$
+				preview( TYPE_HTML, true );
 			}
 		} );
 
@@ -153,11 +155,15 @@ public class PreviewCascadingMenuGroup implements
 							} ) );
 			if ( typeMap.containsKey( format ) )
 			{
-				previewOption.setImage( (Image) UIHelper.getImage( (String) typeMap.get( format ) ) );
+				previewOption.setImage( UIHelper.getImage( Activator.getDefault( )
+						.getBundle( ),
+						typeMap.get( format ) ) );
 			}
 			else
 			{
-				previewOption.setImage( UIHelper.getImage( IMG_FILE_DEFAULT ) );
+				previewOption.setImage( UIHelper.getImage( Activator.getDefault( )
+						.getBundle( ),
+						IMG_FILE_DEFAULT ) );
 			}
 			previewOption.addSelectionListener( new SelectionAdapter( ) {
 
@@ -189,11 +195,11 @@ public class PreviewCascadingMenuGroup implements
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
-		if (model == null)
+		if ( model == null )
 		{
 			return;
 		}
-		
+
 		if ( editor != null )
 		{
 			if ( model.needsSave( ) )
