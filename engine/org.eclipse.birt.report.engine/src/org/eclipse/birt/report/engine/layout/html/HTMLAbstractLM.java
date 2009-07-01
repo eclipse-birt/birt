@@ -440,7 +440,15 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				IContent childContent = childExecutor.execute( );
 				if ( childContent != null )
 				{
-					if ( ! executor.hasNextChild( ) )
+					if ( !content.getChildren( ).contains( childContent ) )
+					{
+						content.getChildren( ).add( childContent );
+					}
+				}
+				execute( childContent, childExecutor );
+				if ( childContent != null )
+				{
+					if ( !executor.hasNextChild( ) )
 					{
 						childContent.setLastChild( true );
 					}
@@ -448,12 +456,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 					{
 						childContent.setLastChild( false );
 					}
-					if ( !content.getChildren( ).contains( childContent ) )
-					{
-						content.getChildren( ).add( childContent );
-					}
 				}
-				execute( childContent, childExecutor );
 				childExecutor.close( );
 			}
 		}
