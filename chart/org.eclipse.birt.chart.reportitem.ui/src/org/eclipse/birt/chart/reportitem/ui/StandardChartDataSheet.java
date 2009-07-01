@@ -1421,17 +1421,20 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				}
 				if ( event.widget == btnInherit || event.widget == cmbDataItems )
 				{
-					SeriesDefinition base = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
-							.get( 0 );
-					if ( selectDataTypes.get( cmbDataItems.getSelectionIndex( ) )
-							.intValue( ) == SELECT_DATA_SET
-							&& !ChartUIConstants.TYPE_GANTT.equals( getChartModel( ).getType( ) ) )
+					List<SeriesDefinition> sds = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) );
+					if ( sds != null && sds.size( ) > 0 )
 					{
-						base.getGrouping( ).setEnabled( true );
-					}
-					else
-					{
-						base.getGrouping( ).setEnabled( false );
+						SeriesDefinition base = sds.get( 0 );
+						if ( selectDataTypes.get( cmbDataItems.getSelectionIndex( ) )
+								.intValue( ) == SELECT_DATA_SET
+								&& !ChartUIConstants.TYPE_GANTT.equals( getChartModel( ).getType( ) ) )
+						{
+							base.getGrouping( ).setEnabled( true );
+						}
+						else
+						{
+							base.getGrouping( ).setEnabled( false );
+						}
 					}
 				}
 				checkColBindingForCube( );
