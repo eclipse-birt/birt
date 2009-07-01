@@ -190,19 +190,15 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		ContainerSizeInfo sizeInfo = engine.getCurrentContainer( ).getSizeInfo( );
 		int width = sizeInfo.getWidth( );
-		ColumnsInfo info = LayoutUtil.createTable( table, width );
-		
-		if( info == null ) {
-		   return;	
-		}
-		
+		int[] columns = LayoutUtil.createTable( table, LayoutUtil
+				.getElementWidth( table, width ) );
+		ColumnsInfo info = new ColumnsInfo( columns );
+
 		String caption = table.getCaption( );
-		
 		if(caption != null) 
 		{			
 			engine.addCaption( caption );
 		}
-		
 		engine.addTable( table, info, sizeInfo );
 	}
 

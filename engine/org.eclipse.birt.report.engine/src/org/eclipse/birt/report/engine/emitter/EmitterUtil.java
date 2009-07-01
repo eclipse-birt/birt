@@ -537,4 +537,44 @@ public class EmitterUtil
 		}
 		return value;
 	}
+
+	public static int[] resizeTableColumn( int tableWidth, int[] tblColumns,
+			int count, int totalAssigned )
+	{
+		int remainWidth = tableWidth - totalAssigned;
+		int average = 0;
+		if ( remainWidth > 0 )
+		{
+			if ( count > 0 )
+			{
+				average = remainWidth / count;
+				for ( int i = 0; i < tblColumns.length; i++ )
+				{
+					if ( tblColumns[i] == -1 )
+					{
+						tblColumns[i] = average;
+					}
+				}
+			}
+			else
+			{
+				average = remainWidth / tblColumns.length;
+				for ( int i = 0; i < tblColumns.length; i++ )
+				{
+					tblColumns[i] += average;
+				}
+			}
+		}
+		else if ( remainWidth <= 0 && count > 0 )
+		{
+			for ( int i = 0; i < tblColumns.length; i++ )
+			{
+				if ( tblColumns[i] == -1 )
+				{
+					tblColumns[i] = 0;
+				}
+			}
+		}
+		return tblColumns;
+	}
 }

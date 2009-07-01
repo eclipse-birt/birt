@@ -483,11 +483,21 @@ public abstract class AbstractEmitterImpl
 		int width = WordUtil.convertTo( table.getWidth( ), context
 				.getCurrentWidth( ) );
 		width = Math.min( width, context.getCurrentWidth( ) );
-		wordWriter.startTable( table.getComputedStyle( ), width );
-
 		int[] cols = computeTblColumnWidths( table, width );
+		wordWriter
+				.startTable( table.getComputedStyle( ), getTableWidth( cols ) );
 		wordWriter.writeColumn( cols );
 		context.addTable( cols, table.getComputedStyle( ) );
+	}
+
+	private int getTableWidth( int[] cols )
+	{
+		int tableWidth = 0;
+		for ( int i = 0; i < cols.length; i++ )
+		{
+			tableWidth += cols[i];
+		}
+		return tableWidth;
 	}
 
 	public void startTableBand( ITableBandContent band )
@@ -1098,7 +1108,6 @@ public abstract class AbstractEmitterImpl
 		int[] tblColumns = new int[colCount];
 		int count = 0;
 		int total = 0;
-
 		for ( int i = 0; i < colCount; i++ )
 		{
 			IColumn col = table.getColumn( i );
@@ -1114,14 +1123,12 @@ public abstract class AbstractEmitterImpl
 			}
 		}
 
-		for ( int i = 0; i < tblColumns.length; i++ )
+		if ( table.getWidth( ) == null && count == 0 )
 		{
-			if ( tblColumns[i] == -1 )
-			{
-				tblColumns[i] = ( tblWidth - total ) / count;
-			}
+			return tblColumns;
 		}
-		return tblColumns;
+		return EmitterUtil.resizeTableColumn( tblWidth, tblColumns, count,
+				total );
 	}
 
 	class TocInfo
