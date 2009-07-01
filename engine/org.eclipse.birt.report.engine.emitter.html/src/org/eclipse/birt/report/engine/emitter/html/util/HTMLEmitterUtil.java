@@ -237,6 +237,14 @@ public class HTMLEmitterUtil
 		{
 			return BROWSER_UNKNOW;
 		}
+		else if ( userAgent.contains( "; MSIE 5" ) )
+		{
+			return BROWSER_IE5;
+		}
+		else if ( userAgent.contains( "; MSIE 6" ) )
+		{
+			return BROWSER_IE6;
+		}
 		else if ( userAgent.contains( "; MSIE 7" ) )
 		{
 			return BROWSER_IE7;

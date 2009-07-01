@@ -322,6 +322,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	private Set outputtedStyles = new HashSet();
 	
+	protected boolean needFixTransparentPNG = false;
+
 	/**
 	 * the constructor
 	 */
@@ -420,6 +422,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				enableInlineStyle = htmlOption.getEnableInlineStyle( );
 			}
 			browserVersion = HTMLEmitterUtil.getBrowserVersion( htmlOption.getUserAgent( ) );
+			if ( browserVersion == HTMLEmitterUtil.BROWSER_IE5
+					|| browserVersion == HTMLEmitterUtil.BROWSER_IE6 )
+			{
+				needFixTransparentPNG = true;
+			}
 		}
 	}
 	
@@ -623,7 +630,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( isEmbeddable )
 		{
 			outputCSSStyles( reportDesign, designHandle );
-			fixTransparentPNG( );
+			if ( needFixTransparentPNG )
+			{
+				fixTransparentPNG( );
+			}
 			fixRedirect( );
 
 			openRootTag( );
@@ -677,8 +687,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( HTMLTags.TAG_META );
 
 		outputCSSStyles( reportDesign, designHandle );
-		
-		fixTransparentPNG( );
+
+		if ( needFixTransparentPNG )
+		{
+			fixTransparentPNG( );
+		}
 		fixRedirect( );
 		writer.closeTag( HTMLTags.TAG_HEAD );
 
@@ -2164,14 +2177,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			styleBuffer.append( cellHeight.toString( ) );
 			styleBuffer.append( "; height: 100%; width: 100%; position: absolute; z-index: -1; left: 0px;" );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-			if ( null == htmlIDNamespace )
+			if ( needFixTransparentPNG )
 			{
-				writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
-			}
-			else
-			{
-				writer.attribute( HTMLTags.ATTR_ONLOAD, htmlIDNamespace
-						+ "fixPNG(this)" ); //$NON-NLS-1$
+				if ( null == htmlIDNamespace )
+				{
+					writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
+				}
+				else
+				{
+					writer.attribute( HTMLTags.ATTR_ONLOAD, htmlIDNamespace
+							+ "fixPNG(this)" ); //$NON-NLS-1$
+				}
 			}
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 		}
@@ -2785,14 +2801,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 			if ( ".PNG".equalsIgnoreCase( ext ) && imageHandler != null ) //$NON-NLS-1$
 			{
-				if ( null == htmlIDNamespace )
+				if ( needFixTransparentPNG )
 				{
-					writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
-				}
-				else
-				{
-					writer.attribute( HTMLTags.ATTR_ONLOAD, htmlIDNamespace
-							+ "fixPNG(this)" ); //$NON-NLS-1$
+					if ( null == htmlIDNamespace )
+					{
+						writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
+					}
+					else
+					{
+						writer.attribute( HTMLTags.ATTR_ONLOAD, htmlIDNamespace
+								+ "fixPNG(this)" ); //$NON-NLS-1$
+					}
 				}
 			}
 
