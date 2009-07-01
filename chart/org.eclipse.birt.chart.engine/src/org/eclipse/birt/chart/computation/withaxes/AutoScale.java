@@ -100,8 +100,8 @@ public final class AutoScale extends Methods implements Cloneable
 		private Object oMaximumFixed;
 
 		public ScaleInfo( PlotComputation plotComp, int iType,
-				RunTimeContext rtc, FormatSpecifier fs,
-				OneAxis ax, int iScaleDirection, boolean bExpandMinMax )
+				RunTimeContext rtc, FormatSpecifier fs, OneAxis ax,
+				int iScaleDirection, boolean bExpandMinMax )
 		{
 			this.plotComp = plotComp;
 			this.oax = ax;
@@ -481,7 +481,7 @@ public final class AutoScale extends Methods implements Cloneable
 							// UNIT
 						}
 						setStep( Integer.valueOf( ia[i - 1] ) ); // RETURN
-																	// PREVIOUS
+						// PREVIOUS
 						// STEP IN DELTAS
 						// ARRAY
 						break;
@@ -544,7 +544,6 @@ public final class AutoScale extends Methods implements Cloneable
 					return false;
 				}
 				double dStep = asDouble( oStep ).doubleValue( );
-
 				double dPower = Math.log10( dStep );
 
 				if ( dPower < 0 )
@@ -628,7 +627,7 @@ public final class AutoScale extends Methods implements Cloneable
 							i = -1; // MANIPULATE OFFSET TO START-1
 						}
 						setStep( Integer.valueOf( ia[i + 1] ) ); // RETURN NEXT
-																	// STEP
+						// STEP
 						// IN
 						// DELTAS ARRAY
 						break;
@@ -764,8 +763,8 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
-	 * Returns the normalized end point. this will be the (original end - original
-	 * start).
+	 * Returns the normalized end point. this will be the (original end -
+	 * original start).
 	 * 
 	 * @return end point
 	 */
@@ -1305,11 +1304,11 @@ public final class AutoScale extends Methods implements Cloneable
 				la.getCaption( ).setValue( sText );
 
 				rr = info.cComp.computePolygon( xs,
-							iLabelLocation,
-							la,
-							x,
-							y,
-							fontHeight );
+						iLabelLocation,
+						la,
+						x,
+						y,
+						fontHeight );
 
 				if ( i == 0 && info.bLabelWithinAxes )
 				{
@@ -1694,8 +1693,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 	}
 
-	private class CateLabVisTester implements
-			EllipsisHelper.ITester
+	private class CateLabVisTester implements EllipsisHelper.ITester
 	{
 
 		private RotatedRectangle rrPrev;
@@ -1925,7 +1923,8 @@ public final class AutoScale extends Methods implements Cloneable
 		// if factor is set
 		// add the factor logic separately
 		if ( scModel.isSetFactor( )
-				&& ( iType & LINEAR ) == LINEAR && !ax.isCategoryScale( ) )
+				&& ( iType & LINEAR ) == LINEAR
+				&& !ax.isCategoryScale( ) )
 		{
 			// translate from value/point to value/pixel
 			double factor = scModel.getFactor( ) * 72 / xs.getDpiResolution( );
@@ -1933,7 +1932,7 @@ public final class AutoScale extends Methods implements Cloneable
 			Object oValue;
 			double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = -Double.MAX_VALUE;
 			dsi.reset( );
-			double dPrecision = 0;
+			double dPrecision = Double.NaN;
 			while ( dsi.hasNext( ) )
 			{
 				oValue = dsi.next( );
@@ -1952,7 +1951,7 @@ public final class AutoScale extends Methods implements Cloneable
 						rtc.getULocale( ),
 						bIsPercent );
 			}
-			
+
 			// if minimum value is set , then take it
 			if ( oMinimum != null && oMinimum instanceof NumberDataElement )
 			{
@@ -2056,7 +2055,7 @@ public final class AutoScale extends Methods implements Cloneable
 			Object oValue;
 			double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = -Double.MAX_VALUE;
 			dsi.reset( );
-			double dPrecision = 0;
+			double dPrecision = Double.NaN;;
 			while ( dsi.hasNext( ) )
 			{
 				oValue = dsi.next( );
@@ -2546,13 +2545,22 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		double value = Math.abs( pValue );
 		value = getValidDouble( value );
+		// First precision is NaN
+		final boolean isFirst = Double.isNaN( precision );
 		if ( value == 0 )
 		{
-			// Bugzilla#280620 zero should be considered correctly
-			if ( precision < 0 )
-				return precision;
-			else if ( precision >= 0 )
+			// Bugzilla#280620 two zero precision will return 1, and first
+			// precision with 0 value will return 1 as well.
+			if ( isFirst || precision == 0 )
+			{
 				return 1;
+			}
+			return precision;
+		}
+		
+		if ( isFirst )
+		{
+			precision = 0;
 		}
 
 		if ( precision == 0 )
@@ -2717,11 +2725,10 @@ public final class AutoScale extends Methods implements Cloneable
 			AxisTickCoordinates atc = new AxisTickCoordinates( stepNum + 1,
 					dStart,
 					dStart < dEnd ? dStart + dTickGap * stepNum : dStart
-							- dTickGap * stepNum,
+							- dTickGap
+							* stepNum,
 					dTickGap * iDirection,
 					true );
-
-
 
 			setTickCordinates( atc );
 			checkTickLabelsVisibility( xs, la, iLabelLocation );
@@ -2853,7 +2860,7 @@ public final class AutoScale extends Methods implements Cloneable
 			final Calendar ca = (Calendar) oValue;
 			IDateFormatWrapper sdf = null;
 			if ( info.fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT
-									// SPECIFIER
+			// SPECIFIER
 			// ISN'T DEFINED
 			{
 				sdf = info.cacheDateFormat.get( iDateTimeUnit );
@@ -3222,7 +3229,7 @@ public final class AutoScale extends Methods implements Cloneable
 			String sText = null;
 
 			if ( info.fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT
-									// SPECIFIER
+			// SPECIFIER
 			// ISN'T DEFINED
 			{
 				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
@@ -3487,8 +3494,8 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						dMaxH = dH;
 					}
-				
-				 }
+
+				}
 
 				// final DataSetIterator dsi = getData( );
 				// final int iDateTimeUnit = ( getType( ) ==
@@ -4032,7 +4039,6 @@ public final class AutoScale extends Methods implements Cloneable
 		return info.rtc;
 	}
 
-
 	/**
 	 * Updates AutoScale by checking min or max
 	 * 
@@ -4220,6 +4226,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	private static abstract class LabelVisibleHelper
 	{
+
 		protected Set<Integer> idsVis = new HashSet<Integer>( );
 		protected final int iTickCount;
 		protected final int iShowIterval;
@@ -4405,6 +4412,5 @@ public final class AutoScale extends Methods implements Cloneable
 
 		public abstract boolean isTickLabelStaggered( int index );
 	}
-
 
 }
