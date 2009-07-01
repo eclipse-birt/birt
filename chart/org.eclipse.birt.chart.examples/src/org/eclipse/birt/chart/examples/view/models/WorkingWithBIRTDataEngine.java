@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.examples.view.models;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
 import org.eclipse.birt.chart.examples.view.util.GroupedRowExpressionsEvaluator;
@@ -42,6 +44,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.data.Constants;
@@ -82,7 +85,8 @@ import com.ibm.icu.util.ULocale;
  */
 public class WorkingWithBIRTDataEngine
 {
-
+	private final Map<String, String> expressionMap = new HashMap<String, String>();
+	
 	/**
 	 * Create runtime chart model and bind data.
 	 * 
@@ -92,13 +96,14 @@ public class WorkingWithBIRTDataEngine
 	public static final Chart createWorkingWithBIRTDataEngine( )
 			throws ChartException
 	{
+		WorkingWithBIRTDataEngine wwbde = new WorkingWithBIRTDataEngine();
 		String[] expressions = new String[2];
 		expressions[0] = ExpressionUtil.createRowExpression( FlatFileDataSource.COLUMN_COUNTRY );
 		expressions[1] = ExpressionUtil.createRowExpression( FlatFileDataSource.COLUMN_CUSTOMERNUMBER );
 
-		ChartWithAxes cwaBar = createChartModel( expressions );
+		ChartWithAxes cwaBar = wwbde.createChartModel( expressions );
 
-		cwaBar = bindData( cwaBar, expressions );
+		cwaBar = wwbde.bindData( cwaBar, expressions );
 
 		return cwaBar;
 	}
@@ -110,7 +115,7 @@ public class WorkingWithBIRTDataEngine
 	 *            expressions are used to set category series and value series.
 	 * @return
 	 */
-	private static ChartWithAxes createChartModel( String[] expressions )
+	private ChartWithAxes createChartModel( String[] expressions )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
@@ -192,7 +197,7 @@ public class WorkingWithBIRTDataEngine
 	 * @return
 	 * @throws ChartException
 	 */
-	private static ChartWithAxes bindData( ChartWithAxes cwaBar,
+	private ChartWithAxes bindData( ChartWithAxes cwaBar,
 			String[] expressions ) throws ChartException
 	{
 
@@ -224,7 +229,7 @@ public class WorkingWithBIRTDataEngine
 	 * @return
 	 * @throws BirtException
 	 */
-	private static IDataRowExpressionEvaluator prepareRowExpressionEvaluator(
+	private IDataRowExpressionEvaluator prepareRowExpressionEvaluator(
 			ChartWithAxes chart, String[] expressions ) throws BirtException
 	{
 
@@ -245,7 +250,15 @@ public class WorkingWithBIRTDataEngine
 
 		// Create row expression evaluator.
 		return new GroupedRowExpressionsEvaluator( queryResults.getResultIterator( ),
-				true );
+				true ){
+			public Object evaluate( String expression )
+			{
+				String bindingName = expressionMap.get( expression );
+				if ( bindingName != null)
+					return super.evaluate( bindingName );
+					return super.evaluate( expression );
+			}
+		};
 	}
 
 	/**
@@ -256,7 +269,7 @@ public class WorkingWithBIRTDataEngine
 	 * @return
 	 * @throws ChartException
 	 */
-	private static QueryDefinition createQueryDefinition(
+	private QueryDefinition createQueryDefinition(
 			OdaDataSetDesign odaDataSet, String[] expressions )
 			throws ChartException
 	{
@@ -280,14 +293,24 @@ public class WorkingWithBIRTDataEngine
 			for ( int i = 0; i < expressions.length; i++ )
 			{
 				String expr = (String) expressions[i];
-				Binding colBinding = new Binding( expr );
-				colBinding.setExpression( new ScriptExpression( expr ) );
+				
+				Binding colBinding = null;
 				if ( i == 1 )
 				{
+					String newStr = ChartUtil.escapeSpecialCharacters( expr
+							+ "_" + "Count" ); //$NON-NLS-1$ //$NON-NLS-2$
+					colBinding = new Binding( newStr );
 					colBinding.setExpression( null );
 					colBinding.setAggrFunction( IBuildInAggregation.TOTAL_COUNT_FUNC );
 					colBinding.addAggregateOn( groupName );
 					colBinding.addArgument( new ScriptExpression( expressions[i] ) );
+					
+					expressionMap.put( ExpressionUtil.createRowExpression( newStr ), newStr );
+				}
+				else
+				{
+					colBinding = new Binding( expr );
+					colBinding.setExpression( new ScriptExpression( expr ) );
 				}
 
 				queryDefn.addBinding( colBinding );
@@ -311,7 +334,7 @@ public class WorkingWithBIRTDataEngine
 	 * @param queryDefn
 	 * @throws DataException
 	 */
-	private static void initDefaultBindings( QueryDefinition queryDefn )
+	private void initDefaultBindings( QueryDefinition queryDefn )
 			throws DataException
 	{
 
@@ -330,10 +353,10 @@ public class WorkingWithBIRTDataEngine
 	 * @return
 	 * @throws BirtException
 	 */
-	private static DataEngine newDataEngine( ) throws BirtException
+	private DataEngine newDataEngine( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				(ScriptContext) null,
+				new ScriptContext( null ),
 				(IDocArchiveReader) null,
 				(IDocArchiveWriter) null,
 				(ClassLoader) null );
@@ -348,7 +371,7 @@ public class WorkingWithBIRTDataEngine
 	 * @param dataSourceDesign
 	 * @return
 	 */
-	private static OdaDataSetDesign newDataSet(
+	private OdaDataSetDesign newDataSet(
 			OdaDataSourceDesign dataSourceDesign )
 	{
 		OdaDataSetDesign dataSet = new OdaDataSetDesign( "Data Set1" ); //$NON-NLS-1$
@@ -365,7 +388,7 @@ public class WorkingWithBIRTDataEngine
 	 * @return
 	 * @throws BirtException
 	 */
-	private static OdaDataSourceDesign newDataSource( ) throws BirtException
+	private OdaDataSourceDesign newDataSource( ) throws BirtException
 	{
 		OdaDataSourceDesign dataSource = new OdaDataSourceDesign( "Data Source1" ); //$NON-NLS-1$
 		dataSource.setExtensionID( FlatFileDataSource.DATA_SOURCE_TYPE );
