@@ -490,7 +490,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 
 	public void startTableRow( double height )
 	{
-		startTableRow( height, false, false );
+		startTableRow( height, false, false, false );
 	}
 
 	public void startPage( )

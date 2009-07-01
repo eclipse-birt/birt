@@ -615,7 +615,7 @@ public abstract class AbstractWordXmlWriter
 	 */
 
 	public void startTableRow( double height, boolean isHeader,
-			boolean repeatHeader )
+			boolean repeatHeader, boolean fixedLayout )
 	{
 		writer.openTag( "w:tr" );
 
@@ -624,7 +624,13 @@ public abstract class AbstractWordXmlWriter
 
 		if ( height != -1 )
 		{
-			writeAttrTag( "w:trHeight", height );
+			writer.openTag( "w:trHeight" );
+			if ( fixedLayout )
+			{
+				writer.attribute( "w:h-rule", "exact" );
+			}
+			writer.attribute( "w:val", height );
+			writer.closeTag( "w:trHeight" );
 		}
 
 		// if value is "off",the header will be not repeated

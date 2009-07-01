@@ -56,7 +56,8 @@ public interface IWordWriter
 
 	void writeColumn( int[] cols );
 
-	void startTableRow( double height, boolean isHeader, boolean repeatHeader );
+	void startTableRow( double height, boolean isHeader, boolean repeatHeader,
+			boolean fixedLayout );
 
 	void startTableRow( double height );
 

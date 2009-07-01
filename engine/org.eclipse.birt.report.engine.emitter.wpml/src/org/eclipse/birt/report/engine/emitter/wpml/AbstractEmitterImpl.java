@@ -24,7 +24,9 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.RenderOption;
@@ -75,6 +77,7 @@ import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.util.ULocale;
@@ -165,6 +168,10 @@ public abstract class AbstractEmitterImpl
 	
 	private String messageFlashObjectNotSupported;
 
+	private String layoutPreference = null;
+
+	private boolean fixedLayout;
+
 	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		if ( service != null )
@@ -188,6 +195,13 @@ public abstract class AbstractEmitterImpl
 					locale );
 			messageFlashObjectNotSupported = resourceHandle
 					.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
+			IRenderOption renderOption = service.getRenderOption( );
+			if ( renderOption != null )
+			{
+				HTMLRenderOption htmlOption = new HTMLRenderOption(
+						renderOption );
+				layoutPreference = htmlOption.getLayoutPreference( );
+			}
 		}
 		context = new EmitterContext( );
 	}
@@ -195,6 +209,28 @@ public abstract class AbstractEmitterImpl
 	public void start( IReportContent report )
 	{
 		this.reportContent = report;
+		if ( null == layoutPreference )
+		{
+			ReportDesignHandle designHandle = report.getDesign( )
+					.getReportDesign( );
+			if ( designHandle != null )
+			{
+				String reportLayoutPreference = designHandle
+						.getLayoutPreference( );
+				if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+						.equals( reportLayoutPreference ) )
+				{
+					layoutPreference = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED;
+				}
+				else if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT
+						.equals( reportLayoutPreference ) )
+				{
+					layoutPreference = HTMLRenderOption.LAYOUT_PREFERENCE_AUTO;
+				}
+			}
+			fixedLayout = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED
+					.equals( layoutPreference );
+		}
 	}
 
 	public void startPage( IPageContent page ) throws IOException,
@@ -362,7 +398,7 @@ public abstract class AbstractEmitterImpl
 			double height = WordUtil.convertTo( row.getHeight( ) );
 
 			wordWriter.startTableRow( height, isHeader, row.getTable( )
-					.isHeaderRepeat( ) );
+					.isHeaderRepeat( ), fixedLayout );
 			context.newRow( );
 		}
 	}
