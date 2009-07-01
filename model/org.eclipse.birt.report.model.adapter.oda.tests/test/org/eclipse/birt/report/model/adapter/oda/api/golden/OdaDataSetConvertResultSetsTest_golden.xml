@@ -25,15 +25,14 @@
                     <property name="columnName">user name</property>
                     <property name="alias">user name</property>
                     <property name="format">new format for column 1</property>
-                    <property name="displayName">new display name for column 1</property>
-                    <property name="helpText">new help text for column 1</property>
-                    <property name="helpTextID">message.column-hint.help</property>
+                    <text-property name="displayName">new display name for column 1</text-property>
+                    <text-property name="helpText" key="message.column-hint.help">new help text for column 1</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">date</property>
                     <property name="format">new format for column 2</property>
-                    <property name="displayName">new display name for column 2</property>
-                    <property name="helpText">new help text for column 2</property>
+                    <text-property name="displayName">new display name for column 2</text-property>
+                    <text-property name="helpText">new help text for column 2</text-property>
                 </structure>
             </list-property>
             <property name="dataSource">myDataSource1</property>
