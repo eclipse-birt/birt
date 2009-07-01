@@ -218,6 +218,8 @@ public class FixedLayoutPageHintReader implements IPageHintReader
 			hint.addTableColumnHint( new TableColumnHint( tableId, start,
 					columnCount ) );
 		}
+		Collection<PageVariable> variables = hint.getPageVariables( );
+		readPageVariables( in, variables );
 		return hint;
 	}
 	

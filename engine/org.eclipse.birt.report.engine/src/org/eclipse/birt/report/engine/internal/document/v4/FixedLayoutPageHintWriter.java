@@ -13,10 +13,12 @@ package org.eclipse.birt.report.engine.internal.document.v4;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
@@ -81,6 +83,8 @@ public class FixedLayoutPageHintWriter extends PageHintWriterV4 implements IPage
 			IOUtil.writeInt( out, columnHint.getStart( ) );
 			IOUtil.writeInt( out, columnHint.getColumnCount( ) );
 		}
+		Collection<PageVariable> variables = hint.getPageVariables( );
+		writePageVariables( out, variables );
 	}
 
 	protected void writeInstanceIndex( DataOutputStream out,
