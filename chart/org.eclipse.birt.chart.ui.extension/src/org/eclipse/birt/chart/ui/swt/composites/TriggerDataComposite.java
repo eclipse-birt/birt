@@ -826,6 +826,11 @@ public class TriggerDataComposite extends Composite
 		txtScript.setText( BLANK_STRING );
 	}
 
+	/**
+	 * Update UI values according to specified trigger model values.
+	 * 
+	 * @param trigger
+	 */
 	private void updateUI( Trigger trigger )
 	{
 		if ( trigger == null )
@@ -925,6 +930,11 @@ public class TriggerDataComposite extends Composite
 		grpValue.layout( );
 	}
 
+	/**
+	 * Create related trigger instance according to current UI values.
+	 * 
+	 * @return
+	 */
 	public Trigger getTrigger( )
 	{
 		if ( cmbActionType.getSelectionIndex( ) == 0 )
@@ -935,24 +945,7 @@ public class TriggerDataComposite extends Composite
 		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
-				Trigger trigger = (Trigger) triggersMap.get( cmbTriggerType.getText( ) );
-				if ( trigger == null || trigger.getAction( ).getValue( ) instanceof MultiURLValues )
-				{
-					value = multiHyperlinksComposite.getURLValues( );
-					if ( trigger != null && value.eAdapters( ).size( ) == 0 )
-					{
-						// It is new action value, should add listeners.
-						value.eAdapters( ).addAll( trigger.getAction( ).eAdapters( ) );
-					}
-				}
-				else
-				{
-					value = URLValueImpl.create( sBaseURL, null,// txtTarget.getText(
-						// ),
-						txtBaseParm.getText( ),
-						txtValueParm.getText( ),
-						txtSeriesParm.getText( ) );
-				}
+				value = multiHyperlinksComposite.getURLValues( );
 				break;
 			case INDEX_2_TOOLTIP :
 				// value = TooltipValueImpl.create( iscDelay.getSelection( ), ""
@@ -992,6 +985,9 @@ public class TriggerDataComposite extends Composite
 		switchUI( );
 	}
 
+	/**
+	 * Update UI components and values for according to selected trigger type.
+	 */
 	private void switchUI( )
 	{
 		switch ( getTriggerIndex( ) )
@@ -1162,6 +1158,11 @@ public class TriggerDataComposite extends Composite
 				.getName( ) );
 	}
 
+	/**
+	 * Get modified trigger object instead of old.
+	 * 
+	 * @param triggerType
+	 */
 	private void updateTrigger( String triggerType )
 	{
 		if ( triggerType == null || triggerType.length( ) == 0 )
