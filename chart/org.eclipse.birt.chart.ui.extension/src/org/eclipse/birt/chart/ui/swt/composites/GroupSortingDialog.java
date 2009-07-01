@@ -72,6 +72,10 @@ public class GroupSortingDialog extends TrayDialog
 
 	private SeriesDefinition sd;
 
+	protected Label lblSorting;
+
+	protected Label lblSortExpr;
+
 	protected Combo cmbSorting;
 
 	protected Combo cmbSortExpr;
@@ -209,7 +213,7 @@ public class GroupSortingDialog extends TrayDialog
 			gd.horizontalSpan = 2;
 			cmpSortArea.setLayoutData( gd );
 		}
-		Label lblSorting = new Label( cmpSortArea, SWT.NONE );
+		lblSorting = new Label( cmpSortArea, SWT.NONE );
 		lblSorting.setText( Messages.getString( "BaseSeriesDataSheetImpl.Lbl.DataSorting" ) ); //$NON-NLS-1$
 
 		cmbSorting = new Combo( cmpSortArea, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -220,7 +224,7 @@ public class GroupSortingDialog extends TrayDialog
 		new Label( cmpSortArea, SWT.NONE );
 
 		// Add sort column selection composites.
-		Label lblSortExpr = new Label( cmpSortArea, SWT.NONE );
+		lblSortExpr = new Label( cmpSortArea, SWT.NONE );
 		lblSortExpr.setText( Messages.getString( "BaseGroupSortingDialog.Label.SortOn" ) ); //$NON-NLS-1$
 
 		cmbSortExpr = new Combo( cmpSortArea, SWT.DROP_DOWN );
@@ -384,6 +388,7 @@ public class GroupSortingDialog extends TrayDialog
 	 */
 	protected void setSortKeySelectionState( boolean enabled )
 	{
+		lblSortExpr.setEnabled( enabled );
 		cmbSortExpr.setEnabled( enabled );
 		if ( btnSortExprBuilder != null )
 		{

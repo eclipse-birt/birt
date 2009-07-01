@@ -141,7 +141,9 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog
 		super.createSortArea( parent );
 		if ( !isYGroupingEnabled() )
 		{
+			lblSorting.setEnabled( false );
 			cmbSorting.setEnabled( false );
+			lblSortExpr.setEnabled( false );
 			cmbSortExpr.setEnabled( false );
 		}
 	}

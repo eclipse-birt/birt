@@ -1504,7 +1504,9 @@ public class ChartUIUtil
 		// will disable grouping and aggregation
 		final int state = wizardContext.getDataServiceProvider( ).getState( );
 		return ( state & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY
-				&& ( state & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) != IDataServiceProvider.INHERIT_COLUMNS_GROUPS;
+				&& ( state & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) != IDataServiceProvider.INHERIT_COLUMNS_GROUPS
+				// do not allow group for chart consuming cube
+				&& ( state & IDataServiceProvider.HAS_CUBE ) != IDataServiceProvider.HAS_CUBE;
 	}
 
 	private static String checkGroupTypeOnCategory( ChartWizardContext context,
