@@ -120,12 +120,26 @@ public class QueryExecutor
 			}
 			case DataEngineContext.MODE_PRESENTATION:
 			{
-				assert executor.getCubeQueryDefinition( ).getQueryResultsID( ) != null;
-				//In presentation mode, we need to load aggregation result set from report document.
-				rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
-						.getQueryResultsID( ),
-						executor.getContext( ).getDocReader( ),new VersionManager( executor.getContext()).getVersion( ));
-				break;
+				if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) != null )
+				{// In presentation mode, we need to load aggregation result set
+					// from report document.
+					rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
+							.getQueryResultsID( ),
+							executor.getContext( ).getDocReader( ),
+							new VersionManager( executor.getContext( ) ).getVersion( ) );
+					break;
+				}
+				else
+				{
+					rs = cubeQueryExecutorHelper.execute( aggrDefns, stopSign );
+					CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
+							view.getPreparedCubeOperations( ),
+							view.getCubeQueryExecutor( ).getScope( ),
+							view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
+
+					rs = coe.execute( rs, stopSign );
+					break;
+				}
 			}
 			default:
 			{

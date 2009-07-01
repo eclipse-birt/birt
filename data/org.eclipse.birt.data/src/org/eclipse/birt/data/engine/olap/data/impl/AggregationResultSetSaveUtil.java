@@ -42,6 +42,8 @@ public class AggregationResultSetSaveUtil
 	 */
 	public static void save( String name, IAggregationResultSet[] resultSets, IDocArchiveWriter writer ) throws IOException
 	{
+		if( name == null )
+			return;
 		RAOutputStream outputStream = writer.createRandomAccessStream( name );
 		DataOutputStream dataOutputStream = new DataOutputStream( outputStream );
 		//write resultset length
