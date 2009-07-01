@@ -11,15 +11,26 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.report.engine.api.IParameterDefn;
+
 /**
  * Created on Oct 26, 2004 Base class for defining parameters.
  */
 
 public class ParameterDefn extends ParameterDefnBase implements IParameterDefn
 {
+
 	protected boolean isHidden;
 
+	protected boolean isRequired;
+
+	protected int dataType;
+
+	protected int selectionListType;
+
+	protected ArrayList selectionList;
 
 	/**
 	 * @param isHidden
@@ -33,6 +44,78 @@ public class ParameterDefn extends ParameterDefnBase implements IParameterDefn
 	{
 		return isHidden;
 	}
-	
 
+	public boolean isRequired( )
+	{
+		return isRequired;
+	}
+
+	/**
+	 * @param isRequired
+	 */
+	public void setIsRequired( boolean isRequired )
+	{
+		this.isRequired = isRequired;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getDataType()
+	 */
+	public int getDataType( )
+	{
+		return dataType;
+	}
+
+	/**
+	 * @param dataType
+	 */
+	public void setDataType( int dataType )
+	{
+		this.dataType = dataType;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getSelectionList
+	 * ()
+	 */
+	public ArrayList getSelectionList( )
+	{
+		return selectionList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getSelectionListType
+	 * ()
+	 */
+	public int getSelectionListType( )
+	{
+		return selectionListType;
+	}
+
+	/**
+	 * @param selectionListType
+	 *            The selectionListType to set.
+	 */
+	public void setSelectionListType( int selectionListType )
+	{
+		this.selectionListType = selectionListType;
+	}
+
+	/**
+	 * @param paramSelectionList
+	 *            The paramSelectionList to set.
+	 */
+	public void setSelectionList( ArrayList paramSelectionList )
+	{
+		this.selectionList = paramSelectionList;
+	}
 }

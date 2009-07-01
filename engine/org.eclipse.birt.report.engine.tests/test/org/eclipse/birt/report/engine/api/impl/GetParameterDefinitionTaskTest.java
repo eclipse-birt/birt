@@ -15,7 +15,9 @@ import java.util.Collection;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDynamicFilterParameterDefn;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskUtil.SelectionChoiceUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -26,6 +28,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestGetParameterTask.xml"; //$NON-NLS-1$
+	static final String DYNAMIC_FILTER_DESIGN = "org/eclipse/birt/report/engine/api/impl/DynamicFilterParameter.xml";
 	static final String REPORT_DESIGN = "GetParameterTaskTest.rptdesign"; //$NON-NLS-1$
 
 	public void setUp( ) throws Exception
@@ -63,7 +66,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		assertEquals(
 				"Atelier graphique", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
 	}
-	
+
 	public void testSortByOnDatasetColumn( ) throws EngineException,
 			SemanticException
 	{
@@ -71,12 +74,32 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		IGetParameterDefinitionTask task = engine
 				.createGetParameterDefinitionTask( report );
 
-		Collection list = task.getSelectionListForCascadingGroup( "SortBysOfSingleDataSet", new Object[0] );
+		Collection list = task.getSelectionListForCascadingGroup(
+				"SortBysOfSingleDataSet", new Object[0] );
 		Object[] content = list.toArray( );
 		assertEquals( "USA", SelectionChoiceUtil.getValue( content[1] ) );
-		
-		list = task.getSelectionListForCascadingGroup( "SortBysOfSingleDataSet", new Object[]{"USA"} );
-		content = list.toArray(  );
+
+		list = task.getSelectionListForCascadingGroup(
+				"SortBysOfSingleDataSet", new Object[]{"USA"} );
+		content = list.toArray( );
 		assertEquals( "MA", SelectionChoiceUtil.getValue( content[1] ) );
+	}
+
+	public void testDynamicFilterParameters( ) throws EngineException
+	{
+		copyResource( DYNAMIC_FILTER_DESIGN, REPORT_DESIGN );
+		IReportRunnable runnable = engine.openReportDesign( REPORT_DESIGN );
+		IGetParameterDefinitionTask task = engine
+				.createGetParameterDefinitionTask( runnable );
+
+		// get parameter defn
+		IParameterDefnBase param = task.getParameterDefn( "Param_1" );
+		if ( param instanceof IDynamicFilterParameterDefn )
+		{
+			IDynamicFilterParameterDefn dynParam = (IDynamicFilterParameterDefn) param;
+			assertNotNull( dynParam.getColumn( ) );
+		}
+		else
+			fail( );
 	}
 }

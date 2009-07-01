@@ -27,8 +27,10 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.ICascadingParameterSelectionChoice;
+import org.eclipse.birt.report.engine.api.IDynamicFilterParameterDefn;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IParameterDefn;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
@@ -36,10 +38,12 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
+import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -123,6 +127,12 @@ public class GetParameterDefinitionTask extends EngineTask
 					( (ScalarParameterDefn) pBase ).setLocale( locale );
 					( (ScalarParameterDefn) pBase ).evaluateSelectionList( );
 				}
+				else if ( pBase instanceof DynamicFilterParameterDefn )
+				{
+					( (DynamicFilterParameterDefn) pBase )
+							.setReportDesign( designHandle );
+					( (DynamicFilterParameterDefn) pBase ).setLocale( locale );
+				}
 				else if ( pBase instanceof ParameterGroupDefn )
 				{
 					( (ParameterGroupDefn) pBase )
@@ -191,6 +201,11 @@ public class GetParameterDefinitionTask extends EngineTask
 				( (ScalarParameterDefn) ret ).setLocale( locale );
 				( (ScalarParameterDefn) ret ).evaluateSelectionList( );
 			}
+			else if ( ret instanceof DynamicFilterParameterDefn )
+			{
+				( (DynamicFilterParameterDefn) ret ).setReportDesign( handle );
+				( (DynamicFilterParameterDefn) ret ).setLocale( locale );
+			}
 			else if ( ret instanceof ParameterGroupDefn )
 			{
 				( (ParameterGroupDefn) ret )
@@ -207,6 +222,11 @@ public class GetParameterDefinitionTask extends EngineTask
 								.setReportDesign( handle );
 						( (ScalarParameterDefn) p ).setLocale( locale );
 						( (ScalarParameterDefn) p ).evaluateSelectionList( );
+					}
+					else if ( p instanceof DynamicFilterParameterDefn )
+					{
+						( (DynamicFilterParameterDefn) p ).setReportDesign( handle );
+						( (DynamicFilterParameterDefn) p ).setLocale( locale );
 					}
 				}
 			}
@@ -246,6 +266,13 @@ public class GetParameterDefinitionTask extends EngineTask
 				values.put( name, value );
 				return true;
 			}
+			
+			boolean visitDynamicFilterParameter(
+					DynamicFilterParameterHandle param, Object userData )
+			{
+				// no default value for DynamicFilterParameter?
+				return true;
+			}
 
 			boolean visitParameterGroup( ParameterGroupHandle group,
 					Object userData )
@@ -269,7 +296,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	public Object getDefaultValue( String name )
 	{
 		ReportDesignHandle report = executionContext.getDesign( );
-		ScalarParameterHandle parameter = (ScalarParameterHandle) report
+		AbstractScalarParameterHandle parameter = (AbstractScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
 		{
@@ -279,6 +306,18 @@ public class GetParameterDefinitionTask extends EngineTask
 		usingParameterValues( );
 
 		return evaluateDefaultValue( parameter );
+	}
+	
+	protected Object refineParameterValue( String name, Object value )
+	{
+		ReportDesignHandle report = executionContext.getDesign( );
+		AbstractScalarParameterHandle param = (AbstractScalarParameterHandle) report
+				.findParameter( name );
+		if ( !( param instanceof DynamicFilterParameterHandle ) )
+		{
+			return value;
+		}
+		return convertToType( value, param.getDataType( ) );
 	}
 
 	Collection evaluateSelectionValue( ScalarParameterHandle parameter )
@@ -364,7 +403,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		usingParameterValues( );
 
 		ReportDesignHandle report =  executionContext.getDesign( );
-		ScalarParameterHandle parameter = (ScalarParameterHandle) report
+		AbstractScalarParameterHandle parameter = (AbstractScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
 		{
@@ -375,7 +414,6 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		String selectionType = parameter.getValueType( );
 		String dataType = parameter.getDataType( );
-		boolean fixedOrder = parameter.isFixedOrder( );
 		boolean sortByLabel = "label".equalsIgnoreCase( parameter.getSortBy( ) );
 		boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter.getSortDirection( ) );
 		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
@@ -386,7 +424,8 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				group = getCascadingGroup( parameter );
 			}
-			if ( group != null )
+			if ( !( parameter instanceof DynamicFilterParameterHandle )
+					&& group != null )
 			{
 				// parameter in group
 				if ( DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals( group
@@ -403,7 +442,8 @@ public class GetParameterDefinitionTask extends EngineTask
 						// parameter has dataSet
 						return getChoicesFromParameterQuery( parameter );
 					}
-					// parameter do not has dataSet, so use the group's dataSet
+					// parameter do not has dataSet, so use the group's
+					// dataSet
 					// we do not support such mix parameters.
 					// return empty list
 				}
@@ -411,11 +451,15 @@ public class GetParameterDefinitionTask extends EngineTask
 			else
 			{
 				// parameter not in group
-				if ( parameter.getSelectionValueListMethod( ) != null )
+				if ( parameter instanceof ScalarParameterHandle )
 				{
-					return evaluateSelectionValue( parameter );
+					ScalarParameterHandle sparam = (ScalarParameterHandle) parameter;
+					if ( sparam.getSelectionValueListMethod( ) != null )
+					{
+						return evaluateSelectionValue( sparam );
+					}
 				}
-				else if ( parameter.getDataSetName( ) != null )
+				if ( parameter.getDataSetName( ) != null )
 				{
 					// parameter has dataSet
 					return getChoicesFromParameterQuery( parameter );
@@ -426,9 +470,13 @@ public class GetParameterDefinitionTask extends EngineTask
 		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
 				.equals( selectionType ) )
 		{
-			if ( parameter.getSelectionValueListMethod( ) != null )
+			if ( parameter instanceof ScalarParameterHandle )
 			{
-				return evaluateSelectionValue( parameter );
+				ScalarParameterHandle sparam = (ScalarParameterHandle) parameter;
+				if ( sparam.getSelectionValueListMethod( ) != null )
+				{
+					return evaluateSelectionValue( sparam );
+				}
 			}
 			Iterator iter = parameter.choiceIterator( );
 			ArrayList choices = new ArrayList( );
@@ -447,24 +495,32 @@ public class GetParameterDefinitionTask extends EngineTask
 				Object value = convertToType( choice.getValue( ), dataType );
 				choices.add( new SelectionChoice( label, value ) );
 			}
+			boolean fixedOrder = false;
+			String pattern = null;
+			if ( parameter instanceof ScalarParameterHandle )
+			{
+				ScalarParameterHandle tmpParam = (ScalarParameterHandle) parameter;
+				fixedOrder = tmpParam.isFixedOrder( );
+				pattern = tmpParam.getPattern( );
+			}
 			if ( !fixedOrder )
 				Collections.sort( choices, new SelectionChoiceComparator(
-						sortByLabel, parameter.getPattern( ),
-						sortDirectionValue, ULocale.forLocale( locale ) ) );
+						sortByLabel, pattern, sortDirectionValue, ULocale
+								.forLocale( locale ) ) );
 			return choices;
 
 		}
 		return Collections.EMPTY_LIST;
 	}
 
-	private Collection getCascadingParameterList( ScalarParameterHandle parameter )
+	private Collection getCascadingParameterList( AbstractScalarParameterHandle parameter )
 	{
 		Object[] parameterValuesAhead =  getParameterValuesAhead( parameter );
 		return getChoicesFromParameterGroup ( parameter, parameterValuesAhead );
 	}
 
 	private Collection populateToList( IResultIterator iterator,
-			ScalarParameterHandle parameter, SelectionFilter filter )
+			AbstractScalarParameterHandle parameter, SelectionFilter filter )
 	{
 		ParameterHelper parameterHelper = new ParameterHelper( parameter, locale, timeZone );
 		Collection choices = parameterHelper.createSelectionCollection( );
@@ -742,14 +798,16 @@ public class GetParameterDefinitionTask extends EngineTask
 		ParameterHelper[] parameterHelpers = new ParameterHelper[parameterCount];
 		for ( int i = 0; i < parameterCount; i++ )
 		{
-			ScalarParameterHandle parameter = (ScalarParameterHandle) parameters.get( i );
-			parameterHelpers[i] = new ParameterHelper( parameter, locale, timeZone );
+			AbstractScalarParameterHandle parameter = (AbstractScalarParameterHandle) parameters
+					.get( i );
+			parameterHelpers[i] = new ParameterHelper( parameter, locale,
+					timeZone );
 		}
 		return parameterHelpers;
 	}
 	
 	private Collection getChoicesFromParameterGroup(
-			ScalarParameterHandle parameter, Object[] groupKeyValues )
+			AbstractScalarParameterHandle parameter, Object[] groupKeyValues )
 	{
 		assert isCascadingParameter( parameter );
 		CascadingParameterGroupHandle parameterGroup = getCascadingGroup( parameter );
@@ -1072,12 +1130,12 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 	}
 	
-	private boolean isCascadingParameter( ScalarParameterHandle parameter )
+	private boolean isCascadingParameter( ParameterHandle parameter )
 	{
 		return parameter.getContainer( ) instanceof CascadingParameterGroupHandle;
 	}
 
-	private Object[] getParameterValuesAhead( ScalarParameterHandle parameter )
+	private Object[] getParameterValuesAhead( ParameterHandle parameter )
 	{
 		assert isCascadingParameter( parameter );
 		CascadingParameterGroupHandle parameterGroup = getCascadingGroup( parameter );
@@ -1095,7 +1153,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		return values.toArray( );
 	}
 
-	private CascadingParameterGroupHandle getCascadingGroup( ScalarParameterHandle parameter )
+	private CascadingParameterGroupHandle getCascadingGroup( ParameterHandle parameter )
 	{
 		DesignElementHandle handle = parameter.getContainer( );
 		assert handle instanceof CascadingParameterGroupHandle;
@@ -1103,7 +1161,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		return parameterGroup;
 	}
 
-	private Collection getChoicesFromParameterQuery( ScalarParameterHandle parameter)
+	private Collection getChoicesFromParameterQuery( AbstractScalarParameterHandle parameter)
 	{
 		IResultIterator iter = getResultSetForParameter( parameter );
 		if ( iter == null )
@@ -1114,7 +1172,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	}
 
 	private IResultIterator getResultSetForParameter(
-			ScalarParameterHandle parameter )
+			AbstractScalarParameterHandle parameter )
 	{
 		
 		ReportDesignHandle report =  executionContext.getDesign( );
@@ -1144,29 +1202,22 @@ public class GetParameterDefinitionTask extends EngineTask
 			String name )
 	{
 		ParameterDefnBase ret = null;
-		if ( param instanceof ScalarParameterDefn
-				&& name.equals( param.getName( ) ) )
+		if ( name.equals( param.getName( ) ) )
 		{
 			ret = param;
 		}
-		else if ( param instanceof ParameterGroupDefn )
+
+		if ( param == null && param instanceof ParameterGroupDefn )
 		{
-			if ( name.equals( param.getName( ) ) )
+			Iterator iter = ( (ParameterGroupDefn) param ).getContents( )
+					.iterator( );
+			while ( iter.hasNext( ) )
 			{
-				ret = param;
-			}
-			else
-			{
-				Iterator iter = ( (ParameterGroupDefn) param ).getContents( )
-						.iterator( );
-				while ( iter.hasNext( ) )
+				ParameterDefnBase pBase = (ParameterDefnBase) iter.next( );
+				if ( name.equals( pBase.getName( ) ) )
 				{
-					ParameterDefnBase pBase = (ParameterDefnBase) iter.next( );
-					if ( name.equals( pBase.getName( ) ) )
-					{
-						ret = pBase;
-						break;
-					}
+					ret = pBase;
+					break;
 				}
 			}
 		}
@@ -1465,14 +1516,14 @@ public class GetParameterDefinitionTask extends EngineTask
 			scalarParameter.setFixedOrder( handle.isFixedOrder( ) );
 
 			String paramType = handle.getValueType( );
-			if ( IScalarParameterDefn.SELECTION_LIST_TYPE_STATIC.equals( paramType )
+			if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals( paramType )
 					&& scalarParameter.getSelectionList( ) != null
 					&& scalarParameter.getSelectionList( ).size( ) > 0 )
 			{
 				scalarParameter
 						.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_STATIC );
 			}
-			else if ( IScalarParameterDefn.SELECTION_LIST_TYPE_DYNAMIC
+			else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 					.equals( paramType ) )
 			{
 				scalarParameter
@@ -1490,5 +1541,112 @@ public class GetParameterDefinitionTask extends EngineTask
 					.getAutoSuggestThreshold( ) );
 		}
 
+		public void visitDynamicFilterParameter( DynamicFilterParameterHandle handle )
+		{
+			assert ( handle.getName( ) != null );
+
+			DynamicFilterParameterDefn parameter = new DynamicFilterParameterDefn( );
+			parameter.setHandle( handle );
+			parameter.setLocale( locale );
+			parameter.setParameterType( IParameterDefnBase.FILTER_PARAMETER );
+			parameter.setName( handle.getName( ) );
+			parameter.setIsRequired( handle.isRequired( ) );
+			parameter.setDisplayName( handle.getDisplayName( ) );
+			parameter.setDisplayNameKey( handle.getDisplayNameKey( ) );
+			parameter.setHelpText( handle.getHelpText( ) );
+			parameter.setHelpTextKey( handle.getHelpTextKey( ) );
+			parameter.setPromptText( handle.getPromptText( ) );
+			parameter.setPromptTextKey( handle.getPromptTextID( ) );
+			parameter.setIsHidden( handle.isHidden( ) );
+			parameter.setName( handle.getName( ) );
+			
+			List properties = handle.getUserProperties( );
+			for ( int i = 0; i < properties.size( ); i++ )
+			{
+				UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
+				parameter.addUserProperty( p.getName( ), handle
+						.getProperty( p.getName( ) ) );
+			}
+			
+			String valueType = handle.getDataType( );
+			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( valueType ) )
+				parameter.setDataType( IParameterDefn.TYPE_BOOLEAN );
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( valueType ) )
+				parameter.setDataType( IParameterDefn.TYPE_DATE_TIME );
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( valueType ) )
+				parameter.setDataType( IParameterDefn.TYPE_DATE );
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( valueType ) )
+				parameter.setDataType( IParameterDefn.TYPE_TIME );
+			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( valueType ) )
+				parameter.setDataType( IParameterDefn.TYPE_DECIMAL );
+			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
+				parameter.setDataType( IParameterDefn.TYPE_FLOAT );
+			else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( valueType ) )
+				parameter.setDataType( IParameterDefn.TYPE_STRING );
+			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
+				parameter.setDataType( IParameterDefn.TYPE_INTEGER );
+			else
+				parameter.setDataType( IParameterDefn.TYPE_ANY );
+			
+			String paramType = handle.getValueType( );
+			if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals( paramType )
+					&& parameter.getSelectionList( ) != null
+					&& parameter.getSelectionList( ).size( ) > 0 )
+			{
+				parameter
+						.setSelectionListType( IParameterDefn.SELECTION_LIST_STATIC );
+				ArrayList values = new ArrayList( );
+				Iterator selectionIter = handle.choiceIterator( );
+				while ( selectionIter.hasNext( ) )
+				{
+					SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
+						.next( );
+					ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice(
+						this.handle );
+					selectionChoice.setLabel( selection.getLabelKey( ), selection
+						.getLabel( ) );
+					selectionChoice.setValue( selection.getValue( ), parameter
+						.getDataType( ) );
+					values.add( selectionChoice );
+				}
+				parameter.setSelectionList( values );
+			}
+			else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
+					.equals( paramType ) )
+			{
+				parameter
+						.setSelectionListType( IParameterDefn.SELECTION_LIST_DYNAMIC );
+			}
+			else
+			{
+				parameter
+						.setSelectionListType( IParameterDefn.SELECTION_LIST_NONE );
+			}
+			
+			parameter.setColumn( handle.getColumn( ) );
+			
+			if( DesignChoiceConstants.DYNAMIC_FILTER_ADVANCED.equals( handle.getDisplayType( ) ) )
+			{
+				parameter.setDisplayType( IDynamicFilterParameterDefn.DISPLAY_TYPE_ADVANCED );
+			}
+			else
+			{
+				parameter.setDisplayType( IDynamicFilterParameterDefn.DISPLAY_TYPE_SIMPLE );
+			}
+			
+			List<String> operators = handle.getFilterOperatorList( );
+			if( operators != null )
+			{
+				List<String> filters = new ArrayList<String>( );
+				filters.addAll( operators );
+				parameter.setFilterOperatorList( filters );
+			}
+			else
+			{
+				parameter.setFilterOperatorList( null );
+			}
+			
+			currentElement = parameter;
+		}
 	}
 }

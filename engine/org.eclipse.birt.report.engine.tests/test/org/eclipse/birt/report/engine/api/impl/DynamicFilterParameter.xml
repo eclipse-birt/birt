@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+        </graphic-master-page>
+    </page-setup>
+    <parameters>
+        <dynamic-filter-parameter name="Param_1">
+        	<property name="column">testColumn</property>
+        	<property name="displayType">advanced</property>
+        	<property name="listLimit">3</property>
+            <simple-property-list name="filterOperator">
+            	<value>value1</value>
+            	<value>value2</value>
+            </simple-property-list>
+            <property name="dataSet">Data Set1</property>
+                    <property name="valueType">dynamic</property>
+                    <expression name="valueExpr">row["EMPLOYEENUMBER"]</expression>
+        </dynamic-filter-parameter>
+    </parameters>	
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <text-property name="displayName">Data Source</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+    <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set1" id="20">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">EMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">LASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">FIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">EXTENSION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">EMAIL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">OFFICECODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">REPORTSTO</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">JOBTITLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select *
+from CLASSICMODELS.EMPLOYEES</property>
+        </oda-data-set>
+    </data-sets>
+    <body>
+    	<table name="Test table">	
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                    <expression name="value2">value2 expression</expression>
+                    <property name="extensionName">ext name</property>
+                    <property name="extensionExprId">ext id</property>
+                    <property name="pushDown">true</property>
+                    <property name="dynamicFilterParameter">Param_1</property>
+                </structure>
+                <structure>
+                    <property name="operator">gt</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                </structure>                
+            </list-property>   
+        </table>  
+    </body>
+</report>

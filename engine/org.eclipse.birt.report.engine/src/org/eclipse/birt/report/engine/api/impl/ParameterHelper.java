@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.CascadingParameterSelectionChoice;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 import com.ibm.icu.util.TimeZone;
@@ -51,29 +52,48 @@ public class ParameterHelper
 	private boolean fixedOrder;
 	private boolean alreadySorted;
 	private ReportParameterConverter converter;
+	
+	private int parameterType;
+	
+	static final int SCALAR_PARAMETER = 1;
+	static final int FILTER_PARAMETER = 2;
 
-	public ParameterHelper( ScalarParameterHandle parameter, Locale locale, TimeZone timezone )
+	public ParameterHelper( AbstractScalarParameterHandle param, Locale locale, TimeZone timezone )
 	{
-		this.distinct = parameter.distinct( );
-		this.labelColumnName = getLabelColumnName( parameter );
-		this.valueColumnName = getValueColumnName( parameter );
-		this.valueType = parameter.getDataType( );
-		this.fixedOrder = parameter.isFixedOrder( );
-		this.alreadySorted = parameter.getSortByColumn( ) != null;
-		String pattern = parameter.getPattern( );
-		this.converter = new ReportParameterConverter( null, ULocale
-				.forLocale( locale ), timezone );
-		if ( !fixedOrder && !alreadySorted )
+		this.labelColumnName = getLabelColumnName( param );
+		this.valueColumnName = getValueColumnName( param );
+		this.valueType = param.getDataType( );
+		this.alreadySorted = param.getSortByColumn( ) != null;
+		
+		boolean sortDirectionValue = "asc".equalsIgnoreCase( param
+				.getSortDirection( ) );
+		boolean sortByLabel = "label".equalsIgnoreCase( param
+				.getSortBy( ) );
+		String pattern = null;
+		
+		if ( param instanceof ScalarParameterHandle )
 		{
-			boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter
-					.getSortDirection( ) );
-			boolean sortByLabel = "label".equalsIgnoreCase( parameter
-					.getSortBy( ) );
+			parameterType = SCALAR_PARAMETER;
+			ScalarParameterHandle parameter = (ScalarParameterHandle) param;
+			this.distinct = parameter.distinct( );
+			this.fixedOrder = parameter.isFixedOrder( );
+			pattern = parameter.getPattern( );
+		}
+		else
+		{
+			parameterType = FILTER_PARAMETER;
+		}
+
+		if ( !( parameterType == SCALAR_PARAMETER && fixedOrder )
+				&& !alreadySorted )
+		{
 			Comparator choiceComparator = new SelectionChoiceComparator( sortByLabel,
 					pattern, sortDirectionValue, ULocale.forLocale( locale ) );
 			this.comparator = new DistinctComparatorDecorator( choiceComparator,
 					distinct );
 		}
+		this.converter = new ReportParameterConverter( null, ULocale
+				.forLocale( locale ), timezone );
 	}
 	
 	public CascadingParameterSelectionChoice createCascadingParameterSelectionChoice(
@@ -100,9 +120,10 @@ public class ParameterHelper
 	
 	public Collection createSelectionCollection( )
 	{
-		if ( fixedOrder || alreadySorted )
+		if ( ( parameterType == SCALAR_PARAMETER && fixedOrder )
+				|| alreadySorted )
 		{
-			if ( !distinct )
+			if ( !distinct && parameterType == SCALAR_PARAMETER )
 			{
 				return new ArrayList( );
 			}
@@ -143,7 +164,7 @@ public class ParameterHelper
 	}
 	
 	public static void addParameterBinding( QueryDefinition queryDefn,
-			ScalarParameterHandle parameter ) throws DataException
+			AbstractScalarParameterHandle parameter ) throws DataException
 	{
 		String labelColumnName = getLabelColumnName( parameter );
 		String valueColumnName = getValueColumnName( parameter );
@@ -163,7 +184,7 @@ public class ParameterHelper
 	}
 	
 	public static void addParameterSortBy( QueryDefinition queryDefn,
-			ScalarParameterHandle parameter )
+			AbstractScalarParameterHandle parameter )
 	{
 		String sortBy = parameter.getSortByColumn( );
 		if ( sortBy != null )
@@ -202,12 +223,12 @@ public class ParameterHelper
 		}
 	}
 	
-	public static String getValueColumnName( ScalarParameterHandle parameter )
+	public static String getValueColumnName( AbstractScalarParameterHandle parameter )
 	{
 		return VALUE_PREFIX + "_" + parameter.getName( );
 	}
 
-	public static String getLabelColumnName(  ScalarParameterHandle parameter )
+	public static String getLabelColumnName(  AbstractScalarParameterHandle parameter )
 	{
 		if ( parameter.getLabelExpr( ) == null )
 		{

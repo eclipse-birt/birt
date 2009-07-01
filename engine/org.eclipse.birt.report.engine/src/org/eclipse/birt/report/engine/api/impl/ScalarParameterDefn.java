@@ -29,20 +29,14 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	protected boolean 	cancealValue;
 	protected boolean 	allowNull;
 	protected boolean 	allowBlank;
-	protected boolean   isRequired;
 	protected String 	displayFormat;
 	protected int 		controlType;
 	protected int 		alignment;
 	
-	protected ArrayList selectionList;
-	
 	protected boolean fixedOrder;
 	
 	protected int parameterType;
-	
-	protected int selectionListType;
 
-	protected int dataType;
 	protected boolean allowNewValues;
 
 	protected String defaultValue;
@@ -115,19 +109,6 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	{
 		this.allowBlank = allowBlank;
 	}
-	
-	public boolean isRequired( )
-	{
-		return isRequired;
-	}
-
-	/**
-	 * @param isRequired
-	 */
-	public void setIsRequired( boolean isRequired )
-	{
-		this.isRequired = isRequired;
-	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getFormat()
@@ -178,22 +159,6 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getSelectionList()
-	 */
-	public ArrayList getSelectionList()
-	{
-		return selectionList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getSelectionListType()
-	 */
-	public int getSelectionListType()
-	{
-		return selectionListType;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IParameterDefn#displayInFixedOrder()
 	 */
 	public boolean displayInFixedOrder()
@@ -240,21 +205,6 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	{
 		this.parameterType = parameterType;
 	}
-	/**
-	 * @param selectionListType The selectionListType to set.
-	 */
-	public void setSelectionListType(int selectionListType)
-	{
-		this.selectionListType = selectionListType;
-	}
-
-	/**
-	 * @param paramSelectionList The paramSelectionList to set.
-	 */
-	public void setSelectionList(ArrayList paramSelectionList)
-	{
-		this.selectionList = paramSelectionList;
-	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
@@ -274,22 +224,6 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 		}
 		para.setSelectionList(newList);
 		return para;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getDataType()
-	 */
-	public int getDataType( )
-	{
-		return dataType;
-	}
-
-	/**
-	 * @param dataType
-	 */
-	public void setDataType( int dataType )
-	{
-		this.dataType = dataType;
 	}
 	
 	/* (non-Javadoc)

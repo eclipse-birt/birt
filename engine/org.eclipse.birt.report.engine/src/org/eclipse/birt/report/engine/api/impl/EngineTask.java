@@ -77,8 +77,10 @@ import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.engine.util.SecurityUtil;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
@@ -659,12 +661,26 @@ public abstract class EngineTask implements IEngineTask
 	private class ParameterValidationVisitor extends ParameterVisitor
 	{
 		ParameterValidationException engineException;
-		boolean visitScalarParameter( ScalarParameterHandle param,
-				Object value )
+
+		boolean visitScalarParameter( ScalarParameterHandle param, Object value )
 		{
 			try
 			{
-				return validateScalarParameter( param );
+				return validateAbstractScalarParameter( param );
+			}
+			catch ( ParameterValidationException pe )
+			{
+				engineException = pe;
+			}
+			return false;
+		}
+
+		boolean visitDynamicFilterParameter(
+				DynamicFilterParameterHandle param, Object value )
+		{
+			try
+			{
+				return validateAbstractScalarParameter( param );
 			}
 			catch ( ParameterValidationException pe )
 			{
@@ -720,13 +736,13 @@ public abstract class EngineTask implements IEngineTask
 	 *            the value for the parameter
 	 * @return true if the given parameter value is valid; false otherwise
 	 */
-	private boolean validateScalarParameter( ScalarParameterHandle paramHandle )
+	private boolean validateAbstractScalarParameter(
+			AbstractScalarParameterHandle paramHandle )
 			throws ParameterValidationException
 	{
 
 		String paramName = paramHandle.getName( );
 		Object paramValue = runValues.get( paramName );
-		String type = paramHandle.getDataType( );
 
 		// Handle null parameter values
 		if ( paramValue == null )
@@ -762,44 +778,55 @@ public abstract class EngineTask implements IEngineTask
 			}
 		}
 		
-		String paramType = paramHandle.getParamType( );
-		if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
-				.equals( paramType ) )
+		if ( paramHandle instanceof ScalarParameterHandle )
 		{
-			if ( paramValue instanceof Object[] )
+			ScalarParameterHandle sparam = (ScalarParameterHandle) paramHandle;
+			String type = paramHandle.getDataType( );
+
+			String paramType = sparam.getParamType( );
+			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+					.equals( paramType ) )
 			{
-				boolean isValid = true;
-				Object[] paramValueList = (Object[]) paramValue;
-				for ( int i = 0; i < paramValueList.length; i++ )
+				if ( paramValue instanceof Object[] )
 				{
-					if ( paramValueList[i] != null )
+					boolean isValid = true;
+					Object[] paramValueList = (Object[]) paramValue;
+					for ( int i = 0; i < paramValueList.length; i++ )
 					{
-						if ( !validateParameterValueType( paramName,
-								paramValueList[i], type, paramHandle ) )
+						if ( paramValueList[i] != null )
 						{
-							isValid = false;
+							if ( !validateParameterValueType( paramName,
+									paramValueList[i], type, sparam ) )
+							{
+								isValid = false;
+							}
 						}
 					}
+					return isValid;
 				}
-				return isValid;
+				throw new ParameterValidationException(
+						MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
+						new String[]{paramName, "Object[]",
+								paramValue.getClass( ).getName( )} );
 			}
-			throw new ParameterValidationException(
-					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
-					new String[] { paramName, "Object[]",
-							paramValue.getClass().getName() });
-		}
-		else
-		{
 			return validateParameterValueType( paramName, paramValue, type,
 					paramHandle );
 		}
+		else if ( paramHandle instanceof DynamicFilterParameterHandle )
+		{
+			return validateParameterValueType( paramName, paramValue,
+					DesignChoiceConstants.PARAM_TYPE_STRING, paramHandle );
+		}
+		// unknown scalar parameter
+		return false;
 	}
 	
 	/*
 	 * Validate parameter value based on parameter type
 	 */
 	private boolean validateParameterValueType( String paramName,
-			Object paramValue, String type, ScalarParameterHandle paramHandle )
+			Object paramValue, String type,
+			AbstractScalarParameterHandle paramHandle )
 			throws ParameterValidationException
 	{
 		/*
@@ -995,64 +1022,72 @@ public abstract class EngineTask implements IEngineTask
 	}
 	
 	
-	protected Object evaluateDefaultValue( ScalarParameterHandle parameter )
+	protected Object evaluateDefaultValue( AbstractScalarParameterHandle parameter )
 	{
-		String valueExpr = parameter.getDefaultValueListMethod( );
-		if ( valueExpr != null )
+		ScalarParameterHandle sparameter = null;
+		if ( parameter instanceof ScalarParameterHandle )
 		{
-			try
+			sparameter = (ScalarParameterHandle) parameter;
+			String valueExpr = sparameter.getDefaultValueListMethod( );
+			if ( valueExpr != null )
 			{
-				Object result = executionContext.evaluate( valueExpr );
-				if ( result == null )
-					return null;
-				if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
-						.equals( parameter.getParamType( ) ) )
+				try
 				{
-					ArrayList results = new ArrayList( );
-					String dataType = parameter.getDataType( );
-					if ( result instanceof Collection )
+					Object result = executionContext.evaluate( valueExpr );
+					if ( result == null )
+						return null;
+					if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+							.equals( sparameter.getParamType( ) ) )
 					{
-						Iterator itr = ( (Collection) result ).iterator( );
-						while ( itr.hasNext( ) )
+						ArrayList results = new ArrayList( );
+						String dataType = sparameter.getDataType( );
+						if ( result instanceof Collection )
 						{
-							results
-									.add( convertToType( itr.next( ), dataType ) );
+							Iterator itr = ( (Collection) result ).iterator( );
+							while ( itr.hasNext( ) )
+							{
+								results.add( convertToType( itr.next( ),
+										dataType ) );
+							}
 						}
-					}
-					else if ( result.getClass( ).isArray( ) )
-					{
-						int count = Array.getLength( result );
-						for ( int index = 0; index < count; index++ )
+						else if ( result.getClass( ).isArray( ) )
 						{
-							Object origValue = Array.get( result, index );
-							results.add( convertToType( origValue, dataType ) );
+							int count = Array.getLength( result );
+							for ( int index = 0; index < count; index++ )
+							{
+								Object origValue = Array.get( result, index );
+								results
+										.add( convertToType( origValue,
+												dataType ) );
+							}
 						}
+						else
+						{
+							return convertToType( result, dataType );
+						}
+						return results.toArray( );
 					}
 					else
 					{
-						return convertToType( result, dataType );
+						return convertToType( result, sparameter.getDataType( ) );
 					}
-					return results.toArray( );
 				}
-				else
+				catch ( BirtException e )
 				{
-					return convertToType( result, parameter.getDataType( ) );
+					executionContext.addException( e );
+					log.log( Level.FINE, e.getLocalizedMessage( ), e );
 				}
+				return null;
 			}
-			catch ( BirtException e )
-			{
-				executionContext.addException( e );
-				log.log( Level.FINE, e.getLocalizedMessage( ), e );
-			}
-			return null;
 		}
 		List<Expression> values = parameter.getDefaultValueList( );
 		if ( values == null || values.size( ) == 0 )
 		{
 			return null;
 		}
-		if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
-				.equals( parameter.getParamType( ) ) )
+		if ( sparameter != null
+				&& DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+						.equals( sparameter.getParamType( ) ) )
 		{
 			ArrayList results = new ArrayList( );
 			for ( Expression expr : values )
@@ -1201,6 +1236,14 @@ public abstract class EngineTask implements IEngineTask
 						return false;
 					}
 				}
+				else if ( param instanceof DynamicFilterParameterHandle )
+				{
+					if ( !( visitDynamicFilterParameter(
+							(DynamicFilterParameterHandle) param, value ) ) )
+					{
+						return false;
+					}
+				}
 			}
 			return true;
 		}
@@ -1217,6 +1260,12 @@ public abstract class EngineTask implements IEngineTask
 		}
 
 		boolean visitScalarParameter( ScalarParameterHandle param, Object value )
+		{
+			return false;
+		}
+		
+		boolean visitDynamicFilterParameter(
+				DynamicFilterParameterHandle param, Object value )
 		{
 			return false;
 		}
@@ -1257,6 +1306,14 @@ public abstract class EngineTask implements IEngineTask
 						return false;
 					}
 				}
+				else if ( param instanceof DynamicFilterParameterHandle )
+				{
+					if ( !visitDynamicFilterParameter(
+							(DynamicFilterParameterHandle) param, value ) )
+					{
+						return false;
+					}
+				}
 			}
 			return true;
 		}
@@ -1268,6 +1325,11 @@ public abstract class EngineTask implements IEngineTask
 		return null;
 	}
 
+	protected Object refineParameterValue( String name, Object value )
+	{
+		return value;
+	}
+	
 	/**
 	 * use the user setting parameters values to setup the execution context.
 	 * the user setting values and default values are merged here.
@@ -1293,9 +1355,11 @@ public abstract class EngineTask implements IEngineTask
 			Object key = entry.getKey( );
 			ParameterAttribute attribute = (ParameterAttribute) entry
 					.getValue( );
-			runValues.put( key, attribute.getValue( ) );
-			executionContext.setParameter( (String) key, attribute.getValue( ),
-					attribute.getDisplayText( ) );
+			Object value = refineParameterValue( (String) key, attribute
+					.getValue( ) );
+			runValues.put( key, value );
+			executionContext.setParameter( (String) key, value, attribute
+					.getDisplayText( ) );
 		}
 		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable == null )
@@ -1308,6 +1372,19 @@ public abstract class EngineTask implements IEngineTask
 
 			boolean visitScalarParameter( ScalarParameterHandle param,
 					Object userData )
+			{
+				String name = param.getName( );
+				if ( !inputValues.containsKey( name ) )
+				{
+					Object value = evaluateDefaultValue( param );
+					executionContext.setParameterValue( name, value );
+					runValues.put( name, value );
+				}
+				return true;
+			}
+			
+			boolean visitDynamicFilterParameter(
+					DynamicFilterParameterHandle param, Object userData )
 			{
 				String name = param.getName( );
 				if ( !inputValues.containsKey( name ) )
