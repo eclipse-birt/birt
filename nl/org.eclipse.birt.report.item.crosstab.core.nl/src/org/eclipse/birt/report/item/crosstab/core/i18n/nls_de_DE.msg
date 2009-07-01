@@ -134,6 +134,8 @@ CrosstabReportItemTask.msg.pivot.dimension=Pivot-Dimension
 CrosstabReportItemTask.msg.insert.dimension=Dimension einfügen
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
+CrosstabReportItemTask.msg.pivot.crosstab=Pivot Crosstab
+
 CrosstabReportItemHandle.Error.HasNoCube=Die Kreuztabelle muss auf einen Quader zugreifen können.
 CrosstabReportItemHandle.log.validate=Wird validiert (...)
 
