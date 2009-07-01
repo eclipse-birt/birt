@@ -13,12 +13,12 @@ package org.eclipse.birt.chart.model.data;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Series Definition</b></em>'.
@@ -48,9 +48,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition()
  * @model extendedMetaData="name='SeriesDefinition' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface SeriesDefinition extends EObject
+public interface SeriesDefinition extends IChartObject
 {
 
 	/**

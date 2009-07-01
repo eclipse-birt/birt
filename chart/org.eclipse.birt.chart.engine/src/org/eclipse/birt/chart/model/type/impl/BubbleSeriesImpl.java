@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
+import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
@@ -393,21 +394,22 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 */
 	protected void set( BubbleSeries src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getAccLineAttributes( ) != null )
 		{
 			setAccLineAttributes( src.getAccLineAttributes( ).copyInstance( ) );
 		}
 
-		paletteLineColor = src.isPaletteLineColor( );
-		paletteLineColorESet = src.isSetPaletteLineColor( );
-		curve = src.isCurve( );
-		curveESet = src.isSetCurve( );
-		connectMissingValue = src.isConnectMissingValue( );
-		connectMissingValueESet = src.isSetConnectMissingValue( );
+		// attributes
+
 		accOrientation = src.getAccOrientation( );
+
 		accOrientationESet = src.isSetAccOrientation( );
+
 	}
 
 } // BubbleSeriesImpl

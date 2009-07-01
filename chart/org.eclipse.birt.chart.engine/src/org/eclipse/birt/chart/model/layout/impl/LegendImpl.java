@@ -2159,7 +2159,10 @@ public class LegendImpl extends BlockImpl implements Legend
 	 */
 	protected void set( Legend src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getClientArea( ) != null )
 		{
@@ -2181,39 +2184,66 @@ public class LegendImpl extends BlockImpl implements Legend
 			setTitle( src.getTitle( ).copyInstance( ) );
 		}
 
-		if ( src.getFormatSpecifier( ) != null )
-		{
-			setFormatSpecifier( src.getFormatSpecifier( ).copyInstance( ) );
-		}
+		// attributes
 
 		horizontalSpacing = src.getHorizontalSpacing( );
+
 		horizontalSpacingESet = src.isSetHorizontalSpacing( );
+
 		verticalSpacing = src.getVerticalSpacing( );
+
 		verticalSpacingESet = src.isSetVerticalSpacing( );
+
 		orientation = src.getOrientation( );
+
 		orientationESet = src.isSetOrientation( );
+
 		direction = src.getDirection( );
+
 		directionESet = src.isSetDirection( );
+
 		position = src.getPosition( );
+
 		positionESet = src.isSetPosition( );
+
 		itemType = src.getItemType( );
+
 		itemTypeESet = src.isSetItemType( );
+
 		titlePosition = src.getTitlePosition( );
+
 		titlePositionESet = src.isSetTitlePosition( );
+
 		showValue = src.isShowValue( );
+
 		showValueESet = src.isSetShowValue( );
+
 		showPercent = src.isShowPercent( );
+
 		showPercentESet = src.isSetShowPercent( );
+
 		showTotal = src.isShowTotal( );
+
 		showTotalESet = src.isSetShowTotal( );
+
 		wrappingSize = src.getWrappingSize( );
+
 		wrappingSizeESet = src.isSetWrappingSize( );
+
 		maxPercent = src.getMaxPercent( );
+
 		maxPercentESet = src.isSetMaxPercent( );
+
 		titlePercent = src.getTitlePercent( );
+
 		titlePercentESet = src.isSetTitlePercent( );
+
 		ellipsis = src.getEllipsis( );
+
 		ellipsisESet = src.isSetEllipsis( );
+
+		formatSpecifier = src.getFormatSpecifier( );
+
 	}
 
 } // LegendImpl

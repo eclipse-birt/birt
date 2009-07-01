@@ -958,6 +958,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 */
 	protected void set( SeriesDefinition src )
 	{
+
+		// children
+
 		if ( src.getQuery( ) != null )
 		{
 			setQuery( src.getQuery( ).copyInstance( ) );
@@ -976,6 +979,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getFormatSpecifier( ) != null )
 		{
 			setFormatSpecifier( src.getFormatSpecifier( ).copyInstance( ) );
@@ -989,6 +993,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getGrouping( ) != null )
 		{
 			setGrouping( src.getGrouping( ).copyInstance( ) );
@@ -999,10 +1004,16 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			setSortKey( src.getSortKey( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		sorting = src.getSorting( );
+
 		sortingESet = src.isSetSorting( );
+
 		zOrder = src.getZOrder( );
+
 		zOrderESet = src.isSetZOrder( );
+
 	}
 
 } //SeriesDefinitionImpl

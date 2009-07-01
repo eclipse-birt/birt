@@ -146,7 +146,7 @@ public class FillImpl extends EObjectImpl implements Fill
 		switch ( featureID )
 		{
 			case AttributePackage.FILL__TYPE :
-				return new Integer( getType( ) );
+				return getType( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -162,7 +162,7 @@ public class FillImpl extends EObjectImpl implements Fill
 		switch ( featureID )
 		{
 			case AttributePackage.FILL__TYPE :
-				setType( ( (Integer) newValue ).intValue( ) );
+				setType( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );

@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -377,11 +378,11 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 				return c.toString( );
 			}
 		}
-		if ( df == null)
+		if ( df == null )
 		{
 			return c.toString( );
 		}
-		
+
 		return df.format( c.getTime( ) );
 	}
 
@@ -405,12 +406,19 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 */
 	protected void set( DateFormatSpecifier src )
 	{
+
 		super.set( src );
 
+		// attributes
+
 		type = src.getType( );
+
 		typeESet = src.isSetType( );
+
 		detail = src.getDetail( );
+
 		detailESet = src.isSetDetail( );
+
 	}
 
 } // DateFormatSpecifierImpl

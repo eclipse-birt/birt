@@ -608,13 +608,13 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 			case TypePackage.LINE_SERIES__LINE_ATTRIBUTES :
 				return getLineAttributes( );
 			case TypePackage.LINE_SERIES__PALETTE_LINE_COLOR :
-				return isPaletteLineColor( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isPaletteLineColor( );
 			case TypePackage.LINE_SERIES__CURVE :
-				return isCurve( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isCurve( );
 			case TypePackage.LINE_SERIES__SHADOW_COLOR :
 				return getShadowColor( );
 			case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE :
-				return isConnectMissingValue( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isConnectMissingValue( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -640,16 +640,16 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				setLineAttributes( (LineAttributes) newValue );
 				return;
 			case TypePackage.LINE_SERIES__PALETTE_LINE_COLOR :
-				setPaletteLineColor( ( (Boolean) newValue ).booleanValue( ) );
+				setPaletteLineColor( (Boolean) newValue );
 				return;
 			case TypePackage.LINE_SERIES__CURVE :
-				setCurve( ( (Boolean) newValue ).booleanValue( ) );
+				setCurve( (Boolean) newValue );
 				return;
 			case TypePackage.LINE_SERIES__SHADOW_COLOR :
 				setShadowColor( (ColorDefinition) newValue );
 				return;
 			case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE :
-				setConnectMissingValue( ( (Boolean) newValue ).booleanValue( ) );
+				setConnectMissingValue( (Boolean) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -777,7 +777,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 			LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
 			la.setVisible( true );
 			marker.setOutline( la );
-			
+
 			getMarkers( ).add( marker );
 		}
 		else
@@ -975,7 +975,10 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 */
 	protected void set( LineSeries src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getMarkers( ) != null )
 		{
@@ -985,6 +988,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getMarker( ) != null )
 		{
 			setMarker( src.getMarker( ).copyInstance( ) );
@@ -1000,12 +1004,20 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 			setShadowColor( src.getShadowColor( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		paletteLineColor = src.isPaletteLineColor( );
+
 		paletteLineColorESet = src.isSetPaletteLineColor( );
+
 		curve = src.isCurve( );
+
 		curveESet = src.isSetCurve( );
+
 		connectMissingValue = src.isConnectMissingValue( );
+
 		connectMissingValueESet = src.isSetConnectMissingValue( );
+
 	}
 
 } // LineSeriesImpl

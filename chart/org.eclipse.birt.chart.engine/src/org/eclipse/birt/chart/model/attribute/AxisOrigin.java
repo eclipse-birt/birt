@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.data.DataElement;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Axis Origin</b></em>'. <!-- end-user-doc
@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface AxisOrigin extends EObject
+public interface AxisOrigin extends IChartObject
 {
 
 	/**

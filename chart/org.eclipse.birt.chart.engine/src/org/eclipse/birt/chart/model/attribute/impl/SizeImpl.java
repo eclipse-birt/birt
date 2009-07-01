@@ -245,9 +245,9 @@ public class SizeImpl extends EObjectImpl implements Size
 		switch ( featureID )
 		{
 			case AttributePackage.SIZE__HEIGHT :
-				return new Double( getHeight( ) );
+				return getHeight( );
 			case AttributePackage.SIZE__WIDTH :
-				return new Double( getWidth( ) );
+				return getWidth( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -262,10 +262,10 @@ public class SizeImpl extends EObjectImpl implements Size
 		switch ( featureID )
 		{
 			case AttributePackage.SIZE__HEIGHT :
-				setHeight( ( (Double) newValue ).doubleValue( ) );
+				setHeight( (Double) newValue );
 				return;
 			case AttributePackage.SIZE__WIDTH :
-				setWidth( ( (Double) newValue ).doubleValue( ) );
+				setWidth( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );

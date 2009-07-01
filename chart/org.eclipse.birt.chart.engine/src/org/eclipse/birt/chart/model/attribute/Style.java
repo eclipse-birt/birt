@@ -7,7 +7,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,9 +31,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyle()
  * @model extendedMetaData="name='Style' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Style extends EObject
+public interface Style extends IChartObject
 {
 
 	/**

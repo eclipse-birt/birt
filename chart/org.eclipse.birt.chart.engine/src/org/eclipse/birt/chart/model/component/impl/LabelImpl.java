@@ -833,7 +833,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	public Label copyInstance( )
 	{
 		LabelImpl dest = new LabelImpl( );
-		
+
 		Text tCaption = getCaption( );
 		if ( tCaption != null )
 		{

@@ -402,7 +402,7 @@ public class TextImpl extends EObjectImpl implements Text
 	public Text copyInstance( )
 	{
 		TextImpl dest = new TextImpl( );
-		
+
 		FontDefinition tFont = getFont( );
 		if ( tFont != null )
 		{

@@ -397,13 +397,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
 		switch ( featureID )
 		{
 			case AttributePackage.INSETS__TOP :
-				return new Double( getTop( ) );
+				return getTop( );
 			case AttributePackage.INSETS__LEFT :
-				return new Double( getLeft( ) );
+				return getLeft( );
 			case AttributePackage.INSETS__BOTTOM :
-				return new Double( getBottom( ) );
+				return getBottom( );
 			case AttributePackage.INSETS__RIGHT :
-				return new Double( getRight( ) );
+				return getRight( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -418,16 +418,16 @@ public class InsetsImpl extends EObjectImpl implements Insets
 		switch ( featureID )
 		{
 			case AttributePackage.INSETS__TOP :
-				setTop( ( (Double) newValue ).doubleValue( ) );
+				setTop( (Double) newValue );
 				return;
 			case AttributePackage.INSETS__LEFT :
-				setLeft( ( (Double) newValue ).doubleValue( ) );
+				setLeft( (Double) newValue );
 				return;
 			case AttributePackage.INSETS__BOTTOM :
-				setBottom( ( (Double) newValue ).doubleValue( ) );
+				setBottom( (Double) newValue );
 				return;
 			case AttributePackage.INSETS__RIGHT :
-				setRight( ( (Double) newValue ).doubleValue( ) );
+				setRight( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -512,6 +512,32 @@ public class InsetsImpl extends EObjectImpl implements Insets
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void set( Insets src )
+	{
+
+		// attributes
+
+		top = src.getTop( );
+
+		topESet = src.isSetTop( );
+
+		left = src.getLeft( );
+
+		leftESet = src.isSetLeft( );
+
+		bottom = src.getBottom( );
+
+		bottomESet = src.isSetBottom( );
+
+		right = src.getRight( );
+
+		rightESet = src.isSetRight( );
+
 	}
 
 	/**

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -496,11 +497,11 @@ public class GradientImpl extends FillImpl implements Gradient
 			case AttributePackage.GRADIENT__END_COLOR :
 				return getEndColor( );
 			case AttributePackage.GRADIENT__DIRECTION :
-				return new Double( getDirection( ) );
+				return getDirection( );
 			case AttributePackage.GRADIENT__CYCLIC :
-				return isCyclic( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isCyclic( );
 			case AttributePackage.GRADIENT__TRANSPARENCY :
-				return new Integer( getTransparency( ) );
+				return getTransparency( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -522,13 +523,13 @@ public class GradientImpl extends FillImpl implements Gradient
 				setEndColor( (ColorDefinition) newValue );
 				return;
 			case AttributePackage.GRADIENT__DIRECTION :
-				setDirection( ( (Double) newValue ).doubleValue( ) );
+				setDirection( (Double) newValue );
 				return;
 			case AttributePackage.GRADIENT__CYCLIC :
-				setCyclic( ( (Boolean) newValue ).booleanValue( ) );
+				setCyclic( (Boolean) newValue );
 				return;
 			case AttributePackage.GRADIENT__TRANSPARENCY :
-				setTransparency( ( (Integer) newValue ).intValue( ) );
+				setTransparency( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -618,6 +619,40 @@ public class GradientImpl extends FillImpl implements Gradient
 	}
 
 	/**
+	 * @generated
+	 */
+	protected void set( Gradient src )
+	{
+
+		// children
+
+		if ( src.getStartColor( ) != null )
+		{
+			setStartColor( src.getStartColor( ).copyInstance( ) );
+		}
+
+		if ( src.getEndColor( ) != null )
+		{
+			setEndColor( src.getEndColor( ).copyInstance( ) );
+		}
+
+		// attributes
+
+		direction = src.getDirection( );
+
+		directionESet = src.isSetDirection( );
+
+		cyclic = src.isCyclic( );
+
+		cyclicESet = src.isSetCyclic( );
+
+		transparency = src.getTransparency( );
+
+		transparencyESet = src.isSetTransparency( );
+
+	}
+
+	/**
 	 * A convenience method provided to create a gradient instance with all
 	 * member variables initialized
 	 * 
@@ -656,7 +691,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	public Gradient copyInstance( )
 	{
 		GradientImpl dest = new GradientImpl( );
-		
+
 		ColorDefinition tStartColor = getStartColor( );
 		if ( tStartColor != null )
 		{

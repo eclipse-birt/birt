@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.component;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Cursor;
@@ -22,7 +23,6 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Axis</b></em>'. <!-- end-user-doc -->
@@ -73,9 +73,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis()
  * @model extendedMetaData="name='Axis' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Axis extends EObject
+public interface Axis extends IChartObject
 {
 
 	/**

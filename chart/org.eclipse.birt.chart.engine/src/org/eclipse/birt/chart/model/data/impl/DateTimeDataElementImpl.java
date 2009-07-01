@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
+import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
@@ -290,10 +291,15 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 	 */
 	protected void set( DateTimeDataElement src )
 	{
+
 		super.set( src );
 
+		// attributes
+
 		value = src.getValue( );
+
 		valueESet = src.isSetValue( );
+
 	}
 
 } //DateTimeDataElementImpl

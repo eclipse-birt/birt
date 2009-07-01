@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import org.eclipse.birt.chart.model.Chart;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -976,7 +977,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 		if ( iAxisCount > 0 )
 		{
-			return  elAxes.get( 0 );
+			return elAxes.get( 0 );
 		}
 
 		return null;
@@ -1208,7 +1209,10 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 */
 	protected void set( ChartWithAxes src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getAxes( ) != null )
 		{
@@ -1218,6 +1222,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getWallFill( ) != null )
 		{
 			setWallFill( src.getWallFill( ).copyInstance( ) );
@@ -1233,16 +1238,26 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			setRotation( src.getRotation( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		orientation = src.getOrientation( );
+
 		orientationESet = src.isSetOrientation( );
+
 		unitSpacing = src.getUnitSpacing( );
+
 		unitSpacingESet = src.isSetUnitSpacing( );
+
 		reverseCategory = src.isReverseCategory( );
+
 		reverseCategoryESet = src.isSetReverseCategory( );
+
 		studyLayout = src.isStudyLayout( );
+
 		studyLayoutESet = src.isSetStudyLayout( );
+
 	}
-	
+
 	@Override
 	protected SeriesDefinition getBaseSeriesDefinition( )
 	{
@@ -1262,7 +1277,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		}
 		return osds;
 	}
-	
+
 	@Override
 	protected SeriesDefinition getAncillaryBaseSeriesDefinition( )
 	{

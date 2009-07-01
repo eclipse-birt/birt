@@ -1255,6 +1255,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 */
 	protected void set( Scale src )
 	{
+
+		// children
+
 		if ( src.getMin( ) != null )
 		{
 			setMin( src.getMin( ).copyInstance( ) );
@@ -1265,24 +1268,44 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			setMax( src.getMax( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		step = src.getStep( );
+
 		stepESet = src.isSetStep( );
+
 		unit = src.getUnit( );
+
 		unitESet = src.isSetUnit( );
+
 		minorGridsPerUnit = src.getMinorGridsPerUnit( );
+
 		minorGridsPerUnitESet = src.isSetMinorGridsPerUnit( );
+
 		stepNumber = src.getStepNumber( );
+
 		stepNumberESet = src.isSetStepNumber( );
+
 		showOutside = src.isShowOutside( );
+
 		showOutsideESet = src.isSetShowOutside( );
+
 		tickBetweenCategories = src.isTickBetweenCategories( );
+
 		tickBetweenCategoriesESet = src.isSetTickBetweenCategories( );
+
 		autoExpand = src.isAutoExpand( );
+
 		autoExpandESet = src.isSetAutoExpand( );
+
 		majorGridsStepNumber = src.getMajorGridsStepNumber( );
+
 		majorGridsStepNumberESet = src.isSetMajorGridsStepNumber( );
+
 		factor = src.getFactor( );
+
 		factorESet = src.isSetFactor( );
+
 	}
 
 } // ScaleImpl

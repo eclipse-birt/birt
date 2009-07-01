@@ -804,6 +804,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 */
 	protected void set( MarkerLine src )
 	{
+
+		// children
+
 		if ( src.getLineAttributes( ) != null )
 		{
 			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
@@ -832,13 +835,18 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getCursor( ) != null )
 		{
 			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		labelAnchor = src.getLabelAnchor( );
+
 		labelAnchorESet = src.isSetLabelAnchor( );
+
 	}
 
 } // MarkerLineImpl

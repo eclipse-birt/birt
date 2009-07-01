@@ -7,7 +7,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,9 +29,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getInteractivity()
  * @model extendedMetaData="name='Interactivity' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Interactivity extends EObject
+public interface Interactivity extends IChartObject
 {
 
 	/**
@@ -148,6 +149,6 @@ public interface Interactivity extends EObject
 	/**
 	 * @generated
 	 */
-	public Interactivity copyInstance( );
+	Interactivity copyInstance( );
 
 } // Interactivity

@@ -2,12 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MultiURLValuesImpl.java,v 1.4 2009/05/08 06:15:16 ywang1 Exp $
+ * $Id: MultiURLValuesImpl.java,v 1.5 2009/06/08 05:35:31 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import java.util.Collection;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -342,6 +343,9 @@ public class MultiURLValuesImpl extends ActionValueImpl implements
 	 */
 	protected void set( MultiURLValues src )
 	{
+
+		// children
+
 		if ( src.getURLValues( ) != null )
 		{
 			EList<URLValue> list = getURLValues( );
@@ -350,17 +354,23 @@ public class MultiURLValuesImpl extends ActionValueImpl implements
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getPropertiesMap( ) != null )
 		{
 			EMap<String, String> map = getPropertiesMap( );
 			for ( Map.Entry<String, String> entry : src.getPropertiesMap( )
 					.entrySet( ) )
 			{
+
 				map.put( entry.getKey( ), entry.getValue( ) );
+
 			}
 		}
 
+		// attributes
+
 		tooltip = src.getTooltip( );
+
 	}
 
 } //MultiURLValuesImpl

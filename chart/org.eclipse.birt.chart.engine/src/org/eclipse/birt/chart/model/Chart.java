@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart</b></em>'. <!-- end-user-doc -->
@@ -58,9 +57,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.ModelPackage#getChart()
  * @model extendedMetaData="name='Chart' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Chart extends EObject
+public interface Chart extends IChartObject
 {
 
 	/** The current chart version, the number should be modified when chart mode is updated. */

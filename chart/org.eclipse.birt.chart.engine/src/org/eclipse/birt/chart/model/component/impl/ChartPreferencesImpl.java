@@ -224,6 +224,9 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 */
 	protected void set( ChartPreferences src )
 	{
+
+		// children
+
 		if ( src.getLabels( ) != null )
 		{
 			EList<Label> list = getLabels( );
@@ -232,6 +235,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getBlocks( ) != null )
 		{
 			EList<Block> list = getBlocks( );
@@ -240,6 +244,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 	}
 
 } // ChartPreferencesImpl

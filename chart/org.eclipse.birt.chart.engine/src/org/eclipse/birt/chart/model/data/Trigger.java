@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model.data;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.TriggerFlow;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Trigger</b></em>'. <!-- end-user-doc -->
@@ -35,9 +35,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getTrigger()
  * @model extendedMetaData="name='Trigger' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Trigger extends EObject
+public interface Trigger extends IChartObject
 {
 
 	/**

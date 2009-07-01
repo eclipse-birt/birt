@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Fill</b></em>'. <!-- end-user-doc -->
@@ -31,9 +31,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFill()
  * @model extendedMetaData="name='Fill' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Fill extends EObject
+public interface Fill extends IChartObject
 {
 
 	/**

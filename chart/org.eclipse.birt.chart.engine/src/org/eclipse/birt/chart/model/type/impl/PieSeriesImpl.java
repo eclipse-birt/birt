@@ -889,7 +889,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		switch ( featureID )
 		{
 			case TypePackage.PIE_SERIES__EXPLOSION :
-				return new Integer( getExplosion( ) );
+				return getExplosion( );
 			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
 				return getExplosionExpression( );
 			case TypePackage.PIE_SERIES__TITLE :
@@ -901,13 +901,13 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__LEADER_LINE_STYLE :
 				return getLeaderLineStyle( );
 			case TypePackage.PIE_SERIES__LEADER_LINE_LENGTH :
-				return new Double( getLeaderLineLength( ) );
+				return getLeaderLineLength( );
 			case TypePackage.PIE_SERIES__SLICE_OUTLINE :
 				return getSliceOutline( );
 			case TypePackage.PIE_SERIES__RATIO :
-				return new Double( getRatio( ) );
+				return getRatio( );
 			case TypePackage.PIE_SERIES__ROTATION :
-				return new Double( getRotation( ) );
+				return getRotation( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -923,7 +923,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		switch ( featureID )
 		{
 			case TypePackage.PIE_SERIES__EXPLOSION :
-				setExplosion( ( (Integer) newValue ).intValue( ) );
+				setExplosion( (Integer) newValue );
 				return;
 			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
 				setExplosionExpression( (String) newValue );
@@ -941,16 +941,16 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				setLeaderLineStyle( (LeaderLineStyle) newValue );
 				return;
 			case TypePackage.PIE_SERIES__LEADER_LINE_LENGTH :
-				setLeaderLineLength( ( (Double) newValue ).doubleValue( ) );
+				setLeaderLineLength( (Double) newValue );
 				return;
 			case TypePackage.PIE_SERIES__SLICE_OUTLINE :
 				setSliceOutline( (ColorDefinition) newValue );
 				return;
 			case TypePackage.PIE_SERIES__RATIO :
-				setRatio( ( (Double) newValue ).doubleValue( ) );
+				setRatio( (Double) newValue );
 				return;
 			case TypePackage.PIE_SERIES__ROTATION :
-				setRotation( ( (Double) newValue ).doubleValue( ) );
+				setRotation( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -1144,7 +1144,10 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 */
 	protected void set( PieSeries src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getTitle( ) != null )
 		{
@@ -1162,19 +1165,34 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			setSliceOutline( src.getSliceOutline( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		explosion = src.getExplosion( );
+
 		explosionESet = src.isSetExplosion( );
+
 		explosionExpression = src.getExplosionExpression( );
+
 		titlePosition = src.getTitlePosition( );
+
 		titlePositionESet = src.isSetTitlePosition( );
+
 		leaderLineStyle = src.getLeaderLineStyle( );
+
 		leaderLineStyleESet = src.isSetLeaderLineStyle( );
+
 		leaderLineLength = src.getLeaderLineLength( );
+
 		leaderLineLengthESet = src.isSetLeaderLineLength( );
+
 		ratio = src.getRatio( );
+
 		ratioESet = src.isSetRatio( );
+
 		rotation = src.getRotation( );
+
 		rotationESet = src.isSetRotation( );
+
 	}
 
 } // PieSeriesImpl

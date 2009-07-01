@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.DialRegion;
+import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -235,9 +236,9 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 		switch ( featureID )
 		{
 			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
-				return new Double( getInnerRadius( ) );
+				return getInnerRadius( );
 			case ComponentPackage.DIAL_REGION__OUTER_RADIUS :
-				return new Double( getOuterRadius( ) );
+				return getOuterRadius( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -253,10 +254,10 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 		switch ( featureID )
 		{
 			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
-				setInnerRadius( ( (Double) newValue ).doubleValue( ) );
+				setInnerRadius( (Double) newValue );
 				return;
 			case ComponentPackage.DIAL_REGION__OUTER_RADIUS :
-				setOuterRadius( ( (Double) newValue ).doubleValue( ) );
+				setOuterRadius( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -364,12 +365,19 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 */
 	protected void set( DialRegion src )
 	{
+
 		super.set( src );
 
+		// attributes
+
 		innerRadius = src.getInnerRadius( );
+
 		innerRadiusESet = src.isSetInnerRadius( );
+
 		outerRadius = src.getOuterRadius( );
+
 		outerRadiusESet = src.isSetOuterRadius( );
+
 	}
 
 } // DialRegionImpl

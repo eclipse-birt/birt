@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -198,7 +199,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
 				return getPattern( );
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
-				return new Double( getMultiplier( ) );
+				return getMultiplier( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -217,7 +218,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 				setPattern( (String) newValue );
 				return;
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
-				setMultiplier( ( (Double) newValue ).doubleValue( ) );
+				setMultiplier( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -334,11 +335,17 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	 */
 	protected void set( JavaNumberFormatSpecifier src )
 	{
+
 		super.set( src );
 
+		// attributes
+
 		pattern = src.getPattern( );
+
 		multiplier = src.getMultiplier( );
+
 		multiplierESet = src.isSetMultiplier( );
+
 	}
 
 } // JavaNumberFormatSpecifierImpl

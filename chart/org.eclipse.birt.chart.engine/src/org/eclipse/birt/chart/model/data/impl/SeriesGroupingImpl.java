@@ -824,28 +824,42 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 */
 	protected void set( SeriesGrouping src )
 	{
+
+		// children
+
 		if ( src.getGroupingOrigin( ) != null )
 		{
 			setGroupingOrigin( src.getGroupingOrigin( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		enabled = src.isEnabled( );
+
 		enabledESet = src.isSetEnabled( );
+
 		groupingUnit = src.getGroupingUnit( );
+
 		groupingUnitESet = src.isSetGroupingUnit( );
+
 		groupingInterval = src.getGroupingInterval( );
+
 		groupingIntervalESet = src.isSetGroupingInterval( );
+
 		groupType = src.getGroupType( );
+
 		groupTypeESet = src.isSetGroupType( );
+
 		aggregateExpression = src.getAggregateExpression( );
+
 		aggregateExpressionESet = src.isSetAggregateExpression( );
 
 		if ( src.getAggregateParameters( ) != null )
 		{
-			EList<String> list = new BasicEList<String>( src.getAggregateParameters( )
-					.size( ) );
+			EList<String> listSrc = src.getAggregateParameters( );
+			EList<String> list = new BasicEList<String>( listSrc.size( ) );
 
-			for ( String element : src.getAggregateParameters( ) )
+			for ( String element : listSrc )
 			{
 				list.add( element );
 			}

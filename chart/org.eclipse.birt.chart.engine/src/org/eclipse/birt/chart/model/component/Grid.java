@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Grid</b></em>'. <!-- end-user-doc -->
@@ -37,9 +37,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getGrid()
  * @model extendedMetaData="name='Grid' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Grid extends EObject
+public interface Grid extends IChartObject
 {
 
 	/**

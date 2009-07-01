@@ -10,6 +10,7 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -234,7 +235,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 		switch ( featureID )
 		{
 			case AttributePackage.LOCATION3_D__Z :
-				return new Double( getZ( ) );
+				return getZ( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -250,7 +251,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 		switch ( featureID )
 		{
 			case AttributePackage.LOCATION3_D__Z :
-				setZ( ( (Double) newValue ).doubleValue( ) );
+				setZ( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -307,6 +308,22 @@ public class Location3DImpl extends LocationImpl implements Location3D
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void set( Location3D src )
+	{
+
+		super.set( src );
+
+		// attributes
+
+		z = src.getZ( );
+
+		zESet = src.isSetZ( );
+
 	}
 
 	/*

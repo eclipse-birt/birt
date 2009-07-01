@@ -596,6 +596,9 @@ public class StyleImpl extends EObjectImpl implements Style
 	 */
 	protected void set( Style src )
 	{
+
+		// children
+
 		if ( src.getFont( ) != null )
 		{
 			setFont( src.getFont( ).copyInstance( ) );

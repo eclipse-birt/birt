@@ -81,13 +81,13 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 		switch ( eClass.getClassifierID( ) )
 		{
 			case ModelPackage.CHART :
-				return createChart( );
+				return (EObject) createChart( );
 			case ModelPackage.CHART_WITH_AXES :
-				return createChartWithAxes( );
+				return (EObject) createChartWithAxes( );
 			case ModelPackage.CHART_WITHOUT_AXES :
-				return createChartWithoutAxes( );
+				return (EObject) createChartWithoutAxes( );
 			case ModelPackage.DIAL_CHART :
-				return createDialChart( );
+				return (EObject) createDialChart( );
 			default :
 				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}

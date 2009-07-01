@@ -1249,6 +1249,9 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 */
 	protected void set( Series src )
 	{
+
+		// children
+
 		if ( src.getLabel( ) != null )
 		{
 			setLabel( src.getLabel( ).copyInstance( ) );
@@ -1262,6 +1265,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getDataPoint( ) != null )
 		{
 			setDataPoint( src.getDataPoint( ).copyInstance( ) );
@@ -1273,10 +1277,13 @@ public class SeriesImpl extends EObjectImpl implements Series
 			for ( Map.Entry<String, DataSet> entry : src.getDataSets( )
 					.entrySet( ) )
 			{
+
 				DataSet entryValue = entry.getValue( ) != null ? entry.getValue( )
 						.copyInstance( )
 						: null;
+
 				map.put( entry.getKey( ), entryValue );
+
 			}
 		}
 
@@ -1288,6 +1295,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getCurveFitting( ) != null )
 		{
 			setCurveFitting( src.getCurveFitting( ).copyInstance( ) );
@@ -1298,15 +1306,26 @@ public class SeriesImpl extends EObjectImpl implements Series
 			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		visible = src.isVisible( );
+
 		visibleESet = src.isSetVisible( );
+
 		seriesIdentifier = src.getSeriesIdentifier( );
+
 		labelPosition = src.getLabelPosition( );
+
 		labelPositionESet = src.isSetLabelPosition( );
+
 		stacked = src.isStacked( );
+
 		stackedESet = src.isSetStacked( );
+
 		translucent = src.isTranslucent( );
+
 		translucentESet = src.isSetTranslucent( );
+
 	}
 
 } // SeriesImpl

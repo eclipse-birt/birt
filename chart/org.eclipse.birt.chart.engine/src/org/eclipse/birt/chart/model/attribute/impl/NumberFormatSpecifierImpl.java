@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -332,9 +333,9 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__SUFFIX :
 				return getSuffix( );
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
-				return new Double( getMultiplier( ) );
+				return getMultiplier( );
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS :
-				return new Integer( getFractionDigits( ) );
+				return getFractionDigits( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -356,10 +357,10 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 				setSuffix( (String) newValue );
 				return;
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
-				setMultiplier( ( (Double) newValue ).doubleValue( ) );
+				setMultiplier( (Double) newValue );
 				return;
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS :
-				setFractionDigits( ( (Integer) newValue ).intValue( ) );
+				setFractionDigits( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -506,14 +507,23 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 */
 	protected void set( NumberFormatSpecifier src )
 	{
+
 		super.set( src );
 
+		// attributes
+
 		prefix = src.getPrefix( );
+
 		suffix = src.getSuffix( );
+
 		multiplier = src.getMultiplier( );
+
 		multiplierESet = src.isSetMultiplier( );
+
 		fractionDigits = src.getFractionDigits( );
+
 		fractionDigitsESet = src.isSetFractionDigits( );
+
 	}
 
 } // NumberFormatSpecifierImpl

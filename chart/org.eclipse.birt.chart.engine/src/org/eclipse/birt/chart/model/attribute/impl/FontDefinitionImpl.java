@@ -811,21 +811,21 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 			case AttributePackage.FONT_DEFINITION__NAME :
 				return getName( );
 			case AttributePackage.FONT_DEFINITION__SIZE :
-				return new Float( getSize( ) );
+				return getSize( );
 			case AttributePackage.FONT_DEFINITION__BOLD :
-				return isBold( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isBold( );
 			case AttributePackage.FONT_DEFINITION__ITALIC :
-				return isItalic( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isItalic( );
 			case AttributePackage.FONT_DEFINITION__STRIKETHROUGH :
-				return isStrikethrough( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isStrikethrough( );
 			case AttributePackage.FONT_DEFINITION__UNDERLINE :
-				return isUnderline( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isUnderline( );
 			case AttributePackage.FONT_DEFINITION__WORD_WRAP :
-				return isWordWrap( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isWordWrap( );
 			case AttributePackage.FONT_DEFINITION__ALIGNMENT :
 				return getAlignment( );
 			case AttributePackage.FONT_DEFINITION__ROTATION :
-				return new Double( getRotation( ) );
+				return getRotation( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -843,28 +843,28 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 				setName( (String) newValue );
 				return;
 			case AttributePackage.FONT_DEFINITION__SIZE :
-				setSize( ( (Float) newValue ).floatValue( ) );
+				setSize( (Float) newValue );
 				return;
 			case AttributePackage.FONT_DEFINITION__BOLD :
-				setBold( ( (Boolean) newValue ).booleanValue( ) );
+				setBold( (Boolean) newValue );
 				return;
 			case AttributePackage.FONT_DEFINITION__ITALIC :
-				setItalic( ( (Boolean) newValue ).booleanValue( ) );
+				setItalic( (Boolean) newValue );
 				return;
 			case AttributePackage.FONT_DEFINITION__STRIKETHROUGH :
-				setStrikethrough( ( (Boolean) newValue ).booleanValue( ) );
+				setStrikethrough( (Boolean) newValue );
 				return;
 			case AttributePackage.FONT_DEFINITION__UNDERLINE :
-				setUnderline( ( (Boolean) newValue ).booleanValue( ) );
+				setUnderline( (Boolean) newValue );
 				return;
 			case AttributePackage.FONT_DEFINITION__WORD_WRAP :
-				setWordWrap( ( (Boolean) newValue ).booleanValue( ) );
+				setWordWrap( (Boolean) newValue );
 				return;
 			case AttributePackage.FONT_DEFINITION__ALIGNMENT :
 				setAlignment( (TextAlignment) newValue );
 				return;
 			case AttributePackage.FONT_DEFINITION__ROTATION :
-				setRotation( ( (Double) newValue ).doubleValue( ) );
+				setRotation( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -995,6 +995,53 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	}
 
 	/**
+	 * @generated
+	 */
+	protected void set( FontDefinition src )
+	{
+
+		// children
+
+		if ( src.getAlignment( ) != null )
+		{
+			setAlignment( src.getAlignment( ).copyInstance( ) );
+		}
+
+		// attributes
+
+		name = src.getName( );
+
+		size = src.getSize( );
+
+		sizeESet = src.isSetSize( );
+
+		bold = src.isBold( );
+
+		boldESet = src.isSetBold( );
+
+		italic = src.isItalic( );
+
+		italicESet = src.isSetItalic( );
+
+		strikethrough = src.isStrikethrough( );
+
+		strikethroughESet = src.isSetStrikethrough( );
+
+		underline = src.isUnderline( );
+
+		underlineESet = src.isSetUnderline( );
+
+		wordWrap = src.isWordWrap( );
+
+		wordWrapESet = src.isSetWordWrap( );
+
+		rotation = src.getRotation( );
+
+		rotationESet = src.isSetRotation( );
+
+	}
+
+	/**
 	 * NOTE: Manually written
 	 * 
 	 * @param sName
@@ -1045,7 +1092,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	public FontDefinition copyInstance( )
 	{
 		FontDefinitionImpl dest = new FontDefinitionImpl( );
-		
+
 		TextAlignment tAlignment = getAlignment( );
 		if ( tAlignment != null )
 		{

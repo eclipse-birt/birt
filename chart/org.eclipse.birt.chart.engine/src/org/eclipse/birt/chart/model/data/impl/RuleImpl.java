@@ -310,9 +310,15 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 */
 	protected void set( Rule src )
 	{
+
+		// attributes
+
 		type = src.getType( );
+
 		typeESet = src.isSetType( );
+
 		value = src.getValue( );
+
 	}
 
 } //RuleImpl

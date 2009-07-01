@@ -553,15 +553,22 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 */
 	protected void set( BarSeries src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getRiserOutline( ) != null )
 		{
 			setRiserOutline( src.getRiserOutline( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		riser = src.getRiser( );
+
 		riserESet = src.isSetRiser( );
+
 	}
 
 } // BarSeriesImpl

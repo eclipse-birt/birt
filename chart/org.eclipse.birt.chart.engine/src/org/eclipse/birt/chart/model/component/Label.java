@@ -11,12 +11,12 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Text;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Label</b></em>'. <!-- end-user-doc -->
@@ -41,9 +41,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel()
  * @model extendedMetaData="name='Label' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Label extends EObject
+public interface Label extends IChartObject
 {
 
 	/**

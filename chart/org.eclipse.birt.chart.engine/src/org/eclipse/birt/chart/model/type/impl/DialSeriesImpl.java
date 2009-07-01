@@ -356,7 +356,10 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 */
 	protected void set( DialSeries src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getDial( ) != null )
 		{

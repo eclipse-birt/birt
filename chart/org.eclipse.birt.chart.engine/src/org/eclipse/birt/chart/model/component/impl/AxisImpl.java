@@ -2957,6 +2957,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 */
 	protected void set( Axis src )
 	{
+
+		// children
+
 		if ( src.getTitle( ) != null )
 		{
 			setTitle( src.getTitle( ).copyInstance( ) );
@@ -2975,6 +2978,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getAncillaryAxes( ) != null )
 		{
 			EList<Axis> list = getAncillaryAxes( );
@@ -2983,6 +2987,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getSeriesDefinitions( ) != null )
 		{
 			EList<SeriesDefinition> list = getSeriesDefinitions( );
@@ -2991,6 +2996,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getLineAttributes( ) != null )
 		{
 			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
@@ -3014,6 +3020,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getMarkerRanges( ) != null )
 		{
 			EList<MarkerRange> list = getMarkerRanges( );
@@ -3022,6 +3029,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getTriggers( ) != null )
 		{
 			EList<Trigger> list = getTriggers( );
@@ -3030,6 +3038,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getMajorGrid( ) != null )
 		{
 			setMajorGrid( src.getMajorGrid( ).copyInstance( ) );
@@ -3055,36 +3064,68 @@ public class AxisImpl extends EObjectImpl implements Axis
 			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		type = src.getType( );
+
 		typeESet = src.isSetType( );
+
 		titlePosition = src.getTitlePosition( );
+
 		titlePositionESet = src.isSetTitlePosition( );
+
 		gapWidth = src.getGapWidth( );
+
 		gapWidthESet = src.isSetGapWidth( );
+
 		orientation = src.getOrientation( );
+
 		orientationESet = src.isSetOrientation( );
+
 		labelPosition = src.getLabelPosition( );
+
 		labelPositionESet = src.isSetLabelPosition( );
+
 		staggered = src.isStaggered( );
+
 		staggeredESet = src.isSetStaggered( );
+
 		interval = src.getInterval( );
+
 		intervalESet = src.isSetInterval( );
+
 		primaryAxis = src.isPrimaryAxis( );
+
 		primaryAxisESet = src.isSetPrimaryAxis( );
+
 		categoryAxis = src.isCategoryAxis( );
+
 		categoryAxisESet = src.isSetCategoryAxis( );
+
 		percent = src.isPercent( );
+
 		percentESet = src.isSetPercent( );
+
 		labelWithinAxes = src.isLabelWithinAxes( );
+
 		labelWithinAxesESet = src.isSetLabelWithinAxes( );
+
 		aligned = src.isAligned( );
+
 		alignedESet = src.isSetAligned( );
+
 		sideBySide = src.isSideBySide( );
+
 		sideBySideESet = src.isSetSideBySide( );
+
 		labelSpan = src.getLabelSpan( );
+
 		labelSpanESet = src.isSetLabelSpan( );
+
 		axisPercent = src.getAxisPercent( );
+
 		axisPercentESet = src.isSetAxisPercent( );
+
 	}
 
 } // AxisImpl

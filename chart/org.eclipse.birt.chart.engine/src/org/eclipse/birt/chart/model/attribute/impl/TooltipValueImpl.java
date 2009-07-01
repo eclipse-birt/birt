@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
@@ -192,7 +193,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 			case AttributePackage.TOOLTIP_VALUE__TEXT :
 				return getText( );
 			case AttributePackage.TOOLTIP_VALUE__DELAY :
-				return new Integer( getDelay( ) );
+				return getDelay( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -211,7 +212,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 				setText( (String) newValue );
 				return;
 			case AttributePackage.TOOLTIP_VALUE__DELAY :
-				setDelay( ( (Integer) newValue ).intValue( ) );
+				setDelay( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -310,7 +311,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 		dest.delayESet = isSetDelay( );
 		return dest;
 	}
-
 
 	protected void set( TooltipValue src )
 	{

@@ -458,15 +458,24 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 */
 	protected void set( Trigger src )
 	{
+
+		// children
+
 		if ( src.getAction( ) != null )
 		{
 			setAction( src.getAction( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		condition = src.getCondition( );
+
 		conditionESet = src.isSetCondition( );
+
 		triggerFlow = src.getTriggerFlow( );
+
 		triggerFlowESet = src.isSetTriggerFlow( );
+
 	}
 
 } // TriggerImpl

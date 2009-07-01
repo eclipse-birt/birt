@@ -60,6 +60,7 @@ public class DataElementImpl extends EObjectImpl implements DataElement
 	 */
 	protected void set( DataElement src )
 	{
+
 	}
 
 } //DataElementImpl

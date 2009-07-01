@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.data.impl;
 
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.emf.ecore.EClass;
 
@@ -86,6 +87,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 	 */
 	protected void set( DateTimeDataSet src )
 	{
+
 		super.set( src );
 
 	}

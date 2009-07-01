@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,9 +35,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getCurveFitting()
  * @model extendedMetaData="name='CurveFitting' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface CurveFitting extends EObject
+public interface CurveFitting extends IChartObject
 {
 
 	/**

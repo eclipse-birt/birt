@@ -629,6 +629,9 @@ public class GridImpl extends EObjectImpl implements Grid
 	 */
 	protected void set( Grid src )
 	{
+
+		// children
+
 		if ( src.getLineAttributes( ) != null )
 		{
 			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
@@ -639,12 +642,20 @@ public class GridImpl extends EObjectImpl implements Grid
 			setTickAttributes( src.getTickAttributes( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		tickStyle = src.getTickStyle( );
+
 		tickStyleESet = src.isSetTickStyle( );
+
 		tickSize = src.getTickSize( );
+
 		tickSizeESet = src.isSetTickSize( );
+
 		tickCount = src.getTickCount( );
+
 		tickCountESet = src.isSetTickCount( );
+
 	}
 
 } // GridImpl

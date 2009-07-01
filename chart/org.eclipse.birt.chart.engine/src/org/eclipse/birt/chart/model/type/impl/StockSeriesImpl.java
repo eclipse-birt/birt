@@ -443,9 +443,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
 				return getLineAttributes( );
 			case TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK :
-				return isShowAsBarStick( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isShowAsBarStick( );
 			case TypePackage.STOCK_SERIES__STICK_LENGTH :
-				return new Integer( getStickLength( ) );
+				return getStickLength( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -467,10 +467,10 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 				setLineAttributes( (LineAttributes) newValue );
 				return;
 			case TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK :
-				setShowAsBarStick( ( (Boolean) newValue ).booleanValue( ) );
+				setShowAsBarStick( (Boolean) newValue );
 				return;
 			case TypePackage.STOCK_SERIES__STICK_LENGTH :
-				setStickLength( ( (Integer) newValue ).intValue( ) );
+				setStickLength( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -833,7 +833,10 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 */
 	protected void set( StockSeries src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getFill( ) != null )
 		{
@@ -845,10 +848,16 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		showAsBarStick = src.isShowAsBarStick( );
+
 		showAsBarStickESet = src.isSetShowAsBarStick( );
+
 		stickLength = src.getStickLength( );
+
 		stickLengthESet = src.isSetStickLength( );
+
 	}
 
 } // StockSeriesImpl

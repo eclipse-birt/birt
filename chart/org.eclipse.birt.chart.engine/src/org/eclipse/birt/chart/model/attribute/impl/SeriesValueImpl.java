@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;

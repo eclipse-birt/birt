@@ -149,89 +149,89 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 		switch ( eClass.getClassifierID( ) )
 		{
 			case AttributePackage.ACCESSIBILITY_VALUE :
-				return createAccessibilityValue( );
+				return (EObject) createAccessibilityValue( );
 			case AttributePackage.ACTION_VALUE :
-				return createActionValue( );
+				return (EObject) createActionValue( );
 			case AttributePackage.ANGLE3_D :
-				return createAngle3D( );
+				return (EObject) createAngle3D( );
 			case AttributePackage.AXIS_ORIGIN :
-				return createAxisOrigin( );
+				return (EObject) createAxisOrigin( );
 			case AttributePackage.BOUNDS :
-				return createBounds( );
+				return (EObject) createBounds( );
 			case AttributePackage.CALL_BACK_VALUE :
-				return createCallBackValue( );
+				return (EObject) createCallBackValue( );
 			case AttributePackage.COLOR_DEFINITION :
-				return createColorDefinition( );
+				return (EObject) createColorDefinition( );
 			case AttributePackage.CURSOR :
-				return createCursor( );
+				return (EObject) createCursor( );
 			case AttributePackage.DATA_POINT :
-				return createDataPoint( );
+				return (EObject) createDataPoint( );
 			case AttributePackage.DATA_POINT_COMPONENT :
-				return createDataPointComponent( );
+				return (EObject) createDataPointComponent( );
 			case AttributePackage.DATE_FORMAT_SPECIFIER :
-				return createDateFormatSpecifier( );
+				return (EObject) createDateFormatSpecifier( );
 			case AttributePackage.EMBEDDED_IMAGE :
-				return createEmbeddedImage( );
+				return (EObject) createEmbeddedImage( );
 			case AttributePackage.ESTRING_TO_STRING_MAP_ENTRY :
 				return (EObject) createEStringToStringMapEntry( );
 			case AttributePackage.EXTENDED_PROPERTY :
-				return createExtendedProperty( );
+				return (EObject) createExtendedProperty( );
 			case AttributePackage.FILL :
-				return createFill( );
+				return (EObject) createFill( );
 			case AttributePackage.FONT_DEFINITION :
-				return createFontDefinition( );
+				return (EObject) createFontDefinition( );
 			case AttributePackage.FORMAT_SPECIFIER :
-				return createFormatSpecifier( );
+				return (EObject) createFormatSpecifier( );
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER :
-				return createFractionNumberFormatSpecifier( );
+				return (EObject) createFractionNumberFormatSpecifier( );
 			case AttributePackage.GRADIENT :
-				return createGradient( );
+				return (EObject) createGradient( );
 			case AttributePackage.IMAGE :
-				return createImage( );
+				return (EObject) createImage( );
 			case AttributePackage.INSETS :
-				return createInsets( );
+				return (EObject) createInsets( );
 			case AttributePackage.INTERACTIVITY :
-				return createInteractivity( );
+				return (EObject) createInteractivity( );
 			case AttributePackage.JAVA_DATE_FORMAT_SPECIFIER :
-				return createJavaDateFormatSpecifier( );
+				return (EObject) createJavaDateFormatSpecifier( );
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER :
-				return createJavaNumberFormatSpecifier( );
+				return (EObject) createJavaNumberFormatSpecifier( );
 			case AttributePackage.LINE_ATTRIBUTES :
-				return createLineAttributes( );
+				return (EObject) createLineAttributes( );
 			case AttributePackage.LOCATION :
-				return createLocation( );
+				return (EObject) createLocation( );
 			case AttributePackage.LOCATION3_D :
-				return createLocation3D( );
+				return (EObject) createLocation3D( );
 			case AttributePackage.MARKER :
-				return createMarker( );
+				return (EObject) createMarker( );
 			case AttributePackage.MULTIPLE_FILL :
-				return createMultipleFill( );
+				return (EObject) createMultipleFill( );
 			case AttributePackage.MULTI_URL_VALUES :
-				return createMultiURLValues( );
+				return (EObject) createMultiURLValues( );
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER :
-				return createNumberFormatSpecifier( );
+				return (EObject) createNumberFormatSpecifier( );
 			case AttributePackage.PALETTE :
-				return createPalette( );
+				return (EObject) createPalette( );
 			case AttributePackage.ROTATION3_D :
-				return createRotation3D( );
+				return (EObject) createRotation3D( );
 			case AttributePackage.SCRIPT_VALUE :
-				return createScriptValue( );
+				return (EObject) createScriptValue( );
 			case AttributePackage.SERIES_VALUE :
-				return createSeriesValue( );
+				return (EObject) createSeriesValue( );
 			case AttributePackage.SIZE :
-				return createSize( );
+				return (EObject) createSize( );
 			case AttributePackage.STYLE :
-				return createStyle( );
+				return (EObject) createStyle( );
 			case AttributePackage.STYLE_MAP :
-				return createStyleMap( );
+				return (EObject) createStyleMap( );
 			case AttributePackage.TEXT :
-				return createText( );
+				return (EObject) createText( );
 			case AttributePackage.TEXT_ALIGNMENT :
-				return createTextAlignment( );
+				return (EObject) createTextAlignment( );
 			case AttributePackage.TOOLTIP_VALUE :
-				return createTooltipValue( );
+				return (EObject) createTooltipValue( );
 			case AttributePackage.URL_VALUE :
-				return createURLValue( );
+				return (EObject) createURLValue( );
 			default :
 				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}

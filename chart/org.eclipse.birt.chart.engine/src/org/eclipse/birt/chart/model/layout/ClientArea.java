@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.chart.model.layout;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Client Area</b></em>'. <!-- end-user-doc
@@ -41,7 +41,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface ClientArea extends EObject
+public interface ClientArea extends IChartObject
 {
 
 	/**

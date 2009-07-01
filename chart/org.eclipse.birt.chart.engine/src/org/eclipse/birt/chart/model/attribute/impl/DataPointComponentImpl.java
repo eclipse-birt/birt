@@ -469,15 +469,24 @@ public class DataPointComponentImpl extends EObjectImpl implements
 	 */
 	protected void set( DataPointComponent src )
 	{
+
+		// children
+
 		if ( src.getFormatSpecifier( ) != null )
 		{
 			setFormatSpecifier( src.getFormatSpecifier( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		type = src.getType( );
+
 		typeESet = src.isSetType( );
+
 		orthogonalType = src.getOrthogonalType( );
+
 		orthogonalTypeESet = src.isSetOrthogonalType( );
+
 	}
 
 } // DataPointComponentImpl

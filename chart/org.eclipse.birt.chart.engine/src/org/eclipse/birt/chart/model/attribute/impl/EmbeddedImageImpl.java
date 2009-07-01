@@ -177,6 +177,20 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	}
 
 	/**
+	 * @generated
+	 */
+	protected void set( EmbeddedImage src )
+	{
+
+		super.set( src );
+
+		// attributes
+
+		data = src.getData( );
+
+	}
+
+	/**
 	 * A convenient method to create and initialize an EmbeddedImage instance.
 	 * 
 	 * NOTE: Manually written

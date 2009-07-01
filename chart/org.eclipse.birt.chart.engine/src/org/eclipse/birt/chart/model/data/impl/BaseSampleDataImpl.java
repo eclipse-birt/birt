@@ -194,7 +194,11 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 	 */
 	protected void set( BaseSampleData src )
 	{
+
+		// attributes
+
 		dataSetRepresentation = src.getDataSetRepresentation( );
+
 	}
 
 } //BaseSampleDataImpl

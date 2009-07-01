@@ -611,7 +611,7 @@ public class AttributeValidator extends EObjectValidator
 			AccessibilityValue accessibilityValue, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( accessibilityValue,
+		return validate_EveryDefaultConstraint( (EObject) accessibilityValue,
 				diagnostics,
 				context );
 	}
@@ -623,7 +623,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateActionValue( ActionValue actionValue,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( actionValue,
+		return validate_EveryDefaultConstraint( (EObject) actionValue,
 				diagnostics,
 				context );
 	}
@@ -635,7 +635,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateAngle3D( Angle3D angle3D,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( angle3D, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) angle3D,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -645,7 +647,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateAxisOrigin( AxisOrigin axisOrigin,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( axisOrigin,
+		return validate_EveryDefaultConstraint( (EObject) axisOrigin,
 				diagnostics,
 				context );
 	}
@@ -657,7 +659,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateBounds( Bounds bounds, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( bounds, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) bounds,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -668,7 +672,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateCallBackValue( CallBackValue callBackValue,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( callBackValue,
+		return validate_EveryDefaultConstraint( (EObject) callBackValue,
 				diagnostics,
 				context );
 	}
@@ -680,7 +684,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateColorDefinition( ColorDefinition colorDefinition,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( colorDefinition,
+		return validate_EveryDefaultConstraint( (EObject) colorDefinition,
 				diagnostics,
 				context );
 	}
@@ -693,7 +697,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateCursor( Cursor cursor, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( cursor, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) cursor,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -703,7 +709,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateDataPoint( DataPoint dataPoint,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( dataPoint, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) dataPoint,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -714,7 +722,7 @@ public class AttributeValidator extends EObjectValidator
 			DataPointComponent dataPointComponent, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( dataPointComponent,
+		return validate_EveryDefaultConstraint( (EObject) dataPointComponent,
 				diagnostics,
 				context );
 	}
@@ -727,7 +735,7 @@ public class AttributeValidator extends EObjectValidator
 			DateFormatSpecifier dateFormatSpecifier,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( dateFormatSpecifier,
+		return validate_EveryDefaultConstraint( (EObject) dateFormatSpecifier,
 				diagnostics,
 				context );
 	}
@@ -740,7 +748,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateEmbeddedImage( EmbeddedImage embeddedImage,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( embeddedImage,
+		return validate_EveryDefaultConstraint( (EObject) embeddedImage,
 				diagnostics,
 				context );
 	}
@@ -766,7 +774,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateExtendedProperty( ExtendedProperty extendedProperty,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( extendedProperty,
+		return validate_EveryDefaultConstraint( (EObject) extendedProperty,
 				diagnostics,
 				context );
 	}
@@ -778,7 +786,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateFill( Fill fill, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( fill, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) fill,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -788,7 +798,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateFontDefinition( FontDefinition fontDefinition,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( fontDefinition,
+		return validate_EveryDefaultConstraint( (EObject) fontDefinition,
 				diagnostics,
 				context );
 	}
@@ -800,7 +810,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateFormatSpecifier( FormatSpecifier formatSpecifier,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( formatSpecifier,
+		return validate_EveryDefaultConstraint( (EObject) formatSpecifier,
 				diagnostics,
 				context );
 	}
@@ -814,7 +824,7 @@ public class AttributeValidator extends EObjectValidator
 			FractionNumberFormatSpecifier fractionNumberFormatSpecifier,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( fractionNumberFormatSpecifier,
+		return validate_EveryDefaultConstraint( (EObject) fractionNumberFormatSpecifier,
 				diagnostics,
 				context );
 	}
@@ -826,7 +836,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateGradient( Gradient gradient,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( gradient, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) gradient,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -836,7 +848,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateImage( Image image, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( image, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) image,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -846,7 +860,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateInsets( Insets insets, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( insets, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) insets,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -857,7 +873,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateInteractivity( Interactivity interactivity,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( interactivity,
+		return validate_EveryDefaultConstraint( (EObject) interactivity,
 				diagnostics,
 				context );
 	}
@@ -870,7 +886,7 @@ public class AttributeValidator extends EObjectValidator
 			JavaDateFormatSpecifier javaDateFormatSpecifier,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( javaDateFormatSpecifier,
+		return validate_EveryDefaultConstraint( (EObject) javaDateFormatSpecifier,
 				diagnostics,
 				context );
 	}
@@ -883,7 +899,7 @@ public class AttributeValidator extends EObjectValidator
 			JavaNumberFormatSpecifier javaNumberFormatSpecifier,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( javaNumberFormatSpecifier,
+		return validate_EveryDefaultConstraint( (EObject) javaNumberFormatSpecifier,
 				diagnostics,
 				context );
 	}
@@ -895,7 +911,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateLineAttributes( LineAttributes lineAttributes,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( lineAttributes,
+		return validate_EveryDefaultConstraint( (EObject) lineAttributes,
 				diagnostics,
 				context );
 	}
@@ -907,7 +923,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateLocation( Location location,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( location, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) location,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -917,7 +935,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateLocation3D( Location3D location3D,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( location3D,
+		return validate_EveryDefaultConstraint( (EObject) location3D,
 				diagnostics,
 				context );
 	}
@@ -929,7 +947,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateMarker( Marker marker, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( marker, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) marker,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -940,7 +960,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateMultipleFill( MultipleFill multipleFill,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( multipleFill,
+		return validate_EveryDefaultConstraint( (EObject) multipleFill,
 				diagnostics,
 				context );
 	}
@@ -953,7 +973,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateMultiURLValues( MultiURLValues multiURLValues,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( multiURLValues,
+		return validate_EveryDefaultConstraint( (EObject) multiURLValues,
 				diagnostics,
 				context );
 	}
@@ -966,7 +986,7 @@ public class AttributeValidator extends EObjectValidator
 			NumberFormatSpecifier numberFormatSpecifier,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( numberFormatSpecifier,
+		return validate_EveryDefaultConstraint( (EObject) numberFormatSpecifier,
 				diagnostics,
 				context );
 	}
@@ -978,7 +998,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validatePalette( Palette palette,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( palette, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) palette,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -988,7 +1010,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateRotation3D( Rotation3D rotation3D,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( rotation3D,
+		return validate_EveryDefaultConstraint( (EObject) rotation3D,
 				diagnostics,
 				context );
 	}
@@ -1000,7 +1022,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateScriptValue( ScriptValue scriptValue,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( scriptValue,
+		return validate_EveryDefaultConstraint( (EObject) scriptValue,
 				diagnostics,
 				context );
 	}
@@ -1012,7 +1034,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateSeriesValue( SeriesValue seriesValue,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( seriesValue,
+		return validate_EveryDefaultConstraint( (EObject) seriesValue,
 				diagnostics,
 				context );
 	}
@@ -1024,7 +1046,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateSize( Size size, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( size, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) size,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -1034,7 +1058,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateStyle( Style style, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( style, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) style,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -1044,7 +1070,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateStyleMap( StyleMap styleMap,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( styleMap, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) styleMap,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -1054,7 +1082,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateText( Text text, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( text, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) text,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -1064,7 +1094,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateTextAlignment( TextAlignment textAlignment,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( textAlignment,
+		return validate_EveryDefaultConstraint( (EObject) textAlignment,
 				diagnostics,
 				context );
 	}
@@ -1076,7 +1106,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateTooltipValue( TooltipValue tooltipValue,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( tooltipValue,
+		return validate_EveryDefaultConstraint( (EObject) tooltipValue,
 				diagnostics,
 				context );
 	}
@@ -1088,7 +1118,9 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateURLValue( URLValue urlValue,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( urlValue, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) urlValue,
+				diagnostics,
+				context );
 	}
 
 	/**

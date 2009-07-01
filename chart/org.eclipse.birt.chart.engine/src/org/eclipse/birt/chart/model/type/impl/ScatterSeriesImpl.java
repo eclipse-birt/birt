@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.component.Series;
@@ -119,14 +120,9 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 */
 	protected void set( ScatterSeries src )
 	{
+
 		super.set( src );
 
-		paletteLineColor = src.isPaletteLineColor( );
-		paletteLineColorESet = src.isSetPaletteLineColor( );
-		curve = src.isCurve( );
-		curveESet = src.isSetCurve( );
-		connectMissingValue = src.isConnectMissingValue( );
-		connectMissingValueESet = src.isSetConnectMissingValue( );
 	}
 
 } // ScatterSeriesImpl

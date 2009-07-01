@@ -81,17 +81,17 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 		switch ( eClass.getClassifierID( ) )
 		{
 			case LayoutPackage.BLOCK :
-				return createBlock( );
+				return (EObject) createBlock( );
 			case LayoutPackage.CLIENT_AREA :
-				return createClientArea( );
+				return (EObject) createClientArea( );
 			case LayoutPackage.LABEL_BLOCK :
-				return createLabelBlock( );
+				return (EObject) createLabelBlock( );
 			case LayoutPackage.LEGEND :
-				return createLegend( );
+				return (EObject) createLegend( );
 			case LayoutPackage.PLOT :
-				return createPlot( );
+				return (EObject) createPlot( );
 			case LayoutPackage.TITLE_BLOCK :
-				return createTitleBlock( );
+				return (EObject) createTitleBlock( );
 			default :
 				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}

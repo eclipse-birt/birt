@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.AreaSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.ecore.EClass;
@@ -123,14 +124,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 */
 	protected void set( AreaSeries src )
 	{
+
 		super.set( src );
 
-		paletteLineColor = src.isPaletteLineColor( );
-		paletteLineColorESet = src.isSetPaletteLineColor( );
-		curve = src.isCurve( );
-		curveESet = src.isSetCurve( );
-		connectMissingValue = src.isConnectMissingValue( );
-		connectMissingValueESet = src.isSetConnectMissingValue( );
 	}
 
 } // AreaSeriesImpl

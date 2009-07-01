@@ -7,8 +7,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,9 +29,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRotation3D()
  * @model extendedMetaData="name='Rotation3D' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Rotation3D extends EObject
+public interface Rotation3D extends IChartObject
 {
 
 	/**

@@ -14,6 +14,7 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
+import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -318,7 +319,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 		LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
 		la.setVisible( true );
 		m.setOutline( la );
-		
+
 		getNegativeMarkers( ).add( m );
 	}
 
@@ -347,7 +348,10 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 */
 	protected void set( DifferenceSeries src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getNegativeMarkers( ) != null )
 		{
@@ -357,18 +361,13 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getNegativeLineAttributes( ) != null )
 		{
 			setNegativeLineAttributes( src.getNegativeLineAttributes( )
 					.copyInstance( ) );
 		}
 
-		paletteLineColor = src.isPaletteLineColor( );
-		paletteLineColorESet = src.isSetPaletteLineColor( );
-		curve = src.isCurve( );
-		curveESet = src.isSetCurve( );
-		connectMissingValue = src.isConnectMissingValue( );
-		connectMissingValueESet = src.isSetConnectMissingValue( );
 	}
 
 } // DifferenceSeriesImpl

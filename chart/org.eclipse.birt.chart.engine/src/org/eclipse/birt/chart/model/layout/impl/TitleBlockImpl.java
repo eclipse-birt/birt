@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
+import org.eclipse.birt.chart.model.layout.LabelBlock;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
@@ -129,6 +130,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 	 */
 	protected void set( TitleBlock src )
 	{
+
 		super.set( src );
 
 	}

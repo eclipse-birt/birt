@@ -368,13 +368,20 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 */
 	protected void set( Needle src )
 	{
+
+		// children
+
 		if ( src.getLineAttributes( ) != null )
 		{
 			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		decorator = src.getDecorator( );
+
 		decoratorESet = src.isSetDecorator( );
+
 	}
 
 } // NeedleImpl

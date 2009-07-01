@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.model.data;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Sample Data</b></em>'. <!-- end-user-doc
@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface SampleData extends EObject
+public interface SampleData extends IChartObject
 {
 
 	/**

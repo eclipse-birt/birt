@@ -1005,11 +1005,11 @@ public class DialImpl extends EObjectImpl implements Dial
 		switch ( featureID )
 		{
 			case ComponentPackage.DIAL__START_ANGLE :
-				return new Double( getStartAngle( ) );
+				return getStartAngle( );
 			case ComponentPackage.DIAL__STOP_ANGLE :
-				return new Double( getStopAngle( ) );
+				return getStopAngle( );
 			case ComponentPackage.DIAL__RADIUS :
-				return new Double( getRadius( ) );
+				return getRadius( );
 			case ComponentPackage.DIAL__LINE_ATTRIBUTES :
 				return getLineAttributes( );
 			case ComponentPackage.DIAL__FILL :
@@ -1023,7 +1023,7 @@ public class DialImpl extends EObjectImpl implements Dial
 			case ComponentPackage.DIAL__SCALE :
 				return getScale( );
 			case ComponentPackage.DIAL__INVERSE_SCALE :
-				return isInverseScale( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isInverseScale( );
 			case ComponentPackage.DIAL__LABEL :
 				return getLabel( );
 			case ComponentPackage.DIAL__FORMAT_SPECIFIER :
@@ -1044,13 +1044,13 @@ public class DialImpl extends EObjectImpl implements Dial
 		switch ( featureID )
 		{
 			case ComponentPackage.DIAL__START_ANGLE :
-				setStartAngle( ( (Double) newValue ).doubleValue( ) );
+				setStartAngle( (Double) newValue );
 				return;
 			case ComponentPackage.DIAL__STOP_ANGLE :
-				setStopAngle( ( (Double) newValue ).doubleValue( ) );
+				setStopAngle( (Double) newValue );
 				return;
 			case ComponentPackage.DIAL__RADIUS :
-				setRadius( ( (Double) newValue ).doubleValue( ) );
+				setRadius( (Double) newValue );
 				return;
 			case ComponentPackage.DIAL__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) newValue );
@@ -1072,7 +1072,7 @@ public class DialImpl extends EObjectImpl implements Dial
 				setScale( (Scale) newValue );
 				return;
 			case ComponentPackage.DIAL__INVERSE_SCALE :
-				setInverseScale( ( (Boolean) newValue ).booleanValue( ) );
+				setInverseScale( (Boolean) newValue );
 				return;
 			case ComponentPackage.DIAL__LABEL :
 				setLabel( (Label) newValue );
@@ -1282,6 +1282,9 @@ public class DialImpl extends EObjectImpl implements Dial
 	 */
 	protected void set( Dial src )
 	{
+
+		// children
+
 		if ( src.getLineAttributes( ) != null )
 		{
 			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
@@ -1300,6 +1303,7 @@ public class DialImpl extends EObjectImpl implements Dial
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getMajorGrid( ) != null )
 		{
 			setMajorGrid( src.getMajorGrid( ).copyInstance( ) );
@@ -1325,14 +1329,24 @@ public class DialImpl extends EObjectImpl implements Dial
 			setFormatSpecifier( src.getFormatSpecifier( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		startAngle = src.getStartAngle( );
+
 		startAngleESet = src.isSetStartAngle( );
+
 		stopAngle = src.getStopAngle( );
+
 		stopAngleESet = src.isSetStopAngle( );
+
 		radius = src.getRadius( );
+
 		radiusESet = src.isSetRadius( );
+
 		inverseScale = src.isInverseScale( );
+
 		inverseScaleESet = src.isSetInverseScale( );
+
 	}
 
 } // DialImpl

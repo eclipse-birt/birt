@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Format Specifier</b></em>'. <!--
@@ -26,9 +26,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFormatSpecifier()
  * @model extendedMetaData="name='FormatSpecifier' kind='empty'"
+ * @extends IChartObject
  * @generated
  */
-public interface FormatSpecifier extends EObject
+public interface FormatSpecifier extends IChartObject
 {
 
 	/**

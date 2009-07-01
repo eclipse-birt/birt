@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Text Alignment</b></em>'. <!-- end-user-doc
@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface TextAlignment extends EObject
+public interface TextAlignment extends IChartObject
 {
 
 	/**

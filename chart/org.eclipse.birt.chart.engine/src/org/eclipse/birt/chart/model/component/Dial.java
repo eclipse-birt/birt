@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,9 +46,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial()
  * @model extendedMetaData="name='Dial' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Dial extends EObject
+public interface Dial extends IChartObject
 {
 
 	/**

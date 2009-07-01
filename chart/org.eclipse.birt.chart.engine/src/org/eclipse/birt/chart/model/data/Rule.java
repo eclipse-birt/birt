@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.model.data;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.RuleType;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Rule</b></em>'. <!-- end-user-doc -->
@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='Rule' kind='elementOnly'"
  * @deprecated only reserved for compatibility
  */
-public interface Rule extends EObject
+public interface Rule extends IChartObject
 {
 
 	/**

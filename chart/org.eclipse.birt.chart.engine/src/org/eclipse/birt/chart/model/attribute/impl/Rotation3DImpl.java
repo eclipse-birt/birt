@@ -208,8 +208,11 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	/**
 	 * @generated
 	 */
-	protected void set(Rotation3D src )
+	protected void set( Rotation3D src )
 	{
+
+		// children
+
 		if ( src.getAngles( ) != null )
 		{
 			EList<Angle3D> list = getAngles( );
@@ -218,6 +221,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 	}
 
 } // Rotation3DImpl

@@ -990,14 +990,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 			case TypePackage.GANTT_SERIES__OUTLINE_FILL :
 				return getOutlineFill( );
 			case TypePackage.GANTT_SERIES__USE_DECORATION_LABEL_VALUE :
-				return isUseDecorationLabelValue( ) ? Boolean.TRUE
-						: Boolean.FALSE;
+				return isUseDecorationLabelValue( );
 			case TypePackage.GANTT_SERIES__DECORATION_LABEL :
 				return getDecorationLabel( );
 			case TypePackage.GANTT_SERIES__DECORATION_LABEL_POSITION :
 				return getDecorationLabelPosition( );
 			case TypePackage.GANTT_SERIES__PALETTE_LINE_COLOR :
-				return isPaletteLineColor( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isPaletteLineColor( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -1033,7 +1032,7 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 				setOutlineFill( (Fill) newValue );
 				return;
 			case TypePackage.GANTT_SERIES__USE_DECORATION_LABEL_VALUE :
-				setUseDecorationLabelValue( ( (Boolean) newValue ).booleanValue( ) );
+				setUseDecorationLabelValue( (Boolean) newValue );
 				return;
 			case TypePackage.GANTT_SERIES__DECORATION_LABEL :
 				setDecorationLabel( (Label) newValue );
@@ -1042,7 +1041,7 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 				setDecorationLabelPosition( (Position) newValue );
 				return;
 			case TypePackage.GANTT_SERIES__PALETTE_LINE_COLOR :
-				setPaletteLineColor( ( (Boolean) newValue ).booleanValue( ) );
+				setPaletteLineColor( (Boolean) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -1243,7 +1242,10 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	 */
 	protected void set( GanttSeries src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getStartMarker( ) != null )
 		{
@@ -1275,16 +1277,28 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 			setDecorationLabel( src.getDecorationLabel( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		startMarkerPosition = src.getStartMarkerPosition( );
+
 		startMarkerPositionESet = src.isSetStartMarkerPosition( );
+
 		endMarkerPosition = src.getEndMarkerPosition( );
+
 		endMarkerPositionESet = src.isSetEndMarkerPosition( );
+
 		useDecorationLabelValue = src.isUseDecorationLabelValue( );
+
 		useDecorationLabelValueESet = src.isSetUseDecorationLabelValue( );
+
 		decorationLabelPosition = src.getDecorationLabelPosition( );
+
 		decorationLabelPositionESet = src.isSetDecorationLabelPosition( );
+
 		paletteLineColor = src.isPaletteLineColor( );
+
 		paletteLineColorESet = src.isSetPaletteLineColor( );
+
 	}
 
 } // GanttSeriesImpl

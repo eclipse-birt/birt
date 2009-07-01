@@ -722,7 +722,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		marker.setVisible( true );
 		marker.setOutline( AttributeFactory.eINSTANCE.createLineAttributes( ) );
 		marker.getOutline( ).setVisible( true );
-		
+
 		return marker;
 	}
 
@@ -749,7 +749,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 		mk.visible = src.isVisible( );
 		mk.visibleESet = src.isSetVisible( );
-		
+
 		LineAttributes tOutline = src.getOutline( );
 		if ( tOutline != null )
 		{

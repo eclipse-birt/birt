@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Location</b></em>'. <!-- end-user-doc -->
@@ -32,9 +32,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLocation()
  * @model extendedMetaData="name='Location' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Location extends EObject
+public interface Location extends IChartObject
 {
 
 	/**

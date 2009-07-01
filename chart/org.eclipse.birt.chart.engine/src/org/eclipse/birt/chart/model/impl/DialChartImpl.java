@@ -147,7 +147,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 		switch ( featureID )
 		{
 			case ModelPackage.DIAL_CHART__DIAL_SUPERIMPOSITION :
-				return isDialSuperimposition( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isDialSuperimposition( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -163,7 +163,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 		switch ( featureID )
 		{
 			case ModelPackage.DIAL_CHART__DIAL_SUPERIMPOSITION :
-				setDialSuperimposition( ( (Boolean) newValue ).booleanValue( ) );
+				setDialSuperimposition( (Boolean) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -257,17 +257,15 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	 */
 	protected void set( DialChart src )
 	{
+
 		super.set( src );
 
-		minSlice = src.getMinSlice( );
-		minSliceESet = src.isSetMinSlice( );
-		minSlicePercent = src.isMinSlicePercent( );
-		minSlicePercentESet = src.isSetMinSlicePercent( );
-		minSliceLabel = src.getMinSliceLabel( );
-		coverage = src.getCoverage( );
-		coverageESet = src.isSetCoverage( );
+		// attributes
+
 		dialSuperimposition = src.isDialSuperimposition( );
+
 		dialSuperimpositionESet = src.isSetDialSuperimposition( );
+
 	}
 
 } // DialChartImpl

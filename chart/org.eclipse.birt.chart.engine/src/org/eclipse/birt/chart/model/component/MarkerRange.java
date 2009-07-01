@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -19,7 +20,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Marker Range</b></em>'. <!-- end-user-doc
@@ -47,7 +47,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface MarkerRange extends EObject
+public interface MarkerRange extends IChartObject
 {
 
 	/**

@@ -2,13 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Cursor.java,v 1.4 2009/03/12 09:24:17 ywang1 Exp $
+ * $Id: Cursor.java,v 1.5 2009/06/08 05:35:28 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,9 +30,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getCursor()
  * @model extendedMetaData="name='Cursor' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Cursor extends EObject
+public interface Cursor extends IChartObject
 {
 
 	/**

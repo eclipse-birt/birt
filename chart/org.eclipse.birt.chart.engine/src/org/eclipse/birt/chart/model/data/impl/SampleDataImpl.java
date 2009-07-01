@@ -267,6 +267,9 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 */
 	protected void set( SampleData src )
 	{
+
+		// children
+
 		if ( src.getBaseSampleData( ) != null )
 		{
 			EList<BaseSampleData> list = getBaseSampleData( );
@@ -275,6 +278,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getOrthogonalSampleData( ) != null )
 		{
 			EList<OrthogonalSampleData> list = getOrthogonalSampleData( );
@@ -283,6 +287,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getAncillarySampleData( ) != null )
 		{
 			EList<BaseSampleData> list = getAncillarySampleData( );
@@ -291,6 +296,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 	}
 
 } //SampleDataImpl

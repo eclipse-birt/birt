@@ -6,8 +6,10 @@
     modelPluginID="org.eclipse.birt.chart.engine" templateDirectory="/org.eclipse.birt.chart.engine/templates"
     runtimeJar="true" dynamicTemplates="true" modelName="Model" editPluginClass="org.eclipse.birt.chart.model.data.provider.ModelEditPlugin"
     editorPluginClass="org.eclipse.birt.chart.model.data.presentation.ModelEditorPlugin"
-    nonNLSMarkers="true" featureMapWrapperInterface="" featureMapWrapperInternalInterface=""
-    codeFormatting="true" importerID="org.eclipse.xsd.ecore.importer" complianceLevel="5.0">
+    nonNLSMarkers="true" rootExtendsInterface="org.eclipse.birt.chart.model.IChartObject"
+    rootImplementsInterface="" featureMapWrapperInterface="" featureMapWrapperInternalInterface=""
+    codeFormatting="true" booleanFlagsField="" importerID="org.eclipse.xsd.ecore.importer"
+    complianceLevel="5.0">
   <foreignModel>../../xsd/model.xsd</foreignModel>
   <foreignModel>../../xsd/attribute.xsd</foreignModel>
   <foreignModel>../../xsd/type.xsd</foreignModel>

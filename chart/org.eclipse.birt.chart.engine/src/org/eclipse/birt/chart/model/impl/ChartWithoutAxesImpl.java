@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import org.eclipse.birt.chart.model.Chart;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -424,13 +425,13 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 			case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS :
 				return getSeriesDefinitions( );
 			case ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE :
-				return new Double( getMinSlice( ) );
+				return getMinSlice( );
 			case ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE_PERCENT :
-				return isMinSlicePercent( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isMinSlicePercent( );
 			case ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE_LABEL :
 				return getMinSliceLabel( );
 			case ModelPackage.CHART_WITHOUT_AXES__COVERAGE :
-				return new Double( getCoverage( ) );
+				return getCoverage( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -451,16 +452,16 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 				getSeriesDefinitions( ).addAll( (Collection<? extends SeriesDefinition>) newValue );
 				return;
 			case ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE :
-				setMinSlice( ( (Double) newValue ).doubleValue( ) );
+				setMinSlice( (Double) newValue );
 				return;
 			case ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE_PERCENT :
-				setMinSlicePercent( ( (Boolean) newValue ).booleanValue( ) );
+				setMinSlicePercent( (Boolean) newValue );
 				return;
 			case ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE_LABEL :
 				setMinSliceLabel( (String) newValue );
 				return;
 			case ModelPackage.CHART_WITHOUT_AXES__COVERAGE :
-				setCoverage( ( (Double) newValue ).doubleValue( ) );
+				setCoverage( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -621,8 +622,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * @param al
 	 * @param iLevel
 	 */
-	private static final void recursivelyRemoveRuntimeSeries( EList<SeriesDefinition> elSDs,
-			int iLevel, int iLevelToOmit )
+	private static final void recursivelyRemoveRuntimeSeries(
+			EList<SeriesDefinition> elSDs, int iLevel, int iLevelToOmit )
 	{
 		for ( int i = 0; i < elSDs.size( ); i++ )
 		{
@@ -675,7 +676,10 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 */
 	protected void set( ChartWithoutAxes src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getSeriesDefinitions( ) != null )
 		{
@@ -685,13 +689,23 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 				list.add( element.copyInstance( ) );
 			}
 		}
+
+		// attributes
+
 		minSlice = src.getMinSlice( );
+
 		minSliceESet = src.isSetMinSlice( );
+
 		minSlicePercent = src.isMinSlicePercent( );
+
 		minSlicePercentESet = src.isSetMinSlicePercent( );
+
 		minSliceLabel = src.getMinSliceLabel( );
+
 		coverage = src.getCoverage( );
+
 		coverageESet = src.isSetCoverage( );
+
 	}
 
 	/**
@@ -704,7 +718,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 			super.setDimension( newDimension );
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.model.impl.ChartImpl#setType(java.lang.String)
 	 */
@@ -715,23 +729,24 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 			super.setType( newType );
 		}
 	}
-	
-	protected boolean isValidDimensionNType(String type, ChartDimension dimension )
+
+	protected boolean isValidDimensionNType( String type,
+			ChartDimension dimension )
 	{
 		if ( "Pie Chart".equals( type ) && dimension == ChartDimension.THREE_DIMENSIONAL_LITERAL ) //$NON-NLS-1$
 		{
 			// Does not support 3D for Pie chart.
-			throw new UnsupportedOperationException( Messages.getString("ChartWithoutAxesImpl.Unsupported3Dimension") ); //$NON-NLS-1$
+			throw new UnsupportedOperationException( Messages.getString( "ChartWithoutAxesImpl.Unsupported3Dimension" ) ); //$NON-NLS-1$
 		}
 		return true;
 	}
-	
+
 	@Override
 	protected SeriesDefinition getBaseSeriesDefinition( )
 	{
 		return getSeriesDefinitions( ).get( 0 );
 	}
-	
+
 	@Override
 	protected List<SeriesDefinition> getOrthogonalSeriesDefinitions( )
 	{
@@ -742,4 +757,4 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 		}
 		return osds;
 	}
-} 
+}

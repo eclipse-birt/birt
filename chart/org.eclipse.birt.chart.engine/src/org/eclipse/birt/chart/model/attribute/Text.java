@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Text</b></em>'. <!-- end-user-doc -->
@@ -33,9 +33,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getText()
  * @model extendedMetaData="name='Text' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Text extends EObject
+public interface Text extends IChartObject
 {
 
 	/**

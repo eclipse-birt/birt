@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,9 +34,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getNeedle()
  * @model extendedMetaData="name='Needle' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Needle extends EObject
+public interface Needle extends IChartObject
 {
 
 	/**

@@ -639,6 +639,9 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 */
 	protected void set( ClientArea src )
 	{
+
+		// children
+
 		if ( src.getBackground( ) != null )
 		{
 			setBackground( src.getBackground( ).copyInstance( ) );
@@ -659,8 +662,12 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 			setInsets( src.getInsets( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		visible = src.isVisible( );
+
 		visibleESet = src.isSetVisible( );
+
 	}
 
 } //ClientAreaImpl

@@ -13,6 +13,7 @@ import org.eclipse.birt.chart.internal.model.Fraction;
 import org.eclipse.birt.chart.internal.model.FractionApproximator;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -488,11 +489,11 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		switch ( featureID )
 		{
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PRECISE :
-				return isPrecise( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isPrecise( );
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS :
-				return new Integer( getFractionDigits( ) );
+				return getFractionDigits( );
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__NUMERATOR :
-				return new Double( getNumerator( ) );
+				return getNumerator( );
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PREFIX :
 				return getPrefix( );
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__SUFFIX :
@@ -513,13 +514,13 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		switch ( featureID )
 		{
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PRECISE :
-				setPrecise( ( (Boolean) newValue ).booleanValue( ) );
+				setPrecise( (Boolean) newValue );
 				return;
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS :
-				setFractionDigits( ( (Integer) newValue ).intValue( ) );
+				setFractionDigits( (Integer) newValue );
 				return;
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__NUMERATOR :
-				setNumerator( ( (Double) newValue ).doubleValue( ) );
+				setNumerator( (Double) newValue );
 				return;
 			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PREFIX :
 				setPrefix( (String) newValue );
@@ -702,18 +703,31 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	 */
 	protected void set( FractionNumberFormatSpecifier src )
 	{
+
 		super.set( src );
 
+		// attributes
+
 		precise = src.isPrecise( );
+
 		preciseESet = src.isSetPrecise( );
+
 		fractionDigits = src.getFractionDigits( );
+
 		fractionDigitsESet = src.isSetFractionDigits( );
+
 		numerator = src.getNumerator( );
+
 		numeratorESet = src.isSetNumerator( );
+
 		prefix = src.getPrefix( );
+
 		suffix = src.getSuffix( );
+
 		delimiter = src.getDelimiter( );
+
 		delimiterESet = src.isSetDelimiter( );
+
 	}
 
 } // FractionNumberFormatSpecifierImpl

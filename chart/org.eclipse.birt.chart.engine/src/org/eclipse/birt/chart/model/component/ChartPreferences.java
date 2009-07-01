@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart Preferences</b></em>'. <!--
@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='ChartPreferences' kind='elementOnly'"
  * @deprecated only reserved for compatibility
  */
-public interface ChartPreferences extends EObject
+public interface ChartPreferences extends IChartObject
 {
 
 	/**

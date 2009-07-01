@@ -160,6 +160,25 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	}
 
 	/**
+	 * @generated
+	 */
+	protected void set( MultipleFill src )
+	{
+
+		// children
+
+		if ( src.getFills( ) != null )
+		{
+			EList<Fill> list = getFills( );
+			for ( Fill element : src.getFills( ) )
+			{
+				list.add( element.copyInstance( ) );
+			}
+		}
+
+	}
+
+	/**
 	 * Manually written.
 	 * 
 	 * @return

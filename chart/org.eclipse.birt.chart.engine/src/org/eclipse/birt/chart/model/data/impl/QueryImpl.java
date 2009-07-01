@@ -373,6 +373,9 @@ public class QueryImpl extends EObjectImpl implements Query
 	 */
 	protected void set( Query src )
 	{
+
+		// children
+
 		if ( src.getRules( ) != null )
 		{
 			EList<Rule> list = getRules( );
@@ -381,12 +384,16 @@ public class QueryImpl extends EObjectImpl implements Query
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getGrouping( ) != null )
 		{
 			setGrouping( src.getGrouping( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		definition = src.getDefinition( );
+
 	}
 
 } //QueryImpl

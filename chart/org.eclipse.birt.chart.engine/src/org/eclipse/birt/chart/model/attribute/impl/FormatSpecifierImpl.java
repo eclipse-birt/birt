@@ -61,6 +61,7 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier
 	 */
 	protected void set( FormatSpecifier src )
 	{
+
 	}
 
 } // FormatSpecifierImpl

@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Cursor;
@@ -27,7 +28,6 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '
@@ -62,9 +62,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock()
  * @model extendedMetaData="name='Block' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Block extends EObject
+public interface Block extends IChartObject
 {
 
 	/**

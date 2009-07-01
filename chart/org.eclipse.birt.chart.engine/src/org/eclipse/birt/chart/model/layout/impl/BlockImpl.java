@@ -1847,6 +1847,9 @@ public class BlockImpl extends EObjectImpl implements Block
 	 */
 	protected void set( Block src )
 	{
+
+		// children
+
 		if ( src.getChildren( ) != null )
 		{
 			EList<Block> list = getChildren( );
@@ -1855,6 +1858,7 @@ public class BlockImpl extends EObjectImpl implements Block
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getBounds( ) != null )
 		{
 			setBounds( src.getBounds( ).copyInstance( ) );
@@ -1888,29 +1892,50 @@ public class BlockImpl extends EObjectImpl implements Block
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getCursor( ) != null )
 		{
 			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		anchor = src.getAnchor( );
+
 		anchorESet = src.isSetAnchor( );
+
 		stretch = src.getStretch( );
+
 		stretchESet = src.isSetStretch( );
+
 		row = src.getRow( );
+
 		rowESet = src.isSetRow( );
+
 		column = src.getColumn( );
+
 		columnESet = src.isSetColumn( );
+
 		rowspan = src.getRowspan( );
+
 		rowspanESet = src.isSetRowspan( );
+
 		columnspan = src.getColumnspan( );
+
 		columnspanESet = src.isSetColumnspan( );
+
 		visible = src.isVisible( );
+
 		visibleESet = src.isSetVisible( );
+
 		widthHint = src.getWidthHint( );
+
 		widthHintESet = src.isSetWidthHint( );
+
 		heightHint = src.getHeightHint( );
+
 		heightHintESet = src.isSetHeightHint( );
+
 	}
 
 } // BlockImpl

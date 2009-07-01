@@ -81,25 +81,25 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 		switch ( eClass.getClassifierID( ) )
 		{
 			case TypePackage.AREA_SERIES :
-				return createAreaSeries( );
+				return (EObject) createAreaSeries( );
 			case TypePackage.BAR_SERIES :
-				return createBarSeries( );
+				return (EObject) createBarSeries( );
 			case TypePackage.BUBBLE_SERIES :
-				return createBubbleSeries( );
+				return (EObject) createBubbleSeries( );
 			case TypePackage.DIAL_SERIES :
-				return createDialSeries( );
+				return (EObject) createDialSeries( );
 			case TypePackage.DIFFERENCE_SERIES :
-				return createDifferenceSeries( );
+				return (EObject) createDifferenceSeries( );
 			case TypePackage.GANTT_SERIES :
-				return createGanttSeries( );
+				return (EObject) createGanttSeries( );
 			case TypePackage.LINE_SERIES :
-				return createLineSeries( );
+				return (EObject) createLineSeries( );
 			case TypePackage.PIE_SERIES :
-				return createPieSeries( );
+				return (EObject) createPieSeries( );
 			case TypePackage.SCATTER_SERIES :
-				return createScatterSeries( );
+				return (EObject) createScatterSeries( );
 			case TypePackage.STOCK_SERIES :
-				return createStockSeries( );
+				return (EObject) createStockSeries( );
 			default :
 				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}

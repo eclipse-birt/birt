@@ -189,13 +189,13 @@ public enum TriggerCondition implements Enumerator {
 	 * @ordered
 	 */
 	ONLOAD_LITERAL(15, "onload", "onload"), /**
-	 * The '<em><b>Onrightclick</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONRIGHTCLICK
-	 * @generated
-	 * @ordered
-	 */
+											 * The '<em><b>Onrightclick</b></em>' literal object.
+											 * <!-- begin-user-doc -->
+											 * <!-- end-user-doc -->
+											 * @see #ONRIGHTCLICK
+											 * @generated
+											 * @ordered
+											 */
 	ONRIGHTCLICK_LITERAL(16, "onrightclick", "onrightclick");
 
 	/**

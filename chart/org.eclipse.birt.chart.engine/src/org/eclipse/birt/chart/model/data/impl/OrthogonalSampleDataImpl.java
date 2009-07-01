@@ -294,9 +294,15 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 	 */
 	protected void set( OrthogonalSampleData src )
 	{
+
+		// attributes
+
 		dataSetRepresentation = src.getDataSetRepresentation( );
+
 		seriesDefinitionIndex = src.getSeriesDefinitionIndex( );
+
 		seriesDefinitionIndexESet = src.isSetSeriesDefinitionIndex( );
+
 	}
 
 } //OrthogonalSampleDataImpl

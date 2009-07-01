@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Line Attributes</b></em>'. <!--
@@ -35,9 +35,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLineAttributes()
  * @model extendedMetaData="name='LineAttributes' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface LineAttributes extends EObject
+public interface LineAttributes extends IChartObject
 {
 
 	/**

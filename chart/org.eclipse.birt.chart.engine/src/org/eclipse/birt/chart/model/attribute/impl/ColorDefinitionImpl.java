@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -35,7 +36,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 {
-	
+
 	/**
 	 * The default value of the '
 	 * {@link #getTransparency() <em>Transparency</em>}' attribute. <!--
@@ -553,6 +554,32 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void set( ColorDefinition src )
+	{
+
+		// attributes
+
+		transparency = src.getTransparency( );
+
+		transparencyESet = src.isSetTransparency( );
+
+		red = src.getRed( );
+
+		redESet = src.isSetRed( );
+
+		green = src.getGreen( );
+
+		greenESet = src.isSetGreen( );
+
+		blue = src.getBlue( );
+
+		blueESet = src.isSetBlue( );
+
 	}
 
 	/**

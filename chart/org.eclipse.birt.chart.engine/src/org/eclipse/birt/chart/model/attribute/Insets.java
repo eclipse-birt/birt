@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Insets</b></em>'. <!-- end-user-doc -->
@@ -34,9 +34,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getInsets()
  * @model extendedMetaData="name='Insets' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Insets extends EObject
+public interface Insets extends IChartObject
 {
 
 	/**

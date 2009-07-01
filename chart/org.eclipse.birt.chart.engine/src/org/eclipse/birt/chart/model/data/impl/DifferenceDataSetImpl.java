@@ -9,6 +9,7 @@ package org.eclipse.birt.chart.model.data.impl;
 
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DifferenceDataSet;
 import org.eclipse.emf.ecore.EClass;
 
@@ -85,6 +86,7 @@ public class DifferenceDataSetImpl extends DataSetImpl implements
 	 */
 	protected void set( DifferenceDataSet src )
 	{
+
 		super.set( src );
 
 	}

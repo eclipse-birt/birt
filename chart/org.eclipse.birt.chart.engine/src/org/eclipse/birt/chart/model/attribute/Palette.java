@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Palette</b></em>'. <!-- end-user-doc -->
@@ -33,9 +33,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette()
  * @model extendedMetaData="name='Palette' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Palette extends EObject
+public interface Palette extends IChartObject
 {
 
 	/**

@@ -96,47 +96,47 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 		switch ( eClass.getClassifierID( ) )
 		{
 			case DataPackage.ACTION :
-				return createAction( );
+				return (EObject) createAction( );
 			case DataPackage.BASE_SAMPLE_DATA :
-				return createBaseSampleData( );
+				return (EObject) createBaseSampleData( );
 			case DataPackage.BUBBLE_DATA_SET :
-				return createBubbleDataSet( );
+				return (EObject) createBubbleDataSet( );
 			case DataPackage.DATA_ELEMENT :
-				return createDataElement( );
+				return (EObject) createDataElement( );
 			case DataPackage.DATA_SET :
-				return createDataSet( );
+				return (EObject) createDataSet( );
 			case DataPackage.DATE_TIME_DATA_ELEMENT :
-				return createDateTimeDataElement( );
+				return (EObject) createDateTimeDataElement( );
 			case DataPackage.DATE_TIME_DATA_SET :
-				return createDateTimeDataSet( );
+				return (EObject) createDateTimeDataSet( );
 			case DataPackage.DIFFERENCE_DATA_SET :
-				return createDifferenceDataSet( );
+				return (EObject) createDifferenceDataSet( );
 			case DataPackage.GANTT_DATA_SET :
-				return createGanttDataSet( );
+				return (EObject) createGanttDataSet( );
 			case DataPackage.NULL_DATA_SET :
-				return createNullDataSet( );
+				return (EObject) createNullDataSet( );
 			case DataPackage.NUMBER_DATA_ELEMENT :
-				return createNumberDataElement( );
+				return (EObject) createNumberDataElement( );
 			case DataPackage.NUMBER_DATA_SET :
-				return createNumberDataSet( );
+				return (EObject) createNumberDataSet( );
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA :
-				return createOrthogonalSampleData( );
+				return (EObject) createOrthogonalSampleData( );
 			case DataPackage.QUERY :
-				return createQuery( );
+				return (EObject) createQuery( );
 			case DataPackage.RULE :
-				return createRule( );
+				return (EObject) createRule( );
 			case DataPackage.SAMPLE_DATA :
-				return createSampleData( );
+				return (EObject) createSampleData( );
 			case DataPackage.SERIES_DEFINITION :
-				return createSeriesDefinition( );
+				return (EObject) createSeriesDefinition( );
 			case DataPackage.SERIES_GROUPING :
-				return createSeriesGrouping( );
+				return (EObject) createSeriesGrouping( );
 			case DataPackage.STOCK_DATA_SET :
-				return createStockDataSet( );
+				return (EObject) createStockDataSet( );
 			case DataPackage.TEXT_DATA_SET :
-				return createTextDataSet( );
+				return (EObject) createTextDataSet( );
 			case DataPackage.TRIGGER :
-				return createTrigger( );
+				return (EObject) createTrigger( );
 			default :
 				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}

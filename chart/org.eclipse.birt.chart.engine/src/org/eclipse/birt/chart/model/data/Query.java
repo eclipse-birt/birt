@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.model.data;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Query</b></em>'. <!-- end-user-doc -->
@@ -34,9 +34,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery()
  * @model extendedMetaData="name='Query' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Query extends EObject
+public interface Query extends IChartObject
 {
 
 	/**

@@ -88,31 +88,31 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 		switch ( eClass.getClassifierID( ) )
 		{
 			case ComponentPackage.AXIS :
-				return createAxis( );
+				return (EObject) createAxis( );
 			case ComponentPackage.CHART_PREFERENCES :
-				return createChartPreferences( );
+				return (EObject) createChartPreferences( );
 			case ComponentPackage.CURVE_FITTING :
-				return createCurveFitting( );
+				return (EObject) createCurveFitting( );
 			case ComponentPackage.DIAL :
-				return createDial( );
+				return (EObject) createDial( );
 			case ComponentPackage.DIAL_REGION :
-				return createDialRegion( );
+				return (EObject) createDialRegion( );
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY :
 				return (EObject) createEStringToDataSetMapEntry( );
 			case ComponentPackage.GRID :
-				return createGrid( );
+				return (EObject) createGrid( );
 			case ComponentPackage.LABEL :
-				return createLabel( );
+				return (EObject) createLabel( );
 			case ComponentPackage.MARKER_LINE :
-				return createMarkerLine( );
+				return (EObject) createMarkerLine( );
 			case ComponentPackage.MARKER_RANGE :
-				return createMarkerRange( );
+				return (EObject) createMarkerRange( );
 			case ComponentPackage.NEEDLE :
-				return createNeedle( );
+				return (EObject) createNeedle( );
 			case ComponentPackage.SCALE :
-				return createScale( );
+				return (EObject) createScale( );
 			case ComponentPackage.SERIES :
-				return createSeries( );
+				return (EObject) createSeries( );
 			default :
 				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}

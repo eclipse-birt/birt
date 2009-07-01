@@ -397,6 +397,9 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 */
 	protected void set( DataPoint src )
 	{
+
+		// children
+
 		if ( src.getComponents( ) != null )
 		{
 			EList<DataPointComponent> list = getComponents( );
@@ -405,9 +408,15 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 				list.add( element.copyInstance( ) );
 			}
 		}
+
+		// attributes
+
 		prefix = src.getPrefix( );
+
 		suffix = src.getSuffix( );
+
 		separator = src.getSeparator( );
+
 	}
 
 } // DataPointImpl

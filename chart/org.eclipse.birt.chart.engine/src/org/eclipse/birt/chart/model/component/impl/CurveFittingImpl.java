@@ -471,6 +471,9 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 */
 	protected void set( CurveFitting src )
 	{
+
+		// children
+
 		if ( src.getLineAttributes( ) != null )
 		{
 			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
@@ -481,8 +484,12 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 			setLabel( src.getLabel( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		labelAnchor = src.getLabelAnchor( );
+
 		labelAnchorESet = src.isSetLabelAnchor( );
+
 	}
 
 } // CurveFittingImpl

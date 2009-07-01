@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.chart.model.data;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Series Grouping</b></em>'. <!--
@@ -41,9 +41,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping()
  * @model extendedMetaData="name='SeriesGrouping' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface SeriesGrouping extends EObject
+public interface SeriesGrouping extends IChartObject
 {
 
 	/**

@@ -497,17 +497,26 @@ public class PlotImpl extends BlockImpl implements Plot
 	 */
 	protected void set( Plot src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getClientArea( ) != null )
 		{
 			setClientArea( src.getClientArea( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		horizontalSpacing = src.getHorizontalSpacing( );
+
 		horizontalSpacingESet = src.isSetHorizontalSpacing( );
+
 		verticalSpacing = src.getVerticalSpacing( );
+
 		verticalSpacingESet = src.isSetVerticalSpacing( );
+
 	}
 
 } // PlotImpl

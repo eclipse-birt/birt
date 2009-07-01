@@ -493,7 +493,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 		return dest;
 	}
 
-	protected void set(Palette src )
+	protected void set( Palette src )
 	{
 		if ( src.getEntries( ) != null )
 		{

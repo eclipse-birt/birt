@@ -1529,8 +1529,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 			seriesBaseRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( bsd.getDesignTimeSeries( )
 					.getClass( ) ) ).fromString( baseDataSetRepresentation,
 					seriesBaseRuntime.getDataSet( ) ) );
-			bsd.getSeries( )
-					.add( seriesBaseRuntime );
+			bsd.getSeries( ).add( seriesBaseRuntime );
 
 			// Set sample series identifier
 			seriesBaseRuntime.setSeriesIdentifier( "Category" ); //$NON-NLS-1$
@@ -1630,7 +1629,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 			logger.log( e1 );
 		}
 	}
-	
+
 	private String getNewAncillarySampleData( List<SeriesDefinition> vOSD )
 	{
 		StringBuffer sb = new StringBuffer( );
@@ -1647,7 +1646,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 		}
 		return sb.toString( );
 	}
-	
+
 	protected SeriesDefinition getBaseSeriesDefinition( )
 	{
 		// To override
@@ -1681,6 +1680,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 */
 	protected void set( Chart src )
 	{
+
+		// children
+
 		if ( src.getDescription( ) != null )
 		{
 			setDescription( src.getDescription( ).copyInstance( ) );
@@ -1699,6 +1701,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getSampleData( ) != null )
 		{
 			setSampleData( src.getSampleData( ).copyInstance( ) );
@@ -1712,6 +1715,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getInteractivity( ) != null )
 		{
 			setInteractivity( src.getInteractivity( ).copyInstance( ) );
@@ -1722,18 +1726,32 @@ public class ChartImpl extends EObjectImpl implements Chart
 			setEmptyMessage( src.getEmptyMessage( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		version = src.getVersion( );
+
 		versionESet = src.isSetVersion( );
+
 		type = src.getType( );
+
 		subType = src.getSubType( );
+
 		dimension = src.getDimension( );
+
 		dimensionESet = src.isSetDimension( );
+
 		script = src.getScript( );
+
 		units = src.getUnits( );
+
 		seriesThickness = src.getSeriesThickness( );
+
 		seriesThicknessESet = src.isSetSeriesThickness( );
+
 		gridColumnCount = src.getGridColumnCount( );
+
 		gridColumnCountESet = src.isSetGridColumnCount( );
+
 	}
 
 } // ChartImpl

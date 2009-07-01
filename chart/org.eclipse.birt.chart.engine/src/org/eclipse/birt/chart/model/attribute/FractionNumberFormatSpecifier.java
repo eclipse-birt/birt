@@ -330,6 +330,6 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	/**
 	 * @generated
 	 */
-	public FractionNumberFormatSpecifier copyInstance( );
+	FractionNumberFormatSpecifier copyInstance( );
 
 } // FractionNumberFormatSpecifier

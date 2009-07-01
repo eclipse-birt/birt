@@ -989,6 +989,9 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 */
 	protected void set( MarkerRange src )
 	{
+
+		// children
+
 		if ( src.getOutline( ) != null )
 		{
 			setOutline( src.getOutline( ).copyInstance( ) );
@@ -1027,13 +1030,18 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 				list.add( element.copyInstance( ) );
 			}
 		}
+
 		if ( src.getCursor( ) != null )
 		{
 			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		labelAnchor = src.getLabelAnchor( );
+
 		labelAnchorESet = src.isSetLabelAnchor( );
+
 	}
 
 } // MarkerRangeImpl

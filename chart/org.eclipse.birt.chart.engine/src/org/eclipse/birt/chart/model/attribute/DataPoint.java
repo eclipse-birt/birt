@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Data Point</b></em>'. <!-- end-user-doc -->
@@ -35,9 +35,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPoint()
  * @model extendedMetaData="name='DataPoint' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface DataPoint extends EObject
+public interface DataPoint extends IChartObject
 {
 
 	/**

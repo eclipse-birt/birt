@@ -7,7 +7,7 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Angle3 D</b></em>'.
@@ -30,9 +30,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAngle3D()
  * @model extendedMetaData="name='Angle3D' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Angle3D extends EObject
+public interface Angle3D extends IChartObject
 {
 
 	/**

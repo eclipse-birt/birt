@@ -162,9 +162,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 		return super.eIsSet( featureID );
 	}
 
-	/**
-	 * @generated
-	 */
 	public DataSet copyInstance( )
 	{
 		DataSetImpl dest = new DataSetImpl( );
@@ -172,9 +169,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 		return dest;
 	}
 
-	/**
-	 * @generated
-	 */
 	protected void set( DataSet src )
 	{
 		values = src.getValues( );

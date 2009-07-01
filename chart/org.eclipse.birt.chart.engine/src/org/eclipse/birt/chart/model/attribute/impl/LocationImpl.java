@@ -233,9 +233,9 @@ public class LocationImpl extends EObjectImpl implements Location
 		switch ( featureID )
 		{
 			case AttributePackage.LOCATION__X :
-				return new Double( getX( ) );
+				return getX( );
 			case AttributePackage.LOCATION__Y :
-				return new Double( getY( ) );
+				return getY( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -250,10 +250,10 @@ public class LocationImpl extends EObjectImpl implements Location
 		switch ( featureID )
 		{
 			case AttributePackage.LOCATION__X :
-				setX( ( (Double) newValue ).doubleValue( ) );
+				setX( (Double) newValue );
 				return;
 			case AttributePackage.LOCATION__Y :
-				setY( ( (Double) newValue ).doubleValue( ) );
+				setY( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );

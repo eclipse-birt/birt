@@ -452,11 +452,11 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		switch ( featureID )
 		{
 			case AttributePackage.ANGLE3_D__XANGLE :
-				return new Double( getXAngle( ) );
+				return getXAngle( );
 			case AttributePackage.ANGLE3_D__YANGLE :
-				return new Double( getYAngle( ) );
+				return getYAngle( );
 			case AttributePackage.ANGLE3_D__ZANGLE :
-				return new Double( getZAngle( ) );
+				return getZAngle( );
 			case AttributePackage.ANGLE3_D__TYPE :
 				return getType( );
 		}
@@ -474,13 +474,13 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		switch ( featureID )
 		{
 			case AttributePackage.ANGLE3_D__XANGLE :
-				setXAngle( ( (Double) newValue ).doubleValue( ) );
+				setXAngle( (Double) newValue );
 				return;
 			case AttributePackage.ANGLE3_D__YANGLE :
-				setYAngle( ( (Double) newValue ).doubleValue( ) );
+				setYAngle( (Double) newValue );
 				return;
 			case AttributePackage.ANGLE3_D__ZANGLE :
-				setZAngle( ( (Double) newValue ).doubleValue( ) );
+				setZAngle( (Double) newValue );
 				return;
 			case AttributePackage.ANGLE3_D__TYPE :
 				setType( (AngleType) newValue );

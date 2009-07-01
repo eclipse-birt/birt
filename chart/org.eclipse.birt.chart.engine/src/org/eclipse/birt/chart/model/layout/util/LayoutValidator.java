@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LayoutValidator.java,v 1.2 2008/12/18 05:15:57 ywang1 Exp $
+ * $Id: LayoutValidator.java,v 1.3 2009/05/08 06:15:18 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.layout.util;
@@ -14,6 +14,7 @@ import org.eclipse.birt.chart.model.layout.*;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -155,7 +156,9 @@ public class LayoutValidator extends EObjectValidator
 	public boolean validateBlock( Block block, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( block, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) block,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -166,7 +169,7 @@ public class LayoutValidator extends EObjectValidator
 	public boolean validateClientArea( ClientArea clientArea,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( clientArea,
+		return validate_EveryDefaultConstraint( (EObject) clientArea,
 				diagnostics,
 				context );
 	}
@@ -179,7 +182,7 @@ public class LayoutValidator extends EObjectValidator
 	public boolean validateLabelBlock( LabelBlock labelBlock,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( labelBlock,
+		return validate_EveryDefaultConstraint( (EObject) labelBlock,
 				diagnostics,
 				context );
 	}
@@ -192,7 +195,9 @@ public class LayoutValidator extends EObjectValidator
 	public boolean validateLegend( Legend legend, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( legend, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) legend,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -203,7 +208,9 @@ public class LayoutValidator extends EObjectValidator
 	public boolean validatePlot( Plot plot, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( plot, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) plot,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -214,7 +221,7 @@ public class LayoutValidator extends EObjectValidator
 	public boolean validateTitleBlock( TitleBlock titleBlock,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( titleBlock,
+		return validate_EveryDefaultConstraint( (EObject) titleBlock,
 				diagnostics,
 				context );
 	}

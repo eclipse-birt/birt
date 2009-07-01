@@ -323,6 +323,24 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	}
 
 	/**
+	 * @generated
+	 */
+	protected void set( TextAlignment src )
+	{
+
+		// attributes
+
+		horizontalAlignment = src.getHorizontalAlignment( );
+
+		horizontalAlignmentESet = src.isSetHorizontalAlignment( );
+
+		verticalAlignment = src.getVerticalAlignment( );
+
+		verticalAlignmentESet = src.isSetVerticalAlignment( );
+
+	}
+
+	/**
 	 * A convenient method to create a new TextAlignment instance and initialize
 	 * its members
 	 * 

@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model.data;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Action</b></em>'. <!-- end-user-doc -->
@@ -34,9 +34,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getAction()
  * @model extendedMetaData="name='Action' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Action extends EObject
+public interface Action extends IChartObject
 {
 
 	/**

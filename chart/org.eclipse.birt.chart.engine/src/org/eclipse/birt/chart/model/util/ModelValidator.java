@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelValidator.java,v 1.2 2008/12/18 05:15:44 ywang1 Exp $
+ * $Id: ModelValidator.java,v 1.3 2009/03/05 08:07:37 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.util;
@@ -14,6 +14,7 @@ import org.eclipse.birt.chart.model.*;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -143,7 +144,9 @@ public class ModelValidator extends EObjectValidator
 	public boolean validateChart( Chart chart, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( chart, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) chart,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -154,7 +157,7 @@ public class ModelValidator extends EObjectValidator
 	public boolean validateChartWithAxes( ChartWithAxes chartWithAxes,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( chartWithAxes,
+		return validate_EveryDefaultConstraint( (EObject) chartWithAxes,
 				diagnostics,
 				context );
 	}
@@ -167,7 +170,7 @@ public class ModelValidator extends EObjectValidator
 	public boolean validateChartWithoutAxes( ChartWithoutAxes chartWithoutAxes,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( chartWithoutAxes,
+		return validate_EveryDefaultConstraint( (EObject) chartWithoutAxes,
 				diagnostics,
 				context );
 	}
@@ -180,7 +183,9 @@ public class ModelValidator extends EObjectValidator
 	public boolean validateDialChart( DialChart dialChart,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		return validate_EveryDefaultConstraint( dialChart, diagnostics, context );
+		return validate_EveryDefaultConstraint( (EObject) dialChart,
+				diagnostics,
+				context );
 	}
 
 	/**

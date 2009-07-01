@@ -399,13 +399,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 		switch ( featureID )
 		{
 			case AttributePackage.BOUNDS__LEFT :
-				return new Double( getLeft( ) );
+				return getLeft( );
 			case AttributePackage.BOUNDS__TOP :
-				return new Double( getTop( ) );
+				return getTop( );
 			case AttributePackage.BOUNDS__WIDTH :
-				return new Double( getWidth( ) );
+				return getWidth( );
 			case AttributePackage.BOUNDS__HEIGHT :
-				return new Double( getHeight( ) );
+				return getHeight( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -420,16 +420,16 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 		switch ( featureID )
 		{
 			case AttributePackage.BOUNDS__LEFT :
-				setLeft( ( (Double) newValue ).doubleValue( ) );
+				setLeft( (Double) newValue );
 				return;
 			case AttributePackage.BOUNDS__TOP :
-				setTop( ( (Double) newValue ).doubleValue( ) );
+				setTop( (Double) newValue );
 				return;
 			case AttributePackage.BOUNDS__WIDTH :
-				setWidth( ( (Double) newValue ).doubleValue( ) );
+				setWidth( (Double) newValue );
 				return;
 			case AttributePackage.BOUNDS__HEIGHT :
-				setHeight( ( (Double) newValue ).doubleValue( ) );
+				setHeight( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -514,6 +514,32 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void set( Bounds src )
+	{
+
+		// attributes
+
+		left = src.getLeft( );
+
+		leftESet = src.isSetLeft( );
+
+		top = src.getTop( );
+
+		topESet = src.isSetTop( );
+
+		width = src.getWidth( );
+
+		widthESet = src.isSetWidth( );
+
+		height = src.getHeight( );
+
+		heightESet = src.isSetHeight( );
+
 	}
 
 	/**

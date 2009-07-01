@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.component;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -20,7 +21,6 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Series</b></em>'.
@@ -52,9 +52,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getSeries()
  * @model extendedMetaData="name='Series' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Series extends EObject
+public interface Series extends IChartObject
 {
 
 	/**

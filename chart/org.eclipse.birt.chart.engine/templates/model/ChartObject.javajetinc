@@ -11,7 +11,7 @@
  *******************************************************************************/
 %>
 
-<%if (isInterface) {%>
+<%if (isInterface && !genClass.isMapEntry()) {%>
 	
 	/**
 	 * @generated
@@ -20,7 +20,7 @@
 	
 <%}%>
 
-<%if (isImplementation) {%>
+<%if (isImplementation && !genClass.isMapEntry()) {%>
 
 	/**
 	 * @generated

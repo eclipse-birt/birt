@@ -362,13 +362,15 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 	 */
 	protected void set( StyleMap src )
 	{
-		if ( src.getStyle( ) != null )
-		{
-			setStyle( src.getStyle( ).copyInstance( ) );
-		}
+
+		// attributes
 
 		componentName = src.getComponentName( );
+
 		componentNameESet = src.isSetComponentName( );
+
+		style = src.getStyle( );
+
 	}
 
 } // StyleMapImpl

@@ -252,8 +252,13 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	 */
 	protected void set( ExtendedProperty src )
 	{
+
+		// attributes
+
 		name = src.getName( );
+
 		value = src.getValue( );
+
 	}
 
 } // ExtendedPropertyImpl

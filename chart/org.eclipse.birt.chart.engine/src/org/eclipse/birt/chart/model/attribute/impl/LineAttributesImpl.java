@@ -523,6 +523,35 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	}
 
 	/**
+	 * @generated
+	 */
+	protected void set( LineAttributes src )
+	{
+
+		// children
+
+		if ( src.getColor( ) != null )
+		{
+			setColor( src.getColor( ).copyInstance( ) );
+		}
+
+		// attributes
+
+		style = src.getStyle( );
+
+		styleESet = src.isSetStyle( );
+
+		thickness = src.getThickness( );
+
+		thicknessESet = src.isSetThickness( );
+
+		visible = src.isVisible( );
+
+		visibleESet = src.isSetVisible( );
+
+	}
+
+	/**
 	 * A convenient method that facilitates initialization of member variables.
 	 * 
 	 * Note: Manually written
@@ -568,7 +597,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	public LineAttributes copyInstance( )
 	{
 		LineAttributesImpl dest = new LineAttributesImpl( );
-		
+
 		ColorDefinition tColor = getColor( );
 		if ( tColor != null )
 		{

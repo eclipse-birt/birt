@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.data;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Orthogonal Sample Data</b></em>'. <!--
@@ -33,9 +33,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getOrthogonalSampleData()
  * @model extendedMetaData="name='OrthogonalSampleData' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface OrthogonalSampleData extends EObject
+public interface OrthogonalSampleData extends IChartObject
 {
 
 	/**

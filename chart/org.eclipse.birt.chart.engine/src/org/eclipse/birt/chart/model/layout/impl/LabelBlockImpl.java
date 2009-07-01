@@ -298,7 +298,10 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	 */
 	protected void set( LabelBlock src )
 	{
+
 		super.set( src );
+
+		// children
 
 		if ( src.getLabel( ) != null )
 		{

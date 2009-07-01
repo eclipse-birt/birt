@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CursorImpl.java,v 1.6 2009/05/08 06:15:15 ywang1 Exp $
+ * $Id: CursorImpl.java,v 1.7 2009/06/08 05:35:30 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -308,6 +308,9 @@ public class CursorImpl extends EObjectImpl implements Cursor
 	 */
 	protected void set( Cursor src )
 	{
+
+		// children
+
 		if ( src.getImage( ) != null )
 		{
 			EList<Image> list = getImage( );
@@ -316,8 +319,13 @@ public class CursorImpl extends EObjectImpl implements Cursor
 				list.add( element.copyInstance( ) );
 			}
 		}
+
+		// attributes
+
 		type = src.getType( );
+
 		typeESet = src.isSetType( );
+
 	}
 
 } //CursorImpl

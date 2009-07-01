@@ -358,13 +358,20 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 */
 	protected void set( AxisOrigin src )
 	{
+
+		// children
+
 		if ( src.getValue( ) != null )
 		{
 			setValue( src.getValue( ).copyInstance( ) );
 		}
 
+		// attributes
+
 		type = src.getType( );
+
 		typeESet = src.isSetType( );
+
 	}
 
 } // AxisOriginImpl

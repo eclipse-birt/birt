@@ -229,7 +229,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 		switch ( featureID )
 		{
 			case AttributePackage.INTERACTIVITY__ENABLE :
-				return isEnable( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isEnable( );
 			case AttributePackage.INTERACTIVITY__LEGEND_BEHAVIOR :
 				return getLegendBehavior( );
 		}
@@ -247,7 +247,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 		switch ( featureID )
 		{
 			case AttributePackage.INTERACTIVITY__ENABLE :
-				setEnable( ( (Boolean) newValue ).booleanValue( ) );
+				setEnable( (Boolean) newValue );
 				return;
 			case AttributePackage.INTERACTIVITY__LEGEND_BEHAVIOR :
 				setLegendBehavior( (LegendBehaviorType) newValue );
@@ -343,10 +343,17 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 */
 	protected void set( Interactivity src )
 	{
+
+		// attributes
+
 		enable = src.isEnable( );
+
 		enableESet = src.isSetEnable( );
+
 		legendBehavior = src.getLegendBehavior( );
+
 		legendBehaviorESet = src.isSetLegendBehavior( );
+
 	}
 
 } // InteractivityImpl

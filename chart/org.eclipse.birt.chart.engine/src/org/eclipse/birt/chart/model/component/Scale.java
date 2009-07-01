@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.data.DataElement;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Scale</b></em>'. <!-- end-user-doc -->
@@ -43,9 +43,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale()
  * @model extendedMetaData="name='Scale' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface Scale extends EObject
+public interface Scale extends IChartObject
 {
 
 	/**

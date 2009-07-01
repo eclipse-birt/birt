@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.data;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.birt.chart.model.IChartObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Set</b></em>'. <!-- end-user-doc -->
@@ -31,9 +31,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDataSet()
  * @model extendedMetaData="name='DataSet' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
-public interface DataSet extends EObject
+public interface DataSet extends IChartObject
 {
 
 	/**
