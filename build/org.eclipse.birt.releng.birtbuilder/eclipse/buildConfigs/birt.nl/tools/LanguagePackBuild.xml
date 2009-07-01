@@ -380,7 +380,48 @@
 						  <property name="cvs.options" value="" />
 						  <property name="cvsRoot" value="${cvs.root}" />
 				</projectInfo>
-		
+        <projectInfo>
+				  <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.excel.nl" />
+				  <property name="repositoryPath" value="source/nl" />
+				  <property name="buildFileName" value="build.xml" />
+				  <property name="cvs.options" value="" />
+				  <property name="cvsRoot" value="${cvs.root}" />
+		</projectInfo>
+        <projectInfo>
+				  <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.pdf.nl" />
+				  <property name="repositoryPath" value="source/nl" />
+				  <property name="buildFileName" value="build.xml" />
+				  <property name="cvs.options" value="" />
+				  <property name="cvsRoot" value="${cvs.root}" />
+		</projectInfo>
+    <projectInfo>
+			  <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.html.nl" />
+			  <property name="repositoryPath" value="source/nl" />
+			  <property name="buildFileName" value="build.xml" />
+			  <property name="cvs.options" value="" />
+			  <property name="cvsRoot" value="${cvs.root}" />
+	</projectInfo>
+        <projectInfo>
+				  <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.ppt.nl" />
+				  <property name="repositoryPath" value="source/nl" />
+				  <property name="buildFileName" value="build.xml" />
+				  <property name="cvs.options" value="" />
+				  <property name="cvsRoot" value="${cvs.root}" />
+		</projectInfo>
+        <projectInfo>
+				  <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.postscript.nl" />
+				  <property name="repositoryPath" value="source/nl" />
+				  <property name="buildFileName" value="build.xml" />
+				  <property name="cvs.options" value="" />
+				  <property name="cvsRoot" value="${cvs.root}" />
+		</projectInfo>
+	        <projectInfo>
+					  <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.wpml.nl" />
+					  <property name="repositoryPath" value="source/nl" />
+					  <property name="buildFileName" value="build.xml" />
+					  <property name="cvs.options" value="" />
+					  <property name="cvsRoot" value="${cvs.root}" />
+			</projectInfo>
 	</projectList>
 	<projectList id="ODA.language.pack.list">
 		<projectInfo>
