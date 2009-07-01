@@ -99,7 +99,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
-import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.mozilla.javascript.Scriptable;
 
@@ -141,23 +140,6 @@ public class ModelDteApiAdapter
 			ModelDteApiAdapter tmpAdaptor = new ModelDteApiAdapter( context,
 					null );
 			return tmpAdaptor.createDataSourceDesign( dataSource );
-		} catch ( BirtException e )
-		{
-			throw new EngineException( e );
-		}
-	}
-
-	/**
-	 * @deprecated use createDataSetDesign( dataSource )
-	 */
-	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet,
-			ExecutionContext context ) throws EngineException
-	{
-		try
-		{
-			ModelDteApiAdapter tmpAdaptor = new ModelDteApiAdapter( context,
-					null );
-			return tmpAdaptor.createDataSetDesign( dataSet );
 		} catch ( BirtException e )
 		{
 			throw new EngineException( e );
@@ -209,21 +191,21 @@ public class ModelDteApiAdapter
 	 * Adapts the specified Model Data Set to a Data Engine API data set design
 	 * object
 	 */
-	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet )
+	public IBaseDataSetDesign appendRuntimeInfoToDataSet( DataSetHandle handle, BaseDataSetDesign dataSet )
 			throws BirtException
 	{
-		if ( dataSet instanceof OdaDataSetHandle )
-			return newOdaDataSet( ( OdaDataSetHandle ) dataSet,
+		if ( dataSet instanceof OdaDataSetDesign )
+			return newOdaDataSet( (OdaDataSetHandle)handle, ( OdaDataSetDesign ) dataSet,
 					context );
 
-		if ( dataSet instanceof ScriptDataSetHandle )
-			return newScriptDataSet( ( ScriptDataSetHandle ) dataSet,
+		if ( dataSet instanceof ScriptDataSetDesign )
+			return newScriptDataSet( (ScriptDataSetHandle)handle, ( ScriptDataSetDesign ) dataSet,
 					context );
 		
-		if ( dataSet instanceof JointDataSetHandle )
-			return newJointDataSet( (JointDataSetHandle)dataSet );
+		if ( dataSet instanceof JointDataSetDesign )
+			return newJointDataSet( (JointDataSetHandle) handle, (JointDataSetDesign)dataSet );
 		// any other types are not supported
-		return dteSession.getModelAdaptor( ).adaptDataSet( dataSet );
+		return dteSession.getModelAdaptor( ).adaptDataSet( handle );
 	}
 	
 	/**
@@ -284,7 +266,7 @@ public class ModelDteApiAdapter
 			}
 
 		}
-		dteSession.defineDataSet( dteSession.getModelAdaptor( ).adaptDataSet( dataSet ) );
+		dteSession.defineDataSet( this.appendRuntimeInfoToDataSet( dataSet,dteSession.getModelAdaptor( ).adaptDataSet( dataSet ) ));
 	}
 
 	/**
@@ -295,14 +277,12 @@ public class ModelDteApiAdapter
 	 * @return
 	 * @throws BirtException
 	 */
-	private IJointDataSetDesign newJointDataSet( JointDataSetHandle handle ) throws BirtException
+	private IJointDataSetDesign newJointDataSet( JointDataSetHandle handle, JointDataSetDesign dteDataSet ) throws BirtException
 	{
 
 		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor( handle,
 				context );
 
-		JointDataSetDesign dteDataSet = (JointDataSetDesign) this.dteSession.getModelAdaptor( )
-				.adaptDataSet( handle );
 		dteDataSet.setEventHandler( eventHandler );
 		return dteDataSet;
 	}
@@ -507,20 +487,14 @@ public class ModelDteApiAdapter
 		dest.setAfterCloseScript( source.getAfterClose( ) );
 	}
 
-	IOdaDataSetDesign newOdaDataSet( OdaDataSetHandle modelDataSet,
+	IOdaDataSetDesign newOdaDataSet( OdaDataSetHandle modelDataSet, OdaDataSetDesign dteDataSet,
 			ExecutionContext context ) throws BirtException
 	{
-		OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet
-				.getQualifiedName( ) );
 		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor(
 				modelDataSet, context );
 
 		dteDataSet.setEventHandler( eventHandler );
-		// Adapt base class properties
-		adaptBaseDataSet( modelDataSet, dteDataSet );
-
-		// Adapt extended data set elements
-
+		
 		// Set query text; if binding exists, use its result; otherwise
 		// use static design
 		Expression expression = modelDataSet.getPropertyBindingExpression( OdaDataSet.QUERY_TEXT_PROP );
@@ -531,20 +505,8 @@ public class ModelDteApiAdapter
 		{
 			dteDataSet
 					.setQueryText( evaluatePropertyBindingExpr( queryTextBinding ) );
-		} else
-		{
-			dteDataSet.setQueryText( modelDataSet.getQueryText( ) );
-		}
+		} 
 
-		// type of extended data set
-		dteDataSet.setExtensionID( modelDataSet.getExtensionID( ) );
-
-		// result set name
-		dteDataSet.setPrimaryResultSetName( modelDataSet.getResultSetName( ) );
-
-		if( modelDataSet.getPropertyHandle( IOdaDataSetModel.RESULT_SET_NUMBER_PROP ).isSet())
-			dteDataSet.setPrimaryResultSetNumber( modelDataSet.getResultSetNumber( ));
-		
 		// static ROM properties defined by the ODA driver extension
 		Map staticProps = getExtensionProperties( modelDataSet, modelDataSet
 				.getExtensionPropertyDefinitionList( ) );
@@ -559,59 +521,30 @@ public class ModelDteApiAdapter
 				Expression expr = modelDataSet.getPropertyBindingExpression( propName );
 				String bindingExpr = getExpressionValue( expr );
 				
-				String propValue;
 				if ( needPropertyBinding( ) && bindingExpr != null
 						&& bindingExpr.length( ) > 0 )
 				{
-					propValue = this.evaluatePropertyBindingExpr( bindingExpr );
-				} else
-				{
-					propValue = ( String ) staticProps.get( propName );
-				}
-				dteDataSet.addPublicProperty( ( String ) propName, propValue );
+					String propValue = this.evaluatePropertyBindingExpr( bindingExpr );
+					dteDataSet.addPublicProperty( ( String ) propName, propValue );
+				} 
+				
 			}
 		}
-
-		// private driver properties / private runtime data
-		Iterator elmtIter = modelDataSet.privateDriverPropertiesIterator( );
-		if ( elmtIter != null )
-		{
-			while ( elmtIter.hasNext( ) )
-			{
-				ExtendedPropertyHandle modelProp = ( ExtendedPropertyHandle ) elmtIter
-						.next( );
-				dteDataSet.addPrivateProperty( modelProp.getName( ), modelProp
-						.getValue( ) );
-			}
-		}
-
 		return dteDataSet;
 	}
 
-	IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet,
+	IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet, ScriptDataSetDesign dteDataSet,
 			ExecutionContext context ) throws BirtException
 	{
-		ScriptDataSetDesign dteDataSet = new ScriptDataSetDesign( modelDataSet
-				.getQualifiedName( ) );
-
 		IScriptDataSetEventHandler eventHandler = new ScriptDataSetScriptExecutor(
 				modelDataSet, context );
 
 		dteDataSet.setEventHandler( eventHandler );
 
-		// Adapt base class properties
-		adaptBaseDataSet( modelDataSet, dteDataSet );
-
-		// Adapt script data set elements
-		dteDataSet.setOpenScript( modelDataSet.getOpen( ) );
-		dteDataSet.setFetchScript( modelDataSet.getFetch( ) );
-		dteDataSet.setCloseScript( modelDataSet.getClose( ) );
-		dteDataSet.setDescribeScript( modelDataSet.getDescribe( ) );
-
 		return dteDataSet;
 	}
 
-	void adaptBaseDataSet( DataSetHandle modelDataSet,
+/*	void adaptBaseDataSet( DataSetHandle modelDataSet,
 			BaseDataSetDesign dteDataSet ) throws BirtException
 	{
 		if ( (!(modelDataSet instanceof JointDataSetHandle)) && modelDataSet.getDataSource( ) == null )
@@ -641,7 +574,7 @@ public class ModelDteApiAdapter
 		
 		mergeHints( modelDataSet, dteDataSet );
 
-	}
+	}*/
 
 	/**
 	 * 
@@ -791,7 +724,7 @@ public class ModelDteApiAdapter
 
 	/**
 	 */
-	private void mergeHints( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	/*private void mergeHints( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
 	{
 		// merge ResultSetHints and ColumnHints, the order is important.
 		// ResultSetHints will give each column a unique name, and
@@ -848,7 +781,7 @@ public class ModelDteApiAdapter
 			}
 		}
 	}
-
+*/
 	/**
 	 * Creates a new DtE API IParameterDefinition from a model's
 	 * DataSetParameterHandle.
