@@ -30,18 +30,13 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
-import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
@@ -271,16 +266,11 @@ public class AttributesBuilder
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.MasterPage" ); //$NON-NLS-1$
 		}
-		else if ( type == DataSourceHandle.class
-				|| type == OdaDataSourceHandle.class
-				|| type == ScriptDataSourceHandle.class )
+		else if ( DataSourceHandle.class.isAssignableFrom( type ) )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.DataSourceHandle" ); //$NON-NLS-1$			
 		}
-		else if ( type == DataSetHandle.class
-				|| type == OdaDataSetHandle.class
-				|| type == JointDataSetHandle.class
-				|| type == ScriptDataSetHandle.class )
+		else if ( DataSetHandle.class.isAssignableFrom( type ) )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.DataSetHandle" ); //$NON-NLS-1$
 		}
