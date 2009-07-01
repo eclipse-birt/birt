@@ -1803,7 +1803,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 */
 		public BaseQueryHelper( ExtendedItemHandle handle, Chart chart )
 		{
-			super( handle, chart );
+			// Used query expressions have been wrapped as bindings, so do not
+			// wrap them again.
+			super( handle, chart, false );
 		}
 
 		/**
@@ -1839,7 +1841,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				fNameSet.add( expr );
 			}
 
-			generateGroupBindings( queryDefn );
+			generateExtraBindings( queryDefn );
 
 			return queryDefn;
 		}

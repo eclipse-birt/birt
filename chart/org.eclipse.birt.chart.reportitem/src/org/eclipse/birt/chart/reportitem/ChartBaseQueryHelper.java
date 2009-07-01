@@ -79,7 +79,8 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 */
 	public ChartBaseQueryHelper( ReportItemHandle handle, Chart cm )
 	{
-		this( handle, cm, false );
+		// The default behavior is to wrap complex expression as new binding
+		this( handle, cm, true );
 	}
 
 	/**
@@ -106,7 +107,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			return null;
 		}
 		
-		generateGroupBindings( query );
+		generateExtraBindings( query );
 
 		return query;
 	}
@@ -320,15 +321,16 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 *            the iterator
 	 * @return filter array
 	 */
-	protected static ArrayList createFilters( Iterator iter )
+	protected static List<IFilterDefinition> createFilters(
+			Iterator<FilterConditionHandle> iter )
 	{
-		ArrayList filters = new ArrayList( );
+		List<IFilterDefinition> filters = new ArrayList<IFilterDefinition>( );
 		if ( iter != null )
 		{
 
 			while ( iter.hasNext( ) )
 			{
-				FilterConditionHandle filterHandle = (FilterConditionHandle) iter.next( );
+				FilterConditionHandle filterHandle = iter.next( );
 				IFilterDefinition filter = createFilter( filterHandle );
 				filters.add( filter );
 			}
@@ -378,20 +380,21 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	}
 
 	/**
-	 * create input parameter bindings
+	 * Creates input parameter bindings
 	 * 
 	 * @param iter
 	 *            parameter bindings iterator
 	 * @return a list of input parameter bindings
 	 */
-	protected List createParamBindings( Iterator iter )
+	protected List<IInputParameterBinding> createParamBindings(
+			Iterator<ParamBindingHandle> iter )
 	{
-		ArrayList list = new ArrayList( );
+		List<IInputParameterBinding> list = new ArrayList<IInputParameterBinding>( );
 		if ( iter != null )
 		{
 			while ( iter.hasNext( ) )
 			{
-				ParamBindingHandle modelParamBinding = (ParamBindingHandle) iter.next( );
+				ParamBindingHandle modelParamBinding = iter.next( );
 				IInputParameterBinding binding = createParamBinding( modelParamBinding );
 				if ( binding != null )
 				{
@@ -424,18 +427,20 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		SeriesDefinition ySd;
 		if ( fChartModel instanceof ChartWithAxes )
 		{
-			Axis yAxis = (Axis) ( (Axis) ( (ChartWithAxes) fChartModel ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( 0 );
-			ySd = (SeriesDefinition) yAxis.getSeriesDefinitions( ).get( 0 );
+			Axis yAxis = ( (ChartWithAxes) fChartModel ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( )
+					.get( 0 );
+			ySd = yAxis.getSeriesDefinitions( ).get( 0 );
 		}
 		else
 		{
-			ySd = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) fChartModel ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+			ySd = ( (ChartWithoutAxes) fChartModel ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( 0 );
 		}
-		Query query = (Query) ySd.getDesignTimeSeries( )
-				.getDataDefinition( )
-				.get( 0 );
+		Query query = ySd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 		return query.getDefinition( );
 	}
 	
@@ -448,50 +453,51 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	}
 	
 	/**
-	 * Returns all query experssion definitions on chart.
+	 * Returns all query expression definitions on chart.
 	 * 
 	 * @param chart
-	 * @return
+	 * @return query list
 	 * @since 2.3
 	 */
-	public static List getAllQueryExpressionDefinitions( Chart chart )
+	public static List<Query> getAllQueryExpressionDefinitions( Chart chart )
 	{
-		List queryList = new ArrayList();
+		List<Query> queryList = new ArrayList<Query>( );
 		if ( chart instanceof ChartWithAxes )
 		{
-			Axis xAxis = (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 );
+			Axis xAxis = ( (ChartWithAxes) chart ).getAxes( ).get( 0 );
 			// Add base series query
 			queryList.addAll( getQueries( xAxis.getSeriesDefinitions( ) ) );
-			
-			EList axisList = xAxis.getAssociatedAxes( );
+
+			EList<Axis> axisList = xAxis.getAssociatedAxes( );
 			for ( int i = 0; i < axisList.size( ); i++ )
 			{
-				EList sds = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
-				
+				EList<SeriesDefinition> sds = axisList.get( i )
+						.getSeriesDefinitions( );
+
 				// Add Y grouping query.
-				Query q =  ((SeriesDefinition)sds.get( 0 )).getQuery( );
-				if ( q != null ) 
+				Query q = sds.get( 0 ).getQuery( );
+				if ( q != null )
 				{
 					queryList.add( q );
 				}
-				
+
 				// Add value series querys.
-				queryList.addAll( getQueries( sds ));
-				
+				queryList.addAll( getQueries( sds ) );
+
 			}
 		}
 		else if ( chart instanceof ChartWithoutAxes )
 		{
-			SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+			SeriesDefinition sdBase = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
 					.get( 0 );
 			queryList.addAll( sdBase.getDesignTimeSeries( ).getDataDefinition( ) );
-			
-			Query q =  ((SeriesDefinition)sdBase.getSeriesDefinitions( ).get( 0 )).getQuery( );
-			if ( q != null ) 
+
+			Query q = sdBase.getSeriesDefinitions( ).get( 0 ).getQuery( );
+			if ( q != null )
 			{
 				queryList.add( q );
 			}
-			
+
 			queryList.addAll( getQueries( sdBase.getSeriesDefinitions( ) ) );
 		}
 		return queryList;
@@ -503,12 +509,15 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 * @param seriesDefinitions
 	 * @return
 	 */
-	private static List getQueries( EList seriesDefinitions )
+	private static List<Query> getQueries(
+			EList<SeriesDefinition> seriesDefinitions )
 	{
-		List querys = new ArrayList( );
-		for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); ) 
+		List<Query> querys = new ArrayList<Query>( );
+		for ( Iterator<SeriesDefinition> iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
 		{
-			querys.addAll( ((SeriesDefinition)iter.next( )).getDesignTimeSeries( ).getDataDefinition( ) );
+			querys.addAll( iter.next( )
+					.getDesignTimeSeries( )
+					.getDataDefinition( ) );
 		}
 		return querys;
 	}
@@ -616,7 +625,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 *            the GroupHandle
 	 * @return filter array
 	 */
-	private static ArrayList createFilters( GroupHandle group )
+	private static List createFilters( GroupHandle group )
 	{
 		return createFilters( group.filtersIterator( ) );
 	}
@@ -645,15 +654,15 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 *            the iterator
 	 * @return sort array
 	 */
-	public static ArrayList createSorts( Iterator iter )
+	public static List<ISortDefinition> createSorts( Iterator<SortKeyHandle> iter )
 	{
-		ArrayList sorts = new ArrayList( );
+		List<ISortDefinition> sorts = new ArrayList<ISortDefinition>( );
 		if ( iter != null )
 		{
 
 			while ( iter.hasNext( ) )
 			{
-				SortKeyHandle handle = (SortKeyHandle) iter.next( );
+				SortKeyHandle handle = iter.next( );
 				sorts.add( createSort( handle ) );
 			}
 		}
@@ -667,7 +676,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 *            the GroupHandle
 	 * @return the sort array
 	 */
-	private static ArrayList createSorts( GroupHandle group )
+	private static List<ISortDefinition> createSorts( GroupHandle group )
 	{
 		return createSorts( group.sortsIterator( ) );
 	}

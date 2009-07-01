@@ -280,29 +280,29 @@ public abstract class AbstractChartBaseQueryGenerator
 		fNameSet.add( name );
 		return name;
 	}
-
+	
 	/**
-	 * Generate grouping bindings and add into query definition.
+	 * Generates extra bindings for grouping and complex expressions. In
+	 * addition, add them into query definition.
 	 * 
 	 * @param query
 	 * @throws ChartException
 	 */
-	protected void generateGroupBindings( BaseQueryDefinition query )
+	protected void generateExtraBindings( BaseQueryDefinition query )
 			throws ChartException
 	{
 		// 1. Get first category and orthogonal series definition to get
 		// grouping definition.
 		SeriesDefinition categorySD = null;
 		SeriesDefinition orthSD = null;
-		Object[] orthAxisArray = null;
+		Axis[] orthAxisArray = null;
 		if ( fChartModel instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) fChartModel;
 			categorySD = cwa.getBaseAxes( )[0].getSeriesDefinitions( ).get( 0 );
 
 			orthAxisArray = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true );
-			orthSD = ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
-					.get( 0 );
+			orthSD = orthAxisArray[0].getSeriesDefinitions( ).get( 0 );
 		}
 		else if ( fChartModel instanceof ChartWithoutAxes )
 		{
@@ -340,12 +340,7 @@ public abstract class AbstractChartBaseQueryGenerator
 			{
 				if ( !ChartReportItemUtil.isRowBinding( exprCategory, false ) )
 				{
-					String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( exprCategory );
-					IBinding colBinding = new Binding( bindingName );
-					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					colBinding.setExportable( false );
-					colBinding.setExpression( new ScriptExpression( exprCategory ) );
-					query.addBinding( colBinding );
+					addExtraBinding( query, exprCategory );
 				}
 				if ( query instanceof ISubqueryDefinition )
 				{
@@ -387,6 +382,29 @@ public abstract class AbstractChartBaseQueryGenerator
 				categorySD,
 				categoryGroupDefinition,
 				valueExprMap );
+		}
+	}
+	
+	protected void addExtraBinding( BaseQueryDefinition query,
+			String exprCategory ) throws ChartException
+	{
+		try
+		{
+			String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( exprCategory );
+			if ( !query.getBindings( ).containsKey( bindingName ) )
+			{
+				IBinding colBinding = new Binding( bindingName );
+				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+				colBinding.setExportable( false );
+				colBinding.setExpression( new ScriptExpression( exprCategory ) );
+				query.addBinding( colBinding );
+			}
+		}
+		catch ( DataException e )
+		{
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.DATA_BINDING,
+					e );
 		}
 	}
 
@@ -519,7 +537,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 */
 	private GroupDefinition initYGroupingNSortKey( BaseQueryDefinition query,
 			SeriesDefinition categorySD, SeriesDefinition orthSD,
-			Object[] orthAxisArray ) throws ChartException
+			Axis[] orthAxisArray ) throws ChartException
 	{
 		GroupDefinition yGroupingDefinition = createOrthogonalGroupingDefinition( orthSD );
 		if ( yGroupingDefinition != null )
@@ -723,7 +741,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @throws ChartException 
 	 */
 	protected String getAggFunExpr( String sortKey, SeriesDefinition baseSD,
-			Object[] orthAxisArray ) throws ChartException
+			Axis[] orthAxisArray ) throws ChartException
 	{
 		String baseAggFunExpr = null;
 		if ( baseSD.getGrouping( ) != null &&
@@ -738,7 +756,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		{
 			for ( int i = 0; i < orthAxisArray.length; i++ )
 			{
-				EList<SeriesDefinition> sds = ( (Axis) orthAxisArray[i] ).getSeriesDefinitions( );
+				EList<SeriesDefinition> sds = orthAxisArray[i].getSeriesDefinitions( );
 				for ( SeriesDefinition sd : sds )
 				{
 					if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null &&

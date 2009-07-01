@@ -648,7 +648,7 @@ public class ChartUtil
 	 * true; if value is 2.1000000001 or 2.099999999999, then return false.
 	 * 
 	 * @param dValue
-	 * @return
+	 * @return if precise
 	 */
 	public static boolean checkDoublePrecise( double dValue )
 	{
@@ -758,7 +758,7 @@ public class ChartUtil
 	 * Returns grouping unit name of series grouping.
 	 * 
 	 * @param grouping
-	 * @return
+	 * @return grouping unit name
 	 * @since BIRT 2.3
 	 */
 	public static String getGroupingUnitName( SeriesGrouping grouping )
@@ -790,27 +790,13 @@ public class ChartUtil
 
 		return null;
 	}
-
-	/**
-	 * The method removes '"','\n',EOF and '\r' from specified expression/script
-	 * expression, it gets a expression that can be used as binding name.
-	 * 
-	 * @param expression
-	 * @return
-	 * @since 2.3.1
-	 * @deprecated Use {@link #escapeSpecialCharacters(String)} instead.
-	 */
-	public static String removeInvalidSymbols( String expression )
-	{
-		return escapeSpecialCharacters( expression );
-	}
 	
 	/**
 	 * The method escapes '"','\n',EOF,'\r' and so on from specified expression/script
 	 * expression, it returns an expression that can be used as binding name.
 	 * 
 	 * @param expression
-	 * @return
+	 * @return escaped string
 	 * @since 2.5.1
 	 */
 	public static String escapeSpecialCharacters( String expression )
@@ -845,10 +831,10 @@ public class ChartUtil
 			throws ChartException
 	{
 		String str = orthQuery.getDefinition( );
-		if ( isConstantExpression( str ) )
-		{
-			return str;
-		}
+		// if ( isConstantExpression( str ) )
+		// {
+		// return str;
+		// }
 		if ( isCubeRowExpression( str, true ) )
 		{
 			return orthQuery.getDefinition( );
@@ -896,30 +882,12 @@ public class ChartUtil
 	}
 	
 	/**
-	 * Returns full expression of value series.
-	 * 
-	 * @param orthQuery
-	 * @param orthoSD
-	 * @param categorySD
-	 * @throws ChartException
-	 * @since 2.3
-	 * @deprecated Use {@link #generateBindingNameOfValueSeries(Query, SeriesDefinition, SeriesDefinition)} instead.
-	 * 
-	 */
-	public static String getValueSeriesFullExpression( Query orthQuery,
-			SeriesDefinition orthoSD, SeriesDefinition categorySD )
-			throws ChartException
-	{
-		return generateBindingNameOfValueSeries( orthQuery, orthoSD, categorySD );
-	}
-
-	/**
 	 * Returns a binding name for a value series.
 	 * 
 	 * @param orthQuery
 	 * @param orthoSD
 	 * @param categorySD
-	 * @return
+	 * @return binding name
 	 * @throws ChartException
 	 * 
 	 * @since 2.5.1
@@ -928,17 +896,21 @@ public class ChartUtil
 			Query orthQuery, SeriesDefinition orthoSD,
 			SeriesDefinition categorySD ) throws ChartException
 	{
-		String returnExpr = null;
+		String returnExpr = orthQuery.getDefinition( );
+		// if ( isConstantExpression( returnExpr ) )
+		// {
+		// return returnExpr;
+		// }
+		if ( isCubeRowExpression( returnExpr, true ) )
+		{
+			return returnExpr;
+		}
 		String fullAggExpr = getFullAggregateExpression( orthoSD,
 				categorySD,
 				orthQuery );
-		if ( fullAggExpr == null )
+		if ( fullAggExpr != null )
 		{
-			returnExpr = orthQuery.getDefinition( );
-		}
-		else
-		{
-			returnExpr = orthQuery.getDefinition( ) + "_" + fullAggExpr; //$NON-NLS-1$
+			returnExpr += "_" + fullAggExpr; //$NON-NLS-1$
 		}
 		return escapeSpecialCharacters( returnExpr );
 	}
@@ -972,7 +944,7 @@ public class ChartUtil
 	}
 	
 	/**
-	 * Return full aggregate expression which includes aggregate func and
+	 * Return full aggregate expression which includes aggregate function and
 	 * aggregate parameters.
 	 * 
 	 * @param orthoSD
@@ -1002,7 +974,7 @@ public class ChartUtil
 	 * 
 	 * @param aggrFunc
 	 * @param aggrParameters
-	 * @return
+	 * @return full string
 	 * @throws ChartException
 	 * @since 2.3.1
 	 */
@@ -1155,7 +1127,7 @@ public class ChartUtil
 	 * TopPercent, Bottom, BottomPercent, Rank and PercentRank.
 	 * 
 	 * @param aggFunc
-	 * @return
+	 * @return if magic aggregate
 	 * @since BIRT 2.3
 	 */
 	public static boolean isMagicAggregate(String aggFunc )
@@ -1234,13 +1206,13 @@ public class ChartUtil
 	
 	
 	/**
-	 * Aligns a double value with a int value, if the differance between the two
+	 * Aligns a double value with a int value, if the difference between the two
 	 * value is less than EPS, and if dValue is lager than 1E15, the maximum
 	 * count of significant digit is set to 15
 	 * 
 	 * @param dValue
 	 * @param bForce
-	 * @return
+	 * @return int
 	 */
 	public static double alignWithInt( double dValue, boolean bForced )
 	{
@@ -1403,7 +1375,7 @@ public class ChartUtil
 	 * Returns all value expressions of chart.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return expression array
 	 * @since 2.3
 	 */
 	public static String[] getValueSeriesExpressions( Chart cm )
@@ -1431,7 +1403,7 @@ public class ChartUtil
 	 * Returns all Y optional expressions of chart.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return expression array
 	 * @since 2.3
 	 */
 	public static String[] getYOptoinalExpressions( Chart cm )
@@ -1456,7 +1428,7 @@ public class ChartUtil
 	 * Returns all category expressions of chart.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return expression array
 	 * @since 2.3
 	 */
 	public static String[] getCategoryExpressions( Chart cm )
@@ -1682,10 +1654,10 @@ public class ChartUtil
 	}
 	
 	/**
-	 * backtraces the chart model from a given series
+	 * Backtraces the chart model from a given series
 	 * 
 	 * @param series
-	 * @return
+	 * @return chart model
 	 */
 	public static Chart getChartFromSeries( Series series )
 	{
@@ -1710,7 +1682,7 @@ public class ChartUtil
 	 * Check if specified string is empty.
 	 * 
 	 * @param str
-	 * @return
+	 * @return if empty
 	 * @since 2.3.1
 	 */
 	public static boolean isEmpty( String str )
@@ -1802,7 +1774,7 @@ public class ChartUtil
 	 * 
 	 * @param b0
 	 * @param b1
-	 * @return
+	 * @return xor
 	 */
 	public static boolean XOR( boolean b0, boolean b1 )
 	{
@@ -1817,7 +1789,7 @@ public class ChartUtil
 	 * @param <T>
 	 * @param src
 	 * @since 2.5.0
-	 * @return
+	 * @return copied instance
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends EObject> T eCopy( T src )
@@ -1830,7 +1802,7 @@ public class ChartUtil
 	 * 
 	 * @param <K>
 	 * @param <V>
-	 * @return
+	 * @return map
 	 */
 	public static <K, V> Map<K, V> newHashMap( )
 	{
@@ -1853,16 +1825,11 @@ public class ChartUtil
 		
 		chartModel.setVersion( Chart.VERSION );
 		
-		// Do some migratoin tasks for the version revision.
+		// Do some migration tasks for the version revision.
 		// ...
 		return;
 	}
 
-	/**
-	 * 
-	 * @return
-	 * @since 2.5
-	 */
 	public static boolean isDataEmpty( RunTimeContext rtc )
 	{
 		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
@@ -1876,7 +1843,7 @@ public class ChartUtil
 	/**
 	 * Check if current chart model defines multiple Y axes.
 	 * 
-	 * @return
+	 * @return if multiple y axes
 	 * @since 2.5
 	 */
 	public static boolean hasMultipleYAxes( Chart cm )
@@ -1893,7 +1860,7 @@ public class ChartUtil
 	 * Check if current plot layout is study layout for multiple Y axes.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return is study layout or not
 	 * @since 2.5
 	 */
 	public static boolean isStudyLayout( Chart cm )
@@ -1905,7 +1872,7 @@ public class ChartUtil
 	 * Returns the Axis instance which contains specified series.
 	 * 
 	 * @param series
-	 * @return
+	 * @return axis
 	 * @since 2.5
 	 */
 	public static Axis getAxisFromSeries( Series series )
@@ -1924,12 +1891,6 @@ public class ChartUtil
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param cm
-	 * @param dsi
-	 * @return
-	 */
 	public static int computeDateTimeCategoryUnit( Chart cm, DataSetIterator dsi )
 	{
 		int iDateTimeUnit = IConstants.UNDEFINED;
