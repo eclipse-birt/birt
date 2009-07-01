@@ -59,6 +59,9 @@ public class PDFPageDevice implements IPageDevice
 	
 	private PdfTemplate totalPageTemplate = null;
 	
+	final static int MAX_PAGE_WIDTH = 14400000; //200 inch
+	final static int MAX_PAGE_HEIGHT = 14400000; //200 inch
+
 	public PDFPageDevice( OutputStream output, String title, String author, String subject, 
 			String description, IReportContext context, IReportContent report )
 	{
@@ -145,8 +148,10 @@ public class PDFPageDevice implements IPageDevice
 
 	public IPage newPage( int width, int height, Color backgroundColor )
 	{
-		currentPage = new PDFPage( width, height, doc, writer, this );
-		currentPage.drawBackgroundColor( backgroundColor, 0, 0, width, height );
+		int w = Math.min( width, MAX_PAGE_WIDTH );
+		int h = Math.min( height, MAX_PAGE_HEIGHT );
+		currentPage = new PDFPage( w, h, doc, writer, this );
+		currentPage.drawBackgroundColor( backgroundColor, 0, 0, w, h );
 		return currentPage;
 	}
 	
