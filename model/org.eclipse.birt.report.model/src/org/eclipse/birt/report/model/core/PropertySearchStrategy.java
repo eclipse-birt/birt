@@ -259,6 +259,9 @@ public class PropertySearchStrategy
 
 		// 2). Does the style provide the value of this property ?
 
+		if ( !prop.isStyleProperty( ) )
+			return null;
+
 		StyleElement style = element.getStyle( module );
 		if ( style != null )
 		{

@@ -12,7 +12,7 @@
     </themes>
     <components>
         <label name="label_1" id="6">
-            <property name="style">My style</property>
+            <property name="style">My-style</property>
         </label>
         <label name="label_2" id="7">
             <property name="style">test-style</property>

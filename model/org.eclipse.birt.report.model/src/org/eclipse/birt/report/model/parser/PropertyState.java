@@ -278,7 +278,7 @@ class PropertyState extends AbstractPropertyState
 				}
 				else
 				{
-					Theme theme = handler.module.getTheme( );
+					Theme theme = handler.module.getTheme( handler.module );
 					if ( theme != null )
 					{
 						nameMap = (Map<String, String>) handler.tempValue
