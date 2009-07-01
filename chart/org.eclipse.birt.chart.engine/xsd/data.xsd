@@ -174,7 +174,7 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="GroupingUnit"
-				type="attribute:GroupingUnitType" default="Seconds">
+				type="attribute:GroupingUnitType" default="Days">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies the unit of grouping.

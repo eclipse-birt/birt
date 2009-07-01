@@ -771,7 +771,7 @@ public class ChartUtil
 		{
 			if ( grouping.getGroupingUnit( ) == null )
 			{
-				return GroupingUnitType.SECONDS_LITERAL.getName( );
+				return GroupingUnitType.DAYS_LITERAL.getName( );
 			}
 
 			return grouping.getGroupingUnit( ).getName( );

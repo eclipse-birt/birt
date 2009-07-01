@@ -86,7 +86,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected static final GroupingUnitType GROUPING_UNIT_EDEFAULT = GroupingUnitType.SECONDS_LITERAL;
+	protected static final GroupingUnitType GROUPING_UNIT_EDEFAULT = GroupingUnitType.DAYS_LITERAL;
 
 	/**
 	 * The cached value of the '
