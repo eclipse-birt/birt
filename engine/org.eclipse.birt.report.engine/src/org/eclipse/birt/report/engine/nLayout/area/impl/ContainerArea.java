@@ -339,57 +339,54 @@ public abstract class ContainerArea extends AbstractArea
 		Image img = null;
 		if ( bgi != null )
 		{
-			if ( ( bgi.getXOffset( ) != 0 || bgi.getYOffset( ) != 0 ) )
+			String imageUrl = bgi.getUrl( );
+			try
 			{
-				String imageUrl = bgi.getUrl( );
-				try
+				img = Image.getInstance( new URL( bgi.getUrl( ) ) );
+			}
+			catch ( Exception e )
+			{
+				if ( SvgFile.isSvg( imageUrl ) )
 				{
-					img = Image.getInstance( new URL( bgi.getUrl( ) ) );
-				}
-				catch ( Exception e )
-				{
-					if ( SvgFile.isSvg( imageUrl ) )
+					try
 					{
-						try
-						{
-							img = Image.getInstance( SvgFile
-									.transSvgToArray( imageUrl ) );
-						}
-						catch ( Exception ex )
-						{
-							logger.log( Level.WARNING, ex.getMessage( ), ex );
-						}
+						img = Image.getInstance( SvgFile
+								.transSvgToArray( imageUrl ) );
 					}
-					else
+					catch ( Exception ex )
 					{
-						logger.log( Level.WARNING, e.getMessage( ), e );
+						logger.log( Level.WARNING, ex.getMessage( ), ex );
 					}
 				}
-				if ( img != null )
+				else
 				{
-					int resolutionX = img.getDpiX( );
-					int resolutionY = img.getDpiY( );
-					if ( 0 == resolutionX || 0 == resolutionY )
-					{
-						resolutionX = 96;
-						resolutionY = 96;
-					}
-					float imageWidth = img.plainWidth( ) / resolutionX * 72;
-					float imageHeight = img.plainHeight( ) / resolutionY * 72;
-					if ( content != null )
-					{
-						IStyle style = content.getComputedStyle( );
-						int ox = getDimensionValue(
-								style
-										.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-								( width - (int) ( imageWidth * PDFConstants.LAYOUT_TO_PDF_RATIO ) ) );
-						int oy = getDimensionValue(
-								style
-										.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-								( height - (int) ( imageHeight * PDFConstants.LAYOUT_TO_PDF_RATIO ) ) );
-						bgi.setXOffset( ox );
-						bgi.setYOffset( oy );
-					}
+					logger.log( Level.WARNING, e.getMessage( ), e );
+				}
+			}
+			if ( img != null )
+			{
+				int resolutionX = img.getDpiX( );
+				int resolutionY = img.getDpiY( );
+				if ( 0 == resolutionX || 0 == resolutionY )
+				{
+					resolutionX = 96;
+					resolutionY = 96;
+				}
+				float imageWidth = img.plainWidth( ) / resolutionX * 72;
+				float imageHeight = img.plainHeight( ) / resolutionY * 72;
+				if ( content != null )
+				{
+					IStyle style = content.getComputedStyle( );
+					int ox = getDimensionValue(
+							style
+									.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
+							( width - (int) ( imageWidth * PDFConstants.LAYOUT_TO_PDF_RATIO ) ) );
+					int oy = getDimensionValue(
+							style
+									.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
+							( height - (int) ( imageHeight * PDFConstants.LAYOUT_TO_PDF_RATIO ) ) );
+					bgi.setXOffset( ox );
+					bgi.setYOffset( oy );
 				}
 			}
 		}
@@ -1022,8 +1019,11 @@ public abstract class ContainerArea extends AbstractArea
 		if ( !isInInlineStacking )
 		{
 			pageBreakAfter = style.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
-			pageBreakInside = style
-					.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE );
+			if ( pageBreakInside == null )
+			{
+				pageBreakInside = style
+						.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE );
+			}
 			pageBreakBefore = style
 					.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
 		}
@@ -1122,8 +1122,11 @@ public abstract class ContainerArea extends AbstractArea
 			if ( !isInInlineStacking )
 			{
 				pageBreakAfter = cs.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
-				pageBreakInside = cs
-						.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE );
+				if ( pageBreakInside == null )
+				{
+					pageBreakInside = cs
+							.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE );
+				}
 				pageBreakBefore = cs
 						.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
 			}
