@@ -40,7 +40,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jst.j2ee.internal.project.J2EEProjectUtilities;
+import org.eclipse.jst.j2ee.project.JavaEEProjectUtilities;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -106,7 +106,7 @@ public class ImportChartRuntimeAction extends Action
 	 */
 	protected boolean isValidProject( IProject fProject )
 	{
-		return J2EEProjectUtilities.isDynamicWebProject( fProject );
+		return JavaEEProjectUtilities.isDynamicWebProject( fProject );
 	}
 
 	/**
