@@ -18,8 +18,6 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 public interface IEngineContext extends IReportContext
 {
 
-	ClassLoader getApplicationClassLoader( );
-
 	IReportContent getReportContent( );
 	
 	IReportDocument getReportDocument( );

@@ -441,11 +441,6 @@ public class ExecutorManager
 			return context.getReportContent( );
 		}
 
-		public ClassLoader getApplicationClassLoader( )
-		{
-			return context.getApplicationClassLoader( );
-		}
-
 		public IDataQueryDefinition[] getQueries( Object handle )
 		{
 			if ( handle instanceof ReportElementHandle )

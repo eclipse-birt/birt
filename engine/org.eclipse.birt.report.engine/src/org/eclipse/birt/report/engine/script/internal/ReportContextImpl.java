@@ -227,4 +227,9 @@ public class ReportContextImpl implements IReportContext
 		}
 		return null;
 	}
+	
+	public ClassLoader getApplicationClassLoader( )
+	{
+		return context.getApplicationClassLoader( );
+	}
 }

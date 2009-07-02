@@ -27,9 +27,4 @@ public class ReportEventContext extends ReportContextImpl
 	{
 		super( context );
 	}
-
-	public ClassLoader getApplicationClassLoader( )
-	{
-		return context.getApplicationClassLoader( );
-	}
 }

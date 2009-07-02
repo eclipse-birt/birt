@@ -19,11 +19,6 @@ public interface IExecutorContext extends IReportContext
 {
 
 	/**
-	 * get the class loader used to load user defined classes.
-	 */
-	ClassLoader getApplicationClassLoader( );
-
-	/**
 	 * create IReportItemExecutor of handle, the extendedItem is child.
 	 */
 	IReportItemExecutor createExecutor( IReportItemExecutor parent,

@@ -30,11 +30,6 @@ public class RenderContext extends ReportContextImpl implements IRenderContext
 		return context.getReportDocument( );
 	}
 
-	public ClassLoader getApplicationClassLoader( )
-	{
-		return context.getApplicationClassLoader( );
-	}
-
 	public IReportContent getReportContent( )
 	{
 		return context.getReportContent( );

@@ -44,11 +44,6 @@ public class RunContext extends ReportContextImpl implements IRunContext
 		return null;
 	}
 
-	public ClassLoader getApplicationClassLoader( )
-	{
-		return context.getApplicationClassLoader( );
-	}
-
 	public IReportContent getReportContent( )
 	{
 		return context.getReportContent( );

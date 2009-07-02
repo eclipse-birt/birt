@@ -33,11 +33,6 @@ public class PreparationContext extends ReportContextImpl
 		this.visitor = visitor;
 	}
 
-	public ClassLoader getApplicationClassLoader( )
-	{
-		return context.getApplicationClassLoader( );
-	}
-
 	public void prepare( DesignElementHandle handle ) throws BirtException
 	{
 		visitor.apply( handle );

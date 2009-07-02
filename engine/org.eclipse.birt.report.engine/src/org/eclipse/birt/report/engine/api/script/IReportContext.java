@@ -238,4 +238,11 @@ public interface IReportContext
 	String getResourceRenderURL( String resourceName );
 	
 	Object evaluate(String script) throws BirtException;
+	
+	/**
+	 * get the application classLoader of the current report context
+	 * 
+	 * @return application classLoader
+	 */
+	ClassLoader getApplicationClassLoader( );
 }

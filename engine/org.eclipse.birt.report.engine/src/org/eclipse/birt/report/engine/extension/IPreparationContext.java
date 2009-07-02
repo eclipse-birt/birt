@@ -18,8 +18,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 public interface IPreparationContext extends IReportContext
 {
 
-	public ClassLoader getApplicationClassLoader( );
-
 	public void prepare( DesignElementHandle handle ) throws BirtException;
 
 	public void triggerEvent( DesignElementHandle handle ) throws BirtException;
