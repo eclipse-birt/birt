@@ -270,7 +270,6 @@ public class DataSetBasePage extends WizardPage
 			}
 		} );
 		setControl( composite );
-//		setPageComplete( false );
 
 		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASET_NEW );
@@ -636,8 +635,7 @@ public class DataSetBasePage extends WizardPage
 		try
 		{
 			if ( m_designSession != null )
-				return isPageComplete( )
-						&& m_designSession.getNewWizard( ).canFinish( );
+				return m_designSession.getNewWizard( ).canFinish( );
 			else
 				return isPageComplete( );
 		}
@@ -902,91 +900,6 @@ public class DataSetBasePage extends WizardPage
 		}
 		return null;
 	}
-}
-
-class DataSourceComboProvider implements
-		IStructuredContentProvider,
-		ILabelProvider
-{
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
-	 */
-	public Object[] getElements( Object inputElement )
-	{
-		return ( (List) inputElement ).toArray( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-	 */
-	public void dispose( )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
-	 *      java.lang.Object, java.lang.Object)
-	 */
-	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
-	 */
-	public Image getImage( Object element )
-	{
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
-	 */
-	public String getText( Object element )
-	{
-		return ( (DataSourceHandle) element ).getQualifiedName();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
-	 */
-	public void addListener( ILabelProviderListener listener )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object,
-	 *      java.lang.String)
-	 */
-	public boolean isLabelProperty( Object element, String property )
-	{
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
-	 */
-	public void removeListener( ILabelProviderListener listener )
-	{
-	}
-
 }
 
 class DataSetTypesProvider implements
