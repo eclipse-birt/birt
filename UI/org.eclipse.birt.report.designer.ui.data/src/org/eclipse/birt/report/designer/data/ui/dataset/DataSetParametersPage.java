@@ -955,6 +955,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	 */
 	public boolean performOk( )
 	{
+		DataSetHandle dataSetHandle = (DataSetHandle) getContainer( ).getModel( );
+		isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
+		isJointOrDerivedDataSetHandle = ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle );
+		
 		if ( doSaveEmptyParameter( parameters ) )
 		{
 			// selectorImage.dispose();
