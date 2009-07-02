@@ -15,16 +15,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.eclipse.birt.integration.wtp.ui.internal.dialogs.BirtConfigurationDialog;
 import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
 import org.eclipse.birt.integration.wtp.ui.internal.util.Logger;
-import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.WebAppBean;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWizardUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.SimpleImportOverwriteQuery;
-import org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetUtil;
-import org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetUtil25;
 import org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetUtilFactory;
 import org.eclipse.birt.integration.wtp.ui.project.facet.IBirtFacetUtil;
 import org.eclipse.core.resources.IFile;
@@ -45,11 +43,9 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jst.j2ee.internal.project.J2EEProjectUtilities;
 import org.eclipse.jst.j2ee.model.IModelProvider;
 import org.eclipse.jst.j2ee.model.ModelProviderManager;
-import org.eclipse.jst.javaee.web.WebApp;
-import org.eclipse.jst.javaee.web.WebAppVersionType;
+import org.eclipse.jst.j2ee.project.JavaEEProjectUtilities;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -115,7 +111,7 @@ public class ImportBirtRuntimeAction extends Action
 	 */
 	protected boolean isValidProject( IProject fProject )
 	{
-		return J2EEProjectUtilities.isDynamicWebProject( fProject );
+		return JavaEEProjectUtilities.isDynamicWebProject( fProject );
 	}
 
 	/**

@@ -53,7 +53,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.jst.j2ee.internal.project.J2EEProjectUtilities;
+import org.eclipse.jst.j2ee.project.JavaEEProjectUtilities;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
@@ -708,7 +708,8 @@ public class BirtWizardUtil implements IBirtWizardConstants
 		IPath path = null;
 
 		if ( project != null
-				&& J2EEProjectUtilities.isDynamicWebProject( project ) )
+				&& JavaEEProjectUtilities.isDynamicWebProject( project )
+		)
 		{
 			IVirtualComponent component = ComponentCore
 					.createComponent( project );
