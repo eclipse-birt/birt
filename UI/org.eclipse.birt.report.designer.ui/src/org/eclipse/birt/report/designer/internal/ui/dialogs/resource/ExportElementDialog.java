@@ -391,13 +391,16 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 					}
 				}
 
-				ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
-						libraryHandle,
-						true );
 				if ( firstElement instanceof ImageHandle )
 				{
 					exportEmbeddedImage( (ImageHandle) firstElement,
 							libraryHandle );
+				}
+				else
+				{
+					ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
+							libraryHandle,
+							true );
 				}
 
 			}
@@ -574,15 +577,24 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				case 0 : // Yes
 					break;
 				case 1 : // No
+				{
+					ElementExportUtil.exportElement( (DesignElementHandle) image,
+							libraryHandle,
+							true );
 					return;
+				}
 				case 2 : // Cancel
 				default :
 					cancelPressed( );
 					return;
 			}
 		}
-		ElementExportUtil.exportStructure( embeded, libraryHandle, true );
-
+		ElementExportUtil.exportElement( (DesignElementHandle) image,
+							libraryHandle,
+							true );
+		ElementExportUtil.exportStructure( embeded,
+							libraryHandle,
+							true );
 	}
 
 	/**
