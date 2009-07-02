@@ -12,9 +12,7 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.EdgeCursor;
@@ -26,15 +24,11 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
-import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 /**
  * Data expression evaluator for cube query.
@@ -64,11 +58,6 @@ public class BIRTCubeResultSetEvaluator extends
 
 	protected boolean bWithoutSub = false;
 
-	// Use DTE APIs with rhino to evaluate expression like data["x"]+data["xx"]
-	private Context cx;
-	private ImporterTopLevel global;
-	private ScriptableObject dataObject;
-
 	public BIRTCubeResultSetEvaluator( ICubeResultSet rs )
 	{
 		this.rs = rs;
@@ -79,42 +68,6 @@ public class BIRTCubeResultSetEvaluator extends
 	{
 		this.rs = null;
 		this.qr = qr;
-
-		// Must evaluate complex expressions with rhino
-		cx = Context.enter( );
-		global = new ImporterTopLevel( );
-		// Add data expression evaluator
-		dataObject = new ScriptableObject( ) {
-
-			private static final long serialVersionUID = 7514367894454591834L;
-
-			private Map<String, Object> dataValues = new HashMap<String, Object>( );
-
-			@Override
-			public String getClassName( )
-			{
-				return ExpressionUtil.DATA_INDICATOR;
-			}
-
-			@Override
-			public boolean has( String name, Scriptable start )
-			{
-				return dataValues.containsKey( name );
-			}
-
-			@Override
-			public void put( String name, Scriptable start, Object value )
-			{
-				dataValues.put( name, value );
-			}
-
-			@Override
-			public Object get( String name, Scriptable start )
-			{
-				return dataValues.get( name );
-			}
-		};
-		global.put( ExpressionUtil.DATA_INDICATOR, global, dataObject );
 	}
 
 	public int[] getGroupBreaks( int groupLevel )
@@ -162,19 +115,19 @@ public class BIRTCubeResultSetEvaluator extends
 			else
 			{
 				// DTE only supports evaluating data binding name, so chart
-				// engine must evaluate complex expression with rhino.
-				// Get each data element and set the evaluated value to rhino
-				// context
-				List<String> bindingNames = ChartXTabUtil.getBindingNameList( expression );
-				for ( String bindingName : bindingNames )
+				// engine must check if it's binding name.
+				final String bindingName;
+				if ( ChartXTabUtil.isBinding( expression, false ) )
 				{
-					dataObject.put( bindingName,
-							global,
-							cubeCursor.getObject( bindingName ) );
+					bindingName = ChartXTabUtil.getBindingName( expression,
+							false );
 				}
-				result = cx.evaluateString( global,
-						expression,
-						"<inline>", 1, null ); //$NON-NLS-1$
+				else
+				{
+					// Directly use the binding created in query definition
+					bindingName = ChartUtil.escapeSpecialCharacters( expression );
+				}
+				result = cubeCursor.getObject( bindingName );
 			}
 		}
 		catch ( OLAPException e )
@@ -256,10 +209,6 @@ public class BIRTCubeResultSetEvaluator extends
 			catch ( BirtException e )
 			{
 				logger.log( e );
-			}
-			finally
-			{
-				Context.exit( );
 			}
 		}
 	}

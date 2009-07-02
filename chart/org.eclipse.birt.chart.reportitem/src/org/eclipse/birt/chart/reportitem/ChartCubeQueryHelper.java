@@ -31,6 +31,8 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
@@ -177,7 +179,7 @@ public class ChartCubeQueryHelper
 					}
 					return subQuery;
 				}
-				
+
 				// If single chart in xtab, use parent to render directly
 				return (ICubeQueryDefinition) parent;
 			}
@@ -202,12 +204,12 @@ public class ChartCubeQueryHelper
 				Query query = queryList.get( j );
 				// Add measures or dimensions for data definition, and update
 				// query expression
-				bindSeriesQuery( query.getDefinition( ), cubeQuery, cubeHandle );
+				bindExpression( query.getDefinition( ), cubeQuery, cubeHandle );
 			}
 
 			// Add measures or dimensions for optional grouping, and update
 			// query expression
-			bindSeriesQuery( sd.getQuery( ).getDefinition( ),
+			bindExpression( sd.getQuery( ).getDefinition( ),
 					cubeQuery,
 					cubeHandle );
 		}
@@ -348,10 +350,10 @@ public class ChartCubeQueryHelper
 	private void addMinMaxBinding( ICubeQueryDefinition parent )
 			throws BirtException
 	{
-		Axis xAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
-		SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
+		Axis xAxis = ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
+		SeriesDefinition sdValue = ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
 				true )[0].getSeriesDefinitions( ).get( 0 );
-		Query queryValue = (Query) sdValue.getDesignTimeSeries( )
+		Query queryValue = sdValue.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
 		String bindingValue = ChartXTabUtil.getBindingName( queryValue.getDefinition( ),
@@ -396,9 +398,9 @@ public class ChartCubeQueryHelper
 	private void initBindings( ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
-		for ( Iterator bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
+		for ( Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
-			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
+			ComputedColumnHandle column = bindings.next( );
 			// Create new binding
 			IBinding binding = new Binding( column.getName( ) );
 			binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
@@ -407,9 +409,9 @@ public class ChartCubeQueryHelper
 			String expression = column.getExpression( );
 			if ( expression == null )
 			{
-				for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+				for ( Iterator<AggregationArgumentHandle> argItr = column.argumentsIterator( ); argItr.hasNext( ); )
 				{
-					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+					AggregationArgumentHandle aah = argItr.next( );
 					expression = aah.getValue( );
 					// Not add expression to arguments
 					// binding.addArgument( new ScriptExpression( expression )
@@ -419,7 +421,7 @@ public class ChartCubeQueryHelper
 			// Even if expression is null, create the script expression
 			binding.setExpression( new ScriptExpression( expression ) );
 
-			List lstAggOn = column.getAggregateOnList( );
+			List<String> lstAggOn = column.getAggregateOnList( );
 
 			// Do not add aggregateOn to binding in single chart case, because
 			// it doesn't use sub query.
@@ -432,7 +434,7 @@ public class ChartCubeQueryHelper
 			}
 
 			// Add binding query expression here
-			registeredBindings.put( column.getName( ), binding );
+			registeredBindings.put( binding.getBindingName( ), binding );
 			// Add raw query expression here
 			registeredQueries.put( binding.getBindingName( ), expression );
 
@@ -441,13 +443,13 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private void addAggregateOn( IBinding binding, List lstAggOn,
+	private void addAggregateOn( IBinding binding, List<String> lstAggOn,
 			ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
-		for ( Iterator iAggs = lstAggOn.iterator( ); iAggs.hasNext( ); )
+		for ( Iterator<String> iAggs = lstAggOn.iterator( ); iAggs.hasNext( ); )
 		{
-			String aggOn = (String) iAggs.next( );
+			String aggOn = iAggs.next( );
 			// Convert full level name to dimension expression
 			String[] levelNames = CubeUtil.splitLevelName( aggOn );
 			String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
@@ -517,135 +519,166 @@ public class ChartCubeQueryHelper
 		}
 	}
 
+	private void bindBinding( IBinding colBinding,
+			ICubeQueryDefinition cubeQuery, CubeHandle cube )
+			throws BirtException
+	{
+		if ( colBinding == null )
+		{
+			return;
+		}
+		String bindingName = colBinding.getBindingName( );
+		// Convert binding expression like data[] to raw expression
+		// like dimension[] or measure[]
+		String expr = registeredQueries.get( bindingName );
+
+		// Add binding to query definition
+		if ( !cubeQuery.getBindings( ).contains( colBinding ) )
+		{
+			cubeQuery.addBinding( colBinding );
+		}
+
+		if ( ChartXTabUtil.isBinding( expr, true ) )
+		{
+			// Support nest data expression in binding
+			bindExpression( expr, cubeQuery, cube );
+			return;
+		}
+
+		String measure = ChartXTabUtil.getMeasureName( expr );
+		if ( measure != null )
+		{
+			if ( registeredMeasures.containsKey( bindingName ) )
+			{
+				return;
+			}
+
+			// Add measure
+			IMeasureDefinition mDef = cubeQuery.createMeasure( measure );
+
+			String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( measure )
+					.getFunction( ) );
+			mDef.setAggrFunction( aggFun );
+			registeredMeasures.put( bindingName, mDef );
+
+			// AggregateOn has been added in binding when initializing
+			// column bindings
+		}
+		else if ( ChartXTabUtil.isDimensionExpresion( expr ) )
+		{
+			if ( registeredLevels.containsKey( bindingName ) )
+			{
+				return;
+			}
+
+			// Add row/column edge
+			String[] levels = ChartXTabUtil.getLevelNameFromDimensionExpression( expr );
+			String dimensionName = levels[0];
+			final int edgeType = getEdgeType( dimensionName );
+			IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
+			IHierarchyDefinition hieDef = null;
+			if ( edge == null )
+			{
+				// Only create one edge/dimension/hierarchy in one
+				// direction
+				edge = cubeQuery.createEdge( edgeType );
+				IDimensionDefinition dimDef = edge.createDimension( dimensionName );
+				// Do not use qualified name since it may be from
+				// library
+				hieDef = dimDef.createHierarchy( cube.getDimension( dimDef.getName( ) )
+						.getDefaultHierarchy( )
+						.getName( ) );
+			}
+			else
+			{
+				hieDef = (IHierarchyDefinition) ( (IDimensionDefinition) edge.getDimensions( )
+						.get( 0 ) ).getHierarchy( ).get( 0 );
+			}
+
+			// Create level
+			boolean bMultipleLevels = !hieDef.getLevels( ).isEmpty( );
+			ILevelDefinition levelDef = hieDef.createLevel( levels[1] );
+
+			registeredLevels.put( bindingName, levelDef );
+
+			LevelHandle levelHandle = handle.getModuleHandle( )
+					.findLevel( levelDef.getHierarchy( )
+							.getDimension( )
+							.getName( )
+							+ "/" + levelDef.getName( ) ); //$NON-NLS-1$
+
+			registeredLevelHandles.put( levelHandle, levelDef );
+
+			// Reset the level definitions by hierarchy order in
+			// multiple levels case
+			if ( bMultipleLevels )
+			{
+				Iterator<ILevelDefinition> levelsInOrder = getAllLevelsInHierarchyOrder( cube,
+						cubeQuery ).iterator( );
+				hieDef.getLevels( ).clear( );
+				while ( levelsInOrder.hasNext( ) )
+				{
+					ILevelDefinition level = levelsInOrder.next( );
+					hieDef.createLevel( level.getName( ) );
+				}
+			}
+		}
+	}
+
 	/**
 	 * Adds measure or row/column edge according to query expression.
 	 */
-	private void bindSeriesQuery( String expr, ICubeQueryDefinition cubeQuery,
+	private void bindExpression( String expr, ICubeQueryDefinition cubeQuery,
 			CubeHandle cube ) throws BirtException
 	{
 		if ( expr != null && expr.length( ) > 0 )
 		{
-			String bindingName = ChartXTabUtil.getBindingName( expr, true );
-
+			String bindingName = null;
 			IBinding colBinding = null;
-			if ( bindingName != null )
+			if ( ChartXTabUtil.isBinding( expr, false ) )
 			{
+				// Simple binding name case
+				bindingName = ChartXTabUtil.getBindingName( expr, false );
+				colBinding = registeredBindings.get( bindingName );
+			}
+			else
+			{
+				// Complex expression case
+				bindingName = ChartUtil.escapeSpecialCharacters( expr );
+
+				// Create new binding
+				colBinding = new Binding( bindingName );
+				colBinding.setDataType( DataType.ANY_TYPE );
+				colBinding.setExpression( new ScriptExpression( expr ) );
+				cubeQuery.addBinding( colBinding );
+
 				List<String> nameList = ChartXTabUtil.getBindingNameList( expr );
-				if ( nameList.size( ) > 1 )
+				if ( nameList.size( ) == 0 )
+				{
+					// Constant case
+					return;
+				}
+				else if ( nameList.size( ) == 1 )
+				{
+					// One binding case
+					bindingName = nameList.get( 0 );
+					colBinding = registeredBindings.get( bindingName );
+				}
+				else
 				{
 					// Support multiple data expression concatenation like:
 					// data["a"]+data["b"]
 					for ( String bn : nameList )
 					{
-						bindSeriesQuery( ExpressionUtil.createJSDataExpression( bn ),
+						bindBinding( registeredBindings.get( bn ),
 								cubeQuery,
 								cube );
 					}
 					return;
 				}
-
-				colBinding = registeredBindings.get( bindingName );
 			}
 
-			if ( colBinding != null )
-			{
-				bindingName = colBinding.getBindingName( );
-				// Convert binding expression like data[] to raw expression
-				// like dimension[] or measure[]
-				expr = registeredQueries.get( bindingName );
-
-				// Add binding to query definition
-				if ( !cubeQuery.getBindings( ).contains( colBinding ) )
-				{
-					cubeQuery.addBinding( colBinding );
-				}
-
-				if ( ChartXTabUtil.isBinding( expr, true ) )
-				{
-					// Support nest data expression in binding
-					bindSeriesQuery( expr, cubeQuery, cube );
-					return;
-				}
-
-				String measure = ChartXTabUtil.getMeasureName( expr );
-				if ( measure != null )
-				{
-					if ( registeredMeasures.containsKey( bindingName ) )
-					{
-						return;
-					}
-
-					// Add measure
-					IMeasureDefinition mDef = cubeQuery.createMeasure( measure );
-
-					String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( measure )
-							.getFunction( ) );
-					mDef.setAggrFunction( aggFun );
-					registeredMeasures.put( bindingName, mDef );
-
-					// AggregateOn has been added in binding when initializing
-					// column bindings
-				}
-				else if ( ChartXTabUtil.isDimensionExpresion( expr ) )
-				{
-					if ( registeredLevels.containsKey( bindingName ) )
-					{
-						return;
-					}
-
-					// Add row/column edge
-					String[] levels = ChartXTabUtil.getLevelNameFromDimensionExpression( expr );
-					String dimensionName = levels[0];
-					final int edgeType = getEdgeType( dimensionName );
-					IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
-					IHierarchyDefinition hieDef = null;
-					if ( edge == null )
-					{
-						// Only create one edge/dimension/hierarchy in one
-						// direction
-						edge = cubeQuery.createEdge( edgeType );
-						IDimensionDefinition dimDef = edge.createDimension( dimensionName );
-						// Do not use qualified name since it may be from
-						// library
-						hieDef = dimDef.createHierarchy( cube.getDimension( dimDef.getName( ) )
-								.getDefaultHierarchy( )
-								.getName( ) );
-					}
-					else
-					{
-						hieDef = (IHierarchyDefinition) ( (IDimensionDefinition) edge.getDimensions( )
-								.get( 0 ) ).getHierarchy( ).get( 0 );
-					}
-
-					// Create level
-					boolean bMultipleLevels = !hieDef.getLevels( ).isEmpty( );
-					ILevelDefinition levelDef = hieDef.createLevel( levels[1] );
-
-					registeredLevels.put( bindingName, levelDef );
-
-					LevelHandle levelHandle = handle.getModuleHandle( )
-							.findLevel( levelDef.getHierarchy( )
-									.getDimension( )
-									.getName( )
-									+ "/" + levelDef.getName( ) ); //$NON-NLS-1$
-
-					registeredLevelHandles.put( levelHandle, levelDef );
-
-					// Reset the level definitions by hierarchy order in
-					// multiple levels case
-					if ( bMultipleLevels )
-					{
-						Iterator levelsInOrder = getAllLevelsInHierarchyOrder( cube,
-								cubeQuery ).iterator( );
-						hieDef.getLevels( ).clear( );
-						while ( levelsInOrder.hasNext( ) )
-						{
-							ILevelDefinition level = (ILevelDefinition) levelsInOrder.next( );
-							hieDef.createLevel( level.getName( ) );
-						}
-					}
-				}
-			}
+			bindBinding( colBinding, cubeQuery, cube );
 		}
 	}
 
@@ -655,7 +688,7 @@ public class ChartCubeQueryHelper
 		PropertyHandle propHandle = itemHandle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
 		if ( propHandle == null )
 		{
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 		return propHandle.getListValue( );
 	}
@@ -694,7 +727,7 @@ public class ChartCubeQueryHelper
 		}
 		else if ( ChartReportItemUtil.getReportItemReference( handle ) != null )
 		{
-			// It is shaing crosstab case.
+			// It is sharing crosstab case.
 			ReportItemHandle rih = ChartReportItemUtil.getReportItemReference( handle );
 			if ( ChartReportItemUtil.isChartReportItemHandle( rih ) )
 			{
@@ -706,7 +739,7 @@ public class ChartCubeQueryHelper
 				filters = getFiltersFromXtab( crossTab );
 			}
 		}
-		
+
 		if ( filters == null )
 		{
 			filters = getCubeFiltersFromHandle( handle );
@@ -734,7 +767,7 @@ public class ChartCubeQueryHelper
 			{
 				filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-						filterCon.getValue1List( ) );
+						filterCon.getValue1ExpressionList( ).getListValue( ) );
 			}
 			else
 			{
@@ -803,7 +836,8 @@ public class ChartCubeQueryHelper
 		return list;
 	}
 
-	private List getLevelOnCrosstab( ExtendedItemHandle handle )
+	private List<FilterConditionElementHandle> getLevelOnCrosstab(
+			ExtendedItemHandle handle )
 	{
 		CrosstabViewHandle crossTabViewHandle = null;
 		try
@@ -812,10 +846,9 @@ public class ChartCubeQueryHelper
 		}
 		catch ( ExtendedElementException e )
 		{
-			// TODO Auto-generated catch block
 			logger.log( e );
 		}
-		List list = new ArrayList( );
+		List<FilterConditionElementHandle> list = new ArrayList<FilterConditionElementHandle>( );
 		if ( crossTabViewHandle == null )
 		{
 			return list;
@@ -829,7 +862,7 @@ public class ChartCubeQueryHelper
 			for ( int j = 0; j < levelCount; j++ )
 			{
 				LevelViewHandle levelHandle = dimension.getLevel( j );
-				Iterator iter = levelHandle.filtersIterator( );
+				Iterator<FilterConditionElementHandle> iter = levelHandle.filtersIterator( );
 				while ( iter.hasNext( ) )
 				{
 					list.add( iter.next( ) );
@@ -959,19 +992,19 @@ public class ChartCubeQueryHelper
 		List<SeriesDefinition> seriesList = new ArrayList<SeriesDefinition>( );
 		if ( chart instanceof ChartWithAxes )
 		{
-			Axis xAxis = (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 );
+			Axis xAxis = ( (ChartWithAxes) chart ).getAxes( ).get( 0 );
 			// Add base series definitions
 			seriesList.addAll( xAxis.getSeriesDefinitions( ) );
-			EList axisList = xAxis.getAssociatedAxes( );
+			EList<Axis> axisList = xAxis.getAssociatedAxes( );
 			for ( int i = 0; i < axisList.size( ); i++ )
 			{
 				// Add value series definitions
-				seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
+				seriesList.addAll( axisList.get( i ).getSeriesDefinitions( ) );
 			}
 		}
 		else if ( chart instanceof ChartWithoutAxes )
 		{
-			SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+			SeriesDefinition sdBase = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
 					.get( 0 );
 			seriesList.add( sdBase );
 			seriesList.addAll( sdBase.getSeriesDefinitions( ) );
