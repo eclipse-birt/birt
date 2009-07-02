@@ -562,4 +562,10 @@ public class ReportEngine implements IReportEngine
 	{
 		return engine.getVersion( );
 	}
+
+	public IEngineTask createEngineTask( String taskName )
+			throws EngineException
+	{
+		return engine.createEngineTask( taskName );
+	}
 }

@@ -165,13 +165,16 @@ public class QueryUtil
 			long id = iid.getComponentID( );
 			ReportItemDesign design = (ReportItemDesign) report
 					.getReportItemByID( id );
-			IDataQueryDefinition query = design.getQuery( );
-			if ( query != null )
+			if ( design != null )
 			{
-				queries.add( query );
-				if ( dsIID == null )
+				IDataQueryDefinition query = design.getQuery( );
+				if ( query != null )
 				{
-					dsIID = iid;
+					queries.add( query );
+					if ( dsIID == null )
+					{
+						dsIID = iid;
+					}
 				}
 			}
 			iid = iid.getParentID( );
@@ -195,12 +198,12 @@ public class QueryUtil
 						if ( dataId.getCellID( ) != null )
 						{
 							task = new QueryTask( query, dsId, dataId
-									.getCellID( ), iid );
+									.getCellID( ), dsIID );
 						}
 						else
 						{
 							task = new QueryTask( query, dsId, (int) dataId
-									.getRowID( ), iid );
+									.getRowID( ), dsIID );
 						}
 						plan.add( task );
 						break;

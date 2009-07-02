@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IDocumentWriter;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -883,5 +884,24 @@ public class ReportEngine implements IReportEngine
 			}
 			exts.clear( );
 		}
+	}
+
+	public IEngineTask createEngineTask( String taskName )
+			throws EngineException
+	{
+		String extName = taskName;
+		int index = taskName.lastIndexOf( '.' );
+		if ( index != -1 )
+		{
+			extName = taskName.substring( 0, index );
+			taskName = taskName.substring( index + 1 );
+		}
+		IReportEngineExtension extension = extensionManager
+				.getExtension( extName );
+		if ( extension != null )
+		{
+			return extension.createEngineTask( taskName );
+		}
+		return null;
 	}
 }

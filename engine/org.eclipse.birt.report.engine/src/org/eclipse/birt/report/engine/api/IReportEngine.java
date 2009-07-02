@@ -256,6 +256,16 @@ public interface IReportEngine
 	public void destroy( );
 
 	/**
+	 * create an engine task
+	 * 
+	 * @param taskName
+	 *            the extension name to identify a task
+	 * @return an engine task
+	 */
+	public IEngineTask createEngineTask( String taskName )
+			throws EngineException;
+
+	/**
 	 * Creates a task to run a report to generate a report document.
 	 * 
 	 * @param reportRunnable
