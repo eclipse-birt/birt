@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.IResultSetItem;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 import com.ibm.icu.util.ULocale;
 
@@ -79,7 +80,17 @@ public class ResultSetItem implements IResultSetItem {
 
 	public String getResultSetDisplayName( )
 	{
-		if ( handle != null )
+		if ( handle instanceof ReportElementHandle )
+		{
+			ReportElementHandle tmpHandle = (ReportElementHandle) handle;
+			if ( tmpHandle.getDisplayName( ) != null )
+			{
+				return ModuleUtil.getExternalizedValue( tmpHandle, tmpHandle
+						.getDisplayNameKey( ), tmpHandle.getDisplayName( ),
+						ULocale.forLocale( locale ) );
+			}
+		}
+		else if ( handle != null )
 		{
 			return ModuleUtil.getExternalizedValue( handle, handle.getName( ),
 					resultSetName, ULocale.forLocale( locale ) );
