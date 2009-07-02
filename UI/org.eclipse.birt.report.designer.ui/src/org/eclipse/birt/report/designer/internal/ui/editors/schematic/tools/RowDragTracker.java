@@ -34,6 +34,7 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.swt.graphics.Cursor;
 
 /**
  * Row Drag Tracker
@@ -54,6 +55,15 @@ public class RowDragTracker extends TableDragGuideTracker
 		setDisabledCursor( Cursors.SIZENS );
 	}
 
+	@Override
+	protected Cursor getDefaultCursor( )
+	{
+		if (isCloneActive())
+		{
+			return Cursors.SIZENS;
+		}
+		return super.getDefaultCursor( );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

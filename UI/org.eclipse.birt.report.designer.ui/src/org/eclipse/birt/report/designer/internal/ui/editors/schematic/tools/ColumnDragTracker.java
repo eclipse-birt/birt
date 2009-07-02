@@ -60,12 +60,22 @@ public class ColumnDragTracker extends TableDragGuideTracker
 		setDisabledCursor( Cursors.SIZEWE );
 	}
 
+	@Override
+	protected Cursor getDefaultCursor( )
+	{
+		if (isCloneActive())
+		{
+			return Cursors.SIZEWE;
+		}
+		return super.getDefaultCursor( );
+	}
+	
 	protected void resize( )
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
 		int value = getMouseTrueValueX( );
 		part.getTableAdapter( ).transStar(RESIZE_COLUMN_TRANS_LABEL );
-		if (isresizeMultipleColumn( ))
+		if (isresizeMultipleColumn( ) && isCtrlDown( ))
 		{
 			List list = filterEditPart( part.getViewer( ).getSelectedEditParts( ));
 			boolean resizeTable = false;
@@ -127,7 +137,7 @@ public class ColumnDragTracker extends TableDragGuideTracker
 		if ( start != end )
 		{
 			value = getTrueValue( value, start, end );
-			part.resizeColumn( start, end, value );
+			part.resizeColumn( start, end, value, !isCtrlDown( ) );
 		}
 		else
 		{
@@ -171,11 +181,17 @@ public class ColumnDragTracker extends TableDragGuideTracker
 			return ;
 		}
 		
+		Object endColumn = part.getColumn( end );
+		if (!(endColumn instanceof ColumnHandle))	
+		{
+			return ;
+		}
+		
 		int startWidth = 0;
 		int endWidth = 0;
 
 		startWidth = TableUtil.caleVisualWidth( part, startColumn );
-
+		endWidth = TableUtil.caleVisualWidth( part, endColumn );
 		try
 		{
 			
@@ -184,7 +200,14 @@ public class ColumnDragTracker extends TableDragGuideTracker
 					getDefaultUnits( ) );
 			
 			((ColumnHandle)startColumn).getWidth( ).setValue( dimensionValue );
-			// endAdapt.setWidth( endWidth - value );
+			
+			width = converPixToDefaultUnit( endWidth - value );
+			dimensionValue = new DimensionValue( width,
+					getDefaultUnits( ) );
+			if (!isCtrlDown( ) && start != end)
+			{
+				((ColumnHandle)endColumn).getWidth( ).setValue( dimensionValue );
+			}
 		}
 		catch ( SemanticException e )
 		{
@@ -244,11 +267,26 @@ public class ColumnDragTracker extends TableDragGuideTracker
 	protected Dimension getDragWidth( int start, int end)
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		Dimension retValue = new Dimension( part.getMinWidth( start )
+		if (isCtrlDown( ))
+		{
+			Dimension retValue = new Dimension( part.getMinWidth( start )
 				- getColumnWidth( start ), Integer.MAX_VALUE );
-
+			return retValue;
 		//part.getFigure( ).translateToAbsolute( retValue );
-		return retValue;
+		}
+		else
+		{
+			if ( getStart( ) == getEnd( ) )
+			{
+				return new Dimension( part.getMinWidth( getStart( ) )
+						- getColumnWidth( getStart( ) ), Integer.MAX_VALUE );
+			}
+
+			return new Dimension( part.getMinWidth( getStart( ) )
+					- getColumnWidth( getStart( ) ), getColumnWidth( getEnd( ) )
+					- part.getMinWidth( getEnd( ) ) );
+		}
+		//return retValue;
 
 	}
 
@@ -345,7 +383,7 @@ public class ColumnDragTracker extends TableDragGuideTracker
 		part.getTableAdapter( ).transStar(RESIZE_COLUMN_TRANS_LABEL );
 		int width = 0;
 	
-		if (isresizeMultipleColumn( ))
+		if (isresizeMultipleColumn( ) && isCtrlDown( ))
 		{
 			List list = filterEditPart( part.getViewer( ).getSelectedEditParts( ));
 			
@@ -381,7 +419,14 @@ public class ColumnDragTracker extends TableDragGuideTracker
 			width = width + getTrueValue( value, getStart( ), getEnd( ));
 			resizeFixColumn( value, getStart( ), getEnd( ) );
 		}
-		
+		if (!isCtrlDown( ))
+		{
+			exclusion.add( Integer.valueOf( getEnd( ) ) );
+			if (getStart() != getEnd())
+			{
+				width = 0;
+			}
+		}
 		//Resize the table
 		Dimension tableSize = part.getFigure( ).getSize( ); 
 		try
@@ -437,7 +482,7 @@ public class ColumnDragTracker extends TableDragGuideTracker
 			}
 			else if (dim.getUnits( ) == null || dim.getUnits( ).length( ) == 0)
 			{
-				resizeFixColumn(0,  datas[i].columnNumber, 1);
+				resizeFixColumn(0,  datas[i].columnNumber, datas[i].columnNumber);
 			}
 		}
 	}

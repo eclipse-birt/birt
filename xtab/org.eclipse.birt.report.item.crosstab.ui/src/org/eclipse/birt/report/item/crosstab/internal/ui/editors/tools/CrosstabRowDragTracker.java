@@ -30,6 +30,7 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.swt.graphics.Cursor;
 
 /**
  * Drag the cross cell bottom border to adjust the row height.
@@ -51,6 +52,15 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker
 		setDisabledCursor( Cursors.SIZENS );
 	}
 
+	@Override
+	protected Cursor getDefaultCursor( )
+	{
+		if (isCloneActive())
+		{
+			return Cursors.SIZENS;
+		}
+		return super.getDefaultCursor( );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

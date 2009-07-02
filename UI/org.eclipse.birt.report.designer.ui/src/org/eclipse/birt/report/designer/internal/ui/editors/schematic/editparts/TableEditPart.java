@@ -380,13 +380,22 @@ public class TableEditPart extends AbstractTableEditPart implements
 	}
 
 	/**
+	 * @param start
+	 * @param end
+	 * @param value
+	 */
+	public void resizeColumn( int start, int end, int value )
+	{
+		resizeColumn(start, end, value, false);
+	}
+	/**
 	 * Resets size of column.
 	 * 
 	 * @param start
 	 * @param end
 	 * @param value
 	 */
-	public void resizeColumn( int start, int end, int value )
+	public void resizeColumn( int start, int end, int value, boolean isResetEnd )
 	{
 		Object startColumn = getColumn( start );
 		ColumnHandleAdapter startAdapt = HandleAdapterFactory.getInstance( )
@@ -399,13 +408,16 @@ public class TableEditPart extends AbstractTableEditPart implements
 		int endWidth = 0;
 
 		startWidth = TableUtil.caleVisualWidth( this, startColumn );
-//		endWidth = TableUtil.caleVisualWidth( this, endColumn );
+		endWidth = TableUtil.caleVisualWidth( this, endColumn );
 
 		try
 		{
 			getTableAdapter( ).transStar( RESIZE_COLUMN_TRANS_LABEL );
 			startAdapt.setWidth( startWidth + value );
-			// endAdapt.setWidth( endWidth - value );
+			if (isResetEnd)
+			{
+				endAdapt.setWidth( endWidth - value );
+			}
 			getTableAdapter( ).transEnd( );
 		}
 		catch ( SemanticException e )

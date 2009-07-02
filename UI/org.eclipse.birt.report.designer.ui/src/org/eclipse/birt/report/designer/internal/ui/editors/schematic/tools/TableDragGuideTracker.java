@@ -48,10 +48,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.internal.ui.rulers.DragGuidePolicy;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.internal.EarlyStartupRunnable;
 
 /**
  * TableDragGuideTracker
@@ -344,7 +342,6 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 
 			schedulePaint = false;
 		}
-
 	}
 
 	public int getEnd( )
@@ -542,5 +539,11 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 			info.setPostion( -1 );
 			getSourceEditPart( ).getViewer( ).setProperty( DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE, info );
 		}
+	}
+	
+	
+	public boolean isCtrlDown( )
+	{
+		return getCurrentInput( ).isControlKeyDown( );
 	}
 }

@@ -37,6 +37,7 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.swt.graphics.Cursor;
 
 /**
  * Drag the cross cell right border to adjust the coumn width
@@ -60,6 +61,16 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 		setDisabledCursor( Cursors.SIZEWE );
 	}
 
+	@Override
+	protected Cursor getDefaultCursor( )
+	{
+		if (isCloneActive())
+		{
+			return Cursors.SIZEWE;
+		}
+		return super.getDefaultCursor( );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -69,11 +80,39 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 	 */
 	protected Dimension getDragWidth( int start, int end )
 	{
-		return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
-				getStart( ) )
-				- CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
-						getStart( ) ),
-				Integer.MAX_VALUE );
+//		return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
+//				getStart( ) )
+//				- CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
+//						getStart( ) ),
+//				Integer.MAX_VALUE );
+		if (isCtrlDown( ))
+		{
+			return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
+					getStart( ) )
+					- CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
+							getStart( ) ),
+					Integer.MAX_VALUE );
+		}
+		else
+		{
+			if ( getStart( ) == getEnd( ) )
+			{
+				return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
+						getStart( ) )
+						- CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
+								getStart( ) ),
+						Integer.MAX_VALUE );
+			}
+
+			
+			return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
+					getStart( ) )
+					- CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
+							getStart( ) ),
+							CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
+									getEnd( )) - TableUtil.getMinWidth( getCrosstabTableEditPart( ),
+											getEnd( ) ));
+		}
 	}
 
 	/*
@@ -183,10 +222,15 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter( );
 
 		int startWidth = 0;
-
+		int endWidth = 0;
 		startWidth = CrosstabTableUtil.caleVisualWidth( part, start );
+		endWidth = CrosstabTableUtil.caleVisualWidth( part, end );
 		
 		crosstabAdapter.setColumnWidth( start, converPixToDefaultUnit( startWidth + value), getDefaultUnits( ) );
+		if (!isCtrlDown( ) && start != end)
+		{
+			crosstabAdapter.setColumnWidth( end, converPixToDefaultUnit( endWidth - value), getDefaultUnits( ) );
+		}
 	}
 
 	/**
@@ -205,10 +249,13 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 		int endWidth = 0;
 
 		startWidth = CrosstabTableUtil.caleVisualWidth( part, start );
-		//endWidth = CrosstabTableUtil.caleVisualWidth( part, end );
+		endWidth = CrosstabTableUtil.caleVisualWidth( part, end );
 		
 		crosstabAdapter.setColumnWidth( start, startWidth + value );
-		// crosstabAdapter.setColumnWidth( end, endWidth - value );
+		if (!isCtrlDown( ) && start != end)
+		{
+			crosstabAdapter.setColumnWidth( end, endWidth - value );
+		}
 
 	}
 
@@ -287,6 +334,14 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 		width = width + getTrueValue( value, getStart( ), getEnd( ) );
 		resizeFixColumn( getTrueValue( value ), getStart( ), getEnd( ) );
 
+		if (!isCtrlDown( ))
+		{
+			exclusion.add( Integer.valueOf( getEnd( ) ) );
+			if (getStart() != getEnd())
+			{
+				width = 0;
+			}
+		}
 		// Resize the table
 		Dimension tableSize = part.getFigure( ).getSize( );
 
@@ -339,7 +394,7 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 			}
 			else if (dim.getUnits( ) == null || dim.getUnits( ).length( ) == 0)
 			{
-				resizeFixColumn(0,  datas[i].columnNumber, 1);
+				resizeFixColumn(0,  datas[i].columnNumber,  datas[i].columnNumber);
 			}
 		}
 	}
