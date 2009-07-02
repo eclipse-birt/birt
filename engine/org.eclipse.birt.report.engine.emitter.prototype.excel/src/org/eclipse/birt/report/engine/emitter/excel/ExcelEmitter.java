@@ -324,7 +324,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			{
 				if ( dataformat != null )
 				{
-					locale = dataformat.getStringLocale( );
+					locale = dataformat.getNumberLocale( );
 				}
 				excelData = engine.addData( data.getValue( ), style, url,
 						bookmark, locale );
@@ -333,7 +333,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			{
 				if ( dataformat != null )
 				{
-					locale = dataformat.getStringLocale( );
+					locale = dataformat.getDateTimeLocale( );
 				}
 				excelData = engine.addDateTime( data, style, url, bookmark, locale );
 			}
