@@ -262,11 +262,11 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 
 	public void writeContent( int type, String txt, IStyle style,
 			IStyle inlineStyle, String fontFamily, HyperlinkInfo info,
-			InlineFlag inlineFlag, TextFlag flag )
+			InlineFlag inlineFlag, TextFlag flag, int paragraphWidth )
 	{
 		if ( inlineFlag == InlineFlag.BLOCK )
 		{
-			writeText( type, txt, style, fontFamily, info, flag );
+			writeText( type, txt, style, fontFamily, info, flag, paragraphWidth );
 		}
 		else
 		{
@@ -274,13 +274,14 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 			if ( inlineFlag == InlineFlag.FIRST_INLINE
 					&& flag == TextFlag.START )
 			{
-				startParagraph( style, isInline );
+				startParagraph( style, isInline, paragraphWidth );
 			}
 			if ( inlineStyle != null )
 				writeTextInRun( type, txt, inlineStyle, fontFamily, info,
-						isInline );
+						isInline, paragraphWidth );
 			else
-				writeTextInRun( type, txt, style, fontFamily, info, isInline );
+				writeTextInRun( type, txt, style, fontFamily, info, isInline,
+						paragraphWidth );
 		}
 	}
 
@@ -599,5 +600,12 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 				rightMargin );
 		writer.closeTag( "w:pgBorders" );
 
+	}
+
+	protected void writeIndent( int textIndent )
+	{
+		writer.openTag( "w:ind" );
+		writer.attribute( "w:first-line", textIndent );
+		writer.closeTag( "w:ind" );
 	}
 }

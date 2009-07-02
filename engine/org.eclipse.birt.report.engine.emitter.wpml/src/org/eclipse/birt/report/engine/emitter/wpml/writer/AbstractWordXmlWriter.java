@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.emitter.wpml.SpanInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo.Line;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
 
 public abstract class AbstractWordXmlWriter
@@ -69,6 +70,8 @@ public abstract class AbstractWordXmlWriter
 	protected abstract void closeHyperlink( HyperlinkInfo info );
 
 	protected abstract void writeVmerge( SpanInfo spanInfo );
+
+	protected abstract void writeIndent( int indent );
 
 	public void startSectionInParagraph( )
 	{
@@ -434,13 +437,21 @@ public abstract class AbstractWordXmlWriter
 				.equals( txt ) );
 	}
 
-	public void startParagraph( IStyle style, boolean isInline )
+	public void startParagraph( IStyle style, boolean isInline,
+			int paragraphWidth )
 	{
 		writer.openTag( "w:p" );
 		writer.openTag( "w:pPr" );
 		writeSpacing( ( style.getProperty( StyleConstants.STYLE_MARGIN_TOP ) ),
 				( style.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) ) );
 		writeAlign( style.getTextAlign( ), style.getDirection( ) );
+		int indent = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_TEXT_INDENT ),
+				paragraphWidth ) / 1000 * 20;
+		if ( indent != 0 )
+		{
+			writeIndent( indent );
+		}
 		if ( !isInline )
 		{
 			writeBackgroundColor( style.getBackgroundColor( ) );
@@ -851,7 +862,7 @@ public abstract class AbstractWordXmlWriter
 	}
 
 	private void writeTextInParagraph( int type, String txt, IStyle style,
-			String fontFamily, HyperlinkInfo info )
+			String fontFamily, HyperlinkInfo info, int paragraphWidth )
 	{
 		writer.openTag( "w:p" );
 		writer.openTag( "w:pPr" );
@@ -866,8 +877,16 @@ public abstract class AbstractWordXmlWriter
 		writeAlign( style.getTextAlign( ), style.getDirection( ) );
 		writeBackgroundColor( style.getBackgroundColor( ) );
 		writeParagraphBorders( style );
+		int indent = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_TEXT_INDENT ),
+				paragraphWidth * 1000 ) / 1000 * 20;
+		if ( indent != 0 )
+		{
+			writeIndent( indent );
+		}
 		writer.closeTag( "w:pPr" );
-		writeTextInRun( type, txt, style, fontFamily, info, false );
+		writeTextInRun( type, txt, style, fontFamily, info, false,
+				paragraphWidth );
 	}
 
 	private void writeParagraphBorders( IStyle style )
@@ -878,11 +897,13 @@ public abstract class AbstractWordXmlWriter
 	}
 
 	public void writeText( int type, String txt, IStyle style,
-			String fontFamily, HyperlinkInfo info, TextFlag flag )
+			String fontFamily, HyperlinkInfo info, TextFlag flag,
+			int paragraphWidth )
 	{
 		if ( flag == TextFlag.START )
 		{
-			writeTextInParagraph( type, txt, style, fontFamily, info );
+			writeTextInParagraph( type, txt, style, fontFamily, info,
+					paragraphWidth );
 		}
 		else if ( flag == TextFlag.END )
 		{
@@ -890,17 +911,20 @@ public abstract class AbstractWordXmlWriter
 		}
 		else if ( flag == TextFlag.MIDDLE )
 		{
-			writeTextInRun( type, txt, style, fontFamily, info, false );
+			writeTextInRun( type, txt, style, fontFamily, info, false,
+					paragraphWidth );
 		}
 		else
 		{
-			writeTextInParagraph( type, txt, style, fontFamily, info );
+			writeTextInParagraph( type, txt, style, fontFamily, info,
+					paragraphWidth );
 			writer.closeTag( "w:p" );
 		}
 	}
 
 	public void writeTextInRun( int type, String txt, IStyle style,
-			String fontFamily, HyperlinkInfo info, boolean isInline )
+			String fontFamily, HyperlinkInfo info, boolean isInline,
+			int paragraphWidth )
 	{
 		if ( "".equals( txt ) )
 		{
@@ -909,7 +933,7 @@ public abstract class AbstractWordXmlWriter
 		if ( needNewParagraph( txt ) )
 		{
 			writer.closeTag( "w:p" );
-			startParagraph( style, isInline );
+			startParagraph( style, isInline, paragraphWidth );
 			return;
 		}
 

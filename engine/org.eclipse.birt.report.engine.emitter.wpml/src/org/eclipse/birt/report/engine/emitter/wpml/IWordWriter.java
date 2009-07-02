@@ -100,7 +100,7 @@ public interface IWordWriter
 
 	void writeContent( int type, String txt, IStyle style, IStyle inlineStyle,
 			String fontFamily, HyperlinkInfo info, InlineFlag inlineFlag,
-			TextFlag flag );
+			TextFlag flag, int paragraphWidth );
 
 	void startPage( );
 

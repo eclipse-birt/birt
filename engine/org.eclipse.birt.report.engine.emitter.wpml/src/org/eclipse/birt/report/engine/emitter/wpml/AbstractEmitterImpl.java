@@ -873,7 +873,8 @@ public abstract class AbstractEmitterImpl
 			InlineFlag inlineFlag, IStyle computedStyle, IStyle inlineStyle )
 	{
 		HyperlinkInfo hyper = getHyperlink( content );
-
+		int paragraphWidth = (int) WordUtil
+				.twipToPt( context.getCurrentWidth( ) );
 		if ( content instanceof TextContent )
 		{
 			TextFlag textFlag = TextFlag.START;
@@ -881,7 +882,8 @@ public abstract class AbstractEmitterImpl
 			if ( "".equals( txt ) || txt == null || WordUtil.isField( content ) )
 			{
 				wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
-						fontFamily, hyper, inlineFlag, textFlag );
+								fontFamily, hyper, inlineFlag, textFlag,
+								paragraphWidth );
 			}
 			else
 			{
@@ -894,7 +896,8 @@ public abstract class AbstractEmitterImpl
 					fontFamily = getFontFamily( computedStyle, ch );
 					wordWriter.writeContent( type, txt.substring( offset,
 							offset + length ), computedStyle, inlineStyle,
-							fontFamily, hyper, inlineFlag, textFlag );
+							fontFamily, hyper, inlineFlag, textFlag,
+							paragraphWidth );
 					textFlag = fontSplitter.hasMore( )
 							? TextFlag.MIDDLE
 							: TextFlag.END;
@@ -904,14 +907,14 @@ public abstract class AbstractEmitterImpl
 			{
 				wordWriter.writeContent( type, null, computedStyle,
 						inlineStyle, fontFamily, hyper, inlineFlag,
-						TextFlag.END );
+						TextFlag.END, paragraphWidth );
 			}
 		}
 		else
 		{
 			wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
 					computedStyle.getFontFamily( ), hyper, inlineFlag,
-					TextFlag.WHOLE );
+					TextFlag.WHOLE, paragraphWidth );
 		}
 	}
 
