@@ -11,28 +11,28 @@
 
 ###########################################################
 #HTML Emitter
-HTMLEmitter.Description=Configure options for rendering a report in HTML (HyperText Markup Language) format.
+HTMLEmitter.Description=HTML(HyperText Markup Language) 형식의 보고서 렌더링 옵션을 구성합니다.
 HTMLEmitter.DisplayName=HTML
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.AgentStyleEngine=Delegate style processing to User Agent
-OptionDisplayValue.Enable=Enable
-OptionDisplayValue.Disable=Disable
-OptionDisplayValue.OutputMasterPageMargins=Output margins of master page
-OptionDisplayValue.MasterPageContent=Output page header and footer
-OptionDisplayValue.PageFooterFloat=Floating page footer
-OptionDisplayValue.LayoutPrefrence=Layout prefrence:
-OptionDisplayValue.FixedLayout=Fixed Layout
-OptionDisplayValue.AutoLayout=Auto Layout
-OptionDisplayValue.HTMLType=Output type:
-OptionDisplayValue.CompleteHTML=Complete HTML
-OptionDisplayValue.HTMLNoCSS=HTML without CSS
+OptionDisplayValue.AgentStyleEngine=사용자 에이전트에 스타일 처리 위임
+OptionDisplayValue.Enable=사용
+OptionDisplayValue.Disable=사용 안 함
+OptionDisplayValue.OutputMasterPageMargins=마스터 페이지 여백 출력
+OptionDisplayValue.MasterPageContent=출력 페이지 머리글 및 바닥글
+OptionDisplayValue.PageFooterFloat=부동 페이지 바닥글
+OptionDisplayValue.LayoutPrefrence=레이아웃 기본 설정:
+OptionDisplayValue.FixedLayout=고정 레이아웃
+OptionDisplayValue.AutoLayout=자동 레이아웃
+OptionDisplayValue.HTMLType=출력 유형:
+OptionDisplayValue.CompleteHTML=완전한 HTML
+OptionDisplayValue.HTMLNoCSS=HTML(CSS 제외)
 
 ###########################################################
 #Option Description
-OptionDescription.AgentStyleEngine=True: means the HTML emitter will output the BIRT styles directly to the report and depends on the browser to implement the style calculation.\nFalse: means the HTML emitter will use BIRT style engine to calculate the styles and output the result to the report.
-OptionDescription.OutputMasterPageMargins=Output the master page's margins for the auto layout report.
-OptionDescription.MasterPageContent=Contains page header and footer, only effect if the Pagination is enable.
-OptionDescription.PageFooterFloat=Floating the page footer, only effect if the Pagination is enable.
-OptionDescription.HTMLType=HTML type.
+OptionDescription.AgentStyleEngine=참: HTML 이미터가 BIRT 스타일을 직접 보고서로 출력하며 브라우저에 따라 스타일 계산을 구현합니다.\n거짓: HTML 이미터가 BIRT 스타일 엔진을 사용하여 스타일을 계산하고 결과를 보고서로 출력합니다.
+OptionDescription.OutputMasterPageMargins=자동 레이아웃 보고서에 대한 마스터 페이지 여백을 출력합니다.
+OptionDescription.MasterPageContent=페이지 머리글과 바닥글을 포함하며, 페이지 매김 사용 시에만 적용됩니다.
+OptionDescription.PageFooterFloat=페이지 바닥글을 배치하며, 페이지 매김 사용 시에만 적용됩니다.
+OptionDescription.HTMLType=HTML 유형입니다.

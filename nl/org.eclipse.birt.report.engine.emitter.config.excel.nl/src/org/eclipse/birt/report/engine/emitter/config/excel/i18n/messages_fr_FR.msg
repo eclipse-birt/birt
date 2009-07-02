@@ -11,16 +11,16 @@
 
 ###########################################################
 #Excel Emitter
-ExcelEmitter.Description=Configure options for rendering a report in XML Spreadsheet 2003 format.
-ExcelEmitter.DisplayName=Excel (XML Spreadsheet 2003)
+ExcelEmitter.Description=Configurez les options pour un rendu de rapport au format feuille de calcul XML 2003.
+ExcelEmitter.DisplayName=Excel (Feuille de calcul XML 2003)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.WrappingText=Enable text wrapping
-OptionDisplayValue.OfficeVersion=Output version:
+OptionDisplayValue.WrappingText=Activer le retour à la ligne automatique
+OptionDisplayValue.OfficeVersion=Version de sortie :
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 
 ###########################################################
 #Option Description
-OptionDescription.WrappingText=Indicates if the text can be wrapped.
+OptionDescription.WrappingText=Indique si le retour à la ligne est autorisé pour le texte.

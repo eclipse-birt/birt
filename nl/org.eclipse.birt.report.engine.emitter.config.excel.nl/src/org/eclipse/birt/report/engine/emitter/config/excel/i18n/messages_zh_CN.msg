@@ -11,16 +11,16 @@
 
 ###########################################################
 #Excel Emitter
-ExcelEmitter.Description=Configure options for rendering a report in XML Spreadsheet 2003 format.
+ExcelEmitter.Description=配置用于以 XML Spreadsheet 2003 格式呈现报表的选项。
 ExcelEmitter.DisplayName=Excel (XML Spreadsheet 2003)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.WrappingText=Enable text wrapping
-OptionDisplayValue.OfficeVersion=Output version:
+OptionDisplayValue.WrappingText=启用自动换行
+OptionDisplayValue.OfficeVersion=输出版本:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 
 ###########################################################
 #Option Description
-OptionDescription.WrappingText=Indicates if the text can be wrapped.
+OptionDescription.WrappingText=表示文本是否可自动换行。

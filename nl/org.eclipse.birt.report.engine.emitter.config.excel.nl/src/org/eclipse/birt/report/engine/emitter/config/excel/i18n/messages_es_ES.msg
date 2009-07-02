@@ -11,16 +11,16 @@
 
 ###########################################################
 #Excel Emitter
-ExcelEmitter.Description=Configure options for rendering a report in XML Spreadsheet 2003 format.
-ExcelEmitter.DisplayName=Excel (XML Spreadsheet 2003)
+ExcelEmitter.Description=Configure las opciones para presentar un informe en formato de hoja de cálculo XML 2003.
+ExcelEmitter.DisplayName=Excel (hoja de cálculo XML 2003)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.WrappingText=Enable text wrapping
-OptionDisplayValue.OfficeVersion=Output version:
+OptionDisplayValue.WrappingText=Activar autoajuste de texto
+OptionDisplayValue.OfficeVersion=Versión de salida:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 
 ###########################################################
 #Option Description
-OptionDescription.WrappingText=Indicates if the text can be wrapped.
+OptionDescription.WrappingText=Indica si el texto se puede autoajustar.

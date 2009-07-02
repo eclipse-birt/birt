@@ -11,23 +11,23 @@
 
 ###########################################################
 #PPT Emitter
-PPTEmitter.Description=Configure options for rendering a report in Single File Web Archive (MHTML) format.
+PPTEmitter.Description=Configure las opciones para presentar un informe en formato de archivo único de página Web (MHTML).
 PPTEmitter.DisplayName=PowerPoint (MHTML)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI processing
-OptionDisplayValue.TextWrapping=Text wrapping
-OptionDisplayValue.PageOverFlow=Page overflow processing
-OptionDisplayValue.CLIP_CONTENT=Clip the content
-OptionDisplayValue.FIT_TO_PAGE_SIZE=Fit to page size
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Output multiple pages
-OptionDisplayValue.ENLARGE_PAGE_SIZE=Enlarge page size
-OptionDisplayValue.FontSubstitution=Font substitution
+OptionDisplayValue.BidiProcessing=Procesamiento de BIDI
+OptionDisplayValue.TextWrapping=Autoajuste de texto
+OptionDisplayValue.PageOverFlow=Procesamiento del desbordamiento de página
+OptionDisplayValue.CLIP_CONTENT=Cortar contenido
+OptionDisplayValue.FIT_TO_PAGE_SIZE=Ajustar a tamaño de página
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Salida de varias páginas
+OptionDisplayValue.ENLARGE_PAGE_SIZE=Aumentar tamaño de página
+OptionDisplayValue.FontSubstitution=Sustitución de fuente
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=BIDI processing is used.
-OptionDescription.TextWrapping=The text should be warp.
-OptionDescription.PageOverFlow=Control how to output the content.
-OptionDescription.FontSubstitution=Need check if the character exists in the selected font.
+OptionDescription.BidiProcessing=Se utiliza el procesamiento de BIDI.
+OptionDescription.TextWrapping=El texto debe autoajustarse.
+OptionDescription.PageOverFlow=Controle cómo se va a mostrar el contenido.
+OptionDescription.FontSubstitution=Debe comprobar si el carácter existe en la fuente seleccionada.

@@ -11,23 +11,23 @@
 
 ###########################################################
 #PDF Emitter
-PDFEmitter.Description=Configure options for rendering a report in PDF (Portable Document Format) format.
+PDFEmitter.Description=Optionen zum Rendern eines Berichts im PDF-Format (Portable Document Format) konfigurieren.
 PDFEmitter.DisplayName=PDF
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI processing
-OptionDisplayValue.TextWrapping=Text wrapping
-OptionDisplayValue.PageOverFlow=Page overflow processing
-OptionDisplayValue.CLIP_CONTENT=Clip the content
-OptionDisplayValue.FIT_TO_PAGE_SIZE=Fit to page size
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Output multiple pages
-OptionDisplayValue.ENLARGE_PAGE_SIZE=Enlarge page size
-OptionDisplayValue.FontSubstitution=Font substitution
+OptionDisplayValue.BidiProcessing=BIDI-Verarbeitung
+OptionDisplayValue.TextWrapping=Zeilenumbruch
+OptionDisplayValue.PageOverFlow=Seitenüberlauf-Verarbeitung
+OptionDisplayValue.CLIP_CONTENT=Inhalt zuschneiden
+OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengröße anpassen
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Mehrere Seiten ausgeben
+OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrößern
+OptionDisplayValue.FontSubstitution=Schriftart ersetzen
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=BIDI processing is used.
-OptionDescription.TextWrapping=The text should be warp.
-OptionDescription.PageOverFlow=Control how to output the content.
-OptionDescription.FontSubstitution=Need check if the character exists in the selected font.
+OptionDescription.BidiProcessing=BIDI-Verarbeitung wird verwendet.
+OptionDescription.TextWrapping=Text enthält Zeilenumbrüche.
+OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
+OptionDescription.FontSubstitution=Überprüfung erforderlich, ob die ausgewählte Schriftart das Zeichen unterstützt.

@@ -11,28 +11,28 @@
 
 ###########################################################
 #HTML Emitter
-HTMLEmitter.Description=Configure options for rendering a report in HTML (HyperText Markup Language) format.
+HTMLEmitter.Description=HTML (HyperText Markup Language) 形式でレポートをレンダリングするためのオプションを設定します。
 HTMLEmitter.DisplayName=HTML
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.AgentStyleEngine=Delegate style processing to User Agent
-OptionDisplayValue.Enable=Enable
-OptionDisplayValue.Disable=Disable
-OptionDisplayValue.OutputMasterPageMargins=Output margins of master page
-OptionDisplayValue.MasterPageContent=Output page header and footer
-OptionDisplayValue.PageFooterFloat=Floating page footer
-OptionDisplayValue.LayoutPrefrence=Layout prefrence:
-OptionDisplayValue.FixedLayout=Fixed Layout
-OptionDisplayValue.AutoLayout=Auto Layout
-OptionDisplayValue.HTMLType=Output type:
-OptionDisplayValue.CompleteHTML=Complete HTML
-OptionDisplayValue.HTMLNoCSS=HTML without CSS
+OptionDisplayValue.AgentStyleEngine=スタイルの処理をユーザエージェントに委ねる
+OptionDisplayValue.Enable=有効
+OptionDisplayValue.Disable=無効
+OptionDisplayValue.OutputMasterPageMargins=マスターページの余白を出力
+OptionDisplayValue.MasterPageContent=ページヘッダとフッタを出力
+OptionDisplayValue.PageFooterFloat=浮動ページフッタ
+OptionDisplayValue.LayoutPrefrence=レイアウトの設定 :
+OptionDisplayValue.FixedLayout=固定レイアウト
+OptionDisplayValue.AutoLayout=自動レイアウト
+OptionDisplayValue.HTMLType=出力の種類 :
+OptionDisplayValue.CompleteHTML=HTML (完全)
+OptionDisplayValue.HTMLNoCSS=HTML (CSS なし)
 
 ###########################################################
 #Option Description
-OptionDescription.AgentStyleEngine=True: means the HTML emitter will output the BIRT styles directly to the report and depends on the browser to implement the style calculation.\nFalse: means the HTML emitter will use BIRT style engine to calculate the styles and output the result to the report.
-OptionDescription.OutputMasterPageMargins=Output the master page's margins for the auto layout report.
-OptionDescription.MasterPageContent=Contains page header and footer, only effect if the Pagination is enable.
-OptionDescription.PageFooterFloat=Floating the page footer, only effect if the Pagination is enable.
-OptionDescription.HTMLType=HTML type.
+OptionDescription.AgentStyleEngine=True : HTML エミッターは、BIRT のスタイルを直接リポートに出力します。スタイルの計算の実装はブラウザに委ねられます。\nFalse : HTML エミッターは、BIRT スタイルエンジンを使用してスタイルの計算を行い、結果をレポートに出力します。
+OptionDescription.OutputMasterPageMargins=自動レイアウトレポートのマスターページの余白を出力します。
+OptionDescription.MasterPageContent=ページヘッダとフッタが含まれています。ページ規則が有効な場合のみ影響します。
+OptionDescription.PageFooterFloat=ページフッタを浮動にします。ページ規則が有効な場合のみ影響します。
+OptionDescription.HTMLType=種類は HTML です。

@@ -11,28 +11,28 @@
 
 ###########################################################
 #HTML Emitter
-HTMLEmitter.Description=Configure options for rendering a report in HTML (HyperText Markup Language) format.
+HTMLEmitter.Description=配置用于以 HTML (超文本标记语言)格式呈现报表的选项。
 HTMLEmitter.DisplayName=HTML
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.AgentStyleEngine=Delegate style processing to User Agent
-OptionDisplayValue.Enable=Enable
-OptionDisplayValue.Disable=Disable
-OptionDisplayValue.OutputMasterPageMargins=Output margins of master page
-OptionDisplayValue.MasterPageContent=Output page header and footer
-OptionDisplayValue.PageFooterFloat=Floating page footer
-OptionDisplayValue.LayoutPrefrence=Layout prefrence:
-OptionDisplayValue.FixedLayout=Fixed Layout
-OptionDisplayValue.AutoLayout=Auto Layout
-OptionDisplayValue.HTMLType=Output type:
-OptionDisplayValue.CompleteHTML=Complete HTML
-OptionDisplayValue.HTMLNoCSS=HTML without CSS
+OptionDisplayValue.AgentStyleEngine=将样式处理委托给用户代理
+OptionDisplayValue.Enable=启用
+OptionDisplayValue.Disable=禁用
+OptionDisplayValue.OutputMasterPageMargins=输出主页边距
+OptionDisplayValue.MasterPageContent=输出页眉和页脚
+OptionDisplayValue.PageFooterFloat=浮动页脚
+OptionDisplayValue.LayoutPrefrence=布局首选项:
+OptionDisplayValue.FixedLayout=混合布局
+OptionDisplayValue.AutoLayout=自动布局
+OptionDisplayValue.HTMLType=输出类型:
+OptionDisplayValue.CompleteHTML=完成 HTML
+OptionDisplayValue.HTMLNoCSS=无 CSS 的 HTML
 
 ###########################################################
 #Option Description
-OptionDescription.AgentStyleEngine=True: means the HTML emitter will output the BIRT styles directly to the report and depends on the browser to implement the style calculation.\nFalse: means the HTML emitter will use BIRT style engine to calculate the styles and output the result to the report.
-OptionDescription.OutputMasterPageMargins=Output the master page's margins for the auto layout report.
-OptionDescription.MasterPageContent=Contains page header and footer, only effect if the Pagination is enable.
-OptionDescription.PageFooterFloat=Floating the page footer, only effect if the Pagination is enable.
-OptionDescription.HTMLType=HTML type.
+OptionDescription.AgentStyleEngine=真: 表示 HTML 发射器会直接将 BIRT 样式输出到报表，并依赖于浏览器实施样式计算。\n假: 表示 HTML 发射器将使用 BIRT 样式引擎计算样式，并将结果输出到报表。
+OptionDescription.OutputMasterPageMargins=输出自动布局报表的主页边距。
+OptionDescription.MasterPageContent=包含页眉和页脚，仅在启用分页时生效。
+OptionDescription.PageFooterFloat=浮动页脚，仅在启用分页时生效。
+OptionDescription.HTMLType=HTML 类型。

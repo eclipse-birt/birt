@@ -11,5 +11,5 @@
 
 ###########################################################
 #Word Emitter
-WordEmitter.Description=Configure options for rendering a report in XML Document 2003 format.
-WordEmitter.DisplayName=Word (XML Document 2003)
+WordEmitter.Description=XML 문서 2003 형식의 보고서 렌더링 옵션을 구성합니다.
+WordEmitter.DisplayName=Word(XML 문서 2003)

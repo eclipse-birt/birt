@@ -11,23 +11,23 @@
 
 ###########################################################
 #PPT Emitter
-PPTEmitter.Description=Configure options for rendering a report in Single File Web Archive (MHTML) format.
+PPTEmitter.Description=配置用于以单一文件 Web 存档(MHTML)格式呈现报表的选项。
 PPTEmitter.DisplayName=PowerPoint (MHTML)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI processing
-OptionDisplayValue.TextWrapping=Text wrapping
-OptionDisplayValue.PageOverFlow=Page overflow processing
-OptionDisplayValue.CLIP_CONTENT=Clip the content
-OptionDisplayValue.FIT_TO_PAGE_SIZE=Fit to page size
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Output multiple pages
-OptionDisplayValue.ENLARGE_PAGE_SIZE=Enlarge page size
-OptionDisplayValue.FontSubstitution=Font substitution
+OptionDisplayValue.BidiProcessing=BIDI 处理
+OptionDisplayValue.TextWrapping=自动换行
+OptionDisplayValue.PageOverFlow=页面溢出处理
+OptionDisplayValue.CLIP_CONTENT=剪裁内容
+OptionDisplayValue.FIT_TO_PAGE_SIZE=适合大小
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=输出多页
+OptionDisplayValue.ENLARGE_PAGE_SIZE=扩大页面大小
+OptionDisplayValue.FontSubstitution=字体替代
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=BIDI processing is used.
-OptionDescription.TextWrapping=The text should be warp.
-OptionDescription.PageOverFlow=Control how to output the content.
-OptionDescription.FontSubstitution=Need check if the character exists in the selected font.
+OptionDescription.BidiProcessing=已使用 BIDI 处理。
+OptionDescription.TextWrapping=文本应自动换行。
+OptionDescription.PageOverFlow=控制如何输出内容。
+OptionDescription.FontSubstitution=需要检查所选字体中是否存在字符。

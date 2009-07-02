@@ -11,16 +11,16 @@
 
 ###########################################################
 #Excel Emitter
-ExcelEmitter.Description=Configure options for rendering a report in XML Spreadsheet 2003 format.
-ExcelEmitter.DisplayName=Excel (XML Spreadsheet 2003)
+ExcelEmitter.Description=XML 스프레드시트 2003 형식의 보고서 렌더링 옵션을 구성합니다.
+ExcelEmitter.DisplayName=Excel(XML Spreadsheet 2003)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.WrappingText=Enable text wrapping
-OptionDisplayValue.OfficeVersion=Output version:
+OptionDisplayValue.WrappingText=텍스트 줄 바꿈 사용
+OptionDisplayValue.OfficeVersion=출력 버전:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 
 ###########################################################
 #Option Description
-OptionDescription.WrappingText=Indicates if the text can be wrapped.
+OptionDescription.WrappingText=텍스트 줄 바꿈 가능 여부를 나타냅니다.

@@ -11,28 +11,28 @@
 
 ###########################################################
 #HTML Emitter
-HTMLEmitter.Description=Configure options for rendering a report in HTML (HyperText Markup Language) format.
+HTMLEmitter.Description=Configurez les options pour un rendu de rapport au format HTML (HyperText Markup Language).
 HTMLEmitter.DisplayName=HTML
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.AgentStyleEngine=Delegate style processing to User Agent
-OptionDisplayValue.Enable=Enable
-OptionDisplayValue.Disable=Disable
-OptionDisplayValue.OutputMasterPageMargins=Output margins of master page
-OptionDisplayValue.MasterPageContent=Output page header and footer
-OptionDisplayValue.PageFooterFloat=Floating page footer
-OptionDisplayValue.LayoutPrefrence=Layout prefrence:
-OptionDisplayValue.FixedLayout=Fixed Layout
-OptionDisplayValue.AutoLayout=Auto Layout
-OptionDisplayValue.HTMLType=Output type:
-OptionDisplayValue.CompleteHTML=Complete HTML
-OptionDisplayValue.HTMLNoCSS=HTML without CSS
+OptionDisplayValue.AgentStyleEngine=Déléguer le traitement de style à l'Agent utilisateur
+OptionDisplayValue.Enable=Activer
+OptionDisplayValue.Disable=Désactiver
+OptionDisplayValue.OutputMasterPageMargins=Supprimer les marges de la page principale
+OptionDisplayValue.MasterPageContent=Supprimer l'en-tête et le pied de page de la page
+OptionDisplayValue.PageFooterFloat=Pied de page flottant
+OptionDisplayValue.LayoutPrefrence=Préférences de mise en page :
+OptionDisplayValue.FixedLayout=Mise en page fixe
+OptionDisplayValue.AutoLayout=Mise en page automatique
+OptionDisplayValue.HTMLType=Type de sortie :
+OptionDisplayValue.CompleteHTML=HTML complet
+OptionDisplayValue.HTMLNoCSS=HTML sans CSS
 
 ###########################################################
 #Option Description
-OptionDescription.AgentStyleEngine=True: means the HTML emitter will output the BIRT styles directly to the report and depends on the browser to implement the style calculation.\nFalse: means the HTML emitter will use BIRT style engine to calculate the styles and output the result to the report.
-OptionDescription.OutputMasterPageMargins=Output the master page's margins for the auto layout report.
-OptionDescription.MasterPageContent=Contains page header and footer, only effect if the Pagination is enable.
-OptionDescription.PageFooterFloat=Floating the page footer, only effect if the Pagination is enable.
-OptionDescription.HTMLType=HTML type.
+OptionDescription.AgentStyleEngine=Vrai : signifie que l'émetteur HTML, qui dépend du navigateur pour implémenter le calcul de style, inclura les styles BIRT directement dans le rapport.\nFaux : signifie que l'émetteur HTML utilisera le moteur de style BIRT pour calculer les styles et inclura le résultat dans le rapport.
+OptionDescription.OutputMasterPageMargins=Supprimer les marges de la page principale pour la mise en page automatique du rapport.
+OptionDescription.MasterPageContent=Contient un en-tête et un pied de page, applicable uniquement si la Pagination est activée.
+OptionDescription.PageFooterFloat=Rendre le pied de page flottant, applicables uniquement si la Pagination est activée.
+OptionDescription.HTMLType=Type d'HTML.

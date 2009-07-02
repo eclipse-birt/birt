@@ -175,7 +175,7 @@ CrosstabFilterConditionBuilder.label.value=值
 CrosstabFilterConditionBuilder.Label.Target=目标:
 CrosstabFilterConditionBuilder.Button.GroupLevel=组级别(&G)
 CrosstabFilterConditionBuilder.Button.Measure=度量(&U)
-CrosstabFilterConditionBuilder.Button.Cube=&Cube
+CrosstabFilterConditionBuilder.Button.Cube=多维数据集(&C)
 
 FilterbyTree.Bindings.Catogory.Measures=度量
 FilterbyTree.Bindings.Catogory.Dimension=维

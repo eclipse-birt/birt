@@ -11,16 +11,16 @@
 
 ###########################################################
 #Excel Emitter
-ExcelEmitter.Description=Configure options for rendering a report in XML Spreadsheet 2003 format.
-ExcelEmitter.DisplayName=Excel (XML Spreadsheet 2003)
+ExcelEmitter.Description=XML スプレッドシート 2003 形式でレポートをレンダリングするためのオプションを設定します。
+ExcelEmitter.DisplayName=Excel (XML スプレッドシート 2003)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.WrappingText=Enable text wrapping
-OptionDisplayValue.OfficeVersion=Output version:
+OptionDisplayValue.WrappingText=文字列の折り返しを有効にする
+OptionDisplayValue.OfficeVersion=出力バージョン :
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 
 ###########################################################
 #Option Description
-OptionDescription.WrappingText=Indicates if the text can be wrapped.
+OptionDescription.WrappingText=文字列を折り返すかどうかを示します。

@@ -11,16 +11,16 @@
 
 ###########################################################
 #Excel Emitter
-ExcelEmitter.Description=Configure options for rendering a report in XML Spreadsheet 2003 format.
+ExcelEmitter.Description=Optionen zum Rendern eines Berichts im Format XML Spreadsheet 2003 konfigurieren.
 ExcelEmitter.DisplayName=Excel (XML Spreadsheet 2003)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.WrappingText=Enable text wrapping
-OptionDisplayValue.OfficeVersion=Output version:
+OptionDisplayValue.WrappingText=Zeilenumbruch aktivieren
+OptionDisplayValue.OfficeVersion=Ausgabeversion:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 
 ###########################################################
 #Option Description
-OptionDescription.WrappingText=Indicates if the text can be wrapped.
+OptionDescription.WrappingText=Gibt an, ob der Text Zeilenumbrüche enthält.

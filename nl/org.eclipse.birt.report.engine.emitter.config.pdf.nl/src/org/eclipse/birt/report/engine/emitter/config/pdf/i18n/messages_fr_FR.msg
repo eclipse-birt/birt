@@ -11,23 +11,23 @@
 
 ###########################################################
 #PDF Emitter
-PDFEmitter.Description=Configure options for rendering a report in PDF (Portable Document Format) format.
+PDFEmitter.Description=Configurez les options pour un rendu de rapport au format PDF (Portable Document Format).
 PDFEmitter.DisplayName=PDF
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI processing
-OptionDisplayValue.TextWrapping=Text wrapping
-OptionDisplayValue.PageOverFlow=Page overflow processing
-OptionDisplayValue.CLIP_CONTENT=Clip the content
-OptionDisplayValue.FIT_TO_PAGE_SIZE=Fit to page size
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Output multiple pages
-OptionDisplayValue.ENLARGE_PAGE_SIZE=Enlarge page size
-OptionDisplayValue.FontSubstitution=Font substitution
+OptionDisplayValue.BidiProcessing=Traitement BIDI
+OptionDisplayValue.TextWrapping=Retour à la ligne automatique
+OptionDisplayValue.PageOverFlow=Traitement du dépassement de page
+OptionDisplayValue.CLIP_CONTENT=Recadrer le contenu
+OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter à la taille de la page
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Répartir sur plusieurs pages
+OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
+OptionDisplayValue.FontSubstitution=Changement de police
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=BIDI processing is used.
-OptionDescription.TextWrapping=The text should be warp.
-OptionDescription.PageOverFlow=Control how to output the content.
-OptionDescription.FontSubstitution=Need check if the character exists in the selected font.
+OptionDescription.BidiProcessing=Traitement BIDI utilisé.
+OptionDescription.TextWrapping=Un retour à la ligne est nécessaire.
+OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
+OptionDescription.FontSubstitution=Vérification nécessaire pour savoir si le caractère existe dans la police sélectionnée.

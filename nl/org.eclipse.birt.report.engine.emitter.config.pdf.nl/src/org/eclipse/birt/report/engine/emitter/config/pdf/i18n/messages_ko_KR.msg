@@ -11,23 +11,23 @@
 
 ###########################################################
 #PDF Emitter
-PDFEmitter.Description=Configure options for rendering a report in PDF (Portable Document Format) format.
+PDFEmitter.Description=PDF(Portable Document Format) 형식의 보고서 렌더링 옵션을 구성합니다.
 PDFEmitter.DisplayName=PDF
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI processing
-OptionDisplayValue.TextWrapping=Text wrapping
-OptionDisplayValue.PageOverFlow=Page overflow processing
-OptionDisplayValue.CLIP_CONTENT=Clip the content
-OptionDisplayValue.FIT_TO_PAGE_SIZE=Fit to page size
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Output multiple pages
-OptionDisplayValue.ENLARGE_PAGE_SIZE=Enlarge page size
-OptionDisplayValue.FontSubstitution=Font substitution
+OptionDisplayValue.BidiProcessing=BIDI 처리
+OptionDisplayValue.TextWrapping=텍스트 배치
+OptionDisplayValue.PageOverFlow=페이지 오버플로 처리
+OptionDisplayValue.CLIP_CONTENT=내용 자르기
+OptionDisplayValue.FIT_TO_PAGE_SIZE=페이지 크기에 맞추기
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=여러 페이지로 출력
+OptionDisplayValue.ENLARGE_PAGE_SIZE=페이지 크기 확대
+OptionDisplayValue.FontSubstitution=글꼴 대체
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=BIDI processing is used.
-OptionDescription.TextWrapping=The text should be warp.
-OptionDescription.PageOverFlow=Control how to output the content.
-OptionDescription.FontSubstitution=Need check if the character exists in the selected font.
+OptionDescription.BidiProcessing=BIDI 처리를 사용합니다.
+OptionDescription.TextWrapping=텍스트를 줄 바꿈합니다.
+OptionDescription.PageOverFlow=내용 출력 방식을 제어합니다.
+OptionDescription.FontSubstitution=선택한 글꼴에 해당 문자가 있는지 확인해야 합니다.

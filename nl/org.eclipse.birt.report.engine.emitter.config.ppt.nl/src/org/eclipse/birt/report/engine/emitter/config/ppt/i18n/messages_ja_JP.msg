@@ -11,23 +11,23 @@
 
 ###########################################################
 #PPT Emitter
-PPTEmitter.Description=Configure options for rendering a report in Single File Web Archive (MHTML) format.
+PPTEmitter.Description=単一ファイル Web アーカイブ (MHTML) 形式でレポートをレンダリングするためのオプションを設定します。
 PPTEmitter.DisplayName=PowerPoint (MHTML)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI processing
-OptionDisplayValue.TextWrapping=Text wrapping
-OptionDisplayValue.PageOverFlow=Page overflow processing
-OptionDisplayValue.CLIP_CONTENT=Clip the content
-OptionDisplayValue.FIT_TO_PAGE_SIZE=Fit to page size
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Output multiple pages
-OptionDisplayValue.ENLARGE_PAGE_SIZE=Enlarge page size
-OptionDisplayValue.FontSubstitution=Font substitution
+OptionDisplayValue.BidiProcessing=双方向テキストの処理
+OptionDisplayValue.TextWrapping=文字列の折り返し
+OptionDisplayValue.PageOverFlow=オーバーフローしているページの処理
+OptionDisplayValue.CLIP_CONTENT=コンテンツの切り抜き
+OptionDisplayValue.FIT_TO_PAGE_SIZE=ページサイズに合わせる
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページに出力
+OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
+OptionDisplayValue.FontSubstitution=フォントの置き換え
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=BIDI processing is used.
-OptionDescription.TextWrapping=The text should be warp.
-OptionDescription.PageOverFlow=Control how to output the content.
-OptionDescription.FontSubstitution=Need check if the character exists in the selected font.
+OptionDescription.BidiProcessing=双方向テキストの処理が使用されています。
+OptionDescription.TextWrapping=テキストを折り返す必要があります。
+OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
+OptionDescription.FontSubstitution=選択したフォントにその文字が存在しているかどうかを確認する必要があります。
