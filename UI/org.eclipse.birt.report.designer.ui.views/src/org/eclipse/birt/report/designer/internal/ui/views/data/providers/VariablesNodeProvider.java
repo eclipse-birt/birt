@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
+import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -23,11 +24,14 @@ import org.eclipse.birt.report.designer.ui.dialogs.CascadingParametersDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterGroupDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.VariableDialog;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -46,17 +50,23 @@ public class VariablesNodeProvider extends DefaultNodeProvider
 
 		public AddVariableAction( Object selectedObject )
 		{
-			super( selectedObject, Messages.getString("VariablesNodeProvider.NewActionName") ); //$NON-NLS-1$
+			super( selectedObject,
+					Messages.getString( "VariablesNodeProvider.NewActionName" ) ); //$NON-NLS-1$
 		}
 
 		@Override
 		protected boolean doAction( ) throws Exception
 		{
-			VariableDialog dialog = new VariableDialog( Messages.getString("VariablesNodeProvider.NewActionName"), //$NON-NLS-1$
-					(ReportDesignHandle) SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ),
-					null );
-			dialog.open( );
+			ReportDesignHandle designHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+			VariableElementHandle variable = (VariableElementHandle) ElementProcessorFactory.createProcessor( ReportDesignConstants.VARIABLE_ELEMENT )
+					.createElement( null );
+			VariableDialog dialog = new VariableDialog( Messages.getString( "VariablesNodeProvider.NewActionName" ), //$NON-NLS-1$
+					designHandle,
+					variable );
+			if ( dialog.open( ) == Dialog.OK )
+				designHandle.getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP )
+						.add( variable );
 			return true;
 		}
 
@@ -88,7 +98,7 @@ public class VariablesNodeProvider extends DefaultNodeProvider
 
 	public String getNodeDisplayName( Object object )
 	{
-		return Messages.getString("VariablesNodeProvider.NodeName"); //$NON-NLS-1$
+		return Messages.getString( "VariablesNodeProvider.NodeName" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -160,7 +170,7 @@ public class VariablesNodeProvider extends DefaultNodeProvider
 	 */
 	public String getIconName( Object model )
 	{
-		return IReportGraphicConstants.ICON_NODE_PARAMETERS;
+		return IReportGraphicConstants.ICON_NODE_VARIABLES;
 	}
 
 }

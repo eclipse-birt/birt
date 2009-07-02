@@ -265,6 +265,8 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_NODE_PARAMETERS = "Parameters"; //$NON-NLS-1$
 
+	public final static String ICON_NODE_VARIABLES = "Variables"; //$NON-NLS-1$
+
 	public final static String ICON_DATA_COLUMN = "DataColumn"; //$NON-NLS-1$
 
 	public final static String ICON_INHERIT_COLUMN = "InheritColumn"; //$NON-NLS-1$

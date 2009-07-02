@@ -486,6 +486,10 @@ public class ReportPlatformUIImages
 				+ OBJ16_PATH
 				+ "parameter_folder.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_NODE_VARIABLES, ICONS_PATH
+				+ OBJ16_PATH
+				+ "variable_folder.gif" ); //$NON-NLS-1$
+
 		// **********************************************************
 		// expression icons
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_DATA_TABLE,
