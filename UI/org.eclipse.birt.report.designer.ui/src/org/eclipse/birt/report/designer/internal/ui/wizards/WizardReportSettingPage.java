@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 import java.io.File;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceForNewTemplateWizard;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -147,7 +146,11 @@ public class WizardReportSettingPage extends WizardPage
 		descText = createText( container, 2, 5 );
 		if ( module != null
 				&& module.getProperty( ModuleHandle.DESCRIPTION_PROP ) != null )
-			descText.setText( (String) module.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
+		{
+			String descProp = (String) module.getProperty( ModuleHandle.DESCRIPTION_PROP );
+			descText.setText( descProp );
+			description = descProp;
+		}
 		descText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
