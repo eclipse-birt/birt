@@ -218,6 +218,17 @@ public class AggregationResultSet implements IAggregationResultSet
 		}
 		return resultObject.getLevelMembers()[levelIndex].getAttributes()[attributeIndex];
 	}
+	
+	public Object[] getLevelAttributesValue( int levelIndex )
+	{
+		if ( resultObject.getLevelMembers( ) == null
+				|| levelIndex < 0
+				|| resultObject.getLevelMembers( )[levelIndex].getAttributes( ) == null )
+		{
+			return null;
+		}
+		return resultObject.getLevelMembers( )[levelIndex].getAttributes( );
+	}
 
 	/*
 	 * (non-Javadoc)

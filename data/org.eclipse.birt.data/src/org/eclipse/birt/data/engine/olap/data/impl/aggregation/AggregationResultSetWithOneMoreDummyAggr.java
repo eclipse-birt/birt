@@ -441,4 +441,9 @@ public class AggregationResultSetWithOneMoreDummyAggr implements IAggregationRes
 		}
 		
 	}
+
+	public Object[] getLevelAttributesValue( int levelIndex )
+	{
+		return ars.getLevelAttributesValue( levelIndex );
+	}
 }

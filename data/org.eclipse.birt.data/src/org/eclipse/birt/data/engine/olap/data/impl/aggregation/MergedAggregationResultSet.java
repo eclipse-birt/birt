@@ -286,4 +286,9 @@ public class MergedAggregationResultSet implements IAggregationResultSet
 		return rs1.getSortType( );
 	}
 
+	public Object[] getLevelAttributesValue( int levelIndex )
+	{
+		return rs1.getLevelAttributesValue( levelIndex );
+	}
+
 }

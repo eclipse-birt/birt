@@ -522,4 +522,15 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	{
 		return this.sortType;
 	}
+
+	public Object[] getLevelAttributesValue( int levelIndex )
+	{
+		if ( resultObject.getLevelMembers( ) == null
+				|| levelIndex < 0
+				|| resultObject.getLevelMembers( )[levelIndex].getAttributes( ) == null )
+		{
+			return null;
+		}
+		return resultObject.getLevelMembers( )[levelIndex].getAttributes( );
+	}
 }

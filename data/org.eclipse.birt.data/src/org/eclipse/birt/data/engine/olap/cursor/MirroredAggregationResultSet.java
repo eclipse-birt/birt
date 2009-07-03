@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
 /**
  * This class is a wrapper class of AggregationResultSet in the case of using
@@ -56,7 +57,11 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 	{
 		this.mirrorLevel = mirrorLevel;
 		this.breakHierarchy = breakHierarchy;
-		this.rootNode = new MemberTreeNode( "ROOT" );
+		Member member = new Member( );
+		member.setKeyValues( new Object[]{
+			"#ROOT#"
+		} );
+		this.rootNode = new MemberTreeNode( member );
 		this.resultObject = new Object[ rs.getLevelCount( )];
 		this.rs = rs;
 		this.sortList = sortList;
@@ -157,7 +162,12 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			{
 				if ( !isEqualObject( preValue[j], currValue[j] ) )
 				{
-					child = new MemberTreeNode( currValue[j] );
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						currValue[j]
+					} );
+					member.setAttributes( rs.getLevelAttributesValue( j ) );
+					child = new MemberTreeNode( member );
 					parent.insertNode( child );
 					child.parentNode = parent;
 					parent = child;
@@ -168,7 +178,12 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 						parent = (MemberTreeNode) parent.childNodesList.get( parent.childNodesList.size( ) - 1 );
 					else
 					{
-						child = new MemberTreeNode( currValue[j] );
+						Member member = new Member( );
+						member.setKeyValues( new Object[]{
+							currValue[j]
+						} );
+						member.setAttributes( rs.getLevelAttributesValue( j ) );
+						child = new MemberTreeNode( member );
 						parent.insertNode( child );
 						child.parentNode = parent;
 						parent = child;
@@ -176,13 +191,23 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 				}
 			}
 			
-
-			if ( noBreakHierarchyKeyMap.containsKey( currValue[this.mirrorLevel ] ) )
+			Member mirrorMember = new Member( );
+			mirrorMember.setKeyValues( new Object[]{
+				currValue[this.mirrorLevel]
+			} );
+			mirrorMember.setAttributes( rs.getLevelAttributesValue( this.mirrorLevel ) );
+			if ( noBreakHierarchyKeyMap.containsKey( mirrorMember ) )
 			{
-				MemberTreeNode node = (MemberTreeNode) noBreakHierarchyKeyMap.get( currValue[this.mirrorLevel] );
+				MemberTreeNode node = (MemberTreeNode) noBreakHierarchyKeyMap.get( mirrorMember );
 				for ( int j = this.mirrorLevel + 1; j < this.rs.getLevelCount( ); j++ )
 				{
-					if ( !node.containsChild( currValue[j] ) )
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						currValue[j]
+					} );
+					member.setAttributes( rs.getLevelAttributesValue( j ) );
+
+					if ( !node.containsChild( member ) )
 					{
 						if ( TimeMemberUtil.isTimeMirror( rs, j ) )
 						{
@@ -190,7 +215,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 						}
 						else
 						{
-							MemberTreeNode childNode = new MemberTreeNode( currValue[j] );
+							MemberTreeNode childNode = new MemberTreeNode( member );
 							node.insertNode( childNode );
 							childNode.parentNode = node;
 							node = childNode;
@@ -198,7 +223,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 					}
 					else
 					{
-						node = node.getChild( currValue[j] );
+						node = node.getChild( member );
 					}
 				}
 			}
@@ -229,13 +254,23 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 					{
 						if ( parentNode == null )
 						{
-							parentNode = new MemberTreeNode( currValue[j] );
-							noBreakHierarchyKeyMap.put( currValue[this.mirrorLevel],
+							Member member = new Member( );
+							member.setKeyValues( new Object[]{
+								currValue[j]
+							} );
+							member.setAttributes( rs.getLevelAttributesValue( j ) );
+							parentNode = new MemberTreeNode( member );
+							noBreakHierarchyKeyMap.put( mirrorMember,
 									parentNode );
 						}
 						else
 						{
-							MemberTreeNode childNode = new MemberTreeNode( currValue[j] );
+							Member member = new Member( );
+							member.setKeyValues( new Object[]{
+								currValue[j]
+							} );
+							member.setAttributes( rs.getLevelAttributesValue( j ) );
+							MemberTreeNode childNode = new MemberTreeNode( member );
 							parentNode.insertNode( childNode );
 							childNode.parentNode = parentNode;
 							parentNode = childNode;
@@ -316,7 +351,12 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			{
 				if ( !isEqualObject( preValue[j], currValue[j] ) )
 				{
-					child = new MemberTreeNode( currValue[j] );
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						currValue[j]
+					} );
+					member.setAttributes( rs.getLevelAttributesValue( j ) );
+					child = new MemberTreeNode( member );
 					parent.insertNode( child );
 					child.parentNode = parent;
 					parent = child;
@@ -328,7 +368,12 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 								.get( parent.childNodesList.size( ) - 1 );
 					else
 					{
-						child = new MemberTreeNode( currValue[j] );
+						Member member = new Member( );
+						member.setKeyValues( new Object[]{
+							currValue[j]
+						} );
+						member.setAttributes( rs.getLevelAttributesValue( j ) );
+						child = new MemberTreeNode( member );
 						parent.insertNode( child );
 						child.parentNode = parent;
 						parent = child;
@@ -338,10 +383,15 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 
 			for ( int j = 0; j < breakHierarchyList.length; j++ )
 			{
-				if ( !breakHierarchyList[j].contains( rs.getLevelKeyValue( j
-						+ mirrorLevel )[0] ) )
-					breakHierarchyList[j].add( rs.getLevelKeyValue( j
-							+ mirrorLevel )[0] );
+				Member temp = new Member( );
+				temp.setKeyValues( rs.getLevelKeyValue( j + mirrorLevel ) );
+				if ( !breakHierarchyList[j].contains( temp ) )
+				{
+					Member member = new Member( );
+					member.setKeyValues( rs.getLevelKeyValue( j + mirrorLevel ) );
+					member.setAttributes( rs.getLevelAttributesValue( j + mirrorLevel ) );
+					breakHierarchyList[j].add( member );
+				}
 			}
 
 			for ( int k = 0; k < mirrorLevel; k++ )
@@ -490,7 +540,11 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 
 	public Object getLevelAttribute( int levelIndex, int attributeIndex )
 	{
-		return this.rs.getLevelAttribute( levelIndex, attributeIndex );
+		if ( levelIndex < 0 || resultObject.length < levelIndex )
+		{
+			return null;
+		}
+		return ( (Member) this.resultObject[levelIndex] ).getAttributes( )[attributeIndex];
 	}
 
 	public int getLevelAttributeColCount( int levelIndex )
@@ -565,9 +619,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 
 	public Object[] getLevelKeyValue( int levelIndex )
 	{
-		return new Object[]{
-			this.resultObject[levelIndex]
-		};
+		return ( (Member) this.resultObject[levelIndex] ).getKeyValues( );
 	}
 
 	public int getPosition( )
@@ -623,7 +675,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 				{
 					number = remainder;
 				}
-				this.resultObject[i] = this.breakHierarchyList[i - this.mirrorLevel].get( number );
+				this.resultObject[i] = this.breakHierarchyList[i - this.mirrorLevel].get( number ) ;
 				remainder = remainder % mirrorPlus;
 			}
 		}
@@ -726,6 +778,11 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 	public int[] getSortType( )
 	{
 		return this.rs.getSortType( );
+	}
+
+	public Object[] getLevelAttributesValue( int levelIndex )
+	{
+		return ( (Member) this.resultObject[levelIndex] ).getAttributes( );
 	}
 
 }

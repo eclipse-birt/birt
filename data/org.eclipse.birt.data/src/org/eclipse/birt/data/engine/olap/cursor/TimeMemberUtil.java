@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
 import com.ibm.icu.util.Calendar;
 
@@ -315,7 +316,11 @@ class TimeMemberUtil
 		MemberTreeNode[] nodes = new MemberTreeNode[4];
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
-			nodes[i - 1] = new MemberTreeNode( new Integer( i ) );
+			Member member = new Member( );
+			member.setKeyValues( new Object[]{
+				new Integer( i )
+			} );
+			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
@@ -325,7 +330,11 @@ class TimeMemberUtil
 		MemberTreeNode[] nodes = new MemberTreeNode[12];
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
-			nodes[i - 1] = new MemberTreeNode( new Integer( i ) );
+			Member member = new Member( );
+			member.setKeyValues( new Object[]{
+				new Integer( i )
+			} );
+			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
@@ -338,25 +347,41 @@ class TimeMemberUtil
 			case 0 :
 				for ( int i = 1; i <= nodes.length; i++ )
 				{
-					nodes[i - 1] = new MemberTreeNode( new Integer( i ) );
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						new Integer( i )
+					} );
+					nodes[i - 1] = new MemberTreeNode( member );
 				}
 				break;
 			case 1 :
 				for ( int i = 4; i <= nodes.length + 3; i++ )
 				{
-					nodes[i - 4] = new MemberTreeNode( new Integer( i ) );
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						new Integer( i )
+					} );
+					nodes[i - 4] = new MemberTreeNode( member );
 				}
 				break;
 			case 2 :
 				for ( int i = 7; i <= nodes.length + 6; i++ )
 				{
-					nodes[i - 7] = new MemberTreeNode( new Integer( i ) );
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						new Integer( i )
+					} );
+					nodes[i - 7] = new MemberTreeNode( member );
 				}
 				break;
 			case 3 :
 				for ( int i = 10; i <= nodes.length + 9; i++ )
 				{
-					nodes[i - 10] = new MemberTreeNode( new Integer( i ) );
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						new Integer( i )
+					} );
+					nodes[i - 10] = new MemberTreeNode( member );
 				}
 				break;
 		}
@@ -378,7 +403,11 @@ class TimeMemberUtil
 
 		for ( int i = 1; i <= count; i++ )
 		{
-			nodes[i - 1] = new MemberTreeNode( new Integer( i ) );
+			Member member = new Member( );
+			member.setKeyValues( new Object[]{
+				new Integer( i )
+			} );
+			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
@@ -398,7 +427,11 @@ class TimeMemberUtil
 			nodes = new MemberTreeNode[31];
 			for ( int i = 0; i < nodes.length; i++ )
 			{
-				nodes[i] = new MemberTreeNode( new Integer( i + 1 ) );
+				Member member = new Member( );
+				member.setKeyValues( new Object[]{
+					new Integer( i )
+				} );
+				nodes[i] = new MemberTreeNode( member );
 			}
 		}
 		else if ( month == 2 )
@@ -408,7 +441,11 @@ class TimeMemberUtil
 				nodes = new MemberTreeNode[29];
 				for ( int i = 0; i < nodes.length; i++ )
 				{
-					nodes[i] = new MemberTreeNode( new Integer( i + 1 ) );
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						new Integer( i )
+					} );
+					nodes[i] = new MemberTreeNode( member );
 				}
 			}
 			else
@@ -416,7 +453,11 @@ class TimeMemberUtil
 				nodes = new MemberTreeNode[28];
 				for ( int i = 0; i < nodes.length; i++ )
 				{
-					nodes[i] = new MemberTreeNode( new Integer( i + 1 ) );
+					Member member = new Member( );
+					member.setKeyValues( new Object[]{
+						new Integer( i )
+					} );
+					nodes[i] = new MemberTreeNode( member );
 				}
 			}
 		}
@@ -425,7 +466,11 @@ class TimeMemberUtil
 			nodes = new MemberTreeNode[30];
 			for ( int i = 0; i < nodes.length; i++ )
 			{
-				nodes[i] = new MemberTreeNode( new Integer( i + 1 ) );
+				Member member = new Member( );
+				member.setKeyValues( new Object[]{
+					new Integer( i )
+				} );
+				nodes[i] = new MemberTreeNode( member );
 			}
 		}
 		return nodes;
@@ -437,7 +482,11 @@ class TimeMemberUtil
 
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
-			nodes[i - 1] = new MemberTreeNode( new Integer( i ) );
+			Member member = new Member( );
+			member.setKeyValues( new Object[]{
+				new Integer( i )
+			} );
+			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
@@ -448,7 +497,11 @@ class TimeMemberUtil
 
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
-			nodes[i - 1] = new MemberTreeNode( new Integer( i ) );
+			Member member = new Member( );
+			member.setKeyValues( new Object[]{
+				new Integer( i )
+			} );
+			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;	
 	}
@@ -459,7 +512,11 @@ class TimeMemberUtil
 
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
-			nodes[i - 1] = new MemberTreeNode( new Integer( i ) );
+			Member member = new Member( );
+			member.setKeyValues( new Object[]{
+				new Integer( i )
+			} );
+			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
@@ -470,7 +527,11 @@ class TimeMemberUtil
 
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
-			nodes[i - 1] = new MemberTreeNode( new Integer( i ) );
+			Member member = new Member( );
+			member.setKeyValues( new Object[]{
+				new Integer( i )
+			} );
+			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}

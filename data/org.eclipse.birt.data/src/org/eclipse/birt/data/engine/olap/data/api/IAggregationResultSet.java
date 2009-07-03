@@ -112,6 +112,13 @@ public interface IAggregationResultSet
 	
 	/**
 	 * 
+	 * @param levelIndex
+	 * @return
+	 */
+	public Object[] getLevelAttributesValue( int levelIndex );
+	
+	/**
+	 * 
 	 * @param level
 	 * @param attributeName
 	 * @return
