@@ -824,7 +824,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			localizePrivateStyleProperties( target, tmpElement, root,
 					notEmptyProperties );
 
-			Style style = (Style) tmpElement.getStyle( );
+			Style style = (Style) tmpElement.getStyle( sourceDesign );
 
 			// handle only when the style is not local one but a library
 			// resource
