@@ -416,6 +416,7 @@ public class LineArea extends InlineStackingArea
 			checkPageBreak( );
 			LineArea area = cloneArea( );
 			area.children = children;
+			area.context = context;
 			area.setParent( parent );
 			Iterator iter = area.getChildren( );
 			while ( iter.hasNext( ) )

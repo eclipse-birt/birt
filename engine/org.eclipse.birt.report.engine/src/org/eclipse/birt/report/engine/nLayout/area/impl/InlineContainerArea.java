@@ -77,6 +77,7 @@ public class InlineContainerArea extends InlineStackingArea
 		else
 		{
 			InlineContainerArea area = new InlineContainerArea( this );
+			area.context = context;
 			area.children = children;
 			area.setParent( parent );
 			children = new ArrayList( );
@@ -154,7 +155,12 @@ public class InlineContainerArea extends InlineStackingArea
 	
 	public void setTextIndent( ITextContent content )
 	{
+		int pi = lineParent.getCurrentIP( );
 		lineParent.setTextIndent( content );
+		if ( pi != lineParent.getCurrentIP( ) )
+		{
+			maxAvaWidth = parent.getCurrentMaxContentWidth( );
+		}
 	}
 
 	public SplitResult split( int height, boolean force ) throws BirtException
