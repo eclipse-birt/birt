@@ -323,6 +323,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private Set outputtedStyles = new HashSet();
 	
 	protected boolean needFixTransparentPNG = false;
+	private ITableContent cachedStartTable = null;
 
 	/**
 	 * the constructor
@@ -1571,6 +1572,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startTable( ITableContent table )
 	{
+		cachedStartTable = table;
+	}
+
+	protected void doStartTable( ITableContent table )
+	{
 		assert table != null;
 
 		boolean DIVWrap = false;
@@ -1727,7 +1733,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endTable( ITableContent table )
 	{
-
+		if ( cachedStartTable != null )
+		{
+			cachedStartTable = null;
+			return;
+		}
 		//	include select handle table
 		if ( enableMetadata )
 		{
@@ -1872,6 +1882,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void startRow( IRowContent row )
 	{
 		assert row != null;
+
+		if ( cachedStartTable != null )
+		{
+			doStartTable( cachedStartTable );
+			cachedStartTable = null;
+		}
 
 		writer.openTag( HTMLTags.TAG_TR );
 		if ( metadataFilter != null )
