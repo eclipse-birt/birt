@@ -1207,7 +1207,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			ret = param;
 		}
 
-		if ( param == null && param instanceof ParameterGroupDefn )
+		if ( param != null && param instanceof ParameterGroupDefn )
 		{
 			Iterator iter = ( (ParameterGroupDefn) param ).getContents( )
 					.iterator( );

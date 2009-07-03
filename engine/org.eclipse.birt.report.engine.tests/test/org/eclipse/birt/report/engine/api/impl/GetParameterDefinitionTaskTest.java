@@ -56,6 +56,11 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		parameter2.setDataSetName( "Data Set" ); //$NON-NLS-1$
 		IGetParameterDefinitionTask task = engine
 				.createGetParameterDefinitionTask( report );
+		
+		IParameterDefnBase defn = task.getParameterDefn( "ParamCountry" );
+		String name = defn.getName( );
+		assertEquals( name, "ParamCountry" );
+
 		Collection list = task.getSelectionListForCascadingGroup(
 				"NewCascadingParameterGroup", new Object[0] ); //$NON-NLS-1$
 		Object[] content = list.toArray( );
