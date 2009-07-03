@@ -284,41 +284,65 @@ public class URIUtilImpl
 
 	private static String getLocalFileOfFailedURI( String uri )
 	{
-		URL objURI = null;
-		try
+		if ( !isLocalFilePath( uri ) )
 		{
-			objURI = new URL( uri );
-
-			if ( objURI.getProtocol( ).equalsIgnoreCase( FILE_SCHEMA ) )
-			{
-				return objURI.getAuthority( ) == null
-						? objURI.getPath( )
-						: objURI.getAuthority( ) + objURI.getPath( );
-			}
-			else if ( objURI.getProtocol( ).equalsIgnoreCase( JAR_SCHEMA ) )
-				return uri;
-			else
-				return null;
-		}
-		catch ( MalformedURLException e )
-		{
-			URL url = getFileDirectory( uri, false );
-
-			if ( uri.startsWith( JAR_SCHEMA ) )
-				return JAR_SCHEMA + ":" + FILE_SCHEMA + ":" + url.getPath( ); //$NON-NLS-1$ //$NON-NLS-2$
-
+			URL objURI = null;
 			try
 			{
-				if ( uri.startsWith( FILE_SCHEMA ) )
-					return url.toURI( ).getSchemeSpecificPart( );
+				objURI = new URL( uri );
+
+				if ( objURI.getProtocol( ).equalsIgnoreCase( FILE_SCHEMA ) )
+				{
+					return objURI.getAuthority( ) == null
+							? objURI.getPath( )
+							: objURI.getAuthority( ) + objURI.getPath( );
+				}
+				else if ( objURI.getProtocol( ).equalsIgnoreCase( JAR_SCHEMA ) )
+					return uri;
+				else
+					return null;
 			}
-			catch ( URISyntaxException e2 )
+			catch ( MalformedURLException e )
 			{
+				// Do nothing
 			}
-
-			return uri;
-
 		}
+		URL url = getFileDirectory( uri, false );
+
+		if ( uri.startsWith( JAR_SCHEMA ) )
+			return JAR_SCHEMA + ":" + FILE_SCHEMA + ":" + url.getPath( ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		try
+		{
+			if ( uri.startsWith( FILE_SCHEMA ) )
+				return url.toURI( ).getSchemeSpecificPart( );
+		}
+		catch ( URISyntaxException e )
+		{
+		}
+
+		return uri;
+	}
+
+	/**
+	 * Checks if the given URI is a local file path. The URI is considered as a
+	 * local file path if the protocol's length is 1 and it is a character.
+	 * 
+	 * @param uri
+	 *            the given URI
+	 * 
+	 * @return true if the protocol's length is 1 and it is a characte.Otherwise
+	 *         false
+	 */
+	private static boolean isLocalFilePath( String uri )
+	{
+		uri = uri.trim( );
+		int index = uri.indexOf( ':' );
+		if ( index == 1 || ( index == 2 && uri.startsWith( "/" ) ) )
+		{
+			return Character.isLetter( uri.charAt( index - 1 ) );
+		}
+		return false;
 	}
 
 	/**
@@ -361,7 +385,7 @@ public class URIUtilImpl
 			String tmpProtocol = url.getProtocol( );
 
 			// to avoid case like C:/abc/test/...
-			
+
 			if ( url != null && tmpProtocol != null
 					&& tmpProtocol.length( ) > 1 )
 				return getDirectoryByURL( url );
