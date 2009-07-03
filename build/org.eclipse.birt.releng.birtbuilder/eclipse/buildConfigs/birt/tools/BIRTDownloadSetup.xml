@@ -938,6 +938,7 @@
 				<include name="org.eclipse.birt.core.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.engine.emitter.config.*.nl1_*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
@@ -959,6 +960,7 @@
 				<include name="org.eclipse.birt.core.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.engine.emitter.config.*.nl1_*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
