@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.tests.script.data;
 
+import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.script.api.data.ISeriesGrouping;
 import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
 
@@ -37,17 +39,18 @@ public class SeriesGroupingTest extends BaseChartTestCase
 		ISeriesGrouping grouping = getChartWithoutAxes( ).getCategory( )
 				.getGrouping( );
 
-		assertEquals( grouping.getGroupType( ), "Text" );
+		assertEquals( grouping.getGroupType( ),
+				DataType.TEXT_LITERAL.getLiteral( ) );
 
-		grouping.setGroupType( "Numeric" );
-		assertEquals( "Test setting group type",
+		grouping.setGroupType( DataType.NUMERIC_LITERAL.getLiteral( ) );
+		assertEquals( "Test setting group type", //$NON-NLS-1$
 				grouping.getGroupType( ),
-				"Numeric" );
+				DataType.NUMERIC_LITERAL.getLiteral( ) );
 
-		grouping.setGroupType( "Num" );
-		assertEquals( "Test invalid group type",
+		grouping.setGroupType( "Num" );//$NON-NLS-1$
+		assertEquals( "Test invalid group type",//$NON-NLS-1$
 				grouping.getGroupType( ),
-				"Text" );
+				DataType.TEXT_LITERAL.getLiteral( ) );
 	}
 
 	public void testGroupUnit( )
@@ -55,17 +58,18 @@ public class SeriesGroupingTest extends BaseChartTestCase
 		ISeriesGrouping grouping = getChartWithoutAxes( ).getCategory( )
 				.getGrouping( );
 
-		assertEquals( grouping.getGroupUnit( ), "Seconds" );
+		assertEquals( grouping.getGroupUnit( ),
+				GroupingUnitType.DAYS_LITERAL.getLiteral( ) );
 
-		grouping.setGroupUnit( "Days" );
-		assertEquals( "Test setting group unit",
+		grouping.setGroupUnit( GroupingUnitType.SECONDS_LITERAL.getLiteral( ) );
+		assertEquals( "Test setting group unit",//$NON-NLS-1$
 				grouping.getGroupUnit( ),
-				"Days" );
+				GroupingUnitType.SECONDS_LITERAL.getLiteral( ) );
 
-		grouping.setGroupUnit( "dd" );
-		assertEquals( "Test invalid group unit",
+		grouping.setGroupUnit( "dd" );//$NON-NLS-1$
+		assertEquals( "Test invalid group unit",//$NON-NLS-1$
 				grouping.getGroupUnit( ),
-				"Seconds" );
+				GroupingUnitType.DAYS_LITERAL.getLiteral( ) );
 	}
 
 	public void testEnabled( )
