@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.birt.osgi.runtime.sdk"
+      label="%featureName"
+      version="2.5.0.qualifier"
+      provider-name="%providerName"
+      image="eclipse_update_120.jpg">
+
+   <description url="http://www.eclipse.org/birt">
+      %description
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.5"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.5"/>
+   </url>
+
+   <includes
+         id="org.eclipse.birt.osgi.runtime"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.osgi.runtime.source"
+         version="0.0.0"/>
+
+</feature>
