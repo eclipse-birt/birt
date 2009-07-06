@@ -76,7 +76,7 @@ public class TotalWeightedAve extends AggrFunction
 						true,
 						SupportedDataTypes.CALCULATABLE,
 						"" ), //$NON-NLS-1$
-				new ParameterDefn( "weight", Messages.getString( "TotalWeightedAve.param.weight" ), false, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new ParameterDefn( "weight", Messages.getString( "TotalWeightedAve.param.weight" ), false, true, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		};
 	}
 
