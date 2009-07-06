@@ -18,8 +18,7 @@ import junit.framework.TestCase;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 
 public class ChartUtilTest extends TestCase
@@ -113,67 +112,76 @@ public class ChartUtilTest extends TestCase
 		assertEquals( 4, ChartUtil.getQuadrant( -45 ) );
 	}
 
-	public void testIsBinding( )
+	public void testIsCubeBinding( )
 	{
-		assertEquals( true, ChartXTabUtil.isBinding( "data[\"ab c\"]", false ) ); //$NON-NLS-1$
-		assertEquals( true, ChartXTabUtil.isBinding( "data[\"data\"]", false ) ); //$NON-NLS-1$
-		assertEquals( false, ChartXTabUtil.isBinding( "data[\"ab c\"]+100", //$NON-NLS-1$
-				false ) );
+		// Test pure binding
 		assertEquals( true,
-				ChartXTabUtil.isBinding( "data[\"ab c\"]+100", true ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isCubeBinding( "data[\"ab c\"]", false ) ); //$NON-NLS-1$
 		assertEquals( true,
-				ChartXTabUtil.isBinding( "100+data[\"ab c\"]", true ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isCubeBinding( "data[\"data\"]", false ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartExpressionUtil.isCubeBinding( "data[\"ab c\"]+100", //$NON-NLS-1$
+						false ) );
+		assertEquals( false,
+				ChartExpressionUtil.isCubeBinding( "data[\"year\"]+\"Q\"+data[\"quarter\"]", //$NON-NLS-1$
+						false ) );
+
+		// Test complex expression
 		assertEquals( true,
-				ChartXTabUtil.isBinding( "data[\"ab c\"]+data[\"data\"]", true ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isCubeBinding( "data[\"ab c\"]+100", true ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartExpressionUtil.isCubeBinding( "100+data[\"ab c\"]", true ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartExpressionUtil.isCubeBinding( "data[\"year\"]+\"Q\"+data[\"quarter\"]", //$NON-NLS-1$
+						true ) );
 	}
 
-	public void testGetBindingName( )
+	public void testGetCubeBindingName( )
 	{
-		assertEquals( "ab c", ChartXTabUtil.getBindingName( "data[\"ab c\"]", //$NON-NLS-1$ //$NON-NLS-2$
-				false ) );
-		assertEquals( "data", ChartXTabUtil.getBindingName( "data[\"data\"]", //$NON-NLS-1$ //$NON-NLS-2$
-				false ) );
+		assertEquals( "ab c", ChartExpressionUtil.getCubeBindingName( "data[\"ab c\"]", //$NON-NLS-1$ //$NON-NLS-2$
+						false ) );
+		assertEquals( "data", ChartExpressionUtil.getCubeBindingName( "data[\"data\"]", //$NON-NLS-1$ //$NON-NLS-2$
+						false ) );
 		assertEquals( null,
-				ChartXTabUtil.getBindingName( "data[\"data\"] + 100", false ) ); //$NON-NLS-1$
-		// assertEquals( null, ChartXTabUtil.getBindingName( "data[\"data\"] +
-		// data[\"ab c\"]",
-		// false ) );
+				ChartExpressionUtil.getCubeBindingName( "data[\"data\"] + 100", false ) ); //$NON-NLS-1$
+		assertEquals( null,
+				ChartExpressionUtil.getCubeBindingName( "data[\"year\"]+\"Q\"+data[\"quarter\"]", false ) ); //$NON-NLS-1$
 
-		assertEquals( "ab c", ChartXTabUtil.getBindingName( "data[\"ab c\"]", //$NON-NLS-1$ //$NON-NLS-2$
-				true ) );
+		assertEquals( "ab c", ChartExpressionUtil.getCubeBindingName( "data[\"ab c\"]", //$NON-NLS-1$ //$NON-NLS-2$
+						true ) );
 		assertEquals( "ab c", //$NON-NLS-1$
-				ChartXTabUtil.getBindingName( "data[\"ab c\"] + 100", true ) ); //$NON-NLS-1$
+				ChartExpressionUtil.getCubeBindingName( "data[\"ab c\"] + 100", true ) ); //$NON-NLS-1$
 		assertEquals( "ab c", //$NON-NLS-1$
-				ChartXTabUtil.getBindingName( "100 * data[\"ab c\"] ", true ) ); //$NON-NLS-1$
+				ChartExpressionUtil.getCubeBindingName( "100 * data[\"ab c\"] ", true ) ); //$NON-NLS-1$
 		assertEquals( "123", //$NON-NLS-1$
-				ChartXTabUtil.getBindingName( "data[\"123\"] + data[\"ab c\"] ", //$NON-NLS-1$
+				ChartExpressionUtil.getCubeBindingName( "data[\"123\"] + data[\"ab c\"] ", //$NON-NLS-1$
 						true ) );
 
 		// Test script expression
 		assertEquals( "123", //$NON-NLS-1$
-				ChartXTabUtil.getBindingName( "data[\"12\"+\"3\"] ", //$NON-NLS-1$
+				ChartExpressionUtil.getCubeBindingName( "data[\"12\"+\"3\"] ", //$NON-NLS-1$
 						true ) );
 	}
 
-	public void testGetBindingNameList( )
+	public void testGetCubeBindingNameList( )
 	{
-		List<String> names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + data[\"ab c\"]" ); //$NON-NLS-1$
+		List<String> names = ChartExpressionUtil.getCubeBindingNameList( "data[\"123\"] + data[\"ab c\"]" ); //$NON-NLS-1$
 		assertEquals( 2, names.size( ) );
 		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
 		assertEquals( "ab c", names.get( 1 ) ); //$NON-NLS-1$
 
-		names = ChartXTabUtil.getBindingNameList( "123" ); //$NON-NLS-1$
+		names = ChartExpressionUtil.getCubeBindingNameList( "123" ); //$NON-NLS-1$
 		assertEquals( 0, names.size( ) );
 
-		names = ChartXTabUtil.getBindingNameList( "data[\"123\"]" ); //$NON-NLS-1$
+		names = ChartExpressionUtil.getCubeBindingNameList( "data[\"123\"]" ); //$NON-NLS-1$
 		assertEquals( 1, names.size( ) );
 		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
 
-		names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + 100" ); //$NON-NLS-1$
+		names = ChartExpressionUtil.getCubeBindingNameList( "data[\"123\"] + 100" ); //$NON-NLS-1$
 		assertEquals( 1, names.size( ) );
 		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
 
-		names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + data[\"ab c\"] + data[\"a\"]" ); //$NON-NLS-1$
+		names = ChartExpressionUtil.getCubeBindingNameList( "data[\"123\"] + data[\"ab c\"] + data[\"a\"]" ); //$NON-NLS-1$
 		assertEquals( 3, names.size( ) );
 		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
 		assertEquals( "ab c", names.get( 1 ) ); //$NON-NLS-1$
@@ -183,86 +191,69 @@ public class ChartUtilTest extends TestCase
 	public void testIsDimensionExpresion( )
 	{
 		assertEquals( true,
-				ChartXTabUtil.isDimensionExpresion( "dimension[\"abc\"][\"12 3\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isDimensionExpresion( "dimension[\"abc\"][\"12 3\"]" ) ); //$NON-NLS-1$
 		assertEquals( true,
-				ChartXTabUtil.isDimensionExpresion( "dimension[\"a\"+\"bc\"][\"12 3\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isDimensionExpresion( "dimension[\"a\"+\"bc\"][\"12 3\"]" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartXTabUtil.isDimensionExpresion( "dimension[\"abc\"][\"12 3\"]+2" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isDimensionExpresion( "dimension[\"abc\"][\"12 3\"]+2" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartXTabUtil.isDimensionExpresion( "2+dimension[\"abc\"][\"12 3\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isDimensionExpresion( "2+dimension[\"abc\"][\"12 3\"]" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartXTabUtil.isDimensionExpresion( "dimension[\"abc\"][12 3]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isDimensionExpresion( "dimension[\"abc\"][12 3]" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartXTabUtil.isDimensionExpresion( "dimension[\"abc\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isDimensionExpresion( "dimension[\"abc\"]" ) ); //$NON-NLS-1$
 	}
 
 	public void testGetLevelNameFromDimensionExpression( )
 	{
-		String[] levels = ChartXTabUtil.getLevelNameFromDimensionExpression( "dimension[\"abc\"][\"12 3\"]" );//$NON-NLS-1$
+		String[] levels = ChartExpressionUtil.getLevelNameFromDimensionExpression( "dimension[\"abc\"][\"12 3\"]" );//$NON-NLS-1$
 		assertEquals( "abc", levels[0] ); //$NON-NLS-1$
 		assertEquals( "12 3", levels[1] ); //$NON-NLS-1$
 
 		// dimension["a"+"bc"]["a"+2*3+"b"]
-		levels = ChartXTabUtil.getLevelNameFromDimensionExpression( "dimension[\"a\"+\"bc\"][\"a\"+2*3+\"b\"]" ); //$NON-NLS-1$
+		levels = ChartExpressionUtil.getLevelNameFromDimensionExpression( "dimension[\"a\"+\"bc\"][\"a\"+2*3+\"b\"]" ); //$NON-NLS-1$
 		assertEquals( "abc", levels[0] ); //$NON-NLS-1$
 		assertEquals( "a6b", levels[1] ); //$NON-NLS-1$
 
-		levels = ChartXTabUtil.getLevelNameFromDimensionExpression( "1+dimension[\"abc\"][\"12 3\"]" );//$NON-NLS-1$
+		levels = ChartExpressionUtil.getLevelNameFromDimensionExpression( "1+dimension[\"abc\"][\"12 3\"]" );//$NON-NLS-1$
 		assertNull( levels );
 	}
 
 	public void testIsMeasureExpresion( )
 	{
 		assertEquals( true,
-				ChartXTabUtil.isMeasureExpresion( "measure[\"12 3\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isMeasureExpresion( "measure[\"12 3\"]" ) ); //$NON-NLS-1$
 		assertEquals( true,
-				ChartXTabUtil.isMeasureExpresion( "measure[\"a\"+\"bc\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isMeasureExpresion( "measure[\"a\"+\"bc\"]" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartXTabUtil.isMeasureExpresion( "measure[\"12 3\"]+1" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isMeasureExpresion( "measure[\"12 3\"]+1" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartXTabUtil.isMeasureExpresion( "1*measure[\"12 3\"]" ) ); //$NON-NLS-1$
-		assertEquals( false, ChartXTabUtil.isMeasureExpresion( "measure[12 3]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isMeasureExpresion( "1*measure[\"12 3\"]" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartXTabUtil.isMeasureExpresion( "dimension[\"abc\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.isMeasureExpresion( "measure[12 3]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartExpressionUtil.isMeasureExpresion( "dimension[\"abc\"]" ) ); //$NON-NLS-1$
 	}
 
 	public void testGetMeasureName( )
 	{
-		assertEquals( "12 3", ChartXTabUtil.getMeasureName( "measure[\"12 3\"]" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "abc", ChartXTabUtil.getMeasureName( "measure[\"a\"+\"bc\"]" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertNull( ChartXTabUtil.getMeasureName( "measure[\"abc\"+5]" ) ); //$NON-NLS-1$
+		assertEquals( "12 3", ChartExpressionUtil.getMeasureName( "measure[\"12 3\"]" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "abc", ChartExpressionUtil.getMeasureName( "measure[\"a\"+\"bc\"]" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertNull( ChartExpressionUtil.getMeasureName( "measure[\"abc\"+5]" ) ); //$NON-NLS-1$
 	}
 
 	public void testCheckStringInExpression( )
 	{
 		assertEquals( true,
-				ChartReportItemUtil.checkStringInExpression( "data[\"year\"]+\"Q\"+data[\"quarter\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.checkStringInExpression( "data[\"year\"]+\"Q\"+data[\"quarter\"]" ) ); //$NON-NLS-1$
 		assertEquals( true,
-				ChartReportItemUtil.checkStringInExpression( "\"Q\"+data[\"quarter\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.checkStringInExpression( "\"Q\"+data[\"quarter\"]" ) ); //$NON-NLS-1$
 		assertEquals( true,
-				ChartReportItemUtil.checkStringInExpression( "data[\"quarter\"]+\"Q\"" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.checkStringInExpression( "data[\"quarter\"]+\"Q\"" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartReportItemUtil.checkStringInExpression( "data[\"year\"]+data[\"quarter\"]" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.checkStringInExpression( "data[\"year\"]+data[\"quarter\"]" ) ); //$NON-NLS-1$
 		assertEquals( false,
-				ChartReportItemUtil.checkStringInExpression( "4+data[\"quarter\"]" ) ); //$NON-NLS-1$
-	}
-
-	public void testIsSingleExpression( )
-	{
-		assertEquals( true,
-				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"]" ) ); //$NON-NLS-1$
-		assertEquals( true,
-				ChartReportItemUtil.isSimpleExpression( "row[\"row a\"]" ) ); //$NON-NLS-1$
-		assertEquals( true,
-				ChartReportItemUtil.isSimpleExpression( "data[\"xxxxx\"]" ) ); //$NON-NLS-1$
-		assertEquals( false,
-				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"]+row[\"xxxxx\"]" ) ); //$NON-NLS-1$
-		assertEquals( false,
-				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"] + 1" ) ); //$NON-NLS-1$
-		assertEquals( false,
-				ChartReportItemUtil.isSimpleExpression( "1+row[\"xxxxx\"]" ) ); //$NON-NLS-1$
-		assertEquals( false,
-				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"].getDay()" ) ); //$NON-NLS-1$
+				ChartExpressionUtil.checkStringInExpression( "4+data[\"quarter\"]" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -284,7 +275,7 @@ public class ChartUtilTest extends TestCase
 		assertEquals( 0, ChartUtil.compareVersion( "3.1.1.5", "3.1.1.5.0" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( -1, ChartUtil.compareVersion( "3.1.1.5", "3.1.1.6" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
+
 	public void testIsCubeRowExpression( )
 	{
 		assertEquals( true, ChartUtil.isCubeRowExpression( "data[\"a\"]", true ) ); //$NON-NLS-1$

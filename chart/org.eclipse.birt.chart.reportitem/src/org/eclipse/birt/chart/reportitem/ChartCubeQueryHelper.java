@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -356,7 +357,7 @@ public class ChartCubeQueryHelper
 		Query queryValue = sdValue.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
-		String bindingValue = ChartXTabUtil.getBindingName( queryValue.getDefinition( ),
+		String bindingValue = ChartExpressionUtil.getCubeBindingName( queryValue.getDefinition( ),
 				false );
 		String maxBindingName = ChartReportItemConstants.QUERY_MAX
 				+ bindingValue;
@@ -469,7 +470,7 @@ public class ChartCubeQueryHelper
 		String sortKey = sd.getSortKey( ).getDefinition( );
 		if ( sd.isSetSorting( ) && sortKey != null && sortKey.length( ) > 0 )
 		{
-			String sortKeyBinding = ChartXTabUtil.getBindingName( sd.getSortKey( )
+			String sortKeyBinding = ChartExpressionUtil.getCubeBindingName( sd.getSortKey( )
 					.getDefinition( ),
 					true );
 			if ( registeredLevels.containsKey( sortKeyBinding ) )
@@ -492,7 +493,7 @@ public class ChartCubeQueryHelper
 								.getDataDefinition( )
 								.get( 0 );
 				IMeasureDefinition mDef = registeredMeasures.get( sortKeyBinding );
-				String targetBindingName = ChartXTabUtil.getBindingName( targetQuery.getDefinition( ),
+				String targetBindingName = ChartExpressionUtil.getCubeBindingName( targetQuery.getDefinition( ),
 						true );
 
 				// Find measure binding
@@ -538,14 +539,14 @@ public class ChartCubeQueryHelper
 			cubeQuery.addBinding( colBinding );
 		}
 
-		if ( ChartXTabUtil.isBinding( expr, true ) )
+		if ( ChartExpressionUtil.isCubeBinding( expr, true ) )
 		{
 			// Support nest data expression in binding
 			bindExpression( expr, cubeQuery, cube );
 			return;
 		}
 
-		String measure = ChartXTabUtil.getMeasureName( expr );
+		String measure = ChartExpressionUtil.getMeasureName( expr );
 		if ( measure != null )
 		{
 			if ( registeredMeasures.containsKey( bindingName ) )
@@ -564,7 +565,7 @@ public class ChartCubeQueryHelper
 			// AggregateOn has been added in binding when initializing
 			// column bindings
 		}
-		else if ( ChartXTabUtil.isDimensionExpresion( expr ) )
+		else if ( ChartExpressionUtil.isDimensionExpresion( expr ) )
 		{
 			if ( registeredLevels.containsKey( bindingName ) )
 			{
@@ -572,7 +573,7 @@ public class ChartCubeQueryHelper
 			}
 
 			// Add row/column edge
-			String[] levels = ChartXTabUtil.getLevelNameFromDimensionExpression( expr );
+			String[] levels = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr );
 			String dimensionName = levels[0];
 			final int edgeType = getEdgeType( dimensionName );
 			IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
@@ -635,10 +636,11 @@ public class ChartCubeQueryHelper
 		{
 			String bindingName = null;
 			IBinding colBinding = null;
-			if ( ChartXTabUtil.isBinding( expr, false ) )
+			if ( ChartExpressionUtil.isCubeBinding( expr, false ) )
 			{
 				// Simple binding name case
-				bindingName = ChartXTabUtil.getBindingName( expr, false );
+				bindingName = ChartExpressionUtil.getCubeBindingName( expr,
+						false );
 				colBinding = registeredBindings.get( bindingName );
 			}
 			else
@@ -652,7 +654,7 @@ public class ChartCubeQueryHelper
 				colBinding.setExpression( new ScriptExpression( expr ) );
 				cubeQuery.addBinding( colBinding );
 
-				List<String> nameList = ChartXTabUtil.getBindingNameList( expr );
+				List<String> nameList = ChartExpressionUtil.getCubeBindingNameList( expr );
 				if ( nameList.size( ) == 0 )
 				{
 					// Constant case
@@ -785,7 +787,7 @@ public class ChartCubeQueryHelper
 			}
 			else
 			{
-				levelDefinition = registeredLevels.get( ChartXTabUtil.getBindingName( filterCondExpr.getExpression( )
+				levelDefinition = registeredLevels.get( ChartExpressionUtil.getCubeBindingName( filterCondExpr.getExpression( )
 						.getText( ),
 						true ) );
 			}

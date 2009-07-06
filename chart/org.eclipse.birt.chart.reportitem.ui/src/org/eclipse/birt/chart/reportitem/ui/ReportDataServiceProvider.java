@@ -50,6 +50,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -1081,7 +1082,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		
 		// Checks if expression contains string
-		if ( !complexScripts && ChartReportItemUtil.checkStringInExpression( expression ) )
+		if ( !complexScripts && ChartExpressionUtil.checkStringInExpression( expression ) )
 		{
 			return new Object[]{
 					true, DataType.TEXT_LITERAL
@@ -1089,7 +1090,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		
 		// simple means one binding expression without js function
-		if ( !ChartReportItemUtil.isSimpleExpression( expression ) )
+		if ( !ChartExpressionUtil.isRowBinding( expression, false )
+				&& !ChartExpressionUtil.isCubeBinding( expression, false ) )
 		{
 			return new Object[]{
 					false, null
@@ -2757,7 +2759,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// 2. Get value series bindings.
-			String bindingName = ChartXTabUtil.getBindingName( (String) value,
+			String bindingName = ChartExpressionUtil.getCubeBindingName( (String) value,
 					false );
 			ComputedColumnHandle computedBinding = bindingMap.get( bindingName );
 

@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -578,8 +579,10 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				return true;
 			}
 
-			categoryBindName = ChartXTabUtil.getBindingName( categoryExpr, true );
-			yOptionBindName = ChartXTabUtil.getBindingName( expression, true );
+			categoryBindName = ChartExpressionUtil.getCubeBindingName( categoryExpr,
+					true );
+			yOptionBindName = ChartExpressionUtil.getCubeBindingName( expression,
+					true );
 		}
 		else if ( ChartUIConstants.QUERY_CATEGORY.equals( checkType ) )
 		{
@@ -594,8 +597,10 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				return true;
 			}
 
-			categoryBindName = ChartXTabUtil.getBindingName( expression, true );
-			yOptionBindName = ChartXTabUtil.getBindingName( yOptionExpr, true );
+			categoryBindName = ChartExpressionUtil.getCubeBindingName( expression,
+					true );
+			yOptionBindName = ChartExpressionUtil.getCubeBindingName( yOptionExpr,
+					true );
 		}
 
 		if ( columnBindings == null )
@@ -608,19 +613,19 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			ComputedColumnHandle columnHandle = columnBindings.next( );
 			String bindName = columnHandle.getName( );
 			String expr = columnHandle.getExpression( );
-			if ( !ChartXTabUtil.isDimensionExpresion( expr ) )
+			if ( !ChartExpressionUtil.isDimensionExpresion( expr ) )
 			{
 				continue;
 			}
 
 			if ( bindName.equals( categoryBindName ) )
 			{
-				categoryDimension = ChartXTabUtil.getLevelNameFromDimensionExpression( expr )[0];
+				categoryDimension = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr )[0];
 			}
 
 			if ( bindName.equals( yOptionBindName ) )
 			{
-				yOptionDimension = ChartXTabUtil.getLevelNameFromDimensionExpression( expr )[0];
+				yOptionDimension = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr )[0];
 			}
 		}
 
@@ -714,11 +719,13 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		{
 			ComputedColumnHandle cc = (ComputedColumnHandle) columnBindings.next( );
 			expression = cc.getExpression( );
-			if ( !containDimension && isDimensionExpresion( expression ) )
+			if ( !containDimension
+					&& ChartExpressionUtil.isDimensionExpresion( expression ) )
 			{
 				containDimension = true;
 			}
-			if ( !containMeasure && isMeasureExpresion( expression ) )
+			if ( !containMeasure
+					&& ChartExpressionUtil.isMeasureExpresion( expression ) )
 			{
 				containMeasure = true;
 			}

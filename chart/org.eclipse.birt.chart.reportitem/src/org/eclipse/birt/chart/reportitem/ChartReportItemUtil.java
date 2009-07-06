@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
@@ -73,7 +74,8 @@ import org.eclipse.emf.common.util.EList;
  * Utility class for Chart integration as report item
  */
 
-public class ChartReportItemUtil implements ChartReportItemConstants
+public class ChartReportItemUtil extends ChartExpressionUtil implements
+		ChartReportItemConstants
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -90,7 +92,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	{
 		if ( handle instanceof ReportElementHandle )
 		{
-			
+
 			if ( handle instanceof ReportItemHandle )
 			{
 				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
@@ -212,7 +214,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		else
 			return list.iterator( );
-		
+
 	}
 
 	/**
@@ -509,7 +511,10 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static boolean isBaseGroupingDefined( SeriesDefinition baseSD )
 	{
-		if ( baseSD != null && !baseSD.getDesignTimeSeries( ).getDataDefinition( ).isEmpty( )
+		if ( baseSD != null
+				&& !baseSD.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.isEmpty( )
 				&& baseSD.getGrouping( ) != null
 				&& baseSD.getGrouping( ).isEnabled( ) )
 		{
@@ -533,8 +538,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
-			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( )
-					.get( 0 );
+			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( ).get( 0 );
 
 			orthAxisArray = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true );
 			orthSD = ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
@@ -561,8 +565,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
-			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( )
-					.get( 0 );
+			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( ).get( 0 );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
@@ -577,13 +580,14 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 
 		return false;
 	}
+
 	/**
 	 * Check if running aggregates are set on chart.
 	 * 
 	 * @param cm
 	 * @return set or not
 	 * @throws ChartException
-     * @since 2.3.1
+	 * @since 2.3.1
 	 */
 	public static boolean isSetRunningAggregation( Chart cm )
 			throws ChartException
@@ -649,10 +653,10 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Check if chart has aggregation.
 	 * 
@@ -664,8 +668,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
-			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( )
-					.get( 0 );
+			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( ).get( 0 );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
@@ -1068,93 +1071,6 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	}
 
 	/**
-	 * Checks if the expression contains string. e.g.
-	 * data["year"]+"Q"+data["quarter"]
-	 * 
-	 * @param expression
-	 * @return true if contains
-	 */
-	public static boolean checkStringInExpression( String expression )
-	{
-		boolean haveString = false;
-		int squareBracketPairingCount = 0;
-		for ( int i = 0; i < expression.length( ); i++ )
-		{
-			if ( expression.charAt(i) == '[' )
-			{
-				squareBracketPairingCount++;
-			}
-			if ( expression.charAt(i) == ']' )
-			{
-				squareBracketPairingCount--;
-			}
-			
-			if ( expression.charAt( i ) == '"' )
-			{
-				if ( squareBracketPairingCount != 0 )
-				{
-					haveString = false;
-					continue;
-				}
-				if ( i == 0 || i == expression.length( ) - 1 )
-				{
-					haveString = true;
-					break;
-				}
-				else
-				{
-					boolean isStrOperation = false;
-					for ( int j = (i - 1); j >=0; j-- )
-					{
-						if ( expression.charAt( j ) == ' ' )
-						{
-							continue;
-						}
-						else if ( expression.charAt( j ) != '+' || expression.charAt( j ) != '-' )
-						{
-							isStrOperation = true;
-							break;
-						}
-						else
-						{
-							isStrOperation = false;
-							break;
-						}
-					}
-					if ( isStrOperation )
-					{
-						haveString= true;
-						break;
-					}
-					else if ( expression.charAt( i - 1 ) != '['
-							&& expression.charAt( i + 1 ) != ']' )
-					{
-						haveString = true;
-						break;
-					}
-				}
-
-			}
-		}
-		return haveString;
-	}
-
-	/**
-	 * Compare version number, the format of version number should be X.X.X
-	 * style.
-	 * 
-	 * @param va
-	 *            version number 1.
-	 * @param vb
-	 *            version number 2.
-	 * @since 2.3
-	 */
-	public static int compareVersion( String va, String vb )
-	{
-		return ChartUtil.compareVersion( va, vb );
-	}
-
-	/**
 	 * Check if specified expression is a grouping expression of shared report
 	 * item.
 	 * 
@@ -1174,7 +1090,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			{
 				groupList.add( iter.next( ) );
 			}
-			
+
 			if ( groupList.size( ) == 0 )
 			{
 				return false;
@@ -1201,13 +1117,14 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static boolean isOldChartUsingInternalGroup(
 			ReportItemHandle chartHandle, Chart cm )
 	{
-		if ( compareVersion( cm.getVersion( ), "2.5.0" ) >= 0 ) //$NON-NLS-1$
+		if ( ChartUtil.compareVersion( cm.getVersion( ), "2.5.0" ) >= 0 ) //$NON-NLS-1$
 		{
 			return false;
 		}
-		
+
 		String reportVer = chartHandle.getModuleHandle( ).getVersion( );
-		if ( reportVer == null || compareVersion( reportVer, "3.2.16" ) < 0 ) //$NON-NLS-1$
+		if ( reportVer == null
+				|| ChartUtil.compareVersion( reportVer, "3.2.16" ) < 0 ) //$NON-NLS-1$
 		{
 			return true;
 		}
@@ -1227,21 +1144,6 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Checks if string is a single query expression
-	 * 
-	 * @param expr
-	 */
-	public static boolean isSimpleExpression( String expr )
-	{
-		String rowPattern = "row\\[.*\\]"; //$NON-NLS-1$
-		String dataPattern = "data\\[.*\\]"; //$NON-NLS-1$
-		boolean matches = expr.matches( rowPattern )
-				|| expr.matches( dataPattern );
-		boolean isSingle = expr.indexOf( "]" ) == expr.length( ) - 1; //$NON-NLS-1$
-		return matches && isSingle;
 	}
 
 	/**
@@ -1304,99 +1206,20 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		return false;
 	}
 
-	/**
-	 * Return the binding name of row["binding"]
-	 * 
-	 * @param expr
-	 *            expression
-	 * @param hasOperation
-	 *            indicates if operation can be allowed in expression
-	 */
-	public static String getRowBindingName( String expr, boolean hasOperation )
-	{
-		if ( !isRowBinding( expr, hasOperation ) )
-			return null;
-		if ( hasOperation )
-		{
-			return expr.replaceFirst( ".*\\Qrow[\"\\E", "" ) //$NON-NLS-1$ //$NON-NLS-2$
-					.replaceFirst( "\\Q\"]\\E.*", "" ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return expr.replaceFirst( "\\Qrow[\"\\E", "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				.replaceFirst( "\\Q\"]\\E", "" ); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
-	/**
-	 * Checks if the expression references a binding name
-	 * 
-	 * @param expr
-	 *            expression
-	 * @param hasOperation
-	 *            indicates if operation can be allowed in expression
-	 */
-	public static boolean isRowBinding( String expr, boolean hasOperation )
-	{
-		if ( expr == null )
-		{
-			return false;
-		}
-		
-		String regExp = hasOperation ? ".*\\Qrow[\"\\E.*\\Q\"]\\E.*" //$NON-NLS-1$
-				: "\\Qrow[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
-		
-		boolean result = expr.matches( regExp );
-		if ( hasOperation )
-		{
-			return result;
-		}
-		else if ( result
-				&& containsOnce( expr, "row[\"" ) && containsOnce( expr, "\"]" ) )//$NON-NLS-1$ //$NON-NLS-2$
-		{
-			// It is a regular row binding.
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check if expression only contains specified substring once.
-	 * 
-	 * @param expr
-	 * @param substring
-	 * @return
-	 */
-	private static boolean containsOnce( String expr, String substring )
-	{
-		String text = expr;
-		int index = text.indexOf( substring );
-		if ( index < 0 )
-		{
-			return false;
-		}
-
-		text = text.substring( index + substring.length( ) - 1 );
-		if ( text.indexOf( substring ) >= 0 )
-		{
-			return false;
-		}
-
-		return true;
-	}
-	
 	public static String createBindingNameForRowExpression( String expr )
 	{
-		if ( isRowBinding( expr, false ) )
+		if ( ChartExpressionUtil.isRowBinding( expr, false ) )
 		{
-			return getRowBindingName( expr, false );
+			return ChartExpressionUtil.getRowBindingName( expr, false );
 		}
-		if ( isRowBinding( expr, true ) )
+		if ( ChartExpressionUtil.isRowBinding( expr, true ) )
 		{
 			return ChartUtil.escapeSpecialCharacters( expr );
 		}
 		return expr; // The specified expression might be a binding name,
-						// directly return.
+		// directly return.
 	}
-	
+
 	/**
 	 * In some cases, if the expression in subquery is a simple binding, and
 	 * this binding is from parent query, should copy the binding from parent
@@ -1412,7 +1235,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static void copyAndInsertBindingFromContainer(
 			ISubqueryDefinition query, String expr ) throws DataException
 	{
-		String bindingName = getRowBindingName( expr, false );
+		String bindingName = ChartExpressionUtil.getRowBindingName( expr, false );
 		if ( bindingName != null
 				&& !query.getBindings( ).containsKey( bindingName )
 				&& query.getParentQuery( )
@@ -1483,7 +1306,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				break;
 		}
 	}
-	
+
 	/**
 	 * Checks if chart inherits groupings and aggregations from container
 	 * 
@@ -1498,7 +1321,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				&& isContainerInheritable( handle )
 				&& !handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
-	
+
 	/**
 	 * Checks if the item's container is inheritable. Usually only Table and
 	 * List can support inheritance.
@@ -1526,9 +1349,10 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Returns report item handle that is a chart handle and is referred by other chart recursively.
+	 * Returns report item handle that is a chart handle and is referred by
+	 * other chart recursively.
 	 * 
 	 * @param handle
 	 * @return
@@ -1562,7 +1386,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 
 	/**
 	 * Copy series definition from one chart model to another.
-	 *
+	 * 
 	 * @param srcCM
 	 * @param targetCM
 	 * @since 2.5
@@ -1614,20 +1438,20 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				EList<Axis> srcAxisList = ( (ChartWithAxes) srcCM ).getAxes( )
 						.get( 0 )
 						.getAssociatedAxes( );
-				
+
 				if ( tagAxisList.size( ) > srcAxisList.size( ) )
 				{
-					for ( int i = ( tagAxisList.size( ) - 1 ); i >= srcAxisList.size(); i-- )
+					for ( int i = ( tagAxisList.size( ) - 1 ); i >= srcAxisList.size( ); i-- )
 					{
 						tagAxisList.remove( i );
 					}
 				}
-				
+
 				if ( isSameType )
 				{
 					// If source chart type is equal with target chart type,
 					// copy additional axes from source into target.
-					
+
 					for ( int i = 0; i < srcAxisList.size( ); i++ )
 					{
 						if ( i >= tagAxisList.size( ) )
@@ -1664,7 +1488,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 						.getSeriesDefinitions( );
 				if ( tagAxisList.size( ) > 1 )
 				{
-					for ( int i = 1; i< tagAxisList.size( ); i++ )
+					for ( int i = 1; i < tagAxisList.size( ); i++ )
 					{
 						tagAxisList.remove( i );
 					}
@@ -1702,27 +1526,28 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * @param srcRsds
 	 * @param tagRsds
 	 */
-	private static void copySDListQueryAttributes( EList<SeriesDefinition> srcRsds,
-			EList<SeriesDefinition> tagRsds, boolean sameChartType )
+	private static void copySDListQueryAttributes(
+			EList<SeriesDefinition> srcRsds, EList<SeriesDefinition> tagRsds,
+			boolean sameChartType )
 	{
 		if ( tagRsds.size( ) > srcRsds.size( ) )
 		{
-			for ( int i = (tagRsds.size( ) -1 ); i >= srcRsds.size( ); i-- )
+			for ( int i = ( tagRsds.size( ) - 1 ); i >= srcRsds.size( ); i-- )
 			{
 				tagRsds.remove( i );
 			}
 		}
-		
+
 		if ( sameChartType )
 		{
-			for (int i =0; i < srcRsds.size( ); i++ )
+			for ( int i = 0; i < srcRsds.size( ); i++ )
 			{
 				if ( i >= tagRsds.size( ) )
 				{
-					// Copy 
+					// Copy
 					tagRsds.add( srcRsds.get( i ).copyInstance( ) );
 				}
-				
+
 				SeriesDefinition sd = srcRsds.get( i );
 				SeriesDefinition tagSD = tagRsds.get( i );
 				copySDQueryAttributes( sd, tagSD );
@@ -1732,7 +1557,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			int minSDsize = srcRsds.size( ) > tagRsds.size( ) ? tagRsds.size( )
 					: srcRsds.size( );
-			for ( int i= 0; i < minSDsize; i++ )
+			for ( int i = 0; i < minSDsize; i++ )
 			{
 				SeriesDefinition sd = srcRsds.get( i );
 				SeriesDefinition tagSD = tagRsds.get( i );
@@ -1749,7 +1574,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	private static void copySDQueryAttributes( SeriesDefinition sd,
 			SeriesDefinition tagSD )
 	{
-		if ( sd.getQuery( ) != null  )
+		if ( sd.getQuery( ) != null )
 		{
 			tagSD.setQuery( sd.getQuery( ).copyInstance( ) );
 		}
@@ -1761,7 +1586,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			tagSD.setGrouping( sd.getGrouping( ).copyInstance( ) );
 		}
-		else 
+		else
 		{
 			tagSD.setGrouping( null );
 		}
@@ -1769,7 +1594,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			tagSD.setSorting( sd.getSorting( ) );
 		}
-		
+
 		if ( sd.getSortKey( ) != null )
 		{
 			tagSD.setSortKey( sd.getSortKey( ).copyInstance( ) );
@@ -1789,34 +1614,34 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			for ( int i = ( tagSize - 1 ); i >= srcSize; i-- )
 				tagSD.getSeries( ).remove( i );
 		}
-		
+
 		// Copy data definitions.
 		int i = 0;
-		for ( ; i < srcSize; i++  )
+		for ( ; i < srcSize; i++ )
 		{
-			if ( i >= tagSize)
+			if ( i >= tagSize )
 			{
 				// New a series and copy data definitions.
 				Series tagSeries = tagSD.getSeries( ).get( 0 ).copyInstance( );
-				tagSD.getSeries( ).add(  tagSeries  );
-				
+				tagSD.getSeries( ).add( tagSeries );
+
 				Series srcSeries = sd.getSeries( ).get( i );
 				tagSeries.getDataDefinition( ).clear( );
 				for ( Query q : srcSeries.getDataDefinition( ) )
-					tagSeries.getDataDefinition().add( q.copyInstance( ) );
+					tagSeries.getDataDefinition( ).add( q.copyInstance( ) );
 			}
 			else
 			{
 				// Copy data definitions.
-				Series tagSeries = tagSD.getSeries().get( i );
+				Series tagSeries = tagSD.getSeries( ).get( i );
 				Series srcSeries = sd.getSeries( ).get( i );
 				tagSeries.getDataDefinition( ).clear( );
 				for ( Query q : srcSeries.getDataDefinition( ) )
-					tagSeries.getDataDefinition().add( q.copyInstance( ) );
+					tagSeries.getDataDefinition( ).add( q.copyInstance( ) );
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks if chart model has bound queries completely.
 	 * 

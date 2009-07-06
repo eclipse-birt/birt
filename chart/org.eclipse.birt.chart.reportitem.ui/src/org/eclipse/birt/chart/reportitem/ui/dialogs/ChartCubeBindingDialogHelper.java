@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
@@ -157,7 +158,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 		gd = new GridData( GridData.FILL_BOTH );
 		composite.setLayoutData( gd );
-		setContentSize(composite);
+		setContentSize( composite );
 	}
 
 	public void initDialog( )
@@ -245,9 +246,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			chart = ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) handle );
 		}
 
-		SeriesDefinition category = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+		SeriesDefinition category = ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 );
-		String catName = ChartXTabUtil.getBindingName( ChartUIUtil.getDataQuery( category,
+		String catName = ChartExpressionUtil.getCubeBindingName( ChartUIUtil.getDataQuery( category,
 				0 )
 				.getDefinition( ),
 				true );
@@ -264,16 +265,17 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 					catExpr = bindingHandle.getExpression( );
 				}
 			}
-			String[] cat = ChartXTabUtil.getLevelNameFromDimensionExpression( catExpr );
+			String[] cat = ChartExpressionUtil.getLevelNameFromDimensionExpression( catExpr );
 			catExpr = cat[0] + "/" + cat[1]; //$NON-NLS-1$
 			aggOnList.add( catExpr );
 		}
 
-		SeriesDefinition yopgrouping = (SeriesDefinition) ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
+		SeriesDefinition yopgrouping = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
 				0 )
 				.get( 0 );
-		String yopName = ChartXTabUtil.getBindingName( yopgrouping.getQuery( )
-				.getDefinition( ), true );
+		String yopName = ChartExpressionUtil.getCubeBindingName( yopgrouping.getQuery( )
+				.getDefinition( ),
+				true );
 		if ( yopName != null )
 		{
 			for ( int i = 0; i < handle.getColumnBindings( )
@@ -287,7 +289,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 					yopExpr = bindingHandle.getExpression( );
 				}
 			}
-			String[] yop = ChartXTabUtil.getLevelNameFromDimensionExpression( yopExpr );
+			String[] yop = ChartExpressionUtil.getLevelNameFromDimensionExpression( yopExpr );
 			yopExpr = yop[0] + "/" + yop[1]; //$NON-NLS-1$
 			aggOnList.add( yopExpr );
 		}
@@ -664,7 +666,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		paramsComposite.layout( );
 		composite.layout( );
-		setContentSize(composite);
+		setContentSize( composite );
 	}
 
 	private void createExpressionButton( final Composite parent, final Text text )
@@ -681,7 +683,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 					expressionProvider = new BindingExpressionProvider( bindingHolder,
 							binding );
 				}
-				expression.setExpressionProvier( expressionProvider );
+				expression.setExpressionProvider( expressionProvider );
 
 				if ( expression.open( ) == Window.OK )
 				{

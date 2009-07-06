@@ -49,6 +49,7 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
@@ -161,33 +162,35 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
+	 * setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
 	public void setModelObject( ExtendedItemHandle eih )
 	{
 		super.setModelObject( eih );
-		
+
 		IReportItem item = getReportItem( eih );
 		if ( item == null )
 		{
 			return;
 		}
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
-		
+
 		// #269935
 		// If it is sharing chart case, copy expressions settings from referred
 		// chart model into current.
-		if ( cm != null && eih.getDataBindingReference( ) != null
+		if ( cm != null
+				&& eih.getDataBindingReference( ) != null
 				&& ChartReportItemUtil.isChartHandle( eih.getDataBindingReference( ) ) )
 		{
 			ExtendedItemHandle refHandle = ChartReportItemUtil.getChartReferenceItemHandle( eih );
 			if ( refHandle != null )
 			{
-				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle  ),
-					cm );
+				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
+						cm );
 			}
 		}
-		
+
 		setChartModelObject( item );
 	}
 
@@ -244,7 +247,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setLocale(java.util.Locale)
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#setLocale
+	 * (java.util.Locale)
 	 */
 	public final void setLocale( Locale lcl )
 	{
@@ -258,7 +263,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setOutputFormat(java.lang.String)
+	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
+	 * setOutputFormat(java.lang.String)
 	 */
 	public void setOutputFormat( String sOutputFormat )
 	{
@@ -301,7 +307,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#deserialize(java.io.InputStream)
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#deserialize
+	 * (java.io.InputStream)
 	 */
 	public void deserialize( InputStream is )
 	{
@@ -384,7 +392,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputType()
+	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
+	 * getOutputType()
 	 */
 	public int getOutputType( )
 	{
@@ -405,7 +414,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getImageMIMEType()
+	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
+	 * getImageMIMEType()
 	 */
 	public String getImageMIMEType( )
 	{
@@ -420,7 +430,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputContent()
+	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
+	 * getOutputContent()
 	 */
 	public Object getOutputContent( )
 	{
@@ -430,7 +441,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#finish()
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#finish()
 	 */
 	public void finish( )
 	{
@@ -490,7 +502,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// here checks the version number( <3.2.16, before BIRT 2.3 ) of
 			// report model to use old evaluator logic for chart and chart
 			// does group/aggregation by itself.
-			if ( ChartReportItemUtil.isOldChartUsingInternalGroup( modelHandle, cm ) )
+			if ( ChartReportItemUtil.isOldChartUsingInternalGroup( modelHandle,
+					cm ) )
 			{
 				// Version is less than 3.2.16, directly return.
 				return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
@@ -503,7 +516,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// because maybe chart inherits data set from container and the data
 			// set contains grouping, but chart doesn't define grouping.
 			if ( ChartReportItemUtil.isGroupingDefined( cm )
-					|| ChartReportItemUtil.hasAggregation( cm ) || isSharingChart )
+					|| ChartReportItemUtil.hasAggregation( cm )
+					|| isSharingChart )
 			{
 				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set,
 						ChartReportItemUtil.isSetSummaryAggregation( cm ),
@@ -572,7 +586,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				Query queryValue = sdValue.getDesignTimeSeries( )
 						.getDataDefinition( )
 						.get( 0 );
-				String bindingValue = ChartXTabUtil.getBindingName( queryValue.getDefinition( ),
+				String bindingValue = ChartExpressionUtil.getCubeBindingName( queryValue.getDefinition( ),
 						false );
 				String maxBindingName = ChartReportItemConstants.QUERY_MAX
 						+ bindingValue;
@@ -607,7 +621,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getSize()
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#getSize
+	 * ()
 	 */
 	public Size getSize( )
 	{
@@ -662,7 +678,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets
+	 * (org.eclipse.birt.report.engine.extension.IRowSet[])
 	 */
 	public Object onRowSets( IBaseResultSet[] baseResultSet )
 			throws BirtException
@@ -726,7 +744,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 			// Get the BIRT report context
 			BIRTExternalContext externalContext = new BIRTExternalContext( context );
-			
+
 			// Initialize external context, which can be used by script during
 			// binding data
 			if ( rtc.getScriptContext( ) != null
@@ -879,7 +897,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		final Bounds bo = computeBounds( );
 
 		initializeRuntimeContext( rowAdapter );
-		
+
 		// Update chart model if needed
 		updateChartModel( );
 
@@ -889,7 +907,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 						bo,
 						externalContext,
 						rtc,
-						new ChartReportStyleProcessor( modelHandle, true, this.style ) );
+						new ChartReportStyleProcessor( modelHandle,
+								true,
+								this.style ) );
 		boundsRuntime = gcs.getChartModel( ).getBlock( ).getBounds( );
 		return gcs;
 	}

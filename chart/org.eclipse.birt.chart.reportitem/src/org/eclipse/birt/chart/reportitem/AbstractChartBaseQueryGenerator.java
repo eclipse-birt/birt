@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -67,7 +68,7 @@ public abstract class AbstractChartBaseQueryGenerator
 
 	/** The set stores created binding names. */
 	protected Set<String> fNameSet = new HashSet<String>( );
-	
+
 	/**
 	 * This attribute indicates whether new binding will be created for complex
 	 * expression or subquery
@@ -144,7 +145,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		for ( SeriesDefinition orthSD : seriesDefinitions )
 		{
 			Series series = orthSD.getDesignTimeSeries( );
-			
+
 			// The qlist contains available expressions which have aggregation.
 			List<Query> qlist = ChartEngine.instance( )
 					.getDataSetProcessor( series.getClass( ) )
@@ -157,20 +158,20 @@ public abstract class AbstractChartBaseQueryGenerator
 				{
 					continue;
 				}
-				
+
 				String aggName = ChartUtil.getAggregateFuncExpr( orthSD,
 						baseSD,
 						qry );
 				if ( aggName == null )
 				{
 					if ( !bCreateBindingForExpression
-							|| ChartReportItemUtil.isRowBinding( expr, false ) )
+							|| ChartExpressionUtil.isRowBinding( expr, false ) )
 					{
 						// If it's complex expression, still create new binding
 						continue;
 					}
 				}
-				
+
 				// Get a unique name.
 				String name = ChartUtil.generateBindingNameOfValueSeries( qry,
 						orthSD,
@@ -180,19 +181,20 @@ public abstract class AbstractChartBaseQueryGenerator
 					continue;
 				}
 				fNameSet.add( name );
-				
+
 				Binding colBinding = new Binding( name );
 				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 
-				if ( qlist.contains( qry ) ) 
+				if ( qlist.contains( qry ) )
 				{
 					try
 					{
 						colBinding.setExportable( false );
 						if ( aggName != null )
 						{
-							// Set binding expression by different aggregation, some
-							// aggregations can't set expression, like Count and so on.
+							// Set binding expression by different aggregation,
+							// some aggregations can't set expression, like
+							// Count and so on.
 							setBindingExpressionDueToAggregation( colBinding,
 									expr,
 									aggName );
@@ -222,7 +224,8 @@ public abstract class AbstractChartBaseQueryGenerator
 						}
 						else
 						{
-							// Direct setting expression for simple expression case.
+							// Direct setting expression for simple expression
+							// case.
 							colBinding.setExpression( new ScriptExpression( expr ) );
 						}
 
@@ -239,7 +242,7 @@ public abstract class AbstractChartBaseQueryGenerator
 					// Direct setting expression for non-aggregation case.
 					colBinding.setExpression( new ScriptExpression( expr ) );
 				}
-				
+
 				String newExpr = getExpressionForEvaluator( name );
 
 				try
@@ -269,8 +272,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	protected String generateUniqueBindingName( String expr )
 	{
 		String name = StructureFactory.newComputedColumn( fReportItemHandle,
-				ChartUtil.escapeSpecialCharacters( expr ) )
-				.getName( );
+				ChartUtil.escapeSpecialCharacters( expr ) ).getName( );
 		if ( fNameSet.contains( name ) )
 		{
 			name = name + fNameSet.size( );
@@ -280,7 +282,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		fNameSet.add( name );
 		return name;
 	}
-	
+
 	/**
 	 * Generates extra bindings for grouping and complex expressions. In
 	 * addition, add them into query definition.
@@ -325,11 +327,12 @@ public abstract class AbstractChartBaseQueryGenerator
 		// <p>For aggregate case, the expression of value series will be replace
 		// with new expression for evaluator. And if the expression of value
 		// series is a sort key, it also need using new expression instead of
-		// old expression as sort expression, the related code show in section 4.
+		// old expression as sort expression, the related code show in section
+		// 4.
 		Map<String, String[]> valueExprMap = addAggregateBindings( query,
 				categorySD,
 				orthAxisArray );
-		
+
 		// If category expression is complex or for subquery, to create a new
 		// binding to evaluate when required
 		if ( bCreateBindingForExpression )
@@ -338,7 +341,7 @@ public abstract class AbstractChartBaseQueryGenerator
 					.getDataDefinition( ).get( 0 ) ).getDefinition( );
 			try
 			{
-				if ( !ChartReportItemUtil.isRowBinding( exprCategory, false ) )
+				if ( !ChartExpressionUtil.isRowBinding( exprCategory, false ) )
 				{
 					addExtraBinding( query, exprCategory );
 				}
@@ -379,12 +382,12 @@ public abstract class AbstractChartBaseQueryGenerator
 		if ( categorySD != null )
 		{
 			bindSortOnCategorySeries( query,
-				categorySD,
-				categoryGroupDefinition,
-				valueExprMap );
+					categorySD,
+					categoryGroupDefinition,
+					valueExprMap );
 		}
 	}
-	
+
 	protected void addExtraBinding( BaseQueryDefinition query,
 			String exprCategory ) throws ChartException
 	{
@@ -424,7 +427,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		{
 			return;
 		}
-		
+
 		SortDefinition sd = new SortDefinition( );
 
 		// Chart need to set SortStrength to support sorting locale
@@ -433,7 +436,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
 
 		sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
-		
+
 		if ( ChartReportItemUtil.isBaseGroupingDefined( categorySD ) )
 		{
 			// If base series set group, add sort on group definition.
@@ -455,8 +458,8 @@ public abstract class AbstractChartBaseQueryGenerator
 					sd.setExpression( baseSortExpr );
 				}
 			}
-			
-			categoryGroupDefinition.addSort( sd );			
+
+			categoryGroupDefinition.addSort( sd );
 		}
 		else
 		{
@@ -516,10 +519,11 @@ public abstract class AbstractChartBaseQueryGenerator
 			query.addGroup( baseGroupDefinition );
 			// #238715 Do not use DTE functions in old report, since chart
 			// groups data by itself
-			// #242100 If running aggregate is set, it should not ignore detail rows.
+			// #242100 If running aggregate is set, it should not ignore detail
+			// rows.
 			if ( !ChartReportItemUtil.isOldChartUsingInternalGroup( fReportItemHandle,
 					fChartModel )
-					&& !ChartReportItemUtil.isSetRunningAggregation( fChartModel ) ) 
+					&& !ChartReportItemUtil.isSetRunningAggregation( fChartModel ) )
 			{
 				query.setUsesDetails( false );
 			}
@@ -557,17 +561,18 @@ public abstract class AbstractChartBaseQueryGenerator
 			// characters, it is compatibility with old logic of
 			// chart(version<2.3).
 			sortDefinition.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
-			
+
 			sortDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
 
 			String sortKey = null;
-			if ( orthSD.getSortKey( ) != null &&
-					orthSD.getSortKey( ).getDefinition( ) != null )
+			if ( orthSD.getSortKey( ) != null
+					&& orthSD.getSortKey( ).getDefinition( ) != null )
 			{
 				sortKey = orthSD.getSortKey( ).getDefinition( );
 			}
 
-			if ( sortKey == null || yGroupingDefinition.getKeyExpression( ).equals( sortKey ) )
+			if ( sortKey == null
+					|| yGroupingDefinition.getKeyExpression( ).equals( sortKey ) )
 			{
 				// Sort key is group expression.
 				sortDefinition.setExpression( yGroupingDefinition.getKeyExpression( ) );
@@ -627,16 +632,16 @@ public abstract class AbstractChartBaseQueryGenerator
 							for ( int i = 0; i < parameters.length
 									&& i < aFunc.getParametersCount( ); i++ )
 							{
-								String param =  parameters[i];
+								String param = parameters[i];
 								binding.addArgument( new ScriptExpression( param ) );
 							}
 						}
 					}
 				}
-		
+
 				sortDefinition.setExpression( ExpressionUtil.createRowExpression( binding.getBindingName( ) ) );
 			}
-			
+
 			yGroupingDefinition.addSort( sortDefinition );
 		}
 
@@ -649,7 +654,8 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param orthSD
 	 * @return
 	 */
-	private GroupDefinition createOrthogonalGroupingDefinition( SeriesDefinition orthSD )
+	private GroupDefinition createOrthogonalGroupingDefinition(
+			SeriesDefinition orthSD )
 	{
 
 		if ( ChartReportItemUtil.isYGroupingDefined( orthSD ) )
@@ -660,7 +666,7 @@ public abstract class AbstractChartBaseQueryGenerator
 
 			String yGroupExpr = orthSD.getQuery( ).getDefinition( );
 			SeriesGrouping yGroupingInterval = orthSD.getQuery( ).getGrouping( );
-			
+
 			if ( yGroupingInterval != null )
 			{
 				dataType = yGroupingInterval.getGroupType( );
@@ -738,14 +744,13 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param baseSD
 	 * @param orthAxisArray
 	 * @return
-	 * @throws ChartException 
+	 * @throws ChartException
 	 */
 	protected String getAggFunExpr( String sortKey, SeriesDefinition baseSD,
 			Axis[] orthAxisArray ) throws ChartException
 	{
 		String baseAggFunExpr = null;
-		if ( baseSD.getGrouping( ) != null &&
-				baseSD.getGrouping( ).isEnabled( ) )
+		if ( baseSD.getGrouping( ) != null && baseSD.getGrouping( ).isEnabled( ) )
 		{
 			baseAggFunExpr = baseSD.getGrouping( ).getAggregateExpression( );
 		}
@@ -759,8 +764,8 @@ public abstract class AbstractChartBaseQueryGenerator
 				EList<SeriesDefinition> sds = orthAxisArray[i].getSeriesDefinitions( );
 				for ( SeriesDefinition sd : sds )
 				{
-					if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null &&
-							sd.getDesignTimeSeries( )
+					if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null
+							&& sd.getDesignTimeSeries( )
 									.getDataDefinition( )
 									.get( 0 ) != null )
 					{
@@ -824,8 +829,8 @@ public abstract class AbstractChartBaseQueryGenerator
 		}
 
 		String sortExpr = null;
-		if ( sd.getSortKey( ) != null &&
-				sd.getSortKey( ).getDefinition( ) != null )
+		if ( sd.getSortKey( ) != null
+				&& sd.getSortKey( ).getDefinition( ) != null )
 		{
 			sortExpr = sd.getSortKey( ).getDefinition( );
 		}
@@ -852,14 +857,19 @@ public abstract class AbstractChartBaseQueryGenerator
 	{
 		return ExpressionUtil.createJSRowExpression( expression );
 	}
-	
+
 	/**
-	 * Set binding expression due to aggregation, some aggregation can't set expression, like Count.
+	 * Set binding expression due to aggregation, some aggregation can't set
+	 * expression, like Count.
 	 * 
-	 * @param binding binding object.
-	 * @param expression specified expression.
-	 * @param chartAggFunName aggregation function name of chart.
-	 * @throws DataException if the aggregation restrict info is got failure.
+	 * @param binding
+	 *            binding object.
+	 * @param expression
+	 *            specified expression.
+	 * @param chartAggFunName
+	 *            aggregation function name of chart.
+	 * @throws DataException
+	 *             if the aggregation restrict info is got failure.
 	 */
 	protected void setBindingExpressionDueToAggregation( Binding binding,
 			String expression, String chartAggFunName ) throws DataException
