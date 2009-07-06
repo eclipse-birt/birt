@@ -285,13 +285,14 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		btnLineFormatSpecifier = new Button( cmpLine, SWT.PUSH );
 		GridData gdBTNLineFormatSpecifier = new GridData( );
 		gdBTNLineFormatSpecifier.heightHint = 20;
-		gdBTNLineFormatSpecifier.widthHint = 20;
+		// gdBTNLineFormatSpecifier.widthHint = 20;
 		btnLineFormatSpecifier.setLayoutData( gdBTNLineFormatSpecifier );
 		btnLineFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-		btnLineFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+		//		btnLineFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 		btnLineFormatSpecifier.addSelectionListener( this );
-		btnLineFormatSpecifier.getImage( )
-				.setBackground( btnLineFormatSpecifier.getBackground( ) );
+		// btnLineFormatSpecifier.getImage( )
+		// .setBackground( btnLineFormatSpecifier.getBackground( ) );
+		btnLineFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
 
 		lblAnchor = new Label( cmpLine, SWT.NONE );
 		GridData gdLBLAnchor = new GridData( );

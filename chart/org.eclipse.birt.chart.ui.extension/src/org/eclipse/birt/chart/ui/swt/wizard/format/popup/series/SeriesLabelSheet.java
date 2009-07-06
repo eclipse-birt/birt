@@ -51,7 +51,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
@@ -465,12 +464,14 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		// Remove DataPoint component button
 		btnFormatSpecifier = new Button( grpDataPoint, SWT.PUSH );
 		GridData gdBTNFormatSpecifier = new GridData( );
-		ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNFormatSpecifier );
+		// ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNFormatSpecifier
+		// );
 		btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
 		btnFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-		btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-		btnFormatSpecifier.getImage( )
-				.setBackground( btnFormatSpecifier.getBackground( ) );
+		//		btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+		// btnFormatSpecifier.getImage( )
+		// .setBackground( btnFormatSpecifier.getBackground( ) );
+		btnFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
 		btnFormatSpecifier.addSelectionListener( this );
 
 		btnRemoveComponent = new Button( grpDataPoint, SWT.PUSH );

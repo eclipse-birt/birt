@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -130,12 +129,13 @@ public class DialLabelSheet extends AbstractPopupSheet
 		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
 		{
 			GridData gd = new GridData( );
-			ChartUIUtil.setChartImageButtonSizeByPlatform( gd );
+			ChartUIUtil.setChartImageButtonHeightByPlatform( gd );
 			btnFormatSpecifier.setLayoutData( gd );
 			btnFormatSpecifier.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-			btnFormatSpecifier.getImage( )
-					.setBackground( btnFormatSpecifier.getBackground( ) );
+			//			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			// btnFormatSpecifier.getImage( )
+			// .setBackground( btnFormatSpecifier.getBackground( ) );
+			btnFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
 			btnFormatSpecifier.addSelectionListener( this );
 		}
 

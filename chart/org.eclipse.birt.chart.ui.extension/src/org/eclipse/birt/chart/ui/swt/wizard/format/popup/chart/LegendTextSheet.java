@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -140,13 +139,14 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
 		{
 			GridData gd = new GridData( );
-			gd.widthHint = 20;
+			// gd.widthHint = 20;
 			gd.heightHint = 20;
 			btnFormatSpecifier.setLayoutData( gd );
 			btnFormatSpecifier.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-			btnFormatSpecifier.getImage( )
-					.setBackground( btnFormatSpecifier.getBackground( ) );
+			//			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			// btnFormatSpecifier.getImage( )
+			// .setBackground( btnFormatSpecifier.getBackground( ) );
+			btnFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
 			btnFormatSpecifier.addListener( SWT.Selection, this );
 			btnFormatSpecifier.setEnabled( isByCategory || containsYOG );
 		}

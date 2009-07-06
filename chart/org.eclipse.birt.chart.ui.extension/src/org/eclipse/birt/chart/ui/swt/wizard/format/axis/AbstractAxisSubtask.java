@@ -51,7 +51,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisScaleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTitleSheet;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
@@ -225,14 +224,15 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			btnFormatSpecifier = new Button( cmpBasic, SWT.PUSH );
 			{
 				GridData gdBTNFormatSpecifier = new GridData( );
-				ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNFormatSpecifier );
+				ChartUIUtil.setChartImageButtonHeightByPlatform( gdBTNFormatSpecifier );
 				gdBTNFormatSpecifier.horizontalIndent = -3;
 				btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
-				btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+				//btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 				btnFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 				btnFormatSpecifier.addSelectionListener( this );
-				btnFormatSpecifier.getImage( )
-						.setBackground( btnFormatSpecifier.getBackground( ) );
+				// btnFormatSpecifier.getImage( )
+				// .setBackground( btnFormatSpecifier.getBackground( ) );
+				btnFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
 			}
 
 			// Origin is not supported in 3D
