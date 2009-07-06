@@ -73,7 +73,7 @@ public class LineArea extends InlineStackingArea
 
 	public void setTextIndent( ITextContent content )
 	{
-		if ( !setIndent && content != null )
+		if ( currentIP == 0 && !setIndent && content != null )
 		{
 			IStyle contentStyle = content.getComputedStyle( );
 			currentIP =  getDimensionValue( contentStyle
