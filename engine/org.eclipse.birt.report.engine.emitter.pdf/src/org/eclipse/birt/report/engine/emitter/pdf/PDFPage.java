@@ -302,7 +302,7 @@ public class PDFPage extends AbstractPage
 				// If the width of the container is smaller than the scaled
 				// image width, the repeat will never happen. So it is not 
 				// necessary to build a template for further usage.
-				if ( width > imageWidth && height > imageHeight )
+				if ( width >= imageWidth && height >= imageHeight )
 				{
 					template = contentByte.createTemplate( imageWidth, imageHeight );
 					template.addImage( img, imageWidth, 0, 0, imageHeight, 0, 0 );
