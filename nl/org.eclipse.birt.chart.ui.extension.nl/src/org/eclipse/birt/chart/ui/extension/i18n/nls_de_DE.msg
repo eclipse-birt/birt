@@ -508,6 +508,7 @@ ExternalizedTextEditorDialog.Lbl.ExternalizedValue=Externalisierter Wert:
 ExternalizedTextEditorDialog.Warn.KeyNotFound=Schlüssel in Eigenschaftendatei nicht gefunden oder Eigenschaftendatei nicht vorhanden.
 ExternalizedTextEditorDialog.Lbl.Value=<Wert von Schlüssel ''{0}''>
 
+Format.Button.Label=Format
 FormatSpecifierComposite.error.Title=Formatbezeichner-Fehler
 FormatSpecifierComposite.error.Message=Ungültiger Formatbezeichner-Parameterwert: "{0}"
 FormatSpecifierComposite.Lbl.DataType=&Datentyp:

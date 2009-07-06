@@ -508,6 +508,7 @@ ExternalizedTextEditorDialog.Lbl.ExternalizedValue=Valeur externalisée :
 ExternalizedTextEditorDialog.Warn.KeyNotFound=Impossible de trouver la clé dans le fichier de propriétés... ou le fichier de propriétés n'est pas présent.
 ExternalizedTextEditorDialog.Lbl.Value=<Valeur de la clé ''{0}''>
 
+Format.Button.Label=Format
 FormatSpecifierComposite.error.Title=Erreur d'indicateur de format
 FormatSpecifierComposite.error.Message=Valeur du paramètre de l''indicateur de format incorrecte : "{0}"
 FormatSpecifierComposite.Lbl.DataType=Type &de données :

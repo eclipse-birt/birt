@@ -508,6 +508,7 @@ ExternalizedTextEditorDialog.Lbl.ExternalizedValue=外部化された値 :
 ExternalizedTextEditorDialog.Warn.KeyNotFound=キーがプロパティファイルにないか、プロパティファイルが存在しません。
 ExternalizedTextEditorDialog.Lbl.Value=<キーの値 ''{0}''>
 
+Format.Button.Label=書式
 FormatSpecifierComposite.error.Title=書式指定子のエラー
 FormatSpecifierComposite.error.Message=無効な書式指定子のパラメタ値 : "{0}"
 FormatSpecifierComposite.Lbl.DataType=データ型 (&D):

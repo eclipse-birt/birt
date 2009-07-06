@@ -508,6 +508,7 @@ ExternalizedTextEditorDialog.Lbl.ExternalizedValue=외부화된 값:
 ExternalizedTextEditorDialog.Warn.KeyNotFound=속성 파일에서 키를 찾을 수 없거나 속성 파일이 없습니다.
 ExternalizedTextEditorDialog.Lbl.Value=<키 ''{0}''의 값>
 
+Format.Button.Label=서식
 FormatSpecifierComposite.error.Title=형식 지정자 오류
 FormatSpecifierComposite.error.Message=잘못된 형식 지정자 매개 변수 값: "{0}"
 FormatSpecifierComposite.Lbl.DataType=데이터 형식(&D):

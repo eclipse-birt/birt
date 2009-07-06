@@ -508,6 +508,7 @@ ExternalizedTextEditorDialog.Lbl.ExternalizedValue=外部化的值:
 ExternalizedTextEditorDialog.Warn.KeyNotFound=无法在属性文件中找到关键字...或者属性文件不存在。
 ExternalizedTextEditorDialog.Lbl.Value=<键值 ''{0}''>
 
+Format.Button.Label=格式
 FormatSpecifierComposite.error.Title=格式说明符错误
 FormatSpecifierComposite.error.Message=无效的格式说明符参数值: "{0}"
 FormatSpecifierComposite.Lbl.DataType=数据类型(&D):
