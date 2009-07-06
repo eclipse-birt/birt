@@ -476,9 +476,11 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							Map appContext = new HashMap( );
 							appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
 									new Integer( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
-
+							if ( context.getAppContext( ) != null )
+							{
+								appContext.putAll( context.getAppContext( ) );
+							}
 							context.setAppContext( appContext );
-							
 							IQueryResults resultSet = executeProcess( session );
 							populateRecords( resultSet );
 							session.shutdown( );
