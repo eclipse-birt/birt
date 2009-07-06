@@ -307,6 +307,7 @@
 				<exclude name="org.eclipse.birt.rcp*/**"/>
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+				<exclude name="org.eclipse.birt.osgi*/**"/>
 			</zipfileset>
 			<zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
 				<patternset refid="orbit.include.jars" />
@@ -345,7 +346,8 @@
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="org.eclipse.birt.rcp*/**"/>
-                                <exclude name="org.eclipse.birt*doc.isv_*/**"/>
+                <exclude name="org.eclipse.birt*doc.isv_*/**"/>
+				<exclude name="org.eclipse.birt.osgi*/**"/>
 			</zipfileset>
 			<zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
 				<patternset refid="orbit.include.jars" />
@@ -498,6 +500,7 @@
                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
 				<exclude name="org.eclipse.birt.doc.isv*/**"/>
+				<exclude name="org.eclipse.birt.osgi*/**"/>
 				<patternset refid="third.party.features"/>
 			</zipfileset>
 			<!--
@@ -555,6 +558,7 @@
                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
                 <exclude name="org.eclipse.birt.doc.isv*/**"/>
+				<exclude name="org.eclipse.birt.osgi*/**"/>
 				<patternset refid="third.party.features"/>
 			</fileset>
 		</copy>

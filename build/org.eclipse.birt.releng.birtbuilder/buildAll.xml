@@ -37,8 +37,9 @@
 
 	<target name="main" depends="init">
 		
-		<!-- <antcall target="buildBirtThirdPartyFeature"/> -->
+		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
+		<antcall target="buildBirtOSGI"/>
 		<antcall target="fetchBirtWtpFeature"/>
 		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
@@ -115,6 +116,14 @@
 		<echo message="BIRT sdk feature build finished"/>
 	</target>
 
+	<target name="buildBirtOSGI">
+		<echo message="BIRT OSGI sdk feature build started"/>
+		<ant antfile="build.xml" dir="${basedir}">
+			<property name="component" value="${eclipse.build.configs}/birt.osgi" />
+		</ant>
+	    <echo message="BIRT OSGI sdk feature build finished"/>
+	</target>
+		
 	<target name="buildChartFeature">
 	      <echo message="Chart Framework feature build started"/>
 	        
@@ -291,14 +300,15 @@
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
 	
+		<!--
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
-
+		-->
 
 		<delete includeemptydirs="true">
-			<!-- <fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" /> -->
-			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />
+			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.sdk*/**" />
+			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />		
 		</delete>
 		
 		<!-- repack update jar -->
@@ -311,7 +321,7 @@
 		
 		<antcall target="generateCategory"/>
 		<!-- TODO: generate p2 composite update site -->
-                <antcall target="GenP2CompositeUpdateSite"/>
+        <antcall target="GenP2CompositeUpdateSite"/>
                 
 		<!-- TODO: push to local update site -->
 		<antcall target = "pushUpdateSiteLocal"/>
@@ -334,7 +344,7 @@
                   dir="${updateJarWorkingDir}">
                   <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
                   <arg line="-application org.eclipse.update.core.siteOptimizer -verbose"/>
-                  <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse"/>
+                  <arg line="-jarProcessor -outputDir ${repo} -processAll -pack eclipse"/>
             </java>
 
             <!--generator features and plugins metadata -->
@@ -345,6 +355,7 @@
                           artifactRepositoryName="${p2.repo.name}"
                           publishArtifacts="true" p2OS="linux" mode="incremental"
                           site="file:${updateJarWorkingDir}/site/site.xml"/-->
+            <copy file="${updateJarWorkingDir}/site/site.xml" todir="${repo}"/>
             <java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
                   fork="true"
                   timeout="10800000"
@@ -354,7 +365,7 @@
                   <arg line="-application org.eclipse.equinox.p2.publisher.UpdateSitePublisher"/>
                   <arg line="-metadataRepository file:${repo}"/>
                   <arg line="-artifactRepository file:${repo}"/>
-                  <arg line="-source ${updateJarWorkingDir}/site"/>
+                  <arg line="-source ${repo}"/>
                   <arg line="-configs gtk.linux.x86"/>
                   <arg line="-compress"/>
             	  <arg line="-reusePack200Files"/>
@@ -618,21 +629,24 @@
 		<mkdir dir="${tmpsite}/new/eclipse/features" />
 		<mkdir dir="${tmpsite}/new/eclipse/plugins" />
 
-		<!-- BIRT framework-->
+		<!-- BIRT framework $ OSGI package -->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-q birt-report-framework-sdk-${package.version}.zip -d ${tmpsite}" />
 		</exec>
+	    <exec executable="unzip" dir="${buildDirectory}/${buildId}">
+	        <arg line="-o -q birt-osgi-${package.version}.zip -d ${tmpsite}" />
+	    </exec>
 		<!-- BIRT third party -->
-		<!--
+
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
 		</exec>
-		-->
+
 		<!-- backup un-signed and packed version -->
 		<zip destfile="${buildDirectory}/birt-all-${package.version}.bak.zip">
-                   <fileset dir="${tmpsite}" includes="eclipse/**"/>
-                   <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
-                </zip>
+             <fileset dir="${tmpsite}" includes="eclipse/**"/>
+             <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
+        </zip>
 
 		<!-- Sign packed features and plugins. 
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
