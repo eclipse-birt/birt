@@ -19,6 +19,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+
 import java.text.ParseException;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
@@ -53,6 +55,7 @@ public final class DataTypeUtil
 	// we will try to parse it for Locale.US
 	private static ULocale DEFAULT_LOCALE = ULocale.US;
 	private static ULocale JRE_DEFAULT_LOCALE = ULocale.getDefault( );
+	private static SimpleDateFormat MysqlUSDateFormatter = new SimpleDateFormat( "M/d/yyyy HH:mm" );
 	
 	// cache DateFormatter of ICU
 	private static Map dfMap = new HashMap( );
@@ -1408,8 +1411,15 @@ public final class DataTypeUtil
 			}
 			catch ( BirtException use )
 			{
-				// format the String for Locale.US
-				return toDate( source, DEFAULT_LOCALE );
+				try
+				{
+					// format the String for Locale.US
+					return toDate( source, DEFAULT_LOCALE );
+				}
+				catch ( BirtException de )
+				{
+					return toDateForSpecialFormat( source );
+				}
 			}
 		}
 	}
@@ -1442,6 +1452,22 @@ public final class DataTypeUtil
 		}
 	}
 
+	private static Date toDateForSpecialFormat( String source ) throws BirtException
+	{
+		try
+		{
+			return MysqlUSDateFormatter.parse( source );
+		}
+		catch ( ParseException e1 )
+		{
+			throw new CoreException( 
+					ResourceConstants.CONVERT_FAILS,
+					new Object[]{
+							source.toString( ), "Date"
+					} );
+		}
+	}
+	
 	/**
 	 * Call org.eclipse.birt.core.format.DateFormatter
 	 * 

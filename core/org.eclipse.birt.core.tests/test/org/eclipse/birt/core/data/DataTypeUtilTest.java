@@ -641,6 +641,15 @@ public class DataTypeUtilTest extends TestCase
 		}
 	}
 	
+	public void testToDateForMysql( ) throws BirtException
+	{
+		String source = "12/30/2008 13:00";
+		Calendar calendar = Calendar.getInstance( );
+		calendar.clear();
+		calendar.set(2008, 11, 30, 13, 0, 0 );
+		assertEquals( DataTypeUtil.toDate( source ), calendar.getTime( ) );
+	}
+	
 	public void testToDate3( )
 	{
 		String[] dateStrings = {
