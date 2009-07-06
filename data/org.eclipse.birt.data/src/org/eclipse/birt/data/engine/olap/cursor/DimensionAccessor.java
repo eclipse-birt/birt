@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
  * methods for retrieving column values from Dimension ResultSet.
  * 
  */
-class DimensionAccessor implements Accessor
+class DimensionAccessor extends Accessor
 {
 	private DimensionAxis dimAxis;
 	

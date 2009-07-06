@@ -35,12 +35,10 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
-import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
-import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
@@ -71,11 +69,11 @@ public class QueryExecutor
 	 * @throws BirtException
 	 */
 	public IResultSet execute( BirtCubeView view,
-			StopSign stopSign ) throws IOException, BirtException
+			StopSign stopSign, ICube cube ) throws IOException, BirtException
 	{
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		AggregationDefinition[] aggrDefns = prepareCube( executor.getCubeQueryDefinition( ),
-				view.getMeasureNameManger( ).getCalculatedMembersFromQuery( ) );
+				view.getAggregationRegisterTable( ).getCalculatedMembersFromQuery( ) );
 		if ( aggrDefns == null || aggrDefns.length == 0 )
 			return null;
 		String cubeName = executor.getCubeQueryDefinition( ).getName( );
@@ -83,12 +81,9 @@ public class QueryExecutor
 		{
 			throw new DataException( ResourceConstants.CUBE_QUERY_NO_CUBE_BINDING );
 		}
-		IDocumentManager documentManager = getDocumentManager( executor );
-		ICube cube = loadCube( documentManager, executor );
-		CubeQueryValidator.validateCubeQueryDefinition( executor.getCubeQueryDefinition( ),
-				view,
-				cube,
-				view.getMeasureNameManger( ).getCalculatedMembersFromQuery( ) );
+
+		CubeQueryValidator.validateCubeQueryDefinition( view,
+				cube );
 		cubeQueryExecutorHelper = new CubeQueryExecutorHelper( cube,
 				executor.getComputedMeasureHelper( ) );
 		cubeQueryExecutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
@@ -164,7 +159,6 @@ public class QueryExecutor
 			}
 		}
 		
-		cube.close( );
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
 	}
 
@@ -180,6 +174,15 @@ public class QueryExecutor
 		//If not load from local dir
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
+			if ( view.getCubeQueryDefinition( ) instanceof DrillCubeQueryDefinition )
+			{
+				DrillCubeQueryDefinition query = (DrillCubeQueryDefinition) view.getCubeQueryDefinition( );
+				for ( int i = 0; i < query.getLevelFilter( ).size( ); i++ )
+				{
+					cubeQueryExecutorHelper.addFilter( (LevelFilter) query.getLevelFilter( )
+							.get( i ) );
+				}
+			}
 			rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
 			
 			CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
@@ -373,52 +376,6 @@ public class QueryExecutor
 
 	/**
 	 * 
-	 * @param cubeName
-	 * @return
-	 * @throws IOException
-	 * @throws DataException
-	 */
-	private ICube loadCube( IDocumentManager documentManager, CubeQueryExecutor executor ) throws DataException,
-			IOException
-	{
-		ICube cube = null;
-		
-		cube = CubeQueryExecutorHelper.loadCube( executor.getCubeQueryDefinition( )
-				.getName( ),
-				documentManager,
-				executor.getSession( ).getStopSign( ) );
-
-		return cube;
-	}
-
-	/**
-	 * Get the document manager.
-	 * 
-	 * @param executor
-	 * @return
-	 * @throws DataException
-	 * @throws IOException
-	 */
-	private IDocumentManager getDocumentManager( CubeQueryExecutor executor )
-			throws DataException, IOException
-	{
-		if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION
-				|| executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
-		{
-			return DocManagerMap.getDocManagerMap( ).get
-					( String.valueOf( executor.getSession( ).getEngine( ).hashCode( ) ),
-							executor.getSession( ).getTempDir( ) +
-							executor.getCubeQueryDefinition( ).getName( ) );
-		}
-		else
-		{
-			return DocumentManagerFactory.createRADocumentManager( executor.getContext( )
-					.getDocReader( ) );
-		}
-	}
-
-	/**
-	 * 
 	 * @param cube
 	 * @param query
 	 * @return
@@ -458,7 +415,7 @@ public class QueryExecutor
 			}
 			aggregations.add(new AggregationDefinition( levelsForFilter,
 					sortType,
-					null ));
+					null ) );
 		}
 		if ( rowEdgeDefn != null )
 		{

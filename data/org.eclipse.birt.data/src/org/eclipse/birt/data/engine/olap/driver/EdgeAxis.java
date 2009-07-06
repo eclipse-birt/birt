@@ -31,7 +31,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
  * 
  *
  */
-public class EdgeAxis
+public class EdgeAxis implements IEdgeAxis
 {
 
 	private DimensionAxis[] dimensionAxis;

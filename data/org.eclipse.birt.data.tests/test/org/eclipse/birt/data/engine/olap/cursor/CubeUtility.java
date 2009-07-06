@@ -20,6 +20,7 @@ import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -27,9 +28,11 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerReleaser;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -188,6 +191,19 @@ public class CubeUtility
 		cube.create( getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign( ) );
 		cube.close( );
 		documentManager.flush( );
+	}
+	
+	ICube getCube( String cubeName, DataEngineImpl engine )
+			throws DataException, IOException
+	{
+		ICube cube = null;
+		IDocumentManager documentManager = DocumentManagerFactory.loadFileDocumentManager( engine.getSession( )
+				.getTempDir( ),
+				cubeName );
+		cube = CubeQueryExecutorHelper.loadCube( cubeName,
+				documentManager,
+				engine.getSession( ).getStopSign( ) );
+		return cube;
 	}
 	
 	void createCube1( DataEngineImpl engine ) throws IOException,

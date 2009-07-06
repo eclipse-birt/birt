@@ -24,31 +24,31 @@ public interface IResultSet
 	 * Get resultset axis for row edge.
 	 * @return
 	 */
-	public EdgeAxis getRowEdgeResult( );
+	public IEdgeAxis getRowEdgeResult( );
 	
 	/**
 	 * Get resultset axis for column edge.
 	 * @return
 	 */
-	public EdgeAxis getColumnEdgeResult( );
+	public IEdgeAxis getColumnEdgeResult( );
 
 	/**
 	 * Get resultset axis for page edge.
 	 * @return
 	 */
-	public EdgeAxis getPageEdgeResult( );
+	public IEdgeAxis getPageEdgeResult( );
 	
 	/**
 	 * Get resultset axis for all aggregation.
 	 * @return
 	 */
-	public EdgeAxis[] getMeasureResult( );
+	public IEdgeAxis[] getMeasureResult( );
 
 	/**
 	 * Get resultset axis for certain aggregation.
 	 * @param name
 	 * @return
 	 */
-	public EdgeAxis getMeasureResult( String name )  throws DataException;
+	public IEdgeAxis getMeasureResult( String name )  throws DataException;
 
 }

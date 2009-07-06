@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -38,6 +39,8 @@ public class DateTimeCursorTest extends BaseTestCase
 {
 	private Scriptable  scope;
 	private DataEngineImpl de;
+	
+	private ICube cube;
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
@@ -52,12 +55,14 @@ public class DateTimeCursorTest extends BaseTestCase
 				null );
 		context.setTmpdir( this.getTempDir( ) );
 		de = (DataEngineImpl) DataEngine.newDataEngine( context );
-		DateCube cube = new DateCube( );
-		cube.createCube( de );
+		DateCube util = new DateCube( );
+		util.createCube( de );
+		cube = util.getCube( DateCube.cubeName, de );
 	}
 	
 	protected void tearDown( ) throws Exception
 	{
+		cube.close( );
 		if( de!= null )
 		{
 			de.shutdown( );
@@ -72,7 +77,7 @@ public class DateTimeCursorTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube  );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );
@@ -111,7 +116,7 @@ public class DateTimeCursorTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );
@@ -150,7 +155,7 @@ public class DateTimeCursorTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );

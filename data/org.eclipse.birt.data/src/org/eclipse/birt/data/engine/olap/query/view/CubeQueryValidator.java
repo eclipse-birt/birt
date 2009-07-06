@@ -13,12 +13,11 @@ package org.eclipse.birt.data.engine.olap.query.view;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 
 /**
- * validate cube query defintion with edge, measure definition.
+ * validate cube query definition with edge, measure definition.
  * 
  */
 class CubeQueryValidator
@@ -35,8 +34,7 @@ class CubeQueryValidator
 	 * @param calculatedMember
 	 * @throws DataException
 	 */
-	static void validateCubeQueryDefinition( ICubeQueryDefinition defn, BirtCubeView view, ICube cube,
-			CalculatedMember[] calculatedMember ) throws DataException
+	static void validateCubeQueryDefinition( BirtCubeView view, ICube cube ) throws DataException
 	{
 		if ( view.getColumnEdgeView( ) == null
 				&& view.getRowEdgeView( ) == null )

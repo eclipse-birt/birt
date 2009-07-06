@@ -29,15 +29,16 @@ import javax.olap.cursor.Timestamp;
  * 
  * 
  */
-public interface Accessor
+public abstract class Accessor
 {
-
 	/**
 	 * Release the ResultObject's Resources.
 	 * 
 	 * @throws OLAPException
 	 */
-	public void close( ) throws OLAPException;
+	public void close( ) throws OLAPException
+	{
+	}
 
 	/**
 	 * Get the value for column in the current row as a java.math.BigDecimal
@@ -46,7 +47,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public BigDecimal getBigDecimal( int arg0 ) throws OLAPException;
+	public BigDecimal getBigDecimal( int arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get the value for column in the current row as a java.math.BigDecimal
@@ -55,7 +59,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public BigDecimal getBigDecimal( String arg0 ) throws OLAPException;
+	public BigDecimal getBigDecimal( String arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a BLOB value for column in the current row
@@ -64,7 +71,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Blob getBlob( int arg0 ) throws OLAPException;
+	public Blob getBlob( int arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a BLOB value for column in the current row
@@ -73,7 +83,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Blob getBlob( String arg0 ) throws OLAPException;
+	public Blob getBlob( String arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a boolean value for column in the current row
@@ -82,7 +95,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean getBoolean( int arg0 ) throws OLAPException;
+	public boolean getBoolean( int arg0 ) throws OLAPException
+	{
+		return false;
+	}
 
 	/**
 	 * Get a boolean value for column in the current row
@@ -91,7 +107,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean getBoolean( String arg0 ) throws OLAPException;
+	public boolean getBoolean( String arg0 ) throws OLAPException
+	{
+		return false;
+	}
 
 	/**
 	 * Get a Date value for column in the current row
@@ -100,7 +119,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Date getDate( int arg0 ) throws OLAPException;
+	public Date getDate( int arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Date value for column in the current row
@@ -109,7 +131,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Date getDate( String arg0 ) throws OLAPException;
+	public Date getDate( String arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Date value for column in the current row
@@ -119,7 +144,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Date getDate( int arg0, Calendar arg1 ) throws OLAPException;
+	public Date getDate( int arg0, Calendar arg1 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Date value for column in the current row
@@ -129,7 +157,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Date getDate( String arg0, Calendar arg1 ) throws OLAPException;
+	public Date getDate( String arg0, Calendar arg1 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a double value for column in the current row
@@ -138,7 +169,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public double getDouble( int arg0 ) throws OLAPException;
+	public double getDouble( int arg0 ) throws OLAPException
+	{
+		return 0;
+	}
 
 	/**
 	 * Get a double value for column in the current row
@@ -147,7 +181,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public double getDouble( String arg0 ) throws OLAPException;
+	public double getDouble( String arg0 ) throws OLAPException
+	{
+		return 0;
+	}
 
 	/**
 	 * Get a float value for column in the current row
@@ -156,7 +193,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public float getFloat( int arg0 ) throws OLAPException;
+	public float getFloat( int arg0 ) throws OLAPException
+	{
+		return 0;
+	}
 
 	/**
 	 * Get a float value for column in the current row
@@ -165,7 +205,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public float getFloat( String arg0 ) throws OLAPException;
+	public float getFloat( String arg0 ) throws OLAPException
+	{
+		return 0;
+	}
 
 	/**
 	 * Get a int value for column in the current row
@@ -174,7 +217,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public int getInt( int arg0 ) throws OLAPException;
+	public int getInt( int arg0 ) throws OLAPException
+	{
+		return 0;
+	}
 
 	/**
 	 * Get a int value for column in the current row
@@ -183,7 +229,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public int getInt( String arg0 ) throws OLAPException;
+	public int getInt( String arg0 ) throws OLAPException
+	{
+		return 0;
+	}
 
 	/**
 	 * Get a long value for column in the current row
@@ -192,7 +241,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public long getLong( int arg0 ) throws OLAPException;
+	public long getLong( int arg0 ) throws OLAPException
+	{
+		return 0;
+	}
 
 	/**
 	 * Get a long value for column in the current row
@@ -201,7 +253,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public long getLong( String arg0 ) throws OLAPException;
+	public long getLong( String arg0 ) throws OLAPException
+	{
+		return 0;
+	}
 
 	/**
 	 * Retrieves the properties of resultSet's column
@@ -209,7 +264,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public RowDataMetaData getMetaData( ) throws OLAPException;
+	public RowDataMetaData getMetaData( ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a java Object for column in the current row
@@ -218,7 +276,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Object getObject( int arg0 ) throws OLAPException;
+	public Object getObject( int arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a java Object for column in the current row
@@ -227,7 +288,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Object getObject( String arg0 ) throws OLAPException;
+	public Object getObject( String arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a java Object for column in the current row
@@ -237,7 +301,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Object getObject( int arg0, Map arg1 ) throws OLAPException;
+	public Object getObject( int arg0, Map arg1 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a java Object for column in the current row
@@ -247,7 +314,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Object getObject( String arg0, Map arg1 ) throws OLAPException;
+	public Object getObject( String arg0, Map arg1 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a String value for column in the current row
@@ -256,7 +326,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public String getString( int arg0 ) throws OLAPException;
+	public String getString( int arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a String value for column in the current row
@@ -265,7 +338,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public String getString( String arg0 ) throws OLAPException;
+	public String getString( String arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Time value for column in the current row
@@ -274,7 +350,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Time getTime( int arg0 ) throws OLAPException;
+	public Time getTime( int arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Time value for column in the current row
@@ -283,7 +362,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Time getTime( String arg0 ) throws OLAPException;
+	public Time getTime( String arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Time value for column in the current row
@@ -293,7 +375,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Time getTime( int arg0, Calendar arg1 ) throws OLAPException;
+	public Time getTime( int arg0, Calendar arg1 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Time value for column in the current row
@@ -303,7 +388,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Time getTime( String arg0, Calendar arg1 ) throws OLAPException;
+	public Time getTime( String arg0, Calendar arg1 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Timestamp value for column in the current row
@@ -312,7 +400,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Timestamp getTimestamp( int arg0 ) throws OLAPException;
+	public Timestamp getTimestamp( int arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Timestamp value for column in the current row
@@ -321,7 +412,10 @@ public interface Accessor
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Timestamp getTimestamp( String arg0 ) throws OLAPException;
+	public Timestamp getTimestamp( String arg0 ) throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Timestamp value for column in the current row
@@ -332,7 +426,10 @@ public interface Accessor
 	 * @throws OLAPException
 	 */
 	public Timestamp getTimestamp( int arg0, Calendar arg1 )
-			throws OLAPException;
+			throws OLAPException
+	{
+		return null;
+	}
 
 	/**
 	 * Get a Timestamp value for column in the current row
@@ -343,6 +440,8 @@ public interface Accessor
 	 * @throws OLAPException
 	 */
 	public Timestamp getTimestamp( String arg0, Calendar arg1 )
-			throws OLAPException;
-
+			throws OLAPException
+	{
+		return null;
+	}
 }

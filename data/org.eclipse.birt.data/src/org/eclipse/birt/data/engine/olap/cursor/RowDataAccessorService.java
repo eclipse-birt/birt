@@ -41,7 +41,7 @@ public class RowDataAccessorService
 		if ( view.getMirroredDefinition( ) != null )
 		{
 			IMirroredDefinition mirror = view.getMirroredDefinition( );
-			ILevelDefinition[] levelArray = CubeQueryDefinitionUtil.getLevelsOnEdge( view.getEdgeDefintion( ) );
+			ILevelDefinition[] levelArray = CubeQueryDefinitionUtil.getLevelsOnEdge( view.getEdgeDefinition( ) );
 			for ( int i = 0; i < levelArray.length; i++ )
 			{
 				if ( levelArray[i].equals( mirror.getMirrorStartingLevel( ) ) )

@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
+import org.eclipse.birt.data.engine.olap.query.view.AggregationRegisterTable;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.mozilla.javascript.Scriptable;
 
@@ -47,7 +47,7 @@ public interface IPreparedCubeOperation
 	 * @param basedBindings：the bindings this operation can refers to
 	 * @throws DataException
 	 */
-	void prepare( Scriptable scope, ScriptContext cx, MeasureNameManager manager, IBinding[] basedBindings ) throws DataException;
+	void prepare( Scriptable scope, ScriptContext cx, AggregationRegisterTable manager, IBinding[] basedBindings ) throws DataException;
 
 	
 	/**

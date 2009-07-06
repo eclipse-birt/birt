@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
+import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
 
 /**
  * An BirtEdgeView is part of the logical layout of a BirtCubeView.It aggregates
@@ -36,6 +37,7 @@ public class BirtEdgeView
 	private String name;
 	private IEdgeDefinition edgeDefn;
 	private int pageEndingPosition, type;
+	private IEdgeAxis edgeAxis;
 	private final static String CALCULATED_MEMBER ="CALCULATED_MEMBER";
 
 	/**
@@ -108,6 +110,16 @@ public class BirtEdgeView
 		this.edgeCursor = edgeCursor;
 	}
 
+	public void setEdgeAxis( IEdgeAxis edgeAxis )
+	{
+		this.edgeAxis = edgeAxis;
+	}
+	
+	public IEdgeAxis getEdgeAxis( )
+	{
+		return this.edgeAxis;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -117,7 +129,7 @@ public class BirtEdgeView
 		return this.cubeView;
 	}
 
-	public IEdgeDefinition getEdgeDefintion( )
+	public IEdgeDefinition getEdgeDefinition( )
 	{
 		return this.edgeDefn;
 	}
@@ -161,4 +173,5 @@ public class BirtEdgeView
 	{
 		return this.type;
 	}
+
 }

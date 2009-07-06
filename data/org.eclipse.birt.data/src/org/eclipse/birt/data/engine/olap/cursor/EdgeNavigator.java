@@ -21,7 +21,7 @@ import javax.olap.OLAPWarning;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.driver.EdgeAxis;
+import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
 
 /**
  * 
@@ -37,7 +37,7 @@ class EdgeNavigator implements INavigator
 	private int fetchSize = -1;
 	private List warnings;
 
-	EdgeNavigator( EdgeAxis axis )
+	EdgeNavigator( IEdgeAxis axis )
 	{
 		this.dataAccessor = axis.getRowDataAccessor( );
 		this.rs = axis.getQueryResultSet( );

@@ -11,22 +11,15 @@
 package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.olap.OLAPException;
-import javax.olap.cursor.Blob;
-import javax.olap.cursor.Date;
 import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
-import javax.olap.cursor.RowDataMetaData;
-import javax.olap.cursor.Time;
-import javax.olap.cursor.Timestamp;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
@@ -51,7 +44,7 @@ import org.eclipse.birt.data.engine.olap.query.view.Relationship;
  * 
  * If there is no match find in cube cursor, 'null' value will be returned.
  */
-public class AggregationAccessor implements Accessor
+public class AggregationAccessor extends Accessor
 {
 	private BirtCubeView view;
 	private IResultSet resultSet;
@@ -100,6 +93,99 @@ public class AggregationAccessor implements Accessor
 		}
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#close()
+	 */
+	public void close( ) throws OLAPException
+	{
+		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
+			return;
+		List errorList = new ArrayList( );
+		for ( int i = 0; i < this.resultSet.getMeasureResult( ).length; i++ )
+		{
+			try
+			{
+				this.resultSet.getMeasureResult( )[i].getQueryResultSet( )
+						.close( );
+			}
+			catch ( IOException e )
+			{
+				errorList.add( e );
+			}
+		}
+		if ( !errorList.isEmpty( ) )
+		{
+			throw new OLAPException( ( (IOException) errorList.get( 0 ) ).getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getObject(int)
+	 */
+	public Object getObject( int arg0 ) throws OLAPException
+	{
+		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
+			return null;
+		
+		try
+		{
+			String aggrName = this.view.getAggregationRegisterTable( ).getAggrName( arg0 );
+			int index = this.view.getAggregationRegisterTable( ).getAggregationIndex( aggrName );
+			int id = this.view.getAggregationRegisterTable( ).getAggregationResultID( aggrName );
+
+			if ( synchronizedWithEdge( index,
+					aggrName,
+					getCurrentValueOnEdge( aggrName ) ) )
+				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
+						.getAggregationValue( index );
+			else
+			{
+				return null;
+			}
+		}
+		catch ( IOException e )
+		{
+			throw new OLAPException( e.getLocalizedMessage( ) );
+		}
+		catch ( DataException e )
+		{
+			throw new OLAPException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getObject(java.lang.String)
+	 */
+	public Object getObject( String arg0 ) throws OLAPException
+	{
+		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
+			return null;
+		
+		try
+		{
+			int id = this.view.getAggregationRegisterTable( )
+					.getAggregationResultID( arg0 );
+			int index = this.view.getAggregationRegisterTable( )
+					.getAggregationIndex( arg0 );
+			if ( synchronizedWithEdge( id, arg0, getCurrentValueOnEdge( arg0 ) ) )
+				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
+						.getAggregationValue( index );
+			else
+			{
+				return null;
+			}
+		}
+		catch ( IOException e )
+		{
+			throw new OLAPException( e.getLocalizedMessage( ) );
+		}
+		catch ( DataException e )
+		{
+			throw new OLAPException( e.getLocalizedMessage( ) );
+		}
+	}
+	
+
 	/**
 	 * 
 	 * @param aggrIndex
@@ -107,13 +193,33 @@ public class AggregationAccessor implements Accessor
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	private boolean populateRelation( int aggrIndex, String aggrName )
+	public boolean synchronizedWithEdge( int aggrIndex, String aggrName, Map valueMap )
 			throws OLAPException, IOException, DataException
-	{	
+	{
 		IAggregationResultSet rs = this.resultSet.getMeasureResult( )[aggrIndex].getQueryResultSet( );
-		if ( rs == null || rs.length( )<=0 )
+		if ( rs == null || rs.length( ) <= 0 )
 			return false;
-				
+
+		if ( valueMap == null )
+			return true;
+
+		CalculatedMember member = this.view.getAggregationRegisterTable( ).getCalculatedMember( aggrName );
+		List memberList = member.getCubeAggrDefn( ).getAggrLevelsInAggregationResult( );
+		
+		if ( Arrays.deepEquals( rs.getAllLevels( ), member.getCubeAggrDefn( ).getAggrLevelsInDefinition( ).toArray( ) ))
+		{
+			return findValueMatcher( rs, memberList, valueMap, aggrIndex );
+		}
+		else
+		{
+			//AggregationResultSet for running aggregation
+			return findValueMatcherOneByOne( rs, memberList, valueMap, aggrIndex );
+		}
+	}
+	
+	private Map getCurrentValueOnEdge( String aggrName ) throws OLAPException
+	{
+
 		EdgeCursor rowEdgeCursor = null, columnEdgeCursor = null, pageEdgeCursor = null;
 		List columnDimList = null, rowDimList = null, pageDimList = null;
 		if ( this.view.getRowEdgeView( ) != null )
@@ -135,17 +241,17 @@ public class AggregationAccessor implements Accessor
 				pageDimList = pageEdgeCursor.getDimensionCursor( );
 		}
 
-		CalculatedMember member = this.view.getMeasureNameManger( ).getCalculatedMember( aggrName );
-		
-		List memberList = member.getCubeAggrDefn( ).getAggrLevelsInAggregationResult( );
-
 		Relationship relation = (Relationship) this.relationMap.get( aggrName );
 		List pageLevelList = relation.getLevelListOnPage( );
 		List columnLevelList = relation.getLevelListOnColumn( );
 		List rowLevelList = relation.getLevelListOnRow( );
 
 		Map valueMap = new HashMap( );
-	
+
+		if ( columnLevelList.isEmpty( )
+				&& rowLevelList.isEmpty( ) && pageLevelList.isEmpty( ) )
+			return null;
+
 		for ( int index = 0; index < pageLevelList.size( ); index++ )
 		{
 			DimLevel level = (DimLevel) pageLevelList.get( index );
@@ -153,7 +259,7 @@ public class AggregationAccessor implements Accessor
 			Object value = cursor.getObject( level.getLevelName( ) );
 			valueMap.put( level, value );
 		}
-		
+
 		for ( int i = 0; i < columnLevelList.size( ); i++ )
 		{
 			DimLevel level = (DimLevel) columnLevelList.get( i );
@@ -168,19 +274,7 @@ public class AggregationAccessor implements Accessor
 			Object value = cursor.getObject( level.getLevelName( ) );
 			valueMap.put( level, value );
 		}
-
-		if ( columnLevelList.isEmpty( ) && rowLevelList.isEmpty( ) && pageLevelList.isEmpty( ) )
-			return true;
-
-		if ( Arrays.deepEquals( rs.getAllLevels( ), member.getCubeAggrDefn( ).getAggrLevelsInDefinition( ).toArray( ) ))
-		{
-			return findValueMatcher( rs, memberList, valueMap, aggrIndex );
-		}
-		else
-		{
-			//AggregationResultSet for running aggregation
-			return findValueMatcherOneByOne( rs, memberList, valueMap, aggrIndex );
-		}
+		return valueMap;
 	}
 	
 	/**
@@ -312,344 +406,6 @@ public class AggregationAccessor implements Accessor
 				return false;
 		}
 		return find;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#close()
-	 */
-	public void close( ) throws OLAPException
-	{
-		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
-			return;
-		List errorList = new ArrayList( );
-		for ( int i = 0; i < this.resultSet.getMeasureResult( ).length; i++ )
-		{
-			try
-			{
-				this.resultSet.getMeasureResult( )[i].getQueryResultSet( )
-						.close( );
-			}
-			catch ( IOException e )
-			{
-				errorList.add( e );
-			}
-		}
-		if ( !errorList.isEmpty( ) )
-		{
-			throw new OLAPException( ( (IOException) errorList.get( 0 ) ).getLocalizedMessage( ) );
-		}
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getBigDecimal(int)
-	 */
-	public BigDecimal getBigDecimal( int arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getBigDecimal(java.lang.String)
-	 */
-	public BigDecimal getBigDecimal( String arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getBlob(int)
-	 */
-	public Blob getBlob( int arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getBlob(java.lang.String)
-	 */
-	public Blob getBlob( String arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getBoolean(int)
-	 */
-	public boolean getBoolean( int arg0 ) throws OLAPException
-	{
-		return false;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getBoolean(java.lang.String)
-	 */
-	public boolean getBoolean( String arg0 ) throws OLAPException
-	{
-		return false;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getDate(int)
-	 */
-	public Date getDate( int arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getDate(java.lang.String)
-	 */
-	public Date getDate( String arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getDate(int, java.util.Calendar)
-	 */
-	public Date getDate( int arg0, Calendar arg1 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getDate(java.lang.String, java.util.Calendar)
-	 */
-	public Date getDate( String arg0, Calendar arg1 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getDouble(int)
-	 */
-	public double getDouble( int arg0 ) throws OLAPException
-	{
-		return 0;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getDouble(java.lang.String)
-	 */
-	public double getDouble( String arg0 ) throws OLAPException
-	{
-		return 0;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getFloat(int)
-	 */
-	public float getFloat( int arg0 ) throws OLAPException
-	{
-		return 0;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getFloat(java.lang.String)
-	 */
-	public float getFloat( String arg0 ) throws OLAPException
-	{
-		return 0;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getInt(int)
-	 */
-	public int getInt( int arg0 ) throws OLAPException
-	{
-		return 0;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getInt(java.lang.String)
-	 */
-	public int getInt( String arg0 ) throws OLAPException
-	{
-		return 0;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getLong(int)
-	 */
-	public long getLong( int arg0 ) throws OLAPException
-	{
-		return 0;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getLong(java.lang.String)
-	 */
-	public long getLong( String arg0 ) throws OLAPException
-	{
-		return 0;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getMetaData()
-	 */
-	public RowDataMetaData getMetaData( ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getObject(int)
-	 */
-	public Object getObject( int arg0 ) throws OLAPException
-	{
-		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
-			return null;
-		
-		try
-		{
-			String aggrName = this.view.getMeasureNameManger( ).getAggrName( arg0 );
-			int index = this.view.getMeasureNameManger( ).getAggregationIndex( aggrName );
-			int id = this.view.getMeasureNameManger( ).getAggregationResultID( aggrName );
-
-			if ( populateRelation( index, aggrName ) )
-				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
-						.getAggregationValue( index );
-			else
-			{
-				return null;
-			}
-		}
-		catch ( IOException e )
-		{
-			throw new OLAPException( e.getLocalizedMessage( ) );
-		}
-		catch ( DataException e )
-		{
-			throw new OLAPException( e.getLocalizedMessage( ) );
-		}
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getObject(java.lang.String)
-	 */
-	public Object getObject( String arg0 ) throws OLAPException
-	{
-		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
-			return null;
-		
-		try
-		{
-			int id = this.view.getMeasureNameManger( ).getAggregationResultID( arg0 );
-			int index = this.view.getMeasureNameManger( ).getAggregationIndex( arg0 );
-			if ( populateRelation( id, arg0 ) )
-				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
-						.getAggregationValue( index );
-			else
-			{
-				return null;
-			}
-		}
-		catch ( IOException e )
-		{
-			throw new OLAPException( e.getLocalizedMessage( ) );
-		}
-		catch ( DataException e )
-		{
-			throw new OLAPException( e.getLocalizedMessage( ) );
-		}
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getObject(int, java.util.Map)
-	 */
-	public Object getObject( int arg0, Map arg1 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getObject(java.lang.String, java.util.Map)
-	 */
-	public Object getObject( String arg0, Map arg1 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getString(int)
-	 */
-	public String getString( int arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getString(java.lang.String)
-	 */
-	public String getString( String arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getTime(int)
-	 */
-	public Time getTime( int arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getTime(java.lang.String)
-	 */
-	public Time getTime( String arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getTime(int, java.util.Calendar)
-	 */
-	public Time getTime( int arg0, Calendar arg1 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getTime(java.lang.String, java.util.Calendar)
-	 */
-	public Time getTime( String arg0, Calendar arg1 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getTimestamp(int)
-	 */
-	public Timestamp getTimestamp( int arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getTimestamp(java.lang.String)
-	 */
-	public Timestamp getTimestamp( String arg0 ) throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getTimestamp(int, java.util.Calendar)
-	 */
-	public Timestamp getTimestamp( int arg0, Calendar arg1 )
-			throws OLAPException
-	{
-		return null;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#getTimestamp(java.lang.String, java.util.Calendar)
-	 */
-	public Timestamp getTimestamp( String arg0, Calendar arg1 )
-			throws OLAPException
-	{
-		return null;
 	}
 
 }

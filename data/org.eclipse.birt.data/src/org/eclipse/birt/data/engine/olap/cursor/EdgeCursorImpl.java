@@ -18,7 +18,7 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.EdgeCursor;
 
-import org.eclipse.birt.data.engine.olap.driver.EdgeAxis;
+import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 
 /**
@@ -32,7 +32,8 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor
 	private CubeCursor pageOwner, ordinateOwner;
 	private List dimensionCursorList = new ArrayList( );
 
-	EdgeCursorImpl( BirtEdgeView view, boolean isPage, EdgeAxis axis,
+	
+	EdgeCursorImpl( BirtEdgeView view, boolean isPage, IEdgeAxis axis,
 			CubeCursor cursor ) throws OLAPException
 	{
 		super( new EdgeNavigator( axis ), null );

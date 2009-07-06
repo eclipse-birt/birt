@@ -21,8 +21,8 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 public class CubeResultSet implements IResultSet
 {
 
-	private EdgeAxis rowEdgeAxis, columnEdgeAxis, pageEdgeAxis;
-	private EdgeAxis[] calculatedEdgeAxis;
+	private IEdgeAxis rowEdgeAxis, columnEdgeAxis, pageEdgeAxis;
+	private IEdgeAxis[] calculatedEdgeAxis;
 	
 	private BirtCubeView cubeView;
 	private IAggregationResultSet[] rsArray;
@@ -72,17 +72,19 @@ public class CubeResultSet implements IResultSet
 		if ( cubeView.getColumnEdgeView( ) != null )
 		{
 			this.columnEdgeAxis = new EdgeAxis( rsArray[count],
-					cubeView.getColumnEdgeView( ),
-					cubeQueryExecutorHelper.getColumnSort( ),
-					false );
+						cubeView.getColumnEdgeView( ),
+						cubeQueryExecutorHelper.getColumnSort( ),
+						false );
+			cubeView.getColumnEdgeView( ).setEdgeAxis( this.columnEdgeAxis );
 			count++;
 		}
 		if ( cubeView.getRowEdgeView( ) != null )
 		{
 			this.rowEdgeAxis = new EdgeAxis( rsArray[count],
-					cubeView.getRowEdgeView( ),
-					cubeQueryExecutorHelper.getRowSort( ),
-					false );
+						cubeView.getRowEdgeView( ),
+						cubeQueryExecutorHelper.getRowSort( ),
+						false );
+			cubeView.getRowEdgeView( ).setEdgeAxis( this.rowEdgeAxis );
 			count++;
 		}
 		if ( cubeView.getPageEdgeView( ) != null )
@@ -91,6 +93,7 @@ public class CubeResultSet implements IResultSet
 					cubeView.getPageEdgeView( ),
 					cubeQueryExecutorHelper.getPageSort( ),
 					false );
+			cubeView.getPageEdgeView( ).setEdgeAxis( this.pageEdgeAxis );
 			count++;
 		}
 
@@ -138,15 +141,15 @@ public class CubeResultSet implements IResultSet
 	/*
 	 * @see org.eclipse.birt.data.jolap.driver.IResultSet#getColumnEdgeResult()
 	 */
-	public EdgeAxis getColumnEdgeResult( )
+	public IEdgeAxis getColumnEdgeResult( )
 	{
 		return this.columnEdgeAxis;
 	}
-
+	
 	/*
 	 * @see org.eclipse.birt.data.jolap.driver.IResultSet#getRowEdgeResult()
 	 */
-	public EdgeAxis getRowEdgeResult( )
+	public IEdgeAxis getRowEdgeResult( )
 	{
 		return this.rowEdgeAxis;
 	}
@@ -154,7 +157,7 @@ public class CubeResultSet implements IResultSet
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.driver.IResultSet#getPageEdgeResult()
 	 */
-	public EdgeAxis getPageEdgeResult( )
+	public IEdgeAxis getPageEdgeResult( )
 	{
 		return this.pageEdgeAxis;
 	}
@@ -162,7 +165,7 @@ public class CubeResultSet implements IResultSet
 	/*
 	 * @see org.eclipse.birt.data.jolap.driver.IResultSet#getMeasureResult()
 	 */
-	public EdgeAxis[] getMeasureResult( )
+	public IEdgeAxis[] getMeasureResult( )
 	{
 		return this.calculatedEdgeAxis;
 	}
@@ -170,9 +173,9 @@ public class CubeResultSet implements IResultSet
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.driver.IResultSet#getMeasureResult(java.lang.String)
 	 */
-	public EdgeAxis getMeasureResult( String name ) throws DataException
+	public IEdgeAxis getMeasureResult( String name ) throws DataException
 	{
-		int index = this.cubeView.getMeasureNameManger( ).getAggregationResultID( name );
+		int index = this.cubeView.getAggregationRegisterTable( ).getAggregationResultID( name );
 		return this.calculatedEdgeAxis[index];
 	}
 }

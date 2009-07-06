@@ -26,7 +26,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationHelper
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.MergedAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
-import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
+import org.eclipse.birt.data.engine.olap.query.view.AggregationRegisterTable;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.CubeNestAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
@@ -47,7 +47,7 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 		this.cubeOperation = cubeOperation;
 	}
 	
-	public void prepare( Scriptable scope, ScriptContext cx, MeasureNameManager manager, IBinding[] basedBindings ) throws DataException
+	public void prepare( Scriptable scope, ScriptContext cx, AggregationRegisterTable manager, IBinding[] basedBindings ) throws DataException
 	{
 		aggrDefns = OlapExpressionUtil.getAggrDefnsByNestBinding( Arrays.asList( cubeOperation.getNewBindings( ) ),
 				basedBindings );

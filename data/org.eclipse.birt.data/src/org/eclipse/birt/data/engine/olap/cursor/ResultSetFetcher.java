@@ -53,7 +53,10 @@ public class ResultSetFetcher
 		}
 		else
 		{
-			return rs.getLevelKeyValue( levelIndex )[attr];
+			if ( rs.getLevelKeyValue( levelIndex ) == null )
+				return null;
+			else
+				return rs.getLevelKeyValue( levelIndex )[attr];
 		}
 	}
 

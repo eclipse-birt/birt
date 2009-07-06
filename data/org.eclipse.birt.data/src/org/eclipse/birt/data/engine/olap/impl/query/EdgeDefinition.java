@@ -16,8 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingDownDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingUpDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
 
@@ -27,65 +26,55 @@ import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
 
 public class EdgeDefinition extends NamedObject implements IEdgeDefinition
 {
-	private List dims;
+	private List<IDimensionDefinition> dimensions;
+	private List<IEdgeDrillFilter> drillOperation;
+	
 	private ILevelDefinition mirrorStartingLevel;
 	private IMirroredDefinition mirror;
-	
+
 	public EdgeDefinition( String name )
 	{
 		super( name );
-		this.dims = new ArrayList();
+		this.dimensions = new ArrayList<IDimensionDefinition>( );
+		this.drillOperation = new ArrayList<IEdgeDrillFilter>( );
 	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#createDimension(java.lang.String)
+	 */
 	public IDimensionDefinition createDimension( String name )
 	{
 		IDimensionDefinition dim = new DimensionDefinition( name );
-		this.dims.add( dim );
+		this.dimensions.add( dim );
 		return dim;
 	}
 
-	public IEdgeDrillingDownDefinition createDrillingDownDefinition( String name )
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#getDimensions()
+	 */
+	public List<IDimensionDefinition> getDimensions( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.dimensions;
 	}
 
-	public IEdgeDrillingUpDefinition createDrillingUpDefinition( String name )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List getDimensions( )
-	{
-		return this.dims;
-	}
-
-	public List getDrillingDownDefinition( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List getDrillingUpDefinition( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#creatMirrorDefinition(org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition, boolean)
+	 */
 	public void creatMirrorDefinition( ILevelDefinition level,
 			boolean breakHierarchy )
 	{
 		this.mirror = new MirroredDefinition( level, breakHierarchy );
 	}
 	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#getMirroredDefinition()
+	 */
 	public IMirroredDefinition getMirroredDefinition( )
 	{
 		return this.mirror;
 	}
 	
 	/*
-	 * (non-Javadoc)
-	 * @deprecated
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#setMirrorStartingLevel(org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition)
 	 */
 	public void setMirrorStartingLevel( ILevelDefinition level )
@@ -93,9 +82,31 @@ public class EdgeDefinition extends NamedObject implements IEdgeDefinition
 		this.mirror = new MirroredDefinition( level, true );
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#getMirrorStartingLevel()
+	 */
 	public ILevelDefinition getMirrorStartingLevel( )
 	{
 		return this.mirrorStartingLevel;
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#createDrillingFilterDefinition(java.lang.String, int)
+	 */
+	public IEdgeDrillFilter createDrillFilter(
+			String name, int drillType )
+	{
+		IEdgeDrillFilter drill = new EdgeDrillingFilterDefinition( name,
+				drillType );
+		drillOperation.add( drill );
+		return drill;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#getDrillingFilterDefinition()
+	 */
+	public List<IEdgeDrillFilter> getDrillFilter( )
+	{
+		return this.drillOperation;
+	}
 }

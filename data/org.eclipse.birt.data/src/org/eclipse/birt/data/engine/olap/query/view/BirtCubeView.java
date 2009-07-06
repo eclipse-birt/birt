@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.CubeCursorImpl;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationFactory;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
@@ -53,24 +54,24 @@ import org.mozilla.javascript.Scriptable;
 public class BirtCubeView
 {
 	private BirtEdgeView columnEdgeView, rowEdgeView, pageEdgeView;
-	private MeasureNameManager manager;
+	private AggregationRegisterTable registerTable;
 	private CubeQueryExecutor executor;
 	private Map appContext;
 	private Map measureMapping;
 	private QueryExecutor queryExecutor;
 	private IResultSet parentResultSet;
 	private IPreparedCubeOperation[] preparedCubeOperations;
-	
-	private BirtCubeView()
+	private CubeCursor cubeCursor;
+
+	private BirtCubeView( )
 	{
-		
 	}
 
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
 	 * 
 	 * @param queryExecutor
-	 * @throws DataException 
+	 * @throws DataException
 	 */
 	public BirtCubeView( CubeQueryExecutor queryExecutor, Map appContext ) throws DataException
 	{
@@ -81,29 +82,42 @@ public class BirtCubeView
 		
 		this.executor = queryExecutor;
 		this.appContext = appContext;
+		prepareCubeQuery( queryExecutor.getSession( )
+				.getEngineContext( )
+				.getScriptContext( ), queryExecutor.getScope( ) );
+	}
+
+	private void prepareCubeQuery( ScriptContext context, Scriptable scope )
+			throws DataException
+	{
 		measureMapping = new HashMap( );
 		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( this.getCubeQueryDefinition( ),
-				queryExecutor.getSession( ).getSharedScope( ),
+				scope,
 				measureMapping,
-				queryExecutor.getSession( ).getEngineContext( ).getScriptContext( ));
-		manager = new MeasureNameManager( members );
-
-		prepareCubeOperations( manager );
+				context );
+		registerTable = new AggregationRegisterTable( members );
+		prepareCubeOperations( registerTable );
 	}
 	
-	private void prepareCubeOperations( MeasureNameManager manager ) throws DataException
+	private void prepareCubeOperations( AggregationRegisterTable manager )
+			throws DataException
 	{
-		List<IBinding> bindings = new ArrayList( this.getCubeQueryDefinition( ).getBindings( ));
+		List<IBinding> bindings = new ArrayList<IBinding>( this.getCubeQueryDefinition( )
+				.getBindings( ) );
 		Scriptable scope = executor.getSession( ).getSharedScope( );
-		ScriptContext cx = executor.getSession( ).getEngineContext( ).getScriptContext( );
-		preparedCubeOperations = new IPreparedCubeOperation[this.getCubeQueryDefinition( ).getCubeOperations().length];
+		ScriptContext cx = executor.getSession( )
+				.getEngineContext( )
+				.getScriptContext( );
+		preparedCubeOperations = new IPreparedCubeOperation[this.getCubeQueryDefinition( )
+				.getCubeOperations( ).length];
 		int i = 0;
-		for (ICubeOperation co : this.getCubeQueryDefinition( ).getCubeOperations())
+		for ( ICubeOperation co : this.getCubeQueryDefinition( )
+				.getCubeOperations( ) )
 		{
 			IPreparedCubeOperation pco = CubeOperationFactory.createPreparedCubeOperation( co );
 			preparedCubeOperations[i++] = pco;
-			pco.prepare( scope, cx, manager, bindings.toArray( new IBinding[0]) );
-			bindings.addAll( Arrays.asList( co.getNewBindings( )) );
+			pco.prepare( scope, cx, manager, bindings.toArray( new IBinding[0] ) );
+			bindings.addAll( Arrays.asList( co.getNewBindings( ) ) );
 		}
 	}
 	
@@ -130,13 +144,13 @@ public class BirtCubeView
 
 		subView.measureMapping = measureMapping;
 		subView.preparedCubeOperations = preparedCubeOperations;
-		subView.manager = manager;
+		subView.registerTable = registerTable;
 		return subView;
 	}
 	
-	public MeasureNameManager getMeasureNameManger()
+	public AggregationRegisterTable getAggregationRegisterTable()
 	{
-		return manager;
+		return registerTable;
 	}
 	
 	/**
@@ -157,39 +171,71 @@ public class BirtCubeView
 	 * @throws OLAPException
 	 * @throws DataException 
 	 */
-	public CubeCursor getCubeCursor( StopSign stopSign ) throws OLAPException, DataException
+	public CubeCursor getCubeCursor( StopSign stopSign, ICube cube )
+			throws OLAPException, DataException
 	{
-		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( this.getCubeQueryDefinition( ),
-				measureMapping, this.getAggrDefnsFromOperations( ) );
+		if ( cubeCursor == null )
+			cubeCursor = createCubeCursor( stopSign,
+					this.getCubeQueryDefinition( ),
+					cube );
+		return cubeCursor;
+	}
+
+	/**
+	 * 
+	 * @param stopSign
+	 * @return
+	 * @throws DataException
+	 * @throws OLAPException
+	 */
+	private CubeCursor createCubeCursor( StopSign stopSign,
+			ICubeQueryDefinition query, ICube cube  ) throws DataException, OLAPException
+	{
 		queryExecutor = new QueryExecutor( );
 		try
 		{
-			parentResultSet = queryExecutor.execute( this, stopSign );
+			parentResultSet = queryExecutor.execute( this, stopSign, cube );
 		}
 		catch ( IOException e )
 		{
-			throw new OLAPException( e.getLocalizedMessage( ), e);
+			throw new OLAPException( e.getLocalizedMessage( ), e );
 		}
 		catch ( BirtException e )
 		{
-			throw new OLAPException( e.getLocalizedMessage( ),  e);
+			throw new OLAPException( e.getLocalizedMessage( ), e );
 		}
 		CubeCursor cubeCursor;
-		if ( this.appContext != null &&
-				this.executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+		Map referedLevel = getReferencedLevels( );
+		if ( this.appContext != null
+				&& this.executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
 			cubeCursor = new CubeCursorImpl( this,
 					parentResultSet,
-					relationMap,
+					referedLevel,
 					appContext );
 		}
 		else
 		{
-			cubeCursor = new CubeCursorImpl( this, parentResultSet, relationMap );
+			cubeCursor = new CubeCursorImpl( this,
+					parentResultSet,
+					referedLevel );
 		}
 		return cubeCursor;
 	}
-	
+
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public Map getReferencedLevels( ) throws DataException
+	{
+		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( this.getCubeQueryDefinition( ),
+				measureMapping,
+				this.getAggrDefnsFromOperations( ) );
+		return relationMap;
+	}
+		
 	/**
 	 * Get cubeCursor for current cubeView.
 	 * 
@@ -299,7 +345,7 @@ public class BirtCubeView
 	public BirtEdgeView[] getMeasureEdgeView( )
 	{
 		BirtEdgeView[] calculatedMemberViews = null;
-		CalculatedMember[] members = manager.getCalculatedMembers( );
+		CalculatedMember[] members = registerTable.getCalculatedMembers( );
 		if ( members != null && members.length > 0 )
 		{
 			Set rsIDSet = new HashSet( );

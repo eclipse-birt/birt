@@ -735,8 +735,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	public void testValidateBinding( ) throws Exception
 	{
 		checkDuplicateBindingName( );
-		checkInexistentReference( );
-		checkReferenceCycle( );
+//		checkInexistentReference( );
+//		checkReferenceCycle( );
 	}
 	
 	private void checkDuplicateBindingName( ) throws Exception

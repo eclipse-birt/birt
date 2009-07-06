@@ -29,34 +29,21 @@ public interface IEdgeDefinition extends INamedObject
 	 * Return all used dimensions.
 	 * @return
 	 */
-	public List getDimensions( );
+	public List<IDimensionDefinition> getDimensions( );
 	
 	/**
-	 * Return a new IEdgeDrillingDownDefinition.
+	 * Return a new IEdgeDrillFilter.
 	 * @param name
 	 * @return
 	 */
-	public IEdgeDrillingDownDefinition createDrillingDownDefinition( String name );
+	public IEdgeDrillFilter createDrillFilter( String name, int type );
 	
 	/**
 	 * Return all drilling down definition.
 	 * @return
 	 */
-	public List getDrillingDownDefinition();
-	
-	/**
-	 * Create a new IEdgeDrillingUpDefinition
-	 * @param name
-	 * @return
-	 */
-	public IEdgeDrillingUpDefinition createDrillingUpDefinition( String name );
-	
-	/**
-	 * Return all drill up definition.
-	 * @return
-	 */
-	public List getDrillingUpDefinition();
-	
+	public List<IEdgeDrillFilter> getDrillFilter();
+
 	/**
 	 * Return the level where mirror gets start.
 	 * @deprecated

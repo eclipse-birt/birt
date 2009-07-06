@@ -108,8 +108,16 @@ class EdgeDimensionRelation
 				rs.seek( rowId );
 				for ( int i = 0; i < customDimSize; i++ )
 				{
-					currValue[i] = fetcher.getLevelKeyValue( service.getDimensionAxis( )[i].getLevelIndex( ) )[fetcher.getAggrResultSet( )
-							.getLevelKeyColCount( service.getDimensionAxis( )[i].getLevelIndex( ) ) - 1];
+					if ( fetcher.getLevelKeyValue( service.getDimensionAxis( )[i].getLevelIndex( ) ) == null )
+					{
+						currValue[i] = null;
+					}
+					else
+					{
+						int index = fetcher.getAggrResultSet( )
+								.getLevelKeyColCount( service.getDimensionAxis( )[i].getLevelIndex( ) ) - 1;
+						currValue[i] = fetcher.getLevelKeyValue( service.getDimensionAxis( )[i].getLevelIndex( ) )[index];
+					}
 				}
 				int breakLevel;
 				if ( newSection )
@@ -161,6 +169,7 @@ class EdgeDimensionRelation
 					}
 				}
 			}
+
 			section.setBaseStart( startId );
 			section.setBaseEnd( this.traverseLength - 1 );
 

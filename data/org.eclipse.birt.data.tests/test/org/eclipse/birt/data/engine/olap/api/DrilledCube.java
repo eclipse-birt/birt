@@ -9,7 +9,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.data.engine.olap.cursor;
+package org.eclipse.birt.data.engine.olap.api;
 
 import java.io.IOException;
 import java.util.Date;
@@ -17,13 +17,10 @@ import java.util.Date;
 import javax.olap.OLAPException;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
-import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerReleaser;
-import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -38,9 +35,9 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
-class DateCube
+class DrilledCube
 {
-	public static final String cubeName ="DateCube";
+	public static final String cubeName ="DrilledCube";
 
 	void createCube( DataEngineImpl engine ) throws IOException,
 			BirtException, OLAPException
@@ -56,28 +53,20 @@ class DateCube
 		Dimension[] dimensions = new Dimension[2];
 
 		// dimension0
-		String[] levelNames = new String[7];
-		levelNames[0] = "level11";
+		String[] levelNames = new String[4];
 
 		// dimension1
+		levelNames[0] = "level11";
 		levelNames[1] = "level12";
-		levelNames[2] = "year/DateTime";
-
-		levelNames[3] = "level13";
-		levelNames[4] = "quarter/DateTime";
-
-		levelNames[5] = "level14";
-		levelNames[6] = "month/DateTime";
+		levelNames[2] = "level13";
+		levelNames[3] = "level14";
 
 		DimensionForTest iterator = new DimensionForTest( levelNames );
 
 		iterator.setLevelMember( 0, DateFactTable.DIM0_L1Col );
 		iterator.setLevelMember( 1, DateFactTable.DIM1_YEAR_Col );
-		iterator.setLevelMember( 2, DateFactTable.ATTRIBUTE_Col );
-		iterator.setLevelMember( 3, DateFactTable.DIM1_QUARTER_Col );
-		iterator.setLevelMember( 4, DateFactTable.ATTRIBUTE_Col );
-		iterator.setLevelMember( 5, DateFactTable.DIM1_MONTH_Col );
-		iterator.setLevelMember( 6, DateFactTable.ATTRIBUTE_Col );
+		iterator.setLevelMember( 2, DateFactTable.DIM1_LEVEL3_Col );
+		iterator.setLevelMember( 3, DateFactTable.DIM1_LEVEL4_Col );
 
 		ILevelDefn[] levelDefs = new ILevelDefn[4];
 		levelDefs[0] = new LevelDefinition( "level11", new String[]{
@@ -86,19 +75,16 @@ class DateCube
 
 		levelDefs[1] = new LevelDefinition( "level12", new String[]{
 			"level12"
-		}, new String[]{
-			"year/DateTime"
-		} );
+		}, null );
+		
 		levelDefs[2] = new LevelDefinition( "level13", new String[]{
 			"level13"
-		}, new String[]{
-			"quarter/DateTime"
-		} );
+		}, null );
+
 		levelDefs[3] = new LevelDefinition( "level14", new String[]{
-			"level14"
-		}, new String[]{
-			"month/DateTime"
-		} );
+				"level14"
+			}, null );
+
 		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1",
 				documentManager,
 				iterator,
@@ -108,15 +94,27 @@ class DateCube
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		IDiskArray allRow = dimensions[0].getAllRows( new StopSign( ) );
 
-		levelNames = new String[1];
+		levelNames = new String[3];
 		levelNames[0] = "level21";
+		levelNames[1] = "level22";
+		levelNames[2] = "level23";
+		
 		iterator = new DimensionForTest( levelNames );
-		iterator.setLevelMember( 0, DateFactTable.DIM2_L2Col );
+		iterator.setLevelMember( 0, DateFactTable.DIM2_L21Col );
+		iterator.setLevelMember( 1, DateFactTable.DIM2_L22Col );
+		iterator.setLevelMember( 2, DateFactTable.DIM2_L23Col );
 
-		levelDefs = new ILevelDefn[1];
+		levelDefs = new ILevelDefn[3];
 		levelDefs[0] = new LevelDefinition( "level21", new String[]{
 			"level21"
 		}, null );
+		levelDefs[1] = new LevelDefinition( "level22", new String[]{
+				"level22"
+			}, null );
+		levelDefs[2] = new LevelDefinition( "level23", new String[]{
+				"level23"
+			}, null );
+		
 		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2",
 				documentManager,
 				iterator,
@@ -139,20 +137,7 @@ class DateCube
 		cube.close( );
 		documentManager.flush( );
 	}
-
-	ICube getCube( String cubeName, DataEngineImpl engine )
-			throws DataException, IOException
-	{
-		ICube cube = null;
-		IDocumentManager documentManager = DocumentManagerFactory.loadFileDocumentManager( engine.getSession( )
-				.getTempDir( ),
-				cubeName );
-		cube = CubeQueryExecutorHelper.loadCube( cubeName,
-				documentManager,
-				engine.getSession( ).getStopSign( ) );
-		return cube;
-	}
-
+	
     /**
 	 * 
 	 * @param dimensions
@@ -163,13 +148,12 @@ class DateCube
 		String[][] keyColumnName = new String[2][];
 		
 		keyColumnName[0] = new String[]{
-				"level11",
-				"level12",
-				"level13",
-				"level14"
+				"level11", "level12", "level13", "level14"
 		};
-		keyColumnName[1] = new String[] {"level21"};
-		
+		keyColumnName[1] = new String[]{
+				"level21", "level22", "level23"
+		};
+
 		return keyColumnName;
 	}
 }
@@ -179,51 +163,99 @@ class DateFactTable implements IDatasetIterator
 
 	int ptr = -1;
 	static String[] DIM0_L1Col = {
-		"CN","CN",
-		"US","US",
-		"UN","UN",
-		"JP","JP"
-   };
-  static Integer[] DIM1_YEAR_Col = {
-		1998,1999, 
-		1999,1999,
-		1999,2000,
-		1998,2000 
-   };
+			"CAR",
+			"CAR",
+			"CAR",
+			"CAR",
+			"BICK",
+			"BICK",
+			"BICK",
+			"BICK",
+			"BUS",
+			"BUS",
+			"BUS",
+			"MOTOR",
+			"MOTOR",
+			"MOTOR"
+	};
+	static Integer[] DIM1_YEAR_Col = {
+			2005,
+			2005,
+			2006,
+			2006,
+			2005,
+			2006,
+			2007,
+			2008,
+			2005,
+			2006,
+			2007,
+			2005,
+			2005,
+			2007
+	};
 
-  static Integer[] DIM1_QUARTER_Col = {
-	     1,2,
-	     2,3,
-	     3,4,
-	     1,4
-  };
-  
-  static Integer[] DIM1_MONTH_Col = {
-	     1,4,
-	     5,7,
-	     8,10,
-	     2,11
-  };
-  
-  static String[] DIM2_L2Col = {
-	    "PP1","PP2",
-        "PP1","PP2",
-        "PP1","PP2",
-        "PP1","PP2"
-  };
-  static int[] MEASURE_Col = {
-	  	1,2,
-	  	11,16,
-	  	23,36,
-	  	38,39,
-  };
+	static String[] DIM1_LEVEL3_Col = {
+			"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14"
+	};
 
-  static Date[] ATTRIBUTE_Col = {
-	  	new Date( 98, 0, 1),new Date( 98, 4, 1),
-	  	new Date( 99, 0, 1),new Date( 99, 4, 1),
-	  	new Date( 99, 0, 1),new Date( 99, 4, 1),
-	  	new Date( 98, 0, 1),new Date( 99, 4, 1)
-};
+	static Integer[] DIM1_LEVEL4_Col = {
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+	};
+
+	static String[] DIM2_L21Col = {
+			"CN",
+			"CN",
+			"CN",
+			"CN",
+			"CN",
+			"JP",
+			"JP",
+			"UN",
+			"UN",
+			"UN",
+			"US",
+			"US",
+			"US",
+			"US"
+	};
+	static String[] DIM2_L22Col = {
+			"BJ",
+			"BJ",
+			"SH",
+			"SH",
+			"SZ",
+			"TK",
+			"HD",
+			"LD",
+			"LP",
+			"OT",
+			"LA",
+			"LD",
+			"NY",
+			"NZ"
+	};
+
+	static String[] DIM2_L23Col = {
+			"CP",
+			"HD",
+			"PD",
+			"ZJ",
+			"S1",
+			"P1",
+			"P2",
+			"F1",
+			"F2",
+			"F3",
+			"A1",
+			"B2",
+			"C1",
+			"D1"
+	};
+
+	static int[] MEASURE_Col = {
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+	};
 
 	public void close( ) throws BirtException
 	{
@@ -269,9 +301,17 @@ class DateFactTable implements IDatasetIterator
 		{
 			return 4;
 		}
-		else if ( name.equals( "measure1" ) )
+		else if ( name.equals( "level22" ) )
 		{
 			return 5;
+		}
+		else if ( name.equals( "level23" ) )
+		{
+			return 6;
+		}
+		else if ( name.equals( "measure1" ) )
+		{
+			return 7;
 		}
 		return -1;
 	}
@@ -288,13 +328,21 @@ class DateFactTable implements IDatasetIterator
 		}
 		else if ( name.equals( "level13" ) )
 		{
-			return DataType.INTEGER_TYPE;
+			return DataType.STRING_TYPE;
 		}
 		else if ( name.equals( "level14" ) )
 		{
 			return DataType.INTEGER_TYPE;
 		}
 		else if ( name.equals( "level21" ) )
+		{
+			return DataType.STRING_TYPE;
+		}
+		else if ( name.equals( "level22" ) )
+		{
+			return DataType.STRING_TYPE;
+		}
+		else if ( name.equals( "level23" ) )
 		{
 			return DataType.STRING_TYPE;
 		}
@@ -329,17 +377,25 @@ class DateFactTable implements IDatasetIterator
 		}
 		else if ( fieldIndex == 2 )
 		{
-			return DIM1_QUARTER_Col[ptr];
+			return DIM1_LEVEL3_Col[ptr];
 		}
 		else if ( fieldIndex == 3 )
 		{
-			return DIM1_MONTH_Col[ptr];
+			return DIM1_LEVEL4_Col[ptr];
 		}
 		else if ( fieldIndex == 4 )
 		{
-			return DIM2_L2Col[ptr];
+			return DIM2_L21Col[ptr];
 		}
 		else if ( fieldIndex == 5 )
+		{
+			return DIM2_L22Col[ptr];
+		}
+		else if ( fieldIndex == 6 )
+		{
+			return DIM2_L23Col[ptr];
+		}
+		else if ( fieldIndex == 7 )
 		{
 			return new Integer( MEASURE_Col[ptr] );
 		}

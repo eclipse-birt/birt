@@ -41,7 +41,7 @@ public class DimensionAxis
 	 * @param levelIndex
 	 * @param attrIndex
 	 */
-	public DimensionAxis( EdgeAxis container, IAggregationResultSet rs,
+	public DimensionAxis( IEdgeAxis container, IAggregationResultSet rs,
 			int dimAxisIndex, int levelIndex )
 	{
 		this( container, rs, dimAxisIndex, levelIndex, false );
@@ -55,7 +55,7 @@ public class DimensionAxis
 	 * @param levelIndex
 	 * @param attrIndex
 	 */
-	public DimensionAxis( EdgeAxis container, IAggregationResultSet rs,
+	public DimensionAxis( IEdgeAxis container, IAggregationResultSet rs,
 			int dimAixsIndex, int levelIndex, boolean isMirrored )
 	{
 		this.metaData = new ResultSetMetadata( rs, levelIndex );
