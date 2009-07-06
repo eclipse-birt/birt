@@ -78,7 +78,7 @@ public class AxisProcessor
 	public int getColumnIndexByCoordinate(int value)
 	{
 		int index = columnCoordinates.indexOf( value );
-		return ( index == -1 ) ? 0 : index;
+		return ( index == -1 ) ? -1 : index;
 	}	
 	
 	public int[] getColumnWidths( )

@@ -59,7 +59,7 @@ public class LayoutUtil
 		return width;
 	}
 	
-	public static int[] createTable( ITableContent table, int tableWidth )
+	public static int[] createFixedTable( ITableContent table, int tableWidth )
 	{		
 		int columnCount = table.getColumnCount( );
 		int[] columns = new int[columnCount];
@@ -88,5 +88,74 @@ public class LayoutUtil
 
 		return EmitterUtil.resizeTableColumn( tableWidth, columns,
 				unassignedCount, totalAssigned );
+	}
+
+	public static ColumnsInfo createTable( ITableContent table, int width )
+	{
+		int tableWidth = getElementWidth( table, width );
+
+		int columnCount = table.getColumnCount( );
+		if ( columnCount == 0 )
+		{
+			return null;
+		}
+
+		int[] columns = new int[columnCount];
+		int unassignedCount = 0;
+		int totalAssigned = 0;
+
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			DimensionType value = table.getColumn( i ).getWidth( );
+			if ( value == null )
+			{
+				columns[i] = -1;
+				unassignedCount++;
+			}
+			else
+			{
+				columns[i] = ExcelUtil.covertDimensionType( value, tableWidth );
+				totalAssigned += columns[i];
+			}
+		}
+
+		int leftWidth = tableWidth - totalAssigned;
+		if ( leftWidth != 0 && unassignedCount == 0 )
+		{
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				columns[i] = resize( columns[i], totalAssigned, leftWidth );
+			}
+		}
+		else if ( leftWidth < 0 && unassignedCount > 0 )
+		{
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				if ( columns[i] == -1 )
+					columns[1] = 0;
+				else
+					columns[i] = resize( columns[i], totalAssigned, leftWidth );
+			}
+		}
+		else if ( leftWidth >= 0 && unassignedCount > 0 )
+		{
+			int per = (int) leftWidth / unassignedCount;
+			int index = 0;
+			for ( int i = 0; i < columns.length; i++ )
+			{
+				if ( columns[i] == -1 )
+				{
+					columns[i] = per;
+					index = i;
+				}
+			}
+			columns[index] = leftWidth - per * ( unassignedCount - 1 );
+		}
+		return new ColumnsInfo( columns );
+	}
+
+	private static int resize( int width, int total, int left )
+	{
+		return (int) ( width + (float) width / (float) total * left );
 	}
 }

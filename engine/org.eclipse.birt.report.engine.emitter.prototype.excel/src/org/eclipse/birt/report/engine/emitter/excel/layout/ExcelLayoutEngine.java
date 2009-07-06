@@ -231,7 +231,12 @@ public class ExcelLayoutEngine
 		columnStartCoordinates[0] = startCoordinate;
 		for ( int i = 1; i <= columnCount; i++ )
 		{
-			columnStartCoordinates[i] = columnStartCoordinates[i - 1]
+			if ( ( columnStartCoordinates[i - 1] + table.getColumnWidth( i - 1 ) ) > endCoordinate )
+			{
+				columnStartCoordinates[i] = endCoordinate;
+			}
+			else
+				columnStartCoordinates[i] = columnStartCoordinates[i - 1]
 				+ table.getColumnWidth( i - 1 );
 		}
 		return columnStartCoordinates;
@@ -649,6 +654,8 @@ public class ExcelLayoutEngine
 		XlsContainer container = getCurrentContainer( );
 		container.setEmpty( false );
 		int col = axis.getColumnIndexByCoordinate( data.getSizeInfo( ).getStartCoordinate( ) );
+		if ( col == -1 || col >= cache.getColumnCount( ) )
+			return;
 		int span = axis.getColumnIndexByCoordinate( data.getSizeInfo( ).getEndCoordinate( ) ) - col;
 		applyTopBorderStyle( data );
 		// FIXME: there is a bug when this data is in middle of a row.

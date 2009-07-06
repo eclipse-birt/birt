@@ -57,6 +57,9 @@ import com.ibm.icu.util.ULocale;
 
 public class ExcelEmitter extends ContentEmitterAdapter
 {
+
+	private boolean isAuto = true;
+
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
 	
@@ -190,10 +193,19 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		ContainerSizeInfo sizeInfo = engine.getCurrentContainer( ).getSizeInfo( );
 		int width = sizeInfo.getWidth( );
-		int[] columns = LayoutUtil.createTable( table, LayoutUtil
-				.getElementWidth( table, width ) );
-		ColumnsInfo info = new ColumnsInfo( columns );
-
+		ColumnsInfo info = null;
+		if ( isAuto )
+		{
+			info = LayoutUtil.createTable( table, width );
+		}
+		else
+		{
+			int[] columns = LayoutUtil.createFixedTable( table, LayoutUtil
+					.getElementWidth( table, width ) );
+			info = new ColumnsInfo( columns );
+		}
+		if ( info == null )
+			return;
 		String caption = table.getCaption( );
 		if(caption != null) 
 		{			
