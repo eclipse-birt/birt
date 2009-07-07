@@ -54,7 +54,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
@@ -360,13 +359,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		btnStartFormatSpecifier = new Button( cmpRange, SWT.PUSH );
 		GridData gdBTNStartFormatSpecifier = new GridData( );
 		gdBTNStartFormatSpecifier.heightHint = 18;
-		gdBTNStartFormatSpecifier.widthHint = 18;
 		btnStartFormatSpecifier.setLayoutData( gdBTNStartFormatSpecifier );
 		btnStartFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-		btnStartFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 		btnStartFormatSpecifier.addSelectionListener( this );
-		btnStartFormatSpecifier.getImage( )
-				.setBackground( btnStartFormatSpecifier.getBackground( ) );
+		btnStartFormatSpecifier.setText( Messages.getString( "Format.Button.Lbl&" ) ); //$NON-NLS-1$
 
 		lblEndValue = new Label( cmpRange, SWT.NONE );
 		GridData gdLBLEndValue = new GridData( );
@@ -383,13 +379,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		btnEndFormatSpecifier = new Button( cmpRange, SWT.PUSH );
 		GridData gdBTNEndFormatSpecifier = new GridData( );
 		gdBTNEndFormatSpecifier.heightHint = 18;
-		gdBTNEndFormatSpecifier.widthHint = 18;
 		btnEndFormatSpecifier.setLayoutData( gdBTNEndFormatSpecifier );
 		btnEndFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-		btnEndFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 		btnEndFormatSpecifier.addSelectionListener( this );
-		btnEndFormatSpecifier.getImage( )
-				.setBackground( btnEndFormatSpecifier.getBackground( ) );
+		btnEndFormatSpecifier.setText( Messages.getString( "Format.Button.Label" ) ); //$NON-NLS-1$
 
 		lblRangeAnchor = new Label( cmpRange, SWT.NONE );
 		GridData gdLBLRangeAnchor = new GridData( );
