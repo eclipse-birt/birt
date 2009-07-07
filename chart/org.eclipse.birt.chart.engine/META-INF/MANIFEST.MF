@@ -51,4 +51,5 @@ Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEnginePlugin
 Import-Package: com.ibm.icu.text;version="[3.4.4,5.0.0)",
- com.ibm.icu.util;version="[3.4.4,5.0.0)"
+ com.ibm.icu.util;version="[3.4.4,5.0.0)",
+ com.ibm.icu.lang;version="[3.4.4,5.0.0)"

@@ -158,6 +158,10 @@ public class FormatSpecifierDialog extends TrayDialog
 		{
 			return FormatSpecifierComposite.DATA_TYPE_NUMBER;
 		}
+		if ( axisType == AxisType.TEXT_LITERAL )
+		{
+			return FormatSpecifierComposite.DATA_TYPE_STRING;
+		}
 		return FormatSpecifierComposite.DATA_TYPE_NONE;
 	}
 

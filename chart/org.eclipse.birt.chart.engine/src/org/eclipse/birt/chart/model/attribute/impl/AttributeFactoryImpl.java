@@ -101,8 +101,9 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class AttributeFactoryImpl extends EFactoryImpl implements
-		AttributeFactory
+public class AttributeFactoryImpl extends EFactoryImpl
+		implements
+			AttributeFactory
 {
 
 	/**
@@ -220,6 +221,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return (EObject) createSeriesValue( );
 			case AttributePackage.SIZE :
 				return (EObject) createSize( );
+			case AttributePackage.STRING_FORMAT_SPECIFIER :
+				return (EObject) createStringFormatSpecifier( );
 			case AttributePackage.STYLE :
 				return (EObject) createStyle( );
 			case AttributePackage.STYLE_MAP :
@@ -1003,6 +1006,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		SizeImpl size = new SizeImpl( );
 		return size;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StringFormatSpecifier createStringFormatSpecifier( )
+	{
+		StringFormatSpecifierImpl stringFormatSpecifier = new StringFormatSpecifierImpl( );
+		return stringFormatSpecifier;
 	}
 
 	/**

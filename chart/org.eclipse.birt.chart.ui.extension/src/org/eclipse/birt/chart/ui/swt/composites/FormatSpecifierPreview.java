@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.StringFormatSpecifier;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -39,6 +40,7 @@ public class FormatSpecifierPreview extends Composite
 	private final static String SAMPLE_NA = Messages.getString( "FormatSpecifierPreview.Lbl.NotAvailable" ); //$NON-NLS-1$
 	private final static Double SAMPLE_NUMBER = new Double( 0.12345678 );
 	private final static Calendar SAMPLE_DATETIME = Calendar.getInstance( );
+	private final static String SAMPLE_STRING = "My String"; //$NON-NLS-1$
 
 	private Label lblPreview;
 
@@ -79,6 +81,10 @@ public class FormatSpecifierPreview extends Composite
 					|| fs instanceof FractionNumberFormatSpecifier )
 			{
 				dataType = FormatSpecifierComposite.DATA_TYPE_NUMBER;
+			}
+			else if ( fs instanceof StringFormatSpecifier )
+			{
+				dataType = FormatSpecifierComposite.DATA_TYPE_STRING;
 			}
 			else
 			{
@@ -122,6 +128,27 @@ public class FormatSpecifierPreview extends Composite
 				try
 				{
 					lblPreview.setText( ValueFormatter.format( SAMPLE_DATETIME,
+							fs,
+							ULocale.getDefault( ),
+							null ) );
+				}
+				catch ( ChartException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+		}
+		else if ( FormatSpecifierComposite.DATA_TYPE_STRING.equals( dataType ) )
+		{
+			if(fs == null)
+			{
+				lblPreview.setText( SAMPLE_STRING );
+			}
+			else
+			{
+				try
+				{
+					lblPreview.setText( ValueFormatter.format( SAMPLE_STRING,
 							fs,
 							ULocale.getDefault( ),
 							null ) );

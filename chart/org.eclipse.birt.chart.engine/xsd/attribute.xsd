@@ -1658,4 +1658,24 @@ mouse cursor will become the specified cursor.</xsd:documentation>
     		<xsd:enumeration value="OnMouseOut"></xsd:enumeration>
     	</xsd:restriction>
     </xsd:simpleType>
+
+    <xsd:complexType name="StringFormatSpecifier">
+    	<xsd:annotation>
+    		<xsd:documentation>
+    			This type holds the format specifier properties for a
+    			string label.
+    		</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:complexContent>
+    		<xsd:extension base="FormatSpecifier">
+    			<xsd:sequence>
+    				<xsd:element name="Pattern" type="xsd:string">
+    					<xsd:annotation>
+    						<xsd:documentation>
+			Specifies the format pattern.</xsd:documentation>
+    					</xsd:annotation></xsd:element>
+    			</xsd:sequence>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
 </xsd:schema>

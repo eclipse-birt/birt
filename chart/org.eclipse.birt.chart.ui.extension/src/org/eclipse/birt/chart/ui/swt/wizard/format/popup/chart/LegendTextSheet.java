@@ -109,7 +109,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		Label lblFormat = new Label( grpTxtArea, SWT.NONE );
 		{
 			lblFormat.setText( Messages.getString( "DialLabelSheet.Label.Format" ) ); //$NON-NLS-1$
-			lblFormat.setEnabled( isByCategory || containsYOG );
 		}
 
 		Composite cmpFormat = new Composite( grpTxtArea, SWT.BORDER );
@@ -122,7 +121,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			cmpFormat.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			cmpFormat.setBackground( cmpFormat.getDisplay( )
 						.getSystemColor( SWT.COLOR_WHITE ) );
-			cmpFormat.setEnabled( isByCategory || containsYOG );
 
 		}
 
@@ -133,7 +131,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			gd.horizontalAlignment = SWT.CENTER;
 			fsp.setLayoutData( gd );
 			fsp.updatePreview( getChart( ).getLegend( ).getFormatSpecifier( ) );
-			fsp.setEnabled( isByCategory || containsYOG );
 		}
 
 		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
@@ -148,7 +145,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			// .setBackground( btnFormatSpecifier.getBackground( ) );
 			btnFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
 			btnFormatSpecifier.addListener( SWT.Selection, this );
-			btnFormatSpecifier.setEnabled( isByCategory || containsYOG );
 		}
 
 		new Label( grpTxtArea, SWT.NONE ).setText( Messages.getString( "LegendTextSheet.Label.Font" ) ); //$NON-NLS-1$

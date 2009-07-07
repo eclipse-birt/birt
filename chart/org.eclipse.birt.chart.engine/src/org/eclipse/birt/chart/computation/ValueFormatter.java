@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.StringFormatSpecifier;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -63,7 +64,8 @@ public final class ValueFormatter
 		{
 			return null;
 		}
-		else if ( oValue instanceof String )
+		else if ( ( oValue instanceof String )
+				&& !( fs instanceof StringFormatSpecifier ) )
 		{
 			return (String) oValue;
 		}
@@ -175,6 +177,11 @@ public final class ValueFormatter
 		{
 			final JavaDateFormatSpecifier jdfs = (JavaDateFormatSpecifier) fs;
 			return jdfs.format( asCalendar( oValue, lcl ), lcl );
+		}
+		else if ( StringFormatSpecifier.class.isInstance( fs ) )
+		{
+			final StringFormatSpecifier jdfs = (StringFormatSpecifier) fs;
+			return jdfs.format( oValue.toString( ), lcl );
 		}
 		else
 		{

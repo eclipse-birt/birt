@@ -299,6 +299,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.SIZE :
 				return validateSize( (Size) value, diagnostics, context );
+			case AttributePackage.STRING_FORMAT_SPECIFIER :
+				return validateStringFormatSpecifier( (StringFormatSpecifier) value,
+						diagnostics,
+						context );
 			case AttributePackage.STYLE :
 				return validateStyle( (Style) value, diagnostics, context );
 			case AttributePackage.STYLE_MAP :
@@ -1047,6 +1051,20 @@ public class AttributeValidator extends EObjectValidator
 			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( (EObject) size,
+				diagnostics,
+				context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateStringFormatSpecifier(
+			StringFormatSpecifier stringFormatSpecifier,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return validate_EveryDefaultConstraint( (EObject) stringFormatSpecifier,
 				diagnostics,
 				context );
 	}

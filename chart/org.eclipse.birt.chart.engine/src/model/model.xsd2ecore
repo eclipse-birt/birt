@@ -1429,6 +1429,11 @@
     <nested inputs="../../xsd/type.xsd#//StockSeries;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.type.ecore#//StockSeries/stickLength"/>
   </nested>
+  <nested inputs="../../xsd/attribute.xsd#//StringFormatSpecifier;XSDComplexTypeDefinition=42"
+      outputs="org.eclipse.birt.chart.model.attribute.ecore#//StringFormatSpecifier">
+    <nested inputs="../../xsd/attribute.xsd#//StringFormatSpecifier;XSDComplexTypeDefinition=42/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//StringFormatSpecifier/pattern"/>
+  </nested>
   <nested inputs="../../xsd/data.xsd#//TextDataSet;XSDComplexTypeDefinition=3" outputs="org.eclipse.birt.chart.model.data.ecore#//TextDataSet"/>
   <nested inputs="../../xsd/layout.xsd#//TitleBlock;XSDComplexTypeDefinition=3" outputs="org.eclipse.birt.chart.model.layout.ecore#//TitleBlock"/>
   <nested inputs="../../xsd/attribute.xsd#//TooltipValue;XSDComplexTypeDefinition=4"

@@ -324,6 +324,15 @@ public interface AttributeFactory extends EFactory
 	Size createSize( );
 
 	/**
+	 * Returns a new object of class '<em>String Format Specifier</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>String Format Specifier</em>'.
+	 * @generated
+	 */
+	StringFormatSpecifier createStringFormatSpecifier( );
+
+	/**
 	 * Returns a new object of class '<em>Style</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

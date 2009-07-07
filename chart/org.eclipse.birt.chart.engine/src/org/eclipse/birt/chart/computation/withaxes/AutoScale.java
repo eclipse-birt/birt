@@ -2853,6 +2853,21 @@ public final class AutoScale extends Methods implements Cloneable
 						oValue,
 						iDateTimeUnit );
 			}
+			if ( info.fs != null )
+			{
+				try
+				{
+					return ValueFormatter.format( oValue,
+							info.fs,
+							info.rtc.getULocale( ),
+							null );
+				}
+				catch ( ChartException dfex )
+				{
+					logger.log( dfex );
+					return oValue.toString( );
+				}
+			}
 			return oValue.toString( );
 		}
 		else if ( ( iType & IConstants.DATE_TIME ) == IConstants.DATE_TIME )

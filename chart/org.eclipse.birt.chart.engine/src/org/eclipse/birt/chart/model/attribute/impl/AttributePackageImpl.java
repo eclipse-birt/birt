@@ -79,6 +79,7 @@ import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.Stretch;
+import org.eclipse.birt.chart.model.attribute.StringFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
@@ -116,8 +117,9 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class AttributePackageImpl extends EPackageImpl implements
-		AttributePackage
+public class AttributePackageImpl extends EPackageImpl
+		implements
+			AttributePackage
 {
 
 	/**
@@ -347,6 +349,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass sizeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stringFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -888,7 +897,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 			return (AttributePackage) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
 
 		// Obtain or create and register package
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.get( eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof AttributePackageImpl
+				? EPackage.Registry.INSTANCE.get( eNS_URI )
 				: new AttributePackageImpl( ) );
 
 		isInited = true;
@@ -897,15 +907,20 @@ public class AttributePackageImpl extends EPackageImpl implements
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -2191,6 +2206,27 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getStringFormatSpecifier( )
+	{
+		return stringFormatSpecifierEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStringFormatSpecifier_Pattern( )
+	{
+		return (EAttribute) stringFormatSpecifierEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getStyle( )
 	{
 		return styleEClass;
@@ -3340,6 +3376,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( sizeEClass, SIZE__HEIGHT );
 		createEAttribute( sizeEClass, SIZE__WIDTH );
 
+		stringFormatSpecifierEClass = createEClass( STRING_FORMAT_SPECIFIER );
+		createEAttribute( stringFormatSpecifierEClass,
+				STRING_FORMAT_SPECIFIER__PATTERN );
+
 		styleEClass = createEClass( STYLE );
 		createEReference( styleEClass, STYLE__FONT );
 		createEReference( styleEClass, STYLE__COLOR );
@@ -3510,6 +3550,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 				.add( this.getFormatSpecifier( ) );
 		scriptValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		seriesValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
+		stringFormatSpecifierEClass.getESuperTypes( )
+				.add( this.getFormatSpecifier( ) );
 		tooltipValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		urlValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 
@@ -3949,6 +3991,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getSize_Width( ),
 				theXMLTypePackage.getDouble( ),
 				"width", null, 1, 1, Size.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( stringFormatSpecifierEClass,
+				StringFormatSpecifier.class,
+				"StringFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getStringFormatSpecifier_Pattern( ),
+				theXMLTypePackage.getString( ),
+				"pattern", null, 1, 1, StringFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( styleEClass,
 				Style.class,
@@ -5305,6 +5354,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 				"name", "Stretch:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( stringFormatSpecifierEClass, source, new String[]{
+				"name", "StringFormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getStringFormatSpecifier_Pattern( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Pattern" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( styleEClass, source, new String[]{
 				"name", "Style", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

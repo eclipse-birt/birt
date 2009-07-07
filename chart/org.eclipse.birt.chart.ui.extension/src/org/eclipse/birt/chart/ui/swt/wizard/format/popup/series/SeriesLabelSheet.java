@@ -718,36 +718,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	private void refreshDataPointButtons( )
 	{
 		btnRemoveComponent.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
-
-		boolean formatEnable = ( lstComponents.getSelectionIndex( ) != -1 );
-		// Disable format specifier for Value Series Name due to #179426
-		if ( formatEnable )
-		{
-			String sName = lstComponents.getItem( lstComponents.getSelectionIndex( ) );
-			String aa = LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( sName );
-			DataPointComponentType dpct = DataPointComponentType.getByName( aa );
-			if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL
-					&& mapDataPointNames != null
-					&& mapDataPointNames.size( ) > 0 )
-			{
-				formatEnable = false;
-			}
-			if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
-			{
-				formatEnable = false;
-			}
-			else if ( getAxisType( dpct ) == AxisType.TEXT_LITERAL )
-			{
-				formatEnable = false;
-			}
-			else if ( dpct == null )
-			{
-				String sTypeName = mapDataPointNames.get( lstComponents.getItem( lstComponents.getSelectionIndex( ) ) );
-				int iType = foDataPointDefinition.getCompatibleDataType( sTypeName );
-				formatEnable = ( ( iType & ( IConstants.NUMERICAL | IConstants.DATE_TIME ) ) != 0 );
-			}
-		}
-		btnFormatSpecifier.setEnabled( formatEnable );
+		btnFormatSpecifier.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
 	}
 
 	private void addDataPointComponent( int iComponentIndex )

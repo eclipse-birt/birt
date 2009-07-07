@@ -925,10 +925,7 @@ public final class LegendBuilder implements IConstants
 			this.itSed = new InvertibleIterator<SeriesDefinition>( alSed,
 					bNeedInvert );
 			this.status = Status.WAIT_SD;
-			if ( ChartUtil.containsYOptionalGrouping( lgData.cm ) )
-			{
-				fs = lgData.cm.getLegend( ).getFormatSpecifier( );
-			}
+			fs = lgData.cm.getLegend( ).getFormatSpecifier( );
 		}
 
 		public LegendItemHints nextContent( ) throws ChartException

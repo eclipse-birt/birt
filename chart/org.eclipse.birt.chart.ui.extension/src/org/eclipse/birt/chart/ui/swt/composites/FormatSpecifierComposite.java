@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.util.HashMap;
+
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
@@ -21,10 +23,12 @@ import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.StringFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
+import org.eclipse.birt.chart.model.attribute.impl.StringFormatSpecifierImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -80,9 +84,13 @@ public class FormatSpecifierComposite extends Composite
 
 	private transient Composite cmpStandardNumberDetails = null;
 
+	private transient Composite cmpStandardStringDetails = null;
+
 	private transient IFormatSpecifierUIComponent cpWrapStandardNumber = null;
 
 	private transient IFormatSpecifierUIComponent cpWrapStandardDate = null;
+
+	private transient IFormatSpecifierUIComponent cpWrapStandardString = null;
 
 	private transient IFormatSpecifierUIComponent cpWrapAdvancedNumber = null;
 
@@ -110,6 +118,7 @@ public class FormatSpecifierComposite extends Composite
 	public final static String DATA_TYPE_NONE = Messages.getString( "FormatSpecifierComposite.Lbl.None" ); //$NON-NLS-1$
 	public final static String DATA_TYPE_NUMBER = Messages.getString( "FormatSpecifierComposite.Lbl.Number" ); //$NON-NLS-1$
 	public final static String DATA_TYPE_DATETIME = Messages.getString( "FormatSpecifierComposite.Lbl.DateTime" ); //$NON-NLS-1$
+	public final static String DATA_TYPE_STRING = Messages.getString("FormatSpecifierComposite.Lbl.String"); //$NON-NLS-1$
 
 	private String[] supportedTypes = null;
 
@@ -123,7 +132,7 @@ public class FormatSpecifierComposite extends Composite
 			FormatSpecifier formatspecifier )
 	{
 		this( parent, style, formatspecifier, new String[]{
-				DATA_TYPE_NUMBER, DATA_TYPE_DATETIME
+				DATA_TYPE_NUMBER, DATA_TYPE_DATETIME, DATA_TYPE_STRING
 		} );
 	}
 
@@ -255,6 +264,17 @@ public class FormatSpecifierComposite extends Composite
 			cmpStandardNumberDetails.setLayout( glNumber );
 		}
 		cpWrapStandardNumber = new NumberStandardComposite( cmpStandardNumberDetails );
+
+		cmpStandardStringDetails = new Composite( cmpStandardDetails,
+				SWT.NONE );
+		{
+			GridLayout glString = new GridLayout( );
+			glString.verticalSpacing = 5;
+			glString.marginHeight = 0;
+			glString.marginWidth = 0;
+			cmpStandardStringDetails.setLayout( glString );
+		}
+		cpWrapStandardString = new StringStandardComposite( cmpStandardStringDetails );
 
 		createPlaceHolder( radios, 2 );
 
@@ -396,6 +416,16 @@ public class FormatSpecifierComposite extends Composite
 				slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
 			}
 		}
+		else if ( formatspecifier instanceof StringFormatSpecifier )
+		{
+			cmbDataType.setText( DATA_TYPE_STRING );
+			// support the type selected
+			if ( cmbDataType.getText( ).trim( ).length( ) != 0 )
+			{
+				btnStandard.setSelection( true );
+				slStandardDetails.topControl = this.cmpStandardStringDetails;
+			}
+		}
 
 		if ( formatspecifier == null
 				|| cmbDataType.getText( ).trim( ).length( ) == 0 )
@@ -413,6 +443,10 @@ public class FormatSpecifierComposite extends Composite
 				slStandardDetails.topControl = this.cmpStandardDateDetails;
 				slAdvancedDetails.topControl = this.cmpAdvancedDateDetails;
 			}
+			else if ( cmbDataType.getText( ).equals( DATA_TYPE_STRING ) )
+			{
+				slStandardDetails.topControl = this.cmpStandardStringDetails;
+			}
 			else if ( cmbDataType.getText( ).equals( DATA_TYPE_NONE ) )
 			{
 				// Hide UI
@@ -425,6 +459,7 @@ public class FormatSpecifierComposite extends Composite
 
 		cpWrapStandardDate.populateLists( );
 		cpWrapStandardNumber.populateLists( );
+		cpWrapStandardString.populateLists( );
 		cpWrapAdvancedNumber.populateLists( );
 		cpWrapAdvancedDate.populateLists( );
 		cpWrapFractionNumber.populateLists( );
@@ -474,6 +509,13 @@ public class FormatSpecifierComposite extends Composite
 				fs = cpWrapStandardDate.buildFormatSpecifier( );
 			}
 		}
+		else if ( cmbDataType.getText( ).equals( DATA_TYPE_STRING ) )
+		{
+			if ( this.btnStandard.getSelection( ) )
+			{
+				fs = cpWrapStandardString.buildFormatSpecifier( );
+			}
+		}
 		return fs;
 	}
 
@@ -506,6 +548,8 @@ public class FormatSpecifierComposite extends Composite
 				cpWrapAdvancedNumber.setEnabled( false );
 				cpWrapFractionNumber.setEnabled( false );
 			}
+			cmpAdvancedDetails.setVisible( true );
+			btnAdvanced.setVisible( true );
 
 			cmpFractionNumberDetails.setVisible( true );
 			btnFraction.setVisible( true );
@@ -535,10 +579,28 @@ public class FormatSpecifierComposite extends Composite
 
 				cpWrapAdvancedDate.setEnabled( false );
 			}
+			cmpAdvancedDetails.setVisible( true );
+			btnAdvanced.setVisible( true );
 
 			// Hide UI which is not existent in Date type
 			cmpFractionNumberDetails.setVisible( false );
 			btnFraction.setVisible( false );
+		}
+		else if ( cmbDataType.getText( ).equals( DATA_TYPE_STRING ) )
+		{
+			if ( this.btnStandard.getSelection( ) )
+			{
+				cpWrapStandardString.setEnabled( true );
+			}
+			else
+			{
+				cpWrapStandardString.setEnabled( false );
+			}
+			// Hide UI which is not existent in String type
+			cmpFractionNumberDetails.setVisible( false );
+			btnFraction.setVisible( false );
+			cmpAdvancedDetails.setVisible( false );
+			btnAdvanced.setVisible( false );
 		}
 		fsp.setDataType( cmbDataType.getText( ) );
 		updatePreview( );
@@ -582,6 +644,10 @@ public class FormatSpecifierComposite extends Composite
 					btnUndefined.setSelection( true );
 					btnFraction.setSelection( false );
 				}
+			}
+			else if ( cmbDataType.getText( ).equals( DATA_TYPE_STRING ) )
+			{
+				slStandardDetails.topControl = cmpStandardStringDetails;
 			}
 			updateUIState( );
 			cmpStandardDetails.layout( );
@@ -1541,6 +1607,124 @@ public class FormatSpecifierComposite extends Composite
 			{
 				modifyText( new ModifyEvent( event ) );
 			}
+			updatePreview( );
+		}
+
+	}
+
+	private class StringStandardComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				ModifyListener,
+				Listener
+	{
+
+		private Combo typeComb;
+		private Text patternTxt;
+		private HashMap<String, String> examples;
+		private Label typeLbl;
+		private Label patternLbl;
+
+		private StringStandardComposite( Composite parent )
+		{
+			super( parent, SWT.NONE );
+			examples = new HashMap<String, String>( );
+			examples.put( "UpperCase", ">" ); //$NON-NLS-1$ //$NON-NLS-2$
+			examples.put( "LowerCase", "<" ); //$NON-NLS-1$ //$NON-NLS-2$
+			examples.put( "Zip Code +4", "@@@@@-@@@@" ); //$NON-NLS-1$ //$NON-NLS-2$
+			examples.put( "Phone Number", "(@@@)@@@-@@@@" ); //$NON-NLS-1$ //$NON-NLS-2$
+			examples.put( "Social Security Number", "@@@-@@-@@@@" ); //$NON-NLS-1$ //$NON-NLS-2$
+			examples.put( "Preserve white space", "^" ); //$NON-NLS-1$ //$NON-NLS-2$
+			placeComponents( );
+		}
+
+		private void placeComponents( )
+		{
+			GridLayout glStringStandard = new GridLayout( );
+			glStringStandard.verticalSpacing = 5;
+			glStringStandard.numColumns = 2;
+			glStringStandard.marginHeight = 2;
+			glStringStandard.marginWidth = 2;
+			GridData gdGRPStringStandard = new GridData( GridData.FILL_BOTH );
+			this.setLayoutData( gdGRPStringStandard );
+			this.setLayout( glStringStandard );
+
+			typeLbl = new Label( this, SWT.NONE );
+			GridData gd = new GridData( );
+			typeLbl.setLayoutData( gd );
+			typeLbl.setText( Messages.getString("FormatSpecifierComposite.Lbl.ExampleFormats") ); //$NON-NLS-1$
+
+			typeComb = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
+			gd = new GridData( GridData.FILL_HORIZONTAL );
+			typeComb.setLayoutData( gd );
+			typeComb.setItems( examples.keySet( ).toArray( new String[0] ) );
+			typeComb.setVisibleItemCount( typeComb.getItemCount( ) );
+			typeComb.addListener( SWT.Selection, this );
+
+			patternLbl = new Label( this, SWT.NONE );
+			gd = new GridData( );
+			patternLbl.setLayoutData( gd );
+			patternLbl.setText( Messages.getString("FormatSpecifierComposite.Lbl.Pattern") ); //$NON-NLS-1$
+
+			patternTxt = new Text( this, SWT.BORDER );
+			gd = new GridData( GridData.FILL_HORIZONTAL );
+			patternTxt.setLayoutData( gd );
+			patternTxt.addListener( SWT.Modify, this );
+		}
+
+		@Override
+		public void setEnabled( boolean enabled )
+		{
+			typeLbl.setEnabled( enabled );
+			typeComb.setEnabled( enabled );
+			patternLbl.setEnabled( enabled );
+			patternTxt.setEnabled( enabled );
+			super.setEnabled( enabled );
+		}
+
+		public FormatSpecifier buildFormatSpecifier( )
+		{
+			StringFormatSpecifier sf = StringFormatSpecifierImpl.create( );
+			sf.setPattern( patternTxt.getText( ) );
+			return sf;
+		}
+
+		public void populateLists( )
+		{
+			if ( formatspecifier instanceof StringFormatSpecifier )
+			{
+				String pattern = ( (StringFormatSpecifier) formatspecifier ).getPattern( );
+				patternTxt.setText( pattern );
+			}
+
+		}
+
+		public void modifyText( ModifyEvent e )
+		{
+			bEnableEvents = false;
+			if ( e.getSource( ) == patternTxt )
+			{
+				if ( !( formatspecifier instanceof StringFormatSpecifier ) )
+				{
+					formatspecifier = StringFormatSpecifierImpl.create( );
+				}
+				( (StringFormatSpecifier) formatspecifier ).setPattern( patternTxt.getText( ) );
+			}
+			bEnableEvents = true;
+			updatePreview( );
+		}
+
+		public void handleEvent( Event event )
+		{
+			bEnableEvents = false;
+			if ( event.type == SWT.Selection )
+			{
+				if ( event.widget == typeComb )
+				{
+					patternTxt.setText( examples.get( typeComb.getText( ) ) );
+				}
+			}
+			bEnableEvents = true;
 			updatePreview( );
 		}
 

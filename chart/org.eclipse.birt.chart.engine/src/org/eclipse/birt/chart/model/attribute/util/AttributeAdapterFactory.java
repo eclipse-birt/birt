@@ -331,6 +331,12 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 		}
 
 		@Override
+		public Adapter caseStringFormatSpecifier( StringFormatSpecifier object )
+		{
+			return createStringFormatSpecifierAdapter( );
+		}
+
+		@Override
 		public Adapter caseStyle( Style object )
 		{
 			return createStyleAdapter( );
@@ -899,6 +905,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createSizeAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.StringFormatSpecifier <em>String Format Specifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.StringFormatSpecifier
+	 * @generated
+	 */
+	public Adapter createStringFormatSpecifierAdapter( )
 	{
 		return null;
 	}
