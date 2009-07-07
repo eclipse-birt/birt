@@ -307,7 +307,7 @@
 		-->
 
 		<delete includeemptydirs="true">
-			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.sdk*/**" />
+			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.birt.sdk*/**" />
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />		
 		</delete>
 		
@@ -401,7 +401,8 @@
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.cshelp}" token="@FEATURE.CHART.CSHELP@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.doc.isv}" token="@FEATURE.CHART.DOC.ISV@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.source}" token="@FEATURE.CHART.SOURCE@"/>	
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.source}" token="@FEATURE.CHART.SOURCE@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.osgi.runtime.sdk}" token="@FEATURE.OSGI.RUNTIME.SDK@"/>
 	</target>
 	
 	<target name="pushUpdateSiteLocal" if="createUpdateSite">
