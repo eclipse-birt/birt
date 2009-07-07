@@ -16,12 +16,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiFormat;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
+import org.eclipse.birt.report.data.oda.jdbc.bidi.BidiCallStatement;
+import org.eclipse.birt.report.data.oda.jdbc.bidi.BidiStatement;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
@@ -130,6 +136,9 @@ public class Connection implements IConnection
 		}
 		else
 		{
+			if (hasBidiProperties (connProperties)){
+				connProperties = bidiTransform (connProperties);
+			}
 			String url = connProperties.getProperty( Constants.ODAURL );
 			String jndiName = connProperties.getProperty( Constants.ODAJndiName );
 			
@@ -150,6 +159,20 @@ public class Connection implements IConnection
 			}
 			connectByUrl( url, connProperties );
 		}
+		updateAppContext (connProperties);
+	}
+	
+	private boolean hasBidiProperties(Properties connProperties) {
+		if ((connProperties.containsKey(BidiConstants.CONTENT_FORMAT_PROP_NAME)) ||
+			(connProperties.containsKey(BidiConstants.METADATA_FORMAT_PROP_NAME)))
+			return true;
+		return false;
+	}
+
+	private void updateAppContext(Properties connProperties) {
+		if (appContext == null)
+			appContext = new HashMap();
+		appContext.put(Constants.CONNECTION_PROPERTIES_STR, connProperties);
 	}
 	
 	/**
@@ -306,11 +329,31 @@ public class Connection implements IConnection
 		assertOpened( );
 		if ( dataSourceType != null
 				&& dataSourceType.equalsIgnoreCase( advancedDataType ) )
-			return new CallStatement( jdbcConn );
-		else
-			return new Statement( jdbcConn );
+			return createCallStatement( jdbcConn );
+		else 
+			return createStatement( jdbcConn );
 	}
 	
+	private IQuery createCallStatement(java.sql.Connection jdbcConn2) throws OdaException {
+		if ((appContext != null) &&
+				(appContext.get(Constants.CONNECTION_PROPERTIES_STR) != null)){
+				Properties props = (Properties)appContext.get(Constants.CONNECTION_PROPERTIES_STR);
+				if (hasBidiProperties(props))
+					return new BidiCallStatement(jdbcConn, props);
+			}
+			return new CallStatement( jdbcConn );
+	}
+
+	protected IQuery createStatement(java.sql.Connection jdbcConn) throws OdaException {
+		if ((appContext != null) &&
+			(appContext.get(Constants.CONNECTION_PROPERTIES_STR) != null)){
+			Properties props = (Properties)appContext.get(Constants.CONNECTION_PROPERTIES_STR);
+			if (hasBidiProperties(props))
+				return new BidiStatement(jdbcConn, props);
+		}
+		return new Statement( jdbcConn );
+	}
+
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#commit()
 	 */
@@ -439,6 +482,38 @@ public class Connection implements IConnection
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
+    
+    private Properties bidiTransform( Properties connectionProperties )
+	{
+		if ( connectionProperties == null )
+		{
+			return null;
+		}
+		Properties p = new Properties( );
+		String metadataBidiFormatStr = connectionProperties.getProperty(BidiConstants.METADATA_FORMAT_PROP_NAME);
+		if (!BidiFormat.isValidBidiFormat(metadataBidiFormatStr))
+			return connectionProperties;
+		
+		for ( Enumeration enumeration = connectionProperties.propertyNames( ); enumeration.hasMoreElements( ); )
+		{
+			String propName = (String) enumeration.nextElement( );
+			String propValue = connectionProperties.getProperty( propName );
+			if ( (Constants.ODAUser.equals( propName ) || Constants.ODAPassword.equals( propName ))
+					&& propValue != null )
+			{
+				p.put( propName, BidiTransform.transform( propValue, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr) );
+			}
+			else if (Constants.ODAURL.equals( propName ))
+			{
+				p.put( propName, BidiTransform.transformURL( propValue, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr) );
+			}
+			else
+			{
+				p.put( propName, propValue );
+			}
+		}
+		return p;
+	}
 
     /**
 	 *	define constants  ODAURL, ODAPassword, ODAUser, ODADriverClass, ODADataSource
@@ -458,6 +533,7 @@ public class Connection implements IConnection
 		public static final String TRANSACTION_READ_UNCOMMITTED = "read-uncommitted";
 		public static final String TRANSACTION_REPEATABLE_READ = "repeatable-read";
 		public static final String TRANSACTION_SERIALIZABLE = "serializable";
+		public static final String CONNECTION_PROPERTIES_STR = "connectionProperties";
 		
 		public static int getIsolationMode( String value )
 		{

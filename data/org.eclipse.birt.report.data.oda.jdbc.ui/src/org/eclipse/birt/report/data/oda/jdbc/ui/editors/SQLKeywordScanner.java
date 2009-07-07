@@ -14,6 +14,7 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ColorManager;
+import org.eclipse.birt.report.data.oda.jdbc.utils.ISQLSyntax;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
@@ -26,7 +27,7 @@ import org.eclipse.swt.SWT;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/02/01 10:58:58 $
+ * @version $Revision: 1.3 $ $Date: 2008/08/21 09:42:14 $
  */
 
 public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax

@@ -26,17 +26,13 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.ScrollBar;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.24 $ $Date: 2007/02/01 10:58:57 $
+ * @version $Revision: 1.25 $ $Date: 2008/08/04 07:55:18 $
  */
 public class Utility
 {

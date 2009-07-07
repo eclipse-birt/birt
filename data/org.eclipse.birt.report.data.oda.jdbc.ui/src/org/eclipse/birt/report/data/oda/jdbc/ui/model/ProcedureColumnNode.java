@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.model;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -47,10 +49,11 @@ public class ProcedureColumnNode implements IDBNode, Comparable<ProcedureColumnN
 		 */
 		return this.name.compareTo( o.name );
 	}
-
-	public String getDisplayName( )
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	public String getDisplayName( String metadataBidiFormatStr )
 	{
-		return name + " (" + type + ", " + mode + ")";
+		String bidiName = BidiTransform.transform(name, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+		return bidiName + " (" + type + ", " + mode + ")";
 	}
 
 	public Image getImage( )
@@ -63,7 +66,8 @@ public class ProcedureColumnNode implements IDBNode, Comparable<ProcedureColumnN
 	 * can't be part of a SQL text
 	 */
 	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema )
+			boolean includeSchema,
+			String metadataBidiFormatStr)
 	{
 		return null;
 	}

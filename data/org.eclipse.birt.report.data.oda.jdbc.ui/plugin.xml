@@ -80,5 +80,11 @@
             category="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"
             name="%preference.datasetpreview"
             id="org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage"/>
+         <page
+               category="org.eclipse.birt.report.designer.ui.preferences.BidiPropertiesPreferencePage"
+               class="org.eclipse.birt.report.data.oda.jdbc.ui.util.bidi.preference.JDBCDataSourcePreferencePage"
+               id="org.eclipse.birt.report.data.oda.jdbc.ui.util.bidi.preference.JDBCDataSourcePreferencePage"
+               name="%preference.bidi.datasource.title">
+         </page>
    </extension>
    </plugin>

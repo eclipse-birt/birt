@@ -17,7 +17,8 @@ public interface IDBNode
 	/**
 	 * @return display name of node in the DB available items tree
 	 */
-	String getDisplayName( );
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	String getDisplayName( String metadataBidiFormatStr );
 	
 
 	/**
@@ -25,8 +26,10 @@ public interface IDBNode
 	 * @return the full qualified name in a SQL text.
 	 *         <p>null if it can't be a part of SQL text.
 	 */
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
 	String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema );
+			boolean includeSchema,
+			String metadataBidiFormatStr );
 	
 	/**
 	 * @return image of node in the DB available items tree

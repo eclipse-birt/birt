@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.model;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
@@ -43,19 +45,20 @@ public class TableColumnNode implements IDBNode, Comparable<TableColumnNode>
 		this.tableName = tableName;
 		this.typeName = typeName;
 	}
-
-	public String getDisplayName( )
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	public String getDisplayName( String metadataBidiFormatStr )
 	{
-		return columnName + " (" + typeName + ")";
+		return BidiTransform.transform(columnName,metadataBidiFormatStr,BidiConstants.DEFAULT_BIDI_FORMAT_STR) + 
+			" (" + typeName + ")";
 	}
 
 	public Image getImage( )
 	{
 		return JFaceResources.getImage( COLUMN_ICON );
 	}
-	
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
 	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema )
+			boolean includeSchema, String metadataBidiFormatStr )
 	{
 		StringBuffer sb = new StringBuffer( );
 		String quoteFlag = "";
@@ -64,31 +67,23 @@ public class TableColumnNode implements IDBNode, Comparable<TableColumnNode>
 			quoteFlag = JdbcMetaDataProvider.getInstance( )
 					.getIdentifierQuoteString( );
 		}
+		//bidi_hcg: perform required Bidi transformations
+		String schemaNameStr = schemaName;
+		String tableNameStr = tableName;
+		String columnNameStr = columnName;
+
 		if ( includeSchema && schemaName != null )
 		{
-			sb.append( Utility.quoteString( schemaName, quoteFlag ) )
+			if (metadataBidiFormatStr != null){ 
+				schemaNameStr = BidiTransform.transform(schemaName,metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+				tableNameStr = BidiTransform.transform(tableNameStr,metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+				columnNameStr = BidiTransform.transform(columnNameStr,metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+			}
+			sb.append( Utility.quoteString( schemaNameStr, quoteFlag ) )
 					.append( "." );
 		}
-		sb.append( Utility.quoteString( tableName, quoteFlag ) ).append( "." );
-		sb.append( Utility.quoteString( columnName, quoteFlag ) );
-		return sb.toString( );
-	}
-
-	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString )
-	{
-		StringBuffer sb = new StringBuffer( );
-		String quoteFlag = "";
-		if ( useIdentifierQuoteString )
-		{
-			quoteFlag
-				= JdbcMetaDataProvider.getInstance( ).getIdentifierQuoteString( );
-		}
-		if ( schemaName != null )
-		{
-			sb.append( Utility.quoteString( schemaName, quoteFlag ) ).append( "." );
-		}
-		sb.append( Utility.quoteString( tableName, quoteFlag ) ).append( "." );
-		sb.append( Utility.quoteString( columnName, quoteFlag ) );
+		sb.append( Utility.quoteString( tableNameStr, quoteFlag ) ).append( "." );
+		sb.append( Utility.quoteString( columnNameStr, quoteFlag ) );
 		return sb.toString( );
 	}
 

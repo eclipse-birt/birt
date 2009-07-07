@@ -16,6 +16,7 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.profile;
 
 import java.util.Properties;
 
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.bidi.profile.BidiSettingsSupport;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage;
 import org.eclipse.swt.widgets.Composite;
 
@@ -31,6 +32,11 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage
 	 */
     private JDBCSelectionPageHelper m_pageHelper;
     private Properties m_folderProperties;
+    private BidiSettingsSupport bidiSupport = new BidiSettingsSupport(); //bidi_hcg 
+	
+	public BidiSettingsSupport getBidiSupport (){
+		return bidiSupport;
+	}
 
     public JDBCSelectionWizardPage( String pageName )
     {
@@ -46,7 +52,10 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage
         if( m_pageHelper == null )
             m_pageHelper = new JDBCSelectionPageHelper( this );
         m_pageHelper.createCustomControl( parent );
-        m_pageHelper.initCustomControl( m_folderProperties );   // in case init was called before create 
+        m_pageHelper.initCustomControl( m_folderProperties );   // in case init was called before create
+        //bidi_hcg: add "Bidi Settings..." button to "Edit Data Source dialog"
+        m_pageHelper.addBidiSettingsButton(parent, m_folderProperties); 
+       
         this.setPingButtonVisible( false );
     }
 

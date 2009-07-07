@@ -21,17 +21,18 @@ public class DBNodeUtil
 	private DBNodeUtil( )
 	{ 	
 	}
-	
-	public static void createRootTip( Tree tree, RootNode node )
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	public static void createRootTip( Tree tree, RootNode node, String metadataBidiFormatStr )
 	{
 		tree.removeAll( );
 		TreeItem root = new TreeItem( tree, SWT.NONE );
-		root.setText( node.getDisplayName( ) );
+		//bidi_hcg: pass value of metadataBidiFormatStr
+		root.setText( node.getDisplayName( metadataBidiFormatStr ) );
 		root.setImage( node.getImage( ) );
 		root.setData( node );
 	}
-	
-	public static void createTreeRoot( Tree tree, RootNode node, FilterConfig fc )
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	public static void createTreeRoot( Tree tree, RootNode node, FilterConfig fc, String metadataBidiFormatStr )
 	{
 		tree.removeAll( );
 		TreeItem dummyItem = new TreeItem( tree, SWT.NONE );
@@ -43,7 +44,7 @@ public class DBNodeUtil
 		}
 		tree.removeAll( );
 		TreeItem root = new TreeItem( tree, SWT.NONE );
-		root.setText( node.getDisplayName( ) );
+		root.setText( node.getDisplayName( null ) );
 		root.setImage( node.getImage( ) );
 		root.setData( node );
 		IDBNode[] children = node.getChildren( );
@@ -51,16 +52,18 @@ public class DBNodeUtil
 		{
 			for ( IDBNode child : children )
 			{
-				createTreeItem( root, child );
+				//bidi_hcg: pass value of metadataBidiFormatStr to child element
+				createTreeItem( root, child, metadataBidiFormatStr );
 			}
 		}
 		root.setExpanded( true );
 	}
-	
-	public static TreeItem createTreeItem( TreeItem parent, IDBNode node )
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	public static TreeItem createTreeItem( TreeItem parent, IDBNode node, String  metadataBidiFormatStr)
 	{
 		TreeItem item = new TreeItem( parent, SWT.NONE );
-		item.setText(  node.getDisplayName( ) );
+		//bidi_hcg: pass value of metadataBidiFormatStr
+		item.setText(  node.getDisplayName( metadataBidiFormatStr ) );
 		item.setImage( node.getImage( ) );
 		item.setData( node );
 		item.setExpanded( false );
@@ -74,7 +77,8 @@ public class DBNodeUtil
 				{
 					for ( IDBNode child : children )
 					{
-						createTreeItem( item, child );
+						//bidi_hcg: pass value of metadataBidiFormatStr
+						createTreeItem( item, child, metadataBidiFormatStr );
 					}
 				}
 			}

@@ -13,7 +13,10 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.ChildrenAllowedNode;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.DBNodeUtil;
@@ -29,7 +32,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.JFaceResources;
@@ -116,6 +121,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	String formerQueryTxt;
 	
 	private OdaConnectionProvider odaConnectionProvider;
+	
+	String metadataBidiFormatStr = null;              //bidi_hcg
 
 	/**
 	 * constructor
@@ -192,6 +199,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	public void createPageCustomControl( Composite parent )
 	{
 		this.dataSetDesign = this.getInitializationDesign( );
+		
+		//bidi_hcg: initialize value of metadataBidiFormatStr
+		try {
+			Properties connProps = DesignSessionUtil.getEffectiveDataSourceProperties(dataSetDesign.getDataSourceDesign());
+			metadataBidiFormatStr = connProps.getProperty(BidiConstants.METADATA_FORMAT_PROP_NAME);
+		}
+		catch (OdaException e){
+			metadataBidiFormatStr = null;
+		}
+
 		readPreferences( );
 		prepareJDBCMetaDataProvider( dataSetDesign );
 		this.odaConnectionProvider = new OdaConnectionProvider( dataSetDesign.getDataSourceDesign( ) );
@@ -359,7 +376,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		createSQLOptionGroup( tablescomposite );
 
 		addDragSupportToTree( );
-		addFetchDbObjectListener( );
+		//bidi_hcg: pass value of metadataBidiFormatStr
+		addFetchDbObjectListener( metadataBidiFormatStr );
 		return tablescomposite;
 	}
 
@@ -430,10 +448,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 							public void run( )
 							{
 								fc = populateFilterConfig( );
+								//bidi_hcg: pass value of metadataBidiFormatStr
 								DBNodeUtil.createTreeRoot( availableDbObjectsTree,
 										new RootNode( dataSetDesign.getDataSourceDesign( )
 												.getName( ) ),
-										fc );
+										fc, metadataBidiFormatStr);
 							}
 						} );
 			}
@@ -452,7 +471,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 				for ( String name : allSchemaNames )
 				{
-					schemaCombo.add( name );
+					schemaCombo.add( BidiTransform.transform(name, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR) );
 				}
 			}
 			schemaCombo.select( 0 );
@@ -466,16 +485,19 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( prefetchSchema )
 		{
 			fc = populateFilterConfig( );
+			//bidi_hcg: pass value of metadataBidiFormatStr
 			DBNodeUtil.createTreeRoot( availableDbObjectsTree,
 					new RootNode( dataSetDesign.getDataSourceDesign( )
 							.getName( ), allSchemaNames ),
-					fc );
+					fc, metadataBidiFormatStr );
 		}
 		else
 		{
+			//bidi_hcg: pass value of metadataBidiFormatStr
 			DBNodeUtil.createRootTip( availableDbObjectsTree,
 					new RootNode( dataSetDesign.getDataSourceDesign( )
-							.getName( ) ) );
+							.getName( ) ),
+					metadataBidiFormatStr);
 		}
 	}
 
@@ -500,6 +522,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( schemaCombo.isEnabled( ) && schemaCombo.getSelectionIndex( ) != 0 )
 		{
 			schemaName = schemaCombo.getText( );
+			schemaName = BidiTransform.transform(schemaName, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr);
 		}
 		Type type = getSelectedFilterType( );
 		String namePattern = searchTxt.getText( );
@@ -675,7 +698,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	/**
 	 * 
 	 */
-	private void addFetchDbObjectListener( )
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	private void addFetchDbObjectListener( final String metadataBidiFormatStr )
 	{
 
 		availableDbObjectsTree.addListener( SWT.Expand, new Listener( ) {
@@ -695,7 +719,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					 */
 					public void run( )
 					{
-						listChildren( event );
+						//bidi_hcg: pass value of metadataBidiFormatStr
+						listChildren( event, metadataBidiFormatStr );
 					}
 				} );
 			}
@@ -703,7 +728,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			/**
 			 * @param event
 			 */
-			private void listChildren( Event event )
+		 	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+			private void listChildren( Event event, String metadataBidiFormatStr )
 			{
 				TreeItem item = (TreeItem) event.item;
 				IDBNode node = (IDBNode) item.getData( );
@@ -713,12 +739,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					if ( !parent.isChildrenPrepared( ) )
 					{
 						item.removeAll( );
+						//bidi_hcg: pass value of metadataBidiFormatStr
 						parent.prepareChildren( fc );
 						if ( parent.getChildren( ) != null )
 						{
 							for ( IDBNode child : parent.getChildren( ) )
 							{
-								DBNodeUtil.createTreeItem( item, child );
+								//bidi_hcg: pass value of metadataBidiFormatStr to child element
+								DBNodeUtil.createTreeItem( item, child, metadataBidiFormatStr );
 							}
 						}
 					}
@@ -778,8 +806,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			for ( int i = 0; i < selection.length; i++ )
 			{
 				IDBNode dbNode = (IDBNode) selection[i].getData( );
+				//bidi_hcg: pass value of metadataBidiFormatStr
 				String sql = dbNode.getQualifiedNameInSQL( identifierQuoteStringCheckBox.getSelection( ),
-						includeSchemaCheckBox.getSelection( ) );
+						includeSchemaCheckBox.getSelection( ), metadataBidiFormatStr );
 				if ( sql != null )
 				{
 					data.append( sql ).append( "," );

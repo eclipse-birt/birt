@@ -37,14 +37,13 @@ public class ProcedureFlagNode extends ChildrenAllowedNode
 	}
 	
 	private String schemaName;
-
 	
 	public ProcedureFlagNode( String schemaName )
 	{
 		this.schemaName = schemaName;
 	}
 
-	public String getDisplayName( )
+	public String getDisplayName( String metadataBidiFormatStr )
 	{
 		return "STORED PROCEDURES";
 	}
@@ -58,7 +57,7 @@ public class ProcedureFlagNode extends ChildrenAllowedNode
 	 * Just a flag node, can't be part of a SQL text
 	 */
 	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema )
+			boolean includeSchema, String metadataBidiFormatStr )
 	{
 		return null;
 	}

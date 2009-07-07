@@ -29,6 +29,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.bidi.profile.BidiSettingsSupport;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -66,6 +67,8 @@ public class JDBCSelectionPageHelper
 {
     private WizardPage m_wizardPage;
     private PreferencePage m_propertyPage;
+    //bidi_hcg: Bidi Object containing Bidi formats definitions
+    private BidiSettingsSupport bidiSupportObj;
     
     private static final String EMPTY_STRING = ""; //$NON-NLS-1$
    
@@ -89,12 +92,16 @@ public class JDBCSelectionPageHelper
 	{
 		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "wizard.message.createDataSource" );
 		m_wizardPage = page;
+		if (page instanceof JDBCSelectionWizardPage) //bidi_hcg
+			bidiSupportObj = ((JDBCSelectionWizardPage)page).getBidiSupport();
 	}
 
 	JDBCSelectionPageHelper( PreferencePage page )
 	{
 		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "wizard.message.editDataSource" );
 		m_propertyPage = page;
+		if (page instanceof JDBCPropertyPage) //bidi_hcg
+			bidiSupportObj = ((JDBCPropertyPage)page).getBidiSupport();
 	}
 
     void createCustomControl( Composite parent )
@@ -114,7 +121,7 @@ public class JDBCSelectionPageHelper
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.driverClass" ) );//$NON-NLS-1$
 		driverChooserCombo = new ComboViewer( content, SWT.DROP_DOWN );
 		gridData = new GridData( );
-		gridData.horizontalSpan = 2;
+		gridData.horizontalSpan = 3;                     //bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
 		driverChooserCombo.getControl( ).setLayoutData( gridData );
 		//TODO
@@ -201,7 +208,7 @@ public class JDBCSelectionPageHelper
 
 		jdbcUrl = new Text( content, SWT.BORDER );
 		gridData = new GridData( );
-		gridData.horizontalSpan = 2;
+		gridData.horizontalSpan = 3;                 //bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		jdbcUrl.setLayoutData( gridData );
@@ -210,7 +217,7 @@ public class JDBCSelectionPageHelper
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.username" ) );//$NON-NLS-1$
 		userName = new Text( content, SWT.BORDER );
 		gridData = new GridData( );
-		gridData.horizontalSpan = 2;
+		gridData.horizontalSpan = 3;				//bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
 		userName.setLayoutData( gridData );
 
@@ -218,7 +225,7 @@ public class JDBCSelectionPageHelper
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.password" ) );//$NON-NLS-1$
 		password = new Text( content, SWT.BORDER | SWT.PASSWORD );
 		gridData = new GridData( );
-		gridData.horizontalSpan = 2;
+		gridData.horizontalSpan = 3;				//bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
 		password.setLayoutData( gridData );
 
@@ -227,7 +234,7 @@ public class JDBCSelectionPageHelper
         new Label( content, SWT.RIGHT ).setText( jndiLabel );
         jndiName = new Text( content, SWT.BORDER );
         gridData = new GridData( );
-        gridData.horizontalSpan = 2;
+        gridData.horizontalSpan = 3;				//bidi_hcg
         gridData.horizontalAlignment = SWT.FILL;
         jndiName.setLayoutData( gridData );
 
@@ -239,7 +246,6 @@ public class JDBCSelectionPageHelper
 
 		testButton = new Button( content, SWT.PUSH );
 		testButton.setText( JdbcPlugin.getResourceString( "wizard.label.testConnection" ) );//$NON-NLS-1$
-		//testButton.setLayoutData( new GridData( ) );
 		testButton.setLayoutData( new GridData( GridData.CENTER ) );
 		
 		addControlListeners( );
@@ -339,6 +345,8 @@ public class JDBCSelectionPageHelper
 				getODAPassword( ) );
         props.setProperty( Constants.ODAJndiName,
                 getODAJndiName( ) );
+        //bidi_hcg: add Bidi formats settings to props
+        props = bidiSupportObj.addBidiProperties(props);
 		return props;
     }
     
@@ -631,6 +639,19 @@ public class JDBCSelectionPageHelper
         String jndiNameValue = getODAJndiName();
         if( jndiNameValue.length() == 0 )
             jndiNameValue = null;
+        
+        //bidi_hcg: if we are running with Bidi settings, then testConnection 
+        //method should perform required Bidi treatment before actually trying to connect
+        if (bidiSupportObj == null) {
+	        if (m_wizardPage instanceof JDBCSelectionWizardPage){
+	        	bidiSupportObj = ((JDBCSelectionWizardPage)m_wizardPage).getBidiSupport();                               
+	        } else if (m_propertyPage instanceof JDBCPropertyPage){
+	        	bidiSupportObj = ((JDBCPropertyPage)m_propertyPage).getBidiSupport();
+	        }
+        }
+        if (bidiSupportObj != null){
+        	return DriverLoader.testConnection( driverName, url, jndiNameValue, userid, passwd, bidiSupportObj.getMetadataBidiFormat().toString() );
+        }
 
 		return DriverLoader.testConnection( driverName, url, jndiNameValue, userid, passwd );
 	}
@@ -850,6 +871,12 @@ public class JDBCSelectionPageHelper
         assert( m_propertyPage != null );
         return m_propertyPage.getControl();
     }
+
+    //bidi_hcg
+	public void addBidiSettingsButton(Composite parent,
+			Properties props) {
+		bidiSupportObj.drawBidiSettingsButton(parent, props);
+	}
 
 }
     

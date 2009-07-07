@@ -23,6 +23,8 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -213,7 +215,7 @@ public class RootNode extends ChildrenAllowedNode
 			
 			++count;
 		}
-		if ( result.size( ) == 1 && result.get( 0 ).getDisplayName( ) == null )
+		if ( result.size( ) == 1 && result.get( 0 ).getSchemaName( ) == null )
 		{
 			//not support schema;
 			return result.get( 0 ).getChildren( );
@@ -279,10 +281,10 @@ public class RootNode extends ChildrenAllowedNode
 		}
 		return result;
 	}
-
-	public String getDisplayName( )
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	public String getDisplayName( String metadataBidiFormatStr )
 	{
-		return dataSourceName;
+		return BidiTransform.transform(dataSourceName, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
 	}
 
 	public Image getImage( )
@@ -294,7 +296,7 @@ public class RootNode extends ChildrenAllowedNode
 	 * Can't be a part of SQL text
 	 */
 	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema )
+			boolean includeSchema, String metadataBidiFormatStr )
 	{
 		return null;
 	}

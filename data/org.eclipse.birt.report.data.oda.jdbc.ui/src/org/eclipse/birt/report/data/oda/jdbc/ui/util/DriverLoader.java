@@ -12,11 +12,13 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.StringCharacterIterator;
-import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
+import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
+import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 
 public final class DriverLoader
 {
@@ -118,6 +120,17 @@ public final class DriverLoader
 		return JDBCDriverManager.getInstance().testConnection( driverClassName, 
                 connectionString, jndiNameUrl, userId, password );
 	}
-    
+   	//bidi_hcg: if Bidi format is defined - perform required Bidi transformations
+   	//on connection properties before testing the connection
+    public static boolean testConnection( String driverClassName,
+            String connectionString, String jndiNameUrl, String userId,
+            String password, String bidiFormatStr ) throws OdaException {
+    	
+    	userId = BidiTransform.transform(userId, BidiConstants.DEFAULT_BIDI_FORMAT_STR, bidiFormatStr);
+    	password = BidiTransform.transform(password, BidiConstants.DEFAULT_BIDI_FORMAT_STR, bidiFormatStr);
+    	connectionString = BidiTransform.transformURL(connectionString, BidiConstants.DEFAULT_BIDI_FORMAT_STR, bidiFormatStr);
+    	
+    	return testConnection(driverClassName, connectionString, jndiNameUrl,userId, password);
+    }
 }
 

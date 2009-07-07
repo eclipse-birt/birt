@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
@@ -93,19 +95,20 @@ public class SchemaNode extends ChildrenAllowedNode
 	{
 		return schemaName.compareTo( o.schemaName );
 	}
-
-	public String getDisplayName( )
+	
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	public String getDisplayName( String metadataBidiFormatStr )
 	{
-		return schemaName;
+		return BidiTransform.transform(schemaName, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR) ;
 	}
 
 	public Image getImage( )
 	{
 		return JFaceResources.getImageRegistry( ).get( SCHEMA_ICON );
 	}
-
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
 	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema )
+			boolean includeSchema, String metadataBidiFormatStr )
 	{
 		String quoteFlag = "";
 		if ( useIdentifierQuoteString )
@@ -113,7 +116,16 @@ public class SchemaNode extends ChildrenAllowedNode
 			quoteFlag = JdbcMetaDataProvider.getInstance( )
 					.getIdentifierQuoteString( );
 		}
-		return Utility.quoteString( schemaName, quoteFlag );
+		//bidi_hcg: pass value of metadataBidiFormatStr
+		return Utility.quoteString( BidiTransform.transform(schemaName, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR), quoteFlag );
 	}
 
+	
+	/**
+	 * @return the schemaName
+	 */
+	public String getSchemaName( )
+	{
+		return schemaName;
+	}
 }

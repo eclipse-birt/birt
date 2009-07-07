@@ -19,6 +19,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.ConnectionMetaDataManager;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Schema;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Table;
+import org.eclipse.birt.report.data.oda.jdbc.utils.ISQLSyntax;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
@@ -37,7 +38,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.16 $ $Date: 2008/08/04 07:55:17 $
+ * @version $Revision: 1.17 $ $Date: 2008/08/21 09:42:14 $
  */
 
 public class JdbcSQLContentAssistProcessor implements

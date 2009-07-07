@@ -22,6 +22,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -67,6 +69,15 @@ public class JdbcMetaDataProvider
 		String password = props.getProperty( Constants.ODAPassword );
 		String url = props.getProperty( Constants.ODAURL );
 		String driverClass = props.getProperty( Constants.ODADriverClass );
+		
+     	//bidi_hcg: if Bidi format is defined - perform required Bidi transformations
+		String metadataBidiFormatStr = props.getProperty(BidiConstants.METADATA_FORMAT_PROP_NAME);
+		if (metadataBidiFormatStr != null){
+			userName = BidiTransform.transform(userName, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr);
+			password = BidiTransform.transform(password, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr);
+			url = BidiTransform.transformURL(url, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr);
+		}
+		
 		instance = new JdbcMetaDataProvider( driverClass, url, userName, password);
 	}
 	

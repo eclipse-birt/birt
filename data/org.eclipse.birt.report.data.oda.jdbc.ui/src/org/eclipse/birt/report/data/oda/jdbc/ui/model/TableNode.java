@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
@@ -51,10 +53,10 @@ public class TableNode extends ChildrenAllowedNode implements Comparable<TableNo
 		this.isView = isView;
 	}
 
-
-	public String getDisplayName( )
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
+	public String getDisplayName( String metadataBidiFormatStr)
 	{
-		return tableName;
+		return BidiTransform.transform(tableName, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR );
 	}
 
 	public Image getImage( )
@@ -70,9 +72,9 @@ public class TableNode extends ChildrenAllowedNode implements Comparable<TableNo
 		 */
 		return this.tableName.compareTo( o.tableName );
 	}
-
+	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
 	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema )
+			boolean includeSchema, String metadataBidiFormatStr )
 	{
 		StringBuffer sb = new StringBuffer( );
 		String quoteFlag = "";
@@ -81,11 +83,16 @@ public class TableNode extends ChildrenAllowedNode implements Comparable<TableNo
 			quoteFlag
 				= JdbcMetaDataProvider.getInstance( ).getIdentifierQuoteString( );
 		}
+		//bidi_hcg: perform Bidi transformations on schema and table names
+		String schemaNameStr = schemaName;
+		String tableNameStr = tableName;
 		if ( includeSchema && schemaName != null )
 		{
-			sb.append( Utility.quoteString( schemaName, quoteFlag ) ).append( "." );
+			schemaNameStr = BidiTransform.transform(schemaName,metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+			sb.append( Utility.quoteString( schemaNameStr, quoteFlag ) ).append( "." );
 		}
-		sb.append( Utility.quoteString( tableName, quoteFlag ) );
+		tableNameStr = BidiTransform.transform(tableNameStr,metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+		sb.append( Utility.quoteString( tableNameStr, quoteFlag ) );
 		return sb.toString( );
 	}
 
