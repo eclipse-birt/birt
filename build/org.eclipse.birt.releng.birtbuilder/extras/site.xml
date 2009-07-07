@@ -34,4 +34,9 @@
         </feature>
         <category-def label="BIRT 2.5 Charting SDK" name="Chart">
         </category-def>
+        <feature url="features/org.eclipse.birt.osgi.runtime.sdk_@FEATURE.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="@FEATURE.OSGI.RUNTIME.SDK@">
+                <category name="OSGi" />
+        </feature>
+        <category-def label="BIRT 2.5 Engine OSGi Runtime SDK" name="OSGi">
+        </category-def>
 </site>
