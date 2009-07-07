@@ -18,8 +18,10 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
@@ -48,6 +50,13 @@ public class ReloadImageAction extends AbstractViewAction
 			if ( uri != null )
 			{
 				String imageUri = (String) uri.getExpression( );
+				if ( ExpressionType.JAVASCRIPT.equals( uri.getType( ) ) )
+				{
+					if ( imageUri != null )
+					{
+						imageUri = DEUtil.removeQuote( imageUri );
+					}
+				}
 				if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals( image.getSource( ) ) )
 				{
 					try
