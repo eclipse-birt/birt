@@ -20,7 +20,9 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification.ParameterIdentifier;
 import org.eclipse.datatools.connectivity.oda.spec.manifest.ExtensionContributor;
 import org.eclipse.datatools.connectivity.oda.spec.manifest.ResultExtensionExplorer;
+import org.eclipse.datatools.connectivity.oda.spec.result.FilterExpression;
 import org.eclipse.datatools.connectivity.oda.spec.util.QuerySpecificationHelper;
+import org.eclipse.datatools.connectivity.oda.spec.util.ValidatorUtil;
 
 /**
  * Internal helper class to locate the appropriate ODA QuerySpecification factory and 
@@ -106,6 +108,21 @@ public class QuerySpecHelper
             paramIdentifier = querySpec.new ParameterIdentifier( paramHint.getPosition() );
             
         querySpec.setParameterValue( paramIdentifier, inputValue );                    
+    }
+    
+    /**
+     * Indicates whether the specified FilterExpression is identified as one of the cause(s) in the specified 
+     * exception caught while preparing or executing an ODA query.
+     * @param filterExpr    a filter expression whose processing might have caused an exception
+     * @param dataEx        the exception caught while preparing or executing an ODA query
+     * @return  true if the specified FilterExpression is one of the cause(s) in the exception; false otherwise
+     */
+    public static boolean isInvalidFilterExpression( FilterExpression filterExpr, DataException dataEx )
+    {
+        if( dataEx == null || ! (dataEx.getCause() instanceof OdaException) )
+            return false;
+        
+        return ValidatorUtil.isInvalidFilterExpression( filterExpr, (OdaException)dataEx.getCause() );
     }
     
 }

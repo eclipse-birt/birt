@@ -171,7 +171,7 @@ class Driver
 		throws DataException
 	{
 		sm_logger.logp( Level.SEVERE, sm_className, methodName,
-			"Cannot process data source extension configuration.", cause ); //$NON-NLS-1$
+			"Cannot find or process the ODA data source extension configuration.", cause ); //$NON-NLS-1$
 		
 		throw new DataException( ResourceConstants.CANNOT_PROCESS_DRIVER_CONFIG, cause, 
 			new Object[] { dataSourceDriverId } );	
