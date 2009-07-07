@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.MapPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PageBreakPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.StylePreferenceNode;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.core.runtime.IStatus;
@@ -56,6 +57,8 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
@@ -73,6 +76,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * Presents style builder dialog.
@@ -122,18 +126,46 @@ public class StyleBuilder extends PreferenceDialog
 
 	protected TreeViewer createTreeViewer( Composite parent )
 	{
-		Tree tree = new Tree( parent, SWT.FULL_SELECTION
+		final Tree tree = new Tree( parent, SWT.FULL_SELECTION
 				| SWT.SINGLE
-				| SWT.HIDE_SELECTION );
+				| SWT.HIDE_SELECTION
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL );
 
 		// configure the widget
-		tree.setLinesVisible( false );
+		// tree.setLinesVisible( false );
 		tree.setHeaderVisible( false );
-		TreeColumn[] columns = new TreeColumn[2];
+		columns = new TreeColumn[2];
 		columns[0] = new TreeColumn( tree, SWT.LEFT );
 		columns[0].setWidth( 0 );
 		columns[1] = new TreeColumn( tree, SWT.LEFT );
-		columns[1].setWidth( 100 );
+		columns[1].setWidth( getLastRightWidth( ) );
+		tree.addControlListener( new ControlAdapter( ) {
+
+			public void controlResized( ControlEvent e )
+			{
+				TreeItem[] items = viewer.getTree( ).getItems( );
+
+				if ( items != null )
+				{
+
+					String[] itemContents = new String[items.length];
+					for ( int i = 0; i < items.length; i++ )
+					{
+						itemContents[i] = items[i].getText( 1 );
+					}
+
+					int maxString = UIUtil.getMaxStringWidth( itemContents,
+							tree );
+
+					maxString += ( 16 + 16 );
+
+					columns[1].setWidth( maxString > getLastRightWidth( ) ? maxString
+							: getLastRightWidth( ) );
+				}
+			}
+
+		} );
 		viewer = new TreeViewer( tree );
 		addListeners( viewer );
 		viewer.setLabelProvider( new PreferenceTreeLabelProvider( ) );
@@ -144,7 +176,9 @@ public class StyleBuilder extends PreferenceDialog
 	public void refreshPagesStatus( )
 	{
 		if ( viewer != null )
+		{
 			viewer.refresh( );
+		}
 	}
 
 	/*
@@ -683,6 +717,8 @@ public class StyleBuilder extends PreferenceDialog
 	private TreeViewer viewer;
 
 	private Composite dialogTitleArea;
+
+	private TreeColumn[] columns;
 
 	public boolean isTitleImageLargest( )
 	{
