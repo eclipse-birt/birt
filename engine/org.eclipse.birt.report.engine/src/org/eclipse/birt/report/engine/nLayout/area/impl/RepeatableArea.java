@@ -57,7 +57,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 					{
 						ContainerArea row = (ContainerArea) repeatList.get( i );
 						ContainerArea cloneRow = row.deepClone( );
-						if(i==0 && cloneRow instanceof RowArea)
+						if ( cloneRow instanceof RowArea )
 						{
 							((RowArea)cloneRow).needResolveBorder = true;
 						}

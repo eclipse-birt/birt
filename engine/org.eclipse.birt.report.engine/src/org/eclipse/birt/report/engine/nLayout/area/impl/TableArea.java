@@ -198,24 +198,41 @@ public class TableArea extends RepeatableArea
 			return;
 		}
 		ReportContent report = (ReportContent) content.getReportContent( );
+		IRowContent row = report.createRowContent( );
+		row.setParent( content );
+		ICellContent cell = report.createCellContent( );
+		cell.setColSpan( getColumnCount( ) );
+		cell.setColumn( 0 );
+		StyleDeclaration cstyle = new StyleDeclaration( report.getCSSEngine( ) );
+		cstyle.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.HIDDEN_VALUE );
+		cstyle
+				.setProperty( IStyle.STYLE_BORDER_LEFT_STYLE,
+						IStyle.HIDDEN_VALUE );
+		cstyle.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE,
+				IStyle.HIDDEN_VALUE );
+		cell.setInlineStyle( cstyle );
+		cell.setParent( row );
 		ILabelContent captionLabel = report.createLabelContent( );
+		captionLabel.setParent( cell );
 		captionLabel.setText( caption );
 		StyleDeclaration style = new StyleDeclaration( report.getCSSEngine( ) );
 		style.setProperty( IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE );
 		captionLabel.setInlineStyle( style );
-		RowArea captionRow = new RowArea( getColumnCount( ) );
+		RowArea captionRow = new RowArea( this, context, row );
 		captionRow.setParent( this );
 		captionRow.setWidth( width );
-		CellArea captionCell = new CellArea( );
-		captionCell.setColSpan( getColumnCount( ) );
+		captionRow.initialize( );
+		CellArea captionCell = new CellArea( captionRow, context, cell );
 		captionCell.setWidth( width );
 		captionCell.setMaxAvaWidth( width );
+		captionCell.initialize( );
 		captionRow.children.add( captionCell );
 		ILayout layout = new BlockTextArea( captionCell, context, captionLabel );
 		layout.layout( );
 		int h = ( (BlockContainerArea) layout ).getAllocatedHeight( );
 		captionCell.setContentHeight( h );
 		captionRow.setHeight( captionCell.getAllocatedHeight( ) );
+		captionRow.finished = true;
 		add( captionRow );
 		if ( repeatList == null )
 		{
