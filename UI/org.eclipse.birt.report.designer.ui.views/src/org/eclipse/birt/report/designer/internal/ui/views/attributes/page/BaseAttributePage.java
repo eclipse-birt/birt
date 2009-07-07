@@ -165,6 +165,8 @@ public class BaseAttributePage extends TabPage
 		infoPane.layout( );
 	}
 
+	private TabPage oldPage = null;
+
 	/**
 	 * When selection changed in the category list, re-sets the top-level
 	 * category pane correspond to the current selected category.
@@ -188,17 +190,21 @@ public class BaseAttributePage extends TabPage
 			return;
 		}
 
-		if ( page instanceof AttributePage )
+		if ( oldPage != page )
 		{
-			Object adapter = ( (AttributePage) page ).getAdapter( IAction.class );
-			if ( adapter instanceof IAction[] )
-				title.setActions( (IAction[]) adapter );
+			if ( page instanceof AttributePage )
+			{
+				Object adapter = ( (AttributePage) page ).getAdapter( IAction.class );
+				if ( adapter instanceof IAction[] )
+					title.setActions( (IAction[]) adapter );
+				else
+					title.setActions( null );
+			}
 			else
 				title.setActions( null );
+			showPage( page );
+			oldPage = page;
 		}
-		else
-			title.setActions( null );
-		showPage( page );
 	}
 
 	private void showPage( TabPage page )
