@@ -87,7 +87,9 @@ public interface IChartType
 	 *            needed to be performed by each implementation.
 	 * @return true if this chart type can adapt the specified model to its own
 	 *         type. false if it cannot.
+	 * @deprecated do not use any more
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean canAdapt( Chart cModel, Hashtable htModelHints );
 
 	/**
@@ -137,6 +139,7 @@ public interface IChartType
 	/**
 	 * Returns the help information.
 	 * 
+	 * @deprecated do not use any more
 	 */
 	public IHelpContent getHelp( );
 
@@ -147,7 +150,7 @@ public interface IChartType
 	 * @param selectDataUI
 	 * @param context
 	 * @param sTitle
-	 * @return UI componnet
+	 * @return UI component
 	 * @since 2.0
 	 */
 	public ISelectDataComponent getBaseUI( Chart chart,
