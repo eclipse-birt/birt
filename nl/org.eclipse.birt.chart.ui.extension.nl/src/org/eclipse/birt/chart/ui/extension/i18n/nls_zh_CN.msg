@@ -509,6 +509,7 @@ ExternalizedTextEditorDialog.Warn.KeyNotFound=ÎŞ·¨ÔÚÊôĞÔÎÄ¼şÖĞÕÒµ½¹Ø¼ü×Ö...»òÕßÊ
 ExternalizedTextEditorDialog.Lbl.Value=<¼üÖµ ''{0}''>
 
 Format.Button.Label=¸ñÊ½
+Format.Button.Lbl&=For&mat
 FormatSpecifierComposite.error.Title=¸ñÊ½ËµÃ÷·û´íÎó
 FormatSpecifierComposite.error.Message=ÎŞĞ§µÄ¸ñÊ½ËµÃ÷·û²ÎÊıÖµ: "{0}"
 FormatSpecifierComposite.Lbl.DataType=Êı¾İÀàĞÍ(&D):
@@ -516,10 +517,12 @@ FormatSpecifierComposite.Lbl.DateTime=ÈÕÆÚ/Ê±¼ä
 FormatSpecifierComposite.Lbl.Undefined=ÎŞ(&N)
 FormatSpecifierComposite.Lbl.Numerator=Ã¶¾ÙÖµ(&V)(1-100):
 FormatSpecifierComposite.Lbl.Standard=±ê×¼(&S)
+FormatSpecifierComposite.Lbl.String=String
 FormatSpecifierComposite.Lbl.Type=ÀàĞÍ(&Y): 
 FormatSpecifierComposite.Lbl.None=<ÎŞ>
 FormatSpecifierComposite.Lbl.Details=ÏêÏ¸ĞÅÏ¢(&E):
 FormatSpecifierComposite.Lbl.Delimiter=·Ö¸ô·û(&E):
+FormatSpecifierComposite.Lbl.Pattern=Pattern:
 FormatSpecifierComposite.Lbl.Prefix=Ç°×º(&P):
 FormatSpecifierComposite.Lbl.Preview=Ô¤ÀÀ:
 FormatSpecifierComposite.Lbl.Approximate=½üËÆ(&R):
@@ -535,6 +538,7 @@ FormatSpecifierComposite.Lbl.Fraction=·ÖÊı(&F)
 FormatSpecifierDialog.Title.EditFormat=±à¼­¸ñÊ½
 FormatSpecifierComposite.Lbl.Advanced=¸ß¼¶(&A)
 FormatSpecifierComposite.Lbl.DatePattern=Ä£Ê½(&P):
+FormatSpecifierComposite.Lbl.ExampleFormats=Example Formats:
 FormatSpecifierComposite.Lbl.NumberPattern=Ä£Ê½(&P):
 FormatSpecifierPreview.Lbl.NotAvailable=²»¿ÉÓÃ
 GridAttributesComposite.Lbl.Ticks=¿Ì¶ÈÏß
@@ -910,7 +914,7 @@ MarkerIconDialog.Exception.InvalidURL=ÎŞĞ§µÄ URL£¬Çë¸üÕı¡£
 
 exception.data.DataBindingsAreNull=Ò»¸ö»ò¶à¸öÊı¾İ°ó¶¨Îª¿Õ\!
 
-DialLabelSheet.Label.Format=¸ñÊ½(&M):
+DialLabelSheet.Label.Format=¸ñÊ½:
 
 ImageDialog.label.SelectImageType=Ñ¡ÔñÍ¼ÏñÀàĞÍ:
 ImageDialog.label.URLImage=URL Í¼Ïñ(&U)

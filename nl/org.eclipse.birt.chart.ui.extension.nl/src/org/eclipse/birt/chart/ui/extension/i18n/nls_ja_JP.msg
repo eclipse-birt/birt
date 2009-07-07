@@ -509,6 +509,7 @@ ExternalizedTextEditorDialog.Warn.KeyNotFound=キーがプロパティファイルにないか、
 ExternalizedTextEditorDialog.Lbl.Value=<キーの値 ''{0}''>
 
 Format.Button.Label=書式
+Format.Button.Lbl&=For&mat
 FormatSpecifierComposite.error.Title=書式指定子のエラー
 FormatSpecifierComposite.error.Message=無効な書式指定子のパラメタ値 : "{0}"
 FormatSpecifierComposite.Lbl.DataType=データ型 (&D):
@@ -516,10 +517,12 @@ FormatSpecifierComposite.Lbl.DateTime=日付 / 時間
 FormatSpecifierComposite.Lbl.Undefined=なし(&N)
 FormatSpecifierComposite.Lbl.Numerator=分子の値(&V)(1 ～ 100):
 FormatSpecifierComposite.Lbl.Standard=標準(&S)
+FormatSpecifierComposite.Lbl.String=String
 FormatSpecifierComposite.Lbl.Type=型 (&Y):
 FormatSpecifierComposite.Lbl.None=<なし>
 FormatSpecifierComposite.Lbl.Details=詳細 (&E):
 FormatSpecifierComposite.Lbl.Delimiter=区切り文字 (&E):
+FormatSpecifierComposite.Lbl.Pattern=Pattern:
 FormatSpecifierComposite.Lbl.Prefix=接頭辞 (&P):
 FormatSpecifierComposite.Lbl.Preview=プレビュー :
 FormatSpecifierComposite.Lbl.Approximate=近似 (&R):
@@ -535,6 +538,7 @@ FormatSpecifierComposite.Lbl.Fraction=分数(&F)
 FormatSpecifierDialog.Title.EditFormat=書式の編集
 FormatSpecifierComposite.Lbl.Advanced=詳細設定(&A)
 FormatSpecifierComposite.Lbl.DatePattern=パターン (&P):
+FormatSpecifierComposite.Lbl.ExampleFormats=Example Formats:
 FormatSpecifierComposite.Lbl.NumberPattern=パターン (&P):
 FormatSpecifierPreview.Lbl.NotAvailable=使用できません。
 GridAttributesComposite.Lbl.Ticks=目盛を付ける
@@ -910,7 +914,7 @@ MarkerIconDialog.Exception.InvalidURL=URL が無効です。修正してください。
 
 exception.data.DataBindingsAreNull=1 つまたは複数のデータバインドが NULL です。
 
-DialLabelSheet.Label.Format=書式(&M) :
+DialLabelSheet.Label.Format=書式 :
 
 ImageDialog.label.SelectImageType=イメージの種類を選択 :
 ImageDialog.label.URLImage=URL イメージ(&U)

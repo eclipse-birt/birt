@@ -509,6 +509,7 @@ ExternalizedTextEditorDialog.Warn.KeyNotFound=Schlüssel in Eigenschaftendatei ni
 ExternalizedTextEditorDialog.Lbl.Value=<Wert von Schlüssel ''{0}''>
 
 Format.Button.Label=Format
+Format.Button.Lbl&=For&mat
 FormatSpecifierComposite.error.Title=Formatbezeichner-Fehler
 FormatSpecifierComposite.error.Message=Ungültiger Formatbezeichner-Parameterwert: "{0}"
 FormatSpecifierComposite.Lbl.DataType=&Datentyp:
@@ -516,10 +517,12 @@ FormatSpecifierComposite.Lbl.DateTime=Datum/Uhrzeit
 FormatSpecifierComposite.Lbl.Undefined=&Keine
 FormatSpecifierComposite.Lbl.Numerator=Zähler&wert (1-100):
 FormatSpecifierComposite.Lbl.Standard=&Standard
+FormatSpecifierComposite.Lbl.String=String
 FormatSpecifierComposite.Lbl.Type=T&yp:
 FormatSpecifierComposite.Lbl.None=<Keine>
 FormatSpecifierComposite.Lbl.Details=Einz&elheiten:
 FormatSpecifierComposite.Lbl.Delimiter=Tr&ennzeichen:
+FormatSpecifierComposite.Lbl.Pattern=Pattern:
 FormatSpecifierComposite.Lbl.Prefix=Präfi&x:
 FormatSpecifierComposite.Lbl.Preview=Vorschau:
 FormatSpecifierComposite.Lbl.Approximate=&Ungefähr:
@@ -535,6 +538,7 @@ FormatSpecifierComposite.Lbl.Fraction=&Bruch
 FormatSpecifierDialog.Title.EditFormat=Format bearbeiten
 FormatSpecifierComposite.Lbl.Advanced=&Erweitert
 FormatSpecifierComposite.Lbl.DatePattern=&Zusammengesetzter Ausdruck:
+FormatSpecifierComposite.Lbl.ExampleFormats=Example Formats:
 FormatSpecifierComposite.Lbl.NumberPattern=&Zusammengesetzter Ausdruck:
 FormatSpecifierPreview.Lbl.NotAvailable=Nicht verfügbar
 GridAttributesComposite.Lbl.Ticks=Häkchen
@@ -910,7 +914,7 @@ MarkerIconDialog.Exception.InvalidURL=Ungültige URL, bitte korrigieren.
 
 exception.data.DataBindingsAreNull=Mindestens eine Datenbindung lautet "Null"\!
 
-DialLabelSheet.Label.Format=For&mat:
+DialLabelSheet.Label.Format=Format:
 
 ImageDialog.label.SelectImageType=Bildtyp auswählen:
 ImageDialog.label.URLImage=&URL-Bild

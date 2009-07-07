@@ -509,6 +509,7 @@ ExternalizedTextEditorDialog.Warn.KeyNotFound=No se ha encontrado la clave en el
 ExternalizedTextEditorDialog.Lbl.Value=<Valor de clave ''{0}''>
 
 Format.Button.Label=Formato
+Format.Button.Lbl&=For&mat
 FormatSpecifierComposite.error.Title=Error de especificador de formato
 FormatSpecifierComposite.error.Message=Valor del parámetro de especificador de formato no válido: "{0}"
 FormatSpecifierComposite.Lbl.DataType=Tipo de &datos:
@@ -516,10 +517,12 @@ FormatSpecifierComposite.Lbl.DateTime=Fecha/hora
 FormatSpecifierComposite.Lbl.Undefined=&Ninguno
 FormatSpecifierComposite.Lbl.Numerator=&Valor del numerador (1-100):
 FormatSpecifierComposite.Lbl.Standard=&Estándar
+FormatSpecifierComposite.Lbl.String=String
 FormatSpecifierComposite.Lbl.Type=Ti&po:
 FormatSpecifierComposite.Lbl.None=<Ninguno>
 FormatSpecifierComposite.Lbl.Details=D&etalles:
 FormatSpecifierComposite.Lbl.Delimiter=D&elimitador:
+FormatSpecifierComposite.Lbl.Pattern=Pattern:
 FormatSpecifierComposite.Lbl.Prefix=&Prefijo:
 FormatSpecifierComposite.Lbl.Preview=Vista previa:
 FormatSpecifierComposite.Lbl.Approximate=Ap&roximado:
@@ -535,6 +538,7 @@ FormatSpecifierComposite.Lbl.Fraction=&Fracción
 FormatSpecifierDialog.Title.EditFormat=Editar formato
 FormatSpecifierComposite.Lbl.Advanced=&Avanzado
 FormatSpecifierComposite.Lbl.DatePattern=&Patrón:
+FormatSpecifierComposite.Lbl.ExampleFormats=Example Formats:
 FormatSpecifierComposite.Lbl.NumberPattern=&Patrón:
 FormatSpecifierPreview.Lbl.NotAvailable=No disponible
 GridAttributesComposite.Lbl.Ticks=Marcas
@@ -910,7 +914,7 @@ MarkerIconDialog.Exception.InvalidURL=URL no válida, corríjala.
 
 exception.data.DataBindingsAreNull=Uno o varios enlaces de datos son nulos.
 
-DialLabelSheet.Label.Format=F&ormato:
+DialLabelSheet.Label.Format=Formato:
 
 ImageDialog.label.SelectImageType=Seleccionar tipo de imagen:
 ImageDialog.label.URLImage=Imagen de &URL

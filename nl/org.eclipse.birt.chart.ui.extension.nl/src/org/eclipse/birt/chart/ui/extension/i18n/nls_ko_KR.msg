@@ -509,6 +509,7 @@ ExternalizedTextEditorDialog.Warn.KeyNotFound=속성 파일에서 키를 찾을 수 없거나 
 ExternalizedTextEditorDialog.Lbl.Value=<키 ''{0}''의 값>
 
 Format.Button.Label=서식
+Format.Button.Lbl&=For&mat
 FormatSpecifierComposite.error.Title=형식 지정자 오류
 FormatSpecifierComposite.error.Message=잘못된 형식 지정자 매개 변수 값: "{0}"
 FormatSpecifierComposite.Lbl.DataType=데이터 형식(&D):
@@ -516,10 +517,12 @@ FormatSpecifierComposite.Lbl.DateTime=날짜/시간
 FormatSpecifierComposite.Lbl.Undefined=없음(&N)
 FormatSpecifierComposite.Lbl.Numerator=분자 값(1-100)(&V):
 FormatSpecifierComposite.Lbl.Standard=표준(&S)
+FormatSpecifierComposite.Lbl.String=String
 FormatSpecifierComposite.Lbl.Type=형식(&Y):
 FormatSpecifierComposite.Lbl.None=<없음>
 FormatSpecifierComposite.Lbl.Details=상세 정보(&E):
 FormatSpecifierComposite.Lbl.Delimiter=구분 기호(&E):
+FormatSpecifierComposite.Lbl.Pattern=Pattern:
 FormatSpecifierComposite.Lbl.Prefix=접두사(&P):
 FormatSpecifierComposite.Lbl.Preview=미리 보기:
 FormatSpecifierComposite.Lbl.Approximate=근사값(&R):
@@ -535,6 +538,7 @@ FormatSpecifierComposite.Lbl.Fraction=분수(&F)
 FormatSpecifierDialog.Title.EditFormat=형식 편집
 FormatSpecifierComposite.Lbl.Advanced=고급(&A)
 FormatSpecifierComposite.Lbl.DatePattern=패턴(&P):
+FormatSpecifierComposite.Lbl.ExampleFormats=Example Formats:
 FormatSpecifierComposite.Lbl.NumberPattern=패턴(&P):
 FormatSpecifierPreview.Lbl.NotAvailable=사용할 수 없음
 GridAttributesComposite.Lbl.Ticks=틱
@@ -910,7 +914,7 @@ MarkerIconDialog.Exception.InvalidURL=잘못된 URL입니다. 올바른 URL을 입력하십시�
 
 exception.data.DataBindingsAreNull=하나 이상의 데이터 바인딩이 널(null)입니다\!
 
-DialLabelSheet.Label.Format=서식(&M):
+DialLabelSheet.Label.Format=형식:
 
 ImageDialog.label.SelectImageType=이미지 형식 선택:
 ImageDialog.label.URLImage=URL 이미지(&U)
