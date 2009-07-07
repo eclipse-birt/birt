@@ -1769,7 +1769,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			defaultValue.setText( expr == null || expr.getExpression( ) == null
 					? "" : (String) expr.getExpression( ) );
 			defaultValue.setData( DataUIConstants.EXPR_TYPE, expr == null
-					|| expr.getType( ) == null ? null : (String) expr.getType( ) );
+					|| expr.getType( ) == null ? UIUtil.getDefaultScriptType( ) : (String) expr.getType( ) );
 			ExpressionButton button = (ExpressionButton) defaultValue.getData( DataUIConstants.EXPR_BUTTON );
 			if ( button != null )
 				button.refresh( );

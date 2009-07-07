@@ -214,6 +214,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			}
 
 		};
+		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
 		exprButton.setExpressionHelper( helper );
 		
 		Expression expr = handle.getPropertyBindingExpression( propName );

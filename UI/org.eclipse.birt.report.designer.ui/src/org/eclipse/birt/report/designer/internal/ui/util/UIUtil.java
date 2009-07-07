@@ -67,6 +67,8 @@ import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.preferences.ExpressionBuilderPreferencePage;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
@@ -77,6 +79,7 @@ import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -1778,6 +1781,18 @@ public class UIUtil
 		}
 		button.getControl( ).setLayoutData( gd );
 		return button;
+	}
+
+	/**
+	 * Get the default script type set in perference.
+	 * @return
+	 */
+	public static String getDefaultScriptType( )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ),
+						UIUtil.getCurrentProject( ) )
+				.getString( ReportPlugin.DEFAULT_SCRIPT_TYPE );
 	}
 
 	/**

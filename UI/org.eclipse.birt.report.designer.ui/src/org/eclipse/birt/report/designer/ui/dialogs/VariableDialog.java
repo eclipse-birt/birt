@@ -169,6 +169,8 @@ public class VariableDialog extends BaseTitleAreaDialog
 
 		UIUtil.bindHelp( parent, IHelpContextIds.VARIABLE_DIALOG_ID );
 
+		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
+		
 		return content;
 	}
 

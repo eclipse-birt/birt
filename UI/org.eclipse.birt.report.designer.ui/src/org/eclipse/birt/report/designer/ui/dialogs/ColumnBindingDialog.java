@@ -392,6 +392,8 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private CLabel warnLabel;
 
+	private boolean filterSelf;
+
 	public ColumnBindingDialog( ReportItemHandle input )
 	{
 		super( DEFAULT_DLG_TITLE );
@@ -439,6 +441,24 @@ public class ColumnBindingDialog extends BaseDialog
 		super( title );
 		setInput( input );
 		this.canAggregate = canAggregate;
+	}
+
+	/**
+	 * @param input
+	 * @param title
+	 * @param canAggregate
+	 * @param canSelect
+	 * @param filterSelf
+	 *            don't show input item handle's binding
+	 */
+	public ColumnBindingDialog( ReportItemHandle input, String title,
+			boolean canAggregate, boolean canSelect, boolean filterSelf )
+	{
+		super( title );
+		setInput( input );
+		this.canSelect = canSelect;
+		this.canAggregate = canAggregate;
+		this.filterSelf = filterSelf;
 	}
 
 	protected void addBinding( ComputedColumn column )
@@ -1098,7 +1118,18 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected List getBindingList( DesignElementHandle inputElement )
 	{
-		return DEUtil.getVisiableColumnBindingsList( inputElement );
+		List elementsList = DEUtil.getVisiableColumnBindingsList( inputElement );
+		if ( this.filterSelf )
+		{
+			Iterator iterator = this.inputElement.columnBindingsIterator( );;
+			while ( iterator.hasNext( ) )
+			{
+				Object obj = iterator.next( );
+				System.out.println(obj);
+				elementsList.remove( obj );
+			}
+		}
+		return elementsList;
 	}
 
 	private String getColumnName( String expression )

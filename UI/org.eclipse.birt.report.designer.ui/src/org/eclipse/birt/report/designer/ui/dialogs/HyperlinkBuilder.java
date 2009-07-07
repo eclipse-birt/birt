@@ -1077,6 +1077,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		};
 
+		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
 		button.setExpressionHelper( helper );
 
 		text.setData( EXPR_BUTTON, button );

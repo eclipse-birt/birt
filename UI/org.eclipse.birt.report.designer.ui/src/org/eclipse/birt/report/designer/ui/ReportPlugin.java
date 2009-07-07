@@ -43,6 +43,7 @@ import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -89,6 +90,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 	public static final String LTR_BIDI_DIRECTION = "report.designer.ui.preferences.bidiproperties.ltrdirection"; //$NON-NLS-1$
 	public static final String DEFAULT_UNIT_PREFERENCE = "report.designer.ui.preferences.default.unit"; //$NON-NLS-1$
+	public static final String DEFAULT_SCRIPT_TYPE = "report.designer.ui.preferences.default.scripttype"; //$NON-NLS-1$
 
 	// Add the static String list, remeber thr ignore view for the selection
 	private List<String> ignore = new ArrayList<String>( );
@@ -236,6 +238,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		setDefaultBiDiSettings( );
 
 		setDefaultUnitSettings( );
+
+		setDefaultScriptType( );
 
 		// set default Element names
 		setDefaultElementNamePreference( PreferenceFactory.getInstance( )
@@ -1436,6 +1440,13 @@ public class ReportPlugin extends AbstractUIPlugin
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
 				.setDefault( DEFAULT_UNIT_PREFERENCE, DEFAULT_UNIT_AUTO );
+	}
+
+	public void setDefaultScriptType( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( DEFAULT_SCRIPT_TYPE, ExpressionType.JAVASCRIPT );
 	}
 
 	/**

@@ -1917,6 +1917,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 
 		};
+		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
 
 		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
 				SWT.PUSH );
@@ -2543,6 +2544,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 
 		};
+		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
 
 		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
 				SWT.PUSH );
