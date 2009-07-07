@@ -594,10 +594,13 @@ class ConcreteImageLayout implements ILayout
 			}
 			try
 			{
-				int[] area = getArea( attributes.get( "coords" ) );
-				String url = attributes.get( "href" );
-				String targetWindow = attributes.get( "target" );
-				createImageMap( area, imageArea, url, targetWindow );
+				if ( attributes.size( ) > 0 )
+				{
+					int[] area = getArea( attributes.get( "coords" ) );
+					String url = attributes.get( "href" );
+					String targetWindow = attributes.get( "target" );
+					createImageMap( area, imageArea, url, targetWindow );
+				}
 			}
 			catch ( NumberFormatException e )
 			{
