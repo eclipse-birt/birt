@@ -964,6 +964,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 		{
 			return new CategoryHolder( new String[]{
 					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_BORDERS,
 					CATEGORY_KEY_MARGIN,
 					// CATEGORY_KEY_MASTER_COLUMNS,
 					CATEGORY_KEY_HEADER_FOOTER,
@@ -972,6 +973,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			},
 					new String[]{
 							Messages.getString( "MasterPageGenerator.List.General" ), //$NON-NLS-1$
+							Messages.getString( "MasterPageGenerator.List.Borders" ),
 							Messages.getString( "MasterPageGenerator.List.Margins" ), //$NON-NLS-1$
 							//Messages.getString( "MasterPageGenerator.List.Columns" ), //$NON-NLS-1$
 							Messages.getString( "MasterPageGenerator.List.Header&Footer" ), //$NON-NLS-1$
@@ -980,6 +982,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					},
 					new Class[]{
 							MasterPageGeneralPage.class,
+							BordersPage.class,
 							MarginsPage.class,
 							// MasterColumnsPage.class,
 							HeaderFooterPage.class,
