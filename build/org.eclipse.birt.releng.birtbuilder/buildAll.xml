@@ -344,7 +344,7 @@
                   dir="${updateJarWorkingDir}">
                   <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
                   <arg line="-application org.eclipse.update.core.siteOptimizer -verbose"/>
-                  <arg line="-jarProcessor -outputDir ${repo} -processAll -pack eclipse"/>
+                  <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse"/>
             </java>
 
             <!--generator features and plugins metadata -->
@@ -365,7 +365,7 @@
                   <arg line="-application org.eclipse.equinox.p2.publisher.UpdateSitePublisher"/>
                   <arg line="-metadataRepository file:${repo}"/>
                   <arg line="-artifactRepository file:${repo}"/>
-                  <arg line="-source ${repo}"/>
+                  <arg line="-source ${updateJarWorkingDir}/site"/>
                   <arg line="-configs gtk.linux.x86"/>
                   <arg line="-compress"/>
             	  <arg line="-reusePack200Files"/>
