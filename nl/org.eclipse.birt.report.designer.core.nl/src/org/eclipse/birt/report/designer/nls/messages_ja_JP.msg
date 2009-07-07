@@ -236,6 +236,7 @@ ColumnBindingDialog.Column.Name=名前
 ColumnBindingDialog.Column.Filter=フィルタ
 ColumnBindingDialog.Column.Function=関数
 ColumnBindingDialog.Column.DisplayName=表示名
+ColumnBindingDialog.Column.DisplayNameID=Display Name ID
 ColumnBindingDialog.InputPrompt=<ここに新しい値を入力してください...>
 ColumnBindingDialog.Button.Generate=カラムバインドの生成
 ColumnBindingDialog.Column.DataType=データ型
@@ -2491,6 +2492,7 @@ MasterPageAction.actionText.masterPage=マスタページ
 
 MasterPageGenerator.List.Columns=列
 MasterPageGenerator.List.General=全般
+MasterPageGenerator.List.Borders=罫線
 MasterPageGenerator.List.Header&Footer=ヘッダ/フッタ
 MasterPageGenerator.List.Margins=余白
 
@@ -4068,6 +4070,7 @@ IDEResourcePageHelper.WorkSpace.Button=ワークスペース(&W)...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=名前
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=表示名
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=データカラムのバインド :
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=使用可能な列バインド :
@@ -4395,6 +4398,7 @@ BindingDialogHelper.text.Grid=グリッド
 BindingDialogHelper.text.Group=グループ
 BindingDialogHelper.text.Expression=式(&E) :
 BindingDialogHelper.text.displayName=表示名(&N) :
+BindingDialogHelper.text.displayNameID=Display Name &ID:
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
@@ -4609,3 +4613,7 @@ VariableDialog.PageVariable=ページ変数(&P)
 VariableDialog.ReportVariable=レポート変数(&R)
 VariableDialog.VariableType=型 :
 VariableDialog.Error.NameDuplicate=この名前 \"{0}\" は、すでに使用されています。別の名前を付けてください。
+
+###########################################################
+#ExpressionBuilderConfigurationBlock
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:

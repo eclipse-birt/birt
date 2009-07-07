@@ -236,6 +236,7 @@ ColumnBindingDialog.Column.Name=이름
 ColumnBindingDialog.Column.Filter=필터
 ColumnBindingDialog.Column.Function=함수
 ColumnBindingDialog.Column.DisplayName=표시 이름
+ColumnBindingDialog.Column.DisplayNameID=Display Name ID
 ColumnBindingDialog.InputPrompt=<여기에 새 값 입력...>
 ColumnBindingDialog.Button.Generate=열 바인딩 생성
 ColumnBindingDialog.Column.DataType=데이터 형식
@@ -2491,6 +2492,7 @@ MasterPageAction.actionText.masterPage=마스터 페이지
 
 MasterPageGenerator.List.Columns=열
 MasterPageGenerator.List.General=일반
+MasterPageGenerator.List.Borders=테두리
 MasterPageGenerator.List.Header&Footer=머리글/바닥글
 MasterPageGenerator.List.Margins=여백
 
@@ -4068,6 +4070,7 @@ IDEResourcePageHelper.WorkSpace.Button=작업 영역(&W)...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=이름
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=표시 이름
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=데이터 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=사용 가능한 열 바인딩:
@@ -4395,6 +4398,7 @@ BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹
 BindingDialogHelper.text.Expression=식(&E):
 BindingDialogHelper.text.displayName=표시 이름(&N):
+BindingDialogHelper.text.displayNameID=Display Name &ID:
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
@@ -4609,3 +4613,7 @@ VariableDialog.PageVariable=페이지 변수(&P)
 VariableDialog.ReportVariable=보고서 변수(&R)
 VariableDialog.VariableType=다음을 입력합니다.
 VariableDialog.Error.NameDuplicate=이름 \"{0}\"이(가) 기존 이름과 중복됩니다. 다른 이름을 선택하십시오.
+
+###########################################################
+#ExpressionBuilderConfigurationBlock
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:

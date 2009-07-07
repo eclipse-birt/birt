@@ -236,6 +236,7 @@ ColumnBindingDialog.Column.Name=Nom
 ColumnBindingDialog.Column.Filter=Filtre
 ColumnBindingDialog.Column.Function=Fonction
 ColumnBindingDialog.Column.DisplayName=Nom d'affichage
+ColumnBindingDialog.Column.DisplayNameID=Display Name ID
 ColumnBindingDialog.InputPrompt=<Entrer la nouvelle valeur ici...>
 ColumnBindingDialog.Button.Generate=Générer des liaisons de colonne
 ColumnBindingDialog.Column.DataType=Type de données
@@ -2491,6 +2492,7 @@ MasterPageAction.actionText.masterPage=Page maître
 
 MasterPageGenerator.List.Columns=Colonnes
 MasterPageGenerator.List.General=Général
+MasterPageGenerator.List.Borders=Bordure
 MasterPageGenerator.List.Header&Footer=En-tête/Pied de page
 MasterPageGenerator.List.Margins=Marge
 
@@ -4068,6 +4070,7 @@ IDEResourcePageHelper.WorkSpace.Button=&Espace de travail...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Nom d'affichage
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Liaison de colonne de données :
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Liaison de colonne disponible :
@@ -4395,6 +4398,7 @@ BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Groupe
 BindingDialogHelper.text.Expression=&Expression :
 BindingDialogHelper.text.displayName=&Nom d'affichage :
+BindingDialogHelper.text.displayNameID=Display Name &ID:
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà.
@@ -4609,3 +4613,7 @@ VariableDialog.PageVariable=Variable de la &page
 VariableDialog.ReportVariable=Va&riable de l'état
 VariableDialog.VariableType=Type :
 VariableDialog.Error.NameDuplicate=Le nom \"{0}"\ est le doublon d'un nom existant. Choisissez un autre nom.
+
+###########################################################
+#ExpressionBuilderConfigurationBlock
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:

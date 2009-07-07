@@ -236,6 +236,7 @@ ColumnBindingDialog.Column.Name=名称
 ColumnBindingDialog.Column.Filter=筛选
 ColumnBindingDialog.Column.Function=函数
 ColumnBindingDialog.Column.DisplayName=显示名称
+ColumnBindingDialog.Column.DisplayNameID=Display Name ID
 ColumnBindingDialog.InputPrompt=<在此处输入新值...>
 ColumnBindingDialog.Button.Generate=生成列绑定
 ColumnBindingDialog.Column.DataType=数据类型
@@ -2491,6 +2492,7 @@ MasterPageAction.actionText.masterPage=主页
 
 MasterPageGenerator.List.Columns=列
 MasterPageGenerator.List.General=常规
+MasterPageGenerator.List.Borders=边框
 MasterPageGenerator.List.Header&Footer=页眉/页脚
 MasterPageGenerator.List.Margins=边距
 
@@ -4068,6 +4070,7 @@ IDEResourcePageHelper.WorkSpace.Button=工作区(&W)...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=名称
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=显示名称
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=数据列绑定:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=可用列绑定:
@@ -4395,6 +4398,7 @@ BindingDialogHelper.text.Grid=网格
 BindingDialogHelper.text.Group=组
 BindingDialogHelper.text.Expression=表达式(&E):
 BindingDialogHelper.text.displayName=显示名称(&N):
+BindingDialogHelper.text.displayNameID=Display Name &ID:
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。
@@ -4609,3 +4613,7 @@ VariableDialog.PageVariable=页面变量(&P)
 VariableDialog.ReportVariable=报表变量(&R)
 VariableDialog.VariableType=类型:
 VariableDialog.Error.NameDuplicate=名称“{0}”与现有名称重复。请选择一个不同的名称。
+
+###########################################################
+#ExpressionBuilderConfigurationBlock
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:

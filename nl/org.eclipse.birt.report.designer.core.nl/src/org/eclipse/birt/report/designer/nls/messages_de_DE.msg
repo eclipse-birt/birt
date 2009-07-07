@@ -236,6 +236,7 @@ ColumnBindingDialog.Column.Name=Name
 ColumnBindingDialog.Column.Filter=Filter
 ColumnBindingDialog.Column.Function=Funktion
 ColumnBindingDialog.Column.DisplayName=Name anzeigen
+ColumnBindingDialog.Column.DisplayNameID=Display Name ID
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
 ColumnBindingDialog.Column.DataType=Datentyp
@@ -2491,6 +2492,7 @@ MasterPageAction.actionText.masterPage=Master-Seite
 
 MasterPageGenerator.List.Columns=Spalten
 MasterPageGenerator.List.General=Allgemein
+MasterPageGenerator.List.Borders=Rahmen
 MasterPageGenerator.List.Header&Footer=Kopfzeile/Fußzeile
 MasterPageGenerator.List.Margins=Seitenrand
 
@@ -4068,6 +4070,7 @@ IDEResourcePageHelper.WorkSpace.Button=&Arbeitsplatz...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Name
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Angezeigter Name
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Datenspaltenbindung:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Verfügbare Spaltenbindung:
@@ -4395,6 +4398,7 @@ BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gruppieren
 BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
+BindingDialogHelper.text.displayNameID=Display Name &ID:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
@@ -4609,3 +4613,7 @@ VariableDialog.PageVariable=Sei&tenvariable
 VariableDialog.ReportVariable=&Berichtvariable
 VariableDialog.VariableType=Geben Sie Folgendes ein:
 VariableDialog.Error.NameDuplicate=Der Name \"{0}\" ist bereits vorhanden. Bitte wählen Sie einen anderen Namen aus.
+
+###########################################################
+#ExpressionBuilderConfigurationBlock
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:
