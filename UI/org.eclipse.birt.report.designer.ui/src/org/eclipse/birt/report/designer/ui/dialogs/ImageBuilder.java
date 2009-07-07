@@ -490,7 +490,6 @@ public class ImageBuilder extends BaseDialog
 			}
 
 		};
-		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
 		if ( type == URI_TYPE )
 		{
 			ExpressionButton expressionButton = UIUtil.createExpressionButton( inputArea,
