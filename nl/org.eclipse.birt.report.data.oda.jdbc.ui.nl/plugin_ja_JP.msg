@@ -26,6 +26,9 @@ datasource.name=JDBC データソース
 dataset.jdbcselect=JDBC を使用した SQL SELECT
 datasource.editor.page.connection=データソースの接続
 preference.datasetpreview=JDBC データセット
+
+preference.bidi.datasource.title = JDBC Data Source
+
 wizard.data.set.title=新規データセット
 
 plugin.name=BIRT JDBC UI Plug-in

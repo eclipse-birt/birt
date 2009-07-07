@@ -26,6 +26,9 @@ datasource.name=Source de données JDBC
 dataset.jdbcselect=SQL SELECT via JDBC
 datasource.editor.page.connection=Connexion à une source de données
 preference.datasetpreview=Jeu de données JDBC
+
+preference.bidi.datasource.title = JDBC Data Source
+
 wizard.data.set.title=Nouveau jeu de données
 
 plugin.name=BIRT JDBC UI Plug-in
