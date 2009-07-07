@@ -386,6 +386,7 @@ public abstract class AbstractEmitterImpl
 	{
 		if ( !isHidden( row ) )
 		{
+			writeBookmark( row );
 			rowFilledFlag = false;
 			boolean isHeader = false;
 			styles.push( row.getComputedStyle( ) );
@@ -416,6 +417,7 @@ public abstract class AbstractEmitterImpl
 	{
 		rowFilledFlag = true;
 		context.startCell( );
+		writeBookmark( cell );
 		int columnId = cell.getColumn( );
 		List<SpanInfo> spans = context.getSpans( columnId );
 
