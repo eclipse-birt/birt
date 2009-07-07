@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.tests.engine.internal.PolygonTest;
 import org.eclipse.birt.chart.tests.engine.internal.SortKeyTest;
 import org.eclipse.birt.chart.tests.engine.internal.TupleComparatorTest;
 import org.eclipse.birt.chart.tests.engine.model.ModelAttributeTest;
+import org.eclipse.birt.chart.tests.engine.util.ChartExpressionUtilTest;
 import org.eclipse.birt.chart.tests.engine.util.ChartUtilTest;
 import org.eclipse.birt.chart.tests.engine.util.FittingCalculatorTest;
 import org.eclipse.birt.chart.tests.engine.util.FractionTest;
@@ -69,6 +70,7 @@ public class EngineTest
 		suite.addTest( ModelAttributeTest.suite( ) );
 
 		suite.addTestSuite( ChartUtilTest.class );
+		suite.addTestSuite( ChartExpressionUtilTest.class );
 		suite.addTestSuite( LiteralHelperTest.class );
 		suite.addTestSuite( FittingCalculatorTest.class );
 		suite.addTestSuite( FractionTest.class );

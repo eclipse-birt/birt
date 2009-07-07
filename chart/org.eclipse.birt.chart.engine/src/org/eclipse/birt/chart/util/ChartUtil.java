@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -65,7 +63,6 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.DecimalFormatSymbols;
@@ -801,20 +798,7 @@ public class ChartUtil
 	 */
 	public static String escapeSpecialCharacters( String expression )
 	{
-		try
-		{
-			return URLEncoder.encode( expression, "UTF-8" );//$NON-NLS-1$
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-			return expression.replaceAll( "\\\\\"", "" ) //$NON-NLS-1$ //$NON-NLS-2$
-					.replaceAll( "\"", "" )//$NON-NLS-1$ //$NON-NLS-2$
-					.replaceAll( "\\n", "" )//$NON-NLS-1$ //$NON-NLS-2$
-					.replaceAll( new String( new char[]{
-						(char) -1
-					} ), "" )//$NON-NLS-1$
-					.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
-		}
+		return ChartExpressionUtil.escapeSpecialCharacters( expression );
 	}
 	
 	/**
@@ -831,54 +815,12 @@ public class ChartUtil
 			throws ChartException
 	{
 		String str = orthQuery.getDefinition( );
-		// if ( isConstantExpression( str ) )
-		// {
-		// return str;
-		// }
-		if ( isCubeRowExpression( str, true ) )
+		if ( ChartExpressionUtil.isCubeBinding( str, true ) )
 		{
-			return orthQuery.getDefinition( );
+			return str;
 		}
 
 		return getValueSeriesRowFullExpression( orthQuery, orthSD, categorySD );
-	}
-	
-	/**
-	 * Checks if the expression references a cube binding name
-	 * 
-	 * @param expr
-	 *            expression
-	 * @param hasOperation
-	 *            indicates if operation can be allowed in expression
-	 * @since 2.3
-	 */
-	public static boolean isCubeRowExpression( String expr, boolean hasOperation )
-	{
-		if ( expr == null )
-		{
-			return false;
-		}
-		String regExp = hasOperation ? ".*\\Qdata[\"\\E.*\\Q\"]\\E.*" //$NON-NLS-1$
-				: "\\Qdata[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
-		return expr.matches( regExp );
-	}
-	
-	/**
-	 * Checks if the expression is a constant value.
-	 * 
-	 * @param expr
-	 *            expression
-	 * @return true if constant value
-	 * @since 2.5
-	 */
-	public static boolean isConstantExpression( String expr )
-	{
-		if ( expr == null )
-		{
-			return false;
-		}
-		// Currently only check number value
-		return expr.matches( "^[+-]?\\d*([\\.]?\\d*)?$" );//$NON-NLS-1$
 	}
 	
 	/**
@@ -897,13 +839,13 @@ public class ChartUtil
 			SeriesDefinition categorySD ) throws ChartException
 	{
 		String returnExpr = orthQuery.getDefinition( );
-		// if ( isConstantExpression( returnExpr ) )
-		// {
-		// return returnExpr;
-		// }
-		if ( isCubeRowExpression( returnExpr, true ) )
+		if ( ChartExpressionUtil.isCubeBinding( returnExpr, true ) )
 		{
-			return returnExpr;
+			if ( ChartExpressionUtil.isCubeBinding( returnExpr, false ) )
+			{
+				return ChartExpressionUtil.getCubeBindingName( returnExpr, false );
+			}
+			return escapeSpecialCharacters( returnExpr );
 		}
 		String fullAggExpr = getFullAggregateExpression( orthoSD,
 				categorySD,
@@ -1780,22 +1722,6 @@ public class ChartUtil
 	public static boolean XOR( boolean b0, boolean b1 )
 	{
 		return ( !b0 && b1 ) || ( b0 && !b1 );
-	}
-
-	/**
-	 * Convenient to use EcoreUtil.copy without explicit casting. But please
-	 * note that EcoreUtil.copy is costly, in general we should only use it in
-	 * ui code.
-	 * 
-	 * @param <T>
-	 * @param src
-	 * @since 2.5.0
-	 * @return copied instance
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T extends EObject> T eCopy( T src )
-	{
-		return (T) EcoreUtil.copy( src );
 	}
 
 	/**

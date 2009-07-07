@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -198,6 +200,36 @@ public class ChartExpressionUtil
 	}
 
 	/**
+	 * Returns a full binding name for cube or row expression, no matter if
+	 * expression is complex or simple. If expression is complex, will create a
+	 * new binding name with special characters escaped.
+	 * 
+	 * @param expr
+	 *            expression
+	 * @return binding name
+	 */
+	public static String getFullBindingName( String expr )
+	{
+		if ( isRowBinding( expr, true ) )
+		{
+			if ( isRowBinding( expr, false ) )
+			{
+				return getRowBindingName( expr, false );
+			}
+			return escapeSpecialCharacters( expr );
+		}
+		else if ( isCubeBinding( expr, true ) )
+		{
+			if ( isCubeBinding( expr, false ) )
+			{
+				return getCubeBindingName( expr, false );
+			}
+			return escapeSpecialCharacters( expr );
+		}
+		return expr;
+	}
+
+	/**
 	 * Check if specified expression is a measure expression.
 	 * 
 	 * @param expression
@@ -360,4 +392,30 @@ public class ChartExpressionUtil
 		return haveString;
 	}
 
+	/**
+	 * The method escapes '"','\n',EOF,'\r' and so on from specified
+	 * expression/script expression, it returns an expression that can be used
+	 * as binding name.
+	 * 
+	 * @param expression
+	 * @return escaped string
+	 * @since 2.5.1
+	 */
+	public static String escapeSpecialCharacters( String expression )
+	{
+		try
+		{
+			return URLEncoder.encode( expression, "UTF-8" );//$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			return expression.replaceAll( "\\\\\"", "" ) //$NON-NLS-1$ //$NON-NLS-2$
+					.replaceAll( "\"", "" )//$NON-NLS-1$ //$NON-NLS-2$
+					.replaceAll( "\\n", "" )//$NON-NLS-1$ //$NON-NLS-2$
+					.replaceAll( new String( new char[]{
+						(char) -1
+					} ), "" )//$NON-NLS-1$
+					.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
 }

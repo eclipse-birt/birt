@@ -393,7 +393,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	{
 		try
 		{
-			String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( exprCategory );
+			String bindingName = ChartExpressionUtil.getFullBindingName( exprCategory );
 			if ( !query.getBindings( ).containsKey( bindingName ) )
 			{
 				IBinding colBinding = new Binding( bindingName );
