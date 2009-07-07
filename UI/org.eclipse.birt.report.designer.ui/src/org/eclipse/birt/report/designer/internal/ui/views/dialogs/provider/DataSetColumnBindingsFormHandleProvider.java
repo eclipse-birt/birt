@@ -108,19 +108,21 @@ public class DataSetColumnBindingsFormHandleProvider implements
 		if ( canAggregation )
 			columnNames = new String[]{
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),//$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID" ),//$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ),//$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
-					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Function" ),//$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ),//$NON-NLS-1$
-					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$
 			};
 		else
 			columnNames = new String[]{
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),//$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID" ),//$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ),//$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
-					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),//$NON-NLS-1$
 			};
 		return columnNames;
 	}
@@ -129,11 +131,11 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	{
 		if ( canAggregation )
 			return new int[]{
-					130, 130, 70, 130, 100, 130, 130
+					120, 120, 120, 80, 120, 100, 120, 120
 			};
 		else
 			return new int[]{
-					150, 150, 150, 150
+					150, 150, 150, 150, 150
 			};
 	}
 
@@ -299,16 +301,19 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				text = handle.getName( );
 				break;
 			case 1 :
-				text = handle.getDisplayName( );
+				text = handle.getDisplayNameID( );
 				break;
 			case 2 :
+				text = handle.getDisplayName( );
+				break;
+			case 3 :
 				text = ChoiceSetFactory.getDisplayNameFromChoiceSet( handle.getDataType( ),
 						DATA_TYPE_CHOICE_SET );
 				break;
-			case 3 :
+			case 4 :
 				text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationExpression( handle );
 				break;
-			case 4 :
+			case 5 :
 				try
 				{
 					String function = handle.getAggregateFunction( );
@@ -326,10 +331,10 @@ public class DataSetColumnBindingsFormHandleProvider implements
 					ExceptionHandler.handle( e );
 				}
 				break;
-			case 5 :
+			case 6 :
 				text = handle.getFilterExpression( );
 				break;
-			case 6 :
+			case 7 :
 				String value = DEUtil.getAggregateOn( handle );
 				if ( value == null )
 				{

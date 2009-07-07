@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -43,6 +45,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -66,7 +69,8 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -97,6 +101,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String GROUP = Messages.getString( "BindingDialogHelper.text.Group" ); //$NON-NLS-1$
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
+	protected static final String DISPLAY_NAME_ID = Messages.getString( "BindingDialogHelper.text.displayNameID" ); //$NON-NLS-1$
 
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
 	protected static final String DEFAULT_AGGREGATION_NAME = Messages.getString( "BindingDialogHelper.bindingName.aggregation" ); //$NON-NLS-1$
@@ -111,18 +116,18 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private Text txtName, txtFilter, txtExpression;
 	private Combo cmbType, cmbFunction, cmbGroup;
-	private Button btnGroup;
+	private Button btnGroup, btnDisplayNameID;
 	private Composite paramsComposite;
 
 	private Map<String, Control> paramsMap = new LinkedHashMap<String, Control>( );
 	private Map<String, String> paramsValueMap = new HashMap<String, String>( );
 
 	private Composite composite;
-	private Text txtDisplayName;
+	private Text txtDisplayName, txtDisplayNameID;
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
 	private Combo cmbName;
-	private Label lbName;
+	private Label lbName, lbDisplayNameID;
 
 	private boolean isCreate;
 	private boolean isRef;
@@ -183,6 +188,34 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
+		lbDisplayNameID = new Label( composite, SWT.NONE );
+		lbDisplayNameID.setText( DISPLAY_NAME_ID );
+		lbDisplayNameID.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
+				{
+					e.detail = SWT.TRAVERSE_NONE;
+					openKeySelectionDialog( );
+				}
+			}
+		} );
+		txtDisplayNameID = new Text( composite, SWT.BORDER | SWT.READ_ONLY );
+		txtDisplayNameID.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		btnDisplayNameID = new Button( composite, SWT.NONE );
+		btnDisplayNameID.setEnabled( getResourceURL( ) != null ? true : false );
+		btnDisplayNameID.setText( "..." ); //$NON-NLS-1$
+		btnDisplayNameID.setToolTipText( Messages.getString( "ResourceKeyDescriptor.button.browse.tooltip" ) ); //$NON-NLS-1$
+		btnDisplayNameID.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				openKeySelectionDialog( );
+			}
+		} );
+		
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
 		txtDisplayName.setLayoutData( gd );
@@ -221,10 +254,25 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		setContentSize(composite);
 	}
 
+	private void openKeySelectionDialog( )
+	{
+		ResourceEditDialog dlg = new ResourceEditDialog( composite.getShell( ),
+				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
+
+		dlg.setResourceURL( getResourceURL( ) );
+
+		if ( dlg.open( ) == Window.OK )
+		{
+			String[] result = (String[]) dlg.getDetailResult( );
+			txtDisplayNameID.setText( result[0] );
+			txtDisplayName.setText( result[1] );
+		}
+	}
+
 	public void initDialog( )
 	{
 		cmbType.setItems( dataTypes );
-
+		txtDisplayName.setFocus( );
 		// initiate function firstly then data type field.
 		if ( isAggregate( ) )
 		{
@@ -264,6 +312,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				else
 				{
 					setDisplayName( getBinding( ).getDisplayName( ) );
+					setDisplayNameID( getBinding( ).getDisplayNameID( ) );
 					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 					{
 						if ( DATA_TYPE_CHOICES[i].getName( )
@@ -320,6 +369,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					i++;
 				}
 				setDisplayName( getBinding( ).getDisplayName( ) );
+				setDisplayNameID( getBinding( ).getDisplayNameID( ) );
 				for ( i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getName( )
@@ -335,7 +385,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				setName( getBinding( ).getName( ) );
 				setDisplayName( getBinding( ).getDisplayName( ) );
-
+				setDisplayNameID( getBinding( ).getDisplayNameID( ) );
 				if ( getBinding( ).getDataType( ) != null )
 				{
 					if ( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) ) != null )
@@ -343,7 +393,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 								.getDisplayName( ) );
 					else
 						// the old type 'any'
-						cmbType.setText( "" );
+						cmbType.setText( "" ); //$NON-NLS-1$
 				}
 				setDataFieldExpression( getBinding( ).getExpression( ) );
 			}
@@ -662,6 +712,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			txtDisplayName.setText( displayName );
 	}
 
+	private void setDisplayNameID( String displayNameID )
+	{
+		if ( displayNameID != null && txtDisplayNameID != null )
+			txtDisplayNameID.setText( displayNameID );
+	}
+
 	private void setTypeSelect( String typeSelect )
 	{
 		if ( dataTypes != null && cmbType != null )
@@ -788,6 +844,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( isRef )
 		{
 			txtDisplayName.setEnabled( false );
+			txtDisplayNameID.setEnabled( false );
+			btnDisplayNameID.setEnabled( false );
 			cmbType.setEnabled( false );
 			cmbFunction.setEnabled( false );
 			// cmbDataField.setEnabled( false );
@@ -816,6 +874,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( isRef )
 		{
 			txtDisplayName.setEnabled( false );
+			txtDisplayNameID.setEnabled( false );
+			btnDisplayNameID.setEnabled( false );
 			cmbType.setEnabled( false );
 			txtExpression.setEnabled( false );
 		}
@@ -853,7 +913,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			return;
 		}
 
-		if ( cmbType.getText( ) == null || cmbType.getText( ).equals( "" ) )
+		if ( cmbType.getText( ) == null || cmbType.getText( ).equals( "" ) ) //$NON-NLS-1$
 		{
 			dialog.setCanFinish( false );
 			return;
@@ -1181,6 +1241,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			if ( !strEquals( binding.getDisplayName( ),
 					txtDisplayName.getText( ) ) )
 				return true;
+			if ( !strEquals( binding.getDisplayNameID( ), txtDisplayNameID.getText( ) ) )
+				return true;
 			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
 				return true;
 			try
@@ -1234,6 +1296,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				return true;
 			if ( !strEquals( txtDisplayName.getText( ),
 					binding.getDisplayName( ) ) )
+				return true;
+			if ( !strEquals( txtDisplayNameID.getText( ), binding.getDisplayNameID( ) ) )
 				return true;
 			if ( !strEquals( getDataType( ), binding.getDataType( ) ) )
 				return true;
@@ -1300,7 +1364,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( isAggregate( ) )
 		{
 			binding.setDisplayName( txtDisplayName.getText( ) );
-
+			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 			{
 				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -1353,6 +1417,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 			binding.setDisplayName( txtDisplayName.getText( ) );
+			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
 			binding.setExpression( txtExpression.getText( ) );
 		}
 		return binding;
@@ -1393,7 +1458,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) )
 					.getDataType( ) ) );
 			if ( type != null
-					&& !type.equals( "" )
+					&& !type.equals( "" ) //$NON-NLS-1$
 					&& !type.equals( cmbType.getText( ) ) )
 			{
 				if ( !canProcessFunctionTypeError( cmbFunction.getText( ),
@@ -1520,6 +1585,18 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				},
 				0 );
 		return dialog.open( ) == 0;
+	}
+
+	private URL getResourceURL( )
+	{
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
+	}
+
+	private String getBaseName( )
+	{
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).getIncludeResource( );
 	}
 
 }

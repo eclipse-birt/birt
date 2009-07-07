@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,8 +32,10 @@ import org.eclipse.birt.report.data.adapter.api.CubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -51,6 +54,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -68,6 +72,8 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -95,7 +101,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
 	protected static final String ALL = Messages.getString( "CrosstabBindingDialogHelper.AggOn.All" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
-
+	protected static final String DISPLAY_NAME_ID = Messages.getString( "BindingDialogHelper.text.displayNameID" ); //$NON-NLS-1$
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
 	protected static final String DEFAULT_AGGREGATION_NAME = Messages.getString( "BindingDialogHelper.bindingName.aggregation" ); //$NON-NLS-1$
 
@@ -114,11 +120,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Map<String, String> paramsValueMap = new HashMap<String, String>( );
 
 	private Composite composite;
-	private Text txtDisplayName;
+	private Text txtDisplayName, txtDisplayNameID;
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
-	private Label lbName;
+	private Label lbName, lbDisplayNameID;
 	private Object container;
+	private Button btnDisplayNameID;
 
 	public void createContent( Composite parent )
 	{
@@ -144,6 +151,35 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				validate( );
 			}
 
+		} );
+
+		lbDisplayNameID = new Label( composite, SWT.NONE );
+		lbDisplayNameID.setText( DISPLAY_NAME_ID );
+		lbDisplayNameID.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
+				{
+					e.detail = SWT.TRAVERSE_NONE;
+					openKeySelectionDialog( );
+				}
+			}
+		} );
+
+		txtDisplayNameID = new Text( composite, SWT.BORDER | SWT.READ_ONLY );
+		txtDisplayNameID.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		btnDisplayNameID = new Button( composite, SWT.NONE );
+		btnDisplayNameID.setEnabled( getResourceURL( ) != null ? true : false );
+		btnDisplayNameID.setText( "..." ); //$NON-NLS-1$
+		btnDisplayNameID.setToolTipText( Messages.getString( "ResourceKeyDescriptor.button.browse.tooltip" ) ); //$NON-NLS-1$
+		btnDisplayNameID.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				openKeySelectionDialog( );
+			}
 		} );
 
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
@@ -173,9 +209,25 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		setContentSize( composite );
 	}
 
+	private void openKeySelectionDialog( )
+	{
+		ResourceEditDialog dlg = new ResourceEditDialog( composite.getShell( ),
+				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
+
+		dlg.setResourceURL( getResourceURL( ) );
+
+		if ( dlg.open( ) == Window.OK )
+		{
+			String[] result = (String[]) dlg.getDetailResult( );
+			txtDisplayNameID.setText( result[0] );
+			txtDisplayName.setText( result[1] );
+		}
+	}
+	
 	public void initDialog( )
 	{
 		cmbType.setItems( dataTypes );
+		txtDisplayName.setFocus( );
 
 		if ( isAggregate( ) )
 		{
@@ -196,6 +248,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			setName( getBinding( ).getName( ) );
 			setDisplayName( getBinding( ).getDisplayName( ) );
+			setDisplayNameID( getBinding( ).getDisplayNameID( ) );
 			if ( getBinding( ).getDataType( ) != null )
 				if ( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) ) != null )
 					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
@@ -709,6 +762,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			txtDisplayName.setText( displayName );
 	}
 
+	private void setDisplayNameID( String displayNameID )
+	{
+		if ( displayNameID != null && txtDisplayNameID != null )
+			txtDisplayNameID.setText( displayNameID );
+	}
+
 	private void setTypeSelect( String typeSelect )
 	{
 		if ( cmbType != null )
@@ -1100,6 +1159,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if ( !strEquals( binding.getDisplayName( ),
 					txtDisplayName.getText( ) ) )
 				return true;
+			if ( !strEquals( binding.getDisplayNameID( ), txtDisplayNameID.getText( ) ) )
+				return true;
 			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
 				return true;
 			try
@@ -1155,6 +1216,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if ( !strEquals( txtDisplayName.getText( ),
 					binding.getDisplayName( ) ) )
 				return true;
+			if ( !strEquals( txtDisplayNameID.getText( ), binding.getDisplayNameID( ) ) )
+				return true;
 			if ( !strEquals( getDataType( ), binding.getDataType( ) ) )
 				return true;
 			if ( !strEquals( txtExpression.getText( ), binding.getExpression( ) ) )
@@ -1206,7 +1269,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( isAggregate( ) )
 		{
 			binding.setDisplayName( txtDisplayName.getText( ) );
-
+			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 			{
 				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -1260,6 +1323,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 			binding.setDisplayName( txtDisplayName.getText( ) );
+			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
 			binding.setExpression( txtExpression.getText( ) );
 		}
 		return binding;
@@ -1284,6 +1348,18 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	public boolean canProcessAggregation( )
 	{
 		return true;
+	}
+
+	private URL getResourceURL( )
+	{
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
+	}
+
+	private String getBaseName( )
+	{
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).getIncludeResource( );
 	}
 
 }

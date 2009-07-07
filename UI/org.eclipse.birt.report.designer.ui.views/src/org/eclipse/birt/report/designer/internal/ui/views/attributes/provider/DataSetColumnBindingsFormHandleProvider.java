@@ -62,7 +62,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	private static final String NONE = Messages.getString( "DataSetColumnBindingsFormHandleProvider.NONE" );//$NON-NLS-1$
 
 	private String[] columnNames = new String[]{
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),//$NON-NLS-1$
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID" ),//$NON-NLS-1$
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ),//$NON-NLS-1$
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ), //$NON-NLS-1$
@@ -71,7 +72,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	private CellEditor[] editors;
 
 	private static int[] columnWidth = new int[]{
-			140, 140, 80, 200
+			140, 140, 140, 80, 200
 	};
 
 	// object to add data binding.
@@ -258,12 +259,14 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			case 0 :
 				return ( (ComputedColumnHandle) element ).getName( );
 			case 1 :
-				return ( (ComputedColumnHandle) element ).getDisplayName( );
+				return ( (ComputedColumnHandle) element ).getDisplayNameID( );
 			case 2 :
-				return getDataTypeDisplayName( ( (ComputedColumnHandle) element ).getDataType( ) );
+				return ( (ComputedColumnHandle) element ).getDisplayName( );
 			case 3 :
-				return DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
+				return getDataTypeDisplayName( ( (ComputedColumnHandle) element ).getDataType( ) );
 			case 4 :
+				return DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
+			case 5 :
 				try
 				{
 					String function = ( (ComputedColumnHandle) element ).getAggregateFunction( );
@@ -281,7 +284,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 					ExceptionHandler.handle( e );
 				}
 				return null;
-			case 5 :
+			case 6 :
 				String ExpValue = ( (ComputedColumnHandle) element ).getFilterExpression( );
 				if ( ExpValue != null && ExpValue.length( ) > 0 )
 				{
@@ -291,7 +294,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				{
 					return null;
 				}
-			case 6 :
+			case 7 :
 				String value = DEUtil.getAggregateOn( (ComputedColumnHandle) element );
 				String text;
 				if ( value == null )
@@ -581,6 +584,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 		{
 			columnNames = new String[]{
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ), //$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ), //$NON-NLS-1$
@@ -589,7 +593,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			};
 			columnWidth = new int[]{
-					120, 120, 80, 100, 120, 120, 120
+					110, 110, 110, 80, 110, 110, 110, 90
 			};
 		}
 	}

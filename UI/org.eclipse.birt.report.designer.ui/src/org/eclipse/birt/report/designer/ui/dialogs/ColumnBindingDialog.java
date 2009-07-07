@@ -148,6 +148,8 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private static final String COLUMN_DISPLAYNAME = Messages.getString( "ColumnBindingDialog.Column.DisplayName" ); //$NON-NLS-1$
 
+	private static final String COLUMN_DISPLAYNAME_ID = Messages.getString( "ColumnBindingDialog.Column.DisplayNameID" ); //$NON-NLS-1$
+
 	private static final String COLUMN_EXPRESSION = Messages.getString( "ColumnBindingDialog.Column.Expression" ); //$NON-NLS-1$
 
 	// private static final String BUTTON_GENERATE = Messages.getString(
@@ -314,16 +316,19 @@ public class ColumnBindingDialog extends BaseDialog
 					text = handle.getName( );
 					break;
 				case 2 :
-					text = handle.getDisplayName( );
+					text = handle.getDisplayNameID( );
 					break;
 				case 3 :
+					text = handle.getDisplayName( );
+					break;
+				case 4 :
 					text = ChoiceSetFactory.getDisplayNameFromChoiceSet( handle.getDataType( ),
 							DATA_TYPE_CHOICE_SET );
 					break;
-				case 4 :
+				case 5 :
 					text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationExpression( handle );
 					break;
-				case 5 :
+				case 6 :
 					try
 					{
 						String function = handle.getAggregateFunction( );
@@ -340,10 +345,10 @@ public class ColumnBindingDialog extends BaseDialog
 					{
 						ExceptionHandler.handle( e );
 					}
-				case 6 :
+				case 7 :
 					text = handle.getFilterExpression( );
 					break;
-				case 7 :
+				case 8 :
 					String value = DEUtil.getAggregateOn( handle );
 					if ( value == null )
 					{
@@ -845,6 +850,7 @@ public class ColumnBindingDialog extends BaseDialog
 			columns = new String[]{
 					null,
 					COLUMN_NAME,
+					COLUMN_DISPLAYNAME_ID,
 					COLUMN_DISPLAYNAME,
 					COLUMN_DATATYPE,
 					COLUMN_EXPRESSION,
@@ -853,7 +859,7 @@ public class ColumnBindingDialog extends BaseDialog
 					COLUMN_AGGREGATEON
 			};
 			columnWidth = new int[]{
-					canSelect ? 25 : 20, 100, 100, 70, 100, 100, 100, 100
+					canSelect ? 25 : 20, 100, 100, 100, 70, 100, 100, 100, 100
 			};
 		}
 		else
@@ -861,12 +867,13 @@ public class ColumnBindingDialog extends BaseDialog
 			columns = new String[]{
 					null,
 					COLUMN_NAME,
+					COLUMN_DISPLAYNAME_ID,
 					COLUMN_DISPLAYNAME,
 					COLUMN_DATATYPE,
 					COLUMN_EXPRESSION
 			};
 			columnWidth = new int[]{
-					canSelect ? 25 : 20, 150, 150, 70, 150
+					canSelect ? 25 : 20, 120, 120, 120, 70, 120
 			};
 		}
 
