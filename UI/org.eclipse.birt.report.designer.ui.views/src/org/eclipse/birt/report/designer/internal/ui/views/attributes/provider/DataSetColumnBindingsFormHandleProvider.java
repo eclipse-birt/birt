@@ -268,15 +268,19 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				{
 					String function = ( (ComputedColumnHandle) element ).getAggregateFunction( );
 					if ( function != null )
-						return DataUtil.getAggregationManager( )
-								.getAggregation( function )
-								.getDisplayName( );
+					{
+						if ( DataUtil.getAggregationManager( )
+								.getAggregation( function ) != null )
+							return DataUtil.getAggregationManager( )
+									.getAggregation( function )
+									.getDisplayName( );
+					}
 				}
 				catch ( BirtException e )
 				{
 					ExceptionHandler.handle( e );
-					return null;
 				}
+				return null;
 			case 5 :
 				String ExpValue = ( (ComputedColumnHandle) element ).getFilterExpression( );
 				if ( ExpValue != null && ExpValue.length( ) > 0 )

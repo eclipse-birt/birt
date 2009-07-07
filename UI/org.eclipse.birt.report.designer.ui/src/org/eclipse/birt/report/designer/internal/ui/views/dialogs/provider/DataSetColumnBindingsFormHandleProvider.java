@@ -313,14 +313,17 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				{
 					String function = handle.getAggregateFunction( );
 					if ( function != null )
-						text = DataUtil.getAggregationManager( )
-								.getAggregation( function )
-								.getDisplayName( );
+					{
+						if ( DataUtil.getAggregationManager( )
+								.getAggregation( function ) != null )
+							text = DataUtil.getAggregationManager( )
+									.getAggregation( function )
+									.getDisplayName( );
+					}
 				}
 				catch ( BirtException e )
 				{
 					ExceptionHandler.handle( e );
-					text = null;
 				}
 				break;
 			case 5 :
@@ -562,6 +565,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				}
 			}
 	}
+
 	public void removedUnusedColumnBindings( List inputElement )
 	{
 		if ( inputElement.size( ) > 0 )

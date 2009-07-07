@@ -328,16 +328,18 @@ public class ColumnBindingDialog extends BaseDialog
 					{
 						String function = handle.getAggregateFunction( );
 						if ( function != null )
-							text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationManager( )
-									.getAggregation( function )
-									.getDisplayName( );
+						{
+							if ( org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationManager( )
+									.getAggregation( function ) != null )
+								text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationManager( )
+										.getAggregation( function )
+										.getDisplayName( );
+						}
 					}
 					catch ( BirtException e )
 					{
 						ExceptionHandler.handle( e );
-						text = null;
 					}
-					break;
 				case 6 :
 					text = handle.getFilterExpression( );
 					break;
