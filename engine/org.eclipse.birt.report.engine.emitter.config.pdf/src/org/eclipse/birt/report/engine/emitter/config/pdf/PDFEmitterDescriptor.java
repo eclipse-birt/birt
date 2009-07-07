@@ -49,7 +49,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 				.getString( "OptionDisplayValue.BidiProcessing" ) ); //$NON-NLS-1$
 		bidiProcessing.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		bidiProcessing.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		bidiProcessing.setDefaultValue( Boolean.FALSE );
+		bidiProcessing.setDefaultValue( Boolean.TRUE );
 		bidiProcessing.setToolTip( null );
 		bidiProcessing.setDescription( Messages
 				.getString( "OptionDescription.BidiProcessing" ) ); //$NON-NLS-1$
