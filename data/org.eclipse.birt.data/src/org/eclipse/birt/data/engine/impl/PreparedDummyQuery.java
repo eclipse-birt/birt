@@ -15,7 +15,6 @@ import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -769,7 +768,13 @@ public class PreparedDummyQuery implements IPreparedQuery
 				throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 						name );
 
-			return exprValueMap.get( name );
+			Object o = exprValueMap.get( name );
+			IBinding b = exprManager.getBinding( name );
+			if ( o != null && b != null )
+			{
+				o = DataTypeUtil.convert( o, b.getDataType( ) );
+			}
+			return o;
 		}
 
 		/**
