@@ -292,7 +292,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		btnLineFormatSpecifier.addSelectionListener( this );
 		// btnLineFormatSpecifier.getImage( )
 		// .setBackground( btnLineFormatSpecifier.getBackground( ) );
-		btnLineFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
+		btnLineFormatSpecifier.setText( Messages.getString( "Format.Button.Lbl&" ) ); //$NON-NLS-1$
 
 		lblAnchor = new Label( cmpLine, SWT.NONE );
 		GridData gdLBLAnchor = new GridData( );

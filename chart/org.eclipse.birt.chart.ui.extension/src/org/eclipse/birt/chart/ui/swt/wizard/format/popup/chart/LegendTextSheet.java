@@ -143,7 +143,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			//			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 			// btnFormatSpecifier.getImage( )
 			// .setBackground( btnFormatSpecifier.getBackground( ) );
-			btnFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
+			btnFormatSpecifier.setText( Messages.getString( "Format.Button.Lbl&" ) ); //$NON-NLS-1$
 			btnFormatSpecifier.addListener( SWT.Selection, this );
 		}
 
