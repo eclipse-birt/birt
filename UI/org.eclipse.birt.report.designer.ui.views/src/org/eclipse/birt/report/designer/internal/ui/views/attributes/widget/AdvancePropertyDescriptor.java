@@ -859,6 +859,12 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 
 	public void updateSorting( int sortingType )
 	{
+		if ( cellEditor != null )
+		{
+			cellEditor.deactivate( );
+			applyValue( );
+		}
+		deactivateCellEditor( );
 		Memento memento = (Memento) viewerMemento.getChild( provider.getElementType( ) );
 		if ( memento != null )
 		{

@@ -132,6 +132,12 @@ public class ReportPropertySheetPage extends Page implements
 
 	public void updateSorting( int sortingType )
 	{
+		if ( cellEditor != null )
+		{
+			cellEditor.deactivate( );
+			applyValue( );
+		}
+		deactivateCellEditor( );
 		Memento memento = (Memento) viewerMemento.getChild( getInputElementType( ) );
 		if ( memento != null )
 		{
@@ -143,7 +149,6 @@ public class ReportPropertySheetPage extends Page implements
 				( (Memento) memento ).getMementoElement( )
 						.setAttribute( MementoElement.ATTRIBUTE_SELECTED, null );
 		}
-		deactivateCellEditor( );
 		execMemento( );
 	}
 
@@ -715,6 +720,7 @@ public class ReportPropertySheetPage extends Page implements
 	private boolean execMemento = false;
 
 	private int oldViewMode = -1;
+
 	private void execMemento( )
 	{
 		if ( !execMemento )
