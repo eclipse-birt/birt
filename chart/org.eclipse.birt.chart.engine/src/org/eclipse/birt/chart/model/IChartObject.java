@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.model;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * Base interface of all EObjects which are used chart's model.
+ * Root interface of all chart's model objects.
  */
 
 public interface IChartObject extends EObject

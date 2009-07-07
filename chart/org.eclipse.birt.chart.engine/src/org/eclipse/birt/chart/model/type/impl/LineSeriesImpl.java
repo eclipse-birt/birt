@@ -221,15 +221,11 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
 	 */
 	public Marker getMarker( )
 	{
-		if ( getMarkers( ).size( ) == 0 )
-		{
-			return null;
-		}
-
-		return getMarkers( ).get( 0 );
+		return marker;
 	}
 
 	/**
@@ -258,15 +254,35 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
 	 */
 	public void setMarker( Marker newMarker )
 	{
-		if ( getMarkers( ).size( ) == 0 )
+		if ( newMarker != marker )
 		{
-			getMarkers( ).add( newMarker );
+			NotificationChain msgs = null;
+			if ( marker != null )
+				msgs = ( (InternalEObject) marker ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- TypePackage.LINE_SERIES__MARKER,
+						null,
+						msgs );
+			if ( newMarker != null )
+				msgs = ( (InternalEObject) newMarker ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- TypePackage.LINE_SERIES__MARKER,
+						null,
+						msgs );
+			msgs = basicSetMarker( newMarker, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
 		}
-
-		getMarkers( ).set( 0, newMarker );
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.LINE_SERIES__MARKER,
+					newMarker,
+					newMarker ) );
 	}
 
 	/**
