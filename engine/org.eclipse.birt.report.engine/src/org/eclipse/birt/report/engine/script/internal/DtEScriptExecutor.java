@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.IScriptContext;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.script.JSMethodRunner;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -58,7 +57,7 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 			this.reportContext = null;
 	}
 
-	protected JSMethodRunner getRunner( String type, String name )
+	protected JSMethodRunner getRunner( Scriptable scope, String type, String name )
 	{
 		String scopeName = type + "[" + name + "]";
 		runner = new JSMethodRunner(context.getScriptContext( ), scope, scopeName );
@@ -75,7 +74,7 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 		Object result = null;
 		try
 		{
-			JSMethodRunner jsr = getRunner( type, name );
+			JSMethodRunner jsr = getRunner( scope, type, name );
 			result = jsr.runScript( method, script );
 		} catch ( Exception e )
 		{
