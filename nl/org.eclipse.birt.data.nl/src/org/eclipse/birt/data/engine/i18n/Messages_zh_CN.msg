@@ -410,8 +410,8 @@ data.olap.InvalidAggrTypeOnMeasure=多维数据集度量聚合不能为此类型:“{0}”。
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=列“{0}”不存在!
-data.derivedDataSet.UnionQueryTextParseError="无法分析联合查询。 \"{0}\""
-data.derivedDataSet.JoinQueryTextParseError="无法分析联接查询。 \"{0}\""
+data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=要初始化的类实例非法。
 data.derivedDataSet.classLoadError=无法加载类实例。

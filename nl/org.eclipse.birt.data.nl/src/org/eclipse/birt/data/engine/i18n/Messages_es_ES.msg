@@ -410,8 +410,8 @@ data.olap.InvalidAggrTypeOnMeasure=La agregación en medidas de cubo no puede ser
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=La columna \"{0}\" no existe.
-data.derivedDataSet.UnionQueryTextParseError="Error al analizar la consulta de unión. \"{0}\""
-data.derivedDataSet.JoinQueryTextParseError="Error al analizar la consulta de combinación. \"{0}\""
+data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=La instancia de clase utilizada para inicializar no es válida.
 data.derivedDataSet.classLoadError=No se ha podido cargar la instancia de clase.

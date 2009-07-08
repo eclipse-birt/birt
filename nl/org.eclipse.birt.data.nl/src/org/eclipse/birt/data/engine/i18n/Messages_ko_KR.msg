@@ -410,8 +410,8 @@ data.olap.InvalidAggrTypeOnMeasure=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습�
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=열 \"{0}\"이(가) 없습니다!
-data.derivedDataSet.UnionQueryTextParseError="통합 쿼리를 구문 분석하지 못했습니다. \"{0}\""
-data.derivedDataSet.JoinQueryTextParseError="조인 쿼리를 구문 분석하지 못했습니다. \"{0}\""
+data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=초기화할 클래스 인스턴스가 잘못되었습니다.
 data.derivedDataSet.classLoadError=클래스 인스턴스를 로드하지 못했습니다.

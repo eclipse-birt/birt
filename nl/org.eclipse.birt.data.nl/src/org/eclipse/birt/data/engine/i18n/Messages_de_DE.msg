@@ -410,8 +410,8 @@ data.olap.InvalidAggrTypeOnMeasure=Ungültiger Typ für Aggregat in Quadereinheit:
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=Die Spalte '{0}' ist nicht vorhanden.
-data.derivedDataSet.UnionQueryTextParseError="Fehler bei Analyse von Union-Abfrage. \"{0}\""
-data.derivedDataSet.JoinQueryTextParseError="Fehler bei Analyse von Join-Abfrage. \"{0}\""
+data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=Unzulässige zu initialisierende Klasseninstanz.
 data.derivedDataSet.classLoadError=Fehler beim Laden von Klasseninstanz.

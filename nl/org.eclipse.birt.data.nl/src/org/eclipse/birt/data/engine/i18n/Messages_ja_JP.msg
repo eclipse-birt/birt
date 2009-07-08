@@ -410,8 +410,8 @@ data.olap.InvalidAggrTypeOnMeasure=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚É‘Î‚·‚éWŒv‚Å‚Í‚±‚ÌŒ^‚Íg—
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=—ñ \"{0}\" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-data.derivedDataSet.UnionQueryTextParseError="˜aW‡ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB \"{0}\""
-data.derivedDataSet.JoinQueryTextParseError="ƒWƒ‡ƒCƒ“ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB \"{0}\""
+data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=‰Šú‰»‚·‚éƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ª–³Œø‚Å‚·B
 data.derivedDataSet.classLoadError=ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒ[ƒh‚Å‚«‚Ü‚¹‚ñB
