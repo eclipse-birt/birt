@@ -56,6 +56,7 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -1648,7 +1649,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			return new SharedCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
 					null,
-					null ),
+					(ScriptContext) null ),
 					qd,
 					cm ) {
 
@@ -1677,7 +1678,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		return new BIRTCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
 				null,
-				null ) ) {
+				(ScriptContext) null ) ) {
 
 			/*
 			 * (non-Javadoc)
