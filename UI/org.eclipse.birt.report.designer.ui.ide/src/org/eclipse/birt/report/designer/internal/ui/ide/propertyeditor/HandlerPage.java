@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.ide.util.ClassFinder;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.LibraryAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -20,7 +20,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 
-public class HandlerPage extends AttributePage
+public class HandlerPage extends LibraryAttributePage
 {
 
 
@@ -34,8 +34,19 @@ public class HandlerPage extends AttributePage
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 5 ,15 ) );
 
+		needCheckLibraryReadOnly( true );
+		
 		TextPropertyDescriptorProvider eventProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP,
-				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
+				ReportDesignConstants.REPORT_DESIGN_ELEMENT ) {
+
+			public boolean isEditable( )
+			{
+				if ( HandlerPage.this.isLibraryReadOnly( ) )
+					return false;
+				else
+					return super.isEditable( );
+			}
+		};
 		TextAndButtonSection eventSection = new TextAndButtonSection( eventProvider.getDisplayName( ),
 				container,
 				true );

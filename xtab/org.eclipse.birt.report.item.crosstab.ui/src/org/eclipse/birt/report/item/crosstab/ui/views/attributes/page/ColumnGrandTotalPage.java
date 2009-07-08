@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.LibraryAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.GrandTotalProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.widgets.Composite;
 
@@ -26,7 +30,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public class ColumnGrandTotalPage extends AttributePage
+public class ColumnGrandTotalPage extends LibraryAttributePage
 {
 
 	private FormSection grandTotalSection;
@@ -34,6 +38,7 @@ public class ColumnGrandTotalPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
+		needCheckLibraryReadOnly( true );
 		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
 		final GrandTotalProvider grandTotalProvider = new GrandTotalProvider( );
 		grandTotalProvider.setAxis( ICrosstabConstants.COLUMN_AXIS_TYPE  );
@@ -51,6 +56,29 @@ public class ColumnGrandTotalPage extends AttributePage
 	}
 
 	
+	protected boolean isLibraryReadOnly( )
+	{
+		GroupElementHandle elementHandle = null;
+		if ( input instanceof GroupElementHandle )
+		{
+			elementHandle = ( (GroupElementHandle) input );
+
+		}
+		else if ( input instanceof List )
+		{
+			elementHandle = DEUtil.getGroupElementHandle( (List) input );
+		}
+		if ( elementHandle != null )
+		{
+			if ( DEUtil.getMultiSelectionHandle( DEUtil.getInputElements( elementHandle ) )
+					.isExtendedElements( ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
 		if ( checkControl( grandTotalSection ) )

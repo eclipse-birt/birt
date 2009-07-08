@@ -103,7 +103,6 @@ public class TextAndButtonSection extends Section
 		return textField;
 	}
 
-
 	protected Button button;
 
 	public Button getButtonControl( )
@@ -222,7 +221,10 @@ public class TextAndButtonSection extends Section
 
 	public void load( )
 	{
-		if(textField!=null && !textField.getControl( ).isDisposed( ))textField.load( );
+		if ( textField != null && !textField.getControl( ).isDisposed( ) )
+			textField.load( );
+		if ( button != null && !button.isDisposed( ) )
+			button.setEnabled( !isReadOnly( ) );
 	}
 
 	private int buttonWidth = 60;

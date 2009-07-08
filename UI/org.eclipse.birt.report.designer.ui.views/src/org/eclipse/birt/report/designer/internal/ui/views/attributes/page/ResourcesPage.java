@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public class ResourcesPage extends AttributePage
+public class ResourcesPage extends LibraryAttributePage
 {
 
 	private TextAndButtonSection includeSourceSection;
@@ -43,6 +43,8 @@ public class ResourcesPage extends AttributePage
 		super.buildUI( parent );
 		// TODO Auto-generated method stub
 		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
+
+		needCheckLibraryReadOnly( true );
 
 		TextPropertyDescriptorProvider includeSourceProvider = new TextPropertyDescriptorProvider( ModuleHandle.INCLUDE_RESOURCE_PROP,
 				ReportDesignConstants.MODULE_ELEMENT );

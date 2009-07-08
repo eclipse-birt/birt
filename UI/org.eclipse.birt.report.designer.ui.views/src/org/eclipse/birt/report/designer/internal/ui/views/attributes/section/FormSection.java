@@ -4,6 +4,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
@@ -203,12 +204,15 @@ public class FormSection extends Section
 	{
 		if ( form != null && !form.getControl( ).isDisposed( ) )
 		{
+			if ( getProvider( ) instanceof AbstractFormHandleProvider )
+			{
+				( (AbstractFormHandleProvider) getProvider( ) ).setReadOnly( isReadOnly( ) );
+			}
 			form.load( );
 			setLabelText( getProvider( ).getDisplayName( ) );
 		}
 
 	}
-
 	IDescriptorProvider provider;
 
 	public IDescriptorProvider getProvider( )
@@ -313,7 +317,7 @@ public class FormSection extends Section
 	{
 		this.customForm = customForm;
 	}
-	
+
 	/**
 	 * Set the index of the current form created within one page.
 	 * 

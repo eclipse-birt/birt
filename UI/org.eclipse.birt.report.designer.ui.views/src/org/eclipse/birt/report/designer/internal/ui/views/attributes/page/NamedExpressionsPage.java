@@ -20,12 +20,13 @@ import org.eclipse.swt.widgets.Composite;
  * Named expression page
  */
 
-public class NamedExpressionsPage extends AttributePage
+public class NamedExpressionsPage extends LibraryAttributePage
 {
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
+		needCheckLibraryReadOnly( true );
 		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
 		NamedExpressionsHandleProvier namedExpressionProvider = new NamedExpressionsHandleProvier( );
 		FormSection namedExpressionSection = new FormSection( namedExpressionProvider.getDisplayName( ),

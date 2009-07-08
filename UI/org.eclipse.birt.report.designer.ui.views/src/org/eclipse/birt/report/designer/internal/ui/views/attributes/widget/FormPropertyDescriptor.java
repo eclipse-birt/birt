@@ -176,18 +176,17 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		if ( tableViewer != null )
 		{
 			table.setEnabled( enabled );
-			if ( style != SIMPLE_FUNCTION && style != NO_UP_DOWN )
-			{
+
+			if ( btnUp != null )
 				btnUp.setEnabled( enabled );
+			if ( btnDown != null )
 				btnDown.setEnabled( enabled );
-			}
+
 			btnAdd.setEnabled( enabled );
 			btnDel.setEnabled( enabled );
 
-			if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
-			{
+			if ( btnEdit != null )
 				btnEdit.setEnabled( enabled );
-			}
 
 			if ( enabled )
 			{
@@ -891,7 +890,8 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		 */
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			return ( (IFormProvider) getDescriptorProvider( ) ).getImage( element, columnIndex );
+			return ( (IFormProvider) getDescriptorProvider( ) ).getImage( element,
+					columnIndex );
 		}
 
 		/*

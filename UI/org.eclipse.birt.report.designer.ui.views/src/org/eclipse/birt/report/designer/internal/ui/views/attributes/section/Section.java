@@ -244,4 +244,16 @@ public abstract class Section
 
 	}
 
+	private boolean isReadOnly = false;
+
+	public void setReadOnly( boolean readOnly )
+	{
+		this.isReadOnly = readOnly;
+	}
+
+	public boolean isReadOnly( )
+	{
+		return isReadOnly;
+	}
+
 }

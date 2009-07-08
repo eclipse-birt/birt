@@ -20,12 +20,13 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public class UserPropertiesPage extends AttributePage
+public class UserPropertiesPage extends LibraryAttributePage
 {
 
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
+		needCheckLibraryReadOnly( true );
 		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
 		UserPropertiesHandleProvier userPropertyProvider = new UserPropertiesHandleProvier( );
 		FormSection userPropertySection = new FormSection( userPropertyProvider.getDisplayName( ),

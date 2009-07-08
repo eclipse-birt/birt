@@ -37,10 +37,24 @@ public abstract class AbstractFormHandleProvider extends
 
 	public boolean isEnable( )
 	{
+		if ( isReadOnly )
+			return false;
 		if ( DEUtil.getInputSize( input ) != 1 )
 			return false;
 		else
 			return true;
+	}
+
+	private boolean isReadOnly = true;
+
+	public void setReadOnly( boolean isReadOnly )
+	{
+		this.isReadOnly = isReadOnly;
+	}
+
+	public boolean isReadOnly( )
+	{
+		return isReadOnly;
 	}
 
 	public boolean isEditable( )
@@ -247,12 +261,12 @@ public abstract class AbstractFormHandleProvider extends
 	{
 		return false;
 	}
-	
+
 	public boolean needRefreshed( NotificationEvent event )
 	{
 		return false;
 	}
-	
+
 	public boolean canModify( Object element, String property )
 	{
 		return false;
