@@ -528,6 +528,7 @@
 			<include name="org.eclipse.birt.report.engine.emitter.excel.config_*.jar"/>
 			<include name="org.eclipse.birt.report.engine.emitter.ppt_*.jar"/>
 			<include name="org.eclipse.birt.report.engine.emitter.ppt.config_*.jar"/>
+			<include name="org.eclipse.birt.report.engine.script.javascript_*.jar" />
 			<include name="org.eclipse.birt.report.engine.fonts_*/**" />
 			<include name="org.eclipse.birt.report.model_*.jar" />
 			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />

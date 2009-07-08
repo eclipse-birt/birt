@@ -125,6 +125,7 @@
       <plugin id="org.eclipse.birt.report.engine.emitter.wpml"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.wpml.config"/>
       <plugin id="org.eclipse.birt.report.engine.fonts"/>
+      <plugin id="org.eclipse.birt.report.engine.script.javascript"/>
       <plugin id="org.eclipse.birt.report.item.crosstab.core"/>
       <plugin id="org.eclipse.birt.report.item.crosstab.ui"/>
       <plugin id="org.eclipse.birt.report.model"/>
