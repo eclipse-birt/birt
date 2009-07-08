@@ -14,6 +14,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSetEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
@@ -151,8 +152,9 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	 * 
 	 * @param dataSet
 	 * @return
+	 * @throws DataException 
 	 */
-	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet )
+	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet ) throws DataException
 	{
 		Scriptable shared = this.scope;
 		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),

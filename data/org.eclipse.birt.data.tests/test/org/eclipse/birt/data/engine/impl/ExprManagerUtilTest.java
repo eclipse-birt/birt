@@ -7,6 +7,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -18,11 +19,11 @@ import org.mozilla.javascript.Context;
 
 public class ExprManagerUtilTest extends TestCase
 {	
-	Context cx;
+	ScriptContext cx;
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		cx = Context.enter( );
+		cx = new ScriptContext();
 	}
 
 	protected void tearDown( ) throws Exception

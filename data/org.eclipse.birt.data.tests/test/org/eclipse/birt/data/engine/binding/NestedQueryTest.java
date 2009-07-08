@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.mozilla.javascript.Context;
 
 import testutil.ConfigText;
 
@@ -378,10 +379,10 @@ public class NestedQueryTest extends APITestCase
 	{
 		IPreparedQuery preparedQueryCustomer = dataEngine.prepare( queryDefnCustomer, this.getAppContext( ) );
 		IPreparedQuery preparedQueryCall = dataEngine.prepare( queryDefnCall, this.getAppContext( ) );
-
-		ScriptContext scriptContext = new ScriptContext( );
 		
-		IQueryResults queryResultsCustomer = preparedQueryCustomer.execute( scriptContext.getScope( ));
+		ScriptContext scriptContext = new ScriptContext( ).newContext( Context.getCurrentContext( ).initStandardObjects( ) );
+		
+		IQueryResults queryResultsCustomer = preparedQueryCustomer.execute( null );
 		IResultIterator resultItCustomer = queryResultsCustomer.getResultIterator( );
 		
 		// output result
@@ -398,10 +399,10 @@ public class NestedQueryTest extends APITestCase
 			testPrint( "Starting Balance: $" );
 			testPrint( evalAsString( bindingNameCustomer[3], resultItCustomer ) );
 			testPrintln( "" );
-			scriptContext.enterScope();
+			//scriptContext.enterScope();
 			// here note: nested query is done
 			IQueryResults queryResultsCalls = preparedQueryCall.execute( queryResultsCustomer,
-					scriptContext.getScope( ) );
+					null );
 			IResultIterator resultItCalls = queryResultsCalls.getResultIterator( );
 			while ( resultItCalls.next( ) )
 			{
@@ -412,12 +413,11 @@ public class NestedQueryTest extends APITestCase
 				}
 				testPrintln( "" );
 			}
-			scriptContext.exitScope();
 			testPrintln( "" );
 
 		}
 		
-		scriptContext.exit();
+		scriptContext.close();
 		checkOutputFile();
 	}
 }

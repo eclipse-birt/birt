@@ -35,6 +35,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -44,6 +45,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -486,6 +488,40 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		try
 		{
+			if ( query instanceof IPreparedQuery )
+			{
+				return ( (IPreparedQuery) query ).execute( outerResults,
+						scope );
+			}
+			else if ( query instanceof IPreparedCubeQuery )
+			{
+				String queryName = ( (IPreparedCubeQuery) query ).getCubeQueryDefinition( )
+						.getName( );
+				if ( this.cubeHandleMap.get( queryName ) != null )
+				{
+					this.materializeCube( (CubeHandle) this.cubeHandleMap.get( queryName ),
+							this.sessionContext.getAppContext( ) );
+					this.cubeHandleMap.remove( queryName );
+				}
+
+				return ( (IPreparedCubeQuery) query ).execute( outerResults, scope );
+			}
+			return null;
+		}
+		catch ( BirtException e )
+		{
+			throw new AdapterException( ResourceConstants.EXCEPTION_ERROR, e );
+		}
+	}
+	
+	public IBaseQueryResults execute( IBasePreparedQuery query,
+			IBaseQueryResults outerResults, ScriptContext context )
+			throws AdapterException
+	{
+		try
+		{
+			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
+			Scriptable scope = engine.getJSScope( context );
 			if ( query instanceof IPreparedQuery )
 			{
 				return ( (IPreparedQuery) query ).execute( outerResults,

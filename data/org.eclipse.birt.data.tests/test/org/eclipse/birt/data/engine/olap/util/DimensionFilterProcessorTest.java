@@ -71,7 +71,7 @@ public class DimensionFilterProcessorTest extends TestCase
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cx.exit( );
+		cx.close( );
 	}
 	private ICubeQueryDefinition createCubeQueryDefinition()
 	{

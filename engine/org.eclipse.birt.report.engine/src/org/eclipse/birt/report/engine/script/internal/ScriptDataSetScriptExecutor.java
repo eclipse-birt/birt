@@ -174,7 +174,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		return false;
 	}
 	
-	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet )
+	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet ) throws DataException
 	{
 		Scriptable shared = this.scope;
 		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),

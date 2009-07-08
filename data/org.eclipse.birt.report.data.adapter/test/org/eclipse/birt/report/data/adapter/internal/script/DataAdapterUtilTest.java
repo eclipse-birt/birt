@@ -18,6 +18,7 @@ import java.util.Date;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -169,6 +170,13 @@ public class DataAdapterUtilTest extends TestCase
 			return null;
 		}
 
+		public IResultIterator getSecondaryIterator( String subQueryName,
+				ScriptContext context ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 		public int getStartingGroupLevel( ) throws BirtException
 		{
 			// TODO Auto-generated method stub
@@ -219,6 +227,12 @@ public class DataAdapterUtilTest extends TestCase
 		{
 			// TODO Auto-generated method stub
 			return false;
+		}
+		public IResultIterator getSecondaryIterator( ScriptContext context,
+				String subQueryName ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	}

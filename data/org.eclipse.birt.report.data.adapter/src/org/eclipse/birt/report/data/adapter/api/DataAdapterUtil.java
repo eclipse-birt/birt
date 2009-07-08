@@ -26,6 +26,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -184,25 +186,36 @@ public class DataAdapterUtil
 	 *   
 	 * @param targetScope
 	 * @param source
+	 * @throws AdapterException 
 	 */
-	public static void registerJSObject( Scriptable targetScope,
-			ILinkedResult source, ScriptContext context )
+	public static void registerDataObject( ScriptContext context,
+			ILinkedResult source ) throws AdapterException
 	{
-		int type = ( (ILinkedResult) source ).getCurrentResultType( );
-		if ( type == ILinkedResult.TYPE_TABLE )
+		try
 		{
-			targetScope.put( "row", targetScope, new JSResultIteratorObject(
-					(ILinkedResult) source, context ) );
+			Scriptable targetScope = ( (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( context );
+			int type = ( (ILinkedResult) source ).getCurrentResultType( );
+			if ( type == ILinkedResult.TYPE_TABLE )
+			{
+				targetScope.put( "row",
+						targetScope,
+						new JSResultIteratorObject( (ILinkedResult) source,
+								targetScope ) );
+			}
+			else if ( type == ILinkedResult.TYPE_CUBE )
+			{
+				Scriptable scope = ( (ICubeCursor) source.getCurrentResult( ) ).getScope( );
+				targetScope.put( "data", targetScope, scope.get( "data", scope ) );
+				targetScope.put( "dimension",
+						targetScope,
+						scope.get( "dimension", scope ) );
+				targetScope.put( "measure", targetScope, scope.get( "measure",
+						scope ) );
+			}
 		}
-		else if ( type == ILinkedResult.TYPE_CUBE )
+		catch ( BirtException e )
 		{
-			Scriptable scope = ( (ICubeCursor) source.getCurrentResult( ) )
-					.getScope( );
-			targetScope.put( "data", targetScope, scope.get( "data", scope ) );
-			targetScope.put( "dimension", targetScope, scope.get( "dimension",
-					scope ) );
-			targetScope.put( "measure", targetScope, scope.get( "measure",
-					scope ) );
+			throw new AdapterException( e.getErrorCode( ), e );
 		}
 	}
 	
@@ -592,12 +605,12 @@ public class DataAdapterUtil
 		private static final long serialVersionUID = 684728008759347940L;
 		private ILinkedResult it;
 		private IResultIterator currentIterator;
-		private ScriptContext sContext;
+		private Scriptable scope;
 		
-		JSResultIteratorObject( ILinkedResult it, ScriptContext context )
+		JSResultIteratorObject( ILinkedResult it, Scriptable scope )
 		{
 			this.it = it;
-			this.sContext = context;
+			this.scope = scope;
 			if ( it.getCurrentResultType( ) == ILinkedResult.TYPE_TABLE )
 				this.currentIterator = (IResultIterator) it.getCurrentResult( );
 		}
@@ -624,9 +637,9 @@ public class DataAdapterUtil
 				}
 				if ( "_outer".equalsIgnoreCase( arg0 ) )
 				{
-					return new JSResultIteratorObject( it.getParent( ), sContext );
+					return new JSResultIteratorObject( it.getParent( ), scope );
 				}
-				return sContext.javaToJs( this.currentIterator.getValue( arg0 ));
+				return Context.javaToJS( this.currentIterator.getValue( arg0 ), scope);
 			}
 			catch ( BirtException e )
 			{

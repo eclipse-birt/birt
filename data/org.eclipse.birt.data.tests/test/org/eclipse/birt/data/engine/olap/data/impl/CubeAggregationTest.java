@@ -123,7 +123,6 @@ public class CubeAggregationTest extends BaseTestCase
 	 */
 	protected void tearDown( ) throws Exception
 	{		
-		cx.exit( );
 		documentManager.close( );
 		engine.shutdown( );
 		super.tearDown( );

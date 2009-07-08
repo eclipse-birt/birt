@@ -1170,7 +1170,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 
 		Context context = Context.enter( );
 		ScriptableObject scope = context.initStandardObjects( );
-		ScriptContext cx = new ScriptContext( scope );
+		ScriptContext cx = new ScriptContext( );
 		IAggregationResultSet ars 
 			= new AggregationResultSetWithOneMoreDummyAggr( sourceAggrResultSet, 
 					"max_total", new ScriptExpression("data[\"total\"]"), scope, cx);
@@ -1210,7 +1210,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		closeResultSets( resultSet );
 		
 		Context.exit( );
-		cx.exit( );
+		cx.close( );
 	}
 }
 

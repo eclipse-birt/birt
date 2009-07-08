@@ -56,7 +56,7 @@ public class ExpressionCompilerTest extends TestCase
 		
 		// Test cases can share one context because they are executed on the same test thread
 		cx = new ScriptContext();
-		scope = cx.getContext( ).initStandardObjects();
+		scope = Context.getCurrentContext( ).initStandardObjects();
 	}
 
 	/*
@@ -64,7 +64,7 @@ public class ExpressionCompilerTest extends TestCase
 	 */
 	protected void tearDown( ) throws Exception
 	{
-		cx.exit( );
+		cx.close( );
 		super.tearDown( );
 	}
 
@@ -73,15 +73,14 @@ public class ExpressionCompilerTest extends TestCase
 		CompiledExpression expr;
 		int type;
 		String strColumnName;
-		expr = compiler.compile( "row.col", null, Context
-				.getCurrentContext( ) );
+		expr = compiler.compile( "row.col", null, cx );
 		type = expr.getType( );
 		assertEquals( type, CompiledExpression.TYPE_DIRECT_COL_REF );
 		strColumnName = ( (ColumnReferenceExpression) expr ).getColumnName( );
 		assertEquals( "col", strColumnName );
 		
 		expr = compiler
-				.compile( "r.col", null, Context.getCurrentContext( ) );
+				.compile( "r.col", null, cx );
 		type = expr.getType( );
 		assertEquals( type, CompiledExpression.TYPE_COMPLEX_EXPR );
 
@@ -96,12 +95,10 @@ public class ExpressionCompilerTest extends TestCase
 		//				{
 		//					System.out.println( "\"row.1\" failed." );
 		//				}
-		expr = compiler.compile( "row_a_boat.col", null, Context
-				.getCurrentContext( ) );
+		expr = compiler.compile( "row_a_boat.col", null, cx );
 		type = expr.getType( );
 		assertEquals( type, CompiledExpression.TYPE_COMPLEX_EXPR );
-			expr = compiler.compile( "row.col.prop", null, Context
-				.getCurrentContext( ) );
+			expr = compiler.compile( "row.col.prop", null,cx );
 		type = expr.getType( );
 		assertEquals( type, CompiledExpression.TYPE_COMPLEX_EXPR );
 		
@@ -113,8 +110,7 @@ public class ExpressionCompilerTest extends TestCase
 		int type;
 		String strColumnName;
 
-		expr = compiler.compile( "row[\"col\"]", null, Context
-					.getCurrentContext( ) );
+		expr = compiler.compile( "row[\"col\"]", null, cx );
 		type = expr.getType( );
 		assertEquals( type, CompiledExpression.TYPE_DIRECT_COL_REF );
 		strColumnName = ( (ColumnReferenceExpression) expr ).getColumnName( );
@@ -126,8 +122,7 @@ public class ExpressionCompilerTest extends TestCase
 	{
 		CompiledExpression expr;
 		int type;
-		expr = compiler.compile( "row[1]", null, Context
-					.getCurrentContext( ) );
+		expr = compiler.compile( "row[1]", null, cx );
 		type = expr.getType( );
 		assertEquals( type, CompiledExpression.TYPE_DIRECT_COL_REF );
 		assertEquals( ( (ColumnReferenceExpression) expr ).getColumnindex( ), 1 );
@@ -142,7 +137,7 @@ public class ExpressionCompilerTest extends TestCase
 		aggrExprs.clear();
 		expr = compiler.compile(
 				"Total.Sum( row.x )",
-				aggrReg, cx.getContext( ));
+				aggrReg, cx);
 		assertTrue( aggrExprs.size() == 1 );
 		assertTrue( aggrExprs.get(0) == expr);
 		assertTrue( expr.getType() == CompiledExpression.TYPE_SINGLE_AGGREGATE );
@@ -154,7 +149,7 @@ public class ExpressionCompilerTest extends TestCase
 		aggrExprs.clear();
 		expr = compiler.compile(
 				"Total.Sum( row[1], row.y > row.z, \"Group1\" )",
-				aggrReg, cx.getContext( ));
+				aggrReg, cx);
 		assertTrue( aggrExprs.size() == 1 );
 		assertTrue( aggrExprs.get(0) == expr);
 		assertTrue( expr.getType() == CompiledExpression.TYPE_SINGLE_AGGREGATE );
@@ -170,7 +165,7 @@ public class ExpressionCompilerTest extends TestCase
 		aggrExprs.clear();
 		expr = compiler.compile(
 				"Total.Sum( Total.Max(row.y), null, 1 )",
-				aggrReg, cx.getContext( ));
+				aggrReg, cx);
 		assertTrue( aggrExprs.size() == 2 );
 		assertTrue( aggrExprs.get(0) == expr || aggrExprs.get(1) == expr );
 		assertTrue( expr.getType() == CompiledExpression.TYPE_SINGLE_AGGREGATE );
@@ -187,14 +182,14 @@ public class ExpressionCompilerTest extends TestCase
 		aggrExprs.clear();
 		expr = compiler.compile(
 				" row[\"x\"] / Total.Sum( 1 )",
-				aggrReg, cx.getContext( ));
+				aggrReg, cx);
 		assertTrue( aggrExprs.size() == 1 );
 		assertTrue( expr.getType() == CompiledExpression.TYPE_COMPLEX_EXPR );
 		
 		aggrExprs.clear();
 		expr = compiler.compile(
 				"Total.MovingAve( row.x, myfunc(), null, 1 )",
-				aggrReg, cx.getContext( ));
+				aggrReg, cx);
 		assertTrue( aggrExprs.size() == 1 );
 		assertTrue( aggrExprs.get(0) == expr );
 		assertTrue( expr.getType() == CompiledExpression.TYPE_SINGLE_AGGREGATE );
@@ -212,7 +207,7 @@ public class ExpressionCompilerTest extends TestCase
 		// Test invalid agg expr
 		aggrExprs.clear();
 		
-		expr = compiler.compile( "Total.Invalid( row.x )", aggrReg, cx.getContext( ) );
+		expr = compiler.compile( "Total.Invalid( row.x )", aggrReg, cx );
 		assertTrue( expr instanceof InvalidExpression );
 		
 	}
@@ -224,7 +219,7 @@ public class ExpressionCompilerTest extends TestCase
 		CompiledExpression expr = compiler.compile(
 				"a=1; b=a+1; b+1;",
 				this.aggrReg,
-				cx.getContext( ));
+				cx);
 		assertEquals( expr.getType(), CompiledExpression.TYPE_COMPLEX_EXPR );
 		assertTrue( this.aggrExprs.size() == 0);
 		Object result = expr.evaluate( cx, scope );
@@ -234,7 +229,7 @@ public class ExpressionCompilerTest extends TestCase
 		expr = compiler.compile(
 				"a=true; if ( ! a && Total.Count() > 0 ) b=Total.Sum(row.x); else b=1 ; b",
 				this.aggrReg,
-				cx.getContext( ));
+				cx);
 		assertEquals( expr.getType(), CompiledExpression.TYPE_COMPLEX_EXPR );
 		result = expr.evaluate( cx, scope );
 		assertEquals( DataTypeUtil.convert( result, DataType.INTEGER_TYPE), new Integer(1));
@@ -253,10 +248,8 @@ public class ExpressionCompilerTest extends TestCase
 	public void testSCR75905()
 	{
 		ExpressionCompiler compiler = new ExpressionCompiler( );
-		
-		Context cx = Context.enter();
-		cx.initStandardObjects();
-		CompiledExpression expr = compiler.compile( "", null, Context.getCurrentContext( ) );
+
+		CompiledExpression expr = compiler.compile( "", null, cx );
 		assertTrue( expr instanceof InvalidExpression );
 	}
 }

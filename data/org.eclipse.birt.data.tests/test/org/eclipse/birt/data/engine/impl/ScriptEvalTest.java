@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.expression.InvalidExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.GregorianCalendar;
@@ -38,15 +39,16 @@ public class ScriptEvalTest extends TestCase
 {
 	private Scriptable scope;
 	private ScriptContext scontext;
+	
 	protected void setUp() throws Exception
 	{
 		scontext = new ScriptContext();
-		scope = scontext.getContext( ).initStandardObjects();
+		scope = Context.getCurrentContext( ).initStandardObjects();
 	}
 	
 	protected void tearDown() throws Exception
 	{
-		scontext.exit( );
+		scontext.close( );
 	}
 	
 	// Test javascript regular expression
@@ -159,7 +161,7 @@ public class ScriptEvalTest extends TestCase
 		ExpressionCompiler c = new ExpressionCompiler();
 		try
 		{
-			CompiledExpression exp = c.compile( errScript, null, scontext.getContext( ) );
+			CompiledExpression exp = c.compile( errScript, null, scontext );
 			if ( compileError )
 			{
 				assertTrue( exp instanceof InvalidExpression );

@@ -32,7 +32,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		context = new ScriptContext();
-		m_scope = context.getContext( ).initStandardObjects();
+		m_scope = Context.getCurrentContext( ).initStandardObjects();
 		ScriptableObject.defineClass( m_scope, ComplexExpressionCompilerTest.Row.class );
 		ScriptableObject.defineClass( m_scope, ComplexExpressionCompilerTest.AggrValue.class );
 		Scriptable row = Context.getCurrentContext().newObject( m_scope, "Row" );
@@ -54,27 +54,27 @@ public class ComplexExpressionCompilerTest extends TestCase
 	
 	protected void tearDown() throws Exception
 	{
-		context.exit( );
+		context.close( );
 	}
 	
 	public void testDirectReference1() throws Exception
 	{
 		CompiledExpression expr = 
-			m_compiler.compile( "row.col1", m_registry, Context.getCurrentContext() );
+			m_compiler.compile( "row.col1", m_registry, context );
 		checkDirectRef1( expr );
 	}
 	
 	public void testDirectReference2() throws Exception
 	{
 		CompiledExpression expr = 
-			m_compiler.compile( "row[\"col1\"]", m_registry, Context.getCurrentContext() );
+			m_compiler.compile( "row[\"col1\"]", m_registry, context );
 		checkDirectRef1( expr );
 	}
 	
 	public void testDirectReference3() throws Exception
 	{
 		CompiledExpression expr = 
-			m_compiler.compile( "row[ 1 ]", m_registry, Context.getCurrentContext() );
+			m_compiler.compile( "row[ 1 ]", m_registry, context );
 		assertTrue( expr instanceof ColumnReferenceExpression );
 		assertNull( ( (ColumnReferenceExpression) expr ).getColumnName() );
 		assertEquals( 1, ( (ColumnReferenceExpression) expr ).getColumnindex() );
@@ -190,7 +190,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	private ComplexExpression isComplexExpression( String exprStr ) throws DataException
 	{
 		CompiledExpression expr = 
-			m_compiler.compile( exprStr, m_registry, context.getContext( ) );
+			m_compiler.compile( exprStr, m_registry, context );
 		assertTrue( expr instanceof ComplexExpression );
 		return (ComplexExpression) expr;
 	}
@@ -376,7 +376,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 		throws DataException
 	{
 		CompiledExpression expr = 
-			m_compiler.compile( exprStr, m_registry, context.getContext( ) );
+			m_compiler.compile( exprStr, m_registry, context );
 		assertTrue( expr instanceof AggregateExpression );
 		Object o = ( (AggregateExpression) expr ).evaluate( context, 
 															m_scope );
@@ -421,7 +421,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "Total.sum( Total.sum( row.col1 ) )", 
-								m_registry, context.getContext( ) );
+								m_registry, context );
 		assertTrue( expr instanceof AggregateExpression );
 		Object o = ( (AggregateExpression) expr ).evaluate( context, 
 															m_scope );
@@ -438,7 +438,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "Total.sum( Total.sum( row.col1 ), Total.sum( row[\"col1\"] ) )", 
-								m_registry, context.getContext( ) );
+								m_registry, context );
 		assertTrue( expr instanceof AggregateExpression );
 		Object o = ( (AggregateExpression) expr ).evaluate( context, 
 															m_scope );
@@ -624,7 +624,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( exprStr,
-								m_registry, context.getContext( ) );
+								m_registry, context );
 		assertTrue( expr instanceof ConstantExpression );
 		return ( (ConstantExpression) expr ).getValue();
 	}

@@ -20,6 +20,7 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.report.data.adapter.api.script.DataAdapterTopLevelScope;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -127,7 +128,7 @@ public class DataSessionContext
 	private static ScriptContext prepareScriptContext( Scriptable topScope )
 	{
 		ScriptContext cx = new ScriptContext( );
-		cx.enterScope( topScope );
+		cx.newContext( topScope );
 		return cx;
 	}
 	
@@ -145,23 +146,29 @@ public class DataSessionContext
 	 */
 	public DataSessionContext( int mode, ModuleHandle moduleHandle, ScriptContext scriptContext, ClassLoader classLoader ) throws AdapterException
 	{
-		if ( !( mode == MODE_GENERATION
-				|| mode == MODE_PRESENTATION
-				|| mode == MODE_DIRECT_PRESENTATION || mode == MODE_UPDATE ) )
-			throw new AdapterException( ResourceConstants.ADAPTER_INVALID_MODE,
-					new Integer( mode ) );
-		
-		this.mode = mode;
-		this.hasExternalScope = topScope != null;
-		this.moduleHandle = moduleHandle;
-		this.appClassLoader = classLoader;
-		if( scriptContext == null )
+		try
 		{
-			scriptContext = new ScriptContext();
-			scriptContext.enterScope( this.getTopScope( ) );
+			if ( !( mode == MODE_GENERATION
+					|| mode == MODE_PRESENTATION
+					|| mode == MODE_DIRECT_PRESENTATION || mode == MODE_UPDATE ) )
+				throw new AdapterException( ResourceConstants.ADAPTER_INVALID_MODE,
+						new Integer( mode ) );
+
+			this.mode = mode;
+			this.hasExternalScope = topScope != null;
+			this.moduleHandle = moduleHandle;
+			this.appClassLoader = classLoader;
+			if ( scriptContext == null )
+			{
+				scriptContext = new ScriptContext( ).newContext( this.getTopScope( ) );
+			}
+			this.sContext = scriptContext;
+			this.topScope = ( (IDataScriptEngine) scriptContext.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( scriptContext );
 		}
-		this.sContext = scriptContext;
-		this.topScope = scriptContext.getScope();
+		catch ( BirtException e )
+		{
+			throw new AdapterException( e.getErrorCode( ), e );
+		}
 	}
 	
 	/**

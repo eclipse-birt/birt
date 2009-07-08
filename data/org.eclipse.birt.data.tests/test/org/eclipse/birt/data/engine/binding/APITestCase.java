@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.binding;
 
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -39,6 +40,7 @@ import testutil.JDBCOdaDataSource;
 import testutil.TestDataSource;
 
 import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Base class for test cases that work with Data Engine public API

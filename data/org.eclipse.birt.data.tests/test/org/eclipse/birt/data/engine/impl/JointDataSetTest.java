@@ -71,7 +71,7 @@ public class JointDataSetTest extends APITestCase
 	public void tearDown() throws Exception
 	{
 		super.tearDown( );
-		cx.exit();
+		cx.close();
 	}
 	/**
 	 * Basic test to get MD for all columns

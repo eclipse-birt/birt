@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformConfig;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
@@ -241,10 +242,21 @@ public abstract class DataRequestSession
 	 * can in turn be used to get Result Iterator or Cube cursor.
 	 */
 	public abstract IBaseQueryResults execute( IBasePreparedQuery query,
-			IBaseQueryResults outerResults, Scriptable scope )
+			IBaseQueryResults outerResults, ScriptContext context )
 			throws AdapterException;
 
-
+	/**
+	 * 
+	 * @param query
+	 * @param outerResults
+	 * @param context
+	 * @return
+	 * @throws AdapterException
+	 * @deprecated
+	 */
+	public abstract IBaseQueryResults execute( IBasePreparedQuery query,
+			IBaseQueryResults outerResults, Scriptable scope )
+			throws AdapterException;
 	/**
 	 * Retrieves all distinct values of a data set column based on searchInfo
 	 * and return in a Collection.
