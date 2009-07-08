@@ -3659,6 +3659,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Das Einfügen beim Element "{0}"
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Der Zirkelbezug auf das Element wird gefunden, weil {0} sich bereits auf {1} verweist.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=Der Datenbindungsverweis des Elements {0} verfügt über verschiedene Anzahlen von Gruppen mit dem Element {1}, auf das er verweist.
 Error.SemanticError.INVALID_MANIFEST=Das Verzeichnis des Elements {0} ist ungültig.
+Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Doppelter Elementname in der Zielbibliothek. Element {0} kann nicht exportiert werden. Ändern Sie den Namen für das zu exportierende Element.

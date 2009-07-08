@@ -3659,6 +3659,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=L'opération d'insertion/collage
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=La référence d'élément circulaire a été trouvée, car {0} fait déjà référence à {1}.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=Le nombre de groupes de la référence de liaison de données de l''élément {0} est différent du nombre de l''élément {1} auquel il se réfère.
 Error.SemanticError.INVALID_MANIFEST=L'élément {0} a un manifeste non valide.
+Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nom d'élément dupliqué dans la bibliothèque cible, l'élément {0} ne peut pas être exporté. Veuillez renommer l'élément exporté.

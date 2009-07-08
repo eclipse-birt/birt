@@ -3659,6 +3659,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Está prohibida la operación ins
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Se ha encontrado la referencia de elemento circular, debido a que {0} ya hace referencia a {1}.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=La referencia de enlace de datos del elemento {0} tiene un número diferente de grupos con el elemento {1} al que hace referencia.
 Error.SemanticError.INVALID_MANIFEST=El elemento {0} tiene un manifiesto no válido.
+Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nombre de elemento duplicado en la librería de destino, no es posible exportar el elemento {0}. Cambie el nombre del elemento exportado.

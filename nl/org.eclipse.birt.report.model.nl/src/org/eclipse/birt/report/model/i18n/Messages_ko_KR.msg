@@ -3659,6 +3659,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=요소 "{0}"을(를) 삽입 및 붙여 �
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE= {0}은 이미 {1}을 참조하므로 순환 요소 참조를 찾을 수 있습니다.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=요소 {0}의 데이터 바인딩 참조의 그룹 수와 참조하고 있는 요소 {1}의 그룹 수가 다릅니다.
 Error.SemanticError.INVALID_MANIFEST=요소 {0}에 잘못된 매니페스트가 있습니다.
+Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=대상 라이브러리에 중복된 요소 이름이 있습니다. 요소 {0}을(를) 내보낼 수 없습니다. 내보낸 요소 이름을 변경하십시오.

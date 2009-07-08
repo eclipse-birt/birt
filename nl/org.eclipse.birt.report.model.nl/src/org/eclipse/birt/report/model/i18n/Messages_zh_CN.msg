@@ -3659,6 +3659,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=禁止对元素“{0}”执行插入和粘贴
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=找到循环元素引用，因为 {0} 已经引用 {1}。
 Error.SemanticError.INCONSISTENT_DATA_GROUP=元素 {0} 的数据绑定引用与它引用的元素 {1} 的组数不同。
 Error.SemanticError.INVALID_MANIFEST=元素 {0} 具有一个无效清单。
+Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=目标库中元素名称重复，元素 {0} 无法导出。请重命名导出的元素名称。
