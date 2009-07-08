@@ -81,10 +81,10 @@ public class TemplateAreaLayout implements	ILayout
 	}
 	
 	protected TemplateArea createTemplateArea( IContent content,
-			FontInfo fontInfo )
+			FontInfo fontInfo, int type )
 	{
 		TextStyle textStyle = TextAreaLayout.buildTextStyle( content,	fontInfo );
-		TemplateArea area = new TemplateArea( null, textStyle );
+		TemplateArea area = new TemplateArea( null, textStyle, type );
 		area.setAction( content.getHyperlinkAction( ) );
 		/*area.setBookmark( content.getBookmark( ) );*/
 		return area;
@@ -98,8 +98,8 @@ public class TemplateAreaLayout implements	ILayout
 				autoText, false );
 		FontInfo fontInfo = handler.getFontInfo( );
 
-		TemplateArea templateArea = createTemplateArea(content, fontInfo) ;
-
+		TemplateArea templateArea = createTemplateArea(content, fontInfo, autoText.getType( )) ;
+		templateArea.setParent( parent );
 		// get max available width
 		int maxWidth = parent.getCurrentMaxContentWidth( );
 		templateArea.setWidth( maxWidth

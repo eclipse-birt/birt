@@ -17,15 +17,23 @@ import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 public class TemplateArea extends TextArea implements ITemplateArea
 {
-
-	public TemplateArea( String text, TextStyle style )
+	protected int type;
+	
+	public TemplateArea( String text, TextStyle style, int type )
 	{
 		super( text, style );
+		this.type = type;
 	}
 
 	
 	public void accept( IAreaVisitor visitor )
 	{
 		visitor.visitAutoText( this );
+	}
+
+
+	public int getType( )
+	{
+		return type;
 	}
 }
