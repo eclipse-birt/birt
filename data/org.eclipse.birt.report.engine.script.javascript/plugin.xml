@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.birt.core.ScriptEngineFactory">
+      <scriptEngineFactory
+            factoryClass="org.eclipse.birt.report.engine.javascript.JavascriptEngineFactory"
+            scriptID="org.eclipse.birt.report.engine.javascript"
+            scriptName="javascript">
+      </scriptEngineFactory>
+   </extension>
+
+</plugin>
