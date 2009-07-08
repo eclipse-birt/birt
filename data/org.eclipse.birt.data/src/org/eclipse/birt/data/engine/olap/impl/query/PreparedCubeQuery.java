@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -48,6 +49,8 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		this.session = session;
 		this.context = context;
 		this.appContext = appContext;
+		if ( !containsDrillFilter( defn ) )		
+			validateQuery( );
 	}
 	
 	/*
@@ -153,5 +156,34 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	public IBaseCubeQueryDefinition getCubeQueryDefinition( )
 	{
 		return this.cubeQueryDefn;
+	}
+	
+	private void validateQuery( ) throws DataException
+	{
+		validateBinding( );
+	}
+	
+	private void validateBinding( ) throws DataException
+	{
+		OlapQueryUtil.validateBinding( cubeQueryDefn, false );
+	}
+	
+	private boolean containsDrillFilter( ICubeQueryDefinition defn )
+	{
+		if ( defn.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null
+				&& !defn.getEdge( ICubeQueryDefinition.ROW_EDGE )
+						.getDrillFilter( )
+						.isEmpty( ) )
+		{
+			return true;
+		}
+		if ( defn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null
+				&& !defn.getEdge( ICubeQueryDefinition.COLUMN_EDGE )
+						.getDrillFilter( )
+						.isEmpty( ) )
+		{
+			return true;
+		}
+		return false;
 	}
 }
