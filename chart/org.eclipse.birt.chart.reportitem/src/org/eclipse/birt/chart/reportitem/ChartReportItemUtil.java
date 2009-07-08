@@ -1206,20 +1206,6 @@ public class ChartReportItemUtil extends ChartExpressionUtil implements
 		return false;
 	}
 
-	public static String createBindingNameForRowExpression( String expr )
-	{
-		if ( ChartExpressionUtil.isRowBinding( expr, false ) )
-		{
-			return ChartExpressionUtil.getRowBindingName( expr, false );
-		}
-		if ( ChartExpressionUtil.isRowBinding( expr, true ) )
-		{
-			return ChartUtil.escapeSpecialCharacters( expr );
-		}
-		return expr; // The specified expression might be a binding name,
-		// directly return.
-	}
-
 	/**
 	 * In some cases, if the expression in subquery is a simple binding, and
 	 * this binding is from parent query, should copy the binding from parent
