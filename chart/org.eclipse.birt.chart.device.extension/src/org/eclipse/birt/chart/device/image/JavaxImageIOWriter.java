@@ -37,6 +37,7 @@ import javax.imageio.stream.ImageOutputStream;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IImageMapEmitter;
+import org.eclipse.birt.chart.device.ImageWriterFactory;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.swing.ShapedAction;
@@ -629,21 +630,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 
 			// SEARCH FOR WRITER USING FORMAT
-			Iterator<ImageWriter> it = null;
-			String s = getFormat( );
-			if ( s != null )
-			{
-				it = ImageIO.getImageWritersByFormatName( s );
-				if ( !it.hasNext( ) )
-				{
-					it = null; // GET INTO NEXT CONSTRUCT; SEARCH BY MIME TYPE
-				}
-			}
+			ImageWriter iw = ImageWriterFactory.instance( )
+					.createByFormatName( getFormat( ) );
 
 			// SEARCH FOR WRITER USING MIME TYPE
-			if ( it == null )
+			if ( iw == null )
 			{
-				s = getMimeType( );
+				String s = getMimeType( );
+
 				if ( s == null )
 				{
 					throw new ChartException( ChartDeviceExtensionPlugin.ID,
@@ -656,7 +650,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							},
 							Messages.getResourceBundle( getULocale( ) ) );
 				}
-				it = ImageIO.getImageWritersByMIMEType( s );
+				Iterator<ImageWriter> it = ImageIO.getImageWritersByMIMEType( s );
 				if ( !it.hasNext( ) )
 				{
 					throw new ChartException( ChartDeviceExtensionPlugin.ID,
@@ -667,8 +661,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							},
 							Messages.getResourceBundle( getULocale( ) ) );
 				}
+
+				iw = it.next( );
 			}
-			final ImageWriter iw = it.next( );
 
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "JavaxImageIOWriter.info.using.imagewriter", getULocale( ) ) //$NON-NLS-1$

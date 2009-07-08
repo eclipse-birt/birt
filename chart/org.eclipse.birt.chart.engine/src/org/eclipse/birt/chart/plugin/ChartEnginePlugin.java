@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.plugin;
 import org.eclipse.birt.chart.computation.ChartComputationFactory;
 import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IChartComputationFactory;
+import org.eclipse.birt.chart.device.IImageWriterFactory;
+import org.eclipse.birt.chart.device.ImageWriterFactory;
 import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
@@ -38,6 +40,7 @@ public class ChartEnginePlugin extends Plugin
 		super.start( context );
 		JavaUtilLoggerImpl.setStateDir( getStateLocation( ).toOSString( ) );
 		initChartComputation( this );
+		initImageWriterFactory( this );
 	}
 
 	private static void initChartComputation( ChartEnginePlugin plugin )
@@ -50,6 +53,23 @@ public class ChartEnginePlugin extends Plugin
 			ChartComputationFactory.initInstance( factory );
 			GObjectFactory.initInstance( factory.createGObjectFactory( ) );
 		}
+	}
+
+	private static void initImageWriterFactory( ChartEnginePlugin plugin )
+	{
+		IImageWriterFactory factory = getAdapter( plugin,
+				IImageWriterFactory.class );
+		if ( factory != null )
+		{
+			ImageWriterFactory.initInstance( factory );
+		}
+
+	}
+
+	private static <T> T getAdapter( Object adaptable, Class<T> type )
+	{
+		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		return type.cast( adapterManager.loadAdapter( adaptable, type.getName( ) ) );
 	}
 
 }
