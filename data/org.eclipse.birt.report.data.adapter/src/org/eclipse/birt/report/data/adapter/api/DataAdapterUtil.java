@@ -637,9 +637,9 @@ public class DataAdapterUtil
 				}
 				if ( "_outer".equalsIgnoreCase( arg0 ) )
 				{
-					return new JSResultIteratorObject( it.getParent( ), scope );
+					return new JSResultIteratorObject( it.getParent( ), this.scope );
 				}
-				return Context.javaToJS( this.currentIterator.getValue( arg0 ), scope);
+				return Context.javaToJS( this.currentIterator.getValue( arg0 ), this.scope);
 			}
 			catch ( BirtException e )
 			{
