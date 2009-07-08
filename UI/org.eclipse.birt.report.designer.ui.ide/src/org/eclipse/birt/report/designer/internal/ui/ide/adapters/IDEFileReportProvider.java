@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -179,9 +182,24 @@ public class IDEFileReportProvider implements IReportProvider
 			{
 				if ( file.exists( ) || file.createNewFile( ) )
 				{
-					FileOutputStream out = new FileOutputStream( file );
-					moduleHandle.serialize( out );
-					out.close( );
+					OutputStream out = null;
+					try
+					{
+						out = new BufferedOutputStream(new FileOutputStream( file ), 8192*2);
+						moduleHandle.serialize( out );
+						out.flush( );
+					}
+					catch ( FileNotFoundException e )
+					{
+					}
+					catch ( IOException e )
+					{
+					}
+					finally
+					{
+						if ( out != null )
+							out.close( );
+					}
 				}
 			}
 		};
