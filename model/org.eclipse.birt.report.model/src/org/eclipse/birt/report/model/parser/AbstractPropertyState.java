@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -120,6 +121,11 @@ public class AbstractPropertyState extends AbstractParseState
 	protected boolean valid = true;
 
 	/**
+	 * Whether the property is empty.
+	 */
+	protected boolean isEmpty = false;
+
+	/**
 	 * Constructs the design parse state with the design file parser handler.
 	 * This constructor is used when this property to parse is a property of one
 	 * element.
@@ -160,6 +166,10 @@ public class AbstractPropertyState extends AbstractParseState
 		}
 
 		nameValue = name.toLowerCase( ).hashCode( );
+
+		isEmpty = Boolean.parseBoolean( attrs
+				.getValue( DesignSchemaConstants.IS_EMPTY_ATTRIB ) );
+
 		super.parseAttrs( attrs );
 	}
 
@@ -630,5 +640,23 @@ public class AbstractPropertyState extends AbstractParseState
 		return retValue;
 	}
 
-
+	/**
+	 * Checks if the list property is element property and can be inherited or
+	 * it is a style property.
+	 * 
+	 * @return <true> if the list property is element property and can be
+	 *         inherited or it is a style property, else return <false>.
+	 */
+	protected boolean supportIsEmpty( )
+	{
+		if ( isEmpty && struct == null )
+		{
+			ElementPropertyDefn defn = element.getPropertyDefn( name );
+			if ( defn != null && ModelUtil.canInherit( defn ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

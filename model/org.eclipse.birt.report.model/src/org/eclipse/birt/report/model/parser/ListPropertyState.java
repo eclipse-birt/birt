@@ -287,6 +287,14 @@ public class ListPropertyState extends AbstractPropertyState
 	protected AbstractParseState generalJumpTo( )
 	{
 
+		if ( supportIsEmpty( ) )
+		{
+			AbstractPropertyState state = new EmptyListState( handler, element,
+					struct );
+			state.setName( name );
+			return state;
+		}
+
 		if ( USER_PROPERTIES_PROP == nameValue )
 		{
 			AbstractPropertyState state = new UserPropertyListState( handler,

@@ -18,6 +18,7 @@ Error.SemanticError.UNSUPPORTED_ELEMENT                     The element Table is
 Error.SemanticError.DUPLICATE_GROUP_NAME                    The table/list "Table("customerTable")" has duplicate group name "group1".
 Error.SemanticError.INVALID_CUSTOM_COLOR_NAME               The custom color name "red" can not be used because it is a CSS standard color name.
 Error.SemanticError.DUPLICATE_CUSTOM_COLOR_NAME             The color palette has duplicate custom color name "BgColor".
+Error.SemanticError.VALUE_FORBIDDEN                         The list property "test" is empty, it can not have any item.
 Error.SemanticError.MISSING_TEMPLATE_PARAMETER_TYPE         The element Template Parameter Definition("test") must define an "allowedType" explicitly. 
 Error.SemanticError.INCONSISTENT_TEMPLATE_PARAMETER_TYPE    The default element Label("label") in element Template Parameter Definition("test") is not a kind of FreeForm.
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET       The data set "leftDataSet" is missed in joint data set "jointDataSet".

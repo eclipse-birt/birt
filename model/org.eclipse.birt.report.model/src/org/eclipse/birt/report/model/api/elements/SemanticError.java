@@ -350,6 +350,10 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_NAME_VALUE;
 
 	/**
+	 * Empty list property should not have value.
+	 */
+	public static final String DESIGN_EXCEPTION_VALUE_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_VALUE_FORBIDDEN;
+	/**
 	 * The constant for the semantic error.
 	 */
 

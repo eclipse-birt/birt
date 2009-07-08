@@ -95,6 +95,26 @@ public class SimplePropertyListState extends AbstractPropertyState
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
+	 * ()
+	 */
+	protected AbstractParseState generalJumpTo( )
+	{
+		if ( supportIsEmpty( ) )
+		{
+			AbstractPropertyState state = new EmptyListState( handler, element,
+					struct );
+			state.setName( name );
+			return state;
+		}
+
+		return super.generalJumpTo( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty
 	 * (org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */

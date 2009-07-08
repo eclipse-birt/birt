@@ -74,6 +74,7 @@ public class AllParserTests
 		test.addTestSuite( VariableElementParseTest.class );
 		test.addTestSuite( DataGroupParseTest.class );
 		test.addTestSuite( DerivedDataSetParseTest.class );
+		test.addTestSuite( EmptyListParseTest.class );
 
 		// add all test classes here
 

@@ -1672,4 +1672,18 @@ public class ModelUtil
 		return (ActionHandle) actionValue.getHandle( elementHandle
 				.getPropertyHandle( actionPropName ) );
 	}
+
+	/**
+	 * Checks if the element property can be inherited or is style property.
+	 * 
+	 * @param defn
+	 *            the element property definition.
+	 * @return <true> if the element property can be inherited or is style
+	 *         property, else return <false>.
+	 */
+	public static boolean canInherit( ElementPropertyDefn defn )
+	{
+		assert defn != null;
+		return defn.canInherit( ) || defn.isStyleProperty( );
+	}
 }

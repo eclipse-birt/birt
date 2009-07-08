@@ -70,6 +70,8 @@ public class SemanticErrorTest extends BaseTestCase
 		print1(
 				table,
 				"BgColor", SemanticError.DESIGN_EXCEPTION_DUPLICATE_CUSTOM_COLOR_NAME ); //$NON-NLS-1$
+		print2( table, new String[]{"test"}, //$NON-NLS-1$
+				SemanticError.DESIGN_EXCEPTION_VALUE_FORBIDDEN );
 
 		TemplateParameterDefinition param = new TemplateParameterDefinition(
 				"test" ); //$NON-NLS-1$

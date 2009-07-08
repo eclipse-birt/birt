@@ -230,6 +230,8 @@ public interface MessageConstants
 
 	public static final String SEMANTIC_EXCEPTION_EXPORT_ELEMENT_FAIL = "Error.SemanticException.EXPORT_ELEMENT_FAIL"; //$NON-NLS-1$
 
+	public static final String SEMANTIC_ERROR_VALUE_FORBIDDEN = "Error.SemanticError.VALUE_FORBIDDEN"; //$NON-NLS-1$
+
 	// ThemeException
 
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
