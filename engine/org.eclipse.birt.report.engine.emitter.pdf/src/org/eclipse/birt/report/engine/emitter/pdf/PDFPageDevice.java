@@ -38,7 +38,6 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class PDFPageDevice implements IPageDevice
 {
-
 	/**
 	 * The pdf Document object created by iText
 	 */
@@ -59,6 +58,14 @@ public class PDFPageDevice implements IPageDevice
 	
 	private PdfTemplate totalPageTemplate = null;
 	
+	/**
+	 * the iText and Birt engine version info.
+	 */
+	private static String[] versionInfo = new String[]{
+			BundleVersionUtil
+					.getBundleVersion( "org.eclipse.birt.report.engine" ),
+			BundleVersionUtil.getBundleVersion( "com.lowagie.itext" )};
+	
 	final static int MAX_PAGE_WIDTH = 14400000; //200 inch
 	final static int MAX_PAGE_HEIGHT = 14400000; //200 inch
 
@@ -75,14 +82,8 @@ public class PDFPageDevice implements IPageDevice
 			EngineResourceHandle handle = new EngineResourceHandle(
 					ULocale.forLocale( context.getLocale( ) ) );
 
-			String creator = handle
-					.getMessage(
-							MessageConstants.PDF_CREATOR,
-							new String[]{
-									BundleVersionUtil
-											.getBundleVersion( "org.eclipse.birt.report.engine" ),
-									BundleVersionUtil
-											.getBundleVersion( "com.lowagie.itext" ) } );
+			String creator = handle.getMessage( MessageConstants.PDF_CREATOR,
+					versionInfo );
 			doc.addCreator( creator );
 
 			if ( null != author )
