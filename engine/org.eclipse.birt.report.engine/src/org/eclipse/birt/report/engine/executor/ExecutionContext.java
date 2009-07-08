@@ -349,10 +349,11 @@ public class ExecutionContext
 		if ( engine != null )
 		{
 			EngineConfig config = engine.getConfig( );
-			registerBeans( config.getConfigMap( ) );
-			registerBeans( config.getScriptObjects( ) );
-			scriptContext.setAttribute( "statusHandle", config
-					.getStatusHandler( ) );
+			IStatusHandler statusHandler = config.getStatusHandler( );
+			if ( statusHandler != null )
+			{
+				scriptContext.setAttribute( "statusHandle", statusHandler );
+			}
 		}
 		scriptContext.setLocale( locale );
 
