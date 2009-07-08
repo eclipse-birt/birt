@@ -53,7 +53,7 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			IGridInstance grid = new GridInstance( content, context,
 					RunningState.CREATE );
-			if ( handleJS( grid, gridDesign.getOnCreate( ), context ).didRun( ) )
+			if ( handleScript( grid, gridDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IGridEventHandler eh = getEventHandler( gridDesign, context );
 			if ( eh != null )
@@ -78,7 +78,7 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			IGridInstance grid = new GridInstance( content, context,
 					RunningState.RENDER );
-			if ( handleJS( grid, gridDesign.getOnRender( ), context ).didRun( ) )
+			if ( handleScript( grid, gridDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IGridEventHandler eh = getEventHandler( gridDesign, context );
 			if ( eh != null )
@@ -103,7 +103,7 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			IGridInstance grid = new GridInstance( content, context,
 					RunningState.PAGEBREAK );
-			if ( handleJS( grid, gridDesign.getOnPageBreak( ), context )
+			if ( handleScript( grid, gridDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			IGridEventHandler eh = getEventHandler( gridDesign, context );

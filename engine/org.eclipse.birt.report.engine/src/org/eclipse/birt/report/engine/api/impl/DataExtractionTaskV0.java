@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -54,7 +55,6 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.mozilla.javascript.Scriptable;
 
 public class DataExtractionTaskV0 extends EngineTask
 		implements
@@ -589,9 +589,9 @@ public class DataExtractionTaskV0 extends EngineTask
 					
 					// get new result
 					newQuery.setQueryResultsID( rsetId );
-					Scriptable scope = executionContext.getSharedScope( );
 					IPreparedQuery preparedQuery = dataSession.prepare( newQuery);
-					results = preparedQuery.execute( scope );
+					dataSession.execute( preparedQuery, null, executionContext
+							.getScriptContext( ) );
 				}
 			
 				if ( null != results )
@@ -619,7 +619,7 @@ public class DataExtractionTaskV0 extends EngineTask
 		DataSetID dataSetId = dataId.getDataSetID( );
 
 		DataRequestSession dataSession = executionContext.getDataEngine( ).getDTESession( );
-		Scriptable scope = executionContext.getSharedScope( );
+		ScriptContext scriptContext = executionContext.getScriptContext( );
 		IResultIterator dataIter = null;
 		IBaseQueryDefinition query = null;
 		try
@@ -627,7 +627,7 @@ public class DataExtractionTaskV0 extends EngineTask
 			if ( null == filterExpressions && null == sortExpressions
 					&& maxRows == -1 )
 			{
-				dataIter = getResultSetIterator( dataSession, dataSetId, scope );
+				dataIter = getResultSetIterator( dataSession, dataSetId, scriptContext );
 			}
 			else
 			{
@@ -684,9 +684,9 @@ public class DataExtractionTaskV0 extends EngineTask
 				String rsetId =  queryId2rsetId( queryId );
 				newRootQuery.setQueryResultsID( rsetId );
 				IPreparedQuery preparedQuery = dataSession.prepare( newRootQuery);
-				IQueryResults rootResults = preparedQuery.execute( scope );
-				
-				dataIter = getFilterResultSetIterator( dataSession, dataSetId, scope, rootResults );
+				IQueryResults rootResults = (IQueryResults) dataSession
+						.execute( preparedQuery, null, scriptContext );
+				dataIter = getFilterResultSetIterator( dataSession, dataSetId, scriptContext, rootResults );
 			}
 		}
 		catch ( BirtException e )
@@ -756,7 +756,7 @@ public class DataExtractionTaskV0 extends EngineTask
 	}
 
 	private IResultIterator getResultSetIterator( DataRequestSession dataSession,
-			DataSetID dataSet, Scriptable scope ) throws BirtException
+			DataSetID dataSet, ScriptContext scriptContext ) throws BirtException
 	{
 		DataSetID parent = dataSet.getParentID( );
 		if ( parent == null )
@@ -768,19 +768,19 @@ public class DataExtractionTaskV0 extends EngineTask
 		}
 		else
 		{
-			IResultIterator iter = getResultSetIterator( dataSession, parent, scope );
+			IResultIterator iter = getResultSetIterator( dataSession, parent, scriptContext );
 			long rowId = dataSet.getRowID( );
 			String queryName = dataSet.getQueryName( );
 			assert rowId != -1;
 			assert queryName != null;
 
 			iter.moveTo( (int) rowId );
-			return iter.getSecondaryIterator( queryName, scope );
+			return iter.getSecondaryIterator( scriptContext, queryName );
 		}
 	}
 	
 	private IResultIterator getFilterResultSetIterator( DataRequestSession dataSession,
-			DataSetID dataSet, Scriptable scope, IQueryResults rset ) throws BirtException
+			DataSetID dataSet, ScriptContext scriptContext, IQueryResults rset ) throws BirtException
 	{
 		DataSetID parent = dataSet.getParentID( );
 		if ( parent == null )
@@ -789,14 +789,14 @@ public class DataExtractionTaskV0 extends EngineTask
 		}
 		else
 		{
-			IResultIterator iter = getFilterResultSetIterator( dataSession, parent, scope, rset );
+			IResultIterator iter = getFilterResultSetIterator( dataSession, parent, scriptContext, rset );
 			long rowId = dataSet.getRowID( );
 			String queryName = dataSet.getQueryName( );
 			assert rowId != -1;
 			assert queryName != null;
 
 			iter.moveTo( (int) rowId );
-			return iter.getSecondaryIterator( queryName, scope );
+			return iter.getSecondaryIterator( scriptContext, queryName );
 		}
 	}
 	

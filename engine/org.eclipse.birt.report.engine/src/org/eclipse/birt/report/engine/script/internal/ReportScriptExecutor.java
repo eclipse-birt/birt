@@ -40,7 +40,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				scriptExpr = Expression.newScript( scriptText );
 				scriptExpr.setFileName( id );
 			}
-			if ( handleJS( null, scriptExpr, context ).didRun( ) )
+			if ( handleScript( null, scriptExpr, context ).didRun( ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance(
 					report, context );
@@ -69,7 +69,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				scriptExpr = Expression.newScript( scriptText );
 				scriptExpr.setFileName( id );
 			}
-			if ( handleJS( element, scriptExpr, context ).didRun( ) )
+			if ( handleScript( element, scriptExpr, context ).didRun( ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance(
 					report, context );
@@ -96,7 +96,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				scriptExpr = Expression.newScript( scriptText );
 				scriptExpr.setFileName( id );
 			}
-			if ( handleJS( null, scriptExpr, context ).didRun( ) )
+			if ( handleScript( null, scriptExpr, context ).didRun( ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance(
 					report, context );
@@ -123,7 +123,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				scriptExpr = Expression.newScript( scriptText );
 				scriptExpr.setFileName( id );
 			}
-			if ( handleJS( null, scriptExpr, context ).didRun( ) )
+			if ( handleScript( null, scriptExpr, context ).didRun( ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance(
 					report, context );
@@ -150,7 +150,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				scriptExpr = Expression.newScript( scriptText );
 				scriptExpr.setFileName( id );
 			}
-			if ( handleJS( null, scriptExpr, context ).didRun( ) )
+			if ( handleScript( null, scriptExpr, context ).didRun( ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance(
 					report, context );

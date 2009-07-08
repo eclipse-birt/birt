@@ -21,6 +21,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -500,6 +501,13 @@ public class RowDataTest extends TestCase
 		public boolean isBeforeFirst( ) throws BirtException
 		{
 			return false;
+		}
+
+		public IResultIterator getSecondaryIterator(
+				ScriptContext scriptContext, String subQueryName )
+				throws BirtException
+		{
+			return null;
 		}
 	}
 }

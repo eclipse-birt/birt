@@ -64,7 +64,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 				textItem = new TextItemInstance( ( IForeignContent ) content,
 						context, RunningState.CREATE );
 
-			if ( handleJS( textItem, textItemDesign.getOnCreate( ), context )
+			if ( handleScript( textItem, textItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			ITextItemEventHandler eh = getEventHandler( textItemDesign, context );
@@ -96,7 +96,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			else if ( content instanceof ForeignContent )
 				textItem = new TextItemInstance( ( IForeignContent ) content,
 						context, RunningState.RENDER );
-			if ( handleJS( textItem, textItemDesign.getOnRender( ), context )
+			if ( handleScript( textItem, textItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			ITextItemEventHandler eh = getEventHandler( textItemDesign, context );
@@ -128,7 +128,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			else if ( content instanceof ForeignContent )
 				textItem = new TextItemInstance( ( IForeignContent ) content,
 						context, RunningState.PAGEBREAK );
-			if ( handleJS( textItem, textItemDesign.getOnPageBreak( ), context )
+			if ( handleScript( textItem, textItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			ITextItemEventHandler eh = getEventHandler( textItemDesign, context );

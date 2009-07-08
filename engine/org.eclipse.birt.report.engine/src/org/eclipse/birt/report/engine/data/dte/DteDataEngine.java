@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.data.dte;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -28,7 +29,6 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.mozilla.javascript.Scriptable;
 
 /**
  * implments IDataEngine interface, using birt's data transformation engine
@@ -52,8 +52,9 @@ public class DteDataEngine extends AbstractDataEngine
 	 * ./drivers/driverType/odaconfig.xml.
 	 * 
 	 * @param context
+	 * @throws BirtException 
 	 */
-	public DteDataEngine( ExecutionContext context, boolean needCache )
+	public DteDataEngine( ExecutionContext context, boolean needCache ) throws BirtException
 	{
 		super( context );
 		this.needCache = needCache;
@@ -86,8 +87,9 @@ public class DteDataEngine extends AbstractDataEngine
 	 * this constructor is used 
 	 * @param context
 	 * @param obj
+	 * @throws BirtException 
 	 */
-	protected DteDataEngine( ExecutionContext context, Object obj )
+	protected DteDataEngine( ExecutionContext context, Object obj ) throws BirtException
 	{
 		super( context );
 	}
@@ -101,7 +103,7 @@ public class DteDataEngine extends AbstractDataEngine
 			return null;
 		}
 
-		Scriptable scope = context.getSharedScope( );
+		ScriptContext scriptContext = context.getScriptContext( );
 
 		IBaseQueryResults dteResults = null; // the dteResults of this query
 		boolean needExecute = queryCache.needExecute( query, queryOwner, needCache || useCache );
@@ -114,14 +116,14 @@ public class DteDataEngine extends AbstractDataEngine
 			if ( parentResultSet == null )
 			{
 				// this is the root query
-				dteResults = dteSession.execute( pQuery, null, scope );
+				dteResults = dteSession.execute( pQuery, null, scriptContext );
 			}
 			else
 			{
 				// this is the nest query, execute the query in the
 				// parent results
 				dteResults = dteSession.execute( pQuery, parentResultSet
-						.getQueryResults( ), scope );
+						.getQueryResults( ), scriptContext );
 			}
 			putCachedQueryResult( query, dteResults.getID( ) );
 		}		
@@ -165,7 +167,7 @@ public class DteDataEngine extends AbstractDataEngine
 			throw new EngineException( MessageConstants.PREPARED_QUERY_NOT_FOUND_ERROR , query );
 		}
 
-		Scriptable scope = context.getSharedScope( );
+		ScriptContext scriptContext = context.getScriptContext( );
 		IBaseResultSet resultSet;
 
 		ICubeQueryResults dteResults; // the dteResults of this query
@@ -173,7 +175,7 @@ public class DteDataEngine extends AbstractDataEngine
 		{
 			// this is the root query
 			dteResults = (ICubeQueryResults) dteSession.execute( pQuery,
-					null, scope );
+					null, scriptContext );
 			resultSet = new CubeResultSet( this,
 					context,
 					query,
@@ -184,7 +186,7 @@ public class DteDataEngine extends AbstractDataEngine
 			// this is the nest query, execute the query in the
 			// parent results
 			dteResults = (ICubeQueryResults) dteSession.execute( pQuery,
-					parentResultSet.getQueryResults( ), scope );
+					parentResultSet.getQueryResults( ), scriptContext );
 			resultSet = new CubeResultSet( this, context, parentResultSet, query,
 					(ICubeQueryResults) dteResults );
 		}

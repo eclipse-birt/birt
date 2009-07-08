@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +46,6 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.api.impl.LinkedObjectManager.LinkedEntry;
-import org.eclipse.birt.report.engine.executor.ScriptUtil;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtensionFactory;
 import org.eclipse.birt.report.engine.util.SecurityUtil;
@@ -110,6 +111,8 @@ public class ReportEngine implements IReportEngine
 	private EngineExtensionManager extensionManager = new EngineExtensionManager();
 	
 	private String version;
+
+	private Map<String, Object> beans;
 	/**
 	 * Create a Report Engine using a configuration.
 	 * 
@@ -125,6 +128,7 @@ public class ReportEngine implements IReportEngine
 			throw new NullPointerException( "config is null" );
 		}
 		this.config = config;
+		beans = new HashMap<String, Object>( );
 		mergeConfigToAppContext( );
 
 		intializeLogger( );
@@ -132,9 +136,7 @@ public class ReportEngine implements IReportEngine
 		logger.log( Level.FINE, "ReportEngine created. EngineConfig: {0} ",
 				config );
 		this.helper = new ReportEngineHelper( this );
-		openedDocuments = new LinkedObjectManager<ReportDocumentReader>();
-
-		setupScriptScope( );
+		openedDocuments = new LinkedObjectManager<ReportDocumentReader>( );
 	}
 
 	private void mergeConfigToAppContext( )
@@ -233,58 +235,6 @@ public class ReportEngine implements IReportEngine
 	}
 
 	/**
-	 * register globally available script functions
-	 */
-	private void setupScriptScope( )
-	{
-		Context cx = Context.enter( );
-		try
-		{
-			cx.setSecurityController( ScriptUtil.createSecurityController( ) );
-		}
-		catch ( Throwable throwable )
-		{
-		}
-		try
-		{
-			rootScope = cx.initStandardObjects( );
-			cx
-					.evaluateString(
-							rootScope,
-							"function registerGlobal( name, value) { _jsContext.registerGlobalBean(name, value); }",
-							"<inline>", 0, null );
-			cx
-					.evaluateString(
-							rootScope,
-							"function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }",
-							"<inline>", 0, null );
-			registerBeans( rootScope, config.getConfigMap( ) );
-			registerBeans( rootScope, config.getScriptObjects( ) );
-			IStatusHandler handler = config.getStatusHandler( );
-			if ( handler != null )
-			{
-				handler.initialize( );
-				rootScope.put( "_statusHandle", rootScope, handler );
-				cx
-						.evaluateString(
-								rootScope,
-								"function writeStatus(msg) { _statusHandle.showStatus(msg); }",
-								"<inline>", 0, null );
-			}
-		}
-		catch ( Exception ex )
-		{
-			rootScope = null;
-			logger.log( Level.INFO,
-					"Error occurs while initialze script scope", ex );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-	}
-
-	/**
 	 * get the root scope used by the engine
 	 * 
 	 * @return
@@ -302,17 +252,15 @@ public class ReportEngine implements IReportEngine
 	 * @param map
 	 *            map
 	 */
-	private void registerBeans( ScriptableObject scope, Map map )
+	private void registerBeans( Map<String, Object> map )
 	{
-		Iterator iter = map.entrySet( ).iterator( );
-		while ( iter.hasNext( ) )
+		Set<Entry<String, Object>> attributes = map.entrySet( );
+		for ( Entry<String, Object> attribute : attributes )
 		{
-			Map.Entry entry = (Map.Entry) iter.next( );
-			if ( entry.getKey( ) != null )
+			if ( attribute.getKey( ) != null )
 			{
-				scope
-						.put( entry.getKey( ).toString( ), scope, entry
-								.getValue( ) );
+				beans.put( attribute.getKey( ), attribute
+						.getValue( ) );
 			}
 		}
 	}

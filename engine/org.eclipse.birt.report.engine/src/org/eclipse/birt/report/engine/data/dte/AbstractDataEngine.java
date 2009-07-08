@@ -46,7 +46,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.mozilla.javascript.Scriptable;
 
 public abstract class AbstractDataEngine implements IDataEngine
 {
@@ -98,11 +97,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 */
 	protected static Logger logger = Logger.getLogger( IDataEngine.class.getName( ) );
 
-	public AbstractDataEngine( ExecutionContext context )
+	public AbstractDataEngine( ExecutionContext context ) throws BirtException
 	{
 		this.context = context;
-		this.adapter = new ModelDteApiAdapter( context, context
-				.getSharedScope( ) );
+		this.adapter = new ModelDteApiAdapter( context );
 	}
 
 	/*
@@ -283,10 +281,9 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected IBaseResultSet doExecuteSubCubeQuery( ICubeResultSet parent,
 			ISubCubeQueryDefinition query ) throws BirtException
 	{
-		Scriptable scope = context.getSharedScope( );
 		IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
 		ICubeQueryResults dteResults = (ICubeQueryResults) dteSession.execute(
-				pQuery, parent.getQueryResults( ), scope );
+				pQuery, parent.getQueryResults( ), context.getScriptContext( ) );
 		IBaseResultSet resultSet = new CubeResultSet( this, context, parent,
 				query, (ICubeQueryResults) dteResults );
 		return resultSet;
@@ -311,8 +308,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 		{
 			String subQueryName = subQuery.getName( );
 			IResultIterator parentRI = parent.getResultIterator( );
-			IResultIterator ri = parentRI.getSecondaryIterator( subQueryName,
-					context.getSharedScope( ) );
+			IResultIterator ri = parentRI.getSecondaryIterator( context
+					.getScriptContext( ), subQueryName );
 			assert ri != null;
 			QueryResultSet resultSet = new QueryResultSet(
 					(QueryResultSet) parent, subQuery, ri );
@@ -367,7 +364,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			( (QueryDefinition) query ).setQueryResultsID( (String) rsetId );
 			IBasePreparedQuery pQuery = dteSession.prepare( query, null );
 			return dteSession.execute( pQuery, outer == null ? null : outer.getQueryResults( ), 
-					context.getSharedScope( ) );
+					context.getScriptContext( ) );
 		}
 		else
 		{

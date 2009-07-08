@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
@@ -169,6 +170,12 @@ public class ModelDteApiAdapter
 		this.jsScope = jsScope;
 	}
 
+	public ModelDteApiAdapter( ExecutionContext context ) throws BirtException
+	{
+		this.context = context;
+		this.jsScope = ( (IDataScriptEngine) context.getScriptContext( )
+				.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( context.getScriptContext( ) );
+	}
 	/**
 	 * Adapts the specified Model Data Source to a Data Engine API data source
 	 * design object
@@ -456,8 +463,9 @@ public class ModelDteApiAdapter
 	 * 
 	 * @param source
 	 * @return
+	 * @throws BirtException 
 	 */
-	IScriptDataSourceDesign newScriptDataSource( ScriptDataSourceHandle source )
+	IScriptDataSourceDesign newScriptDataSource( ScriptDataSourceHandle source ) throws BirtException
 	{
 		ScriptDataSourceDesign dteSource = new ScriptDataSourceDesign( source
 				.getQualifiedName( ) );

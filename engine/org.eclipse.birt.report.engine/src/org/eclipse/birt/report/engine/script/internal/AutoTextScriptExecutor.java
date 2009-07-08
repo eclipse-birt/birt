@@ -58,7 +58,7 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 			}
 			IAutoTextInstance autoText = new AutoTextInstance( content,
 					context, RunningState.CREATE );
-			if ( handleJS( autoText, autoTextItemDesign.getOnCreate( ), context )
+			if ( handleScript( autoText, autoTextItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			IAutoTextEventHandler eh = getEventHandler( autoTextItemDesign,
@@ -91,7 +91,7 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 			// fromGrid doesn't matter here since row data is null
 			IAutoTextInstance autoText = new AutoTextInstance( content,
 					context, RunningState.RENDER );
-			if ( handleJS( autoText, autoTextDesign.getOnRender( ), context )
+			if ( handleScript( autoText, autoTextDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			IAutoTextEventHandler eh = getEventHandler( autoTextDesign, context );
@@ -122,7 +122,7 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 			// fromGrid doesn't matter here since row data is null
 			IAutoTextInstance autoText = new AutoTextInstance( content,
 					context, RunningState.PAGEBREAK );
-			if ( handleJS( autoText, autoTextDesign.getOnPageBreak( ), context )
+			if ( handleScript( autoText, autoTextDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			IAutoTextEventHandler eh = getEventHandler( autoTextDesign, context );

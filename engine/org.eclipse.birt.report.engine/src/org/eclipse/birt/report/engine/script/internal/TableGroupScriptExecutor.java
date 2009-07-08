@@ -53,7 +53,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		{
 			ReportElementInstance table = new ReportElementInstance( content,
 					context, RunningState.CREATE );
-			if ( handleJS( table, tableGroupDesign.getOnCreate( ), context )
+			if ( handleScript( table, tableGroupDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			ITableGroupEventHandler eh = getEventHandler( tableGroupDesign,
@@ -80,7 +80,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		{
 			ReportElementInstance table = new ReportElementInstance( content,
 					context, RunningState.RENDER );
-			if ( handleJS( table, tableGroupDesign.getOnRender( ), context )
+			if ( handleScript( table, tableGroupDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			ITableGroupEventHandler eh = getEventHandler( tableGroupDesign,
@@ -107,7 +107,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		{
 			ReportElementInstance table = new ReportElementInstance( content,
 					context, RunningState.PAGEBREAK );
-			if ( handleJS( table, tableGroupDesign.getOnPageBreak( ), context )
+			if ( handleScript( table, tableGroupDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			ITableGroupEventHandler eh = getEventHandler( tableGroupDesign,

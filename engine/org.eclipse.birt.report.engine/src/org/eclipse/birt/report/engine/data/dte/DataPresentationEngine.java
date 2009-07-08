@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -142,7 +143,9 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 		((QueryDefinition)query).setQueryResultsID( resultSetID );
 		IPreparedQuery pq = dteSession.prepare( query );
-		IBaseQueryResults queryResults = pq.execute( parentResult == null?null:parentResult.getQueryResults( ), context.getScope( ) );
+		IBaseQueryResults queryResults = dteSession.execute( pq,
+				parentResult == null ? null : parentResult.getQueryResults( ),
+				context.getScriptContext( ) );
 		//IBaseQueryResults queryResults = dteSession.getQueryResults( resultSetID );
 
 		//FIXME: hchu, return the result set directly.
@@ -175,17 +178,15 @@ public class DataPresentationEngine extends AbstractDataEngine
 		query.setQueryResultsID( resultSetID );
 		IBasePreparedQuery pQuery = dteSession.prepare( query,
 				context.getAppContext( ) );
+		ScriptContext scriptContext = context.getScriptContext( );
 		if ( parentResult != null )
 		{
-			queryResults = dteSession.execute( pQuery,
-					parentResult.getQueryResults( ),
-					context.getSharedScope( ) );
+			queryResults = dteSession.execute( pQuery, parentResult
+					.getQueryResults( ), scriptContext );
 		}
 		else
 		{
-			queryResults = dteSession.execute( pQuery,
-					null,
-					context.getSharedScope( ) );
+			queryResults = dteSession.execute( pQuery, null, scriptContext );
 		}
 
 		CubeResultSet resultSet = null;

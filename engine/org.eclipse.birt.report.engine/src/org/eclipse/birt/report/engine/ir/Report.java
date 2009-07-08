@@ -107,6 +107,8 @@ public class Report
 	private Expression onPageStart;
 	private Expression onPageEnd;
 
+	private String scriptLanguage = Expression.SCRIPT_JAVASCRIPT;
+
 	/**
 	 * default constructor.
 	 */
@@ -463,5 +465,15 @@ public class Report
 	public void setOnPageEnd( Expression onPageEnd )
 	{
 		this.onPageEnd = onPageEnd;
+	}
+
+	public String getScriptLanguage( )
+	{
+		return scriptLanguage;
+	}
+
+	public void setScriptLanguage( String defaultScript )
+	{
+		this.scriptLanguage = defaultScript;
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,468 +11,212 @@
 
 package org.eclipse.birt.core.script;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.exception.CoreException;
-import org.eclipse.birt.core.i18n.ResourceConstants;
-import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.LazilyLoadedCtor;
-import org.mozilla.javascript.NativeObject;
-import org.mozilla.javascript.Script;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 import com.ibm.icu.util.TimeZone;
-import com.ibm.icu.util.ULocale;
 
-/**
- * Wraps around the Rhino Script context
- * 
- */
-public class ScriptContext
+public class ScriptContext implements IScriptContext
 {
 
-	/**
-	 * for logging
-	 */
-	protected static Logger logger = Logger.getLogger( ScriptContext.class
-			.getName( ) );
+	private Locale locale;
+	private TimeZone timeZone;
+	private ClassLoader applicationClassLoader;
 
-	/**
-	 * the JavaScript Context
-	 */
-	protected Context context;
+	private ScriptContext parent;
+	private Object scope;
+	private Map<String, Object> attributes;
 
-	protected ImporterTopLevel global;
+	private Map<String, IScriptEngine> engines;
+	private Map<String, IScriptContext> scriptContexts;
+	private ScriptEngineFactoryManager engineFactoryManager;
 
-	protected Scriptable sharedScope;
-	/**
-	 * The JavaScript scope used for script execution
-	 */
-	protected Scriptable scope;
-	
-	/**
-	 * a cache storing compiled script
-	 */
-	protected Map<String, Script> compiledScripts = new HashMap<String, Script>( );
-	
-	/**
-	 * a cache storing ScriptExpression
-	 */
-	protected HashMap<String, ScriptExpression> scriptExpressionCache = new HashMap<String, ScriptExpression>( );
-
-	/**
-	 * for BIRT globel varible "params"
-	 */
-	protected NativeObject params;
-	
-	private Map<String, Object> propertyMap = new HashMap<String, Object>();
-
-	/**
-	 * constructor
-	 */
 	public ScriptContext( )
 	{
-		this( null );
+		this( null, null, null );
 	}
 
-	public ScriptContext( ScriptableObject root )
+	private ScriptContext( ScriptContext scriptContext, Object scope,
+			Map<String, Object> attributes )
 	{
-		try
+		if ( scriptContext == null )
 		{
-			this.context = Context.enter( );
-			global = new ImporterTopLevel( );
-			if ( root != null )
-			{
-				//can not put this object to root, because this object will cache package and classloader information.
-				//so we need rewrite this property.
-	            new LazilyLoadedCtor( global, "Packages",
-						"org.mozilla.javascript.NativeJavaTopPackage", false );
-				global.exportAsJSClass( 3, global, false );
-				global.delete( "constructor" );
-				global.setPrototype( root );
-			}
-			else
-			{
-				global.initStandardObjects( context, true );
-			}
-			if ( global.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
-					global ) == org.mozilla.javascript.UniqueTag.NOT_FOUND )
-			{
-				IScriptFunctionContext functionContext = new IScriptFunctionContext( ) {
-
-					public Object findProperty( String name )
-					{
-						return propertyMap.get( name );
-					}
-				};
-
-				Object sObj = Context.javaToJS( functionContext, global );
-				global.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
-						global,
-						sObj );
-			}
-			this.scope = global;
-			sharedScope = context.newObject( scope );
-			sharedScope.setParentScope( scope );
-			
+			engines = new HashMap<String, IScriptEngine>( );
 		}
-		catch ( Exception ex )
+		else
 		{
-			Context.exit( );
-			this.scope = null;
-			this.context = null;
-			if ( logger.isLoggable( Level.WARNING ) )
-			{
-				logger.log( Level.WARNING, ex.getMessage( ) );
-			}
+			engines = scriptContext.engines;
+		}
+		this.attributes = new HashMap<String, Object>( );
+		if ( attributes != null )
+		{
+			this.attributes.putAll( attributes );
+		}
+		parent = scriptContext;
+		scriptContexts = new HashMap<String, IScriptContext>( );
+		this.scope = scope;
+		this.engineFactoryManager = new ScriptEngineFactoryManager( );
+	}
+
+	public ClassLoader getApplicationClassLoader( )
+	{
+		return applicationClassLoader;
+	}
+
+	public void setApplicationClassLoader( ClassLoader loader )
+	{
+		this.applicationClassLoader = loader;
+		Collection<IScriptEngine> engineSet = engines.values( );
+		for ( IScriptEngine engine : engineSet )
+		{
+			engine.setApplicationClassLoader( loader );
 		}
 	}
 
-	public void setCompiledScripts(Map<String, Script> compiledScripts)
+	public ScriptContext newContext( Object scope )
 	{
-		this.compiledScripts = compiledScripts;
+		return newContext( scope, null );
 	}
-	
-	public void setTimeZone(TimeZone zone )
+
+	public ScriptContext newContext( Object scope,
+			Map<String, Object> attributes )
 	{
-		propertyMap.put( IScriptFunctionContext.TIMEZONE, zone );
+		ScriptContext scriptContext = new ScriptContext( this, scope,
+				attributes );
+		return scriptContext;
 	}
-	
+
+	public Map<String, Object> getAttributes( )
+	{
+		return attributes;
+	}
+
+	public void setAttributes( Map<String, Object> attributes )
+	{
+		if ( attributes != null )
+		{
+			this.attributes.putAll( attributes );
+		}
+	}
+
+	public void setAttribute( String name, Object value )
+	{
+		attributes.put( name, value );
+	}
+
+	public void removeAttribute( String name )
+	{
+		attributes.remove( name );
+	}
+
+	public ICompiledScript compile( String language, String fileName,
+			int lineNo, String script ) throws BirtException
+	{
+		assert ( language != null );
+		IScriptEngine engine = getScriptEngine( language );
+		return engine.compile( this, fileName, lineNo, script );
+	}
+
+	public Object evaluate( ICompiledScript script ) throws BirtException
+	{
+		IScriptEngine engine = getScriptEngine( script.getLanguage( ) );
+		return engine.evaluate( this, script );
+	}
+
 	public void setLocale( Locale locale )
 	{
-		context.setLocale(  locale );
-		propertyMap.put( IScriptFunctionContext.LOCALE, ULocale.forLocale( locale) );
-	}
-		
-	/**
-	 * @param name
-	 *            the name of a property
-	 * @param value
-	 *            the value of a property
-	 */
-	public void registerBean( String name, Object value )
-	{
-		Object sObj = Context.javaToJS( value, global );
-		global.put( name, global, sObj );
-	}
-	
-
-	/**
-	 * exit the scripting context
-	 */
-	public void exit( )
-	{
-		if ( context != null )
+		this.locale = locale;
+		Collection<IScriptEngine> engineSet = engines.values( );
+		for ( IScriptEngine engine : engineSet )
 		{
-			Context.exit( );
-			context = null;
-			compiledScripts = null;
-			scriptExpressionCache.clear();
+			engine.setLocale( locale );
 		}
 	}
 
-	/**
-	 * creates a new scripting scope
-	 */
-	public Scriptable enterScope( )
+	public Locale getLocale( )
 	{
-		return enterScope( null );
+		return locale;
 	}
 
-	/**
-	 * Use a new scope in the script context. The following script is evaluated
-	 * in the new scope. You must call exitScope to return to the parent scope.
-	 * The new scope is created automatically if the newScope is null.
-	 * 
-	 * @param newScope,
-	 *            scope used for following evaluation. null means create a scope
-	 *            automatically.
-	 * @return the scope used for following evaluation.
-	 */
-	public Scriptable enterScope( Scriptable newScope )
+	public void setTimeZone( TimeZone timeZone )
 	{
-		if ( newScope == null )
+		this.timeZone = timeZone;
+		Collection<IScriptEngine> engineSet = engines.values( );
+		for ( IScriptEngine engine : engineSet )
 		{
-			newScope = context.newObject( scope );
+			engine.setTimeZone( timeZone );
 		}
-		newScope.setParentScope( scope );
-		scope = newScope;
-		sharedScope.setParentScope( scope );
-		return newScope;
 	}
 
-	/**
-	 * exits from the current scripting scope. Must couple with the enterScope.
-	 */
-	public void exitScope( )
+	public TimeZone getTimeZone( )
 	{
-		Scriptable protoScope = scope.getParentScope( );
-		if ( protoScope != null )
-			scope = protoScope;
-		sharedScope.setParentScope( scope );
+		return timeZone;
 	}
 
-	/**
-	 * @return the current scope
-	 */
-	public Scriptable getScope( )
+	public void close( )
+	{
+		if ( parent == null )
+		{
+			Collection<IScriptEngine> engineSet = engines.values( );
+			for ( IScriptEngine engine : engineSet )
+			{
+				engine.close( );
+			}
+		}
+	}
+
+	public IScriptEngine getScriptEngine( String scriptName )
+			throws BirtException
+	{
+		if ( scriptName == null )
+		{
+			throw new NullPointerException( );
+		}
+		if ( engines.containsKey( scriptName ) )
+		{
+			return engines.get( scriptName );
+		}
+		IScriptEngineFactory factory = engineFactoryManager
+				.getScriptEngineFactory( scriptName );
+		if ( factory == null )
+		{
+			throw new BirtException( "No such script extension : " + scriptName );
+		}
+		return createEngine( factory );
+	}
+
+	public ScriptContext getParent( )
+	{
+		return parent;
+	}
+
+	private IScriptEngine createEngine( IScriptEngineFactory factory )
+			throws BirtException
+	{
+		IScriptEngine scriptEngine = factory.createScriptEngine( );
+		scriptEngine.setLocale( locale );
+		scriptEngine.setTimeZone( timeZone );
+		scriptEngine.setApplicationClassLoader( applicationClassLoader );
+		engines.put( factory.getScriptLanguage( ), scriptEngine );
+		return scriptEngine;
+	}
+
+	public Object getScopeObject( )
 	{
 		return scope;
 	}
 
-	public Scriptable getSharedScope( )
+	public IScriptContext getScriptContext( String language )
 	{
-		return sharedScope;
+		return scriptContexts.get( language );
 	}
 
-	public Scriptable getRootScope( )
+	public void setScriptContext( String language, IScriptContext scriptContext )
 	{
-		return global;
-	}
-
-	public Context getContext( )
-	{
-		return context;
-	}
-
-	/**
-	 * checks if a property is available in the scope
-	 * 
-	 * @param name
-	 * @return
-	 */
-	public Object lookupBean( String name )
-	{
-		assert ( context != null );
-		return scope.get( name, scope );
-	}
-
-	/**
-	 * evaluates a script
-	 * 
-	 * @param source
-	 *            script to be evaluated
-	 * @return the evaluated value
-	 */
-	public Object eval( String source ) throws BirtException
-	{
-		if ( null != source && source.length( ) > 0 )
-		{
-			ScriptExpression scriptExpression = scriptExpressionCache
-					.get( source );
-			if ( scriptExpression == null )
-			{
-				scriptExpression = new ScriptExpression( source );
-				scriptExpressionCache.put( source, scriptExpression );
-			}
-			return eval( scriptExpression );
-		}
-		return null;
-	}
-
-	/**
-	 * Evaluates a String with given scope.
-	 * @param source
-	 * @param scope
-	 * @return
-	 */
-	public Object eval( String source, Scriptable scope ) throws BirtException
-	{
-		if ( null != source && source.length( ) > 0 )
-		{
-			ScriptExpression expr = scriptExpressionCache
-					.get( source );
-			if ( expr == null )
-			{
-				expr = new ScriptExpression( source );
-				scriptExpressionCache.put( source, expr );
-			}
-			
-
-			return eval( scope, expr );
-		}
-		return null;
-	}
-
-	/**
-	 * Evaluate expr with given scope.
-	 * @param scope
-	 * @param expr
-	 * @return
-	 */
-	private Object eval( Scriptable scope, final ScriptExpression expr )
-			throws BirtException
-	{
-		String source = expr.getScriptText( );
-		Script script = expr.getCompiledScript( );
-		try
-		{
-			if ( script == null )
-			{
-				String text = expr.getScriptText( );
-				if ( context.getDebugger( ) != null )
-				{
-					source = text + expr.getLineNumber( );
-				}
-				script = compiledScripts.get( source );
-				if ( script == null )
-				{
-					script = compile( expr.getScriptText( ), expr.getId( ),
-							expr.getLineNumber( ) );
-					compiledScripts.put( source, script );
-				}
-				expr.setCompiledScript( script );
-			}
-			Object value = script.exec( context, scope );
-			return jsToJava( value );
-		}
-		catch ( Throwable ex )
-		{
-			throw new CoreException( ResourceConstants.JAVASCRIPT_COMMON_ERROR,
-					new Object[]{source, ex.getMessage( )}, ex );
-		}
-	}
-
-	private Script compile( final String script, final String id,
-			final int lineNumber )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<Script>( ) {
-
-			public Script run( )
-			{
-				return context.compileString( script, id, lineNumber, null );
-			}
-		} );
-	}
-
-	/**
-	 * evaluates a script
-	 */
-	public Object eval( ScriptExpression expr ) throws BirtException
-	{
-		assert ( this.context != null );
-		if ( null == expr )
-		{
-			return null;
-		}
-
-		return eval( this.scope, expr );
-	}
-
-	/**
-	 * converts a JS object to a Java object
-	 * 
-	 * @param jsValue
-	 *            javascript object
-	 * @return Java object
-	 */
-	public Object jsToJava( Object jsValue )
-	{
-		return JavascriptEvalUtil.convertJavascriptValue( jsValue );
-	}
-
-	public Object javaToJs( Object value )
-	{
-		return Context.javaToJS( value, scope );
-	}
-
-	/**
-	 * register a intializer which is called when construct a new script
-	 * context. You can't reigster the same initializer more than once,
-	 * otherwise the initailzier will be called multiple times.
-	 * 
-	 * @param initializer
-	 *            initializer.
-	 * @deprecated BIRT 1.0.1
-	 */
-	public static synchronized void registerInitializer(
-			IJavascriptInitializer initializer )
-	{
-	}
-
-	/**
-	 * remove a intialzier.
-	 * 
-	 * @param initializer
-	 *            to be removed.
-	 * @deprecated BIRT 1.0.1
-	 */
-	public static synchronized void unregisterInitializer(
-			IJavascriptInitializer initializer )
-	{
-	}
-
-	/**
-	 * register a wrapper which should be called in WapperFactory.
-	 * 
-	 * @param wrapper
-	 *            new wrapper.
-	 * @deprecated BIRT 1.0.1
-	 */
-	public static synchronized void registerWrapper( IJavascriptWrapper wrapper )
-	{
-	}
-
-	/**
-	 * remove the wapper.
-	 * 
-	 * @param wrapper
-	 *            to be removed.
-	 * @deprecated BIRT 1.0.1
-	 */
-	public static synchronized void unregisterWrapper(
-			IJavascriptWrapper wrapper )
-	{
-	}
-
-	public void setApplicationClassLoader( ClassLoader appLoader )
-	{
-		ClassLoader loader = appLoader;
-		try
-		{
-			appLoader.loadClass( "org.mozilla.javascript.Context" );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			loader = new RhinoClassLoaderDecoration( appLoader, getClass( )
-					.getClassLoader( ) );
-		}
-		getContext( ).setApplicationClassLoader( loader );
-	}
-	
-	private static class RhinoClassLoaderDecoration extends ClassLoader
-	{
-
-		private ClassLoader applicationClassLoader;
-		private ClassLoader rhinoClassLoader;
-
-		public RhinoClassLoaderDecoration( ClassLoader applicationClassLoader,
-				ClassLoader rhinoClassLoader )
-		{
-			this.applicationClassLoader = applicationClassLoader;
-			this.rhinoClassLoader = rhinoClassLoader;
-		}
-
-		public Class<?> loadClass( String name ) throws ClassNotFoundException
-		{
-			try
-			{
-				return applicationClassLoader.loadClass( name );
-			}
-			catch ( ClassNotFoundException e )
-			{
-				return rhinoClassLoader.loadClass( name );
-			}
-		}
+		scriptContexts.put( language, scriptContext );
 	}
 }

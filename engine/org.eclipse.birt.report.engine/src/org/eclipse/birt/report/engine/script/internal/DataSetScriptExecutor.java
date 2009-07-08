@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
@@ -39,7 +40,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	private boolean useBeforeCloseEventHandler = false;
 
 	public DataSetScriptExecutor( DataSetHandle dataSetHandle,
-			ExecutionContext context )
+			ExecutionContext context ) throws BirtException
 	{
 		super( context );
 		this.dataSetHandle = dataSetHandle;
@@ -80,7 +81,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			if ( !this.useBeforeOpenEventHandler )
 			{
 				Scriptable scope = getScriptScope( dataSet );
-				JSScriptStatus status = handleJS( scope,
+				ScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						BEFORE_OPEN,
 						dataSetHandle.getBeforeOpen( ) );
@@ -105,7 +106,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			if ( !this.useBeforeCloseEventHandler )
 			{
 				Scriptable scope = getScriptScope( dataSet );
-				JSScriptStatus status = handleJS( scope,
+				ScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						BEFORE_CLOSE,
 						dataSetHandle.getBeforeClose( ) );
@@ -130,7 +131,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			if ( !this.useAfterOpenEventHandler )
 			{
 				Scriptable scope = getScriptScope( dataSet );
-				JSScriptStatus status = handleJS(  scope ,
+				ScriptStatus status = handleJS(  scope ,
 						dataSet.getName( ),
 						AFTER_OPEN,
 						dataSetHandle.getAfterOpen( ) );
@@ -153,7 +154,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	 */
 	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet )
 	{
-		Scriptable shared = this.context.getSharedScope( );
+		Scriptable shared = this.scope;
 		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
 				shared);
 		scope.setParentScope( shared );
@@ -170,7 +171,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			if ( !this.useAfterCloseEventHandler )
 			{
 				Scriptable scope = getScriptScope( dataSet );
-				JSScriptStatus status = handleJS( scope,
+				ScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						AFTER_CLOSE,
 						dataSetHandle.getAfterClose( ) );
@@ -194,7 +195,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			if ( !this.useOnFetchEventHandler )
 			{
 				Scriptable scope = getScriptScope( dataSet );
-				JSScriptStatus status = handleJS( scope,
+				ScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						ON_FETCH,
 						dataSetHandle.getOnFetch( ) );
@@ -210,7 +211,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		}
 	}
 
-	protected JSScriptStatus handleJS( Scriptable scope, String name,
+	protected ScriptStatus handleJS( Scriptable scope, String name,
 			String method, String script )
 	{
 		return handleJS( scope, DATA_SET, name, method, script );

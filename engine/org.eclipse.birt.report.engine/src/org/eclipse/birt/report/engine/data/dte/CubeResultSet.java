@@ -199,7 +199,8 @@ public class CubeResultSet implements ICubeResultSet
 	{
 		if ( expr instanceof IScriptExpression )
 		{
-			return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
+			IScriptExpression scriptExpression = (IScriptExpression) expr;
+			return context.evaluate( scriptExpression.getText( ) );
 		}
 		if ( expr instanceof IConditionalExpression )
 		{

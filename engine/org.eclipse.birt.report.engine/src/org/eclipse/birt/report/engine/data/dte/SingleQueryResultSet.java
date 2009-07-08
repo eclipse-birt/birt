@@ -16,6 +16,7 @@ import java.sql.Blob;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -290,6 +291,12 @@ public class SingleQueryResultSet extends QueryResultSet
 
 		public IResultIterator getSecondaryIterator( String subQueryName,
 				Scriptable scope ) throws BirtException
+		{
+			return null;
+		}
+
+		public IResultIterator getSecondaryIterator( ScriptContext scriptContext,
+				String subQueryName ) throws BirtException
 		{
 			return null;
 		}

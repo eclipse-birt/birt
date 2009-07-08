@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
@@ -29,7 +30,7 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 	private IScriptedDataSourceEventHandler scriptedEventHandler;
 
 	public ScriptDataSourceScriptExecutor(
-			ScriptDataSourceHandle dataSourceHandle, ExecutionContext context )
+			ScriptDataSourceHandle dataSourceHandle, ExecutionContext context ) throws BirtException
 	{
 		super( dataSourceHandle, context );
 	}
@@ -54,7 +55,7 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 	{
 		try
 		{
-			JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+			ScriptStatus status = super.handleJS( dataSource.getScriptScope( ),
 					dataSource.getName( ), OPEN,
 					( ( ScriptDataSourceHandle ) dataSourceHandle ).getOpen( ) );
 			if ( status.didRun( ) )
@@ -72,7 +73,7 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 	{
 		try
 		{
-			JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+			ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 					dataSource.getName( ), CLOSE,
 					( ( ScriptDataSourceHandle ) dataSourceHandle ).getClose( ) );
 			if ( status.didRun( ) )

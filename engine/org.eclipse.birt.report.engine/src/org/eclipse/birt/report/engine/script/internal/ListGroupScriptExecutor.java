@@ -53,7 +53,7 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		{
 			ReportElementInstance list = new ReportElementInstance( content,
 					context, RunningState.CREATE );
-			if ( handleJS( list, listGroupDesign.getOnCreate( ), context )
+			if ( handleScript( list, listGroupDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			IListGroupEventHandler eh = getEventHandler( listGroupDesign,
@@ -80,7 +80,7 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		{
 			ReportElementInstance list = new ReportElementInstance( content,
 					context, RunningState.RENDER );
-			if ( handleJS( list, listGroupDesign.getOnRender( ), context )
+			if ( handleScript( list, listGroupDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			IListGroupEventHandler eh = getEventHandler( listGroupDesign,
@@ -107,7 +107,7 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		{
 			ReportElementInstance list = new ReportElementInstance( content,
 					context, RunningState.PAGEBREAK );
-			if ( handleJS( list, listGroupDesign.getOnPageBreak( ), context )
+			if ( handleScript( list, listGroupDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			IListGroupEventHandler eh = getEventHandler( listGroupDesign,

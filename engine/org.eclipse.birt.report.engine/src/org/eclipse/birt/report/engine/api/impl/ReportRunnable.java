@@ -13,6 +13,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -23,7 +24,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.mozilla.javascript.Script;
 
 /**
  * Engine implementation of IReportRunnable interface
@@ -48,26 +48,37 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	protected IReportEngine engine = null;
 	
-	protected Hashtable<String, Script> cachedScripts = new Hashtable<String, Script>();
+	protected Hashtable<String, Map<String, ICompiledScript>> cachedScripts = new Hashtable<String, Map<String, ICompiledScript>>( );
 
 	public void setPrepared(boolean prepared)
 	{
 		this.prepared = prepared;
 	}
 	
-	public Map<String, Script> getScriptCache()
+	public Map<String, Map<String, ICompiledScript>> getScriptCache()
 	{
 		return cachedScripts;
 	}
 	
-	public Script getScript(String source)
+	public ICompiledScript getScript(String scriptName, String source)
 	{
-		return cachedScripts.get( source );
+		Map<String, ICompiledScript> scriptCache = cachedScripts.get( scriptName );
+		if ( scriptCache == null )
+		{
+			return null;
+		}
+		return scriptCache.get( source );
 	}
 	
-	public void putScript(String source, Script script)
+	public void putScript(String scriptName, String source, ICompiledScript script)
 	{
-		cachedScripts.put( source, script );
+		Map<String, ICompiledScript> cachedScript = cachedScripts.get( scriptName );
+		if ( cachedScript == null )
+		{
+			cachedScript = new Hashtable<String, ICompiledScript>( );
+			cachedScripts.put( scriptName, cachedScript );
+		}
+		cachedScript.put( source, script );
 	}
 
 	/**

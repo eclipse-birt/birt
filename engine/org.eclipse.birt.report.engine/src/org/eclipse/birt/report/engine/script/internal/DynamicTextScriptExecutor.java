@@ -56,7 +56,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		{
 			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context, RunningState.CREATE );
-			if ( handleJS( text, textItemDesign.getOnCreate( ), context )
+			if ( handleScript( text, textItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			IDynamicTextEventHandler eh = getEventHandler( textItemDesign,
@@ -83,7 +83,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		{
 			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context, RunningState.RENDER );
-			if ( handleJS( text, textItemDesign.getOnRender( ), context )
+			if ( handleScript( text, textItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			IDynamicTextEventHandler eh = getEventHandler( textItemDesign,
@@ -110,7 +110,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		{
 			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context, RunningState.PAGEBREAK );
-			if ( handleJS( text, textItemDesign.getOnPageBreak( ), context )
+			if ( handleScript( text, textItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			IDynamicTextEventHandler eh = getEventHandler( textItemDesign,

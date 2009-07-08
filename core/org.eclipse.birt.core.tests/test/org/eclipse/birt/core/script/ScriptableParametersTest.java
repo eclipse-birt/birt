@@ -18,7 +18,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.mozilla.javascript.JavaScriptException;
 
 public class ScriptableParametersTest extends TestCase
 {
@@ -31,8 +30,7 @@ public class ScriptableParametersTest extends TestCase
 		context = new ScriptContext( );
 		params = new HashMap( );
 		addParameter( "string", "abc", "STRING VALUE" );
-		context.registerBean( "params", new ScriptableParameters( params,
-				context.getScope( ) ) );
+		context.setAttribute( "params", params );
 	}
 
 	private void addParameter( String name, Object value, String displayText )
@@ -42,31 +40,31 @@ public class ScriptableParametersTest extends TestCase
 
 	public void tearDown( )
 	{
-		context.exit( );
+		context.close( );
 	}
 
 	public void testAssign( ) throws BirtException
 	{
 		// change to a exits parameters
-		context.eval( "params['string'] = 'abcd'" );
-		assertEquals( "abcd", context.eval( "params['string']" ) );
-		context.eval( "params['string'].value = 'abcde'" );
-		assertEquals( "abcde", context.eval( "params['string']" ) );
-		context.eval( "params['string'].displayText = 'display'" );
-		assertEquals( "display", context.eval( "params['string'].displayText" ) );
+		eval( "params['string'] = 'abcd'" );
+		assertEquals( "abcd", eval( "params['string']" ) );
+		eval( "params['string'].value = 'abcde'" );
+		assertEquals( "abcde", eval( "params['string']" ) );
+		eval( "params['string'].displayText = 'display'" );
+		assertEquals( "display", eval( "params['string'].displayText" ) );
 
 		// assign to a none exist parameter will create a new entry
 		// automatcially
-		context.eval( "params['new param'] = 'abc'" );
-		assertEquals( "abc", context.eval( "params['new param']" ) );
+		eval( "params['new param'] = 'abc'" );
+		assertEquals( "abc", eval( "params['new param']" ) );
 		
 		//test case for 163786
-		context.eval( "params['date'] = new Date()" );
-		Object date = context.eval( "params['date'].value");
+		eval( "params['date'] = new Date()" );
+		Object date = eval( "params['date'].value");
 		assertTrue(date instanceof java.util.Date);
 
-		context.eval( "params['number'] = new Number(3)" );
-		Object num = context.eval( "params['number'].value");
+		eval( "params['number'] = new Number(3)" );
+		Object num = eval( "params['number'].value");
 		assertTrue(num instanceof Double);
 
 	}
@@ -76,7 +74,7 @@ public class ScriptableParametersTest extends TestCase
 		// access the none exist paramter will return null directl
 		try
 		{
-			context.eval( "params['none exsit'] == null" );
+			eval( "params['none exsit'] == null" );
 			fail( );
 		}
 		catch ( BirtException e )
@@ -85,37 +83,41 @@ public class ScriptableParametersTest extends TestCase
 		}
 
 		// access the paramters from value
-		assertEquals( "abc", context.eval( "params['string'].value" ) );
-		assertEquals( "bbc", context
-				.eval( "params['string'].value.replace('a', 'b')" ) );
+		assertEquals( "abc", eval( "params['string'].value" ) );
+		assertEquals( "bbc", eval( "params['string'].value.replace('a', 'b')" ) );
 		// access the paramters from the display text
-		assertEquals( "STRING VALUE", context
-				.eval( "params['string'].displayText" ) );
+		assertEquals( "STRING VALUE", eval( "params['string'].displayText" ) );
 
 		// access the paramters from default value
-		assertEquals( "abc", context.eval( "params['string']" ) );
-		assertEquals( "bbc", context.eval( "var value = params['string'];"
+		assertEquals( "abc", eval( "params['string']" ) );
+		assertEquals( "bbc", eval( "var value = params['string'];"
 				+ "value.replace('a', 'b')" ) );
 	}
 
 	public void testEval( ) throws BirtException
 	{
 		addParameter( "jsDate", "", "" );
-		context.eval( "params['jsDate']=new Date();" );
-		assertTrue( context.eval("params['jsDate'].getFullYear()") instanceof Number );
-		assertTrue( context.eval( "params['jsDate'].value.getFullYear()" ) instanceof Number );
+		eval( "params['jsDate']=new Date();" );
+		assertTrue( eval("params['jsDate'].getFullYear()") instanceof Number );
+		assertTrue( eval( "params['jsDate'].value.getFullYear()" ) instanceof Number );
 
 		addParameter( "jsString", "", "" );
-		context.eval( "params['jsString']='testString';" );
-		assertEquals( new Integer( 10 ), context
-				.eval( "params['jsString'].length" ) );
-		assertEquals( new Integer( 10 ), context
-				.eval( "params['jsString'].value.length" ) );
+		eval( "params['jsString']='testString';" );
+		assertEquals( new Integer( 10 ), eval( "params['jsString'].length" ) );
+		assertEquals( new Integer( 10 ),
+				eval( "params['jsString'].value.length" ) );
 
-		addParameter( "javaDate", new Date(2008, 03, 05), "" );
-		assertEquals( new Integer( 2008 ), context
-				.eval( "params['javaDate'].getYear()" ) );
-		assertEquals( new Integer( 2008 ), context
-				.eval( "params['javaDate'].value.getYear()" ) );
+		addParameter( "javaDate", new Date( 2008, 03, 05 ), "" );
+		assertEquals( new Integer( 2008 ),
+				eval( "params['javaDate'].getYear()" ) );
+		assertEquals( new Integer( 2008 ),
+				eval( "params['javaDate'].value.getYear()" ) );
+	}
+
+	private Object eval( String javascript ) throws BirtException
+	{
+		ICompiledScript compiledScript = context.compile( "javascript",
+				"<inline>", 1, javascript );
+		return context.evaluate( compiledScript );
 	}
 }

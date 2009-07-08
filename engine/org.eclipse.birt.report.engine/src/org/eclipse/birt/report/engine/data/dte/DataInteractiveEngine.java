@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -37,9 +38,7 @@ import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.mozilla.javascript.Scriptable;
 
 
 /**
@@ -195,8 +194,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		
 		IBasePreparedQuery pQuery = dteSession.prepare( query, null );
 
-		Scriptable scope = context.getSharedScope( );
-
 		String pRsetId = null; // id of the parent query restuls
 		String rowId = "-1"; // row id of the parent query results
 		IBaseQueryResults dteResults = null; // the dteResults of this query
@@ -212,7 +209,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			if ( dteResults == null )
 			{
-				dteResults = dteSession.execute( pQuery, null, scope );
+				dteResults = dteSession.execute( pQuery, null, context.getScriptContext( ) );
 				putCachedQueryResult( query, dteResults.getID( ) );
 			}
 			resultSet = new QueryResultSet( this, context,
@@ -240,7 +237,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			if ( dteResults == null )
 			{
-				dteResults = dteSession.execute( pQuery, parentQueryResults, scope );
+				dteResults = dteSession.execute( pQuery, parentQueryResults, context.getScriptContext( ) );
 				putCachedQueryResult( query, dteResults.getID( ) );
 			}
 			resultSet = new QueryResultSet( this, context, parentResult,
@@ -309,17 +306,16 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		query.setQueryResultsID( resultSetID );
 		IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
 
-		Scriptable scope = context.getSharedScope( );
-
 		String pRsetId = null; // id of the parent query restuls
 		String rowId = "-1"; // row id of the parent query results
 		IBaseQueryResults dteResults; // the dteResults of this query
 		CubeResultSet resultSet = null;
 
+		ScriptContext scriptContext = context.getScriptContext( );
 		if ( parentQueryResults == null )
 		{
 			// this is the root query
-			dteResults = dteSession.execute( pQuery, null, scope );
+			dteResults = dteSession.execute( pQuery, null, scriptContext );
 			resultSet = new CubeResultSet( this, context, query,
 					(ICubeQueryResults) dteResults );
 		}
@@ -331,7 +327,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			// this is the nest query, execute the query in the
 			// parent results
 			dteResults = dteSession.execute( pQuery, parentQueryResults,
-					scope );
+					scriptContext );
 			resultSet = new CubeResultSet( this, context, parentResult, query,
 					(ICubeQueryResults) dteResults );
 		}

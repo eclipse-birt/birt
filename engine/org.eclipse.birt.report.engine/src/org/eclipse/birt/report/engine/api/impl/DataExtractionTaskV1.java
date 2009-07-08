@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -76,7 +77,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.mozilla.javascript.Scriptable;
 
 public class DataExtractionTaskV1 extends EngineTask
 		implements
@@ -709,9 +709,9 @@ public class DataExtractionTaskV1 extends EngineTask
 				{
 					// this is a sub query
 					String queryName = query.getName( );
-					Scriptable scope = executionContext.getSharedScope( );
+					ScriptContext scriptContext = executionContext.getScriptContext( );
 					IResultIterator itr2 = parentItr.getSecondaryIterator(
-							queryName, scope );
+							scriptContext, queryName );
 					parent = new QueryResultSet( parent,
 							(ISubqueryDefinition) query, itr2 );
 				}
@@ -779,7 +779,7 @@ public class DataExtractionTaskV1 extends EngineTask
 				setupDistinct( newQuery );
 			}
 			// execute query
-			Scriptable scope = executionContext.getSharedScope( );
+			ScriptContext scriptContext = executionContext.getScriptContext( );
 			processQueryExtensions( newQuery, executionContext );
 			if ( dataSession == null )
 			{
@@ -790,7 +790,7 @@ public class DataExtractionTaskV1 extends EngineTask
 			{
 				return null;
 			}
-			results = preparedQuery.execute( scope );
+			results = (IQueryResults)dataSession.execute( preparedQuery, null, scriptContext );
 			if ( null != results )
 			{
 				IResultMetaData metaData = getResultMetaData( rsetName );
@@ -884,14 +884,14 @@ public class DataExtractionTaskV1 extends EngineTask
 			{
 				return null;
 			}
-			Scriptable scope = executionContext.getSharedScope( );
+			ScriptContext scriptContext = executionContext.getScriptContext( );
 			processQueryExtensions( newQuery, executionContext );
 			IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
 			if( preparedQuery == null )
 			{
 				return null;
 			}
-			queryResults = preparedQuery.execute( scope );
+			queryResults = (IQueryResults)dataSession.execute( preparedQuery, null, scriptContext );
 		}
 		if ( queryResults != null )
 		{

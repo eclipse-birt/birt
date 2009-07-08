@@ -58,7 +58,7 @@ public class CellScriptExecutor extends ScriptExecutor
 			}
 			ICellInstance cell = new CellInstance( content, context,
 					RunningState.CREATE, fromGrid );
-			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
+			if ( handleScript( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = getEventHandler( cellDesign, context );
 			if ( eh != null )
@@ -90,7 +90,7 @@ public class CellScriptExecutor extends ScriptExecutor
 			ICellInstance cell = new CellInstance( content, context,
 					RunningState.RENDER,
 					false );
-			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
+			if ( handleScript( cell, cellDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = getEventHandler( cellDesign, context );
 			if ( eh != null )
@@ -121,7 +121,7 @@ public class CellScriptExecutor extends ScriptExecutor
 			ICellInstance cell = new CellInstance( content, context,
 					RunningState.RENDER,
 					false );
-			if ( handleJS( cell, cellDesign.getOnPageBreak( ), context ).didRun( ) )
+			if ( handleScript( cell, cellDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = getEventHandler( cellDesign, context );
 			if ( eh != null )

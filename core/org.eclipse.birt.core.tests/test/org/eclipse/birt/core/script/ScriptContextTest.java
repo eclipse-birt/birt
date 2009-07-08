@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 /**
  * 
@@ -36,7 +33,7 @@ public class ScriptContextTest extends TestCase
 
 	public void tearDown( )
 	{
-		context.exit( );
+		context.close( );
 	}
 
 	/**
@@ -45,19 +42,18 @@ public class ScriptContextTest extends TestCase
 	public void testScope( ) throws BirtException
 	{
 		//register A in root
-		context.registerBean( "A", new Integer( 10 ) );
-		context.enterScope( );
+		context.setAttribute( "A", new Integer( 10 ) );
 		//register B in root
-		context.registerBean( "B", new Integer( 20 ) );
-		Object result = context.eval( "A + B" );
+		ScriptContext context1 = context.newContext( null );
+		context.setAttribute( "B", new Integer( 20 ) );
+		Object result = eval( context1, "A + B" );
 		assertEquals( ( (Number) result ).doubleValue( ), 30.0,
 				Double.MIN_VALUE );
-		context.exitScope( );
 		//B is valid now
 		boolean hasException = false;
 		try
 		{
-			result = context.eval( "A + B" );
+			result = eval( context, "A + B" );
 		}
 		catch ( Exception ex )
 		{
@@ -65,9 +61,17 @@ public class ScriptContextTest extends TestCase
 		}
 		assertTrue( !hasException );
 		//A is still valid
-		result = context.eval( "A" );
+		result = eval( context, "A" );
 		assertEquals( ( (Number) result ).doubleValue( ), 10.0,
 				Double.MIN_VALUE );
+	}
+
+	private Object eval( ScriptContext scriptContext, String script )
+			throws BirtException
+	{
+		Object result = scriptContext.evaluate( context.compile( "javascript",
+				"<inline>", 1, script ) );
+		return result;
 	}
 	
 	/**
@@ -76,18 +80,16 @@ public class ScriptContextTest extends TestCase
 	public void testJavaScope() throws BirtException
 	{
 		StringBuffer buffer = new StringBuffer();
-		Scriptable javaScope = (Scriptable)Context.javaToJS(buffer, context.getScope());
 		//define a function in the root
-		context.eval("function getText() { return 'TEXT'};");
+		eval(context, "function getText() { return 'TEXT'};");
 		
+		ScriptContext context1 = context.newContext( buffer );
 		//enter java-based scope
-		context.enterScope(javaScope);
-		context.eval("append(getText());");
-		context.eval("append('TEXT2');");
-		context.exitScope();
+		eval(context1, "append(getText());");
+		eval(context1, "append('TEXT2');");
 		
 		assertEquals("TEXTTEXT2", buffer.toString());
-		Object result = context.eval("getText()");
+		Object result = eval(context, "getText()");
 		assertEquals("TEXT", result);
 	}
 	
@@ -101,18 +103,16 @@ public class ScriptContextTest extends TestCase
 	 */
 	public void testCompiledScript() throws BirtException
 	{
-		context.enterScope();
-		context.eval("function getText() { return 'A'}");
-		assertEquals("A", context.eval("getText()"));
-		context.exitScope();
-		context.enterScope();
-		context.eval("function getText() { return 'B'}");
-		assertEquals("B", context.eval("getText()"));
-		context.exitScope();
+		ScriptContext context1 = context.newContext( null );
+		eval(context1, "function getText() { return 'A'}");
+		assertEquals("A", eval(context1, "getText()"));
+		ScriptContext context2 = context.newContext( null );
+		eval(context2, "function getText() { return 'B'}");
+		assertEquals("B", eval(context2, "getText()"));
 		boolean hasException = false;
 		try
 		{
-			context.eval("getText()");
+			eval(context, "getText()");
 		}
 		catch(Exception ex)
 		{
@@ -127,10 +127,10 @@ public class ScriptContextTest extends TestCase
 	 */
 	public void testGlobal() throws BirtException
 	{
-		context.eval("importPackage(java.util)");
-		context.eval("importClass(java.text.DateFormat)");
-		Object list = context.eval("new ArrayList()");
-		Object fmt = context.eval("DateFormat.getInstance()");
+		eval(context, "importPackage(java.util)");
+		eval(context, "importClass(java.text.DateFormat)");
+		Object list = eval(context, "new ArrayList()");
+		Object fmt = eval(context, "DateFormat.getInstance()");
 		assertTrue(list instanceof ArrayList);
 		assertTrue(fmt instanceof DateFormat);
 	}
@@ -141,14 +141,10 @@ public class ScriptContextTest extends TestCase
 	 */
 	public void testRootScope( ) throws BirtException
 	{
-		Context context = Context.enter( );
-		ScriptableObject root = context.initStandardObjects( );
-		root.put( "share", root, "ABCDEFG" );
-		Context.exit( );
-		ScriptContext cx = new ScriptContext( root );
-		Object result = cx.eval( "share + 'c'" );
+		context.setAttribute( "share", "ABCDEFG" );
+		Object result = eval( context, "share + 'c'" );
 		assertEquals( "ABCDEFGc", result.toString( ) );
-		cx.exit( );
+		context.close( );
 	}
 	
 	/**
@@ -157,34 +153,25 @@ public class ScriptContextTest extends TestCase
 	 */
 	public void testThisObject() throws BirtException
 	{
-		context.registerBean("A", "ABCDE");
+		context.setAttribute("A", "ABCDE");
 		
-		Context cx = context.getContext();
-		
-		Scriptable scope = context.getScope();
-		Scriptable obj = cx.newObject(scope);
-		obj.put("a", obj, "VALUE");
-		//enter a scope
-		context.enterScope(obj);
-		//this is the current scope
-		Object result = context.eval("this");
-		assertEquals(obj, result);
-		//it can access the member in the scope
-		result = context.eval("a");
+		ScriptContext context1 = context.newContext( null );
+		context1.setAttribute( "a", "VALUE");
+		Object result = eval(context1, "a");
 		assertEquals("VALUE", result);
 
 		//it can use this to access the member of scope
-		result = context.eval("this.a");
+		result = eval(context1, "this.a");
 		assertEquals("VALUE", result);
 		
 		//it can access the member of parent
-		result = context.eval("A");
+		result = eval(context1, "A");
 		assertEquals("ABCDE", result);
 		
 		//it can not use this to access the member of parent.
-		result = context.eval("this.A");
+		result = eval(context1, "this.A");
 		assertEquals(null, result);
 		
-		context.exit();
+		context.close();
 	}
 }

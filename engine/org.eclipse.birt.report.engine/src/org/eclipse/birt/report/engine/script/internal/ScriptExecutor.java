@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.EventHandlerManager;
@@ -43,13 +42,13 @@ public class ScriptExecutor
 			.getName( ) );
 
 
-	protected static JSScriptStatus handleJS( Object scope,
+	protected static ScriptStatus handleScript( Object scope,
 			Expression expr, ExecutionContext context ) throws BirtException
 	{
-		return handleJSInternal( scope, expr, context );
+		return handleScriptInternal( scope, expr, context );
 	}
 
-	private static JSScriptStatus handleJSInternal( Object scope,
+	private static ScriptStatus handleScriptInternal( Object scope,
 			Expression expr, ExecutionContext context ) throws BirtException
 	{
 		if ( expr != null )
@@ -60,14 +59,14 @@ public class ScriptExecutor
 					context.newScope( scope );
 				Object result = null;
 				result = context.evaluate( expr );
-				return new JSScriptStatus( true, result );
+				return new ScriptStatus( true, result );
 			} finally
 			{
 				if ( scope != null )
 					context.exitScope( );
 			}
 		}
-		return JSScriptStatus.NO_RUN;
+		return ScriptStatus.NO_RUN;
 	}
 	
 	protected static boolean needOnCreate( ReportItemDesign design )
@@ -174,16 +173,16 @@ public class ScriptExecutor
 			context.addException( handle, eex );
 	}
 	
-	protected static class JSScriptStatus
+	protected static class ScriptStatus
 	{
 		private boolean didRun;
 
 		private Object result;
 
-		public static final JSScriptStatus NO_RUN = new JSScriptStatus( false,
+		public static final ScriptStatus NO_RUN = new ScriptStatus( false,
 				null );
 
-		public JSScriptStatus( boolean didRun, Object result )
+		public ScriptStatus( boolean didRun, Object result )
 		{
 			this.didRun = didRun;
 			this.result = result;

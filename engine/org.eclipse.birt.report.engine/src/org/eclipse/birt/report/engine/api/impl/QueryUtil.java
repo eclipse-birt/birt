@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -48,7 +49,6 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.mozilla.javascript.Scriptable;
 
 public class QueryUtil
 {
@@ -297,9 +297,9 @@ public class QueryUtil
 						IResultIterator parentItr = ( (QueryResultSet) parent )
 								.getResultIterator( );
 						String queryName = query.getName( );
-						Scriptable scope = executionContext.getSharedScope( );
-						IResultIterator itr = parentItr.getSecondaryIterator(
-								queryName, scope );
+						IResultIterator itr = parentItr
+								.getSecondaryIterator( executionContext
+										.getScriptContext( ), queryName );
 						parent = new QueryResultSet( (QueryResultSet) parent,
 								(ISubqueryDefinition) query, itr );
 					}
@@ -392,8 +392,7 @@ public class QueryUtil
 			if ( dataSession == null )
 				return null;
 			Map appContext = executionContext.getAppContext( );
-			Scriptable scope = executionContext.getSharedScope( );
-
+			ScriptContext scriptContext = executionContext.getScriptContext( );
 			processQueryExtensions( query, executionContext );
 			if ( query instanceof QueryDefinition )
 			{
@@ -403,7 +402,7 @@ public class QueryUtil
 						appContext );
 				if ( pQuery == null )
 					return null;
-				return pQuery.execute( parent, scope );
+				return dataSession.execute(  pQuery, parent, scriptContext );
 			}
 			else if ( query instanceof ICubeQueryDefinition )
 			{
@@ -413,7 +412,7 @@ public class QueryUtil
 						appContext );
 				if ( pQuery == null )
 					return null;
-				return pQuery.execute( parent, scope );
+				return dataSession.execute(  pQuery, parent, scriptContext );
 			}
 			else if ( query instanceof ISubCubeQueryDefinition )
 			{
@@ -422,7 +421,7 @@ public class QueryUtil
 						appContext );
 				if ( pQuery == null )
 					return null;
-				return pQuery.execute( parent, scope );
+				return dataSession.execute(  pQuery, parent, scriptContext );
 			}
 		}
 		catch ( BirtException ex )

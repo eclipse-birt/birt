@@ -55,7 +55,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			IDataItemInstance dataItem = new DataItemInstance( content,
 					context, RunningState.CREATE );
-			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context )
+			if ( handleScript( dataItem, dataItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			IDataItemEventHandler eh = getEventHandler( dataItemDesign, context );
@@ -81,7 +81,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			IDataItemInstance dataItem = new DataItemInstance( content,
 					context, RunningState.RENDER );
-			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context )
+			if ( handleScript( dataItem, dataItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			IDataItemEventHandler eh = getEventHandler( dataItemDesign, context );
@@ -106,7 +106,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			IDataItemInstance dataItem = new DataItemInstance( content,
 					context, RunningState.PAGEBREAK );
-			if ( handleJS( dataItem, dataItemDesign.getOnPageBreak( ), context )
+			if ( handleScript( dataItem, dataItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			IDataItemEventHandler eh = getEventHandler( dataItemDesign, context );

@@ -53,7 +53,7 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ITableInstance table = new TableInstance( content, context,
 					RunningState.CREATE );
-			if ( handleJS( table, tableDesign.getOnCreate( ), context )
+			if ( handleScript( table, tableDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			ITableEventHandler eh = getEventHandler( tableDesign, context );
@@ -78,7 +78,7 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ITableInstance table = new TableInstance( content, context,
 					RunningState.RENDER );
-			if ( handleJS( table, tableDesign.getOnRender( ), context )
+			if ( handleScript( table, tableDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			ITableEventHandler eh = getEventHandler( tableDesign, context );
@@ -103,7 +103,7 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ITableInstance table = new TableInstance( content, context,
 					RunningState.PAGEBREAK );
-			if ( handleJS( table, tableDesign.getOnPageBreak( ), context )
+			if ( handleScript( table, tableDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			ITableEventHandler eh = getEventHandler( tableDesign, context );

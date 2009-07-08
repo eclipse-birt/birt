@@ -11,15 +11,11 @@
 
 package org.eclipse.birt.core.script;
 
-import org.eclipse.birt.core.exception.BirtException;
 
-public interface IScriptEngineFactory
+public interface IScriptContext
 {
 
-	String getScriptLanguage( );
+	public void setAttribute( String name, Object value );
 
-	/**
-	 * Returns an instance of IScriptEngine associated with this factory.
-	 */
-	IScriptEngine createScriptEngine( ) throws BirtException;
+	public void removeAttribute( String name );
 }

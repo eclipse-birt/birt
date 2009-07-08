@@ -106,31 +106,8 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 		{
 			IDesignElement element = SimpleElementFactory.getInstance( )
 					.getElement( handle );
-			try
-			{
-				if ( element != null )
-				{
-					executionContext.newScope( element );
-				}
-				if ( handle.getOnPrepare( ) != null )
-				{
-					executionContext
-							.evaluate( getOnPrepareScriptExpression( handle ) );
-				}
-				return;
-			}
-			catch ( BirtException ex )
-			{
-				executionContext.addException( handle, ex );
-				return;
-			}
-			finally
-			{
-				if ( element != null )
-				{
-					executionContext.exitScope( );
-				}
-			}
+			processOnPrepareScript( handle, element );
+			return;
 		}
 		try
 		{
@@ -187,28 +164,50 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 			}
 			else
 			{
-				// if there's no ScriptExecutor available, execute javascript
-				// only
-				try
-				{
-					executionContext.newScope( handle );
-					executionContext
-							.evaluate( getOnPrepareScriptExpression( handle ) );
-				}
-				catch ( BirtException ex )
-				{
-					executionContext.addException( handle, ex );
-					return;
-				}
-				finally
-				{
-					executionContext.exitScope( );
-				}
+				processOnPrepareScript( handle, handle );
 			}
 		}
 		finally
 		{
 			executionContext.popHandle( );
+		}
+	}
+
+	private void processOnPrepareScript( ReportItemHandle handle, Object element )
+	{
+		if ( element != null )
+		{
+			executionContext.newScope( element );
+		}
+		try
+		{
+			if ( handle.getOnPrepare( ) != null )
+			{
+				if ( handle.getOnPrepare( ) != null )
+				{
+					String scriptText = handle.getOnPrepare( );
+					if ( null != scriptText )
+					{
+						String id = ModuleUtil
+						.getScriptUID( handle
+								.getPropertyHandle( IReportItemModel.ON_PREPARE_METHOD ) );
+						executionContext.evaluate( id, scriptText );
+					}
+				}
+			}
+			return;
+		}
+		catch ( BirtException ex )
+		{
+			executionContext.addException( handle, ex );
+			return;
+		}
+		finally
+		{
+			if ( element != null )
+			{
+				executionContext.exitScope( );
+			}
 		}
 	}
 
@@ -259,9 +258,7 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 						String id = ModuleUtil
 								.getScriptUID( handle
 										.getPropertyHandle( IReportItemModel.ON_PREPARE_METHOD ) );
-						ScriptExpression scriptExpr = new ScriptExpression(
-								scriptText, id );
-						executionContext.evaluate( scriptExpr );
+						executionContext.evaluate( id, scriptText );
 					}
 				}
 				return;
@@ -318,9 +315,7 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 						String id = ModuleUtil
 								.getScriptUID( handle
 										.getPropertyHandle( IGroupElementModel.ON_PREPARE_METHOD ) );
-						ScriptExpression expr = new ScriptExpression(
-								scriptText, id );
-						executionContext.evaluate( expr );
+						executionContext.evaluate( id, scriptText );
 					}
 				}
 				return;
@@ -382,9 +377,7 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 						String id = ModuleUtil
 								.getScriptUID( handle
 										.getPropertyHandle( ITableRowModel.ON_PREPARE_METHOD ) );
-						ScriptExpression expr = new ScriptExpression(
-								scriptText, id );
-						executionContext.evaluate( expr );
+						executionContext.evaluate( id, scriptText );
 					}
 				}
 				return;

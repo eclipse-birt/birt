@@ -56,7 +56,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			IImageInstance image = new ImageInstance( content, context,
 					RunningState.CREATE );
-			if ( handleJS( image, imageDesign.getOnCreate( ), context )
+			if ( handleScript( image, imageDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			IImageEventHandler eh = getEventHandler( imageDesign, context );
@@ -82,7 +82,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			IImageInstance image = new ImageInstance( content, context,
 					RunningState.RENDER );
-			if ( handleJS( image, imageDesign.getOnRender( ), context )
+			if ( handleScript( image, imageDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			IImageEventHandler eh = getEventHandler( imageDesign, context );
@@ -108,7 +108,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			IImageInstance image = new ImageInstance( content, context,
 					RunningState.PAGEBREAK );
-			if ( handleJS( image, imageDesign.getOnPageBreak( ), context )
+			if ( handleScript( image, imageDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 			IImageEventHandler eh = getEventHandler( imageDesign, context );

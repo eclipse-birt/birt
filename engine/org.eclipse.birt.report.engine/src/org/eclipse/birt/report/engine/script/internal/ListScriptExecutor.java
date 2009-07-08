@@ -53,7 +53,7 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			IListInstance list = new ListInstance( content, context,
 					RunningState.CREATE );
-			if ( handleJS( list, listDesign.getOnCreate( ), context ).didRun( ) )
+			if ( handleScript( list, listDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = getEventHandler( listDesign, context );
 			if ( eh != null )
@@ -77,7 +77,7 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			IListInstance list = new ListInstance( content, context,
 					RunningState.RENDER );
-			if ( handleJS( list, listDesign.getOnRender( ), context ).didRun( ) )
+			if ( handleScript( list, listDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = getEventHandler( listDesign, context );
 			if ( eh != null )
@@ -101,7 +101,7 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			IListInstance list = new ListInstance( content, context,
 					RunningState.PAGEBREAK );
-			if ( handleJS( list, listDesign.getOnPageBreak( ), context ).didRun( ) )
+			if ( handleScript( list, listDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = getEventHandler( listDesign, context );
 			if ( eh != null )

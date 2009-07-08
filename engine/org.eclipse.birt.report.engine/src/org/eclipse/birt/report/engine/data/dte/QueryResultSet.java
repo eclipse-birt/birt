@@ -325,7 +325,8 @@ public class QueryResultSet implements IQueryResultSet
 		Object result = null;
 		if ( expr instanceof IScriptExpression )
 		{
-			result = context.evaluate( ( (IScriptExpression) expr ).getText( ) );
+			IScriptExpression scriptExpression = (IScriptExpression) expr;
+			result = context.evaluate( scriptExpression.getText( ) );
 		}
 		else if ( expr instanceof IConditionalExpression )
 		{

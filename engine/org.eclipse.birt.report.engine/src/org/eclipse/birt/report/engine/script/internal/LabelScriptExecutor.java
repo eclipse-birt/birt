@@ -53,7 +53,7 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ILabelInstance label = new LabelInstance( content, context,
 					RunningState.CREATE );
-			if ( handleJS( label, labelDesign.getOnCreate( ), context )
+			if ( handleScript( label, labelDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
 			ILabelEventHandler eh = getEventHandler( labelDesign, context );
@@ -79,7 +79,7 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ILabelInstance label = new LabelInstance( content, context,
 					RunningState.RENDER );
-			if ( handleJS( label, labelDesign.getOnRender( ), context )
+			if ( handleScript( label, labelDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
 			ILabelEventHandler eh = getEventHandler( labelDesign, context );
@@ -105,7 +105,7 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ILabelInstance label = new LabelInstance( content, context,
 					RunningState.PAGEBREAK );
-			if ( handleJS( label, labelDesign.getOnPageBreak( ), context )
+			if ( handleScript( label, labelDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
 

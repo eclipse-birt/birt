@@ -44,7 +44,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	private boolean useDescribeEventHandler = false;
 	
 	public ScriptDataSetScriptExecutor( ScriptDataSetHandle dataSetHandle,
-			ExecutionContext context )
+			ExecutionContext context ) throws BirtException
 	{
 		super( dataSetHandle, context );
 		useOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getOpen( ) );
@@ -76,7 +76,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		{
 			if ( !this.useOpenEventHandler )
 			{
-				JSScriptStatus status = handleJS( getScriptScope( dataSet ),
+				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						OPEN,
 						( (ScriptDataSetHandle) dataSetHandle ).getOpen( ) );
@@ -97,7 +97,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		{
 			if ( !this.useCloseEventHandler )
 			{
-				JSScriptStatus status = handleJS( getScriptScope( dataSet ),
+				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						CLOSE,
 						( (ScriptDataSetHandle) dataSetHandle ).getClose( ) );
@@ -118,7 +118,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		{
 			if ( !useFetchEventHandler )
 			{
-				JSScriptStatus status = handleJS( getScriptScope( dataSet ),
+				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						FETCH,
 						( (ScriptDataSetHandle) dataSetHandle ).getFetch( ) );
@@ -150,7 +150,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		{
 			if ( !this.useDescribeEventHandler )
 			{
-				JSScriptStatus status = handleJS( getScriptScope( dataSet ),
+				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						DESCRIBE,
 						( (ScriptDataSetHandle) dataSetHandle ).getDescribe( ) );
@@ -176,7 +176,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	
 	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet )
 	{
-		Scriptable shared = this.context.getSharedScope( );
+		Scriptable shared = this.scope;
 		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
 				shared);
 		scope.setParentScope( shared );

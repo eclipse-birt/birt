@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptExpression;
+import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 
 public abstract class Expression
@@ -157,7 +157,7 @@ public abstract class Expression
 	static public class Script extends Expression
 	{
 
-		transient ScriptExpression scriptExpression;
+		transient ICompiledScript compiledScript;
 
 		String language;
 		String fileName;
@@ -177,16 +177,16 @@ public abstract class Expression
 			return SCRIPT;
 		}
 
-		public ScriptExpression getScriptExpression( )
+		public ICompiledScript getScriptExpression( )
 		{
-			if ( scriptExpression == null )
-			{
-				scriptExpression = new ScriptExpression( scriptText, fileName,
-						lineNumber );
-			}
-			return scriptExpression;
+			return compiledScript;
 		}
 
+		public void setCompiledScript(ICompiledScript compiledScript )
+		{
+			this.compiledScript = compiledScript;
+		}
+		
 		public String getLanguage( )
 		{
 			return language;

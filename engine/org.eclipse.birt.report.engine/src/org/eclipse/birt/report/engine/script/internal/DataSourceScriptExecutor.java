@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -35,7 +36,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 	private boolean useAfterCloseEventHandler = false;
 
 	public DataSourceScriptExecutor( DataSourceHandle dataSourceHandle,
-			ExecutionContext context )
+			ExecutionContext context ) throws BirtException
 	{
 		super( context );
 		this.dataSourceHandle = dataSourceHandle;
@@ -75,7 +76,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useBeforeOpenEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 						dataSource.getName( ),
 						BEFORE_OPEN,
 						dataSourceHandle.getBeforeOpen( ) );
@@ -99,7 +100,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useBeforeCloseEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 						dataSource.getName( ),
 						BEFORE_CLOSE,
 						dataSourceHandle.getBeforeClose( ) );
@@ -123,7 +124,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useAfterOpenEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 						dataSource.getName( ),
 						AFTER_OPEN,
 						dataSourceHandle.getAfterOpen( ) );
@@ -147,7 +148,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useAfterCloseEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 						dataSource.getName( ),
 						AFTER_CLOSE,
 						dataSourceHandle.getAfterClose( ) );
@@ -162,7 +163,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		}
 	}
 
-	protected JSScriptStatus handleJS( Scriptable scope, String name,
+	protected ScriptStatus handleJS( Scriptable scope, String name,
 			String method, String script )
 	{
 		return handleJS( scope, DATA_SOURCE, name, method, script );

@@ -31,7 +31,7 @@ public class PageScriptExecutor extends ScriptExecutor
 		{
 			IPageInstance pageInstance = new PageInstance( context,
 					pageContent, contents );
-			if ( handleJS( pageInstance, pageScript, context ).didRun( ) )
+			if ( handleScript( pageInstance, pageScript, context ).didRun( ) )
 				return;
 		}
 		catch ( Exception e )

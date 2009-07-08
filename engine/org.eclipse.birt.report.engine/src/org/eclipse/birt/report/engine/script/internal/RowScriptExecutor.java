@@ -53,7 +53,7 @@ public class RowScriptExecutor extends ScriptExecutor
 		{
 			IRowInstance row = new RowInstance( content, context,
 					RunningState.CREATE );
-			if ( handleJS( row, rowDesign.getOnCreate( ), context ).didRun( ) )
+			if ( handleScript( row, rowDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
 			if ( eh != null )
@@ -77,7 +77,7 @@ public class RowScriptExecutor extends ScriptExecutor
 		{
 			IRowInstance row = new RowInstance( content, context,
 					RunningState.RENDER );
-			if ( handleJS( row, rowDesign.getOnRender( ), context ).didRun( ) )
+			if ( handleScript( row, rowDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
 			if ( eh != null )
@@ -101,7 +101,7 @@ public class RowScriptExecutor extends ScriptExecutor
 		{
 			IRowInstance row = new RowInstance( content, context,
 					RunningState.PAGEBREAK );
-			if ( handleJS( row, rowDesign.getOnPageBreak( ), context ).didRun( ) )
+			if ( handleScript( row, rowDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
 			if ( eh != null )

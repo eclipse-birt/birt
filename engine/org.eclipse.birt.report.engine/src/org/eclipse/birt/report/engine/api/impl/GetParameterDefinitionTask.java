@@ -569,8 +569,8 @@ public class GetParameterDefinitionTask extends EngineTask
 			QueryDefinition queryDefn ) throws BirtException
 	{
 		IPreparedQuery query = dteSession.prepare( queryDefn, getAppContext( ) );
-		IQueryResults result = query
-				.execute( executionContext.getSharedScope( ) );
+		IQueryResults result = (IQueryResults)dteSession.execute( query, null,
+				executionContext.getScriptContext( ) );
 		return result.getResultIterator( );
 	}
 	
