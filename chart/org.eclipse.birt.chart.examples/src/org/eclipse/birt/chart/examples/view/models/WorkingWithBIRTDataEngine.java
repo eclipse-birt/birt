@@ -78,8 +78,7 @@ import com.ibm.icu.util.ULocale;
  * chart retrieve data without grouping/aggregation by chart-self.
  * <p>
  * In the example, it only uses flat file as data source, actually it supports
- * any JDBC data source, referring to {@link org.eclipse.birt.data.engine} to
- * get detail information.
+ * any JDBC data source, referring to Data Engine to get detail information.
  * 
  * @since 2.3
  */
@@ -90,7 +89,6 @@ public class WorkingWithBIRTDataEngine
 	/**
 	 * Create runtime chart model and bind data.
 	 * 
-	 * @return
 	 * @throws ChartException
 	 */
 	public static final Chart createWorkingWithBIRTDataEngine( )
@@ -292,7 +290,7 @@ public class WorkingWithBIRTDataEngine
 
 			for ( int i = 0; i < expressions.length; i++ )
 			{
-				String expr = (String) expressions[i];
+				String expr = expressions[i];
 				
 				Binding colBinding = null;
 				if ( i == 1 )
@@ -356,7 +354,7 @@ public class WorkingWithBIRTDataEngine
 	private DataEngine newDataEngine( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				new ScriptContext( null ),
+				new ScriptContext( ),
 				(IDocArchiveReader) null,
 				(IDocArchiveWriter) null,
 				(ClassLoader) null );
