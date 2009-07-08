@@ -15,8 +15,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
@@ -68,17 +70,25 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	 */
 	public ICubeQueryResults execute( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
 	{
-		//Create a scope for each query execution.
-		 Scriptable cubeScope = session.getEngineContext( )
-				.getScriptContext( )
-				.getContext( )
-				.newObject( scope == null ? this.session.getSharedScope( )
-						: scope );
-		cubeScope.setParentScope( scope == null ? this.session.getSharedScope( )
-				: scope );
-		cubeScope.setPrototype( scope == null ? this.session.getSharedScope( )
-				: scope );
-		
+		Scriptable cubeScope = null;
+		try
+		{
+			// Create a scope for each query execution.
+			cubeScope = ( (IDataScriptEngine) session.getEngineContext( )
+					.getScriptContext( )
+					.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSContext( session.getEngineContext( )
+					.getScriptContext( ) )
+					.newObject( scope == null ? this.session.getSharedScope( )
+							: scope );
+			cubeScope.setParentScope( scope == null
+					? this.session.getSharedScope( ) : scope );
+			cubeScope.setPrototype( scope == null
+					? this.session.getSharedScope( ) : scope );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 		Object delegateObject = null;
 		try
 		{

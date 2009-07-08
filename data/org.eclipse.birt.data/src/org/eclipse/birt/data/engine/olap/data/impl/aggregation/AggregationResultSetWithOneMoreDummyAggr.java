@@ -126,8 +126,7 @@ public class AggregationResultSetWithOneMoreDummyAggr implements IAggregationRes
 			try
 			{
 				return ScriptEvalUtil.evalExpr( addedAggrExpression,
-						cx,
-						scope,
+						cx.newContext( scope ),
 						ScriptExpression.defaultID,
 						0 );
 			}

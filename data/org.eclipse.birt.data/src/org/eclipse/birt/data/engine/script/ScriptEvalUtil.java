@@ -24,9 +24,12 @@ import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ICompiledScript;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -35,7 +38,10 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+
+
 
 
 /**
@@ -575,6 +581,11 @@ public class ScriptEvalUtil
 		return false;
 	}
 
+/*	public static Object evalExpr( IBaseExpression expr, ScriptContext cx, String source, int lineNo ) throws BirtException
+	{
+		Scriptable scope = ( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx );
+		return evalExpr( expr, cx, scope, source, lineNo );
+	}*/
 	/**
 	 * Evaluates a IJSExpression or IConditionalExpression
 	 * 	
@@ -584,102 +595,115 @@ public class ScriptEvalUtil
 	 * @param source
 	 * @param lineNo
 	 * @return 
-	 * @throws DataException
+	 * @throws BirtException 
 	 */
-	public static Object evalExpr( IBaseExpression expr, ScriptContext cx, Scriptable scope, 
-				String source, int lineNo )
-		throws DataException
+	public static Object evalExpr( IBaseExpression expr, ScriptContext cx,
+			String source, int lineNo ) throws DataException
 	{
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.entering( ScriptEvalUtil.class.getName( ),
-				"evalExpr",
-				"evalExpr() expr="
-						+ LogUtil.toString( expr ) + ", source=" + source
-						+ ", lineNo=" + lineNo );
-		Object result;
-		if ( expr == null )
+		try
 		{
-			result = null;
-		}
-		else if ( expr instanceof IConditionalExpression )
-		{
-			// If this is a prepared top(n)/bottom(n) expr, use its evaluator
-			Object handle = expr.getHandle( );
-			if ( handle instanceof NEvaluator )
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.entering( ScriptEvalUtil.class.getName( ),
+						"evalExpr",
+						"evalExpr() expr="
+								+ LogUtil.toString( expr ) + ", source="
+								+ source + ", lineNo=" + lineNo );
+			Object result;
+			if ( expr == null )
 			{
-				result = Boolean.valueOf( ( (NEvaluator) handle ).evaluate( cx,
-						scope ) );
+				result = null;
 			}
-			else
+			else if ( expr instanceof IConditionalExpression )
 			{
-				ConditionalExpression conditionalExpr = (ConditionalExpression) expr;
-				Object expression = evalExpr( conditionalExpr.getExpression( ),
-						cx,
-						scope,
-						source,
-						lineNo );
-				if ( conditionalExpr.getOperand1( ) instanceof IExpressionCollection )
+				// If this is a prepared top(n)/bottom(n) expr, use its
+				// evaluator
+				Object handle = expr.getHandle( );
+				if ( handle instanceof NEvaluator )
 				{
-					IExpressionCollection combinedExpr = (IExpressionCollection) ( (IConditionalExpression) expr ).getOperand1( );
-					Object[] exprs = combinedExpr.getExpressions( ).toArray( );
-					
-					Object[] opValues = new Object[exprs.length];
-					
-					for ( int i = 0; i < opValues.length; i++ )
-					{
-						opValues[i] = evalExpr( (IBaseExpression)exprs[i],
-								cx,
-								scope,
-								source,
-								lineNo );
-					}
-					result = evalConditionalExpr( expression,
-							conditionalExpr.getOperator( ),
-							MiscUtil.flatternMultipleValues( opValues ) );
+					result = Boolean.valueOf( ( (NEvaluator) handle ).evaluate( cx,
+							( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ) ) );
 				}
 				else
 				{
+					ConditionalExpression conditionalExpr = (ConditionalExpression) expr;
+					Object expression = evalExpr( conditionalExpr.getExpression( ),
+							cx,
+							source,
+							lineNo );
+					if ( conditionalExpr.getOperand1( ) instanceof IExpressionCollection )
+					{
+						IExpressionCollection combinedExpr = (IExpressionCollection) ( (IConditionalExpression) expr ).getOperand1( );
+						Object[] exprs = combinedExpr.getExpressions( )
+								.toArray( );
 
-					Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression( (IScriptExpression) conditionalExpr.getOperand1( ) ),
-							cx,
-							scope,
-							source,
-							lineNo );
-					Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression( (IScriptExpression) conditionalExpr.getOperand2( ) ),
-							cx,
-							scope,
-							source,
-							lineNo );
-					result = evalConditionalExpr( expression,
-							conditionalExpr.getOperator( ),
-							new Object[]{
-									Op1, Op2
-							} );
+						Object[] opValues = new Object[exprs.length];
+
+						for ( int i = 0; i < opValues.length; i++ )
+						{
+							opValues[i] = evalExpr( (IBaseExpression) exprs[i],
+									cx,
+									source,
+									lineNo );
+						}
+						result = evalConditionalExpr( expression,
+								conditionalExpr.getOperator( ),
+								MiscUtil.flatternMultipleValues( opValues ) );
+					}
+					else
+					{
+
+						Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression( (IScriptExpression) conditionalExpr.getOperand1( ) ),
+								cx,
+								source,
+								lineNo );
+						Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression( (IScriptExpression) conditionalExpr.getOperand2( ) ),
+								cx,
+								source,
+								lineNo );
+						result = evalConditionalExpr( expression,
+								conditionalExpr.getOperator( ),
+								new Object[]{
+										Op1, Op2
+								} );
+					}
 				}
-			}
-		}
-		else
-		{
-			IScriptExpression jsExpr = (IScriptExpression) expr;
-			if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
-			{
-				result = ((CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx, scope );
 			}
 			else
 			{
-				result = evaluateJSAsExpr( cx,
-						scope,
-						jsExpr.getText( ),
-						source,
-						lineNo );
+				IScriptExpression jsExpr = (IScriptExpression) expr;
+				if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
+				{
+					if ( jsExpr.getHandle( ) instanceof ICompiledScript )
+					{
+						result = cx.evaluate( (ICompiledScript) jsExpr.getHandle( ) );
+					}
+					else
+					{
+						result = ( (CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx,
+								( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ) );
+					}
+				}
+				else
+				{
+					result = evaluateJSAsExpr( cx,
+							( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ),
+							jsExpr.getText( ),
+							source,
+							lineNo );
+				}
+
 			}
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( ScriptEvalUtil.class.getName( ),
+						"evalExpr",
+						result );
+			return result;
 		}
-		
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.exiting( ScriptEvalUtil.class.getName( ),
-					"evalExpr",
-					result );
-		return result;
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+
 	}	
 	
 	/**
@@ -696,7 +720,7 @@ public class ScriptEvalUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static Object evaluateJSAsExpr(ScriptContext cx, Scriptable scope,
+	public static Object evaluateJSAsExpr( ScriptContext cx, Scriptable scope,
 			String scriptText, String source, int lineNo)
 			throws DataException 
 	{
@@ -710,7 +734,7 @@ public class ScriptEvalUtil
 		Object result;
 		try
 		{
-			result = cx.eval( scriptText, scope );
+			result = JavascriptEvalUtil.evaluateScript( Context.getCurrentContext( ), scope, scriptText, "", 0 );
 		}
 		catch ( BirtException e )
 		{

@@ -22,11 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -35,18 +34,16 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
-import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
@@ -114,7 +111,7 @@ final class PreparedQuery
 		this.queryService = queryService;
 		this.appContext = appContext;
 		
-		this.exprManager = new ExprManager( baseQueryDefn, session.getEngineContext( ).getScriptContext( ).getContext( ) );
+		this.exprManager = new ExprManager( baseQueryDefn, session.getEngineContext( ).getScriptContext( ) );
 		this.subQueryMap = new HashMap( );
 		this.subQueryDefnMap = new HashMap( );
 		this.aggrTable = new AggregateTable( this.session.getTempDir( ), this.session.getSharedScope( ),
@@ -309,7 +306,7 @@ final class PreparedQuery
 	        prepareExpression((IBaseExpression) it.next(), groupLevel, cx, reg);
 	    }
 	}
-	
+
 	/**
 	 * Prepares one expression
 	 * 
@@ -317,46 +314,59 @@ final class PreparedQuery
 	 * @param groupLevel
 	 * @param cx
 	 * @param reg
+	 * @throws DataException 
 	 */
 	private void prepareExpression( IBaseExpression expr, int groupLevel,
-			ScriptContext cx, AggregateRegistry reg )
+			ScriptContext cx, AggregateRegistry reg ) throws DataException
 	{
-	    ExpressionCompiler compiler = this.expressionCompiler;
-	    
-	    if ( expr instanceof IScriptExpression )
-	    {
-	    	String exprText = ((IScriptExpression) expr).getText();
-	    	CompiledExpression handle = compiler.compile( exprText, reg, cx.getContext( ));
-	    	expr.setHandle( handle );
-	    }
-	    else if ( expr instanceof IConditionalExpression )
-	    {
-	    	// 3 sub expressions of the conditional expression should be prepared
-	    	// individually
-	    	IConditionalExpression ce = (IConditionalExpression) expr;
-	    	ce = transformConditionalExpression( ce );
-			
-	    	prepareExpression( ce.getExpression(), groupLevel, cx, reg );
-	    	if ( ce.getOperand1() != null )
-		    	prepareExpression( ce.getOperand1(), groupLevel, cx, reg );
-	    	if ( ce.getOperand2() != null )
-		    	prepareExpression( ce.getOperand2(), groupLevel, cx, reg );
-
-	    	// No separate preparation is required for the conditional expression 
-	    	// Set itself as the compiled handle
-	    	expr.setHandle( ce );
-	    }
-	    else if ( expr instanceof IExpressionCollection )
+		try
 		{
-			IExpressionCollection ce = (IExpressionCollection) expr;
-			Object[] exprs = ce.getExpressions( ).toArray( );
-			for ( int i = 0; i < exprs.length; i++ )
+			ExpressionCompiler compiler = this.expressionCompiler;
+
+			if ( expr instanceof IScriptExpression )
 			{
-				prepareExpression( (IBaseExpression)exprs[i],
-						groupLevel,
-						cx,
-						reg );
+				IScriptExpression baseExpr = ( (IScriptExpression) expr );
+				String exprText = ( (IScriptExpression) expr ).getText( );
+				CompiledExpression handle = compiler.compile( exprText,
+						reg,
+						session.getEngineContext( ).getScriptContext( ) );
+				expr.setHandle( handle );
 			}
+			else if ( expr instanceof IConditionalExpression )
+			{
+				// 3 sub expressions of the conditional expression should be
+				// prepared
+				// individually
+				IConditionalExpression ce = (IConditionalExpression) expr;
+				ce = transformConditionalExpression( ce );
+
+				prepareExpression( ce.getExpression( ), groupLevel, cx, reg );
+				if ( ce.getOperand1( ) != null )
+					prepareExpression( ce.getOperand1( ), groupLevel, cx, reg );
+				if ( ce.getOperand2( ) != null )
+					prepareExpression( ce.getOperand2( ), groupLevel, cx, reg );
+
+				// No separate preparation is required for the conditional
+				// expression
+				// Set itself as the compiled handle
+				expr.setHandle( ce );
+			}
+			else if ( expr instanceof IExpressionCollection )
+			{
+				IExpressionCollection ce = (IExpressionCollection) expr;
+				Object[] exprs = ce.getExpressions( ).toArray( );
+				for ( int i = 0; i < exprs.length; i++ )
+				{
+					prepareExpression( (IBaseExpression) exprs[i],
+							groupLevel,
+							cx,
+							reg );
+				}
+			}
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
 		}
 	}
 

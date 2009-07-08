@@ -19,6 +19,7 @@ import java.util.Set;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
@@ -48,7 +49,7 @@ public class ExpressionCompilerUtil
 	 * @param cx
 	 * @return
 	 */
-	public static CompiledExpression compile( String expr, Context cx )
+	public static CompiledExpression compile( String expr, ScriptContext cx )
 	{
 		ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
 		expressionCompiler.setDataSetMode( true );
@@ -63,7 +64,7 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	public static boolean hasColumnRow( String expression, ExprManager exprManager, Context cx ) throws DataException
+	public static boolean hasColumnRow( String expression, ExprManager exprManager, ScriptContext cx ) throws DataException
 	{
 		if( expression == null )
 			return false;
@@ -318,7 +319,7 @@ public class ExpressionCompilerUtil
 	 * @throws DataException 
 	 */
 	public static boolean isValidExpressionInQueryFilter(
-			IBaseExpression expression, Context context ) throws DataException
+			IBaseExpression expression, ScriptContext context ) throws DataException
 	{
 		if ( expression instanceof IScriptExpression )
 		{
@@ -357,7 +358,7 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	private static boolean compile( String expression, ExprManager exprManager, Context cx ) throws DataException
+	private static boolean compile( String expression, ExprManager exprManager, ScriptContext cx ) throws DataException
 	{
 		// fake a registry to register the aggregation.
 		AggregateRegistry aggrReg = new AggregateRegistry( ) {
@@ -380,7 +381,7 @@ public class ExpressionCompilerUtil
 	 * @throws DataException 
 	 */
 	private static boolean flattenExpression( CompiledExpression expr,
-			ExprManager exprManager, Context cx ) throws DataException
+			ExprManager exprManager, ScriptContext cx ) throws DataException
 	{
 		int type = expr.getType( );
 		switch ( type )

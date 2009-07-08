@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -131,6 +132,12 @@ public class PLSEnabledResultIterator extends PLSDataPopulator implements IResul
 			Scriptable scope ) throws BirtException
 	{
 		return this.docIt.getSecondaryIterator( subQueryName, scope );
+	}
+
+	public IResultIterator getSecondaryIterator( ScriptContext context,
+			String subQueryName ) throws BirtException
+	{
+		return this.docIt.getSecondaryIterator( context, subQueryName );
 	}
 
 	public int getStartingGroupLevel( ) throws BirtException

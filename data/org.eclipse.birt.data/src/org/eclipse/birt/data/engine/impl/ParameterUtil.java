@@ -150,12 +150,12 @@ public class ParameterUtil
 				resolveParameterBindings( this.queryDefn.getInputParamBindings( ),
 						paramHints,
 						bindingResolved,
-						context.getContext( ) );
+						Context.getCurrentContext( ) );
 	
 				resolveParameterBindings( this.dsRT.getInputParamBindings( ),
 						paramHints,
 						bindingResolved,
-						context.getContext( ) );
+						Context.getCurrentContext( ) );
 		}
 		
 		return Arrays.asList( paramHints );

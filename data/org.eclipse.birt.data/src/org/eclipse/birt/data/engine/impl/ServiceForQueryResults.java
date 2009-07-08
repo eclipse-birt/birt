@@ -25,10 +25,12 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -249,13 +251,14 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#handleProcessEndOfDataSet
 		 *      (org.eclipse.birt.data.engine.odi.IResultIterator)
 		 */
-		public void handleEndOfDataSetProcess( IResultIterator resultIterator )
+		public void handleEndOfDataSetProcess( IResultIterator resultIterator ) throws DataException
 		{
 			jsResultSetRow = new JSResultSetRow( resultIterator,
-					exprManager,
-					queryExecutor.getQueryScope( ),
-					helper,
-					session.getEngineContext( ).getScriptContext( ));
+						exprManager,
+						queryExecutor.getQueryScope( ),
+						helper,
+						session.getEngineContext( ).getScriptContext( ));
+			
 			getDataSetRuntime( ).setJSResultSetRow( jsResultSetRow );
 			getDataSetRuntime( ).setMode( Mode.Query );
 		}
@@ -463,9 +466,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 					{
 						String name = it.next( ).toString( );
 						populateOneAggrDefinition( result,
-							session.getEngineContext( )
-									.getScriptContext( )
-									.getContext( ),
+							session.getEngineContext( ).getScriptContext( ),
 							compiler,
 							gbc,
 							name );
@@ -484,7 +485,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * @param name
 		 * @throws DataException
 		 */
-		private void populateOneAggrDefinition( List result, Context cx,
+		private void populateOneAggrDefinition( List result, ScriptContext cx,
 				ExpressionCompiler compiler, GroupBindingColumn gbc, String name )
 				throws DataException
 		{
@@ -541,7 +542,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * @return
 		 * @throws DataException
 		 */
-		private IBaseExpression[] populateAggregationArgument( Context cx,
+		private IBaseExpression[] populateAggregationArgument( ScriptContext cx,
 				ExpressionCompiler compiler, IBinding binding, List argument,
 				IAggrFunction aggrFunction ) throws DataException
 		{
@@ -985,9 +986,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
 						DataTypeUtil.toApiDataType( odiDataType ) );
 				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
-						session.getEngineContext( )
-								.getScriptContext( )
-								.getContext( ) );
+						session.getEngineContext( ).getScriptContext( ));
 				baseExpr.setHandle( compiledExpr );
 				this.exprManager.addAutoBindingExpr( colName, baseExpr );
 			}

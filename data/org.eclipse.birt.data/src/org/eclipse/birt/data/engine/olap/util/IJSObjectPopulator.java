@@ -333,8 +333,7 @@ public interface IJSObjectPopulator
 					return null;
 				}
 				return ScriptEvalUtil.evalExpr( ( (IBinding) this.bindingMap.get( aggrName ) ).getExpression( ),
-						cx,
-						this.scope,
+						cx.newContext( this.scope ),
 						ScriptExpression.defaultID,
 						0 );
 			}
@@ -448,8 +447,7 @@ public interface IJSObjectPopulator
 						try
 						{
 							return ScriptEvalUtil.evalExpr( ( (IBaseExpression) this.computedMeasures.get( aggrName ) ),
-									cx,
-									this.scope,
+									cx.newContext( this.scope ),
 									ScriptExpression.defaultID,
 									0 );
 						}catch ( Exception e )

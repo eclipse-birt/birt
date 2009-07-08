@@ -25,14 +25,14 @@ public class DataEngineFactory implements IDataEngineFactory
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IDataEngineFactory#createDataEngine(org.eclipse.birt.data.engine.api.DataEngineContext)
 	 */
-	public DataEngine createDataEngine( DataEngineContext context )
+	public DataEngine createDataEngine( DataEngineContext context ) throws BirtException
 	{
 		if ( context == null )
 		{
 			try
 			{
 				context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-						new ScriptContext( null ),
+						new ScriptContext( ),
 						null,
 						null,
 						null);

@@ -48,8 +48,7 @@ public class JoinConditionMatchUnit
 	public Object getColumnValue() throws DataException
 	{
 		Object leftValue = ScriptEvalUtil.evalExpr( this.expr,
-					context,
-					this.scope,
+					context.newContext( this.scope ),
 					ScriptExpression.defaultID,
 					0 );
 				

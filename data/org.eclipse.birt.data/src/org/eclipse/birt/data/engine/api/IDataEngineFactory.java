@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.api;
 
+import org.eclipse.birt.core.exception.BirtException;
+
 /**
  * Factory class to create an instance of DataEngine
  */
@@ -30,6 +32,6 @@ public interface IDataEngineFactory
 	 *            context used to create the data engine.
 	 * @return the data engine object
 	 */
-	DataEngine createDataEngine( DataEngineContext context );
+	DataEngine createDataEngine( DataEngineContext context ) throws BirtException;
 
 }

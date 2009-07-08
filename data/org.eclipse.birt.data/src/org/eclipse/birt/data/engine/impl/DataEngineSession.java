@@ -21,10 +21,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
@@ -63,8 +65,9 @@ public class DataEngineSession
 	/**
 	 * Constructor.
 	 * @param engine
+	 * @throws BirtException 
 	 */
-	public DataEngineSession( DataEngineImpl engine )
+	public DataEngineSession( DataEngineImpl engine ) throws BirtException
 	{
 		Object[] params = { engine };
 		logger.entering( DataEngineSession.class.getName( ),
@@ -77,16 +80,15 @@ public class DataEngineSession
 		this.scope = engine.getContext( ).getJavaScriptScope( );
 		this.stopSign = new StopSign();
 	
+		IDataScriptEngine scriptEngine = (IDataScriptEngine) engine.getContext( ).getScriptContext( ).getScriptEngine( IDataScriptEngine.ENGINE_NAME );
 		if ( this.scope == null )
 		{
-			this.scope = new ImporterTopLevel( engine.getContext( )
-					.getScriptContext( )
-					.getContext( ) );
+			
+			
+			this.scope = new ImporterTopLevel( scriptEngine.getJSContext( engine.getContext( ).getScriptContext( ) ));
 		}
 
-		new CoreJavaScriptInitializer( ).initialize( engine.getContext( )
-				.getScriptContext( )
-				.getContext( ), scope );
+		new CoreJavaScriptInitializer( ).initialize( scriptEngine.getJSContext( engine.getContext( ).getScriptContext( ) ), scope );
 		tempDir = engine.getContext( ).getTmpdir( ) +
 				"DataEngine_" + engine.hashCode( ) + "_" + getCount( ) + File.separator;
 

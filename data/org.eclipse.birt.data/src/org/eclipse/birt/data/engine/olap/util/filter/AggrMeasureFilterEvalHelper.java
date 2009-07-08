@@ -59,8 +59,7 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 		try
 		{
 			Object result = ScriptEvalUtil.evalExpr( expr,
-					cx,
-					scope,
+					cx.newContext( scope ),
 					ScriptExpression.defaultID,
 					0 );
 			return DataTypeUtil.toBoolean( result ).booleanValue( );

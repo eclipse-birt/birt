@@ -113,9 +113,7 @@ public class PassManager
 				IBinding binding = (IBinding) it.next( );
 				compiler.compile( binding.getExpression( ),
 						this.populator.getSession( )
-								.getEngineContext( )
-								.getScriptContext( )
-								.getContext( ) );
+								.getEngineContext( ).getScriptContext( ));
 			}
 			catch ( DataException e )
 			{
@@ -323,10 +321,11 @@ public class PassManager
 	}
 
 	/**
+	 * @throws DataException 
 	 * 
 	 *
 	 */
-	private void handleEndOfDataSetProcess( )
+	private void handleEndOfDataSetProcess( ) throws DataException
 	{
 		IEventHandler eventHandler = this.populator.getEventHandler( );
 

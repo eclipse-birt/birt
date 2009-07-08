@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
 import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -66,7 +67,7 @@ public class SubCubeQueryResults implements ICubeQueryResults
 			if ( subScope == null )
 			{
 				Scriptable scope = cubeView.getCubeQueryExecutor( ).getSession( ).getSharedScope( );
-				subScope = cx.getContext( ).newObject( scope );
+				subScope = Context.getCurrentContext( ).newObject( scope );
 				subScope.setParentScope( scope );
 				subScope.setPrototype( scope );
 			}

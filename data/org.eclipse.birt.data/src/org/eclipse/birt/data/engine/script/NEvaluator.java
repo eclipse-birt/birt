@@ -140,7 +140,7 @@ public abstract class NEvaluator
 		}
 		
 		// Evaluate operand expression
-		Object value = ScriptEvalUtil.evalExpr( op_expr, cx, scope, ScriptExpression.defaultID, 0 );
+		Object value = ScriptEvalUtil.evalExpr( op_expr, cx.newContext( scope ), ScriptExpression.defaultID, 0 );
 		
 		if ( filterPassController.getPassLevel( ) == FilterPassController.FIRST_PASS )
 		{

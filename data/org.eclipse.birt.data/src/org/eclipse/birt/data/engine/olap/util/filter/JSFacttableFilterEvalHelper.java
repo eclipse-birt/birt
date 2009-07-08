@@ -27,8 +27,10 @@ import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+
 
 /**
  * 
@@ -62,12 +64,12 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 			IFilterDefinition cubeFilter,
 			ScriptContext cx, IBaseQueryResults outerResults, ICubeQueryDefinition query )
 	{
-		this.scope = cx.getContext( ).initStandardObjects( );
+		this.scope = Context.getCurrentContext( ).initStandardObjects( );
 		this.scope.setParentScope( parentScope );
 		this.measureObj = new DummyMeasureObject( );
 		this.dimObj = new DummyDimensionObject( );
 		this.expr = cubeFilter.getExpression( );
-		OLAPExpressionCompiler.compile( cx.getContext( ), this.expr );
+		OLAPExpressionCompiler.compile( Context.getCurrentContext( ), this.expr );
 		this.cx = cx;
 		this.scope.put( org.eclipse.birt.data.engine.script.ScriptConstants.MEASURE_SCRIPTABLE,
 				this.scope,
@@ -104,7 +106,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 		this.dimObj.setCurrentRow( facttableRow );
 		try
 		{
-			Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, ScriptExpression.defaultID, 0 );
+			Object result = ScriptEvalUtil.evalExpr( expr, cx.newContext( scope ), ScriptExpression.defaultID, 0 );
 			return DataTypeUtil.toBoolean( result ).booleanValue( );
 		}
 		catch ( BirtException e )

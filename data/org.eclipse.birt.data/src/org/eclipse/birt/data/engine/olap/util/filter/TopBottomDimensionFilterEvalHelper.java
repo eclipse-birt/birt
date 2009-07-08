@@ -86,8 +86,7 @@ public class TopBottomDimensionFilterEvalHelper
 	private void populateN( ScriptContext cx ) throws DataException
 	{
 		Object o =  ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getOperand1( ),
-					cx,
-					scope,
+					cx.newContext( scope ),
 					ScriptExpression.defaultID,
 					0 );
 		this.N = Double.valueOf( o.toString( ) ).doubleValue( );
@@ -137,8 +136,7 @@ public class TopBottomDimensionFilterEvalHelper
 		try
 		{
 			Object result = ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getExpression( ),
-					cx,
-					scope,
+					cx.newContext( scope ),
 					ScriptExpression.defaultID,
 					0 );
 			return result;

@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -45,11 +46,11 @@ public class ExprManagerUtil
 	private ExprManager exprManager;
 	
 	private static Logger logger = Logger.getLogger( ExprManagerUtil.class.getName( ) );
-	private Context cx;
+	private ScriptContext cx;
 	/**
 	 * No external instance
 	 */
-	private ExprManagerUtil( ExprManager em, Context cx )
+	private ExprManagerUtil( ExprManager em, ScriptContext cx )
 	{
 		logger.entering( ExprManagerUtil.class.getName( ),
 				"ExprManagerUtil",
@@ -67,7 +68,7 @@ public class ExprManagerUtil
 	 * @throws DataException
 	 */
 	public static void validateColumnBinding( ExprManager exprManager,
-			IBaseQueryDefinition baseQueryDefn, Context cx ) throws DataException
+			IBaseQueryDefinition baseQueryDefn, ScriptContext cx ) throws DataException
 	{
 		ExprManagerUtil util = new ExprManagerUtil( exprManager, cx );
 		

@@ -36,12 +36,12 @@ public interface IQueryExecutor
 	/**
 	 * @return shard scope
 	 */
-	Scriptable getQueryScope( );
+	Scriptable getQueryScope( ) throws DataException;
 	
 	/**
 	 * @return shard scope
 	 */
-	Scriptable getSharedScope( );
+	Scriptable getSharedScope( ) throws DataException;
 	
 	/**
 	 * @return scope of JS aggregation object

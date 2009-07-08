@@ -26,6 +26,7 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.TimeZone;
@@ -78,7 +79,7 @@ public class DataEngineContext
 	private IDocArchiveReader reader;
 	private IDocArchiveWriter writer;
 	private ULocale currentLocale;
-	
+
 	/** cacheCount field */
 	private int cacheOption;
 	private int cacheCount;
@@ -172,8 +173,7 @@ public class DataEngineContext
 			IDocArchiveReader reader, IDocArchiveWriter writer )
 			throws BirtException
 	{
-		ScriptContext context = new ScriptContext();
-		context.enterScope( scope );
+		ScriptContext context = new ScriptContext().newContext( scope );
 		DataEngineContext result = newInstance( mode, context, reader, writer, null );
 		return result;
 	}
@@ -182,8 +182,9 @@ public class DataEngineContext
 			ScriptContext context, IDocArchiveReader reader,
 			IDocArchiveWriter writer, ClassLoader classLoader ) throws BirtException
 	{
+		IDataScriptEngine dse = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
 		DataEngineContext result = new DataEngineContext( mode,
-				context.getSharedScope( ),
+				dse.getJSScope( context ),
 				reader,
 				writer,
 				classLoader, context );
@@ -625,7 +626,7 @@ public class DataEngineContext
 	public ScriptContext getScriptContext( )
 	{
 		if ( this.scriptContext == null )
-			this.scriptContext = new ScriptContext( null );
+			this.scriptContext = new ScriptContext( );
 		return this.scriptContext;
 	}
 }

@@ -158,7 +158,6 @@ class GroupInstanceFilter
 				if ( FilterUtil.isFilterNeedMultiPass( fd ) )
 				{
 					fd.getExpression( ).setHandle( null );
-					// this.prepareFilterExpression( fd.getExpression() );
 				}
 			}
 		}
@@ -334,8 +333,7 @@ class GroupInstanceFilter
 		FilterUtil.prepareFilterExpression( tempDir, expr, filterPass, this.populator.getEventHandler( ).getExecutorHelper( ) );
 
 		Object result = ScriptEvalUtil.evalExpr( expr,
-				cx,
-				this.groupProcessor.getExpressionProcessor( ).getScope( ),
+				cx.newContext( this.groupProcessor.getExpressionProcessor( ).getScope( ) ),
 				ScriptExpression.defaultID,
 				0 );
 

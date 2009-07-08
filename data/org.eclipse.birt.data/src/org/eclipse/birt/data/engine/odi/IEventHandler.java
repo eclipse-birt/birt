@@ -47,7 +47,7 @@ public interface IEventHandler
 	 * @param resultIterator
 	 *            current result iterator in processed
 	 */
-	void handleEndOfDataSetProcess( IResultIterator resultIterator );
+	void handleEndOfDataSetProcess( IResultIterator resultIterator ) throws DataException;
 	
 	//----------------service definition--------------------------------
 	

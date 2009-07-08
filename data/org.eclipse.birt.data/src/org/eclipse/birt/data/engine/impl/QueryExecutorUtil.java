@@ -22,6 +22,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -57,7 +58,7 @@ public final class QueryExecutorUtil
 	 * @return
 	 * @throws DataException
 	 */
-	static IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src,
+	static IQuery.GroupSpec groupDefnToSpec( ScriptContext cx, IGroupDefinition src,
 			String expr, String columnName, int index, int dataType,
 			boolean doSortBeforeGrouping ) throws DataException
 	{
@@ -116,7 +117,7 @@ public final class QueryExecutorUtil
 	 * @param expr
 	 * @return
 	 */
-	public static ColumnInfo getColInfoFromJSExpr( Context cx, String expr )
+	public static ColumnInfo getColInfoFromJSExpr( ScriptContext cx, String expr )
 	{
 		int colIndex = -1;
 		String colName = null;

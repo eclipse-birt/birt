@@ -20,6 +20,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IJavascriptContext;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.ScriptDataSetRuntime;
 import org.mozilla.javascript.Context;
@@ -40,8 +41,9 @@ public class JSDataSetImpl
 	
 	/**
 	 * Implements DataSet.dataSource  
+	 * @throws DataException 
 	 */
-	public Scriptable getDataSource()
+	public Scriptable getDataSource() throws DataException
 	{
 		IJavascriptContext dataSource = dataSet.getDataSource();
 		Scriptable ret = null;

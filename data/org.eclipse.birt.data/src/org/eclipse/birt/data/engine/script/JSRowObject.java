@@ -212,7 +212,14 @@ public class JSRowObject extends ScriptableObject
 			if ( logger.isLoggable( Level.FINER ) )
     			logger.exiting( JSRowObject.class.getName( ),
 					"get");
-    		return dataSet.getJSDataSetObject();
+    		try
+			{
+				return dataSet.getJSDataSetObject();
+			}
+			catch ( DataException e )
+			{
+				throw new RuntimeException( e.getLocalizedMessage( ), e);
+			}
     	}
     	else if ( name.equals(COLUMN_MD) )
     	{

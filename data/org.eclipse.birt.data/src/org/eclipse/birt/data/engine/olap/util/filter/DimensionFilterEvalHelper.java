@@ -70,7 +70,7 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 					}
 				}
 			}
-			Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, ScriptExpression.defaultID, 0 );
+			Object result = ScriptEvalUtil.evalExpr( expr, cx.newContext( scope ), ScriptExpression.defaultID, 0 );
 			return DataTypeUtil.toBoolean( result ).booleanValue( );
 		}
 		catch ( IJSObjectPopulator.InMatchDimensionIndicator e )

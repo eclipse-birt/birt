@@ -58,7 +58,7 @@ public interface IExpressionProcessor
 	 * 
 	 * @return
 	 */
-	public Scriptable getScope( );
+	public Scriptable getScope( ) throws DataException;
 
 	/**
 	 * 

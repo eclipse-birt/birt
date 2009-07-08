@@ -88,8 +88,9 @@ public class DataEngineImpl extends DataEngine
 	 *            runtime components within a report session. If this parameter
 	 *            is null, a new standard top level scope will be created and
 	 *            used.
+	 * @throws BirtException 
 	 */
-	public DataEngineImpl( DataEngineContext context )
+	public DataEngineImpl( DataEngineContext context ) throws BirtException
 	{
 		assert context != null;
 		

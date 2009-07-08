@@ -13,6 +13,7 @@
  */ 
 package org.eclipse.birt.data.engine.api.script;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -26,5 +27,5 @@ public interface IJavascriptContext
 	 * Returns a Scriptable object that should be used as the scope in which
 	 * to execute Javascript code associated with the runtime object.
 	 */
-	public Scriptable getScriptScope();
+	public Scriptable getScriptScope() throws DataException;
 }

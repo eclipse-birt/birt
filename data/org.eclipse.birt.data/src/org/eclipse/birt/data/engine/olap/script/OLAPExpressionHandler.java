@@ -15,6 +15,7 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
@@ -44,7 +45,7 @@ public class OLAPExpressionHandler extends CompiledExpression
 		Object temp = null;
 		try
 		{
-			temp = this.script.exec( context.getContext( ), scope );
+			temp = this.script.exec( Context.getCurrentContext( ), scope );
 			temp = JavascriptEvalUtil.convertJavascriptValue( temp );
 			if ( temp instanceof ScriptableObject )
 			{

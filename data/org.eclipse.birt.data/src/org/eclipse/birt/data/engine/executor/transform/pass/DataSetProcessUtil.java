@@ -185,17 +185,13 @@ class DataSetProcessUtil extends RowProcessUtil
 						continue;
 				}
 				compiler.compile( exprs[j], this.populator.getSession( )
-						.getEngineContext( )
-						.getScriptContext( )
-						.getContext( ) );
+						.getEngineContext( ).getScriptContext( ));
 			}
 
 			if ( cc.getAggregateFilter( ) != null )
 				compiler.compile( cc.getAggregateFilter( ),
 						this.populator.getSession( )
-								.getEngineContext( )
-								.getScriptContext( )
-								.getContext( ) );
+								.getEngineContext( ).getScriptContext( ));
 			IAggrFunction aggrFunction = AggregationManager.getInstance( )
 					.getAggregation( cc.getAggregateFunction( ) );
 			IAggrInfo aggrInfo = new AggrInfo( cc.getName( ),

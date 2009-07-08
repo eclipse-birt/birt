@@ -687,8 +687,7 @@ public class CubeQueryDefinitionUtil
 					{
 						IScriptExpression se = crnad.getNotLevelArguments( ).get( 0 );
 						Object argumentValue = ScriptEvalUtil.evalExpr( se,
-								cx,
-								scope,
+								cx.newContext( scope ),
 								ScriptExpression.defaultID,
 								0 );
 						funcitons[index].setParaValue( argumentValue );

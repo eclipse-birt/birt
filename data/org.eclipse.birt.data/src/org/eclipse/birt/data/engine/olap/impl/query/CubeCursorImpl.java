@@ -50,6 +50,7 @@ import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -91,7 +92,7 @@ public class CubeCursorImpl implements ICubeCursor
 			if ( binding.getAggrFunction( ) == null )
 			{
 				this.bindingMap.put( bindingName, expr );
-				OLAPExpressionCompiler.compile( cx.getContext( ), expr );
+				OLAPExpressionCompiler.compile( Context.getCurrentContext( ), expr );
 			}
 			dataTypeMap.put( bindingName, new Integer( binding.getDataType( ) ) );
 		}
@@ -334,8 +335,7 @@ public class CubeCursorImpl implements ICubeCursor
 			
 					IBaseExpression expr = (IBaseExpression) this.bindingMap.get( arg0 );
 					result = ScriptEvalUtil.evalExpr( expr,
-							cx,
-							this.scope,
+							cx.newContext( scope ),
 							ScriptExpression.defaultID,
 							0 );
 				}

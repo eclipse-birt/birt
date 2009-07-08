@@ -72,7 +72,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 
 		try
 		{
-			return ScriptEvalUtil.evalExpr( expr, cx, scope, ScriptExpression.defaultID, 0 );
+			return ScriptEvalUtil.evalExpr( expr, cx.newContext( scope ), ScriptExpression.defaultID, 0 );
 		}
 		catch ( IJSObjectPopulator.InMatchDimensionIndicator e )
 		{

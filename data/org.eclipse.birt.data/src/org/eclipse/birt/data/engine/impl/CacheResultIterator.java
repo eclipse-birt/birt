@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -307,6 +308,10 @@ public class CacheResultIterator implements IResultIterator
 		throw new DataException( ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY );
 	}
 
+	public IResultIterator getSecondaryIterator( ScriptContext context, String subQueryName ) throws BirtException
+	{
+		throw new DataException( ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

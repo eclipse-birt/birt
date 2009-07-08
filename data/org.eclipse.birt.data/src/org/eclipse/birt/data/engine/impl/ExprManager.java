@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -38,22 +39,23 @@ public class ExprManager
 	
 	private int entryLevel;
 	private IBaseQueryDefinition baseQueryDefn;
-	
+	private ScriptContext context;
 	public final static int OVERALL_GROUP = 0;
-	private Context cx;
+	
+	//private Context cx;
 	
 	/**
 	 * An exprManager object is to manipulate all available column bindings for
 	 * specified query definition.
 	 */
-	public ExprManager( IBaseQueryDefinition baseQueryDefn, Context cx )
+	public ExprManager( IBaseQueryDefinition baseQueryDefn, ScriptContext cx )
 	{
 		bindingExprs = new ArrayList( );
 		autoBindingExprMap = new HashMap( );
 		entryLevel = OVERALL_GROUP;
 		this.baseQueryDefn = baseQueryDefn;
 		this.autoBindingMap = new HashMap( );
-		this.cx = cx;
+		this.context = cx;
 	}
 
 	/**
@@ -190,7 +192,7 @@ public class ExprManager
 	 */
 	public void validateColumnBinding( ) throws DataException
 	{
-		ExprManagerUtil.validateColumnBinding( this, baseQueryDefn, cx );
+		ExprManagerUtil.validateColumnBinding( this, baseQueryDefn, context );
 	}
 	
 }

@@ -18,6 +18,8 @@ import java.sql.Blob;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -187,10 +189,20 @@ public interface IResultIterator extends IBaseResultIterator
      * @throws 			DataException if error occurs in Data Engine
      * @param subQueryName name of sub query which defines the secondary result set
      * @param scope Javascript scope to be associated with the secondary result set
+     * @deprecated
      */
     public IResultIterator getSecondaryIterator( String subQueryName, Scriptable scope ) 
     		throws BirtException;
 
+    /**
+     * Returns the secondary result specified by a sub query 
+     * that was defined in the prepared <code>IQueryDefinition</code>.
+     * @throws 			DataException if error occurs in Data Engine
+     * @param subQueryName name of sub query which defines the secondary result set
+     * @param cx ScriptContext
+     */
+    public IResultIterator getSecondaryIterator( ScriptContext context, String subQueryName ) 
+    		throws BirtException;
     /**
     * Move the current position of the iterator to the first element of the group with matching group key values.
     * To locate the [n]th inner group, values for all outer groups锟�? keys need to be provided in the array

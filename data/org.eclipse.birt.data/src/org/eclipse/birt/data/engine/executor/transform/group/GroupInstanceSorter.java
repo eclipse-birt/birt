@@ -149,8 +149,7 @@ class GroupInstanceSorter
 		{
 			sortKeys[l] = ScriptEvalUtil.evalExpr( ( (ISortDefinition) this.populator.getQuery( )
 					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getExpression( ),
-					cx,
-					this.groupProcessor.getExpressionProcessor( ).getScope( ),
+					cx.newContext( this.groupProcessor.getExpressionProcessor( ).getScope( ) ),
 					ScriptExpression.defaultID,
 					0 );
 			sortDirections[l] = ( (ISortDefinition) this.populator.getQuery( )

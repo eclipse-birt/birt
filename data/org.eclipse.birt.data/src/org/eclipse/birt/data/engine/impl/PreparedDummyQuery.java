@@ -32,12 +32,14 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -132,7 +134,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 	{
 		assert queryDefn != null;
 
-		this.exprManager = new ExprManager( queryDefn, session.getEngineContext( ).getScriptContext( ).getContext( ) );
+		this.exprManager = new ExprManager( queryDefn, session.getEngineContext( ).getScriptContext( ) );
 		this.exprManager.addBindingExpr( null, queryDefn.getBindings( ),
 				0 );
 	}
@@ -240,8 +242,9 @@ public class PreparedDummyQuery implements IPreparedQuery
 	/**
 	 * @param queryScope
 	 * @return
+	 * @throws BirtException 
 	 */
-	private Scriptable getScope( Scriptable queryScope )
+	private Scriptable getScope( Scriptable queryScope ) throws BirtException
 	{
 		Scriptable topScope = null;
 		if ( queryScope != null )
@@ -250,9 +253,10 @@ public class PreparedDummyQuery implements IPreparedQuery
 			topScope = session.getSharedScope( );
 
 		Scriptable executionScope = null;
-		executionScope = session.getEngineContext( )
+		executionScope = ( (IDataScriptEngine) session.getEngineContext( )
 				.getScriptContext( )
-				.getContext( )
+				.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSContext( session.getEngineContext( )
+				.getScriptContext( ) )
 				.newObject( topScope );
 		executionScope.setParentScope( topScope );
 		executionScope.setPrototype( session.getSharedScope( ) );
@@ -916,6 +920,15 @@ public class PreparedDummyQuery implements IPreparedQuery
 					subQueryName,
 					scope != null ? scope : queryScope,
 					this.jsDummyRowObject );
+		}
+		
+		public IResultIterator getSecondaryIterator( ScriptContext context,
+				String subQueryName ) throws BirtException
+		{
+			Scriptable scope = null;
+			if ( context != null )
+				scope = ( (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( context );
+			return this.getSecondaryIterator( subQueryName, scope );
 		}
 		
 		/**

@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -61,7 +62,11 @@ public class ExprEvaluateUtil
 			throw new DataException(ResourceConstants.BAD_DATA_EXPRESSION);
 		
 		Object handle = dataExpr.getHandle( );
-		if ( handle instanceof CompiledExpression )
+		if ( handle instanceof ICompiledScript )
+		{
+			return cx.newContext( scope ).evaluate( (ICompiledScript )handle);
+		}
+		else if ( handle instanceof CompiledExpression )
 		{
 			CompiledExpression expr = (CompiledExpression) handle;
 			Object value = evaluateCompiledExpression( expr, odiResult, scope, cx );
@@ -258,7 +263,7 @@ public class ExprEvaluateUtil
 				if ( ( (IScriptExpression) dataExpr ).getText( ) == null )
 					throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 
-				Object value = cx.eval( ((IScriptExpression) dataExpr).getText( ), scope );
+				Object value = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, ((IScriptExpression) dataExpr).getText( ), null,0 );
 				
 				if ( javaType == true )
 					value = JavascriptEvalUtil.convertJavascriptValue( value );
@@ -326,7 +331,11 @@ public class ExprEvaluateUtil
 
 		// TODO: find reasons
 		Object handle = dataExpr == null ? null:dataExpr.getHandle( );
-		if ( handle instanceof CompiledExpression )
+		if ( handle instanceof ICompiledScript )
+		{
+			return cx.newContext( scope ).evaluate( (ICompiledScript )handle);
+		}
+		else if ( handle instanceof CompiledExpression )
 		{
 			CompiledExpression expr = (CompiledExpression) handle;
 			Object value = evaluateCompiledExpression( expr,

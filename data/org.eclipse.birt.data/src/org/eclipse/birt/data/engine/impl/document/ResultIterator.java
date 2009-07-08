@@ -17,7 +17,9 @@ import java.util.Date;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -272,6 +274,21 @@ public class ResultIterator implements IResultIterator
 		this.exprResultSet.skipToEnd( groupLevel );
 	}
 	
+	public IResultIterator getSecondaryIterator( ScriptContext context,
+			String subQueryName ) throws DataException
+	{
+		try
+		{
+			Scriptable scope = null;
+			if ( context != null )
+				scope = ( (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( context );
+			return this.getSecondaryIterator( subQueryName, scope );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.lang.String,
 	 *      org.mozilla.javascript.Scriptable)

@@ -375,16 +375,18 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	
 	/**
 	 * Gets the Data Engine
+	 * @throws DataException 
 	 */
-	public Scriptable getSharedScope()
+	public Scriptable getSharedScope() throws DataException
 	{
 		return queryExecutor.getSharedScope( );
 	}
 	
 	/**
 	 * Gets the Javascript object that wraps this data set runtime 
+	 * @throws DataException 
 	 */
-	public Scriptable getJSDataSetObject()
+	public Scriptable getJSDataSetObject() throws DataException
 	{
 		// JS wrapper is created on demand
 		if ( jsDataSetObject == null )
@@ -465,9 +467,10 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	
 	/**
 	 * Returns a Javascript scope suitable for running JS event handler code.
+	 * @throws DataException 
 	 * @see org.eclipse.birt.data.engine.api.script.IJavascriptContext#getScriptScope()
 	 */
-	public Scriptable getScriptScope()
+	public Scriptable getScriptScope() throws DataException
 	{
 		// Data set event handlers are executed as methods on the DataSet object
 		return getJSDataSetObject();

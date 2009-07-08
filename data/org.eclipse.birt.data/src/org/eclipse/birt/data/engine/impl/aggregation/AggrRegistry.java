@@ -24,7 +24,9 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ConstantExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+
 
 /**
  * Aggregation registry implemenation
@@ -201,7 +203,7 @@ final class AggrRegistry implements AggregateRegistry
 			// should just be a constant
 			// expression most of the case
 			Object groupLevelObj = groupExpr.evaluate( cx,
-					runStates == BASE_QUERY ? cx.getContext( ).initStandardObjects( )
+					runStates == BASE_QUERY ?Context.getCurrentContext( ).initStandardObjects( )
 							: scope );
 			if ( groupLevelObj == null )
 			{

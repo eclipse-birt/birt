@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.expression;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
@@ -125,9 +126,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 				}
 
 				setHandle( this.rsPopulator.getSession( )
-						.getEngineContext( )
-						.getScriptContext( )
-						.getContext( ),
+						.getEngineContext( ).getScriptContext( ),
 						exprType,
 						currentGroupLevel,
 						helper,
@@ -166,7 +165,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 * @param useResultSetMeta
 	 * @throws DataException
 	 */
-	private void setHandle(  Context context,
+	private void setHandle(  ScriptContext context,
 			int exprType, int currentGroupLevel,
 			MultiPassExpressionCompiler helper, IBaseExpression baseExpression, boolean useResultSetMeta )
 			throws DataException
@@ -230,9 +229,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 		{
 			baseExpression = (IBaseExpression) exprArray[i];
 			this.setHandle( this.rsPopulator.getSession( )
-					.getEngineContext( )
-					.getScriptContext( )
-					.getContext( ),
+					.getEngineContext( ).getScriptContext( ),
 					arrayType,
 					currentGroupLevel[i],
 					helper,
@@ -268,9 +265,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 			compileBaseExpression( baseExpression,
 					helper,
 					this.rsPopulator.getSession( )
-							.getEngineContext( )
-							.getScriptContext( )
-							.getContext( ) );
+							.getEngineContext( ).getScriptContext( ));
 		}
 
 		hasAggregate = helper.getAggregateStatus( );
@@ -300,7 +295,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 			IBaseExpression baseExpression = expression;
 			compileBaseExpression( baseExpression,
 					helper,
-					this.dataset.getSession( ).getEngineContext( ).getScriptContext( ).getContext( ));
+					this.dataset.getSession( ).getEngineContext( ).getScriptContext( ));
 
 			hasAggregate = helper.getAggregateStatus( );
 			clear( );
@@ -369,7 +364,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	private void compileConditionalExpression(
 			IConditionalExpression baseExpression,
 			MultiPassExpressionCompiler helper, ResultSetPopulator rsPopulator,
-			int exprType, int currentGroupLevel, Context context )
+			int exprType, int currentGroupLevel, ScriptContext context )
 			throws DataException
 	{
 		IConditionalExpression condition = (IConditionalExpression) baseExpression;
@@ -387,7 +382,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 * @throws DataException
 	 */
 	private void compileBaseExpression( IBaseExpression baseExpression,
-			MultiPassExpressionCompiler helper, Context context )
+			MultiPassExpressionCompiler helper, ScriptContext context )
 			throws DataException
 	{
 		if ( baseExpression instanceof IConditionalExpression )
@@ -448,8 +443,9 @@ public class ExpressionProcessor implements IExpressionProcessor
 	/**
 	 * 
 	 * @return
+	 * @throws DataException 
 	 */
-	private MultiPassExpressionCompiler getMultiPassCompilerHelper( )
+	private MultiPassExpressionCompiler getMultiPassCompilerHelper( ) throws DataException
 	{
 		if ( currentHelper == null )
 		{
@@ -470,7 +466,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#getScope()
 	 */
-	public Scriptable getScope( )
+	public Scriptable getScope( ) throws DataException
 	{
 		return this.dataset.getScriptScope( );
 	}

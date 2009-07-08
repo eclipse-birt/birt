@@ -166,17 +166,19 @@ public class PreparedQueryUtil
 				{
 					Class optimizationUtil = Class.forName( "org.eclipse.birt.data.engine.impl.OdaQueryOptimizationUtil" );
 					Method m = optimizationUtil.getMethod( "optimizeExecution",
-							ScriptContext.class,
 							String.class,
 							IOdaDataSetDesign.class,
-							IQueryDefinition.class );
+							IQueryDefinition.class,
+							DataEngineSession.class,
+							Map.class);
 					Object o = optimizationUtil.newInstance( );
 					querySpec = (QuerySpecification) m.invoke( o,
-							dataEngine.getContext( ).getScriptContext( ),
 							dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) )
 									.getExtensionID( ),
 							(IOdaDataSetDesign) dset,
-							queryDefn );
+							queryDefn,
+							dataEngine.getSession( ),
+							appContext);
 
 				}
 				catch ( Throwable e )

@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -48,7 +49,7 @@ public abstract class BaseJSEvalHelper
 			ICubeQueryDefinition queryDefn, ScriptContext cx, IBaseExpression expr )
 			throws DataException
 	{
-		this.scope = cx.getContext( ).initStandardObjects( );
+		this.scope = Context.getCurrentContext( ).initStandardObjects( );
 		this.scope.setParentScope( parentScope );
 		this.queryDefn = queryDefn;
 		this.expr = expr;
@@ -56,7 +57,7 @@ public abstract class BaseJSEvalHelper
 		this.cx = cx;
 		this.jsObjectPopulators = new ArrayList( );
 		registerJSObjectPopulators( );
-		OLAPExpressionCompiler.compile( cx.getContext( ), this.expr );
+		OLAPExpressionCompiler.compile( Context.getCurrentContext( ), this.expr );
 	}
 
 	/**

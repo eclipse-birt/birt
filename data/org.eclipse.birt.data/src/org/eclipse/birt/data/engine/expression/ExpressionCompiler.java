@@ -11,7 +11,8 @@
 
 package org.eclipse.birt.data.engine.expression;
 
-import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction ;
+import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
@@ -56,7 +57,7 @@ public class ExpressionCompiler extends AbstractExpressionCompiler
 	 * @return
 	 */	
 	public CompiledExpression compile( String expression,
-			AggregateRegistry registry, Context context )
+			AggregateRegistry registry, ScriptContext context )
 	{
 		try
 		{

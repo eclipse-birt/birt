@@ -78,8 +78,7 @@ public class ComputedMeasureHelper implements IComputedMeasureHelper
 			try
 			{
 				result[i] = ScriptEvalUtil.evalExpr( (IBaseExpression) this.exprMap.get( this.measureInfos[i].getMeasureName( ) ),
-						cx,
-						scope,
+						cx.newContext( scope ),
 						ScriptExpression.defaultID,
 						0 );
 			}

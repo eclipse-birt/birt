@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.script.IJavascriptContext;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -57,28 +58,35 @@ public class JSDataSources extends ScriptableObject
 	/**
 	 * @see org.mozilla.javascript.Scriptable#get(java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	public Object get(String name, Scriptable start)
+	public Object get( String name, Scriptable start )
 	{
-		logger.entering( JSDataSources.class.getName( ), "get", name );
-		IJavascriptContext ds = (IJavascriptContext)dataSources.get( name ); 
-		if ( ds != null )
+		try
 		{
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( JSDataSources.class.getName( ),
-					"get",
-					ds.getScriptScope( ) );
-			return ds.getScriptScope();
+			logger.entering( JSDataSources.class.getName( ), "get", name );
+			IJavascriptContext ds = (IJavascriptContext) dataSources.get( name );
+			if ( ds != null )
+			{
+				if ( logger.isLoggable( Level.FINER ) )
+					logger.exiting( JSDataSources.class.getName( ),
+							"get",
+							ds.getScriptScope( ) );
+				return ds.getScriptScope( );
+			}
+			else
+			{
+				if ( logger.isLoggable( Level.FINER ) )
+					logger.exiting( JSDataSources.class.getName( ),
+							"get",
+							super.get( name, start ) );
+				return super.get( name, start );
+			}
 		}
-		else
+		catch ( DataException e )
 		{
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( JSDataSources.class.getName( ),
-					"get",
-					super.get( name, start) );
-			return super.get( name, start);
+			throw new RuntimeException( e.getLocalizedMessage( ), e );
 		}
 	}
-	
+
 	/**
 	 * @see org.mozilla.javascript.Scriptable#getIds()
 	 */

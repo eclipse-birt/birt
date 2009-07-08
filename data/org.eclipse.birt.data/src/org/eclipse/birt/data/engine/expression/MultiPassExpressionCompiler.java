@@ -130,7 +130,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @return
 	 */
 	public CompiledExpression compileExpression( ExpressionInfo exprInfo,
-			Context cx )
+			ScriptContext cx )
 	{
 		try
 		{

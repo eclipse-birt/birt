@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
@@ -47,7 +49,7 @@ abstract class AbstractExpressionCompiler
 	
 	private IScriptExpression scriptExpr;
 	
-	public void compile( IBaseExpression expr, Context context ) throws DataException
+	public void compile( IBaseExpression expr, ScriptContext context ) throws DataException
 	{
 		if ( expr instanceof IScriptExpression )
 		{
@@ -67,7 +69,7 @@ abstract class AbstractExpressionCompiler
 	 * @param context
 	 * @return
 	 */
-	private void compile( IScriptExpression baseExpr, Context context ) throws DataException
+	private void compile( IScriptExpression baseExpr, ScriptContext context ) throws DataException
 	{
 		if ( baseExpr == null )
 			return;
@@ -82,7 +84,7 @@ abstract class AbstractExpressionCompiler
 	 * @param context
 	 * @return
 	 */
-	protected CompiledExpression compileExpression( IScriptExpression baseExpr, Context context )
+	protected CompiledExpression compileExpression( IScriptExpression baseExpr, ScriptContext context )
 			throws DataException
 	{
 		String exp = "";
@@ -92,8 +94,10 @@ abstract class AbstractExpressionCompiler
 			exp = baseExpr.getText( );
 			if ( exp == null )
 				return null;
-			ScriptOrFnNode tree = parse( exp, context );
-			return processScriptTree( exp, tree, context );
+			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
+			
+			ScriptOrFnNode tree = parse( exp, engine.getJSContext( context ) );
+			return processScriptTree( exp, tree, engine.getJSContext( context ));
 		}
 		catch ( Exception e )
 		{
@@ -113,7 +117,7 @@ abstract class AbstractExpressionCompiler
 	 * @throws DataException
 	 */
 	protected CompiledExpression compileExpression( String expression,
-			Context context ) throws DataException
+			ScriptContext context ) throws DataException
 	{
 		String exp = "";
 		try
@@ -121,8 +125,11 @@ abstract class AbstractExpressionCompiler
 			exp = expression;
 			if ( exp == null )
 				return null;
-			ScriptOrFnNode tree = parse( exp, context );
-			return processScriptTree( exp, tree, context );
+			
+			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
+			
+			ScriptOrFnNode tree = parse( exp, engine.getJSContext( context ) );
+			return processScriptTree( exp, tree, engine.getJSContext( context )  );
 		}
 		catch ( Exception e )
 		{

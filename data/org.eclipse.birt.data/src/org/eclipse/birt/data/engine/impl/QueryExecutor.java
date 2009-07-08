@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -62,7 +63,6 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.text.Collator;
@@ -414,7 +414,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		assert this.baseQueryDefn != null;
 
 		// Set grouping
-		populateGrouping( session.getEngineContext( ).getScriptContext( ).getContext( ) );
+		populateGrouping( session.getEngineContext( ).getScriptContext( ) );
 
 		// Set sorting
 		populateSorting( );
@@ -455,7 +455,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param cx
 	 * @throws DataException
 	 */
-	private void populateGrouping( Context cx ) throws DataException
+	private void populateGrouping( ScriptContext cx ) throws DataException
 	{
 		List groups = this.baseQueryDefn.getGroups( );
 		if ( groups != null && !groups.isEmpty( ) )
@@ -556,7 +556,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @return
 	 * @throws DataException
 	 */
-	private IComputedColumn getComputedColumnInstance( Context cx,
+	private IComputedColumn getComputedColumnInstance( ScriptContext cx,
 			int interval, IGroupDefinition src,
 			String expr, String groupName, IQuery.GroupSpec dest,
 			int dataType)
@@ -777,7 +777,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @return
 	 * @throws DataException 
 	 */
-	private int getColumnDataType( Context cx, String expr ) throws DataException
+	private int getColumnDataType( ScriptContext cx, String expr ) throws DataException
 	{
 		String columnName = QueryExecutorUtil.getColInfoFromJSExpr( cx, expr )
 				.getColumnName( );
@@ -881,7 +881,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 				{
 					ConditionalExpression ce = ( (ConditionalExpression) expr );
 					String exprText = ce.getExpression( ).getText( );
-					ColumnInfo columnInfo = QueryExecutorUtil.getColInfoFromJSExpr( cx.getContext( ),
+					ColumnInfo columnInfo = QueryExecutorUtil.getColInfoFromJSExpr( cx,
 							exprText );
 
 					int index = columnInfo.getColumnIndex( );
@@ -923,9 +923,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if ( expr instanceof IConditionalExpression )
 		{
 			if ( !ExpressionCompilerUtil.isValidExpressionInQueryFilter( expr,
-					session.getEngineContext( )
-							.getScriptContext( )
-							.getContext( ) ) )
+					session.getEngineContext( ).getScriptContext( )) )
 				throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
 						new Object[]{
 							( (IConditionalExpression) expr ).getExpression( )
@@ -1163,33 +1161,43 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * Gets the Javascript scope for evaluating expressions for this query
 	 * 
 	 * @return
+	 * @throws DataException 
 	 */
-	public Scriptable getQueryScope( )
+	public Scriptable getQueryScope( ) throws DataException
 	{
-		if ( queryScope == null )
+		try
 		{
-			// Set up a query scope. All expressions are evaluated against the 
-			// Data set JS object as the prototype (so that it has access to all
-			// data set properties). It uses a subscope of the externally provided
-			// parent scope, or the global shared scope
-			queryScope = newSubScope( parentScope );
-			queryScope.setPrototype( dataSet.getJSDataSetObject( ) );
+			if ( queryScope == null )
+			{
+				// Set up a query scope. All expressions are evaluated against
+				// the
+				// Data set JS object as the prototype (so that it has access to
+				// all
+				// data set properties). It uses a subscope of the externally
+				// provided
+				// parent scope, or the global shared scope
+				queryScope = newSubScope( parentScope );
+				queryScope.setPrototype( dataSet.getJSDataSetObject( ) );
+			}
+			return queryScope;
 		}
-		return queryScope;
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 	}
 
 	/**
 	 * Creates a subscope within parent scope
 	 * @param parentAndProtoScope parent scope. If null, the shared top-level scope is used as parent
+	 * @throws BirtException 
 	 */
-	private Scriptable newSubScope( Scriptable parentAndProtoScope )
+	private Scriptable newSubScope( Scriptable parentAndProtoScope ) throws BirtException
 	{
 		if ( parentAndProtoScope == null )
 			parentAndProtoScope = sharedScope;
 
-		Scriptable scope = session.getEngineContext( )
-				.getScriptContext( )
-				.getContext( )
+		Scriptable scope = ((IDataScriptEngine)session.getEngineContext( ).getScriptContext( ).getScriptEngine( IDataScriptEngine.ENGINE_NAME )).getJSContext( session.getEngineContext( ).getScriptContext( ) )
 				.newObject( parentAndProtoScope );
 		scope.setParentScope( parentAndProtoScope );
 		scope.setPrototype( parentAndProtoScope );
