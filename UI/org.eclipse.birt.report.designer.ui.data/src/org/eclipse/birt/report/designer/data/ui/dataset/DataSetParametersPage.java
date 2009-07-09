@@ -37,6 +37,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.model.adapter.oda.ReportParameterAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
@@ -214,9 +215,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		viewer.getViewer( )
 				.setLabelProvider( new ParameterViewLableProvider( dataSetHandle ) );
 		adjustParameterOnPosition( parameters );
-		if ( ParameterPageUtil.isJointDataSetHandle( dataSetHandle ) )
+		if ( ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle ) )
 		{
-			viewer.getViewer( ).setInput( (JointDataSetHandle) dataSetHandle );
+			viewer.getViewer( ).setInput( dataSetHandle );
 		}
 		else
 		{
@@ -227,8 +228,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		{
 			addRefreshMenu( );
 			addListeners( );
-			dataSetHandle.addListener( this );
 		}
+		dataSetHandle.addListener( this );
+		
 		return viewer.getControl( );
 	}
 
@@ -1215,6 +1217,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				List params = getSubDataSetParameters( handle, "", 0 );
 				return params.toArray( );
 			}
+			
+			if ( inputElement instanceof DerivedDataSetHandle )
+			{
+				List paramList = getDerivedDataSetParameters( (DerivedDataSetHandle) inputElement,
+						"",
+						0 );
+				return paramList.toArray( );
+			}
 
 			if ( !( inputElement instanceof PropertyHandle ) )
 				return new Object[0];
@@ -1313,6 +1323,39 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 							subDataSetParams.add( createDataSetParameter( param,
 									preFixStr, count ) );
 						}
+					}
+				}
+			}
+			return subDataSetParams;
+		}
+
+		private List getDerivedDataSetParameters(
+				DerivedDataSetHandle derivedDataSetHandle, String prefix, int count )
+		{
+			List subDataSetParams = new ArrayList( );
+			List<DataSetHandle> dataSets = derivedDataSetHandle.getInputDataSets( );
+
+			for ( int i = 0; i < dataSets.size( ); i++ )
+			{
+				DataSetHandle handle = (DataSetHandle) dataSets.get( i );
+				String preFixStr = prefix + handle.getName( );
+				if ( handle instanceof DerivedDataSetHandle )
+				{
+					subDataSetParams.addAll( getDerivedDataSetParameters( (DerivedDataSetHandle) handle,
+							preFixStr + separator,
+							count ) );
+					count += subDataSetParams.size( );
+				}
+				else
+				{
+					Iterator params = handle.parametersIterator( );
+					while ( params.hasNext( ) )
+					{
+						count++;
+						DataSetParameterHandle param = (DataSetParameterHandle) params.next( );
+						subDataSetParams.add( createDataSetParameter( param,
+								preFixStr,
+								count ) );
 					}
 				}
 			}
