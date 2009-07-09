@@ -1806,9 +1806,7 @@
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.ReportElement.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
-    <PropertyVisibility name="extends" visibility="hide"/>        
-    <PropertyVisibility name="displayName" visibility="hide"/>    
-    <PropertyVisibility name="displayNameID" visibility="hide"/>  
+    <PropertyVisibility name="extends" visibility="hide"/>  
     <PropertyVisibility name="viewAction" visibility="hide"/>      
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSource" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSource" nameSpace="dataSource" since="1.0" xmlName="data-source">
