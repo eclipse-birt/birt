@@ -162,6 +162,9 @@ public class URIUtilTest extends BaseTestCase
 		assertEquals( "fragments/new_library.rptlibrary", URIUtil //$NON-NLS-1$
 				.getRelativePath( "bundleentry://385", //$NON-NLS-1$
 						"bundleentry://385/fragments/new_library.rptlibrary" ) ); //$NON-NLS-1$
+
+		assertEquals( "../../test.rptdesign", URIUtil.getRelativePath( //$NON-NLS-1$
+				"../test/report", "../test.rptdesign" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**

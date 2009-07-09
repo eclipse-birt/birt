@@ -292,7 +292,7 @@ public class URIUtil
 		else
 		{
 			int oldMatchedPos = matchedPos;
-			matchedPos = newBaseDir.lastIndexOf( separator, oldMatchedPos );
+			matchedPos = newBaseDir.lastIndexOf( separator, oldMatchedPos - 1 );
 		}
 
 		// saves the matched position
