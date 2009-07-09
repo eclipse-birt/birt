@@ -458,4 +458,13 @@
          </adapter>
       </adaptable>
    </extension>
+   <extension point="org.eclipse.core.runtime.adapters">
+		<factory 
+			adaptableType="org.eclipse.birt.report.model.api.ExtendedItemHandle"
+			class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CorssTabElementDropValidatorFactory">
+			<adapter
+				type="org.eclipse.birt.report.designer.core.commands.DeleteCommand">
+			</adapter>
+		</factory>
+	</extension>
 </plugin>

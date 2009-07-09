@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.model.IDropValidator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -31,13 +32,13 @@ import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
@@ -295,7 +296,7 @@ public class DeleteCommand extends Command
 	 */
 	protected boolean canDrop( Object source )
 	{
-		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
 		{
 			return false;
 		}
@@ -324,7 +325,7 @@ public class DeleteCommand extends Command
 			{
 				if ( DNDUtil.checkContainerExists( array[i], array ) )
 					continue;
-				//267156 Can't delete all master pages
+				// 267156 Can't delete all master pages
 				if ( array[i] instanceof MasterPageHandle )
 				{
 					int masterPageCount = SessionHandleAdapter.getInstance( )
@@ -336,7 +337,7 @@ public class DeleteCommand extends Command
 						if ( array[j] instanceof MasterPageHandle )
 							masterPageCount--;
 					}
-					if(masterPageCount==0)
+					if ( masterPageCount == 0 )
 						return false;
 				}
 				if ( !canDrop( array[i] ) )
@@ -357,12 +358,14 @@ public class DeleteCommand extends Command
 		{
 			return true;
 		}
-		if ( source instanceof ExtendedItemHandle
-				&& isExtendedCell( (ExtendedItemHandle) source ) )
+		if ( source instanceof ExtendedItemHandle )
 		{
-			return ( (ExtendedItemHandle) source ).getContents( DEUtil.getDefaultContentName( source ) )
-					.size( ) > 0
-					&& ( (ExtendedItemHandle) source ).canDrop( );
+			Object dropValidator = Platform.getAdapterManager( )
+					.getAdapter( (ExtendedItemHandle) source,
+							DeleteCommand.class );
+			if ( dropValidator instanceof IDropValidator
+					&& ( (IDropValidator) dropValidator ).accpetValidator( ) )
+				return ( (IDropValidator) dropValidator ).canDrop( );
 		}
 		if ( source instanceof CellHandle )
 		{
