@@ -1656,8 +1656,8 @@
   	<Property displayNameID="Element.ReportDesign.dataObjects" isList="true" name="dataObjects" since="2.5" type="contentElement">
   	  <Type name="VariableElement"/>	
   	</Property>
-  	<Method context="clientScripts" displayNameID="Element.ReportDesign.onContentUpdate" name="onContentUpdate" since="2.5" toolTipID="Element.ReportDesign.onContentUpdate.toolTip">
-		<Argument name="this" tagID="Element.ReportDesign.onContentUpdate.this" type="ReportDesign"/>
+  	<Method context="client" displayNameID="Element.ReportDesign.onContentUpdate" name="onContentUpdate" since="2.5" toolTipID="Element.ReportDesign.onContentUpdate.toolTip">
+		<Argument name="this" tagID="Element.ReportDesign.onContentUpdate.this" type="org.eclipse.birt.report.engine.api.script.element.IReportDesign"/>
     </Method> 
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
