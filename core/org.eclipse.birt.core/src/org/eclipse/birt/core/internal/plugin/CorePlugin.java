@@ -18,6 +18,7 @@ import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
 import org.eclipse.birt.core.internal.function.impl.FunctionProviderImpl;
 import org.eclipse.birt.core.plugin.BIRTPlugin;
+import org.eclipse.birt.core.script.ScriptEngineFactoryManager;
 import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.osgi.framework.BundleContext;
 
@@ -41,7 +42,9 @@ public class CorePlugin extends BIRTPlugin
 				} );
 
 		Platform.setContextClassLoader( contextClassLoader );
-		FunctionProvider.setFunctionProvider( new FunctionProviderImpl());
+		FunctionProvider.setFunctionProvider( new FunctionProviderImpl( ) );
+		ScriptEngineFactoryManager
+				.setInstance( new ScriptEngineFactoryManagerImpl( ) );
 	}
 
 	/**
@@ -53,5 +56,6 @@ public class CorePlugin extends BIRTPlugin
 		Platform.setPlatform( null );
 		Platform.setContextClassLoader( null );
 		FunctionProvider.setFunctionProvider( null );
+		ScriptEngineFactoryManager.setInstance( null );
 	}
 }

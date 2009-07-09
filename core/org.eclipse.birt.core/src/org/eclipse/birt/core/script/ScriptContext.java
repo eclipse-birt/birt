@@ -33,7 +33,6 @@ public class ScriptContext implements IScriptContext
 
 	private Map<String, IScriptEngine> engines;
 	private Map<String, IScriptContext> scriptContexts;
-	private ScriptEngineFactoryManager engineFactoryManager;
 
 	public ScriptContext( )
 	{
@@ -59,7 +58,6 @@ public class ScriptContext implements IScriptContext
 		parent = scriptContext;
 		scriptContexts = new HashMap<String, IScriptContext>( );
 		this.scope = scope;
-		this.engineFactoryManager = new ScriptEngineFactoryManager( );
 	}
 
 	public ClassLoader getApplicationClassLoader( )
@@ -180,7 +178,7 @@ public class ScriptContext implements IScriptContext
 		{
 			return engines.get( scriptName );
 		}
-		IScriptEngineFactory factory = engineFactoryManager
+		IScriptEngineFactory factory = ScriptEngineFactoryManager.getInstance( )
 				.getScriptEngineFactory( scriptName );
 		if ( factory == null )
 		{
