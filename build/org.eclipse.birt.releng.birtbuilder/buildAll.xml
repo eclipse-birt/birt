@@ -300,15 +300,26 @@
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
 	
-		<!--
+
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
-		-->
+
 
 		<delete includeemptydirs="true">
-			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.birt.sdk*/**" />
-			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />		
+			<fileset dir="${updateJarWorkingDir}/eclipse/features">
+				<include name="org.eclipse.birt.sdk.feature*/**"/>
+				<include name="org.eclipse.birt.integration.wtp.sdk.feature*/**"/>
+			</fileset>
+			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
+				<include name="*.thirdparty*/**"/>
+				<include name="org.eclipse.birt.chart.runtime_*.jar"/>
+				<include name="org.eclipse.birt.chart.runtime.source_*.jar"/>
+				<include name="org.eclipse.birt.report.runtime_*.jar"/>
+				<include name="org.eclipse.birt.report.runtime.source_*.jar"/>
+				<include name="org.eclipse.birt.report.designer_*.jar"/>
+				<include name="org.eclipse.birt.report.designer.source_*.jar"/>
+			</fileset>	
 		</delete>
 		
 		<!-- repack update jar -->
@@ -403,6 +414,10 @@
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.doc.isv}" token="@FEATURE.CHART.DOC.ISV@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.source}" token="@FEATURE.CHART.SOURCE@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.osgi.runtime.sdk}" token="@FEATURE.OSGI.RUNTIME.SDK@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp.source}" token="@FEATURE.CHART.WTP.SOURCE@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.source}" token="@FEATURE.BIRT.WTP.SOURCE@"/>		
 	</target>
 	
 	<target name="pushUpdateSiteLocal" if="createUpdateSite">
@@ -506,9 +521,9 @@
 			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
 		</ant>
 		
-		<!--
+
 		<antcall target="signWTPJars"/>
-		-->
+
 		<!-- unpack BIRT wtp integration feature -->
 		
 		<mkdir dir="${buildDirectory}/wtptmpsite"/>
