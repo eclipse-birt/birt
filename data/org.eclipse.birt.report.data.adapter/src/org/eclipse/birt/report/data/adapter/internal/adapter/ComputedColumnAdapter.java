@@ -36,16 +36,18 @@ import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument
  */
 public class ComputedColumnAdapter extends ComputedColumn
 {
-	public ComputedColumnAdapter ( IModelAdapter adapter, ComputedColumnHandle modelCmptdColumn ) throws AdapterException
+
+	public ComputedColumnAdapter( IModelAdapter adapter,
+			ComputedColumnHandle modelCmptdColumn ) throws AdapterException
 	{
-		
+
 		super( modelCmptdColumn.getName( ),
-				modelCmptdColumn.getExpression( ),
+				adapter.adaptExpression( DataAdapterUtil.getExpression( modelCmptdColumn.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER ) ) ),
 				org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( modelCmptdColumn.getDataType( ) ),
 				modelCmptdColumn.getAggregateFunction( ),
 				modelCmptdColumn.getFilterExpression( ) == null
 						? null
-						: adapter.adaptExpression( DataAdapterUtil.getExpression(modelCmptdColumn.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER )) ),
+						: adapter.adaptExpression( DataAdapterUtil.getExpression( modelCmptdColumn.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER ) ) ),
 				populateArgument( adapter, modelCmptdColumn ) );
 	}
 	

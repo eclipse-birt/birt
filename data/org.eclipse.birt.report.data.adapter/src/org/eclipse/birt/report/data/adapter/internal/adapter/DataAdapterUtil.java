@@ -208,7 +208,7 @@ public class DataAdapterUtil
 			{
 				ComputedColumnHandle modelCmptdColumn = ( ComputedColumnHandle ) elmtIter
 						.next( );
-				dteDataSet.addComputedColumn( new ComputedColumnAdapter( adapter, modelCmptdColumn ));
+				dteDataSet.addComputedColumn( adapter.adaptComputedColumn( modelCmptdColumn ));
 			}
 		}
 	}

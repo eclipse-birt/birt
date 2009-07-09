@@ -74,6 +74,15 @@ public class ComputedColumn implements IComputedColumn
 		this.filter = filter;
     }
     
+    public ComputedColumn( String name, IScriptExpression expr, int dataType, String aggrFunction, IScriptExpression filter, List argument  )
+    {
+    	this.name = name;
+		this.expr = expr;
+		this.dataType = dataType;
+		this.aggrFuntion = aggrFunction;
+		this.argument = argument;
+		this.filter = filter;
+    }
     /*
      *  (non-Javadoc)
      * @see org.eclipse.birt.data.engine.api.IComputedColumn#getName()
