@@ -159,8 +159,12 @@ public class TableBreakBuffer implements IPageBuffer
 					
 					if ( index != currentIndex )
 					{
+						for ( int i = currentIndex+1; i <= index; i++ )
+						{
+							currentBuffer = buffers[i];
+							repeatCells( emitter );
+						}
 						currentIndex = index;
-						repeatCells( emitter);
 					}
 					currentBuffer = buffers[currentIndex];
 					//flush repeat cell content
