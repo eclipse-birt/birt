@@ -330,7 +330,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 				task = engine.createGetParameterDefinitionTask( engine.openReportDesign( reportDesignFile ) );
 			}
 			ParameterFactory factory = new ParameterFactory( task );
-			List parameters = factory.getRootChildren( );
+			List parameters = factory.getRootChildren( false );
 			task.close( );
 			task = null;
 			return parameters;

@@ -51,14 +51,17 @@ public class ParameterFactory
 	{
 		this.task = task;
 	}
-
+	public List getRootChildren( )
+	{
+		return getRootChildren( true );
+	}
 	/**
 	 * Gets children of root.
 	 * 
 	 * @param task
 	 * @return children of root.
 	 */
-	public List getRootChildren( )
+	public List getRootChildren(boolean includeHidden )
 	{
 		IReportRunnable runnable = task.getReportRunnable( );
 		if ( runnable == null )
@@ -84,8 +87,12 @@ public class ParameterFactory
 			if ( handle instanceof ScalarParameterHandle )
 			{
 				// build parameter
-				IParameter param = createScalarParameter( (ScalarParameterHandle) handle );
-				childrenList.add( param );
+				ScalarParameterHandle temp = (ScalarParameterHandle) handle;
+				if (includeHidden || !temp.isHidden( ))
+				{
+					IParameter param = createScalarParameter( temp );
+					childrenList.add( param );
+				}
 			}
 			else if ( handle instanceof ParameterHandle )
 			{
@@ -98,7 +105,7 @@ public class ParameterFactory
 				IParameterGroup group = new CascadingParameterGroup( groupHandle );
 				childrenList.add( group );
 
-				createParameterGroup( group, groupHandle );
+				createParameterGroup( group, groupHandle, includeHidden );
 			}
 			else if ( handle instanceof ParameterGroupHandle )
 			{
@@ -107,7 +114,7 @@ public class ParameterFactory
 				IParameterGroup group = new ParameterGroup( groupHandle );
 				childrenList.add( group );
 
-				createParameterGroup( group, groupHandle );
+				createParameterGroup( group, groupHandle, includeHidden );
 			}
 		}
 
@@ -122,7 +129,7 @@ public class ParameterFactory
 	 * @param groupHandle
 	 */
 	private void createParameterGroup( IParameterGroup group,
-			ParameterGroupHandle groupHandle )
+			ParameterGroupHandle groupHandle, boolean includeHidden )
 	{
 		assert group != null;
 		assert groupHandle != null;
@@ -136,7 +143,10 @@ public class ParameterFactory
 		while ( iterator.hasNext( ) )
 		{
 			ParameterHandle handle = (ParameterHandle) iterator.next( );
-			createParameter( group, handle );
+			if (includeHidden || !handle.isHidden( ))
+			{
+				createParameter( group, handle );
+			}
 		}
 	}
 
