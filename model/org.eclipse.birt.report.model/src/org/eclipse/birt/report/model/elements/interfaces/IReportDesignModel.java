@@ -177,4 +177,14 @@ public interface IReportDesignModel
 	 * Name of the method on page end.
 	 */
 	public static final String ON_PAGE_END_METHOD = "onPageEnd"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the data object variable property.
+	 */
+	public static final String DATA_OBJECTS_PROP = "dataObjects";
+	
+	/**
+	 * Name of the onContentUpdate client script property.
+	 */
+	public static final String ON_CONTENT_UPDATE_METHOD = "onContentUpdate";
 }

@@ -1299,6 +1299,51 @@ public class ReportDesignHandle extends ModuleHandle
 		handle.setExpressionProperty( IVariableElementModel.VALUE_PROP, value );
 	}
 
+	
+	/**
+	 * Adds data variable that user defined on the report design.
+	 * 
+	 * @param variable
+	 *            the variable
+	 * @throws SemanticException
+	 */
+
+	public void addVariable( VariableElementHandle variable )
+			throws SemanticException
+	{
+		add( DATA_OBJECTS_PROP, variable );
+	}
+
+	/**
+	 * Removes the given data variable.
+	 * 
+	 * @param variable
+	 *            the variable
+	 * @throws SemanticException
+	 */
+
+	public void dropVariable( VariableElementHandle variable )
+			throws SemanticException
+	{
+		variable.drop( );
+	}
+
+	/**
+	 * Gets all variable.
+	 * 
+	 * @return the list of variable. Each item is an instance of
+	 *         <code>VariableElementHandle</code>.
+	 */
+
+	public List<VariableElementHandle> getAllVariables( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( DATA_OBJECTS_PROP );
+		if ( propHandle == null )
+		{
+			return Collections.EMPTY_LIST;
+		}
+		return propHandle.getListValue( );
+	}
 	/**
 	 * Gets the list of the included css style sheets that set the external URI.
 	 * The css style might be included by the design handle itself and the theme
