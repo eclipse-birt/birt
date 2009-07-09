@@ -65,7 +65,11 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				setOutputEnable( hideCheckbox.getSelection( ) );
+				if ( !specCheckButtons.containsValue( e.getSource( ) ) )
+				{
+					setOutputEnable( hideCheckbox.getSelection( ) );
+				}
+
 				if ( hideCheckbox.getSelection( ) )
 				{
 					saveHideInfo( );
@@ -229,6 +233,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 		{
 			boolean[] selections = new boolean[outputDescriptorProvider.getTypeInfo( ).length];
 			String[] expressions = new String[outputDescriptorProvider.getTypeInfo( ).length];
+
 			for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
 			{
 				selections[i] = ( (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).getSelection( );
@@ -247,7 +252,6 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			}
 			hideCheckbox.setSelection( true );
 			setOutputEnable( true );
-
 		}
 	}
 
@@ -262,11 +266,12 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 		allRadio.setEnabled( enable );
 		specRadio.setEnabled( enable );
 		group.setEnabled( enable );
-		Composite container = ( (GridData) allContainer.getLayoutData( ) ).heightHint != 0 ? allContainer
-				: specContainer;
+		Composite container = getCurrentContainer( );
 		Control[] children = container.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
+			if ( children[i] instanceof ExpressionComposite )
+				continue;
 			children[i].setEnabled( enable );
 		}
 
@@ -275,6 +280,12 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setEnabled( ( (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).getSelection( ) );
 		}
 
+	}
+
+	private Composite getCurrentContainer( )
+	{
+		return ( (GridData) allContainer.getLayoutData( ) ).heightHint != 0 ? allContainer
+				: specContainer;
 	}
 
 	private void setOutputInfo( )
@@ -347,11 +358,37 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refreshValues(java.util.Set)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#refreshValues(java.util.Set)
 	 */
+
+	private boolean needResetUI( )
+	{
+		Iterator visibilities = outputDescriptorProvider.getVisibilityRulesIterator( );
+		if ( visibilities == null && !hideCheckbox.isEnabled( ) )
+			return true;
+		else
+		{
+			while ( visibilities.hasNext( ) )
+			{
+				Object obj = visibilities.next( );
+				String format = outputDescriptorProvider.getFormat( obj );
+				if ( outputDescriptorProvider.isFormatTypeAll( format ) )
+				{
+					return true;
+				}
+			}
+			if ( getCurrentContainer( ) == specContainer )
+				return false;
+			else
+				return true;
+		}
+	}
+
 	public void load( )
 	{
-		inputChanged( );
+		if ( needResetUI( ) )
+			inputChanged( );
 		doLoad( );
 	}
 
@@ -367,7 +404,6 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 	private void doLoad( )
 	{
 		setExpressionProvider( );
-		hideCheckbox.setEnabled( true );
 
 		if ( !outputDescriptorProvider.shareSameVisibility( ) )
 		{
@@ -376,45 +412,72 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			return;
 		}
 
-		Iterator visibilities = outputDescriptorProvider.getVisibilityRulesIterator( );
-
-		hideCheckbox.setSelection( ( visibilities != null )
-				&& visibilities.hasNext( ) );
-		setOutputEnable( hideCheckbox.getSelection( ) );
-
-		if ( visibilities == null )
-			return;
-
-		while ( visibilities.hasNext( ) )
+		if ( needResetUI( ) )
 		{
-			Object obj = visibilities.next( );
-			String format = outputDescriptorProvider.getFormat( obj );
-			String expression = outputDescriptorProvider.getExpression( obj );
-			if ( expression == null )
-				expression = ""; //$NON-NLS-1$
-			if ( outputDescriptorProvider.isFormatTypeAll( format ) )
+			hideCheckbox.setEnabled( true );
+
+			Iterator visibilities = outputDescriptorProvider.getVisibilityRulesIterator( );
+
+			hideCheckbox.setSelection( ( visibilities != null )
+					&& visibilities.hasNext( ) );
+			setOutputEnable( hideCheckbox.getSelection( ) );
+
+			if ( visibilities == null )
+				return;
+
+			while ( visibilities.hasNext( ) )
 			{
-				allRadio.setSelection( true );
-				allExpression.setText( expression );
-				specRadio.setSelection( false );
-				break;
+				Object obj = visibilities.next( );
+				String format = outputDescriptorProvider.getFormat( obj );
+				String expression = outputDescriptorProvider.getExpression( obj );
+				if ( expression == null )
+					expression = ""; //$NON-NLS-1$
+				if ( outputDescriptorProvider.isFormatTypeAll( format ) )
+				{
+					allRadio.setSelection( true );
+					allExpression.setText( expression );
+					specRadio.setSelection( false );
+					break;
+				}
+				allRadio.setSelection( false );
+				specRadio.setSelection( true );
+
+				if ( specCheckButtons.containsKey( format ) )
+					( (Button) specCheckButtons.get( format ) ).setSelection( true );
+				if ( specExpressions.containsKey( format ) )
+					( (ExpressionComposite) specExpressions.get( format ) ).setText( expression );
 			}
-			allRadio.setSelection( false );
-			specRadio.setSelection( true );
 
-			if ( specCheckButtons.containsKey( format ) )
-				( (Button) specCheckButtons.get( format ) ).setSelection( true );
-			if ( specExpressions.containsKey( format ) )
-				( (ExpressionComposite) specExpressions.get( format ) ).setText( expression );
+			for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
+			{
+				ExpressionComposite expr = (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] );
+				Button check = (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] );
+				expr.setEnabled( check.getEnabled( ) && check.getSelection( ) );
+			}
+			setOutputInfo( );
 		}
-
-		for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
+		else
 		{
-			ExpressionComposite expr = (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] );
-			Button check = (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] );
-			expr.setEnabled( check.getEnabled( ) && check.getSelection( ) );
+			Iterator visibilities = outputDescriptorProvider.getVisibilityRulesIterator( );
+			while ( visibilities.hasNext( ) )
+			{
+				Object obj = visibilities.next( );
+				String format = outputDescriptorProvider.getFormat( obj );
+				String expression = outputDescriptorProvider.getExpression( obj );
+
+				if ( specCheckButtons.containsKey( format ) )
+					( (Button) specCheckButtons.get( format ) ).setSelection( true );
+				if ( specExpressions.containsKey( format ) )
+					( (ExpressionComposite) specExpressions.get( format ) ).setText( expression );
+			}
+
+			for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
+			{
+				ExpressionComposite expr = (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] );
+				Button check = (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] );
+				expr.setEnabled( check.getEnabled( ) && check.getSelection( ) );
+			}
 		}
-		setOutputInfo( );
 	}
 
 	private void setExpressionProvider( )

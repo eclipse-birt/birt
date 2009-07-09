@@ -323,12 +323,12 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 		{
 			DesignElementHandle element = (DesignElementHandle) iter.next( );
 
-			boolean hideForAll = false;
+			boolean hideForAll = true;
 			for ( int i = 0; i < getTypeInfo( ).length; i++ )
 			{
 				if ( selections[i] )
 				{
-					hideForAll = true;
+					hideForAll = false;
 				}
 				if ( !updateHideRule( element,
 						getTypeInfo( )[i],
