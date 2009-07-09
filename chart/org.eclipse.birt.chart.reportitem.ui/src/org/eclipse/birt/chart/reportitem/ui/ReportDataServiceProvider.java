@@ -1649,7 +1649,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			return new SharedCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
 					null,
-					(ScriptContext) null ),
+					new ScriptContext( ) ),
 					qd,
 					cm ) {
 
@@ -1678,7 +1678,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		return new BIRTCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
 				null,
-				(ScriptContext) null ) ) {
+				new ScriptContext( ) ) ) {
 
 			/*
 			 * (non-Javadoc)
