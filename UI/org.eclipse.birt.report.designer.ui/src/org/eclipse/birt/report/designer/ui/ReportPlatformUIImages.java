@@ -341,6 +341,9 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SET_LINK,
 				ICONS_PATH + LINK_PATH + "data_set_link.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_DERIVED_DATA_SET_LINK,
+				ICONS_PATH + LINK_PATH + "data_set_link.gif" ); //$NON-NLS-1$
+		
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SOURCE_LINK,
 				ICONS_PATH + LINK_PATH + "data_source_link.gif" ); //$NON-NLS-1$
 

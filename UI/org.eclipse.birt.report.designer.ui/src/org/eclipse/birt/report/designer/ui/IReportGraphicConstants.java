@@ -178,6 +178,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_ODA_DATA_SET_LINK = ReportDesignConstants.ODA_DATA_SET
 			+ "_" //$NON-NLS-1$
 			+ LINK;
+	
+	public final static String ICON_ELEMENT_DERIVED_DATA_SET_LINK = ReportDesignConstants.DERIVED_DATA_SET
+			+ "_" //$NON-NLS-1$
+			+ LINK;
 
 	public final static String ICON_ELEMENT_ODA_DATA_SOURCE_LINK = ReportDesignConstants.ODA_DATA_SOURCE
 			+ "_" //$NON-NLS-1$
