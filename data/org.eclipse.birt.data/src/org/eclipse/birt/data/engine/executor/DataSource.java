@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.core.security.ThreadSecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
 import org.eclipse.birt.data.engine.odaconsumer.Connection;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -59,7 +60,7 @@ class DataSource implements IDataSource
 	private static Logger logger = Logger.getLogger( className ); 
 
 	private DataEngineSession session;
-	
+	private IQueryContextVisitor contextVisitor;
 	/**
 	 * 
 	 * @param driverName
@@ -68,7 +69,7 @@ class DataSource implements IDataSource
 	 * @param info
 	 */
     public DataSource( String driverName, Map connProperties,
-			DataEngineSession session )
+			DataEngineSession session, IQueryContextVisitor contextVisitor )
 	{
     	this.driverName = driverName;
     	if ( connProperties != null )
@@ -77,7 +78,7 @@ class DataSource implements IDataSource
     	this.session = session;
     	
     	this.session.getEngine( ).addShutdownListener( new ShutdownListener( session ));
-    	
+    	this.contextVisitor = contextVisitor;
 	}
     private class ShutdownListener implements IShutdownListener
     {
@@ -329,6 +330,10 @@ class DataSource implements IDataSource
 		thread.start( );
 	}
     
+    public IQueryContextVisitor getQueryContextVisitor( )
+    {
+    	return this.contextVisitor;
+    }
     /*
 	 * @see java.lang.Object#finalize()
 	 */

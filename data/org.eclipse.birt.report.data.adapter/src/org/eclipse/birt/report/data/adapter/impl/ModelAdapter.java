@@ -53,6 +53,8 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -63,6 +65,8 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -80,50 +84,66 @@ public class ModelAdapter implements IModelAdapter
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptDataSource(org.eclipse.birt.report.model.api.DataSourceHandle)
 	 */
-	public BaseDataSourceDesign adaptDataSource( DataSourceHandle handle ) 
-		throws BirtException
+	public BaseDataSourceDesign adaptDataSource( DataSourceHandle handle )
 	{
-		if ( handle instanceof OdaDataSourceHandle )
+		try
 		{
-			// If an external top level scope is available (i.e., our consumer
-			// is the report engine), use it to resolve property bindings. Otherwise
-			// property bindings are not resolved
-			Scriptable propBindingScope = context.hasExternalScope() ?
-					context.getTopScope() : null;
-			return new OdaDataSourceAdapter( ( OdaDataSourceHandle ) handle, 
-					propBindingScope );
+			if ( handle instanceof OdaDataSourceHandle )
+			{
+				// If an external top level scope is available (i.e., our
+				// consumer
+				// is the report engine), use it to resolve property bindings.
+				// Otherwise
+				// property bindings are not resolved
+				Scriptable propBindingScope = context.hasExternalScope( )
+						? context.getTopScope( ) : null;
+				return new OdaDataSourceAdapter( (OdaDataSourceHandle) handle,
+						propBindingScope );
+			}
+
+			if ( handle instanceof ScriptDataSourceHandle )
+				return new ScriptDataSourceAdapter( (ScriptDataSourceHandle) handle );
 		}
-		
-		if ( handle instanceof ScriptDataSourceHandle )
-			return new ScriptDataSourceAdapter( ( ScriptDataSourceHandle ) handle); 
-		
-		assert false;
+		catch ( Exception e )
+		{
+			assert false;
+			
+		}
 		return null;
 	}
 
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
-	public BaseDataSetDesign adaptDataSet( DataSetHandle handle ) 
-		throws BirtException
+	public BaseDataSetDesign adaptDataSet( DataSetHandle handle )
 	{
-		if ( handle instanceof OdaDataSetHandle )
+		try
 		{
-			// If an external top level scope is available (i.e., our consumer
-			// is the report engine), use it to resolve property bindings. Otherwise
-			// property bindings are not resolved
-			Scriptable propBindingScope = context.hasExternalScope() ?
-					context.getTopScope() : null;
-			return new OdaDataSetAdapter( ( OdaDataSetHandle ) handle,
-					propBindingScope, this );
-		}
-		
-		if ( handle instanceof ScriptDataSetHandle )
-			return new ScriptDataSetAdapter( ( ScriptDataSetHandle ) handle, this );
-		
-		if ( handle instanceof JointDataSetHandle )
-			return new JointDataSetAdapter( (JointDataSetHandle) handle, this );
+			if ( handle instanceof OdaDataSetHandle )
+			{
+				// If an external top level scope is available (i.e., our
+				// consumer
+				// is the report engine), use it to resolve property bindings.
+				// Otherwise
+				// property bindings are not resolved
+				Scriptable propBindingScope = context.hasExternalScope( )
+						? context.getTopScope( ) : null;
+				return new OdaDataSetAdapter( (OdaDataSetHandle) handle,
+						propBindingScope,
+						this );
+			}
 
+			if ( handle instanceof ScriptDataSetHandle )
+				return new ScriptDataSetAdapter( (ScriptDataSetHandle) handle,
+						this );
+
+			if ( handle instanceof JointDataSetHandle )
+				return new JointDataSetAdapter( (JointDataSetHandle) handle,
+						this );
+		}
+		catch ( Exception e )
+		{
+		}
 		// other types are not supported
 		assert false;
 		return null;
@@ -141,49 +161,81 @@ public class ModelAdapter implements IModelAdapter
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptExpression(java.lang.String, java.lang.String)
 	 */
-	public ScriptExpression adaptExpression( String exprText, String dataType )
+	public ScriptExpression adaptExpression( Expression expr, String dataType ) 
 	{
-		return new ExpressionAdapter( exprText, dataType );
+		return new ExpressionAdapter( expr, dataType );
 	}
 	
-	/**
+/*	*//**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptExpression(org.eclipse.birt.report.model.api.ComputedColumnHandle)
-	 */
+	 *//*
 	public ScriptExpression adaptExpression( ComputedColumnHandle ccHandle )
 	{
 		return new ExpressionAdapter( ccHandle );
 	}
-
+*/
 	/**
+	 * @throws AdapterException 
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptFilter(org.eclipse.birt.report.model.api.FilterConditionHandle)
 	 */
 	public FilterDefinition adaptFilter( FilterConditionHandle modelFilter  )
 	{
-		return new FilterAdapter( modelFilter );
+		try
+		{
+			return new FilterAdapter( this, modelFilter );
+		}
+		catch ( AdapterException e )
+		{
+			return null;
+		}
 	}
 	
 	/**
+	 * @throws AdapterException 
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptGroup(org.eclipse.birt.report.model.api.GroupHandle)
 	 */
 	public GroupDefinition adaptGroup( GroupHandle groupHandle )
 	{
-		return new GroupAdapter( groupHandle );
+		try
+		{
+			return new GroupAdapter( this, groupHandle );
+		}
+		catch ( AdapterException e )
+		{
+			return null;
+		}
 	}
 
 	/**
+	 * @throws AdapterException 
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptSort(org.eclipse.birt.report.model.api.SortKeyHandle)
 	 */
 	public SortDefinition adaptSort( SortKeyHandle sortHandle )
 	{
-		return new SortAdapter( sortHandle );
+		try
+		{
+			return new SortAdapter( this, sortHandle );
+		}
+		catch ( AdapterException e )
+		{
+			return null;
+		}
 	}
 
 	/**
+	 * @throws AdapterException 
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptSort(java.lang.String, java.lang.String)
 	 */
-	public SortDefinition adaptSort( String sortKeyExpr, String direction )
+	public SortDefinition adaptSort( Expression expr, String direction )
 	{
-		return new SortAdapter( sortKeyExpr, direction );
+		try
+		{
+			return new SortAdapter( this, expr, direction );
+		}
+		catch ( AdapterException e )
+		{
+			return null;
+		}
 	}
 	
 	/**
@@ -195,11 +247,19 @@ public class ModelAdapter implements IModelAdapter
 	}
 	
 	/**
+	 * @throws AdapterException 
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptInputParamBinding(org.eclipse.birt.report.model.api.ParamBindingHandle)
 	 */
 	public InputParameterBinding adaptInputParamBinding( ParamBindingHandle modelHandle )
 	{
-		return new InputParamBindingAdapter( modelHandle);
+		try
+		{
+			return new InputParamBindingAdapter( this, modelHandle);
+		}
+		catch ( AdapterException e )
+		{
+			return null;
+		}
 	}
 	
 	/**
@@ -216,33 +276,45 @@ public class ModelAdapter implements IModelAdapter
 	 */
 	public ComputedColumn adaptComputedColumn( ComputedColumnHandle modelHandle ) throws AdapterException
 	{
-		return new ComputedColumnAdapter( modelHandle);
+		return new ComputedColumnAdapter( this, modelHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
-	public IBinding adaptBinding( ComputedColumnHandle handle ) throws AdapterException
+	public IBinding adaptBinding( ComputedColumnHandle handle )
 	{
-		if( handle == null )
-			return null;
-		Binding result = new Binding( handle.getName( ));
-		if ( handle.getExpression( )!= null )
+		try
 		{
-			ScriptExpression expr = new ScriptExpression( handle.getExpression( ) );
-			expr.setGroupName( handle.getAggregateOn( ) );
-			result.setExpression( expr );
-		}
-		result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
-		result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
-		result.setFilter( handle.getFilterExpression( ) == null ? null
-				: new ScriptExpression( handle.getFilterExpression( ) ) );
-		populateArgument( result, handle );
+			if ( handle == null )
+				return null;
+			Binding result = new Binding( handle.getName( ) );
+			if ( handle.getExpression( ) != null )
+			{
+				ScriptExpression expr = this.adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
+						.getValue( ),
+						handle.getDataType( ) );
+				expr.setGroupName( handle.getAggregateOn( ) );
+				result.setExpression( expr );
+			}
+			result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
+			result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
+			result.setFilter( handle.getFilterExpression( ) == null
+					? null
+					: this.adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER )
+							.getValue( ),
+							DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) );
+			populateArgument( result, handle );
 
-		populateAggregateOns( result, handle );
-		return result;
-		
+			populateAggregateOns( result, handle );
+			return result;
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+
 	}
 
 	/**
@@ -276,7 +348,7 @@ public class ModelAdapter implements IModelAdapter
 	 * @param modelCmptdColumn
 	 * @throws AdapterException
 	 */
-	private static void populateArgument( IBinding binding,
+	private void populateArgument( IBinding binding,
 			ComputedColumnHandle modelCmptdColumn ) throws AdapterException
 	{
 
@@ -286,7 +358,7 @@ public class ModelAdapter implements IModelAdapter
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) it.next( );
 			try
 			{
-				binding.addArgument( new ScriptExpression( arg.getValue( ) ) );
+				binding.addArgument( this.adaptExpression( (Expression)arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER ).getValue( ) ) );
 			}
 			catch ( DataException e )
 			{
@@ -294,6 +366,27 @@ public class ModelAdapter implements IModelAdapter
 			}
 		}
 
+	}
+
+	public ConditionalExpression adaptConditionalExpression(
+			Expression mainExpr, String operator,
+			Expression operand1, Expression operand2 )
+	{
+		return new ConditionAdapter( this.adaptExpression( mainExpr ), operator, this.adaptExpression( operand1 ), this.adaptExpression( operand2 ));
+	}
+
+	public ScriptExpression adaptExpression( Expression expr )
+	{
+		if( expr == null )// TODO Auto-generated method stub
+			return null;
+		return new ExpressionAdapter( expr );
+	}
+
+	public ScriptExpression adaptExpression( String jsExpr, String dataType )
+	{
+		if( jsExpr == null )
+			return null;
+		return new ExpressionAdapter( jsExpr, dataType );
 	}
 	
 }

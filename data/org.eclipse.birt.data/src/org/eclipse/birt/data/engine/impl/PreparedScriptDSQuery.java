@@ -55,9 +55,9 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	PreparedScriptDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
-			IBaseDataSetDesign dataSetDesign, Map appContext ) throws DataException
+			IBaseDataSetDesign dataSetDesign, Map appContext, IQueryContextVisitor contextVisitor ) throws DataException
 	{
-		super( dataEngine, queryDefn, dataSetDesign, appContext );
+		super( dataEngine, queryDefn, dataSetDesign, appContext, contextVisitor );
 		Object[] params = {
 				dataEngine, queryDefn, dataSetDesign, appContext
 		};
@@ -113,7 +113,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			return DataSourceFactory.getFactory( )
 					.getDataSource( null,
 							null,
-							self.dataEngine.getSession( ));
+							self.dataEngine.getSession( ), this.contextVisitor);
 		}
 	
 		/*

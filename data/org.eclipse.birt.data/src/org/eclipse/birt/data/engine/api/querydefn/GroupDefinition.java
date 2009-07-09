@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 /**
@@ -23,7 +24,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 public class GroupDefinition extends BaseTransform implements IGroupDefinition
 {
 	protected String name;
-	protected String keyExpr;
+	protected IScriptExpression keyExpr;
 	protected String keyColumn;
 	protected int interval = NO_INTERVAL;
 	protected double intervalRange = 0;
@@ -115,7 +116,9 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 	 */
 	public String getKeyExpression( )
 	{
-		return keyExpr;
+		if( keyExpr == null )
+			return null;
+		return keyExpr.getText( );
 	}
 	
 	/**
@@ -155,10 +158,15 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 	 */
 	public void setKeyExpression( String keyExpr) 
 	{
-		this.keyExpr = keyExpr;
+		this.keyExpr = new ScriptExpression( keyExpr );
 		this.keyColumn = null;
 	}
 	
+	public void setKeyExpression( IScriptExpression keyExpr )
+	{
+		this.keyExpr = keyExpr;
+		this.keyColumn = null;
+	}
 	/**
 	 * @param sortDirection The sortDirection to set.
 	 */

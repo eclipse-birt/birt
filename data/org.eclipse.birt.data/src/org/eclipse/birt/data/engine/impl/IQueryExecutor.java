@@ -86,7 +86,7 @@ public interface IQueryExecutor
 	 */
 	IResultClass getOdiResultClass( ) throws DataException;
 
-
+	IQueryContextVisitor getQueryContextVisitor();
 	/**
 	 * 
 	 * @return

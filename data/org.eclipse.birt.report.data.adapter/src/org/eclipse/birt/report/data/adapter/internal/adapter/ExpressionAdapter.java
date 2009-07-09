@@ -13,28 +13,43 @@
  */ 
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 public class ExpressionAdapter extends ScriptExpression
 {
+	public ExpressionAdapter( Expression expr )
+	{
+		this( expr, DataType.ANY_TYPE);
+	}
 	
+	public ExpressionAdapter( String expr, String returnType )
+	{
+		super( expr, org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType(returnType) );
+		
+	}
 	/**
 	 * Constructs an expression with provided text and return data type
 	 * Data type is defined as Dte enumeration value
 	 */
-	public ExpressionAdapter( String exprText, int returnType )
+	public ExpressionAdapter( Expression expr, int returnType )
 	{
-		super( exprText, returnType );
+		super( expr.getStringExpression( ), returnType );
+		this.setID( expr.getType( ) );
 	}
 	
 	/**
 	 * Constructs an expression with provided text and return data type
 	 * Data type is defined as a Model data type string
 	 */
-	public ExpressionAdapter( String exprText, String returnType )
+	public ExpressionAdapter( Expression expr, String returnType )
 	{
-		super( exprText, org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType(returnType) );
+		super( expr.getStringExpression( ), org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType(returnType) );
+		this.setID( expr.getType( ) );
 	}
 	
 	/**
@@ -44,6 +59,7 @@ public class ExpressionAdapter extends ScriptExpression
 	{
 		super( ccHandle.getExpression(), 
 				org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( ccHandle.getDataType() ) );
+		this.setID( ccHandle.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER ).getType( ) );
 	}
 	
 }

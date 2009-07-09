@@ -17,10 +17,13 @@ import java.util.Iterator;
 
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 
 /**
  * Definition of a group
@@ -29,11 +32,12 @@ public class GroupAdapter extends GroupDefinition
 {
 	/**
 	 * Constructs a group based on Model group definition
+	 * @throws AdapterException 
 	 */
-	public GroupAdapter( GroupHandle modelGroup )
+	public GroupAdapter( IModelAdapter adapter, GroupHandle modelGroup ) throws AdapterException
 	{
 		super( modelGroup.getName() );
-		this.setKeyExpression( modelGroup.getKeyExpr() );
+		this.setKeyExpression( adapter.adaptExpression( DataAdapterUtil.getExpression( modelGroup.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP  ) )));
 		this.setInterval( intervalFromModel(modelGroup.getInterval()) );
 		this.setIntervalRange( modelGroup.getIntervalRange() );
 		this.setIntervalStart( modelGroup.getIntervalBase() );
@@ -52,7 +56,7 @@ public class GroupAdapter extends GroupDefinition
 			while ( sortsIt.hasNext( ) )
 			{
 				SortKeyHandle keyHandle = (SortKeyHandle) sortsIt.next( );
-				this.addSort( new SortAdapter( keyHandle ));
+				this.addSort( new SortAdapter( adapter, keyHandle ));
 			}
 		}
 
@@ -64,7 +68,7 @@ public class GroupAdapter extends GroupDefinition
 			{
 				FilterConditionHandle filterHandle = 
 					(FilterConditionHandle) filtersIt.next( );
-				this.addFilter( new FilterAdapter( filterHandle ));
+				this.addFilter( new FilterAdapter( adapter, filterHandle ));
 			}
 		}
 	}

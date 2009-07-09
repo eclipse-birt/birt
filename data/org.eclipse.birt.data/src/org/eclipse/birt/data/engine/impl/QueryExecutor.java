@@ -109,14 +109,15 @@ public abstract class QueryExecutor implements IQueryExecutor
 	private DataEngineSession session;
 	protected List temporaryComputedColumns = new ArrayList( );
 	private static Logger logger = Logger.getLogger( QueryExecutor.class.getName( ) );
-
+	protected IQueryContextVisitor contextVisitor;
+	
 	/**
 	 * @param sharedScope
 	 * @param baseQueryDefn
 	 * @param aggrTable
 	 */
 	QueryExecutor( Scriptable sharedScope, IBaseQueryDefinition baseQueryDefn,
-			AggregateTable aggrTable, DataEngineSession session )
+			AggregateTable aggrTable, DataEngineSession session, IQueryContextVisitor contextVisitor )
 	{
 		Object[] params = {
 				sharedScope, baseQueryDefn, aggrTable, session
@@ -128,9 +129,14 @@ public abstract class QueryExecutor implements IQueryExecutor
 		this.baseQueryDefn = baseQueryDefn;
 		this.aggrTable = aggrTable;
 		this.session = session;
+		this.contextVisitor = contextVisitor;
 		logger.exiting( QueryExecutor.class.getName( ), "QueryExecutor" );
 	}
 
+	public IQueryContextVisitor getQueryContextVisitor()
+	{
+		return this.contextVisitor;
+	}
 	/**
 	 * Provide the actual DataSourceRuntime used for the query.
 	 * 

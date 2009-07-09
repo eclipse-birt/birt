@@ -15,6 +15,8 @@ package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 
 /**
@@ -70,4 +72,11 @@ public class ConditionAdapter extends ConditionalExpression
 				operands );
 	}
 	
+	public ConditionAdapter( IScriptExpression mainExpr, String operator, IBaseExpression op1, IBaseExpression op2 )
+	{
+		super( mainExpr,
+				org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelFilterOperator( operator ),
+				op1,
+				op2 );
+	}
 }

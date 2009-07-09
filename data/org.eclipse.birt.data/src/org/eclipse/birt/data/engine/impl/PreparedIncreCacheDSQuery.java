@@ -37,7 +37,7 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery
 			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
 			Map appContext ) throws DataException
 	{
-		super( dataEngine, queryDefn, dataSetDesign, appContext, null );
+		super( dataEngine, queryDefn, dataSetDesign, appContext, null, null );
 	}
 
 	/*

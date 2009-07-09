@@ -31,7 +31,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	protected int				operator;
 	protected IBaseExpression	op1;
 	protected IBaseExpression 	op2;
-	
+ 
 	/**
 	 * Constructs an instance, setting main expression and the operator (which takes no operands)
 	 */

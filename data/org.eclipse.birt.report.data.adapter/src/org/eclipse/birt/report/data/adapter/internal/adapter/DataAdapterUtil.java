@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -27,6 +26,7 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
@@ -34,6 +34,8 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -45,12 +47,13 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
 /**
  * Utility class for data adaptors
  */
-class DataAdapterUtil
+public class DataAdapterUtil
 {
 	/**
 	 * Adapts common base data source properties
@@ -86,9 +89,9 @@ class DataAdapterUtil
 			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
 		}
 		
-		populateParameter( modelDataSet, dteDataSet );
+		populateParameter( adapter, modelDataSet, dteDataSet );
 		
-		populateComputedColumn( modelDataSet, dteDataSet );
+		populateComputedColumn( adapter, modelDataSet, dteDataSet );
 
 		populateFilter( modelDataSet, dteDataSet, adapter );
 
@@ -102,8 +105,9 @@ class DataAdapterUtil
 	 * 
 	 * @param modelDataSet
 	 * @param dteDataSet
+	 * @throws AdapterException 
 	 */
-	private static void populateParameter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	private static void populateParameter( IModelAdapter adapter, DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet ) throws AdapterException
 	{
 		//dataset parameters definition
 		HashMap paramBindingCandidates = new HashMap( );
@@ -126,6 +130,9 @@ class DataAdapterUtil
 							&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
 					{
 						defaultValueExpr = ExpressionUtil.createJSParameterExpression( ( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) ) );
+						dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
+						paramBindingCandidates.put( modelParam.getName( ),
+								adapter.adaptExpression( defaultValueExpr, modelParam.getDataType( )));
 					}
 					else
 					{
@@ -133,18 +140,18 @@ class DataAdapterUtil
 								.getType( ) ) )
 						{
 							defaultValueExpr = JavascriptEvalUtil.transformToJsExpression( modelParam.getDefaultValue( ) );
+							dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
+							paramBindingCandidates.put( modelParam.getName( ),
+									adapter.adaptExpression( defaultValueExpr, modelParam.getDataType( )));
 						}
 						else
 						{
-							defaultValueExpr = modelParam.getDefaultValue( );
+							ExpressionHandle handle = modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER );
+							dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
+							paramBindingCandidates.put( modelParam.getName( ),
+									adapter.adaptExpression( (Expression)handle.getValue( ), modelParam.getDataType( )));
+						
 						}
-					}
-					if ( defaultValueExpr != null )
-					{
-						dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
-						paramBindingCandidates.put( modelParam.getName( ),
-								new ExpressionAdapter( defaultValueExpr,
-										org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.modelDataTypeToCoreDataType( modelParam.getDataType( ) ) ) );
 					}
 				}
 				else
@@ -165,8 +172,7 @@ class DataAdapterUtil
 				// replace default value of the same parameter, if defined
 				if ( modelParamBinding.getExpression( ) != null )
 					paramBindingCandidates.put( modelParamBinding.getParamName( ),
-							new ExpressionAdapter( modelParamBinding.getExpression( ),
-									DataType.ANY_TYPE ) );
+							adapter.adaptExpression( (Expression)modelParamBinding.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER ).getValue( )));
 			}
 		}
 
@@ -192,7 +198,7 @@ class DataAdapterUtil
 	 * @param dteDataSet
 	 * @throws AdapterException 
 	 */
-	private static void populateComputedColumn( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet ) throws AdapterException
+	private static void populateComputedColumn( IModelAdapter adapter, DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet ) throws AdapterException
 	{
 		// computed columns
 		Iterator elmtIter = modelDataSet.computedColumnsIterator( );
@@ -202,7 +208,7 @@ class DataAdapterUtil
 			{
 				ComputedColumnHandle modelCmptdColumn = ( ComputedColumnHandle ) elmtIter
 						.next( );
-				dteDataSet.addComputedColumn( new ComputedColumnAdapter( modelCmptdColumn ));
+				dteDataSet.addComputedColumn( new ComputedColumnAdapter( adapter, modelCmptdColumn ));
 			}
 		}
 	}
@@ -211,8 +217,9 @@ class DataAdapterUtil
 	 * 
 	 * @param modelDataSet
 	 * @param dteDataSet
+	 * @throws AdapterException 
 	 */
-	private static void populateFilter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet, ModelAdapter adapter )
+	private static void populateFilter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet, ModelAdapter adapter ) throws AdapterException
 	{
 		// filter conditions
 		Iterator elmtIter = modelDataSet.filtersIterator( );
@@ -394,4 +401,10 @@ class DataAdapterUtil
 		return properties;
 	}
 
+	public static Expression getExpression( ExpressionHandle handle )
+	{
+		if( handle == null || handle.getValue( ) == null )
+			return null;
+		return (Expression)handle.getValue( );
+	}
 }

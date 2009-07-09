@@ -14,8 +14,14 @@
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
+import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
 /**
  * Definition of a sort condition, which comprises of a sort key expression and 
@@ -26,20 +32,27 @@ public class SortAdapter extends SortDefinition
 	/**
 	 * Creates a new sort based on the provided key and direction
 	 * Direction contains a String value defined in Model
+	 * @throws AdapterException 
 	 */
-	public SortAdapter( String keyExpression, String direction )
+	public SortAdapter( IModelAdapter adapter, Expression expr, String direction ) throws AdapterException
 	{
-		this.setExpression( keyExpression );
+		this.setExpression( adapter.adaptExpression( expr ) );
 		this.setSortDirection( sortDirectionFromModel(direction) );
 	}
 	
 	/**
 	 * Creates a new sort based on model sort key definition
+	 * @throws AdapterException 
 	 */
-	public SortAdapter( SortKeyHandle keyHandle )
+	public SortAdapter( IModelAdapter adapter, SortKeyHandle keyHandle ) throws AdapterException
 	{
-		this( keyHandle.getKey(), 
-			  keyHandle.getDirection() );
+		ExpressionHandle handle = keyHandle.getExpressionProperty( SortKey.KEY_MEMBER );
+		if( handle == null )
+			return;
+		IScriptExpression expr = adapter.adaptExpression( (Expression)handle.getValue( ) );
+		this.setExpression( expr );
+		/*this( keyHandle.getKey(), 
+			  keyHandle.getDirection() );*/
 		this.setSortStrength( keyHandle.getStrength( ) );
 		if( keyHandle.getLocale( )!= null )
 			this.setSortLocale( keyHandle.getLocale( ) );

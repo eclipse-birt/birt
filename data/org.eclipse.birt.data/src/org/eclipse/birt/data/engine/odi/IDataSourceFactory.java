@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
 
 /**
  *	A factory for IDataSource instances that represent underlying
@@ -56,6 +57,6 @@ public interface IDataSourceFactory
      * @return			An instance of IDataSource.
      */
 	public IDataSource getDataSource( String driverName, Map connProperties,
-			DataEngineSession session ) throws DataException;
+			DataEngineSession session, IQueryContextVisitor visitor ) throws DataException;
     
 }

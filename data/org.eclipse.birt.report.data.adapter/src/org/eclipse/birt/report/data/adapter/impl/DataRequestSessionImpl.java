@@ -1529,9 +1529,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param session
 	 * @param filterIterator
 	 * @param query
+	 * @throws AdapterException 
 	 */
 	private static void popualteFilter( DataRequestSession session,
-			Iterator filterIterator, QueryDefinition query )
+			Iterator filterIterator, QueryDefinition query ) throws AdapterException
 	{
 		while( filterIterator.hasNext( ) )
 		{

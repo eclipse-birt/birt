@@ -201,7 +201,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 	}
 
 	public CompiledJavascript compile( ScriptContext scriptContext,
-			final String id, final int lineNumber, final String script )
+			final String id, final int lineNumber, final String script ) throws BirtException
 	{
 		Script scriptObject = AccessController
 				.doPrivileged( new PrivilegedAction<Script>( ) {

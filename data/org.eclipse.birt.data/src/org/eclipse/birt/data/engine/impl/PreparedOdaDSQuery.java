@@ -58,11 +58,11 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	PreparedOdaDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn,
-			IBaseDataSetDesign dataSetDesign, Map appContext, QuerySpecification querySpec )
+			IBaseDataSetDesign dataSetDesign, Map appContext, QuerySpecification querySpec, IQueryContextVisitor visitor )
 			throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext != null
-				? appContext: new HashMap( ) );
+				? appContext: new HashMap( ), visitor );
 		Object[] params = {
 				dataEngine, queryDefn, dataSetDesign, appContext
 		};
@@ -240,7 +240,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			return DataSourceFactory.getFactory( )
 					.getDataSource( driverName,
 							driverProps,
-							self.dataEngine.getSession( ));
+							self.dataEngine.getSession( ), this.contextVisitor);
 		}
 		
 		/*

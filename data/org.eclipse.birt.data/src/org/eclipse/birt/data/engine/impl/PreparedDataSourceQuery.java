@@ -44,7 +44,7 @@ public abstract class PreparedDataSourceQuery
 	protected IQueryDefinition queryDefn;
 	protected PreparedQuery preparedQuery;
 	protected Map appContext;
-	
+	protected IQueryContextVisitor contextVisitor;
 	protected static Logger logger = Logger.getLogger( PreparedDataSourceQuery.class.getName( ) );
 	
 	/**
@@ -55,7 +55,7 @@ public abstract class PreparedDataSourceQuery
 	 */
 	public PreparedDataSourceQuery( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
-			Map appContext )
+			Map appContext, IQueryContextVisitor contextVisitor )
 			throws DataException
 	{
 		Object[] params = {
@@ -73,6 +73,7 @@ public abstract class PreparedDataSourceQuery
 				queryDefn,
 				this,
 				appContext );
+		this.contextVisitor = contextVisitor;
 		logger.exiting( PreparedDataSourceQuery.class.getName( ),
 				"PreparedDataSourceQuery" );
 	}
@@ -282,7 +283,7 @@ public abstract class PreparedDataSourceQuery
 			super( preparedQuery.getSharedScope( ),
 					preparedQuery.getBaseQueryDefn( ),
 					preparedQuery.getAggrTable( ),
-					dataEngine.getSession( ));
+					dataEngine.getSession( ), PreparedDataSourceQuery.this.contextVisitor);
 		}
 		
 		/*

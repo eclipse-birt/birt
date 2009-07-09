@@ -23,18 +23,20 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 
 /**
  * Adapts a Model computed column
  */
 public class ComputedColumnAdapter extends ComputedColumn
 {
-	public ComputedColumnAdapter ( ComputedColumnHandle modelCmptdColumn ) throws AdapterException
+	public ComputedColumnAdapter ( IModelAdapter adapter, ComputedColumnHandle modelCmptdColumn ) throws AdapterException
 	{
 		
 		super( modelCmptdColumn.getName( ),
@@ -43,8 +45,8 @@ public class ComputedColumnAdapter extends ComputedColumn
 				modelCmptdColumn.getAggregateFunction( ),
 				modelCmptdColumn.getFilterExpression( ) == null
 						? null
-						: new ScriptExpression( modelCmptdColumn.getFilterExpression( ) ),
-				populateArgument( modelCmptdColumn ) );
+						: adapter.adaptExpression( DataAdapterUtil.getExpression(modelCmptdColumn.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER )) ),
+				populateArgument( adapter, modelCmptdColumn ) );
 	}
 	
 	/**
@@ -52,8 +54,9 @@ public class ComputedColumnAdapter extends ComputedColumn
 	 * 
 	 * @param modelCmptdColumn
 	 * @return
+	 * @throws AdapterException 
 	 */
-	private static List populateArgument( ComputedColumnHandle modelCmptdColumn )
+	private static List populateArgument( IModelAdapter adapter, ComputedColumnHandle modelCmptdColumn ) throws AdapterException
 	{
 		Map argumentList = new HashMap( );
 		Iterator argumentIter = modelCmptdColumn.argumentsIterator( );
@@ -61,7 +64,7 @@ public class ComputedColumnAdapter extends ComputedColumn
 		{
 			AggregationArgumentHandle handle = (AggregationArgumentHandle) argumentIter.next( );
 			argumentList.put( handle.getName( ),
-					new ScriptExpression( handle.getValue( ) ) );
+					adapter.adaptExpression( DataAdapterUtil.getExpression( handle.getExpressionProperty( AggregationArgument.VALUE_MEMBER ))) );
 		}
 
 		List orderedArgument = new ArrayList( );

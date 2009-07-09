@@ -72,10 +72,10 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	PreparedIVDataSourceQuery( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn ) throws DataException
+			IQueryDefinition queryDefn, IQueryContextVisitor visitor ) throws DataException
 	{
 		super( dataEngine, PLSUtil.isPLSEnabled( queryDefn )
-				? PLSUtil.populateBindings( queryDefn ) : queryDefn, null, null );
+				? PLSUtil.populateBindings( queryDefn ) : queryDefn, null, null, visitor );
 		Object[] params = {
 				dataEngine, queryDefn
 		};
@@ -201,7 +201,11 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		IVDataSourceExecutor( Scriptable sharedScope,
 				IBaseQueryDefinition baseQueryDefn, AggregateTable aggrTable )
 		{
-			super( sharedScope, baseQueryDefn, aggrTable, engine.getSession( ) );
+			super( sharedScope,
+					baseQueryDefn,
+					aggrTable,
+					engine.getSession( ),
+					PreparedIVDataSourceQuery.this.contextVisitor );
 		}
 
 		/*

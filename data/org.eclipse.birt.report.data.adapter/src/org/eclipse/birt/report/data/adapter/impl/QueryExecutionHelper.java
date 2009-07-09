@@ -200,8 +200,9 @@ class QueryExecutionHelper
 	 * 
 	 * @param filterIt
 	 * @return
+	 * @throws AdapterException 
 	 */
-	private List convertFilters( Iterator filterIt )
+	private List convertFilters( Iterator filterIt ) throws AdapterException
 	{
 		if ( filterIt == null )
 			return null;

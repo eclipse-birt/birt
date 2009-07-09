@@ -148,7 +148,7 @@ public class GroupDefnUtil
 				&& isEqualStr( groupDefn1.getKeyColumn( ),
 						groupDefn2.getKeyColumn( ) )
 				&& isEqualStr( groupDefn1.getKeyExpression( ),
-						groupDefn2.getKeyExpression( ) )
+						groupDefn2.getKeyExpression( ))
 				&& groupDefn1.getSortDirection( ) == groupDefn2.getSortDirection( )
 				&& QueryCompUtil.isEqualSorts( groupDefn1.getSorts( ),
 						groupDefn2.getSorts( ) )

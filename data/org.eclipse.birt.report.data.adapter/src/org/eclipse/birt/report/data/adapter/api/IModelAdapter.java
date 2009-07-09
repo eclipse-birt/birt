@@ -24,10 +24,12 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -88,37 +90,47 @@ public interface IModelAdapter
 	public ConditionalExpression adaptConditionalExpression( String mainExpr,
 			String operator, String operand1, String operand2 );
 
+	public ConditionalExpression adaptConditionalExpression(
+			Expression mainExpr, String operator,
+			Expression operand1, Expression operand2 );
 	/**
 	 * Constructs an expression with provided text and return data type Data
 	 * type is defined as a Model data type string
 	 */
-	public ScriptExpression adaptExpression( String exprText, String dataType );
 
-	/**
+	public ScriptExpression adaptExpression( Expression expr );
+	public ScriptExpression adaptExpression( Expression expr, String dataType );
+	
+	public ScriptExpression adaptExpression( String jsExpr, String dataType );
+/*	*//**
 	 * Adapts an expression based on Model computed column handle
-	 */
+	 *//*
 	public ScriptExpression adaptExpression( ComputedColumnHandle ccHandle );
-
+*/
 	/**
 	 * Adapts a model filter handle
+	 * @throws AdapterException 
 	 */
 	public FilterDefinition adaptFilter( FilterConditionHandle modelFilter );
 
 	/**
 	 * Adapts a model Group handle
+	 * @throws AdapterException 
 	 */
 	public GroupDefinition adaptGroup( GroupHandle groupHandle );
 
 	/**
 	 * Adapts a model Sort handle
+	 * @throws AdapterException 
 	 */
 	public SortDefinition adaptSort( SortKeyHandle sortHandle );
 
 	/**
 	 * Adapts a model Sort based on a sort key expression and a Model sort
 	 * direction string
+	 * @throws AdapterException 
 	 */
-	public SortDefinition adaptSort( String sortKeyExpr, String direction );
+	public SortDefinition adaptSort( Expression expr, String direction );
 
 	/**
 	 * Adapt a model computed column handle to an IBinding instance.

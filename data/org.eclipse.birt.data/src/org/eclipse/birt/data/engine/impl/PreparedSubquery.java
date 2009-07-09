@@ -138,7 +138,7 @@ class PreparedSubquery implements IPreparedQueryService
 		{
 			return preparedQuery.doPrepare( null,
 					scope,
-					new SubQueryExecutor( parentIterator, parentExecutor ),
+					new SubQueryExecutor( parentIterator, parentExecutor, parentExecutor.getQueryContextVisitor( ) ),
 					getDataSourceQuery( ) );
 		}
 		finally
@@ -160,12 +160,12 @@ class PreparedSubquery implements IPreparedQueryService
 		/**
 		 * @param parentIterator
 		 */
-		public SubQueryExecutor( IResultIterator parentIterator, IQueryExecutor parentExecutor )
+		public SubQueryExecutor( IResultIterator parentIterator, IQueryExecutor parentExecutor, IQueryContextVisitor contextVisitor )
 		{	
 			super( preparedQuery.getSharedScope( ),
 					preparedQuery.getBaseQueryDefn( ),
 					preparedQuery.getAggrTable( ),
-					session);
+					session, contextVisitor );
 			
 			this.parentIterator = parentIterator;
 			this.parentExecutor = parentExecutor;

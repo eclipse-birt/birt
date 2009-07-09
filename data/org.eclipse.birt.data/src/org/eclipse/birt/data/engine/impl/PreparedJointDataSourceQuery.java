@@ -118,9 +118,9 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 */
 	PreparedJointDataSourceQuery( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
-			Map appContext ) throws DataException
+			Map appContext, IQueryContextVisitor visitor ) throws DataException
 	{
-		super( dataEngine, queryDefn, dataSetDesign, appContext );
+		super( dataEngine, queryDefn, dataSetDesign, appContext, visitor );
 		Object[] params = {
 				dataEngine, queryDefn, dataSetDesign, appContext
 		};

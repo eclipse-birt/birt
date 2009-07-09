@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ICancellable;
+import org.eclipse.birt.data.engine.impl.QueryContextVisitorUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.QuerySpecHelper;
@@ -764,7 +765,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	this.session.getCancelManager( ).register( queryCanceller );
 		
 		odaStatement.execute( );
-	
+		QueryContextVisitorUtil.populateEffectiveQueryText( dataSource.getQueryContextVisitor( ),
+				odaStatement.getEffectiveQueryText( ) );
+		
 		if ( queryCanceller.collectException( ) != null )
 		{
 			if ( !( queryCanceller.collectException( ).getCause( ) instanceof UnsupportedOperationException ) )

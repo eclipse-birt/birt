@@ -33,9 +33,9 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 {
 
 	PreparedIVDataExtractionQuery( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, Map appContext ) throws DataException
+			IQueryDefinition queryDefn, Map appContext, IQueryContextVisitor visitor ) throws DataException
 	{
-		super( dataEngine, queryDefn, appContext );
+		super( dataEngine, queryDefn, appContext, visitor );
 		// TODO Auto-generated constructor stub
 	}
 

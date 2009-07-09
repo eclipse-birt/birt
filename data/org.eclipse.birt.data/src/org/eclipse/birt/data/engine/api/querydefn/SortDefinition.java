@@ -68,6 +68,11 @@ public class SortDefinition implements ISortDefinition
 		this.keyColumn = null;
 	}
 	
+	public void setExpression( IScriptExpression keyExpr )
+	{
+		this.keyExpr = keyExpr;
+		this.keyColumn = null;
+	}
 	/**
 	 * Returns the sort direction.
 	 * 

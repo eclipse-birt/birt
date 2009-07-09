@@ -102,10 +102,14 @@ public class PreparedQueryUtil
 		assert queryDefn != null;
 		
 		validateQuery(dataEngine, queryDefn);
-		
+		IQueryContextVisitor contextVisitor = QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
+				appContext );
 		if ( queryDefn.getSourceQuery( ) != null )
 		{
-			return new PreparedIVDataExtractionQuery( dataEngine, queryDefn, appContext );
+			return new PreparedIVDataExtractionQuery( dataEngine,
+					queryDefn,
+					appContext,
+					contextVisitor );
 		}
 		
 		if ( queryDefn.getQueryResultsID( ) != null )
@@ -126,7 +130,7 @@ public class PreparedQueryUtil
 										.getTargetGroupInstances( ) : null );
 			}
 			
-			return newIVInstance( dataEngine, queryDefn );
+			return newIVInstance( dataEngine, queryDefn, appContext );
 		}
 		
 		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
@@ -141,6 +145,7 @@ public class PreparedQueryUtil
 				return new PreparedDummyQuery( queryDefn, dataEngine.getSession( ) );
 		}
 
+		QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
 		IPreparedQuery preparedQuery;
 
 		if ( dset instanceof IScriptDataSetDesign )
@@ -148,7 +153,9 @@ public class PreparedQueryUtil
 			preparedQuery = new PreparedScriptDSQuery( dataEngine,
 					queryDefn,
 					dset,
-					appContext );
+					appContext,
+					QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
+							appContext ));
 		}
 		else if ( dset instanceof IOdaDataSetDesign )
 		{
@@ -170,7 +177,8 @@ public class PreparedQueryUtil
 							IOdaDataSetDesign.class,
 							IQueryDefinition.class,
 							DataEngineSession.class,
-							Map.class);
+							Map.class,
+							IQueryContextVisitor.class);
 					Object o = optimizationUtil.newInstance( );
 					querySpec = (QuerySpecification) m.invoke( o,
 							dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) )
@@ -178,7 +186,8 @@ public class PreparedQueryUtil
 							(IOdaDataSetDesign) dset,
 							queryDefn,
 							dataEngine.getSession( ),
-							appContext);
+							appContext,
+							contextVisitor );
 
 				}
 				catch ( Throwable e )
@@ -188,7 +197,7 @@ public class PreparedQueryUtil
 				preparedQuery = new PreparedOdaDSQuery( dataEngine,
 						queryDefn,
 						dset,
-						appContext, querySpec );
+						appContext, querySpec, contextVisitor );
 			}
 		}
 		else if ( dset instanceof IJointDataSetDesign )
@@ -196,7 +205,7 @@ public class PreparedQueryUtil
 			preparedQuery = new PreparedJointDataSourceQuery( dataEngine,
 					queryDefn,
 					dset,
-					appContext );
+					appContext,contextVisitor );
 		}
 		else
 		{
@@ -391,12 +400,13 @@ public class PreparedQueryUtil
 	 * @throws DataException
 	 */
 	private static IPreparedQuery newIVInstance( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn ) throws DataException
+			IQueryDefinition queryDefn, Map appContext ) throws DataException
 	{
 		switch ( runQueryOnRS( dataEngine, queryDefn ) )
 		{
 			case BASED_ON_DATASET:	
-				return new PreparedIVDataSourceQuery( dataEngine, queryDefn );
+				return new PreparedIVDataSourceQuery( dataEngine, queryDefn, QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
+						appContext ) );
 			default:
 				return new DummyPreparedQuery( queryDefn,
 						dataEngine.getSession( ),

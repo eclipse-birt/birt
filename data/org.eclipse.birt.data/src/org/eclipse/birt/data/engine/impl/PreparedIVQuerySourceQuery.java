@@ -70,9 +70,9 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	PreparedIVQuerySourceQuery( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, Map appContext ) throws DataException
+			IQueryDefinition queryDefn, Map appContext, IQueryContextVisitor visitor ) throws DataException
 	{
-		super( dataEngine, queryDefn, null, appContext );
+		super( dataEngine, queryDefn, null, appContext, visitor );
 		Object[] params = {
 				dataEngine, queryDefn
 		};
@@ -277,7 +277,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 			super( preparedQuery.getSharedScope( ),
 					preparedQuery.getBaseQueryDefn( ),
 					preparedQuery.getAggrTable( ),
-					dataEngine.getSession( ) );
+					dataEngine.getSession( ), PreparedIVQuerySourceQuery.this.contextVisitor );
 		}
 
 		/*
