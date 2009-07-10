@@ -23,7 +23,7 @@ import javax.imageio.ImageWriter;
 public class ImageWriterFactory implements IImageWriterFactory
 {
 
-	private static IImageWriterFactory factory;
+	private static IImageWriterFactory factory = new ImageWriterFactory( );
 
 	public static void initInstance( IImageWriterFactory tFactory )
 	{
