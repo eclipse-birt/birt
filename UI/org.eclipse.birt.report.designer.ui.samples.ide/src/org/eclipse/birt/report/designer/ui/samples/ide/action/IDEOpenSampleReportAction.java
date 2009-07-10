@@ -19,12 +19,12 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.samples.nls.Messages;
 import org.eclipse.birt.report.designer.ui.samplesview.action.IOpenSampleReportAction;
 import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleIncludedSourceEntry;
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
 import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.designer.ui.samples.nls.Messages;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
@@ -59,7 +59,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -154,9 +153,8 @@ public class IDEOpenSampleReportAction extends Action implements
 					( (ReportDesignHandle) selectedElement ).getFileName( ) );
 		}
 
-		PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
-				reportProject.getLocation( ).toOSString( ),
-				( (ReportDesignHandle) selectedElement ).getFileName( ) );
+		PlaceResources.copyExcludedRptDesignes( composite.getShell( ), reportProject.getLocation( )
+				.toOSString( ), ( (ReportDesignHandle) selectedElement ).getFileName( ) );
 
 		/*
 		 * Create a Eclipse Java project if selecting scripted data source
@@ -207,14 +205,13 @@ public class IDEOpenSampleReportAction extends Action implements
 		/*
 		 * Copy the plug-in zip if selecting extending BIRT sample
 		 */
-		if ( item.getParentItem( ).getParentItem( ) != null
-				&& item.getParentItem( )
-						.getParentItem( )
-						.getText( )
-						.equals( EXTENDING_CATEGORY ) )
-		{
-			PlaceExtendedPlugin( item.getParentItem( ).getText( ) );
-		}
+		// Bugzilla 281827 (No need to open the dialog)
+		// if ( item.getParentItem( ).getParentItem( ) != null
+		// && item.getParentItem( ).getParentItem( ).getText( ).equals(
+		// EXTENDING_CATEGORY ) )
+		// {
+		// PlaceExtendedPlugin( item.getParentItem( ).getText( ) );
+		// }
 
 		ISafeRunnable op = new ISafeRunnable( ) {
 
@@ -266,26 +263,28 @@ public class IDEOpenSampleReportAction extends Action implements
 		} );
 	}
 
-	@SuppressWarnings("unchecked")
-	private void PlaceExtendedPlugin( String categoryName )
-	{
-		Enumeration enumeration = SampleIncludedSourceEntry.getExtendedPlugin( categoryName );
-		URL pluginURL = (URL) enumeration.nextElement( );
-		String filename = pluginURL.getFile( );
-		String pluginName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
-
-		final FileDialog saveDialog = new FileDialog( composite.getShell( ),
-				SWT.SAVE );
-		saveDialog.setFilterExtensions( EXTENDING_PLUGIN_PATTERN );
-		saveDialog.setFileName( pluginName );
-		if ( saveDialog.open( ) == null )
-			return;
-
-		PlaceResources.copy( composite.getShell( ),
-				saveDialog.getFilterPath( ),
-				saveDialog.getFileName( ),
-				pluginURL );
-	}
+	// @SuppressWarnings("unchecked")
+	// private void PlaceExtendedPlugin( String categoryName )
+	// {
+	// Enumeration enumeration = SampleIncludedSourceEntry.getExtendedPlugin(
+	// categoryName );
+	// URL pluginURL = (URL) enumeration.nextElement( );
+	// String filename = pluginURL.getFile( );
+	// String pluginName = filename.substring( filename.lastIndexOf( '/' ) + 1
+	// );
+	//
+	// final FileDialog saveDialog = new FileDialog( composite.getShell( ),
+	// SWT.SAVE );
+	// saveDialog.setFilterExtensions( EXTENDING_PLUGIN_PATTERN );
+	// saveDialog.setFileName( pluginName );
+	// if ( saveDialog.open( ) == null )
+	// return;
+	//
+	// PlaceResources.copy( composite.getShell( ),
+	// saveDialog.getFilterPath( ),
+	// saveDialog.getFileName( ),
+	// pluginURL );
+	// }
 
 	private IProject createProject( String projectName, boolean isJavaProject )
 	{

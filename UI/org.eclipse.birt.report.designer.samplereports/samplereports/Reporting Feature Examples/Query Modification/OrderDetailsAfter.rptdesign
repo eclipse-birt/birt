@@ -68,7 +68,7 @@
                 </list-property>
             </structure>
             <property name="dataSource">Classic Models</property>
-            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + params["whereClause"];]]></method>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " " + params["whereClause"];]]></method>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>

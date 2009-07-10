@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.3.2.v20081112-0730 Build &lt;2.3.2.v20081112-0730></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090603 Build &lt;2.5.0.v20090617-0630></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -66,13 +66,9 @@ chart13.getLegend( ).getTitle( ).setVisible( true );
 chart13.getLegend( ).getTitle( ).getCaption( ).setValue( "Legend" )]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
-            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
-            <property name="odaURL">jdbc:classicmodels:sampledb</property>
-            <property name="odaUser">ClassicModels</property>
-        </oda-data-source>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source1" id="24">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
             <property name="odaURL">jdbc:classicmodels:sampledb</property>
             <property name="odaUser">ClassicModels</property>
@@ -252,12 +248,16 @@ chart13.getLegend( ).getTitle( ).getCaption( ).setValue( "Legend" )]]></method>
                     <property name="nativeDataType">8</property>
                 </structure>
             </list-property>
-            <property name="queryText">select *
-from CLASSICMODELS.CUSTOMERS</property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.CUSTOMERS]]></xml-property>
         </oda-data-set>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
@@ -289,6 +289,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="29">
                     <extended-item extensionName="Chart" name="Chart1" id="6">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -539,6 +540,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -726,6 +733,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -1530,6 +1568,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -1605,6 +1644,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="30">
                     <extended-item extensionName="Chart" name="Chart2" id="7">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -1855,6 +1895,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -1870,6 +1916,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -2674,6 +2751,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -2751,6 +2829,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="32">
                     <extended-item extensionName="Chart" name="Chart3" id="8">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -3001,6 +3080,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -3016,6 +3101,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -3820,6 +3936,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -3895,6 +4012,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="33">
                     <extended-item extensionName="Chart" name="Chart4" id="12">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -4145,6 +4263,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -4160,6 +4284,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -4964,6 +5119,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -5041,6 +5197,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="35">
                     <extended-item extensionName="Chart" name="Chart5" id="13">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -5291,6 +5448,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Three_Dimensional</Dimension>
@@ -5309,6 +5472,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </AncillarySampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -6514,6 +6708,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -6589,6 +6784,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="36">
                     <extended-item extensionName="Chart" name="Chart6" id="14">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -6839,6 +7035,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -6854,6 +7056,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -7658,6 +7891,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -7735,6 +7969,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="44">
                     <extended-item extensionName="Chart" name="Chart7" id="15">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -7985,6 +8220,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional_With_Depth</Dimension>
@@ -8003,6 +8244,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </AncillarySampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -9208,6 +9480,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -9283,6 +9556,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="45">
                     <extended-item extensionName="Chart" name="Chart8" id="16">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -9533,6 +9807,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Three_Dimensional</Dimension>
@@ -9551,6 +9831,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </AncillarySampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -10756,6 +11067,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -10833,6 +11145,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="41">
                     <extended-item extensionName="Chart" name="Chart9" id="17">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -11083,6 +11396,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional_With_Depth</Dimension>
@@ -11101,6 +11420,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </AncillarySampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -12306,6 +12656,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -12381,6 +12732,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="42">
                     <extended-item extensionName="Chart" name="Chart10" id="18">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -12631,6 +12983,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -12646,6 +13004,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -13450,6 +13839,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -13527,6 +13917,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="38">
                     <extended-item extensionName="Chart" name="Chart11" id="19">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -13777,6 +14168,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -13792,6 +14189,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -14596,6 +15024,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -14671,6 +15100,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="39">
                     <extended-item extensionName="Chart" name="Chart12" id="20">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -14921,6 +15351,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -14936,6 +15372,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -15740,6 +16207,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
@@ -15817,6 +16285,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 <cell id="50">
                     <extended-item extensionName="Chart" name="Chart13" id="21">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.5.0</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -16067,6 +16536,12 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Color>
       <Visible>false</Visible>
     </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>255</Transparency>
+      <Red>200</Red>
+      <Green>208</Green>
+      <Blue>212</Blue>
+    </Background>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
@@ -16082,6 +16557,37 @@ from CLASSICMODELS.CUSTOMERS</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -16886,6 +17392,7 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="inheritColumns">true</property>
                         <property name="dataSet">Data Set</property>
                         <property name="height">1.5in</property>
                         <property name="width">3in</property>
