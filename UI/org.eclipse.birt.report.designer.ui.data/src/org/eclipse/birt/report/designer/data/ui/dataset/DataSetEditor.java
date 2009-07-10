@@ -11,6 +11,7 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import java.net.URISyntaxException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
+import org.eclipse.birt.report.designer.data.ui.util.PageLayoutManager;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -103,8 +105,16 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 
 	private static final String SOAP_PARAMETERS_PAGE = "org.eclipse.datatools.enablement.oda.ws.ui.SOAPParametersPage"; //$NON-NLS-1$
 
-	private static final Set<String> internalPages = getInternalPageNames( );
 	private static Logger logger = Logger.getLogger( DataSetEditor.class.getName( ) );
+	
+	static
+	{
+		Iterator<String> pageNames = getInternalPageNames( ).iterator( );
+		while ( pageNames.hasNext( ) )
+		{
+			PageLayoutManager.registerPage( pageNames.next( ) );
+		}
+	}
 
 	protected Control createDialogArea( Composite parent )
 	{
@@ -837,7 +847,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			}
 			// automatically pack(resize) the shell if some external page
 			// specified was selected
-			if ( !internalPages.contains( selectedNode.getId( ) ) )
+			if ( !PageLayoutManager.isRegisteredPage( selectedNode.getId( ) ) )
 			{
 				getShell( ).pack( );
 			}
