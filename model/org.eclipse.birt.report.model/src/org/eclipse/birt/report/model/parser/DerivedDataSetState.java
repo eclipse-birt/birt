@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DerivedDataSet;
-import org.eclipse.birt.report.model.elements.interfaces.IDerivedDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableElementModel;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -70,7 +70,7 @@ public class DerivedDataSetState extends ReportElementState
 		initElement( attrs, true );
 		String extensionID = getAttrib( attrs,
 				DesignSchemaConstants.EXTENSION_ID_ATTRIB );
-		element.setProperty( IDerivedDataSetModel.EXTENSION_ID_PROP,
+		element.setProperty( IDerivedExtendableElementModel.EXTENSION_ID_PROP,
 				extensionID );
 	}
 }

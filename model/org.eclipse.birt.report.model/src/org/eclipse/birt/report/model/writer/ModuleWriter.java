@@ -117,6 +117,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDerivedDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDynamicFilterParameterModel;
@@ -3588,8 +3589,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitDerivedDataSet( DerivedDataSet obj )
 	{
 		writer.startElement( DesignSchemaConstants.DERIVED_DATA_SET_TAG );
-		attribute( obj, IDerivedDataSetModel.EXTENSION_ID_PROP,
-				IDerivedDataSetModel.EXTENSION_ID_PROP );
+		attribute( obj, IDerivedExtendableElementModel.EXTENSION_ID_PROP,
+				IDerivedExtendableElementModel.EXTENSION_ID_PROP );
 
 		super.visitDerivedDataSet( obj );
 

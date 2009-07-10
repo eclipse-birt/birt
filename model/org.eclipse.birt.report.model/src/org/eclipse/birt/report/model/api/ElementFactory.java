@@ -69,6 +69,7 @@ import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.ValueAccessControl;
 import org.eclipse.birt.report.model.elements.VariableElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
@@ -1030,15 +1031,25 @@ public class ElementFactory
 			// for the special oda cases, the extension id must be set before
 			// setExtends
 
+			String extensionProperty = null;
 			if ( childElement.getElement( ) instanceof IOdaExtendableElementModel )
 			{
-				String extensionId = (String) baseElement
-						.getProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP );
+				extensionProperty = IOdaExtendableElementModel.EXTENSION_ID_PROP;
 
-				childElement.getElement( ).setProperty(
-						IOdaExtendableElementModel.EXTENSION_ID_PROP,
+			}
+			else if ( childElement.getElement( ) instanceof IDerivedExtendableElementModel )
+			{
+				extensionProperty = IDerivedExtendableElementModel.EXTENSION_ID_PROP;
+			}
+
+			if ( extensionProperty != null )
+			{
+				String extensionId = (String) baseElement
+						.getProperty( extensionProperty );
+				childElement.getElement( ).setProperty( extensionProperty,
 						extensionId );
 			}
+
 			childElement.setExtends( baseElement );
 			ElementStructureUtil.refreshStructureFromParent( module,
 					childElement.getElement( ) );

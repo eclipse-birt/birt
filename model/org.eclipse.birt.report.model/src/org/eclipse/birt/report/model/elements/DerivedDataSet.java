@@ -20,13 +20,17 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDerivedDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableElementModel;
 
 /**
  * Class for derived data set.
  * 
  */
 
-public class DerivedDataSet extends SimpleDataSet implements IDerivedDataSetModel
+public class DerivedDataSet extends SimpleDataSet
+		implements
+			IDerivedDataSetModel,
+			IDerivedExtendableElementModel
 {
 
 	/**

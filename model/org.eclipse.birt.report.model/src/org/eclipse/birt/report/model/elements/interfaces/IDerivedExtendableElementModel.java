@@ -9,24 +9,20 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.model.elements.interfaces;
 
 /**
- * Interface to define the constants for property names in derive data set.
+ * Interface to define the constants for property names in extendabble derive elements.
  * 
  */
-public interface IDerivedDataSetModel
+
+public interface IDerivedExtendableElementModel
 {
 
 	/**
-	 * Name of the property that defines the list of the data sets that this
-	 * derived data set includes.
+	 * Name of the property that identifies the extension.
 	 */
-	String INPUT_DATA_SETS_PROP = "inputDataSets"; //$NON-NLS-1$
 
-	/**
-	 * Name of the property that gives the query text for this derived data set.
-	 */
-	String QUERY_TEXT_PROP = "queryText"; //$NON-NLS-1$
+	String EXTENSION_ID_PROP = "extensionID"; //$NON-NLS-1$
+
 }

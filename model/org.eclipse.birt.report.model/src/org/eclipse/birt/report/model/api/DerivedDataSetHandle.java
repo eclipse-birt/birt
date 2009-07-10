@@ -10,6 +10,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DerivedDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDerivedDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableElementModel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
@@ -18,7 +19,8 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 public class DerivedDataSetHandle extends DataSetHandle
 		implements
-			IDerivedDataSetModel
+			IDerivedDataSetModel,
+			IDerivedExtendableElementModel
 {
 
 	/**
