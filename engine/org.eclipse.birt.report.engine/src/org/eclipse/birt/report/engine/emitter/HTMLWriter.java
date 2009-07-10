@@ -97,7 +97,7 @@ public class HTMLWriter extends XMLWriter
 
 		super.printWriter.print( name );
 		super.printWriter.print( " {" ); //$NON-NLS-1$
-		super.printWriter.print( encodeAttr( value ) );
+		super.printWriter.print( value );
 		super.printWriter.print( '}' );
 	}
 

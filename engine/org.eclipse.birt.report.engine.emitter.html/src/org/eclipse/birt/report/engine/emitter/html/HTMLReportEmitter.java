@@ -796,9 +796,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// output the report CSS styles
 			if ( !enableInlineStyle )
 			{
-
-				writer.openTag( HTMLTags.TAG_STYLE );
-				writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
+				openStyleSheet( );
 				String styleNamePrefix;
 				if ( null != htmlIDNamespace )
 				{
@@ -836,7 +834,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						}
 					}
 				}
-				writer.closeTag( HTMLTags.TAG_STYLE );
+				closeStyleSheet( );
 			}
 		}
 
@@ -865,6 +863,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 		}
+	}
+
+	protected void openStyleSheet( )
+	{
+		writer.openTag( HTMLTags.TAG_STYLE );
+		writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
+	}
+
+	protected void closeStyleSheet( )
+	{
+		writer.closeTag( HTMLTags.TAG_STYLE );
 	}
 
 	private void appendErrorMessage(EngineResourceHandle rc, int index, ElementExceptionInfo info )
