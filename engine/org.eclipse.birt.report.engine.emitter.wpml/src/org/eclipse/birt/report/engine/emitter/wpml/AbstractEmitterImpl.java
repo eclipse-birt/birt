@@ -1036,7 +1036,7 @@ public abstract class AbstractEmitterImpl
 
 	private void writeHeaderFooter( ) throws IOException, BirtException
 	{
-		IStyle style = previousPage.getComputedStyle( );
+		IStyle style = previousPage.getStyle( );
 		String backgroundHeight = style.getBackgroundHeight( );
 		String backgroundWidth = style.getBackgroundWidth( );
 
@@ -1089,7 +1089,7 @@ public abstract class AbstractEmitterImpl
 	protected void drawDocumentBackground( ) throws IOException
 	{
 		// Set the first page background which is not null to DOC
-		IStyle style = previousPage.getComputedStyle( );
+		IStyle style = previousPage.getStyle( );
 		String backgroundColor = style.getBackgroundColor( );
 		String backgroundImageUrl = EmitterUtil.getBackgroundImageUrl( style,
 				reportContent.getDesign( ).getReportDesign( ), reportContext
