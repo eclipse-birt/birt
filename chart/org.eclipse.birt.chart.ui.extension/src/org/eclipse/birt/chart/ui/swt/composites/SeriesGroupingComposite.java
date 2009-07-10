@@ -577,7 +577,8 @@ public class SeriesGroupingComposite extends Composite implements
 				lblAggregate.setEnabled( bEnableUI );
 				cmbAggregate.setEnabled( bEnableUI );
 
-				if ( fChartContext.getChartType( ) instanceof StockChart )
+				if ( fChartContext.getChartType( ) instanceof StockChart
+						&& fGrouping.getGroupType( ).getValue( ) == DataType.DATE_TIME )
 				{
 					ChartUIUtil.updateDefaultAggregations( fChartContext.getModel( ) );
 				}

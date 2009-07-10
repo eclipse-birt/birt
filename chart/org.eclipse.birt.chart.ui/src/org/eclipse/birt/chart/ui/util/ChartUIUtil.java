@@ -1821,25 +1821,20 @@ public class ChartUIUtil
 	 */
 	public static void updateDefaultAggregations( Chart cm )
 	{
-		SeriesGrouping sg = getBaseSeriesDefinitions( cm ).get( 0 )
-				.getGrouping( );
-		if ( sg.getGroupType( ).getValue( ) == DataType.DATE_TIME )
+		for ( SeriesDefinition vsd : getAllOrthogonalSeriesDefinitions( cm ) )
 		{
-			for ( SeriesDefinition vsd : getAllOrthogonalSeriesDefinitions( cm ) )
+			Series vs = vsd.getDesignTimeSeries( );
+			if ( vs instanceof StockSeries )
 			{
-				Series vs = vsd.getDesignTimeSeries( );
-				if ( vs instanceof StockSeries )
+				EList<Query> queries = vs.getDataDefinition( );
+				while ( queries.size( ) < 4 )
 				{
-					EList<Query> queries = vs.getDataDefinition( );
-					while ( queries.size( ) < 4 )
-					{
-						queries.add( QueryImpl.create( "" ) ); //$NON-NLS-1$
-					}
-					setSeriesAggregation( queries.get( 0 ), "Max" );//High //$NON-NLS-1$
-					setSeriesAggregation( queries.get( 1 ), "Min" );//Low //$NON-NLS-1$
-					setSeriesAggregation( queries.get( 2 ), "First" );//Open //$NON-NLS-1$
-					setSeriesAggregation( queries.get( 3 ), "Last" );//Close //$NON-NLS-1$
+					queries.add( QueryImpl.create( "" ) ); //$NON-NLS-1$
 				}
+				setSeriesAggregation( queries.get( 0 ), "Max" );//High //$NON-NLS-1$
+				setSeriesAggregation( queries.get( 1 ), "Min" );//Low //$NON-NLS-1$
+				setSeriesAggregation( queries.get( 2 ), "First" );//Open //$NON-NLS-1$
+				setSeriesAggregation( queries.get( 3 ), "Last" );//Close //$NON-NLS-1$
 			}
 		}
 	}

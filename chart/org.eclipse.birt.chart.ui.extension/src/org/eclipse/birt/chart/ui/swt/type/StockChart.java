@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -32,6 +33,7 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.StockSeries;
@@ -51,6 +53,7 @@ import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.swt.graphics.Image;
 
 import com.ibm.icu.text.SimpleDateFormat;
@@ -410,7 +413,13 @@ public class StockChart extends DefaultChartTypeImpl
 		ChartUIUtil.restoreLabelPositionFromCache( currentChart );
 		
 		// Restore aggregations by setting default aggregations
-		ChartUIUtil.updateDefaultAggregations( currentChart );
+		SeriesGrouping sg = ChartUtil.getBaseSeriesDefinitions( currentChart )
+				.get( 0 )
+				.getGrouping( );
+		if ( sg.getGroupType( ).getValue( ) == DataType.DATE_TIME )
+		{
+			ChartUIUtil.updateDefaultAggregations( currentChart );
+		}
 		
 		return currentChart;
 	}
