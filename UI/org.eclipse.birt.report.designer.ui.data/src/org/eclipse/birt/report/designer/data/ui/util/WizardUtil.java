@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.data.ui.util;
 
-import java.lang.reflect.Method;
-
 import org.eclipse.birt.report.designer.data.ui.actions.EditDataSetAction;
 import org.eclipse.birt.report.designer.data.ui.actions.EditDataSourceAction;
 import org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction;
@@ -68,25 +66,6 @@ public class WizardUtil
 	 */
 	public static void createNewDataSetMenu( IMenuManager menu )
 	{
-		//temporary solution
-		Object delegateObject = null;
-		delegateObject = ExternalDelegateUtil.getWizardUtilDelegate( );
-		if ( delegateObject != null )
-		{
-			Method method = ExternalDelegateUtil.getMethod( "createNewDataSetMenu",
-					delegateObject.getClass( ),
-					new Class[]{
-						IMenuManager.class
-					} );
-			if ( method != null )
-				ExternalDelegateUtil.invokeMethod( method,
-						delegateObject,
-						new Object[]{
-							menu
-						} );
-			return;
-		}
-
 		NewDataSetAction action = new NewDataSetAction( Messages.getString( "dataset.action.new" ) );//$NON-NLS-1$
 		menu.add( action );
 

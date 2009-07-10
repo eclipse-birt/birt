@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.designer.data.ui.actions;
 
-import java.lang.reflect.Method;
-
-import org.eclipse.birt.report.designer.data.ui.util.ExternalDelegateUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
@@ -29,19 +26,6 @@ public class DataActionsContributionItem extends CompoundContributionItem
 	@Override
 	protected IContributionItem[] getContributionItems( )
 	{
-		Object delegateObject = ExternalDelegateUtil.getDataActionsContributionItemDelegate( );
-		if ( delegateObject != null )
-		{
-			Method method = ExternalDelegateUtil.getMethod( "getContributionItems",
-					delegateObject.getClass( ),
-					null );
-			if ( method != null )
-			{
-				return (IContributionItem[]) ExternalDelegateUtil.invokeMethod( method,
-						delegateObject,
-						null );
-			}
-		}
 		IContributionItem dsItem = new ActionContributionItem( new NewDataSourceAction( Messages.getString( "designerActionBarContributor.menu.data-newdatasource" ) ) ); //$NON-NLS-1$
 
 		MenuManager dtItem = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewDataSetParent" ) ); //$NON-NLS-1$

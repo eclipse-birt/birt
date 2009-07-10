@@ -134,16 +134,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throw new AdapterException( ResourceConstants.CONEXT_NULL_ERROR );
 
 		dataEngine = (DataEngineImpl)DataEngine.newDataEngine( context.getDataEngineContext( ) );
-		try
-		{
-			modelAdaptor = (IModelAdapter) Class.forName( "org.eclipse.birt.report.data.adapter.impl.DataModelAdapter" )
-					.getConstructor( context.getClass( ) )
-					.newInstance( context );
-	}
-		catch ( Throwable e )
-		{
-			modelAdaptor = new ModelAdapter( context );
-		}
+		modelAdaptor = new DataModelAdapter( context );
+		
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
 		if( sessionContext!= null )

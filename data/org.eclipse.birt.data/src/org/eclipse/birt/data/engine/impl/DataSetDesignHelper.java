@@ -11,8 +11,6 @@
  **************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,46 +35,10 @@ public class DataSetDesignHelper
 {
 
 	protected static Logger logger = Logger.getLogger( DataSetDesignHelper.class.getName( ) );
-	private static Object delegateObject = null;
-	
-	static
-	{
-		try
-		{
-			delegateObject = Thread.currentThread( )
-					.getContextClassLoader( )
-					.loadClass( "org.eclipse.birt.data.engine.impl.DataSetDesignHelperDelegate" )
-					.newInstance( );
-		}
-		catch ( ClassNotFoundException e )
-		{
-		}
-		catch ( InstantiationException e )
-		{
-		}
-		catch ( IllegalAccessException e )
-		{
-		}
-		catch ( SecurityException e )
-		{
-		}
-	}
 
 	public static void vailidateDataSetDesign( IBaseDataSetDesign design,
 			Map dataSoureRuntime ) throws DataException
 	{
-		if ( delegateObject != null )
-		{
-			Method method = getMethod( "vailidateDataSetDesign",
-					delegateObject.getClass( ),
-					new Class[]{
-							IBaseDataSetDesign.class, Map.class
-					} );
-			invokeMethod( method, delegateObject, new Object[]{
-					design, dataSoureRuntime
-			} );
-			return;
-		}
 		if ( !( design instanceof IJointDataSetDesign ) )
 		{
 			// Sanity check: a data set must have a data source with the proper
@@ -128,148 +90,27 @@ public class DataSetDesignHelper
 	public static  DataSetRuntime createExtenalInstance( IBaseDataSetDesign dataSetDefn,
 			IQueryExecutor queryExecutor, DataEngineSession session )
 	{
-		if ( delegateObject != null )
-		{
-			Method method = getMethod( "createExtenalInstance",
-					delegateObject.getClass( ),
-					new Class[]{
-							IBaseDataSetDesign.class,
-							IQueryExecutor.class,
-							DataEngineSession.class
-					} );
-			return (DataSetRuntime) invokeMethod( method,
-					delegateObject,
-					new Object[]{
-							dataSetDefn, queryExecutor, session
-					} );
-		}
 		return null;
 	}
 	
 	public static IPreparedQuery createPreparedQueryInstance( IBaseDataSetDesign des, DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, Map appContext ) throws DataException
 	{
-		if ( delegateObject != null )
-		{
-			Method method = getMethod( "createPreparedQueryInstance",
-					delegateObject.getClass( ),
-					new Class[]{
-							IBaseDataSetDesign.class,
-							DataEngineImpl.class,
-							IQueryDefinition.class,
-							Map.class
-					} );
-			return (IPreparedQuery) invokeMethod( method,
-					delegateObject,
-					new Object[]{
-							des, dataEngine, queryDefn, appContext
-					} );
-		}
 		return null;
 	}
 	
 	public static IBaseDataSetDesign createAdapter( IBaseDataSetDesign dataSetDesign )
 	{
-		if ( delegateObject != null )
-		{
-			Method method = getMethod( "createAdapter",
-					delegateObject.getClass( ),
-					new Class[]{
-						IBaseDataSetDesign.class
-					} );
-			return (IBaseDataSetDesign) invokeMethod( method,
-					delegateObject,
-					new Object[]{
-						dataSetDesign
-					} );
-		}
 		return null;
 	}
 	
 	public static IResultMetaData getResultMetaData( IBaseQueryDefinition baseQueryDefn, IQuery odiQuery ) throws DataException
 	{
-		if ( delegateObject != null )
-		{
-			Method method = getMethod( "getResultMetaData",
-					delegateObject.getClass( ),
-					new Class[]{
-							IBaseQueryDefinition.class, IQuery.class
-					} );
-			return (IResultMetaData) invokeMethod( method,
-					delegateObject,
-					new Object[]{
-							baseQueryDefn, odiQuery
-					} );
-		}
 		return null;
 	}
 	
 	public static IResultClass getResultClass( IQuery odiQuery )
 	{
-		if ( delegateObject != null )
-		{
-			Method method = getMethod( "getResultClass",
-					delegateObject.getClass( ),
-					new Class[]{
-						IQuery.class
-					} );
-			return (IResultClass) invokeMethod( method,
-					delegateObject,
-					new Object[]{
-						odiQuery
-					} );
-		}
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param methodName
-	 * @param targetClass
-	 * @param argument
-	 * @return
-	 */
-	private static Method getMethod(String methodName, Class targetClass, Class[] argument) 
-	{
-		assert methodName != null;
-		assert targetClass != null;
-		assert argument != null;
-
-		try
-		{
-			return targetClass.getMethod( methodName, argument );
-		}
-		catch ( SecurityException e )
-		{
-		}
-		catch ( NoSuchMethodException e )
-		{
-		}
-		return null;
-	}
-	
-	/**
-	 * Invoke a method.
-	 * 
-	 * @param method
-	 * @param targetObject
-	 * @param argument
-	 */
-	private static Object invokeMethod( Method method, Object targetObject, Object[] argument )
-	{
-		try
-		{
-			return method.invoke( targetObject, argument );
-		}
-		catch ( IllegalArgumentException e )
-		{
-		}
-		catch ( IllegalAccessException e )
-		{
-		}
-		catch ( InvocationTargetException e )
-		{
-		}
 		return null;
 	}
 }

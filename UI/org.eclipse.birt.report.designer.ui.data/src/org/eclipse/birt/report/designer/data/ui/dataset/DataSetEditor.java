@@ -9,7 +9,6 @@
 
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
-import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +22,6 @@ import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
-import org.eclipse.birt.report.designer.data.ui.util.ExternalDelegateUtil;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -129,25 +127,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	{
 		super( parentShell, ds );
 
-		Object delegateObject = ExternalDelegateUtil.getExternalUIUtilDelegate( );
-		if ( delegateObject != null )
-		{
-			Method method = ExternalDelegateUtil.getMethod( "validateDataSetHandle",
-					delegateObject.getClass( ),
-					new Class[]{
-						DataSetHandle.class
-					} );
-			if ( method != null )
-			{
-				ExternalDelegateUtil.invokeMethod( method,
-						delegateObject,
-						new Object[]{
-							ds
-						} );
-			}
-		}
-		else
-			ExtenalUIUtil.validateDataSetHandle( ds );
+		ExtenalUIUtil.validateDataSetHandle( ds );
 
 		this.needToFocusOnOutput = needToFocusOnOutput;
 		// get the data source and dataset type from handle
@@ -170,69 +150,14 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		}
 		else
 		{
-			dataSourceType = "";
-			dataSetType = "";
-			if ( delegateObject != null )
-			{
-				Method method = ExternalDelegateUtil.getMethod( "getDataSourceType",
-						delegateObject.getClass( ),
-						new Class[]{
-							DataSetHandle.class
-						} );
-				if ( method != null )
-				{
-					dataSourceType = (String) ExternalDelegateUtil.invokeMethod( method,
-							delegateObject,
-							new Object[]{
-								ds
-							} );
-				}
-
-				method = ExternalDelegateUtil.getMethod( "getDataSetType",
-						delegateObject.getClass( ),
-						new Class[]{
-							DataSetHandle.class
-						} );
-				if ( method != null )
-				{
-					dataSetType = (String) ExternalDelegateUtil.invokeMethod( method,
-							delegateObject,
-							new Object[]{
-								ds
-							} );
-				}
-			}
-			else
-			{
-				dataSourceType = ExtenalUIUtil.getDataSourceType( ds ); //$NON-NLS-1$
-				dataSetType = ExtenalUIUtil.getDataSetType( ds ); //$NON-NLS-1$
-			}
+			dataSourceType = ExtenalUIUtil.getDataSourceType( ds ); //$NON-NLS-1$
+			dataSetType = ExtenalUIUtil.getDataSetType( ds ); //$NON-NLS-1$
 		}
 
 		// according to the data source type, get the extension point.If
 		// extention is birt, populate birt page. or the ODA Custom page will be
 		// populated.
-		boolean containsDataSource = true;
-		if ( delegateObject != null )
-		{
-			Method method = ExternalDelegateUtil.getMethod( "containsDataSource",
-					delegateObject.getClass( ),
-					new Class[]{
-						DataSetHandle.class
-					} );
-			if ( method != null )
-			{
-				containsDataSource = (Boolean) ExternalDelegateUtil.invokeMethod( method,
-						delegateObject,
-						new Object[]{
-							ds
-						} );
-			}
-		}
-		else
-		{
-			containsDataSource =  ExtenalUIUtil.containsDataSource( ds );
-		}
+		boolean containsDataSource = ExtenalUIUtil.containsDataSource( ds );
 		if ( containsDataSource )
 		{
 			addPageTo( "/", DATA_SOURCE_SELECTION_PAGE, Messages.getString( "dataset.editor.dataSource" ), null, new DataSetDataSourceSelectionPage( ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -414,23 +339,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		else
 		{
 			IPropertyPage[] pages = ExtenalUIUtil.getCommonPages( ds );
-			
-			Object delegateObject = ExternalDelegateUtil.getExternalUIUtilDelegate( );
-			if ( delegateObject != null )
-			{
-				Method method = ExternalDelegateUtil.getMethod( "getCommonPages",
-						delegateObject.getClass( ),
-						new Class[]{
-							DataSetHandle.class
-						} );
-				if ( method != null )
-					pages = (IPropertyPage[]) ExternalDelegateUtil.invokeMethod( method,
-							delegateObject,
-							new Object[]{
-								ds
-							} );
-			}
-			
+						
 			if ( pages != null && pages.length > 0 )
 			{
 				for ( int i = 0; i < pages.length; i++ )
