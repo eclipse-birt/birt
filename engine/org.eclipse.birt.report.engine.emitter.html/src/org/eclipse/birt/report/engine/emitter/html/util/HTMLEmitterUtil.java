@@ -150,7 +150,8 @@ public class HTMLEmitterUtil
 		{
 			return 0;
 		}
-		try
+		int valueType = d.getValueType( );
+		if ( valueType == DimensionType.TYPE_DIMENSION )
 		{
 			String units = d.getUnits( );
 			if ( EngineIRConstants.UNITS_PX.equals( units ) )
@@ -175,14 +176,22 @@ public class HTMLEmitterUtil
 					return (int) ( point / 72 * 96 );
 				}
 			}
-			else if ( EngineIRConstants.UNITS_PERCENTAGE.equals( units ) )
-			{
-				return 0;
-			}
 		}
-		catch ( Exception e )
+		else if ( valueType == DimensionType.TYPE_CHOICE )
 		{
-			return 0;
+			String choice = d.getChoice( );
+			if ( "medium".equalsIgnoreCase( choice ) )
+			{
+				return 3;
+			}
+			else if ( "thick".equalsIgnoreCase( choice ) )
+			{
+				return 5;
+			}
+			else if ( "thin".equalsIgnoreCase( choice ) )
+			{
+				return 1;
+			}
 		}
 		return 0;
 	}
