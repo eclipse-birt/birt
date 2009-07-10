@@ -141,7 +141,10 @@ public class JSSyntaxContext
 
 	public void setVariable( String name, IClassInfo classInfo )
 	{
-		objectMetaMap.put( name, new ExtensionClassJSObject( classInfo ) );
+		if ( classInfo == null )
+			objectMetaMap.put( name, null );
+		else
+			objectMetaMap.put( name, new ExtensionClassJSObject( classInfo ) );
 	}
 
 	public void removeVariable( String name )
