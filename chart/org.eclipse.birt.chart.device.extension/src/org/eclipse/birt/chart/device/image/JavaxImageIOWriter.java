@@ -89,6 +89,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	// Use this registry to make sure one callback method only be added once
 	private Map<String, Boolean> callbackMethodsRegistry = new HashMap<String, Boolean>( 5 );
+
+	private volatile boolean hasMultipleMenu = false;
+	
+	private volatile boolean hasAddedMenuLib = false;
 	
 	/**
 	 * Returns the output format string for this writer.
@@ -920,6 +924,13 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		addCallbackMethod( sa, sb, TriggerCondition.ONMOUSEOVER_LITERAL );
 		addCallbackMethod( sa, sb, TriggerCondition.ONFOCUS_LITERAL );
 		addCallbackMethod( sa, sb, TriggerCondition.ONBLUR_LITERAL );
+		
+		// Insert chart menu scripts.
+		if ( hasMultipleMenu && !hasAddedMenuLib )
+		{
+			sb.insert( 0, "<Script>" + MultiURLValuesScriptGenerator.getBirtChartMenuLib( ) + "</Script>"); //$NON-NLS-1$ //$NON-NLS-2$
+			hasAddedMenuLib = true;
+		}
 	}
 	
 	private void addCallbackMethod( ShapedAction sa, StringBuffer sb,
@@ -1013,6 +1024,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					else
 					{
 						// Return multiple menu javascript.
+						hasMultipleMenu  = true;
 						return new MultiURLValuesScriptGenerator((MultiURLValues)value ).getJSContent( );
 					}
 				}
@@ -1025,7 +1037,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		return "<Script>" //$NON-NLS-1$
 				+ "function " + functionName + "(evt," + ScriptHandler.BASE_VALUE + ", " + ScriptHandler.ORTHOGONAL_VALUE + ", " + ScriptHandler.SERIES_VALUE + "){" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$  //$NON-NLS-5$
-				+ eval2JS( functionContent, true ) + "}</Script>"; //$NON-NLS-1$
+				+ eval2JS( functionContent, true ) + "};</Script>"; //$NON-NLS-1$
 	}
 	
 	private String getJSMethodName( TriggerCondition tc, ShapedAction sa )
