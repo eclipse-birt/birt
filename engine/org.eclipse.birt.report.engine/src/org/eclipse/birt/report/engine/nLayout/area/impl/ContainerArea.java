@@ -405,6 +405,8 @@ public abstract class ContainerArea extends AbstractArea
 
 	protected void calculateSpecifiedWidth( IContent content )
 	{
+		if ( content == null )
+			return;
 		DimensionType width = content.getWidth( );
 		if ( width != null )
 		{
@@ -422,6 +424,8 @@ public abstract class ContainerArea extends AbstractArea
 
 	protected void calculateSpecifiedHeight( IContent content )
 	{
+		if ( content == null )
+			return;
 		DimensionType height = content.getHeight( );
 		if ( height != null )
 		{

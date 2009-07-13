@@ -4,21 +4,38 @@ import org.eclipse.birt.report.engine.content.IContent;
 
 public class SizeBasedContent
 {
+	/**
+	 * The original content.
+	 */
 	public IContent content;
-	public int floatPos;
-	public int offsetInContent;
-	public int dimension;
 	
-	public SizeBasedContent( )
-	{
-		
-	}
+	/**
+	 * The value indicates how to place the rendered sizeBasedContent. It
+	 * presents the floating horizontal position for the sizeBasedContent. For
+	 * block text, the value is normally 0; for inline text, the value is the
+	 * first line start x position.
+	 */
+	public int floatPos;
+	
+	/**
+	 * The value indicates from where (relative to the original content)to
+	 * render the sizeBasedContent. For block text, the value is the total
+	 * height which have been rendered in the previous pages. For inline text,
+	 * the value is the total width which have been rendered in the previous
+	 * pages.
+	 */
+	public int offsetInContent;
+	
+	/**
+	 * For block text, it indicates from offsetInContent, the height of
+	 * dimension need to be rendered. For inline text, it indicates from
+	 * offsetInContent, the width of dimension need to be rendered.
+	 */
+	public int dimension;
 
-	public SizeBasedContent( IContent content, int floatPos, int offset, int dimension )
-	{
-		this.content = content;
-		this.floatPos = floatPos;
-		this.offsetInContent = offset;
-		this.dimension = dimension;
-	}
+	/**
+	 * The width restriction for the sizeBasedContent.
+	 */
+	public int width;
+	
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -54,8 +55,12 @@ public class LayoutContext
 	
 	protected boolean finished = false;
 	
+	protected int engineTaskType = IEngineTask.TASK_RENDER;
+
 	protected boolean isFixedLayout = false;
 	
+	protected boolean isInHtmlRender = false;
+
 	protected HTMLLayoutContext htmlLayoutContext = null;
 	
 	protected HashMap<String, Long> bookmarkMap = new HashMap<String, Long>();
@@ -124,37 +129,30 @@ public class LayoutContext
 		return unresolvedContent;
 	}
 	
-
-	
 	public long getTotalPage( )
 	{
 		return totalPage;
 	}
-
 	
 	public void setTotalPage( long totalPage )
 	{
 		this.totalPage = totalPage;
 	}
 
-	
 	public long getPageCount( )
 	{
 		return pageCount;
 	}
 
-	
 	public void setPageCount( long pageCount )
 	{
 		this.pageCount = pageCount;
 	}
 
-	
 	public long getPageNumber( )
 	{
 		return pageNumber;
 	}
-
 	
 	public void setPageNumber( long pageNumber )
 	{
@@ -179,6 +177,16 @@ public class LayoutContext
 	public void setFormat( String format )
 	{
 		this.format = format;
+	}
+	
+	public int getEngineTaskType( )
+	{
+		return engineTaskType;
+	}
+
+	public void setEngineTaskType( int engineTaskType )
+	{
+		this.engineTaskType = engineTaskType;
 	}
 
 	public int getMaxHeight( )
@@ -420,12 +428,15 @@ public class LayoutContext
 		return pageHintGenerator;
 	}
 	
-//	public HashMap<String, SizeBasedContent> getSizeBasedContentMapping( )
-//	{
-//		return htmlLayoutContext.getPageHintManager( )
-//				.getSizeBasedContentMapping( );
-//	}
+	public boolean isInHtmlRender( )
+	{
+		return isInHtmlRender;
+	}
 	
+	public void setInHtmlRender( boolean isInHtmlRender )
+	{
+		this.isInHtmlRender = isInHtmlRender;
+	}
 	
 	// The following methods are used in run task.
 	public String getMasterPage( )

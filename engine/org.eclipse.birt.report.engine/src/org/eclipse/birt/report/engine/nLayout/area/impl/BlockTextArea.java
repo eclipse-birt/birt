@@ -10,7 +10,11 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -20,44 +24,30 @@ import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 
 public class BlockTextArea extends BlockContainerArea implements ILayout
 {
-	int splitOffset;
-	int splitHeight;
-	
-	public int getSplitOffset( )
-	{
-		return splitOffset;
-	}
-
-	public int getSplitHeight( )
-	{
-		return splitHeight;
-	}
-	
-	/**
-	 * lastTotalHeight indicates the total height that is split from the original text area.
-	 * This value will be used as the splitOffset of the remain blockTextArea.
-	 */
-	private int lastTotalHeight;
-	
-	private int fixedDimension;
+	private BlockTextRenderListener listener = null;
 	
 	public BlockTextArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
 		super( parent, context, content );
-//		InstanceID id = content.getInstanceID( );
-//		if ( id != null )
-//		{
-//			SizeBasedContent hint = (SizeBasedContent) context
-//					.getSizeBasedContentMapping( ).get( id.toUniqueString( ) );
-//			if ( hint != null )
-//			{
-//				currentBP -= hint.offsetInContent;
-//				fixedDimension = hint.dimension;
-//			}
-//		}
+		if ( context.isInHtmlRender( ) )
+		{
+			InstanceID id = content.getInstanceID( );
+			if ( id != null )
+			{
+				SizeBasedContent hint = (SizeBasedContent) context
+						.getHtmlLayoutContext( ).getPageHintManager( )
+						.getSizeBasedContentMapping( ).get( id.toUniqueString( ) );
+				if ( hint != null )
+				{
+					parent.width = hint.width;
+					listener = new BlockTextRenderListener( this,
+							hint.offsetInContent, hint.dimension );
+				}
+			}	
+		}
 	}
-
+	
 	public BlockTextArea(BlockTextArea area)
 	{
 		super(area);
@@ -71,27 +61,54 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 		line.setTextIndent( (ITextContent)content );
 		TextAreaLayout text = new TextAreaLayout( line, context, content);
 		text.initialize( );
+		if( context.isInHtmlRender( ) )
+		{
+			text.addListener( listener );	
+		}
 		text.layout( );
 		text.close( );
 		line.close( );
-		close();
+		close( );
 	}
 	
-	public BlockTextArea cloneArea()
+	public BlockTextArea cloneArea( )
 	{
-		BlockTextArea newBlockText =  new BlockTextArea(this);
-		newBlockText.lastTotalHeight = lastTotalHeight;
-		return newBlockText;
+		BlockTextArea newArea = new BlockTextArea( this );
+		addToExtension( newArea );
+		return newArea;
 	}
 	
-	protected void updateContentHeight( int height )
+	public void close( ) throws BirtException
 	{
-		super.updateContentHeight( height );
-		splitOffset = lastTotalHeight;
-		splitHeight = height;
-		lastTotalHeight += splitHeight;
+		super.close( );
+		addToExtension( this );
+		updateTextContent( );
 	}
 	
+	private void addToExtension( BlockTextArea area )
+	{
+		if ( context.isFixedLayout( )
+				&& context.getEngineTaskType( ) == IEngineTask.TASK_RUN )
+		{
+			ArrayList<BlockTextArea> list = (ArrayList<BlockTextArea>) content
+					.getExtension( IContent.LAYOUT_EXTENSION );
+			if ( list == null )
+			{
+				list = new ArrayList<BlockTextArea>( );
+				content.setExtension( IContent.LAYOUT_EXTENSION, list );
+			}
+			list.add( area );
+		}
+	}
+	
+	private void updateTextContent( )
+	{
+		if( context.isInHtmlRender( ))
+		{
+			((ITextContent)content).setText( listener.getSplitText( ) );
+		}
+	}
+
 	protected void update( ) throws BirtException
 	{
 		if ( parent != null )
@@ -136,10 +153,6 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 					parent.autoPageBreak( );
 					aHeight = getAllocatedHeight( );
 				}
-			}
-			if ( fixedDimension > 0 )
-			{
-				this.setAllocatedHeight( fixedDimension );
 			}
 			parent.update( this );
 		}

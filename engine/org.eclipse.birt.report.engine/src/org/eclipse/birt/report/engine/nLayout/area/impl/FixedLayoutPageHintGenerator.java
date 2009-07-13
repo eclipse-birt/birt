@@ -157,15 +157,19 @@ public class FixedLayoutPageHintGenerator
 		{
 			if ( currentContent != null )
 			{
-				if ( InstanceIDComparator.isNextWith( currentContent.content, area.content ) )
+				if ( InstanceIDComparator.isNextWith( currentContent.content,
+						area.content ) )
 				{
 					currentContent = createSizeBasedContent( area );
 				}
-				else if ( InstanceIDComparator.equals( startContent.content, currentContent.content )
-						&& startContent.content instanceof IContainerContent )
+				else if ( InstanceIDComparator.equals( startContent.content,
+						currentContent.content ) )
 				{
-					startContent = createSizeBasedContent( area );
-					currentContent = startContent;
+					if ( startContent.content instanceof IContainerContent )
+					{
+						startContent = createSizeBasedContent( area );
+						currentContent = startContent;
+					}
 				}
 				else
 				{
@@ -177,7 +181,6 @@ public class FixedLayoutPageHintGenerator
 			}
 		}
 	}
-
 
 	private SizeBasedContent createSizeBasedContent( ContainerArea area )
 	{
@@ -191,26 +194,55 @@ public class FixedLayoutPageHintGenerator
 		{
 			sizeBasedContent.content = area.content;
 		}
-		//sizeBasedContent.layoutIndex = area.content.getLayoutIndex( );
+
 		if ( area instanceof BlockTextArea )
 		{
 			BlockTextArea blockText = (BlockTextArea) area;
 			sizeBasedContent.floatPos = 0;
-			sizeBasedContent.offsetInContent = blockText.splitOffset;
-			sizeBasedContent.dimension = blockText.splitHeight;
+			ArrayList<BlockTextArea> list = (ArrayList<BlockTextArea>) area.content
+					.getExtension( IContent.LAYOUT_EXTENSION );
+			if ( list.size( ) > 1 )
+			{
+				Iterator<BlockTextArea> i = list.iterator( );
+				int offsetInContent = 0;
+				int lastHeight = 0;
+				while ( i.hasNext( ) )
+				{
+					offsetInContent += lastHeight;
+					BlockTextArea current = i.next( );
+					if ( current == area )
+					{
+						break;
+					}
+					lastHeight = current.getHeight( );
+				}
+				sizeBasedContent.offsetInContent = offsetInContent;
+			}
+			else
+			{
+				sizeBasedContent.offsetInContent = 0;	
+			}
+			sizeBasedContent.dimension = blockText.getHeight( );
+			sizeBasedContent.width = blockText.getWidth( );
 		}
 		else if ( area instanceof InlineTextArea )
 		{
 			InlineTextArea inlineText = (InlineTextArea) area;
-			sizeBasedContent.floatPos = inlineText.getAllocatedX( );
-			sizeBasedContent.offsetInContent = inlineText.splitOffset;
-			sizeBasedContent.dimension = inlineText.width;
+			InlineTextExtension ext = (InlineTextExtension) area.content
+					.getExtension( IContent.LAYOUT_EXTENSION );
+			ext.updatePageHintInfo( inlineText );
+			
+			sizeBasedContent.floatPos = ext.getFloatPos( );
+			sizeBasedContent.offsetInContent = ext.getOffsetInContent( );
+			sizeBasedContent.dimension = ext.getDimension( );
+			sizeBasedContent.width = ext.getWidthRestrict( );
 		}
 		else
 		{
 			sizeBasedContent.floatPos = 0;
 			sizeBasedContent.offsetInContent = 0;
 			sizeBasedContent.dimension = 0;
+			sizeBasedContent.width = 0;
 		}
 		return sizeBasedContent;
 	}

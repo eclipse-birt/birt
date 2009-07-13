@@ -121,8 +121,8 @@ public class FontSplitter implements ISplitter
 		int returnCharacterCount = lineBreakChunk.getLength();
 		if (null == lastFontInfo)
 		{
-			currentPos = currentPos + returnCharacterCount;
-			chunkStartPos = currentPos;
+			currentPos = currentPos + returnCharacterCount -1;
+			chunkStartPos = currentPos + 1;
 			return Chunk.HARD_LINE_BREAK;
 		}
 		lineBreak = lineBreakChunk;

@@ -35,9 +35,11 @@ public class SizeBasedPageSection extends PageSection
 		IOUtil.writeInt( out, start.floatPos );
 		IOUtil.writeInt( out, start.offsetInContent );
 		IOUtil.writeInt( out, start.dimension );
+		IOUtil.writeInt( out, start.width );
 		IOUtil.writeInt( out, end.floatPos );
 		IOUtil.writeInt( out, end.offsetInContent );
 		IOUtil.writeInt( out, end.dimension );
+		IOUtil.writeInt( out, end.width );
 		writeInstanceIndex( out, starts );
 		writeInstanceIndex( out, ends );
 	}
@@ -47,10 +49,11 @@ public class SizeBasedPageSection extends PageSection
 		start.floatPos = IOUtil.readInt( in );
 		start.offsetInContent = IOUtil.readInt( in );
 		start.dimension = IOUtil.readInt( in );
+		start.width = IOUtil.readInt( in );
 		end.floatPos = IOUtil.readInt( in );
 		end.offsetInContent = IOUtil.readInt( in );
 		end.dimension = IOUtil.readInt( in );
-		
+		end.width = IOUtil.readInt( in );
 		starts = readInstanceIndex( in );
 		ends = readInstanceIndex( in );
 		startOffset = starts[starts.length - 1].getOffset( );

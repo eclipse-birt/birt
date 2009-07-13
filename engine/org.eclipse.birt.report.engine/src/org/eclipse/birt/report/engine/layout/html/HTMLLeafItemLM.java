@@ -11,8 +11,20 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
+import org.eclipse.birt.report.engine.content.IContainerContent;
+import org.eclipse.birt.report.engine.content.impl.DataContent;
+import org.eclipse.birt.report.engine.content.impl.LabelContent;
+import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
+import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.RegionLayoutEngine;
+import org.eclipse.birt.report.engine.nLayout.area.impl.HtmlRegionArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.SizeBasedContent;
 
 public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 {
@@ -44,11 +56,51 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 
 	protected void start( boolean isFirst ) throws BirtException
 	{
+		if (content instanceof TextContent || content instanceof LabelContent
+				|| content instanceof DataContent) 
+		{
+			splitText();
+		}
 		if(emitter!=null)
 		{
 			context.getPageBufferManager( ).startContent( content, emitter, true );
 		}
 	}
-
-
+	
+	/**
+	 *  Splits text for fixed layout reports.
+	 */
+	private void splitText( )
+	{
+		Integer taskType = (Integer) engine.getOption( EngineTask.TASK_TYPE );
+		if ( taskType.intValue( ) == IEngineTask.TASK_RENDER
+				&& context.isFixedLayout( ) )
+		{
+				SizeBasedContent sizeBasedContent = context
+						.getPageHintManager( ).getSizeBasedContentMapping( )
+						.get( content.getInstanceID( ).toUniqueString( ) );
+				HtmlRegionArea container = new HtmlRegionArea( );
+				container.setWidth( sizeBasedContent.width );
+				IContainerContent containerContent = content.getReportContent( ).createContainerContent( );
+				containerContent.getChildren( ).add( content );
+				LayoutContext pdfLayoutContext = new LayoutContext( );
+				pdfLayoutContext.setFormat( "pdf" );
+				pdfLayoutContext.setFixedLayout( true );
+				pdfLayoutContext.setInHtmlRender( true );
+				pdfLayoutContext.setLocale( engine.locale );
+				pdfLayoutContext.setHtmlLayoutContext( context );
+				pdfLayoutContext.setMaxBP( Integer.MAX_VALUE );
+				RegionLayoutEngine rle = new RegionLayoutEngine( container,
+						pdfLayoutContext );
+				try
+				{
+					rle.layout( containerContent );
+				}
+				catch ( BirtException e )
+				{
+					logger.log( Level.WARNING, e.getMessage( ), e );
+				}
+			}
+		
+	}
 }

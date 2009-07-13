@@ -539,7 +539,6 @@ public class LineArea extends InlineStackingArea
 		}
 	}
 
-
 	public LineArea cloneArea( )
 	{
 		return new LineArea( this );

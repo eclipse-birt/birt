@@ -13,14 +13,8 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
-import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
-import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
-import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 /**

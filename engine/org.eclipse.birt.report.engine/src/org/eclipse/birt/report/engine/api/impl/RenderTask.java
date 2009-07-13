@@ -59,6 +59,7 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TOCView;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -492,6 +493,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 			layoutEngine.setLocale( executionContext.getLocale( ) );
 			LayoutPageHandler layoutPageHandler = new LayoutPageHandler(
 					( (HTMLReportLayoutEngine) layoutEngine ).getContext( ) );
+			
+			ReportDesignHandle design = executionContext.getDesign( );
+			if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+					.equals( design.getLayoutPreference( ) ) )
+			{
+				( (HTMLReportLayoutEngine) layoutEngine ).getContext( ).setFixedLayout( true );
+			}
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
 				LayoutEngine pdfEmitter = new LayoutEngine(

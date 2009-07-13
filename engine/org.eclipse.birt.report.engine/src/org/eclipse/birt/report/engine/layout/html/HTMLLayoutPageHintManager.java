@@ -51,6 +51,7 @@ public class HTMLLayoutPageHintManager
 	public void reset( )
 	{
 		layoutHint = new HashMap( );
+		sizeBasedContentMapping = new HashMap<String, SizeBasedContent>( );
 		context.setFinish( false );
 		context.setAllowPageBreak( true );
 		context.setMasterPage( null );

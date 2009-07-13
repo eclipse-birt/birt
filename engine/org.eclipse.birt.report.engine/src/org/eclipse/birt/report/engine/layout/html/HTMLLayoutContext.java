@@ -49,7 +49,9 @@ public class HTMLLayoutContext
 	 * emitter.
 	 */
 	protected boolean outputDisplayNone = false;
-
+	
+	protected boolean isFixedLayout = false;
+	
 	public PageBufferFactory getBufferFactory( )
 	{
 		return bufferFactory;
@@ -186,6 +188,16 @@ public class HTMLLayoutContext
 	public void setPageCount( long pageCount )
 	{
 		this.pageCount = pageCount;
+	}
+	
+	public boolean isFixedLayout( )
+	{
+		return isFixedLayout;
+	}
+
+	public void setFixedLayout( boolean isFixedLayout )
+	{
+		this.isFixedLayout = isFixedLayout;
 	}
 	
 }

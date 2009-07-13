@@ -39,7 +39,7 @@ public class InlineContainerArea extends InlineStackingArea
 		isInInlineStacking = parent.isInInlineStacking;
 	}
 
-	InlineContainerArea( InlineContainerArea area )
+	public InlineContainerArea( InlineContainerArea area )
 	{
 		super( area );
 	}
@@ -76,7 +76,7 @@ public class InlineContainerArea extends InlineStackingArea
 		}
 		else
 		{
-			InlineContainerArea area = new InlineContainerArea( this );
+			InlineContainerArea area = cloneArea( );
 			area.context = context;
 			area.children = children;
 			area.setParent( parent );

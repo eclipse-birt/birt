@@ -11,7 +11,9 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +46,7 @@ public class TextAreaLayout implements ILayout
 	
 	private static HashSet splitChar = new HashSet();
 	
-	private FixedLayoutInlineTextListener listener = null;
+	private ArrayList<ITextListener> listenerList = null;
 	
 	static 
 	{
@@ -92,9 +94,13 @@ public class TextAreaLayout implements ILayout
 		} while ( true );
 	}
 	
-	public void addListener( FixedLayoutInlineTextListener listener )
+	public void addListener( ITextListener listener )
 	{
-		this.listener = listener;
+		if ( listenerList == null )
+		{
+			listenerList = new ArrayList<ITextListener>( );
+		}
+		listenerList.add( listener );
 	}
 	
 	public static TextStyle buildTextStyle( IContent content, FontInfo fontInfo )
@@ -177,6 +183,15 @@ public class TextAreaLayout implements ILayout
 				}
 			}
 		}
+		if ( listenerList != null )
+		{
+			for ( Iterator<ITextListener> i = listenerList.iterator( ); i
+					.hasNext( ); )
+			{
+				ITextListener listener = i.next( );
+				listener.onTextEndEvent( );
+			}
+		}
 	}
 	
 	protected boolean checkAvailableSpace( )
@@ -189,10 +204,15 @@ public class TextAreaLayout implements ILayout
 		parentLM.add( textArea );
 		textArea.setParent( parentLM );
 		parentLM.update( textArea );
-		if ( parentLM instanceof InlineTextArea )
+
+		if ( listenerList != null )
 		{
-			if( listener != null )
-				listener.onAddEvent( (InlineTextArea)parentLM );
+			for ( Iterator<ITextListener> i = listenerList.iterator( ); i
+					.hasNext( ); )
+			{
+				ITextListener listener = i.next( );
+				listener.onAddEvent( (TextArea) textArea );
+			}
 		}
 	}
 	
@@ -201,12 +221,16 @@ public class TextAreaLayout implements ILayout
 	 */
 	public void newLine( boolean endParagraph ) throws BirtException
 	{
-		parentLM.endLine( endParagraph );
-		if ( parentLM instanceof InlineTextArea )
+		if ( listenerList != null )
 		{
-			if( listener != null )
+			for ( Iterator<ITextListener> i = listenerList.iterator( ); i
+					.hasNext( ); )
+			{
+				ITextListener listener = i.next( );
 				listener.onNewLineEvent( );
+			}
 		}
+		parentLM.endLine( endParagraph );
 	}
 
 	public int getFreeSpace( )

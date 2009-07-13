@@ -12,30 +12,44 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 
 public class InlineTextArea extends InlineContainerArea implements ILayout
-{
-	int splitOffset= 0;
-	//protected int fixedDimension = 0;
+{	
+	private InlineTextRenderListener listener = null;
 	
 	public InlineTextArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
 		super( parent, context, content );
-//		InstanceID id = content.getInstanceID( );
-//		if ( id != null )
-//		{
-//			SizeBasedContent hint = (SizeBasedContent) context
-//					.getSizeBasedContentMapping( ).get( id.toUniqueString( ) );
-//			if ( hint != null )
-//			{
-//				currentIP += hint.floatPos - hint.offsetInContent;
-//				//fixedDimension = hint.dimension;
-//			}
-//		}
+		if ( context.isInHtmlRender( ) )
+		{
+			InstanceID id = content.getInstanceID( );
+
+			if ( id != null )
+			{
+				SizeBasedContent hint = (SizeBasedContent) context
+						.getHtmlLayoutContext( ).getPageHintManager( )
+						.getSizeBasedContentMapping( )
+						.get( id.toUniqueString( ) );
+				if ( hint != null )
+				{
+					this.setX( hint.floatPos );
+					listener = new InlineTextRenderListener( this,
+							hint.offsetInContent, hint.dimension );
+				}
+			}
+		}
+	}
+	
+	public InlineTextArea( InlineTextArea area )
+	{
+		super( area );
 	}
 
 	public void layout( ) throws BirtException
@@ -43,25 +57,132 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 		initialize( );
 		TextAreaLayout inlineText = new TextAreaLayout( this, context, content );
 		inlineText.initialize( );
-		if ( context.isFixedLayout( ) )
+		if ( context.isInHtmlRender( ) )
 		{
-			inlineText.addListener( new FixedLayoutInlineTextListener() );
+			inlineText.addListener( listener );
 		}
 		inlineText.layout( );
 		inlineText.close( );
+		updateTextContent( );
 		close( );
 	}
 	
+	public InlineTextArea cloneArea( )
+	{
+		InlineTextArea newArea = new InlineTextArea( this );
+		addLineToExtension( newArea );
+		return newArea;
+	}
+	
+	private void addLineToExtension( InlineTextArea area )
+	{
+		InlineTextExtension ext = getContentExtension( );
+		if( ext != null )
+		{
+			ext.addLine( area );
+		}
+	}
+	
+	private void replaceLine( InlineTextArea oldArea, InlineTextArea newArea )
+	{
+		InlineTextExtension ext = getContentExtension( );
+		if( ext != null )
+		{
+			ext.replaceLine( oldArea, newArea );
+		}
+	}
+	
+	private void addLineBreakToExtension( )
+	{
+		InlineTextExtension ext = getContentExtension( );
+		if( ext != null )
+		{
+			ext.addLineBreak( );
+		}
+	}
+	
+	private void addLineBreakToExtension( InlineTextArea area )
+	{
+		InlineTextExtension ext = getContentExtension( );
+		if( ext != null )
+		{
+			ext.addLineBreak( area );
+		}
+	}
+	
+	private InlineTextExtension getContentExtension( )
+	{
+		if ( context.isFixedLayout( )
+				&& context.getEngineTaskType( ) == IEngineTask.TASK_RUN )
+		{
+			InlineTextExtension ext = (InlineTextExtension) content
+					.getExtension( IContent.LAYOUT_EXTENSION );
+			if ( ext == null )
+			{
+				ext = new InlineTextExtension( );
+				content.setExtension( IContent.LAYOUT_EXTENSION, ext );
+			}
+			return ext;
+		}
+		return null;
+	}
+	
+	
+	private void updateTextContent( )
+	{
+		if( context.isInHtmlRender( ))
+		{
+			((ITextContent)content).setText( listener.getSplitText( ) );
+		}
+	}
+	
+	protected void close( boolean isLastLine ) throws BirtException
+	{
+		if ( isLastLine )
+		{
+			addLineToExtension(this);
+			addLineBreakToExtension( this );
+		}
+		super.close( isLastLine );
+		
+	}
+
+	protected boolean checkPageBreak( ) throws BirtException
+	{
+		boolean ret = false;
+		if ( !isInInlineStacking && context.isAutoPageBreak( ) )
+		{
+			int aHeight = getAllocatedHeight( );
+			while ( aHeight + parent.getAbsoluteBP( ) > context.getMaxBP( ) )
+			{
+				addLineBreakToExtension( );
+				parent.autoPageBreak( );
+				aHeight = getAllocatedHeight( );
+				ret = true;
+			}
+		}
+		return ret;
+	}
+
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
 		if ( force )
 		{
-			ContainerArea newArea= cloneArea();
+			// current line will be the last line in current page.
+			InlineTextArea newArea = cloneArea( );
 			newArea.children.addAll( children );
 			children.clear( );
 			this.height = 0;
-			return new SplitResult( newArea, SplitResult.SPLIT_SUCCEED_WITH_PART );
+			replaceLine( this, newArea );
+			addLineBreakToExtension( newArea );
+			return new SplitResult( newArea,
+					SplitResult.SPLIT_SUCCEED_WITH_PART );
 		}
-		return SplitResult.SUCCEED_WITH_NULL;
+		else
+		{
+			addLineBreakToExtension( );
+			// current line will go next page.
+			return SplitResult.SUCCEED_WITH_NULL;
+		}
 	}
 }

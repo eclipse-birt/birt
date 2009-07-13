@@ -229,6 +229,7 @@ public class ReportDocumentBuilder
 		{
 			HTMLLayoutContext htmlContext = ( (HTMLReportLayoutEngine) engine )
 					.getContext( );
+			htmlContext.setFixedLayout( true );
 			LayoutEngine pdfEmitter = new LayoutEngine( executor, htmlContext,
 					null/* emitter */, null/* renderOptions */,
 					executionContext.getLocale( ), 0/* totalpage */);

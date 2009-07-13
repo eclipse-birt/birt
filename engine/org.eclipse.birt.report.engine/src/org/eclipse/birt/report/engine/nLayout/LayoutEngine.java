@@ -17,8 +17,10 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IBandContent;
@@ -98,9 +100,20 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		//FIXME
 		setupLayoutOptions( renderOptions );
 		String format = null;
-		if ( renderOptions != null )
+		int taskType = IEngineTask.TASK_UNKNOWN;
+		
+		if ( renderOptions == null )
+		{
+			taskType = IEngineTask.TASK_RUN;
+		}
+		else
 		{
 			format = renderOptions.getOutputFormat( );
+			Integer engineTaskType = (Integer)renderOptions.getOption( EngineTask.TASK_TYPE );
+			if( engineTaskType != null )
+			{
+				taskType= engineTaskType.intValue( );
+			}
 		}
 		if ( format == null )
 		{
@@ -108,8 +121,8 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		}
 		context.setFormat( format );
 		context.setLocale( locale );
+		context.setEngineTaskType( taskType );
 		context.totalPage = totalPage;
-		
 	}
 	
 	public LayoutEngine( IReportExecutor executor,
