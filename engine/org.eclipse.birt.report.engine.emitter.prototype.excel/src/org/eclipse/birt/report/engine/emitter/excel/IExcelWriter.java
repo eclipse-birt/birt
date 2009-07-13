@@ -56,4 +56,6 @@ public interface IExcelWriter
 	public void outputData( SheetData data ) throws IOException;
 
 	void outputData( int col, int row, int type, Object value );
+
+	String defineName( String cells );
 }

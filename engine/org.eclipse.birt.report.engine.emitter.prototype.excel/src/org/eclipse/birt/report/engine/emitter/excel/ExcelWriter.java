@@ -169,4 +169,8 @@ public class ExcelWriter implements IExcelWriter
 		writer.outputData( col, row, type, value );
 	}
 
+	public String defineName( String cells )
+	{
+		return writer.defineName( cells );
+	}
 }

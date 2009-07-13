@@ -889,4 +889,9 @@ public class ExcelXmlWriter implements IExcelWriter
 	{
 		startRow( -1 );
 	}
+
+	public String defineName( String cells )
+	{
+		return null;
+	}
 }
