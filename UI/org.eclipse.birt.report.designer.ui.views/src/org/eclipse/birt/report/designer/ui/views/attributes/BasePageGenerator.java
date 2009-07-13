@@ -40,7 +40,8 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 {
 
 	/**
-	 * Creats default content for each tab.
+	 * Creats the page content for each tab. Note this doesn't include the
+	 * default cateogry-styled tab, which is handled separately.
 	 * 
 	 * @param tabKey
 	 */
@@ -75,7 +76,7 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 			{
 				filterProvider = new FilterHandleProvider( );
 			}
-			
+
 			page = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
 					filterProvider,
 					true,
@@ -97,6 +98,11 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 		return page;
 	}
 
+	/**
+	 * Builds and initialize the content for each tab.
+	 * 
+	 * @param item
+	 */
 	protected void buildItemContent( CTabItem item )
 	{
 		if ( itemMap.containsKey( item ) && itemMap.get( item ) == null )
@@ -120,6 +126,13 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.views.attributes.CategoryPageGenerator
+	 * #createTabItems(java.util.List)
+	 */
 	public void createTabItems( List input )
 	{
 		super.createTabItems( input );
@@ -142,7 +155,7 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 	}
 
 	/**
-	 * overwrite to add additional tabs.
+	 * The subclass should overwrite this to add additional tabs.
 	 */
 	abstract protected void createTabItems( );
 }

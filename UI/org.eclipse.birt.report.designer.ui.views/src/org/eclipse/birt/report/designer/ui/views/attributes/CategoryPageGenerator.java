@@ -25,7 +25,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * CategoryPageGenerator provides default implementation of ICategoryProvider.
+ * CategoryPageGenerator provides default implementation that using
+ * <code>ICategoryProvider</code> to populate the content of default tab page.
  */
 public class CategoryPageGenerator extends TabPageGenerator
 {
@@ -45,6 +46,8 @@ public class CategoryPageGenerator extends TabPageGenerator
 
 	private ICategoryProviderFactory factory = null;
 
+	private ICategoryProvider customProvider;
+
 	public CategoryPageGenerator( )
 	{
 		if ( factory == null )
@@ -58,6 +61,13 @@ public class CategoryPageGenerator extends TabPageGenerator
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.views.attributes.TabPageGenerator
+	 * #refresh()
+	 */
 	public void refresh( )
 	{
 		// remove this?
@@ -93,13 +103,23 @@ public class CategoryPageGenerator extends TabPageGenerator
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.views.attributes.TabPageGenerator
+	 * #createControl(org.eclipse.swt.widgets.Composite, java.lang.Object)
+	 */
 	public void createControl( Composite parent, Object input )
 	{
 		super.createControl( parent, input );
 	}
 
-	private ICategoryProvider customProvider;
-
+	/**
+	 * Overrides the default category provider for the basic category-styled
+	 * page. Note this is only effective when called before the
+	 * <code>createTabItems(List)</code> method is called.
+	 */
 	public void setCategoryProvider( ICategoryProvider provider )
 	{
 		this.customProvider = provider;

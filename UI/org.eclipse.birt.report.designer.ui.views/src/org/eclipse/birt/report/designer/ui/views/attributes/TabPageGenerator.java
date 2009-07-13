@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * DefaultPageGenerator removes all <code>TabPage</code> from
+ * The default PageGenerator implementation, only creates an empty
  * <code>TabFolder</code>.
  */
 public class TabPageGenerator implements IPageGenerator
@@ -37,8 +37,14 @@ public class TabPageGenerator implements IPageGenerator
 
 	protected String selectedTabText;
 
+	protected List input;
+
+	protected CTabFolder tabFolder;
+
+	protected FolderSelectionAdapter listener;
+
 	/**
-	 * Creates attribute pages
+	 * Creates the tab items for the page
 	 * 
 	 * @param tabFolder
 	 *            The attribute tabFolder.
@@ -81,9 +87,13 @@ public class TabPageGenerator implements IPageGenerator
 		SafeRunner.run( runnable );
 	}
 
-	protected List input;
-	protected CTabFolder tabFolder;
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.views.IPageGenerator#createControl
+	 * (org.eclipse.swt.widgets.Composite, java.lang.Object)
+	 */
 	public void createControl( Composite parent, Object input )
 	{
 		this.input = (List) input;
@@ -96,6 +106,12 @@ public class TabPageGenerator implements IPageGenerator
 		showPropertiesPage( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.views.IPageGenerator#getControl()
+	 */
 	public Control getControl( )
 	{
 		return tabFolder;
@@ -144,8 +160,6 @@ public class TabPageGenerator implements IPageGenerator
 		}
 	}
 
-	protected FolderSelectionAdapter listener;
-
 	protected void addSelectionListener( TabPageGenerator generator )
 	{
 		if ( listener == null )
@@ -160,6 +174,49 @@ public class TabPageGenerator implements IPageGenerator
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.views.IPageGenerator#getInput()
+	 */
+	public Object getInput( )
+	{
+		return input;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.views.IPageGenerator#refresh()
+	 */
+	public void refresh( )
+	{
+		// doing nothing
+	}
+
+	/**
+	 * Returns the text of current selected tab.
+	 * 
+	 * @return
+	 */
+	public String getSelectedTabText( )
+	{
+		return selectedTabText;
+	}
+
+	/**
+	 * Sets the text of current selected tab.
+	 * 
+	 * @param selectedTabText
+	 */
+	public void setSelectedTabText( String selectedTabText )
+	{
+		this.selectedTabText = selectedTabText;
+	}
+
+	/**
+	 * FolderSelectionAdapter
+	 */
 	class FolderSelectionAdapter extends SelectionAdapter
 	{
 
@@ -184,23 +241,4 @@ public class TabPageGenerator implements IPageGenerator
 		}
 	}
 
-	public Object getInput( )
-	{
-		return input;
-	}
-
-	public void refresh( )
-	{
-		// doing nothing
-	}
-
-	public String getSelectedTabText( )
-	{
-		return selectedTabText;
-	}
-
-	public void setSelectedTabText( String selectedTabText )
-	{
-		this.selectedTabText = selectedTabText;
-	}
 }

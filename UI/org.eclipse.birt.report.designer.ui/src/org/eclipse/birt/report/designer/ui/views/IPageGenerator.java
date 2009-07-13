@@ -21,11 +21,30 @@ import org.eclipse.swt.widgets.Control;
 public interface IPageGenerator
 {
 
+	/**
+	 * Creates the content of the page control.
+	 * 
+	 * @param parent
+	 * @param input
+	 */
 	void createControl( Composite parent, Object input );
 
+	/**
+	 * Returns the page control.
+	 * 
+	 * @return
+	 */
 	Control getControl( );
 
+	/**
+	 * Returns the input.
+	 * 
+	 * @return
+	 */
 	Object getInput( );
 
+	/**
+	 * Refresh the page content based on current input
+	 */
 	void refresh( );
 }

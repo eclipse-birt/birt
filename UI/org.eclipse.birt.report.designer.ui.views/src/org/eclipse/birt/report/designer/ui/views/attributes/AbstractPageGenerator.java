@@ -7,11 +7,20 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
+/**
+ * The abstract page generator implemention providing some helper methods.
+ */
 public class AbstractPageGenerator extends CategoryPageGenerator
 {
 
 	protected HashMap<CTabItem, Object> itemMap = new HashMap<CTabItem, Object>( );
 
+	/**
+	 * Creates a new tab and place it as last.
+	 * 
+	 * @param index
+	 * @param itemKey
+	 */
 	protected void createTabItem( int index, String itemKey )
 	{
 		if ( tabFolder.getItemCount( ) <= index )
@@ -22,47 +31,70 @@ public class AbstractPageGenerator extends CategoryPageGenerator
 		}
 	}
 
-	protected void createTabItem( String itemKey, String getItemIndex )
+	/**
+	 * Creates a new tab after the given preceding tab.
+	 * 
+	 * @param itemKey
+	 * @param precedingItemKey
+	 */
+	protected void createTabItem( String itemKey, String precedingItemKey )
 	{
 		if ( existTabItem( itemKey ) )
 			return;
 		CTabItem tabItem = new CTabItem( tabFolder,
 				SWT.NONE,
-				getItemIndex( getItemIndex ) + 1 );
+				getItemIndex( precedingItemKey ) + 1 );
 		tabItem.setText( itemKey );
 		itemMap.put( tabItem, null );
 	}
 
-	public int getItemIndex( String title )
+	/**
+	 * Returns the index of the tab with given key.
+	 * 
+	 * @param title
+	 * @return 0-based index. -1 means no tab found.
+	 */
+	public int getItemIndex( String itemKey )
 	{
-		if ( title == null )
+		if ( itemKey == null )
 			return -1;
 		CTabItem[] items = tabFolder.getItems( );
 		for ( int i = 0; i < items.length; i++ )
 		{
-			if ( items[i].getText( ).equals( title ) )
+			if ( items[i].getText( ).equals( itemKey ) )
 				return i;
 		}
 		return -1;
 	}
 
-	public boolean existTabItem( String title )
+	/**
+	 * Checks if a tab with given key exists.
+	 * 
+	 * @param itemKey
+	 * @return
+	 */
+	public boolean existTabItem( String itemKey )
 	{
 		CTabItem[] items = tabFolder.getItems( );
 		for ( int i = 0; i < items.length; i++ )
 		{
-			if ( items[i].getText( ).equals( title ) )
+			if ( items[i].getText( ).equals( itemKey ) )
 				return true;
 		}
 		return false;
 	}
 
-	public void removeTabItem( String title )
+	/**
+	 * Removes the tab with given key.
+	 * 
+	 * @param itemKey
+	 */
+	public void removeTabItem( String itemKey )
 	{
 		CTabItem[] items = tabFolder.getItems( );
 		for ( int i = 0; i < items.length; i++ )
 		{
-			if ( items[i].getText( ).equals( title ) )
+			if ( items[i].getText( ).equals( itemKey ) )
 			{
 				itemMap.remove( items[i] );
 				items[i].dispose( );
