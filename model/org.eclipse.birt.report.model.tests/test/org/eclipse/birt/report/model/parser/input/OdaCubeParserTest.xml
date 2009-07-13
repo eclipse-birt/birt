@@ -64,39 +64,9 @@
 											<property name="nativeName">native var2</property>
 											<property name="nativeDataType">2</property>												
         								</structure>
-    								</list-property>
-		    						<property name="valueAccessControls">
-										<value-access-control>
-											<simple-property-list name="userNames">
-												<value>level user1</value>
-												<value>level user2</value>
-											</simple-property-list>
-											<simple-property-list name="roles">
-												<value>level role1</value>
-												<value>level role2</value>
-											</simple-property-list>
-											<property name="permission">disallow</property>
-											<simple-property-list name="values">
-												<value>level value1</value>
-												<value>level value2</value>
-											</simple-property-list>
-										</value-access-control>
-									</property>     								
+    								</list-property>   								
     							</oda-level>
-    						</property>
-    						<property name="accessControls">
-								<access-control>
-									<simple-property-list name="userNames">
-										<value>hierarchy user1</value>
-										<value>hierarchy user2</value>
-									</simple-property-list>
-									<simple-property-list name="roles">
-										<value>hierarchy role1</value>
-										<value>hierarchy role2</value>
-									</simple-property-list>
-									<property name="permission">allow</property>
-								</access-control>
-							</property>    	
+    						</property>   	
     					</oda-hierarchy>
     				</property>
     			</oda-dimension>
@@ -112,19 +82,6 @@
     				</property>
     			</oda-measure-group>
     		</property>
-			<property name="accessControls">
-				<access-control>
-					<simple-property-list name="userNames">
-						<value>cube user1</value>
-						<value>cube user2</value>
-					</simple-property-list>
-					<simple-property-list name="roles">
-						<value>cube role1</value>
-						<value>cube role2</value>
-					</simple-property-list>
-					<property name="permission">disallow</property>
-				</access-control>
-			</property>    		
     	</oda-cube>
     </cubes>
 </report>

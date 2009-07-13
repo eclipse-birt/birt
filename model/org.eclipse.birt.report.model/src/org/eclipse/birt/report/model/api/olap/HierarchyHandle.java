@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -127,7 +128,6 @@ public abstract class HierarchyHandle extends ReportElementHandle
 
 	public Iterator accessControlsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ACCESS_CONTROLS_PROP );
-		return propHandle.getContents( ).iterator( );
+		return Collections.emptyList( ).iterator( );
 	}
 }

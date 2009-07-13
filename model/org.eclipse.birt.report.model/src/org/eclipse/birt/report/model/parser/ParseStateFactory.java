@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.AnyElementState;
 
 /**
  * Factory class to create a parse state.
@@ -186,12 +187,6 @@ public class ParseStateFactory
 		if ( ReportDesignConstants.ODA_MEASURE_ELEMENT
 				.equalsIgnoreCase( elementName ) )
 			return new OdaMeasureState( handler, container, propName );
-		if ( ReportDesignConstants.ACCESS_CONTROL
-				.equalsIgnoreCase( elementName ) )
-			return new AccessControlState( handler, container, propName );
-		if ( ReportDesignConstants.VALUE_ACCESS_CONTROL
-				.equalsIgnoreCase( elementName ) )
-			return new ValueAccessControlState( handler, container, propName );
 		if ( ReportDesignConstants.MEMBER_VALUE_ELEMENT
 				.equalsIgnoreCase( elementName ) )
 			return new MemberValueState( handler, container, propName );

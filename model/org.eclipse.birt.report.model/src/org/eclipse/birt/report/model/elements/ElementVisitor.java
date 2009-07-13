@@ -719,30 +719,6 @@ public class ElementVisitor
 	}
 
 	/**
-	 * Visits the access control element.
-	 * 
-	 * @param obj
-	 *            the access control element
-	 */
-
-	public void visitAccessControl( AccessControl obj )
-	{
-		visitContentElement( obj );
-	}
-
-	/**
-	 * Visits the value access control element.
-	 * 
-	 * @param obj
-	 *            the value access control element
-	 */
-
-	public void visitValueAccessControl( ValueAccessControl obj )
-	{
-		visitContentElement( obj );
-	}
-
-	/**
 	 * Visits the cube element.
 	 * 
 	 * @param obj

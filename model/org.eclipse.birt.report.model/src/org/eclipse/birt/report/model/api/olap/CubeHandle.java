@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -132,8 +133,7 @@ public abstract class CubeHandle extends ReportElementHandle
 
 	public Iterator accessControlsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ACCESS_CONTROLS_PROP );
-		return propHandle.getContents( ).iterator( );
+		return Collections.emptyList( ).iterator( );
 	}
 
 	/**

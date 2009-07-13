@@ -499,7 +499,7 @@ public class PropertyHandleTest extends BaseTestCase
 		CubeHandle cube = elemFactory.newTabularCube( "cube1" ); //$NON-NLS-1$
 		propHandle = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP );
 		assertFalse( propHandle.isVisible( ) );
-		propHandle = cube.getPropertyHandle( ICubeModel.ACCESS_CONTROLS_PROP );
+		propHandle = cube.getPropertyHandle( ICubeModel.FILTER_PROP );
 		assertFalse( propHandle.isVisible( ) );
 
 		// tests visibility of row which locates in the header and footer of the

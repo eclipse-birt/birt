@@ -67,8 +67,6 @@ public class AccessControlHandle extends ContentElementHandle
 	
 	public void addRole( String role ) throws SemanticException
 	{
-		PropertyHandle propHandle = getPropertyHandle( ROLES_PROP );
-		propHandle.addItem( role );
 	}
 
 	/**
@@ -82,8 +80,6 @@ public class AccessControlHandle extends ContentElementHandle
 
 	public void addUserName( String userName ) throws SemanticException
 	{
-		PropertyHandle propHandle = getPropertyHandle( USER_NAMES_PROP );
-		propHandle.addItem( userName );
 	}
 
 	/**
@@ -100,7 +96,7 @@ public class AccessControlHandle extends ContentElementHandle
 
 	public String getPermission( )
 	{
-		return getStringProperty( PERMISSION_PROP );
+		return null;
 	}
 
 	/**
@@ -114,8 +110,6 @@ public class AccessControlHandle extends ContentElementHandle
 	
 	public void removeRole( String role ) throws SemanticException
 	{
-		PropertyHandle propHandle = getPropertyHandle( ROLES_PROP );
-		propHandle.removeItem( role );
 	}
 
 	/**
@@ -129,9 +123,6 @@ public class AccessControlHandle extends ContentElementHandle
 	
 	public void removeUserName( String userName ) throws SemanticException
 	{
-		PropertyHandle propHandle = getPropertyHandle( USER_NAMES_PROP );
-		propHandle.removeItem( userName );
-
 	}
 
 	/**
@@ -149,7 +140,5 @@ public class AccessControlHandle extends ContentElementHandle
 	 */
 	public void setPermission( String permission ) throws SemanticException
 	{
-		PropertyHandle propHandle = getPropertyHandle( PERMISSION_PROP );
-		propHandle.setStringValue( permission );
 	}
 }

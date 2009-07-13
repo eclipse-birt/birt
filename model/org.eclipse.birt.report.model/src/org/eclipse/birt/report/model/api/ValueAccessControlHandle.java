@@ -83,7 +83,5 @@ public class ValueAccessControlHandle extends AccessControlHandle
 
 	public void removeValue( String value ) throws SemanticException
 	{
-		PropertyHandle propHandle = getPropertyHandle( VALUES_PROP );
-		propHandle.removeItem( value );
 	}
 }

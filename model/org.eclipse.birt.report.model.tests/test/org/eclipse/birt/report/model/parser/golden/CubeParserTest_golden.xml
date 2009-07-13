@@ -73,54 +73,12 @@
                                             <property name="dataType">date-time</property>
                                         </structure>
                                     </list-property>
-                                    <property name="valueAccessControls">
-                                        <value-access-control>
-                                            <simple-property-list name="userNames">
-                                                <value>level user1</value>
-                                                <value>level user2</value>
-                                                <value>new level user1</value>
-                                                <value>new level user2</value>
-                                            </simple-property-list>
-                                            <simple-property-list name="roles">
-                                                <value>level role1</value>
-                                                <value>level role2</value>
-                                                <value>new level role1</value>
-                                                <value>new level role2</value>
-                                            </simple-property-list>
-                                            <simple-property-list name="values">
-                                                <value>level value1</value>
-                                                <value>level value2</value>
-                                                <value>new level value1</value>
-                                                <value>new level value2</value>
-                                            </simple-property-list>
-                                            <property name="permission">allow</property>
-                                        </value-access-control>
-                                        <value-access-control/>
-                                    </property>
                                     <property name="columnName">updated column1</property>
                                     <expression name="displayColumnName">displayColumnName</expression>
                                 </tabular-level>
                                 <tabular-level name="NewTabularLevel" id="16"/>
                             </property>
-                            <property name="accessControls">
-                                <access-control>
-                                    <simple-property-list name="userNames">
-                                        <value>hierarchy user1</value>
-                                        <value>hierarchy user2</value>
-                                        <value>new hierarchy user1</value>
-                                        <value>new hierarchy user2</value>
-                                    </simple-property-list>
-                                    <simple-property-list name="roles">
-                                        <value>hierarchy role1</value>
-                                        <value>hierarchy role2</value>
-                                        <value>new hierarchy role1</value>
-                                        <value>new hierarchy role2</value>
-                                    </simple-property-list>
-                                    <property name="permission">disallow</property>
-                                </access-control>
-                                <access-control/>
-                            </property>
-                            <property name="dataSet">firstDataSet</property>
+ 				            <property name="dataSet">firstDataSet</property>
                             <simple-property-list name="primaryKeys">
                                 <value>key</value>
                                 <value>key4</value>
@@ -150,24 +108,6 @@
                     </property>
                 </tabular-measure-group>
                 <tabular-measure-group name="Summary Field" id="17"/>
-            </property>
-            <property name="accessControls">
-                <access-control>
-                    <simple-property-list name="userNames">
-                        <value>cube user1</value>
-                        <value>cube user2</value>
-                        <value>new cube user1</value>
-                        <value>new cube user2</value>
-                    </simple-property-list>
-                    <simple-property-list name="roles">
-                        <value>cube role1</value>
-                        <value>cube role2</value>
-                        <value>new cube role1</value>
-                        <value>new cube role2</value>
-                    </simple-property-list>
-                    <property name="permission">allow</property>
-                </access-control>
-                <access-control/>
             </property>
             <property name="dataSet">secondDataSet</property>
             <list-property name="dimensionConditions">

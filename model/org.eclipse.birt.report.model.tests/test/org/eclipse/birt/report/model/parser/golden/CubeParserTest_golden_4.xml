@@ -40,19 +40,6 @@
                                     <expression name="value2">value2 expression</expression>
                                 </structure>
                             </list-property>
-                            <property name="accessControls">
-                                <access-control>
-                                    <simple-property-list name="userNames">
-                                        <value>hierarchy user1</value>
-                                        <value>hierarchy user2</value>
-                                    </simple-property-list>
-                                    <simple-property-list name="roles">
-                                        <value>hierarchy role1</value>
-                                        <value>hierarchy role2</value>
-                                    </simple-property-list>
-                                    <property name="permission">allow</property>
-                                </access-control>
-                            </property>
                             <property name="dataSet">secondDataSet</property>
                             <simple-property-list name="primaryKeys">
                                 <value>key</value>
@@ -74,19 +61,6 @@
                         </tabular-measure>
                     </property>
                 </tabular-measure-group>
-            </property>
-            <property name="accessControls">
-                <access-control>
-                    <simple-property-list name="userNames">
-                        <value>cube user1</value>
-                        <value>cube user2</value>
-                    </simple-property-list>
-                    <simple-property-list name="roles">
-                        <value>cube role1</value>
-                        <value>cube role2</value>
-                    </simple-property-list>
-                    <property name="permission">disallow</property>
-                </access-control>
             </property>
             <property name="dataSet">firstDataSet</property>
             <list-property name="dimensionConditions">

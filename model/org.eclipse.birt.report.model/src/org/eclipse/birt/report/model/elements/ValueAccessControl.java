@@ -24,6 +24,8 @@ import org.eclipse.birt.report.model.core.Module;
  * <ul>
  * <li>An autotext choice type counts the page number or total page number
  * </ul>
+ * 
+ * @deprecated since BIRT 2.5.1
  */
 
 public class ValueAccessControl extends AccessControl
@@ -58,7 +60,6 @@ public class ValueAccessControl extends AccessControl
 
 	public void apply( ElementVisitor visitor )
 	{
-		visitor.visitValueAccessControl( this );
 	}
 
 	/*

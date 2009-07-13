@@ -25,6 +25,8 @@ import org.eclipse.birt.report.model.core.Module;
  * <li>a list containing roles.
  * <li>permission: either "allow" or "disallow"
  * </ul>
+ * 
+ * @deprecated since BIRT 2.5.1
  */
 
 public class AccessControl extends ContentElement
@@ -59,7 +61,6 @@ public class AccessControl extends ContentElement
 
 	public void apply( ElementVisitor visitor )
 	{
-		visitor.visitAccessControl( this );
 	}
 
 	/*

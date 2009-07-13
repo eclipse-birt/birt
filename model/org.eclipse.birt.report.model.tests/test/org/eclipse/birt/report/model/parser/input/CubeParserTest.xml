@@ -111,38 +111,8 @@
             								<property name="dataType">integer</property>
         								</structure>
     								</list-property>
-		    						<property name="valueAccessControls">
-										<value-access-control>
-											<simple-property-list name="userNames">
-												<value>level user1</value>
-												<value>level user2</value>
-											</simple-property-list>
-											<simple-property-list name="roles">
-												<value>level role1</value>
-												<value>level role2</value>
-											</simple-property-list>
-											<property name="permission">disallow</property>
-											<simple-property-list name="values">
-												<value>level value1</value>
-												<value>level value2</value>
-											</simple-property-list>
-										</value-access-control>
-									</property>     								
     							</tabular-level>
     						</property>
-    						<property name="accessControls">
-								<access-control>
-									<simple-property-list name="userNames">
-										<value>hierarchy user1</value>
-										<value>hierarchy user2</value>
-									</simple-property-list>
-									<simple-property-list name="roles">
-										<value>hierarchy role1</value>
-										<value>hierarchy role2</value>
-									</simple-property-list>
-									<property name="permission">allow</property>
-								</access-control>
-							</property>    	
     					</tabular-hierarchy>
     				</property>
     			</tabular-dimension>
@@ -158,20 +128,7 @@
     					</tabular-measure>
     				</property>
     			</tabular-measure-group>
-    		</property>
-			<property name="accessControls">
-				<access-control>
-					<simple-property-list name="userNames">
-						<value>cube user1</value>
-						<value>cube user2</value>
-					</simple-property-list>
-					<simple-property-list name="roles">
-						<value>cube role1</value>
-						<value>cube role2</value>
-					</simple-property-list>
-					<property name="permission">disallow</property>
-				</access-control>
-			</property>    		
+    		</property>    		
     	</tabular-cube>
     </cubes>
 </report>

@@ -3438,9 +3438,6 @@
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Cube" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Cube" name="Cube" nameSpace="cube" since="2.2" xmlName="cube">
   	<Property detailType="MeasureGroup" displayNameID="Element.Cube.defaultMeasureGroup" name="defaultMeasureGroup" runtimeSettable="false" since="2.2" type="elementRef"/>
   	<Property detailType="FilterCondition" displayNameID="Element.Cube.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
-  	<Property displayNameID="Element.Cube.accessControls" isList="true" name="accessControls" runtimeSettable="false" since="2.2" type="contentElement" >
-  	  <Type name="AccessControl"/>
-  	</Property>  	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularCube" extends="Cube" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularCube" name="TabularCube" since="2.2" xmlName="tabular-cube"> 
   	<Property detailType="DimensionCondition" displayNameID="Element.TabularCube.dimensionConditions" isList="true" name="dimensionConditions" runtimeSettable="false" since="2.2" type="structure" />	  
@@ -3463,14 +3460,6 @@
   	</Property>	  
     <Property displayNameID="Element.OdaCube.nativeName" name="nativeName" since="2.2" type="string"/>
   </Element>	
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.AccessControl" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.AccessControl" name="AccessControl" nameSpace="none" since="2.2" xmlName="access-control">
-    <Property displayNameID="Element.AccessControl.userNames" name="userNames" since="2.2" subType="string" type="list"/>
-    <Property displayNameID="Element.AccessControl.roles" name="roles" since="2.2" subType="string" type="list"/>    
-	<Property detailType="accessPermission" displayNameID="Element.AccessControl.permission" name="permission" since="2.2" type="choice"/>        
-  </Element>  
-  <Element allowsUserProperties="false" canExtend="false" extends="AccessControl" displayNameID="Element.ValueAccessControl" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ValueAccessControl" name="ValueAccessControl" nameSpace="none" since="2.2" xmlName="value-access-control">
-    <Property displayNameID="Element.ValueAccessControl.values" name="values" since="2.2" subType="string" type="list"/>
-  </Element>    
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Dimension" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Dimension" name="Dimension" nameSpace="cube" since="2.2" xmlName="dimension">
   	<Property displayNameID="Element.Dimension.isTimeType" name="isTimeType" runtimeSettable="false" since="2.2" type="boolean">
   	  <Default>false</Default>
@@ -3490,9 +3479,6 @@
   </Element>  	
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Hierarchy" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Hierarchy" name="Hierarchy" nameSpace="cube" since="2.2" xmlName="hierarchy">
   	<Property detailType="FilterCondition" displayNameID="Element.Hierarchy.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
-  	<Property displayNameID="Element.Hierarchy.accessControls" isList="true" name="accessControls" runtimeSettable="false" since="2.2" type="contentElement" >
-  	  <Type name="AccessControl"/>
-  	</Property>    	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularHierarchy" extends="Hierarchy" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularHierarchy" name="TabularHierarchy" since="2.2" xmlName="tabular-hierarchy">
   	<Property subType="string" displayNameID="Element.TabularHierarchy.primaryKeys" name="primaryKeys" runtimeSettable="false" since="2.2" type="list" />	  
@@ -3520,9 +3506,6 @@
     </PropertyGroup>
     <Property detailType="levelType" displayNameID="Element.Level.levelType" name="levelType" runtimeSettable="false" since="2.2" type="choice" />
   	<Property detailType="Rule" displayNameID="Element.Level.staticValues" isList="true" name="staticValues" runtimeSettable="false" since="2.2" type="structure"/>
-  	<Property displayNameID="Element.Level.valueAccessControls" isList="true" name="valueAccessControls" runtimeSettable="false" since="2.2" type="contentElement" >
-  	  <Type name="ValueAccessControl"/>
-  	</Property>
   	<Property displayNameID="Element.Level.defaultValue" name="defaultValue" since="2.3" type="expression" />	      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
