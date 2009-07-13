@@ -50,6 +50,7 @@ import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.util.Calendar;
@@ -1365,16 +1366,17 @@ public class DataProcessor
 	}
 
 	/**
-	 * Evaluate data for all expressions, include base series, optional Y series grouping and value series.
+	 * Evaluate data for all expressions, include base series, optional Y series
+	 * grouping and value series.
 	 * 
 	 * @param idre
 	 * @param columns
 	 * @param areValueSeries
-	 * @return
+	 * @return the evaluated results.
 	 * @since 2.3
 	 */
 	public List<Object[]> evaluateRowSet( IDataRowExpressionEvaluator idre,
-			final Object[] columns )
+			final Object[] columns ) throws ChartException
 	{
 		List<Object[]> liResultSet = new ArrayList<Object[]>( );
 		final int iColumnCount = columns.length;
@@ -1404,6 +1406,12 @@ public class DataProcessor
 					else if ( value instanceof Calendar )
 					{
 						value = new CDateTime( (Calendar) value );
+					}
+					else if ( value instanceof BirtException )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.DATA_BINDING,
+								(BirtException) value );
 					}
 					oaTuple[i] = value;
 				}
