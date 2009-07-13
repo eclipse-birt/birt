@@ -51,8 +51,7 @@ public class SortAdapter extends SortDefinition
 			return;
 		IScriptExpression expr = adapter.adaptExpression( (Expression)handle.getValue( ) );
 		this.setExpression( expr );
-		/*this( keyHandle.getKey(), 
-			  keyHandle.getDirection() );*/
+		this.setSortDirection( sortDirectionFromModel(keyHandle.getDirection( )) );
 		this.setSortStrength( keyHandle.getStrength( ) );
 		if( keyHandle.getLocale( )!= null )
 			this.setSortLocale( keyHandle.getLocale( ) );
