@@ -77,9 +77,7 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 			cubeScope = ( (IDataScriptEngine) session.getEngineContext( )
 					.getScriptContext( )
 					.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSContext( session.getEngineContext( )
-					.getScriptContext( ) )
-					.newObject( scope == null ? this.session.getSharedScope( )
-							: scope );
+					.getScriptContext( ) ).initStandardObjects( );
 			cubeScope.setParentScope( scope == null
 					? this.session.getSharedScope( ) : scope );
 			cubeScope.setPrototype( scope == null
