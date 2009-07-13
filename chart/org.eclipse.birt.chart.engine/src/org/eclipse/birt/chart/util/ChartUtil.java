@@ -25,9 +25,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.computation.DataSetIterator;
-import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IConstants;
-import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.Polygon;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -49,7 +47,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
-import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -83,7 +80,6 @@ public class ChartUtil
 	 */
 	public static final double EPS = 1E-9;	
 	private static final String EPS_FORMAT = "%.9f";//$NON-NLS-1$
-	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 	
 	/**
 	 * Default max row count that will be supported in charts.
@@ -363,30 +359,11 @@ public class ChartUtil
 	 * @param fNegative
 	 *            Fill for negative value. Useless for positive value or
 	 *            MultipleFill
+	 *  @deprecated use {@link FillUtil#convertFill(Fill, double, Fill)}
 	 */
 	public static Fill convertFill( Fill fill, double dValue, Fill fNegative )
 	{
-		if ( dValue >= 0 )
-		{
-			if ( fill instanceof MultipleFill )
-			{
-				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
-						.get( 0 ) );
-			}
-		}
-		else
-		{
-			if ( fill instanceof MultipleFill )
-			{
-				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
-						.get( 1 ) );
-			}
-			else if ( fNegative != null )
-			{
-				fill = fNegative;
-			}
-		}
-		return fill;
+		return FillUtil.convertFill( fill, dValue, fNegative );
 	}
 	
 	/**

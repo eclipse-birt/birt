@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * CurveRenderer
@@ -189,17 +190,15 @@ public final class CurveRenderer
 		bUseLastState = _bUseLastState;
 		bKeepState = _bKeepState;
 
-		if ( paletteEntry instanceof ColorDefinition && usePaletteLineColor )
+		if ( usePaletteLineColor )
 		{
 			lia = goFactory.copyOf( lia );
-			lia.setColor( goFactory.copyOf( (ColorDefinition) paletteEntry ) );
+			lia.setColor( FillUtil.getColor( paletteEntry ) );
 		}
 
-		if ( bFillArea && paletteEntry instanceof ColorDefinition )
+		if ( bFillArea )
 		{
-			// TODO support gradient and image.
-
-			fillColor = goFactory.copyOf( (ColorDefinition) paletteEntry );
+			fillColor = FillUtil.getColor( paletteEntry );
 			tapeColor = fillColor.brighter( );
 			sideColor = fillColor.darker( );
 		}
@@ -240,7 +239,7 @@ public final class CurveRenderer
 					continue;
 				}
 
-				ArrayList al = new ArrayList( );
+				List<Location> al = new ArrayList<Location>( );
 				while ( ( i < loPoints.length )
 						&& !( Double.isNaN( loPoints[i].getX( ) ) || Double.isNaN( loPoints[i].getY( ) ) ) )
 				{
@@ -251,11 +250,11 @@ public final class CurveRenderer
 
 				if ( loPoints instanceof Location3D[] )
 				{
-					tempPoints = (Location3D[]) al.toArray( new Location3D[al.size( )] );
+					tempPoints = al.toArray( new Location3D[al.size( )] );
 				}
 				else
 				{
-					tempPoints = (Location[]) al.toArray( new Location[al.size( )] );
+					tempPoints = al.toArray( new Location[al.size( )] );
 				}
 				faX = LocationImpl.getXArray( tempPoints );
 				faY = LocationImpl.getYArray( tempPoints );
@@ -279,7 +278,7 @@ public final class CurveRenderer
 
 					if ( bRendering3D )
 					{
-						Line3DRenderEvent lre3dValue = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+						Line3DRenderEvent lre3dValue = ( (EventObjectCache) ipr ).getEventObject( oSource,
 								Line3DRenderEvent.class );
 						Location3D[] loa3dValue = new Location3D[2];
 						loa3dValue[0] = goFactory.createLocation3D( faX[0],
@@ -296,7 +295,7 @@ public final class CurveRenderer
 					}
 					else
 					{
-						final OvalRenderEvent ore = (OvalRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+						final OvalRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
 								OvalRenderEvent.class );
 						ore.setBounds( goFactory.createBounds( faX[0] - iSize,
 								faY[0] - iSize,
@@ -377,7 +376,7 @@ public final class CurveRenderer
 	{
 		if ( bRendering3D )
 		{
-			final Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+			final Polygon3DRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Polygon3DRenderEvent.class );
 			pre.setOutline( null );
 			pre.setDoubleSided( true );
@@ -443,7 +442,7 @@ public final class CurveRenderer
 		}
 		else
 		{
-			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+			final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 					PolygonRenderEvent.class );
 			pre.setOutline( null );
 			pre.setBackground( tapeColor );
@@ -530,7 +529,7 @@ public final class CurveRenderer
 	{
 		if ( bRendering3D )
 		{
-			final Line3DRenderEvent lre = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+			final Line3DRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Line3DRenderEvent.class );
 			lre.setLineAttributes( lia );
 			lre.setStart3D( goFactory.createLocation3D( x1 + kError, y1
@@ -543,7 +542,7 @@ public final class CurveRenderer
 		}
 		else
 		{
-			final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+			final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 					LineRenderEvent.class );
 			lre.setLineAttributes( lia );
 			loStart.set( x1 + kError, y1 + kError );
@@ -584,7 +583,7 @@ public final class CurveRenderer
 	 * @param points
 	 * @throws ChartException
 	 */
-	private final void plotArea( IPrimitiveRenderer ipr, List points )
+	private final void plotArea( IPrimitiveRenderer ipr, List<double[]> points )
 			throws ChartException
 	{
 		if ( points == null || points.size( ) < 1 )
@@ -592,10 +591,10 @@ public final class CurveRenderer
 			return;
 		}
 
-		final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+		final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				LineRenderEvent.class );
 		lre.setLineAttributes( lia );
-		final Line3DRenderEvent lre3d = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+		final Line3DRenderEvent lre3d = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				Line3DRenderEvent.class );
 		lre3d.setLineAttributes( lia );
 
@@ -694,11 +693,11 @@ public final class CurveRenderer
 			if ( lastX != null )
 			{
 
-				List lst = new ArrayList( );
+				List<Location> lst = new ArrayList<Location>( );
 
 				for ( int i = 0; i < points.size( ); i++ )
 				{
-					double[] pt = (double[]) points.get( i );
+					double[] pt = points.get( i );
 					lst.add( goFactory.createLocation( pt[0], pt[1] ) );
 				}
 
@@ -718,7 +717,7 @@ public final class CurveRenderer
 					}
 				}
 
-				Location[] pa = (Location[]) lst.toArray( new Location[lst.size( )] );
+				Location[] pa = lst.toArray( new Location[lst.size( )] );
 
 				pre.setOutline( null );
 				pre.setPoints( pa );
@@ -758,13 +757,13 @@ public final class CurveRenderer
 		{
 			Location3D[] pa = new Location3D[points.size( ) + 2];
 
-			double[] pt0 = (double[]) points.get( 0 );
+			double[] pt0 = points.get( 0 );
 
 			if ( pt0[1] > zeroLocation )
 			{
 				for ( int i = 1; i < points.size( ); i++ )
 				{
-					double[] pt = (double[]) points.get( i );
+					double[] pt = points.get( i );
 					pa[pa.length - i] = goFactory.createLocation3D( pt[0],
 							pt[1],
 							pt[2] );
@@ -781,7 +780,7 @@ public final class CurveRenderer
 			{
 				for ( int i = 0; i < points.size( ); i++ )
 				{
-					double[] pt = (double[]) points.get( i );
+					double[] pt = points.get( i );
 					pa[i + 2] = goFactory.createLocation3D( pt[0], pt[1], pt[2] );
 				}
 				pa[0] = goFactory.createLocation3D( pa[pa.length - 1].getX( ),
@@ -803,7 +802,7 @@ public final class CurveRenderer
 			}
 			dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
 
-			double[] pte = (double[]) points.get( points.size( ) - 1 );
+			double[] pte = points.get( points.size( ) - 1 );
 			loa3d[0].set( pt0[0], zeroLocation, pt0[2] );
 			loa3d[1].set( pt0[0], zeroLocation, pt0[2] - dTapeWidth );
 			loa3d[2].set( pte[0], zeroLocation, pte[2] - dTapeWidth );
@@ -813,11 +812,11 @@ public final class CurveRenderer
 
 			if ( lia.isVisible( ) && points.size( ) > 1 )
 			{
-				double[] ptp = (double[]) points.get( 0 );
+				double[] ptp = points.get( 0 );
 
 				for ( int i = 1; i < points.size( ); i++ )
 				{
-					double[] pta = (double[]) points.get( i );
+					double[] pta = points.get( i );
 					lre3d.setStart3D( ptp[0], ptp[1], ptp[2] );
 					lre3d.setEnd3D( pta[0], pta[1], pta[2] );
 					ptp = pta;
@@ -833,7 +832,7 @@ public final class CurveRenderer
 
 			for ( int i = 0; i < points.size( ); i++ )
 			{
-				double[] pt = (double[]) points.get( i );
+				double[] pt = points.get( i );
 				pa[i] = goFactory.createLocation( pt[0], pt[1] );
 			}
 
@@ -907,7 +906,7 @@ public final class CurveRenderer
 		double[] faXY1, faXY2;
 		double fT;
 
-		final ArrayList stateList = new ArrayList( );
+		final List<double[]> stateList = new ArrayList<double[]>( );
 
 		for ( int i = 0; i < iNumberOfPoints - 1; i++ )
 		{
@@ -1159,7 +1158,7 @@ public final class CurveRenderer
 	 * @param fYOffset
 	 * @return points list in the form of double array
 	 */
-	public static List generateCurvePoints( BaseRenderer _render, Location[] loPoints,
+	public static List<double[]> generateCurvePoints( BaseRenderer _render, Location[] loPoints,
 			boolean connectMissingValue, double fXOffset, double fYOffset )
 	{
 		final double[] faKnotXY1 = new double[2];
@@ -1180,7 +1179,7 @@ public final class CurveRenderer
 					continue;
 				}
 
-				ArrayList al = new ArrayList( );
+				List<Location> al = new ArrayList<Location>( );
 				while ( ( i < loPoints.length )
 						&& !( Double.isNaN( loPoints[i].getX( ) ) || Double.isNaN( loPoints[i].getY( ) ) ) )
 				{
@@ -1196,7 +1195,7 @@ public final class CurveRenderer
 				// }
 				// else
 				{
-					tempPoints = (Location[]) al.toArray( new Location[al.size( )] );
+					tempPoints = al.toArray( new Location[al.size( )] );
 				}
 				faX = LocationImpl.getXArray( tempPoints );
 				faY = LocationImpl.getYArray( tempPoints );
@@ -1260,7 +1259,7 @@ public final class CurveRenderer
 		double[] faXY1, faXY2;
 		double fT;
 
-		final ArrayList stateList = new ArrayList( );
+		final List<double[]> stateList = new ArrayList<double[]>( );
 
 		for ( int i = 0; i < iNumberOfPoints - 1; i++ )
 		{

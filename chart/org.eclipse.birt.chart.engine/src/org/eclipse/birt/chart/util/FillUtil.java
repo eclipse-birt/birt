@@ -345,4 +345,76 @@ public class FillUtil
 		return darkerFill;
 	}
 
+	/**
+	 * Converts Fill if possible. If Fill is MultipleFill type, convert to
+	 * positive/negative Color according to the value. If not MultipleFill type,
+	 * return original fill for positive value, or negative fill for negative
+	 * value.
+	 * 
+	 * @param fill
+	 *            Fill to convert
+	 * @param dValue
+	 *            numeric value
+	 * @param fNegative
+	 *            Fill for negative value. Useless for positive value or
+	 *            MultipleFill
+	 */
+	public static Fill convertFill( Fill fill, double dValue, Fill fNegative )
+	{
+		if ( dValue >= 0 )
+		{
+			if ( fill instanceof MultipleFill )
+			{
+				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+						.get( 0 ) );
+			}
+		}
+		else
+		{
+			if ( fill instanceof MultipleFill )
+			{
+				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+						.get( 1 ) );
+			}
+			else if ( fNegative != null )
+			{
+				fill = fNegative;
+			}
+		}
+		return fill;
+	}
+
+	/**
+	 * Returns a color from various Fill.
+	 * 
+	 * @param fill
+	 * @return color
+	 * @since 2.5.1
+	 */
+	public static ColorDefinition getColor( Fill fill )
+	{
+		if ( fill instanceof ColorDefinition )
+		{
+			return goFactory.copyOf( ( (ColorDefinition) fill ) );
+		}
+		if ( fill instanceof Gradient )
+		{
+			ColorDefinition cdStart = ( (Gradient) fill ).getStartColor( );
+			ColorDefinition cdEnd = ( (Gradient) fill ).getEndColor( );
+			return goFactory.copyOf( getSortedColors( true, cdStart, cdEnd ) );
+		}
+		if ( fill instanceof Image )
+		{
+			// Gray color
+			return goFactory.createColorDefinition( 192, 192, 192 );
+		}
+		if ( fill instanceof MultipleFill )
+		{
+			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
+			ColorDefinition cd = (ColorDefinition) fills.get( 0 );
+			return goFactory.copyOf( cd );
+		}
+		return null;
+	}
+
 }
