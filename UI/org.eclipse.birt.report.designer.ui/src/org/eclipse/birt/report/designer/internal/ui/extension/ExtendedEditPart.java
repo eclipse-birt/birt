@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -158,17 +159,24 @@ public class ExtendedEditPart extends ReportElementEditPart
 
 	public void performDirectEdit( )
 	{
-		IReportItemBuilderUI builder = ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( ( (ExtendedItemHandle) getModel( ) ).getExtensionName( ) )
-				.getReportItemBuilderUI( );
+		ExtendedElementUIPoint point = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoint( ( (ExtendedItemHandle) getModel( ) ).getExtensionName( ) );
+
+		IReportItemBuilderUI builder = point.getReportItemBuilderUI( );
 
 		if ( builder != null )
 		{
+			String displayLabel = (String) point.getAttribute( IExtensionConstants.ELEMENT_REPORT_ITEM_LABEL_UI );
+
 			// Start a transaction before opening builder
 
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-			final String transName = Messages.getFormattedString( "ExtendedEditPart.edit", new Object[]{getExtendedItemHandle( ).getExtensionName( )} ); //$NON-NLS-1$
+			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
+			final String transName = Messages.getFormattedString( "ExtendedEditPart.edit", //$NON-NLS-1$
+					new Object[]{
+						displayLabel == null ? DEUtil.getMetaDataDictionary( )
+								.getExtension( point.getExtensionName( ) )
+								.getDisplayName( ) : displayLabel
+					} );
 
 			stack.startTrans( transName );
 			int result = Window.CANCEL;
