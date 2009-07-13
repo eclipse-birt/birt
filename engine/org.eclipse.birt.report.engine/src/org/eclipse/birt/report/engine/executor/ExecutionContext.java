@@ -266,11 +266,11 @@ public class ExecutionContext
 	/**
 	 * utilities used in the report execution.
 	 */
-	private HashMap stringFormatters = new HashMap( );
+	private HashMap<String, StringFormatter> stringFormatters = new HashMap<String, StringFormatter>( );
 
-	private HashMap numberFormatters = new HashMap( );
+	private HashMap<String, NumberFormatter> numberFormatters = new HashMap<String, NumberFormatter>( );
 
-	private HashMap dateFormatters = new HashMap( );
+	private HashMap<String, DateFormatter> dateFormatters = new HashMap<String, DateFormatter>( );
 
 	private ClassLoader applicationClassLoader;
 	private boolean closeClassLoader;
@@ -1547,20 +1547,17 @@ public class ExecutionContext
 	 */
 	public StringFormatter getStringFormatter( String pattern )
 	{
-		return getStringFormatter( pattern, ULocale.forLocale( locale ) );
+		return getStringFormatter( pattern, null );
 	}
 
-	public StringFormatter getStringFormatter( String pattern, ULocale locale )
+	public StringFormatter getStringFormatter( String pattern, String locale )
 	{
-		if ( locale == null )
-		{
-			locale = ULocale.forLocale( this.locale );
-		}
 		String key = pattern + ":" + locale;
-		StringFormatter fmt = (StringFormatter) stringFormatters.get( key );
+		StringFormatter fmt = stringFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new StringFormatter( pattern, locale );
+			fmt = new StringFormatter( pattern, locale == null ? ULocale
+					.forLocale( this.locale ) : new ULocale( locale ) );
 			stringFormatters.put( key, fmt );
 		}
 		return fmt;
@@ -1569,26 +1566,23 @@ public class ExecutionContext
 	/**
 	 * get a number formatter object
 	 * 
-	 * @param value
+	 * @param pattern
 	 *            number format
 	 * @return formatter object
 	 */
 	public NumberFormatter getNumberFormatter( String pattern )
 	{
-		return getNumberFormatter( pattern, ULocale.forLocale( locale ) );
+		return getNumberFormatter( pattern, null );
 	}
 
-	public NumberFormatter getNumberFormatter( String pattern, ULocale locale )
+	public NumberFormatter getNumberFormatter( String pattern, String locale )
 	{
-		if ( locale == null )
-		{
-			locale = ULocale.forLocale( this.locale );
-		}
 		String key = pattern + ":" + locale;
-		NumberFormatter fmt = (NumberFormatter) numberFormatters.get( key );
+		NumberFormatter fmt = numberFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new NumberFormatter( pattern, locale );
+			fmt = new NumberFormatter( pattern, locale == null ? ULocale
+					.forLocale( this.locale ) : new ULocale( locale ) );
 			numberFormatters.put( key, fmt );
 		}
 		return fmt;
@@ -1603,20 +1597,17 @@ public class ExecutionContext
 	 */
 	public DateFormatter getDateFormatter( String pattern )
 	{
-		return getDateFormatter( pattern, ULocale.forLocale( locale ) );
+		return getDateFormatter( pattern, null );
 	}
-	
-	public DateFormatter getDateFormatter( String pattern, ULocale locale )
+
+	public DateFormatter getDateFormatter( String pattern, String locale )
 	{
-		if ( locale == null )
-		{
-			locale = ULocale.forLocale( this.locale );
-		}
 		String key = pattern + ":" + locale;
-		DateFormatter fmt = (DateFormatter) dateFormatters.get( key );
+		DateFormatter fmt = dateFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new DateFormatter( pattern, locale, timeZone );
+			fmt = new DateFormatter( pattern, locale == null ? ULocale
+					.forLocale( this.locale ) : new ULocale( locale ), timeZone );
 			dateFormatters.put( key, fmt );
 		}
 

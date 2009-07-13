@@ -13,10 +13,10 @@ package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.util.ULocale;
-import java.util.logging.Logger;
 
 /**
  * 
@@ -266,8 +266,9 @@ public class StringFormatter
 		{
 			str = str.trim( );
 		}
-		
-		if ( formatPattern.equals( "Unformatted" ) ) //$NON-NLS-1$
+
+		if ( formatPattern == null || formatPattern.length( ) == 0
+				|| formatPattern.equals( "Unformatted" ) ) //$NON-NLS-1$
 			return str;
 
 		int len = str.length( );

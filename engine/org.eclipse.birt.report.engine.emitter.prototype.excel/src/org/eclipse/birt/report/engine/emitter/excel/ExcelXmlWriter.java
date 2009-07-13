@@ -11,7 +11,6 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -112,12 +111,6 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	public class XMLWriterXLS extends XMLWriter
 	{
-
-		public PrintWriter getPrint( )
-		{
-			return printWriter;
-		}
-
 		protected String encodeText( String text )
 		{
 			return XLSEncodeUtil.encodeXLSText( text );
@@ -652,9 +645,8 @@ public class ExcelXmlWriter implements IExcelWriter
 	private void writeDeclarations( )
 	{
 		writer.startWriter( );
-		writer.getPrint( ).println( );
-		writer.getPrint( ).println(
-		"<?mso-application progid=\"Excel.Sheet\"?>" );
+		writer.println( );
+		writer.println( "<?mso-application progid=\"Excel.Sheet\"?>" );
 
 		writer.openTag( "Workbook" );
 

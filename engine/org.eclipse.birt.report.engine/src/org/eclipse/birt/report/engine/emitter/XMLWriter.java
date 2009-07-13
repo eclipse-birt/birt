@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.engine.emitter;
 
-import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,8 +30,12 @@ public class XMLWriter
 	/** logger */
 	protected static Logger log = Logger.getLogger( XMLWriter.class.getName( ) );
 
+	protected static final int MAX_BUFFER_SIZE = 1024;
+	protected char[] buffer = new char[MAX_BUFFER_SIZE];
+	protected int bufferSize;
+
 	/** the print writer for outputting */
-	protected PrintWriter printWriter;
+	protected Writer writer;
 
 	/** character encoding */
 	protected String encoding = "UTF-8"; //$NON-NLS-1$
@@ -41,7 +45,7 @@ public class XMLWriter
 
 	/** whether or not the tag is paired */
 	protected boolean bPairedFlag = true;
-	
+
 	/** whether or not we have text before the end tag */
 	protected boolean bText = false;
 
@@ -77,12 +81,7 @@ public class XMLWriter
 		this.encoding = encoding;
 		try
 		{
-			/*
-			 * disable the autoflush, I remember there is some bug about the the
-			 * autoflush, but just close it for performance.
-			 */
-			this.printWriter = new PrintWriter( new BufferedWriter(
-					new OutputStreamWriter( outputStream, encoding ) ), false );
+			writer = new OutputStreamWriter( outputStream, encoding );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -98,7 +97,14 @@ public class XMLWriter
 
 	public void close( )
 	{
-		this.printWriter.close( );
+		flush( );
+		try
+		{
+			writer.close( );
+		}
+		catch ( IOException ex )
+		{
+		}
 	}
 
 	/**
@@ -106,7 +112,7 @@ public class XMLWriter
 	 */
 	public void startWriter( )
 	{
-		printWriter.print( "<?xml version=\"1.0\" encoding=\"" + encoding //$NON-NLS-1$
+		print( "<?xml version=\"1.0\" encoding=\"" + encoding //$NON-NLS-1$
 				+ "\"?>" ); //$NON-NLS-1$
 	}
 
@@ -118,13 +124,13 @@ public class XMLWriter
 		// it should not happen but test case
 		if ( !bPairedFlag )
 		{
-			printWriter.print( '>' );
+			print( '>' );
 			if ( bIndent )
 			{
-				printWriter.println( );
+				println( );
 			}
 		}
-		printWriter.flush( );
+		flush( );
 	}
 
 	/**
@@ -145,16 +151,16 @@ public class XMLWriter
 	{
 		if ( !bPairedFlag )
 		{
-			printWriter.print( '>' );
+			print( '>' );
 		}
 		if ( bIndent )
 		{
-			printWriter.print('\n' );
-			printWriter.print( indent( ) );
+			print( '\n' );
+			print( indent( ) );
 		}
 		bPairedFlag = false;
-		printWriter.print( '<');
-		printWriter.print( tagName );
+		print( '<' );
+		print( tagName );
 		indentCount++;
 		bText = false;
 	}
@@ -172,25 +178,25 @@ public class XMLWriter
 		{
 			if ( bImplicitCloseTag )
 			{
-				printWriter.print( "/>" ); //$NON-NLS-1$
+				print( "/>" ); //$NON-NLS-1$
 			}
 			else
 			{
-				printWriter.print( "></");
-				printWriter.print( tagName);
-				printWriter.print( '>' ); //$NON-NLS-1$
+				print( "></" );
+				print( tagName );
+				print( '>' ); //$NON-NLS-1$
 			}
 		}
 		else
 		{
 			if ( bIndent && !bText )
 			{
-				printWriter.print( '\n' );
-				printWriter.print( indent( ) );
+				print( '\n' );
+				print( indent( ) );
 			}
-			printWriter.print( "</");
-			printWriter.print( tagName);
-			printWriter.print( '>' ); //$NON-NLS-1$
+			print( "</" );
+			print( tagName );
+			print( '>' ); //$NON-NLS-1$
 		}
 		bPairedFlag = true;
 		bText = false;
@@ -208,13 +214,14 @@ public class XMLWriter
 	{
 		if ( attrValue != null && attrValue.length( ) > 0 )
 		{
-			printWriter.print( ' ' );
-			printWriter.print( attrName );
-			printWriter.print( "=\"" ); //$NON-NLS-1$
-			printWriter.print( encodeAttr( attrValue ) );
-			printWriter.print( '\"' );
+			print( ' ' );
+			print( attrName );
+			print( "=\"" ); //$NON-NLS-1$
+			print( encodeAttr( attrValue ) );
+			print( '\"' );
 		}
 	}
+
 	/**
 	 * Output the attribute whose value is not null but can be ""
 	 * 
@@ -227,11 +234,11 @@ public class XMLWriter
 	{
 		if ( attrValue != null )
 		{
-			printWriter.print( ' ' );
-			printWriter.print( attrName );
-			printWriter.print( "=\"" ); //$NON-NLS-1$
-			printWriter.print( encodeAttr( attrValue ) );
-			printWriter.print( '\"' );
+			print( ' ' );
+			print( attrName );
+			print( "=\"" ); //$NON-NLS-1$
+			print( encodeAttr( attrValue ) );
+			print( '\"' );
 		}
 	}
 
@@ -261,8 +268,7 @@ public class XMLWriter
 	 */
 	public void attribute( String attrName, float attrValue )
 	{
-		printWriter.print( ' ' + attrName
-				+ "=\"" + Float.toString( attrValue ) + '\"' ); //$NON-NLS-1$ 
+		print( ' ' + attrName + "=\"" + Float.toString( attrValue ) + '\"' ); //$NON-NLS-1$ 
 	}
 
 	/**
@@ -275,8 +281,7 @@ public class XMLWriter
 	 */
 	public void attribute( String attrName, double attrValue )
 	{
-		printWriter.print( ' ' + attrName
-				+ "=\"" + Double.toString( attrValue ) + '\"' ); //$NON-NLS-1$
+		print( ' ' + attrName + "=\"" + Double.toString( attrValue ) + '\"' ); //$NON-NLS-1$
 	}
 
 	/**
@@ -289,7 +294,7 @@ public class XMLWriter
 	 */
 	public void attribute( String attrName, int attrValue )
 	{
-		printWriter.print( ' ' + attrName + "=\"" //$NON-NLS-1$
+		print( ' ' + attrName + "=\"" //$NON-NLS-1$
 				+ Integer.toString( attrValue ) + '\"' ); //$NON-NLS-1$
 	}
 
@@ -310,12 +315,12 @@ public class XMLWriter
 		}
 		if ( !bPairedFlag )
 		{
-			printWriter.print( '>' );
+			print( '>' );
 			bPairedFlag = true;
 		}
 
 		String stringToPrint = encodeText( value );
-		printWriter.print( stringToPrint );
+		print( stringToPrint );
 		bText = true;
 	}
 
@@ -323,11 +328,11 @@ public class XMLWriter
 	{
 		if ( !bPairedFlag )
 		{
-			printWriter.print( '>' );
+			print( '>' );
 			bPairedFlag = true;
 		}
 		String text = encodeCdata( value );
-		printWriter.print( text );
+		print( text );
 		if ( bPairedFlag )
 		{
 			bText = true;
@@ -342,10 +347,10 @@ public class XMLWriter
 	 */
 	public void literal( String value )
 	{
-		printWriter.print( value );
+		print( value );
 	}
 
-	private static String[] indents = new String[]{
+	private static String[] INDENTS = new String[]{
 			"",
 			"\t",
 			"\t\t",
@@ -354,9 +359,20 @@ public class XMLWriter
 			"\t\t\t\t\t",
 			"\t\t\t\t\t\t",
 			"\t\t\t\t\t\t\t",
-			"\t\t\t\t\t\t\t\t"
-	};
-	
+			"\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"};
+
 	/**
 	 * Get the indent string
 	 * 
@@ -364,20 +380,11 @@ public class XMLWriter
 	 */
 	protected String indent( )
 	{
-		if ( !bIndent )
+		if ( indentCount < INDENTS.length )
 		{
-			return ""; //$NON-NLS-1$
+			return INDENTS[indentCount];
 		}
-		if (indentCount < 8)
-		{
-			return indents[indentCount];
-		}
-		StringBuffer indentContent = new StringBuffer( 64 );
-		for ( int i = 0; i < indentCount; i++ )
-		{
-			indentContent.append( '\t' ); //$NON-NLS-1$
-		}
-		return indentContent.toString( );
+		return INDENTS[INDENTS.length - 1];
 	}
 
 	/**
@@ -387,7 +394,7 @@ public class XMLWriter
 	 *            The string needs to be replaced.
 	 * @param whiteespace
 	 *            A
-	 *            <code>boolean<code> value indicating if the white space character should be converted or not. 
+	 *            <code>boolean<code> value indicating if the white space character should be converted or not.
 	 * @return the replaced string
 	 */
 	protected String encodeText( String s )
@@ -428,7 +435,7 @@ public class XMLWriter
 	{
 		this.bIndent = indent;
 	}
-	
+
 	/**
 	 * @return Returns the bImplicitCloseTag.
 	 */
@@ -436,7 +443,7 @@ public class XMLWriter
 	{
 		return bImplicitCloseTag;
 	}
-	
+
 	/**
 	 * @param bImplicitCloseTag
 	 *            The bImplicitCloseTag to set.
@@ -444,5 +451,62 @@ public class XMLWriter
 	public void setImplicitCloseTag( boolean bImplicitCloseTag )
 	{
 		this.bImplicitCloseTag = bImplicitCloseTag;
+	}
+
+	public void print( String s )
+	{
+		int length = s.length( );
+		if ( bufferSize + length >= MAX_BUFFER_SIZE )
+		{
+			try
+			{
+				writer.write( buffer, 0, bufferSize );
+				writer.write( s );
+				bufferSize = 0;
+			}
+			catch ( IOException ex )
+			{
+			}
+		}
+		else
+		{
+			s.getChars( 0, length, buffer, bufferSize );
+			bufferSize += length;
+		}
+	}
+
+	public void println( )
+	{
+		print( '\n' );
+	}
+
+	public void println( String s )
+	{
+		print( s );
+		print( '\n' );
+	}
+
+	public void print( char c )
+	{
+		if ( bufferSize >= MAX_BUFFER_SIZE )
+		{
+			flush( );
+		}
+		buffer[bufferSize++] = c;
+	}
+
+	protected void flush( )
+	{
+		if ( bufferSize > 0 )
+		{
+			try
+			{
+				writer.write( buffer, 0, bufferSize );
+			}
+			catch ( IOException ex )
+			{
+			}
+			bufferSize = 0;
+		}
 	}
 }

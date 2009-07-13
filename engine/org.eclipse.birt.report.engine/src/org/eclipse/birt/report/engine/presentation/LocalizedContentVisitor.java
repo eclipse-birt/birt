@@ -40,7 +40,6 @@ import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.api.impl.Image;
-import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -70,8 +69,8 @@ import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
-import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.script.internal.OnRenderScriptVisitor;
@@ -87,7 +86,7 @@ import org.w3c.dom.css.CSSValue;
 import com.ibm.icu.util.ULocale;
 
 
-public class LocalizedContentVisitor extends ContentVisitorAdapter
+public class LocalizedContentVisitor
 {
 	
 	protected static Logger logger = Logger
@@ -146,15 +145,44 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			}
 		}
 	}
-	
+
 	public IContent localize( IContent content ) throws BirtException
 	{
 		IStyle style = content.getInlineStyle( );
 		processBackgroundImage( style );
-		Object value = content.accept( this, content );
-		return (IContent) value;
+		switch ( content.getContentType( ) )
+		{
+			case IContent.CELL_CONTENT :
+				return localizeCell( (ICellContent) content );
+			case IContent.DATA_CONTENT :
+				return localizeData( (IDataContent) content );
+			case IContent.FOREIGN_CONTENT :
+				return localizeForeign( (IForeignContent) content );
+			case IContent.IMAGE_CONTENT :
+				return localizeImage( (IImageContent) content );
+			case IContent.LABEL_CONTENT :
+				return localizeLabel( (ILabelContent) content );
+			case IContent.PAGE_CONTENT :
+				return localizePage( (IPageContent) content );
+			case IContent.ROW_CONTENT :
+				return localizeRow( (IRowContent) content );
+			case IContent.TABLE_CONTENT :
+				return localizeTable( (ITableContent) content );
+			case IContent.TEXT_CONTENT :
+				return localizeText( (ITextContent) content );
+			case IContent.AUTOTEXT_CONTENT :
+				return localizeAutoText( (IAutoTextContent) content );
+			case IContent.LIST_CONTENT :
+				return localizeList( (IListContent) content );
+			case IContent.GROUP_CONTENT :
+			case IContent.LIST_GROUP_CONTENT :
+			case IContent.TABLE_GROUP_CONTENT :
+				return localizeGroup( (IGroupContent) content );
+			default :
+				return content;
+		}
 	}
-	
+
 	protected IContent localizeAllChildren( IContent content )
 			throws BirtException
 	{
@@ -171,16 +199,15 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		return content;
 	}
 
-	public Object visitPage( IPageContent page, Object value )
-			throws BirtException
+	private IPageContent localizePage( IPageContent page ) throws BirtException
 	{
 		boolean isExecutingMasterPage = context.isExecutingMasterPage( );
 		context.setExecutingMasterPage( true );
-		value = localizeAllChildren( page );
+		localizeAllChildren( page );
 		context.setExecutingMasterPage( isExecutingMasterPage );
-		return value;
+		return page;
 	}
-	
+
 	protected TextTemplate parseTemplate( String text ) throws BirtException
 	{
 		SoftReference templateRef = (SoftReference) templates.get( text );
@@ -207,40 +234,37 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		return template;
 	}
 
-	String executeTemplate( TextTemplate template, HashMap values )
+	private String executeTemplate( TextTemplate template, HashMap values )
 	{
 		return new TemplateExecutor( context ).execute( template, values );
 	}
 
-	public Object visitList( IListContent list, Object value)
+	private IListContent localizeList( IListContent list )
 	{
-		if ( list.getGenerateBy( ) instanceof ListItemDesign )
-		{
-			handleOnRender( list );
-		}
+		handleOnRender( list );
 		return list;
 	}
 
-	public Object visitTable( ITableContent table, Object value )
+	private ITableContent localizeTable( ITableContent table )
 	{
 		handleOnRender( table );
-		
+
 		String captionText = table.getCaption( );
 		String captionKey = table.getCaptionKey( );
 
 		captionText = localize( table, captionKey, captionText );
 		table.setCaption( captionText );
-		
+
 		return table;
 	}
 
-	public Object visitRow( IRowContent row, Object value )
+	private IRowContent localizeRow( IRowContent row )
 	{
 		handleOnRender( row );
 		return row;
 	}
 
-	public Object visitCell( ICellContent cell, Object value )
+	private ICellContent localizeCell( ICellContent cell)
 	{
 		handleOnRender( cell );
 		return cell;
@@ -252,7 +276,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 * @param data
 	 *            data content object
 	 */
-	public Object visitData( IDataContent data, Object value )
+	private IDataContent localizeData( IDataContent data)
 	{
 		handleOnRender( data );
 		processData( data );
@@ -318,53 +342,32 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 
 		DataFormatValue dataFormat = style.getDataFormat( );
+		String pattern = null;
+		String locale = null;
 		if ( value instanceof Number )
 		{
-			NumberFormatter fmt = null;
-			if ( dataFormat == null )
+			if ( dataFormat != null )
 			{
-				fmt = context.getNumberFormatter( null, null );
+				pattern = dataFormat.getNumberPattern( );
+				locale = dataFormat.getNumberLocale( );
 			}
-			else
-			{
-				String pattern = dataFormat.getNumberPattern( );
-				String locale = dataFormat.getNumberLocale( );
-				if ( locale == null )
-					fmt = context.getNumberFormatter( pattern, null );
-				else
-					fmt = context.getNumberFormatter( pattern, new ULocale(
-							locale ) );
-			}
-
+			NumberFormatter fmt = context.getNumberFormatter( pattern, locale );
 			return fmt.format( (Number) value );
 		}
 
 		if ( value instanceof String )
 		{
-			StringFormatter fmt = null;
-			if ( dataFormat == null )
+			if ( dataFormat != null )
 			{
-				fmt = context.getStringFormatter( null, null );
+				pattern = dataFormat.getStringPattern( );
+				locale = dataFormat.getStringLocale( );
 			}
-			else
-			{
-				String pattern = dataFormat.getStringPattern( );
-				String locale = dataFormat.getStringLocale( );
-				if ( locale == null )
-					fmt = context.getStringFormatter( pattern, null );
-				else
-					fmt = context.getStringFormatter( pattern, new ULocale(
-							locale ) );
-			}
+			StringFormatter fmt = context.getStringFormatter( pattern, locale );
 			return fmt.format( (String) value );
-
 		}
 
 		if ( value instanceof java.util.Date )
 		{
-			DateFormatter fmt = null;
-			String pattern = null;
-			String locale = null;
 			if ( dataFormat != null )
 			{
 				if ( value instanceof java.sql.Date )
@@ -382,15 +385,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 					pattern = dataFormat.getDateTimePattern( );
 					locale = dataFormat.getDateTimeLocale( );
 				}
-				if ( locale == null )
-					fmt = context.getDateFormatter( pattern, null );
-				else
-					fmt = context.getDateFormatter( pattern, new ULocale(
-							locale ) );
 			}
-			else
-				fmt = context.getDateFormatter( null, null );
-
+			DateFormatter fmt = context.getDateFormatter( pattern, locale );
 			return fmt.format( (java.util.Date) value );
 		}
 
@@ -432,7 +428,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 * @param label
 	 *            label content
 	 */
-	public Object visitLabel( ILabelContent label, Object value )
+	private ILabelContent localizeLabel( ILabelContent label )
 	{
 		handleOnRender( label );
 		processLabel( label );
@@ -461,13 +457,13 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 	}
 
-	public Object visitText( ITextContent text, Object value )
+	private ITextContent localizeText( ITextContent text )
 	{
 		handleOnRender( text );
-		return value;
+		return text;
 	}
 
-	public Object visitAutoText( IAutoTextContent autoText, Object value )
+	private IAutoTextContent localizeAutoText( IAutoTextContent autoText )
 	{
 		int type = autoText.getType( );
 		IStyle style = autoText.getComputedStyle( );
@@ -522,7 +518,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 		handleOnRender( autoText );
 
-		return value;
+		return autoText;
 	}
 
 	/**
@@ -536,7 +532,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 * TEXT_TYPE/HTML_TYPE/IMAGE_TYPE/VALUE_TYPE foreign object.
 	 * 
 	 */
-	public Object visitForeign( IForeignContent foreignContent, Object value )
+	private IContent localizeForeign( IForeignContent foreignContent )
 	{
 		IReportContent reportContent = getReportContent( );
 		
@@ -637,7 +633,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		return text;
 	}
 
-	public Object visitImage( IImageContent image, Object value )
+	private IImageContent localizeImage( IImageContent image )
 	{
 		handleOnRender( image );
 		if ( image.getImageSource( ) == IImageContent.IMAGE_FILE )
@@ -743,7 +739,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 	}
 	
-	public Object visitGroup( IGroupContent group, Object value )
+	private IGroupContent localizeGroup( IGroupContent group)
 	{
 		handleOnRender( group );
 		return group;
@@ -1154,12 +1150,19 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 		return out.toByteArray( );
 	}
-	
+
 	protected void handleOnRender( IContent content )
 	{
-		if ( content.getGenerateBy( ) != null )
+		Object genBy = content.getGenerateBy( );
+		if ( genBy instanceof ReportItemDesign )
 		{
-			onRenderVisitor.onRender( content );
+			ReportItemDesign design = (ReportItemDesign) genBy;
+			Expression onRender = design.getOnRender( );
+			String javaEventHandler = design.getJavaClass( );
+			if ( onRender != null || javaEventHandler != null )
+			{
+				onRenderVisitor.onRender( content );
+			}
 		}
 	}
 }

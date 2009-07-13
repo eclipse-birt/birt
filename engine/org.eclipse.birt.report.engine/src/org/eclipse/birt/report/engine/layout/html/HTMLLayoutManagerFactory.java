@@ -12,18 +12,7 @@
 package org.eclipse.birt.report.engine.layout.html;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
-import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IContentVisitor;
-import org.eclipse.birt.report.engine.content.IListBandContent;
-import org.eclipse.birt.report.engine.content.IListContent;
-import org.eclipse.birt.report.engine.content.IListGroupContent;
-import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.util.FastPool;
@@ -95,105 +84,109 @@ public class HTMLLayoutManagerFactory
 	private HTMLAbstractLM getLayoutManager( IContent content )
 			throws BirtException
 	{
-		HTMLAbstractLM layoutManager = (HTMLAbstractLM) visitor.visit( content,
-				null );
-		return layoutManager;
+		int type = content.getContentType( );
+		switch ( type )
+		{
+			case IContent.DATA_CONTENT :
+			case IContent.FOREIGN_CONTENT :
+			case IContent.AUTOTEXT_CONTENT :
+			case IContent.IMAGE_CONTENT :
+			case IContent.LABEL_CONTENT :
+			case IContent.SERIALIZE_CONTENT :
+			case IContent.TEXT_CONTENT :
+				return createLeafLM( );
+			case IContent.CELL_CONTENT :
+			case IContent.CONTAINER_CONTENT :
+				return createContainerLM( );
+			case IContent.GROUP_CONTENT :
+			case IContent.LIST_GROUP_CONTENT :
+			case IContent.TABLE_GROUP_CONTENT :
+				return createGroupLM( );
+			case IContent.LIST_BAND_CONTENT :
+				return createListBandLM( );
+			case IContent.LIST_CONTENT :
+				return createListLM( );
+			case IContent.ROW_CONTENT :
+				return createRowLM( );
+			case IContent.TABLE_BAND_CONTENT :
+				return createTableBandLM( );
+			case IContent.TABLE_CONTENT :
+				return createTableLM( );
+			default :
+				throw new IllegalStateException( );
+		}
 	}
 
-	private IContentVisitor visitor = new ContentVisitorAdapter( ) {
-
-		public Object visit( IContent content, Object value )
-				throws BirtException
+	private HTMLLeafItemLM createLeafLM( )
+	{
+		if ( !freeLeaf.isEmpty( ) )
 		{
-			return content.accept( this, value );
+			return (HTMLLeafItemLM) freeLeaf.remove( );
 		}
+		return new HTMLLeafItemLM( this );
+	}
 
-		public Object visitContent( IContent content, Object value )
+	private HTMLAbstractLM createContainerLM( )
+	{
+		if ( !freeBlock.isEmpty( ) )
 		{
-			if ( !freeLeaf.isEmpty( ) )
-			{
-				return (HTMLLeafItemLM) freeLeaf.remove( );
-			}
-			return new HTMLLeafItemLM( HTMLLayoutManagerFactory.this );
+			return (HTMLBlockStackingLM) freeBlock.remove( );
 		}
+		return new HTMLBlockStackingLM( this );
+	}
 
-		public Object visitPage( IPageContent page, Object value )
+	private HTMLAbstractLM createTableLM( )
+	{
+		if ( !freeTable.isEmpty( ) )
 		{
-			assert false;
-			return null;
+			return (HTMLTableLM) freeTable.remove( );
 		}
+		return new HTMLTableLM( this );
+	}
 
-		public Object visitContainer( IContainerContent container, Object value )
+	private HTMLAbstractLM createGroupLM( )
+	{
+		if ( !freeGroup.isEmpty( ) )
 		{
-			if ( !freeBlock.isEmpty( ) )
-			{
-				return (HTMLBlockStackingLM) freeBlock.remove( );
-			}
-			return new HTMLBlockStackingLM( HTMLLayoutManagerFactory.this );
+			return (HTMLGroupLM) freeGroup.remove( );
 		}
+		return new HTMLGroupLM( this );
+	}
 
-		public Object visitTable( ITableContent table, Object value )
+	private HTMLAbstractLM createTableBandLM( )
+	{
+		if ( !freeTableBand.isEmpty( ) )
 		{
-			if ( !freeTable.isEmpty( ) )
-			{
-				return (HTMLTableLM) freeTable.remove( );
-			}
-			return new HTMLTableLM( HTMLLayoutManagerFactory.this );
+			return (HTMLTableBandLM) freeTableBand.remove( );
 		}
+		return new HTMLTableBandLM( this );
+	}
 
-		public Object visitTableGroup( ITableGroupContent group, Object value )
+	private HTMLAbstractLM createRowLM( )
+	{
+		if ( !freeRow.isEmpty( ) )
 		{
-			if ( !freeGroup.isEmpty( ) )
-			{
-				return (HTMLGroupLM) freeGroup.remove( );
-			}
-			return new HTMLGroupLM( HTMLLayoutManagerFactory.this );
+			return (HTMLRowLM) freeRow.remove( );
 		}
+		return new HTMLRowLM( this );
+	}
 
-		public Object visitTableBand( ITableBandContent tableBand, Object value )
+	private HTMLAbstractLM createListLM( )
+	{
+		if ( !freeList.isEmpty( ) )
 		{
-			if ( !freeTableBand.isEmpty( ) )
-			{
-				return (HTMLTableBandLM) freeTableBand.remove( );
-			}
-			return new HTMLTableBandLM( HTMLLayoutManagerFactory.this );
+			return (HTMLListLM) freeList.remove( );
 		}
+		return new HTMLListLM( this );
 
-		public Object visitRow( IRowContent row, Object value )
+	}
+
+	private HTMLAbstractLM createListBandLM( )
+	{
+		if ( !freeListBand.isEmpty( ) )
 		{
-			if ( !freeRow.isEmpty( ) )
-			{
-				return (HTMLRowLM) freeRow.remove( );
-			}
-			return new HTMLRowLM( HTMLLayoutManagerFactory.this );
+			return (HTMLListingBandLM) freeListBand.remove( );
 		}
-
-		public Object visitList( IListContent list, Object value )
-		{
-			if ( !freeList.isEmpty( ) )
-			{
-				return (HTMLListLM) freeList.remove( );
-			}
-			return new HTMLListLM( HTMLLayoutManagerFactory.this );
-
-		}
-
-		public Object visitListGroup( IListGroupContent group, Object value )
-		{
-			if ( !freeGroup.isEmpty( ) )
-			{
-				return (HTMLGroupLM) freeGroup.remove( );
-			}
-			return new HTMLGroupLM( HTMLLayoutManagerFactory.this );
-		}
-
-		public Object visitListBand( IListBandContent listBand, Object value )
-		{
-			if ( !freeListBand.isEmpty( ) )
-			{
-				return (HTMLListingBandLM) freeListBand.remove( );
-			}
-			return new HTMLListingBandLM( HTMLLayoutManagerFactory.this );
-		}
-	};
+		return new HTMLListingBandLM( this );
+	}
 }

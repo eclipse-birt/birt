@@ -321,7 +321,7 @@ abstract public class AbstractContent extends AbstractElement
 			{
 				inlineStyle = report.createStyle( );
 			}
-			String styleClass = getStyleClass();
+			String styleClass = getStyleClass( );
 			if ( styleClass != null )
 			{
 				IStyle classStyle = report.findStyle( styleClass );
@@ -331,10 +331,11 @@ abstract public class AbstractContent extends AbstractElement
 			{
 				style = inlineStyle;
 			}
+			style = new ContentStyle( (AbstractStyle) style );
 		}
-		return new ContentStyle((AbstractStyle)style);
+		return style;
 	}
-	
+
 	class ContentStyle extends AbstractStyle implements IStyle
 	{
 

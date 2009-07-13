@@ -64,10 +64,10 @@ public class ArchiveEntryInputStream extends RAInputStream
 		if ( buffer_offset >= buffer_size )
 		{
 			refreshBuffer( );
-		}
-		if ( buffer_offset >= buffer_size )
-		{
-			return -1;
+			if ( buffer_offset >= buffer_size )
+			{
+				return -1;
+			}
 		}
 		return buffer[buffer_offset++] & 0xff;
 	}

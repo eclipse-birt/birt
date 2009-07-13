@@ -31,41 +31,6 @@ public class HTMLWriter extends XMLWriter
 	}
 
 	/**
-	 * Close the tag
-	 * 
-	 * @param tagName
-	 *            tag name
-	 */
-	public void closeTag( String tagName )
-	{
-		if( tagName == null )
-		{
-			return;
-		}
-		super.closeTag( tagName );
-	}
-
-	/**
-	 * Close the tag whose end tag is forbidden say, "br".
-	 * 
-	 * @param tagName
-	 *            tag name
-	 */
-	public void closeNoEndTag( )
-	{
-		super.indentCount--;
-		if ( !super.bPairedFlag )
-		{
-			super.printWriter.print( '>' );
-		}
-		else
-		{
-			assert false;
-		}
-		super.bPairedFlag = true;
-	}
-
-	/**
 	 * Outputs the style.
 	 * 
 	 * @param name
@@ -81,24 +46,24 @@ public class HTMLWriter extends XMLWriter
 			return;
 		}
 
-		if ( !super.bPairedFlag )
+		if ( !bPairedFlag )
 		{
-			super.printWriter.print( '>' );
-			super.bPairedFlag = true;
+			print( '>' );
+			bPairedFlag = true;
 		}
 
-		if ( super.bIndent )
+		if ( bIndent )
 		{
-			super.indentCount++;
-			super.printWriter.println( );
-			super.printWriter.print( super.indent( ) );
-			super.indentCount--;
+			indentCount++;
+			println( );
+			print( indent( ) );
+			indentCount--;
 		}
 
-		super.printWriter.print( name );
-		super.printWriter.print( " {" ); //$NON-NLS-1$
-		super.printWriter.print( value );
-		super.printWriter.print( '}' );
+		print( name );
+		print( " {" ); //$NON-NLS-1$
+		print( value );
+		print( '}' );
 	}
 
 	/**
@@ -111,17 +76,17 @@ public class HTMLWriter extends XMLWriter
 	{
 		if ( !super.bPairedFlag )
 		{
-			super.printWriter.print( '>' );
+			print( '>' );
 			super.bPairedFlag = true;
 		}
 
 		if ( super.bIndent )
 		{
-			super.printWriter.println( );
-			super.printWriter.print( super.indent( ) );
+			println( );
+			print( super.indent( ) );
 		}
 
-		super.printWriter.print( code );
+		print( code );
 	}
 
 	/**
@@ -129,8 +94,7 @@ public class HTMLWriter extends XMLWriter
 	 */
 	public void outputDoctype( )
 	{
-		printWriter
-			.print( "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" ); //$NON-NLS-1$
+		print( "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" ); //$NON-NLS-1$
 	}
 
 	public void comment( String value )
@@ -141,13 +105,13 @@ public class HTMLWriter extends XMLWriter
 		}
 		if ( !bPairedFlag )
 		{
-			printWriter.print( '>' );
+			print( '>' );
 			bPairedFlag = true;
 		}
 
-		printWriter.print( "<!--" );
-		printWriter.print( HTMLEncodeUtil.encodeCdata( value ) );
-		printWriter.print( "-->" );
+		print( "<!--" );
+		print( HTMLEncodeUtil.encodeCdata( value ) );
+		print( "-->" );
 		bText = true;// bText is useless.
 	}
 
@@ -163,12 +127,12 @@ public class HTMLWriter extends XMLWriter
 		}
 		if ( !bPairedFlag )
 		{
-			printWriter.print( '>' );
+			print( '>' );
 			bPairedFlag = true;
 		}
 
 		String stringToPrint = HTMLEncodeUtil.encodeText( value, whitespace );
-		printWriter.print( stringToPrint );
+		print( stringToPrint );
 		bText = true;
 	}
 

@@ -11,36 +11,35 @@
 
 package org.eclipse.birt.report.engine.internal.executor.l18n;
 
-import java.util.LinkedList;
-
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportExecutor;
 import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
+import org.eclipse.birt.report.engine.util.FastPool;
 
 public class LocalizedReportExecutor extends WrappedReportExecutor
 {
 
 	IReportExecutor executor;
 	LocalizedContentVisitor l18nVisitor;
-	LinkedList freeList = new LinkedList( );
+	FastPool freeExecutors;
 
 	public LocalizedReportExecutor( ExecutionContext context,
 			IReportExecutor executor )
 	{
 		super( executor );
 		this.l18nVisitor = new LocalizedContentVisitor( context );
-		this.freeList = new LinkedList( );
+		this.freeExecutors = new FastPool( );
 		this.executor = executor;
 	}
 
 	protected IReportItemExecutor createWrappedExecutor( IReportItemExecutor executor )
 	{
 		LocalizedReportItemExecutor l18nExecutor = null;
-		if ( !freeList.isEmpty( ) )
+		if ( !freeExecutors.isEmpty( ) )
 		{
-			l18nExecutor = (LocalizedReportItemExecutor) freeList.removeFirst( );
+			l18nExecutor = (LocalizedReportItemExecutor) freeExecutors.remove( );
 			l18nExecutor.setExecutor( executor );
 		}
 		else
@@ -52,6 +51,6 @@ public class LocalizedReportExecutor extends WrappedReportExecutor
 
 	protected void closeWrappedExecutor( IReportItemExecutor executor )
 	{
-		freeList.addLast( executor );
+		freeExecutors.add( executor );
 	}
 }
