@@ -14,6 +14,9 @@ package org.eclipse.birt.report.model.api.filterExtension;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.filterExtension.interfaces.IBirtFilterOperatorConstants;
 import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * FilterExprDefinition
@@ -65,7 +68,7 @@ class FilterExprDefinition implements IFilterExprDefinition
 	public FilterExprDefinition( String birtFilterExpr )
 			throws IllegalArgumentException
 	{
-		this.birtFilterExprId = birtFilterExpr;
+		birtFilterExprId = birtFilterExpr;
 		initBirtExpr( birtFilterExpr.toLowerCase( ).hashCode( ) );
 	}
 
@@ -77,7 +80,7 @@ class FilterExprDefinition implements IFilterExprDefinition
 	 */
 	public int expressionSupportedType( )
 	{
-		return this.BIRT_SUPPORT_ONLY;
+		return BIRT_SUPPORT_ONLY;
 	}
 
 	/*
@@ -99,7 +102,7 @@ class FilterExprDefinition implements IFilterExprDefinition
 	 */
 	public String getBirtFilterExprDisplayName( )
 	{
-		return this.birtFilterDisplayName;
+		return birtFilterDisplayName;
 	}
 
 	/*
@@ -171,189 +174,170 @@ class FilterExprDefinition implements IFilterExprDefinition
 	 */
 	public boolean supportsUnboundedMaxArguments( )
 	{
-		return this.supportUnboundedMaxArgs;
+		return supportUnboundedMaxArgs;
 	}
 
 	protected void initBirtExpr( int birtOperator )
 	{
 		if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_BETWEEN == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_BETWEEN;
-			this.birtFilterDisplayName = "Between";
-			this.maxArgs = 2;
-			this.minArgs = 2;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_BETWEEN;
+			maxArgs = 2;
+			minArgs = 2;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_BOTTOM_N == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N;
-			this.birtFilterDisplayName = "Bottom N";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_BOTTOM_PERCENT == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT;
-			this.birtFilterDisplayName = "Bottom Percent";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_EQ == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_EQ;
-			this.birtFilterDisplayName = "Equal To";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_EQ;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_FALSE == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_FALSE;
-			this.birtFilterDisplayName = "Is False";
-			this.maxArgs = 0;
-			this.minArgs = 0;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_FALSE;
+			maxArgs = 0;
+			minArgs = 0;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_GE == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_GE;
-			this.birtFilterDisplayName = "Greater Than or Equal";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_GE;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_GT == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_GT;
-			this.birtFilterDisplayName = "Greater Than";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_GT;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_LE == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_LE;
-			this.birtFilterDisplayName = "Less Than or Equal";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_LE;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_LIKE == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_LIKE;
-			this.birtFilterDisplayName = "Like";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_LIKE;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_LT == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_LT;
-			this.birtFilterDisplayName = "Less Than";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_LT;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_NE == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NE;
-			this.birtFilterDisplayName = "Not Equal to";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NE;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_NOT_BETWEEN == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN;
-			this.birtFilterDisplayName = "Not Between";
-			this.maxArgs = 2;
-			this.minArgs = 2;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN;
+			maxArgs = 2;
+			minArgs = 2;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_NOT_IN == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_IN;
-			this.birtFilterDisplayName = "Not In";
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = true;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_IN;
+			minArgs = 1;
+			supportUnboundedMaxArgs = true;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_NOT_NULL == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL;
-			this.birtFilterDisplayName = "Not Null";
-			this.maxArgs = 0;
-			this.minArgs = 0;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL;
+			maxArgs = 0;
+			minArgs = 0;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_NULL == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NULL;
-			this.birtFilterDisplayName = "Is Null";
-			this.maxArgs = 0;
-			this.minArgs = 0;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NULL;
+			maxArgs = 0;
+			minArgs = 0;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_TOP_N == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_TOP_N;
-			this.birtFilterDisplayName = "Top N";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_TOP_N;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_TOP_PERCENT == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT;
-			this.birtFilterDisplayName = "Top Percent";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_TRUE == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_TRUE;
-			this.birtFilterDisplayName = "Is True";
-			this.maxArgs = 0;
-			this.minArgs = 0;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_TRUE;
+			maxArgs = 0;
+			minArgs = 0;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_MATCH == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_MATCH;
-			this.birtFilterDisplayName = "Match";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_MATCH;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_NOT_LIKE == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE;
-			this.birtFilterDisplayName = "Not Like";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_NOT_MATCH == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH;
-			this.birtFilterDisplayName = "Not Match";
-			this.maxArgs = 1;
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = false;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH;
+			maxArgs = 1;
+			minArgs = 1;
+			supportUnboundedMaxArgs = false;
 		}
 		else if ( IBirtFilterOperatorConstants.FILTER_OPERATOR_IN == birtOperator )
 		{
-			this.birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_IN;
-			this.birtFilterDisplayName = "In";
-			this.minArgs = 1;
-			this.supportUnboundedMaxArgs = true;
+			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_IN;
+			minArgs = 1;
+			supportUnboundedMaxArgs = true;
 		}
 		else
 			throw new IllegalArgumentException(
 					"The Birt filter expression Id is not valid." );
+
+		if ( birtFilterExprId != null )
+			birtFilterDisplayName = getOperatorDisplayName( birtFilterExprId );
 	}
 
 	/*
@@ -362,11 +346,33 @@ class FilterExprDefinition implements IFilterExprDefinition
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#isNegatedExtExprId()
 	 */
-	
+
 	public boolean isNegatedExtExprId( )
 	{
 		// the default value is false.
 		return false;
+	}
+
+	/**
+	 * Finds the display name for the given operator.
+	 * 
+	 * @param operator
+	 *            the operator name
+	 * @return the display name
+	 */
+
+	private String getOperatorDisplayName( String operator )
+	{
+		IChoiceSet allowedChoices = MetaDataDictionary.getInstance( )
+				.getChoiceSet( DesignChoiceConstants.CHOICE_FILTER_OPERATOR );
+
+		assert allowedChoices != null;
+
+		IChoice choice = allowedChoices.findChoice( operator );
+		if ( choice != null )
+			return choice.getDisplayName( );
+
+		return null;
 	}
 
 }
