@@ -26,7 +26,9 @@ public interface IDataRowExpressionEvaluator
 	 *            String expression
 	 * @return An Object representing the evaluated expression. The Object must
 	 *         be of a type String, Number, Date, Calendar, or it will be
-	 *         evaluated as a String using toString().
+	 *         evaluated as a String using toString(). If there is any
+	 *         BirtException being caught by evaluation, the return value will
+	 *         be the caught BirtException.
 	 */
 	Object evaluate( String expression );
 
