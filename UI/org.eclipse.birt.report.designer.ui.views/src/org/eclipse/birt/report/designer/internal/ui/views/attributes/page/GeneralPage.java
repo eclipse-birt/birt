@@ -46,11 +46,14 @@ public abstract class GeneralPage extends GeneralFontPage
 		librarySection = new TextSection( provider.getDisplayName( ),
 				container,
 				true );
+		librarySection.setWidth( 500 );
+		librarySection.setFillText( false );
 		librarySection.setProvider( provider );
 		addSection( PageSectionId.GENERAL_LIBRARY, librarySection );
 
 		noteSection = new FormTextSection( "", container, true ); //$NON-NLS-1$
-
+		noteSection.setWidth( 500 );
+		noteSection.setFillText( false );
 		noteSection.setText( "<form><p><span color=\"color\">" + //$NON-NLS-1$
 				Messages.getFormattedString( "GeneralPage.Library.Modified.Note",
 						new Object[]{
@@ -76,10 +79,13 @@ public abstract class GeneralPage extends GeneralFontPage
 				&& DEUtil.getMultiSelectionHandle( (List) input )
 						.isExtendedElements( ) )
 		{
+
 			librarySection.setHidden( false );
+
 
 			if ( hasLocalProperties( ) )
 			{
+
 				noteSection.setHidden( false );
 				Font font = JFaceResources.getDialogFont( );
 				FontData fData = font.getFontData( )[0];
