@@ -81,7 +81,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.38 $ $Date: 2009/02/23 06:07:22 $
+ * @version $Revision$ $Date$
  */
 public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		implements
@@ -1470,6 +1470,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 						IParameterDefn[] params = aggrFunc.getParameterDefn( );
 						for ( int i = 0; i < params.length; i++ )
 						{
+							if( txtParams[i].getText( ).trim( ).length( )== 0)
+								continue;
 							aggrArgument = StructureFactory.createAggregationArgument( );
 							aggrArgument.setName( params[i].getName( ) );
 							aggrArgument.setValue( txtParams[i].getText( )
@@ -1495,6 +1497,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 						IParameterDefn[] params = aggrFunc.getParameterDefn( );
 						for ( int i = 0; i < params.length; i++ )
 						{
+							if( txtParams[i].getText( ).trim( ).length( )== 0)
+								continue;
 							aggrArgument = StructureFactory.createAggregationArgument( );
 							aggrArgument.setName( params[i].getName( ) );
 							aggrArgument.setValue( txtParams[i].getText( )
