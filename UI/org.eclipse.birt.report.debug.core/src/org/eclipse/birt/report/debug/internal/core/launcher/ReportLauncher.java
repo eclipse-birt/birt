@@ -67,10 +67,11 @@ import com.ibm.icu.util.ULocale;
  */
 public class ReportLauncher implements VMListener, IReportLaunchConstants
 {
-
+	public static final String NULLVALUE = "NULL NULL NULL NULL NULL VALUE";  //$NON-NLS-1$
 	private static final Logger logger = Logger.getLogger( ReportLauncher.class.getName( ) );
 
 	private static final String RPTDOC_SUFFIX = "rptdocument"; //$NON-NLS-1$
+	
 
 	private IReportEngine engine;
 	private EngineConfig engineConfig;
@@ -194,7 +195,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 			{
 				addParameter( paramValues, str, propertys.getProperty( str ) );
 			}
-			else if ( str.startsWith( ATTR_MULPARAMRTER + "0" ) )
+			else if ( str.startsWith( ATTR_MULPARAMRTER + "0" ) ) //$NON-NLS-1$
 			{
 				addMulitipleParameter( paramValues,
 						str,
@@ -296,6 +297,10 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 	private Object getParameterObject( String key, String value )
 	{
+		if (NULLVALUE.equals( value ))
+		{
+			value = null;
+		}
 		ParameterHandle temp = findParameter( key );
 		if ( temp instanceof ScalarParameterHandle )
 		{
@@ -345,6 +350,10 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 	public static Object convert( Object value, String dataType )
 			throws BirtException
 	{
+		if (value == null)
+		{
+			return value;
+		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( dataType ) )
 		{
 			return DataTypeUtil.toBoolean( value );

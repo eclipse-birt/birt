@@ -130,6 +130,10 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		{
 			String key = (String) iterator.next( );
 			Object obj = paramValues.get( key );
+			if (obj == null)
+			{
+				obj = ReportLauncher.NULLVALUE;
+			}
 			if ( obj instanceof Object[] )
 			{
 				// continue;
@@ -151,7 +155,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 			}
 			else
 			{
-				String value = String.valueOf( paramValues.get( key ) );
+				String value = String.valueOf( obj );
 				StringBuffer buff = new StringBuffer( );
 				buff.append( "-D" ); //$NON-NLS-1$
 				buff.append( ATTR_PARAMRTER );
