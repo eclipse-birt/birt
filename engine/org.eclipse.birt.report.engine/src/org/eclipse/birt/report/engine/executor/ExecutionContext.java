@@ -674,7 +674,7 @@ public class ExecutionContext
 				scriptText );
 		if ( compiledScript == null )
 		{
-			compiledScript = scriptContext.compile( language, fileName,
+			compiledScript = getScriptContext( ).compile( language, fileName,
 					lineNumber, scriptText );
 			runnable.putScript( language, scriptText, compiledScript );
 		}
