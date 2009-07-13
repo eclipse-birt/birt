@@ -254,8 +254,8 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		catch ( BirtException e )
 		{
 			sLogger.log( e );
+			return e;
 		}
-		return null;
 	}
 
 	/*
