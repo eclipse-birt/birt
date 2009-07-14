@@ -11,24 +11,23 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -42,6 +41,9 @@ import org.eclipse.swt.widgets.Text;
 public class DataSetParameterBindingInputDialog extends BaseDialog
 {
 
+	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
+	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
+
 	private static final String LABEL_NAME = Messages.getString( "DataSetParameterBindingInputDialog.Label.Name" ); //$NON-NLS-1$
 	private static final String LABEL_DATA_TYPE = Messages.getString( "DataSetParameterBindingInputDialog.Label.DataType" ); //$NON-NLS-1$
 	private static final String LABEL_VALUE = Messages.getString( "DataSetParameterBindingInputDialog.Label.Value" ); //$NON-NLS-1$
@@ -54,8 +56,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 
 	private Label nameLabel, typeLabel;
 	private Text valueEditor;
-	private Button expButton;
-	private String value;
+	private ExpressionHandle value;
 	private DataSetParameterHandle handle;
 	private IExpressionProvider provider;
 
@@ -77,11 +78,15 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	{
 		nameLabel.setText( handle.getName( ) );
 		typeLabel.setText( getParameterDataTypeDisplayName( handle.getParameterDataType( ) ) );
-		if ( value == null )
-		{
-			value = ""; //$NON-NLS-1$
-		}
-		valueEditor.setText( value );
+		valueEditor.setText( value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ) ); //$NON-NLS-1$
+
+		valueEditor.setData( EXPR_TYPE, value == null
+				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
+				: (String) value.getType( ) );
+
+		ExpressionButton button = (ExpressionButton) valueEditor.getData( EXPR_BUTTON );
+		if ( button != null )
+			button.refresh( );
 		return true;
 	}
 
@@ -93,10 +98,15 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		return type;
 	}
 
+
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
-		composite.setLayout( new GridLayout( 2, false ) );
+
+		GridLayout layout = new GridLayout( 2, false );
+		layout.marginWidth = layout.marginHeight = 15;
+
+		composite.setLayout( layout );
 
 		UIUtil.bindHelp( composite,
 				IHelpContextIds.DATA_SET_PARAMETER_BINDING_DIALOG );
@@ -114,32 +124,75 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		valueComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		valueEditor = new Text( valueComposite, SWT.BORDER | SWT.SINGLE );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.minimumWidth = 150;
+		gd.minimumWidth = 250;
 		valueEditor.setLayoutData( gd );
-		expButton = new Button( valueComposite, SWT.PUSH );
-		UIUtil.setExpressionButtonImage( expButton );
-		expButton.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				ExpressionBuilder dialog = new ExpressionBuilder( valueEditor.getText( ) );
-				dialog.setExpressionProvier( provider );
-				if ( dialog.open( ) == OK )
-				{
-					valueEditor.setText( dialog.getResult( ) );
-				}
-			}
-		} );
+		createComplexExpressionButton( valueComposite, valueEditor );
+		
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		Label label = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
+		label.setLayoutData( gd );
+
 		return composite;
+	}
+
+	private void createComplexExpressionButton( Composite parent,
+			final Text text )
+	{
+
+		final ExpressionButton button = UIUtil.createExpressionButton( parent,
+				SWT.PUSH );
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				if ( text != null )
+					return text.getText( );
+				return "";
+			}
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( text != null )
+					text.setText( expression );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return provider;
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) text.getData( EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				text.setData( EXPR_TYPE, exprType );
+			}
+
+		};
+
+		button.setExpressionHelper( helper );
+
+		text.setData( EXPR_BUTTON, button );
 	}
 
 	protected void okPressed( )
 	{
-		setResult( valueEditor.getText( ) );
+		setResult( new Expression( valueEditor.getText( ),
+				(String) valueEditor.getData( EXPR_TYPE ) ) );
 		super.okPressed( );
 	}
 
-	public void setValue( String value )
+	public void setValue( ExpressionHandle value )
 	{
 		this.value = value;
 	}

@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -36,6 +38,8 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -94,6 +98,9 @@ import org.eclipse.ui.PlatformUI;
 
 public class FilterConditionBuilder extends BaseTitleAreaDialog
 {
+
+	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
+	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 
 	protected static Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
 
@@ -400,6 +407,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				{
 					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
 				}
+
+				expression.setData( EXPR_TYPE, ExpressionType.JAVASCRIPT );
+				( (ExpressionButton) expression.getData( EXPR_BUTTON ) ).refresh( );
 				updateButtons( );
 			}
 		} );
@@ -411,21 +421,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			}
 		} );
 
-		Button expBuilder = new Button( condition, SWT.PUSH );
-		// expBuilder.setText( "..." ); //$NON-NLS-1$
-		gdata = new GridData( );
-		gdata.heightHint = 20;
-		gdata.widthHint = 20;
-		expBuilder.setLayoutData( gdata );
-		UIUtil.setExpressionButtonImage( expBuilder );
-		expBuilder.setToolTipText( Messages.getString( "FilterConditionBuilder.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
-		expBuilder.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				editValue( expression );
-			}
-		} );
+		createComplexExpressionButton( condition, expression );
 
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
@@ -443,6 +439,78 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
 		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+	}
+
+	private void createComplexExpressionButton( Composite parent,
+			final Combo combo )
+	{
+		final IExpressionProvider[] provider = new IExpressionProvider[1];
+
+		if ( designHandle != null )
+		{
+			if ( expressionProvider == null )
+			{
+				if ( designHandle instanceof TabularCubeHandle
+						|| designHandle instanceof TabularHierarchyHandle )
+				{
+					provider[0] = new BindingExpressionProvider( designHandle,
+							null );
+				}
+				else
+				{
+					provider[0] = new ExpressionProvider( designHandle );
+				}
+			}
+			else
+			{
+				provider[0] = expressionProvider;
+			}
+
+		}
+
+		final ExpressionButton button = UIUtil.createExpressionButton( parent,
+				SWT.PUSH );
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				if ( combo != null )
+					return combo.getText( );
+				return "";
+			}
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+				updateButtons( );
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( combo != null )
+					combo.setText( expression );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return provider[0];
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) combo.getData( EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				combo.setData( EXPR_TYPE, exprType );
+			}
+
+		};
+
+		button.setExpressionHelper( helper );
+
+		combo.setData( EXPR_BUTTON, button );
 	}
 
 	// protected Listener expValueVerifyListener = new Listener( ) {
@@ -1494,13 +1562,32 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	}
 
+	private void setExpression( )
+	{
+		ExpressionHandle expressionHandle = (ExpressionHandle) filterCondition.getExpressionProperty( FilterCondition.EXPR_MEMBER );
+
+		expression.setText( expressionHandle == null
+				|| expressionHandle.getExpression( ) == null ? "" : (String) expressionHandle.getExpression( ) ); //$NON-NLS-1$
+
+		expression.setData( EXPR_TYPE,
+				expressionHandle == null || expressionHandle.getType( ) == null ? UIUtil.getDefaultScriptType( )
+						: (String) expressionHandle.getType( ) );
+
+		ExpressionButton button = (ExpressionButton) expression.getData( EXPR_BUTTON );
+		if ( button != null )
+			button.refresh( );
+	}
+
 	/**
 	 * SYNC the control value according to the handle.
 	 */
 	protected void syncViewProperties( )
 	{
 
-		expression.setText( DEUtil.resolveNull( filterCondition.getExpr( ) ) );
+		filterCondition.getProperty( FilterCondition.EXPR_MEMBER );
+
+		setExpression( );
+
 		operator.select( getIndexForOperatorValue( filterCondition.getOperator( ) ) );
 		valueVisible = determineValueVisible( filterCondition.getOperator( ) );
 
@@ -1563,6 +1650,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			if ( filterCondition == null )
 			{
 				FilterCondition filter = StructureFactory.createFilterCond( );
+
 				filter.setProperty( FilterCondition.OPERATOR_MEMBER,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 				if ( valueVisible == 3 )
@@ -1590,7 +1678,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				}
 
 				// set test expression for new map rule
-				filter.setExpr( DEUtil.resolveNull( expression.getText( ) ) );
+				filter.setExpressionProperty( FilterCondition.EXPR_MEMBER,
+						new Expression( expression.getText( ).trim( ),
+								(String) expression.getData( EXPR_TYPE ) ) );
 				PropertyHandle propertyHandle = designHandle.getPropertyHandle( ListingHandle.FILTER_PROP );
 				propertyHandle.addItem( filter );
 			}
@@ -1624,7 +1714,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 						filterCondition.setValue2( NULL_STRING );
 					}
 				}
-				filterCondition.setExpr( DEUtil.resolveNull( expression.getText( ) ) );
+				filterCondition.setExpressionProperty( FilterCondition.EXPR_MEMBER,
+						new Expression( expression.getText( ).trim( ),
+								(String) expression.getData( EXPR_TYPE ) ) );
 			}
 		}
 		catch ( Exception e )

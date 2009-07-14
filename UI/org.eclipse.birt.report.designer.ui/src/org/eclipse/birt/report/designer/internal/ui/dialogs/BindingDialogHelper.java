@@ -29,12 +29,14 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -43,6 +45,9 @@ import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -89,6 +94,9 @@ import org.eclipse.ui.PlatformUI;
 public class BindingDialogHelper extends AbstractBindingDialogHelper
 {
 
+	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
+	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
+
 	protected static final String NAME = Messages.getString( "BindingDialogHelper.text.Name" ); //$NON-NLS-1$
 	protected static final String DATA_TYPE = Messages.getString( "BindingDialogHelper.text.DataType" ); //$NON-NLS-1$
 	protected static final String FUNCTION = Messages.getString( "BindingDialogHelper.text.Function" ); //$NON-NLS-1$
@@ -120,7 +128,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private Composite paramsComposite;
 
 	private Map<String, Control> paramsMap = new LinkedHashMap<String, Control>( );
-	private Map<String, String> paramsValueMap = new HashMap<String, String>( );
+	private Map<String, String[]> paramsValueMap = new HashMap<String, String[]>( );
 
 	private Composite composite;
 	private Text txtDisplayName, txtDisplayNameID;
@@ -215,7 +223,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				openKeySelectionDialog( );
 			}
 		} );
-		
+
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
 		txtDisplayName.setLayoutData( gd );
@@ -251,7 +259,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 		gd = new GridData( GridData.FILL_BOTH );
 		composite.setLayoutData( gd );
-		setContentSize(composite);
+		setContentSize( composite );
 	}
 
 	private void openKeySelectionDialog( )
@@ -322,7 +330,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							break;
 						}
 					}
-					setDataFieldExpression( getBinding( ).getExpression( ) );
+					setDataFieldExpression( getBinding( ) );
 				}
 			}
 			else
@@ -379,7 +387,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						break;
 					}
 				}
-				setDataFieldExpression( getBinding( ).getExpression( ) );
+				setDataFieldExpression( getBinding( ) );
 			}
 			else
 			{
@@ -395,7 +403,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						// the old type 'any'
 						cmbType.setText( "" ); //$NON-NLS-1$
 				}
-				setDataFieldExpression( getBinding( ).getExpression( ) );
+				setDataFieldExpression( getBinding( ) );
 			}
 		}
 
@@ -414,11 +422,27 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		validate( );
 	}
 
+	private void initExpressionButton( ExpressionHandle expressionHandle,
+			Text text )
+	{
+		text.setText( expressionHandle == null
+				|| expressionHandle.getExpression( ) == null ? "" : (String) expressionHandle.getExpression( ) ); //$NON-NLS-1$
+
+		text.setData( EXPR_TYPE,
+				expressionHandle == null || expressionHandle.getType( ) == null ? UIUtil.getDefaultScriptType( )
+						: (String) expressionHandle.getType( ) );
+
+		ExpressionButton button = (ExpressionButton) text.getData( EXPR_BUTTON );
+		if ( button != null )
+			button.refresh( );
+	}
+
 	private void initFilter( )
 	{
-		if ( binding != null && binding.getFilterExpression( ) != null )
+		if ( binding != null )
 		{
-			txtFilter.setText( binding.getFilterExpression( ) );
+			ExpressionHandle expressionHandle = binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER );
+			initExpressionButton( expressionHandle, txtFilter );
 		}
 	}
 
@@ -535,7 +559,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( paramsValueMap.containsKey( param.getName( ) ) )
 		{
-			txtParam.setText( paramsValueMap.get( param.getName( ) ) );
+			txtParam.setText( paramsValueMap.get( param.getName( ) )[0] );
+			txtParam.setData( EXPR_TYPE,
+					paramsValueMap.get( param.getName( ) )[1] );
+			ExpressionButton button = (ExpressionButton) txtParam.getData( EXPR_BUTTON );
+			if ( button != null )
+				button.refresh( );
 			return;
 		}
 		if ( binding != null )
@@ -545,8 +574,19 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
 				if ( arg.getName( ).equals( param.getName( ) ) )
 				{
-					if ( arg.getValue( ) != null )
-						txtParam.setText( arg.getValue( ) );
+					ExpressionHandle value = arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+					
+					txtParam.setText( value == null
+							|| value.getExpression( ) == null ? "" : (String) value.getExpression( ) ); //$NON-NLS-1$
+
+					txtParam.setData( EXPR_TYPE,
+							value == null
+									|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
+									: (String) value.getType( ) );
+
+					ExpressionButton button = (ExpressionButton) txtParam.getData( EXPR_BUTTON );
+					if ( button != null )
+						button.refresh( );
 					return;
 				}
 			}
@@ -563,26 +603,44 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		cmbDataField.setItems( getColumnBindings( ) );
 		if ( paramsValueMap.containsKey( param.getName( ) ) )
 		{
-			cmbDataField.setText( paramsValueMap.get( param.getName( ) ) );
+			cmbDataField.setText( paramsValueMap.get( param.getName( ) )[0] );
+			cmbDataField.setData( EXPR_TYPE,
+					paramsValueMap.get( param.getName( ) )[1] );
+			ExpressionButton button = (ExpressionButton) cmbDataField.getData( EXPR_BUTTON );
+			if ( button != null )
+				button.refresh( );
 			return;
 		}
 		if ( binding != null )
 		{
+			ExpressionHandle expressionHandle = null;
 			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 			{
 				AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
 				if ( arg.getName( ).equals( param.getName( ) ) )
 				{
-					if ( arg.getValue( ) != null )
-						cmbDataField.setText( arg.getValue( ) );
-					return;
+					ExpressionHandle value = arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+
+					expressionHandle = value;
+
+					break;
 				}
 			}
-			// backforward compatble
-			if ( binding.getExpression( ) != null )
-			{
-				cmbDataField.setText( binding.getExpression( ) );
-			}
+
+			if ( expressionHandle == null )
+				expressionHandle = binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+
+			cmbDataField.setText( expressionHandle == null
+					|| expressionHandle.getExpression( ) == null ? "" : (String) expressionHandle.getExpression( ) ); //$NON-NLS-1$
+
+			cmbDataField.setData( EXPR_TYPE,
+					expressionHandle == null
+							|| expressionHandle.getType( ) == null ? UIUtil.getDefaultScriptType( )
+							: (String) expressionHandle.getType( ) );
+
+			ExpressionButton button = (ExpressionButton) cmbDataField.getData( EXPR_BUTTON );
+			if ( button != null )
+				button.refresh( );
 		}
 	}
 
@@ -637,9 +695,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					btnTable.setSelection( false );
 					btnGroup.setSelection( true );
 				}
-				else if (this.container instanceof ListGroupHandle)
+				else if ( this.container instanceof ListGroupHandle )
 				{
-					ListGroupHandle groupHandle = (ListGroupHandle)  this.container;
+					ListGroupHandle groupHandle = (ListGroupHandle) this.container;
 					for ( int i = 0; i < groups.length; i++ )
 					{
 						if ( groups[i].equals( groupHandle.getName( ) ) )
@@ -685,17 +743,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return new String[0];
 	}
 
-	private void setDataFieldExpression( String expression )
+	private void setDataFieldExpression( ComputedColumnHandle binding )
 	{
-		if ( expression != null )
+		if ( binding != null )
 		{
-			// if ( cmbDataField != null && !cmbDataField.isDisposed( ) )
-			// {
-			// cmbDataField.setText( expression );
-			// }
 			if ( txtExpression != null && !txtExpression.isDisposed( ) )
 			{
-				txtExpression.setText( expression );
+				ExpressionHandle exprssionHandle = binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+				initExpressionButton( exprssionHandle, txtExpression );
 			}
 		}
 	}
@@ -776,7 +831,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		txtFilter.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 
-		createExpressionButton( composite, txtFilter );
+		createComplexExpressionButton( composite, txtFilter );
 
 		txtFilter.addModifyListener( new ModifyListener( ) {
 
@@ -862,7 +917,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
 		txtExpression = new Text( composite, SWT.BORDER );
 		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createExpressionButton( composite, txtExpression );
+		createComplexExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -1045,7 +1100,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							{
 								validate( );
 								paramsValueMap.put( param.getName( ),
-										cmbDataField.getText( ) );
+										new String[]{
+												cmbDataField.getText( ),
+												(String) cmbDataField.getData( EXPR_TYPE )
+										} );
 							}
 						} );
 
@@ -1058,6 +1116,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 								{
 									cmbDataField.setText( expr );
 								}
+								cmbDataField.setData( EXPR_TYPE,
+										ExpressionType.JAVASCRIPT );
+								ExpressionButton button = (ExpressionButton) cmbDataField.getData( EXPR_BUTTON );
+								if ( button != null )
+									button.refresh( );
 							}
 						} );
 
@@ -1067,21 +1130,26 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					{
 						final Text txtParam = new Text( paramsComposite,
 								SWT.BORDER );
-						initTextField( txtParam, param );
 						txtParam.addModifyListener( new ModifyListener( ) {
 
 							public void modifyText( ModifyEvent e )
 							{
 								validate( );
 								paramsValueMap.put( param.getName( ),
-										txtParam.getText( ) );
+										new String[]{
+												txtParam.getText( ),
+												(String) txtParam.getData( EXPR_TYPE )
+										} );
 							}
 						} );
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 						gridData.horizontalIndent = 0;
 						txtParam.setLayoutData( gridData );
-						createExpressionButton( paramsComposite, txtParam );
+						createComplexExpressionButton( paramsComposite,
+								txtParam );
 						paramsMap.put( param.getName( ), txtParam );
+
+						initTextField( txtParam, param );
 
 					}
 				}
@@ -1110,65 +1178,127 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
 		paramsComposite.layout( true, true );
-		setContentSize(composite);
+		setContentSize( composite );
 	}
 
-	private void createExpressionButton( final Composite parent, final Text text )
+	private void createComplexExpressionButton( Composite parent,
+			final Text text )
 	{
-		Button expressionButton = new Button( parent, SWT.PUSH );
+		final IExpressionProvider[] provider = new IExpressionProvider[1];
 
 		if ( expressionProvider == null )
 			expressionProvider = new BindingExpressionProvider( this.bindingHolder,
 					this.binding );
 
-		UIUtil.setExpressionButtonImage( expressionButton );
-		expressionButton.addSelectionListener( new SelectionAdapter( ) {
+		provider[0] = expressionProvider;
 
-			public void widgetSelected( SelectionEvent e )
+		final ExpressionButton button = UIUtil.createExpressionButton( parent,
+				SWT.PUSH );
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
 			{
-				ExpressionBuilder expression = new ExpressionBuilder( text.getText( ) );
-				expression.setExpressionProvier( expressionProvider );
-
-				if ( expression.open( ) == Window.OK )
-				{
-					if ( expression.getResult( ) != null )
-						text.setText( expression.getResult( ) );
-				}
+				if ( text != null )
+					return text.getText( );
+				return "";
 			}
-		} );
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+				validate( );
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( text != null )
+					text.setText( expression );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return provider[0];
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) text.getData( EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				text.setData( EXPR_TYPE, exprType );
+			}
+
+		};
+
+		button.setExpressionHelper( helper );
+
+		text.setData( EXPR_BUTTON, button );
+
 		if ( isRef )
 		{
-			expressionButton.setEnabled( false );
+			button.setEnabled( false );
 		}
 	}
 
 	private void createExpressionButton( final Composite parent,
 			final Combo combo )
 	{
-		Button expressionButton = new Button( parent, SWT.PUSH );
-		combo.setData( "express", expressionButton ); //$NON-NLS-1$
+		final IExpressionProvider[] provider = new IExpressionProvider[1];
+
 		if ( expressionProvider == null )
 			expressionProvider = new BindingExpressionProvider( this.bindingHolder,
 					this.binding );
 
-		UIUtil.setExpressionButtonImage( expressionButton );
-		expressionButton.addSelectionListener( new SelectionAdapter( ) {
+		provider[0] = expressionProvider;
 
-			public void widgetSelected( SelectionEvent e )
+		final ExpressionButton button = UIUtil.createExpressionButton( parent,
+				SWT.PUSH );
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
 			{
-				ExpressionBuilder expression = new ExpressionBuilder( combo.getText( ) );
-				expression.setExpressionProvier( expressionProvider );
-
-				if ( expression.open( ) == Window.OK )
-				{
-					if ( expression.getResult( ) != null )
-						combo.setText( expression.getResult( ) );
-				}
+				if ( combo != null )
+					return combo.getText( );
+				return "";
 			}
-		} );
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+				validate( );
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( combo != null )
+					combo.setText( expression );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return provider[0];
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) combo.getData( EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				combo.setData( EXPR_TYPE, exprType );
+			}
+		};
+
+		button.setExpressionHelper( helper );
+
+		combo.setData( EXPR_BUTTON, button );
+
 		if ( isRef )
 		{
-			expressionButton.setEnabled( false );
+			button.setEnabled( false );
 		}
 	}
 
@@ -1241,7 +1371,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			if ( !strEquals( binding.getDisplayName( ),
 					txtDisplayName.getText( ) ) )
 				return true;
-			if ( !strEquals( binding.getDisplayNameID( ), txtDisplayNameID.getText( ) ) )
+			if ( !strEquals( binding.getDisplayNameID( ),
+					txtDisplayNameID.getText( ) ) )
 				return true;
 			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
 				return true;
@@ -1254,8 +1385,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			catch ( AdapterException e )
 			{
 			}
-			if ( !strEquals( binding.getFilterExpression( ),
-					txtFilter.getText( ) ) )
+			if ( !expressionEquals( binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER ),
+					txtFilter ) )
 				return true;
 			if ( btnTable.getSelection( ) == ( binding.getAggregateOn( ) != null ) )
 				return true;
@@ -1270,8 +1401,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
 				if ( paramsMap.containsKey( handle.getName( ) ) )
 				{
-					String paramValue = getControlValue( paramsMap.get( handle.getName( ) ) );
-					if ( !strEquals( handle.getValue( ), paramValue ) )
+					String[] paramValue = getControlValue( paramsMap.get( handle.getName( ) ) );
+					if ( !expressionEquals( handle.getExpressionProperty( AggregationArgument.VALUE_MEMBER ),
+							paramValue ) )
 					{
 						return true;
 					}
@@ -1297,25 +1429,69 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			if ( !strEquals( txtDisplayName.getText( ),
 					binding.getDisplayName( ) ) )
 				return true;
-			if ( !strEquals( txtDisplayNameID.getText( ), binding.getDisplayNameID( ) ) )
+			if ( !strEquals( txtDisplayNameID.getText( ),
+					binding.getDisplayNameID( ) ) )
 				return true;
 			if ( !strEquals( getDataType( ), binding.getDataType( ) ) )
 				return true;
-			if ( !strEquals( txtExpression.getText( ), binding.getExpression( ) ) )
+			if ( !expressionEquals( binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER ),
+					txtExpression ) )
 				return true;
 		}
 		return false;
 	}
 
-	private String getControlValue( Control control )
+	private boolean expressionEquals( ExpressionHandle expressionHandle,
+			Text text )
+	{
+		if ( expressionHandle == null )
+		{
+			if ( text.getText( ).trim( ).length( ) == 0 )
+				return true;
+		}
+		else
+		{
+			if ( strEquals( expressionHandle.getStringExpression( ),
+					text.getText( ) )
+					&& strEquals( expressionHandle.getType( ),
+							(String) text.getData( EXPR_TYPE ) ) )
+				return true;
+		}
+		return false;
+	}
+
+	private boolean expressionEquals( ExpressionHandle expressionHandle,
+			String[] strs )
+	{
+		if ( expressionHandle == null )
+		{
+			if ( strs[0].trim( ).length( ) == 0 )
+				return true;
+		}
+		else
+		{
+			if ( strEquals( expressionHandle.getStringExpression( ), strs[0] )
+					&& strEquals( expressionHandle.getType( ), strs[1] ) )
+				return true;
+		}
+		return false;
+	}
+
+	private String[] getControlValue( Control control )
 	{
 		if ( control instanceof Text )
 		{
-			return ( (Text) control ).getText( );
+			return new String[]{
+					( (Text) control ).getText( ),
+					(String) control.getData( EXPR_TYPE )
+			};
 		}
 		else if ( control instanceof Combo )
 		{
-			return ( (Combo) control ).getText( );
+			return new String[]{
+					( (Combo) control ).getText( ),
+					(String) control.getData( EXPR_TYPE )
+			};
 		}
 		return null;
 	}
@@ -1377,7 +1553,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			// binding.setExpression( cmbDataField.getText( ) );
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
-			binding.setFilterExpression( txtFilter.getText( ) );
+
+			binding.setExpressionProperty( ComputedColumn.FILTER_MEMBER,
+					new Expression( txtFilter.getText( ).trim( ),
+							(String) txtFilter.getData( EXPR_TYPE ) ) );
 
 			if ( btnTable.getSelection( ) )
 			{
@@ -1395,12 +1574,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			for ( Iterator iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
 			{
 				String arg = (String) iterator.next( );
-				String value = getControlValue( paramsMap.get( arg ) );
+				String[] value = getControlValue( paramsMap.get( arg ) );
 				if ( value != null )
 				{
 					AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
 					argHandle.setName( arg );
-					argHandle.setValue( value );
+					argHandle.setExpressionProperty( AggregationArgument.VALUE_MEMBER,
+							new Expression( value[0], value[1] ) );
 					binding.addArgument( argHandle );
 				}
 			}
@@ -1418,7 +1598,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			binding.setDisplayName( txtDisplayName.getText( ) );
 			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
-			binding.setExpression( txtExpression.getText( ) );
+
+			binding.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+					new Expression( txtExpression.getText( ).trim( ),
+							(String) txtExpression.getData( EXPR_TYPE ) ) );
 		}
 		return binding;
 	}
@@ -1457,8 +1640,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			String type = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
 					.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) )
 					.getDataType( ) ) );
-			if ( type != null
-					&& !type.equals( "" ) //$NON-NLS-1$
+			if ( type != null && !type.equals( "" ) //$NON-NLS-1$
 					&& !type.equals( cmbType.getText( ) ) )
 			{
 				if ( !canProcessFunctionTypeError( cmbFunction.getText( ),
@@ -1493,12 +1675,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					if ( param.isDataField( ) )
 					{
-						String expression = getControlValue( paramsMap.get( param.getName( ) ) );
+						String[] expression = getControlValue( paramsMap.get( param.getName( ) ) );
 						if ( expression != null )
 						{
 							if ( bindingList != null )
 							{
-								String bindingName = ExpressionUtil.getColumnBindingName( expression );
+								String bindingName = ExpressionUtil.getColumnBindingName( expression[0] );
 								if ( bindingName != null )
 									for ( ComputedColumnHandle bindingHandle : bindingList )
 									{
@@ -1507,7 +1689,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 										{
 											if ( !param.supportDataType( DataAdapterUtil.adaptModelDataType( bindingHandle.getDataType( ) ) ) )
 											{
-												if ( !canProcessParamTypeError( expression,
+												if ( !canProcessParamTypeError( expression[0],
 														param.getDisplayName( ) ) )
 												{
 													return false;
@@ -1520,7 +1702,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 							if ( columnList != null )
 							{
-								String columnName = ExpressionUtil.getColumnName( expression );
+								String columnName = ExpressionUtil.getColumnName( expression[0] );
 								if ( columnName != null )
 									for ( ResultSetColumn column : columnList )
 									{
@@ -1529,7 +1711,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 										{
 											if ( !param.supportDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) ) )
 											{
-												if ( !canProcessParamTypeError( expression,
+												if ( !canProcessParamTypeError( expression[0],
 														param.getDisplayName( ) ) )
 												{
 													return false;
@@ -1596,7 +1778,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String getBaseName( )
 	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).getIncludeResource( );
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getIncludeResource( );
 	}
 
 }

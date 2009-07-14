@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs.expression;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionBuilder;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MenuButton;
-import org.eclipse.birt.report.model.api.ExpressionType;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -97,7 +100,15 @@ public class ExpressionButton
 		{
 			type = helper.getExpressionType( );
 		}
-		return type != null ? type : ExpressionType.JAVASCRIPT;
+		type = type != null ? type : UIUtil.getDefaultScriptType( );
+
+		if ( provider != null )
+		{
+			List types = Arrays.asList( provider.getExpressionTypes( ) );
+			if ( !types.contains( type ) && types.size( ) > 0 )
+				type = types.get( 0 ).toString( );
+		}
+		return type;
 	}
 
 	public String getExpression( )
@@ -179,6 +190,10 @@ public class ExpressionButton
 				item.setImage( this.provider.getImage( types[i] ) );
 				item.addSelectionListener( listener );
 			}
+
+			if ( menu.getItemCount( ) <= 1 )
+				button.setDropDownMenu( null );
+
 			refresh( );
 		}
 	}

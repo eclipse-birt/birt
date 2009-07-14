@@ -109,7 +109,13 @@ public class MenuButton extends Composite
 		Point size = tmp.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		tmp.dispose( );
 
-		width = size.x + WIDTH_MORE;
+		if ( menu != null )
+		{
+			width = size.x + WIDTH_MORE;
+		}
+		else
+			width = size.x;
+
 		if ( isFixed && image != null )
 		{
 			int imageWidth = image.getImageData( ).width;
@@ -304,11 +310,16 @@ public class MenuButton extends Composite
 			Color bgColor = e.gc.getBackground( );
 			e.gc.setBackground( e.gc.getForeground( ) );
 			Rectangle size = button.getBounds( );
-			Rectangle rect = new Rectangle( size.width - 12,
-					0,
-					TRIANGLE_WIDTH,
-					size.height );
-			UIUtil.drawArrow( e.gc, rect, SWT.DOWN );
+
+			if ( menu != null )
+			{
+				Rectangle rect = new Rectangle( size.width - 12,
+						0,
+						TRIANGLE_WIDTH,
+						size.height );
+				UIUtil.drawArrow( e.gc, rect, SWT.DOWN );
+			}
+
 			e.gc.setBackground( bgColor );
 
 			int height = e.gc.textExtent( "", DRAW_FLAGS ).y;
@@ -330,13 +341,19 @@ public class MenuButton extends Composite
 
 			int left = WIDTH_MORE + MARGIN_GAP - 1;
 
-			Color fgColor = e.gc.getForeground( );
-			e.gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
-			e.gc.drawLine( size.width - left,
-					( size.height - height ) / 2,
-					size.width - left,
-					( size.height - height ) / 2 + height );
-			e.gc.setForeground( fgColor );
+			if ( menu == null )
+				left = MARGIN_GAP - 1;
+
+			if ( menu != null )
+			{
+				Color fgColor = e.gc.getForeground( );
+				e.gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+				e.gc.drawLine( size.width - left,
+						( size.height - height ) / 2,
+						size.width - left,
+						( size.height - height ) / 2 + height );
+				e.gc.setForeground( fgColor );
+			}
 
 			if ( text != null && text.trim( ).length( ) > 0 )
 			{

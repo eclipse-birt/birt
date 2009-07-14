@@ -28,6 +28,8 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -119,7 +121,8 @@ public class ParameterBindingPage extends Composite implements Listener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#buildUI()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#buildUI()
 	 */
 	protected void buildUI( )
 	{
@@ -181,7 +184,8 @@ public class ParameterBindingPage extends Composite implements Listener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refreshValues(java.util.Set)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#refreshValues(java.util.Set)
 	 */
 	protected void refreshValues( )
 	{
@@ -244,8 +248,10 @@ public class ParameterBindingPage extends Composite implements Listener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
+	 * @see
+	 * org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.
+	 * model.api.DesignElementHandle,
+	 * org.eclipse.birt.model.activity.NotificationEvent)
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
@@ -281,8 +287,9 @@ public class ParameterBindingPage extends Composite implements Listener
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object,
-		 *      int)
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
+		 * .lang.Object, int)
 		 */
 
 		public Image getColumnImage( Object element, int columnIndex )
@@ -293,8 +300,9 @@ public class ParameterBindingPage extends Composite implements Listener
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
-		 *      int)
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
+		 * lang.Object, int)
 		 */
 		public String getColumnText( Object element, int columnIndex )
 		{
@@ -340,7 +348,9 @@ public class ParameterBindingPage extends Composite implements Listener
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
+		 * java.lang.Object)
 		 */
 		public Object[] getElements( Object inputElement )
 		{
@@ -394,8 +404,9 @@ public class ParameterBindingPage extends Composite implements Listener
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
-		 *      java.lang.Object, java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
@@ -537,18 +548,19 @@ public class ParameterBindingPage extends Composite implements Listener
 	private boolean doEdit( Object element )
 	{
 		ParamBindingHandle bindingParameter = (ParamBindingHandle) ( (Object[]) element )[1];
-		String value = null;
+		ExpressionHandle value = null;
 		if ( bindingParameter != null )
 		{
-			value = bindingParameter.getExpression( );
+			value = bindingParameter.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
 		}
 		DataSetParameterBindingInputDialog dialog = new DataSetParameterBindingInputDialog( (DataSetParameterHandle) ( (Object[]) element )[0],
 				new ExpressionProvider( getReportItemHandle( ).getContainer( ) ) );
 		dialog.setValue( value );
 		if ( dialog.open( ) == Dialog.OK )
 		{
-			value = (String) dialog.getResult( );
-			if ( value.length( ) == 0 )
+			Expression result = (Expression) dialog.getResult( );
+			if ( result.getStringExpression( ) == null
+					|| result.getStringExpression( ).length( ) == 0 )
 			{
 				if ( bindingParameter != null )
 				{
@@ -569,21 +581,22 @@ public class ParameterBindingPage extends Composite implements Listener
 			else
 			{
 				startTrans( Messages.getString( "BindingPage.MessageDlg.SaveParamBinding" ) ); //$NON-NLS-1$
-				if ( bindingParameter == null )
+				try
 				{
-					DataSetParameterHandle parameter = (DataSetParameterHandle) ( (Object[]) element )[0];
-					try
+					if ( bindingParameter == null )
 					{
+						DataSetParameterHandle parameter = (DataSetParameterHandle) ( (Object[]) element )[0];
 						bindingParameter = createBindingHandle( parameter.getName( ) );
 					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
-						rollback( );
-						return false;
-					}
+					bindingParameter.setExpressionProperty( ParamBinding.EXPRESSION_MEMBER,
+							result );
 				}
-				bindingParameter.setExpression( value );
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+					rollback( );
+					return false;
+				}
 				commit( );
 				return true;
 			}
