@@ -760,6 +760,11 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			getOkButton( ).setEnabled( propertyPage.okToLeave( ) );
 		}
 	}
+	
+	public void updateOKButtonStatus( boolean isEnabled )
+	{
+		getOkButton( ).setEnabled( isEnabled );
+	}
 
 	/*
 	 * (non-Javadoc)
