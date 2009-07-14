@@ -187,15 +187,15 @@ public class ChartExpressionUtilTest extends TestCase
 		// Cube expression
 		assertEquals( "abc", //$NON-NLS-1$
 				ChartExpressionUtil.getFullBindingName( "data[\"abc\"]" ) ); //$NON-NLS-1$
-		assertEquals( "data%5B%22abc%22%5D+%2B+100", //$NON-NLS-1$
+		assertEquals( "data[abc] + 100", //$NON-NLS-1$
 				ChartExpressionUtil.getFullBindingName( "data[\"abc\"] + 100" ) ); //$NON-NLS-1$
 
 		// Row expression
 		assertEquals( "abc", //$NON-NLS-1$
 				ChartExpressionUtil.getFullBindingName( "row[\"abc\"]" ) ); //$NON-NLS-1$
-		assertEquals( "row%5B%22abc%22%5D+%2B+100", //$NON-NLS-1$
+		assertEquals( "row[abc] + 100", //$NON-NLS-1$
 				ChartExpressionUtil.getFullBindingName( "row[\"abc\"] + 100" ) ); //$NON-NLS-1$
-
+		
 		// Constant
 		assertEquals( "\"abc\"", //$NON-NLS-1$
 				ChartExpressionUtil.getFullBindingName( "\"abc\"" ) ); //$NON-NLS-1$

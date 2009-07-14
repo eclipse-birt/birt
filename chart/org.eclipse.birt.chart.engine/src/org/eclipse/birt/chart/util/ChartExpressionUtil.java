@@ -403,19 +403,12 @@ public class ChartExpressionUtil
 	 */
 	public static String escapeSpecialCharacters( String expression )
 	{
-		try
-		{
-			return URLEncoder.encode( expression, "UTF-8" );//$NON-NLS-1$
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-			return expression.replaceAll( "\\\\\"", "" ) //$NON-NLS-1$ //$NON-NLS-2$
-					.replaceAll( "\"", "" )//$NON-NLS-1$ //$NON-NLS-2$
-					.replaceAll( "\\n", "" )//$NON-NLS-1$ //$NON-NLS-2$
-					.replaceAll( new String( new char[]{
-						(char) -1
-					} ), "" )//$NON-NLS-1$
-					.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
-		}
+		return expression.replaceAll( "\\\\\"", "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				.replaceAll( "\"", "" )//$NON-NLS-1$ //$NON-NLS-2$
+				.replaceAll( "\\n", "" )//$NON-NLS-1$ //$NON-NLS-2$
+				.replaceAll( new String( new char[]{
+					(char) -1
+				} ), "" )//$NON-NLS-1$
+				.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
