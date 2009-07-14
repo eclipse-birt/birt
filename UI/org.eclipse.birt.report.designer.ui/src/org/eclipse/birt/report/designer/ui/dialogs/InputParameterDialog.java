@@ -171,7 +171,9 @@ public class InputParameterDialog extends Dialog
 		composite.setLayout( layout );
 		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		applyDialogFont( composite );
-
+		
+		new Label( composite, SWT.NONE ).setText( Messages.getString( "InputParameterDialog.msg.requiredParam" ) ); //$NON-NLS-1$
+		
 		scrollPane = new ScrolledComposite( composite, SWT.H_SCROLL
 				| SWT.V_SCROLL );
 		scrollPane.setExpandHorizontal( true );
@@ -243,9 +245,9 @@ public class InputParameterDialog extends Dialog
 			Composite parent )
 	{
 		boolean isRequired = param.getHandle( ).isRequired( );
-		boolean isStringType = param.getHandle( )
-				.getDataType( )
-				.equals( DesignChoiceConstants.PARAM_TYPE_STRING );
+		// boolean isStringType = param.getHandle( )
+		// .getDataType( )
+		// .equals( DesignChoiceConstants.PARAM_TYPE_STRING );
 		if ( isRequired )
 		{
 			isRequiredParameters.add( param.getHandle( ).getName( ) );
@@ -254,11 +256,11 @@ public class InputParameterDialog extends Dialog
 		Composite container = new Composite( parent, SWT.NONE );
 		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		GridLayout layout = new GridLayout( );
-		layout.numColumns = 2;
+		//layout.numColumns = 2;
 		container.setLayout( layout );
 
 		Label label = new Label( container, SWT.NONE );
-		label.setText( param.getHandle( ).getDisplayLabel( ) + ":" ); //$NON-NLS-1$
+		label.setText( param.getHandle( ).getDisplayLabel( ) + ( isRequired ? ": *" : ":" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if ( param instanceof StaticTextParameter )
 		{
