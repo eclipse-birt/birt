@@ -79,6 +79,10 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 				SizeBasedContent sizeBasedContent = context
 						.getPageHintManager( ).getSizeBasedContentMapping( )
 						.get( content.getInstanceID( ).toUniqueString( ) );
+				if( sizeBasedContent == null || sizeBasedContent.dimension == -1 )
+				{
+					return;
+				}
 				HtmlRegionArea container = new HtmlRegionArea( );
 				container.setWidth( sizeBasedContent.width );
 				IContainerContent containerContent = content.getReportContent( ).createContainerContent( );

@@ -239,10 +239,10 @@ public class FixedLayoutPageHintGenerator
 		}
 		else
 		{
-			sizeBasedContent.floatPos = 0;
-			sizeBasedContent.offsetInContent = 0;
-			sizeBasedContent.dimension = 0;
-			sizeBasedContent.width = 0;
+			sizeBasedContent.floatPos = -1;
+			sizeBasedContent.offsetInContent = -1;
+			sizeBasedContent.dimension = -1;
+			sizeBasedContent.width = -1;
 		}
 		return sizeBasedContent;
 	}
