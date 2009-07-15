@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.exception.BirtException;
 
@@ -97,18 +98,29 @@ public class ScriptContext implements IScriptContext
 	{
 		if ( attributes != null )
 		{
-			this.attributes.putAll( attributes );
+			for ( Entry<String, Object> attribute : attributes.entrySet( ) )
+			{
+				setAttribute( attribute.getKey( ), attribute.getValue( ) );
+			}
 		}
 	}
 
 	public void setAttribute( String name, Object value )
 	{
 		attributes.put( name, value );
+		for ( IScriptContext context : scriptContexts.values( ) )
+		{
+			context.setAttribute( name, value );
+		}
 	}
 
 	public void removeAttribute( String name )
 	{
 		attributes.remove( name );
+		for ( IScriptContext context : scriptContexts.values( ) )
+		{
+			context.removeAttribute( name );
+		}
 	}
 
 	public ICompiledScript compile( String language, String fileName,
