@@ -2848,7 +2848,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.closeTag( HTMLTags.TAG_A );
 		}
 
-		writer.closeTag( tag );
+		if ( tag != null )
+		{
+			writer.closeTag( tag );
+		}
 	}
 	
 	/**
