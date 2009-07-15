@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
+import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -18,6 +19,7 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -39,7 +41,17 @@ public class DteDataEngine extends AbstractDataEngine
 {
 	
 	private boolean needCache;
-	
+
+	/**
+	 * cache the query - result set mapping. 
+	 *
+     * <li>the key is: [parent rset]"." [row id] "." [query id] </li>
+     * <li>the value is: result set name </li>
+	 *
+     * It is only valid if the  needCache set to true
+	 */
+	protected HashMap<String, String> rsetRelations = new HashMap<String, String>( );
+
 	//FIXME: code review. throw out all exceptions in data engines. And throw exception not return null.	
 
 	/**
@@ -126,11 +138,13 @@ public class DteDataEngine extends AbstractDataEngine
 						.getQueryResults( ), scriptContext );
 			}
 			putCachedQueryResult( query, dteResults.getID( ) );
-		}		
+		}
+
+		IBaseResultSet resultSet;
 		if ( parentResultSet == null )
 		{
 			// this is the root query						
-			return new QueryResultSet( this,
+			resultSet = new QueryResultSet( this,
 					context,
 					query,
 					(IQueryResults) dteResults );
@@ -138,12 +152,17 @@ public class DteDataEngine extends AbstractDataEngine
 		else
 		{
 			// this is the nest query		
-			return new QueryResultSet( this,
+			resultSet = new QueryResultSet( this,
 					context,
 					parentResultSet,
 					query,
 					(IQueryResults) dteResults );
 		}
+		if ( resultSet != null && needCache)
+		{
+			cacheResultID( parentResultSet, query, resultSet );
+		}
+		return resultSet;
 	}
 
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
@@ -197,6 +216,62 @@ public class DteDataEngine extends AbstractDataEngine
 			cachedQueryToResults.put( query, dteResults.getID( ) );
 		}
 
+		if( resultSet != null && needCache)
+		{
+			cacheResultID( parentResultSet, query, resultSet );
+		}
 		return resultSet;
+	}
+
+	protected void cacheResultID( IBaseResultSet parentResultSet,
+			IDataQueryDefinition query, IBaseResultSet resultSet )
+			throws BirtException
+	{
+		String pRsetId = null; // id of the parent query restuls
+		String rowId = "-1"; // row id of the parent query results
+		if ( parentResultSet != null )
+		{
+			if ( parentResultSet instanceof QueryResultSet )
+			{
+				pRsetId = ( (QueryResultSet) parentResultSet )
+						.getQueryResultsID( );
+			}
+			else
+			{
+				pRsetId = ( (CubeResultSet) parentResultSet )
+						.getQueryResultsID( );
+			}
+			rowId = parentResultSet.getRawID( );
+		}
+		String queryID = (String) queryIDMap.get( query );
+		addResultID( pRsetId, rowId, queryID, resultSet.getQueryResults( )
+				.getID( ) );
+	}
+
+	protected void addResultID( String pRsetId, String rowId, String queryId,
+			String rsetId )
+	{
+		keyBuffer.setLength( 0 );
+		keyBuffer.append( pRsetId );
+		keyBuffer.append( "." );
+		keyBuffer.append( rowId );
+		keyBuffer.append( "." );
+		keyBuffer.append( queryId );
+		rsetRelations.put( keyBuffer.toString( ), rsetId );
+	}
+
+	private StringBuffer keyBuffer = new StringBuffer( );
+
+	public String getResultID( String parent, String rowId, String queryId )
+	{
+		keyBuffer.setLength( 0 );
+		keyBuffer.append( parent );
+		keyBuffer.append( "." );
+		keyBuffer.append( rowId );
+		keyBuffer.append( "." );
+		keyBuffer.append( queryId );
+		// try to search the rset id
+		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+		return rsetId;
 	}
 }

@@ -117,7 +117,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 	private StringBuffer keyBuffer = new StringBuffer( );
 
-	protected String getResultID( String pRsetId, String rawId, String queryId )
+	public String getResultID( String pRsetId, String rawId, String queryId )
 	{
 		keyBuffer.setLength( 0 );
 		keyBuffer.append( pRsetId );

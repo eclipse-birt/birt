@@ -37,6 +37,8 @@ import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.data.dte.AbstractDataEngine;
 import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
@@ -248,8 +250,10 @@ public class QueryUtil
 				if ( task.getParent( ) == null )
 				{
 					// this is a top query
+					String rset = getResultSetID( executionContext, null, "-1",
+							query );
 					IBaseQueryResults baseResults = executeQuery( null, query,
-							null, executionContext );
+							rset, executionContext );
 					if ( baseResults == null )
 						return null;
 					if ( baseResults instanceof IQueryResults )
@@ -281,15 +285,20 @@ public class QueryUtil
 					}
 
 					// skip parent to the proper position
+					String parentId = null;
 					if ( parent instanceof IQueryResultSet )
 					{
 						IResultIterator parentItr = ( (IQueryResultSet) parent )
 								.getResultIterator( );
 						parentItr.moveTo( task.getRowID( ) );
+						parentId = ( (QueryResultSet) parent )
+								.getQueryResultsID( );
 					}
 					else if ( parent instanceof ICubeResultSet )
 					{
 						( (ICubeResultSet) parent ).skipTo( task.getCellID( ) );
+						parentId = ( (CubeResultSet) parent )
+								.getQueryResultsID( );
 					}
 
 					if ( query instanceof ISubqueryDefinition )
@@ -305,8 +314,10 @@ public class QueryUtil
 					}
 					else
 					{
+						String rset = getResultSetID( executionContext,
+								parentId, parent.getRawID( ), query  );
 						IBaseQueryResults baseResults = executeQuery( parent
-								.getQueryResults( ), query, null,
+								.getQueryResults( ), query, rset,
 								executionContext );
 						if ( baseResults instanceof IQueryResults )
 						{
@@ -355,6 +366,19 @@ public class QueryUtil
 			results.add( parent );
 		}
 		return results;
+	}
+
+	private static String getResultSetID( ExecutionContext context,
+			String parent, String rowId, IDataQueryDefinition query )
+	{
+		IDataEngine engine = context.getDataEngine( );
+		if ( engine instanceof AbstractDataEngine )
+		{
+			AbstractDataEngine dataEngine = (AbstractDataEngine) engine;
+			String queryId = dataEngine.getQueryID( query );
+			return dataEngine.getResultID( parent, rowId, queryId );
+		}
+		return null;
 	}
 
 	static public void processQueryExtensions( IDataQueryDefinition query,

@@ -156,7 +156,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		rsetIndex.addResultSet( queryId, pRsetId, rowId, rsetId );
 	}
 
-	protected String getResultID( String pRsetId, String rowId, String queryId )
+	public String getResultID( String pRsetId, String rowId, String queryId )
 	{
 		return rsetIndex.getResultSet( queryId, pRsetId, rowId );
 	}

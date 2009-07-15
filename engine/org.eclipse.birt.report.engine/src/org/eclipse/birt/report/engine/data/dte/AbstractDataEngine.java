@@ -385,4 +385,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 		
 	}
 
+	public abstract String getResultID( String parent, String rowId,
+			String queryId );
+
+	public String getQueryID( IDataQueryDefinition query )
+	{
+		return (String) queryIDMap.get( query );
+	}
 }
