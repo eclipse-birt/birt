@@ -1193,7 +1193,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		provider[0] = expressionProvider;
 
 		final ExpressionButton button = UIUtil.createExpressionButton( parent,
-				SWT.PUSH );
+				SWT.PUSH,
+				false );
 		IExpressionHelper helper = new IExpressionHelper( ) {
 
 			public String getExpression( )
@@ -1254,7 +1255,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		provider[0] = expressionProvider;
 
 		final ExpressionButton button = UIUtil.createExpressionButton( parent,
-				SWT.PUSH );
+				SWT.PUSH,
+				false );
 		IExpressionHelper helper = new IExpressionHelper( ) {
 
 			public String getExpression( )

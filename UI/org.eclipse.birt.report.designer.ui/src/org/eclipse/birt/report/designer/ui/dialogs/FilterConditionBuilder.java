@@ -469,7 +469,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		}
 
 		final ExpressionButton button = UIUtil.createExpressionButton( parent,
-				SWT.PUSH );
+				SWT.PUSH,
+				false );
 		IExpressionHelper helper = new IExpressionHelper( ) {
 
 			public String getExpression( )

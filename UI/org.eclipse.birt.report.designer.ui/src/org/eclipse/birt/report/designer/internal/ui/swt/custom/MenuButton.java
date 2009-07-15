@@ -206,6 +206,8 @@ public class MenuButton extends Composite
 				if ( !size.contains( e.x, e.y ) )
 					return;
 				int left = WIDTH_MORE + MARGIN_GAP - 1;
+				if ( menu == null )
+					left = 0;
 
 				if ( e.x < size.width - left )
 				{
