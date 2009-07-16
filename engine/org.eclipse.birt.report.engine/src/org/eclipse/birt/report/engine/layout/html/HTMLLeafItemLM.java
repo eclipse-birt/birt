@@ -17,6 +17,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.IContainerContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
@@ -85,7 +86,8 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 				}
 				HtmlRegionArea container = new HtmlRegionArea( );
 				container.setWidth( sizeBasedContent.width );
-				IContainerContent containerContent = content.getReportContent( ).createContainerContent( );
+				IReportContent report = content.getReportContent( );
+				IContainerContent containerContent = report.createContainerContent( );
 				containerContent.getChildren( ).add( content );
 				LayoutContext pdfLayoutContext = new LayoutContext( );
 				pdfLayoutContext.setFormat( "pdf" );
@@ -94,6 +96,7 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 				pdfLayoutContext.setLocale( engine.locale );
 				pdfLayoutContext.setHtmlLayoutContext( context );
 				pdfLayoutContext.setMaxBP( Integer.MAX_VALUE );
+				pdfLayoutContext.setReport( report );
 				RegionLayoutEngine rle = new RegionLayoutEngine( container,
 						pdfLayoutContext );
 				try
