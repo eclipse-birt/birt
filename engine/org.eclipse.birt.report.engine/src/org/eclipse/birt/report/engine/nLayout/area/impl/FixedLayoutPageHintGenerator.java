@@ -22,7 +22,9 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.internal.content.wrap.AbstractContentWrapper;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
@@ -162,14 +164,10 @@ public class FixedLayoutPageHintGenerator
 				{
 					currentContent = createSizeBasedContent( area );
 				}
-				else if ( InstanceIDComparator.equals( startContent.content,
-						currentContent.content ) )
+				else if ( InstanceIDComparator.equals( currentContent.content,
+						area.content ) )
 				{
-					if ( startContent.content instanceof IContainerContent )
-					{
-						startContent = createSizeBasedContent( area );
-						currentContent = startContent;
-					}
+					// Does nothing. this case is for inline text.
 				}
 				else
 				{
@@ -280,22 +278,125 @@ public class FixedLayoutPageHintGenerator
 			}
 			InstanceID id1 = content1.getInstanceID( );
 			InstanceID id2 = content2.getInstanceID( );
+			// only foreign content has a null InstanceID.
 			if ( id1 == null || id2 == null )
 			{
 				return false;
 			}
+
+			// Case 1: content2 is the first child.
 			if ( id2.getUniqueID( ) == 0 )
 			{
-				// first child
-				return equals( content1, (IContent) content2.getParent( ) );
+				IContent parent2 = (IContent) content2.getParent( );
+				if ( parent2 instanceof IListBandContent
+						|| parent2 instanceof ITableBandContent )
+				{
+					InstanceID pid2 = parent2.getInstanceID( );
+					if ( pid2 == null )
+					{
+						return false;
+					}
+					else
+					{
+						// the parent2 is the first child.
+						if ( pid2.getUniqueID( ) == 0 )
+						{
+							return isNextWith( content1, parent2 );
+						}
+						else
+						{
+							// content1 must be the last child.
+							if ( !content1.isLastChild( ) )
+							{
+								return false;
+							}
+
+							IContent parent1 = (IContent) content1.getParent( );
+							while ( parent1.isLastChild( ) )
+							{
+								parent1 = (IContent) parent1.getParent( );
+							}
+							if ( parent1 instanceof IListBandContent
+									|| parent1 instanceof ITableBandContent )
+							{
+								return isSilbing( parent1, parent2 );
+							}
+							else
+							{
+								return false;
+							}
+						}
+					}
+				}
+				else
+				{
+					return equals( content1, parent2 );
+				}
 			}
-			else if ( ( content1 != null ) && content1.isLastChild( ) )
+			else
+			// Case 2: content2 is NOT the first child.
 			{
-				// cross level
-				content1 = (IContent) content1.getParent( );
-				return isNextWith( content1, content2 );
+
+				if ( content1 instanceof IContainerContent )
+				{
+					// content1 is a container content
+					IContainerContent container = (IContainerContent) content1;
+					//FIXME the children of the container can not be gotten here. 
+					// but if the area hierarchy is not broken, it should not get here.
+					if ( container.getChildren( ).size( ) > 0 )
+					{
+						return false;
+					}
+				}
+				// the content1 is a leaf content or a container content without
+				// any children.
+				if ( content1.isLastChild( ) )
+				{
+					IContent parent1 = (IContent) content1.getParent( );
+					while ( parent1.isLastChild( ) )
+					{
+						parent1 = (IContent) parent1.getParent( );
+					}
+					if ( parent1 instanceof IListBandContent
+							|| parent1 instanceof ITableBandContent )
+					{
+						// the parent of content1 is a bandContent, and it
+						// is not the last child.
+						// so, the parent of content2 should also be a band
+						// Content, and content2 should be the first child
+						// of its parent.
+						// Since content2 is the first child, it should have
+						// been handled in case 1,
+						// it should never reach here.
+						return false;
+					}
+					else
+					{
+						return isSilbing( parent1, content2 );
+					}
+				}
+				else
+				{
+					return isSilbing( content1, content2 );
+				}
+
 			}
-			else if ( id1.getUniqueID( ) + 1 == id2.getUniqueID( ) )
+		}
+		
+		static boolean isSilbing( IContent content1, IContent content2 )
+		{
+			if ( content1 == null || content2 == null || content1 == content2 )
+			{
+				return false;
+			}
+			InstanceID id1 = content1.getInstanceID( );
+			InstanceID id2 = content2.getInstanceID( );
+			if ( id1 == null || id2 == null )
+			{
+				return false;
+			}
+			
+			if ( id1.getUniqueID( ) + 1 == id2.getUniqueID( ) )
 			{
 				// the siblings
 				IContent parent1 = (IContent) content1.getParent( );
@@ -304,6 +405,46 @@ public class FixedLayoutPageHintGenerator
 			}
 			return false;
 		}
+		
+		
+		
+		
+		
+		
+//		static boolean isNextWith( IContent content1, IContent content2 )
+//		{
+//			if ( content1 == null || content2 == null || content1 == content2 )
+//			{
+//				return false;
+//			}
+//			InstanceID id1 = content1.getInstanceID( );
+//			InstanceID id2 = content2.getInstanceID( );
+//			if ( id1 == null || id2 == null )
+//			{
+//				return false;
+//			}
+//			
+//			// 1. content2 is the first child of content1
+//			if ( id2.getUniqueID( ) == 0 )
+//			{
+//				return equals( content1, (IContent) content2.getParent( ) );
+//			}
+//			// 2. content1 is the last child of its parent p, and content2 is the sibling of p. 
+//			else if ( ( content1 != null ) && content1.isLastChild( ) )
+//			{
+//				// cross level
+//				content1 = (IContent) content1.getParent( );
+//				return isNextWith( content1, content2 );
+//			}
+//			else if ( id1.getUniqueID( ) + 1 == id2.getUniqueID( ) )
+//			{
+//				// the siblings
+//				IContent parent1 = (IContent) content1.getParent( );
+//				IContent parent2 = (IContent) content2.getParent( );
+//				return equals( parent1, parent2 );
+//			}
+//			return false;
+//		}
 
 		static boolean equals( IContent content1, IContent content2 )
 		{

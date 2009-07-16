@@ -75,6 +75,14 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 			}
 			else
 			{
+				if ( !executor.hasNextChild( ) )
+				{
+					childContent.setLastChild( true );
+				}
+				else
+				{
+					childContent.setLastChild( false );
+				}
 				ILayoutManager childLayout = engine.createLayoutManager( this,
 						childContent, childExecutor, emitter );
 				childrenLayouts.add( childLayout );

@@ -59,6 +59,11 @@ public class InlineTextExtension
 			return;
 		}
 
+		offsetInContent = 0;
+		floatPos = 0;
+		dimension = 0;
+		widthRestrict = 0;
+		
 		int lineNumber = lines.indexOf( area );
 		// if current inlineText line is not the first line in current page for
 		// the textContent, just ignore it.
@@ -67,11 +72,6 @@ public class InlineTextExtension
 			return;
 		}
 
-		offsetInContent = 0;
-		floatPos = 0;
-		dimension = 0;
-		widthRestrict = 0;
-		
 		Collections.sort( lineBreaks );
 		int startLineNumber = lineNumber;
 

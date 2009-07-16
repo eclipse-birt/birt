@@ -67,6 +67,14 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 				childLayout = engine.createLayoutManager( this, childContent,
 						childExecutor, emitter );
 				hasNext = childLayout.layout( );
+				if ( !executor.hasNextChild( ) )
+				{
+					childContent.setLastChild( true );
+				}
+				else
+				{
+					childContent.setLastChild( false );
+				}
 				if ( hasNext )
 				{
 					if ( childLayout.isFinished( ) )
