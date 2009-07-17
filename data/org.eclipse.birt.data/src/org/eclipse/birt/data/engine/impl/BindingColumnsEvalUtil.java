@@ -240,18 +240,17 @@ class BindingColumnsEvalUtil
 					exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
 							scope,
 							cx);
-				
-				if ( exprValue != null
-						&& !( exprValue instanceof Exception ) )
-					exprValue = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( exprValue ),
-							bindingColumn.type );
 			}
+			
+			if ( exprValue != null
+					&& !( exprValue instanceof Exception ) )
+				exprValue = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( exprValue ),
+						bindingColumn.type );
 		}
 		catch ( BirtException e )
 		{
 			exprValue = e;
 		}
-		
 		return exprValue;
 	}
 	
