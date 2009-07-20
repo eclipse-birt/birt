@@ -64,31 +64,28 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 
 	private void initalizeChildren( ) throws BirtException
 	{
+		IContent childContent = null;
 		while ( executor.hasNextChild( ) )
 		{
 			IReportItemExecutor childExecutor = (IReportItemExecutor) executor
 					.getNextChild( );
-			IContent childContent = childExecutor.execute( );
+			childContent = childExecutor.execute( );
 			if ( childContent == null )
 			{
 				childrenLayouts.add( null );
 			}
 			else
 			{
-				if ( !executor.hasNextChild( ) )
-				{
-					childContent.setLastChild( true );
-				}
-				else
-				{
-					childContent.setLastChild( false );
-				}
 				ILayoutManager childLayout = engine.createLayoutManager( this,
 						childContent, childExecutor, emitter );
 				childrenLayouts.add( childLayout );
 			}
 			childrenExecutors.add( childExecutor );
 			childrenFinished.add( Boolean.FALSE );
+		}
+		if ( childContent != null )
+		{
+			childContent.setLastChild( true );
 		}
 	}
 

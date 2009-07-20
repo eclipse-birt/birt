@@ -21,6 +21,7 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 
 	ILayoutManager childLayout;
 	IReportItemExecutor childExecutor;
+	IContent childContent;
 
 	public HTMLBlockStackingLM( HTMLLayoutManagerFactory factory )
 	{
@@ -61,20 +62,13 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 		while ( executor.hasNextChild( ) && !context.getCancelFlag( ) )
 		{
 			childExecutor = (IReportItemExecutor) executor.getNextChild( );
-			IContent childContent = childExecutor.execute( );
+			childContent = childExecutor.execute( );
 			if ( childContent != null )
 			{
 				childLayout = engine.createLayoutManager( this, childContent,
 						childExecutor, emitter );
 				hasNext = childLayout.layout( );
-				if ( !executor.hasNextChild( ) )
-				{
-					childContent.setLastChild( true );
-				}
-				else
-				{
-					childContent.setLastChild( false );
-				}
+
 				if ( hasNext )
 				{
 					if ( childLayout.isFinished( ) )
@@ -91,6 +85,10 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 			}
 			childExecutor.close( );
 			childExecutor = null;
+		}
+		if ( childContent != null )
+		{
+			childContent.setLastChild( true );
 		}
 		return false;
 	}
