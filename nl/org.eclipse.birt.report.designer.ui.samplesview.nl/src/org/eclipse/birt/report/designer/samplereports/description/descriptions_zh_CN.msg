@@ -87,7 +87,7 @@ ScriptedDatasourceExampleAfter=¸Ã²¿·ÖÊ¾Àı¼¯ÖĞÔÚ BIRT ÄÚµÄ½Å±¾ÉÏ¡£Ê¹ÓÃ¼òµ¥±¨±íËµÃ
 Addvisrule=´ËÊ¾ÀıËµÃ÷ÈçºÎÔÚ½Å±¾ÖĞÌí¼Ó¿É¼ûĞÔ¹æÔò¡£  
 
 #Chart
-SimpleChartAPI=´ËÊ¾ÀıËµÃ÷¼òµ¥Í¼±í API ÖĞµÄĞí¶à¿ÉÓÃ java ½Å±¾·½·¨¡£ËüÃÇµ÷ÓÃ×Ô±¨±íµÄ beforeFactory ÊÂ¼ş´¦Àí³ÌĞò¡£
+SimpleChartAPI=This example illustrates many of the available java script methods within the simple Chart API.  They are called from the beforeFactory event handler of the report.
 
 ###########################################################
 #Extending BIRT

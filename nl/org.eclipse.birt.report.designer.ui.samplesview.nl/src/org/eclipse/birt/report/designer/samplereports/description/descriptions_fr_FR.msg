@@ -87,7 +87,7 @@ ScriptedDatasourceExampleAfter=Les exemples présentés dans cette section illustr
 Addvisrule=Cet exemple décrit comment ajouter une règle de visibilité à un script.  
 
 #Chart
-SimpleChartAPI=Cet exemple illustre un grand nombre des méthodes de script java disponibles dans l'API graphique simple. Ils proviennent du gestionnaire d'événement avant génération de l'état.
+SimpleChartAPI=This example illustrates many of the available java script methods within the simple Chart API.  They are called from the beforeFactory event handler of the report.
 
 ###########################################################
 #Extending BIRT

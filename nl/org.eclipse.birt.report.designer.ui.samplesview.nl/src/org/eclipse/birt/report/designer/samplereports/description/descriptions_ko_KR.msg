@@ -87,7 +87,7 @@ ScriptedDatasourceExampleAfter=이 예제 섹션은 BIRT에서 스크립트를 작성하는 것을 
 Addvisrule=이 예는 스크립트에 표시 규칙을 추가하는 방법을 보여 줍니다.  
 
 #Chart
-SimpleChartAPI=이 예는 간단한 Chart API 내에서 사용 가능한 다양한 Java 스크립트 메서드를 보여 줍니다. 이들은 보고서의 beforeFactory 이벤트 처리기에서 호출됩니다.
+SimpleChartAPI=This example illustrates many of the available java script methods within the simple Chart API.  They are called from the beforeFactory event handler of the report.
 
 ###########################################################
 #Extending BIRT
