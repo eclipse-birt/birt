@@ -120,6 +120,11 @@
                 <property name="windowTitle" value="Birt Emitter Wpml Config API" />
                 <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.wpml.config.*"/>
         </projectInfo>		
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.script.javascript" />
+                <property name="windowTitle" value="Birt Script Javascript API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.script.javascript.*"/>
+        </projectInfo>
 		
 		<!-- data team -->
 		<projectInfo>
