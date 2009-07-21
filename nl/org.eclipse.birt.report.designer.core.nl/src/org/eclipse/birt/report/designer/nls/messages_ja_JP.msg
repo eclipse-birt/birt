@@ -3381,7 +3381,7 @@ DirectoryDialog.Question=質問
 
 SchematicContextMenuProvider.ActionText.editData=値/式の編集(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=編集(&E)
-SchematicContextMenuProvider.Menu.EditGroup=変数の編集(&G)
+SchematicContextMenuProvider.Menu.EditGroup=グループの編集(&G)
 SchematicContextMenuProvider.Menu.Insert=挿入(&I)
 SchematicContextMenuProvider.Menu.insertElement=挿入(&N)
 SchematicContextMenuProvider.Menu.insertRow=行(&R)
