@@ -3613,8 +3613,8 @@ TableHandleAdapter.transLable.deleteGroup=テーブルグループの削除
 ###########################################################
 #TableOptionDialog properties
 
-TableOptionDialog.message.RememberGrid=新しいグリッドのサイズを使用する(&U)
-TableOptionDialog.message.RememberTable=新しいテーブルのサイズを使用する(&U)
+TableOptionDialog.message.RememberGrid=このサイズを新しいグリッドに使用(&U)
+TableOptionDialog.message.RememberTable=このサイズを新しいテーブルに使用(&U)
 TableOptionDialog.text.Column=列数(&C) :
 TableOptionDialog.text.GridRow=行数(&R) :
 TableOptionDialog.text.GridSize=グリッドのサイズ
