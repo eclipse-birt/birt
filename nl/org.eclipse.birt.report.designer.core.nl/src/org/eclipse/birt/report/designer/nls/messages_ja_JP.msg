@@ -1559,7 +1559,7 @@ ExtendedItemPageGenerator.List.TOC=目次
 #FilterHandleProvider properties
 
 FilterHandleProvider.ColumnName.Value=値
-FilterHandleProvider.Label.Filterby=フィルタの条件 :
+FilterHandleProvider.Label.Filterby=フィルタ条件 :
 FilterHandleProvider.Modify.SaveValues=値の保存
 
 ###########################################################
@@ -2446,15 +2446,15 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 
 ###########################################################
 #FilterConditionBuilder dialog properties
-FilterConditionBuilder.DialogTitle.New=フィルタの条件の新規作成
-FilterConditionBuilder.DialogTitle.Edit=フィルタの条件の編集
+FilterConditionBuilder.DialogTitle.New=フィルタ条件の新規作成
+FilterConditionBuilder.DialogTitle.Edit=フィルタ条件の編集
 FilterConditionBuilder.DialogMessage.New=フィルタ条件を作成するには、次の内容を指定してください。
 FilterConditionBuilder.DialogMessage.Edit=フィルタ条件を更新するには、次の内容を編集してください。
 FilterConditionBuilder.choice.ValueOfThisDataItem=このデータ項目の値
 FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを開く
 FilterConditionBuilder.text.AND= ～
-FilterConditionBuilder.text.Condition=フィルタの条件の入力 :
-FilterConditionBuilder.Shell.Title=フィルタの条件
+FilterConditionBuilder.text.Condition=フィルタ条件の入力 :
+FilterConditionBuilder.Shell.Title=フィルタ条件
 FilterConditionBuilder.list.item1=値
 FilterConditionBuilder.button.edit=編集(&E)...
 FilterConditionBuilder.button.delete=削除(&M)
@@ -4390,7 +4390,7 @@ BindingDialogHelper.text.Name=列バインドの名前(&B) :
 BindingDialogHelper.text.DataType=データ型(&T) :
 BindingDialogHelper.text.Function=関数(&F) :
 BindingDialogHelper.text.DataField=データフィールド(&F) :
-BindingDialogHelper.text.Filter=フィルタの条件(&C) :
+BindingDialogHelper.text.Filter=フィルタ条件(&C) :
 BindingDialogHelper.text.AggOn=集計条件(&G) :
 BindingDialogHelper.text.Table=テーブル
 BindingDialogHelper.text.List=リスト

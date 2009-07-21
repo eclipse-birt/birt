@@ -137,7 +137,7 @@ Element.ReportItem.dataSet=データセット :
 Element.ReportElement.Cube=データ(&T) :
 BindingPage.None=なし
 
-FilterHandleProvider.Label.Filterby=フィルタの条件 :
+FilterHandleProvider.Label.Filterby=フィルタ条件 :
 
 ###########################################################
 #EmptyRowColumnProvider properties
@@ -153,12 +153,12 @@ CategoryPageGenerator.TabItem.Attributes=プロパティ
 
 ###########################################################
 #FilterConditionBuilder dialog properties
-FilterConditionBuilder.DialogTitle.New=フィルタの条件の新規作成
-FilterConditionBuilder.DialogTitle.Edit=フィルタの条件の編集
+FilterConditionBuilder.DialogTitle.New=フィルタ条件の新規作成
+FilterConditionBuilder.DialogTitle.Edit=フィルタ条件の編集
 FilterConditionBuilder.choice.ValueOfThisDataItem=このデータ項目の値
 FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを起動するには、ここをクリックしてしてください
 FilterConditionBuilder.text.AND= ～
-FilterConditionBuilder.text.Condition=フィルタの条件(&C) :
+FilterConditionBuilder.text.Condition=フィルタ条件(&C) :
 FilterConditionBuilder.text.GroupLevel=グループレベル(&L) :
 FilterConditionBuilder.list.item1=値
 FilterConditionBuilder.button.edit=編集(&E)...
@@ -183,8 +183,8 @@ FilterbyTree.Bindings.Catogory.GrandTotal=総計
 FilterbyTree.Bindings.Catogory.SubTotal=小計
 FilterbyTree.Bindings.Catogory.OtherType=その他の種類
 FilterbyTree.Bindings.Catogory.Undefined=未定義
-FilterbyTree.Title=フィルタの条件
-FilterbyTree.Message=フィルタの条件
+FilterbyTree.Title=フィルタ条件
+FilterbyTree.Message=フィルタ条件
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -244,7 +244,7 @@ ColumnPageBreak.RepeatRowHeader=行のヘッダの繰り返し(&P)
 
 ExpressionValueCellEditor.buildExpressionAction=<式の構築...>
 ExpressionValueCellEditor.selectValueAction=<値の選択...>
-ExpressionValueCellEditor.filterBy=<フィルタの条件...>
+ExpressionValueCellEditor.filterBy=<フィルタ条件...>
 ExpressionValueCellEditor.title=値の選択
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=行のメンバ値の選択
