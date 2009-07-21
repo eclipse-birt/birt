@@ -195,7 +195,20 @@
 	<target name="Javadoc">
     	<antcall target = "chartJavadoc"/>
     	<antcall target = "chartuiJavadoc"/>
-			<antcall target = "chartscriptJavadoc"/>
+		<antcall target = "chartscriptJavadoc"/>
+		<!-- replace onLoad="top.loadFrames()" with onLoad="", this javascript messes things up with viewvc params -->
+		<replace file="chart/api/index.html">
+			<replacetoken><![CDATA[onLoad="top.loadFrames()"]]></replacetoken>
+			<replacevalue><![CDATA[onLoad=""]]></replacevalue>
+		</replace>
+		<replace file="chartui/api/index.html">
+			<replacetoken><![CDATA[onLoad="top.loadFrames()"]]></replacetoken>
+			<replacevalue><![CDATA[onLoad=""]]></replacevalue>
+		</replace>
+		<replace file="chartscript/api/index.html">
+			<replacetoken><![CDATA[onLoad="top.loadFrames()"]]></replacetoken>
+			<replacevalue><![CDATA[onLoad=""]]></replacevalue>
+		</replace>
 	</target>
 	
 	<target name="init" description="initialization">
