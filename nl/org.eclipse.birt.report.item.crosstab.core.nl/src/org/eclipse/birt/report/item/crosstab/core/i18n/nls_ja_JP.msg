@@ -134,7 +134,7 @@ CrosstabReportItemTask.msg.pivot.dimension=ディメンジョンの回転
 CrosstabReportItemTask.msg.insert.dimension=ディメンジョンの挿入
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
-CrosstabReportItemTask.msg.pivot.crosstab=Pivot Crosstab
+CrosstabReportItemTask.msg.pivot.crosstab=クロスタブを回転します。
 
 CrosstabReportItemHandle.Error.HasNoCube=クロステーブルは、1 つのキューブにアクセスできる必要があります。
 CrosstabReportItemHandle.log.validate=検証中 (...)
