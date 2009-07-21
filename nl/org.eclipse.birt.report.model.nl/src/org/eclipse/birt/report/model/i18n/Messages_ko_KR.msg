@@ -2245,8 +2245,6 @@ Element.TabularHierarchy=테이블 계층
 Element.TabularLevel=테이블 수준
 Element.TabularMeasure=테이블 측정
 Element.TabularMeasureGroup=테이블 측정값 그룹
-Element.AccessControl=액세스 컨트롤
-Element.ValueAccessControl=값 액세스 컨트롤
 Element.OdaCube=ODA 큐브
 Element.OdaDimension=ODA 차원
 Element.OdaHierarchy=ODA 계층
@@ -2360,6 +2358,10 @@ Element.ReportDesign.ACLExpression=ACL 식
 Element.ReportDesign.cascadeACL=ACL 하위 전달
 Element.ReportDesign.imageDPI=이미지 DPI
 Element.ReportDesign.pageVariables=페이지 변수
+Element.ReportDesign.dataObjects= Data objects
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
+Element.ReportDesign.onContentUpdate.this=Report design
 Element.ReportDesign.onPageStart=페이지 시작 시
 Element.ReportDesign.onPageEnd=페이지 종료 시
 
@@ -3101,7 +3103,6 @@ Element.AutoText.pageVariable=페이지 변수
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=필터 조건
 Element.Cube.defaultMeasureGroup=기본 측정값 그룹
-Element.Cube.accessControls=액세스 컨트롤
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=시간 유형 조건
@@ -3109,7 +3110,6 @@ Element.Dimension.defaultHierarchy=기본 계층 구조
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=필터 조건
-Element.Hierarchy.accessControls=액세스 컨트롤
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=데이터 형식
@@ -3121,7 +3121,6 @@ Element.Level.interval=간격
 Element.Level.intervalRange=간격 범위
 Element.Level.levelType=수준 형식
 Element.Level.staticValues=정적 값
-Element.Level.valueAccessControls=값 액세스 컨트롤
 Element.Level.defaultValue=기본값
 
 #49. Measure ( prefix Element.Measure )
@@ -3133,62 +3132,54 @@ Element.Measure.dataType=데이터 형식
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값
 
-#51. AccessControl ( prefix Element.AccessControl )
-Element.AccessControl.userNames=사용자 이름
-Element.AccessControl.roles=역할
-Element.AccessControl.permission=액세스 권한
-
-#51. ValueAccessControl ( prefix Element.ValueAccessControl )
-Element.ValueAccessControl.values=값
-
-#52. TabularCube ( prefix Element.TabularCube )
+#51. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=데이터 집합
 Element.TabularCube.dimensions=크기
 Element.TabularCube.measureGroups=측정값 그룹
 Element.TabularCube.dimensionConditions=차원 조건
 
-#53. TabularDimension ( prefix Element.TabularDimension )
+#52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=계층
 
-#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+#53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=데이터 집합
 Element.TabularHierarchy.levels=수준
 Element.TabularHierarchy.primaryKeys=기본 키
 
-#55. TabularLevel ( prefix Element.TabularLevel )
+#54. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=열 이름
 Element.TabularLevel.displayColumnName=열 이름 표시
 Element.TabularLevel.attributes=특성
 
-#56. OdaCube ( prefix Element.OdaCube )
+#55. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=크기
 Element.OdaCube.measureGroups=측정값 그룹
 Element.OdaCube.nativeName=고유 이름
 
-#57. OdaDimension ( prefix Element.OdaDimension )
+#56. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=계층
 Element.OdaDimension.nativeName=고유 이름
 
-#58. OdaHierarchy ( prefix Element.OdaHierarchy )
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=수준
 Element.OdaHierarchy.nativeName=고유 이름
 
-#59. OdaLevel ( prefix Element.OdaLevel )
+#58. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=특성
 
-#60. MemberValue ( prefix Element.MemberValue )
+#59. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=값
 Element.MemberValue.level=수준
 Element.MemberValue.memberValues=구성원 값
 
-#61. SortElement ( prefix Element.SortElement )
+#60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=키
 Element.SortElement.direction=방향
 Element.SortElement.member=구성원
 Element.SortElement.strength=수준 정렬
 Element.SortElement.locale=로케일 정렬
 
-#62. FilterConditionElement ( prefix Element.FilterConditionElement )
+#61. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=연산자
 Element.FilterConditionElement.expr=식
 Element.FilterConditionElement.value1=Value1
@@ -3202,18 +3193,18 @@ Element.FilterConditionElement.pushDown=아래로 밀어내기
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 
 
-#63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
+#62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
 
-#64. MultiViews ( prefix Element.MultiViews )
+#63. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=보기
 
-#65. VariableElement ( prefix Element.VariableElement )
+#64. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=이름
 Element.VariableElement.value=값
 Element.VariableElement.type=형식
 
-#66. DataGroup  ( prefix  Element.DataGroup )
+#65. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=이름
 Element.DataGroup.keyExpr=키 식
 Element.DataGroup.sort=정렬
@@ -3225,12 +3216,12 @@ Element.DataGroup.intervalRange=간격 범위
 Element.DataGroup.sortDirection=정렬 방향
 Element.DataGroup.sortType=정렬 형식
 
-#67. DerivedDataSet ( prefix Element.DerivedDataSet )
+#66. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=입력 데이터 집합
 Element.DerivedDataSet.queryText=쿼리 텍스트
 Element.DerivedDataSet.extensionID=확장 ID
 
-#68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
+#67. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=필요
 Element.AbstractScalarParameter.dynamicList=동적 목록
 Element.AbstractScalarParameter.dynamicList.dataSetName=데이터 집합 이름
@@ -3245,7 +3236,7 @@ Element.AbstractScalarParameter.defaultValue=기본값
 Element.AbstractScalarParameter.selectionList=선택 목록
 Element.AbstractScalarParameter.dataType=데이터 형식
 
-#69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
+#68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=표시 형식
 Element.DynamicFilterParameter.filterOperator=필터 연산자
 Element.DynamicFilterParameter.column=열

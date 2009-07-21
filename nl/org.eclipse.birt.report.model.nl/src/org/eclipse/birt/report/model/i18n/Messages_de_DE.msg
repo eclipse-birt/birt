@@ -2245,8 +2245,6 @@ Element.TabularHierarchy=Tabellenhierarchie
 Element.TabularLevel=Tabellenebene
 Element.TabularMeasure=Tabelleneinheit
 Element.TabularMeasureGroup=Tabelleneinheitsgruppe
-Element.AccessControl=Zugriffssteuerung
-Element.ValueAccessControl=Wertzugriffsteuerung
 Element.OdaCube=ODA-Quader
 Element.OdaDimension=ODA-Dimension
 Element.OdaHierarchy=ODA-Hierarchie
@@ -2360,6 +2358,10 @@ Element.ReportDesign.ACLExpression=Ausdruck 'ACL'
 Element.ReportDesign.cascadeACL=Verschachtelung 'ACL'
 Element.ReportDesign.imageDPI=Bild-DPI
 Element.ReportDesign.pageVariables=Seitenvariablen
+Element.ReportDesign.dataObjects= Data objects
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
+Element.ReportDesign.onContentUpdate.this=Report design
 Element.ReportDesign.onPageStart=Am Seitenanfang
 Element.ReportDesign.onPageEnd=Am Seitenende
 
@@ -3101,7 +3103,6 @@ Element.AutoText.pageVariable=Seitenvariable
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=Filterbedingungen
 Element.Cube.defaultMeasureGroup=Standard-Maßeinheitsgruppe
-Element.Cube.accessControls=Zugriffssteuerungen
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Gleich Uhrzeitformat
@@ -3109,7 +3110,6 @@ Element.Dimension.defaultHierarchy=Standardhierarchie
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=Filterbedingungen
-Element.Hierarchy.accessControls=Zugriffssteuerungen
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Datentyp
@@ -3121,7 +3121,6 @@ Element.Level.interval=Intervall
 Element.Level.intervalRange=Intervallbereich
 Element.Level.levelType=Ebenentyp
 Element.Level.staticValues=Statische Werte
-Element.Level.valueAccessControls=Wertzugriffsteuerungen
 Element.Level.defaultValue=Standardwert
 
 #49. Measure ( prefix Element.Measure )
@@ -3133,62 +3132,54 @@ Element.Measure.dataType=Datentyp
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Einheiten
 
-#51. AccessControl ( prefix Element.AccessControl )
-Element.AccessControl.userNames=Benutzernamen
-Element.AccessControl.roles=Rollen
-Element.AccessControl.permission=Zugriffsberechtigung
-
-#51. ValueAccessControl ( prefix Element.ValueAccessControl )
-Element.ValueAccessControl.values=Werte
-
-#52. TabularCube ( prefix Element.TabularCube )
+#51. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=Datensatz
 Element.TabularCube.dimensions=Dimensionen
 Element.TabularCube.measureGroups=Maßeinheitsgruppen
 Element.TabularCube.dimensionConditions=Dimensionsbedingungen
 
-#53. TabularDimension ( prefix Element.TabularDimension )
+#52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Hierarchien
 
-#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+#53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=Datensatz
 Element.TabularHierarchy.levels=Ebenen
 Element.TabularHierarchy.primaryKeys=Primärschlüssel
 
-#55. TabularLevel ( prefix Element.TabularLevel )
+#54. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=Spaltenname
 Element.TabularLevel.displayColumnName=Spaltennamen anzeigen
 Element.TabularLevel.attributes=Attribute
 
-#56. OdaCube ( prefix Element.OdaCube )
+#55. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=Dimensionen
 Element.OdaCube.measureGroups=Maßeinheitsgruppen
 Element.OdaCube.nativeName=Programmeigener Name
 
-#57. OdaDimension ( prefix Element.OdaDimension )
+#56. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=Hierarchien
 Element.OdaDimension.nativeName=Programmeigener Name
 
-#58. OdaHierarchy ( prefix Element.OdaHierarchy )
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=Ebenen
 Element.OdaHierarchy.nativeName=Programmeigener Name
 
-#59. OdaLevel ( prefix Element.OdaLevel )
+#58. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=Attribute
 
-#60. MemberValue ( prefix Element.MemberValue )
+#59. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=Wert
 Element.MemberValue.level=Ebene
 Element.MemberValue.memberValues=Mitgliedswerte
 
-#61. SortElement ( prefix Element.SortElement )
+#60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=Schlüssel
 Element.SortElement.direction=Richtung
 Element.SortElement.member=Mitglied
 Element.SortElement.strength=Sortierungsstärke
 Element.SortElement.locale=Sortierungsgebietsschema
 
-#62. FilterConditionElement ( prefix Element.FilterConditionElement )
+#61. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=Operator
 Element.FilterConditionElement.expr=Ausdruck
 Element.FilterConditionElement.value1=Wert1
@@ -3202,18 +3193,18 @@ Element.FilterConditionElement.pushDown=Push Down
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 
 
-#63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
+#62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
 
-#64. MultiViews ( prefix Element.MultiViews )
+#63. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=Ansichten
 
-#65. VariableElement ( prefix Element.VariableElement )
+#64. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=Name
 Element.VariableElement.value=Wert
 Element.VariableElement.type=Typ
 
-#66. DataGroup  ( prefix  Element.DataGroup )
+#65. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=Name
 Element.DataGroup.keyExpr=Schlüsselausdruck
 Element.DataGroup.sort=Sortieren
@@ -3225,12 +3216,12 @@ Element.DataGroup.intervalRange=Intervallbereich
 Element.DataGroup.sortDirection=Sortierreihenfolge
 Element.DataGroup.sortType=Sortiertyp
 
-#67. DerivedDataSet ( prefix Element.DerivedDataSet )
+#66. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=Eingabedatensätze
 Element.DerivedDataSet.queryText=Abfragetext
 Element.DerivedDataSet.extensionID=ID der Erweiterung
 
-#68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
+#67. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=Erforderlich
 Element.AbstractScalarParameter.dynamicList=Dynamische Liste
 Element.AbstractScalarParameter.dynamicList.dataSetName=Datensatzname
@@ -3245,7 +3236,7 @@ Element.AbstractScalarParameter.defaultValue=Standardwert
 Element.AbstractScalarParameter.selectionList=Auswahlliste
 Element.AbstractScalarParameter.dataType=Datentyp
 
-#69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
+#68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=Anzeigetyp
 Element.DynamicFilterParameter.filterOperator=Filteroperator
 Element.DynamicFilterParameter.column=Spalte

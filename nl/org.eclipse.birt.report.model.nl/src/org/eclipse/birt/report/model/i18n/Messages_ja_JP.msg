@@ -2245,8 +2245,6 @@ Element.TabularHierarchy=テーブル形式の階層
 Element.TabularLevel=テーブル形式のレベル
 Element.TabularMeasure=テーブル形式のメジャー
 Element.TabularMeasureGroup=テーブル形式のメジャーグループ
-Element.AccessControl=アクセスコントロール
-Element.ValueAccessControl=値へのアクセスコントロール
 Element.OdaCube=ODA キューブ
 Element.OdaDimension=ODA ディメンジョン
 Element.OdaHierarchy=ODA 階層
@@ -2360,6 +2358,10 @@ Element.ReportDesign.ACLExpression=ACL 式
 Element.ReportDesign.cascadeACL=ACL を重ねて表示
 Element.ReportDesign.imageDPI=イメージの DPI
 Element.ReportDesign.pageVariables=ページ変数
+Element.ReportDesign.dataObjects= Data objects
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
+Element.ReportDesign.onContentUpdate.this=Report design
 Element.ReportDesign.onPageStart=ページの開始時
 Element.ReportDesign.onPageEnd=ページの終了時
 
@@ -3101,7 +3103,6 @@ Element.AutoText.pageVariable=ページ変数
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=フィルタ条件
 Element.Cube.defaultMeasureGroup=デフォルトのメジャーグループ
-Element.Cube.accessControls=アクセスコントロール
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is time 型
@@ -3109,7 +3110,6 @@ Element.Dimension.defaultHierarchy=デフォルトの階層
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=フィルタ条件
-Element.Hierarchy.accessControls=アクセスコントロール
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=データ型
@@ -3121,7 +3121,6 @@ Element.Level.interval=間隔
 Element.Level.intervalRange=間隔の範囲
 Element.Level.levelType=レベルの型
 Element.Level.staticValues=静的な値
-Element.Level.valueAccessControls=値へのアクセスコントロール
 Element.Level.defaultValue=デフォルト値
 
 #49. Measure ( prefix Element.Measure )
@@ -3133,62 +3132,54 @@ Element.Measure.dataType=データ型
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=メジャー
 
-#51. AccessControl ( prefix Element.AccessControl )
-Element.AccessControl.userNames=ユーザ名
-Element.AccessControl.roles=役割
-Element.AccessControl.permission=アクセス権限
-
-#51. ValueAccessControl ( prefix Element.ValueAccessControl )
-Element.ValueAccessControl.values=値
-
-#52. TabularCube ( prefix Element.TabularCube )
+#51. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=データセット
 Element.TabularCube.dimensions=サイズ
 Element.TabularCube.measureGroups=メジャーグループ
 Element.TabularCube.dimensionConditions=ディメンジョン条件
 
-#53. TabularDimension ( prefix Element.TabularDimension )
+#52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=階層
 
-#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+#53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=データセット
 Element.TabularHierarchy.levels=レベル
 Element.TabularHierarchy.primaryKeys=プライマリキー
 
-#55. TabularLevel ( prefix Element.TabularLevel )
+#54. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=列名
 Element.TabularLevel.displayColumnName=列名の表示
 Element.TabularLevel.attributes=属性
 
-#56. OdaCube ( prefix Element.OdaCube )
+#55. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=サイズ
 Element.OdaCube.measureGroups=メジャーグループ
 Element.OdaCube.nativeName=ネイティブの名前
 
-#57. OdaDimension ( prefix Element.OdaDimension )
+#56. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=階層
 Element.OdaDimension.nativeName=ネイティブの名前
 
-#58. OdaHierarchy ( prefix Element.OdaHierarchy )
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=レベル
 Element.OdaHierarchy.nativeName=ネイティブの名前
 
-#59. OdaLevel ( prefix Element.OdaLevel )
+#58. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=属性
 
-#60. MemberValue ( prefix Element.MemberValue )
+#59. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=値
 Element.MemberValue.level=レベル
 Element.MemberValue.memberValues=メンバ値
 
-#61. SortElement ( prefix Element.SortElement )
+#60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=キー
 Element.SortElement.direction=方向
 Element.SortElement.member=メンバ
 Element.SortElement.strength=ソートの度合い
 Element.SortElement.locale=ソートのロケール
 
-#62. FilterConditionElement ( prefix Element.FilterConditionElement )
+#61. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=演算子
 Element.FilterConditionElement.expr=式
 Element.FilterConditionElement.value1=値 1
@@ -3202,18 +3193,18 @@ Element.FilterConditionElement.pushDown=プッシュ (下へ)
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 
 
-#63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
+#62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
 
-#64. MultiViews ( prefix Element.MultiViews )
+#63. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=ビュー
 
-#65. VariableElement ( prefix Element.VariableElement )
+#64. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=Name
 Element.VariableElement.value=値
 Element.VariableElement.type=型
 
-#66. DataGroup  ( prefix  Element.DataGroup )
+#65. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名前
 Element.DataGroup.keyExpr=キーの式
 Element.DataGroup.sort=ソート
@@ -3225,12 +3216,12 @@ Element.DataGroup.intervalRange=間隔の範囲
 Element.DataGroup.sortDirection=ソート方向
 Element.DataGroup.sortType=ソート基準
 
-#67. DerivedDataSet ( prefix Element.DerivedDataSet )
+#66. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=データセットの入力
 Element.DerivedDataSet.queryText=クエリテキスト
 Element.DerivedDataSet.extensionID=拡張 ID
 
-#68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
+#67. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=必須
 Element.AbstractScalarParameter.dynamicList=動的なリスト
 Element.AbstractScalarParameter.dynamicList.dataSetName=データセット名
@@ -3245,7 +3236,7 @@ Element.AbstractScalarParameter.defaultValue=デフォルト値
 Element.AbstractScalarParameter.selectionList=選択リスト
 Element.AbstractScalarParameter.dataType=データ型
 
-#69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
+#68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=表示型
 Element.DynamicFilterParameter.filterOperator=演算子
 Element.DynamicFilterParameter.column=列

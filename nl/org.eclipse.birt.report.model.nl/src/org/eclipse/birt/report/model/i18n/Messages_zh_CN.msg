@@ -2245,8 +2245,6 @@ Element.TabularHierarchy=表格式层次结构
 Element.TabularLevel=表格式级别
 Element.TabularMeasure=表格式度量
 Element.TabularMeasureGroup=度量组
-Element.AccessControl=访问控制
-Element.ValueAccessControl=值访问控制
 Element.OdaCube=ODA 多维数据集
 Element.OdaDimension=ODA 维
 Element.OdaHierarchy=ODA 层次结构
@@ -2360,6 +2358,10 @@ Element.ReportDesign.ACLExpression=ACL 表达式
 Element.ReportDesign.cascadeACL=层叠 ACL
 Element.ReportDesign.imageDPI=图像 DPI
 Element.ReportDesign.pageVariables=页面变量
+Element.ReportDesign.dataObjects= Data objects
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
+Element.ReportDesign.onContentUpdate.this=Report design
 Element.ReportDesign.onPageStart=页面启动时
 Element.ReportDesign.onPageEnd=页面终止时
 
@@ -3101,7 +3103,6 @@ Element.AutoText.pageVariable=页面变量
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=筛选条件
 Element.Cube.defaultMeasureGroup=默认度量组
-Element.Cube.accessControls=访问控制
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=是时间类型
@@ -3109,7 +3110,6 @@ Element.Dimension.defaultHierarchy=默认层次结构
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=筛选条件
-Element.Hierarchy.accessControls=访问控制
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=数据类型
@@ -3121,7 +3121,6 @@ Element.Level.interval=间隔
 Element.Level.intervalRange=间隔范围
 Element.Level.levelType=级别类型
 Element.Level.staticValues=静态值
-Element.Level.valueAccessControls=值访问控制
 Element.Level.defaultValue=默认值
 
 #49. Measure ( prefix Element.Measure )
@@ -3133,62 +3132,54 @@ Element.Measure.dataType=数据类型
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=度量
 
-#51. AccessControl ( prefix Element.AccessControl )
-Element.AccessControl.userNames=用户名
-Element.AccessControl.roles=角色
-Element.AccessControl.permission=访问权限
-
-#51. ValueAccessControl ( prefix Element.ValueAccessControl )
-Element.ValueAccessControl.values=值
-
-#52. TabularCube ( prefix Element.TabularCube )
+#51. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=数据集
 Element.TabularCube.dimensions=维数
 Element.TabularCube.measureGroups=度量组
 Element.TabularCube.dimensionConditions=维条件
 
-#53. TabularDimension ( prefix Element.TabularDimension )
+#52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=层次结构
 
-#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+#53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=数据集
 Element.TabularHierarchy.levels=级别
 Element.TabularHierarchy.primaryKeys=主键
 
-#55. TabularLevel ( prefix Element.TabularLevel )
+#54. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=列名称
 Element.TabularLevel.displayColumnName=显示列名称
 Element.TabularLevel.attributes=属性
 
-#56. OdaCube ( prefix Element.OdaCube )
+#55. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=维数
 Element.OdaCube.measureGroups=度量组
 Element.OdaCube.nativeName=本地名称
 
-#57. OdaDimension ( prefix Element.OdaDimension )
+#56. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=层次结构
 Element.OdaDimension.nativeName=本地名称
 
-#58. OdaHierarchy ( prefix Element.OdaHierarchy )
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=级别
 Element.OdaHierarchy.nativeName=本地名称
 
-#59. OdaLevel ( prefix Element.OdaLevel )
+#58. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=属性
 
-#60. MemberValue ( prefix Element.MemberValue )
+#59. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=值
 Element.MemberValue.level=级别
 Element.MemberValue.memberValues=成员值
 
-#61. SortElement ( prefix Element.SortElement )
+#60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=关键字
 Element.SortElement.direction=方向
 Element.SortElement.member=成员
 Element.SortElement.strength=排序强度
 Element.SortElement.locale=排序区域设置
 
-#62. FilterConditionElement ( prefix Element.FilterConditionElement )
+#61. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=运算符
 Element.FilterConditionElement.expr=表达式
 Element.FilterConditionElement.value1=值 1
@@ -3202,18 +3193,18 @@ Element.FilterConditionElement.pushDown=下推
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 
 
-#63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
+#62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
 
-#64. MultiViews ( prefix Element.MultiViews )
+#63. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=视图
 
-#65. VariableElement ( prefix Element.VariableElement )
+#64. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=名称
 Element.VariableElement.value=值
 Element.VariableElement.type=类型
 
-#66. DataGroup  ( prefix  Element.DataGroup )
+#65. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名称
 Element.DataGroup.keyExpr=关键字表达式
 Element.DataGroup.sort=排序
@@ -3225,12 +3216,12 @@ Element.DataGroup.intervalRange=间隔范围
 Element.DataGroup.sortDirection=排序方向
 Element.DataGroup.sortType=排序类型
 
-#67. DerivedDataSet ( prefix Element.DerivedDataSet )
+#66. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=输入数据集
 Element.DerivedDataSet.queryText=查询文本
 Element.DerivedDataSet.extensionID=扩展 ID
 
-#68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
+#67. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=必需
 Element.AbstractScalarParameter.dynamicList=动态列表
 Element.AbstractScalarParameter.dynamicList.dataSetName=数据集名称
@@ -3245,7 +3236,7 @@ Element.AbstractScalarParameter.defaultValue=默认值
 Element.AbstractScalarParameter.selectionList=选择列表
 Element.AbstractScalarParameter.dataType=数据类型
 
-#69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
+#68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=显示类型
 Element.DynamicFilterParameter.filterOperator=筛选运算符
 Element.DynamicFilterParameter.column=列
