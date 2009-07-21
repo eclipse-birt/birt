@@ -4496,7 +4496,6 @@ CreateChartHandler.text=차트 보기 생성
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=입력 매개 변수
-
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=열 크기 조정
@@ -4586,7 +4585,7 @@ TextEditor.PasteFormattedText=서식 있는 텍스트 붙여넣기
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=이미지 다시 로드
+ReloadImageAction.Text=Reload I&mage
 
 ###########################################################
 #VariablesNodeProvider

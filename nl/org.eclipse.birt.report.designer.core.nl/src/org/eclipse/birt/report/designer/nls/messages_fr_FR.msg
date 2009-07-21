@@ -4496,7 +4496,6 @@ CreateChartHandler.text=Créer un graphique
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=Paramètres d'entrée
-
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=redimensionner la colonne
@@ -4586,7 +4585,7 @@ TextEditor.PasteFormattedText=Coller texte formaté
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=Recharger image
+ReloadImageAction.Text=Reload I&mage
 
 ###########################################################
 #VariablesNodeProvider

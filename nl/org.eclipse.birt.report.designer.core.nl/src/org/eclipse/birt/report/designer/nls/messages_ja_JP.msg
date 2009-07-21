@@ -4496,7 +4496,6 @@ CreateChartHandler.text=グラフビューの作成
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=入力パラメタ
-
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=列幅の変更
@@ -4586,7 +4585,7 @@ TextEditor.PasteFormattedText=書式付きテキストの貼り付け
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=イメージの再ロード
+ReloadImageAction.Text=Reload I&mage
 
 ###########################################################
 #VariablesNodeProvider

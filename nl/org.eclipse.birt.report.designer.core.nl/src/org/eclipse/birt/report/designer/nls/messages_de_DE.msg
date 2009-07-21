@@ -4496,7 +4496,6 @@ CreateChartHandler.text=Diagramm-Ansicht erstellen
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=Eingabeparameter
-
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=Spaltengröße anpassen
@@ -4586,7 +4585,7 @@ TextEditor.PasteFormattedText=Formatierten Text einfügen
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=Bild neu laden
+ReloadImageAction.Text=Reload I&mage
 
 ###########################################################
 #VariablesNodeProvider

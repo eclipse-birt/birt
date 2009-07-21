@@ -4496,7 +4496,6 @@ CreateChartHandler.text=创建图表视图
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=输入参数
-
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=重新设定列大小
@@ -4586,7 +4585,7 @@ TextEditor.PasteFormattedText=粘贴带格式文本
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=重新加载图像
+ReloadImageAction.Text=Reload I&mage
 
 ###########################################################
 #VariablesNodeProvider
