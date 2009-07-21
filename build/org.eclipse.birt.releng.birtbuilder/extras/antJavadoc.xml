@@ -40,6 +40,11 @@
 			<property name="packagenames" value="org.eclipse.birt.core.*"/>
 		</projectInfo>
 		<projectInfo>
+		    <property name="projectName" value="org.eclipse.birt.core.script.function" />
+			<property name="windowTitle" value="Birt Core Script Function API" />
+			<property name="packagenames" value="org.eclipse.birt.core.script.function.*"/>
+		</projectInfo>
+		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.core.ui" />
 			<property name="windowTitle" value="Birt Wizard Framework API" />
 			<property name="packagenames" value="org.eclipse.birt.core.ui.*"/>
@@ -74,7 +79,48 @@
 				<property name="windowTitle" value="Birt Excel Emitter API" />
 				<property name="packagenames" value="org.eclipse.birt.report.engine.emitter.excel.*"/>
 		</projectInfo>
-				
+		
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config" />
+                <property name="windowTitle" value="Birt Emitter Config API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.config.*"/>
+        </projectInfo>
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.excel.config" />
+                <property name="windowTitle" value="Birt Emitter Excel Config API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.excel.config.*"/>
+        </projectInfo>
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.html.config" />
+                <property name="windowTitle" value="Birt Emitter Html Config API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.html.config.*"/>
+        </projectInfo>
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.pdf.config" />
+                <property name="windowTitle" value="Birt Emitter Pdf Config API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.pdf.config.*"/>
+        </projectInfo>
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.postscript.config" />
+                <property name="windowTitle" value="Birt Emitter Postscript Config API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.postscript.config.*"/>
+        </projectInfo>
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.ppt.config" />
+                <property name="windowTitle" value="Birt Emitter Ppt Config API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.ppt.config.*"/>
+        </projectInfo>
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.prototype.excel" />
+                <property name="windowTitle" value="Birt Emitter Prototype Execl API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.prototype.excel.*"/>
+        </projectInfo>
+		<projectInfo>
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.wpml.config" />
+                <property name="windowTitle" value="Birt Emitter Wpml Config API" />
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.wpml.config.*"/>
+        </projectInfo>		
+		
 		<!-- data team -->
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.data.adapter" />
@@ -116,6 +162,38 @@
 			<property name="windowTitle" value="Birt oda-xml API" />
 			<property name="packagenames" value="org.eclipse.birt.report.data.oda.xml.*"/>
 		</projectInfo>
+
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.data.aggregation" />
+			<property name="windowTitle" value="Birt Data Aggregation API" />
+			<property name="packagenames" value="org.eclipse.birt.data.aggregation.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.data.bidi.utils" />
+			<property name="windowTitle" value="Birt Data Bidi Utils API" />
+			<property name="packagenames" value="org.eclipse.birt.report.data.bidi.utils.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.data.bidi.utils.ui" />
+			<property name="windowTitle" value="Birt Data Bidi Utils Ui API" />
+			<property name="packagenames" value="org.eclipse.birt.report.data.bidi.utils.ui.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.data.oda.jdbc.dbprofile" />
+			<property name="windowTitle" value="Birt Data Oda Jdbc Dbprofile API" />
+			<property name="packagenames" value="org.eclipse.birt.report.data.oda.jdbc.dbprofile.*"/>
+		</projectInfo>	
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb" />
+			<property name="windowTitle" value="Birt Data Oda Jdbc Dbprofile Sampledb API" />
+			<property name="packagenames" value="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui" />
+			<property name="windowTitle" value="Birt Data Oda Jdbc Dbprofile Ui API" />
+			<property name="packagenames" value="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.*"/>
+		</projectInfo>		
+		
 		<!-- chart team -->
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.chart.device.extension" />
@@ -238,7 +316,6 @@
 			<property name="windowTitle" value="Birt Designer Core API" />
 			<property name="packagenames" value="org.eclipse.birt.report.designer.ui.preview.web.*"/>
 		</projectInfo>
-		
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.item.crosstab.ui" />
 			<property name="windowTitle" value="Birt Crosstab Project API" />
@@ -249,6 +326,43 @@
 			<property name="windowTitle" value="Birt Crosstab Project API" />
 			<property name="packagenames" value="org.eclipse.birt.report.item.crosstab.core.*"/>
 		</projectInfo>
+		
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.debug.core" />
+			<property name="windowTitle" value="Birt Debug Core API" />
+			<property name="packagenames" value="org.eclipse.birt.report.debug.core.*"/>
+		</projectInfo>	
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.cubebuilder" />
+			<property name="windowTitle" value="Birt Designer Ui Cubebuilder API" />
+			<property name="packagenames" value="org.eclipse.birt.report.designer.ui.cubebuilder.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.data" />
+			<property name="windowTitle" value="Birt Designer Ui Data API" />
+			<property name="packagenames" value="org.eclipse.birt.report.designer.ui.data.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.editor.script" />
+			<property name="windowTitle" value="Birt Designer Ui Editor Script API" />
+			<property name="packagenames" value="org.eclipse.birt.report.designer.ui.editor.script.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.samples.ide" />
+			<property name="windowTitle" value="Birt Designer Ui Samples Ide API" />
+			<property name="packagenames" value="org.eclipse.birt.report.designer.ui.samples.ide.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.samples.rcp" />
+			<property name="windowTitle" value="Birt Designer Ui Samples Rcp API" />
+			<property name="packagenames" value="org.eclipse.birt.report.designer.ui.samples.rcp.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.samplesview" />
+			<property name="windowTitle" value="Birt Designer Ui Samplesview API" />
+			<property name="packagenames" value="org.eclipse.birt.report.designer.ui.samplesview.*"/>
+		</projectInfo>
+		
 		<!-- model & viewer -->
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.integration.wtp.ui" />
@@ -271,6 +385,18 @@
 			<property name="windowTitle" value="Birt Web Viewer Project" />
 			<property name="packagenames" value="org.eclipse.birt.integration.wtp.ui.*"/>
 		</projectInfo>
+		
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.engine.dataextraction" />
+			<property name="windowTitle" value="Birt Engine Dataextraction Project" />
+			<property name="packagenames" value="org.eclipse.birt.report.engine.dataextraction.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.engine.dataextraction.csv" />
+			<property name="windowTitle" value="Birt Engine Dataextraction Csv Project" />
+			<property name="packagenames" value="org.eclipse.birt.report.engine.dataextraction.csv.*"/>
+		</projectInfo>
+		
 		<!-- Test Plugins-->
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.tests.chart" />
