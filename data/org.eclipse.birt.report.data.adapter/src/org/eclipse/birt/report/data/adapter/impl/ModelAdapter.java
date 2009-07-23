@@ -15,8 +15,9 @@ package org.eclipse.birt.report.data.adapter.impl;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
@@ -54,7 +55,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -74,6 +74,7 @@ import org.mozilla.javascript.Scriptable;
  */
 public class ModelAdapter implements IModelAdapter
 {
+	private static Logger logger = Logger.getLogger( ModelAdapter.class.getName( ) );
 	DataSessionContext context;
 	
 	ModelAdapter( DataSessionContext context)
@@ -106,7 +107,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( Exception e )
 		{
-			assert false;
+			logger.log( Level.WARNING, e.getMessage( ), e );
 			
 		}
 		return null;
@@ -143,6 +144,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( Exception e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 		// other types are not supported
 		assert false;
@@ -163,6 +165,8 @@ public class ModelAdapter implements IModelAdapter
 	 */
 	public ScriptExpression adaptExpression( Expression expr, String dataType ) 
 	{
+		if( expr == null )
+			return null;
 		return new ExpressionAdapter( expr, dataType );
 	}
 	
@@ -186,6 +190,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( AdapterException e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
 			return null;
 		}
 	}
@@ -202,6 +207,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( AdapterException e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
 			return null;
 		}
 	}
@@ -218,6 +224,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( AdapterException e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
 			return null;
 		}
 	}
@@ -234,6 +241,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( AdapterException e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
 			return null;
 		}
 	}
@@ -258,6 +266,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( AdapterException e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
 			return null;
 		}
 	}
@@ -312,6 +321,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( Exception e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
 			return null;
 		}
 

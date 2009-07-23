@@ -17,7 +17,6 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 public class ExpressionAdapter extends ScriptExpression
