@@ -768,6 +768,7 @@ public class TableLayout
 		{
 			row.addChild( 0, emptyCell );
 		}
+		emptyCell.isDummy = true;
 		return emptyCell;
 	}
 

@@ -308,20 +308,35 @@ public class TableArea extends RepeatableArea
 		InstanceID rowId = rowContent.getInstanceID( );
 		UnresolvedRowHint hint = new UnresolvedRowHint( tableId
 				.toUniqueString( ), rowId.toUniqueString( ) );
-		for ( Iterator i = row.getChildren( ); i.hasNext( ); )
+		if ( row.cells != null )
 		{
-			AbstractArea area = (AbstractArea) i.next( );
-			String style = null;
-			if ( area instanceof CellArea )
+			for ( int i = 0; i < row.cells.length; i++ )
 			{
-				CellArea cell = (CellArea) area;
-				ICellContent cellContent = (ICellContent) cell.getContent( );
-				if ( cellContent != null )
+				AbstractArea area = (AbstractArea) row.cells[i];
+				String style = null;
+				if ( area instanceof DummyCell )
 				{
-					style = cellContent.getStyle( ).getCssText( );
+					CellArea cell = ( (DummyCell) area ).getCell( );
+					ICellContent cellContent = (ICellContent) cell.getContent( );
+					if ( cellContent != null )
+					{
+						style = cellContent.getStyle( ).getCssText( );
+					}
+					hint.addUnresolvedCell( style, cell.columnID,
+							( (DummyCell) area ).colSpan,
+							( (DummyCell) area ).rowSpan );
 				}
-				hint.addUnresolvedCell( style, cell.columnID, cell.colSpan,
-						cell.rowSpan );
+				else if ( area instanceof CellArea )
+				{
+					CellArea cell = (CellArea) area;
+					ICellContent cellContent = (ICellContent) cell.getContent( );
+					if ( cellContent != null )
+					{
+						style = cellContent.getStyle( ).getCssText( );
+					}
+					hint.addUnresolvedCell( style, cell.columnID, cell.colSpan,
+							cell.rowSpan );
+				}
 			}
 		}
 		return hint;

@@ -42,7 +42,8 @@ public class FixedLayoutPageHintGenerator
 
 	protected HashSet<String> tableIds = new HashSet<String>( );
 	HashMap<String, UnresolvedRowHint> htmlUnresolvedRowHints = null;
-	HashMap<String, UnresolvedRowHint> unresolvedRowHints = null;
+	HashMap<String, UnresolvedRowHint> currentPageUnresolvedRowHints = null;
+	HashMap<String, UnresolvedRowHint> docUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
 	
 	protected LayoutContext context;
 
@@ -59,12 +60,23 @@ public class FixedLayoutPageHintGenerator
 
 	public void addUnresolvedRowHint( String tableId, UnresolvedRowHint hint )
 	{
-		if ( unresolvedRowHints == null )
+		if ( currentPageUnresolvedRowHints == null )
 		{
-			unresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
+			currentPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
 		}
-		unresolvedRowHints.put( htmlLayoutContext.getPageHintManager( )
+		currentPageUnresolvedRowHints.put( htmlLayoutContext.getPageHintManager( )
 				.getHintMapKey( tableId ), hint );
+	}
+	
+	public void resetRowHint()
+	{
+		docUnresolvedRowHints.clear( );
+		if ( currentPageUnresolvedRowHints != null )
+		{
+			docUnresolvedRowHints.putAll( currentPageUnresolvedRowHints );
+			currentPageUnresolvedRowHints.clear( );
+		}
+		
 	}
 
 	public List<UnresolvedRowHint> getUnresolvedRowHints( )
@@ -74,9 +86,9 @@ public class FixedLayoutPageHintGenerator
 		while ( iter.hasNext( ) )
 		{
 			String key = iter.next( );
-			if ( unresolvedRowHints != null )
+			if ( docUnresolvedRowHints != null )
 			{
-				UnresolvedRowHint hint = unresolvedRowHints.get( key );
+				UnresolvedRowHint hint = docUnresolvedRowHints.get( key );
 				if ( hint != null )
 				{
 					unresolvedRowHintsList.add( hint );
