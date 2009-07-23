@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.elements;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.Module;
@@ -24,7 +23,6 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
  * This class represents a data set: a query, stored procedure, or other source
  * of data. A data set is a named object that provides a result set defined by a
  * sequence of data rows. Report elements use data sets to retrieve data for
- * display. A data set has three key parts:
  * <ul>
  * <li>Data access: Instructions for retrieving data from an external data
  * source. For example, and SQL query, a stored procedure definition, and so on.

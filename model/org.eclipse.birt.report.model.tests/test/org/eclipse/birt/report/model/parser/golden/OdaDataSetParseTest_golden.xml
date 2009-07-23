@@ -94,6 +94,15 @@
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>
+            <list-property name="sortHints">
+            	<structure>
+            		<property name="columnName">newSortHint</property>
+            		<property name="position">1</property>
+            		<property name="direction">asc</property>
+            		<property name="nullValueOrdering">nullIsLast</property>
+            		<property name="isOptional">false</property>
+            	</structure>
+            </list-property>
             <property name="dataSetRowLimit">888</property>
             <list-property name="paramBindings">
                 <structure>

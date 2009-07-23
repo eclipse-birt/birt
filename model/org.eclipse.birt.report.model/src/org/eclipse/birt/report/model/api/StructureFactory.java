@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
+import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.core.Module;
@@ -396,8 +397,8 @@ public class StructureFactory
 	 * 
 	 * @return the created embedded image
 	 * @throws LibraryException
-	 *             if the library has the <code>baseImage</code> is not
-	 *             included in the <code>targetModule</code>
+	 *             if the library has the <code>baseImage</code> is not included
+	 *             in the <code>targetModule</code>
 	 */
 
 	public static EmbeddedImage newEmbeddedImageFrom(
@@ -444,8 +445,8 @@ public class StructureFactory
 	 * 
 	 * @return the created embedded image
 	 * @throws LibraryException
-	 *             if the library has the <code>baseImage</code> is not
-	 *             included in the <code>targetModule</code>
+	 *             if the library has the <code>baseImage</code> is not included
+	 *             in the <code>targetModule</code>
 	 */
 
 	public static EmbeddedImage newEmbeddedImageFrom(
@@ -473,10 +474,10 @@ public class StructureFactory
 	 * @param newName
 	 *            the default column name
 	 * @return a bound data column. If the <code>newName</code> is unique, the
-	 *         name in the return value is <code>newName</code>. Otherwise
-	 *         the newly created name follows the above schema. It can also be
-	 *         <code>null</code> if the given element do not support bound
-	 *         data column property.
+	 *         name in the return value is <code>newName</code>. Otherwise the
+	 *         newly created name follows the above schema. It can also be
+	 *         <code>null</code> if the given element do not support bound data
+	 *         column property.
 	 * @throws IllegalArgumentException
 	 *             if the <code>newName</code> is <code>null</code>.
 	 */
@@ -588,5 +589,15 @@ public class StructureFactory
 	public static AggregationArgument createAggregationArgument( )
 	{
 		return new AggregationArgument( );
+	}
+
+	/**
+	 * Creates a new sort hint.
+	 * 
+	 * @return a sort hint.
+	 */
+	public static SortHint createSortHint( )
+	{
+		return new SortHint( );
 	}
 }

@@ -52,6 +52,7 @@ import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
+import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -593,6 +594,8 @@ public class StructureState extends AbstractPropertyState
 				.toLowerCase( ), DimensionJoinCondition.class );
 		structDict.put( AggregationArgument.STRUCTURE_NAME.toLowerCase( ),
 				AggregationArgument.class );
+		structDict.put( SortHint.SORT_HINT_STRUCT.toLowerCase( ),
+				SortHint.class );
 
 	}
 }

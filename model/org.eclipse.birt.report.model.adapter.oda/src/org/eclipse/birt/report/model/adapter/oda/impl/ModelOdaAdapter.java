@@ -514,11 +514,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 				.equalsIgnoreCase( propertyName ) )
 			new ResultSetsAdapter( setHandle, setDesign )
 					.updateOdaColumnHints( );
-		
-		else if ( OdaDataSetHandle.FILTER_PROP
-				.equalsIgnoreCase( propertyName ) )
-			new FilterAdapter( setHandle, setDesign )
-					.updateOdaFilterExpression( );			
+
+		else if ( OdaDataSetHandle.FILTER_PROP.equalsIgnoreCase( propertyName ) )
+			new ResultSetCriteriaAdapter( setHandle, setDesign ).updateODAResultSetCriteria( );
 	}
 
 	/*
@@ -1071,7 +1069,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		{
 			propHandle.addItem( (ColumnHint) hints4ComputedColumn.get( i ) );
 		}
-		
+
 		// add filter condition for the result set
 		tmpAdapter.updateROMFilterCondition( );
 	}

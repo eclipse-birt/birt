@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -37,8 +38,8 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * within the result set.</dd>
  * 
  * <dt><strong>Alias </strong></dt>
- * <dd>a column hint has an optional alias. It provides an ¡°alias¡± name used
- * for the column within the report.</dd>
+ * <dd>a column hint has an optional alias. It provides an ¡°alias¡± name used for
+ * the column within the report.</dd>
  * 
  * <dt><strong>Searching </strong></dt>
  * <dd>a column hint has an optional searching. It indicates how the column will
@@ -210,9 +211,10 @@ public class ColumnHint extends PropertyStructure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
-		List list = super.validate( module, element );
+		List<SemanticException> list = super.validate( module, element );
 
 		PropertyDefn propDefn = (PropertyDefn) getDefn( ).getMember(
 				COLUMN_NAME_MEMBER );

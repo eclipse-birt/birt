@@ -955,4 +955,13 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_VARIABLE_TYPE = "variableType"; //$NON-NLS-1$
 	public static final String VARIABLE_TYPE_REPORT = "report"; //$NON-NLS-1$
 	public static final String VARIABLE_TYPE_PAGE = "page"; //$NON-NLS-1$
+
+	/**
+	 * Choice constants for nullValueOrderingType.
+	 */
+	public static final String CHOICE_NULL_VALUE_ORDERING_TYPE = "nullValueOrderingType"; //$NON-NLS-1$
+	public static final String NULL_VALUE_ORDERING_TYPE_UNKNOWN = "unknown"; //$NON-NLS-1$
+	public static final String NULL_VALUE_ORDERING_TYPE_NULLISFIRST = "nullIsFirst"; //$NON-NLS-1$
+	public static final String NULL_VALUE_ORDERING_TYPE_NULLISLAST = "nullIsLast"; //$NON-NLS-1$
+
 };

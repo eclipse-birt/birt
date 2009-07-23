@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.SortHintHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -179,6 +180,17 @@ public class OdaDataSetParseTest extends BaseTestCase
 		prop.setType( typeDefn );
 		dataSet.addUserPropertyDefn( prop );
 
+		// change sortHints on data set.
+		Iterator sortHints = dataSet.sortHintsIterator( );
+		SortHintHandle sortHint = (SortHintHandle) sortHints.next( );
+
+		sortHint.setColumnName( "newSortHint" ); //$NON-NLS-1$
+		sortHint.setPosition( 1 );
+		sortHint.setDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+		sortHint
+				.setNullValueOrdering( DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISLAST );
+		sortHint.setOptional( false );
+
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 	}
@@ -304,6 +316,18 @@ public class OdaDataSetParseTest extends BaseTestCase
 		computedColumn = (ComputedColumn) columns.get( i++ );
 		assertEquals( "column3", computedColumn.getName( ) ); //$NON-NLS-1$
 		assertEquals( "expression3", computedColumn.getExpression( ) ); //$NON-NLS-1$
+
+		// tests sortHints on data set.
+		Iterator sortHints = dataSet.sortHintsIterator( );
+		SortHintHandle sortHint = (SortHintHandle) sortHints.next( );
+		assertEquals( "sortHint", sortHint.getColumnName( ) ); //$NON-NLS-1$
+		assertEquals( 3, sortHint.getPosition( ) );
+		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, sortHint
+				.getDirection( ) );
+		assertEquals(
+				DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISFIRST,
+				sortHint.getNullValueOrdering( ) );
+		assertTrue( sortHint.isOptional( ) );
 
 		// Test "column-hints" on DataSet
 
@@ -928,7 +952,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 
 	private OdaDataSetHandle getDataSet( ) throws Exception
 	{
-		openDesign( "OdaDataSetParseTest_2.xml" );
+		openDesign( "OdaDataSetParseTest_2.xml" ); //$NON-NLS-1$
 
 		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
 				.findDataSet( "firstDataSet" ); //$NON-NLS-1$

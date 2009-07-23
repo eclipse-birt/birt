@@ -106,6 +106,15 @@
                     <property name="helpTextID">message.column-hint.help</property>
                 </structure>
             </list-property>
+            <list-property name="sortHints">
+            	<structure>
+            		<property name="columnName">sortHint</property>
+            		<property name="position">3</property>
+            		<property name="direction">desc</property>
+            		<property name="nullValueOrdering">nullIsFirst</property>
+            		<property name="isOptional">true</property>
+            	</structure>
+            </list-property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>

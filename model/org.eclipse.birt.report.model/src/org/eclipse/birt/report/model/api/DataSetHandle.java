@@ -249,6 +249,23 @@ public abstract class DataSetHandle extends ReportElementHandle
 	}
 
 	/**
+	 * Returns an iterator over sort hints. The iterator returns instances of
+	 * <code>SortHintHandle</code> that represents sort hint object.
+	 * 
+	 * @return iterator over sort hints.
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.SortHint
+	 * 
+	 */
+	public Iterator<SortHintHandle> sortHintsIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( IDataSetModel.SORT_HINTS_PROP );
+
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
 	 * Returns an iterator over filter. The iterator returns instances of
 	 * <code>FilterConditionHandle</code> that represents filter condition
 	 * object.

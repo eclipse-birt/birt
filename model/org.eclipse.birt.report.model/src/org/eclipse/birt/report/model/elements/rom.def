@@ -602,6 +602,11 @@
   	<Choice displayNameID="Choices.variableType.report" name="report"/>
   	<Choice displayNameID="Choices.variableType.page" name="page"/>
   </ChoiceType>
+  <ChoiceType name="nullValueOrderingType">
+  	<Choice displayNameID="Choices.nullValueOrderingType.unknown" name="unknown"/>
+  	<Choice displayNameID="Choices.nullValueOrderingType.nullIsFirst" name="nullIsFirst"/>
+  	<Choice displayNameID="Choices.nullValueOrderingType.nullIsLast" name="nullIsLast"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1431,6 +1436,19 @@
     <Member displayNameID="Structure.ColumnHint.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Member displayNameID="Structure.ColumnHint.onColumnLayout" name="onColumnLayout" runtimeSettable="false" since="2.5.1" type="boolean"/>
   </Structure>
+  <Structure displayNameID="Structure.SortHint" name="SortHint" since="2.5">
+  	<Member displayNameID="Structure.SortHint.columnName" name="columnName" since="2.5" type="string" />
+  	<Member displayNameID="Structure.SortHint.position" name="position" since="2.5" type="integer" />
+  	<Member detailType="sortDirection" displayNameID="Structure.SortHint.direction" name="direction" since="2.5" type="choice">
+  		<Default>asc</Default>
+  	</Member>
+  	<Member detailType="nullValueOrderingType" displayNameID="Structure.SortHint.nullValueOrdering" name="nullValueOrdering" since="2.5" type="choice">
+  		<Default>unknown</Default>
+  	</Member>
+  	<Member displayNameID="Structure.SortHint.isOptional" name="isOptional" since="2.5" type="boolean">
+  		<Default>false</Default>
+  	</Member>
+  </Structure>
   <Structure displayNameID="Structure.SearchKey" name="SearchKey" since="reserved">
     <Member displayNameID="Structure.SearchKey.expression" isIntrinsic="true" name="expression" returnType="string" runtimeSettable="true" since="reserved" type="expression"/>
   </Structure>
@@ -1851,6 +1869,7 @@
         <Default>false</Default>
     </Property>
     <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
+    <Property detailType="SortHint" displayNameID="Element.DataSet.sortHints" isList="true" name="sortHints" since="2.5" type="structure"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.SimpleDataSet" extends="DataSet" hasStyle="false" isAbstract="true" isNameRequired="true" name="SimpleDataSet" since="1.0" xmlName="simple-data-set">
     <Method context="factory" displayNameID="Element.SimpleDataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.SimpleDataSet.beforeOpen.toolTip" >

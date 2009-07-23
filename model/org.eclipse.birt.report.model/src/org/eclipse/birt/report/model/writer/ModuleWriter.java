@@ -3115,6 +3115,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, IDataSetModel.COLUMN_HINTS_PROP );
 		writeStructureList( obj, IDataSetModel.FILTER_PROP );
 		writeStructureList( obj, IDataSetModel.PARAMETERS_PROP );
+		writeStructureList( obj, IDataSetModel.SORT_HINTS_PROP );
 
 		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
 				getModule( ), IDataSetModel.CACHED_METADATA_PROP );

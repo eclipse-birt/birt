@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <data-sets>
+        <oda-data-set name="MyDataSet" id="2">
+            <list-property name="sortHints">
+                <structure>
+                    <property name="columnName">1</property>
+                    <property name="position">1</property>
+                    <property name="direction">asc</property>
+                    <property name="nullValueOrdering">nullIsFirst</property>
+                    <property name="isOptional">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">2</property>
+                    <property name="position">2</property>
+                    <property name="direction">desc</property>
+                    <property name="nullValueOrdering">nullIsLast</property>
+                    <property name="isOptional">true</property>
+                </structure>
+            </list-property>
+        </oda-data-set>
+    </data-sets>
+</report>

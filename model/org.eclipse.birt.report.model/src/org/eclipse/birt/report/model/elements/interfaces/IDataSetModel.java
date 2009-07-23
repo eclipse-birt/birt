@@ -66,8 +66,15 @@ public interface IDataSetModel
 	public static final String ROW_FETCH_LIMIT_PROP = "rowFetchLimit"; //$NON-NLS-1$
 
 	/**
+	 * The property name of the sort hint. It is a property list contains sort
+	 * hints which supports row ordering.
+	 */
+	public static final String SORT_HINTS_PROP = "sortHints"; //$NON-NLS-1$
+
+	/**
 	 * Name of the property that determines whether to do some cache for
 	 * data-engine when rendering the report.
 	 */
 	String NEEDS_CACHE_PROP = "needsCache"; //$NON-NLS-1$
+
 }
