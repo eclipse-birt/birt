@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
@@ -74,7 +75,6 @@ import org.eclipse.swt.widgets.Spinner;
 
 public class MarkerEditorComposite extends Composite implements MouseListener
 {
-
 	/** Holds the width of each marker UI block */
 	private final static int MARKER_BLOCK_WIDTH = 20;
 
@@ -93,6 +93,10 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 	private transient Button btnDropDown;
 
 	private transient Composite cmpDropDown;
+	
+	private NameSet markerTypeSet = LiteralHelper.markerTypeSet;
+
+	private String outlineText = null;
 
 	public MarkerEditorComposite( Composite parent, Marker marker )
 	{
@@ -102,7 +106,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		initAccessible( );
 		updateMarkerPreview( );
 	}
-
+	
 	private void placeComponents( )
 	{
 		GridLayout layout = new GridLayout( 2, false );
@@ -404,7 +408,26 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 		} );
 	}
+	
+	/**
+	 * Set supported marker types.
+	 * 
+	 * @param markerTypeSet
+	 */
+	public void setSupportedMarkerTypes( NameSet markerTypeSet )
+	{
+		this.markerTypeSet = markerTypeSet;
+	}
 
+	/**
+	 * Set outline text.
+	 * @param text
+	 */
+	public void setOutlineText( String text )
+	{
+		this.outlineText = text;
+	}
+	
 	private class MarkerDropDownEditorComposite extends Composite
 			implements
 				PaintListener,
@@ -423,8 +446,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		boolean isPressingKey = false;
 
-		private final String[] typeDisplayNameSet = LiteralHelper.markerTypeSet.getDisplayNames( );
-		private final String[] typeNameSet = LiteralHelper.markerTypeSet.getNames( );
+		private final String[] typeDisplayNameSet = markerTypeSet.getDisplayNames( );
+		private final String[] typeNameSet = markerTypeSet.getNames( );
 
 		private int markerTypeIndex = -1;
 
@@ -505,37 +528,45 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 			
 			btnOutline = new Button( this, SWT.CHECK );
-			{
-				btnOutline.setText( Messages.getString("MarkerEditorComposite.Button.Outline") ); //$NON-NLS-1$
+			{	
+				if ( outlineText != null )
+				{
+					btnOutline.setText( outlineText );
+				}
+				else
+				{
+					btnOutline.setText( Messages.getString( "MarkerEditorComposite.Button.Outline" ) ); //$NON-NLS-1$
+				}
 				btnOutline.addListener( SWT.Selection, this );
 				btnOutline.addListener( SWT.FocusOut, this );
 				btnOutline.addListener( SWT.KeyDown, this );
 				btnOutline.addListener( SWT.Traverse, this );
-				
-				LineAttributes la =  getMarker().getOutline( );
+
+				LineAttributes la = getMarker( ).getOutline( );
 				if ( la == null )
 				{
 					ChartAdapter.beginIgnoreNotifications( );
 					la = AttributeFactoryImpl.eINSTANCE.createLineAttributes( );
-					la.eAdapters( ).addAll( getMarker().eAdapters( ) );
-					EObject o = getMarker();
-					while( !( o instanceof LineSeries ) )
+					la.eAdapters( ).addAll( getMarker( ).eAdapters( ) );
+					EObject o = getMarker( );
+					while ( !( o instanceof LineSeries ) )
 					{
 						o = o.eContainer( );
 						if ( o == null )
-							 break;
+							break;
 					}
-					if ( o instanceof LineSeries ) {
-						la.setVisible( ((LineSeries)o).getLineAttributes( ).isVisible( ) );
+					if ( o instanceof LineSeries )
+					{
+						la.setVisible( ( (LineSeries) o ).getLineAttributes( )
+								.isVisible( ) );
 					}
 					ChartAdapter.endIgnoreNotifications( );
 				}
-				
-				getMarker().setOutline( la );
+
+				getMarker( ).setOutline( la );
 				btnOutline.setSelection( la.isVisible( ) );
-				updateOutlineBtn();
+				updateOutlineBtn( );
 			}
-			
 			setEnabledState( btnMarkerVisible.getSelection( ) );
 		}
 

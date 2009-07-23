@@ -15,6 +15,8 @@ import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Marker;
@@ -35,6 +37,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
@@ -102,11 +105,24 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 	/** Holds the starting row of marker list */
 	private transient int iStartRow = 0;
 
+	private NameSet markerTypeSet = null;
+
+	private String outlineText = null;
+	
 	public LineSeriesMarkerSheet( String title, ChartWizardContext context,
 			LineSeries series )
 	{
 		super( title, context, false );
 		this.series = series;
+	}
+	
+	public LineSeriesMarkerSheet( String title, ChartWizardContext context,
+			LineSeries series, NameSet markerTypeSet, String outlineText )
+	{
+		super( title, context, false );
+		this.series = series;
+		this.markerTypeSet = markerTypeSet;
+		this.outlineText = outlineText;
 	}
 	
 	public LineSeriesMarkerSheet( String title, ChartWizardContext context,
@@ -172,7 +188,15 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		}
 
 		newMarkerEditor = new MarkerEditorComposite( grpTop, createMarker( ) );
-
+		if ( markerTypeSet != null )
+		{
+			newMarkerEditor.setSupportedMarkerTypes( markerTypeSet );
+		}
+		if ( outlineText != null )
+		{
+			newMarkerEditor.setOutlineText( outlineText );
+		}
+		
 		btnRemove = new Button( grpTop, SWT.NONE );
 		{
 			btnRemove.setText( Messages.getString( "LineSeriesMarkerSheet.Label.Remove" ) ); //$NON-NLS-1$
@@ -192,6 +216,21 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		}
 
 		// This control needs to be repainted by gc
+		if ( markerTypeSet != null )
+		{
+			String name = getMarkers( ).get( 0 ).getType( ).getName( );
+			if ( markerTypeSet.getNameIndex( name ) < 0 )
+			{
+				Marker m = MarkerImpl.create( MarkerType.getByName( markerTypeSet.getNames( )[0] ), 4 );
+				m.setVisible( true );
+				LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
+				la.setVisible( true );
+				m.setOutline( la );
+				getMarkers().remove( 0 );
+				getMarkers().add( 0, m );
+				m.eAdapters( ).addAll( series.eAdapters( ) );
+			}
+		}
 		currentMarkerEditor = new MarkerEditorComposite( cnvMarkers,
 				getMarkers( ).get( 0 ) );
 		{
@@ -200,7 +239,16 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 					MARKER_BLOCK_WIDTH,
 					MARKER_BLOCK_HEIGHT );
 		}
-
+		if ( markerTypeSet != null )
+		{
+			currentMarkerEditor.setSupportedMarkerTypes( markerTypeSet );
+			
+		}
+		if ( outlineText != null )
+		{
+			currentMarkerEditor.setOutlineText( outlineText );
+		}
+		
 		setEnabledState( );
 
 		try
@@ -382,7 +430,16 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 	private Marker createMarker( )
 	{
-		Marker marker = MarkerImpl.create( MarkerType.BOX_LITERAL, 4 );
+		Marker marker;
+		if ( markerTypeSet != null )
+		{
+			marker = MarkerImpl.create( MarkerType.getByName( markerTypeSet.getNames( )[0] ),
+					4 );
+		}
+		else
+		{
+			marker = MarkerImpl.create( MarkerType.BOX_LITERAL, 4 );
+		}
 		marker.eAdapters( ).addAll( series.eAdapters( ) );
 		return marker;
 	}
@@ -522,5 +579,4 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			currentMarkerEditor.setVisible( true );
 		}
 	}
-
 }
