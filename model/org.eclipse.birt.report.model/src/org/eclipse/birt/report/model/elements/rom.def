@@ -3168,7 +3168,11 @@
     <PropertyVisibility name="column" visibility="hide"/>        
     <PropertyVisibility name="colSpan" visibility="readonly"/>        
     <PropertyVisibility name="rowSpan" visibility="readonly"/>
-    <PropertyVisibility name="viewAction" visibility="hide"/>                    
+    <PropertyVisibility name="viewAction" visibility="hide"/>
+    <PropertyVisibility name="antidiagonalNumber" visibility="hide"/> 
+    <PropertyVisibility name="antidiagonalThickness" visibility="hide"/> 
+    <PropertyVisibility name="antidiagonalStyle" visibility="hide"/> 
+    <PropertyVisibility name="antidiagonalColor" visibility="hide"/>                    
     <Slot displayNameID="Element.Cell.slot.content" multipleCardinality="true" name="content" since="1.0">
       <Type name="Label"/>
       <Type name="Data"/>
