@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -731,6 +732,8 @@ public class AggregateEditorComposite extends Composite implements
 				
 				ChartUIUtil.checkAggregateType( fChartContext );
 				
+				DataDefinitionTextManager.getInstance( ).updateTooltip( );
+
 				closeAggregateEditor( getShell( ) );
 			}
 			else if ( source == fBtnCancel )

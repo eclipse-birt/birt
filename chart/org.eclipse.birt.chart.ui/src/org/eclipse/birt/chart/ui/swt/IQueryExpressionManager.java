@@ -45,4 +45,11 @@ public interface IQueryExpressionManager
 	 * @return
 	 */
 	public boolean isValidExpression( String expression );
+
+	/**
+	 * Set tooltip for input control.
+	 * 
+	 * @since 2.5
+	 */
+	public void setTooltipForInputControl( );
 }

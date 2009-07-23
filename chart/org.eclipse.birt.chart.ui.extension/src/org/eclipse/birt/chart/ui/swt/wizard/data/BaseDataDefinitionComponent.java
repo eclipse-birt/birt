@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
@@ -651,6 +652,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					.addAll( seriesdefinition.eAdapters( ) );
 			ChartUIUtil.checkGroupType( context, context.getModel( ) );
 			ChartUIUtil.checkAggregateType( context );
+
+			DataDefinitionTextManager.getInstance( ).updateTooltip( );
 		}
 	}
 
@@ -731,7 +734,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	/**
 	 * Set tooltip for input control.
 	 */
-	private void setTooltipForInputControl( )
+	public void setTooltipForInputControl( )
 	{
 		getInputControl( ).setToolTipText( getTooltipForDataText( getExpression( getInputControl( ) ) ) );
 	}
@@ -804,6 +807,66 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( queryText.trim( ).length( ) == 0 )
 		{
 			return tooltipWhenBlank;
+		}
+		if ( ChartUIConstants.QUERY_VALUE.equals( queryType )
+				&& context.getDataServiceProvider( )
+						.checkState( IDataServiceProvider.HAS_DATA_SET ) )
+		{
+			SeriesDefinition baseSd = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+					.get( 0 );
+
+			SeriesGrouping sg = null;
+			if ( baseSd.getGrouping( ) != null
+					&& baseSd.getGrouping( ).isEnabled( ) )
+			{
+				sg = baseSd.getGrouping( );
+				if ( seriesdefinition.getGrouping( ) != null
+						&& seriesdefinition.getGrouping( ).isEnabled( ) )
+				{
+					sg = seriesdefinition.getGrouping( );
+				}
+				if ( query.getGrouping( ) != null
+						&& query.getGrouping( ).isEnabled( ) )
+				{
+					sg = query.getGrouping( );
+				}
+			}
+
+			if ( sg != null )
+			{
+				StringBuffer sbuf = new StringBuffer( );
+				sbuf.append( sg.getAggregateExpression( ) );
+				sbuf.append( "( " ); //$NON-NLS-1$
+				sbuf.append( queryText );
+				IAggregateFunction aFunc = null;
+				try
+				{
+					aFunc = PluginSettings.instance( )
+							.getAggregateFunction( sg.getAggregateExpression( ) );
+				}
+				catch ( ChartException e )
+				{
+					// Since the aggFuncName might be null, so we don't display
+					// the
+					// exception to user, it is true.
+				}
+
+				int count = aFunc != null ? aFunc.getParametersCount( )
+						: sg.getAggregateParameters( ).size( );
+
+				for ( int i = 0; i < sg.getAggregateParameters( ).size( ); i++ )
+				{
+					if ( i < count )
+					{
+						sbuf.append( ", " ); //$NON-NLS-1$
+						sbuf.append( sg.getAggregateParameters( ).get( i ) );
+					}
+
+				}
+				sbuf.append( " )" ); //$NON-NLS-1$
+				return sbuf.toString( );
+			}
+
 		}
 		return queryText;
 	}

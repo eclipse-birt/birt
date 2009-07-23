@@ -310,4 +310,18 @@ public class DataDefinitionTextManager
 
 		return false;
 	}
+
+	/**
+	 * Update the tooltip for value data definition component after grouping
+	 * changed.
+	 * 
+	 * @since 2.5
+	 */
+	public void updateTooltip( )
+	{
+		for ( IQueryExpressionManager queryExprM : textCollection.values( ) )
+		{
+			queryExprM.setTooltipForInputControl( );
+		}
+	}
 }
