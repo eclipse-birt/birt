@@ -41,6 +41,8 @@ public final class ShapedAction
 
 	private Cursor cursor;
 	
+	private int zOrder = 0;
+
 	/**
 	 * This constructor supports polygon shapes Future shapes (and corresponding
 	 * constructors) will be added later
@@ -190,5 +192,25 @@ public final class ShapedAction
 	public void setCursor( Cursor cursor )
 	{
 		this.cursor = cursor;
+	}
+
+	/**
+	 * Returns z-order
+	 * 
+	 * @return zOrder
+	 */
+	public int getZOrder( )
+	{
+		return zOrder;
+	}
+
+	/**
+	 * Sets z-order
+	 * 
+	 * @param zOrder
+	 */
+	public void setZOrder( int zOrder )
+	{
+		this.zOrder = zOrder;
 	}
 }

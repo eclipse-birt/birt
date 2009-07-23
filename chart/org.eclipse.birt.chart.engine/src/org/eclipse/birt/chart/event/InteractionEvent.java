@@ -37,6 +37,8 @@ public final class InteractionEvent extends ChartEvent
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
+	private short zOrder = 0;
+
 	/**
 	 * The constructor.
 	 */
@@ -129,7 +131,7 @@ public final class InteractionEvent extends ChartEvent
 	/**
 	 * Returns mouse cursor.
 	 * 
-	 * @return
+	 * @return cursor
 	 */
 	public Cursor getCursor( )
 	{
@@ -145,5 +147,25 @@ public final class InteractionEvent extends ChartEvent
 	public void setCursor( Cursor cursor )
 	{
 		this.cursor = cursor;
+	}
+
+	/**
+	 * Returns z-order
+	 * 
+	 * @return zOrder
+	 */
+	public short getZOrder( )
+	{
+		return zOrder;
+	}
+
+	/**
+	 * Sets z-Order
+	 * 
+	 * @param zOrder
+	 */
+	public void setZOrder( short zOrder )
+	{
+		this.zOrder = zOrder;
 	}
 }

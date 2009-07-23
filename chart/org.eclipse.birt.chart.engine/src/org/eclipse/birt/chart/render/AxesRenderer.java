@@ -2476,6 +2476,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						iev.addTrigger( tg );
 					}
 					iev.setHotSpot( preCopy );
+					iev.setZOrder( m == null ? 0 : (short) m.getSize( ) );
 					ipr.enableInteraction( iev );
 				}
 			}

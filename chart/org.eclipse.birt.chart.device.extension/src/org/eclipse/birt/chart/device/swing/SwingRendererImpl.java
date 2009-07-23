@@ -1675,6 +1675,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		if ( sa != null )
 		{
 			sa.setCursor( iev.getCursor( ) );
+			sa.setZOrder( iev.getZOrder( ) );
 			// Register the triggers in the shape and renderer.
 			registerTriggers( tga, sa );
 		}

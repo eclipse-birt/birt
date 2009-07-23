@@ -23,9 +23,12 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -159,6 +162,16 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		List<ShapedAction> saList = getShapeActions( );
 
+		Collections.sort( saList, new Comparator<ShapedAction>( ) {
+
+			public int compare( ShapedAction o1, ShapedAction o2 )
+			{
+
+				return o2.getZOrder( ) - o1.getZOrder( );
+			}
+
+		} );
+
 		if ( saList == null || saList.size( ) == 0 )
 		{
 			return null;
@@ -166,9 +179,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 		// Generate image map using associated trigger list.
 		StringBuffer sb = new StringBuffer( );
-		for ( Iterator<ShapedAction> iter = saList.iterator( ); iter.hasNext( ); )
+		// reverse output
+		for ( ListIterator<ShapedAction> iter = saList.listIterator( saList.size( ) ); iter.hasPrevious( ); )
 		{
-			ShapedAction sa = iter.next( );
+			ShapedAction sa = iter.previous( );
 			userCallback( sa, sb );
 			
 			String coords = shape2polyCoords( sa.getShape( ) );
