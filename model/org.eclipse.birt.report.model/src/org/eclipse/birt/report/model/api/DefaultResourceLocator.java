@@ -15,18 +15,8 @@ import java.net.URL;
 import java.util.Map;
 
 /**
- * The default file search algorithm. It searches for a given file in the 'base'
- * folder of a design. If the 'base' property of the design was not set, then
- * this class looks in folder where the design file is located.
- * <p>
- * The detail search mechanism is:
- * <ul>
- * <li>If the the file to be found is given by an absolute path, returns that
- * path.
- * <li>If it is a relative file path, search the 'base' folder of the design.
- * <li>If the 'base' property of the design is not set, then search the file in
- * the folder where the design file locates.
- * </ul>
+ * The default implementation for interface {@link IResourceLocator}. This
+ * implementation is empty and does nothing to search the resource. </ul>
  * 
  * @see IResourceLocator
  * @see SessionHandle

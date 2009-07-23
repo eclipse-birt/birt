@@ -213,7 +213,7 @@ public class ReferenceableElementAdapter
 			Object value = null;
 			if ( struct != null )
 			{
-				value = struct.getContext( ).getLocalValue( root );
+				value = struct.getLocalProperty( root, ref.getPropertyName( ) );
 			}
 			else
 			{

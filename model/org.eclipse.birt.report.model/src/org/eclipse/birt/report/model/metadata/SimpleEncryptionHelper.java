@@ -55,6 +55,8 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 
 	public String encrypt( String string )
 	{
+		if ( string == null )
+			return null;
 		try
 		{
 			byte[] data = codec.encode( string.getBytes( CHARSET ) );
@@ -80,6 +82,8 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 
 	public String decrypt( String string )
 	{
+		if ( string == null )
+			return null;
 		try
 		{
 			byte[] data = codec.decode( string.getBytes( CHARSET ) );
