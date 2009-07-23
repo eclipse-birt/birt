@@ -58,6 +58,8 @@ public abstract class AbstractArea implements IArea
 	protected String bookmark = null;
 
 	protected transient ContainerArea parent;
+	
+	protected transient boolean isDummy = false;
 
 	AbstractArea( AbstractArea area )
 	{
