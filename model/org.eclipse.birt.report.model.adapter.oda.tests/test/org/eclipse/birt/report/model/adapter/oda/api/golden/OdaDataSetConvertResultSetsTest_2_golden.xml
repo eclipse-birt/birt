@@ -24,9 +24,11 @@
                 <structure>
                     <property name="columnName">name</property>
                     <property name="alias">user name</property>
+                    <property name="analysis">measure</property>
                     <property name="format">new format</property>
                     <text-property name="displayName">new display name for column 1</text-property>
                     <text-property name="helpText" key="message.column-hint.help">new help text for column 1</text-property>
+                    <property name="onColumnLayout">true</property>
                 </structure>
             </list-property>
             <property name="dataSource">myDataSource1</property>

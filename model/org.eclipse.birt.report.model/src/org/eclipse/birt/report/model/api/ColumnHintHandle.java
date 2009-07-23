@@ -28,8 +28,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
  * for the column within the report.</dd>
  * 
  * <dt><strong>Searching </strong></dt>
- * <dd>a column hint has an optional searching. It indicates how the column
- * will be used when searching.</dd>
+ * <dd>a column hint has an optional searching. It indicates how the column will
+ * be used when searching.</dd>
  * 
  * <dt><strong>Export </strong></dt>
  * <dd>a column hint has an optional export. It determines how the column will
@@ -60,8 +60,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
  * localize the display name.</dd>
  * 
  * <dt><strong>Help Text </strong></dt>
- * <dd>a column hint has an optional help text. It provides optional
- * localizable descriptive text that explains the column to the end user.</dd>
+ * <dd>a column hint has an optional help text. It provides optional localizable
+ * descriptive text that explains the column to the end user.</dd>
  * 
  * <dt><strong>Help Text ID </strong></dt>
  * <dd>a column hint has an optional help text ID. It provides the key to
@@ -114,11 +114,9 @@ public class ColumnHintHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are
 	 * <ul>
-	 * <li>ANALYSIS_TYPE_AUTO
 	 * <li>ANALYSIS_TYPE_DIMENSION
+	 * <li>ANALYSIS_TYPE_ATTRIBUTE
 	 * <li>ANALYSIS_TYPE_MEASURE
-	 * <li>ANALYSIS_TYPE_DETAIL
-	 * <li>ANALYSIS_TYPE_NONE
 	 * </ul>
 	 * 
 	 * @return the analysis option
@@ -134,11 +132,9 @@ public class ColumnHintHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are
 	 * <ul>
-	 * <li>ANALYSIS_TYPE_AUTO
 	 * <li>ANALYSIS_TYPE_DIMENSION
+	 * <li>ANALYSIS_TYPE_ATTRIBUTE
 	 * <li>ANALYSIS_TYPE_MEASURE
-	 * <li>ANALYSIS_TYPE_DETAIL
-	 * <li>ANALYSIS_TYPE_NONE
 	 * </ul>
 	 * 
 	 * @param analysis
@@ -396,4 +392,33 @@ public class ColumnHintHandle extends StructureHandle
 		setProperty( ColumnHint.SEARCHING_MEMBER, searching );
 	}
 
+	/**
+	 * Gets the hint if the dimension data element should be layout on column.
+	 * 
+	 * @return true if the dimension data element should be layout on column, or
+	 *         false the dimension data element should be layout on row.
+	 */
+	public boolean isOnColumnLayout( )
+	{
+		Boolean onColumnLayout = (Boolean) getProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER );
+		if ( onColumnLayout != null )
+		{
+			return onColumnLayout.booleanValue( );
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the hint if the dimension data element should be layout on column.
+	 * 
+	 * @param onColumnLayout
+	 *            the hint if the dimension data element should be layout on
+	 *            column.
+	 * @throws SemanticException
+	 */
+	public void setOnColumnLayout( boolean onColumnLayout )
+			throws SemanticException
+	{
+		setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, onColumnLayout );
+	}
 }

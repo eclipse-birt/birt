@@ -20,6 +20,10 @@
             </design:formattingHints>
             <design:helpText>Help me!</design:helpText>
           </design:usageHints>
+          <design:multiDimensionAttributes>
+            <design:axisType>DimensionAttribute</design:axisType>
+            <design:onColumnLayout>true</design:onColumnLayout>
+          </design:multiDimensionAttributes>          
         </design:resultColumnDefinitions>
         <design:resultColumnDefinitions>
           <design:attributes>

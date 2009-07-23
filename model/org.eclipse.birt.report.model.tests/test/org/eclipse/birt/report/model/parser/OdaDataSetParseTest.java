@@ -730,6 +730,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertEquals( "message.column-hint.help", columnHint //$NON-NLS-1$
 				.getHelpTextKey( ) );
 		assertEquals( "Help me!", columnHint.getHelpText( ) ); //$NON-NLS-1$
+		assertTrue( columnHint.isOnColumnLayout( ) );
 
 		// Test "filter" on DataSet
 
@@ -828,13 +829,14 @@ public class OdaDataSetParseTest extends BaseTestCase
 		columnHint.setAlias( "new userid" ); //$NON-NLS-1$
 		columnHint.setSearching( DesignChoiceConstants.SEARCH_TYPE_INDEXED );
 		columnHint.setExport( DesignChoiceConstants.EXPORT_TYPE_IF_REALIZED );
-		columnHint.setAnalysis( DesignChoiceConstants.ANALYSIS_TYPE_DETAIL );
+		columnHint.setAnalysis( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE );
 		columnHint.setParentLevel( "new level" ); //$NON-NLS-1$
 		columnHint.setFormat( "new format" ); //$NON-NLS-1$
 		columnHint.setDisplayNameKey( "new display name id" ); //$NON-NLS-1$
 		columnHint.setDisplayName( "new display name" ); //$NON-NLS-1$
 		columnHint.setHelpTextKey( "new help text id" ); //$NON-NLS-1$
-		columnHint.setHelpText( "new help text" ); //$NON-NLS-1$	
+		columnHint.setHelpText( "new help text" ); //$NON-NLS-1$
+		columnHint.setOnColumnLayout( false ); 	
 
 	}
 

@@ -55,6 +55,8 @@
                     <property name="displayName">User Name</property>
                     <property name="helpText">Help me!</property>
                     <property name="helpTextID">message.column-hint.help</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">true</property>
                 </structure>
             </list-property>			
         </oda-data-set>

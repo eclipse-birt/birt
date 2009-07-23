@@ -113,6 +113,7 @@
                     <property name="displayNameID">message.column-hint.username</property>
                     <property name="helpText">Help me!</property>
                     <property name="helpTextID">message.column-hint.help</property>
+                    <property name="onColumnLayout">true</property>
                 </structure>
             </list-property>
             <list-property name="filter">

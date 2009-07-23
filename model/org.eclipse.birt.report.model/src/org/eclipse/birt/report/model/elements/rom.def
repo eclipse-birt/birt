@@ -409,12 +409,10 @@
     <Choice displayNameID="Choices.exportType.if-realized" name="if-realized"/>
     <Choice displayNameID="Choices.exportType.always" name="always"/>
   </ChoiceType>
-  <ChoiceType name="analysisType">
-    <Choice displayNameID="Choices.analysisType.auto" name="auto"/>
+  <ChoiceType name="analysisType">    
     <Choice displayNameID="Choices.analysisType.dimension" name="dimension"/>
+    <Choice displayNameID="Choices.analysisType.attribute" name="attribute"/>
     <Choice displayNameID="Choices.analysisType.measure" name="measure"/>
-    <Choice displayNameID="Choices.analysisType.detail" name="detail"/>
-    <Choice displayNameID="Choices.analysisType.none" name="none"/>
   </ChoiceType>
   <ChoiceType name="columnAlign">
     <Choice displayNameID="Choices.columnAlign.left" name="left"/>
@@ -1424,15 +1422,14 @@
     <Member detailType="exportType" displayNameID="Structure.ColumnHint.export" name="export" runtimeSettable="false" since="reserved" type="choice">
       <Default>if-realized</Default>
     </Member>
-    <Member detailType="analysisType" displayNameID="Structure.ColumnHint.analysis" name="analysis" runtimeSettable="false" since="reserved" type="choice">
-      <Default>auto</Default>
-    </Member>
+    <Member detailType="analysisType" displayNameID="Structure.ColumnHint.analysis" name="analysis" runtimeSettable="false" since="2.5.1" type="choice"/>
     <Member displayNameID="Structure.ColumnHint.parentLevel" name="parentLevel" runtimeSettable="false" since="reserved" type="string"/>
     <Member displayNameID="Structure.ColumnHint.format" name="format" runtimeSettable="false" since="reserved" type="string" />
     <Member displayNameID="Structure.ColumnHint.displayName" name="displayName" runtimeSettable="false" since="1.0" type="string"/>
     <Member displayNameID="Structure.ColumnHint.displayNameID" name="displayNameID" since="1.0" type="resourceKey"/>
     <Member displayNameID="Structure.ColumnHint.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Member displayNameID="Structure.ColumnHint.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
+    <Member displayNameID="Structure.ColumnHint.onColumnLayout" name="onColumnLayout" runtimeSettable="false" since="2.5.1" type="boolean"/>
   </Structure>
   <Structure displayNameID="Structure.SearchKey" name="SearchKey" since="reserved">
     <Member displayNameID="Structure.SearchKey.expression" isIntrinsic="true" name="expression" returnType="string" runtimeSettable="true" since="reserved" type="expression"/>

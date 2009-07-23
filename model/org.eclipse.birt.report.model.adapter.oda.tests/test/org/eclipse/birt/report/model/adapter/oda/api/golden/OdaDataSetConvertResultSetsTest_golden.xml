@@ -24,9 +24,11 @@
                 <structure>
                     <property name="columnName">user name</property>
                     <property name="alias">user name</property>
+                    <property name="analysis">dimension</property>
                     <property name="format">new format for column 1</property>
                     <text-property name="displayName">new display name for column 1</text-property>
                     <text-property name="helpText" key="message.column-hint.help">new help text for column 1</text-property>
+                    <property name="onColumnLayout">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">date</property>

@@ -547,10 +547,21 @@ public interface DesignChoiceConstants
 	 */
 
 	public static final String CHOICE_ANALYSIS_TYPE = "analysisType"; //$NON-NLS-1$
+	
+	/**
+	 * @deprecated in 2.5.1: this choice is not supported
+	 */
 	public static final String ANALYSIS_TYPE_AUTO = "auto"; //$NON-NLS-1$
 	public static final String ANALYSIS_TYPE_DIMENSION = "dimension"; //$NON-NLS-1$
+	public static final String ANALYSIS_TYPE_ATTRIBUTE = "attribute"; //$NON-NLS-1$
 	public static final String ANALYSIS_TYPE_MEASURE = "measure"; //$NON-NLS-1$
+	/**
+	 * @deprecated in 2.5.1: this choice is not supported
+	 */
 	public static final String ANALYSIS_TYPE_DETAIL = "detail"; //$NON-NLS-1$
+	/**
+	 * @deprecated in 2.5.1: this choice is not supported
+	 */
 	public static final String ANALYSIS_TYPE_NONE = "none"; //$NON-NLS-1$
 
 	/**

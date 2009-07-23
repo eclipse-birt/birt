@@ -41,8 +41,8 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * for the column within the report.</dd>
  * 
  * <dt><strong>Searching </strong></dt>
- * <dd>a column hint has an optional searching. It indicates how the column
- * will be used when searching.</dd>
+ * <dd>a column hint has an optional searching. It indicates how the column will
+ * be used when searching.</dd>
  * 
  * <dt><strong>Export </strong></dt>
  * <dd>a column hint has an optional export. It determines how the column will
@@ -73,14 +73,14 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * localize the display name.</dd>
  * 
  * <dt><strong>Help Text </strong></dt>
- * <dd>a column hint has an optional help text. It provides optional
- * localizable descriptive text that explains the column to the end user.</dd>
+ * <dd>a column hint has an optional help text. It provides optional localizable
+ * descriptive text that explains the column to the end user.</dd>
  * 
  * <dt><strong>Help Text ID </strong></dt>
  * <dd>a column hint has an optional help text ID. It provides the key to
  * localize the help text.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class ColumnHint extends PropertyStructure
@@ -135,11 +135,10 @@ public class ColumnHint extends PropertyStructure
 	public static final String ANALYSIS_MEMBER = "analysis"; //$NON-NLS-1$
 
 	/**
-	 * Name of the parent level member. This member is used when a column¡¯s
+	 * Name of the parent level member. This member is used when a column's
 	 * <code>ANALYSIS_MEMBER</code> property is set to
-	 * <code>ANALYSIS_TYPE_DIMENSION</code> or
-	 * <code>ANALYSIS_TYPE_DETAIL</code>. For
-	 * <code>ANALYSIS_TYPE_DIMENSION</code>, this property establishes the
+	 * <code>ANALYSIS_TYPE_DIMENSION</code> or <code>ANALYSIS_TYPE_DETAIL</code>
+	 * . For <code>ANALYSIS_TYPE_DIMENSION</code>, this property establishes the
 	 * dimension hierarchy. Lower (more detailed) dimensions identify their
 	 * parent (more general) dimensions. For <code>ANALYSIS_TYPE_DETAIL</code>,
 	 * this property identifies the dimension for which this column is a detail.
@@ -183,6 +182,13 @@ public class ColumnHint extends PropertyStructure
 
 	public static final String HELP_TEXT_MEMBER = "helpText"; //$NON-NLS-1$
 
+	/**
+	 * Name of the on column layout member. This member is a hint on how the
+	 * dimension data element should be layout on column or row.
+	 */
+
+	public static final String ON_COLUMN_LAYOUT_MEMBER = "onColumnLayout"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -224,8 +230,9 @@ public class ColumnHint extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

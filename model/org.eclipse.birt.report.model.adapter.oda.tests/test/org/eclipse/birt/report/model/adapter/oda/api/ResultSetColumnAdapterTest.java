@@ -23,6 +23,8 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
+import org.eclipse.datatools.connectivity.oda.design.AxisType;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
@@ -199,6 +201,8 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		hint.setDisplayName( "new display name for column 1" ); //$NON-NLS-1$
 		hint.setHelpText( "new help text for column 1" ); //$NON-NLS-1$
 		hint.setFormat( "new format " ); //$NON-NLS-1$
+		hint.setAnalysis( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE );
+		hint.setOnColumnLayout( true );
 	}
 
 	/**
@@ -225,6 +229,11 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		usageHints.getFormattingHints( ).setDisplayFormat(
 				"new format for column 1" ); //$NON-NLS-1$
 
+		AxisAttributes axisAttrs = DesignFactory.eINSTANCE.createAxisAttributes( );
+		axisAttrs.setAxisType( AxisType.DIMENSION_MEMBER_LITERAL );
+		axisAttrs.setOnColumnLayout( false );
+		column1.setMultiDimensionAttributes( axisAttrs );
+		
 		// new display name and help text, etc.
 
 		dataUIHints = DesignFactory.eINSTANCE.createDataElementUIHints( );

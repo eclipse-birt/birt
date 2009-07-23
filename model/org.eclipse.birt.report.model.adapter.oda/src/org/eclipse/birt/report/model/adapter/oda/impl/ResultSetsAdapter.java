@@ -34,10 +34,13 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
+import org.eclipse.datatools.connectivity.oda.design.AxisType;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.OutputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
@@ -182,7 +185,11 @@ class ResultSetsAdapter
 				tmpCachedColumnDefn == null ? null
 						: tmpCachedColumnDefn.getUsageHints( ),
 				newHint );
-
+		updateColumnHintFromAxisAttrs ( columnDefn.getMultiDimensionAttributes( ),
+				tmpCachedColumnDefn == null ? null
+						: tmpCachedColumnDefn.getMultiDimensionAttributes( ),
+				newHint);
+		
 		if ( StringUtil.isBlank( (String) newHint.getProperty( null,
 				ColumnHint.COLUMN_NAME_MEMBER ) ) )
 		{
@@ -315,6 +322,61 @@ class ResultSetsAdapter
 	}
 
 	/**
+	 * Updates column hint values by given axis attributes.
+	 * 
+	 * @param outputAttrs
+	 *            the latest axis attributes
+	 * @param cachedOutputAttrs
+	 *            the last(cached) axis attributes
+	 * @param newHint
+	 *            the column hint
+	 */
+	private void updateColumnHintFromAxisAttrs(
+			AxisAttributes axisAttributes,
+			AxisAttributes cachedAxisAttributes, ColumnHint newHint )
+	{
+		if ( axisAttributes == null )
+			return;
+		
+		Object newValue = axisAttributes.getAxisType( );
+		Object oldValue = cachedAxisAttributes == null ? null
+				: cachedAxisAttributes.getAxisType( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{			
+			newHint.setProperty( ColumnHint.ANALYSIS_MEMBER, convertAxisTypeToAnalysisType( (AxisType) newValue ) );			
+		}
+		
+		newValue = axisAttributes.isOnColumnLayout( );
+		oldValue = cachedAxisAttributes == null ? null
+				: cachedAxisAttributes.isOnColumnLayout( ); 
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, newValue );
+		}
+	}
+
+	/**
+	 * Transfers oda axis type to rom analysis type.
+	 * 
+	 * @param axisType
+	 * 				the oda axis type
+	 *  @return the rom analysis type, or null if no such type defined in rom
+	 */
+	private String convertAxisTypeToAnalysisType( AxisType axisType )
+	{
+		switch ( axisType )
+		{
+			case MEASURE_LITERAL :
+				return DesignChoiceConstants.ANALYSIS_TYPE_MEASURE;				
+			case DIMENSION_ATTRIBUTE_LITERAL :
+				return DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE;							
+			case DIMENSION_MEMBER_LITERAL:
+				return DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;					
+		}
+		return null;
+	}
+	
+	/**
 	 * Updates column hint values by given column definition.
 	 * 
 	 * @param columnDefn
@@ -388,7 +450,7 @@ class ResultSetsAdapter
 		}
 
 		oldValue = cachedDataAttrs == null ? null
-				: new Integer( cachedDataAttrs.getPosition( ) );
+				: Integer.valueOf( cachedDataAttrs.getPosition( ) );
 		newValue = new Integer( dataAttrs.getPosition( ) );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
@@ -396,8 +458,8 @@ class ResultSetsAdapter
 		}
 
 		oldValue = cachedDataAttrs == null ? null
-				: new Integer( cachedDataAttrs.getNativeDataTypeCode( ) );
-		newValue = new Integer( dataAttrs.getNativeDataTypeCode( ) );
+				: Integer.valueOf( cachedDataAttrs.getNativeDataTypeCode( ) );
+		newValue = Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) );
 		if ( oldValue == null
 				|| !oldValue.equals( newValue )
 				|| newColumn.getNativeDataType( ) == null )
@@ -636,14 +698,14 @@ class ResultSetsAdapter
 			if ( dataAttrs != null )
 			{
 				String nativeName = dataAttrs.getName( );
-				Integer position = new Integer( dataAttrs.getPosition( ) );
+				Integer position = Integer.valueOf( dataAttrs.getPosition( ) );
 				cachedColumnDefn = findColumnDefinition( cachedSetColumns,
 						nativeName,
 						position );
 				oldColumn = findOdaResultSetColumn( setDefinedResults.iterator( ),
 						nativeName,
 						position,
-						new Integer( dataAttrs.getNativeDataTypeCode( ) ) );
+						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
 			}
 
 			OdaResultSetColumn newColumn = null;
@@ -1032,6 +1094,41 @@ class ResultSetsAdapter
 			}
 		}
 		columnDefn.setUsageHints( outputAttrs );
+		
+		// update axis attributes
+		
+		AxisAttributes axisAttrs = null; 
+				
+		String analysisType = hint.getAnalysis( );
+		AxisType axisType = convertAnalysisTypeToAxisType( analysisType );
+		
+		if ( axisType != null )
+		{
+			axisAttrs = DesignFactory.eINSTANCE.createAxisAttributes( );
+			axisAttrs.setAxisType( axisType );
+			axisAttrs.setOnColumnLayout( hint.isOnColumnLayout( ) );			
+		}
+		
+		columnDefn.setMultiDimensionAttributes( axisAttrs );
+	}
+
+	/**
+	 * Transfers rom analysis type to oda axis type.
+	 * 
+	 * @param analysisType
+	 * 				the rom analysis type
+	 *  @return the oda axis type, or null if no such type defined in oda
+	 */
+	private AxisType convertAnalysisTypeToAxisType( String analysisType )
+	{
+		AxisType axisType = null;
+		if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( analysisType ) )
+			axisType = AxisType.MEASURE_LITERAL;
+		else if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( analysisType ) )
+			axisType = AxisType.DIMENSION_ATTRIBUTE_LITERAL;
+		else if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( analysisType ) )
+			axisType = AxisType.DIMENSION_MEMBER_LITERAL;
+		return axisType;
 	}
 
 	/**
