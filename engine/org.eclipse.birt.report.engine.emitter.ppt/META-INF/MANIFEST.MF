@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)",
  com.lowagie.itext
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.ppt.plugin.PPTEmitterPlugin
-Export-Package: org.eclipse.birt.report.engine.emitter.ppt
+Export-Package: org.eclipse.birt.report.engine.emitter.ppt,
+ org.eclipse.birt.report.engine.emitter.ppt.util
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: com.ibm.icu.lang;version="[3.4.4,5.0.0)"

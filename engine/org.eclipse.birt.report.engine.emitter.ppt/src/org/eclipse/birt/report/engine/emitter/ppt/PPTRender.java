@@ -14,20 +14,16 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.RenderOption;
-import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.ppt.device.PPTPage;
 import org.eclipse.birt.report.engine.emitter.ppt.device.PPTPageDevice;
+import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
-import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -97,7 +93,8 @@ public class PPTRender extends PageDeviceRender
 	public void visitImage( IImageArea imageArea )
 	{
 		PPTPage pptPage = (PPTPage)pageGraphic;
-		pptPage.setLink( getHyperlink( imageArea ) );
+		pptPage.setLink( PPTUtil.getHyperlink( imageArea, services,
+				reportRunnable, context ) );
 		super.visitImage( imageArea );
 		pptPage.setLink( null );
 	}
@@ -106,45 +103,12 @@ public class PPTRender extends PageDeviceRender
 	public void visitText( ITextArea textArea )
 	{
 		PPTPage pptPage = (PPTPage)pageGraphic;
-		pptPage.setLink( getHyperlink( textArea ) );
+		pptPage.setLink( PPTUtil.getHyperlink( textArea, services,
+				reportRunnable, context ) );
 		super.visitText( textArea );
 		pptPage.setLink( null );
 	}
 	
-	private String getHyperlink( IArea area )
-	{
-		IHyperlinkAction hyperlinkAction = area.getAction( );
-		if ( hyperlinkAction != null )
-		{
-			try
-			{
-				if ( hyperlinkAction.getType( ) != IHyperlinkAction.ACTION_BOOKMARK )
-				{
-					String link = hyperlinkAction.getHyperlink( );
-					Object handler = services
-							.getOption( RenderOption.ACTION_HANDLER );
-					if ( handler != null
-							&& handler instanceof IHTMLActionHandler )
-					{
-						IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
-						String systemId = reportRunnable == null
-								? null
-								: reportRunnable.getReportName( );
-						Action action = new Action( systemId, hyperlinkAction );
-						link = actionHandler.getURL( action, context );
-					}
-
-					return link;
-				}
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-			}
-		}
-		return null;
-	}
-
 	protected void drawTextAt( ITextArea text, int x, int y, int width,
 			int height, TextStyle textStyle )
 	{
