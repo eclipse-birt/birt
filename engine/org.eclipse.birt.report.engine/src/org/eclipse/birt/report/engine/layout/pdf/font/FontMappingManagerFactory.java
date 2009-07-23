@@ -467,7 +467,7 @@ public class FontMappingManagerFactory
 					// FIXME: code view verify if BaseFont.NOT_EMBEDDED or
 					// BaseFont.EMBEDDED should be used.
 					font = FontFactory.getFont( familyName, fontEncoding,
-							BaseFont.NOT_EMBEDDED, 14, fontStyle )
+							BaseFont.EMBEDDED, 14, fontStyle )
 							.getBaseFont( );
 					if ( font != null )
 					{
