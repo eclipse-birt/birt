@@ -135,6 +135,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private static final String DIALOG_TITLE = Messages.getString( "ExpressionBuidler.Dialog.Title" ); //$NON-NLS-1$
 
+	private static final String TITLE = Messages.getString( "ExpressionBuidler.Title" ); //$NON-NLS-1$
+
 	private static final String PROMRT_MESSAGE = Messages.getString( "ExpressionBuilder.Message.Prompt" ); //$NON-NLS-1$
 
 	private static final String LABEL_FUNCTIONS = Messages.getString( "ExpressionBuilder.Label.Functions" ); //$NON-NLS-1$
@@ -424,7 +426,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		title = DIALOG_TITLE;
 		this.expression = UIUtil.convertToGUIString( initExpression );
 		this.preferenceStore = new ScopedPreferenceStore( new InstanceScope( ),
-				"org.eclipse.ui.editors" );
+				"org.eclipse.ui.editors" ); //$NON-NLS-1$
 	}
 
 	protected void setShellStyle( int newShellStyle )
@@ -977,9 +979,10 @@ public class ExpressionBuilder extends TitleAreaDialog
 	protected Control createContents( Composite parent )
 	{
 		Control control = super.createContents( parent );
-		setTitle( DIALOG_TITLE );
-		setMessage( PROMRT_MESSAGE );
 		getShell( ).setText( title );
+		setTitle( TITLE );
+		setMessage( PROMRT_MESSAGE );
+
 		categoryTable.setInput( "Dummy" ); //$NON-NLS-1$
 
 		handleDefaultSelection( );
