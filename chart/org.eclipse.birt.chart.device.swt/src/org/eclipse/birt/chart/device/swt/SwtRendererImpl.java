@@ -262,7 +262,9 @@ public class SwtRendererImpl extends DeviceAdapter
 				x -= width / 2;
 				break;
 		}
-
+		
+		// Reset alpha
+		R31Enhance.setAlpha( _gc, (ColorDefinition) null );
 		if ( bSizeSet )
 		{
 			_gc.drawImage( img,
