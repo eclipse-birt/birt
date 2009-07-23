@@ -46,4 +46,6 @@ public interface IArchiveFile
 	public String getSystemId( );
 
 	public String getDependId( );
+
+	public void save( ) throws IOException;
 }

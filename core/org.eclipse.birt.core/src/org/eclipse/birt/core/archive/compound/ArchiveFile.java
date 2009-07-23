@@ -221,6 +221,8 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 	{
 		if ( isArchiveFileAvailable( af ) )
 		{
+			af.save( );
+			/*
 			if ( af instanceof ArchiveFileV2 )
 			{
 				( (ArchiveFileV2) af ).save( );
@@ -229,6 +231,7 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 			{
 				af.flush( );
 			}
+			*/
 		}
 		else
 		{

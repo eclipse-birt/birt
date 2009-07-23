@@ -210,6 +210,11 @@ public class ArchiveView implements IArchiveFile
 		view.flush( );
 	}
 
+	public void save( ) throws IOException
+	{
+		view.save( );
+	}
+
 	public String getName( )
 	{
 		return view.getName( );

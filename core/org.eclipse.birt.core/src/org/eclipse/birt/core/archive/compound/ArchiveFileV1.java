@@ -197,4 +197,9 @@ class ArchiveFileV1 implements IArchiveFile
 	{
 		throw new IOException( "read only archive" );
 	}
+
+	public synchronized void save( ) throws IOException
+	{
+		throw new IOException( "read only archive" );
+	}
 }
