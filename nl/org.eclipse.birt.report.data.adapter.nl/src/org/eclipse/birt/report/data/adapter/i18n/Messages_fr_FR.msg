@@ -16,7 +16,7 @@ context.invalidDesigntimeMethod=La méthode ReportContext [{0}] ne peut être util
 adaptor.invalid.mode=La valeur de mode {0} pour le contexte de l'adaptateur de données n'est pas valide.
 invalid.cache.option=La valeur de mode {0} pour le contexte de l'adaptateur de données n'est pas valide.
 
-datasource.null.error=La source de ce jeu de données ne peut pas être nulle.
+datasource.null.error=Failed to find out data source of data set "{0}".
 datasource.exid.error=ID d'extension manquant dans la définition de la source de données {0}.
 
 datasethandle.null.error=DataSetHandle ne doit pas être nul.

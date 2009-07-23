@@ -16,7 +16,7 @@ context.invalidDesigntimeMethod=El método ReportContext [{0}] sólo puede utiliza
 adaptor.invalid.mode=El valor de modo {0} del contexto del adaptador de datos no es válido.
 invalid.cache.option=El valor de opción {0} del contexto del adaptador de datos no es válido.
 
-datasource.null.error=La fuente de datos de este conjunto de datos no puede ser nula.
+datasource.null.error=Failed to find out data source of data set "{0}".
 datasource.exid.error=Falta el ID de extensión en la definición de la fuente de datos {0}.
 
 datasethandle.null.error=DataSetHandle no puede ser nulo.

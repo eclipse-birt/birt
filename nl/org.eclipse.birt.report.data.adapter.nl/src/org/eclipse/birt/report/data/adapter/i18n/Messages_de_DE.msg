@@ -16,7 +16,7 @@ context.invalidDesigntimeMethod=Reportkontextmethode [{0}] kann nur in Laufzeit 
 adaptor.invalid.mode=Der Modus-Wert {0} des Datenadapter-Kontexts ist ungültig.
 invalid.cache.option=Der Optionswert {0} des Datenadapter-Kontexts ist ungültig.
 
-datasource.null.error=Die Datenquelle dieses Datensatzes darf nicht Null sein.
+datasource.null.error=Failed to find out data source of data set "{0}".
 datasource.exid.error=Fehlende Erweiterungs-ID in Datenquellendefinition: {0}.
 
 datasethandle.null.error=Datensatz-Handle darf nicht Null sein.

@@ -16,7 +16,7 @@ context.invalidDesigntimeMethod=ReportContext ƒƒ\ƒbƒh [{0}] ‚ÍAÀs‚É‚µ‚©g—
 adaptor.invalid.mode=ƒf[ƒ^ƒAƒ_ƒvƒ^‚Ìƒ‚[ƒh’l {0} ‚ª–³Œø‚Å‚·B
 invalid.cache.option=ƒf[ƒ^ƒAƒ_ƒvƒ^‚ÌƒIƒvƒVƒ‡ƒ“’l {0} ‚ª–³Œø‚Å‚·B
 
-datasource.null.error=‚±‚Ìƒf[ƒ^ƒZƒbƒg‚Ìƒf[ƒ^ƒ\[ƒX‚Í NULL ‚É‚Å‚«‚Ü‚¹‚ñB
+datasource.null.error=Failed to find out data source of data set "{0}".
 datasource.exid.error=ƒf[ƒ^ƒ\[ƒX’è‹` {0} ‚ÉŠg’£ ID ‚ª‚ ‚è‚Ü‚¹‚ñB
 
 datasethandle.null.error=DataSetHandle ‚Í NULL ‚É‚Å‚«‚Ü‚¹‚ñB
