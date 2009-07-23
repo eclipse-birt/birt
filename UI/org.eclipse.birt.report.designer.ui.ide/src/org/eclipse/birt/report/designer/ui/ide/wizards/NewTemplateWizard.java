@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -268,6 +269,10 @@ public class NewTemplateWizard extends NewReportWizard
 								.getDefaultUnitPreference( file.getProject( ) ) );
 			}
 			setReportSettings( handle );
+
+			handle.setBidiOrientation( ReportPlugin.getDefault( ).getLTRReportDirection( ) ? DesignChoiceConstants.BIDI_DIRECTION_LTR
+					: DesignChoiceConstants.BIDI_DIRECTION_RTL );
+
 			handle.saveAs( file.getLocation( ).toOSString( ) );
 			handle.close( );
 

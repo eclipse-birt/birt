@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -41,7 +42,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -305,6 +305,10 @@ public class NewReportTemplateWizard extends Wizard implements
 						ReportPlugin.getDefault( ).getCommentPreference( ) );
 			}
 			setReportSettings( handle );
+
+			handle.setBidiOrientation( ReportPlugin.getDefault( ).getLTRReportDirection( ) ? DesignChoiceConstants.BIDI_DIRECTION_LTR
+					: DesignChoiceConstants.BIDI_DIRECTION_RTL );
+
 			handle.saveAs( file.getAbsolutePath( ) );
 			handle.close( );
 
