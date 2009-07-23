@@ -36,6 +36,7 @@ public class RowArea extends ContainerArea
 	{
 		super( parent, context, content );
 		cells = new CellArea[getTable( ).getColumnCount( )];
+		isInInlineStacking = parent.isInInlineStacking;
 	}
 
 	RowArea( int colCount )
