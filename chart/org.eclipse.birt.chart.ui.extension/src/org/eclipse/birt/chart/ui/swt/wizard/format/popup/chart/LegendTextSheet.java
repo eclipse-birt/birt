@@ -157,6 +157,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				false );
 		GridData gdFDCFont = new GridData( GridData.FILL_HORIZONTAL );
 		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
+		gdFDCFont.widthHint = fdcFont.getPreferredSize( ).x;
 		gdFDCFont.grabExcessVerticalSpace = false;
 		fdcFont.setLayoutData( gdFDCFont );
 		fdcFont.addListener( this );

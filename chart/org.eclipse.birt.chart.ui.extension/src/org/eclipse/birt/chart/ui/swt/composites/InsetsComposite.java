@@ -142,7 +142,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 
 		lblTop = new Label( grpInsets, SWT.NONE );
 		GridData gdLTop = new GridData( GridData.VERTICAL_ALIGN_CENTER );
-		gdLTop.heightHint = 20;
+		// gdLTop.heightHint = 20;
 		lblTop.setLayoutData( gdLTop );
 		lblTop.setText( Messages.getString( "InsetsComposite.Lbl.Top" ) ); //$NON-NLS-1$
 
@@ -150,7 +150,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 		new TextNumberEditorAssistField( txtTop.getTextControl( ), null );
 		
 		GridData gdTTop = new GridData( GridData.FILL_BOTH );
-		gdTTop.heightHint = 20;
+		// gdTTop.heightHint = 20;
 		gdTTop.widthHint = 45;
 		txtTop.setLayoutData( gdTTop );
 		double dblPoints = insets.getTop( );
@@ -161,7 +161,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 		
 		lblLeft = new Label( grpInsets, SWT.NONE );
 		GridData gdLLeft = new GridData( GridData.VERTICAL_ALIGN_CENTER );
-		gdLLeft.heightHint = 20;
+		// gdLLeft.heightHint = 20;
 		lblLeft.setLayoutData( gdLLeft );
 		lblLeft.setText( Messages.getString( "InsetsComposite.Lbl.Left" ) ); //$NON-NLS-1$
 
@@ -169,7 +169,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 		new TextNumberEditorAssistField( txtLeft.getTextControl( ), null );
 		
 		GridData gdTLeft = new GridData( GridData.FILL_BOTH );
-		gdTLeft.heightHint = 20;
+		// gdTLeft.heightHint = 20;
 		gdTLeft.widthHint = 45;
 		txtLeft.setLayoutData( gdTLeft );
 		dblPoints = insets.getLeft( );
@@ -180,7 +180,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 
 		lblBottom = new Label( grpInsets, SWT.NONE );
 		GridData gdLBottom = new GridData( GridData.VERTICAL_ALIGN_CENTER );
-		gdLBottom.heightHint = 20;
+		// gdLBottom.heightHint = 20;
 		lblBottom.setLayoutData( gdLBottom );
 		lblBottom.setText( Messages.getString( "InsetsComposite.Lbl.Bottom" ) ); //$NON-NLS-1$
 
@@ -188,7 +188,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 		new TextNumberEditorAssistField( txtBottom.getTextControl( ), null );
 		
 		GridData gdTBottom = new GridData( GridData.FILL_BOTH );
-		gdTBottom.heightHint = 20;
+		// gdTBottom.heightHint = 20;
 		gdTBottom.widthHint = 45;
 		txtBottom.setLayoutData( gdTBottom );
 		dblPoints = insets.getBottom( );
@@ -199,7 +199,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 
 		lblRight = new Label( grpInsets, SWT.NONE );
 		GridData gdLRight = new GridData( GridData.VERTICAL_ALIGN_CENTER );
-		gdLRight.heightHint = 20;
+		// gdLRight.heightHint = 20;
 		lblRight.setLayoutData( gdLRight );
 		lblRight.setText( Messages.getString( "InsetsComposite.Lbl.Right" ) ); //$NON-NLS-1$
 
@@ -207,7 +207,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 		new TextNumberEditorAssistField( txtRight.getTextControl( ), null );
 		
 		GridData gdTRight = new GridData( GridData.FILL_BOTH );
-		gdTRight.heightHint = 20;
+		// gdTRight.heightHint = 20;
 		gdTRight.widthHint = 45;
 		txtRight.setLayoutData( gdTRight );
 		dblPoints = insets.getRight( );

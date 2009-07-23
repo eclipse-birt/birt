@@ -363,8 +363,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				getSeriesForProcessing( ).getLabel( ).getCaption( ).getColor( ),
 				false );
 		GridData gdFDCFont = new GridData( GridData.FILL_BOTH );
-		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
-		gdFDCFont.widthHint = 96;
+		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
+		gdFDCFont.widthHint = fdcFont.getPreferredSize( ).x;
 		gdFDCFont.grabExcessVerticalSpace = false;
 		fdcFont.setLayoutData( gdFDCFont );
 		fdcFont.addListener( this );

@@ -267,8 +267,8 @@ public class FontDefinitionComposite extends Composite
 
 	public Point getPreferredSize( )
 	{
-		int height = btnFont.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
-		return new Point( 120, ( 24 > height ) ? 24 : height );
+		Point bP = btnFont.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		return new Point( cnvSelection.getPreferredWidth( ) + bP.x + 2, bP.y );
 	}
 
 	void initAccessible( )
