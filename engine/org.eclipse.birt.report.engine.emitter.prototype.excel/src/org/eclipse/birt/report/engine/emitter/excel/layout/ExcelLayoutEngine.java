@@ -370,7 +370,20 @@ public class ExcelLayoutEngine
 			{
 				if ( upstair != null && canSpan( upstair, rowContainer ) )
 				{
-					upstair.setRowSpan( rowspan );
+					if ( upstair.isBlank( ) )
+					{
+						SheetData real = getRealData( upstair );
+						if ( real.getRowIndex( ) != upstair.getRowIndex( ) )
+						{
+							upstair
+									.setRowSpan( upstair.getRowSpan( )
+											+ rowspan );
+						}
+					}
+					else
+					{
+						upstair.setRowSpan( upstair.getRowSpan( ) + rowspan );
+					}
 					SheetData realData = getRealData( upstair );
 					if ( !isInContainer( upstair, rowContainer ) )
 					{
