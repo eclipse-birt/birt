@@ -120,6 +120,17 @@ public class PasteResourceAction extends ResourceAction
 					{
 						return;
 					}
+					
+					if (!targetFile.canWrite( ))
+					{
+						MessageDialog.openError( getShell(),
+								Messages.getString( "PasteResourceAction.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
+								Messages.getFormattedString( "PasteResourceAction.ReadOnlyEncounter.Message", //$NON-NLS-1$
+										new Object[]{
+										targetFile.getAbsolutePath( )
+										} ) );
+						return;
+					}
 				}
 				doCopy( srcFile, targetFile );
 			}
