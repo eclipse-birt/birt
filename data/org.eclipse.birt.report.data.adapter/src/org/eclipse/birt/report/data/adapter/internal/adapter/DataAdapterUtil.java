@@ -75,7 +75,7 @@ public class DataAdapterUtil
 		if ( ( !( modelDataSet instanceof JointDataSetHandle ) )
 				&& modelDataSet.getDataSource( ) == null )
 		{
-			throw new AdapterException( ResourceConstants.DATASOURCE_NULL_ERROR );
+			throw new AdapterException( ResourceConstants.DATASOURCE_NULL_ERROR, dteDataSet.getName( ) );
 		}
 		
 		if ( !( modelDataSet instanceof JointDataSetHandle ) )

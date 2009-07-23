@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
@@ -85,70 +86,58 @@ public class ModelAdapter implements IModelAdapter
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptDataSource(org.eclipse.birt.report.model.api.DataSourceHandle)
 	 */
-	public BaseDataSourceDesign adaptDataSource( DataSourceHandle handle )
+	public BaseDataSourceDesign adaptDataSource( DataSourceHandle handle ) throws BirtException
 	{
-		try
+		if ( handle instanceof OdaDataSourceHandle )
 		{
-			if ( handle instanceof OdaDataSourceHandle )
-			{
-				// If an external top level scope is available (i.e., our
-				// consumer
-				// is the report engine), use it to resolve property bindings.
-				// Otherwise
-				// property bindings are not resolved
-				Scriptable propBindingScope = context.hasExternalScope( )
-						? context.getTopScope( ) : null;
-				return new OdaDataSourceAdapter( (OdaDataSourceHandle) handle,
-						propBindingScope );
-			}
+			// If an external top level scope is available (i.e., our
+			// consumer
+			// is the report engine), use it to resolve property bindings.
+			// Otherwise
+			// property bindings are not resolved
+			Scriptable propBindingScope = context.hasExternalScope( )
+					? context.getTopScope( ) : null;
+			return new OdaDataSourceAdapter( (OdaDataSourceHandle) handle,
+					propBindingScope );
+		}
 
-			if ( handle instanceof ScriptDataSourceHandle )
-				return new ScriptDataSourceAdapter( (ScriptDataSourceHandle) handle );
-		}
-		catch ( Exception e )
+		if ( handle instanceof ScriptDataSourceHandle )
 		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-			
+			return new ScriptDataSourceAdapter( (ScriptDataSourceHandle) handle );
 		}
+
+		logger.warning( "handle type: " + (handle == null ? "" : handle.getClass( ).getName( )) ); //$NON-NLS-1$
 		return null;
+
 	}
 
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
-	public BaseDataSetDesign adaptDataSet( DataSetHandle handle )
+	public BaseDataSetDesign adaptDataSet( DataSetHandle handle ) throws BirtException
 	{
-		try
+		if ( handle instanceof OdaDataSetHandle )
 		{
-			if ( handle instanceof OdaDataSetHandle )
-			{
-				// If an external top level scope is available (i.e., our
-				// consumer
-				// is the report engine), use it to resolve property bindings.
-				// Otherwise
-				// property bindings are not resolved
-				Scriptable propBindingScope = context.hasExternalScope( )
-						? context.getTopScope( ) : null;
-				return new OdaDataSetAdapter( (OdaDataSetHandle) handle,
-						propBindingScope,
-						this );
-			}
-
-			if ( handle instanceof ScriptDataSetHandle )
-				return new ScriptDataSetAdapter( (ScriptDataSetHandle) handle,
-						this );
-
-			if ( handle instanceof JointDataSetHandle )
-				return new JointDataSetAdapter( (JointDataSetHandle) handle,
-						this );
+			// If an external top level scope is available (i.e., our
+			// consumer
+			// is the report engine), use it to resolve property bindings.
+			// Otherwise
+			// property bindings are not resolved
+			Scriptable propBindingScope = context.hasExternalScope( )
+					? context.getTopScope( ) : null;
+			return new OdaDataSetAdapter( (OdaDataSetHandle) handle,
+					propBindingScope,
+					this );
 		}
-		catch ( Exception e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-		}
-		// other types are not supported
-		assert false;
+
+		if ( handle instanceof ScriptDataSetHandle )
+			return new ScriptDataSetAdapter( (ScriptDataSetHandle) handle, this );
+
+		if ( handle instanceof JointDataSetHandle )
+			return new JointDataSetAdapter( (JointDataSetHandle) handle, this );
+		logger.warning( "handle type: " + (handle == null ? "" : handle.getClass( ).getName( )) ); //$NON-NLS-1$
 		return null;
+	
 	}
 
 	/**
@@ -163,7 +152,7 @@ public class ModelAdapter implements IModelAdapter
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptExpression(java.lang.String, java.lang.String)
 	 */
-	public ScriptExpression adaptExpression( Expression expr, String dataType ) 
+	public ScriptExpression adaptExpression( Expression expr, String dataType )
 	{
 		if( expr == null )
 			return null;
@@ -390,7 +379,7 @@ public class ModelAdapter implements IModelAdapter
 
 	public ScriptExpression adaptExpression( Expression expr )
 	{
-		if( expr == null )// TODO Auto-generated method stub
+		if( expr == null )
 			return null;
 		return new ExpressionAdapter( expr );
 	}
