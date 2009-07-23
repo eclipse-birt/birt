@@ -307,6 +307,7 @@ public class ModelAdapter implements IModelAdapter
 				expr.setGroupName( handle.getAggregateOn( ) );
 				result.setExpression( expr );
 			}
+			result.setDisplayName( handle.getDisplayName( ) );
 			result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 			result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
 			result.setFilter( handle.getFilterExpression( ) == null

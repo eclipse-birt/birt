@@ -70,7 +70,7 @@ public class ColumnBindingMetaData implements IResultMetaData
 					ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
 							metaData.getColumnType( colIndex ) );
 					Binding binding = new Binding( colName, baseExpr );
-					binding.setDisplayName( colName );
+					binding.setDisplayName( metaData.getColumnLabel( colIndex ) );
 					bindingList.add( binding );
 				}
 				catch ( BirtException e )
