@@ -318,8 +318,8 @@ public class Connection
         {
             // log and ignore, so not to stop query preparation
             sm_logger.logp( Level.INFO, sm_className, methodName, 
-                    "Ignoring UnsupportedOperationException thrown by ODA driver (" + getDataSourceId() + //$NON-NLS-1$
-                    "); cannot set query specification before prepare." ); //$NON-NLS-1$
+                    "Ignoring the UnsupportedOperationException thrown by ODA driver (" + getDataSourceId() + //$NON-NLS-1$
+                    ") on IQuery#setSpecification." ); //$NON-NLS-1$
         }	    
 
         sm_logger.exiting( sm_className, methodName );
