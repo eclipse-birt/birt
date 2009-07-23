@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -25,10 +26,17 @@ public class ChartShareCubeFiltersHandleProvider
 		extends
 			ChartCubeFilterHandleProvider
 {
+
+	public ChartShareCubeFiltersHandleProvider(
+			AbstractFilterHandleProvider baseProvider )
+	{
+		super( baseProvider );
+	}
+
 	@Override
 	public Object[] getElements( Object inputElement )
 	{
-		if ( inputElement instanceof List )
+		if ( inputElement instanceof List<?> )
 		{
 			List<DesignElementHandle> elements = new ArrayList<DesignElementHandle>( );
 			for ( Iterator<DesignElementHandle> iter = ( (List<DesignElementHandle>) inputElement ).iterator( ); iter.hasNext( ); )
@@ -44,11 +52,11 @@ public class ChartShareCubeFiltersHandleProvider
 					elements.add( handle );
 				}
 			}
-			contentInput = elements;
+			setContentInput( elements );
 		}
 		else
 		{
-			contentInput = new ArrayList( );
+			List<Object> contentInput = new ArrayList<Object>( );
 			if ( inputElement instanceof ReportItemHandle
 					&& ( (ReportItemHandle) inputElement ).getDataBindingReference( ) != null )
 			{
@@ -58,9 +66,10 @@ public class ChartShareCubeFiltersHandleProvider
 			{
 				contentInput.add( inputElement );
 			}
+			setContentInput( contentInput );
 		}
 		
-		Object[] elements = modelAdapter.getElements( contentInput );
+		Object[] elements = getModelAdapter( ).getElements( getContentInput( ) );
 		return elements;
 	}
 	

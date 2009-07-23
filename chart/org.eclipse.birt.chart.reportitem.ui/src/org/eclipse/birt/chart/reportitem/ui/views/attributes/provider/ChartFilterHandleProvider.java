@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 
 
@@ -20,8 +20,14 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IF
  * 
  * @since 2.3
  */
-public class ChartFilterHandleProvider extends FilterHandleProvider
+public class ChartFilterHandleProvider extends ChartFilterHandleProviderBase
 {
+
+	public ChartFilterHandleProvider( AbstractFilterHandleProvider baseProvider )
+	{
+		super( baseProvider );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -40,7 +40,7 @@ public class ImageWriterFactory implements IImageWriterFactory
 		if ( formatName != null )
 		{
 			Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName( formatName );
-			if ( !it.hasNext( ) )
+			if ( it.hasNext( ) )
 			{
 				return it.next( );
 			}

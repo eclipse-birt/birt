@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -23,8 +23,15 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * @since 2.3
  */
 public class ChartShareFiltersHandleProvider extends
-		FilterHandleProvider
+		ChartFilterHandleProviderBase
 {
+
+	public ChartShareFiltersHandleProvider(
+			AbstractFilterHandleProvider baseProvider )
+	{
+		super( baseProvider );
+	}
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider#isEditable()
 	 */

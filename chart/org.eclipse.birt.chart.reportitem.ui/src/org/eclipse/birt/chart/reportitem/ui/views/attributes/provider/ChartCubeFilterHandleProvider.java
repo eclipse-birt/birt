@@ -16,7 +16,7 @@ import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartCubeFilterConditionBuil
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -37,7 +37,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @since 2.3
  */
 public class ChartCubeFilterHandleProvider extends
-		FilterHandleProvider
+		ChartFilterHandleProviderBase
 {
 	private ChartWizardContext context = null;
 	
@@ -46,9 +46,11 @@ public class ChartCubeFilterHandleProvider extends
 		this.context = context;
 	}
 	
-	public ChartCubeFilterHandleProvider( )
+	public ChartCubeFilterHandleProvider(
+			AbstractFilterHandleProvider baseProvider )
 	{
-		modelAdapter = new ChartCubeFilterModelProvider( );
+		super( baseProvider );
+		setModelAdapter( new ChartCubeFilterModelProvider( ) );
 	}
 	
 	/*
@@ -59,7 +61,7 @@ public class ChartCubeFilterHandleProvider extends
 	public boolean doAddItem( int pos ) throws SemanticException
 	{
 		// return modelAdapter.doAddItem( input.get( 0 ), pos );
-		Object item = contentInput.get( 0 );
+		Object item = getContentInput( ).get( 0 );
 		if ( item instanceof DesignElementHandle )
 		{
 			ChartCubeFilterConditionBuilder dialog = new ChartCubeFilterConditionBuilder( UIUtil.getDefaultShell( ),
@@ -68,7 +70,7 @@ public class ChartCubeFilterHandleProvider extends
 			dialog.setTipsForCube( Messages.getString( "ChartCubeFilterConditionBuilder.Information" ) ); //$NON-NLS-1$
 			dialog.setDesignHandle( (DesignElementHandle) item, context );
 			dialog.setInput( null );
-			dialog.setBindingParams( bindingParams );
+			dialog.setBindingParams( getBindingParams( ) );
 			if ( item instanceof ReportItemHandle )
 			{
 				dialog.setReportElement( (ReportItemHandle) item );
@@ -94,7 +96,7 @@ public class ChartCubeFilterHandleProvider extends
 	public boolean doEditItem( int pos )
 	{
 
-		Object item = contentInput.get( 0 );
+		Object item = getContentInput( ).get( 0 );
 		if ( item instanceof DesignElementHandle )
 		{
 			DesignElementHandle element = (DesignElementHandle) item;
@@ -110,7 +112,7 @@ public class ChartCubeFilterHandleProvider extends
 					FilterConditionBuilder.DLG_MESSAGE_EDIT );
 			dialog.setDesignHandle( (DesignElementHandle) item, context );
 			dialog.setInput( filterHandle );
-			dialog.setBindingParams( bindingParams );
+			dialog.setBindingParams( getBindingParams( ) );
 			if ( item instanceof ReportItemHandle )
 			{
 				dialog.setReportElement( (ReportItemHandle) item );
