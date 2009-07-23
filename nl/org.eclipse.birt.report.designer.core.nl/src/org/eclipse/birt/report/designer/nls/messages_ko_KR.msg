@@ -101,6 +101,8 @@ NewFolderAction.inputDialogMessage=폴더 이름:
 DeleteResourceAction.Dialog.Title=리소스 삭제
 DeleteResourceAction.Dialog.Message=선택한 리소스를 삭제하시겠습니까?
 PasteResourceAction.Dialog.Title=리소스 붙여넣기
+PasteResourceAction.ReadOnlyEncounter.Title=읽기 전용 파일 발생
+PasteResourceAction.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 먼저 파일에 쓸 수 있는지 확인하십시오.
 PasteResourceAction.Dialog.Message=리소스가 있습니다. 덮어쓰시겠습니까?
 MoveResourceAction.Dialog.Title=리소스 이동
 MoveResourceAction.Dialog.Message=리소스가 이미 있습니다. 바꾸시겠습니까?
@@ -1457,7 +1459,8 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=윤곽선 보기 또
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=연산식 빌더
+ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Title=연산식 빌더
 ExpressionBuilder.tooltip.Sort=정렬
 ExpressionBuilder.toolTipText.Button=식 빌더 열기
 
@@ -4496,6 +4499,7 @@ CreateChartHandler.text=차트 보기 생성
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=입력 매개 변수
+InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=열 크기 조정

@@ -101,6 +101,8 @@ NewFolderAction.inputDialogMessage=Ordnername:
 DeleteResourceAction.Dialog.Title=Ressource löschen
 DeleteResourceAction.Dialog.Message=Möchten Sie die ausgewählte Ressource wirklich löschen?
 PasteResourceAction.Dialog.Title=Ressource einfügen
+PasteResourceAction.ReadOnlyEncounter.Title=Schreibgeschützte Datei gefunden
+PasteResourceAction.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschützt. Heben Sie den Schreibschutz auf.
 PasteResourceAction.Dialog.Message=Ressource ist bereits vorhanden. Überschreiben?
 MoveResourceAction.Dialog.Title=Ressource verschieben
 MoveResourceAction.Dialog.Message=Ressource ist bereits vorhanden. Ersetzen?
@@ -1457,7 +1459,8 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Mit Drag & Dro
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=Ausdruckserstellung
+ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Title=Ausdruckserstellung
 ExpressionBuilder.tooltip.Sort=Sortieren
 ExpressionBuilder.toolTipText.Button=Ausdruckserstellung öffnen
 
@@ -4496,6 +4499,7 @@ CreateChartHandler.text=Diagramm-Ansicht erstellen
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=Eingabeparameter
+InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=Spaltengröße anpassen

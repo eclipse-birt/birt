@@ -101,6 +101,8 @@ NewFolderAction.inputDialogMessage=フォルダ名 :
 DeleteResourceAction.Dialog.Title=リソースの削除
 DeleteResourceAction.Dialog.Message=選択したリソースを削除しますか ?
 PasteResourceAction.Dialog.Title=リソースの貼り付け
+PasteResourceAction.ReadOnlyEncounter.Title=読み取り専用ファイル
+PasteResourceAction.ReadOnlyEncounter.Message=ファイル ''{0}'' は読み取り専用です。先に、このファイルを書き込み可能にしてください。
 PasteResourceAction.Dialog.Message=リソースはすでに存在しています。上書きしますか ?
 MoveResourceAction.Dialog.Title=リソースの移動
 MoveResourceAction.Dialog.Message=リソースはすでに存在しています。置き換えますか ?
@@ -1457,7 +1459,8 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=アウトラインビ
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=計算式ビルダ
+ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Title=計算式ビルダ
 ExpressionBuilder.tooltip.Sort=ソート
 ExpressionBuilder.toolTipText.Button=式ビルダを開く
 
@@ -4496,6 +4499,7 @@ CreateChartHandler.text=グラフビューの作成
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=入力パラメタ
+InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=列幅の変更

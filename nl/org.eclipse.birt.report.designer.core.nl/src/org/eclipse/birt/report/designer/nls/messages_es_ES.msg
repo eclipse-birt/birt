@@ -101,6 +101,8 @@ NewFolderAction.inputDialogMessage=Nombre de carpeta:
 DeleteResourceAction.Dialog.Title=Eliminar recurso
 DeleteResourceAction.Dialog.Message=¿Seguro que desea eliminar los recursos seleccionados?
 PasteResourceAction.Dialog.Title=Pegar recurso
+PasteResourceAction.ReadOnlyEncounter.Title=Se ha encontrado un archivo de sólo lectura
+PasteResourceAction.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo lectura, asegúrese primero de que se puede escribir en él.
 PasteResourceAction.Dialog.Message=El recurso ya existe. ¿Desea sobrescribirlo?
 MoveResourceAction.Dialog.Title=Mover recurso
 MoveResourceAction.Dialog.Message=El recurso ya existe. ¿Desea sustituirlo?
@@ -1457,7 +1459,8 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Arrastrar y co
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=Compilador de expresiones
+ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Title=Compilador de expresiones
 ExpressionBuilder.tooltip.Sort=Orden
 ExpressionBuilder.toolTipText.Button=Abrir el compilador de expresiones
 
@@ -4496,6 +4499,7 @@ CreateChartHandler.text=Crear vista de diagrama
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=Parámetros de entrada
+InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=cambiar tamaño de columna

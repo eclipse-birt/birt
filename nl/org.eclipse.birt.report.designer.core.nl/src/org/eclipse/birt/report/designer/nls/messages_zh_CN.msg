@@ -101,6 +101,8 @@ NewFolderAction.inputDialogMessage=文件夹名称:
 DeleteResourceAction.Dialog.Title=删除资源
 DeleteResourceAction.Dialog.Message=确实要删除选定资源吗?
 PasteResourceAction.Dialog.Title=粘贴资源
+PasteResourceAction.ReadOnlyEncounter.Title=遇到只读文件
+PasteResourceAction.ReadOnlyEncounter.Message=文件“{0}”为只读，请首先确保它可以写入。
 PasteResourceAction.Dialog.Message=资源已存在。是否要覆盖?
 MoveResourceAction.Dialog.Title=移动资源
 MoveResourceAction.Dialog.Message=资源已存在。是否要替换?
@@ -1457,7 +1459,8 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=拖放到“大纲”
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=表达式生成器
+ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Title=表达式生成器
 ExpressionBuilder.tooltip.Sort=排序
 ExpressionBuilder.toolTipText.Button=打开表达式生成器
 
@@ -4496,6 +4499,7 @@ CreateChartHandler.text=创建图表视图
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=输入参数
+InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=重新设定列大小
