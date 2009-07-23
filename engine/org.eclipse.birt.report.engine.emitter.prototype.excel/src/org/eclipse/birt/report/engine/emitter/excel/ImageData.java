@@ -29,9 +29,12 @@ public class ImageData extends SheetData
 		super( );
 		this.style = style;
 		this.dataType = datatype;
-		height = imageInfo.getHeight( ) * ExcelUtil.PX_PT;
-		double imageWidth = imageInfo.getWidth( ) * ExcelUtil.PX_PT;
-		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ), imageWidth);
+		height = ExcelUtil.convertImageSize( image.getHeight( ),
+				(int) ( imageInfo.getHeight( ) * ExcelUtil.PX_PT ) );
+		double imageWidth = ExcelUtil.convertImageSize( image.getWidth( ),
+				(int) ( imageInfo.getWidth( ) * ExcelUtil.PX_PT ) );
+		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ),
+				imageWidth );
 		altText = image.getAltText( );
 		imageUrl = image.getURI( );
 		this.imageData = imageInfo.getData( );

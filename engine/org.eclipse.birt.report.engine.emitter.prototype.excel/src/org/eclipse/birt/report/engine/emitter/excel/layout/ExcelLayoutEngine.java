@@ -506,12 +506,17 @@ public class ExcelLayoutEngine
 			HyperlinkDef link, BookmarkDef bookmark )
 	{
 		XlsContainer container=getCurrentContainer();
-		ContainerSizeInfo rule = container.getSizeInfo( );
-		StyleEntry entry = engine.getStyle( style, rule );
+		ContainerSizeInfo parentSizeInfo = container.getSizeInfo( );
+		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( image,
+				parentSizeInfo.getWidth( ) );
+		splitColumns( imageColumnsInfo, parentSizeInfo );
+		StyleEntry entry = engine.getStyle( style, parentSizeInfo );
 		SheetData data = createImageData( image, entry,container );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
-		data.setSizeInfo( rule );
+		ContainerSizeInfo imageSizeInfo = new ContainerSizeInfo( parentSizeInfo
+				.getStartCoordinate( ), imageColumnsInfo.getTotalWidth( ) );
+		data.setSizeInfo( imageSizeInfo );
 		addData( data );
 	}
 

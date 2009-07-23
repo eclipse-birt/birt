@@ -1,18 +1,28 @@
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
+import org.eclipse.birt.report.engine.layout.emitter.Image;
 
 
 public class LayoutUtil
 {
+
+	private static final Logger log = Logger.getLogger( LayoutUtil.class
+			.getName( ) );
+
 	public static ColumnsInfo createTable( int col, int width )
 	{
 		return new ColumnsInfo( col, width );
@@ -30,31 +40,66 @@ public class LayoutUtil
 		ExtendedItemDesign design = (ExtendedItemDesign) content
 				.getGenerateBy( );
 		DimensionType value = design.getWidth( );
-
 		if ( value != null )
 		{
-			width = Math.min( ExcelUtil.covertDimensionType( value, width ),
-					width );
+			width = getElementWidth( value, width );
 		}
 		int[] column = new int[]{width};
 		return new ColumnsInfo( column );
 	}
 	
+	public static ColumnsInfo createImage( IImageContent image, int width )
+	{
+		width = getImageWidth( image, width );
+		int[] column = new int[]{width};
+		return new ColumnsInfo( column );
+	}
+
+	public static int getImageWidth( IImageContent image, int width )
+	{
+		DimensionType value = image.getWidth( );
+		if ( value != null )
+		{
+			width = getElementWidth( value, width );
+		}
+		else
+		{
+			try
+			{
+				Image imageInfo = EmitterUtil.parseImage( image, image
+						.getImageSource( ), image.getURI( ), image
+						.getMIMEType( ), image.getExtension( ) );
+				width = (int) ( imageInfo.getWidth( ) * ExcelUtil.PX_PT );
+
+			}
+			catch ( IOException e1 )
+			{
+				log.log( Level.WARNING, e1.getLocalizedMessage( ) );
+			}
+		}
+		return width;
+	}
+
 	public static int getElementWidth( IContent content, int width )
 	{
 		DimensionType value = content.getWidth( );
-		
-		if(value != null)
+		if ( value != null )
 		{
-			try 
-			{
-				width = Math.min( ExcelUtil.covertDimensionType( value, width ), 
-						            width );
-			}
-			catch(Exception e) 
-			{
-				
-			}
+			return getElementWidth( value, width );
+		}
+		return width;
+	}
+
+	private static int getElementWidth( DimensionType contentWdith, int width )
+	{
+		try
+		{
+			width = Math.min( ExcelUtil.covertDimensionType( contentWdith,
+					width ), width );
+		}
+		catch ( Exception e )
+		{
+
 		}
 		return width;
 	}
