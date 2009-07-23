@@ -115,7 +115,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		assertEquals( 1, refs.size( ) );
 
 		assertEquals( "My-Style2", ref1.getElement( ).getName( ) ); //$NON-NLS-1$
-		assertEquals( HighlightRule.STYLE_MEMBER, ref1.getPropertyName( ) ); //$NON-NLS-1$
+		assertEquals( HighlightRule.STYLE_MEMBER, ref1.getPropertyName( ) );
 
 		// clear the style reference now.
 

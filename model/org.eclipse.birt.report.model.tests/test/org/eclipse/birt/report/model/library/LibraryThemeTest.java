@@ -34,13 +34,17 @@ import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -59,11 +63,15 @@ public class LibraryThemeTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests css style sheet in library theme. <tr>
+	 * Tests css style sheet in library theme.
+	 * <tr>
 	 * <td>add css file
-	 * <td>check reference is unreslove or not</tr> <tr>
+	 * <td>check reference is unreslove or not
+	 * </tr>
+	 * <tr>
 	 * <td>drop css file
-	 * <td>check reference is unreslove or not</tr>
+	 * <td>check reference is unreslove or not
+	 * </tr>
 	 * 
 	 * @throws Exception
 	 */
@@ -173,6 +181,30 @@ public class LibraryThemeTest extends BaseTestCase
 		// change theme
 		designHandle.setTheme( themeHandle );
 		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+		StyleHandle styleHandle = themeHandle.findStyle( "code" ); //$NON-NLS-1$
+		assertNotNull( styleHandle );
+		List rules = labelHandle
+				.getListProperty( StyleHandle.HIGHLIGHT_RULES_PROP );
+		HighlightRule rule = (HighlightRule) rules.get( 0 );
+		ElementRefValue value = (ElementRefValue) rule.getProperty( design,
+				HighlightRule.STYLE_MEMBER );
+		assertEquals( styleHandle.getElement( ), value.getElement( ) );
+		rule = (HighlightRule) rules.get( 1 );
+		value = (ElementRefValue) rule.getProperty( design,
+				HighlightRule.STYLE_MEMBER );
+		assertEquals( styleHandle.getElement( ), value.getElement( ) );
+		rule = (HighlightRule) rules.get( 2 );
+		value = (ElementRefValue) rule.getProperty( design,
+				HighlightRule.STYLE_MEMBER );
+		assertEquals( styleHandle.getElement( ), value.getElement( ) );
+
+		assertEquals( 4, ( (StyleElement) styleHandle.getElement( ) )
+				.getClientList( ).size( ) );
+
+		// now change theme to null and then check the update back reference by
+		// all the styles in the theme2: case for bug 283988
+		designHandle.setTheme( null );
+
 	}
 
 	/**
@@ -735,8 +767,10 @@ public class LibraryThemeTest extends BaseTestCase
 	 * 
 	 * <ul>
 	 * <li>For the design, directly included libraries have no themes. <code>
-	 * getAllThemes()</code> return 0. <li>For the library, directly included
-	 * libraries have 2 themes. <code>getAllThemes()</code> return 2.
+	 * getAllThemes()</code>
+	 * return 0.
+	 * <li>For the library, directly included libraries have 2 themes.
+	 * <code>getAllThemes()</code> return 2.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -855,7 +889,7 @@ public class LibraryThemeTest extends BaseTestCase
 			return counter;
 		}
 	}
-	
+
 	/**
 	 * Test cases:
 	 * 
@@ -870,7 +904,7 @@ public class LibraryThemeTest extends BaseTestCase
 		assertEquals( 1, design.getAllExceptions( ).size( ) );
 		assertTrue( design.getAllExceptions( ).get( 0 ) instanceof ThemeException );
 		ThemeException e = (ThemeException) design.getAllExceptions( ).get( 0 );
-		assertEquals( ThemeException.DESIGN_EXCEPTION_NOT_FOUND,
-				e.getErrorCode( ) );
+		assertEquals( ThemeException.DESIGN_EXCEPTION_NOT_FOUND, e
+				.getErrorCode( ) );
 	}
 }

@@ -12,6 +12,20 @@
 	    <label id="3" name="label">
 	         <property name="style">code</property>
 	         <text-property name="text">label</text-property>
+	         <list-property name="highlightRules">
+                <structure>                         
+                    <expression name="value1">"10"</expression>
+                    <property name="style">code</property>
+                </structure>
+                <structure>                         
+                    <expression name="value1">"20"</expression>
+                    <property name="style">code</property>
+                </structure>
+                <structure>                         
+                    <expression name="value1">"30"</expression>
+                    <property name="style">code</property>
+                </structure>
+            </list-property>   
 	    </label>
 	</body>
 </report>
