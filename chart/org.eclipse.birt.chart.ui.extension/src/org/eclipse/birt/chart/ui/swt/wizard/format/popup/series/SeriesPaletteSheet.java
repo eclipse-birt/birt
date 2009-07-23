@@ -130,7 +130,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 			for ( int i = 0; i < vSeriesDefns.length; i++ )
 			{
 				TabItem ti = new TabItem( tf, SWT.NONE );
-				ti.setText( "Series" + ( i + 1 ) ); //$NON-NLS-1$
+				ti.setText( Messages.getString("SeriesPaletteSheet.Tab.Series") + ( i + 1 ) ); //$NON-NLS-1$
 				ti.setControl( new PaletteEditorComposite( tf,
 						getContext( ),
 						vSeriesDefns[i].getSeriesPalette( ),
@@ -151,7 +151,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 							i )
 							.toArray( new SeriesDefinition[]{} ) ;
 					TabItem ti = new TabItem( tf, SWT.NONE );
-					ti.setText( "Axis" + ( i + 1 ) ); //$NON-NLS-1$
+					ti.setText( Messages.getString("SeriesPaletteSheet.Tab.Axis") + ( i + 1 ) ); //$NON-NLS-1$
 					ti.setControl( new PaletteEditorComposite( tf,
 							getContext( ),
 							seriesDefns[0].getSeriesPalette( ),
