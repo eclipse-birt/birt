@@ -72,21 +72,26 @@ public class InlineContainerArea extends InlineStackingArea
 		if ( isLastLine )
 		{
 			checkPageBreak( );
+			parent.add( this );
 			parent.update( this );
+			this.finished = true;
 		}
 		else
 		{
+			checkPageBreak( );
 			InlineContainerArea area = cloneArea( );
 			area.context = context;
 			area.children = children;
 			area.setParent( parent );
 			children = new ArrayList( );
-			parent.addChild( parent.getChildrenCount( ) - 1, area );
-			checkPageBreak( );
+			parent.addChild( area );
 			parent.update( area );
-			setPosition( parent.currentIP + parent.getOffsetX( ), parent
+			/*setPosition( parent.currentIP + parent.getOffsetX( ), parent
 					.getOffsetY( )
-					+ parent.currentBP );
+					+ parent.currentBP );*/
+			area.finished = true;
+			currentIP = 0;
+			height = 0;
 		}
 	}
 
@@ -116,7 +121,7 @@ public class InlineContainerArea extends InlineStackingArea
 		vAlign = style.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
 		currentIP = 0;
 		currentBP = 0;
-		parent.add( this );
+		//parent.add( this );
 	}
 
 	public InlineContainerArea cloneArea( )
@@ -133,7 +138,6 @@ public class InlineContainerArea extends InlineStackingArea
 		}
 		if ( lineParent != null )
 		{
-			lineParent.removeChild( this );
 			lineParent.endLine( endParagraph );
 			initialize( );
 		}

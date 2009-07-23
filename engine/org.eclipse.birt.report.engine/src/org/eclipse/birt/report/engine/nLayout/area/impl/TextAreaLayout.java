@@ -71,24 +71,46 @@ public class TextAreaLayout implements ILayout
 		comp = new TextCompositor( textContent, context.getFontManager( ),
 				context );
 		// checks whether the current line is empty or not.
+		LineArea lineParent = getLineParent();
+		boolean isEmptyLine = isEmtpy(lineParent);
+		comp.setNewLineStatus( isEmptyLine );
+	}
+	
+	protected boolean isEmtpy(ContainerArea container)
+	{
+		int count = container.getChildrenCount( );
+		if ( count > 2 )
+		{
+			return false;
+		}
+		else if ( count == 0 )
+		{
+			return true;
+		}
+		else
+		{
+			AbstractArea child = (AbstractArea)container.getChild( 0 );
+			{
+				if(child instanceof ContainerArea)
+				{
+					return isEmtpy((ContainerArea)child);
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+	}
+	
+	protected LineArea getLineParent( )
+	{
 		ContainerArea ancestor = parentLM;
 		do
 		{
-			if ( null == ancestor )
-			{
-				// should never reach here.
-				comp.setNewLineStatus( true );
-				return;
-			}
-			if ( !ancestor.isEmpty( ) )
-			{
-				comp.setNewLineStatus( false );
-				return;
-			}
 			if ( ancestor instanceof LineArea )
 			{
-				comp.setNewLineStatus( ancestor.isEmpty( ) );
-				return;
+				return (LineArea) ancestor;
 			}
 			ancestor = ancestor.getParent( );
 		} while ( true );

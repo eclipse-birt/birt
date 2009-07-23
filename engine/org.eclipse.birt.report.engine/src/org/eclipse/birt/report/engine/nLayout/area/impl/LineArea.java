@@ -46,6 +46,7 @@ public class LineArea extends InlineStackingArea
 	{
 		super( area );
 		this.baseLevel = area.baseLevel;
+		this.isInlineStacking = true;
 	}
 
 	public void setBaseLevel( byte baseLevel )
