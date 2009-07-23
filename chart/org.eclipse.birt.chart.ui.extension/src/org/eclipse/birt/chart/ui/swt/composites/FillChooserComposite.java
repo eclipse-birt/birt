@@ -517,6 +517,7 @@ public class FillChooserComposite extends Composite implements
 				SWT.BORDER,
 				colorArray );
 		GridData gdCnv = new GridData( GridData.FILL_BOTH );
+		gdCnv.widthHint = 190;
 		gdCnv.heightHint = 110;
 		cnv.setLayoutData( gdCnv );
 		cnv.addListener( SWT.Traverse, this );
@@ -686,6 +687,7 @@ public class FillChooserComposite extends Composite implements
 			btnPN.addListener( SWT.Traverse, this );
 		}
 
+		shell.pack( );
 		shell.layout( );
 		shell.open( );
 	}
