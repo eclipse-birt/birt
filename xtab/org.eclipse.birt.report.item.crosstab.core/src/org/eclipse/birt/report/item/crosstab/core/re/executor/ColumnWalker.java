@@ -449,7 +449,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 						return;
 					}
 				}
-				else if ( measureIndex == -1 )
+				else if ( measureIndex == -1 && mCount > 0 )
 				{
 					measureIndex--;
 					currentState = STATE_MEASURE;

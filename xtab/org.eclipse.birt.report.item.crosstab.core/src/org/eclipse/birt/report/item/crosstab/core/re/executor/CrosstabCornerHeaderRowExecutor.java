@@ -36,6 +36,7 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 	private long currentEdgePosition;
 
 	private boolean blankStarted;
+	private boolean emptyStarted;
 	private boolean hasLast;
 
 	public CrosstabCornerHeaderRowExecutor( BaseCrosstabExecutor parent )
@@ -64,6 +65,7 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 		currentEdgePosition = -1;
 
 		blankStarted = false;
+		emptyStarted = false;
 
 		rowSpan = 1;
 		colSpan = 0;
@@ -86,9 +88,11 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 				switch ( currentChangeType )
 				{
 					case ColumnEvent.ROW_EDGE_CHANGE :
+					case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 						if ( blankStarted
-								&& ev.type != ColumnEvent.ROW_EDGE_CHANGE )
+								&& ev.type != ColumnEvent.ROW_EDGE_CHANGE
+								&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE )
 						{
 							nextExecutor = new CrosstabCellExecutor( this,
 									crosstabItem.getHeader( ),
@@ -107,6 +111,15 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 				if ( !blankStarted && ( ev.type == ColumnEvent.ROW_EDGE_CHANGE ) )
 				{
 					blankStarted = true;
+					rowSpan = 1;
+					colSpan = 0;
+					hasLast = true;
+				}
+				else if ( !emptyStarted
+						&& ev.type != ColumnEvent.ROW_EDGE_CHANGE
+						&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE )
+				{
+					emptyStarted = true;
 					rowSpan = 1;
 					colSpan = 0;
 					hasLast = true;
@@ -148,6 +161,18 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 
 				blankStarted = false;
+			}
+			else if ( emptyStarted )
+			{
+				nextExecutor = new CrosstabCellExecutor( this,
+						null,
+						rowSpan,
+						colSpan,
+						currentColIndex - colSpan + 1 );
+
+				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+				emptyStarted = false;
 			}
 		}
 
