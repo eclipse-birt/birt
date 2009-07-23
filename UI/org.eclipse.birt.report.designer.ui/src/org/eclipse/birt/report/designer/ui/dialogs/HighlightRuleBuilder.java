@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -64,6 +65,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -390,11 +392,8 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		Group condition = new Group( contents, SWT.NONE );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		condition.setLayoutData( gdata );
-		glayout = GridLayoutFactory.createFrom( new GridLayout( ) )
-				.spacing( 5, 0 )
-				.numColumns( 4 )
-				.equalWidth( false )
-				.create( );
+		glayout = GridLayoutFactory.createFrom( new GridLayout( ) ).spacing( 5,
+				0 ).numColumns( 4 ).equalWidth( false ).create( );
 		condition.setLayout( glayout );
 		condition.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Group.Condition" ) );
 
@@ -414,6 +413,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 					updateButtons( );
 				}
 			} );
+			ExpressionButtonUtil.initJSExpressionButtonCombo( expressionCombo );
 		}
 		else
 		{
@@ -432,23 +432,18 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			} );
 		}
 
-		Button expBuilder = new Button( condition, SWT.PUSH );
-		// expBuilder.setText( "..." ); //$NON-NLS-1$
-		// gdata = new GridData( );
-		// gdata.heightHint = 20;
-		// gdata.widthHint = 20;
-		// expBuilder.setLayoutData( gdata );
-		expBuilder.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
-		expBuilder.addSelectionListener( new SelectionAdapter( ) {
+		Listener listener = new Listener( ) {
 
-			public void widgetSelected( SelectionEvent e )
+			public void handleEvent( Event event )
 			{
-
-				editValue( getExpressionControl( ) );
+				updateButtons( );
 			}
-		} );
 
-		UIUtil.setExpressionButtonImage( expBuilder );
+		};
+		ExpressionButtonUtil.createExpressionButton( condition,
+				getExpressionControl( ),
+				getExpressionProvider( ),
+				listener );
 
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
@@ -490,6 +485,25 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		return composite;
 
+	}
+
+	private IExpressionProvider getExpressionProvider( )
+	{
+		ExpressionProvider expressionProvider = new ExpressionProvider( designHandle );
+		expressionProvider.addFilter( new ExpressionFilter( ) {
+
+			public boolean select( Object parentElement, Object element )
+			{
+				if ( ExpressionFilter.CATEGORY.equals( parentElement )
+						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
+				{
+					return false;
+				}
+				return true;
+			}
+
+		} );
+		return expressionProvider;
 	}
 
 	/*
@@ -1140,12 +1154,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 	private void fillExpression( Combo control )
 	{
-		String te = "";//$NON-NLS-1$
-
-		if ( handle != null )
-		{
-			te = handle.getTestExpression( );
-		}
 
 		if ( designHandle instanceof DataItemHandle
 				&& ( (DataItemHandle) designHandle ).getResultSetColumn( ) != null )
@@ -1325,7 +1333,11 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		if ( handle != null )
 		{
 			// syn high light test expression from high light rule handle.
-			setExpression( DEUtil.resolveNull( handle.getTestExpression( ) ) );
+
+			ExpressionButtonUtil.initExpressionButtonControl( this.getExpressionControl( ),
+					handle,
+					HighlightRule.TEST_EXPR_MEMBER );
+
 			operator.select( getIndexForOperatorValue( handle.getOperator( ) ) );
 
 			String value = getValueForOperator( operator.getText( ) );
@@ -1610,7 +1622,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 					}
 				}
 				// set test expression into highlight rule.
-				rule.setTestExpression( DEUtil.resolveNull( getExpression( ) ) );
+
+				ExpressionButtonUtil.saveExpressionButtonControl( getExpressionControl( ),
+						rule,
+						StyleRule.TEST_EXPR_MEMBER );
 
 				// Set referenced style of the highlight rule.
 				if ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
@@ -1667,8 +1682,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			}
 			else
 			{
-				// set test expression into highlight rule.
-				handle.setTestExpression( DEUtil.resolveNull( getExpression( ) ) );
+				ExpressionButtonUtil.saveExpressionButtonControl( getExpressionControl( ),
+						handle,
+						StyleRule.TEST_EXPR_MEMBER );
+
 				handle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
 				if ( valueVisible != 3 )
@@ -1758,58 +1775,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		}
 
 		super.okPressed( );
-	}
-
-	private void editValue( Object control )
-	{
-		String initValue = null;
-		if ( control instanceof Text )
-		{
-			initValue = ( (Text) control ).getText( );
-		}
-		else if ( control instanceof Combo )
-		{
-			initValue = ( (Combo) control ).getText( );
-		}
-		else if ( control instanceof ExpressionValue )
-		{
-			initValue = ( (ExpressionValue) control ).getText( );
-		}
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
-				initValue );
-
-		if ( designHandle != null )
-		{
-			ExpressionProvider expressionProvider = new ExpressionProvider( designHandle );
-			expressionProvider.addFilter( new ExpressionFilter( ) {
-
-				public boolean select( Object parentElement, Object element )
-				{
-					if ( ExpressionFilter.CATEGORY.equals( parentElement )
-							&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
-					{
-						return false;
-					}
-					return true;
-				}
-
-			} );
-			expressionBuilder.setExpressionProvier( expressionProvider );
-		}
-
-		if ( expressionBuilder.open( ) == OK )
-		{
-			String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
-			if ( control instanceof Text )
-			{
-				( (Text) control ).setText( result );
-			}
-			else if ( control instanceof Combo )
-			{
-				( (Combo) control ).setText( result );
-			}
-		}
-		updateButtons( );
 	}
 
 	protected String getExpression( String resultSet )

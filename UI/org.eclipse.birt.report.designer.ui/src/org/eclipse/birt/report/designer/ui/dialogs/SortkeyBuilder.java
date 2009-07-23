@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -41,11 +42,8 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -60,6 +58,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class SortkeyBuilder extends BaseTitleAreaDialog
 {
+
 	protected Logger logger = Logger.getLogger( SortkeyBuilder.class.getName( ) );
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "SortkeyBuilder.DialogTitle.New" ); //$NON-NLS-1$
@@ -87,7 +86,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	 */
 	public SortkeyBuilder( String title, String message )
 	{
-		this( UIUtil.getDefaultShell( ), title, message );		
+		this( UIUtil.getDefaultShell( ), title, message );
 	}
 
 	/**
@@ -116,7 +115,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 		this.setTitle( title );
 		this.setMessage( message );
-		getShell( ).setText(title);
+		getShell( ).setText( title );
 
 		applyDialogFont( contents );
 		initializeDialogUnits( area );
@@ -162,28 +161,19 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 			}
 		} );
 
-		Button btnExpression = new Button( content, SWT.NONE );
-		btnExpression.setToolTipText( Messages.getString( "SortkeyBuilder.DialogTitle.Button.ExpressionBuilder" ) ); //$NON-NLS-1$
-		UIUtil.setExpressionButtonImage( btnExpression );
-		btnExpression.addSelectionListener( new SelectionAdapter( ) {
+		Listener listener = new Listener( ) {
 
-			public void widgetSelected( SelectionEvent e )
+			public void handleEvent( Event event )
 			{
-				String oldValue = comboKey.getText( );
-				ExpressionBuilder dialog = new ExpressionBuilder( UIUtil.getDefaultShell( ),
-						oldValue );
-				dialog.setExpressionProvier( new ExpressionProvider( handle ) );
-				if ( dialog.open( ) == Dialog.OK )
-				{
-					String newValue = dialog.getResult( );
-					if ( !newValue.equals( oldValue ) )
-					{
-						comboKey.setText( newValue );
-					}
-				}
 				updateButtons( );
 			}
-		} );
+
+		};
+		ExpressionButtonUtil.createExpressionButton( content,
+				comboKey,
+				new ExpressionProvider( handle ),
+				listener );
+		ExpressionButtonUtil.initJSExpressionButtonCombo( comboKey );
 
 		Label labelDirection = new Label( content, SWT.NONE );
 		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) ); //$NON-NLS-1$
@@ -227,7 +217,6 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		return null;
 	}
 
-	
 	public int open( )
 	{
 		if ( getShell( ) == null )
@@ -248,11 +237,13 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 		return Dialog.CANCEL;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog
+	 * ()
 	 */
 	protected boolean initDialog( )
 	{
@@ -263,10 +254,9 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 			return true;
 		}
 
-		if ( sortKey.getKey( ) != null && sortKey.getKey( ).trim( ).length( ) != 0 )
-		{
-			comboKey.setText( sortKey.getKey( ).trim( ) );
-		}
+		ExpressionButtonUtil.initExpressionButtonControl( comboKey,
+				sortKey,
+				SortKey.KEY_MEMBER );
 
 		if ( sortKey.getDirection( ) != null
 				&& sortKey.getDirection( ).trim( ).length( ) != 0 )
@@ -290,12 +280,12 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		{
 			return EMPTY;
 		}
-		List<String> valueList = new ArrayList<String>();
+		List<String> valueList = new ArrayList<String>( );
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
 			ComputedColumnHandle columnHandle = ( (ComputedColumnHandle) columnList.get( i ) );
-			if(columnHandle.getAggregateFunction( )==null)
-				valueList.add( columnHandle.getName( ));
+			if ( columnHandle.getAggregateFunction( ) == null )
+				valueList.add( columnHandle.getName( ) );
 		}
 		return valueList.toArray( new String[valueList.size( )] );
 	}
@@ -314,9 +304,9 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	/**
 	 * Notifies that the ok button of this dialog has been pressed.
 	 * <p>
-	 * The <code>Dialog</code> implementation of this framework method sets
-	 * this dialog's return code to <code>Window.OK</code> and closes the
-	 * dialog. Subclasses may override.
+	 * The <code>Dialog</code> implementation of this framework method sets this
+	 * dialog's return code to <code>Window.OK</code> and closes the dialog.
+	 * Subclasses may override.
 	 * </p>
 	 */
 	protected void okPressed( )
@@ -335,7 +325,9 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 			if ( sortKey == null )
 			{
 				SortKey sortKey = StructureFactory.createSortKey( );
-				sortKey.setKey( comboKey.getText( ).trim( ) );
+				ExpressionButtonUtil.saveExpressionButtonControl( comboKey,
+						sortKey,
+						SortKey.KEY_MEMBER );
 				if ( index >= 0 )
 				{
 					sortKey.setDirection( choice.getName( ) );
@@ -349,7 +341,10 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 			// edit
 			{
 
-				sortKey.setKey( comboKey.getText( ).trim( ) );
+				ExpressionButtonUtil.saveExpressionButtonControl( comboKey,
+						sortKey,
+						SortKey.KEY_MEMBER );
+
 				if ( index >= 0 )
 				{
 					sortKey.setDirection( choice.getName( ) );
@@ -413,7 +408,5 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		}
 		return true;
 	}
-
-
 
 }

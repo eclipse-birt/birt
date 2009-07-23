@@ -12,30 +12,25 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -56,11 +51,6 @@ public class VariableDialog extends BaseTitleAreaDialog
 	private Button reportRadio;
 	private Button pageRadio;
 
-	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
-	private IExpressionHelper helper;
-	private Combo dataTypeCombo;
-	private ExpressionButton expressionButton;
-
 	public VariableDialog( String title, ReportDesignHandle designHandle,
 			VariableElementHandle variable )
 	{
@@ -68,58 +58,35 @@ public class VariableDialog extends BaseTitleAreaDialog
 		this.title = title;
 		this.designHandle = designHandle;
 		this.variable = variable;
-		this.helper = new IExpressionHelper( ) {
-
-			public String getExpression( )
-			{
-				if ( expressionTxt != null )
-					return expressionTxt.getText( );
-				else
-					return ""; //$NON-NLS-1$
-			}
-
-			public void setExpression( String expression )
-			{
-				if ( expressionTxt != null )
-					expressionTxt.setText( expression );
-			}
-
-			public void notifyExpressionChangeEvent( String oldExpression,
-					String newExpression )
-			{
-			}
-
-			public IExpressionProvider getExpressionProvider( )
-			{
-				ExpressionProvider provider = new ExpressionProvider( VariableDialog.this.variable );
-				provider.addFilter( new ExpressionFilter( ) {
-
-					@Override
-					public boolean select( Object parentElement, Object element )
-					{
-						return !element.equals( VariableDialog.this.variable );
-					}
-
-				} );
-				return provider;
-			}
-
-			public String getExpressionType( )
-			{
-				return (String) expressionTxt.getData( EXPR_TYPE );
-			}
-
-			public void setExpressionType( String exprType )
-			{
-				expressionTxt.setData( EXPR_TYPE, exprType );
-			}
-
-		};
-
 	}
 
-	@Override
 	protected Control createDialogArea( Composite parent )
+	{
+		UIUtil.bindHelp( parent, IHelpContextIds.INSERT_EDIT_SORTKEY_DIALOG_ID );
+
+		Composite area = (Composite) super.createDialogArea( parent );
+		Composite contents = new Composite( area, SWT.NONE );
+		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		contents.setLayout( new GridLayout( ) );
+
+		this.setTitle( title );
+		getShell( ).setText( title );
+
+		applyDialogFont( contents );
+		initializeDialogUnits( area );
+		createInputContents( contents );
+
+		Composite space = new Composite( contents, SWT.NONE );
+		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.heightHint = 10;
+		space.setLayoutData( gdata );
+
+		Label lb = new Label( contents, SWT.SEPARATOR | SWT.HORIZONTAL );
+		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		return area;
+	}
+
+	protected Control createInputContents( Composite parent )
 	{
 		Composite content = new Composite( parent, SWT.NONE );
 		content.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -164,13 +131,12 @@ public class VariableDialog extends BaseTitleAreaDialog
 		expressionTxt = new Text( content, SWT.BORDER );
 		expressionTxt.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		expressionButton = UIUtil.createExpressionButton( content, SWT.PUSH );
-		expressionButton.setExpressionHelper( helper );
+		ExpressionButtonUtil.createExpressionButton( content,
+				expressionTxt,
+				this.getExpressionProvider( ) );
 
 		UIUtil.bindHelp( parent, IHelpContextIds.VARIABLE_DIALOG_ID );
 
-		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
-		
 		return content;
 	}
 
@@ -206,13 +172,10 @@ public class VariableDialog extends BaseTitleAreaDialog
 			// }
 			// }
 			// }
-			ExpressionHandle expression = this.variable.getExpressionProperty( VariableElementHandle.VALUE_PROP );
-			if ( expression.getValue( ) != null
-					&& expression.getValue( ).toString( ) != null )
-				this.expressionTxt.setText( expression.getValue( ).toString( ) );
-			if ( expression.getType( ) != null )
-				this.expressionTxt.setData( EXPR_TYPE, expression.getType( ) );
-			this.expressionButton.refresh( );
+
+			ExpressionButtonUtil.initExpressionButtonControl( expressionTxt,
+					variable,
+					VariableElementHandle.VALUE_PROP );
 		}
 		else
 		{
@@ -251,37 +214,15 @@ public class VariableDialog extends BaseTitleAreaDialog
 			// this.dataTypeCombo.getText( ),
 			// DEUtil.getMetaDataDictionary( )
 			// .getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE ) ) );
-			Expression expression = new Expression( this.expressionTxt.getText( ),
-					(String) this.expressionTxt.getData( EXPR_TYPE ) );
-			this.variable.setValue( this.expressionTxt.getText( ) );
-			this.variable.setExpressionProperty( VariableElementHandle.VALUE_PROP,
-					expression );
+			ExpressionButtonUtil.saveExpressionButtonControl( expressionTxt,
+					variable,
+					VariableElementHandle.VALUE_PROP );
 		}
 		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e );
 		}
 		super.okPressed( );
-	}
-
-	private String getDataTypeByDisplayName( String text, IChoiceSet datatypes )
-	{
-		for ( IChoice choice : datatypes.getChoices( ) )
-		{
-			if ( choice.getDisplayName( ).equals( text ) )
-				return choice.getName( );
-		}
-		return null;
-	}
-
-	private String getDisplayNameByDataType( String text, IChoiceSet datatypes )
-	{
-		for ( IChoice choice : datatypes.getChoices( ) )
-		{
-			if ( choice.getValue( ).equals( text ) )
-				return choice.getDisplayName( );
-		}
-		return null;
 	}
 
 	private void validate( )
@@ -316,6 +257,21 @@ public class VariableDialog extends BaseTitleAreaDialog
 				return true;
 		}
 		return false;
+	}
+
+	private IExpressionProvider getExpressionProvider( )
+	{
+		ExpressionProvider provider = new ExpressionProvider( VariableDialog.this.variable );
+		provider.addFilter( new ExpressionFilter( ) {
+
+			@Override
+			public boolean select( Object parentElement, Object element )
+			{
+				return !element.equals( VariableDialog.this.variable );
+			}
+
+		} );
+		return provider;
 	}
 
 }

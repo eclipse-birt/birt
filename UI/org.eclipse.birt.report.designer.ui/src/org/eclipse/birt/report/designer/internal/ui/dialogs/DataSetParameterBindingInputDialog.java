@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -40,9 +39,6 @@ import org.eclipse.swt.widgets.Text;
 
 public class DataSetParameterBindingInputDialog extends BaseDialog
 {
-
-	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
-	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 
 	private static final String LABEL_NAME = Messages.getString( "DataSetParameterBindingInputDialog.Label.Name" ); //$NON-NLS-1$
 	private static final String LABEL_DATA_TYPE = Messages.getString( "DataSetParameterBindingInputDialog.Label.DataType" ); //$NON-NLS-1$
@@ -78,15 +74,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	{
 		nameLabel.setText( handle.getName( ) );
 		typeLabel.setText( getParameterDataTypeDisplayName( handle.getParameterDataType( ) ) );
-		valueEditor.setText( value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ) ); //$NON-NLS-1$
-
-		valueEditor.setData( EXPR_TYPE, value == null
-				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
-				: (String) value.getType( ) );
-
-		ExpressionButton button = (ExpressionButton) valueEditor.getData( EXPR_BUTTON );
-		if ( button != null )
-			button.refresh( );
+		ExpressionButtonUtil.initExpressionButtonControl( valueEditor, value );
 		return true;
 	}
 
@@ -127,7 +115,9 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		gd.minimumWidth = 250;
 		valueEditor.setLayoutData( gd );
 
-		createComplexExpressionButton( valueComposite, valueEditor );
+		ExpressionButtonUtil.createExpressionButton( valueComposite,
+				valueEditor,
+				this.provider );
 		
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		Label label = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
@@ -136,60 +126,11 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		return composite;
 	}
 
-	private void createComplexExpressionButton( Composite parent,
-			final Text text )
-	{
-
-		final ExpressionButton button = UIUtil.createExpressionButton( parent,
-				SWT.PUSH,
-				false );
-		IExpressionHelper helper = new IExpressionHelper( ) {
-
-			public String getExpression( )
-			{
-				if ( text != null )
-					return text.getText( );
-				return "";
-			}
-
-			public void notifyExpressionChangeEvent( String oldExpression,
-					String newExpression )
-			{
-
-			}
-
-			public void setExpression( String expression )
-			{
-				if ( text != null )
-					text.setText( expression );
-			}
-
-			public IExpressionProvider getExpressionProvider( )
-			{
-				return provider;
-			}
-
-			public String getExpressionType( )
-			{
-				return (String) text.getData( EXPR_TYPE );
-			}
-
-			public void setExpressionType( String exprType )
-			{
-				text.setData( EXPR_TYPE, exprType );
-			}
-
-		};
-
-		button.setExpressionHelper( helper );
-
-		text.setData( EXPR_BUTTON, button );
-	}
 
 	protected void okPressed( )
 	{
 		setResult( new Expression( valueEditor.getText( ),
-				(String) valueEditor.getData( EXPR_TYPE ) ) );
+				(String) valueEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
 		super.okPressed( );
 	}
 

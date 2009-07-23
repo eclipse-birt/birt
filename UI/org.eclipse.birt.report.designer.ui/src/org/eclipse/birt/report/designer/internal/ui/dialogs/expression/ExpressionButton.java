@@ -111,7 +111,7 @@ public class ExpressionButton
 		return type;
 	}
 
-	public String getExpression( )
+	protected String getExpression( )
 	{
 		if ( helper != null )
 		{
@@ -120,7 +120,7 @@ public class ExpressionButton
 		return ""; //$NON-NLS-1$
 	}
 
-	public void setExpression( String expression )
+	protected void setExpression( String expression )
 	{
 		if ( expression != null && helper != null )
 			helper.setExpression( expression );
@@ -192,9 +192,21 @@ public class ExpressionButton
 			}
 
 			if ( menu.getItemCount( ) <= 1 )
+			{
 				button.setDropDownMenu( null );
+			}
 
 			refresh( );
 		}
+	}
+
+	public boolean isSupportType( String expressionType )
+	{
+		if ( provider != null )
+		{
+			String[] types = this.provider.getExpressionTypes( );
+			return Arrays.asList( types ).contains( expressionType );
+		}
+		return false;
 	}
 }

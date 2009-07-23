@@ -124,7 +124,12 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider
 			{
 				input.openExpressionBuilder( builder );
 			}
+			else input.notifyExpressionChangeEvent( input.getExpression( ),
+						input.getExpression( ) );
 		}
+		else
+			input.notifyExpressionChangeEvent( input.getExpression( ),
+					input.getExpression( ) );
 	}
 
 }

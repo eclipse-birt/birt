@@ -11,12 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -25,14 +24,13 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.accessibility.AccessibleTextAdapter;
 import org.eclipse.swt.accessibility.AccessibleTextEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -41,8 +39,6 @@ import org.eclipse.swt.widgets.Text;
  */
 public class ExpressionComposite extends Composite
 {
-
-	protected Button button;
 
 	protected Text text;
 
@@ -63,8 +59,7 @@ public class ExpressionComposite extends Composite
 		layout.horizontalSpacing = 3;
 		setLayout( layout );
 		if ( isFormStyle )
-			text = FormWidgetFactory.getInstance( ).createText( this,
-					"", //$NON-NLS-1$
+			text = FormWidgetFactory.getInstance( ).createText( this, "", //$NON-NLS-1$
 					SWT.READ_ONLY | SWT.SINGLE );
 		else
 			text = new Text( this, SWT.READ_ONLY | SWT.SINGLE );
@@ -73,46 +68,35 @@ public class ExpressionComposite extends Composite
 		data.horizontalAlignment = GridData.FILL;
 		text.setLayoutData( data );
 
-		button = FormWidgetFactory.getInstance( ).createButton( this,
-				SWT.FLAT,
-				isFormStyle );
+		Listener listener = new Listener( ) {
 
-		button.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
+			public void handleEvent( Event event )
 			{
-				ExpressionBuilder dialog = new ExpressionBuilder( button.getShell( ),
-						text.getText( ) );
-				dialog.setExpressionProvier( provider );
-
-				if ( dialog.open( ) == Dialog.OK )
-				{
-					String newValue = dialog.getResult( );
-					if ( !text.getText( ).equals( newValue ) )
-					{
-						text.setText( newValue );
-						notifyListeners( SWT.Modify, null );
-					}
-				}
+				notifyListeners( SWT.Modify, null );
 			}
-		} );
-//		data = new GridData( );
-//		button.setLayoutData( data );
-//		button.setText( "..." );//$NON-NLS-1$
-		UIUtil.setExpressionButtonImage(button);
-		button.setToolTipText( Messages.getString( "ExpressionBuilder.toolTipText.Button" ) ); //$NON-NLS-1$
+
+		};
+		ExpressionButtonUtil.createExpressionButton( this,
+				text,
+				provider,
+				listener,
+				false,
+				isFormStyle ? SWT.FLAT : SWT.PUSH );
+
 		initAccessible( );
 	}
 
 	void initAccessible( )
 	{
 
-		button.getAccessible( )
+		( (ExpressionButton) text.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).getControl( )
+				.getAccessible( )
 				.addAccessibleListener( new AccessibleAdapter( ) {
 
 					public void getHelp( AccessibleEvent e )
 					{
-						e.result = button.getToolTipText( );
+						e.result = ( (ExpressionButton) text.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).getControl( )
+								.getToolTipText( );
 					}
 				} );
 
@@ -179,7 +163,7 @@ public class ExpressionComposite extends Composite
 
 			public void getValue( AccessibleControlEvent e )
 			{
-				e.result = getText( );
+				e.result = text.getText( );
 			}
 		} );
 	}
@@ -190,9 +174,9 @@ public class ExpressionComposite extends Composite
 	 * @param string
 	 *            the String value.
 	 */
-	public void setText( String string )
+	public void setExpression( Expression expression )
 	{
-		text.setText( string );
+		ExpressionButtonUtil.initExpressionButtonControl( text, expression );
 	}
 
 	/**
@@ -200,9 +184,9 @@ public class ExpressionComposite extends Composite
 	 * 
 	 * @return a String value.
 	 */
-	public String getText( )
+	public Expression getExpression( )
 	{
-		return text.getText( );
+		return ExpressionButtonUtil.getExpression( text );
 	}
 
 	/*
@@ -213,7 +197,7 @@ public class ExpressionComposite extends Composite
 	public void setEnabled( boolean enabled )
 	{
 		text.setEnabled( enabled );
-		button.setEnabled( enabled );
+		( (ExpressionButton) text.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).setEnabled( enabled );
 		super.setEnabled( enabled );
 	}
 
@@ -223,6 +207,5 @@ public class ExpressionComposite extends Composite
 	{
 		this.provider = provider;
 	}
-	
 
 }

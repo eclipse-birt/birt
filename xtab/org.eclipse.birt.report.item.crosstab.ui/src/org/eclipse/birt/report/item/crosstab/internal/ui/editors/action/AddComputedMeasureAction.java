@@ -25,8 +25,8 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -87,7 +87,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 		{
 			// do adding operation
 			String measureName = computedSummaryDialog.getName( );
-			String expression = computedSummaryDialog.getExpression( );
+			Expression expression = computedSummaryDialog.getExpression( );
 			String dataType = computedSummaryDialog.getDataType( );
 			
 			int index = reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
@@ -107,7 +107,8 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 						measureName );				
 				ComputedColumnHandle bindingHandle = crosstabModelHandle.addColumnBinding( bindingColumn,
 						false );
-				bindingHandle.setExpression( expression );
+				bindingHandle.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+						expression );
 				bindingHandle.setDataType( dataType );
 				
 				DataItemHandle dataHandle = DesignElementFactory.getInstance( )

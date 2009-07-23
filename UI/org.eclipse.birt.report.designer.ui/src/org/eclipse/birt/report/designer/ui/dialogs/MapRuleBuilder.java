@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -51,6 +52,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -418,21 +420,20 @@ public class MapRuleBuilder extends BaseDialog
 			}
 		} );
 
-		Button expBuilder = new Button( condition, SWT.PUSH );
-		// expBuilder.setText( "..." ); //$NON-NLS-1$
-		UIUtil.setExpressionButtonImage( expBuilder );
-		// gdata = new GridData( );
-		// gdata.heightHint = 20;
-		// gdata.widthHint = 20;
-		// expBuilder.setLayoutData( gdata );
-		expBuilder.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
-		expBuilder.addSelectionListener( new SelectionAdapter( ) {
+		Listener listener = new Listener( ) {
 
-			public void widgetSelected( SelectionEvent e )
+			public void handleEvent( Event event )
 			{
-				editValue( expression );
+				updateButtons( );
 			}
-		} );
+
+		};
+
+		ExpressionButtonUtil.createExpressionButton( condition,
+				expression,
+				getExpressionProvider( ),
+				listener );
+		ExpressionButtonUtil.initJSExpressionButtonCombo( expression );
 
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
@@ -490,6 +491,25 @@ public class MapRuleBuilder extends BaseDialog
 		return composite;
 	}
 
+	private IExpressionProvider getExpressionProvider( )
+	{
+		ExpressionProvider expressionProvider = new ExpressionProvider( designHandle );
+		expressionProvider.addFilter( new ExpressionFilter( ) {
+
+			public boolean select( Object parentElement, Object element )
+			{
+				if ( ExpressionFilter.CATEGORY.equals( parentElement )
+						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
+				{
+					return false;
+				}
+				return true;
+			}
+
+		} );
+		return expressionProvider;
+	}
+
 	protected int create2ValueComposite( Composite condition )
 	{
 		if ( expressionValue1 != null && !expressionValue1.isDisposed( ) )
@@ -500,7 +520,7 @@ public class MapRuleBuilder extends BaseDialog
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.minimumWidth = 120;
-		//gd.heightHint = 20;
+		// gd.heightHint = 20;
 		expressionValue1 = new ValueCombo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( gd );
 		expressionValue1.setItems( popupItems );
@@ -1950,7 +1970,10 @@ public class MapRuleBuilder extends BaseDialog
 		// expression.setText( DEUtil.resolveNull( provider.getTestExpression( )
 		// ) );
 
-		expression.setText( DEUtil.resolveNull( handle.getTestExpression( ) ) );
+		ExpressionButtonUtil.initExpressionButtonControl( expression,
+				handle,
+				StyleRule.TEST_EXPR_MEMBER );
+
 		operator.select( getIndexForOperatorValue( handle.getOperator( ) ) );
 
 		String value = getValueForOperator( operator.getText( ) );
@@ -2056,8 +2079,9 @@ public class MapRuleBuilder extends BaseDialog
 				rule.setProperty( MapRule.DISPLAY_MEMBER,
 						DEUtil.resolveNull( display.getText( ) ) );
 
-				// set test expression for new map rule
-				rule.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
+				ExpressionButtonUtil.saveExpressionButtonControl( expression,
+						rule,
+						StyleRule.TEST_EXPR_MEMBER );
 
 				handle = provider.doAddItem( rule, handleCount );
 			}
@@ -2092,7 +2116,11 @@ public class MapRuleBuilder extends BaseDialog
 
 				handle.setDisplay( DEUtil.resolveNull( display.getText( ) ) );
 				handle.setDisplayKey( DEUtil.resolveNull( resourceKeytext.getText( ) ) );
-				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
+
+				ExpressionButtonUtil.saveExpressionButtonControl( expression,
+						handle,
+						StyleRule.TEST_EXPR_MEMBER );
+
 			}
 		}
 		catch ( Exception e )
@@ -2101,54 +2129,6 @@ public class MapRuleBuilder extends BaseDialog
 		}
 
 		super.okPressed( );
-	}
-
-	private void editValue( Control control )
-	{
-		String initValue = null;
-		if ( control instanceof Text )
-		{
-			initValue = ( (Text) control ).getText( );
-		}
-		else if ( control instanceof Combo )
-		{
-			initValue = ( (Combo) control ).getText( );
-		}
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
-				initValue );
-
-		if ( designHandle != null )
-		{
-			ExpressionProvider expressionProvider = new ExpressionProvider( designHandle );
-			expressionProvider.addFilter( new ExpressionFilter( ) {
-
-				public boolean select( Object parentElement, Object element )
-				{
-					if ( ExpressionFilter.CATEGORY.equals( parentElement )
-							&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
-					{
-						return false;
-					}
-					return true;
-				}
-
-			} );
-			expressionBuilder.setExpressionProvier( expressionProvider );
-		}
-
-		if ( expressionBuilder.open( ) == OK )
-		{
-			String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
-			if ( control instanceof Text )
-			{
-				( (Text) control ).setText( result );
-			}
-			else if ( control instanceof Combo )
-			{
-				( (Combo) control ).setText( result );
-			}
-		}
-		updateButtons( );
 	}
 
 	private URL getResourceURL( )

@@ -14,27 +14,27 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -48,6 +48,9 @@ import org.eclipse.ui.ISharedImages;
 
 public class UserPropertyBuilder extends BaseDialog
 {
+
+	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
+	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 
 	public static final int USER_PROPERTY = 0;
 
@@ -120,19 +123,19 @@ public class UserPropertyBuilder extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		
-		
-		
+
 		switch ( style )
 		{
 			case USER_PROPERTY :
-				UIUtil.bindHelp(parent,IHelpContextIds.ADD_EDIT_USER_PROPERTIES_DIALOG_ID);
+				UIUtil.bindHelp( parent,
+						IHelpContextIds.ADD_EDIT_USER_PROPERTIES_DIALOG_ID );
 				break;
 			case NAMED_EXPRESSION :
-				UIUtil.bindHelp(parent,IHelpContextIds.ADD_EDIT_NAMED_EXPRESSION_DIALOG_ID);
+				UIUtil.bindHelp( parent,
+						IHelpContextIds.ADD_EDIT_NAMED_EXPRESSION_DIALOG_ID );
 				break;
 		}
-		
+
 		Composite composite = (Composite) super.createDialogArea( parent );
 		GridLayout layout = new GridLayout( 2, false );
 		layout.marginHeight = layout.marginWidth = 10;
@@ -185,29 +188,63 @@ public class UserPropertyBuilder extends BaseDialog
 				defaultValueEditor = new Text( subComposite, SWT.BORDER
 						| SWT.SINGLE );
 				defaultValueEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-				Button button = new Button( subComposite, SWT.PUSH );
-//				button.setText( "..." ); //$NON-NLS-1$
-//				button.setLayoutData( new GridData( ) );
-				UIUtil.setExpressionButtonImage(button);
-				
-				button.addSelectionListener( new SelectionAdapter( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						ExpressionBuilder builder = new ExpressionBuilder( UIUtil.getDefaultShell( ),
-								defaultValueEditor.getText( ) );
-						builder.setExpressionProvier( new ExpressionProvider( input ) );
-
-						if ( builder.open( ) == OK )
-						{
-							defaultValueEditor.setText( UIUtil.convertToGUIString( builder.getResult( ) ) );
-						}
-					}
-
-				} );
+				createComplexExpressionButton( subComposite, defaultValueEditor );
 
 		}
 		return composite;
+	}
+
+	private void createComplexExpressionButton( Composite parent,
+			final Text text )
+	{
+
+		final ExpressionProvider provider = new ExpressionProvider( input );
+
+		final ExpressionButton button = UIUtil.createExpressionButton( parent,
+				SWT.PUSH,
+				false );
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				if ( text != null )
+					return text.getText( );
+				return "";
+			}
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( text != null )
+					text.setText( UIUtil.convertToGUIString( expression ) );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return provider;
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) text.getData( EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				text.setData( EXPR_TYPE, exprType );
+			}
+
+		};
+
+		button.setExpressionHelper( helper );
+
+		text.setData( EXPR_BUTTON, button );
 	}
 
 	protected void okPressed( )
@@ -221,8 +258,9 @@ public class UserPropertyBuilder extends BaseDialog
 				break;
 			case NAMED_EXPRESSION :
 				def.setType( EXPRESSION_TYPE );
-				def.setDefault( UIUtil.convertToModelString( defaultValueEditor.getText( ),
-						false ) );
+				def.setDefault( new Expression( UIUtil.convertToModelString( defaultValueEditor.getText( ),
+						false ),
+						(String) defaultValueEditor.getData( EXPR_TYPE ) ) );
 				break;
 		}
 		setResult( def );
@@ -261,6 +299,5 @@ public class UserPropertyBuilder extends BaseDialog
 		}
 		getOkButton( ).setEnabled( errorMessage == null );
 	}
-	
 
 }

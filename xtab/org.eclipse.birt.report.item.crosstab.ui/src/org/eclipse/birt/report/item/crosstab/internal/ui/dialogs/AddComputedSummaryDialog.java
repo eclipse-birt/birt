@@ -11,30 +11,26 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -53,14 +49,12 @@ public class AddComputedSummaryDialog extends BaseDialog
 	private CrosstabReportItemHandle crosstab = null;
 	private final static String TITLE = Messages.getString( "AddComputedSummaryDialog.Title" );
 
-	private Button expressionBtn;
 	private Text nameText, expressionText;
 	private Combo dataTypeCmb;
 	private CLabel errorLabel;
-	private ComputedMeasureViewHandle compustedMeasure;
 
 	private String name;
-	private String expression;
+	private Expression expression;
 	private String dataType;
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
@@ -121,14 +115,9 @@ public class AddComputedSummaryDialog extends BaseDialog
 		expressionText.setLayoutData( gridData );
 		expressionText.addModifyListener( modifyListener );
 
-		expressionBtn = new Button( composite, SWT.NONE );
-		UIUtil.setExpressionButtonImage( expressionBtn );
-		expressionBtn.addSelectionListener( exprBuildListener );
-
-		// Label space = new Label(composite, SWT.NONE);
-		// gridData = new GridData();
-		// gridData.heightHint = 25;
-		// space.setLayoutData( gridData );
+		ExpressionButtonUtil.createExpressionButton( composite,
+				expressionText,
+				new CrosstabComputedMeasureExpressionProvider( crosstab.getModelHandle( ) ) );
 
 		Label seperator = new Label( parentComposite, SWT.SEPARATOR
 				| SWT.HORIZONTAL );
@@ -166,31 +155,6 @@ public class AddComputedSummaryDialog extends BaseDialog
 			dataTypeCmb.select( 0 );
 		}
 	}
-
-	protected SelectionListener exprBuildListener = new SelectionListener( ) {
-
-		public void widgetDefaultSelected( SelectionEvent e )
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		public void widgetSelected( SelectionEvent e )
-		{
-			// TODO Auto-generated method stub
-			if ( e.widget != expressionBtn )
-			{
-				return;
-			}
-			ExpressionBuilder dialog = new ExpressionBuilder( expressionText.getText( ) );
-			dialog.setExpressionProvier( new CrosstabComputedMeasureExpressionProvider( crosstab.getModelHandle( ) ) );
-			if ( dialog.open( ) == Dialog.OK )
-			{
-				expressionText.setText( dialog.getResult( ) );
-			}
-
-		}
-	};
 
 	private ModifyListener modifyListener = new ModifyListener( ) {
 
@@ -248,7 +212,7 @@ public class AddComputedSummaryDialog extends BaseDialog
 		return name;
 	}
 
-	public String getExpression( )
+	public Expression getExpression( )
 	{
 		return expression;
 	}
@@ -261,7 +225,8 @@ public class AddComputedSummaryDialog extends BaseDialog
 	protected void okPressed( )
 	{
 		name = nameText.getText( ).trim( );
-		expression = expressionText.getText( );
+		expression = new Expression( expressionText.getText( ),
+				(String) expressionText.getData( ExpressionButtonUtil.EXPR_TYPE ) );
 		dataType = getType( );
 		super.okPressed( );
 	}

@@ -20,27 +20,27 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -58,12 +58,13 @@ import org.eclipse.swt.widgets.Text;
 
 public class MeasureDialog extends TitleAreaDialog
 {
+
 	private boolean isEdit = false;
 	private Combo typeCombo;
 	private Text expressionText;
 	private Combo functionCombo;
 	private Button expressionButton;
-	
+
 	private TabularMeasureHandle input;
 	private TabularCubeHandle cube;
 	private Text nameText;
@@ -80,7 +81,7 @@ public class MeasureDialog extends TitleAreaDialog
 		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
 		this.isEdit = !newOrEdit;
 	}
-	
+
 	private String[] getDataTypeNames( )
 	{
 		IChoice[] choices = dataTypes;
@@ -191,7 +192,7 @@ public class MeasureDialog extends TitleAreaDialog
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG );
 		setTitle( Messages.getString( "MeasureDialog.Title.Property" ) );
-		
+
 		Composite area = (Composite) super.createDialogArea( parent );
 
 		Composite contents = new Composite( area, SWT.NONE );
@@ -238,8 +239,11 @@ public class MeasureDialog extends TitleAreaDialog
 			{
 				ExceptionHandler.handle( e );
 			}
-			expressionText.setText( input.getMeasureExpression( ) == null ? "" //$NON-NLS-1$
-					: input.getMeasureExpression( ) );
+
+			ExpressionButtonUtil.initExpressionButtonControl( expressionText,
+					input,
+					MeasureHandle.MEASURE_EXPRESSION_PROP );
+
 			nameText.setText( input.getName( ) == null ? "" : input.getName( ) ); //$NON-NLS-1$
 			handleFunctionSelectEvent( );
 			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
@@ -272,7 +276,11 @@ public class MeasureDialog extends TitleAreaDialog
 				measure.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
 				measure.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
 				if ( expressionText.isEnabled( ) )
-					measure.setMeasureExpression( expressionText.getText( ) );
+				{
+					ExpressionButtonUtil.saveExpressionButtonControl( expressionText,
+							measure,
+							MeasureHandle.MEASURE_EXPRESSION_PROP );
+				}
 				result = measure;
 			}
 			else
@@ -281,7 +289,11 @@ public class MeasureDialog extends TitleAreaDialog
 				input.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
 				input.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
 				if ( expressionText.isEnabled( ) )
-					input.setMeasureExpression( expressionText.getText( ) );
+				{
+					ExpressionButtonUtil.saveExpressionButtonControl( expressionText,
+							input,
+							MeasureHandle.MEASURE_EXPRESSION_PROP );
+				}
 				else
 					input.setMeasureExpression( null );
 				result = input;
@@ -376,15 +388,9 @@ public class MeasureDialog extends TitleAreaDialog
 
 		} );
 
-		expressionButton = new Button( group, SWT.PUSH );
-		UIUtil.setExpressionButtonImage( expressionButton );
-		expressionButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
-			{
-				openExpression( );
-			}
-		} );
+		ExpressionButtonUtil.createExpressionButton( group,
+				expressionText,
+				new CubeExpressionProvider( cube ) );
 
 		return group;
 	}
@@ -434,7 +440,7 @@ public class MeasureDialog extends TitleAreaDialog
 		}
 		int parameterLength = function.getParameterDefn( ).length;
 		expressionText.setEnabled( parameterLength > 0 );
-		expressionButton.setEnabled( parameterLength > 0 );
+		( (ExpressionButton) expressionText.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).setEnabled( parameterLength > 0 );
 	}
 
 	protected void checkOkButtonStatus( )
@@ -489,17 +495,6 @@ public class MeasureDialog extends TitleAreaDialog
 			getButton( IDialogConstants.OK_ID ).setEnabled( true );
 			setErrorMessage( null );
 			setMessage( null );
-		}
-	}
-
-	private void openExpression( )
-	{
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder( expressionText.getText( ) );
-		ExpressionProvider provider = new CubeExpressionProvider( cube );
-		expressionBuilder.setExpressionProvier( provider );
-		if ( expressionBuilder.open( ) == Window.OK )
-		{
-			expressionText.setText( expressionBuilder.getResult( ) );
 		}
 	}
 }

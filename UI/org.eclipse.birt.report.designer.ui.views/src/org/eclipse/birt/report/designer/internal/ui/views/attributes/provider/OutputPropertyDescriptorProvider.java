@@ -12,6 +12,7 @@ import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -27,7 +28,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	private boolean updateHideRule( DesignElementHandle element, String format,
-			boolean checked, String expression ) throws Exception
+			boolean checked, Expression expression ) throws Exception
 	{
 		// save the output type
 		if ( checked )
@@ -51,7 +52,8 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 				if ( !expression.equals( hideHandle.getExpression( ) )
 						&& ( !expression.equals( "" ) || hideHandle.getExpression( ) != null ) ) //$NON-NLS-1$
 				{
-					hideHandle.setExpression( expression );
+					hideHandle.setExpressionProperty( HideRule.VALUE_EXPR_MEMBER,
+							expression );
 				}
 			}
 		}
@@ -121,13 +123,13 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 	 * @throws SemanticException
 	 */
 	private HideRuleHandle createHideRuleHandle( DesignElementHandle element,
-			String format, String expression ) throws SemanticException
+			String format, Expression expression ) throws SemanticException
 	{
 		PropertyHandle propertyHandle = getVisibilityPropertyHandle( element );
 		HideRule hide = StructureFactory.createHideRule( );
 
 		hide.setFormat( format );
-		hide.setExpression( expression );
+		hide.setExpressionProperty( HideRule.VALUE_EXPR_MEMBER, expression );
 
 		propertyHandle.addItem( hide );
 
@@ -274,7 +276,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 			return null;
 	}
 
-	public void saveAllOutput( String value ) throws Exception
+	public void saveAllOutput( Expression value ) throws Exception
 	{
 		CommandStack stack = getActionStack( );
 		stack.startTrans( Messages.getString( "VisibilityPage.menu.SaveHides" ) ); //$NON-NLS-1$
@@ -313,7 +315,8 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 		
 	}
 
-	public void saveSpecialOutput( boolean[] selections, String[] expressions )
+	public void saveSpecialOutput( boolean[] selections,
+			Expression[] expressions )
 			throws Exception
 	{
 		CommandStack stack = getActionStack( );
@@ -402,10 +405,11 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 		return ruleHandle.getFormat( );
 	}
 
-	public String getExpression( Object obj )
+	public Expression getExpression( Object obj )
 	{
 		HideRuleHandle ruleHandle = (HideRuleHandle) obj;
-		return ruleHandle.getExpression( );
+		return (Expression) ruleHandle.getExpressionProperty( HideRule.VALUE_EXPR_MEMBER )
+				.getValue( );
 	}
 
 	public boolean isFormatTypeAll( String format )
