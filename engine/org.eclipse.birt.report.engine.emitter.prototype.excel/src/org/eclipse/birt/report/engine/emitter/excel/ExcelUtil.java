@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
@@ -966,22 +967,30 @@ public class ExcelUtil
 
 	private static String getCurrencySymbol( ULocale locale )
 	{
-		NumberFormat format = NumberFormat
-				.getCurrencyInstance( locale );
-		String symbol = format.getCurrency( ).getSymbol( );
-		if ( symbol.equals( "EUR" ) )
+		NumberFormat format = NumberFormat.getCurrencyInstance( locale );
+		Currency currency = format.getCurrency( );
+		if ( currency != null )
 		{
-			symbol = "€";
+			String symbol = currency.getSymbol( locale );
+			if ( symbol.equals( "EUR" ) )
+			{
+				symbol = "€";
+			}
+			if ( symbol.equals( "GBP" ) )
+			{
+				symbol = "£";
+			}
+			if ( symbol.equals( "XXX" ) )
+			{
+				symbol = "¤";
+			}
+			if ( symbol == null )
+			{
+				symbol = "$";
+			}
+			return symbol;
 		}
-		if ( symbol.equals( "GBP" ) )
-		{
-			symbol = "£";
-		}
-		if ( symbol.equals( "XXX" ) )
-		{
-			symbol = "¤";
-		}
-		return symbol;
+		return "$";
 	}
 	
 	protected static boolean validType( String str )
