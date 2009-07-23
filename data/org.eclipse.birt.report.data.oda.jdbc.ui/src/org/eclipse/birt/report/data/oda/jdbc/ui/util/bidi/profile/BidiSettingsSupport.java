@@ -52,7 +52,7 @@ public class BidiSettingsSupport
     	layout.numColumns = 4;
 
     	bidiButton = new Button( content, SWT.PUSH );
-    	bidiButton.setText( "Bidi Settings..." );//$NON-NLS-1$
+    	bidiButton.setText( JdbcPlugin.getResourceString( "wizard.label.bidiSettings" ) );//$NON-NLS-1$
     	bidiButton.setLayoutData( new GridData( GridData.END ) );
     	bidiButton.addSelectionListener( new SelectionAdapter( ) {
 
