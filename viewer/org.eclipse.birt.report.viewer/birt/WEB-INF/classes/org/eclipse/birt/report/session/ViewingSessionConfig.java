@@ -24,7 +24,7 @@ public class ViewingSessionConfig implements Serializable
 	/**
 	 * Default session timeout: 10 minutes
 	 */
-	public static final long DEFAULT_SESSION_TIMEOUT = 600000l;
+	public static final long DEFAULT_SESSION_TIMEOUT = 600l;
 	public static final int DEFAULT_MINIMUM_SESSION_THRESHOLD = 10;
 	public static final int DEFAULT_MAX_SESSION_COUNT = 0;
 	public static final float DEFAULT_SESSION_THRESHOLD_FACTOR = 0.75f;

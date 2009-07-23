@@ -15,7 +15,7 @@
 .dialogTitleBar
 {
 	height: 20px;
-	background-color: gray;
+	background-color: #4E6DA4;
 	cursor: move;	
 }
 
@@ -34,7 +34,7 @@
 	font-size: 11px; 
 	font-weight: bold; 
 	font-family: tahoma, verdana, arial, sans-serif;
-	color: black;
+	color: white;
 }
 
 .dTitleText
@@ -86,6 +86,7 @@
 .dialogBackground
 {
 	background-color: #ECE9D8;
+	margin-bottom: 1px;
 }
 
 .dBackground
@@ -128,7 +129,7 @@
 /* Area that contains OK and CANCEL buttons - from bottom of divider bar to top of outer border */
 .dialogBtnBar
 {	
-	height: 30px;
+	height: 36px;
 	text-align: right;
 }
 

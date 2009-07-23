@@ -116,7 +116,7 @@
 				
 	</HEAD>
 
-	<BODY CLASS="BirtViewer_Body" onload="Javascript:init()" LEFTMARGIN='0px' STYLE='overflow:hidden'>
+	<BODY CLASS="BirtViewer_Body" onload="Javascript:init()" SCROLL="no" LEFTMARGIN='0px' STYLE='overflow:hidden'>
 		<%
 		if( attributeBean.isRtl() )
 		{
