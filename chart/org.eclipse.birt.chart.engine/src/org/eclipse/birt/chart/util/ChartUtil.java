@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
@@ -1819,4 +1820,26 @@ public class ChartUtil
 		return iDateTimeUnit;
 	}
 
+	/**
+	 * Finds the value of ExtendedProperty in chart model according to property
+	 * name
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @param propertyName
+	 *            property name
+	 * @return property name or null if not found
+	 * @since 2.5.1
+	 */
+	public static String getExtendedProperty( Chart cm, String propertyName )
+	{
+		for ( ExtendedProperty property : cm.getExtendedProperties( ) )
+		{
+			if ( property.getName( ).equals( propertyName ) )
+			{
+				return property.getValue( );
+			}
+		}
+		return null;
+	}
 }

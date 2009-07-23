@@ -72,6 +72,8 @@ public final class ChartReportItemPresentationAxisImpl extends
 
 	protected void updateChartModel( )
 	{
+		super.updateChartModel( );
+		
 		// Update runtime model to render axis only
 		ChartXTabUtil.updateModelToRenderAxis( cm, rtc.isRightToLeft( ) );
 	}
@@ -115,6 +117,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 						: Integer.valueOf( 1 );
 			}
 
+			@SuppressWarnings("deprecation")
 			public Object evaluateGlobal( String expression )
 			{
 				return evaluate( expression );

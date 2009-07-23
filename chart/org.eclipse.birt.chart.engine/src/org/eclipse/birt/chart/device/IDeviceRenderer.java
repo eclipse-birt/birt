@@ -95,7 +95,13 @@ public interface IDeviceRenderer extends
 	 * A Property to enable/disable the caching of the image stream on disk
 	 * Default is false.
 	 */
-	public static final Object CACHE_ON_DISK = "device.disk.cache"; //$NON-NLS-1$
+	public static final String CACHE_ON_DISK = "device.disk.cache"; //$NON-NLS-1$
+	
+	/**
+	 * A property name that indicates if alt attribute in area tag of image map
+	 * will be used to display data point value.
+	 */
+	public static final String AREA_ALT_ENABLED = "enable.area.alt"; //$NON-NLS-1$
 
 	/**
 	 * Device-specific write-only properties that may be set for each device
@@ -194,7 +200,7 @@ public interface IDeviceRenderer extends
 	/**
 	 * Returns the chart computation.
 	 * 
-	 * @return
+	 * @return IChartComputation
 	 * @since 2.5
 	 */
 	IChartComputation getChartComputation( );
@@ -202,7 +208,8 @@ public interface IDeviceRenderer extends
 	/**
 	 * Sets the chart computation.
 	 * 
-	 * @return
+	 * @param cComp
+	 *            IChartComputation
 	 * @since 2.5
 	 */
 	void setChartComputation( IChartComputation cComp );

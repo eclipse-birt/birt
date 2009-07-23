@@ -171,7 +171,7 @@ public final class DataPointHints
 	/**
 	 * Returns a copy of current DataPointHints object, which is virtual.
 	 * 
-	 * @return
+	 * @return copy instance
 	 * @throws ChartException
 	 */
 	public DataPointHints getVirtualCopy( ) throws ChartException
@@ -319,7 +319,7 @@ public final class DataPointHints
 	/**
 	 * Returns the base value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return base value
 	 */
 	public final Object getBaseValue( )
 	{
@@ -329,7 +329,7 @@ public final class DataPointHints
 	/**
 	 * Returns the orthogonal value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return orthogonal value
 	 */
 	public final Object getOrthogonalValue( )
 	{
@@ -383,7 +383,7 @@ public final class DataPointHints
 	/**
 	 * Returns the series value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return series value
 	 */
 	public final Object getSeriesValue( )
 	{
@@ -393,7 +393,7 @@ public final class DataPointHints
 	/**
 	 * Returns the percentile orthogonal value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return percentile orthogonal value
 	 */
 	public final Object getPercentileOrthogonalValue( )
 	{
@@ -403,7 +403,7 @@ public final class DataPointHints
 	/**
 	 * Returns the location value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return location
 	 */
 	public final Location getLocation( )
 	{
@@ -414,7 +414,7 @@ public final class DataPointHints
 	 * Returns the 3d location value of current DataPointHintes(only available
 	 * in 3d mode).
 	 * 
-	 * @return
+	 * @return location
 	 */
 	public final Location3D getLocation3D( )
 	{
@@ -429,7 +429,7 @@ public final class DataPointHints
 	/**
 	 * Returns the index of current DataPointHints.
 	 * 
-	 * @return
+	 * @return current index
 	 */
 	public final int getIndex( )
 	{
@@ -439,7 +439,7 @@ public final class DataPointHints
 	/**
 	 * Returns the size value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return size value
 	 */
 	public final double getSize( )
 	{
@@ -450,7 +450,7 @@ public final class DataPointHints
 	 * Returns the size value of current DataPointHintes(only available in 3d
 	 * mode).
 	 * 
-	 * @return
+	 * @return size value
 	 */
 	public final Size getSize2D( )
 	{
@@ -461,7 +461,7 @@ public final class DataPointHints
 	 * Returns the user value of current DataPointHintes.
 	 * 
 	 * @param key
-	 * @return
+	 * @return user value
 	 */
 	public final Object getUserValue( String key )
 	{
@@ -498,7 +498,7 @@ public final class DataPointHints
 	/**
 	 * Returns the orthogonal display value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return orthogonal value with format
 	 */
 	public final String getOrthogonalDisplayValue( )
 	{
@@ -508,7 +508,7 @@ public final class DataPointHints
 	/**
 	 * Returns the base display value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return base value with format
 	 */
 	public final String getBaseDisplayValue( )
 	{
@@ -518,7 +518,7 @@ public final class DataPointHints
 	/**
 	 * Returns the series display value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return series value with format
 	 */
 	public final String getSeriesDisplayValue( )
 	{
@@ -529,7 +529,7 @@ public final class DataPointHints
 	 * Returns the percentile orthogonal display value of current
 	 * DataPointHintes.
 	 * 
-	 * @return
+	 * @return percentile orthogonal value with format
 	 */
 	public final String getPercentileOrthogonalDisplayValue( )
 	{
@@ -669,7 +669,7 @@ public final class DataPointHints
 	/**
 	 * Returns the display value of current DataPointHintes.
 	 * 
-	 * @return
+	 * @return display value
 	 */
 	public final String getDisplayValue( )
 	{
@@ -682,7 +682,7 @@ public final class DataPointHints
 		}
 		else
 		{
-			final EList el = dp.getComponents( );
+			final EList<DataPointComponent> el = dp.getComponents( );
 
 			if ( dp.getPrefix( ) != null )
 			{
@@ -693,7 +693,7 @@ public final class DataPointHints
 
 			for ( int i = 0; i < el.size( ); i++ )
 			{
-				dpc = (DataPointComponent) el.get( i );
+				dpc = el.get( i );
 				dpct = dpc.getType( );
 				if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
 				{
@@ -752,11 +752,7 @@ public final class DataPointHints
 	 */
 	public final String toString( )
 	{
-		return Messages.getString( "info.datapoint.to.string", //$NON-NLS-1$
-				new Object[]{
-						this, getDisplayValue( )
-				},
-				rtc.getULocale( ) );
+		return getDisplayValue( );
 	}
 
 	/**

@@ -40,10 +40,17 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.ActionImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -251,6 +258,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#setLocale
 	 * (java.util.Locale)
 	 */
+	@SuppressWarnings("deprecation")
 	public final void setLocale( Locale lcl )
 	{
 		if ( rtc == null )
@@ -556,6 +564,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		return modelHandle.getDataSet( ) == null;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected SharedScaleContext createSharedScale( IBaseResultSet baseResultSet )
 			throws BirtException
 	{
@@ -761,6 +770,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 			// Prepare data processor for hyperlinks/tooltips
 			IActionEvaluator evaluator = new BIRTActionEvaluator( );
+			
+			// Update chart model if needed
+			updateChartModel( );
 
 			// Bind Data to series
 			if ( !bindData( rowAdapter, evaluator ) && bAutoHide )
@@ -843,6 +855,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		return resultSet;
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void initializeScriptHandler( BIRTExternalContext externalContext )
 			throws ChartException
 	{
@@ -897,9 +910,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		final Bounds bo = computeBounds( );
 
 		initializeRuntimeContext( rowAdapter );
-
-		// Update chart model if needed
-		updateChartModel( );
 
 		GeneratedChartState gcs = Generator.instance( )
 				.build( idr.getDisplayServer( ),
@@ -1045,12 +1055,26 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				+ sExtension.toUpperCase( Locale.US ) );
 
 		idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, Integer.valueOf( dpi ) );
-
+		
+		// Enable alt value in image map
+		if ( isAreaAltEnabled( ) )
+		{
+			idr.setProperty( IDeviceRenderer.AREA_ALT_ENABLED, Boolean.TRUE );
+		}
+		
+		// SVG resize
 		if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
 		{
 			idr.setProperty( "resize.svg", Boolean.TRUE ); //$NON-NLS-1$
 		}
 
+	}
+	
+	protected final boolean isAreaAltEnabled( )
+	{
+		String altEnabled = ChartUtil.getExtendedProperty( cm,
+				IDeviceRenderer.AREA_ALT_ENABLED );
+		return altEnabled != null && Boolean.valueOf( altEnabled );
 	}
 
 	/**
@@ -1058,6 +1082,37 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 */
 	protected void updateChartModel( )
 	{
-		// Do nothing
+		// Update Triggers
+		if ( isAreaAltEnabled( ) )
+		{
+			// If tooltips are not defined, must set a dummy one to output image
+			// map with alt attribute. SVG doesn't need image map, so ignore it.
+			if ( !"SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
+			{
+				for ( SeriesDefinition vsd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+				{
+					boolean bTooltipsFound = false;
+					List<Trigger> triggers = vsd.getDesignTimeSeries( )
+							.getTriggers( );
+					for ( Trigger trigger : triggers )
+					{
+						if ( trigger.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL )
+						{
+							bTooltipsFound = true;
+							break;
+						}
+					}
+					if ( !bTooltipsFound )
+					{
+						TooltipValue tv = AttributeFactoryImpl.init( )
+								.createTooltipValue( );
+						Trigger t = TriggerImpl.create( TriggerCondition.ONMOUSEOVER_LITERAL,
+								ActionImpl.create( ActionType.SHOW_TOOLTIP_LITERAL,
+										tv ) );
+						triggers.add( t );
+					}
+				}
+			}
+		}
 	}
 }

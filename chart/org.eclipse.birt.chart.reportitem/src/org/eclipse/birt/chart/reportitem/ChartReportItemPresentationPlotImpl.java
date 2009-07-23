@@ -107,6 +107,8 @@ public final class ChartReportItemPresentationPlotImpl extends
 
 	protected void updateChartModel( )
 	{
+		super.updateChartModel( );
+		
 		// Update runtime model to render plot only
 		ChartXTabUtil.updateModelToRenderPlot( cm, rtc.isRightToLeft( ) );
 	}

@@ -80,6 +80,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private Bounds _bo = null;
 
 	private boolean _bImageExternallySpecified = false;
+	
+	private boolean _bAltEnabled = false;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
 
@@ -176,7 +178,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE );
 				tag.addAttribute( HTMLAttribute.COORDS, coords );
 				// #258627 "area" must has a "alt" value.
-				tag.addAttribute( HTMLAttribute.ALT, "" ); //$NON-NLS-1$
+				// Add alt value if specified via extend property
+				tag.addAttribute( HTMLAttribute.ALT,
+						_bAltEnabled ? sa.getSource( ).getSource( ).toString( ) : "" ); //$NON-NLS-1$
 				
 				// Update cursor.
 				setCursorAttribute( tag, sa );
@@ -739,6 +743,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		else if ( sProperty.equals( IDeviceRenderer.CACHE_ON_DISK ) )
 		{
 			ImageIO.setUseCache( ( (Boolean) oValue ).booleanValue( ) );
+		}
+		else if ( sProperty.equals( IDeviceRenderer.AREA_ALT_ENABLED ) )
+		{
+			_bAltEnabled = ( (Boolean) oValue ).booleanValue( );
 		}
 	}
 

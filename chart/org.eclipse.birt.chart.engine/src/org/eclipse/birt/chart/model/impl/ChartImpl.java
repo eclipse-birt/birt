@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -33,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
@@ -1433,7 +1435,12 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 		// 6. SETUP ALTTEXT
 		setEmptyMessage( newEmptyMessage( ) );
-
+		
+		// 7. Setup default extended properties
+		ExtendedProperty extendedProperty = AttributeFactoryImpl.init( ).createExtendedProperty( );
+		extendedProperty.setName( IDeviceRenderer.AREA_ALT_ENABLED );
+		extendedProperty.setValue( Boolean.FALSE.toString( ) );
+		getExtendedProperties( ).add( extendedProperty );
 	}
 
 	private Label newEmptyMessage( )

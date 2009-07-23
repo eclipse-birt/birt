@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -22,9 +23,11 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -360,6 +363,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			separator.eAdapters( ).addAll( cm.eAdapters( ) );
 			cm.getLegend( ).setSeparator( separator );
 		}
+		if ( cm.getExtendedProperties( ).isEmpty( ) )
+		{
+			ExtendedProperty extendedProperty = AttributeFactoryImpl.init( )
+					.createExtendedProperty( );
+			extendedProperty.setName( IDeviceRenderer.AREA_ALT_ENABLED );
+			extendedProperty.setValue( Boolean.FALSE.toString( ) );
+			cm.getExtendedProperties( ).add( extendedProperty );
+		}
 	}
 
 	private void updateModel( ExtendedItemHandle eih, ChartWizard chartBuilder,
@@ -626,7 +637,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
 				ExpressionBuilder eb = new ExpressionBuilder( shell, value );
-				eb.setExpressionProvier( ep );
+				eb.setExpressionProvider( ep );
 				if ( sTitle != null )
 				{
 					eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$
