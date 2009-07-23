@@ -219,10 +219,10 @@ public class PDFPage extends AbstractPage
 				}
 				while ( remainX > 0 )
 				{
-					if ( remainX < imageWidth )
+					if ( remainX <= imageWidth )
 					{
 
-						if ( height - absPosY > imageHeight )
+						if ( height - absPosY >= imageHeight )
 						{
 							PdfTemplate templateX = contentByte.createTemplate(
 									remainX, imageHeight );

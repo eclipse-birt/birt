@@ -283,99 +283,109 @@ public class PageArea extends BlockContainerArea
 				logger.log( Level.WARNING, e.getMessage( ), e );
 			}
 		}
-		int resolutionX = img.getDpiX( );
-		int resolutionY = img.getDpiY( );
-		if ( 0 == resolutionX || 0 == resolutionY )
+		if ( img != null )
 		{
-			resolutionX = 96;
-			resolutionY = 96;
-		}
-		float imageWidth = img.plainWidth( ) / resolutionX * 72 * PDFConstants.LAYOUT_TO_PDF_RATIO;
-		float imageHeight = img.plainHeight( ) / resolutionY * 72 * PDFConstants.LAYOUT_TO_PDF_RATIO;
-		int actualWidth = (int) imageWidth;
-		int actualHeight = (int) imageHeight;
-
-		if ( widthStr != null && widthStr.length( ) > 0 || heightStr != null
-				&& heightStr.length( ) > 0 )
-		{
-			if ( "contain".equals( widthStr ) || "contain".equals( heightStr ) )
+			int resolutionX = img.getDpiX( );
+			int resolutionY = img.getDpiY( );
+			if ( 0 == resolutionX || 0 == resolutionY )
 			{
-				float rh = imageHeight / height;
-				float rw = imageWidth / width;
-				if ( rh > rw )
-				{
-					actualHeight = height;
-					actualWidth = (int) ( imageWidth * height / imageHeight );
-				}
-				else
-				{
-					actualWidth = width;
-					actualHeight = (int) ( imageHeight * width / imageWidth );
-				}
-
+				resolutionX = 96;
+				resolutionY = 96;
 			}
-			else if ( "cover".equals( widthStr ) || "cover".equals( heightStr ) )
+			float imageWidth = img.plainWidth( ) / resolutionX * 72
+					* PDFConstants.LAYOUT_TO_PDF_RATIO;
+			float imageHeight = img.plainHeight( ) / resolutionY * 72
+					* PDFConstants.LAYOUT_TO_PDF_RATIO;
+			int actualWidth = (int) imageWidth;
+			int actualHeight = (int) imageHeight;
+
+			if ( widthStr != null && widthStr.length( ) > 0
+					|| heightStr != null && heightStr.length( ) > 0 )
 			{
-				float rh = imageHeight / height;
-				float rw = imageWidth / width;
-				if ( rh > rw )
+				if ( "contain".equals( widthStr )
+						|| "contain".equals( heightStr ) )
 				{
-					actualWidth = width;
-					actualHeight = (int) ( imageHeight * width / imageWidth );
-				}
-				else
-				{
-					actualHeight = height;
-					actualWidth = (int) ( imageWidth * height / imageHeight );
-				}
-			}
-			else
-			{
-				DimensionType widthDim = DimensionType.parserUnit( widthStr );
-				DimensionType heightDim = DimensionType.parserUnit( heightStr );
-				if ( widthDim != null )
-				{
-					actualWidth = PropertyUtil.getDimensionValue( content,
-							widthDim );
-					if ( heightDim == null )
+					float rh = imageHeight / height;
+					float rw = imageWidth / width;
+					if ( rh > rw )
 					{
-						actualHeight = (int) ( imageHeight * actualWidth / imageWidth );
+						actualHeight = height;
+						actualWidth = (int) ( imageWidth * height / imageHeight );
 					}
 					else
 					{
-						actualHeight = PropertyUtil.getDimensionValue( content,
-								heightDim );
+						actualWidth = width;
+						actualHeight = (int) ( imageHeight * width / imageWidth );
 					}
+
 				}
-				else if ( heightDim != null )
+				else if ( "cover".equals( widthStr )
+						|| "cover".equals( heightStr ) )
 				{
-					actualHeight = PropertyUtil.getDimensionValue( content,
-							heightDim );
-					if ( widthDim == null )
+					float rh = imageHeight / height;
+					float rw = imageWidth / width;
+					if ( rh > rw )
 					{
-						actualWidth = (int) ( imageWidth * actualHeight / imageHeight );
+						actualWidth = width;
+						actualHeight = (int) ( imageHeight * width / imageWidth );
 					}
 					else
+					{
+						actualHeight = height;
+						actualWidth = (int) ( imageWidth * height / imageHeight );
+					}
+				}
+				else
+				{
+					DimensionType widthDim = DimensionType
+							.parserUnit( widthStr );
+					DimensionType heightDim = DimensionType
+							.parserUnit( heightStr );
+					if ( widthDim != null )
 					{
 						actualWidth = PropertyUtil.getDimensionValue( content,
 								widthDim );
+						if ( heightDim == null )
+						{
+							actualHeight = (int) ( imageHeight * actualWidth / imageWidth );
+						}
+						else
+						{
+							actualHeight = PropertyUtil.getDimensionValue(
+									content, heightDim );
+						}
+					}
+					else if ( heightDim != null )
+					{
+						actualHeight = PropertyUtil.getDimensionValue( content,
+								heightDim );
+						if ( widthDim == null )
+						{
+							actualWidth = (int) ( imageWidth * actualHeight / imageHeight );
+						}
+						else
+						{
+							actualWidth = PropertyUtil.getDimensionValue(
+									content, widthDim );
+						}
+					}
+					else
+					{
+						actualHeight = (int) imageHeight;
+						actualWidth = (int) imageWidth;
 					}
 				}
-				else
-				{
-					actualHeight = (int) imageHeight ;
-					actualWidth = (int) imageWidth;
-				}
 			}
+			IStyle cs = pageContent.getComputedStyle( );
+			return new BackgroundImageInfo( url, cs
+					.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+					getDimensionValue( cs
+							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
+							width - actualWidth ), getDimensionValue( cs
+							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
+							height - actualHeight ), actualHeight, actualWidth );
 		}
-		IStyle cs = pageContent.getComputedStyle( );
-		return new BackgroundImageInfo( url, cs
-				.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
-				getDimensionValue( cs
-						.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-						width - actualWidth ), getDimensionValue( cs
-						.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-						height - actualHeight ), actualHeight, actualWidth );
+		return null;
 	}
 
 	/**
@@ -664,6 +674,7 @@ public class PageArea extends BlockContainerArea
 
 		pageContent.setExtension( IContent.LAYOUT_EXTENSION, this );
 		outputPage( pageContent );
+		context.resetUnresolveRowHints( );
 		finished = true;
 	}
 
