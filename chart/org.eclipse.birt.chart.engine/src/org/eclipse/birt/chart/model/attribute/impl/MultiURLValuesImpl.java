@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MultiURLValuesImpl.java,v 1.6 2009/07/01 01:56:38 ywang1 Exp $
+ * $Id: MultiURLValuesImpl.java,v 1.7 2009/07/13 10:21:04 heli Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -49,7 +49,7 @@ public class MultiURLValuesImpl extends ActionValueImpl implements
 {
 
 	private static final String MENU_PROPERTIES = "zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)"; //$NON-NLS-1$
-	private static final String MENU_ITEM_PROPERTIES = "height:auto;color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px"; //$NON-NLS-1$
+	private static final String MENU_ITEM_PROPERTIES = "color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px"; //$NON-NLS-1$
 	private static final String ON_MOUSE_OVER_PROPERTIES = "backgroundColor:#245DDB;color:#FFFFFF"; //$NON-NLS-1$
 	private static final String ON_MOUSE_OUT_PROPERTIES = "backgroundColor:#FAFFF8;color:#000000"; //$NON-NLS-1$
 	private static final Map<String, String> DEFAULT_PROPERTIES_MAP = new HashMap<String, String>( );
