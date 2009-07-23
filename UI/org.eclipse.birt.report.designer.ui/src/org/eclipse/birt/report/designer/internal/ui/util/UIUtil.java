@@ -35,6 +35,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
@@ -67,7 +68,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.preferences.ExpressionBuilderPreferencePage;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
@@ -79,7 +79,7 @@ import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ExpressionType;
+import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -116,6 +116,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -123,6 +124,8 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -1785,6 +1788,7 @@ public class UIUtil
 
 	/**
 	 * Get the default script type set in perference.
+	 * 
 	 * @return
 	 */
 	public static String getDefaultScriptType( )
@@ -2038,13 +2042,43 @@ public class UIUtil
 			return false;
 		}
 		model.checkReport( );
-		List list = model.getErrorList( );
-		if ( list.size( ) > 0 )
+		List errorList = model.getErrorList( );
+		if ( errorList.size( ) > 0 )
 		{
-			return MessageDialog.openConfirm( Display.getCurrent( )
-					.getActiveShell( ),
+			ErrorStatus status = new ErrorStatus( ReportPlugin.REPORT_UI,
+					1009,
 					Messages.getString( "UIUtil.previewconfirm.title" ), //$NON-NLS-1$
-					Messages.getString( "UIUtil.previewconfirm.message" ) ); //$NON-NLS-1$
+					null );
+
+			for ( int i = 0; i < errorList.size( ); i++ )
+			{
+				ErrorDetail ed = (ErrorDetail) errorList.get( i );
+
+				status.addError( "Line " //$NON-NLS-1$
+						+ ed.getLineNo( )
+						+ ": " //$NON-NLS-1$
+						+ ed.getMessage( ) );
+			}
+
+			return new ErrorDialog( Display.getCurrent( ).getActiveShell( ),
+					Messages.getString( "UIUtil.previewconfirm.title" ), //$NON-NLS-1$
+					Messages.getString( "UIUtil.previewconfirm.message" ), //$NON-NLS-1$
+					status,
+					IStatus.OK | IStatus.INFO | IStatus.WARNING | IStatus.ERROR ) {
+
+				protected void createButtonsForButtonBar( Composite parent )
+				{
+					createButton( parent,
+							IDialogConstants.OK_ID,
+							IDialogConstants.OK_LABEL,
+							true );
+					createButton( parent,
+							IDialogConstants.CANCEL_ID,
+							IDialogConstants.CANCEL_LABEL,
+							false );
+					createDetailsButton( parent );
+				};
+			}.open( ) == Window.OK;
 		}
 		return true;
 	}
