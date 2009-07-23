@@ -285,8 +285,8 @@ public class MasterPageEditPart extends AbstractReportEditPart
 		
 		refreshBackground( (MasterPageHandle) getModel( ) );
 		
-		((ReportElementFigure)getFigure( )).setBackGroundImageSize( getModelAdapter( ).getBackgroundImageWidth( (MasterPageHandle) getModel( ) ),
-				getModelAdapter( ).getBackgroundImageHeight( (MasterPageHandle) getModel( ) ));
+		((ReportElementFigure)getFigure( )).setBackGroundImageSize( getModelAdapter( ).getBackgroundImageWidth( (MasterPageHandle) getModel( ),size, getBackImage( (MasterPageHandle) getModel( ) ) ),
+				getModelAdapter( ).getBackgroundImageHeight( (MasterPageHandle) getModel( ), size, getBackImage( (MasterPageHandle) getModel( ) ) ));
 	}
 	
 	/* (non-Javadoc)

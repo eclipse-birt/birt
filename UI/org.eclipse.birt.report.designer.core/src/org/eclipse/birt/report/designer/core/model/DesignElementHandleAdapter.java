@@ -27,6 +27,7 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -264,11 +265,35 @@ public abstract class DesignElementHandleAdapter
 	 * @param handle
 	 * @return
 	 */
-	public int getBackgroundImageWidth(DesignElementHandle handle)
+	public int getBackgroundImageWidth(DesignElementHandle handle, Dimension size, Image image)
 	{
+		
 		DimensionHandle obj = handle.getDimensionProperty( StyleHandle.BACKGROUND_SIZE_WIDTH );
 		if (obj == null || obj.getUnits( ) == null || obj.getUnits( ).length( ) == 0)
 		{
+			if (image == null)
+			{
+				return 0;
+			}
+			String str = handle.getStringProperty( StyleHandle.BACKGROUND_SIZE_WIDTH );
+			if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals( str ))
+			{
+				Dimension imageSize = new Dimension( image );
+				if (((double)imageSize.width/((double)imageSize.height)) > ((double)size.width/((double)size.height))) 
+				{
+					return size.width;
+				}
+				else
+				{
+					double value = ((double)imageSize.width * ((double)size.height)/((double)imageSize.height));
+					return (int)value;
+				}
+			}
+			else if (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals( str ))
+			{
+				return size.width;
+			}
+			
 			return 0;
 		}
 		int fontSize = DEUtil.getFontSizeIntValue( getHandle( ) );
@@ -285,11 +310,33 @@ public abstract class DesignElementHandleAdapter
 	 * @param handle
 	 * @return
 	 */
-	public int getBackgroundImageHeight(DesignElementHandle handle)
+	public int getBackgroundImageHeight(DesignElementHandle handle, Dimension size, Image image)
 	{
 		DimensionHandle obj = handle.getDimensionProperty( StyleHandle.BACKGROUND_SIZE_HEIGHT );
 		if (obj == null || obj.getUnits( ) == null || obj.getUnits( ).length( ) == 0)
 		{
+			if (image == null)
+			{
+				return 0;
+			}
+			String str = handle.getStringProperty( StyleHandle.BACKGROUND_SIZE_WIDTH );
+			if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals( str ))
+			{
+				Dimension imageSize = new Dimension( image );
+				if (((double)imageSize.width/((double)imageSize.height)) > ((double)size.width/((double)size.height))) 
+				{
+					double value = ((double)imageSize.height * ((double)size.width)/((double)imageSize.width));
+					return (int)value;
+				}
+				else
+				{
+					return size.height;
+				}
+			}
+			else if (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals( str ))
+			{
+				return size.height;
+			}
 			return 0;
 		}
 		int fontSize = DEUtil.getFontSizeIntValue( getHandle( ) );

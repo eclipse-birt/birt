@@ -187,8 +187,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		getFigure( ).setBackgroundColor( getBackGroundColor( color ) );
 
 		refreshBackground( masterPageHandle );
-		((ReportElementFigure)getFigure( )).setBackGroundImageSize( getModelAdapter( ).getBackgroundImageWidth( masterPageHandle ),
-				getModelAdapter( ).getBackgroundImageHeight( masterPageHandle ));
+		((ReportElementFigure)getFigure( )).setBackGroundImageSize( getModelAdapter( ).getBackgroundImageWidth( masterPageHandle, size, getBackImage(masterPageHandle) ),
+				getModelAdapter( ).getBackgroundImageHeight( masterPageHandle, size, getBackImage(masterPageHandle) ));
 	}
 
 	public void refreshMarginBorder( ReportDesignMarginBorder border )

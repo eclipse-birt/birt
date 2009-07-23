@@ -594,6 +594,34 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		}
 	}
 
+	protected Image getBackImage(DesignElementHandle handle)
+	{
+		String backGroundImage = getBackgroundImage( handle );
+
+		if ( backGroundImage == null )
+		{
+			return null;
+		}
+		else
+		{
+			Image image = null;
+			try
+			{
+				image = ImageManager.getInstance( )
+						.getImage( getModelAdapter( ).getModuleHandle( ),
+								backGroundImage );
+			}
+			catch ( SWTException e )
+			{
+				// Should not be ExceptionHandler.handle(e), see SCR#73730
+				image = null;
+			}
+
+			return image;
+		}
+
+	}
+	
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
 	 * 
