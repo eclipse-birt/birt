@@ -18,7 +18,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -56,6 +55,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
@@ -106,13 +106,11 @@ public final class ChartReportItemImpl extends ReportItem implements
 		// DefaultLoggerImpl.instance().setVerboseLevel(ILogger.ERROR);
 
 		// SETUP LEGEND POSITION CHOICE LIST
-		List li = Position.VALUES;
-		Iterator it = li.iterator( );
 		IChoiceDefinition icd;
 		String sName, sLowercaseName;
-		while ( it.hasNext( ) )
+		for ( Position position : Position.VALUES )
 		{
-			sName = ( (Position) it.next( ) ).getName( );
+			sName = position.getName( );
 			sLowercaseName = sName.toLowerCase( Locale.US );
 			if ( sLowercaseName.equals( "outside" ) ) //$NON-NLS-1$
 			{
@@ -123,22 +121,18 @@ public final class ChartReportItemImpl extends ReportItem implements
 		}
 
 		// SETUP LEGEND ANCHOR CHOICE LIST
-		li = Anchor.VALUES;
-		it = li.iterator( );
-		while ( it.hasNext( ) )
+		for ( Anchor anchor : Anchor.VALUES )
 		{
-			sName = ( (Anchor) it.next( ) ).getName( );
+			sName = anchor.getName( );
 			sLowercaseName = sName.toLowerCase( Locale.US );
 			icd = new ChartChoiceDefinitionImpl( "choice.legend.anchor." + sLowercaseName, sName, null ); //$NON-NLS-1$
 			liLegendAnchors.add( icd );
 		}
 
 		// SETUP CHART DIMENSION CHOICE LIST
-		li = ChartDimension.VALUES;
-		it = li.iterator( );
-		while ( it.hasNext( ) )
+		for ( ChartDimension dimension : ChartDimension.VALUES )
 		{
-			sName = ( (ChartDimension) it.next( ) ).getName( );
+			sName = dimension.getName( );
 			sLowercaseName = sName.toLowerCase( Locale.US );
 			icd = new ChartChoiceDefinitionImpl( "choice.chart.dimension." + sLowercaseName, sName, null ); //$NON-NLS-1$
 			liChartDimensions.add( icd );
@@ -366,18 +360,18 @@ public final class ChartReportItemImpl extends ReportItem implements
 			{
 				adjustSingleNumberFormat( yAxis[i].getFormatSpecifier( ) );
 
-				EList sds = yAxis[i].getSeriesDefinitions( );
+				EList<SeriesDefinition> sds = yAxis[i].getSeriesDefinitions( );
 				for ( int j = 0; j < sds.size( ); j++ )
 				{
-					SeriesDefinition sd = (SeriesDefinition) sds.get( j );
+					SeriesDefinition sd = sds.get( j );
 					adjustSingleNumberFormat( sd.getFormatSpecifier( ) );
 
-					EList dpcs = sd.getDesignTimeSeries( )
+					EList<DataPointComponent> dpcs = sd.getDesignTimeSeries( )
 							.getDataPoint( )
 							.getComponents( );
 					for ( int k = 0; k < dpcs.size( ); k++ )
 					{
-						adjustSingleNumberFormat( ( (DataPointComponent) dpcs.get( k ) ).getFormatSpecifier( ) );
+						adjustSingleNumberFormat( dpcs.get( k ).getFormatSpecifier( ) );
 					}
 				}
 			}
@@ -385,21 +379,23 @@ public final class ChartReportItemImpl extends ReportItem implements
 		else if ( cm instanceof ChartWithoutAxes )
 		{
 			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
-			EList categories = cwa.getSeriesDefinitions( );
+			EList<SeriesDefinition> categories = cwa.getSeriesDefinitions( );
 			if ( categories.size( ) > 0 )
 			{
-				EList sds = ( (SeriesDefinition) categories.get( 0 ) ).getSeriesDefinitions( );
+				EList<SeriesDefinition> sds = categories.get( 0 )
+						.getSeriesDefinitions( );
 				for ( int j = 0; j < sds.size( ); j++ )
 				{
-					SeriesDefinition sd = (SeriesDefinition) sds.get( j );
+					SeriesDefinition sd = sds.get( j );
 					adjustSingleNumberFormat( sd.getFormatSpecifier( ) );
 
-					EList dpcs = sd.getDesignTimeSeries( )
+					EList<DataPointComponent> dpcs = sd.getDesignTimeSeries( )
 							.getDataPoint( )
 							.getComponents( );
 					for ( int k = 0; k < dpcs.size( ); k++ )
 					{
-						adjustSingleNumberFormat( ( (DataPointComponent) dpcs.get( k ) ).getFormatSpecifier( ) );
+						adjustSingleNumberFormat( dpcs.get( k )
+								.getFormatSpecifier( ) );
 					}
 				}
 			}
@@ -541,38 +537,33 @@ public final class ChartReportItemImpl extends ReportItem implements
 		};
 	}
 
+	@SuppressWarnings("unchecked")
 	public IMethodInfo[] getMethods( String scriptName )
 	{
 		if ( scriptName != null
 				&& scriptName.equals( ChartReportItemUtil.PROPERTY_ONRENDER ) )
 		{
 			ScriptClassInfo info = new ScriptClassInfo( IChartEventHandler.class );
-			List list = info.getMethods( );
-			Collections.sort( list, new Comparator( ) {
+			List<IMethodInfo> list = info.getMethods( );
+			Collections.sort( list, new Comparator<IMethodInfo>( ) {
 
-				public int compare( Object arg0, Object arg1 )
+				public int compare( IMethodInfo arg0, IMethodInfo arg1 )
 				{
-					if ( arg0 instanceof IMethodInfo
-							&& arg1 instanceof IMethodInfo )
+					String name0 = arg0.getName( );
+					String name1 = arg1.getName( );
+					if ( name0.startsWith( "before" ) && name1.startsWith( "after" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 					{
-						String name0 = ( (IMethodInfo) arg0 ).getName( );
-						String name1 = ( (IMethodInfo) arg1 ).getName( );
-						if ( name0.startsWith( "before" ) && name1.startsWith( "after" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-						{
-							return -1;
-						}
-						if ( name0.startsWith( "after" ) && name1.startsWith( "before" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-						{
-							return 1;
-						}
-						return ( name0.compareToIgnoreCase( name1 ) );
-					}
-					else
 						return -1;
+					}
+					if ( name0.startsWith( "after" ) && name1.startsWith( "before" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+					{
+						return 1;
+					}
+					return ( name0.compareToIgnoreCase( name1 ) );
 				}
 			} );
 
-			return (IMethodInfo[]) list.toArray( new IMethodInfo[list.size( )] );
+			return list.toArray( new IMethodInfo[list.size( )] );
 
 		}
 		else
@@ -736,6 +727,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void checkScriptSyntax( String string ) throws RhinoException
 	{
 		if ( string == null )
@@ -765,11 +757,11 @@ public final class ChartReportItemImpl extends ReportItem implements
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#validate()
 	 */
-	public List validate( )
+	public List<SemanticException> validate( )
 	{
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemImpl.log.validate" ) ); //$NON-NLS-1$
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 		if ( cm != null )
 		{
 			try
@@ -795,7 +787,6 @@ public final class ChartReportItemImpl extends ReportItem implements
 			}
 		}
 		return list;
-
 	}
 
 	/*
@@ -831,19 +822,15 @@ public final class ChartReportItemImpl extends ReportItem implements
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#getRowExpressions()
 	 */
-	public List getRowExpressions( )
+	public List<String> getRowExpressions( )
 	{
 		try
 		{
-			boolean needChangeValueExpr = true;
-			if ( handle.getDataBindingReference( ) != null
-					|| handle.getContainer( ) instanceof MultiViewsHandle )
-			{
-				needChangeValueExpr = false;
-			}
+			// Bugzilla#283253 Do not replace raw expressions with evaluator
+			// binding name during serializing chart model into report
 			return Generator.instance( ).getRowExpressions( cm,
 					new BIRTActionEvaluator( ),
-					needChangeValueExpr );
+					false );
 		}
 		catch ( ChartException e )
 		{
@@ -857,6 +844,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#updateRowExpressions(java.util.Map)
 	 */
+	@SuppressWarnings("unchecked")
 	public void updateRowExpressions( Map newExpressions )
 	{
 		CompatibleExpressionUpdater.update( cm, newExpressions );
@@ -929,7 +917,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	 * Since model does not differentiate Layout-RTL and Text-RTL, but chart
 	 * does. Currently we always retrieve the Layout-RTL from container.
 	 * 
-	 * @return
+	 * @return RTL or not
 	 */
 	public boolean isLayoutDirectionRTL( )
 	{
@@ -943,7 +931,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	/**
 	 * Returns the current serializer.
 	 * 
-	 * @return
+	 * @return serializer
 	 */
 	public Serializer getSerializer( )
 	{
