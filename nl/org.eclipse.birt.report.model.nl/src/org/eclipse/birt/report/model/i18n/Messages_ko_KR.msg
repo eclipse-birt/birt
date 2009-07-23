@@ -441,11 +441,9 @@ Choices.exportType.if-realized=인식된 경우
 Choices.exportType.always=항상
 
 #56. analysisType
-Choices.analysisType.auto=자동
 Choices.analysisType.dimension=차원
+Choices.analysisType.attribute=Attribute
 Choices.analysisType.measure=측정
-Choices.analysisType.detail=상세 정보
-Choices.analysisType.none=분석 형식 없음
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=자동
@@ -663,6 +661,11 @@ Choices.dynamicFilterChoice.advanced=고급
 #81 variableType
 Choices.variableType.report=보고서 변수
 Choices.variableType.page=페이지 변수
+
+#82 nullValueOrderingType
+Choices.nullValueOrderingType.unknown=Unknown
+Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
+Choices.nullValueOrderingType.nullIsLast=NullIsLast
 
 ###########################################################
 # Classes
@@ -1981,6 +1984,7 @@ Structure.ColumnHint.helpText=도움말 텍스트
 Structure.ColumnHint.helpTextID=도움말 텍스트 리소스 키
 Structure.ColumnHint.displayName=표시 이름
 Structure.ColumnHint.displayNameID=표시 이름 리소스 키
+Structure.ColumnHint.onColumnLayout=On Column Layout
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택
@@ -2176,6 +2180,14 @@ Structure.AggregationArgument.value=인수 값
 Structure.Variable=변수 
 Structure.Variable.name=이름 
 Structure.Variable.value=값 
+
+#36. SortHint
+Structure.SortHint=Sort Hint
+Structure.SortHint.columnName=열 이름
+Structure.SortHint.position=Column Position
+Structure.SortHint.direction=정렬 방향
+Structure.SortHint.nullValueOrdering=Null Value Ordering
+Structure.SortHint.isOptional=Optional
 
 ###########################################################
 # Element names
@@ -2393,6 +2405,7 @@ Element.DataSet.cachedMetaData=캐시된 메타데이터
 Element.DataSet.rowFetchLimit=데이터 집합에서 인출할 최대 행 수
 Element.DataSet.needsCache=데이터 엔진용 캐시가 필요합니다.
 Element.DataSet.parameters=데이터 집합 매개 변수
+Element.DataSet.sortHints=Sort hints
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=열기 이전

@@ -441,11 +441,9 @@ Choices.exportType.if-realized=一致したページ
 Choices.exportType.always=全ページ
 
 #56. analysisType
-Choices.analysisType.auto=自動
 Choices.analysisType.dimension=ディメンジョン
+Choices.analysisType.attribute=Attribute
 Choices.analysisType.measure=メジャー
-Choices.analysisType.detail=詳細
-Choices.analysisType.none=分析の種類なし
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=自動
@@ -663,6 +661,11 @@ Choices.dynamicFilterChoice.advanced=詳細設定
 #81 variableType
 Choices.variableType.report=レポート変数
 Choices.variableType.page=ページ変数
+
+#82 nullValueOrderingType
+Choices.nullValueOrderingType.unknown=Unknown
+Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
+Choices.nullValueOrderingType.nullIsLast=NullIsLast
 
 ###########################################################
 # Classes
@@ -1981,6 +1984,7 @@ Structure.ColumnHint.helpText=ヘルプテキスト
 Structure.ColumnHint.helpTextID=ヘルプテキストのリソースキー
 Structure.ColumnHint.displayName=表示名
 Structure.ColumnHint.displayNameID=表示名のリソースキー
+Structure.ColumnHint.onColumnLayout=On Column Layout
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
@@ -2176,6 +2180,14 @@ Structure.AggregationArgument.value=引数の値
 Structure.Variable=変数 
 Structure.Variable.name=名前 
 Structure.Variable.value=値 
+
+#36. SortHint
+Structure.SortHint=Sort Hint
+Structure.SortHint.columnName=列名
+Structure.SortHint.position=Column Position
+Structure.SortHint.direction=ソートの方向
+Structure.SortHint.nullValueOrdering=Null Value Ordering
+Structure.SortHint.isOptional=Optional
 
 ###########################################################
 # Element names
@@ -2393,6 +2405,7 @@ Element.DataSet.cachedMetaData=キャッシュされたメタデータ
 Element.DataSet.rowFetchLimit=データセットからフェッチする最大行数
 Element.DataSet.needsCache=データエンジン用のキャッシュが必要です。
 Element.DataSet.parameters=データセットのパラメタ
+Element.DataSet.sortHints=Sort hints
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=開く前

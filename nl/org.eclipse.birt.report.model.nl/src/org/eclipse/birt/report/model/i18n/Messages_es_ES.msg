@@ -441,11 +441,9 @@ Choices.exportType.if-realized=Si realizado
 Choices.exportType.always=Siempre
 
 #56. analysisType
-Choices.analysisType.auto=Automático
 Choices.analysisType.dimension=Dimensión
+Choices.analysisType.attribute=Attribute
 Choices.analysisType.measure=Medida
-Choices.analysisType.detail=Detalle
-Choices.analysisType.none=Sin tipo de análisis
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=Automático
@@ -663,6 +661,11 @@ Choices.dynamicFilterChoice.advanced=Avanzado
 #81 variableType
 Choices.variableType.report=Variable de informe
 Choices.variableType.page=Variable de página
+
+#82 nullValueOrderingType
+Choices.nullValueOrderingType.unknown=Unknown
+Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
+Choices.nullValueOrderingType.nullIsLast=NullIsLast
 
 ###########################################################
 # Classes
@@ -1981,6 +1984,7 @@ Structure.ColumnHint.helpText=Texto de ayuda
 Structure.ColumnHint.helpTextID=Clave de recursos del texto de ayuda
 Structure.ColumnHint.displayName=Nombre en pantalla
 Structure.ColumnHint.displayNameID=Mostrar clave de recursos del nombre
+Structure.ColumnHint.onColumnLayout=On Column Layout
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección
@@ -2176,6 +2180,14 @@ Structure.AggregationArgument.value=Valor de argumento
 Structure.Variable=Variable 
 Structure.Variable.name=Nombre 
 Structure.Variable.value=Valor 
+
+#36. SortHint
+Structure.SortHint=Sort Hint
+Structure.SortHint.columnName=Nombre de la columna
+Structure.SortHint.position=Column Position
+Structure.SortHint.direction=Dirección de orden
+Structure.SortHint.nullValueOrdering=Null Value Ordering
+Structure.SortHint.isOptional=Optional
 
 ###########################################################
 # Element names
@@ -2393,6 +2405,7 @@ Element.DataSet.cachedMetaData=Metadatos en caché
 Element.DataSet.rowFetchLimit=Número máximo de filas que recuperar del conjunto de datos
 Element.DataSet.needsCache=Caché necesario para el motor de datos
 Element.DataSet.parameters=Parámetros de conjunto de datos
+Element.DataSet.sortHints=Sort hints
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Antes de abrir

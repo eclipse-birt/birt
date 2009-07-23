@@ -441,11 +441,9 @@ Choices.exportType.if-realized=如果实现
 Choices.exportType.always=始终
 
 #56. analysisType
-Choices.analysisType.auto=自动
 Choices.analysisType.dimension=维
+Choices.analysisType.attribute=Attribute
 Choices.analysisType.measure=度量
-Choices.analysisType.detail=详细资料
-Choices.analysisType.none=无分析类型
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=自动
@@ -663,6 +661,11 @@ Choices.dynamicFilterChoice.advanced=高级
 #81 variableType
 Choices.variableType.report=报告变量
 Choices.variableType.page=页面变量
+
+#82 nullValueOrderingType
+Choices.nullValueOrderingType.unknown=Unknown
+Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
+Choices.nullValueOrderingType.nullIsLast=NullIsLast
 
 ###########################################################
 # Classes
@@ -1981,6 +1984,7 @@ Structure.ColumnHint.helpText=帮助文本
 Structure.ColumnHint.helpTextID=帮助文本资源关键字
 Structure.ColumnHint.displayName=显示名称
 Structure.ColumnHint.displayNameID=显示名称资源关键字
+Structure.ColumnHint.onColumnLayout=On Column Layout
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -2176,6 +2180,14 @@ Structure.AggregationArgument.value=参数值
 Structure.Variable=变量 
 Structure.Variable.name=名称 
 Structure.Variable.value=值 
+
+#36. SortHint
+Structure.SortHint=Sort Hint
+Structure.SortHint.columnName=列名
+Structure.SortHint.position=Column Position
+Structure.SortHint.direction=排序方向
+Structure.SortHint.nullValueOrdering=Null Value Ordering
+Structure.SortHint.isOptional=Optional
 
 ###########################################################
 # Element names
@@ -2393,6 +2405,7 @@ Element.DataSet.cachedMetaData=缓存元数据
 Element.DataSet.rowFetchLimit=从数据集提取的最大行数
 Element.DataSet.needsCache=需要数据引擎缓存
 Element.DataSet.parameters=数据集参数
+Element.DataSet.sortHints=Sort hints
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=打开前
