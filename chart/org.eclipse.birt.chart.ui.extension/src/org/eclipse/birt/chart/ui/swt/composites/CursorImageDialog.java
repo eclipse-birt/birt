@@ -151,11 +151,6 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 		previewCanvas = new IconCanvas( previewArea );
 	}
 
-	private void clearPreview( )
-	{
-		previewCanvas.clear( );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -199,9 +194,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 
 	private void updateButtons( )
 	{
-		boolean complete = txtUriEditor.getText( ) != null
-				&& txtUriEditor.getText( ).trim( ).length( ) > 0;
-		getButton( IDialogConstants.OK_ID ).setEnabled( complete );
+		getButton( IDialogConstants.OK_ID ).setEnabled( true );
 	}
 
 	/**
@@ -252,7 +245,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 								txtUriEditor.getText( ),
 								context.getExtendedItem( ),
 								title.getText( ) );
-				txtUriEditor.setText( sExpr == null ? "" : sExpr );
+				txtUriEditor.setText( sExpr == null ? "" : sExpr ); //$NON-NLS-1$
 			}
 			catch ( ChartException e1 )
 			{
