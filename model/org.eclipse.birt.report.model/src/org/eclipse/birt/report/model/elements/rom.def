@@ -1665,7 +1665,7 @@
 	</Property>
 	<Property displayNameID="Element.ReportDesign.ACLExpression" name="ACLExpression" since="2.3" type="expression" />
 	<Property displayNameID="Element.ReportDesign.imageDPI" name="imageDPI" since="2.5" type="integer" validator="NonNegativeValueValidator" />
-	<Property displayNameID="Element.ReportDesign.pageVariables" isList="true" name="pageVariables" since="2.5" type="element">
+	<Property displayNameID="Element.ReportDesign.pageVariables" isList="true" name="pageVariables" since="2.5" type="contentElement">
   	  <Type name="VariableElement"/>	
   	</Property>
   	<Property displayNameID="Element.ReportDesign.dataObjects" isList="true" name="dataObjects" since="2.5" type="contentElement">

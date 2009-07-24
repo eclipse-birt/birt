@@ -51,7 +51,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
-import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * This class adds, deletes and moves content elements. Adding a content element
@@ -257,44 +256,6 @@ public class ContentCommand extends AbstractContentCommand
 
 			if ( e instanceof ContentException )
 				throw (ContentException) e;
-		}
-	}
-
-	/**
-	 * Adds the element name and names of nested element in it to name spaces.
-	 * 
-	 * @param content
-	 *            the content to add
-	 * @throws NameException
-	 *             if any element has duplicate name with elements already on
-	 *             the design tree.
-	 */
-
-	private void addElementNames( DesignElement content ) throws NameException
-	{
-		// before handle the names for the content and its children, the content
-		// is added into the container first
-
-		assert content.getContainer( ) != null;
-
-		// if the content is managed by namespace, then check the name and add
-		// it to the namespace, otherwise do nothing
-
-		NameCommand nameCmd = new NameCommand( module, content );
-		nameCmd.addElement( );
-
-		// recursively check the contents and add them
-
-		ElementDefn defn = (ElementDefn) content.getDefn( );
-		if ( defn.isContainer( ) )
-		{
-			Iterator<DesignElement> iter = new LevelContentIterator( module,
-					content, 1 );
-			while ( iter.hasNext( ) )
-			{
-				DesignElement tmpElement = iter.next( );
-				addElementNames( tmpElement );
-			}
 		}
 	}
 

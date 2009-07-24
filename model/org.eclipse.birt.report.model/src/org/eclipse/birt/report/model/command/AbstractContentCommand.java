@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -657,6 +659,45 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 		record.setEventTarget( eventTarget );
 
 		getActivityStack( ).execute( record );
+	}
+
+	/**
+	 * Adds the element name and names of nested element in it to name spaces.
+	 * 
+	 * @param content
+	 *            the content to add
+	 * @throws NameException
+	 *             if any element has duplicate name with elements already on
+	 *             the design tree.
+	 */
+
+	protected void addElementNames( DesignElement content )
+			throws NameException
+	{
+		// before handle the names for the content and its children, the content
+		// is added into the container first
+
+		assert content.getContainer( ) != null;
+
+		// if the content is managed by namespace, then check the name and add
+		// it to the namespace, otherwise do nothing
+
+		NameCommand nameCmd = new NameCommand( module, content );
+		nameCmd.addElement( );
+
+		// recursively check the contents and add them
+
+		ElementDefn defn = (ElementDefn) content.getDefn( );
+		if ( defn.isContainer( ) )
+		{
+			Iterator<DesignElement> iter = new LevelContentIterator( module,
+					content, 1 );
+			while ( iter.hasNext( ) )
+			{
+				DesignElement tmpElement = iter.next( );
+				addElementNames( tmpElement );
+			}
+		}
 	}
 
 	/**

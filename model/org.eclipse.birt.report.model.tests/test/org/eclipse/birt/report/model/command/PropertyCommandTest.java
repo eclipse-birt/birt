@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -62,6 +63,7 @@ import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -1837,6 +1839,34 @@ public class PropertyCommandTest extends BaseTestCase
 		listener.propertyChanged = false;
 		mapRulesHandle.removeItem( 0 );
 		assertTrue( listener.propertyChanged );
+
+	}
+
+	/**
+	 * Tests event notification when variable element property changed.
+	 * 
+	 * @throws Exception
+	 */
+	public void testVariableElementPropertyNotification( ) throws Exception
+	{
+		openDesign( "VariableElementPropertyNotificationTest.xml" ); //$NON-NLS-1$
+
+		MyPropertyListener listener = new MyPropertyListener( );
+
+		designHandle.addListener( listener );
+
+		List<VariableElementHandle> list = designHandle.getPageVariables( );
+
+		VariableElementHandle variableElementHandle = list.get( 0 );
+		variableElementHandle.setName( "test" ); //$NON-NLS-1$
+		assertTrue( listener.propertyChanged );
+
+		listener.propertyChanged = false;
+		variableElementHandle = list.get( 1 );
+		variableElementHandle
+				.setType( DesignChoiceConstants.VARIABLE_TYPE_REPORT );
+		assertTrue( listener.propertyChanged );
+
 	}
 
 	class MyPropertyListener implements Listener

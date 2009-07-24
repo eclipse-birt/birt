@@ -189,15 +189,23 @@ class ContentElementCommand extends AbstractContentCommand
 				.getCommandLabel( MessageConstants.ADD_ELEMENT_MESSAGE ),
 				getTransOption( ) );
 
-		// for add action, the content parameter can be ignored.
+		try
+		{
+			// for add action, the content parameter can be ignored.
+			makeLocalCompositeValue( content );
 
-		makeLocalCompositeValue( content );
-
-		// add the element
-
-		super.doAdd( newPos, content );
+			// add the element
+			super.doAdd( newPos, content );
+			addElementNames( content );
+		}
+		catch ( NameException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
 
 		stack.commit( );
+
 	}
 
 	/**
