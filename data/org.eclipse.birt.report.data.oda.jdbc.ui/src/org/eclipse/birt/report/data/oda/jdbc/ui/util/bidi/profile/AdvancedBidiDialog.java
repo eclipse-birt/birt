@@ -194,16 +194,41 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 	private void handleDisableTransform( )
 	{
 		Control[] children = bidiContentFormatFrame.getChildren( );
+		//bidi_acgc added start
+		Control[] childrenArabicSpecific = null; 
+		Group arabicGroup = null;
+		//bidi_acgc added end
 		for ( int i = 0; i < children.length; i++ )
 		{
-			children[i].setEnabled( !disableTransform );
-		}
+		 children[i].setEnabled( !disableTransform );
+		 //bidi_acgc added start
+		  if(children[i] instanceof Group){
+			arabicGroup = (Group)children[i];
+			childrenArabicSpecific= arabicGroup.getChildren();
+			for (int j = 0; j<childrenArabicSpecific.length;j++)
+			 {
+			  childrenArabicSpecific[j].setEnabled( !disableTransform );	
+			 }
+		   }
+		 //bidi_acgc added end
+	    }
 
 		children = bidiMetadataFormatFrame.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
 			children[i].setEnabled( !disableTransform );
-		}
+			//bidi_acgc added start
+			if(children[i] instanceof Group){
+			arabicGroup = (Group)children[i];
+			childrenArabicSpecific = arabicGroup.getChildren();
+			for (int j = 0; j<childrenArabicSpecific.length;j++)
+			{
+			childrenArabicSpecific[j].setEnabled( !disableTransform );	
+			}
+				
+		  }
+			//bidi_acgc added end
+	    }
 	}
 
 }

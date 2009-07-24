@@ -96,6 +96,9 @@ public interface BidiConstants
 	public static final String BIDI_FORMAT_METADATA_SYMSWAP = "bidiFormatMetadataSymSwap";
 	public static final String BIDI_FORMAT_METADATA_TEXTSHAPING = "bidiFormatMetadataTextShaping";
 	public static final String BIDI_FORMAT_METADATA_NUMSHAPING = "bidiFormatMetadataNumericShaping";
+	//bidi_acgc added start
+	public final static String ARABIC_TITLE = Messages.getString("preference.bidiframe.arabictitle");
+	//bidi_acgc added end
 
 	public final static String DEFAULT_BIDI_FORMAT_STR = "ILYNN";
 

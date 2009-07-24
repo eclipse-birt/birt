@@ -66,6 +66,20 @@ public class BidiGUIUtility
 		innerFrameLayout.marginWidth = 5;
 		innerFrameLayout.marginHeight = 10;
 
+		//bidi_acgc added start
+		GridData arabicGridData = new GridData();
+		arabicGridData.grabExcessHorizontalSpace = true;
+		arabicGridData.horizontalSpan = 2;
+		arabicGridData.horizontalAlignment = GridData.FILL;
+		arabicGridData.verticalIndent = 5;
+	    
+		GridLayout arabicInnerFrameLayout = new GridLayout();
+		arabicInnerFrameLayout.numColumns = 2;
+		arabicInnerFrameLayout.marginWidth = 1;
+		arabicInnerFrameLayout.marginHeight = 15;
+		arabicInnerFrameLayout.horizontalSpacing= 1;
+		//bidi_acgc added end
+
 		externalBiDiFormatFrame.setLayout( innerFrameLayout );
 
 		orderingSchemeLabel = new Label( externalBiDiFormatFrame, SWT.NONE );
@@ -122,12 +136,17 @@ public class BidiGUIUtility
 			symSwapCombo.select( BidiConstants.SYMSWAP_FALSE_INDX );
 		}
 		symSwapCombo.setLayoutData( innerFrameGridData );
-
-		shapingLabel = new Label( externalBiDiFormatFrame, SWT.NONE );
+        //bidi_acgc added start
+	    Group arabicBiDiFormatFrame = new Group( externalBiDiFormatFrame,SWT.NONE );
+		arabicBiDiFormatFrame.setText( BidiConstants.ARABIC_TITLE );
+		arabicBiDiFormatFrame.setLayout( arabicInnerFrameLayout );
+		arabicBiDiFormatFrame.setLayoutData( arabicGridData );
+		//bidi_acgc added end
+		shapingLabel = new Label( arabicBiDiFormatFrame, SWT.NONE );
 		shapingLabel.setText( BidiConstants.SHAPING_TITLE );
 		shapingLabel.setLayoutData( innerFrameGridData );
 
-		shapingCombo = new Combo( externalBiDiFormatFrame, SWT.DROP_DOWN
+		shapingCombo = new Combo( arabicBiDiFormatFrame, SWT.DROP_DOWN
 				| SWT.READ_ONLY );
 		shapingCombo.setToolTipText( BidiConstants.SHAPING_TOOLTIP );
 		shapingCombo.add( BidiConstants.SHAPING_SHAPED,
@@ -138,10 +157,10 @@ public class BidiGUIUtility
 				.select( getShapingComboIndx( bidiFormat.getTextShaping( ) ) );
 		shapingCombo.setLayoutData( innerFrameGridData );
 
-		numShapingLabel = new Label( externalBiDiFormatFrame, SWT.NONE );
+		numShapingLabel = new Label( arabicBiDiFormatFrame, SWT.NONE );
 		numShapingLabel.setText( BidiConstants.NUMSHAPING_TITLE );
 		numShapingLabel.setLayoutData( innerFrameGridData );
-		numShapingCombo = new Combo( externalBiDiFormatFrame, SWT.DROP_DOWN
+		numShapingCombo = new Combo( arabicBiDiFormatFrame, SWT.DROP_DOWN
 				| SWT.READ_ONLY );
 		numShapingCombo.setToolTipText( BidiConstants.NUMSHAPING_TOOLTIP );
 		numShapingCombo.add( BidiConstants.NUMSHAPING_NOMINAL,
@@ -199,7 +218,10 @@ public class BidiGUIUtility
 		String numeralShaping;
 		String textShaping;
 		boolean symSwap;
-
+		//bidi_acgc added start
+		Group arabicGroup = null;
+		Control[] arabicSubControls = null;
+		//bidi_acgc added end
 		Control[] controls = bidiFormatFrame.getChildren( );
 		for ( int i = 0; i < controls.length; i++ )
 		{
@@ -211,16 +233,39 @@ public class BidiGUIUtility
 				else if ( BidiConstants.TEXT_DIRECTION_TOOLTIP
 						.equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
 					textDirectionCombo = (Combo) controls[i];
-				else if ( BidiConstants.SHAPING_TOOLTIP
-						.equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
-					shapingCombo = (Combo) controls[i];
-				else if ( BidiConstants.NUMSHAPING_TOOLTIP
-						.equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
-					numShapingCombo = (Combo) controls[i];
+				//bidi_acgc deleted started : The lines are replaced below in order to add a condition
+				//to define Arabic specific features controls
+                //else if ( BidiConstants.SHAPING_TOOLTIP
+                //.equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
+                //shapingCombo = (Combo) controls[i];
+                //else if ( BidiConstants.NUMSHAPING_TOOLTIP
+                //.equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
+                //numShapingCombo = (Combo) controls[i];
+                //bidi_acgc deleted end :
+				
 				else if ( BidiConstants.SYMSWAP_TOOLTIP
 						.equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
 					symSwapCombo = (Combo) controls[i];
 			}
+			
+			//bidi_acgc added start :Check if the type of control is Group then retrieve 
+			//the Arabic specific features controls
+		    if(controls[i] instanceof Group){
+			 arabicGroup = (Group)controls[i];
+			 arabicSubControls = arabicGroup.getChildren();
+			 for(int j = 0;j<arabicSubControls.length;j++){
+				if( arabicSubControls[j] instanceof Combo ){
+				 if ( BidiConstants.SHAPING_TOOLTIP
+					.equals( ( (Combo) arabicSubControls[j] ).getToolTipText( ) ) )
+					shapingCombo = (Combo) arabicSubControls[j];
+				 else if ( BidiConstants.NUMSHAPING_TOOLTIP
+					.equals( ( (Combo) arabicSubControls[j] ).getToolTipText( ) ) )
+					numShapingCombo = (Combo) arabicSubControls[j];
+			     }
+			  }
+		 }
+		    //bidi_acgc added end
+			
 		}// end for loop
 
 		switch ( orderingSchemeCombo.getSelectionIndex( ) )
