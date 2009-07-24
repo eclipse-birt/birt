@@ -683,7 +683,7 @@ public class ExecutionContext
 
 	private Object evaluate( ICompiledScript compiledScript ) throws BirtException
 	{
-		return scriptContext.evaluate( compiledScript );
+		return getScriptContext().evaluate( compiledScript );
 	}
 
 	/**
