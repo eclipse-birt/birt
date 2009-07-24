@@ -23,7 +23,9 @@ import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButtonProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -33,11 +35,11 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -130,7 +132,19 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			}
 			else if ( ( (String) bindingName.get( i ) ).equals( PASSWORD ) )
 			{
-				propertyText = new Text( composite, SWT.BORDER | SWT.PASSWORD );
+				propertyText = new Text( composite, SWT.BORDER );
+				if ( ds instanceof DesignElementHandle )
+				{
+					Expression expr = ( (DesignElementHandle) ds ).getPropertyBindingExpression( (String) bindingName.get( i ) );
+					if ( expr != null
+							&& ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+					{
+						Text dummy = new Text( composite, SWT.BORDER
+								| SWT.PASSWORD );
+						propertyText.setEchoChar( dummy.getEchoChar( ) );
+						dummy.dispose( );
+					}
+				}
 			}
 			else
 				propertyText = new Text( composite, SWT.BORDER );
@@ -216,6 +230,11 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		};
 		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
 		exprButton.setExpressionHelper( helper );
+		
+		if( PASSWORD.equals( propName ) )
+		{
+			exprButton.setExpressionButtonProvider( new ExprButtonProvider( true, property ) );
+		}
 		
 		Expression expr = handle.getPropertyBindingExpression( propName );
 		property.setData( DataUIConstants.EXPR_BUTTON, exprButton );
@@ -344,9 +363,11 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 							expr );
 				}
 			}
-			catch ( SemanticException e )
+			catch ( Exception e )
 			{
 				logger.log( Level.FINE, e.getMessage( ), e );
+				ExceptionHandler.handle( e );
+				return true;
 			}
 		}
 		return super.performOk( );
@@ -391,6 +412,35 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	private ModuleHandle getModuleHandle( )
 	{
 		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+	}
+	
+	private class ExprButtonProvider extends ExpressionButtonProvider 
+	{
+
+		private Text propText;
+		
+		public ExprButtonProvider( boolean allowConstant, Text propText )
+		{
+			super( allowConstant );
+			this.propText = propText;
+		}
+		
+		public void handleSelectionEvent( String exprType )
+		{
+			super.handleSelectionEvent( exprType );
+			if ( ExpressionType.CONSTANT.equals( exprType ) )
+			{
+				Text dummy = new Text( propText.getParent( ), SWT.BORDER
+						| SWT.PASSWORD );
+				propText.setEchoChar( dummy.getEchoChar( ) );
+				dummy.dispose( );
+			}
+			else
+			{
+				propText.setEchoChar( (char) 0 );
+			}
+		}
+
 	}
 
 }
