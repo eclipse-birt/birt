@@ -11,11 +11,6 @@
 
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute;
 import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
@@ -24,7 +19,6 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDesignerStateHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
