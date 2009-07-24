@@ -1020,6 +1020,10 @@ public class EngineIRVisitor extends DesignVisitor
 
 	private void locateGroupIcon( TableGroupDesign group )
 	{
+		if ( group.getHideDetail( ) )
+		{
+			return;
+		}
 		GroupHandle groupHandle = (GroupHandle)group.getHandle( );
 		TableHandle tableHandle = (TableHandle) groupHandle.getContainer( );
 		String keyExpression = groupHandle.getKeyExpr();
