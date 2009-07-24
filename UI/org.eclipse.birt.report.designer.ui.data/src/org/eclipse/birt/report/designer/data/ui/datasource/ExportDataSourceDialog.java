@@ -22,13 +22,11 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -69,16 +67,12 @@ public class ExportDataSourceDialog extends StatusDialog
 
 		GridLayout parentLayout = new GridLayout( );
 		parentLayout.marginLeft = parentLayout.marginTop = parentLayout.marginRight = 10;
-		parentLayout.marginBottom = 15;
+		parentLayout.marginBottom = 5;
 		composite.setLayout( parentLayout );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		composite.setLayoutData( data );
 		
 		Label message = new Label( composite, SWT.BOLD );
-		message.setFont( new Font( Display.getCurrent( ),
-				"Times New Roman",
-				13,
-				SWT.BOLD ) );
 		message.setText( Messages.getFormattedString( "datasource.exportToCP.message",
 				new Object[]{
 					this.dataSourceHandle.getQualifiedName( )
@@ -88,7 +82,6 @@ public class ExportDataSourceDialog extends StatusDialog
 
 		Composite content = new Composite( composite, SWT.None );
 		GridLayout layout = new GridLayout( );
-		layout.marginTop = 15;
 		layout.marginWidth = 10;
 		layout.numColumns = 2;
 		content.setLayout( layout );
@@ -108,7 +101,7 @@ public class ExportDataSourceDialog extends StatusDialog
 	{
 		Label separator = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.verticalIndent = 10;
+		gd.verticalIndent = 5;
 		gd.horizontalSpan = span;
 		separator.setLayoutData( gd );
 	}
@@ -119,12 +112,12 @@ public class ExportDataSourceDialog extends StatusDialog
 		nameLabel.setText( Messages.getString( "datasource.exportToCP.label.specifyName" ) );
 		GridData labelData = new GridData( );
 		labelData.horizontalSpan = 1;
-		labelData.verticalIndent = 15;
+		labelData.verticalIndent = 5;
 		nameLabel.setLayoutData( labelData );
 
 		nameText = new Text( content, SWT.BORDER );
 		GridData textGd = new GridData( GridData.FILL_HORIZONTAL );
-		textGd.verticalIndent = 15;
+		textGd.verticalIndent = 5;
 		textGd.horizontalIndent = 10;
 		nameText.setLayoutData( textGd );
 		nameText.setText( this.fileName == null ? "" : this.fileName );
