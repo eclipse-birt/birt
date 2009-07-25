@@ -441,7 +441,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         StructureHandle</code>
 	 */
 
-	List getNativeStructureList( String propName )
+	protected List getNativeStructureList( String propName )
 	{
 		List list = new ArrayList( );
 
