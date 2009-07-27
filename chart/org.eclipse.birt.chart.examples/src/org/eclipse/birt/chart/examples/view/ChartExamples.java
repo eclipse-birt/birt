@@ -16,15 +16,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.examples.view.description.Messages;
 import org.eclipse.birt.chart.examples.view.util.ChartPreview;
 import org.eclipse.birt.chart.examples.view.util.ImportChartModel;
 import org.eclipse.birt.chart.examples.view.util.ItemContentProvider;
 import org.eclipse.birt.chart.examples.view.util.Tools;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -47,7 +47,7 @@ public class ChartExamples implements SelectionListener
 
 	private ChartPreview preview;
 
-	private Label description;
+	private Text description;
 
 	private static Chart chart;
 
@@ -121,7 +121,8 @@ public class ChartExamples implements SelectionListener
 		desGroup.setLayoutData( gridData );
 		desGroup.setText( Messages.getString("ChartExamples.Description") ); //$NON-NLS-1$
 
-		description = new Label( desGroup, SWT.WRAP );
+		description = new Text( desGroup, SWT.WRAP
+				| SWT.READ_ONLY | SWT.V_SCROLL );
 		description.setLayoutData( new GridData( GridData.FILL_VERTICAL
 				| GridData.FILL_HORIZONTAL ) );
 		description.setText( icp.getDefaultDescription( ) );
