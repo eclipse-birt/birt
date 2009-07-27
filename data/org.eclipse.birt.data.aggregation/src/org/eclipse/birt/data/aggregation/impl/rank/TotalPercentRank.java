@@ -190,8 +190,14 @@ public class TotalPercentRank extends AggrFunction
 					}
 				}
 			}
-			if ( smaller == -1 || smaller == 0 )
+			if ( smaller == -1 )
 				return 0;
+			
+			//return same result with Excel for this special case
+			if ( objs.length == 1 )
+			{
+				return 1;
+			}
 
 			double result = smaller / ( objs.length - 1 );
 
