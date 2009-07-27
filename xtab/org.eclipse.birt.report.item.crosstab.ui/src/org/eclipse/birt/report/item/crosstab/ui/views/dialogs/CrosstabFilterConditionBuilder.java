@@ -720,10 +720,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		targetLabel = new Label( parentControl, SWT.NONE );
 		targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
-		//bugzilla 282949
-		gridData = new GridData();
-		gridData.widthHint = 80;
-		targetLabel.setLayoutData( gridData );
 		
 		comboGroupLevel = new Combo( parentControl, SWT.READ_ONLY );
 		comboGroupLevel.setLayoutData( GridDataFactory.swtDefaults( ).span( 2,
@@ -803,7 +799,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 			memberValueGroup.setVisible( true );
 			targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
-			parentComposite.layout( true );
+			parentComposite.layout( true, true );
 			String groupLeveNames[] = (String[]) groupLevelNameList.toArray( new String[groupLevelNameList.size( )] );
 			comboGroupLevel.setEnabled( true );
 			comboGroupLevel.removeAll( );
@@ -837,7 +833,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 			memberValueGroup.setVisible( false );
 			targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.Measure" ) ); //$NON-NLS-1$
-			parentComposite.layout( true );
+			parentComposite.layout( true, true );
 			String measureNames[] = (String[]) measureNameList.toArray( new String[measureNameList.size( )] );
 			comboGroupLevel.setEnabled( true );
 			comboGroupLevel.removeAll( );
