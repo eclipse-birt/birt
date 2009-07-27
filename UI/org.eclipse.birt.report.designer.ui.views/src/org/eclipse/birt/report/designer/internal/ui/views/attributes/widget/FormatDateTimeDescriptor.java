@@ -246,7 +246,8 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		createCategoryPages( infoComp );
 
 		setInput( null, null );
-		setPreviewText( defaultDateTime );
+
+		setPreviewText( validatedFmtStr( defaultDateTime ) );
 	}
 
 	protected void createContentsHorizontally( )
@@ -323,7 +324,8 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		createFormatCodePages( formatCodeComp );
 
 		setInput( null, null );
-		setPreviewText( defaultDateTime );
+
+		setPreviewText( validatedFmtStr( defaultDateTime ) );
 	}
 
 	/**
@@ -1212,6 +1214,9 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 		String sampleDateTimeString = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
 				locale ).format( sampleDateTime );
+
+		sampleDateTimeString = validatedFmtStr( sampleDateTimeString );
+
 		previewTextBox.setText( sampleDateTimeString );
 
 		setPreviewText( sampleDateTimeString );
