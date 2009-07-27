@@ -648,7 +648,11 @@ public final class DataTypeUtil
         if ( source == null )
             return null;
 
-        if ( source instanceof Date )
+        if ( source instanceof java.sql.Date )
+        {
+        	return ( java.sql.Date )source;
+        }
+        else if ( source instanceof Date )
         {
     		return toSqlDate( (Date)source );
         }
