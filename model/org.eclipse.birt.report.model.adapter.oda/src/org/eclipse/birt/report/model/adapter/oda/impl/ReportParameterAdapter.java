@@ -40,12 +40,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * 
  */
 
-public class ReportParameterAdapter extends AbstractReportParameterAdapter implements
-		IReportParameterAdapter
+public class ReportParameterAdapter extends AbstractReportParameterAdapter
+		implements
+			IReportParameterAdapter
 {
 
 	/**
-	 * The data type of the scalr parameter
+	 * The data type of the scalar parameter
 	 */
 	private String dataType;
 
@@ -87,15 +88,17 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 		ParameterDefinition matchedParam = null;
 		String dataType = null;
 
-		OdaDataSetHandle setHandle = (OdaDataSetHandle) dataSetParam.getElementHandle( );
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) dataSetParam
+				.getElementHandle( );
 
 		if ( dataSetDesign != null )
 		{
 			matchedParam = getValidParameterDefinition( dataSetParam,
 					dataSetDesign.getParameters( ) );
 
-			dataType = DataSetParameterAdapter.getROMDataType( dataSetDesign.getOdaExtensionDataSourceId( ),
-					dataSetDesign.getOdaExtensionDataSetId( ),
+			dataType = DataSetParameterAdapter.getROMDataType( dataSetDesign
+					.getOdaExtensionDataSourceId( ), dataSetDesign
+					.getOdaExtensionDataSetId( ),
 					(OdaDataSetParameter) dataSetParam.getStructure( ),
 					setHandle == null ? null : setHandle.parametersIterator( ) );
 		}
@@ -107,11 +110,9 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 		try
 		{
 			if ( matchedParam != null )
-				updateLinkedReportParameter( reportParam,
-						matchedParam,
-						null,
-						dataType,
-						(OdaDataSetHandle) dataSetParam.getElementHandle( ) );
+				updateLinkedReportParameter( reportParam, matchedParam, null,
+						dataType, (OdaDataSetHandle) dataSetParam
+								.getElementHandle( ) );
 
 			updateLinkedReportParameterFromROMParameter( reportParam,
 					dataSetParam );
@@ -151,16 +152,19 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 			return true;
 
 		DataElementAttributes dataAttrs = odaParam.getAttributes( );
-		Boolean odaAllowNull = getROMNullability( dataAttrs.getNullability( ) );
+		Boolean odaAllowNull = AdapterUtil.getROMNullability( dataAttrs
+				.getNullability( ) );
 		boolean allowNull = getReportParamAllowMumble( reportParam,
 				ALLOW_NULL_PROP_NAME );
 
 		if ( odaAllowNull != null && allowNull != odaAllowNull.booleanValue( ) )
 			return false;
 
-		if ( !DesignChoiceConstants.PARAM_TYPE_ANY.equalsIgnoreCase( newDataType ) )
+		if ( !DesignChoiceConstants.PARAM_TYPE_ANY
+				.equalsIgnoreCase( newDataType ) )
 		{
-			if ( !CompareUtil.isEquals( newDataType, reportParam.getDataType( ) ) )
+			if ( !CompareUtil
+					.isEquals( newDataType, reportParam.getDataType( ) ) )
 				return false;
 		}
 
@@ -170,11 +174,12 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 			String newPromptText = dataUiHints.getDisplayName( );
 			String newHelpText = dataUiHints.getDescription( );
 
-			if ( !CompareUtil.isEquals( newPromptText,
-					reportParam.getPromptText( ) ) )
+			if ( !CompareUtil.isEquals( newPromptText, reportParam
+					.getPromptText( ) ) )
 				return false;
 
-			if ( !CompareUtil.isEquals( newHelpText, reportParam.getHelpText( ) ) )
+			if ( !CompareUtil
+					.isEquals( newHelpText, reportParam.getHelpText( ) ) )
 				return false;
 		}
 
@@ -184,10 +189,11 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 
 		if ( paramAttrs != null )
 		{
-			tmpParamDefn = (InputParameterAttributes) EcoreUtil.copy( paramAttrs );
+			tmpParamDefn = (InputParameterAttributes) EcoreUtil
+					.copy( paramAttrs );
 
-			DynamicValuesQuery tmpDynamicQuery = tmpParamDefn.getElementAttributes( )
-					.getDynamicValueChoices( );
+			DynamicValuesQuery tmpDynamicQuery = tmpParamDefn
+					.getElementAttributes( ).getDynamicValueChoices( );
 
 			if ( tmpDynamicQuery != null )
 			{
@@ -203,15 +209,16 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 		else
 			tmpParamDefn = designFactory.createInputParameterAttributes( );
 
-		InputParameterAttributes tmpParamDefn1 = designFactory.createInputParameterAttributes( );
+		InputParameterAttributes tmpParamDefn1 = designFactory
+				.createInputParameterAttributes( );
 
 		updateInputElementAttrs( tmpParamDefn1, reportParam, null );
 		if ( tmpParamDefn1.getUiHints( ) != null )
 		{
 			tmpParamDefn1.setUiHints( null );
 		}
-		DynamicValuesQuery tmpDynamicQuery1 = tmpParamDefn1.getElementAttributes( )
-				.getDynamicValueChoices( );
+		DynamicValuesQuery tmpDynamicQuery1 = tmpParamDefn1
+				.getElementAttributes( ).getDynamicValueChoices( );
 		DataSetDesign tmpDataSet1 = null;
 		if ( tmpDynamicQuery1 != null )
 		{
@@ -249,15 +256,17 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 		if ( !StringUtil.isBlank( dataType ) )
 		{
 
-			if ( !DesignChoiceConstants.PARAM_TYPE_ANY.equalsIgnoreCase( dataType ) )
+			if ( !DesignChoiceConstants.PARAM_TYPE_ANY
+					.equalsIgnoreCase( dataType ) )
 			{
 				scalarParam.setDataType( dataType );
 			}
 			else
 			{
-				scalarParam.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
+				scalarParam
+						.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
 			}
-		}		
+		}
 		super.updateLinkedReportParameterFromROMParameter( reportParam,
 				dataSetParam );
 	}
@@ -279,22 +288,25 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 	{
 		assert paramHandle instanceof ScalarParameterHandle;
 		ScalarParameterHandle scalarParam = (ScalarParameterHandle) paramHandle;
-		
-		InputParameterAttributes retInputParamAttrs = super.updateInputElementAttrs( inputParamAttrs,
-				paramHandle,
-				dataSetDesign );
-		InputElementAttributes inputAttrs = retInputParamAttrs.getElementAttributes( );
+
+		InputParameterAttributes retInputParamAttrs = super
+				.updateInputElementAttrs( inputParamAttrs, paramHandle,
+						dataSetDesign );
+		InputElementAttributes inputAttrs = retInputParamAttrs
+				.getElementAttributes( );
 		inputAttrs.setMasksValue( scalarParam.isConcealValue( ) );
 
 		InputElementUIHints uiHints = designFactory.createInputElementUIHints( );
-		uiHints.setPromptStyle( newPromptStyle( scalarParam.getControlType( ),
-				scalarParam.isMustMatch( ) ) );
+		uiHints.setPromptStyle( AdapterUtil.newPromptStyle( scalarParam
+				.getControlType( ), scalarParam.isMustMatch( ) ) );
 
 		// not set the ROM default value on ODA objects.
 
-		PropertyHandle tmpPropHandle = paramHandle.getPropertyHandle( ScalarParameterHandle.AUTO_SUGGEST_THRESHOLD_PROP );
+		PropertyHandle tmpPropHandle = paramHandle
+				.getPropertyHandle( ScalarParameterHandle.AUTO_SUGGEST_THRESHOLD_PROP );
 		if ( tmpPropHandle.isSet( ) )
-			uiHints.setAutoSuggestThreshold( scalarParam.getAutoSuggestThreshold( ) );
+			uiHints.setAutoSuggestThreshold( scalarParam
+					.getAutoSuggestThreshold( ) );
 		inputAttrs.setUiHints( uiHints );
 
 		return retInputParamAttrs;
@@ -360,7 +372,9 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 		String literalValue = super.getROMDefaultValueLiteral( setParam, value );
 
 		if ( literalValue != null
-				&& DataSetParameterAdapter.needsQuoteDelimiters( ( (ScalarParameterHandle) setParam ).getDataType( ) ) )
+				&& AdapterUtil
+						.needsQuoteDelimiters( ( (ScalarParameterHandle) setParam )
+								.getDataType( ) ) )
 		{
 			if ( ParameterValueUtil.isQuoted( value ) )
 			{
@@ -395,9 +409,7 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 		}
 		this.dataType = dataType;
 
-		updateLinkedReportParameter( reportParam,
-				paramDefn,
-				cachedParamDefn,
+		updateLinkedReportParameter( reportParam, paramDefn, cachedParamDefn,
 				setHandle );
 	}
 
@@ -422,19 +434,19 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 
 		if ( dataType == null )
 		{
-			if ( !DesignChoiceConstants.PARAM_TYPE_ANY.equalsIgnoreCase( dataType ) )
+			if ( !DesignChoiceConstants.PARAM_TYPE_ANY
+					.equalsIgnoreCase( dataType ) )
 			{
 				( (ScalarParameterHandle) reportParam ).setDataType( dataType );
 			}
 			else
 			{
-				( (ScalarParameterHandle) reportParam ).setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
+				( (ScalarParameterHandle) reportParam )
+						.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
 			}
 		}
-		super.updateAbstractScalarParameter( reportParam,
-				paramDefn,
-				cachedParamDefn,
-				setHandle );
+		super.updateAbstractScalarParameter( reportParam, paramDefn,
+				cachedParamDefn, setHandle );
 	}
 
 	/*
@@ -460,34 +472,38 @@ public class ReportParameterAdapter extends AbstractReportParameterAdapter imple
 		// update conceal value
 
 		Boolean masksValue = Boolean.valueOf( elementAttrs.isMasksValue( ) );
-		Boolean cachedMasksValues = cachedElementAttrs == null ? null
-				: Boolean.valueOf( cachedElementAttrs.isMasksValue( ) );
+		Boolean cachedMasksValues = cachedElementAttrs == null ? null : Boolean
+				.valueOf( cachedElementAttrs.isMasksValue( ) );
 
 		if ( !CompareUtil.isEquals( cachedMasksValues, masksValue ) )
-			( (ScalarParameterHandle) reportParam ).setConcealValue( masksValue.booleanValue( ) );
+			( (ScalarParameterHandle) reportParam ).setConcealValue( masksValue
+					.booleanValue( ) );
 
 		InputElementUIHints uiHints = elementAttrs.getUiHints( );
 		if ( uiHints != null )
 		{
-			InputElementUIHints cachedUiHints = cachedElementAttrs == null ? null
+			InputElementUIHints cachedUiHints = cachedElementAttrs == null
+					? null
 					: cachedElementAttrs.getUiHints( );
 			InputPromptControlStyle style = uiHints.getPromptStyle( );
 
-			InputPromptControlStyle cachedStyle = cachedUiHints == null ? null
+			InputPromptControlStyle cachedStyle = cachedUiHints == null
+					? null
 					: cachedUiHints.getPromptStyle( );
 
 			if ( cachedStyle == null
-					|| ( style != null && cachedStyle.getValue( ) != style.getValue( ) ) )
-				( (ScalarParameterHandle) reportParam ).setControlType( style == null ? null
-						: newROMControlType( style.getValue( ) ) );
+					|| ( style != null && cachedStyle.getValue( ) != style
+							.getValue( ) ) )
+				( (ScalarParameterHandle) reportParam )
+						.setControlType( style == null ? null : AdapterUtil
+								.newROMControlType( style ) );
 
-			( (ScalarParameterHandle) reportParam ).setAutoSuggestThreshold( uiHints.getAutoSuggestThreshold( ) );
+			( (ScalarParameterHandle) reportParam )
+					.setAutoSuggestThreshold( uiHints.getAutoSuggestThreshold( ) );
 		}
 
 		super.updateInputElementAttrsToReportParam( elementAttrs,
-				cachedElementAttrs,
-				reportParam,
-				setHandle );
+				cachedElementAttrs, reportParam, setHandle );
 	}
 
 }

@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.model.adapter.oda;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
@@ -155,8 +158,8 @@ public interface IModelOdaAdapter
 	 * @param setHandle
 	 *            the Model handle
 	 * @param isSourceChanged
-	 *            <code>true</code> if the data set of the given design has
-	 *            been changed. Otherwise <code>false</code>.
+	 *            <code>true</code> if the data set of the given design has been
+	 *            changed. Otherwise <code>false</code>.
 	 * @throws SemanticException
 	 *             if any of <code>sourceDesign</code> property values is not
 	 *             valid.
@@ -221,8 +224,8 @@ public interface IModelOdaAdapter
 	 *            the data source design created from data source handle
 	 * @param design
 	 *            the data source design
-	 * @return <code>true</code> if two data source designs are equal.
-	 *         Otherwise <code>false</code>.
+	 * @return <code>true</code> if two data source designs are equal. Otherwise
+	 *         <code>false</code>.
 	 */
 
 	boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
@@ -253,5 +256,42 @@ public interface IModelOdaAdapter
 
 	void updateDataSetHandle( OdaDataSetHandle handle,
 			OdaDesignSession completedSession ) throws SemanticException;
+
+	/**
+	 * Returns the ambiguous option when converts the ODA data set design to ROM
+	 * data set handle.
+	 * 
+	 * @param design
+	 *            the ODA data set design
+	 * @param handle
+	 *            the ROM data set handle
+	 * 
+	 * @return a option that gives out all ambiguous information
+	 */
+
+	public IAmbiguousOption getAmbiguousOption( DataSetDesign design,
+			OdaDataSetHandle handle );
+
+	/**
+	 * Update the specified dataset parameters list f dataSetHandle with the
+	 * latest value of design. The others in dataset handle will be handled as
+	 * default.
+	 */
+
+	public void updateDataSetHandle( DataSetDesign design,
+			OdaDataSetHandle handle, List<OdaDataSetParameter> parameterList,
+			List resultSetList, boolean isSourceChanged )
+			throws SemanticException;
+
+	/**
+	 * Update the specified dataset parameters list and resultset list of
+	 * dataSetHandle with the latest value of design. The others in dataset
+	 * handle will be handled as default.
+	 */
+
+	public void updateDataSetHandle( OdaDataSetHandle handle,
+			OdaDesignSession completedSession,
+			List<OdaDataSetParameter> parameterList, List resultSetList )
+			throws SemanticException;
 
 }

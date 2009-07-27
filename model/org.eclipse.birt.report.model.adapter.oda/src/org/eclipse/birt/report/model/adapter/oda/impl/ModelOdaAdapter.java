@@ -11,14 +11,16 @@
 
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
+import java.util.List;
+
+import org.eclipse.birt.report.model.adapter.oda.IAmbiguousOption;
 import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
-import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
-import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDesignerStateHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
@@ -35,8 +37,6 @@ import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
 public class ModelOdaAdapter implements IModelOdaAdapter
 {
 
-	private IODADesignFactory designFactory = null;
-
 	/**
 	 * Constructs a DesignEngine with the given platform config.
 	 * 
@@ -46,7 +46,6 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 	public ModelOdaAdapter( )
 	{
-		designFactory = ODADesignFactory.getFactory( );
 	}
 
 	/*
@@ -297,5 +296,57 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	{
 		new DataSetAdapter( ).updateDataSetHandle( dataSetHandle,
 				completedSession );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#getAmbiguousOption
+	 * (org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
+	 * org.eclipse.birt.report.model.api.OdaDataSetHandle)
+	 */
+	public IAmbiguousOption getAmbiguousOption( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle )
+	{
+		return new AdvancedDataSetAdapter( ).getAmbiguousOption( setDesign,
+				setHandle );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateDataSetHandle
+	 * (org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
+	 * org.eclipse.birt.report.model.api.OdaDataSetHandle, java.util.List,
+	 * java.util.List, boolean)
+	 */
+
+	public void updateDataSetHandle( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle,
+			List<OdaDataSetParameter> parameterList, List resultSetList,
+			boolean isSourceChanged ) throws SemanticException
+	{
+		new AdvancedDataSetAdapter( ).updateDataSetHandle( setDesign,
+				setHandle, parameterList, resultSetList, isSourceChanged );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateDataSetHandle(org.eclipse.birt.report.model.api.OdaDataSetHandle,
+	 * org.eclipse.datatools.connectivity.oda.design.OdaDesignSession,
+	 * java.util.List, java.util.List)
+	 */
+
+	public void updateDataSetHandle( OdaDataSetHandle setHandle,
+			OdaDesignSession completedSession,
+			List<OdaDataSetParameter> parameterList, List resultSetList )
+			throws SemanticException
+	{
+		new AdvancedDataSetAdapter( ).updateDataSetHandle( setHandle,
+				completedSession, parameterList, resultSetList );
 	}
 }

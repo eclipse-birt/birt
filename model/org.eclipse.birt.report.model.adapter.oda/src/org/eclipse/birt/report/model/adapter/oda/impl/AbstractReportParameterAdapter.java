@@ -23,16 +23,12 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
@@ -40,16 +36,13 @@ import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
-import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterUIHints;
-import org.eclipse.datatools.connectivity.oda.design.InputPromptControlStyle;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
 import org.eclipse.datatools.connectivity.oda.design.StaticValues;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -89,35 +82,6 @@ class AbstractReportParameterAdapter
 	AbstractReportParameterAdapter( )
 	{
 		designFactory = ODADesignFactory.getFactory( );
-	}
-
-	/**
-	 * Updates allowNull property for the given data set parameter definition.
-	 * 
-	 * @param romParamDefn
-	 *            the data set parameter definition.
-	 * @param nullability
-	 *            the ODA object indicates nullability.
-	 * @return <code>true</code> if is nullable. <code>false</code> if not
-	 *         nullable.
-	 */
-
-	static Boolean getROMNullability( ElementNullability nullability )
-	{
-		if ( nullability == null )
-			return null;
-
-		switch ( nullability.getValue( ) )
-		{
-			case ElementNullability.NULLABLE :
-				return Boolean.TRUE;
-			case ElementNullability.NOT_NULLABLE :
-				return Boolean.FALSE;
-			case ElementNullability.UNKNOWN :
-				return null;
-		}
-
-		return null;
 	}
 
 	/**
@@ -199,12 +163,14 @@ class AbstractReportParameterAdapter
 
 		if ( literalValue != null )
 		{
-			boolean match = ExpressionUtil.isScalarParamReference( literalValue );
+			boolean match = ExpressionUtil
+					.isScalarParamReference( literalValue );
 			if ( match )
 				return null;
 		}
 
-		if ( DataSetParameterAdapter.BIRT_JS_EXPR.equalsIgnoreCase( literalValue ) )
+		if ( DataSetParameterAdapter.BIRT_JS_EXPR
+				.equalsIgnoreCase( literalValue ) )
 		{
 			return null;
 		}
@@ -246,10 +212,8 @@ class AbstractReportParameterAdapter
 		{
 			cmdStack.startTrans( null );
 
-			updateAbstractScalarParameter( reportParam,
-					paramDefn,
-					cachedParamDefn,
-					setHandle );
+			updateAbstractScalarParameter( reportParam, paramDefn,
+					cachedParamDefn, setHandle );
 
 		}
 		catch ( SemanticException e )
@@ -285,14 +249,13 @@ class AbstractReportParameterAdapter
 			OdaDataSetHandle setHandle ) throws SemanticException
 	{
 		updateDataElementAttrsToReportParam( paramDefn.getAttributes( ),
-				cachedParamDefn == null ? null
-						: cachedParamDefn.getAttributes( ),
-				reportParam );
+				cachedParamDefn == null ? null : cachedParamDefn
+						.getAttributes( ), reportParam );
 
-		updateInputParameterAttrsToReportParam( paramDefn.getInputAttributes( ),
-				cachedParamDefn == null ? null
-						: cachedParamDefn.getInputAttributes( ),
-				reportParam,
+		updateInputParameterAttrsToReportParam(
+				paramDefn.getInputAttributes( ), cachedParamDefn == null
+						? null
+						: cachedParamDefn.getInputAttributes( ), reportParam,
 				setHandle );
 	}
 
@@ -316,9 +279,9 @@ class AbstractReportParameterAdapter
 		if ( odaParams.getParameterDefinitions( ).isEmpty( ) )
 			return null;
 
-		ParameterDefinition matchedParam = DataSetParameterAdapter.findParameterDefinition( odaParams,
-				param.getNativeName( ),
-				param.getPosition( ) );
+		ParameterDefinition matchedParam = DataSetParameterAdapter
+				.findParameterDefinition( odaParams, param.getNativeName( ),
+						param.getPosition( ) );
 		return matchedParam;
 	}
 
@@ -347,26 +310,28 @@ class AbstractReportParameterAdapter
 		boolean allowsNull = dataAttrs.allowsNull( );
 		if ( cachedDataAttrs == null
 				|| cachedDataAttrs.allowsNull( ) != allowsNull )
-			setReportParamIsRequired( reportParam,
-					ALLOW_NULL_PROP_NAME,
+			setReportParamIsRequired( reportParam, ALLOW_NULL_PROP_NAME,
 					dataAttrs.allowsNull( ) );
 
 		// reportParam.setAllowNull( dataAttrs.allowsNull( ) );
 
 		DataElementUIHints dataUiHints = dataAttrs.getUiHints( );
-		DataElementUIHints cachedDataUiHints = ( cachedDataAttrs == null ? null
+		DataElementUIHints cachedDataUiHints = ( cachedDataAttrs == null
+				? null
 				: cachedDataAttrs.getUiHints( ) );
 		if ( dataUiHints != null )
 		{
 			String displayName = dataUiHints.getDisplayName( );
-			String cachedDisplayName = cachedDataUiHints == null ? null
+			String cachedDisplayName = cachedDataUiHints == null
+					? null
 					: cachedDataUiHints.getDisplayName( );
 			if ( cachedDisplayName == null
 					|| !cachedDisplayName.equals( displayName ) )
 				reportParam.setPromptText( displayName );
 
 			String description = dataUiHints.getDescription( );
-			String cachedDescription = cachedDataUiHints == null ? null
+			String cachedDescription = cachedDataUiHints == null
+					? null
 					: cachedDataUiHints.getDescription( );
 			if ( cachedDescription == null
 					|| !cachedDescription.equals( description ) )
@@ -402,25 +367,31 @@ class AbstractReportParameterAdapter
 		if ( paramUiHints != null
 				&& reportParam.getContainer( ) instanceof ParameterGroupHandle )
 		{
-			ParameterGroupHandle paramGroup = (ParameterGroupHandle) reportParam.getContainer( );
+			ParameterGroupHandle paramGroup = (ParameterGroupHandle) reportParam
+					.getContainer( );
 
-			InputParameterUIHints cachedParamUiHints = cachedInputParamAttrs == null ? null
+			InputParameterUIHints cachedParamUiHints = cachedInputParamAttrs == null
+					? null
 					: cachedInputParamAttrs.getUiHints( );
 
-			String cachedGroupPromptDisplayName = cachedParamUiHints == null ? null
+			String cachedGroupPromptDisplayName = cachedParamUiHints == null
+					? null
 					: cachedParamUiHints.getGroupPromptDisplayName( );
 
-			String groupPromptDisplayName = paramUiHints.getGroupPromptDisplayName( );
+			String groupPromptDisplayName = paramUiHints
+					.getGroupPromptDisplayName( );
 
 			if ( cachedGroupPromptDisplayName == null
-					|| !cachedGroupPromptDisplayName.equals( groupPromptDisplayName ) )
-				paramGroup.setDisplayName( paramUiHints.getGroupPromptDisplayName( ) );
+					|| !cachedGroupPromptDisplayName
+							.equals( groupPromptDisplayName ) )
+				paramGroup.setDisplayName( paramUiHints
+						.getGroupPromptDisplayName( ) );
 		}
 
-		updateInputElementAttrsToReportParam( inputParamAttrs.getElementAttributes( ),
-				cachedInputParamAttrs == null ? null
-						: cachedInputParamAttrs.getElementAttributes( ),
-				reportParam,
+		updateInputElementAttrsToReportParam( inputParamAttrs
+				.getElementAttributes( ), cachedInputParamAttrs == null
+				? null
+				: cachedInputParamAttrs.getElementAttributes( ), reportParam,
 				setHandle );
 	}
 
@@ -448,63 +419,41 @@ class AbstractReportParameterAdapter
 			return;
 
 		// update default values.
-
 		StaticValues defaultValues = elementAttrs.getDefaultValues( );
-		StaticValues cachedDefaultValues = cachedElementAttrs == null ? null
+		StaticValues cachedDefaultValues = cachedElementAttrs == null
+				? null
 				: cachedElementAttrs.getDefaultValues( );
 
 		if ( new EcoreUtil.EqualityHelper( ).equals( cachedDefaultValues,
 				defaultValues ) == false )
 		{
-			List<String> newValues = null;
-
-			if ( defaultValues != null )
-			{
-				newValues = new ArrayList<String>( );
-				List<Object> tmpValues = defaultValues.getValues( );
-
-				for ( int i = 0; i < tmpValues.size( ); i++ )
-				{
-					String tmpValue = (String) tmpValues.get( i );
-
-					// only update when the value is not internal value.
-
-					if ( !DataSetParameterAdapter.BIRT_JS_EXPR.equals( tmpValue ) )
-						newValues.add( tmpValue );
-				}
-			}
-
-			reportParam.setDefaultValueList( newValues );
+			AdapterUtil.updateROMDefaultValues( defaultValues, reportParam );
 		}
 
 		// update isOptional value
-
 		Boolean isOptional = Boolean.valueOf( elementAttrs.isOptional( ) );
-		Boolean cachedIsOptional = cachedElementAttrs == null ? null
-				: Boolean.valueOf( cachedElementAttrs.isOptional( ) );
+		Boolean cachedIsOptional = cachedElementAttrs == null ? null : Boolean
+				.valueOf( cachedElementAttrs.isOptional( ) );
 		if ( !CompareUtil.isEquals( cachedIsOptional, isOptional ) )
-			setReportParamIsRequired( reportParam,
-					ALLOW_BLANK_PROP_NAME,
+			setReportParamIsRequired( reportParam, ALLOW_BLANK_PROP_NAME,
 					isOptional.booleanValue( ) );
 
-		// reportParam.setAllowBlank( isOptional.booleanValue( ) );
-
+		// update selection choices
 		updateROMSelectionList( elementAttrs.getStaticValueChoices( ),
-				cachedElementAttrs == null ? null
-						: cachedElementAttrs.getStaticValueChoices( ),
-				reportParam );
+				cachedElementAttrs == null ? null : cachedElementAttrs
+						.getStaticValueChoices( ), reportParam );
 
+		// update dynamic list
 		DynamicValuesQuery valueQuery = elementAttrs.getDynamicValueChoices( );
-		updateROMDyanmicList( valueQuery,
-				cachedElementAttrs == null ? null
-						: cachedElementAttrs.getDynamicValueChoices( ),
-				reportParam,
-				setHandle );
+		AdapterUtil.updateROMDyanmicList( valueQuery,
+				cachedElementAttrs == null ? null : cachedElementAttrs
+						.getDynamicValueChoices( ), reportParam, setHandle );
 
 		// for both dynamic and static parameter, the flag is in
 		// DynamicValuesQuery
 
-		DynamicValuesQuery cachedValueQuery = cachedElementAttrs == null ? null
+		DynamicValuesQuery cachedValueQuery = cachedElementAttrs == null
+				? null
 				: cachedElementAttrs.getDynamicValueChoices( );
 
 		if ( valueQuery == null && cachedValueQuery == null )
@@ -516,41 +465,18 @@ class AbstractReportParameterAdapter
 			valueQuery = designFactory.createDynamicValuesQuery( );
 
 		boolean isEnabled = valueQuery.isEnabled( );
-		boolean cachedIsEnabled = cachedValueQuery == null ? false
+		boolean cachedIsEnabled = cachedValueQuery == null
+				? false
 				: cachedValueQuery.isEnabled( );
 		if ( ( cachedValueQuery == null || cachedIsEnabled != isEnabled )
 				&& isEnabled )
-			reportParam.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
+			reportParam
+					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
 		else if ( ( cachedValueQuery == null || cachedIsEnabled != isEnabled )
 				&& !isEnabled )
-			reportParam.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
+			reportParam
+					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
 
-	}
-
-	/**
-	 * Returns ROM defined control type by given ODA defined prompt style.
-	 * 
-	 * @param promptStyle
-	 *            the ODA defined prompt style
-	 * @return the ROM defined control type
-	 */
-
-	protected static String newROMControlType( int promptStyle )
-	{
-		switch ( promptStyle )
-		{
-			case InputPromptControlStyle.CHECK_BOX :
-				return DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX;
-			case InputPromptControlStyle.SELECTABLE_LIST :
-			case InputPromptControlStyle.SELECTABLE_LIST_WITH_TEXT_FIELD :
-				return DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
-			case InputPromptControlStyle.RADIO_BUTTON :
-				return DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON;
-			case InputPromptControlStyle.TEXT_FIELD :
-				return DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX;
-		}
-
-		return null;
 	}
 
 	/**
@@ -573,95 +499,15 @@ class AbstractReportParameterAdapter
 		if ( staticChoices == null )
 			return;
 
-		String newChoiceStr = DesignObjectSerializer.toExternalForm( staticChoices );
-		String latestChoiceStr = DesignObjectSerializer.toExternalForm( cachedStaticChoices );
+		String newChoiceStr = DesignObjectSerializer
+				.toExternalForm( staticChoices );
+		String latestChoiceStr = DesignObjectSerializer
+				.toExternalForm( cachedStaticChoices );
 
 		if ( latestChoiceStr != null && latestChoiceStr.equals( newChoiceStr ) )
 			return;
 
-		List retList = new ArrayList( );
-
-		EList choiceList = staticChoices.getScalarValues( );
-		for ( int i = 0; i < choiceList.size( ); i++ )
-		{
-			ScalarValueDefinition valueDefn = (ScalarValueDefinition) choiceList.get( i );
-
-			SelectionChoice choice = StructureFactory.createSelectionChoice( );
-
-			choice.setValue( valueDefn.getValue( ) );
-			choice.setLabel( valueDefn.getDisplayName( ) );
-			retList.add( choice );
-		}
-
-		PropertyHandle propHandle = paramHandle.getPropertyHandle( AbstractScalarParameterHandle.SELECTION_LIST_PROP );
-
-		propHandle.clearValue( );
-
-		for ( int i = 0; i < retList.size( ); i++ )
-		{
-			propHandle.addItem( retList.get( i ) );
-		}
-	}
-
-	/**
-	 * Updates values in DynamicValuesQuery to the given report parameter.
-	 * 
-	 * @param dataAttrs
-	 *            the latest dynamic values
-	 * @param cachedDataAttrs
-	 *            the cached dynamic values
-	 * @param reportParam
-	 *            the report parameter
-	 * @throws SemanticException
-	 */
-
-	private void updateROMDyanmicList( DynamicValuesQuery valueQuery,
-			DynamicValuesQuery cachedValueQuery,
-			AbstractScalarParameterHandle reportParam,
-			OdaDataSetHandle setHandle ) throws SemanticException
-	{
-		if ( valueQuery == null )
-			return;
-
-		String value = valueQuery.getDataSetDesign( ).getName( );
-		String cachedValue = cachedValueQuery == null ? null
-				: cachedValueQuery.getDataSetDesign( ).getName( );
-		if ( cachedValue == null || !cachedValue.equals( value ) )
-		{
-
-			reportParam.setDataSetName( value );
-
-			// update the data set instance. To avoid recursivly convert,
-			// compare set handle instances.
-
-			ModuleHandle module = setHandle.getModuleHandle( );
-			DataSetHandle target = module.findDataSet( value );
-			if ( target instanceof OdaDataSetHandle && target != setHandle )
-				new ModelOdaAdapter( ).updateDataSetHandle( valueQuery.getDataSetDesign( ),
-						(OdaDataSetHandle) target,
-						false );
-
-			// if there is no corresponding data set, creates a new one.
-
-			if ( target == null )
-			{
-				OdaDataSetHandle nestedDataSet = new ModelOdaAdapter( ).createDataSetHandle( valueQuery.getDataSetDesign( ),
-						module );
-				module.getDataSets( ).add( nestedDataSet );
-			}
-		}
-
-		value = valueQuery.getValueColumn( );
-		cachedValue = cachedValueQuery == null ? null
-				: cachedValueQuery.getValueColumn( );
-		if ( cachedValue == null || !cachedValue.equals( value ) )
-			reportParam.setValueExpr( value );
-
-		value = valueQuery.getDisplayNameColumn( );
-		cachedValue = cachedValueQuery == null ? null
-				: cachedValueQuery.getDisplayNameColumn( );
-		if ( cachedValue == null || !cachedValue.equals( value ) )
-			reportParam.setLabelExpr( value );
+		AdapterUtil.updateROMSelectionList( staticChoices, paramHandle );
 	}
 
 	/**
@@ -686,12 +532,11 @@ class AbstractReportParameterAdapter
 		if ( paramDefn == null )
 			return null;
 
-		paramDefn.setAttributes( updateDataElementAttrs( paramDefn.getAttributes( ),
-				paramHandle ) );
+		paramDefn.setAttributes( updateDataElementAttrs( paramDefn
+				.getAttributes( ), paramHandle ) );
 
-		paramDefn.setInputAttributes( updateInputElementAttrs( paramDefn.getInputAttributes( ),
-				paramHandle,
-				dataSetDesign ) );
+		paramDefn.setInputAttributes( updateInputElementAttrs( paramDefn
+				.getInputAttributes( ), paramHandle, dataSetDesign ) );
 		return paramDefn;
 	}
 
@@ -715,8 +560,9 @@ class AbstractReportParameterAdapter
 		// retDataAttrs.setNullability( DataSetParameterAdapter
 		// .newElementNullability( paramHandle.allowNll( ) ) );
 
-		retDataAttrs.setNullability( DataSetParameterAdapter.newElementNullability( getReportParamAllowMumble( paramHandle,
-				ALLOW_NULL_PROP_NAME ) ) );
+		retDataAttrs.setNullability( DataSetParameterAdapter
+				.newElementNullability( getReportParamAllowMumble( paramHandle,
+						ALLOW_NULL_PROP_NAME ) ) );
 
 		DataElementUIHints uiHints = designFactory.createDataElementUIHints( );
 		uiHints.setDisplayName( paramHandle.getPromptText( ) );
@@ -749,7 +595,8 @@ class AbstractReportParameterAdapter
 		if ( inputParamAttrs == null )
 			retInputParamAttrs = designFactory.createInputParameterAttributes( );
 
-		InputElementAttributes inputAttrs = retInputParamAttrs.getElementAttributes( );
+		InputElementAttributes inputAttrs = retInputParamAttrs
+				.getElementAttributes( );
 		if ( inputAttrs == null )
 			inputAttrs = designFactory.createInputElementAttributes( );
 
@@ -776,9 +623,11 @@ class AbstractReportParameterAdapter
 		{
 			if ( staticChoices == null )
 				staticChoices = designFactory.createScalarValueChoices( );
-			SelectionChoiceHandle choice = (SelectionChoiceHandle) selectionList.next( );
+			SelectionChoiceHandle choice = (SelectionChoiceHandle) selectionList
+					.next( );
 
-			ScalarValueDefinition valueDefn = designFactory.createScalarValueDefinition( );
+			ScalarValueDefinition valueDefn = designFactory
+					.createScalarValueDefinition( );
 			valueDefn.setValue( choice.getValue( ) );
 			valueDefn.setDisplayName( choice.getLabel( ) );
 
@@ -792,24 +641,29 @@ class AbstractReportParameterAdapter
 
 		if ( setHandle instanceof OdaDataSetHandle && valueExpr != null )
 		{
-			DynamicValuesQuery valueQuery = designFactory.createDynamicValuesQuery( );
+			DynamicValuesQuery valueQuery = designFactory
+					.createDynamicValuesQuery( );
 
 			if ( dataSetDesign != null )
 			{
-				DataSetDesign targetDataSetDesign = (DataSetDesign) EcoreUtil.copy( dataSetDesign );
+				DataSetDesign targetDataSetDesign = (DataSetDesign) EcoreUtil
+						.copy( dataSetDesign );
 				if ( !setHandle.getName( ).equals( dataSetDesign.getName( ) ) )
-					targetDataSetDesign = new ModelOdaAdapter( ).createDataSetDesign( (OdaDataSetHandle) setHandle );
+					targetDataSetDesign = new ModelOdaAdapter( )
+							.createDataSetDesign( (OdaDataSetHandle) setHandle );
 				valueQuery.setDataSetDesign( targetDataSetDesign );
 			}
 			else
 			{
-				DataSetDesign targetDataSetDesign = new ModelOdaAdapter( ).createDataSetDesign( (OdaDataSetHandle) setHandle );
+				DataSetDesign targetDataSetDesign = new ModelOdaAdapter( )
+						.createDataSetDesign( (OdaDataSetHandle) setHandle );
 				valueQuery.setDataSetDesign( targetDataSetDesign );
 			}
 			valueQuery.setDisplayNameColumn( labelExpr );
 			valueQuery.setValueColumn( valueExpr );
 
-			boolean isEnabled = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC.equalsIgnoreCase( paramHandle.getValueType( ) );
+			boolean isEnabled = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
+					.equalsIgnoreCase( paramHandle.getValueType( ) );
 
 			valueQuery.setEnabled( isEnabled );
 			inputAttrs.setDynamicValueChoices( valueQuery );
@@ -817,51 +671,19 @@ class AbstractReportParameterAdapter
 
 		if ( paramHandle.getContainer( ) instanceof ParameterGroupHandle )
 		{
-			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramHandle.getContainer( );
+			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramHandle
+					.getContainer( );
 
-			InputParameterUIHints paramUiHints = designFactory.createInputParameterUIHints( );
-			paramUiHints.setGroupPromptDisplayName( groupHandle.getDisplayName( ) );
+			InputParameterUIHints paramUiHints = designFactory
+					.createInputParameterUIHints( );
+			paramUiHints.setGroupPromptDisplayName( groupHandle
+					.getDisplayName( ) );
 
 			retInputParamAttrs.setUiHints( paramUiHints );
 		}
 
 		retInputParamAttrs.setElementAttributes( inputAttrs );
 		return retInputParamAttrs;
-	}
-
-	/**
-	 * Returns the prompty style with the given ROM defined parameter type.
-	 * 
-	 * @param romType
-	 *            the ROM defined parameter type
-	 * @param mustMatch
-	 *            <code>true</code> if means list box, <code>false</code> means
-	 *            combo box.
-	 * @return the new InputPromptControlStyle
-	 */
-
-	protected static InputPromptControlStyle newPromptStyle( String romType,
-			boolean mustMatch )
-	{
-		if ( romType == null )
-			return null;
-
-		int type = -1;
-		if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equalsIgnoreCase( romType ) )
-			type = InputPromptControlStyle.CHECK_BOX;
-		else if ( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX.equalsIgnoreCase( romType ) )
-		{
-			if ( mustMatch )
-				type = InputPromptControlStyle.SELECTABLE_LIST;
-			else
-				type = InputPromptControlStyle.SELECTABLE_LIST_WITH_TEXT_FIELD;
-		}
-		else if ( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equalsIgnoreCase( romType ) )
-			type = InputPromptControlStyle.RADIO_BUTTON;
-		else if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equalsIgnoreCase( romType ) )
-			type = InputPromptControlStyle.TEXT_FIELD;
-
-		return InputPromptControlStyle.get( type );
 	}
 
 	/**

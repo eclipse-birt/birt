@@ -182,7 +182,7 @@ class DataSetParameterAdapter
 			odaParamDefn = (ParameterDefinition) EcoreUtil
 					.copy( lastOdaParamDefn );
 
-		odaParamDefn.setInOutMode( newParameterMode( paramHandle.isInput( ),
+		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode( paramHandle.isInput( ),
 				paramHandle.isOutput( ) ) );
 		odaParamDefn.setAttributes( newDataElementAttrs( paramHandle,
 				odaParamDefn.getAttributes( ) ) );
@@ -198,30 +198,6 @@ class DataSetParameterAdapter
 				inputAttrs.getElementAttributes( ) ) );
 
 		return odaParamDefn;
-	}
-
-	/**
-	 * Creates a ODA ParameterMode with the given parameter input/output flags.
-	 * 
-	 * @param isInput
-	 *            the parameter is inputable.
-	 * @param isOutput
-	 *            the parameter is outputable
-	 * @return the created <code>ParameterMode</code>.
-	 */
-
-	private static ParameterMode newParameterMode( boolean isInput,
-			boolean isOutput )
-	{
-		int mode = ParameterMode.IN;
-		if ( isOutput && isInput )
-			mode = ParameterMode.IN_OUT;
-		else if ( isOutput )
-			mode = ParameterMode.OUT;
-		else if ( isInput )
-			mode = ParameterMode.IN;
-
-		return ParameterMode.get( mode );
 	}
 
 	/**
@@ -317,6 +293,7 @@ class DataSetParameterAdapter
 		if ( newDirerction != oldDirection )
 			updateROMParameterMode( setParam, paramMode );
 
+		// remove the link to report parameter in special case
 		if ( ( oldDirection == ParameterMode.IN || oldDirection == ParameterMode.IN_OUT )
 				&& newDirerction == ParameterMode.OUT )
 			setParam.setParamName( null );
@@ -1183,7 +1160,7 @@ class DataSetParameterAdapter
 			quotataionMark = originalValue.substring( 0, 1 );
 		}
 
-		String romDefaultValue = needsQuoteDelimiters( setParam
+		String romDefaultValue = AdapterUtil.needsQuoteDelimiters( setParam
 				.getParameterDataType( ) ) ? ParameterValueUtil.toJsExprValue(
 				literalValue, quotataionMark ) : literalValue;
 		setParam.setDefaultValue( romDefaultValue );
@@ -1207,7 +1184,7 @@ class DataSetParameterAdapter
 	{
 		String literalValue = value;
 
-		if ( needsQuoteDelimiters( dataType ) )
+		if ( AdapterUtil.needsQuoteDelimiters( dataType ) )
 		{
 			if ( ParameterValueUtil.isQuoted( value ) )
 				literalValue = ParameterValueUtil.toLiteralValue( value );
@@ -1224,33 +1201,6 @@ class DataSetParameterAdapter
 		}
 
 		elementAttrs.setDefaultValues( newValues );
-	}
-
-	/**
-	 * Checks whether the data type needs quote.
-	 * 
-	 * @param romDataType
-	 *            the ROM defined data type
-	 * @return <code>true</code> if data type is string. Otherwise
-	 *         <code>false</code>.
-	 */
-
-	static boolean needsQuoteDelimiters( String romDataType )
-	{
-		boolean needs = false;
-
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( romDataType ) )
-			needs = true;
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-				.equals( romDataType ) )
-			needs = true;
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( romDataType ) )
-			needs = true;
-		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( romDataType ) )
-			needs = true;
-		else if ( DesignChoiceConstants.PARAM_TYPE_ANY.equals( romDataType ) )
-			needs = true;
-		return needs;
 	}
 
 	/**
