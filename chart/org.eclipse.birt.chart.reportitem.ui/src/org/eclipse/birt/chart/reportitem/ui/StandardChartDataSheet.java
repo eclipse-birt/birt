@@ -1244,7 +1244,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					cmbDataItems.select( 0 );
 					currentData = null;
 					cmbDataItems.setEnabled( false );
-					cmbInherit.setEnabled( getDataServiceProvider( ).getReportDataSet( ) != null );
+					cmbInherit.setEnabled( getDataServiceProvider( ).getReportDataSet( ) != null
+							&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
 					setEnabledForButtons( );
 					updateDragDataSource( );
 					updatePredefinedQueries( );
