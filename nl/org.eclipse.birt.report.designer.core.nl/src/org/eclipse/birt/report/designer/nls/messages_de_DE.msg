@@ -4132,7 +4132,7 @@ PublishLibraryDialog.Message.FileNameEmpty=Dateiname erforderlich.
 PublishLibraryDialog.Message.FileNameError=Dateiname muss auf .rptlibrary enden.
 PublishLibraryDialog.Message.FolderEmpty=Veröffentlichungsordner erforderlich.
 PublishLibraryDialog.Message.SourceFileEmpty=Name der Quelldatei erforderlich.
-PublishLibraryDialog.Label.Browse2=D&urchsuchen...
+PublishLibraryDialog.Label.Browse2=&Durchsuchen...
 PublishLibraryDialog.AddText=Bibliothek hinzufügen
 PublishLibraryDialog.AddMessage=Bibliothek zum BIRT-Ressourcenordner hinzufügen
 
@@ -4153,7 +4153,7 @@ PublishCSSDialog.Label.SourceFileName=&Quelldatei:
 PublishCSSDialog.Label.FileName=Datei&name:
 PublishCSSDialog.Label.Folder=&Ordner:
 PublishCSSDialog.Label.Browse=&Durchsuchen...
-PublishCSSDialog.Label.Browse2=D&urchsuchen...
+PublishCSSDialog.Label.Browse2=&Durchsuchen...
 
 PublishCSSDialog.ErrorMessage.SelectFolder=Wählen Sie einen Ordner aus.
 
@@ -4188,7 +4188,7 @@ PublishResourceDialog.Label.FileName=&Dateiname:
 PublishResourceDialog.Label.SourceFileName=&Quelldatei:
 PublishResourceDialog.Label.Folder=&Ordner:
 PublishResourceDialog.Label.Browse=&Durchsuchen...
-PublishResourceDialog.Label.Browse2=D&urchsuchen...
+PublishResourceDialog.Label.Browse2=&Durchsuchen...
 WizardResourceSettingPage.ErrorMessage=Wählen Sie einen Ordner aus.
 WizardResourceSettingPage.Resourcefile.Dialog.Title=Ressourcenordner durchsuchen
 WizardResourceSettingPage.Resourcefile.Dialog.Message=Wählen Sie den Ressourcenordner oder dessen Unterordner aus.
