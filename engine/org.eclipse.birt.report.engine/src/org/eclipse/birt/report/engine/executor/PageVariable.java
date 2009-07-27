@@ -22,6 +22,7 @@ public class PageVariable
 	protected String scope;
 	protected String name;
 	protected Object value;
+	protected Object defaultValue;
 
 	public PageVariable( String name, String scope )
 	{
@@ -53,6 +54,16 @@ public class PageVariable
 	public String getName( )
 	{
 		return name;
+	}
+
+	public void setDefaultValue( Object value )
+	{
+		this.defaultValue = value;
+	}
+
+	public Object getDefaultValue( )
+	{
+		return defaultValue;
 	}
 
 }

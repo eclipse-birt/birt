@@ -136,6 +136,7 @@ public class ReportExecutor implements IReportExecutor
 				try
 				{
 					Object value = context.evaluate( expr );
+					var.setDefaultValue( value );
 					var.setValue( value );
 				}
 				catch ( BirtException ex )

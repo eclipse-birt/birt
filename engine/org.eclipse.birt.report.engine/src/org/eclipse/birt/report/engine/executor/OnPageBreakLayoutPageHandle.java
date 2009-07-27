@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -165,6 +166,19 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 
 		OnPageBreakScriptVisitor onPageBreakVisitor = new OnPageBreakScriptVisitor(
 				executionContext );
+
+		// reset the page variables
+		Collection<PageVariable> pageVariables = executionContext
+				.getPageVariables( );
+		for ( PageVariable pageVar : pageVariables )
+		{
+			if ( PageVariable.SCOPE_PAGE.equals( pageVar.getScope( ) ) )
+			{
+				Object value = pageVar.getDefaultValue( );
+				pageVar.setValue( value );
+			}
+		}
+
 		onPageBreakVisitor.onPageStart( report, pageContent, contents );
 		onPageBreakVisitor.onPageStart( pageContent, contents );
 		for ( IContent content : contents )
