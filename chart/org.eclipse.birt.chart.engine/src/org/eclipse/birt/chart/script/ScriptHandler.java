@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -35,8 +36,6 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.render.ISeriesRenderer;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.SecurityUtil;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * This class forms the basis of script handling in the charting library. It
@@ -249,11 +248,14 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 */
 	public final Object jsFunction_clone( Object eo )
 	{
-		if ( !( eo instanceof EObject ) )
+		if ( eo instanceof IChartObject )
+		{
+			return ( (IChartObject) eo ).copyInstance( );
+		}
+		else
 		{
 			return null;
 		}
-		return EcoreUtil.copy( (EObject) eo );
 	}
 
 	/**
