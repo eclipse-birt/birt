@@ -32,6 +32,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String FONT_SUBSTITUTION = "FontSubstitution";
 	private static final String BIDI_PROCESSING = "BIDIProcessing";
 	private static final String TEXT_WRAPPING = "TextWrapping";
+	private static final String EMBEDED_FONT = "EmbededFont";
 
 	private IConfigurableOption[] options;
 
@@ -109,8 +110,20 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		pageOverFlow.setDescription( Messages
 				.getString( "OptionDescription.PageOverFlow" ) ); //$NON-NLS-1$
 
+		// Initializes the option for isEmbededFont.
+		ConfigurableOption embededFont = new ConfigurableOption( EMBEDED_FONT );
+		embededFont.setDisplayName( Messages
+				.getString( "OptionDisplayValue.EmbededFont" ) ); //$NON-NLS-1$
+		embededFont.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		embededFont
+				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		embededFont.setDefaultValue( Boolean.TRUE );
+		embededFont.setToolTip( null );
+		embededFont.setDescription( Messages
+				.getString( "OptionDescription.EmbededFont" ) ); //$NON-NLS-1$
+
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow,};
+				fontSubstitution, pageOverFlow, embededFont};
 
 	}
 
@@ -167,6 +180,10 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( FONT_SUBSTITUTION.equals( name ) )
 		{
 			return IPDFRenderOption.PDF_FONT_SUBSTITUTION;
+		}
+		if ( EMBEDED_FONT.equals( name ) )
+		{
+			return IPDFRenderOption.IS_EMBEDDED_FONT;
 		}
 		return name;
 	}
