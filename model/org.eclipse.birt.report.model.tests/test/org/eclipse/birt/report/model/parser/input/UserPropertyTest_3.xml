@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <body>
+        <label name="Test Label" id="5">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">TestProperty</property>
+                    <property name="type">expression</property>
+                    <property name="isVisible">true</property>
+                    <expression name="default" type="constant">Test</expression>
+                </structure>
+            </list-property>
+        </label>
+    </body>
+</report>

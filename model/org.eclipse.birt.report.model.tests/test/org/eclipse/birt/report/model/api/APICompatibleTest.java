@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -23,6 +24,9 @@ import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -492,6 +496,25 @@ public class APICompatibleTest extends BaseTestCase
 		param.setDefaultValue( "default value 1" );  //$NON-NLS-1$
 		List<Expression> tmpValues = param.getDefaultValueList( );
 		assertTrue( tmpValues.get( 0 ) instanceof Expression );
+	}
+	
+	/**
+	 * Backward for the default value of the user property when its type is expression.
+	 * 
+	 * @throws Exception
+	 */
+	public void testUserPropertyDefaultValue( ) throws Exception
+	{
+		UserPropertyDefn defn = new UserPropertyDefn( );
+		defn.setName( "TestProperty" ); //$NON-NLS-1$
+		defn.setType( MetaDataDictionary.getInstance( ).getPropertyType(
+				PropertyType.EXPRESSION_TYPE_NAME ) );
+		assertTrue( defn.allowExpression( ) );		
+		defn.setDefault( "Test" );	//$NON-NLS-1$
+		assertTrue( defn.getDefault( ) instanceof Expression );
+		Expression defaultValue = (Expression) defn.getDefault( );
+		assertEquals( "Test", defaultValue.getExpression( ) );
+		assertEquals( IExpressionType.CONSTANT, defaultValue.getType( ) );
 	}
 
 }

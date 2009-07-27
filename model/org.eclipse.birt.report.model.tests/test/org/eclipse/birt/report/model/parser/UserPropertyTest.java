@@ -15,12 +15,15 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -36,8 +39,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * The Test Case of user-defined properties parse.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -70,25 +72,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 public class UserPropertyTest extends BaseTestCase
 {
-
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( "UserPropertyTest.xml" ); //$NON-NLS-1$ 	
-
-	}
-
-	/*
-	 * @see TestCase#tearDown()
-	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
+	
 	/**
 	 * Test the exceptions parsing the user-defined properties.
 	 * 
@@ -144,6 +128,22 @@ public class UserPropertyTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "UserPropertyTest_golden.xml" ) ); //$NON-NLS-1$
+		
+		createDesign( );
+		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
+		designHandle.getBody( ).add( label );
+		UserPropertyDefn defn = new UserPropertyDefn( );
+		defn.setName( "TestProperty" ); //$NON-NLS-1$
+		defn.setType( MetaDataDictionary.getInstance( ).getPropertyType(
+				PropertyType.EXPRESSION_TYPE_NAME ) );
+		assertTrue( defn.allowExpression( ) );
+		Expression expr = new Expression( "new Date()",IExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+		defn.setDefault( expr );
+		label.addUserPropertyDefn( defn );
+		
+		save( );
+		assertTrue( compareFile( "UserPropertyTest_1_golden.xml" ) ); //$NON-NLS-1$
+
 	}
 
 	/**
@@ -280,4 +280,23 @@ public class UserPropertyTest extends BaseTestCase
 		assertTrue( !UserPropertyDefn.getAllowedTypes( ).contains(
 				new ExtendsPropertyType( ) ) );
 	}
+
+	/**
+	 * Tests expression default value 
+	 * @throws Exception
+	 */
+	public void testParserDefaultExpression( ) throws Exception
+	{
+		openDesign( "UserPropertyTest_3.xml" );		 //$NON-NLS-1$
+		LabelHandle label = (LabelHandle) designHandle.findElement( "Test Label" );		 //$NON-NLS-1$
+		UserPropertyDefn defn = (UserPropertyDefn) label.getUserProperties( ).get( 0 );
+		assertEquals( "TestProperty", defn.getName( ) ); //$NON-NLS-1$
+		assertTrue( defn.allowExpression( ) );
+		assertEquals( PropertyType.EXPRESSION_TYPE, defn.getType( ).getTypeCode( ) );
+		assertTrue ( defn.getDefault( ) instanceof Expression );
+		Expression expr = (Expression) defn.getDefault( );
+		assertEquals( IExpressionType.CONSTANT, expr.getType( ) );
+		assertEquals( "Test", expr.getStringExpression( ) ); //$NON-NLS-1$
+	}
+			
 }

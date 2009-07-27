@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -82,7 +83,9 @@ public class UserPropertyStructureState extends StructureState
 					struct );
 		if ( ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue )
 			return new TextPropertyState( handler, element, struct );
-
+		if ( ParserSchemaConstants.EXPRESSION_TAG == tagValue )
+			return new UserExpressionState( handler, element, propDefn, struct );
+		
 		return super.startElement( tagName );
 	}
 
@@ -499,6 +502,41 @@ public class UserPropertyStructureState extends StructureState
 			{
 				super.end( );
 			}
+		}
+	}
+	
+	class UserExpressionState extends ExpressionState
+	{
+
+		UserExpressionState( ModuleParserHandler theHandler,
+				DesignElement element, PropertyDefn propDefn, IStructure struct )
+		{
+			super( theHandler, element, propDefn, struct );
+		}
+		
+		protected void doEnd( Object value )
+		{
+			if ( UserPropertyDefn.DEFAULT_MEMBER.equals( name ) )
+			{
+				if ( ( (UserPropertyDefn) struct ).allowExpression( ) )
+				{
+					Expression expr = new Expression( value, exprType );
+					( (UserPropertyDefn) struct ).setDefault( expr );
+				}
+				else
+				{
+					handler
+						.getErrorHandler( )
+						.semanticError(
+							new UserPropertyException(
+									element,
+									( (UserPropertyDefn) struct )
+											.getName( ),
+									UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE ) );
+				}
+				return;
+			}
+			super.doEnd( value );
 		}
 	}
 }

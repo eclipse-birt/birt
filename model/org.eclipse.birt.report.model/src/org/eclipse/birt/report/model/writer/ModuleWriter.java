@@ -1302,12 +1302,26 @@ public abstract class ModuleWriter extends ElementVisitor
 					UserPropertyDefn.DISPLAY_NAME_MEMBER );
 
 			// write default value
-
-			if ( propDefn.getDefault( ) != null )
-				writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-						UserPropertyDefn.DEFAULT_MEMBER, null, propDefn
-								.getXmlValue( null, propDefn.getDefault( ) ),
-						false );
+			
+			Object defaultValue = propDefn.getDefault( );
+			if ( defaultValue != null )
+			{
+				if ( defaultValue instanceof Expression && propDefn.allowExpression( ) )
+				{
+					writeEntry( DesignSchemaConstants.EXPRESSION_TAG,
+							UserPropertyDefn.DEFAULT_MEMBER, null,
+							( (Expression)defaultValue ).getType( ), 
+							propDefn.getXmlValue( null, defaultValue ),
+							false );
+				}
+				else
+				{
+					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
+							UserPropertyDefn.DEFAULT_MEMBER, null, propDefn
+									.getXmlValue( null, defaultValue ),
+							false );
+				}
+			}
 
 			IChoiceSet choiceSet = propDefn.getChoices( );
 

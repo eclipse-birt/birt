@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -225,6 +227,10 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		{
 			assert value instanceof Boolean;
 			isVisible = (Boolean) value;
+		}
+		else if ( memberName.equals( DEFAULT_MEMBER ) ) 
+		{
+			setDefault( value );
 		}
 	}
 
@@ -591,6 +597,11 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 	public void setDefault( Object value )
 	{
+		if ( value != null && getTypeCode( ) == IPropertyType.EXPRESSION_TYPE
+				&& !( value instanceof Expression ) )
+		{
+			value = new Expression( value, IExpressionType.CONSTANT );
+		}
 		super.setDefault( value );
 	}
 
