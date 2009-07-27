@@ -1112,7 +1112,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 
-		cmbInherit.setEnabled( getDataServiceProvider( ).getReportDataSet( ) != null );
+		cmbInherit.setEnabled( getDataServiceProvider( ).getReportDataSet( ) != null
+				&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
+		if ( !cmbInherit.isEnabled( ) )
+		{
+			// If container is not inheritable, set inherit column only.
+			cmbInherit.select( 1 );
+		}
 		btnInherit.setSelection( true );		
 		bIsInheritSelected = true;
 		if ( getDataServiceProvider( ).isInheritanceOnly( ) )
