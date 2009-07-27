@@ -123,10 +123,10 @@ public abstract class EngineTask implements IEngineTask
 	protected Logger log;
 
 	/**
-	 * Comment for <code>locale</code>
+	 * the locale used in this task
 	 */
-	protected Locale locale = Locale.getDefault( );
-	
+	protected ULocale ulocale = ULocale.getDefault( );
+
 	/**
 	 * define a time zone, and set a default value 
 	 */
@@ -230,7 +230,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public Locale getLocale( )
 	{
-		return locale;
+		return ulocale.toLocale( );
 	}
 
 	/**
@@ -238,7 +238,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public ULocale getULocale( )
 	{
-		return ULocale.forLocale( locale );
+		return ulocale;
 	}
 
 	/**
@@ -258,14 +258,14 @@ public abstract class EngineTask implements IEngineTask
 		log.log( Level.FINE, "EngineTask.setLocale: locale={0}", locale == null
 				? null
 				: locale.getDisplayName( ) );
-		doSetLocale( locale );
+		doSetLocale( ULocale.forLocale( locale ) );
 	}
 
-	private void doSetLocale( Locale locale )
+	private void doSetLocale( ULocale locale )
 	{
-		this.locale = locale;
-		executionContext.setLocale( locale );
-		EngineException.setULocale( ULocale.forLocale( locale ) );
+		this.ulocale = locale;
+		executionContext.setLocale( ulocale );
+		EngineException.setULocale( ulocale );
 	}
 
 	/**
@@ -274,15 +274,15 @@ public abstract class EngineTask implements IEngineTask
 	 * @param locale
 	 *            the task locale
 	 */
-	public void setLocale( ULocale uLocale )
+	public void setLocale( ULocale ulocale )
 	{
-		if ( uLocale == null )
+		if ( ulocale == null )
 		{
 			throw new NullPointerException( );
 		}
 		log.log( Level.FINE, "EngineTask.setLocale: uLocale={0}",
-				uLocale == null ? null : uLocale.getDisplayName( ) );
-		doSetLocale( uLocale.toLocale( ) );
+				ulocale == null ? null : ulocale.getDisplayName( ) );
+		doSetLocale( ulocale );
 	}
 
 	public void setTimeZone( TimeZone timeZone )

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -58,7 +57,8 @@ public class ParameterHelper
 	static final int SCALAR_PARAMETER = 1;
 	static final int FILTER_PARAMETER = 2;
 
-	public ParameterHelper( AbstractScalarParameterHandle param, Locale locale, TimeZone timezone )
+	public ParameterHelper( AbstractScalarParameterHandle param,
+			ULocale ulocale, TimeZone timezone )
 	{
 		this.labelColumnName = getLabelColumnName( param );
 		this.valueColumnName = getValueColumnName( param );
@@ -87,13 +87,12 @@ public class ParameterHelper
 		if ( !( parameterType == SCALAR_PARAMETER && fixedOrder )
 				&& !alreadySorted )
 		{
-			Comparator choiceComparator = new SelectionChoiceComparator( sortByLabel,
-					pattern, sortDirectionValue, ULocale.forLocale( locale ) );
+			Comparator choiceComparator = new SelectionChoiceComparator(
+					sortByLabel, pattern, sortDirectionValue, ulocale );
 			this.comparator = new DistinctComparatorDecorator( choiceComparator,
 					distinct );
 		}
-		this.converter = new ReportParameterConverter( null, ULocale
-				.forLocale( locale ), timezone );
+		this.converter = new ReportParameterConverter( null, ulocale, timezone );
 	}
 	
 	public CascadingParameterSelectionChoice createCascadingParameterSelectionChoice(

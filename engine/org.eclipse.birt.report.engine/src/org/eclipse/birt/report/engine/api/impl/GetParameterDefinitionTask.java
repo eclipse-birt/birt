@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,6 +117,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( parameterDefns != null )
 		{
 			ReportDesignHandle designHandle = executionContext.getDesign( );
+			Locale locale = ulocale.toLocale( );
 			iter = parameterDefns.iterator( );
 			while ( iter.hasNext( ) )
 			{
@@ -193,7 +195,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		
 		if ( ret != null )
 		{
-
+			Locale locale = ulocale.toLocale( );
 			if ( ret instanceof ScalarParameterDefn )
 			{
 				( (ScalarParameterDefn) ret )
@@ -368,7 +370,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				if ( !fixedOrder )
 					Collections.sort( choices, new SelectionChoiceComparator(
 							sortByLabel, parameter.getPattern( ),
-							sortDirectionValue, ULocale.forLocale( locale ) ) );
+							sortDirectionValue, ulocale ) );
 				return choices;
 			}
 			catch ( BirtException e )
@@ -486,8 +488,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				SelectionChoiceHandle choice = (SelectionChoiceHandle) iter
 						.next( );
 
-				String label = report
-						.getMessage( choice.getLabelKey( ), locale );
+				String label = report.getMessage( choice.getLabelKey( ),
+						ulocale.toLocale( ) );
 				if ( label == null )
 				{
 					label = choice.getLabel( );
@@ -505,8 +507,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			if ( !fixedOrder )
 				Collections.sort( choices, new SelectionChoiceComparator(
-						sortByLabel, pattern, sortDirectionValue, ULocale
-								.forLocale( locale ) ) );
+						sortByLabel, pattern, sortDirectionValue, ulocale ) );
 			return choices;
 
 		}
@@ -522,7 +523,8 @@ public class GetParameterDefinitionTask extends EngineTask
 	private Collection populateToList( IResultIterator iterator,
 			AbstractScalarParameterHandle parameter, SelectionFilter filter )
 	{
-		ParameterHelper parameterHelper = new ParameterHelper( parameter, locale, timeZone );
+		ParameterHelper parameterHelper = new ParameterHelper( parameter,
+				ulocale, timeZone );
 		Collection choices = parameterHelper.createSelectionCollection( );
 		int limit = parameter.getListlimit( );
 		try
@@ -800,7 +802,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			AbstractScalarParameterHandle parameter = (AbstractScalarParameterHandle) parameters
 					.get( i );
-			parameterHelpers[i] = new ParameterHelper( parameter, locale,
+			parameterHelpers[i] = new ParameterHelper( parameter, ulocale,
 					timeZone );
 		}
 		return parameterHelpers;
@@ -1376,7 +1378,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				CascadingParameterGroupHandle handle )
 		{
 			CascadingParameterGroupDefn paramGroup = new CascadingParameterGroupDefn( );
-			paramGroup.setLocale( locale );
+			paramGroup.setLocale( ulocale.toLocale( ) );
 			paramGroup.setHandle( handle );
 			paramGroup
 					.setParameterType( IParameterDefnBase.CASCADING_PARAMETER_GROUP );
@@ -1423,7 +1425,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			// Create Parameter
 			ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
 			scalarParameter.setHandle( handle );
-			scalarParameter.setLocale( locale );
+			scalarParameter.setLocale( ulocale.toLocale( ) );
 			scalarParameter.setParameterType( IParameterDefnBase.SCALAR_PARAMETER );
 			scalarParameter.setName( handle.getName( ) );
 
@@ -1547,7 +1549,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 			DynamicFilterParameterDefn parameter = new DynamicFilterParameterDefn( );
 			parameter.setHandle( handle );
-			parameter.setLocale( locale );
+			parameter.setLocale( ulocale.toLocale( ) );
 			parameter.setParameterType( IParameterDefnBase.FILTER_PARAMETER );
 			parameter.setName( handle.getName( ) );
 			parameter.setIsRequired( handle.isRequired( ) );

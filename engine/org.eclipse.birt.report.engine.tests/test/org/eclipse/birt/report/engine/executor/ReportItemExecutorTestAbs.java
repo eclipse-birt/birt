@@ -41,6 +41,8 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * 
  * abstract class
@@ -293,7 +295,7 @@ abstract public class ReportItemExecutorTestAbs extends TestCase
 		}
 
 		ExecutionContext context = new ExecutionContext( );
-		context.setLocale( locale );
+		context.setLocale( ULocale.forLocale( locale ) );
 		context.setRunnable( runnable );
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );
