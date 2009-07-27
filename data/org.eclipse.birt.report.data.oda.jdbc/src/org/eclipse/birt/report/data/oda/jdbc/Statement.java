@@ -185,6 +185,26 @@ public class Statement implements IQuery
 				}
 			}
 		}
+		else if ( name.equals("rowFetchSize") )
+		{
+			// Ignore null or empty value
+			if ( value != null && value.length() > 0 )
+			{
+				try
+				{
+					// Be forgiving if a floating point gets passed in - can happen 
+					// when Javascript gets involved in calculating the property value
+					double rows = Double.parseDouble( value );
+					this.preStat.setFetchSize( (int) rows );
+				}
+				catch ( SQLException e )
+				{
+					// This is not an essential property; log and ignore error if driver doesn't
+					// support query timeout
+					logger.log( Level.FINE, "Statement.setQueryTimeout failed", e );
+				}
+			}
+		}
 		else if (name.equals(ConnectionProfileProperty.PROFILE_NAME_PROP_KEY)
 				|| name.equals(ConnectionProfileProperty.PROFILE_STORE_FILE_PROP_KEY)
 				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY))
