@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.model.adapter.oda.api;
 
 import junit.framework.Test;
@@ -9,6 +10,7 @@ import junit.framework.TestSuite;
 
 public class AllApiTests
 {
+
 	/**
 	 * @return the test
 	 */
@@ -23,6 +25,7 @@ public class AllApiTests
 		test.addTestSuite( ReportParameterAdapterTest.class );
 		test.addTestSuite( ResultSetColumnAdapterTest.class );
 		test.addTestSuite( ResultSetCriteriaAdapterTest.class );
+		test.addTestSuite( AdvancedDataSetAdapterTest.class );
 
 		// add all test classes here
 

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <property name="dataSource">myDataSource1</property>
+			<text-property name="displayName">My Data Set One</text-property>			
+            <property name="queryTimeOut">30000</property>		
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>queryTimeOut</name>
+                    <value>10000</value>
+                </ex-property>
+            </list-property>			
+			<list-property name="parameters">
+				<!-- this have linked parameter-->
+				<structure>
+					<property name="name">dataSetParam1</property>
+					<property name="dataType">string</property>
+					<property name="position">1</property>
+					<property name="isOptional">true</property>
+					<property name="nativeDataType">2</property>
+					<property name="allowNull">true</property>
+					<expression name="defaultValue">param["Param 1"]</expression>
+					<property name="paramName">Param 1</property>
+				</structure>
+				<!-- this have corresponding one in data set design.-->
+				<structure>
+					<property name="name">dataSetParam2</property>
+					<property name="nativeName">param2</property>
+					<property name="position">2</property>
+					<property name="isOptional">true</property>
+					<property name="isOutput">true</property>					
+				</structure>
+				<!-- this have no linked parameter so handle the default value-->
+				<structure>
+					<property name="name">dataSetParam3</property>
+					<property name="position">3</property>
+					<property name="isInput">true</property>
+					<expression name="defaultValue" type="constant">data set param default value 3</expression>
+				</structure>
+				<structure>
+					<property name="name">dataSetParam4</property>
+					<property name="position">4</property>
+					<property name="nativeDataType">2</property>
+				</structure>										
+			</list-property>		
+            <property name="type">extended</property>
+            <property name="resultSetName">userid</property>		
+        </oda-data-set>
+        <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+			<property name="dataSource">myDataSource1</property>
+        </oda-data-set>
+    </data-sets>
+    <parameters>
+    	<parameter-group name="My Param Group">
+            <property name="comments">About my param group</property>
+            <text-property name="displayName">Group 1</text-property>
+            <property name="startExpanded">true</property>
+            <text-property name="helpText" key="group key">This group contains a bunch of parameters.</text-property>
+            <parameters>
+                <scalar-parameter name="Param 1">
+            		<property name="hidden">true</property>
+            		<text-property name="helpText" key="help">scalar para help</text-property>
+            		<method name="validate">the validation test</method>
+            		<property name="dataType">decimal</property>
+            		<property name="autoSuggestThreshold">112</property>
+	        		<property name="valueType">static</property>
+					<property name="concealValue">true</property>
+            		<property name="isRequired">false</property>
+            		<property name="controlType">check-box</property>
+            		<property name="dataSetName">myDataSet2</property>
+            		<property name="promptText">param1 prompt text</property>
+            		<expression name="valueExpr">value column</expression>
+            		<expression name="labelExpr">label column</expression>
+            		<simple-property-list name="defaultValue">
+            			<value>State</value>
+            		</simple-property-list>
+            		<list-property name="selectionList">
+                		<structure>
+                    		<property name="value">option 1</property>
+                    		<property name="label">option 1 label</property>
+                    		<property name="labelID">key 1 for label 1</property>
+                		</structure>
+                		<structure>
+                    		<property name="value">option 2</property>
+                    		<property name="label">option 2 label</property>
+                    		<property name="labelID">key 2 for label 1</property>
+                		</structure>
+                		<structure>
+                    		<property name="value">option 3</property>
+                		</structure>
+            		</list-property>
+        		</scalar-parameter>
+            </parameters>
+        </parameter-group>
+    </parameters>	
+</report>
