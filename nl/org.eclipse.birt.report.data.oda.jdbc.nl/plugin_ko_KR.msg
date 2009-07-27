@@ -32,6 +32,7 @@ datasource.property.isolationmode=격리 모드(&I)
 dataset.query.sqltype=SQL Select 쿼리
 dataset.query.sptype=SQL 저장된 프로시저 쿼리
 dataset.property.queryTimeOut=쿼리 시간 제한(초)(&Q)
+dataset.property.rowFetchSizw=&Row Fetch Size
 dataset.connection.autocommit.false=거짓
 dataset.connection.autocommit.true=참
 dataset.connection.isolationmode.read-uncommitted=커밋되지 않은 읽기

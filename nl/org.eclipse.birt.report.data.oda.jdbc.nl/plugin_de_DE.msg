@@ -32,6 +32,7 @@ datasource.property.isolationmode=&Isolationsmodus
 dataset.query.sqltype=SQL Select-Abfrage
 dataset.query.sptype=Gespeicherte SQL-Prozedurabfrage
 dataset.property.queryTimeOut=Zeitüberschreitung für Ab&frage (in Sekunden)
+dataset.property.rowFetchSizw=&Row Fetch Size
 dataset.connection.autocommit.false=falsch
 dataset.connection.autocommit.true=wahr
 dataset.connection.isolationmode.read-uncommitted=lesen – nicht ausgeführt
