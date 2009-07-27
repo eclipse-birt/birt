@@ -464,4 +464,27 @@ public class GroupPropertyHandle
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
 						.getDisplayName( )} );
 	}
+	
+	/**
+	 * Value will be returned as string only if all values of this property are
+	 * equal within the collection of elements.
+	 * 
+	 * @return The value if all the element values for the property are equal.
+	 *         Return null, if elements have different value for the property.
+	 * @see SimpleValueHandle#getValue()
+	 */
+
+	public Object getValue( )
+	{
+		if ( !shareSameValue( ) )
+			return null;
+
+		// List must contain at least one element.
+		// return the property value from the first element.
+
+		List elements = handle.getElements( );
+
+		return ( (DesignElementHandle) elements.get( 0 ) )
+				.getProperty( propDefn.getName( ) );
+	}
 }
