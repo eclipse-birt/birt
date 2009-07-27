@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -26,7 +29,30 @@ import com.ibm.icu.util.ULocale;
 public class StringUtil
 {
 
+	/**
+	 * 
+	 */
 	public static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
+	private final static Map<Integer, NumberFormatter> formatters;
+
+	static
+	{
+		formatters = new HashMap<Integer, NumberFormatter>( 5 );
+		
+		// put the most common locale into the map first.
+
+		formatters.put( Integer
+				.valueOf( ULocale.ENGLISH.toString( ).hashCode( ) ),
+				new NumberFormatter( ULocale.US ) );
+
+		formatters.put( Integer
+				.valueOf( ULocale.ENGLISH.toString( ).hashCode( ) ),
+				new NumberFormatter( ULocale.ENGLISH ) );
+
+		formatters.put( Integer.valueOf( ULocale.SIMPLIFIED_CHINESE.toString( )
+				.hashCode( ) ), new NumberFormatter( ULocale.SIMPLIFIED_CHINESE ) );
+	}
 
 	/**
 	 * Trim a string. Removes leading and trailing blanks. If the resulting
@@ -228,7 +254,27 @@ public class StringUtil
 
 		if ( locale == null )
 			locale = ULocale.getDefault( );
-		NumberFormatter formatter = new NumberFormatter( locale );
+
+		Integer localeCode = Integer.valueOf( locale.toString( ).hashCode( ) );
+		NumberFormatter formatter = formatters.get( localeCode );
+		if ( formatter == null )
+		{
+			// synchronize to get the formatter
+
+			synchronized ( formatters )
+			{
+				// check again since another thread may save the formatter
+				// already.
+
+				formatter = formatters.get( localeCode );
+				if ( formatter == null )
+				{
+					formatter = new NumberFormatter( locale );
+					formatters.put( localeCode, formatter );
+				}
+			}
+		}
+
 		formatter.applyPattern( pattern );
 		String value = formatter.format( d );
 
@@ -239,8 +285,8 @@ public class StringUtil
 	 * Parses a dimension string in locale-independent way. The input string
 	 * must match the following:
 	 * <ul>
-	 * <li>null</li> <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]
-	 * </li>
+	 * <li>null</li>
+	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]</li>
 	 * </ul>
 	 * 
 	 * @param value

@@ -37,6 +37,7 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.elements.interfaces,
  org.eclipse.birt.report.model.elements.olap,
  org.eclipse.birt.report.model.i18n,
+ org.eclipse.birt.report.model.impl,
  org.eclipse.birt.report.model.metadata,
  org.eclipse.birt.report.model.metadata.validators;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.parser,
