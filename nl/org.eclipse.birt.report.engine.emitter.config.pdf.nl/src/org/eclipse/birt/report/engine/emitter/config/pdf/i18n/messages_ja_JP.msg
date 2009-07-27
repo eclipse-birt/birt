@@ -24,6 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=ページサイズに合わせる
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページに出力
 OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
 OptionDisplayValue.FontSubstitution=フォントの置き換え
+OptionDisplayValue.EmbeddedFont = Embedded Font
 
 ###########################################################
 #Option Description
@@ -31,3 +32,4 @@ OptionDescription.BidiProcessing=双方向テキストの処理が使用されています。
 OptionDescription.TextWrapping=テキストを折り返す必要があります。
 OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
 OptionDescription.FontSubstitution=選択したフォントにその文字が存在しているかどうかを確認する必要があります。
+OptionDescription.EmbeddedFont = The true-type font should be embedded into the generated PDF file.

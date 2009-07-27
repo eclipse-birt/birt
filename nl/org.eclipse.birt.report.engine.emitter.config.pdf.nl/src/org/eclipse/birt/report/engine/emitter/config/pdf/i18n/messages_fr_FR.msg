@@ -24,6 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter à la taille de la page
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Répartir sur plusieurs pages
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
 OptionDisplayValue.FontSubstitution=Changement de police
+OptionDisplayValue.EmbeddedFont = Embedded Font
 
 ###########################################################
 #Option Description
@@ -31,3 +32,4 @@ OptionDescription.BidiProcessing=Traitement BIDI utilisé.
 OptionDescription.TextWrapping=Un retour à la ligne est nécessaire.
 OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
 OptionDescription.FontSubstitution=Vérification nécessaire pour savoir si le caractère existe dans la police sélectionnée.
+OptionDescription.EmbeddedFont = The true-type font should be embedded into the generated PDF file.
