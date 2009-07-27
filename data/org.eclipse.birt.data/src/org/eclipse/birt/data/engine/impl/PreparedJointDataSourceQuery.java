@@ -81,6 +81,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	
 	private Collection parameterBindings;
 	
+	private Collection parameterHints;
+	
 	private IQueryResults leftQueryResults;
 	private IQueryResults rightQueryResults;
 	
@@ -506,6 +508,16 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		rightDataSetDesgin = dscm.getCurrentDataSetDesign( );
 		rightParameterHints = dscm.getCurrentParameterHints( );
 		rightAppContext = dscm.getCurrentAppContext( );
+		
+		parameterHints = new ArrayList( );
+		if ( leftParameterHints != null )
+		{
+			parameterHints.addAll( leftParameterHints );
+		}
+		if ( rightParameterHints != null )
+		{
+			parameterHints.addAll( rightParameterHints );
+		}
 	}
 
 	/**
@@ -653,7 +665,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			
 			DataSetCacheManager dscm = dataEngine.getSession( ).getDataSetCacheManager( );
 			dscm.setDataSourceAndDataSet( 
-					null, dataSetDesign, null, dscm.getCurrentAppContext( ) );
+					null, dataSetDesign, parameterHints, dscm.getCurrentAppContext( ) );
 			if ( doesSaveToCache( ) == false )
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
@@ -691,7 +703,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			return getDataSetCacheManager()
 					.doesLoadFromCache( null,
 							dataSetDesign,
-							null,
+							parameterHints,
 							appContext
 							);
 		}
