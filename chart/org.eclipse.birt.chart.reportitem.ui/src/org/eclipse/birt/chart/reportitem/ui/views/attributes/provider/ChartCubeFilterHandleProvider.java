@@ -137,7 +137,7 @@ public class ChartCubeFilterHandleProvider extends
 	 */
 	public boolean isEditable( )
 	{
-		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ).getCube( ) != null )
+		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( getInput( ) ) ).getCube( ) != null )
 		{
 			return true;
 		}

@@ -37,7 +37,7 @@ public class ChartShareFiltersHandleProvider extends
 	 */
 	public boolean isEditable( )
 	{
-		if ( input == null )
+		if ( getInput( ) == null )
 		{
 			return false;
 		}
