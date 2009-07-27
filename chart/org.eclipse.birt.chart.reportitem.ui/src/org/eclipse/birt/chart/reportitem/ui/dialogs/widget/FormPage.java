@@ -351,7 +351,7 @@ public class FormPage extends Composite implements Listener
 				{
 					WidgetUtil.processError( FormPage.this.getShell( ), e1 );
 				}
-				updateArraw( );
+				refresh( );
 			}
 		} );
 		btnAdd = new Button( this, SWT.PUSH );
@@ -390,9 +390,8 @@ public class FormPage extends Composite implements Listener
 				{
 					stack.rollback( );
 				}
-				table.setSelection( table.getItemCount( ) - 1 );
-				updateArraw( );
-
+				selectIndex = table.getItemCount( ) - 1;
+				refresh( );
 			}
 		} );
 
@@ -434,7 +433,7 @@ public class FormPage extends Composite implements Listener
 
 					selectIndex = oldPos - 1;
 					moveItem( oldPos, oldPos - 1 );
-					updateArraw( );
+					refresh( );
 				}
 			} );
 
@@ -453,7 +452,7 @@ public class FormPage extends Composite implements Listener
 
 					selectIndex = oldPos + 1;
 					moveItem( oldPos, oldPos + 1 );
-					updateArraw( );
+					refresh( );
 				}
 			} );
 
