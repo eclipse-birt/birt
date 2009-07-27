@@ -24,9 +24,10 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
 
 /**
- * To manager the all model evetn, It is a facade for the model event and the model listener.
- * It is listener to the model then pass this event to the processor.
- * And through the command stack to listener the model trans if commit or roll back.
+ * To manager the all model evetn, It is a facade for the model event and the
+ * model listener. It is listener to the model then pass this event to the
+ * processor. And through the command stack to listener the model trans if
+ * commit or roll back.
  */
 public class ModelEventManager implements Listener
 {
@@ -36,17 +37,17 @@ public class ModelEventManager implements Listener
 	 */
 	private boolean isPost = false;
 	private List listenerList = new ArrayList( );
-	
+
 	/**
 	 * To add the listener to the all model element.
 	 */
 	private ListenerElementVisitor visitor;
-	
+
 	/**
 	 * The root, It must not a mudulehandle
 	 */
 	private Object root;
-	
+
 	/**
 	 * To listener the model trans status.(Commit or Roll back)
 	 */
@@ -58,17 +59,23 @@ public class ModelEventManager implements Listener
 		}
 	};
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle, org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse
+	 * .birt.report.model.api.DesignElementHandle,
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		List temp = new ArrayList(listenerList);
+		List temp = new ArrayList( listenerList );
 		int size = temp.size( );
 		for ( int i = 0; i < size; i++ )
 		{
 			IModelEventProcessor processor = (IModelEventProcessor) temp.get( i );
-			if (processor instanceof IFastConsumerProcessor && ((IFastConsumerProcessor)processor).isOverdued( ))
+			if ( processor instanceof IFastConsumerProcessor
+					&& ( (IFastConsumerProcessor) processor ).isOverdued( ) )
 			{
 				listenerList.remove( processor );
 				continue;
@@ -88,6 +95,18 @@ public class ModelEventManager implements Listener
 
 	private void postEvent( ActivityStackEvent event )
 	{
+		List temp = new ArrayList( listenerList );
+		int size = temp.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			IModelEventProcessor processor = (IModelEventProcessor) temp.get( i );
+			if ( processor instanceof IFastConsumerProcessor
+					&& ( (IFastConsumerProcessor) processor ).isOverdued( ) )
+			{
+				listenerList.remove( processor );
+				continue;
+			}
+		}
 		checkStatus( );
 		switch ( event.getAction( ) )
 		{
@@ -114,7 +133,7 @@ public class ModelEventManager implements Listener
 		// code strengh.
 		try
 		{
-			List post = new ArrayList(listenerList);
+			List post = new ArrayList( listenerList );
 			isPost = true;
 			int size = post.size( );
 			for ( int i = 0; i < size; i++ )
@@ -123,7 +142,7 @@ public class ModelEventManager implements Listener
 				processor.postElementEvent( );
 			}
 		}
-		catch(Exception e)
+		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
@@ -139,7 +158,7 @@ public class ModelEventManager implements Listener
 	protected void clearEvent( )
 	{
 		int size = listenerList.size( );
-		List list = new ArrayList(listenerList);
+		List list = new ArrayList( listenerList );
 		for ( int i = 0; i < size; i++ )
 		{
 			IModelEventProcessor processor = (IModelEventProcessor) list.get( i );
@@ -148,13 +167,17 @@ public class ModelEventManager implements Listener
 	}
 
 	/**
-	 * When post the event,  don't allow to change the model.So don't change the model when receive tje model event 
-	 * or the processor change the model when collet the model event.Because Ecluipse don't allow new a thread to run freely
-	 * ,don;t check the mulit_thread. If you must change the model when post the event, suggest use the Display.asyncExec.
-	 * Ofcause can new a job to change the model event, but  suggest don't do it, anybody know the result. 
+	 * When post the event, don't allow to change the model.So don't change the
+	 * model when receive tje model event or the processor change the model when
+	 * collet the model event.Because Ecluipse don't allow new a thread to run
+	 * freely ,don;t check the mulit_thread. If you must change the model when
+	 * post the event, suggest use the Display.asyncExec. Ofcause can new a job
+	 * to change the model event, but suggest don't do it, anybody know the
+	 * result.
 	 */
-	//The data view receive the model event maybe to change the model.Maybe use other method to resolve it
-	//(Don't change the model when reveive the model event).
+	// The data view receive the model event maybe to change the model.Maybe use
+	// other method to resolve it
+	// (Don't change the model when reveive the model event).
 	private void checkStatus( )
 	{
 		if ( isPost )
@@ -163,7 +186,9 @@ public class ModelEventManager implements Listener
 		}
 	}
 
-	/**Add the processor
+	/**
+	 * Add the processor
+	 * 
 	 * @param processor
 	 */
 	public void addModelEventProcessor( IModelEventProcessor processor )
@@ -174,7 +199,9 @@ public class ModelEventManager implements Listener
 		}
 	}
 
-	/**Remove the processor.
+	/**
+	 * Remove the processor.
+	 * 
 	 * @param processor
 	 */
 	public void removeModelEventProcessor( IModelEventProcessor processor )
@@ -188,9 +215,9 @@ public class ModelEventManager implements Listener
 	public void dispose( )
 	{
 		listenerList.clear( );
-		if (root instanceof DesignElementHandle)
+		if ( root instanceof DesignElementHandle )
 		{
-			visitor.removeListener( (DesignElementHandle)root );
+			visitor.removeListener( (DesignElementHandle) root );
 		}
 		root = null;
 		visitor = null;
@@ -210,18 +237,24 @@ public class ModelEventManager implements Listener
 		return visitor;
 	}
 
-	/**Hook the command stack, to add the command stack listener to the stack.
+	/**
+	 * Hook the command stack, to add the command stack listener to the stack.
+	 * 
 	 * @param stack
 	 */
-	//Through the command stack know the model trans commit or roolback.But command stack is command stack, 
-	//should not add the other responsibility to it(already add the rool back status to the command stack).
-	//In the future can know the trans status through the trans listener. 
+	// Through the command stack know the model trans commit or roolback.But
+	// command stack is command stack,
+	// should not add the other responsibility to it(already add the rool back
+	// status to the command stack).
+	// In the future can know the trans status through the trans listener.
 	public void hookCommandStack( WrapperCommandStack stack )
 	{
 		stack.addCommandStackListener( commandStackListener );
 	}
 
-	/**Unhook the root.
+	/**
+	 * Unhook the root.
+	 * 
 	 * @param stack
 	 */
 	public void unhookCommandStack( WrapperCommandStack stack )
@@ -229,7 +262,9 @@ public class ModelEventManager implements Listener
 		stack.removeCommandStackListener( commandStackListener );
 	}
 
-	/**Hook the root.
+	/**
+	 * Hook the root.
+	 * 
 	 * @param obj
 	 */
 	public void hookRoot( Object obj )
@@ -239,16 +274,18 @@ public class ModelEventManager implements Listener
 			return;
 		}
 		unhookRoot( root );
-		
-		//listenerList.clear( );
+
+		// listenerList.clear( );
 		if ( obj instanceof DesignElementHandle )
 		{
-			getListenerElementVisitor( ).addListener( ((DesignElementHandle) obj).getModuleHandle( ) );
+			getListenerElementVisitor( ).addListener( ( (DesignElementHandle) obj ).getModuleHandle( ) );
 		}
 		this.root = obj;
 	}
 
-	/**Unhook the rootz
+	/**
+	 * Unhook the rootz
+	 * 
 	 * @param obj
 	 */
 	public void unhookRoot( Object obj )
