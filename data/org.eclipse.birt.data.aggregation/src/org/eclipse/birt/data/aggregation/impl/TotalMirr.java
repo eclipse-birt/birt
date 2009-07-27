@@ -15,6 +15,8 @@
 package org.eclipse.birt.data.aggregation.impl;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -33,7 +35,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  */
 public class TotalMirr extends AggrFunction
 {
-
+	private static Logger logger = Logger.getLogger( TotalMirr.class.getName( ) );
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -145,6 +147,12 @@ public class TotalMirr extends AggrFunction
 
 		public void finish( ) throws DataException
 		{
+			//user input parameters are invalid, throw exception to warn user 
+			if ( frate < 0 || rrate < 0 )
+			{
+				throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
+						"mirr" ) ); //$NON-NLS-1$
+			}
 			if ( list.size( ) > 0 )
 			{
 				Number[] values = new Number[list.size( )];
@@ -155,7 +163,9 @@ public class TotalMirr extends AggrFunction
 				}
 				catch ( BirtException e )
 				{
-					throw DataException.wrap( e );
+					//Failed to calculate MIRR value, return null instead of throwing exception directly
+					logger.log( Level.WARNING, "Failed to calcualte MIRR value", e ); //$NON-NLS-1$
+					ret = null;
 				}
 			}
 			super.finish( );
