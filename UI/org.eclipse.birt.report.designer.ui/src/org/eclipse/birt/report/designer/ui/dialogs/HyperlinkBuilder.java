@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -63,7 +64,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -1011,26 +1011,18 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void createExpressionButton( Composite parent, final Text text )
 	{
-		Button button = new Button( parent, SWT.PUSH );
-		// button.setLayoutData( new GridData( ) );
-		// button.setText( "..." ); //$NON-NLS-1$
-		UIUtil.setExpressionButtonImage( button );
-		button.setToolTipText( TOOLTIP_EXPRESSION );
-		button.addSelectionListener( new SelectionAdapter( ) {
+		Listener listener = new Listener( ) {
 
-			public void widgetSelected( SelectionEvent e )
+			public void handleEvent( Event event )
 			{
-				ExpressionBuilder builder = new ExpressionBuilder( text.getText( ) );
-				configureExpressionBuilder( builder );
-				if ( builder.open( ) == Dialog.OK )
-				{
-					text.setText( builder.getResult( ) );
-					updateButtons( );
-				}
+				updateButtons( );
 			}
 
-		} );
-
+		};
+		ExpressionButtonUtil.createExpressionButton( parent,
+				text,
+				getExpressionProvider( ),
+				listener );
 	}
 
 	private void createComplexExpressionButton( Composite parent,
@@ -1302,7 +1294,9 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
 			{
-				inputHandle.setTargetBookmark( bookmarkEditor.getText( ).trim( ) );
+				ExpressionButtonUtil.saveExpressionButtonControl( bookmarkEditor,
+						inputHandle,
+						Action.TARGET_BOOKMARK_MEMBER );
 				saveTooltip( );
 			}
 			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
@@ -1329,8 +1323,9 @@ public class HyperlinkBuilder extends BaseDialog
 				if ( !StringUtil.isBlank( bookmarkEditor.getText( ) )
 						&& !bookmarkEditor.getText( ).equals( "---" ) ) //$NON-NLS-1$
 				{
-					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
-							.trim( ) );
+					ExpressionButtonUtil.saveExpressionButtonControl( bookmarkEditor,
+							inputHandle,
+							Action.TARGET_BOOKMARK_MEMBER );
 				}
 
 				if ( targetBookmarkButton.getSelection( ) )
@@ -1490,7 +1485,9 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			if ( inputHandle.getTargetBookmark( ) != null )
 			{
-				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
+				ExpressionButtonUtil.initExpressionButtonControl( bookmarkEditor,
+						inputHandle,
+						Action.TARGET_BOOKMARK_MEMBER );
 			}
 			initBookmarkList( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
@@ -1571,7 +1568,9 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			if ( inputHandle.getTargetBookmark( ) != null )
 			{
-				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
+				ExpressionButtonUtil.initExpressionButtonControl( bookmarkEditor,
+						inputHandle,
+						Action.TARGET_BOOKMARK_MEMBER );
 			}
 			else
 			{

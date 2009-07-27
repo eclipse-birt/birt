@@ -19,7 +19,7 @@ public class AggregateOnBindingsFormHandleProvider extends
 		super( );
 		setShowAggregation( true );
 	}
-	
+
 	public AggregateOnBindingsFormHandleProvider( boolean bShowAggregation )
 	{
 		super( );
@@ -44,6 +44,8 @@ public class AggregateOnBindingsFormHandleProvider extends
 
 	public boolean doEditItem( int pos )
 	{
+		if ( pos == -1 )
+			return false;
 		ComputedColumnHandle bindingHandle = null;
 		pos = getOriginalIndex( pos );
 		if ( pos > -1 )

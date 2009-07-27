@@ -20,7 +20,9 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -35,15 +37,20 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -201,9 +208,6 @@ public class GroupDialog extends BaseDialog
 
 	private Combo pagebreakInsideCombo;
 
-	private Button exprButton;
-
-	private Button tocExprButton, bookmarkExprButton;
 
 	/**
 	 * Constructor.
@@ -317,23 +321,9 @@ public class GroupDialog extends BaseDialog
 		gd.widthHint = 180;
 		bookmarkEditor.setLayoutData( gd );
 
-		bookmarkExprButton = new Button( bookmakrComposite, SWT.PUSH );
-		UIUtil.setExpressionButtonImage( bookmarkExprButton );
-		bookmarkExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) ); //$NON-NLS-1$
-		bookmarkExprButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
-			{
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder( bookmarkEditor.getText( ) );
-				expressionBuilder.setExpressionProvier( new ExpressionProvider( inputGroup ) );
-
-				if ( expressionBuilder.open( ) == OK )
-				{
-					bookmarkEditor.setText( expressionBuilder.getResult( )
-							.trim( ) );
-				}
-			}
-		} );
+		ExpressionButtonUtil.createExpressionButton( bookmakrComposite,
+				bookmarkEditor,
+				new ExpressionProvider( inputGroup ) );
 	}
 
 	private void createTOCArea( Composite parent )
@@ -376,23 +366,9 @@ public class GroupDialog extends BaseDialog
 
 		} );
 
-		tocExprButton = new Button( tocArea, SWT.PUSH );
-		// exprButton.setText( "..." ); //$NON-NLS-1$
-		UIUtil.setExpressionButtonImage( tocExprButton );
-		tocExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) ); //$NON-NLS-1$
-		tocExprButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
-			{
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder( tocEditor.getText( ) );
-				expressionBuilder.setExpressionProvier( new ExpressionProvider( inputGroup ) );
-
-				if ( expressionBuilder.open( ) == OK )
-				{
-					tocEditor.setText( expressionBuilder.getResult( ).trim( ) );
-				}
-			}
-		} );
+		ExpressionButtonUtil.createExpressionButton( tocArea,
+				tocEditor,
+				new ExpressionProvider( inputGroup ) );
 
 		new Label( group, SWT.NONE ).setText( Messages.getString( "GroupDialog.Dialog.TOCStyle" ) ); //$NON-NLS-1$
 
@@ -545,25 +521,9 @@ public class GroupDialog extends BaseDialog
 			}
 		} );
 
-		exprButton = new Button( keyArea, SWT.PUSH );
-		// exprButton.setText( "..." ); //$NON-NLS-1$
-		UIUtil.setExpressionButtonImage( exprButton );
-		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) ); //$NON-NLS-1$
-		exprButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
-			{
-
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getKeyExpression( ) );
-				expressionBuilder.setExpressionProvier( new ExpressionProvider( inputGroup ) );
-
-				if ( expressionBuilder.open( ) == OK )
-				{
-					setKeyExpression( expressionBuilder.getResult( ).trim( ) );
-					keyChooser.setFocus( );
-				}
-			}
-		} );
+		ExpressionButtonUtil.createExpressionButton( keyArea,
+				keyChooser,
+				new ExpressionProvider( inputGroup ) );
 
 		// Creates intervalRange area
 		Composite intervalArea = new Composite( composite, SWT.NONE );
@@ -867,19 +827,19 @@ public class GroupDialog extends BaseDialog
 					nameEditor );
 		}
 
-		if ( inputGroup.getBookmark( ) != null )
-		{
-			bookmarkEditor.setText( inputGroup.getBookmark( ) );
-			checkReadOnlyControl( IGroupElementModel.BOOKMARK_PROP,
-					bookmarkEditor );
-		}
+		ExpressionButtonUtil.initExpressionButtonControl( bookmarkEditor,
+				inputGroup,
+				IGroupElementModel.BOOKMARK_PROP );
+
+		checkReadOnlyControl( IGroupElementModel.BOOKMARK_PROP, bookmarkEditor );
+
 		refreshColumnList( );
 
-		setKeyExpression( inputGroup.getKeyExpr( ) );
+		setKeyExpression( inputGroup.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP ) );
 		if ( checkReadOnlyControl( IGroupElementModel.KEY_EXPR_PROP, keyChooser ) )
-			exprButton.setEnabled( false );
+			( (ExpressionButton) keyChooser.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).setEnabled( false );
 		else
-			exprButton.setEnabled( true );
+			( (ExpressionButton) keyChooser.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).setEnabled( true );
 
 		PropertyHandle property = inputGroup.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
 		String range = property == null ? null : property.getStringValue( );
@@ -935,7 +895,10 @@ public class GroupDialog extends BaseDialog
 		list.add( inputGroup );
 		// filterPage.setInput( list );
 
-		tocEditor.setText( UIUtil.convertToGUIString( inputGroup.getTocExpression( ) ) );
+		ExpressionButtonUtil.initExpressionButtonControl( tocEditor,
+				inputGroup.getTOC( ),
+				TOC.TOC_EXPRESSION );
+
 		if ( inputGroup.getTOC( ) != null )
 		{
 			index = getTocStyleIndex( inputGroup.getTOC( ).getStyleName( ) );
@@ -954,12 +917,12 @@ public class GroupDialog extends BaseDialog
 		}
 		if ( checkReadOnlyControl( IGroupElementModel.TOC_PROP, tocEditor ) )
 		{
-			tocExprButton.setEnabled( false );
+			( (ExpressionButton) tocEditor.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).setEnabled( false );
 			tocStyleType.setEnabled( false );
 		}
 		else
 		{
-			tocExprButton.setEnabled( true );
+			( (ExpressionButton) tocEditor.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).setEnabled( true );
 		}
 		index = getPagebreakBeforeIndex( inputGroup.getPageBreakBefore( ) );
 		if ( index < 0 || index >= pagebreakBeforeCombo.getItemCount( ) )
@@ -1031,6 +994,8 @@ public class GroupDialog extends BaseDialog
 		{
 			keyChooser.setText( selected );
 		}
+
+		ExpressionButtonUtil.initJSExpressionButtonCombo( keyChooser );
 	}
 
 	private int getPagebreakAfterIndex( String pageBreakAfter )
@@ -1129,20 +1094,28 @@ public class GroupDialog extends BaseDialog
 			String bookmark = bookmarkEditor.getText( );
 			if ( bookmark != null && !bookmark.equals( "" ) ) //$NON-NLS-1$
 			{
-				inputGroup.setBookmark( bookmark );
+				ExpressionButtonUtil.saveExpressionButtonControl( bookmarkEditor,
+						inputGroup,
+						IGroupElementModel.BOOKMARK_PROP );
 			}
 			else
 			{
 				inputGroup.setBookmark( null );
 			}
 
-			String newToc = UIUtil.convertToModelString( tocEditor.getText( ),
-					true );
-			if ( newToc == null
-					|| !newToc.equals( inputGroup.getTocExpression( ) ) )
+			if ( inputGroup.getTOC( ) != null )
+				ExpressionButtonUtil.saveExpressionButtonControl( tocEditor,
+						inputGroup.getTOC( ),
+						TOC.TOC_EXPRESSION );
+			else
 			{
-				inputGroup.setTocExpression( newToc );
+				TOC toc = StructureFactory.createTOC( );
+				ExpressionButtonUtil.saveExpressionButtonControl( tocEditor,
+						toc,
+						TOC.TOC_EXPRESSION );
+				inputGroup.addTOC( toc );
 			}
+
 			int index;
 			if ( inputGroup.getTOC( ) != null )
 			{
@@ -1181,11 +1154,16 @@ public class GroupDialog extends BaseDialog
 					}
 				}
 			}
-			String oldKeyExpr = inputGroup.getKeyExpr( );
-			String newKeyExpr = getKeyExpression( );
-			inputGroup.setKeyExpr( newKeyExpr );
+
+			Expression oldKeyExpr = (Expression) inputGroup.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP )
+					.getValue( );
+
+			Expression newKeyExpr = getKeyExpression( );
+			inputGroup.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
+					newKeyExpr );
 			if ( newKeyExpr != null
-					&& newKeyExpr.length( ) != 0
+					&& newKeyExpr.getStringExpression( ) != null
+					&& newKeyExpr.getStringExpression( ).trim( ).length( ) != 0
 					&& !newKeyExpr.equals( oldKeyExpr )
 					&& index != -1 )
 			{
@@ -1295,24 +1273,34 @@ public class GroupDialog extends BaseDialog
 		return index;
 	}
 
-	private void setKeyExpression( String key )
+	private void setKeyExpression( ExpressionHandle key )
 	{
+		keyChooser.setData( ExpressionButtonUtil.EXPR_TYPE, key == null
+				|| key.getType( ) == null ? UIUtil.getDefaultScriptType( )
+				: (String) key.getType( ) );
+
+		Object button = keyChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
+		if ( button instanceof ExpressionButton )
+		{
+			( (ExpressionButton) button ).refresh( );
+		}
+
 		keyChooser.deselectAll( );
-		key = StringUtil.trimString( key );
-		if ( StringUtil.isBlank( key ) )
+		String keyValue = StringUtil.trimString( key.getStringExpression( ) );
+		if ( StringUtil.isBlank( keyValue ) )
 		{
 			keyChooser.setText( "" ); //$NON-NLS-1$
 			return;
 		}
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
+			if ( keyValue.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
 			{
 				keyChooser.select( i );
 				return;
 			}
 		}
-		keyChooser.setText( key );
+		keyChooser.setText( keyValue );
 	}
 
 	/**
@@ -1491,24 +1479,33 @@ public class GroupDialog extends BaseDialog
 		intervalBaseText.setEnabled( bool );
 	}
 
-	private String getKeyExpression( )
+	private Expression getKeyExpression( )
 	{
+		Expression expression = ExpressionButtonUtil.getExpression( keyChooser );
+
 		String exp = null;
 		String keyText = UIUtil.convertToModelString( keyChooser.getText( ),
 				true );
-		if ( keyChooser.getSelectionIndex( ) != -1 )
+		if ( ExpressionType.JAVASCRIPT.equals( expression.getType( ) ) )
 		{
-			exp = DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) );
+			if ( keyChooser.getSelectionIndex( ) != -1 )
+			{
+				exp = DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) );
+			}
+			else if ( keyText != null && keyChooser.indexOf( keyText ) != -1 )
+			{
+				exp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( keyText ) ) );
+			}
+			else
+			{
+				exp = keyChooser.getText( ).trim( );
+			}
 		}
-		else if ( keyText != null && keyChooser.indexOf( keyText ) != -1 )
+		if ( exp != null )
 		{
-			exp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( keyText ) ) );
+			expression = new Expression( exp, ExpressionType.JAVASCRIPT );
 		}
-		else
-		{
-			exp = keyChooser.getText( ).trim( );
-		}
-		return exp;
+		return expression;
 	}
 
 }

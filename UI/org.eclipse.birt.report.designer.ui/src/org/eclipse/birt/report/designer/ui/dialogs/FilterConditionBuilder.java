@@ -20,12 +20,11 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -38,8 +37,6 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
-import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -407,9 +404,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				{
 					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
 				}
-
-				expression.setData( EXPR_TYPE, ExpressionType.JAVASCRIPT );
-				( (ExpressionButton) expression.getData( EXPR_BUTTON ) ).refresh( );
 				updateButtons( );
 			}
 		} );
@@ -421,7 +415,21 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			}
 		} );
 
-		createComplexExpressionButton( condition, expression );
+		Listener listener = new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				updateButtons( );
+			}
+
+		};
+
+		ExpressionButtonUtil.createExpressionButton( condition,
+				expression,
+				getExpressionProvider( ),
+				listener );
+
+		ExpressionButtonUtil.initJSExpressionButtonCombo( expression );
 
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
@@ -441,77 +449,27 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
 
-	private void createComplexExpressionButton( Composite parent,
-			final Combo combo )
+	private IExpressionProvider getExpressionProvider( )
 	{
-		final IExpressionProvider[] provider = new IExpressionProvider[1];
+		IExpressionProvider provider = null;
 
-		if ( designHandle != null )
+		if ( expressionProvider == null )
 		{
-			if ( expressionProvider == null )
+			if ( designHandle instanceof TabularCubeHandle
+					|| designHandle instanceof TabularHierarchyHandle )
 			{
-				if ( designHandle instanceof TabularCubeHandle
-						|| designHandle instanceof TabularHierarchyHandle )
-				{
-					provider[0] = new BindingExpressionProvider( designHandle,
-							null );
-				}
-				else
-				{
-					provider[0] = new ExpressionProvider( designHandle );
-				}
+				provider = new BindingExpressionProvider( designHandle, null );
 			}
 			else
 			{
-				provider[0] = expressionProvider;
+				provider = new ExpressionProvider( designHandle );
 			}
-
 		}
-
-		final ExpressionButton button = UIUtil.createExpressionButton( parent,
-				SWT.PUSH,
-				false );
-		IExpressionHelper helper = new IExpressionHelper( ) {
-
-			public String getExpression( )
-			{
-				if ( combo != null )
-					return combo.getText( );
-				return "";
-			}
-
-			public void notifyExpressionChangeEvent( String oldExpression,
-					String newExpression )
-			{
-				updateButtons( );
-			}
-
-			public void setExpression( String expression )
-			{
-				if ( combo != null )
-					combo.setText( expression );
-			}
-
-			public IExpressionProvider getExpressionProvider( )
-			{
-				return provider[0];
-			}
-
-			public String getExpressionType( )
-			{
-				return (String) combo.getData( EXPR_TYPE );
-			}
-
-			public void setExpressionType( String exprType )
-			{
-				combo.setData( EXPR_TYPE, exprType );
-			}
-
-		};
-
-		button.setExpressionHelper( helper );
-
-		combo.setData( EXPR_BUTTON, button );
+		else
+		{
+			provider = expressionProvider;
+		}
+		return provider;
 	}
 
 	// protected Listener expValueVerifyListener = new Listener( ) {
@@ -1565,18 +1523,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	private void setExpression( )
 	{
-		ExpressionHandle expressionHandle = (ExpressionHandle) filterCondition.getExpressionProperty( FilterCondition.EXPR_MEMBER );
-
-		expression.setText( expressionHandle == null
-				|| expressionHandle.getExpression( ) == null ? "" : (String) expressionHandle.getExpression( ) ); //$NON-NLS-1$
-
-		expression.setData( EXPR_TYPE,
-				expressionHandle == null || expressionHandle.getType( ) == null ? UIUtil.getDefaultScriptType( )
-						: (String) expressionHandle.getType( ) );
-
-		ExpressionButton button = (ExpressionButton) expression.getData( EXPR_BUTTON );
-		if ( button != null )
-			button.refresh( );
+		ExpressionButtonUtil.initExpressionButtonControl( expression,
+				filterCondition,
+				FilterCondition.EXPR_MEMBER );
 	}
 
 	/**

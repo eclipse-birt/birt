@@ -46,8 +46,10 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.ITableAreaModifie
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -57,6 +59,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -1114,15 +1117,40 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 			refreshColumns( false );
 			refreshSortByItems( );
+
+			ExpressionHandle columnValueValue = inputParameter.getExpressionProperty( ScalarParameterHandle.VALUE_EXPR_PROP );
 			String columnName = getColumnName( inputParameter.getValueExpr( ) );
 			if ( columnName != null )
 			{
 				columnChooser.setText( columnName );
 			}
+			{
+				columnChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+						columnValueValue == null
+								|| columnValueValue.getType( ) == null ? UIUtil.getDefaultScriptType( )
+								: (String) columnValueValue.getType( ) );
+				Object button = columnChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
+				if ( button instanceof ExpressionButton )
+				{
+					( (ExpressionButton) button ).refresh( );
+				}
+			}
+
+			ExpressionHandle columnValue = inputParameter.getExpressionProperty( ScalarParameterHandle.LABEL_EXPR_PROP );
 			columnName = getColumnName( inputParameter.getLabelExpr( ) );
 			if ( columnName != null )
 			{
 				displayTextChooser.setText( columnName );
+			}
+			{
+				displayTextChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+						columnValue == null || columnValue.getType( ) == null ? UIUtil.getDefaultScriptType( )
+								: (String) columnValue.getType( ) );
+				Object button = displayTextChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
+				if ( button instanceof ExpressionButton )
+				{
+					( (ExpressionButton) button ).refresh( );
+				}
 			}
 
 			if ( expressionType != null )
@@ -1412,6 +1440,16 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				displayTextChooser.add( ( (ResultSetColumnHandle) iter.next( ) ).getColumnName( ) );
 			}
+
+			Object button = displayTextChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
+			if ( button instanceof ExpressionButton )
+			{
+				if ( !( (ExpressionButton) button ).isSupportType( ExpressionType.JAVASCRIPT ) )
+				{
+					displayTextChooser.removeAll( );
+				}
+			}
+
 			displayTextChooser.setText( NONE_DISPLAY_TEXT );
 		}
 		String originalSelection = columnChooser.getText( );
@@ -1433,6 +1471,16 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			columnChooser.add( "" ); //$NON-NLS-1$
 		}
+
+		Object button = columnChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
+		if ( button instanceof ExpressionButton )
+		{
+			if ( !( (ExpressionButton) button ).isSupportType( ExpressionType.JAVASCRIPT ) )
+			{
+				columnChooser.removeAll( );
+			}
+		}
+
 		// columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
 		// valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0
 		// );
@@ -2224,25 +2272,45 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 		} );
 
-		valueColumnExprButton = new Button( composite, SWT.PUSH );
-		// valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
-		UIUtil.setExpressionButtonImage( valueColumnExprButton );
-		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) ); //$NON-NLS-1$
-		valueColumnExprButton.addSelectionListener( new SelectionAdapter( ) {
+		ExpressionHelper columnHelper = new ExpressionHelper( ) {
 
-			public void widgetSelected( SelectionEvent event )
+			public String getExpression( )
 			{
+				return ParameterDialog.this.getExpression( columnChooser.getText( ) );
+			}
 
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getExpression( columnChooser.getText( ) ) );
-				expressionBuilder.setExpressionProvier( new ParameterExpressionProvider( inputParameter,
-						dataSetChooser.getText( ) ) );
+			public void setExpression( String expression )
+			{
+				ParameterDialog.this.setExpression( columnChooser, expression );
+			}
 
-				if ( expressionBuilder.open( ) == OK )
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return new ParameterExpressionProvider( inputParameter,
+						dataSetChooser.getText( ) );
+			}
+		};
+
+		ExpressionButtonUtil.createExpressionButton( composite,
+				columnChooser,
+				null,
+				null,
+				false,
+				SWT.PUSH,
+				columnHelper );
+		columnChooser.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				columnChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+						ExpressionType.JAVASCRIPT );
+				Object button = columnChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
+				if ( button instanceof ExpressionButton )
 				{
-					setExpression( columnChooser, expressionBuilder.getResult( )
-							.trim( ) );
+					( (ExpressionButton) button ).refresh( );
 				}
 			}
+
 		} );
 
 		// createLabel( composite, null );
@@ -2252,25 +2320,47 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		displayTextChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
 		displayTextChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		Button displayTextExprButton = new Button( composite, SWT.PUSH );
-		// displayTextExprButton.setText( "..." ); //$NON-NLS-1$
-		UIUtil.setExpressionButtonImage( displayTextExprButton );
-		displayTextExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) ); //$NON-NLS-1$
-		displayTextExprButton.addSelectionListener( new SelectionAdapter( ) {
+		ExpressionHelper displayTextHelper = new ExpressionHelper( ) {
 
-			public void widgetSelected( SelectionEvent event )
+			public String getExpression( )
 			{
+				return ParameterDialog.this.getExpression( displayTextChooser.getText( ) );
+			}
 
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getExpression( displayTextChooser.getText( ) ) );
-				expressionBuilder.setExpressionProvier( new ParameterExpressionProvider( inputParameter,
-						dataSetChooser.getText( ) ) );
+			public void setExpression( String expression )
+			{
+				ParameterDialog.this.setExpression( displayTextChooser,
+						expression );
+			}
 
-				if ( expressionBuilder.open( ) == OK )
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return new ParameterExpressionProvider( inputParameter,
+						dataSetChooser.getText( ) );
+			}
+		};
+
+		ExpressionButtonUtil.createExpressionButton( composite,
+				displayTextChooser,
+				null,
+				null,
+				false,
+				SWT.PUSH,
+				displayTextHelper );
+
+		displayTextChooser.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				displayTextChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+						ExpressionType.JAVASCRIPT );
+				Object button = displayTextChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
+				if ( button instanceof ExpressionButton )
 				{
-					setExpression( displayTextChooser,
-							expressionBuilder.getResult( ).trim( ) );
+					( (ExpressionButton) button ).refresh( );
 				}
 			}
+
 		} );
 
 		createDefaultEditor( );
@@ -2754,15 +2844,24 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				// Save dynamic settings
 				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
 				inputParameter.setDataSetName( dataSetChooser.getText( ) );
-				inputParameter.setValueExpr( getExpression( columnChooser.getText( ) ) );
-
+				// inputParameter.setValueExpr( getExpression(
+				// columnChooser.getText( ) ) );
+				{
+					Expression expression = new Expression( getExpression( columnChooser.getText( ) ),
+							(String) columnChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
+					inputParameter.setExpressionProperty( ScalarParameterHandle.VALUE_EXPR_PROP,
+							expression );
+				}
 				if ( displayTextChooser.getText( ).equals( LABEL_NULL ) )
 				{
 					inputParameter.setLabelExpr( "" ); //$NON-NLS-1$
 				}
 				else
 				{
-					inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
+					Expression expression = new Expression( getExpression( displayTextChooser.getText( ) ),
+							(String) displayTextChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
+					inputParameter.setExpressionProperty( ScalarParameterHandle.LABEL_EXPR_PROP,
+							expression );
 				}
 				if ( startPointTypeHelper != null )
 				{

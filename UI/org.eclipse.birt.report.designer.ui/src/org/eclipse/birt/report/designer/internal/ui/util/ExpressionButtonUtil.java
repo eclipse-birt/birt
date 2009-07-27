@@ -40,6 +40,95 @@ import org.eclipse.swt.widgets.Text;
 public class ExpressionButtonUtil
 {
 
+	public static class ExpressionHelper implements IExpressionHelper
+	{
+
+		private Control control;
+		private Listener listener;
+		private IExpressionProvider provider;
+		private ExpressionButton button;
+
+		public String getExpression( )
+		{
+			if ( control instanceof Text )
+			{
+				return ( (Text) control ).getText( );
+			}
+			else if ( control instanceof Combo )
+			{
+				return ( (Combo) control ).getText( );
+			}
+			return "";
+		}
+
+		public void notifyExpressionChangeEvent( String oldExpression,
+				String newExpression )
+		{
+			if ( listener != null )
+			{
+				Event event = new Event( );
+				event.widget = button.getControl( );
+				event.data = new String[]{
+						oldExpression, newExpression
+				};
+				event.detail = SWT.Modify;
+				listener.handleEvent( event );
+			}
+			control.setFocus( );
+		}
+
+		public void setExpression( String expression )
+		{
+			if ( control instanceof Text )
+			{
+				( (Text) control ).setText( DEUtil.resolveNull( expression ) );
+			}
+			else if ( control instanceof Combo )
+			{
+				( (Combo) control ).setText( DEUtil.resolveNull( expression ) );
+			}
+			else if ( control instanceof CCombo )
+			{
+				( (CCombo) control ).setText( DEUtil.resolveNull( expression ) );
+			}
+		}
+
+		public IExpressionProvider getExpressionProvider( )
+		{
+			return provider;
+		}
+
+		public String getExpressionType( )
+		{
+			return (String) control.getData( EXPR_TYPE );
+		}
+
+		public void setExpressionType( String exprType )
+		{
+			control.setData( EXPR_TYPE, exprType );
+		}
+
+		private void setProvider( IExpressionProvider provider )
+		{
+			this.provider = provider;
+		}
+
+		private void setListener( Listener listener )
+		{
+			this.listener = listener;
+		}
+
+		private void setControl( Control control )
+		{
+			this.control = control;
+		}
+
+		private void setExpressionButton( ExpressionButton button )
+		{
+			this.button = button;
+		}
+	}
+
 	public static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
 	public static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 
@@ -51,7 +140,8 @@ public class ExpressionButtonUtil
 				provider,
 				null,
 				false,
-				SWT.PUSH );
+				SWT.PUSH,
+				new ExpressionHelper( ) );
 	}
 
 	public static ExpressionButton createExpressionButton( Composite parent,
@@ -63,7 +153,8 @@ public class ExpressionButtonUtil
 				provider,
 				null,
 				false,
-				SWT.PUSH );
+				SWT.PUSH,
+				new ExpressionHelper( ) );
 	}
 
 	public static ExpressionButton createExpressionButton( Composite parent,
@@ -74,7 +165,8 @@ public class ExpressionButtonUtil
 				provider,
 				null,
 				false,
-				SWT.PUSH );
+				SWT.PUSH,
+				new ExpressionHelper( ) );
 	}
 
 	public static ExpressionButton createExpressionButton( Composite parent,
@@ -86,7 +178,8 @@ public class ExpressionButtonUtil
 				provider,
 				null,
 				allowConstant,
-				SWT.PUSH );
+				SWT.PUSH,
+				new ExpressionHelper( ) );
 	}
 
 	public static ExpressionButton createExpressionButton( Composite parent,
@@ -94,72 +187,28 @@ public class ExpressionButtonUtil
 			final Listener listener, boolean allowConstant, int style )
 	{
 
+		return createExpressionButton( parent,
+				control,
+				provider,
+				null,
+				allowConstant,
+				style,
+				new ExpressionHelper( ) );
+	}
+
+	public static ExpressionButton createExpressionButton( Composite parent,
+			final Control control, final IExpressionProvider provider,
+			final Listener listener, boolean allowConstant, int style,
+			ExpressionHelper helper )
+	{
+
 		final ExpressionButton button = UIUtil.createExpressionButton( parent,
 				style,
 				allowConstant );
-		IExpressionHelper helper = new IExpressionHelper( ) {
-
-			public String getExpression( )
-			{
-				if ( control instanceof Text )
-				{
-					return ( (Text) control ).getText( );
-				}
-				else if ( control instanceof Combo )
-				{
-					return ( (Combo) control ).getText( );
-				}
-				return "";
-			}
-
-			public void notifyExpressionChangeEvent( String oldExpression,
-					String newExpression )
-			{
-				if ( listener != null )
-				{
-					Event event = new Event( );
-					event.widget = button.getControl( );
-					event.data = new String[]{
-							oldExpression, newExpression
-					};
-					event.detail = SWT.Modify;
-					listener.handleEvent( event );
-				}
-				control.setFocus( );
-			}
-
-			public void setExpression( String expression )
-			{
-				if ( control instanceof Text )
-				{
-					( (Text) control ).setText( DEUtil.resolveNull( expression ) );
-				}
-				else if ( control instanceof Combo )
-				{
-					( (Combo) control ).setText( DEUtil.resolveNull( expression ) );
-				}
-				else if ( control instanceof CCombo )
-				{
-					( (CCombo) control ).setText( DEUtil.resolveNull( expression ) );
-				}
-			}
-
-			public IExpressionProvider getExpressionProvider( )
-			{
-				return provider;
-			}
-
-			public String getExpressionType( )
-			{
-				return (String) control.getData( EXPR_TYPE );
-			}
-
-			public void setExpressionType( String exprType )
-			{
-				control.setData( EXPR_TYPE, exprType );
-			}
-
-		};
+		helper.setProvider( provider );
+		helper.setListener( listener );
+		helper.setControl( control );
+		helper.setExpressionButton( button );
 
 		button.setExpressionHelper( helper );
 

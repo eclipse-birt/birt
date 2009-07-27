@@ -37,9 +37,8 @@ import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -53,6 +52,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -223,7 +223,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			txtDisplayName.setText( result[1] );
 		}
 	}
-	
+
 	public void initDialog( )
 	{
 		cmbType.setItems( dataTypes );
@@ -256,7 +256,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				else
 					cmbType.setText( "" );
 			if ( getBinding( ).getExpression( ) != null )
-				setDataFieldExpression( getBinding( ).getExpression( ) );
+				setDataFieldExpression( getBinding( ) );
 		}
 
 		if ( this.getBinding( ) != null )
@@ -394,10 +394,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initFilter( )
 	{
-		if ( binding != null && binding.getFilterExpression( ) != null )
-		{
-			txtFilter.setText( binding.getFilterExpression( ) );
-		}
+		ExpressionButtonUtil.initExpressionButtonControl( txtFilter,
+				binding,
+				ComputedColumn.FILTER_MEMBER );
 	}
 
 	private void initFunction( )
@@ -433,14 +432,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				if ( arg.getValue( ) != null )
 				{
 					Control control = paramsMap.get( argName );
-					if ( control instanceof Text )
-					{
-						( (Text) control ).setText( arg.getValue( ) );
-					}
-					else if ( control instanceof Combo )
-					{
-						( (Combo) control ).setText( arg.getValue( ) );
-					}
+					ExpressionButtonUtil.initExpressionButtonControl( control,
+							arg,
+							AggregationArgument.VALUE_MEMBER );
 				}
 			}
 		}
@@ -713,9 +707,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		return bindingList.toArray( new IBinding[bindingList.size( )] );
 	}
 
-	private void setDataFieldExpression( String expression )
+	private void setDataFieldExpression( ComputedColumnHandle binding )
 	{
-		if ( expression != null )
+		if ( binding.getExpression( ) != null )
 		{
 			if ( isAggregate( ) )
 			{
@@ -728,14 +722,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						if ( param.isDataField( ) )
 						{
 							Control control = paramsMap.get( param.getName( ) );
-							if ( control instanceof Text )
-							{
-								( (Text) control ).setText( expression );
-							}
-							else if ( control instanceof Combo )
-							{
-								( ( Combo) control ).setText( expression );
-							}
+							ExpressionButtonUtil.initExpressionButtonControl( control,
+									binding,
+									ComputedColumn.EXPRESSION_MEMBER );
 						}
 					}
 				}
@@ -744,7 +733,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				if ( txtExpression != null && !txtExpression.isDisposed( ) )
 				{
-					txtExpression.setText( expression );
+					ExpressionButtonUtil.initExpressionButtonControl( txtExpression,
+							binding,
+							ComputedColumn.EXPRESSION_MEMBER );
 				}
 			}
 		}
@@ -966,8 +957,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void createExpressionButton( final Composite parent, final Text text )
 	{
-		Button expressionButton = new Button( parent, SWT.PUSH );
-
 		if ( expressionProvider == null )
 		{
 			if ( isAggregate( ) )
@@ -977,22 +966,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder,
 						this.binding );
 		}
-
-		UIUtil.setExpressionButtonImage( expressionButton );
-		expressionButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				ExpressionBuilder expression = new ExpressionBuilder( text.getText( ) );
-				expression.setExpressionProvier( expressionProvider );
-
-				if ( expression.open( ) == Window.OK )
-				{
-					if ( expression.getResult( ) != null )
-						text.setText( expression.getResult( ) );
-				}
-			}
-		} );
+		ExpressionButtonUtil.createExpressionButton( parent,
+				text,
+				expressionProvider );
 	}
 
 	private String getArgumentDisplayNameByName( String functionName,
@@ -1159,7 +1135,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if ( !strEquals( binding.getDisplayName( ),
 					txtDisplayName.getText( ) ) )
 				return true;
-			if ( !strEquals( binding.getDisplayNameID( ), txtDisplayNameID.getText( ) ) )
+			if ( !strEquals( binding.getDisplayNameID( ),
+					txtDisplayNameID.getText( ) ) )
 				return true;
 			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
 				return true;
@@ -1172,8 +1149,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			catch ( AdapterException e )
 			{
 			}
-			if ( !strEquals( binding.getFilterExpression( ),
-					txtFilter.getText( ) ) )
+			if ( !exprEquals( (Expression) binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
+					.getValue( ),
+					ExpressionButtonUtil.getExpression( txtFilter ) ) )
 				return true;
 			if ( !strEquals( cmbAggOn.getText( ),
 					DEUtil.getAggregateOn( binding ) ) )
@@ -1187,12 +1165,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					if ( paramsMap.containsKey( param.getName( ) ) )
 					{
-						String paramValue = getControlValue( paramsMap.get( param.getName( ) ) );
+						Expression paramValue = ExpressionButtonUtil.getExpression( paramsMap.get( param.getName( ) ) );
 						for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 						{
 							AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
 							if ( param.getName( ).equals( handle.getName( ) )
-									&& !strEquals( handle.getValue( ),
+									&& !exprEquals( (Expression) handle.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+											.getValue( ),
 											paramValue ) )
 							{
 								return true;
@@ -1200,7 +1179,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						}
 						if ( param.isDataField( )
 								&& binding.getExpression( ) != null
-								&& !strEquals( binding.getExpression( ),
+								&& !exprEquals( (Expression) binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
+										.getValue( ),
 										paramValue ) )
 						{
 							return true;
@@ -1216,13 +1196,28 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if ( !strEquals( txtDisplayName.getText( ),
 					binding.getDisplayName( ) ) )
 				return true;
-			if ( !strEquals( txtDisplayNameID.getText( ), binding.getDisplayNameID( ) ) )
+			if ( !strEquals( txtDisplayNameID.getText( ),
+					binding.getDisplayNameID( ) ) )
 				return true;
 			if ( !strEquals( getDataType( ), binding.getDataType( ) ) )
 				return true;
-			if ( !strEquals( txtExpression.getText( ), binding.getExpression( ) ) )
+			if ( !exprEquals( ExpressionButtonUtil.getExpression( txtExpression ),
+					(Expression) binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
+							.getValue( ) ) )
 				return true;
 		}
+		return false;
+	}
+
+	private boolean exprEquals( Expression left, Expression right )
+	{
+		if ( left.getStringExpression( ) == null
+				&& right.getStringExpression( ) == null )
+			return true;
+		else if ( strEquals( left.getStringExpression( ),
+				right.getStringExpression( ) )
+				&& strEquals( left.getType( ), right.getType( ) ) )
+			return true;
 		return false;
 	}
 
@@ -1281,7 +1276,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
-			binding.setFilterExpression( txtFilter.getText( ) );
+			ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
+					binding,
+					ComputedColumn.FILTER_MEMBER );
 
 			binding.clearAggregateOnList( );
 			String aggStr = cmbAggOn.getText( );
@@ -1306,7 +1303,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
 					argHandle.setName( arg );
-					argHandle.setValue( value );
+					ExpressionButtonUtil.saveExpressionButtonControl( paramsMap.get( arg ),
+							argHandle,
+							AggregationArgument.VALUE_MEMBER );
 					binding.addArgument( argHandle );
 				}
 			}
@@ -1324,7 +1323,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			binding.setDisplayName( txtDisplayName.getText( ) );
 			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
-			binding.setExpression( txtExpression.getText( ) );
+			ExpressionButtonUtil.saveExpressionButtonControl( txtExpression,
+					binding,
+					ComputedColumn.EXPRESSION_MEMBER );
 		}
 		return binding;
 	}
@@ -1359,7 +1360,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String getBaseName( )
 	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).getIncludeResource( );
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getIncludeResource( );
 	}
 
 }
