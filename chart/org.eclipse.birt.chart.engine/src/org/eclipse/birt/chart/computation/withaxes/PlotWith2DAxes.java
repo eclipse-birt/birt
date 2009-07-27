@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.AxesRenderer;
 import org.eclipse.birt.chart.render.IAxesDecorator;
@@ -2281,17 +2282,18 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		
 		// Set client area bounds, it will be used to clip valid area for blocks
 		// rendering of chart.
-		setClientAreaBounds( oaxOrthogonal, srh );
+		setClientAreaBounds( oaxOrthogonal, seOrthogonal, srh );
 		
 		return srh;
 	}
 
 	/**
 	 * @param oaxOrthogonal
+	 * @param seOrthogonal
 	 * @param srh
 	 */
 	private void setClientAreaBounds( OneAxis oaxOrthogonal,
-			SeriesRenderingHints srh )
+			Series seOrthogonal, SeriesRenderingHints srh )
 	{
 		Bounds boClientArea = goFactory.copyOf( getPlotBounds( ) );
 		
@@ -2313,7 +2315,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				boClientArea.setWidth( end - start );
 			}
 			
-			if ( iDimension == TWO_5_D ) // 2D+
+			boolean isLineSeries = seOrthogonal instanceof LineSeries;
+
+			if ( !isLineSeries && iDimension == TWO_5_D ) // 2D+
 			{
 				boClientArea.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
 			}
