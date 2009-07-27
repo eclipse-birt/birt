@@ -30,6 +30,7 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.dialogs.CrosstabGrandTotalDialog;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -51,19 +52,20 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			Messages.getString( "GrandTotalProvider.Column.DataField" ), Messages.getString( "GrandTotalProvider.Column.Function" ) //$NON-NLS-1$ //$NON-NLS-2$ 
+			Messages.getString( "GrandTotalProvider.Column.DataField" ) //$NON-NLS-2$ 
 	};
 
 	protected CrosstabReportItemHandle crosstabReportItemHandle;
 	private int[] columnWidths = new int[]{
-			200, 200
+			200
 	};
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#canModify(java.lang.Object,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#canModify(java.lang.Object, java.lang.String)
 	 */
 	public boolean canModify( Object element, String property )
 	{
@@ -80,7 +82,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#doAddItem(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#doAddItem(int)
 	 */
 	public boolean doAddItem( int pos ) throws Exception
 	{
@@ -108,7 +112,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#doDeleteItem(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#doDeleteItem(int)
 	 */
 	public boolean doDeleteItem( int pos ) throws Exception
 	{
@@ -153,7 +159,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#doEditItem(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#doEditItem(int)
 	 */
 	public boolean doEditItem( int pos )
 	{
@@ -174,8 +182,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#doMoveItem(int,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#doMoveItem(int, int)
 	 */
 	public boolean doMoveItem( int oldPos, int newPos ) throws Exception
 	{
@@ -186,7 +195,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getColumnNames()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#getColumnNames()
 	 */
 	public String[] getColumnNames( )
 	{
@@ -197,8 +208,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getColumnText(java.lang.Object,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#getColumnText(java.lang.Object, int)
 	 */
 	public String getColumnText( Object element, int columnIndex )
 	{
@@ -207,11 +219,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		switch ( columnIndex )
 		{
 			case 0 :
-				return info.getMeasureName( ) == null ? "" : info.getMeasureName( );
+				return info.getMeasureName( ) == null ? ""
+						: info.getMeasureName( );
 			case 1 :
-				if ( info.getFunction( ) == null
-						|| info.getFunction( ).trim( ).equals( "" ) ) //$NON-NLS-1$
-					info.setFunction( getFunctionNames( )[0] );
 				return getFunctionDisplayName( info.getFunction( ) );
 			default :
 				break;
@@ -222,7 +232,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getColumnWidths()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#getColumnWidths()
 	 */
 	public int[] getColumnWidths( )
 	{
@@ -233,7 +245,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getEditors(org.eclipse.swt.widgets.Table)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
 	public CellEditor[] getEditors( Table table )
 	{
@@ -242,7 +256,6 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		{
 			editors = new CellEditor[columnNames.length];
 			editors[0] = new TextCellEditor( );
-			editors[1] = new TextCellEditor( );
 		}
 		return editors;
 	}
@@ -250,7 +263,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getElements(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#getElements(java.lang.Object)
 	 */
 	public Object[] getElements( Object inputElement )
 	{
@@ -281,8 +296,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getImagePath(java.lang.Object,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#getImagePath(java.lang.Object, int)
 	 */
 	public Image getImage( Object element, int columnIndex )
 	{
@@ -293,8 +309,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getValue(java.lang.Object,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#getValue(java.lang.Object, java.lang.String)
 	 */
 	public Object getValue( Object element, String property )
 	{
@@ -307,8 +324,10 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#modify(java.lang.Object,
-	 *      java.lang.String, java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#modify(java.lang.Object, java.lang.String,
+	 * java.lang.Object)
 	 */
 	public boolean modify( Object data, String property, Object value )
 			throws Exception
@@ -320,7 +339,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#needRefreshed(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider
+	 * #needRefreshed(org.eclipse.birt.report.model.api.activity.NotificationEvent
+	 * )
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
@@ -334,7 +357,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IDescriptorProvider#getDisplayName()
 	 */
 	public String getDisplayName( )
 	{
@@ -357,7 +382,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 
 	}
 
-	public String[] getFunctionNames( )
+	public static String[] getFunctionNames( )
 	{
 		IChoice[] choices = getFunctions( );
 		if ( choices == null )
@@ -395,7 +420,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 
 	}
 
-	private IChoice[] getFunctions( )
+	private static IChoice[] getFunctions( )
 
 	{
 		return DEUtil.getMetaDataDictionary( )
@@ -412,18 +437,16 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		List retValue = new ArrayList( );
 		List measures = reportHandle.getAggregationMeasures( axis );
 		for ( int i = 0; i < measures.size( ); i++ )
-		{			
+		{
 			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get( i );
-			if(measureViewHandle instanceof ComputedMeasureViewHandle)
+			if ( measureViewHandle instanceof ComputedMeasureViewHandle )
 			{
 				continue;
 			}
-			GrandTotalInfo info = new GrandTotalInfo( );
-			info.setMeasureName( measureViewHandle.getCubeMeasureName( ) );
-			info.setFunction( reportHandle.getAggregationFunction( axis,
-					measureViewHandle ) );
+			GrandTotalInfo info = new GrandTotalInfo( reportHandle,
+					axis,
+					measureViewHandle );
 			retValue.add( info );
-
 		}
 
 		return retValue.toArray( new Object[retValue.size( )] );
@@ -447,7 +470,8 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 			return false;
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) crossTab.getModelHandle( );
 		int measureCount = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
-				.getContentCount( ) - crossTab.getComputedMeasures( ).size( );
+				.getContentCount( )
+				- crossTab.getComputedMeasures( ).size( );
 		if ( measureCount == 0
 				|| getGrandTotalInfo( crossTab ).length >= measureCount )
 			return false;
@@ -478,28 +502,39 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public static class GrandTotalInfo
 	{
 
-		// private MeasureViewHandle measure = null;
-		private String measureName = "";
-		private String function = ""; //$NON-NLS-1$
+		private CrosstabReportItemHandle reportHandle;
+		private MeasureViewHandle measureViewHandle;
+		private int axis;
+
+		public GrandTotalInfo( CrosstabReportItemHandle reportHandle, int axis,
+				MeasureViewHandle measureViewHandle )
+		{
+			this.reportHandle = reportHandle;
+			this.axis = axis;
+			this.measureViewHandle = measureViewHandle;
+		}
 
 		public String getMeasureName( )
 		{
-			return measureName;
+			return measureViewHandle.getCubeMeasureName( );
 		}
 
 		public void setMeasureName( String name )
 		{
-			this.measureName = name;
 		}
 
 		public String getFunction( )
 		{
-			return function;
+			String function = reportHandle.getAggregationFunction( axis,
+					measureViewHandle );
+			return function == null ? getFunctionNames( )[0] : function;
 		}
 
-		public void setFunction( String function )
+		public void setFunction( String function ) throws SemanticException
 		{
-			this.function = function;
+			reportHandle.setAggregationFunction( axis,
+					measureViewHandle,
+					function );
 		}
 	}
 }

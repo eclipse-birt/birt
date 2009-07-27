@@ -65,7 +65,7 @@ import org.eclipse.swt.widgets.Shell;
 public class CrosstabSubTotalDialog extends BaseDialog
 {
 
-	protected Combo dataFieldCombo, functionCombo, levelCombo;
+	protected Combo dataFieldCombo, levelCombo;
 	protected CrosstabReportItemHandle reportItemHandle;
 	private List measures = new ArrayList( );
 	protected int axis;
@@ -147,12 +147,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		{
 			return false;
 		}
-
-		if ( functionCombo.getText( ).length( ) <= 0
-				|| functionCombo.getSelectionIndex( ) == -1 )
-		{
-			return false;
-		}
+		
 		//
 		// SubTotalInfo newSubtTotalInfo = new SubTotalInfo( );
 		// newSubtTotalInfo.setMeasure( getMeasure( ) );
@@ -183,18 +178,6 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			return null;
 		}
 		return (MeasureViewHandle) measures.get( dataFieldCombo.getSelectionIndex( ) );
-	}
-
-	public String getFunction( )
-	{
-		if ( functionCombo.getText( ).length( ) <= 0
-				|| functionCombo.getSelectionIndex( ) == -1 )
-		{
-			return null;
-		}
-
-		return getFunctionNames( )[functionCombo.getSelectionIndex( )];
-
 	}
 
 	/*
@@ -464,7 +447,6 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			levelCombo.setItems( levels );
 			levelCombo.select( 0 );
 			updateMeasures( );
-			functionCombo.select( 0 );
 		}
 		else
 		{
@@ -472,39 +454,35 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			levelCombo.select( 0 );
 			dataFieldCombo.add( input.getMeasureName( ) );
 			dataFieldCombo.select( 0 );
-			if ( input.getFunction( ) == null )
-				functionCombo.select( 0 );
-			else
-				functionCombo.select( functionCombo.indexOf( getFunctionDisplayName( input.getFunction( ) ) ) );
 		}
 
-		GridData dataFieldGd = (GridData) dataFieldCombo.getLayoutData( );
-		GridData functionGd = (GridData) functionCombo.getLayoutData( );
-		GridData levelGd = (GridData) levelCombo.getLayoutData( );
-		int width = dataFieldCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		dataFieldGd.widthHint = width > dataFieldGd.widthHint ? width
-				: dataFieldGd.widthHint;
-		width = levelCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		levelGd.widthHint = width > dataFieldGd.widthHint ? width
-				: dataFieldGd.widthHint;
-		if ( dataFieldGd.widthHint > functionGd.widthHint
-				&& dataFieldGd.widthHint > levelGd.widthHint )
-		{
-			levelGd.widthHint = functionGd.widthHint = dataFieldGd.widthHint;
-		}
-		else if ( functionGd.widthHint > dataFieldGd.widthHint
-				&& functionGd.widthHint > levelGd.widthHint )
-		{
-			levelGd.widthHint = dataFieldGd.widthHint = functionGd.widthHint;
-		}
-		else
-		{
-			dataFieldGd.widthHint = functionGd.widthHint = levelGd.widthHint;
-		}
-		dataFieldCombo.setLayoutData( dataFieldGd );
-		functionCombo.setLayoutData( functionGd );
-		levelCombo.setLayoutData( functionGd );
-		dataFieldCombo.getParent( ).layout( );
+//		GridData dataFieldGd = (GridData) dataFieldCombo.getLayoutData( );
+//		GridData functionGd = (GridData) functionCombo.getLayoutData( );
+//		GridData levelGd = (GridData) levelCombo.getLayoutData( );
+//		int width = dataFieldCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+//		dataFieldGd.widthHint = width > dataFieldGd.widthHint ? width
+//				: dataFieldGd.widthHint;
+//		width = levelCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+//		levelGd.widthHint = width > dataFieldGd.widthHint ? width
+//				: dataFieldGd.widthHint;
+//		if ( dataFieldGd.widthHint > functionGd.widthHint
+//				&& dataFieldGd.widthHint > levelGd.widthHint )
+//		{
+//			levelGd.widthHint = functionGd.widthHint = dataFieldGd.widthHint;
+//		}
+//		else if ( functionGd.widthHint > dataFieldGd.widthHint
+//				&& functionGd.widthHint > levelGd.widthHint )
+//		{
+//			levelGd.widthHint = dataFieldGd.widthHint = functionGd.widthHint;
+//		}
+//		else
+//		{
+//			dataFieldGd.widthHint = functionGd.widthHint = levelGd.widthHint;
+//		}
+//		dataFieldCombo.setLayoutData( dataFieldGd );
+//		functionCombo.setLayoutData( functionGd );
+//		levelCombo.setLayoutData( functionGd );
+//		dataFieldCombo.getParent( ).layout( );
 
 		updateButtons( );
 	};
@@ -519,7 +497,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		Label lb = new Label( container, SWT.NONE );
 		lb.setText( Messages.getString( "SubTotalDialog.Text.AggregateOn" ) ); //$NON-NLS-1$
 		levelCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		GridData gdata = new GridData( );
+		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.widthHint = 120;
 		levelCombo.setLayoutData( gdata );
 
@@ -533,20 +511,8 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		gdata.minimumWidth = 140;
 		dataFieldCombo.setLayoutData( gdata );
 
-		lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "SubTotalDialog.Text.Function" ) ); //$NON-NLS-1$
-
 		dataFieldCombo.addSelectionListener( updateButtonListener );
 
-		functionCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		FUNCTION_LIST_ARRAY = getFunctionDisplayNames( );
-		functionCombo.setItems( FUNCTION_LIST_ARRAY );
-		functionCombo.select( 0 );
-		functionCombo.addSelectionListener( updateButtonListener );
-
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.minimumWidth = 140;
-		functionCombo.setLayoutData( gdata );
 	}
 
 	private Composite createTitleArea( Composite parent )
@@ -651,12 +617,12 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			List measureList = new ArrayList( );
 			List functionList = new ArrayList( );
 			measureList.addAll( getLevel( ).getAggregationMeasures( ) );
+			functionList.add( getFunctionNames( )[0] );
 			for ( int i = 0; i < measureList.size( ); i++ )
 			{
 				functionList.add( getLevel( ).getAggregationFunction( (MeasureViewHandle) measureList.get( i ) ) );
 			}
 			measureList.add( getMeasure( ) );
-			functionList.add( getFunction( ) );
 
 			try
 			{
@@ -675,20 +641,6 @@ public class CrosstabSubTotalDialog extends BaseDialog
 				stack.rollback( );
 			}
 
-		}
-		else
-		{
-			try
-			{
-				MeasureViewHandle measure = reportItemHandle.getMeasure( input.getMeasureName( ) );
-				input.getLevel( ).setAggregationFunction( measure,
-						getFunction( ) );
-				stack.commit( );
-			}
-			catch ( SemanticException e )
-			{
-				stack.rollback( );
-			}
 		}
 
 		super.okPressed( );

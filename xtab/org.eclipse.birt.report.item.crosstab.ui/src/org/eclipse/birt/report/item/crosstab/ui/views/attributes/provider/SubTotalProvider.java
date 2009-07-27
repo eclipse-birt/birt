@@ -55,8 +55,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
 			Messages.getString( "CrosstabSubToatalProvider.Column.AggregateOn" ), //$NON-NLS-1$
-			Messages.getString( "CrosstabSubToatalProvider.Column.DataField" ), //$NON-NLS-1$
-			Messages.getString( "CrosstabSubToatalProvider.Column.Function" ), //$NON-NLS-1$
+			Messages.getString( "CrosstabSubToatalProvider.Column.DataField" ), 
 	};
 
 	private int[] columnWidths = new int[]{

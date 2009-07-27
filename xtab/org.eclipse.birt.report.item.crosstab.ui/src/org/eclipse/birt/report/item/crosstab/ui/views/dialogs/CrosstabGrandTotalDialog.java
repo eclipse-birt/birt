@@ -68,7 +68,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 
 	protected String[] FUNCTION_LIST_ARRAY;
 
-	protected Combo dataFieldCombo, functionCombo;
+	protected Combo dataFieldCombo;
 
 	protected GrandTotalInfo input;
 
@@ -105,16 +105,14 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 	protected void okPressed( )
 	{
 		CommandStack stack = getActionStack( );
-		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-
-		String function = getFunctionNames( )[functionCombo.getSelectionIndex( )];
 
 		if ( input == null )
 		{
+			stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
 			List measureList = new ArrayList( );
 			List functionList = new ArrayList( );
 			measureList.add( getMeasureViewHandle( dataFieldCombo.getText( ) ) );
-			functionList.add( function );
+			functionList.add( getFunctionNames( )[0] );
 			try
 			{
 				CrosstabCellHandle cellHandle = reportItemHandle.addGrandTotal( axis,
@@ -129,23 +127,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 				stack.rollback( );
 			}
 
-		}
-		else
-		{
-			try
-			{
-				MeasureViewHandle measure = reportItemHandle.getMeasure( input.getMeasureName( ) );
-				reportItemHandle.setAggregationFunction( axis,
-						measure,
-						function );
-				stack.commit( );
-			}
-			catch ( SemanticException e )
-			{
-				stack.rollback( );
-				super.okPressed( );
-				return;
-			}
 		}
 		super.okPressed( );
 	}
@@ -190,43 +171,17 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 			measureNames.toArray( names );
 			dataFieldCombo.setItems( names );
 			dataFieldCombo.select( 0 );
-			functionCombo.select( 0 );
 		}
 		else
 		{
-			String function = input.getFunction( );
-
-			int index = -1;
-			index = Arrays.asList( getFunctionNames( ) ).indexOf( function );
-			if ( index >= 0 )
-			{
-				String functionDisplay = getFunctionDisplayNames( )[index];
-				index = functionCombo.indexOf( functionDisplay );
-			}
-
-			if ( index < 0 || index >= functionCombo.getItemCount( ) )
-			{
-				index = 0;
-			}
-			functionCombo.select( index );
 			dataFieldCombo.add( input.getMeasureName( ) );
 			dataFieldCombo.select( 0 );
 		}
 		GridData dataFieldGd = (GridData) dataFieldCombo.getLayoutData( );
-		GridData functionGd = (GridData) functionCombo.getLayoutData( );
 		int width = dataFieldCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		dataFieldGd.widthHint = width > dataFieldGd.widthHint ? width
 				: dataFieldGd.widthHint;
-		if ( dataFieldGd.widthHint > functionGd.widthHint )
-		{
-			functionGd.widthHint = dataFieldGd.widthHint;
-		}
-		else
-		{
-			dataFieldGd.widthHint = functionGd.widthHint;
-		}
 		dataFieldCombo.setLayoutData( dataFieldGd );
-		functionCombo.setLayoutData( functionGd );
 		dataFieldCombo.getParent( ).layout( );
 	}
 
@@ -266,9 +221,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		gdata.heightHint = 10;
 		space.setLayoutData( gdata );
 
-		Label lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
-		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
 		iniValue( );
 		updateButtons( );
 
@@ -290,9 +242,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		gdata.minimumWidth = 140;
 		dataFieldCombo.setLayoutData( gdata );
 
-		lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "CrosstabGrandTotalDialog.Text.Function" ) ); //$NON-NLS-1$
-
 		dataFieldCombo.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -300,21 +249,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 				updateButtons( );
 			}
 		} );
-
-		functionCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		FUNCTION_LIST_ARRAY = getFunctionDisplayNames( );
-		functionCombo.setItems( FUNCTION_LIST_ARRAY );
-		functionCombo.select( 0 );
-		functionCombo.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				updateButtons( );
-			}
-		} );
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.minimumWidth = 140;
-		functionCombo.setLayoutData( gdata );
 
 	}
 
@@ -371,11 +305,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 	private boolean isConditionOK( )
 	{
 		if ( dataFieldCombo.getSelectionIndex( ) == -1 )
-		{
-			return false;
-		}
-
-		if ( functionCombo.getSelectionIndex( ) == -1 )
 		{
 			return false;
 		}
