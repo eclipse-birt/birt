@@ -390,10 +390,9 @@ public class BasePaletteFactory
 						{
 							ExceptionHandler.handle( e );
 						}
+						return super.preHandleMouseUp( );
 					}
 				}
-				return super.preHandleMouseUp( );
-
 			}
 			return false;
 		}
