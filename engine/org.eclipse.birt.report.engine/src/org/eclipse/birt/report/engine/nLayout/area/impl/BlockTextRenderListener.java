@@ -65,8 +65,16 @@ public class BlockTextRenderListener implements ITextListener
 	public String getSplitText( )
 	{
 		ITextContent textContent = (ITextContent) blockContainer.content;
-		String splitText = textContent.getText( ).substring( textStartPos,
-				textStartPos + textLength );
-		return splitText;
+		if( textStartPos == -1 || textLength == 0 )
+		{
+			return "";
+		}
+		else
+		{
+			String splitText = textContent.getText( ).substring( textStartPos,
+					textStartPos + textLength );
+			return splitText;
+		}
+		
 	}
 }
