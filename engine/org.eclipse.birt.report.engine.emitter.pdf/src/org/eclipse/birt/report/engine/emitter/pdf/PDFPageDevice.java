@@ -79,6 +79,7 @@ public class PDFPageDevice implements IPageDevice
 		{
 			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(
 					output ) );
+			writer.setFullCompression( );
 			EngineResourceHandle handle = new EngineResourceHandle(
 					ULocale.forLocale( context.getLocale( ) ) );
 
