@@ -117,7 +117,7 @@ public class InlineTextExtension
 	
 	public void addLineBreak( )
 	{
-		int lineNumber = lines.size( ) - 2;
+		int lineNumber = lines.size( ) - 1;
 		lineBreaks.add( lineNumber );
 	}
 	

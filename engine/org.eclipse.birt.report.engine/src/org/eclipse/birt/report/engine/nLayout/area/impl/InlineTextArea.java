@@ -138,12 +138,12 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 	
 	protected void close( boolean isLastLine ) throws BirtException
 	{
+		super.close( isLastLine );
 		if ( isLastLine )
 		{
 			addLineToExtension(this);
 			addLineBreakToExtension( this );
 		}
-		super.close( isLastLine );
 		
 	}
 

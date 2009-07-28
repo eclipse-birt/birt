@@ -97,7 +97,22 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 				list = new ArrayList<BlockTextArea>( );
 				content.setExtension( IContent.LAYOUT_EXTENSION, list );
 			}
-			list.add( area );
+			if( area.finished )
+			{
+				list.add( area );
+			}
+			else
+			{
+				if ( list.size( ) > 0 && list.get( list.size( ) - 1 ).finished )
+				{
+					list.add( list.size( )-1, area );
+					list.size();
+				}
+				else
+				{
+					list.add( area );
+				}
+			}
 		}
 	}
 	

@@ -189,22 +189,32 @@ public class HTMLLayoutPageHintManager
 				PageSection section = pageHint.getSection( i );
 				if ( section instanceof SizeBasedPageSection )
 				{
-					SizeBasedPageSection sizeBasedSection = (SizeBasedPageSection)section;
-					InstanceID startID = sizeBasedSection.starts[sizeBasedSection.starts.length - 1 ].getInstanceID( );
-					InstanceID endID = sizeBasedSection.ends[sizeBasedSection.ends.length - 1 ].getInstanceID( );
-					if( startID != null )
+					SizeBasedPageSection sizeBasedSection = (SizeBasedPageSection) section;
+					if ( sizeBasedSection.start.dimension != -1 )
 					{
-						sizeBasedContentMapping.put( startID.toUniqueString( ), sizeBasedSection.start );		
+						InstanceID startID = sizeBasedSection.starts[sizeBasedSection.starts.length - 1]
+								.getInstanceID( );
+						if ( startID != null )
+						{
+							sizeBasedContentMapping.put( startID
+									.toUniqueString( ), sizeBasedSection.start );
+						}
 					}
-					if( endID != null )
+					if ( sizeBasedSection.end.dimension != -1 )
 					{
-						sizeBasedContentMapping.put( endID.toUniqueString( ), sizeBasedSection.end );		
+						InstanceID endID = sizeBasedSection.ends[sizeBasedSection.ends.length - 1]
+								.getInstanceID( );
+						if ( endID != null )
+						{
+							sizeBasedContentMapping.put(
+									endID.toUniqueString( ),
+									sizeBasedSection.end );
+						}
 					}
 				}
 			}
 		}
 	}
-	
 	
 	public HashMap<String, SizeBasedContent> getSizeBasedContentMapping( )
 	{

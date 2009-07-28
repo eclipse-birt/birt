@@ -69,7 +69,7 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 	}
 	
 	/**
-	 *  Splits text for fixed layout reports.
+	 * Splits text for fixed layout reports.
 	 */
 	private void splitText( )
 	{
@@ -77,37 +77,38 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 		if ( taskType.intValue( ) == IEngineTask.TASK_RENDER
 				&& context.isFixedLayout( ) )
 		{
-				SizeBasedContent sizeBasedContent = context
-						.getPageHintManager( ).getSizeBasedContentMapping( )
-						.get( content.getInstanceID( ).toUniqueString( ) );
-				if( sizeBasedContent == null || sizeBasedContent.dimension == -1 )
-				{
-					return;
-				}
-				HtmlRegionArea container = new HtmlRegionArea( );
-				container.setWidth( sizeBasedContent.width );
-				IReportContent report = content.getReportContent( );
-				IContainerContent containerContent = report.createContainerContent( );
-				containerContent.getChildren( ).add( content );
-				LayoutContext pdfLayoutContext = new LayoutContext( );
-				pdfLayoutContext.setFormat( "pdf" );
-				pdfLayoutContext.setFixedLayout( true );
-				pdfLayoutContext.setInHtmlRender( true );
-				pdfLayoutContext.setLocale( engine.locale );
-				pdfLayoutContext.setHtmlLayoutContext( context );
-				pdfLayoutContext.setMaxBP( Integer.MAX_VALUE );
-				pdfLayoutContext.setReport( report );
-				RegionLayoutEngine rle = new RegionLayoutEngine( container,
-						pdfLayoutContext );
-				try
-				{
-					rle.layout( containerContent );
-				}
-				catch ( BirtException e )
-				{
-					logger.log( Level.WARNING, e.getMessage( ), e );
-				}
+			SizeBasedContent sizeBasedContent = context.getPageHintManager( )
+					.getSizeBasedContentMapping( ).get(
+							content.getInstanceID( ).toUniqueString( ) );
+			if ( sizeBasedContent == null || sizeBasedContent.dimension == -1 )
+			{
+				return;
 			}
-		
+			HtmlRegionArea container = new HtmlRegionArea( );
+			container.setWidth( sizeBasedContent.width );
+			IReportContent report = content.getReportContent( );
+			IContainerContent containerContent = report
+					.createContainerContent( );
+			containerContent.getChildren( ).add( content );
+			LayoutContext pdfLayoutContext = new LayoutContext( );
+			pdfLayoutContext.setFormat( "pdf" );
+			pdfLayoutContext.setFixedLayout( true );
+			pdfLayoutContext.setInHtmlRender( true );
+			pdfLayoutContext.setLocale( engine.locale );
+			pdfLayoutContext.setHtmlLayoutContext( context );
+			pdfLayoutContext.setMaxBP( Integer.MAX_VALUE );
+			pdfLayoutContext.setReport( report );
+			RegionLayoutEngine rle = new RegionLayoutEngine( container,
+					pdfLayoutContext );
+			try
+			{
+				rle.layout( containerContent );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+		}
+
 	}
 }

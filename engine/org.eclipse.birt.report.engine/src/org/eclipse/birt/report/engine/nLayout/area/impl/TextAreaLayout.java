@@ -243,6 +243,7 @@ public class TextAreaLayout implements ILayout
 	 */
 	public void newLine( boolean endParagraph ) throws BirtException
 	{
+		parentLM.endLine( endParagraph );
 		if ( listenerList != null )
 		{
 			for ( Iterator<ITextListener> i = listenerList.iterator( ); i
@@ -252,7 +253,6 @@ public class TextAreaLayout implements ILayout
 				listener.onNewLineEvent( );
 			}
 		}
-		parentLM.endLine( endParagraph );
 	}
 
 	public int getFreeSpace( )

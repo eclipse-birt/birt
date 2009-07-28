@@ -238,7 +238,6 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 								+ child.getAllocatedHeight( );
 						BlockContainerArea newContainer = cloneArea( );
 						newContainer.updateContentHeight( contentHeight );
-						afterSplit( contentHeight );
 						Iterator iter = children.iterator( );
 						while ( iter.hasNext( ) )
 						{
@@ -509,7 +508,6 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				children.remove( child );
 			}
 			newContainer.updateContentHeight( contentHeight );
-			afterSplit( contentHeight );
 		}
 
 		if ( newContainer != null )
@@ -523,11 +521,6 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 	protected void addRepeatedItem( ) throws BirtException
 	{
 
-	}
-	
-	protected void afterSplit( int splitHeight )
-	{
-		
 	}
 
 	public void autoPageBreak( ) throws BirtException

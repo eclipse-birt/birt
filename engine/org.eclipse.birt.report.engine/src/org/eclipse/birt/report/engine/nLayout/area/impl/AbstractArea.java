@@ -27,12 +27,12 @@ public abstract class AbstractArea implements IArea
 	protected static Logger logger = Logger.getLogger( AbstractArea.class
 			.getName( ) );
 	/**
-	 * x position of this area in parent area
+	 * x position of this area in parent area, calculated from border box.
 	 */
 	protected int x;
 
 	/**
-	 * y position of this area in parent area
+	 * y position of this area in parent area, calculated from border box.
 	 */
 	protected int y;
 

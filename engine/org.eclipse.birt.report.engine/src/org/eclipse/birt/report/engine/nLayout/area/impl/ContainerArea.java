@@ -51,8 +51,14 @@ public abstract class ContainerArea extends AbstractArea
 
 	protected transient int maxAvaWidth = 0;
 
+	/**
+	 * the vertical position calculated from content edge.
+	 */
 	protected transient int currentBP = 0;
 
+	/**
+	 * the horizontal position calculated from content edge.
+	 */
 	protected transient int currentIP = 0;
 
 	protected transient int specifiedHeight = 0;

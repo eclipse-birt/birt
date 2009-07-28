@@ -55,7 +55,7 @@ public class PageSection
 		IOUtil.writeInt( out, indexes.length );
 		for ( int i = 0; i < indexes.length; i++ )
 		{
-			IOUtil.writeString( out, indexes[i].getInstanceID( ).toString( ) );
+			IOUtil.writeString( out, indexes[i].getInstanceID( ).toUniqueString( ) );
 			IOUtil.writeLong( out, indexes[i].getOffset( ) );
 		}
 	}

@@ -174,6 +174,14 @@ public class FixedLayoutPageHintGenerator
 				if ( InstanceIDComparator.isNextWith( currentContent.content,
 						area.content ) )
 				{
+					if( currentContent.dimension > 0 )
+					{
+						fixedLayoutPageHints.add( new SizeBasedContent[]{
+								startContent, currentContent} );
+						startContent = createSizeBasedContent( area );
+						currentContent = startContent;
+						return;
+					}
 					currentContent = createSizeBasedContent( area );
 				}
 				else if ( InstanceIDComparator.equals( currentContent.content,
@@ -224,16 +232,32 @@ public class FixedLayoutPageHintGenerator
 					{
 						break;
 					}
-					lastHeight = current.getHeight( );
+					lastHeight = current.getContentHeight( );
 				}
 				sizeBasedContent.offsetInContent = offsetInContent;
+				sizeBasedContent.dimension = blockText.getContentHeight( );
+				sizeBasedContent.width = blockText.getWidth( );
+			}
+			else if( list.size( ) == 1 )
+			{
+				sizeBasedContent.offsetInContent = 0;
+				if ( list.get( 0 ).finished )
+				{
+					sizeBasedContent.dimension = -1;
+					sizeBasedContent.width = -1;
+				}
+				else
+				{
+					sizeBasedContent.dimension = blockText.getContentHeight( );
+					sizeBasedContent.width = blockText.getWidth( );
+				}
 			}
 			else
 			{
-				sizeBasedContent.offsetInContent = 0;	
+				sizeBasedContent.offsetInContent = 0;
+				sizeBasedContent.dimension = -1;
+				sizeBasedContent.width = -1;
 			}
-			sizeBasedContent.dimension = blockText.getHeight( );
-			sizeBasedContent.width = blockText.getWidth( );
 		}
 		else if ( area instanceof InlineTextArea )
 		{
