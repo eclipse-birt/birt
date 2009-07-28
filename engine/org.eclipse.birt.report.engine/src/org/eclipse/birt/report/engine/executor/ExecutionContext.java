@@ -639,17 +639,28 @@ public class ExecutionContext
 		return null;
 	}
 
+	/** 
+     * The expression may be evaluated at onPrepare stage, at that time
+     * the reportIR is not initialized.
+     */
+	protected String getScriptLanguage( )
+	{
+		if ( reportIR != null )
+		{
+			return reportIR.getScriptLanguage( );
+		}
+		return Expression.SCRIPT_JAVASCRIPT;
+	}
+
 	public Object evaluate( String scriptText ) throws BirtException
 	{
-		return evaluate( getReport( ).getScriptLanguage( ), "<inline>", 1,
-				scriptText );
+		return evaluate( getScriptLanguage( ), "<inline>", 1, scriptText );
 	}
 
 	public Object evaluate( String fileName, String scriptText )
 			throws BirtException
 	{
-		return evaluate( getReport( ).getScriptLanguage( ), fileName, 1,
-				scriptText );
+		return evaluate( getScriptLanguage( ), fileName, 1, scriptText );
 	}
 
 	public Object evaluateInlineScript( String language, String scriptText ) throws BirtException
