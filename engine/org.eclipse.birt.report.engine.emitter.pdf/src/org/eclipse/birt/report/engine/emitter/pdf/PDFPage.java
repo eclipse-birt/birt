@@ -418,8 +418,7 @@ public class PDFPage extends AbstractPage
 				{
 					template = contentByte.createTemplate( width, height );
 					Image image = Image.getInstance( imageData );
-					template.addImage( image, image.scaledWidth( ), 0, 0, image
-							.scaledHeight( ), 0, 0 );
+					template.addImage( image, width, 0, 0, height, 0, 0 );
 					pageDevice.getImageMap( ).put( imageId, template );
 				}
 				if ( template != null )
@@ -457,8 +456,7 @@ public class PDFPage extends AbstractPage
 				{
 					template = contentByte.createTemplate( width, height );
 					Image image = Image.getInstance( new URL( uri ) );
-					template.addImage( image, image.scaledWidth( ), 0, 0, image
-							.scaledHeight( ), 0, 0 );
+					template.addImage( image, width, 0, 0, height, 0, 0 );
 					pageDevice.getImageMap( ).put( uri, template );
 				}
 				if ( template != null )
