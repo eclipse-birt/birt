@@ -297,10 +297,8 @@ public class ReportPreviewEditor extends EditorPart
 		return "<form><p><b>"//$NON-NLS-1$
 				+ Messages.getString( "PreviewEditor.parameter.note" )//$NON-NLS-1$
 				+ "</b> " //$NON-NLS-1$
-				+ Messages.getString( "PreviewEditor.parameter.info" )//$NON-NLS-1$
-				+ " " //$NON-NLS-1$
-				+ maxRow
-				+ ". (<a>" //$NON-NLS-1$
+				+ Messages.getFormattedString( "PreviewEditor.parameter.info", new String[]{maxRow} )//$NON-NLS-1$
+				+ " (<a>" //$NON-NLS-1$
 				+ Messages.getString( "PreviewEditor.parameter.change" )//$NON-NLS-1$
 				+ "</a>)</p></form>";//$NON-NLS-1$
 	}
