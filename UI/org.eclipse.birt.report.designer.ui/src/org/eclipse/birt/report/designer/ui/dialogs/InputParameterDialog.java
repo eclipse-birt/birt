@@ -127,8 +127,8 @@ public class InputParameterDialog extends Dialog
 								.length( ) == 0 )
 						|| ( paramValue instanceof Object[] && ( (Object[]) paramValue ).length == 0 ) )
 				{
-					MessageDialog.openError( getShell( ), "Error", paramName //$NON-NLS-1$
-							+ " cannot be NULL or blank" ); //$NON-NLS-1$
+					MessageDialog.openError( getShell( ),
+							"Error", Messages.getFormattedString( "InputParameterDialog.err.requiredParam", new String[]{paramName} ) ); //$NON-NLS-1$ //$NON-NLS-2$
 					return;
 				}
 			}
