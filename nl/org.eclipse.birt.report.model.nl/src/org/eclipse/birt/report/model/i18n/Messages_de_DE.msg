@@ -2606,6 +2606,7 @@ Element.ReportItem.multiViews=Mehrfachansichten
 Element.ReportItem.ACLExpression=Ausdruck 'ACL'
 Element.ReportItem.cascadeACL=Verschachtelung 'ACL'
 Element.ReportItem.allowExport=Export zulassen
+Element.ReportItem.pushDown=Push down
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Inhalt

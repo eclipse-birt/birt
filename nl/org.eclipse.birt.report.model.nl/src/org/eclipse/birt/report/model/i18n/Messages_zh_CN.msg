@@ -2606,6 +2606,7 @@ Element.ReportItem.multiViews=多个视图
 Element.ReportItem.ACLExpression=ACL 表达式
 Element.ReportItem.cascadeACL=层叠 ACL
 Element.ReportItem.allowExport=允许导出
+Element.ReportItem.pushDown=Push down
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容

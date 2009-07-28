@@ -2606,6 +2606,7 @@ Element.ReportItem.multiViews=マルチビュー
 Element.ReportItem.ACLExpression=ACL 式
 Element.ReportItem.cascadeACL=ACL を重ねて表示
 Element.ReportItem.allowExport=エクスポートを許可する
+Element.ReportItem.pushDown=Push down
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ
