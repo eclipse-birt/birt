@@ -177,7 +177,8 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 				.getString( "OptionDescription.PaperTray" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow,};
+				fontSubstitution, pageOverFlow, copies, collate, duplex,
+				paperSize, paperTray};
 	}
 
 	@Override
