@@ -410,6 +410,9 @@ public class GanttChart extends DefaultChartTypeImpl
 		{
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 		}
+
+		ChartUIUtil.updateDefaultAggregations( currentChart );
+
 		return currentChart;
 	}
 

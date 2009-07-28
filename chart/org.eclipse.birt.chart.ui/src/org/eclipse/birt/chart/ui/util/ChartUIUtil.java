@@ -1836,6 +1836,16 @@ public class ChartUIUtil
 				setSeriesAggregation( queries.get( 2 ), "First" );//Open //$NON-NLS-1$
 				setSeriesAggregation( queries.get( 3 ), "Last" );//Close //$NON-NLS-1$
 			}
+			if ( vs instanceof GanttSeries )
+			{
+				EList<Query> queries = vs.getDataDefinition( );
+				while ( queries.size( ) < 3 )
+				{
+					queries.add( QueryImpl.create( "" ) ); //$NON-NLS-1$
+				}
+				setSeriesAggregation( queries.get( 0 ), "Min" );//Start //$NON-NLS-1$
+				setSeriesAggregation( queries.get( 1 ), "Max" );//End //$NON-NLS-1$
+			}
 		}
 	}
 
