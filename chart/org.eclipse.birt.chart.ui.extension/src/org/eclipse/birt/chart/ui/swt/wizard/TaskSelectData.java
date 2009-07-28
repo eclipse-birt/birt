@@ -396,6 +396,10 @@ public class TaskSelectData extends SimpleTask implements
 		{
 			if ( event.type == IChartDataSheet.EVENT_PREVIEW )
 			{
+				if ( getChartModel( ) instanceof ChartWithAxes )
+				{
+					checkDataTypeForChartWithAxes( );
+				}
 				doPreview( );
 				updateApplyButton( );
 			}
