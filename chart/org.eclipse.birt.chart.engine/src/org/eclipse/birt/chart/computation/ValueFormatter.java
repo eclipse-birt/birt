@@ -70,48 +70,49 @@ public final class ValueFormatter
 			return (String) oValue;
 		}
 
-		if ( fs == null ) // IF A FORMAT SPECIFIER WAS NOT ASSOCIATED WITH THE
-		// VALUE
+		// IF A FORMAT SPECIFIER WAS NOT ASSOCIATED WITH THE VALUE
+		if ( fs == null ) 
 		{
-			if ( oCachedJavaFormatter != null ) // CHECK IF AN INTERNAL JAVA
-			// FORMAT SPECIFIER WAS COMPUTED
+			// CHECK IF AN INTERNAL JAVA FORMAT SPECIFIER WAS COMPUTED
+			if ( oCachedJavaFormatter != null ) 
 			{
-				if ( oValue instanceof Double )
+				if ( oValue instanceof Double
+						|| oValue instanceof NumberDataElement )
 				{
 					if ( oCachedJavaFormatter instanceof DecimalFormat )
 					{
-						final double dValue = ( (Double) oValue ).doubleValue( );
-						sValue = ( (DecimalFormat) oCachedJavaFormatter ).format( ( (Double) oValue ).doubleValue( ) );
-						return correctNumber( sValue, dValue );
-					}
-				}
-				else if ( oValue instanceof NumberDataElement )
-				{
-					if ( oCachedJavaFormatter instanceof DecimalFormat )
-					{
-						final double dValue = ( (NumberDataElement) oValue ).getValue( );
+						final double dValue = oValue instanceof Double ? ( (Double) oValue ).doubleValue( )
+								: ( (NumberDataElement) oValue ).getValue( );
 						sValue = ( (DecimalFormat) oCachedJavaFormatter ).format( dValue );
 						return correctNumber( sValue, dValue );
 					}
 				}
-				else if ( oValue instanceof Calendar )
+				else if ( oValue instanceof Calendar
+						|| oValue instanceof DateTimeDataElement )
 				{
+					Calendar calendar = oValue instanceof Calendar ? (Calendar) oValue
+							: ( (DateTimeDataElement) oValue ).getValueAsCalendar( );
 					if ( oCachedJavaFormatter instanceof IDateFormatWrapper )
 					{
-						return ( (IDateFormatWrapper) oCachedJavaFormatter ).format( ( (Calendar) oValue ).getTime( ) );
+						return ( (IDateFormatWrapper) oCachedJavaFormatter ).format( calendar.getTime( ) );
 					}
-				}
-				else if ( oValue instanceof DateTimeDataElement )
-				{
-					if ( oCachedJavaFormatter instanceof DateFormat )
+					else if ( oCachedJavaFormatter instanceof DateFormat )
 					{
-						return ( (DateFormat) oCachedJavaFormatter ).format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
+						return ( (DateFormat) oCachedJavaFormatter ).format( calendar );
 					}
+					else if ( oCachedJavaFormatter instanceof DateFormatSpecifier )
+					{
+						return ( (DateFormatSpecifier) oCachedJavaFormatter ).format( calendar,
+								lcl );
+					}					
 				}
 				else if ( oValue instanceof IDataPointEntry )
 				{
-					return ( (IDataPointEntry) oValue ).getFormattedString( oCachedJavaFormatter,
-							lcl );
+					if ( oCachedJavaFormatter instanceof FormatSpecifier )
+					{
+						return ( (IDataPointEntry) oValue ).getFormattedString( (FormatSpecifier) oCachedJavaFormatter,
+								lcl );
+					}
 				}
 			}
 			else

@@ -33,7 +33,7 @@ public interface IDataPointEntry
 	 *            Specific locale.
 	 * @return The string representation
 	 */
-	String getFormattedString( Object formatter, ULocale locale );
+	String getFormattedString( FormatSpecifier formatter, ULocale locale );
 
 	/**
 	 * Returns the formatted string representation of current object by given
@@ -54,7 +54,7 @@ public interface IDataPointEntry
 	/**
 	 * Returns if the DataPointEntry is valid.
 	 * 
-	 * @return
+	 * @return value or not
 	 * @since 2.5.0
 	 */
 	boolean isValid( );
