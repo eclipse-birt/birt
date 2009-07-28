@@ -1580,7 +1580,7 @@ public class ExecutionContext
 		NumberFormatter fmt = numberFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new NumberFormatter( pattern, ulocale == null
+			fmt = new NumberFormatter( pattern, locale == null
 					? ulocale
 					: new ULocale( locale ) );
 			numberFormatters.put( key, fmt );
