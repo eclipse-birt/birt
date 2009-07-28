@@ -226,7 +226,10 @@ public class StyleEngine
 				continue;
 			}
 
-			StyleBuilder.applyBottomBorder( entry, data.style );
+			if ( data.style != null )
+			{
+				StyleBuilder.applyBottomBorder( entry, data.style );
+			}
 		}
 	}
 }

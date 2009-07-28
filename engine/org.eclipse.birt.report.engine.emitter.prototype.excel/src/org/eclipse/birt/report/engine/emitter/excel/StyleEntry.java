@@ -21,15 +21,15 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 
 	public StyleEntry( )
 	{
-		props = new String[StyleConstant.COUNT];
+		props = new Object[StyleConstant.COUNT];
 	}
 
-	public void setProperty( int id, String value )
+	public void setProperty( int id, Object value )
 	{
 		props[id] = value;
 	}
 
-	public String getProperty( int id )
+	public Object getProperty( int id )
 	{
 		return props[id];
 	}
@@ -80,8 +80,8 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 
 		for ( int i = 0; i < StyleConstant.COUNT; i++ )
 		{
-			String value = props[i] == null ? NULL : props[i];
-			code += value.hashCode( ) * 2 + 1;
+			int hashCode = props[i] == null ? 0 : props[i].hashCode( );
+			code += hashCode * 2 + 1;
 				
 			if ( Integer.MAX_VALUE == code )
 			{
@@ -92,12 +92,15 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 		return code;
 	}
 
-	public static boolean isNull( String value )
+	public static boolean isNull( Object value )
 	{
-		return value == null ? true : StyleConstant.NULL
-				.equalsIgnoreCase( value );
-	}	
-	
+		if ( value == null )
+			return true;
+		if ( value instanceof String )
+			return StyleConstant.NULL.equalsIgnoreCase( (String) value );
+		return false;
+	}
+
 	public Object clone( ) 
 	{
 		StyleEntry o = null;
@@ -127,6 +130,6 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 
 	private String name = null;
 
-	private String[] props = null;	
+	private Object[] props = null;
 	
 }

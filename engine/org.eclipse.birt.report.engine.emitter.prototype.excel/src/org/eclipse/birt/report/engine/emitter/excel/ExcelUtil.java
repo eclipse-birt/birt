@@ -720,14 +720,6 @@ public class ExcelUtil
 		return agg || m.matches( );
 	}
 
-	public static String expression( String val, String target, String[] res,
-			boolean casesenstive )
-	{
-		boolean flag = casesenstive ? target.equals( val ) : target
-				.equalsIgnoreCase( val );
-		return flag ? res[1] : res[0];
-	}
-
 	public static int covertDimensionType( DimensionType value, int parent )
 	{
 		if ( DimensionType.UNITS_PERCENTAGE.equals( value.getUnits( ) ) )

@@ -83,7 +83,7 @@ public class ExcelLayoutEngine
 	
 	private HashMap<String, String> cachedBookmarks = new HashMap<String, String>( );
 
-	private DataCache cache;
+	protected DataCache cache;
 
 	private AxisProcessor axis;
 
@@ -520,8 +520,8 @@ public class ExcelLayoutEngine
 	{
 		XlsContainer container=getCurrentContainer();
 		ContainerSizeInfo parentSizeInfo = container.getSizeInfo( );
-		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( image,
-				parentSizeInfo.getWidth( ) );
+		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( image, parentSizeInfo
+				.getWidth( ) );
 		splitColumns( imageColumnsInfo, parentSizeInfo );
 		StyleEntry entry = engine.getStyle( style, parentSizeInfo );
 		SheetData data = createImageData( image, entry,container );
@@ -629,7 +629,7 @@ public class ExcelLayoutEngine
 		int type = SheetData.STRING;
 		if ( SheetData.NUMBER==ExcelUtil.getType( txt )  )
 		{
-			String format = ExcelUtil.getPattern( txt, entry
+			String format = ExcelUtil.getPattern( txt, (String) entry
 					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
 			format = ExcelUtil.formatNumberPattern( format, dataLocale );
 			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
@@ -638,7 +638,7 @@ public class ExcelLayoutEngine
 		}
 		else if ( SheetData.DATE == ExcelUtil.getType( txt ) )
 		{
-			String format = ExcelUtil.getPattern( txt, entry
+			String format = ExcelUtil.getPattern( txt, (String) entry
 					.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
 			entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );
 			type = Data.DATE;
@@ -667,7 +667,7 @@ public class ExcelLayoutEngine
 		return dlocale == null ? locale : new ULocale( dlocale );
 	}
 
-	private void addData( SheetData data )
+	protected void addData( SheetData data )
 	{
 		XlsContainer container = getCurrentContainer( );
 		container.setEmpty( false );
@@ -694,7 +694,7 @@ public class ExcelLayoutEngine
 		lastData = data;
 	}
 
-	private void updataRowIndex( SheetData data, XlsContainer container )
+	protected void updataRowIndex( SheetData data, XlsContainer container )
 	{
 		int rowIndex = container.getRowIndex( ) + 1;
 		data.setRowIndex( rowIndex );

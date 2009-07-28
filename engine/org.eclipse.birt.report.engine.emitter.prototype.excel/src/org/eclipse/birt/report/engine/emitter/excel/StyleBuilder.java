@@ -96,22 +96,17 @@ public class StyleBuilder
 		entry.setProperty( StyleConstant.FONT_SIZE_PROP, convertFontSize( style
 				.getFontSize( ) ) );
 
-		entry
-				.setProperty( StyleConstant.FONT_STYLE_PROP, ExcelUtil
-						.expression( style.getFontStyle( ), "italic",
-								new String[]{"0", "1"}, false ) );
+		entry.setProperty( StyleConstant.FONT_STYLE_PROP, "italic"
+				.equalsIgnoreCase( style.getFontStyle( ) ) );
 
-		entry.setProperty( StyleConstant.FONT_WEIGHT_PROP, ExcelUtil
-				.expression( style.getFontWeight( ), "bold", new String[]{"0",
-						"1"}, false ) );
+		entry.setProperty( StyleConstant.FONT_WEIGHT_PROP, "bold"
+				.equalsIgnoreCase( style.getFontWeight( ) ) );
 
-		entry.setProperty( StyleConstant.TEXT_LINE_THROUGH_PROP, ExcelUtil
-				.expression( style.getTextLineThrough( ), "line-through",
-						new String[]{"0", "1"}, false ) );
+		entry.setProperty( StyleConstant.TEXT_LINE_THROUGH_PROP, "line-through"
+				.equalsIgnoreCase( style.getTextLineThrough( ) ) );
 
-		entry.setProperty( StyleConstant.TEXT_UNDERLINE_PROP, ExcelUtil
-				.expression( style.getTextUnderline( ), "underline", new String[]{
-						"0", "1"}, false ) );
+		entry.setProperty( StyleConstant.TEXT_UNDERLINE_PROP, "underline"
+				.equalsIgnoreCase( style.getTextUnderline( ) ) );
 
 		entry.setProperty( StyleConstant.H_ALIGN_PROP, convertHAlign( style
 				.getTextAlign( ), style.getDirection( ) ) );
@@ -141,10 +136,10 @@ public class StyleBuilder
 	{
 		StyleEntry entry = new StyleEntry( );
 
-		for ( int i = 0; i < StyleEntry.COUNT; i++ )
-		{
-			entry.setProperty( i, StyleEntry.NULL );
-		}
+		// for ( int i = 0; i < StyleEntry.COUNT; i++ )
+		// {
+		// entry.setProperty( i, StyleEntry.NULL );
+		// }
 
 		return entry;
 	}
@@ -178,14 +173,12 @@ public class StyleBuilder
 		}
 	}
 
-	public static String convertFontSize( String size )
+	public static Integer convertFontSize( String size )
 	{
-		String fsize = StyleConstant.NULL;
-
+		Integer fsize = null;
 		try
 		{
-			fsize = Float.toString( Math
-					.round( Float.parseFloat( size ) / 1000 ) );
+			fsize = Math.round( Float.parseFloat( size ) / 1000 );
 		}
 		catch ( NumberFormatException e )
 		{

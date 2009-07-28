@@ -29,6 +29,10 @@ public class BlankData extends Data
 		this.data = data;
 	}
 
+	public BlankData( )
+	{
+	}
+
 	public boolean isBlank()
 	{
 		return true;
