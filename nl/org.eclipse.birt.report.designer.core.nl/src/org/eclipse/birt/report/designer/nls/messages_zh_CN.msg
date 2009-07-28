@@ -2973,7 +2973,7 @@ PreviewAction.Text=预览
 
 PreviewEditor.parameter.tooltip=显示报表参数
 PreviewEditor.parameter.note=注:
-PreviewEditor.parameter.info=当前数据行数的最大限制为
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to {0}.
 PreviewEditor.parameter.change=单击以更改预览首选项
 PreviewEditor.ConfirmRefresh.Title=确认刷新
 PreviewEditor.ConfirmRefresh.Message=您的操作可能影响预览结果，是否要刷新预览页面? 
@@ -4500,6 +4500,7 @@ CreateChartHandler.text=创建图表视图
 #Input Parameters
 InputParameterDialog.msg.title=输入参数
 InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=重新设定列大小

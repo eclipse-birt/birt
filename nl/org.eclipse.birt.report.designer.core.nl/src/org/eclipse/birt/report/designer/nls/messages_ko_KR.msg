@@ -2973,7 +2973,7 @@ PreviewAction.Text=미리 보기
 
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
 PreviewEditor.parameter.note=참고:
-PreviewEditor.parameter.info=현재 최대 데이터 행 수가 다음으로 제한됩니다.
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to {0}.
 PreviewEditor.parameter.change=미리 보기 기본 설정을 변경하려면 클릭
 PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
 PreviewEditor.ConfirmRefresh.Message=현재 작업이 미리 보기 결과에 영향을 미칠 수 있습니다. 미리 보기를 새로 고치겠습니까? 
@@ -4500,6 +4500,7 @@ CreateChartHandler.text=차트 보기 생성
 #Input Parameters
 InputParameterDialog.msg.title=입력 매개 변수
 InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=열 크기 조정

@@ -2973,7 +2973,7 @@ PreviewAction.Text=プレビュー
 
 PreviewEditor.parameter.tooltip=レポートパラメタの表示
 PreviewEditor.parameter.note=注 :
-PreviewEditor.parameter.info=データ行の現在の制限 :
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to {0}.
 PreviewEditor.parameter.change=プレビューの環境設定を変更するにはここをクリック
 PreviewEditor.ConfirmRefresh.Title=更新の確認
 PreviewEditor.ConfirmRefresh.Message=この操作はプレビュー結果に影響する可能性があります。プレビューページを更新しますか ? 
@@ -4500,6 +4500,7 @@ CreateChartHandler.text=グラフビューの作成
 #Input Parameters
 InputParameterDialog.msg.title=入力パラメタ
 InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=列幅の変更

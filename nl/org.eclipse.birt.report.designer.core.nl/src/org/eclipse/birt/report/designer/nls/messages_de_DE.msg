@@ -2973,7 +2973,7 @@ PreviewAction.Text=Vorschau
 
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
 PreviewEditor.parameter.note=Hinweis:
-PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to {0}.
 PreviewEditor.parameter.change=Zum Ändern der Vorschaueinstellungen klicken.
 PreviewEditor.ConfirmRefresh.Title=Aktualisierung bestätigen
 PreviewEditor.ConfirmRefresh.Message=Der Vorgang kann das Vorschauergebnis beeinflussen. Möchten Sie die Vorschauseite aktualisieren? 
@@ -4500,6 +4500,7 @@ CreateChartHandler.text=Diagramm-Ansicht erstellen
 #Input Parameters
 InputParameterDialog.msg.title=Eingabeparameter
 InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=Spaltengröße anpassen
