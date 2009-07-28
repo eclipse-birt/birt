@@ -937,11 +937,6 @@ public class ExecutionContext
 		content.getErrors( ).addAll( onPrepareErrors );
 	}
 
-	public void loadScript( String fileName )
-	{
-		loadScript( reportIR.getScriptLanguage( ), fileName );
-	}
-
 	/**
 	 * Loads scripts that are stored in an external file. Used to support
 	 * include-script. Each script file should be load only once. and the script

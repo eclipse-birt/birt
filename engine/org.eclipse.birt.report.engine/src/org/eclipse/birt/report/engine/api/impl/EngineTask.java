@@ -72,6 +72,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.Expression.Script;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -1556,8 +1557,9 @@ public abstract class EngineTask implements IEngineTask
 			{
 				IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
 						.next( );
+				String language = Script.SCRIPT_JAVASCRIPT;
 				String fileName = includeScript.getFileName( );
-				executionContext.loadScript( fileName );
+				executionContext.loadScript( language, fileName );
 			}
 				
 			// execute scripts defined in include-script element of this report
@@ -1566,8 +1568,9 @@ public abstract class EngineTask implements IEngineTask
 			{
 				IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
 						.next( );
+				String language = Script.SCRIPT_JAVASCRIPT;
 				String fileName = includeScript.getFileName( );
-				executionContext.loadScript( fileName );
+				executionContext.loadScript( language, fileName );
 			}
 
 			// Intialize the report
