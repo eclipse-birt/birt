@@ -448,7 +448,7 @@ public class EditorRulerFigure extends Figure
 					//					graphics.drawLine(y, clippedBounds.x, y, clippedBounds.x
 					// + clippedBounds.width);
 					
-					if (canDrawNumber(num, textLocation, graphics))
+					//if (canDrawNumber(num, textLocation, graphics))
 					{
 						graphics.drawText( num, textLocation );
 					}
@@ -472,7 +472,7 @@ public class EditorRulerFigure extends Figure
 											: 0 ) );
 					graphics.fillRectangle( forbiddenZone );
 					
-					if (canDrawNumber(num, new Point(textLocation.x, textLocation.y+getScaleLeftSpace().y - numImage.getBounds( ).height), graphics))
+					//if (canDrawNumber(num, new Point(textLocation.x, textLocation.y+getScaleLeftSpace().y - numImage.getBounds( ).height), graphics))
 					{
 						graphics.drawImage( numImage, textLocation );
 					}
@@ -521,8 +521,11 @@ public class EditorRulerFigure extends Figure
 				SWT.COLOR_WIDGET_BACKGROUND );
 		
 		graphics.setBackgroundColor( c );
-		Rectangle rect = new Rectangle( 0, 0, clippedBounds.height,
-				leftMargin - 2 );
+//		Rectangle rect = new Rectangle( 0, 0, clippedBounds.height,
+//				leftMargin - 2 );
+		Rectangle rect = new Rectangle( 0, 0, transposer.t(getBounds( )).width,
+				leftMargin);
+
 		rect = transposer.t( rect );
 		graphics.fillRectangle( rect );
 
