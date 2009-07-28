@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=XML ƒ\[ƒX‚Ì•Û‘¶
 ColoredByValueSeries=–}—á€–Ú‚ÌŒ^‚ğŒn—ñ‚Æ‚µ‚Äİ’è‚µ‚Ü‚·B
 CurveFittingArea=–ÊÏŒn—ñ‚Ì‹Èü‚Ì‚ ‚Ä‚Í‚ß‘®«‚ğ—LŒø‚É‚µ‚Ü‚·B
 CurveFittingBar=–_Œn—ñ‚Ì‹Èü‚Ì‚ ‚Ä‚Í‚ß‘®«‚ğì¬‚µ‚Ü‚·B
-CurveFittingLine=–ÊÏŒn—ñ‚Ì‹Èü‚Ì‚ ‚Ä‚Í‚ß‘®«‚ğ—LŒø‚É‚µ‚Ü‚·B
+CurveFittingLine=Enable the curve fitting attribute of line series.
 CurveFittingStock=Š”‰¿Œn—ñ‚Ì‹Èü‚Ì‚ ‚Ä‚Í‚ß‘®«‚ğì¬‚µ‚Ü‚·B
 LegendFormat=–}—á‚ÍƒOƒ‰ƒt‚Ìã‰º¶‰EA‚Ü‚½‚Í“à‘¤‚É”z’u‚Å‚«‚Ü‚·B–}—á€–Ú‚ğŠÜ‚ŞƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ÍA–}—á‚Ì“à‘¤‚É”z’u‚³‚ê‚Ü‚·B
 MarkerLine=ƒ}[ƒJ‚Ìü‚ÍAX ‚Æ Y ‚Ì—¼•û‚Ì²‚Åì¬‚Å‚«‚Ü‚· (ChartWithAxes Œ^ƒOƒ‰ƒt‚Ìê‡‚Ì‚İ)B
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() ‚ÅŒn—ñ‚Æƒ‰ƒxƒ‹ (Series.getTitle()) ‚Ì‘
 MinSlice=ƒXƒ‰ƒCƒX‚ÌÅ¬’l‚ğâ‘Î’l‚©”ä—¦ (%) ‚Åw’è‚Å‚«‚Ü‚·BƒpƒCƒOƒ‰ƒt‚ÌƒXƒ‰ƒCƒX‚ğØ‚èo‚·‚É‚ÍAØ‚èo‚µ‘®«‚É”®‚ğİ’è‚µ‚Ü‚·B
 MultipleYAxes=1 ‚Â‚ÌƒOƒ‰ƒt‚É•¡”‚Ì Y ²‚ğg—p‚Å‚«‚Ü‚·B
 MultipleYSeries=1 ‚Â‚ÌƒOƒ‰ƒt‚É•¡”‚Ì Y (’l) Œn—ñ‚ğg—p‚Å‚«‚Ü‚·B 
-WorkingWithBIRTDataEngine=ODA/DtE (BIRT Data Engine) ‚ğg‚Á‚½ƒOƒ‰ƒt‚Å‚ÍAƒf[ƒ^‚ğƒOƒ‹[ƒv‰»EWŒv‚·‚éÛ‚ÉƒOƒ‰ƒt©g‚ğœŠO‚µ‚Ü‚·B
+WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
 
 ###########################################################
 #Default

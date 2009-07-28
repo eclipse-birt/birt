@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=Guardar fuente XML
 ColoredByValueSeries=Establezca Tipo de elemento de leyenda como serie.
 CurveFittingArea=Active atributo de la curva ajustada de la serie de áreas.
 CurveFittingBar=Cree una curva ajustada a línea para la serie de barras.
-CurveFittingLine=Active atributo de la curva ajustada de la serie de áreas.
+CurveFittingLine=Enable the curve fitting attribute of line series.
 CurveFittingStock=Cree una curva ajustada a línea para la serie de cotización de acciones.
 LegendFormat=La leyenda se puede situar a la izquierda, derecha, arriba, abajo y en el interior. El área del cliente se encuentra dentro de la leyenda. Contiene los elementos de leyenda.
 MarkerLine=La línea de marcador se puede crear para los ejes X e Y (sólo para el tipo ChartWithAxes).
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() permite a los usuarios manipular atrib
 MinSlice=El usuario puede especificar el valor mínimo (absoluto o porcentaje) de un corte. El diagrama circular se puede separar estableciendo la expresión en atributo de separación.
 MultipleYAxes=Un diagrama puede contener más de un eje Y.
 MultipleYSeries=Un diagrama puede contener más de una serie Y (valor). 
-WorkingWithBIRTDataEngine=Un diagrama funciona con ODA/DtE (motor de datos BIRT) para obtener datos agrupados/agregados sin realizar la agrupación/agregación por el propio diagrama.
+WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
 
 ###########################################################
 #Default

@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=XML-Quelldatei speichern
 ColoredByValueSeries=Legen Sie den Legendenelementtyp als Datenreihe fest.
 CurveFittingArea=Aktivieren Sie das Kurvenanpassungsattribut für Flächendatenreihen.
 CurveFittingBar=Erstellen Sie eine Kurvenattributslinie für Balkendatenreihen.
-CurveFittingLine=Aktivieren Sie das Kurvenanpassungsattribut für Flächendatenreihen.
+CurveFittingLine=Enable the curve fitting attribute of line series.
 CurveFittingStock=Erstellen Sie eine Kurvenattributslinie für Kursdiagramm-Datenreihen.
 LegendFormat=Die Legende kann links, rechts, oben und unten und innen positioniert werden. Die Client-Fläche befindet sich innerhalb der Legende. Sie enthält die Legendenelemente.
 MarkerLine=Es kann eine Markierungslinie sowohl für die X-Achse als auch für die Y-Achse erstellt werden (nur für Diagrammtypen mit Achsen).
@@ -86,7 +86,7 @@ SeriesTitleScript=Mit beforeDrawSeriesTitle() können die Benutzer Attribute für 
 MinSlice=Der Benutzer hat die Möglichkeit, den Mindestwert (absolut oder in Prozent) für ein Segment anzugeben. Das Kreisdiagrammsegment kann ausgerückt dargestellt werden, indem ein Ausdruck für das Ausrückungsattribut festgelegt wird.
 MultipleYAxes=Ein Diagramm kann mehr als eine Y-Achse enthalten.
 MultipleYSeries=Ein Diagramm kann mehr als eine Y-Datenreihe (Wert) enthalten. 
-WorkingWithBIRTDataEngine=Ein Diagramm arbeitet mit ODA/DtE (BIRT-Datenengine), um gruppierte/aggregierte Daten abzurufen, ohne selbst zu gruppieren/aggregieren.
+WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
 
 ###########################################################
 #Default

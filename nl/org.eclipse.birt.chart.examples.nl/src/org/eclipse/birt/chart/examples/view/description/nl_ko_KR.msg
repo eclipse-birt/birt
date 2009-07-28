@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=XML 소스 저장
 ColoredByValueSeries=범례 항목 형식을 계열로 설정합니다.
 CurveFittingArea=영역형 계열의 곡선 근사 특성을 사용합니다.
 CurveFittingBar=막대형 계열에 곡선 근사 줄을 생성합니다.
-CurveFittingLine=영역형 계열의 곡선 근사 특성을 사용합니다.
+CurveFittingLine=Enable the curve fitting attribute of line series.
 CurveFittingStock=주식형 계열에 곡선 근사 줄을 생성합니다.
 LegendFormat=범례는 왼쪽, 오른쪽, 위쪽, 아래쪽 및 안쪽에 위치할 수 있습니다. 클라이언트 영역은 범례 내에 위치하며, 범례 항목을 포함합니다.
 MarkerLine=MarkerLine은 X축 및 Y축 모두에 만들 수 있습니다(ChartWithAxes 형식에만 해당).
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle()을 사용해 계열 및 레이블(Series.getTitl
 MinSlice=사용자가 조각의 최소값(절대값 또는 백분율)을 지정할 수 있습니다. 원형 차트 조각은 쪼개기 특성을 식에 설정하여 쪼갤 수 있습니다.
 MultipleYAxes=차트는 한 개 이상의 Y축을 포함할 수 있습니다.
 MultipleYSeries=차트는 한 개 이상의 Y(값) 계열을 포함할 수 있습니다. 
-WorkingWithBIRTDataEngine=ODA/DtE(BIRT데이터 엔진)에서 사용하여 차트에서 직접 그룹화/집계하지 않아도 데이터를 그룹화/집계할 수 있습니다.
+WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
 
 ###########################################################
 #Default

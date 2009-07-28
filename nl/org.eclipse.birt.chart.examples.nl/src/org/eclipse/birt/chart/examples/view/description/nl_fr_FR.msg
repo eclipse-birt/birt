@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=Enregistrer la source XML
 ColoredByValueSeries=Définissez le type d'élément de légende en tant que série.
 CurveFittingArea=Activez l'attribut d'ajustement de courbe de la série d'aires.
 CurveFittingBar=Créez une ligne d'ajustement de courbe pour la série de barres.
-CurveFittingLine=Activez l'attribut d'ajustement de courbe de la série d'aires.
+CurveFittingLine=Enable the curve fitting attribute of line series.
 CurveFittingStock=Créez une ligne d'ajustement de courbe pour la série d'actions.
 LegendFormat=La légende peut être placée sur la gauche, sur la droite, en haut, en bas ou à l'intérieur. La zone client se trouve dans la légende. Elle contient les éléments de légende.
 MarkerLine=La ligne de repères peut être créée pour l'axe des X et l'axe des Y (pour le type ChartWithAxes seulement).
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() permet aux utilisateurs de manipuler l
 MinSlice=L'utilisateur peut spécifier une valeur minimale (valeur absolue ou pourcentage) pour une tranche. Les tranches de graphiques à secteurs peuvent être éclatées en définissant l'expression sur l'attribut d'éclatement.
 MultipleYAxes=Un graphique peut contenir plusieurs axes des Y.
 MultipleYSeries=Un graphique peut contenir plusieurs séries (de valeurs) Y. 
-WorkingWithBIRTDataEngine=Un graphique fonctionne avec ODA/DtE (BIRT Data Engine) pour obtenir des données groupées / agrégées sans les grouper / les agréger lui-même.
+WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
 
 ###########################################################
 #Default

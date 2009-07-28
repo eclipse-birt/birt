@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=保存 XML 源
 ColoredByValueSeries=图例项类型设置为系列。
 CurveFittingArea=启用区域系列的曲线拟合属性。
 CurveFittingBar=为条形系列创建曲线拟合线。
-CurveFittingLine=启用区域系列的曲线拟合属性。
+CurveFittingLine=Enable the curve fitting attribute of line series.
 CurveFittingStock=为股票系列创建曲线拟合线。
 LegendFormat=图例可放在左侧、右侧、顶部、底部和内部。客户区域位于图例内。它包含图例项。
 MarkerLine=可为 X 轴和 Y 轴创建标记线(仅限于 ChartWithAxes 类型)。
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle()允许用户操作系列和标签(Series.getTitle(
 MinSlice=用户能够为扇面指定最小值(绝对值或百分比)。饼图扇面可通过设置分离属性表达式进行分离。
 MultipleYAxes=一个图可以包含多个 Y 轴。
 MultipleYSeries=一个图可以包含多个 Y(值)系列。 
-WorkingWithBIRTDataEngine=图表与 ODA/DtE (BIRT 数据引擎)配合获得分组/聚合的数据，而不是由图表本身分组/聚合。
+WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
 
 ###########################################################
 #Default
