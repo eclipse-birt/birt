@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
- * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
- * collapse" bordercolor="#111111" width="100%" id="AutoNumber6">
+ * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="100%" id="AutoNumber6">
  * <tr>
  * <td width="33%"><b>Method </b></td>
  * <td width="33%"><b>Test Case </b></td>
@@ -86,10 +85,11 @@ public class LabelItemParserTest extends ParserTestCase
 
 		LabelHandle labelHandle = getLabel( );
 
-		assertEquals( "6mm", labelHandle.getStringProperty( Label.X_PROP ) );  //$NON-NLS-1$
-		assertEquals( "0.5mm", labelHandle.getStringProperty( Label.Y_PROP ) );  //$NON-NLS-1$
-		assertEquals( "0.25mm", labelHandle.getStringProperty( Label.HEIGHT_PROP ) );  //$NON-NLS-1$
-		assertEquals( "1mm", labelHandle.getStringProperty( Label.WIDTH_PROP ) );  //$NON-NLS-1$
+		assertEquals( "6mm", labelHandle.getStringProperty( Label.X_PROP ) ); //$NON-NLS-1$
+		assertEquals( "0.5mm", labelHandle.getStringProperty( Label.Y_PROP ) ); //$NON-NLS-1$
+		assertEquals(
+				"0.25mm", labelHandle.getStringProperty( Label.HEIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "1mm", labelHandle.getStringProperty( Label.WIDTH_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"Today's Date", labelHandle.getStringProperty( Label.TEXT_PROP ) ); //$NON-NLS-1$
 		OdaDataSet dataSet = (OdaDataSet) design.findDataSet( "firstDataSet" ); //$NON-NLS-1$
@@ -102,7 +102,8 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( "red", labelHandle.getStringProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"\"labelFace\"", labelHandle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
-		assertEquals( "4mm", labelHandle.getStringProperty( Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
+		assertEquals(
+				"4mm", labelHandle.getStringProperty( Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"bold", labelHandle.getStringProperty( Style.FONT_WEIGHT_PROP ) ); //$NON-NLS-1$
 
@@ -112,13 +113,14 @@ public class LabelItemParserTest extends ParserTestCase
 
 		// test the style property which does not belong to label
 
-		assertEquals( null, labelHandle.getStringProperty( Style.HIGHLIGHT_RULES_PROP ) );
+		assertEquals( null, labelHandle
+				.getStringProperty( Style.HIGHLIGHT_RULES_PROP ) );
 
 		ActionHandle action = labelHandle.getActionHandle( );
 		assertNotNull( action );
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK, action
-				.getLinkType( ) ); 
-		assertEquals( "http://localhost:8080/", action.getURI() ); //$NON-NLS-1$
+				.getLinkType( ) );
+		assertEquals( "http://localhost:8080/", action.getURI( ) ); //$NON-NLS-1$
 
 		// reads in a lable that exists in the body.
 
@@ -159,6 +161,7 @@ public class LabelItemParserTest extends ParserTestCase
 				.findElement( "listHeaderLabel" ); //$NON-NLS-1$
 
 		assertEquals( "list header", labelHandle.getText( ) ); //$NON-NLS-1$
+		assertTrue( labelHandle.pushDown( ) );
 
 		// reads in a label that exists in the list detail.
 
@@ -166,6 +169,7 @@ public class LabelItemParserTest extends ParserTestCase
 				.findElement( "listDetailLabel" ); //$NON-NLS-1$
 
 		assertEquals( "list detail", labelHandle.getText( ) ); //$NON-NLS-1$
+		assertFalse( labelHandle.pushDown( ) );
 
 		// reads in a label that exists in the list footer.
 
@@ -247,7 +251,7 @@ public class LabelItemParserTest extends ParserTestCase
 		labelHandle.setHelpTextKey( "new help text key" ); //$NON-NLS-1$
 
 		labelHandle.setCustomXml( "new custom <text> </text> for bodyLabel" ); //$NON-NLS-1$
-		
+
 		// set widows and orphans
 		labelHandle.setProperty( IStyleModel.WIDOWS_PROP, "5" ); //$NON-NLS-1$
 		labelHandle.setProperty( IStyleModel.ORPHANS_PROP, "4" ); //$NON-NLS-1$
@@ -257,8 +261,12 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( ReportDesign.BODY_SLOT, labelHandle.getContainer( )
 				.findContentSlot( labelHandle ) );
 
-		save();
-		assertTrue( compareFile( goldenFileName) );
+		labelHandle = (LabelHandle) designHandle
+				.findElement( "listDetailLabel" ); //$NON-NLS-1$
+		labelHandle.setPushDown( true );
+
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**
@@ -294,7 +302,7 @@ public class LabelItemParserTest extends ParserTestCase
 	{
 		openDesign( fileName );
 		MasterPageHandle masterPageHandle = (MasterPageHandle) designHandle
-				.getMasterPages( ).get( 0 ); 
+				.getMasterPages( ).get( 0 );
 		assertEquals( 2, masterPageHandle.getSlot( 0 ).getCount( ) );
 
 		Iterator it = masterPageHandle.getSlot( 0 ).iterator( );

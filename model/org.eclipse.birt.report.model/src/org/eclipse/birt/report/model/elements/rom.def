@@ -2412,7 +2412,10 @@
 	<Property displayNameID="Element.ReportItem.ACLExpression" name="ACLExpression" since="2.3" type="expression" />
 	<Property displayNameID="Element.ReportItem.allowExport" name="allowExport" since="2.3" type="boolean" >
 		<Default>true</Default>
-	</Property>	
+	</Property>
+	<Property displayNameID="Element.ReportItem.pushDown" name="pushDown" since="2.5" type="boolean" >
+		<Default>false</Default>
+	</Property>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>    

@@ -1447,4 +1447,30 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		setStringProperty( BOOKMARK_DISPLAY_NAME_PROP, bookmarkDisplayName );
 	}
+
+	/**
+	 * Indicate if the query will be pushed down to the database. Default value
+	 * is false.
+	 * 
+	 * @return <true> if the query will be pushed down to the database,
+	 *         otherwise return <false>.
+	 */
+	public boolean pushDown( )
+	{
+		return getBooleanProperty( PUSH_DOWN_PROP );
+	}
+
+	/**
+	 * Sets the pushdown property value of the report item. Property pushDown
+	 * indicates if the query will be pushed down to the database.
+	 * 
+	 * @param pushDown
+	 *            true if the query will be pushed down to the database,
+	 *            otherwise false.
+	 * @throws SemanticException
+	 */
+	public void setPushDown( boolean pushDown ) throws SemanticException
+	{
+		setProperty( PUSH_DOWN_PROP, Boolean.valueOf( pushDown ) );
+	}
 }

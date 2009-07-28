@@ -59,7 +59,7 @@ public interface IReportItemModel
 	 */
 
 	public static final String BOOKMARK_PROP = "bookmark"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the display name property for bookmark
 	 */
@@ -161,5 +161,11 @@ public interface IReportItemModel
 	 * An option to hide specific data sets from the extractions box.
 	 */
 	public static final String ALLOW_EXPORT_PROP = "allowExport"; //$NON-NLS-1$
+
+	/**
+	 * Name of the isPushdown property. It will be used by advanced user to
+	 * control Data Engine behavior against query execution.
+	 */
+	public static final String PUSH_DOWN_PROP = "pushDown"; //$NON-NLS-1$
 
 }

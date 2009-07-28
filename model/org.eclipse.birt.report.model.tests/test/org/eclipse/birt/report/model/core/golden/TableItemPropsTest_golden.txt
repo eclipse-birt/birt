@@ -93,6 +93,7 @@ multiViews
 cascadeACL
 ACLExpression
 allowExport
+pushDown
 style
 name
 extends
