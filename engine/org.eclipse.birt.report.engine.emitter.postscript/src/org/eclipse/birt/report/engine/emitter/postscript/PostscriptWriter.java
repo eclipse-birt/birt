@@ -835,25 +835,139 @@ public class PostscriptWriter
 		out.println( " translate" );
 	}
 
-	public void startRenderer( ) throws IOException
+	public void startRenderer( String paperSize, String paperTray,
+			String duplex, int copies, boolean collate ) throws IOException
 	{
-		startRenderer( null, null );
+		startRenderer( null, null, paperSize, paperTray, duplex, copies,
+				collate );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
 	 */
-	public void startRenderer( String author, String description )
-			throws IOException
+	public void startRenderer( String author, String description,
+			String paperSize, String paperTray, String duplex, int copies,
+			boolean collate ) throws IOException
 	{
-		out.println("%%Creator: " + author);
+		if ( author != null )
+		{
+			out.println("%%Creator: " + author);
+		}
+		out.println( "%%Pages: (atend)");
+		out.println( "%%DocumentProcessColors: Black");
+		out.println( "%%BeginSetup");
+		setCollate( collate );
+		setCopies( copies );
+		setPaperSize( paperSize );
+		setPaperTray( paperTray );
+		setDuplex( duplex );
 		FileUtil.load(
 				"org/eclipse/birt/report/engine/emitter/postscript/header.ps",
 				out );
 	}
 
+	private void setPaperTray( String paperTray )
+	{
+		if ( paperTray != null )
+		{
+			out.println( "%%%%BeginFeature: *InputSlot " + paperTray );
+			out.println("%%EndFeature");
+		}
+	}
+
+	private void setPaperSize( String paperSize )
+	{
+		if ( paperSize != null )
+		{
+			out.println( "%%%%BeginFeature: *PageSize " + paperSize );
+			out.println( "<</PageSize [" + getPaperSize( paperSize )
+					+ "] /ImagingBBox null>> setpagedevice" );
+			out.println("%%EndFeature");
+		}
+	}
+
+	private void setCopies( int copies )
+	{
+		if ( copies > 1 )
+		{
+			out.println( "%%BeginNonPPDFeature: NumCopies " + copies );
+			out.println( "<</NumCopies " + copies + ">> setpagedevice" );
+			out.println( "%%EndNonPPDFeature" );
+		}
+	}
+
+	private void setCollate( boolean collate )
+	{
+		if ( collate )
+		{
+			out.println( "%%Requirements: collate");
+		}
+	}
+
+	private void setDuplex( String duplex )
+	{
+		if ( duplex != null && !"SIMPLEX".equalsIgnoreCase( duplex ))
+		{
+			String duplexValue = duplex;
+			if ("HORIZONTAL".equalsIgnoreCase( duplex ))
+			{
+			    duplexValue = "DuplexTumble";
+			}
+		    else if ("VERTICAL".equalsIgnoreCase( duplex ) )
+		    {
+			    duplexValue = "DuplexNoTumble";
+		    }
+			out.println( "%%BeginFeature: *Duplex " + duplexValue );
+		    out.println("<</Duplex true /Tumble true>> setpagedevice");
+		    out.println("%%EndFeature");
+
+		}
+	}
+
+	private String getPaperSize( String paperSize )
+	{
+		int width = 595;
+		int height = 842;
+		if ( "Letter".equalsIgnoreCase( paperSize ) )
+		{
+			width = 612;
+			height = 792;
+		}
+		else if ( "Legal".equalsIgnoreCase( paperSize ) )
+		{
+			width = 612;
+			height = 1008;
+		}
+		else if ( "A5".equalsIgnoreCase( paperSize ) )
+		{
+			width = 419;
+			height = 595;
+		}
+		else if ( "A4".equalsIgnoreCase( paperSize ) )
+		{
+			width = 595;
+			height = 842;
+		}
+		else if ( "A3".equalsIgnoreCase( paperSize ) )
+		{
+			width = 842;
+			height = 1191;
+		}
+		else if ( "B5".equalsIgnoreCase( paperSize ) )
+		{
+			width = 499;
+			height = 709;
+		}
+		else if ( "B4".equalsIgnoreCase( paperSize ) )
+		{
+			width = 729;
+			height = 1032;
+		}
+		return width + " " + height;
+	}
+	
 	public void fillPage( Color color )
 	{
 		if ( color == null )

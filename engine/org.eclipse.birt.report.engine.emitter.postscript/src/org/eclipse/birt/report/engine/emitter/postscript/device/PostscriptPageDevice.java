@@ -16,6 +16,8 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.eclipse.birt.report.engine.api.RenderOption;
+import org.eclipse.birt.report.engine.emitter.postscript.PostscriptRenderOption;
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
@@ -29,13 +31,25 @@ public class PostscriptPageDevice implements IPageDevice
 	private PostscriptWriter writer;
 	private PostscriptPage currentPage;
 
-	public PostscriptPageDevice( OutputStream output, String title,
+	public PostscriptPageDevice( RenderOption renderOption, OutputStream output, String title,
 			String author, String description ) throws Exception
 	{
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
 				output );
 		writer = new PostscriptWriter( bufferedOutputStream, title );
-		writer.startRenderer( author, description );
+		
+		String paperSize = renderOption
+				.getStringOption( PostscriptRenderOption.OPTION_PAPER_SIZE );
+		String paperTray = renderOption
+				.getStringOption( PostscriptRenderOption.OPTION_PAPER_TRAY );
+		String duplex = renderOption
+				.getStringOption( PostscriptRenderOption.OPTION_DUPLEX );
+		int copies = renderOption.getIntOption(
+				PostscriptRenderOption.OPTION_COPIES, 1 );
+		boolean collate = renderOption.getBooleanOption(
+				PostscriptRenderOption.OPTION_COLLATE, false );
+		writer.startRenderer( author, description, paperSize, paperTray,
+				duplex, copies, collate );
 	}
 
 	/*

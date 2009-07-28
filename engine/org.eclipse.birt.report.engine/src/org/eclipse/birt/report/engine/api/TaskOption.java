@@ -89,7 +89,7 @@ public class TaskOption implements ITaskOption
 	 *          the option name
 	 * @return the option value 
 	 */
-	protected String getStringOption( String name )
+	public String getStringOption( String name )
 	{
 		Object value = options.get( name );
 		if ( value instanceof String )
@@ -108,7 +108,7 @@ public class TaskOption implements ITaskOption
 	 *          default option value
 	 * @return default value
 	 */
-	protected boolean getBooleanOption( String name, boolean defaultValue )
+	public boolean getBooleanOption( String name, boolean defaultValue )
 	{
 		Object value = options.get( name );
 		if ( value instanceof Boolean )
@@ -118,6 +118,16 @@ public class TaskOption implements ITaskOption
 		else if ( value instanceof String )
 		{
 			return "true".equalsIgnoreCase( (String) value ); //$NON-NLS-1$
+		}
+		return defaultValue;
+	}
+
+	public int getIntOption( String name, int defaultValue )
+	{
+		Object value = options.get( name );
+		if ( value instanceof Integer )
+		{
+			return ( ( Integer )value ).intValue( );
 		}
 		return defaultValue;
 	}

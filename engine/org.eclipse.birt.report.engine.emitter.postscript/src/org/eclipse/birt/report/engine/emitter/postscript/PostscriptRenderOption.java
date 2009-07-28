@@ -18,6 +18,16 @@ public class PostscriptRenderOption extends RenderOption
 {
 	public static final String PS_LEVEL = "psLevel";
 
+	public static final String OPTION_PAPER_SIZE = "OptionPagerSize";
+
+	public static final String OPTION_PAPER_TRAY = "OptionPageTray";
+
+	public static final String OPTION_DUPLEX = "OptionDuplex";
+
+	public static final String OPTION_COPIES = "OptionCopies";
+
+	public static final String OPTION_COLLATE = "OptionCollate";
+
 	/**
 	 * Sets postscript level.
 	 * 
@@ -33,12 +43,56 @@ public class PostscriptRenderOption extends RenderOption
 	 */
 	public int getPostscriptLevel( )
 	{
-		Object value = options.get( PS_LEVEL );
-		if ( value instanceof Integer )
-		{
-			return ( ( Integer )value ).intValue( );
-		}
-		return 1;
+		return getIntOption( PS_LEVEL, 1 );
 	}
 
+	public void setPaperSize( String paperSize )
+	{
+		options.put( OPTION_PAPER_SIZE, paperSize );
+	}
+
+	public String getPaperSize( )
+	{
+		return getStringOption( OPTION_PAPER_SIZE );
+	}
+
+	public void setPaperTray( String paperTray )
+	{
+		options.put( OPTION_PAPER_TRAY, paperTray );
+	}
+
+	public String getPaperTray( )
+	{
+		return getStringOption( OPTION_PAPER_TRAY );
+	}
+
+	public void setDuplex( String duplex )
+	{
+		options.put( OPTION_DUPLEX, duplex );
+	}
+
+	public String getDuplex( )
+	{
+		return getStringOption( OPTION_DUPLEX );
+	}
+
+	public void setCopies( int copies )
+	{
+		options.put( OPTION_COPIES, copies );
+	}
+
+	public int getCopies( )
+	{
+		return getIntOption( OPTION_COPIES, 1 );
+	}
+
+	public void setCollate( boolean collate )
+	{
+		options.put( OPTION_COLLATE, collate );
+	}
+
+	public boolean getCollate( )
+	{
+		return getBooleanOption( OPTION_COLLATE, false );
+	}
 }

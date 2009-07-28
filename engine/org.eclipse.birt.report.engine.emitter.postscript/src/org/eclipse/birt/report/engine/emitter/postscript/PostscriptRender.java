@@ -16,6 +16,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 public class PostscriptRender extends PageDeviceRender
 {
 	private OutputStream output = null;
+	private RenderOption renderOption = null;
 	
 	public PostscriptRender( IEmitterServices services ) throws EngineException
 	{
@@ -40,7 +42,7 @@ public class PostscriptRender extends PageDeviceRender
 	{
 		try
 		{
-			return new PostscriptPageDevice( output, title, author, description );
+			return new PostscriptPageDevice( renderOption, output, title, author, description );
 		}
 		catch ( Exception e )
 		{
@@ -69,6 +71,7 @@ public class PostscriptRender extends PageDeviceRender
 	private void initialize( IEmitterServices services ) throws EngineException
 	{
 		this.services = services;
+		renderOption = (RenderOption)services.getRenderOption( );
 		// Gets the output file name from RenderOptionBase.OUTPUT_FILE_NAME.
 		// It has the top preference.
 		IReportRunnable reportRunnable = services.getReportRunnable( );
