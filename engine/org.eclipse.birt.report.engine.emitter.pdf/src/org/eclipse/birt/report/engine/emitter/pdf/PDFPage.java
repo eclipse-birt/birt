@@ -402,8 +402,32 @@ public class PDFPage extends AbstractPage
 		}
 		else
 		{
-			Image image = Image.getInstance( imageData );
-			drawImage( image, imageX, imageY, height, width, helpText );
+			if ( imageId == null )
+			{
+				Image image = Image.getInstance(imageData);
+				drawImage(image, imageX, imageY, height, width, helpText);
+			}
+			else
+			{
+				PdfTemplate template = null;
+				if ( pageDevice.getImageMap( ).containsKey( imageId ) )
+				{
+					template = pageDevice.getImageMap( ).get( imageId );
+				}
+				else
+				{
+					template = contentByte.createTemplate( width, height );
+					Image image = Image.getInstance( imageData );
+					template.addImage( image, image.scaledWidth( ), 0, 0, image
+							.scaledHeight( ), 0, 0 );
+					pageDevice.getImageMap( ).put( imageId, template );
+				}
+				if ( template != null )
+				{
+					drawImage( template, imageX, imageY, height, width,
+							helpText );
+				}
+			}
 		}
 	}
 
@@ -417,8 +441,32 @@ public class PDFPage extends AbstractPage
 		}
 		else
 		{
-			Image image = Image.getInstance( new URL( uri ) );
-			drawImage( image, imageX, imageY, height, width, helpText );
+			if ( uri == null )
+			{
+				Image image = Image.getInstance( new URL( uri ) );
+				drawImage( image, imageX, imageY, height, width, helpText );
+			}
+			else
+			{
+				PdfTemplate template = null;
+				if ( pageDevice.getImageMap( ).containsKey( uri ) )
+				{
+					template = pageDevice.getImageMap( ).get( uri );
+				}
+				else
+				{
+					template = contentByte.createTemplate( width, height );
+					Image image = Image.getInstance( new URL( uri ) );
+					template.addImage( image, image.scaledWidth( ), 0, 0, image
+							.scaledHeight( ), 0, 0 );
+					pageDevice.getImageMap( ).put( uri, template );
+				}
+				if ( template != null )
+				{
+					drawImage( template, imageX, imageY, height, width,
+							helpText );
+				}
+			}
 		}
 	}
 	
@@ -909,6 +957,23 @@ public class PDFPage extends AbstractPage
 
 	}
 
+	private void drawImage( PdfTemplate image, float imageX, float imageY,
+			float height, float width, String helpText )
+			throws DocumentException
+	{
+		imageY = transformY( imageY, height );
+		contentByte.saveState( );
+		contentByte.concatCTM( 1, 0, 0, 1, imageX, imageY );
+		float w = image.getWidth( );
+		float h = image.getHeight( );
+		contentByte.addTemplate( image, width/w, 0f/w, 0f/h, height/h, 0f, 0f );
+		if ( helpText != null )
+		{
+			showHelpText( imageX, imageY, width, height, helpText );
+		}
+		contentByte.restoreState( );
+	}
+	
 	private void drawImage( Image image, float imageX, float imageY,
 			float height, float width, String helpText )
 			throws DocumentException
@@ -923,7 +988,7 @@ public class PDFPage extends AbstractPage
 		}
 		contentByte.restoreState( );
 	}
-	
+
 	private void embedFlash( String flashPath, byte[] flashData, float x, float y, float height,
 			float width, String helpText ) throws IOException
 	{

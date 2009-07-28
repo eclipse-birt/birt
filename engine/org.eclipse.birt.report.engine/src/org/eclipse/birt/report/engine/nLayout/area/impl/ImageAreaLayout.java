@@ -527,22 +527,24 @@ class ConcreteImageLayout implements ILayout
 			case IImageContent.IMAGE_FILE :
 			case IImageContent.IMAGE_URL :
 				area.setUrl( content.getURI( ) );
-				area.setExtension( content.getExtension( ) );
-				area.setMIMEType( content.getMIMEType( ) );
 				break;
 			case IImageContent.IMAGE_NAME :
+				area.setUrl( "NamedImage_" + content.getURI( ) );
+				area.setData( content.getData( ) );
+				break;
 			case IImageContent.IMAGE_EXPRESSION :
 				area.setData( content.getData( ) );
-				area.setExtension( content.getExtension( ) );
-				area.setMIMEType( content.getMIMEType( ) );
 				break;
 		}
+		area.setExtension( content.getExtension( ) );
+		area.setMIMEType( content.getMIMEType( ) );
+		
 		if ( content instanceof ObjectContent )
 		{
 			ObjectContent object = ( ObjectContent ) content;
 			area.setParameters( object.getParamters( ) );
 		}
-		area.setAction( content.getHyperlinkAction( ) );
+		area.setAction(content.getHyperlinkAction());
 		return area;
 	}
 

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 import java.awt.Color;
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
@@ -57,6 +58,8 @@ public class PDFPageDevice implements IPageDevice
 	private PDFPage currentPage = null;
 	
 	private PdfTemplate totalPageTemplate = null;
+	
+	private HashMap<String, PdfTemplate> imageMap = new HashMap<String, PdfTemplate>( );
 	
 	/**
 	 * the iText and Birt engine version info.
@@ -137,6 +140,11 @@ public class PDFPageDevice implements IPageDevice
 	public PdfTemplate getPDFTemplate()
 	{
 		return this.totalPageTemplate;
+	}
+	
+	public HashMap<String, PdfTemplate> getImageMap( )
+	{
+		return imageMap;
 	}
 	
 	public void close( ) throws Exception
