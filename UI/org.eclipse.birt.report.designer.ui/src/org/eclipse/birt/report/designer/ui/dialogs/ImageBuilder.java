@@ -401,11 +401,21 @@ public class ImageBuilder extends BaseDialog
 
 			public void focusLost( FocusEvent e )
 			{
-				preview( DEUtil.removeQuote( uriEditor.getText( ).trim( ) ) );
+				previewTextEditor();
 			}
 		} );
 	}
 
+	private void previewTextEditor()
+	{
+		String str = uriEditor.getText( ).trim( );
+		String type = (String)uriEditor.getData( EXPR_TYPE );
+		if (!ExpressionType.CONSTANT.equals( type ))
+		{
+			str = DEUtil.removeQuote(str);
+		}
+		preview( str );
+	}
 	private void buildEmbeddedImageList( )
 	{
 		embeddedImageList = new List( inputArea, SWT.NONE
@@ -801,7 +811,8 @@ public class ImageBuilder extends BaseDialog
 		clearPreview( );
 		if ( !uriEditor.getText( ).equals( "" ) && selectedType != BLOB_TYPE ) //$NON-NLS-1$
 		{
-			preview( DEUtil.removeQuote( uriEditor.getText( ) ) );
+			//preview( DEUtil.removeQuote( uriEditor.getText( ) ) );
+			previewTextEditor();
 		}
 	}
 

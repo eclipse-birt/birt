@@ -16,10 +16,14 @@ import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Image;
 
@@ -47,27 +51,37 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public Image getImage( )
 	{
-		String imageSource = getImageHandle( ).getSource( );
-
+		ImageHandle imageHandel = getImageHandle( );
+		String imageSource = imageHandel.getSource( );
+		PropertyHandle uriPropertyHandle = imageHandel.getPropertyHandle( IImageItemModel.URI_PROP );
+		ExpressionHandle expression = imageHandel.getExpressionProperty( IImageItemModel.URI_PROP );
+		String url = imageHandel.getURI( );
+		if ( uriPropertyHandle != null && uriPropertyHandle.isLocal( ) )
+		{
+			if (expression != null && !ExpressionType.CONSTANT.equals( expression.getType( )))
+			{
+				url = removeQuoteString(url);
+			}
+		}
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase( imageSource ) )
 		{
 			return ImageManager.getInstance( )
-					.getEmbeddedImage( getImageHandle( ).getModuleHandle( ),
-							getImageHandle( ).getImageName( ) );
+					.getEmbeddedImage( imageHandel.getModuleHandle( ),
+							imageHandel.getImageName( ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
-			if ( URIUtil.isValidResourcePath( getImageHandle( ).getURI( ) ) )
+			if ( URIUtil.isValidResourcePath( url ) )
 			{
 				return ImageManager.getInstance( )
-						.getImage( getHandle( ).getModuleHandle( ),
-								URIUtil.getLocalPath( removeQuoteString( getImageHandle( ).getURI( ) ) ) );
+						.getImage( imageHandel.getModuleHandle( ),
+								URIUtil.getLocalPath( url ) );
 			}
 			else
 			{
 				return ImageManager.getInstance( )
-						.getImage( getHandle( ).getModuleHandle( ),
-								removeQuoteString( getImageHandle( ).getURI( ) ) );
+						.getImage( imageHandel.getModuleHandle( ),
+								url );
 			}
 
 		}
@@ -75,8 +89,8 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 		{
 			// bugzilla 245641
 			return ImageManager.getInstance( )
-					.getURIImage( getHandle( ).getModuleHandle( ),
-							removeQuoteString( getImageHandle( ).getURI( ) ) );
+					.getURIImage( imageHandel.getModuleHandle( ),
+							url );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( imageSource ) )
 		{
