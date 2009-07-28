@@ -239,6 +239,8 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 			}
 		}
 
+		currentProvider.setInput( input );
+
 		return currentProvider;
 	}
 
