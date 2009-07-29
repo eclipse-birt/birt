@@ -24,6 +24,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFacto
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -87,6 +88,28 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	public PropertyHandle getViewsProperty( )
 	{
 		return handle.getPropertyHandle( VIEWS_PROP );
+	}
+
+	/**
+	 * Returns the member list defined on this crosstab view. Each element in
+	 * the returned list is a <code>MemberValueHandle</code> object.
+	 * 
+	 * @return the member value list
+	 */
+	public List getMembers( )
+	{
+		return handle.getPropertyHandle( MEMBERS_PROP ).getContents( );
+	}
+
+	/**
+	 * Adds a member value to current crosstab view.
+	 * 
+	 * @param value
+	 * @throws SemanticException
+	 */
+	public void addMember( MemberValueHandle value ) throws SemanticException
+	{
+		handle.getPropertyHandle( MEMBERS_PROP ).add( value );
 	}
 
 	/**
