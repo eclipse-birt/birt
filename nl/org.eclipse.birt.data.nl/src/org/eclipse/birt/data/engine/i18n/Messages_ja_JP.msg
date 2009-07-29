@@ -104,6 +104,7 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列バインド
 data.engine.ReadColumnValueFromDocumentError=列 {0} の値を読み取り中にエラーが発生しました。バインドの式 (ゼロ除算エラー) を評価中に実行時エラーが発生した可能性があります。
 data.engine.NoOuterResultsExist=外部クエリの結果が存在しません。これは、クエリで "_outer" が参照されているのに親クエリがないことが原因と考えられます。
 data.engine.DuplicatedBindingName=バインド名 {0} が重複しています。
+data.engine.InvalidAggrLevelKeyInSummaryQuery=The aggregation: {0} refer to incorrect group name.
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
 data.engine.CompCol.FailRetrieveValueComputedColumn=計算列 "{0}" の値を計算できません。

@@ -104,6 +104,7 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=El enlace 
 data.engine.ReadColumnValueFromDocumentError=Se produce un error al intentar leer un valor de la columna: {0}. Esto puede deberse a un error del tiempo de ejecución en la evaluación de una expresión de enlace, como pueda ser un error de división por 0.
 data.engine.NoOuterResultsExist=No existen resultados de consulta externa. Puede deberse a que una referencia "_externa" en una consulta no tiene una consulta principal.
 data.engine.DuplicatedBindingName=Nombre de enlace duplicado: {0}.
+data.engine.InvalidAggrLevelKeyInSummaryQuery=The aggregation: {0} refer to incorrect group name.
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Error al procesar el valor para la columna procesada "{0}".
