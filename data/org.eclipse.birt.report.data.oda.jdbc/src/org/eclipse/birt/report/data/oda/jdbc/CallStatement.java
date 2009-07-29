@@ -207,6 +207,31 @@ public class CallStatement implements IAdvancedQuery
 				}
 			}
 		}
+		else if ( name.equals("rowFetchSize") )
+		{
+			// Ignore null or empty value
+			if ( value != null && value.length( ) > 0 )
+			{
+				try
+				{
+					// Be forgiving if a floating point gets passed in - can
+					// happen
+					// when Javascript gets involved in calculating the property
+					// value
+					double fetchSize = Double.parseDouble( value );
+					this.callStat.setFetchSize( (int) fetchSize );
+				}
+				catch ( SQLException e )
+				{
+					// This is not an essential property; log and ignore error
+					// if driver doesn't
+					// support query timeout
+					logger.log( Level.FINE,
+							"CallStatement.setQueryTimeout failed",
+							e );
+				}
+			}
+		}
 		else if ( name.equals( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY )
 				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PROP_KEY )
 				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY ) )
@@ -223,7 +248,6 @@ public class CallStatement implements IAdvancedQuery
 					"setProperty",
 					"Unsupported property",
 					e );
-			throw e;
 		}
 	}
 

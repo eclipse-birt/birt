@@ -215,8 +215,12 @@ public class Statement implements IQuery
 		{
 			// unsupported query properties
 			OdaException e = new OdaException( "Unsupported query property: " + name );
-			addLog ( "setProperty", e );
-			throw e;
+			
+			logger.logp( java.util.logging.Level.WARNING,
+					Statement.class.getName( ),
+					"setProperty",
+					"No named Parameter supported.",
+					e );
 		}
 	}
 
