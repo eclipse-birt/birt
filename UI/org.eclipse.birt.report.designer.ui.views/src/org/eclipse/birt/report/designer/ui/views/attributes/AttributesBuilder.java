@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -84,7 +85,8 @@ public class AttributesBuilder
 			pageGeneratorClass = getGeneratorClass( selection.get( 0 ) );
 
 			if ( selection.get( 0 ) instanceof ExtendedItemHandle
-					|| selection.get( 0 ) instanceof TabularCubeHandle )
+					|| selection.get( 0 ) instanceof TabularCubeHandle
+					|| selection.get( 0 ) instanceof DynamicFilterParameterHandle )
 			{
 
 				Object element = null;
@@ -126,6 +128,9 @@ public class AttributesBuilder
 						}
 						else if ( ( element instanceof TabularCubeHandle && !( input instanceof TabularCubeHandle ) )
 								|| ( input instanceof TabularCubeHandle && !( element instanceof TabularCubeHandle ) ) )
+							change = true;
+						else if ( ( element instanceof DynamicFilterParameterHandle && !( input instanceof DynamicFilterParameterHandle ) )
+								|| ( input instanceof DynamicFilterParameterHandle && !( element instanceof DynamicFilterParameterHandle ) ) )
 							change = true;
 					}
 
@@ -198,65 +203,68 @@ public class AttributesBuilder
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Table" ); //$NON-NLS-1$
 			return ListPageGenerator.class;
 		}
-		if ( type == ImageHandle.class )
+		else if ( type == ImageHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Picture" ); //$NON-NLS-1$
 			return TextPageGenerator.class;
 		}
-		if ( type == TextItemHandle.class )
+		else if ( type == TextItemHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Text" ); //$NON-NLS-1$
 			return TextPageGenerator.class;
 		}
 
-		if ( type == TextDataHandle.class )
+		else if ( type == TextDataHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.TextData" ); //$NON-NLS-1$
 			return TextPageGenerator.class;
 		}
 
-		if ( type == ColumnHandle.class )
+		else if ( type == ColumnHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Column" ); //$NON-NLS-1$
 			return ColumnPageGenerator.class;
 		}
-		if ( type == RowHandle.class )
+		else if ( type == RowHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Row" ); //$NON-NLS-1$
 			return ColumnPageGenerator.class;
 		}
-		if ( type == GridHandle.class )
+		else if ( type == GridHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Grid" ); //$NON-NLS-1$
 			return GridPageGenerator.class;
 		}
-		if ( type == DataItemHandle.class )
+		else if ( type == DataItemHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Data" ); //$NON-NLS-1$
 			return DataPageGenerator.class;
 		}
-		if ( type == CellHandle.class )
+		else if ( type == CellHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Cell" ); //$NON-NLS-1$
 			return ColumnPageGenerator.class;
 		}
-		if ( type == ListHandle.class )
+		else if ( type == ListHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.List" ); //$NON-NLS-1$
 			return ListPageGenerator.class;
 		}
-		if ( type == TabularCubeHandle.class )
+		else if ( type == TabularCubeHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Cube" ); //$NON-NLS-1$
-			return ListPageGenerator.class;
 		}
-		if ( type == ModelClassWrapper.class )
+		else if ( type == DynamicFilterParameterHandle.class )
+		{
+			typeInfo = Messages.getString( "AttributesBuilder.Label.DynamicFilterParameter" ); //$NON-NLS-1$
+		}
+		else if ( type == ModelClassWrapper.class )
 		{
 			getGeneratorClass( ( (ModelClassWrapper) obj ).getElement( ) );
 			return MessagePageGenerator.class;
 		}
 
-		if ( type == LabelHandle.class )
+		else if ( type == LabelHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Label" ); //$NON-NLS-1$		
 			return LabelPageGenerator.class;
@@ -293,10 +301,12 @@ public class AttributesBuilder
 		else if ( type == AutoTextHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.AutoText" ); //$NON-NLS-1$
-		}else if(type == ParameterGroupHandle.class)
+		}
+		else if ( type == ParameterGroupHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.ParameterGroup" );
-		}else if(type == CascadingParameterGroupHandle.class)
+		}
+		else if ( type == CascadingParameterGroupHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.CascadingParameterGroup" );
 		}
