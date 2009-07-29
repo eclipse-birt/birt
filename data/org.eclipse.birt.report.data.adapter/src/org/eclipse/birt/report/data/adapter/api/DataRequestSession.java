@@ -281,6 +281,34 @@ public abstract class DataRequestSession
 			Iterator inputParamBindings, Iterator columnBindings,
 			String boundColumnName, IRequestInfo requestInfo )
 			throws BirtException;
+
+	/**
+	 * Retrieves all distinct values of a data set column based on searchInfo
+	 * and return in a Collection.
+	 * 
+	 * @param dataSet
+	 *            Handle of data set to query
+	 * @param inputParamBindings
+	 *            An iterator of ParamBindingHandle objects that defines
+	 *            bindings for the data set's input parameters
+	 * @param columnBindings
+	 *            An iterator of ComputedColumnHandle objects that define all
+	 *            column binding expressions
+	 * @param groupDefns
+	 *            An iterator of GroupHandle objects that define all group using
+	 *            in this report item
+	 * @param boundColumnName
+	 *            Name of the bound column to retrieve values for
+	 * @param requestInfo
+	 *            Information on result set retrieving(like start index,return
+	 *            row number...)
+	 * @return
+	 * @throws BirtException
+	 */
+	public abstract Collection getColumnValueSet( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			Iterator groupDefns, String boundColumnName,
+			IRequestInfo requestInfo ) throws BirtException;
 	
 	/**
 	 * Use a default data engine to execute a query. Since Data Engine needs to
