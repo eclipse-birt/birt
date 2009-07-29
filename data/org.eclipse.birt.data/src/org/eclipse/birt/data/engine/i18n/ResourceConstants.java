@@ -104,6 +104,7 @@ public class ResourceConstants
 	public final static String READ_COLUMN_VALUE_FROM_DOCUMENT_ERROR = "data.engine.ReadColumnValueFromDocumentError";
 	public final static String NO_OUTER_RESULTS_EXIST = "data.engine.NoOuterResultsExist";
 	public final static String DUPLICATED_BINDING_NAME = "data.engine.DuplicatedBindingName";
+	public final static String INVALID_AGGR_LEVEL_IN_SUMMARY_QUERY = "data.engine.InvalidAggrLevelKeyInSummaryQuery";
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
 	public final static String COMPUTED_COLUMN_CYCLE = "data.engine.ComputedColumnCycle";

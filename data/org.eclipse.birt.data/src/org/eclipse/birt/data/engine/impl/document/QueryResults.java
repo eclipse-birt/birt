@@ -235,8 +235,15 @@ public class QueryResults implements IQueryResults, IQueryService
 				IBaseQueryDefinition queryDefn = this.getRDLoad( null, queryResultID )
 						.loadQueryDefn( StreamManager.ROOT_STREAM,
 								StreamManager.SELF_SCOPE );
-				
-				if ( queryDefn.usesDetails( ) == true )
+				if ( ((IQueryDefinition)queryDefn).isSummaryQuery( ))
+				{
+					resultIterator = new ResultIterator2( tempDir,
+							context,
+							this,
+							queryResultID,
+							queryDefn.getGroups( ).size( ), true );
+				}
+				else if ( queryDefn.usesDetails( ) == true )
 				{
 					if ( this.targetGroups != null
 							&& this.targetGroups.size( ) > 0 )
@@ -260,13 +267,13 @@ public class QueryResults implements IQueryResults, IQueryService
 										context,
 										this,
 										queryResultID,
-										queryDefn.getGroups( ).size( ) ) );
+										queryDefn.getGroups( ).size( ), false ) );
 					else
 						resultIterator = new ResultIterator2( tempDir,
 								context,
 								this,
 								queryResultID,
-								queryDefn.getGroups( ).size( ) );
+								queryDefn.getGroups( ).size( ), false );
 				}
 			}
 			else

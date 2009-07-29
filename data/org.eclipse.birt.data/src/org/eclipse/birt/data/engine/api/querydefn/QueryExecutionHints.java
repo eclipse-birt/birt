@@ -29,7 +29,7 @@ public class QueryExecutionHints implements IQueryExecutionHints
 	//
 	private boolean doSortBeforeGrouping = true;
 	private List<IGroupInstanceInfo> targetGroupInstances = new ArrayList<IGroupInstanceInfo>();
-	
+	private boolean enablePushdown = true;
 	/**
 	 * 
 	 * @param doSortBeforeGrouping
@@ -66,4 +66,14 @@ public class QueryExecutionHints implements IQueryExecutionHints
     {
     	this.targetGroupInstances.add( info );
     }
+
+	public boolean enablePushDown( )
+	{
+		return this.enablePushdown;
+	}
+
+	public void setEnablePushDown( boolean enablePushDown )
+	{
+		this.enablePushdown = enablePushDown;
+	}
 }

@@ -163,9 +163,16 @@ public class QueryResults implements IQueryResults, IQueryService
 							odiIterator,
 							this.queryScope, this.queryService.getStartingRawID( ) );
 				}
-				else
+				else 
 				{
-					if ( queryService.getQueryDefn( ).usesDetails( ) == true || queryService.getQueryDefn( ).cacheQueryResults( ) )
+					if ( queryService.getQueryDefn( ) instanceof IQueryDefinition && ((IQueryDefinition)queryService.getQueryDefn( )).isSummaryQuery( ))
+					{
+						iterator = new ResultIterator2( new ResultService( session,
+								this ),
+								odiIterator,
+								this.queryScope, this.queryService.getStartingRawID( )  );
+					}
+					else if ( queryService.getQueryDefn( ).usesDetails( ) == true || queryService.getQueryDefn( ).cacheQueryResults( ) )
 					{
 						//First create the cache. The cache is created when 
 						//a ResultIterator is closed;Please note that whether usesDetails or

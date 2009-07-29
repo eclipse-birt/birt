@@ -24,6 +24,19 @@ import java.util.List;
 public interface IQueryExecutionHints
 {
 	/**
+	 * Indicate whether should we enable the pushdown of sort/filter/aggregation to ODA
+	 * whenever applicable.
+	 * @return
+	 */
+	public boolean enablePushDown();
+	
+	/**
+	 * Set whether should the pushdown be enabled. 
+	 * @param enablePushDown
+	 */
+	public void setEnablePushDown( boolean enablePushDown );
+	
+	/**
 	 * Indicate whether should we do sort before grouping.
 	 * 
 	 * @return

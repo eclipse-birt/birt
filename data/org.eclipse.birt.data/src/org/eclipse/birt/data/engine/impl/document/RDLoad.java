@@ -216,6 +216,10 @@ public class RDLoad
 	 */
 	public DataSetResultSet loadDataSetData( ) throws DataException
 	{
+		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE ) )
+			return null;
 		RAInputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );

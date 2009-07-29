@@ -33,7 +33,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	protected String[]			projectedColumns;
 	
 	private   boolean           autoBinding = false;
-	
+	private   boolean           isSummaryQuery = false;
 	private IBaseQueryDefinition 	sourceQuery;
 	
 	/** Constructs an empty query definition */
@@ -157,6 +157,15 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	public void setSourceQuery( IBaseQueryDefinition sourceQuery )
 	{
 		this.sourceQuery = sourceQuery;
+	}
+
+	public void setIsSummaryQuery( boolean isSummaryQuery )
+	{
+		this.isSummaryQuery = isSummaryQuery;
+	}
+	public boolean isSummaryQuery( )
+	{
+		return this.isSummaryQuery;
 	}
 
 }

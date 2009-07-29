@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -260,21 +261,23 @@ public class CachedResultSet implements IResultIterator
 		}
 
 		// save result class
-		if ( isSubQuery == false
-				&& streamsWrapper.getStreamForResultClass( ) != null )
+		if ( isSubQuery == false && (!( (IQueryDefinition) this.resultSetPopulator.getQuery( )
+				.getQueryDefinition( ) ).isSummaryQuery( )) && 
+				streamsWrapper.getStreamForResultClass( ) != null )
 		{
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					resultSetPopulator.getEventHandler( ).getAllColumnBindings( ) );
+					resultSetPopulator.getEventHandler( )
+							.getAllColumnBindings( ) );
 			try
 			{
 				streamsWrapper.getStreamForResultClass( ).close( );
 				if ( streamsWrapper.getStreamForDataSet( ) != null )
 				{
 					this.resultSetPopulator.getCache( )
-							.doSave( streamsWrapper.getStreamForDataSet( ),
-									streamsWrapper.getStreamForDataSetRowLens( ),
-									resultSetPopulator.getEventHandler( )
-											.getAllColumnBindings( ) );
+								.doSave( streamsWrapper.getStreamForDataSet( ),
+										streamsWrapper.getStreamForDataSetRowLens( ),
+										resultSetPopulator.getEventHandler( )
+												.getAllColumnBindings( ) );
 				}
 				streamsWrapper.getStreamForDataSet( ).close( );
 				streamsWrapper.getStreamForDataSetRowLens( ).close( );

@@ -68,6 +68,7 @@ public class ViewingTest extends RDTestCase
 	private boolean PRE_printGroupInfo;
 	private boolean PRE_printExtraAggr;
 	private FilterDefinition GEN_filterDefn;
+	private boolean GEN_isSummary;
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
@@ -94,6 +95,7 @@ public class ViewingTest extends RDTestCase
 		this.GEN_subquery_on_group = false;
 		this.GEN_useDetail = true;
 		this.GEN_make_empty = false;
+		this.GEN_isSummary = false;
 		this.PRE_add_filter = false;
 		this.PRE_add_sort = false;
 		this.PRE_change_oldbinding = false;
@@ -1123,6 +1125,32 @@ public class ViewingTest extends RDTestCase
 		this.closeArchiveReader( );
 	}
 	
+	public void testSummaryTable( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		IBinding binding1 = new Binding( "Count_on_1st_group");
+		binding1.setAggrFunction( "COUNT" );
+		binding1.addAggregateOn( "COUNTRY" );
+		genquery.addBinding( binding1 );
+		genquery.setIsSummaryQuery( true );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		query.addBinding( binding1 );
+		query.setIsSummaryQuery( true );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
 	public void testFilterByGroupInstanceIV_testAggr( ) throws Exception
 	{
 		this.GEN_add_group = true;
@@ -1504,6 +1532,7 @@ public class ViewingTest extends RDTestCase
 		}
 		
 		qd.setUsesDetails( this.GEN_useDetail );
+		qd.setIsSummaryQuery( this.GEN_isSummary );
 		return qd;
 	}
 	

@@ -53,6 +53,8 @@ public class VersionManager
 	//In version 2_5_1_0 the aggregation value is saved separately
 	public final static int VERSION_2_5_1_0 = 110;
 	
+	//In version 2_5_1_1 the summary table tag is added
+	public final static int VERSION_2_5_1_1 = 120;
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -126,7 +128,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_5_1_0;
+		return VERSION_2_5_1_1;
 	}
 
 }

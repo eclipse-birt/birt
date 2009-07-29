@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -141,7 +142,8 @@ class RDSave implements IRDSave
 					continue;
 			}
 				
-			if( bindingNameColumnName.get( binding.getBindingName( ) ) == null )
+			if ( bindingNameColumnName.get( binding.getBindingName( ) ) == null
+					|| ( (IQueryDefinition) this.queryDefn ).isSummaryQuery( )  )
 				bindingNamesToSave.add( binding.getBindingName( ) );
 			bindingNameType.put( binding.getBindingName( ), new Integer(binding.getDataType( )) );
 		}
@@ -154,7 +156,7 @@ class RDSave implements IRDSave
 				rowExprsOs,
 				rowLenOs,
 				bindingNamesToSave,
-				bindingNameColumnName, bindingNameType, this.streamManager.getVersion( ) );
+				bindingNameColumnName, bindingNameType, this.streamManager.getVersion( ));
 	}
 	
 	/**

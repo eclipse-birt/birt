@@ -139,7 +139,7 @@ class ExprDataReader1 implements IExprDataReader
 	{
 		try
 		{
-			if( this.dataSetData!= null)
+			if( this.dataSetData!= null && this.dataSetData.getResultObject( )!= null )
 				return (Integer) this.dataSetData.getResultObject( )
 					.getFieldValue( ExprMetaUtil.POS_NAME );
 			if( this.bindingNameTypeMap.containsKey( ExprMetaUtil.POS_NAME ))
@@ -304,24 +304,27 @@ class ExprDataReader1 implements IExprDataReader
 			valueMap.put( exprID, exprValue );
 		}
 
-		java.util.Iterator it = this.dataSetExprKeys.keySet( ).iterator( );
-		while( it.hasNext( ))
+		if ( dataSetData != null )
 		{
-			String key = it.next( ).toString( );
-			String value = (String)this.dataSetExprKeys.get( key );
-			IResultObject o = this.dataSetData.getResultObject( );
-			
-			try
+			java.util.Iterator it = this.dataSetExprKeys.keySet( ).iterator( );
+			while ( it.hasNext( ) )
 			{
-				valueMap.put( key,
-						o == null
-								? null
-								: DataTypeUtil.convert( o.getFieldValue( value ),
-										( (Integer) this.bindingNameTypeMap.get( key ) ).intValue( ) ) );
-			}
-			catch ( BirtException e )
-			{
-				valueMap.put( key, e );
+				String key = it.next( ).toString( );
+				String value = (String) this.dataSetExprKeys.get( key );
+				IResultObject o = this.dataSetData.getResultObject( );
+
+				try
+				{
+					valueMap.put( key,
+							o == null
+									? null
+									: DataTypeUtil.convert( o.getFieldValue( value ),
+											( (Integer) this.bindingNameTypeMap.get( key ) ).intValue( ) ) );
+				}
+				catch ( BirtException e )
+				{
+					valueMap.put( key, e );
+				}
 			}
 		}
 		return valueMap;

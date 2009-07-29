@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -30,6 +31,8 @@ class ResultIterator2 extends ResultIterator
 	
 	private int cachedRowId;
 
+	private boolean isSummary;
+	
 	private static Logger logger = Logger.getLogger( ResultIterator2.class.getName( ) );
 
 	/**
@@ -55,6 +58,9 @@ class ResultIterator2 extends ResultIterator
 		this.lowestGroupLevel = rService.getQueryDefn( ).getGroups( ).size( );
 		this.currRowIndex = -1;
 		this.cachedRowId = 0;
+		this.isSummary = ( rService.getQueryDefn( ) instanceof IQueryDefinition )
+				? ( (IQueryDefinition) rService.getQueryDefn( ) ).isSummaryQuery( )
+				: false;
 		logger.exiting( ResultIterator2.class.getName( ), "ResultIterator2" );
 	}
 
@@ -80,28 +86,34 @@ class ResultIterator2 extends ResultIterator
 	protected boolean hasNextRow( ) throws DataException
 	{
 		boolean result = false;
-		boolean shouldMoveForward = false;
+		
 	
 		int index = this.odiResult.getCurrentResultIndex( );
 
 		this.odiResult.last( lowestGroupLevel );
 
-		if ( index != this.odiResult.getCurrentResultIndex( ) )
-		{
-			result = odiResult.getCurrentResult( ) == null ? false : true;
-			shouldMoveForward = false;
-		}
-		else
-		{
-			shouldMoveForward = true;
-		}
-	
-		
-		if( shouldMoveForward )
+		if ( this.isSummary )
 		{
 			result = this.odiResult.next( );
 		}
+		else
+		{
+			boolean shouldMoveForward = false;
+			if ( index != this.odiResult.getCurrentResultIndex( ) )
+			{
+				result = odiResult.getCurrentResult( ) == null ? false : true;
+				shouldMoveForward = false;
+			}
+			else
+			{
+				shouldMoveForward = true;
+			}
 
+			if ( shouldMoveForward )
+			{
+				result = this.odiResult.next( );
+			}
+		}
 		if ( result )
 		{
 			// cachedStartingGroupLevel = odiResult.getStartingGroupLevel( );

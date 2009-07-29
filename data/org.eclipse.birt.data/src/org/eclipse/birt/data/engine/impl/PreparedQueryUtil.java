@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -237,8 +236,41 @@ public class PreparedQueryUtil
 			validateComputedColumns(dataSet);
 		}
 		validateSorts( queryDefn );
+		//validateSummaryQuery( queryDefn );
 	}
 	
+	private static void validateSummaryQuery( IQueryDefinition queryDefn ) throws DataException
+	{
+		if ( queryDefn.isSummaryQuery( ) )
+		{
+			String lastGroupName = null;
+			if ( queryDefn.getGroups( ).size( ) > 0 )
+			{
+				IGroupDefinition group = (IGroupDefinition) queryDefn.getGroups( )
+						.get( queryDefn.getGroups( ).size( ) - 1 );
+				lastGroupName = group.getName( );
+			}
+			Map<String, IBinding> bindings = queryDefn.getBindings( );
+			for ( IBinding binding : bindings.values( ) )
+			{
+				if ( binding.getAggrFunction( ) != null )
+				{
+					if ( binding.getAggregatOns( ).size( ) == 0
+							&& lastGroupName == null )
+						continue;
+					if ( binding.getAggregatOns( ).size( ) == 1
+							&& binding.getAggregatOns( )
+									.get( 0 )
+									.toString( )
+									.equals( lastGroupName ) )
+						continue;
+					throw new DataException( ResourceConstants.INVALID_AGGR_LEVEL_IN_SUMMARY_QUERY,
+							binding.getBindingName( ) );
+				}
+			}
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	private static void validateSorts( IQueryDefinition queryDefn ) throws DataException
 	{

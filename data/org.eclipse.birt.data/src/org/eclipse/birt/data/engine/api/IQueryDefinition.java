@@ -86,4 +86,13 @@ public interface IQueryDefinition extends IBaseQueryDefinition
      */
 
     public IBaseQueryDefinition getSourceQuery();
+    
+    /**
+     * Return whether this query definition is a summary query definition. A summary query definition contains only
+     * one row each group, and only allow aggregations in inner most group.
+     * 
+     * @return
+     */
+    public boolean isSummaryQuery();
+    
 }

@@ -83,12 +83,23 @@ public class QueryDefnIOUtil
 			
 			// query execution hint
 			saveQueryExecutionHints( outputStream, queryDefn.getQueryExecutionHints( ), version );
+			
+			saveSummaryTableInfo( outputStream, queryDefn, version );
 		}
 		catch ( IOException e )
 		{
 			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
 		}
 		
+	}
+
+	private static void saveSummaryTableInfo( OutputStream outputStream,
+			IBaseQueryDefinition queryDefn, int version ) throws IOException
+	{
+		if( version >= VersionManager.VERSION_2_5_1_1 && queryDefn instanceof IQueryDefinition)
+		{
+			IOUtil.writeBool( outputStream, ((IQueryDefinition)queryDefn).isSummaryQuery( )); 
+		}
 	}
 	
 	/**
@@ -347,6 +358,11 @@ public class QueryDefnIOUtil
 			
 			// QueryExecutionHints
 			queryDefn.setQueryExecutionHints( loadQueryExecutionHints( inputStream, version ) );
+			
+			if( queryDefn instanceof IQueryDefinition && version >= VersionManager.VERSION_2_5_1_1 )
+			{
+				((QueryDefinition)queryDefn).setIsSummaryQuery( IOUtil.readBool( inputStream ) );
+			}
 		}
 		catch ( IOException e )
 		{

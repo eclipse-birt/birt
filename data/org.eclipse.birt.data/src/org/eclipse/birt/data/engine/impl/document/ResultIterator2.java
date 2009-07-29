@@ -26,6 +26,7 @@ public class ResultIterator2 extends ResultIterator
 	
 	private int currRowIndex;
 
+	private boolean isSummary;
 	/**
 	 * @param context
 	 * @param queryResults
@@ -34,12 +35,13 @@ public class ResultIterator2 extends ResultIterator
 	 * @throws DataException
 	 */
 	ResultIterator2( String tempDir, DataEngineContext context, IQueryResults queryResults,
-			String queryResultID, int lowestGroupLevel ) throws DataException
+			String queryResultID, int lowestGroupLevel, boolean isSummary ) throws DataException
 	{
 		super( tempDir, context, queryResults, queryResultID );
 		
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
+		this.isSummary = isSummary;
 	}
 	
 	
@@ -71,7 +73,7 @@ public class ResultIterator2 extends ResultIterator
 		if ( this.exprResultSet.getCurrentIndex( ) >= 0 ) // not the first row
 		{
 			exprResultSet.skipToEnd( lowestGroupLevel );
-			if ( this.exprResultSet.getCurrentIndex( ) != index )
+			if ( (!isSummary) && this.exprResultSet.getCurrentIndex( ) != index )
 			{
 				shouldMoveForward = false;
 				hasNext = exprResultSet.getCurrentIndex( ) >= 0;
