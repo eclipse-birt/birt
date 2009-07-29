@@ -90,20 +90,12 @@ public class GroupPropertyHandle
 
 		// use the value set on the first element as the base value.
 
-		Object baseValue = null;
-		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
-			baseValue = elemHandle.getProperty( propDefn.getName( ) );
-		else
-			baseValue = elemHandle.getStringProperty( propDefn.getName( ) );
+		Object baseValue = getPropertyValue( elemHandle );
 
 		while ( iter.hasNext( ) )
 		{
 			elemHandle = (DesignElementHandle) iter.next( );
-			Object value = null;
-			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
-				value = elemHandle.getProperty( propDefn.getName( ) );
-			else
-				value = elemHandle.getStringProperty( propDefn.getName( ) );
+			Object value = getPropertyValue( elemHandle );
 
 			if ( baseValue == null )
 			{
@@ -121,6 +113,25 @@ public class GroupPropertyHandle
 	}
 
 	/**
+	 * Gets the property value of the given element
+	 * 
+	 * @param elementHandle
+	 *            the handle of the given element
+	 * 
+	 * @return the property value
+	 */
+	private Object getPropertyValue( DesignElementHandle elementHandle )
+	{
+		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+			return elementHandle.getProperty( propDefn.getName( ) );
+		else if ( propDefn.allowExpression( ) )
+			return elementHandle.getElement( ).getProperty(
+					elementHandle.module, propDefn );
+		else
+			return elementHandle.getStringProperty( propDefn.getName( ) );
+	}
+
+	/**
 	 * Value will be returned as string only if all values of this property are
 	 * equal within the collection of elements.
 	 * 
@@ -132,16 +143,12 @@ public class GroupPropertyHandle
 
 	public String getStringValue( )
 	{
-		if ( !shareSameValue( ) )
+		DesignElementHandle element = getSameValueElementHandle( );
+
+		if ( element == null )
 			return null;
 
-		// List must contain at least one element.
-		// return the property value from the first element.
-
-		List elements = handle.getElements( );
-
-		return ( (DesignElementHandle) elements.get( 0 ) )
-				.getStringProperty( propDefn.getName( ) );
+		return element.getStringProperty( propDefn.getName( ) );
 	}
 
 	/**
@@ -398,9 +405,11 @@ public class GroupPropertyHandle
 	 * <ul>
 	 * <li><code>target</code> is a <code>PropertyHandle</code>. The element of
 	 * <code>target</code> is in the <code>GroupElementHandle</code> and two
-	 * property definitions are same. </li> <li><code>target</code> is a <code>
-	 * GroupPropertyHandle</code>. <code>GroupElementHandle</code> and the the
-	 * property definition are same.</li>
+	 * property definitions are same.</li>
+	 * <li><code>target</code> is a <code>
+	 * GroupPropertyHandle</code>.
+	 * <code>GroupElementHandle</code> and the the property definition are same.
+	 * </li>
 	 * </ul>
 	 * 
 	 * @param target
@@ -464,10 +473,10 @@ public class GroupPropertyHandle
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
 						.getDisplayName( )} );
 	}
-	
+
 	/**
-	 * Value will be returned as string only if all values of this property are
-	 * equal within the collection of elements.
+	 * Gets the value of the property. Value will be returned as object only if
+	 * all values of this property are equal within the collection of elements.
 	 * 
 	 * @return The value if all the element values for the property are equal.
 	 *         Return null, if elements have different value for the property.
@@ -476,15 +485,41 @@ public class GroupPropertyHandle
 
 	public Object getValue( )
 	{
+		DesignElementHandle element = getSameValueElementHandle( );
+
+		if ( element == null )
+			return null;
+
+		if ( propDefn.allowExpression( ) )
+		{
+			if ( propDefn.isListType( ) )
+			{
+				// No such case in rom now
+				assert false;
+				return null;
+			}
+			return element.getExpressionProperty( propDefn.getName( ) )
+					.getValue( );
+		}
+		else
+		{
+			return element.getProperty( propDefn.getName( ) );
+		}
+
+	}
+
+	/**
+	 * Gets the first handle of the design elements which contain at least one
+	 * element and share the same value of the property.
+	 */
+	private DesignElementHandle getSameValueElementHandle( )
+	{
 		if ( !shareSameValue( ) )
 			return null;
 
 		// List must contain at least one element.
 		// return the property value from the first element.
 
-		List elements = handle.getElements( );
-
-		return ( (DesignElementHandle) elements.get( 0 ) )
-				.getProperty( propDefn.getName( ) );
+		return (DesignElementHandle) handle.getElements( ).get( 0 );
 	}
 }

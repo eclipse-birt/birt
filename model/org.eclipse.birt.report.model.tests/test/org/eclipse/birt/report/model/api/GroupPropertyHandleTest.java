@@ -16,11 +16,14 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -55,9 +58,12 @@ public class GroupPropertyHandleTest extends BaseTestCase
 		handle2 = elemFactory.newGraphicMasterPage( "page2" ); //$NON-NLS-1$
 		handle3 = elemFactory.newGraphicMasterPage( "page3" ); //$NON-NLS-1$
 
-		handle1.setStringProperty( MasterPage.TYPE_PROP, DesignChoiceConstants.PAGE_SIZE_CUSTOM);
-		handle2.setStringProperty( MasterPage.TYPE_PROP, DesignChoiceConstants.PAGE_SIZE_CUSTOM);
-		handle3.setStringProperty( MasterPage.TYPE_PROP, DesignChoiceConstants.PAGE_SIZE_CUSTOM);
+		handle1.setStringProperty( MasterPage.TYPE_PROP,
+				DesignChoiceConstants.PAGE_SIZE_CUSTOM );
+		handle2.setStringProperty( MasterPage.TYPE_PROP,
+				DesignChoiceConstants.PAGE_SIZE_CUSTOM );
+		handle3.setStringProperty( MasterPage.TYPE_PROP,
+				DesignChoiceConstants.PAGE_SIZE_CUSTOM );
 		ArrayList elements = new ArrayList( );
 		elements.add( handle1 );
 		elements.add( handle2 );
@@ -69,7 +75,7 @@ public class GroupPropertyHandleTest extends BaseTestCase
 		groupPropertyHandle1 = groupElementHandle
 				.getPropertyHandle( MasterPage.HEIGHT_PROP );
 		groupPropertyHandle2 = groupElementHandle
-				.getPropertyHandle( MasterPage.COMMENTS_PROP ); 
+				.getPropertyHandle( MasterPage.COMMENTS_PROP );
 	}
 
 	/**
@@ -90,7 +96,7 @@ public class GroupPropertyHandleTest extends BaseTestCase
 		handle2.setProperty( MasterPage.HEIGHT_PROP, "13pt" ); //$NON-NLS-1$
 		handle3.setProperty( MasterPage.HEIGHT_PROP, "12cm" ); //$NON-NLS-1$
 
-		assertNull( null, groupPropertyHandle1.getStringValue( ) ); 
+		assertNull( null, groupPropertyHandle1.getStringValue( ) );
 
 		assertEquals( "Who am I?", groupPropertyHandle2.getStringValue( ) ); //$NON-NLS-1$
 
@@ -100,6 +106,93 @@ public class GroupPropertyHandleTest extends BaseTestCase
 		handle3.setProperty( MasterPage.HEIGHT_PROP, "12pt" ); //$NON-NLS-1$
 
 		assertEquals( "12pt", groupPropertyHandle1.getStringValue( ) ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * 1. Same value. 2. different value.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void testGetValue( ) throws SemanticException
+	{
+		// same value for comments.
+		handle1.setProperty( MasterPage.COMMENTS_PROP, "Who am I?" ); //$NON-NLS-1$
+		handle2.setProperty( MasterPage.COMMENTS_PROP, "Who am I?" ); //$NON-NLS-1$
+		handle3.setProperty( MasterPage.COMMENTS_PROP, "Who am I?" ); //$NON-NLS-1$
+
+		// different value for height
+		handle1.setProperty( MasterPage.HEIGHT_PROP, "12pt" ); //$NON-NLS-1$
+		handle2.setProperty( MasterPage.HEIGHT_PROP, "13pt" ); //$NON-NLS-1$
+		handle3.setProperty( MasterPage.HEIGHT_PROP, "12cm" ); //$NON-NLS-1$
+
+		assertNull( null, groupPropertyHandle1.getValue( ) );
+
+		assertEquals( "Who am I?", groupPropertyHandle2.getValue( ) ); //$NON-NLS-1$
+
+		// set prop2 to same value
+
+		handle2.setProperty( MasterPage.HEIGHT_PROP, "12pt" ); //$NON-NLS-1$
+		handle3.setProperty( MasterPage.HEIGHT_PROP, "12pt" ); //$NON-NLS-1$		
+
+		assertTrue( groupPropertyHandle1.getValue( ) instanceof DimensionValue ); //$NON-NLS-1$
+		DimensionValue dimensionValue = (DimensionValue) groupPropertyHandle1
+				.getValue( );
+
+		assertEquals( 12d, dimensionValue.getMeasure( ) );
+		assertEquals( DesignChoiceConstants.UNITS_PT, dimensionValue.getUnits( ) );
+
+		TextDataHandle textHandle1 = elemFactory.newTextData( null );
+		TextDataHandle textHandle2 = elemFactory.newTextData( null );
+		TextDataHandle textHandle3 = elemFactory.newTextData( null );
+
+		designHandle.getBody( ).add( textHandle1 );
+		designHandle.getBody( ).add( textHandle2 );
+		designHandle.getBody( ).add( textHandle3 );
+
+		ArrayList<TextDataHandle> list = new ArrayList<TextDataHandle>( );
+		list.add( textHandle1 );
+		list.add( textHandle2 );
+		list.add( textHandle3 );
+
+		GroupElementHandle groupHElementHandle = new SimpleGroupElementHandle(
+				designHandle, list );
+		GroupPropertyHandle propHandle = groupHElementHandle
+				.getPropertyHandle( ITextDataItemModel.VALUE_EXPR_PROP );
+		
+		textHandle1.setValueExpr( "value" );
+		textHandle2.setValueExpr( "value" );
+		textHandle3.setValueExpr( "value" );
+
+		assertTrue( propHandle.getValue( ) instanceof Expression );
+		Expression expr = (Expression) propHandle.getValue( );
+		assertEquals( "value", expr.getStringExpression( ) );
+		
+		textHandle1.setProperty( ITextDataItemModel.VALUE_EXPR_PROP,
+				new Expression( "value", IExpressionType.CONSTANT ) );
+		textHandle2.setProperty( ITextDataItemModel.VALUE_EXPR_PROP,
+				new Expression( "value", IExpressionType.CONSTANT ) );
+		textHandle3.setProperty( ITextDataItemModel.VALUE_EXPR_PROP,
+				new Expression( "value", IExpressionType.CONSTANT ) );
+
+		assertTrue( propHandle.getValue( ) instanceof Expression );
+		
+		expr = (Expression) propHandle.getValue( );
+		assertEquals( "value", expr.getStringExpression( ) );
+		assertEquals( IExpressionType.CONSTANT, expr.getType( ) );
+		
+		textHandle1.setProperty( ITextDataItemModel.VALUE_EXPR_PROP,
+				new Expression( "value", IExpressionType.CONSTANT ) );
+		textHandle2.setProperty( ITextDataItemModel.VALUE_EXPR_PROP,
+				new Expression( "value", IExpressionType.JAVASCRIPT ) );
+		textHandle3.setProperty( ITextDataItemModel.VALUE_EXPR_PROP,
+				new Expression( "value2", IExpressionType.CONSTANT ) );
+
+		assertNull( propHandle.getValue( ) );
+		
+		textHandle3.setProperty( ITextDataItemModel.VALUE_EXPR_PROP,
+				new Expression( "value", IExpressionType.CONSTANT ) );
+		assertNull( propHandle.getValue( ) );
 	}
 
 	/**
@@ -263,7 +356,7 @@ public class GroupPropertyHandleTest extends BaseTestCase
 				elements );
 
 		GroupPropertyHandle groupPropertyHandle = groupElementHandle
-				.getPropertyHandle( Label.DATA_SET_PROP ); 
+				.getPropertyHandle( Label.DATA_SET_PROP );
 
 		List list = groupPropertyHandle.getReferenceableElementList( );
 		assertEquals( 3, list.size( ) );
@@ -272,7 +365,7 @@ public class GroupPropertyHandleTest extends BaseTestCase
 		assertEquals( "c", ( (DesignElementHandle) list.get( 2 ) ).getName( ) ); //$NON-NLS-1$
 
 		groupPropertyHandle = groupElementHandle
-				.getPropertyHandle( Label.STYLE_PROP ); 
+				.getPropertyHandle( Label.STYLE_PROP );
 
 		list = groupPropertyHandle.getReferenceableElementList( );
 		assertEquals( 2, list.size( ) );
@@ -296,9 +389,10 @@ public class GroupPropertyHandleTest extends BaseTestCase
 
 	/**
 	 * Tests the getLocalStringValue.
+	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testGetLocalValue( ) throws Exception
 	{
 		LabelHandle label = designHandle.getElementFactory( )
@@ -341,9 +435,9 @@ public class GroupPropertyHandleTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.LINE_STYLE_DOUBLE,
 				groupPropertyHandle1.getStringValue( ) );
 		assertNull( groupPropertyHandle1.getLocalStringValue( ) );
-		
+
 		// add the label which has local value
-		
+
 		elements.add( label );
 		groupElementHandle = new SimpleGroupElementHandle( designHandle,
 				elements );
