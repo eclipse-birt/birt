@@ -40,7 +40,8 @@ import com.ibm.icu.util.ULocale;
 
 public class ExcelUtil
 {
-	
+
+	private final static String scienticPattern = "0*.*0*E0*";
 	private static final double SECONDS_PER_DAY = 86400.0;
 	private static final double SECONDS_PER_MINUTE = 60.0;
 	private static final double SECONDS_PER_HOUR = 3600.0;
@@ -896,6 +897,12 @@ public class ExcelUtil
 		{
 			return givenValue;
 		}
+
+		if ( isScientific( givenValue ) )
+		{
+			givenValue = givenValue.replace( "E", "E+" );
+			return givenValue;
+		}
 		int count = givenValue.length( );
 		boolean flag = false;
 		for ( int num = 0; num < count; num++ )
@@ -955,6 +962,19 @@ public class ExcelUtil
 			returnStr += "#";
 		}
 		return returnStr;
+	}
+
+	private static boolean isScientific( String givenValue )
+	{
+		Pattern pattern = Pattern.compile( scienticPattern,
+				Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL );
+		Matcher matcher = pattern.matcher( givenValue );
+		if ( matcher.matches( ) )
+		{
+			return true;
+		}
+		else
+			return false;
 	}
 
 	private static String getCurrencySymbol( ULocale locale )
