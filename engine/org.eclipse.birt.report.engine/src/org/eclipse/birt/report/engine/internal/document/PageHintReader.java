@@ -26,13 +26,14 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 /**
  * page hint reader
  * 
- * It can support mutiple versions.
+ * It can support multiple versions.
  * 
  */
 public class PageHintReader implements IPageHintReader
 {
 
 	IPageHintReader reader;
+	IPageHint cachedHint;
 
 	public PageHintReader( IReportDocument document ) throws IOException
 	{
@@ -79,7 +80,12 @@ public class PageHintReader implements IPageHintReader
 
 	public IPageHint getPageHint( long pageNumber ) throws IOException
 	{
-		return reader.getPageHint( pageNumber );
+		if ( cachedHint != null && cachedHint.getPageNumber( ) == pageNumber )
+		{
+			return cachedHint;
+		}
+		cachedHint = reader.getPageHint( pageNumber );
+		return cachedHint;
 	}
 
 	public long getPageOffset( long pageNumber, String masterPage )
