@@ -143,16 +143,17 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	 */
 	private Control createParameterPageControl( Composite parent )
 	{
-		viewer = new PropertyHandleTableViewer( parent, true, true, true );
+		DataSetHandle dataSetHandle = (DataSetHandle) getContainer( ).getModel( );
+		isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
+		isJointOrDerivedDataSetHandle = ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle );
+	
+		viewer = new PropertyHandleTableViewer( parent, true, true, true,!isJointOrDerivedDataSetHandle );
 		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
 				SWT.LEFT );
 		column.setText( " " ); //$NON-NLS-1$
 		column.setResizable( false );
 		column.setWidth( 23 );
 		
-		DataSetHandle dataSetHandle = (DataSetHandle) getContainer( ).getModel( );
-		isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
-		isJointOrDerivedDataSetHandle = ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle );
 		
 		if ( isOdaDataSetHandle )
 		{
@@ -1117,30 +1118,12 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	 */
 	private void setPageProperties( )
 	{
-		boolean parametersExist = false;
-
-		parametersExist = ( parameters != null
+		viewer.updateButtons( );
+		
+		boolean parametersExist = ( parameters != null
 				&& parameters.getListValue( ) != null && parameters.getListValue( )
 				.size( ) > 0 );
-		if ( viewer != null )
-		{
-			viewer.getNewButton( ).setEnabled( !isJointOrDerivedDataSetHandle );
-			viewer.getEditButton( ).setEnabled( !isJointOrDerivedDataSetHandle
-					&& parametersExist );
-			viewer.getRemoveButton( ).setEnabled( !isJointOrDerivedDataSetHandle
-					&& parametersExist );
-			viewer.getUpButton( ).setEnabled( !isJointOrDerivedDataSetHandle
-					&& parametersExist
-					&& parameters.getListValue( ).size( ) > 1 );
-			viewer.getDownButton( ).setEnabled( !isJointOrDerivedDataSetHandle
-					&& parametersExist
-					&& parameters.getListValue( ).size( ) > 1 );
-			viewer.getRemoveMenuItem( ).setEnabled( !isJointOrDerivedDataSetHandle
-					&& parametersExist );
-			viewer.getRemoveAllMenuItem( ).setEnabled( !isJointOrDerivedDataSetHandle
-					&& parametersExist );
-		}
-		if ( parametersExist == false )
+		if ( !parametersExist )
 			getContainer( ).setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE ); //$NON-NLS-1$
 	}
 
@@ -1386,6 +1369,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			dataSetParameter.setDataType( parameter.getDataType( ) );
 			dataSetParameter.setAllowNull( parameter.allowNull( ) );
 			dataSetParameter.setDefaultValue( parameter.getDefaultValue( ) );
+			dataSetParameter.setExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER,
+					(Expression) parameter.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER )
+							.getValue( ) );
+
 			dataSetParameter.setIsInput( parameter.isInput( ) );
 			dataSetParameter.setIsOutput( parameter.isOutput( ) );
 			dataSetParameter.setName( dataSetName
@@ -1933,30 +1920,32 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		protected void rollback( )
 		{
 			DataSetParameter structure = getStructure( getStructureOrHandle( ) );
-			if ( originalStructure != null )
+			try
 			{
-				structure.setName( originalStructure.getName( ) );
-				structure.setParameterDataType( originalStructure.getParameterDataType( ) );
-				structure.setIsInput( originalStructure.isInput( ) );
-				structure.setIsOutput( originalStructure.isOutput( ) );
-				structure.setDefaultValue( originalStructure.getDefaultValue( ) );
+				if ( originalStructure != null )
+				{
+					structure.setName( originalStructure.getName( ) );
+					structure.setParameterDataType( originalStructure.getParameterDataType( ) );
+					structure.setIsInput( originalStructure.isInput( ) );
+					structure.setIsOutput( originalStructure.isOutput( ) );
+					structure.setDefaultValue( originalStructure.getDefaultValue( ) );
+					structure.setExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER,
+							originalStructure.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER ) );
 
-				if ( isOdaDataSetHandle )
-					( (OdaDataSetParameter) structure ).setParamName( ( (OdaDataSetParameter) originalStructure ).getParamName( ) );
+					if ( isOdaDataSetHandle )
+						( (OdaDataSetParameter) structure ).setParamName( ( (OdaDataSetParameter) originalStructure ).getParamName( ) );
 
-				originalStructure = null;
-			}
-			else
-			{
-				try
+					originalStructure = null;
+				}
+				else
 				{
 					parameters.removeItem( structure );
 					viewer.getViewer( ).refresh( );
 				}
-				catch ( PropertyValueException e )
-				{
-					ExceptionHandler.handle( e );
-				}
+			}
+			catch ( Exception e )
+			{
+				ExceptionHandler.handle( e );
 			}
 			//rollback the model changed status
 			modelChanged = inputChanged; 

@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.MenuItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.4 $ $Date: 2008/01/25 08:37:55 $
+ * @version $Revision$ $Date$
  */
 public class PropertyHandleTableViewer
 {
@@ -67,11 +67,18 @@ public class PropertyHandleTableViewer
 	};
 	private int defaultButtonWidth = 70;
 
+
+	public PropertyHandleTableViewer( Composite parent, boolean showMenus,
+			boolean showButtons, boolean enableKeyStrokes )
+	{
+		this( parent, showMenus, showButtons, enableKeyStrokes, true );
+	}
+
 	/**
 	 * 
 	 */
 	public PropertyHandleTableViewer( Composite parent, boolean showMenus,
-			boolean showButtons, boolean enableKeyStrokes )
+			boolean showButtons, boolean enableKeyStrokes, boolean editable )
 	{
 		mainControl = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
@@ -89,7 +96,7 @@ public class PropertyHandleTableViewer
 		if ( showButtons )
 		{
 			localizeButtonWidth( );
-			createButtonComposite( );
+			createButtonComposite( editable );
 		}
 
 		if ( showMenus )
@@ -99,7 +106,7 @@ public class PropertyHandleTableViewer
 			enableKeyStrokes( );
 	}
 
-	private void createButtonComposite( )
+	private void createButtonComposite( boolean editable )
 	{
 		Composite composite = new Composite( mainControl, SWT.NONE );
 		GridData gd = new GridData( );
@@ -108,13 +115,15 @@ public class PropertyHandleTableViewer
 		composite.setLayoutData( gd );
 		composite.setLayout( new GridLayout( ) );
 
-		SelectionAdapter listener = new SelectionAdapter( ) {
+		SelectionAdapter listener = null;
+		if ( editable )
+			listener = new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				doButtonSelected( e );
-			}
-		};
+				public void widgetSelected( SelectionEvent e )
+				{
+					doButtonSelected( e );
+				}
+			};
 
 		if ( buttonLabels != null )
 		{
@@ -127,6 +136,8 @@ public class PropertyHandleTableViewer
 					buttonArray[i] = createButton( composite,
 							currLabel,
 							listener );
+					if ( !editable )
+						buttonArray[i].setEnabled( editable );
 				}
 				else
 				{
@@ -142,7 +153,10 @@ public class PropertyHandleTableViewer
 	{
 		Button button = new Button( parent, SWT.PUSH );
 		button.setText( label );
-		button.addSelectionListener( listener );
+		
+		if ( listener != null )
+			button.addSelectionListener( listener );
+		
 		GridData gd = new GridData( );
 		gd.widthHint = defaultButtonWidth;
 		button.setLayoutData( gd );
@@ -236,7 +250,9 @@ public class PropertyHandleTableViewer
 				ExceptionHandler.handle( e1 );
 			}
 			viewer.refresh( );
+			viewer.getTable( ).setFocus( );
 			viewer.getTable( ).select( index );
+			updateButtons( );
 		}
 	}
 
@@ -258,7 +274,9 @@ public class PropertyHandleTableViewer
 				ExceptionHandler.handle( e1 );
 			}
 			viewer.refresh( );
+			viewer.getTable( ).setFocus( );
 			viewer.getTable( ).select( index - 1 );
+			updateButtons( );
 		}
 	}
 
@@ -280,7 +298,9 @@ public class PropertyHandleTableViewer
 				ExceptionHandler.handle( e1 );
 			}
 			viewer.refresh( );
+			viewer.getTable( ).setFocus( );
 			viewer.getTable( ).select( index + 1 );
+			updateButtons( );
 		}
 	}
 
@@ -315,6 +335,7 @@ public class PropertyHandleTableViewer
 					PropertyHandle handle = (PropertyHandle) viewer.getInput( );
 					handle.clearValue( );
 					viewer.refresh( );
+					updateButtons( );
 				}
 				catch ( SemanticException e1 )
 				{
@@ -343,6 +364,26 @@ public class PropertyHandleTableViewer
 			}
 
 		} );
+	}
+	
+	protected void updateButtons( )
+	{
+		int[] indices = getViewer( ).getTable( ).getSelectionIndices( );
+		getUpButton( ).setEnabled( getUpButton( ).isVisible( )
+				&& viewer.getTable( ).getItemCount( ) > 1
+				&& indices.length == 1 && indices[0] != 0 );
+
+		getDownButton( ).setEnabled( getDownButton( ).isVisible( )
+				&& viewer.getTable( ).getItemCount( ) > 1
+				&& indices.length == 1
+				&& indices[0] != viewer.getTable( ).getItemCount( ) - 1 );
+
+		getEditButton( ).setEnabled( getEditButton( ).isVisible( )
+				&& indices.length == 1 );
+		getRemoveButton( ).setEnabled( getRemoveButton( ).isVisible( )
+				&& indices.length > 0 );
+		getRemoveMenuItem( ).setEnabled( indices.length > 0 );
+		getRemoveAllMenuItem( ).setEnabled( viewer.getTable( ).getItemCount( ) > 0 );
 	}
 
 	/**

@@ -595,19 +595,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	 */
 	private void setPageProperties( )
 	{
-		boolean computedColumnsExist = false;
-
-		computedColumnsExist = ( computedColumns != null
-				&& computedColumns.getListValue( ) != null && computedColumns.getListValue( )
-				.size( ) > 0 );
-		viewer.getEditButton( ).setEnabled( computedColumnsExist );
-		viewer.getDownButton( ).setEnabled( computedColumnsExist
-				&& computedColumns.getListValue( ).size( ) > 1 );
-		viewer.getUpButton( ).setEnabled( computedColumnsExist
-				&& computedColumns.getListValue( ).size( ) > 1 );
-		viewer.getRemoveButton( ).setEnabled( computedColumnsExist );
-		viewer.getRemoveMenuItem( ).setEnabled( computedColumnsExist );
-		viewer.getRemoveAllMenuItem( ).setEnabled( computedColumnsExist );
+		viewer.updateButtons( );
 		validateAllComputedColumns( );
 	}
 
