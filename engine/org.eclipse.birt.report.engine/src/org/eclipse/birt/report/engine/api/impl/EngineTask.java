@@ -868,6 +868,11 @@ public abstract class EngineTask implements IEngineTask
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
+			if ( !( paramValue instanceof String ) )
+				throw new ParameterValidationException(
+						MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
+						new String[]{paramName, type,
+								paramValue.getClass( ).getName( )} );
 			if ( paramHandle.isRequired( ) ) //$NON-NLS-1$
 			{
 				String value = paramValue.toString( ).trim( );

@@ -53,8 +53,8 @@ import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-
-import com.ibm.icu.util.ULocale;
+import org.eclipse.birt.report.model.api.filterExtension.OdaFilterExprHelper;
+import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
 
 /**
  * Defines an engine task that handles parameter definition retrieval
@@ -1518,9 +1518,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			scalarParameter.setFixedOrder( handle.isFixedOrder( ) );
 
 			String paramType = handle.getValueType( );
-			if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals( paramType )
-					&& scalarParameter.getSelectionList( ) != null
-					&& scalarParameter.getSelectionList( ).size( ) > 0 )
+			if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals( paramType ) )
 			{
 				scalarParameter
 						.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_STATIC );
@@ -1591,9 +1589,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				parameter.setDataType( IParameterDefn.TYPE_ANY );
 			
 			String paramType = handle.getValueType( );
-			if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals( paramType )
-					&& parameter.getSelectionList( ) != null
-					&& parameter.getSelectionList( ).size( ) > 0 )
+			if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals( paramType ) )
 			{
 				parameter
 						.setSelectionListType( IParameterDefn.SELECTION_LIST_STATIC );
@@ -1640,7 +1636,19 @@ public class GetParameterDefinitionTask extends EngineTask
 			if( operators != null )
 			{
 				List<String> filters = new ArrayList<String>( );
-				filters.addAll( operators );
+				for ( String operator : operators )
+				{
+					IFilterExprDefinition expr = OdaFilterExprHelper
+							.getFilterExpressionDefn( operator, null, null );
+					if ( expr != null )
+					{
+						filters.add( expr.getBirtFilterExprDisplayName( ) );
+					}
+					else
+					{
+						filters.add( operator );
+					}
+				}
 				parameter.setFilterOperatorList( filters );
 			}
 			else
