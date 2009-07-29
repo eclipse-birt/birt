@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter.DrillType;
 
 /**
  * 
@@ -102,10 +101,9 @@ public class EdgeDefinition extends NamedObject implements IEdgeDefinition
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#createDrillFilter(java.lang.String, org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter.DrillType)
 	 */
-	public IEdgeDrillFilter createDrillFilter( String name, DrillType type )
+	public IEdgeDrillFilter createDrillFilter( String name )
 	{
-		IEdgeDrillFilter drill = new EdgeDrillingFilterDefinition( name,
-				type );
+		IEdgeDrillFilter drill = new EdgeDrillingFilterDefinition( name );
 		drillOperation.add( drill );
 		return drill;
 	}

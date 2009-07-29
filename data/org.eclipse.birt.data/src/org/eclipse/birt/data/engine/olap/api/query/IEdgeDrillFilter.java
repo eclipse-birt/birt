@@ -23,17 +23,6 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 public interface IEdgeDrillFilter
 {
-
-	public enum DrillType {
-		DRILL_TO_ANCESTORS, DRILL_TO_DESCENDANTS, DRILL_TO_PARENT, DRILL_TO_CHILDREN, DRILL_TO_ROOTS, DRILL_TO_LEAVES
-	};
-
-	/**
-	 * Get Drill operation for this drill filter, it include Children,
-	 * Descendants, Parent, and Ancestors, Root and Leaves.
-	 */
-	public DrillType getDrillType( );
-
 	/**
 	 * The hierarchy on which to apply this drill filter
 	 * 

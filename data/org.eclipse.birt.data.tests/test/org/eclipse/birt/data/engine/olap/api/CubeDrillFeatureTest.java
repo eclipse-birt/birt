@@ -98,8 +98,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
 		filter.setTargetLevelName( "level14" );
 		List memberList = new ArrayList( );
@@ -111,8 +110,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level12" );
 		memberList = new ArrayList( );
@@ -124,8 +122,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 			} );
 		filter2.setTuple( memberList );
 
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
 		filter3.setTargetHierarchy( hier1 );
 		filter3.setTargetLevelName( "level13" );
 		memberList = new ArrayList( );
@@ -222,8 +219,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
 		filter.setTargetLevelName( "level14" );
 		List memberList = new ArrayList( );
@@ -235,8 +231,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2");
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level12" );
 		memberList = new ArrayList( );
@@ -246,8 +241,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter2.setTuple( memberList );
 
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
 		filter3.setTargetHierarchy( hier1 );
 		filter3.setTargetLevelName( "level13" );
 		memberList = new ArrayList( );
@@ -260,8 +254,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter3.setTuple( memberList );
 		
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
 		filter4.setTargetHierarchy( hier2 );
 		filter4.setTargetLevelName( "level23" );
 		memberList = new ArrayList( );
@@ -272,8 +265,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter4.setTuple( memberList );
 		
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
 		filter5.setTargetHierarchy( hier2 );
 		filter5.setTargetLevelName( "level22" );
 		memberList = new ArrayList( );
@@ -368,8 +360,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
 		filter.setTargetLevelName( "level14" );
 		List memberList = new ArrayList( );
@@ -381,8 +372,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );		
 		filter.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level12" );
 		memberList = new ArrayList( );
@@ -394,8 +384,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter2.setTuple( memberList );
 
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
 		filter3.setTargetHierarchy( hier1 );
 		filter3.setTargetLevelName( "level11" );
 		memberList = new ArrayList( );
@@ -404,8 +393,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter3.setTuple( memberList );
 		
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
 		filter4.setTargetHierarchy( hier2 );
 		filter4.setTargetLevelName( "level23" );
 		memberList = new ArrayList( );
@@ -416,8 +404,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter4.setTuple( memberList );
 		
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
 		filter5.setTargetHierarchy( hier2 );
 		filter5.setTargetLevelName( "level22" );
 		memberList = new ArrayList( );
@@ -515,8 +502,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
 		filter.setTargetLevelName( "level14" );
 		List memberList = new ArrayList( );
@@ -528,8 +514,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter.setTuple( memberList );
 		
-		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill11",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill11" );
 		filter1.setTargetHierarchy( hier1 );
 		filter1.setTargetLevelName( "level12" );
 		memberList = new ArrayList( );
@@ -541,8 +526,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter1.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level13" );
 		memberList = new ArrayList( );
@@ -553,8 +537,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter2.setTuple( memberList );
 
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
 		filter3.setTargetHierarchy( hier1 );
 		filter3.setTargetLevelName( "level14" );
 		memberList = new ArrayList( );
@@ -570,8 +553,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter3.setTuple( memberList );
 
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
 		filter4.setTargetHierarchy( hier2 );
 		filter4.setTargetLevelName( "level23" );
 		memberList = new ArrayList( );
@@ -582,8 +564,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter4.setTuple( memberList );
 
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
 		filter5.setTargetHierarchy( hier2 );
 		filter5.setTargetLevelName( "level23" );
 		memberList = new ArrayList( );
@@ -684,8 +665,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
 		filter.setTargetLevelName( "level12" );
 		List memberList = new ArrayList( );
@@ -695,8 +675,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter.setTuple( memberList );
 		
-		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill12",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill12" );
 		filter1.setTargetHierarchy( hier1 );
 		filter1.setTargetLevelName( "level13" );
 		memberList = new ArrayList( );
@@ -708,8 +687,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter1.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level13" );
 		memberList = new ArrayList( );
@@ -720,8 +698,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter2.setTuple( memberList );
 
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
 		filter3.setTargetHierarchy( hier1 );
 		filter3.setTargetLevelName( "level14" );
 		memberList = new ArrayList( );
@@ -737,8 +714,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter3.setTuple( memberList );
 
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
 		filter4.setTargetHierarchy( hier2 );
 		filter4.setTargetLevelName( "level22" );
 		memberList = new ArrayList( );
@@ -839,8 +815,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
 		filter.setTargetLevelName( "level11" );
 		List memberList = new ArrayList( );
@@ -849,8 +824,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level12" );
 		memberList = new ArrayList( );
@@ -863,8 +837,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		filter2.setTuple( memberList );
 		
 
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill2" );
 		filter3.setTargetHierarchy( hier1 );
 		filter3.setTargetLevelName( "level13" );
 		memberList = new ArrayList( );
@@ -964,8 +937,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill1" );
 		filter1.setTargetHierarchy( hier1 );
 		filter1.setTargetLevelName( "level12" );
 		List memberList = new ArrayList( );
@@ -975,8 +947,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter1.setTuple( memberList );
 		
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level12" );
 		memberList = new ArrayList( );
@@ -1087,8 +1058,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding11.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		cqd.addBinding( binding11 );
 		
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
 		filter.setTargetLevelName( "level14" );
 		List memberList = new ArrayList( );
@@ -1100,8 +1070,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level12" );
 		memberList = new ArrayList( );
@@ -1113,8 +1082,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter2.setTuple( memberList );
 
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
 		filter3.setTargetHierarchy( hier1 );
 		filter3.setTargetLevelName( "level11" );
 		memberList = new ArrayList( );
@@ -1123,8 +1091,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter3.setTuple( memberList );
 		
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
 		filter4.setTargetHierarchy( hier2 );
 		filter4.setTargetLevelName( "level23" );
 		memberList = new ArrayList( );
@@ -1135,8 +1102,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter4.setTuple( memberList );
 		
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
 		filter5.setTargetHierarchy( hier2 );
 		filter5.setTargetLevelName( "level22" );
 		memberList = new ArrayList( );
@@ -1251,8 +1217,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding11.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		cqd.addBinding( binding11 );
 
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
 		filter.setTargetLevelName( "level14" );
 		List memberList = new ArrayList( );
@@ -1264,8 +1229,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level12" );
 		memberList = new ArrayList( );
@@ -1277,8 +1241,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter2.setTuple( memberList );
 
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
 		filter3.setTargetHierarchy( hier1 );
 		filter3.setTargetLevelName( "level11" );
 		memberList = new ArrayList( );
@@ -1287,8 +1250,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter3.setTuple( memberList );
 		
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
 		filter4.setTargetHierarchy( hier2 );
 		filter4.setTargetLevelName( "level23" );
 		memberList = new ArrayList( );
@@ -1299,8 +1261,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		memberList.add( null );
 		filter4.setTuple( memberList );
 		
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
 		filter5.setTargetHierarchy( hier2 );
 		filter5.setTargetLevelName( "level22" );
 		memberList = new ArrayList( );
@@ -1397,8 +1358,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_ANCESTORS );
+		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill2" );
 		filter1.setTargetHierarchy( hier1 );
 		filter1.setTargetLevelName( "level11" );
 		List memberList = new ArrayList( );
@@ -1407,8 +1367,7 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		} );
 		filter1.setTuple( memberList );
 		
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2",
-				IEdgeDrillFilter.DrillType.DRILL_TO_DESCENDANTS );
+		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
 		filter2.setTargetLevelName( "level14" );
 		memberList = new ArrayList( );

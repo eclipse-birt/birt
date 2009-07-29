@@ -31,12 +31,10 @@ public class EdgeDrillingFilterDefinition implements IEdgeDrillFilter
 	private String name;
 	private IHierarchyDefinition targetHierarchyDefinition;
 	private String targetLevel;
-	private DrillType drillType;
 	
-	public EdgeDrillingFilterDefinition( String name, DrillType drillType )
+	public EdgeDrillingFilterDefinition( String name )
 	{
 		this.name = name;
-		this.drillType = drillType;
 		this.filterList = new ArrayList<IFilterDefinition>( );
 		this.sortList = new ArrayList<ISortDefinition>( );
 	}
@@ -87,14 +85,6 @@ public class EdgeDrillingFilterDefinition implements IEdgeDrillFilter
 	public void setName( String name )
 	{
 		this.name = name;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter#getDrillOperation()
-	 */
-	public DrillType getDrillType( )
-	{
-		return this.drillType;
 	}
 
 	/*

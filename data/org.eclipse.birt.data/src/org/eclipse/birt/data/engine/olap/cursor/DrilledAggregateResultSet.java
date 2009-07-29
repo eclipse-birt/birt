@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
-import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter.DrillType;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -330,9 +329,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 	private boolean isDrilledElement( Member[] currentMember,
 			Member[] drillMember, IEdgeDrillFilter filter )
 	{
-		if ( DrillType.DRILL_TO_ANCESTORS.equals( filter.getDrillType( ) )
-				|| DrillType.DRILL_TO_PARENT.equals( filter.getDrillType( ) )
-				|| DrillType.DRILL_TO_ROOTS.equals( filter.getDrillType( ) ) )
+		if ( drillMember.length < currentMember.length )
 		{
 			for ( int i = 0; i < drillMember.length; i++ )
 			{
