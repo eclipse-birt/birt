@@ -79,8 +79,8 @@ public class TotalMirr extends AggrFunction
 						true,
 						SupportedDataTypes.CALCULATABLE,
 						"" ),//$NON-NLS-1$
-				new ParameterDefn( "finance rate", Messages.getString( "TotalMirr.param.finance_rate" ), true, false, SupportedDataTypes.CALCULATABLE, "" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				new ParameterDefn( "reinvestment rate", Messages.getString( "TotalMirr.param.reinvestment_rate" ), true, false, SupportedDataTypes.CALCULATABLE, "" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new ParameterDefn( "finance rate", Messages.getString( "TotalMirr.param.finance_rate" ), false, false, SupportedDataTypes.CALCULATABLE, "" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new ParameterDefn( "reinvestment rate", Messages.getString( "TotalMirr.param.reinvestment_rate" ), false, false, SupportedDataTypes.CALCULATABLE, "" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		};
 	}
 
@@ -122,7 +122,7 @@ public class TotalMirr extends AggrFunction
 		public void onRow( Object[] args ) throws DataException
 		{
 			assert ( args.length > 2 );
-			if ( args[0] != null && args[1] != null && args[2] != null )
+			if ( args[0] != null  )
 			{
 				if ( calculator == null )
 				{
@@ -132,8 +132,16 @@ public class TotalMirr extends AggrFunction
 				{
 					if ( list.size( ) == 0 )
 					{
-						frate = DataTypeUtil.toDouble( args[1] ).doubleValue( );
-						rrate = DataTypeUtil.toDouble( args[2] ).doubleValue( );
+						if ( args[1] != null )
+						{
+							//if args[1] is null, frate remains 0
+							frate = DataTypeUtil.toDouble( args[1] ).doubleValue( );
+						}
+						if ( args[2] != null )
+						{
+							//if args[2] is null, rrate remains 0
+							rrate = DataTypeUtil.toDouble( args[2] ).doubleValue( );
+						}
 					}
 					list.add( calculator.add( 0, args[0] ) );
 				}
