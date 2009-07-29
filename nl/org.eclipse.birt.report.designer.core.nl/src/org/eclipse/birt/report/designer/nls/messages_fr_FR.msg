@@ -1638,7 +1638,7 @@ FormatDateTimePage.label.general.preview.group=Aperçu au format
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
-FormatDateTimePage.label.guide.format=MM/dd/yyyy hh:mm:ss a
+FormatDateTimePage.label.guide.format=dd/MM/yyyy hh:mm:ss a
 FormatDateTimePage.label.guide.text=Saisissez les valeurs de date selon le modèle suivant : dd/MM/yyyy hh:mm:ss
 
 FormatDateTimePage.label.preview.dateTime=A&perçu de date/heure : 
