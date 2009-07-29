@@ -244,7 +244,31 @@ class BirtStr implements IScriptFunctionExecutor
 								fixedArgumentNum, args.length
 						} ) );
 
-			return args[0] == null ? null : ( (String) args[0] ).toUpperCase( );
+			if ( args[0] instanceof Object[] )
+			{
+				Object[] objArray = (Object[]) args[0];
+				String[] strArray = new String[objArray.length];
+				for ( int i = 0; i < objArray.length; i++ )
+				{
+					if ( objArray[i] == null )
+						strArray[i] = null;
+					else if ( objArray[i] instanceof String )
+						strArray[i] = ( (String) objArray[i] ).toUpperCase( );
+					else
+						throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
+				}
+				return strArray;
+			}
+			else
+			{
+				if( args[0] == null )
+					return null;
+				
+				if( !(args[0] instanceof String) )
+					throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
+
+				return ( (String) args[0] ).toUpperCase( );
+			}
 		}
 	}
 
@@ -268,7 +292,31 @@ class BirtStr implements IScriptFunctionExecutor
 								fixedArgumentNum, args.length
 						} ) );
 
-			return args[0] == null ? null : ( (String) args[0] ).toLowerCase( );
+			if ( args[0] instanceof Object[] )
+			{
+				Object[] objArray = (Object[]) args[0];
+				String[] strArray = new String[objArray.length];
+				for ( int i = 0; i < objArray.length; i++ )
+				{
+					if ( objArray[i] == null )
+						strArray[i] = null;
+					else if ( objArray[i] instanceof String )
+						strArray[i] = ( (String) objArray[i] ).toLowerCase( );
+					else
+						throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
+				}
+				return strArray;
+			}
+			else
+			{
+				if( args[0] == null )
+					return null;
+				
+				if( !(args[0] instanceof String) )
+					throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
+				
+				return ( (String) args[0] ).toLowerCase( );
+			}
 		}
 	}
 
