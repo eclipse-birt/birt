@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.IDocumentIndexReader;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
@@ -105,4 +106,13 @@ public class DocumentIndexReaderV1
 		return null;
 	}
 
+	public BookmarkContent getBookmark( String bookmark )
+	{
+		return null;
+	}
+
+	public List<BookmarkContent> getBookmarkContents( ) throws IOException
+	{
+		return null;
+	}
 }

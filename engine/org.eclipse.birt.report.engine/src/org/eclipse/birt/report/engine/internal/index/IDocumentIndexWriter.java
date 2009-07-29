@@ -13,10 +13,12 @@ package org.eclipse.birt.report.engine.internal.index;
 
 import java.io.IOException;
 
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
+
 public interface IDocumentIndexWriter extends IDocumentIndexVersion
 {
 
-	void setPageOfBookmark( String bookmark, long pageNumber )
+	void setBookmark( String bookmark, BookmarkContent content )
 			throws IOException;
 
 	void setOffsetOfBookmark( String bookmark, long offset ) throws IOException;

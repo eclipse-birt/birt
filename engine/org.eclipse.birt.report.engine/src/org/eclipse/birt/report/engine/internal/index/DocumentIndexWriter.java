@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.internal.index;
 import java.io.IOException;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.v2.DocumentIndexWriterV2;
 
 public class DocumentIndexWriter implements IDocumentIndexWriter
@@ -48,10 +49,10 @@ public class DocumentIndexWriter implements IDocumentIndexWriter
 
 	}
 
-	public void setPageOfBookmark( String bookmark, long pageNumber )
+	public void setBookmark( String bookmark, BookmarkContent content )
 			throws IOException
 	{
-		writer.setPageOfBookmark( bookmark, pageNumber );
+		writer.setBookmark( bookmark, content );
 	}
 
 }

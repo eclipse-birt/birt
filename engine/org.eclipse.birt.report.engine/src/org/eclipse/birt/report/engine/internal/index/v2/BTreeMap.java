@@ -27,41 +27,45 @@ import org.eclipse.birt.core.btree.BTree;
 import org.eclipse.birt.core.btree.BTreeFile;
 import org.eclipse.birt.core.btree.BTreeOption;
 import org.eclipse.birt.core.btree.BTreeSerializer;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 
-class BTreeMap extends BTree<String, Long>
+class BTreeMap extends BTree<String, Object>
 {
+
+	static final int LONG_VALUE = 1;
+	static final int BOOKMARK_VALUE = 2;
 
 	int indexVersion;
 	int indexType;
 
-	static public BTreeMap openTreeMap( IDocArchiveReader archive, String name )
+	static public BTreeMap openTreeMap( IDocArchiveReader archive, String name, int valueType )
 			throws IOException
 	{
-		BTreeOption<String, Long> option = new BTreeOption<String, Long>( );
+		BTreeOption<String, Object> option = new BTreeOption<String, Object>( );
 		option.setReadOnly( true );
 		option.setKeySerializer( new StringSerializer( ) );
 		option.setHasValue( true );
 		option.setAllowDuplicate( false );
 		option.setValueSize( 8 );
-		option.setValueSerializer( new LongSerializer( ) );
+		option.setValueSerializer( new ObjectSerializer( valueType ) );
 		option.setFile( new ArchiveInputFile( archive, name ) );
 		return new BTreeMap( option );
 	}
 
-	static public BTreeMap createTreeMap( IDocArchiveWriter archive, String name )
+	static public BTreeMap createTreeMap( IDocArchiveWriter archive, String name, int valueType )
 			throws IOException
 	{
-		BTreeOption<String, Long> option = new BTreeOption<String, Long>( );
+		BTreeOption<String, Object> option = new BTreeOption<String, Object>( );
 		option.setKeySerializer( new StringSerializer( ) );
 		option.setHasValue( true );
 		option.setAllowDuplicate( false );
 		option.setValueSize( 8 );
-		option.setValueSerializer( new LongSerializer( ) );
+		option.setValueSerializer( new ObjectSerializer( valueType ) );
 		option.setFile( new ArchiveOutputFile( archive, name ) );
 		return new BTreeMap( option );
 	}
 
-	private BTreeMap( BTreeOption<String, Long> option ) throws IOException
+	private BTreeMap( BTreeOption<String, Object> option ) throws IOException
 	{
 		super( option );
 		indexVersion = IndexConstants.VERSION_0;
@@ -116,23 +120,47 @@ class BTreeMap extends BTree<String, Long>
 		}
 	}
 
-	static private class LongSerializer implements BTreeSerializer<Long>
+	static private class ObjectSerializer implements BTreeSerializer<Object>
 	{
 
-		public byte[] getBytes( Long object ) throws IOException
+		int valueType;
+		
+		ObjectSerializer( int type )
+		{
+			valueType = type;
+		}
+		
+		public byte[] getBytes( Object object ) throws IOException
 		{
 			ByteArrayOutputStream out = new ByteArrayOutputStream( 1024 );
 			DataOutput oo = new DataOutputStream( out );
-			oo.writeLong( object.longValue( ) );
+			if ( valueType == LONG_VALUE )
+			{
+				oo.writeLong( ( (Long) object ).longValue( ) );
+			}
+			else if ( valueType == BOOKMARK_VALUE )
+			{
+				( (BookmarkContent) object ).writeStream( oo );
+			}
 			return out.toByteArray( );
 		}
 
-		public Long getObject( byte[] bytes ) throws IOException,
+		public Object getObject( byte[] bytes ) throws IOException,
 				ClassNotFoundException
 		{
 			DataInput input = new DataInputStream( new ByteArrayInputStream(
 					bytes ) );
-			return Long.valueOf( input.readLong( ) );
+			if ( valueType == LONG_VALUE )
+			{
+				return Long.valueOf( input.readLong( ) );
+			}
+			else if ( valueType == BOOKMARK_VALUE )
+			{
+				BookmarkContent content = new BookmarkContent( );
+				content.readStream( input );
+				return content;
+			}
+			return null;
 		}
 	}
 

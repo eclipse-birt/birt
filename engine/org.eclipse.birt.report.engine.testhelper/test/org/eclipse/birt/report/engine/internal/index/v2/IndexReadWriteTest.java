@@ -52,7 +52,7 @@ public class IndexReadWriteTest extends TestCase
 			{
 				for ( int i = 0; i < entryCount; i++ )
 				{
-					Long value = reader.get( String.valueOf( i ) );
+					Long value = reader.getLong( String.valueOf( i ) );
 					assertEquals( i, value.intValue( ) );
 				}
 			}
@@ -100,7 +100,7 @@ public class IndexReadWriteTest extends TestCase
 			{
 				for ( int i = 0; i < entryCount; i++ )
 				{
-					Long value = reader.get( String.valueOf( i ) );
+					Long value = reader.getLong( String.valueOf( i ) );
 					assertEquals( i, value.intValue( ) );
 				}
 			}

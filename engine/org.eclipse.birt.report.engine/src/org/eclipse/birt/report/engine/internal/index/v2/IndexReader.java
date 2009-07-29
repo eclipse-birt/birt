@@ -19,6 +19,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.btree.BTreeCursor;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 
 public class IndexReader implements IndexConstants
 {
@@ -29,7 +30,14 @@ public class IndexReader implements IndexConstants
 		void onKey( String key );
 	}
 
-	HashMap<String, Long> map;
+	public interface ValueListener
+	{
+
+		void onValue( Object value );
+	}
+
+	int valueType;
+	HashMap<String, Object> map;
 	BTreeMap btree;
 
 	public IndexReader( IDocArchiveReader archive, String name )
@@ -41,29 +49,54 @@ public class IndexReader implements IndexConstants
 			try
 			{
 				int version = input.readInt( );
-				if ( version != VERSION_0 )
+				if ( version == VERSION_0 )
 				{
-					throw new IOException( "unsupported index version "
-							+ version );
-				}
-				int type = input.readInt( );
-				if ( type == INLINE_MAP )
-				{
-					DataInputStream di = new DataInputStream( input );
-					// load it into the memory
-					int entries = IOUtil.readInt( di );
-					map = new HashMap<String, Long>( entries );
-					for ( int i = 0; i < entries; i++ )
+					valueType = BTreeMap.LONG_VALUE;
+					int type = input.readInt( );
+					if ( type == INLINE_MAP )
 					{
-						String key = IOUtil.readString( di );
-						long offset = IOUtil.readLong( di );
-						map.put( key, new Long( offset ) );
+						DataInputStream di = new DataInputStream( input );
+						// load it into the memory
+						int entries = IOUtil.readInt( di );
+						map = new HashMap<String, Object>( entries );
+						for ( int i = 0; i < entries; i++ )
+						{
+							String key = IOUtil.readString( di );
+							long offset = IOUtil.readLong( di );
+							map.put( key, new Long( offset ) );
+						}
+					}
+					else
+					{
+						btree = BTreeMap.openTreeMap( archive, name, valueType );
+					}
+				}
+				else if ( version == VERSION_1 )
+				{
+					valueType = BTreeMap.BOOKMARK_VALUE;
+					int type = input.readInt( );
+					if ( type == INLINE_MAP )
+					{
+						DataInputStream di = new DataInputStream( input );
+						int entries = IOUtil.readInt( di );
+						map = new HashMap<String, Object>( entries );
+						for ( int index = 0; index < entries; index++ )
+						{
+							String key = IOUtil.readString( di );
+							BookmarkContent bookmark = new BookmarkContent( );
+							bookmark.readStream( di );
+							map.put( key, bookmark );
+						}
+					}
+					else
+					{
+						btree = BTreeMap.openTreeMap( archive, name, valueType );
 					}
 				}
 				else
 				{
-					btree = BTreeMap.openTreeMap( archive, name );
-
+					throw new IOException( "unsupported index version "
+							+ version );
 				}
 			}
 			finally
@@ -73,27 +106,38 @@ public class IndexReader implements IndexConstants
 		}
 	}
 
-	long get( String key ) throws IOException
+	int getValueType( )
+	{
+		return valueType;
+	}
+
+	private Object get( String key ) throws IOException
 	{
 		if ( map != null )
 		{
-			Long offset = map.get( key );
-			if ( offset != null )
-			{
-				return offset.longValue( );
-			}
-			return -1L;
+			return map.get( key );
 		}
 		if ( btree != null )
 		{
-			Long offset = btree.getValue( key );
-			if ( offset != null )
-			{
-				return offset.longValue( );
-			}
-			return -1L;
+			return btree.getValue( key );
 		}
-		return -1L;
+		return null;
+	}
+
+	Long getLong( String key ) throws IOException
+	{
+		if ( valueType != BTreeMap.LONG_VALUE )
+			return null;
+
+		return (Long) get( key );
+	}
+
+	BookmarkContent getBookmarkContent( String key ) throws IOException
+	{
+		if ( valueType != BTreeMap.BOOKMARK_VALUE )
+			return null;
+
+		return (BookmarkContent) get( key );
 	}
 
 	void close( ) throws IOException
@@ -124,7 +168,7 @@ public class IndexReader implements IndexConstants
 		if ( btree != null )
 		{
 
-			BTreeCursor<String, Long> cursor = btree.createCursor( );
+			BTreeCursor<String, Object> cursor = btree.createCursor( );
 			try
 			{
 				while ( cursor.next( ) )
@@ -140,4 +184,32 @@ public class IndexReader implements IndexConstants
 		}
 	}
 
+	void forAllValues( ValueListener listener ) throws IOException
+	{
+		if ( valueType != BTreeMap.BOOKMARK_VALUE )
+			return;
+
+		if ( map != null )
+		{
+			for ( Object v : map.values( ) )
+			{
+				listener.onValue( (BookmarkContent) v );
+			}
+		}
+		if ( btree != null )
+		{
+			BTreeCursor<String, Object> cursor = btree.createCursor( );
+			try
+			{
+				while ( cursor.next( ) )
+				{
+					listener.onValue( cursor.getValue( ) );
+				}
+			}
+			finally
+			{
+				cursor.close( );
+			}
+		}
+	}
 }

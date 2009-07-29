@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -213,8 +214,12 @@ public class ReportDocumentTest extends EngineCase
 
 	protected void createBookmarks( ReportDocumentWriter writer )
 	{
-		writer.setPageNumberOfBookmark( "A", 1 );
-		writer.setPageNumberOfBookmark( "B", 2 );
+		BookmarkContent info = new BookmarkContent( "A", -1L );
+		info.setPageNumber( 1 );
+		writer.setBookmark( "A", info );
+		info = new BookmarkContent( "B", -1L );
+		info.setPageNumber( 2 );
+		writer.setBookmark( "B", info );
 	}
 
 	protected void checkBookmarks( IReportDocument document )

@@ -29,6 +29,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.DocumentIndexWriter;
 import org.eclipse.birt.report.engine.ir.EngineIRWriter;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -384,7 +385,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		}
 	}
 	
-	public void setPageNumberOfBookmark( String bookmark, long pageNumber )
+	public void setBookmark( String bookmark, BookmarkContent content )
 	{
 		try
 		{
@@ -394,7 +395,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			}
 			if ( indexWriter != null )
 			{
-				indexWriter.setPageOfBookmark( bookmark, pageNumber );
+				indexWriter.setBookmark( bookmark, content );
 			}
 		}
 		catch ( IOException ex )

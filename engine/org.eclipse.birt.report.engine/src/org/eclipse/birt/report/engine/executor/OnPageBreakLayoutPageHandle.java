@@ -26,12 +26,13 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
-import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
-import org.eclipse.birt.report.engine.layout.area.IContainerArea;
-import org.eclipse.birt.report.engine.layout.area.IImageArea;
-import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
-import org.eclipse.birt.report.engine.layout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.script.internal.OnPageBreakScriptVisitor;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -98,14 +99,23 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 		if ( !bufferAllContents )
 		{
 			ReportItemDesign design = getGenerateDesign( content );
-			if ( design.getOnPageBreak( ) != null )
+			if ( design != null )
 			{
-				contents.add( content );
+				if ( design.getOnPageBreak( ) != null )
+				{
+					if ( !contents.contains( content ) )
+					{
+						contents.add( content );
+					}
+				}
 			}
 		}
 		else
 		{
-			contents.add( content );
+			if ( !contents.contains( content ) )
+			{
+				contents.add( content );
+			}
 		}
 	}
 
@@ -114,22 +124,23 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 
 		public void visitText( ITextArea textArea )
 		{
-			addContent( textArea.getContent( ) );
 		}
 
 		public void visitAutoText( ITemplateArea templateArea )
 		{
-			addContent( templateArea.getContent( ) );
 		}
 
 		public void visitImage( IImageArea imageArea )
 		{
-			addContent( imageArea.getContent( ) );
 		}
 
 		public void visitContainer( IContainerArea container )
 		{
-			addContent( container.getContent( ) );
+			IContent content = ( (ContainerArea) container ).getContent( );
+			if ( content != null )
+			{
+				addContent( content );
+			}
 			Iterator iter = container.getChildren( );
 			while ( iter.hasNext( ) )
 			{
@@ -145,6 +156,12 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 		public void startPage( IPageContent pageContent ) throws BirtException
 		{
 			initPageBuffer( (PageContent) pageContent );
+			IArea pageArea = (IArea) pageContent
+					.getExtension( IContent.LAYOUT_EXTENSION );
+			if ( pageArea != null )
+			{
+				pageArea.accept( new PageBreakContentCollector( ) );
+			}
 		}
 
 		@Override

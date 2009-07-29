@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.LinkedObjectManager.LinkedEntry;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
 import org.eclipse.birt.report.engine.extension.engine.IReportDocumentExtension;
@@ -1010,6 +1011,29 @@ public class ReportDocumentReader
 			{
 				logger.log( Level.WARNING, "failed to load the bookmark list",
 						ex );
+			}
+		}
+		return null;
+	}
+
+	public List<BookmarkContent> getBookmarkContents( )
+	{
+		if ( !isComplete( ) )
+		{
+			return null;
+		}
+
+		loadCoreStreamLazily( );
+		if ( indexReader != null )
+		{
+			try
+			{
+				return indexReader.getBookmarkContents( );
+			}
+			catch ( IOException ex )
+			{
+				logger.log( Level.WARNING,
+						"failed to load the bookmark info list", ex );
 			}
 		}
 		return null;

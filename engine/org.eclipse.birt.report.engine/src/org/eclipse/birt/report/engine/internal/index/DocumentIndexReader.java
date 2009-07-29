@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.v0.DocumentIndexReaderV0;
 import org.eclipse.birt.report.engine.internal.index.v1.DocumentIndexReaderV1;
 import org.eclipse.birt.report.engine.internal.index.v2.DocumentIndexReaderV2;
@@ -88,8 +89,12 @@ public class DocumentIndexReader implements IDocumentIndexReader
 
 	public long getPageOfBookmark( String bookmark ) throws IOException
 	{
-
 		return reader.getPageOfBookmark( bookmark );
+	}
+
+	public BookmarkContent getBookmark( String bookmark ) throws IOException
+	{
+		return reader.getBookmark( bookmark );
 	}
 
 	public List<String> getBookmarks( ) throws IOException
@@ -97,4 +102,8 @@ public class DocumentIndexReader implements IDocumentIndexReader
 		return reader.getBookmarks( );
 	}
 
+	public List<BookmarkContent> getBookmarkContents( ) throws IOException
+	{
+		return reader.getBookmarkContents( );
+	}
 }

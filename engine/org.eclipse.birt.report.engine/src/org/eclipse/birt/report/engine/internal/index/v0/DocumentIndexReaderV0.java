@@ -21,6 +21,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.IDocumentIndexReader;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
@@ -144,6 +145,16 @@ public class DocumentIndexReaderV0
 			}
 			return list;
 		}
+		return null;
+	}
+
+	public BookmarkContent getBookmark( String bookmark )
+	{
+		return null;
+	}
+
+	public List<BookmarkContent> getBookmarkContents( ) throws IOException
+	{
 		return null;
 	}
 }

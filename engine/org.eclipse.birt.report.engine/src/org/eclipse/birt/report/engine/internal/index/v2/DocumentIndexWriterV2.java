@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.IDocumentIndexWriter;
 
 public class DocumentIndexWriterV2
@@ -81,7 +82,7 @@ public class DocumentIndexWriterV2
 		}
 	}
 
-	public void setPageOfBookmark( String bookmark, long pageNumber )
+	public void setBookmark( String bookmark, BookmarkContent content )
 			throws IOException
 	{
 		if ( pageNumbers == null )
@@ -90,7 +91,7 @@ public class DocumentIndexWriterV2
 		}
 		if ( pageNumbers != null )
 		{
-			pageNumbers.add( bookmark, pageNumber );
+			pageNumbers.add( bookmark, content );
 		}
 	}
 

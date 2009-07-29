@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +41,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
@@ -74,7 +74,14 @@ import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.html.HTMLReportLayoutEngine;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.LayoutEngine;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.SizeBasedContent;
+import org.eclipse.birt.report.engine.util.ContentUtil;
 
 /**
  * Used in run task. To builder the report document.
@@ -223,25 +230,35 @@ public class ReportDocumentBuilder
 				.createLayoutEngine( ExtensionManager.PAGE_BREAK_PAGINATION );
 		engine.setOption( EngineTask.TASK_TYPE, new Integer(
 				IEngineTask.TASK_RUN ) );
-		engine.setPageHandler( layoutPageHandler );
+
 		IReportContent report = executor.execute( );
-		if ( executionContext.isFixedLayout( ) && engine instanceof HTMLReportLayoutEngine )
+		if ( executionContext.isFixedLayout( )
+				&& engine instanceof HTMLReportLayoutEngine )
 		{
 			HTMLLayoutContext htmlContext = ( (HTMLReportLayoutEngine) engine )
 					.getContext( );
 			htmlContext.setFixedLayout( true );
 			LayoutEngine pdfEmitter = new LayoutEngine( executor, htmlContext,
-					null/* emitter */, null/* renderOptions */,
-					executionContext.getLocale( ), 0/* totalpage */);
+					outputEmitters, null/* renderOptions */, executionContext
+							.getLocale( ), 0/* totalpage */);
 			pdfEmitter.setPageHandler( layoutPageHandler );
-			outputEmitters.addEmitter( pdfEmitter );
 			initializeContentEmitter( pdfEmitter, executor );
 			pdfEmitter.createPageHintGenerator( );
+			pdfEmitter.start( report );
+			// outputEmitters.start( report );
+			engine.layout( executor, report, pdfEmitter, true );
+			engine.close( );
+			pdfEmitter.end( report );
+			// outputEmitters.end( report );
 		}
-		outputEmitters.start( report );
-		engine.layout( executor, report, outputEmitters, true );
-		engine.close( );
-		outputEmitters.end( report );
+		else
+		{
+			engine.setPageHandler( layoutPageHandler );
+			outputEmitters.start( report );
+			engine.layout( executor, report, outputEmitters, true );
+			engine.close( );
+			outputEmitters.end( report );
+		}
 		engine = null;
 	}
 	
@@ -521,17 +538,62 @@ public class ReportDocumentBuilder
 				logger.log( Level.SEVERE, "write page content failed", ex );
 				close( );
 			}
+			// collection the bookmarks defined in the page content
+			IArea pageArea = (IArea) page
+					.getExtension( IContent.LAYOUT_EXTENSION );
+			if ( pageArea != null )
+			{
+				pageArea.accept( new BookmarkCollector( ) );
+			}
 		}
 
 		public void startContent( IContent content )
 		{
-			if(!ReportDocumentBuilder.this.executionContext.isFixedLayout())
+			// save the bookmark index
+			addBookmark( content );
+		}
+
+		private void addBookmark( IContent content )
+		{
+			String bookmark = content.getBookmark( );
+			if ( bookmark != null )
 			{
-				// save the bookmark index
-				String bookmark = content.getBookmark( );
-				if ( bookmark != null )
+				BookmarkContent bcontent = new BookmarkContent( bookmark,
+						ContentUtil.getDesignID( content ) );
+				bcontent.setPageNumber( pageNumber );
+				document.setBookmark( bookmark, bcontent );
+			}
+		}
+
+		private class BookmarkCollector
+				implements
+					org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor
+		{
+
+			public void visitText( ITextArea textArea )
+			{
+			}
+
+			public void visitAutoText( ITemplateArea templateArea )
+			{
+			}
+
+			public void visitImage( IImageArea imageArea )
+			{
+			}
+
+			public void visitContainer( IContainerArea container )
+			{
+				IContent content = ( (ContainerArea) container ).getContent( );
+				if ( content != null )
 				{
-					document.setPageNumberOfBookmark( bookmark, pageNumber );
+					addBookmark( content );
+				}
+				Iterator iter = container.getChildren( );
+				while ( iter.hasNext( ) )
+				{
+					IArea child = (IArea) iter.next( );
+					child.accept( BookmarkCollector.this );
 				}
 			}
 		}
@@ -866,16 +928,6 @@ public class ReportDocumentBuilder
 			return section;
 		}
 		
-		protected void addBookmarkMap(LayoutContext pdfContext)
-		{
-			Map<String, Long> map = pdfContext.getBookmarkMap();
-			for ( String bookmark : map.keySet())
-			{
-				document.setPageNumberOfBookmark( bookmark, map.get( bookmark )
-						.longValue( ) );
-			}
-		}
-
 		public void onPage( long pageNumber, Object context )
 		{
 			if ( context instanceof LayoutContext )
@@ -886,7 +938,6 @@ public class ReportDocumentBuilder
 				boolean reportFinished = pdfContext.isFinished( );
 				if ( reportFinished )
 				{
-					addBookmarkMap( pdfContext );
 					writePageVariables( );
 					writeTotalPage( pageNumber );
 					close( );

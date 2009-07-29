@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.IDocumentIndexReader;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
@@ -93,7 +94,9 @@ public class DocumentIndexReaderV2
 		}
 		if ( bookmarks != null )
 		{
-			return bookmarks.get( bookmark );
+			Long value = bookmarks.getLong( bookmark );
+			if ( value != null )
+				return value.longValue( );
 		}
 		return -1L;
 	}
@@ -106,7 +109,9 @@ public class DocumentIndexReaderV2
 		}
 		if ( reportlets != null )
 		{
-			return reportlets.get( instanceId );
+			Long value = reportlets.getLong( instanceId );
+			if ( value != null )
+				return value.longValue( );
 		}
 		return -1L;
 	}
@@ -119,9 +124,27 @@ public class DocumentIndexReaderV2
 		}
 		if ( pageNumbers != null )
 		{
-			return pageNumbers.get( bookmark );
+			BookmarkContent content = pageNumbers.getBookmarkContent( bookmark );
+			if ( content != null )
+				return content.getPageNumber( );
+			Long lvalue = pageNumbers.getLong( bookmark );
+			if ( lvalue != null )
+				return lvalue.longValue( );
 		}
 		return -1L;
+	}
+
+	public BookmarkContent getBookmark( String bookmark ) throws IOException
+	{
+		if ( pageNumbers == null )
+		{
+			pageNumbers = createIndexReader( BOOKMARK_STREAM );
+		}
+		if ( pageNumbers != null )
+		{
+			return pageNumbers.getBookmarkContent( bookmark );
+		}
+		return null;
 	}
 
 	public List<String> getBookmarks( ) throws IOException
@@ -140,6 +163,30 @@ public class DocumentIndexReaderV2
 					if ( key != null && !key.startsWith( TOCBuilder.TOC_PREFIX ) )
 					{
 						allBookmarks.add( key );
+					}
+				}
+			} );
+			return allBookmarks;
+		}
+		return null;
+	}
+
+	public List<BookmarkContent> getBookmarkContents( ) throws IOException
+	{
+		if ( pageNumbers == null )
+		{
+			pageNumbers = createIndexReader( BOOKMARK_STREAM );
+		}
+		if ( pageNumbers != null )
+		{
+			final ArrayList<BookmarkContent> allBookmarks = new ArrayList<BookmarkContent>( );
+			pageNumbers.forAllValues( new IndexReader.ValueListener( ) {
+
+				public void onValue( Object value )
+				{
+					if ( value != null )
+					{
+						allBookmarks.add( (BookmarkContent) value );
 					}
 				}
 			} );
