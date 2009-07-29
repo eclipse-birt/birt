@@ -681,7 +681,16 @@ public class SVGInteractiveRenderer
 										.getValue( ) ).getScript( );
 
 								StringBuffer callbackFunction = new StringBuffer( "callback" );//$NON-NLS-1$
-								callbackFunction.append( Math.abs( script.hashCode( ) ) );
+								int hashCode = script.hashCode( );
+								if ( hashCode != Integer.MIN_VALUE )
+								{
+									callbackFunction.append( Math.abs( hashCode ) );
+								}
+								else
+								{
+									callbackFunction.append( Integer.MAX_VALUE );
+								}
+
 								callbackFunction.append( "(evt," ); //$NON-NLS-1$
 								callbackFunction.append(  src.getSource( ).hashCode( ) ); 
 
@@ -697,7 +706,14 @@ public class SVGInteractiveRenderer
 												callbackFunction.toString() ) );
 								if ( !( scripts.contains( script ) ) )
 								{
-									svg_g2d.addScript( "function callback" + Math.abs( script.hashCode( ) ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+									if ( hashCode != Integer.MIN_VALUE )
+									{
+										svg_g2d.addScript( "function callback" + Math.abs( hashCode ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+									}
+									else
+									{
+										svg_g2d.addScript( "function callback" + Integer.MAX_VALUE + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+									}
 									scripts.add( script );
 								}
 							}
@@ -766,7 +782,16 @@ public class SVGInteractiveRenderer
 		String script = sb.toString( );
 		
 		StringBuffer callbackFunction = new StringBuffer( "callback" );//$NON-NLS-1$
-		callbackFunction.append( Math.abs( script.hashCode( ) ) );
+
+		int hashCode = script.hashCode( );
+		if ( hashCode != Integer.MIN_VALUE )
+		{
+			callbackFunction.append( Math.abs( hashCode ) );
+		}
+		else
+		{
+			callbackFunction.append( Integer.MAX_VALUE );
+		}
 		callbackFunction.append( "(evt," ); //$NON-NLS-1$
 		callbackFunction.append( src.getSource( )
 				.hashCode( ) );
@@ -788,7 +813,14 @@ public class SVGInteractiveRenderer
 		// function into 'script' element.
 		if ( !( scripts.contains( script ) ) )
 		{
-			svg_g2d.addScript( "function callback" + Math.abs( script.hashCode( ) ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			if ( hashCode != Integer.MIN_VALUE )
+			{
+				svg_g2d.addScript( "function callback" + Math.abs( hashCode ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			}
+			else
+			{
+				svg_g2d.addScript( "function callback" + Integer.MAX_VALUE + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			}
 			scripts.add( script );
 		}
 	}

@@ -307,8 +307,6 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	 */
 	protected void validateAxis( Axis ax ) throws ChartException
 	{
-		LineAttributes liaTicks = ax.getMajorGrid( ).getTickAttributes( );
-		liaTicks = ax.getMinorGrid( ).getTickAttributes( );
 		final int iOrientation = ax.getOrientation( ).getValue( );
 
 		if ( iOrientation == Orientation.VERTICAL )
@@ -980,7 +978,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			{
 				dX1 -= dW1;
 				dX2 += dW2;
-				dWTotal -= ( dW1 + dW2 );
+				// dWTotal -= ( dW1 + dW2 );
 			}
 			else
 			{
@@ -1144,7 +1142,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			{
 				dX1 -= dW1;
 				dX2 += dW2;
-				dWTotal -= ( dW1 + dW2 );
+				// dWTotal -= ( dW1 + dW2 );
 			}
 
 			dDeltaX1 = dX - dX1;
@@ -1384,7 +1382,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		{
 			dX1 -= dW1;
 			dX2 += dW2;
-			dWTotal -= ( dW1 + dW2 );
+			// dWTotal -= ( dW1 + dW2 );
 		}
 		else
 		{
@@ -1646,7 +1644,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		{
 			dX1 -= dW1;
 			dX2 += dW2;
-			dWTotal -= ( dW1 + dW2 );
+			// dWTotal -= ( dW1 + dW2 );
 		}
 		else
 		{
@@ -2073,7 +2071,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			{
 				dY1 -= dH1;
 				dY2 += dH2;
-				dHTotal -= ( dH1 + dH2 );
+				// dHTotal -= ( dH1 + dH2 );
 			}
 			else
 			{
@@ -2212,7 +2210,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			{
 				dY1 -= dH1;
 				dY2 += dH2;
-				dHTotal -= ( dH1 + dH2 );
+				// dHTotal -= ( dH1 + dH2 );
 			}
 
 			if ( iXTitleLocation == ABOVE )
@@ -2413,7 +2411,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			{
 				dY1 -= dXLabelHeight;
 				dY2 += dDecorationThickness[1];
-				dHTotal -= ( dXLabelHeight + dDecorationThickness[1] );
+				// dHTotal -= ( dXLabelHeight + dDecorationThickness[1] );
 			}
 			else
 			{
@@ -2431,7 +2429,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			{
 				dY2 += dXLabelHeight;
 				dY1 -= dHt1;
-				dHTotal -= ( dXLabelHeight + dHt1 );
+				// dHTotal -= ( dXLabelHeight + dHt1 );
 			}
 			else
 			{
@@ -2628,7 +2626,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		{
 			dY1 -= dH1;
 			dY2 += dH2;
-			dHTotal -= ( dH1 + dH2 );
+			// dHTotal -= ( dH1 + dH2 );
 		}
 		else
 		{

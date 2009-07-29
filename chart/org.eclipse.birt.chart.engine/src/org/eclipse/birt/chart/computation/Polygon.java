@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.util.ChartUtil;
+
 
 /**
  * A 2D Polygon class
@@ -151,8 +153,8 @@ public class Polygon
 				return false;
 			}
 			// Check the slope
-			c = ( pEnd.y - pStart.y ) / ( pEnd.x - pStart.x ) == ( pEnd.y - p.y )
-					/ ( pEnd.x - p.x );
+			c = ChartUtil.mathEqual( ( pEnd.y - pStart.y )
+					/ ( pEnd.x - pStart.x ), ( pEnd.y - p.y ) / ( pEnd.x - p.x ) );
 		}
 		return c;
 	}
@@ -176,7 +178,7 @@ public class Polygon
 		double gradient2 = dy1 * dx2;
 
 
-		if ( gradient1 == gradient2 )
+		if ( ChartUtil.mathEqual( gradient1, gradient2 ) )
 		{
 			// colinear case
 			return ( dx1 * dx2 >= 0 && dy1 * dy2 >= 0 );

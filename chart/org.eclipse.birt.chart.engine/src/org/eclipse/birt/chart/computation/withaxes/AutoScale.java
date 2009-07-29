@@ -418,7 +418,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 				}
 				// To prevent endless loop if step is not changed
-				if ( dStep == oldStep )
+				if ( ChartUtil.mathEqual( dStep, oldStep ) )
 				{
 					dStep /= 2;
 				}
@@ -575,7 +575,8 @@ public final class AutoScale extends Methods implements Cloneable
 					dStep = iaLinearDeltas[0] * dPower;
 				}
 
-				if ( ( (Number) oStep ).doubleValue( ) == dStep )
+				if ( ChartUtil.mathEqual( ( (Number) oStep ).doubleValue( ),
+						dStep ) )
 				{
 					// Can not zoom any more, result is always the same;
 					return false;
@@ -2453,7 +2454,12 @@ public final class AutoScale extends Methods implements Cloneable
 			updateSharedScaleContext( rtc, iType, sc.tmpSC );
 		}
 
-		sc.setData( dsi );
+		if ( sc != null )
+		{
+			// sc won't be null since there's no other axis type currently.
+			sc.setData( dsi );
+		}
+
 		return sc;
 	}
 
@@ -2582,7 +2588,8 @@ public final class AutoScale extends Methods implements Cloneable
 		// integer
 		double check = value / precision;
 		int loopCounter = 0;
-		while ( Math.floor( check ) != check && loopCounter < 20 )
+		while ( !ChartUtil.mathEqual( Math.floor( check ), check )
+				&& loopCounter < 20 )
 		{
 			// avoid infinite loops. It should never take more than
 			// 20 loops to get the right precision

@@ -1067,7 +1067,17 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		// Bugzilla#203044
 		// Always use hashcode of script content to generate function name in
 		// case that the functions of two charts may have the same name
-		return "userCallBack" //$NON-NLS-1$
-				+ Math.abs( generateUniqueJSKey( sa.getActionForCondition( tc ) ).hashCode( ) );
+		int hashCode = generateUniqueJSKey( sa.getActionForCondition( tc ) ).hashCode( );
+		if ( hashCode != Integer.MIN_VALUE )
+		{
+			return "userCallBack" //$NON-NLS-1$
+					+ Math.abs( hashCode );
+		}
+		else
+		{
+			return "userCallBack" //$NON-NLS-1$
+					+ Integer.MAX_VALUE;
+		}
+
 	}
 }

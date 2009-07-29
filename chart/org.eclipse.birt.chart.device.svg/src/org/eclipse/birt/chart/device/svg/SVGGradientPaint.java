@@ -48,12 +48,20 @@ public class SVGGradientPaint extends GradientPaint {
 	 */
 	public boolean equals(Object object) {
 		if (object == null) return false;
-		GradientPaint gp = (GradientPaint)object;
-		return (gp.getColor1().equals(getColor1()) &&
-		gp.getColor2().equals(getColor2()) &&
-		(gp.isCyclic() == gp.isCyclic()) &&
-		gp.getPoint1().equals(getPoint1()) &&
-		gp.getPoint2().equals(getPoint2()));
+		if ( object instanceof GradientPaint )
+		{
+			GradientPaint gp = (GradientPaint) object;
+			return ( gp.getColor1( ).equals( getColor1( ) )
+					&& gp.getColor2( ).equals( getColor2( ) )
+					&& ( gp.isCyclic( ) == gp.isCyclic( ) )
+					&& gp.getPoint1( ).equals( getPoint1( ) ) && gp.getPoint2( )
+					.equals( getPoint2( ) ) );
+		}
+		else
+		{
+			return false;
+		}
+
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

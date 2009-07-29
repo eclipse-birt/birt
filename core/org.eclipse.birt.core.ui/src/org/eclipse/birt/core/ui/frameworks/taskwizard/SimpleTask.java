@@ -112,7 +112,7 @@ public class SimpleTask implements ITask
 		errorList.clear( );
 		for ( int i = 0; i < errorHints.length; i++ )
 		{
-			errorList.add( errorHints.toString( ) );
+			errorList.add( errorHints[i].toString( ) );
 		}
 	}
 

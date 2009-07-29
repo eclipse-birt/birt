@@ -348,7 +348,7 @@ public class ScaleContext extends Methods
 						: Math.round( dAbsMax / dStep ) )
 						* dStep;
 
-				if ( dMinAxis == dAbsMin )
+				if ( ChartUtil.mathEqual( dMinAxis, dAbsMin ) )
 				{
 					dMinAxis += dStep;
 					if ( dMinValue < 0 )
@@ -372,7 +372,7 @@ public class ScaleContext extends Methods
 					}
 				}
 
-				if ( dMaxAxis == dAbsMax )
+				if ( ChartUtil.mathEqual( dMaxAxis, dAbsMax ) )
 				{
 					dMaxAxis += dStep;
 					if ( dMaxValue < 0 )
@@ -384,7 +384,7 @@ public class ScaleContext extends Methods
 						dMaxAxis = 0;
 					}
 				}
-				else if ( dMinAxis != dMaxValue )
+				else if ( !ChartUtil.mathEqual( dMinAxis, dMaxValue ) )
 				{
 					if ( dMaxValue < 0 )
 					{

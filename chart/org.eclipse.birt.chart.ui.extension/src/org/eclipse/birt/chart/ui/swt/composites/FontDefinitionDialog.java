@@ -130,7 +130,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 		this.fdCurrent = fdCurrent == null ? FontDefinitionImpl.createEmpty( )
 				: fdCurrent.copyInstance( );
 		this.cdCurrent = cdCurrent == null ? null : cdCurrent.copyInstance( );
-		this.fdBackup = fdCurrent.copyInstance( );
+		this.fdBackup = fdCurrent == null ? null : fdCurrent.copyInstance( );
 		this.cdBackup = this.cdCurrent == null ? null
 				: cdCurrent.copyInstance( );
 	}

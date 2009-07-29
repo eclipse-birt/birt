@@ -328,7 +328,8 @@ public final class AxesRenderHelper
 						{
 							context.y3d = (int) da3D.getEnd( );
 						}
-						if ( context.dTick1 != context.dTick2 )
+						if ( !ChartUtil.mathEqual( context.dTick1,
+								context.dTick2 ) )
 						{
 							if ( bRenderOrthogonal3DAxis )
 							{
@@ -364,7 +365,8 @@ public final class AxesRenderHelper
 						int x = (int) da.getEnd( );
 						if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 						{
-							if ( context.dTick1 != context.dTick2 )
+							if ( !ChartUtil.mathEqual( context.dTick1,
+									context.dTick2 ) )
 							{
 								if ( bRenderBase3DAxis )
 								{
@@ -671,7 +673,7 @@ public final class AxesRenderHelper
 				double dXMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
 						+ pwa.getTickSize( )
 						: context.dX;
-				if ( dXMinorTick1 != dXMinorTick2 )
+				if ( !ChartUtil.mathEqual( dXMinorTick1, dXMinorTick2 ) )
 				{
 					// RENDER THE MINOR TICKS FIRST (For ALL but the
 					// last Major tick)
@@ -736,7 +738,8 @@ public final class AxesRenderHelper
 					continue;
 				}
 
-				if ( !bSkipTickLine && context.dTick1 != context.dTick2 )
+				if ( !bSkipTickLine
+						&& !ChartUtil.mathEqual( context.dTick1, context.dTick2 ) )
 				{
 					if ( bRenderOrthogonal3DAxis )
 					{
@@ -914,7 +917,7 @@ public final class AxesRenderHelper
 						- pwa.getTickSize( )
 						: context.dY + pwa.getTickSize( ) )
 						: context.dY;
-				if ( dYMinorTick1 != -dYMinorTick2 )
+				if ( !ChartUtil.mathEqual( dYMinorTick1, -dYMinorTick2 ) )
 				{
 					// RENDER THE MINOR TICKS FIRST (For ALL but the
 					// last Major tick)
@@ -981,7 +984,8 @@ public final class AxesRenderHelper
 					continue;
 				}
 
-				if ( !bSkipTickLine && context.dTick1 != context.dTick2 )
+				if ( !bSkipTickLine
+						&& !ChartUtil.mathEqual( context.dTick1, context.dTick2 ) )
 				{
 					if ( bRenderBase3DAxis )
 					{

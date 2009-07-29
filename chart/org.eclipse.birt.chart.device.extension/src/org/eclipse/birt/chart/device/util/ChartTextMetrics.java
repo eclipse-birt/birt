@@ -67,20 +67,15 @@ public final class ChartTextMetrics extends TextAdapter
 	 */
 	public ChartTextMetrics( IDisplayServer _xs, Label _la, boolean autoReuse )
 	{
-		if ( bi == null )
-		{
-			bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
-			g2d = (Graphics2D) ( (BufferedImage) bi ).getGraphics( );
 
-			g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
-					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-			g2d.setRenderingHint( RenderingHints.KEY_RENDERING,
-					RenderingHints.VALUE_RENDER_QUALITY );
-		}
-		else
-		{
-			g2d = (Graphics2D) ( (BufferedImage) bi ).getGraphics( );
-		}
+		bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
+		g2d = (Graphics2D) ( (BufferedImage) bi ).getGraphics( );
+
+		g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
+				RenderingHints.VALUE_FRACTIONALMETRICS_ON );
+		g2d.setRenderingHint( RenderingHints.KEY_RENDERING,
+				RenderingHints.VALUE_RENDER_QUALITY );
+
 		xs = _xs;
 		la = _la;
 

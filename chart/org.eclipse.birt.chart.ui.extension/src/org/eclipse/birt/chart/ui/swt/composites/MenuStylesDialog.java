@@ -126,7 +126,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 		gd.horizontalSpan = 2;
 		fComboStyle.setLayoutData( gd );
 
-		Label label = new Label( c, SWT.NONE );
+		new Label( c, SWT.NONE );
 
 		fTable = new Table( c, SWT.BORDER | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		fTable.setLinesVisible( true );
