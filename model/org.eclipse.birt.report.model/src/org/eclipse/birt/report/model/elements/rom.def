@@ -1987,7 +1987,7 @@
   		<Default>simple</Default>
   	</Property>
   	<Property displayNameID="Element.DynamicFilterParameter.filterOperator" name="filterOperator" runtimeSettable="false" since="2.5" subType="string" type="list"/>
-  	<Property displayNameID="Element.DynamicFilterParameter.column" name="column" since="2.5" type="string"/>
+  	<Property displayNameID="Element.DynamicFilterParameter.column" name="column" since="2.5" type="string" valueRequired="true"/>
   </Element>
   <Element displayNameID="Element.ScalarParameter" extends="AbstractScalarParameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
     <Property detailType="scalarParamType" displayNameID="Element.ScalarParameter.paramType" name="paramType" runtimeSettable="false" since="2.2" type="choice" >
