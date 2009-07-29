@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -104,7 +105,16 @@ public abstract class ListingParameter extends ScalarParameter
 			if ( param == this )
 				break;
 			String value = param.getSelectionValue( );
-			groupList.add( value );
+			
+			//groupList.add( value );
+			try
+			{
+				groupList.add( param.converToDataType( value ) );
+			}
+			catch ( BirtException e )
+			{
+				//do nothing
+			}
 		}
 		Object[] groupKeys = new Object[groupList.size( )];
 		for ( int i = 0; i < groupList.size( ); i++ )
