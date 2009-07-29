@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 
-
 /**
  * 
  *
@@ -32,9 +31,9 @@ public class EdgeDrillingFilterDefinition implements IEdgeDrillFilter
 	private String name;
 	private IHierarchyDefinition targetHierarchyDefinition;
 	private String targetLevel;
-	private int drillType;
+	private DrillType drillType;
 	
-	public EdgeDrillingFilterDefinition( String name, int drillType )
+	public EdgeDrillingFilterDefinition( String name, DrillType drillType )
 	{
 		this.name = name;
 		this.drillType = drillType;
@@ -43,35 +42,35 @@ public class EdgeDrillingFilterDefinition implements IEdgeDrillFilter
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingDownDefinition#addTargetLevelFilter(org.eclipse.birt.data.engine.api.IFilterDefinition)
-	 */
-	public void addTargetLevelFilter( IFilterDefinition filter )
-	{
-		filterList.add( filter );
-	}
-
-	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingDownDefinition#addTargetLevelSort(org.eclipse.birt.data.engine.api.ISortDefinition)
 	 */
-	public void addTargetLevelSort( ISortDefinition sort )
+	public void addLevelSort( ISortDefinition sort )
 	{
 		sortList.add( sort );
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingDownDefinition#getTargetLevelFilter()
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingDownDefinition#getTargetLevelSort()
 	 */
-	public List<IFilterDefinition> getTargetLevelFilter( )
+	public List<ISortDefinition> getLevelSort( )
 	{
-		return this.filterList;
+		return this.sortList;
 	}
-
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingDownDefinition#addTargetLevelSort(org.eclipse.birt.data.engine.api.ISortDefinition)
+	 */
+	public void addLevelFilter( IFilterDefinition filter )
+	{
+		filterList.add( filter );
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingDownDefinition#getTargetLevelSort()
 	 */
-	public List<ISortDefinition> getTargetLevelSort( )
+	public List<IFilterDefinition> getLevelFilter( )
 	{
-		return this.sortList;
+		return this.filterList;
 	}
 
 	/*
@@ -93,7 +92,7 @@ public class EdgeDrillingFilterDefinition implements IEdgeDrillFilter
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter#getDrillOperation()
 	 */
-	public int getDrillOperation( )
+	public DrillType getDrillType( )
 	{
 		return this.drillType;
 	}
@@ -101,7 +100,7 @@ public class EdgeDrillingFilterDefinition implements IEdgeDrillFilter
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter#setHierarchy(org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition)
 	 */
-	public void setHierarchy( IHierarchyDefinition hierarchy )
+	public void setTargetHierarchy( IHierarchyDefinition hierarchy )
 	{
 		this.targetHierarchyDefinition = hierarchy;
 	}
@@ -109,7 +108,7 @@ public class EdgeDrillingFilterDefinition implements IEdgeDrillFilter
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter#getHierarchy()
 	 */
-	public IHierarchyDefinition getHierarchy( )
+	public IHierarchyDefinition getTargetHierarchy( )
 	{
 		return this.targetHierarchyDefinition;
 	}

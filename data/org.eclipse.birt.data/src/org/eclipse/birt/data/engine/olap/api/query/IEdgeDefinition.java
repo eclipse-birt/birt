@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.olap.api.query;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter.DrillType;
+
 /**
  * IEdgeDefinition defines dimensions and levels that are used in the edge.
  */
@@ -36,7 +38,7 @@ public interface IEdgeDefinition extends INamedObject
 	 * @param name
 	 * @return
 	 */
-	public IEdgeDrillFilter createDrillFilter( String name, int type );
+	public IEdgeDrillFilter createDrillFilter( String name, DrillType type );
 	
 	/**
 	 * Return all drilling down definition.

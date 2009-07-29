@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter.DrillType;
 
 /**
  * 
@@ -91,22 +92,21 @@ public class EdgeDefinition extends NamedObject implements IEdgeDefinition
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#createDrillingFilterDefinition(java.lang.String, int)
-	 */
-	public IEdgeDrillFilter createDrillFilter(
-			String name, int drillType )
-	{
-		IEdgeDrillFilter drill = new EdgeDrillingFilterDefinition( name,
-				drillType );
-		drillOperation.add( drill );
-		return drill;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#getDrillingFilterDefinition()
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#getDrillFilter()
 	 */
 	public List<IEdgeDrillFilter> getDrillFilter( )
 	{
 		return this.drillOperation;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#createDrillFilter(java.lang.String, org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter.DrillType)
+	 */
+	public IEdgeDrillFilter createDrillFilter( String name, DrillType type )
+	{
+		IEdgeDrillFilter drill = new EdgeDrillingFilterDefinition( name,
+				type );
+		drillOperation.add( drill );
+		return drill;
 	}
 }

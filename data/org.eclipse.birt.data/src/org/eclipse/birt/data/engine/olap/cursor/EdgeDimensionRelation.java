@@ -149,6 +149,8 @@ class EdgeDimensionRelation
 					for ( int level = breakLevel; level < customDimSize; level++ )
 					{
 						EdgeInfo edge = new EdgeInfo( );
+						if ( currValue[level] == null )
+							edge.isNull = 0;
 
 						if ( level != 0 )
 							edge.parent = section.getRelation( )[level - 1].size( ) - 1;
@@ -257,7 +259,7 @@ class EdgeDimensionRelation
 
 class EdgeInfo
 {
-
 	int parent = -1;
 	int firstChild = -1;
+	int isNull = -1;
 }

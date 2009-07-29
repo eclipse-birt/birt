@@ -12,10 +12,12 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
+import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter.DrillType;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -27,13 +29,14 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
-
+/**
+ * The aggregation result set for drilled operation
+ *
+ */
 public class DrilledAggregateResultSet implements IAggregationResultSet
 {
 
 	private static Logger logger = Logger.getLogger( DrilledAggregateResultSet.class.getName( ) );
-
-	private List drillsDefn, drillsRs;
 	private int levelCount = 0;
 	private int currentPosition;
 	private IDiskArray bufferedStructureArray;
@@ -42,9 +45,16 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 	private int[][] attributeDataTypes;
 	private int[][] keyDataTypes;
 
-	//merge the drill result set with base result into bufferdStructureArray.
+	// if true, this means this drill resultset has not been added into base
+	// result set.
+	private boolean[] statusForRs;
+
+	/**
+	 * merge the drill result set with base result into bufferdStructureArray.
+	 */
 	public DrilledAggregateResultSet( IAggregationResultSet baseResultSet,
-			List drillsRs, List drillsDefn ) throws IOException
+			List<IAggregationResultSet> drillsRs,
+			List<IEdgeDrillFilter> drillsDefn ) throws IOException
 	{
 		Object[] params = {
 				baseResultSet, drillsRs, drillsDefn
@@ -53,10 +63,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 				"MergedAggregateResultSet",
 				params );
 
-		this.drillsDefn = drillsDefn;
-		this.drillsRs = drillsRs;
 		this.levelCount = baseResultSet.getLevelCount( );
 		this.metaResultSet = baseResultSet;
+		this.statusForRs = new boolean[drillsRs.size( )];
 		for ( int i = 0; i < drillsRs.size( ); i++ )
 		{
 			if ( levelCount < ( (IAggregationResultSet) drillsRs.get( i ) ).getLevelCount( ) )
@@ -64,66 +73,24 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 				metaResultSet = ( (IAggregationResultSet) drillsRs.get( i ) );
 				levelCount = metaResultSet.getLevelCount( );
 			}
+			( (IAggregationResultSet) drillsRs.get( i ) ).seek( 0 );
+			statusForRs[i] = true;
 		}
 
-		bufferedStructureArray = new BufferedStructureArray( Member.getCreator( ),
-				2000 );
+		this.bufferedStructureArray = passBaseCubeResultSet( baseResultSet,
+				drillsRs,
+				drillsDefn );
 		
-		List currentMemberList;
-		List previewMemberList = new ArrayList( );
-		for ( int i = 0; i < baseResultSet.length( ); i++ )
+		updateStatus( drillsRs );
+
+		while ( !isComplete( ) )
 		{
-			baseResultSet.seek( i );
-			IAggregationResultRow row = baseResultSet.getCurrentRow( );
-
-			currentMemberList = getDrilledMemberList( row.getLevelMembers( ),
+			this.bufferedStructureArray = passInterimCubeResultSet( bufferedStructureArray,
 					drillsRs,
-					drillsDefn,
-					0 );
-			
-			boolean addToBuffer = false;
-			if ( previewMemberList.size( ) == currentMemberList.size( ) )
-			{
-				for ( int t1 = 0; t1 < currentMemberList.size( ); t1++ )
-				{
-					Member[] previousMember = (Member[]) previewMemberList.get( t1 );
-					Member[] currentMember = (Member[]) currentMemberList.get( t1 );
-					if ( previousMember.length == currentMember.length )
-					{
-						for ( int t2 = 0; t2 < previousMember.length; t2++ )
-						{
-							if ( !previousMember[t2].equals( currentMember[t2] ) )
-							{
-								addToBuffer = true;
-								break;
-							}
-						}
-					}
-					else
-					{
-						addToBuffer = true;
-					}
-					if ( addToBuffer )
-						break;
-				}
-			}
-			else
-			{
-				addToBuffer = true;
-			}
-
-			if ( addToBuffer )
-			{
-				for ( int j = 0; j < currentMemberList.size( ); j++ )
-				{
-					bufferedStructureArray.add( new AggregationResultRow( (Member[]) currentMemberList.get( j ),
-							null ) );
-				}
-				previewMemberList.clear( );
-				previewMemberList.addAll( currentMemberList );
-			}
+					drillsDefn );
+			updateStatus( drillsRs );
 		}
-		
+
 		this.resultObject = (IAggregationResultRow) bufferedStructureArray.get( 0 );
 		if ( resultObject.getLevelMembers( ) != null )
 		{
@@ -151,52 +118,237 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		}
 	}
 
-	private List getDrilledMemberList( Member[] member, List drillRs,
-			List drillDefn, int startSearchIndex ) throws IOException
+	/**
+	 * 
+	 * @param drillsRs
+	 */
+	private void updateStatus( List<IAggregationResultSet> drillsRs )
 	{
-		boolean matched = false;
-		List result = new ArrayList( );
-		for ( int i = startSearchIndex; i < drillsDefn.size( ); i++ )
+		for ( int i = 0; i < drillsRs.size( ); i++ )
 		{
-			IEdgeDrillFilter defn = (IEdgeDrillFilter) drillsDefn.get( i );
-			for ( int j = 0; j < defn.getTuple( ).size( ); j++ )
+			IAggregationResultSet rs = (IAggregationResultSet) drillsRs.get( i );
+			if ( rs.getPosition( ) == rs.length( ) - 1 )
 			{
-				Member drillMember = new Member( );
-				drillMember.setKeyValues( (Object[]) defn.getTuple( ).toArray( )[j] );
-				if ( member[j] == null || !member[j].equals( drillMember ) )
+				this.statusForRs[i] = false;
+			}
+		}
+	}
+
+	private BufferedStructureArray passBaseCubeResultSet( IAggregationResultSet baseResultSet,
+			List<IAggregationResultSet> drillResultSets, List<IEdgeDrillFilter> drillFilters ) throws IOException
+	{		
+		BufferedStructureArray tempBufferArray = new BufferedStructureArray( Member.getCreator( ),
+				2000 );
+		List<Member[]> currentMemberList;
+		List<Member[]> previewMemberList = new ArrayList<Member[]>( );
+		for ( int i = 0; i < baseResultSet.length( ); i++ )
+		{
+			baseResultSet.seek( i );
+			IAggregationResultRow row = baseResultSet.getCurrentRow( );
+
+			currentMemberList = getDrilledMemberList( row.getLevelMembers( ),
+					drillResultSets,
+					drillFilters );
+
+			addMemberIntoBufferedArray( tempBufferArray,
+					currentMemberList,
+					previewMemberList );
+		}
+		return tempBufferArray;
+	}
+
+	private void addMemberIntoBufferedArray(
+			BufferedStructureArray tempBufferArray,
+			List<Member[]> currentMemberList, List<Member[]> previewMemberList )
+			throws IOException
+	{
+		boolean addToBuffer = false;
+		if ( previewMemberList.size( ) == currentMemberList.size( ) )
+		{
+			for ( int t1 = 0; t1 < currentMemberList.size( ); t1++ )
+			{
+				Member[] previousMember = (Member[]) previewMemberList.get( t1 );
+				Member[] currentMember = (Member[]) currentMemberList.get( t1 );
+				if ( previousMember.length == currentMember.length )
 				{
-					matched = false;
+					for ( int t2 = 0; t2 < previousMember.length; t2++ )
+					{
+						if ( !previousMember[t2].equals( currentMember[t2] ) )
+						{
+							addToBuffer = true;
+							break;
+						}
+					}
+				}
+				else
+				{
+					addToBuffer = true;
+				}
+				if ( addToBuffer )
 					break;
+			}
+		}
+		else
+		{
+			addToBuffer = true;
+		}
+
+		if ( addToBuffer )
+		{
+			for ( int j = 0; j < currentMemberList.size( ); j++ )
+			{
+				tempBufferArray.add( new AggregationResultRow( (Member[]) currentMemberList.get( j ),
+						null ) );
+			}
+			previewMemberList.clear( );
+			previewMemberList.addAll( currentMemberList );
+		}
+	}
+	
+	private BufferedStructureArray passInterimCubeResultSet(
+			IDiskArray bufferedStructureArray,
+			List<IAggregationResultSet> drillResultSets, List<IEdgeDrillFilter> drillFilters ) throws IOException
+	{
+		BufferedStructureArray tempBufferArray = new BufferedStructureArray( Member.getCreator( ),
+				2000 );
+		List<Member[]> currentMemberList;
+		List<Member[]> previewMemberList = new ArrayList<Member[]>( );
+		for ( int i = 0; i < bufferedStructureArray.size( ); i++ )
+		{
+
+			IAggregationResultRow row = (IAggregationResultRow) bufferedStructureArray.get( i );
+
+			currentMemberList = getDrilledMemberList( row.getLevelMembers( ),
+					drillResultSets,
+					drillFilters );
+
+			addMemberIntoBufferedArray( tempBufferArray,
+					currentMemberList,
+					previewMemberList );
+		}
+		bufferedStructureArray.close( );
+		return tempBufferArray;
+	}
+
+	private List<Member[]> getDrilledMemberList( Member[] member, List<IAggregationResultSet> drillResultsets,
+			List<IEdgeDrillFilter> drillFilters ) throws IOException
+	{
+		List<Member[]> result = new ArrayList<Member[]>( );
+		boolean matched = false;
+		IEdgeDrillFilter appliedDrill = null;
+		for ( int i = 0; i < drillFilters.size( ); i++ )
+		{
+			IEdgeDrillFilter drill = (IEdgeDrillFilter) drillFilters.get( i );
+
+			if ( !statusForRs[i] )
+			{
+				continue;
+			}
+			Object[] tuple = drill.getTuple( ).toArray( );
+			for ( int j = 0; j < tuple.length; j++ )
+			{
+				if ( tuple[j] != null && ( (Object[]) tuple[j] )[0] != null )
+				{
+					if ( member.length <= j
+							|| !containMember( member[j], (Object[]) tuple[j] ) )
+					{
+						matched = false;
+						break;
+					}
 				}
 				matched = true;
 			}
+
 			if ( matched )
 			{
-				IAggregationResultSet rs = ( (IAggregationResultSet) drillRs.get( i ) );
-				for ( int k = 0; k < rs.length( ); k++ )
-				{
-					rs.seek( k );
-					IAggregationResultRow row = rs.getCurrentRow( );
+				appliedDrill = drill;
+				break;
+			}
+		}
 
+		if ( appliedDrill != null )
+		{
+			if ( !statusForRs[drillFilters.indexOf( appliedDrill )] )
+			{
+				return Collections.EMPTY_LIST;
+			}
+			IAggregationResultSet rs = ( (IAggregationResultSet) drillResultsets.get( drillFilters.indexOf( appliedDrill ) ) );
+			for ( int k = rs.getPosition( ); k < rs.length( ); k++ )
+			{
+				rs.seek( k );
+				IAggregationResultRow row = rs.getCurrentRow( );
+
+				if ( isDrilledElement( member,
+						row.getLevelMembers( ),
+						appliedDrill ) )
+				{
 					Member[] drillMember = new Member[rs.getLevelCount( )];
+
 					System.arraycopy( row.getLevelMembers( ),
 							0,
 							drillMember,
 							0,
 							row.getLevelMembers( ).length );
 
-					result.addAll( getDrilledMemberList( drillMember,
-							drillsRs,
-							drillsDefn, i + 1 ) );
+					result.add( drillMember );
 				}
-				return result;
+				else
+				{
+					break;
+				}
+			}
+
+		}
+		else
+			result.add( member );
+		return result;
+	}
+	
+	private boolean isComplete( )
+	{
+		for( int i=0; i<statusForRs.length; i++ )
+		{
+			if( statusForRs[i] )
+				return false;
+		}
+		return true;
+	}
+	
+	private boolean containMember( Member member, Object[] key )
+	{
+		Object[] memberKeys = member.getKeyValues( );
+		for( Object obj: key )
+		{
+			if( obj.equals( memberKeys[0] ))
+			{
+				return true;
 			}
 		}
-		if ( !matched )
+		return false;
+	}
+
+	private boolean isDrilledElement( Member[] currentMember,
+			Member[] drillMember, IEdgeDrillFilter filter )
+	{
+		if ( DrillType.DRILL_TO_ANCESTORS.equals( filter.getDrillType( ) )
+				|| DrillType.DRILL_TO_PARENT.equals( filter.getDrillType( ) )
+				|| DrillType.DRILL_TO_ROOTS.equals( filter.getDrillType( ) ) )
 		{
-			result.add( member );
+			for ( int i = 0; i < drillMember.length; i++ )
+			{
+				if ( !drillMember[i].equals( currentMember[i] ) )
+					return false;
+			}
 		}
-		return result;
+		else
+		{
+			for ( int i = 0; i < currentMember.length; i++ )
+			{
+				if ( !currentMember[i].equals( drillMember[i] ) )
+					return false;
+			}
+		}
+		return true;
 	}
 
 	public void clear( ) throws IOException

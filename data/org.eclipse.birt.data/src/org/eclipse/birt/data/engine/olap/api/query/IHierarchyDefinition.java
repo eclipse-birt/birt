@@ -36,5 +36,5 @@ public interface IHierarchyDefinition extends INamedObject
 	 * Return the levels that are added to the hierarchy.
 	 * @return
 	 */
-	public List getLevels( );
+	public List<ILevelDefinition> getLevels( );
 }

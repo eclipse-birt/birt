@@ -30,5 +30,5 @@ public interface IDimensionDefinition extends INamedObject
 	 * Return the IHerarchyDefinition that are linked to this IDimensionDefinition. Currently only support one Hierarchy per Dimension.
 	 * @return
 	 */
-	public List getHierarchy();
+	public List<IHierarchyDefinition> getHierarchy();
 }

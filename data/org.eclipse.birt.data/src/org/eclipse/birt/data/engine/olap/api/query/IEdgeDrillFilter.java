@@ -23,38 +23,30 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 public interface IEdgeDrillFilter
 {
-	public static final int DRILL_TO_PARENT = 0;
 
-	public static final int DRILL_TO_ANCESTORS = 1;
-
-	public static final int DRILL_TO_DESCENDANTS = 2;
-
-	public static final int DRILL_TO_CHILDREN = 3;
-
-	public static final int DRILL_TO_ROOTS = 4;
-
-	public static final int DRILL_TO_LEAVES = 5;
-
+	public enum DrillType {
+		DRILL_TO_ANCESTORS, DRILL_TO_DESCENDANTS, DRILL_TO_PARENT, DRILL_TO_CHILDREN, DRILL_TO_ROOTS, DRILL_TO_LEAVES
+	};
 
 	/**
 	 * Get Drill operation for this drill filter, it include Children,
 	 * Descendants, Parent, and Ancestors, Root and Leaves.
 	 */
-	public int getDrillOperation( );
+	public DrillType getDrillType( );
 
 	/**
 	 * The hierarchy on which to apply this drill filter
 	 * 
 	 * @param hierarchy
 	 */
-	public void setHierarchy( IHierarchyDefinition hierarchy );
+	public void setTargetHierarchy( IHierarchyDefinition hierarchy );
 	
 	/**
 	 * Return the hierarchy on which to apply this drill filter
 	 * 
 	 */
-	public IHierarchyDefinition getHierarchy( );
-
+	public IHierarchyDefinition getTargetHierarchy( );
+	
 	/**
 	 * The level of the Hierarchy to drill up or down to on the branch that
 	 * contains drill member
@@ -62,7 +54,6 @@ public interface IEdgeDrillFilter
 	 * @return
 	 */
 	public void setTargetLevelName( String targetLevelName );
-	
 	
 	/**
 	 * The level of the Hierarchy to drill up or down to on the branch that
@@ -73,33 +64,31 @@ public interface IEdgeDrillFilter
 	public String getTargetLevelName( );
 	
 	/**
-	 * Add a filter to target level. If no filter is added then by default all
-	 * the values of that level will be populated.
-	 * 
-	 * @param filter
+	 * Add filter
+	 * @param sort
 	 */
-	public void addTargetLevelFilter( IFilterDefinition filter );
-
+	public void addLevelFilter( IFilterDefinition filter );
+	
 	/**
-	 * Return all filters defined for target level.
-	 * 
+	 * Get filter definition
 	 * @return
 	 */
-	public List<IFilterDefinition> getTargetLevelFilter( );
-
+	public List<IFilterDefinition> getLevelFilter( );
+	
 	/**
 	 * Add sort definition for target level.
 	 * 
 	 * @param sort
+	 * 
 	 */
-	public void addTargetLevelSort( ISortDefinition sort );
+	public void addLevelSort( ISortDefinition sort );
 
 	/**
 	 * Return sorts definition for the target level.
 	 * 
 	 * @return
 	 */
-	public List<ISortDefinition> getTargetLevelSort( );
+	public List<ISortDefinition> getLevelSort( );
 
 	/**
 	 * The collection represents the value of edge
