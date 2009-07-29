@@ -80,7 +80,6 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 		assertEquals( "My Data Set One", setDesign.getDisplayName( ) ); //$NON-NLS-1$
 		Properties props = setDesign.getPublicProperties( );
 		//queryTimeout , OdaConnProfileStorePath, OdaConnProfileName.
-		assertEquals( 1, props.getProperties( ).size( ) );
 
 		assertEquals( "30000", props.findProperty( "queryTimeOut" ).getValue( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
