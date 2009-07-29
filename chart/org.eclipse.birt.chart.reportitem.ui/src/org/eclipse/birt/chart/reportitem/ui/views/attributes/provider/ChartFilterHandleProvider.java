@@ -20,7 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IF
  * 
  * @since 2.3
  */
-public class ChartFilterHandleProvider extends ChartFilterHandleProviderBase
+public class ChartFilterHandleProvider extends ChartFilterProviderDelegate
 {
 
 	public ChartFilterHandleProvider( AbstractFilterHandleProvider baseProvider )
@@ -39,6 +39,7 @@ public class ChartFilterHandleProvider extends ChartFilterHandleProviderBase
 			return this;
 		}
 
-		return ChartFilterProviderDelegate.createFilterProvider( input, getInput() );
+		return ChartFilterProviderDelegate.createFilterProvider( input,
+				getInput( ) );
 	}
 }

@@ -39,10 +39,6 @@ import org.eclipse.swt.widgets.Table;
 
 public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider
 {
-	/**
-	 * The current selections in outline or Editor.
-	 */
-	protected List contentInput;
 
 	/**
 	 * Column properties.
@@ -63,11 +59,6 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider
 	};
 
 	/**
-	 * Model processor, provide data process of Filter model.
-	 */
-	protected CrosstabFilterModelProvider modelAdapter = new CrosstabFilterModelProvider( );
-
-	/**
 	 * The display name of columns.
 	 */
 	private String[] columnNames;
@@ -77,8 +68,10 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider
 	 */
 	private CellEditor[] editors;
 
-
-
+	public CrosstabFilterHandleProvider( )
+	{
+		modelAdapter = new CrosstabFilterModelProvider( );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -164,7 +157,8 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider
 	 */
 	public boolean doEditItem( int pos )
 	{
-		return modelAdapter.doEditItem( contentInput.get( 0 ), pos );
+		return ( (CrosstabFilterModelProvider) modelAdapter ).doEditItem( contentInput.get( 0 ),
+				pos );
 	}
 
 	/*
@@ -203,7 +197,7 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider
 		}
 		else
 		{
-			contentInput = new ArrayList( );
+			contentInput = new ArrayList<Object>( );
 			contentInput.add( inputElement );
 		}
 //		getDataSetColumns( input.get( 0 ) );

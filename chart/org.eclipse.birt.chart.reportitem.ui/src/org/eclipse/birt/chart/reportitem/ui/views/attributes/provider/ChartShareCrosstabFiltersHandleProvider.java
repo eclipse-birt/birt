@@ -103,6 +103,7 @@ public class ChartShareCrosstabFiltersHandleProvider extends
 			return this;
 		}
 
-		return ChartFilterProviderDelegate.createFilterProvider( input, getInput() );
+		return ChartFilterProviderDelegate.createFilterProvider( input,
+				getInput( ) );
 	}
 }

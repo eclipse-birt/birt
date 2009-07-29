@@ -37,7 +37,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * @since 2.3
  */
 public class ChartCubeFilterHandleProvider extends
-		ChartFilterHandleProviderBase
+		ChartFilterProviderDelegate
 {
 	private ChartWizardContext context = null;
 	
@@ -156,7 +156,8 @@ public class ChartCubeFilterHandleProvider extends
 			return this;
 		}
 
-		return ChartFilterProviderDelegate.createFilterProvider( input, getInput() );
+		return ChartFilterProviderDelegate.createFilterProvider( input,
+				getInput( ) );
 	}
 	
 	/* (non-Javadoc)

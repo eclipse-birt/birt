@@ -48,11 +48,6 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 {
 
 	/**
-	 * The current selections in outline or Editor.
-	 */
-	protected List contentInput;
-
-	/**
 	 * Column properties.
 	 */
 	private String[] columnKeys = new String[]{
@@ -70,11 +65,6 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	};
 
 	/**
-	 * Model processor, provide data process of Filter model.
-	 */
-	protected FilterModelProvider modelAdapter = new FilterModelProvider( );
-
-	/**
 	 * The display name of columns.
 	 */
 	private String[] columnNames;
@@ -86,7 +76,10 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 
 	private List columnList = new ArrayList( );
 
-	protected ParamBindingHandle[] bindingParams = null;
+	public FilterHandleProvider( )
+	{
+		modelAdapter = new FilterModelProvider( );
+	}
 
 	/**
 	 * Gets all dataSet columns
@@ -104,14 +97,6 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 			if ( columns != null )
 				columnList.addAll( Arrays.asList( columns ) );
 		}
-	}
-
-	/**
-	 * 
-	 */
-	public void setBindingParams( ParamBindingHandle[] params )
-	{
-		this.bindingParams = params;
 	}
 
 	/*

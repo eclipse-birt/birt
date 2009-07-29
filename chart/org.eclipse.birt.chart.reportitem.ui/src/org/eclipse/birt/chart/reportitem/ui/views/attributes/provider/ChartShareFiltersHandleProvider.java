@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * @since 2.3
  */
 public class ChartShareFiltersHandleProvider extends
-		ChartFilterHandleProviderBase
+		ChartFilterProviderDelegate
 {
 
 	public ChartShareFiltersHandleProvider(
@@ -64,6 +64,7 @@ public class ChartShareFiltersHandleProvider extends
 			return this;
 		}
 
-		return ChartFilterProviderDelegate.createFilterProvider( input, getInput() );
+		return ChartFilterProviderDelegate.createFilterProvider( input,
+				getInput( ) );
 	}
 }

@@ -103,7 +103,7 @@ public class ChartPageGenerator extends AbstractPageGenerator
 	{
 		AbstractFilterHandleProvider provider = ChartFilterProviderDelegate.createFilterProvider( input,
 				null );
-		return new ChartFilterProviderDelegate( provider );
+		return provider;
 	}
 
 	public void createTabItems( List input )

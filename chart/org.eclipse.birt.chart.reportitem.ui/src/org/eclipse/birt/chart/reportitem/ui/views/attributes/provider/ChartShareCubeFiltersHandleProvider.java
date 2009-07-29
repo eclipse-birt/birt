@@ -38,10 +38,10 @@ public class ChartShareCubeFiltersHandleProvider
 	{
 		if ( inputElement instanceof List<?> )
 		{
-			List<DesignElementHandle> elements = new ArrayList<DesignElementHandle>( );
-			for ( Iterator<DesignElementHandle> iter = ( (List<DesignElementHandle>) inputElement ).iterator( ); iter.hasNext( ); )
+			List<Object> elements = new ArrayList<Object>( );
+			for ( Iterator<Object> iter = ( (List<Object>) inputElement ).iterator( ); iter.hasNext( ); )
 			{
-				DesignElementHandle handle = iter.next( );
+				DesignElementHandle handle = (DesignElementHandle) iter.next( );
 				if ( handle instanceof ReportItemHandle
 						&& ( (ReportItemHandle) handle ).getDataBindingReference( ) != null )
 				{
