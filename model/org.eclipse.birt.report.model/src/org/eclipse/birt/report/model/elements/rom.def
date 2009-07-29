@@ -1705,14 +1705,12 @@
       <Argument name="reportContext" tagID="Element.ReportDesign.afterRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.onPageStart" name="onPageStart" since="2.5" toolTipID="Element.ReportDesign.onPageStart.toolTip">
+      <Argument name="this" tagID="Element.ReportDesign.onPageStart.this" type="org.eclipse.birt.report.engine.api.script.instance.IPageInstance"/>    
       <Argument name="reportContext" tagID="Element.ReportDesign.onPageStart.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-      <Argument name="this" tagID="Element.ReportDesign.onPageStart.this" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
-      <Argument name="content" tagID="Element.ReportDesign.onPageStart.content" type="org.eclipse.birt.report.engine.api.script.instance.IPageInstance"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.onPageEnd" name="onPageEnd" since="2.5" toolTipID="Element.ReportDesign.onPageEnd.toolTip">
+      <Argument name="this" tagID="Element.ReportDesign.onPageEnd.this" type="org.eclipse.birt.report.engine.api.script.instance.IPageInstance"/>    
       <Argument name="reportContext" tagID="Element.ReportDesign.onPageEnd.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-      <Argument name="this" tagID="Element.ReportDesign.onPageEnd.this" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
-      <Argument name="content" tagID="Element.ReportDesign.onPageEnd.content" type="org.eclipse.birt.report.engine.api.script.instance.IPageInstance"/>
     </Method>
     <Property displayNameID="Element.ReportDesign.displayName" name="displayName" runtimeSettable="false" since="2.0" type="string"/>
     <Property displayNameID="Element.ReportDesign.displayNameID" name="displayNameID" since="2.0" type="resourceKey"/>
@@ -1989,7 +1987,7 @@
   		<Default>simple</Default>
   	</Property>
   	<Property displayNameID="Element.DynamicFilterParameter.filterOperator" name="filterOperator" runtimeSettable="false" since="2.5" subType="string" type="list"/>
-  	<Property displayNameID="Element.DynamicFilterParameter.column" name="column" since="2.5" type="string" valueRequired="true"/>
+  	<Property displayNameID="Element.DynamicFilterParameter.column" name="column" since="2.5" type="string"/>
   </Element>
   <Element displayNameID="Element.ScalarParameter" extends="AbstractScalarParameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
     <Property detailType="scalarParamType" displayNameID="Element.ScalarParameter.paramType" name="paramType" runtimeSettable="false" since="2.2" type="choice" >
@@ -2304,14 +2302,12 @@
       </Property>
     </PropertyGroup>
     <Method context="factory" displayNameID="Element.MasterPage.onPageStart" name="onPageStart" since="2.5" toolTipID="Element.MasterPage.onPageStart.toolTip">
+      <Argument name="this" tagID="Element.MasterPage.onPageStart.this" type="org.eclipse.birt.report.engine.api.script.instance.IPageInstance"/>    
       <Argument name="reportContext" tagID="Element.MasterPage.onPageStart.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-      <Argument name="design" tagID="Element.MasterPage.onPageStart.design" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
-      <Argument name="content" tagID="Element.MasterPage.onPageStart.content" type="org.eclipse.birt.report.engine.api.script.instance.IPageInstance"/>
     </Method>
     <Method context="factory" displayNameID="Element.MasterPage.onPageEnd" name="onPageEnd" since="2.5" toolTipID="Element.MasterPage.onPageEnd.toolTip">
+      <Argument name="this" tagID="Element.MasterPage.onPageEnd.this" type="org.eclipse.birt.report.engine.api.script.instance.IPageInstance"/>    
       <Argument name="reportContext" tagID="Element.MasterPage.onPageEnd.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-      <Argument name="design" tagID="Element.MasterPage.onPageEnd.design" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
-      <Argument name="content" tagID="Element.MasterPage.onPageEnd.content" type="org.eclipse.birt.report.engine.api.script.instance.IPageInstance"/>
     </Method>
     <Property displayNameID="Element.MasterPage.columns" name="columns" since="1.0" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
