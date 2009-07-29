@@ -315,6 +315,10 @@ public class StyleBuilder
 
 	public static void applyRightBorder( StyleEntry cEntry, StyleEntry entry )
 	{
+		if ( entry == null )
+		{
+			return;
+		}
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_RIGHT_COLOR_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_RIGHT_STYLE_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_RIGHT_WIDTH_PROP );
@@ -322,6 +326,10 @@ public class StyleBuilder
 
 	public static void applyLeftBorder( StyleEntry cEntry, StyleEntry entry )
 	{
+		if ( entry == null )
+		{
+			return;
+		}
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_LEFT_COLOR_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_LEFT_STYLE_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_LEFT_WIDTH_PROP );
@@ -329,6 +337,10 @@ public class StyleBuilder
 
 	public static void applyTopBorder( StyleEntry cEntry, StyleEntry entry )
 	{
+		if ( entry == null )
+		{
+			return;
+		}
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_TOP_COLOR_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_TOP_STYLE_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_TOP_WIDTH_PROP );
@@ -336,6 +348,10 @@ public class StyleBuilder
 
 	public static void applyBottomBorder( StyleEntry cEntry, StyleEntry entry )
 	{
+		if ( entry == null )
+		{
+			return;
+		}
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_BOTTOM_COLOR_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_BOTTOM_STYLE_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_BOTTOM_WIDTH_PROP );

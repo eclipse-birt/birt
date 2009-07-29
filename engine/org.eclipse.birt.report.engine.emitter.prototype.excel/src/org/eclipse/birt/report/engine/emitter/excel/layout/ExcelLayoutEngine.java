@@ -560,7 +560,8 @@ public class ExcelLayoutEngine
 			byte[] data = imageInfo.getData( );
 			if ( data != null )
 			{
-				return new ImageData( image, entry, type, imageInfo, container );
+				return createData( image, entry, container,
+						type, imageInfo );
 			}
 			else
 			{
@@ -572,6 +573,14 @@ public class ExcelLayoutEngine
 			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
 			return createData( image.getAltText( ), entry );
 		}
+	}
+
+	protected SheetData createData( IImageContent image, StyleEntry entry,
+			XlsContainer container, int type, Image imageInfo )
+	{
+		SheetData imageData = new ImageData( image, entry, type, imageInfo,
+				container );
+		return imageData;
 	}
 
 	public Data addDateTime( Object txt, IStyle style, HyperlinkDef link,
