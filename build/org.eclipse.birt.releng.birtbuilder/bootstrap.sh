@@ -106,6 +106,7 @@ do
 		 		 -buildDirectory) builderDir="$2"; shift;;
 		 		 -notify) recipients="$2"; shift;;
 		 		 -test) testBuild="-Dnomail=true";;
+		 		 -javadoc) javadoc="-DgenJavaDoc=true";;
 		 		 -builderTag) buildProjectTags="$2"; shift;;
 		 		 -noUnitTest) unitTest="-Dskip.unit.test=true";;
 		 		 -compareMaps) compareMaps="-DcompareMaps=true";;

@@ -805,19 +805,19 @@
     	<echo message="Build BIRT web viewer finished"/>
     </target>
 
-	<target name="generateJavaCrossReference" unless="skip.gen.JavaCrossRef">
+	<target name="generateJavaCrossReference" if="genJavaDoc">
         <ant antfile="${eclipse.build.configs}/../../extras/CrossReferenceGenerator.xml" 
         	target="generateJavaCrossReference" >
         </ant>
 	</target>
 
-	<target name="generateDocumentCheck" unless="skip.gen.DocuCheck">
+	<target name="generateDocumentCheck" if="genJavaDoc">
         <ant antfile="${eclipse.build.configs}/../../extras/CrossReferenceGenerator.xml" 
         	target="generateDocumentCheck" >
         </ant>
 	</target>
 	
-    <target name="generateJavaDoc" unless="skip.gen.JavaDoc">
+    <target name="generateJavaDoc" if="genJavaDoc">
         <ant antfile="${eclipse.build.configs}/../../extras/antJavadoc.xml"/>
     </target>
 
