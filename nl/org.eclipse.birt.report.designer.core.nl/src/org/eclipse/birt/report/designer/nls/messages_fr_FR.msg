@@ -144,6 +144,7 @@ AttributesBuilder.Label.Label=Editeur de propriétés - Etiquette
 AttributesBuilder.Label.Library=Editeur de propriétés - Bibliothèque
 AttributesBuilder.Label.List=Editeur de propriétés - Liste
 AttributesBuilder.Label.Cube=Editeur de propriétés - Cube
+AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
 AttributesBuilder.Label.MasterPage=Editeur de propriétés - Page maître
 AttributesBuilder.Label.None=Editeur de propriétés - Aucun
 AttributesBuilder.Label.Picture=Editeur de propriétés - Image

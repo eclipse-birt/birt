@@ -144,6 +144,7 @@ AttributesBuilder.Label.Label=属性编辑器 - 标签
 AttributesBuilder.Label.Library=属性编辑器 - 库
 AttributesBuilder.Label.List=属性编辑器 - 列表
 AttributesBuilder.Label.Cube=属性编辑器 - 多维数据集
+AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
 AttributesBuilder.Label.MasterPage=属性编辑器 - 主页
 AttributesBuilder.Label.None=属性编辑器 - 无
 AttributesBuilder.Label.Picture=属性编辑器 - 图片

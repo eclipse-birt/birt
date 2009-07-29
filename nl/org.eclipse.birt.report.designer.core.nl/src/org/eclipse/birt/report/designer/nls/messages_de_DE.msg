@@ -144,6 +144,7 @@ AttributesBuilder.Label.Label=Eigenschaftseditor - Beschriftung
 AttributesBuilder.Label.Library=Eigenschaftseditor - Bibliothek
 AttributesBuilder.Label.List=Eigenschaftseditor - Liste
 AttributesBuilder.Label.Cube=Eigenschaftseditor - Quader
+AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
 AttributesBuilder.Label.MasterPage=Eigenschaftseditor - Master-Seite
 AttributesBuilder.Label.None=Eigenschaftseditor - Keine
 AttributesBuilder.Label.Picture=Eigenschaftseditor - Bild

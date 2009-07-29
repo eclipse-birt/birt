@@ -144,6 +144,7 @@ AttributesBuilder.Label.Label=プロパティエディタ - ラベル
 AttributesBuilder.Label.Library=プロパティエディタ - ライブラリ
 AttributesBuilder.Label.List=プロパティエディタ - リスト
 AttributesBuilder.Label.Cube=プロパティエディタ - キューブ
+AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
 AttributesBuilder.Label.MasterPage=プロパティエディタ - マスタページ
 AttributesBuilder.Label.None=プロパティエディタ - なし
 AttributesBuilder.Label.Picture=プロパティエディタ - 図

@@ -144,6 +144,7 @@ AttributesBuilder.Label.Label=속성 편집기 - 레이블
 AttributesBuilder.Label.Library=속성 편집기 - 라이브러리
 AttributesBuilder.Label.List=속성 편집기 - 목록
 AttributesBuilder.Label.Cube=속성 편집기 - 큐브
+AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
 AttributesBuilder.Label.MasterPage=속성 편집기 - 마스터 페이지
 AttributesBuilder.Label.None=속성 편집기 - 없음
 AttributesBuilder.Label.Picture=속성 편집기 - 그림
