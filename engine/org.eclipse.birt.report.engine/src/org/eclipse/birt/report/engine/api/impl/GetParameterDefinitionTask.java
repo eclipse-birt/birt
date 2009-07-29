@@ -416,8 +416,6 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		String selectionType = parameter.getValueType( );
 		String dataType = parameter.getDataType( );
-		boolean sortByLabel = "label".equalsIgnoreCase( parameter.getSortBy( ) );
-		boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter.getSortDirection( ) );
 		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 				.equals( selectionType ) )
 		{
@@ -497,19 +495,21 @@ public class GetParameterDefinitionTask extends EngineTask
 				Object value = convertToType( choice.getValue( ), dataType );
 				choices.add( new SelectionChoice( label, value ) );
 			}
-			boolean fixedOrder = false;
 			String pattern = null;
+			String sortBy = parameter.getSortBy( );
+			boolean sortByLabel = DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+					.equalsIgnoreCase( parameter.getSortBy( ) );
+			boolean sortDirectionValue = DesignChoiceConstants.SORT_DIRECTION_ASC
+					.equalsIgnoreCase( parameter.getSortDirection( ) );
 			if ( parameter instanceof ScalarParameterHandle )
 			{
 				ScalarParameterHandle tmpParam = (ScalarParameterHandle) parameter;
-				fixedOrder = tmpParam.isFixedOrder( );
 				pattern = tmpParam.getPattern( );
 			}
-			if ( !fixedOrder )
+			if ( sortBy != null )
 				Collections.sort( choices, new SelectionChoiceComparator(
 						sortByLabel, pattern, sortDirectionValue, ulocale ) );
 			return choices;
-
 		}
 		return Collections.EMPTY_LIST;
 	}

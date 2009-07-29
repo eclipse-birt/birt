@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.api.IDynamicFilterParameterDefn;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskUtil.SelectionChoiceUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -88,6 +89,17 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 				"SortBysOfSingleDataSet", new Object[]{"USA"} );
 		content = list.toArray( );
 		assertEquals( "MA", SelectionChoiceUtil.getValue( content[1] ) );
+	}
+
+	public void testParameterInfo( ) throws EngineException
+	{
+		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
+		IGetParameterDefinitionTask task = engine
+				.createGetParameterDefinitionTask( report );
+
+		IScalarParameterDefn param = (IScalarParameterDefn) task
+				.getParameterDefn( "NewParameter2" );
+		assertTrue( param.getSelectionListType( ) == IScalarParameterDefn.LIST_BOX );
 	}
 
 	public void testDynamicFilterParameters( ) throws EngineException
