@@ -141,10 +141,6 @@ public class DataEngineSession
 			return this.stopSign.isStopped( );
 		}
 	}
-	public void finalize()
-	{
-		this.houseKeepCancelManager( );
-	}
 	
 	/**
 	 * 
