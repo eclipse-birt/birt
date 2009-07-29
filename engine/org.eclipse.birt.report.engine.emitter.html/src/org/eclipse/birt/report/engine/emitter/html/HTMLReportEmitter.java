@@ -155,7 +155,7 @@ import com.ibm.icu.util.ULocale;
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
 
-	protected boolean hasCsslinks;
+	protected boolean hasCsslinks = true;
 	/**
 	 * the output format
 	 */
@@ -838,27 +838,29 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 
-		//export the CSS links in the HTML
-		hasCsslinks = false;
-		if ( designHandle != null )
+		if ( hasCsslinks )
 		{
-			List externalCsses = designHandle.getAllExternalIncludedCsses( );
-			if( null != externalCsses)
+			// export the CSS links in the HTML
+			hasCsslinks = false;
+			if ( designHandle != null )
 			{
-				Iterator iter = externalCsses.iterator( );
-				while ( iter.hasNext( ) )
+				List externalCsses = designHandle.getAllExternalIncludedCsses( );
+				if ( null != externalCsses )
 				{
-					IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter
-							.next( );
-					String href = cssStyleSheetHandle.getExternalCssURI( ) ;
-					if (href != null)
+					Iterator iter = externalCsses.iterator( );
+					while ( iter.hasNext( ) )
 					{
-						hasCsslinks = true;
-						writer.openTag( HTMLTags.TAG_LINK );
-						writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
-						writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
-						writer.attribute( HTMLTags.ATTR_HREF, href);
-						writer.closeTag( HTMLTags.TAG_LINK );
+						IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter.next( );
+						String href = cssStyleSheetHandle.getExternalCssURI( );
+						if ( href != null )
+						{
+							hasCsslinks = true;
+							writer.openTag( HTMLTags.TAG_LINK );
+							writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
+							writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
+							writer.attribute( HTMLTags.ATTR_HREF, href );
+							writer.closeTag( HTMLTags.TAG_LINK );
+						}
 					}
 				}
 			}
