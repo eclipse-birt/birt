@@ -12,7 +12,7 @@ plugin@org.eclipse.birt.report.engine.emitter.wpml.config=v20090728,:pserver:ano
 
 
 plugin@org.eclipse.birt.report.engine.emitter.html=v20090728,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html
-plugin@org.eclipse.birt.report.engine.emitter.pdf=v20090728,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf
+plugin@org.eclipse.birt.report.engine.emitter.pdf=v20090729,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf
 plugin@org.eclipse.birt.report.engine.fonts=v20090728,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.fonts
 plugin@org.eclipse.birt.report.engine.script.javascript=v20090728,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.script.javascript
 plugin@org.eclipse.birt.report.engine.emitter.postscript=v20090728,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.postscript
