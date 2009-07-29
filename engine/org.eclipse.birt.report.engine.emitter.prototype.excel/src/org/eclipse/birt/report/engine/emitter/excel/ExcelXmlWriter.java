@@ -458,8 +458,9 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Border" );
 	}
 
-	private void writeFont( String fontName, Integer size, String bold,
-			String italic, String strikeThrough, String underline, String color )
+	private void writeFont( String fontName, Integer size, Boolean bold,
+			Boolean italic, Boolean strikeThrough, Boolean underline,
+			String color )
 	{
 		writer.openTag( "Font" );
 
@@ -473,22 +474,22 @@ public class ExcelXmlWriter implements IExcelWriter
 			writer.attribute( "ss:Size", size );
 		}
 
-		if ( isValid( bold ) )
+		if ( bold != null && bold )
 		{
-			writer.attribute( "ss:Bold", bold );
+			writer.attribute( "ss:Bold", 1 );
 		}
 
-		if ( isValid( italic ) )
+		if ( italic != null && italic )
 		{
-			writer.attribute( "ss:Italic", italic );
+			writer.attribute( "ss:Italic", 1 );
 		}
 
-		if ( isValid( strikeThrough ) )
+		if ( strikeThrough != null && strikeThrough )
 		{
-			writer.attribute( "ss:StrikeThrough", strikeThrough );
+			writer.attribute( "ss:StrikeThrough", 1 );
 		}
 
-		if ( isValid( underline ) && !"0".equalsIgnoreCase( underline ) )
+		if ( underline != null && underline )
 		{
 			writer.attribute( "ss:Underline", "Single" );
 		}
@@ -591,13 +592,13 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.FONT_FAMILY_PROP );
 			Integer size = (Integer) style
 					.getProperty( StyleConstant.FONT_SIZE_PROP );
-			String fontStyle = (String) style
+			Boolean fontStyle = (Boolean) style
 					.getProperty( StyleConstant.FONT_STYLE_PROP );
-			String fontWeight = (String) style
+			Boolean fontWeight = (Boolean) style
 					.getProperty( StyleConstant.FONT_WEIGHT_PROP );
-			String strikeThrough = (String) style
+			Boolean strikeThrough = (Boolean) style
 					.getProperty( StyleConstant.TEXT_LINE_THROUGH_PROP );
-			String underline = (String) style
+			Boolean underline = (Boolean) style
 					.getProperty( StyleConstant.TEXT_UNDERLINE_PROP );
 			String color = (String) style
 					.getProperty( StyleConstant.COLOR_PROP );
@@ -682,7 +683,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", "HyperlinkId" );
 		writer.attribute( "ss:Name", "Hyperlink" );
-		writeFont( null, null, null, null, null, "Single", "#0000FF" );
+		writeFont( null, null, null, null, null, true, "#0000FF" );
 		writer.closeTag( "Style" );
 	}
 
