@@ -1637,7 +1637,7 @@ FormatDateTimePage.label.general.preview.group=Vorschau mit Format
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
-FormatDateTimePage.label.guide.format=MM/tt/jjjj hh:mm:ss a
+FormatDateTimePage.label.guide.format=dd/MM/yyyy hh:mm:ss a
 FormatDateTimePage.label.guide.text=Im Format dd/MM/yyyy hh:mm:ss AM/PM eingeben
 
 FormatDateTimePage.label.preview.dateTime=Datum/Uhrzeit für &Vorschau: 
