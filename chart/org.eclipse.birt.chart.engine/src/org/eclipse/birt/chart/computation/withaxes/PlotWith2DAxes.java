@@ -46,6 +46,9 @@ import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
+import org.eclipse.birt.chart.model.type.AreaSeries;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.AxesRenderer;
 import org.eclipse.birt.chart.render.IAxesDecorator;
@@ -2315,15 +2318,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 			
 			// Since line chart has no 2D+, so here doesn't adjust client area for line chart in combine 2D+ case.
-			String className = seOrthogonal.getClass( ).getName( );
-			int index = className.lastIndexOf( "." );//$NON-NLS-1$
-			if ( index >=0 )
-			{
-				className = className.substring(  index + 1 );
-			}
-			boolean isLineSeries = className.startsWith( "LineSeries" ); //$NON-NLS-1$
-			
-			if ( !isLineSeries && iDimension == TWO_5_D ) // 2D+
+			boolean isLineSeries = ( seOrthogonal instanceof LineSeries );
+			boolean isJustAreaSeries = ( seOrthogonal instanceof AreaSeries && !( seOrthogonal instanceof DifferenceSeries ) );
+
+			if ( iDimension == TWO_5_D
+					&& ( !isLineSeries || isJustAreaSeries ) ) // 2D+
 			{
 				boClientArea.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
 			}
