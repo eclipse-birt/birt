@@ -61,3 +61,4 @@ fragment@org.eclipse.birt.report.engine.emitter.config.html.nl=HEAD,:pserver:ano
 fragment@org.eclipse.birt.report.engine.emitter.config.ppt.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.engine.emitter.config.ppt.nl
 fragment@org.eclipse.birt.report.engine.emitter.config.postscript.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.engine.emitter.config.postscript.nl
 fragment@org.eclipse.birt.report.engine.emitter.config.wpml.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.engine.emitter.config.wpml.nl
+fragment@org.eclipse.birt.report.data.bidi.utils.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.data.bidi.utils.nl
