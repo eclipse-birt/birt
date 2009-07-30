@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ExpressionPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TocExpressionPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TocStylePropertyDescriptiorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ExpressionSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TocSimpleComboSection;
@@ -35,7 +35,7 @@ public class TOCExpressionPage extends AttributePage {
 		super.buildUI(parent);
 		container.setLayout(WidgetUtil.createGridLayout(2, 15));
 
-		ExpressionPropertyDescriptorProvider tocProvider = new ExpressionPropertyDescriptorProvider(
+		TocExpressionPropertyDescriptorProvider tocProvider = new TocExpressionPropertyDescriptorProvider(
 				IReportItemModel.TOC_PROP, ReportDesignConstants.REPORT_ITEM);
 		tocSection = new ExpressionSection(tocProvider
 				.getDisplayName(), container, true);
