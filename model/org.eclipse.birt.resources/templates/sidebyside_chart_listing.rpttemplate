@@ -839,7 +839,7 @@
     </template-parameter-definitions>
     <styles>
         <style name="report" id="55">
-            <property name="fontFamily">"Verdana"</property>
+            <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
         </style>
     </styles>

@@ -8,7 +8,7 @@
     <property name="cheatSheet">org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting</property>
     <styles>
         <style name="report" id="24">
-            <property name="fontFamily">"Verdana"</property>
+            <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
         </style>
     </styles>
