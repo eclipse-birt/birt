@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSValue;
 
 /**
@@ -255,7 +256,7 @@ public class HTML2Content
 		htmlInlineDisplay.add( "a" );
 		htmlInlineDisplay.add( "code" );
 		htmlInlineDisplay.add( "em" );
-		htmlInlineDisplay.add( "embed" );
+		htmlInlineDisplay.add( "object" );
 		htmlInlineDisplay.add( "img" );
 		htmlInlineDisplay.add( "ins" );
 		htmlInlineDisplay.add( "span" );
@@ -455,7 +456,7 @@ public class HTML2Content
 		{
 			outputImg( ele, cssStyles, content );
 		}
-		else if ( lTagName.equals( "embed" ) ) //$NON-NLS-1$
+		else if ( lTagName.equals( "object" ) ) //$NON-NLS-1$
 		{
 			outputEmbedContent( ele, cssStyles, content );
 		}
@@ -714,8 +715,8 @@ public class HTML2Content
 	protected static void outputEmbedContent( Element ele, Map cssStyles,
 			IContent content )
 	{
-		String type = ele.getAttribute( "type" );
-		if ( "application/x-shockwave-flash".equals( type ) )
+		String classId = ele.getAttribute( "classid" );
+		if ( "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000".equalsIgnoreCase( classId ) )
 		{
 			outputFlash( ele, cssStyles, content );
 		}
@@ -731,7 +732,24 @@ public class HTML2Content
 	protected static void outputFlash( Element ele, Map cssStyles,
 			IContent content )
 	{
-		String src = ele.getAttribute( "src" ); //$NON-NLS-1$
+		String src = null;
+		String flashVars = null;
+		NodeList list = ele.getElementsByTagName( "param" );
+		for ( int i = 0; i< list.getLength( ); i++ )
+		{
+			Node node = list.item( i );
+			if ( node instanceof Element )
+			{	
+				if ( "movie".equalsIgnoreCase( ( (Element) node ).getAttribute( "name" ) ) )
+				{
+					src = ( (Element) node ).getAttribute( "value" );
+				}
+				else if ( "flashvars".equalsIgnoreCase( ( (Element) node ).getAttribute( "name" ) ) )
+				{
+					flashVars = ( (Element) node ).getAttribute( "value" );
+				}
+			}
+		}
 		if ( src != null )
 		{
 			ObjectContent flash = (ObjectContent) ( (ReportContent) ( content
@@ -769,7 +787,7 @@ public class HTML2Content
 				flash.setWidth( foreign.getWidth( ) );
 				flash.setHeight( foreign.getHeight( ) );
 			}
-			String flashVars = ele.getAttribute( "flashvars" );
+			
 			if ( flashVars != null && !"".equals( flashVars ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
 				flash.addParam( "FlashVars", flashVars ); //$NON-NLS-1$
