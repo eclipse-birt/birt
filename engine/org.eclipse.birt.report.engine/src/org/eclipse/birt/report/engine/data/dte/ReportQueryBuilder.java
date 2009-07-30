@@ -1408,7 +1408,13 @@ public class ReportQueryBuilder
 
 			// set max rows
 			query.setMaxRows( maxRows );
-			
+			if ( designHandle instanceof TableHandle )
+			{
+				TableHandle listing = (TableHandle) designHandle;
+				query.setIsSummaryQuery( listing.isSummaryTable( ) );
+			}
+			query.getQueryExecutionHints( ).setEnablePushDown(
+					designHandle.pushDown( ) );
 			// bind the query with parameters
 			addParamBinding( item, query );
 			addColumnBinding( item, query );
