@@ -57,7 +57,7 @@ public class DesignParserHandler extends ModuleParserHandler
 
 		URL location = ModelUtil.getURLPresentation( fileName );
 		module.setLocation( location );
-		
+
 		buildModuleOptions( options );
 	}
 
@@ -119,7 +119,7 @@ public class DesignParserHandler extends ModuleParserHandler
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.REPORT_TAG ) )
 			{
 				if ( markLineNumber )
-					tempLineNumbers.put( module, new Integer( locator
+					tempLineNumbers.put( module, Integer.valueOf( locator
 							.getLineNumber( ) ) );
 
 				return new ReportState( DesignParserHandler.this );

@@ -260,7 +260,7 @@ public class ColorPropertyType extends PropertyType
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
-		
+
 		tmpValue = StringUtil.trimString( tmpValue );
 		if ( tmpValue == null )
 		{
@@ -594,7 +594,7 @@ public class ColorPropertyType extends PropertyType
 			int retValue = ColorUtil.parseColor( value );
 			if ( retValue != -1 )
 			{
-				return new Integer( retValue );
+				return Integer.valueOf( retValue );
 			}
 		}
 		catch ( NumberFormatException e )

@@ -98,7 +98,7 @@ final class MultiViewsElementProvider implements IMultiViewsModel
 		else if ( index < MultiViewsHandle.HOST )
 			index = MultiViewsHandle.HOST;
 
-		element.setProperty( INDEX_PROP, new Integer( index ) );
+		element.setProperty( INDEX_PROP, Integer.valueOf( index ) );
 	}
 
 	/**

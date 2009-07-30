@@ -139,7 +139,7 @@ public class ElementStructureUtil
 		while ( contentIterator.hasNext( ) )
 		{
 			DesignElement content = contentIterator.next( );
-			Long baseId = new Long( content.getBaseId( ) );
+			Long baseId = Long.valueOf( content.getBaseId( ) );
 
 			if ( overriddenValues == null || overriddenValues.isEmpty( ) )
 				continue;
@@ -196,7 +196,7 @@ public class ElementStructureUtil
 		while ( contentIterator.hasNext( ) )
 		{
 			DesignElement content = contentIterator.next( );
-			Long baseId = new Long( content.getBaseId( ) );
+			Long baseId = Long.valueOf( content.getBaseId( ) );
 
 			List<Object> values = map.get( baseId );
 			if ( values == null )
@@ -543,7 +543,7 @@ public class ElementStructureUtil
 					.getName( );
 			assert virtualParent.getID( ) > 0;
 
-			idMap.put( new Long( virtualParent.getID( ) ), virtualChild );
+			idMap.put( Long.valueOf( virtualParent.getID( ) ), virtualChild );
 		}
 
 		return idMap;
@@ -554,8 +554,9 @@ public class ElementStructureUtil
 	 * properties values of the given element on the element locally. The
 	 * following properties will be set:
 	 * <ul>
-	 * <li>Properties set on element itself <li>Inherited from style or
-	 * element's selector style <li>Inherited from parent
+	 * <li>Properties set on element itself
+	 * <li>Inherited from style or element's selector style
+	 * <li>Inherited from parent
 	 * </ul>
 	 * 
 	 * @param module

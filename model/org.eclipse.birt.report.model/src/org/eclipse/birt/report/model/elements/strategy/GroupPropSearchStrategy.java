@@ -53,23 +53,25 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 		dataBindingProps.add( IGroupElementModel.SORT_TYPE_PROP );
 
 		Set<Integer> tmpSet = new HashSet<Integer>( );
-		tmpSet
-				.add( new Integer( IGroupElementModel.GROUP_NAME_PROP
-						.hashCode( ) ) );
-		tmpSet
-				.add( new Integer( IGroupElementModel.KEY_EXPR_PROP.hashCode( ) ) );
-		tmpSet.add( new Integer( IGroupElementModel.FILTER_PROP.hashCode( ) ) );
-		tmpSet.add( new Integer( IGroupElementModel.SORT_PROP.hashCode( ) ) );
-		tmpSet.add( new Integer( IGroupElementModel.INTERVAL_BASE_PROP
+		tmpSet.add( Integer.valueOf( IGroupElementModel.GROUP_NAME_PROP
 				.hashCode( ) ) );
-		tmpSet
-				.add( new Integer( IGroupElementModel.INTERVAL_PROP.hashCode( ) ) );
-		tmpSet.add( new Integer( IGroupElementModel.INTERVAL_RANGE_PROP
+		tmpSet.add( Integer.valueOf( IGroupElementModel.KEY_EXPR_PROP
 				.hashCode( ) ) );
-		tmpSet.add( new Integer( IGroupElementModel.SORT_DIRECTION_PROP
-				.hashCode( ) ) );
+		tmpSet.add( Integer
+				.valueOf( IGroupElementModel.FILTER_PROP.hashCode( ) ) );
 		tmpSet
-				.add( new Integer( IGroupElementModel.SORT_TYPE_PROP.hashCode( ) ) );
+				.add( Integer
+						.valueOf( IGroupElementModel.SORT_PROP.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IGroupElementModel.INTERVAL_BASE_PROP
+				.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IGroupElementModel.INTERVAL_PROP
+				.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IGroupElementModel.INTERVAL_RANGE_PROP
+				.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IGroupElementModel.SORT_DIRECTION_PROP
+				.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IGroupElementModel.SORT_TYPE_PROP
+				.hashCode( ) ) );
 		dataBindingPropsNameHash = Collections.unmodifiableSet( tmpSet );
 	}
 
@@ -126,8 +128,8 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 	 */
 	private boolean isDataBindingProperty( ElementPropertyDefn prop )
 	{
-		return dataBindingPropsNameHash.contains( new Integer( prop.getName( )
-				.hashCode( ) ) );
+		return dataBindingPropsNameHash.contains( Integer.valueOf( prop
+				.getName( ).hashCode( ) ) );
 
 	}
 

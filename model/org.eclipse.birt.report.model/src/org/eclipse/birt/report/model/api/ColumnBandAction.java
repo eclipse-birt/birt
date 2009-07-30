@@ -269,9 +269,9 @@ abstract class ColumnBandAction
 	 *            the copied cells.
 	 * @param targetCells
 	 *            the target cells to be replaced.
-	 * @return <code>true</code> if layouts are exactly same.
-	 *         <code>false</code> if two elements have the same number of rows
-	 *         in slot but cells have different rowSpan values.
+	 * @return <code>true</code> if layouts are exactly same. <code>false</code>
+	 *         if two elements have the same number of rows in slot but cells
+	 *         have different rowSpan values.
 	 * @throws SemanticException
 	 *             if number of rows in slots of the source and destination are
 	 *             different.
@@ -463,7 +463,7 @@ abstract class ColumnBandAction
 				assert false;
 				return;
 			}
-			
+
 			target.setRepeatCount( repeat1 );
 			newColumn.setRepeatCount( repeat2 );
 			int pos = oldPos;
@@ -587,12 +587,12 @@ abstract class ColumnBandAction
 
 		protected void addCell( Cell cell, int rowSpan )
 		{
-			details.add( new Integer( rowSpan ) );
+			details.add( Integer.valueOf( rowSpan ) );
 		}
 
 		/**
-		 * Checks whether numbers of rows in two <code>SlotLayoutInfo</code>
-		 * are same.
+		 * Checks whether numbers of rows in two <code>SlotLayoutInfo</code> are
+		 * same.
 		 * 
 		 * @param info
 		 *            the slot information

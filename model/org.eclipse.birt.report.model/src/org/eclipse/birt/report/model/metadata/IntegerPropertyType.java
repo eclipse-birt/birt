@@ -46,7 +46,8 @@ public class IntegerPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -56,16 +57,15 @@ public class IntegerPropertyType extends PropertyType
 
 	/**
 	 * Ensures that the value is a valid integer. Can be any of the following:
-	 * <li>Integer object.</li>
-	 * <li>Float or Double object. Truncate the decimal portion. Ensure that
-	 * the value is within the integer range.</li>
-	 * <li>BigDecimal object. Truncate the decimal portion. Ensure that the
-	 * value is is within the integer range.</li>
-	 * <li>A Boolean object, <code>TRUE</code> will be converted into
-	 * Integer(1), <code>FALST</code> will be converted into Integer(0)</li>
-	 * <li>String that must evaluate to an integer in either of the two Java
-	 * forms: decimal [1-9][0-9]* or hexadecimal format &[hH]xxxx.</li>
-	 * <li>String that must evaluate to an HTML hexidecimal: #xxxxx.</li>.
+	 * <li>Integer object.</li> <li>Float or Double object. Truncate the decimal
+	 * portion. Ensure that the value is within the integer range.</li> <li>
+	 * BigDecimal object. Truncate the decimal portion. Ensure that the value is
+	 * is within the integer range.</li> <li>A Boolean object, <code>TRUE</code>
+	 * will be converted into Integer(1), <code>FALST</code> will be converted
+	 * into Integer(0)</li> <li>String that must evaluate to an integer in
+	 * either of the two Java forms: decimal [1-9][0-9]* or hexadecimal format
+	 * &[hH]xxxx.</li> <li>String that must evaluate to an HTML hexidecimal:
+	 * #xxxxx.</li>.
 	 * <p>
 	 * 
 	 * @return object of type Integer or null if value is null..
@@ -79,9 +79,9 @@ public class IntegerPropertyType extends PropertyType
 		if ( value instanceof Integer )
 			return value;
 		if ( value instanceof Float )
-			return new Integer( ( (Float) value ).intValue( ) );
+			return Integer.valueOf( ( (Float) value ).intValue( ) );
 		if ( value instanceof Double )
-			return new Integer( ( (Double) value ).intValue( ) );
+			return Integer.valueOf( ( (Double) value ).intValue( ) );
 		if ( value instanceof String )
 		{
 			if ( StringUtil.trimString( (String) value ) == null )
@@ -90,9 +90,9 @@ public class IntegerPropertyType extends PropertyType
 			return validateInputString( module, defn, ( (String) value ).trim( ) );
 		}
 		if ( value instanceof BigDecimal )
-			return new Integer( ( (BigDecimal) value ).intValue( ) );
+			return Integer.valueOf( ( (BigDecimal) value ).intValue( ) );
 		if ( value instanceof Boolean )
-			return new Integer( ( (Boolean) value ).booleanValue( )
+			return Integer.valueOf( ( (Boolean) value ).booleanValue( )
 					? BooleanPropertyType.INT_TRUE
 					: BooleanPropertyType.INT_FALSE );
 
@@ -104,9 +104,10 @@ public class IntegerPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateInputString(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateInputString
+	 * (org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.String)
 	 */
 
 	public Object validateInputString( Module module, PropertyDefn defn,
@@ -132,15 +133,16 @@ public class IntegerPropertyType extends PropertyType
 					INTEGER_TYPE );
 		}
 
-		return new Integer( number.intValue( ) );
+		return Integer.valueOf( number.intValue( ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.String)
 	 */
 
 	public Object validateXml( Module module, PropertyDefn defn, Object value )
@@ -148,7 +150,7 @@ public class IntegerPropertyType extends PropertyType
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
-		
+
 		tmpValue = StringUtil.trimString( tmpValue );
 		if ( tmpValue == null )
 			return null;
@@ -159,7 +161,8 @@ public class IntegerPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -170,7 +173,9 @@ public class IntegerPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
+	 * .lang.Object)
 	 */
 
 	public String toString( Module module, PropertyDefn defn, Object value )
@@ -208,7 +213,9 @@ public class IntegerPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toInteger(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#toInteger(
+	 * java.lang.Object)
 	 */
 
 	public int toInteger( Module module, Object value )

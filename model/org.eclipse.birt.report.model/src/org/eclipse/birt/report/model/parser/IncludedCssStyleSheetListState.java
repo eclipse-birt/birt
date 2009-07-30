@@ -77,7 +77,8 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 			IncludedCssStyleSheet includeCss = (IncludedCssStyleSheet) struct;
 
 			if ( handler.markLineNumber )
-				handler.module.addLineNo( struct, new Integer( lineNumber ) );
+				handler.module
+						.addLineNo( struct, Integer.valueOf( lineNumber ) );
 
 			String fileName = includeCss.getFileName( );
 			if ( !( element instanceof ICssStyleSheetOperation ) )

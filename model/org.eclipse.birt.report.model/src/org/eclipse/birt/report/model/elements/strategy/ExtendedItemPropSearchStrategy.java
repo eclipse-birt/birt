@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
@@ -66,33 +65,36 @@ public class ExtendedItemPropSearchStrategy
 		Set<Integer> tmpSet = new HashSet<Integer>( );
 
 		// add all section style properties
-		tmpSet.add( new Integer( IStyleModel.DISPLAY_PROP.hashCode( ) ) );
-		tmpSet.add( new Integer( IStyleModel.MASTER_PAGE_PROP.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IStyleModel.DISPLAY_PROP.hashCode( ) ) );
 		tmpSet
-				.add( new Integer( IStyleModel.PAGE_BREAK_BEFORE_PROP
-						.hashCode( ) ) );
-		tmpSet
-				.add( new Integer( IStyleModel.PAGE_BREAK_AFTER_PROP.hashCode( ) ) );
-		tmpSet
-				.add( new Integer( IStyleModel.PAGE_BREAK_INSIDE_PROP
-						.hashCode( ) ) );
-		tmpSet.add( new Integer( IStyleModel.SHOW_IF_BLANK_PROP.hashCode( ) ) );
+				.add( Integer
+						.valueOf( IStyleModel.MASTER_PAGE_PROP.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IStyleModel.PAGE_BREAK_BEFORE_PROP
+				.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IStyleModel.PAGE_BREAK_AFTER_PROP
+				.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IStyleModel.PAGE_BREAK_INSIDE_PROP
+				.hashCode( ) ) );
+		tmpSet.add( Integer
+				.valueOf( IStyleModel.SHOW_IF_BLANK_PROP.hashCode( ) ) );
 
 		// add: toc, bookmark
-		tmpSet.add( new Integer( IReportItemModel.TOC_PROP.hashCode( ) ) );
-		tmpSet.add( new Integer( IReportItemModel.BOOKMARK_PROP.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IReportItemModel.TOC_PROP.hashCode( ) ) );
+		tmpSet.add( Integer
+				.valueOf( IReportItemModel.BOOKMARK_PROP.hashCode( ) ) );
 
 		// add: visibility rules
-		tmpSet
-				.add( new Integer( IReportItemModel.VISIBILITY_PROP.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IReportItemModel.VISIBILITY_PROP
+				.hashCode( ) ) );
 
 		// add: allExport
-		tmpSet
-				.add( new Integer( IReportItemModel.ALLOW_EXPORT_PROP
-						.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IReportItemModel.ALLOW_EXPORT_PROP
+				.hashCode( ) ) );
 
 		// add: zIndex
-		tmpSet.add( new Integer( IReportItemModel.Z_INDEX_PROP.hashCode( ) ) );
+		tmpSet
+				.add( Integer
+						.valueOf( IReportItemModel.Z_INDEX_PROP.hashCode( ) ) );
 
 		hostViewRelatedProps = Collections.unmodifiableSet( tmpSet );
 	}
@@ -364,7 +366,7 @@ public class ExtendedItemPropSearchStrategy
 				|| StringUtil.isBlank( propName ) )
 			return false;
 		return getHostViewProperties( element ).contains(
-				new Integer( propName.hashCode( ) ) );
+				Integer.valueOf( propName.hashCode( ) ) );
 	}
 
 	/*

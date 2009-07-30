@@ -34,13 +34,12 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 	 */
 
 	protected URL location = null;
-	
+
 	/**
 	 * Cached system ID.
 	 */
 
 	private URL systemID = null;
-
 
 	/**
 	 * Options set for this module.
@@ -55,7 +54,7 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 		this.systemID = systemID;
 		this.fileName = fileName;
 		this.options = options;
-		
+
 		this.location = ModelUtil.getURLPresentation( fileName );
 	}
 
@@ -101,7 +100,7 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 
 				buildModuleOptions( options );
 				if ( markLineNumber )
-					tempLineNumbers.put( module, new Integer( locator
+					tempLineNumbers.put( module, Integer.valueOf( locator
 							.getLineNumber( ) ) );
 				return new ReportState( GenericModuleParserHandler.this );
 			}
@@ -116,7 +115,7 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 				module.setOptions( options );
 				buildModuleOptions( options );
 				if ( markLineNumber )
-					tempLineNumbers.put( module, new Integer( locator
+					tempLineNumbers.put( module, Integer.valueOf( locator
 							.getLineNumber( ) ) );
 				return new LibraryState( GenericModuleParserHandler.this );
 			}

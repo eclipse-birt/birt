@@ -45,8 +45,8 @@ class OverriddenValuesState extends AbstractParseState
 	private Map baseIdMap = new HashMap( );
 
 	/**
-	 * Constructs <code>OverriddenValuesState</code> with the given handler
-	 * and the root element.
+	 * Constructs <code>OverriddenValuesState</code> with the given handler and
+	 * the root element.
 	 * 
 	 * @param handler
 	 *            the handler to parse the file.
@@ -77,7 +77,9 @@ class OverriddenValuesState extends AbstractParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -122,7 +124,8 @@ class OverriddenValuesState extends AbstractParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 		 */
 
 		public XMLParserHandler getHandler( )
@@ -133,7 +136,9 @@ class OverriddenValuesState extends AbstractParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -245,19 +250,22 @@ class OverriddenValuesState extends AbstractParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
+		 * @see
+		 * org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 		 */
 
 		public DesignElement getElement( )
 		{
-			Object obj = baseIdMap.get( new Long( baseId ) );
+			Object obj = baseIdMap.get( Long.valueOf( baseId ) );
 			return (DesignElement) obj;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )

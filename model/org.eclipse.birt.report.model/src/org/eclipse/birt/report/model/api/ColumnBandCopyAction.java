@@ -103,7 +103,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		{
 			CellHandle originalCell = (CellHandle) cells.get( i );
 			Cell clonedCell = null;
-			
+
 			try
 			{
 				clonedCell = (Cell) originalCell.getElement( ).clone( );
@@ -204,9 +204,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 
 	/**
 	 * Performs insert and paste or paste operations. Removes cells in
-	 * <code>originalCells</code> if <code>isInsert</code> is
-	 * <code>true</code>. Then inserts cells in <code>copiedCells</code> to
-	 * the element.
+	 * <code>originalCells</code> if <code>isInsert</code> is <code>true</code>.
+	 * Then inserts cells in <code>copiedCells</code> to the element.
 	 * 
 	 * @param copiedCells
 	 *            a list containing cells that is to be inserted.
@@ -302,8 +301,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		try
 		{
 			clonedColumn = (TableColumn) column.clone( );
-			clonedColumn.setProperty( ITableColumnModel.REPEAT_PROP,
-					new Integer( 1 ) );
+			clonedColumn.setProperty( ITableColumnModel.REPEAT_PROP, Integer
+					.valueOf( 1 ) );
 		}
 		catch ( CloneNotSupportedException e )
 		{

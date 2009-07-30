@@ -252,7 +252,7 @@ public class ParameterValidationUtil
 			Number number = doValidateNumber( dataType, value, locale );
 			if ( number == null )
 				return null;
-			return new Integer( number.intValue( ) );
+			return Integer.valueOf( number.intValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 				.equalsIgnoreCase( dataType ) )
@@ -371,13 +371,12 @@ public class ParameterValidationUtil
 
 	}
 
-/**
+	/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string. The returned value is locale and pattern dependent. The data type
 	 * and the format can be one pair of the following:
 	 * <p>
-	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
-	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
 	 * <tr>
 	 * <td width="16%">Data Type</td>
 	 * <td width="84%">Format Type</td>
@@ -446,13 +445,12 @@ public class ParameterValidationUtil
 		return validate( dataType, format, value, ULocale.forLocale( locale ) );
 	}
 
-/**
+	/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string. The returned value is locale and pattern dependent. The data type
 	 * and the format can be one pair of the following:
 	 * <p>
-	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
-	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
 	 * <tr>
 	 * <td width="16%">Data Type</td>
 	 * <td width="84%">Format Type</td>
@@ -509,7 +507,7 @@ public class ParameterValidationUtil
 	 * @param locale
 	 *            the locale information
 	 * @param timeZone
-	 * 			  the time zone information
+	 *            the time zone information
 	 * @return the validated value if the input value is valid for the given
 	 *         data type and format choice string
 	 * @throws ValidationValueException
@@ -525,13 +523,13 @@ public class ParameterValidationUtil
 				timeZone );
 	}
 
-/**
+	/**
 	 * Validates a input parameter value with the given data type, format choice
-	 * string, using the default locale. The returned value is locale and pattern
-	 * dependent. The data type and the format can be one pair of the following:
+	 * string, using the default locale. The returned value is locale and
+	 * pattern dependent. The data type and the format can be one pair of the
+	 * following:
 	 * <p>
-	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
-	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
 	 * <tr>
 	 * <td width="16%">Data Type</td>
 	 * <td width="84%">Format Type</td>
@@ -586,7 +584,7 @@ public class ParameterValidationUtil
 	 * @param value
 	 *            the input value to validate
 	 * @param timeZone
-	 * 			  the time zone information
+	 *            the time zone information
 	 * @return the validated value if the input value is valid for the given
 	 *         data type and format choice string
 	 * @throws ValidationValueException
@@ -600,13 +598,12 @@ public class ParameterValidationUtil
 		return validate( dataType, format, value, DEFAULT_LOCALE, timeZone );
 	}
 
-/**
+	/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string. The returned value is locale and pattern dependent. The data type
 	 * and the format can be one pair of the following:
 	 * <p>
-	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
-	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
 	 * <tr>
 	 * <td width="16%">Data Type</td>
 	 * <td width="84%">Format Type</td>
@@ -675,13 +672,12 @@ public class ParameterValidationUtil
 		return validate( dataType, format, value, locale, null );
 	}
 
-/**
+	/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string. The returned value is locale and pattern dependent. The data type
 	 * and the format can be one pair of the following:
 	 * <p>
-	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
-	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
 	 * <tr>
 	 * <td width="16%">Data Type</td>
 	 * <td width="84%">Format Type</td>
@@ -738,7 +734,7 @@ public class ParameterValidationUtil
 	 * @param locale
 	 *            the locale information
 	 * @param timeZone
-	 * 			  the time zone information (only valid for DateTime type)
+	 *            the time zone information (only valid for DateTime type)
 	 * @return the validated value if the input value is valid for the given
 	 *         data type and format choice string
 	 * @throws ValidationValueException
@@ -844,7 +840,7 @@ public class ParameterValidationUtil
 						value, locale );
 				if ( number == null )
 					return null;
-				return new Integer( number.intValue( ) );
+				return Integer.valueOf( number.intValue( ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 					.equalsIgnoreCase( dataType ) )
@@ -953,14 +949,13 @@ public class ParameterValidationUtil
 		return format;
 	}
 
-/**
+	/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string and a default locale defined by the class(Locale.US). The returned
 	 * value is pattern dependent. The data type and the format can be one pair
 	 * of the following:
 	 * <p>
-	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
-	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
 	 * <tr>
 	 * <td width="16%">Data Type</td>
 	 * <td width="84%">Format Type</td>

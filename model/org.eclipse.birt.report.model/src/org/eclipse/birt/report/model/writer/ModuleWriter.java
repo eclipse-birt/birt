@@ -1302,24 +1302,23 @@ public abstract class ModuleWriter extends ElementVisitor
 					UserPropertyDefn.DISPLAY_NAME_MEMBER );
 
 			// write default value
-			
+
 			Object defaultValue = propDefn.getDefault( );
 			if ( defaultValue != null )
 			{
-				if ( defaultValue instanceof Expression && propDefn.allowExpression( ) )
+				if ( defaultValue instanceof Expression
+						&& propDefn.allowExpression( ) )
 				{
 					writeEntry( DesignSchemaConstants.EXPRESSION_TAG,
 							UserPropertyDefn.DEFAULT_MEMBER, null,
-							( (Expression)defaultValue ).getType( ), 
-							propDefn.getXmlValue( null, defaultValue ),
-							false );
+							( (Expression) defaultValue ).getType( ), propDefn
+									.getXmlValue( null, defaultValue ), false );
 				}
 				else
 				{
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
 							UserPropertyDefn.DEFAULT_MEMBER, null, propDefn
-									.getXmlValue( null, defaultValue ),
-							false );
+									.getXmlValue( null, defaultValue ), false );
 				}
 			}
 
@@ -1404,8 +1403,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				DEFAULT_NAME_SPACE );
 		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB,
 				DesignSchemaConstants.REPORT_VERSION );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+				obj.getID( ) ).toString( ) );
 		property( obj, IModuleModel.AUTHOR_PROP );
 		property( obj, IModuleModel.SUBJECT_PROP );
 		property( obj, IModuleModel.HELP_GUIDE_PROP );
@@ -1839,8 +1838,8 @@ public abstract class ModuleWriter extends ElementVisitor
 			if ( !StringUtil.isBlank( extendsFrom ) )
 				writer.attribute( DesignSchemaConstants.EXTENDS_ATTRIB,
 						extendsFrom );
-			writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-					.getID( ) ).toString( ) );
+			writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+					obj.getID( ) ).toString( ) );
 
 			// write all other properties
 			List<IElementPropertyDefn> props = extDefn.getProperties( );
@@ -2113,8 +2112,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.startElement( DesignSchemaConstants.COLUMN_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+				obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				IDesignElementModel.VIEW_ACTION_PROP );
 
@@ -2142,8 +2141,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.ROW_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+				obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				IDesignElementModel.VIEW_ACTION_PROP );
 
@@ -2186,8 +2185,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.CELL_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+				obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				IDesignElementModel.VIEW_ACTION_PROP );
 
@@ -2494,8 +2493,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				IDesignElementModel.NAME_PROP );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+				obj.getID( ) ).toString( ) );
 		resourceKey( obj, IDesignElementModel.DISPLAY_NAME_ID_PROP,
 				IDesignElementModel.DISPLAY_NAME_PROP );
 
@@ -2516,8 +2515,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				IDesignElementModel.NAME_PROP );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+				obj.getID( ) ).toString( ) );
 
 		property( obj, ITemplateParameterDefinitionModel.ALLOWED_TYPE_PROP );
 		resourceKey( obj,
@@ -3073,8 +3072,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				IDesignElementModel.NAME_PROP );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+				obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.EXTENDS_ATTRIB,
 				IDesignElementModel.EXTENDS_PROP );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
@@ -3108,7 +3107,8 @@ public abstract class ModuleWriter extends ElementVisitor
 			Object key = obj;
 			Module module = getModule( );
 			if ( module != null )
-				module.addLineNo( key, new Integer( writer.getLineCounter( ) ) );
+				module.addLineNo( key, Integer
+						.valueOf( writer.getLineCounter( ) ) );
 		}
 	}
 
@@ -3360,8 +3360,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitGroup( GroupElement obj )
 	{
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
+				obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				IDesignElementModel.VIEW_ACTION_PROP );
 
@@ -3499,11 +3499,11 @@ public abstract class ModuleWriter extends ElementVisitor
 					.conditionalStartElement( DesignSchemaConstants.REF_ENTRY_TAG );
 
 			long baseId = virtualElement.getBaseId( );
-			writer.attribute( DesignSchemaConstants.BASE_ID_ATTRIB, new Long(
-					baseId ).toString( ) );
+			writer.attribute( DesignSchemaConstants.BASE_ID_ATTRIB, Long
+					.valueOf( baseId ).toString( ) );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, virtualElement
 					.getName( ) );
-			writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long(
+			writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
 					virtualElement.getID( ) ).toString( ) );
 			if ( !virtualElement.hasLocalPropertyValues( )
 					&& virtualElement.getStyle( ) == null )

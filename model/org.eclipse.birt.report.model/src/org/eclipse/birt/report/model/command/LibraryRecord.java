@@ -250,7 +250,7 @@ class LibraryRecord extends AbstractLibraryRecord
 			if ( overriddenValues == null )
 				continue;
 
-			Long idObj = new Long( tmpElement.getID( ) );
+			Long idObj = Long.valueOf( tmpElement.getID( ) );
 			Map<Long, List<Object>> values = overriddenValues.get( idObj );
 			ElementStructureUtil.distributeValues( module, tmpElement, values );
 		}

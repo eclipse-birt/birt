@@ -531,7 +531,7 @@ public abstract class Module extends DesignElement
 		assert idMap != null;
 
 		assert element.getID( ) > 0;
-		Long idObj = new Long( element.getID( ) );
+		Long idObj = Long.valueOf( element.getID( ) );
 		assert !idMap.containsKey( idObj );
 		idMap.put( idObj, element );
 
@@ -574,7 +574,7 @@ public abstract class Module extends DesignElement
 		if ( idMap == null )
 			return;
 		assert element.getID( ) > 0;
-		Long idObj = new Long( element.getID( ) );
+		Long idObj = Long.valueOf( element.getID( ) );
 		assert idMap.containsKey( idObj );
 		idMap.remove( idObj );
 	}
@@ -606,7 +606,7 @@ public abstract class Module extends DesignElement
 	{
 		if ( idMap == null )
 			return null;
-		return idMap.get( new Long( id ) );
+		return idMap.get( Long.valueOf( id ) );
 	}
 
 	/**

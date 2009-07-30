@@ -313,7 +313,7 @@ public class LibraryCommand extends AbstractElementCommand
 			{
 				Map<Long, List<Object>> values = unresolveElementDescendent(
 						module, child );
-				overriddenValues.put( new Long( child.getID( ) ), values );
+				overriddenValues.put( Long.valueOf( child.getID( ) ), values );
 			}
 			else if ( actionCode == SIMPLE_ACTION )
 				throw new LibraryException(

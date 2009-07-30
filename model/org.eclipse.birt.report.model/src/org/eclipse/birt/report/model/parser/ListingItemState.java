@@ -47,8 +47,8 @@ public abstract class ListingItemState extends ReportItemState
 	/**
 	 * Default value of page break interval.
 	 */
-	private static final Integer PAGE_BREAK_INTERVAL_DEFAULT_VALUE = new Integer(
-			50 );
+	private static final Integer PAGE_BREAK_INTERVAL_DEFAULT_VALUE = Integer
+			.valueOf( 50 );
 
 	/**
 	 * The listing element (table or list) being built.

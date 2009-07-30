@@ -989,7 +989,7 @@ public class DesignSession
 				|| ( format == ColorUtil.JAVA_FORMAT ) )
 			colorFormat = format;
 		else
-			throw new PropertyValueException( new Integer( format ),
+			throw new PropertyValueException( Integer.valueOf( format ),
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					IPropertyType.CHOICE_TYPE );
 	}

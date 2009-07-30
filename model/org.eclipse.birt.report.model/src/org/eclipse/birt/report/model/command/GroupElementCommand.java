@@ -209,7 +209,7 @@ public class GroupElementCommand extends ContentCommand
 			ComputedColumn column = (ComputedColumn) boundColumns.get( i );
 			String aggregateGroup = column.getAggregateOn( );
 			if ( aggregateGroup != null && aggregateGroup.equals( groupName ) )
-				toCleared.add( new Integer( i ) );
+				toCleared.add( Integer.valueOf( i ) );
 		}
 
 		StructPropertyDefn structPropDefn = (StructPropertyDefn) MetaDataDictionary

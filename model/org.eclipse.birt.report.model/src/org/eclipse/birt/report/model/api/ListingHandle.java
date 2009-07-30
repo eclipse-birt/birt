@@ -162,7 +162,8 @@ public abstract class ListingHandle extends ReportItemHandle
 	public void setPageBreakInterval( int pageBreakInterval )
 			throws SemanticException
 	{
-		setProperty( PAGE_BREAK_INTERVAL_PROP, new Integer( pageBreakInterval ) );
+		setProperty( PAGE_BREAK_INTERVAL_PROP, Integer
+				.valueOf( pageBreakInterval ) );
 	}
 
 	/**

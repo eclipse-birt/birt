@@ -87,7 +87,7 @@ public class DesignWriter extends ModuleWriter
 		{
 			getModule( ).addLineNo(
 					obj.getPropertyDefn( IModuleModel.THEME_PROP ),
-					new Integer( writer.getLineCounter( ) ) );
+					Integer.valueOf( writer.getLineCounter( ) ) );
 		}
 		property( obj, IModuleModel.THEME_PROP );
 		resourceKey( obj, IDesignElementModel.DISPLAY_NAME_ID_PROP,

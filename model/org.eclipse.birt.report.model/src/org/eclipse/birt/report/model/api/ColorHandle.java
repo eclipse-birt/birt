@@ -51,6 +51,8 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * 
  * 
  * 
+ * 
+ * 
  * ColorHandle colorHandle = styleHandle.getColor( );
  * </pre>
  * 
@@ -149,7 +151,7 @@ public class ColorHandle extends ComplexValueHandle
 
 	public void setRGB( int rgbValue ) throws SemanticException
 	{
-		setValue( new Integer( rgbValue ) );
+		setValue( Integer.valueOf( rgbValue ) );
 	}
 
 	/**

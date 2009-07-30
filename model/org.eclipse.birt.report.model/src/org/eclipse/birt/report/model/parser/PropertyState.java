@@ -210,8 +210,8 @@ class PropertyState extends AbstractPropertyState
 		if ( handler.markLineNumber
 				&& IModuleModel.THEME_PROP.equalsIgnoreCase( name ) )
 		{
-			handler.module.addLineNo( element.getPropertyDefn( name ),
-					new Integer( handler.getCurrentLineNo( ) ) );
+			handler.module.addLineNo( element.getPropertyDefn( name ), Integer
+					.valueOf( handler.getCurrentLineNo( ) ) );
 		}
 	}
 

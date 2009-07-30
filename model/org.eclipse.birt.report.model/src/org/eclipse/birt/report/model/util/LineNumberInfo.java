@@ -108,7 +108,7 @@ public class LineNumberInfo
 		}
 		else if ( obj instanceof DesignElement )
 		{
-			elementMap.put( new Long( ( (DesignElement) obj ).getID( ) ),
+			elementMap.put( Long.valueOf( ( (DesignElement) obj ).getID( ) ),
 					lineNo );
 		}
 		else if ( obj instanceof IncludedLibrary )
@@ -223,7 +223,7 @@ public class LineNumberInfo
 
 	public int getElementLineNo( long id )
 	{
-		return intValue( elementMap.get( new Long( id ) ) );
+		return intValue( elementMap.get( Long.valueOf( id ) ) );
 	}
 
 	/**

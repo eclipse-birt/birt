@@ -251,7 +251,7 @@ public class TableItem extends ListingElement implements ITableItemModel
 			if ( cachedColumn == null )
 				return null;
 
-			return cachedColumn.get( new Long( target.getID( ) ) );
+			return cachedColumn.get( Long.valueOf( target.getID( ) ) );
 
 		}
 
@@ -318,7 +318,7 @@ public class TableItem extends ListingElement implements ITableItemModel
 			// then caches.
 			if ( column != null )
 			{
-				cachedColumn.put( new Long( cell.getID( ) ), column );
+				cachedColumn.put( Long.valueOf( cell.getID( ) ), column );
 			}
 
 		}

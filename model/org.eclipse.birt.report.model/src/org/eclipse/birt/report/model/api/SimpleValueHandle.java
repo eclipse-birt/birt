@@ -355,7 +355,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public void setIntValue( int value ) throws SemanticException
 	{
-		setValue( new Integer( value ) );
+		setValue( Integer.valueOf( value ) );
 	}
 
 	/**
@@ -541,8 +541,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * 
 	 * @param item
 	 *            The new item to add.
-	 * @return a handle to the newly added structure��return null if the
-	 *         item is null.
+	 * @return a handle to the newly added structure��return null if the item
+	 *         is null.
 	 * @throws SemanticException
 	 *             If the property is not a list property, or if the the value
 	 *             of the item is incorrect.

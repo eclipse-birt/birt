@@ -194,7 +194,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIBRARY_TAG ) )
 			{
 				if ( markLineNumber )
-					tempLineNumbers.put( module, new Integer( locator
+					tempLineNumbers.put( module, Integer.valueOf( locator
 							.getLineNumber( ) ) );
 				return new LibraryState( LibraryParserHandler.this );
 			}

@@ -77,7 +77,7 @@ class CompatibleLibraryStylesState extends ReportElementState
 		theme = new Theme( ModelMessages
 				.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
 		if ( handler.markLineNumber )
-			handler.tempLineNumbers.put( theme, new Integer( handler
+			handler.tempLineNumbers.put( theme, Integer.valueOf( handler
 					.getCurrentLineNo( ) ) );
 		addToSlot( container, slotID, theme );
 		handler.unhandleIDElements.add( theme );
@@ -86,7 +86,9 @@ class CompatibleLibraryStylesState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )

@@ -271,7 +271,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 
 			if ( column != null )
 			{
-				cachedColumn.put( new Long( cell.getID( ) ), column );
+				cachedColumn.put( Long.valueOf( cell.getID( ) ), column );
 
 			}
 
@@ -324,7 +324,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 			if ( cachedColumn == null )
 				return null;
 
-			return cachedColumn.get( new Long( target.getID( ) ) );
+			return cachedColumn.get( Long.valueOf( target.getID( ) ) );
 
 		}
 		int columnNum = getCellPositionInColumn( module, target );

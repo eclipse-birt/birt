@@ -71,7 +71,7 @@ class SlotState extends AbstractParseState
 		if ( handler.markLineNumber )
 		{
 			ContainerContext context = new ContainerContext( container, slotID );
-			handler.tempLineNumbers.put( context, new Integer( handler
+			handler.tempLineNumbers.put( context, Integer.valueOf( handler
 					.getCurrentLineNo( ) ) );
 		}
 	}

@@ -526,7 +526,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void setIntProperty( String propName, int value )
 			throws SemanticException
 	{
-		setProperty( propName, new Integer( value ) );
+		setProperty( propName, Integer.valueOf( value ) );
 	}
 
 	/**

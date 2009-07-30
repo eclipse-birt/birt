@@ -424,7 +424,7 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		DesignElement element = getElement( );
 		if ( handler.markLineNumber )
-			handler.tempLineNumbers.put( element, new Integer( handler
+			handler.tempLineNumbers.put( element, Integer.valueOf( handler
 					.getCurrentLineNo( ) ) );
 
 		if ( !( element instanceof ContentElement ) )
