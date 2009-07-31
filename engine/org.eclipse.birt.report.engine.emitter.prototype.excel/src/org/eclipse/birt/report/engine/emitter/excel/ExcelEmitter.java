@@ -209,7 +209,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		String caption = table.getCaption( );
 		if(caption != null) 
 		{			
-			engine.addCaption( caption );
+			engine.addCaption( caption, table.getComputedStyle( ) );
 		}
 		engine.addTable( table, info, sizeInfo );
 	}

@@ -612,11 +612,13 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	public void addCaption( String text )
+	public void addCaption( String text, IStyle style )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
 		entry.setProperty( StyleEntry.H_ALIGN_PROP, "Center" );
+		entry.setProperty( StyleEntry.FONT_SIZE_PROP, StyleBuilder
+				.convertFontSize( style.getFontSize( ) ) );
 		Data data = createData( text, entry );
 		data.setSizeInfo( rule );
 
