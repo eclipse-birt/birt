@@ -118,10 +118,7 @@ public abstract class ContentElement extends DesignElement
 		// if the value container is null. The content element is created. So,
 		// it is the local value.
 
-		if ( tmpTarget == null && valueContainer != null )
-			return false;
-
-		if ( tmpTarget != null && valueContainer == null )
+		if ( tmpTarget == null )
 			return false;
 
 		if ( tmpTarget.getElement( ) != valueContainer.getElement( ) )

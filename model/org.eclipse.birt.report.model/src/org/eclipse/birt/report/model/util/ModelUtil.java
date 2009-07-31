@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -717,7 +716,7 @@ public class ModelUtil
 		Collator collator = Collator.getInstance( locale );
 
 		// Sorting in English should ignore case.
-		if ( Locale.ENGLISH.equals( locale ) )
+		if ( ULocale.ENGLISH.equals( locale ) )
 		{
 
 			// Set Collator strength value as PRIMARY, only PRIMARY differences
@@ -1416,6 +1415,8 @@ public class ModelUtil
 	public static ContentElementInfo getContentContainer(
 			DesignElement content, PropertyDefn propDefn )
 	{
+		if ( content == null )
+			return null;
 		Module root = content.getRoot( );
 
 		DesignElement tmpElement = content;

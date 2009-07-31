@@ -605,7 +605,7 @@ abstract class ColumnBandAction
 			if ( !containerDefnName.equals( info.containerDefnName ) )
 				return false;
 
-			if ( slotId != info.slotId || groupId != groupId )
+			if ( slotId != info.slotId || groupId != info.groupId )
 				return false;
 
 			int myNumOfRows = getNumOfRows( );

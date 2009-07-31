@@ -25,7 +25,6 @@ public class ClassInfo implements IClassInfo
 {
 
 	private final IClassInfo classInfo;
-	private String displayName;
 	private String toolTip;
 
 	public ClassInfo( )
@@ -273,7 +272,7 @@ public class ClassInfo implements IClassInfo
 
 	public String getDisplayName( )
 	{
-		return displayName;
+		return null;
 	}
 
 	/*

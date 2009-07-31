@@ -649,10 +649,9 @@ public class LibraryCommand extends AbstractElementCommand
 			return;
 		}
 
-		Library library = toReload;
+		Library library = null;
 
-		if ( library == null
-				|| reloadLibs.get( library.getNamespace( ) ) == null )
+		if ( reloadLibs.get( toReload.getNamespace( ) ) == null )
 		{
 			library = module.loadLibrary( includedLibPath, namespace,
 					reloadLibs, fileURL );

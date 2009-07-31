@@ -87,11 +87,11 @@ public class CopyUtil
 		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
 				.preWorkForPaste( context, copy, root );
 
-		DesignElementHandle target = chosen.getHandle( root );
-		container.getModuleHandle( ).rename( container, target );
-
 		if ( chosen == null )
 			return Collections.EMPTY_LIST;
+
+		DesignElementHandle target = chosen.getHandle( root );
+		container.getModuleHandle( ).rename( container, target );
 
 		container.getSlot( slotID ).add( target );
 		return checkPostPasteErrors( target.getElement( ), root );
@@ -219,11 +219,11 @@ public class CopyUtil
 		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
 				.preWorkForPaste( context, copy, root );
 
-		DesignElementHandle target = chosen.getHandle( root );
-		container.getModuleHandle( ).rename( container, target );
-
 		if ( chosen == null )
 			return Collections.EMPTY_LIST;
+
+		DesignElementHandle target = chosen.getHandle( root );
+		container.getModuleHandle( ).rename( container, target );
 
 		container.add( propName, target, newPos );
 		return checkPostPasteErrors( target.getElement( ), root );

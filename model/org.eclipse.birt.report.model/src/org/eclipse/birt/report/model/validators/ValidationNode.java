@@ -186,10 +186,9 @@ public class ValidationNode
 		sb.append( element.getElementName( ) );
 		sb.append( ", " ); //$NON-NLS-1$
 		sb.append( "name=" ); //$NON-NLS-1$
-		if ( element != null )
-			sb.append( element.getFullName( ) );
-		else
-			sb.append( "[null]" ); //$NON-NLS-1$
+
+		sb.append( element.getFullName( ) );
+
 		sb.append( ", " ); //$NON-NLS-1$
 		sb.append( "id=" ); //$NON-NLS-1$
 		sb.append( element.toString( ) );

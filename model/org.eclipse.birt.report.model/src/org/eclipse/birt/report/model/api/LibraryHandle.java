@@ -34,8 +34,7 @@ import org.eclipse.birt.report.model.util.StyleUtil;
  * Represents the handle of library element. The library contains the resuable
  * element components.
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Content Item</th>
  * <th width="40%">Description</th>
  * 
@@ -297,13 +296,13 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 					SharedStyleHandle newStyle = StyleUtil
 							.TransferCssStyleToSharedStyle( module, style );
 
+					if ( newStyle == null )
+						continue;
 					newStyle.getElement( )
 							.setName(
 									themeHandle.makeUniqueStyleName( newStyle
 											.getName( ) ) );
 
-					if ( newStyle == null )
-						continue;
 					themeHandle.getStyles( ).add( newStyle );
 				}
 				catch ( ContentException e )

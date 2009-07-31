@@ -219,8 +219,8 @@ public class LayoutUtil
 
 	/**
 	 * Returns a nearest <code>TableItem/GridItem</code> container for
-	 * <code>TableRow</code>, <code>TableGroup</code> and
-	 * <code>TableItem</code> if applicable.
+	 * <code>TableRow</code>, <code>TableGroup</code> and <code>TableItem</code>
+	 * if applicable.
 	 * <p>
 	 * If <code>TableRow</code> is in the <code>GridItem</code>, return
 	 * <code>null</code>.
@@ -269,6 +269,11 @@ public class LayoutUtil
 			slot = ( (TableItem) element ).getSlot( TableItem.COLUMN_SLOT );
 		else if ( element instanceof GridItem )
 			slot = ( (GridItem) element ).getSlot( GridItem.COLUMN_SLOT );
+		else
+		{
+			assert false;
+			return false;
+		}
 
 		Iterator iterator = slot.getContents( ).iterator( );
 		while ( iterator.hasNext( ) )
