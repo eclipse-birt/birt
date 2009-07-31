@@ -126,8 +126,8 @@ public class FinanceTest extends TestCase
         assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(3, ag.getParameterDefn().length);
         assertTrue(!ag.getParameterDefn()[0].isOptional( ));
-        assertFalse(!ag.getParameterDefn()[1].isOptional( ));
-        assertFalse(!ag.getParameterDefn()[2].isOptional( ));
+        assertTrue(!ag.getParameterDefn()[1].isOptional( ));
+        assertTrue(!ag.getParameterDefn()[2].isOptional( ));
         
         ac.start();
         for(int i=0; i<a.length; i++)
