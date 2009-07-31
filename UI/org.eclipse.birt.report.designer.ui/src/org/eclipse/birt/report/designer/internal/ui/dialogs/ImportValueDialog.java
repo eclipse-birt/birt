@@ -17,23 +17,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -543,103 +535,73 @@ public class ImportValueDialog extends BaseDialog
 		resultList.clear( );
 		if ( columnChooser.isEnabled( ) )
 		{
+
+			String queryExpr = null;
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			{
+				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
+				if ( column.getColumnName( ).equals( columnChooser.getText( ) ) )
+				{
+					queryExpr = DEUtil.getResultSetColumnExpression( column.getColumnName( ) );
+					break;
+				}
+			}
+			if ( queryExpr == null )
+			{
+				return;
+			}
+
 			try
 			{
-				IQueryDefinition query = DataUtil.getPreparedQuery( engine,
-						getDataSetHandle( ) ).getReportQueryDefn( );
-				String queryExpr = null;
-				int queryColumnType = DataType.UNKNOWN_TYPE;
-				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+				java.util.List modelValueList = SelectValueFetcher.getSelectValueList( queryExpr,
+						getDataSetHandle( ),
+						false );
+
+				if ( modelValueList != null )
 				{
-					ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
-					if ( column.getColumnName( )
-							.equals( columnChooser.getText( ) ) )
+					Iterator iter = modelValueList.iterator( );
+					DateFormatter formatter = new DateFormatter( ULocale.US );
+
+					while ( iter.hasNext( ) )
 					{
-						queryExpr = DEUtil.getResultSetColumnExpression( column.getColumnName( ) );
-						queryColumnType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
-						break;
-					}
-				}
-				if ( queryExpr == null )
-				{
-					return;
-				}
-				ScriptExpression expression = new ScriptExpression( queryExpr );
-				String columnBindingName = "_$_COLUMNBINDINGNAME_$_"; //$NON-NLS-1$
-				Binding binding = new Binding( columnBindingName );
-				binding.setExpression( expression );
-				binding.setDataType( queryColumnType );
-				query.addBinding( binding );
-				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-						getDataSetHandle( ).getModuleHandle( ) );
-				DataRequestSession session = DataRequestSession.newSession( context );
-				IQueryResults results = DataSetProvider.getCurrentInstance( )
-						.execute( getDataSetHandle( ),
-								query,
-								true,
-								true,
-								true,
-								session );
-				if ( results != null )
-				{
-					IResultIterator iter = results.getResultIterator( );
-					if ( iter != null )
-					{
-						// DateFormatter formatter = new DateFormatter(
-						// DATE_TIME_PATTERN,
-						// ULocale.getDefault( ) );
-						while ( iter.next( ) )
+						Object candiateValue = iter.next( );
+						if ( candiateValue != null )
 						{
-							String result = null;
-							// if (
-							// DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals(
-							// selectedColumn.getDataType( ) ) )
-							// {
-							//
-							// result = formatter.format( iter.getDate(
-							// columnBindingName ) );
-							// }
-							// else
-							// {
-							// result = iter.getString( columnBindingName );
-							// }
-							Object data = iter.getValue( columnBindingName );
-							if ( data instanceof Date )
+							if ( candiateValue instanceof java.sql.Date )
 							{
-								result = convertToStandardFormat( (Date) data );
+								formatter.applyPattern( "yyyy-MM-dd" ); //$NON-NLS-1$
+								result = formatter.format( (Date) candiateValue );
+							}
+							else if ( candiateValue instanceof java.sql.Time )
+							{
+								formatter.applyPattern( "HH:mm:ss.SSS" ); //$NON-NLS-1$
+								result = formatter.format( (Date) candiateValue );
+							}
+							else if ( candiateValue instanceof Date )
+							{
+								formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" ); //$NON-NLS-1$
+								result = formatter.format( (Date) candiateValue );
 							}
 							else
-							{
-								if ( data == null )
-								{
-									result = nullValue;
-									hasNullValue = true;
-								}
-								else
-								{
-									result = String.valueOf( data );
-								}
-
-							}
-
-							if ( !resultList.contains( result ) )
-							{
-								resultList.add( result );
-							}
+								result = String.valueOf( candiateValue);
+						}
+						else
+						{
+							result = nullValue;
+							hasNullValue = true;
+						}
+						if ( !resultList.contains( result ) )
+						{
+							resultList.add( result );
 						}
 					}
-					results.close( );
-					session.shutdown( );
 				}
+				filteValues( );
 			}
-			catch ( Exception e )
+			catch ( BirtException e )
 			{
 				ExceptionHandler.handle( e );
-				valueList.removeAll( );
-				valueList.deselectAll( );
-				updateButtons( );
 			}
-			filteValues( );
 		}
 		else
 		{
@@ -647,27 +609,6 @@ public class ImportValueDialog extends BaseDialog
 			valueList.deselectAll( );
 			updateButtons( );
 		}
-	}
-
-	private String convertToStandardFormat( Date date )
-	{
-		if ( date == null )
-		{
-			return null;
-		}
-		if ( date instanceof java.sql.Date )
-		{
-			return new DateFormatter( "yyyy-MM-dd", ULocale.US ).format( date ); //$NON-NLS-1$
-		}
-		else if ( date instanceof java.sql.Time )
-		{
-			return new DateFormatter( "HH:mm:ss", ULocale.US ).format( date ); //$NON-NLS-1$
-		}
-		else
-		{
-			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date ); //$NON-NLS-1$
-		}
-
 	}
 
 	private void filteValues( )
