@@ -1272,7 +1272,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 		styleHandle = labelHandle.getStyle();
 		assertNotNull(styleHandle);
 		assertEquals(
-				"\"Arial\"", styleHandle.getFontFamilyHandle().getStringValue());//$NON-NLS-1$
+				"sans-serif", styleHandle.getFontFamilyHandle().getStringValue());//$NON-NLS-1$
 
 	}
 

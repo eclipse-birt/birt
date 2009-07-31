@@ -437,7 +437,6 @@ public class ExtendedItemPropSearchStrategy
 		if ( tmpContainer == null || !( tmpContainer instanceof MultiViews ) )
 			return tmpContainer;
 
-		assert tmpContainer instanceof MultiViews;
 		tmpContainer = tmpContainer.getContainer( );
 
 		if ( tmpContainer == null )

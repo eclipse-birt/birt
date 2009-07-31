@@ -105,7 +105,7 @@ public class DesignSession
 	 * Static resource path to do the compatibility of some APIs.
 	 */
 
-	protected static String resourcePath = null;
+	static String resourcePath = null;
 
 	/**
 	 * The algorithm of how to provide the absolute dimension value for the
@@ -1339,7 +1339,8 @@ public class DesignSession
 	{
 		if ( isTOCStyleInitialized )
 			return Collections.unmodifiableList( defaultTOCStyleList );
-		synchronized ( isTOCStyleInitialized )
+		
+		synchronized ( DesignSession.class )
 		{
 			if ( !isTOCStyleInitialized )
 			{

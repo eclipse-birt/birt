@@ -65,7 +65,7 @@ public abstract class PropertyDefn
 	 * Supported sub-types for list property type.
 	 */
 
-	public static List<IPropertyType> supportedSubTypes = null;
+	private static final List<IPropertyType> supportedSubTypes;
 
 	/**
 	 * Where the property is defined.
@@ -235,6 +235,33 @@ public abstract class PropertyDefn
 
 	protected boolean allowExpression;
 
+	static 
+	{
+		supportedSubTypes = new ArrayList<IPropertyType>( );
+		Iterator<IPropertyType> iter = MetaDataDictionary.getInstance( )
+				.getPropertyTypes( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IPropertyType propType = iter.next( );
+			int type = propType.getTypeCode( );
+			switch ( type )
+			{
+				case IPropertyType.STRING_TYPE :
+				case IPropertyType.BOOLEAN_TYPE :
+				case IPropertyType.DATE_TIME_TYPE :
+				case IPropertyType.FLOAT_TYPE :
+				case IPropertyType.INTEGER_TYPE :
+				case IPropertyType.EXPRESSION_TYPE :
+				case IPropertyType.ELEMENT_REF_TYPE :
+				case IPropertyType.LITERAL_STRING_TYPE :
+					supportedSubTypes.add( propType );
+					break;
+				default :
+					break;
+			}
+		}	
+	}
+	
 	/**
 	 * Constructs a Property Definition.
 	 */
@@ -468,7 +495,7 @@ public abstract class PropertyDefn
 							new String[]{name, subType.getName( )},
 							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );
 
-				else if ( !getSupportedSubTypes( ).contains( subType ) )
+				else if ( !supportedSubTypes.contains( subType ) )
 					throw new MetaDataException(
 							new String[]{name, subType.getName( )},
 							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );
@@ -1607,44 +1634,6 @@ public abstract class PropertyDefn
 		if ( !StringUtil.isBlank( getName( ) ) )
 			return getName( );
 		return super.toString( );
-	}
-
-	/**
-	 * Gets all the supported sub-types for the list property type.
-	 * 
-	 * @return all the supported sub-types for the list property type
-	 */
-
-	public static final List<IPropertyType> getSupportedSubTypes( )
-	{
-		if ( supportedSubTypes != null && !supportedSubTypes.isEmpty( ) )
-			return supportedSubTypes;
-
-		supportedSubTypes = new ArrayList<IPropertyType>( );
-		Iterator<IPropertyType> iter = MetaDataDictionary.getInstance( )
-				.getPropertyTypes( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			IPropertyType propType = iter.next( );
-			int type = propType.getTypeCode( );
-			switch ( type )
-			{
-				case IPropertyType.STRING_TYPE :
-				case IPropertyType.BOOLEAN_TYPE :
-				case IPropertyType.DATE_TIME_TYPE :
-				case IPropertyType.FLOAT_TYPE :
-				case IPropertyType.INTEGER_TYPE :
-				case IPropertyType.EXPRESSION_TYPE :
-				case IPropertyType.ELEMENT_REF_TYPE :
-				case IPropertyType.LITERAL_STRING_TYPE :
-					supportedSubTypes.add( propType );
-					break;
-				default :
-					break;
-			}
-		}
-
-		return supportedSubTypes;
 	}
 
 	/**

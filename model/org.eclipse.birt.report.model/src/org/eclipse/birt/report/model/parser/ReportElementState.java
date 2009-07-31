@@ -552,7 +552,7 @@ public abstract class ReportElementState extends DesignParseState
 				return;
 
 			handler.getErrorHandler( ).semanticError(
-					new NameException( content, name,
+					new NameException( content, null,
 							NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			return;
 

@@ -369,7 +369,7 @@ public class LibraryCommand extends AbstractElementCommand
 			library = getLibraryByStruct( includedLib );
 
 		if ( library == null )
-			throw new LibraryException( library, new String[]{toReloadLibrary
+			throw new LibraryException( module, new String[]{toReloadLibrary
 					.getNamespace( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 
@@ -381,7 +381,7 @@ public class LibraryCommand extends AbstractElementCommand
 				.getNamespace( ) );
 		int removePosn = host.getIncludedLibraries( ).indexOf( tmpIncludedLib );
 
-		Map<Long, Map<Long, List<Object>>> overriddenValues = new HashMap<Long, Map<Long, List<Object>>>( );
+		Map<Long, Map<Long, List<Object>>> overriddenValues = null;
 		ActivityStack activityStack = getActivityStack( );
 		activityStack.startSilentTrans( true );
 

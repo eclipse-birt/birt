@@ -162,8 +162,8 @@ public class ActionImpl extends Structure implements IAction
 			}
 			else
 			{
-				throw new PropertyNameException( handle == null ? null
-						: handle.getElement( ), ILabelModel.ACTION_PROP );
+				throw new PropertyNameException( handle.getElement( ),
+						ILabelModel.ACTION_PROP );
 			}
 		}
 	}

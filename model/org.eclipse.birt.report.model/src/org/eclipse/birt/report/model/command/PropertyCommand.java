@@ -221,9 +221,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( element instanceof MasterPage )
 		{
 
-			// Height and width are not allowed to be set if masterpage size
-			// type is
-			// a pre-defined type.
+			// Height and width are not allowed to be set if master page size
+			// type is a pre-defined type.
 
 			propName = prop.getName( );
 			if ( !( (MasterPage) element ).isCustomType( module )
@@ -279,7 +278,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 				.getName( ) )
 				&& value == null )
 		{
-			clearRefTemplateParameterProp( prop, value );
+			clearRefTemplateParameterProp( prop, null );
 			return;
 		}
 

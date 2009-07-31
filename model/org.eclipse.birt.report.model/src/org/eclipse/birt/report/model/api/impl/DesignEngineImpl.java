@@ -96,7 +96,7 @@ public class DesignEngineImpl implements IDesignEngine
 				MetaDataReader.read( is );
 
 			if ( !MetaDataDictionary.getInstance( ).isIntializedExtension( ) )
-				MetaDataDictionary.getInstance( ).intializeExtension( );
+				MetaDataDictionary.intializeExtension( );
 
 			if ( !isInitialized.booleanValue( ) )
 				SimpleElementFactory
@@ -132,7 +132,7 @@ public class DesignEngineImpl implements IDesignEngine
 		// Initialize the meta-data if this is the first request to get
 		// a new handle.
 
-		synchronized ( isInitialized )
+		synchronized ( DesignEngineImpl.class )
 		{
 			if ( isInitialized.booleanValue( )
 					&& MetaDataDictionary.getInstance( )
@@ -188,9 +188,9 @@ public class DesignEngineImpl implements IDesignEngine
 		// Initialize the meta-data if this is the first request to get
 		// a new handle.
 
-		synchronized ( isInitialized )
+		synchronized ( DesignEngineImpl.class )
 		{
-			// isInitialized -- true : means founduntal/core meta-data is loaded
+			// isInitialized -- true : means fundamental/core meta-data is loaded
 			// isInitializedExtension -- true : means extension is loaded, of
 			// course the core meta-data is loaded
 			if ( isInitialized.booleanValue( )

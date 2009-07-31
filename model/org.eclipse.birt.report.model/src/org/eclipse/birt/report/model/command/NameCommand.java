@@ -129,19 +129,19 @@ public class NameCommand extends AbstractElementCommand
 			// the dependents with no way to identify this element.
 
 			if ( element.hasDerived( ) || element.hasReferences( ) )
-				throw new NameException( element, name,
+				throw new NameException( element, null,
 						NameException.DESIGN_EXCEPTION_HAS_REFERENCES );
 
 			// Cannot clear the name of an element when the name is required.
 
 			if ( metaData.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
-				throw new NameException( element, name,
+				throw new NameException( element, null,
 						NameException.DESIGN_EXCEPTION_NAME_REQUIRED );
 
 			if ( ( module instanceof Library )
 					&& ( element.getContainer( ) instanceof Library ) )
 			{
-				throw new NameException( element, name,
+				throw new NameException( element, null,
 						NameException.DESIGN_EXCEPTION_NAME_REQUIRED );
 			}
 		}

@@ -1111,7 +1111,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * Initializes all the extensions.
 	 * 
 	 */
-	public void intializeExtension( )
+	public static void intializeExtension( )
 	{
 		ExtensionManager.getInstance( ).initialize( );
 		isiniatializedExtensionManager = true;

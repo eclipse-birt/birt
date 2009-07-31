@@ -234,7 +234,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * The base 64 codec for embedded images.
 	 */
 
-	protected static Base64 base = new Base64( );
+	protected final static Base64 base = new Base64( );
 
 	/**
 	 * The compatibility to create bound columns.

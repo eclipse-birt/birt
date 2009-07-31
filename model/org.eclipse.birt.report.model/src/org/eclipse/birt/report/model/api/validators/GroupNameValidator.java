@@ -79,8 +79,7 @@ public class GroupNameValidator extends AbstractElementValidator
 
 		// Collect all groups in this element.
 
-		ListingElement targetElement = getListingElement( element.getModule( ),
-				(ListingElement) element.getElement( ) );
+		ListingElement targetElement = (ListingElement) element.getElement( );
 		if ( targetElement == null )
 		{
 			targetElement = (ListingElement) element.getElement( );
@@ -130,8 +129,7 @@ public class GroupNameValidator extends AbstractElementValidator
 			return Collections.emptyList( );
 		}
 
-		ListingElement targetElement = getListingElement( element.getModule( ),
-				(ListingElement) element.getElement( ) );
+		ListingElement targetElement = (ListingElement) element.getElement( );
 		if ( targetElement == null )
 			return Collections.emptyList( );
 
@@ -181,10 +179,6 @@ public class GroupNameValidator extends AbstractElementValidator
 			ListingElement toValidate )
 	{
 		List<SemanticException> list = new ArrayList<SemanticException>( );
-
-		ListingElement targetElement = getListingElement( module, toValidate );
-		if ( targetElement == null )
-			targetElement = toValidate;
 
 		// Collect all group name in this element.
 
@@ -249,34 +243,6 @@ public class GroupNameValidator extends AbstractElementValidator
 	public List<SemanticException> validate( ListingHandle element )
 	{
 		return validate( element.getModule( ), element.getElement( ) );
-	}
-
-	/**
-	 * Returns the first container, which is listing element with data set.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the listing element
-	 * 
-	 * @return the first container, which is listing element with data set. If
-	 *         such container is not found, return <code>null</code>.
-	 */
-
-	private ListingElement getListingElement( Module module,
-			ListingElement element )
-	{
-		DesignElement container = element;
-
-		while ( container != null )
-		{
-			if ( container instanceof ListingElement )
-				return (ListingElement) container;
-
-			container = container.getContainer( );
-		}
-
-		return null;
 	}
 
 	/**

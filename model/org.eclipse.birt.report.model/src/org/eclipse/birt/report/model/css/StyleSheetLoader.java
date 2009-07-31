@@ -471,7 +471,7 @@ public final class StyleSheetLoader
 		{
 			String cssName = declaration.item( i );
 			String cssValue = declaration.getPropertyValue( cssName );
-			if ( StringUtil.isBlank( cssName ) | StringUtil.isBlank( cssValue ) )
+			if ( StringUtil.isBlank( cssName ) || StringUtil.isBlank( cssValue ) )
 				continue;
 
 			properties.put( cssName, cssValue );

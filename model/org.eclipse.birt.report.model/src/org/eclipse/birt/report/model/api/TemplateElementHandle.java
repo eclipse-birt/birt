@@ -62,12 +62,10 @@ public abstract class TemplateElementHandle extends ReportElementHandle
 
 	TemplateParameterDefinitionHandle getRefTemplateParameter( )
 	{
-		DesignElement refTemplateParam = ( (TemplateElement) getElement( ) )
+		TemplateParameterDefinition refTemplateParam = ( (TemplateElement) getElement( ) )
 				.getTemplateParameterElement( module );
 		if ( refTemplateParam == null )
 			return null;
-
-		assert refTemplateParam instanceof TemplateParameterDefinition;
 
 		return (TemplateParameterDefinitionHandle) refTemplateParam
 				.getHandle( module );
@@ -194,8 +192,8 @@ public abstract class TemplateElementHandle extends ReportElementHandle
 	{
 		try
 		{
-			return (IDesignElement) getDefaultElement( ).getElement( )
-					.doClone( CopyForTemplatePolicy.getInstance( ) );
+			return (IDesignElement) getDefaultElement( ).getElement( ).doClone(
+					CopyForTemplatePolicy.getInstance( ) );
 		}
 		catch ( CloneNotSupportedException e )
 		{

@@ -113,14 +113,14 @@ public class DimensionValue
 	 * Compiled pattern for CSS absolute pattern: "000,000.000,000"
 	 */
 
-	public static Pattern dotSeparatorPattern = Pattern
+	public final static Pattern dotSeparatorPattern = Pattern
 			.compile( DOT_SEPARATOR_EXPRESSION );
 
 	/**
 	 * Compiled pattern for CSS absolute pattern: "000.000,000.000"
 	 */
 
-	public static Pattern commaSeparatorPattern = Pattern
+	public final static Pattern commaSeparatorPattern = Pattern
 			.compile( COMMA_SEPARATOR_EXPRESSION );
 
 	/**

@@ -2321,7 +2321,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( path == null )
 		{
 			DesignParserException ex = new DesignParserException(
-					new String[]{path},
+					new String[]{reloadPath},
 					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
 			List exceptionList = new ArrayList( );
 			exceptionList.add( ex );

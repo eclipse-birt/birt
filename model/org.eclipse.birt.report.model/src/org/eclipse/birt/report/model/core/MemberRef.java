@@ -1176,11 +1176,13 @@ public class MemberRef
 	 */
 	protected boolean equalArray( Object[] arrayOne, Object[] arrayTwo )
 	{
+		if ( arrayOne == null && arrayTwo == null )
+			return true;
+		
 		if ( ( arrayOne == null && arrayTwo != null )
 				|| ( arrayOne != null && arrayTwo == null ) )
 			return false;
-		if ( arrayOne == null && arrayTwo == null )
-			return true;
+
 		if ( arrayOne.length != arrayTwo.length )
 			return false;
 		for ( int i = 0; i < arrayOne.length; ++i )

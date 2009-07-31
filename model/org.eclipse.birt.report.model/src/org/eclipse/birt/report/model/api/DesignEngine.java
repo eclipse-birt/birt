@@ -50,8 +50,8 @@ public final class DesignEngine implements IDesignEngine
 	 * The logger for errors.
 	 */
 
-	protected static Logger errorLogger = Logger.getLogger( DesignEngine.class
-			.getName( ) );
+	protected final static Logger errorLogger = Logger
+			.getLogger( DesignEngine.class.getName( ) );
 
 	/**
 	 * The implementation of the design engine.

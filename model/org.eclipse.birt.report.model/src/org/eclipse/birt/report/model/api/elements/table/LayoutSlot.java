@@ -353,8 +353,6 @@ public class LayoutSlot
 
 		if ( rowCount != 0 )
 			currentRowId++;
-
-		rowCount++;
 	}
 
 	/**

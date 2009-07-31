@@ -77,7 +77,7 @@ public class MemberKeyPropertyType extends TextualPropertyType
 		if ( value == null )
 		{
 			if ( defn.isStructureMember( ) )
-				throw new PropertyValueException( value,
+				throw new PropertyValueException( null,
 						PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
 						MEMBER_KEY_TYPE );
 			return null;

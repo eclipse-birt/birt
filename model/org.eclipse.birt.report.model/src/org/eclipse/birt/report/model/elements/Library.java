@@ -277,9 +277,9 @@ public class Library extends Module implements ILibraryModel
 	public ModuleOption getOptions( )
 	{
 		if ( options != null )
-			return this.options;
+			return options;
 
-		Module hostModule = this.host;
+		Module hostModule = host;
 		while ( hostModule != null )
 		{
 			ModuleOption hostOptions = hostModule.getOptions( );
@@ -289,7 +289,9 @@ public class Library extends Module implements ILibraryModel
 			if ( hostModule instanceof Library )
 				hostModule = ( (Library) hostModule ).host;
 
-			return null;
+			// if it is report design, just break;
+			
+			break;
 		}
 
 		return null;

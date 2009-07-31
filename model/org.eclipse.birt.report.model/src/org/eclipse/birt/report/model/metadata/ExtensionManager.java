@@ -34,7 +34,8 @@ public final class ExtensionManager
 	/**
 	 * the singleton instance
 	 */
-	static protected ExtensionManager instance;
+	
+	private static ExtensionManager instance;
 
 	/**
 	 * The map that stores all implementation of encryption helpers. The key is
@@ -127,7 +128,8 @@ public final class ExtensionManager
 	/**
 	 * Release all the resources in this class.
 	 */
-	void releaseInstance( )
+	
+	static void releaseInstance( )
 	{
 		instance = null;
 	}

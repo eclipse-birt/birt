@@ -1010,8 +1010,8 @@ public class Generator
 			{
 				writeSection( "See Also", type.getSeeAlso( ) );
 			}
-			if ( iter.hasNext( ) )
-				;
+			//if ( iter.hasNext( ) )
+			//	;
 			writeln( "<hr>" );
 		}
 		finishSummaryTable( );

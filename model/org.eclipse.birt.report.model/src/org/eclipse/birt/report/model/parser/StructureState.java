@@ -441,11 +441,8 @@ public class StructureState extends AbstractPropertyState
 
 	static IStructure createStructure( StructureDefn structDefn )
 	{
-		synchronized ( StructureState.class )
-		{
-			if ( structDict == null )
-				populateStructDict( );
-		}
+		populateStructDict( );
+
 		assert structDefn != null;
 		assert structDict != null;
 
@@ -477,9 +474,10 @@ public class StructureState extends AbstractPropertyState
 	 * 
 	 */
 
-	private static void populateStructDict( )
+	private synchronized static void populateStructDict( )
 	{
-		assert structDict == null;
+		if ( structDict != null )
+			return;
 
 		structDict = new HashMap( );
 

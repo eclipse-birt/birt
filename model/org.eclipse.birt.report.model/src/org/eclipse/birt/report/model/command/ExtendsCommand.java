@@ -328,7 +328,7 @@ public class ExtendsCommand extends AbstractElementCommand
 
 		DesignElement parent = element.getExtendsElement( );
 		if ( parent == null )
-			throw new InvalidParentException( element, parent,
+			throw new InvalidParentException( element, (DesignElement) null,
 					InvalidParentException.DESIGN_EXCEPTION_NO_PARENT );
 
 		// Sanity check structure. Parent and the child must be in the same

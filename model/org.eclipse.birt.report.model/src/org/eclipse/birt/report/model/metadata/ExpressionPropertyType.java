@@ -93,7 +93,7 @@ public class ExpressionPropertyType extends TextualPropertyType
 				if ( tmpType == null )
 					return null;
 
-				return new Expression( trimExpr, tmpType );
+				return new Expression( null, tmpType );
 			}
 
 			return value;

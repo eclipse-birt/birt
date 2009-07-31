@@ -248,12 +248,9 @@ class PropertyState extends AbstractPropertyState
 			return;
 		}
 
-		IPropertyDefn jmpDefn = null;
-
-		if ( struct != null )
-			jmpDefn = struct.getDefn( ).getMember( name );
-		else
-			jmpDefn = element.getPropertyDefn( name );
+		// struct must be null.
+		
+		IPropertyDefn jmpDefn = element.getPropertyDefn( name );
 
 		if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( name ) )
 		{

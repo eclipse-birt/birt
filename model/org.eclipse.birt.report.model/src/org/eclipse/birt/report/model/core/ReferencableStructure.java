@@ -210,10 +210,7 @@ public abstract class ReferencableStructure extends Structure
 			}
 		}
 
-		if ( value == null )
-			return propDefn.getDefault( );
-
-		return value;
+		return propDefn.getDefault( );
 	}
 
 	/*
