@@ -878,6 +878,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		private boolean isConstantExpr( IBaseExpression expr )
 				throws DataException
 		{
+			if ( expr == null )
+				return true;
 			if ( !( expr instanceof IScriptExpression ) )
 				return false;
 			try

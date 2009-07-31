@@ -359,8 +359,7 @@ public class ModelAdapter implements IModelAdapter
 			try
 			{
 				Expression expr = (Expression)arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER ).getValue( );
-				if( expr != null )
-					binding.addArgument( this.adaptExpression( expr ));
+				binding.addArgument( this.adaptExpression( expr ));
 			}
 			catch ( DataException e )
 			{
