@@ -242,7 +242,14 @@ public final class SwingTextMetrics extends TextAdapter
 				 * Not use the textLayout.getBounds(), this is not correct when
 				 * the string contains full pitch characters.
 				 */
-				r2d = fm.getStringBounds( fsa[0], g2d );
+				/**
+				 * // r2d = fm.getStringBounds( fsa[0], g2d );
+				 * 
+				 * There is error between the both methods, so we have to use
+				 * textLayout.getBounds() for consistency. In addition, it has
+				 * no problem with full pitch characters now.
+				 */
+				r2d = tla[i].getBounds( );
 
 				dWidth = r2d.getWidth( );
 				if ( dWidth > dMaxWidth )
