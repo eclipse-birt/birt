@@ -118,6 +118,7 @@ Choices.paramType.integer=整数値
 Choices.paramType.any=任意
 Choices.paramType.date=日付
 Choices.paramType.time=時間
+Choices.paramType.javaObject=Java Object
 
 #6.paramControl
 Choices.paramControl.text-box=テキストボックス
@@ -429,6 +430,7 @@ Choices.columnDataType.boolean=論理
 Choices.columnDataType.time=時間
 Choices.columnDataType.date=日付
 Choices.columnDataType.blob=BLOB
+Choices.columnDataType.javaObject=Java Object
 
 #54. searchType
 Choices.searchType.any=任意

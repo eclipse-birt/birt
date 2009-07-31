@@ -118,6 +118,7 @@ Choices.paramType.integer=Entier
 Choices.paramType.any=Indifférent
 Choices.paramType.date=Date
 Choices.paramType.time=Heure
+Choices.paramType.javaObject=Java Object
 
 #6.paramControl
 Choices.paramControl.text-box=Zone de texte
@@ -429,6 +430,7 @@ Choices.columnDataType.boolean=Booléen
 Choices.columnDataType.time=Heure
 Choices.columnDataType.date=Date
 Choices.columnDataType.blob=Blob
+Choices.columnDataType.javaObject=Java Object
 
 #54. searchType
 Choices.searchType.any=Indifférent

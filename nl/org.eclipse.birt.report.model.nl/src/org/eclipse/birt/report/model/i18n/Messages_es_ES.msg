@@ -118,6 +118,7 @@ Choices.paramType.integer=Entero
 Choices.paramType.any=Cualquiera
 Choices.paramType.date=Fecha
 Choices.paramType.time=Hora
+Choices.paramType.javaObject=Java Object
 
 #6.paramControl
 Choices.paramControl.text-box=Cuadro de texto
@@ -429,6 +430,7 @@ Choices.columnDataType.boolean=Booleano
 Choices.columnDataType.time=Hora
 Choices.columnDataType.date=Fecha
 Choices.columnDataType.blob=Blob
+Choices.columnDataType.javaObject=Java Object
 
 #54. searchType
 Choices.searchType.any=Cualquiera

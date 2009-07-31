@@ -118,6 +118,7 @@ Choices.paramType.integer=整数
 Choices.paramType.any=任何
 Choices.paramType.date=日期
 Choices.paramType.time=时间
+Choices.paramType.javaObject=Java Object
 
 #6.paramControl
 Choices.paramControl.text-box=文本框
@@ -429,6 +430,7 @@ Choices.columnDataType.boolean=布尔
 Choices.columnDataType.time=时间
 Choices.columnDataType.date=日期
 Choices.columnDataType.blob=Blob
+Choices.columnDataType.javaObject=Java Object
 
 #54. searchType
 Choices.searchType.any=任何

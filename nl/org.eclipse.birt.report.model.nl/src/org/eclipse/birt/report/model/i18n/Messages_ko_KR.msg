@@ -118,6 +118,7 @@ Choices.paramType.integer=정수
 Choices.paramType.any=모두
 Choices.paramType.date=날짜
 Choices.paramType.time=시간
+Choices.paramType.javaObject=Java Object
 
 #6.paramControl
 Choices.paramControl.text-box=텍스트 상자
@@ -429,6 +430,7 @@ Choices.columnDataType.boolean=부울
 Choices.columnDataType.time=시간
 Choices.columnDataType.date=날짜
 Choices.columnDataType.blob=Blob
+Choices.columnDataType.javaObject=Java Object
 
 #54. searchType
 Choices.searchType.any=모두
