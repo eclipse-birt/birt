@@ -316,6 +316,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
 	protected Stack<DimensionType> fixedRowHeightStack = new Stack<DimensionType>( );
+	protected HashSet<String> outputBookmarks = new HashSet<String>( );
 	
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -439,7 +440,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected MetadataEmitter creatMetadataEmitter( HTMLWriter writer,
 			HTMLRenderOption htmlOption )
 	{
-		return new MetadataEmitter( writer, htmlOption, null, idGenerator );
+		return new MetadataEmitter( writer, htmlOption, null, idGenerator, this );
 	}
 
 	/**
@@ -1670,10 +1671,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				bookmark = idGenerator.generateUniqueID( );
 				table.setBookmark( bookmark );
 			}
-			HTMLEmitterUtil.setBookmark( writer,
-					HTMLTags.TAG_TABLE,
-					htmlIDNamespace,
-					bookmark );
+			outputBookmark( table, HTMLTags.TAG_TABLE );
 		}
 
 		//table summary
@@ -1917,7 +1915,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( styleClass, row );
 
 		// bookmark
-		HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, row.getBookmark( ) );
+		outputBookmark(  row, null );
 
 		StringBuffer styleBuffer = new StringBuffer( );
 		htmlEmitter.buildRowStyle( row, styleBuffer );
@@ -1933,7 +1931,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				bookmark = idGenerator.generateUniqueID( );
 				group.setBookmark( bookmark );
 			}
-			HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, bookmark );
+			outputBookmark( group, null );
 			startedGroups.remove( group );
 		}
 		
@@ -2088,10 +2086,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					bookmark = idGenerator.generateUniqueID( );
 					group.setBookmark( bookmark );
 				}
-				HTMLEmitterUtil.setBookmark( writer,
-						null,
-						htmlIDNamespace,
-						bookmark );
+				outputBookmark( group, null );
 				startedGroups.remove( group );
 			}
 			
@@ -2313,10 +2308,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				bookmark = idGenerator.generateUniqueID( );
 				container.setBookmark( bookmark );
 			}
-			HTMLEmitterUtil.setBookmark( writer,
-					HTMLTags.TAG_DIV,
-					htmlIDNamespace,
-					bookmark );
+			outputBookmark( container, HTMLTags.TAG_DIV );
 		}
 
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -3106,7 +3098,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected void outputBookmark( IContent content, String tagName )
 	{
 		String bookmark = content.getBookmark( );
-		HTMLEmitterUtil.setBookmark(  writer, tagName, htmlIDNamespace, bookmark );
+		outputBookmark( writer, tagName, htmlIDNamespace, bookmark );
+	}
+	
+	public void outputBookmark( HTMLWriter writer, String tagName,
+			String htmlIDNamespace, String bookmark )
+	{
+		if ( outputBookmarks != null )
+		{
+			if ( outputBookmarks.contains( bookmark ) )
+			{
+				return;
+			}
+			else
+			{
+				outputBookmarks.add( bookmark );
+			}
+		}
+		HTMLEmitterUtil.setBookmark( writer, tagName, htmlIDNamespace, bookmark );
 	}
 
 	/**
@@ -3480,7 +3489,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			group.setBookmark( bookmark );
 		}
 		writer.openTag( HTMLTags.TAG_SPAN );
-		HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, bookmark );
+		outputBookmark( group, null );
 		writer.closeTag( HTMLTags.TAG_SPAN );
 	}
 	

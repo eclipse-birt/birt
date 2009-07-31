@@ -74,6 +74,7 @@ public class MetadataEmitter
 	private List ouputInstanceIDs;
 	private String imagePath;
 	private String htmlIDNamespace;
+	private HTMLReportEmitter htmlReportEmitter;
 	/**
 	 * attrNamePrefix must contain colon ':'.
 	 */
@@ -95,7 +96,8 @@ public class MetadataEmitter
 	 *            : the prefix of the attribute name.
 	 */
 	public MetadataEmitter( HTMLWriter writer, HTMLRenderOption htmlOption,
-			String attrNamePrefix, IDGenerator idGenerator )
+			String attrNamePrefix, IDGenerator idGenerator,
+			HTMLReportEmitter htmlReportEmitter )
 	{
 		this.writer = writer;
 		this.displayFilterIcon = htmlOption.getDisplayFilterIcon( );
@@ -118,6 +120,7 @@ public class MetadataEmitter
 		this.idGenerator = idGenerator;
 		this.attrNamePrefix = attrNamePrefix;
 		initializeAttrName( attrNamePrefix );
+		this.htmlReportEmitter = htmlReportEmitter;
 	}
 	
 	/**
@@ -247,7 +250,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "./images/iv/collapsexpand.gif" );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			String bookmark = idGenerator.generateUniqueID( );
-			HTMLEmitterUtil.setBookmark( writer, null, htmlIDNamespace, bookmark );
+			htmlReportEmitter.outputBookmark( writer, null, htmlIDNamespace, bookmark );
 			writer.attribute( attrElementType, "GROUP" );
 			exportElementID( bookmark, "GROUP", -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
@@ -281,7 +284,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_COLUMN, cell.getColumnInstance( )
 					.getInstanceID( ).toString( ) );
 			String bookmark = idGenerator.generateUniqueID( );
-			HTMLEmitterUtil.setBookmark( writer, null, htmlIDNamespace, bookmark );
+			htmlReportEmitter.outputBookmark( writer, null, htmlIDNamespace, bookmark );
 			writer.attribute( attrElementType, "COLOUMNINFO" );
 			exportElementID( bookmark, "COLOUMNINFO", -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
@@ -392,7 +395,7 @@ public class MetadataEmitter
 							bookmark = idGenerator.generateUniqueID( );
 							content.setBookmark( bookmark );
 						}
-						HTMLEmitterUtil.setBookmark( writer,
+						htmlReportEmitter.outputBookmark( writer,
 								tagName,
 								htmlIDNamespace,
 								bookmark );
