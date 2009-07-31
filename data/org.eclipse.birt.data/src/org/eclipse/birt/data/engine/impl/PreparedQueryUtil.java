@@ -101,6 +101,7 @@ public class PreparedQueryUtil
 		assert queryDefn != null;
 		
 		validateQuery(dataEngine, queryDefn);
+		FilterPrepareUtil.prepareFilters( queryDefn.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
 		IQueryContextVisitor contextVisitor = QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
 				appContext );
 		if ( queryDefn.getSourceQuery( ) != null )
@@ -144,6 +145,7 @@ public class PreparedQueryUtil
 				return new PreparedDummyQuery( queryDefn, dataEngine.getSession( ) );
 		}
 
+		FilterPrepareUtil.prepareFilters( dset.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
 		QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
 		IPreparedQuery preparedQuery;
 
