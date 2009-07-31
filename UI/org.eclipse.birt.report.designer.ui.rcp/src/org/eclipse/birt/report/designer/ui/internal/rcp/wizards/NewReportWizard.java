@@ -309,6 +309,9 @@ public class NewReportWizard extends Wizard implements
 				handle.setDisplayName( null );
 				handle.setDescription( null );
 			}
+			
+			//add the create property
+			UIUtil.addCreateBy( handle );
 			//bidi_hcg start
 			//save value of bidiLayoutOrientation property
 			

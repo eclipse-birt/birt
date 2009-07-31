@@ -376,6 +376,8 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				}
 
 			}
+			//add the create property
+			UIUtil.addCreateBy( handle );
 			handle.saveAs( file.getAbsolutePath( ) );
 			handle.close( );
 

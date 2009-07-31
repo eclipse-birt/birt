@@ -262,6 +262,8 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				}
 
 			}
+			//add the create property
+			UIUtil.addCreateBy( handle );
 			handle.saveAs( file.getLocation( ).toOSString( ) );
 			handle.close( );
 

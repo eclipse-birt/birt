@@ -571,6 +571,8 @@ public class NewReportWizard extends Wizard implements
 
 			handle.setBidiOrientation( bidiOrientation );
 
+			//add the create property
+			UIUtil.addCreateBy( handle );
 			// bidi_hcg end
 			handle.saveAs( file.getLocation( ).toOSString( ) );
 			handle.close( );

@@ -324,6 +324,8 @@ public class NewTemplateWizard extends NewReportWizard
 			handle.setDisplayName( settingPage.getDisplayName( ) );
 			handle.setDescription( settingPage.getDescription( ) );
 			handle.setIconFile( settingPage.getPreviewImagePath( ) );
+			//add the create property
+			UIUtil.addCreateBy( handle );
 		}
 		catch ( SemanticException e )
 		{

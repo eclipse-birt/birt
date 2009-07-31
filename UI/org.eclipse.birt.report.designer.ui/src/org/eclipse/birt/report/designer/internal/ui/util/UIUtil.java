@@ -2617,4 +2617,18 @@ public class UIUtil
 		}
 		return embeddedBrowserAvailable;
 	}
+	
+	/**Add the createby property to the mudule handle 
+	 * @param handles
+	 */
+	public static void addCreateBy(ModuleHandle handle)
+	{
+		String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
+		String designerVersion = MessageFormat.format( VERSION_MESSAGE,
+				new String[]{
+						ReportPlugin.getVersion( ),
+						ReportPlugin.getBuildInfo( )
+				} );
+		handle.setCreatedBy( designerVersion );
+	}
 }

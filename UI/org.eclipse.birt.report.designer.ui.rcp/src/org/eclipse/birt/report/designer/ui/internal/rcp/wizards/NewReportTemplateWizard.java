@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -384,6 +385,8 @@ public class NewReportTemplateWizard extends Wizard implements
 			handle.setDisplayName( settingPage.getDisplayName( ) );
 			handle.setDescription( settingPage.getDescription( ) );
 			handle.setIconFile( settingPage.getPreviewImagePath( ) );
+			//add the create property
+			UIUtil.addCreateBy( handle );
 		}
 		catch ( SemanticException e )
 		{
