@@ -71,10 +71,18 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 		close( );
 	}
 	
+	protected BlockTextArea getSplitArea( ArrayList ablatedChildren,
+			int newHeight )
+	{
+		BlockTextArea newArea = (BlockTextArea) super.getSplitArea(
+				ablatedChildren, newHeight );
+		addToExtension( newArea );
+		return newArea;
+	}
+	
 	public BlockTextArea cloneArea( )
 	{
 		BlockTextArea newArea = new BlockTextArea( this );
-		addToExtension( newArea );
 		return newArea;
 	}
 	
@@ -84,7 +92,7 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 		addToExtension( this );
 		updateTextContent( );
 	}
-	
+
 	private void addToExtension( BlockTextArea area )
 	{
 		if ( context.isFixedLayout( )
@@ -106,7 +114,6 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 				if ( list.size( ) > 0 && list.get( list.size( ) - 1 ).finished )
 				{
 					list.add( list.size( )-1, area );
-					list.size();
 				}
 				else
 				{

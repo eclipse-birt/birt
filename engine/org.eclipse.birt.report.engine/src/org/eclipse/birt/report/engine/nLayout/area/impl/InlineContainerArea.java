@@ -80,6 +80,7 @@ public class InlineContainerArea extends InlineStackingArea
 		{
 			checkPageBreak( );
 			InlineContainerArea area = cloneArea( );
+			addToExtension( area );
 			area.context = context;
 			area.children = children;
 			area.setParent( parent );
@@ -93,6 +94,11 @@ public class InlineContainerArea extends InlineStackingArea
 			currentIP = 0;
 			height = 0;
 		}
+	}
+	
+	protected void addToExtension( InlineContainerArea area )
+	{
+		
 	}
 
 	public void close( ) throws BirtException

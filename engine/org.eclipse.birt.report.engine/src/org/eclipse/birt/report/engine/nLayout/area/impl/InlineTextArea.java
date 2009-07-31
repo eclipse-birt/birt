@@ -70,9 +70,14 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 	public InlineTextArea cloneArea( )
 	{
 		InlineTextArea newArea = new InlineTextArea( this );
-		addLineToExtension( newArea );
 		return newArea;
 	}
+	
+	protected void addToExtension( InlineContainerArea area )
+	{
+		addLineToExtension( (InlineTextArea)area );
+	}
+	
 	
 	private void addLineToExtension( InlineTextArea area )
 	{
@@ -169,7 +174,8 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 		if ( force )
 		{
 			// current line will be the last line in current page.
-			InlineTextArea newArea = cloneArea( );
+			InlineTextArea newArea = (InlineTextArea) cloneArea( );
+			addLineToExtension( newArea );
 			newArea.children.addAll( children );
 			children.clear( );
 			this.height = 0;

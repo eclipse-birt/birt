@@ -68,6 +68,8 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 				if ( header != null )
 				{
 					refineBandContent( (ITableBandContent) header );
+					//clean the layout extension
+					cleanRepeatedLayoutExtension( header );
 					boolean pageBreak = context.allowPageBreak( );
 					context.setAllowPageBreak( false );
 					IPageBuffer buffer =  context.getPageBufferManager( );
@@ -104,6 +106,24 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 			children.removeAll( removed );
 		}
 		isHeaderRefined = true;
+	}
+	
+	private void cleanRepeatedLayoutExtension( IContent content )
+	{
+		Collection children = content.getChildren( );
+		if( children == null )
+		{
+			return;
+		}
+		Iterator i = children.iterator( );
+		while( i.hasNext( ) )
+		{
+			IContent child = (IContent)i.next( );
+			child.setExtension( IContent.LAYOUT_EXTENSION, null );
+			
+			cleanRepeatedLayoutExtension( child );
+		}
+		
 	}
 
 	protected boolean layoutChildren( ) throws BirtException

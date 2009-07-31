@@ -499,15 +499,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 
 		if ( status == SplitResult.SPLIT_SUCCEED_WITH_PART )
 		{
-			newContainer = cloneArea( );
-			for ( int i = 0; i < result.size( ); i++ )
-			{
-				ContainerArea child = (ContainerArea) result.get( i );
-				child.setParent( newContainer );
-				newContainer.addChild( child );
-				children.remove( child );
-			}
-			newContainer.updateContentHeight( contentHeight );
+			newContainer = getSplitArea( result, contentHeight );
 		}
 
 		if ( newContainer != null )
@@ -518,6 +510,27 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		return new SplitResult( newContainer, status );
 	}
 
+	/**
+	 * Gets the area which is split from the original area.
+	 * @param ablatedChildren the children which is split off the original area.
+	 * @param newHeight the new content height
+	 * @return
+	 */
+	protected BlockContainerArea getSplitArea( ArrayList ablatedChildren, int newHeight )
+	{
+		BlockContainerArea newContainer = cloneArea( );
+		for ( int i = 0; i < ablatedChildren.size( ); i++ )
+		{
+			ContainerArea child = (ContainerArea) ablatedChildren.get( i );
+			child.setParent( newContainer );
+			newContainer.addChild( child );
+			children.remove( child );
+		}
+		newContainer.updateContentHeight( newHeight );
+		return newContainer;
+	}
+	
+	
 	protected void addRepeatedItem( ) throws BirtException
 	{
 
