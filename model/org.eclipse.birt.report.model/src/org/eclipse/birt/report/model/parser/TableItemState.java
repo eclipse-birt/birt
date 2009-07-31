@@ -153,7 +153,7 @@ public class TableItemState extends ListingItemState
 	 * Parses the contents of the list of TableGroup.
 	 */
 
-	class TableGroupState extends GroupState
+	static class TableGroupState extends GroupState
 	{
 
 		/**

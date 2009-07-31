@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -335,14 +336,15 @@ public class ReportDesignSerializer extends ElementVisitor
 		// dimensions, levels. And performs renaming procedure to make sure
 		// column binding expression and aggregate on list are correct.
 
-		Iterator<DesignElement> iter1 = tmpOLAPNames.keySet( ).iterator( );
+		Iterator<Entry<DesignElement, List<String>>> iter1 = tmpOLAPNames.entrySet( ).iterator( );
 		while ( iter1.hasNext( ) )
 		{
-			Cube originalElement = (Cube) iter1.next( );
+			Entry<DesignElement, List<String>> entry = iter1.next( );
+			Cube originalElement = (Cube) entry.getKey( );
 			Cube newCube = (Cube) externalElements.get( originalElement );
 
 			List<String> newNames = collectOLAPNames( targetDesign, newCube );
-			List<String> oldNames = tmpOLAPNames.get( originalElement );
+			List<String> oldNames = entry.getValue( );
 
 			updateReferredOLAPColumnBinding( targetDesign, newCube,
 					buildOLAPNameMap( oldNames, newNames ) );

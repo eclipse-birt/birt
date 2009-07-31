@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -801,10 +802,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( properties == null )
 			return;
 
-		for ( Iterator iter = properties.keySet( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = properties.entrySet( ).iterator( ); iter.hasNext( ); )
 		{
-			String propName = (String) iter.next( );
-			setProperty( propName, properties.get( propName ) );
+			Entry entry = (Entry) iter.next( );			
+			setProperty( (String) entry.getKey( ), entry.getValue( ) );
 		}
 	}
 

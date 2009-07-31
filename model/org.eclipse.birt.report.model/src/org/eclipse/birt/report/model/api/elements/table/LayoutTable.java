@@ -628,7 +628,7 @@ public class LayoutTable
 	 * 
 	 */
 
-	protected class OverlappedArea
+	protected static class OverlappedArea
 	{
 
 		private Cell cell;

@@ -734,7 +734,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	public void setFitToContainer( boolean fitToContainer )
 			throws SemanticException
 	{
-		setProperty( FIT_TO_CONTAINER_PROP, new Boolean( fitToContainer ) );
+		setProperty( FIT_TO_CONTAINER_PROP, Boolean.valueOf( fitToContainer ) );
 	}
 
 	/**

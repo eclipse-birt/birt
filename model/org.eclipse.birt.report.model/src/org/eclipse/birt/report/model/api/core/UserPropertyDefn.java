@@ -62,7 +62,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	/**
 	 * Mark property is visible or not.
 	 */
-	private Boolean isVisible = new Boolean( true );
+	private Boolean isVisible = Boolean.valueOf( true );
 
 	/**
 	 * Name of the type member.
@@ -655,7 +655,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 	public void setVisible( boolean isVisible )
 	{
-		this.isVisible = new Boolean( isVisible );
+		this.isVisible = Boolean.valueOf( isVisible );
 	}
 
 }

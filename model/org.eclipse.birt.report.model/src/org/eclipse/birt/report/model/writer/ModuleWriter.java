@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.Expression;
@@ -3695,11 +3696,12 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		// attributes
 		Map<String, Object> attributes = node.getAttributes( );
-		Iterator<String> keys = attributes.keySet( ).iterator( );
-		while ( keys.hasNext( ) )
+		Iterator<Entry<String, Object>> iter = attributes.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
 		{
-			String key = keys.next( );
-			String attr = (String) attributes.get( key );
+			Entry<String, Object> entry = iter.next( );
+			String key = entry.getKey( );
+			String attr = (String) entry.getValue( );
 			writer.attribute( key, attr );
 		}
 

@@ -680,7 +680,7 @@ public final class ContainerContext
 	/**
 	 * 
 	 */
-	class ContainerContextProvider
+	static class ContainerContextProvider
 	{
 
 		/**

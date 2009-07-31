@@ -69,7 +69,7 @@ public class CompatibleComputedColumnStructureState extends CompatibleStructureS
 		return super.startElement( tagName );
 	}
 
-	class CompatibleComputedColumnPropertyState extends CompatiblePropertyState
+	static class CompatibleComputedColumnPropertyState extends CompatiblePropertyState
 	{
 
 		CompatibleComputedColumnPropertyState( ModuleParserHandler theHandler,

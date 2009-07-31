@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -503,11 +503,12 @@ public final class StyleSheetLoader
 			return cssProperties;
 
 		LinkedHashMap<String, Object> properties = new LinkedHashMap<String, Object>( );
-		Iterator<String> iter = cssProperties.keySet( ).iterator( );
+		Iterator<Entry<String, String>> iter = cssProperties.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String cssName = iter.next( );
-			String cssValue = cssProperties.get( cssName );
+			Entry<String, String> entry = iter.next( );
+			String cssName = entry.getKey( );
+			String cssValue = entry.getValue( );
 
 			assert !StringUtil.isBlank( cssName );
 			assert !StringUtil.isBlank( cssValue );
@@ -933,13 +934,13 @@ public final class StyleSheetLoader
 
 	void addProperties( DesignElement style,
 			LinkedHashMap<String, ? extends Object> properties )
-	{
-		Set<String> keys = properties.keySet( );
-		Iterator<String> iter = keys.iterator( );
+	{		
+		Iterator iter = properties.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String name = iter.next( );
-			Object value = properties.get( name );
+			Entry entry = (Entry) iter.next( );
+			String name = (String) entry.getKey( );
+			Object value = entry.getValue( );
 			style.setProperty( name, value );
 		}
 	}
@@ -957,11 +958,12 @@ public final class StyleSheetLoader
 	{
 		assert properties != null;
 		LinkedHashMap<String, String> ret = new LinkedHashMap<String, String>( );
-		Iterator<String> keys = properties.keySet( ).iterator( );
-		while ( keys.hasNext( ) )
+		Iterator<Entry<String, String>> iter = properties.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
 		{
-			String key = keys.next( );
-			String value = properties.get( key );
+			Entry<String, String> entry = iter.next( );
+			String key = entry.getKey( );
+			String value = entry.getValue( );
 			if ( !StringUtil.isBlank( value ) )
 				ret.put( key, value );
 		}

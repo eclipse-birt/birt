@@ -47,7 +47,7 @@ import org.eclipse.birt.report.model.util.ContentIterator;
  * allows third-party developers to create report items that work within BIRT
  * virtually identically to BIRT-defined items. Extended items can use the
  * user-properties discussed above to define properties, can use a
- * ��black-box�� approach, or a combination of the two. Extended items
+ * "black-box" approach, or a combination of the two. Extended items
  * are defined in a Java plug-in that contributes behavior to the Eclipse Report
  * Developer, to the Factory and to the Presentation Engine. The extended item
  * can fully participate with the other BIRT extension facilities, meaning that
@@ -669,7 +669,7 @@ public class ExtendedItem extends ReportItem
 	/**
 	 * Inner class to record the check result.
 	 */
-	public class StatusInfo
+	public static class StatusInfo
 	{
 
 		private List<SemanticException> errors;

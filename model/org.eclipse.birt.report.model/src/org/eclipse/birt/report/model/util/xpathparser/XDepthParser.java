@@ -8,7 +8,7 @@ import java.io.StringReader;
 /**
  * Parses the depths of xpath. 
  *
- * @version $Revision: 1.2 $ $Date: 2007/01/17 02:06:29 $
+ * @version $Revision: 1.1 $ $Date: 2007/02/01 10:15:08 $
  */
 
 public class XDepthParser implements XDepthParserConstants {
@@ -40,7 +40,7 @@ public class XDepthParser implements XDepthParserConstants {
                 return depths;
         }
 
-        class DepthInfo
+        static class DepthInfo
          {
                 private String propName;
                 private String propValue;

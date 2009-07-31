@@ -68,7 +68,7 @@ public class IncludedLibrariesStructureListState
 		return super.startElement( tagName );
 	}
 
-	private class IncludedLibraryStructureState
+	private static class IncludedLibraryStructureState
 			extends
 				CompatibleStructureState
 	{

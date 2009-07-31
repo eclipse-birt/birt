@@ -54,7 +54,7 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 		return super.startElement( tagName );
 	}
 
-	class IncludedCssStructureState extends CompatibleStructureState
+	static class IncludedCssStructureState extends CompatibleStructureState
 	{
 
 		IncludedCssStructureState( ModuleParserHandler theHandler,

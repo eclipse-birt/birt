@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -236,12 +237,12 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 			return Collections.emptyMap( );
 
 		Map<String, List<UndefinedChildInfo>> ret = new HashMap<String, List<UndefinedChildInfo>>( );
-		Iterator<String> iter = illegalContentsMap.keySet( ).iterator( );
+		Iterator<Entry<String, List<UndefinedChildInfo>>> iter = illegalContentsMap.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String propName = iter.next( );
-			List<UndefinedChildInfo> childList = illegalContentsMap
-					.get( propName );
+			Entry<String, List<UndefinedChildInfo>> entry = iter.next( );
+			String propName = entry.getKey( );
+			List<UndefinedChildInfo> childList = entry.getValue( );
 			if ( childList != null && !childList.isEmpty( ) )
 			{
 				List<UndefinedChildInfo> clonedList = new ArrayList<UndefinedChildInfo>( );

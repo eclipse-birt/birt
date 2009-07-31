@@ -318,7 +318,7 @@ public class DocWriter
 		writeln( "</body>\n</html>" );
 	}
 
-	class DocException extends Exception
+	static class DocException extends Exception
 	{
 		/**
 		 * 

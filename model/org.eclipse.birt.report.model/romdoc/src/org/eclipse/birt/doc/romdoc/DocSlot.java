@@ -69,7 +69,7 @@ public class DocSlot extends DocObject
 		return contents.toString( );
 	}
 	
-	protected class ElementComparator implements Comparator
+	protected static class ElementComparator implements Comparator
 	{
 
 		/* (non-Javadoc)

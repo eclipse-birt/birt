@@ -96,7 +96,7 @@ public class RomImage
 		writer.close( );
 	}
 	
-	class RomException extends Exception
+	static class RomException extends Exception
 	{
 		/**
 		 * 

@@ -118,7 +118,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 		super.end( );
 	}
 
-	class CompatibleOdaDriverPropertyStructureState
+	static class CompatibleOdaDriverPropertyStructureState
 			extends
 				CompatibleStructureState
 	{
@@ -206,7 +206,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 		}
 	}
 
-	class CompatibleTextState extends DesignParseState
+	static class CompatibleTextState extends DesignParseState
 	{
 
 		boolean isPropertyName = false;

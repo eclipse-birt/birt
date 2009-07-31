@@ -2012,7 +2012,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	/**
 	 * Configuration information for the name management of the element.
 	 */
-	public class NameConfig
+	public static class NameConfig
 	{
 
 		/**

@@ -621,7 +621,7 @@ public class PropertySearchStrategy
 	 * The class to record some selector style information during the property
 	 * search.
 	 */
-	public class PropertyValueInfo
+	public static class PropertyValueInfo
 	{
 
 		/**

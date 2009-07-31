@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -352,11 +353,11 @@ public class ExtendedItemHandle extends ReportItemHandle
 			return Collections.emptyMap( );
 
 		Map<String, List<IllegalContentInfo>> transMap = new HashMap<String, List<IllegalContentInfo>>( );
-		Iterator<String> iter = illegalChildren.keySet( ).iterator( );
+		Iterator<Entry<String, List<UndefinedChildInfo>>> iter = illegalChildren.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String propName = iter.next( );
-			List<UndefinedChildInfo> childList = illegalChildren.get( propName );
+			Entry<String, List<UndefinedChildInfo>> entry = iter.next( );
+			List<UndefinedChildInfo> childList = entry.getValue( );
 			if ( childList != null && !childList.isEmpty( ) )
 			{
 				List<IllegalContentInfo> transChildren = new ArrayList<IllegalContentInfo>( );
@@ -365,7 +366,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 					UndefinedChildInfo infor = childList.get( i );
 					transChildren.add( new IllegalContentInfo( infor, module ) );
 				}
-				transMap.put( propName, transChildren );
+				transMap.put( entry.getKey( ), transChildren );
 			}
 		}
 

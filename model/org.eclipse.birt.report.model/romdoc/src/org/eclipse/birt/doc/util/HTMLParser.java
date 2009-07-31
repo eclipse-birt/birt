@@ -316,7 +316,7 @@ public class HTMLParser
 		return c;
 	}
 	
-	class AttribPair
+	static class AttribPair
 	{
 		String attrib;
 		String value;

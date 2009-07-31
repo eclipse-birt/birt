@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
@@ -2197,33 +2198,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws DesignFileException
 	 */
 
-	private void reloadLibrary( Library libraryToReload, Map reloadLibs )
-			throws SemanticException, DesignFileException
-	{
-		if ( libraryToReload == null )
-			return;
-
-		LibraryCommand command = new LibraryCommand( module );
-		command.reloadLibrary( (Library) libraryToReload, null, reloadLibs );
-
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
-	}
-
-	/**
-	 * Reloads the library this module includes. <code>libraryToReload</code>
-	 * must be directly/indirectly included in the module.
-	 * 
-	 * @param libraryToReload
-	 *            the library to reload
-	 * @param reloadLibs
-	 *            the map contains library files that has been reload
-	 * 
-	 * @throws SemanticException
-	 * @throws DesignFileException
-	 */
-
 	private void reloadLibrary( Library libraryToReload,
 			IncludedLibrary includedLib, Map reloadLibs )
 			throws SemanticException, DesignFileException
@@ -2851,20 +2825,18 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( isInitialized )
 			return;
 
-		String name = null;
-		Object value = null;
 		Module root = (Module) getElement( );
-		Set propNames = properties.keySet( );
 
 		// initialize the properties for the reprot design.
-		Iterator itre = propNames.iterator( );
+		Iterator itre = properties.entrySet( ).iterator( );
 		while ( itre.hasNext( ) )
 		{
-			name = (String) itre.next( );
+			Entry entry = (Entry) itre.next( );
+			String name = (String) entry.getKey( );
 			try
 			{
-				value = PropertyValueValidationUtil.validateProperty( this,
-						name, properties.get( name ) );
+				Object value = PropertyValueValidationUtil.validateProperty( this,
+						name, entry.getValue( ) );
 				root.setProperty( name, value );
 			}
 			catch ( SemanticException e )

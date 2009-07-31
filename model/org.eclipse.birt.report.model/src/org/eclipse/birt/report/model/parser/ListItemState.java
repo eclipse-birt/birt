@@ -100,7 +100,7 @@ public class ListItemState extends ListingItemState
 	 * Parses the contents of the groups list.
 	 */
 
-	class ListGroupState extends GroupState
+	static class ListGroupState extends GroupState
 	{
 
 		/**
@@ -155,7 +155,7 @@ public class ListItemState extends ListingItemState
 	 * Detail.
 	 */
 
-	class ListBandState extends ReportElementState
+	static class ListBandState extends ReportElementState
 	{
 
 		/**

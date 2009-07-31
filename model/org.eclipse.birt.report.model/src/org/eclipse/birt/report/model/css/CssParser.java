@@ -86,7 +86,7 @@ public class CssParser
 		return this.errorHandler;
 	}
 
-	class CssHandler implements DocumentHandler
+	static class CssHandler implements DocumentHandler
 	{
 
 		private Stack nodeStack;

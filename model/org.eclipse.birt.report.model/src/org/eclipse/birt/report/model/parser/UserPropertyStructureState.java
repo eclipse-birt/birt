@@ -423,7 +423,7 @@ public class UserPropertyStructureState extends StructureState
 	 * Parses the one property of user-define property definition.
 	 */
 
-	class UserPropertyState extends PropertyState
+	static class UserPropertyState extends PropertyState
 	{
 
 		UserPropertyState( ModuleParserHandler theHandler,
@@ -505,7 +505,7 @@ public class UserPropertyStructureState extends StructureState
 		}
 	}
 	
-	class UserExpressionState extends ExpressionState
+	static class UserExpressionState extends ExpressionState
 	{
 
 		UserExpressionState( ModuleParserHandler theHandler,

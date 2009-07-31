@@ -85,7 +85,7 @@ public class CompatibleGroupBoundColumnsState
 		}
 	}
 
-	class CompatibleGroupBoundColumnState extends CompatibleStructureState
+	static class CompatibleGroupBoundColumnState extends CompatibleStructureState
 	{
 
 		CompatibleGroupBoundColumnState( ModuleParserHandler theHandler,
