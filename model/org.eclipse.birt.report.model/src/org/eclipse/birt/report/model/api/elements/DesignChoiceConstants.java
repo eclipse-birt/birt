@@ -257,6 +257,7 @@ public interface DesignChoiceConstants
 	public static final String PARAM_TYPE_DATETIME = "dateTime"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_BOOLEAN = "boolean"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_INTEGER = "integer"; //$NON-NLS-1$
+	public static final String PARAM_TYPE_JAVA_OBJECT = "javaObject"; //$NON-NLS-1$
 	/**
 	 * @deprecated Now any is not supported.
 	 */
@@ -517,6 +518,7 @@ public interface DesignChoiceConstants
 	public static final String COLUMN_DATA_TYPE_DATE = "date";//$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_TIME = "time";//$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_BLOB = "blob";//$NON-NLS-1$
+	public static final String COLUMN_DATA_TYPE_JAVA_OBJECT = "javaObject";//$NON-NLS-1$
 
 	/**
 	 * searchType -- The search type for column hint The first constant is the

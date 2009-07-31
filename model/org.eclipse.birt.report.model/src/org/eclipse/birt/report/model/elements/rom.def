@@ -186,7 +186,8 @@
     <Choice displayNameID="Choices.paramType.boolean" name="boolean"/>
     <Choice displayNameID="Choices.paramType.integer" name="integer"/>	
     <Choice displayNameID="Choices.paramType.date" name="date"/>
-    <Choice displayNameID="Choices.paramType.time" name="time"/>	  
+    <Choice displayNameID="Choices.paramType.time" name="time"/>
+    <Choice displayNameID="Choices.paramType.javaObject" name="javaObject"/>	  
   </ChoiceType>
   <ChoiceType name="paramValueType">
     <Choice displayNameID="Choices.paramValueType.static" name="static"/>
@@ -394,6 +395,7 @@
 	<Choice displayNameID="Choices.columnDataType.date" name="date"/>
 	<Choice displayNameID="Choices.columnDataType.time" name="time"/> 
 	<Choice displayNameID="Choices.columnDataType.blob" name="blob"/>
+	<Choice displayNameID="Choices.columnDataType.javaObject" name="javaObject"/>
     <!-- not supported now
     <Choice displayNameID="Choices.columnDataType.structure" name="structure"/>
     <Choice displayNameID="Choices.columnDataType.table" name="table"/>
@@ -1954,7 +1956,7 @@
   	</Method>
   </Element>
   <Element displayNameID="Element.AbstractScalarParameter" extends="Parameter" isAbstract="true" javaClass="org.eclipse.birt.report.model.elements.AbstractScalarParameter" name="AbstractScalarParameter" since="2.5">
-  	<Property displayNameID="Element.AbstractScalarParameter.isRequired" name="isRequired" runtimeSettable="false" since="2.2" type="boolean">
+  	<Property displayNameID="Element.AbstractScalarParameter.isRequired" name="isRequired" runtimeSettable="false" since="2.2" type="boolean">  	
       <Default>true</Default>
     </Property>
     <PropertyGroup displayNameID="Element.AbstractScalarParameter.dynamicList">
@@ -1979,6 +1981,7 @@
     <Property allowExpression="true" displayNameID="Element.AbstractScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" subType="literalString" type="list"/>
     <Property detailType="SelectionChoice" displayNameID="Element.AbstractScalarParameter.selectionList" isList="true" name="selectionList" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="paramType" displayNameID="Element.AbstractScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
+      <Allowed>string,float,decimal,dateTime,date,time,boolean,integer</Allowed>
       <Default>string</Default>
     </Property>    
   </Element>
