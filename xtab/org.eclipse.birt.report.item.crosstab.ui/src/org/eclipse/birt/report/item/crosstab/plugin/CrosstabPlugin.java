@@ -97,7 +97,7 @@ public class CrosstabPlugin extends AbstractUIPlugin
 					{
 						return;
 					}
-					LabelHandle labelHandle = DesignElementFactory.getInstance( )
+					LabelHandle labelHandle = DesignElementFactory.getInstance( cellHandle.getModuleHandle( ))
 						.newLabel( null );
 					try
 					{
