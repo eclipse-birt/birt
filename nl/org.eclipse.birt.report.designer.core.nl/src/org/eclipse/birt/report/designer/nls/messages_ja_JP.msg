@@ -4595,7 +4595,7 @@ ReloadImageAction.Text=イメージの再ロード(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=新しい変数
+VariablesNodeProvider.NewActionName=変数の新規作成
 VariablesNodeProvider.NodeName=変数
 
 ###########################################################

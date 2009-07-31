@@ -3466,7 +3466,7 @@ New.ReportDesign=新しいレポートデザイン
 New.Parameter=新しいパラメタ
 New.CascadingParameterGroup=新しいカスケードパラメタグループ
 New.ScalarParameter=新しいパラメタ
-New.DynamicFilterParameter=動的フィルタパラメタの新規作成
+New.DynamicFilterParameter=新しい動的フィルタパラメタ
 New.ParameterGroup=新しいパラメタグループ
 New.Style=新しいスタイル
 New.MasterPage=新しいマスタページ
@@ -3515,7 +3515,7 @@ New.OdaLevel=新規ODAレベル
 New.OdaMeasure=新規ODAメジャー
 New.OdaMeasureGroup=新規ODAメジャーグループ
 New.DerivedDataSet=新しい派生データセット
-New.VariableElement=NewVariableElement
+New.VariableElement=新しい変数要素
 
 ###########################################################
 #Default theme name.
