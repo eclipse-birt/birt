@@ -44,6 +44,8 @@ abstract public class AbstractContent extends AbstractElement
 			IContent
 {
 
+	private static final DimensionType EMPTY_DIMENSION = new DimensionType( "NONE" );
+
 	transient protected IReportContent report;
 
 	transient protected CSSEngine cssEngine;
@@ -208,6 +210,9 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public DimensionType getHeight( )
 	{
+		if ( height == EMPTY_DIMENSION )
+			return null;
+
 		if ( height != null )
 		{
 			return height;
@@ -224,6 +229,9 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public DimensionType getWidth( )
 	{
+		if ( width == EMPTY_DIMENSION )
+			return null;
+
 		if ( width != null )
 		{
 			return width;
@@ -397,7 +405,14 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public void setHeight( DimensionType height )
 	{
-		this.height = height;
+		if( height == null )
+		{
+			this.height = EMPTY_DIMENSION;
+		}
+		else
+		{
+			this.height = height;
+		}
 	}
 
 	/**
@@ -470,7 +485,14 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public void setWidth( DimensionType width )
 	{
-		this.width = width;
+		if ( width == null )
+		{
+			this.width = EMPTY_DIMENSION;
+		}
+		else
+		{
+			this.width = width;
+		}
 	}
 
 	/**
@@ -645,12 +667,10 @@ abstract public class AbstractContent extends AbstractElement
 				y.readObject( in );
 				break;
 			case FIELD_WIDTH :
-				width = new DimensionType( );
-				width.readObject( in );
+				width = readDimension( in );
 				break;
 			case FIELD_HEIGHT :
-				height = new DimensionType( );
-				height.readObject( in );
+				height = readDimension( in );
 				break;
 			case FIELD_HYPERLINK :
 				ActionContent action = new ActionContent( );
@@ -696,6 +716,18 @@ abstract public class AbstractContent extends AbstractElement
 				userProperties = (HashMap<String, Object>) IOUtil.readMap( in );
 				break;
 		}
+	}
+
+	private DimensionType readDimension( DataInputStream in )
+			throws IOException
+	{
+		DimensionType tmp = new DimensionType( );
+		tmp.readObject( in );
+		if ( "NONE".equals( tmp.getChoice( ) ) )
+		{
+			return EMPTY_DIMENSION;
+		}
+		return tmp;
 	}
 
 	private IStyle readStyle( DataInputStream in ) throws IOException
