@@ -139,6 +139,14 @@ public class BIRTCubeResultSetEvaluator extends
 		{
 			logger.log( e );
 		}
+		catch ( RuntimeException e )
+		{
+			// Bugzilla#284528 During axis chart's evaluation, the cube cursor
+			// may be after the last. However we don't need the actual value.
+			// Shared scale can be used to draw an axis. Runtime exception
+			// should be caught here to avoid stopping later rendering.
+			logger.log( e );
+		}
 		return result;
 	}
 
@@ -247,6 +255,7 @@ public class BIRTCubeResultSetEvaluator extends
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void initCubeCursor( ) throws OLAPException, BirtException
 	{
 		if ( cubeCursor == null )
