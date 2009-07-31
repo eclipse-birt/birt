@@ -2826,7 +2826,7 @@ ParameterDialog.ErrorMessage.ValueColumnEmpty=값 열을 지정해야 합니다.
 ParameterDialog.ErrorMessage.NoDefaultValue=기본값을 설정해야 합니다.
 ParameterDialog.ErrorTitle.InvalidListLimit=잘못된 목록 제한
 ParameterDialog.Flag.Default=기본값
-ParameterDialog.Group.MoreOption=다음으로 표시
+ParameterDialog.Group.MoreOption=표시
 ParameterDialog.Group.Properties=속성
 ParameterDialog.Label.DataType=데이터 형식(&D):
 ParameterDialog.SelectionDialog.Edit=선택 항목 편집
@@ -4616,7 +4616,7 @@ VariableDialog.DefaultValue=기본값(&V):
 VariableDialog.Name=이름(&N):
 VariableDialog.PageVariable=페이지 변수(&P)
 VariableDialog.ReportVariable=보고서 변수(&R)
-VariableDialog.VariableType=다음을 입력합니다.
+VariableDialog.VariableType=유형:
 VariableDialog.Error.NameDuplicate=이름 \"{0}\"이(가) 기존 이름과 중복됩니다. 다른 이름을 선택하십시오.
 
 ###########################################################
