@@ -444,7 +444,7 @@ Choices.exportType.always=항상
 
 #56. analysisType
 Choices.analysisType.dimension=차원
-Choices.analysisType.attribute=Attribute
+Choices.analysisType.attribute=특성
 Choices.analysisType.measure=측정
 
 #57. scalarParamAlign
@@ -665,9 +665,9 @@ Choices.variableType.report=보고서 변수
 Choices.variableType.page=페이지 변수
 
 #82 nullValueOrderingType
-Choices.nullValueOrderingType.unknown=Unknown
-Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
-Choices.nullValueOrderingType.nullIsLast=NullIsLast
+Choices.nullValueOrderingType.unknown=알 수 없음
+Choices.nullValueOrderingType.nullIsFirst=Nulls First
+Choices.nullValueOrderingType.nullIsLast=Nulls Last
 
 ###########################################################
 # Classes
@@ -1986,7 +1986,7 @@ Structure.ColumnHint.helpText=도움말 텍스트
 Structure.ColumnHint.helpTextID=도움말 텍스트 리소스 키
 Structure.ColumnHint.displayName=표시 이름
 Structure.ColumnHint.displayNameID=표시 이름 리소스 키
-Structure.ColumnHint.onColumnLayout=On Column Layout
+Structure.ColumnHint.onColumnLayout=열 레이아웃 시
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택
@@ -2184,12 +2184,12 @@ Structure.Variable.name=이름
 Structure.Variable.value=값 
 
 #36. SortHint
-Structure.SortHint=Sort Hint
+Structure.SortHint=힌트 정렬
 Structure.SortHint.columnName=열 이름
-Structure.SortHint.position=Column Position
+Structure.SortHint.position=열 위치
 Structure.SortHint.direction=정렬 방향
-Structure.SortHint.nullValueOrdering=Null Value Ordering
-Structure.SortHint.isOptional=Optional
+Structure.SortHint.nullValueOrdering=널(Null) 값 순서
+Structure.SortHint.isOptional=옵션
 
 ###########################################################
 # Element names
@@ -2370,10 +2370,10 @@ Element.ReportDesign.ACLExpression=ACL 식
 Element.ReportDesign.cascadeACL=ACL 하위 전달
 Element.ReportDesign.imageDPI=이미지 DPI
 Element.ReportDesign.pageVariables=페이지 변수
-Element.ReportDesign.dataObjects= Data objects
-Element.ReportDesign.onContentUpdate= On content update
-Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.dataObjects= 데이터 개체
+Element.ReportDesign.onContentUpdate= 내용 업데이트 시
+Element.ReportDesign.onContentUpdate.toolTip=보고서 내용 업데이트 시 호출됩니다.
+Element.ReportDesign.onContentUpdate.this=보고서 디자인
 Element.ReportDesign.onPageStart=페이지 시작 시
 Element.ReportDesign.onPageEnd=페이지 종료 시
 
@@ -2405,7 +2405,7 @@ Element.DataSet.cachedMetaData=캐시된 메타데이터
 Element.DataSet.rowFetchLimit=데이터 집합에서 인출할 최대 행 수
 Element.DataSet.needsCache=데이터 엔진용 캐시가 필요합니다.
 Element.DataSet.parameters=데이터 집합 매개 변수
-Element.DataSet.sortHints=Sort hints
+Element.DataSet.sortHints=힌트 정렬
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=열기 이전
@@ -3662,7 +3662,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=요소 "{0}"을(를) 삽입 및 붙여 �
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE= {0}은 이미 {1}을 참조하므로 순환 요소 참조를 찾을 수 있습니다.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=요소 {0}의 데이터 바인딩 참조의 그룹 수와 참조하고 있는 요소 {1}의 그룹 수가 다릅니다.
 Error.SemanticError.INVALID_MANIFEST=요소 {0}에 잘못된 매니페스트가 있습니다.
-Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
+Error.SemanticError.VALUE_FORBIDDEN=목록 속성 "{0}"이(가) 비어 있어 어떤 항목도 가질 수 없습니다.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=대상 라이브러리에 중복된 요소 이름이 있습니다. 요소 {0}을(를) 내보낼 수 없습니다. 내보낸 요소 이름을 변경하십시오.

@@ -444,7 +444,7 @@ Choices.exportType.always=Siempre
 
 #56. analysisType
 Choices.analysisType.dimension=Dimensión
-Choices.analysisType.attribute=Attribute
+Choices.analysisType.attribute=Atributo
 Choices.analysisType.measure=Medida
 
 #57. scalarParamAlign
@@ -665,9 +665,9 @@ Choices.variableType.report=Variable de informe
 Choices.variableType.page=Variable de página
 
 #82 nullValueOrderingType
-Choices.nullValueOrderingType.unknown=Unknown
-Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
-Choices.nullValueOrderingType.nullIsLast=NullIsLast
+Choices.nullValueOrderingType.unknown=Desconocido
+Choices.nullValueOrderingType.nullIsFirst=Nulo primero
+Choices.nullValueOrderingType.nullIsLast=Nulo último
 
 ###########################################################
 # Classes
@@ -1986,7 +1986,7 @@ Structure.ColumnHint.helpText=Texto de ayuda
 Structure.ColumnHint.helpTextID=Clave de recursos del texto de ayuda
 Structure.ColumnHint.displayName=Nombre en pantalla
 Structure.ColumnHint.displayNameID=Mostrar clave de recursos del nombre
-Structure.ColumnHint.onColumnLayout=On Column Layout
+Structure.ColumnHint.onColumnLayout=En diseño de columna
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección
@@ -2184,12 +2184,12 @@ Structure.Variable.name=Nombre
 Structure.Variable.value=Valor 
 
 #36. SortHint
-Structure.SortHint=Sort Hint
+Structure.SortHint=Sugerencia de orden
 Structure.SortHint.columnName=Nombre de la columna
-Structure.SortHint.position=Column Position
+Structure.SortHint.position=Posición de columna
 Structure.SortHint.direction=Dirección de orden
-Structure.SortHint.nullValueOrdering=Null Value Ordering
-Structure.SortHint.isOptional=Optional
+Structure.SortHint.nullValueOrdering=Orden de valor nulo
+Structure.SortHint.isOptional=Opcional
 
 ###########################################################
 # Element names
@@ -2370,10 +2370,10 @@ Element.ReportDesign.ACLExpression=Expresión ACL
 Element.ReportDesign.cascadeACL=Cascada ACL
 Element.ReportDesign.imageDPI=Imagen DPI
 Element.ReportDesign.pageVariables=Variables de página
-Element.ReportDesign.dataObjects= Data objects
-Element.ReportDesign.onContentUpdate= On content update
-Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.dataObjects= Objetos de datos
+Element.ReportDesign.onContentUpdate= En actualización de contenidos
+Element.ReportDesign.onContentUpdate.toolTip=Llamado al actualizar el contenido de informe.
+Element.ReportDesign.onContentUpdate.this=Diseño de informe
 Element.ReportDesign.onPageStart=Al inicio de la página
 Element.ReportDesign.onPageEnd=Al final de la página
 
@@ -2405,7 +2405,7 @@ Element.DataSet.cachedMetaData=Metadatos en caché
 Element.DataSet.rowFetchLimit=Número máximo de filas que recuperar del conjunto de datos
 Element.DataSet.needsCache=Caché necesario para el motor de datos
 Element.DataSet.parameters=Parámetros de conjunto de datos
-Element.DataSet.sortHints=Sort hints
+Element.DataSet.sortHints=Sugerencias de orden
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Antes de abrir
@@ -3662,7 +3662,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Está prohibida la operación ins
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Se ha encontrado la referencia de elemento circular, debido a que {0} ya hace referencia a {1}.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=La referencia de enlace de datos del elemento {0} tiene un número diferente de grupos con el elemento {1} al que hace referencia.
 Error.SemanticError.INVALID_MANIFEST=El elemento {0} tiene un manifiesto no válido.
-Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
+Error.SemanticError.VALUE_FORBIDDEN=La propiedad de la lista "{0}" está vacía, no puede tener ningún elemento.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nombre de elemento duplicado en la librería de destino, no es posible exportar el elemento {0}. Cambie el nombre del elemento exportado.

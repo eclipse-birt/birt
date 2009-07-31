@@ -444,7 +444,7 @@ Choices.exportType.always=Immer
 
 #56. analysisType
 Choices.analysisType.dimension=Dimension
-Choices.analysisType.attribute=Attribute
+Choices.analysisType.attribute=Attribut
 Choices.analysisType.measure=Maßeinheit
 
 #57. scalarParamAlign
@@ -665,7 +665,7 @@ Choices.variableType.report=Berichtvariable
 Choices.variableType.page=Seitenvariable
 
 #82 nullValueOrderingType
-Choices.nullValueOrderingType.unknown=Unknown
+Choices.nullValueOrderingType.unknown=Unbekannt
 Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
 Choices.nullValueOrderingType.nullIsLast=NullIsLast
 
@@ -1986,7 +1986,7 @@ Structure.ColumnHint.helpText=Hilfetext
 Structure.ColumnHint.helpTextID=Hilfetext-Ressourcenschlüssel
 Structure.ColumnHint.displayName=Anzeigename
 Structure.ColumnHint.displayNameID=Anzeigename des Ressourcenschlüssels
-Structure.ColumnHint.onColumnLayout=On Column Layout
+Structure.ColumnHint.onColumnLayout=Spaltenlayout
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Auswahl
@@ -2184,11 +2184,11 @@ Structure.Variable.name=Name
 Structure.Variable.value=Wert 
 
 #36. SortHint
-Structure.SortHint=Sort Hint
+Structure.SortHint=Sortierungshinweis
 Structure.SortHint.columnName=Spaltenname
-Structure.SortHint.position=Column Position
+Structure.SortHint.position=Spaltenposition
 Structure.SortHint.direction=Sortierreihenfolge
-Structure.SortHint.nullValueOrdering=Null Value Ordering
+Structure.SortHint.nullValueOrdering=Nullwert-Reihenfolge
 Structure.SortHint.isOptional=Optional
 
 ###########################################################
@@ -2370,10 +2370,10 @@ Element.ReportDesign.ACLExpression=Ausdruck 'ACL'
 Element.ReportDesign.cascadeACL=Verschachtelung 'ACL'
 Element.ReportDesign.imageDPI=Bild-DPI
 Element.ReportDesign.pageVariables=Seitenvariablen
-Element.ReportDesign.dataObjects= Data objects
-Element.ReportDesign.onContentUpdate= On content update
-Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.dataObjects= Datenobjekte
+Element.ReportDesign.onContentUpdate= Bei Inhaltsaktualisierung
+Element.ReportDesign.onContentUpdate.toolTip=Wird aufgerufen, wenn der Berichtinhalt aktualisiert wird.
+Element.ReportDesign.onContentUpdate.this=Berichtdesign
 Element.ReportDesign.onPageStart=Am Seitenanfang
 Element.ReportDesign.onPageEnd=Am Seitenende
 
@@ -2405,7 +2405,7 @@ Element.DataSet.cachedMetaData=Zwischengespeicherte Metadaten
 Element.DataSet.rowFetchLimit=Maximale Anzahl an Zeilen, die aus dem Datensatz abgerufen werden:
 Element.DataSet.needsCache=Cache wird für Daten-Engine benötigt
 Element.DataSet.parameters=Datensatzparameter
-Element.DataSet.sortHints=Sort hints
+Element.DataSet.sortHints=Sortierungshinweise
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Vor dem Öffnen
@@ -3662,7 +3662,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Das Einfügen beim Element "{0}"
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Der Zirkelbezug auf das Element wird gefunden, weil {0} sich bereits auf {1} verweist.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=Der Datenbindungsverweis des Elements {0} verfügt über verschiedene Anzahlen von Gruppen mit dem Element {1}, auf das er verweist.
 Error.SemanticError.INVALID_MANIFEST=Das Verzeichnis des Elements {0} ist ungültig.
-Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
+Error.SemanticError.VALUE_FORBIDDEN=Die Listeneigenschaft '{0}' ist leer und kann kein Element enthalten.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Doppelter Elementname in der Zielbibliothek. Element {0} kann nicht exportiert werden. Ändern Sie den Namen für das zu exportierende Element.

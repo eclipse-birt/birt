@@ -219,7 +219,7 @@ data.engine.invalidAggregationBindingForPLSReport=페이지 수준 보안을 사용하는 경
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=열 별칭은 빈 문자열이 될 수 없습니다.
-odaconsumer.CannotProcessDriverConfig=Cannot find or process the {0} driver''s data source extension configuration.
+odaconsumer.CannotProcessDriverConfig={0} 드라이버의 데이터 원본 확장 구성을 찾을 수 없거나 처리할 수 없습니다.
 odaconsumer.OdaInitEntryNotFound=드라이버 {0}의 초기 진입점을 찾을 수 없거나 인스턴스화할 수 없습니다.
 odaconsumer.OdaDriverOnUnsupportedPlatform=드라이버 {0}이(가) {1}을(를) 지원하지 않습니다.
 odaconsumer.CannotGenerateUrl=클래스 로더의 URL {0}을(를) 생성할 수 없습니다.
@@ -411,8 +411,8 @@ data.olap.InvalidAggrTypeOnMeasure=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습�
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=열 \"{0}\"이(가) 없습니다!
-data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
-data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
+data.derivedDataSet.UnionQueryTextParseError=통합 쿼리를 구문 분석하지 못했습니다. \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=조인 쿼리를 구문 분석하지 못했습니다. \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=초기화할 클래스 인스턴스가 잘못되었습니다.
 data.derivedDataSet.classLoadError=클래스 인스턴스를 로드하지 못했습니다.

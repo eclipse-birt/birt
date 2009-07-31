@@ -27,7 +27,7 @@ dataset.jdbcselect=SQL SELECT via JDBC
 datasource.editor.page.connection=Connexion à une source de données
 preference.datasetpreview=Jeu de données JDBC
 
-preference.bidi.datasource.title = JDBC Data Source
+preference.bidi.datasource.title = Source de données JDBC
 
 wizard.data.set.title=Nouveau jeu de données
 

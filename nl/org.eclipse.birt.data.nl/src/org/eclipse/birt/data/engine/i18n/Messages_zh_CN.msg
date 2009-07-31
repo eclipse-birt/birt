@@ -219,7 +219,7 @@ data.engine.invalidAggregationBindingForPLSReport=启用页面级别安全时，聚合绑定“
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=列别名不能为空字符串。
-odaconsumer.CannotProcessDriverConfig=Cannot find or process the {0} driver''s data source extension configuration.
+odaconsumer.CannotProcessDriverConfig=找不到或无法处理 {0} 驱动程序的数据源扩展配置。
 odaconsumer.OdaInitEntryNotFound=无法找到或实例化驱动程序 {0} 的初始入口点。
 odaconsumer.OdaDriverOnUnsupportedPlatform=驱动程序 {0} 不支持 {1}。
 odaconsumer.CannotGenerateUrl=无法生成类加载器的 URL {0}。
@@ -411,8 +411,8 @@ data.olap.InvalidAggrTypeOnMeasure=多维数据集度量聚合不能为此类型:“{0}”。
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=列“{0}”不存在!
-data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
-data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
+data.derivedDataSet.UnionQueryTextParseError=无法分析联合查询。 \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=无法分析联接查询。 \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=要初始化的类实例非法。
 data.derivedDataSet.classLoadError=无法加载类实例。

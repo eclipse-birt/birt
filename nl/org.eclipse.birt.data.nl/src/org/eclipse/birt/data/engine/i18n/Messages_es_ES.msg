@@ -219,7 +219,7 @@ data.engine.invalidAggregationBindingForPLSReport=El enlace de agregación "{0}" 
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=El alias de columna no puede ser una cadena vacía.
-odaconsumer.CannotProcessDriverConfig=Cannot find or process the {0} driver''s data source extension configuration.
+odaconsumer.CannotProcessDriverConfig=No se puede encontrar o procesar la configuración de extensión de fuente de datos del controlador {0}.
 odaconsumer.OdaInitEntryNotFound=No se ha encontrado el punto de entrada inicial del controlador {0} o no se puede crear una instancia del mismo.
 odaconsumer.OdaDriverOnUnsupportedPlatform=El controlador {0} no admite {1}.
 odaconsumer.CannotGenerateUrl=No se puede generar la URL {0} del cargador de clases.
@@ -411,8 +411,8 @@ data.olap.InvalidAggrTypeOnMeasure=La agregación en medidas de cubo no puede ser
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=La columna \"{0}\" no existe.
-data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
-data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
+data.derivedDataSet.UnionQueryTextParseError=Error al analizar la consulta de unión. \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=Error al analizar la consulta de combinación. \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=La instancia de clase utilizada para inicializar no es válida.
 data.derivedDataSet.classLoadError=No se ha podido cargar la instancia de clase.

@@ -444,7 +444,7 @@ Choices.exportType.always=Toujours
 
 #56. analysisType
 Choices.analysisType.dimension=Dimension
-Choices.analysisType.attribute=Attribute
+Choices.analysisType.attribute=Attribut
 Choices.analysisType.measure=Mesure
 
 #57. scalarParamAlign
@@ -665,9 +665,9 @@ Choices.variableType.report=Variable de l'état
 Choices.variableType.page=Variable de la page
 
 #82 nullValueOrderingType
-Choices.nullValueOrderingType.unknown=Unknown
-Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
-Choices.nullValueOrderingType.nullIsLast=NullIsLast
+Choices.nullValueOrderingType.unknown=Inconnu
+Choices.nullValueOrderingType.nullIsFirst=Premier Nul
+Choices.nullValueOrderingType.nullIsLast=Dernier Nul
 
 ###########################################################
 # Classes
@@ -1986,7 +1986,7 @@ Structure.ColumnHint.helpText=Texte d'aide
 Structure.ColumnHint.helpTextID=Clé de ressource du texte d'aide
 Structure.ColumnHint.displayName=Nom d'affichage
 Structure.ColumnHint.displayNameID=Clé de ressource du nom d'affichage
-Structure.ColumnHint.onColumnLayout=On Column Layout
+Structure.ColumnHint.onColumnLayout=Présentation de colonne activée
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection
@@ -2184,12 +2184,12 @@ Structure.Variable.name=Nom
 Structure.Variable.value=Valeur 
 
 #36. SortHint
-Structure.SortHint=Sort Hint
+Structure.SortHint=Tri par astuce
 Structure.SortHint.columnName=Nom de colonne
-Structure.SortHint.position=Column Position
+Structure.SortHint.position=Position de la colonne
 Structure.SortHint.direction=Direction du tri
-Structure.SortHint.nullValueOrdering=Null Value Ordering
-Structure.SortHint.isOptional=Optional
+Structure.SortHint.nullValueOrdering=Commande valeur nulle
+Structure.SortHint.isOptional=Facultatif
 
 ###########################################################
 # Element names
@@ -2370,10 +2370,10 @@ Element.ReportDesign.ACLExpression=Expression ACL
 Element.ReportDesign.cascadeACL=Cascade ACL
 Element.ReportDesign.imageDPI=DPI de l'image
 Element.ReportDesign.pageVariables=Variables de la page
-Element.ReportDesign.dataObjects= Data objects
-Element.ReportDesign.onContentUpdate= On content update
-Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.dataObjects= Objets de données
+Element.ReportDesign.onContentUpdate= Mise à jour sur le contenu
+Element.ReportDesign.onContentUpdate.toolTip=Commande appelée lors de la mise à jour du contenu.*
+Element.ReportDesign.onContentUpdate.this=Modèle d'état
 Element.ReportDesign.onPageStart=A l'ouverture de la page
 Element.ReportDesign.onPageEnd=A la fermeture de la page
 
@@ -2405,7 +2405,7 @@ Element.DataSet.cachedMetaData=Métadonnées en cache
 Element.DataSet.rowFetchLimit=Nombre maximum de lignes à récupérer à partir du jeu de données
 Element.DataSet.needsCache=Besoin d'un cache pour le moteur de données
 Element.DataSet.parameters=Paramètres du jeu de données
-Element.DataSet.sortHints=Sort hints
+Element.DataSet.sortHints=Tri par astuces
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Avant l'ouverture
@@ -3662,7 +3662,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=L'opération d'insertion/collage
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=La référence d'élément circulaire a été trouvée, car {0} fait déjà référence à {1}.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=Le nombre de groupes de la référence de liaison de données de l''élément {0} est différent du nombre de l''élément {1} auquel il se réfère.
 Error.SemanticError.INVALID_MANIFEST=L'élément {0} a un manifeste non valide.
-Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
+Error.SemanticError.VALUE_FORBIDDEN=La propriété de liste "{0}" est vide, elle ne peut contenir aucun élément.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nom d'élément dupliqué dans la bibliothèque cible, l'élément {0} ne peut pas être exporté. Veuillez renommer l'élément exporté.

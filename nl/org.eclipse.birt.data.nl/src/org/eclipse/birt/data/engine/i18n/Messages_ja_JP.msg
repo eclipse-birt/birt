@@ -219,7 +219,7 @@ data.engine.invalidAggregationBindingForPLSReport=ƒy[ƒWƒŒƒxƒ‹ƒZƒLƒ…ƒŠƒeƒB‚ª—LŒø
 odaconsumer.ColumnNameCannotBeEmptyOrNull=—ñ–¼‚Í‹ó”’‚Ü‚½‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=—ñ‚ÌƒGƒCƒŠƒAƒX‚ÍA‹ó”’•¶š—ñ‚É‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
-odaconsumer.CannotProcessDriverConfig=Cannot find or process the {0} driver''s data source extension configuration.
+odaconsumer.CannotProcessDriverConfig={0} ƒhƒ‰ƒCƒo‚Ìƒf[ƒ^ƒ\[ƒXŠg’£‚Ìİ’è‚ªŒ©‚Â‚©‚ç‚È‚¢‚©Aˆ—‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.OdaInitEntryNotFound=ƒhƒ‰ƒCƒo {0} ‚Ì‰ŠúƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg‚ªŒ©‚Â‚©‚ç‚È‚¢‚©AƒCƒ“ƒXƒ^ƒ“ƒX‰»‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.OdaDriverOnUnsupportedPlatform=ƒhƒ‰ƒCƒo {0} ‚Å‚ÍA{1} ‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 odaconsumer.CannotGenerateUrl=ƒNƒ‰ƒXƒ[ƒ_‚É URL {0} ‚ğ¶¬‚Å‚«‚Ü‚¹‚ñB
@@ -411,8 +411,8 @@ data.olap.InvalidAggrTypeOnMeasure=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚É‘Î‚·‚éWŒv‚Å‚Í‚±‚ÌŒ^‚Íg—
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=—ñ \"{0}\" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
-data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
+data.derivedDataSet.UnionQueryTextParseError=˜aW‡ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB\"{0}\" \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=ƒWƒ‡ƒCƒ“ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB\"{0}\" \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=‰Šú‰»‚·‚éƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ª–³Œø‚Å‚·B
 data.derivedDataSet.classLoadError=ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒ[ƒh‚Å‚«‚Ü‚¹‚ñB

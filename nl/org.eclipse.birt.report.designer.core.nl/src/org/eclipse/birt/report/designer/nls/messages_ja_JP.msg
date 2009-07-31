@@ -239,7 +239,7 @@ ColumnBindingDialog.Column.Name=名前
 ColumnBindingDialog.Column.Filter=フィルタ
 ColumnBindingDialog.Column.Function=関数
 ColumnBindingDialog.Column.DisplayName=表示名
-ColumnBindingDialog.Column.DisplayNameID=Display Name ID
+ColumnBindingDialog.Column.DisplayNameID=表示名 ID
 ColumnBindingDialog.InputPrompt=<ここに新しい値を入力してください...>
 ColumnBindingDialog.Button.Generate=カラムバインドの生成
 ColumnBindingDialog.Column.DataType=データ型
@@ -1460,8 +1460,8 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=アウトラインビ
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
-ExpressionBuidler.Title=計算式ビルダ
+ExpressionBuidler.Dialog.Title=式ビルダ (JavaScript)
+ExpressionBuidler.Title=式ビルダ
 ExpressionBuilder.tooltip.Sort=ソート
 ExpressionBuilder.toolTipText.Button=式ビルダを開く
 
@@ -4074,7 +4074,7 @@ IDEResourcePageHelper.WorkSpace.Button=ワークスペース(&W)...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=名前
-DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=表示名 ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=表示名
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=データカラムのバインド :
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=使用可能な列バインド :
@@ -4402,7 +4402,7 @@ BindingDialogHelper.text.Grid=グリッド
 BindingDialogHelper.text.Group=グループ
 BindingDialogHelper.text.Expression=式(&E) :
 BindingDialogHelper.text.displayName=表示名(&N) :
-BindingDialogHelper.text.displayNameID=Display Name &ID:
+BindingDialogHelper.text.displayNameID=表示名 ID(&I) :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
@@ -4500,7 +4500,7 @@ CreateChartHandler.text=グラフビューの作成
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=入力パラメタ
-InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.msg.requiredParam=アスタリスク (*) が付いているパラメタは必須項目です。
 InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
@@ -4591,7 +4591,7 @@ TextEditor.PasteFormattedText=書式付きテキストの貼り付け
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=Reload I&mage
+ReloadImageAction.Text=イメージの再ロード(&M)
 
 ###########################################################
 #VariablesNodeProvider
@@ -4621,4 +4621,4 @@ VariableDialog.Error.NameDuplicate=この名前 \"{0}\" は、すでに使用されています。
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文 :

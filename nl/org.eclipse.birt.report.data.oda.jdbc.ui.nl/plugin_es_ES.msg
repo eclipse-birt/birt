@@ -27,7 +27,7 @@ dataset.jdbcselect=SQL SELECT mediante JDBC
 datasource.editor.page.connection=Conexión de fuente de datos
 preference.datasetpreview=Conjunto de datos JDBC
 
-preference.bidi.datasource.title = JDBC Data Source
+preference.bidi.datasource.title = Fuente de datos JDBC
 
 wizard.data.set.title=Nuevo conjunto de datos
 

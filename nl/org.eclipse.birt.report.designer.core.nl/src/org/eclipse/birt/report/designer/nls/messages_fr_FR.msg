@@ -239,7 +239,7 @@ ColumnBindingDialog.Column.Name=Nom
 ColumnBindingDialog.Column.Filter=Filtre
 ColumnBindingDialog.Column.Function=Fonction
 ColumnBindingDialog.Column.DisplayName=Nom d'affichage
-ColumnBindingDialog.Column.DisplayNameID=Display Name ID
+ColumnBindingDialog.Column.DisplayNameID=ID du nom d'affichage
 ColumnBindingDialog.InputPrompt=<Entrer la nouvelle valeur ici...>
 ColumnBindingDialog.Button.Generate=Générer des liaisons de colonne
 ColumnBindingDialog.Column.DataType=Type de données
@@ -1460,7 +1460,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Glisser-déplac
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Dialog.Title=Générateur d'expression (JavaScript)
 ExpressionBuidler.Title=Générateur d'expression
 ExpressionBuilder.tooltip.Sort=Trier
 ExpressionBuilder.toolTipText.Button=Ouvrir le Générateur d'expression
@@ -4074,7 +4074,7 @@ IDEResourcePageHelper.WorkSpace.Button=&Espace de travail...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
-DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=ID du nom d'affichage
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Nom d'affichage
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Liaison de colonne de données :
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Liaison de colonne disponible :
@@ -4402,7 +4402,7 @@ BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Groupe
 BindingDialogHelper.text.Expression=&Expression :
 BindingDialogHelper.text.displayName=&Nom d'affichage :
-BindingDialogHelper.text.displayNameID=Display Name &ID:
+BindingDialogHelper.text.displayNameID=ID du nom d'affichage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà.
@@ -4500,7 +4500,7 @@ CreateChartHandler.text=Créer un graphique
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=Paramètres d'entrée
-InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.msg.requiredParam=Les paramètres précédés d'un astérisque (*) sont obligatoires.
 InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
@@ -4591,7 +4591,7 @@ TextEditor.PasteFormattedText=Coller texte formaté
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=Reload I&mage
+ReloadImageAction.Text=Recharger i&mage
 
 ###########################################################
 #VariablesNodeProvider
@@ -4621,4 +4621,4 @@ VariableDialog.Error.NameDuplicate=Le nom \"{0}"\ est le doublon d'un nom exista
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par défaut :

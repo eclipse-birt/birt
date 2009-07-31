@@ -239,7 +239,7 @@ ColumnBindingDialog.Column.Name=이름
 ColumnBindingDialog.Column.Filter=필터
 ColumnBindingDialog.Column.Function=함수
 ColumnBindingDialog.Column.DisplayName=표시 이름
-ColumnBindingDialog.Column.DisplayNameID=Display Name ID
+ColumnBindingDialog.Column.DisplayNameID=표시 이름 ID
 ColumnBindingDialog.InputPrompt=<여기에 새 값 입력...>
 ColumnBindingDialog.Button.Generate=열 바인딩 생성
 ColumnBindingDialog.Column.DataType=데이터 형식
@@ -1460,7 +1460,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=윤곽선 보기 또
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Dialog.Title=연산식 빌더(JavaScript)
 ExpressionBuidler.Title=연산식 빌더
 ExpressionBuilder.tooltip.Sort=정렬
 ExpressionBuilder.toolTipText.Button=식 빌더 열기
@@ -4074,7 +4074,7 @@ IDEResourcePageHelper.WorkSpace.Button=작업 영역(&W)...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=이름
-DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=표시 이름 ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=표시 이름
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=데이터 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=사용 가능한 열 바인딩:
@@ -4402,7 +4402,7 @@ BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹
 BindingDialogHelper.text.Expression=식(&E):
 BindingDialogHelper.text.displayName=표시 이름(&N):
-BindingDialogHelper.text.displayNameID=Display Name &ID:
+BindingDialogHelper.text.displayNameID=표시 이름 ID(&I):
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
@@ -4500,7 +4500,7 @@ CreateChartHandler.text=차트 보기 생성
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=입력 매개 변수
-InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.msg.requiredParam=별표(*)가 있는 매개 변수는 필수 항목입니다.
 InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
@@ -4591,7 +4591,7 @@ TextEditor.PasteFormattedText=서식 있는 텍스트 붙여넣기
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=Reload I&mage
+ReloadImageAction.Text=이미지 다시 로드(&M)
 
 ###########################################################
 #VariablesNodeProvider
@@ -4621,4 +4621,4 @@ VariableDialog.Error.NameDuplicate=이름 \"{0}\"이(가) 기존 이름과 중복됩니다. 다
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문:

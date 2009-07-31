@@ -87,7 +87,7 @@ ScriptedDatasourceExampleAfter=Esta sección de Ejemplos se centra en los scripts
 Addvisrule=En este ejemplo se ilustra cómo agregar una regla de visibilidad a un script.  
 
 #Chart
-SimpleChartAPI=This example illustrates many of the available java script methods within the simple Chart API.  They are called from the beforeFactory event handler of the report.
+SimpleChartAPI=En este ejemplo se ilustran muchos de los métodos de JavaScript disponibles dentro del diagrama API simple.  Se les denominan según el controlador de evento beforeFactory del informe.
 
 ###########################################################
 #Extending BIRT

@@ -239,7 +239,7 @@ ColumnBindingDialog.Column.Name=名称
 ColumnBindingDialog.Column.Filter=筛选
 ColumnBindingDialog.Column.Function=函数
 ColumnBindingDialog.Column.DisplayName=显示名称
-ColumnBindingDialog.Column.DisplayNameID=Display Name ID
+ColumnBindingDialog.Column.DisplayNameID=显示名称 ID
 ColumnBindingDialog.InputPrompt=<在此处输入新值...>
 ColumnBindingDialog.Button.Generate=生成列绑定
 ColumnBindingDialog.Column.DataType=数据类型
@@ -1460,7 +1460,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=拖放到“大纲”
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Dialog.Title=表达式生成器(JavaScript)
 ExpressionBuidler.Title=表达式生成器
 ExpressionBuilder.tooltip.Sort=排序
 ExpressionBuilder.toolTipText.Button=打开表达式生成器
@@ -4074,7 +4074,7 @@ IDEResourcePageHelper.WorkSpace.Button=工作区(&W)...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=名称
-DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=显示名称 ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=显示名称
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=数据列绑定:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=可用列绑定:
@@ -4402,7 +4402,7 @@ BindingDialogHelper.text.Grid=网格
 BindingDialogHelper.text.Group=组
 BindingDialogHelper.text.Expression=表达式(&E):
 BindingDialogHelper.text.displayName=显示名称(&N):
-BindingDialogHelper.text.displayNameID=Display Name &ID:
+BindingDialogHelper.text.displayNameID=显示名称 ID(&I):
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。
@@ -4500,7 +4500,7 @@ CreateChartHandler.text=创建图表视图
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=输入参数
-InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.msg.requiredParam=带有 * 的参数为必需参数。
 InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
@@ -4591,7 +4591,7 @@ TextEditor.PasteFormattedText=粘贴带格式文本
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=Reload I&mage
+ReloadImageAction.Text=重新加载图像(&M)
 
 ###########################################################
 #VariablesNodeProvider
@@ -4621,4 +4621,4 @@ VariableDialog.Error.NameDuplicate=名称“{0}”与现有名称重复。请选择一个不同的名
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法:

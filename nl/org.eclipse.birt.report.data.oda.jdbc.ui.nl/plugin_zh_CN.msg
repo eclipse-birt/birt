@@ -27,7 +27,7 @@ dataset.jdbcselect=通过 JDBC 执行 SQL SELECT
 datasource.editor.page.connection=数据源连接
 preference.datasetpreview=JDBC 数据集
 
-preference.bidi.datasource.title = JDBC Data Source
+preference.bidi.datasource.title = JDBC 数据源
 
 wizard.data.set.title=新建数据集
 

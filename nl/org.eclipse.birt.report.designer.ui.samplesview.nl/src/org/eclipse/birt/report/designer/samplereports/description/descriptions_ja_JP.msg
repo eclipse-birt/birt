@@ -87,7 +87,7 @@ ScriptedDatasourceExampleAfter=ここでは、BIRT のスクリプト機能について、シンプル
 Addvisrule=この例では、スクリプトに可視性規則を追加する方法を示します。  
 
 #Chart
-SimpleChartAPI=This example illustrates many of the available java script methods within the simple Chart API.  They are called from the beforeFactory event handler of the report.
+SimpleChartAPI=この例は、単純な Chart API で使用できる java スクリプトのさまざまなメソッドを示したものです。  これらのメソッドは、レポートの beforeFactory イベントハンドラによって呼び出されます。
 
 ###########################################################
 #Extending BIRT

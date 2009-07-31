@@ -27,7 +27,7 @@ dataset.jdbcselect=JDBC를 통한 SQL SELECT
 datasource.editor.page.connection=데이터 원본 연결
 preference.datasetpreview=JDBC 데이터 집합
 
-preference.bidi.datasource.title = JDBC Data Source
+preference.bidi.datasource.title = JDBC 데이터 원본
 
 wizard.data.set.title=새 데이터 집합
 

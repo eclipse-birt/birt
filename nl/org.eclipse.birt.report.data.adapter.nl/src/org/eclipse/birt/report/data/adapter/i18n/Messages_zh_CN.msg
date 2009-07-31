@@ -16,7 +16,7 @@ context.invalidDesigntimeMethod=ReportContext 方法 [{0}] 只能用于运行时。
 adaptor.invalid.mode=数据适配器上下文的模式值 {0} 无效。
 invalid.cache.option=数据适配器上下文的选项值 {0} 无效。
 
-datasource.null.error=Failed to find out data source of data set "{0}".
+datasource.null.error=找不到数据集“{0}”的数据源。
 datasource.exid.error=数据源定义中缺少扩展 ID: {0}。
 
 datasethandle.null.error=DataSetHandle 不能为空。

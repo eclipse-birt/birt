@@ -101,8 +101,8 @@ NewFolderAction.inputDialogMessage=Ordnername:
 DeleteResourceAction.Dialog.Title=Ressource löschen
 DeleteResourceAction.Dialog.Message=Möchten Sie die ausgewählte Ressource wirklich löschen?
 PasteResourceAction.Dialog.Title=Ressource einfügen
-PasteResourceAction.ReadOnlyEncounter.Title=Schreibgeschützte Datei gefunden
-PasteResourceAction.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschützt. Heben Sie den Schreibschutz auf.
+PasteResourceAction.ReadOnlyEncounter.Title=Schreibgeschützte Datei gefunden.
+PasteResourceAction.ReadOnlyEncounter.Message=Datei '{0}' ist schreibgeschützt. Heben Sie zuerst den Schreibschutz auf.
 PasteResourceAction.Dialog.Message=Ressource ist bereits vorhanden. Überschreiben?
 MoveResourceAction.Dialog.Title=Ressource verschieben
 MoveResourceAction.Dialog.Message=Ressource ist bereits vorhanden. Ersetzen?
@@ -239,7 +239,7 @@ ColumnBindingDialog.Column.Name=Name
 ColumnBindingDialog.Column.Filter=Filter
 ColumnBindingDialog.Column.Function=Funktion
 ColumnBindingDialog.Column.DisplayName=Name anzeigen
-ColumnBindingDialog.Column.DisplayNameID=Display Name ID
+ColumnBindingDialog.Column.DisplayNameID=Namen-ID anzeigen
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
 ColumnBindingDialog.Column.DataType=Datentyp
@@ -1460,7 +1460,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Mit Drag & Dro
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Dialog.Title=Ausdruckserstellung (Javascript)
 ExpressionBuidler.Title=Ausdruckserstellung
 ExpressionBuilder.tooltip.Sort=Sortieren
 ExpressionBuilder.toolTipText.Button=Ausdruckserstellung öffnen
@@ -4074,7 +4074,7 @@ IDEResourcePageHelper.WorkSpace.Button=&Arbeitsplatz...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Name
-DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Namen-ID anzeigen
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Angezeigter Name
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Datenspaltenbindung:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Verfügbare Spaltenbindung:
@@ -4402,7 +4402,7 @@ BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gruppieren
 BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
-BindingDialogHelper.text.displayNameID=Display Name &ID:
+BindingDialogHelper.text.displayNameID=Namen-&ID anzeigen:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
@@ -4500,7 +4500,7 @@ CreateChartHandler.text=Diagramm-Ansicht erstellen
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=Eingabeparameter
-InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.msg.requiredParam=Mit * gekennzeichnete Parameter sind erforderlich.
 InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
@@ -4591,7 +4591,7 @@ TextEditor.PasteFormattedText=Formatierten Text einfügen
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=Reload I&mage
+ReloadImageAction.Text=&Bild neu laden
 
 ###########################################################
 #VariablesNodeProvider
@@ -4621,4 +4621,4 @@ VariableDialog.Error.NameDuplicate=Der Name \"{0}\" ist bereits vorhanden. Bitte
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Standardsyntax:

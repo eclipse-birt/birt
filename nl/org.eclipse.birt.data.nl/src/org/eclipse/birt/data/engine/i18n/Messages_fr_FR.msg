@@ -219,7 +219,7 @@ data.engine.invalidAggregationBindingForPLSReport=La liaison d'agrégation "{0}" 
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=L'alias de colonne ne peut pas être une chaîne vide.
-odaconsumer.CannotProcessDriverConfig=Cannot find or process the {0} driver''s data source extension configuration.
+odaconsumer.CannotProcessDriverConfig=Impossible de trouver ou de traiter la configuration de l'extension de la source de données du pilote {0}.
 odaconsumer.OdaInitEntryNotFound=Impossible de détecter ou d''instancier le point d''entrée initial du pilote {0}.
 odaconsumer.OdaDriverOnUnsupportedPlatform=Le pilote {0} ne prend pas en charge {1}.
 odaconsumer.CannotGenerateUrl=Impossible de générer l''URL {0} du chargeur de classe.
@@ -411,8 +411,8 @@ data.olap.InvalidAggrTypeOnMeasure=L''agrégation sur la mesure de cube ne peut p
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=La colonne "{0}" n'existe pas !
-data.derivedDataSet.UnionQueryTextParseError=Failed to parse Union Query. \"{0}\"
-data.derivedDataSet.JoinQueryTextParseError=Failed to parse Join Query. \"{0}\"
+data.derivedDataSet.UnionQueryTextParseError=Impossible d'analyser la requête Union. \"{0}\"
+data.derivedDataSet.JoinQueryTextParseError=Impossible d'analyser la requête Join. \"{0}\"
 
 data.derivedDataSet.illegalClassInstance=Initialisation d'une instance de classe incorrecte.
 data.derivedDataSet.classLoadError=Echec du chargement de l'instance de classe.

@@ -444,7 +444,7 @@ Choices.exportType.always=始终
 
 #56. analysisType
 Choices.analysisType.dimension=维
-Choices.analysisType.attribute=Attribute
+Choices.analysisType.attribute=属性
 Choices.analysisType.measure=度量
 
 #57. scalarParamAlign
@@ -665,9 +665,9 @@ Choices.variableType.report=报告变量
 Choices.variableType.page=页面变量
 
 #82 nullValueOrderingType
-Choices.nullValueOrderingType.unknown=Unknown
-Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
-Choices.nullValueOrderingType.nullIsLast=NullIsLast
+Choices.nullValueOrderingType.unknown=未知
+Choices.nullValueOrderingType.nullIsFirst=空值在前
+Choices.nullValueOrderingType.nullIsLast=空值在后
 
 ###########################################################
 # Classes
@@ -1986,7 +1986,7 @@ Structure.ColumnHint.helpText=帮助文本
 Structure.ColumnHint.helpTextID=帮助文本资源关键字
 Structure.ColumnHint.displayName=显示名称
 Structure.ColumnHint.displayNameID=显示名称资源关键字
-Structure.ColumnHint.onColumnLayout=On Column Layout
+Structure.ColumnHint.onColumnLayout=在列布局上
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -2184,12 +2184,12 @@ Structure.Variable.name=名称
 Structure.Variable.value=值 
 
 #36. SortHint
-Structure.SortHint=Sort Hint
+Structure.SortHint=排序提示
 Structure.SortHint.columnName=列名
-Structure.SortHint.position=Column Position
+Structure.SortHint.position=列位置
 Structure.SortHint.direction=排序方向
-Structure.SortHint.nullValueOrdering=Null Value Ordering
-Structure.SortHint.isOptional=Optional
+Structure.SortHint.nullValueOrdering=空值顺序
+Structure.SortHint.isOptional=可选
 
 ###########################################################
 # Element names
@@ -2370,10 +2370,10 @@ Element.ReportDesign.ACLExpression=ACL 表达式
 Element.ReportDesign.cascadeACL=层叠 ACL
 Element.ReportDesign.imageDPI=图像 DPI
 Element.ReportDesign.pageVariables=页面变量
-Element.ReportDesign.dataObjects= Data objects
-Element.ReportDesign.onContentUpdate= On content update
-Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.dataObjects= 数据对象
+Element.ReportDesign.onContentUpdate= 在内容更新时
+Element.ReportDesign.onContentUpdate.toolTip=在报表内容更新时调用。
+Element.ReportDesign.onContentUpdate.this=报表设计
 Element.ReportDesign.onPageStart=页面启动时
 Element.ReportDesign.onPageEnd=页面终止时
 
@@ -2405,7 +2405,7 @@ Element.DataSet.cachedMetaData=缓存元数据
 Element.DataSet.rowFetchLimit=从数据集提取的最大行数
 Element.DataSet.needsCache=需要数据引擎缓存
 Element.DataSet.parameters=数据集参数
-Element.DataSet.sortHints=Sort hints
+Element.DataSet.sortHints=排序提示
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=打开前
@@ -3662,7 +3662,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=禁止对元素“{0}”执行插入和粘贴
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=找到循环元素引用，因为 {0} 已经引用 {1}。
 Error.SemanticError.INCONSISTENT_DATA_GROUP=元素 {0} 的数据绑定引用与它引用的元素 {1} 的组数不同。
 Error.SemanticError.INVALID_MANIFEST=元素 {0} 具有一个无效清单。
-Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
+Error.SemanticError.VALUE_FORBIDDEN=列表属性“{0}”为空，它不能具有任何项。
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=目标库中元素名称重复，元素 {0} 无法导出。请重命名导出的元素名称。

@@ -239,7 +239,7 @@ ColumnBindingDialog.Column.Name=Nombre
 ColumnBindingDialog.Column.Filter=Filtrar
 ColumnBindingDialog.Column.Function=Función
 ColumnBindingDialog.Column.DisplayName=Nombre en pantalla
-ColumnBindingDialog.Column.DisplayNameID=Display Name ID
+ColumnBindingDialog.Column.DisplayNameID=ID de nombre en pantalla
 ColumnBindingDialog.InputPrompt=<Introduzca el nuevo valor aquí...>
 ColumnBindingDialog.Button.Generate=Generar enlaces de columna
 ColumnBindingDialog.Column.DataType=Tipo de datos
@@ -1460,7 +1460,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Arrastrar y co
 ###########################################################
 #ExpressionBuidler properties
 
-ExpressionBuidler.Dialog.Title=Expression Builder (JavaScript)
+ExpressionBuidler.Dialog.Title=Compilador de expresiones (JavaScript)
 ExpressionBuidler.Title=Compilador de expresiones
 ExpressionBuilder.tooltip.Sort=Orden
 ExpressionBuilder.toolTipText.Button=Abrir el compilador de expresiones
@@ -4074,7 +4074,7 @@ IDEResourcePageHelper.WorkSpace.Button=Á&rea de trabajo...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nombre
-DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Display Name ID
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=ID de nombre en pantalla
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Nombre en pantalla
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Enlace de columna de datos:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Enlace de columna disponible
@@ -4402,7 +4402,7 @@ BindingDialogHelper.text.Grid=Cuadrícula
 BindingDialogHelper.text.Group=Grupo
 BindingDialogHelper.text.Expression=&Expresión:
 BindingDialogHelper.text.displayName=&Nombre en pantalla:
-BindingDialogHelper.text.displayNameID=Display Name &ID:
+BindingDialogHelper.text.displayNameID=&ID de nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}.
@@ -4500,7 +4500,7 @@ CreateChartHandler.text=Crear vista de diagrama
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=Parámetros de entrada
-InputParameterDialog.msg.requiredParam=Parameters marked with * are required.
+InputParameterDialog.msg.requiredParam=Los parámetros marcados con * son obligatorios.
 InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
 ###########################################################
 #Crosstab drag tracker
@@ -4591,7 +4591,7 @@ TextEditor.PasteFormattedText=Pegar texto con formato
 
 ###########################################################
 #ReloadImageAction
-ReloadImageAction.Text=Reload I&mage
+ReloadImageAction.Text=Volver a cargar la &imagen
 
 ###########################################################
 #VariablesNodeProvider
@@ -4621,4 +4621,4 @@ VariableDialog.Error.NameDuplicate=El nombre \"{0}\" duplica un nombre existente
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Default Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Sintaxis predeterminada:

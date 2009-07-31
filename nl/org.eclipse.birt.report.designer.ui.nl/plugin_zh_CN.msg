@@ -47,7 +47,7 @@ preference.commenttemplates=注释模板
 #hcg_bidi
 preference.bidiproperties=双向属性
 preference.layout=布局
-preference.expressionbuilder=Expression Builder
+preference.expressionbuilder=表达式生成器
 
 designer.action.undo.label=撤消
 designer.action.redo.label=重复

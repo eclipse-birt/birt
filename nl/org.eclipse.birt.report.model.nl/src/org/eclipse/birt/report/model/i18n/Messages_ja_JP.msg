@@ -444,7 +444,7 @@ Choices.exportType.always=全ページ
 
 #56. analysisType
 Choices.analysisType.dimension=ディメンジョン
-Choices.analysisType.attribute=Attribute
+Choices.analysisType.attribute=属性
 Choices.analysisType.measure=メジャー
 
 #57. scalarParamAlign
@@ -665,9 +665,9 @@ Choices.variableType.report=レポート変数
 Choices.variableType.page=ページ変数
 
 #82 nullValueOrderingType
-Choices.nullValueOrderingType.unknown=Unknown
-Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
-Choices.nullValueOrderingType.nullIsLast=NullIsLast
+Choices.nullValueOrderingType.unknown=不明
+Choices.nullValueOrderingType.nullIsFirst=最初の Null
+Choices.nullValueOrderingType.nullIsLast=最後の Null
 
 ###########################################################
 # Classes
@@ -1986,7 +1986,7 @@ Structure.ColumnHint.helpText=ヘルプテキスト
 Structure.ColumnHint.helpTextID=ヘルプテキストのリソースキー
 Structure.ColumnHint.displayName=表示名
 Structure.ColumnHint.displayNameID=表示名のリソースキー
-Structure.ColumnHint.onColumnLayout=On Column Layout
+Structure.ColumnHint.onColumnLayout=列のレイアウト時
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
@@ -2184,12 +2184,12 @@ Structure.Variable.name=名前
 Structure.Variable.value=値 
 
 #36. SortHint
-Structure.SortHint=Sort Hint
+Structure.SortHint=ソートのヒント
 Structure.SortHint.columnName=列名
-Structure.SortHint.position=Column Position
+Structure.SortHint.position=列の位置
 Structure.SortHint.direction=ソートの方向
-Structure.SortHint.nullValueOrdering=Null Value Ordering
-Structure.SortHint.isOptional=Optional
+Structure.SortHint.nullValueOrdering=Null 値の順序
+Structure.SortHint.isOptional=オプション
 
 ###########################################################
 # Element names
@@ -2370,10 +2370,10 @@ Element.ReportDesign.ACLExpression=ACL 式
 Element.ReportDesign.cascadeACL=ACL を重ねて表示
 Element.ReportDesign.imageDPI=イメージの DPI
 Element.ReportDesign.pageVariables=ページ変数
-Element.ReportDesign.dataObjects= Data objects
-Element.ReportDesign.onContentUpdate= On content update
-Element.ReportDesign.onContentUpdate.toolTip=Called when the report content updating.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.dataObjects= データオブジェクト
+Element.ReportDesign.onContentUpdate= 内容の更新時
+Element.ReportDesign.onContentUpdate.toolTip=レポートの内容を更新する際に呼び出されます。
+Element.ReportDesign.onContentUpdate.this=レポートデザイン
 Element.ReportDesign.onPageStart=ページの開始時
 Element.ReportDesign.onPageEnd=ページの終了時
 
@@ -2405,7 +2405,7 @@ Element.DataSet.cachedMetaData=キャッシュされたメタデータ
 Element.DataSet.rowFetchLimit=データセットからフェッチする最大行数
 Element.DataSet.needsCache=データエンジン用のキャッシュが必要です。
 Element.DataSet.parameters=データセットのパラメタ
-Element.DataSet.sortHints=Sort hints
+Element.DataSet.sortHints=ソートのヒント
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=開く前
@@ -3662,7 +3662,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=要素 "{0}" の挿入や貼り付けはで
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=要素の参照が循環しています。{0} は、すでに {1} を参照しています。
 Error.SemanticError.INCONSISTENT_DATA_GROUP=要素 {0} のデータバインドの参照には、その参照先の要素 {1} とは異なる数のグループがあります。
 Error.SemanticError.INVALID_MANIFEST=要素 {0} に無効なマニフェストがあります。
-Error.SemanticError.VALUE_FORBIDDEN=The list property "{0}" is empty, it can not have any item.
+Error.SemanticError.VALUE_FORBIDDEN=リスト型のプロパティ "{0}" が空です。項目を使用することができません。
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=ターゲットライブラリで要素名が重複しています。要素 {0} をエクスポートできません。エクスポートされた要素名を変更してください。
