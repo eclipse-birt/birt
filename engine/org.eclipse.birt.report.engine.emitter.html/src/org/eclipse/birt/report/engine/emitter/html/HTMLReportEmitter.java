@@ -2421,15 +2421,27 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start foreign" ); //$NON-NLS-1$
 
 		boolean isTemplate = false;
+		boolean wrapTemplateTable = false;
 		Object genBy = foreign.getGenerateBy( );
 		if ( genBy instanceof TemplateDesign )
 		{
 			isTemplate = true;
-			setupTemplateElement( (TemplateDesign)genBy, foreign);
+			TemplateDesign design = (TemplateDesign) genBy;
+			setupTemplateElement( design, foreign );
 			// all the template element should be horizontal center of it's
 			// parent.
 			writer.openTag( HTMLTags.TAG_DIV );
 			writer.attribute( HTMLTags.ATTR_ALIGN, "center" );
+
+			if ( enableMetadata )
+			{
+				// template table should be wrapped.
+				if ( "Table".equals( design.getAllowedType( ) ) )
+				{
+					wrapTemplateTable = true;
+					metadataEmitter.startWrapTable( foreign );
+				}
+			}
 		}
 		
 		DimensionType x = foreign.getX( );
@@ -2488,8 +2500,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( tagName );
-		if( isTemplate )
+		if ( isTemplate )
 		{
+			if ( wrapTemplateTable )
+			{
+				metadataEmitter.endWrapTable( foreign );
+			}
 			writer.closeTag( HTMLTags.TAG_DIV );
 		}
 	}

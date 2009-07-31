@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
@@ -573,31 +574,37 @@ public class MetadataEmitter
 	 * @param table
 	 *            table content
 	 */
-	private boolean isTopLevelTemplateTable( ITableContent table )
+	private boolean isTopLevelTemplateTable( IContent table )
 	{
-
+		DesignElementHandle handle = null;
 		Object genBy = table.getGenerateBy( );
 		if ( genBy instanceof TableItemDesign )
 		{
 			TableItemDesign tableDesign = (TableItemDesign) genBy;
-			DesignElementHandle handle = tableDesign.getHandle( );
-			// judge the content is belong table template element or not.
-			if ( ( null != handle ) && handle.isTemplateParameterValue( ) )
-			{
-				// judge the content is the top-level template table or not.
-				DesignElementHandle parentHandle = handle.getContainer( );
-				while ( null != parentHandle )
-				{
-					if ( ( parentHandle instanceof TableHandle )
-							&& parentHandle.isTemplateParameterValue( ) )
-					{
-						return false;
-					}
-					parentHandle = parentHandle.getContainer( );
-				}
-				return true;
-			}
+			handle = tableDesign.getHandle( );
 		}
+		else if ( genBy instanceof TemplateDesign )
+		{
+			TemplateDesign templateDesign = (TemplateDesign) genBy;
+			handle = templateDesign.getHandle( );
+		}
+		// judge the content is belong table template element or not.
+		if ( ( null != handle ) && handle.isTemplateParameterValue( ) )
+		{
+			// judge the content is the top-level template table or not.
+			DesignElementHandle parentHandle = handle.getContainer( );
+			while ( null != parentHandle )
+			{
+				if ( ( parentHandle instanceof TableHandle )
+						&& parentHandle.isTemplateParameterValue( ) )
+				{
+					return false;
+				}
+				parentHandle = parentHandle.getContainer( );
+			}
+			return true;
+		}
+
 		return false;
 	}
 
@@ -607,15 +614,26 @@ public class MetadataEmitter
 	 * @param table
 	 *            table content
 	 */
-	public void startWrapTable( ITableContent table )
+	public void startWrapTable( IContent table )
 	{
 		if ( wrapTemplateTable && isTopLevelTemplateTable( table ) )
 		{
 			wrapperTableIID = table.getInstanceID( );
 
 			writer.openTag( HTMLTags.TAG_TABLE );
-			writer.attribute( HTMLTags.ATTR_STYLE,
-			" border: medium none ; border-collapse: collapse; width: 100%;" );
+			DimensionType width = table.getWidth( );
+			if ( width != null )
+			{
+				StringBuffer styleBuffer = new StringBuffer( );
+				styleBuffer.append( " border: medium none ; border-collapse: collapse; width: " );
+				styleBuffer.append( width.toString( ) );
+				styleBuffer.append( ";" );
+			}
+			else
+			{
+				writer.attribute( HTMLTags.ATTR_STYLE,
+						" border: medium none ; border-collapse: collapse; width: 100%;" );
+			}
 			writer.openTag( HTMLTags.TAG_TBODY );
 			writer.openTag( HTMLTags.TAG_TR );
 			writer.attribute( HTMLTags.ATTR_STYLE, " vertical-align: top;" );
@@ -638,7 +656,7 @@ public class MetadataEmitter
 	 * @param table
 	 *            table content
 	 */
-	public void endWrapTable( ITableContent table )
+	public void endWrapTable( IContent table )
 	{
 		if ( wrapTemplateTable && ( table.getInstanceID( ) == wrapperTableIID ) )
 		{
