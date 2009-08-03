@@ -42,6 +42,7 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -284,7 +285,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 	 * 
 	 * @return
 	 */
-	private IQueryResults executeProcess( DataRequestSession session )
+	private IQueryResults executeProcess( DataRequestSession session, ExecutionContext context )
 	{
 		errorList = new ArrayList( );
 		try
@@ -367,6 +368,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							true,
 							true,
 							needCache,
+							context,
 							session );
 			return resultSet;
 		}
@@ -449,7 +451,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							DummyEngineTask engineTask = new DummyEngineTask( engine,
 									new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) handle ),
 									handle );
-
 							DataRequestSession session = engineTask.getDataSession( );
 
 							Map appContext = new HashMap( );
@@ -459,7 +460,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							engineTask.setAppContext( appContext );
 							engineTask.run( );
 							
-							IQueryResults resultSet = executeProcess( session );
+							IQueryResults resultSet = executeProcess( session, engineTask.getExecutionContext( ) );
 							populateRecords( resultSet );
 							engineTask.close( );
 							engine.destroy( );
@@ -481,7 +482,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 								appContext.putAll( context.getAppContext( ) );
 							}
 							context.setAppContext( appContext );
-							IQueryResults resultSet = executeProcess( session );
+							IQueryResults resultSet = executeProcess( session, null );
 							populateRecords( resultSet );
 							session.shutdown( );
 						}
