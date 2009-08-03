@@ -48,9 +48,15 @@ public class CrosstabModelUtil implements ICrosstabConstants
 
 	private static ICrosstabModelListener modelListener;
 
-	public static void setCrosstabModelListener( ICrosstabModelListener listener )
+	public synchronized static void setCrosstabModelListener(
+			ICrosstabModelListener listener )
 	{
 		modelListener = listener;
+	}
+
+	public static ICrosstabModelListener getCrosstabModelListener( )
+	{
+		return modelListener;
 	}
 
 	/**
