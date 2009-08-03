@@ -32,7 +32,7 @@ class ResultIterator2 extends ResultIterator
 	private int cachedRowId;
 
 	private boolean isSummary;
-	
+	private SummaryGroupLevelCalculator groupLevelCalculator;
 	private static Logger logger = Logger.getLogger( ResultIterator2.class.getName( ) );
 
 	/**
@@ -61,6 +61,21 @@ class ResultIterator2 extends ResultIterator
 		this.isSummary = ( rService.getQueryDefn( ) instanceof IQueryDefinition )
 				? ( (IQueryDefinition) rService.getQueryDefn( ) ).isSummaryQuery( )
 				: false;
+		if( this.isSummary )
+		{
+			if ( lowestGroupLevel == 0 )
+				this.groupLevelCalculator = new SummaryGroupLevelCalculator( null );
+			else
+			{
+				int[][] groupIndex = new int[lowestGroupLevel + 1][];
+				for ( int i = 0; i <= lowestGroupLevel; i++ )
+				{
+					groupIndex[i] = this.odiResult.getGroupStartAndEndIndex( i );
+				}
+
+				this.groupLevelCalculator = new SummaryGroupLevelCalculator( groupIndex );
+			}
+		}
 		logger.exiting( ResultIterator2.class.getName( ), "ResultIterator2" );
 	}
 
@@ -89,7 +104,6 @@ class ResultIterator2 extends ResultIterator
 		
 	
 		int index = this.odiResult.getCurrentResultIndex( );
-
 		this.odiResult.last( lowestGroupLevel );
 
 		if ( this.isSummary )
@@ -153,17 +167,20 @@ class ResultIterator2 extends ResultIterator
 	{
 		return this.odiResult.getStartingGroupLevel( );		
 	}
+	*/
 	
 	
-	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getEndingGroupLevel()
 	 
 	public int getEndingGroupLevel( ) throws DataException
 	{
 		// make sure that the ending group level value is also correct
-		this.odiResult.last( this.lowestGroupLevel );
+		if( this.isSummary )
+		{
+			return this.groupLevelCalculator.getEndingGroupLevel( this.odiResult.getCurrentResultIndex( ) );
+		}
 		
 		return super.getEndingGroupLevel( );
-	}*/
+	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()

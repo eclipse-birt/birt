@@ -15,6 +15,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.SummaryGroupLevelCalculator;
 
 /**
  * When useDetails==false, this class is used.
@@ -27,6 +28,7 @@ public class ResultIterator2 extends ResultIterator
 	private int currRowIndex;
 
 	private boolean isSummary;
+	private SummaryGroupLevelCalculator groupLevelCalculator; 
 	/**
 	 * @param context
 	 * @param queryResults
@@ -42,6 +44,21 @@ public class ResultIterator2 extends ResultIterator
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
 		this.isSummary = isSummary;
+		if( this.isSummary )
+		{
+			if ( lowestGroupLevel == 0 )
+				this.groupLevelCalculator = new SummaryGroupLevelCalculator( null );
+			else
+			{
+				int[][] groupIndex = new int[lowestGroupLevel + 1][];
+				for ( int i = 0; i <= lowestGroupLevel; i++ )
+				{
+					groupIndex[i] = this.exprResultSet.getGroupStartAndEndIndex( i );
+				}
+
+				this.groupLevelCalculator = new SummaryGroupLevelCalculator( groupIndex );
+			}
+		}
 	}
 	
 	
@@ -99,6 +116,17 @@ public class ResultIterator2 extends ResultIterator
 		}
 
 		return hasNext;
+	}
+	
+	public int getEndingGroupLevel( ) throws BirtException
+	{
+		// make sure that the ending group level value is also correct
+		if( this.isSummary )
+		{
+			return this.groupLevelCalculator.getEndingGroupLevel( this.exprResultSet.getCurrentIndex( ) );
+		}
+		
+		return super.getEndingGroupLevel( );
 	}
 	
 /*	
