@@ -749,7 +749,16 @@ public class ReportEngine implements IReportEngine
 		}
 		return null;
 	}
-	
+
+	public String[] getEngineExtensions( ReportRunnable runnable )
+	{
+		if ( extensionManager != null )
+		{
+			return extensionManager.getExtensions( runnable );
+		}
+		return null;
+	}
+
 	public Iterator<ReportDocumentReader> getOpenedDocuments( )
 	{
 		return openedDocuments.iterator( );
@@ -812,7 +821,7 @@ public class ReportEngine implements IReportEngine
 			}
 		}
 
-		synchronized IReportEngineExtension getExtension( String name )
+		IReportEngineExtension getExtension( String name )
 		{
 			if ( exts.containsKey( name ) )
 			{
@@ -821,7 +830,23 @@ public class ReportEngine implements IReportEngine
 			return null;
 		}
 
-		synchronized void close( )
+		String[] getExtensions( IReportRunnable runnable )
+		{
+			ArrayList<String> extensions = new ArrayList<String>( );
+			for ( Map.Entry<String, IReportEngineExtension> entry : exts
+					.entrySet( ) )
+			{
+				String extName = entry.getKey( );
+				IReportEngineExtension ext = entry.getValue( );
+				if ( ext.needExtension( runnable ) )
+				{
+					extensions.add( extName );
+				}
+			}
+			return extensions.toArray( new String[extensions.size( )] );
+		}
+
+		void close( )
 		{
 			for ( IReportEngineExtension ext : exts.values( ) )
 			{

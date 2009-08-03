@@ -492,4 +492,14 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	{
 		content.setUserProperties( properties );
 	}
+
+	public Map<String, Object> getExtensions( )
+	{
+		return content.getExtensions( );
+	}
+
+	public void setExtensions( Map<String, Object> properties )
+	{
+		content.setExtensions( properties );
+	}
 }

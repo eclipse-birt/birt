@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -247,4 +250,13 @@ public interface IReportContent
 	public IReportContext getReportContext( );
 
 	public Map<String, Object> getUserProperties( );
+
+	public Map<String, Object> getExtensions( );
+
+	public void setExtensions( Map<String, Object> properties );
+
+	void writeContent( DataOutputStream out ) throws IOException;
+
+	void readContent( DataInputStream in, ClassLoader loader )
+			throws IOException;
 }

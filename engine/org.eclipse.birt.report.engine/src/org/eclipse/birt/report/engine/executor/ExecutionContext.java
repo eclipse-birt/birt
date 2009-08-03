@@ -2108,37 +2108,15 @@ public class ExecutionContext
 		{
 			return engineExts;
 		}
-
-		ArrayList<String> resultList = new ArrayList<String>( );
-		ReportDesignHandle design = this.getDesign( );
-		if ( design.isEnableACL( ) )
+		engineExts = engine.getEngineExtensions( runnable );
+		if ( engineExts == null )
 		{
-			resultList.add( "PLS" );
+			engineExts = new String[]{};
 		}
-
-		String engineExtensions = (String) design
-				.getProperty( "Engine extensions" );
-
-		if ( engineExtensions != null )
-		{
-			String[] exts = engineExtensions.split( "," );
-			for ( String ext : exts )
-			{
-				if ( ext != null )
-				{
-					ext = ext.trim( );
-					if ( ext.length( ) > 0 )
-					{
-						resultList.add( ext );
-					}
-				}
-			}
-		}
-		engineExts = resultList.toArray( new String[resultList.size( )] );
 
 		return engineExts;
 	}
-	
+
 	private boolean enableProgreesiveViewing = true;
 
 	public void enableProgressiveViewing( boolean enabled )

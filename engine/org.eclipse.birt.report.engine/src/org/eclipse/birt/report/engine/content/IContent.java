@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 public interface IContent extends IElement, CSSStylableElement, IStyledElement
 {
 	final static int SERIALIZE_CONTENT = -1;
+	final static int REPORT_CONTENT = 0;
 	final static int CELL_CONTENT = 1;
 	final static int CONTAINER_CONTENT = 2;
 	final static int DATA_CONTENT = 3;
@@ -73,7 +74,7 @@ public interface IContent extends IElement, CSSStylableElement, IStyledElement
 	static final int DOCUMENT_EXTENSION = 0;
 	static final int LAYOUT_EXTENSION = 1;
 	Object getExtension(int extension);
-	
+
 	/**
 	 * Set the extension of the content.
 	 * Only 2 extension supported so far
@@ -211,4 +212,8 @@ public interface IContent extends IElement, CSSStylableElement, IStyledElement
 	Map<String, Object> getUserProperties( );
 
 	void setUserProperties( Map<String, Object> values );
+
+	Map<String, Object> getExtensions( );
+
+	void setExtensions( Map<String, Object> values );
 }

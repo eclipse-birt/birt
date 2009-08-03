@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 
 /**
  * the report engine extension is used to extend the feature of the report
@@ -36,6 +37,14 @@ public interface IReportEngineExtension
 	 * @return extension name
 	 */
 	String getExtensionName( );
+
+	/**
+	 * return if the extension is used by the report design
+	 * 
+	 * @param runnable
+	 * @return
+	 */
+	boolean needExtension( IReportRunnable runnable );
 
 	/**
 	 * create a extension to load the data saved in the report document.

@@ -21,8 +21,6 @@ import org.eclipse.birt.report.engine.content.IContent;
  */
 public interface IReportContentWriter
 {
-	public void open( String name ) throws IOException;
-
 	public void close( );
 
 	public long getOffset( );

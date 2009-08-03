@@ -510,4 +510,14 @@ public class ClonedCellContent implements ICellContent
 		cellContent.setUserProperties( properties );
 	}
 
+	public Map<String, Object> getExtensions( )
+	{
+		return cellContent.getExtensions( );
+	}
+
+	public void setExtensions( Map<String, Object> properties )
+	{
+		cellContent.setExtensions( properties );
+	}
+
 }

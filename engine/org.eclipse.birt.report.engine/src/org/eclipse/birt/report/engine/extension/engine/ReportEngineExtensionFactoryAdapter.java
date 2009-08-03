@@ -21,5 +21,4 @@ abstract public class ReportEngineExtensionFactoryAdapter
 	abstract public IReportEngineExtension createExtension( IReportEngine engine );
 
 	abstract public String getExtensionName( );
-
 }

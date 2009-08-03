@@ -84,6 +84,8 @@ abstract public class AbstractContent extends AbstractElement
 
 	protected Map<String, Object> userProperties;
 
+	protected Map<String, Object> extProperties;
+
 	transient protected long offset = -1;
 	
 	transient protected boolean isLastChild = false;
@@ -576,6 +578,7 @@ abstract public class AbstractContent extends AbstractElement
 	final static short FIELD_ACL = 12;
 	final static short FIELD_CLASS_STYLE = 13;
 	final static short FIELD_USER_PROPERTIES = 14;
+	final static short FIELD_EXTENSIONS = 15;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -647,6 +650,11 @@ abstract public class AbstractContent extends AbstractElement
 			IOUtil.writeShort( out, FIELD_USER_PROPERTIES );
 			IOUtil.writeMap( out, userProperties );
 		}
+		if ( extProperties != null && !extProperties.isEmpty( ) )
+		{
+			IOUtil.writeShort( out, FIELD_EXTENSIONS );
+			IOUtil.writeMap( out, extProperties );
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -713,8 +721,10 @@ abstract public class AbstractContent extends AbstractElement
 				acl = IOUtil.readString( in );
 				break;
 			case FIELD_USER_PROPERTIES :
-				userProperties = (HashMap<String, Object>) IOUtil.readMap( in );
+				userProperties = (Map<String, Object>) IOUtil.readMap( in );
 				break;
+			case FIELD_EXTENSIONS :
+				extProperties = (Map<String, Object>) IOUtil.readMap( in );
 		}
 	}
 
@@ -827,6 +837,10 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			return true;
 		}
+		if ( extProperties != null && !extProperties.isEmpty( ) )
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -914,4 +928,13 @@ abstract public class AbstractContent extends AbstractElement
 		this.isLastChild = isLastChild;
 	}
 
+	public Map<String, Object> getExtensions( )
+	{
+		return extProperties;
+	}
+
+	public void setExtensions( Map<String, Object> properties )
+	{
+		this.extProperties = properties;
+	}
 }

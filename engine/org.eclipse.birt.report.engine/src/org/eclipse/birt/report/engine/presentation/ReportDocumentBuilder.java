@@ -365,14 +365,15 @@ public class ReportDocumentBuilder
 	class ContentEmitter extends ContentEmitterAdapter
 	{
 
-		IReportContentWriter writer;
+		ReportContentWriterV3 writer;
 
-		protected void open( )
+		protected void open( IReportContent report )
 		{
 			try
 			{
-				writer = new ReportContentWriterV3( document );
-				writer.open( ReportDocumentConstants.CONTENT_STREAM );
+				writer = new ReportContentWriterV3( document,
+						ReportDocumentConstants.CONTENT_STREAM );
+				writer.writeReport( report );
 			}
 			catch ( IOException ex )
 			{
@@ -393,7 +394,7 @@ public class ReportDocumentBuilder
 
 		public void start( IReportContent report )
 		{
-			open( );
+			open( report );
 		}
 
 		public void end( IReportContent report )
@@ -456,8 +457,8 @@ public class ReportDocumentBuilder
 		{
 			try
 			{
-				pageWriter = new ReportContentWriterV3( document );
-				pageWriter.open( ReportDocumentConstants.PAGE_STREAM );
+				pageWriter = new ReportContentWriterV3( document,
+						ReportDocumentConstants.PAGE_STREAM );
 				indexStream = document.getArchive( ).createRandomAccessStream(
 						ReportDocumentConstants.PAGE_INDEX_STREAM );
 			}

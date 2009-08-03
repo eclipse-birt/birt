@@ -24,6 +24,7 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 
@@ -53,19 +54,13 @@ public class ReportContentWriterV3 implements IReportContentWriter
 	 */
 	protected long rootOffset;
 
-	public ReportContentWriterV3( ReportDocumentWriter document )
+	public ReportContentWriterV3( ReportDocumentWriter document, String name )
+			throws IOException
 	{
 		this.document = document;
-	}
-
-	/**
-	 * open the content writer.
-	 */
-	public void open( String name ) throws IOException
-	{
 		IDocArchiveWriter archive = document.getArchive( );
 		cntStream = archive.createRandomAccessStream( name );
-		//write the version information
+		// write the version information
 		cntStream.writeInt( VERSION_1 );
 		cntOffset = 0;
 		rootOffset = -1;
@@ -146,6 +141,29 @@ public class ReportContentWriterV3 implements IReportContentWriter
 			return docExt.getIndex( );
 		}
 		return -1;
+	}
+
+	public long writeReport( IReportContent report ) throws IOException
+	{
+		cntStream.seek( VERSION_SIZE );
+		cntStream.writeLong( -1 ); // parent
+		cntStream.writeLong( -1 ); // next
+		cntStream.writeLong( -1 ); // first child
+		cntOffset += INDEX_ENTRY_SIZE;
+
+		// get the byte[] of the content
+		buffer.reset( );
+		IOUtil.writeInt( bufferStream, IContent.REPORT_CONTENT );
+		report.writeContent( bufferStream );
+		bufferStream.flush( );
+		byte[] values = buffer.toByteArray( );
+		// write the content out as: length, data
+		cntStream.seek( cntOffset + VERSION_SIZE );
+		cntStream.writeInt( values.length );
+		cntStream.write( values );
+		cntOffset = cntOffset + 4 + values.length;
+
+		return cntOffset;
 	}
 
 	/**

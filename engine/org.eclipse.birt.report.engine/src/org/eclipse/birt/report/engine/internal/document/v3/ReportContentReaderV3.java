@@ -64,18 +64,25 @@ public class ReportContentReaderV3
 		if ( this.stream.length( ) >= 4 )
 		{
 			stream.seek( 0 );
-			int iVersion = stream.readInt( );
-			if ( -1 == iVersion )
+			version = stream.readInt( );
+			if ( version == -1 )
 			{
 				version = VERSION_0;
 			}
-			else
+			else if ( version == VERSION_1 )
 			{
-				version = iVersion;
-				if ( version == VERSION_1 && length == 4 )
+				if ( length == 4 )
 				{
 					isEmpty = true;
 				}
+				else
+				{
+					loadReport( );
+				}
+			}
+			else
+			{
+				throw new IOException( "unrecognized stream version!" );
 			}
 		}
 		else
@@ -105,6 +112,26 @@ public class ReportContentReaderV3
 		}
 	}
 
+	private void loadReport( ) throws IOException
+	{
+		// skip the first document extension
+		readDocumentExtension( 0 );
+		int size = stream.readInt( );
+		if ( size != -1 ) // -1 means it is the first
+		{
+			byte[] buffer = new byte[size];
+			stream.readFully( buffer, 0, size );
+			DataInputStream oi = new DataInputStream( new ByteArrayInputStream(
+					buffer ) );
+			int contentType = IOUtil.readInt( oi );
+			if ( contentType == IContent.REPORT_CONTENT )
+			{
+				reportContent.readContent( oi, loader );
+				offset += 4 + size;
+			}
+		}
+	}
+
 	/**
 	 * read the content object from the input stream.
 	 * 
@@ -123,10 +150,6 @@ public class ReportContentReaderV3
 		else if ( VERSION_1 == version )
 		{
 			stream.seek( VERSION_SIZE + offset );
-		}
-		else
-		{
-			throw new IOException( "unrecognized stream version!" );
 		}
 
 		int size = stream.readInt( );

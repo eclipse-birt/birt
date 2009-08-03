@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 
 abstract public class ReportEngineExtensionAdapter
 		implements
@@ -35,6 +36,11 @@ abstract public class ReportEngineExtensionAdapter
 
 	public void close( )
 	{
+	}
+
+	public boolean needExtension( IReportRunnable runnable )
+	{
+		return false;
 	}
 
 	public IReportDocumentExtension createDocumentExtension(

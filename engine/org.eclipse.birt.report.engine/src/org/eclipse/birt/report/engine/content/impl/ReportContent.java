@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
@@ -43,6 +47,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TOCView;
@@ -86,6 +91,8 @@ public class ReportContent implements IReportContent
 	private ExecutionContext executionContext;
 
 	private Map<String, Object> userProperties;
+	
+	private Map<String, Object> extProperties;
 
 	/**
 	 * default constructor.
@@ -342,5 +349,67 @@ public class ReportContent implements IReportContent
 	public void setUserProperties( Map<String, Object> properties )
 	{
 		this.userProperties = properties;
+	}
+
+	public Map<String, Object> getExtensions( )
+	{
+		return extProperties;
+	}
+
+	public void setExtensions( Map<String, Object> properties )
+	{
+		this.extProperties = properties;
+	}
+
+	final static short FIELD_ACL = 0;
+	final static short FIELD_USER_PROPERTIES = 1;
+	final static short FIELD_EXTENSIONS = 2;
+
+	public void readContent( DataInputStream in, ClassLoader loader )
+			throws IOException
+	{
+		while ( in.available( ) > 0 )
+		{
+			int filedId = IOUtil.readShort( in );
+			readField( filedId, in, loader );
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void readField( int fieldId, DataInputStream in, ClassLoader loader )
+			throws IOException
+	{
+		switch ( fieldId )
+		{
+			case FIELD_ACL :
+				acl = IOUtil.readString( in );
+				break;
+			case FIELD_USER_PROPERTIES :
+				userProperties = (Map<String, Object>) IOUtil.readMap( in );
+				break;
+			case FIELD_EXTENSIONS :
+				extProperties = (Map<String, Object>) IOUtil.readMap( in );
+			default :
+				throw new IOException( "" );
+		}
+	}
+
+	public void writeContent( DataOutputStream out ) throws IOException
+	{
+		if ( acl != null )
+		{
+			IOUtil.writeShort( out, FIELD_ACL );
+			IOUtil.writeObject( out, acl );
+		}
+		if ( userProperties != null && userProperties.size( ) > 0 )
+		{
+			IOUtil.writeShort( out, FIELD_USER_PROPERTIES );
+			IOUtil.writeMap( out, userProperties );
+		}
+		if ( extProperties != null && !extProperties.isEmpty( ) )
+		{
+			IOUtil.writeShort( out, FIELD_EXTENSIONS );
+			IOUtil.writeMap( out, extProperties );
+		}
 	}
 }
