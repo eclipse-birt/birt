@@ -389,8 +389,9 @@ public class ReportContent implements IReportContent
 				break;
 			case FIELD_EXTENSIONS :
 				extProperties = (Map<String, Object>) IOUtil.readMap( in );
+				break;
 			default :
-				throw new IOException( "" );
+				throw new IOException( "Unknown field id:" + fieldId );
 		}
 	}
 
