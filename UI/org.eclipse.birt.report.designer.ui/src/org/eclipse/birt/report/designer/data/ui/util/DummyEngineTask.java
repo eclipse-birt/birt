@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
@@ -42,6 +43,10 @@ public class DummyEngineTask extends RunAndRenderTask
 
 	}
 
+	public ExecutionContext getExecutionContext( )
+	{
+		return this.executionContext;
+	}
 	/**
 	 * Fetch the report parameter name/value pairs from the rptconfig file. 
 	 * And also set all the parameters whose value is not null to the Engine task.

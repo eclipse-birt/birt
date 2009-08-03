@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
@@ -30,6 +31,7 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -39,6 +41,9 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -367,7 +372,7 @@ public final class DataSetProvider
 	 */
 	public IQueryResults execute( DataSetHandle dataSet, DataRequestSession session ) throws BirtException
 	{
-		return execute( dataSet, true, true, -1, session );
+		return execute( dataSet, true, true, -1, null, session );
 	}
 	
 	/**
@@ -379,7 +384,7 @@ public final class DataSetProvider
 	 * @throws BirtException
 	 */
 	public IQueryResults execute( DataSetHandle dataSet,
-			boolean useColumnHints, boolean useFilters, int rowsToReturn,
+			boolean useColumnHints, boolean useFilters, int rowsToReturn , ExecutionContext context,
 			DataRequestSession session ) throws BirtException
 	{
 
@@ -388,6 +393,13 @@ public final class DataSetProvider
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
 
+		if ( dataSet instanceof JointDataSetHandle )
+		{
+			context.setReportContext( new ReportContextImpl( context ) );
+			dataSetDesign = new ModelDteApiAdapter( context ).appendRuntimeInfoToDataSet( dataSet,
+					(BaseDataSetDesign) dataSetDesign );
+		}
+		
 		if ( !useColumnHints )
 		{
 			dataSetDesign.getResultSetHints( ).clear( );
@@ -395,6 +407,16 @@ public final class DataSetProvider
 		if ( !useFilters )
 		{
 			dataSetDesign.getFilters( ).clear( );
+		}
+		
+		if( ! ( dataSet instanceof JointDataSetHandle ) )
+		{
+			if( dataSet.getDataSource( ) != null )
+			{
+				session.defineDataSource( session.getModelAdaptor( )
+					.adaptDataSource( dataSet.getDataSource( ) ) );
+			}
+			session.defineDataSet( dataSetDesign );
 		}
 		
 		QueryDefinition queryDefn = getQueryDefinition( dataSetDesign,
@@ -425,6 +447,7 @@ public final class DataSetProvider
 				useColumnHints,
 				useFilters,
 				false,
+				null,
 				session );
 	}	
 	
@@ -438,12 +461,18 @@ public final class DataSetProvider
 	 */
 	public IQueryResults execute( DataSetHandle dataSet,
 			IQueryDefinition queryDefn, boolean useColumnHints,
-			boolean useFilters, boolean clearCache,
+			boolean useFilters, boolean clearCache, ExecutionContext context,
 			DataRequestSession session ) throws BirtException
 	{
 
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
+		
+		if( !( dataSet instanceof JointDataSetHandle ) && context != null )
+		{
+			context.setReportContext( new ReportContextImpl(context) );
+			dataSetDesign = new ModelDteApiAdapter( context ).appendRuntimeInfoToDataSet( dataSet, (BaseDataSetDesign)dataSetDesign );
+		}
 		if ( clearCache )
 		{
 			IBaseDataSourceDesign dataSourceDesign = session.getModelAdaptor( )
@@ -457,6 +486,16 @@ public final class DataSetProvider
 		if ( !useFilters )
 		{
 			dataSetDesign.getFilters( ).clear( );
+		}
+	
+		if( ! ( dataSet instanceof JointDataSetHandle ) && context != null )
+		{
+			if( dataSet.getDataSource( ) != null )
+			{
+				session.defineDataSource( session.getModelAdaptor( )
+					.adaptDataSource( dataSet.getDataSource( ) ) );
+			}
+			session.defineDataSet( dataSetDesign );
 		}
 		IQueryResults resultSet = executeQuery( session, queryDefn );
 		saveResultToDataItems( dataSet, resultSet );
@@ -571,11 +610,8 @@ public final class DataSetProvider
 	private IQueryResults executeQuery( DataRequestSession session,
 			IQueryDefinition queryDefn ) throws BirtException
 	{
-		IQueryResults resultSet = session.executeQuery( queryDefn,
-				null,
-				null,
-				null );
-
+		IPreparedQuery preparedQuery = session.prepare( queryDefn );
+		IQueryResults resultSet = (IQueryResults) session.execute( preparedQuery, null, new ScriptContext( ) );
 		return resultSet;
 	}
 
