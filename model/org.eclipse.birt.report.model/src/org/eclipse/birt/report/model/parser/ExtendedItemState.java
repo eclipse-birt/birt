@@ -138,8 +138,8 @@ public class ExtendedItemState extends ReportItemState
 		{
 			return super.startElement( tagName );
 		}
-		return ParseStateFactory.createParseState( tagName, handler, element,
-				element.getExtensibilityProvider( ).getContentTree( ) );
+		return new ParseStateFactory( ).createParseState( tagName, handler,
+				element, element.getExtensibilityProvider( ).getContentTree( ) );
 	}
 
 	/*

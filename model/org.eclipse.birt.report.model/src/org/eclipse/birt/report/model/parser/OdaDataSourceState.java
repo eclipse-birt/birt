@@ -72,7 +72,9 @@ public class OdaDataSourceState extends DataSourceState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -85,7 +87,9 @@ public class OdaDataSourceState extends DataSourceState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 	public AbstractParseState startElement( String tagName )
 	{
@@ -106,8 +110,8 @@ public class OdaDataSourceState extends DataSourceState
 		if ( isValidExtensionId )
 			return super.startElement( tagName );
 
-		return ParseStateFactory.createParseState( tagName, handler, element,
-				( (OdaDummyProvider) provider ).getContentTree( ) );
+		return new ParseStateFactory( ).createParseState( tagName, handler,
+				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 
 	/**
