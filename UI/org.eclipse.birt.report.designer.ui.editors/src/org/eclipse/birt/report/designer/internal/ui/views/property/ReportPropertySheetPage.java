@@ -746,8 +746,7 @@ public class ReportPropertySheetPage extends Page implements
 							{
 								Memento elementMemento = (Memento) viewerMemento.createChild( getInputElementType( ),
 										MementoElement.Type_Element );
-								elementMemento.getMementoElement( )
-										.setValue( new Integer( 0 ) );
+								elementMemento.getMementoElement( ).setValue( Integer.valueOf( 0 ) );
 							}
 						}
 						else if ( memento instanceof Memento )

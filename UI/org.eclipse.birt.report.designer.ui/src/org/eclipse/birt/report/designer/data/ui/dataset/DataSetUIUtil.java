@@ -101,7 +101,7 @@ public final class DataSetUIUtil
 
 				Map appContext = new HashMap( );
 				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-						new Integer( dataSetHandle.getRowFetchLimit( ) ) );
+						Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
 
 				engineTask.setAppContext( appContext );
 				engineTask.run( );

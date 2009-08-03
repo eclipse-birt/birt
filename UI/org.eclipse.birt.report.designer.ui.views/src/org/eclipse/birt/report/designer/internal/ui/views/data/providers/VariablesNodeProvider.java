@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.CascadingParametersDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterGroupDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.VariableDialog;
-import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -45,7 +44,7 @@ import org.eclipse.ui.PlatformUI;
 public class VariablesNodeProvider extends DefaultNodeProvider
 {
 
-	private class AddVariableAction extends AbstractElementAction
+	private static class AddVariableAction extends AbstractElementAction
 	{
 
 		public AddVariableAction( Object selectedObject )

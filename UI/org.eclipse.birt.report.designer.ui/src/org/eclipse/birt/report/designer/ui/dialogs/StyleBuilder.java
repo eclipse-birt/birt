@@ -740,7 +740,7 @@ public class StyleBuilder extends PreferenceDialog
 		this.titleImage = titleImage;
 	}
 
-	class PreferenceTreeLabelProvider implements ITableLabelProvider
+	static class PreferenceTreeLabelProvider implements ITableLabelProvider
 	{
 
 		public Image getColumnImage( Object element, int columnIndex )

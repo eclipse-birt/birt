@@ -136,12 +136,12 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 		viewer.setContentProvider( provider.getContentProvier( ) );
 
 		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
-		tvc1.getColumn( ).setText( COLUMN_TITLE_PROPERTY ); //$NON-NLS-1$
+		tvc1.getColumn( ).setText( COLUMN_TITLE_PROPERTY );
 		tvc1.getColumn( ).setWidth( 300 );
 		tvc1.setLabelProvider( new DelegatingStyledCellLabelProvider( provider.getNameLabelProvier( ) ) );
 
 		TreeViewerColumn tvc2 = new TreeViewerColumn( viewer, SWT.NONE );
-		tvc2.getColumn( ).setText( COLUMN_TITLE_VALUE ); //$NON-NLS-1$
+		tvc2.getColumn( ).setText( COLUMN_TITLE_VALUE );
 		tvc2.getColumn( ).setWidth( 400 );
 		tvc2.setLabelProvider( new DelegatingStyledCellLabelProvider( provider.getValueLabelProvier( ) ) );
 
@@ -735,8 +735,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 							{
 								Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
 										MementoElement.Type_Element );
-								elementMemento.getMementoElement( )
-										.setValue( new Integer( 0 ) );
+								elementMemento.getMementoElement( ).setValue( Integer.valueOf( 0 ) );
 							}
 						}
 						else if ( memento instanceof Memento )
@@ -744,8 +743,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 							// expandToDefaultLevel( );
 
 							if ( treeListener != null )
-								viewer.getTree( )
-										.removeTreeListener( treeListener );
+								viewer.getTree( ).removeTreeListener( treeListener );
 							if ( provider.getViewMode( ) != oldViewMode )
 							{
 								viewer.getTree( ).removeAll( );

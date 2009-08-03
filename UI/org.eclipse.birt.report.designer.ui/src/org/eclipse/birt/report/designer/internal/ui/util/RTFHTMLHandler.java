@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,7 @@ public class RTFHTMLHandler implements RTFDocumentHandler
 	private HTMLNode currentNode;
 	private Stack<HTMLNode> nodeStack = new Stack<HTMLNode>( );
 
-	private class HTMLNode
+	private static class HTMLNode
 	{
 
 		private String name;
