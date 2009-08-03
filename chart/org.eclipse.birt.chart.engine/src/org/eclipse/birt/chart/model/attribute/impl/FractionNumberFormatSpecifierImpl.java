@@ -13,7 +13,6 @@ import org.eclipse.birt.chart.internal.model.Fraction;
 import org.eclipse.birt.chart.internal.model.FractionApproximator;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -645,10 +644,10 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		final FractionNumberFormatSpecifier nfs = AttributeFactory.eINSTANCE.createFractionNumberFormatSpecifier( );
 		nfs.setPrecise( true );
 		nfs.setFractionDigits( 3 );
-		nfs.setNumerator( 1 );
 		return nfs;
 	}
 
+	@SuppressWarnings("deprecation")
 	public String format( double dValue, Locale lo )
 	{
 		return format( dValue, ULocale.forLocale( lo ) );

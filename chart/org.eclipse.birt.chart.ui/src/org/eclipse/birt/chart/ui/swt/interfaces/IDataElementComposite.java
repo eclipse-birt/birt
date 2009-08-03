@@ -26,6 +26,8 @@ public interface IDataElementComposite
 	 */
 	int DATA_MODIFIED = 0;
 
+	int FRACTION_CONVERTED = 1;
+
 	/**
 	 * Gets data
 	 * 

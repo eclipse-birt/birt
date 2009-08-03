@@ -29,9 +29,8 @@ import com.ibm.icu.text.NumberFormat;
  * Composite for inputing NumberDataElement
  */
 
-public class NumberDataElementComposite extends TextEditorComposite
-		implements
-			IDataElementComposite
+public class NumberDataElementComposite extends TextEditorComposite implements
+		IDataElementComposite
 {
 
 	public NumberDataElementComposite( Composite parent, NumberDataElement data )
@@ -64,7 +63,7 @@ public class NumberDataElementComposite extends TextEditorComposite
 	public void notifyListeners( int eventType, Event event )
 	{
 		// Filter out other events
-		if ( eventType == DATA_MODIFIED )
+		if ( eventType == DATA_MODIFIED || eventType == FRACTION_CONVERTED )
 		{
 			super.notifyListeners( eventType, event );
 		}
@@ -74,8 +73,7 @@ public class NumberDataElementComposite extends TextEditorComposite
 	{
 		if ( data == null || data instanceof NumberDataElement )
 		{
-			this.setText( data == null
-					? "" : ChartUIUtil.getDefaultNumberFormatInstance( ) //$NON-NLS-1$
+			this.setText( data == null ? "" : ChartUIUtil.getDefaultNumberFormatInstance( ) //$NON-NLS-1$
 							.format( ( (NumberDataElement) data ).getValue( ) ) );
 		}
 	}
