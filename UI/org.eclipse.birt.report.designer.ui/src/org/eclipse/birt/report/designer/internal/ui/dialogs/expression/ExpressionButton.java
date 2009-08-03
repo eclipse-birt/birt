@@ -144,7 +144,6 @@ public class ExpressionButton
 				String newExpression = result == null ? null
 						: result.toString( );
 				helper.setExpression( newExpression );
-				notifyExpressionChangeEvent( oldExpression, newExpression );
 			}
 		}
 	}

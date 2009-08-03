@@ -15,10 +15,10 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.Expressio
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.Structure;
@@ -151,7 +151,7 @@ public class ExpressionButtonUtil
 		return createExpressionButton( parent,
 				control,
 				provider,
-				null,
+				listener,
 				false,
 				SWT.PUSH,
 				new ExpressionHelper( ) );
@@ -190,7 +190,7 @@ public class ExpressionButtonUtil
 		return createExpressionButton( parent,
 				control,
 				provider,
-				null,
+				listener,
 				allowConstant,
 				style,
 				new ExpressionHelper( ) );
@@ -257,9 +257,9 @@ public class ExpressionButtonUtil
 	{
 		ExpressionHandle value = null;
 
-		if ( element instanceof DesignElementHandle )
+		if ( element instanceof ReportItemHandle )
 		{
-			value = ( (DesignElementHandle) element ).getExpressionProperty( property );
+			value = ( (ReportItemHandle) element ).getExpressionProperty( property );
 		}
 		else if ( element instanceof StructureHandle )
 		{
@@ -270,6 +270,10 @@ public class ExpressionButtonUtil
 			value = ( (StructureHandle) element ).getExpressionProperty( property );
 		}
 
+		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
+				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
+				: (String) value.getType( ) );
+		
 		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
 
 		if ( control instanceof Text )
@@ -284,10 +288,6 @@ public class ExpressionButtonUtil
 		{
 			( (CCombo) control ).setText( stringValue );
 		}
-
-		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
-				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
-				: (String) value.getType( ) );
 
 		Object button = control.getData( ExpressionButtonUtil.EXPR_BUTTON );
 		if ( button instanceof ExpressionButton )
@@ -319,9 +319,9 @@ public class ExpressionButtonUtil
 		if ( expression == null )
 			return;
 
-		if ( element instanceof DesignElementHandle )
+		if ( element instanceof ReportItemHandle )
 		{
-			( (DesignElementHandle) element ).setExpressionProperty( property,
+			( (ReportItemHandle) element ).setExpressionProperty( property,
 					expression );
 		}
 		else if ( element instanceof StructureHandle )
@@ -339,6 +339,10 @@ public class ExpressionButtonUtil
 			ExpressionHandle value )
 	{
 
+		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
+				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
+				: (String) value.getType( ) );
+		
 		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
 
 		if ( control instanceof Text )
@@ -353,10 +357,6 @@ public class ExpressionButtonUtil
 		{
 			( (CCombo) control ).setText( stringValue );
 		}
-
-		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
-				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
-				: (String) value.getType( ) );
 
 		Object button = control.getData( ExpressionButtonUtil.EXPR_BUTTON );
 		if ( button instanceof ExpressionButton )
@@ -368,6 +368,11 @@ public class ExpressionButtonUtil
 	public static void initExpressionButtonControl( Control control,
 			Expression value )
 	{
+		
+		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
+				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
+				: (String) value.getType( ) );
+		
 		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
 
 		if ( control instanceof Text )
@@ -382,10 +387,6 @@ public class ExpressionButtonUtil
 		{
 			( (CCombo) control ).setText( stringValue );
 		}
-
-		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
-				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
-				: (String) value.getType( ) );
 
 		Object button = control.getData( ExpressionButtonUtil.EXPR_BUTTON );
 		if ( button instanceof ExpressionButton )
