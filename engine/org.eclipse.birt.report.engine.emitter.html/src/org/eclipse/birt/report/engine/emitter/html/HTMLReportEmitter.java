@@ -171,6 +171,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public static final String IMAGE_FOLDER = "image"; //$NON-NLS-1$
 
+	public static final String EXTENSION_HTML_CLIENT_SCRIPTS = "html.clientScripts"; //$NON-NLS-1$
+
 	/**
 	 * output stream
 	 */
@@ -673,6 +675,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 
+			outputClientScript( report );
+
 			return;
 		}
 
@@ -737,8 +741,46 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_STYLE,
 					defaultStyleBuffer.toString( ) );
 		}
+
+		outputClientScript( report );
 	}
-	
+
+	private void outputClientScript( IReportContent report )
+	{
+		IContent root = report.getRoot( );
+		Map<String, Object> extensions = root.getExtensions( );
+		if ( extensions != null )
+		{
+			String clientScripts = (String) extensions
+					.get( EXTENSION_HTML_CLIENT_SCRIPTS );
+			if ( clientScripts != null )
+			{
+				writer.openTag( HTMLTags.TAG_DIV );
+				outputBookmark( root, HTMLTags.TAG_DIV );
+				writer.attribute( HTMLTags.ATTR_STYLE, "display:none" );
+				writer.closeTag( HTMLTags.TAG_DIV );
+				outputClientScript( root );
+			}
+		}
+	}
+
+	private void outputClientScript( IContent content )
+	{
+		Map<String, Object> extensions = content.getExtensions( );
+		if ( extensions != null )
+		{
+			String clientScripts = (String) extensions
+					.get( EXTENSION_HTML_CLIENT_SCRIPTS );
+			if ( clientScripts != null )
+			{
+				writer.openTag( HTMLTags.TAG_SCRIPT );
+				writer.attribute( HTMLTags.ATTR_TYPE, "text/javascript" );
+				this.writer.writeCode( clientScripts );
+				writer.closeTag( HTMLTags.TAG_SCRIPT );
+			}
+		}
+	}
+
 	/**
 	 * open the report root tag.
 	 */
