@@ -261,8 +261,7 @@ public class CachedResultSet implements IResultIterator
 		}
 
 		// save result class
-		if ( isSubQuery == false && (!( (IQueryDefinition) this.resultSetPopulator.getQuery( )
-				.getQueryDefinition( ) ).isSummaryQuery( )) && 
+		if ( isSubQuery == false && (!isSummaryQuery(  this.resultSetPopulator.getQuery( ) )) && 
 				streamsWrapper.getStreamForResultClass( ) != null )
 		{
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
@@ -302,6 +301,12 @@ public class CachedResultSet implements IResultIterator
 										StreamManager.BASE_SCOPE ) );
 			}
 		}
+	}
+
+	static private boolean isSummaryQuery( BaseQuery query )
+	{
+		return ( query.getQueryDefinition( ) != null )
+				&& ( (IQueryDefinition) query.getQueryDefinition( ) ).isSummaryQuery( );
 	}
 	
 	/*
