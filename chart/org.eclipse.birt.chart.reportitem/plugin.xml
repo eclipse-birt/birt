@@ -13,7 +13,7 @@
             extendsFrom="ReportItem"
             extensionName="Chart"
             hasStyle="true"
-            isNameRequired="true">
+            isNameRequired="false">
          <style name="chart" displayNameID="Element.Chart"/>
          <property
                type="xml"
