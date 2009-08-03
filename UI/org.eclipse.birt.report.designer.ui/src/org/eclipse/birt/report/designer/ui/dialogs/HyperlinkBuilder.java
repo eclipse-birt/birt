@@ -111,8 +111,6 @@ import org.eclipse.ui.PlatformUI;
 public class HyperlinkBuilder extends BaseDialog
 {
 
-	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
-	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 	private static final String TITLE = Messages.getString( "HyperlinkBuilder.DialogTitle" ); //$NON-NLS-1$
 	private static final String LABEL_SELECT_TYPE = Messages.getString( "HyperlinkBuilder.Label.SelectType" ); //$NON-NLS-1$
 	private static final String LABEL_LOCATION = Messages.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
@@ -1028,50 +1026,9 @@ public class HyperlinkBuilder extends BaseDialog
 	private void createComplexExpressionButton( Composite parent,
 			final Text text )
 	{
-
-		final ExpressionButton button = UIUtil.createExpressionButton( parent,
-				SWT.PUSH );
-		IExpressionHelper helper = new IExpressionHelper( ) {
-
-			public String getExpression( )
-			{
-				if ( text != null )
-					return text.getText( );
-				return "";
-			}
-
-			public void notifyExpressionChangeEvent( String oldExpression,
-					String newExpression )
-			{
-				updateButtons( );
-			}
-
-			public void setExpression( String expression )
-			{
-				if ( text != null )
-					text.setText( expression );
-			}
-
-			public IExpressionProvider getExpressionProvider( )
-			{
-				return HyperlinkBuilder.this.getExpressionProvider( );
-			}
-
-			public String getExpressionType( )
-			{
-				return (String) text.getData( EXPR_TYPE );
-			}
-
-			public void setExpressionType( String exprType )
-			{
-				text.setData( EXPR_TYPE, exprType );
-			}
-
-		};
-
-		button.setExpressionHelper( helper );
-
-		text.setData( EXPR_BUTTON, button );
+		ExpressionButtonUtil.createExpressionButton( parent,
+				text,
+				getExpressionProvider( ), true, SWT.PUSH );
 	}
 
 	/**
@@ -1183,10 +1140,11 @@ public class HyperlinkBuilder extends BaseDialog
 
 						filename = new Path( filename ).toString( );
 
-						if ( text.getData( EXPR_BUTTON ) != null )
+						if ( text.getData( ExpressionButtonUtil.EXPR_BUTTON ) != null )
 						{
-							text.setData( EXPR_TYPE, ExpressionType.CONSTANT );
-							( (ExpressionButton) text.getData( EXPR_BUTTON ) ).refresh( );
+							text.setData( ExpressionButtonUtil.EXPR_TYPE,
+									ExpressionType.CONSTANT );
+							( (ExpressionButton) text.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).refresh( );
 						}
 						else
 						{
@@ -1196,6 +1154,7 @@ public class HyperlinkBuilder extends BaseDialog
 							}
 						}
 						text.setText( filename );
+						text.setFocus( );
 					}
 
 					updateButtons( );
@@ -1284,7 +1243,7 @@ public class HyperlinkBuilder extends BaseDialog
 			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 			{
 				setURI( locationEditor.getText( ).trim( ),
-						(String) locationEditor.getData( EXPR_TYPE ) );
+						(String) locationEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) );
 				if ( bTargetEnabled )
 				{
 					inputHandle.setTargetWindow( ChoiceSetFactory.getValueFromChoiceSet( targetChooser.getText( ),
@@ -1460,10 +1419,10 @@ public class HyperlinkBuilder extends BaseDialog
 			ExpressionHandle uri = (ExpressionHandle) getURI( );
 
 			locationEditor.setText( uri == null || uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$
-			locationEditor.setData( EXPR_TYPE, uri == null
+			locationEditor.setData( ExpressionButtonUtil.EXPR_TYPE, uri == null
 					|| uri.getType( ) == null ? ExpressionType.CONSTANT
 					: (String) uri.getType( ) );
-			ExpressionButton button = (ExpressionButton) locationEditor.getData( EXPR_BUTTON );
+			ExpressionButton button = (ExpressionButton) locationEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
 			if ( button != null )
 				button.refresh( );
 

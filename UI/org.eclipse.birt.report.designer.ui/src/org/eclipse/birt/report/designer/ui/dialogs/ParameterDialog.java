@@ -1865,6 +1865,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					String newExpression )
 			{
 				// preview( DEUtil.removeQuote( newExpression ) );
+				if ( defaultValueChooser != null )
+					defaultValueChooser.setFocus( );
 			}
 
 			public IExpressionProvider getExpressionProvider( )
@@ -2610,6 +2612,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			public void notifyExpressionChangeEvent( String oldExpression,
 					String newExpression )
 			{
+				if ( defaultValueChooser != null )
+					defaultValueChooser.setFocus( );
 				// preview( DEUtil.removeQuote( newExpression ) );
 			}
 

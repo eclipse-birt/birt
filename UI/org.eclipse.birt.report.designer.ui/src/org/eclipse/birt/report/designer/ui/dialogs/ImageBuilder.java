@@ -20,13 +20,14 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.IResourceContentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -67,9 +68,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
@@ -81,8 +84,6 @@ import org.eclipse.ui.PlatformUI;
 public class ImageBuilder extends BaseDialog
 {
 
-	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
-	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 	private static final String[] IMAGE_TYPES = new String[]{
 			".bmp", //$NON-NLS-1$
 			".jpg", //$NON-NLS-1$
@@ -401,21 +402,22 @@ public class ImageBuilder extends BaseDialog
 
 			public void focusLost( FocusEvent e )
 			{
-				previewTextEditor();
+				previewTextEditor( );
 			}
 		} );
 	}
 
-	private void previewTextEditor()
+	private void previewTextEditor( )
 	{
 		String str = uriEditor.getText( ).trim( );
-		String type = (String)uriEditor.getData( EXPR_TYPE );
-		if (!ExpressionType.CONSTANT.equals( type ))
+		String type = (String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE );
+		if ( !ExpressionType.CONSTANT.equals( type ) )
 		{
-			str = DEUtil.removeQuote(str);
+			str = DEUtil.removeQuote( str );
 		}
 		preview( str );
 	}
+
 	private void buildEmbeddedImageList( )
 	{
 		embeddedImageList = new List( inputArea, SWT.NONE
@@ -462,50 +464,26 @@ public class ImageBuilder extends BaseDialog
 
 	private void buildInputAreaButton( int type )
 	{
-		IExpressionHelper helper = new IExpressionHelper( ) {
+		Listener listener  = new Listener(){
 
-			public String getExpression( )
+			@Override
+			public void handleEvent( Event event )
 			{
-				if ( uriEditor != null )
-					return uriEditor.getText( );
-				else
-					return "";
+				if(event.data instanceof String[]){
+					preview( DEUtil.removeQuote( ((String[])event.data )[1] ));
+				}
 			}
-
-			public void setExpression( String expression )
-			{
-				if ( uriEditor != null )
-					uriEditor.setText( expression );
-			}
-
-			public void notifyExpressionChangeEvent( String oldExpression,
-					String newExpression )
-			{
-				preview( DEUtil.removeQuote( newExpression ) );
-			}
-
-			public IExpressionProvider getExpressionProvider( )
-			{
-				return new ExpressionProvider( inputImage );
-			}
-
-			public String getExpressionType( )
-			{
-				return (String) uriEditor.getData( EXPR_TYPE );
-			}
-
-			public void setExpressionType( String exprType )
-			{
-				uriEditor.setData( EXPR_TYPE, exprType );
-			}
-
+			
 		};
+		
 		if ( type == URI_TYPE )
 		{
-			ExpressionButton expressionButton = UIUtil.createExpressionButton( inputArea,
+			ExpressionButtonUtil.createExpressionButton( inputArea,
+					uriEditor,
+					new ExpressionProvider( inputImage ),
+					listener,
+					true,
 					SWT.PUSH );
-			expressionButton.setExpressionHelper( helper );
-			uriEditor.setData( EXPR_BUTTON, expressionButton );
 			new Label( inputArea, SWT.NONE );
 		}
 		else if ( type == FILE_TYPE )
@@ -522,10 +500,12 @@ public class ImageBuilder extends BaseDialog
 			} );
 			inputButton.setToolTipText( BUTTON_BROWSE_TOOLTIP );
 
-			ExpressionButton expressionButton = UIUtil.createExpressionButton( inputArea,
-					SWT.PUSH );
-			expressionButton.setExpressionHelper( helper );
-			uriEditor.setData( EXPR_BUTTON, expressionButton );
+			ExpressionButtonUtil.createExpressionButton( inputArea,
+					uriEditor,
+					new ExpressionProvider( inputImage ),
+					listener,
+					true,
+					SWT.PUSH);
 		}
 		else if ( type == EMBEDDED_TYPE )
 		{
@@ -631,8 +611,9 @@ public class ImageBuilder extends BaseDialog
 		if ( dialog.open( ) == Window.OK )
 		{
 			uriEditor.setText( dialog.getPath( ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			uriEditor.setData( EXPR_TYPE, ExpressionType.CONSTANT );
-			( (ExpressionButton) uriEditor.getData( EXPR_BUTTON ) ).refresh( );
+			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
+			( (ExpressionButton) uriEditor.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).refresh( );
+			uriEditor.setFocus( );
 			preview( dialog.getPath( ) );
 		}
 	}
@@ -707,11 +688,11 @@ public class ImageBuilder extends BaseDialog
 			{
 				case FILE_TYPE :
 					inputImage.setFile( new Expression( uriEditor.getText( )
-							.trim( ), (String) uriEditor.getData( EXPR_TYPE ) ) );
+							.trim( ), (String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
 					break;
 				case URI_TYPE :
 					inputImage.setURL( new Expression( uriEditor.getText( )
-							.trim( ), (String) uriEditor.getData( EXPR_TYPE ) ) );
+							.trim( ), (String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
 					break;
 				case EMBEDDED_TYPE :
 					inputImage.setImageName( embeddedImageList.getSelection( )[0] );
@@ -811,8 +792,8 @@ public class ImageBuilder extends BaseDialog
 		clearPreview( );
 		if ( !uriEditor.getText( ).equals( "" ) && selectedType != BLOB_TYPE ) //$NON-NLS-1$
 		{
-			//preview( DEUtil.removeQuote( uriEditor.getText( ) ) );
-			previewTextEditor();
+			// preview( DEUtil.removeQuote( uriEditor.getText( ) ) );
+			previewTextEditor( );
 		}
 	}
 
@@ -826,15 +807,15 @@ public class ImageBuilder extends BaseDialog
 		}
 		if ( uriPropertyHandle != null && uriPropertyHandle.isLocal( ) )
 		{
-			uriEditor.setData( EXPR_TYPE,
+			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
 					uri == null || uri.getType( ) == null ? ExpressionType.CONSTANT
 							: (String) uri.getType( ) );
 		}
 		else
 		{
-			uriEditor.setData( EXPR_TYPE, ExpressionType.CONSTANT );
+			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
 		}
-		ExpressionButton button = (ExpressionButton) uriEditor.getData( EXPR_BUTTON );
+		ExpressionButton button = (ExpressionButton) uriEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
 		if ( button != null )
 			button.refresh( );
 	}
