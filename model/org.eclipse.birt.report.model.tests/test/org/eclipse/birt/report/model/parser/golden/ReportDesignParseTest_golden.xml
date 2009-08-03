@@ -28,7 +28,8 @@
     <property name="enableACL">false</property>
     <expression name="ACLExpression">new acl expression test</expression>
     <property name="cascadeACL">true</property>
-    <property name="imageDPI">10</property>            
+    <property name="imageDPI">10</property>
+    <property name="locale">fr_CA</property>            
     <list-property name="libraries">
         <structure>
             <property name="fileName">LibraryA.xml</property>

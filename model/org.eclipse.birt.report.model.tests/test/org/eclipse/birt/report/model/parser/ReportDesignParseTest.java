@@ -56,11 +56,10 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * This class tests the property parsing and writing. Translation is test in
- * <code>ReportDesignUserDefinedMessagesTest</code> All slots will be tested
- * in the corresponding element parse test.
+ * <code>ReportDesignUserDefinedMessagesTest</code> All slots will be tested in
+ * the corresponding element parse test.
  * 
- * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
- * collapse" bordercolor="#111111" width="100%" id="AutoNumber5" height="99">
+ * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="100%" id="AutoNumber5" height="99">
  * <tr>
  * <td width="33%" height="16"><b>Method </b></td>
  * <td width="33%" height="16"><b>Test Case </b></td>
@@ -89,8 +88,7 @@ import com.ibm.icu.util.ULocale;
  * <tr>
  * <td width="33%" height="16">{@link #testWriter()}</td>
  * <td width="33%" height="16">Set new value to properties and save it.</td>
- * <td width="34%" height="16">new value should be save into the output file.
- * </td>
+ * <td width="34%" height="16">new value should be save into the output file.</td>
  * </tr>
  * 
  * <tr>
@@ -369,6 +367,8 @@ public class ReportDesignParseTest extends BaseTestCase
 		handle = designHandle.getPageVariable( "notFound" ); //$NON-NLS-1$
 		assertNull( handle );
 
+		assertEquals( ULocale.GERMAN, designHandle.getLocale( ) );
+
 	}
 
 	/**
@@ -485,6 +485,8 @@ public class ReportDesignParseTest extends BaseTestCase
 		// sets the variable element value which is not existed.
 		value = new Expression( "testValue10", ExpressionType.CONSTANT ); //$NON-NLS-1$
 		designHandle.setPageVariable( "variable10", value ); //$NON-NLS-1$
+
+		designHandle.setLocale( ULocale.CANADA_FRENCH );
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

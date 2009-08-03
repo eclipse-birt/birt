@@ -7,6 +7,7 @@
     <property name="createdBy">Whiz-Bang Plus</property>
     <property name="refreshRate">30</property>
     <property name="base">c:\</property>
+    <property name="locale">de</property>
     <simple-property-list name="includeResource">
 		<value>library</value>
 	</simple-property-list>

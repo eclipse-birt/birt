@@ -1673,6 +1673,7 @@
   	<Property displayNameID="Element.ReportDesign.dataObjects" isList="true" name="dataObjects" since="2.5" type="contentElement">
   	  <Type name="VariableElement"/>	
   	</Property>
+  	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />
   	<Method context="client" displayNameID="Element.ReportDesign.onContentUpdate" name="onContentUpdate" since="2.5" toolTipID="Element.ReportDesign.onContentUpdate.toolTip">
 		<Argument name="this" tagID="Element.ReportDesign.onContentUpdate.this" type="org.eclipse.birt.report.engine.api.script.element.IReportDesign"/>
     </Method> 

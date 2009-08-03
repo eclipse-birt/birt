@@ -128,6 +128,7 @@ class DesignWriterImpl extends ModuleWriter
 		property( obj, IReportDesignModel.ACL_EXPRESSION_PROP );
 		property( obj, IReportDesignModel.CASCADE_ACL_PROP );
 		property( obj, IReportDesignModel.IMAGE_DPI_PROP );
+		property( obj, IReportDesignModel.LOCALE_PROP );
 
 		// include libraries and scripts
 
