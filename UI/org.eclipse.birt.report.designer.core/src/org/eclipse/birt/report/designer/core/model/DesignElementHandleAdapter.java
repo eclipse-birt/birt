@@ -291,7 +291,18 @@ public abstract class DesignElementHandleAdapter
 			}
 			else if (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals( str ))
 			{
-				return size.width;
+				Dimension imageSize = new Dimension( image );
+				if (((double)imageSize.width/((double)imageSize.height)) > ((double)size.width/((double)size.height))) 
+				{
+					double value = ((double)imageSize.width * ((double)size.height)/((double)imageSize.height));
+					return (int)value;
+					
+				}
+				else
+				{
+					return size.width;
+				}
+				//return size.width;
 			}
 			
 			return 0;
@@ -335,7 +346,18 @@ public abstract class DesignElementHandleAdapter
 			}
 			else if (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals( str ))
 			{
-				return size.height;
+				Dimension imageSize = new Dimension( image );
+				if (((double)imageSize.width/((double)imageSize.height)) > ((double)size.width/((double)size.height))) 
+				{
+					return size.height;
+					
+				}
+				else
+				{
+					double value = ((double)imageSize.height * ((double)size.width)/((double)imageSize.width));
+					return (int)value;
+				}
+				//return size.height;
 			}
 			return 0;
 		}
