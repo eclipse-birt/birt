@@ -1069,7 +1069,7 @@ public abstract class EngineTask implements IEngineTask
 						}
 						else
 						{
-							return convertToType( result, dataType );
+							results.add( convertToType( result, dataType ) );
 						}
 						return results.toArray( );
 					}
