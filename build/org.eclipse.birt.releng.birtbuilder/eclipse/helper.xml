@@ -401,81 +401,82 @@
 			</fileset>
 		</delete>
 	</target> 
+	
 	<target name="init">
 		<echo message="loading ${eclipse.build.configs}/../../build.properties ..."/>
 		<property file="${eclipse.build.configs}/../../build.properties"/>
-                <echo message="loading ${dtp.repository}/monitor.properties ..."/>
-                <property file="${dtp.repository}/monitor.properties"/>
-                <condition property="Compile.Error">
-                   <equals arg1="${compileHasError}" arg2="true"/>
-                </condition>        
+        <echo message="loading ${dtp.repository}/monitor.properties ..."/>
+        <property file="${dtp.repository}/monitor.properties"/>
+        <condition property="Compile.Error">
+        	<equals arg1="${compileHasError}" arg2="true"/>
+        </condition>        
 	</target>
 
 	<target name="getDTPDownloads.fromlocal" depends="init" unless="Compile.Error">
 
-                <property name="plugin-dest" value="${baseLocation}"/>
-                <property name="package-dest" value="${baseLocation}/../PackageFiles"/>
-                <property name="epp-dest" value="${baseLocation}/../PackageFiles/epp"/>
-                <property name="epp-linux-dest" value="${baseLocation}/../PackageFiles/epp-linux"/>
-
+    	<property name="plugin-dest" value="${baseLocation}"/>
+        <property name="package-dest" value="${baseLocation}/../PackageFiles"/>
+        <property name="epp-dest" value="${baseLocation}/../PackageFiles/epp"/>
+        <property name="epp-linux-dest" value="${baseLocation}/../PackageFiles/epp-linux"/>
+        <property name="file-version" value="${file-prefix}${timestamp}"/>
 		<property file="${dtp.repository}/monitor.properties"/>
-                <property name="file-version" value="${file-prefix}${timestamp}"/>
 
 		<copy tofile="${postingDirectory}/../platform/DTP/${file-version}.zip" file="${dtp.repository}/${buildId}/${file-version}.zip"/>
-                <unzip src="${postingDirectory}/../platform/DTP/${file-version}.zip" dest="${p4.home}/downloads/${file-version}"/>
+        <unzip src="${postingDirectory}/../platform/DTP/${file-version}.zip" dest="${p4.home}/downloads/${file-version}"/>
 
-                <echo message="Clean last download stuff" />
-                <delete includeemptydirs="true" failonerror="false">
-                        <fileset dir="${plugin-dest}/plugins" >
-                                <include name="*.datatools.*.jar" />
-                                <include name="org.eclipse.datatools.*/**" />
-                                <include name="org.apache.xerces_*.jar"/>
-                                <include name="org.apache.xml.resolver_*.jar"/>
-                                <include name="javax.wsdl_1.4.0*.jar"/>
-                        	<include name="javax.xml_*.jar"/>
-                        	<include name="org.apache.xml.serializer_*.jar"/>
+		<antcall target="checkDTPVersion"/>
+        <echo message="Clean last download stuff" />
+        <delete includeemptydirs="true" failonerror="false">
+        	<fileset dir="${plugin-dest}/plugins" >
+            	<include name="*.datatools.*.jar" />
+                <include name="org.eclipse.datatools.*/**" />
+                <include name="org.apache.xerces_*.jar"/>
+                <include name="org.apache.xml.resolver_*.jar"/>
+                <include name="javax.wsdl_1.4.0*.jar"/>
+                <include name="javax.xml_*.jar"/>
+                <include name="org.apache.xml.serializer_*.jar"/>
 				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
-                        </fileset>
-                        <fileset dir="${plugin-dest}/features" >
-                                <include name="org.eclipse.datatools.*/**" />
-                        </fileset>
-                        <fileset dir="${package-dest}/dtp/eclipse/plugins" >
-                                <include name="*.datatools.*.jar" />
-                                <include name="org.eclipse.datatools.*/**" />
-                                <include name="org.apache.xerces_*.jar"/>
-                                <include name="org.apache.xml.resolver_*.jar"/>
-                                <include name="javax.wsdl_1.4.0*.jar"/>
-                        	<include name="javax.xml_*.jar"/>
-                        	<include name="org.apache.xml.serializer_*.jar"/>
+            </fileset>
+            <fileset dir="${plugin-dest}/features" >
+            	<include name="org.eclipse.datatools.*/**" />
+            </fileset>
+            <fileset dir="${package-dest}/dtp/eclipse/plugins" >
+            	<include name="*.datatools.*.jar" />
+                <include name="org.eclipse.datatools.*/**" />
+                <include name="org.apache.xerces_*.jar"/>
+                <include name="org.apache.xml.resolver_*.jar"/>
+                <include name="javax.wsdl_1.4.0*.jar"/>
+                <include name="javax.xml_*.jar"/>
+                <include name="org.apache.xml.serializer_*.jar"/>
 				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
-                        </fileset>
-                        <fileset dir="${package-dest}/dtp/eclipse/features" >
-                                <include name="org.eclipse.datatools.*/**" />
-                        </fileset>
-                        <fileset dir="${package-dest}/jee/eclipse/plugins" >
-                                <include name="*.datatools.*.jar" />
-                                <include name="org.apache.xerces_*.jar"/>
-                                <include name="org.apache.xml.resolver_*.jar"/>
-                                <include name="javax.wsdl_1.4.0*.jar"/>
-                        	<include name="javax.xml_*.jar"/>
-                        	<include name="org.apache.xml.serializer_*.jar"/>
+            </fileset>
+            <fileset dir="${package-dest}/dtp/eclipse/features" >
+            	<include name="org.eclipse.datatools.*/**" />
+            </fileset>
+            <fileset dir="${package-dest}/jee/eclipse/plugins" >
+                <include name="*.datatools.*.jar" />
+                <include name="org.apache.xerces_*.jar"/>
+                <include name="org.apache.xml.resolver_*.jar"/>
+                <include name="javax.wsdl_1.4.0*.jar"/>
+               	<include name="javax.xml_*.jar"/>
+              	<include name="org.apache.xml.serializer_*.jar"/>
 				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
-                        </fileset>
-                        <fileset dir="${package-dest}/jee/eclipse/features" >
-                                <include name="org.eclipse.datatools.*/**" />
-                        </fileset>
-                        <fileset dir="${package-dest}/jee-linux/eclipse/plugins" >
-                                <include name="*.datatools.*.jar" />
-                                <include name="org.apache.xerces_*.jar"/>
-                                <include name="org.apache.xml.resolver_*.jar"/>
-                                <include name="javax.wsdl_1.4.0*.jar"/>
-                        	<include name="javax.xml_*.jar"/>
-                        	<include name="org.apache.xml.serializer_*.jar"/>
+            </fileset>
+            <fileset dir="${package-dest}/jee/eclipse/features" >
+                <include name="org.eclipse.datatools.*/**" />
+            </fileset>
+            <fileset dir="${package-dest}/jee-linux/eclipse/plugins" >
+                <include name="*.datatools.*.jar" />
+                <include name="org.apache.xerces_*.jar"/>
+                <include name="org.apache.xml.resolver_*.jar"/>
+                <include name="javax.wsdl_1.4.0*.jar"/>
+               	<include name="javax.xml_*.jar"/>
+              	<include name="org.apache.xml.serializer_*.jar"/>
 				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
-                        </fileset>
-                        <fileset dir="${package-dest}/jee-linux/eclipse/features" >
-                                <include name="org.eclipse.datatools.*/**" />
-                        </fileset>
+            </fileset>
+            <fileset dir="${package-dest}/jee-linux/eclipse/features" >
+            	<include name="org.eclipse.datatools.*/**" />
+            </fileset>
 		</delete>
 
                 <!--Define the ODA dependency plugins-->
@@ -715,7 +716,9 @@
 		<property name="AllInOne-Linux-dest" value="${baseLocation}/../PackageFiles/AllInOne-Linux"/>
         
 		<get src="${dtpURL}"  dest="${postingDirectory}/../platform/DTP/${file-version}.zip" verbose="true" usetimestamp="true" />
-
+		
+		<antcall target="checkDTPVersion"/>
+		
 		<echo message="START to Unzip the downloaded Plugins files" />
 		<unzip src="${postingDirectory}/../platform/DTP/${file-version}.zip" dest="${p4.home}/downloads/${file-version}"/>
 		
@@ -764,14 +767,14 @@
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.wsdl_1.4.0*.jar"/>
-                	<include name="javax.xml_*.jar"/>
-                	<include name="org.apache.xml.serializer_*.jar"/>
-		<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+                		<include name="javax.xml_*.jar"/>
+                		<include name="org.apache.xml.serializer_*.jar"/>
+						<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
                 </fileset>
                 <fileset dir="${package-dest}/jee-linux/eclipse/features" >
                         <include name="org.eclipse.datatools.*/**" />
                 </fileset>
-</delete>
+		</delete>
 
         <!--Define the ODA dependency plugins-->
         <patternset id="oda.runtime.plugins">
@@ -803,7 +806,7 @@
                 <include name="javax.xml_*.jar"/>
                 <include name="org.apache.xml.serializer_*.jar"/>
                 <include name="javax.wsdl_*.jar"/>
-	<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
         </patternset>
         <patternset id="oda.runtime.features">
                 <include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
@@ -1269,6 +1272,33 @@ Have a nice day!
 			</message>
 		</mail>
 	</target>
+	
+	<target name="getDTPVersionProperty">
+		<tstamp prefix="timestamp">
+			<format property="TODAY_US" pattern="yyyyMMdd" timezone="GMT-16"/>
+			<format property="TODAY_SH" pattern="yyyyMMdd" />
+		</tstamp>
+		<echo message="getDTPVersionProperty: currentDay = ${currentDay}"/>
+		<condition property="latest.dtp.version" value="true">
+			<equals arg1="${timestamp.TODAY_SH}" arg2="${currentDay}" />
+		</condition>
+	</target>
+	
+	<target name="checkDTPVersion" depends="getDTPVersionProperty" unless="latest.dtp.version">
+		<mail mailport="${mail.port}" subject="WARNING: The installed DTP build is not the latest version" tolist="${build.engineer}">
+			<from address="${mail.from}"/>
+			<replyto address="${replyto.address}"/>
+			<message>
+		
+		WARNING: The installed DTP build is not the latest version.
+
+		Installed DTP version:${file-version}
+		Installed DTP URL: ${dtpURL}
+
+			</message>
+		</mail>
+	</target>
+	
 	
 	<target name="checkErrorExist">
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
