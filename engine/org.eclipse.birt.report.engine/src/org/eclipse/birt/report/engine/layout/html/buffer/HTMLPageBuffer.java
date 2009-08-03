@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -99,7 +101,22 @@ public class HTMLPageBuffer implements IPageBuffer
 	public void startContent( IContent content, IContentEmitter emitter,
 			boolean visible ) throws BirtException
 	{
-		if ( isRepeated || ( !visible && !currentNode.isStarted( ) ) )
+		// For fixed layout reports and in run task, we need to emit the
+		// invisible content to PDF layout engine.
+		if ( context.isFixedLayout( )
+				&& (Integer) context.getLayoutEngine( ).getOption(
+						EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN )
+		{
+			LeafBufferNode leafNode = new LeafBufferNode( content, emitter,
+					generator, visible );
+			setup( leafNode, true );
+			currentNode.start( );
+			ContentEmitterUtil.startContent( content, emitter );
+			generator.start( content, true );
+			generator.end( content, true );
+			currentNode.removeChildren( );
+		}
+		else if ( isRepeated || ( !visible && !currentNode.isStarted( ) ) )
 		{
 			LeafBufferNode leafNode = new LeafBufferNode( content, emitter,
 					generator, visible );
