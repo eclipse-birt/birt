@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -48,9 +49,6 @@ import org.eclipse.ui.ISharedImages;
 
 public class UserPropertyBuilder extends BaseDialog
 {
-
-	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
-	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 
 	public static final int USER_PROPERTY = 0;
 
@@ -198,53 +196,9 @@ public class UserPropertyBuilder extends BaseDialog
 	private void createComplexExpressionButton( Composite parent,
 			final Text text )
 	{
-
-		final ExpressionProvider provider = new ExpressionProvider( input );
-
-		final ExpressionButton button = UIUtil.createExpressionButton( parent,
-				SWT.PUSH,
-				false );
-		IExpressionHelper helper = new IExpressionHelper( ) {
-
-			public String getExpression( )
-			{
-				if ( text != null )
-					return text.getText( );
-				return "";
-			}
-
-			public void notifyExpressionChangeEvent( String oldExpression,
-					String newExpression )
-			{
-
-			}
-
-			public void setExpression( String expression )
-			{
-				if ( text != null )
-					text.setText( UIUtil.convertToGUIString( expression ) );
-			}
-
-			public IExpressionProvider getExpressionProvider( )
-			{
-				return provider;
-			}
-
-			public String getExpressionType( )
-			{
-				return (String) text.getData( EXPR_TYPE );
-			}
-
-			public void setExpressionType( String exprType )
-			{
-				text.setData( EXPR_TYPE, exprType );
-			}
-
-		};
-
-		button.setExpressionHelper( helper );
-
-		text.setData( EXPR_BUTTON, button );
+		ExpressionButtonUtil.createExpressionButton( parent,
+				text,
+				new ExpressionProvider( input ) );
 	}
 
 	protected void okPressed( )
@@ -258,9 +212,7 @@ public class UserPropertyBuilder extends BaseDialog
 				break;
 			case NAMED_EXPRESSION :
 				def.setType( EXPRESSION_TYPE );
-				def.setDefault( new Expression( UIUtil.convertToModelString( defaultValueEditor.getText( ),
-						false ),
-						(String) defaultValueEditor.getData( EXPR_TYPE ) ) );
+				def.setDefault( ExpressionButtonUtil.getExpression( defaultValueEditor ) );
 				break;
 		}
 		setResult( def );
