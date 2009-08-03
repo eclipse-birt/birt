@@ -2371,6 +2371,7 @@ Element.ReportDesign.cascadeACL=层叠 ACL
 Element.ReportDesign.imageDPI=图像 DPI
 Element.ReportDesign.pageVariables=页面变量
 Element.ReportDesign.dataObjects= 数据对象
+Element.ReportDesign.locale=区域设置
 Element.ReportDesign.onContentUpdate= 在内容更新时
 Element.ReportDesign.onContentUpdate.toolTip=在报表内容更新时调用。
 Element.ReportDesign.onContentUpdate.this=报表设计

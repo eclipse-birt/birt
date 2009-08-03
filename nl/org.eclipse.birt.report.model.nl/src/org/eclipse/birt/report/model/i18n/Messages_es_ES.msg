@@ -2371,6 +2371,7 @@ Element.ReportDesign.cascadeACL=Cascada ACL
 Element.ReportDesign.imageDPI=Imagen DPI
 Element.ReportDesign.pageVariables=Variables de página
 Element.ReportDesign.dataObjects= Objetos de datos
+Element.ReportDesign.locale=Configuración regional
 Element.ReportDesign.onContentUpdate= En actualización de contenidos
 Element.ReportDesign.onContentUpdate.toolTip=Llamado al actualizar el contenido de informe.
 Element.ReportDesign.onContentUpdate.this=Diseño de informe

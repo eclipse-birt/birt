@@ -2371,6 +2371,7 @@ Element.ReportDesign.cascadeACL=ACL を重ねて表示
 Element.ReportDesign.imageDPI=イメージの DPI
 Element.ReportDesign.pageVariables=ページ変数
 Element.ReportDesign.dataObjects= データオブジェクト
+Element.ReportDesign.locale=ロケール
 Element.ReportDesign.onContentUpdate= 内容の更新時
 Element.ReportDesign.onContentUpdate.toolTip=レポートの内容を更新する際に呼び出されます。
 Element.ReportDesign.onContentUpdate.this=レポートデザイン

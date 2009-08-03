@@ -2371,6 +2371,7 @@ Element.ReportDesign.cascadeACL=ACL 하위 전달
 Element.ReportDesign.imageDPI=이미지 DPI
 Element.ReportDesign.pageVariables=페이지 변수
 Element.ReportDesign.dataObjects= 데이터 개체
+Element.ReportDesign.locale=로케일
 Element.ReportDesign.onContentUpdate= 내용 업데이트 시
 Element.ReportDesign.onContentUpdate.toolTip=보고서 내용 업데이트 시 호출됩니다.
 Element.ReportDesign.onContentUpdate.this=보고서 디자인

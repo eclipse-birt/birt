@@ -2371,6 +2371,7 @@ Element.ReportDesign.cascadeACL=Verschachtelung 'ACL'
 Element.ReportDesign.imageDPI=Bild-DPI
 Element.ReportDesign.pageVariables=Seitenvariablen
 Element.ReportDesign.dataObjects= Datenobjekte
+Element.ReportDesign.locale=Gebietsschema
 Element.ReportDesign.onContentUpdate= Bei Inhaltsaktualisierung
 Element.ReportDesign.onContentUpdate.toolTip=Wird aufgerufen, wenn der Berichtinhalt aktualisiert wird.
 Element.ReportDesign.onContentUpdate.this=Berichtdesign
