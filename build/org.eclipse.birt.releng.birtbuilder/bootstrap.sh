@@ -186,6 +186,7 @@ cd /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder
 echo buildId=$buildId >> monitor.properties 
 echo timestamp=$timestamp >> monitor.properties 
 echo buildLabel=$buildLabel >> monitor.properties 
+echo currentDay=$builddate >> monitor.properties
 echo recipients=$recipients >> monitor.properties
 echo log=$postingDirectory/$buildLabel/index.php >> monitor.properties
 
