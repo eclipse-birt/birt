@@ -36,7 +36,7 @@ public class ReportBodyExecutor extends ContainerExecutor
 		{
 			if ( !reader.isEmpty( ) )
 			{
-				nextOffset = 0;
+				nextOffset = reader.getRootOffset();
 			}
 		}
 		else
@@ -51,7 +51,7 @@ public class ReportBodyExecutor extends ContainerExecutor
 				{
 					if ( !reader.isEmpty( ) )
 					{
-						nextOffset = 0;
+						nextOffset = reader.getRootOffset( );
 					}
 				}
 				else
@@ -61,7 +61,7 @@ public class ReportBodyExecutor extends ContainerExecutor
 					{
 						if ( !reader.isEmpty( ) )
 						{
-							nextOffset = 0;
+							nextOffset = reader.getRootOffset( );
 						}
 					}
 				}

@@ -49,6 +49,8 @@ public class ReportContentReaderV3
 	 * the current offset of the stream.
 	 */
 	protected long offset;
+	
+	protected long rootOffset;
 
 	protected boolean isEmpty = false;
 
@@ -112,10 +114,15 @@ public class ReportContentReaderV3
 		}
 	}
 
+	public long getRoot() 
+	{
+		return rootOffset;
+	}
+	
 	private void loadReport( ) throws IOException
 	{
 		// skip the first document extension
-		readDocumentExtension( 0 );
+		readDocumentExtensionV1( 0 );
 		int size = stream.readInt( );
 		if ( size != -1 ) // -1 means it is the first
 		{
@@ -127,7 +134,8 @@ public class ReportContentReaderV3
 			if ( contentType == IContent.REPORT_CONTENT )
 			{
 				reportContent.readContent( oi, loader );
-				offset += 4 + size;
+				offset += INDEX_ENTRY_SIZE_V1 + 4 + size;
+				rootOffset = offset;
 			}
 		}
 	}

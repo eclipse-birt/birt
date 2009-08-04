@@ -107,5 +107,10 @@ public class CachedReportContentReaderV3
 		addCache( offset, content );
 		return content;
 	}
+	
+	public long getRootOffset()
+	{
+		return reader.getRoot( );
+	}
 
 }
