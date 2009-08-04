@@ -64,6 +64,7 @@ public class ParameterHelper
 		this.valueColumnName = getValueColumnName( param );
 		this.valueType = param.getDataType( );
 		this.alreadySorted = param.getSortByColumn( ) != null;
+		this.distinct = param.distinct( );
 		
 		boolean sortDirectionValue = "asc".equalsIgnoreCase( param
 				.getSortDirection( ) );
@@ -75,7 +76,6 @@ public class ParameterHelper
 		{
 			parameterType = SCALAR_PARAMETER;
 			ScalarParameterHandle parameter = (ScalarParameterHandle) param;
-			this.distinct = parameter.distinct( );
 			this.fixedOrder = parameter.isFixedOrder( );
 			pattern = parameter.getPattern( );
 		}
@@ -122,7 +122,7 @@ public class ParameterHelper
 		if ( ( parameterType == SCALAR_PARAMETER && fixedOrder )
 				|| alreadySorted )
 		{
-			if ( !distinct && parameterType == SCALAR_PARAMETER )
+			if ( !distinct )
 			{
 				return new ArrayList( );
 			}
