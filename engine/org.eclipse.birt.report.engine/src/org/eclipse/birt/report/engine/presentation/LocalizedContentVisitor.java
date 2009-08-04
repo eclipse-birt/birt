@@ -597,6 +597,7 @@ public class LocalizedContentVisitor
 		{
 			IDataContent dataContent = reportContent
 					.createDataContent( foreignContent );
+			dataContent.setParent( foreignContent.getParent( ) );
 			dataContent.setValue( rawValue );
 			processData( dataContent );
 			return dataContent;
