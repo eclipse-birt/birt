@@ -15,10 +15,10 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.Expressio
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.Structure;
@@ -257,9 +257,9 @@ public class ExpressionButtonUtil
 	{
 		ExpressionHandle value = null;
 
-		if ( element instanceof ReportItemHandle )
+		if ( element instanceof DesignElementHandle )
 		{
-			value = ( (ReportItemHandle) element ).getExpressionProperty( property );
+			value = ( (DesignElementHandle) element ).getExpressionProperty( property );
 		}
 		else if ( element instanceof StructureHandle )
 		{
@@ -319,9 +319,9 @@ public class ExpressionButtonUtil
 		if ( expression == null )
 			return;
 
-		if ( element instanceof ReportItemHandle )
+		if ( element instanceof DesignElementHandle )
 		{
-			( (ReportItemHandle) element ).setExpressionProperty( property,
+			( (DesignElementHandle) element ).setExpressionProperty( property,
 					expression );
 		}
 		else if ( element instanceof StructureHandle )
