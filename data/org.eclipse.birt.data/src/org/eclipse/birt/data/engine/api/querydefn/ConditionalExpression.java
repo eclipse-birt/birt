@@ -104,6 +104,10 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		return op1;
 	}
 
+	public void setOperator( int operator )
+	{
+		this.operator = operator;
+	}
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand2()
 	 */
