@@ -465,8 +465,7 @@ public class ImageBuilder extends BaseDialog
 	private void buildInputAreaButton( int type )
 	{
 		Listener listener  = new Listener(){
-
-			@Override
+			
 			public void handleEvent( Event event )
 			{
 				if(event.data instanceof String[]){
