@@ -76,13 +76,6 @@ public interface IScalarParameterModel
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
 
-	/**
-	 * Name of the distinct property. If it is true, Engine checks duplicate
-	 * values.
-	 * 
-	 */
-
-	public static final String DISTINCT_PROP = "distinct"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that indicates the type of this parameter: simple,

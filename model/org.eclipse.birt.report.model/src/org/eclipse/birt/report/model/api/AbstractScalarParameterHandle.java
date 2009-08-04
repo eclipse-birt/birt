@@ -374,7 +374,7 @@ public abstract class AbstractScalarParameterHandle extends ParameterHandle
 
 		return (DataSetHandle) dataSet.getHandle( dataSet.getRoot( ) );
 	}
-	
+
 	/**
 	 * Sets the default value list of the parameter. Each item in the list can
 	 * be an expression, but cannot reference any other parameters.
@@ -458,6 +458,34 @@ public abstract class AbstractScalarParameterHandle extends ParameterHandle
 	public void setDataType( String type ) throws SemanticException
 	{
 		setStringProperty( DATA_TYPE_PROP, type );
+	}
+
+	/**
+	 * Sets the flag that indicates whether duplicate values should be shown
+	 * when preview.
+	 * 
+	 * @param distinct
+	 *            <code>true</code> if duplicate values only show once.
+	 *            Otherwise <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setDistinct( boolean distinct ) throws SemanticException
+	{
+		setBooleanProperty( DISTINCT_PROP, distinct );
+	}
+
+	/**
+	 * Checks whether duplicate values should be shown when preview.
+	 * 
+	 * @return <code>true</code> if duplicate values only show once. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean distinct( )
+	{
+		return getBooleanProperty( DISTINCT_PROP );
 	}
 
 }

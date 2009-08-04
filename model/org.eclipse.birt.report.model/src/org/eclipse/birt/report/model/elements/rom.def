@@ -1984,7 +1984,10 @@
     <Property detailType="paramType" displayNameID="Element.AbstractScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
       <Allowed>string,float,decimal,dateTime,date,time,boolean,integer</Allowed>
       <Default>string</Default>
-    </Property>    
+    </Property>
+    <Property displayNameID="Element.AbstractScalarParameter.distinct" name="distinct" runtimeSettable="false" since="2.2" type="boolean">
+    	<Default>true</Default>
+    </Property>     
   </Element>
   <Element displayNameID="Element.DynamicFilterParameter" extends="AbstractScalarParameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.DynamicFilterParameter" name="DynamicFilterParameter" since="2.5" xmlName="dynamic-filter-parameter">
   	<Property detailType="dynamicFilterChoice" displayNameID="Element.DynamicFilterParameter.displayType" name="displayType" runtimeSettable="false" since="2.5" type="choice">
@@ -1999,10 +2002,7 @@
     </Property>
     <Property displayNameID="Element.ScalarParameter.concealValue" name="concealValue" runtimeSettable="false" since="1.0" type="boolean">
       <Default>false</Default>
-    </Property>
-    <Property displayNameID="Element.ScalarParameter.distinct" name="distinct" runtimeSettable="false" since="2.2" type="boolean">
-      <Default>true</Default>
-    </Property>    
+    </Property>   
     <Property detailType="ParameterFormatValue" displayNameID="Element.ScalarParameter.format" name="format" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="paramControl" displayNameID="Element.ScalarParameter.controlType" name="controlType" runtimeSettable="false" since="1.0" type="choice"/>
     <Property detailType="scalarParamAlign" displayNameID="Element.ScalarParameter.alignment" name="alignment" runtimeSettable="false" since="1.0" type="choice">

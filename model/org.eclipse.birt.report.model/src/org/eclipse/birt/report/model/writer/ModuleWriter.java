@@ -2404,7 +2404,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.ALIGNMENT_PROP );
 		property( obj, IScalarParameterModel.MUCH_MATCH_PROP );
 		property( obj, IScalarParameterModel.FIXED_ORDER_PROP );
-		property( obj, IScalarParameterModel.DISTINCT_PROP );
 		property( obj, IScalarParameterModel.AUTO_SUGGEST_THRESHOLD_PROP );
 
 		// write two method
@@ -2438,6 +2437,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP );
 		property( obj, IAbstractScalarParameterModel.SORT_DIRECTION_PROP );
 		property( obj, IAbstractScalarParameterModel.DATA_TYPE_PROP );
+		property( obj, IAbstractScalarParameterModel.DISTINCT_PROP );
 
 		writeSimplePropertyList( obj,
 				IAbstractScalarParameterModel.DEFAULT_VALUE_PROP );
@@ -3696,7 +3696,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		// attributes
 		Map<String, Object> attributes = node.getAttributes( );
-		Iterator<Entry<String, Object>> iter = attributes.entrySet( ).iterator( );
+		Iterator<Entry<String, Object>> iter = attributes.entrySet( )
+				.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Entry<String, Object> entry = iter.next( );

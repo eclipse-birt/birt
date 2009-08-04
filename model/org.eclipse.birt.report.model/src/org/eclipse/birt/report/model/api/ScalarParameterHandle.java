@@ -724,34 +724,6 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
 	}
 
-	/**
-	 * Sets the flag that indicates whether duplicate values should be shown
-	 * when preview.
-	 * 
-	 * @param distinct
-	 *            <code>true</code> if duplicate values only show once.
-	 *            Otherwise <code>false</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
-	 */
-
-	public void setDistinct( boolean distinct ) throws SemanticException
-	{
-		setBooleanProperty( DISTINCT_PROP, distinct );
-	}
-
-	/**
-	 * Checks whether duplicate values should be shown when preview.
-	 * 
-	 * @return <code>true</code> if duplicate values only show once. Otherwise
-	 *         <code>false</code>.
-	 */
-
-	public boolean distinct( )
-	{
-		return getBooleanProperty( DISTINCT_PROP );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

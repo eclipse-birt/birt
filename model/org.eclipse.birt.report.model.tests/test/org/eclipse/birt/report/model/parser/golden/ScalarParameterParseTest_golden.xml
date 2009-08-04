@@ -14,6 +14,7 @@
             <expression name="sortByColumn">city</expression>
             <property name="sortDirection">asc</property>
             <property name="dataType">dateTime</property>
+            <property name="distinct">false</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">new default value.&#13;
 this the next line of the value.</value>
@@ -39,7 +40,6 @@ this the next line of the value.</value>
             <property name="alignment">right</property>
             <property name="mustMatch">false</property>
             <property name="fixedOrder">false</property>
-            <property name="distinct">false</property>
             <property name="autoSuggestThreshold">600</property>
             <method name="getDefaultValueList"><![CDATA[new getDefaultValueList]]></method>
             <method name="getSelectionValueList"><![CDATA[new getSelectionValueList]]></method>

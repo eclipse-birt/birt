@@ -86,11 +86,19 @@ public interface IAbstractScalarParameterModel
 	 */
 
 	public static final String LABEL_EXPR_PROP = "labelExpr"; //$NON-NLS-1$ 
-	
+
 	/**
 	 * Name of the parameter data type property.
 	 */
 
 	public static final String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
+
+	/**
+	 * Name of the distinct property. If it is true, Engine checks duplicate
+	 * values.
+	 * 
+	 */
+
+	public static final String DISTINCT_PROP = "distinct"; //$NON-NLS-1$
 
 }
