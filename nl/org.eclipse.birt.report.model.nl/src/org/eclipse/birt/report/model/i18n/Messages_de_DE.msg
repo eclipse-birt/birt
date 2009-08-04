@@ -2460,7 +2460,6 @@ Element.ScalarParameter.selectionList=Auswahlliste
 Element.ScalarParameter.selectionList.mustMatch=Muss übereinstimmen
 Element.ScalarParameter.selectionList.fixedOrder=Feste Reihenfolge
 Element.ScalarParameter.boundDataColumns=Gebundene Datenspalten
-Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.autoSuggestThreshold=Grenzwert für automatischen Vorschlag
 Element.ScalarParameter.getDefaultValueList=Standardwerteliste abrufen
 Element.ScalarParameter.getDefaultValueList.reportContext=Berichtkontext
@@ -3248,6 +3247,7 @@ Element.AbstractScalarParameter.sortByColumn=Nach Spalten sortieren
 Element.AbstractScalarParameter.defaultValue=Standardwert
 Element.AbstractScalarParameter.selectionList=Auswahlliste
 Element.AbstractScalarParameter.dataType=Datentyp
+Element.AbstractScalarParameter.distinct=Distinct
 
 #68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=Anzeigetyp

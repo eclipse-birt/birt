@@ -2460,7 +2460,6 @@ Element.ScalarParameter.selectionList=选择列表
 Element.ScalarParameter.selectionList.mustMatch=必须匹配
 Element.ScalarParameter.selectionList.fixedOrder=固定顺序
 Element.ScalarParameter.boundDataColumns=绑定的数据列
-Element.ScalarParameter.distinct=特异
 Element.ScalarParameter.autoSuggestThreshold=自动建议阈值
 Element.ScalarParameter.getDefaultValueList=获得默认值列表
 Element.ScalarParameter.getDefaultValueList.reportContext=报表上下文
@@ -3248,6 +3247,7 @@ Element.AbstractScalarParameter.sortByColumn=按列排序
 Element.AbstractScalarParameter.defaultValue=默认值
 Element.AbstractScalarParameter.selectionList=选择列表
 Element.AbstractScalarParameter.dataType=数据类型
+Element.AbstractScalarParameter.distinct=特异
 
 #68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=显示类型

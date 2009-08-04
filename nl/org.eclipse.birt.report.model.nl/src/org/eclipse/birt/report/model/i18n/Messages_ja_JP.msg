@@ -2460,7 +2460,6 @@ Element.ScalarParameter.selectionList=選択リスト
 Element.ScalarParameter.selectionList.mustMatch=必ず一致
 Element.ScalarParameter.selectionList.fixedOrder=固定順序
 Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
-Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.autoSuggestThreshold=入力補完のしきい値
 Element.ScalarParameter.getDefaultValueList=デフォルト値リストの取得
 Element.ScalarParameter.getDefaultValueList.reportContext=レポートのコンテキスト
@@ -3248,6 +3247,7 @@ Element.AbstractScalarParameter.sortByColumn=列を基準に並べ替える
 Element.AbstractScalarParameter.defaultValue=デフォルト値
 Element.AbstractScalarParameter.selectionList=選択リスト
 Element.AbstractScalarParameter.dataType=データ型
+Element.AbstractScalarParameter.distinct=Distinct
 
 #68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=表示型

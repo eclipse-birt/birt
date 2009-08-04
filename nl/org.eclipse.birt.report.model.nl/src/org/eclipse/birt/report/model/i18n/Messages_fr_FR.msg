@@ -2460,7 +2460,6 @@ Element.ScalarParameter.selectionList=Liste de sélection
 Element.ScalarParameter.selectionList.mustMatch=Doit correspondre
 Element.ScalarParameter.selectionList.fixedOrder=Ordre fixe
 Element.ScalarParameter.boundDataColumns=Colonnes de données liées
-Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.autoSuggestThreshold=Seuil de suggestion automatique
 Element.ScalarParameter.getDefaultValueList=Obtenir la liste de valeurs par défaut
 Element.ScalarParameter.getDefaultValueList.reportContext=Contexte d'état
@@ -3248,6 +3247,7 @@ Element.AbstractScalarParameter.sortByColumn=Trier par colonne
 Element.AbstractScalarParameter.defaultValue=Valeur par défaut
 Element.AbstractScalarParameter.selectionList=Liste de sélection
 Element.AbstractScalarParameter.dataType=Type de données
+Element.AbstractScalarParameter.distinct=Distinct
 
 #68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=Type d'affichage

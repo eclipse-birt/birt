@@ -2460,7 +2460,6 @@ Element.ScalarParameter.selectionList=선택 목록
 Element.ScalarParameter.selectionList.mustMatch=일치해야 함
 Element.ScalarParameter.selectionList.fixedOrder=고정된 순서
 Element.ScalarParameter.boundDataColumns=바인딩된 데이터 열
-Element.ScalarParameter.distinct=고유
 Element.ScalarParameter.autoSuggestThreshold=자동 제안 임계값
 Element.ScalarParameter.getDefaultValueList=기본값 목록 가져오기
 Element.ScalarParameter.getDefaultValueList.reportContext=보고서 컨텍스트
@@ -3248,6 +3247,7 @@ Element.AbstractScalarParameter.sortByColumn=열을 기준으로 정렬
 Element.AbstractScalarParameter.defaultValue=기본값
 Element.AbstractScalarParameter.selectionList=선택 목록
 Element.AbstractScalarParameter.dataType=데이터 형식
+Element.AbstractScalarParameter.distinct=고유
 
 #68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=표시 형식
