@@ -14,7 +14,7 @@
  *
  *  build.xml
  *
- *  Build script for project org.eclipse.birt.report.engine.emitter.config.html.nl
+ *  Build script for project org.eclipse.birt.report.engine.emitter.html.config.nl
  *
  * "Clean" - Clean nl.jar file and *.properties files generated from
  *           native2ascii.exe.
@@ -36,14 +36,14 @@
  *
 -->
 
-<project name="org.eclipse.birt.report.engine.emitter.config.html.nl" default="Jar" basedir=".">
-	<description>NL Fragment for org.eclipse.birt.report.engine.emitter.config.html.</description>
+<project name="org.eclipse.birt.report.engine.emitter.html.config.nl" default="Jar" basedir=".">
+	<description>NL Fragment for org.eclipse.birt.report.engine.emitter.html.config.</description>
 
 	<property file="META-INF/MANIFEST.MF" />
     <property name="dir.src" value="src" />
  	<property name="dir.bin" value="bin" />
 	<property name="nl.group" value="1" />
-	<property name="module.name" value="org.eclipse.birt.report.engine.emitter.config.html.nl" />
+	<property name="module.name" value="org.eclipse.birt.report.engine.emitter.html.config.nl" />
 	<property name="jar.name" value="${module.name}${nl.group}_${Bundle-Version}.jar" />
 
 	<target name="Clean">
