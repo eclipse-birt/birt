@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinitionUtil;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
@@ -160,7 +161,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	protected static void addQueryBindings( List<IBinding> resultBindingList,
 			Map bindings ) throws DataException
 	{
-		Map<String, Boolean> aggrInfo = PreparedQueryUtil.parseAggregations( bindings );
+		Map<String, Boolean> aggrInfo = QueryDefinitionUtil.parseAggregations( bindings );
 		Iterator it = bindings.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
