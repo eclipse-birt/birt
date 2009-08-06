@@ -52,7 +52,7 @@ echo "#" echo \" \" >> $2/genReport.sh
 echo "#" echo \"Locale: default is english\" >> $2/genReport.sh
 echo "################END OF USAGE #########################">> $2/genReport.sh
 
-echo if [ \"\$BIRT_HOME\" == \"\" ]\; >> $2/genReport.sh
+echo if [ \"\$BIRT_HOME\" = \"\" ]\; >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 
 echo then >> $2/genReport.sh
