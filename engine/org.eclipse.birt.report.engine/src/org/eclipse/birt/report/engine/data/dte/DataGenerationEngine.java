@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
@@ -27,7 +26,6 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
-import org.eclipse.birt.report.engine.ir.Report;
 
 public class DataGenerationEngine extends DteDataEngine
 {
@@ -65,12 +63,6 @@ public class DataGenerationEngine extends DteDataEngine
 
 		DteMetaInfoIOUtil.startMetaInfo( dos );
 
-	}
-
-	protected void doPrepareQuery( Report report, Map appContext )
-	{
-		queryIDMap.putAll( report.getQueryIDs( ) );
-		super.doPrepareQuery( report, appContext );
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,

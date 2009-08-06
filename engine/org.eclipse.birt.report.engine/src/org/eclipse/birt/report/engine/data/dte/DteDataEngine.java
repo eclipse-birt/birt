@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.data.dte;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -23,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -31,6 +33,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Report;
 
 /**
  * implments IDataEngine interface, using birt's data transformation engine
@@ -118,13 +121,18 @@ public class DteDataEngine extends AbstractDataEngine
 		ScriptContext scriptContext = context.getScriptContext( );
 
 		IBaseQueryResults dteResults = null; // the dteResults of this query
-		boolean needExecute = queryCache.needExecute( query, queryOwner, needCache || useCache );
+		boolean needExecute = queryCache.needExecute( query, queryOwner,
+				useCache );
 		if ( !needExecute )
 		{
 			dteResults = getCachedQueryResult( query, parentResultSet );
 		}
 		if ( dteResults == null )
 		{
+			if ( needCache )
+			{
+				( (BaseQueryDefinition) query ).setCacheQueryResults( true );
+			}
 			if ( parentResultSet == null )
 			{
 				// this is the root query
@@ -137,7 +145,7 @@ public class DteDataEngine extends AbstractDataEngine
 				dteResults = dteSession.execute( pQuery, parentResultSet
 						.getQueryResults( ), scriptContext );
 			}
-			putCachedQueryResult( query, dteResults.getID( ) );
+			queryCache.putCachedQuery( query, dteResults.getID( ) );
 		}
 
 		IBaseResultSet resultSet;
@@ -158,7 +166,7 @@ public class DteDataEngine extends AbstractDataEngine
 					query,
 					(IQueryResults) dteResults );
 		}
-		if ( resultSet != null && needCache)
+		if ( needCache )
 		{
 			cacheResultID( parentResultSet, query, resultSet );
 		}
@@ -168,7 +176,7 @@ public class DteDataEngine extends AbstractDataEngine
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
 			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
-		if ( needCache || useCache )
+		if ( useCache )
 		{
 			Object obj = cachedQueryToResults.get( query );
 			String rsetId = obj == null ? null : String.valueOf( obj );
@@ -179,6 +187,11 @@ public class DteDataEngine extends AbstractDataEngine
 			query.setQueryResultsID( null );
 		}
 		
+		if ( needCache )
+		{
+			( (ICubeQueryDefinition) query ).setCacheQueryResults( true );
+		}
+
 		// the cube query must be re-prepared before executing.
 		IBasePreparedQuery pQuery = (IBasePreparedQuery) queryMap.get( query );
 		if ( pQuery == null )
@@ -211,16 +224,20 @@ public class DteDataEngine extends AbstractDataEngine
 		}
 
 		// persist the queryResults witch need cached. 
-		if ( query.cacheQueryResults( ) )
-		{
-			cachedQueryToResults.put( query, dteResults.getID( ) );
-		}
+		cachedQueryToResults.put( query, dteResults.getID( ) );
 
-		if( resultSet != null && needCache)
+		if ( needCache )
 		{
 			cacheResultID( parentResultSet, query, resultSet );
 		}
 		return resultSet;
+	}
+
+	protected void doPrepareQuery( Report report, Map appContext )
+	{
+		// prepare report queries
+		queryIDMap.putAll( report.getQueryIDs( ) );
+		super.doPrepareQuery( report, appContext );
 	}
 
 	protected void cacheResultID( IBaseResultSet parentResultSet,

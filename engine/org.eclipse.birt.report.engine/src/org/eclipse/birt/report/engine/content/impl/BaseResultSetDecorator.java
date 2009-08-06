@@ -17,6 +17,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
+import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 
 
@@ -74,5 +76,19 @@ public class BaseResultSetDecorator implements IBaseResultSet
 	public int getType( )
 	{
 		return lastResultSet.getType( );
+	}
+
+	public String getResultSetId( )
+	{
+		if ( lastResultSet instanceof QueryResultSet )
+		{
+			QueryResultSet queryResultSet = (QueryResultSet) lastResultSet;
+			return queryResultSet.getQueryResultsID( );
+		}
+		else
+		{
+			CubeResultSet cubeResultSet = (CubeResultSet) lastResultSet;
+			return cubeResultSet.getQueryResultsID( );
+		}
 	}
 }

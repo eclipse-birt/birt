@@ -57,6 +57,7 @@ public class EmitterInfo
 		this.outputDisplayNone = outputDisplayNone;
 		this.isHidden = isHidden;
 		this.supportedImageFormats = supportedImageFormats;
+		this.needOutputResultSet = needOutputResultSet;
 	}
 
 	/**

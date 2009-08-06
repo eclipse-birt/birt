@@ -374,10 +374,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	
 	protected void putCachedQueryResult( IBaseQueryDefinition query, String id )
 	{
-		if ( query.cacheQueryResults( ) )
-		{
-			queryCache.putCachedQuery( query, id );
-		}
+		queryCache.putCachedQuery( query, id );
 	}
 	
 	private void regQueries()
