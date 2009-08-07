@@ -208,7 +208,6 @@ public class GroupDialog extends BaseDialog
 
 	private Combo pagebreakInsideCombo;
 
-
 	/**
 	 * Constructor.
 	 * 
@@ -472,6 +471,13 @@ public class GroupDialog extends BaseDialog
 				if ( keyChooser.getSelectionIndex( ) != -1 )
 				{
 					tocEditor.setText( DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) ) );
+					tocEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
+							ExpressionType.JAVASCRIPT );
+					Object button = tocEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
+					if ( button instanceof ExpressionButton )
+					{
+						( (ExpressionButton) button ).refresh( );
+					}
 				}
 			}
 
@@ -516,6 +522,13 @@ public class GroupDialog extends BaseDialog
 							tocEditor.setText( tocExp );
 						}
 						return;
+					}
+					tocEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
+							ExpressionType.JAVASCRIPT );
+					Object button = tocEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
+					if ( button instanceof ExpressionButton )
+					{
+						( (ExpressionButton) button ).refresh( );
 					}
 				}
 			}
