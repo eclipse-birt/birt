@@ -671,6 +671,10 @@ public class ExecutionContext
 	public Object evaluate( String language, String fileName , int lineNumber, String scriptText )
 			throws BirtException
 	{
+		if ( scriptText == null )
+		{
+			return null;
+		}
 		ICompiledScript compiledScript = compile( language, fileName, lineNumber,
 					scriptText );
 		return evaluate( compiledScript );

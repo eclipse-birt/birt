@@ -299,6 +299,10 @@ public class QueryResultSet implements IQueryResultSet
 
 	public Object evaluate( String expr ) throws BirtException
 	{
+		if ( expr == null )
+		{
+			return null;
+		}
 		IBaseResultSet oldRSet = context.getResultSet( );
 		if ( oldRSet != this )
 		{
