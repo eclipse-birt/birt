@@ -14,7 +14,7 @@ Pie=饼图将值显示为多个扇面。每个扇面的大小与其所表示的值成比例对应。多个系列的饼
 StandardMeter=标准仪表图包含具有区域的单个刻度盘。刻度盘的背景可分成具有不同颜色的区域。
 SuperImposedMeter=超级拼版仪表图包含具有相同区域的多个刻度盘。这些刻度盘重叠在一起，以便可以表示单个区域内的多个指针。
 Scatter=散点图使用类别和值数据作为坐标，以在图形上显示经过排列的值。每个数据值由一个标记表示。
-BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines attached to it. The upper and lower points of the vertical line are the stock high and low values. The two horizontal lines are the open and close values.
+BarStickStock=条形股票图包含一条垂直线和两条水平线。 垂直线的上下两个端点表示股票最高价和最低价。 两条水平线表示表示开盘价和收盘价。
 CandleStickStock=烛形股票图包含一个方框以及从端点向上下伸展的线段。方框的上边和下边表示开盘价和收盘价。线段的上端点和下端点表示最高价和最低价。
 Bubble=气泡图是散点图的扩展，将点显示为气泡。气泡直径与 X 和 Y 坐标外的第三个数据值成比例对应。
 Difference=差异图显示两条数值线之间的区域。它们继承所有区域系列属性，也可以使用不同颜色显示负值区域。
@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=保存 XML 源
 ColoredByValueSeries=图例项类型设置为系列。
 CurveFittingArea=启用区域系列的曲线拟合属性。
 CurveFittingBar=为条形系列创建曲线拟合线。
-CurveFittingLine=Enable the curve fitting attribute of line series.
+CurveFittingLine=启用线条系列的曲线拟合属性。
 CurveFittingStock=为股票系列创建曲线拟合线。
 LegendFormat=图例可放在左侧、右侧、顶部、底部和内部。客户区域位于图例内。它包含图例项。
 MarkerLine=可为 X 轴和 Y 轴创建标记线(仅限于 ChartWithAxes 类型)。
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle()允许用户操作系列和标签(Series.getTitle(
 MinSlice=用户能够为扇面指定最小值(绝对值或百分比)。饼图扇面可通过设置分离属性表达式进行分离。
 MultipleYAxes=一个图可以包含多个 Y 轴。
 MultipleYSeries=一个图可以包含多个 Y(值)系列。 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=图表与 ODA/DtE (BIRT 数据引擎)配合获得分组/聚合的数据，而不是由图表本身分组/聚合。
 
 ###########################################################
 #Default

@@ -118,7 +118,7 @@ Choices.paramType.integer=Entier
 Choices.paramType.any=Indifférent
 Choices.paramType.date=Date
 Choices.paramType.time=Heure
-Choices.paramType.javaObject=Java Object
+Choices.paramType.javaObject=Objet Java
 
 #6.paramControl
 Choices.paramControl.text-box=Zone de texte
@@ -430,7 +430,7 @@ Choices.columnDataType.boolean=Booléen
 Choices.columnDataType.time=Heure
 Choices.columnDataType.date=Date
 Choices.columnDataType.blob=Blob
-Choices.columnDataType.javaObject=Java Object
+Choices.columnDataType.javaObject=Objet Java
 
 #54. searchType
 Choices.searchType.any=Indifférent
@@ -2330,9 +2330,9 @@ Element.ReportDesign.beforeRender=Avant rendu
 Element.ReportDesign.beforeRender.reportContext=Contexte d'état
 Element.ReportDesign.afterRender=Après rendu
 Element.ReportDesign.afterRender.reportContext=Contexte d'état
-Element.ReportDesign.onPageStart.this=Page maître
+Element.ReportDesign.onPageStart.this=Page maîtresse
 Element.ReportDesign.onPageStart.reportContext=Contexte d'état
-Element.ReportDesign.onPageEnd.this=Page maître
+Element.ReportDesign.onPageEnd.this=Page maîtresse
 Element.ReportDesign.onPageEnd.reportContext=Contexte d'état
 Element.ReportDesign.displayNameID=Clé de nom d'affichage
 Element.ReportDesign.displayName=Nom d'affichage
@@ -2498,9 +2498,9 @@ Element.MasterPage.onPageStart=A l'ouverture de la page
 Element.MasterPage.onPageEnd=A la fermeture de la page
 Element.MasterPage.onPageStart.toolTip=Commande appelée à l'ouverture de la page.
 Element.MasterPage.onPageEnd.toolTip=Commande appelée à la fermeture de la page.
-Element.MasterPage.onPageStart.this=Page maître
+Element.MasterPage.onPageStart.this=Page maîtresse
 Element.MasterPage.onPageStart.reportContext=Contexte d'état
-Element.MasterPage.onPageEnd.this=Page maître
+Element.MasterPage.onPageEnd.this=Page maîtresse
 Element.MasterPage.onPageEnd.reportContext=Contexte d'état
 
 #9. Style ( Prefix = Element.Style)
@@ -2604,7 +2604,7 @@ Element.ReportItem.multiViews=Vues multiples
 Element.ReportItem.ACLExpression=Expression ACL
 Element.ReportItem.cascadeACL=Cascade ACL
 Element.ReportItem.allowExport=Autoriser l'exportation
-Element.ReportItem.pushDown=Push down
+Element.ReportItem.pushDown=Déplacer vers le bas
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenu

@@ -118,7 +118,7 @@ Choices.paramType.integer=整数値
 Choices.paramType.any=任意
 Choices.paramType.date=日付
 Choices.paramType.time=時間
-Choices.paramType.javaObject=Java Object
+Choices.paramType.javaObject=Java オブジェクト
 
 #6.paramControl
 Choices.paramControl.text-box=テキストボックス
@@ -430,7 +430,7 @@ Choices.columnDataType.boolean=論理
 Choices.columnDataType.time=時間
 Choices.columnDataType.date=日付
 Choices.columnDataType.blob=BLOB
-Choices.columnDataType.javaObject=Java Object
+Choices.columnDataType.javaObject=Java オブジェクト
 
 #54. searchType
 Choices.searchType.any=任意
@@ -2604,7 +2604,7 @@ Element.ReportItem.multiViews=マルチビュー
 Element.ReportItem.ACLExpression=ACL 式
 Element.ReportItem.cascadeACL=ACL を重ねて表示
 Element.ReportItem.allowExport=エクスポートを許可する
-Element.ReportItem.pushDown=Push down
+Element.ReportItem.pushDown=プッシュ (下へ)
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ

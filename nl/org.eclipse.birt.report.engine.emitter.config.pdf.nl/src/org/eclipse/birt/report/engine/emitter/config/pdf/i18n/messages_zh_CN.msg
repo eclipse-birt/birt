@@ -24,7 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=适合大小
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=输出多页
 OptionDisplayValue.ENLARGE_PAGE_SIZE=扩大页面大小
 OptionDisplayValue.FontSubstitution=字体替代
-OptionDisplayValue.EmbeddedFont = Embedded Font
+OptionDisplayValue.EmbeddedFont = 嵌入字体
 
 ###########################################################
 #Option Description
@@ -32,4 +32,4 @@ OptionDescription.BidiProcessing=已使用 BIDI 处理。
 OptionDescription.TextWrapping=文本应自动换行。
 OptionDescription.PageOverFlow=控制如何输出内容。
 OptionDescription.FontSubstitution=需要检查所选字体中是否存在字符。
-OptionDescription.EmbeddedFont = The true-type font should be embedded into the generated PDF file.
+OptionDescription.EmbeddedFont = true-type 字体应嵌入到生成的 PDF 文件中。

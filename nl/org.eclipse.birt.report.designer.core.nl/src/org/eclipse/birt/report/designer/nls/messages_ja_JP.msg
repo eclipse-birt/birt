@@ -144,7 +144,7 @@ AttributesBuilder.Label.Label=プロパティエディタ - ラベル
 AttributesBuilder.Label.Library=プロパティエディタ - ライブラリ
 AttributesBuilder.Label.List=プロパティエディタ - リスト
 AttributesBuilder.Label.Cube=プロパティエディタ - キューブ
-AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
+AttributesBuilder.Label.DynamicFilterParameter=プロパティエディタ - 動的フィルタパラメタ
 AttributesBuilder.Label.MasterPage=プロパティエディタ - マスタページ
 AttributesBuilder.Label.None=プロパティエディタ - なし
 AttributesBuilder.Label.Picture=プロパティエディタ - 図
@@ -2974,7 +2974,7 @@ PreviewAction.Text=プレビュー
 
 PreviewEditor.parameter.tooltip=レポートパラメタの表示
 PreviewEditor.parameter.note=注 :
-PreviewEditor.parameter.info=Current maximum number of data rows is limited to {0}.
+PreviewEditor.parameter.info=データ行は現在 {0} に制限されています。
 PreviewEditor.parameter.change=プレビューの環境設定を変更するにはここをクリック
 PreviewEditor.ConfirmRefresh.Title=更新の確認
 PreviewEditor.ConfirmRefresh.Message=この操作はプレビュー結果に影響する可能性があります。プレビューページを更新しますか ? 
@@ -4501,7 +4501,7 @@ CreateChartHandler.text=グラフビューの作成
 #Input Parameters
 InputParameterDialog.msg.title=入力パラメタ
 InputParameterDialog.msg.requiredParam=アスタリスク (*) が付いているパラメタは必須項目です。
-InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
+InputParameterDialog.err.requiredParam=必須パラメタ [{0}] の値が指定されていません。
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=列幅の変更

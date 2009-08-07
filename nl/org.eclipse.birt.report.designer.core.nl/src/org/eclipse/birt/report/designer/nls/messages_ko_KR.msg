@@ -144,7 +144,7 @@ AttributesBuilder.Label.Label=속성 편집기 - 레이블
 AttributesBuilder.Label.Library=속성 편집기 - 라이브러리
 AttributesBuilder.Label.List=속성 편집기 - 목록
 AttributesBuilder.Label.Cube=속성 편집기 - 큐브
-AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
+AttributesBuilder.Label.DynamicFilterParameter=속성 편집기 - 동적 필터 매개 변수
 AttributesBuilder.Label.MasterPage=속성 편집기 - 마스터 페이지
 AttributesBuilder.Label.None=속성 편집기 - 없음
 AttributesBuilder.Label.Picture=속성 편집기 - 그림
@@ -2974,7 +2974,7 @@ PreviewAction.Text=미리 보기
 
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
 PreviewEditor.parameter.note=참고:
-PreviewEditor.parameter.info=Current maximum number of data rows is limited to {0}.
+PreviewEditor.parameter.info=현재 최대 데이터 행 수는 {0}(으)로 제한됩니다.
 PreviewEditor.parameter.change=미리 보기 기본 설정을 변경하려면 클릭
 PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
 PreviewEditor.ConfirmRefresh.Message=현재 작업이 미리 보기 결과에 영향을 미칠 수 있습니다. 미리 보기를 새로 고치겠습니까? 
@@ -4501,7 +4501,7 @@ CreateChartHandler.text=차트 보기 생성
 #Input Parameters
 InputParameterDialog.msg.title=입력 매개 변수
 InputParameterDialog.msg.requiredParam=별표(*)가 있는 매개 변수는 필수 항목입니다.
-InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
+InputParameterDialog.err.requiredParam=필수 매개 변수 [{0}]의 값이 지정되지 않았습니다.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=열 크기 조정

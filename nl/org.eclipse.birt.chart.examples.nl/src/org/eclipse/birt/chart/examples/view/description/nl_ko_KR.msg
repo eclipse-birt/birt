@@ -14,7 +14,7 @@ Pie=원형 차트에는 값이 원형의 조각으로 표시됩니다. 각 조각의 크기는 해당 조각이 
 StandardMeter=표준 측정기 차트에는 영역을 포함한 단일 다이얼이 포함됩니다. 다이얼 배경은 다른 색상을 가진 영역으로 분류할 수 있습니다.
 SuperImposedMeter=중첩 측정기 차트에는 동일한 영역을 포함한 다중 다이얼이 포함됩니다. 다이얼이 동시에 겹치므로 단일 영역 내 여러 바늘을 나타낼 수 있습니다.
 Scatter=분산형 차트에는 범주와 값 데이터를 좌표로 사용하여 플롯 위에 정렬된 값이 표시됩니다. 각 데이터 값은 표지로 표시됩니다.
-BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines attached to it. The upper and lower points of the vertical line are the stock high and low values. The two horizontal lines are the open and close values.
+BarStickStock=막대형 주식 차트에는 수직선 한 개와 이 수직선에 붙어 있는 수평선 두 개가 있습니다. 수직선의 위쪽 끝과 아래쪽 끝이 주식의 시가와 종가 값입니다. 두 수평선은 고가와 저가를 나타냅니다.
 CandleStickStock=원통형 주식 차트에는 상자 한 개가 있고 상자의 위 아래로 선이 나와 있습니다. 상자의 위쪽 가장자리와 아래쪽 가장자리가 주식의 시가와 종가 값입니다. 위로 나온 선은 고가를, 아래로 나온 선은 저가를 나타냅니다.
 Bubble=거품형 차트는 분산형 차트로 확장되며 거품으로 값을 표시합니다. 거품의 지름은 x, y 좌표 외에 세 번째 데이터 값에 비례합니다.
 Difference=차이점 차트는 값을 나타내는 두 선 사이의 영역을 표시합니다. 이 차트는 영역 계열의 속성을 모두 상속받고 서로 다른 색상으로 음수 영역을 표시할 수도 있습니다.
@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=XML 소스 저장
 ColoredByValueSeries=범례 항목 형식을 계열로 설정합니다.
 CurveFittingArea=영역형 계열의 곡선 근사 특성을 사용합니다.
 CurveFittingBar=막대형 계열에 곡선 근사 줄을 생성합니다.
-CurveFittingLine=Enable the curve fitting attribute of line series.
+CurveFittingLine=선형 계열의 곡선 근사 특성을 사용합니다.
 CurveFittingStock=주식형 계열에 곡선 근사 줄을 생성합니다.
 LegendFormat=범례는 왼쪽, 오른쪽, 위쪽, 아래쪽 및 안쪽에 위치할 수 있습니다. 클라이언트 영역은 범례 내에 위치하며, 범례 항목을 포함합니다.
 MarkerLine=MarkerLine은 X축 및 Y축 모두에 만들 수 있습니다(ChartWithAxes 형식에만 해당).
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle()을 사용해 계열 및 레이블(Series.getTitl
 MinSlice=사용자가 조각의 최소값(절대값 또는 백분율)을 지정할 수 있습니다. 원형 차트 조각은 쪼개기 특성을 식에 설정하여 쪼갤 수 있습니다.
 MultipleYAxes=차트는 한 개 이상의 Y축을 포함할 수 있습니다.
 MultipleYSeries=차트는 한 개 이상의 Y(값) 계열을 포함할 수 있습니다. 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=ODA/DtE(BIRT데이터 엔진)와 함께 사용하여 차트에서 직접 그룹화/집계하지 않아도 데이터를 그룹화/집계할 수 있습니다.
 
 ###########################################################
 #Default

@@ -14,7 +14,7 @@ Pie=Les graphiques à secteurs affichent les valeurs sous la forme de tranches de
 StandardMeter=Les graphiques à cadrans standard contiennent un seul cadran par zone(s). L'arrière-plan du cadran peut être divisé en zones de différentes couleurs.
 SuperImposedMeter=Les graphiques à cadrans superposés contiennent plusieurs cadrans avec des zones identiques. Les cadrans se chevauchent afin que plusieurs aiguilles apparaissent dans une même zone.
 Scatter=Les graphiques en nuage de points affichent les valeurs disposées sur le tracé en utilisant les données de catégorie et de valeur comme coordonnées. Chaque valeur de données est indiquée par un repère.
-BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines attached to it. The upper and lower points of the vertical line are the stock high and low values. The two horizontal lines are the open and close values.
+BarStickStock=Un graphique boursier à barres contient une ligne verticale reliée à deux lignes horizontales. Les points supérieur et inférieur de la ligne verticale correspondent à la valeur boursière la plus élevée et la plus basse. Les deux lignes horizontales correspondent aux valeurs d'ouverture et de fermeture.
 CandleStickStock=Un graphique boursier en chandelier se présente sous la forme d'un cadre dont les côtés sont joints par des courbes. Les coins supérieurs et inférieurs du cadre correspondent aux valeurs d'ouverture et de fermeture. Les points supérieur et inférieur de la ligne correspondent à la valeur la plus élevée et la plus basse.
 Bubble=Les graphiques à bulles sont une extension des graphiques à nuages de points : les points sont simplement remplacés par des bulles. Le diamètre des bulles correspond au tiers de la valeur des données et ne correspond en rien à l'abscisse et à l'ordonnée.
 Difference=Les graphiques de différence représentent l'aire comprise entre deux lignes de valeurs. Ils héritent de toutes les propriétés des séries d'aires et peuvent également représenter une aire négative, à l'aide d'une couleur différente.
@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=Enregistrer la source XML
 ColoredByValueSeries=Définissez le type d'élément de légende en tant que série.
 CurveFittingArea=Activez l'attribut d'ajustement de courbe de la série d'aires.
 CurveFittingBar=Créez une ligne d'ajustement de courbe pour la série de barres.
-CurveFittingLine=Enable the curve fitting attribute of line series.
+CurveFittingLine=Activez l'attribut d'ajustement de courbe de la série de lignes.
 CurveFittingStock=Créez une ligne d'ajustement de courbe pour la série d'actions.
 LegendFormat=La légende peut être placée sur la gauche, sur la droite, en haut, en bas ou à l'intérieur. La zone client se trouve dans la légende. Elle contient les éléments de légende.
 MarkerLine=La ligne de repères peut être créée pour l'axe des X et l'axe des Y (pour le type ChartWithAxes seulement).
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() permet aux utilisateurs de manipuler l
 MinSlice=L'utilisateur peut spécifier une valeur minimale (valeur absolue ou pourcentage) pour une tranche. Les tranches de graphiques à secteurs peuvent être éclatées en définissant l'expression sur l'attribut d'éclatement.
 MultipleYAxes=Un graphique peut contenir plusieurs axes des Y.
 MultipleYSeries=Un graphique peut contenir plusieurs séries (de valeurs) Y. 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=Un graphique fonctionne avec ODA/DtE (BIRT Data Engine) pour obtenir des données groupées / agrégées sans les grouper / les agréger lui-même.
 
 ###########################################################
 #Default

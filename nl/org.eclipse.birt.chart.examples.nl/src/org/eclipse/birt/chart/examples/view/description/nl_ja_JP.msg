@@ -14,7 +14,7 @@ Pie=ƒpƒCƒOƒ‰ƒtB‚»‚ê‚¼‚ê‚Ì’l‚ğ 1 ‚Â‚ÌƒXƒ‰ƒCƒX‚Æ‚µ‚Ä•\‚µ‚Ü‚·BŠeƒXƒ‰ƒCƒX‚Ì‘å‚«‚³‚
 StandardMeter=•W€ƒ[ƒ^[ƒOƒ‰ƒt‚É‚ÍA1‚Â‚Ìƒ_ƒCƒ„ƒ‹‚ªŠÜ‚Ü‚ê‚Ü‚·Bƒ_ƒCƒ„ƒ‹‚Ì”wŒi‚ÍA‚¢‚­‚Â‚©‚Ì—Ìˆæ‚ÉF•ª‚¯‚Å‚«‚Ü‚·B
 SuperImposedMeter=d‚Ë‡‚í‚¹ƒ[ƒ^[ƒOƒ‰ƒt‚É‚ÍA“¯‚¶—Ìˆæ‚ğ‚Â•¡”‚Ìƒ_ƒCƒ„ƒ‹‚ªŠÜ‚Ü‚ê‚Ü‚·BŠeƒ_ƒCƒ„ƒ‹‚Íd‚È‚è‡‚¢A1‚Â‚Ì—Ìˆæ‚É•¡”‚Ìj‚ğ•\¦‚Å‚«‚Ü‚·B
 Scatter=•ª•zƒOƒ‰ƒtBƒJƒeƒSƒŠƒf[ƒ^‚Æ’lƒf[ƒ^‚ğÀ•W‚Æ‚µA’l‚ğ“_‚Åƒvƒƒbƒg‚µ‚Ü‚·BŠeƒf[ƒ^’l‚Íƒ}[ƒJ‚Å¦‚µ‚Ü‚·B
-BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines attached to it. The upper and lower points of the vertical line are the stock high and low values. The two horizontal lines are the open and close values.
+BarStickStock=–_Š”‰¿ƒOƒ‰ƒtB–_ó‚Ìcü‚Æ‚»‚ê‚ç‚ğŒ‹‚Ô 2 –{‚Ì‰¡ü‚©‚ç\¬‚³‚ê‚Ü‚·B cü‚Ìã‰º‚Ìƒ|ƒCƒ“ƒg‚ÍŠ”‰¿‚Ì‚’l‚ÆˆÀ’l‚ğ¦‚µ‚Ü‚·B 2 –{‚Ì‰¡ü‚ÍAn’l‚ÆI’l‚ğ¦‚µ‚Ü‚·B
 CandleStickStock=ƒ[ƒ\ƒN‘«Š”‰¿ƒOƒ‰ƒtBƒ{ƒbƒNƒX‚Æ‚»‚Ìã‰º—¼’[‚©‚çL‚Ñ‚éü‚©‚ç\¬‚³‚ê‚Ü‚·Bƒ{ƒbƒNƒX‚Ìã‰º‚Ì—¼’[‚ÍŠ”‰¿‚Ìn’l‚ÆI’l‚ğ¦‚µ‚Ü‚·BŠeü‚Ìã’[‚Í‚’l‚ğ•\‚µA‰º’[‚ÍˆÀ’l‚ğ•\‚µ‚Ü‚·B
 Bubble=ƒoƒuƒ‹ƒ`ƒƒ[ƒg‚Í•ª•zƒOƒ‰ƒt‚ğŠg’£‚µ‚½‚à‚Ì‚ÅAƒf[ƒ^ƒ|ƒCƒ“ƒg‚ªƒoƒuƒ‹‚Æ‚µ‚Ä•\¦‚³‚ê‚Ü‚·Bƒoƒuƒ‹‚Ì’¼Œa‚ÍAx ‚Æ y ‚ÌÀ•W’l‚ÉŸ‚® 3 ”Ô–Ú‚Ìƒf[ƒ^’l‚É”ä—á‚µ‚Ü‚·B
 Difference=·•ªƒ`ƒƒ[ƒg‚ÍA’l‚ğ¦‚· 2 –{‚Ìü‚ÌŠÔ‚Ì—Ìˆæ‚ğ•\‚µ‚Ü‚·B—ÌˆæŒn—ñ‚Ì‚·‚×‚Ä‚ÌƒvƒƒpƒeƒB‚ğŒp³‚µAƒ}ƒCƒiƒX‚Ì—Ìˆæ‚Í•Ê‚ÌF‚Å¦‚·‚±‚Æ‚à‚Å‚«‚Ü‚·B
@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=XML ƒ\[ƒX‚Ì•Û‘¶
 ColoredByValueSeries=–}—á€–Ú‚ÌŒ^‚ğŒn—ñ‚Æ‚µ‚Äİ’è‚µ‚Ü‚·B
 CurveFittingArea=–ÊÏŒn—ñ‚Ì‹Èü‚Ì‚ ‚Ä‚Í‚ß‘®«‚ğ—LŒø‚É‚µ‚Ü‚·B
 CurveFittingBar=–_Œn—ñ‚Ì‹Èü‚Ì‚ ‚Ä‚Í‚ß‘®«‚ğì¬‚µ‚Ü‚·B
-CurveFittingLine=Enable the curve fitting attribute of line series.
+CurveFittingLine=üŒn—ñ‚Ì‹Èü‚Ì‚ ‚Ä‚Í‚ß‘®«‚ğ—LŒø‚É‚µ‚Ü‚·B
 CurveFittingStock=Š”‰¿Œn—ñ‚Ì‹Èü‚Ì‚ ‚Ä‚Í‚ß‘®«‚ğì¬‚µ‚Ü‚·B
 LegendFormat=–}—á‚ÍƒOƒ‰ƒt‚Ìã‰º¶‰EA‚Ü‚½‚Í“à‘¤‚É”z’u‚Å‚«‚Ü‚·B–}—á€–Ú‚ğŠÜ‚ŞƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ÍA–}—á‚Ì“à‘¤‚É”z’u‚³‚ê‚Ü‚·B
 MarkerLine=ƒ}[ƒJ‚Ìü‚ÍAX ‚Æ Y ‚Ì—¼•û‚Ì²‚Åì¬‚Å‚«‚Ü‚· (ChartWithAxes Œ^ƒOƒ‰ƒt‚Ìê‡‚Ì‚İ)B
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() ‚ÅŒn—ñ‚Æƒ‰ƒxƒ‹ (Series.getTitle()) ‚Ì‘
 MinSlice=ƒXƒ‰ƒCƒX‚ÌÅ¬’l‚ğâ‘Î’l‚©”ä—¦ (%) ‚Åw’è‚Å‚«‚Ü‚·BƒpƒCƒOƒ‰ƒt‚ÌƒXƒ‰ƒCƒX‚ğØ‚èo‚·‚É‚ÍAØ‚èo‚µ‘®«‚É”®‚ğİ’è‚µ‚Ü‚·B
 MultipleYAxes=1 ‚Â‚ÌƒOƒ‰ƒt‚É•¡”‚Ì Y ²‚ğg—p‚Å‚«‚Ü‚·B
 MultipleYSeries=1 ‚Â‚ÌƒOƒ‰ƒt‚É•¡”‚Ì Y (’l) Œn—ñ‚ğg—p‚Å‚«‚Ü‚·B 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=ODA/DtE (BIRT Data Engine) ‚ğg‚Á‚½ƒOƒ‰ƒt‚Å‚ÍAƒf[ƒ^‚ğƒOƒ‹[ƒv‰»EWŒv‚·‚éÛ‚ÉƒOƒ‰ƒt©g‚ğœŠO‚µ‚Ü‚·B
 
 ###########################################################
 #Default

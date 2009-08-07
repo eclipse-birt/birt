@@ -118,7 +118,7 @@ Choices.paramType.integer=整数
 Choices.paramType.any=任何
 Choices.paramType.date=日期
 Choices.paramType.time=时间
-Choices.paramType.javaObject=Java Object
+Choices.paramType.javaObject=Java 对象
 
 #6.paramControl
 Choices.paramControl.text-box=文本框
@@ -430,7 +430,7 @@ Choices.columnDataType.boolean=布尔
 Choices.columnDataType.time=时间
 Choices.columnDataType.date=日期
 Choices.columnDataType.blob=Blob
-Choices.columnDataType.javaObject=Java Object
+Choices.columnDataType.javaObject=Java 对象
 
 #54. searchType
 Choices.searchType.any=任何
@@ -2604,7 +2604,7 @@ Element.ReportItem.multiViews=多个视图
 Element.ReportItem.ACLExpression=ACL 表达式
 Element.ReportItem.cascadeACL=层叠 ACL
 Element.ReportItem.allowExport=允许导出
-Element.ReportItem.pushDown=Push down
+Element.ReportItem.pushDown=下推
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容

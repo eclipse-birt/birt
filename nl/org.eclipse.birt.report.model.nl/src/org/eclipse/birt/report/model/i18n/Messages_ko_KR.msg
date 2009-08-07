@@ -118,7 +118,7 @@ Choices.paramType.integer=정수
 Choices.paramType.any=모두
 Choices.paramType.date=날짜
 Choices.paramType.time=시간
-Choices.paramType.javaObject=Java Object
+Choices.paramType.javaObject=Java 개체
 
 #6.paramControl
 Choices.paramControl.text-box=텍스트 상자
@@ -430,7 +430,7 @@ Choices.columnDataType.boolean=부울
 Choices.columnDataType.time=시간
 Choices.columnDataType.date=날짜
 Choices.columnDataType.blob=Blob
-Choices.columnDataType.javaObject=Java Object
+Choices.columnDataType.javaObject=Java 개체
 
 #54. searchType
 Choices.searchType.any=모두
@@ -2604,7 +2604,7 @@ Element.ReportItem.multiViews=다중 보기
 Element.ReportItem.ACLExpression=ACL 식
 Element.ReportItem.cascadeACL=계단식 ACL
 Element.ReportItem.allowExport=내보내기 허용
-Element.ReportItem.pushDown=Push down
+Element.ReportItem.pushDown=아래로 밀어내기
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=내용

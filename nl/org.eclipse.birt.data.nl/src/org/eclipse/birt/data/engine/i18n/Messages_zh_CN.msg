@@ -104,7 +104,7 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列绑定“{0
 data.engine.ReadColumnValueFromDocumentError=尝试读取列 {0} 的值时出错。这可能由绑定表达式的判定中的运行时错误(即除数为 0 错误)引起。
 data.engine.NoOuterResultsExist=外部查询结果不存在。这可能是由没有父查询的查询中的“_outer”引用引起的。
 data.engine.DuplicatedBindingName=重复的绑定名称: {0}。
-data.engine.InvalidAggrLevelKeyInSummaryQuery=The aggregation: {0} refer to incorrect group name.
+data.engine.InvalidAggrLevelKeyInSummaryQuery=聚合: {0} 引用了不正确的组名称。
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.FailRetrieveValueComputedColumn=未能为已计算的列“{0}”计算值。

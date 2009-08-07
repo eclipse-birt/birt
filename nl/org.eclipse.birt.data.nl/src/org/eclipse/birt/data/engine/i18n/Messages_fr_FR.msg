@@ -104,7 +104,7 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=La liaison
 data.engine.ReadColumnValueFromDocumentError=Une erreur s'est produite lors de la tentative de lecture de la valeur de la colonne : {0}. Une erreur d'exécution s'est peut-être produite lors de l'évaluation d'une expression de liaison, c'est-à-dire une erreur causée par une division par 0.
 data.engine.NoOuterResultsExist=Les résultats de la requête externe sont introuvables. Cela peut être dû à la présence d'une référence externe dans une requête sans requête parent.
 data.engine.DuplicatedBindingName=Le nom de la liaison est en double : {0}.
-data.engine.InvalidAggrLevelKeyInSummaryQuery=The aggregation: {0} refer to incorrect group name.
+data.engine.InvalidAggrLevelKeyInSummaryQuery=L'agrégation : {0} se rapporte à un nom de groupe incorrect.
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Echec du calcul de la valeur pour la colonne calculée "{0}".

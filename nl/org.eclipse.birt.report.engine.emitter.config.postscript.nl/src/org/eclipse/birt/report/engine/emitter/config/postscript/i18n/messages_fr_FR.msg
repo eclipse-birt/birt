@@ -24,11 +24,11 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter à la taille de la page
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Répartir sur plusieurs pages
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
 OptionDisplayValue.FontSubstitution=Changement de police
-OptionDisplayValue.Copies=Number of Copies
-OptionDisplayValue.Collate=Collate
-OptionDisplayValue.Duplex=Duplex
-OptionDisplayValue.PaperSize=Paper Size
-OptionDisplayValue.PaperTray=Paper Tray
+OptionDisplayValue.Copies=Nombre de copies
+OptionDisplayValue.Collate=Assembler
+OptionDisplayValue.Duplex=Recto verso
+OptionDisplayValue.PaperSize=Taille de papier
+OptionDisplayValue.PaperTray=Alimentation papier
 
 ###########################################################
 #Option Description
@@ -36,8 +36,8 @@ OptionDescription.BidiProcessing=Traitement BIDI utilisé.
 OptionDescription.TextWrapping=Un retour à la ligne est nécessaire.
 OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
 OptionDescription.FontSubstitution=Vérification nécessaire pour savoir si le caractère existe dans la police sélectionnée.
-OptionDescription.Copies=Number of Copies.
-OptionDescription.Collate=Collate.
-OptionDescription.Duplex=Duplex.
-OptionDescription.PaperSize=Paper size.
-OptionDescription.PaperTray=Paper tray.
+OptionDescription.Copies=Nombre de copies.
+OptionDescription.Collate=Assembler.
+OptionDescription.Duplex=Recto verso.
+OptionDescription.PaperSize=Taille de papier.
+OptionDescription.PaperTray=Alimentation papier.

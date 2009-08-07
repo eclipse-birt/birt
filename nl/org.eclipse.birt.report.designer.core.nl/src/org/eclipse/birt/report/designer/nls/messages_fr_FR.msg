@@ -144,7 +144,7 @@ AttributesBuilder.Label.Label=Editeur de propriétés - Etiquette
 AttributesBuilder.Label.Library=Editeur de propriétés - Bibliothèque
 AttributesBuilder.Label.List=Editeur de propriétés - Liste
 AttributesBuilder.Label.Cube=Editeur de propriétés - Cube
-AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
+AttributesBuilder.Label.DynamicFilterParameter=Editeur de propriétés - Paramètre de filtre dynamique
 AttributesBuilder.Label.MasterPage=Editeur de propriétés - Page maître
 AttributesBuilder.Label.None=Editeur de propriétés - Aucun
 AttributesBuilder.Label.Picture=Editeur de propriétés - Image
@@ -2974,7 +2974,7 @@ PreviewAction.Text=Aperçu
 
 PreviewEditor.parameter.tooltip=Afficher les paramètres de l'état
 PreviewEditor.parameter.note=Remarque :
-PreviewEditor.parameter.info=Current maximum number of data rows is limited to {0}.
+PreviewEditor.parameter.info=Le nombre de lignes de données maximum actuel est de {0}.
 PreviewEditor.parameter.change=Cliquer pour modifier les préférences d'aperçu
 PreviewEditor.ConfirmRefresh.Title=Confirmer l'actualisation
 PreviewEditor.ConfirmRefresh.Message=Cette opération risque d'influencer le résultat de la prévisualisation. Voulez-vous actualiser la page de prévisualisation ? 
@@ -4501,7 +4501,7 @@ CreateChartHandler.text=Créer un graphique
 #Input Parameters
 InputParameterDialog.msg.title=Paramètres d'entrée
 InputParameterDialog.msg.requiredParam=Les paramètres précédés d'un astérisque (*) sont obligatoires.
-InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
+InputParameterDialog.err.requiredParam=La valeur du paramètre requis [{0}] n'est pas spécifiée.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=redimensionner la colonne

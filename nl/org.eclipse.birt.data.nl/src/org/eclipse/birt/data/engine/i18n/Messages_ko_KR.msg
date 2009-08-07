@@ -104,7 +104,7 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=열 바인딩"
 data.engine.ReadColumnValueFromDocumentError=열 값을 읽는 도중 오류가 발생했습니다: {0}. 바인딩 식 평가 시 런타임 오류(예: 0으로 나누기 오류)가 발생했기 때문일 수 있습니다.
 data.engine.NoOuterResultsExist=외부 쿼리 결과가 없습니다. 부모 쿼리가 없는 쿼리에서 "_outer"를 참조했기 때문일 수 있습니다.
 data.engine.DuplicatedBindingName=중복된 바인딩 이름: {0}
-data.engine.InvalidAggrLevelKeyInSummaryQuery=The aggregation: {0} refer to incorrect group name.
+data.engine.InvalidAggrLevelKeyInSummaryQuery=집계: {0}이(가) 잘못된 그룹 이름을 참조합니다.
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
 data.engine.CompCol.FailRetrieveValueComputedColumn=계산된 열 "{0}"에 대한 값을 계산하지 못했습니다.
