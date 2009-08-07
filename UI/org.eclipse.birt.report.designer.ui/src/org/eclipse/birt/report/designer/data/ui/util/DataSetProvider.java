@@ -47,6 +47,7 @@ import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -393,7 +394,7 @@ public final class DataSetProvider
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
 
-		if ( dataSet instanceof JointDataSetHandle )
+		if ( !( dataSet instanceof JointDataSetHandle || dataSet instanceof DerivedDataSetHandle ) )
 		{
 			context.setReportContext( new ReportContextImpl( context ) );
 			dataSetDesign = new ModelDteApiAdapter( context ).appendRuntimeInfoToDataSet( dataSet,
@@ -409,7 +410,7 @@ public final class DataSetProvider
 			dataSetDesign.getFilters( ).clear( );
 		}
 		
-		if( ! ( dataSet instanceof JointDataSetHandle ) )
+		if( !( dataSet instanceof JointDataSetHandle || dataSet instanceof DerivedDataSetHandle ) )
 		{
 			if( dataSet.getDataSource( ) != null )
 			{
@@ -468,7 +469,7 @@ public final class DataSetProvider
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
 		
-		if( !( dataSet instanceof JointDataSetHandle ) && context != null )
+		if( !( dataSet instanceof JointDataSetHandle || dataSet instanceof DerivedDataSetHandle ) && context != null )
 		{
 			context.setReportContext( new ReportContextImpl(context) );
 			dataSetDesign = new ModelDteApiAdapter( context ).appendRuntimeInfoToDataSet( dataSet, (BaseDataSetDesign)dataSetDesign );
@@ -488,7 +489,7 @@ public final class DataSetProvider
 			dataSetDesign.getFilters( ).clear( );
 		}
 	
-		if( ! ( dataSet instanceof JointDataSetHandle ) && context != null )
+		if( ! ( dataSet instanceof JointDataSetHandle || dataSet instanceof DerivedDataSetHandle ) && context != null )
 		{
 			if( dataSet.getDataSource( ) != null )
 			{
