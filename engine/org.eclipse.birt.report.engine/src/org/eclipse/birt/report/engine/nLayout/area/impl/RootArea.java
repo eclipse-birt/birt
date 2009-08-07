@@ -101,6 +101,7 @@ public class RootArea extends BlockContainerArea
 		{
 			IPageContent pageContent = createPageContent( htmlPageContent,
 					context.getPageNumber( ), context.getTotalPage( ) );
+			pageContent.setPageNumber( context.getPageNumber( ) );
 			return pageContent;
 		}
 	}

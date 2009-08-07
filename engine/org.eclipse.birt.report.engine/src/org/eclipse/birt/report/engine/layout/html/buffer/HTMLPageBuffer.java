@@ -51,6 +51,14 @@ public class HTMLPageBuffer implements IPageBuffer
 			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		int type = content.getContentType( );
+		// For fixed layout reports and in run task, we need to emit the
+		// invisible content to PDF layout engine.
+		if ( context.isFixedLayout( )
+				&& (Integer) context.getLayoutEngine( ).getOption(
+						EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN )
+		{
+			visible = true;
+		}
 		switch ( type )
 		{
 			case IContent.TABLE_BAND_CONTENT :
@@ -107,16 +115,9 @@ public class HTMLPageBuffer implements IPageBuffer
 				&& (Integer) context.getLayoutEngine( ).getOption(
 						EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN )
 		{
-			LeafBufferNode leafNode = new LeafBufferNode( content, emitter,
-					generator, visible );
-			setup( leafNode, true );
-			currentNode.start( );
-			ContentEmitterUtil.startContent( content, emitter );
-			generator.start( content, true );
-			generator.end( content, true );
-			currentNode.removeChildren( );
+			visible = true;
 		}
-		else if ( isRepeated || ( !visible && !currentNode.isStarted( ) ) )
+		if ( isRepeated || ( !visible && !currentNode.isStarted( ) ) )
 		{
 			LeafBufferNode leafNode = new LeafBufferNode( content, emitter,
 					generator, visible );
