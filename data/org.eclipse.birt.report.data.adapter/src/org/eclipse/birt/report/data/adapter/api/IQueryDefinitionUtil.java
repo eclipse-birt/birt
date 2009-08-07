@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.adapter.api;
 
+import java.util.Map;
+
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -29,4 +33,14 @@ public interface IQueryDefinitionUtil
 	 * @throws DataException
 	 */
 	public SubqueryDefinition createSubqueryDefinition( String name, ISubqueryDefinition srcSubQueryDefn ) throws DataException;
+	
+	/**
+	 * Get all accessible bindings from a query definition.
+	 * If <code>qd</code> is a sub query definition, returns bindings defined onto itself and all not-aggregation bindings from its ancestors.
+	 * If <code>qd</code> is not a sub query definition, just returns its bindings defined onto itself
+	 * @param qd
+	 * @return
+	 * @throws DataException
+	 */
+	Map<String, IBinding> getAccessibleBindings( IBaseQueryDefinition qd ) throws DataException;
 }

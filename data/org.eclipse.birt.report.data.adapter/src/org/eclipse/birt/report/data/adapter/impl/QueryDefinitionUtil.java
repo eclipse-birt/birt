@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.adapter.impl;
 
+import java.util.Map;
+
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -32,6 +36,12 @@ public class QueryDefinitionUtil implements IQueryDefinitionUtil
 			ISubqueryDefinition srcSubQueryDefn ) throws DataException
 	{
 		return SubqueryDefinitionCopyUtil.createSubqueryDefinition( name, srcSubQueryDefn );
+	}
+
+	public Map<String, IBinding> getAccessibleBindings( IBaseQueryDefinition qd )
+			throws DataException
+	{
+		return org.eclipse.birt.data.engine.impl.QueryDefinitionUtil.getAccessibleBindings( qd );
 	}
 
 }
