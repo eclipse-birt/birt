@@ -6,7 +6,6 @@ exception.empty.palette=La palette associée à la série {0} est vide
 exception.null.values=Impossible de définir les valeurs 'toutes nulles' sur un tracé
 exception.unknown.datatype=Le jeu de données utilisé par le graphique est incorrect
 exception.undefined.riser=Le type de barre ascendante n''est pas défini dans la série à barres {0}
-exception.stock.dimension=Impossible d''obtenir le rendu d''une série d''actions avec la dimension {0}
 exception.stock.entry.invalid.highlow=Entrée boursière incorrecte. La valeur Elevée {0} est inférieure à la valeur Faible {1}.
 exception.stock.entry.invalid.high=Entrée boursière incorrecte. La valeur Elevée {0} est inférieure aux valeurs d'ouverture/fermeture {1}.
 exception.stock.entry.invalid.low=Entrée boursière incorrecte. La valeur Faible {0} est supérieure aux valeurs d'ouverture/fermeture {1}.

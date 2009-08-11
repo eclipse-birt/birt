@@ -6,7 +6,6 @@ exception.empty.palette=与系列 {0} 相关联的调色板为空
 exception.null.values=无法在图形中定义“全空”值
 exception.unknown.datatype=图表使用的数据集无效
 exception.undefined.riser=未在条形图系列 {0} 中定义上升器类型
-exception.stock.dimension=无法使用维 {0} 绘制股票系列
 exception.stock.entry.invalid.highlow=股票数据项无效。最高价 {0} 低于最低价 {1}。
 exception.stock.entry.invalid.high=股票数据项无效。最高价 {0} 低于开盘价/收盘价 {1}。
 exception.stock.entry.invalid.low=股票数据项无效。最低价 {0} 高于开盘价/收盘价 {1}。

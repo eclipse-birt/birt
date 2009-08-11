@@ -6,7 +6,6 @@ exception.empty.palette=La paleta asociada con la serie {0} está vacía
 exception.null.values=No se pueden definir valores "todo nulo" en un dibujo
 exception.unknown.datatype=El conjunto de datos utilizado por el diagrama no es válido
 exception.undefined.riser=El tipo de ganancia no está definido en la serie de barras {0}
-exception.stock.dimension=No se puede procesar una serie de cotizaciones de acciones usando la dimensión {0}
 exception.stock.entry.invalid.highlow=La entrada de cotización no es válida. {0} alto es menor que {1} bajo.
 exception.stock.entry.invalid.high=La entrada de cotización no es válida. {0} alto es menor que {1} apertura/cierre.
 exception.stock.entry.invalid.low=La entrada de cotización no es válida. {0} bajo es mayor que {1} apertura/cierre.

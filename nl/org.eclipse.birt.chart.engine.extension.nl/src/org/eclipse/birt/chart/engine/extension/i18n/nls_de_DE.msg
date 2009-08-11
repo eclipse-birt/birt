@@ -6,7 +6,6 @@ exception.empty.palette=Die mit der Datenreihe {0} verknüpfte Palette ist leer
 exception.null.values='Alle Null'-Werte in einem Diagramm können nicht definiert werden
 exception.unknown.datatype=Der vom Diagramm verwendete Datensatz ist ungültig
 exception.undefined.riser=Der Anstiegstyp in Balkenreihe {0} ist nicht definiert
-exception.stock.dimension=Kursreihe kann nicht mit Dimension {0} gerendert werden
 exception.stock.entry.invalid.highlow=Kurseintrag ist ungültig. "Hoch" {0} ist kleiner als "Niedrig" {1}.
 exception.stock.entry.invalid.high=Kurseintrag ist ungültig. "Hoch" {0} ist kleiner als "Öffnen/Schließen" {1}.
 exception.stock.entry.invalid.low=Kurseintrag ist ungültig. "Niedrig" {0} ist größer als "Öffnen/Schließen" {1}.

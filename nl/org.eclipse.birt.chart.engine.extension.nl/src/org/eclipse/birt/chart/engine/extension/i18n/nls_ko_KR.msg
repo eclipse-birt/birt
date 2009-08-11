@@ -6,7 +6,6 @@ exception.empty.palette=계열 {0}과(와) 연결된 색상표가 비어 있습니다.
 exception.null.values=플롯에서 '모든 널(null)' 값을 정의할 수 없습니다.
 exception.unknown.datatype=차트에서 사용된 데이터 집합이 잘못되었습니다.
 exception.undefined.riser=막대형 계열 {0}에서 계단 형식이 정의되지 않았습니다.
-exception.stock.dimension=차원 {0}을(를) 사용하여 주식형 계열을 렌더링할 수 없습니다.
 exception.stock.entry.invalid.highlow=주식 항목이 잘못되었습니다. 고가 {0}이(가) 저가{1}보다 작습니다.
 exception.stock.entry.invalid.high=주식 항목이 잘못되었습니다. 고가 {0}이(가) 시가/종가 {1}보다 작습니다.
 exception.stock.entry.invalid.low=주식 항목이 잘못되었습니다. 저가 {0}이(가) 시가/종가 {1}보다 큽니다.

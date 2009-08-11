@@ -6,7 +6,6 @@ exception.empty.palette=系列 {0} に関連付けられているパレットが空です。
 exception.null.values=プロットには、'all null' 値を指定できません。
 exception.unknown.datatype=グラフで使用しているデータセットが無効です。
 exception.undefined.riser=横棒の系列 {0} には、ライザの型が定義されていません。
-exception.stock.dimension={0} ディメンジョンでは、株価の系列をレンダリングできません。
 exception.stock.entry.invalid.highlow=株価の値が無効です。高値 {0} が安値 {1} より小さくなっています。
 exception.stock.entry.invalid.high=株価の値が無効です。高値 {0} が始値/終値 {1} より小さくなっています。
 exception.stock.entry.invalid.low=株価の値が無効です。安値 {0} が始値/終値 {1} より大きくなっています。
