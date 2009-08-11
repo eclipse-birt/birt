@@ -998,7 +998,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				btnData.widthHint = 52;
 	            
 				btnAdd = new Button( btnComposite, SWT.NONE );
-				btnAdd.setText( Messages.getString( "ResultSetColumnPage.button.add" ) );
+				btnAdd.setText( Messages.getString( "ResultSetColumnPage.button.add" ) ); //$NON-NLS-1$
 				btnAdd.setLayoutData( btnData );
 				btnAdd.setEnabled( true );
 				btnAdd.addSelectionListener(new SelectionListener(){
@@ -1015,7 +1015,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	            } );
 
 				btnEdit = new Button( btnComposite, SWT.NONE );
-				btnEdit.setText( Messages.getString( "ResultSetColumnPage.button.edit" ) );
+				btnEdit.setText( Messages.getString( "ResultSetColumnPage.button.edit" ) ); //$NON-NLS-1$
 				btnEdit.setLayoutData( btnData );
 				btnEdit.addSelectionListener( new SelectionListener( ) {
 
@@ -1031,7 +1031,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				} );
 
 				btnRemove = new Button( btnComposite, SWT.NONE );
-				btnRemove.setText( Messages.getString( "ResultSetColumnPage.button.delete" ) );
+				btnRemove.setText( Messages.getString( "ResultSetColumnPage.button.delete" ) ); //$NON-NLS-1$
 				btnRemove.setLayoutData( btnData );
 				btnRemove.addSelectionListener( new SelectionListener( ) {
 
@@ -1047,7 +1047,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				} );
 	            
 				btnUp = new Button( btnComposite, SWT.NONE );
-				btnUp.setText( Messages.getString( "ResultSetColumnPage.button.up" ) );
+				btnUp.setText( Messages.getString( "ResultSetColumnPage.button.up" ) ); //$NON-NLS-1$
 				btnUp.setLayoutData( btnData );
 				btnUp.addSelectionListener( new SelectionListener( ) {
 
@@ -1063,7 +1063,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				} );
 	            
 				btnDown = new Button( btnComposite, SWT.NONE );
-				btnDown.setText( Messages.getString( "ResultSetColumnPage.button.down" ) );
+				btnDown.setText( Messages.getString( "ResultSetColumnPage.button.down" ) ); //$NON-NLS-1$
 				btnDown.setLayoutData( btnData );
 				btnDown.addSelectionListener( new SelectionListener( ) {
 
@@ -1163,7 +1163,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		private void doNew( )
 		{
 			ColumnInputDialog inputDialog = new ColumnInputDialog( mainControl.getShell( ),
-					Messages.getString( "ResultSetColumnPage.inputDialog.newColumn.title" ),
+					Messages.getString( "ResultSetColumnPage.inputDialog.newColumn.title" ), //$NON-NLS-1$
 					new ColumnDefn( ) );
 			if( inputDialog.open( ) == Window.OK )
 			{
@@ -1193,7 +1193,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 						.getData( );
 				String oldName = currentColumn.getColumnName( );
 				ColumnInputDialog inputDialog = new ColumnInputDialog( mainControl.getShell( ),
-						Messages.getString( "ResultSetColumnPage.inputDialog.editColumn.title" ),
+						Messages.getString( "ResultSetColumnPage.inputDialog.editColumn.title" ), //$NON-NLS-1$
 						currentColumn );
 				if ( inputDialog.open( ) == Window.OK )
 				{
@@ -1361,7 +1361,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			textData.horizontalSpan = 1;
 			
 			Label columnNameLabel = new Label( composite, SWT.NONE );
-			columnNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.columnName" ) );
+			columnNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.columnName" ) ); //$NON-NLS-1$
 			columnNameLabel.setLayoutData( labelData );
 			
 			final Text columnNameText = new Text( composite, SWT.BORDER );
@@ -1378,7 +1378,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			} );
 			
 			Label typeLabel = new Label( composite, SWT.NONE );
-			typeLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.dataType" ) );
+			typeLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.dataType" ) ); //$NON-NLS-1$
 			typeLabel.setLayoutData( labelData );			
 			
 			final Combo typeCombo = ControlProvider.createCombo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -1401,7 +1401,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			} );
 			
 			Label aliasLabel = new Label( composite, SWT.NONE );
-			aliasLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.alias" ) );
+			aliasLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.alias" ) ); //$NON-NLS-1$
 			aliasLabel.setLayoutData( labelData );
 			
 			final Text  aliasText = new Text( composite, SWT.BORDER );
@@ -1418,7 +1418,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			} );
 			
 			Label displayNameLabel = new Label( composite, SWT.NONE );
-			displayNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.displayName" ) );
+			displayNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.displayName" ) ); //$NON-NLS-1$
 			displayNameLabel.setLayoutData( labelData );
 			
 			final Text displayNameText = new Text( composite, SWT.BORDER );
@@ -1491,18 +1491,18 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			else if ( isDuplicated( columnName ) )
 			{
 				return getMiscStatus( IStatus.ERROR,
-						Messages.getFormattedString( "ResultSetColumnPage.inputDialog.error.duplicatedColumnName",
+						Messages.getFormattedString( "ResultSetColumnPage.inputDialog.error.duplicatedColumnName", //$NON-NLS-1$
 								new Object[]{
 									columnName
-								} ) );//$NON-NLS-1$ 
+								} ) );
 			}
 			else if ( isDuplicated( alias ) )
 			{
 				return getMiscStatus( IStatus.ERROR,
-						Messages.getFormattedString( "ResultSetColumnPage.inputDialog.error.duplicatedAlias",
+						Messages.getFormattedString( "ResultSetColumnPage.inputDialog.error.duplicatedAlias", //$NON-NLS-1$
 								new Object[]{
 									alias
-								} ) );//$NON-NLS-1$ 
+								} ) );
 			}
 			return getOKStatus( );
 		}
