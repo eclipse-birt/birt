@@ -378,7 +378,6 @@ dataprocessor.exception.CannotDecipher2=複数のカテゴリ系列の定義を含むグラフのコ
 dataprocessor.log.XSeriesDefn=X 系列の定義 ({0}) が静的な式として使用されます。
 dataprocessor.exception.FoundMoreThanOneDefnAssociateX=X 系列の式に関連付けられた {0} 個のデータの定義が見つかりました。X 系列のデータの定義は、1 つしかサポートされません。
 edataprocessor.xception.definitionsAssociatedWithX=X 系列のデータの定義が指定されていません。
-dataprocessor.exception.DefnExpMustAssociateY=データ定義の式は、値 (Y) 系列に関連付けられている必要があります ({1} で定義された {0})。
 dataprocessor.log.baseSeriesDefnBeStatic=カテゴリ系列の定義 ({0}) が静的な式として使用されます。
 
 exception.data.max.row.count={0} 行以上のデータをバインドするグラフはレンダリングできません。

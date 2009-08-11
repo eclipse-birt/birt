@@ -378,7 +378,6 @@ dataprocessor.exception.CannotDecipher2=Inhalt eines Diagramms mit mehreren Kate
 dataprocessor.log.XSeriesDefn=X-Datenreihendefinition ({0}) wird als statischer Ausdruck verwendet.
 dataprocessor.exception.FoundMoreThanOneDefnAssociateX={0} mit dem Datenreihenausdruck (X) verknüpfte Datendefinition(en) gefunden. Es wird nur eine Datenreihen-Datendefinition für X unterstützt.
 edataprocessor.xception.definitionsAssociatedWithX=Es wurde keine Datendefinition für die X-Datenreihe angegeben.
-dataprocessor.exception.DefnExpMustAssociateY=Ein Datendefinitionsausdruck muss mit der durch {1} definierten Wert-(Y)-Datenreihe-{0} verknüpft sein.
 dataprocessor.log.baseSeriesDefnBeStatic=Kategorie-Datenreihendefinition ({0}) wird als statischer Ausdruck verwendet.
 
 exception.data.max.row.count=Rendern eines Diagramms, das mehr als {0} Datenzeilen bindet, ist nicht möglich.

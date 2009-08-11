@@ -378,7 +378,6 @@ dataprocessor.exception.CannotDecipher2=Impossible de déchiffrer le contenu d'un
 dataprocessor.log.XSeriesDefn=La définition de série X ({0}) sera utilisée en tant qu''expression statique.
 dataprocessor.exception.FoundMoreThanOneDefnAssociateX=Détection de {0} définition(s) de données associée(s) à l''expression de série X. Seule une définition de données de série X est prise en charge.
 edataprocessor.xception.definitionsAssociatedWithX=La définition de données pour la série X n'a pas été spécifiée.
-dataprocessor.exception.DefnExpMustAssociateY=Une expression de définition de données doit être associée à la série verticale de valeurs {0} définie par {1}.
 dataprocessor.log.baseSeriesDefnBeStatic=La définition de série de catégories ({0}) sera utilisée en tant qu''expression statique.
 
 exception.data.max.row.count=Impossible de rendre un graphique qui lie {0} lignes de données.

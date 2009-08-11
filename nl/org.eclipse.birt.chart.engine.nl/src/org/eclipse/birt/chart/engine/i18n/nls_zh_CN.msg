@@ -378,7 +378,6 @@ dataprocessor.exception.CannotDecipher2=无法将包含多个类别系列定义的图表的内容解
 dataprocessor.log.XSeriesDefn=X 系列定义 ({0}) 将用作静态表达式。
 dataprocessor.exception.FoundMoreThanOneDefnAssociateX=找到与 X 系列表达式关联的 {0} 个数据定义。仅支持一个 X 系列数据定义。
 edataprocessor.xception.definitionsAssociatedWithX=未指定 X 系列的数据定义。
-dataprocessor.exception.DefnExpMustAssociateY=数据定义表达式必须与值 (Y) 系列关联 - {1} 定义的 {0}。
 dataprocessor.log.baseSeriesDefnBeStatic=类别系列定义 ({0}) 将用作静态表达式。
 
 exception.data.max.row.count=无法绘制绑定超过 {0} 行数据的图表。

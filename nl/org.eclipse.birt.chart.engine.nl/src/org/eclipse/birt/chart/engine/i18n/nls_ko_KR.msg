@@ -378,7 +378,6 @@ dataprocessor.exception.CannotDecipher2=다중 범주 계열 정의를 포함하는 차트의 내
 dataprocessor.log.XSeriesDefn=X 계열 정의({0})가 정적 식으로 사용됩니다.
 dataprocessor.exception.FoundMoreThanOneDefnAssociateX=X 계열 식과 연결된 데이터 정의가 {0}개 있습니다. X 계열 데이터 정의는 하나만 지원됩니다.
 edataprocessor.xception.definitionsAssociatedWithX=X 계열에 대한 데이터 정의가 지정되지 않았습니다.
-dataprocessor.exception.DefnExpMustAssociateY=데이터 정의 식은 {1}에서 정의된 값 (Y) 계열-{0}와(과) 연결되어야 합니다.
 dataprocessor.log.baseSeriesDefnBeStatic=범주 계열 정의 ({0})가 정적 식으로 사용됩니다.
 
 exception.data.max.row.count={0} 행의 데이터를 바인딩 하는 차트를 렌더링할 수 없습니다.

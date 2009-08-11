@@ -378,7 +378,6 @@ dataprocessor.exception.CannotDecipher2=No es posible descifrar los contenidos d
 dataprocessor.log.XSeriesDefn=La definición de serie X ({0}) se utilizará como una expresión estática
 dataprocessor.exception.FoundMoreThanOneDefnAssociateX=Se han encontrado {0} definiciones de datos asociadas con la expresión de la serie X. Sólo se admite una definición de datos de serie X.
 edataprocessor.xception.definitionsAssociatedWithX=La definición de datos para la serie X no se ha especificado.
-dataprocessor.exception.DefnExpMustAssociateY=Se debe asociar una expresión de definición de datos a la serie (Y) del valor-{0} definida por {1}.
 dataprocessor.log.baseSeriesDefnBeStatic=La definición de serie de categoría ({0}) se utilizará como una expresión estática.
 
 exception.data.max.row.count=No es posible procesar un diagrama que enlaza sobre {0} filas de datos.
