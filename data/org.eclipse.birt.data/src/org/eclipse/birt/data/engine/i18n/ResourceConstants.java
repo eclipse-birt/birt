@@ -62,7 +62,6 @@ public class ResourceConstants
 	public final static String METADATA_NOT_AVAILABLE = "data.engine.NoResultMetadata";
 	public final static String QUERY_HAS_PREPARED = "data.engine.QueryAlreadyPrepared";
 	public final static String QUERY_HAS_NOT_PREPARED = "data.engine.QueryNotPrepared";
-	public final static String INAVLID_FIELD_NAME = "data.engine.InvalidFieldName";
 	public final static String DUPLICATE_COLUMN_NAME = "data.engine.DupColumnName";
 	public final static String DUPLICATE_ALIAS_NAME = "data.engine.DupAlias";
 	public final static String INVALID_FIELD_INDEX = "data.engine.InvalidFieldIndex";
