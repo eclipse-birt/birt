@@ -45,6 +45,9 @@ public class AbstractMetaTest extends BaseTestCase
 			throws MetaDataParserException
 	{
 		MetaDataDictionary.reset( );
-		MetaDataReader.read( is );
+		
+		MetadataTestUtil.readRom( is);
 	}
+
+
 }

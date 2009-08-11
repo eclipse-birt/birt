@@ -2186,12 +2186,11 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	/**
 	 * Does some actions when the meta data file is end.
 	 * 
-	 * @param errorHandler
-	 * @param dictionary
 	 * @throws MetaDataParserException
 	 */
-	protected void doEndDocument( ) throws MetaDataParserException
-	{
+	
+	public void endDocument( ) throws MetaDataParserException
+	{		
 		// 
 		if ( !errorHandler.getErrors( ).isEmpty( ) )
 		{

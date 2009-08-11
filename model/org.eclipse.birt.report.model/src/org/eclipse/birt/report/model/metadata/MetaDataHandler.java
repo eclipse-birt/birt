@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.xml.sax.SAXException;
 
 /**
  * SAX handler for reading the XML meta data definition file.
@@ -20,16 +19,6 @@ import org.xml.sax.SAXException;
 class MetaDataHandler extends MetaDataHandlerImpl
 {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.xml.sax.ContentHandler#endDocument()
-	 */
+	// do nothing for end document
 
-	public void endDocument( ) throws SAXException
-	{
-		doEndDocument( );
-
-		super.endDocument( );
-	}
 }

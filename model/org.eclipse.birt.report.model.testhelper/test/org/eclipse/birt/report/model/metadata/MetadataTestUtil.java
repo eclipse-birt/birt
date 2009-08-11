@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.io.InputStream;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 /**
  * Wrapper class for all core tests to access some members and methods, which
  * are invisible to external projects.
@@ -377,5 +382,33 @@ public class MetadataTestUtil
 	{
 		if ( defn != null )
 			defn.addProperty( prop );
+	}
+
+	/**
+	 * Only reads the given metadata with the specified stream.
+	 * 
+	 * @param inputStream
+	 *            meta source file stream.
+	 * @throws MetaDataParserException
+	 */
+
+	public static void readRom( InputStream inputStream )
+			throws MetaDataParserException
+	{
+		InputStream internalStream = inputStream;
+		MetaDataHandlerImpl handler = new MetaDataHandlerImpl( );
+
+		try
+		{
+			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
+			SAXParser parser = saxParserFactory.newSAXParser( );
+			parser.parse( internalStream, handler );
+		}
+		catch ( Exception e )
+		{
+			MetaLogManager.log( "Metadata parsing error", e ); //$NON-NLS-1$
+			throw new MetaDataParserException( e,
+					MetaDataParserException.DESIGN_EXCEPTION_PARSER_ERROR );
+		}
 	}
 }
