@@ -569,11 +569,15 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				dAxisMin = 1;
 			}
 			// If dAxisMin or dAxisMax is not changed, do not set oMin or oMax
-			if ( dAxisMin != Double.MAX_VALUE )
+			if ( dAxisMin != Double.MAX_VALUE
+					&& ( oMin == null || Double.compare( dAxisMin,
+							(Double) oMin ) < 1 ) )
 			{
 				oMin = new Double( dAxisMin );
 			}
-			if ( dAxisMax != -Double.MAX_VALUE )
+			if ( dAxisMax != -Double.MAX_VALUE
+					&& ( oMax == null || Double.compare( dAxisMax,
+							(Double) oMax ) > 1 ) )
 			{
 				oMax = new Double( dAxisMax );
 			}
