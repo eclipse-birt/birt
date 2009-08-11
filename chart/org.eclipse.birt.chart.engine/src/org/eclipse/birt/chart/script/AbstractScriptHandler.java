@@ -359,7 +359,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 		Object oReturnValue = null;
 		// #229402
 		ClassLoader oldLoader = cx.getApplicationClassLoader( );
-		ClassLoader appLader = SecurityUtil.getClassLoader( ScriptHandler.class );
+		ClassLoader appLader = SecurityUtil.getClassLoader( AbstractScriptHandler.this.getClass( ) );
 		cx.setApplicationClassLoader( appLader );
 
 		// Initialize BIRT functions, register them into current script context.
@@ -617,7 +617,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 				if ( iscl != null )
 				{
 					handlerClass = iscl.loadClass( sScriptContent,
-							SecurityUtil.getClassLoader( ScriptHandler.class ) );
+							SecurityUtil.getClassLoader( AbstractScriptHandler.this.getClass( ) ) );
 				}
 				else
 				{
