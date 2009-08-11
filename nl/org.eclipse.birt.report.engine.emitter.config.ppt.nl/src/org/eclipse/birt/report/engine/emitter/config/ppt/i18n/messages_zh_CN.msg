@@ -28,6 +28,6 @@ OptionDisplayValue.FontSubstitution=字体替代
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=已使用 BIDI 处理。
-OptionDescription.TextWrapping=文本应自动换行。
+OptionDescription.TextWrapping=The text should be wrap.
 OptionDescription.PageOverFlow=控制如何输出内容。
 OptionDescription.FontSubstitution=需要检查所选字体中是否存在字符。

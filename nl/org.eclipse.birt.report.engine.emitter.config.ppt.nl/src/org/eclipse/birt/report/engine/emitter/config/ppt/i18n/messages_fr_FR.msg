@@ -28,6 +28,6 @@ OptionDisplayValue.FontSubstitution=Changement de police
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=Traitement BIDI utilisé.
-OptionDescription.TextWrapping=Un retour à la ligne est nécessaire.
+OptionDescription.TextWrapping=The text should be wrap.
 OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
 OptionDescription.FontSubstitution=Vérification nécessaire pour savoir si le caractère existe dans la police sélectionnée.
