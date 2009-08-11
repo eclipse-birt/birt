@@ -90,6 +90,16 @@ public class QueryExecutor
 		cubeQueryExecutorHelper.addAggrMeasureFilter( executor.getMeasureFilterEvalHelpers( ) );
 		cubeQueryExecutorHelper.addMeasureFilter( executor.getFacttableBasedFilterHelpers( ) );
 		
+		if ( view.getCubeQueryDefinition( ) instanceof DrillCubeQueryDefinition )
+		{
+			DrillCubeQueryDefinition query = (DrillCubeQueryDefinition) view.getCubeQueryDefinition( );
+			for ( int i = 0; i < query.getLevelFilter( ).size( ); i++ )
+			{
+				cubeQueryExecutorHelper.addFilter( (LevelFilter) query.getLevelFilter( )
+						.get( i ) );
+			}
+		}
+		
 		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.COLUMN_EDGE );
 		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.ROW_EDGE );
 		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.PAGE_EDGE );
@@ -174,15 +184,6 @@ public class QueryExecutor
 		//If not load from local dir
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
-			if ( view.getCubeQueryDefinition( ) instanceof DrillCubeQueryDefinition )
-			{
-				DrillCubeQueryDefinition query = (DrillCubeQueryDefinition) view.getCubeQueryDefinition( );
-				for ( int i = 0; i < query.getLevelFilter( ).size( ); i++ )
-				{
-					cubeQueryExecutorHelper.addFilter( (LevelFilter) query.getLevelFilter( )
-							.get( i ) );
-				}
-			}
 			rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
 			
 			CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
