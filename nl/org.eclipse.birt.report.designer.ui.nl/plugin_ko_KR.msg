@@ -47,7 +47,7 @@ preference.commenttemplates=설명 템플릿
 #hcg_bidi
 preference.bidiproperties=양방향 속성
 preference.layout=레이아웃
-preference.expressionbuilder=연산식 빌더
+preference.expressionsyntax=Expression Syntax
 
 designer.action.undo.label=실행 취소
 designer.action.redo.label=다시 실행

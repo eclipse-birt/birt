@@ -47,7 +47,7 @@ preference.commenttemplates=Kommentarvorlage
 #hcg_bidi
 preference.bidiproperties=Bidirektionale Eigenschaften
 preference.layout=Layout
-preference.expressionbuilder=Ausdruckserstellung
+preference.expressionsyntax=Expression Syntax
 
 designer.action.undo.label=Rückgängig
 designer.action.redo.label=Wiederherstellen
