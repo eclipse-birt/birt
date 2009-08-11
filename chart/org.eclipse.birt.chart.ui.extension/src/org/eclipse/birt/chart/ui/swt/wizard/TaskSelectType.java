@@ -243,6 +243,7 @@ public class TaskSelectType extends SimpleTask implements
 			setDefaultSubtypeSelection( );
 			cmpMisc.layout( );
 		}
+		updateSelection( );
 		doPreview( );
 		bindHelp( );
 	}
