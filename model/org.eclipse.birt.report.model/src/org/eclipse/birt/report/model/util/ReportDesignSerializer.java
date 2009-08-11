@@ -336,7 +336,8 @@ public class ReportDesignSerializer extends ElementVisitor
 		// dimensions, levels. And performs renaming procedure to make sure
 		// column binding expression and aggregate on list are correct.
 
-		Iterator<Entry<DesignElement, List<String>>> iter1 = tmpOLAPNames.entrySet( ).iterator( );
+		Iterator<Entry<DesignElement, List<String>>> iter1 = tmpOLAPNames
+				.entrySet( ).iterator( );
 		while ( iter1.hasNext( ) )
 		{
 			Entry<DesignElement, List<String>> entry = iter1.next( );
@@ -2279,7 +2280,9 @@ public class ReportDesignSerializer extends ElementVisitor
 				values.add( new ElementRefValue( null, newRefEelement ) );
 			}
 			else
-				newElement.setProperty( propDefn, item );
+			{
+				values.add( new ElementRefValue( null, item.getName( ) ) );
+			}
 		}
 
 		newElement.setProperty( propDefn, values );
