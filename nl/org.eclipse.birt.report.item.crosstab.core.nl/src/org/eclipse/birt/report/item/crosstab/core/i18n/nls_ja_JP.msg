@@ -66,7 +66,7 @@ CrosstabQueryHelper.error.invalid.level.column=クロスタブの列領域のレベル定義が 
 
 BaseCrosstabExecutor.error.process.visibility=可視性の処理中にエラーが発生しました。
 BaseCrosstabExecutor.error.process.bookmark=ヘッダの処理中にエラーが発生しました。
-BaseCrosstabExecutor.error.process.bookmark=ヘッダの処理中にエラーが発生しました。
+BaseCrosstabExecutor.error.process.headers=ヘッダの処理中にエラーが発生しました。
 BaseCrosstabExecutor.error.process.row.height=行の高さの処理中にエラーが発生しました。
 
 CrosstabCellExecutor.error.restor.data.position=データの位置を復元中にエラーが発生しました。

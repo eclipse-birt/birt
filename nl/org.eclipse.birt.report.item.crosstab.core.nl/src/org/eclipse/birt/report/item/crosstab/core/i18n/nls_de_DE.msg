@@ -66,7 +66,7 @@ CrosstabQueryHelper.error.invalid.level.column=Der Spaltenbereich der Kreuztabel
 
 BaseCrosstabExecutor.error.process.visibility=Beim Verarbeiten der Sichtbarkeit ist ein Fehler aufgetreten.
 BaseCrosstabExecutor.error.process.bookmark=Fehler beim Verarbeiten der Kopfzeilen.
-BaseCrosstabExecutor.error.process.bookmark=Fehler beim Verarbeiten der Kopfzeilen.
+BaseCrosstabExecutor.error.process.headers=Fehler beim Verarbeiten der Kopfzeilen.
 BaseCrosstabExecutor.error.process.row.height=Beim Verarbeiten der Zeilenhöhe ist ein Fehler aufgetreten.
 
 CrosstabCellExecutor.error.restor.data.position=Beim Wiederherstellen der Datenposition ist ein Fehler aufgetreten.

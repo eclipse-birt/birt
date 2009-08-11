@@ -66,7 +66,7 @@ CrosstabQueryHelper.error.invalid.level.column=La zone de colonne du tableau cro
 
 BaseCrosstabExecutor.error.process.visibility=Une erreur s'est produite lors du traitement de la visibilité.
 BaseCrosstabExecutor.error.process.bookmark=Une erreur s'est produite lors du traitement des en-têtes.
-BaseCrosstabExecutor.error.process.bookmark=Une erreur s'est produite lors du traitement des en-têtes.
+BaseCrosstabExecutor.error.process.headers=Une erreur s'est produite lors du traitement des en-têtes.
 BaseCrosstabExecutor.error.process.row.height=Une erreur s'est produite lors du traitement de la hauteur des lignes.
 
 CrosstabCellExecutor.error.restor.data.position=Une erreur s'est produite lors de la restauration de la position des données.

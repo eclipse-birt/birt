@@ -66,7 +66,7 @@ CrosstabQueryHelper.error.invalid.level.column=El área de columna de la tabla de
 
 BaseCrosstabExecutor.error.process.visibility=Se ha producido un error al procesar visibilidad.
 BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar los encabezados.
-BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar los encabezados.
+BaseCrosstabExecutor.error.process.headers=Se ha producido un error al procesar los encabezados.
 BaseCrosstabExecutor.error.process.row.height=Se ha producido un error al procesar la altura de fila.
 
 CrosstabCellExecutor.error.restor.data.position=Se ha producido un error al restaurar la posición de los datos.

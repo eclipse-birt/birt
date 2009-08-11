@@ -66,7 +66,7 @@ CrosstabQueryHelper.error.invalid.level.column=½»²æ±íÁĞÇøÓò°üº¬¿Õ¼¶±ğ¶¨Òå£¬»òÕßÌ
 
 BaseCrosstabExecutor.error.process.visibility=´¦Àí¿É¼ûĞÔÊ±³ö´í¡£
 BaseCrosstabExecutor.error.process.bookmark=´¦ÀíÒ³Ã¼Ê±³öÏÖ´íÎó¡£
-BaseCrosstabExecutor.error.process.bookmark=´¦ÀíÒ³Ã¼Ê±³öÏÖ´íÎó¡£
+BaseCrosstabExecutor.error.process.headers=´¦ÀíÒ³Ã¼Ê±³öÏÖ´íÎó¡£
 BaseCrosstabExecutor.error.process.row.height=´¦ÀíĞĞ¸ßÊ±³ö´í¡£
 
 CrosstabCellExecutor.error.restor.data.position=»¹Ô­Êı¾İÎ»ÖÃÊ±³ö´í¡£

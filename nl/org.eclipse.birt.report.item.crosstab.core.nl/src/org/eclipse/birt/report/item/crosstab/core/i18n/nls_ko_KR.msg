@@ -66,7 +66,7 @@ CrosstabQueryHelper.error.invalid.level.column=크로스 탭 열 영역에 널(null) 수준
 
 BaseCrosstabExecutor.error.process.visibility=표시 유형을 처리하는 중에 오류가 발생했습니다.
 BaseCrosstabExecutor.error.process.bookmark=머리글을 처리하는 동안 오류가 발생했습니다.
-BaseCrosstabExecutor.error.process.bookmark=머리글을 처리하는 동안 오류가 발생했습니다.
+BaseCrosstabExecutor.error.process.headers=머리글을 처리하는 동안 오류가 발생했습니다.
 BaseCrosstabExecutor.error.process.row.height=행 높이를 처리하는 중에 오류가 발생했습니다.
 
 CrosstabCellExecutor.error.restor.data.position=데이터 위치를 복원하는 중에 오류가 발생했습니다.
