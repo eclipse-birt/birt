@@ -629,6 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=Berechnete Spalte nach oben verschiebe
 DataSetComputedColumnsPage.toolTipText.Remove=Berechnete Spalte entfernen.
 DataSetComputedColumnsPage.toolTipText.New=Neue berechnete Spalte.
 DataSetComputedColumnsPage.toolTipText.Edit=Berechnete Spalte bearbeiten.
+DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
+DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Berechnete Spalte
 
 ###########################################################
@@ -684,6 +686,7 @@ PropertyBindingPage.dataset.property.empty=Für diesen Datensatz ist keine öffent
 PropertyBindingPage.dataset.queryText=Abfrage&text
 PropertyBindingPage.property.tooltip=Eigenschaftenbindung für Laufzeit definieren.
 PropertyBindingPage.button.tooltip=Ausdruckerstellung zum Eingeben des Werts von {0} öffnen.
+PropertyBindingPage.label.colon=:
 
 ###########################################################
 #DataSetProcess properties
@@ -705,9 +708,8 @@ datasource.new.defaultName=Datenquelle
 datasource.new=Neue Datenquelle
 datasource.action.new=Neue Datenq&uelle
 datasource.wizard.label.dataSourceName=&Datenquellenname:
-datasource.wizard.label.datasources=Aus einem &Datenquellentyp aus der folgenden Liste erstellen.
-datasource.wizard.label.datasources=Aus einem &Datenquellentyp aus der folgenden Liste erstellen.
-datasource.wizard.label.connectionfile=Aus einem &Verbindungsprofil im Profilspeicher erstellen.
+datasource.wizard.label.datasources=Create from a &data source type in the following list
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
 datasource.wizard.message.selectType=Geben Sie alle Einstellungen für eine neue Datenquelle an, oder wählen Sie ein vordefiniertes Verbindungsprofil.
 datasource.wizard.title.select=Wählen Sie einen Datenquellentyp, oder wählen Sie ein Verbindungsprofil.
 datasource.editor.property=Eigenschaftenbindung
@@ -2715,7 +2717,6 @@ NoneAction.text=Keine
 
 OutputColumnDefnPage.description=Definition für Ausgabespalten eingeben, die vom Abrufskript erstellt werden: 
 OutputColumnDefnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
-OutputColumnPage.OutputColumns.DuplicatedName=Der Name existierte bereits!
 OutputColumnPage.error.createNewColumn=Beim Hinzufügen einer neuen Spalte ist ein Fehler aufgetreten.
 OutputColumnPage.error.invalidSelection=Es ist kein gültiges Tabellenelement ausgewählt.
 
@@ -2746,7 +2747,7 @@ ResultSetColumnPage.inputDialog.error.duplicatedColumnName=Spaltenname '{0}' wur
 ResultSetColumnPage.inputDialog.error.duplicatedAlias=Spaltenalias '{0}' wurde bereits verwendet.
 
 ###########################################################
-#OutputColumnPage properties
+#OutputColumnsPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
 OutputColumnPage.toolTipText.Edit=Ausgabespalte bearbeiten
@@ -2754,10 +2755,6 @@ OutputColumnPage.title.OutputColumnInputDialog=Ausgabespalte
 OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Neue Ausgabespalte
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Ausgabespalte bearbeiten
 OutputColumnPage.OutputColumns.DuplicatedName=Der Name existierte bereits!
-
-###########################################################
-#OutputColumnsPage properties
-
 OutputColumnsPage.description=Ausgabespalten definieren:
 
 ###########################################################

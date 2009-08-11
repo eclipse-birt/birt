@@ -629,6 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=计算列上移。
 DataSetComputedColumnsPage.toolTipText.Remove=删除计算列。
 DataSetComputedColumnsPage.toolTipText.New=新建计算列。
 DataSetComputedColumnsPage.toolTipText.Edit=编辑计算列。
+DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
+DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
 
 ###########################################################
@@ -684,6 +686,7 @@ PropertyBindingPage.dataset.property.empty=ODA 扩展没有为此数据集定义公共属性。
 PropertyBindingPage.dataset.queryText=查询文本(&T)
 PropertyBindingPage.property.tooltip=为运行时定义属性绑定。
 PropertyBindingPage.button.tooltip=打开表达式生成器以输入 {0} 值。
+PropertyBindingPage.label.colon=:
 
 ###########################################################
 #DataSetProcess properties
@@ -705,9 +708,8 @@ datasource.new.defaultName=数据源
 datasource.new=新建数据源
 datasource.action.new=新建数据源(&S)
 datasource.wizard.label.dataSourceName=数据源名称(&M):
-datasource.wizard.label.datasources=根据以下列表中的数据源类型创建(&D)。
-datasource.wizard.label.datasources=根据以下列表中的数据源类型创建(&D)。
-datasource.wizard.label.connectionfile=根据配置文件存储中的连接配置文件创建(&C)。
+datasource.wizard.label.datasources=Create from a &data source type in the following list
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
 datasource.wizard.message.selectType=为新数据源提供所有设置，或选择预定义的连接配置文件。
 datasource.wizard.title.select=选择数据源类型，或选择连接配置文件。
 datasource.editor.property=属性绑定
@@ -2715,7 +2717,6 @@ NoneAction.text=无
 
 OutputColumnDefnPage.description=输入取数脚本生成的输出列的定义: 
 OutputColumnDefnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
-OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
 OutputColumnPage.error.createNewColumn=添加新列过程中发生某些错误。
 OutputColumnPage.error.invalidSelection=没有选择有效的表格项。
 
@@ -2746,7 +2747,7 @@ ResultSetColumnPage.inputDialog.error.duplicatedColumnName=列名称“{0}”已经在使
 ResultSetColumnPage.inputDialog.error.duplicatedAlias=列别名“{0}”已经在使用。
 
 ###########################################################
-#OutputColumnPage properties
+#OutputColumnsPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
 OutputColumnPage.toolTipText.Edit=编辑输出列
@@ -2754,10 +2755,6 @@ OutputColumnPage.title.OutputColumnInputDialog=输出列
 OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=新建输出列
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=编辑输出列
 OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
-
-###########################################################
-#OutputColumnsPage properties
-
 OutputColumnsPage.description=定义输出列:
 
 ###########################################################

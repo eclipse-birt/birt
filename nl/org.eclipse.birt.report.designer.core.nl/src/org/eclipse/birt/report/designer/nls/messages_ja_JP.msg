@@ -629,6 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=ŒvZ—ñ‚ğã‚ÉˆÚ“®‚µ‚Ü‚·B
 DataSetComputedColumnsPage.toolTipText.Remove=ŒvZ—ñ‚ğíœ‚µ‚Ü‚·B
 DataSetComputedColumnsPage.toolTipText.New=V‚µ‚¢ŒvZ—ñ‚ğì¬‚µ‚Ü‚·B
 DataSetComputedColumnsPage.toolTipText.Edit=ŒvZ—ñ‚ğ•ÒW‚µ‚Ü‚·B
+DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
+DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=ŒvZ—ñ
 
 ###########################################################
@@ -684,6 +686,7 @@ PropertyBindingPage.dataset.property.empty=‚±‚Ìƒf[ƒ^ƒZƒbƒg‚ÌƒpƒuƒŠƒbƒNƒvƒƒpƒeƒ
 PropertyBindingPage.dataset.queryText=ƒNƒGƒŠƒeƒLƒXƒg(&T)
 PropertyBindingPage.property.tooltip=Às‚ÌƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh‚ğ’è‹`‚µ‚Ü‚·B
 PropertyBindingPage.button.tooltip=®ƒrƒ‹ƒ_‚ğŠJ‚¢‚Ä {0} ‚Ì’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
+PropertyBindingPage.label.colon=:
 
 ###########################################################
 #DataSetProcess properties
@@ -705,9 +708,8 @@ datasource.new.defaultName=ƒf[ƒ^ƒ\[ƒX
 datasource.new=V‹Kƒf[ƒ^ƒ\[ƒX
 datasource.action.new=V‹Kƒf[ƒ^ƒ\[ƒX(&S)
 datasource.wizard.label.dataSourceName=ƒf[ƒ^ƒ\[ƒX–¼(&M) :
-datasource.wizard.label.datasources=Ÿ‚Ìˆê——‚Ìƒf[ƒ^ƒ\[ƒXŒ^‚ğg‚Á‚Äì¬‚·‚é(&D)
-datasource.wizard.label.datasources=Ÿ‚Ìˆê——‚Ìƒf[ƒ^ƒ\[ƒXŒ^‚ğg‚Á‚Äì¬‚·‚é(&D)
-datasource.wizard.label.connectionfile=ƒvƒƒtƒ@ƒCƒ‹ƒXƒgƒA‚ÌÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğg‚Á‚Äì¬‚·‚é(&C)
+datasource.wizard.label.datasources=Create from a &data source type in the following list
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
 datasource.wizard.message.selectType=V‚µ‚¢ƒf[ƒ^ƒ\[ƒX‚Ì‚·‚×‚Ä‚Ìİ’è‚ğw’è‚·‚é‚©A’è‹`Ï‚İ‚ÌÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 datasource.wizard.title.select=ƒf[ƒ^ƒ\[ƒX‚Ìí—Ş‚Ü‚½‚ÍÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ü‚·B
 datasource.editor.property=ƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh
@@ -2715,7 +2717,6 @@ NoneAction.text=‚È‚µ
 
 OutputColumnDefnPage.description=ƒtƒFƒbƒ`ƒXƒNƒŠƒvƒg‚É‚æ‚Á‚Äì¬‚³‚ê‚éo—Í—ñ‚Ì’è‹`‚ğ“ü—Í : 
 OutputColumnDefnPage.OutputColumns.Tooltip=ƒf[ƒ^s“à‚Ì—ñ‚Ì•\¦‚Æ’è‹` 
-OutputColumnPage.OutputColumns.DuplicatedName=‚±‚Ì–¼‘O‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
 OutputColumnPage.error.createNewColumn=V‚µ‚¢—ñ‚Ì’Ç‰Á’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 OutputColumnPage.error.invalidSelection=—LŒø‚Èƒe[ƒuƒ‹€–Ú‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
@@ -2746,7 +2747,7 @@ ResultSetColumnPage.inputDialog.error.duplicatedColumnName=—ñ–¼ "{0}" ‚ÍŠù‚Ég—p
 ResultSetColumnPage.inputDialog.error.duplicatedAlias=—ñƒGƒCƒŠƒAƒX "{0}" ‚ÍŠù‚Ég—p‚³‚ê‚Ä‚¢‚Ü‚·B
 
 ###########################################################
-#OutputColumnPage properties
+#OutputColumnsPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=ƒf[ƒ^s“à‚Ì—ñ‚Ì•\¦‚Æ’è‹` 
 OutputColumnPage.toolTipText.Edit=o—Í—ñ‚Ì•ÒW
@@ -2754,10 +2755,6 @@ OutputColumnPage.title.OutputColumnInputDialog=o—Í—ñ
 OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=o—Í—ñ‚ÌV‹Kì¬
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=o—Í—ñ‚Ì•ÒW
 OutputColumnPage.OutputColumns.DuplicatedName=‚±‚Ì–¼‘O‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
-
-###########################################################
-#OutputColumnsPage properties
-
 OutputColumnsPage.description=o—Í—ñ‚Ì’è‹` :
 
 ###########################################################

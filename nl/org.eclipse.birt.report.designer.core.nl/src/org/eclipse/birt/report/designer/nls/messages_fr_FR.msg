@@ -629,6 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=Déplacer la colonne de calcul vers le 
 DataSetComputedColumnsPage.toolTipText.Remove=Supprimer la colonne de calcul.
 DataSetComputedColumnsPage.toolTipText.New=Nouvelle colonne de calcul.
 DataSetComputedColumnsPage.toolTipText.Edit=Modifier la colonne de calcul.
+DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
+DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Colonne de calcul
 
 ###########################################################
@@ -684,6 +686,7 @@ PropertyBindingPage.dataset.property.empty=Aucune propriété publique n'est défin
 PropertyBindingPage.dataset.queryText=&Texte de la requête
 PropertyBindingPage.property.tooltip=Définir une liaison de propriété pour l'exécution.
 PropertyBindingPage.button.tooltip=Ouvrir le Générateur d'expression pour entrer la valeur {0}.
+PropertyBindingPage.label.colon=:
 
 ###########################################################
 #DataSetProcess properties
@@ -705,9 +708,8 @@ datasource.new.defaultName=Source de données
 datasource.new=Nouvelle source de données
 datasource.action.new=Nouvelle &source de données
 datasource.wizard.label.dataSourceName=No&m de la source de données :
-datasource.wizard.label.datasources=Créer à partir d'un type de source de &données de la liste suivante.
-datasource.wizard.label.datasources=Créer à partir d'un type de source de &données de la liste suivante.
-datasource.wizard.label.connectionfile=Créer à partir d'un profil de &connexion de l'emplacement de stockage des profils.
+datasource.wizard.label.datasources=Create from a &data source type in the following list
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
 datasource.wizard.message.selectType=Indiquer tous les paramètres pour une nouvelle source de données ou choisir un profil de connexion prédéfini.
 datasource.wizard.title.select=Sélectionner un type de source de données ou choisir un profil de connexion.
 datasource.editor.property=Liaison de propriété
@@ -2715,7 +2717,6 @@ NoneAction.text=Aucun
 
 OutputColumnDefnPage.description=Entrer la définition des colonnes de sortie produites par le script de récupération : 
 OutputColumnDefnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
-OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
 OutputColumnPage.error.createNewColumn=Une erreur s'est produite lors de l'ajout d'une nouvelle colonne.
 OutputColumnPage.error.invalidSelection=Aucun élément de table valide sélectionné.
 
@@ -2746,7 +2747,7 @@ ResultSetColumnPage.inputDialog.error.duplicatedColumnName=Le nom de colonne "{0
 ResultSetColumnPage.inputDialog.error.duplicatedAlias=Le nom d'alias "{0}" a déjà été utilisé.
 
 ###########################################################
-#OutputColumnPage properties
+#OutputColumnsPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
 OutputColumnPage.toolTipText.Edit=Modifier la colonne de sortie
@@ -2754,10 +2755,6 @@ OutputColumnPage.title.OutputColumnInputDialog=Colonne de sortie
 OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Nouvelle colonne de sortie
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Modifier la colonne de sortie
 OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
-
-###########################################################
-#OutputColumnsPage properties
-
 OutputColumnsPage.description=Définir les colonnes de sortie :
 
 ###########################################################

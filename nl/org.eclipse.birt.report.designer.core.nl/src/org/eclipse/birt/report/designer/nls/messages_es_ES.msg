@@ -629,6 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=Mover columna procesada hacia arriba.
 DataSetComputedColumnsPage.toolTipText.Remove=Quitar columna procesada.
 DataSetComputedColumnsPage.toolTipText.New=Nueva columna procesada.
 DataSetComputedColumnsPage.toolTipText.Edit=Editar columna procesada.
+DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
+DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Columna procesada
 
 ###########################################################
@@ -684,6 +686,7 @@ PropertyBindingPage.dataset.property.empty=La extensión ODA de este conjunto de 
 PropertyBindingPage.dataset.queryText=Texto de consult&a
 PropertyBindingPage.property.tooltip=Definir enlace de propiedades para tiempo de ejecución.
 PropertyBindingPage.button.tooltip=Abrir el compilador de expresiones para introducir valor de {0}.
+PropertyBindingPage.label.colon=:
 
 ###########################################################
 #DataSetProcess properties
@@ -705,9 +708,8 @@ datasource.new.defaultName=Fuente de Datos
 datasource.new=Nueva fuente de datos
 datasource.action.new=Nueva &fuente de datos
 datasource.wizard.label.dataSourceName=Nombre de fuente de dato&s:
-datasource.wizard.label.datasources=Crear a partir de un tipo de fuente de &datos de la siguiente lista.
-datasource.wizard.label.datasources=Crear a partir de un tipo de fuente de &datos de la siguiente lista.
-datasource.wizard.label.connectionfile=Crear a partir de un perfil de &conexión del almacenamiento de perfiles.
+datasource.wizard.label.datasources=Create from a &data source type in the following list
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
 datasource.wizard.message.selectType=Facilite la configuración de la nueva fuente de datos o seleccione un perfil de conexión predeterminado.
 datasource.wizard.title.select=Seleccione un tipo de fuente de datos o un perfil de conexión.
 datasource.editor.property=Enlace de propiedades
@@ -2715,7 +2717,6 @@ NoneAction.text=Ninguno
 
 OutputColumnDefnPage.description=Introducir la definición de las columas de salida que produce el script de recuperación: 
 OutputColumnDefnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fila de datos 
-OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya existe.
 OutputColumnPage.error.createNewColumn=Se ha producido un error al añadir una nueva columna.
 OutputColumnPage.error.invalidSelection=No se ha seleccionado ningún elemento de tabla válido.
 
@@ -2746,7 +2747,7 @@ ResultSetColumnPage.inputDialog.error.duplicatedColumnName=El nombre de columna 
 ResultSetColumnPage.inputDialog.error.duplicatedAlias=El alias de columna "{0}" ya se ha utilizado.
 
 ###########################################################
-#OutputColumnPage properties
+#OutputColumnsPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fila de datos 
 OutputColumnPage.toolTipText.Edit=Editar columna de salida
@@ -2754,10 +2755,6 @@ OutputColumnPage.title.OutputColumnInputDialog=Columna de salida
 OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Nueva columna de salida
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Editar columna de salida
 OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya existe.
-
-###########################################################
-#OutputColumnsPage properties
-
 OutputColumnsPage.description=Definir columnas de salida:
 
 ###########################################################

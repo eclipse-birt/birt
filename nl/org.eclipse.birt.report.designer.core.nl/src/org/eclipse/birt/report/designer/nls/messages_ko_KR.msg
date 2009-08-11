@@ -629,6 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=계산 열을 위로 이동
 DataSetComputedColumnsPage.toolTipText.Remove=계산 열 제거
 DataSetComputedColumnsPage.toolTipText.New=계산 열 새로 만들기
 DataSetComputedColumnsPage.toolTipText.Edit=계산 열 편집
+DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
+DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=계산 열
 
 ###########################################################
@@ -684,6 +686,7 @@ PropertyBindingPage.dataset.property.empty=이 데이터 집합의 ODA 확장명에 정의된 
 PropertyBindingPage.dataset.queryText=쿼리 텍스트(&T)
 PropertyBindingPage.property.tooltip=런타임 속성 바인딩 정의
 PropertyBindingPage.button.tooltip=식 빌더를 열어 {0}의 값을 입력하십시오.
+PropertyBindingPage.label.colon=:
 
 ###########################################################
 #DataSetProcess properties
@@ -705,9 +708,8 @@ datasource.new.defaultName=데이터 원본
 datasource.new=새 데이터 원본 
 datasource.action.new=새 데이터 원본(&S)
 datasource.wizard.label.dataSourceName=데이터 원본 이름(&M):
-datasource.wizard.label.datasources=다음 목록에 들어 있는 데이터 원본 형식으로 생성(&D)
-datasource.wizard.label.datasources=다음 목록에 들어 있는 데이터 원본 형식으로 생성(&D)
-datasource.wizard.label.connectionfile=프로필 저장소에 들어 있는 연결 프로필로 생성(&C)
+datasource.wizard.label.datasources=Create from a &data source type in the following list
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
 datasource.wizard.message.selectType=새 데이터 원본에 대해 모든 설정을 제공하거나 미리 정의된 연결 프로필을 선택합니다.
 datasource.wizard.title.select=데이터 원본 형식을 선택하거나 연결 프로필을 선택합니다.
 datasource.editor.property=속성 바인딩
@@ -2715,7 +2717,6 @@ NoneAction.text=없음
 
 OutputColumnDefnPage.description=반입 스크립트가 생성하는 출력 열 정의 입력: 
 OutputColumnDefnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
-OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 OutputColumnPage.error.createNewColumn=새 열이 추가되는 동안 오류가 발생했습니다.
 OutputColumnPage.error.invalidSelection=잘못된 테이블 항목이 선택되었습니다.
 
@@ -2746,7 +2747,7 @@ ResultSetColumnPage.inputDialog.error.duplicatedColumnName=열 이름 "{0}"이(가) �
 ResultSetColumnPage.inputDialog.error.duplicatedAlias=열 별칭 "{0}"이(가) 이미 사용되고 있습니다.
 
 ###########################################################
-#OutputColumnPage properties
+#OutputColumnsPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
 OutputColumnPage.toolTipText.Edit=출력 열 편집
@@ -2754,10 +2755,6 @@ OutputColumnPage.title.OutputColumnInputDialog=출력 열
 OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=새 출력 열
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=출력 열 편집
 OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
-
-###########################################################
-#OutputColumnsPage properties
-
 OutputColumnsPage.description=출력 열 정의:
 
 ###########################################################
