@@ -161,14 +161,15 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * methods won't construct any new instance.
 	 */
 
-	final protected void cachePropertyHandles( )
+	protected void cachePropertyHandles( )
 	{
-		List<IElementPropertyDefn> contents = getDefn( ).getContents( );
+		List<IElementPropertyDefn> contents = getDefn( ).getProperties( );
 		for ( int i = 0; i < contents.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) contents
 					.get( i );
-			assert propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE;
+			if ( !propDefn.isElementType( ) )
+				continue;
 
 			PropertyHandle pHandle = new PropertyHandle( this, propDefn );
 			propHandles.put( propDefn.getName( ), pHandle );
@@ -802,9 +803,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( properties == null )
 			return;
 
-		for ( Iterator iter = properties.entrySet( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = properties.entrySet( ).iterator( ); iter
+				.hasNext( ); )
 		{
-			Entry entry = (Entry) iter.next( );			
+			Entry entry = (Entry) iter.next( );
 			setProperty( (String) entry.getKey( ), entry.getValue( ) );
 		}
 	}
@@ -1171,11 +1173,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( propDefn == null )
 			return null;
 
-		// get cached values.
-
-		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		// get cached values
+		if ( propDefn.isElementType( )
+				&& !( this instanceof ContentElementHandle ) )
 		{
-			return (PropertyHandle) propHandles.get( propName );
+			return propHandles.get( propName );
 		}
 
 		return new PropertyHandle( this, propDefn );

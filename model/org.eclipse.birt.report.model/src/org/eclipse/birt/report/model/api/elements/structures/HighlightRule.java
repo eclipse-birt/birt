@@ -142,8 +142,9 @@ public class HighlightRule extends StyleRule
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
@@ -153,7 +154,8 @@ public class HighlightRule extends StyleRule
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.StyleRule#getIntrinsicProperty(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
+	 * getIntrinsicProperty(java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -164,11 +166,30 @@ public class HighlightRule extends StyleRule
 		return super.getIntrinsicProperty( propName );
 	}
 
+	/**
+	 * Gets the style which defined on this element itself. This method will try
+	 * to resolve the style.
+	 * 
+	 * @param module
+	 *            the module
+	 * @return style element. Null if the style is not defined on this element
+	 *         itself.
+	 * 
+	 */
+	private StyleElement getStyle( Module module )
+	{
+		getLocalProperty( module, (PropertyDefn) getMemberDefn( STYLE_MEMBER ) );
+		if ( style == null )
+			return null;
+
+		return (StyleElement) style.getElement( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.StyleRule#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
+	 * setIntrinsicProperty(java.lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -191,8 +212,10 @@ public class HighlightRule extends StyleRule
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IPropertySet#getProperty(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IPropertySet#getProperty(org.eclipse
+	 * .birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public Object getProperty( Module module, PropertyDefn propDefn )
@@ -201,9 +224,7 @@ public class HighlightRule extends StyleRule
 		if ( value != null )
 			return value;
 
-		Style styleElement = null;
-		if ( style != null )
-			styleElement = (Style) style.getElement( );
+		StyleElement styleElement = getStyle( module );
 
 		if ( styleElement != null )
 		{

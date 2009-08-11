@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.validators.SimpleValueValidator;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ErrorHandler;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
@@ -148,6 +149,17 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	MetaDataHandlerImpl( )
 	{
 		super( new MetaDataErrorHandler( ) );
+	}
+
+	/**
+	 * Constructs the meta data handler implementation with the specified error
+	 * handler.
+	 * 
+	 * @param errorHandler
+	 */
+	MetaDataHandlerImpl( ErrorHandler errorHandler )
+	{
+		super( errorHandler );
 	}
 
 	public AbstractParseState createStartState( )
@@ -2169,6 +2181,33 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			}
 		}
 		return value;
+	}
+
+	/**
+	 * Does some actions when the meta data file is end.
+	 * 
+	 * @param errorHandler
+	 * @param dictionary
+	 * @throws MetaDataParserException
+	 */
+	protected void doEndDocument( ) throws MetaDataParserException
+	{
+		// 
+		if ( !errorHandler.getErrors( ).isEmpty( ) )
+		{
+			throw new MetaDataParserException( errorHandler.getErrors( ) );
+		}
+
+		try
+		{
+			dictionary.build( );
+		}
+		catch ( MetaDataException e )
+		{
+			errorHandler.semanticError( new MetaDataParserException( e,
+					MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+			throw new MetaDataParserException( errorHandler.getErrors( ) );
+		}
 	}
 
 }

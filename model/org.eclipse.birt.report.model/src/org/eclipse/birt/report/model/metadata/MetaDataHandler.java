@@ -28,22 +28,7 @@ class MetaDataHandler extends MetaDataHandlerImpl
 
 	public void endDocument( ) throws SAXException
 	{
-		// 
-		if ( !errorHandler.getErrors( ).isEmpty( ) )
-		{
-			throw new MetaDataParserException( errorHandler.getErrors( ) );
-		}
-
-		try
-		{
-			dictionary.build( );
-		}
-		catch ( MetaDataException e )
-		{
-			errorHandler.semanticError( new MetaDataParserException( e,
-					MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
-			throw new MetaDataParserException( errorHandler.getErrors( ) );
-		}
+		doEndDocument( );
 
 		super.endDocument( );
 	}
