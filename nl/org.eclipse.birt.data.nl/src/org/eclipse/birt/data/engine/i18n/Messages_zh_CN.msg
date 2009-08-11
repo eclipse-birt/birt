@@ -71,7 +71,6 @@ data.engine.MatchError=检查模式语法。将字符串与模式匹配时出错: {0}。
 
 data.engine.ExpectBooleanReturnType=脚本化数据集的 {0} 脚本必须返回布尔结果。
 data.engine.BadIntervalUnit=无效的间隔单位值: {0}。
-data.engine.InvalidFieldName=无效的字段名称: {0}。
 data.engine.BadGroupKeyType=组键具有不支持的数据类型: {0}。
 data.engine.group.interval=不支持在类型为 {1} 的列中设置 {0} 间隔。
 data.engine.group.interval.Rowid=数字间隔是 ROWID 列中唯一支持的间隔。

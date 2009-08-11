@@ -71,7 +71,6 @@ data.engine.MatchError=Überprüfen Sie die Syntax des Musters. Fehler beim Abglei
 
 data.engine.ExpectBooleanReturnType=Skript {0} des geskripteten Datensatzes muss Boolesches Ergebnis zurückgeben.
 data.engine.BadIntervalUnit=Ungültiger Intervall-Einheitswert: {0}.
-data.engine.InvalidFieldName=Ungültiger Feldname: {0}.
 data.engine.BadGroupKeyType=Gruppenschlüssel enthält nicht unterstützten Datentyp: {0}.
 data.engine.group.interval=Das Festlegen von "{0}" als Intervall für eine Spalte des Typs {1} wird nicht unterstützt.
 data.engine.group.interval.Rowid=In der Spalte "ROWID" werden als Intervalltyp nur numerische Intervalle unterstützt.

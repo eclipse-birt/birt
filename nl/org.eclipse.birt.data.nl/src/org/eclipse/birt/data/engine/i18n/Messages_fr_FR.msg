@@ -71,7 +71,6 @@ data.engine.MatchError=Vérifiez la syntaxe du motif. Erreur de correspondance en
 
 data.engine.ExpectBooleanReturnType=Le script {0} du jeu de données nécessitant un script doit renvoyer une valeur booléenne.
 data.engine.BadIntervalUnit=Valeur d'unité d'intervalle incorrecte : {0}.
-data.engine.InvalidFieldName=Nom de champ incorrect : {0}.
 data.engine.BadGroupKeyType=Le type de données de la clé de groupe n'est pas pris en charge : {0}.
 data.engine.group.interval=La définition d''un intervalle {0} sur une colonne de type {1} n''est pas prise en charge.
 data.engine.group.interval.Rowid=L'intervalle numérique est le seul intervalle pris en charge dans la colonne ROWID.

@@ -71,7 +71,6 @@ data.engine.MatchError=Compruebe la sintaxis del patrón. Error al hacer coincidi
 
 data.engine.ExpectBooleanReturnType=el script {0} para datos en script debe devolver un resultado booleano.
 data.engine.BadIntervalUnit=Valor de la unidad de intervalo no válido: {0}.
-data.engine.InvalidFieldName=Nombre de campo no válido: {0}.
 data.engine.BadGroupKeyType=La clave de grupo tiene un tipo de datos no admitido: {0}.
 data.engine.group.interval=No se admite el establecimiento de un intervalo {0} en una columna con el tipo {1}.
 data.engine.group.interval.Rowid=El intervalo numérico es el único intervalo que se admite en la columna ROWID.

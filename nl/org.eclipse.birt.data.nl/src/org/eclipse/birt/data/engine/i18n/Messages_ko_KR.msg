@@ -71,7 +71,6 @@ data.engine.MatchError=패턴 구문을 확인하십시오. 문자열을 패턴과 일치시키는 도중
 
 data.engine.ExpectBooleanReturnType=스크립트된 데이터 집합의 {0} 스크립트가 부울 결과를 반환해야 합니다.
 data.engine.BadIntervalUnit=잘못된 간격 단위 값: {0}.
-data.engine.InvalidFieldName=잘못된 필드 이름: {0}.
 data.engine.BadGroupKeyType=그룹 키에 지원되지 않는 데이터 형식이 있습니다: {0}.
 data.engine.group.interval=형식이 {1}인 열에서 {0} 간격 설정은 지원되지 않습니다.
 data.engine.group.interval.Rowid=행 ID 열에서는 숫자 간격만 지원됩니다.

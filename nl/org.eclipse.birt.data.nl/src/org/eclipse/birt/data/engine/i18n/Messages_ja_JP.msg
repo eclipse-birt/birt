@@ -71,7 +71,6 @@ data.engine.MatchError=ƒpƒ^[ƒ“‚Ì\•¶‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B•¶š—ñ‚Æƒpƒ^[ƒ“‚ğÆ‡’
 
 data.engine.ExpectBooleanReturnType=ƒXƒNƒŠƒvƒgƒf[ƒ^ƒZƒbƒg‚Ì {0} ƒXƒNƒŠƒvƒg‚Í˜_—’l‚ğ•Ô‚·•K—v‚ª‚ ‚è‚Ü‚·B
 data.engine.BadIntervalUnit=Interval ‚Ì’PˆÊ’l‚ª–³Œø‚Å‚· : {0}
-data.engine.InvalidFieldName=ƒtƒB[ƒ‹ƒh–¼‚ª–³Œø‚Å‚· : {0}
 data.engine.BadGroupKeyType=‚±‚Ìƒf[ƒ^Œ^‚ÌƒOƒ‹[ƒvƒL[‚Íg—p‚Å‚«‚Ü‚¹‚ñ : {0}
 data.engine.group.interval={1} Œ^‚Ì—ñ‚É‚ÍA{0} ‚ÌŠÔŠu‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 data.engine.group.interval.Rowid=ROWID —ñ‚É‚ÍA”’lˆÈŠO‚ÌŒ^‚ÌŠÔŠu‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
