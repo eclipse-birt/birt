@@ -227,9 +227,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			collectExecutableElements( );
 		}
-		
-		// clear the duplicate flag in the listing
-		SuppressDuplicateUtil.clearDuplicateFlags( listingDesign );
 	}
 
 	void collectExecutableElements( )

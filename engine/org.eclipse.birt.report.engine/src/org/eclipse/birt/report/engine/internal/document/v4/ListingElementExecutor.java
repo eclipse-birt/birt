@@ -14,8 +14,8 @@ package org.eclipse.birt.report.engine.internal.document.v4;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.executor.SuppressDuplicateUtil;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplicateUtil;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -38,8 +38,6 @@ public abstract class ListingElementExecutor extends ContainerExecutor
 
 	public void close( )
 	{
-		// clear the duplicate flag in the listing
-		SuppressDuplicateUtil.clearDuplicateFlags( design );
 		executableElements = null;
 		totalElements = 0;
 		currentElement = 0;

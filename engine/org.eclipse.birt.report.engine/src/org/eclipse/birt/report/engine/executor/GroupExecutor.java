@@ -132,8 +132,6 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	{
 		// prepare the bands to be executed.
 		collectExecutableElements( );
-		// clear the duplicate flags in the group
-		clearDuplicateFlags( );
 	}
 
 	void collectExecutableElements( )
@@ -364,19 +362,5 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			ListingElementExecutor pList = (ListingElementExecutor) parent;
 			pList.needPageBreak = true;
 		}
-	}
-
-	protected void clearDuplicateFlags( )
-	{
-		GroupDesign groupDesign = (GroupDesign) getDesign( );
-		ListingDesign listingDesign = (ListingDesign) listingExecutor
-				.getDesign( );
-		for ( int i = groupDesign.getGroupLevel( ); i < listingDesign
-				.getGroupCount( ); i++ )
-		{
-			GroupDesign group = listingDesign.getGroup( i );
-			SuppressDuplicateUtil.clearDuplicateFlags( group );
-		}
-		SuppressDuplicateUtil.clearDuplicateFlags( listingDesign.getDetail( ) );
 	}
 }

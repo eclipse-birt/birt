@@ -972,11 +972,11 @@ public class EngineIRVisitor extends DesignVisitor
 			TableGroupDesign group = (TableGroupDesign) table.getGroup( i );
 			locateGroupIcon( group );
 		}
-		
+
 		applyColumnHighlight( table );
-		//setup the supressDuplicate property of the data items in the 
-		//detail band		
-		
+		// setup the supressDuplicate property of the data items
+		applySuppressDuplicate( table );
+
 		TableBandDesign detail = (TableBandDesign) table.getDetail( );
 		if ( detail != null )
 		{
@@ -987,18 +987,6 @@ public class EngineIRVisitor extends DesignVisitor
 				{
 					CellDesign cell = row.getCell( j );
 					ColumnDesign column = table.getColumn( cell.getColumn( ) );
-					if ( column.getSuppressDuplicate( ) )
-					{
-						for ( int k = 0; k < cell.getContentCount( ); k++ )
-						{
-							ReportItemDesign item = cell.getContent( k );
-							if ( item instanceof DataItemDesign )
-							{
-								DataItemDesign dataItem = (DataItemDesign) item;
-								dataItem.setSuppressDuplicate( true );
-							}
-						}
-					}
 					if ( !column.hasDataItemsInDetail( ) )
 					{
 						for ( int k = 0; k < cell.getContentCount( ); k++ )
@@ -1016,6 +1004,47 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 		
 		setCurrentElement( table );
+	}
+
+	private void applySuppressDuplicate( TableItemDesign table )
+	{
+		for ( int i = 0; i < table.getGroupCount( ); i++ )
+		{
+			TableGroupDesign group = (TableGroupDesign) table.getGroup( i );
+			applySuppressDuplicate( table, (TableBandDesign) group.getHeader( ) );
+			applySuppressDuplicate( table, (TableBandDesign) group.getFooter( ) );
+		}
+		applySuppressDuplicate( table, (TableBandDesign) table.getDetail( ) );
+	}
+
+	private void applySuppressDuplicate( TableItemDesign table,
+			TableBandDesign band )
+	{
+		if ( band == null )
+		{
+			return;
+		}
+		for ( int i = 0; i < band.getRowCount( ); i++ )
+		{
+			RowDesign row = band.getRow( i );
+			for ( int j = 0; j < row.getCellCount( ); j++ )
+			{
+				CellDesign cell = row.getCell( j );
+				ColumnDesign column = table.getColumn( cell.getColumn( ) );
+				if ( column.getSuppressDuplicate( ) )
+				{
+					for ( int k = 0; k < cell.getContentCount( ); k++ )
+					{
+						ReportItemDesign item = cell.getContent( k );
+						if ( item instanceof DataItemDesign )
+						{
+							DataItemDesign dataItem = (DataItemDesign) item;
+							dataItem.setSuppressDuplicate( true );
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private void locateGroupIcon( TableGroupDesign group )

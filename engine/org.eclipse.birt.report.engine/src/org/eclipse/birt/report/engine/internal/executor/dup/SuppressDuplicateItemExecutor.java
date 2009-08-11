@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -43,8 +43,21 @@ public class SuppressDuplicateItemExecutor extends WrappedReportItemExecutor
 			content = executor.execute( );
 			if ( content != null )
 			{
-				content = ( (SuppressDuplciateReportExecutor) reportExecutor )
-						.suppressDuplicate( content );
+				int type = content.getContentType( );
+				switch ( type )
+				{
+					case IContent.TABLE_GROUP_CONTENT :
+					case IContent.GROUP_CONTENT :
+					case IContent.LIST_GROUP_CONTENT :
+					case IContent.LIST_CONTENT :
+					case IContent.TABLE_CONTENT :
+						( (SuppressDuplciateReportExecutor) reportExecutor )
+								.clearDuplicateFlags( content );
+						break;
+					case IContent.DATA_CONTENT :
+						content = ( (SuppressDuplciateReportExecutor) reportExecutor )
+								.suppressDuplicate( content );
+				}
 			}
 		}
 		return content;

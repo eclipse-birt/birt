@@ -79,10 +79,6 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * query used to create the data set.
 	 */
 	transient protected IDataQueryDefinition[] queries;
-	/**
-	 * execution state associated with this design
-	 */
-	transient protected Object executionState;
 
 	/**
 	 * if the item use cached result or not.
@@ -321,16 +317,6 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	public void setAction( ActionDesign action )
 	{
 		this.action = action;
-	}
-
-	public void setExecutionState( Object state )
-	{
-		executionState = state;
-	}
-
-	public Object getExecutionState( )
-	{
-		return executionState;
 	}
 
 	public void setUseCachedResult( boolean useCachedResult )
