@@ -120,7 +120,8 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		for ( int i = 0; i < size; i++ )
 		{
 			nameLabel = new Label( composite, SWT.NONE );
-			nameLabel.setText( (String) displayName.get( i ) + ":" ); //$NON-NLS-1$
+			nameLabel.setText( (String) displayName.get( i )
+					+ Messages.getString( "PropertyBindingPage.label.colon" ) ); //$NON-NLS-1$
 			nameLabelList.add( nameLabel );
 
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
