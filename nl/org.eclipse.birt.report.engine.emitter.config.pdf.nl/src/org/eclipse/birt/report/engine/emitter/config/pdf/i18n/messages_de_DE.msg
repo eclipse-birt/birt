@@ -29,7 +29,7 @@ OptionDisplayValue.EmbeddedFont = Embedded Font
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=BIDI-Verarbeitung wird verwendet.
-OptionDescription.TextWrapping=Text enthält Zeilenumbrüche.
+OptionDescription.TextWrapping=The text should be wrap.
 OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
 OptionDescription.FontSubstitution=Überprüfung erforderlich, ob die ausgewählte Schriftart das Zeichen unterstützt.
 OptionDescription.EmbeddedFont = The true-type font should be embedded into the generated PDF file.

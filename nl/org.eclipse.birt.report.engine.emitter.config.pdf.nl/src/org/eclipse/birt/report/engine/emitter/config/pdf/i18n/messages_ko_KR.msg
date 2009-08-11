@@ -29,7 +29,7 @@ OptionDisplayValue.EmbeddedFont = 포함 글꼴
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=BIDI 처리를 사용합니다.
-OptionDescription.TextWrapping=텍스트를 줄 바꿈합니다.
+OptionDescription.TextWrapping=The text should be wrap.
 OptionDescription.PageOverFlow=내용 출력 방식을 제어합니다.
 OptionDescription.FontSubstitution=선택한 글꼴에 해당 문자가 있는지 확인해야 합니다.
 OptionDescription.EmbeddedFont = 트루타입 글꼴은 생성된 PDF 파일에 포함되어야 합니다.
