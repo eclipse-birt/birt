@@ -82,7 +82,7 @@
             category="org.eclipse.birt.report.designer.ui.preferences"
             class="org.eclipse.birt.report.designer.ui.preferences.ExpressionBuilderPreferencePage"
             id="org.eclipse.birt.report.designer.ui.preferences.ExpressionBuilderPreferencePage"
-            name="%preference.expressionbuilder">
+            name="%preference.expressionsyntax">
       </page>                       
    </extension>
 	
@@ -191,7 +191,7 @@
             category="org.eclipse.birt.report.designer.ui.preferences"
             class="org.eclipse.birt.report.designer.ui.preferences.ExpressionBuilderPreferencePage"
             id="org.eclipse.birt.report.designer.ui.preferences.ExpressionBuilderPreferencePage"
-            name="%preference.expressionbuilder">
+            name="%preference.expressionsyntax">
          <enabledWhen>
             <adapt
                   type="org.eclipse.core.resources.IProject">
