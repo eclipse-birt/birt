@@ -281,6 +281,13 @@ class TimeMemberUtil
 			}
 		}
 
+		for ( int i = 0; i < parent.length; i++ )
+		{
+			( (Member) parent[i].key ).setAttributes( new Object[]{
+				dateTimeValue
+			} );
+		}
+
 		return parent;
 	}
 	
