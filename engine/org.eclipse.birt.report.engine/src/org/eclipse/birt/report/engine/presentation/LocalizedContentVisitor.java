@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.CachedImage;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -1162,7 +1163,11 @@ public class LocalizedContentVisitor
 			String javaEventHandler = design.getJavaClass( );
 			if ( onRender != null || javaEventHandler != null )
 			{
-				onRenderVisitor.onRender( content );
+				// disable onRender script for run task.
+				if ( context.getEngineTask( ).getTaskType( ) != IEngineTask.TASK_RUN )
+				{
+					onRenderVisitor.onRender( content );
+				}
 			}
 		}
 	}
