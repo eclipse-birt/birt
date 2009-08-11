@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * FilterExprDefinition
  */
@@ -371,6 +373,28 @@ class FilterExprDefinition implements IFilterExprDefinition
 		IChoice choice = allowedChoices.findChoice( operator );
 		if ( choice != null )
 			return choice.getDisplayName( );
+
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
+	 * IFilterExprDefinition
+	 * #getBirtFilterExprDisplayName(com.ibm.icu.util.ULocale)
+	 */
+
+	public String getBirtFilterExprDisplayName( ULocale locale )
+	{
+		IChoiceSet allowedChoices = MetaDataDictionary.getInstance( )
+				.getChoiceSet( DesignChoiceConstants.CHOICE_FILTER_OPERATOR );
+
+		assert allowedChoices != null;
+
+		IChoice choice = allowedChoices.findChoice( birtFilterExprId );
+		if ( choice != null )
+			return choice.getDisplayName( locale );
 
 		return null;
 	}

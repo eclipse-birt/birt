@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.i18n;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Returns the localized messages from I18N message file. This class can not be
  * instantiated.
@@ -35,7 +37,7 @@ public class ModelMessages
 
 	static
 	{
-		threadResources = new ThreadResources( ); 
+		threadResources = new ThreadResources( );
 	}
 
 	/**
@@ -49,6 +51,21 @@ public class ModelMessages
 	public static String getMessage( String key )
 	{
 		return threadResources.getMessage( key );
+	}
+
+	/**
+	 * Returns the localized message with the given resource key.
+	 * 
+	 * @param key
+	 *            the resource key
+	 * @param locale
+	 *            the locale
+	 * @return the localized message
+	 */
+
+	public static String getMessage( String key, ULocale locale )
+	{
+		return threadResources.getMessage( key, locale );
 	}
 
 	/**

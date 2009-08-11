@@ -43,7 +43,6 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.i18n.ModelResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.DefaultAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -133,11 +132,6 @@ public class DesignSession
 
 	protected ULocale locale;
 
-	/**
-	 * The resource bundle for the user's locale.
-	 */
-
-	protected ModelResourceHandle resources;
 
 	/**
 	 * The units of measure used by the application.

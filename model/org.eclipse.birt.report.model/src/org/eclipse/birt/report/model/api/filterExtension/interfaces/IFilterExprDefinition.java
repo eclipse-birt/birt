@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.filterExtension.interfaces;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * IFilterExprDefinition
  */
@@ -58,6 +60,15 @@ public interface IFilterExprDefinition
 	 */
 	public String getBirtFilterExprDisplayName( );
 
+	/**
+	 * Return the corresponding BIRT predefined Filter expression operator
+	 * display name.
+	 * 
+	 * @return BIRT predefined filter operator name, if there is. Null, if there
+	 *         is no mapped one.
+	 */
+	public String getBirtFilterExprDisplayName( ULocale locale );
+	
 	/**
 	 * Returns the BIRT predefined filter expression operator internal name.
 	 * 

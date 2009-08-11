@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.i18n;
 
-import org.eclipse.birt.core.i18n.ResourceHandle;
-
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -22,8 +20,18 @@ import com.ibm.icu.util.ULocale;
  * @see ThreadResources
  */
 
-public class ModelResourceHandle extends ResourceHandle
+class ModelResourceHandle extends ResourceHandle
 {
+
+	/**
+	 * Constructs the resource handle with the empty locale.
+	 * 
+	 */
+
+	protected ModelResourceHandle( )
+	{
+		super( );
+	}
 
 	/**
 	 * Constructs the resource handle with a specific resource bundle, which is
@@ -32,8 +40,8 @@ public class ModelResourceHandle extends ResourceHandle
 	 * @param locale
 	 *            the locale of <code>ULocale</code> type
 	 */
-	
-	public ModelResourceHandle( ULocale locale )
+
+	protected ModelResourceHandle( ULocale locale )
 	{
 		super( locale );
 	}

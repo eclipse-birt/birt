@@ -37,7 +37,8 @@ public class ThreadResources
 	 * whole application.
 	 */
 
-	private Map resourceMap = new HashMap( );
+	private Map<ULocale, ModelResourceHandle> resourceMap = new HashMap<ULocale, ModelResourceHandle>(
+			10 );
 
 	/**
 	 * Thread-local variable for the current thread.
@@ -109,7 +110,23 @@ public class ThreadResources
 
 	public String getMessage( String key )
 	{
-		ModelResourceHandle resourceHandle = getResourceHandle( );
+		return getMessage( key, getLocale( ) );
+	}
+
+	/**
+	 * Gets the localized message with the resource key.
+	 * 
+	 * @param key
+	 *            the resource key
+	 * @param locale
+	 *            the locale
+	 * @return the localized message for that key. Returns the key itself if the
+	 *         message was not found.
+	 */
+
+	public String getMessage( String key, ULocale locale )
+	{
+		ModelResourceHandle resourceHandle = getResourceHandle( locale );
 		if ( resourceHandle != null )
 			return resourceHandle.getMessage( key );
 
@@ -129,7 +146,7 @@ public class ThreadResources
 
 	public String getMessage( String key, Object[] arguments )
 	{
-		ModelResourceHandle resourceHandle = getResourceHandle( );
+		ModelResourceHandle resourceHandle = getResourceHandle( getLocale( ) );
 		if ( resourceHandle != null )
 			return resourceHandle.getMessage( key, arguments );
 
@@ -143,10 +160,8 @@ public class ThreadResources
 	 * @return the resource handle with the locale of this thread
 	 */
 
-	private ModelResourceHandle getResourceHandle( )
+	private ModelResourceHandle getResourceHandle( ULocale locale )
 	{
-		ULocale locale = getLocale( );
-
 		ModelResourceHandle resourceHandle = (ModelResourceHandle) resourceMap
 				.get( locale );
 		if ( resourceHandle != null )
@@ -154,8 +169,9 @@ public class ThreadResources
 
 		synchronized ( resourceMap )
 		{
-			if ( resourceMap.get( locale ) != null )
-				return (ModelResourceHandle) resourceMap.get( locale );
+			resourceHandle = (ModelResourceHandle) resourceMap.get( locale );
+			if ( resourceHandle != null )
+				return resourceHandle;
 
 			resourceHandle = new ModelResourceHandle( locale );
 			resourceMap.put( locale, resourceHandle );

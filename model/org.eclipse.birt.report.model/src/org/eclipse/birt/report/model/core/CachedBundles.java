@@ -27,7 +27,7 @@ import java.util.Set;
  *
  */
 
-class CachedBundles
+public class CachedBundles
 {
 
 	/**
@@ -153,7 +153,7 @@ class CachedBundles
 	 *         occurred during I/O reading.
 	 */
 
-	private static PropertyResourceBundle populateBundle( URL bundleURL )
+	public static PropertyResourceBundle populateBundle( URL bundleURL )
 	{
 		InputStream is = null;
 		try

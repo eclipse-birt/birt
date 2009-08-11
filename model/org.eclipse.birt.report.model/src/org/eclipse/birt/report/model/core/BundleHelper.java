@@ -12,14 +12,12 @@
 package org.eclipse.birt.report.model.core;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 import com.ibm.icu.util.ULocale;
 
@@ -29,7 +27,7 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class BundleHelper
+public class BundleHelper extends ResourceHelper
 {
 
 	/**
@@ -37,12 +35,6 @@ public class BundleHelper
 	 */
 
 	private Module module = null;
-
-	/**
-	 * base name of the resource bundle. The name is a common base name
-	 */
-
-	private String baseName = null;
 
 	/**
 	 * Private constructor. Constructs a helper given the message folder and
@@ -58,8 +50,8 @@ public class BundleHelper
 
 	private BundleHelper( Module module, String baseName )
 	{
+		super( baseName );
 		this.module = module;
-		this.baseName = baseName;
 	}
 
 	/**
@@ -163,89 +155,6 @@ public class BundleHelper
 		}
 
 		return null;
-	}
-
-	/**
-	 * Return a message resource name list for the given locale. A message key
-	 * should be look into the files in the sequence order from the first to the
-	 * last. Content of the list is <code>String</code>.
-	 * <p>
-	 * If the given locale is <code>null</code>, locale of the current thread
-	 * will be used.
-	 * 
-	 * @param locale
-	 *            locale to use when locating the bundles.
-	 * 
-	 * @return a message file list for the given locale.
-	 */
-
-	public List<String> getMessageFilenames( ULocale locale )
-	{
-		if ( locale == null )
-			locale = ThreadResources.getLocale( );
-
-		List<String> bundleNames = new ArrayList<String>( );
-
-		if ( this.baseName == null )
-			return bundleNames;
-
-		// find the correspondent message files.
-		// e.g: message
-
-		final String language = locale.getLanguage( );
-		final int languageLength = language.length( );
-
-		final String country = locale.getCountry( );
-		final int countryLength = country.length( );
-
-		final String variant = locale.getVariant( );
-		final int variantLength = variant.length( );
-
-		if ( languageLength > 0 && countryLength > 0 )
-		{
-			// LANGUAGE_COUNTRY
-
-			StringBuffer temp = new StringBuffer( baseName );
-			temp.append( "_" ); //$NON-NLS-1$
-			temp.append( language );
-			temp.append( "_" ); //$NON-NLS-1$
-			temp.append( country );
-
-			// LANGUAGE_COUNTRY_VARIANT
-
-			StringBuffer variantTmp = new StringBuffer( temp.toString( ) );
-			if ( variantLength > 0 )
-			{
-				variantTmp.append( "_" ); //$NON-NLS-1$
-				variantTmp.append( variant );
-
-				variantTmp.append( ".properties" ); //$NON-NLS-1$
-				bundleNames.add( variantTmp.toString( ) );
-			}
-
-			temp.append( ".properties" ); //$NON-NLS-1$
-
-			bundleNames.add( temp.toString( ) );
-
-		}
-
-		if ( languageLength > 0 )
-		{
-			// LANGUAGE
-
-			StringBuffer temp = new StringBuffer( baseName );
-			temp.append( "_" ); //$NON-NLS-1$
-			temp.append( language );
-			temp.append( ".properties" ); //$NON-NLS-1$
-
-			bundleNames.add( temp.toString( ) );
-		}
-
-		// default.
-
-		bundleNames.add( baseName + ".properties" ); //$NON-NLS-1$
-
-		return bundleNames;
 	}
 
 	private URL findBundle( String fileName )

@@ -62,7 +62,7 @@ public class MessageFileTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		props.load( ModelResourceHandle.class
+		props.load( ThreadResources.class
 				.getResourceAsStream( MESSAGE_FILE ) );
 		this.gatherDisplayNameIDs( );
 	}
@@ -198,7 +198,7 @@ public class MessageFileTest extends BaseTestCase
 	{
 		boolean success = true;
 
-		InputStream is = ModelResourceHandle.class
+		InputStream is = ThreadResources.class
 				.getResourceAsStream( MESSAGE_FILE );
 		BufferedReader in = new BufferedReader( new InputStreamReader( is,
 				CHARSET ) );

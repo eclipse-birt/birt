@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.model.plugin;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.datatools.connectivity.oda.util.manifest.PropertyChoice;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Represents the choice wrapping ODA choice.
@@ -45,6 +48,17 @@ public class ODAChoice implements IChoice
 		return choice.getDisplayName( );
 	}
 
+	/**
+	 * Returns the localized display name for the choice.
+	 * 
+	 * @return the localized display name for the choice.
+	 */
+
+	public String getDisplayName( ULocale locale )
+	{
+		return choice.getDisplayName( );
+	}
+	
 	/**
 	 * Returns <code>null</code> always. No display name key of ODA choice can
 	 * be got.

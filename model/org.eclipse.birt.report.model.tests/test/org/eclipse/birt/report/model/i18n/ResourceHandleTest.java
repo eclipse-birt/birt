@@ -19,8 +19,7 @@ import com.ibm.icu.util.ULocale;
  * Test for ResourceHandle. The message files are named like
  * "Messages.properties", "Messages_xx.properties".
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -45,16 +44,12 @@ import com.ibm.icu.util.ULocale;
 public class ResourceHandleTest extends BaseTestCase
 {
 
-	ModelResourceHandle resourceHandle = null;
-
 	/*
 	 * @see TestCase#setUp()
 	 */
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-
-		resourceHandle = new ModelResourceHandle( ULocale.ENGLISH );
 	}
 
 	/**
@@ -63,10 +58,12 @@ public class ResourceHandleTest extends BaseTestCase
 	 */
 	public void testGetMessage( )
 	{
-		String msg = resourceHandle.getMessage( "Choices.colors.maroon" ); //$NON-NLS-1$
+		String msg = ModelMessages.getMessage( "Choices.colors.maroon", //$NON-NLS-1$
+				ULocale.ENGLISH );
 		assertEquals( "Maroon", msg ); //$NON-NLS-1$
 
-		msg = resourceHandle.getMessage( "Element.ReportDesign" ); //$NON-NLS-1$
+		msg = ModelMessages.getMessage( "Element.ReportDesign", //$NON-NLS-1$
+				ULocale.ENGLISH );
 		assertEquals( "Report Design", msg ); //$NON-NLS-1$
 	}
 
@@ -75,8 +72,8 @@ public class ResourceHandleTest extends BaseTestCase
 	 */
 	public void testGetMessageWithParameters( )
 	{
-		String msg = resourceHandle.getMessage(
-				"Error.Msg001", new String[]{"Element", "NameSpace"} ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+		String msg = ModelMessages.getMessage( "Error.Msg001", new String[]{
+				"Element", "NameSpace"} );
 		assertEquals( "Element not found in NameSpace.", msg ); //$NON-NLS-1$
 	}
 }

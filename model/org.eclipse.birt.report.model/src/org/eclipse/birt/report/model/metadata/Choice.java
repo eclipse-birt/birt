@@ -15,6 +15,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Describes the choices for a property. The internal name of a choice property
  * is a string. The string maps to a display name shown to the user, and an XML
@@ -96,6 +98,17 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 		return ModelMessages.getMessage( displayNameKey );
 	}
 
+	/**
+	 * Returns the localized display name for the choice.
+	 * 
+	 * @return the localized display name for the choice.
+	 */
+
+	public String getDisplayName( ULocale locale )
+	{
+		return ModelMessages.getMessage( displayNameKey, locale );
+	}
+	
 	/**
 	 * Returns the display name resource key for the choice.
 	 * 
