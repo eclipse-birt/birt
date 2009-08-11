@@ -70,8 +70,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-import com.ibm.icu.util.Calendar;
-
 /**
  * Axis subtask
  * 
@@ -825,7 +823,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			if ( !( data instanceof DateTimeDataElement ) )
 			{
-				data = DateTimeDataElementImpl.create( Calendar.getInstance( ) );
+				data = DateTimeDataElementImpl.create( 0 );
 			}
 			return new DateTimeDataElementComposite( parent,
 					SWT.BORDER,

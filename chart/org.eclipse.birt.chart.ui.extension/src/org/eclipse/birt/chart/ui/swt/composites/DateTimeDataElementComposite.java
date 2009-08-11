@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,7 +38,8 @@ public class DateTimeDataElementComposite extends Composite implements
 		Listener
 {
 
-	private Button btnCheck;
+	private Button btnDate;
+	private Button btnTime;
 	private DateTime pickerDate;
 	private DateTime pickerTime;
 	private Vector<Listener> vListeners = null;
@@ -49,24 +51,25 @@ public class DateTimeDataElementComposite extends Composite implements
 		super( parent, SWT.NONE );
 		this.isNullAllowed = isNullAllowed;
 
-		GridLayout layout = new GridLayout( isNullAllowed ? 3 : 2, false );
+		GridLayout layout = new GridLayout( 4, false );
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		this.setLayout( layout );
 		this.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		if ( isNullAllowed )
-		{
-			btnCheck = new Button( this, SWT.CHECK );
-			btnCheck.addListener( SWT.Selection, this );
-		}
+		btnDate = new Button( this, SWT.CHECK );
+		btnDate.addListener( SWT.Selection, this );
 
 		pickerDate = new DateTime( this, SWT.DATE | style );
-		pickerTime = new DateTime( this, SWT.TIME | style);
-		pickerDate.addListener( SWT.Selection, this );
-		pickerTime.addListener( SWT.Selection, this );
 		pickerDate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		pickerDate.addListener( SWT.Selection, this );
+
+		btnTime = new Button( this, SWT.CHECK );
+		btnTime.addListener( SWT.Selection, this );
+
+		pickerTime = new DateTime( this, SWT.TIME | style );
 		pickerTime.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		pickerTime.addListener( SWT.Selection, this );
 
 		vListeners = new Vector<Listener>( );
 
@@ -75,42 +78,53 @@ public class DateTimeDataElementComposite extends Composite implements
 
 	public void setEnabled( boolean enabled )
 	{
-		if ( isNullAllowed )
-		{
-			btnCheck.setEnabled( enabled );
-			pickerDate.setEnabled( enabled && btnCheck.getSelection( ) );
-			pickerTime.setEnabled( enabled && btnCheck.getSelection( ) );
-		}
-		else
-		{
-			pickerDate.setEnabled( enabled );
-			pickerTime.setEnabled( enabled );
-		}
+		btnDate.setEnabled( enabled );
+		btnTime.setEnabled( enabled );
+		pickerDate.setEnabled( enabled && btnDate.getSelection( ) );
+		pickerTime.setEnabled( enabled && btnTime.getSelection( ) );
 	}
 
 	public DataElement getDataElement( )
 	{
-		if ( isNullAllowed && !btnCheck.getSelection( ) )
+		if ( isNullAllowed
+				&& !btnDate.getSelection( )
+				&& !btnTime.getSelection( ) )
 		{
 			return null;
 		}
 		Calendar calendar = Calendar.getInstance( );
-		calendar.set( pickerDate.getYear( ),
-				pickerDate.getMonth( ),
-				pickerDate.getDay( ),
-				pickerTime.getHours( ),
-				pickerTime.getMinutes( ),
-				pickerTime.getSeconds( ) );
+		int year = 1970;
+		int month = 0;
+		int day = 1;
+		int hours = 0;
+		int minutes = 0;
+		int seconds = 0;
+		if ( btnDate.getSelection( ) )
+		{
+			year = pickerDate.getYear( );
+			month = pickerDate.getMonth( );
+			day = pickerDate.getDay( );
+		}
+		if ( btnTime.getSelection( ) )
+		{
+			hours = pickerTime.getHours( );
+			minutes = pickerTime.getMinutes( );
+			seconds = pickerTime.getSeconds( );
+		}
+		calendar.set( year, month, day, hours, minutes, seconds );
 		calendar.set( Calendar.MILLISECOND, 0 );
 		return DateTimeDataElementImpl.create( calendar );
 	}
 
 	public void handleEvent( Event event )
 	{
-		if ( event.widget == btnCheck )
+		if ( event.widget == btnDate )
 		{
-			pickerDate.setEnabled( btnCheck.getSelection( ) );
-			pickerTime.setEnabled( btnCheck.getSelection( ) );
+			pickerDate.setEnabled( btnDate.getSelection( ) );
+		}
+		else if ( event.widget == btnTime )
+		{
+			pickerTime.setEnabled( btnTime.getSelection( ) );
 		}
 		event.widget = this;
 
@@ -137,32 +151,37 @@ public class DateTimeDataElementComposite extends Composite implements
 			return;
 		}
 
-		if ( isNullAllowed )
+		CDateTime calendar = null;
+		if ( data instanceof DateTimeDataElement )
 		{
-			btnCheck.setSelection( data != null );
-		}
-
-		Calendar calendar = null;
-		if ( data == null )
-		{
-			// Clear time for default date
-			calendar = Calendar.getInstance( );
-			calendar.set( Calendar.HOUR, 0 );
-			calendar.set( Calendar.MINUTE, 0 );
-			calendar.set( Calendar.SECOND, 0 );
+			calendar = ( (DateTimeDataElement) data ).getValueAsCDateTime( );
 		}
 		else
 		{
-			calendar = ( (DateTimeDataElement) data ).getValueAsCalendar( );
+			// Default null date
+			calendar = new CDateTime( 1970, 1, 1, 0, 0, 0 );
 		}
 
-		pickerDate.setYear( calendar.get( Calendar.YEAR ) );
-		pickerDate.setMonth( calendar.get( Calendar.MONTH ) );
-		pickerDate.setDay( calendar.get( Calendar.DATE ) );
+		if ( calendar.getYear( ) == 1970
+				&& calendar.getMonth( ) == 0
+				&& calendar.getDay( ) == 1 )
+		{
+			btnDate.setSelection( false );
+			pickerDate.setEnabled( false );
+		}
+		if ( calendar.getHour( ) == 0
+				&& calendar.getMinute( ) == 0
+				&& calendar.getSecond( ) == 0 )
+		{
+			btnTime.setSelection( false );
+			pickerTime.setEnabled( false );
+		}
 
-		pickerTime.setHours( calendar.get( Calendar.HOUR_OF_DAY ) );
-		pickerTime.setMinutes( calendar.get( Calendar.MINUTE ) );
-		pickerTime.setSeconds( calendar.get( Calendar.SECOND ) );
-		setEnabled( data != null );
+		pickerDate.setYear( calendar.getYear( ) );
+		pickerDate.setMonth( calendar.getMonth( ) );
+		pickerDate.setDay( calendar.getDay( ) );
+		pickerTime.setHours( calendar.getHour( ) );
+		pickerTime.setMinutes( calendar.getMinute( ) );
+		pickerTime.setSeconds( calendar.getSecond( ) );
 	}
 }

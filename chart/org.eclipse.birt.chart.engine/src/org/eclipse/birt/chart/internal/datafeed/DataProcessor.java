@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.internal.datafeed;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -180,14 +181,12 @@ public class DataProcessor
 			IActionEvaluator iae, SeriesDefinition baseSD,
 			SeriesDefinition orthoSD )
 	{
-		ArrayList rt = new ArrayList( );
+		List<String> rt = new ArrayList<String>( );
 
 		if ( se != null && iae != null )
 		{
-			for ( Iterator itr = se.getTriggers( ).iterator( ); itr.hasNext( ); )
+			for ( Trigger tg : se.getTriggers( ) )
 			{
-				Trigger tg = (Trigger) itr.next( );
-
 				String[] expra = iae.getActionExpressions( tg.getAction( ),
 						StructureSource.createSeries( se ) );
 				
@@ -216,7 +215,7 @@ public class DataProcessor
 
 		if ( rt.size( ) > 0 )
 		{
-			return (String[]) rt.toArray( new String[rt.size( )] );
+			return rt.toArray( new String[rt.size( )] );
 		}
 		return null;
 	}
@@ -226,7 +225,7 @@ public class DataProcessor
 	 * 
 	 * @param se
 	 * @param iae
-	 * @return
+	 * @return expressions
 	 * @since 2.5
 	 */
 	public static String[] getDesignTimeStringsSeriesTriggerExpressions(
@@ -251,11 +250,11 @@ public class DataProcessor
 	private GroupKey[] findGroupKeys( ChartWithoutAxes cwoa,
 			GroupingLookupHelper lhmLookup )
 	{
-		final List alKeys = new ArrayList( 4 );
-		EList elSD = cwoa.getSeriesDefinitions( );
+		final List<GroupKey> alKeys = new ArrayList<GroupKey>( 4 );
+		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
 
 		// Find all orthogonal group keys in model
-		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 );
+		SeriesDefinition sd = elSD.get( 0 );
 		elSD = sd.getSeriesDefinitions( );
 
 		Query qOrthogonalSeriesDefinition;
@@ -263,7 +262,7 @@ public class DataProcessor
 
 		for ( int i = 0; i < elSD.size( ); i++ )
 		{
-			sd = (SeriesDefinition) elSD.get( i );
+			sd = elSD.get( i );
 			qOrthogonalSeriesDefinition = sd.getQuery( );
 			if ( qOrthogonalSeriesDefinition == null )
 			{
@@ -285,19 +284,19 @@ public class DataProcessor
 			}
 		}
 
-		return (GroupKey[]) alKeys.toArray( new GroupKey[alKeys.size( )] );
+		return alKeys.toArray( new GroupKey[alKeys.size( )] );
 	}
 
 	private GroupKey[] findGroupKeys( ChartWithAxes cwa,
 			GroupingLookupHelper lhmLookup )
 	{
-		final ArrayList alKeys = new ArrayList( 4 );
+		final List<GroupKey> alKeys = new ArrayList<GroupKey>( 4 );
 
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
 
 		// Find all orthogonal group keys in model
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
-		EList elSD;
+		EList<SeriesDefinition> elSD;
 		SeriesDefinition sd;
 		Query qOrthogonalSeriesDefinition;
 		String sExpression;
@@ -308,7 +307,7 @@ public class DataProcessor
 
 			for ( int j = 0; j < elSD.size( ); j++ )
 			{
-				sd = (SeriesDefinition) elSD.get( j );
+				sd = elSD.get( j );
 				qOrthogonalSeriesDefinition = sd.getQuery( );
 				if ( qOrthogonalSeriesDefinition == null )
 				{
@@ -330,7 +329,7 @@ public class DataProcessor
 			}
 		}
 
-		return (GroupKey[]) alKeys.toArray( new GroupKey[alKeys.size( )] );
+		return alKeys.toArray( new GroupKey[alKeys.size( )] );
 	}
 
 	/**
@@ -352,7 +351,7 @@ public class DataProcessor
 				idre );
 		
 		// 2. WALK THROUGH RESULTS
-		List liResultSet = null;
+		List<Object[]> liResultSet = null;
 		List<String> co = null;
 		
 		// If current is sharing query, use original expressions. Else the value
@@ -514,8 +513,8 @@ public class DataProcessor
 		final int iGroupCount = rsw.getGroupCount( );
 
 		// POPULATE THE BASE RUNTIME SERIES
-		EList elSD = cwoa.getSeriesDefinitions( );
-		final SeriesDefinition sdBase = (SeriesDefinition) elSD.get( 0 );
+		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
+		final SeriesDefinition sdBase = elSD.get( 0 );
 		final SortOption baseSorting = sdBase.isSetSorting( )
 				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
@@ -528,11 +527,11 @@ public class DataProcessor
 		Query qy;
 		String sExpression;
 
-		EList dda = sdBase.getDesignTimeSeries( ).getDataDefinition( );
+		EList<Query> dda = sdBase.getDesignTimeSeries( ).getDataDefinition( );
 		if ( dda.size( ) > 0 )
 		{
-			List columns = rsw.getLookupHelper( ).getExpressions( );
-			iBaseColumnIndex = columns.indexOf( ( (Query) dda.get( 0 ) ).getDefinition( ) );
+			List<String> columns = rsw.getLookupHelper( ).getExpressions( );
+			iBaseColumnIndex = columns.indexOf( dda.get( 0 ).getDefinition( ) );
 			if ( iBaseColumnIndex == -1 )
 			{
 				iBaseColumnIndex = 0;
@@ -542,7 +541,7 @@ public class DataProcessor
 		elSD = sdBase.getSeriesDefinitions( );
 		for ( int j = 0; j < elSD.size( ); j++ )
 		{
-			sd = (SeriesDefinition) elSD.get( j );
+			sd = elSD.get( j );
 			qy = sd.getQuery( );
 			if ( qy == null )
 			{
@@ -570,7 +569,7 @@ public class DataProcessor
 			for ( int j = 0; j < elSD.size( ); j++ ) // FOR EACH ORTHOGONAL
 			// SERIES DEFINITION
 			{
-				sdOrthogonal = (SeriesDefinition) elSD.get( j );
+				sdOrthogonal = elSD.get( j );
 				seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries( );
 				seOrthogonalRuntimeSeries = seOrthogonalDesignSeries.copyInstance( );
 
@@ -618,12 +617,12 @@ public class DataProcessor
 			Series seOrthogonalRuntimeSeries;
 			SeriesDefinition sdOrthogonal;
 
-			List orthogonalDataList = new ArrayList( );
+			List<Object[]> orthogonalDataList = new ArrayList<Object[]>( );
 
 			elSD = sdBase.getSeriesDefinitions( );
 			for ( int j = 0; j < elSD.size( ); j++ )
 			{
-				sdOrthogonal = (SeriesDefinition) elSD.get( j );
+				sdOrthogonal = elSD.get( j );
 				seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries( );
 
 				// Retrieve trigger expressions.
@@ -686,7 +685,7 @@ public class DataProcessor
 			// ORTHOGONAL
 			// SERIES DEFINITION
 			{
-				sdOrthogonal = (SeriesDefinition) elSD.get( j );
+				sdOrthogonal = elSD.get( j );
 				String aggExp = rsw.getLookupHelper( )
 						.getOrthogonalAggregationExpression( sdOrthogonal );
 				
@@ -846,7 +845,7 @@ public class DataProcessor
 			Series seOrthogonalRuntimeSeries;
 			SeriesDefinition sdOrthogonal;
 
-			List orthogonalDataList = new ArrayList( );
+			List<Object[]> orthogonalDataList = new ArrayList<Object[]>( );
 
 			for ( int i = 0; i < axaOrthogonal.length; i++ ) // FOR EACH AXIS
 			{
@@ -955,7 +954,7 @@ public class DataProcessor
 		}
 	}
 
-	private DataSet adjustDataSet( DataSet ds, int maxcount, List indexMap,
+	private DataSet adjustDataSet( DataSet ds, int maxcount, List<Integer> indexMap,
 			DataSet[] userDs )
 	{
 		DataSet dataSet = adjustEachDataSet( ds, indexMap );
@@ -972,9 +971,9 @@ public class DataProcessor
 		return dataSet;
 	}
 
-	private DataSet adjustEachDataSet( DataSet ds, List indexMap )
+	private DataSet adjustEachDataSet( DataSet ds, List<Integer> indexMap )
 	{
-		Collection co;
+		Collection<Object> co;
 		double[] da;
 		Double[] dda;
 		long[] la;
@@ -986,7 +985,7 @@ public class DataProcessor
 
 		for ( int i = 0; i < indexArray.length; i++ )
 		{
-			indexArray[i] = ( (Integer) indexMap.get( i ) ).intValue( );
+			indexArray[i] = indexMap.get( i ).intValue( );
 		}
 
 		Object oContent = ds.getValues( );
@@ -1279,7 +1278,7 @@ public class DataProcessor
 			DataSet ds, String[] userKeys, DataSet[] userDs )
 			throws ChartException
 	{
-		final AbstractScriptHandler sh = rtc.getScriptHandler( );
+		final AbstractScriptHandler<?> sh = rtc.getScriptHandler( );
 
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DATA_SET_FILLED,
@@ -1321,7 +1320,7 @@ public class DataProcessor
 			IResultSetDataSet rsds, String[] userKeys,
 			IResultSetDataSet userRsds ) throws ChartException
 	{
-		final AbstractScriptHandler sh = rtc.getScriptHandler( );
+		final AbstractScriptHandler<?> sh = rtc.getScriptHandler( );
 		IDataSetProcessor idsp = null;
 		try
 		{
@@ -1375,6 +1374,7 @@ public class DataProcessor
 	 * @return the evaluated results.
 	 * @since 2.3
 	 */
+	@SuppressWarnings("deprecation")
 	public List<Object[]> evaluateRowSet( IDataRowExpressionEvaluator idre,
 			final Object[] columns ) throws ChartException
 	{
@@ -1399,7 +1399,16 @@ public class DataProcessor
 				for ( int i = 0; i < columns.length; i++ )
 				{
 					Object value = idre.evaluate( (String) columns[i] );
-					if ( value instanceof Date )
+					if ( value instanceof Time )
+					{
+						// Normalizing Time by resetting Year, Month and Date.
+						Time time = (Time) value;
+						Time newTime = new Time( time.getHours( ),
+								time.getMinutes( ),
+								time.getSeconds( ) );
+						value = new CDateTime( newTime );
+					}
+					else if ( value instanceof Date )
 					{
 						value = new CDateTime( (Date) value );
 					}
@@ -1449,7 +1458,7 @@ public class DataProcessor
 	 * @param rowSet
 	 */
 	public void formatBaseSeriesData( Chart cm, GroupingLookupHelper lhmLookup,
-			List rowSet ) throws ChartException
+			List<Object[]> rowSet ) throws ChartException
 	{
 		SeriesDefinition sdBase = null;
 
@@ -1491,9 +1500,9 @@ public class DataProcessor
 		{
 			int cunit = GroupingUtil.groupingUnit2CDateUnit( sg.getGroupingUnit( ) );
 			CDateTime baseReference = null;
-			for ( Iterator iter = rowSet.iterator( ); iter.hasNext( ); )
+			for ( Iterator<Object[]> iter = rowSet.iterator( ); iter.hasNext( ); )
 			{
-				Object[] oaTuple = (Object[]) iter.next( );
+				Object[] oaTuple = iter.next( );
 				Object obj = oaTuple[iBaseColumnIndex];
 
 				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
