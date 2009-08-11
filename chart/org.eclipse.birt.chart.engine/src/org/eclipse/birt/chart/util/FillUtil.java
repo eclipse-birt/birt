@@ -393,6 +393,20 @@ public class FillUtil
 	 */
 	public static ColorDefinition getColor( Fill fill )
 	{
+		return getColor( fill, true );
+	}
+
+	/**
+	 * Returns a color from various Fill.
+	 * 
+	 * @param fill
+	 * @param bSelBrighter
+	 *            , true if brighter color will be selected.
+	 * @return color
+	 * @since 2.5.1
+	 */
+	public static ColorDefinition getColor( Fill fill, boolean bSelBrighter )
+	{
 		if ( fill instanceof ColorDefinition )
 		{
 			return goFactory.copyOf( ( (ColorDefinition) fill ) );
@@ -401,7 +415,9 @@ public class FillUtil
 		{
 			ColorDefinition cdStart = ( (Gradient) fill ).getStartColor( );
 			ColorDefinition cdEnd = ( (Gradient) fill ).getEndColor( );
-			return goFactory.copyOf( getSortedColors( true, cdStart, cdEnd ) );
+			return goFactory.copyOf( getSortedColors( bSelBrighter,
+					cdStart,
+					cdEnd ) );
 		}
 		if ( fill instanceof Image )
 		{
@@ -411,8 +427,11 @@ public class FillUtil
 		if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
-			ColorDefinition cd = (ColorDefinition) fills.get( 0 );
-			return goFactory.copyOf( cd );
+			ColorDefinition cdStart = (ColorDefinition) fills.get( 0 );
+			ColorDefinition cdEnd = (ColorDefinition) fills.get( fills.size( ) - 1 );
+			return goFactory.copyOf( getSortedColors( bSelBrighter,
+					cdStart,
+					cdEnd ) );
 		}
 		return null;
 	}
