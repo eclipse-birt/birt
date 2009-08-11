@@ -21,12 +21,13 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
-import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 
 import com.ibm.icu.util.ULocale;
 
-public class FormatDateTimeAdapter extends FormatAdapter
+/**
+ * FormatDateTimeAdapter
+ */
+public final class FormatDateTimeAdapter extends FormatAdapter
 {
 
 	private static final String[] DATETIME_FORMAT_TYPES = {
@@ -55,7 +56,12 @@ public class FormatDateTimeAdapter extends FormatAdapter
 	private static String UNFORMATTED_DISPLAYNAME, CUSTOM, UNFORMATTED_NAME;
 
 	private int type;
+
 	private Date defaultDate = new Date( );
+
+	private String[][] categoryChoiceArray = null;
+
+	private String[] formatTypes = null;
 
 	public FormatDateTimeAdapter( int type )
 	{
@@ -111,7 +117,6 @@ public class FormatDateTimeAdapter extends FormatAdapter
 	 */
 	public String[][] getFormatTypeChoiceSet( )
 	{
-		String[][] choiceArray;
 		String structName, property;
 
 		if ( type == FormatBuilder.DATETIME )
@@ -129,94 +134,60 @@ public class FormatDateTimeAdapter extends FormatAdapter
 			structName = TimeFormatValue.FORMAT_VALUE_STRUCT;
 			property = TimeFormatValue.CATEGORY_MEMBER;
 		}
-		IChoiceSet set = ChoiceSetFactory.getStructChoiceSet( structName,
-				property );
-		IChoice[] choices = set.getChoices( );
 
-		if ( choices.length > 0 )
-		{
-			choiceArray = new String[choices.length][2];
-			for ( int i = 0, j = 0; i < choices.length; i++ )
-			{
-				{
-					choiceArray[j][0] = choices[i].getDisplayName( );
-					choiceArray[j][1] = choices[i].getName( );
-					j++;
-				}
-			}
-		}
-		else
-		{
-			choiceArray = new String[0][0];
-		}
-		return choiceArray;
+		return getChoiceArray( structName, property );
 	}
 
-	
-	private String[][] choiceArray = null;
-
+	@Override
 	public String[][] initChoiceArray( )
 	{
-		if ( choiceArray == null )
+		if ( categoryChoiceArray == null )
 		{
-			IChoiceSet set = ChoiceSetFactory.getStructChoiceSet( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
+			categoryChoiceArray = getChoiceArray( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
 					DateTimeFormatValue.CATEGORY_MEMBER );
-			IChoice[] choices = set.getChoices( );
-			if ( choices.length > 0 )
-			{
-				choiceArray = new String[choices.length][2];
-				for ( int i = 0, j = 0; i < choices.length; i++ )
-				{
-					{
-						choiceArray[j][0] = choices[i].getDisplayName( );
-						choiceArray[j][1] = choices[i].getName( );
-						j++;
-					}
-				}
-			}
-			else
-			{
-				choiceArray = new String[0][0];
-			}
 		}
-		return choiceArray;
+		return categoryChoiceArray;
 	}
 
-	public String getCategory4UIDisplayName( String displayName )
+	@Override
+	public String getCategory4DisplayName( String displayName )
 	{
 		if ( initChoiceArray( ) != null )
 		{
-			for ( int i = 0; i < choiceArray.length; i++ )
+			for ( int i = 0; i < categoryChoiceArray.length; i++ )
 			{
 				if ( formatTypes[i].equals( displayName ) )
 				{
-					return choiceArray[i][1];
+					return categoryChoiceArray[i][1];
 				}
 			}
 		}
 		return displayName;
 	}
 
-	/**
-	 * Gets the format types for display names.
-	 */
+	@Override
+	public String getDisplayName4Category( String category )
+	{
+		return ChoiceSetFactory.getStructDisplayName( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
+				DateTimeFormatValue.CATEGORY_MEMBER,
+				category );
+	}
 
-	private String[] formatTypes = null;
-
+	@Override
 	public String[] getFormatTypes( ULocale locale )
 	{
 		if ( initChoiceArray( ) != null )
 		{
-			formatTypes = new String[choiceArray.length];
+			formatTypes = new String[categoryChoiceArray.length];
 
-			for ( int i = 0; i < choiceArray.length; i++ )
+			for ( int i = 0; i < categoryChoiceArray.length; i++ )
 			{
 				String fmtStr = ""; //$NON-NLS-1$
-				String category = choiceArray[i][1];
+				String category = categoryChoiceArray[i][1];
 				if ( category.equals( CUSTOM )
 						|| category.equals( UNFORMATTED_DISPLAYNAME ) )
 				{
-					fmtStr = choiceArray[i][0];
+					fmtStr = categoryChoiceArray[i][0];
 				}
 				else
 				{
@@ -236,17 +207,14 @@ public class FormatDateTimeAdapter extends FormatAdapter
 		return formatTypes;
 	}
 
-	/**
-	 * Gets the index of given category.
-	 */
-
+	@Override
 	public int getIndexOfCategory( String category )
 	{
 		if ( initChoiceArray( ) != null )
 		{
-			for ( int i = 0; i < choiceArray.length; i++ )
+			for ( int i = 0; i < categoryChoiceArray.length; i++ )
 			{
-				if ( choiceArray[i][1].equals( category ) )
+				if ( categoryChoiceArray[i][1].equals( category ) )
 				{
 					return i;
 				}
@@ -255,16 +223,26 @@ public class FormatDateTimeAdapter extends FormatAdapter
 		return 0;
 	}
 
-	public String getUnformattedCategoryDisplayName()
+	@Override
+	public String getPattern4DisplayName( String displayName, ULocale locale )
+	{
+		String category = ChoiceSetFactory.getStructPropValue( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
+				DateTimeFormatValue.CATEGORY_MEMBER,
+				displayName );
+		return FormatDateTimePattern.getPatternForCategory( category );
+	}
+
+	public String getUnformattedCategoryDisplayName( )
 	{
 		return UNFORMATTED_DISPLAYNAME;
 	}
-	
-	public String getCustomCategoryName()
+
+	public String getCustomCategoryName( )
 	{
 		return CUSTOM;
 	}
-	public String getUnformattedCategoryName()
+
+	public String getUnformattedCategoryName( )
 	{
 		return UNFORMATTED_NAME;
 	}

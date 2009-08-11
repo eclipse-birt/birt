@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.report.designer.util;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Currency;
+import com.ibm.icu.util.ULocale;
 
 /**
  * A pattern class serves for getting and setting pattern string for a currency.
@@ -30,13 +33,119 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	private String symbol = ""; //$NON-NLS-1$
 	private String symPos = ""; //$NON-NLS-1$
 
-	private static String[] symbols = {
-			// "none", "£¤","$", "?", "¡ê"
-			Messages.getString( "FormatNumberPage.currency.symbol.none" ), //$NON-NLS-1$
-			Currency.getInstance( Locale.getDefault( ) ).getSymbol( ),
-			"\u00A5", "$", "\u20ac", "\u00A3", "\u20A9", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-			"DKK" //$NON-NLS-1$
-	};
+	public static String[] BUILT_IN_SYMBOLS;
+
+	static
+	{
+		java.util.List<String> list = new ArrayList<String>( );
+		list.add( Messages.getString( "FormatNumberPage.currency.symbol.none" ) ); //$NON-NLS-1$
+		list.add( "\u00A5" ); //$NON-NLS-1$
+		list.add( "$" ); //$NON-NLS-1$
+		list.add( "\u20ac" ); //$NON-NLS-1$
+		list.add( "\u00A3" ); //$NON-NLS-1$
+		//list.add( "\u20A9" ); //$NON-NLS-1$
+		list.add( "DKK" ); //$NON-NLS-1$
+
+		String defaultSymbol = Currency.getInstance( Locale.getDefault( ) )
+				.getSymbol( );
+		/*
+		 * bug 233779, the localSymbol doesn't allow to be null in IBM JDK List
+		 * but in Sun JDK, it's option and ArrayList allows to be null.
+		 */
+		if ( defaultSymbol != null && !list.contains( defaultSymbol ) )
+		{
+			list.add( 1, defaultSymbol );
+		}
+		BUILT_IN_SYMBOLS = list.toArray( new String[list.size( )] );
+	}
+
+	/**
+	 * Returns the default currency symbol position for given locale. Returns
+	 * <code>null</code> if no symbol needed by default.
+	 * 
+	 * @param locale
+	 * @return
+	 */
+	public static String getDefaultSymbolPosition( ULocale locale )
+	{
+		if ( locale == null )
+		{
+			locale = ULocale.getDefault( );
+		}
+
+		Currency currency = Currency.getInstance( locale );
+		if ( currency != null )
+		{
+			String symbol = currency.getSymbol( );
+			if ( symbol == null )
+			{
+				return null;
+			}
+			NumberFormat formater = NumberFormat.getCurrencyInstance( locale );
+			String result = formater.format( 1 );
+			if ( result.endsWith( symbol ) )
+			{
+				return FormatNumberPattern.SYMBOL_POSITION_AFTER;
+			}
+			else
+			{
+				return FormatNumberPattern.SYMBOL_POSITION_BEFORE;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the if symbol space is used by default for given locale.
+	 * 
+	 * @param locale
+	 * @return
+	 */
+	public static boolean getDefaultUsingSymbolSpace( ULocale locale )
+	{
+		if ( locale == null )
+		{
+			locale = ULocale.getDefault( );
+		}
+
+		Currency currency = Currency.getInstance( locale );
+		if ( currency != null )
+		{
+			String symbol = currency.getSymbol( );
+			if ( symbol == null )
+			{
+				return false;
+			}
+			NumberFormat formater = NumberFormat.getCurrencyInstance( locale );
+			String result = formater.format( 1 );
+			if ( result.endsWith( symbol ) )
+			{
+				result = result.substring( 0, result.indexOf( symbol ) );
+
+				for ( int i = result.length( ) - 1; i >= 0; i-- )
+				{
+					if ( result.charAt( i ) == ' ' )
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				result = result.substring( result.indexOf( symbol )
+						+ symbol.length( ) );
+
+				for ( int i = 0; i < result.length( ); i++ )
+				{
+					if ( result.charAt( i ) == ' ' )
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Constructor.
@@ -53,7 +162,9 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern#getPattern()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * #getPattern()
 	 */
 	public String getPattern( )
 	{
@@ -85,25 +196,21 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		{
 			if ( symPos.equalsIgnoreCase( FormatNumberPattern.SYMBOL_POSITION_BEFORE ) )
 			{
-				positivePatt = symbol
-						+ ( getUseSpace( ) ? " " : "" )
+				positivePatt = symbol + ( getUseSpace( ) ? " " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 						+ positivePatt;
 				if ( negativePatt != null )
 				{
-					negativePatt = symbol
-							+ ( getUseSpace( ) ? " " : "" )
+					negativePatt = symbol + ( getUseSpace( ) ? " " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 							+ negativePatt;
 				}
 			}
 			else if ( symPos.equalsIgnoreCase( FormatNumberPattern.SYMBOL_POSITION_AFTER ) )
 			{
-				positivePatt = positivePatt
-						+ ( getUseSpace( ) ? " " : "" )
+				positivePatt = positivePatt + ( getUseSpace( ) ? " " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 						+ symbol;
 				if ( negativePatt != null )
 				{
-					negativePatt = negativePatt
-							+ ( getUseSpace( ) ? " " : "" )
+					negativePatt = negativePatt + ( getUseSpace( ) ? " " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 							+ symbol;
 				}
 			}
@@ -130,23 +237,29 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern#setPattern(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * #setPattern(java.lang.String)
 	 */
 	public void setPattern( String patternStr )
 	{
 		String patt = valPattern( patternStr );
 
 		this.useSep = patt.indexOf( "," ) != -1; //$NON-NLS-1$
-		this.useSpace = patt.indexOf( " " ) != -1;
+		this.useSpace = patt.indexOf( " " ) != -1; //$NON-NLS-1$
 		this.useBracket = patt.indexOf( "(" ) != -1 //$NON-NLS-1$
 				&& patt.indexOf( ")" ) != -1; //$NON-NLS-1$
+		this.decPlaces = 0;
 		if ( patt.indexOf( "." ) != -1 ) //$NON-NLS-1$
 		{
 			this.decPlaces = patt.lastIndexOf( "0" ) - patt.lastIndexOf( "." ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		for ( int i = 0; i < symbols.length; i++ )
+
+		this.symbol = ""; //$NON-NLS-1$
+		this.symPos = ""; //$NON-NLS-1$
+		for ( int i = 0; i < BUILT_IN_SYMBOLS.length; i++ )
 		{
-			String sTemp = symbols[i];
+			String sTemp = BUILT_IN_SYMBOLS[i];
 			int sPos = patt.indexOf( sTemp );
 			if ( sPos != -1 )
 			{
@@ -162,13 +275,20 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 				break;
 			}
 		}
+
+		if ( this.symbol.length( ) == 0 )
+		{
+			// TODO guess the symbol
+		}
 		return;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern#getDefaultPatt()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
+	 * #getDefaultPatt()
 	 */
 	protected String getDefaultPatt( )
 	{

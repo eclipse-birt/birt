@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.designer.util;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+
+import com.ibm.icu.util.ULocale;
 
 public class FormatDateTimePattern
 {
@@ -32,37 +31,23 @@ public class FormatDateTimePattern
 	public static final String DATETIEM_FORMAT_TYPE_SECONTDS = "datetiem_format_type_secontds"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_GENERAL_TIME = "datetiem_format_type_general_time"; //$NON-NLS-1$
 
-	public static final HashMap<String, String> customFormatMap = new LinkedHashMap<String, String>( );
-
-	static
-	{
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_GENERAL_TIME,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_GENERAL_TIME ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_YEAR,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_YEAR ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_SHORT_YEAR,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SHORT_YEAR ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_MONTH,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MONTH ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_DAY_OF_MONTH,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_DAY_OF_MONTH ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_MEDIUM_DAY_OF_YEAR,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MEDIUM_DAY_OF_YEAR ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_MINUTES,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MINUTES ) ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_SECONTDS,
-				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SECONTDS ) ); //$NON-NLS-1$
-	}
+	private static final String[] customCategories = new String[]{
+			DATETIEM_FORMAT_TYPE_YEAR,
+			DATETIEM_FORMAT_TYPE_SHORT_YEAR,
+			DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR,
+			DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR,
+			DATETIEM_FORMAT_TYPE_MONTH,
+			DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK,
+			DATETIEM_FORMAT_TYPE_DAY_OF_MONTH,
+			DATETIEM_FORMAT_TYPE_MEDIUM_DAY_OF_YEAR,
+			DATETIEM_FORMAT_TYPE_MINUTES,
+			DATETIEM_FORMAT_TYPE_SECONTDS,
+			DATETIEM_FORMAT_TYPE_GENERAL_TIME,
+	};
 
 	public static String[] getCustormPatternCategorys( )
 	{
-		return customFormatMap.keySet( ).toArray( new String[0] );
+		return customCategories;
 	}
 
 	public static String getDisplayName4CustomCategory( String custormCategory )
@@ -70,10 +55,60 @@ public class FormatDateTimePattern
 		return Messages.getString( "FormatDateTimePattern." + custormCategory ); //$NON-NLS-1$
 	}
 
-	public static String getCustormFormatPattern( String custormCategory )
+	public static String getCustormFormatPattern( String custormCategory,
+			ULocale locale )
 	{
-		return customFormatMap.get( custormCategory ) == null ? "" //$NON-NLS-1$
-				: customFormatMap.get( custormCategory ).toString( );
+		if ( locale == null )
+		{
+			locale = ULocale.getDefault( );
+		}
+
+		if ( DATETIEM_FORMAT_TYPE_GENERAL_TIME.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_GENERAL_TIME, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_YEAR.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_YEAR, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_SHORT_YEAR.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SHORT_YEAR, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_MONTH.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MONTH, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_DAY_OF_MONTH.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_DAY_OF_MONTH, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_MEDIUM_DAY_OF_YEAR.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MEDIUM_DAY_OF_YEAR, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_MINUTES.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MINUTES, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+		if ( DATETIEM_FORMAT_TYPE_SECONTDS.equals( custormCategory ) )
+		{
+			return Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SECONTDS, locale.toLocale( ) ); //$NON-NLS-1$
+		}
+
+		return ""; //$NON-NLS-1$
 	}
 
 	/**

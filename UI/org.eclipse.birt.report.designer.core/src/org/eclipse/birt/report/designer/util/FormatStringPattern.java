@@ -27,7 +27,7 @@ public class FormatStringPattern
 	 * @return The corresponding format pattern string.
 	 */
 
-	public static String getPatternForCategory( String category )
+	private static String getPatternForCategory( String category )
 	{
 		String pattern;
 
@@ -59,7 +59,7 @@ public class FormatStringPattern
 			pattern = Messages.getString( "FormatStringPage.securityNumberFormat" ); //$NON-NLS-1$
 			// pattern = "@@@-@@-@@@@"; //$NON-NLS-1$
 		}
-		else if ( category.equals( "^" ) )
+		else if ( category.equals( "^" ) ) //$NON-NLS-1$
 		{
 			pattern = category;
 		}
@@ -73,7 +73,10 @@ public class FormatStringPattern
 	public static String getPatternForCategory( String category, ULocale uLocale )
 	{
 		if ( uLocale == null )
+		{
 			return getPatternForCategory( category );
+		}
+		
 		String pattern;
 
 		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
@@ -104,7 +107,7 @@ public class FormatStringPattern
 			pattern = Messages.getString( "FormatStringPage.securityNumberFormat", uLocale.toLocale( ) ); //$NON-NLS-1$
 			// pattern = "@@@-@@-@@@@"; //$NON-NLS-1$
 		}
-		else if ( category.equals( "^" ) )
+		else if ( category.equals( "^" ) ) //$NON-NLS-1$
 		{
 			pattern = category;
 		}

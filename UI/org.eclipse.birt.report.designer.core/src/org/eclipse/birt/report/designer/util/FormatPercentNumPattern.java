@@ -13,6 +13,9 @@ package org.eclipse.birt.report.designer.util;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
 
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.ULocale;
+
 /**
  * A pattern class serves for getting and setting pattern string for a percent
  * number.
@@ -23,9 +26,34 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 
 	private int decPlaces = 0;
 	private boolean useSep = false;
-	//	private boolean useZero = false;
+	// private boolean useZero = false;
 	private boolean useBracket = false;
 	private String symPos = ""; //$NON-NLS-1$
+
+	/**
+	 * Returns the default percent symbol position for given locale
+	 * 
+	 * @param locale
+	 * @return
+	 */
+	public static String getDefaultSymbolPosition( ULocale locale )
+	{
+		if ( locale == null )
+		{
+			locale = ULocale.getDefault( );
+		}
+
+		NumberFormat formater = NumberFormat.getPercentInstance( locale );
+		String result = formater.format( 1 );
+		if ( result.endsWith( "%" ) ) //$NON-NLS-1$
+		{
+			return FormatNumberPattern.SYMBOL_POSITION_AFTER;
+		}
+		else
+		{
+			return FormatNumberPattern.SYMBOL_POSITION_BEFORE;
+		}
+	}
 
 	/**
 	 * Constructor.
@@ -41,7 +69,9 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern#getPattern()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * #getPattern()
 	 */
 	public String getPattern( )
 	{
@@ -62,10 +92,10 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		{
 			positivePatt = positivePatt + "." + decStr; //$NON-NLS-1$
 		}
-		//		if ( useZero )
-		//		{
-		//			positivePatt = zeroIndicator + positivePatt;
-		//		}
+		// if ( useZero )
+		// {
+		// positivePatt = zeroIndicator + positivePatt;
+		// }
 		if ( useBracket )
 		{
 			negativePatt = "(" + positivePatt + ")"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -108,14 +138,16 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern#setPattern(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * #setPattern(java.lang.String)
 	 */
 	public void setPattern( String patternStr )
 	{
 		String patt = valPattern( patternStr );
 
 		this.useSep = patt.indexOf( "," ) != -1; //$NON-NLS-1$
-		//		this.useZero = patt.indexOf( zeroIndicator ) != -1;
+		// this.useZero = patt.indexOf( zeroIndicator ) != -1;
 		this.useBracket = patt.indexOf( "(" ) != -1 //$NON-NLS-1$
 				&& patt.indexOf( ")" ) != -1; //$NON-NLS-1$
 		if ( patt.indexOf( "." ) != -1 ) //$NON-NLS-1$
@@ -139,14 +171,18 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern#getDefaultPatt()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
+	 * #getDefaultPatt()
 	 */
 	protected String getDefaultPatt( )
 	{
 		return DEFAULT_PERCENT_PATTERN;
 	}
 
-	/**¡¡Get decPlaces
+	/**
+	 * ¡¡Get decPlaces
+	 * 
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces( )
@@ -154,7 +190,9 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		return decPlaces;
 	}
 
-	/** Set decPlaces
+	/**
+	 * Set decPlaces
+	 * 
 	 * @param decPlaces
 	 *            The decPlaces to set.
 	 */
@@ -171,7 +209,9 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		return this.useSep;
 	}
 
-	/** Set UseSep
+	/**
+	 * Set UseSep
+	 * 
 	 * @param useSep
 	 *            The useSep to set.
 	 */
@@ -180,8 +220,8 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		this.useSep = useSep;
 	}
 
-	/** get UseBracket
-	 * Returns useBracket.
+	/**
+	 * get UseBracket Returns useBracket.
 	 */
 	public boolean getUseBracket( )
 	{
@@ -189,7 +229,9 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		return this.useBracket;
 	}
 
-	/** Set useBracket
+	/**
+	 * Set useBracket
+	 * 
 	 * @param useBracket
 	 *            The useBracket to set.
 	 */
@@ -207,7 +249,8 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	}
 
 	/**
-	 *  Set SymPos
+	 * Set SymPos
+	 * 
 	 * @param symPos
 	 *            The symPos to set.
 	 */

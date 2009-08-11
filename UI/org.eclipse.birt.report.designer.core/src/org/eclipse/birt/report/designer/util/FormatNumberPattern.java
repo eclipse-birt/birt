@@ -14,6 +14,10 @@ package org.eclipse.birt.report.designer.util;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.Currency;
+import com.ibm.icu.util.ULocale;
+
 /**
  * A pattern class serves for getting and setting pattern string for a number.
  */
@@ -58,6 +62,129 @@ public class FormatNumberPattern
 
 	/** default pattern for scientific number */
 	protected String DEFAULT_SCIENTIFIC_PATTERN = "0.00E00"; //$NON-NLS-1$
+
+	/**
+	 * Returns the default pattern for given category
+	 * 
+	 * @param category
+	 * @return
+	 */
+	public static String getPatternForCategory( String category, ULocale locale )
+	{
+		if (locale == null)
+		{
+			locale = ULocale.getDefault( );
+		}
+		
+		String pattern = null;
+		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( category ) )
+		{
+			pattern = "\u00A4###,##0.00"; //$NON-NLS-1$
+			Currency currency = Currency.getInstance( locale );
+			if ( currency != null )
+			{
+				String symbol = currency.getSymbol( );
+				NumberFormat formater = NumberFormat.getCurrencyInstance( locale );
+				String result = formater.format( 1 );
+				if ( result.endsWith( symbol ) )
+				{
+					pattern = "###,##0.00";//$NON-NLS-1$
+
+					result = result.substring( 0, result.indexOf( symbol ) );
+
+					for ( int i = result.length( ) - 1; i >= 0; i-- )
+					{
+						if ( result.charAt( i ) == ' ' )
+						{
+							pattern += " "; //$NON-NLS-1$
+							continue;
+						}
+
+						break;
+					}
+
+					pattern += "\u00A4"; //$NON-NLS-1$
+				}
+				else
+				{
+					pattern = "\u00A4"; //$NON-NLS-1$
+
+					result = result.substring( result.indexOf( symbol )
+							+ symbol.length( ) );
+
+					for ( int i = 0; i < result.length( ); i++ )
+					{
+						if ( result.charAt( i ) == ' ' )
+						{
+							pattern += " "; //$NON-NLS-1$
+							continue;
+						}
+
+						break;
+					}
+
+					pattern += "###,##0.00"; //$NON-NLS-1$
+				}
+			}
+		}
+		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED.equals( category ) )
+		{
+			pattern = "#0.00"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT.equals( category ) )
+		{
+			pattern = "0.00%"; //$NON-NLS-1$
+			NumberFormat formater = NumberFormat.getPercentInstance( locale );
+			String result = formater.format( 1 );
+			if ( result.endsWith( "%" ) ) //$NON-NLS-1$
+			{
+				pattern = "0.00"; //$NON-NLS-1$
+
+				result = result.substring( 0, result.indexOf( '%' ) );
+
+				for ( int i = result.length( ) - 1; i >= 0; i-- )
+				{
+					if ( result.charAt( i ) == ' ' )
+					{
+						pattern += " "; //$NON-NLS-1$
+						continue;
+					}
+
+					break;
+				}
+
+				pattern += "%"; //$NON-NLS-1$
+			}
+			else
+			{
+				pattern = "%"; //$NON-NLS-1$
+
+				result = result.substring( result.indexOf( '%' ) + 1 );
+
+				for ( int i = 0; i < result.length( ); i++ )
+				{
+					if ( result.charAt( i ) == ' ' )
+					{
+						pattern += " "; //$NON-NLS-1$
+						continue;
+					}
+
+					break;
+				}
+
+				pattern += "0.00"; //$NON-NLS-1$
+			}
+		}
+		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC.equals( category ) )
+		{
+			pattern = "0.00E00"; //$NON-NLS-1$
+		}
+		else
+		{
+			pattern = ""; //$NON-NLS-1$
+		}
+		return pattern;
+	}
 
 	/**
 	 * Constructor.
