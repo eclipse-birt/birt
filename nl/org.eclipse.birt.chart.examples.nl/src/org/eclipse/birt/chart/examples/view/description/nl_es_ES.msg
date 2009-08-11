@@ -14,7 +14,7 @@ Pie=Los diagramas circulares muestran los valores como cortes de un círculo. El 
 StandardMeter=Los diagramas métricos estándar presentan un solo cuadrante con una o varias regiones. El fondo del cuadrante puede dividirse en varias regiones con diferentes colores.
 SuperImposedMeter=Los diagramas métricos superpuestos contienen varios cuadrantes con idénticas regiones. Los cuadrantes se superponen, por lo que pueden presentar múltiples indicadores dentro de una misma región.
 Scatter=Los diagramas de dispersión organizan los valores en el dibujo usando los datos de categoría y de valor como coordenadas. Cada valor de datos se indica con un marcador.
-BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines attached to it. The upper and lower points of the vertical line are the stock high and low values. The two horizontal lines are the open and close values.
+BarStickStock=Un diagrama de cotización contiene una línea vertical con dos líneas horizontales adjuntadas a él. Los puntos superior e inferior de la línea vertical son los valores máximo y mínimo de la cotización. Las dos líneas horizontales son los valores de apertura y de cierre.
 CandleStickStock=Un diagrama de cotización de velas contiene un cuadro con líneas que se extienden hacia arriba y hacia abajo de los extremos. Los bordes superior e inferior del cuadro son los valores de cotización de apertura y cierre. Los puntos superior e inferior de la línea son los valores máximo y mínimo.
 Bubble=Los diagramas de burbujas son una extensión de los diagramas de dispersión y muestran los puntos como burbujas. Los diámetros de las burbujas son proporcionales a un tercer valor de datos, junto a las coordenadas x e y.
 Difference=Los diagramas de diferencia muestran el área entre dos líneas de valores. Heredan todas las propiedades de serie de área y pueden mostrar, además, un área negativa en un color diferente.
@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=Guardar fuente XML
 ColoredByValueSeries=Establezca Tipo de elemento de leyenda como serie.
 CurveFittingArea=Active atributo de la curva ajustada de la serie de áreas.
 CurveFittingBar=Cree una curva ajustada a línea para la serie de barras.
-CurveFittingLine=Enable the curve fitting attribute of line series.
+CurveFittingLine=Active atributo de la curva ajustada de la serie de líneas.
 CurveFittingStock=Cree una curva ajustada a línea para la serie de cotización de acciones.
 LegendFormat=La leyenda se puede situar a la izquierda, derecha, arriba, abajo y en el interior. El área del cliente se encuentra dentro de la leyenda. Contiene los elementos de leyenda.
 MarkerLine=La línea de marcador se puede crear para los ejes X e Y (sólo para el tipo ChartWithAxes).
@@ -86,7 +86,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() permite a los usuarios manipular atrib
 MinSlice=El usuario puede especificar el valor mínimo (absoluto o porcentaje) de un corte. El diagrama circular se puede separar estableciendo la expresión en atributo de separación.
 MultipleYAxes=Un diagrama puede contener más de un eje Y.
 MultipleYSeries=Un diagrama puede contener más de una serie Y (valor). 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=Un diagrama funciona con ODA/DtE (motor de datos BIRT) para obtener datos agrupados/agregados sin realizar la agrupación/agregación por el propio diagrama.
 
 ###########################################################
 #Default

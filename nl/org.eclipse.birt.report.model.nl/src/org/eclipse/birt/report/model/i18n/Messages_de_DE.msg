@@ -118,7 +118,7 @@ Choices.paramType.integer=Ganzzahl
 Choices.paramType.any=Beliebig
 Choices.paramType.date=Datum
 Choices.paramType.time=zurücksetzen
-Choices.paramType.javaObject=Java Object
+Choices.paramType.javaObject=Java-Objekt
 
 #6.paramControl
 Choices.paramControl.text-box=Textfeld
@@ -430,7 +430,7 @@ Choices.columnDataType.boolean=Boolesch
 Choices.columnDataType.time=Time
 Choices.columnDataType.date=Datum
 Choices.columnDataType.blob=BLOB
-Choices.columnDataType.javaObject=Java Object
+Choices.columnDataType.javaObject=Java-Objekt
 
 #54. searchType
 Choices.searchType.any=Beliebig
@@ -2604,7 +2604,7 @@ Element.ReportItem.multiViews=Mehrfachansichten
 Element.ReportItem.ACLExpression=Ausdruck 'ACL'
 Element.ReportItem.cascadeACL=Verschachtelung 'ACL'
 Element.ReportItem.allowExport=Export zulassen
-Element.ReportItem.pushDown=Push down
+Element.ReportItem.pushDown=Push Down
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Inhalt

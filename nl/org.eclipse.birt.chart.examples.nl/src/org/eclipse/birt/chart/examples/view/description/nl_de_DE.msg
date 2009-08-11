@@ -14,7 +14,7 @@ Pie=Kreisdiagramme stellen Werte als Segmente eines Kreises dar. Die Größe des S
 StandardMeter=Standard-Tachometerdiagramme enthalten einen einzelnen Tachometer mit einem oder mehreren Bereichen. Der Hintergrund des Tachometers kann in Bereiche mit unterschiedlichen Farben unterteilt werden.
 SuperImposedMeter=Übereinandergelagerte Tachometerdiagramme enthalten mehrere Tachometer mit identischen Bereichen. Die Tachometer überlappen sich, so dass innerhalb eines einzigen Bereichs mehrere Nadeln dargestellt werden können.
 Scatter=In Punktdiagrammen sind die Werte entsprechend der Kategorie und der Datenwerte als Koordinaten angeordnet. Jeder Datenwert wird durch eine Markierung gekennzeichnet.
-BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines attached to it. The upper and lower points of the vertical line are the stock high and low values. The two horizontal lines are the open and close values.
+BarStickStock=Ein Barstick-Kursdiagramm enthält eine senkrechte Linie, an die zwei waagerechte Linien angefügt sind. Die obersten und untersten Punkte der senkrechten Linie entsprechen dem Höchst- und dem Tiefstwert der Aktie. Die beiden waagerechten Linien stellen Eröffnung- und Schlusswert dar.
 CandleStickStock=Ein Candlestick-Kursdiagramm enthält ein Feld mit Linien, die an den Enden nach oben und nach unten erweitert sind. Die oberen und unteren Kanten des Felds stellen die Werte für den Eröffnungskurs und Schlusskurs dar. Die oberen und unteren Punkte der Linie repräsentieren die Höchst- und Tiefstwerte.
 Bubble=Blasendiagramme sind eine Erweiterung von Punktdiagrammen und zeigen die Punkte als Blasen. Die Blasendurchmesser sind proportional zu einem dritten Datenwert neben den X- und Y-Koordinaten.
 Difference=Differenz-Diagramme zeigen den Bereich zwischen zwei Linien, geben alle Datenreiheneigenschaften wieder und können auch einen negativen Bereich andersfarbig darstellen.
@@ -54,7 +54,7 @@ SaveXMLAction.Text.ToolTip=XML-Quelldatei speichern
 ColoredByValueSeries=Legen Sie den Legendenelementtyp als Datenreihe fest.
 CurveFittingArea=Aktivieren Sie das Kurvenanpassungsattribut für Flächendatenreihen.
 CurveFittingBar=Erstellen Sie eine Kurvenattributslinie für Balkendatenreihen.
-CurveFittingLine=Enable the curve fitting attribute of line series.
+CurveFittingLine=Das Kurvenanpassungsattribut für Liniendatenreihen aktivieren.
 CurveFittingStock=Erstellen Sie eine Kurvenattributslinie für Kursdiagramm-Datenreihen.
 LegendFormat=Die Legende kann links, rechts, oben und unten und innen positioniert werden. Die Client-Fläche befindet sich innerhalb der Legende. Sie enthält die Legendenelemente.
 MarkerLine=Es kann eine Markierungslinie sowohl für die X-Achse als auch für die Y-Achse erstellt werden (nur für Diagrammtypen mit Achsen).
@@ -86,7 +86,7 @@ SeriesTitleScript=Mit beforeDrawSeriesTitle() können die Benutzer Attribute für 
 MinSlice=Der Benutzer hat die Möglichkeit, den Mindestwert (absolut oder in Prozent) für ein Segment anzugeben. Das Kreisdiagrammsegment kann ausgerückt dargestellt werden, indem ein Ausdruck für das Ausrückungsattribut festgelegt wird.
 MultipleYAxes=Ein Diagramm kann mehr als eine Y-Achse enthalten.
 MultipleYSeries=Ein Diagramm kann mehr als eine Y-Datenreihe (Wert) enthalten. 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE (BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=Ein Diagramm arbeitet mit ODA/DtE (BIRT-Datenengine), um gruppierte/aggregierte Daten abzurufen, ohne selbst zu gruppieren/aggregieren.
 
 ###########################################################
 #Default

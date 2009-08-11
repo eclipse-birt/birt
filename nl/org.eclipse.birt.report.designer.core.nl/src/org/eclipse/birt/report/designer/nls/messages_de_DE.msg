@@ -144,7 +144,7 @@ AttributesBuilder.Label.Label=Eigenschaftseditor - Beschriftung
 AttributesBuilder.Label.Library=Eigenschaftseditor - Bibliothek
 AttributesBuilder.Label.List=Eigenschaftseditor - Liste
 AttributesBuilder.Label.Cube=Eigenschaftseditor - Quader
-AttributesBuilder.Label.DynamicFilterParameter=Property Editor - Dynamic Filter Parameter
+AttributesBuilder.Label.DynamicFilterParameter=Eigenschaftseditor - Dynamischer Filterparameter
 AttributesBuilder.Label.MasterPage=Eigenschaftseditor - Master-Seite
 AttributesBuilder.Label.None=Eigenschaftseditor - Keine
 AttributesBuilder.Label.Picture=Eigenschaftseditor - Bild
@@ -2971,7 +2971,7 @@ PreviewAction.Text=Vorschau
 
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
 PreviewEditor.parameter.note=Hinweis:
-PreviewEditor.parameter.info=Current maximum number of data rows is limited to {0}.
+PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit {0}.
 PreviewEditor.parameter.change=Zum Ändern der Vorschaueinstellungen klicken.
 PreviewEditor.ConfirmRefresh.Title=Aktualisierung bestätigen
 PreviewEditor.ConfirmRefresh.Message=Der Vorgang kann das Vorschauergebnis beeinflussen. Möchten Sie die Vorschauseite aktualisieren? 
@@ -4130,7 +4130,7 @@ PublishLibraryDialog.Message.FileNameEmpty=Dateiname erforderlich.
 PublishLibraryDialog.Message.FileNameError=Dateiname muss auf .rptlibrary enden.
 PublishLibraryDialog.Message.FolderEmpty=Veröffentlichungsordner erforderlich.
 PublishLibraryDialog.Message.SourceFileEmpty=Name der Quelldatei erforderlich.
-PublishLibraryDialog.Label.Browse2=&Durchsuchen...
+PublishLibraryDialog.Label.Browse2=Durchsu&chen...
 PublishLibraryDialog.AddText=Bibliothek hinzufügen
 PublishLibraryDialog.AddMessage=Bibliothek zum BIRT-Ressourcenordner hinzufügen
 
@@ -4151,7 +4151,7 @@ PublishCSSDialog.Label.SourceFileName=&Quelldatei:
 PublishCSSDialog.Label.FileName=Datei&name:
 PublishCSSDialog.Label.Folder=&Ordner:
 PublishCSSDialog.Label.Browse=&Durchsuchen...
-PublishCSSDialog.Label.Browse2=&Durchsuchen...
+PublishCSSDialog.Label.Browse2=Durchsu&chen...
 
 PublishCSSDialog.ErrorMessage.SelectFolder=Wählen Sie einen Ordner aus.
 
@@ -4186,7 +4186,7 @@ PublishResourceDialog.Label.FileName=&Dateiname:
 PublishResourceDialog.Label.SourceFileName=&Quelldatei:
 PublishResourceDialog.Label.Folder=&Ordner:
 PublishResourceDialog.Label.Browse=&Durchsuchen...
-PublishResourceDialog.Label.Browse2=&Durchsuchen...
+PublishResourceDialog.Label.Browse2=Durchsu&chen...
 WizardResourceSettingPage.ErrorMessage=Wählen Sie einen Ordner aus.
 WizardResourceSettingPage.Resourcefile.Dialog.Title=Ressourcenordner durchsuchen
 WizardResourceSettingPage.Resourcefile.Dialog.Message=Wählen Sie den Ressourcenordner oder dessen Unterordner aus.
@@ -4498,7 +4498,7 @@ CreateChartHandler.text=Diagramm-Ansicht erstellen
 #Input Parameters
 InputParameterDialog.msg.title=Eingabeparameter
 InputParameterDialog.msg.requiredParam=Mit * gekennzeichnete Parameter sind erforderlich.
-InputParameterDialog.err.requiredParam=Value of required parameter [{0}] is not specified.
+InputParameterDialog.err.requiredParam=Der Wert des erforderlichen Parameters [{0}] wurde nicht festgelegt.
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=Spaltengröße anpassen

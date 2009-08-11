@@ -118,7 +118,7 @@ Choices.paramType.integer=Entero
 Choices.paramType.any=Cualquiera
 Choices.paramType.date=Fecha
 Choices.paramType.time=Hora
-Choices.paramType.javaObject=Java Object
+Choices.paramType.javaObject=Objeto Java
 
 #6.paramControl
 Choices.paramControl.text-box=Cuadro de texto
@@ -430,7 +430,7 @@ Choices.columnDataType.boolean=Booleano
 Choices.columnDataType.time=Hora
 Choices.columnDataType.date=Fecha
 Choices.columnDataType.blob=Blob
-Choices.columnDataType.javaObject=Java Object
+Choices.columnDataType.javaObject=Objeto Java
 
 #54. searchType
 Choices.searchType.any=Cualquiera
@@ -2604,7 +2604,7 @@ Element.ReportItem.multiViews=Vistas múltiples
 Element.ReportItem.ACLExpression=Expresión ACL
 Element.ReportItem.cascadeACL=Cascada ACL
 Element.ReportItem.allowExport=Permitir exportación
-Element.ReportItem.pushDown=Push down
+Element.ReportItem.pushDown=Oprimir
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenido
