@@ -589,7 +589,6 @@ TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=Si el texto de informac
 TriggerDataComposite.Tooltip.InvokeURLBuilder=Llamar al compilador de URL
 TriggerDataComposite.Tooltip.Advanced=Mostrar parámetros de URL opcionales
 TriggerDataComposite.Label.None=Ninguno
-TriggerDataComposite.Lbl.BaseURL=Editar URL base:
 TriggerDataComposite.Tooltip.ParameterCategory=Nombre del parámetro de la categoría: ...&&&name=<categoría> 
 TriggerDataComposite.Tooltip.ParameterValue=Nombre del parámetro del valor: ...&&&name=<valor> 
 TriggerDataComposite.Tooltip.ParameterSeries=Nombre del parámetro de la serie: ...&&&name=<serie>
@@ -865,7 +864,6 @@ ChartSheetImpl.Text.CustomProperties=Propiedades de personalización
 ChartSheetImpl.Text.CustomProperties&=Propiedades de personaliza&ción
 ChartSheetImpl.Text.ChartAreaInteractivity=Inter&actividad del área de diagrama
 ChartSheetImpl.Label.Interactivity=Interactividad de área de diagrama
-ChartSheetImpl.Label.Interactivity=Interactividad de área de diagrama
 ChartSheetImpl.Label.InteractivityEnable=&Activar interactividad de diagrama
 ChartSheetImpl.Label.Text=Te&xto:
 ChartLegendSheetImpl.Label.LegendBehaviorType=Compo&rtamiento:
@@ -874,8 +872,7 @@ SeriesSheetImpl.Label.ZOrder=Orden en Z
 LegendTextSheet.Label.Ellipsis=&Elipsis:
 LegendTextSheet.Label.Font=&Fuente:
 LegendTextSheet.Label.Separator=Separador
-LegendTextSheet.Tooltip.Ellipsis=Establece el número mínimo de caracteres que se deben mostrar antes de la elipsis.
-LegendTextSheet.Tooltip.Ellipsis=Establece el número mínimo de caracteres que se deben mostrar antes de la elipsis.
+LegendTextSheet.Tooltip.Ellipsis=Sets the minimal count of characters to be displayed before the ellipsis.
 MoreOptionsChartLegendSheet.Label.TextArea=Área de texto
 MoreOptionsChartLegendSheet.Label.Outline=Contorno
 MoreOptionsChartLegendSheet.Label.LegendArea=Área de la leyenda

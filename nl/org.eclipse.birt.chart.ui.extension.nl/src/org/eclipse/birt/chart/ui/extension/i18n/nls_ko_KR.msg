@@ -589,7 +589,6 @@ TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=도구 설명 텍스트를 설정
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL 빌더 호출
 TriggerDataComposite.Tooltip.Advanced=옵션 URL 매개 변수 표시
 TriggerDataComposite.Label.None=없음
-TriggerDataComposite.Lbl.BaseURL=기본 URL 편집:
 TriggerDataComposite.Tooltip.ParameterCategory=범주에 대한 매개 변수 이름: …&&&name=<범주> 
 TriggerDataComposite.Tooltip.ParameterValue=값에 대한 매개 변수 이름: …&&&name=<값> 
 TriggerDataComposite.Tooltip.ParameterSeries=계열에 대한 매개 변수 이름: …&&&name=<계열>
@@ -865,7 +864,6 @@ ChartSheetImpl.Text.CustomProperties=사용자 지정 속성
 ChartSheetImpl.Text.CustomProperties&=사용자 지정 속성(&C)
 ChartSheetImpl.Text.ChartAreaInteractivity=차트 영역 대화형 작업(&A)
 ChartSheetImpl.Label.Interactivity=차트 영역 대화형 작업
-ChartSheetImpl.Label.Interactivity=차트 영역 대화형 작업
 ChartSheetImpl.Label.InteractivityEnable=차트 대화형 작업 사용(&E)
 ChartSheetImpl.Label.Text=텍스트(&X):
 ChartLegendSheetImpl.Label.LegendBehaviorType=동작(&O):
@@ -874,8 +872,7 @@ SeriesSheetImpl.Label.ZOrder=Z 순서
 LegendTextSheet.Label.Ellipsis=생략 부호(&E):
 LegendTextSheet.Label.Font=글꼴(&F):
 LegendTextSheet.Label.Separator=구분 기호
-LegendTextSheet.Tooltip.Ellipsis=생략 부호 앞에 표시할 최소 문자 수를 설정합니다.
-LegendTextSheet.Tooltip.Ellipsis=생략 부호 앞에 표시할 최소 문자 수를 설정합니다.
+LegendTextSheet.Tooltip.Ellipsis=Sets the minimal count of characters to be displayed before the ellipsis.
 MoreOptionsChartLegendSheet.Label.TextArea=텍스트 영역
 MoreOptionsChartLegendSheet.Label.Outline=윤곽선
 MoreOptionsChartLegendSheet.Label.LegendArea=범례 영역

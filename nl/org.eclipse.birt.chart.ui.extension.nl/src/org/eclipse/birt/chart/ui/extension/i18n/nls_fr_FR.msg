@@ -589,7 +589,6 @@ TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=Si le texte infobulle r
 TriggerDataComposite.Tooltip.InvokeURLBuilder=Invoquer le générateur d'URL
 TriggerDataComposite.Tooltip.Advanced=Afficher les paramètres URL optionnels
 TriggerDataComposite.Label.None=Aucun
-TriggerDataComposite.Lbl.BaseURL=Modifier l'URL de base :
 TriggerDataComposite.Tooltip.ParameterCategory=Nom de paramètre pour la catégorie : …&&&nom=<category> 
 TriggerDataComposite.Tooltip.ParameterValue=Nom de paramètre pour la valeur : …&&&nom=<value> 
 TriggerDataComposite.Tooltip.ParameterSeries=Nom de paramètre pour la série : …&&&nom=<series>
@@ -865,7 +864,6 @@ ChartSheetImpl.Text.CustomProperties=Propriétés personnalisées
 ChartSheetImpl.Text.CustomProperties&=&Propriétés personnalisées
 ChartSheetImpl.Text.ChartAreaInteractivity=Interactivité de la &zone graphique
 ChartSheetImpl.Label.Interactivity=Interactivité de la zone graphique
-ChartSheetImpl.Label.Interactivity=Interactivité de la zone graphique
 ChartSheetImpl.Label.InteractivityEnable=Activer l'int&eractivité du graphique
 ChartSheetImpl.Label.Text=Te&xte :
 ChartLegendSheetImpl.Label.LegendBehaviorType=C&omportement :
@@ -874,8 +872,7 @@ SeriesSheetImpl.Label.ZOrder=Ordre Z
 LegendTextSheet.Label.Ellipsis=Points de susp&ension :
 LegendTextSheet.Label.Font=&Police :
 LegendTextSheet.Label.Separator=Séparateur
-LegendTextSheet.Tooltip.Ellipsis=définit le nombre minimum de caractères qui seront affichés avant que les points de suspension ne soient affichés.
-LegendTextSheet.Tooltip.Ellipsis=définit le nombre minimum de caractères qui seront affichés avant que les points de suspension ne soient affichés.
+LegendTextSheet.Tooltip.Ellipsis=Sets the minimal count of characters to be displayed before the ellipsis.
 MoreOptionsChartLegendSheet.Label.TextArea=Zone de texte
 MoreOptionsChartLegendSheet.Label.Outline=Contour
 MoreOptionsChartLegendSheet.Label.LegendArea=Zone de légende

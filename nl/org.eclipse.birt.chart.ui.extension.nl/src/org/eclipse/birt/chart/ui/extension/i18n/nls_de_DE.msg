@@ -589,7 +589,6 @@ TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=Wenn der QuickInfo-Text
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL-Erstellung aufrufen
 TriggerDataComposite.Tooltip.Advanced=Optionale URL-Parameter anzeigen
 TriggerDataComposite.Label.None=Ohne
-TriggerDataComposite.Lbl.BaseURL=Basis-URL bearbeiten:
 TriggerDataComposite.Tooltip.ParameterCategory=Parametername für Kategorie: ...&&&Name=<Kategorie> 
 TriggerDataComposite.Tooltip.ParameterValue=Parametername für Wert: ...&&&Name=<Wert> 
 TriggerDataComposite.Tooltip.ParameterSeries=Parametername für Datenreihe: ...&&&Name=<Datenreihe>
@@ -865,7 +864,6 @@ ChartSheetImpl.Text.CustomProperties=Benutzerdefinierte Eigenschaften
 ChartSheetImpl.Text.CustomProperties&=&Benutzerdefinierte Eigenschaften
 ChartSheetImpl.Text.ChartAreaInteractivity=&Interaktivität des Diagrammbereichs
 ChartSheetImpl.Label.Interactivity=Interaktivität des Diagrammbereichs
-ChartSheetImpl.Label.Interactivity=Interaktivität des Diagrammbereichs
 ChartSheetImpl.Label.InteractivityEnable=Interaktivität für Diagramm aktivi&eren
 ChartSheetImpl.Label.Text=Te&xt:
 ChartLegendSheetImpl.Label.LegendBehaviorType=&Verhalten:
@@ -874,8 +872,7 @@ SeriesSheetImpl.Label.ZOrder=Z-Reihenfolge
 LegendTextSheet.Label.Ellipsis=&Ellipse:
 LegendTextSheet.Label.Font=&Schriftart:
 LegendTextSheet.Label.Separator=Trennzeichen
-LegendTextSheet.Tooltip.Ellipsis=Legt die Mindestanzahl von Zeichen fest, die vor der Ellipse angezeigt werden.
-LegendTextSheet.Tooltip.Ellipsis=Legt die Mindestanzahl von Zeichen fest, die vor der Ellipse angezeigt werden.
+LegendTextSheet.Tooltip.Ellipsis=Sets the minimal count of characters to be displayed before the ellipsis.
 MoreOptionsChartLegendSheet.Label.TextArea=Bereich für Text
 MoreOptionsChartLegendSheet.Label.Outline=Umriss
 MoreOptionsChartLegendSheet.Label.LegendArea=Bereich für Legende

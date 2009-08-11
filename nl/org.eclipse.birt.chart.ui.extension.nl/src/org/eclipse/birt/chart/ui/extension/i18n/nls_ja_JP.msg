@@ -589,7 +589,6 @@ TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=ƒc[ƒ‹ƒ`ƒbƒv‚ÌƒeƒLƒXƒg‚
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL ƒrƒ‹ƒ_‚Ì‹N“®
 TriggerDataComposite.Tooltip.Advanced=ƒIƒvƒVƒ‡ƒ“‚Ì URL ƒpƒ‰ƒƒ^‚Ì•\¦
 TriggerDataComposite.Label.None=‚È‚µ
-TriggerDataComposite.Lbl.BaseURL=ƒx[ƒX URL ‚Ì•ÒW :
 TriggerDataComposite.Tooltip.ParameterCategory=ƒJƒeƒSƒŠ‚Ìƒpƒ‰ƒƒ^–¼ : ...&&&name=<ƒJƒeƒSƒŠ> 
 TriggerDataComposite.Tooltip.ParameterValue=’l‚Ìƒpƒ‰ƒƒ^–¼ : ...&&&name=<’l> 
 TriggerDataComposite.Tooltip.ParameterSeries=Œn—ñ‚Ìƒpƒ‰ƒƒ^–¼: ...&&&name=<Œn—ñ>
@@ -865,7 +864,6 @@ ChartSheetImpl.Text.CustomProperties=ƒJƒXƒ^ƒ€ƒvƒƒpƒeƒB
 ChartSheetImpl.Text.CustomProperties&=ƒJƒXƒ^ƒ€ƒvƒƒpƒeƒB(&C)
 ChartSheetImpl.Text.ChartAreaInteractivity=ƒOƒ‰ƒt—Ìˆæ‚Ì‘ŠŒİì—p(&A)
 ChartSheetImpl.Label.Interactivity=ƒOƒ‰ƒt—Ìˆæ‚Ì‘ŠŒİì—p
-ChartSheetImpl.Label.Interactivity=ƒOƒ‰ƒt—Ìˆæ‚Ì‘ŠŒİì—p
 ChartSheetImpl.Label.InteractivityEnable=ƒOƒ‰ƒt‚Ì‘ŠŒİì—p‚ğ—LŒø‚É‚·‚é(&E)
 ChartSheetImpl.Label.Text=ƒeƒLƒXƒg(&X) :
 ChartLegendSheetImpl.Label.LegendBehaviorType=“®ì(&O) :
@@ -874,8 +872,7 @@ SeriesSheetImpl.Label.ZOrder=Z ‡˜
 LegendTextSheet.Label.Ellipsis=È—ª‹L†(&E) :
 LegendTextSheet.Label.Font=ƒtƒHƒ“ƒg–¼ (&F):
 LegendTextSheet.Label.Separator=‹æØ‚è•¶š
-LegendTextSheet.Tooltip.Ellipsis=’·‚¢•¶š—ñ‚Ìê‡‚ÍA‚±‚±‚Åw’è‚·‚é•¶š”‚ÅØ‚èÌ‚ÄAÈ—ª‹L†‚ğ•\¦‚µ‚Ü‚·B
-LegendTextSheet.Tooltip.Ellipsis=’·‚¢•¶š—ñ‚Ìê‡‚ÍA‚±‚±‚Åw’è‚·‚é•¶š”‚ÅØ‚èÌ‚ÄAÈ—ª‹L†‚ğ•\¦‚µ‚Ü‚·B
+LegendTextSheet.Tooltip.Ellipsis=Sets the minimal count of characters to be displayed before the ellipsis.
 MoreOptionsChartLegendSheet.Label.TextArea=ƒeƒLƒXƒg—Ìˆæ
 MoreOptionsChartLegendSheet.Label.Outline=ŠO˜g
 MoreOptionsChartLegendSheet.Label.LegendArea=–}—á‚Ì—Ìˆæ
