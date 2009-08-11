@@ -980,21 +980,19 @@ public abstract class AxesRenderer extends BaseRenderer
 
 				rre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
 						RectangleRenderEvent.class );
+
 				if ( iOrientation == Orientation.HORIZONTAL )
 				{
-					// RESTRICT RIGHT EDGE
-					if ( dMax > boPlotClientArea.getLeft( )
-							+ boPlotClientArea.getWidth( ) )
-					{
-						dMax = boPlotClientArea.getLeft( )
-								+ boPlotClientArea.getWidth( );
-					}
+					double maxLimit = boPlotClientArea.getLeft( )
+							+ boPlotClientArea.getWidth( );
+					double minLimit = boPlotClientArea.getLeft( );
 
-					// RESTRICT LEFT EDGE
-					if ( dMin < boPlotClientArea.getLeft( ) )
-					{
-						dMax = boPlotClientArea.getLeft( );
-					}
+					dMax = Math.min( dMax, maxLimit );
+					dMin = Math.min( dMin, maxLimit );
+
+					dMax = Math.max( dMax, minLimit );
+					dMin = Math.max( dMin, minLimit );
+
 					bo.set( dMin,
 							boPlotClientArea.getTop( ),
 							dMax - dMin,
@@ -1002,19 +1000,16 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				else
 				{
-					// RESTRICT TOP EDGE
-					if ( dMax < boPlotClientArea.getTop( ) )
-					{
-						dMax = boPlotClientArea.getTop( );
-					}
+					double minLimit = boPlotClientArea.getTop( );
+					double maxLimit = boPlotClientArea.getTop( )
+							+ boPlotClientArea.getHeight( );
 
-					// RESTRICT BOTTOM EDGE
-					if ( dMin > boPlotClientArea.getTop( )
-							+ boPlotClientArea.getHeight( ) )
-					{
-						dMin = boPlotClientArea.getTop( )
-								+ boPlotClientArea.getHeight( );
-					}
+					dMax = Math.min( dMax, maxLimit );
+					dMin = Math.min( dMin, maxLimit );
+
+					dMax = Math.max( dMax, minLimit );
+					dMin = Math.max( dMin, minLimit );
+
 					bo.set( boPlotClientArea.getLeft( ),
 							dMax,
 							boPlotClientArea.getWidth( ),
