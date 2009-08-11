@@ -1116,8 +1116,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
 		if ( !cmbInherit.isEnabled( ) )
 		{
-			// If container is not inheritable, set inherit column only.
-			cmbInherit.select( 1 );
+			// If container is not inheritable, set inherit column groups.
+			cmbInherit.select( 0 );
 		}
 		btnInherit.setSelection( true );		
 		bIsInheritSelected = true;
