@@ -1263,10 +1263,11 @@ public class ChartReportItemUtil extends ChartExpressionUtil implements
 		switch ( reviseType )
 		{
 			case REVISE_REFERENCE_REPORT_ITEM :
+				String[] categoryExprs = ChartUtil.getCategoryExpressions( cm );
 				if ( itemHandle.getDataBindingReference( ) != null
 						&& ChartReportItemUtil.isBaseGroupingDefined( cm )
-						&& !isSharedGroupExpression( ChartUtil.getCategoryExpressions( cm )[0],
-								itemHandle ) )
+						&& !( categoryExprs.length > 0 && isSharedGroupExpression( categoryExprs[0],
+								itemHandle ) ) )
 				{
 					// In older version of chart, it is allowed to set grouping
 					// on category series when sharing report item, but now it
