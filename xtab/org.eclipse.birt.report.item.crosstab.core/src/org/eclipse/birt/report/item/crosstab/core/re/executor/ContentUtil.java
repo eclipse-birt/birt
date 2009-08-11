@@ -179,7 +179,15 @@ class ContentUtil
 
 		if ( visibleFormat != null )
 		{
-			content.getStyle( ).setVisibleFormat( visibleFormat );
+			IStyle style = content.getInlineStyle( );
+
+			if ( style == null )
+			{
+				style = context.getReportContent( ).createStyle( );
+				content.setInlineStyle( style );
+			}
+
+			style.setVisibleFormat( visibleFormat );
 		}
 
 	}
