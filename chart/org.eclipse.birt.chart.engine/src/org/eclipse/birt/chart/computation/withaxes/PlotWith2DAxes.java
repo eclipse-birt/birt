@@ -758,8 +758,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		ChartWithAxes cwa = getModel( );
 		initInnerFields( bo, cwa );
 		
-		// If plot bounds is zero, Do not compute.
-		if ( boPlot.getWidth( ) <= 0 || boPlot.getHeight( ) <= 0 )
+		// If plot bounds is less than zero, Do not compute.
+		if ( boPlot.getWidth( ) < 0 || boPlot.getHeight( ) < 0 )
 		{
 			return;
 		}
