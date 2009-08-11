@@ -422,6 +422,14 @@
 					  <property name="cvs.options" value="" />
 					  <property name="cvsRoot" value="${cvs.root}" />
 			</projectInfo>
+		<projectInfo>
+					<property name="projectName" value="org.eclipse.birt.report.data.bidi.utils.nl" />
+				    <property name="repositoryPath" value="source/nl" />
+					<property name="buildFileName" value="build.xml" />
+					<property name="cvs.options" value="" />
+					<property name="cvsRoot" value="${cvs.root}" />
+		</projectInfo>
+		
 	</projectList>
 	<projectList id="ODA.language.pack.list">
 		<projectInfo>
