@@ -37,6 +37,5 @@ ReportVMServer.ServerShutDown=[サーバ] サーバをシャットダウンしています。
 ReportVMServer.EnterRequestDispatching=[サーバ] リクエストディスパッチングを入力してください。
 ReportVMServer.ReceivedRequest=[サーバ] リクエストを受け付けました: 
 ReportVMServer.SendBackResponse=[サーバ] 応答を返信しました。
-ReportVMServer.ClientDisconnected=[サーバ] クライアントはすでに切断されています。
 ReportVMServer.ServerShuttingDown=[サーバ] サーバをシャットダウンしています。
 ReportVMServer.SendVMEvent=[サーバ]vm イベントを送信しました: 

@@ -37,6 +37,5 @@ ReportVMServer.ServerShutDown=[服务器] 服务器已关闭
 ReportVMServer.EnterRequestDispatching=[服务器] 进入请求调度
 ReportVMServer.ReceivedRequest=[服务器] 接收的请求: 
 ReportVMServer.SendBackResponse=[服务器] 发回响应
-ReportVMServer.ClientDisconnected=[服务器] 客户端已断开连接
 ReportVMServer.ServerShuttingDown=[服务器] 服务器正在关闭
 ReportVMServer.SendVMEvent=[服务器] 发送 vm 事件: 

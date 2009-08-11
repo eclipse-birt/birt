@@ -37,6 +37,5 @@ ReportVMServer.ServerShutDown=[서버] 서버를 종료합니다.
 ReportVMServer.EnterRequestDispatching=[서버]에서 발송 중인 요청을 입력합니다.
 ReportVMServer.ReceivedRequest=[서버]에서 받은 요청: 
 ReportVMServer.SendBackResponse=[서버]에서 응답을 보냅니다.
-ReportVMServer.ClientDisconnected=[서버] 클라이언트 연결이 이미 끊겼습니다.
 ReportVMServer.ServerShuttingDown=[서버] 서버를 종료하고 있습니다.
 ReportVMServer.SendVMEvent=[서버]에서 vm 이벤트 보내기: 

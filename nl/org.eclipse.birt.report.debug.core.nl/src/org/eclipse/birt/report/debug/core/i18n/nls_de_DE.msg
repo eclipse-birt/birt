@@ -37,6 +37,5 @@ ReportVMServer.ServerShutDown=[Server] Server ist heruntergefahren
 ReportVMServer.EnterRequestDispatching=[Server] hat Auftrags-Dispatch eingeleitet
 ReportVMServer.ReceivedRequest=[Server] hat Auftrag erhalten: 
 ReportVMServer.SendBackResponse=[Server] sendet Antwort
-ReportVMServer.ClientDisconnected=[Server] Client-Verbindung bereits getrennt
 ReportVMServer.ServerShuttingDown=[Server] Server wird heruntergefahren
 ReportVMServer.SendVMEvent=[Server] sendet VM-Ereignis: 

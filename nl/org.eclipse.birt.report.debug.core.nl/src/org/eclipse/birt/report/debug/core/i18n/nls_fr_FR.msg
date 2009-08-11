@@ -37,6 +37,5 @@ ReportVMServer.ServerShutDown=Serveur [Serveur] arrêté
 ReportVMServer.EnterRequestDispatching=[Serveur] entre la distribution de la requête
 ReportVMServer.ReceivedRequest=[Serveur] a reçu une requête : 
 ReportVMServer.SendBackResponse=[Serveur] renvoie une réponse
-ReportVMServer.ClientDisconnected=Client [Serveur] déjà déconnecté
 ReportVMServer.ServerShuttingDown=Arrêt du serveur [Serveur] en cours
 ReportVMServer.SendVMEvent=[Serveur] envoie un événement vm : 
