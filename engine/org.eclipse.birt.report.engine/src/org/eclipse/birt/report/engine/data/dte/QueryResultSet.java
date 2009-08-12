@@ -133,7 +133,19 @@ public class QueryResultSet implements IQueryResultSet
 		this.queryDefn = queryDefn;
 		this.rs = ri;
 		this.queryResults = this.rs.getQueryResults( );
-		this.queryResultsID = "S" + queryDefn.getName( ) + queryResults.getID( );
+		int rowid = -1;
+		try
+		{
+			rowid = rs.getRowId( );
+		}
+		catch ( Exception ex )
+		{
+			// dont handle this exception because this works in most cases
+		}
+		StringBuilder sb = new StringBuilder( );
+		sb.append( 'R' ).append( rowid ).append( 'S' ).append(
+				queryDefn.getName( ) ).append( queryResults.getID( ) );
+		this.queryResultsID = sb.toString( );
 		initializeRowIdOfGroups( queryDefn.getGroups( ).size( ) );
 	}
 	
