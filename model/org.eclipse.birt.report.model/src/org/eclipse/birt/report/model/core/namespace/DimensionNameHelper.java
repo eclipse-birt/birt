@@ -46,7 +46,7 @@ public class DimensionNameHelper extends AbstractNameHelper
 	 * @seeorg.eclipse.birt.report.model.core.namespace.AbstractNameHelper#
 	 * getNameSpaceCount()
 	 */
-	int getNameSpaceCount( )
+	protected int getNameSpaceCount( )
 	{
 		return Dimension.NAME_SPACE_COUNT;
 	}

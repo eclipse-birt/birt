@@ -81,7 +81,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * 
 	 * @return count of all the name space
 	 */
-	abstract int getNameSpaceCount( );
+	protected abstract int getNameSpaceCount( );
 
 	/**
 	 * Gets the name context with the given id.

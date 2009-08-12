@@ -682,7 +682,8 @@ class MetaDataHandlerImpl extends XMLParserHandler
 							.substring( index + 1, nsValue.length( ) ) );
 					elementDefn.nameConfig.holderName = holderName;
 					elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
-							.getNameSpaceID( holderName, nameSpace );
+							.getInstance( ).getNameSpaceID( holderName,
+									nameSpace );
 				}
 			}
 			else
@@ -2188,9 +2189,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	 * 
 	 * @throws MetaDataParserException
 	 */
-	
+
 	public void endDocument( ) throws MetaDataParserException
-	{		
+	{
 		// 
 		if ( !errorHandler.getErrors( ).isEmpty( ) )
 		{
