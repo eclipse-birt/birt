@@ -106,3 +106,4 @@ CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=w’è‚µ‚½—ñƒCƒ“ƒfƒbƒ
 CustomPreviewTable.Exception.RowIndexGreaterThan0=sƒCƒ“ƒfƒbƒNƒX‚ÍA0 ‚©‚»‚êˆÈã‚É‚µ‚Ä‚­‚¾‚³‚¢B
 
 
+ExprEditComposite.InvokeExpressionBuilder=Invoke Expression Builder

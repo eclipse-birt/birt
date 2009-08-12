@@ -106,3 +106,4 @@ CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Ungültiger Spalteni
 CustomPreviewTable.Exception.RowIndexGreaterThan0=Zeilenindex muss größer als oder gleich 0 sein\!
 
 
+ExprEditComposite.InvokeExpressionBuilder=Invoke Expression Builder

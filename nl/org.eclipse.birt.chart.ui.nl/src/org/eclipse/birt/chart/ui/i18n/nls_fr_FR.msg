@@ -106,3 +106,4 @@ CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Index de colonne {0
 CustomPreviewTable.Exception.RowIndexGreaterThan0=L'index de ligne doit être supérieur ou égal à 0 \!
 
 
+ExprEditComposite.InvokeExpressionBuilder=Invoke Expression Builder
