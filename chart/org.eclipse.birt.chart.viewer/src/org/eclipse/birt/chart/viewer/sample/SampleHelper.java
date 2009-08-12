@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.viewer.sample;
 
-import org.eclipse.birt.chart.datafeed.DifferenceEntry;
+import org.eclipse.birt.chart.extension.datafeed.DifferenceEntry;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.integrate.SimpleDataRowExpressionEvaluator;
