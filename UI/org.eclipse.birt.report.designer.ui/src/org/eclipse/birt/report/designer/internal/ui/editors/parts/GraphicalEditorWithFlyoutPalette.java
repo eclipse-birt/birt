@@ -16,19 +16,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
-import org.eclipse.birt.report.designer.internal.ui.command.DeleteHandler;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditDomain;
@@ -71,7 +62,6 @@ import org.eclipse.gef.ui.views.palette.PaletteViewerPage;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -83,10 +73,14 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.contexts.IContextActivation;
 import org.eclipse.ui.contexts.IContextService;
+
+import com.ibm.icu.text.MessageFormat;
 
 /**
  * This class serves as a quick starting point for clients who are new to GEF.
@@ -315,8 +309,83 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	protected void createActions( )
 	{
-		addStackAction( new UndoAction( this ) );
-		addStackAction( new RedoAction( this ) );
+		//Fix bug 284633
+		addStackAction( new UndoAction( this ) 
+		{
+			/* (non-Javadoc)
+			 * @see org.eclipse.gef.ui.actions.UndoAction#init()
+			 */
+			protected void init() {
+				super.init();
+				setToolTipText(Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.ToolTip0")); //$NON-NLS-1$
+				setText(Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.Text0")); //$NON-NLS-1$
+				setId(ActionFactory.UNDO.getId());
+
+				ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+				setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
+				setDisabledImageDescriptor(sharedImages.getImageDescriptor(
+						ISharedImages.IMG_TOOL_UNDO_DISABLED));
+			}
+			
+			/* (non-Javadoc)
+			 * @see org.eclipse.gef.ui.actions.UndoAction#refresh()
+			 */
+			protected void refresh() {
+				super.refresh();
+				Command undoCmd = getCommandStack().getUndoCommand();
+				if (getLabelForCommand(undoCmd).length( ) == 0)
+				{
+					setToolTipText(Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.ToolTip0")); //$NON-NLS-1$
+					setText(Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.Text0")); //$NON-NLS-1$
+				}
+				else
+				{
+					setToolTipText(MessageFormat.format(
+							Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.ToolTip1"), //$NON-NLS-1$
+							new Object []{getLabelForCommand(undoCmd)}).trim());
+					setText(MessageFormat.format(
+							Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.Text1"), //$NON-NLS-1$
+							new Object []{getLabelForCommand(undoCmd)}).trim()
+							);
+				}
+			}
+		});
+		addStackAction( new RedoAction( this ) 
+		{
+			protected void init() {
+				super.init();
+				setToolTipText(Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.ToolTip0")); //$NON-NLS-1$
+				setText(Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.Text0")); //$NON-NLS-1$
+				setId(ActionFactory.REDO.getId());
+				
+				ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+				setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO));
+				setDisabledImageDescriptor(sharedImages.getImageDescriptor(
+						ISharedImages.IMG_TOOL_REDO_DISABLED));
+			}
+
+			/**
+			 * Refreshes this action's text to use the last undone command's label.
+			 */
+			protected void refresh() {
+				super.refresh();
+				Command redoCmd = getCommandStack().getRedoCommand();
+				if (getLabelForCommand(redoCmd).length( ) == 0)
+				{
+					setToolTipText(Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.ToolTip0")); //$NON-NLS-1$
+					setText(Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.Text0")); //$NON-NLS-1$
+				}
+				else
+				{
+					setToolTipText(MessageFormat.format(
+							Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.ToolTip1"), //$NON-NLS-1$
+							new Object [] {getLabelForCommand(redoCmd)}).trim());
+					setText(MessageFormat.format(
+							Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.Text1"), //$NON-NLS-1$
+							new Object[]{getLabelForCommand(redoCmd)}).trim());
+				}
+			}
+		});
 		addEditPartAction( new DeleteAction( (IWorkbenchPart) this ) {
 
 			public Command createDeleteCommand( List objects )
