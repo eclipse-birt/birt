@@ -188,6 +188,7 @@ data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} whic
 data.engine.ConvertToDataTypeError={0} 无法转换为 {1}。
 data.engine.NoRowUpdate=此时无法更新数据行。
 data.engine.BadDataType=数据类型不受支持 {0}。
+data.engine.NotSerializableClass=Class {0} is not supported to be serialized.
 data.engine.BadDataExpression=数据表达式不能为空。
 data.engine.aggregation.InvalidBindingExpression=聚合绑定“{0}”的不可接受的表达式。
 data.engine.InvalidExpression=无效表达式“{0}”。

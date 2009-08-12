@@ -188,6 +188,7 @@ data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} whic
 data.engine.ConvertToDataTypeError={0} kann nicht in {1} umgewandelt werden.
 data.engine.NoRowUpdate=Die Datenzeile kann momentan nicht aktualisiert werden.
 data.engine.BadDataType=Datentyp wird nicht unterstützt: {0}.
+data.engine.NotSerializableClass=Class {0} is not supported to be serialized.
 data.engine.BadDataExpression=Der Datenausdruck darf nicht null sein.
 data.engine.aggregation.InvalidBindingExpression=Nicht akzeptabler Ausdruck für Aggregatsbindung "{0}".
 data.engine.InvalidExpression=Ungültiger Ausdruck "{0}".

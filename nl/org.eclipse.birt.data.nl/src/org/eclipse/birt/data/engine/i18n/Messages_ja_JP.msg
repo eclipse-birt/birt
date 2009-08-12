@@ -188,6 +188,7 @@ data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} whic
 data.engine.ConvertToDataTypeError={0} を {1} に変換できません。
 data.engine.NoRowUpdate=現時点はデータ行を更新できません。
 data.engine.BadDataType=このデータ型は使用できません {0}。
+data.engine.NotSerializableClass=Class {0} is not supported to be serialized.
 data.engine.BadDataExpression=データ式は null にすることができません。
 data.engine.aggregation.InvalidBindingExpression=集計バインド "{0}" の式が無効です。
 data.engine.InvalidExpression=式 "{0}" が無効です。
