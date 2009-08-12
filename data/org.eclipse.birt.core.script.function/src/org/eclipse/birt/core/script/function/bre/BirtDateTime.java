@@ -925,7 +925,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 		}
 		long diff = d2.getTime( ) - d1.getTime( );
-		diff += timeZone.getDSTSavings( );
+		
+		if( timeZone.inDaylightTime( d1 ) )
+			diff -= timeZone.getDSTSavings( );
+		if( timeZone.inDaylightTime( d2 ) )
+			diff += timeZone.getDSTSavings( );
 		
 		return ( new Long( diff / 1000 ) ).longValue( );
 	}
