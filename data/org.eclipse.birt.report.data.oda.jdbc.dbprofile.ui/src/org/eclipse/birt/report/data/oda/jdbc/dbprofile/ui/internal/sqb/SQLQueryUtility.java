@@ -18,12 +18,14 @@ import java.util.Properties;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Connection;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.DBProfileStatement;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver;
+import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
@@ -32,7 +34,10 @@ import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
+import org.eclipse.datatools.connectivity.oda.design.ResultSetCriteria;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
+import org.eclipse.datatools.connectivity.oda.design.SortDirectionType;
+import org.eclipse.datatools.connectivity.oda.design.SortKey;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.modelbase.sql.datatypes.CharacterStringDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.DataType;
@@ -40,7 +45,17 @@ import org.eclipse.datatools.modelbase.sql.datatypes.ExactNumericDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.NumericalDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.PredefinedDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.PrimitiveType;
+import org.eclipse.datatools.modelbase.sql.query.NullOrderingType;
+import org.eclipse.datatools.modelbase.sql.query.OrderByOrdinal;
+import org.eclipse.datatools.modelbase.sql.query.OrderByResultColumn;
+import org.eclipse.datatools.modelbase.sql.query.OrderBySpecification;
+import org.eclipse.datatools.modelbase.sql.query.OrderByValueExpression;
+import org.eclipse.datatools.modelbase.sql.query.OrderingSpecType;
+import org.eclipse.datatools.modelbase.sql.query.QuerySelectStatement;
 import org.eclipse.datatools.modelbase.sql.query.QueryStatement;
+import org.eclipse.datatools.modelbase.sql.query.QueryValueExpression;
+import org.eclipse.datatools.modelbase.sql.query.ResultColumn;
+import org.eclipse.datatools.modelbase.sql.query.ValueExpressionColumn;
 import org.eclipse.datatools.modelbase.sql.query.ValueExpressionVariable;
 import org.eclipse.datatools.modelbase.sql.query.helper.DataTypeHelper;
 import org.eclipse.datatools.modelbase.sql.query.helper.StatementHelper;
@@ -60,6 +75,7 @@ public class SQLQueryUtility
 	private static final String CONST_PARAMS_DELIMITER = DBProfileStatement.CONST_PARAMS_DELIMITER;
 	private static final String CONST_PARAM_NAME_DELIMITER = DBProfileStatement.CONST_PARAM_NAME_DELIMITER;
 
+	private static final String CLASS_NAME = SQLQueryUtility.class.getName();
 
     static void updateDataSetDesign( DataSetDesign dataSetDesign, 
             final QueryStatement queryStmt, IConnectionProfile connProfile, String dataSetName )
@@ -149,7 +165,7 @@ public class SQLQueryUtility
         try
         {
             IResultSetMetaData md = query.getMetaData();
-            updateResultSetDesign( md, dataSetDesign );
+            updateResultSetDesign( dataSetDesign, md, queryStmt );
         }
         catch( OdaException e )
         {
@@ -197,14 +213,15 @@ public class SQLQueryUtility
     private static void convertNamedVariablesToMarkers( QueryStatement queryStmt )
     {
         // get all the parameters defined in query
-        List paramVars = StatementHelper.getAllVariablesInQueryStatement( queryStmt, false, null ); 
+        List<ValueExpressionVariable> paramVars = 
+            StatementHelper.getAllVariablesInQueryStatement( queryStmt, false, null ); 
         if( paramVars.isEmpty() )
             return;     // done
         
-        Iterator paramVarsIter = paramVars.iterator(); 
+        Iterator<ValueExpressionVariable> paramVarsIter = paramVars.iterator(); 
         while( paramVarsIter.hasNext() ) 
         { 
-            ValueExpressionVariable var = (ValueExpressionVariable) paramVarsIter.next();
+            ValueExpressionVariable var = paramVarsIter.next();
             
             // setting the variable's name field to null turns it into a parameter marker-type variable
             if( var.getName() != null )
@@ -232,8 +249,8 @@ public class SQLQueryUtility
      * @param dataSetDesign     data set design instance to update
      * @throws OdaException
      */
-    private static void updateResultSetDesign( IResultSetMetaData md,
-            DataSetDesign dataSetDesign ) 
+    private static void updateResultSetDesign( DataSetDesign dataSetDesign, 
+            IResultSetMetaData md, final QueryStatement queryStmt ) 
         throws OdaException
     {
         ResultSetColumns columns = DesignSessionUtil.toResultSetColumnsDesign( md );
@@ -246,6 +263,133 @@ public class SQLQueryUtility
         // no exception in conversion; go ahead and assign to specified dataSetDesign
         dataSetDesign.setPrimaryResultSet( resultSetDefn );
         dataSetDesign.getResultSets().setDerivedMetaData( true );
+
+        try
+        {
+            updateResultSetCriteria( resultSetDefn, queryStmt );
+        }
+        catch( OdaException ex )
+        {
+            // TODO log warning and ignore
+        }
+    }
+    
+    private static void updateResultSetCriteria( ResultSetDefinition resultSetDefn, 
+            final QueryStatement queryStmt )
+        throws OdaException
+    {
+        if( ! (queryStmt instanceof QuerySelectStatement) )
+            throw new OdaException( new IllegalStateException(  // internal error; not likely to occur; do not localize
+                    Messages.bind( "Invalid QuerySelectStatement argument in {0}#updateResultSetCriteria", //$NON-NLS-1$
+                            CLASS_NAME )));
+        
+        ResultSetCriteria criteria = DesignFactory.eINSTANCE.createResultSetCriteria();
+        criteria.setRowOrdering( DesignFactory.eINSTANCE.createSortSpecification() );
+
+        // no push-up of filter spec
+        
+        // include sort key hints, if query has an OrderBy clause
+        List<OrderBySpecification> orderBySpecList = ((QuerySelectStatement) queryStmt).getOrderByClause();
+        if( ! orderBySpecList.isEmpty() ) 
+        {
+            for( Iterator<OrderBySpecification> iter = orderBySpecList.iterator(); iter.hasNext(); )
+            {
+                OrderBySpecification orderBySpec = iter.next();
+                criteria.addRowSortKey( convertToSortKeyDesignHint( orderBySpec, resultSetDefn ) );
+            } 
+        }
+        // else assigns an empty collection of sort keys
+
+        // gets here with no exception, ok to assign criteria to the result set design;
+        // otherwise, result set criteria is not set so ODA host can preserve its version
+        resultSetDefn.setCriteria( criteria );
+    }
+    
+    private static SortKey convertToSortKeyDesignHint( OrderBySpecification orderBySpec, 
+            final ResultSetDefinition resultSetDefn )
+        throws OdaException
+    {
+        if( orderBySpec == null )
+            return null;
+        
+        SortKey sortKeyHint = DesignFactory.eINSTANCE.createSortKey();
+        sortKeyHint.setOptional( false );   // order by sort spec embedded in SQL query text is required
+        
+        if( orderBySpec instanceof OrderByOrdinal )
+        {
+            int ordinalValue = ((OrderByOrdinal)orderBySpec).getOrdinalValue();
+            sortKeyHint.setColumnPosition( ordinalValue );
+
+            String sortColumnName = resolveResultColumnOrdinal( ordinalValue, resultSetDefn );
+            sortKeyHint.setColumnName( sortColumnName );
+       }
+        else if( orderBySpec instanceof OrderByResultColumn )
+        {
+            ResultColumn sortColumn = ((OrderByResultColumn)orderBySpec).getResultCol();
+            String sortColumnName = getColumnReferenceName( sortColumn );
+            sortKeyHint.setColumnName( sortColumnName );
+        }
+        else if( orderBySpec instanceof OrderByValueExpression )
+        {
+            QueryValueExpression valueExpr = ((OrderByValueExpression)orderBySpec).getValueExpr();
+            if( valueExpr != null )
+            {
+                String columnExpr = getColumnReferenceName( valueExpr );
+                sortKeyHint.setColumnName( columnExpr );
+            }
+        }
+        else 
+            throw new OdaException( new IllegalStateException( // internal error; not likely to occur; do not localize
+                    Messages.bind( "Invalid OrderBySpecification in parsed SQL query model: {0}", //$NON-NLS-1$
+                            orderBySpec )));
+        
+        int orderingType = orderBySpec.getOrderingSpecOption().getValue();
+        if( orderingType == OrderingSpecType.ASC )
+            sortKeyHint.setSortDirection( SortDirectionType.ASCENDING );
+        else if( orderingType == OrderingSpecType.DESC )
+            sortKeyHint.setSortDirection( SortDirectionType.DESCENDING );
+
+        int nullOrderingType = orderBySpec.getNullOrderingOption().getValue();
+        if( nullOrderingType == NullOrderingType.NULLS_FIRST )
+            sortKeyHint.setNullValueOrdering( org.eclipse.datatools.connectivity.oda.design.NullOrderingType.NULLS_FIRST );
+        else if( nullOrderingType == NullOrderingType.NULLS_LAST )
+            sortKeyHint.setNullValueOrdering( org.eclipse.datatools.connectivity.oda.design.NullOrderingType.NULLS_LAST );
+
+        return sortKeyHint;
+    }
+    
+    private static String getColumnReferenceName( ResultColumn resultColumn )
+    {
+        if( resultColumn == null )
+            return null;
+
+        String columnName = resultColumn.getName();   // column alias
+        if( columnName == null )
+            columnName = getColumnReferenceName( resultColumn.getValueExpr() );    
+        return columnName;
+    }
+    
+    private static String getColumnReferenceName( QueryValueExpression valueExpr )
+    {
+        if( valueExpr == null )
+            return null;
+        if( valueExpr instanceof ValueExpressionColumn )
+            return valueExpr.getName();     // use the non-qualified name to match the name returned by IResultSetMetaData
+        return valueExpr.getSQL();
+    }
+    
+    // Returns the column name of the specified ordinal value.
+    private static String resolveResultColumnOrdinal( int ordinal, final ResultSetDefinition resultSetDefn )
+        throws OdaException
+    {        
+        if( ordinal <= 0 ||     // expects 1-based ordinal value
+                ordinal > resultSetDefn.getResultSetColumns().getResultColumnDefinitions().size() )  
+            return EMPTY_STRING;
+        
+        ColumnDefinition columnDefn =
+            resultSetDefn.getResultSetColumns().getResultColumnDefinitions().get( ordinal - 1 );   // 0-based index vs 1-based ordinal
+        return ( columnDefn != null && columnDefn.getAttributes().getPosition() == ordinal ) ? 
+                columnDefn.getAttributes().getName() : EMPTY_STRING;
     }
     
     private static void updateParameterDesign( DataSetDesign dataSetDesign, final QueryStatement queryStmt )
@@ -256,7 +400,7 @@ public class SQLQueryUtility
         // get all parameters, both in named variable or position markers, if exist;
         // the list returned are sorted by their lexical order;
         // do not convert parameter marker(s) to named variables
-        List paramVars = StatementHelper.getAllVariablesInQueryStatement( queryStmt, false ); 
+        List<ValueExpressionVariable> paramVars = StatementHelper.getAllVariablesInQueryStatement( queryStmt, false ); 
         if( paramVars.isEmpty() )
         {
             dataSetDesign.setParameters( null );
@@ -274,13 +418,13 @@ public class SQLQueryUtility
         dataSetDesign.setParameters( dataSetParams );        
 
         // iterate thru each parameter variable model and extract its metadata to corresponding ODA parameter design
-        Iterator paramVarsIter = paramVars.iterator(); 
+        Iterator<ValueExpressionVariable> paramVarsIter = paramVars.iterator(); 
         int index = 0;
 		StringBuffer paramMdPropBuf = new StringBuffer( );
 
         while ( paramVarsIter.hasNext( ) )
 		{
-			ValueExpressionVariable var = (ValueExpressionVariable) paramVarsIter.next( );
+			ValueExpressionVariable var = paramVarsIter.next( );
 			index++;
 
 			ParameterDefinition paramDefn = DesignFactory.eINSTANCE.createParameterDefinition( );
