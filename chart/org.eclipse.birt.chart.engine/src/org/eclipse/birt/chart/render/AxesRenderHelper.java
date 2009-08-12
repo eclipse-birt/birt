@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.render;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.Engine3D;
@@ -21,6 +22,8 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.Point;
+import org.eclipse.birt.chart.computation.RotatedRectangle;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.AllAxes;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
@@ -43,6 +46,7 @@ import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
+import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
@@ -847,6 +851,8 @@ public final class AxesRenderHelper
 					}
 				}
 
+				addAxisLabelIA( x, y );
+
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_AXIS_LABEL,
 						axModel,
@@ -860,6 +866,50 @@ public final class AxesRenderHelper
 		}
 
 		computation.close( );
+	}
+
+	private void addAxisLabelIA( double x, double y ) throws ChartException
+	{
+		if ( renderer.isInteractivityEnabled( ) )
+		{
+			EList<Trigger> elTriggers = ax.getModelAxis( ).getTriggers( );
+			Location[] loaHotspot = new Location[4];
+
+			RotatedRectangle rr = cComp.computePolygon( xs,
+					iLabelLocation,
+					la,
+					x,
+					y,
+					null );
+
+			List<Point> pts = rr.getPoints( );
+			for ( int k = 0; k < 4; k++ )
+			{
+				Point pt = pts.get( k );
+				loaHotspot[k] = goFactory.createLocation( pt.getX( ), pt.getY( ) );
+			}
+
+			StructureSource iSource = WrappedStructureSource.createAxisLabel( ax.getModelAxis( ),
+					la );
+
+			final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( iSource,
+					InteractionEvent.class );
+			iev.setCursor( ax.getModelAxis( ).getCursor( ) );
+
+			for ( int t = 0; t < elTriggers.size( ); t++ )
+			{
+				Trigger tg = goFactory.copyOf( elTriggers.get( t ) );
+				processTrigger( tg, iSource );
+				iev.addTrigger( tg );
+			}
+
+			final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( iSource,
+					PolygonRenderEvent.class );
+			pre.setPoints( loaHotspot );
+			iev.setHotSpot( pre );
+			ipr.enableInteraction( iev );
+		}
+
 	}
 
 	void renderHorizontalAxisByType( ComputationContext context, double dXEnd,
@@ -1091,6 +1141,9 @@ public final class AxesRenderHelper
 						ipr.drawText( tre );
 					}
 				}
+
+				addAxisLabelIA( x, y );
+
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_AXIS_LABEL,
 						axModel,

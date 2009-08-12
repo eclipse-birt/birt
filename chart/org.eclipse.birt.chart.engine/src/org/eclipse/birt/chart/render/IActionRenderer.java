@@ -28,6 +28,8 @@ public interface IActionRenderer
 
 	String LEGEND_ITEM_VALUE = "legendItemValue";//$NON-NLS-1$
 
+	String AXIS_LABEL = "axisLabel"; //$NON-NLS-1$
+
 	/**
 	 * Process the action with given source object.
 	 * 

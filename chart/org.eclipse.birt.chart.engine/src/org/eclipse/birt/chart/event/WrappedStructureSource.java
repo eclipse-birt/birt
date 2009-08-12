@@ -150,7 +150,7 @@ public class WrappedStructureSource extends StructureSource
 	{
 		return new WrappedStructureSource( ax,
 				StructureType.AXIS,
-				lb,
+				lb.getCaption( ).getValue( ),
 				StructureType.AXIS_LABEL );
 	}
 

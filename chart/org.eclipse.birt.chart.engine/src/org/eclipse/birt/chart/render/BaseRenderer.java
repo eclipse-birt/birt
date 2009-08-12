@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
@@ -83,6 +84,7 @@ import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -2478,6 +2480,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		return dX;
 	}
 
+	private final Pattern ptnAxisLabel = Pattern.compile( IActionRenderer.AXIS_LABEL );
+
 	/**
 	 * post-process the triggers.
 	 * 
@@ -2529,6 +2533,17 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				// BUILD URI
 				assembleURLs( tg, dph );
+			}
+		}
+		else if ( StructureType.AXIS_LABEL.equals( source.getType( ) ) )
+		{
+			if ( tg.getAction( ).getType( ) == ActionType.INVOKE_SCRIPT_LITERAL )
+			{
+				String alValue = '\"' + (String) source.getSource( ) + '\"';
+				ScriptValue scriptValue = (ScriptValue) tg.getAction( )
+						.getValue( );
+				scriptValue.setScript( ptnAxisLabel.matcher( scriptValue.getScript( ) )
+						.replaceAll( alValue ) );
 			}
 		}
 	}
