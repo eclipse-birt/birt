@@ -111,17 +111,21 @@ class ParseStateFactoryImpl
 		ElementDefn tagElementDefn = (ElementDefn) MetaDataDictionary
 				.getInstance( ).getElementByXmlName( tagName );
 
+		AbstractParseState state = null;
+
 		if ( tagName.equalsIgnoreCase( ( (ElementDefn) allowedElementDefn )
-				.getXmlName( ) )
-				|| ( tagElementDefn != null && tagElementDefn
-						.isKindOf( allowedElementDefn ) ) )
+				.getXmlName( ) ) )
 		{
-			AbstractParseState state = createParseState( elementName, handler,
-					container, propName );
-			if ( state != null )
-				return state;
+			state = createParseState( elementName, handler, container, propName );
 		}
-		return null;
+		else if ( tagElementDefn != null
+				&& tagElementDefn.isKindOf( allowedElementDefn ) )
+		{
+			state = createParseState( tagElementDefn.getName( ), handler,
+					container, propName );
+		}
+
+		return state;
 	}
 
 	protected AbstractParseState createParseState( String elementName,
