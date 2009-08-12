@@ -34,10 +34,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.eclipse.birt.chart.datafeed.StockEntry;
-import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
+import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.extension.datafeed.StockEntry;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;

@@ -8,7 +8,7 @@
 
 package org.eclipse.birt.report.tests.chart.interactivity;
 
-import org.eclipse.birt.chart.datafeed.StockEntry;
+import org.eclipse.birt.chart.extension.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
