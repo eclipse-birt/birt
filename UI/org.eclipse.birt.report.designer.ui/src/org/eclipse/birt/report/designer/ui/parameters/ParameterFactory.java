@@ -17,13 +17,14 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.core.runtime.Platform;
 
 /**
  * Parameter factory which can create Parameter and Parameter Group see
@@ -37,7 +38,7 @@ public class ParameterFactory
 	private static final String TEXT_BOX = DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX;
 
 	private static final String LIST_BOX = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
-	
+
 	private static final String CHECK_BOX = DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX;
 
 	private IGetParameterDefinitionTask task;
@@ -51,17 +52,19 @@ public class ParameterFactory
 	{
 		this.task = task;
 	}
+
 	public List getRootChildren( )
 	{
 		return getRootChildren( true );
 	}
+
 	/**
 	 * Gets children of root.
 	 * 
 	 * @param task
 	 * @return children of root.
 	 */
-	public List getRootChildren(boolean includeHidden )
+	public List getRootChildren( boolean includeHidden )
 	{
 		IReportRunnable runnable = task.getReportRunnable( );
 		if ( runnable == null )
@@ -74,7 +77,8 @@ public class ParameterFactory
 		assert designHandle.getRoot( ) != null;
 
 		List parameters = designHandle.getRoot( )
-				.getParametersAndParameterGroups( );
+				.getParameters( )
+				.getContents( );
 		Iterator iterator = parameters.iterator( );
 
 		// The design handle of root is null.
@@ -88,24 +92,11 @@ public class ParameterFactory
 			{
 				// build parameter
 				ScalarParameterHandle temp = (ScalarParameterHandle) handle;
-				if (includeHidden || !temp.isHidden( ))
+				if ( includeHidden || !temp.isHidden( ) )
 				{
 					IParameter param = createScalarParameter( temp );
 					childrenList.add( param );
 				}
-			}
-			else if ( handle instanceof ParameterHandle )
-			{
-				// Now do nothing.
-			}
-			else if ( handle instanceof CascadingParameterGroupHandle )
-			{
-				// build cascading parameter
-				ParameterGroupHandle groupHandle = (ParameterGroupHandle) handle;
-				IParameterGroup group = new CascadingParameterGroup( groupHandle );
-				childrenList.add( group );
-
-				createParameterGroup( group, groupHandle, includeHidden );
 			}
 			else if ( handle instanceof ParameterGroupHandle )
 			{
@@ -115,6 +106,16 @@ public class ParameterFactory
 				childrenList.add( group );
 
 				createParameterGroup( group, groupHandle, includeHidden );
+			}
+			else if ( handle instanceof AbstractScalarParameterHandle )
+			{
+				Object adapter = Platform.getAdapterManager( ).getAdapter( handle, IParameterAdapter.class );
+				if ( adapter != null )
+				{
+					( (IParameterAdapter) adapter ).setHandle( (AbstractScalarParameterHandle) handle );
+					( (IParameterAdapter) adapter ).setParameterDefinitionTask( task );
+					childrenList.add( adapter );
+				}
 			}
 		}
 
@@ -143,7 +144,7 @@ public class ParameterFactory
 		while ( iterator.hasNext( ) )
 		{
 			ParameterHandle handle = (ParameterHandle) iterator.next( );
-			if (includeHidden || !handle.isHidden( ))
+			if ( includeHidden || !handle.isHidden( ) )
 			{
 				createParameter( group, handle );
 			}

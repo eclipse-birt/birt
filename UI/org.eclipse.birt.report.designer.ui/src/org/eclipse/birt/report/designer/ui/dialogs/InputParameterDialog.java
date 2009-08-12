@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.parameters.AbstractParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.ComboBoxParameter;
+import org.eclipse.birt.report.designer.ui.parameters.IParameterAdapter;
 import org.eclipse.birt.report.designer.ui.parameters.ListingParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.parameters.RadioParameter;
@@ -69,6 +70,8 @@ public class InputParameterDialog extends Dialog
 
 	private List params;
 	private Map paramValues = new HashMap( );
+	private List<IParameterAdapter> paramAdatpers = new ArrayList( );
+	private Map dynamicParamValues = new HashMap( );
 	private List isRequiredParameters = new ArrayList( );
 	private List dataTypeCheckList = new ArrayList( );
 
@@ -110,54 +113,53 @@ public class InputParameterDialog extends Dialog
 			this.paramValues.putAll( paramValues );
 		}
 	}
-
-	protected void buttonPressed( int buttonId )
+	
+	@Override
+	protected void okPressed( )
 	{
-		if ( buttonId == Window.OK )
+		Iterator itr = isRequiredParameters.iterator( );
+		
+		Map paramValues = getParameters( );
+		
+		while ( itr.hasNext( ) )
 		{
-			Iterator itr = isRequiredParameters.iterator( );
+			String paramName = (String) itr.next( );
+			Object paramValue = paramValues.get( paramName );
 
-			while ( itr.hasNext( ) )
+			if ( paramValue == null
+					|| ( paramValue instanceof String && ( (String) paramValue ).trim( )
+							.length( ) == 0 )
+					|| ( paramValue instanceof Object[] && ( (Object[]) paramValue ).length == 0 ) )
 			{
-				String paramName = (String) itr.next( );
-				Object paramValue = paramValues.get( paramName );
-
-				if ( paramValue == null
-						|| ( paramValue instanceof String && ( (String) paramValue ).trim( )
-								.length( ) == 0 )
-						|| ( paramValue instanceof Object[] && ( (Object[]) paramValue ).length == 0 ) )
-				{
-					MessageDialog.openError( getShell( ),
-							"Error", Messages.getFormattedString( "InputParameterDialog.err.requiredParam", new String[]{paramName} ) ); //$NON-NLS-1$ //$NON-NLS-2$
-					return;
-				}
-			}
-
-			itr = dataTypeCheckList.iterator( );
-			while ( itr.hasNext( ) )
-			{
-				ScalarParameter scalarParameter = (ScalarParameter) itr.next( );
-				String paramValue = (String) paramValues.get( scalarParameter.getHandle( )
-						.getName( ) );
-				try
-				{
-					paramValues.put( scalarParameter.getHandle( ).getName( ),
-							scalarParameter.converToDataType( paramValue ) );
-				}
-				catch ( BirtException e )
-				{
-					MessageDialog.openError( getShell( ), "Invalid value type", //$NON-NLS-1$
-							"The value \"" //$NON-NLS-1$
-									+ paramValue
-									+ "\" is invalid with type " //$NON-NLS-1$
-									+ scalarParameter.getHandle( )
-											.getDataType( ) );
-					return;
-				}
+				MessageDialog.openError( getShell( ),
+						"Error", Messages.getFormattedString( "InputParameterDialog.err.requiredParam", new String[]{paramName} ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				return;
 			}
 		}
 
-		super.buttonPressed( buttonId );
+		itr = dataTypeCheckList.iterator( );
+		while ( itr.hasNext( ) )
+		{
+			ScalarParameter scalarParameter = (ScalarParameter) itr.next( );
+			String paramValue = (String) paramValues.get( scalarParameter.getHandle( )
+					.getName( ) );
+			try
+			{
+				paramValues.put( scalarParameter.getHandle( ).getName( ),
+						scalarParameter.converToDataType( paramValue ) );
+			}
+			catch ( BirtException e )
+			{
+				MessageDialog.openError( getShell( ), "Invalid value type", //$NON-NLS-1$
+						"The value \"" //$NON-NLS-1$
+								+ paramValue
+								+ "\" is invalid with type " //$NON-NLS-1$
+								+ scalarParameter.getHandle( )
+										.getDataType( ) );
+				return;
+			}
+		}
+		super.okPressed( );
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -179,9 +181,7 @@ public class InputParameterDialog extends Dialog
 		scrollPane.setExpandHorizontal( true );
 		scrollPane.setExpandVertical( true );
 
-		scrollPane.setLayoutData( new GridData( GridData.FILL_BOTH
-				| GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL ) );
+		scrollPane.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		createParameters( );
 		performed = true;
@@ -215,11 +215,22 @@ public class InputParameterDialog extends Dialog
 		while ( iterator.hasNext( ) )
 		{
 			Object obj = iterator.next( );
-			if ( obj instanceof ScalarParameter
-					&& !( (ScalarParameter) obj ).getHandle( ).isHidden( ) )
+			if ( ( obj instanceof ScalarParameter && !( (ScalarParameter) obj ).getHandle( )
+					.isHidden( ) )
+					|| ( obj instanceof ScalarParameter && !( (ScalarParameter) obj ).getHandle( )
+							.isHidden( ) ) )
 			{
 				ScalarParameter param = (ScalarParameter) obj;
 				createParamSection( param, parent );
+			}
+			else if ( obj instanceof IParameterAdapter )
+			{
+				( (IParameterAdapter) obj ).createControl( parent );
+				if ( ( (IParameterAdapter) obj ).getHandle( ).isRequired( ) )
+				{
+					isRequiredParameters.add( ( (IParameterAdapter) obj ).getName( ) );
+				}
+				paramAdatpers.add( (IParameterAdapter) obj );
 			}
 			else if ( obj instanceof AbstractParameterGroup )
 			{
@@ -260,7 +271,8 @@ public class InputParameterDialog extends Dialog
 		container.setLayout( layout );
 
 		Label label = new Label( container, SWT.NONE );
-		label.setText( param.getHandle( ).getDisplayLabel( ) + ( isRequired ? ": *" : ":" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		label.setText( param.getHandle( ).getDisplayLabel( )
+				+ ( isRequired ? ": *" : ":" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if ( param instanceof StaticTextParameter )
 		{
@@ -760,6 +772,8 @@ public class InputParameterDialog extends Dialog
 
 	public Map getParameters( )
 	{
+		for ( IParameterAdapter adapter : this.paramAdatpers )
+			this.paramValues.put( adapter.getName( ), adapter.getValue( ) );
 		return this.paramValues;
 	}
 }
