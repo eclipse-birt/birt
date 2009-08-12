@@ -1209,8 +1209,13 @@
 				<patternset refid="chart.runtime.jars" />
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
 			</fileset>
+			<fileset dir="${baseLocation}/plugins">
+				<include name="org.eclipse.emf.common_*.jar" />
+				<include name="org.eclipse.emf.ecore_*.jar"/>
+				<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
+			</fileset>
 			<fileset dir="${template.dir}/chart.runtime.libs">
-				<include name="*.*" />
+				<include name="*.resources.jar" />
 			</fileset>
 			<fileset dir="${template.dir}/chart.runtime.files">
 				<include name="*.*" />
