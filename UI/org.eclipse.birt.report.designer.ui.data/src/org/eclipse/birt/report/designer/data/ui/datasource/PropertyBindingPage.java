@@ -17,26 +17,22 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButtonProvider;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
-import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -174,7 +170,9 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 						+ "("+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //'.' char will interrupt help system
 						+ "_ID");
 			}
-			createExpressionButton( composite, propertyText, (String) bindingName.get( i ) );			
+			createExpressionButton( composite,
+					propertyText,
+					(String) bindingName.get( i ) );
 
 		}
 		if ( size <= 0 )
@@ -182,75 +180,29 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		return composite;
 	}
 
-	private void createExpressionButton( Composite composite, final Text property, String propName )
+	private void createExpressionButton( Composite composite,
+			final Text property, String propName )
 	{
-		ExpressionButton exprButton = UIUtil.createExpressionButton( composite, SWT.PUSH );
-		if ( handle == null )
+		ExpressionButton exprButton = ExpressionButtonUtil.createExpressionButton( composite,
+				property,
+				new ExpressionProvider( handle ),
+				true,
+				SWT.PUSH );
+
+		if ( PASSWORD.equals( propName ) )
 		{
-			handle = DesignElementFactory.getInstance( getModuleHandle( ) )
-					.newOdaDataSet( null );
+			exprButton.setExpressionButtonProvider( new ExprButtonProvider( true,
+					property ) );
 		}
-		
-		IExpressionHelper helper = new IExpressionHelper( ) {
 
-			public String getExpression( )
-			{
-				if ( property != null )
-					return property.getText( );
-				else
-					return "";
-			}
-
-			public void setExpression( String expression )
-			{
-				if ( property != null )
-					property.setText( expression );
-			}
-
-			public void notifyExpressionChangeEvent( String oldExpression,
-					String newExpression )
-			{
-
-			}
-
-			public IExpressionProvider getExpressionProvider( )
-			{
-				return new ExpressionProvider( handle );
-			}
-
-			public String getExpressionType( )
-			{
-				return (String) property.getData( DataUIConstants.EXPR_TYPE );
-			}
-
-			public void setExpressionType( String exprType )
-			{
-				property.setData( DataUIConstants.EXPR_TYPE, exprType );
-			}
-
-		};
-		helper.setExpressionType( UIUtil.getDefaultScriptType( ) );
-		exprButton.setExpressionHelper( helper );
-		
-		if( PASSWORD.equals( propName ) )
-		{
-			exprButton.setExpressionButtonProvider( new ExprButtonProvider( true, property ) );
-		}
-		
 		Expression expr = handle.getPropertyBindingExpression( propName );
-		property.setData( DataUIConstants.EXPR_BUTTON, exprButton );
+		property.setData( ExpressionButtonUtil.EXPR_TYPE, expr == null
+				|| expr.getType( ) == null ? UIUtil.getDefaultScriptType( )
+				: (String) expr.getType( ) );
 		
-		property.setText( ( expr == null
-				|| expr.getStringExpression( ) == null) ? ""
-				: expr.getStringExpression( ) );
-		
-		if ( expr != null )
-			property.setData( DataUIConstants.EXPR_TYPE, expr.getType( ) );
-
-		exprButton = (ExpressionButton) property.getData( DataUIConstants.EXPR_BUTTON );
-		if ( exprButton != null )
-			exprButton.refresh( );
-
+		property.setText( ( expr == null || expr.getStringExpression( ) == null )
+				? "" : expr.getStringExpression( ) );
+		exprButton.refresh( );
 	}
 
 	/**
@@ -408,11 +360,6 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	public String getToolTip( )
 	{
 		return Messages.getString( "PropertyBindingPage.property.tooltip" ); //$NON-NLS-1$
-	}
-	
-	private ModuleHandle getModuleHandle( )
-	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 	}
 	
 	private class ExprButtonProvider extends ExpressionButtonProvider 
