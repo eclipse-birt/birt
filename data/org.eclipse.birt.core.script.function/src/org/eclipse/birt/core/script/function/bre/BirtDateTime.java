@@ -926,9 +926,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		}
 		long diff = d2.getTime( ) - d1.getTime( );
 		
-		if( timeZone.inDaylightTime( d1 ) )
+		if( timeZone != null && timeZone.inDaylightTime( d1 ) )
 			diff -= timeZone.getDSTSavings( );
-		if( timeZone.inDaylightTime( d2 ) )
+		if( timeZone != null && timeZone.inDaylightTime( d2 ) )
 			diff += timeZone.getDSTSavings( );
 		
 		return ( new Long( diff / 1000 ) ).longValue( );
@@ -1314,6 +1314,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 			
 			timeZone = (TimeZone) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );
+		}
+		if( timeZone == null )
+		{
+			timeZone = TimeZone.getDefault( );
 		}
 		return this.executor.execute( arguments, context );
 	}
