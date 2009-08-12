@@ -819,6 +819,9 @@ public class DataSetBasePage extends WizardPage
 			{
 				dataSetHandle = createDataSetODAV2( );
 			}
+			
+			if ( nameEditor != null && !nameEditor.isDisposed( ) )
+				dataSetHandle.setName( nameEditor.getText( ) );
 
 			return dataSetHandle;
 		}
