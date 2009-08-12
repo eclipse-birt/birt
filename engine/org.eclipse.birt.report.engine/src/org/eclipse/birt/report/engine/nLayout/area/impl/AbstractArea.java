@@ -71,6 +71,7 @@ public abstract class AbstractArea implements IArea
 		this.scale = area.getScale( );
 		this.width = area.getWidth( );
 		this.height = area.getHeight( );
+		this.isDummy = area.isDummy;
 	}
 
 	public ContainerArea getParent( )

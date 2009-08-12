@@ -140,7 +140,7 @@ public class FixedLayoutPageHintGenerator
 						.getInstanceID( ).toUniqueString( ) );
 			}
 			ContainerArea container = (ContainerArea) area;
-			if ( container.content != null && !container.isDummy)
+			if ( container.content != null && !container.isDummy )
 			{
 				start( container );
 			}

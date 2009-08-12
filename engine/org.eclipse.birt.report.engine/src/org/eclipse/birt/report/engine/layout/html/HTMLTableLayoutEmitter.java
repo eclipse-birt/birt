@@ -17,6 +17,8 @@ import java.util.Stack;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -560,6 +562,15 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			boolean isHidden = LayoutUtil.isHidden( row, emitter
 					.getOutputFormat( ), context.getOutputDisplayNone( ) );
 			
+			// For fixed layout reports and in run task, we need to emit the
+			// invisible content to PDF layout engine.
+			if ( context.isFixedLayout( )
+					&& (Integer) context.getLayoutEngine( ).getOption(
+							EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN )
+			{
+				isHidden = false;
+			}
+			
 			if ( !isNestTable( ) )
 			{
 				int rowId = row.getRowID( );
@@ -629,6 +640,15 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			
 			boolean isHidden = LayoutUtil.isHidden( row, emitter
 					.getOutputFormat( ), context.getOutputDisplayNone( ) );
+			
+			// For fixed layout reports and in run task, we need to emit the
+			// invisible content to PDF layout engine.
+			if ( context.isFixedLayout( )
+					&& (Integer) context.getLayoutEngine( ).getOption(
+							EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN )
+			{
+				isHidden = false;
+			}
 			if(!isHidden)
 			{
 				emitter.endRow( row );

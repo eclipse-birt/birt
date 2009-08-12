@@ -219,6 +219,7 @@ public class TableArea extends RepeatableArea
 		style.setProperty( IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE );
 		captionLabel.setInlineStyle( style );
 		RowArea captionRow = new RowArea( this, context, row );
+		captionRow.isDummy = true;
 		captionRow.setParent( this );
 		captionRow.setWidth( width );
 		captionRow.initialize( );
@@ -226,10 +227,12 @@ public class TableArea extends RepeatableArea
 		captionCell.setWidth( width );
 		captionCell.setMaxAvaWidth( width );
 		captionCell.initialize( );
+		captionCell.isDummy = true;
 		captionRow.children.add( captionCell );
-		ILayout layout = new BlockTextArea( captionCell, context, captionLabel );
-		layout.layout( );
-		int h = ( (BlockContainerArea) layout ).getAllocatedHeight( );
+		BlockTextArea captionText = new BlockTextArea( captionCell, context, captionLabel );
+		captionText.isDummy = true;
+		captionText.layout( );
+		int h = captionText.getAllocatedHeight( );
 		captionCell.setContentHeight( h );
 		captionRow.setHeight( captionCell.getAllocatedHeight( ) );
 		captionRow.finished = true;
