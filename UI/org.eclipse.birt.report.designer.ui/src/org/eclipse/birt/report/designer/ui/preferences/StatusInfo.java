@@ -26,6 +26,7 @@ public class StatusInfo implements IStatus
 
 	private String fStatusMessage;
 	private int fSeverity;
+	private String fPluginID;
 
 	/**
 	 * Creates a status set to OK (no message)
@@ -33,6 +34,16 @@ public class StatusInfo implements IStatus
 	public StatusInfo( )
 	{
 		this( OK, null );
+	}
+
+	/**
+	 * Creates a status set to OK (no message) with given plugin id.
+	 * 
+	 * @param pluginID
+	 */
+	public StatusInfo( String pluginID )
+	{
+		this( pluginID, OK, null );
 	}
 
 	/**
@@ -46,6 +57,23 @@ public class StatusInfo implements IStatus
 	 */
 	public StatusInfo( int severity, String message )
 	{
+		this( null, severity, message );
+	}
+
+	/**
+	 * Creates a status .
+	 * 
+	 * @param pluginID
+	 *            the plugin id this status is associated with.
+	 * @param severity
+	 *            The status severity: ERROR, WARNING, INFO and OK.
+	 * @param message
+	 *            The message of the status. Applies only for ERROR, WARNING and
+	 *            INFO.
+	 */
+	public StatusInfo( String pluginID, int severity, String message )
+	{
+		fPluginID = pluginID;
 		fStatusMessage = message;
 		fSeverity = severity;
 	}
@@ -169,7 +197,7 @@ public class StatusInfo implements IStatus
 	 */
 	public String getPlugin( )
 	{
-		return ReportPlugin.REPORT_UI;
+		return fPluginID == null ? ReportPlugin.REPORT_UI : fPluginID;
 	}
 
 	/**
