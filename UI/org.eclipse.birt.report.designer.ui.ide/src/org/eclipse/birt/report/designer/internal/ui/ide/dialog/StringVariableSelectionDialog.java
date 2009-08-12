@@ -12,18 +12,15 @@
 package org.eclipse.birt.report.designer.internal.ui.ide.dialog;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.PixelConverter;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.variables.IStringVariable;
 import org.eclipse.core.variables.VariablesPlugin;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontMetrics;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -308,33 +305,4 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog
 
 	}
 
-	static class PixelConverter
-	{
-
-		private FontMetrics fFontMetrics;
-
-		public PixelConverter( Control control )
-		{
-			GC gc = new GC( control );
-			gc.setFont( control.getFont( ) );
-			fFontMetrics = gc.getFontMetrics( );
-			gc.dispose( );
-		}
-
-		/**
-		 * @see DialogPage#convertHorizontalDLUsToPixels
-		 */
-		public int convertHorizontalDLUsToPixels( int dlus )
-		{
-			return Dialog.convertHorizontalDLUsToPixels( fFontMetrics, dlus );
-		}
-
-		/**
-		 * @see DialogPage#convertWidthInCharsToPixels
-		 */
-		public int convertWidthInCharsToPixels( int chars )
-		{
-			return Dialog.convertWidthInCharsToPixels( fFontMetrics, chars );
-		}
-	}
 }

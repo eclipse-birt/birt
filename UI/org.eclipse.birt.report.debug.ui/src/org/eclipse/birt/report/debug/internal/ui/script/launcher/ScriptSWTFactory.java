@@ -11,22 +11,18 @@
 
 package org.eclipse.birt.report.debug.internal.ui.script.launcher;
 
+import org.eclipse.birt.report.designer.ui.util.PixelConverter;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontMetrics;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -210,39 +206,6 @@ public class ScriptSWTFactory
 		return Math.max( widthHint, button.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
-	}
-
-	/**
-	 * PixelConverter
-	 */
-	static class PixelConverter
-	{
-
-		private FontMetrics fFontMetrics;
-
-		public PixelConverter( Control control )
-		{
-			GC gc = new GC( control );
-			gc.setFont( control.getFont( ) );
-			fFontMetrics = gc.getFontMetrics( );
-			gc.dispose( );
-		}
-
-		/**
-		 * @see DialogPage#convertHorizontalDLUsToPixels
-		 */
-		public int convertHorizontalDLUsToPixels( int dlus )
-		{
-			return Dialog.convertHorizontalDLUsToPixels( fFontMetrics, dlus );
-		}
-
-		/**
-		 * @see DialogPage#convertWidthInCharsToPixels
-		 */
-		public int convertWidthInCharsToPixels( int chars )
-		{
-			return Dialog.convertWidthInCharsToPixels( fFontMetrics, chars );
-		}
 	}
 
 	/**
