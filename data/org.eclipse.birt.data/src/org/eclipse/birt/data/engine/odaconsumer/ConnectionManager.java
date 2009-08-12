@@ -14,7 +14,13 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -26,6 +32,8 @@ import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.services.IPropertyProvider;
 import org.eclipse.datatools.connectivity.oda.profile.Constants;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * ConnectionManager manages a set of data source connections.  Calling 
@@ -154,6 +162,18 @@ public class ConnectionManager
 			driverHelper.setAppContext( appContext );
 			
 			IConnection connection = driverHelper.getConnection( dataSourceId );
+			ULocale locale = toULocale( appContext.get( "AppRuntimeLocale" ) );
+			if( locale != null )
+			{
+				try
+				{
+					connection.setLocale( locale );
+				}
+				catch( UnsupportedOperationException ex )
+				{
+					
+				}
+			}
 			connection.open( connectionProperties );
 			
 			Connection ret = new Connection( connection, dataSourceElementId );
@@ -177,6 +197,31 @@ public class ConnectionManager
 			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
 			                         new Object[] { dataSourceElementId } );
 		}
+	}
+	
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
+	static ULocale toULocale( Object source )
+	{
+		if( source == null )
+			return null;
+			if ( source instanceof ULocale )
+			{
+				return (ULocale) source;
+			}
+			else if ( source instanceof Locale )
+			{
+				return ULocale.forLocale( ( Locale ) source );
+			}
+			else if ( source instanceof String )
+			{
+				return new ULocale( (String) source );
+			}
+		
+		return null;
 	}
 
     /**
