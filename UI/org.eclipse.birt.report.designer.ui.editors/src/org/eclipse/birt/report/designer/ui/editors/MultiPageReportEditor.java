@@ -485,6 +485,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
+		boolean isReselect = false;
 		if ( ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
 				getModel( ).getVersion( ) ) > 0 )
 		{
@@ -493,9 +494,34 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			{
 				return;
 			}
+			else
+			{
+				isReselect = true;
+			}
 		}
 		getCurrentPageInstance( ).doSave( monitor );
 		fireDesignFileChangeEvent( );
+		if (isReselect)
+		{
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
+					{
+						if ( ( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) ).getGraphicalViewer( ) != null )
+						{
+							GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
+							GraphicalViewer view = editor.getGraphicalViewer( );
+							
+							UIUtil.resetViewSelection( view, true );
+						}
+
+					}
+					
+				}
+			});
+		}
 	}
 
 	private void fireDesignFileChangeEvent( )
