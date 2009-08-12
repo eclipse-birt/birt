@@ -220,12 +220,14 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		{
 			String defaultPosition = FormatCurrencyNumPattern.getDefaultSymbolPosition( locale );
 			boolean defaultUseSpace = FormatCurrencyNumPattern.getDefaultUsingSymbolSpace( locale );
+			int defaultDigits = FormatCurrencyNumPattern.getDefaultFractionDigits( locale );
 
 			cUseSpace.setSelection( defaultUseSpace );
 			if ( defaultPosition != null )
 			{
 				cSymPosChoice.setText( defaultPosition );
 			}
+			cPlacesChoice.setText( String.valueOf( defaultDigits ) );
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
 		{

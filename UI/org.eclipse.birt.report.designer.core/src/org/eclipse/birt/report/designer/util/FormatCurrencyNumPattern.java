@@ -96,6 +96,29 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	}
 
 	/**
+	 * Returns the default number of fraction digits that should be displayed
+	 * for the default currency for given locale.
+	 * 
+	 * @param locale
+	 * @return
+	 */
+	public static int getDefaultFractionDigits( ULocale locale )
+	{
+		if ( locale == null )
+		{
+			locale = ULocale.getDefault( );
+		}
+
+		Currency currency = Currency.getInstance( locale );
+		if ( currency != null )
+		{
+			return currency.getDefaultFractionDigits( );
+		}
+
+		return 2;
+	}
+
+	/**
 	 * Returns the if symbol space is used by default for given locale.
 	 * 
 	 * @param locale
