@@ -18,10 +18,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
@@ -1301,6 +1303,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					else
 					{
 						evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
+								columnExpression,
 							session,
 							engineTask );
 					}
@@ -2254,7 +2257,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws ChartException
 		 */
 		private IDataRowExpressionEvaluator createShareBindingEvaluator(
-				Chart cm, final DataRequestSession session,
+				Chart cm, List<String> columnExpression,
+				final DataRequestSession session,
 				final EngineTask engineTask )
 				throws BirtException,
 				AdapterException, DataException, ChartException
@@ -2282,7 +2286,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					bindingExprsMap );
 
 			// Add custom expression of chart.
-			addCustomExpressions( queryDefn, cm, bindingExprsMap );
+			addCustomExpressions( queryDefn,
+					cm,
+					columnExpression,
+					bindingExprsMap );
 
 			actualResultSet = session.executeQuery( queryDefn,
 					null,
@@ -2354,15 +2361,27 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws DataException
 		 */
 		private void addCustomExpressions( QueryDefinition queryDefn, Chart cm,
+				List<String> columnExpression,
 				final Map<String, String> bindingExprsMap )
 				throws DataException
 		{
 			List<Query> queryList = ChartBaseQueryHelper.getAllQueryExpressionDefinitions( cm );
-			for ( int i = 0; i < queryList.size( ); i++ )
+
+			Set<String> exprSet = new HashSet<String>( );
+			for ( Query query : queryList )
 			{
-				Query query = queryList.get( i );
 				String expr = query.getDefinition( );
-				if ( expr != null && !"".equals( expr ) && //$NON-NLS-1$
+				if ( expr != null )
+				{
+					exprSet.add( expr );
+				}
+			}
+
+			exprSet.addAll( columnExpression );
+
+			for ( String expr : exprSet )
+			{
+				if ( expr.length( ) > 0 &&
 						!bindingExprsMap.containsKey( expr ) )
 				{
 					String name = StructureFactory.newComputedColumn( itemHandle,
