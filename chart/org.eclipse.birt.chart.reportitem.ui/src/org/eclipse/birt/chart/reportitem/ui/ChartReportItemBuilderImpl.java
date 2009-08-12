@@ -58,6 +58,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -267,6 +268,17 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				}
 			}
 			
+			if ( eih.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
+					&& !ChartReportItemUtil.isContainerInheritable( eih ) )
+			{
+				String[] dataSets = dataProvider.getAllDataSets( );
+				if ( dataProvider.getAllDataCubes( ).length == 0
+						&& dataSets.length == 1 )
+				{
+					dataProvider.setDataSet( dataSets[0] );
+				}
+			}
+
 			// Add instance of BIRTActionEValuator into chart wizard context for the validation of expressions in chart UI.
 			context.setActionEvaluator( new BIRTActionEvaluator( ) );
 			

@@ -619,7 +619,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return null;
 	}
 
-	void setDataSet( String datasetName )
+	public void setDataSet( String datasetName )
 	{
 		try
 		{
