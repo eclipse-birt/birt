@@ -136,7 +136,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 	private BufferedStructureArray passBaseCubeResultSet( IAggregationResultSet baseResultSet,
 			List<IAggregationResultSet> drillResultSets, List<IEdgeDrillFilter> drillFilters ) throws IOException
 	{		
-		BufferedStructureArray tempBufferArray = new BufferedStructureArray( Member.getCreator( ),
+		BufferedStructureArray tempBufferArray = new BufferedStructureArray( AggregationResultRow.getCreator( ),
 				2000 );
 		List<Member[]> currentMemberList;
 		List<Member[]> previewMemberList = new ArrayList<Member[]>( );

@@ -424,7 +424,7 @@ public class CubeQueryDefinitionUtil
 		return cloneQuery;
 	}
 
-	private static boolean isGrandTotalOnEdge( List aggrOns, List dimLevelOnColumn )
+	private static boolean isGrandTotalOnEdge( List aggrOns, List dimLevels )
 			throws DataException
 	{
 		boolean flag = false;
@@ -432,8 +432,9 @@ public class CubeQueryDefinitionUtil
 		{
 			String aggrExpr = aggrOns.get( i ).toString( );
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel( aggrExpr );
-			if ( dimLevelOnColumn.get( dimLevelOnColumn.size( ) - 1 )
-					.equals( target ) )
+			if ( !dimLevels.isEmpty( )
+					&& dimLevels.get( dimLevels.size( ) - 1 )
+							.equals( target ) )
 			{
 				flag = true;
 				break;

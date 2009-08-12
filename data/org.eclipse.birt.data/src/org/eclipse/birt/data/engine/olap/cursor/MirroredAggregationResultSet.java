@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
@@ -525,7 +526,13 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 
 	public IAggregationResultRow getCurrentRow( ) throws IOException
 	{
-		return rs.getCurrentRow( );
+		Member[] member = new Member[resultObject.length];
+		for ( int i = 0; i < resultObject.length; i++ )
+		{
+			member[i] = (Member) resultObject[i];
+		}
+		IAggregationResultRow row = new AggregationResultRow( member, null );
+		return row;
 	}
 
 	public String[][] getKeyNames( )
