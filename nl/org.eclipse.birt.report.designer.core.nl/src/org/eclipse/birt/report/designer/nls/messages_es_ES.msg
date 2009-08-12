@@ -1778,6 +1778,14 @@ GeneralPreferencePage.label.nameEmpty=No se permite que el nombre de estilo esté
 ###########################################################
 #GridEditPart properties
 
+GraphicalEditorWithFlyoutPalette_Redo.Text0=&Rehacer
+GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=Rehacer
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip1=Rehacer {0}
+GraphicalEditorWithFlyoutPalette_Undo.Text0=&Deshacer
+GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=Deshacer
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip1=Deshacer {0}
 GridEditPart.GUIDEHANDLE_TEXT = Cuadrícula
 
 ###########################################################

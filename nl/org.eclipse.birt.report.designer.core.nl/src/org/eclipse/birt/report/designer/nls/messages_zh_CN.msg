@@ -1778,6 +1778,14 @@ GeneralPreferencePage.label.nameEmpty=不允许空样式名称。
 ###########################################################
 #GridEditPart properties
 
+GraphicalEditorWithFlyoutPalette_Redo.Text0=恢复(&R)
+GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=恢复
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip1=恢复 {0}
+GraphicalEditorWithFlyoutPalette_Undo.Text0=撤消(&U)
+GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=撤消
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip1=撤销 {0}
 GridEditPart.GUIDEHANDLE_TEXT = 网格
 
 ###########################################################

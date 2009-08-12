@@ -1778,6 +1778,14 @@ GeneralPreferencePage.label.nameEmpty=스타일 이름은 필수 입력 항목입니다.
 ###########################################################
 #GridEditPart properties
 
+GraphicalEditorWithFlyoutPalette_Redo.Text0=다시 실행(&R)
+GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=다시 실행
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip1={0} 다시 실행
+GraphicalEditorWithFlyoutPalette_Undo.Text0=실행 취소(&U)
+GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=실행 취소
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip1={0} 실행 취소
 GridEditPart.GUIDEHANDLE_TEXT = 눈금
 
 ###########################################################

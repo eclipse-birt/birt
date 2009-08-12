@@ -1778,6 +1778,14 @@ GeneralPreferencePage.label.nameEmpty=Nom de style vide non autorisé.
 ###########################################################
 #GridEditPart properties
 
+GraphicalEditorWithFlyoutPalette_Redo.Text0=&Rétablir
+GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=Rétablir
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip1=Rétablir {0}
+GraphicalEditorWithFlyoutPalette_Undo.Text0=&Annuler
+GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=Annuler
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip1=Annuler {0}
 GridEditPart.GUIDEHANDLE_TEXT = Grille
 
 ###########################################################

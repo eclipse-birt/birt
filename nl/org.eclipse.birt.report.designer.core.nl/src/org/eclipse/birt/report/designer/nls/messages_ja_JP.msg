@@ -1778,6 +1778,14 @@ GeneralPreferencePage.label.nameEmpty=スタイル名を空白にすることはできません。
 ###########################################################
 #GridEditPart properties
 
+GraphicalEditorWithFlyoutPalette_Redo.Text0=やり直し(&R)
+GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=やり直し
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip1={0} をやり直し
+GraphicalEditorWithFlyoutPalette_Undo.Text0=元に戻す(&U)
+GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=元に戻す
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip1={0} を元に戻す
 GridEditPart.GUIDEHANDLE_TEXT = グリッド
 
 ###########################################################

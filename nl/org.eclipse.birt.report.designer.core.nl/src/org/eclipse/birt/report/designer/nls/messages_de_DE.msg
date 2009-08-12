@@ -1778,6 +1778,14 @@ GeneralPreferencePage.label.nameEmpty=Leerer Stilname ist nicht zulässig.
 ###########################################################
 #GridEditPart properties
 
+GraphicalEditorWithFlyoutPalette_Redo.Text0=&Wiederherstellen
+GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=Wiederherstellen
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip1={0} wiederherstellen
+GraphicalEditorWithFlyoutPalette_Undo.Text0=&Rückgängig
+GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=Rückgängig
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip1={0} rückgängig machen
 GridEditPart.GUIDEHANDLE_TEXT = Raster
 
 ###########################################################
