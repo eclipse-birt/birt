@@ -81,17 +81,16 @@ public class IScalarParameterDefnTest extends EngineCase
 	}
 
 	/*
-	 * test getSelectionListType method
+	 * test getSelectionListType method (SELECTION_LIST_STATIC is @deprecated.)
 	 */
 	public void testGetSelectionListType_none( )
 	{
-		// none
+		// Static
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_string" );
 		assertEquals(
 				"GetSelectionListType method failed to get none type",
-				IScalarParameterDefn.SELECTION_LIST_NONE,
+				IScalarParameterDefn.SELECTION_LIST_STATIC,
 				scalarDefn.getSelectionListType( ) );
-
 	}
 }
