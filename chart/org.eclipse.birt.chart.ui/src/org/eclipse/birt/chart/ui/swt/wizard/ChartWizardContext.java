@@ -24,15 +24,15 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 
 /**
  * ChartWizardContext
  */
-public class ChartWizardContext implements IWizardContext
+public class ChartWizardContext implements IChartWizardContext
 {
 
 	private Chart chartModel = null;

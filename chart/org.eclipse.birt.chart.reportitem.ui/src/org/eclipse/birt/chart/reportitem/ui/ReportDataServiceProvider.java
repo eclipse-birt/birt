@@ -526,16 +526,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			DataSetHandle dataSetHandle, QueryDefinition queryDefn )
 	{
 		// 1. Get parameters description from dataset.
-		Iterator iterParams = dataSetHandle.parametersIterator( );
 		Map<String, DataSetParameterHandle> dsphMap = new LinkedHashMap<String, DataSetParameterHandle>( );
-		for ( ; iterParams.hasNext( ); )
+		if ( dataSetHandle != null )
 		{
-			DataSetParameterHandle dsph = (DataSetParameterHandle) iterParams.next( );
-			dsphMap.put( dsph.getName( ), dsph );
+			Iterator iterParams = dataSetHandle.parametersIterator( );
+			for ( ; iterParams.hasNext( ); )
+			{
+				DataSetParameterHandle dsph = (DataSetParameterHandle) iterParams.next( );
+				dsphMap.put( dsph.getName( ), dsph );
+			}
 		}
 
 		// 2. Get parameters setting from current handle.
-		iterParams = itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+		Iterator iterParams = itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 				.iterator( );
 		Map<String, ParamBindingHandle> pbhMap = new LinkedHashMap<String, ParamBindingHandle>( );
 		for ( ; iterParams.hasNext( ); )
@@ -1556,8 +1559,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				&& this.getReportItemReference( ) == null ) // Inherit case.
 		{
 			// Get filters on container.
-			ph = ChartReportItemUtil.getBindingHolder( itemHandle )
-					.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+
+			ReportItemHandle bindingHolder = ChartReportItemUtil.getBindingHolder( itemHandle );
+			ph = bindingHolder == null ? null
+					: bindingHolder.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
 			if ( ph != null )
 			{
 				Iterator<FilterConditionHandle> filterIterator = ph.iterator( );
@@ -1829,7 +1834,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			int maxRow = getMaxRow( );
 			queryDefn.setMaxRows( maxRow );
 
-			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
+			DataSetHandle dsHandle = getDataSetFromHandle( );
+
+			queryDefn.setDataSetName( dsHandle == null ? null
+					: dsHandle.getQualifiedName( ) );
 
 			for ( int i = 0; i < columnExpression.size( ); i++ )
 			{
