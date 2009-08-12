@@ -269,7 +269,10 @@ class QueryExecutionHelper
 	{
 
 		if ( handle == null )
-			throw new AdapterException( ResourceConstants.DATASETHANDLE_NULL_ERROR );
+		{
+			return;
+			//throw new AdapterException( ResourceConstants.DATASETHANDLE_NULL_ERROR );
+		}
 		
 		DataSourceHandle dataSourceHandle = handle.getDataSource( );
 		if ( dataSourceHandle != null )
