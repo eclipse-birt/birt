@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.tests.engine.aggregate;
 
-import org.eclipse.birt.chart.aggregate.Average;
+import org.eclipse.birt.chart.extension.aggregate.Average;
 
 import junit.framework.TestCase;
 

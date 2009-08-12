@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.tests.engine.aggregate;
 
-import org.eclipse.birt.chart.aggregate.Sum;
+import org.eclipse.birt.chart.extension.aggregate.Sum;
 
 import junit.framework.TestCase;
 

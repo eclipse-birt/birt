@@ -11,9 +11,9 @@ package org.eclipse.birt.chart.tests.engine.datafeed;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.chart.datafeed.StockDataSetProcessorImpl;
-import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.extension.datafeed.StockDataSetProcessorImpl;
+import org.eclipse.birt.chart.extension.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.birt.chart.model.data.impl.StockDataSetImpl;
 

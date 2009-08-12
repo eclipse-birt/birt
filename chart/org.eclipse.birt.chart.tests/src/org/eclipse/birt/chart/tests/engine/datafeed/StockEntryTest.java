@@ -12,7 +12,8 @@
 package org.eclipse.birt.chart.tests.engine.datafeed;
 
 import junit.framework.TestCase;
-import org.eclipse.birt.chart.datafeed.StockEntry;
+
+import org.eclipse.birt.chart.extension.datafeed.StockEntry;
 
 public class StockEntryTest extends TestCase {
 	

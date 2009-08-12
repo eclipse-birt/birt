@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.tests.engine.datafeed;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.chart.datafeed.DataSetProcessorImpl;
+import org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;

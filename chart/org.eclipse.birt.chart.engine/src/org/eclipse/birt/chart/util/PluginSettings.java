@@ -93,17 +93,17 @@ public final class PluginSettings
 	 * series type list.
 	 */
 	private static String[] saDataSetProcessors = {
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$ 
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.StockDataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.BubbleDataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.GanttDataSetProcessorImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.DifferenceDataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.StockDataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.BubbleDataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.GanttDataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.DifferenceDataSetProcessorImpl", //$NON-NLS-1$
 	};
 
 	/**
@@ -112,16 +112,16 @@ public final class PluginSettings
 	 * series type list.
 	 */
 	private static String[] saRenderers = {
-			null, "org.eclipse.birt.chart.render.Area", //$NON-NLS-1$ 
-			"org.eclipse.birt.chart.render.Bar", //$NON-NLS-1$ 
-			"org.eclipse.birt.chart.render.Dial", //$NON-NLS-1$
-			"org.eclipse.birt.chart.render.Line", //$NON-NLS-1$
-			"org.eclipse.birt.chart.render.Pie", //$NON-NLS-1$ 
-			"org.eclipse.birt.chart.render.Stock", //$NON-NLS-1$
-			"org.eclipse.birt.chart.render.Scatter", //$NON-NLS-1$
-			"org.eclipse.birt.chart.render.Bubble", //$NON-NLS-1$
-			"org.eclipse.birt.chart.render.Gantt", //$NON-NLS-1$
-			"org.eclipse.birt.chart.render.Difference", //$NON-NLS-1$
+			null, "org.eclipse.birt.chart.extension.render.Area", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.extension.render.Bar", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.extension.render.Dial", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.render.Line", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.render.Pie", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.extension.render.Stock", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.render.Scatter", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.render.Bubble", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.render.Gantt", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.render.Difference", //$NON-NLS-1$
 	};
 
 	/**
@@ -249,28 +249,36 @@ public final class PluginSettings
 	 */
 	private static String[][] saBaseAggregateFunctions = {
 			{
-				DefaultAggregations.SUM, "Sum", "org.eclipse.birt.chart.aggregate.Sum" //$NON-NLS-1$ //$NON-NLS-2$
+					DefaultAggregations.SUM,
+					"Sum", "org.eclipse.birt.chart.extension.aggregate.Sum" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-				DefaultAggregations.AVERAGE, "Average", "org.eclipse.birt.chart.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$
+					DefaultAggregations.AVERAGE,
+					"Average", "org.eclipse.birt.chart.extension.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-				DefaultAggregations.COUNT, "Count", "org.eclipse.birt.chart.aggregate.Count" //$NON-NLS-1$ //$NON-NLS-2$
+					DefaultAggregations.COUNT,
+					"Count", "org.eclipse.birt.chart.extension.aggregate.Count" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-				DefaultAggregations.DISTINCT_COUNT, "DistinctCount", "org.eclipse.birt.chart.aggregate.DistinctCount" //$NON-NLS-1$ //$NON-NLS-2$
+					DefaultAggregations.DISTINCT_COUNT,
+					"DistinctCount", "org.eclipse.birt.chart.extension.aggregate.DistinctCount" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-				DefaultAggregations.FIRST, "First", "org.eclipse.birt.chart.aggregate.First" //$NON-NLS-1$ //$NON-NLS-2$
+					DefaultAggregations.FIRST,
+					"First", "org.eclipse.birt.chart.extension.aggregate.First" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-				DefaultAggregations.LAST, "Last", "org.eclipse.birt.chart.aggregate.Last" //$NON-NLS-1$ //$NON-NLS-2$
+					DefaultAggregations.LAST,
+					"Last", "org.eclipse.birt.chart.extension.aggregate.Last" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-				DefaultAggregations.MIN, "Min", "org.eclipse.birt.chart.aggregate.Min" //$NON-NLS-1$ //$NON-NLS-2$
+					DefaultAggregations.MIN,
+					"Min", "org.eclipse.birt.chart.extension.aggregate.Min" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-				DefaultAggregations.MAX, "Max", "org.eclipse.birt.chart.aggregate.Max" //$NON-NLS-1$ //$NON-NLS-2$
+					DefaultAggregations.MAX,
+					"Max", "org.eclipse.birt.chart.extension.aggregate.Max" //$NON-NLS-1$ //$NON-NLS-2$
 			}
 	};
 
@@ -287,11 +295,11 @@ public final class PluginSettings
 			null,
 			null,
 			null,
-			"org.eclipse.birt.chart.datafeed.StockDataPointDefinition", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.StockDataPointDefinition", //$NON-NLS-1$
 			null,
-			"org.eclipse.birt.chart.datafeed.BubbleDataPointDefinition", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.GanttDataPointDefinition", //$NON-NLS-1$
-			"org.eclipse.birt.chart.datafeed.DifferenceDataPointDefinition", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.BubbleDataPointDefinition", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.GanttDataPointDefinition", //$NON-NLS-1$
+			"org.eclipse.birt.chart.extension.datafeed.DifferenceDataPointDefinition", //$NON-NLS-1$
 	};
 
 	/**

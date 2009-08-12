@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.examples.view.models;
 
-import org.eclipse.birt.chart.datafeed.DifferenceEntry;
+import org.eclipse.birt.chart.extension.datafeed.DifferenceEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
