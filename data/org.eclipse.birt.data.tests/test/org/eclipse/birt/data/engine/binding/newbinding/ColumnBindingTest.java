@@ -1141,6 +1141,120 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
+	private void genSerializable( ) throws Exception
+	{	
+		Context context = Context.enter( );		
+		Scriptable scope = context.initStandardObjects( );		
+		Context.exit( );
+		
+		QueryDefinition queryDefn = newReportQuery( );
+
+		// column mapping
+		String[] name = new String[]{
+				"serializable"
+		};
+		ScriptExpression[] se = new ScriptExpression[name.length];
+		se[0] = new ScriptExpression( "new java.lang.StringBuffer(\"ss\")" );
+		se[0].setDataType( DataType.JAVA_OBJECT_TYPE );
+		for ( int i = 0; i < name.length; i++ )
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
+		
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
+		
+		// important step
+		queryResultID = qr.getID( );
+		
+		IResultIterator ri = qr.getResultIterator( );	
+		assertEquals( DataType.JAVA_OBJECT_TYPE, ri.getResultMetaData( ).getColumnType( 1 ));
+		while ( ri.next( ) )
+		{
+			assertTrue( ri.getValue( "serializable" ) instanceof StringBuffer );
+			assertEquals( "ss", ri.getValue( "serializable").toString( ) );
+		}
+		
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	private void genUnserializable( ) throws Exception
+	{	
+		Context context = Context.enter( );		
+		Scriptable scope = context.initStandardObjects( );		
+		Context.exit( );
+		
+		QueryDefinition queryDefn = newReportQuery( );
+
+		// column mapping
+		String[] name = new String[]{
+				"unserializable"
+		};
+		ScriptExpression[] se = new ScriptExpression[name.length];
+		se[0] = new ScriptExpression( "new java.lang.ThreadGroup(\"ss\")" );
+		se[0].setDataType( DataType.JAVA_OBJECT_TYPE );
+		for ( int i = 0; i < name.length; i++ )
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
+		
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
+		
+		// important step
+		queryResultID = qr.getID( );
+		
+		try 
+		{
+		
+			IResultIterator ri = qr.getResultIterator( );	
+			assertEquals( DataType.JAVA_OBJECT_TYPE, ri.getResultMetaData( ).getColumnType( 1 ));
+			while ( ri.next( ) )
+			{
+				assertTrue( ri.getValue( "unserializable" ) instanceof ThreadGroup );
+			}
+			ri.close( );
+			assertTrue( false );
+		} 
+		catch ( Exception e )
+		{
+			//Currently, unserializable objects can't be saved in report doc
+			e.printStackTrace( );
+		}
+		finally 
+		{
+			qr.close( );
+			myGenDataEngine.shutdown( );
+		}
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	private void preSerializable( ) throws Exception
+	{
+		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
+		
+		IResultIterator ri = qr.getResultIterator( );
+		//Currently, org.eclipse.birt.data.engine.impl.document.ResultIterator#getResultMetaData() has bug:
+		//It returns meta data of data set instead of meta data of query
+		//assertEquals( DataType.OBJECT_TYPE, ri.getResultMetaData( ).getColumnType( 1 ));
+		int rowCount = 0;
+		while ( ri.next( ) )
+		{
+			assertTrue( ri.getValue( "serializable" ) instanceof StringBuffer );
+			assertEquals( "ss", ri.getValue( "serializable").toString( ) );
+			rowCount++;
+		}
+		assertTrue( rowCount > 0 );
+		ri.close( );
+		myPreDataEngine.shutdown( );
+	}
+	
+	/**
+	 * @throws Exception
+	 */
 	private void preBasic( ) throws Exception
 	{
 		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
@@ -1177,6 +1291,85 @@ public class ColumnBindingTest extends APITestCase
 		
 		this.preDummy1( );
 		this.closeArchiveReader( );
+	}
+	
+	
+	/**
+	 * Test Java Object data type
+	 * 
+	 * @throws Exception
+	 */
+	public void testObjectTypeBasic( ) throws Exception
+	{
+		QueryDefinition queryDefn = newReportQuery( );
+
+		// column mapping
+		String[] name = new String[]{
+				"ObjectType",
+		};
+		ScriptExpression[] se = new ScriptExpression[name.length];
+		se[0] = new ScriptExpression( "new java.lang.StringBuffer(\"ss\")" );
+		se[0].setDataType( DataType.JAVA_OBJECT_TYPE );
+		for ( int i = 0; i < name.length; i++ )
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
+
+		IResultIterator ri = executeQuery( queryDefn );
+		assertEquals( DataType.JAVA_OBJECT_TYPE, ri.getResultMetaData( ).getColumnType( 1 ) );
+		while ( ri.next( ) )
+		{
+			assertTrue(ri.getValue( "ObjectType" ) instanceof StringBuffer );
+			assertEquals( "ss", ri.getValue( "ObjectType" ).toString( ) );
+		}
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	public void testSerializableObjectTypeInReportDocument( ) throws Exception
+	{
+		String fileName = getOutputFolder( ) + "testData";
+		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
+				fileName );
+		myGenDataEngine = DataEngine.newDataEngine( deContext1 );
+		
+		myGenDataEngine.defineDataSource( this.dataSource );
+		myGenDataEngine.defineDataSet( this.dataSet );
+		
+		genSerializable( );
+		this.closeArchiveWriter( );
+		
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		
+		this.preSerializable( );
+		this.closeArchiveReader( );
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	public void testUnserializableObjectTypeInReportDocument( ) throws Exception
+	{
+		String fileName = getOutputFolder( ) + "testData";
+		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
+				fileName );
+		myGenDataEngine = DataEngine.newDataEngine( deContext1 );
+		
+		myGenDataEngine.defineDataSource( this.dataSource );
+		myGenDataEngine.defineDataSet( this.dataSet );
+		
+		
+		genUnserializable( );
+
+		//this.closeArchiveWriter( );
+//		
+//		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+//				fileName );
+//		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+//		
+//		this.preSerializable( );
+		//this.closeArchiveReader( );
 	}
 	
 	/**

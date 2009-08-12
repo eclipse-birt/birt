@@ -261,6 +261,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		documentObject.writeString( "testString" );
 		documentObject.writeShort( 1300 );
 		documentObject.writeInt( 30000011 );
+		//write object
+		documentObject.writeObject( new StringBuffer("s1") );
 		documentObject.seek( 0 );
 		documentObject.skipBytes( objectNumber * 4 );
 		assertEquals( documentObject.readBigDecimal( ), new BigDecimal( "1010101010101" ) );
@@ -268,6 +270,9 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		assertEquals( documentObject.readString( ), "testString" );
 		assertEquals( documentObject.readShort( ), 1300 );
 		assertEquals( documentObject.readInt( ), 30000011 );
+		Object o = documentObject.readObject( );
+		assertTrue( o instanceof StringBuffer );
+		assertEquals( o.toString( ), "s1");
 	}
 }
 

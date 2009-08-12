@@ -854,7 +854,7 @@ class CacheUtilFactory
 						{
 							String paraName = ph.getName( );
 							if ( table.containsKey( paraName )
-									&& ( (String) table.get( paraName ) ).equalsIgnoreCase( ph.getDefaultInputValue( ) ) )
+									&& ( table.get( paraName ) ).equals( ph.getDefaultInputValue( ) ) )
 							{
 								count++;
 							}

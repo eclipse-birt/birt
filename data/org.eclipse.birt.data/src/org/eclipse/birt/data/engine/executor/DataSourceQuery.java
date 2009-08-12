@@ -1069,7 +1069,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
      * @return
      * @throws DataException
      */
-    private static Object convertToValue( String inputValue, Class typeClass )
+    private static Object convertToValue( Object inputValue, Class typeClass )
 			throws DataException
 	{
 		try

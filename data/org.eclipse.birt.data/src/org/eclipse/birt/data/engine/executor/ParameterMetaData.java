@@ -95,7 +95,7 @@ public class ParameterMetaData implements IParameterMetaData
      */
     public String getDefaultInputValue()
     {
-        return m_odaMetaData.getDefaultValue();
+        return m_odaMetaData.getDefaultValue().toString( );
     }
 
     /* (non-Javadoc)

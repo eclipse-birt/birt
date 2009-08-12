@@ -782,4 +782,16 @@ public class RandomDataAccessObject implements IRandomDataAccessObject
 		delegate.close( );
 	}
 
+	public Object readObject( ) throws IOException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void writeObject( Object o ) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

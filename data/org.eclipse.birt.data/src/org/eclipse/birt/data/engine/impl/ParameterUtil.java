@@ -15,14 +15,12 @@ import java.sql.Blob;
 import java.sql.Clob;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
@@ -37,8 +35,6 @@ import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-
-import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * Merge the paramter definition and evaluate the expression of paramter 
@@ -130,9 +126,9 @@ public class ParameterUtil
 							paramHints[i].setDataType( String.class );
 						}
 					}
-					String paramValueStr = this.getParameterValueString( paramHints[i].getDataType( ),
-							paramValue );
-					paramHints[i].setDefaultInputValue( paramValueStr );
+//					String paramValueStr = this.getParameterValueString( paramHints[i].getDataType( ),
+//							paramValue );
+					paramHints[i].setDefaultInputValue( paramValue );
 					bindingResolved[i] = true;
 				}
 			}
@@ -229,9 +225,9 @@ public class ParameterUtil
 					paramHints[i].setDataType( String.class );
 				}
 			}
-			String valueStr = getParameterValueString( paramHints[i].getDataType( ),
-						value );
-			paramHints[i].setDefaultInputValue( valueStr );
+//			String valueStr = getParameterValueString( paramHints[i].getDataType( ),
+//						value );
+			paramHints[i].setDefaultInputValue( value );
 			bindingResolved[i] = true;
 
 			// Also give the value to data set RT for script access
@@ -334,41 +330,6 @@ public class ParameterUtil
 		return evaluateResult;
 	}
 
-	/**
-	 * Converts a parameter value to a String expected by ParameterHint
-	 */
-	private String getParameterValueString( Class paramType, Object paramValue )
-			throws DataException
-	{
-		if ( paramValue instanceof String )
-			return (String) paramValue;
-		
-		// Type conversion note: An integer constant like "1" will be
-		// interpreted as a floating number by Rhino, which will then be converted
-		// to "1.0", which some drivers don't like.
-		// So we will first convert the value to the type required by the input
-		// parameter, then convert it to String. This guarantees that an input
-		// value "1" will be pass on as "1", and not "1.0"
-		try
-		{
-			paramValue = DataTypeUtil.convert( paramValue, paramType );
-			
-			if( paramValue instanceof Date )
-			{
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S"); //$NON-NLS-1$
-				return sdf.format( (Date)paramValue );
-			}
-			if( paramValue != null )
-			{
-				return paramValue.toString( );
-			}
-			return null;
-		}
-		catch ( BirtException e )
-		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
-		}
-	}
 
 	/**
 	 * Create a parameter hint based on Parameter definition and value
@@ -391,8 +352,7 @@ public class ParameterUtil
         parameterHint.setNativeDataType( paramDefn.getNativeType() );
 		parameterHint.setIsInputOptional( paramDefn.isInputOptional( ) );
 		if ( parameterHint.isInputMode( ) )
-			parameterHint.setDefaultInputValue( getParameterValueString( dataTypeClass,
-					paramValue ) );
+			parameterHint.setDefaultInputValue( paramValue );
 		parameterHint.setIsNullable( paramDefn.isNullable( ) );
 		//ParameterHint does not support AnyType
 		//the real type for AnyType is determined by the real parameter value

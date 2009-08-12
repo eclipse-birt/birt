@@ -134,6 +134,8 @@ public class ReportContextObject
     			return new java.sql.Date(0);
     		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type) )
     			return Boolean.FALSE;
+    		if ( DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT.equals(type) )
+    			return null;
     		
     		// unknown parameter type; unexpected
     		assert false;
@@ -152,6 +154,8 @@ public class ReportContextObject
 			typeNum = DataType.DATE_TYPE;
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type) )
 			typeNum = DataType.BOOLEAN_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT.equals(type) )
+			typeNum = DataType.JAVA_OBJECT_TYPE;
     	
 		try
 		{

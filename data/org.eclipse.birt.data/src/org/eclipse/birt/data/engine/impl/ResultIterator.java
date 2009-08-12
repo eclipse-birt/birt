@@ -648,7 +648,7 @@ public class ResultIterator implements IResultIterator
 			}
 			catch ( IOException e )
 			{
-				throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR );
+				throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR, e );
 			}
 			catch ( BirtException e )
 			{

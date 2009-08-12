@@ -12,12 +12,19 @@
 
 package org.eclipse.birt.data.engine.olap.data.document;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.io.UTFDataFormatException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 
@@ -31,7 +38,7 @@ import org.eclipse.birt.data.engine.olap.data.util.Bytes;
  */
 public abstract class AbstractBufferedRandomAccessObject implements IRandomDataAccessObject
 {
-
+	private static Logger logger = Logger.getLogger( AbstractBufferedRandomAccessObject.class.getName( ) );
 	protected FileBufferStruct currBuf;
 	protected FileBufferStruct altBuf;
 
@@ -629,6 +636,41 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 		{
 			return fileLen;
 		}
+	}
+	
+	public void writeObject( Object o ) throws IOException
+	{
+		ByteArrayOutputStream buff = new ByteArrayOutputStream( );
+		ObjectOutputStream oo = new ObjectOutputStream( buff );
+		oo.writeObject( o );
+		oo.close( );
+		byte[] bytes = buff.toByteArray( );
+		writeBytes( new Bytes( bytes));
+	}
+	
+	public Object readObject( ) throws IOException
+	{
+		byte[] bytes = readBytes( ).bytesValue( );
+		final ClassLoader loader = org.eclipse.birt.data.engine.impl.DataEngineSession.getCurrentClassLoader( );
+		ObjectInputStream oo = new ObjectInputStream(
+					new ByteArrayInputStream( bytes ) ) {
+				protected Class resolveClass( ObjectStreamClass desc )
+						throws IOException, ClassNotFoundException
+				{
+					return Class.forName( desc.getName( ), false,
+							loader );
+				}
+			};
+		Object obValue = null;;
+		try
+		{
+			obValue = oo.readObject( );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			logger.log( Level.WARNING, "Failed to read object", e );
+		}
+		return obValue;
 	}
 	
 	/**

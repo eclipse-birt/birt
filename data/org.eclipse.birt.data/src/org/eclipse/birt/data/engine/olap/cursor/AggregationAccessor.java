@@ -350,8 +350,8 @@ public class AggregationAccessor extends Accessor
 			int sortType = rs.getSortType( rs.getLevelIndex( level ) ) == IDimensionSortDefn.SORT_DESC
 					? -1 : 1;
 			int direction = sortType
-					* ( (Comparable) value1 ).compareTo( value2 ) < 0 ? -1
-					: ( (Comparable) value1 ).compareTo( value2 ) == 0 ? 0 : 1;
+					* compare( value1, value2 ) < 0 ? -1
+					: compare( value1, value2 ) == 0 ? 0 : 1;
 			if ( direction < 0
 					&& currentPosition[aggrIndex] > 0
 					&& ( state == 0 || state == direction ) )
@@ -406,6 +406,27 @@ public class AggregationAccessor extends Accessor
 				return false;
 		}
 		return find;
+	}
+	
+	private static int compare( Object value1, Object value2 )
+	{
+		if ( value1 == value2 )
+		{
+			return 0;
+		}
+		if ( value1 == null )
+		{
+			return -1;
+		}
+		if ( value2 == null )
+		{
+			return 1;
+		}
+		if ( value1 instanceof Comparable )
+		{
+			return ( (Comparable) value1 ).compareTo( value2 );
+		}
+		return value1.toString( ).compareTo( value2.toString( ) );
 	}
 
 }

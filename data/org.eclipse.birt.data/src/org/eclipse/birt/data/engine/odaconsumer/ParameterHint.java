@@ -38,7 +38,7 @@ public class ParameterHint
     private int m_nativeDataType = UNKNOWN_NATIVE_TYPE;
 	private boolean m_isInputOptional;
     private boolean m_isMultiInputValuesAllowed = false;
-	private String m_defaultInputValue;
+	private Object m_defaultInputValue;
 	private boolean m_isInputMode;
 	private boolean m_isOutputMode;
 	private boolean m_isNullable;
@@ -149,7 +149,8 @@ public class ParameterHint
 		        dataType == Timestamp.class ||
 		        dataType == IBlob.class ||
 		        dataType == IClob.class ||
-                dataType == Boolean.class )
+                dataType == Boolean.class ||
+                dataType == Object.class )
 		{
 		    isValid = true;
 		}
@@ -254,7 +255,7 @@ public class ParameterHint
 	 * non-input parameters.
 	 * @param defaultInputValue	the default value.
 	 */
-	public void setDefaultInputValue( String defaultInputValue )
+	public void setDefaultInputValue( Object defaultInputValue )
 	{
 		if( m_isInputMode )
 			m_defaultInputValue = defaultInputValue;
@@ -266,7 +267,7 @@ public class ParameterHint
 	 * @return	the default value of the input parameter, or null for 
 	 * 			non-input parameters.
 	 */
-	public String getDefaultInputValue()
+	public Object getDefaultInputValue()
 	{
 		return ( m_isInputMode ) ? m_defaultInputValue : null;
 	}

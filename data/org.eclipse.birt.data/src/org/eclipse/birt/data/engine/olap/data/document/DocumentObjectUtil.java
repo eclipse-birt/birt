@@ -12,11 +12,13 @@
 package org.eclipse.birt.data.engine.olap.data.document;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
@@ -100,6 +102,13 @@ public class DocumentObjectUtil
 				else
 					documentObject.writeDate( DataTypeUtil.toSqlTime( value ) );
 				break;
+			case DataType.JAVA_OBJECT_TYPE:
+				if ( value != null && !(value instanceof Serializable) )
+				{
+					throw new DataException( ResourceConstants.NOT_SERIALIZABLE_CLASS, value.getClass( ).getName( ) );
+				}
+				documentObject.writeObject( value );
+				break;
 			default :
 				assert false;
 				break;
@@ -172,6 +181,8 @@ public class DocumentObjectUtil
 					return null;
 				}
 				return new java.sql.Time(time.getTime());
+			case DataType.JAVA_OBJECT_TYPE:
+				return documentObject.readObject( );
 			default :
 				assert false;
 				return null;

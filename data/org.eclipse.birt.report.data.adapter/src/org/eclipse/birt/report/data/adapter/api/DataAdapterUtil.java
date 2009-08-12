@@ -247,6 +247,8 @@ public class DataAdapterUtil
 			return DataType.BOOLEAN_TYPE;
 		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) )
 			return DataType.BLOB_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT ) )
+			return DataType.JAVA_OBJECT_TYPE;
 		return DataType.UNKNOWN_TYPE;
 	}
 	
@@ -271,7 +273,7 @@ public class DataAdapterUtil
 				return new int[]{ DataType.STRING_TYPE, DataType.BOOLEAN_TYPE,
 						DataType.DECIMAL_TYPE, DataType.DOUBLE_TYPE, DataType.INTEGER_TYPE, 
 						DataType.DATE_TYPE, DataType.BLOB_TYPE, DataType.BINARY_TYPE, 
-						DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE };
+						DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE, DataType.JAVA_OBJECT_TYPE };
 			case DataType.DATE_TYPE:
 				return new int[]{ DataType.DATE_TYPE, DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE };
 			case DataType.BLOB_TYPE:
@@ -282,6 +284,11 @@ public class DataAdapterUtil
 				return new int[]{ DataType.SQL_DATE_TYPE, DataType.DATE_TYPE };
 			case DataType.SQL_TIME_TYPE:
 				return new int[]{ DataType.SQL_TIME_TYPE, DataType.DATE_TYPE };
+			case DataType.JAVA_OBJECT_TYPE:
+				return new int[]{ DataType.JAVA_OBJECT_TYPE, DataType.STRING_TYPE, DataType.BOOLEAN_TYPE,
+						DataType.DECIMAL_TYPE, DataType.DOUBLE_TYPE, DataType.INTEGER_TYPE, 
+						DataType.DATE_TYPE, DataType.BLOB_TYPE,
+						DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE };
 			default:
 				throw new AdapterException( ResourceConstants.INVALID_DATA_TYPE, type );
 		}
@@ -312,6 +319,8 @@ public class DataAdapterUtil
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
 		else if ( apiDataType == DataType.BLOB_TYPE )
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB;
+		else if ( apiDataType == DataType.JAVA_OBJECT_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT;
 
 		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
 	}
@@ -410,6 +419,8 @@ public class DataAdapterUtil
 			typeNum = DataType.BOOLEAN_TYPE;
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 			typeNum = DataType.INTEGER_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT.equals( type ) )
+			typeNum = DataType.JAVA_OBJECT_TYPE;
 		return typeNum;
 	}
 	
@@ -441,6 +452,8 @@ public class DataAdapterUtil
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_DATE;
 		else if ( dteDTName.equals( DataType.SQL_TIME_TYPE_NAME ) )
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_TIME;
+		else if ( dteDTName.equals( DataType.OBJECT_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT;
 		return modelDataType;
 	}
 	

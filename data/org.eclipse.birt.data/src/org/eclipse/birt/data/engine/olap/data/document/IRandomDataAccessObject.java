@@ -66,5 +66,10 @@ public interface IRandomDataAccessObject extends DataInput, DataOutput, IRandomA
 	 * @throws IOException
 	 */
 	public void writeBytes( Bytes b ) throws IOException;
+	
+	public Object readObject( ) throws IOException;
+	
+	public void writeObject( Object o ) throws IOException;
+	
 
 }

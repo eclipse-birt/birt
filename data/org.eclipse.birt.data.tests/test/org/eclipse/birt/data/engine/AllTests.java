@@ -60,6 +60,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.binding.MaxRowsTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.binding.MultiplePassTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.binding.NestedQueryTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.binding.QueryCacheTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.binding.SubQueryTest.class );
 				
 		/* in package org.eclipse.birt.data.engine.binding.newbinding */

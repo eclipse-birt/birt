@@ -189,6 +189,7 @@ public class ResourceConstants
 	public static final String CONVERT_TO_DATATYPE_ERROR="data.engine.ConvertToDataTypeError";
 	public static final String NO_ROW_UPDATE="data.engine.NoRowUpdate";
 	public static final String BAD_DATA_TYPE= "data.engine.BadDataType";
+	public static final String NOT_SERIALIZABLE_CLASS = "data.engine.NotSerializableClass";
 	public static final String BAD_DATA_EXPRESSION="data.engine.BadDataExpression";
 	public static final String INVALID_AGGR_BINDING_EXPRESSION = "data.engine.aggregation.InvalidBindingExpression";
 	public static final String INVALID_EXPRESSION="data.engine.InvalidExpression";

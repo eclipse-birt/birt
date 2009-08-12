@@ -727,7 +727,7 @@ public class DataSourceAndDataSet
 	{
 		return pb.getPosition( ) == pb2.getPosition( )
 				&& isEqualString( pb.getName( ), pb2.getName( ) )
-				&& isEqualString( pb.getDefaultInputValue( ),
+				&& isEqualObject( pb.getDefaultInputValue( ),
 						pb2.getDefaultInputValue( ) )
 				&& DataTypeUtil.toApiDataType( pb.getDataType( ) ) == DataTypeUtil.toApiDataType( pb2.getDataType( ) ) 
                 && pb.getNativeDataType() == pb2.getNativeDataType();

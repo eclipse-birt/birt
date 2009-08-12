@@ -34,7 +34,7 @@ public class ParameterMetaData
     private String m_nativeName;           // ODA query parameter name
 	private int m_dataType = Types.NULL;   // ODA data type
 	private String m_nativeTypeName;
-	private String m_defaultValue;
+	private Object m_defaultValue;
 	private Boolean m_isOptional;
 	private Boolean m_isInput;
 	private Boolean m_isOutput;
@@ -438,7 +438,7 @@ public class ParameterMetaData
 	 * @return	the default input value, or null if the default input value 
 	 * 			is unspecified or unknown.
 	 */
-	public String getDefaultValue()
+	public Object getDefaultValue()
 	{
 		return m_defaultValue;
 	}

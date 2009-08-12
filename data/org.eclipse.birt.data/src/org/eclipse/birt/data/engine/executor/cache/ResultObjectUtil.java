@@ -171,7 +171,7 @@ public class ResultObjectUtil
 					obs[j] = new Timestamp( dis.readLong( ) );
 				else if ( fieldType.equals( java.sql.Date.class ) )
 					obs[j] = new java.sql.Date( dis.readLong( ) );
-				else if ( fieldType.isAssignableFrom( Date.class ) )
+				else if ( Date.class.isAssignableFrom( fieldType ) )
 					obs[j] = new Date( dis.readLong( ) );
 				else if ( fieldType.equals( Boolean.class ) )
 					obs[j] = new Boolean( dis.readBoolean( ) );
@@ -195,7 +195,7 @@ public class ResultObjectUtil
 						obs[j] = bytes;
 					}
 				}
-				else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+				else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 				{
 					ObjectInputStream ois = ObjectSecurity.createObjectInputStream( dis );
 					try
@@ -314,10 +314,10 @@ public class ResultObjectUtil
 					dos.write( (byte[]) fieldValue );
 				}
 			}
-			else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+			else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 			{
 				if ( !( fieldValue instanceof Serializable ) )
-					fieldValue = fieldValue.toString( );
+					throw new DataException( ResourceConstants.NOT_SERIALIZABLE_CLASS, fieldValue.getClass().getName( ));
 
 				ObjectOutputStream oo = ObjectSecurity.createObjectOutputStream( dos );
 				oo.writeObject( fieldValue );

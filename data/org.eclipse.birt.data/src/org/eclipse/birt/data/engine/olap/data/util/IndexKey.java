@@ -53,7 +53,15 @@ public class IndexKey implements IComparableStructure
 				return 0;
 			if ( getKey()[i] != null && target.getKey()[i] == null )
 				return 1;
-			int result = ( (Comparable) getKey()[i] ).compareTo( target.getKey()[i] );
+			int result = 0;
+			if ( getKey()[i] instanceof Comparable )
+			{
+				result = ( (Comparable) getKey()[i] ).compareTo( target.getKey()[i] );
+			}
+			else
+			{
+				result = ( getKey()[i].toString() ).compareTo( target.getKey()[i].toString() );
+			}
 			if( result != 0 )
 			{
 				return result;

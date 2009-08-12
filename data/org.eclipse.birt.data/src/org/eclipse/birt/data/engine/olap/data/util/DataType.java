@@ -33,6 +33,7 @@ public class DataType
 	public static final int BYTES_TYPE = 102;
 	public static final int SQL_DATE_TYPE = org.eclipse.birt.core.data.DataType.SQL_DATE_TYPE;
 	public static final int SQL_TIME_TYPE = org.eclipse.birt.core.data.DataType.SQL_TIME_TYPE;
+	public static final int JAVA_OBJECT_TYPE = org.eclipse.birt.core.data.DataType.JAVA_OBJECT_TYPE;
 	
 
 	private static final String[] names = {
@@ -45,7 +46,8 @@ public class DataType
 			"Blob",
 			"Bytes",
 			"Date",
-			"Time"
+			"Time",
+			"Java Object"
 	};
 
 	private static final int[] typeCodes = {
@@ -58,7 +60,8 @@ public class DataType
 			BLOB_TYPE,
 			BYTES_TYPE,
 			SQL_DATE_TYPE,
-			SQL_TIME_TYPE
+			SQL_TIME_TYPE,
+			JAVA_OBJECT_TYPE,
 	};
 
 	public static final String BOOLEAN_TYPE_NAME = names[0];
@@ -71,6 +74,7 @@ public class DataType
 	public static final String BYTES_TYPE_NAME = names[7];
 	public static final String SQL_DATE_TYPE_NAME = names[8];
 	public static final String SQL_TIME_TYPE_NAMW = names[9];
+	public static final String JAVA_OBJECT_TYPE_NAMW = names[10];
 
 	private static final Class[] classes = {
 			Boolean.class,
@@ -83,6 +87,7 @@ public class DataType
 			Bytes.class,
 			java.sql.Date.class,
 			java.sql.Time.class,
+			java.lang.Object.class,
 	};
 
 	/**

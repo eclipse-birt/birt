@@ -20,6 +20,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -197,6 +198,72 @@ public class DataSetCacheTest extends APITestCase
 		myDataEngine2.defineDataSource( this.dataSource );
 		myDataEngine2.defineDataSet( this.dataSet );
 		QueryDefinition qd = newReportQuery( );
+		IQueryResults qr = myDataEngine2.prepare( qd ).execute( null );
+
+		assertFalse( getDataSetCacheManager( myDataEngine2 ).doesLoadFromCache( ) );
+
+		qr.getResultIterator( );
+
+		assertTrue( getDataSetCacheManager( myDataEngine2 ).doesLoadFromCache( ) );
+		myDataEngine2.clearCache( dataSource, dataSet );
+		qr.close( );
+		myDataEngine2.shutdown( );
+	}
+	
+	/**
+	 * Test the feature of always cache.
+	 * @throws BirtException
+	 */
+	public void testSerializableJavaObjectCache( ) throws BirtException
+	{
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null );
+		context.setCacheOption( DataEngineContext.CACHE_USE_ALWAYS, 4 );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( context );
+		myDataEngine2.defineDataSource( this.dataSource );
+		myDataEngine2.defineDataSet( this.dataSet );
+		QueryDefinition qd = newReportQuery( );
+		ScriptExpression se = new ScriptExpression( "new java.lang.StringBuffer(\"ss\")" );
+		se.setDataType( DataType.JAVA_OBJECT_TYPE );
+		IBinding b = new Binding("serializable", se );
+		b.setDataType( DataType.JAVA_OBJECT_TYPE );
+		qd.addBinding( b );
+		IQueryResults qr = myDataEngine2.prepare( qd ).execute( null );
+
+		assertFalse( getDataSetCacheManager( myDataEngine2 ).doesLoadFromCache( ) );
+
+		qr.getResultIterator( );
+
+		assertTrue( getDataSetCacheManager( myDataEngine2 ).doesLoadFromCache( ) );
+		myDataEngine2.clearCache( dataSource, dataSet );
+		qr.close( );
+		myDataEngine2.shutdown( );
+	}
+	
+	/**
+	 * Test the feature of always cache.
+	 * @throws BirtException
+	 */
+	public void testUnserializableJavaObjectCache( ) throws BirtException
+	{
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null );
+		context.setCacheOption( DataEngineContext.CACHE_USE_ALWAYS, 4 );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( context );
+		myDataEngine2.defineDataSource( this.dataSource );
+		myDataEngine2.defineDataSet( this.dataSet );
+		QueryDefinition qd = newReportQuery( );
+		ScriptExpression se = new ScriptExpression( "new java.lang.ThreadGroup(\"ss\")" );
+		se.setDataType( DataType.JAVA_OBJECT_TYPE );
+		IBinding b = new Binding("unserializable", se );
+		b.setDataType( DataType.JAVA_OBJECT_TYPE );
+		qd.addBinding( b );
 		IQueryResults qr = myDataEngine2.prepare( qd ).execute( null );
 
 		assertFalse( getDataSetCacheManager( myDataEngine2 ).doesLoadFromCache( ) );

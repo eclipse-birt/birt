@@ -337,4 +337,24 @@ public class DocumentObject implements IDocumentObject
 		delegate.writeBytes( b );
 	}
 
+	public Object readObject( ) throws IOException
+	{
+		if( delegate.readByte( ) == 0 )
+		{
+			return null;
+		}
+		return delegate.readObject( );
+	}
+
+	public void writeObject( Object o ) throws IOException
+	{
+		if ( o == null )
+		{
+			delegate.writeByte( 0 );
+			return;
+		}
+		delegate.writeByte( 1 );
+		delegate.writeObject( o );
+	}
+
 }

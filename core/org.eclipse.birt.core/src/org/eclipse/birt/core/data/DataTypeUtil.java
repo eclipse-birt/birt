@@ -116,6 +116,8 @@ public final class DataTypeUtil
 				return toSqlDate( source );
 			case DataType.SQL_TIME_TYPE:
 				return toSqlTime( source );
+			case DataType.JAVA_OBJECT_TYPE:
+				return source;
 			default :
 				throw new CoreException( ResourceConstants.INVALID_TYPE,
 						resourceBundle );
@@ -175,6 +177,10 @@ public final class DataTypeUtil
 		}
 		if ( toTypeClass == byte[].class )
 			return source;
+		if ( toTypeClass == Object.class )
+		{
+			return source;
+		}
 
 		throw new CoreException( ResourceConstants.INVALID_TYPE,
 				resourceBundle );
@@ -1280,7 +1286,7 @@ public final class DataTypeUtil
 		else if ( clazz == Boolean.class )
 			return DataType.BOOLEAN_TYPE;
         else if ( clazz == Object.class )
-            return DataType.STRING_TYPE;
+            return DataType.JAVA_OBJECT_TYPE;
 
 		// any other types are not recognized nor supported;
 		return DataType.UNKNOWN_TYPE;
