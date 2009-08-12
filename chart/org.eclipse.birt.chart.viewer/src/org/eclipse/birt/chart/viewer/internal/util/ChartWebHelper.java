@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.viewer.internal.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 
 import javax.servlet.ServletContext;
@@ -53,12 +55,14 @@ public class ChartWebHelper
 		Chart chartModel = null;
 		final File chartFile = new File( strPath );
 		// Reads the chart model
+		InputStream is = null;
 		try
 		{
 			if ( chartFile.exists( ) )
 			{
 				Serializer serializer = SerializerImpl.instance( );
-				chartModel = serializer.read( new FileInputStream( chartFile ) );
+				is = new FileInputStream( chartFile );
+				chartModel = serializer.read( is );
 			}
 		}
 		catch ( Exception e )
@@ -66,6 +70,20 @@ public class ChartWebHelper
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.NOT_FOUND,
 					e );
+		}
+		finally
+		{
+			if ( is != null )
+			{
+				try
+				{
+					is.close( );
+				}
+				catch ( IOException e )
+				{
+
+				}
+			}
 		}
 		return chartModel;
 	}

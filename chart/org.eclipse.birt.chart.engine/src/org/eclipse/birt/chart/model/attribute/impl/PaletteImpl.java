@@ -422,7 +422,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 			logger.log( ILogger.WARNING,
 					Messages.getString( "error.unknown.palette", //$NON-NLS-1$ 
 							new Object[]{
-								new Integer( iIndex )
+								Integer.valueOf( iIndex )
 							},
 							ULocale.getDefault( ) ) );
 			update( 0 );

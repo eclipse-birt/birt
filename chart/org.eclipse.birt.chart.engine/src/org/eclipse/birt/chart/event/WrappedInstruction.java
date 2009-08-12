@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.event;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -241,7 +242,10 @@ public final class WrappedInstruction implements IRenderInstruction
 		return new WIComparator( );
 	}
 
-	private static class WIComparator implements Comparator<Object>
+	private static class WIComparator
+			implements
+				Comparator<Object>,
+				Serializable
 	{
 
 		private long getZOrder( Object o )

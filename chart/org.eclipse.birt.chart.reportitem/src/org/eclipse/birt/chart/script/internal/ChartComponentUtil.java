@@ -115,7 +115,7 @@ public class ChartComponentUtil
 		}
 		if ( data instanceof IDateTimeDataElement )
 		{
-			return DateTimeDataElementImpl.create( ( (DateTimeDataElement) data ).getValue( ) );
+			return DateTimeDataElementImpl.create( ( (IDateTimeDataElement) data ).getValue( ) );
 		}
 		return null;
 	}

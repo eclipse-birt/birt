@@ -25,9 +25,9 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 
 	private static final long serialVersionUID = -5467310111862210812L;
 
-	protected Image img;
+	protected transient Image img;
 
-	protected Location loc;
+	protected transient Location loc;
 
 	protected Position pos;
 

@@ -65,41 +65,33 @@ public class GroupOnXSeries
 		{
 			designHandle = sessionHandle.openDesign( path
 					+ "NonGroupOnXSeries.rptdesign" );//$NON-NLS-1$
+			ExtendedItemHandle eih = (ExtendedItemHandle) designHandle.getBody( )
+					.getContents( )
+					.get( 0 );
+			Chart cm = (Chart) eih.getReportItem( )
+					.getProperty( "chart.instance" ); //$NON-NLS-1$
+			cm.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( "Group On X Series" );//$NON-NLS-1$
+
+			SeriesDefinition sdX = (SeriesDefinition) ( (Axis) ( (ChartWithAxes) cm ).getAxes( )
+					.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+
+			sdX.setSorting( SortOption.ASCENDING_LITERAL );
+			sdX.getGrouping( ).setEnabled( true );
+			sdX.getGrouping( ).setAggregateExpression( "Sum" );//$NON-NLS-1$
+			sdX.getGrouping( ).setGroupType( DataType.NUMERIC_LITERAL );
+			sdX.getGrouping( ).setGroupingInterval( 1 );
+			designHandle.saveAs( path + "GroupOnXSeries.rptdesign" );//$NON-NLS-1$
 		}
 		catch ( DesignFileException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
-		}
-
-		ExtendedItemHandle eih = (ExtendedItemHandle) designHandle.getBody( )
-				.getContents( ).get( 0 );
-
-		Chart cm = null;
-		try
-		{
-			cm = (Chart) eih.getReportItem( ).getProperty( "chart.instance" ); //$NON-NLS-1$
 		}
 		catch ( ExtendedElementException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
-		}
-		
-		cm.getTitle( ).getLabel( ).getCaption( ).setValue( "Group On X Series" );//$NON-NLS-1$
-
-		SeriesDefinition sdX = (SeriesDefinition) ( (Axis) ( (ChartWithAxes) cm )
-				.getAxes( ).get( 0 ) ).getSeriesDefinitions( ).get( 0 );
-
-		sdX.setSorting( SortOption.ASCENDING_LITERAL );
-		sdX.getGrouping( ).setEnabled( true );
-		sdX.getGrouping( ).setAggregateExpression( "Sum" );//$NON-NLS-1$
-		sdX.getGrouping( ).setGroupType( DataType.NUMERIC_LITERAL );
-		sdX.getGrouping( ).setGroupingInterval( 1 );
-
-		try
-		{
-			designHandle.saveAs( path + "GroupOnXSeries.rptdesign" );//$NON-NLS-1$
 		}
 		catch ( IOException e )
 		{

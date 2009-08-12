@@ -27,30 +27,22 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 
 /**
  * 
  */
 
-public class AxisTitleSheet extends AbstractPopupSheet
-		implements
-			SelectionListener,
-			Listener
+public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 {
 
 	private transient Composite cmpContent = null;
 
 	private transient LabelAttributesComposite lacTitle = null;
-
-	private transient Spinner iscInterval;
 
 	private transient Axis axis;
 
@@ -174,28 +166,6 @@ public class AxisTitleSheet extends AbstractPopupSheet
 					break;
 			}
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.getSource( ).equals( iscInterval ) )
-		{
-			getAxisForProcessing( ).setInterval( iscInterval.getSelection( ) );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
 	}
 
 	private Axis getAxisForProcessing( )

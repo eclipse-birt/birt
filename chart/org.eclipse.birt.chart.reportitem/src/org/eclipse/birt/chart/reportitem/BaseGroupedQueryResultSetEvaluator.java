@@ -41,7 +41,7 @@ import org.eclipse.emf.common.util.EList;
  */
 public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowExpressionEvaluator
 {
-	protected static ILogger sLogger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static final ILogger sLogger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	protected IResultIterator fResultIterator;
 

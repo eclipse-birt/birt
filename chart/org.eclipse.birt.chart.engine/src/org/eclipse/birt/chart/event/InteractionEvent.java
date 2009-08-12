@@ -33,7 +33,7 @@ public final class InteractionEvent extends ChartEvent
 
 	private final LinkedHashMap<TriggerCondition, Action> _lhmTriggers = new LinkedHashMap<TriggerCondition, Action>( );
 
-	private Cursor cursor = null;
+	private transient Cursor cursor = null;
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 

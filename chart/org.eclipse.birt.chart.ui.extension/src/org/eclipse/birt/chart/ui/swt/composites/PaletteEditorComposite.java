@@ -297,7 +297,7 @@ public final class PaletteEditorComposite extends Composite implements
 			{
 				rre.setBackground( (Fill) ( (MultipleFill) fi ).getFills( )
 						.get( 0 ) );
-				bo.set( 3, iY + 3, ( rCA.width - 6 ) / 2, ITEM_HEIGHT - 6 );
+				bo.set( 3, iY + 3, ( rCA.width - 6 ) / 2.0, ITEM_HEIGHT - 6 );
 				try
 				{
 					idrSWT.fillRectangle( rre );
@@ -307,9 +307,9 @@ public final class PaletteEditorComposite extends Composite implements
 					logger.log( rex );
 				}
 
-				bo.set( rCA.width / 2,
+				bo.set( rCA.width / 2.0,
 						iY + 3,
-						( rCA.width - 6 ) / 2,
+						( rCA.width - 6 ) / 2.0,
 						ITEM_HEIGHT - 6 );
 				rre.setBackground( (Fill) ( (MultipleFill) fi ).getFills( )
 						.get( 1 ) );

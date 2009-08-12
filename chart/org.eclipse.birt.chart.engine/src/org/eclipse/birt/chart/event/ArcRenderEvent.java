@@ -30,7 +30,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
-	protected Location loTopLeft = null;
+	protected transient Location loTopLeft = null;
 
 	protected double dWidth;
 
@@ -44,9 +44,9 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 	protected double dOuterRadius;
 
-	protected LineAttributes outline;
+	protected transient LineAttributes outline;
 
-	protected Fill ifBackground = null;
+	protected transient Fill ifBackground = null;
 
 	protected int iStyle = SECTOR;
 

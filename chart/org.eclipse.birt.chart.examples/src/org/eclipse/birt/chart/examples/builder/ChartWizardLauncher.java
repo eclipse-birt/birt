@@ -14,6 +14,9 @@ package org.eclipse.birt.chart.examples.builder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.model.Chart;
@@ -57,17 +60,33 @@ public class ChartWizardLauncher implements ChartUIConstants
 		final File chartFile = new File( filePath );
 
 		// Reads the chart model
+		InputStream is = null;
 		try
 		{
 			serializer = SerializerImpl.instance( );
 			if ( chartFile.exists( ) )
 			{
-				chart = serializer.read( new FileInputStream( chartFile ) );
+				is = new FileInputStream( chartFile );
+				chart = serializer.read( is );
 			}
 		}
 		catch ( Exception e )
 		{
 			WizardBase.displayException( e );
+		}
+		finally
+		{
+			if ( is != null )
+			{
+				try
+				{
+					is.close( );
+				}
+				catch ( IOException e )
+				{
+
+				}
+			}
 		}
 
 		// Configures the chart wizard.
@@ -112,33 +131,42 @@ public class ChartWizardLauncher implements ChartUIConstants
 		// Opens the wizard
 		ChartWizardContext contextResult = (ChartWizardContext) chartWizard.open( context );
 
-		if ( contextResult != null )
+		OutputStream os = null;
+		try
 		{
-			// Pressing Finish
-			try
+			os = new FileOutputStream( chartFile );
+			if ( contextResult != null )
 			{
-				serializer.write( contextResult.getModel( ),
-						new FileOutputStream( chartFile ) );
+				// Pressing Finish
+				serializer.write( contextResult.getModel( ), os );
+
 			}
-			catch ( Exception e )
+			else if ( applyData[0] != null )
 			{
-				WizardBase.displayException( e );
+				// Pressing Cancel but Apply was pressed before, so revert to
+				// the point pressing Apply
+				serializer.write( (Chart) applyData[0], os );
 			}
 		}
-		else if ( applyData[0] != null )
+		catch ( Exception e )
 		{
-			// Pressing Cancel but Apply was pressed before, so revert to
-			// the point pressing Apply
-			try
+			WizardBase.displayException( e );
+		}
+		finally
+		{
+			if ( os != null )
 			{
-				serializer.write( (Chart) applyData[0],
-						new FileOutputStream( chartFile ) );
-			}
-			catch ( Exception e )
-			{
-				WizardBase.displayException( e );
+				try
+				{
+					os.close( );
+				}
+				catch ( IOException e )
+				{
+
+				}
 			}
 		}
+
 
 	}
 

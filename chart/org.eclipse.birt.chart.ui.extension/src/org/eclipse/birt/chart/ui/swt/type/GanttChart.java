@@ -241,8 +241,7 @@ public class GanttChart extends DefaultChartTypeImpl
 					}
 				}
 
-				if ( currentChart instanceof ChartWithAxes
-						&& !( (ChartWithAxes) currentChart ).getOrientation( )
+				if ( !( (ChartWithAxes) currentChart ).getOrientation( )
 								.equals( newOrientation ) )
 				{
 					( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
@@ -399,8 +398,7 @@ public class GanttChart extends DefaultChartTypeImpl
 					.getCaption( )
 					.setValue( CHART_TITLE );
 		}
-		if ( currentChart instanceof ChartWithAxes
-				&& !( (ChartWithAxes) currentChart ).getOrientation( )
+		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
 						.equals( newOrientation ) )
 		{
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );

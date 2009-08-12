@@ -1165,7 +1165,7 @@ public final class CurveRenderer
 		final double[] faKnotXY2 = new double[2];
 
 		int iNumberOfPoints = 0;
-		Location[] tempPoints = loPoints;
+		Location[] tempPoints;
 		double[] fa = null, faX, faY;
 		Spline spX = null, spY = null;
 

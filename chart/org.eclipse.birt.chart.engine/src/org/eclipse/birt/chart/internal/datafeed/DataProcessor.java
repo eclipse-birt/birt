@@ -1460,24 +1460,9 @@ public class DataProcessor
 	public void formatBaseSeriesData( Chart cm, GroupingLookupHelper lhmLookup,
 			List<Object[]> rowSet ) throws ChartException
 	{
-		SeriesDefinition sdBase = null;
+		SeriesDefinition sdBase = ChartUtil.getBaseSeriesDefinitions( cm )
+				.get( 0 );
 
-		if ( cm instanceof ChartWithAxes )
-		{
-			ChartWithAxes cwa = (ChartWithAxes) cm;
-			Axis[] axaBase = cwa.getBaseAxes( );
-
-			// EACH BASE AXIS
-			for ( int j = 0; j < axaBase.length; j++ )
-			{
-				sdBase = axaBase[j].getSeriesDefinitions( ).get( 0 );
-			}
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			sdBase = cwoa.getSeriesDefinitions( ).get( 0 );
-		}
 		final SeriesGrouping sg = sdBase.getGrouping( );
 		if ( sg == null || !sg.isEnabled( ) )
 		{

@@ -89,15 +89,15 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	 * The bounds of the enclosing block space in which the text's bounding box
 	 * will be aligned
 	 */
-	protected Bounds _boBlock;
+	protected transient Bounds _boBlock;
 
-	protected Label _la;
+	protected transient Label _la;
 
-	protected TextAlignment _taBlock;
+	protected transient TextAlignment _taBlock;
 
 	protected int _iAction = UNDEFINED;
 
-	protected Location _lo;
+	protected transient Location _lo;
 
 	protected int _iTextPosition;
 

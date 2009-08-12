@@ -2347,28 +2347,32 @@ public abstract class AxesRenderer extends BaseRenderer
 			return;
 		}
 		
-		Fill markerFill = m.getFill( );
-		m = goFactory.copyMarkerNoFill( m );
+		if ( m != null )
+		{
+			Fill markerFill = m.getFill( );
+			m = goFactory.copyMarkerNoFill( m );
 
-		// Convert Fill for negative value
-		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
-		{
-			fPaletteEntry = ChartUtil.convertFill( fPaletteEntry,
-					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
-					null );
-		}
-		
-		// Set fill before call Script
-		// Only marker type isn't icon and marker fill don't be set, use current fill.
-		if ( m.getType( ).getValue( ) != MarkerType.ICON
-				&& fPaletteEntry != null )
-		{
-			m.setFill( fPaletteEntry );
-		}
-		else
-		{
-			// use the original marker's fill
-			m.setFill( goFactory.copyOf( markerFill ) );
+			// Convert Fill for negative value
+			if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
+			{
+				fPaletteEntry = ChartUtil.convertFill( fPaletteEntry,
+						( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
+						null );
+			}
+
+			// Set fill before call Script
+			// Only marker type isn't icon and marker fill don't be set, use
+			// current fill.
+			if ( m.getType( ).getValue( ) != MarkerType.ICON
+					&& fPaletteEntry != null )
+			{
+				m.setFill( fPaletteEntry );
+			}
+			else
+			{
+				// use the original marker's fill
+				m.setFill( goFactory.copyOf( markerFill ) );
+			}
 		}
 		
 		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
@@ -2449,10 +2453,10 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( this.isInteractivityEnabled( ) && dph != null )
 		{
 			if ( !( lo instanceof Location3D )
-					|| ( ( lo instanceof Location3D ) && ( this.get3DEngine( )
+					||  this.get3DEngine( )
 							.processEvent( preCopy,
 									panningOffset.getX( ),
-									panningOffset.getY( ) ) != null ) ) )
+							panningOffset.getY( ) ) != null )
 			{
 				final EList<Trigger> elTriggers = se.getTriggers( );
 				if ( !elTriggers.isEmpty( ) )
@@ -2472,7 +2476,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						iev.addTrigger( tg );
 					}
 					iev.setHotSpot( preCopy );
-					iev.setZOrder( m == null ? 0 : (short) m.getSize( ) );
+					iev.setZOrder( (short) m.getSize( ) );
 					ipr.enableInteraction( iev );
 				}
 			}

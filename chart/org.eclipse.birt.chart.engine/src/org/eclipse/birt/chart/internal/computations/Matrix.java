@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.internal.computations;
 /**
  * Matrix
  */
-public class Matrix implements Cloneable
+public class Matrix
 {
 
 	private double[][] data;

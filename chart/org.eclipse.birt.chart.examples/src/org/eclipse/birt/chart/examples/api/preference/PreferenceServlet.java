@@ -20,9 +20,9 @@ import java.util.Enumeration;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -39,7 +39,7 @@ public class PreferenceServlet extends HttpServlet
 
 	private static final long serialVersionUID = 1L;
 
-	private Chart cm = null;
+	private transient Chart cm = null;
 	
 	private String fontName = null;
 	
@@ -49,9 +49,9 @@ public class PreferenceServlet extends HttpServlet
 	
 	private boolean bItalic = false;
 	
-	private ColorDefinition cd = null;
+	private transient ColorDefinition cd = null;
 
-	private IDeviceRenderer idr = null;
+	private transient IDeviceRenderer idr = null;
 
 	/**
 	 * Deploy the render device.

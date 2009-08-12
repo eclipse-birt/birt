@@ -48,11 +48,11 @@ public class ChartRendererTag extends TagSupport
 	private String output = "PNG"; //$NON-NLS-1$
 
 	private Object model;
-	private Chart chartModel;
+	private transient Chart chartModel;
 
-	private IDataRowExpressionEvaluator data;
+	private transient IDataRowExpressionEvaluator data;
 
-	private IStyleProcessor styleProcessor;
+	private transient IStyleProcessor styleProcessor;
 
 	private RunTimeContext runtimeContext;
 

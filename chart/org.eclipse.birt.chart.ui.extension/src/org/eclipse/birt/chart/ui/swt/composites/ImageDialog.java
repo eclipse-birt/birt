@@ -421,8 +421,11 @@ public class ImageDialog extends TrayDialog
 	 */
 	private String removeQuote( String string )
 	{
-		if ( string != null
-				&& string.trim( ).length( ) >= 2
+		if ( string == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		if ( string.trim( ).length( ) >= 2
 				&& string.trim( ).startsWith( "\"" ) //$NON-NLS-1$
 				&& string.trim( ).endsWith( "\"" ) ) //$NON-NLS-1$
 		{

@@ -411,12 +411,10 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 		{
 			if ( element instanceof String[] )
 			{
-				if ( element == null )
+				if ( columnIndex < ( (String[]) element ).length )
 				{
-					return null;
+					return ( (String[]) element )[columnIndex];
 				}
-
-				return ( (String[]) element )[columnIndex];
 			}
 			return null;
 		}

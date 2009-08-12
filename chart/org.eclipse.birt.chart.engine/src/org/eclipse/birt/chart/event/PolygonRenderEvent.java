@@ -27,11 +27,11 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 
 	private static final long serialVersionUID = 7825900630615976817L;
 
-	private Location[] _loa;
+	private transient Location[] _loa;
 
-	protected LineAttributes _lia;
+	protected transient LineAttributes _lia;
 
-	protected Fill _ifBackground;
+	protected transient Fill _ifBackground;
 
 	/**
 	 * The constructor.

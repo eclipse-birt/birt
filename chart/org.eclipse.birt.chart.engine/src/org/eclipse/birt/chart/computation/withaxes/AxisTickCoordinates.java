@@ -20,7 +20,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 public class AxisTickCoordinates implements Cloneable
 {
 
-	private final int size;
+	private int size;
 	private double dStart, dEnd, dStep;
 	private boolean isTickBetweenCategory;
 
@@ -146,10 +146,24 @@ public class AxisTickCoordinates implements Cloneable
 
 	public Object clone( )
 	{
-		return new AxisTickCoordinates( size,
-				dStart,
-				dEnd,
-				dStep,
-				isTickBetweenCategory );
+		try
+		{
+			AxisTickCoordinates cl = (AxisTickCoordinates) super.clone( );
+			cl.size = this.size;
+			cl.dStart = this.dStart;
+			cl.dEnd = this.dEnd;
+			cl.dStep = this.dStep;
+			cl.isTickBetweenCategory = this.isTickBetweenCategory;
+			return cl;
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			return new AxisTickCoordinates( size,
+					dStart,
+					dEnd,
+					dStep,
+					isTickBetweenCategory );
+		}
+
 	}
 }

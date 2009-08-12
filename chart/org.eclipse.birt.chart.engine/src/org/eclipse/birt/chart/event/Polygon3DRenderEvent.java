@@ -40,9 +40,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 	private boolean bBehind = false;
 
-	private Object3D object3D;
+	private transient Object3D object3D;
 
-	private Fill runtimeBackground;
+	private transient Fill runtimeBackground;
 
 	/**
 	 * The constructor.

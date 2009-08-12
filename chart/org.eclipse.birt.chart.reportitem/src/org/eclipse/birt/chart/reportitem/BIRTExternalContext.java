@@ -28,7 +28,7 @@ public class BIRTExternalContext implements IExternalContext
 	private static final long serialVersionUID = 1L;
 
 	private transient IReportContext context;
-	private transient Scriptable scriptableContext;
+	private Scriptable scriptableContext;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 

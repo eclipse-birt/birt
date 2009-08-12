@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -112,7 +111,7 @@ import org.eclipse.ui.PlatformUI;
 public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 {
 
-	protected static Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
 	
 	protected transient String[] popupItems = null;
 	

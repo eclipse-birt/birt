@@ -24,7 +24,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 
 	private static final long serialVersionUID = 3083777028665416663L;
 
-	private Object3D object3D;
+	private transient Object3D object3D;
 
 	/**
 	 * The constructor.

@@ -63,7 +63,8 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 
 	private double dXAxisLabelsThickness;
 	
-	double dXAxisThickness = 0; // REUSE VARIABLE
+
+	// double dXAxisThickness = 0; // REUSE VARIABLE
 	
 	
 	// Compute axes decoration thickness, the value sequence is either
@@ -353,15 +354,15 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		// 2. Compute and set endpoints of orthogonal axis.
 		// COMPUTE THE X-AXIS BAND THICKNESS AND ADJUST Y2 FOR LABELS BELOW
 
-		if ( iXLabelLocation == PlotWithAxes.ABOVE )
-		{
-			// X-AXIS BAND IS (y1 -> y2)
-			dXAxisThickness = dY2 - dY1;
-		}
-		else if ( iXLabelLocation == PlotWithAxes.BELOW )
-		{
-			dXAxisThickness = dY2 - dY1;
-		}
+		// if ( iXLabelLocation == PlotWithAxes.ABOVE )
+		// {
+		// // X-AXIS BAND IS (y1 -> y2)
+		// dXAxisThickness = dY2 - dY1;
+		// }
+		// else if ( iXLabelLocation == PlotWithAxes.BELOW )
+		// {
+		// dXAxisThickness = dY2 - dY1;
+		// }
 
 		fAxisY = dY;
 		fAxisTop = dY1;
@@ -452,15 +453,15 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 
 		// 2. Compute and set endpoints of orthogonal axis.
 		// COMPUTE THE X-AXIS BAND THICKNESS AND ADJUST Y2 FOR LABELS BELOW
-		if ( iXLabelLocation == PlotWithAxes.ABOVE )
-		{
-			dXAxisThickness = dY2 - dY1;
-		}
-		else if ( iXLabelLocation == PlotWithAxes.BELOW )
-		{
-			// X-AXIS BAND IS (y1 -> y2)
-			dXAxisThickness = dY2 - dY1;
-		}
+		// if ( iXLabelLocation == PlotWithAxes.ABOVE )
+		// {
+		// dXAxisThickness = dY2 - dY1;
+		// }
+		// else if ( iXLabelLocation == PlotWithAxes.BELOW )
+		// {
+		// // X-AXIS BAND IS (y1 -> y2)
+		// dXAxisThickness = dY2 - dY1;
+		// }
 
 		fAxisY = dY;
 		fAxisTop = dY1;

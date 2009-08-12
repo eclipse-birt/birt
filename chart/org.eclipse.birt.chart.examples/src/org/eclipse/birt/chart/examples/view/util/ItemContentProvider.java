@@ -105,18 +105,28 @@ public class ItemContentProvider
 			InputStream file = fileURL.openStream( );
 
 			BufferedReader reader = null;
-			reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( file ) ) );
-
-			while ( true )
+			try
 			{
-				String sTmp = reader.readLine( );
-				if ( sTmp == null )
+				reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( file ) ) );
+
+				while ( true )
 				{
-					break;
+					String sTmp = reader.readLine( );
+					if ( sTmp == null )
+					{
+						break;
+					}
+					else
+					{
+						dFile.append( sTmp.trim( ) );
+					}
 				}
-				else
+			}
+			finally
+			{
+				if ( reader != null )
 				{
-					dFile.append( sTmp.trim( ) );
+					reader.close( );
 				}
 			}
 		}

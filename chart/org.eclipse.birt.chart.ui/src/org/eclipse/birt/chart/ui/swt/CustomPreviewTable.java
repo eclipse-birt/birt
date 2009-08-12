@@ -810,7 +810,7 @@ public class CustomPreviewTable extends Composite implements
 				}
 				// ADJUST HEIGHT FOR PRESENCE OF HORIZONTAL SCROLLBAR
 				iHeight -= super.getHorizontalBar( ).getSize( ).y;
-				iVisibleRows = (int) Math.floor( iHeight / ROW_HEIGHT );
+				iVisibleRows = (int) Math.floor( iHeight / (double) ROW_HEIGHT );
 
 				getVerticalBar( ).setValues( iVisibleRows + iVScroll,
 						iVisibleRows,

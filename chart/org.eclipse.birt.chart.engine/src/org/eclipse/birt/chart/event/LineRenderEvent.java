@@ -25,11 +25,11 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 
 	private static final long serialVersionUID = 7216549683820618553L;
 
-	private Location loStart;
+	private transient Location loStart;
 
-	private Location loEnd;
+	private transient Location loEnd;
 
-	protected LineAttributes lia;
+	protected transient LineAttributes lia;
 
 	/**
 	 * The constructor.

@@ -23,7 +23,7 @@ public final class ClipRenderEvent extends PrimitiveRenderEvent
 
 	private static final long serialVersionUID = -1609479639743164885L;
 
-	private Location[] _loa;
+	private transient Location[] _loa;
 
 	/**
 	 * The constructor.

@@ -782,10 +782,11 @@ public class BirtWizardUtil implements IBirtWizardConstants
 	{
 		// get file
 		File file = getFileFromPluginDir( filename, pluginId );
+		FileReader reader = null;
 		try
 		{
 			// read file content
-			FileReader reader = new FileReader( file );
+			reader = new FileReader( file );
 			StringBuffer sbuf = new StringBuffer( );
 			char[] cbuf = new char[512];
 			int len = 0;
@@ -793,7 +794,6 @@ public class BirtWizardUtil implements IBirtWizardConstants
 			{
 				sbuf.append( cbuf, 0, len );
 			}
-			reader.close( );
 			return sbuf.toString( );
 		}
 		catch ( Exception e )
@@ -801,6 +801,20 @@ public class BirtWizardUtil implements IBirtWizardConstants
 			// throw exception
 			Logger.logException( e );
 			throw ChartIntegrationException.getException( null, e );
+		}
+		finally
+		{
+			if ( reader != null )
+			{
+				try
+				{
+					reader.close( );
+				}
+				catch ( IOException e )
+				{
+
+				}
+			}
 		}
 	}
 
@@ -817,20 +831,34 @@ public class BirtWizardUtil implements IBirtWizardConstants
 		if ( iFile == null || data == null )
 			return;
 
+		OutputStream out = null;
 		try
 		{
 			// write file
 			File file = iFile.getLocation( ).toFile( );
-			OutputStream out = new FileOutputStream( file, false );
+			out = new FileOutputStream( file, false );
 			out.write( data );
 			out.flush( );
-			out.close( );
 		}
 		catch ( Exception e )
 		{
 			// throw exception
 			Logger.logException( e );
 			throw ChartIntegrationException.getException( null, e );
+		}
+		finally
+		{
+			if ( out != null )
+			{
+				try
+				{
+					out.close( );
+				}
+				catch ( IOException e )
+				{
+
+				}
+			}
 		}
 	}
 

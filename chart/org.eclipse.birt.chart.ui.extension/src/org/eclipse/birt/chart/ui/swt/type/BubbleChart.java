@@ -411,8 +411,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 					.getCaption( )
 					.setValue( CHART_TITLE );
 		}
-		if ( currentChart instanceof ChartWithAxes
-				&& !( (ChartWithAxes) currentChart ).getOrientation( )
+		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
 						.equals( newOrientation ) )
 		{
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );

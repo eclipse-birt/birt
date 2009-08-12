@@ -26,11 +26,11 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 
 	private static final long serialVersionUID = -2020892672024222905L;
 
-	private Bounds _bo;
+	private transient Bounds _bo;
 
-	private LineAttributes _lia;
+	private transient LineAttributes _lia;
 
-	private Fill _ifBackground;
+	private transient Fill _ifBackground;
 
 	/**
 	 * The constructor.

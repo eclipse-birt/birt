@@ -19,13 +19,11 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
@@ -80,8 +78,6 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 	private transient LocalizedNumberEditorComposite txtSeriesThickness;
 
 	private transient Spinner iscColumnCount;
-
-	private transient FillChooserComposite fccBackground;
 
 	private transient String sOldUnits = ""; //$NON-NLS-1$
 
@@ -342,10 +338,6 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 				org.eclipse.birt.chart.model.attribute.Text description = TextImpl.create( txtDescription.getText( ) );
 				getChart( ).setDescription( description );
 			}
-		}
-		else if ( event.widget.equals( fccBackground ) )
-		{
-			getChart( ).getBlock( ).setBackground( (Fill) event.data );
 		}
 //		else if ( event.widget.equals( fccWall ) )
 //		{

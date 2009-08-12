@@ -709,8 +709,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					.getCaption( )
 					.setValue( getDefaultTitle( ) );
 		}
-		if ( currentChart instanceof ChartWithAxes
-				&& !( (ChartWithAxes) currentChart ).getOrientation( )
+		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
 						.equals( newOrientation ) )
 		{
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );

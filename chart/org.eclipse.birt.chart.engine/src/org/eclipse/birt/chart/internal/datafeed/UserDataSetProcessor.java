@@ -41,7 +41,7 @@ public class UserDataSetProcessor
 	 */
 	public DataSet[] populate( Object oResultSetDef ) throws ChartException
 	{
-		DataSet[] ds = new DataSet[0];
+		DataSet[] ds;
 
 		if ( oResultSetDef instanceof IResultSetDataSet )
 		{

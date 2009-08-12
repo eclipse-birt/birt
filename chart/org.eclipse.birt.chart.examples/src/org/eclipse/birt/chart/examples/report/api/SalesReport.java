@@ -62,7 +62,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
 import com.ibm.icu.util.ULocale;
 
@@ -220,6 +219,13 @@ public class SalesReport
 			catch ( IOException e1 )
 			{
 				throw e1;
+			}
+			finally
+			{
+				if ( is != null )
+				{
+					is.close( );
+				}
 			}
 		}
 		return data;

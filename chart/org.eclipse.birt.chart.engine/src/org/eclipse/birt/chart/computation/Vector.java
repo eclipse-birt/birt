@@ -370,9 +370,26 @@ public class Vector
 		
 	}
 	
-	public boolean equals( Vector other )
+	public boolean equals( Object other )
 	{
-		return v[0] == other.v[0] && v[1] == other.v[1] && v[2] == other.v[2];
+		if ( other instanceof Vector )
+		{
+			Vector ot = (Vector) other;
+			return v[0] == ot.v[0] && v[1] == ot.v[1] && v[2] == ot.v[2];
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
+	@Override
+	public int hashCode( )
+	{
+		return Double.valueOf( v[0] ).hashCode( )
+				^ Double.valueOf( v[1] ).hashCode( )
+				^ ( 31 * Double.valueOf( v[2] ).hashCode( ) );
 	}
 
 }

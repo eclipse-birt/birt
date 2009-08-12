@@ -41,7 +41,7 @@ public class BIRTCubeResultSetEvaluator extends
 		IGroupedDataRowExpressionEvaluator
 {
 
-	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	protected final ICubeResultSet rs;
 

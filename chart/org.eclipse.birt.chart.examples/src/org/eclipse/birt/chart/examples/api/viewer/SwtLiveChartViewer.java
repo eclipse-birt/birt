@@ -72,7 +72,7 @@ public class SwtLiveChartViewer extends Composite implements PaintListener
 
 	private GeneratedChartState gcs = null;
 
-	public static SwtLiveChartViewer c3dViewer;
+	private static SwtLiveChartViewer c3dViewer;
 
 	/**
 	 * Used in building the chart for the first time

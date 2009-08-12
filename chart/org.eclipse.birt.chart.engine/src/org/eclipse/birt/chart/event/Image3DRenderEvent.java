@@ -24,7 +24,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 
 	private static final long serialVersionUID = -5027476689319210090L;
 
-	private Object3D object3D;
+	private transient Object3D object3D;
 
 	/**
 	 * The constructor.

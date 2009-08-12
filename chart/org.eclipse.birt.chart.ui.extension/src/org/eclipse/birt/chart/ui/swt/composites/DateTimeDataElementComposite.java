@@ -152,7 +152,7 @@ public class DateTimeDataElementComposite extends Composite implements
 		}
 
 		CDateTime calendar = null;
-		if ( data instanceof DateTimeDataElement )
+		if ( data != null )
 		{
 			calendar = ( (DateTimeDataElement) data ).getValueAsCDateTime( );
 		}

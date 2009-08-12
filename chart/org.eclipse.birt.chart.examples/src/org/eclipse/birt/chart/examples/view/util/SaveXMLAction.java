@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.examples.view.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import org.eclipse.birt.chart.examples.view.ChartExamples;
 import org.eclipse.birt.chart.examples.view.description.Messages;
@@ -80,13 +81,22 @@ public class SaveXMLAction extends Action
 					}
 
 					serializer = SerializerImpl.instance( );
+					OutputStream os = null;
 					try
 					{
-						serializer.write( cm, new FileOutputStream( file ) );
+						os = new FileOutputStream( file );
+						serializer.write( cm, os );
 					}
 					catch ( IOException ioe )
 					{
 						ioe.printStackTrace( );
+					}
+					finally
+					{
+						if ( os != null )
+						{
+							os.close( );
+						}
 					}
 				}
 			}

@@ -69,7 +69,8 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 				if ( folder != null )
 					destPath = folder.getFullPath( );
 			}
-			else
+
+			if ( destPath == null )
 			{
 				destPath = BirtWizardUtil.getWebContentPath( project );
 			}

@@ -326,7 +326,7 @@ public class FillUtil
 			return goFactory.copyOf( elPalette.get( index % iPaletteSize ) );
 		}
 		int d = index / iPaletteSize;
-		if ( d % 2 == 1 )
+		if ( d % 2 != 0 )
 		{
 			Fill brighterFill = getBrighterFill( fill );
 			while ( d / 2 > 0 )

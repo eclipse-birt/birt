@@ -62,7 +62,7 @@ public class ChartImageManager
 	/**
 	 * Image folder to put the image files
 	 */
-	public static String imageFolder = null;
+	private static String imageFolder = null;
 
 	private static List<String> sessionIds = new ArrayList<String>( );
 
@@ -284,18 +284,34 @@ public class ChartImageManager
 		request.getSession( )
 				.getServletContext( )
 				.log( "Generated file: " + imageFile.getPath( ) ); //$NON-NLS-1$
-		OutputStream fos = new FileOutputStream( imageFile );
-		InputStream fis = generateStream( );
-		byte[] buffer = new byte[1024];
-		int readSize = 0;
-		while ( ( readSize = fis.read( buffer ) ) != -1 )
+		OutputStream fos = null;
+		InputStream fis = null;
+		try
 		{
-			// Bug 200777
-			// Only write the read size of input stream into output stream.
-			fos.write( buffer, 0, readSize );
+			fos = new FileOutputStream( imageFile );
+			fis = generateStream( );
+			byte[] buffer = new byte[1024];
+			int readSize = 0;
+			while ( ( readSize = fis.read( buffer ) ) != -1 )
+			{
+				// Bug 200777
+				// Only write the read size of input stream into output stream.
+				fos.write( buffer, 0, readSize );
+			}
 		}
-		fis.close( );
-		fos.close( );
+		finally
+		{
+			if ( fos != null )
+			{
+				fos.close( );
+			}
+			if ( fis != null )
+			{
+				fis.close( );
+			}
+
+		}
+
 	}
 
 	public File getImage( )

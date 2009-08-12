@@ -32,7 +32,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -57,8 +56,8 @@ public class AxisLabelSheet extends AbstractPopupSheet
 	private Spinner iscInterval;
 	
 	private Spinner iscEllipsis;
-	
-	private Button chkWithinAxes;
+
+	// private Button chkWithinAxes;
 
 	private Axis axis;
 
@@ -192,20 +191,22 @@ public class AxisLabelSheet extends AbstractPopupSheet
 		
 		
 		// This control is only for testing chart engine and not exposed in UI
-		if ( false )
-		{
-			chkWithinAxes = new Button( grpLabel, SWT.CHECK );
-			{
-				GridData gd = new GridData( );
-				gd.horizontalSpan = 2;
-				gd.horizontalIndent = 10;
-				chkWithinAxes.setLayoutData( gd );
-				chkWithinAxes.setText( "Label Within Axes" ); //$NON-NLS-1$
-				chkWithinAxes.addSelectionListener( this );
-				chkWithinAxes.setEnabled( !( getAxisForProcessing( ).isCategoryAxis( ) || getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL ) );
-				chkWithinAxes.setSelection( getAxisForProcessing( ).isLabelWithinAxes( ) );
-			}
-		}
+		// if ( false )
+		// {
+		// chkWithinAxes = new Button( grpLabel, SWT.CHECK );
+		// {
+		// GridData gd = new GridData( );
+		// gd.horizontalSpan = 2;
+		// gd.horizontalIndent = 10;
+		// chkWithinAxes.setLayoutData( gd );
+		//				chkWithinAxes.setText( "Label Within Axes" ); //$NON-NLS-1$
+		// chkWithinAxes.addSelectionListener( this );
+		// chkWithinAxes.setEnabled( !( getAxisForProcessing( ).isCategoryAxis(
+		// ) || getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL ) );
+		// chkWithinAxes.setSelection( getAxisForProcessing(
+		// ).isLabelWithinAxes( ) );
+		// }
+		// }
 		
 		return cmpContent;
 	}
@@ -283,10 +284,11 @@ public class AxisLabelSheet extends AbstractPopupSheet
 		{
 			getAxisForProcessing( ).setInterval( iscInterval.getSelection( ) );
 		}
-		else if ( e.getSource( ).equals( chkWithinAxes ) )
-		{
-			getAxisForProcessing( ).setLabelWithinAxes( chkWithinAxes.getSelection( ) );
-		}
+		// else if ( e.getSource( ).equals( chkWithinAxes ) )
+		// {
+		// getAxisForProcessing( ).setLabelWithinAxes(
+		// chkWithinAxes.getSelection( ) );
+		// }
 		else if ( e.getSource( ).equals( iscEllipsis ))
 		{
 			getAxisForProcessing( ).getLabel( ).setEllipsis( iscEllipsis.getSelection( ) );

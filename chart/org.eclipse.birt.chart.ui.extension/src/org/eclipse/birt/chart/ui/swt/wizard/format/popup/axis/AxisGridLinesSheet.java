@@ -55,8 +55,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private FillChooserComposite fccLine = null;
 
-	private Label cmbOrientation = null;
-
 	// private IntegerSpinControl iscGapWidth = null;
 
 	private Button cbHidden = null;

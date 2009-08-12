@@ -98,65 +98,45 @@ public class FormatSpecifierPreview extends Composite
 		}
 		else if ( FormatSpecifierComposite.DATA_TYPE_NUMBER.equals( dataType ) )
 		{
-			if ( fs == null )
+
+			try
 			{
-				lblPreview.setText( SAMPLE_NUMBER.toString( ) );
+				lblPreview.setText( ValueFormatter.format( SAMPLE_NUMBER,
+						fs,
+						ULocale.getDefault( ),
+						null ) );
 			}
-			else
+			catch ( ChartException e )
 			{
-				try
-				{
-					lblPreview.setText( ValueFormatter.format( SAMPLE_NUMBER,
-							fs,
-							ULocale.getDefault( ),
-							null ) );
-				}
-				catch ( ChartException e )
-				{
-					e.printStackTrace( );
-				}
+				e.printStackTrace( );
 			}
 		}
 		else if ( FormatSpecifierComposite.DATA_TYPE_DATETIME.equals( dataType ) )
 		{
-			if ( fs == null )
+			try
 			{
-				lblPreview.setText( SAMPLE_DATETIME.getTime( ).toString( ) );
+				lblPreview.setText( ValueFormatter.format( SAMPLE_DATETIME,
+						fs,
+						ULocale.getDefault( ),
+						null ) );
 			}
-			else
+			catch ( ChartException e )
 			{
-				try
-				{
-					lblPreview.setText( ValueFormatter.format( SAMPLE_DATETIME,
-							fs,
-							ULocale.getDefault( ),
-							null ) );
-				}
-				catch ( ChartException e )
-				{
-					e.printStackTrace( );
-				}
+				e.printStackTrace( );
 			}
 		}
 		else if ( FormatSpecifierComposite.DATA_TYPE_STRING.equals( dataType ) )
 		{
-			if(fs == null)
+			try
 			{
-				lblPreview.setText( SAMPLE_STRING );
+				lblPreview.setText( ValueFormatter.format( SAMPLE_STRING,
+						fs,
+						ULocale.getDefault( ),
+						null ) );
 			}
-			else
+			catch ( ChartException e )
 			{
-				try
-				{
-					lblPreview.setText( ValueFormatter.format( SAMPLE_STRING,
-							fs,
-							ULocale.getDefault( ),
-							null ) );
-				}
-				catch ( ChartException e )
-				{
-					e.printStackTrace( );
-				}
+				e.printStackTrace( );
 			}
 		}
 

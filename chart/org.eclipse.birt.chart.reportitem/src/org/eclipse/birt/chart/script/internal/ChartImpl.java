@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 public abstract class ChartImpl extends MultiRowItem implements IChart
 {
 
-	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 	protected Chart cm;
 	protected ExtendedItemHandle eih;
 

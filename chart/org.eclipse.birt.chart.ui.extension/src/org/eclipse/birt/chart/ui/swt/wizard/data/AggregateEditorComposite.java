@@ -33,9 +33,7 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -63,7 +61,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
@@ -904,56 +901,16 @@ public class AggregateEditorComposite extends Composite implements
 		aggregationCombo.setData( aggFunctions );
 	}
 	
-	static class AggregationAction extends Action implements IMenuCreator
+	static class AggregationAction extends Action
 	{
 
-		private Menu lastMenu;
+		// private Menu lastMenu;
 
 		public AggregationAction( boolean enabled )
 		{
 			super( "", IAction.AS_DROP_DOWN_MENU ); //$NON-NLS-1$
 			setImageDescriptor( ImageDescriptor.createFromURL( UIHelper.getURL( ChartUIConstants.IMAGE_SIGMA ) ) );
 			setEnabled( enabled );
-		}
-
-		public IMenuCreator getMenuCreator( )
-		{
-			return this;
-		}
-
-		public void dispose( )
-		{
-			if ( lastMenu != null )
-			{
-				lastMenu.dispose( );
-				lastMenu = null;
-			}
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.action.IMenuCreator#getMenu(org.eclipse.swt.widgets.Control)
-		 */
-		public Menu getMenu( Control parent )
-		{
-			return lastMenu;
-		}
-
-		public Menu getMenu( Menu parent )
-		{
-			return null;
-		}
-
-		protected void addActionToMenu( Menu parent, IAction action )
-		{
-			ActionContributionItem item = new ActionContributionItem( action );
-			item.fill( parent, -1 );
-		}
-
-		protected void createEntries( Menu menu )
-		{
-
 		}
 
 	};

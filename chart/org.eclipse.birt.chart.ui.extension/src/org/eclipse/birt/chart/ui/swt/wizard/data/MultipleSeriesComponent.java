@@ -139,10 +139,9 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 					selectedSeriesIndex = selectDataUI.getSeriesIndex( )[axisIndex];
 				}
 
-				final SeriesDefinition sd = ( (SeriesDefinition) seriesDefn.get( selectedSeriesIndex ) );
-
 				if ( seriesDefn != null && !seriesDefn.isEmpty( ) )
 				{
+					final SeriesDefinition sd = ( (SeriesDefinition) seriesDefn.get( selectedSeriesIndex ) );
 					// Only display current selected series
 					ISelectDataComponent subUI = selectDataUI.getAreaComponent( ISelectDataCustomizeUI.GROUPING_SERIES,
 							sd,

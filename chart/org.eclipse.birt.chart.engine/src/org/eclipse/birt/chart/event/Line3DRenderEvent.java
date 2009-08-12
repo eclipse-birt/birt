@@ -25,9 +25,9 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 
 	private static final long serialVersionUID = 33812052466380930L;
 
-	private Object3D object3D;
+	private transient Object3D object3D;
 	
-	private Object3D object3DParent;
+	private transient Object3D object3DParent;
 	
 	/**
 	 * The constructor.

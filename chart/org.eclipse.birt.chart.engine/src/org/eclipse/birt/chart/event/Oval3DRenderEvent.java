@@ -26,7 +26,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 
 	private static final long serialVersionUID = 3249838045689532033L;
 
-	private Object3D object3D;
+	private transient Object3D object3D;
 
 	/**
 	 * The constructor.

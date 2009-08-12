@@ -4399,7 +4399,7 @@ public final class AutoScale extends Methods implements Cloneable
 								return false;
 							}
 
-							return index % 2 == 1;
+							return index % 2 != 0;
 						}
 
 					};
@@ -4418,7 +4418,7 @@ public final class AutoScale extends Methods implements Cloneable
 							}
 
 							return ( index % iLabelShowingInterval == 0 )
-									&& ( ( index / iLabelShowingInterval ) % 2 == 1 );
+									&& ( ( index / iLabelShowingInterval ) % 2 != 0 );
 						}
 
 					};

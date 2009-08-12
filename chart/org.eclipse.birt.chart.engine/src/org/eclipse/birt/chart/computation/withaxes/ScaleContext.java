@@ -290,7 +290,7 @@ public class ScaleContext extends Methods
 			// Compute step size
 			oStep = new Double( Math.abs( dMaxValue - dMinValue )
 					/ ( oStepNumber.intValue( ) ) );
-			dStep = asDouble( oStep ).doubleValue( );
+			// dStep = asDouble( oStep ).doubleValue( );
 		}
 		else
 		{

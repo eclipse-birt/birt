@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -327,7 +328,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return columnHeaders;
 	}
 
-	static class ColumnNameComprator implements Comparator<ColumnBindingInfo> {
+	static class ColumnNameComprator
+			implements
+				Comparator<ColumnBindingInfo>,
+				Serializable
+	{
 
 		// use JDK String's compare method to map the same sorting logic as
 		// column binding dialog(270079)
@@ -2128,7 +2133,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			Map<String, ColumnBindingInfo>  aggs = new LinkedHashMap<String, ColumnBindingInfo> ( );
 			Map<String, ColumnBindingInfo>  groups = new LinkedHashMap<String, ColumnBindingInfo> ( );
 			Map<String, ColumnBindingInfo>  groupsWithAgg = new LinkedHashMap<String, ColumnBindingInfo> ( );
-			Map<String, ColumnBindingInfo>  groupsWithoutAgg = new LinkedHashMap<String, ColumnBindingInfo> ( );
+			Map<String, ColumnBindingInfo> groupsWithoutAgg;
 
 			for ( int i = 0; i < headers.length; i++ )
 			{
@@ -2488,11 +2493,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			else
 			{
 				ReportItemHandle handle = getReportItemHandle( );
-				handle = getSharedListingHandle( handle );
-				if ( handle instanceof ListingHandle )
-				{
-					table = (ListingHandle) handle;
-				}
+				table = getSharedListingHandle( handle );
 			}
 			if ( table != null )
 			{

@@ -43,12 +43,12 @@ public class TextCombo extends CustomChooserComposite
 
 		public Object getValue( )
 		{
-			return getText( );
+			return super.getText( );
 		}
 
 		public void setValue( Object value )
 		{
-			setText( (String) value );
+			super.setText( (String) value );
 			
 			if ( choiceMarkerMap.containsKey( value ) )
 			{

@@ -526,7 +526,11 @@ public final class LegendBuilder implements IConstants
 
 		double[] size = null;
 
-		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
+		Boolean bDataEmpty = null;
+		if ( rtc != null )
+		{
+			bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
+		}
 		if ( bDataEmpty == null )
 		{
 			bDataEmpty = false;

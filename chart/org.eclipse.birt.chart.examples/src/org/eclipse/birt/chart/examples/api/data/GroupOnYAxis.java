@@ -66,45 +66,40 @@ public class GroupOnYAxis
 		{
 			designHandle = sessionHandle.openDesign( path
 					+ "NonGroupOnYAxis.rptdesign" );//$NON-NLS-1$
+			ExtendedItemHandle eih = (ExtendedItemHandle) designHandle.getBody( )
+					.getContents( )
+					.get( 0 );
+			Chart cm = (Chart) eih.getReportItem( )
+					.getProperty( "chart.instance" ); //$NON-NLS-1$
+			cm.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( "Group On Y Axis" );//$NON-NLS-1$
+
+			Axis axisBase = ( (ChartWithAxes) cm ).getAxes( ).get( 0 ); // X-Axis
+			Axis axisOrth = axisBase.getAssociatedAxes( ).get( 0 ); // Y-Axis
+			SeriesDefinition sdY = axisOrth.getSeriesDefinitions( )
+					.get( 0 ); // Y-Series
+
+			SeriesDefinition sdGroup = SeriesDefinitionImpl.create( );
+			Query query = QueryImpl.create( "row[\"Month\"]" );//$NON-NLS-1$
+			sdGroup.setQuery( query );
+
+			axisOrth.getSeriesDefinitions( ).clear( ); // Clear the original
+			// Y-Series (sdY)
+			axisOrth.getSeriesDefinitions( ).add( 0, sdGroup );
+			sdGroup.getSeries( ).add( sdY.getSeries( ).get( 0 ) );
+			designHandle.saveAs( path + "GroupOnYAxis.rptdesign" );//$NON-NLS-1$
 		}
 		catch ( DesignFileException e )
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-
-		ExtendedItemHandle eih = (ExtendedItemHandle) designHandle.getBody( )
-				.getContents( ).get( 0 );
-
-		Chart cm = null;
-		try
-		{
-			cm = (Chart) eih.getReportItem( ).getProperty( "chart.instance" ); //$NON-NLS-1$
-		}
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
-		}
-		cm.getTitle( ).getLabel( ).getCaption( ).setValue( "Group On Y Axis" );//$NON-NLS-1$
-
-		Axis axisBase = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 ); // X-Axis
-		Axis axisOrth = (Axis) axisBase.getAssociatedAxes( ).get( 0 ); // Y-Axis
-		SeriesDefinition sdY = (SeriesDefinition) axisOrth
-				.getSeriesDefinitions( ).get( 0 ); // Y-Series
-
-		SeriesDefinition sdGroup = SeriesDefinitionImpl.create( );
-		Query query = QueryImpl.create( "row[\"Month\"]" );//$NON-NLS-1$
-		sdGroup.setQuery( query );
-
-		axisOrth.getSeriesDefinitions( ).clear( ); // Clear the original
-													// Y-Series (sdY)
-		axisOrth.getSeriesDefinitions( ).add( 0, sdGroup );
-		sdGroup.getSeries( ).add( sdY.getSeries( ).get( 0 ) );
-
-		try
-		{
-			designHandle.saveAs( path + "GroupOnYAxis.rptdesign" );//$NON-NLS-1$
 		}
 		catch ( IOException e )
 		{

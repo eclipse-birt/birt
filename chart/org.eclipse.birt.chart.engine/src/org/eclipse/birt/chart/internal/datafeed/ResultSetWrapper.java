@@ -1685,9 +1685,9 @@ public final class ResultSetWrapper
 		Object oValue, oPreviousValue = null;
 		int iRowIndex = 0;
 		
-		SeriesGrouping seriesGrouping = query.getGrouping( );
-		if ( groupingIntervalEnabled )
+		if ( groupingIntervalEnabled && query != null )
 		{
+			SeriesGrouping seriesGrouping = query.getGrouping( );
 			// Reset grouped data by series grouping setting.
 			resetGroupedData( resultSet, iColumnIndex, seriesGrouping );
 

@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.GanttLineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
@@ -50,8 +49,6 @@ public class GanttSeriesAttributeComposite extends Composite
 			Listener
 {
 	private transient Button btnPalette = null;
-
-	private transient FillChooserComposite fccFill = null;
 
 	private transient Group grpLine = null;
 
@@ -269,10 +266,6 @@ public class GanttSeriesAttributeComposite extends Composite
 			{
 				series.getOutline( ).setColor( (ColorDefinition) event.data );
 			}
-		}
-		else if ( event.widget.equals( fccFill ) )
-		{
-			series.setOutlineFill( (ColorDefinition) event.data );
 		}
 	}
 

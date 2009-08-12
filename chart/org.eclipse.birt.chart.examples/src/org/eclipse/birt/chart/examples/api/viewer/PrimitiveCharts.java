@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.examples.api.viewer;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
@@ -2955,18 +2957,33 @@ public final class PrimitiveCharts
 		}
 
 		// Reads the chart model
+		InputStream is = null;
 		try
 		{
 			serializer = SerializerImpl.instance( );
 			if ( chartFile.exists( ) )
 			{
-
-				chart = serializer.read( new FileInputStream( chartFile ) );
+				is = new FileInputStream( chartFile );
+				chart = serializer.read( is );
 			}
 		}
 		catch ( Exception e )
 		{
 			WizardBase.displayException( e );
+		}
+		finally
+		{
+			if ( is != null )
+			{
+				try
+				{
+					is.close( );
+				}
+				catch ( IOException e )
+				{
+
+				}
+			}
 		}
 
 		// Data Set

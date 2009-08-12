@@ -23,7 +23,7 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 
 	private static final long serialVersionUID = 4105315690869364270L;
 
-	private Object3D object3D;
+	private transient Object3D object3D;
 
 	/**
 	 * The constructor.

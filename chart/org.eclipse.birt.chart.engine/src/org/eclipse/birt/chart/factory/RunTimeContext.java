@@ -127,9 +127,9 @@ public final class RunTimeContext implements Serializable
 	private boolean isSharingQuery = false;
 	
 	
-	private IResourceFinder resourceFinder = null;
+	private transient IResourceFinder resourceFinder = null;
 	
-	private IExternalizer externalizer = null;
+	private transient IExternalizer externalizer = null;
 	
 	/**
 	 * A default zero-arg public constructor used for object creation.

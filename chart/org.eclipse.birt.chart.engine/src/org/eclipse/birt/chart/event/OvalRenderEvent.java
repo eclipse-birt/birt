@@ -25,11 +25,11 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 
 	private static final long serialVersionUID = -6716453650694010927L;
 
-	protected Bounds _bo = null;
+	protected transient Bounds _bo = null;
 
-	protected LineAttributes _lia;
+	protected transient LineAttributes _lia;
 
-	protected Fill _ifBackground;
+	protected transient Fill _ifBackground;
 
 	/**
 	 * The constructor.

@@ -22,12 +22,9 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -39,13 +36,10 @@ import org.eclipse.swt.widgets.Listener;
 
 public class BlockPropertiesSheet extends AbstractPopupSheet
 		implements
-			SelectionListener,
 			Listener
 {
 
 	private transient Composite cmpContent;
-
-	private transient Button cbVisible;
 
 	protected transient Group grpOutline;
 
@@ -126,29 +120,6 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 					break;
 			}
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		Object oSource = e.getSource( );
-		if ( oSource.equals( cbVisible ) )
-		{
-			getBlockForProcessing( ).setVisible( cbVisible.getSelection( ) );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
 	}
 
 	protected Block getBlockForProcessing( )

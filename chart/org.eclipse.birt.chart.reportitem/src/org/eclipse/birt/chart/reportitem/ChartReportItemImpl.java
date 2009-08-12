@@ -413,7 +413,8 @@ public final class ChartReportItemImpl extends ReportItem implements
 		if ( "%".equals( suffix ) ) //$NON-NLS-1$
 		{
 			double multiplier = nfs.getMultiplier( );
-			if ( !Double.isNaN( multiplier ) && multiplier == 0.01 )
+			if ( !Double.isNaN( multiplier )
+					&& ChartUtil.mathEqual( multiplier, 0.01 ) )
 			{
 				nfs.setMultiplier( 100 * multiplier );
 			}

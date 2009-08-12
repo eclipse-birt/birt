@@ -33,9 +33,9 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 
 	protected final List<PrimitiveRenderEvent> alLinesAndArcs = new ArrayList<PrimitiveRenderEvent>( );
 
-	protected Fill fill;
+	protected transient Fill fill;
 
-	protected LineAttributes lia;
+	protected transient LineAttributes lia;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/event" ); //$NON-NLS-1$
 

@@ -248,9 +248,10 @@ public class SerializerImpl implements Serializer
 	private StringBuffer getChartStringFromStream( InputStream is )
 	{
 		StringBuffer sbChart = new StringBuffer( "" ); //$NON-NLS-1$
+		BufferedReader reader = null;
 		try
 		{
-			BufferedReader reader = new BufferedReader( SecurityUtil.newInputStreamReader( is,
+			reader = new BufferedReader( SecurityUtil.newInputStreamReader( is,
 					"UTF-8" ) ); //$NON-NLS-1$
 			boolean bChartStarted = false;
 			while ( true )
@@ -291,6 +292,20 @@ public class SerializerImpl implements Serializer
 		catch ( IOException e )
 		{
 			e.printStackTrace( );
+		}
+		finally
+		{
+			if ( reader != null )
+			{
+				try
+				{
+					reader.close( );
+				}
+				catch ( IOException e )
+				{
+					e.printStackTrace( );
+				}
+			}
 		}
 		if ( sbChart.length( ) > 0 )
 		{

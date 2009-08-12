@@ -22,7 +22,7 @@ public class BarChart extends AbstractBarChart
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static String TYPE_LITERAL = ChartUIConstants.TYPE_BAR;
+	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_BAR;
 
 	/**
 	 * Constructor of the class.
