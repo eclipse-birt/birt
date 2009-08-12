@@ -747,19 +747,21 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	private void outputClientScript( IReportContent report )
 	{
-		IContent root = report.getRoot( );
-		Map<String, Object> extensions = root.getExtensions( );
-		if ( extensions != null )
+		if ( report != null )
 		{
-			String clientScripts = (String) extensions
-					.get( EXTENSION_HTML_CLIENT_SCRIPTS );
-			if ( clientScripts != null )
+			IContent root = report.getRoot( );
+			Map<String, Object> extensions = root.getExtensions( );
+			if ( extensions != null )
 			{
-				writer.openTag( HTMLTags.TAG_DIV );
-				outputBookmark( root, HTMLTags.TAG_DIV );
-				writer.attribute( HTMLTags.ATTR_STYLE, "display:none" );
-				writer.closeTag( HTMLTags.TAG_DIV );
-				outputClientScript( root );
+				String clientScripts = (String) extensions.get( EXTENSION_HTML_CLIENT_SCRIPTS );
+				if ( clientScripts != null )
+				{
+					writer.openTag( HTMLTags.TAG_DIV );
+					outputBookmark( root, HTMLTags.TAG_DIV );
+					writer.attribute( HTMLTags.ATTR_STYLE, "display:none" );
+					writer.closeTag( HTMLTags.TAG_DIV );
+					outputClientScript( root );
+				}
 			}
 		}
 	}
