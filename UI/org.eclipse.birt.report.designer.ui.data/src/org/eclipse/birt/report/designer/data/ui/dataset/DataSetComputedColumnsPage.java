@@ -844,6 +844,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		private Composite composite;
 		private String lastExpression;
 		private Label firstLabel;
+		private int maxWidth;
 
 		/**
 		 * 
@@ -926,7 +927,9 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		 */
 		private void createTextCell( Composite parent, final int index )
 		{
-			firstLabel = ControlProvider.createLabel( parent, dialogLabels[index] );
+			firstLabel = ControlProvider.createLabel( parent,
+					dialogLabels[index] );
+			this.maxWidth = computeMaxWidth( firstLabel );
 
 			txtColumnName = ControlProvider.createText( parent,
 					(String) getProperty( getStructureOrHandle( ),
@@ -949,7 +952,9 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		 */
 		private void createComboBoxCell( Composite parent, final int index )
 		{
-			ControlProvider.createLabel( parent, dialogLabels[index] );
+			Label label = ControlProvider.createLabel( parent,
+					dialogLabels[index] );
+			this.maxWidth = computeMaxWidth( label );
 
 			cmbDataType = ControlProvider.createCombo( parent, SWT.READ_ONLY );
 			cmbDataType.setLayoutData( ControlProvider.getGridDataWithHSpan( 2 ) );
@@ -995,7 +1000,9 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		 */
 		private void createAggrListCell( final Composite parent, final int index )
 		{
-			ControlProvider.createLabel( parent, dialogLabels[index] );
+			Label label = ControlProvider.createLabel( parent,
+					dialogLabels[index] );
+			this.maxWidth = computeMaxWidth( label );
 
 			cmbAggregation = ControlProvider.createCombo( parent, SWT.READ_ONLY );
 			cmbAggregation.setLayoutData( ControlProvider.getGridDataWithHSpan( 2 ) );
@@ -1026,6 +1033,13 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			}
 			);
 			
+		}
+		
+		private int computeMaxWidth( Label label )
+		{
+			int widthHint = label.computeSize( -1, -1 ).x
+					- label.getBorderWidth( );
+			return widthHint > this.maxWidth ? widthHint : this.maxWidth;
 		}
 
 		/**
@@ -1079,9 +1093,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 				paramLabel.setText( Utility.getNonNullString( param.getDisplayName( ) ) );
 
 				GridData gd = new GridData( );
-				final int widthHint = firstLabel.computeSize( -1, -1 ).x
-						- firstLabel.getBorderWidth( );
-				gd.widthHint = widthHint;
+				this.maxWidth = computeMaxWidth( paramLabel );
+				gd.widthHint = this.maxWidth;
 				paramLabel.setLayoutData( gd );
 				Composite composite = ControlProvider.getDefaultComposite( parameterContainer );
 				if ( param.isDataField( ) )
@@ -1129,8 +1142,16 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 				createExpressionButton( composite, txtParams[i] );
 			}
 			
+			updateLabelWidth( );
 			// update parameters' values from ComputedColumnHandle
 			updateParametersText( params );
+		}
+		
+		private void updateLabelWidth( )
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = this.maxWidth;
+			firstLabel.setLayoutData( gd );
 		}
 
 		/**
@@ -1671,9 +1692,9 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		{
 			if ( this.getStructureOrHandle( ) instanceof Structure )
 			{
-				return Messages.getString( "DataSetComputedColumnsPage.toolTipText.New" ); //$NON-NLS-1$
+				return Messages.getString( "DataSetComputedColumnsPage.InputDialog.title.New" ); //$NON-NLS-1$
 			}
-			return Messages.getString( "DataSetComputedColumnsPage.toolTipText.Edit" );//$NON-NLS-1$
+			return Messages.getString( "DataSetComputedColumnsPage.InputDialog.title.Edit" );//$NON-NLS-1$
 		}
 
 	}
