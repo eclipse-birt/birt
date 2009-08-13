@@ -432,6 +432,7 @@ public class MapRuleBuilder extends BaseDialog
 		ExpressionButtonUtil.createExpressionButton( condition,
 				expression,
 				getExpressionProvider( ),
+				designHandle,
 				listener );
 		ExpressionButtonUtil.initJSExpressionButtonCombo( expression );
 

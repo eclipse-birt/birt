@@ -322,7 +322,8 @@ public class GroupDialog extends BaseDialog
 
 		ExpressionButtonUtil.createExpressionButton( bookmakrComposite,
 				bookmarkEditor,
-				new ExpressionProvider( inputGroup ) );
+				new ExpressionProvider( inputGroup ),
+				inputGroup );
 	}
 
 	private void createTOCArea( Composite parent )
@@ -367,7 +368,8 @@ public class GroupDialog extends BaseDialog
 
 		ExpressionButtonUtil.createExpressionButton( tocArea,
 				tocEditor,
-				new ExpressionProvider( inputGroup ) );
+				new ExpressionProvider( inputGroup ),
+				inputGroup );
 
 		new Label( group, SWT.NONE ).setText( Messages.getString( "GroupDialog.Dialog.TOCStyle" ) ); //$NON-NLS-1$
 
@@ -511,6 +513,7 @@ public class GroupDialog extends BaseDialog
 							}
 						}
 					}
+
 					if ( !tocEditor.getText( ).equals( tocExp ) )
 					{
 						if ( tocExp == null )
@@ -521,8 +524,8 @@ public class GroupDialog extends BaseDialog
 						{
 							tocEditor.setText( tocExp );
 						}
-						return;
 					}
+
 					tocEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
 							ExpressionType.JAVASCRIPT );
 					Object button = tocEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
@@ -536,7 +539,8 @@ public class GroupDialog extends BaseDialog
 
 		ExpressionButtonUtil.createExpressionButton( keyArea,
 				keyChooser,
-				new ExpressionProvider( inputGroup ) );
+				new ExpressionProvider( inputGroup ),
+				inputGroup );
 
 		// Creates intervalRange area
 		Composite intervalArea = new Composite( composite, SWT.NONE );

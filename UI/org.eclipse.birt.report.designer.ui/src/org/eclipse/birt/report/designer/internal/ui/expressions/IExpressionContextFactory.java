@@ -11,43 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.expressions;
 
-
 /**
- * IExpressionBuilder
+ * IExpressionContextFactory
  */
-public interface IExpressionBuilder
+public interface IExpressionContextFactory
 {
 
-	/**
-	 * @return Returns the dialog title
-	 */
-	String getTitle( );
-
-	/**
-	 * Sets the dialog title
-	 */
-	void setTitle( String title );
-
-	/**
-	 * @return Returns the expression object
-	 */
-	Object getExpression( );
-
-	/**
-	 * Sets the expression object
-	 * 
-	 * @param exprObj
-	 */
-	void setExpression( Object exprObj );
-
-	
-	void setExpressionContext(IExpressionContext context);
-
-	/**
-	 * Opens the builder
-	 * 
-	 * @return The return code. Refer to {@link org.eclipse.jface.window.Window}
-	 *         for the possible values.
-	 */
-	int open( );
+	IExpressionContext getContext( String expressionType, Object contextObj );
 }

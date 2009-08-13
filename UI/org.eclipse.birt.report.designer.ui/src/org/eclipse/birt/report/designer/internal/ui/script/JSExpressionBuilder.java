@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.script;
 
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionBuilder;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContext;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.swt.widgets.Shell;
@@ -51,6 +52,14 @@ public class JSExpressionBuilder extends ExpressionBuilder implements
 		String exp = exprObj == null ? null : exprObj.toString( );
 
 		this.expression = UIUtil.convertToGUIString( exp );
+	}
+
+	public void setExpressionContext( IExpressionContext context )
+	{
+		if(context instanceof JSExpressionContext){
+			this.setExpressionProvider( ((JSExpressionContext)context).getExpressionProvider( ) );
+		}
+		
 	}
 
 }

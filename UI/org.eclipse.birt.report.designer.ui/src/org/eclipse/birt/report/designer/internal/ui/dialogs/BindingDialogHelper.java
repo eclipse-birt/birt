@@ -1171,6 +1171,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		ExpressionButton button = ExpressionButtonUtil.createExpressionButton( parent,
 				control,
 				expressionProvider,
+				this.bindingHolder,
 				listener );
 		if ( isRef )
 		{
@@ -1430,7 +1431,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			// binding.setExpression( cmbDataField.getText( ) );
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
 
-			ExpressionButtonUtil.saveExpressionButtonControl( txtFilter, binding, ComputedColumn.FILTER_MEMBER );
+			ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
+					binding,
+					ComputedColumn.FILTER_MEMBER );
 
 			if ( btnTable.getSelection( ) )
 			{
@@ -1472,7 +1475,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			binding.setDisplayName( txtDisplayName.getText( ) );
 			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
-			ExpressionButtonUtil.saveExpressionButtonControl( txtExpression, binding, ComputedColumn.EXPRESSION_MEMBER );
+			ExpressionButtonUtil.saveExpressionButtonControl( txtExpression,
+					binding,
+					ComputedColumn.EXPRESSION_MEMBER );
 		}
 		return binding;
 	}

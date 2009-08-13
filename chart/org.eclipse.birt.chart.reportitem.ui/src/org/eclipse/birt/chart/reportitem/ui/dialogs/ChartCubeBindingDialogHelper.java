@@ -732,7 +732,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 		ExpressionButtonUtil.createExpressionButton( parent,
 				text,
-				expressionProvider );
+				expressionProvider, bindingHolder );
 	}
 
 	public void validate( )

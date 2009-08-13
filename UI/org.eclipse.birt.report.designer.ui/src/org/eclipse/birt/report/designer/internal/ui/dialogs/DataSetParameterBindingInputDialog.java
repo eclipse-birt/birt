@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.script.JSExpressionContext;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -54,10 +55,10 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	private Text valueEditor;
 	private ExpressionHandle value;
 	private DataSetParameterHandle handle;
-	private IExpressionProvider provider;
+	private JSExpressionContext provider;
 
 	public DataSetParameterBindingInputDialog( Shell parentShell,
-			DataSetParameterHandle handle, IExpressionProvider provider )
+			DataSetParameterHandle handle, JSExpressionContext provider )
 	{
 		super( parentShell, DIALOG_TITLE );
 		this.handle = handle;
@@ -65,7 +66,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	}
 
 	public DataSetParameterBindingInputDialog( DataSetParameterHandle handle,
-			IExpressionProvider provider )
+			JSExpressionContext provider )
 	{
 		this( UIUtil.getDefaultShell( ), handle, provider );
 	}
@@ -85,7 +86,6 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 			return choice.getDisplayName( );
 		return type;
 	}
-
 
 	protected Control createDialogArea( Composite parent )
 	{
@@ -117,15 +117,15 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 
 		ExpressionButtonUtil.createExpressionButton( valueComposite,
 				valueEditor,
-				this.provider );
-		
+				provider.getExpressionProvider( ),
+				provider.getContextObject( ) );
+
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		Label label = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
 		label.setLayoutData( gd );
 
 		return composite;
 	}
-
 
 	protected void okPressed( )
 	{

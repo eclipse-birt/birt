@@ -849,7 +849,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		ExpressionButtonUtil.createExpressionButton( groupGroup,
 				displayKeyCombo,
-				new CubeExpressionProvider( input ) );
+				new CubeExpressionProvider( input ),
+				input );
 
 		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.DataType" ) ); //$NON-NLS-1$
 		dynamicDataTypeCombo = new Combo( groupGroup, SWT.BORDER

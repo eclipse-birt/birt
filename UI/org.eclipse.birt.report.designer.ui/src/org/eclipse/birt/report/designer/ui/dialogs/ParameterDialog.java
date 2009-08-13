@@ -42,6 +42,8 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressi
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.DefaultParameterDialogControlTypeHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ITableAreaModifier;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -637,6 +639,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				changeDataType( );
 				updateCheckBoxArea( );
 				refreshColumns( true );
+				
+				//Reset control type status
+				handleControlTypeSelectionEvent( );
 			}
 		} );
 		createLabel( propertiesSection, LABEL_DISPALY_TYPE );
@@ -667,8 +672,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public void handleEvent( Event event )
 			{
-				controlTypeHelper.update( false );
-				changeControlType( );
+				handleControlTypeSelectionEvent( );
 			}
 		} );
 
@@ -1655,16 +1659,18 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 		return change;
 	}
 
 	private void changeControlType( )
 	{
+		String type = getSelectedControlType( );
+
 		if ( isStatic( ) )
 		{
-			String type = getSelectedControlType( );
+
 			if ( !type.equals( lastControlType ) )
 			{
 				if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( type ) )
@@ -1700,7 +1706,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		updateMessageLine( );
 		boolean radioEnable = false;
 		if ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) )
-				|| PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) )
+				|| ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) 
+						&& !DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) ) )
 		{
 			radioEnable = true;
 		}
@@ -1749,7 +1756,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			Expression expression = getFirstDefaultValue( );
 			defaultValueList.clear( );
-			String type = getSelectedControlType( );
 			if ( isStatic( )
 					&& ( PARAM_CONTROL_COMBO.equals( type )
 							|| PARAM_CONTROL_LIST.equals( type ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( type ) ) )
@@ -1964,6 +1970,16 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 
 				defaultValueChooser.notifyListeners( SWT.Modify, new Event( ) );
+			}
+
+			public Object getContextObject( )
+			{
+				return null;
+			}
+
+			public IExpressionContextFactory getExpressionContextFactory( )
+			{
+				return null;
 			}
 
 		};
@@ -2296,6 +2312,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		ExpressionButtonUtil.createExpressionButton( composite,
 				columnChooser,
 				null,
+				inputParameter,
 				null,
 				false,
 				SWT.PUSH,
@@ -2345,6 +2362,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		ExpressionButtonUtil.createExpressionButton( composite,
 				displayTextChooser,
 				null,
+				inputParameter,
 				null,
 				false,
 				SWT.PUSH,
@@ -2633,6 +2651,17 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				defaultValueChooser.setData( EXPR_TYPE, exprType );
 				defaultValueChooser.notifyListeners( SWT.Modify, new Event( ) );
+			}
+
+			public Object getContextObject( )
+			{
+				return inputParameter;
+			}
+
+			public IExpressionContextFactory getExpressionContextFactory( )
+			{
+				return new ExpressionContextFactoryImpl( inputParameter,
+						getExpressionProvider( ) );
 			}
 
 		};
@@ -3888,5 +3917,35 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 
 		return exprValue;
+	}
+
+	private void handleControlTypeSelectionEvent( )
+	{
+		controlTypeHelper.update( false );
+
+		String type = getSelectedControlType( );
+		if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( type )
+				|| DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( type )
+				|| DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( type ) )
+		{
+			staticRadio.setSelection( true );
+			dynamicRadio.setSelection( false );
+			staticRadio.setEnabled( false );
+			dynamicRadio.setEnabled( false );
+			switchParamterType( );
+		}
+		else if ( PARAM_CONTROL_LIST.equals( type ) )
+		{
+			if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
+			{
+				staticRadio.setSelection( false );
+				dynamicRadio.setSelection( true );
+				staticRadio.setEnabled( false );
+				dynamicRadio.setEnabled( false );
+				switchParamterType( );
+			}
+		}
+
+		changeControlType( );
 	}
 }

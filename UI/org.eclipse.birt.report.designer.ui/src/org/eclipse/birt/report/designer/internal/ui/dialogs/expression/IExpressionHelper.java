@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs.expression;
 
-import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
 
 /**
  * IExpressionHelper
@@ -30,5 +30,7 @@ public interface IExpressionHelper
 	public void notifyExpressionChangeEvent( String oldExpression,
 			String newExpression );
 
-	public IExpressionProvider getExpressionProvider( );
+	public IExpressionContextFactory getExpressionContextFactory( );
+	
+	Object getContextObject();
 }

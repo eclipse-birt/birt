@@ -1020,6 +1020,7 @@ public class HyperlinkBuilder extends BaseDialog
 		ExpressionButtonUtil.createExpressionButton( parent,
 				text,
 				getExpressionProvider( ),
+				inputHandle.getElementHandle( ),
 				listener );
 	}
 
@@ -1028,7 +1029,9 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		ExpressionButtonUtil.createExpressionButton( parent,
 				text,
-				getExpressionProvider( ), true, SWT.PUSH );
+				getExpressionProvider( ),
+				true,
+				SWT.PUSH );
 	}
 
 	/**

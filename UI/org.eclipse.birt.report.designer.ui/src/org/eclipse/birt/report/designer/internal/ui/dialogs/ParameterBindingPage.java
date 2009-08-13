@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.script.JSExpressionContext;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.IBaseTableAreaModifier;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -554,7 +555,8 @@ public class ParameterBindingPage extends Composite implements Listener
 			value = bindingParameter.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
 		}
 		DataSetParameterBindingInputDialog dialog = new DataSetParameterBindingInputDialog( (DataSetParameterHandle) ( (Object[]) element )[0],
-				new ExpressionProvider( getReportItemHandle( ).getContainer( ) ) );
+				new JSExpressionContext( new ExpressionProvider( getReportItemHandle( ).getContainer( ) ),
+						getReportItemHandle( ).getContainer( ) ) );
 		dialog.setValue( value );
 		if ( dialog.open( ) == Dialog.OK )
 		{

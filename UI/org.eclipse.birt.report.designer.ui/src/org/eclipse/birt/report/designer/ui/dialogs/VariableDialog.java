@@ -133,7 +133,8 @@ public class VariableDialog extends BaseTitleAreaDialog
 
 		ExpressionButtonUtil.createExpressionButton( content,
 				expressionTxt,
-				this.getExpressionProvider( ) );
+				this.getExpressionProvider( ) , 
+				variable);
 
 		UIUtil.bindHelp( parent, IHelpContextIds.VARIABLE_DIALOG_ID );
 

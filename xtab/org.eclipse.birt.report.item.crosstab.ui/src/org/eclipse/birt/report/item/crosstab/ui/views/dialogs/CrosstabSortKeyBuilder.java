@@ -446,6 +446,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		ExpressionButtonUtil.createExpressionButton( content,
 				textKey,
 				getExpressionProvider( ),
+				handle,
 				listener );
 
 		Label labelDirection = new Label( content, SWT.NONE );

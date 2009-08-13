@@ -968,7 +968,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		ExpressionButtonUtil.createExpressionButton( parent,
 				text,
-				expressionProvider );
+				expressionProvider,
+				this.bindingHolder );
 	}
 
 	private String getArgumentDisplayNameByName( String functionName,

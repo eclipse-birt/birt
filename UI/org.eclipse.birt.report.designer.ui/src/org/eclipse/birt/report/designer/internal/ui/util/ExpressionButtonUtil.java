@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
+import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -47,6 +49,7 @@ public class ExpressionButtonUtil
 		private Listener listener;
 		private IExpressionProvider provider;
 		private ExpressionButton button;
+		private Object contextObject;
 
 		public String getExpression( )
 		{
@@ -93,11 +96,6 @@ public class ExpressionButtonUtil
 			}
 		}
 
-		public IExpressionProvider getExpressionProvider( )
-		{
-			return provider;
-		}
-
 		public String getExpressionType( )
 		{
 			return (String) control.getData( EXPR_TYPE );
@@ -127,17 +125,33 @@ public class ExpressionButtonUtil
 		{
 			this.button = button;
 		}
+
+		public Object getContextObject( )
+		{
+			return contextObject;
+		}
+
+		private void setContextObject( Object contextObject )
+		{
+			this.contextObject = contextObject;
+		}
+
+		public IExpressionContextFactory getExpressionContextFactory( )
+		{
+			return new ExpressionContextFactoryImpl( contextObject, provider );
+		}
 	}
 
 	public static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
 	public static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 
 	public static ExpressionButton createExpressionButton( Composite parent,
-			final Control control, final IExpressionProvider provider )
+			Control control, IExpressionProvider provider, Object contextObject )
 	{
 		return createExpressionButton( parent,
 				control,
 				provider,
+				contextObject,
 				null,
 				false,
 				SWT.PUSH,
@@ -146,11 +160,12 @@ public class ExpressionButtonUtil
 
 	public static ExpressionButton createExpressionButton( Composite parent,
 			final Control control, final IExpressionProvider provider,
-			Listener listener )
+			Object contextObject, Listener listener )
 	{
 		return createExpressionButton( parent,
 				control,
 				provider,
+				contextObject,
 				listener,
 				false,
 				SWT.PUSH,
@@ -158,11 +173,13 @@ public class ExpressionButtonUtil
 	}
 
 	public static ExpressionButton createExpressionButton( Composite parent,
-			Control control, IExpressionProvider provider, int style )
+			Control control, IExpressionProvider provider,
+			Object contextObject, int style )
 	{
 		return createExpressionButton( parent,
 				control,
 				provider,
+				contextObject,
 				null,
 				false,
 				SWT.PUSH,
@@ -171,11 +188,12 @@ public class ExpressionButtonUtil
 
 	public static ExpressionButton createExpressionButton( Composite parent,
 			Control control, IExpressionProvider provider,
-			boolean allowConstant, int style )
+			Object contextObject, boolean allowConstant, int style )
 	{
 		return createExpressionButton( parent,
 				control,
 				provider,
+				contextObject,
 				null,
 				allowConstant,
 				SWT.PUSH,
@@ -184,12 +202,14 @@ public class ExpressionButtonUtil
 
 	public static ExpressionButton createExpressionButton( Composite parent,
 			final Control control, final IExpressionProvider provider,
-			final Listener listener, boolean allowConstant, int style )
+			Object contextObject, final Listener listener,
+			boolean allowConstant, int style )
 	{
 
 		return createExpressionButton( parent,
 				control,
 				provider,
+				contextObject,
 				listener,
 				allowConstant,
 				style,
@@ -198,8 +218,8 @@ public class ExpressionButtonUtil
 
 	public static ExpressionButton createExpressionButton( Composite parent,
 			final Control control, final IExpressionProvider provider,
-			final Listener listener, boolean allowConstant, int style,
-			ExpressionHelper helper )
+			Object contextObject, final Listener listener,
+			boolean allowConstant, int style, ExpressionHelper helper )
 	{
 
 		final ExpressionButton button = UIUtil.createExpressionButton( parent,
@@ -209,7 +229,7 @@ public class ExpressionButtonUtil
 		helper.setListener( listener );
 		helper.setControl( control );
 		helper.setExpressionButton( button );
-
+		helper.setContextObject( contextObject );
 		button.setExpressionHelper( helper );
 
 		control.setData( EXPR_BUTTON, button );
@@ -273,7 +293,7 @@ public class ExpressionButtonUtil
 		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
 				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
 				: (String) value.getType( ) );
-		
+
 		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
 
 		if ( control instanceof Text )
@@ -342,7 +362,7 @@ public class ExpressionButtonUtil
 		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
 				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
 				: (String) value.getType( ) );
-		
+
 		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
 
 		if ( control instanceof Text )
@@ -368,11 +388,11 @@ public class ExpressionButtonUtil
 	public static void initExpressionButtonControl( Control control,
 			Expression value )
 	{
-		
+
 		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
 				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
 				: (String) value.getType( ) );
-		
+
 		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
 
 		if ( control instanceof Text )

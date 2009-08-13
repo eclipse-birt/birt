@@ -198,7 +198,8 @@ public class UserPropertyBuilder extends BaseDialog
 	{
 		ExpressionButtonUtil.createExpressionButton( parent,
 				text,
-				new ExpressionProvider( input ) );
+				new ExpressionProvider( input ),
+				input );
 	}
 
 	protected void okPressed( )

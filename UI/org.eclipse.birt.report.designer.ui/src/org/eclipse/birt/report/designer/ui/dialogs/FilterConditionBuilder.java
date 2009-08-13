@@ -427,6 +427,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		ExpressionButtonUtil.createExpressionButton( condition,
 				expression,
 				getExpressionProvider( ),
+				designHandle,
 				listener );
 
 		ExpressionButtonUtil.initJSExpressionButtonCombo( expression );

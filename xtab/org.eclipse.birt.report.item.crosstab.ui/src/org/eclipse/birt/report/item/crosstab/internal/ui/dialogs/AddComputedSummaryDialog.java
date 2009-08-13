@@ -117,7 +117,8 @@ public class AddComputedSummaryDialog extends BaseDialog
 
 		ExpressionButtonUtil.createExpressionButton( composite,
 				expressionText,
-				new CrosstabComputedMeasureExpressionProvider( crosstab.getModelHandle( ) ) );
+				new CrosstabComputedMeasureExpressionProvider( crosstab.getModelHandle( ) ),
+				crosstab.getModelHandle( ) );
 
 		Label seperator = new Label( parentComposite, SWT.SEPARATOR
 				| SWT.HORIZONTAL );

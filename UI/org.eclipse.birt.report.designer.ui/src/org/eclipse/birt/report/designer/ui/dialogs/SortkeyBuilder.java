@@ -172,6 +172,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		ExpressionButtonUtil.createExpressionButton( content,
 				comboKey,
 				new ExpressionProvider( handle ),
+				handle,
 				listener );
 		ExpressionButtonUtil.initJSExpressionButtonCombo( comboKey );
 

@@ -106,7 +106,7 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider {
 					.getShell(), null);
 
 			if (builder != null) {
-				input.openExpressionBuilder(builder);
+				input.openExpressionBuilder(builder, exprType);
 			}
 		}
 		input.notifyExpressionChangeEvent(input.getExpression(), input

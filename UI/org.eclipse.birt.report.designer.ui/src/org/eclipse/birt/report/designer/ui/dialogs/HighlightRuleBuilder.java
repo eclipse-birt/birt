@@ -443,6 +443,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		ExpressionButtonUtil.createExpressionButton( condition,
 				getExpressionControl( ),
 				getExpressionProvider( ),
+				designHandle,
 				listener );
 
 		operator = new Combo( condition, SWT.READ_ONLY );

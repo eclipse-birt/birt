@@ -126,20 +126,19 @@ public class ExpressionButton
 			helper.setExpression( expression );
 	}
 
-	protected void openExpressionBuilder( IExpressionBuilder builder )
+	protected void openExpressionBuilder( IExpressionBuilder builder, String expressionType )
 	{
 		builder.setExpression( getExpression( ) );
 
 		if ( helper != null )
 		{
-			builder.setExpressionProvider( helper.getExpressionProvider( ) );
+			builder.setExpressionContext( helper.getExpressionContextFactory( ).getContext( expressionType, helper.getContextObject( ) ) );
 		}
 
 		if ( builder.open( ) == Window.OK )
 		{
 			if ( helper != null )
 			{
-				String oldExpression = getExpression( );
 				Object result = builder.getExpression( );
 				String newExpression = result == null ? null
 						: result.toString( );

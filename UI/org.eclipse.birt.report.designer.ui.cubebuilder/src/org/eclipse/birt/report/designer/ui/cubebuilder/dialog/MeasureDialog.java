@@ -390,7 +390,8 @@ public class MeasureDialog extends TitleAreaDialog
 
 		ExpressionButtonUtil.createExpressionButton( group,
 				expressionText,
-				new CubeExpressionProvider( cube ) );
+				new CubeExpressionProvider( cube ),
+				cube );
 
 		return group;
 	}
