@@ -152,7 +152,7 @@ public class OdaDataSetState extends SimpleDataSetState
 		if ( isValidExtensionId )
 			return super.startElement( tagName );
 
-		return new ParseStateFactory( ).createParseState( tagName, handler,
+		return ParseStateFactory.getInstance( ).createParseState( tagName, handler,
 				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 

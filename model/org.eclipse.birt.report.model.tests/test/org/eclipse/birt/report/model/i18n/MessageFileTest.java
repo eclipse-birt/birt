@@ -31,8 +31,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * Test message file consistency.
  * 
- * 1. Test to check if all the resourcekeys( value for the "displayNameID" attr )
- * needed by the "rom.def" are contained in the message files.
+ * 1. Test to check if all the resourcekeys( value for the "displayNameID" attr
+ * ) needed by the "rom.def" are contained in the message files.
  * 
  * 2.Test to see if all the resourceKeys defined as contants in
  * <code>MessageConstants</code> are contained in the message file.
@@ -62,9 +62,20 @@ public class MessageFileTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		props.load( ThreadResources.class
-				.getResourceAsStream( MESSAGE_FILE ) );
+		props.load( ThreadResources.class.getResourceAsStream( MESSAGE_FILE ) );
 		this.gatherDisplayNameIDs( );
+	}
+
+	/**
+	 * @return
+	 */
+
+	protected BufferedReader getROMReader( )
+	{
+		BufferedReader br = new BufferedReader( new InputStreamReader(
+				ReportDesign.class.getResourceAsStream( ROM_FILE ) ) );
+
+		return br;
 	}
 
 	/**
@@ -74,10 +85,9 @@ public class MessageFileTest extends BaseTestCase
 	 * @throws IOException
 	 */
 
-	private void gatherDisplayNameIDs( ) throws IOException
+	protected void gatherDisplayNameIDs( ) throws IOException
 	{
-		BufferedReader br = new BufferedReader( new InputStreamReader(
-				ReportDesign.class.getResourceAsStream( ROM_FILE ) ) );
+		BufferedReader br = getROMReader( );
 
 		String line = null;
 		int lineCount = 0;
@@ -290,7 +300,7 @@ public class MessageFileTest extends BaseTestCase
 				.getElementFactory( ).newTabularMeasureGroup( "" );
 		assertEquals( "Summary Field", measureGroupHandle.getName( ) );
 		measureGroupHandle = (TabularMeasureGroupHandle) designHandle
-		.getElementFactory( ).newTabularMeasureGroup( "" );
+				.getElementFactory( ).newTabularMeasureGroup( "" );
 		assertEquals( "Summary Field1", measureGroupHandle.getName( ) );
 	}
 

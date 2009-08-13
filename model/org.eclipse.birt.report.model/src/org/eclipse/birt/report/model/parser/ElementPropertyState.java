@@ -56,7 +56,7 @@ public class ElementPropertyState extends AbstractPropertyState
 			for ( int i = 0; i < allowedElements.size( ); i++ )
 			{
 				IElementDefn elementDefn = allowedElements.get( i );
-				AbstractParseState state = new ParseStateFactory( )
+				AbstractParseState state = ParseStateFactory.getInstance( )
 						.createParseState( tagName, elementDefn, handler,
 								element, propDefn );
 				if ( state != null )
@@ -66,7 +66,7 @@ public class ElementPropertyState extends AbstractPropertyState
 			// this child is not allowed in the container
 			if ( element instanceof ExtendedItem )
 			{
-				AbstractParseState state = new ParseStateFactory( )
+				AbstractParseState state = ParseStateFactory.getInstance( )
 						.createParseState( tagName, handler, element, propDefn );
 				if ( state != null )
 					return state;

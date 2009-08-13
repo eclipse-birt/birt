@@ -19,5 +19,22 @@ package org.eclipse.birt.report.model.parser;
 public class ParseStateFactory extends ParseStateFactoryImpl
 {
 
-	
+	private static ParseStateFactory instance = new ParseStateFactory( );
+
+	private ParseStateFactory( )
+	{
+
+	}
+
+	/**
+	 * Returns the singleton instance.
+	 * 
+	 * @return the instance
+	 */
+
+	public static ParseStateFactory getInstance( )
+	{
+		return instance;
+	}
+
 }
