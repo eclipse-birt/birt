@@ -35,12 +35,12 @@ public class DefaultParameterDialogControlTypeHelper extends
 	protected static final IChoiceSet CONTROL_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_CONTROL );
 
-	protected Combo dataTypeChooser;
+	protected Combo controlTypeChooser;
 
 	public void createContent( Composite parent )
 	{
-		dataTypeChooser = new Combo( parent, SWT.READ_ONLY | SWT.DROP_DOWN );
-		dataTypeChooser.addListener( SWT.Selection, new Listener( ) {
+		controlTypeChooser = new Combo( parent, SWT.READ_ONLY | SWT.DROP_DOWN );
+		controlTypeChooser.addListener( SWT.Selection, new Listener( ) {
 
 			public void handleEvent( Event e )
 			{
@@ -55,7 +55,7 @@ public class DefaultParameterDialogControlTypeHelper extends
 
 	public Control getControl( )
 	{
-		return dataTypeChooser;
+		return controlTypeChooser;
 	}
 
 	protected boolean isStatic( )
@@ -87,7 +87,7 @@ public class DefaultParameterDialogControlTypeHelper extends
 
 	protected void outwardUpdate( )
 	{
-		String displayText = dataTypeChooser.getText( );
+		String displayText = controlTypeChooser.getText( );
 		if ( StringUtil.isBlank( displayText ) )
 		{
 			return;
@@ -111,69 +111,42 @@ public class DefaultParameterDialogControlTypeHelper extends
 
 	protected void inwardUpdate( )
 	{
-		String[] choices;
-		if ( isStatic( ) )
+		String[] choices = new String[4];
+
+		String originalSelection = controlTypeChooser.getText( );
+		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getDataType( ) ) )
 		{
-			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getDataType( ) ) )
-			{
-				choices = new String[3];
-			}
-			else
-			{
-				choices = new String[4];
-			}
+			choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX )
+					.getDisplayName( );
 		}
 		else
 		{
-			choices = new String[2];
+			choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX )
+					.getDisplayName( );
 		}
-		if ( dataTypeChooser.getItemCount( ) != choices.length )
-		{
-			String originalSelection = dataTypeChooser.getText( );
-			if ( isStatic( ) )
-			{
-				if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getDataType( ) ) )
-				{
-					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX )
-							.getDisplayName( );
-					choices[1] = ParameterDialog.DISPLAY_NAME_CONTROL_COMBO;
-				}
-				else
-				{
-					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX )
-							.getDisplayName( );
-					// choices[1] = DISPLAY_NAME_CONTROL_LIST;
-					choices[1] = ParameterDialog.DISPLAY_NAME_CONTROL_COMBO;
-					choices[2] = ParameterDialog.DISPLAY_NAME_CONTROL_LIST;
-				}
-				// choices[choices.length - 2] = DISPLAY_NAME_CONTROL_COMBO;
-				// choices[choices.length - 2] = DISPLAY_NAME_CONTROL_LIST;
-				choices[choices.length - 1] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
-						.getDisplayName( );
+		choices[1] = ParameterDialog.DISPLAY_NAME_CONTROL_COMBO;
+		choices[2] = ParameterDialog.DISPLAY_NAME_CONTROL_LIST;
 
-			}
-			else
-			{
-				choices[0] = ParameterDialog.DISPLAY_NAME_CONTROL_COMBO;
-				choices[1] = ParameterDialog.DISPLAY_NAME_CONTROL_LIST;
-			}
-			dataTypeChooser.setItems( choices );
-			if ( originalSelection.length( ) == 0 )
-			{// initialize
-				dataTypeChooser.setText( getInputControlDisplayName( ) );
-			}
-			else
-			{
-				int index = dataTypeChooser.indexOf( originalSelection );
-				if ( index == -1 )
-				{// The original control type cannot be
-					// supported
-					dataTypeChooser.select( 0 );
-					dataTypeChooser.notifyListeners( SWT.Selection, new Event( ) );
-				}
-				dataTypeChooser.setText( originalSelection );
-			}
+		choices[3] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
+				.getDisplayName( );
+
+		controlTypeChooser.setItems( choices );
+		if ( originalSelection.length( ) == 0 )
+		{// initialize
+			controlTypeChooser.setText( getInputControlDisplayName( ) );
 		}
+		else
+		{
+			int index = controlTypeChooser.indexOf( originalSelection );
+			if ( index == -1 )
+			{// The original control type cannot be
+				// supported
+				controlTypeChooser.select( 0 );
+				controlTypeChooser.notifyListeners( SWT.Selection, new Event( ) );
+			}
+			controlTypeChooser.setText( originalSelection );
+		}
+
 	}
 
 	protected String getInputControlDisplayName( )
