@@ -4,6 +4,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -24,7 +25,8 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
-public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
+public class OutputPropertyDescriptorProvider extends
+		AbstractDescriptorProvider
 {
 
 	private boolean updateHideRule( DesignElementHandle element, String format,
@@ -38,13 +40,11 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 			{
 				try
 				{
-					createHideRuleHandle( element,
-							format,
-							expression );
+					createHideRuleHandle( element, format, expression );
 				}
 				catch ( SemanticException e )
 				{
-					throw e;
+					ExceptionHandler.handle( e );
 				}
 			}
 			else
@@ -76,7 +76,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 					}
 					catch ( PropertyValueException e )
 					{
-						throw e;
+						ExceptionHandler.handle( e );
 					}
 					return true;
 				}
@@ -165,7 +165,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 			}
 			catch ( SemanticException e )
 			{
-				throw e;
+				ExceptionHandler.handle( e );
 			}
 		}
 		return true;
@@ -298,10 +298,13 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 					}
 					catch ( Exception e )
 					{
-						throw e;
+						ExceptionHandler.handle( e );
 					}
 					if ( !flag )
+					{
 						stack.rollback( );
+						return;
+					}
 				}
 			}
 
@@ -312,12 +315,11 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 
 		}
 		stack.commit( );
-		
+
 	}
 
 	public void saveSpecialOutput( boolean[] selections,
-			Expression[] expressions )
-			throws Exception
+			Expression[] expressions ) throws Exception
 	{
 		CommandStack stack = getActionStack( );
 		stack.startTrans( Messages.getString( "VisibilityPage.menu.SaveHides" ) ); //$NON-NLS-1$
@@ -339,6 +341,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 						expressions[i] ) )
 				{
 					stack.rollback( );
+					return;
 				}
 			}
 
@@ -350,11 +353,12 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 						null ) )
 				{
 					stack.rollback( );
+					return;
 				}
 			}
 		}
 		stack.commit( );
-		
+
 	}
 
 	public String getDisplayName( )
@@ -424,5 +428,5 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 	{
 		return visibilityRulesIterator( getFirstElementHandle( ) );
 	}
-	
+
 }
