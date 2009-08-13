@@ -1443,7 +1443,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				final StructureSource source;
 				if ( this.cm.getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL )
 				{
-					final DataPointHints dph = new DataPointHints( la,
+					final DataPointHints dph = new DataPointHints( la.getCaption( )
+							.getValue( ),
 							null,
 							null,
 							null,
