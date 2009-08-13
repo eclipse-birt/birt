@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
@@ -393,5 +395,20 @@ public class ExtendedItemHandle extends ReportItemHandle
 			throws SemanticException
 	{
 		setStringProperty( EXTENSION_VERSION_PROP, extensionVersion );
+	}
+
+	/**
+	 * 
+	 * Makes a unique name for this element with the given name prefix.
+	 * 
+	 * @param namePrefix
+	 *            the name prefix
+	 */
+
+	public void makeUniqueName( String namePrefix ) throws NameException
+	{
+		String name = new NameExecutor( element ).getNameHelper( module )
+				.getUniqueName( element, namePrefix );
+		setName( name );
 	}
 }

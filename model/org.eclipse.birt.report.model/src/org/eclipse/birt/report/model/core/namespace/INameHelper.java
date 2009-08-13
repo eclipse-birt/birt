@@ -58,6 +58,35 @@ public interface INameHelper
 	public String getUniqueName( DesignElement element );
 
 	/**
+	 * 
+	 * Returns unique name of element with the given name prefix.
+	 * <tr>
+	 * <td>if element is null or the given prefix is blank</td>
+	 * <td>return null</td>
+	 * </tr>
+	 * <tr>
+	 * <td>if element is group element</td>
+	 * <td>return name of group element</td>
+	 * </tr>
+	 * <tr>
+	 * <td>if element is already has a unique name</td>
+	 * <td>return it</td>
+	 * </tr>
+	 * <tr>
+	 * <td>if element has no name in library</td>
+	 * <td>return newly created unique name</td>
+	 * </tr>
+	 * 
+	 * @param element
+	 *            the design element.
+	 * @param namePrefix
+	 *            the name prefix
+	 * @return unique name of element.
+	 * 
+	 */
+	public String getUniqueName( DesignElement element, String namePrefix );
+
+	/**
 	 * Makes a unique name for this element.
 	 * 
 	 * @param element
@@ -182,9 +211,9 @@ public interface INameHelper
 	 */
 
 	public boolean canContain( int nameSpaceID, String elementName );
-	
+
 	/**
-	 * Caches values for elements with names such as styles, etc. 
+	 * Caches values for elements with names such as styles, etc.
 	 */
 
 	public void cacheValues( );

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
@@ -103,6 +104,16 @@ public class NameHelperTest extends BaseTestCase
 		hierarchy.add( design, level, IHierarchyModel.LEVELS_PROP );
 		design.makeUniqueName( level );
 		assertNotNull( level.getName( ) );
+
+		// test new getUniqueName method
+		level = new TabularLevel( null );
+		hierarchy.add( design, level, IHierarchyModel.LEVELS_PROP );
+		INameHelper nameHelper = new NameExecutor( level )
+				.getNameHelper( design );
+		String name = nameHelper.getUniqueName( level, "testLevel" ); //$NON-NLS-1$
+		assertEquals( "testLevel2", name  ); //$NON-NLS-1$
+		level.setName( name );
+		assertEquals( name,nameHelper.getUniqueName( level, "NewTestLevel" ) ); //$NON-NLS-1$ 		
 	}
 
 	/**

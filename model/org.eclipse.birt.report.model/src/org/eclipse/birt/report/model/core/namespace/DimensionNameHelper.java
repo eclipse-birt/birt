@@ -78,6 +78,19 @@ public class DimensionNameHelper extends AbstractNameHelper
 	 */
 	public String getUniqueName( DesignElement element )
 	{
+		return getUniqueName( element, null );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
+	 * (org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
+	 */
+
+	public String getUniqueName( DesignElement element, String namePrefix )
+	{
 		if ( element == null )
 			return null;
 
@@ -94,7 +107,14 @@ public class DimensionNameHelper extends AbstractNameHelper
 					.getUniqueName( element );
 		}
 
-		String name = StringUtil.trimString( element.getName( ) );
+		String name = element.getName( );
+
+		if ( StringUtil.isBlank( name ) )
+		{
+			// Use the given prefix if the element name is null
+			name = namePrefix;
+		}
+		name = StringUtil.trimString( name );
 
 		// replace all the illegal chars with '_'
 		name = NamePropertyType.validateName( name );
