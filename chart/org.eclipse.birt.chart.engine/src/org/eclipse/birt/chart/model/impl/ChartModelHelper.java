@@ -16,12 +16,12 @@ import java.util.List;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.model.IChartModelHelper;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
-import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * 
+ * Chart Model helper is default implementation of IChartModelHelper.
  */
 
 public class ChartModelHelper implements IChartModelHelper
@@ -46,7 +46,7 @@ public class ChartModelHelper implements IChartModelHelper
 
 	public void updateExtendedProperties( EList<ExtendedProperty> properties )
 	{
-		ExtendedProperty extendedProperty = AttributeFactoryImpl.init( )
+		ExtendedProperty extendedProperty = AttributeFactory.eINSTANCE
 				.createExtendedProperty( );
 		extendedProperty.setName( IDeviceRenderer.AREA_ALT_ENABLED );
 		extendedProperty.setValue( Boolean.FALSE.toString( ) );
