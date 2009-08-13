@@ -518,6 +518,13 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			chartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
 					hostChartHandle );
 		}
+		else
+		{
+			String namePrexif = name != null && name.length( ) > 0 ? name
+					: org.eclipse.birt.chart.reportitem.i18n.Messages.getString( (String) chartHandle.getDefn( )
+							.getDisplayNameKey( ) );
+			chartHandle.makeUniqueName( namePrexif );
+		}
 		return chartHandle;
 	}
 
