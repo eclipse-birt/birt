@@ -12,10 +12,10 @@
 package org.eclipse.birt.report.designer.util;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 
+import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.ULocale;
@@ -46,7 +46,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		//list.add( "\u20A9" ); //$NON-NLS-1$
 		list.add( "DKK" ); //$NON-NLS-1$
 
-		String defaultSymbol = Currency.getInstance( Locale.getDefault( ) )
+		String defaultSymbol = Currency.getInstance( ULocale.getDefault( ) )
 				.getSymbol( );
 		/*
 		 * bug 233779, the localSymbol doesn't allow to be null in IBM JDK List
@@ -147,7 +147,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 
 				for ( int i = result.length( ) - 1; i >= 0; i-- )
 				{
-					if ( result.charAt( i ) == ' ' )
+					if ( UCharacter.isSpaceChar( result.codePointAt( i ) ) )
 					{
 						return true;
 					}
@@ -160,7 +160,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 
 				for ( int i = 0; i < result.length( ); i++ )
 				{
-					if ( result.charAt( i ) == ' ' )
+					if ( UCharacter.isSpaceChar( result.codePointAt( i ) ) )
 					{
 						return true;
 					}

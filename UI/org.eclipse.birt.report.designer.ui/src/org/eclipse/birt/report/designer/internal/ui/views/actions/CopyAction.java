@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -203,7 +204,7 @@ public class CopyAction extends AbstractViewAction
 		return selection instanceof ReportItemHandle
 				|| selection instanceof DataSetHandle
 				|| selection instanceof DataSourceHandle
-				|| selection instanceof ScalarParameterHandle
+				|| selection instanceof AbstractScalarParameterHandle
 				|| selection instanceof ParameterGroupHandle
 				|| selection instanceof GroupHandle
 				|| selection instanceof StyleHandle

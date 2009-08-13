@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.Locale;
 
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
@@ -79,7 +78,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 	private static final int FORMAT_TYPE_INDEX = 0;
 
 	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
-	private static final String DEFAULT_PREVIEW_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
+	private static final String DEFAULT_PREVIEW_TEXT = NumberFormat.getNumberInstance( ULocale.getDefault( ) )
 			.format( DEFAULT_PREVIEW_NUMBER );
 
 	private HashMap<String, Object> categoryPatternMaps;
@@ -957,7 +956,9 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 	{
 		ULocale locale = getLocaleByDisplayName( localeChoicer.getText( ) );
 		if ( locale == null )
-			locale = ULocale.forLocale( Locale.getDefault( ) );
+		{
+			locale = ULocale.getDefault( );
+		}
 
 		try
 		{
