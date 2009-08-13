@@ -1057,7 +1057,7 @@ public class TaskSelectType extends SimpleTask implements
 			// CHANGE ALL OVERLAY SERIES TO NEW SELECTED TYPE
 			Axis XAxis = ( (ChartWithAxes) chartModel ).getAxes( )
 					.get( 0 );
-			int iSeriesDefinitionIndex = 0 + ( XAxis.getAssociatedAxes( )
+			int iSeriesDefinitionIndex = ( XAxis.getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).size( ); // SINCE
 			// THIS IS FOR THE ORTHOGONAL OVERLAY SERIES DEFINITION
 			int iOverlaySeriesCount = ( XAxis.getAssociatedAxes( )
@@ -1070,11 +1070,21 @@ public class TaskSelectType extends SimpleTask implements
 				if ( !lastSeries.getDisplayName( )
 						.equals( cbSeriesType.getText( ) ) )
 				{
-					Series newSeries = htSeriesNames.get( cbSeriesType.getText( ) )
-							.copyInstance( );
-					newSeries.translateFrom( lastSeries,
-							iSeriesDefinitionIndex,
-							chartModel );
+					String name = htSeriesNames.get( cbSeriesType.getText( ) )
+							.getClass( )
+							.getName( );
+					// check for cache
+					Series newSeries = ChartCacheManager.getInstance( )
+							.findSeries( name, iSeriesDefinitionIndex + i );
+					if ( newSeries == null )
+					{
+						newSeries = htSeriesNames.get( cbSeriesType.getText( ) )
+								.copyInstance( );
+						newSeries.translateFrom( lastSeries,
+								iSeriesDefinitionIndex,
+								chartModel );
+					}
+
 					// ADD THE MODEL ADAPTERS TO THE NEW SERIES
 					newSeries.eAdapters( ).addAll( chartModel.eAdapters( ) );
 					// UPDATE THE SERIES DEFINITION WITH THE SERIES INSTANCE
