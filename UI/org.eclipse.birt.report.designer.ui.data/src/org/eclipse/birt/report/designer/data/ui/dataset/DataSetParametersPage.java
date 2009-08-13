@@ -1792,6 +1792,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			ExpressionButtonUtil.createExpressionButton( defaultValueComposite,
 					defaultValue,
 					provider,
+					(DataSetHandle) getContainer( ).getModel( ),
 					true,
 					SWT.PUSH );
 

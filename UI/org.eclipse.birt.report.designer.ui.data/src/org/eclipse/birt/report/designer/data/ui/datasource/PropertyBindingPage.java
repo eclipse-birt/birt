@@ -186,6 +186,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		ExpressionButton exprButton = ExpressionButtonUtil.createExpressionButton( composite,
 				property,
 				new ExpressionProvider( handle ),
+				handle,
 				true,
 				SWT.PUSH );
 
