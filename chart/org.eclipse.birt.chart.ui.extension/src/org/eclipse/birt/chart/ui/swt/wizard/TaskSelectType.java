@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
@@ -1076,7 +1077,7 @@ public class TaskSelectType extends SimpleTask implements
 					// check for cache
 					Series newSeries = ChartCacheManager.getInstance( )
 							.findSeries( name, iSeriesDefinitionIndex + i );
-					if ( newSeries == null )
+					if ( newSeries == null || newSeries instanceof BarSeries )
 					{
 						newSeries = htSeriesNames.get( cbSeriesType.getText( ) )
 								.copyInstance( );
