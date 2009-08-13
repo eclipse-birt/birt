@@ -670,6 +670,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			}
 			refreshPositions( );
 			setPageProperties( );
+			refreshMessage( );
 		}
 		catch ( Exception e )
 		{
