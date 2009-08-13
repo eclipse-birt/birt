@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -38,8 +39,7 @@ public class ChartReportItemUIActivator extends AbstractUIPlugin
 	{
 		super.start( context );
 
-		// Initializes all chart related preference values
-		// ChartPreferencePage.init( );
+		initReportItemUIFactory( this );
 
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
@@ -80,5 +80,16 @@ public class ChartReportItemUIActivator extends AbstractUIPlugin
 	{
 		return AbstractUIPlugin.imageDescriptorFromPlugin( "org.eclipse.birt.chart.reportitem.ui", //$NON-NLS-1$
 				path );
+	}
+
+	private static void initReportItemUIFactory(
+			ChartReportItemUIActivator plugin )
+	{
+		ChartReportItemUIFactory factory = ChartUtil.getAdapter( plugin,
+				ChartReportItemUIFactory.class );
+		if ( factory != null )
+		{
+			ChartReportItemUIFactory.initInstance( factory );
+		}
 	}
 }

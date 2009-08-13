@@ -484,6 +484,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	private boolean isTableSharedBinding( )
 	{
 		return cmbDefinition != null
+				&& !cmbDefinition.isDisposed( )
 				&& cmbDefinition.getData( ) != null
 				&& ( context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
@@ -775,7 +776,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			updateQuery( ChartUIUtil.getText( getInputControl( ) ) );
 			// Refresh color from ColorPalette
 			setColor( );
-			getInputControl( ).getParent( ).layout( );
+			if ( !getInputControl( ).isDisposed( ) )
+			{
+				getInputControl( ).getParent( ).layout( );
+			}
 			
 			Event e = new Event( );
 			e.text = query.getDefinition( ) == null ? "" //$NON-NLS-1$
@@ -1224,6 +1228,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private String getDisplayExpressionForSharedBinding( CCombo combo, String expression )
 	{
 		String expr = expression;
@@ -1239,12 +1244,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			String columnExpr = null;
 			try
 			{
-				List bindings = ExpressionUtil.extractColumnExpressions( chi.getExpression( ) );
+				List<IColumnBinding> bindings = ExpressionUtil.extractColumnExpressions( chi.getExpression( ) );
 				if ( bindings.isEmpty( ) )
 				{
 					continue;
 				}
-				columnExpr = ( (IColumnBinding) bindings.get( 0 ) ).getResultSetColumnName( );
+				columnExpr = bindings.get( 0 ).getResultSetColumnName( );
 			}
 			catch ( BirtException e )
 			{

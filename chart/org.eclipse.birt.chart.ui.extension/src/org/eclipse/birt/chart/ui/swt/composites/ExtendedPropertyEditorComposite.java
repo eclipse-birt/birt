@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.emf.common.util.EList;
@@ -36,32 +36,29 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-/**
- * @author Actuate Corporation
- * 
- */
-public class ExtendedPropertyEditorComposite extends Composite
-		implements
-			SelectionListener
+public class ExtendedPropertyEditorComposite extends Composite implements
+		SelectionListener
 {
 
-	private transient LinkedHashMap propMap = null;
+	private LinkedHashMap<String, ExtendedProperty> propMap = null;
+	private LinkedHashMap<String, Boolean> propDisabledMap = null;
 
-	private transient Table table = null;
+	private Table table = null;
 
-	private transient TableEditor editorValue = null;
+	private TableEditor editorValue = null;
 
-	private transient Text txtNewKey = null;
+	private Text txtNewKey = null;
 
-	private transient Button btnAdd = null;
+	private Button btnAdd = null;
 
-	private transient Button btnRemove = null;
+	private Button btnRemove = null;
 
-	private transient EList extendedProperties;
-	private transient ChartWizardContext context;
+	private EList<ExtendedProperty> extendedProperties;
+	private ChartWizardContext context;
 
 	public ExtendedPropertyEditorComposite( Composite parent, int style,
-			EList extendedProperties, ChartWizardContext context )
+			EList<ExtendedProperty> extendedProperties,
+			ChartWizardContext context )
 	{
 		super( parent, style );
 		this.extendedProperties = extendedProperties;
@@ -72,11 +69,16 @@ public class ExtendedPropertyEditorComposite extends Composite
 
 	private void init( )
 	{
-		propMap = new LinkedHashMap( 6 );
-		for ( int i = 0; i < extendedProperties.size( ); i++ )
+		propMap = new LinkedHashMap<String, ExtendedProperty>( 6 );
+		for ( ExtendedProperty property : extendedProperties )
 		{
-			ExtendedProperty property = ( (ExtendedProperty) extendedProperties.get( i ) );
 			propMap.put( property.getName( ), property );
+		}
+		propDisabledMap = new LinkedHashMap<String, Boolean>( 2 );
+		for ( String disabledName : ChartModelHelper.instance( )
+				.getBuiltInExtendedProperties( ) )
+		{
+			propDisabledMap.put( disabledName, Boolean.TRUE );
 		}
 	}
 
@@ -148,15 +150,14 @@ public class ExtendedPropertyEditorComposite extends Composite
 
 	private void populateTable( )
 	{
-		Iterator keys = propMap.keySet( ).iterator( );
-		while ( keys.hasNext( ) )
+		for ( String propName : propMap.keySet( ) )
 		{
-			ExtendedProperty property = (ExtendedProperty) propMap.get( keys.next( ) );
+			ExtendedProperty property = propMap.get( propName );
 			String[] sProperty = new String[2];
 			sProperty[0] = property.getName( );
 			sProperty[1] = property.getValue( );
 
-			TableItem tiProp = new TableItem( table, SWT.NONE );
+			TableItem tiProp = new TableItem( table, SWT.CHECK );
 			tiProp.setBackground( getSelectionColor( ) );
 			tiProp.setText( sProperty );
 		}
@@ -173,7 +174,9 @@ public class ExtendedPropertyEditorComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -182,7 +185,9 @@ public class ExtendedPropertyEditorComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -208,7 +213,7 @@ public class ExtendedPropertyEditorComposite extends Composite
 			if ( table.getSelection( ).length != 0 )
 			{
 				String key = table.getSelection( )[0].getText( 0 );
-				ExtendedProperty property = (ExtendedProperty) propMap.get( key );
+				ExtendedProperty property = propMap.get( key );
 				if ( property != null )
 				{
 					extendedProperties.remove( property );
@@ -234,6 +239,7 @@ public class ExtendedPropertyEditorComposite extends Composite
 			{
 				return;
 			}
+			btnRemove.setEnabled( !propDisabledMap.containsKey( item.getText( ) ) );
 
 			// The control that will be the editor must be a child of the Table
 			Text newEditor = new Text( table, SWT.NONE );
@@ -255,7 +261,7 @@ public class ExtendedPropertyEditorComposite extends Composite
 
 	private void updateModel( String key, String value )
 	{
-		ExtendedProperty property = (ExtendedProperty) propMap.get( key );
+		ExtendedProperty property = propMap.get( key );
 		if ( property == null )
 		{
 			property = AttributeFactory.eINSTANCE.createExtendedProperty( );

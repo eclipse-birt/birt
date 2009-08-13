@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -37,7 +38,7 @@ public interface IChartDataSheet
 
 	/** The field indicates the component color of query should be updated. */
 	int DETAIL_UPDATE_COLOR = 3;
-	
+
 	/**
 	 * Sets chart model.
 	 * 
@@ -53,6 +54,16 @@ public interface IChartDataSheet
 	 *            chart context
 	 */
 	void setContext( IWizardContext context );
+
+	/**
+	 * Creates the customized UI to maintain left, right and bottom parts in
+	 * data sheet.
+	 * 
+	 * @param task
+	 *            data sheet task
+	 * @return customized UI
+	 */
+	ISelectDataCustomizeUI createCustomizeUI( ITask task );
 
 	/**
 	 * Creates data selector to select data set and etc.
@@ -94,8 +105,8 @@ public interface IChartDataSheet
 	 * 
 	 * 
 	 * @see Listener
-	 * @see #removeListener( Listener)
-	 * @see #notifyListeners( Event)
+	 * @see #removeListener(Listener)
+	 * @see #notifyListeners(Event)
 	 */
 	void addListener( Listener listener );
 
@@ -110,8 +121,8 @@ public interface IChartDataSheet
 	 * 
 	 * 
 	 * @see Listener
-	 * @see #addListener( Listener)
-	 * @see #notifyListeners( Event)
+	 * @see #addListener(Listener)
+	 * @see #notifyListeners(Event)
 	 */
 	void removeListener( Listener listener );
 
@@ -125,8 +136,8 @@ public interface IChartDataSheet
 	 *            the event data
 	 * 
 	 * 
-	 * @see #addListener( Listener)
-	 * @see #removeListener( Listener)
+	 * @see #addListener(Listener)
+	 * @see #removeListener(Listener)
 	 */
 	void notifyListeners( Event event );
 

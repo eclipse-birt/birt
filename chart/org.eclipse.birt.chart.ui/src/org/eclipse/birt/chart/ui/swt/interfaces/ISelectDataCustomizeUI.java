@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -50,6 +51,14 @@ public interface ISelectDataCustomizeUI
 	void selectBottomBindingArea( boolean selected, Object data );
 
 	/**
+	 * Notifies changes according to EMF model notification
+	 * 
+	 * @param notification
+	 *            EMF model notification
+	 */
+	void notifyChange( Notification notification );
+
+	/**
 	 * Initializes all required resource.
 	 * 
 	 */
@@ -64,8 +73,7 @@ public interface ISelectDataCustomizeUI
 	/**
 	 * 
 	 * @param areaType
-	 *            <code>ORTHOGONAL_SERIES</code>,
-	 *            <code>GROUPING_SERIES</code>
+	 *            <code>ORTHOGONAL_SERIES</code>, <code>GROUPING_SERIES</code>
 	 * @param seriesdefinition
 	 * @param context
 	 * @param sTitle

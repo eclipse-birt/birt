@@ -45,8 +45,10 @@ import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -54,6 +56,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
@@ -2691,5 +2694,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			ChartWizard.removeException( ChartWizard.StaChartDSh_checCube_ID );
 		}
+	}
+	
+	@Override
+	public ISelectDataCustomizeUI createCustomizeUI( ITask task )
+	{
+		return new SelectDataDynamicArea( task );
 	}
 }

@@ -17,8 +17,9 @@ import org.eclipse.birt.chart.computation.IChartComputationFactory;
 import org.eclipse.birt.chart.device.IImageWriterFactory;
 import org.eclipse.birt.chart.device.ImageWriterFactory;
 import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
-import org.eclipse.core.runtime.IAdapterManager;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.birt.chart.model.IChartModelHelper;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
@@ -41,13 +42,13 @@ public class ChartEnginePlugin extends Plugin
 		JavaUtilLoggerImpl.setStateDir( getStateLocation( ).toOSString( ) );
 		initChartComputation( this );
 		initImageWriterFactory( this );
+		initChartModelHelper( this );
 	}
 
 	private static void initChartComputation( ChartEnginePlugin plugin )
 	{
-		IAdapterManager adapterManager = Platform.getAdapterManager( );
-		IChartComputationFactory factory = (IChartComputationFactory) adapterManager.loadAdapter( plugin,
-				IChartComputationFactory.class.getName( ) );
+		IChartComputationFactory factory = ChartUtil.getAdapter( plugin,
+				IChartComputationFactory.class );
 		if ( factory != null )
 		{
 			ChartComputationFactory.initInstance( factory );
@@ -57,19 +58,22 @@ public class ChartEnginePlugin extends Plugin
 
 	private static void initImageWriterFactory( ChartEnginePlugin plugin )
 	{
-		IImageWriterFactory factory = getAdapter( plugin,
+		IImageWriterFactory factory = ChartUtil.getAdapter( plugin,
 				IImageWriterFactory.class );
 		if ( factory != null )
 		{
 			ImageWriterFactory.initInstance( factory );
 		}
-
 	}
 
-	private static <T> T getAdapter( Object adaptable, Class<T> type )
+	private static void initChartModelHelper( ChartEnginePlugin plugin )
 	{
-		IAdapterManager adapterManager = Platform.getAdapterManager( );
-		return type.cast( adapterManager.loadAdapter( adaptable, type.getName( ) ) );
+		IChartModelHelper factory = ChartUtil.getAdapter( plugin,
+				IChartModelHelper.class );
+		if ( factory != null )
+		{
+			ChartModelHelper.initInstance( factory );
+		}
 	}
 
 }

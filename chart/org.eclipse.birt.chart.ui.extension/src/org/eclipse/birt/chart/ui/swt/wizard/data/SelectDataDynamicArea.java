@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -39,8 +40,8 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 
 	private ITask task = null;
 
-	protected List subLeftAreas = new ArrayList( );
-	protected List subRightAreas = new ArrayList( );
+	protected List<ISelectDataComponent> subLeftAreas = new ArrayList<ISelectDataComponent>( );
+	protected List<ISelectDataComponent> subRightAreas = new ArrayList<ISelectDataComponent>( );
 
 	protected Composite cmpLeftArea = null;
 	protected Composite cmpRightArea = null;
@@ -69,8 +70,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	{
 		for ( int i = 0; i < subLeftAreas.size( ); i++ )
 		{
-			( (ISelectDataComponent) subLeftAreas.get( i ) ).selectArea( selected,
-					data );
+			subLeftAreas.get( i ).selectArea( selected, data );
 		}
 	}
 
@@ -78,8 +78,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	{
 		for ( int i = 0; i < subRightAreas.size( ); i++ )
 		{
-			( (ISelectDataComponent) subRightAreas.get( i ) ).selectArea( selected,
-					data );
+			subRightAreas.get( i ).selectArea( selected, data );
 		}
 	}
 
@@ -90,11 +89,11 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 
 	public void dispose( )
 	{
-		List list = subLeftAreas;
+		List<ISelectDataComponent> list = subLeftAreas;
 		list.addAll( subRightAreas );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			( (ISelectDataComponent) list.get( i ) ).dispose( );
+			list.get( i ).dispose( );
 		}
 		if ( bottomArea != null )
 		{
@@ -144,8 +143,9 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	}
 	
 	protected MultipleSeriesSelectorComponent createMultipleSeriesSelectorComponent(
-			EList[] seriesDefnsArray, ChartWizardContext wizardContext,
-			String sTitle, ISelectDataCustomizeUI selectDataUI )
+			EList<SeriesDefinition>[] seriesDefnsArray,
+			ChartWizardContext wizardContext, String sTitle,
+			ISelectDataCustomizeUI selectDataUI )
 	{
 		return new MultipleSeriesSelectorComponent( seriesDefnsArray,
 				getContext( ),
@@ -166,13 +166,13 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
 			int axisNum = ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) );
-			EList[] seriesDefnArray = new EList[axisNum];
-			EList axisList = getYAxisListForProcessing( );
+			EList<SeriesDefinition>[] seriesDefnArray = new EList[axisNum];
+			EList<Axis> axisList = getYAxisListForProcessing( );
 			if ( axisList != null && !axisList.isEmpty( ) )
 			{
 				for ( int i = 0; i < axisList.size( ); i++ )
 				{
-					seriesDefnArray[i] = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
+					seriesDefnArray[i] = axisList.get( i ).getSeriesDefinitions( );
 				}
 			}
 			ISelectDataComponent component = createMultipleSeriesSelectorComponent( seriesDefnArray,
@@ -212,13 +212,13 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
 			int axisNum = ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) );
-			EList[] seriesDefnArray = new EList[axisNum];
-			EList axisList = getYAxisListForProcessing( );
+			EList<SeriesDefinition>[] seriesDefnArray = new EList[axisNum];
+			EList<Axis> axisList = getYAxisListForProcessing( );
 			if ( axisList != null && !axisList.isEmpty( ) )
 			{
 				for ( int i = 0; i < axisList.size( ); i++ )
 				{
-					seriesDefnArray[i] = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
+					seriesDefnArray[i] = axisList.get( i ).getSeriesDefinitions( );
 				}
 			}
 			ISelectDataComponent component = new MultipleSeriesComponent( seriesDefnArray,
@@ -237,9 +237,11 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		}
 	}
 
-	private EList getYAxisListForProcessing( )
+	private EList<Axis> getYAxisListForProcessing( )
 	{
-		return ( (Axis) ( (ChartWithAxes) getChartModel( ) ).getAxes( ).get( 0 ) ).getAssociatedAxes( );
+		return ( (ChartWithAxes) getChartModel( ) ).getAxes( )
+				.get( 0 )
+				.getAssociatedAxes( );
 	}
 
 	public void createBottomBindingArea( Composite parent )
@@ -253,11 +255,11 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 
 	private SeriesDefinition getBaseSeriesDefinitionForProcessing( )
 	{
-		return (SeriesDefinition) ( (ChartWithoutAxes) getChartModel( ) ).getSeriesDefinitions( )
+		return ( (ChartWithoutAxes) getChartModel( ) ).getSeriesDefinitions( )
 				.get( 0 );
 	}
 
-	private EList getValueSeriesDefinitionForProcessing( )
+	private EList<SeriesDefinition> getValueSeriesDefinitionForProcessing( )
 	{
 		return getBaseSeriesDefinitionForProcessing( ).getSeriesDefinitions( );
 	}
@@ -284,5 +286,10 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	{
 		// Reset selected series index to 0
 		seriesIndex = new int[ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) )];
+	}
+
+	public void notifyChange( Notification notification )
+	{
+		// Do nothing		
 	}
 }

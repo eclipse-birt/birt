@@ -52,6 +52,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
@@ -59,6 +60,8 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -1821,25 +1824,67 @@ public class ChartUtil
 	}
 
 	/**
-	 * Finds the value of ExtendedProperty in chart model according to property
+	 * Finds the ExtendedProperty in chart model according to property
 	 * name
 	 * 
 	 * @param cm
 	 *            chart model
 	 * @param propertyName
 	 *            property name
-	 * @return property name or null if not found
+	 * @return property or null if not found
 	 * @since 2.5.1
 	 */
-	public static String getExtendedProperty( Chart cm, String propertyName )
+	public static ExtendedProperty getExtendedProperty( Chart cm, String propertyName )
 	{
 		for ( ExtendedProperty property : cm.getExtendedProperties( ) )
 		{
 			if ( property.getName( ).equals( propertyName ) )
 			{
-				return property.getValue( );
+				return property;
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Sets the value in extended property. If the property with specified name
+	 * is not found, insert one property.
+	 * 
+	 * @param cm
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return the property with set value
+	 * @since 2.5.1
+	 */
+	public static ExtendedProperty setExtendedProperty( Chart cm,
+			String propertyName, String propertyValue )
+	{
+		ExtendedProperty oldValue = getExtendedProperty( cm, propertyName );
+		if ( oldValue == null )
+		{
+			ExtendedProperty extendedProperty = AttributeFactoryImpl.init( )
+					.createExtendedProperty( );
+			extendedProperty.setName( propertyName );
+			extendedProperty.setValue( propertyValue );
+			cm.getExtendedProperties( ).add( extendedProperty );
+			return extendedProperty;
+		}
+		oldValue.setValue( propertyValue );
+		return oldValue;
+	}
+	
+	/**
+	 * Gets adapter from extension point.
+	 * 
+	 * @param <T>
+	 * @param adaptable
+	 * @param type
+	 * @return adapter class
+	 * @since 2.5.1
+	 */
+	public static <T> T getAdapter( Object adaptable, Class<T> type )
+	{
+		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		return type.cast( adapterManager.loadAdapter( adaptable, type.getName( ) ) );
 	}
 }

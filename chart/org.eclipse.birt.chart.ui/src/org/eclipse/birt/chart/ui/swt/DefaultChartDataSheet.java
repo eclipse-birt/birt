@@ -17,7 +17,9 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -31,7 +33,7 @@ import org.eclipse.swt.widgets.Listener;
 public class DefaultChartDataSheet implements IChartDataSheet
 {
 
-	private List listeners = new ArrayList( 2 );
+	private List<Listener> listeners = new ArrayList<Listener>( 2 );
 	private Chart cm;
 	private ChartWizardContext context;
 
@@ -65,9 +67,9 @@ public class DefaultChartDataSheet implements IChartDataSheet
 
 	public void notifyListeners( Event event )
 	{
-		for ( Iterator iterator = listeners.iterator( ); iterator.hasNext( ); )
+		for ( Iterator<Listener> iterator = listeners.iterator( ); iterator.hasNext( ); )
 		{
-			( (Listener) iterator.next( ) ).handleEvent( event );
+			iterator.next( ).handleEvent( event );
 		}
 	}
 
@@ -96,6 +98,11 @@ public class DefaultChartDataSheet implements IChartDataSheet
 	protected ChartWizardContext getContext( )
 	{
 		return this.context;
+	}
+
+	public ISelectDataCustomizeUI createCustomizeUI( ITask task )
+	{
+		return null;
 	}
 
 }

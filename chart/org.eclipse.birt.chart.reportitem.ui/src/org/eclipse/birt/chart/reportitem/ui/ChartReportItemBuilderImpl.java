@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -23,14 +22,13 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
@@ -189,9 +187,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			}
 			final ChartWizard chartBuilder = new ChartWizard( parentShell );
 			ReportDataServiceProvider dataProvider = new ReportDataServiceProvider( extendedHandle );
-			IChartDataSheet dataSheet = new StandardChartDataSheet( extendedHandle,
+			ChartReportItemUIFactory uiFactory = ChartReportItemUIFactory.instance( );
+			IChartDataSheet dataSheet = uiFactory.createDataSheet( extendedHandle,
 					dataProvider );
-			final ChartWizardContext context = new ChartWizardContext( cmClone,
+			final ChartWizardContext context = uiFactory.createWizardContext( cmClone,
 					this,
 					dataProvider,
 					dataSheet );
@@ -377,11 +376,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 		if ( cm.getExtendedProperties( ).isEmpty( ) )
 		{
-			ExtendedProperty extendedProperty = AttributeFactoryImpl.init( )
-					.createExtendedProperty( );
-			extendedProperty.setName( IDeviceRenderer.AREA_ALT_ENABLED );
-			extendedProperty.setValue( Boolean.FALSE.toString( ) );
-			cm.getExtendedProperties( ).add( extendedProperty );
+			ChartModelHelper.instance( )
+					.updateExtendedProperties( cm.getExtendedProperties( ) );
 		}
 	}
 

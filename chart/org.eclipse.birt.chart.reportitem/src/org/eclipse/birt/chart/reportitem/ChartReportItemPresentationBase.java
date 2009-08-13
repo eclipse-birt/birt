@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
@@ -1072,9 +1073,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	
 	protected final boolean isAreaAltEnabled( )
 	{
-		String altEnabled = ChartUtil.getExtendedProperty( cm,
+		ExtendedProperty altEnabled = ChartUtil.getExtendedProperty( cm,
 				IDeviceRenderer.AREA_ALT_ENABLED );
-		return altEnabled != null && Boolean.valueOf( altEnabled );
+		return altEnabled != null && Boolean.valueOf( altEnabled.getValue( ) );
 	}
 
 	/**

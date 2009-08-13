@@ -43,7 +43,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.swt.series.BubbleSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
-import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -167,7 +166,7 @@ public class TaskSelectData extends SimpleTask implements
 	
 	protected ISelectDataCustomizeUI createDataComponentsUI( )
 	{
-		return new SelectDataDynamicArea( this );
+		return getDataSheet( ).createCustomizeUI( this );
 	}
 
 	private void resize( )
@@ -496,15 +495,8 @@ public class TaskSelectData extends SimpleTask implements
 				checkDataTypeForChartWithAxes( );
 			}
 
-			// In old logic, the following statements are used to disable
-			// aggregate button if category grouping is canceled?
-			// But new logic is that aggregate button is still enabled, so
-			// remove code below.(Bugzilla#216082, 2008/1/23)
-			// Update Grouping aggregation button
-			// if ( notification.getNewValue( ) instanceof SeriesGrouping )
-			// {
-			// getCustomizeUI( ).refreshLeftBindingArea( );
-			// }
+			// Notify change to customize UI
+			getCustomizeUI( ).notifyChange( notification );
 
 			// Query and series change need to update Live Preview
 			if ( notification.getNotifier( ) instanceof Query

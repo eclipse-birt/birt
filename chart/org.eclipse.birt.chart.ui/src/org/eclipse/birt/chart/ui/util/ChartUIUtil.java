@@ -147,13 +147,16 @@ public class ChartUIUtil
 	public static void setBackgroundColor( Control control, boolean selected,
 			Color color )
 	{
-		if ( selected )
+		if ( control != null && !control.isDisposed( ) )
 		{
-			control.setBackground( color );
-		}
-		else
-		{
-			control.setBackground( null );
+			if ( selected )
+			{
+				control.setBackground( color );
+			}
+			else
+			{
+				control.setBackground( null );
+			}
 		}
 	}
 
