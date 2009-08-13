@@ -127,18 +127,6 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public String getUniqueName( DesignElement element )
-	{
-		return getUniqueName( element, null );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
 	 * (org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
 	public String getUniqueName( DesignElement element, String namePrefix )
@@ -163,7 +151,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 			INameHelper nameHelper = new NameExecutor( element )
 					.getNameHelper( module );
 			return nameHelper == null ? null : nameHelper
-					.getUniqueName( element );
+					.getUniqueName( element, namePrefix );
 		}
 
 		String name = element.getName( );

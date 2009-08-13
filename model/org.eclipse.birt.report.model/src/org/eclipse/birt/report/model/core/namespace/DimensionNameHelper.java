@@ -11,15 +11,10 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
-import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.NamePropertyType;
 
 /**
  * 
@@ -67,95 +62,6 @@ public class DimensionNameHelper extends AbstractNameHelper
 			nameContexts[i] = NameContextFactory.createDimensionNameContext(
 					dimension, i );
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public String getUniqueName( DesignElement element )
-	{
-		return getUniqueName( element, null );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
-	 */
-
-	public String getUniqueName( DesignElement element, String namePrefix )
-	{
-		if ( element == null )
-			return null;
-
-		ElementDefn eDefn = (ElementDefn) element.getDefn( );
-
-		// if the element does not reside in the dimension, then get namehelper
-		// for the element and get unique name from there
-		if ( !dimension.getDefn( ).isKindOf(
-				eDefn.getNameConfig( ).getNameContainer( ) ) )
-		{
-			INameHelper nameHelper = new NameExecutor( element )
-					.getNameHelper( dimension.getRoot( ) );
-			return nameHelper == null ? null : nameHelper
-					.getUniqueName( element );
-		}
-
-		String name = element.getName( );
-
-		if ( StringUtil.isBlank( name ) )
-		{
-			// Use the given prefix if the element name is null
-			name = namePrefix;
-		}
-		name = StringUtil.trimString( name );
-
-		// replace all the illegal chars with '_'
-		name = NamePropertyType.validateName( name );
-
-		// Some elements can have a blank name.
-		if ( eDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
-			return null;
-
-		if ( eDefn.getNameOption( ) == MetaDataConstants.OPTIONAL_NAME
-				&& name == null && dimension.getRoot( ) instanceof ReportDesign )
-			return null;
-
-		// If the element already has a unique name, return it.
-		int id = eDefn.getNameSpaceID( );
-		NameSpace nameSpace = getCachedNameSpace( id );
-		NameSpace moduleNameSpace = nameContexts[id].getNameSpace( );
-		if ( name != null && isValidInNameSpace( nameSpace, element, name )
-				&& isValidInNameSpace( moduleNameSpace, element, name ) )
-			return name;
-
-		// If the element has no name, create it as "New<new name>" where
-		// "<new name>" is the new element display name for the element. Both
-		// "New" and the new element display name are localized to the user's
-		// locale.
-
-		if ( name == null )
-		{
-			name = ModelMessages.getMessage( "New." //$NON-NLS-1$
-					+ element.getDefn( ).getName( ) );
-			name = name.trim( );
-		}
-
-		// Add a numeric suffix that makes the name unique.
-		int index = 0;
-		String baseName = name;
-		while ( nameSpace.contains( name ) || moduleNameSpace.contains( name ) )
-		{
-			name = baseName + ++index;
-		}
-
-		return name;
 	}
 
 	/**
