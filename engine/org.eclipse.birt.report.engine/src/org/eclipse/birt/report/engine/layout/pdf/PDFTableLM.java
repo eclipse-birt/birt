@@ -682,7 +682,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 	private boolean isColumnHidden( IColumn column )
 	{
 		String format = context.getFormat( );
-		return LayoutUtil.isHiddenByVisibility( column, format );
+		return LayoutUtil.isHiddenByVisibility( column, format, false );
 	}
 
 	public int updateUnresolvedCell( int groupLevel, boolean dropAll )

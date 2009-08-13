@@ -559,17 +559,13 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			boolean isHidden = LayoutUtil.isHidden( row, emitter
-					.getOutputFormat( ), context.getOutputDisplayNone( ) );
-			
 			// For fixed layout reports and in run task, we need to emit the
 			// invisible content to PDF layout engine.
-			if ( context.isFixedLayout( )
+			boolean hiddenMask = context.isFixedLayout( )
 					&& (Integer) context.getLayoutEngine( ).getOption(
-							EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN )
-			{
-				isHidden = false;
-			}
+							EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN;
+			boolean isHidden = LayoutUtil.isHidden( row, emitter
+					.getOutputFormat( ), context.getOutputDisplayNone( ), hiddenMask );
 			
 			if ( !isNestTable( ) )
 			{
@@ -637,18 +633,14 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 					return;
 				}
 			}
-			
-			boolean isHidden = LayoutUtil.isHidden( row, emitter
-					.getOutputFormat( ), context.getOutputDisplayNone( ) );
-			
 			// For fixed layout reports and in run task, we need to emit the
 			// invisible content to PDF layout engine.
-			if ( context.isFixedLayout( )
+			boolean hiddenMask = context.isFixedLayout( )
 					&& (Integer) context.getLayoutEngine( ).getOption(
-							EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN )
-			{
-				isHidden = false;
-			}
+							EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN;
+			boolean isHidden = LayoutUtil.isHidden( row, emitter
+					.getOutputFormat( ), context.getOutputDisplayNone( ), hiddenMask );
+
 			if(!isHidden)
 			{
 				emitter.endRow( row );

@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -625,7 +627,12 @@ public class TableContentLayout
 
 	private boolean isColumnHidden( IColumn column )
 	{
-		return LayoutUtil.isHiddenByVisibility( column, format );
+		// For fixed layout reports and in run task, we need to emit the
+		// invisible content to PDF layout engine.
+		boolean hiddenMask = context.isFixedLayout( )
+				&& (Integer) context.getLayoutEngine( ).getOption(
+						EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN;
+		return LayoutUtil.isHiddenByVisibility( column, format, hiddenMask );
 	}
 
 	
@@ -695,10 +702,15 @@ public class TableContentLayout
 	public boolean isVisible( ICellContent cell )
 	{
 		IElement parent = cell.getParent( );
+		// For fixed layout reports and in run task, we need to emit the
+		// invisible content to PDF layout engine.
+		boolean hiddenMask = context.isFixedLayout( )
+				&& (Integer) context.getLayoutEngine( ).getOption(
+						EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN;
 		if ( parent instanceof IContent )
 		{
 			if ( LayoutUtil.isHidden( ( (IContent) parent ), format, context
-					.getOutputDisplayNone( ) ) )
+					.getOutputDisplayNone( ), hiddenMask ) )
 			{
 				return false;
 			}

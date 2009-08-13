@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.layout.html;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -341,8 +343,15 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	{
 		assert content != null;
 		assert executor != null;
+		int type = content.getContentType( );
+		
+		// For fixed layout reports and in run task, we need to emit the
+		// invisible content to PDF layout engine.
+		boolean hiddenMask = context.isFixedLayout( )
+				&& (Integer) context.getLayoutEngine( ).getOption(
+						EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN;
 		if ( LayoutUtil.isHidden( content, emitter.getOutputFormat( ), context
-				.getOutputDisplayNone( ) ) )
+				.getOutputDisplayNone( ), hiddenMask ) )
 		{
 			traverse( executor, content );
 			return true;
