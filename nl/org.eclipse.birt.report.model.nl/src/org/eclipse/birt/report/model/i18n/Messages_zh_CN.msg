@@ -2273,6 +2273,15 @@ Element.MultiViews=多个视图
 Element.VariableElement=变量
 Element.DataGroup=数据组
 Element.DerivedDataSet=衍生数据集
+Element.DashboardElement=Dashboard
+Element.TabElement=Tab
+Element.SectionElement=区域
+Element.GadgetItem=Gadget Item
+Element.EventSubscriber=Event Subscriber
+Element.GadgetContent=Gadget Content
+Element.ExternalElementRef=External Element Reference
+Element.DataSelectorItem=Data Selector
+Element.DataViewItem=Data View
 
 ###########################################################
 # Element property names
@@ -2377,6 +2386,7 @@ Element.ReportDesign.onContentUpdate.toolTip=在报表内容更新时调用。
 Element.ReportDesign.onContentUpdate.this=报表设计
 Element.ReportDesign.onPageStart=页面启动时
 Element.ReportDesign.onPageEnd=页面终止时
+Element.ReportDesign.infoView=InfoView
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称
@@ -3253,6 +3263,51 @@ Element.AbstractScalarParameter.distinct=特异
 Element.DynamicFilterParameter.displayType=显示类型
 Element.DynamicFilterParameter.filterOperator=筛选运算符
 Element.DynamicFilterParameter.column=列
+
+#69. DashboardElement ( prefix  Element.DashboardElement )
+Element.DashboardElement.tabs=Tabs
+
+#70. TabElement ( prefix  Element.TabElement )
+Element.TabElement.title=标题
+Element.TabElement.sections=Sections
+Element.TabElement.freeFormGadgets=Free form gadgets
+
+#71 SectionElement ( prefix  Element.SectionElement )
+Element.SectionElement.width=宽度
+Element.SectionElement.gadgets=Gadgets
+
+#72 GadgetItem ( prefix  Element.GadgetItem )
+Element.GadgetItem.x=X
+Element.GadgetItem.y=Y
+Element.GadgetItem.height=高度
+Element.GadgetItem.cssStyleClass=CSS style class
+Element.GadgetItem.title=标题
+Element.GadgetItem.inlineStyle=Inline style
+Element.GadgetItem.externalGadgetURI=External gadget URI
+Element.GadgetItem.externalGadgetRefType=External gadget reference type
+Element.GadgetItem.projectName=Project name
+Element.GadgetItem.content=内容
+Element.GadgetItem.subscribeTo=Subscribe to
+Element.GadgetItem.observers=Observers
+
+#73 EventSubscriber ( prefix  Element.EventSubscriber )
+Element.EventSubscriber.eventName=Event name
+Element.EventSubscriber.subscribedGadgets=Subscribed gadgets
+
+#74 GadgetContent ( prefix  Element.GadgetContent )
+Element.GadgetContent.cube=多维数据集
+Element.GadgetContent.externalContentRef=External content reference
+
+#75 ExternalElementRef ( prefix  Element.ExternalElementRef )
+Element.ExternalElementRef.sourceFile=Source file
+Element.ExternalElementRef.targetBookmark=Target book mark
+
+#76 DataSelectorItem ( prefix  Element.DataSelectorItem )
+Element.DataSelectorItem.boundDataColumns=绑定的数据列
+Element.DataSelectorItem.type=类型
+
+#77 DataViewItem ( prefix  Element.DataViewItem )
+Element.DataViewItem.internalReportLetRef=Internal reportLet reference
 
 
 ###########################################################

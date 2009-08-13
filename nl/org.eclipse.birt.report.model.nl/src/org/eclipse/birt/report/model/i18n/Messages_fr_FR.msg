@@ -2273,6 +2273,15 @@ Element.MultiViews=Vues multiples
 Element.VariableElement=Variable
 Element.DataGroup=Groupe de données
 Element.DerivedDataSet=Jeu de données dérivées
+Element.DashboardElement=Dashboard
+Element.TabElement=Tab
+Element.SectionElement=Section
+Element.GadgetItem=Gadget Item
+Element.EventSubscriber=Event Subscriber
+Element.GadgetContent=Gadget Content
+Element.ExternalElementRef=External Element Reference
+Element.DataSelectorItem=Data Selector
+Element.DataViewItem=Data View
 
 ###########################################################
 # Element property names
@@ -2377,6 +2386,7 @@ Element.ReportDesign.onContentUpdate.toolTip=Commande appelée lors de la mise à 
 Element.ReportDesign.onContentUpdate.this=Modèle d'état
 Element.ReportDesign.onPageStart=A l'ouverture de la page
 Element.ReportDesign.onPageEnd=A la fermeture de la page
+Element.ReportDesign.infoView=InfoView
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nom d'affichage
@@ -3253,6 +3263,51 @@ Element.AbstractScalarParameter.distinct=Distinct
 Element.DynamicFilterParameter.displayType=Type d'affichage
 Element.DynamicFilterParameter.filterOperator=Opérateur filtre
 Element.DynamicFilterParameter.column=Colonne
+
+#69. DashboardElement ( prefix  Element.DashboardElement )
+Element.DashboardElement.tabs=Tabs
+
+#70. TabElement ( prefix  Element.TabElement )
+Element.TabElement.title=Titre
+Element.TabElement.sections=Sections
+Element.TabElement.freeFormGadgets=Free form gadgets
+
+#71 SectionElement ( prefix  Element.SectionElement )
+Element.SectionElement.width=Largeur
+Element.SectionElement.gadgets=Gadgets
+
+#72 GadgetItem ( prefix  Element.GadgetItem )
+Element.GadgetItem.x=X
+Element.GadgetItem.y=Y
+Element.GadgetItem.height=Hauteur
+Element.GadgetItem.cssStyleClass=CSS style class
+Element.GadgetItem.title=Titre
+Element.GadgetItem.inlineStyle=Inline style
+Element.GadgetItem.externalGadgetURI=External gadget URI
+Element.GadgetItem.externalGadgetRefType=External gadget reference type
+Element.GadgetItem.projectName=Project name
+Element.GadgetItem.content=Contenu
+Element.GadgetItem.subscribeTo=Subscribe to
+Element.GadgetItem.observers=Observers
+
+#73 EventSubscriber ( prefix  Element.EventSubscriber )
+Element.EventSubscriber.eventName=Event name
+Element.EventSubscriber.subscribedGadgets=Subscribed gadgets
+
+#74 GadgetContent ( prefix  Element.GadgetContent )
+Element.GadgetContent.cube=Cube
+Element.GadgetContent.externalContentRef=External content reference
+
+#75 ExternalElementRef ( prefix  Element.ExternalElementRef )
+Element.ExternalElementRef.sourceFile=Source file
+Element.ExternalElementRef.targetBookmark=Target book mark
+
+#76 DataSelectorItem ( prefix  Element.DataSelectorItem )
+Element.DataSelectorItem.boundDataColumns=Colonnes de données liées
+Element.DataSelectorItem.type=Type
+
+#77 DataViewItem ( prefix  Element.DataViewItem )
+Element.DataViewItem.internalReportLetRef=Internal reportLet reference
 
 
 ###########################################################

@@ -2273,6 +2273,15 @@ Element.MultiViews=ƒ}ƒ‹ƒ`ƒrƒ…[
 Element.VariableElement=•Ï”
 Element.DataGroup=ƒf[ƒ^ƒOƒ‹[ƒv
 Element.DerivedDataSet=”h¶ƒf[ƒ^ƒZƒbƒg
+Element.DashboardElement=Dashboard
+Element.TabElement=Tab
+Element.SectionElement=ƒZƒNƒVƒ‡ƒ“
+Element.GadgetItem=Gadget Item
+Element.EventSubscriber=Event Subscriber
+Element.GadgetContent=Gadget Content
+Element.ExternalElementRef=External Element Reference
+Element.DataSelectorItem=Data Selector
+Element.DataViewItem=Data View
 
 ###########################################################
 # Element property names
@@ -2377,6 +2386,7 @@ Element.ReportDesign.onContentUpdate.toolTip=ƒŒƒ|[ƒg‚Ì“à—e‚ğXV‚·‚éÛ‚ÉŒÄ‚Ño‚
 Element.ReportDesign.onContentUpdate.this=ƒŒƒ|[ƒgƒfƒUƒCƒ“
 Element.ReportDesign.onPageStart=ƒy[ƒW‚ÌŠJn
 Element.ReportDesign.onPageEnd=ƒy[ƒW‚ÌI—¹
+Element.ReportDesign.infoView=InfoView
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=•\¦–¼
@@ -3253,6 +3263,51 @@ Element.AbstractScalarParameter.distinct=Distinct
 Element.DynamicFilterParameter.displayType=•\¦Œ^
 Element.DynamicFilterParameter.filterOperator=‰‰Zq
 Element.DynamicFilterParameter.column=—ñ
+
+#69. DashboardElement ( prefix  Element.DashboardElement )
+Element.DashboardElement.tabs=Tabs
+
+#70. TabElement ( prefix  Element.TabElement )
+Element.TabElement.title=ƒ^ƒCƒgƒ‹
+Element.TabElement.sections=Sections
+Element.TabElement.freeFormGadgets=Free form gadgets
+
+#71 SectionElement ( prefix  Element.SectionElement )
+Element.SectionElement.width=•
+Element.SectionElement.gadgets=Gadgets
+
+#72 GadgetItem ( prefix  Element.GadgetItem )
+Element.GadgetItem.x=X
+Element.GadgetItem.y=Y
+Element.GadgetItem.height=‚‚³
+Element.GadgetItem.cssStyleClass=CSS style class
+Element.GadgetItem.title=ƒ^ƒCƒgƒ‹
+Element.GadgetItem.inlineStyle=Inline style
+Element.GadgetItem.externalGadgetURI=External gadget URI
+Element.GadgetItem.externalGadgetRefType=External gadget reference type
+Element.GadgetItem.projectName=Project name
+Element.GadgetItem.content=ƒRƒ“ƒeƒ“ƒc
+Element.GadgetItem.subscribeTo=Subscribe to
+Element.GadgetItem.observers=Observers
+
+#73 EventSubscriber ( prefix  Element.EventSubscriber )
+Element.EventSubscriber.eventName=Event name
+Element.EventSubscriber.subscribedGadgets=Subscribed gadgets
+
+#74 GadgetContent ( prefix  Element.GadgetContent )
+Element.GadgetContent.cube=ƒLƒ…[ƒu
+Element.GadgetContent.externalContentRef=External content reference
+
+#75 ExternalElementRef ( prefix  Element.ExternalElementRef )
+Element.ExternalElementRef.sourceFile=Source file
+Element.ExternalElementRef.targetBookmark=Target book mark
+
+#76 DataSelectorItem ( prefix  Element.DataSelectorItem )
+Element.DataSelectorItem.boundDataColumns=ƒoƒCƒ“ƒh‚³‚ê‚½ƒf[ƒ^ƒJƒ‰ƒ€
+Element.DataSelectorItem.type=í—Ş
+
+#77 DataViewItem ( prefix  Element.DataViewItem )
+Element.DataViewItem.internalReportLetRef=Internal reportLet reference
 
 
 ###########################################################

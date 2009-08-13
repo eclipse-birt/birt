@@ -2273,6 +2273,15 @@ Element.MultiViews=다중 보기
 Element.VariableElement=변수
 Element.DataGroup=데이터 그룹
 Element.DerivedDataSet=파생 데이터 집합
+Element.DashboardElement=Dashboard
+Element.TabElement=Tab
+Element.SectionElement=섹션
+Element.GadgetItem=Gadget Item
+Element.EventSubscriber=Event Subscriber
+Element.GadgetContent=Gadget Content
+Element.ExternalElementRef=External Element Reference
+Element.DataSelectorItem=Data Selector
+Element.DataViewItem=Data View
 
 ###########################################################
 # Element property names
@@ -2377,6 +2386,7 @@ Element.ReportDesign.onContentUpdate.toolTip=보고서 내용 업데이트 시 호출됩니다.
 Element.ReportDesign.onContentUpdate.this=보고서 디자인
 Element.ReportDesign.onPageStart=페이지 시작 시
 Element.ReportDesign.onPageEnd=페이지 종료 시
+Element.ReportDesign.infoView=InfoView
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
@@ -3253,6 +3263,51 @@ Element.AbstractScalarParameter.distinct=고유
 Element.DynamicFilterParameter.displayType=표시 형식
 Element.DynamicFilterParameter.filterOperator=필터 연산자
 Element.DynamicFilterParameter.column=열
+
+#69. DashboardElement ( prefix  Element.DashboardElement )
+Element.DashboardElement.tabs=Tabs
+
+#70. TabElement ( prefix  Element.TabElement )
+Element.TabElement.title=제목
+Element.TabElement.sections=Sections
+Element.TabElement.freeFormGadgets=Free form gadgets
+
+#71 SectionElement ( prefix  Element.SectionElement )
+Element.SectionElement.width=너비
+Element.SectionElement.gadgets=Gadgets
+
+#72 GadgetItem ( prefix  Element.GadgetItem )
+Element.GadgetItem.x=X
+Element.GadgetItem.y=Y
+Element.GadgetItem.height=높이
+Element.GadgetItem.cssStyleClass=CSS style class
+Element.GadgetItem.title=제목
+Element.GadgetItem.inlineStyle=Inline style
+Element.GadgetItem.externalGadgetURI=External gadget URI
+Element.GadgetItem.externalGadgetRefType=External gadget reference type
+Element.GadgetItem.projectName=Project name
+Element.GadgetItem.content=내용
+Element.GadgetItem.subscribeTo=Subscribe to
+Element.GadgetItem.observers=Observers
+
+#73 EventSubscriber ( prefix  Element.EventSubscriber )
+Element.EventSubscriber.eventName=Event name
+Element.EventSubscriber.subscribedGadgets=Subscribed gadgets
+
+#74 GadgetContent ( prefix  Element.GadgetContent )
+Element.GadgetContent.cube=큐브
+Element.GadgetContent.externalContentRef=External content reference
+
+#75 ExternalElementRef ( prefix  Element.ExternalElementRef )
+Element.ExternalElementRef.sourceFile=Source file
+Element.ExternalElementRef.targetBookmark=Target book mark
+
+#76 DataSelectorItem ( prefix  Element.DataSelectorItem )
+Element.DataSelectorItem.boundDataColumns=바인딩된 데이터 열
+Element.DataSelectorItem.type=형식
+
+#77 DataViewItem ( prefix  Element.DataViewItem )
+Element.DataViewItem.internalReportLetRef=Internal reportLet reference
 
 
 ###########################################################
