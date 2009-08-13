@@ -120,7 +120,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnNames()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnNames()
 	 */
 	public String[] getColumnNames( )
 	{
@@ -134,7 +135,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getTitle()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getTitle()
 	 */
 	public String getTitle( )
 	{
@@ -144,7 +146,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
 	public CellEditor[] getEditors( final Table table )
 	{
@@ -163,8 +166,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doMoveItem(int,
-	 *      int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
 	public boolean doMoveItem( int oldPos, int newPos )
 			throws PropertyValueException
@@ -175,7 +178,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doDeleteItem(int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doDeleteItem(int)
 	 */
 	public boolean doDeleteItem( int pos ) throws PropertyValueException
 	{
@@ -185,7 +189,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doAddItem(int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doAddItem(int)
 	 */
 	public boolean doAddItem( int pos ) throws SemanticException
 	{
@@ -194,7 +199,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 		if ( item instanceof DesignElementHandle )
 		{
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_NEW,FilterConditionBuilder.DLG_MESSAGE_NEW);
+					FilterConditionBuilder.DLG_TITLE_NEW,
+					FilterConditionBuilder.DLG_MESSAGE_NEW );
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
 			dialog.setBindingParams( bindingParams );
@@ -222,7 +228,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doEditItem(int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doEditItem(int)
 	 */
 	public boolean doEditItem( int pos )
 	{
@@ -239,7 +246,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 			}
 
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_EDIT,FilterConditionBuilder.DLG_MESSAGE_EDIT);
+					FilterConditionBuilder.DLG_TITLE_EDIT,
+					FilterConditionBuilder.DLG_MESSAGE_EDIT );
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( filterHandle );
 			dialog.setBindingParams( bindingParams );
@@ -263,8 +271,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnText(java.lang.Object,
-	 *      int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
 	public String getColumnText( Object element, int columnIndex )
 	{
@@ -275,8 +283,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getImagePath(java.lang.Object,
-	 *      int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
 	public String getImagePath( Object element, int columnIndex )
 	{
@@ -286,7 +294,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getElements(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
 	public Object[] getElements( Object inputElement )
 	{
@@ -307,8 +316,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#canModify(java.lang.Object,
-	 *      java.lang.String)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
 	public boolean canModify( Object element, String property )
 	{
@@ -318,8 +327,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getValue(java.lang.Object,
-	 *      java.lang.String)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
 	public Object getValue( Object element, String property )
 	{
@@ -332,8 +341,9 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#modify(java.lang.Object,
-	 *      java.lang.String, java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
+	 * java.lang.Object)
 	 */
 	public boolean modify( Object data, String property, Object value )
 			throws NameException, SemanticException
@@ -402,7 +412,8 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnWidths()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnWidths()
 	 */
 	public int[] getColumnWidths( )
 	{
@@ -412,7 +423,9 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider
+	 * #needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
@@ -423,14 +436,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 			{
 				getDataSetColumns( input.get( 0 ) );
 			}
-			if ( ListingHandle.FILTER_PROP.equals( propertyName ) )
-			{
-				return true;
-			}
-			if ( ReportItemHandle.PARAM_BINDINGS_PROP.equals( propertyName ) )
-			{
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
