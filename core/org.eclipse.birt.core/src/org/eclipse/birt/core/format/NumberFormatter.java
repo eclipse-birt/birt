@@ -153,6 +153,11 @@ public class NumberFormatter
 		return this.formatPattern;
 	}
 
+	public String getFormatCode( )
+	{
+		return realPattern;
+	}
+
 	/**
 	 * initializes numeric format pattern
 	 * 

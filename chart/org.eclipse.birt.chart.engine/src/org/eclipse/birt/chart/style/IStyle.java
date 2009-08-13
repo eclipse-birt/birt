@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.style;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
 
@@ -25,35 +26,56 @@ public interface IStyle
 	/**
 	 * Returns the font of current style.
 	 * 
-	 * @return
+	 * @return FontDefinition
 	 */
 	FontDefinition getFont( );
 
 	/**
 	 * Returns the color of current style.
 	 * 
-	 * @return
+	 * @return ColorDefinition
 	 */
 	ColorDefinition getColor( );
 
 	/**
 	 * Returns the background color of current style.
 	 * 
-	 * @return
+	 * @return ColorDefinition
 	 */
 	ColorDefinition getBackgroundColor( );
 
 	/**
 	 * Returns the background image of current style.
 	 * 
-	 * @return
+	 * @return Image
 	 */
 	Image getBackgroundImage( );
 
 	/**
 	 * Returns the padding of current style.
 	 * 
-	 * @return
+	 * @return Insets
 	 */
 	Insets getPadding( );
+
+	/**
+	 * Returns the date time format of current style.
+	 * 
+	 * @return date time format
+	 */
+	FormatSpecifier getDateTimeFormat( );
+
+	/**
+	 * Returns the number format of current style.
+	 * 
+	 * @return number format
+	 */
+	FormatSpecifier getNumberFormat( );
+
+	/**
+	 * Returns the string format of current style.
+	 * 
+	 * @return string format
+	 */
+	FormatSpecifier getStringFormat( );
 }

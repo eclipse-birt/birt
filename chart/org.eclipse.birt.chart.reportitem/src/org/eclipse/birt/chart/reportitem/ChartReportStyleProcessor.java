@@ -25,9 +25,14 @@ import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
+import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
+import org.eclipse.birt.chart.model.attribute.impl.StringFormatSpecifierImpl;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
+import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
@@ -276,6 +281,32 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			double pl = convertToPixel( style.getPaddingLeft( ) );
 			double pr = convertToPixel( style.getPaddingRight( ) );
 			ss.setPadding( goFactory.createInsets( pt, pl, pb, pr ) );
+
+			String dateTimeFormat = null, stringFormat = null, numberFormat = null;
+			if ( dstyle != null )
+			{
+				dateTimeFormat = dstyle.getDateTimeFormat( );
+				stringFormat = dstyle.getStringFormat( );
+				numberFormat = dstyle.getNumberFormat( );
+			}
+			else
+			{
+				dateTimeFormat = style.getDateTimeFormat( );
+				stringFormat = style.getStringFormat( );
+				numberFormat = style.getNumberFormat( );
+			}
+			if ( dateTimeFormat != null )
+			{
+				ss.setDateTimeFormat( JavaDateFormatSpecifierImpl.create( new DateFormatter( dateTimeFormat ).getFormatCode( ) ) );
+			}
+			if ( stringFormat != null )
+			{
+				ss.setStringFormat( StringFormatSpecifierImpl.create( stringFormat ) );
+			}
+			if ( numberFormat != null )
+			{
+				ss.setNumberFormat( JavaNumberFormatSpecifierImpl.create( new NumberFormatter( numberFormat ).getFormatCode( ) ) );
+			}
 
 			if ( useCache )
 			{

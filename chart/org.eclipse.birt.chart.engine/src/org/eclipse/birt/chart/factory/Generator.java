@@ -318,6 +318,28 @@ public final class Generator implements IGenerator
 				}
 			}
 		}
+		else if ( component instanceof Axis )
+		{
+			Axis axis = (Axis) component;
+			if ( axis.getFormatSpecifier( ) == null )
+			{
+				IStyle style = getMingledStyle( model, type, externalProcessor );
+				switch ( axis.getType( ) )
+				{
+					case DATE_TIME_LITERAL :
+						axis.setFormatSpecifier( style.getDateTimeFormat( ) );
+						break;
+					case LINEAR_LITERAL :
+					case LOGARITHMIC_LITERAL :
+						axis.setFormatSpecifier( style.getNumberFormat( ) );
+						break;
+					case TEXT_LITERAL :
+						axis.setFormatSpecifier( style.getStringFormat( ) );
+						break;
+				}
+
+			}
+		}
 	}
 
 	private IStyle getMingledStyle( Chart model, StyledComponent type,

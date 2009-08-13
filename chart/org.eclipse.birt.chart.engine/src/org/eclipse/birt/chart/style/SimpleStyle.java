@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
 
@@ -33,6 +34,12 @@ public final class SimpleStyle implements IStyle
 	private Image backimage;
 
 	private Insets padding;
+
+	private FormatSpecifier dateTimeFormat;
+
+	private FormatSpecifier stringFormat;
+
+	private FormatSpecifier numberFormat;
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
@@ -95,6 +102,18 @@ public final class SimpleStyle implements IStyle
 			{
 				setPadding( goFactory.copyOf( src.getPadding( ) ) );
 			}
+			if ( src.getDateTimeFormat( ) != null )
+			{
+				setDateTimeFormat( src.getDateTimeFormat( ).copyInstance( ) );
+			}
+			if ( src.getNumberFormat( ) != null )
+			{
+				setNumberFormat( src.getNumberFormat( ).copyInstance( ) );
+			}
+			if ( src.getStringFormat( ) != null )
+			{
+				setStringFormat( src.getStringFormat( ).copyInstance( ) );
+			}
 		}
 	}
 
@@ -126,6 +145,18 @@ public final class SimpleStyle implements IStyle
 		if ( padding != null )
 		{
 			ss.setPadding( goFactory.copyOf( padding ) );
+		}
+		if ( dateTimeFormat != null )
+		{
+			ss.setDateTimeFormat( dateTimeFormat.copyInstance( ) );
+		}
+		if ( numberFormat != null )
+		{
+			ss.setNumberFormat( numberFormat.copyInstance( ) );
+		}
+		if ( stringFormat != null )
+		{
+			ss.setStringFormat( stringFormat.copyInstance( ) );
 		}
 
 		return ss;
@@ -308,4 +339,33 @@ public final class SimpleStyle implements IStyle
 		return true;
 	}
 
+	public FormatSpecifier getDateTimeFormat( )
+	{
+		return dateTimeFormat;
+	}
+
+	public void setDateTimeFormat( FormatSpecifier df )
+	{
+		this.dateTimeFormat = df;
+	}
+
+	public FormatSpecifier getNumberFormat( )
+	{
+		return numberFormat;
+	}
+
+	public void setNumberFormat( FormatSpecifier nf )
+	{
+		this.numberFormat = nf;
+	}
+
+	public FormatSpecifier getStringFormat( )
+	{
+		return stringFormat;
+	}
+
+	public void setStringFormat( FormatSpecifier sf )
+	{
+		this.stringFormat = sf;
+	}
 }
