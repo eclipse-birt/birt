@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,11 +14,6 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -162,7 +157,8 @@ public class ConnectionManager
 			driverHelper.setAppContext( appContext );
 			
 			IConnection connection = driverHelper.getConnection( dataSourceId );
-			ULocale locale = toULocale( appContext.get( "AppRuntimeLocale" ) );
+
+			ULocale locale = toULocale( appContext.get( "AppRuntimeLocale" ) ); //$NON-NLS-1$
 			if( locale != null )
 			{
 				try
@@ -171,9 +167,12 @@ public class ConnectionManager
 				}
 				catch( UnsupportedOperationException ex )
 				{
-					
+				    // log and ignore 
+		            getLogger().logp( Level.FINE, sm_className, methodName, 
+                            "Unable to set locale.", ex ); //$NON-NLS-1$
 				}
 			}
+
 			connection.open( connectionProperties );
 			
 			Connection ret = new Connection( connection, dataSourceElementId );
@@ -184,7 +183,7 @@ public class ConnectionManager
 		catch( OdaException ex )
 		{
 			getLogger().logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot open connection.", ex ); //$NON-NLS-1$
+							"Unable to open connection.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
 			                         new Object[] { dataSourceElementId } );
@@ -192,7 +191,7 @@ public class ConnectionManager
 		catch( UnsupportedOperationException ex )
 		{
 			getLogger().logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot open connection.", ex ); //$NON-NLS-1$
+							"Unable to open connection.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
 			                         new Object[] { dataSourceElementId } );
@@ -200,26 +199,26 @@ public class ConnectionManager
 	}
 	
 	/**
-	 * 
-	 * @param source
-	 * @return
+	 * Converts the specified locale object to ULocale.
+	 * @param localeValue  
+	 * @return the converted ULocale object; may be null if not convertible
 	 */
-	static ULocale toULocale( Object source )
+	static ULocale toULocale( Object localeValue )
 	{
-		if( source == null )
+		if( localeValue == null )
 			return null;
-			if ( source instanceof ULocale )
-			{
-				return (ULocale) source;
-			}
-			else if ( source instanceof Locale )
-			{
-				return ULocale.forLocale( ( Locale ) source );
-			}
-			else if ( source instanceof String )
-			{
-				return new ULocale( (String) source );
-			}
+		if( localeValue instanceof ULocale )
+		{
+			return (ULocale) localeValue;
+		}
+		else if( localeValue instanceof Locale )
+		{
+			return ULocale.forLocale( ( Locale ) localeValue );
+		}
+		else if( localeValue instanceof String )
+		{
+			return new ULocale( (String) localeValue );
+		}
 		
 		return null;
 	}
