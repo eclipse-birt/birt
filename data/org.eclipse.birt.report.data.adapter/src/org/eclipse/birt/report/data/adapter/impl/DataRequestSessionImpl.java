@@ -361,6 +361,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedQuery prepare( IQueryDefinition query, Map appContext )
 			throws BirtException
 	{
+		QueryAdapter.adaptQuery( query );
 		defineDataSourceDataSet( query );
 		if ( appContext == null )
 			// Use session app context
@@ -1101,6 +1102,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		QueryAdapter.adaptQuery( query );
 		dataEngine.getSession( ).getStopSign( ).start( );
 		setModuleHandleToAppContext( appContext );
 
@@ -1228,6 +1230,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ISubCubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		QueryAdapter.adaptQuery( query );
 		setModuleHandleToAppContext( appContext );
 		return this.dataEngine.prepare( query, appContext );
 	}

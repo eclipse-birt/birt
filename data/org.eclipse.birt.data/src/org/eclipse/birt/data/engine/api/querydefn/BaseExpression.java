@@ -43,22 +43,6 @@ public abstract class BaseExpression implements IBaseExpression
     	this.dataType = dataType;
     }
     
-    /*
-	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getID()
-	 */
-	public String getID( )
-	{
-		return this.exprID;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#setID(java.lang.String)
-	 */
-	public void setID( String exprID )
-	{
-		this.exprID = exprID;
-	}
-    
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getDataType()
 	 */

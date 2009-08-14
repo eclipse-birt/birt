@@ -38,7 +38,7 @@ public class ExpressionAdapter extends ScriptExpression
 	public ExpressionAdapter( Expression expr, int returnType )
 	{
 		super( expr.getStringExpression( ), returnType );
-		this.setID( expr.getType( ) );
+		this.setScriptId( expr.getType( ) );
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class ExpressionAdapter extends ScriptExpression
 	public ExpressionAdapter( Expression expr, String returnType )
 	{
 		super( expr.getStringExpression( ), org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType(returnType) );
-		this.setID( expr.getType( ) );
+		this.setScriptId( expr.getType( ) );
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class ExpressionAdapter extends ScriptExpression
 	{
 		super( ccHandle.getExpression(), 
 				org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( ccHandle.getDataType() ) );
-		this.setID( ccHandle.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER ).getType( ) );
+		this.setScriptId( ccHandle.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER ).getType( ) );
 	}
 	
 }
