@@ -357,55 +357,68 @@ public class CubeQueryDefinitionUtil
 						
 						boolean detailLevelOnColumn = isGrandTotalOnEdge( aggrOns,
 								dimLevelOnColumn );
-						boolean detailLevelOnRow = isGrandTotalOnEdge( aggrOns, dimLevelOnRow );
-						
-						for ( int k = 0; k < aggrOns.size( ); k++ )
+						boolean detailLevelOnRow = isGrandTotalOnEdge( aggrOns,
+								dimLevelOnRow );
+						if ( !detailLevelOnColumn && !detailLevelOnRow )
 						{
-							String aggrExpr = aggrOns.get( k ).toString( );
-							DimLevel target = OlapExpressionUtil.getTargetDimLevel( aggrExpr );
+							continue;
+						}
 
-							String dimensionNameOnColumn = columnDrill != null
-									? columnDrill.getTargetHierarchy( ).getDimension( ).getName( ) : null;
-							String dimensionNameOnRow = rowDrill != null
-									? rowDrill.getTargetHierarchy( ).getDimension( ).getName( ) : null;
-							if ( !columnExist
-									&& target.getDimensionName( )
-											.equals( dimensionNameOnColumn ) )
+						if ( ( detailLevelOnColumn && columnDrill != null )
+								|| ( detailLevelOnRow && rowDrill != null ) )
+						{
+							for ( int k = 0; k < aggrOns.size( ); k++ )
 							{
-								if( !detailLevelOnColumn )
+								String aggrExpr = aggrOns.get( k ).toString( );
+								DimLevel target = OlapExpressionUtil.getTargetDimLevel( aggrExpr );
+
+								String dimensionNameOnColumn = columnDrill != null
+										? columnDrill.getTargetHierarchy( )
+												.getDimension( )
+												.getName( ) : null;
+								String dimensionNameOnRow = rowDrill != null
+										? rowDrill.getTargetHierarchy( )
+												.getDimension( )
+												.getName( ) : null;
+								if ( !columnExist
+										&& target.getDimensionName( )
+												.equals( dimensionNameOnColumn ) )
 								{
+									if ( !detailLevelOnColumn )
+									{
+										newBinding.addAggregateOn( aggrExpr );
+									}
+									else
+									{
+										columnExist = true;
+										for ( int t = 0; t < levelDefnOnColumn.size( ); t++ )
+											newBinding.addAggregateOn( (String) levelDefnOnColumn.get( t ) );
+									}
+								}
+								else if ( !rowExist
+										&& target.getDimensionName( )
+												.equals( dimensionNameOnRow ) )
+								{
+									if ( !detailLevelOnRow )
+									{
+										newBinding.addAggregateOn( aggrExpr );
+									}
+									else
+									{
+										rowExist = true;
+										for ( int t = 0; t < levelDefnOnRow.size( ); t++ )
+											newBinding.addAggregateOn( (String) levelDefnOnRow.get( t ) );
+									}
+								}
+								else if ( !target.getDimensionName( )
+										.equals( dimensionNameOnColumn )
+										&& !target.getDimensionName( )
+												.equals( dimensionNameOnRow ) )
 									newBinding.addAggregateOn( aggrExpr );
-								}
-								else
-								{
-									columnExist = true;
-									for ( int t = 0; t < levelDefnOnColumn.size( ); t++ )
-										newBinding.addAggregateOn( (String) levelDefnOnColumn.get( t ) );
-								}
 							}
-							else if ( !rowExist
-									&& target.getDimensionName( )
-											.equals( dimensionNameOnRow ) )
-							{
-								if ( !detailLevelOnRow )
-								{
-									newBinding.addAggregateOn( aggrExpr );
-								}
-								else
-								{
-									rowExist = true;
-									for ( int t = 0; t < levelDefnOnRow.size( ); t++ )
-										newBinding.addAggregateOn( (String) levelDefnOnRow.get( t ) );
-								}
-							}
-							else if ( !target.getDimensionName( )
-									.equals( dimensionNameOnColumn )
-									&& !target.getDimensionName( )
-											.equals( dimensionNameOnRow ) )
-								newBinding.addAggregateOn( aggrExpr );
+							cloneQuery.addBinding( newBinding );
 						}
 					}
-					cloneQuery.addBinding( newBinding );
 				}
 				else
 					cloneQuery.addBinding( (IBinding) query.getBindings( )
