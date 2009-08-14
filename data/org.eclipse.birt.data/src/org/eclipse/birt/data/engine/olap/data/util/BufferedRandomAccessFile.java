@@ -32,6 +32,7 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	private int length;
 	private File file;
 	private String mode;
+	private boolean pureMemory;
 	
 	/**
 	 * Constructor for the BufferedRandomAccessFile object
@@ -51,13 +52,19 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 		super( bufferSize );
 		this.file = file;
 		this.mode = mode;
-		if ( FileSecurity.fileExist( file ) || cacheSize <= 0 )
+		this.pureMemory = false;
+		if ( FileSecurity.fileExist( file ) || cacheSize == 0 )
 		{
 			createRandomAccessFile( );
 		}
-		else
+		else if ( cacheSize > 0 )
 		{
 			memoryDelegate = new byte[cacheSize];
+		}
+		else
+		{
+			memoryDelegate = new byte[1024*1024];
+			this.pureMemory = true;
 		}
 		fillBuffer( );
 	}
@@ -167,12 +174,16 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	{
 		if ( delegate == null )
 		{
-			if( pos > memoryDelegate.length )
+			if( pos > memoryDelegate.length && !pureMemory )
 			{
 				createRandomAccessFile( );
 			}
 			else
 			{
+				if( pos > memoryDelegate.length )
+				{
+					restructMemoryDelegate( );
+				}
 				pointer = (int) pos;
 				return;
 			}
@@ -180,6 +191,13 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 		delegate.seek( pos );
 	}
 
+	private void restructMemoryDelegate( )
+	{
+		byte[] tmpBuf = new byte[memoryDelegate.length*2];
+		System.arraycopy( memoryDelegate, 0, tmpBuf, 0, memoryDelegate.length );
+		memoryDelegate = tmpBuf;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.document.AbstractBufferedRandomAccessObject#delegateSetLength(long)
@@ -188,12 +206,16 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	{
 		if ( delegate == null )
 		{
-			if( newLength > memoryDelegate.length )
+			if( newLength > memoryDelegate.length && !pureMemory )
 			{
 				createRandomAccessFile( );
 			}
 			else
 			{
+				if( newLength > memoryDelegate.length )
+				{
+					restructMemoryDelegate( );
+				}
 				length = (int) newLength;
 			}
 			return;
@@ -209,12 +231,16 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	{
 		if ( delegate == null )
 		{
-			if( pointer + len > memoryDelegate.length )
+			if( pointer + len > memoryDelegate.length && !pureMemory )
 			{
 				createRandomAccessFile( );
 			}
 			else
 			{
+				if( pointer + len > memoryDelegate.length  )
+				{
+					restructMemoryDelegate( );
+				}
 				System.arraycopy( b, pos, memoryDelegate, pointer, len );
 				if( pointer + len > length )
 				{

@@ -68,6 +68,52 @@ public class BufferedRandomAccessFileTest extends TestCase
 		assertEquals(bytes[1], 2);
 		file.close( );
 	}
+	
+	public void testBytes11( ) throws IOException
+	{
+		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
+				tmpPath + File.separatorChar + "Buffer123"),
+				"rw", 1000, -1000 );
+		byte[] bytes = new byte[1024];
+		bytes[0] = 1;
+		bytes[1] = 2;
+		file.seek( 0 );
+		file.write( bytes, 0, bytes.length );
+		file.write( bytes, 0, bytes.length );
+		file.write( bytes, 0, bytes.length );
+		bytes = new byte[932];
+		file.write( bytes, 0, bytes.length );
+		
+		bytes = new byte[1024];
+		file.seek( 0 );
+		assertEquals(file.read( bytes, 0, bytes.length ), 1024);
+		assertEquals(bytes[0], 1);
+		assertEquals(bytes[1], 2);
+		file.close( );
+	}
+	
+	public void testBytes2( ) throws IOException
+	{
+		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
+				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
+				"rw", 100, -100 );
+		byte[] bytes = new byte[1024];
+		bytes[0] = 1;
+		bytes[1] = 2;
+		file.seek( 0 );
+		file.write( bytes, 0, bytes.length );
+		file.write( bytes, 0, bytes.length );
+		file.write( bytes, 0, bytes.length );
+		bytes = new byte[932];
+		file.write( bytes, 0, bytes.length );
+		
+		bytes = new byte[1024];
+		file.seek( 0 );
+		assertEquals(file.read( bytes, 0, bytes.length ), 1024);
+		assertEquals(bytes[0], 1);
+		assertEquals(bytes[1], 2);
+		file.close( );
+	}
 
 	public void testInteger( ) throws IOException
 	{
