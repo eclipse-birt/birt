@@ -46,7 +46,6 @@ class BTreeMap extends BTree<String, Object>
 		option.setKeySerializer( new StringSerializer( ) );
 		option.setHasValue( true );
 		option.setAllowDuplicate( false );
-		option.setValueSize( 8 );
 		option.setValueSerializer( new ObjectSerializer( valueType ) );
 		option.setFile( new ArchiveInputFile( archive, name ) );
 		return new BTreeMap( option );
@@ -59,7 +58,6 @@ class BTreeMap extends BTree<String, Object>
 		option.setKeySerializer( new StringSerializer( ) );
 		option.setHasValue( true );
 		option.setAllowDuplicate( false );
-		option.setValueSize( 8 );
 		option.setValueSerializer( new ObjectSerializer( valueType ) );
 		option.setFile( new ArchiveOutputFile( archive, name ) );
 		return new BTreeMap( option );
