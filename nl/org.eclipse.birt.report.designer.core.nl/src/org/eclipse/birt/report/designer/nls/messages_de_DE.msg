@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=&Daten
 DesignerActionBarContributor.menu.element-EditGroup=Gruppe b&earbeiten
 DesignerActionBarContributor.menu.element-LayoutMode=Layout-Mo&dus
 DesignerActionBarContributor.menu.element-showRuler=&Lineale anzeigen
-DesignerActionBarContributor.menu.element.editDataBinding=Datenbindung &bearbeiten
+DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
 DesignerActionBarContributor.menu.element=Ele&ment
 DesignerActionBarContributor.menu.format=Format
 DesignerActionBarContributor.menu.insert=E&infügen
@@ -2442,7 +2442,7 @@ MapRuleBuilderDialog.text.NE=ist nicht gleich
 MapRuleBuilderDialog.text.NotBetween=ist nicht zwischen
 MapRuleBuilderDialog.text.NotNull=ist nicht Null
 MapRuleBuilderDialog.text.Null=ist Null
-MapRuleBuilderDialog.text.Title=Zuordnungsregeln hinzufügen/bearbeiten
+MapRuleBuilderDialog.text.Title=Zuordnung
 MapRuleBuilderDialog.MsgDlg.Title=Warnung
 MapRuleBuilderDialog.MsgDlg.Msg=Der Wert darf nicht leer sein.
 
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=Verweis zurücksetzen
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Datenspalte än&dern
+ChangeDataColumnAction.text=Chan&ge Data Column...
 
 ###########################################################
 #ThumbnailBuilder properties

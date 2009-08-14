@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=データ(&D)
 DesignerActionBarContributor.menu.element-EditGroup=グループの編集(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=レイアウトモード(&D)
 DesignerActionBarContributor.menu.element-showRuler=ルーラの表示(&R) :
-DesignerActionBarContributor.menu.element.editDataBinding=データバインドの編集(&B)
+DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
 DesignerActionBarContributor.menu.element=要素(&l)
 DesignerActionBarContributor.menu.format=書式
 DesignerActionBarContributor.menu.insert=挿入(&I)
@@ -2442,7 +2442,7 @@ MapRuleBuilderDialog.text.NE=次の値に等しくない
 MapRuleBuilderDialog.text.NotBetween=値に挟まれない
 MapRuleBuilderDialog.text.NotNull=Not Null
 MapRuleBuilderDialog.text.Null=Null
-MapRuleBuilderDialog.text.Title=マップ規則の追加と編集
+MapRuleBuilderDialog.text.Title=マップ
 MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=値は空にできません。
 
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=参照のリセット
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=データ列の変更(&G)
+ChangeDataColumnAction.text=Chan&ge Data Column...
 
 ###########################################################
 #ThumbnailBuilder properties

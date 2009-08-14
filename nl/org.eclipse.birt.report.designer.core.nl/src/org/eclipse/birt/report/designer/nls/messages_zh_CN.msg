@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=数据(&D)
 DesignerActionBarContributor.menu.element-EditGroup=编辑组(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=布局模式(&D)
 DesignerActionBarContributor.menu.element-showRuler=显示标尺(&R)
-DesignerActionBarContributor.menu.element.editDataBinding=编辑数据绑定(&B)
+DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
 DesignerActionBarContributor.menu.element=元素(&L)
 DesignerActionBarContributor.menu.format=格式
 DesignerActionBarContributor.menu.insert=插入(&I)
@@ -2442,7 +2442,7 @@ MapRuleBuilderDialog.text.NE=不等于
 MapRuleBuilderDialog.text.NotBetween=不介于
 MapRuleBuilderDialog.text.NotNull=不为 NULL
 MapRuleBuilderDialog.text.Null=为 NULL
-MapRuleBuilderDialog.text.Title=添加/编辑映射规则
+MapRuleBuilderDialog.text.Title=映射
 MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=值不能为空。
 
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=重置引用
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=更改数据列(&G)
+ChangeDataColumnAction.text=Chan&ge Data Column...
 
 ###########################################################
 #ThumbnailBuilder properties

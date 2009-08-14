@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=데이터(&D)
 DesignerActionBarContributor.menu.element-EditGroup=그룹 편집(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=레이아웃 모드(&D)
 DesignerActionBarContributor.menu.element-showRuler=눈금자 표시(&R)
-DesignerActionBarContributor.menu.element.editDataBinding=데이터 바인딩 편집(&B)
+DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
 DesignerActionBarContributor.menu.element=요소(&L)
 DesignerActionBarContributor.menu.format=서식
 DesignerActionBarContributor.menu.insert=삽입(&I)
@@ -2442,7 +2442,7 @@ MapRuleBuilderDialog.text.NE=같지 않음
 MapRuleBuilderDialog.text.NotBetween=사이에 있지 않음
 MapRuleBuilderDialog.text.NotNull=널(null)이 아님
 MapRuleBuilderDialog.text.Null=널(null)임
-MapRuleBuilderDialog.text.Title=맵 규칙 추가/편집
+MapRuleBuilderDialog.text.Title=맵
 MapRuleBuilderDialog.MsgDlg.Title=경고
 MapRuleBuilderDialog.MsgDlg.Msg=값을 입력해야 합니다.
 
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=데이터 열 변경(&G)
+ChangeDataColumnAction.text=Chan&ge Data Column...
 
 ###########################################################
 #ThumbnailBuilder properties

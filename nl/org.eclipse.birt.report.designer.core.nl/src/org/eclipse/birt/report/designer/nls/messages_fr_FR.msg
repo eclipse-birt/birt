@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=&Données
 DesignerActionBarContributor.menu.element-EditGroup=&Modifier le groupe
 DesignerActionBarContributor.menu.element-LayoutMode=Mode de mise en &page
 DesignerActionBarContributor.menu.element-showRuler=Afficher les &règles
-DesignerActionBarContributor.menu.element.editDataBinding=Mod&ifier la liaison de données
+DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
 DesignerActionBarContributor.menu.element=E&lément
 DesignerActionBarContributor.menu.format=Format
 DesignerActionBarContributor.menu.insert=&Insérer
@@ -2442,7 +2442,7 @@ MapRuleBuilderDialog.text.NE=n'est pas égal à
 MapRuleBuilderDialog.text.NotBetween=n'est pas compris entre
 MapRuleBuilderDialog.text.NotNull=n'est pas nul
 MapRuleBuilderDialog.text.Null=est nul
-MapRuleBuilderDialog.text.Title=Ajouter/Modifier la règle de mappage
+MapRuleBuilderDialog.text.Title=Mappage
 MapRuleBuilderDialog.MsgDlg.Title=Avertissement
 MapRuleBuilderDialog.MsgDlg.Msg=La valeur ne peut pas être vierge.
 
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=Réinitialiser la référence
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=&Modifier la colonne de données
+ChangeDataColumnAction.text=Chan&ge Data Column...
 
 ###########################################################
 #ThumbnailBuilder properties
