@@ -41,7 +41,7 @@ public class EditBindingHandler extends SelectionHandler
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
 
-			stack.startTrans( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
+			stack.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
 			DataBindingDialog dialog = new DataBindingDialog( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ),

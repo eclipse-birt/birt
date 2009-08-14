@@ -21,7 +21,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -30,28 +29,28 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * TODO: Please document
- * 
- * @version $Revision: 1.5 $ $Date: 2008/04/22 06:18:00 $
+ * DataBindingDialog
  */
-public class DataBindingDialog extends TrayDialog
+public class DataBindingDialog extends BaseDialog
 {
 
-	ArrayList items = new ArrayList( );
+	private ArrayList items = new ArrayList( );
 
 	/**
 	 * @param parentShell
 	 */
 	public DataBindingDialog( Shell parentShell, DesignElementHandle model )
 	{
-		super( parentShell );
+		super( parentShell, Messages.getString( "dataBinding.title" ) ); //$NON-NLS-1$
 		items.add( model );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -72,12 +71,16 @@ public class DataBindingDialog extends TrayDialog
 		page.setEnableAutoCommit( false );
 		page.setInput( items );
 
-		data = new GridData( );
-		data.widthHint = 700;
-		data.heightHint = 300;
+		data = new GridData( GridData.FILL_BOTH );
 		page.setLayoutData( data );
-		this.getShell( ).setText( Messages.getString( "dataBinding.title" ) ); //$NON-NLS-1$
 		UIUtil.bindHelp( parent, IHelpContextIds.DATA_BINDING_DIALOG_ID );
 		return composite;
 	}
+
+	@Override
+	protected boolean needRememberLastSize( )
+	{
+		return true;
+	}
+	
 }

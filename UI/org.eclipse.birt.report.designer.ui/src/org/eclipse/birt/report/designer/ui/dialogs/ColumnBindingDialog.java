@@ -1333,6 +1333,12 @@ public class ColumnBindingDialog extends BaseDialog
 		load( );
 		return super.initDialog( );
 	}
+	
+	@Override
+	protected boolean needRememberLastSize( )
+	{
+		return true;
+	}
 
 	/**
 	 * @return Returns the enableAutoCommit.
