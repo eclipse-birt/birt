@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.AttributeConstant;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -71,7 +72,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -111,48 +111,49 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Dialog for adding or editing highlight Rule.
  */
-public class HighlightRuleBuilder extends TitleAreaDialog
+public class HighlightRuleBuilder extends BaseTitleAreaDialog
 {
 
-	private final String NULL_STRING = null;
-	protected IExpressionProvider expressionProvider;
-	protected transient String bindingName = null;
-	protected ReportElementHandle currentItem = null;
+	public static final int EXPRESSION_CONTROL_COMBO = 0;
+	public static final int EXPRESSION_CONTROL_TEXT = 1;
 
-	protected String[] popupItems = null;
+	protected static final Logger logger = Logger.getLogger( HighlightRuleBuilder.class.getName( ) );
 
 	protected static final String[] EMPTY_ARRAY = new String[]{};
 
-	private static final String NONE_DISPLAY_TEXT = Messages.getString( "HighlightRuleBuilderDialog.displayText.None" ); //$NON-NLS-1$
-
-	protected static String[] actions = new String[]{
+	protected static final String[] actions = new String[]{
 			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
 			Messages.getString( "ExpressionValueCellEditor.buildExpressionAction" ), //$NON-NLS-1$
 	};
 
+	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+
+	private static final String DEFAULT_CHOICE = Messages.getString( "HighlightRuleBuilderDialog.text.Default" ); //$NON-NLS-1$
+
+	private static final String[] SYSTEM_FONT_LIST = DEUtil.getSystemFontNames( );
+
+	private static final String NONE_DISPLAY_TEXT = Messages.getString( "HighlightRuleBuilderDialog.displayText.None" ); //$NON-NLS-1$
+
+	private final String NULL_STRING = null;
+
+	protected IExpressionProvider expressionProvider;
+	protected String bindingName = null;
+	protected ReportElementHandle currentItem = null;
+
 	protected ParamBindingHandle[] bindingParams = null;
 
-	public static final int EXPRESSION_CONTROL_COMBO = 0;
-	public static final int EXPRESSION_CONTROL_TEXT = 1;
 	private int exprControlType;
-	protected String dlgDescription = "";
-	protected String dlgTitle = "";
+	protected String dlgDescription = ""; //$NON-NLS-1$
+	protected String dlgTitle = ""; //$NON-NLS-1$
 
-	protected Logger logger = Logger.getLogger( HighlightRuleBuilder.class.getName( ) );
+	protected List<ComputedColumnHandle> columnList;
+
+	protected List<String> valueList = new ArrayList<String>( );
 
 	/**
 	 * Usable operators for building highlight rule conditions.
 	 */
 	public static final String[][] OPERATOR;
-
-	protected List columnList;
-
-	/**
-	 * Constant, represents empty String array.
-	 */
-	private static final String[] EMPTY = new String[0];
-
-	protected List valueList = new ArrayList( );
 
 	static
 	{
@@ -167,6 +168,47 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			OPERATOR[i][1] = chs[i].getName( );
 		}
 	}
+
+	private HighlightRuleHandle handle;
+
+	private HighlightHandleProvider provider;
+
+	private int handleCount;
+
+	protected Combo expressionCombo, stylesChooser;
+	protected Text expressionText;
+	private Combo operator;
+
+	protected Composite valueListComposite;
+	protected MultiValueCombo addExpressionValue;
+	protected Button addBtn, editBtn, delBtn, delAllBtn;
+	protected Table table;
+	protected TableViewer tableViewer;
+	protected int valueVisible;
+	protected List<Control> compositeList = new ArrayList<Control>( );
+
+	private ValueCombo expressionValue1, expressionValue2;
+
+	private Label andLable;
+
+	private Combo font;
+
+	private FontSizeBuilder size;
+
+	private ColorBuilder color;
+
+	private ColorBuilder backColor;
+
+	private Button bold, italic, underline, linethrough;
+
+	private PreviewLabel previewLabel;
+
+	protected DesignElementHandle designHandle;
+
+	private boolean isBoldChanged, isItalicChanged, isUnderlineChanged,
+			isLinethroughChanged;
+
+	private Map<String, StyleHandle> styles = new HashMap<String, StyleHandle>( );
 
 	/**
 	 * Returns the operator value by its display name.
@@ -261,53 +303,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		return 0;
 	}
 
-	private HighlightRuleHandle handle;
-
-	private HighlightHandleProvider provider;
-
-	private int handleCount;
-
-	protected Combo expressionCombo, stylesChooser;
-	protected Text expressionText;
-	private Combo operator;
-
-	protected Composite valueListComposite;
-	protected MultiValueCombo addExpressionValue;
-	protected Button addBtn, editBtn, delBtn, delAllBtn;
-	protected Table table;
-	protected TableViewer tableViewer;
-	protected int valueVisible;
-	protected List compositeList = new ArrayList( );
-
-	private ValueCombo expressionValue1, expressionValue2;
-
-	private Label andLable;
-
-	private Combo font;
-
-	private FontSizeBuilder size;
-
-	private ColorBuilder color;
-
-	private ColorBuilder backColor;
-
-	private Button bold, italic, underline, linethrough;
-
-	private PreviewLabel previewLabel;
-
-	protected DesignElementHandle designHandle;
-
-	private boolean isBoldChanged, isItalicChanged, isUnderlineChanged,
-			isLinethroughChanged;
-
-	private static final String DEFAULT_CHOICE = Messages.getString( "HighlightRuleBuilderDialog.text.Default" ); //$NON-NLS-1$
-
-	private static final String[] SYSTEM_FONT_LIST = DEUtil.getSystemFontNames( );
-
-	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
-
-	private Map styles = new HashMap( );
-
 	/**
 	 * Default constructor.
 	 * 
@@ -321,7 +316,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 	{
 		super( parentShell );
 		this.dlgTitle = title;
-		setShellStyle( getShellStyle( ) | SWT.RESIZE );
 		this.provider = provider;
 	}
 
@@ -329,12 +323,12 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 	{
 		if ( columnList.isEmpty( ) )
 		{
-			return EMPTY;
+			return EMPTY_ARRAY;
 		}
 		String[] values = new String[columnList.size( )];
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			values[i] = ( (ComputedColumnHandle) columnList.get( i ) ).getName( );
+			values[i] = columnList.get( i ).getName( );
 		}
 		return values;
 	}
@@ -381,8 +375,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		GridData gdata;
 		GridLayout glayout;
 
-		refreshList( );
-
 		Composite contents = new Composite( composite, SWT.NONE );
 		contents.setLayout( new GridLayout( ) );
 		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -395,7 +387,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		glayout = GridLayoutFactory.createFrom( new GridLayout( ) ).spacing( 5,
 				0 ).numColumns( 4 ).equalWidth( false ).create( );
 		condition.setLayout( glayout );
-		condition.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Group.Condition" ) );
+		condition.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Group.Condition" ) ); //$NON-NLS-1$
 
 		gdata = new GridData( );
 		gdata.widthHint = 150;
@@ -466,8 +458,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			}
 		} );
 
-		refreshList( );
-
 		create2ValueComposite( condition );
 
 		createApplyStyleArea( contents );
@@ -518,7 +508,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 	{
 		Composite composite = (Composite) super.createContents( parent );
 		parent.getShell( ).setText( dlgTitle );
-		setTitle( Messages.getString( "HighlightRuleBuilderDialog.text.Title" ) );
+		setTitle( Messages.getString( "HighlightRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
 		setMessage( dlgDescription );
 		UIUtil.bindHelp( parent, IHelpContextIds.HIGHLIGHT_RULE_BUILDER_ID );
 
@@ -598,7 +588,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		}
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			ComputedColumnHandle column = (ComputedColumnHandle) columnList.get( i );
+			ComputedColumnHandle column = columnList.get( i );
 			if ( column.getName( ).equals( name ) )
 			{
 				return column;
@@ -612,7 +602,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		Group styleGroup = new Group( parent, SWT.NONE );
 		styleGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		styleGroup.setLayout( new GridLayout( 5, false ) );
-		styleGroup.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Group.Format" ) );
+		styleGroup.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Group.Format" ) ); //$NON-NLS-1$
 
 		Label lb = new Label( styleGroup, SWT.NONE );
 		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.applyStyle" ) ); //$NON-NLS-1$
@@ -833,17 +823,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		}
 	};
 
-	private void refreshList( )
-	{
-		ArrayList finalItems = new ArrayList( 10 );
-		for ( int n = 0; n < actions.length; n++ )
-		{
-			finalItems.add( actions[n] );
-		}
-
-		popupItems = (String[]) finalItems.toArray( EMPTY_ARRAY );
-	}
-
 	private List getSelectValueList( ) throws BirtException
 	{
 		List selectValueList = new ArrayList( );
@@ -993,7 +972,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		}
 		else
 		{
-			StyleHandle style = (StyleHandle) styles.get( stylesChooser.getText( ) );
+			StyleHandle style = styles.get( stylesChooser.getText( ) );
 
 			String familyValue = DEUtil.removeQuote( style.getFontFamilyHandle( )
 					.getStringValue( ) );
@@ -1114,16 +1093,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 	public HighlightRuleHandle getHandle( )
 	{
 		return handle;
-	}
-
-	private Text createText( Composite parent )
-	{
-		Text txt = new Text( parent, SWT.BORDER );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.widthHint = 100;
-		txt.setLayoutData( gdata );
-
-		return txt;
 	}
 
 	private void fillStyles( Combo stylesChooser )
@@ -1319,7 +1288,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		}
 		catch ( Exception e )
 		{
-			WidgetUtil.processError( getShell( ), e );
+			ExceptionUtil.handle( e );
 		}
 	}
 
@@ -1631,7 +1600,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 				// Set referenced style of the highlight rule.
 				if ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
 				{
-					rule.setStyle( (StyleHandle) styles.get( stylesChooser.getText( ) ) );
+					rule.setStyle( styles.get( stylesChooser.getText( ) ) );
 				}
 				else
 				{
@@ -1718,12 +1687,12 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 				{
 					if ( handle.getStyle( ) == null )
 					{
-						handle.setStyle( (StyleHandle) styles.get( stylesChooser.getText( ) ) );
+						handle.setStyle( styles.get( stylesChooser.getText( ) ) );
 					}
 					else if ( !stylesChooser.getText( )
 							.equals( handle.getStyle( ).getName( ) ) )
 					{
-						handle.setStyle( (StyleHandle) styles.get( stylesChooser.getText( ) ) );
+						handle.setStyle( styles.get( stylesChooser.getText( ) ) );
 					}
 					removeLocalStyleProperties( );
 				}
@@ -1772,7 +1741,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		}
 		catch ( Exception e )
 		{
-			WidgetUtil.processError( getShell( ), e );
+			ExceptionUtil.handle( e );
 		}
 
 		super.okPressed( );
@@ -1822,7 +1791,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		compositeList.add( expressionValue1 );
 		expressionValue1.setLayoutData( gd );
 
-		expressionValue1.setItems( popupItems );
+		expressionValue1.setItems( actions );
 
 		expressionValue1.addListener( SWT.Modify, textModifyListener );
 		// expressionValue1.addListener( SWT.Selection, popBtnSelectionListener
@@ -1848,7 +1817,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		expressionValue2.setLayoutData( gd );
 		compositeList.add( expressionValue2 );
 
-		expressionValue2.setItems( popupItems );
+		expressionValue2.setItems( actions );
 
 		expressionValue2.addListener( SWT.Modify, textModifyListener );
 		// expressionValue2.addListener( SWT.Selection, popBtnSelectionListener
@@ -1926,17 +1895,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) ); //$NON-NLS-1$
 		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( addBtn );
-		addBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		addBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				String value = addExpressionValue.getText( ).trim( );
 				if ( valueList.indexOf( value ) < 0 )
 				{
@@ -1982,16 +1944,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			column.setText( columNames[i] );
 			column.setWidth( columLength[i] );
 		}
-		table.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-			}
+		table.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				checkEditDelButtonStatus( );
 			}
 		} );
@@ -2000,7 +1956,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 			public void keyPressed( KeyEvent e )
 			{
-				// TODO Auto-generated method stub
 				if ( e.keyCode == SWT.DEL )
 				{
 					int index = table.getSelectionIndex( );
@@ -2028,8 +1983,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 			public void keyReleased( KeyEvent e )
 			{
-				// TODO Auto-generated method stub
-
 			}
 
 		} );
@@ -2059,17 +2012,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
 		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( editBtn );
-		editBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		editBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				editTableValue( );
 			}
 
@@ -2079,17 +2025,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		delBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) ); //$NON-NLS-1$
 		delBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delBtn );
-		delBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		delBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				int index = table.getSelectionIndex( );
 				if ( index > -1 )
 				{
@@ -2117,17 +2056,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) ); //$NON-NLS-1$
 		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delAllBtn );
-		delAllBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		delAllBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				int count = valueList.size( );
 				if ( count > 0 )
 				{
@@ -2157,7 +2089,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		// popBtnSelectionListener );
 		addExpressionValue.addSelectionListener( 0, mAddSelValueAction );
 		addExpressionValue.addSelectionListener( 1, mAddExpValueAction );
-		addExpressionValue.setItems( popupItems );
+		addExpressionValue.setItems( actions );
 
 		return 1;
 	}
@@ -2218,13 +2150,11 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			// TODO Auto-generated method stub
 			if ( columnIndex == 0 )
 			{
 				if ( element instanceof Expression )
@@ -2238,26 +2168,19 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		public void addListener( ILabelProviderListener listener )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public void dispose( )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public boolean isLabelProperty( Object element, String property )
 		{
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		public void removeListener( ILabelProviderListener listener )
 		{
-			// TODO Auto-generated method stub
-
 		}
 	};
 
@@ -2265,20 +2188,15 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		public void dispose( )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public Object[] getElements( Object inputElement )
 		{
-			// TODO Auto-generated method stub
 			if ( inputElement == null )
 			{
 				return new Object[0];
@@ -2318,16 +2236,15 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		{
 			String retValue = null;
 
-			// TODO Auto-generated method stub
 			ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ),
 					input );
 
 			if ( expressionProvider == null )
-				dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+				dialog.setExpressionProvider( new ExpressionProvider( designHandle ) );
 			else
-				dialog.setExpressionProvier( expressionProvider );
+				dialog.setExpressionProvider( expressionProvider );
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -2342,10 +2259,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		public String doSelection( String input )
 		{
 			String retValue = null;
-			// TODO Auto-generated method stub
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+
+			for ( Iterator<ComputedColumnHandle> iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				String columnName = iter.next( ).getName( );
 
 				if ( getExpression( ).equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
@@ -2468,12 +2385,11 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		public String[] doSelection( String input )
 		{
-			// TODO Auto-generated method stub
 			String[] retValue = null;
 
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ComputedColumnHandle> iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				String columnName = iter.next( ).getName( );
 				if ( DEUtil.getColumnExpression( columnName )
 						.equals( getExpression( ) ) )
 				{
@@ -2488,9 +2404,9 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 					input );
 
 			if ( expressionProvider == null )
-				dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+				dialog.setExpressionProvider( new ExpressionProvider( designHandle ) );
 			else
-				dialog.setExpressionProvier( expressionProvider );
+				dialog.setExpressionProvider( expressionProvider );
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -2508,7 +2424,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		public void doAfterSelection( MultiValueCombo combo )
 		{
-			// TODO Auto-generated method stub
 			mAddSelValueAction.doAfterSelection( combo );
 		}
 
@@ -2518,11 +2433,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		public String[] doSelection( String input )
 		{
-			// TODO Auto-generated method stub
 			String[] retValue = null;
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ComputedColumnHandle> iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				String columnName = iter.next( ).getName( );
 
 				if ( getExpression( ).equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
@@ -2630,8 +2544,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		public void doAfterSelection( MultiValueCombo combo )
 		{
-			// TODO Auto-generated method stub
-
 			addBtn.setEnabled( false );
 
 			if ( addExpressionValue.getSelStrings( ).length == 1 )
@@ -2676,9 +2588,9 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			if ( designHandle != null )
 			{
 				if ( expressionProvider == null )
-					expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+					expressionBuilder.setExpressionProvider( new ExpressionProvider( designHandle ) );
 				else
-					expressionBuilder.setExpressionProvier( expressionProvider );
+					expressionBuilder.setExpressionProvider( expressionProvider );
 			}
 
 			if ( expressionBuilder.open( ) == OK )
@@ -2687,8 +2599,8 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 				if ( result.length( ) == 0 )
 				{
 					MessageDialog.openInformation( getShell( ),
-							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Title" ),
-							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Msg" ) );
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Title" ), //$NON-NLS-1$
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Msg" ) ); //$NON-NLS-1$
 					return;
 				}
 				int index = table.getSelectionIndex( );
@@ -2708,13 +2620,12 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 	protected int getHighlightExpCtrType( DesignElementHandle handle )
 	{
 		int type = EXPRESSION_CONTROL_COMBO;
-		Set<Class> comboClassSet = new HashSet<Class>( ) {
-		};
+		Set<Class<?>> comboClassSet = new HashSet<Class<?>>( );
 		comboClassSet.add( TableHandle.class );
 		comboClassSet.add( ListHandle.class );
 		comboClassSet.add( GridHandle.class );
 
-		Class handleClass = handle.getClass( );
+		Class<?> handleClass = handle.getClass( );
 		if ( comboClassSet.contains( handleClass ) )
 		{
 			type = EXPRESSION_CONTROL_TEXT;
@@ -2725,7 +2636,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 	protected void initilizeDlgDescription( DesignElementHandle handle )
 	{
-		Class classList[] = new Class[]{
+		Class<?> classList[] = new Class[]{
 				TableHandle.class,
 				ListHandle.class,
 				GridHandle.class,
@@ -2735,16 +2646,16 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 				CellHandle.class
 		};
 		String desList[] = new String[]{
-				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Table" ),
-				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.List" ),
-				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Grid" ),
-				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Row" ),
-				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Column" ),
-				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.DataItem" ),
-				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Cell" ),
+				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Table" ), //$NON-NLS-1$
+				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.List" ), //$NON-NLS-1$
+				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Grid" ), //$NON-NLS-1$
+				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Row" ), //$NON-NLS-1$
+				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Column" ), //$NON-NLS-1$
+				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.DataItem" ), //$NON-NLS-1$
+				Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.Cell" ), //$NON-NLS-1$
 		};
 
-		Class handleClass = handle.getClass( );
+		Class<?> handleClass = handle.getClass( );
 		for ( int i = 0; i < classList.length; i++ )
 		{
 			if ( classList[i] == handleClass )
@@ -2756,10 +2667,10 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		if ( dlgDescription == null || dlgDescription.length( ) == 0 )
 		{
-			dlgDescription = Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.ReportElement" );
+			dlgDescription = Messages.getString( "HighlightRuleBuilderDialog.text.Description.Element.ReportElement" ); //$NON-NLS-1$
 		}
 
-		dlgDescription = Messages.getFormattedString( "HighlightRuleBuilderDialog.text.Description",
+		dlgDescription = Messages.getFormattedString( "HighlightRuleBuilderDialog.text.Description", //$NON-NLS-1$
 				new Object[]{
 					dlgDescription
 				} );
@@ -2791,7 +2702,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		{
 			return expressionCombo.getText( );
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	protected Control getExpressionControl( )

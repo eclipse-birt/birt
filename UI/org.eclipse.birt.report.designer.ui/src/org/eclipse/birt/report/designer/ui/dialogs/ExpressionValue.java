@@ -23,9 +23,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ * ExpressionValue
  */
-
 public class ExpressionValue
 {
 	private Text valueText;

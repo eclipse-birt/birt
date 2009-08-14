@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,12 +56,10 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.HTMLTransfer;
 import org.eclipse.swt.dnd.RTFTransfer;
 import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -191,6 +188,12 @@ public class TextEditor extends BaseDialog
 
 	private static final int FORMAT_CHOICE_INDEX_DYNAMIC_TEXT = 4;
 
+	private static final IChoiceSet contentTypeChoiceSet = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.TEXT_ITEM,
+			TextItemHandle.CONTENT_TYPE_PROP );
+
+	private static final String[] contentTypeDisplayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( contentTypeChoiceSet,
+			new AlphabeticallyComparator( ) );
+
 	private TextItemHandle handle;
 
 	private String oldValue = ""; //$NON-NLS-1$
@@ -204,10 +207,6 @@ public class TextEditor extends BaseDialog
 	private ToolBar formatTagsBar, commonTagsBar;
 
 	private ToolItem tagItem;
-
-	private static String[] contentTypeDisplayNames;
-
-	private static IChoiceSet contentTypeChoiceSet;
 
 	private Composite formatParent;
 
@@ -235,12 +234,6 @@ public class TextEditor extends BaseDialog
 		{
 			oldValue = handle.getContent( );
 		}
-		contentTypeChoiceSet = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.TEXT_ITEM,
-				TextItemHandle.CONTENT_TYPE_PROP );
-
-		contentTypeDisplayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( contentTypeChoiceSet,
-				new AlphabeticallyComparator( ) );
-
 	}
 
 	/**
@@ -698,7 +691,7 @@ public class TextEditor extends BaseDialog
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_COPY,
 						pasteAction );
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_COPY,
-						new Action( Messages.getString("TextEditor.PasteFormattedText") ) { //$NON-NLS-1$
+						new Action( Messages.getString( "TextEditor.PasteFormattedText" ) ) { //$NON-NLS-1$
 
 							@Override
 							public void run( )
@@ -723,7 +716,7 @@ public class TextEditor extends BaseDialog
 					public void run( )
 					{
 						String result = " format=\"HTML\""; //$NON-NLS-1$
-						textEditor.insert( result ); //$NON-NLS-1$
+						textEditor.insert( result );
 					}
 				};
 
@@ -858,10 +851,11 @@ public class TextEditor extends BaseDialog
 			sourceViewer.doOperation( operationCode );
 		}
 	}
+
 	private void pasteClipboard( )
 	{
 		Clipboard cb = new Clipboard( Display.getCurrent( ) );
-		TransferData[] types = cb.getAvailableTypes( );
+		// TransferData[] types = cb.getAvailableTypes( );
 		RTFTransfer rtfTransfer = RTFTransfer.getInstance( );
 		Object contents = cb.getContents( rtfTransfer );
 		// textEditor.paste( );
@@ -893,6 +887,7 @@ public class TextEditor extends BaseDialog
 		String text = (String) cb.getContents( plainTextTransfer, DND.CLIPBOARD );
 		textEditor.insert( text );
 	}
+
 	/**
 	 * Creates common html tags uesd frequently.
 	 */
@@ -906,7 +901,7 @@ public class TextEditor extends BaseDialog
 		createToolItemWithHTMLTag( toolBar, tag );
 
 		tag = new HTMLTag( "<I>", true ); //$NON-NLS-1$
-		tag.setToolTipText( TOOL_TIP_TAG_I ); //$NON-NLS-1$
+		tag.setToolTipText( TOOL_TIP_TAG_I );
 		createToolItemWithHTMLTag( toolBar, tag );
 
 		tag = new HTMLTag( "<U>", true ); //$NON-NLS-1$
@@ -1112,7 +1107,7 @@ public class TextEditor extends BaseDialog
 					{
 						ExpressionBuilder expressionBuilder = new ExpressionBuilder( "" ); //$NON-NLS-1$
 
-						expressionBuilder.setExpressionProvier( new ExpressionProvider( handle ) );
+						expressionBuilder.setExpressionProvider( new ExpressionProvider( handle ) );
 
 						if ( expressionBuilder.open( ) == OK )
 						{
@@ -1125,7 +1120,7 @@ public class TextEditor extends BaseDialog
 										+ expressionBuilder.getResult( )
 										+ value.getText( ).replaceFirst( "<", //$NON-NLS-1$
 												"</" ); //$NON-NLS-1$
-								textEditor.insert( result ); //$NON-NLS-1$
+								textEditor.insert( result );
 								textEditor.setSelection( start
 										+ result.length( ) );
 							}
@@ -1141,7 +1136,7 @@ public class TextEditor extends BaseDialog
 					public void widgetSelected( SelectionEvent e )
 					{
 						String result = " format=\"HTML\""; //$NON-NLS-1$
-						textEditor.insert( result ); //$NON-NLS-1$
+						textEditor.insert( result );
 					}
 				} );
 
@@ -1166,17 +1161,10 @@ public class TextEditor extends BaseDialog
 						Messages.getString( "TextEditDialog.action.item.formatDateTime" ), //$NON-NLS-1$
 				} );
 				new Label( formatParent, SWT.NONE ).setText( ">" ); //$NON-NLS-1$
-				combo.addSelectionListener( new SelectionListener( ) {
-
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
-						// TODO Auto-generated method stub
-
-					}
+				combo.addSelectionListener( new SelectionAdapter( ) {
 
 					public void widgetSelected( SelectionEvent e )
 					{
-						// TODO Auto-generated method stub
 						int index = combo.getSelectionIndex( );
 						combo.select( -1 );
 						switch ( index )
@@ -1240,7 +1228,7 @@ public class TextEditor extends BaseDialog
 		// the tool tip text of the display tag.
 		private String toolTip;
 		// attributes list the tag takes, if any.
-		private List attributes = new ArrayList( );
+		private List<String> attributes = new ArrayList<String>( );
 
 		public HTMLTag( String name, boolean isPair )
 		{
@@ -1285,7 +1273,7 @@ public class TextEditor extends BaseDialog
 		/**
 		 * @return Returns the attributes.
 		 */
-		public List getAttributes( )
+		public List<String> getAttributes( )
 		{
 			return attributes;
 		}
@@ -1316,9 +1304,9 @@ public class TextEditor extends BaseDialog
 				if ( !tag.getAttributes( ).isEmpty( ) )
 				{
 					String text = " "; //$NON-NLS-1$
-					for ( Iterator iter = tag.getAttributes( ).iterator( ); iter.hasNext( ); )
+					for ( Iterator<String> iter = tag.getAttributes( ).iterator( ); iter.hasNext( ); )
 					{
-						text = text + (String) iter.next( ) + "=\"\" "; //$NON-NLS-1$
+						text = text + iter.next( ) + "=\"\" "; //$NON-NLS-1$
 					}
 					frontTag = tag.getName( ).replaceFirst( ">", text + ">" ); //$NON-NLS-1$ //$NON-NLS-2$					
 				}
@@ -1355,7 +1343,7 @@ public class TextEditor extends BaseDialog
 				{
 					textEditor.setCaretOffset( start
 							+ tag.getName( ).length( )
-							+ ( (String) tag.getAttributes( ).get( 0 ) ).length( )
+							+ tag.getAttributes( ).get( 0 ).length( )
 							+ 2 );
 				}
 				else
@@ -1424,40 +1412,40 @@ public class TextEditor extends BaseDialog
 		return super.close( );
 	}
 
-	private int[] getBidiLineSegments( String lineText )
-	{
-		int[] seg = null;
-		if ( lineText != null
-				&& lineText.length( ) > 0
-				&& !new Bidi( lineText, Bidi.DIRECTION_LEFT_TO_RIGHT ).isLeftToRight( ) )
-		{
-			List list = new ArrayList( );
-
-			// Punctuations will be regarded as delimiter so that different
-			// splits could be rendered separately.
-			Object[] splits = lineText.split( "\\p{Punct}" ); //$NON-NLS-1$
-
-			// !=, <> etc. leading to "" will be filtered to meet the rule that
-			// segments must not have duplicates.
-			for ( int i = 0; i < splits.length; i++ )
-			{
-				if ( !splits[i].equals( "" ) ) //$NON-NLS-1$
-					list.add( splits[i] );
-			}
-			splits = list.toArray( );
-
-			// first segment must be 0
-			// last segment does not necessarily equal to line length
-			seg = new int[splits.length + 1];
-			for ( int i = 0; i < splits.length; i++ )
-			{
-				seg[i + 1] = lineText.indexOf( (String) splits[i], seg[i] )
-						+ ( (String) splits[i] ).length( );
-			}
-		}
-
-		return seg;
-	}
+//	private int[] getBidiLineSegments( String lineText )
+//	{
+//		int[] seg = null;
+//		if ( lineText != null
+//				&& lineText.length( ) > 0
+//				&& !new Bidi( lineText, Bidi.DIRECTION_LEFT_TO_RIGHT ).isLeftToRight( ) )
+//		{
+//			List list = new ArrayList( );
+//
+//			// Punctuations will be regarded as delimiter so that different
+//			// splits could be rendered separately.
+//			Object[] splits = lineText.split( "\\p{Punct}" ); //$NON-NLS-1$
+//
+//			// !=, <> etc. leading to "" will be filtered to meet the rule that
+//			// segments must not have duplicates.
+//			for ( int i = 0; i < splits.length; i++ )
+//			{
+//				if ( !splits[i].equals( "" ) ) //$NON-NLS-1$
+//					list.add( splits[i] );
+//			}
+//			splits = list.toArray( );
+//
+//			// first segment must be 0
+//			// last segment does not necessarily equal to line length
+//			seg = new int[splits.length + 1];
+//			for ( int i = 0; i < splits.length; i++ )
+//			{
+//				seg[i + 1] = lineText.indexOf( (String) splits[i], seg[i] )
+//						+ ( (String) splits[i] ).length( );
+//			}
+//		}
+//
+//		return seg;
+//	}
 
 	/**
 	 * Updates SWT style based on the orientation of the
@@ -1489,9 +1477,9 @@ public class TextEditor extends BaseDialog
 	private void editDynamicTextDirectly( )
 	{
 		textEditor.selectAll( );
-		ExpressionBuilder eb = new ExpressionBuilder( textEditor.getSelectionText( ) ); //$NON-NLS-1$
+		ExpressionBuilder eb = new ExpressionBuilder( textEditor.getSelectionText( ) );
 
-		eb.setExpressionProvier( new ExpressionProvider( handle ) );
+		eb.setExpressionProvider( new ExpressionProvider( handle ) );
 
 		if ( eb.open( ) == OK )
 		{

@@ -29,6 +29,9 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
+/**
+ * ParameterExpressionProvider
+ */
 public class ParameterExpressionProvider extends ExpressionProvider
 {
 
@@ -54,7 +57,7 @@ public class ParameterExpressionProvider extends ExpressionProvider
 	 */
 	protected List getCategoryList( )
 	{
-		ArrayList categoryList = new ArrayList( 4 );
+		ArrayList<Object> categoryList = new ArrayList<Object>( 4 );
 		categoryList.add( NATIVE_OBJECTS );
 		categoryList.add( BIRT_OBJECTS );
 		categoryList.add( OPERATORS );

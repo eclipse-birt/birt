@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import org.eclipse.jface.util.Assert;
-
 /**
  * The class used for operators in the expression builder
  */
@@ -64,7 +62,7 @@ public class Operator
 
 	public Operator( String symbol, String insertString, String tooltip )
 	{
-		Assert.isNotNull( symbol );
+		assert symbol != null;
 		this.symbol = symbol;
 		if ( insertString == null )
 		{

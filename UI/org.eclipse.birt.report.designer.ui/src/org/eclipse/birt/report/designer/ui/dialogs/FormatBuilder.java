@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -66,11 +65,11 @@ public class FormatBuilder extends BaseDialog
 	public FormatBuilder( int type )
 	{
 		super( DLG_TITLE );
-		Assert.isLegal( type == STRING
+		assert type == STRING
 				|| type == NUMBER
 				|| type == DATETIME
 				|| type == DATE
-				|| type == TIME );
+				|| type == TIME;
 		this.type = type;
 	}
 
@@ -121,7 +120,7 @@ public class FormatBuilder extends BaseDialog
 	public void setInputFormat( String formatCategroy, String formatPattern,
 			ULocale formatLocale )
 	{
-		Assert.isLegal( !StringUtil.isBlank( formatCategroy ) );
+		assert !StringUtil.isBlank( formatCategroy );
 		this.formatCategory = formatCategroy;
 		this.formatPattern = formatPattern;
 		this.formatLocale = formatLocale;

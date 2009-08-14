@@ -60,7 +60,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.JFaceColors;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.FocusAdapter;
@@ -1084,7 +1083,7 @@ public class GroupDialog extends BaseDialog
 	 */
 	public void setInput( Object input )
 	{
-		Assert.isTrue( input instanceof GroupHandle );
+		assert input instanceof GroupHandle;
 		inputGroup = (GroupHandle) input;
 	}
 

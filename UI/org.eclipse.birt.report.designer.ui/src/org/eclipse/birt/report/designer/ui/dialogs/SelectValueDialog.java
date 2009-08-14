@@ -42,8 +42,6 @@ import com.ibm.icu.util.ULocale;
  * This dialog takes an expression and a data set and shows a list of unique
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
- * 
- * @version $Revision: 1.35 $ $Date: 2009/02/18 10:59:07 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -52,8 +50,8 @@ public class SelectValueDialog extends BaseDialog
 
 	private List selectValueList = null;
 	private int[] selectedIndices = null;
-	private java.util.List modelValueList = new ArrayList( );
-	private java.util.List viewerValueList = new ArrayList( );
+	private java.util.List<Object> modelValueList = new ArrayList<Object>( );
+	private java.util.List<String> viewerValueList = new ArrayList<String>( );
 
 	private ParamBindingHandle[] bindingParams = null;
 
@@ -213,7 +211,7 @@ public class SelectValueDialog extends BaseDialog
 			}
 			else
 			{
-				String viewerValue = (String) viewerValueList.get( firstIndex );
+				String viewerValue = viewerValueList.get( firstIndex );
 				if ( modelValue instanceof Boolean
 						|| modelValue instanceof Integer
 						|| modelValue instanceof Double )
@@ -222,9 +220,9 @@ public class SelectValueDialog extends BaseDialog
 				}
 				else if ( modelValue instanceof BigDecimal )
 				{
-					exprValue = "new java.math.BigDecimal(\""
+					exprValue = "new java.math.BigDecimal(\"" //$NON-NLS-1$
 							+ viewerValue
-							+ "\")" ;
+							+ "\")" ; //$NON-NLS-1$
 				}
 				else
 				{
@@ -263,7 +261,7 @@ public class SelectValueDialog extends BaseDialog
 				}
 				else
 				{
-					String viewerValue = (String) viewerValueList.get( firstIndex );
+					String viewerValue = viewerValueList.get( firstIndex );
 					if ( modelValue instanceof Boolean
 							|| modelValue instanceof Integer
 							|| modelValue instanceof Double )
@@ -272,9 +270,9 @@ public class SelectValueDialog extends BaseDialog
 					}
 					else if ( modelValue instanceof BigDecimal )
 					{
-						exprValues[i] = "new java.math.BigDecimal(\""
+						exprValues[i] = "new java.math.BigDecimal(\"" //$NON-NLS-1$
 								+ viewerValue
-								+ "\")";
+								+ "\")"; //$NON-NLS-1$
 					}
 					else
 					{
@@ -300,7 +298,7 @@ public class SelectValueDialog extends BaseDialog
 			viewerValueList.clear( );
 			if ( modelValueList != null )
 			{
-				Iterator iter = modelValueList.iterator( );
+				Iterator<Object> iter = modelValueList.iterator( );
 				DateFormatter formatter = new DateFormatter( ULocale.US );
 				while ( iter.hasNext( ) )
 				{

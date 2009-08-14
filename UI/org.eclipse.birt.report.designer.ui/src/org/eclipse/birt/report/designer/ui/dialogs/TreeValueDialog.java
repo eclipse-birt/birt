@@ -23,26 +23,27 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
-
 /**
- * 
+ * TreeValueDialog
  */
-
 public class TreeValueDialog extends ElementTreeSelectionDialog
 {
 
-	List<ListenerClass> listeners = new ArrayList<ListenerClass>();
+	List<ListenerClass> listeners = new ArrayList<ListenerClass>( );
 
 	private static class ListenerClass
 	{
+
 		int type;
 		Listener listener;
-		public ListenerClass(int type, Listener listener )
+
+		public ListenerClass( int type, Listener listener )
 		{
 			this.type = type;
 			this.listener = listener;
 		}
 	}
+
 	/**
 	 * @param parent
 	 * @param labelProvider
@@ -52,10 +53,10 @@ public class TreeValueDialog extends ElementTreeSelectionDialog
 			ITreeContentProvider contentProvider )
 	{
 		super( parent, labelProvider, contentProvider );
-		// TODO Auto-generated constructor stub
+
 		setAllowMultiple( false );
-	}	
-	
+	}
+
 	/**
 	 * Creates and initializes the tree viewer.
 	 * 
@@ -68,34 +69,35 @@ public class TreeValueDialog extends ElementTreeSelectionDialog
 	{
 		TreeViewer treeViewer = super.createTreeViewer( parent );
 		Tree tree = treeViewer.getTree( );
-		assert(tree != null);
-		for(int i = 0; i < listeners.size( ); i ++)
+		assert ( tree != null );
+		for ( int i = 0; i < listeners.size( ); i++ )
 		{
 			int type = listeners.get( i ).type;
 			Listener listener = listeners.get( i ).listener;
 			tree.addListener( type, listener );
-		}		
+		}
 		return treeViewer;
 	}
 
-	public void addListener(int type, Listener listner)
+	public void addListener( int type, Listener listner )
 	{
-		listeners.add( new ListenerClass(type, listner) );
+		listeners.add( new ListenerClass( type, listner ) );
 	}
-	
-	public boolean removeListener(int index)
+
+	public boolean removeListener( int index )
 	{
-		if(index >= 0 && index < listeners.size( ))
+		if ( index >= 0 && index < listeners.size( ) )
 		{
 			listeners.remove( index );
 			return true;
-		}else
+		}
+		else
 		{
 			return false;
 		}
 	}
-	
-	public boolean removeAllListeners()
+
+	public boolean removeAllListeners( )
 	{
 		listeners.clear( );
 		return true;

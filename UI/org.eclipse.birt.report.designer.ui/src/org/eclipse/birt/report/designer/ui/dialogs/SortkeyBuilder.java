@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -38,7 +37,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -53,9 +51,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
+ * SortkeyBuilder
  */
-
 public class SortkeyBuilder extends BaseTitleAreaDialog
 {
 
@@ -74,7 +71,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	protected Combo comboDirection;
 	private Combo comboKey;
 
-	private List columnList;
+	private List<ComputedColumnHandle> columnList;
 
 	/**
 	 * Constant, represents empty String array.
@@ -190,7 +187,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 		public void handleEvent( Event e )
 		{
-			Assert.isLegal( e.widget instanceof Combo );
+			assert e.widget instanceof Combo;
 			Combo combo = (Combo) e.widget;
 			String newValue = combo.getText( );
 			String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
@@ -209,7 +206,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		}
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			ComputedColumnHandle column = (ComputedColumnHandle) columnList.get( i );
+			ComputedColumnHandle column = columnList.get( i );
 			if ( column.getName( ).equals( name ) )
 			{
 				return column;
@@ -284,7 +281,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		List<String> valueList = new ArrayList<String>( );
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			ComputedColumnHandle columnHandle = ( (ComputedColumnHandle) columnList.get( i ) );
+			ComputedColumnHandle columnHandle = columnList.get( i );
 			if ( columnHandle.getAggregateFunction( ) == null )
 				valueList.add( columnHandle.getName( ) );
 		}
@@ -320,7 +317,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		index = comboDirection.indexOf( direction );
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
-		stack.startTrans( title ); //$NON-NLS-1$ 
+		stack.startTrans( title );
 		try
 		{
 			if ( sortKey == null )
@@ -339,9 +336,8 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 			}
 			else
-			// edit
 			{
-
+				// edit
 				ExpressionButtonUtil.saveExpressionButtonControl( comboKey,
 						sortKey,
 						SortKey.KEY_MEMBER );

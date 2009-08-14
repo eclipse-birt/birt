@@ -21,7 +21,6 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -1401,7 +1400,6 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void handleEvent( Event event )
 			{
-				// TODO Auto-generated method stub
 				GridData gd = (GridData) scrollContent.getLayoutData( );
 				if ( gd.horizontalAlignment != SWT.FILL
 						|| gd.verticalAlignment != SWT.FILL )
@@ -1492,7 +1490,6 @@ public class HyperlinkBuilder extends BaseDialog
 			// {
 			// formatChooser.select( 0 );
 			// }
-			// TODO
 
 			if ( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT.equals( inputHandle.getTargetFileType( ) ) )
 			{

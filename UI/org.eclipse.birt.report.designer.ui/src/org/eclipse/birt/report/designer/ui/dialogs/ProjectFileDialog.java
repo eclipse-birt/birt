@@ -61,61 +61,79 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
- * A dialog which can browser all properties in BIRT resource folder. User can
- * select a properties or enter new file name to create a new one.
- * 
+ * ProjectFileDialog
  */
-
-public class ProjectFileDialog extends ElementTreeSelectionDialog {
+public class ProjectFileDialog extends ElementTreeSelectionDialog
+{
 
 	protected String newFileName = ""; //$NON-NLS-1$
 
-	private Status OKStatus = new Status(IStatus.OK, ReportPlugin.REPORT_UI,
-			IStatus.OK, "", null); //$NON-NLS-1$
-	private Status ErrorStatus = new Status(IStatus.ERROR,
-			ReportPlugin.REPORT_UI, IStatus.ERROR, Messages
-					.getString("ProjectFileDialog.ErrorMessage"), //$NON-NLS-1$
-			null);
-	private Status ErrorStatusNoSelection = new Status(IStatus.ERROR,
-			ReportPlugin.REPORT_UI, IStatus.ERROR, "", //$NON-NLS-1$
-			null);
+	private Status OKStatus = new Status( IStatus.OK,
+			ReportPlugin.REPORT_UI,
+			IStatus.OK,
+			"", null ); //$NON-NLS-1$
+	private Status ErrorStatus = new Status( IStatus.ERROR,
+			ReportPlugin.REPORT_UI,
+			IStatus.ERROR,
+			Messages.getString( "ProjectFileDialog.ErrorMessage" ), //$NON-NLS-1$
+			null );
+	private Status ErrorStatusNoSelection = new Status( IStatus.ERROR,
+			ReportPlugin.REPORT_UI,
+			IStatus.ERROR,
+			"", //$NON-NLS-1$
+			null );
 
-	private class Validator implements ISelectionStatusValidator {
+	/**
+	 * Validator
+	 */
+	private class Validator implements ISelectionStatusValidator
+	{
 
-		public IStatus validate(Object[] selection) {
+		public IStatus validate( Object[] selection )
+		{
 			int nSelected = selection.length;
-			if (nSelected == 0) {
+			if ( nSelected == 0 )
+			{
 				return ErrorStatusNoSelection;
-			} else if (nSelected > 1) {
+			}
+			else if ( nSelected > 1 )
+			{
 				return ErrorStatus;
-			} else if (selection[0] instanceof ResourceEntry
-					&& ((ResourceEntry) selection[0]).isFile()) {
+			}
+			else if ( selection[0] instanceof ResourceEntry
+					&& ( (ResourceEntry) selection[0] ).isFile( ) )
+			{
 				return OKStatus;
-			} else
+			}
+			else
 				return ErrorStatus;
 		}
 	}
 
-	public String getPath() {
-		Object[] selected = getResult();
-		if (selected.length > 0) {
-			return getPath(0);
+	public String getPath( )
+	{
+		Object[] selected = getResult( );
+		if ( selected.length > 0 )
+		{
+			return getPath( 0 );
 		}
 		return null;
 	}
 
-	public String getPath(int index) {
-		Object[] selected = getResult();
-		if (index < 0 || index >= selected.length || input == null) {
+	public String getPath( int index )
+	{
+		Object[] selected = getResult( );
+		if ( index < 0 || index >= selected.length || input == null )
+		{
 			return null;
 		}
 		FilePathEntry entry = (FilePathEntry) selected[index];
 
-		String path = entry.getURL().getFile();
-		if (entry.getURL().getProtocol().equals("file")) //$NON-NLS-1$
+		String path = entry.getURL( ).getFile( );
+		if ( entry.getURL( ).getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 		{
-			return URIUtil.resolveAbsolutePath(input, URIUtil.getRelativePath(
-					input, path));
+			return URIUtil.resolveAbsolutePath( input,
+					URIUtil.getRelativePath( input, path ) );
 		}
 		return path;
 
@@ -131,93 +149,103 @@ public class ProjectFileDialog extends ElementTreeSelectionDialog {
 
 	private ToolBar toolBar;
 
-	public ProjectFileDialog(String input) {
-		this(input, null);
+	public ProjectFileDialog( String input )
+	{
+		this( input, null );
 	}
 
-	public void refreshRoot() {
-		if (filePattern == null)
-			getTreeViewer().setInput(
-					new ResourceEntry[] { new FilePathEntry(input) });
+	public void refreshRoot( )
+	{
+		if ( filePattern == null )
+			getTreeViewer( ).setInput( new ResourceEntry[]{
+				new FilePathEntry( input )
+			} );
 		else
-			getTreeViewer()
-					.setInput(
-							new ResourceEntry[] { new FilePathEntry(input,
-									filePattern) });
-		handleTreeViewerRefresh();
+			getTreeViewer( ).setInput( new ResourceEntry[]{
+				new FilePathEntry( input, filePattern )
+			} );
+		handleTreeViewerRefresh( );
 	}
 
-	public ProjectFileDialog(String input, String[] filePattern) {
-		super(UIUtil.getDefaultShell(), new FileLabelProvider(input),
-				new FileContentProvider(true));
+	public ProjectFileDialog( String input, String[] filePattern )
+	{
+		super( UIUtil.getDefaultShell( ),
+				new FileLabelProvider( input ),
+				new FileContentProvider( true ) );
 		this.input = input;
 
-		if (filePattern != null && filePattern.length > 0) {
+		if ( filePattern != null && filePattern.length > 0 )
+		{
 			this.filePattern = filePattern;
 		}
-		setInput(new ResourceEntry[] { new FilePathEntry(input, filePattern) });
-		setDoubleClickSelects(true);
-		setValidator(new Validator());
-		setAllowMultiple(false);
-		setTitle(Messages.getString("ProjectFileDialog.Title")); //$NON-NLS-1$
-		setMessage(Messages.getString("ProjectFileDialog.Message")); //$NON-NLS-1$
+		setInput( new ResourceEntry[]{
+			new FilePathEntry( input, filePattern )
+		} );
+		setDoubleClickSelects( true );
+		setValidator( new Validator( ) );
+		setAllowMultiple( false );
+		setTitle( Messages.getString( "ProjectFileDialog.Title" ) ); //$NON-NLS-1$
+		setMessage( Messages.getString( "ProjectFileDialog.Message" ) ); //$NON-NLS-1$
 		setSorter( new FileViewerSorter( ) );
 	}
 
-	protected Label createMessageArea(Composite composite) {
-		Composite infoContent = new Composite(composite, SWT.NONE);
+	protected Label createMessageArea( Composite composite )
+	{
+		Composite infoContent = new Composite( composite, SWT.NONE );
 
-		GridData data = new GridData();
+		GridData data = new GridData( );
 		data.grabExcessVerticalSpace = false;
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = GridData.FILL;
 		data.verticalAlignment = GridData.BEGINNING;
-		infoContent.setLayoutData(data);
+		infoContent.setLayoutData( data );
 
-		GridLayout layout = new GridLayout();
+		GridLayout layout = new GridLayout( );
 		layout.marginTop = layout.marginBottom = layout.marginLeft = layout.marginRight = layout.marginHeight = layout.marginWidth = 0;
 		layout.numColumns = 2;
-		infoContent.setLayout(layout);
+		infoContent.setLayout( layout );
 
-		Label label = new Label(infoContent, SWT.NONE);
-		if (getMessage() != null) {
-			label.setText(getMessage());
+		Label label = new Label( infoContent, SWT.NONE );
+		if ( getMessage( ) != null )
+		{
+			label.setText( getMessage( ) );
 		}
-		label.setFont(composite.getFont());
-		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		label.setFont( composite.getFont( ) );
+		label.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		createViewMenu(infoContent);
+		createViewMenu( infoContent );
 
 		return label;
 	}
 
-	private void createViewMenu(Composite parent) {
-		toolBar = new ToolBar(parent, SWT.FLAT);
-		toolItem = new ToolItem(toolBar, SWT.PUSH, 0);
-		GridData data = new GridData();
+	private void createViewMenu( Composite parent )
+	{
+		toolBar = new ToolBar( parent, SWT.FLAT );
+		toolItem = new ToolItem( toolBar, SWT.PUSH, 0 );
+		GridData data = new GridData( );
 		data.horizontalAlignment = GridData.END;
-		toolBar.setLayoutData(data);
+		toolBar.setLayoutData( data );
 
-		toolBar.addMouseListener(new MouseAdapter() {
+		toolBar.addMouseListener( new MouseAdapter( ) {
 
-			public void mouseDown(MouseEvent e) {
-				showViewMenu();
+			public void mouseDown( MouseEvent e )
+			{
+				showViewMenu( );
 			}
-		});
+		} );
 
-		toolItem.setImage(ReportPlatformUIImages
-				.getImage(IReportGraphicConstants.ICON_VIEW_MENU));
-		toolItem.setToolTipText(Messages
-				.getString("ProjectFileDialog.Text.Menu")); //$NON-NLS-1$
-		toolItem.addSelectionListener(new SelectionAdapter() {
+		toolItem.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_VIEW_MENU ) );
+		toolItem.setToolTipText( Messages.getString( "ProjectFileDialog.Text.Menu" ) ); //$NON-NLS-1$
+		toolItem.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected(SelectionEvent e) {
-				showViewMenu();
+			public void widgetSelected( SelectionEvent e )
+			{
+				showViewMenu( );
 			}
-		});
+		} );
 
-		menuManager = new MenuManager();
-		fillViewMenu(menuManager);
+		menuManager = new MenuManager( );
+		fillViewMenu( menuManager );
 	}
 
 	/**
@@ -226,18 +254,20 @@ public class ProjectFileDialog extends ElementTreeSelectionDialog {
 	 * @param menuManager
 	 *            the menu manager
 	 */
-	protected void fillViewMenu(IMenuManager menuManager) {
-		ProjectFilterAction action = new ProjectFilterAction(this);
-		menuManager.add(action);
+	protected void fillViewMenu( IMenuManager menuManager )
+	{
+		ProjectFilterAction action = new ProjectFilterAction( this );
+		menuManager.add( action );
 	}
 
-	private void showViewMenu() {
-		Menu menu = menuManager.createContextMenu(getShell());
-		Rectangle bounds = toolItem.getBounds();
-		Point topLeft = new Point(bounds.x, bounds.y + bounds.height);
-		topLeft = toolBar.toDisplay(topLeft);
-		menu.setLocation(topLeft.x, topLeft.y);
-		menu.setVisible(true);
+	private void showViewMenu( )
+	{
+		Menu menu = menuManager.createContextMenu( getShell( ) );
+		Rectangle bounds = toolItem.getBounds( );
+		Point topLeft = new Point( bounds.x, bounds.y + bounds.height );
+		topLeft = toolBar.toDisplay( topLeft );
+		menu.setLocation( topLeft.x, topLeft.y );
+		menu.setVisible( true );
 	}
 
 	/*
@@ -247,46 +277,53 @@ public class ProjectFileDialog extends ElementTreeSelectionDialog {
 	 * org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
-	protected Control createDialogArea(Composite parent) {
-		Composite rt = (Composite) super.createDialogArea(parent);
-		addToolTip();
-		rt.setLayoutData(new GridData(GridData.FILL_BOTH));
-		getTreeViewer().expandToLevel(2);
-		getTreeViewer().getTree().setFocus();
+	protected Control createDialogArea( Composite parent )
+	{
+		Composite rt = (Composite) super.createDialogArea( parent );
+		addToolTip( );
+		rt.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		getTreeViewer( ).expandToLevel( 2 );
+		getTreeViewer( ).getTree( ).setFocus( );
 
-		TreeListener treeListener = new TreeListener() {
+		TreeListener treeListener = new TreeListener( ) {
 
-			public void treeCollapsed(TreeEvent e) {
+			public void treeCollapsed( TreeEvent e )
+			{
 				Item item = (Item) e.item;
-				if (treeViewerBackup != null)
-					treeViewerBackup.updateCollapsedStatus(getTreeViewer(),
-							item.getData());
+				if ( treeViewerBackup != null )
+					treeViewerBackup.updateCollapsedStatus( getTreeViewer( ),
+							item.getData( ) );
 
 			}
 
-			public void treeExpanded(TreeEvent e) {
+			public void treeExpanded( TreeEvent e )
+			{
 				Item item = (Item) e.item;
-				if (treeViewerBackup != null)
-					treeViewerBackup.updateExpandedStatus(getTreeViewer(), item
-							.getData());
+				if ( treeViewerBackup != null )
+					treeViewerBackup.updateExpandedStatus( getTreeViewer( ),
+							item.getData( ) );
 			}
 
 		};
-		getTreeViewer().getTree().addTreeListener(treeListener);
+		getTreeViewer( ).getTree( ).addTreeListener( treeListener );
 
-		UIUtil.bindHelp(parent, IHelpContextIds.PROJECT_FILES_DIALOG_ID);
+		UIUtil.bindHelp( parent, IHelpContextIds.PROJECT_FILES_DIALOG_ID );
 		return rt;
 	}
 
 	private TreeViewerBackup treeViewerBackup;
 
-	private void handleTreeViewerRefresh() {
-		if (treeViewerBackup != null) {
-			treeViewerBackup.restoreBackup(getTreeViewer());
-		} else {
-			treeViewerBackup = new TreeViewerBackup();
-			getTreeViewer().expandToLevel(2);
-			treeViewerBackup.updateStatus(getTreeViewer());
+	private void handleTreeViewerRefresh( )
+	{
+		if ( treeViewerBackup != null )
+		{
+			treeViewerBackup.restoreBackup( getTreeViewer( ) );
+		}
+		else
+		{
+			treeViewerBackup = new TreeViewerBackup( );
+			getTreeViewer( ).expandToLevel( 2 );
+			treeViewerBackup.updateStatus( getTreeViewer( ) );
 		}
 	}
 
@@ -295,17 +332,21 @@ public class ProjectFileDialog extends ElementTreeSelectionDialog {
 	 * 
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#okPressed()
 	 */
-	protected void okPressed() {
-		super.okPressed();
-		Object[] selected = getResult();
-		if (selected.length > 0 && !newFileName.equals("")) //$NON-NLS-1$
+	protected void okPressed( )
+	{
+		super.okPressed( );
+		Object[] selected = getResult( );
+		if ( selected.length > 0 && !newFileName.equals( "" ) ) //$NON-NLS-1$
 		{
 			ResourceEntry entry = (ResourceEntry) selected[0];
-			File file = new File(entry.getURL().getPath());
-			try {
-				new File(file, newFileName).createNewFile();
-			} catch (IOException e) {
-				ExceptionHandler.handle(e);
+			File file = new File( entry.getURL( ).getPath( ) );
+			try
+			{
+				new File( file, newFileName ).createNewFile( );
+			}
+			catch ( IOException e )
+			{
+				ExceptionHandler.handle( e );
 			}
 		}
 	}
@@ -313,60 +354,73 @@ public class ProjectFileDialog extends ElementTreeSelectionDialog {
 	/**
 	 * Add Tooltip for root TreeItem.
 	 */
-	protected void addToolTip() {
-		final Tree tree = getTreeViewer().getTree();
-		tree.addMouseTrackListener(new MouseTrackAdapter() {
+	protected void addToolTip( )
+	{
+		final Tree tree = getTreeViewer( ).getTree( );
+		tree.addMouseTrackListener( new MouseTrackAdapter( ) {
 
-			public void mouseHover(MouseEvent event) {
+			public void mouseHover( MouseEvent event )
+			{
 				Widget widget = event.widget;
-				if (widget == tree) {
-					Point pt = new Point(event.x, event.y);
-					TreeItem item = tree.getItem(pt);
+				if ( widget == tree )
+				{
+					Point pt = new Point( event.x, event.y );
+					TreeItem item = tree.getItem( pt );
 
-					if (item == null) {
-						tree.setToolTipText(null);
-					} else {
-						if (getTreeViewer().getLabelProvider() instanceof FileLabelProvider) {
-							tree
-									.setToolTipText(((FileLabelProvider) getTreeViewer()
-											.getLabelProvider())
-											.getToolTip(item.getData()));
-						} else {
-							tree.setToolTipText(null);
+					if ( item == null )
+					{
+						tree.setToolTipText( null );
+					}
+					else
+					{
+						if ( getTreeViewer( ).getLabelProvider( ) instanceof FileLabelProvider )
+						{
+							tree.setToolTipText( ( (FileLabelProvider) getTreeViewer( ).getLabelProvider( ) ).getToolTip( item.getData( ) ) );
+						}
+						else
+						{
+							tree.setToolTipText( null );
 						}
 					}
 				}
 			}
-		});
-		refreshRoot();
+		} );
+		refreshRoot( );
 	}
 
+	/**
+	 * FileViewerSorter
+	 */
 	protected static class FileViewerSorter extends ViewerSorter
 	{
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ViewerSorter#category(java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.ViewerSorter#category(java.lang.Object)
 		 */
 		public int category( Object element )
 		{
-			if ( element instanceof File) 
+			if ( element instanceof File )
 			{
-				if(( (File) element ).isDirectory( ) )
+				if ( ( (File) element ).isDirectory( ) )
 				{
 					return 0;
-				}else
+				}
+				else
 				{
 					return 1;
-				}				
+				}
 			}
-			else if ( element instanceof ResourceEntry)
+			else if ( element instanceof ResourceEntry )
 			{
-				if (( (ResourceEntry) element ).isFile( ) ) // file, return 1;
+				if ( ( (ResourceEntry) element ).isFile( ) ) // file, return 1;
 				{
 					return 1;
-				}else // directory, return 0;
+				}
+				else
+				// directory, return 0;
 				{
 					return 0;
 				}
@@ -398,34 +452,36 @@ public class ProjectFileDialog extends ElementTreeSelectionDialog {
 
 				public int compare( Object a, Object b )
 				{
-					if(a instanceof FragmentResourceEntry)
+					if ( a instanceof FragmentResourceEntry )
 					{
-						if(b instanceof FragmentResourceEntry)
+						if ( b instanceof FragmentResourceEntry )
 						{
 							return FileViewerSorter.this.compare( viewer, a, b );
-						}else
+						}
+						else
 						{
 							return -1;
 						}
-					}else
-					if(a instanceof PathResourceEntry)
+					}
+					else if ( a instanceof PathResourceEntry )
 					{
-						if(b instanceof FragmentResourceEntry)
+						if ( b instanceof FragmentResourceEntry )
 						{
 							return 1;
-						}else
-						if( b instanceof PathResourceEntry )
+						}
+						else if ( b instanceof PathResourceEntry )
 						{
 							return FileViewerSorter.this.compare( viewer, a, b );
-						}else
+						}
+						else
 						{
 							return -1;
 						}
-					}else
+					}
+					else
 					{
 						return FileViewerSorter.this.compare( viewer, a, b );
 					}
-					
 
 				}
 			} );

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -37,7 +38,6 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleProvider;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -59,7 +59,6 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -75,22 +74,16 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -105,26 +98,72 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Dialog for adding or editing map rule.
  */
-public class MapRuleBuilder extends BaseDialog
+public class MapRuleBuilder extends BaseTitleAreaDialog
 {
-
-	private final String NULL_STRING = null;
-	protected IExpressionProvider expressionProvider;
-	protected transient String bindingName = null;
-	protected ReportElementHandle currentItem = null;
-
-	protected String[] popupItems = null;
-
-	protected static final String[] EMPTY_ARRAY = new String[]{};
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "MapRuleBuilder.DialogTitle.New" ); //$NON-NLS-1$
 	public static final String DLG_TITLE_EDIT = Messages.getString( "MapRuleBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 
-	protected List compositeList = new ArrayList( );
+	protected static final Logger logger = Logger.getLogger( MapRuleBuilder.class.getName( ) );
+
+	protected static final String[] EMPTY_ARRAY = new String[]{};
+
+	private static final String NULL_STRING = null;
+
+	protected IExpressionProvider expressionProvider;
+	protected String bindingName = null;
+	protected ReportElementHandle currentItem = null;
+
+	protected List<Control> compositeList = new ArrayList<Control>( );
+
+	protected List<String> valueList = new ArrayList<String>( );
+
+	private MapRuleHandle handle;
+
+	private MapHandleProvider provider;
+
+	private int handleCount;
+
+	protected Combo expression, operator;
+
+	private Text display;
+
+	// private ExpressionValue value1, value2;
+	protected Composite valueListComposite;
+	protected MultiValueCombo addExpressionValue;
+	protected Button addBtn, editBtn, delBtn, delAllBtn;
+	protected Table table;
+	protected TableViewer tableViewer;
+
+	protected int valueVisible;
+
+	private ValueCombo expressionValue1, expressionValue2;
+
+	private Label andLabel;
+
+	private Text resourceKeytext;
+
+	private Button btnBrowse;
+
+	private Button btnReset;
+
+	protected DesignElementHandle designHandle;
+
+	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+
+	protected static final String[] actions = new String[]{
+			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
+			Messages.getString( "ExpressionValueCellEditor.buildExpressionAction" ), //$NON-NLS-1$
+	};
+
+	private ParamBindingHandle[] bindingParams = null;
+
+	protected List<ComputedColumnHandle> columnList;
+
 	/**
 	 * Usable operators for building map rule conditions.
 	 */
-	static final String[][] OPERATOR;
+	private static final String[][] OPERATOR;
 
 	static
 	{
@@ -157,8 +196,6 @@ public class MapRuleBuilder extends BaseDialog
 
 		return null;
 	}
-
-	protected List valueList = new ArrayList( );
 
 	/**
 	 * Returns how many value fields this operator needs.
@@ -235,46 +272,6 @@ public class MapRuleBuilder extends BaseDialog
 		return 0;
 	}
 
-	private MapRuleHandle handle;
-
-	private MapHandleProvider provider;
-
-	private int handleCount;
-
-	protected Combo expression, operator;
-
-	private Text display;
-
-	// private ExpressionValue value1, value2;
-	protected Composite valueListComposite;
-	protected MultiValueCombo addExpressionValue;
-	protected Button addBtn, editBtn, delBtn, delAllBtn;
-	protected Table table;
-	protected TableViewer tableViewer;
-
-	protected int valueVisible;
-
-	private ValueCombo expressionValue1, expressionValue2;
-
-	private Label andLabel;
-
-	private Text resourceKeytext;
-
-	private Button btnBrowse;
-
-	private Button btnReset;
-
-	protected DesignElementHandle designHandle;
-
-	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
-
-	protected static String[] actions = new String[]{
-			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
-			Messages.getString( "ExpressionValueCellEditor.buildExpressionAction" ), //$NON-NLS-1$
-	};
-
-	private ParamBindingHandle[] bindingParams = null;
-
 	/**
 	 * Default constructor.
 	 * 
@@ -286,28 +283,21 @@ public class MapRuleBuilder extends BaseDialog
 	public MapRuleBuilder( Shell parentShell, String title,
 			MapHandleProvider provider )
 	{
-		super( parentShell, title );
-
+		super( parentShell );
+		this.title = title;
 		this.provider = provider;
 	}
-
-	protected List columnList;
-
-	/**
-	 * Constant, represents empty String array.
-	 */
-	private static final String[] EMPTY = new String[0];
 
 	private String[] getDataSetColumns( )
 	{
 		if ( columnList.isEmpty( ) )
 		{
-			return EMPTY;
+			return EMPTY_ARRAY;
 		}
 		String[] values = new String[columnList.size( )];
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			values[i] = ( (ComputedColumnHandle) columnList.get( i ) ).getName( );
+			values[i] = columnList.get( i ).getName( );
 		}
 		return values;
 	}
@@ -320,7 +310,7 @@ public class MapRuleBuilder extends BaseDialog
 		}
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			ComputedColumnHandle column = (ComputedColumnHandle) columnList.get( i );
+			ComputedColumnHandle column = columnList.get( i );
 			if ( column.getName( ).equals( name ) )
 			{
 				return column;
@@ -362,44 +352,54 @@ public class MapRuleBuilder extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog#
+	 * createContents(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.INSERT_EDIT_MAP_RULE_DIALOG_ID );
-		refreshList( );
+		Composite composite = (Composite) super.createContents( parent );
 
-		GridData gdata;
-		GridLayout glayout;
-		Composite contents = new Composite( parent, SWT.NONE );
+		setTitle( Messages.getString( "MapRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
+
+		UIUtil.bindHelp( parent, IHelpContextIds.INSERT_EDIT_MAP_RULE_DIALOG_ID );
+
+		if ( handle != null )
+		{
+			syncViewProperties( );
+		}
+		else
+		{
+			update2ValueStatus( );
+		}
+
+		updateButtons( );
+
+		return composite;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.dialogs.TitleAreaDialog#createDialogArea(org.eclipse
+	 * .swt.widgets.Composite)
+	 */
+	protected Control createDialogArea( Composite parent )
+	{
+		Composite composite = (Composite) super.createDialogArea( parent );
+
+		Composite contents = new Composite( composite, SWT.NONE );
 		contents.setLayout( new GridLayout( ) );
 		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		createTitleArea( contents );
-
-		Composite composite = new Composite( contents, SWT.NONE );
-		glayout = new GridLayout( );
-		glayout.marginHeight = 0;
-		glayout.marginWidth = 0;
-		glayout.verticalSpacing = 0;
-		composite.setLayout( glayout );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		applyDialogFont( composite );
-		initializeDialogUnits( composite );
-
-		Composite innerParent = (Composite) createDialogArea( composite );
-		createButtonBar( composite );
-
-		Label lb = new Label( innerParent, SWT.NONE );
+		Label lb = new Label( contents, SWT.NONE );
 		lb.setText( Messages.getString( "MapRuleBuilderDialog.text.Condition" ) ); //$NON-NLS-1$
 
-		Composite condition = new Composite( innerParent, SWT.NONE );
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		Composite condition = new Composite( contents, SWT.NONE );
+		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		// gdata.heightHint = 180;
 		condition.setLayoutData( gdata );
-		glayout = GridLayoutFactory.createFrom( glayout )
+		GridLayout glayout = GridLayoutFactory.createFrom( new GridLayout( ) )
 				.numColumns( 4 )
 				.equalWidth( false )
 				.create( );
@@ -456,14 +456,12 @@ public class MapRuleBuilder extends BaseDialog
 			}
 		} );
 
-		refreshList( );
-
 		create2ValueComposite( condition );
 
-		lb = new Label( innerParent, SWT.NONE );
+		lb = new Label( contents, SWT.NONE );
 		lb.setText( Messages.getString( "MapRuleBuilderDialog.text.Display" ) ); //$NON-NLS-1$
 
-		Composite format = new Composite( innerParent, SWT.NONE );
+		Composite format = new Composite( contents, SWT.NONE );
 		format.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		glayout = new GridLayout( );
 		format.setLayout( glayout );
@@ -473,21 +471,10 @@ public class MapRuleBuilder extends BaseDialog
 		gdata.widthHint = 300;
 		display.setLayoutData( gdata );
 
-		createResourceKeyArea( innerParent );
+		createResourceKeyArea( contents );
 
-		lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
+		lb = new Label( contents, SWT.SEPARATOR | SWT.HORIZONTAL );
 		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		if ( handle != null )
-		{
-			syncViewProperties( );
-		}
-		else
-		{
-			update2ValueStatus( );
-		}
-
-		updateButtons( );
 
 		return composite;
 	}
@@ -524,7 +511,7 @@ public class MapRuleBuilder extends BaseDialog
 		// gd.heightHint = 20;
 		expressionValue1 = new ValueCombo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( gd );
-		expressionValue1.setItems( popupItems );
+		expressionValue1.setItems( actions );
 
 		// expressionValue1.addListener( SWT.Verify, expValueVerifyListener );
 		expressionValue1.addListener( SWT.Modify, textModifyListener );
@@ -553,7 +540,7 @@ public class MapRuleBuilder extends BaseDialog
 		gd.minimumWidth = 120;
 		// gd.heightHint = 20;
 		expressionValue2.setLayoutData( gd );
-		expressionValue2.setItems( popupItems );
+		expressionValue2.setItems( actions );
 		compositeList.add( expressionValue2 );
 
 		// expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
@@ -609,9 +596,9 @@ public class MapRuleBuilder extends BaseDialog
 			if ( designHandle != null )
 			{
 				if ( expressionProvider == null )
-					expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+					expressionBuilder.setExpressionProvider( new ExpressionProvider( designHandle ) );
 				else
-					expressionBuilder.setExpressionProvier( expressionProvider );
+					expressionBuilder.setExpressionProvider( expressionProvider );
 			}
 
 			if ( expressionBuilder.open( ) == OK )
@@ -834,7 +821,7 @@ public class MapRuleBuilder extends BaseDialog
 		// addExpressionValue.addListener( SWT.Verify, expValueVerifyListener );
 		addExpressionValue.addSelectionListener( 0, mAddSelValueAction );
 		addExpressionValue.addSelectionListener( 1, mAddExpValueAction );
-		addExpressionValue.setItems( popupItems );
+		addExpressionValue.setItems( actions );
 		return 1;
 	}
 
@@ -844,9 +831,9 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			String[] retValue = null;
 
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ComputedColumnHandle> iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				String columnName = iter.next( ).getName( );
 				if ( DEUtil.getColumnExpression( columnName )
 						.equals( expression.getText( ) ) )
 				{
@@ -861,9 +848,9 @@ public class MapRuleBuilder extends BaseDialog
 					input );
 
 			if ( expressionProvider == null )
-				dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+				dialog.setExpressionProvider( new ExpressionProvider( designHandle ) );
 			else
-				dialog.setExpressionProvier( expressionProvider );
+				dialog.setExpressionProvider( expressionProvider );
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -892,9 +879,9 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			String[] retValue = null;
 
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ComputedColumnHandle> iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				String columnName = iter.next( ).getName( );
 
 				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
@@ -1258,9 +1245,9 @@ public class MapRuleBuilder extends BaseDialog
 					input );
 
 			if ( expressionProvider == null )
-				dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+				dialog.setExpressionProvider( new ExpressionProvider( designHandle ) );
 			else
-				dialog.setExpressionProvier( expressionProvider );
+				dialog.setExpressionProvider( expressionProvider );
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -1276,9 +1263,9 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			String retValue = null;
 
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ComputedColumnHandle> iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				String columnName = iter.next( ).getName( );
 
 				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
@@ -1395,17 +1382,6 @@ public class MapRuleBuilder extends BaseDialog
 			return retValue;
 		}
 	};
-
-	private void refreshList( )
-	{
-		ArrayList finalItems = new ArrayList( 10 );
-		for ( int n = 0; n < actions.length; n++ )
-		{
-			finalItems.add( actions[n] );
-		}
-
-		popupItems = (String[]) finalItems.toArray( EMPTY_ARRAY );
-	}
 
 	private List getSelectValueList( ) throws BirtException
 	{
@@ -1688,45 +1664,45 @@ public class MapRuleBuilder extends BaseDialog
 
 	}
 
-	private Composite createTitleArea( Composite parent )
-	{
-		int heightMargins = 3;
-		int widthMargins = 8;
-		final Composite titleArea = new Composite( parent, SWT.NONE );
-		FormLayout layout = new FormLayout( );
-		layout.marginHeight = heightMargins;
-		layout.marginWidth = widthMargins;
-		titleArea.setLayout( layout );
-
-		Display display = parent.getDisplay( );
-		Color background = JFaceColors.getBannerBackground( display );
-		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.heightHint = 20 + ( heightMargins * 2 );
-		titleArea.setLayoutData( layoutData );
-		titleArea.setBackground( background );
-
-		titleArea.addPaintListener( new PaintListener( ) {
-
-			public void paintControl( PaintEvent e )
-			{
-				e.gc.setForeground( titleArea.getDisplay( )
-						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
-				Rectangle bounds = titleArea.getClientArea( );
-				bounds.height = bounds.height - 2;
-				bounds.width = bounds.width - 1;
-				e.gc.drawRectangle( bounds );
-			}
-		} );
-
-		Label label = new Label( titleArea, SWT.NONE );
-		label.setBackground( background );
-		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
-				10,
-				SWT.BOLD ) );
-		label.setText( getTitle( ) );
-
-		return titleArea;
-	}
+	// private Composite createTitleArea( Composite parent )
+	// {
+	// int heightMargins = 3;
+	// int widthMargins = 8;
+	// final Composite titleArea = new Composite( parent, SWT.NONE );
+	// FormLayout layout = new FormLayout( );
+	// layout.marginHeight = heightMargins;
+	// layout.marginWidth = widthMargins;
+	// titleArea.setLayout( layout );
+	//
+	// Display display = parent.getDisplay( );
+	// Color background = JFaceColors.getBannerBackground( display );
+	// GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+	// layoutData.heightHint = 20 + ( heightMargins * 2 );
+	// titleArea.setLayoutData( layoutData );
+	// titleArea.setBackground( background );
+	//
+	// titleArea.addPaintListener( new PaintListener( ) {
+	//
+	// public void paintControl( PaintEvent e )
+	// {
+	// e.gc.setForeground( titleArea.getDisplay( )
+	// .getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+	// Rectangle bounds = titleArea.getClientArea( );
+	// bounds.height = bounds.height - 2;
+	// bounds.width = bounds.width - 1;
+	// e.gc.drawRectangle( bounds );
+	// }
+	// } );
+	//
+	// Label label = new Label( titleArea, SWT.NONE );
+	// label.setBackground( background );
+	// label.setFont( FontManager.getFont( label.getFont( ).toString( ),
+	// 10,
+	// SWT.BOLD ) );
+	// label.setText( getTitle( ) );
+	//
+	// return titleArea;
+	// }
 
 	private Composite createDummy( Composite parent, int colSpan )
 	{

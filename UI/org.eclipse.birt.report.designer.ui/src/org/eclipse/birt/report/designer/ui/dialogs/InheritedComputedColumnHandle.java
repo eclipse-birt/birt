@@ -13,6 +13,9 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 
 
+/**
+ * A simple wrapper class denotes for the inherited computed column handle
+ */
 public class InheritedComputedColumnHandle 
 {
 	private ComputedColumnHandle handle;

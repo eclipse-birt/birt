@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +37,6 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -56,10 +56,9 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ * UseCssInThemeDialog
  */
-
-public class UseCssInThemeDialog extends TitleAreaDialog
+public class UseCssInThemeDialog extends BaseTitleAreaDialog
 {
 
 	protected final Logger logger = Logger.getLogger( UseCssInThemeDialog.class.getName( ) );
@@ -84,11 +83,11 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 	private Combo themeCombo;
 
-	private Map styleMap = new HashMap( );
+	private Map<String, SharedStyleHandle> styleMap = new HashMap<String, SharedStyleHandle>( );
 
-	private List styleNames = new ArrayList( );
+	private List<String> styleNames = new ArrayList<String>( );
 
-	private List unSupportedStyleNames = new ArrayList( );
+	private List<String> unSupportedStyleNames = new ArrayList<String>( );
 
 	private int themeIndex;
 
@@ -213,15 +212,16 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		{
 			fileNameField.setText( fileName );
 		}
-		
-		if(viewTimeBtn.isEnabled() && viewTimeBtn.getSelection())
+
+		if ( viewTimeBtn.isEnabled( ) && viewTimeBtn.getSelection( ) )
 		{
 			uriText.setEnabled( true );
-		}else
+		}
+		else
 		{
 			uriText.setEnabled( false );
 		}
-		
+
 		if ( includedCssHandle == null )
 		{
 			return;
@@ -255,7 +255,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 	{
 		Composite styleComposite = new Composite( parent, SWT.NULL );
 		styleComposite.setLayout( new GridLayout( ) );
-		styleComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		styleComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		title = new Label( styleComposite, SWT.NULL );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
@@ -269,8 +269,8 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 				| SWT.BORDER
 		// | SWT.CHECK
 		);
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.heightHint = 100;
+		data = new GridData( GridData.FILL_BOTH );
+		data.minimumHeight = 100;
 		stylesTable.setLayoutData( data );
 
 		new Label( styleComposite, SWT.NULL ).setText( Messages.getString( "UseCssInReportDialog.Label.notifications" ) ); //$NON-NLS-1$
@@ -278,8 +278,8 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		notificationsTable = new Table( styleComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER );
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.heightHint = 60;
+		data = new GridData( GridData.FILL_BOTH );
+		data.minimumHeight = 60;
 		notificationsTable.setLayoutData( data );
 
 	}
@@ -313,7 +313,6 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 				}
 				catch ( StyleSheetException e1 )
 				{
-					// TODO Auto-generated catch block
 					logger.log( Level.SEVERE, e1.getMessage( ), e1 );
 				}
 				themeCombo.removeAll( );
@@ -473,7 +472,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		TableItem item;
 		for ( int i = 0; i < styleNames.size( ); i++ )
 		{
-			String sn = (String) styleNames.get( i );
+			String sn = styleNames.get( i );
 			item = new TableItem( stylesTable, SWT.NULL );
 			item.setText( sn );
 			item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
@@ -481,7 +480,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 		for ( int i = 0; i < unSupportedStyleNames.size( ); i++ )
 		{
-			String sn = (String) unSupportedStyleNames.get( i );
+			String sn = unSupportedStyleNames.get( i );
 			item = new TableItem( notificationsTable, SWT.NULL );
 			item.setText( sn );
 			item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
@@ -500,10 +499,10 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 		if ( themeCombo.getItemCount( ) == 0 )
 		{
-			List themeList = getThemes( );
+			List<ThemeHandle> themeList = getThemes( );
 			for ( int i = 0; i < themeList.size( ); i++ )
 			{
-				String displayName = ( (ThemeHandle) themeList.get( i ) ).getName( );
+				String displayName = themeList.get( i ).getName( );
 				themeCombo.add( displayName );
 			}
 			if ( themeCombo.getItemCount( ) > 0 )
@@ -557,21 +556,21 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		}
 	}
 
-	private List getThemes( )
+	private List<ThemeHandle> getThemes( )
 	{
 		ModuleHandle module = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
 		if ( !( module instanceof LibraryHandle ) )
 		{
-			return new ArrayList( 0 );
+			return Collections.emptyList( );
 		}
 		LibraryHandle libraryHandle = (LibraryHandle) module;
 		SlotHandle slotHandle = libraryHandle.getThemes( );
-		List list = new ArrayList( );
+		List<ThemeHandle> list = new ArrayList<ThemeHandle>( );
 		for ( Iterator iter = slotHandle.iterator( ); iter.hasNext( ); )
 		{
-			list.add( iter.next( ) );
+			list.add( (ThemeHandle) iter.next( ) );
 		}
 		return list;
 	}

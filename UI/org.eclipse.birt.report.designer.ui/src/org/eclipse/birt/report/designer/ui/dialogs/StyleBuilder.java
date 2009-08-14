@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -211,7 +212,7 @@ public class StyleBuilder extends PreferenceDialog
 		PreferenceManager preferenceManager = new PreferenceManager( '/' );
 
 		// Get the pages from the registry
-		List pageContributions = new ArrayList( );
+		List<IPreferenceNode> pageContributions = new ArrayList<IPreferenceNode>( );
 
 		// adds preference pages into page contributions.
 		pageContributions.add( new StylePreferenceNode( "General", //$NON-NLS-1$
@@ -242,10 +243,10 @@ public class StyleBuilder extends PreferenceDialog
 				new CommentsPreferencePage( handle ) ) );
 
 		// Add the contributions to the manager
-		Iterator it = pageContributions.iterator( );
+		Iterator<IPreferenceNode> it = pageContributions.iterator( );
 		while ( it.hasNext( ) )
 		{
-			IPreferenceNode node = (IPreferenceNode) it.next( );
+			IPreferenceNode node = it.next( );
 			preferenceManager.addToRoot( node );
 		}
 		return preferenceManager;
@@ -253,7 +254,7 @@ public class StyleBuilder extends PreferenceDialog
 
 	private void saveAll( final boolean closeDialog )
 	{
-		Platform.run( new SafeRunnable( ) {
+		SafeRunner.run( new SafeRunnable( ) {
 
 			private boolean errorOccurred;
 
@@ -740,7 +741,7 @@ public class StyleBuilder extends PreferenceDialog
 		this.titleImage = titleImage;
 	}
 
-	static class PreferenceTreeLabelProvider implements ITableLabelProvider
+	private static class PreferenceTreeLabelProvider implements ITableLabelProvider
 	{
 
 		public Image getColumnImage( Object element, int columnIndex )
@@ -756,7 +757,7 @@ public class StyleBuilder extends PreferenceDialog
 			if ( columnIndex == 1 )
 				return ( (IPreferenceNode) element ).getLabelText( );
 			else
-				return "";
+				return ""; //$NON-NLS-1$
 		}
 
 		public void addListener( ILabelProviderListener listener )

@@ -27,7 +27,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -609,7 +608,7 @@ public class ImageBuilder extends BaseDialog
 
 		if ( dialog.open( ) == Window.OK )
 		{
-			uriEditor.setText( dialog.getPath( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			uriEditor.setText( dialog.getPath( ) );
 			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
 			( (ExpressionButton) uriEditor.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).refresh( );
 			uriEditor.setFocus( );
@@ -799,7 +798,7 @@ public class ImageBuilder extends BaseDialog
 	private void setURIEditor( )
 	{
 		PropertyHandle uriPropertyHandle = inputImage.getPropertyHandle( IImageItemModel.URI_PROP );
-		ExpressionHandle uri = (ExpressionHandle) getURI( );
+		ExpressionHandle uri = getURI( );
 		if ( uri != null )
 		{
 			uriEditor.setText( uri == null || uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$

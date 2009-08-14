@@ -49,7 +49,7 @@ public class ParameterGroupDialog extends TabDialog
 	 */
 	public void addTabPages( )
 	{
-		addTabPage( new ParameterGroupGeneralPage( GENERAL_PAGE_TITLE ) ); //$NON-NLS-1$
+		addTabPage( new ParameterGroupGeneralPage( GENERAL_PAGE_TITLE ) );
 	}
 
 	protected Control createDialogArea( Composite parent )

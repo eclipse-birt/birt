@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -27,8 +26,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -54,7 +53,6 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -843,17 +841,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( addBtn );
 
-		addBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		addBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				String value = addExpressionValue.getText( ).trim( );
 				if ( valueList.indexOf( value ) < 0 )
 				{
@@ -899,16 +890,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			column.setText( columNames[i] );
 			column.setWidth( columLength[i] );
 		}
-		table.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-			}
+		table.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				checkEditDelButtonStatus( );
 			}
 		} );
@@ -917,7 +902,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 			public void keyPressed( KeyEvent e )
 			{
-				// TODO Auto-generated method stub
 				if ( e.keyCode == SWT.DEL )
 				{
 					delTableValue( );
@@ -927,8 +911,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 			public void keyReleased( KeyEvent e )
 			{
-				// TODO Auto-generated method stub
-
 			}
 
 		} );
@@ -961,17 +943,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.END;
 		editBtn.setLayoutData( gd );
-		editBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		editBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				editTableValue( );
 			}
 
@@ -981,17 +956,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		delBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) ); //$NON-NLS-1$
 		delBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delBtn );
-		delBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		delBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				delTableValue( );
 			}
 
@@ -1005,17 +973,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.BEGINNING;
 		delAllBtn.setLayoutData( gd );
-		delAllBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		delAllBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				int count = valueList.size( );
 				if ( count > 0 )
 				{
@@ -1060,13 +1021,11 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			// TODO Auto-generated method stub
 			if ( columnIndex == 0 )
 			{
 				if ( element instanceof Expression )
@@ -1080,26 +1039,19 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		public void addListener( ILabelProviderListener listener )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public void dispose( )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public boolean isLabelProperty( Object element, String property )
 		{
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		public void removeListener( ILabelProviderListener listener )
 		{
-			// TODO Auto-generated method stub
-
 		}
 	};
 
@@ -1107,20 +1059,15 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		public void dispose( )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public Object[] getElements( Object inputElement )
 		{
-			// TODO Auto-generated method stub
 			if ( inputElement == null )
 			{
 				return new Object[0];
@@ -1185,18 +1132,11 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		updateButtons( );
 	}
 
-	protected SelectionListener operatorSelection = new SelectionListener( ) {
+	protected SelectionListener operatorSelection = new SelectionAdapter( ) {
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			// TODO Auto-generated method stub
 			operatorChange( );
-		}
-
-		public void widgetDefaultSelected( SelectionEvent e )
-		{
-			// TODO Auto-generated method stub
-
 		}
 	};
 
@@ -1204,12 +1144,14 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		public void handleEvent( Event e )
 		{
-			Assert.isLegal( e.widget instanceof Combo );
+			assert e.widget instanceof Combo;
 			Combo combo = (Combo) e.widget;
 			String newValue = combo.getText( );
 			String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
 			if ( value != null )
+			{
 				newValue = value;
+			}
 			combo.setText( newValue );
 			updateButtons( );
 		}
@@ -1241,16 +1183,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		dummy.setLayoutData( gdata );
 
 		return dummy;
-	}
-
-	private Text createText( Composite parent )
-	{
-		Text txt = new Text( parent, SWT.BORDER );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.widthHint = 100;
-		txt.setLayoutData( gdata );
-
-		return txt;
 	}
 
 	/*
@@ -1308,7 +1240,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			}
 			catch ( SemanticException e )
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace( );
 			}
 
@@ -1672,7 +1603,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		}
 		catch ( Exception e )
 		{
-			WidgetUtil.processError( getShell( ), e );
+			ExceptionUtil.handle( e );
 		}
 
 		super.okPressed( );
@@ -1699,17 +1630,17 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				if ( designHandle instanceof TabularCubeHandle
 						|| designHandle instanceof TabularHierarchyHandle )
 				{
-					expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
+					expressionBuilder.setExpressionProvider( new BindingExpressionProvider( designHandle,
 							null ) );
 				}
 				else
 				{
-					expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+					expressionBuilder.setExpressionProvider( new ExpressionProvider( designHandle ) );
 				}
 			}
 			else
 			{
-				expressionBuilder.setExpressionProvier( expressionProvider );
+				expressionBuilder.setExpressionProvider( expressionProvider );
 			}
 
 		}
@@ -1799,7 +1730,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		public String doSelection( String input )
 		{
 			String retValue = null;
-			// TODO Auto-generated method stub
+
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				String columnName = getColumnName( iter.next( ) );
@@ -1898,16 +1829,15 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			String retValue = null;
 
-			// TODO Auto-generated method stub
 			ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ),
 					input );
 
 			if ( expressionProvider == null )
-				dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+				dialog.setExpressionProvider( new ExpressionProvider( designHandle ) );
 			else
-				dialog.setExpressionProvier( expressionProvider );
+				dialog.setExpressionProvider( expressionProvider );
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -1922,7 +1852,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		public String[] doSelection( String input )
 		{
 			String[] retValue = null;
-			// TODO Auto-generated method stub
 
 			ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
 					.getDisplay( )
@@ -1930,9 +1859,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					input );
 
 			if ( expressionProvider == null )
-				dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+				dialog.setExpressionProvider( new ExpressionProvider( designHandle ) );
 			else
-				dialog.setExpressionProvier( expressionProvider );
+				dialog.setExpressionProvider( expressionProvider );
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -1950,7 +1879,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		public void doAfterSelection( MultiValueCombo combo )
 		{
-			// TODO Auto-generated method stub
 			mAddSelValueAction.doAfterSelection( combo );
 		}
 
@@ -1960,7 +1888,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		public String[] doSelection( String input )
 		{
-			// TODO Auto-generated method stub
 			String[] retValue = null;
 
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -2053,7 +1980,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				}
 				catch ( BirtException e1 )
 				{
-					// TODO Auto-generated catch block
 					MessageDialog.openError( null,
 							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
 							Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
@@ -2073,8 +1999,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		public void doAfterSelection( MultiValueCombo combo )
 		{
-			// TODO Auto-generated method stub
-
 			addBtn.setEnabled( false );
 
 			if ( addExpressionValue.getSelStrings( ).length == 1 )
@@ -2123,17 +2047,17 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					if ( designHandle instanceof TabularCubeHandle
 							|| designHandle instanceof TabularHierarchyHandle )
 					{
-						expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
+						expressionBuilder.setExpressionProvider( new BindingExpressionProvider( designHandle,
 								null ) );
 					}
 					else
 					{
-						expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+						expressionBuilder.setExpressionProvider( new ExpressionProvider( designHandle ) );
 					}
 				}
 				else
 				{
-					expressionBuilder.setExpressionProvier( expressionProvider );
+					expressionBuilder.setExpressionProvider( expressionProvider );
 				}
 			}
 			if ( expressionBuilder.open( ) == OK )
@@ -2142,8 +2066,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				if ( result.length( ) == 0 )
 				{
 					MessageDialog.openInformation( getShell( ),
-							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Title" ),
-							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Msg" ) );
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Title" ), //$NON-NLS-1$
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Msg" ) ); //$NON-NLS-1$
 					return;
 				}
 				int index = table.getSelectionIndex( );

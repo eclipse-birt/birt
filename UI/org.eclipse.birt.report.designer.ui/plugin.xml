@@ -97,7 +97,7 @@
          id="reportprojectnature"
          point="org.eclipse.core.resources.natures">
       <runtime>
-         <run class="org.eclipse.birt.report.designer.ui.ProjectNature"/>
+         <run class="org.eclipse.birt.report.designer.ui.ReportProjectNature"/>
       </runtime>
    </extension>
    

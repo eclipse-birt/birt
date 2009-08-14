@@ -27,6 +27,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * ResourceFilterDialog
+ */
 public class ResourceFilterDialog extends BaseDialog
 {
 
@@ -55,7 +58,6 @@ public class ResourceFilterDialog extends BaseDialog
 		createHelpArea( container );
 		initViewer( );
 
-		// TODO: need to add a help context id here
 		UIUtil.bindHelp( composite, IHelpContextIds.RESOURCE_FILTER_DIALOG_ID );
 		return composite;
 	}
@@ -159,6 +161,9 @@ public class ResourceFilterDialog extends BaseDialog
 		viewer.setInput( filters );
 	}
 
+	/**
+	 * FilterProvider
+	 */
 	private static class FilterProvider extends LabelProvider implements
 			IStructuredContentProvider
 	{
@@ -186,10 +191,10 @@ public class ResourceFilterDialog extends BaseDialog
 				return ""; //$NON-NLS-1$
 		}
 
-		public String getToolTip( Object element )
-		{
-			return getText( element );
-		}
+//		public String getToolTip( Object element )
+//		{
+//			return getText( element );
+//		}
 
 	}
 

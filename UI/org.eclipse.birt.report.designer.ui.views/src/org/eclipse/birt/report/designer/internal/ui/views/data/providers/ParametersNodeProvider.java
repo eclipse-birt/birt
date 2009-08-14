@@ -13,11 +13,11 @@ package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import java.util.Map;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.CascadingParametersDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterGroupDialog;
