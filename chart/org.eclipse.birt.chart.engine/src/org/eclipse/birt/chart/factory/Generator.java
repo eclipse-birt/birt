@@ -1489,6 +1489,9 @@ public final class Generator implements IGenerator
 				&& !alExpressions.contains( sExpression ) )
 		{
 			alExpressions.add( sExpression );
+			
+			// Add sort key
+			addSortExperssion( alExpressions, categorySD, sExpression );
 		}
 		else
 		{
@@ -1536,6 +1539,9 @@ public final class Generator implements IGenerator
 				{
 					// INSERT AT START
 					alExpressions.add( iCount++, sExpression );
+					
+					// Add sort key
+					addSortExperssion( alExpressions, sd, sExpression );
 				}
 			}
 
@@ -1655,6 +1661,9 @@ public final class Generator implements IGenerator
 		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
 		{
 			alExpressions.add( sExpression );
+			
+			// Add sort key.
+			addSortExperssion( alExpressions, categorySD, sExpression );
 		}
 		else
 		{
@@ -1705,6 +1714,8 @@ public final class Generator implements IGenerator
 					{
 						// INSERT AT START
 						alExpressions.add( iCount++, sExpression );
+						
+						addSortExperssion( alExpressions, sd, sExpression );
 					}
 				}
 
@@ -1781,6 +1792,23 @@ public final class Generator implements IGenerator
 		}
 
 		return alExpressions;
+	}
+
+	/**
+	 * @param alExpressions
+	 * @param seriesDefinition
+	 * @param sExpression
+	 */
+	private static void addSortExperssion( final List<String> alExpressions,
+			SeriesDefinition seriesDefinition, String sExpression )
+	{
+		if ( seriesDefinition.isSetSorting( )
+				&& seriesDefinition.getSortKey( ) != null
+				&& !sExpression.equals( seriesDefinition.getSortKey( )
+						.getDefinition( ) ) )
+		{
+			alExpressions.add( seriesDefinition.getSortKey( ).getDefinition( ) );
+		}
 	}
 
 	private static void checkDataEmpty( Chart cm, RunTimeContext rtc )

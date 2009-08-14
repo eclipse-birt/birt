@@ -385,7 +385,9 @@ public class GroupingLookupHelper
 								sortExpr.equals( qOrthogonalSeries.getDefinition( ) )
 								&& baseSD.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
 						{
-							fBaseSortExprIndex = findIndex( qOrthogonalSeries.getDefinition( ),
+							fBaseSortExprIndex = findIndex( valueSeriesExprBuilder.buildExpr( qOrthogonalSeries,
+									orthoSD,
+									baseSD ),
 									strOrthoAgg );
 						}
 					}
@@ -397,7 +399,9 @@ public class GroupingLookupHelper
 								ySortKey.equals( qOrthogonalSeries.getDefinition( ) )
 								&& orthoSD.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
 						{
-							fYSortExprIndex = findIndex( qOrthogonalSeries.getDefinition( ),
+							fYSortExprIndex = findIndex( valueSeriesExprBuilder.buildExpr( qOrthogonalSeries,
+									orthoSD,
+									baseSD ),
 									strOrthoAgg );
 						}
 					}
