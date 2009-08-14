@@ -1233,6 +1233,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					.getColor( ) ) );
 		}
 		
+		updateTranslucency( fPaletteEntry, lih.getSeries( ) );
 		LegendEntryRenderingHints lerh = new LegendEntryRenderingHints( la,
 				valueLa,
 				dataIndex,
