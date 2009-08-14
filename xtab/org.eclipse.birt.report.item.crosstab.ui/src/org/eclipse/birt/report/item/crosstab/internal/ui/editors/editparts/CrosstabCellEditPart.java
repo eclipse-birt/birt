@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFlitter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFilter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
@@ -301,11 +301,11 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 	 */
 	public Object getAdapter( Class key )
 	{
-		if ( key == ISelectionFlitter.class )
+		if ( key == ISelectionFilter.class )
 		{
-			return new ISelectionFlitter( ) {
+			return new ISelectionFilter( ) {
 
-				public List flitterEditpart( List editparts )
+				public List filterEditpart( List editparts )
 				{
 					int size = editparts.size( );
 					List copy = new ArrayList( editparts );

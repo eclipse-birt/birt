@@ -20,7 +20,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFlitter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFilter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
@@ -444,11 +444,11 @@ public class TableCellEditPart extends AbstractCellEditPart
 	
 	public Object getAdapter( Class key )
 	{
-		if (key == ISelectionFlitter.class)
+		if (key == ISelectionFilter.class)
 		{
-			return new ISelectionFlitter()
+			return new ISelectionFilter()
 			{
-				public List flitterEditpart( List editparts )
+				public List filterEditpart( List editparts )
 				{
 					int size = editparts.size( );
 					List copy = new ArrayList( editparts );

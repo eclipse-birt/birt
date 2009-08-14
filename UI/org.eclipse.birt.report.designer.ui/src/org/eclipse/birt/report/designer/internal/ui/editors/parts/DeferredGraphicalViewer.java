@@ -135,9 +135,9 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		for ( int i = 0; i < size; i++ )
 		{
 			EditPart part = (EditPart) editparts.get( i );
-			if (part.getAdapter( ISelectionFlitter.class ) != null)
+			if (part.getAdapter( ISelectionFilter.class ) != null)
 			{
-				copy = ((ISelectionFlitter)part.getAdapter( ISelectionFlitter.class )).flitterEditpart( copy );
+				copy = ((ISelectionFilter)part.getAdapter( ISelectionFilter.class )).filterEditpart( copy );
 			}
 		}
 		editparts = copy;
