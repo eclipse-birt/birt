@@ -3,7 +3,7 @@ preference.bidiframe.title = 双方向形式
 preference.bidiframe.arabictitle = アラビア語固有の機能
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=Ordering Scheme
+report.bidi.properties.externalbidiformat.orderingscheme=スキームの順序
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = スキームの順序値の選択 
 report.bidi.properties.externalbidiformat.textdirection=文字列の向き
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 文字列の向きの値の選択

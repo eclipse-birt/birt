@@ -3,7 +3,7 @@ preference.bidiframe.title = Bidirektionales Format
 preference.bidiframe.arabictitle = Spezielle Funktionen für Arabisch
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=Ordering Scheme
+report.bidi.properties.externalbidiformat.orderingscheme=Sortierschema
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = Wert für Sortierschema wählen 
 report.bidi.properties.externalbidiformat.textdirection=Textrichtung
 report.bidi.properties.externalbidiformat.textdirection.tooltip = Wert für Textrichtung wählen

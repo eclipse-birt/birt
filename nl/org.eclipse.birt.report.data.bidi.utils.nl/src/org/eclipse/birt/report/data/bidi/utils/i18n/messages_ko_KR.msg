@@ -3,7 +3,7 @@ preference.bidiframe.title = 양방향 형식
 preference.bidiframe.arabictitle = 아랍어 특정 기능
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=Ordering Scheme
+report.bidi.properties.externalbidiformat.orderingscheme=순서 체계
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = 순서 체계 값 선택 
 report.bidi.properties.externalbidiformat.textdirection=텍스트 방향
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 텍스트 방향 값 선택

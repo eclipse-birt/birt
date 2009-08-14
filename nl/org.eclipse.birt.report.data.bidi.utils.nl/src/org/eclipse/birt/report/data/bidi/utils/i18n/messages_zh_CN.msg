@@ -3,7 +3,7 @@ preference.bidiframe.title = 双向格式
 preference.bidiframe.arabictitle = 阿拉伯特定功能
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=Ordering Scheme
+report.bidi.properties.externalbidiformat.orderingscheme=排序方案
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = 选择排序方案值 
 report.bidi.properties.externalbidiformat.textdirection=文本方向
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 选择文本方向值
