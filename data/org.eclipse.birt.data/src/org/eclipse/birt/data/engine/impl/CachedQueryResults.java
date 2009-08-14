@@ -56,7 +56,7 @@ public class CachedQueryResults implements IQueryResults
 		this.queryResultID = queryResultID;
 		this.pQuery = preparedQuery;
 		
-		this.resultIterator = new CacheResultIterator( tempDir, this );
+		this.resultIterator = new CacheResultIterator( session, tempDir, this );
 	
 		logger.exiting( CachedQueryResults.class.getName( ),
 				"CachedQueryResults" );
@@ -133,4 +133,5 @@ public class CachedQueryResults implements IQueryResults
 	{
 		return name;
 	}
+
 }

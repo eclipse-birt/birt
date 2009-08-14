@@ -7,3 +7,13 @@ DataSet.beforeOpen:
   extensionProperties:
     aProp
   columnDefns:
+*****A new Report Start!*****
+S:0 E:1 CHINA    
+S:1 E:1 US    
+S:1 E:1 CHINA    
+S:1 E:1 US    
+S:1 E:1 US    
+S:1 E:1 CHINA    
+S:1 E:1 CHINA    
+S:1 E:0 US    
+

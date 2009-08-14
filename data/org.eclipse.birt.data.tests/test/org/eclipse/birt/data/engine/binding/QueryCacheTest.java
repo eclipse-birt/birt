@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.binding;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -22,6 +23,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 
 import testutil.ConfigText;
 /**
@@ -120,6 +122,42 @@ public class QueryCacheTest extends APITestCase
 		assertEquals( it.getValue( "CITY" ), null );
 		assertEquals( it.getValue( "AMOUNT" ), null );
 		assertEquals( it.next( ), false );
+	}
+	
+	public void testSubqueryCache( ) throws Exception
+	{
+		QueryDefinition query = new QueryDefinition();
+		query.setDataSetName( this.dataSet.getName( ) );
+		query.setAutoBinding( true );
+		query.setCacheQueryResults( true );
+		
+		SubqueryDefinition sub = new SubqueryDefinition( "test", query );
+		sub.setApplyOnGroupFlag( false );
+		query.addSubquery( sub );
+		
+		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
+		
+		IResultIterator it = queryResults.getResultIterator( );
+		while( it.next( ) )
+		{
+			it.getSecondaryIterator( new ScriptContext(), "test" ).close( );
+		}
+		it.close( );
+		
+		String id = queryResults.getID( );
+		QueryDefinition newQuery = new QueryDefinition();
+		newQuery.setQueryResultsID( id );
+		newQuery.addSubquery( sub );
+		IPreparedQuery pq = this.dataEngine.prepare( newQuery );
+		IQueryResults result = pq.execute( null );
+		it = result.getResultIterator( );
+		while( it.next( ) )
+		{
+			IResultIterator subIt = it.getSecondaryIterator( new ScriptContext(), "test" );
+			while( subIt.next( ));
+			subIt.close( );
+		}
+		it.close( );
 	}
 	
 	public void testUseDetailsCache( ) throws Exception

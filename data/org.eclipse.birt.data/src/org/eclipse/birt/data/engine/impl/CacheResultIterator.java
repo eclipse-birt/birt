@@ -61,14 +61,14 @@ public class CacheResultIterator implements IResultIterator
 	private int lastRowIndex = -1;
 	
 	private boolean existCachedFile = true;
-	
+	private DataEngineSession session;
 	/**
 	 * 
 	 * @param context
 	 * @param queryResultID
 	 * @throws DataException
 	 */
-	public CacheResultIterator( String tempDir, IQueryResults queryResults )
+	public CacheResultIterator( DataEngineSession session, String tempDir, IQueryResults queryResults )
 			throws DataException
 	{
 		Object[] params = {
@@ -84,6 +84,7 @@ public class CacheResultIterator implements IResultIterator
 		this.queryResults = queryResults;
 		this.startingGroupLevel = 0;
 		this.endingGroupLevel = queryResults.getPreparedQuery( ).getReportQueryDefn( ).getGroups( ).size( )+1;
+		this.session = session;
 		try
 		{
 			createCacheInputStream( tempDir );
@@ -308,10 +309,14 @@ public class CacheResultIterator implements IResultIterator
 		throw new DataException( ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY );
 	}
 
-	public IResultIterator getSecondaryIterator( ScriptContext context, String subQueryName ) throws BirtException
+	public IResultIterator getSecondaryIterator( ScriptContext context,
+			String subQueryName ) throws BirtException
 	{
-		throw new DataException( ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY );
+		return new CachedQueryResults( this.session,
+				QuerySharingUtil.getSubQueryID( this.queryResults.getID( ), subQueryName, this.rowIndex ),
+				this.queryResults.getPreparedQuery( ) ).getResultIterator( );
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

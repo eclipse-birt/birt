@@ -80,4 +80,10 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 		this.onGroup = onGroup;
 	}
 	
+	public boolean cacheQueryResults()
+	{
+		if( parentQuery!= null )
+			return parentQuery.cacheQueryResults( );
+		return super.cacheQueryResults( );
+	}
 }

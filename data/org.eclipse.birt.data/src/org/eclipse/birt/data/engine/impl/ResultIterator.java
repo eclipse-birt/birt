@@ -18,7 +18,6 @@ import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -208,17 +207,24 @@ public class ResultIterator implements IResultIterator
 		{
 			FileSecurity.fileMakeDirs( tmpDir );
 		}
+		String id = resultService.getQueryResults( ).getID( );
+		if( this.resultService!= null && this.resultService.getQueryDefn( ) instanceof ISubqueryDefinition )
+		{
+			id = QuerySharingUtil.getSubQueryID( id,
+					this.resultService.getQueryDefn( ).getName( ),
+					rawIdStartingValue );
+		}
 		metaOutputStream = new BufferedOutputStream( FileSecurity.createFileOutputStream(  ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
-				resultService.getQueryResults( ).getID( ) ) ),
+				 id ) ),
 				1024 );
 		rowOutputStream = new DataOutputStream( new BufferedOutputStream( FileSecurity.createFileOutputStream( ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
-				resultService.getQueryResults( ).getID( ) ) ),
+				id ) ),
 				1024 ) );
 		File file = ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
-				resultService.getQueryResults( ).getID( ) );
+				id );
 		FileSecurity.fileDeleteOnExit( file );
 		file = ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
-				resultService.getQueryResults( ).getID( ) );
+				id );
 		FileSecurity.fileDeleteOnExit( file ); 
 	}
 	
@@ -803,6 +809,10 @@ public class ResultIterator implements IResultIterator
 		IQueryResults results = resultService.execSubquery( odiResult,
 				subQueryName,
 				subScope );
+		if( this.needCache( ) && results instanceof QueryResults )
+		{
+			((QueryResults) results).setID( this.resultService.getQueryResults( ).getID( ) );
+		}
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
 				"getSecondaryIterator",

@@ -34,12 +34,13 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -454,9 +455,11 @@ final class PreparedQuery
 				executor,
 				this.baseQueryDefn,
 				this.exprManager ) );
-		if( this.baseQueryDefn.cacheQueryResults() )
+		//Only the host query need the cache id.
+		if( this.baseQueryDefn.cacheQueryResults() && this.baseQueryDefn instanceof IQueryDefinition )
 		{
 			result.setID( this.session.getQueryResultIDUtil().nextID( ) );
+			((QueryDefinition) this.baseQueryDefn).setQueryResultsID( result.getID( ) );
 		}
 		return result;
 	}
