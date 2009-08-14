@@ -54,7 +54,6 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.text.ITextOperationTarget;
@@ -130,7 +129,7 @@ import com.ibm.icu.text.Collator;
  * The expression builder
  */
 
-public class ExpressionBuilder extends TitleAreaDialog
+public class ExpressionBuilder extends BaseTitleAreaDialog
 {
 
 	private static final String DIALOG_TITLE = Messages.getString( "ExpressionBuidler.Dialog.Title" ); //$NON-NLS-1$

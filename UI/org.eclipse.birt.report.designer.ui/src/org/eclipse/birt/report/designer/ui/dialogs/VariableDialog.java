@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -37,9 +36,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ * VariableDialog
  */
-
 public class VariableDialog extends BaseTitleAreaDialog
 {
 
@@ -133,8 +131,8 @@ public class VariableDialog extends BaseTitleAreaDialog
 
 		ExpressionButtonUtil.createExpressionButton( content,
 				expressionTxt,
-				this.getExpressionProvider( ) , 
-				variable);
+				this.getExpressionProvider( ),
+				variable );
 
 		UIUtil.bindHelp( parent, IHelpContextIds.VARIABLE_DIALOG_ID );
 

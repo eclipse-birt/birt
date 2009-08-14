@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.ReportClasspathResolver;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SelectionBorder;
@@ -113,6 +114,11 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Resource synchronizer service
 	 */
 	private ServiceRegistration syncService;
+
+	/**
+	 * Report classpath resolver service
+	 */
+	private ServiceRegistration reportClasspathService;
 
 	/**
 	 * The cursor for selecting cells
@@ -211,6 +217,24 @@ public class ReportPlugin extends AbstractUIPlugin
 	}
 
 	/**
+	 * @return Returns the report classpath resolver service
+	 */
+	public IReportClasspathResolver getReportClasspathResolverService( )
+	{
+		if ( bundleContext != null )
+		{
+			ServiceReference serviceRef = bundleContext.getServiceReference( IReportClasspathResolver.class.getName( ) );
+
+			if ( serviceRef != null )
+			{
+				return (IReportClasspathResolver) bundleContext.getService( serviceRef );
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Called upon plug-in activation
 	 * 
 	 * @param context
@@ -269,6 +293,11 @@ public class ReportPlugin extends AbstractUIPlugin
 		// register default synchronizer service
 		syncService = context.registerService( IReportResourceSynchronizer.class.getName( ),
 				new ReportResourceSynchronizer( ),
+				null );
+
+		// register default report classpath resolver service
+		reportClasspathService = context.registerService( IReportClasspathResolver.class.getName( ),
+				new ReportClasspathResolver( ),
 				null );
 
 		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" ); //$NON-NLS-1$
@@ -385,6 +414,12 @@ public class ReportPlugin extends AbstractUIPlugin
 		{
 			syncService.unregister( );
 			syncService = null;
+		}
+
+		if ( reportClasspathService != null )
+		{
+			reportClasspathService.unregister( );
+			reportClasspathService = null;
 		}
 
 		ignore.clear( );

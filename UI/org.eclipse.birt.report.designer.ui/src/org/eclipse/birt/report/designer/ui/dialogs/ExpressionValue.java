@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * ExpressionValue
+ * 
+ * @deprecated not used anymore
  */
 public class ExpressionValue
 {

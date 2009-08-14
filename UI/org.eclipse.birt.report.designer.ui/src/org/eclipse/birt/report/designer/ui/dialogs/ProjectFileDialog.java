@@ -16,6 +16,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.eclipse.birt.report.designer.internal.ui.actions.ProjectFilterAction;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.FileContentProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.FileLabelProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.FilePathEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
@@ -26,7 +30,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.dialogs.action.ProjectFilterAction;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.core.runtime.IStatus;

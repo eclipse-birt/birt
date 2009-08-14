@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,25 +11,20 @@
 
 package org.eclipse.birt.report.designer.ui;
 
-
 /**
- * Interface used to find classpath based on projects or workspace
- * 
- * @deprecated the function of this class is replaced by
- *             {@link IReportClasspathResolver}
+ * IReportClasspathProvider
  */
-public interface IDatasetWorkspaceClasspathFinder
+public interface IReportClasspathResolver
 {
 
 	/**
-	 * Get classpath based on the provided project names (separated by ;)
+	 * Resolves the class path based on settings on given adaptable object. If
+	 * no adaptable object is provided, it only populates the class path based
+	 * on global settings.
 	 * 
+	 * @param adaptable
+	 *            The object that used to identify the setting scope.
+	 * @return
 	 */
-	String getClassPath( String projects );
-
-	/**
-	 * Get classpath based on projects in workspace
-	 * 
-	 */
-	String getClassPath( );
+	String[] resolveClasspath( Object adaptable );
 }
