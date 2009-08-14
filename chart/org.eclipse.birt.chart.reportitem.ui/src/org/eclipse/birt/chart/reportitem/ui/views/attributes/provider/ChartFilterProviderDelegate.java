@@ -285,7 +285,7 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 				ReportItemHandle ref = ( (ReportItemHandle) handle ).getDataBindingReference( );
 				if ( ChartReportItemUtil.isChartHandle( ref ) )
 				{
-					currentProvider = new ChartShareCubeFiltersHandleProvider( baseProvider );
+					currentProvider = new ChartShareCubeFiltersHandleProvider( new FilterHandleProvider( ) );
 				}
 				else
 				{
@@ -294,7 +294,7 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 			}
 			else
 			{
-				currentProvider = new ChartCubeFilterHandleProvider( baseProvider );
+				currentProvider = new ChartCubeFilterHandleProvider( new FilterHandleProvider( ) );
 			}
 		}
 
