@@ -22,7 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
-import org.eclipse.birt.report.designer.ui.views.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.ReportViewsPlugin;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -778,19 +778,19 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 	private void initSortingType( )
 	{
 		PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ) )
+				.getPreferences( ReportViewsPlugin.getDefault( ) )
 				.setDefault( SORTING_PREFERENCE_KEY,
 						AdvancePropertyDescriptorProvider.MODE_GROUPED );
 
 		provider.selectViewMode( PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ) )
+				.getPreferences( ReportViewsPlugin.getDefault( ) )
 				.getInt( SORTING_PREFERENCE_KEY ) );
 	}
 
 	private void saveSortingType( )
 	{
 		PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ) )
+				.getPreferences( ReportViewsPlugin.getDefault( ) )
 				.setValue( SORTING_PREFERENCE_KEY, provider.getViewMode( ) );
 	}
 
