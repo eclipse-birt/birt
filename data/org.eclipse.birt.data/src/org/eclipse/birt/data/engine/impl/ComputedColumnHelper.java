@@ -23,9 +23,8 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.ScriptContext;
-import org.eclipse.birt.core.script.ScriptExpression;
-import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -41,7 +40,6 @@ import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
-import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationFactory;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
@@ -333,7 +331,7 @@ class ComputedColumnHelperInstance
 	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
 	public ComputedColumnHelperInstance( DataSetRuntime dataSet,
-			List computedColumns, Mode mode, ScriptContext cx )
+			List computedColumns, Mode mode, ScriptContext cx ) throws DataException
 	{
 		// Do not change the assignment of array
 		// TODO enhance.
@@ -343,7 +341,7 @@ class ComputedColumnHelperInstance
 		this.isPrepared = false;
 		this.dataSet = dataSet;
 		this.mode = mode;
-		this.cx = cx;
+		this.cx = cx.newContext( this.dataSet.getScriptScope( ) );
 	}
 
 	public List getComputedColumnList( )
@@ -395,19 +393,22 @@ class ComputedColumnHelperInstance
 					Object value = null;
 					try
 					{
-						if ( computedColumn[i].getExpression( ).getHandle( ) != null )
+						if ( computedColumn[i].getExpression( ).getHandle( ) != null
+								&& computedColumn[i].getExpression( )
+										.getHandle( ) instanceof CompiledExpression )
 							value = ( (CompiledExpression) computedColumn[i].getExpression( )
 									.getHandle( ) ).evaluate( cx,
 									dataSet.getScriptScope( ) );
 						else
 						{
-							String exprText = ( (IScriptExpression) computedColumn[i].getExpression( ) ).getText( );
+							IScriptExpression expr = (IScriptExpression) computedColumn[i].getExpression( ); 
+							String exprText = expr.getText( );
 							if ( exprText != null )
-								value = ScriptEvalUtil.evaluateJSAsExpr( cx,
-										dataSet.getJSDataSetObject( ),
-										exprText,
-										ScriptExpression.defaultID,
-										0 );
+							{
+								ICompiledScript cs = cx.compile( expr.getScriptId( ) , null, 0, exprText );
+								expr.setHandle( cs );
+								value = ScriptEvalUtil.evalExpr( expr, cx, null, 0 );
+							}
 						}
 						if ( computedColumn[i] instanceof GroupComputedColumn )
 						{

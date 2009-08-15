@@ -26,7 +26,9 @@ public abstract class BaseExpression implements IBaseExpression
     protected int			dataType;
     protected Object		handle;
     private String groupName = GROUP_OVERALL;
-    private String scriptId = null;
+    
+    //default script id 
+    private String scriptId = "javascript";
     /**
      * Constructs an instance with unknown data type
      */
