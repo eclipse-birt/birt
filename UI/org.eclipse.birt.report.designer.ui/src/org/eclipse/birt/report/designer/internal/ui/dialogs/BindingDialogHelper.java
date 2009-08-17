@@ -1342,12 +1342,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( expressionHandle == null )
 		{
-			if ( strs[0].trim( ).length( ) == 0 )
+			if ( strs == null || strs[0].trim( ).length( ) == 0 )
 				return true;
 		}
 		else
 		{
-			if ( strEquals( expressionHandle.getStringExpression( ), strs[0] )
+			if ( strs!=null && strEquals( expressionHandle.getStringExpression( ), strs[0] )
 					&& strEquals( expressionHandle.getType( ), strs[1] ) )
 				return true;
 		}

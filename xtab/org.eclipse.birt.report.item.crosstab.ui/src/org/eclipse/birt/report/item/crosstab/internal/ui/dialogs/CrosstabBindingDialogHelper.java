@@ -1212,7 +1212,19 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private boolean exprEquals( Expression left, Expression right )
 	{
-		if ( left.getStringExpression( ) == null
+		if ( left == null && right == null )
+		{
+			return true;
+		}
+		else if ( left == null && right != null )
+		{
+			return false;
+		}
+		else if ( left != null && right == null )
+		{
+			return false;
+		}
+		else if ( left.getStringExpression( ) == null
 				&& right.getStringExpression( ) == null )
 			return true;
 		else if ( strEquals( left.getStringExpression( ),
