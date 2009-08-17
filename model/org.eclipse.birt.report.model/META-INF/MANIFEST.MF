@@ -23,6 +23,8 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.api.filterExtension,
  org.eclipse.birt.report.model.api.filterExtension.interfaces,
  org.eclipse.birt.report.model.api.metadata,
+ org.eclipse.birt.report.model.api.oda,
+ org.eclipse.birt.report.model.api.oda.interfaces,
  org.eclipse.birt.report.model.api.olap,
  org.eclipse.birt.report.model.api.scripts,
  org.eclipse.birt.report.model.api.simpleapi,
