@@ -2412,7 +2412,7 @@
 		<Default>true</Default>
 	</Property>
 	<Property displayNameID="Element.ReportItem.pushDown" name="pushDown" since="2.5" type="boolean" >
-		<Default>false</Default>
+		<Default>true</Default>
 	</Property>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 

@@ -169,7 +169,7 @@ public class LabelItemParserTest extends ParserTestCase
 				.findElement( "listDetailLabel" ); //$NON-NLS-1$
 
 		assertEquals( "list detail", labelHandle.getText( ) ); //$NON-NLS-1$
-		assertFalse( labelHandle.pushDown( ) );
+		assertTrue( labelHandle.pushDown( ) );
 
 		// reads in a label that exists in the list footer.
 

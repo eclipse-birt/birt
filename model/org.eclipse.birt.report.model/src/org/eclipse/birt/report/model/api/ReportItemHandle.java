@@ -33,11 +33,13 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
+import org.eclipse.birt.report.model.util.VersionUtil;
 
 /**
  * Represents a report item: any element that can appear within a section of the
@@ -1473,4 +1475,50 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		setProperty( PUSH_DOWN_PROP, Boolean.valueOf( pushDown ) );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getBooleanProperty
+	 * (java.lang.String)
+	 */
+	public boolean getBooleanProperty( String propName )
+	{
+		if ( IReportItemModel.PUSH_DOWN_PROP.equals( propName ) )
+		{
+			Object pushDown = ReportItemPropSearchStrategy.getInstance( )
+					.getPropertyFromElement( module, element,
+							element.getPropertyDefn( propName ) );
+			if ( pushDown != null )
+			{
+				assert pushDown instanceof Boolean;
+				return ( (Boolean) pushDown ).booleanValue( );
+			}
+			else if ( module.getVersionManager( ) == null
+					|| VersionUtil.parseVersion( module.getVersionManager( )
+							.getVersion( ) ) < VersionUtil.VERSION_3_2_20 )
+			{
+				return false;
+			}
+		}
+		return super.getBooleanProperty( propName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getProperty(java
+	 * .lang.String)
+	 */
+	public Object getProperty( String propName )
+	{
+		if ( IReportItemModel.PUSH_DOWN_PROP.equals( propName ) )
+		{
+			return getBooleanProperty( propName );
+		}
+		return super.getProperty( propName );
+	}
+
 }

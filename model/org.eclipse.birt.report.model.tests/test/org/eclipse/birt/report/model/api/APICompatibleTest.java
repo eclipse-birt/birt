@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -517,4 +518,26 @@ public class APICompatibleTest extends BaseTestCase
 		assertEquals( IExpressionType.CONSTANT, defaultValue.getType( ) );
 	}
 
+	/**
+	 * Backward for the default value of the pushDown property of ReportItem
+	 */
+	public void testReportItemPushDownValue( ) throws Exception
+	{
+		createDesign( );
+		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
+		designHandle.getBody( ).add( label );
+
+		assertFalse( label.pushDown( ) );
+
+		label.setPushDown( true );
+		assertTrue( label.pushDown( ) );
+
+		design.getVersionManager( ).setVersion( "3.2.20" ); //$NON-NLS-1$				
+		label.setProperty( IReportItemModel.PUSH_DOWN_PROP, null );
+		assertEquals( label.getPropertyDefn( IReportItemModel.PUSH_DOWN_PROP )
+				.getDefault( ), label.pushDown( ) );
+		
+		label.setPushDown( false );
+		assertFalse( label.pushDown( ) );
+	}
 }
