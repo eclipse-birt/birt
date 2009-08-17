@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -588,7 +589,7 @@ public abstract class ReportElementState extends DesignParseState
 				return;
 			}
 			DesignElement parent = content.getExtendsElement( );
-			if ( id == Module.ELEMENT_NAME_SPACE && parent != null )
+			if ( id == ReportDesign.ELEMENT_NAME_SPACE && parent != null )
 			{
 				if ( parent.getContainerInfo( ).getSlotID( ) != IModuleModel.COMPONENT_SLOT )
 				// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(

@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -64,7 +64,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * The design session that will own this module.
 	 */
 
-	protected DesignSession session = null;
+	protected DesignSessionImpl session = null;
 
 	/**
 	 * The module being created.
@@ -162,7 +162,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 *            name of the module file
 	 */
 
-	protected ModuleParserHandler( DesignSession theSession, String fileName )
+	protected ModuleParserHandler( DesignSessionImpl theSession, String fileName )
 	{
 		super( new ModuleParserErrorHandler( ) );
 		this.session = theSession;
@@ -179,8 +179,8 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * @param reloadLibs
 	 */
 
-	protected ModuleParserHandler( DesignSession theSession, String fileName,
-			Map<String, Library> reloadLibs )
+	protected ModuleParserHandler( DesignSessionImpl theSession,
+			String fileName, Map<String, Library> reloadLibs )
 	{
 		super( new ModuleParserErrorHandler( ) );
 		this.session = theSession;
@@ -654,6 +654,16 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	final void addExtendedItem( ExtendedItem element )
 	{
 		extendedItemList.add( element );
+	}
+
+	/**
+	 * Determines whether the module is opened in read-only status or not.
+	 * 
+	 * @return
+	 */
+	public boolean isReadOnlyModuleProperties( )
+	{
+		return isReadOnlyModuleProperties;
 	}
 
 	/**

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataSource;
 
@@ -33,9 +32,9 @@ public abstract class DataSourceState extends ReportElementState
 	 *            the design file parser handler
 	 */
 
-	public DataSourceState( ModuleParserHandler handler )
+	public DataSourceState( ModuleParserHandler handler, int slot )
 	{
-		super( handler, handler.getModule( ), IModuleModel.DATA_SOURCE_SLOT );
+		super( handler, handler.getModule( ), slot);
 	}
 
 	/*

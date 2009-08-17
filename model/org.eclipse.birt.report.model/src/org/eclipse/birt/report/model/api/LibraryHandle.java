@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -104,7 +103,7 @@ import org.eclipse.birt.report.model.util.StyleUtil;
  * </ul>
  */
 
-public class LibraryHandle extends ModuleHandle implements ILibraryModel
+public class LibraryHandle extends LayoutModuleHandle implements ILibraryModel
 {
 
 	/**
@@ -131,17 +130,6 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		if ( host == null )
 			return null;
 		return (ModuleHandle) host.getHandle( getModule( ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
-	 */
-
-	public DesignElement getElement( )
-	{
-		return module;
 	}
 
 	/**

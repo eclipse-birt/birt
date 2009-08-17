@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DerivedDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableElementModel;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -40,9 +40,10 @@ public class DerivedDataSetState extends ReportElementState
 	 *            the design file parser handler
 	 */
 
-	public DerivedDataSetState( ModuleParserHandler handler )
+	public DerivedDataSetState( ModuleParserHandler handler, Module module,
+			int slot )
 	{
-		super( handler, handler.getModule( ), IModuleModel.DATA_SET_SLOT );
+		super( handler, module, slot );
 		element = new DerivedDataSet( );
 	}
 

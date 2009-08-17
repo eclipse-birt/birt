@@ -13,8 +13,8 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -45,9 +45,10 @@ public class JointDataSetState extends ReportElementState
 	 *            the design file parser handler
 	 */
 
-	public JointDataSetState( ModuleParserHandler handler )
+	public JointDataSetState( ModuleParserHandler handler, Module module,
+			int slot )
 	{
-		super( handler, handler.getModule( ), IModuleModel.DATA_SET_SLOT );
+		super( handler, module, slot );
 		element = new JointDataSet( );
 	}
 
@@ -65,7 +66,9 @@ public class JointDataSetState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException

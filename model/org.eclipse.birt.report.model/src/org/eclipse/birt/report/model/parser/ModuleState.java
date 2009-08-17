@@ -172,7 +172,7 @@ public abstract class ModuleState extends DesignParseState
 	 * Parses the contents of the list of data sources.
 	 */
 
-	static class DataSourcesState extends SlotState
+	public static class DataSourcesState extends SlotState
 	{
 
 		/*
@@ -183,7 +183,7 @@ public abstract class ModuleState extends DesignParseState
 		 * (java.lang.String)
 		 */
 
-		protected DataSourcesState( ModuleParserHandler handler,
+		public DataSourcesState( ModuleParserHandler handler,
 				DesignElement container, int slot )
 		{
 			super( handler, container, slot );
@@ -193,11 +193,11 @@ public abstract class ModuleState extends DesignParseState
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.SCRIPT_DATA_SOURCE_TAG == tagValue )
-				return new ScriptDataSourceState( handler );
+				return new ScriptDataSourceState( handler, slotID );
 			if ( ParserSchemaConstants.ODA_DATA_SOURCE_TAG == tagValue
 					|| ParserSchemaConstants.EXTENDED_DATA_SOURCE_TAG == tagValue )
 			{
-				return new OdaDataSourceState( handler );
+				return new OdaDataSourceState( handler, slotID );
 			}
 			return super.startElement( tagName );
 		}
@@ -207,7 +207,7 @@ public abstract class ModuleState extends DesignParseState
 	 * Parses the contents of the list of data sets.
 	 */
 
-	static class DataSetsState extends SlotState
+	public static class DataSetsState extends SlotState
 	{
 
 		/*
@@ -218,7 +218,7 @@ public abstract class ModuleState extends DesignParseState
 		 * (java.lang.String)
 		 */
 
-		protected DataSetsState( ModuleParserHandler handler,
+		public DataSetsState( ModuleParserHandler handler,
 				DesignElement container, int slot )
 		{
 			super( handler, container, slot );
@@ -236,18 +236,19 @@ public abstract class ModuleState extends DesignParseState
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.SCRIPT_DATA_SET_TAG == tagValue )
-				return new ScriptDataSetState( handler );
+				return new ScriptDataSetState( handler, handler.module, slotID );
 			if ( ParserSchemaConstants.ODA_DATA_SET_TAG == tagValue
 					|| ParserSchemaConstants.EXTENDED_DATA_SET_TAG == tagValue )
 			{
-				return new OdaDataSetState( handler );
+				return new OdaDataSetState( handler, handler.module, slotID );
 			}
 			if ( ParserSchemaConstants.TEMPLATE_DATA_SET_TAG == tagValue )
-				return new TemplateDataSetState( handler );
+				return new TemplateDataSetState( handler, handler.module,
+						slotID );
 			if ( ParserSchemaConstants.JOINT_DATA_SET_TAG == tagValue )
-				return new JointDataSetState( handler );
+				return new JointDataSetState( handler, handler.module, slotID );
 			if ( ParserSchemaConstants.DERIVED_DATA_SET_TAG == tagValue )
-				return new DerivedDataSetState( handler );
+				return new DerivedDataSetState( handler, handler.module, slotID );
 			return super.startElement( tagName );
 		}
 	}
@@ -502,7 +503,7 @@ public abstract class ModuleState extends DesignParseState
 	 * Parses the contents of the list of styles.
 	 */
 
-	static class CubesState extends SlotState
+	public static class CubesState extends SlotState
 	{
 
 		/*
@@ -513,7 +514,7 @@ public abstract class ModuleState extends DesignParseState
 		 * (java.lang.String)
 		 */
 
-		protected CubesState( ModuleParserHandler handler,
+		public CubesState( ModuleParserHandler handler,
 				DesignElement container, int slot )
 		{
 			super( handler, container, slot );

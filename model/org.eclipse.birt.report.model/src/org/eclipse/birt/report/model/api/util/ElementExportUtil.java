@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
@@ -91,7 +91,7 @@ public class ElementExportUtil
 	{
 		ElementExporter.checkElementToExport( elementToExport, true );
 
-		DesignSession session = elementToExport.getModule( ).getSession( );
+		DesignSessionImpl session = elementToExport.getModule( ).getSession( );
 		LibraryHandle libraryHandle = openOrCreateLibrary( session,
 				libraryFileName );
 		assert libraryHandle != null;
@@ -132,7 +132,7 @@ public class ElementExportUtil
 			String libraryFileName, boolean canOverride )
 			throws DesignFileException, SemanticException, IOException
 	{
-		DesignSession session = null;
+		DesignSessionImpl session = null;
 
 		// Check the elements to export
 
@@ -264,8 +264,8 @@ public class ElementExportUtil
 			throws DesignFileException, SemanticException, IOException
 	{
 		ElementExporter.checkStructureToExport( structToExport, true );
-		DesignSession session = structToExport.getElementHandle( ).getModule( )
-				.getSession( );
+		DesignSessionImpl session = structToExport.getElementHandle( )
+				.getModule( ).getSession( );
 		LibraryHandle libraryHandle = openOrCreateLibrary( session,
 				libraryFileName );
 		assert libraryHandle != null;
@@ -307,7 +307,7 @@ public class ElementExportUtil
 			String libraryFileName, boolean canOverride )
 			throws DesignFileException, SemanticException, IOException
 	{
-		DesignSession session = null;
+		DesignSessionImpl session = null;
 
 		// Check the structs to export
 
@@ -404,7 +404,7 @@ public class ElementExportUtil
 			String libraryFileName, boolean canOverride, boolean genDefaultName )
 			throws DesignFileException, SemanticException, IOException
 	{
-		DesignSession session = designToExport.getModule( ).getSession( );
+		DesignSessionImpl session = designToExport.getModule( ).getSession( );
 		LibraryHandle libraryHandle = openOrCreateLibrary( session,
 				libraryFileName );
 		assert libraryHandle != null;
@@ -488,8 +488,9 @@ public class ElementExportUtil
 	 *             file name.
 	 */
 
-	private static LibraryHandle openOrCreateLibrary( DesignSession session,
-			String libraryFileName ) throws DesignFileException
+	private static LibraryHandle openOrCreateLibrary(
+			DesignSessionImpl session, String libraryFileName )
+			throws DesignFileException
 	{
 
 		try

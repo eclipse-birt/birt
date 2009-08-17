@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -47,7 +47,7 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 
 	private ModuleOption options = null;
 
-	GenericModuleParserHandler( DesignSession theSession, URL systemID,
+	GenericModuleParserHandler( DesignSessionImpl theSession, URL systemID,
 			String fileName, ModuleOption options )
 	{
 		super( theSession, fileName );
@@ -58,7 +58,7 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 		this.location = ModelUtil.getURLPresentation( fileName );
 	}
 
-	GenericModuleParserHandler( DesignSession theSession, URL systemID,
+	GenericModuleParserHandler( DesignSessionImpl theSession, URL systemID,
 			String fileName, ModuleOption options,
 			Map<String, Library> reloadLibs )
 	{

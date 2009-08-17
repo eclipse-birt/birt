@@ -16,7 +16,7 @@ import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.util.URIUtilImpl;
 
@@ -74,7 +74,7 @@ public class GenericModuleReader extends ModuleReader
 	 *             exception.
 	 */
 
-	public Module read( DesignSession session, String fileName,
+	public Module read( DesignSessionImpl session, String fileName,
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
@@ -102,7 +102,7 @@ public class GenericModuleReader extends ModuleReader
 	 * @return the internal representation of the library
 	 */
 
-	public Module read( DesignSession session, URL systemId,
+	public Module read( DesignSessionImpl session, URL systemId,
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
@@ -129,7 +129,7 @@ public class GenericModuleReader extends ModuleReader
 	 *             run-time exception.
 	 */
 
-	public Module read( DesignSession session, String fileName,
+	public Module read( DesignSessionImpl session, String fileName,
 			ModuleOption options ) throws DesignFileException
 	{
 		URL systemId = URIUtilImpl.getDirectory( fileName );

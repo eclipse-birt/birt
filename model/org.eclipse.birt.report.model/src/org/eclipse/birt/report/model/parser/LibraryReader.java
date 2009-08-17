@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 
@@ -86,7 +87,7 @@ public final class LibraryReader extends ModuleReader
 	 *             run-time exception.
 	 */
 
-	public Library read( DesignSession session, Module host, String fileName,
+	public Library read( DesignSessionImpl session, Module host, String fileName,
 			String namespace, InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
@@ -123,7 +124,7 @@ public final class LibraryReader extends ModuleReader
 	 *             xml, that there is unsupported tags and that there is
 	 *             run-time exception.
 	 */
-	public Library read( DesignSession session, Module host, URL url,
+	public Library read( DesignSessionImpl session, Module host, URL url,
 			String namespace, InputStream inputStream, ModuleOption options,
 			Map<String, Library> reloadLibs ) throws DesignFileException
 	{
@@ -154,7 +155,7 @@ public final class LibraryReader extends ModuleReader
 	 *             run-time exception.
 	 */
 
-	public Library read( DesignSession session, String fileName,
+	public Library read( DesignSessionImpl session, String fileName,
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
@@ -181,7 +182,7 @@ public final class LibraryReader extends ModuleReader
 	 * @return the internal representation of the library
 	 */
 
-	public Library read( DesignSession session, URL systemId,
+	public Library read( DesignSessionImpl session, URL systemId,
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
@@ -208,7 +209,7 @@ public final class LibraryReader extends ModuleReader
 	 *             run-time exception.
 	 */
 
-	public Library read( DesignSession session, String fileName,
+	public Library read( DesignSessionImpl session, String fileName,
 			ModuleOption options ) throws DesignFileException
 	{
 		LibraryParserHandler handler = new LibraryParserHandler( session,

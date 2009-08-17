@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
@@ -163,7 +163,7 @@ public class ContextCopyPastePolicy
 
 		DesignElement copiedElement = copy.getCopy( );
 
-		DesignSession session = module.getSession( );
+		DesignSessionImpl session = module.getSession( );
 		Module copiedRoot = session.getOpenedModule( location );
 		if ( copiedRoot == null )
 			return copy.getLocalizedCopy( );

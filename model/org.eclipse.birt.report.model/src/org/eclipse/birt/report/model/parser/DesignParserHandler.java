@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -42,7 +42,7 @@ public class DesignParserHandler extends ModuleParserHandler
 	 *            the options set for this module
 	 */
 
-	public DesignParserHandler( DesignSession theSession, String fileName,
+	public DesignParserHandler( DesignSessionImpl theSession, String fileName,
 			ModuleOption options )
 	{
 		super( theSession, fileName );
@@ -74,7 +74,7 @@ public class DesignParserHandler extends ModuleParserHandler
 	 *            the options set for this module
 	 */
 
-	public DesignParserHandler( DesignSession theSession, URL systemId,
+	public DesignParserHandler( DesignSessionImpl theSession, URL systemId,
 			ModuleOption options )
 	{
 		super( theSession, systemId.toExternalForm( ) );

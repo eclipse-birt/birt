@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.core;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +47,6 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
@@ -58,19 +55,15 @@ import org.eclipse.birt.report.model.core.namespace.INameContainer;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
-import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
-import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -78,15 +71,9 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
-import org.eclipse.birt.report.model.parser.DesignParserException;
-import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
-import org.eclipse.birt.report.model.util.LibraryUtil;
 import org.eclipse.birt.report.model.util.LineNumberInfo;
-import org.eclipse.birt.report.model.util.ModelUtil;
-import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.util.StructureRefUtil;
 import org.eclipse.birt.report.model.util.VersionControlMgr;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
@@ -119,56 +106,47 @@ public abstract class Module extends DesignElement
 	/**
 	 * Identifier for the shared style name space.
 	 */
-
 	public static final int STYLE_NAME_SPACE = 0;
 
 	/**
 	 * Identifier of the name space that stores layout elements that appear in
 	 * the Body slot.
 	 */
-
 	public static final int ELEMENT_NAME_SPACE = 1;
 
 	/**
 	 * Identifier for the parameter name space.
 	 */
-
 	public static final int PARAMETER_NAME_SPACE = 2;
 
 	/**
 	 * Identifier for the data source name space.
 	 */
-
 	public static final int DATA_SOURCE_NAME_SPACE = 3;
 
 	/**
 	 * Identifier for the data set name space.
 	 */
-
 	public static final int DATA_SET_NAME_SPACE = 4;
 
 	/**
 	 * Identifier for the master page name space.
 	 */
-
 	public static final int PAGE_NAME_SPACE = 5;
 
 	/**
 	 * Identifier for the theme name space.
 	 */
-
 	public static final int THEME_NAME_SPACE = 6;
 
 	/**
 	 * Identifier for the template parameter definition name space.
 	 */
-
 	public static final int TEMPLATE_PARAMETER_NAME_SPACE = 7;
 
 	/**
 	 * Identifier for the cube element name space.
 	 */
-
 	public static final int CUBE_NAME_SPACE = 8;
 
 	/**
@@ -179,26 +157,33 @@ public abstract class Module extends DesignElement
 	/**
 	 * Number of defined name spaces.
 	 */
-
 	public static final int NAME_SPACE_COUNT = 10;
 
 	/**
 	 * The session that owns this module.
 	 */
+	protected DesignSessionImpl session;
 
-	protected DesignSession session;
+	/**
+	 * Name helper for this module. Generally, all the module will define its
+	 * name helper, such as report design, library and data mart and so on.
+	 */
+	protected INameHelper nameHelper = null;
 
 	/**
 	 * The number of the next element ID.
 	 */
-
 	protected long elementIDCounter = 1;
 
 	/**
 	 * The hash map for the id-to-element lookup.
 	 */
-
 	protected HashMap<Long, DesignElement> idMap = new HashMap<Long, DesignElement>( );
+
+	/**
+	 * Information member for line numbers.
+	 */
+	protected LineNumberInfo lineNoInfo = null;
 
 	/**
 	 * The undo/redo stack for operations on this module.
@@ -212,27 +197,6 @@ public abstract class Module extends DesignElement
 	 */
 
 	protected int saveState = 0;
-
-	/**
-	 * Internal table to store a bunch of user-defined messages. One message can
-	 * be defined in several translations, one translation per locale.
-	 */
-
-	protected TranslationTable translations = new TranslationTable( );
-
-	/**
-	 * The property definition list of all the referencable structure list
-	 * property. Each one in the list is instance of <code>IPropertyDefn</code>
-	 */
-
-	private HashMap<String, IElementPropertyDefn> referencableProperties = null;
-
-	/**
-	 * Accumulates errors and warnings during a batch operation. Each one is the
-	 * instance of <code>Exception</code>.
-	 */
-
-	protected List<Exception> allExceptions = new ArrayList<Exception>( );
 
 	/**
 	 * The validation executor. It performs the semantic validation and sends
@@ -252,8 +216,28 @@ public abstract class Module extends DesignElement
 	 * The file name. Null means that the module has not yet been saved to a
 	 * file.
 	 */
-
 	protected String fileName = null;
+
+	/**
+	 * The UTF signature.
+	 */
+	protected String signature = null;
+
+	/**
+	 * Accumulates errors and warnings during a batch operation. Each one is the
+	 * instance of <code>Exception</code>.
+	 */
+	protected List<Exception> allExceptions = new ArrayList<Exception>( );
+
+	/**
+	 * Dispose listener list to handle the design disposal events.
+	 */
+	protected List<IDisposeListener> disposeListeners = null;
+
+	/**
+	 * Resource change listener list to handle the resource change events.
+	 */
+	protected List<IResourceChangeListener> resourceChangeListeners = null;
 
 	/**
 	 * The system id which is needed for resolving relative URIs. It can be a
@@ -272,84 +256,33 @@ public abstract class Module extends DesignElement
 	private URL location = null;
 
 	/**
-	 * The UTF signature.
-	 */
-
-	protected String signature = null;
-
-	/**
-	 * The default units for the design.
-	 */
-	protected String units = null;
-
-	/**
-	 * All libraries which are included in this module.
-	 */
-
-	private List<Library> libraries = null;
-
-	/**
-	 * The attribute listener list to handle the file name changed events.
-	 */
-
-	private List<IAttributeListener> attributeListeners = null;
-
-	/**
-	 * Dispose listener list to handle the design disposal events.
-	 */
-
-	private List<IDisposeListener> disposeListeners = null;
-
-	/**
-	 * Resource change listener list to handle the resource change events.
-	 */
-
-	private List<IResourceChangeListener> resourceChangeListeners = null;
-
-	/**
-	 * The theme for the module.
-	 */
-
-	private ElementRefValue theme = null;
-
-	/**
-	 * The fatal exception found in the included modules, which will stop
-	 * opening the outer-most module.
-	 */
-
-	protected Exception fatalException;
-
-	/**
-	 * The registered API backward compatibility manager of this module.
-	 */
-
-	protected VersionControlMgr versionMgr = null;
-
-	/**
 	 * Options set for this module.
 	 */
 
 	protected ModuleOption options = null;
 
 	/**
-	 * Information member for line numbers.
+	 * Status that justifies whether this module does some cache for performance
+	 * improvement or not. It will be set to TRUE when calling
+	 * {@link #cacheValues()}.
 	 */
-
-	protected LineNumberInfo lineNoInfo = null;
-
-	/**
-	 * 
-	 */
-	protected INameHelper nameHelper = null;
+	private boolean isCached = false;
 
 	/**
 	 * Caches the bundles. The key is file name, the value is the list of
 	 * <code>CachedBundles</code>>.
 	 */
-
 	private CachedBundles cachedBundles = null;
 
-	private boolean isCached = false;
+	/**
+	 * The registered API backward compatibility manager of this module.
+	 */
+	protected VersionControlMgr versionMgr = null;
+
+	/**
+	 * The attribute listener list to handle the file name changed events.
+	 */
+	private List<IAttributeListener> attributeListeners = null;
 
 	/**
 	 * Default constructor.
@@ -358,13 +291,9 @@ public abstract class Module extends DesignElement
 	 *            the session of the report
 	 */
 
-	protected Module( DesignSession theSession )
+	protected Module( DesignSessionImpl theSession )
 	{
 		session = theSession;
-
-		// initialize name helper
-		this.nameHelper = new ModuleNameHelper( this );
-
 		versionMgr = new VersionControlMgr( );
 	}
 
@@ -375,52 +304,9 @@ public abstract class Module extends DesignElement
 	 * @return the design session
 	 */
 
-	public DesignSession getSession( )
+	public DesignSessionImpl getSession( )
 	{
 		return session;
-	}
-
-	/**
-	 * Finds a shared style in this module itself.
-	 * 
-	 * @param name
-	 *            Name of the style to find.
-	 * @return The style, or null if the style is not found.
-	 */
-
-	public StyleElement findNativeStyle( String name )
-	{
-		return (StyleElement) nameHelper.getNameSpace( STYLE_NAME_SPACE )
-				.getElement( name );
-	}
-
-	/**
-	 * Finds a shared style in this module and its included modules.
-	 * 
-	 * @param name
-	 *            Name of the style to find.
-	 * @return The style, or null if the style is not found.
-	 */
-
-	public StyleElement findStyle( String name )
-	{
-		return (StyleElement) resolveElement( name, null, MetaDataDictionary
-				.getInstance( )
-				.getElement( ReportDesignConstants.STYLE_ELEMENT ) );
-	}
-
-	/**
-	 * Finds a named report item in this module and the included modules. This
-	 * is for body elements in the element's name space.
-	 * 
-	 * @param name
-	 *            The name of the element to find.
-	 * @return The element, or null if the element is not found.
-	 */
-
-	public DesignElement findElement( String name )
-	{
-		return resolveNativeElement( name, ELEMENT_NAME_SPACE );
 	}
 
 	/**
@@ -431,7 +317,7 @@ public abstract class Module extends DesignElement
 	 * @return the data source, or null if the data source is not found.
 	 */
 
-	public DesignElement findDataSource( String name )
+	public final DesignElement findDataSource( String name )
 	{
 		return resolveElement( name, null, MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.DATA_SOURCE_ELEMENT ) );
@@ -445,36 +331,10 @@ public abstract class Module extends DesignElement
 	 * @return the data set, or null if the data set is not found.
 	 */
 
-	public DesignElement findDataSet( String name )
+	public final DesignElement findDataSet( String name )
 	{
 		return resolveElement( name, null, MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.DATA_SET_ELEMENT ) );
-	}
-
-	/**
-	 * Finds a master page by name in this module and the included modules.
-	 * 
-	 * @param name
-	 *            the master page name.
-	 * @return the master page, if found, otherwise null.
-	 */
-
-	public DesignElement findPage( String name )
-	{
-		return resolveNativeElement( name, PAGE_NAME_SPACE );
-	}
-
-	/**
-	 * Finds a parameter by name in this module and the included modules.
-	 * 
-	 * @param name
-	 *            The parameter name.
-	 * @return The parameter, if found, otherwise null.
-	 */
-
-	public DesignElement findParameter( String name )
-	{
-		return resolveNativeElement( name, PARAMETER_NAME_SPACE );
 	}
 
 	/**
@@ -485,7 +345,7 @@ public abstract class Module extends DesignElement
 	 * @return the cube element, if found, otherwise null
 	 */
 
-	public DesignElement findOLAPElement( String name )
+	public final DesignElement findOLAPElement( String name )
 	{
 		return resolveNativeElement( name, CUBE_NAME_SPACE );
 	}
@@ -498,7 +358,7 @@ public abstract class Module extends DesignElement
 	 * @param name
 	 * @return the level with the given full name
 	 */
-	public DesignElement findLevel( String name )
+	public final DesignElement findLevel( String name )
 	{
 		return resolveElement( name, null, MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.LEVEL_ELEMENT ) );
@@ -511,7 +371,7 @@ public abstract class Module extends DesignElement
 	 * @return The ID to assign to the new element.
 	 */
 
-	public long getNextID( )
+	public final long getNextID( )
 	{
 		return elementIDCounter++;
 	}
@@ -526,7 +386,7 @@ public abstract class Module extends DesignElement
 	 *            The new element to add.
 	 */
 
-	public void addElementID( DesignElement element )
+	public final void addElementID( DesignElement element )
 	{
 		assert idMap != null;
 
@@ -551,7 +411,7 @@ public abstract class Module extends DesignElement
 	 *            the id to add
 	 */
 
-	public void addElementID( long id )
+	public final void addElementID( long id )
 	{
 		if ( this.elementIDCounter <= id )
 		{
@@ -569,7 +429,7 @@ public abstract class Module extends DesignElement
 	 *            The old element to remove.
 	 */
 
-	public void dropElementID( DesignElement element )
+	public final void dropElementID( DesignElement element )
 	{
 		if ( idMap == null )
 			return;
@@ -583,7 +443,7 @@ public abstract class Module extends DesignElement
 	 * Initializes the line number hash map.
 	 */
 
-	public void initLineNoMap( )
+	public final void initLineNoMap( )
 	{
 		lineNoInfo = new LineNumberInfo( );
 	}
@@ -602,7 +462,7 @@ public abstract class Module extends DesignElement
 	 *         IDs are not enabled.
 	 */
 
-	public DesignElement getElementByID( long id )
+	public final DesignElement getElementByID( long id )
 	{
 		if ( idMap == null )
 			return null;
@@ -620,7 +480,7 @@ public abstract class Module extends DesignElement
 	 * @return the line number
 	 */
 
-	public int getLineNo( Object obj )
+	public final int getLineNo( Object obj )
 	{
 		return lineNoInfo.get( obj );
 	}
@@ -653,7 +513,7 @@ public abstract class Module extends DesignElement
 	 *            the line number
 	 */
 
-	public void addLineNo( Object obj, Integer lineNo )
+	public final void addLineNo( Object obj, Integer lineNo )
 	{
 		if ( lineNoInfo == null )
 			return;
@@ -667,7 +527,7 @@ public abstract class Module extends DesignElement
 	 * @return The "command" stack.
 	 */
 
-	public ActivityStack getActivityStack( )
+	public final ActivityStack getActivityStack( )
 	{
 		return activityStack;
 	}
@@ -676,22 +536,13 @@ public abstract class Module extends DesignElement
 	 * Prepares to save this module. Sets the modification date.
 	 */
 
-	public void prepareToSave( )
-	{
-		if ( options != null )
-		{
-			String createdBy = (String) options
-					.getProperty( ModuleOption.CREATED_BY_KEY );
-			if ( createdBy != null )
-				setProperty( Module.CREATED_BY_PROP, createdBy );
-		}
-	}
+	public abstract void prepareToSave( );
 
 	/**
 	 * Records a successful save.
 	 */
 
-	public void onSave( )
+	public final void onSave( )
 	{
 		saveState = activityStack.getCurrentTransNo( );
 		nameHelper.clear( );
@@ -705,7 +556,7 @@ public abstract class Module extends DesignElement
 	 *         disk, false if the two representations are the same
 	 */
 
-	public boolean isDirty( )
+	public final boolean isDirty( )
 	{
 		return saveState != activityStack.getCurrentTransNo( );
 	}
@@ -717,7 +568,7 @@ public abstract class Module extends DesignElement
 	 *            save state mark
 	 */
 
-	public void setSaveState( int saveState )
+	public final void setSaveState( int saveState )
 	{
 		this.saveState = saveState;
 	}
@@ -726,7 +577,7 @@ public abstract class Module extends DesignElement
 	 * Called when creating a new module.
 	 */
 
-	protected void onCreate( )
+	protected final void onCreate( )
 	{
 		// Force an update when the module is created.
 		// This value should be same as the transaction number
@@ -739,7 +590,7 @@ public abstract class Module extends DesignElement
 	 * Close this module.
 	 */
 
-	public void close( )
+	public final void close( )
 	{
 		isValid = false;
 
@@ -771,13 +622,10 @@ public abstract class Module extends DesignElement
 		module.disposeListeners = null;
 		module.resourceChangeListeners = null;
 		module.elementIDCounter = 1;
-		module.fatalException = null;
 		module.idMap = new HashMap<Long, DesignElement>( );
 		module.lineNoInfo = null;
 		module.nameHelper = new ModuleNameHelper( module );
-		module.referencableProperties = null;
 		module.saveState = 0;
-		module.translations = (TranslationTable) translations.clone( );
 		module.validationExecutor = new ValidationExecutor( module );
 		module.validationListeners = null;
 		assert module.getID( ) > NO_ID;
@@ -787,28 +635,6 @@ public abstract class Module extends DesignElement
 		// disable the caching, if the original cache is able, we will
 		// overwrite doClone in ReportDesign to do the caching
 		module.isCached = false;
-
-		// clone theme property
-		if ( theme != null )
-			module.theme = new ElementRefValue( theme.getLibraryNamespace( ),
-					theme.getName( ) );
-		else
-			module.theme = null;
-
-		// clone libraries
-
-		if ( libraries != null )
-		{
-			module.libraries = new ArrayList<Library>( );
-			for ( int i = 0; i < libraries.size( ); i++ )
-			{
-				Library lib = (Library) libraries.get( i ).doClone( policy );
-				lib.setHost( module );
-				module.libraries.add( lib );
-			}
-		}
-		else
-			module.libraries = null;
 
 		// build name space and id map
 
@@ -826,10 +652,6 @@ public abstract class Module extends DesignElement
 				buildNameSpaceAndIDMap( module, innerElement );
 			}
 		}
-
-		// call semantic check
-
-		module.semanticCheck( module );
 
 		return module;
 	}
@@ -905,116 +727,6 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Adds a new Translation entry to the module. A report file can reference
-	 * message IDs that are defined by the customers. One entry of
-	 * <code>Translation</code> represents a translated message for a specific
-	 * locale.
-	 * <p>
-	 * 
-	 * @param translation
-	 *            new entry of <code>Translation</code> that are to be added to
-	 *            the module.
-	 */
-
-	public void addTranslation( Translation translation )
-	{
-		translations.add( translation );
-	}
-
-	/**
-	 * Drops a Translation from the module.
-	 * <p>
-	 * 
-	 * @param translation
-	 *            the translation to be dropped from the module.
-	 * 
-	 * @return <code>true</code> if the report module contains the given
-	 *         translation.
-	 */
-
-	public boolean dropTranslation( Translation translation )
-	{
-		return translations.remove( translation );
-	}
-
-	/**
-	 * Finds a <code>Translation</code> by the message resource key and the
-	 * locale.
-	 * <p>
-	 * 
-	 * @param resourceKey
-	 *            resourceKey of the user-defined message where the translation
-	 *            is defined in.
-	 * @param locale
-	 *            locale for the translation. Locale is in java-defined format(
-	 *            en, en-US, zh_CN, etc.)
-	 * @return the <code>Translation</code> that matches. return null if the
-	 *         translation is not found in the report.
-	 */
-
-	public Translation findTranslation( String resourceKey, String locale )
-	{
-		return translations.findTranslation( resourceKey, locale );
-	}
-
-	/**
-	 * Returns if the specified translation is contained in the translation
-	 * table.
-	 * 
-	 * @param trans
-	 *            a given <code>Translation</code>
-	 * @return <code>true</code> if the <code>Translation</code> is contained in
-	 *         the translation table, return <code>false</code> otherwise.
-	 */
-
-	public boolean contains( Translation trans )
-	{
-		return translations.contains( trans );
-	}
-
-	/**
-	 * Returns the whole collection of translations defined for the report
-	 * module.
-	 * <p>
-	 * 
-	 * @return a list containing all the Translations.
-	 */
-
-	public List<Translation> getTranslations( )
-	{
-		return translations.getTranslations( );
-	}
-
-	/**
-	 * Returns the collection of translations defined for a specific message.
-	 * The message is presented by its resourceKey.
-	 * <p>
-	 * 
-	 * @param resourceKey
-	 *            resource key for the message.
-	 * @return a list containing all the Translations defined for the message.
-	 */
-
-	public List<Translation> getTranslations( String resourceKey )
-	{
-		return translations.getTranslations( resourceKey );
-	}
-
-	/**
-	 * Returns a string array containing all the resource keys defined for
-	 * messages.
-	 * <p>
-	 * 
-	 * @return a string array containing all the resource keys defined for
-	 *         messages return null if there is no messages stored.
-	 */
-
-	public String[] getTranslationResourceKeys( )
-	{
-		return translations.getResourceKeys( );
-	}
-
-	/**
 	 * Finds user defined messages for the current thread's locale.
 	 * 
 	 * @param resourceKey
@@ -1025,7 +737,7 @@ public abstract class Module extends DesignElement
 	 * @see #getMessage(String, Locale)
 	 */
 
-	public String getMessage( String resourceKey )
+	public final String getMessage( String resourceKey )
 	{
 		return getMessage( resourceKey, ThreadResources.getLocale( ) );
 	}
@@ -1048,7 +760,7 @@ public abstract class Module extends DesignElement
 	 *         <code>resourceKey</code> is blank or <code>null</code>.
 	 */
 
-	public String getMessage( String resourceKey, ULocale locale )
+	public final String getMessage( String resourceKey, ULocale locale )
 	{
 		if ( StringUtil.isBlank( resourceKey ) )
 			return null;
@@ -1058,7 +770,7 @@ public abstract class Module extends DesignElement
 
 		// find it in the module itself.
 
-		String msg = translations.getMessage( resourceKey, locale );
+		String msg = getTranslationTable( ).getMessage( resourceKey, locale );
 		if ( msg != null )
 			return msg;
 
@@ -1086,85 +798,6 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Finds a custom color by name.
-	 * 
-	 * @param colorName
-	 *            the custom color name
-	 * @return the custom defined color that matches, or <code>null</code> if
-	 *         the color name was not found in the custom color palette.
-	 */
-
-	public CustomColor findColor( String colorName )
-	{
-		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
-				.getStructure( CustomColor.CUSTOM_COLOR_STRUCT );
-		return (CustomColor) StructureRefUtil.findStructure( this, defn,
-				colorName );
-	}
-
-	/**
-	 * Finds a config variable by name
-	 * 
-	 * @param variableName
-	 *            the configure variable name
-	 * @return the config variable that matches, or <code>null</code> if the
-	 *         variable name was not found.
-	 */
-
-	public ConfigVariable findConfigVariabel( String variableName )
-	{
-		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
-				.getStructure( ConfigVariable.CONFIG_VAR_STRUCT );
-		return (ConfigVariable) StructureRefUtil.findStructure( this, defn,
-				variableName );
-	}
-
-	/**
-	 * Finds an embedded image by name.
-	 * 
-	 * @param imageName
-	 *            the embedded image name
-	 * @return the defined image that matches, or <code>null</code> if the image
-	 *         name was not found in the embedded images.
-	 */
-
-	public EmbeddedImage findImage( String imageName )
-	{
-		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
-				.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT );
-
-		return (EmbeddedImage) StructureRefUtil.findStructure( this, defn,
-				imageName );
-	}
-
-	/**
-	 * Gets the property definition whose detail type is of the given structure
-	 * name.
-	 * 
-	 * @param structureName
-	 *            the structure name to search
-	 * @return the property definition whose detail type is of the given
-	 *         structure name, otherwise null
-	 */
-
-	public ElementPropertyDefn getReferencablePropertyDefn( String structureName )
-	{
-		if ( referencableProperties == null )
-		{
-			referencableProperties = new HashMap<String, IElementPropertyDefn>( );
-			referencableProperties.put( ConfigVariable.CONFIG_VAR_STRUCT,
-					getPropertyDefn( CONFIG_VARS_PROP ) );
-			referencableProperties.put( EmbeddedImage.EMBEDDED_IMAGE_STRUCT,
-					getPropertyDefn( IMAGES_PROP ) );
-			referencableProperties.put( CustomColor.CUSTOM_COLOR_STRUCT,
-					getPropertyDefn( COLOR_PALETTE_PROP ) );
-
-		}
-
-		return (ElementPropertyDefn) referencableProperties.get( structureName );
-	}
-
-	/**
 	 * Returns the list of errors accumulated during a batch operation. These
 	 * errors can be serious errors or warnings. Each one is the instance of
 	 * <code>ErrorDetail</code>.
@@ -1172,7 +805,7 @@ public abstract class Module extends DesignElement
 	 * @return the list of errors or warning
 	 */
 
-	public List<ErrorDetail> getAllErrors( )
+	public final List<ErrorDetail> getAllErrors( )
 	{
 		return ErrorDetail.convertExceptionList( allExceptions );
 	}
@@ -1184,7 +817,7 @@ public abstract class Module extends DesignElement
 	 * @return the list of exception
 	 */
 
-	public List<Exception> getAllExceptions( )
+	public final List<Exception> getAllExceptions( )
 	{
 		return allExceptions;
 	}
@@ -1195,7 +828,7 @@ public abstract class Module extends DesignElement
 	 * @return the validation executor
 	 */
 
-	public ValidationExecutor getValidationExecutor( )
+	public final ValidationExecutor getValidationExecutor( )
 	{
 		return validationExecutor;
 	}
@@ -1207,7 +840,7 @@ public abstract class Module extends DesignElement
 	 *            the validation listener to add
 	 */
 
-	public void addValidationListener( IValidationListener listener )
+	public final void addValidationListener( IValidationListener listener )
 	{
 		if ( validationListeners == null )
 			validationListeners = new ArrayList<IValidationListener>( );
@@ -1227,7 +860,7 @@ public abstract class Module extends DesignElement
 	 * 
 	 */
 
-	public boolean removeValidationListener( IValidationListener listener )
+	public final boolean removeValidationListener( IValidationListener listener )
 	{
 		if ( validationListeners == null )
 			return false;
@@ -1243,7 +876,7 @@ public abstract class Module extends DesignElement
 	 *            the validation event
 	 */
 
-	public void broadcastValidationEvent( DesignElement element,
+	public final void broadcastValidationEvent( DesignElement element,
 			ValidationEvent event )
 	{
 		if ( validationListeners != null )
@@ -1265,7 +898,7 @@ public abstract class Module extends DesignElement
 	 *         saved to a file.
 	 */
 
-	public String getFileName( )
+	public final String getFileName( )
 	{
 		return fileName;
 	}
@@ -1280,7 +913,7 @@ public abstract class Module extends DesignElement
 	 *            filename extension.
 	 */
 
-	public void setFileName( String newName )
+	public final void setFileName( String newName )
 	{
 		fileName = newName;
 	}
@@ -1292,7 +925,7 @@ public abstract class Module extends DesignElement
 	 *            the UTF signature of the module file.
 	 */
 
-	public void setUTFSignature( String signature )
+	public final void setUTFSignature( String signature )
 	{
 		this.signature = signature;
 	}
@@ -1303,7 +936,7 @@ public abstract class Module extends DesignElement
 	 * @return the UTF signature of the module file.
 	 */
 
-	public String getUTFSignature( )
+	public final String getUTFSignature( )
 	{
 		return signature;
 	}
@@ -1323,7 +956,7 @@ public abstract class Module extends DesignElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	public ContainerSlot getSlot( int slot )
+	public final ContainerSlot getSlot( int slot )
 	{
 		assert slot >= 0 && slot < getSlotCount( );
 		return slots[slot];
@@ -1337,7 +970,7 @@ public abstract class Module extends DesignElement
 	 *            the exception to record
 	 */
 
-	public void semanticError( SemanticException ex )
+	public final void semanticError( SemanticException ex )
 	{
 		if ( allExceptions == null )
 			allExceptions = new ArrayList<Exception>( );
@@ -1353,7 +986,7 @@ public abstract class Module extends DesignElement
 	 * @see ErrorDetail
 	 */
 
-	public List<ErrorDetail> getErrorList( )
+	public final List<ErrorDetail> getErrorList( )
 	{
 		List<ErrorDetail> allErrors = getAllErrors( );
 
@@ -1373,7 +1006,7 @@ public abstract class Module extends DesignElement
 	 * @see ErrorDetail
 	 */
 
-	public List<ErrorDetail> getWarningList( )
+	public final List<ErrorDetail> getWarningList( )
 	{
 		List<ErrorDetail> allErrors = getAllErrors( );
 
@@ -1392,45 +1025,10 @@ public abstract class Module extends DesignElement
 	 *            errors
 	 */
 
-	public final void semanticCheck( Module module )
+	public void semanticCheck( Module module )
 	{
 		allExceptions = new ArrayList<Exception>( );
 		allExceptions.addAll( validateWithContents( module ) );
-
-		// delete all useless template parameter definition
-
-		if ( module instanceof ReportDesign )
-		{
-			ContainerSlot slot = module
-					.getSlot( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
-			assert slot != null;
-			for ( int i = slot.getCount( ) - 1; i >= 0; i-- )
-			{
-				TemplateParameterDefinition templateParam = (TemplateParameterDefinition) slot
-						.getContent( i );
-				if ( templateParam.getClientList( ).isEmpty( ) )
-				{
-
-					// Remove the element from the ID map if we are usingIDs.
-
-					NameSpace ns = nameHelper
-							.getNameSpace( TEMPLATE_PARAMETER_NAME_SPACE );
-					ns.remove( templateParam );
-
-					module.manageId( templateParam, false );
-
-					module
-							.remove(
-									templateParam,
-									IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
-
-				}
-			}
-		}
-
-		// clear the name manager
-
-		nameHelper.clear( );
 	}
 
 	/**
@@ -1450,7 +1048,7 @@ public abstract class Module extends DesignElement
 	 * @see IModuleNameScope#resolve(String, PropertyDefn)
 	 */
 
-	public DesignElement resolveElement( String elementName,
+	public final DesignElement resolveElement( String elementName,
 			PropertyDefn propDefn, IElementDefn elementDefn )
 	{
 		ElementRefValue refValue = nameHelper.resolve( elementName, propDefn,
@@ -1475,7 +1073,7 @@ public abstract class Module extends DesignElement
 	 * @see IModuleNameScope#resolve(String, PropertyDefn)
 	 */
 
-	public DesignElement resolveElement( DesignElement element,
+	public final DesignElement resolveElement( DesignElement element,
 			PropertyDefn propDefn, IElementDefn elementDefn )
 	{
 		ElementRefValue refValue = nameHelper.resolve( element, propDefn,
@@ -1494,7 +1092,7 @@ public abstract class Module extends DesignElement
 	 *         return null.
 	 */
 
-	private DesignElement resolveNativeElement( String elementName,
+	protected final DesignElement resolveNativeElement( String elementName,
 			int nameSpace )
 	{
 		NameSpace namespace = nameHelper.getNameSpace( nameSpace );
@@ -1508,7 +1106,7 @@ public abstract class Module extends DesignElement
 	 *            exception list to set
 	 */
 
-	protected void setAllExceptions( List<Exception> allExceptions )
+	protected final void setAllExceptions( List<Exception> allExceptions )
 	{
 		this.allExceptions = allExceptions;
 	}
@@ -1544,7 +1142,7 @@ public abstract class Module extends DesignElement
 	 *         <code>fileName</code> is found, or null otherwise.
 	 */
 
-	public URL findResource( String fileName, int fileType )
+	public final URL findResource( String fileName, int fileType )
 	{
 		URL url = getSession( ).getResourceLocator( ).findResource(
 				(ModuleHandle) getHandle( this ), fileName, fileType );
@@ -1584,7 +1182,7 @@ public abstract class Module extends DesignElement
 	 *         <code>fileName</code> is found, or null otherwise.
 	 */
 
-	public URL findResource( String fileName, int fileType, Map appContext )
+	public final URL findResource( String fileName, int fileType, Map appContext )
 	{
 		URL url = getSession( ).getResourceLocator( ).findResource(
 				(ModuleHandle) getHandle( this ), fileName, fileType,
@@ -1593,389 +1191,14 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Loads library with the given library file name. This file name can be
-	 * absolute or relative. If the library doesn't exist or fatal error occurs
-	 * when opening library, one invalid library will be added into the library
-	 * list of this module.
-	 * 
-	 * @param libraryFileName
-	 *            library file name
-	 * @param namespace
-	 *            library namespace
-	 * @param reloadLibs
-	 * @param url
-	 *            the found library URL
-	 * @return the loaded library
-	 * @throws DesignFileException
-	 *             if the library file has fatal error.
-	 */
-
-	public Library loadLibrary( String libraryFileName, String namespace,
-			Map<String, Library> reloadLibs, URL url )
-			throws DesignFileException
-	{
-		Module outermostModule = findOutermostModule( );
-
-		// find the corresponding library instance
-
-		Library library = null;
-
-		List<Library> libs = outermostModule.getLibrariesWithNamespace(
-				namespace, IAccessControl.ARBITARY_LEVEL );
-		if ( !libs.isEmpty( ) )
-			library = libs.get( 0 );
-
-		if ( library != null
-				&& reloadLibs.get( library.getNamespace( ) ) != null )
-		{
-			return library.contextClone( this );
-		}
-
-		if ( url == null )
-		{
-			DesignParserException ex = new DesignParserException(
-					new String[]{libraryFileName},
-					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List<Exception> exceptionList = new ArrayList<Exception>( );
-			exceptionList.add( ex );
-			throw new DesignFileException( libraryFileName, exceptionList );
-		}
-
-		try
-		{
-			library = LibraryReader.getInstance( ).read( session, this, url,
-					namespace, url.openStream( ), null, reloadLibs );
-			library.setLocation( url );
-
-			if ( StringUtil.isBlank( namespace ) )
-			{
-				library.setNamespace( StringUtil
-						.extractFileName( libraryFileName ) );
-			}
-			return library;
-		}
-		catch ( IOException e )
-		{
-			DesignParserException ex = new DesignParserException(
-					new String[]{libraryFileName},
-					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List<Exception> exceptionList = new ArrayList<Exception>( );
-			exceptionList.add( ex );
-			throw new DesignFileException( libraryFileName, exceptionList );
-		}
-	}
-
-	/**
-	 * Returns libraries with the given namespace. This method checks the name
-	 * space in included libraries within the given depth.
-	 * 
-	 * @param namespace
-	 *            the library name space
-	 * @param level
-	 *            the depth of the library
-	 * @return a list containing libraries
-	 * 
-	 * @see IModuleNameScope
-	 */
-
-	private List<Library> getLibrariesWithNamespace( String namespace, int level )
-	{
-		if ( libraries == null )
-			return Collections.emptyList( );
-
-		List<Library> list = getLibraries( level );
-		List<Library> retList = new ArrayList<Library>( );
-
-		Iterator<Library> iter = list.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Library library = iter.next( );
-			if ( library.getNamespace( ).equals( namespace ) )
-				retList.add( library );
-		}
-
-		return retList;
-	}
-
-	/**
-	 * Loads library with given library file name. This method will add library
-	 * into this module even if the library file is not found or has fatal
-	 * error.
-	 * 
-	 * @param includeLibrary
-	 *            library file name
-	 * @param foundLib
-	 *            the matched library
-	 * @param reloadLibs
-	 *            the map contains reload libraries
-	 * @param url
-	 *            the found library URL
-	 * @see #loadLibrary(String, String)
-	 */
-
-	public void loadLibrarySilently( IncludedLibrary includeLibrary,
-			Library foundLib, Map<String, Library> reloadLibs, URL url )
-	{
-		if ( foundLib != null
-				&& reloadLibs.get( includeLibrary.getNamespace( ) ) != null )
-		{
-			Library cloned = foundLib.contextClone( this );
-			addLibrary( cloned );
-			return;
-		}
-
-		Library library = null;
-
-		try
-		{
-			library = loadLibrary( includeLibrary.getFileName( ),
-					includeLibrary.getNamespace( ), reloadLibs, url );
-			library.setReadOnly( );
-		}
-		catch ( DesignFileException e )
-		{
-			Exception fatalException = ModelUtil.getFirstFatalException( e
-					.getExceptionList( ) );
-
-			library = new Library( session, this );
-			library.setFatalException( fatalException );
-			library.setFileName( includeLibrary.getFileName( ) );
-			library.setNamespace( includeLibrary.getNamespace( ) );
-			library.setID( library.getNextID( ) );
-			library.addElementID( library );
-			library.setValid( false );
-			library.setAllExceptions( e.getExceptionList( ) );
-		}
-
-		addLibrary( library );
-
-		LibraryUtil.insertReloadLibs( reloadLibs, library );
-	}
-
-	/**
-	 * Returns all libraries this module contains.
-	 * 
-	 * @return list of libraries.
-	 */
-
-	public List<Library> getAllLibraries( )
-	{
-		return getLibraries( IAccessControl.ARBITARY_LEVEL );
-	}
-
-	/**
-	 * Returns included libraries within the given depth. Uses the Breadth-First
-	 * Search Algorithm.
-	 * 
-	 * @param level
-	 *            the given depth
-	 * @return list of libraries.
-	 * 
-	 * @see IModuleNameScope
-	 */
-
-	public List<Library> getLibraries( int level )
-	{
-		if ( level <= IAccessControl.NATIVE_LEVEL || libraries == null )
-			return Collections.emptyList( );
-
-		int newLevel = level - 1;
-
-		// if the new level is less than 0, then no need to do the iterator.
-
-		if ( newLevel == IAccessControl.NATIVE_LEVEL )
-			return Collections.unmodifiableList( libraries );
-
-		List<Library> allLibraries = new ArrayList<Library>( );
-
-		allLibraries.addAll( libraries );
-
-		for ( int i = 0; i < libraries.size( ); i++ )
-		{
-			Library library = libraries.get( i );
-			allLibraries.addAll( library.getLibraries( newLevel ) );
-		}
-
-		return allLibraries;
-	}
-
-	/**
-	 * Returns only libraries this module includes directly.
-	 * 
-	 * @return list of libraries.
-	 */
-
-	public List<Library> getLibraries( )
-	{
-		return getLibraries( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
-	}
-
-	/**
-	 * Inserts the library to the given position.
-	 * 
-	 * @param library
-	 *            the library to insert
-	 * @param posn
-	 *            at which the given library is inserted.
-	 */
-
-	public void insertLibrary( Library library, int posn )
-	{
-		if ( libraries == null )
-			libraries = new ArrayList<Library>( );
-
-		// The position is allowed to equal the list size.
-
-		assert posn >= 0 && posn <= libraries.size( );
-
-		libraries.add( posn, library );
-	}
-
-	/**
-	 * Adds the given library to library list.
-	 * 
-	 * @param library
-	 *            the library to insert
-	 */
-
-	public void addLibrary( Library library )
-	{
-		if ( libraries == null )
-			libraries = new ArrayList<Library>( );
-
-		libraries.add( library );
-	}
-
-	/**
-	 * Drops the given library from library list.
-	 * 
-	 * @param library
-	 *            the library to drop
-	 * @return the position of the library to drop
-	 */
-
-	public int dropLibrary( Library library )
-	{
-		assert libraries != null;
-		assert libraries.contains( library );
-
-		int posn = libraries.indexOf( library );
-		libraries.remove( library );
-
-		return posn;
-	}
-
-	/**
-	 * Returns the module with the given namespace. This method checks the
-	 * namespace in both directly and indirectly included libraries.
-	 * 
-	 * @param namespace
-	 *            the module namespace
-	 * @return the module with the given namespace
-	 */
-
-	public Library getLibraryWithNamespace( String namespace )
-	{
-		return getLibraryWithNamespace( namespace,
-				IAccessControl.ARBITARY_LEVEL );
-	}
-
-	/**
-	 * Returns the module with the given namespace. This method checks the
-	 * namespace in included libraries within the given depth.
-	 * 
-	 * @param namespace
-	 *            the module namespace
-	 * @param level
-	 *            the depth of the library
-	 * @return the module with the given namespace
-	 * 
-	 * @see IModuleNameScope
-	 */
-
-	public Library getLibraryWithNamespace( String namespace, int level )
-	{
-		if ( libraries == null )
-			return null;
-
-		List<Library> list = getLibraries( level );
-
-		Iterator<Library> iter = list.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Library library = iter.next( );
-			if ( library.getNamespace( ).equals( namespace ) )
-				return library;
-		}
-
-		return null;
-	}
-
-	/**
 	 * Returns whether this module is read-only.
 	 * 
 	 * @return true, if this module is read-only. Otherwise, return false.
 	 */
 
-	public boolean isReadOnly( )
+	public final boolean isReadOnly( )
 	{
 		return activityStack instanceof ReadOnlyActivityStack;
-	}
-
-	/**
-	 * Adds one attribute listener. The duplicate listener will not be added.
-	 * 
-	 * @param listener
-	 *            the attribute listener to add
-	 */
-
-	public void addAttributeListener( IAttributeListener listener )
-	{
-		if ( attributeListeners == null )
-			attributeListeners = new ArrayList<IAttributeListener>( );
-
-		if ( !attributeListeners.contains( listener ) )
-			attributeListeners.add( listener );
-	}
-
-	/**
-	 * Removes one attribute listener. If the listener not registered, then the
-	 * request is silently ignored.
-	 * 
-	 * @param listener
-	 *            the attribute listener to remove
-	 * @return <code>true</code> if <code>listener</code> is successfully
-	 *         removed. Otherwise <code>false</code>.
-	 * 
-	 */
-
-	public boolean removeAttributeListener( IAttributeListener listener )
-	{
-		if ( attributeListeners == null )
-			return false;
-		return attributeListeners.remove( listener );
-	}
-
-	/**
-	 * Broadcasts the file name event to the file name listeners.
-	 * 
-	 * @param event
-	 *            the file name event
-	 */
-
-	public void broadcastFileNameEvent( AttributeEvent event )
-	{
-		if ( attributeListeners != null )
-		{
-			Iterator<IAttributeListener> iter = attributeListeners.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				IAttributeListener listener = iter.next( );
-
-				listener.fileNameChanged( (ModuleHandle) getHandle( this ),
-						event );
-			}
-		}
 	}
 
 	/**
@@ -1985,30 +1208,13 @@ public abstract class Module extends DesignElement
 	 *            the dispose listener to add
 	 */
 
-	public void addDisposeListener( IDisposeListener listener )
+	public final void addDisposeListener( IDisposeListener listener )
 	{
 		if ( disposeListeners == null )
 			disposeListeners = new ArrayList<IDisposeListener>( );
 
 		if ( !disposeListeners.contains( listener ) )
 			disposeListeners.add( listener );
-	}
-
-	/**
-	 * Adds one resource change listener. The duplicate listener will not be
-	 * added.
-	 * 
-	 * @param listener
-	 *            the resource change listener to add
-	 */
-
-	public void addResourceChangeListener( IResourceChangeListener listener )
-	{
-		if ( resourceChangeListeners == null )
-			resourceChangeListeners = new ArrayList<IResourceChangeListener>( );
-
-		if ( !resourceChangeListeners.contains( listener ) )
-			resourceChangeListeners.add( listener );
 	}
 
 	/**
@@ -2022,11 +1228,29 @@ public abstract class Module extends DesignElement
 	 * 
 	 */
 
-	public boolean removeDisposeListener( IDisposeListener listener )
+	public final boolean removeDisposeListener( IDisposeListener listener )
 	{
 		if ( disposeListeners == null )
 			return false;
 		return disposeListeners.remove( listener );
+	}
+
+	/**
+	 * Adds one resource change listener. The duplicate listener will not be
+	 * added.
+	 * 
+	 * @param listener
+	 *            the resource change listener to add
+	 */
+
+	public final void addResourceChangeListener(
+			IResourceChangeListener listener )
+	{
+		if ( resourceChangeListeners == null )
+			resourceChangeListeners = new ArrayList<IResourceChangeListener>( );
+
+		if ( !resourceChangeListeners.contains( listener ) )
+			resourceChangeListeners.add( listener );
 	}
 
 	/**
@@ -2040,7 +1264,7 @@ public abstract class Module extends DesignElement
 	 * 
 	 */
 
-	public boolean removeResourceChangeListener(
+	public final boolean removeResourceChangeListener(
 			IResourceChangeListener listener )
 	{
 		if ( resourceChangeListeners == null )
@@ -2055,7 +1279,7 @@ public abstract class Module extends DesignElement
 	 *            the dispose event
 	 */
 
-	public void broadcastDisposeEvent( DisposeEvent event )
+	public final void broadcastDisposeEvent( DisposeEvent event )
 	{
 		if ( disposeListeners == null || disposeListeners.isEmpty( ) )
 			return;
@@ -2077,7 +1301,7 @@ public abstract class Module extends DesignElement
 	 *            the dispose event
 	 */
 
-	public void broadcastResourceChangeEvent( ResourceChangeEvent event )
+	public final void broadcastResourceChangeEvent( ResourceChangeEvent event )
 	{
 		if ( resourceChangeListeners == null
 				|| resourceChangeListeners.isEmpty( ) )
@@ -2102,11 +1326,11 @@ public abstract class Module extends DesignElement
 	 * @return a list of user-defined message keys.
 	 */
 
-	public List<String> getMessageKeys( )
+	public final List<String> getMessageKeys( )
 	{
 		Set<String> keys = new LinkedHashSet<String>( );
 
-		String[] transKeys = translations.getResourceKeys( );
+		String[] transKeys = getTranslationResourceKeys( );
 		if ( transKeys != null )
 		{
 			for ( int i = 0; i < transKeys.length; i++ )
@@ -2142,98 +1366,11 @@ public abstract class Module extends DesignElement
 	 * @return true if the file exists, false otherwise.
 	 */
 
-	public boolean isFileExist( String fileName, int fileType )
+	public final boolean isFileExist( String fileName, int fileType )
 	{
 		URL url = findResource( fileName, fileType );
 
 		return url != null;
-	}
-
-	/**
-	 * Gets a list containing all the include libraries.
-	 * 
-	 * @return a list containing all the include libraries. Return
-	 *         <code>null</code> if there were no include libraries defined.
-	 */
-
-	public List<IncludedLibrary> getIncludedLibraries( )
-	{
-		List<IncludedLibrary> libs = (List<IncludedLibrary>) getLocalProperty(
-				this, LIBRARIES_PROP );
-		if ( libs == null )
-			return Collections.emptyList( );
-		return Collections.unmodifiableList( libs );
-	}
-
-	/**
-	 * Gets the default units for the design.
-	 * 
-	 * @return the default units used in the design
-	 */
-	public String getUnits( )
-	{
-		if ( !StringUtil.isBlank( units ) )
-			return units;
-		String tempUnits = (String) getPropertyDefn( UNITS_PROP ).getDefault( );
-		if ( !StringUtil.isBlank( tempUnits ) )
-			return tempUnits;
-		// see bugzilla 191168.
-		return getSession( ).getUnits( );
-	}
-
-	/**
-	 * Gets a list containing all the include scripts.
-	 * 
-	 * @return a list containing all the include scripts. Return
-	 *         <code>null</code> if there were no scripts defined.
-	 */
-	public List<IncludeScript> getIncludeScripts( )
-	{
-		return (ArrayList<IncludeScript>) getLocalProperty( this,
-				INCLUDE_SCRIPTS_PROP );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
-	 * (java.lang.String)
-	 */
-
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( UNITS_PROP.equals( propName ) )
-		{
-			return units;
-		}
-		else if ( THEME_PROP.equals( propName ) )
-		{
-			return theme;
-		}
-		return super.getIntrinsicProperty( propName );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
-	 * (java.lang.String, java.lang.Object)
-	 */
-
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( UNITS_PROP.equals( propName ) )
-			units = (String) value;
-		else if ( THEME_PROP.equals( propName ) )
-		{
-			ReferenceValueUtil.updateReference( this, theme,
-					(ReferenceValue) value, getPropertyDefn( THEME_PROP ) );
-			theme = (ElementRefValue) value;
-		}
-		else
-			super.setIntrinsicProperty( propName, value );
 	}
 
 	/**
@@ -2250,33 +1387,9 @@ public abstract class Module extends DesignElement
 	 * @return module handle
 	 */
 
-	public ModuleHandle getModuleHandle( )
+	public final ModuleHandle getModuleHandle( )
 	{
 		return (ModuleHandle) getHandle( this );
-	}
-
-	/**
-	 * Returns the fatal exception, which means some unrecoverable error is
-	 * found in the included libraries.
-	 * 
-	 * @return the fatal exception
-	 */
-
-	public Exception getFatalException( )
-	{
-		return fatalException;
-	}
-
-	/**
-	 * Sets the fatal exception.
-	 * 
-	 * @param fatalException
-	 *            the fatal exception to set
-	 */
-
-	protected void setFatalException( Exception fatalException )
-	{
-		this.fatalException = fatalException;
 	}
 
 	/**
@@ -2286,7 +1399,7 @@ public abstract class Module extends DesignElement
 	 * @return the system id of the module
 	 */
 
-	public URL getSystemId( )
+	public final URL getSystemId( )
 	{
 		return systemId;
 	}
@@ -2300,83 +1413,9 @@ public abstract class Module extends DesignElement
 	 * 
 	 */
 
-	public void setSystemId( URL systemId )
+	public final void setSystemId( URL systemId )
 	{
 		this.systemId = systemId;
-	}
-
-	/**
-	 * Finds a theme in this module and its included modules.
-	 * 
-	 * @param name
-	 *            Name of the style to find.
-	 * @return The style, or null if the style is not found.
-	 */
-
-	public Theme findTheme( String name )
-	{
-		return (Theme) resolveElement( name, null, MetaDataDictionary
-				.getInstance( ).getElement( ReportDesignConstants.THEME_ITEM ) );
-	}
-
-	/**
-	 * Returns the theme of the report design/library.
-	 * 
-	 * @return the theme of the report design/library
-	 */
-
-	public Theme getTheme( )
-	{
-		if ( theme == null )
-			return null;
-
-		return (Theme) theme.getElement( );
-	}
-
-	/**
-	 * Gets the name of the referenced theme on this element.
-	 * 
-	 * @return theme name. null if the theme is not defined on the element.
-	 */
-
-	public String getThemeName( )
-	{
-		if ( theme == null )
-			return null;
-		return theme.getName( );
-	}
-
-	/**
-	 * Returns the resolved theme of the report design/library.
-	 * 
-	 * @param module
-	 *            the module to resolve the theme
-	 * @return the resolved theme of the report design/library
-	 */
-
-	public Theme getTheme( Module module )
-	{
-		if ( theme == null )
-			return null;
-
-		if ( theme.isResolved( ) )
-			return (Theme) theme.getElement( );
-
-		ElementRefValue refValue = nameHelper.resolve( ReferenceValueUtil
-				.needTheNamespacePrefix( theme, this ), null,
-				MetaDataDictionary.getInstance( ).getElement(
-						ReportDesignConstants.THEME_ITEM ) );
-
-		Theme target = null;
-		if ( refValue.isResolved( ) )
-		{
-			target = (Theme) refValue.getElement( );
-
-			theme.resolve( target );
-			target.addClient( this, THEME_PROP );
-		}
-
-		return target;
 	}
 
 	/**
@@ -2388,7 +1427,7 @@ public abstract class Module extends DesignElement
 	 *            whether to add or remove the element id
 	 */
 
-	public void manageId( DesignElement element, boolean isAdd )
+	public final void manageId( DesignElement element, boolean isAdd )
 	{
 		if ( element == null )
 			return;
@@ -2434,7 +1473,7 @@ public abstract class Module extends DesignElement
 	 * @return the location information of the module
 	 */
 
-	public String getLocation( )
+	public final String getLocation( )
 	{
 		if ( location == null )
 			return null;
@@ -2449,9 +1488,812 @@ public abstract class Module extends DesignElement
 	 *            the location information of the module
 	 */
 
-	public void setLocation( URL location )
+	public final void setLocation( URL location )
 	{
 		this.location = location;
+	}
+
+	/**
+	 * Checks the element name in name space of this report.
+	 * 
+	 * <ul>
+	 * <li>If the element name is required and duplicate name is found in name
+	 * space, rename the element with a new unique name.
+	 * <li>If the element name is not required, clear the name.
+	 * </ul>
+	 * 
+	 * @param element
+	 *            the element handle whose name is need to check.
+	 */
+
+	public final void rename( DesignElement element )
+	{
+		nameHelper.rename( element );
+	}
+
+	/**
+	 * Recursively changes the element name in the context of the container.
+	 * 
+	 * <ul>
+	 * <li>If the element name is required and duplicated name is found rename
+	 * the element with a new unique name.
+	 * <li>If the element name is not required, clear the name.
+	 * </ul>
+	 * 
+	 * @param container
+	 *            the container of the element
+	 * @param element
+	 *            the element handle whose name is need to check.
+	 */
+
+	public final void rename( DesignElement container, DesignElement element )
+	{
+		NameExecutor executor = new NameExecutor( element );
+		INameHelper nameHelper = executor.getNameHelper( this, container );
+		if ( nameHelper != null )
+		{
+			nameHelper.makeUniqueName( element );
+		}
+
+		LevelContentIterator iter = new LevelContentIterator( this, element, 1 );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement innerElement = iter.next( );
+			rename( element, innerElement );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName
+	 * (org.eclipse.birt.report.model.core.DesignElement)
+	 */
+	public final void makeUniqueName( DesignElement element )
+	{
+		nameHelper.makeUniqueName( element );
+	}
+
+	/**
+	 * Gets the options set in the module or any one of its host.
+	 * 
+	 * @return the options
+	 */
+
+	public ModuleOption getOptions( )
+	{
+		return this.options;
+	}
+
+	/**
+	 * Sets the options in this module.
+	 * 
+	 * @param options
+	 *            the options to set
+	 */
+
+	public final void setOptions( ModuleOption options )
+	{
+		this.options = options;
+	}
+
+	/**
+	 * Sets the resource folder for this session.
+	 * 
+	 * @param resourceFolder
+	 *            the folder to set
+	 */
+
+	public final void setResourceFolder( String resourceFolder )
+	{
+		if ( options == null )
+			options = new ModuleOption( );
+		options.setResourceFolder( resourceFolder );
+	}
+
+	/**
+	 * Gets the resource folder set in this session.
+	 * 
+	 * @return the resource folder set in this session
+	 */
+
+	public final String getResourceFolder( )
+	{
+		ModuleOption effectOptions = getOptions( );
+		if ( effectOptions == null )
+			return null;
+		return effectOptions.getResourceFolder( );
+	}
+
+	/**
+	 * Sets the module is read-only one. That means any operation on it will
+	 * throw runtime exception.
+	 */
+
+	public final void setReadOnly( )
+	{
+		activityStack = new ReadOnlyActivityStack( this );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper
+	 * ()
+	 */
+	public final INameHelper getNameHelper( )
+	{
+		return this.nameHelper;
+	}
+
+	/**
+	 * Determines whether the module has cached values.
+	 * 
+	 * @return <code>true</code> if values have been cached. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean isCached( )
+	{
+		return isCached;
+	}
+
+	/**
+	 * Sets cache status of the module. The value is set to TRUE when calling {
+	 * {@link ReportDesignHandle#cacheValues()}.
+	 * 
+	 * @param isCached
+	 */
+	public final void setIsCached( boolean isCached )
+	{
+		this.isCached = isCached;
+	}
+
+	/**
+	 * Caches values for the element. The caller must be the report design.
+	 */
+
+	public void cacheValues( )
+	{
+		nameHelper.cacheValues( );
+	}
+
+	/**
+	 * Gets all the design elements that resides in the id-map. All the element
+	 * in the returned list resides in the design tree and has unique id.
+	 * 
+	 * @return
+	 */
+	public final List<DesignElement> getAllElements( )
+	{
+		List<DesignElement> elements = new ArrayList<DesignElement>( );
+		elements.addAll( idMap.values( ) );
+		return elements;
+	}
+
+	/**
+	 * Caches the propertyResourceBundle list.
+	 * 
+	 * @param baseName
+	 *            the file name
+	 * @param bundleList
+	 *            the propertyResouceBundle list
+	 */
+
+	public final CachedBundles getResourceBundle( )
+	{
+		if ( getOptions( ) == null
+				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
+		{
+			return null;
+		}
+
+		if ( cachedBundles == null )
+			cachedBundles = new CachedBundles( );
+
+		return cachedBundles;
+	}
+
+	/**
+	 * Returns the version manager for the API compatibility.
+	 * 
+	 * @return the version manager
+	 */
+
+	public final VersionControlMgr getVersionManager( )
+	{
+		return versionMgr;
+	}
+
+	/**
+	 * Broadcasts the file name event to the file name listeners.
+	 * 
+	 * @param event
+	 *            the file name event
+	 */
+
+	public final void broadcastFileNameEvent( AttributeEvent event )
+	{
+		if ( attributeListeners != null )
+		{
+			Iterator<IAttributeListener> iter = attributeListeners.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				IAttributeListener listener = iter.next( );
+
+				listener.fileNameChanged( (ModuleHandle) getHandle( this ),
+						event );
+			}
+		}
+	}
+
+	/**
+	 * Adds one attribute listener. The duplicate listener will not be added.
+	 * 
+	 * @param listener
+	 *            the attribute listener to add
+	 */
+
+	public final void addAttributeListener( IAttributeListener listener )
+	{
+		if ( attributeListeners == null )
+			attributeListeners = new ArrayList<IAttributeListener>( );
+
+		if ( !attributeListeners.contains( listener ) )
+			attributeListeners.add( listener );
+	}
+
+	/**
+	 * Removes one attribute listener. If the listener not registered, then the
+	 * request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the attribute listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 * 
+	 */
+
+	public final boolean removeAttributeListener( IAttributeListener listener )
+	{
+		if ( attributeListeners == null )
+			return false;
+		return attributeListeners.remove( listener );
+	}
+
+	/**
+	 * Finds a custom color by name.
+	 * 
+	 * @param colorName
+	 *            the custom color name
+	 * @return the custom defined color that matches, or <code>null</code> if
+	 *         the color name was not found in the custom color palette.
+	 */
+
+	public final CustomColor findColor( String colorName )
+	{
+		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
+				.getStructure( CustomColor.CUSTOM_COLOR_STRUCT );
+		return (CustomColor) StructureRefUtil.findStructure( this, defn,
+				colorName );
+	}
+
+	/**
+	 * Finds a config variable by name
+	 * 
+	 * @param variableName
+	 *            the configure variable name
+	 * @return the config variable that matches, or <code>null</code> if the
+	 *         variable name was not found.
+	 */
+
+	public final ConfigVariable findConfigVariabel( String variableName )
+	{
+		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
+				.getStructure( ConfigVariable.CONFIG_VAR_STRUCT );
+		return (ConfigVariable) StructureRefUtil.findStructure( this, defn,
+				variableName );
+	}
+
+	/**
+	 * Finds an embedded image by name.
+	 * 
+	 * @param imageName
+	 *            the embedded image name
+	 * @return the defined image that matches, or <code>null</code> if the image
+	 *         name was not found in the embedded images.
+	 */
+
+	public final EmbeddedImage findImage( String imageName )
+	{
+		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
+				.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT );
+
+		return (EmbeddedImage) StructureRefUtil.findStructure( this, defn,
+				imageName );
+	}
+
+	/**
+	 * Returns all libraries this module contains.
+	 * 
+	 * @return list of libraries.
+	 */
+
+	public final List<Library> getAllLibraries( )
+	{
+		return getLibraries( IAccessControl.ARBITARY_LEVEL );
+	}
+
+	// ////////////////////////////////////////////////////////////
+	// belows are some empty implementation for unique method calls
+	/**
+	 * Finds a shared style in this module itself.
+	 * 
+	 * @param name
+	 *            Name of the style to find.
+	 * @return The style, or null if the style is not found.
+	 */
+
+	public StyleElement findNativeStyle( String name )
+	{
+		return null;
+	}
+
+	/**
+	 * Finds a shared style in this module and its included modules.
+	 * 
+	 * @param name
+	 *            Name of the style to find.
+	 * @return The style, or null if the style is not found.
+	 */
+
+	public StyleElement findStyle( String name )
+	{
+		return null;
+	}
+
+	/**
+	 * Finds a named report item in this module and the included modules. This
+	 * is for body elements in the element's name space.
+	 * 
+	 * @param name
+	 *            The name of the element to find.
+	 * @return The element, or null if the element is not found.
+	 */
+
+	public DesignElement findElement( String name )
+	{
+		return null;
+	}
+
+	/**
+	 * Finds a master page by name in this module and the included modules.
+	 * 
+	 * @param name
+	 *            the master page name.
+	 * @return the master page, if found, otherwise null.
+	 */
+
+	public DesignElement findPage( String name )
+	{
+		return null;
+	}
+
+	/**
+	 * Finds a parameter by name in this module and the included modules.
+	 * 
+	 * @param name
+	 *            The parameter name.
+	 * @return The parameter, if found, otherwise null.
+	 */
+
+	public DesignElement findParameter( String name )
+	{
+		return null;
+	}
+
+	/**
+	 * Adds a new Translation entry to the module. A report file can reference
+	 * message IDs that are defined by the customers. One entry of
+	 * <code>Translation</code> represents a translated message for a specific
+	 * locale.
+	 * <p>
+	 * 
+	 * @param translation
+	 *            new entry of <code>Translation</code> that are to be added to
+	 *            the module.
+	 */
+
+	public void addTranslation( Translation translation )
+	{
+		// do nothing
+	}
+
+	/**
+	 * Drops a Translation from the module.
+	 * <p>
+	 * 
+	 * @param translation
+	 *            the translation to be dropped from the module.
+	 * 
+	 * @return <code>true</code> if the report module contains the given
+	 *         translation.
+	 */
+
+	public boolean dropTranslation( Translation translation )
+	{
+		return false;
+	}
+
+	/**
+	 * Gets the translation table of this module.
+	 * 
+	 * @return
+	 */
+	protected TranslationTable getTranslationTable( )
+	{
+		return null;
+	}
+
+	/**
+	 * Finds a <code>Translation</code> by the message resource key and the
+	 * locale.
+	 * <p>
+	 * 
+	 * @param resourceKey
+	 *            resourceKey of the user-defined message where the translation
+	 *            is defined in.
+	 * @param locale
+	 *            locale for the translation. Locale is in java-defined format(
+	 *            en, en-US, zh_CN, etc.)
+	 * @return the <code>Translation</code> that matches. return null if the
+	 *         translation is not found in the report.
+	 */
+
+	public Translation findTranslation( String resourceKey, String locale )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns if the specified translation is contained in the translation
+	 * table.
+	 * 
+	 * @param trans
+	 *            a given <code>Translation</code>
+	 * @return <code>true</code> if the <code>Translation</code> is contained in
+	 *         the translation table, return <code>false</code> otherwise.
+	 */
+
+	public boolean contains( Translation trans )
+	{
+		return false;
+	}
+
+	/**
+	 * Returns the whole collection of translations defined for the report
+	 * module.
+	 * <p>
+	 * 
+	 * @return a list containing all the Translations.
+	 */
+
+	public List<Translation> getTranslations( )
+	{
+		return Collections.emptyList( );
+	}
+
+	/**
+	 * Returns the collection of translations defined for a specific message.
+	 * The message is presented by its resourceKey.
+	 * <p>
+	 * 
+	 * @param resourceKey
+	 *            resource key for the message.
+	 * @return a list containing all the Translations defined for the message.
+	 */
+
+	public List<Translation> getTranslations( String resourceKey )
+	{
+		return Collections.emptyList( );
+	}
+
+	/**
+	 * Returns a string array containing all the resource keys defined for
+	 * messages.
+	 * <p>
+	 * 
+	 * @return a string array containing all the resource keys defined for
+	 *         messages return null if there is no messages stored.
+	 */
+
+	public String[] getTranslationResourceKeys( )
+	{
+		return null;
+	}
+
+	/**
+	 * Gets the property definition whose detail type is of the given structure
+	 * name.
+	 * 
+	 * @param structureName
+	 *            the structure name to search
+	 * @return the property definition whose detail type is of the given
+	 *         structure name, otherwise null
+	 */
+
+	public ElementPropertyDefn getReferencablePropertyDefn( String structureName )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the root module that contains this library. The return value can
+	 * be report or library.
+	 * 
+	 * @return the root module
+	 */
+
+	public Module findOutermostModule( )
+	{
+		return null;
+	}
+
+	/**
+	 * Loads library with the given library file name. This file name can be
+	 * absolute or relative. If the library doesn't exist or fatal error occurs
+	 * when opening library, one invalid library will be added into the library
+	 * list of this module.
+	 * 
+	 * @param libraryFileName
+	 *            library file name
+	 * @param namespace
+	 *            library namespace
+	 * @param reloadLibs
+	 * @param url
+	 *            the found library URL
+	 * @return the loaded library
+	 * @throws DesignFileException
+	 *             if the library file has fatal error.
+	 */
+
+	public Library loadLibrary( String libraryFileName, String namespace,
+			Map<String, Library> reloadLibs, URL url )
+			throws DesignFileException
+	{
+		// do nothing
+		return null;
+	}
+
+	/**
+	 * Loads library with given library file name. This method will add library
+	 * into this module even if the library file is not found or has fatal
+	 * error.
+	 * 
+	 * @param includeLibrary
+	 *            library file name
+	 * @param foundLib
+	 *            the matched library
+	 * @param reloadLibs
+	 *            the map contains reload libraries
+	 * @param url
+	 *            the found library URL
+	 * @see #loadLibrary(String, String)
+	 */
+
+	public void loadLibrarySilently( IncludedLibrary includeLibrary,
+			Library foundLib, Map<String, Library> reloadLibs, URL url )
+	{
+		// do nothing
+	}
+
+	/**
+	 * Returns included libraries within the given depth. Uses the Breadth-First
+	 * Search Algorithm.
+	 * 
+	 * @param level
+	 *            the given depth
+	 * @return list of libraries.
+	 * 
+	 * @see IModuleNameScope
+	 */
+
+	public List<Library> getLibraries( int level )
+	{
+		return Collections.emptyList( );
+	}
+
+	/**
+	 * Returns only libraries this module includes directly.
+	 * 
+	 * @return list of libraries.
+	 */
+
+	public final List<Library> getLibraries( )
+	{
+		return getLibraries( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+	}
+
+	/**
+	 * Inserts the library to the given position.
+	 * 
+	 * @param library
+	 *            the library to insert
+	 * @param posn
+	 *            at which the given library is inserted.
+	 */
+
+	public void insertLibrary( Library library, int posn )
+	{
+		// do nothing
+	}
+
+	/**
+	 * Adds the given library to library list.
+	 * 
+	 * @param library
+	 *            the library to insert
+	 */
+
+	public void addLibrary( Library library )
+	{
+		// do nothing
+	}
+
+	/**
+	 * Drops the given library from library list.
+	 * 
+	 * @param library
+	 *            the library to drop
+	 * @return the position of the library to drop
+	 */
+
+	public int dropLibrary( Library library )
+	{
+		// do nothing
+		return -1;
+	}
+
+	/**
+	 * Returns the module with the given namespace. This method checks the
+	 * namespace in both directly and indirectly included libraries.
+	 * 
+	 * @param namespace
+	 *            the module namespace
+	 * @return the module with the given namespace
+	 */
+
+	public final Library getLibraryWithNamespace( String namespace )
+	{
+		return getLibraryWithNamespace( namespace,
+				IAccessControl.ARBITARY_LEVEL );
+	}
+
+	/**
+	 * Returns the module with the given namespace. This method checks the
+	 * namespace in included libraries within the given depth.
+	 * 
+	 * @param namespace
+	 *            the module namespace
+	 * @param level
+	 *            the depth of the library
+	 * @return the module with the given namespace
+	 * 
+	 * @see IModuleNameScope
+	 */
+
+	public Library getLibraryWithNamespace( String namespace, int level )
+	{
+		return null;
+	}
+
+	/**
+	 * Gets a list containing all the include libraries.
+	 * 
+	 * @return a list containing all the include libraries. Return
+	 *         <code>null</code> if there were no include libraries defined.
+	 */
+
+	public List<IncludedLibrary> getIncludedLibraries( )
+	{
+		return Collections.emptyList( );
+	}
+
+	/**
+	 * Gets the default units for the design.
+	 * 
+	 * @return the default units used in the design
+	 */
+	public String getUnits( )
+	{
+		return null;
+	}
+
+	/**
+	 * Gets a list containing all the include scripts.
+	 * 
+	 * @return a list containing all the include scripts. Return
+	 *         <code>null</code> if there were no scripts defined.
+	 */
+	public final List<IncludeScript> getIncludeScripts( )
+	{
+		return (ArrayList<IncludeScript>) getLocalProperty( this,
+				INCLUDE_SCRIPTS_PROP );
+	}
+
+	/**
+	 * Returns the fatal exception, which means some unrecoverable error is
+	 * found in the included libraries.
+	 * 
+	 * @return the fatal exception
+	 */
+
+	public Exception getFatalException( )
+	{
+		return null;
+	}
+
+	/**
+	 * Sets the fatal exception.
+	 * 
+	 * @param fatalException
+	 *            the fatal exception to set
+	 */
+
+	protected void setFatalException( Exception fatalException )
+	{
+		// do nothing
+	}
+
+	/**
+	 * Finds a theme in this module and its included modules.
+	 * 
+	 * @param name
+	 *            Name of the style to find.
+	 * @return The style, or null if the style is not found.
+	 */
+
+	public final Theme findTheme( String name )
+	{
+		return (Theme) resolveElement( name, null, MetaDataDictionary
+				.getInstance( ).getElement( ReportDesignConstants.THEME_ITEM ) );
+	}
+
+	/**
+	 * Returns the theme of the report design/library.
+	 * 
+	 * @return the theme of the report design/library
+	 */
+
+	public Theme getTheme( )
+	{
+		return null;
+	}
+
+	/**
+	 * Gets the name of the referenced theme on this element.
+	 * 
+	 * @return theme name. null if the theme is not defined on the element.
+	 */
+
+	public String getThemeName( )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the resolved theme of the report design/library.
+	 * 
+	 * @param module
+	 *            the module to resolve the theme
+	 * @return the resolved theme of the report design/library
+	 */
+
+	public Theme getTheme( Module module )
+	{
+		return null;
 	}
 
 	/**
@@ -2459,7 +2301,7 @@ public abstract class Module extends DesignElement
 	 * @return the included library structure with the given namespace
 	 */
 
-	public IncludedLibrary findIncludedLibrary( String namespace )
+	public final IncludedLibrary findIncludedLibrary( String namespace )
 	{
 		List<IncludedLibrary> libs = getIncludedLibraries( );
 		if ( libs == null )
@@ -2486,7 +2328,7 @@ public abstract class Module extends DesignElement
 	 * @return the library with the given location path if found, otherwise null
 	 */
 
-	public Library getLibraryByLocation( String theLocation )
+	public final Library getLibraryByLocation( String theLocation )
 	{
 		return getLibraryByLocation( theLocation,
 				IAccessControl.DIRECTLY_INCLUDED_LEVEL );
@@ -2504,24 +2346,6 @@ public abstract class Module extends DesignElement
 
 	public Library getLibraryByLocation( String theLocation, int level )
 	{
-		// if the location path is null or empty, return null
-
-		if ( StringUtil.isBlank( theLocation ) )
-			return null;
-
-		// look up the library with the location path in the included library
-		// list
-
-		List<Library> libraries = getLibraries( level );
-		for ( int i = 0; i < libraries.size( ); i++ )
-		{
-			Library library = libraries.get( i );
-			if ( theLocation.equalsIgnoreCase( library.getLocation( ) ) )
-				return library;
-		}
-
-		// the library with the given location path is not found, return null
-
 		return null;
 	}
 
@@ -2535,7 +2359,8 @@ public abstract class Module extends DesignElement
 	 * @return the library with the given location path if found, otherwise null
 	 */
 
-	public List<Library> getLibrariesByLocation( String theLocation, int level )
+	public final List<Library> getLibrariesByLocation( String theLocation,
+			int level )
 	{
 		// if the location path is null or empty, return null
 
@@ -2571,8 +2396,7 @@ public abstract class Module extends DesignElement
 	public TemplateParameterDefinition findTemplateParameterDefinition(
 			String name )
 	{
-		return (TemplateParameterDefinition) resolveNativeElement( name,
-				TEMPLATE_PARAMETER_NAME_SPACE );
+		return null;
 	}
 
 	/**
@@ -2587,24 +2411,6 @@ public abstract class Module extends DesignElement
 
 	public boolean isDuplicateNamespace( String namespaceToCheck )
 	{
-		Module rootHost = this;
-		while ( rootHost instanceof Library
-				&& ( (Library) rootHost ).getHost( ) != null )
-			rootHost = ( (Library) rootHost ).getHost( );
-
-		// List libraries = rootHost.getAllLibraries( );
-
-		List<Library> libraries = rootHost
-				.getLibraries( IAccessControl.ARBITARY_LEVEL );
-		Iterator<Library> iter = libraries.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Library library = iter.next( );
-
-			if ( library.getNamespace( ).equals( namespaceToCheck ) )
-				return true;
-		}
-
 		return false;
 	}
 
@@ -2624,35 +2430,6 @@ public abstract class Module extends DesignElement
 	public PropertyBinding findPropertyBinding( DesignElement element,
 			String propName )
 	{
-		// if element or property name is null, return null
-
-		if ( element == null || propName == null )
-			return null;
-
-		// if the property with the given name is not defined on the element,
-		// return null
-
-		if ( element.getPropertyDefn( propName ) == null )
-			return null;
-
-		// find the property binding in the list, match the property name and
-		// element id
-
-		List<Object> propertyBindings = getListProperty( this,
-				PROPERTY_BINDINGS_PROP );
-		if ( propertyBindings == null )
-			return null;
-		for ( int i = 0; i < propertyBindings.size( ); i++ )
-		{
-			PropertyBinding propBinding = (PropertyBinding) propertyBindings
-					.get( i );
-			BigDecimal id = propBinding.getID( );
-			if ( id != null
-					&& propName.equalsIgnoreCase( propBinding.getName( ) )
-					&& getElementByID( id.longValue( ) ) == element )
-				return propBinding;
-
-		}
 		return null;
 	}
 
@@ -2667,25 +2444,8 @@ public abstract class Module extends DesignElement
 
 	public List<PropertyBinding> getPropertyBindings( DesignElement element )
 	{
-		if ( element == null )
-			return Collections.emptyList( );
 
-		List<Object> propertyBindings = getListProperty( this,
-				PROPERTY_BINDINGS_PROP );
-		if ( propertyBindings == null )
-			return Collections.emptyList( );
-
-		List<PropertyBinding> result = new ArrayList<PropertyBinding>( );
-		for ( int i = 0; i < propertyBindings.size( ); i++ )
-		{
-			PropertyBinding propBinding = (PropertyBinding) propertyBindings
-					.get( i );
-			BigDecimal id = propBinding.getID( );
-			if ( id != null && getElementByID( id.longValue( ) ) == element )
-				result.add( propBinding );
-
-		}
-		return result;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -2698,172 +2458,7 @@ public abstract class Module extends DesignElement
 
 	public void rename( EmbeddedImage image )
 	{
-		if ( image == null )
-			return;
-		if ( StringUtil.isBlank( image.getName( ) ) )
-			return;
-
-		List<Object> images = getListProperty( this, IMAGES_PROP );
-		if ( images == null )
-			return;
-
-		// build the embedded image names
-
-		List<String> names = new ArrayList<String>( );
-		for ( int i = 0; i < images.size( ); i++ )
-		{
-			EmbeddedImage theImage = (EmbeddedImage) images.get( i );
-			String name = theImage.getName( );
-			assert !names.contains( name );
-			names.add( name );
-		}
-
-		// the name of the image to add is not duplicate
-
-		if ( !names.contains( image.getName( ) ) )
-			return;
-
-		// Add a numeric suffix that makes the name unique.
-
-		int index = 0;
-		String name = image.getName( );
-		String baseName = image.getName( );
-		while ( names.contains( name ) )
-		{
-			name = baseName + ++index;
-		}
-		image.setName( name.trim( ) );
-	}
-
-	/**
-	 * Checks the element name in name space of this report.
-	 * 
-	 * <ul>
-	 * <li>If the element name is required and duplicate name is found in name
-	 * space, rename the element with a new unique name.
-	 * <li>If the element name is not required, clear the name.
-	 * </ul>
-	 * 
-	 * @param element
-	 *            the element handle whose name is need to check.
-	 */
-
-	public void rename( DesignElement element )
-	{
-		nameHelper.rename( element );
-	}
-
-	/**
-	 * Recursively changes the element name in the context of the container.
-	 * 
-	 * <ul>
-	 * <li>If the element name is required and duplicated name is found rename
-	 * the element with a new unique name.
-	 * <li>If the element name is not required, clear the name.
-	 * </ul>
-	 * 
-	 * @param container
-	 *            the container of the element
-	 * @param element
-	 *            the element handle whose name is need to check.
-	 */
-
-	public void rename( DesignElement container, DesignElement element )
-	{
-		NameExecutor executor = new NameExecutor( element );
-		INameHelper nameHelper = executor.getNameHelper( this, container );
-		if ( nameHelper != null )
-		{
-			nameHelper.makeUniqueName( element );
-		}
-
-		LevelContentIterator iter = new LevelContentIterator( this, element, 1 );
-		while ( iter.hasNext( ) )
-		{
-			DesignElement innerElement = iter.next( );
-			rename( element, innerElement );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public void makeUniqueName( DesignElement element )
-	{
-		nameHelper.makeUniqueName( element );
-	}
-
-	/**
-	 * Returns the version manager for the API compatibility.
-	 * 
-	 * @return the version manager
-	 */
-
-	public VersionControlMgr getVersionManager( )
-	{
-		return versionMgr;
-	}
-
-	/**
-	 * Gets the options set in the module or any one of its host.
-	 * 
-	 * @return the options
-	 */
-
-	abstract public ModuleOption getOptions( );
-
-	/**
-	 * Sets the options in this module.
-	 * 
-	 * @param options
-	 *            the options to set
-	 */
-
-	public void setOptions( ModuleOption options )
-	{
-		this.options = options;
-	}
-
-	/**
-	 * Sets the resource folder for this session.
-	 * 
-	 * @param resourceFolder
-	 *            the folder to set
-	 */
-
-	public void setResourceFolder( String resourceFolder )
-	{
-		if ( options == null )
-			options = new ModuleOption( );
-		options.setResourceFolder( resourceFolder );
-	}
-
-	/**
-	 * Gets the resource folder set in this session.
-	 * 
-	 * @return the resource folder set in this session
-	 */
-
-	public String getResourceFolder( )
-	{
-		ModuleOption effectOptions = getOptions( );
-		if ( effectOptions == null )
-			return null;
-		return effectOptions.getResourceFolder( );
-	}
-
-	/**
-	 * Sets the module is read-only one. That means any operation on it will
-	 * throw runtime exception.
-	 */
-
-	public void setReadOnly( )
-	{
-		activityStack = new ReadOnlyActivityStack( this );
+		// do nothing
 	}
 
 	/**
@@ -2891,22 +2486,8 @@ public abstract class Module extends DesignElement
 
 	public CssStyleSheet loadCss( String fileName ) throws StyleSheetException
 	{
-		try
-		{
-			StyleSheetLoader loader = new StyleSheetLoader( );
-			CssStyleSheet sheet = loader.load( this, fileName );
-			List<CssStyle> styles = sheet.getStyles( );
-			for ( int i = 0; styles != null && i < styles.size( ); ++i )
-			{
-				CssStyle style = styles.get( i );
-				style.setCssStyleSheet( sheet );
-			}
-			return sheet;
-		}
-		catch ( StyleSheetException e )
-		{
-			throw e;
-		}
+		// do nothing
+		return null;
 	}
 
 	/**
@@ -2927,120 +2508,8 @@ public abstract class Module extends DesignElement
 	public CssStyleSheet loadCss( DesignElement container, URL url,
 			String fileName ) throws StyleSheetException
 	{
-		try
-		{
-			StyleSheetLoader loader = new StyleSheetLoader( );
-			CssStyleSheet sheet = loader.load( this, url, fileName );
-			sheet.setContainer( container );
-			List<CssStyle> styles = sheet.getStyles( );
-			for ( int i = 0; styles != null && i < styles.size( ); ++i )
-			{
-				CssStyle style = styles.get( i );
-				style.setCssStyleSheet( sheet );
-			}
-			return sheet;
-		}
-		catch ( StyleSheetException e )
-		{
-			throw e;
-		}
+		// do nothing
+		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper
-	 * ()
-	 */
-	public INameHelper getNameHelper( )
-	{
-		return this.nameHelper;
-	}
-
-	/**
-	 * Returns the root module that contains this library. The return value can
-	 * be report or library.
-	 * 
-	 * @return the root module
-	 */
-
-	public Module findOutermostModule( )
-	{
-		return this;
-	}
-
-	/**
-	 * Determines whether the module has cached values.
-	 * 
-	 * @return <code>true</code> if values have been cached. Otherwise
-	 *         <code>false</code>.
-	 */
-
-	public boolean isCached( )
-	{
-		return isCached;
-	}
-
-	/**
-	 * Sets cache status of the module. The value is set to TRUE when calling {
-	 * {@link ReportDesignHandle#cacheValues()}.
-	 * 
-	 * @param isCached
-	 */
-	public void setIsCached( boolean isCached )
-	{
-		this.isCached = isCached;
-	}
-
-	/**
-	 * Caches values for the element. The caller must be the report design.
-	 */
-
-	public void cacheValues( )
-	{
-		nameHelper.cacheValues( );
-		List<Library> libs = getAllLibraries( );
-		for ( int i = 0; i < libs.size( ); i++ )
-		{
-			Library lib = libs.get( i );
-			lib.nameHelper.cacheValues( );
-		}
-	}
-
-	/**
-	 * Gets all the design elements that resides in the id-map. All the element
-	 * in the returned list resides in the design tree and has unique id.
-	 * 
-	 * @return
-	 */
-	public List<DesignElement> getAllElements( )
-	{
-		List<DesignElement> elements = new ArrayList<DesignElement>( );
-		elements.addAll( idMap.values( ) );
-		return elements;
-	}
-
-	/**
-	 * Caches the propertyResourceBundle list.
-	 * 
-	 * @param baseName
-	 *            the file name
-	 * @param bundleList
-	 *            the propertyResouceBundle list
-	 */
-
-	public CachedBundles getResourceBundle( )
-	{
-		if ( getOptions( ) == null
-				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
-		{
-			return null;
-		}
-
-		if ( cachedBundles == null )
-			cachedBundles = new CachedBundles( );
-
-		return cachedBundles;
-	}
 }

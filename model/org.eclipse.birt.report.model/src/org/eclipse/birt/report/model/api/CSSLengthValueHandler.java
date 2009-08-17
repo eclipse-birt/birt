@@ -15,7 +15,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -46,8 +46,8 @@ class CSSLengthValueHandler
 	CSSLengthValueHandler( DimensionHandle dimensionHandle )
 	{
 		this.dimensionHandle = dimensionHandle;
-		DesignSession session = dimensionHandle.getElementHandle( ).getModule( )
-				.getSession( );
+		DesignSessionImpl session = dimensionHandle.getElementHandle( )
+				.getModule( ).getSession( );
 		provider = session.getPredefinedFontSizeProvider( );
 	}
 
@@ -76,7 +76,7 @@ class CSSLengthValueHandler
 		}
 		return defaultFontSizeValue;
 	}
-	
+
 	/**
 	 * Computes the dimension value which is relative to font size. The units
 	 * which can be computed are:
@@ -99,8 +99,8 @@ class CSSLengthValueHandler
 	 * @param relativeValue
 	 *            the relative dimension value to compute
 	 * @return the absolute dimension value. Return null if
-	 *         <code>relativeValue</code> has the unit which is not in the
-	 *         above list.
+	 *         <code>relativeValue</code> has the unit which is not in the above
+	 *         list.
 	 */
 
 	DimensionValue computeRelativeValue( DimensionValue fontSizeValue,
@@ -164,5 +164,4 @@ class CSSLengthValueHandler
 				|| DesignChoiceConstants.UNITS_PX.equalsIgnoreCase( unit );
 	}
 
-	
 }

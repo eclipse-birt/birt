@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -25,7 +24,8 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
+import org.eclipse.birt.report.model.core.LayoutModule;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
@@ -45,7 +45,7 @@ import org.eclipse.birt.report.model.writer.ModuleWriter;
  * 
  */
 
-public class ReportDesign extends Module
+public class ReportDesign extends LayoutModule
 		implements
 			IReportDesignModel,
 			ICssStyleSheetOperation
@@ -73,7 +73,7 @@ public class ReportDesign extends Module
 	 *            the session that owns this design
 	 */
 
-	public ReportDesign( DesignSession session )
+	public ReportDesign( DesignSessionImpl session )
 	{
 		super( session );
 		initSlots( );
@@ -264,17 +264,6 @@ public class ReportDesign extends Module
 		}
 
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.Module#getOptions()
-	 */
-
-	public ModuleOption getOptions( )
-	{
-		return options;
 	}
 
 	/**

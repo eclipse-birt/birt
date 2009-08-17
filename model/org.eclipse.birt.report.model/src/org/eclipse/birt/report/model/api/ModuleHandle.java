@@ -18,7 +18,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -44,9 +43,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
-import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
@@ -55,19 +52,10 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
-import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
-import org.eclipse.birt.report.model.command.CustomMsgCommand;
-import org.eclipse.birt.report.model.command.LibraryCommand;
-import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
-import org.eclipse.birt.report.model.command.ThemeCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.css.CssStyleSheet;
-import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
@@ -76,12 +64,8 @@ import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.URIUtilImpl;
 
@@ -91,8 +75,7 @@ import com.ibm.icu.util.ULocale;
  * Abstract module handle which provides the common functionalities of report
  * design and library.
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Content Item</th>
  * <th width="40%">Description</th>
  * 
@@ -191,28 +174,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void addConfigVariable( ConfigVariable configVar )
 			throws SemanticException
 	{
-		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( CONFIG_VARS_PROP );
-
-		if ( configVar != null && StringUtil.isBlank( configVar.getName( ) ) )
-		{
-			throw new PropertyValueException( getElement( ), propDefn,
-					configVar,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
-		}
-
-		if ( configVar != null
-				&& findConfigVariable( configVar.getName( ) ) != null )
-		{
-			throw new PropertyValueException( getElement( ), propDefn,
-					configVar.getName( ),
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
-		}
-
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.addItem( new StructureContext( getElement( ), propDefn, null ),
-				configVar );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -227,10 +189,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void addImage( EmbeddedImage image ) throws SemanticException
 	{
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
-				getElement( ) );
-		ElementPropertyDefn propDefn = module.getPropertyDefn( IMAGES_PROP );
-		cmd.addItem( new StructureContext( module, propDefn, null ), image );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -241,28 +200,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the embedded image whose name is need to check
 	 */
 
-	public void rename( EmbeddedImage image )
+	public final void rename( EmbeddedImage image )
 	{
-		this.module.rename( image );
-	}
-
-	/**
-	 * Adds all the parameters under the given parameter group to a list.
-	 * 
-	 * @param list
-	 *            the list to which the parameters are added.
-	 * @param handle
-	 *            the handle to the parameter group.
-	 */
-
-	private void addParameters( ArrayList list, ParameterGroupHandle handle )
-	{
-		SlotHandle h = handle.getParameters( );
-		Iterator it = h.iterator( );
-		while ( it.hasNext( ) )
-		{
-			list.add( it.next( ) );
-		}
+		module.rename( image );
 	}
 
 	/**
@@ -286,8 +226,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void addTranslation( String resourceKey, String locale, String text )
 			throws CustomMsgException
 	{
-		CustomMsgCommand command = new CustomMsgCommand( getModule( ) );
-		command.addTranslation( resourceKey, locale, text );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -299,9 +238,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the validation listener.
 	 */
 
-	public void addValidationListener( IValidationListener listener )
+	public final void addValidationListener( IValidationListener listener )
 	{
-		getModule( ).addValidationListener( listener );
+		module.addValidationListener( listener );
 	}
 
 	/**
@@ -309,7 +248,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * sent, which contains all error information of this check.
 	 */
 
-	public void checkReport( )
+	public final void checkReport( )
 	{
 		// validate the whole design
 
@@ -328,7 +267,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * module.
 	 */
 
-	public void close( )
+	public final void close( )
 	{
 		module.close( );
 		DisposeEvent event = new DisposeEvent( module );
@@ -354,12 +293,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the filtered structure list with the above rule.
 	 */
 
-	List getFilteredStructureList( String propName, String nameMember )
+	final List getFilteredStructureList( String propName, String nameMember )
 	{
 		List list = new ArrayList( );
 
 		PropertyHandle propHandle = getPropertyHandle( propName );
-		assert propHandle != null;
+		if ( propHandle == null )
+			return Collections.emptyList( );
 
 		Set names = new HashSet( );
 		Iterator iter = propHandle.iterator( );
@@ -410,7 +350,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         StructureHandle</code>
 	 */
 
-	List getStructureList( String propName )
+	final List getStructureList( String propName )
 	{
 		List list = new ArrayList( );
 
@@ -442,12 +382,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         StructureHandle</code>
 	 */
 
-	protected List getNativeStructureList( String propName )
+	protected final List getNativeStructureList( String propName )
 	{
 		List list = new ArrayList( );
 
 		PropertyHandle propHandle = getPropertyHandle( propName );
-		assert propHandle != null;
+		if ( propHandle == null )
+			return Collections.emptyList( );
 
 		Iterator iter = propHandle.iterator( );
 		while ( iter.hasNext( ) )
@@ -470,7 +411,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see ConfigVariableHandle
 	 */
 
-	public Iterator configVariablesIterator( )
+	public final Iterator configVariablesIterator( )
 	{
 		return getFilteredStructureList( CONFIG_VARS_PROP,
 				ConfigVariable.NAME_MEMBER ).iterator( );
@@ -484,7 +425,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see CustomColorHandle
 	 */
 
-	public Iterator customColorsIterator( )
+	public final Iterator customColorsIterator( )
 	{
 		return getStructureList( COLOR_PALETTE_PROP ).iterator( );
 	}
@@ -501,16 +442,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropConfigVariable( String name ) throws SemanticException
 	{
-		PropertyHandle propHandle = this.getPropertyHandle( CONFIG_VARS_PROP );
-
-		int posn = findConfigVariablePos( name );
-		if ( posn < 0 )
-			throw new PropertyValueException( getElement( ), propHandle
-					.getPropertyDefn( ), name,
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-
-		propHandle.removeItem( posn );
-
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -525,10 +457,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropImage( List images ) throws SemanticException
 	{
-		if ( images == null )
-			return;
-		PropertyHandle propHandle = this.getPropertyHandle( IMAGES_PROP );
-		propHandle.removeItems( images );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -543,15 +472,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropImage( String name ) throws SemanticException
 	{
-		PropertyHandle propHandle = this.getPropertyHandle( IMAGES_PROP );
-
-		int pos = findImagePos( name );
-		if ( pos < 0 )
-			throw new PropertyValueException( getElement( ), propHandle
-					.getPropertyDefn( ), name,
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-
-		propHandle.removeItem( pos );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -570,39 +491,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void dropTranslation( String resourceKey, String locale )
 			throws CustomMsgException
 	{
-		CustomMsgCommand command = new CustomMsgCommand( getModule( ) );
-		command.dropTranslation( resourceKey, locale );
-	}
-
-	/**
-	 * Finds the position of the config variable with the given name.
-	 * 
-	 * @param name
-	 *            the config variable name
-	 * @return the index ( from 0 ) of config variable with the given name.
-	 *         Return -1, if not found.
-	 * 
-	 */
-
-	private int findConfigVariablePos( String name )
-	{
-		List configVars = (List) module.getLocalProperty( module,
-				CONFIG_VARS_PROP );
-		if ( configVars == null )
-			return -1;
-
-		int i = 0;
-		for ( Iterator iter = configVars.iterator( ); iter.hasNext( ); i++ )
-		{
-			ConfigVariable var = (ConfigVariable) iter.next( );
-
-			if ( var.getName( ).equals( name ) )
-			{
-				return i;
-			}
-		}
-
-		return -1;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -614,7 +503,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         not found
 	 */
 
-	public DataSetHandle findDataSet( String name )
+	public final DataSetHandle findDataSet( String name )
 	{
 		DesignElement element = module.findDataSet( name );
 		if ( !( element instanceof DataSet ) )
@@ -632,7 +521,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         set is not found
 	 */
 
-	public JointDataSetHandle findJointDataSet( String name )
+	public final JointDataSetHandle findJointDataSet( String name )
 	{
 		DesignElement element = module.findDataSet( name );
 		if ( !( element instanceof JointDataSet ) )
@@ -651,7 +540,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         data set is not found
 	 */
 
-	public TemplateDataSetHandle findTemplateDataSet( String name )
+	public final TemplateDataSetHandle findTemplateDataSet( String name )
 	{
 		DesignElement element = module.findDataSet( name );
 		if ( element == null )
@@ -668,7 +557,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         source is not found
 	 */
 
-	public DataSourceHandle findDataSource( String name )
+	public final DataSourceHandle findDataSource( String name )
 	{
 		DesignElement element = module.findDataSource( name );
 		if ( element == null )
@@ -686,7 +575,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         not found.
 	 */
 
-	public DesignElementHandle findElement( String name )
+	public final DesignElementHandle findElement( String name )
 	{
 		DesignElement element = module.findElement( name );
 		if ( element == null )
@@ -702,7 +591,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the cube element handle, if found, otherwise null
 	 */
 
-	public CubeHandle findCube( String name )
+	public final CubeHandle findCube( String name )
 	{
 		DesignElement element = module.findOLAPElement( name );
 		if ( element == null )
@@ -723,7 +612,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the cube element handle, if found, otherwise null
 	 */
 
-	public LevelHandle findLevel( String name )
+	public final LevelHandle findLevel( String name )
 	{
 		DesignElement element = module.findLevel( name );
 		if ( element == null )
@@ -740,7 +629,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         not found.
 	 */
 
-	public EmbeddedImage findImage( String name )
+	public final EmbeddedImage findImage( String name )
 	{
 		return module.findImage( name );
 	}
@@ -754,7 +643,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         , if not found.
 	 */
 
-	public ConfigVariable findConfigVariable( String name )
+	public final ConfigVariable findConfigVariable( String name )
 	{
 		return module.findConfigVariabel( name );
 	}
@@ -768,37 +657,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         it's not found.
 	 */
 
-	public CustomColor findColor( String name )
+	public final CustomColor findColor( String name )
 	{
 		return module.findColor( name );
-	}
-
-	/**
-	 * Finds the position of the image with the given name.
-	 * 
-	 * @param name
-	 *            the image name to find
-	 * @return position of image with the specified name. Return -1, if not
-	 *         found.
-	 */
-
-	private int findImagePos( String name )
-	{
-		List images = (List) module.getLocalProperty( module, IMAGES_PROP );
-
-		int i = 0;
-		for ( Iterator iter = images.iterator( ); iter.hasNext( ); i++ )
-		{
-			EmbeddedImage image = (EmbeddedImage) iter.next( );
-
-			if ( image.getName( ) != null
-					&& image.getName( ).equalsIgnoreCase( name ) )
-			{
-				return i;
-			}
-		}
-
-		return -1;
 	}
 
 	/**
@@ -810,7 +671,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         not found
 	 */
 
-	public MasterPageHandle findMasterPage( String name )
+	public final MasterPageHandle findMasterPage( String name )
 	{
 		DesignElement element = module.findPage( name );
 		if ( element == null )
@@ -827,7 +688,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         is not found
 	 */
 
-	public ParameterHandle findParameter( String name )
+	public final ParameterHandle findParameter( String name )
 	{
 		DesignElement element = module.findParameter( name );
 		if ( element == null || !( element instanceof Parameter ) )
@@ -845,7 +706,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         found
 	 */
 
-	public SharedStyleHandle findNativeStyle( String name )
+	public final SharedStyleHandle findNativeStyle( String name )
 	{
 		StyleElement style = module.findNativeStyle( name );
 		if ( style == null )
@@ -879,7 +740,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         found
 	 */
 
-	public ThemeHandle findTheme( String name )
+	public final ThemeHandle findTheme( String name )
 	{
 		Theme theme = module.findTheme( name );
 		if ( theme == null )
@@ -893,7 +754,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the name of the author.
 	 */
 
-	public String getAuthor( )
+	public final String getAuthor( )
 	{
 		return getStringProperty( AUTHOR_PROP );
 	}
@@ -903,7 +764,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @return the subject of the module.
 	 */
-	public String getSubject( )
+	public final String getSubject( )
 	{
 		return getStringProperty( SUBJECT_PROP );
 	}
@@ -915,7 +776,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the subject of the module.
 	 * @throws SemanticException
 	 */
-	public void setSubject( String subject ) throws SemanticException
+	public final void setSubject( String subject ) throws SemanticException
 	{
 		setStringProperty( SUBJECT_PROP, subject );
 	}
@@ -929,7 +790,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see CommandStack
 	 */
 
-	public CommandStack getCommandStack( )
+	public final CommandStack getCommandStack( )
 	{
 		return module.getActivityStack( );
 	}
@@ -943,7 +804,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public SlotHandle getComponents( )
 	{
-		return getSlot( COMPONENT_SLOT );
+		return null;
 	}
 
 	/**
@@ -952,7 +813,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the name of the tool
 	 */
 
-	public String getCreatedBy( )
+	public final String getCreatedBy( )
 	{
 		return getStringProperty( CREATED_BY_PROP );
 	}
@@ -966,7 +827,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public SlotHandle getDataSets( )
 	{
-		return getSlot( DATA_SET_SLOT );
+		return null;
 	}
 
 	/**
@@ -985,7 +846,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public SlotHandle getDataSources( )
 	{
-		return getSlot( DATA_SOURCE_SLOT );
+		return null;
 	}
 
 	/**
@@ -996,7 +857,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
 	 */
 
-	public String getDefaultUnits( )
+	public final String getDefaultUnits( )
 	{
 		return module.getUnits( );
 	}
@@ -1026,7 +887,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
 	 */
 
-	public void setDefaultUnits( String units ) throws SemanticException
+	public final void setDefaultUnits( String units ) throws SemanticException
 	{
 		setStringProperty( UNITS_PROP, units );
 	}
@@ -1036,7 +897,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
 	 */
-	public DesignElement getElement( )
+	public final DesignElement getElement( )
 	{
 		return module;
 	}
@@ -1052,7 +913,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         not found or this session does not use IDs.
 	 */
 
-	public DesignElementHandle getElementByID( long id )
+	public final DesignElementHandle getElementByID( long id )
 	{
 		DesignElement element = module.getElementByID( id );
 		if ( element == null )
@@ -1069,7 +930,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see ErrorDetail
 	 */
 
-	public List getErrorList( )
+	public final List getErrorList( )
 	{
 		return module.getErrorList( );
 	}
@@ -1082,7 +943,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the file name
 	 */
 
-	public String getFileName( )
+	public final String getFileName( )
 	{
 		return module.getFileName( );
 	}
@@ -1097,20 +958,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getFlattenParameters( )
 	{
-		ArrayList list = new ArrayList( );
-		SlotHandle slotHandle = getParameters( );
-		Iterator it = slotHandle.iterator( );
-		while ( it.hasNext( ) )
-		{
-			DesignElementHandle h = (DesignElementHandle) it.next( );
-			list.add( h );
-			if ( h instanceof ParameterGroupHandle )
-			{
-				addParameters( list, (ParameterGroupHandle) h );
-			}
-		}
-		DesignElementHandle.doSort( list );
-		return list;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1119,7 +967,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the name of an external file
 	 */
 
-	public String getHelpGuide( )
+	public final String getHelpGuide( )
 	{
 		return getStringProperty( HELP_GUIDE_PROP );
 	}
@@ -1130,7 +978,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the script called when the report starts executing
 	 */
 
-	public String getInitialize( )
+	public final String getInitialize( )
 	{
 		return getStringProperty( INITIALIZE_METHOD );
 	}
@@ -1144,7 +992,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public SlotHandle getMasterPages( )
 	{
-		return getSlot( PAGE_SLOT );
+		return null;
 	}
 
 	/**
@@ -1158,7 +1006,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see #getMessage(String, Locale)
 	 */
 
-	public String getMessage( String resourceKey )
+	public final String getMessage( String resourceKey )
 	{
 		return getModule( ).getMessage( resourceKey );
 	}
@@ -1181,7 +1029,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         if resoueceKey is blank.
 	 */
 
-	public String getMessage( String resourceKey, Locale locale )
+	public final String getMessage( String resourceKey, Locale locale )
 	{
 		return getModule( )
 				.getMessage( resourceKey, ULocale.forLocale( locale ) );
@@ -1205,7 +1053,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         if resoueceKey is blank.
 	 */
 
-	public String getMessage( String resourceKey, ULocale locale )
+	public final String getMessage( String resourceKey, ULocale locale )
 	{
 		return getModule( ).getMessage( resourceKey, locale );
 	}
@@ -1219,7 +1067,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return a list of user-defined message keys.
 	 */
 
-	public List getMessageKeys( )
+	public final List getMessageKeys( )
 	{
 		return getModule( ).getMessageKeys( );
 	}
@@ -1234,7 +1082,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public SlotHandle getParameters( )
 	{
-		return getSlot( PARAMETER_SLOT );
+		return null;
 	}
 
 	/**
@@ -1247,7 +1095,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         if the cascading group with the given name is not found.
 	 */
 
-	public CascadingParameterGroupHandle findCascadingParameterGroup(
+	public final CascadingParameterGroupHandle findCascadingParameterGroup(
 			String groupName )
 	{
 		DesignElement element = module.findParameter( groupName );
@@ -1267,7 +1115,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public SlotHandle getStyles( )
 	{
-		return getSlot( IReportDesignModel.STYLE_SLOT );
+		return null;
 	}
 
 	/**
@@ -1286,7 +1134,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see TranslationHandle
 	 */
 
-	public TranslationHandle getTranslation( String resourceKey, String locale )
+	public final TranslationHandle getTranslation( String resourceKey,
+			String locale )
 	{
 		Translation translation = module.findTranslation( resourceKey, locale );
 
@@ -1305,9 +1154,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         if there is no messages defined in the design.
 	 */
 
-	public String[] getTranslationKeys( )
+	public final String[] getTranslationKeys( )
 	{
-		return getModule( ).getTranslationResourceKeys( );
+		return module.getTranslationResourceKeys( );
 	}
 
 	/**
@@ -1320,9 +1169,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see TranslationHandle
 	 */
 
-	public List getTranslations( )
+	public final List getTranslations( )
 	{
-		List translations = getModule( ).getTranslations( );
+		List translations = module.getTranslations( );
 
 		if ( translations == null )
 			return null;
@@ -1347,7 +1196,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see ErrorDetail
 	 */
 
-	public List getWarningList( )
+	public final List getWarningList( )
 	{
 		return module.getWarningList( );
 	}
@@ -1363,7 +1212,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public Iterator imagesIterator( )
 	{
-		return getPropertyHandle( IMAGES_PROP ).iterator( );
+		return Collections.emptyList( ).iterator( );
 	}
 
 	/**
@@ -1375,7 +1224,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see EmbeddedImageHandle
 	 */
 
-	public List getAllImages( )
+	public final List getAllImages( )
 	{
 		return getStructureList( IMAGES_PROP );
 	}
@@ -1390,7 +1239,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         or save; <code>false</code> if it has not changed.
 	 */
 
-	public boolean needsSave( )
+	public final boolean needsSave( )
 	{
 		String version = module.getVersionManager( ).getVersion( );
 		if ( version != null )
@@ -1407,7 +1256,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * completion of a save done using <code>serialize</code>.
 	 */
 
-	public void onSave( )
+	public final void onSave( )
 	{
 		module.onSave( );
 	}
@@ -1422,7 +1271,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         removed. Otherwise <code>false</code>.
 	 */
 
-	public boolean removeValidationListener( IValidationListener listener )
+	public final boolean removeValidationListener( IValidationListener listener )
 	{
 		return getModule( ).removeValidationListener( listener );
 	}
@@ -1440,7 +1289,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the element handle whose name is need to check.
 	 */
 
-	public void rename( DesignElementHandle elementHandle )
+	public final void rename( DesignElementHandle elementHandle )
 	{
 		rename( (DesignElementHandle) null, elementHandle );
 	}
@@ -1454,7 +1303,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            element handle
 	 */
 
-	public void rename( DesignElementHandle containerHandle,
+	public final void rename( DesignElementHandle containerHandle,
 			DesignElementHandle elementHandle )
 	{
 		if ( elementHandle == null )
@@ -1505,7 +1354,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void replaceConfigVariable( ConfigVariable oldVar,
 			ConfigVariable newVar ) throws SemanticException
 	{
-		replaceObjectInList( CONFIG_VARS_PROP, oldVar, newVar );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -1523,32 +1372,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void replaceImage( EmbeddedImage oldVar, EmbeddedImage newVar )
 			throws SemanticException
 	{
-		replaceObjectInList( IMAGES_PROP, oldVar, newVar );
-	}
-
-	/**
-	 * Replaces an old object in the structure list with the given new one.
-	 * 
-	 * @param propName
-	 *            the name of the property that holds a structure list
-	 * @param oldVar
-	 *            an existed object in the list
-	 * @param newVar
-	 *            a new object
-	 * @throws SemanticException
-	 *             if the old object is not found or the name of new one is
-	 *             empty.
-	 */
-
-	private void replaceObjectInList( String propName, Object oldVar,
-			Object newVar ) throws SemanticException
-	{
-		ElementPropertyDefn propDefn = module.getPropertyDefn( propName );
-
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
-				getElement( ) );
-		cmd.replaceItem( new StructureContext( getElement( ), propDefn, null ),
-				(Structure) oldVar, (Structure) newVar );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -1561,7 +1385,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see #saveAs(String)
 	 */
 
-	public void save( ) throws IOException
+	public final void save( ) throws IOException
 	{
 		String fileName = getFileName( );
 		if ( fileName == null )
@@ -1587,7 +1411,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see #save()
 	 */
 
-	public void saveAs( String newName ) throws IOException
+	public final void saveAs( String newName ) throws IOException
 	{
 		setFileName( newName );
 		save( );
@@ -1604,7 +1428,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *             successfully.
 	 */
 
-	public void serialize( OutputStream out ) throws IOException
+	public final void serialize( OutputStream out ) throws IOException
 	{
 		assert out != null;
 
@@ -1620,7 +1444,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the name of the author.
 	 */
 
-	public void setAuthor( String author )
+	public final void setAuthor( String author )
 	{
 		try
 		{
@@ -1628,7 +1452,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		}
 		catch ( SemanticException e )
 		{
-			assert false;
+			throw new IllegalOperationException( );
 		}
 	}
 
@@ -1639,7 +1463,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the name of the tool
 	 */
 
-	public void setCreatedBy( String toolName )
+	public final void setCreatedBy( String toolName )
 	{
 		try
 		{
@@ -1647,7 +1471,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		}
 		catch ( SemanticException e )
 		{
-			assert false;
+			throw new IllegalOperationException( );
 		}
 	}
 
@@ -1662,18 +1486,18 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            filename extension.
 	 */
 
-	public void setFileName( String newName )
+	public final void setFileName( String newName )
 	{
-		getModule( ).setFileName( newName );
+		module.setFileName( newName );
 
 		if ( !StringUtil.isBlank( newName ) )
 		{
 			URL systemId = URIUtilImpl.getDirectory( newName );
 			if ( systemId != null )
-				getModule( ).setSystemId( systemId );
+				module.setSystemId( systemId );
 
 			URL location = URIUtilImpl.getURLPresentation( newName );
-			getModule( ).setLocation( location );
+			module.setLocation( location );
 		}
 
 		AttributeEvent event = new AttributeEvent( module,
@@ -1688,7 +1512,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the name of an external file
 	 */
 
-	public void setHelpGuide( String helpGuide )
+	public final void setHelpGuide( String helpGuide )
 	{
 		try
 		{
@@ -1696,7 +1520,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		}
 		catch ( SemanticException e )
 		{
-			assert false;
+			throw new IllegalOperationException( );
 		}
 	}
 
@@ -1707,7 +1531,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the script to set.
 	 */
 
-	public void setInitialize( String value )
+	public final void setInitialize( String value )
 	{
 		try
 		{
@@ -1715,7 +1539,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		}
 		catch ( SemanticException e )
 		{
-			assert false;
+			throw new IllegalOperationException( );
 		}
 	}
 
@@ -1729,10 +1553,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllStyles( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.STYLE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
-
-		return generateHandleList( elementList );
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1747,10 +1568,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleThemes( int level )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.THEME_NAME_SPACE, level );
-
-		return generateHandleList( sortVisibleElements( elementList, level ) );
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1762,15 +1580,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getParametersAndParameterGroups( )
 	{
-		SlotHandle params = getSlot( PARAMETER_SLOT );
-
-		List retList = new ArrayList( );
-		for ( int i = 0; i < params.getCount( ); i++ )
-		{
-			retList.add( params.get( i ) );
-		}
-
-		return retList;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1783,10 +1593,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSources( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.DATA_SOURCE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
-		return generateHandleList( elementList );
-
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1797,10 +1604,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleDataSources( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.DATA_SOURCE_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
-		return generateHandleList( sortVisibleElements( elementList,
-				IAccessControl.NATIVE_LEVEL ) );
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1813,9 +1617,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSets( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.DATA_SET_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
-		return generateHandleList( elementList );
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1826,33 +1628,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleDataSets( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.DATA_SET_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
-		return generateHandleList( sortVisibleElements( elementList,
-				IAccessControl.NATIVE_LEVEL ) );
-
-	}
-
-	/**
-	 * Gets all the cube elements from the given element list.
-	 * 
-	 * @param elements
-	 * @return all cube elements
-	 */
-	private List getCubeList( List elements )
-	{
-		if ( elements == null )
-			return null;
-		List cubes = new ArrayList( );
-		for ( int i = 0; i < elements.size( ); i++ )
-		{
-			DesignElement element = (DesignElement) elements.get( i );
-			if ( element.getDefn( ).isKindOf(
-					MetaDataDictionary.getInstance( ).getElement(
-							ReportDesignConstants.CUBE_ELEMENT ) ) )
-				cubes.add( element );
-		}
-		return cubes;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1865,10 +1641,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllCubes( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.CUBE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
-		List cubeList = getCubeList( elementList );
-		return generateHandleList( cubeList );
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1879,12 +1652,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleCubes( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.CUBE_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
-		List cubeList = getCubeList( elementList );
-		return generateHandleList( sortVisibleElements( cubeList,
-				IAccessControl.NATIVE_LEVEL ) );
-
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1894,7 +1662,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @return the local embedded image list.
 	 */
-	public List getVisibleImages( )
+	public final List getVisibleImages( )
 	{
 		List images = getNativeStructureList( IModuleModel.IMAGES_PROP );
 		return images;
@@ -1910,10 +1678,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllPages( )
 	{
-		List elementList = module.getNameHelper( ).getNameSpace(
-				Module.PAGE_NAME_SPACE ).getElements( );
-
-		return generateHandleList( elementList );
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1924,37 +1689,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllParameters( )
 	{
-		List elementList = module.getNameHelper( ).getNameSpace(
-				Module.PARAMETER_NAME_SPACE ).getElements( );
-
-		return generateHandleList( elementList );
-	}
-
-	/**
-	 * Generates a list of element handles according to the given element list.
-	 * Each content in the return list is generated use <code>element.getHandle(
-	 * Module )</code>
-	 * 
-	 * @param elementList
-	 *            a list of elements.
-	 * @return a list of element handles.
-	 */
-
-	private List generateHandleList( List elementList )
-	{
-		List handleList = new ArrayList( );
-
-		Iterator iter = elementList.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			DesignElement element = (DesignElement) iter.next( );
-
-			Module root = element.getRoot( );
-			assert root != null;
-
-			handleList.add( element.getHandle( root ) );
-		}
-		return handleList;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1964,7 +1699,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the libraries this report design includes directly or indirectly.
 	 */
 
-	public List getAllLibraries( )
+	public final List getAllLibraries( )
 	{
 		return getLibraries( IAccessControl.ARBITARY_LEVEL );
 	}
@@ -1978,7 +1713,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return list of libraries.
 	 */
 
-	protected List getLibraries( int level )
+	protected final List getLibraries( int level )
 	{
 		List libraries = module.getLibraries( level );
 		List retLibs = new ArrayList( );
@@ -1999,7 +1734,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the libraries this report design includes directly.
 	 */
 
-	public List getLibraries( )
+	public final List getLibraries( )
 	{
 		return getLibraries( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 	}
@@ -2012,7 +1747,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the library handle with the given namespace
 	 */
 
-	public LibraryHandle getLibrary( String namespace )
+	public final LibraryHandle getLibrary( String namespace )
 	{
 		Module library = module.getLibraryWithNamespace( namespace,
 				IAccessControl.DIRECTLY_INCLUDED_LEVEL );
@@ -2034,7 +1769,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the library handle with the given file name
 	 */
 
-	public LibraryHandle findLibrary( String fileName )
+	public final LibraryHandle findLibrary( String fileName )
 	{
 		URL url = module.findResource( fileName, IResourceLocator.LIBRARY );
 		if ( url == null )
@@ -2062,11 +1797,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void shiftLibrary( LibraryHandle library, int toPosn )
 			throws SemanticException
 	{
-		if ( library == null )
-			return;
-
-		ShiftLibraryCommand command = new ShiftLibraryCommand( module );
-		command.shiftLibrary( (Library) library.getElement( ), toPosn );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2075,7 +1806,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return true, if this module is read-only. Otherwise, return false.
 	 */
 
-	public boolean isReadOnly( )
+	public final boolean isReadOnly( )
 	{
 		return module.isReadOnly( );
 	}
@@ -2090,9 +1821,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public Iterator includeLibrariesIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( LIBRARIES_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
+		return Collections.emptyList( ).iterator( );
 	}
 
 	/**
@@ -2114,8 +1843,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void includeLibrary( String libraryFileName, String namespace )
 			throws DesignFileException, SemanticException
 	{
-		LibraryCommand command = new LibraryCommand( module );
-		command.addLibrary( libraryFileName, namespace );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2133,15 +1861,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropLibrary( LibraryHandle library ) throws SemanticException
 	{
-		if ( library == null )
-			return;
-
-		LibraryCommand command = new LibraryCommand( module );
-		command.dropLibrary( (Library) library.getElement( ) );
-
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2168,50 +1888,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void reloadLibrary( LibraryHandle libraryToReload )
 			throws SemanticException, DesignFileException
 	{
-		if ( libraryToReload == null )
-			return;
-
-		Map reloadLibs = new HashMap( );
-		LibraryCommand command = new LibraryCommand( module );
-
-		String location = libraryToReload.getLocation( );
-		if ( location == null )
-			location = libraryToReload.getFileName( );
-
-		command.reloadLibrary( location, reloadLibs );
-
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
-	}
-
-	/**
-	 * Reloads the library this module includes. <code>libraryToReload</code>
-	 * must be directly/indirectly included in the module.
-	 * 
-	 * @param libraryToReload
-	 *            the library to reload
-	 * @param reloadLibs
-	 *            the map contains library files that has been reload
-	 * 
-	 * @throws SemanticException
-	 * @throws DesignFileException
-	 */
-
-	private void reloadLibrary( Library libraryToReload,
-			IncludedLibrary includedLib, Map reloadLibs )
-			throws SemanticException, DesignFileException
-	{
-		if ( libraryToReload == null )
-			return;
-
-		LibraryCommand command = new LibraryCommand( module );
-		command.reloadLibrary( (Library) libraryToReload, includedLib,
-				reloadLibs );
-
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2230,33 +1907,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void reloadLibraries( ) throws SemanticException,
 			DesignFileException
 	{
-		List libs = getListProperty( IModuleModel.LIBRARIES_PROP );
-		if ( libs == null || libs.isEmpty( ) )
-			return;
-
-		List cachedList = new ArrayList( );
-		cachedList.addAll( libs );
-
-		Map reloadLibs = new HashMap( );
-
-		for ( int i = 0; i < cachedList.size( ); i++ )
-		{
-			IncludedLibrary lib = (IncludedLibrary) cachedList.get( i );
-			Library includeLib = module.getLibraryWithNamespace( lib
-					.getNamespace( ), IAccessControl.DIRECTLY_INCLUDED_LEVEL );
-			if ( includeLib != null )
-				reloadLibrary( includeLib, lib, reloadLibs );
-			else
-			{
-				LibraryCommand cmd = new LibraryCommand( module );
-				cmd.reloadLibrary( lib.getFileName( ), lib.getNamespace( ) );
-			}
-
-		}
-
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2284,38 +1935,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void reloadLibrary( String reloadPath ) throws SemanticException,
 			DesignFileException
 	{
-		if ( StringUtil.isEmpty( reloadPath ) )
-			return;
-
-		URL url = ModelUtil.getURLPresentation( reloadPath );
-		String path = null;
-		if ( url != null )
-			path = url.toExternalForm( );
-
-		if ( path == null )
-		{
-			DesignParserException ex = new DesignParserException(
-					new String[]{reloadPath},
-					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List exceptionList = new ArrayList( );
-			exceptionList.add( ex );
-			throw new DesignFileException( path, exceptionList );
-		}
-
-		List<Library> libs = module.getLibrariesByLocation( path,
-				IAccessControl.ARBITARY_LEVEL );
-
-		Map<String, Library> reloadLibs = new HashMap( );
-		for ( int i = 0; i < libs.size( ); i++ )
-		{
-			LibraryCommand command = new LibraryCommand( module );
-			Library lib = libs.get( i );
-			command.reloadLibrary( lib, null, reloadLibs );
-		}
-
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2333,15 +1953,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void dropLibraryAndBreakExtends( LibraryHandle library )
 			throws SemanticException
 	{
-		if ( library == null )
-			return;
-
-		LibraryCommand command = new LibraryCommand( module );
-		command.dropLibraryAndBreakExtends( (Library) library.getElement( ) );
-
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2351,9 +1963,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the attribute listener to add
 	 */
 
-	public void addAttributeListener( IAttributeListener listener )
+	public final void addAttributeListener( IAttributeListener listener )
 	{
-		getModule( ).addAttributeListener( listener );
+		module.addAttributeListener( listener );
 	}
 
 	/**
@@ -2367,9 +1979,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 */
 
-	public boolean removeAttributeListener( IAttributeListener listener )
+	public final boolean removeAttributeListener( IAttributeListener listener )
 	{
-		return getModule( ).removeAttributeListener( listener );
+		return module.removeAttributeListener( listener );
 	}
 
 	/**
@@ -2379,9 +1991,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the dispose listener to add
 	 */
 
-	public void addDisposeListener( IDisposeListener listener )
+	public final void addDisposeListener( IDisposeListener listener )
 	{
-		getModule( ).addDisposeListener( listener );
+		module.addDisposeListener( listener );
 	}
 
 	/**
@@ -2392,9 +2004,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the resource change listener to add
 	 */
 
-	public void addResourceChangeListener( IResourceChangeListener listener )
+	public final void addResourceChangeListener(
+			IResourceChangeListener listener )
 	{
-		getModule( ).addResourceChangeListener( listener );
+		module.addResourceChangeListener( listener );
 	}
 
 	/**
@@ -2408,9 +2021,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 */
 
-	public boolean removeDisposeListener( IDisposeListener listener )
+	public final boolean removeDisposeListener( IDisposeListener listener )
 	{
-		return getModule( ).removeDisposeListener( listener );
+		return module.removeDisposeListener( listener );
 	}
 
 	/**
@@ -2424,10 +2037,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 */
 
-	public boolean removeResourceChangeListener(
+	public final boolean removeResourceChangeListener(
 			IResourceChangeListener listener )
 	{
-		return getModule( ).removeResourceChangeListener( listener );
+		return module.removeResourceChangeListener( listener );
 	}
 
 	/*
@@ -2436,7 +2049,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#drop()
 	 */
 
-	public void drop( ) throws SemanticException
+	public final void drop( ) throws SemanticException
 	{
 		throw new IllegalOperationException( );
 	}
@@ -2447,7 +2060,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#dropAndClear()
 	 */
 
-	public void dropAndClear( ) throws SemanticException
+	public final void dropAndClear( ) throws SemanticException
 	{
 		throw new IllegalOperationException( );
 	}
@@ -2458,7 +2071,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the base name of the customer-defined resource bundle.
 	 */
 
-	public String getIncludeResource( )
+	public final String getIncludeResource( )
 	{
 		return getStringProperty( INCLUDE_RESOURCE_PROP );
 	}
@@ -2474,7 +2087,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            common base name of the customer-defined resource bundle.
 	 */
 
-	public void setIncludeResource( String baseName )
+	public final void setIncludeResource( String baseName )
 	{
 		try
 		{
@@ -2482,7 +2095,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		}
 		catch ( SemanticException e )
 		{
-			assert false;
+			throw new IllegalOperationException( );
 		}
 	}
 
@@ -2522,7 +2135,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         </code> is found, or null otherwise.
 	 */
 
-	public URL findResource( String fileName, int fileType )
+	public final URL findResource( String fileName, int fileType )
 	{
 		return module.findResource( fileName, fileType );
 	}
@@ -2565,7 +2178,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         </code> is found, or null otherwise.
 	 */
 
-	public URL findResource( String fileName, int fileType, Map appContext )
+	public final URL findResource( String fileName, int fileType, Map appContext )
 	{
 		return module.findResource( fileName, fileType, appContext );
 	}
@@ -2586,8 +2199,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public CssStyleSheetHandle openCssStyleSheet( String fileName )
 			throws StyleSheetException
 	{
-		CssStyleSheet sheet = module.loadCss( fileName );
-		return sheet.handle( module );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2606,8 +2218,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public CssStyleSheetHandle openCssStyleSheet( InputStream is )
 			throws StyleSheetException
 	{
-		StyleSheetLoader loader = new StyleSheetLoader( );
-		return loader.load( module, is ).handle( module );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2624,8 +2235,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 */
 
-	abstract public void importCssStyles( CssStyleSheetHandle stylesheet,
-			List selectedStyles );
+	public void importCssStyles( CssStyleSheetHandle stylesheet,
+			List selectedStyles )
+	{
+		throw new IllegalOperationException( );
+	}
 
 	/**
 	 * Sets the theme to a report.
@@ -2637,8 +2251,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void setThemeName( String themeName ) throws SemanticException
 	{
-		ThemeCommand command = new ThemeCommand( (Module) getElement( ) );
-		command.setTheme( themeName );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2647,9 +2260,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the refresh rate
 	 */
 
-	public ThemeHandle getTheme( )
+	public final ThemeHandle getTheme( )
 	{
-		Theme theme = getModule( ).getTheme( module );
+		Theme theme = module.getTheme( module );
 		if ( theme == null )
 			return null;
 
@@ -2666,8 +2279,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void setTheme( ThemeHandle theme ) throws SemanticException
 	{
-		ThemeCommand command = new ThemeCommand( (Module) getElement( ) );
-		command.setThemeElement( theme );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2676,9 +2288,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the location information of the module
 	 */
 
-	String getLocation( )
+	final String getLocation( )
 	{
-		return getModule( ).getLocation( );
+		return module.getLocation( );
 	}
 
 	/**
@@ -2691,9 +2303,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         the same absolute path as that the given library, otherwise false
 	 */
 
-	public boolean isInclude( LibraryHandle library )
+	public final boolean isInclude( LibraryHandle library )
 	{
-		return getModule( ).getLibraryByLocation( library.getLocation( ) ) != null;
+		return module.getLibraryByLocation( library.getLocation( ) ) != null;
 	}
 
 	/**
@@ -2707,7 +2319,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         if the template parameter definition is not found
 	 */
 
-	TemplateParameterDefinitionHandle findTemplateParameterDefinition(
+	final TemplateParameterDefinitionHandle findTemplateParameterDefinition(
 			String name )
 	{
 		TemplateParameterDefinition templateParam = module
@@ -2727,11 +2339,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	List getAllTemplateParameterDefinitions( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
-				Module.TEMPLATE_PARAMETER_NAME_SPACE,
-				IAccessControl.NATIVE_LEVEL );
-
-		return generateHandleList( elementList );
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -2740,7 +2348,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the static description to display
 	 */
 
-	public String getDescription( )
+	public final String getDescription( )
 	{
 		return getStringProperty( IModuleModel.DESCRIPTION_PROP );
 	}
@@ -2753,7 +2361,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the localized description for the module
 	 */
 
-	public String getDisplayDescription( )
+	public final String getDisplayDescription( )
 	{
 		return getExternalizedValue( IModuleModel.DESCRIPTION_ID_PROP,
 				IModuleModel.DESCRIPTION_PROP );
@@ -2770,7 +2378,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *             if the property is locked.
 	 */
 
-	public void setDescription( String description ) throws SemanticException
+	public final void setDescription( String description )
+			throws SemanticException
 	{
 		setStringProperty( IModuleModel.DESCRIPTION_PROP, description );
 	}
@@ -2781,7 +2390,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the resource key of the static description
 	 */
 
-	public String getDescriptionKey( )
+	public final String getDescriptionKey( )
 	{
 		return getStringProperty( IModuleModel.DESCRIPTION_ID_PROP );
 	}
@@ -2796,7 +2405,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *             if the resource key property is locked.
 	 */
 
-	public void setDescriptionKey( String resourceKey )
+	public final void setDescriptionKey( String resourceKey )
 			throws SemanticException
 	{
 		setStringProperty( IModuleModel.DESCRIPTION_ID_PROP, resourceKey );
@@ -2819,7 +2428,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *             contians invlid property name or property value.
 	 */
 
-	public void initializeModule( Map properties ) throws SemanticException
+	public final void initializeModule( Map properties )
+			throws SemanticException
 	{
 		// if this report deisgn has been initialized, return.
 		if ( isInitialized )
@@ -2835,8 +2445,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 			String name = (String) entry.getKey( );
 			try
 			{
-				Object value = PropertyValueValidationUtil.validateProperty( this,
-						name, entry.getValue( ) );
+				Object value = PropertyValueValidationUtil.validateProperty(
+						this, name, entry.getValue( ) );
 				root.setProperty( name, value );
 			}
 			catch ( SemanticException e )
@@ -2856,7 +2466,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the encoding of the file
 	 */
 
-	public String getFileEncoding( )
+	public final String getFileEncoding( )
 	{
 		return UnicodeUtil.SIGNATURE_UTF_8;
 	}
@@ -2869,7 +2479,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the symbolica name of this module
 	 */
 
-	public String getSymbolicName( )
+	public final String getSymbolicName( )
 	{
 		// This method should be deleted.
 		return null;
@@ -2884,7 +2494,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void setSymbolicName( String symbolicName ) throws SemanticException
+	public final void setSymbolicName( String symbolicName )
+			throws SemanticException
 	{
 		// This method should be deleted.
 	}
@@ -2895,7 +2506,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the system id of the module
 	 */
 
-	public URL getSystemId( )
+	public final URL getSystemId( )
 	{
 		return module.getSystemId( );
 	}
@@ -2910,15 +2521,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropScriptLib( ScriptLib scriptLib ) throws SemanticException
 	{
-		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-
-		if ( scriptLib == null )
-			return;
-
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
-				scriptLib );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2932,16 +2535,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void dropIncludeScript( IncludeScript includeScript )
 			throws SemanticException
 	{
-		if ( includeScript == null )
-			return;
-
-		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
-
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
-				includeScript );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2955,15 +2549,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void dropScriptLib( ScriptLibHandle scriptLibHandle )
 			throws SemanticException
 	{
-		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-
-		if ( scriptLibHandle == null )
-			return;
-
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
-				scriptLibHandle.getStructure( ) );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2974,17 +2560,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropAllScriptLibs( ) throws SemanticException
 	{
-		List scriptLibs = getFilteredStructureList( SCRIPTLIBS_PROP,
-				ScriptLib.SCRIPTLIB_NAME_MEMBER );
-		if ( scriptLibs == null )
-			return;
-		int count = scriptLibs.size( );
-		for ( int i = count - 1; i >= 0; --i )
-		{
-			ScriptLibHandle scriptLibHandle = (ScriptLibHandle) scriptLibs
-					.get( i );
-			dropScriptLib( scriptLibHandle );
-		}
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -2996,7 +2572,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see ScriptLibHandle
 	 */
 
-	public Iterator scriptLibsIterator( )
+	public final Iterator scriptLibsIterator( )
 	{
 		return getFilteredStructureList( SCRIPTLIBS_PROP,
 				ScriptLib.SCRIPTLIB_NAME_MEMBER ).iterator( );
@@ -3008,7 +2584,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return list which structure is <code>ScriptLibHandle</code>
 	 */
 
-	public List getAllScriptLibs( )
+	public final List getAllScriptLibs( )
 	{
 		return getFilteredStructureList( SCRIPTLIBS_PROP,
 				ScriptLib.SCRIPTLIB_NAME_MEMBER );
@@ -3022,10 +2598,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return script lib
 	 */
 
-	public ScriptLib findScriptLib( String name )
+	public final ScriptLib findScriptLib( String name )
 	{
 		List scriptLibs = getListProperty( SCRIPTLIBS_PROP );
-		for ( int i = 0; scriptLibs != null && i < scriptLibs.size( ); ++i )
+		if ( scriptLibs == null || scriptLibs.isEmpty( ) )
+			return null;
+
+		for ( int i = 0; i < scriptLibs.size( ); ++i )
 		{
 			ScriptLib scriptLib = (ScriptLib) scriptLibs.get( i );
 			if ( scriptLib.getName( ).equals( name ) )
@@ -3053,11 +2632,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void shiftScriptLibs( int sourceIndex, int destIndex )
 			throws SemanticException
 	{
-		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.moveItem( new StructureContext( getElement( ), propDefn, null ),
-				sourceIndex, destIndex );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -3078,12 +2653,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void shifIncludeScripts( int sourceIndex, int destIndex )
 			throws SemanticException
 	{
-		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.moveItem( new StructureContext( getElement( ), propDefn, null ),
-				sourceIndex, destIndex );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -3096,11 +2666,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void addScriptLib( ScriptLib scriptLib ) throws SemanticException
 	{
-		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.addItem( new StructureContext( getElement( ), propDefn, null ),
-				scriptLib );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -3114,12 +2680,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void addIncludeScript( IncludeScript includeScript )
 			throws SemanticException
 	{
-		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.addItem( new StructureContext( getElement( ), propDefn, null ),
-				includeScript );
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -3129,7 +2690,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the folder to set
 	 */
 
-	public void setResourceFolder( String resourceFolder )
+	public final void setResourceFolder( String resourceFolder )
 	{
 		module.setResourceFolder( resourceFolder );
 	}
@@ -3140,7 +2701,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the resource folder set in this module
 	 */
 
-	public String getResourceFolder( )
+	public final String getResourceFolder( )
 	{
 		return module.getResourceFolder( );
 	}
@@ -3156,7 +2717,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @deprecated new method see {@link #getLineNo(Object)}
 	 */
 
-	public int getLineNoByID( long id )
+	public final int getLineNoByID( long id )
 	{
 		return module.getLineNoByID( id );
 	}
@@ -3173,7 +2734,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         corresponding item does not exist.
 	 */
 
-	public int getLineNo( Object obj )
+	public final int getLineNo( Object obj )
 	{
 		if ( obj instanceof EmbeddedImageHandle )
 		{
@@ -3196,77 +2757,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Sorts visible elements. Check value in design handle and libraries and
-	 * sort the sequence as list in slot handle.
-	 * 
-	 * @param nameSpaceList
-	 *            the list contains elements from name space
-	 * @param level
-	 *            level
-	 * 
-	 * @return the list contains sorted design elements.
-	 */
-
-	private List sortVisibleElements( List nameSpaceList, int level )
-	{
-		// Sort element in namespace
-
-		List modules = new ArrayList( );
-		if ( nameSpaceList.size( ) == 0 )
-			return modules;
-
-		// Check value in design handle and libraries.
-
-		DesignElement element = (DesignElement) nameSpaceList.get( 0 );
-		int slotID = element.getContainerInfo( ) == null
-				? IDesignElementModel.NO_SLOT
-				: element.getContainerInfo( ).getSlotID( );
-		assert slotID != IDesignElementModel.NO_SLOT;
-
-		// Libraries
-		modules.add( this );
-		modules.addAll( getLibraries( level ) );
-
-		return checkVisibleElements( nameSpaceList, modules, slotID );
-
-	}
-
-	/**
-	 * Checks visible elements
-	 * 
-	 * @param nameSpaceList
-	 *            the list contains elements from name space
-	 * @param modules
-	 *            the list contains design handle and library handle
-	 * @param slotID
-	 *            slot id
-	 * @return the list contains sorted design elements.
-	 */
-
-	private List checkVisibleElements( List nameSpaceList, List modules,
-			int slotID )
-	{
-		assert modules != null;
-		List resultList = new ArrayList( );
-
-		for ( int i = 0; i < modules.size( ); ++i )
-		{
-			ModuleHandle handle = (ModuleHandle) modules.get( i );
-			SlotHandle slotHandle = handle.getSlot( slotID );
-			for ( int j = 0; j < slotHandle.getCount( ); ++j )
-			{
-				DesignElementHandle contentHandle = slotHandle.get( j );
-				DesignElement content = contentHandle.getElement( );
-				if ( nameSpaceList.contains( content ) )
-				{
-					resultList.add( content );
-				}
-			}
-		}
-		return resultList;
-	}
-
-	/**
 	 * Returns the version for the opened design file. If the report/library is
 	 * newly created, the version is <code>null</code>. Only the opened/saved
 	 * report/library have the version information.
@@ -3278,7 +2768,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the design file version number
 	 */
 
-	public String getVersion( )
+	public final String getVersion( )
 	{
 		String retVersion = module.getVersionManager( ).getVersion( );
 		return retVersion;
@@ -3292,11 +2782,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see IncludeScriptHandle
 	 */
 
-	public Iterator includeScriptsIterator( )
+	public final Iterator includeScriptsIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( INCLUDE_SCRIPTS_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
+		return propHandle == null
+				? Collections.emptyList( ).iterator( )
+				: propHandle.iterator( );
 	}
 
 	/**
@@ -3307,7 +2798,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         .
 	 */
 
-	public List getAllIncludeScripts( )
+	public final List getAllIncludeScripts( )
 	{
 		return getStructureList( INCLUDE_SCRIPTS_PROP );
 	}
@@ -3318,7 +2809,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#copy()
 	 */
 
-	public IDesignElement copy( )
+	public final IDesignElement copy( )
 	{
 		// for the design/library, should not call copy for paste policy since
 		// don't expect localization for extends-related properties.

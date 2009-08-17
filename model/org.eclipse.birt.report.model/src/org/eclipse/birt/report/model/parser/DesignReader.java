@@ -16,7 +16,7 @@ import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
@@ -79,12 +79,12 @@ public final class DesignReader extends ModuleReader
 	 *             run-time exception.
 	 */
 
-	public ReportDesign read( DesignSession session, String fileName,
+	public ReportDesign read( DesignSessionImpl session, String fileName,
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
 		DesignParserHandler handler = new DesignParserHandler( session,
-				 fileName, options );
+				fileName, options );
 		return (ReportDesign) readModule( handler, inputStream );
 	}
 
@@ -107,7 +107,7 @@ public final class DesignReader extends ModuleReader
 	 * @return the internal representation of the design
 	 */
 
-	public ReportDesign read( DesignSession session, URL systemId,
+	public ReportDesign read( DesignSessionImpl session, URL systemId,
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
@@ -135,7 +135,7 @@ public final class DesignReader extends ModuleReader
 	 *             run-time exception.
 	 */
 
-	public ReportDesign read( DesignSession session, String fileName,
+	public ReportDesign read( DesignSessionImpl session, String fileName,
 			ModuleOption options ) throws DesignFileException
 	{
 		DesignParserHandler handler = new DesignParserHandler( session,

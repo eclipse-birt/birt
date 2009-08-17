@@ -68,20 +68,6 @@ public class OdaDataSetState extends SimpleDataSetState
 	private ODAProvider provider = null;
 
 	/**
-	 * Constructs the oda data set with the design file parser handler.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 */
-
-	public OdaDataSetState( ModuleParserHandler handler )
-	{
-		super( handler );
-
-		element = new OdaDataSet( );
-	}
-
-	/**
 	 * Constructs the data set state with the design parser handler, the
 	 * container element and the container slot of the data set.
 	 * 
@@ -152,8 +138,9 @@ public class OdaDataSetState extends SimpleDataSetState
 		if ( isValidExtensionId )
 			return super.startElement( tagName );
 
-		return ParseStateFactory.getInstance( ).createParseState( tagName, handler,
-				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
+		return ParseStateFactory.getInstance( ).createParseState( tagName,
+				handler, element,
+				( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 
 	/**

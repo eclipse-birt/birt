@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
@@ -33,18 +32,6 @@ class SimpleDataSetState extends ReportElementState
 	 */
 
 	protected SimpleDataSet element;
-
-	/**
-	 * Constructs the data set state with the design parser handler.
-	 * 
-	 * @param theHandler
-	 *            the design file parser handler
-	 */
-
-	public SimpleDataSetState( ModuleParserHandler theHandler )
-	{
-		super( theHandler, theHandler.getModule( ), IModuleModel.DATA_SET_SLOT );
-	}
 
 	/**
 	 * Constructs the data set state with the design parser handler, the
@@ -78,7 +65,9 @@ class SimpleDataSetState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException

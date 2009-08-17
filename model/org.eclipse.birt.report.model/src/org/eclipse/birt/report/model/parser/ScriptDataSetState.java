@@ -25,19 +25,6 @@ import org.xml.sax.Attributes;
 
 public class ScriptDataSetState extends SimpleDataSetState
 {
-
-	/**
-	 * Constructs the script data set state with the design file parser handler.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 */
-
-	public ScriptDataSetState( ModuleParserHandler handler )
-	{
-		super( handler );
-	}
-	
 	/**
 	 * Constructs the data set state with the design parser handler, the
 	 * container element and the container slot of the data set.

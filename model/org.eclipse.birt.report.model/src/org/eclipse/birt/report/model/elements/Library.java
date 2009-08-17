@@ -15,7 +15,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
+import org.eclipse.birt.report.model.core.LayoutModule;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
@@ -29,7 +30,7 @@ import org.eclipse.birt.report.model.writer.ModuleWriter;
  * refers.
  */
 
-public class Library extends Module implements ILibraryModel
+public class Library extends LayoutModule implements ILibraryModel
 {
 
 	/**
@@ -42,7 +43,7 @@ public class Library extends Module implements ILibraryModel
 	 * The host module which includes this module.
 	 */
 
-	protected Module host = null;
+	protected LayoutModule host = null;
 
 	/**
 	 * Constructor for loading library from design file.
@@ -53,10 +54,10 @@ public class Library extends Module implements ILibraryModel
 	 *            the host module which includes this library
 	 */
 
-	public Library( DesignSession theSession, Module host )
+	public Library( DesignSessionImpl theSession, Module host )
 	{
 		super( theSession );
-		this.host = host;
+		this.host = (LayoutModule) host;
 		initSlots( );
 		onCreate( );
 	}
@@ -68,7 +69,7 @@ public class Library extends Module implements ILibraryModel
 	 *            the session in which this library is involved
 	 */
 
-	public Library( DesignSession theSession )
+	public Library( DesignSessionImpl theSession )
 	{
 		this( theSession, null );
 	}
@@ -175,7 +176,7 @@ public class Library extends Module implements ILibraryModel
 	 * @return the host module.
 	 */
 
-	public Module getHost( )
+	public LayoutModule getHost( )
 	{
 		return host;
 	}
@@ -187,7 +188,7 @@ public class Library extends Module implements ILibraryModel
 	 *            the host module to set
 	 */
 
-	public void setHost( Module theHost )
+	public void setHost( LayoutModule theHost )
 	{
 		this.host = theHost;
 	}
@@ -290,27 +291,26 @@ public class Library extends Module implements ILibraryModel
 				hostModule = ( (Library) hostModule ).host;
 
 			// if it is report design, just break;
-			
+
 			break;
 		}
 
 		return null;
 	}
 
-	/**
-	 * Returns the root module that contains this library. The return value can
-	 * be report or library.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the root module
+	 * @see
+	 * org.eclipse.birt.report.model.core.LayoutModule#findOutermostModule()
 	 */
-
-	public Module findOutermostModule( )
+	public LayoutModule findOutermostModule( )
 	{
-		Module tmpModule = this;
+		LayoutModule tmpModule = this;
 
 		while ( tmpModule instanceof Library )
 		{
-			Module tmpHost = ( (Library) tmpModule ).getHost( );
+			LayoutModule tmpHost = ( (Library) tmpModule ).getHost( );
 
 			if ( tmpHost == null )
 				break;
@@ -343,7 +343,7 @@ public class Library extends Module implements ILibraryModel
 		cloned.setSystemId( getSystemId( ) );
 		cloned.setNamespace( getNamespace( ) );
 
-		cloned.setHost( newHost );
+		cloned.setHost( (LayoutModule) newHost );
 
 		return cloned;
 	}

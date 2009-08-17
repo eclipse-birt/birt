@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -45,8 +45,8 @@ public class LibraryParserHandler extends ModuleParserHandler
 	 *            libraries that have been reload
 	 */
 
-	LibraryParserHandler( DesignSession theSession, Module host, URL fileName,
-			ModuleOption options, Map<String, Library> reloadLibs )
+	LibraryParserHandler( DesignSessionImpl theSession, Module host,
+			URL fileName, ModuleOption options, Map<String, Library> reloadLibs )
 	{
 		super( theSession, fileName.toExternalForm( ), reloadLibs );
 
@@ -83,7 +83,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 	 *            libraries that have been reload
 	 */
 
-	LibraryParserHandler( DesignSession theSession, Module host,
+	LibraryParserHandler( DesignSessionImpl theSession, Module host,
 			String fileName, ModuleOption options )
 	{
 		super( theSession, fileName );
@@ -118,7 +118,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 	 *            module options.
 	 */
 
-	LibraryParserHandler( DesignSession theSession, String fileName,
+	LibraryParserHandler( DesignSessionImpl theSession, String fileName,
 			ModuleOption options )
 	{
 		super( theSession, fileName );
@@ -152,7 +152,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 	 *            module options.
 	 */
 
-	LibraryParserHandler( DesignSession theSession, URL systemId,
+	LibraryParserHandler( DesignSessionImpl theSession, URL systemId,
 			ModuleOption options )
 	{
 		super( theSession, systemId.toExternalForm( ) );

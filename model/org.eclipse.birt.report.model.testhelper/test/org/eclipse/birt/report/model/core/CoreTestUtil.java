@@ -94,7 +94,7 @@ public class CoreTestUtil
 	{
 		if ( module == null )
 			return null;
-		return module.session;
+		return (DesignSession)module.session;
 	}
 
 	/**

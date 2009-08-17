@@ -63,9 +63,9 @@ public class OdaDataSourceState extends DataSourceState
 	 *            the design file parser handler
 	 */
 
-	public OdaDataSourceState( ModuleParserHandler handler )
+	public OdaDataSourceState( ModuleParserHandler handler, int slot )
 	{
-		super( handler );
+		super( handler, slot );
 		element = new OdaDataSource( );
 	}
 
@@ -110,8 +110,9 @@ public class OdaDataSourceState extends DataSourceState
 		if ( isValidExtensionId )
 			return super.startElement( tagName );
 
-		return ParseStateFactory.getInstance( ).createParseState( tagName, handler,
-				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
+		return ParseStateFactory.getInstance( ).createParseState( tagName,
+				handler, element,
+				( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 
 	/**
