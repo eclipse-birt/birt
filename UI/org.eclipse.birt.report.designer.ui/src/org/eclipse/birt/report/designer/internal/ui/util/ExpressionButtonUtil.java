@@ -182,7 +182,7 @@ public class ExpressionButtonUtil
 				contextObject,
 				null,
 				false,
-				SWT.PUSH,
+				style,
 				new ExpressionHelper( ) );
 	}
 
@@ -196,7 +196,7 @@ public class ExpressionButtonUtil
 				contextObject,
 				null,
 				allowConstant,
-				SWT.PUSH,
+				style,
 				new ExpressionHelper( ) );
 	}
 
