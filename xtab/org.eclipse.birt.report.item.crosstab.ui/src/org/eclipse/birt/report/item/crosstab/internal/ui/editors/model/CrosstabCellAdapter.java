@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
 /**
@@ -275,7 +276,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 		}
 		
-		if ( obj instanceof ScalarParameterHandle )
+		if ( obj instanceof ScalarParameterHandle || obj instanceof VariableElementHandle )
 		{
 			return true;
 		}

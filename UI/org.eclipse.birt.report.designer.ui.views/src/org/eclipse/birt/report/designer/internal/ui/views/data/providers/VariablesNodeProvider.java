@@ -139,27 +139,6 @@ public class VariablesNodeProvider extends DefaultNodeProvider
 		return (DesignElementHandle) dialog.getResult( );
 	}
 
-	protected boolean performInsert( Object model, SlotHandle slotHandle,
-			String type, String position, Map extendData ) throws Exception
-	{
-		if ( ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT.equals( type ) )
-		{
-			DesignElementHandle handle = super.createElement( type );
-			slotHandle.add( handle );
-			CascadingParametersDialog dialog = new CascadingParametersDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					Messages.getString( "ParameterNodeProvider.dial.title.newCascading" ) ); //$NON-NLS-1$
-			dialog.setInput( handle );
-			return ( dialog.open( ) == Dialog.OK );
-		}
-		return super.performInsert( model,
-				slotHandle,
-				type,
-				position,
-				extendData );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

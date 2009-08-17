@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -453,6 +454,10 @@ public class InsertInLayoutUtil
 		{
 			return performInsertParameter( (ScalarParameterHandle) insertObj );
 		}
+		else if ( insertObj instanceof VariableElementHandle )
+		{
+			return performInsertVariable( (VariableElementHandle) insertObj );
+		}
 		else if ( insertObj instanceof String )
 		{
 			// Such as invalid group key
@@ -559,6 +564,26 @@ public class InsertInLayoutUtil
 		String paramType = model.getDataType( );
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( paramType ) )
 			paramType = DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
+
+		bindingColumn.setDataType( paramType );
+
+		dataHandle.addColumnBinding( bindingColumn, false );
+		dataHandle.setResultSetColumn( bindingColumn.getName( ) );
+		return dataHandle;
+	}
+
+	public static DataItemHandle performInsertVariable(
+			VariableElementHandle model ) throws SemanticException
+	{
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+				.newDataItem( null );
+
+		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
+				model.getName( ) );
+		bindingColumn.setExpression( DEUtil.getExpression( model ) );
+
+		// FIXME, currently varialbe does not support type
+		String paramType = DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
 
 		bindingColumn.setDataType( paramType );
 

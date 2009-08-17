@@ -43,6 +43,7 @@ import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ContentElementHandle;
 import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -51,6 +52,7 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -395,13 +397,27 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			Map extendsData = request.getExtendedData( );
 			SlotHandle slotHandle = (SlotHandle) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_SLOT );
-			String type = (String) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_TYPE );
-			String position = (String) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_POSITION );
-			return performInsert( model,
-					slotHandle,
-					type,
-					position,
-					extendsData );
+			if ( slotHandle != null )
+			{
+				String type = (String) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_TYPE );
+				String position = (String) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_POSITION );
+				return performInsert( model,
+						slotHandle,
+						type,
+						position,
+						extendsData );
+			}
+			PropertyHandle propertyHandle = (PropertyHandle) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_PROPERTY );
+			if ( propertyHandle != null )
+			{
+				String type = (String) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_TYPE );
+				String position = (String) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_POSITION );
+				return performInsert( model,
+						propertyHandle,
+						type,
+						position,
+						extendsData );
+			}
 		}
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_EDIT ) )
 		{
@@ -412,6 +428,10 @@ public class DefaultNodeProvider implements INodeProvider
 			else if ( model instanceof ElementDetailHandle )
 			{
 				return performEdit( (ElementDetailHandle) model );
+			}
+			else if ( model instanceof ContentElementHandle )
+			{
+				return performEdit( (ContentElementHandle) model );
 			}
 
 		}
@@ -708,12 +728,64 @@ public class DefaultNodeProvider implements INodeProvider
 		return true;
 	}
 
+	protected DesignElementHandle createElement( PropertyHandle propertyHandle,
+			String type ) throws Exception
+	{
+		return createElement( type );
+	}
+
+	protected boolean performInsert( Object model,
+			PropertyHandle propertyHandle, String type, String position,
+			Map extendData ) throws Exception
+	{
+		DesignElementHandle elementHandle = createElement( propertyHandle, type );
+		if ( extendData != null )
+		{
+			extendData.put( IRequestConstants.REQUEST_KEY_RESULT, elementHandle );
+		}
+
+		if ( elementHandle == null )
+		{
+			return false;
+		}
+		if ( position == InsertAction.CURRENT )
+		{
+			propertyHandle.add( elementHandle );
+		}
+		else
+		{
+			int pos = DNDUtil.calculateNextPosition( model,
+					DNDUtil.handleValidateTargetCanContain( model,
+							elementHandle,
+							true ) );
+			if ( pos > 0 && position == InsertAction.ABOVE )
+			{
+				pos--;
+			}
+
+			if ( pos == -1 )
+			{
+				propertyHandle.add( elementHandle );
+			}
+			else
+			{
+				propertyHandle.add( elementHandle, pos );
+			}
+		}
+		return true;
+	}
+
 	protected boolean performEdit( ReportElementHandle handle )
 	{
 		return false;
 	}
 
 	protected boolean performEdit( ElementDetailHandle handle )
+	{
+		return false;
+	}
+
+	protected boolean performEdit( ContentElementHandle handle )
 	{
 		return false;
 	}

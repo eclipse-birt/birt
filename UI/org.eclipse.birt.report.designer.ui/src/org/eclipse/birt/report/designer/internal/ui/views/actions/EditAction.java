@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.model.api.ContentElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.gef.Request;
@@ -67,6 +68,10 @@ public class EditAction extends AbstractElementAction
 		{
 			return true;
 		}
+		else if ( getSelectedContentElement( ) != null )
+		{
+			return true;
+		}
 
 		return false;
 	}
@@ -89,6 +94,12 @@ public class EditAction extends AbstractElementAction
 		{
 			return ProviderFactory.createProvider( getSelectedElementDetail( ) )
 					.performRequest( getSelectedElementDetail( ),
+							new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
+		}
+		else if ( getSelectedContentElement() != null)
+		{
+			return ProviderFactory.createProvider( getSelectedContentElement( ) )
+					.performRequest( getSelectedContentElement( ),
 							new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
 		}
 		return false;
@@ -133,6 +144,24 @@ public class EditAction extends AbstractElementAction
 		if ( obj instanceof ElementDetailHandle )
 		{
 			return (ElementDetailHandle) obj;
+		}
+		return null;
+	}
+	private ContentElementHandle getSelectedContentElement( )
+	{
+		Object obj = super.getSelection( );
+		if ( obj instanceof IStructuredSelection )
+		{
+			IStructuredSelection selection = (IStructuredSelection) obj;
+			if ( selection.size( ) != 1 )
+			{// multiple selection
+				return null;
+			}
+			obj = selection.getFirstElement( );
+		}
+		if ( obj instanceof ContentElementHandle )
+		{
+			return (ContentElementHandle) obj;
 		}
 		return null;
 	}

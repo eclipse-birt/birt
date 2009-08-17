@@ -13,11 +13,13 @@ package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.EditAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.VariableDialog;
+import org.eclipse.birt.report.model.api.ContentElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -29,25 +31,11 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 public class VariableNodeProvider extends DefaultNodeProvider
 {
 
-	private static class EditVariableAction extends AbstractElementAction
+	@Override
+	public Object getParent( Object model )
 	{
-
-		public EditVariableAction( Object selectedObject )
-		{
-			super( selectedObject, Messages.getString("EditAction.text") ); //$NON-NLS-1$
-		}
-
-		@Override
-		protected boolean doAction( ) throws Exception
-		{
-			VariableDialog dialog = new VariableDialog( Messages.getString("VariableNodeProvider.DialogTitle"), //$NON-NLS-1$
-					(ReportDesignHandle) SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ),
-					(VariableElementHandle) getSelection( ) );
-			dialog.open( );
-			return true;
-		}
-
+		return ( (VariableElementHandle) model ).getRoot( )
+				.getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP );
 	}
 
 	public Object[] getChildren( Object model )
@@ -68,13 +56,26 @@ public class VariableNodeProvider extends DefaultNodeProvider
 			IMenuManager menu )
 	{
 		super.createContextMenu( sourceViewer, object, menu );
+		// menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
+		// new EditVariableAction( object ) );
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new EditVariableAction( object ) );
+				new EditAction( object,
+						Messages.getString( "ParameterNodeProvider.menu.text.edit" ) ) );
 	}
 
 	public String getNodeDisplayName( Object object )
 	{
 		return ( (VariableElementHandle) object ).getDisplayLabel( );
+	}
+
+	protected boolean performEdit( ContentElementHandle handle )
+	{
+		VariableDialog dialog = new VariableDialog( Messages.getString( "VariableNodeProvider.DialogTitle" ), //$NON-NLS-1$
+				(ReportDesignHandle) SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ),
+				(VariableElementHandle) handle );
+		dialog.open( );
+		return true;
 	}
 
 }
