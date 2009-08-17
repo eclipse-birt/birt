@@ -1,5 +1,8 @@
 package org.eclipse.birt.report.model.api.oda;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -48,6 +51,9 @@ public class AggregationDefn implements IAggregationDefn {
 	 * Indicate if this aggregation can ignore null values.
 	 */
 	protected boolean canIgnoreNullValues = false;
+
+	private static Logger logger = Logger.getLogger(AggregationDefn.class
+			.getName());
 
 	AggregationDefn() {
 	}
@@ -366,9 +372,14 @@ public class AggregationDefn implements IAggregationDefn {
 			minInputVar = 2;
 			maxInputVar = 2;
 
-		} else
-			throw new IllegalArgumentException("The Birt filter expression Id"
-					+ id + "is not valid.");
+		} else {
+
+			logger.log(Level.SEVERE, "The Birt filter expression Id: " + id
+					+ " is not valid.");
+
+		}
+		// throw new IllegalArgumentException("The Birt filter expression Id"
+		// + id + "is not valid.");
 
 		if (birtAggregationId != null)
 			birtAggregationDisplayName = getAggregationDisplayName(birtAggregationId);
