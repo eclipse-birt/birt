@@ -136,7 +136,7 @@ public class QueryResultSet implements IQueryResultSet
 		int rowid = -1;
 		try
 		{
-			rowid = rs.getRowId( );
+			rowid = parent.getResultIterator( ).getRowId( );
 		}
 		catch ( Exception ex )
 		{

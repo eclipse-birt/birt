@@ -77,6 +77,70 @@ public class QueryUtil
 	}
 
 	/*
+	 * Return the result set id from which this instanceID is generated
+	 */
+	public static String getResultSetId( ReportContent report,
+			InstanceID instanceID )
+	{
+		Report design = report.getDesign( );
+		ArrayList<QueryTask> plan = createPlan( design, instanceID );
+		StringBuilder sb = new StringBuilder( );
+		ExecutionContext executionContext = report.getExecutionContext( );
+		try
+		{
+			for ( int current = plan.size( ) - 1; current >= 0; current-- )
+			{
+				QueryTask task = plan.get( current );
+				IDataQueryDefinition query = task.getQuery( );
+				if ( task.getParent( ) == null )
+				{
+					String rset = getResultSetID( executionContext, null, "-1",
+							query );
+					if ( rset == null )
+						return null;
+					sb.append( rset );
+				}
+				else
+				{
+					if ( sb.length( ) == 0 )
+					{
+						throw new EngineException(
+								MessageConstants.INVALID_INSTANCE_ID_ERROR,
+								instanceID );
+					}
+
+					long rowid = task.getRowID( );
+					if ( query instanceof ISubqueryDefinition )
+					{
+						String queryName = query.getName( );
+						sb.insert( 0, "R" + rowid + "S" + queryName );
+					}
+					else
+					{
+						String rset = getResultSetID( executionContext, sb
+								.toString( ), String.valueOf( rowid ), query );
+						sb.setLength( 0 );
+						if ( rset != null )
+						{
+							sb.append( rset );
+						}
+						else
+						{
+							// TODO: if possible to come here
+						}
+					}
+				}
+			}
+		}
+		catch ( EngineException ex )
+		{
+			executionContext.addException( ex );
+		}
+
+		return sb.toString( );
+	}
+
+	/*
 	 * create a plan which contains only table queries.
 	 */
 	static public ArrayList<QueryTask> createTablePlan( Report report,
