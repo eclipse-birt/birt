@@ -16,8 +16,10 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -82,10 +84,11 @@ public class Difference
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				"2003", "2004", "2005", "2006"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
 		DifferenceDataSet values = DifferenceDataSetImpl.create( new DifferenceEntry[]{
 				new DifferenceEntry( 12.3, 9.3 ),
 				new DifferenceEntry( 25.9, 15.7 ),
+				new DifferenceEntry( 15.9, 25.7 ),
 				new DifferenceEntry( 19.5, 14.5 )
 		} );
 		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
@@ -115,7 +118,10 @@ public class Difference
 		bs1.getLabel( ).setVisible( false );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( -1 );
+		MultipleFill mf = MultipleFillImpl.create( );
+		mf.getFills( ).add( ColorDefinitionImpl.GREEN( ) );
+		mf.getFills( ).add( ColorDefinitionImpl.RED( ) );
+		sdY.getSeriesPalette( ).update( mf );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs1 );
 

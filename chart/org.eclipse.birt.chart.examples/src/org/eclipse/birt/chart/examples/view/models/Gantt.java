@@ -14,7 +14,11 @@ package org.eclipse.birt.chart.examples.view.models;
 import org.eclipse.birt.chart.extension.datafeed.GanttEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
+import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -71,19 +75,20 @@ public class Gantt
 
 		// X-Axis
 		Axis xAxisPrimary = cwaGantt.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		xAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		xAxisPrimary.setCategoryAxis( false );
+		xAxisPrimary.setCategoryAxis( true );
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 		
 		// Y-Axis
 		Axis yAxisPrimary = cwaGantt.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.setOrientation( Orientation.VERTICAL_LITERAL );
 		yAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
 		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
 		yAxisPrimary.getScale( ).setMin( DateTimeDataElementImpl.create( new CDateTime(2008,1,1) ) );
 		yAxisPrimary.getScale( ).setMax( DateTimeDataElementImpl.create( new CDateTime(2009,1,1) ) );
+		DateFormatSpecifier dfs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );		
+		dfs.setDetail( DateFormatDetail.DATE_LITERAL );
+		dfs.setType( DateFormatType.MEDIUM_LITERAL );
+		yAxisPrimary.setFormatSpecifier( dfs );
 
 		// Data Set
 		NumberDataSet categoryValues = NumberDataSetImpl.create( new double[]{
