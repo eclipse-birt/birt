@@ -123,6 +123,19 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 			}
 
 			validateCrosstab( );
+
+			// revalidate the aggregation functions, the function may be ignored
+			// in previous processing.
+			if ( measureList != null && functionList != null )
+			{
+				for ( int i = 0; i < measureList.size( ); i++ )
+				{
+					MeasureViewHandle mv = measureList.get( i );
+					String func = functionList.get( i );
+
+					setAggregationFunction( mv, func );
+				}
+			}
 		}
 		catch ( SemanticException e )
 		{
@@ -421,7 +434,9 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		// if crosstab is not found, or level and measure not reside in the same
 		// one then return null
 		if ( crosstab == null || crosstab != measureView.getCrosstab( ) )
+		{
 			return;
+		}
 
 		String levelName = focus.getCubeLevelName( );
 		int axisType = focus.getAxisType( );
@@ -432,7 +447,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 
 		try
 		{
-			// retrieve all aggregations for the measure a
+			// retrieve all aggregations for the measure
 			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 			{
 				AggregationCellHandle cell = measureView.getAggregationCell( j );

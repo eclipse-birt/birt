@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
@@ -120,6 +121,19 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 
 			validateCrosstab( );
 
+			// revalidate the aggregation functions, the function may be ignored
+			// in previous processing.
+			if ( measureList != null && functionList != null )
+			{
+				for ( int i = 0; i < measureList.size( ); i++ )
+				{
+					MeasureViewHandle mv = measureList.get( i );
+					String func = functionList.get( i );
+
+					setAggregationFunction( mv, func );
+				}
+			}
+
 			totalCell = (CrosstabCellHandle) CrosstabUtil.getReportItem( grandTotal );
 		}
 		catch ( SemanticException e )
@@ -140,6 +154,52 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 		}
 
 		return totalCell;
+	}
+
+	private void setAggregationFunction( MeasureViewHandle measureView,
+			String function ) throws SemanticException
+	{
+		if ( crosstabView.getGrandTotal( ) == null || measureView == null )
+			return;
+
+		// if crosstab is not found, or level and measure not reside in the same
+		// one then return null
+		if ( crosstab == null || crosstab != measureView.getCrosstab( ) )
+		{
+			return;
+		}
+
+		int axisType = crosstabView.getAxisType( );
+		String propName = CrosstabModelUtil.getAggregationOnPropName( axisType );
+
+		CommandStack stack = crosstab.getCommandStack( );
+		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.set.aggregate.function" ) ); //$NON-NLS-1$
+
+		try
+		{
+			// retrieve all aggregations for the measure
+			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
+			{
+				AggregationCellHandle cell = measureView.getAggregationCell( j );
+				if ( cell.getModelHandle( ).getStringProperty( propName ) == null )
+				{
+					// TODO: now we will change the function in the referred
+					// column binding, need we generate a new computed column
+					// rather thann write the old one, for the old one may be
+					// used by other elements
+					CrosstabModelUtil.setAggregationFunction( crosstab,
+							cell,
+							function );
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
 	}
 
 	/**
