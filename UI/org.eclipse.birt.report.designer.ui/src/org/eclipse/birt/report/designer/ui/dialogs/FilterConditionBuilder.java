@@ -94,9 +94,6 @@ import org.eclipse.ui.PlatformUI;
 public class FilterConditionBuilder extends BaseTitleAreaDialog
 {
 
-	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
-	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
-
 	protected static Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "FilterConditionBuilder.DialogTitle.New" ); //$NON-NLS-1$
@@ -313,6 +310,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	protected Label andLable;
 
 	protected DesignElementHandle designHandle;
+
+	protected DataSetHandle dataSetHandle;
 
 	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "FilterConditionBuilder.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
@@ -1202,6 +1201,22 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		setColumnList( this.designHandle );
 	}
 
+	/*
+	 * If set dataset handle , then the priority of the dataset is first.
+	 */
+	public void setDataSetHandle( DataSetHandle handle )
+	{
+		this.dataSetHandle = handle;
+		setColumnList( this.dataSetHandle );
+	}
+
+	public void setDataSetHandle( DataSetHandle handle,
+			IExpressionProvider provider )
+	{
+		setDataSetHandle( handle );
+		this.expressionProvider = provider;
+	}
+
 	protected IExpressionProvider expressionProvider;
 
 	public void setDesignHandle( DesignElementHandle handle,
@@ -1212,10 +1227,23 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		setColumnList( this.designHandle );
 	}
 
+	private DataSetHandle dataset;
+
 	protected void setColumnList( DesignElementHandle handle )
 	{
-		DataSetHandle dataset = null;
-		if ( handle instanceof TabularCubeHandle
+		if ( handle instanceof DataSetHandle )
+		{
+			dataset = (DataSetHandle) handle;
+			try
+			{
+				columnList = DataUtil.getColumnList( dataset );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+		else if ( handle instanceof TabularCubeHandle
 				|| handle instanceof TabularHierarchyHandle )
 		{
 			try
@@ -1240,7 +1268,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			}
 			catch ( SemanticException e )
 			{
-				e.printStackTrace( );
+				ExceptionHandler.handle( e );
 			}
 
 		}
@@ -1560,11 +1588,20 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				}
 
 				// set test expression for new map rule
-				filter.setExpressionProperty( FilterCondition.EXPR_MEMBER,
-						new Expression( expression.getText( ).trim( ),
-								(String) expression.getData( EXPR_TYPE ) ) );
-				PropertyHandle propertyHandle = designHandle.getPropertyHandle( ListingHandle.FILTER_PROP );
-				propertyHandle.addItem( filter );
+				ExpressionButtonUtil.saveExpressionButtonControl( expression,
+						filter,
+						FilterCondition.EXPR_MEMBER );
+
+				if ( dataSetHandle != null )
+				{
+					PropertyHandle propertyHandle = dataSetHandle.getPropertyHandle( ListingHandle.FILTER_PROP );
+					propertyHandle.addItem( filter );
+				}
+				else
+				{
+					PropertyHandle propertyHandle = designHandle.getPropertyHandle( ListingHandle.FILTER_PROP );
+					propertyHandle.addItem( filter );
+				}
 			}
 			else
 			{
@@ -1596,9 +1633,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 						filterCondition.setValue2( NULL_STRING );
 					}
 				}
-				filterCondition.setExpressionProperty( FilterCondition.EXPR_MEMBER,
-						new Expression( expression.getText( ).trim( ),
-								(String) expression.getData( EXPR_TYPE ) ) );
+				ExpressionButtonUtil.saveExpressionButtonControl( expression,
+						filterCondition,
+						FilterCondition.EXPR_MEMBER );
 			}
 		}
 		catch ( Exception e )
@@ -1623,27 +1660,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
 				initValue );
 
-		if ( designHandle != null )
-		{
-			if ( expressionProvider == null )
-			{
-				if ( designHandle instanceof TabularCubeHandle
-						|| designHandle instanceof TabularHierarchyHandle )
-				{
-					expressionBuilder.setExpressionProvider( new BindingExpressionProvider( designHandle,
-							null ) );
-				}
-				else
-				{
-					expressionBuilder.setExpressionProvider( new ExpressionProvider( designHandle ) );
-				}
-			}
-			else
-			{
-				expressionBuilder.setExpressionProvider( expressionProvider );
-			}
-
-		}
+		setProviderForExpressionBuilder( expressionBuilder );
 
 		if ( expressionBuilder.open( ) == OK )
 		{
@@ -1658,6 +1675,44 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			}
 		}
 		updateButtons( );
+	}
+
+	private void setProviderForExpressionBuilder(
+			ExpressionBuilder expressionBuilder )
+	{
+		if ( dataSetHandle != null )
+		{
+			if ( expressionProvider == null )
+			{
+
+				expressionBuilder.setExpressionProvier( new ExpressionProvider( dataSetHandle ) );
+			}
+			else
+			{
+				expressionBuilder.setExpressionProvier( expressionProvider );
+			}
+		}
+		else if ( designHandle != null )
+		{
+			if ( expressionProvider == null )
+			{
+				if ( designHandle instanceof TabularCubeHandle
+						|| designHandle instanceof TabularHierarchyHandle )
+				{
+					expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
+							null ) );
+				}
+				else
+				{
+					expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+				}
+			}
+			else
+			{
+				expressionBuilder.setExpressionProvier( expressionProvider );
+			}
+
+		}
 	}
 
 	/**
@@ -1731,60 +1786,26 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			String retValue = null;
 
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-			{
-				String columnName = getColumnName( iter.next( ) );
-				if ( DEUtil.getColumnExpression( columnName )
-						.equals( expression.getText( ) ) )
-				{
-					bindingName = columnName;
-					break;
-				}
-			}
-
-			if ( bindingName != null )
-			{
-				try
-				{
-					List selectValueList = getSelectValueList( );
-					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ),
-							Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-					dialog.setSelectedValueList( selectValueList );
-					if ( bindingParams != null )
-					{
-						dialog.setBindingParams( bindingParams );
-					}
-
-					if ( dialog.open( ) == IDialogConstants.OK_ID )
-					{
-						retValue = dialog.getSelectedExprValue( );
-					}
-
-				}
-				catch ( Exception ex )
-				{
-					MessageDialog.openError( null,
-							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-							Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
-									+ "\n" //$NON-NLS-1$
-									+ ex.getMessage( ) );
-				}
-
-			}
-			else if ( designHandle instanceof TabularCubeHandle
+			if ( dataSetHandle != null
+					|| designHandle instanceof TabularCubeHandle
 					|| designHandle instanceof TabularHierarchyHandle )
 			{
 
 				DataSetHandle dataSet = null;
-				if ( designHandle instanceof TabularCubeHandle )
+				if ( dataSetHandle != null )
 				{
-					dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+					dataSet = dataSetHandle;
 				}
 				else
 				{
-					dataSet = ( (TabularHierarchyHandle) designHandle ).getDataSet( );
+					if ( designHandle instanceof TabularCubeHandle )
+					{
+						dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+					}
+					else
+					{
+						dataSet = ( (TabularHierarchyHandle) designHandle ).getDataSet( );
+					}
 				}
 				String expressionString = expression.getText( );
 				try
@@ -1814,11 +1835,55 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			}
 			else
 			{
-				MessageDialog.openInformation( null,
-						Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-						Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
-			}
+				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+				{
+					String columnName = getColumnName( iter.next( ) );
+					if ( DEUtil.getColumnExpression( columnName )
+							.equals( expression.getText( ) ) )
+					{
+						bindingName = columnName;
+						break;
+					}
+				}
 
+				if ( bindingName != null )
+				{
+					try
+					{
+						List selectValueList = getSelectValueList( );
+						SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+								.getDisplay( )
+								.getActiveShell( ),
+								Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+						dialog.setSelectedValueList( selectValueList );
+						if ( bindingParams != null )
+						{
+							dialog.setBindingParams( bindingParams );
+						}
+
+						if ( dialog.open( ) == IDialogConstants.OK_ID )
+						{
+							retValue = dialog.getSelectedExprValue( );
+						}
+
+					}
+					catch ( Exception ex )
+					{
+						MessageDialog.openError( null,
+								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+										+ "\n" //$NON-NLS-1$
+										+ ex.getMessage( ) );
+					}
+
+				}
+				else
+				{
+					MessageDialog.openInformation( null,
+							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
+				}
+			}
 			return retValue;
 		}
 	};
@@ -1888,74 +1953,31 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		public String[] doSelection( String input )
 		{
+
 			String[] retValue = null;
 
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-			{
-				Object obj = iter.next( );
-				String columnName = "";
-				if ( obj instanceof ComputedColumnHandle )
-				{
-					columnName = ( (ComputedColumnHandle) ( obj ) ).getName( );
-				}
-				else if ( obj instanceof ResultSetColumnHandle )
-				{
-					columnName = ( (ResultSetColumnHandle) ( obj ) ).getColumnName( );
-				}
-
-				if ( DEUtil.getColumnExpression( columnName )
-						.equals( expression.getText( ) ) )
-				{
-					bindingName = columnName;
-					break;
-				}
-			}
-
-			if ( bindingName != null )
-			{
-				try
-				{
-					List selectValueList = getSelectValueList( );
-					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ),
-							Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-
-					dialog.setMultipleSelection( true );
-
-					dialog.setSelectedValueList( selectValueList );
-					if ( bindingParams != null )
-					{
-						dialog.setBindingParams( bindingParams );
-					}
-					if ( dialog.open( ) == IDialogConstants.OK_ID )
-					{
-						retValue = dialog.getSelectedExprValues( );
-					}
-				}
-				catch ( Exception ex )
-				{
-					MessageDialog.openError( null,
-							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-							Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
-									+ "\n" //$NON-NLS-1$
-									+ ex.getMessage( ) );
-				}
-			}
-			else if ( designHandle instanceof TabularCubeHandle
+			if ( dataSetHandle != null
+					|| designHandle instanceof TabularCubeHandle
 					|| designHandle instanceof TabularHierarchyHandle )
 			{
 				DataSetHandle dataSet;
-				if ( designHandle instanceof TabularCubeHandle )
-					dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+				if ( dataSetHandle != null )
+				{
+					dataSet = dataSetHandle;
+				}
 				else
 				{
-					dataSet = ( (TabularHierarchyHandle) designHandle ).getDataSet( );
-					if ( dataSet == null
-							&& ( (TabularHierarchyHandle) designHandle ).getLevelCount( ) > 0 )
+					if ( designHandle instanceof TabularCubeHandle )
+						dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+					else
 					{
-						dataSet = ( (TabularCubeHandle) ( (TabularHierarchyHandle) designHandle ).getContainer( )
-								.getContainer( ) ).getDataSet( );
+						dataSet = ( (TabularHierarchyHandle) designHandle ).getDataSet( );
+						if ( dataSet == null
+								&& ( (TabularHierarchyHandle) designHandle ).getLevelCount( ) > 0 )
+						{
+							dataSet = ( (TabularCubeHandle) ( (TabularHierarchyHandle) designHandle ).getContainer( )
+									.getContainer( ) ).getDataSet( );
+						}
 					}
 				}
 				String expressionString = expression.getText( );
@@ -1989,9 +2011,64 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			}
 			else
 			{
-				MessageDialog.openInformation( null,
-						Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-						Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
+				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+				{
+					Object obj = iter.next( );
+					String columnName = Messages.getString( "ExpressionValueCellEditor.title" ); //$NON-NLS-1$
+					if ( obj instanceof ComputedColumnHandle )
+					{
+						columnName = ( (ComputedColumnHandle) ( obj ) ).getName( );
+					}
+					else if ( obj instanceof ResultSetColumnHandle )
+					{
+						columnName = ( (ResultSetColumnHandle) ( obj ) ).getColumnName( );
+					}
+
+					if ( DEUtil.getColumnExpression( columnName )
+							.equals( expression.getText( ) ) )
+					{
+						bindingName = columnName;
+						break;
+					}
+				}
+
+				if ( bindingName != null )
+				{
+					try
+					{
+						List selectValueList = getSelectValueList( );
+						SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+								.getDisplay( )
+								.getActiveShell( ),
+								Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+
+						dialog.setMultipleSelection( true );
+
+						dialog.setSelectedValueList( selectValueList );
+						if ( bindingParams != null )
+						{
+							dialog.setBindingParams( bindingParams );
+						}
+						if ( dialog.open( ) == IDialogConstants.OK_ID )
+						{
+							retValue = dialog.getSelectedExprValues( );
+						}
+					}
+					catch ( Exception ex )
+					{
+						MessageDialog.openError( null,
+								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+										+ "\n" //$NON-NLS-1$
+										+ ex.getMessage( ) );
+					}
+				}
+				else
+				{
+					MessageDialog.openInformation( null,
+							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
+				}
 			}
 
 			return retValue;
