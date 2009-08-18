@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
@@ -137,9 +138,9 @@ import com.ibm.icu.util.ULocale;
 public class ReportDataServiceProvider implements IDataServiceProvider
 {
 
-	private ExtendedItemHandle itemHandle;
+	protected ExtendedItemHandle itemHandle;
 
-	private ChartWizardContext context;
+	protected ChartWizardContext context;
 
 	/** The helper handle is used to do things for share binding case. */
 	private final ShareBindingQueryHelper fShareBindingQueryHelper = new ShareBindingQueryHelper( );
@@ -171,7 +172,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return itemHandle.getModuleHandle( );
 	}
 
-	String[] getAllDataSets( )
+	protected String[] getAllDataSets( )
 	{
 		List<DataSetHandle> list = getReportDesignHandle( ).getVisibleDataSets( );
 		String[] names = new String[list.size( )];
@@ -182,7 +183,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return names;
 	}
 
-	String[] getAllDataCubes( )
+	protected String[] getAllDataCubes( )
 	{
 		List<CubeHandle> list = getReportDesignHandle( ).getVisibleCubes( );
 		String[] names = new String[list.size( )];
@@ -208,8 +209,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		try
 		{
 			// Clean references if it's set
+			boolean isPreviousDataBindingReference = false;
 			if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
+				isPreviousDataBindingReference = true;
 				itemHandle.setDataBindingReference( null );
 			}
 			itemHandle.setDataSet( null );
@@ -222,7 +225,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			else
 			{
-				if ( !cubeName.equals( getDataCube( ) ) )
+				if ( !cubeName.equals( getDataCube( ) ) || isPreviousDataBindingReference )
 				{
 					CubeHandle cubeHandle = getReportDesignHandle( ).findCube( cubeName );
 					itemHandle.setCube( cubeHandle );
@@ -1159,7 +1162,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return returnObj;
 	}
 
-	String[] getAllReportItemReferences( )
+	protected String[] getAllReportItemReferences( )
 	{
 		List referenceList = itemHandle.getNamedDataBindingReferenceList( );
 		List<String> itemsWithName = new ArrayList<String>( );
@@ -1295,7 +1298,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					if ( isSharingChart( false ) )
 					{
 						evaluator = createBaseEvaluator( (ExtendedItemHandle) itemHandle.getDataBindingReference( ),
-								ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) itemHandle.getDataBindingReference( ) ),
+								cm,
 								columnExpression,
 								session,
 								engineTask );
@@ -1611,7 +1614,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		
 		return filterList.isEmpty( ) ? null : filterList.iterator( );
 	}
-
+	
 	/**
 	 * Creates the evaluator for Cube Live preview.
 	 * 
@@ -1631,7 +1634,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		IBaseCubeQueryDefinition qd = null;
 
 		ReportItemHandle referredHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
-		boolean isChartCubeReference = ChartReportItemUtil.isChartReportItemHandle( referredHandle );
+		boolean isChartCubeReference = isChartReportItemHandle( referredHandle );
 		if ( referredHandle != null && !isChartCubeReference )
 		{
 			// If it is 'sharing' case, include sharing crosstab and multiple
@@ -1649,7 +1652,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		else
 		{
 			qd = new ChartCubeQueryHelper( itemHandle,
-				context.getModel( ) ).createCubeQuery( null );
+				cm ).createCubeQuery( null );
 		}
 
 		session.defineCube( cube );
@@ -2771,8 +2774,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	public boolean update( String type, Object value )
 	{
 		boolean isUpdated = false;
-
-		if ( ChartUIConstants.QUERY_VALUE.equals( type )
+		if ( ChartUIConstants.COPY_SERIES_DEFINITION.equals( type ))
+		{
+			copySeriesDefinition( value );
+		}
+		else if ( ChartUIConstants.QUERY_VALUE.equals( type )
 				&& getDataCube( ) != null
 				&& isSharedBinding( ) )
 		{
@@ -2842,7 +2848,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// expression(value series expressions) doesn't contain level
 				// information, so here only update Y optional expression for
 				// sharing with crosstab case.
-				if ( !ChartReportItemUtil.isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) ) )
+				if ( !isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) ) )
 				{
 					for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
 							.iterator( ); iter.hasNext( ); )
@@ -2854,7 +2860,40 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 		}
+		else if ( ChartUIConstants.QUERY_CATEGORY.equals( type ) && value instanceof String )
+		{
+			EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions( context.getModel( ) );
+			for ( SeriesDefinition sd : baseSDs )
+			{
+				EList<Query> dds = sd.getDesignTimeSeries( ).getDataDefinition( );
+				Query q = dds.get( 0 );
+				if ( q.getDefinition( ) == null
+						|| "".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$
+				{
+					q.setDefinition( (String) value );
+				}
+			}
+		}
+		else if ( ChartUIConstants.QUERY_OPTIONAL.equals( type ) && value instanceof String )
+		{
+			List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
+			for ( SeriesDefinition sd : orthSDs )
+			{
+				Query q = sd.getQuery( );
 
+				if ( q == null )
+				{
+					sd.setQuery( QueryImpl.create( (String) value ) );
+					continue;
+				}
+
+				if ( q.getDefinition( ) == null
+						|| "".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$
+				{
+					q.setDefinition( (String) value );
+				}
+			}
+		}
 		return isUpdated;
 	}
 
@@ -3082,12 +3121,89 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( isRecursive )
 		{
 			return isShare
-					&& ChartReportItemUtil.isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) );
+					&& isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) );
 		}
 		else
 		{
 			return isShare
-					&& ChartReportItemUtil.isChartReportItemHandle( itemHandle.getDataBindingReference( ) );
+					&& isChartReportItemHandle( itemHandle.getDataBindingReference( ) );
 		}
+	}
+	
+
+	/**
+	 * @param referredHandle
+	 * @return
+	 * @since 2.5.1
+	 */
+	public boolean isChartReportItemHandle( ReportItemHandle referredHandle )
+	{
+		return ChartReportItemUtil.isChartReportItemHandle( referredHandle );
+	}
+	
+	/**
+	 * @param target
+	 * @since 2.5.1
+	 */
+	protected void copySeriesDefinition( Object target )
+	{
+		Chart targetCM = context.getModel( );
+		if ( target != null && target instanceof Chart )
+		{
+			targetCM = (Chart) target;
+		}
+		ExtendedItemHandle refHandle = getChartReferenceItemHandle( );
+		if ( refHandle != null )
+		{
+			ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
+					(Chart) targetCM );
+		}
+	}
+	
+	/**
+	 * @param handle
+	 * @return
+	 * @since 2.5.1
+	 */
+	public Object getChartFromHandle( ExtendedItemHandle handle )
+	{
+		return ChartReportItemUtil.getChartFromHandle( handle );
+	}
+	
+	/**
+	 * @return
+	 * @since 2.5.1
+	 */
+	public ExtendedItemHandle getChartReferenceItemHandle( )
+	{
+		return ChartReportItemUtil.getChartReferenceItemHandle( itemHandle );
+	}
+	
+	/**
+	 * @param obj
+	 * @param type
+	 * @return
+	 */
+	public String[] getSeriesExpressionsFrom( Object obj, String type )
+	{
+		if ( !( obj instanceof Chart ) )
+		{
+			return new String[]{};
+		}
+		
+		if( ChartUIConstants.QUERY_CATEGORY.equals( type ))
+		{
+			return ChartUtil.getCategoryExpressions( (Chart) obj );
+		}
+		else if (ChartUIConstants.QUERY_OPTIONAL.equals( type) )
+		{
+			return ChartUtil.getYOptoinalExpressions( (Chart) obj );
+		}
+		else if ( ChartUIConstants.QUERY_VALUE.equals( type ) )
+		{
+			return ChartUtil.getValueSeriesExpressions( (Chart) obj );
+		}
+		
+		return new String[]{};
 	}
 }

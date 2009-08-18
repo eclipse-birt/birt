@@ -230,9 +230,13 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			cm = context.getModel( );
 		}
 		
+		Query query = null;
 		SeriesDefinition sd = ChartUIUtil.getBaseSeriesDefinitions( cm )
 				.get( 0 );
-		Query query = sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
+		if ( sd.getDesignTimeSeries( ).getDataDefinition( ).size( ) != 0 )
+		{
+			query = sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
+		}
 		if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( ) )) //$NON-NLS-1$
 		{
 			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$

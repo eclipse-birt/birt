@@ -533,14 +533,15 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	 * 
 	 * @param checkType
 	 * @param data
-	 * @param cm
+	 * @param queryDefinitionsMap
 	 * @param itemHandle
 	 * @param provider
-	 * @return <code>true</code> means the data check is past.
-	 * @since 2.3
+	 * @return
+	 * 
+	 * @since 2.5.1
 	 */
 	public static boolean checkQueryExpression( String checkType, Object data,
-			Chart cm, ExtendedItemHandle itemHandle,
+			Map<String, Query[]> queryDefinitionsMap, ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider provider )
 	{
 		if ( data == null || "".equals( data ) ) //$NON-NLS-1$
@@ -554,8 +555,6 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		String yOptionBindName = null;
 
 		String expression = (String) data;
-
-		Map<String, Query[]> queryDefinitionsMap = QueryUIHelper.getQueryDefinitionsMap( cm );
 
 		// Compare if dimensions between category expression and Y optional
 		// expression are same.
@@ -644,6 +643,25 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		{
 			return true;
 		}
+	}
+	
+	/**
+	 * Check if the expressions of category and Y optional have same dimension.
+	 * 
+	 * @param checkType
+	 * @param data
+	 * @param cm
+	 * @param itemHandle
+	 * @param provider
+	 * @return <code>true</code> means the data check is past.
+	 * @since 2.3
+	 */
+	public static boolean checkQueryExpression( String checkType, Object data,
+			Chart cm, ExtendedItemHandle itemHandle,
+			ReportDataServiceProvider provider )
+	{
+		Map<String, Query[]> queryDefinitionsMap = QueryUIHelper.getQueryDefinitionsMap( cm );
+		return checkQueryExpression( checkType, data, queryDefinitionsMap, itemHandle, provider );
 	}
 
 	public static boolean isTransposedChartWithAxes( Chart cm )

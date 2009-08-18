@@ -259,12 +259,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartAdapter.beginIgnoreNotifications( );
 			if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
 			{
-				ExtendedItemHandle refHandle = ChartReportItemUtil.getChartReferenceItemHandle( extendedHandle );
-				if ( refHandle != null )
-				{
-					ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
-						context.getModel( ) );
-				}
+				dataProvider.update( ChartUIConstants.COPY_SERIES_DEFINITION, null );
 			}
 			
 			if ( eih.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE

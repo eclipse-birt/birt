@@ -1353,18 +1353,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 									itemHandle );
 							
 							// Bugzilla 265077.
-							ChartAdapter.beginIgnoreNotifications( );
-							if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ))
+
+							if ( this.getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
 							{
-								ExtendedItemHandle refHandle = ChartReportItemUtil.getChartReferenceItemHandle( itemHandle );
-								if ( refHandle != null )
-								{
-									ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
-										getChartModel( ) );
-								}
+								ChartAdapter.beginIgnoreNotifications( );
+								this.getDataServiceProvider( )
+										.update( ChartUIConstants.COPY_SERIES_DEFINITION, null );
+								ChartAdapter.endIgnoreNotifications( );
 							}
-							ChartAdapter.endIgnoreNotifications( );
-							
+														
 							currentData = cmbDataItems.getText( );
 							// selectDataSet( );
 							// switchDataSet( cmbDataItems.getText( ) );
@@ -2541,18 +2538,19 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					String[] valueExprs = measureExprs.toArray( new String[measureExprs.size( )] );
 
 					ReportItemHandle referenceHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
+					ReportDataServiceProvider rdsp = this.getDataServiceProvider( );
 					if ( referenceHandle instanceof ExtendedItemHandle
-							&& ChartReportItemUtil.isChartReportItemHandle( referenceHandle ) )
+							&& rdsp.isChartReportItemHandle( referenceHandle ) )
 					{
 						// If the final reference handle is cube with other
 						// chart, the valid category and Y optional expressions
 						// only allow those expressions defined in shared chart.
-						Chart referenceCM = ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) referenceHandle );
-						categoryExprs = ChartUtil.getCategoryExpressions( referenceCM );
-						yOptionalExprs = ChartUtil.getYOptoinalExpressions( referenceCM );
-						valueExprs = ChartUtil.getValueSeriesExpressions( referenceCM );
+						Object referenceCM = rdsp.getChartFromHandle( (ExtendedItemHandle) referenceHandle );
+						categoryExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_CATEGORY );
+						yOptionalExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_OPTIONAL );
+						valueExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_VALUE );
 
-						Chart cm = getChartModel( );
+						Chart cm = this.getContext( ).getModel( );
 						if ( categoryExprs.length > 0 )
 						{
 							updateCategoryExpression( cm, categoryExprs[0] );
@@ -2639,23 +2637,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 */
 	private void updateYOptionalExpressions( Chart cm, String expr )
 	{
-		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
-		for ( SeriesDefinition sd : orthSDs )
-		{
-			Query q = sd.getQuery( );
-
-			if ( q == null )
-			{
-				sd.setQuery( QueryImpl.create( expr ) );
-				continue;
-			}
-
-			if ( q.getDefinition( ) == null
-					|| "".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$
-			{
-				q.setDefinition( expr );
-			}
-		}
+		this.dataProvider.update( ChartUIConstants.QUERY_OPTIONAL, expr );
 	}
 
 	/**
@@ -2669,17 +2651,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 */
 	private void updateCategoryExpression( Chart cm, String expr )
 	{
-		EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions( cm );
-		for ( SeriesDefinition sd : baseSDs )
-		{
-			EList<Query> dds = sd.getDesignTimeSeries( ).getDataDefinition( );
-			Query q = dds.get( 0 );
-			if ( q.getDefinition( ) == null
-					|| "".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$
-			{
-				q.setDefinition( expr );
-			}
-		}
+		this.dataProvider.update( ChartUIConstants.QUERY_CATEGORY, expr );
 	}
 
 	private void checkColBindingForCube( )
