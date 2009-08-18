@@ -64,6 +64,7 @@ import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -1591,9 +1592,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         modules contain.
 	 */
 
-	public List getAllDataSources( )
+	public final List getAllDataSources( )
 	{
-		return Collections.emptyList( );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.DATA_SOURCE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
+		return generateHandleList( elementList );
 	}
 
 	/**
@@ -1602,9 +1605,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return data source handles that are visible to this modules.
 	 */
 
-	public List getVisibleDataSources( )
+	public final List getVisibleDataSources( )
 	{
-		return Collections.emptyList( );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.DATA_SOURCE_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
+		return generateHandleList( sortVisibleElements( elementList,
+				IAccessControl.NATIVE_LEVEL ) );
 	}
 
 	/**
@@ -1615,9 +1621,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         contain.
 	 */
 
-	public List getAllDataSets( )
+	public final List getAllDataSets( )
 	{
-		return Collections.emptyList( );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.DATA_SET_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
+		return generateHandleList( elementList );
 	}
 
 	/**
@@ -1626,9 +1634,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return data set handles that are visible to this modules.
 	 */
 
-	public List getVisibleDataSets( )
+	public final List getVisibleDataSets( )
 	{
-		return Collections.emptyList( );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.DATA_SET_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
+		return generateHandleList( sortVisibleElements( elementList,
+				IAccessControl.NATIVE_LEVEL ) );
 	}
 
 	/**
@@ -1639,9 +1650,34 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         contain.
 	 */
 
-	public List getAllCubes( )
+	public final List getAllCubes( )
 	{
-		return Collections.emptyList( );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.CUBE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
+		List cubeList = getCubeList( elementList );
+		return generateHandleList( cubeList );
+	}
+
+	/**
+	 * Gets all the cube elements from the given element list.
+	 * 
+	 * @param elements
+	 * @return all cube elements
+	 */
+	private List getCubeList( List elements )
+	{
+		if ( elements == null )
+			return null;
+		List cubes = new ArrayList( );
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			DesignElement element = (DesignElement) elements.get( i );
+			if ( element.getDefn( ).isKindOf(
+					MetaDataDictionary.getInstance( ).getElement(
+							ReportDesignConstants.CUBE_ELEMENT ) ) )
+				cubes.add( element );
+		}
+		return cubes;
 	}
 
 	/**
@@ -1650,9 +1686,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return cube handles that are visible to this modules.
 	 */
 
-	public List getVisibleCubes( )
+	public final List getVisibleCubes( )
 	{
-		return Collections.emptyList( );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.CUBE_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
+		List cubeList = getCubeList( elementList );
+		return generateHandleList( sortVisibleElements( cubeList,
+				IAccessControl.NATIVE_LEVEL ) );
 	}
 
 	/**
@@ -1687,9 +1727,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return all parameter handles that this modules.
 	 */
 
-	public List getAllParameters( )
+	public final List getAllParameters( )
 	{
-		return Collections.emptyList( );
+		List elementList = module.getNameHelper( ).getNameSpace(
+				Module.PARAMETER_NAME_SPACE ).getElements( );
+
+		return generateHandleList( elementList );
 	}
 
 	/**
@@ -2826,5 +2869,102 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		return null;
 
+	}
+
+	/**
+	 * Sorts visible elements. Check value in design handle and libraries and
+	 * sort the sequence as list in slot handle.
+	 * 
+	 * @param nameSpaceList
+	 *            the list contains elements from name space
+	 * @param level
+	 *            level
+	 * 
+	 * @return the list contains sorted design elements.
+	 */
+
+	protected List sortVisibleElements( List nameSpaceList, int level )
+	{
+		// Sort element in namespace
+
+		List modules = new ArrayList( );
+		if ( nameSpaceList.size( ) == 0 )
+			return modules;
+
+		// Check value in design handle and libraries.
+
+		DesignElement element = (DesignElement) nameSpaceList.get( 0 );
+		int slotID = element.getContainerInfo( ) == null
+				? IDesignElementModel.NO_SLOT
+				: element.getContainerInfo( ).getSlotID( );
+		assert slotID != IDesignElementModel.NO_SLOT;
+
+		// Libraries
+		modules.add( this );
+		modules.addAll( getLibraries( level ) );
+
+		return checkVisibleElements( nameSpaceList, modules, slotID );
+	}
+
+	/**
+	 * Checks visible elements
+	 * 
+	 * @param nameSpaceList
+	 *            the list contains elements from name space
+	 * @param modules
+	 *            the list contains design handle and library handle
+	 * @param slotID
+	 *            slot id
+	 * @return the list contains sorted design elements.
+	 */
+
+	private List checkVisibleElements( List nameSpaceList, List modules,
+			int slotID )
+	{
+		assert modules != null;
+		List resultList = new ArrayList( );
+
+		for ( int i = 0; i < modules.size( ); ++i )
+		{
+			LayoutModuleHandle handle = (LayoutModuleHandle) modules.get( i );
+			SlotHandle slotHandle = handle.getSlot( slotID );
+			for ( int j = 0; j < slotHandle.getCount( ); ++j )
+			{
+				DesignElementHandle contentHandle = slotHandle.get( j );
+				DesignElement content = contentHandle.getElement( );
+				if ( nameSpaceList.contains( content ) )
+				{
+					resultList.add( content );
+				}
+			}
+		}
+		return resultList;
+	}
+
+	/**
+	 * Generates a list of element handles according to the given element list.
+	 * Each content in the return list is generated use <code>element.getHandle(
+	 * Module )</code>
+	 * 
+	 * @param elementList
+	 *            a list of elements.
+	 * @return a list of element handles.
+	 */
+
+	protected List generateHandleList( List elementList )
+	{
+		List handleList = new ArrayList( );
+
+		Iterator iter = elementList.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement element = (DesignElement) iter.next( );
+
+			Module root = element.getRoot( );
+			assert root != null;
+
+			handleList.add( element.getHandle( root ) );
+		}
+		return handleList;
 	}
 }

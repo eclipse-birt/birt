@@ -17,111 +17,25 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Generic module parser handler, used to parse a design file or a library file.
  * 
  */
 
-public class GenericModuleParserHandler extends ModuleParserHandler
+public class GenericModuleParserHandler extends GenericModuleParserHandlerImpl
 {
-
-	/**
-	 * Cached file location ID.
-	 */
-
-	protected URL location = null;
-
-	/**
-	 * Cached system ID.
-	 */
-
-	private URL systemID = null;
-
-	/**
-	 * Options set for this module.
-	 */
-
-	private ModuleOption options = null;
 
 	GenericModuleParserHandler( DesignSessionImpl theSession, URL systemID,
 			String fileName, ModuleOption options )
 	{
-		super( theSession, fileName );
-		this.systemID = systemID;
-		this.fileName = fileName;
-		this.options = options;
-
-		this.location = ModelUtil.getURLPresentation( fileName );
+		super( theSession, systemID, fileName, options );
 	}
 
 	GenericModuleParserHandler( DesignSessionImpl theSession, URL systemID,
 			String fileName, ModuleOption options,
 			Map<String, Library> reloadLibs )
 	{
-		super( theSession, fileName, reloadLibs );
-		this.systemID = systemID;
-		this.fileName = fileName;
-		this.options = options;
+		super( theSession, systemID, fileName, options, reloadLibs );
 	}
-
-	public AbstractParseState createStartState( )
-	{
-		return new StartState( );
-	}
-
-	/**
-	 * Recognizes the top-level tags: Report or Library
-	 */
-
-	class StartState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
-		 * (java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( DesignSchemaConstants.REPORT_TAG.equalsIgnoreCase( tagName ) )
-			{
-				module = new ReportDesign( session );
-				module.setSystemId( systemID );
-				module.setFileName( fileName );
-				module.setOptions( options );
-				module.setLocation( location );
-
-				buildModuleOptions( options );
-				if ( markLineNumber )
-					tempLineNumbers.put( module, Integer.valueOf( locator
-							.getLineNumber( ) ) );
-				return new ReportState( GenericModuleParserHandler.this );
-			}
-			else if ( DesignSchemaConstants.LIBRARY_TAG
-					.equalsIgnoreCase( tagName ) )
-			{
-				module = new Library( session );
-				module.setSystemId( systemID );
-				module.setFileName( fileName );
-				module.setLocation( location );
-
-				module.setOptions( options );
-				buildModuleOptions( options );
-				if ( markLineNumber )
-					tempLineNumbers.put( module, Integer.valueOf( locator
-							.getLineNumber( ) ) );
-				return new LibraryState( GenericModuleParserHandler.this );
-			}
-
-			return super.startElement( tagName );
-		}
-	}
-
 }
