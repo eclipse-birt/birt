@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.core.commands.AbstractHandler;
@@ -282,8 +283,8 @@ public class SelectionHandler extends AbstractHandler
 		}
 		if ( isEditPart )
 		{
-			selList = InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) )
-					.toList( );
+			selList = DNDUtil.unwrapToModel( InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) )
+					.toList( ));
 		}
 
 		return selList;

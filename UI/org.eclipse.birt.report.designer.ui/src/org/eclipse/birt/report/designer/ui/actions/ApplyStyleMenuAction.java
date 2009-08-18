@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ApplyStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -48,7 +49,8 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
 	 */
 	protected List getItems( )
 	{
@@ -81,34 +83,37 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 
 	private StyleHandle getStyleHandle( )
 	{
-		IStructuredSelection selection = InsertInLayoutUtil
-				.editPart2Model( getSelection( ) );
-		if ( !selection.isEmpty( )
-				&& selection.getFirstElement( ) instanceof DesignElementHandle )
+		IStructuredSelection selection = InsertInLayoutUtil.editPart2Model( getSelection( ) );
+		if ( !selection.isEmpty( ) )
 		{
-			if ( selection.getFirstElement( ) instanceof RowHandle
-					|| selection.getFirstElement( ) instanceof ColumnHandle )
-			{
-				selection = InsertInLayoutUtil.editPart2Model( TableUtil
-						.filletCellInSelectionEditorpart( getSelection( ) ) );
-			}
+			Object firstElement = DNDUtil.unwrapToModel( selection.getFirstElement( ) );
 
-			SharedStyleHandle style = ( (DesignElementHandle) selection
-					.getFirstElement( ) ).getStyle( );
-			for ( Iterator iterator = selection.iterator( ); iterator.hasNext( ); )
+			if ( firstElement instanceof DesignElementHandle )
 			{
-				Object obj = iterator.next( );
-				if ( !( obj instanceof DesignElementHandle ) )
+				if ( firstElement instanceof RowHandle
+						|| firstElement instanceof ColumnHandle )
 				{
-					return null;
+					selection = InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) );
 				}
+				
+				List modelList = DNDUtil.unwrapToModel( selection.toList( ) );
 
-				if ( ( (DesignElementHandle) obj ).getStyle( ) != style )
+				SharedStyleHandle style = ( (DesignElementHandle) firstElement ).getStyle( );
+				for ( Iterator iterator = modelList.iterator( ); iterator.hasNext( ); )
 				{
-					return null;
+					Object obj = iterator.next( );
+					if ( !( obj instanceof DesignElementHandle ) )
+					{
+						return null;
+					}
+
+					if ( ( (DesignElementHandle) obj ).getStyle( ) != style )
+					{
+						return null;
+					}
 				}
+				return style;
 			}
-			return style;
 		}
 		return null;
 	}
