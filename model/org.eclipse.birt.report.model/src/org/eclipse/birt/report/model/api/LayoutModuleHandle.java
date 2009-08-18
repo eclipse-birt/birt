@@ -116,7 +116,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * </table>
  */
 
-public abstract class LayoutModuleHandle extends ModuleHandle
+abstract class LayoutModuleHandle extends ModuleHandle
 {
 
 	/**

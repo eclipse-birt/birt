@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -1459,7 +1460,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 */
 	public boolean pushDown( )
 	{
-		return getBooleanProperty( PUSH_DOWN_PROP );
+		PropertyDefn prop = (PropertyDefn) getPropertyDefn( PUSH_DOWN_PROP );
+		Object value = getProperty( PUSH_DOWN_PROP );
+		return prop.getBooleanValue( module, value );
 	}
 
 	/**
@@ -1479,11 +1482,11 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.DesignElementHandle#getBooleanProperty
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getProperty
 	 * (java.lang.String)
 	 */
-	public boolean getBooleanProperty( String propName )
+
+	public Object getProperty( String propName )
 	{
 		if ( IReportItemModel.PUSH_DOWN_PROP.equals( propName ) )
 		{
@@ -1499,26 +1502,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 					|| VersionUtil.parseVersion( module.getVersionManager( )
 							.getVersion( ) ) < VersionUtil.VERSION_3_2_20 )
 			{
-				return false;
+				return Boolean.FALSE;
 			}
-		}
-		return super.getBooleanProperty( propName );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.DesignElementHandle#getProperty(java
-	 * .lang.String)
-	 */
-	public Object getProperty( String propName )
-	{
-		if ( IReportItemModel.PUSH_DOWN_PROP.equals( propName ) )
-		{
-			return getBooleanProperty( propName );
 		}
 		return super.getProperty( propName );
 	}
-
 }

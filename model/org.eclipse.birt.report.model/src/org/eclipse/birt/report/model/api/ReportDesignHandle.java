@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
-import org.eclipse.birt.report.model.impl.ReportDesignHandleImpl;
 
 /**
  * Represents the overall report design. The report design defines a set of
