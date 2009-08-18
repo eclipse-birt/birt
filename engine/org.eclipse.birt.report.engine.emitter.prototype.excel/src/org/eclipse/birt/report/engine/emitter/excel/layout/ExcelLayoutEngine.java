@@ -435,12 +435,15 @@ public class ExcelLayoutEngine
 					}
 				}
 				SheetData realData = getRealData( data );
-				int realDataRowEnd = realData.getRowIndex( )
-						+ realData.getRowSpan( );
-				if ( realDataRowEnd == data.getRowIndex( ) )
+				if ( realData != null )
 				{
-					rowHeight = data.getHeight( ) > rowHeight ? data
-							.getHeight( ) : rowHeight;
+					int realDataRowEnd = realData.getRowIndex( )
+							+ realData.getRowSpan( );
+					if ( realDataRowEnd == data.getRowIndex( ) )
+					{
+						rowHeight = data.getHeight( ) > rowHeight ? data
+								.getHeight( ) : rowHeight;
+					}
 				}
 			}
 		}
@@ -474,7 +477,7 @@ public class ExcelLayoutEngine
 
 	private SheetData getRealData( SheetData data )
 	{
-		while ( data.isBlank( ) )
+		while ( data != null && data.isBlank( ) )
 		{
 			data = ( (BlankData) data ).getData( );
 		}
