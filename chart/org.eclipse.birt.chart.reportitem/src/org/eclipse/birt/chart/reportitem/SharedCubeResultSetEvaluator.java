@@ -211,19 +211,15 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		return levelNames;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#initCubeCursor()
+	 */
 	protected void initCubeCursor( ) throws OLAPException, BirtException
 	{
 		// Find row and column edge cursor.
 		if ( cubeCursor == null )
 		{
-			if ( rs != null )
-			{
-				cubeCursor = (ICubeCursor) rs.getCubeCursor( );
-			}
-			else
-			{
-				cubeCursor = qr.getCubeCursor( );
-			}
+			cubeCursor = getCubeCursor( );
 
 			List<EdgeCursor> edges = cubeCursor.getOrdinateEdge( );
 			if ( edges.size( ) == 0 )
@@ -291,6 +287,21 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 				fMainPositionNodes = initCursorPositionsNodes( dimCursors,
 						fColInnerLevelIndex );
 			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#getCubeCursor()
+	 */
+	protected ICubeCursor getCubeCursor( ) throws BirtException
+	{
+		if ( rs != null )
+		{
+			return (ICubeCursor) rs.getCubeCursor( );
+		}
+		else
+		{
+			return qr.getCubeCursor( );
 		}
 	}
 

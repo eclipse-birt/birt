@@ -729,16 +729,16 @@ public class ChartCubeQueryHelper
 		}
 		else if ( ChartReportItemUtil.getReportItemReference( handle ) != null )
 		{
-			// It is sharing crosstab case.
 			ReportItemHandle rih = ChartReportItemUtil.getReportItemReference( handle );
-			if ( ChartReportItemUtil.isChartReportItemHandle( rih ) )
+			if ( rih instanceof ExtendedItemHandle && ( (ExtendedItemHandle) rih ).getReportItem( ) instanceof CrosstabReportItemHandle )
 			{
-				filters = getCubeFiltersFromHandle( rih );
+				// It is sharing crosstab case.
+				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) rih ).getReportItem( );
+				filters = getFiltersFromXtab( crossTab );
 			}
 			else
 			{
-				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) rih ).getReportItem( );
-				filters = getFiltersFromXtab( crossTab );
+				filters = getCubeFiltersFromHandle( rih );
 			}
 		}
 

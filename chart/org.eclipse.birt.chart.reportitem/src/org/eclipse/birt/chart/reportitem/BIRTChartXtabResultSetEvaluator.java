@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
  * Data expression evaluator for chart in xtab.
  */
 
-public final class BIRTChartXtabResultSetEvaluator
+public class BIRTChartXtabResultSetEvaluator
 		extends
 			BIRTCubeResultSetEvaluator
 {
@@ -45,9 +45,9 @@ public final class BIRTChartXtabResultSetEvaluator
 		this.handle = handle;
 	}
 
-	protected void initCubeCursor( ) throws OLAPException
+	protected void initCubeCursor( ) throws OLAPException, BirtException
 	{
-		ICubeCursor parent = (ICubeCursor) rs.getCubeCursor( );
+		ICubeCursor parent = getCubeCursor();
 		cubeCursor = parent;
 		try
 		{
@@ -118,6 +118,14 @@ public final class BIRTChartXtabResultSetEvaluator
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#getCubeCursor()
+	 */
+	protected ICubeCursor getCubeCursor() throws BirtException
+	{
+		return (ICubeCursor) rs.getCubeCursor( );
+	}
+	
 	public boolean first( )
 	{
 		try
@@ -134,6 +142,10 @@ public final class BIRTChartXtabResultSetEvaluator
 			return subEdgeCursor.first( );
 		}
 		catch ( OLAPException e )
+		{
+			logger.log( e );
+		}
+		catch ( BirtException e )
 		{
 			logger.log( e );
 		}
