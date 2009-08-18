@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -272,11 +271,13 @@ public class CopyUtil
 	public static boolean canPaste( IElementCopy copy,
 			DesignElementHandle container, String propName )
 	{
-		IPropertyDefn propDefn = container.getPropertyDefn( propName );
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) container
+				.getPropertyDefn( propName );
 		if ( propDefn == null )
 			return false;
 
-		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
+		// both element type and content element type can be pasted
+		if ( !propDefn.isElementType( ) )
 			return false;
 
 		return ContextCopyPastePolicy.getInstance( ).isValidCopy(
