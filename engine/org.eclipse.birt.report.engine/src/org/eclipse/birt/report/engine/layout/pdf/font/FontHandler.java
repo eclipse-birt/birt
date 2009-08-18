@@ -253,10 +253,7 @@ public class FontHandler
 		if ( font == null )
 		{
 			font = fontManager.createFont( physicalFont, fontStyle );
-			if ( font != null )
-			{
-				fonts.put( physicalFont, font );
-			}
+			fonts.put( physicalFont, font );
 		}
 		return font;
 	}
