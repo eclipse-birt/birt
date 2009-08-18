@@ -664,7 +664,7 @@ public final class DNDUtil
 		if ( source instanceof Object[] )
 		{
 			Object[] array = (Object[]) source;
-			ArrayList list = new ArrayList( );
+			ArrayList<Object> list = new ArrayList<Object>( );
 			for ( int i = 0; i < array.length; i++ )
 			{
 				if ( array[i] instanceof ColumnHandle )
@@ -803,6 +803,29 @@ public final class DNDUtil
 			return ( (IAdaptable) obj ).getAdapter( DesignElementHandle.class );
 		}
 		return obj;
+	}
+
+	/**
+	 * Unwrap a list of objects to model objects.
+	 * 
+	 * @param objs
+	 * @return
+	 */
+	public static List unwrapToModel( List objs )
+	{
+		if ( objs == null || objs.size( ) == 0 )
+		{
+			return objs;
+		}
+
+		List<Object> unwrapped = new ArrayList<Object>( objs.size( ) );
+
+		for ( int i = 0; i < objs.size( ); i++ )
+		{
+			unwrapped.add( unwrapToModel( objs.get( i ) ) );
+		}
+
+		return unwrapped;
 	}
 
 	/**

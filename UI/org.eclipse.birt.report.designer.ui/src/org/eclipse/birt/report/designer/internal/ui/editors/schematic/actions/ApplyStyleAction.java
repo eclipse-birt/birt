@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -102,7 +103,7 @@ public class ApplyStyleAction extends DynamicItemAction
 	public void run( )
 	{
 
-		if(handle != null)
+		if ( handle != null )
 		{
 			CommandUtils.setVariable( ICommandParameterNameContants.STYLE_HANDLE_NAME,
 					handle );
@@ -117,8 +118,7 @@ public class ApplyStyleAction extends DynamicItemAction
 		}
 		catch ( Exception e )
 		{
-			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 
 	}
@@ -131,8 +131,8 @@ public class ApplyStyleAction extends DynamicItemAction
 	{
 		if ( selectionHandles == null )
 		{
-			selectionHandles = InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) )
-					.toList( );
+			selectionHandles = DNDUtil.unwrapToModel( InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) )
+					.toList( ) );
 		}
 		return selectionHandles;
 	}

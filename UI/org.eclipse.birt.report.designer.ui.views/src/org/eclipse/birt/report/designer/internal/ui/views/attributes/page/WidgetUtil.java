@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
@@ -88,8 +89,8 @@ public class WidgetUtil
 		layout.verticalSpacing = WidgetUtil.SPACING;
 		return layout;
 	}
-	
-	public static GridLayout createGridLayout( int columns,int margin )
+
+	public static GridLayout createGridLayout( int columns, int margin )
 	{
 		GridLayout layout = new GridLayout( columns, false );
 		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;;
@@ -183,9 +184,6 @@ public class WidgetUtil
 		return layout;
 	}
 
-	
-
-
 	public static Composite buildGridComposite( Composite parent, int hSpan,
 			boolean grabSpace )
 	{
@@ -199,8 +197,6 @@ public class WidgetUtil
 		return composite;
 	}
 
-
-	
 	/**
 	 * Creates a place-holder Label for using in GridLayout.
 	 * 
@@ -238,8 +234,7 @@ public class WidgetUtil
 	 */
 	public static Label createHorizontalLine( Composite parent, int hSpan )
 	{
-		Label label = FormWidgetFactory.getInstance( ).createLabel( parent,
-				"", //$NON-NLS-1$
+		Label label = FormWidgetFactory.getInstance( ).createLabel( parent, "", //$NON-NLS-1$
 				SWT.SEPARATOR | SWT.HORIZONTAL );
 		GridData data = new GridData( );
 		data.horizontalSpan = hSpan;
@@ -255,6 +250,8 @@ public class WidgetUtil
 	 *            the parent window.
 	 * @param e
 	 *            Exception object.
+	 * 
+	 * @deprecated use {@link ExceptionUtil#handle(Throwable)} instead.
 	 */
 	public static void processError( Shell shell, Exception e )
 	{

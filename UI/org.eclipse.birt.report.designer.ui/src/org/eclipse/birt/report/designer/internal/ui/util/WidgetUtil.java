@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.widget.WidgetConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
@@ -197,6 +198,8 @@ public class WidgetUtil implements WidgetConstants
 	 *            the parent window.
 	 * @param e
 	 *            Exception object.
+	 * 
+	 * @deprecated use {@link ExceptionUtil#handle(Throwable)} instead.
 	 */
 	public static void processError( Exception e )
 	{
