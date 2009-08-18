@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <styles>
+        <style name="NewStyle" id="118">
+            <property name="textLineThrough">line-through</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label name="label1" id="117">
+            <structure name="toc">
+            	<property name="TOCStyle">NewStyle</property>
+                <expression name="expressionValue" type="javascript">111111</expression>
+            </structure>
+            <text-property name="text">asdf</text-property>            
+        </label>
+    </body>
+</report>

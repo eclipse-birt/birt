@@ -52,9 +52,11 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
@@ -63,7 +65,6 @@ import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -1867,6 +1868,38 @@ public class PropertyCommandTest extends BaseTestCase
 				.setType( DesignChoiceConstants.VARIABLE_TYPE_REPORT );
 		assertTrue( listener.propertyChanged );
 
+	}
+
+	/**
+	 * When drops TOC/highlightRule, the corresponding back reference on the
+	 * style elements should be removed. Otherwise, it may cause NPE during the
+	 * style broadcast process.
+	 * <p>
+	 * Uses TOC as examples to test this feature. see Bug 286598
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testBackRefWhenDropStructure( ) throws Exception
+	{
+		openDesign( "PropertyCommandTest_TOC.xml" ); //$NON-NLS-1$
+
+		LabelHandle label1 = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
+		StyleHandle style = designHandle.findStyle( "NewStyle" ); //$NON-NLS-1$
+
+		// make sure there is one reference.
+
+		Iterator<BackRef> iter1 = style.clientsIterator( );
+		assertTrue( iter1.hasNext( ) );
+
+		TOC toc = StructureFactory.createTOC( "test1 toc" );
+		label1.addTOC( toc );
+
+		// if the toc is dropped and set with a new one. There is no back
+		// reference.
+		
+		iter1 = style.clientsIterator( );
+		assertFalse( iter1.hasNext( ) );
 	}
 
 	class MyPropertyListener implements Listener

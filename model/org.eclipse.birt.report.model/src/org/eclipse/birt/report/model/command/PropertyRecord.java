@@ -10,6 +10,7 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
@@ -20,8 +21,10 @@ import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEven
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -30,6 +33,8 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
@@ -301,16 +306,59 @@ public class PropertyRecord extends SimpleRecord
 				null );
 
 		if ( values instanceof Structure )
+		{
 			context.remove( (Structure) values );
+			adjustReferredClients( (Structure) values );
+		}
 		else if ( values instanceof List )
 		{
 			// always remove the first one
 
-			int count = ( (List) values ).size( );
+			List<Structure> structs = (List<Structure>) values;
+			int count = structs.size( );
 			for ( int i = 0; i < count; i++ )
 			{
 				context.remove( 0 );
+				adjustReferredClients( structs.get( i ) );
 			}
+		}
+	}
+
+	/**
+	 * Clears references of elements that are referred by the to-be-deleted
+	 * element, except for extends and style element references. Unlike the
+	 * method {@link #adjustReferenceClients(ReferenceableElement,boolean)},
+	 * this method removes references from those elements that are referred.
+	 * 
+	 * @param element
+	 *            the element to be deleted
+	 * 
+	 */
+
+	private void adjustReferredClients( Structure struct )
+	{
+		Iterator<IPropertyDefn> propDefns = struct.getDefn( )
+				.getPropertyIterator( );
+
+		while ( propDefns.hasNext( ) )
+		{
+			PropertyDefn propDefn = (PropertyDefn) propDefns.next( );
+
+			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+				continue;
+
+			Object value = struct.getLocalProperty( element.getRoot( ),
+					propDefn );
+
+			if ( value == null || !( (ElementRefValue) value ).isResolved( ) )
+				continue;
+
+			// since the structure is removed, change the property to unresolved
+			// status
+
+			struct.setProperty( (PropertyDefn) propDefn, new ElementRefValue(
+					( (ElementRefValue) value ).getLibraryNamespace( ),
+					( (ElementRefValue) value ).getName( ) ) );
 		}
 	}
 
