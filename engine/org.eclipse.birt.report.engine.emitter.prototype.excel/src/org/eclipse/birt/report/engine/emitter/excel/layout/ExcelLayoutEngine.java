@@ -46,6 +46,7 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
+import org.eclipse.birt.report.engine.emitter.excel.BlankData.Type;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
@@ -63,7 +64,8 @@ public class ExcelLayoutEngine
 
 	public final static String EMPTY = "";
 	
-	private static final double DEFAULT_ROW_HEIGHT = 15;
+	public static final double DEFAULT_ROW_HEIGHT = 15;
+
 	// Excel 2007 can support 1048576 rows and 16384 columns.
 	private int autoBookmarkIndex = 0;
 
@@ -87,7 +89,7 @@ public class ExcelLayoutEngine
 
 	private AxisProcessor axis;
 
-	private StyleEngine engine;	
+	protected StyleEngine engine;
 	
 	private ExcelEmitter emitter;
 
@@ -357,7 +359,7 @@ public class ExcelLayoutEngine
 		}
 		rowContainer.setRowIndex( maxRowIndex );
 		double resize = height / ( maxRowIndex - startRowIndex );
-		for ( int i = startRowIndex + 1; i <= maxRowIndex; i++ )
+		for ( int i = startRowIndex; i < maxRowIndex; i++ )
 		{
 			cache.setRowHeight( i, resize );
 		}
@@ -370,15 +372,17 @@ public class ExcelLayoutEngine
 			{
 				if ( upstair != null && canSpan( upstair, rowContainer ) )
 				{
+					Type blankType = Type.VERTICAL;
 					if ( upstair.isBlank( ) )
 					{
-						SheetData real = getRealData( upstair );
-						if ( real.getRowIndex( ) != upstair.getRowIndex( ) )
+						BlankData blankData = (BlankData) upstair;
+						if ( blankData.getType( ) == Type.VERTICAL )
 						{
 							upstair
 									.setRowSpan( upstair.getRowSpan( )
 											+ rowspan );
 						}
+						blankType = blankData.getType( );
 					}
 					else
 					{
@@ -394,6 +398,7 @@ public class ExcelLayoutEngine
 					{
 						BlankData blank = new BlankData( upstair );
 						blank.setRowIndex( rowIndex + p );
+						blank.setType( blankType );
 						cache.addData( currentColumnIndex, blank );
 					}
 				}
@@ -404,6 +409,55 @@ public class ExcelLayoutEngine
 				upstair.decreasRowSpanInDesign( );
 			}
 		}
+	}
+
+	private void calculateRowHeight( SheetData[] rowData )
+	{
+		double rowHeight = 0;
+		int rowIndex = getRowIndex( rowData );
+		double lastRowHeight = rowIndex > 0
+				? cache.getRowHeight( rowIndex - 1 )
+				: 0;
+		for ( int i = 0; i < rowData.length; i++ )
+		{
+			SheetData data = rowData[i];
+			if ( data != null )
+			{
+				if ( data.isBlank( ) )
+				{
+					// if the data spans last row,then recalculate data height.
+					// if current row is the last row of real data, then adjust
+					// row height.
+					BlankData blankData = (BlankData) data;
+					if ( blankData.getType( ) == Type.VERTICAL )
+					{
+						data.setHeight( data.getHeight( ) - lastRowHeight );
+					}
+				}
+				SheetData realData = getRealData( data );
+				int realDataRowEnd = realData.getRowIndex( )
+						+ realData.getRowSpan( );
+				if ( realDataRowEnd == data.getRowIndex( ) )
+				{
+					rowHeight = data.getHeight( ) > rowHeight ? data
+							.getHeight( ) : rowHeight;
+				}
+			}
+		}
+		cache.setRowHeight( rowIndex, rowHeight );
+	}
+
+	private int getRowIndex( SheetData[] rowData )
+	{
+		for ( int j = 0; j < rowData.length; j++ )
+		{
+			SheetData data = rowData[j];
+			if ( data != null )
+			{
+				return data.getRowIndex( ) - 1;
+			}
+		}
+		return 0;
 	}
 
 	private boolean canSpan( SheetData data, XlsContainer rowContainer )
@@ -420,9 +474,9 @@ public class ExcelLayoutEngine
 
 	private SheetData getRealData( SheetData data )
 	{
-		if ( data.isBlank( ) )
+		while ( data.isBlank( ) )
 		{
-			return ((BlankData)data).getData( );
+			data = ( (BlankData) data ).getData( );
 		}
 		return data;
 	}
@@ -630,7 +684,7 @@ public class ExcelLayoutEngine
 		return createData( txt, entry, getLocale( null ) );
 	}
 
-	private Data createData( Object txt, StyleEntry entry, String dlocale )
+	protected Data createData( Object txt, StyleEntry entry, String dlocale )
 	{
 		return createData( txt, entry, getLocale( dlocale ) );
 	}
@@ -694,6 +748,7 @@ public class ExcelLayoutEngine
 		for ( int i = col + 1; i < col + span; i++ )
 		{
 			BlankData blankData = new BlankData( data );
+			blankData.setType( Type.HORIZONTAL );
 			addDatatoCache( i, blankData );
 		}
 		
@@ -824,6 +879,7 @@ public class ExcelLayoutEngine
 				// Excel Span Starts From 1
 				Span span = new Span( start, scount );
 				data.setSpan( span );
+
 				HyperlinkDef hyperLink = data.getHyperlinkDef( );
 				if ( hyperLink != null )
 				{
@@ -833,6 +889,7 @@ public class ExcelLayoutEngine
 					}
 				}
 			}
+			calculateRowHeight( rowData );
 		}
 	}
 
@@ -919,7 +976,7 @@ public class ExcelLayoutEngine
 			SheetData[] row = rowIterator.next( );
 			List<SheetData> data = new ArrayList<SheetData>( );
 			int width = Math.min( row.length, maxCol - 1 );
-			double rowHeight = DEFAULT_ROW_HEIGHT;
+			int rowIndex = 0;
 			for ( int i = 0; i < width; i++ )
 			{
 				SheetData d = row[i];
@@ -931,13 +988,13 @@ public class ExcelLayoutEngine
 				{
 					continue;
 				}
+				rowIndex = d.getRowIndex( );
 				d.setProcessed( true );
 				data.add( row[i] );
-
-				double height = d.getRowHeight( );
-				rowHeight = height > rowHeight ? height : rowHeight;
 			}
 			SheetData[] rowdata = new SheetData[data.size( )];
+			double rowHeight = Math.max( DEFAULT_ROW_HEIGHT, cache
+					.getRowHeight( rowIndex - 1 ) );
 			data.toArray( rowdata );
 			return new RowData( rowdata, rowHeight );
 		}
@@ -990,7 +1047,7 @@ public class ExcelLayoutEngine
 		return createData( text, style, type, container, 0 );
 	}
 
-	private Data createData( Object text, StyleEntry s, int dataType,
+	protected Data createData( Object text, StyleEntry s, int dataType,
 			XlsContainer container, int rowSpanOfDesign )
 	{
 		Data data = createData( );

@@ -31,10 +31,7 @@ public abstract class SheetData
 
 	int rowIndex;
 
-	protected double rowHeight;
-
 	private static final String HYPERLINK_COLOR = "#0000FF";
-	private static final String HYPERLINK_UNDERLINE = "1";
 
 	public Object getValue( )
 	{
@@ -67,6 +64,18 @@ public abstract class SheetData
 	BookmarkDef bookmark;
 	
 	BookmarkDef linkedBookmark;
+
+	protected double height;
+
+	public double getHeight( )
+	{
+		return Math.max( height, 0 );
+	}
+
+	public void setHeight( double height )
+	{
+		this.height = height;
+	}
 
 	public BookmarkDef getLinkedBookmark( )
 	{
@@ -220,15 +229,5 @@ public abstract class SheetData
 	public void setBookmark( BookmarkDef bookmark )
 	{
 		this.bookmark = bookmark;
-	}
-
-	public void setRowHeight( double rowHeight )
-	{
-		this.rowHeight = rowHeight;
-	}
-
-	public double getRowHeight( )
-	{
-		return this.rowHeight;
 	}
 }

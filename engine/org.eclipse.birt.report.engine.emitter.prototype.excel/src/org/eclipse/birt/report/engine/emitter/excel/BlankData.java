@@ -16,13 +16,16 @@ package org.eclipse.birt.report.engine.emitter.excel;
 public class BlankData extends Data
 {
 
-	/**
-	 * 
-	 */
+	public static enum Type {
+		VERTICAL, HORIZONTAL, NONE
+	};
+
 	private static final long serialVersionUID = 6843853284940969059L;
 
 	private SheetData data;
-	
+
+	private Type type;
+
 	public BlankData( SheetData data )
 	{
 		super( data );
@@ -74,5 +77,32 @@ public class BlankData extends Data
 		{
 			data.decreasRowSpanInDesign( );
 		}
+	}
+
+	public double getHeight( )
+	{
+		if ( data != null )
+		{
+			return data.getHeight( );
+		}
+		return super.getHeight( );
+	}
+
+	public void setHeight( double height )
+	{
+		if ( data != null )
+		{
+			data.setHeight( height );
+		}
+	}
+
+	public Type getType( )
+	{
+		return type;
+	}
+
+	public void setType( Type type )
+	{
+		this.type = type;
 	}
 }

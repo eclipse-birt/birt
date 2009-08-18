@@ -20,6 +20,7 @@ import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 
 public class DataCache
 {
@@ -129,8 +130,17 @@ public class DataCache
 
 	public void setRowHeight( int rowIndex, double height )
 	{
-		if ( !rowIndex2Height.containsKey( rowIndex ) )
+		if ( !rowIndex2Height.containsKey( rowIndex )
+				|| height > rowIndex2Height.get( rowIndex ) )
 			rowIndex2Height.put( rowIndex, height );
+	}
+
+	public double getRowHeight( int rowIndex )
+	{
+		if ( rowIndex2Height.containsKey( rowIndex ) )
+			return Math.max( rowIndex2Height.get( rowIndex ),
+					ExcelLayoutEngine.DEFAULT_ROW_HEIGHT );
+		return ExcelLayoutEngine.DEFAULT_ROW_HEIGHT;
 	}
 
 	/**
@@ -185,10 +195,6 @@ public class DataCache
 					if ( dataRowIndex == rowIndex )
 					{
 						rowDatas[i] = data;
-						if ( !rowIndex2Height.isEmpty( )
-								&& rowIndex2Height.containsKey( rowIndex ) )
-						rowDatas[i].setRowHeight( rowIndex2Height
-								.get( rowIndex ) );
 						columnIndexes[i] = j + 1;
 						break;
 					}

@@ -18,7 +18,7 @@ public class ImageData extends SheetData
 {
 
 	private int rowNo, colNo;
-	private double height, width;
+	private double width;
 	private String altText, imageUrl;
 	private byte[] imageData;
 	private Image imageInfo;
@@ -41,16 +41,6 @@ public class ImageData extends SheetData
 		container = currentContainer;
 		rowSpanInDesign = 0;
 		this.imageInfo = imageInfo;
-	}
-
-	public double getHeight( )
-	{
-		return height;
-	}
-
-	public void setHeight( double height )
-	{
-		this.height = height;
 	}
 
 	public double getWidth( )
@@ -116,10 +106,5 @@ public class ImageData extends SheetData
 	public Image getImageInfo( )
 	{
 		return imageInfo;
-	}
-
-	public double getRowHeight( )
-	{
-		return height > rowHeight ? height : rowHeight;
 	}
 }
