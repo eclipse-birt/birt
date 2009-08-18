@@ -499,9 +499,15 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 
 		if ( status == SplitResult.SPLIT_SUCCEED_WITH_PART )
 		{
-			newContainer = getSplitArea( result, contentHeight );
+			if ( isValidResult( result ) )
+			{
+				newContainer = getSplitArea( result, contentHeight );
+			}
+			else
+			{
+				return SplitResult.SUCCEED_WITH_NULL;
+			}
 		}
-
 		if ( newContainer != null )
 		{
 			addRepeatedItem( );
