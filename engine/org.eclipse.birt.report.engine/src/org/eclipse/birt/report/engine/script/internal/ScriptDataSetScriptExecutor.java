@@ -42,15 +42,23 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	private boolean useFetchEventHandler = false;
 	private boolean useCloseEventHandler = false;
 	private boolean useDescribeEventHandler = false;
+	private Scriptable sharedScope = null;
+	
+	private String fetchScript = null;
 	
 	public ScriptDataSetScriptExecutor( ScriptDataSetHandle dataSetHandle,
 			ExecutionContext context ) throws BirtException
 	{
 		super( dataSetHandle, context );
+		//Fetch script will be acquire multiple times. Cache it locally.
+		//for other script, as they will only be used only, it is not necessary to keep the local cache.
+		this.fetchScript = dataSetHandle.getFetch( );
 		useOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getOpen( ) );
 		useFetchEventHandler = ScriptTextUtil.isNullOrComments ( dataSetHandle.getFetch( ) );
 		useCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getClose( ) );
 		useDescribeEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getDescribe( ) );
+		 
+			
 	}
 
 	protected void initEventHandler( String className )
@@ -121,7 +129,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						FETCH,
-						( (ScriptDataSetHandle) dataSetHandle ).getFetch( ) );
+						this.fetchScript );
 				if ( status.didRun( ) )
 				{
 					Object result = status.result( );
@@ -176,12 +184,14 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	
 	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet ) throws DataException
 	{
-		Scriptable shared = this.scope;
-		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
-				shared);
-		scope.setParentScope( shared );
-		scope.setPrototype( dataSet.getScriptScope( ) );
-		return scope;
+		if( this.sharedScope!= null )
+			return this.sharedScope;
+		
+		this.sharedScope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
+				this.scope);
+		this.sharedScope.setParentScope( this.scope );
+		this.sharedScope.setPrototype( dataSet.getScriptScope( ) );
+		return this.sharedScope;
 	}
 
 }
