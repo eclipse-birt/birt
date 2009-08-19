@@ -2191,6 +2191,11 @@ Structure.SortHint.direction=정렬 방향
 Structure.SortHint.nullValueOrdering=널(Null) 값 순서
 Structure.SortHint.isOptional=옵션
 
+#37. IncludedDataMart
+Structure.IncludedDataMart=Included DataMart
+Structure.IncludedDataMart.fileName=File Name
+Structure.IncludedDataMart.namespace=네임스페이스
+
 ###########################################################
 # Element names
 
@@ -2282,6 +2287,7 @@ Element.GadgetContent=Gadget Content
 Element.ExternalElementRef=External Element Reference
 Element.DataSelectorItem=Data Selector
 Element.DataViewItem=Data View
+Element.DataMart=Data Mart
 
 ###########################################################
 # Element property names
@@ -2387,6 +2393,7 @@ Element.ReportDesign.onContentUpdate.this=보고서 디자인
 Element.ReportDesign.onPageStart=페이지 시작 시
 Element.ReportDesign.onPageEnd=페이지 종료 시
 Element.ReportDesign.infoView=InfoView
+Element.ReportDesign.dataMarts=DataMarts
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
@@ -3308,6 +3315,12 @@ Element.DataSelectorItem.type=형식
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Internal reportLet reference
+
+#78 DataMart ( prefix  Element.DataMart )
+Element.DataMart.slot.dataSources=데이터 원본
+Element.DataMart.slot.dataSets=데이터 집합
+Element.DataMart.slot.cubes=큐브
+Element.DataMart.slot.parameters=매개 변수
 
 
 ###########################################################

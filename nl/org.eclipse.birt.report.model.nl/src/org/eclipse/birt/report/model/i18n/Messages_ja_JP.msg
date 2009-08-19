@@ -2191,6 +2191,11 @@ Structure.SortHint.direction=ソートの方向
 Structure.SortHint.nullValueOrdering=Null 値の順序
 Structure.SortHint.isOptional=オプション
 
+#37. IncludedDataMart
+Structure.IncludedDataMart=Included DataMart
+Structure.IncludedDataMart.fileName=File Name
+Structure.IncludedDataMart.namespace=名前空間
+
 ###########################################################
 # Element names
 
@@ -2282,6 +2287,7 @@ Element.GadgetContent=Gadget Content
 Element.ExternalElementRef=External Element Reference
 Element.DataSelectorItem=Data Selector
 Element.DataViewItem=Data View
+Element.DataMart=Data Mart
 
 ###########################################################
 # Element property names
@@ -2387,6 +2393,7 @@ Element.ReportDesign.onContentUpdate.this=レポートデザイン
 Element.ReportDesign.onPageStart=ページの開始時
 Element.ReportDesign.onPageEnd=ページの終了時
 Element.ReportDesign.infoView=InfoView
+Element.ReportDesign.dataMarts=DataMarts
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=表示名
@@ -3308,6 +3315,12 @@ Element.DataSelectorItem.type=種類
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Internal reportLet reference
+
+#78 DataMart ( prefix  Element.DataMart )
+Element.DataMart.slot.dataSources=データソース
+Element.DataMart.slot.dataSets=データセット
+Element.DataMart.slot.cubes=キューブ
+Element.DataMart.slot.parameters=パラメタ
 
 
 ###########################################################

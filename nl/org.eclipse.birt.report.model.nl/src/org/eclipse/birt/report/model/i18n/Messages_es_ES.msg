@@ -2191,6 +2191,11 @@ Structure.SortHint.direction=Dirección de orden
 Structure.SortHint.nullValueOrdering=Orden de valor nulo
 Structure.SortHint.isOptional=Opcional
 
+#37. IncludedDataMart
+Structure.IncludedDataMart=Included DataMart
+Structure.IncludedDataMart.fileName=File Name
+Structure.IncludedDataMart.namespace=Espacio de nombres
+
 ###########################################################
 # Element names
 
@@ -2282,6 +2287,7 @@ Element.GadgetContent=Gadget Content
 Element.ExternalElementRef=External Element Reference
 Element.DataSelectorItem=Data Selector
 Element.DataViewItem=Data View
+Element.DataMart=Data Mart
 
 ###########################################################
 # Element property names
@@ -2387,6 +2393,7 @@ Element.ReportDesign.onContentUpdate.this=Diseño de informe
 Element.ReportDesign.onPageStart=Al inicio de la página
 Element.ReportDesign.onPageEnd=Al final de la página
 Element.ReportDesign.infoView=InfoView
+Element.ReportDesign.dataMarts=DataMarts
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla
@@ -3308,6 +3315,12 @@ Element.DataSelectorItem.type=Tipo
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Internal reportLet reference
+
+#78 DataMart ( prefix  Element.DataMart )
+Element.DataMart.slot.dataSources=Fuentes de datos
+Element.DataMart.slot.dataSets=Conjuntos de datos
+Element.DataMart.slot.cubes=Cubos
+Element.DataMart.slot.parameters=Parámetros
 
 
 ###########################################################
