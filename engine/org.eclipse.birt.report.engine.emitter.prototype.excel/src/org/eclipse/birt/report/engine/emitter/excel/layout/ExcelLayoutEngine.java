@@ -518,11 +518,55 @@ public class ExcelLayoutEngine
 	private void addContainer( XlsContainer child )
 	{
 		XlsContainer parent = child.getParent( );
+		if ( parent instanceof XlsCell )
+		{
+			addEmptyDataToContainer( child, parent );
+		}
 		if ( parent != null )
 		{
 			parent.setEmpty( false );
 		}
 		containers.push( child);
+	}
+
+	private void addEmptyDataToContainer( XlsContainer child,
+			XlsContainer parent )
+	{
+		ContainerSizeInfo childSizeInfo = child.getSizeInfo( );
+		int childStartCoordinate = childSizeInfo.getStartCoordinate( );
+		int childEndCoordinate = childSizeInfo.getEndCoordinate( );
+		ContainerSizeInfo parentSizeInfo = parent.getSizeInfo( );
+		int parentStartCoordinate = parentSizeInfo.getStartCoordinate( );
+		int parentEndCoordinate = parent.getSizeInfo( ).getEndCoordinate( );
+
+		if ( childEndCoordinate < parentEndCoordinate )
+		{
+			StyleEntry style = parent.getStyle( );
+			style.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP, null );
+			style.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP, null );
+			style.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP, null );
+			addEmptyDataToContainer( style, parent, childEndCoordinate,
+					parentEndCoordinate -
+					childEndCoordinate );
+		}
+		if ( childStartCoordinate > parentStartCoordinate )
+		{
+			StyleEntry style = parent.getStyle( );
+			style.setProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP, null );
+			style.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP, null );
+			style.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP, null );
+			addEmptyDataToContainer( style, parent, childStartCoordinate,
+					parentStartCoordinate-childStartCoordinate );
+		}
+	}
+
+	private void addEmptyDataToContainer( StyleEntry style,
+			XlsContainer parent, int startCoordinate, int width )
+	{
+		Data data = createData( EMPTY, style, Data.STRING,
+				parent );
+		data.setSizeInfo( new ContainerSizeInfo( startCoordinate, width ) );
+		addData( data );
 	}
 
 	public void endContainer( )
