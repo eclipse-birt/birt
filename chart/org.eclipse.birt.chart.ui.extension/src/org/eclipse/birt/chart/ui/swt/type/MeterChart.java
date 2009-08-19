@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -40,6 +41,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -67,8 +69,6 @@ public class MeterChart extends DefaultChartTypeImpl
 
 	protected static final String SUPERIMPOSED_SUBTYPE_LITERAL = "Superimposed Meter Chart"; //$NON-NLS-1$
 
-	private static final String CHART_TITLE = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
-
 	private static final String sStandardDescription = Messages.getString( "MeterChart.Txt.Description" ); //$NON-NLS-1$
 
 	private static final String sSuperimposedDescription = Messages.getString( "MeterChart.Txt.SuperimposedDescription" ); //$NON-NLS-1$
@@ -82,6 +82,7 @@ public class MeterChart extends DefaultChartTypeImpl
 	public MeterChart( )
 	{
 		imgIcon = UIHelper.getImage( "icons/obj16/metercharticon.gif" ); //$NON-NLS-1$
+		super.chartTitle = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -182,7 +183,10 @@ public class MeterChart extends DefaultChartTypeImpl
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+		newChart.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( getDefaultTitle( ) );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).shift( 0 );
@@ -226,6 +230,7 @@ public class MeterChart extends DefaultChartTypeImpl
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
+		IChartType oldType = ChartUIUtil.getChartType( currentChart.getType( ) );
 		if ( currentChart instanceof ChartWithAxes )
 		{
 			if ( !ChartPreviewPainter.isLivePreviewActive( ) )
@@ -297,10 +302,15 @@ public class MeterChart extends DefaultChartTypeImpl
 
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
-			currentChart.getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( CHART_TITLE );
+			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+			if ( title.getValue( ) == null
+					|| title.getValue( ).trim( ).length( ) == 0
+					|| title.getValue( )
+							.trim( )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+			{
+				title.setValue( getDefaultTitle( ) );
+			}
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
@@ -370,10 +380,15 @@ public class MeterChart extends DefaultChartTypeImpl
 
 				currentChart.getLegend( )
 						.setItemType( LegendItemType.SERIES_LITERAL );
-				currentChart.getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( CHART_TITLE );
+				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+				if ( title.getValue( ) == null
+						|| title.getValue( ).trim( ).length( ) == 0
+						|| title.getValue( )
+								.trim( )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+				{
+					title.setValue( getDefaultTitle( ) );
+				}
 			}
 		}
 		else

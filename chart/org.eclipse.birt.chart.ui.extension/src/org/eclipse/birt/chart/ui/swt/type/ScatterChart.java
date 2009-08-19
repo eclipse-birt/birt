@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -40,6 +41,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -65,8 +67,6 @@ public class ScatterChart extends DefaultChartTypeImpl
 
 	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard Scatter Chart"; //$NON-NLS-1$
 
-	private static final String CHART_TITLE = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
-
 	private static final String sStandardDescription = Messages.getString( "ScatterChart.Txt.Description" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
@@ -76,6 +76,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 	public ScatterChart( )
 	{
 		imgIcon = UIHelper.getImage( "icons/obj16/scattercharticon.gif" ); //$NON-NLS-1$
+		super.chartTitle = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -178,7 +179,10 @@ public class ScatterChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+		newChart.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( getDefaultTitle( ) );
 
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -235,6 +239,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
+		IChartType oldType = ChartUIUtil.getChartType( currentChart.getType( ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
@@ -273,10 +278,15 @@ public class ScatterChart extends DefaultChartTypeImpl
 				currentChart.setType( TYPE_LITERAL );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
 				currentChart.setSubType( sNewSubType );
-				currentChart.getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( CHART_TITLE );
+				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+				if ( title.getValue( ) == null
+						|| title.getValue( ).trim( ).length( ) == 0
+						|| title.getValue( )
+								.trim( )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+				{
+					title.setValue( getDefaultTitle( ) );
+				}
 
 				ArrayList axisTypes = new ArrayList( );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -418,10 +428,15 @@ public class ScatterChart extends DefaultChartTypeImpl
 			}
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
-			currentChart.getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( CHART_TITLE );
+			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+			if ( title.getValue( ) == null
+					|| title.getValue( ).trim( ).length( ) == 0
+					|| title.getValue( )
+							.trim( )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+			{
+				title.setValue( getDefaultTitle( ) );
+			}
 		}
 		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
 						.equals( newOrientation ) )

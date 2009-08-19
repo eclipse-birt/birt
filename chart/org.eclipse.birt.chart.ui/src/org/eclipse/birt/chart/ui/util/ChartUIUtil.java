@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -73,6 +74,7 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -113,6 +115,8 @@ public class ChartUIUtil
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
 
 	private static HashMap<String, ISeriesUIProvider> htSeriesAttributeUIProviders = new HashMap<String, ISeriesUIProvider>( );
+
+	private static LinkedHashMap<String, IChartType> htTypes = null;
 
 	static
 	{
@@ -1863,6 +1867,44 @@ public class ChartUIUtil
 		grouping.setEnabled( true );
 		grouping.setAggregateExpression( aggFunc );
 		query.setGrouping( grouping );
+	}
+
+	/**
+	 * Populate the chart types for UI.
+	 * 
+	 * @param context
+	 * @since 2.5
+	 */
+	public static void populateTypeTable( IWizardContext context )
+	{
+		if ( htTypes == null )
+		{
+			htTypes = new LinkedHashMap<String, IChartType>( );
+		}
+		htTypes.clear( );
+
+		Collection<IChartType> cTypes = ChartUIExtensionsImpl.instance( )
+				.getUIChartTypeExtensions( context.getClass( ).getSimpleName( ) );
+		Iterator<IChartType> iterTypes = cTypes.iterator( );
+		while ( iterTypes.hasNext( ) )
+		{
+			IChartType type = iterTypes.next( );
+			// Only support enabled chart types
+			if ( ( (ChartWizardContext) context ).isEnabled( type.getName( ) ) )
+			{
+				htTypes.put( type.getName( ), type );
+			}
+		}
+	}
+
+	public static Iterator<String> getChartTypeNameIterator( )
+	{
+		return htTypes.keySet( ).iterator( );
+	}
+
+	public static IChartType getChartType( String name )
+	{
+		return htTypes.get( name );
 	}
 
 }

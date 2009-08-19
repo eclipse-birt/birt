@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -39,6 +40,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -61,8 +63,6 @@ public class GanttChart extends DefaultChartTypeImpl
 
 	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard Gantt Chart"; //$NON-NLS-1$
 
-	private static final String CHART_TITLE = Messages.getString( "GanttChart.Txt.DefaultGanttChartTitle" ); //$NON-NLS-1$
-
 	private static final String sStandardDescription = Messages.getString( "GanttChart.Txt.Description" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
@@ -72,6 +72,7 @@ public class GanttChart extends DefaultChartTypeImpl
 	public GanttChart( )
 	{
 		imgIcon = UIHelper.getImage( "icons/obj16/ganttcharticon.gif" ); //$NON-NLS-1$
+		super.chartTitle = Messages.getString( "GanttChart.Txt.DefaultGanttChartTitle" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -167,7 +168,10 @@ public class GanttChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getScale( ).setStep( 10.0 );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getLabel( ).setVisible( false );
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+		newChart.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( getDefaultTitle( ) );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
@@ -219,6 +223,7 @@ public class GanttChart extends DefaultChartTypeImpl
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
+		IChartType oldType = ChartUIUtil.getChartType( currentChart.getType( ) );
 		if ( ( currentChart instanceof ChartWithAxes ) ) // Chart is
 		// ChartWithAxes
 		{
@@ -268,10 +273,15 @@ public class GanttChart extends DefaultChartTypeImpl
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
 				currentChart.setSubType( sNewSubType );
-				currentChart.getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( CHART_TITLE );
+				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+				if ( title.getValue( ) == null
+						|| title.getValue( ).trim( ).length( ) == 0
+						|| title.getValue( )
+								.trim( )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+				{
+					title.setValue( getDefaultTitle( ) );
+				}
 
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
@@ -393,10 +403,15 @@ public class GanttChart extends DefaultChartTypeImpl
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
 			
-			currentChart.getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( CHART_TITLE );
+			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+			if ( title.getValue( ) == null
+					|| title.getValue( ).trim( ).length( ) == 0
+					|| title.getValue( )
+							.trim( )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+			{
+				title.setValue( getDefaultTitle( ) );
+			}
 		}
 		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
 						.equals( newOrientation ) )

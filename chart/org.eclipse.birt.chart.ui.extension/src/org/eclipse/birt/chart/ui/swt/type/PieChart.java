@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -38,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -62,6 +64,11 @@ public class PieChart extends DefaultChartTypeImpl
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_PIE;
 
 	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard"; //$NON-NLS-1$
+
+	public PieChart( )
+	{
+		super.chartTitle = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -212,6 +219,7 @@ public class PieChart extends DefaultChartTypeImpl
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
+		IChartType oldType = ChartUIUtil.getChartType( currentChart.getType( ) );
 		if ( currentChart instanceof ChartWithAxes )
 		{
 			if ( !ChartPreviewPainter.isLivePreviewActive( ) )
@@ -292,10 +300,15 @@ public class PieChart extends DefaultChartTypeImpl
 			// expected by default.
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.CATEGORIES_LITERAL );
-			currentChart.getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( getDefaultTitle( ) );
+			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+			if ( title.getValue( ) == null
+					|| title.getValue( ).trim( ).length( ) == 0
+					|| title.getValue( )
+							.trim( )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+			{
+				title.setValue( getDefaultTitle( ) );
+			}
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
@@ -367,10 +380,15 @@ public class PieChart extends DefaultChartTypeImpl
 
 				currentChart.getLegend( )
 						.setItemType( LegendItemType.CATEGORIES_LITERAL );
-				currentChart.getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( getDefaultTitle( ) );
+				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+				if ( title.getValue( ) == null
+						|| title.getValue( ).trim( ).length( ) == 0
+						|| title.getValue( )
+								.trim( )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+				{
+					title.setValue( getDefaultTitle( ) );
+				}
 			}
 		}
 		else
@@ -516,16 +534,6 @@ public class PieChart extends DefaultChartTypeImpl
 		pieseries.setLeaderLineLength( 10.0 );
 		pieseries.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		return pieseries;
-	}
-
-	/**
-	 * Gets the default chart title in model.
-	 * 
-	 * @return default chart title
-	 */
-	protected String getDefaultTitle( )
-	{
-		return Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
 	}
 
 	protected String getDescriptionForSubtype( String sDimension )

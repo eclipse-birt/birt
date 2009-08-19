@@ -37,6 +37,7 @@ import org.eclipse.swt.graphics.Image;
 public class DefaultChartTypeImpl implements IChartType
 {
 
+	protected String chartTitle = ""; //$NON-NLS-1$
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -249,4 +250,8 @@ public class DefaultChartTypeImpl implements IChartType
 		return false;
 	}
 
+	public String getDefaultTitle( )
+	{
+		return chartTitle;
+	}
 }

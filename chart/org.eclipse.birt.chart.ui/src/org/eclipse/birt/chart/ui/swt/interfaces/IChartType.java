@@ -188,4 +188,12 @@ public interface IChartType
 	 * 
 	 */
 	boolean canCombine( );
+
+	/**
+	 * Return the default chart title.
+	 * 
+	 * @return default chart title
+	 * @since 2.5
+	 */
+	String getDefaultTitle( );
 }

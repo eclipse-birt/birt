@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -49,6 +50,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -100,6 +102,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		fsTypeLiteral = typeLiteral;
 
 		foRiserType = riserType;
+
+		super.chartTitle = Messages.getString( fsChartTypePrefix
+				+ "Chart.Txt.Default" + fsChartTypePrefix + "ChartTitle" ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*
@@ -487,16 +492,22 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
+		IChartType oldType = ChartUIUtil.getChartType( currentChart.getType( ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( !currentChart.getType( ).equals( fsTypeLiteral ) )
 			{
 				currentChart.setType( fsTypeLiteral );
 				currentChart.setSubType( sNewSubType );
-				currentChart.getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( getDefaultTitle( ) );
+				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+				if ( title.getValue( ) == null
+						|| title.getValue( ).trim( ).length( ) == 0
+						|| title.getValue( )
+								.trim( )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+				{
+					title.setValue( getDefaultTitle( ) );
+				}
 
 				ArrayList<AxisType> axisTypes = new ArrayList<AxisType>( );
 				EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
@@ -704,10 +715,16 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
-			currentChart.getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( getDefaultTitle( ) );
+			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+			if ( title.getValue( ) == null
+					|| title.getValue( ).trim( ).length( ) == 0
+					|| title.getValue( )
+							.trim( )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+			{
+				title.setValue( getDefaultTitle( ) );
+			}
+
 		}
 		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
 						.equals( newOrientation ) )
@@ -956,12 +973,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	public String getDisplayName( )
 	{
 		return Messages.getString( fsChartTypePrefix + "Chart.Txt.DisplayName" ); //$NON-NLS-1$
-	}
-
-	protected String getDefaultTitle( )
-	{
-		return Messages.getString( fsChartTypePrefix
-				+ "Chart.Txt.Default" + fsChartTypePrefix + "ChartTitle" ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	protected String getDescriptionForSubtype( String subtypeLiteral )

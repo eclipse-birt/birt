@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -48,6 +49,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -76,6 +78,11 @@ public class LineChart extends DefaultChartTypeImpl
 	protected static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
 
 	protected static final String OVERLAY_SUBTYPE_LITERAL = "Overlay"; //$NON-NLS-1$
+
+	public LineChart( )
+	{
+		super.chartTitle = Messages.getString( "LineChart.Txt.DefaultLineChartTitle" ); //$NON-NLS-1$;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -173,11 +180,6 @@ public class LineChart extends DefaultChartTypeImpl
 			return Messages.getString( "LineChart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
 		}
 		return null;
-	}
-
-	protected String getDefaultTitle( )
-	{
-		return Messages.getString( "LineChart.Txt.DefaultLineChartTitle" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -414,6 +416,7 @@ public class LineChart extends DefaultChartTypeImpl
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
+		IChartType oldType = ChartUIUtil.getChartType( currentChart.getType( ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
@@ -475,10 +478,15 @@ public class LineChart extends DefaultChartTypeImpl
 			{
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
-				currentChart.getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( getDefaultTitle( ) );
+				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+				if ( title.getValue( ) == null
+						|| title.getValue( ).trim( ).length( ) == 0
+						|| title.getValue( )
+								.trim( )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+				{
+					title.setValue( getDefaultTitle( ) );
+				}
 
 				ArrayList axisTypes = new ArrayList( );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -620,10 +628,15 @@ public class LineChart extends DefaultChartTypeImpl
 
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
-			currentChart.getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( getDefaultTitle( ) );
+			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
+			if ( title.getValue( ) == null
+					|| title.getValue( ).trim( ).length( ) == 0
+					|| title.getValue( )
+							.trim( )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+			{
+				title.setValue( getDefaultTitle( ) );
+			}
 		}
 		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
 						.equals( newOrientation ) )

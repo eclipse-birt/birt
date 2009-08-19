@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -141,8 +140,6 @@ public class TaskSelectType extends SimpleTask implements
 	protected IChartPreviewPainter previewPainter = null;
 	private Canvas previewCanvas = null;
 
-	private LinkedHashMap<String, IChartType> htTypes = null;
-
 	private RowData rowData = new RowData( 80, 80 );
 
 	protected String sSubType = null;
@@ -214,7 +211,6 @@ public class TaskSelectType extends SimpleTask implements
 				orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
 			}
 		}
-		htTypes = new LinkedHashMap<String, IChartType>( );
 	}
 
 	public void createControl( Composite parent )
@@ -505,43 +501,16 @@ public class TaskSelectType extends SimpleTask implements
 	 */
 	private void addChartTypes( )
 	{
-		populateTypesTable( );
-		updateUI( );
-	}
-
-	/**
-	 * 
-	 */
-	private void populateTypesTable( )
-	{
-		htTypes.clear( );
-
-		Collection<IChartType> cTypes = ChartUIExtensionsImpl.instance( )
-				.getUIChartTypeExtensions( getContext( ).getClass( )
-						.getSimpleName( ) );
-		Iterator<IChartType> iterTypes = cTypes.iterator( );
-		while ( iterTypes.hasNext( ) )
-		{
-			IChartType type = iterTypes.next( );
-			// Only support enabled chart types
-			if ( ( (ChartWizardContext) context ).isEnabled( type.getName( ) ) )
-			{
-				htTypes.put( type.getName( ), type );
-			}
-		}
-	}
-
-	private void updateUI( )
-	{
-		Iterator<String> iter = htTypes.keySet( ).iterator( );
+		ChartUIUtil.populateTypeTable( getContext( ) );
+		Iterator<String> iter = ChartUIUtil.getChartTypeNameIterator( );
 		while ( iter.hasNext( ) )
 		{
 			String sTypeTmp = iter.next( );
 			TableItem tItem = new TableItem( table, SWT.NONE );
 			tItem.setText( LEADING_BLANKS
-					+ ( htTypes.get( sTypeTmp ) ).getDisplayName( ) );
-			tItem.setData( ( htTypes.get( sTypeTmp ) ).getName( ) );
-			tItem.setImage( ( htTypes.get( sTypeTmp ) ).getImage( ) );
+					+ ( ChartUIUtil.getChartType( sTypeTmp ) ).getDisplayName( ) );
+			tItem.setData( ( ChartUIUtil.getChartType( sTypeTmp ) ).getName( ) );
+			tItem.setImage( ( ChartUIUtil.getChartType( sTypeTmp ) ).getImage( ) );
 		}
 	}
 	
@@ -773,7 +742,7 @@ public class TaskSelectType extends SimpleTask implements
 						if ( lastOrientation == null )
 						{
 							Orientation currentOrientation = this.orientation;
-							this.orientation = htTypes.get( sType )
+							this.orientation = ChartUIUtil.getChartType( sType )
 									.getDefaultOrientation( );
 							if ( currentOrientation != this.orientation )
 							{
@@ -939,7 +908,7 @@ public class TaskSelectType extends SimpleTask implements
 		boolean isOldExist = false;
 
 		// Update valid dimension list
-		IChartType chartType = htTypes.get( sSelectedType );
+		IChartType chartType = ChartUIUtil.getChartType( sSelectedType );
 		String[] dimensionArray = chartType.getSupportedDimensions( );
 		int axesNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 
@@ -1191,7 +1160,7 @@ public class TaskSelectType extends SimpleTask implements
 	 */
 	private void createAndDisplayTypesSheet( String sSelectedType )
 	{
-		IChartType chartType = htTypes.get( sSelectedType );
+		IChartType chartType = ChartUIUtil.getChartType( sSelectedType );
 		if ( cbOrientation != null )
 		{
 			lblOrientation.setEnabled( chartType.supportsTransposition( )
@@ -1352,7 +1321,7 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		// DISABLE PREVIEW REFRESH DURING CONVERSION
 		ChartAdapter.beginIgnoreNotifications( );
-		IChartType chartType = htTypes.get( sType );
+		IChartType chartType = ChartUIUtil.getChartType( sType );
 		try
 		{
 			chartModel = chartType.getModel( sSubType,
@@ -1871,7 +1840,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected IChartType getCurrentChartType( )
 	{
-		return htTypes.get( sType );
+		return ChartUIUtil.getChartType( sType );
 	}
 
 	private void createUIDescriptors( Composite parent )
