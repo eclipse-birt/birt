@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.AbstractCollection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -27,6 +29,8 @@ import org.eclipse.birt.report.engine.toc.ITreeNode;
 public class TOCReaderV3 implements ITOCReader, ITOCConstants
 {
 
+	static final Logger logger = Logger
+			.getLogger( TOCReaderV3.class.getName( ) );
 	DocTreeNode root;
 	RAInputStream in;
 	ClassLoader classloader;
@@ -77,7 +81,7 @@ public class TOCReaderV3 implements ITOCReader, ITOCConstants
 		return root;
 	}
 
-	private DocTreeNode readNode( int offset ) throws IOException
+	synchronized private DocTreeNode readNode( int offset ) throws IOException
 	{
 		DocTreeNode node = new DocTreeNode( );
 		node.offset = offset;
@@ -159,6 +163,8 @@ public class TOCReaderV3 implements ITOCReader, ITOCConstants
 				}
 				catch ( IOException ex )
 				{
+					logger.log( Level.INFO, "failed to load the toc node at "
+							+ nextOffset, ex );
 					fatalError = true;
 				}
 				return null;
