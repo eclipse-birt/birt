@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.impl.ElementFactoryImpl;
 
 /**
  * Creates a new report elements and returns handles to it. Use this to create

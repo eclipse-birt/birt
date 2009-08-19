@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.elements;
 
-import org.eclipse.birt.report.model.impl.IReportDesignConstants;
 
 /**
  * Defines constants for design element name.
