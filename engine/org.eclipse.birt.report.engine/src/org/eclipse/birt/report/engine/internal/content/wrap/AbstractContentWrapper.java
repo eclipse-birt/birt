@@ -478,6 +478,16 @@ abstract public class AbstractContentWrapper extends AbstractElement
 		content.setLastChild( isLastChild );
 	}
 	
+	public boolean hasChildren( )
+	{
+		return content.hasChildren( );
+	}
+
+	public void setHasChildren( boolean hasChildren )
+	{
+		content.setHasChildren( hasChildren );
+	}
+	
 	public IContent getContent( )
 	{
 		return content;

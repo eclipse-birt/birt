@@ -209,6 +209,10 @@ public interface IContent extends IElement, CSSStylableElement, IStyledElement
 	
 	void setLastChild( boolean isLastChild );
 	
+	boolean hasChildren( );
+
+	void setHasChildren( boolean hasChildren );
+	
 	Map<String, Object> getUserProperties( );
 
 	void setUserProperties( Map<String, Object> values );

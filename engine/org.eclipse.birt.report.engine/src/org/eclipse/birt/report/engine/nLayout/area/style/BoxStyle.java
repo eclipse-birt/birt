@@ -15,7 +15,6 @@ import java.awt.Color;
 
 public class BoxStyle  extends AreaConstants
 {
-
 	public final static BoxStyle DEFAULT = new BoxStyle( );
 
 	protected Color backgroundColor = null;
@@ -23,8 +22,6 @@ public class BoxStyle  extends AreaConstants
 	protected BackgroundImageInfo backgroundImage = null;
 
 	protected BorderInfo topBorder = null;
-
-	
 
 	protected BorderInfo leftBorder = null;
 

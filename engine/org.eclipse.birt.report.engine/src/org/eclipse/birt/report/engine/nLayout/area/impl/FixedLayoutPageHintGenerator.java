@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -355,7 +354,7 @@ public class FixedLayoutPageHintGenerator
 							if ( parent1 instanceof IListBandContent
 									|| parent1 instanceof ITableBandContent )
 							{
-								return isSilbing( parent1, parent2 );
+								return isSibling( parent1, parent2 );
 							}
 							else
 							{
@@ -372,17 +371,10 @@ public class FixedLayoutPageHintGenerator
 			else
 			// Case 2: content2 is NOT the first child.
 			{
-
-				if ( content1 instanceof IContainerContent )
+				// content1 is a container content
+				if ( content1.hasChildren( ) )
 				{
-					// content1 is a container content
-					IContainerContent container = (IContainerContent) content1;
-					//FIXME the children of the container can not be gotten here. 
-					// but if the area hierarchy is not broken, it should not get here.
-					if ( container.getChildren( ).size( ) > 0 )
-					{
-						return false;
-					}
+					return false;
 				}
 				// the content1 is a leaf content or a container content without
 				// any children.
@@ -408,18 +400,18 @@ public class FixedLayoutPageHintGenerator
 					}
 					else
 					{
-						return isSilbing( parent1, content2 );
+						return isSibling( parent1, content2 );
 					}
 				}
 				else
 				{
-					return isSilbing( content1, content2 );
+					return isSibling( content1, content2 );
 				}
 
 			}
 		}
 		
-		static boolean isSilbing( IContent content1, IContent content2 )
+		static boolean isSibling( IContent content1, IContent content2 )
 		{
 			if ( content1 == null || content2 == null || content1 == content2 )
 			{

@@ -499,6 +499,16 @@ public class ClonedCellContent implements ICellContent
 	{
 		cellContent.setLastChild( isLastChild );
 	}
+	
+	public boolean hasChildren( )
+	{
+		return cellContent.hasChildren( );
+	}
+
+	public void setHasChildren( boolean hasChildren )
+	{
+		cellContent.setHasChildren( hasChildren );
+	}
 
 	public Map<String, Object> getUserProperties( )
 	{

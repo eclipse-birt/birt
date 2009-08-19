@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.QueryUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -89,6 +89,8 @@ abstract public class AbstractContent extends AbstractElement
 	transient protected long offset = -1;
 	
 	transient protected boolean isLastChild = false;
+	
+	transient protected boolean hasChildren = false;
 	
 	transient protected int version = -1;
 
@@ -918,6 +920,16 @@ abstract public class AbstractContent extends AbstractElement
 		this.userProperties = properties;
 	}
 	
+	public boolean hasChildren( )
+	{
+		return hasChildren;
+	}
+
+	public void setHasChildren( boolean hasChildren )
+	{
+		this.hasChildren = hasChildren;
+	}
+	
 	public boolean isLastChild( )
 	{
 		return isLastChild;
@@ -926,6 +938,12 @@ abstract public class AbstractContent extends AbstractElement
 	public void setLastChild( boolean isLastChild )
 	{
 		this.isLastChild = isLastChild;
+	}
+	
+	public void setParent( IElement parent )
+	{
+		super.setParent( parent );
+		( (IContent) parent ).setHasChildren( true );
 	}
 
 	public Map<String, Object> getExtensions( )
