@@ -332,6 +332,11 @@ public class ChartWizard extends WizardBase
 		}
 	}
 
+	public static void clearExceptions( )
+	{
+		errors.clear( );
+	}
+
 	/**
 	 * Remove all the exceptions which the keys contain the argument.
 	 * 
