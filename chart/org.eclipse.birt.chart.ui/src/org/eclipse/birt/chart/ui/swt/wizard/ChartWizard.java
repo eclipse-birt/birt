@@ -203,8 +203,9 @@ public class ChartWizard extends WizardBase
 	public IWizardContext open( String[] sTasks, String topTaskId,
 			IWizardContext initialContext )
 	{
-		// clear the errors when open a new wizard.
-		errors.clear( );
+		// do not clear errors here, because some errors can occur before
+		// opening the wizard dialog.
+		// errors.clear( );
 		Chart chart = getChartModel( initialContext );
 
 		if ( chart == null )
@@ -292,7 +293,14 @@ public class ChartWizard extends WizardBase
 	{
 		if ( errorMessage != null )
 		{
-			WizardBase.showException( errorMessage );
+			try
+			{
+				WizardBase.showException( errorMessage );
+			}
+			catch ( Exception e )
+			{
+				// ignore
+			}
 			errors.put( key, errorMessage );
 		}
 	}
@@ -303,7 +311,14 @@ public class ChartWizard extends WizardBase
 		String error = errors.get( key );
 		if ( error != null && error.equals( WizardBase.getErrors( ) ) )
 		{
-			WizardBase.removeException( );
+			try
+			{
+				WizardBase.removeException( );
+			}
+			catch ( Exception e )
+			{
+				// ignore
+			}
 			removed = true;
 		}
 
