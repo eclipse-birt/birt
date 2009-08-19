@@ -169,6 +169,17 @@ public class ScriptContext implements IScriptContext
 
 	public void close( )
 	{
+		// remove all the attribute from the existing context
+		Collection<IScriptContext> contexts = scriptContexts.values( );
+		for ( IScriptContext context : contexts )
+		{
+			for ( String attrName : attributes.keySet( ) )
+			{
+				context.removeAttribute( attrName );
+			}
+		}
+		scriptContexts.clear( );
+		attributes.clear( );
 		if ( parent == null )
 		{
 			Collection<IScriptEngine> engineSet = engines.values( );
@@ -176,7 +187,9 @@ public class ScriptContext implements IScriptContext
 			{
 				engine.close( );
 			}
+			engines.clear( );
 		}
+
 	}
 
 	public IScriptEngine getScriptEngine( String scriptName )
