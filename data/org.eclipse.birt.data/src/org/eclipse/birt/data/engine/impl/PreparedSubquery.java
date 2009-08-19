@@ -153,7 +153,7 @@ class PreparedSubquery implements IPreparedQueryService
 	/**
 	 * Concrete class of PreparedQuery.Executor used in PreparedSubquery
 	 */
-	private class SubQueryExecutor extends QueryExecutor implements ISubQueryExecutor
+	public class SubQueryExecutor extends QueryExecutor implements ISubQueryExecutor
 	{
 		private IResultIterator parentIterator;
 		private IQueryExecutor parentExecutor;
@@ -170,6 +170,11 @@ class PreparedSubquery implements IPreparedQueryService
 			this.parentIterator = parentIterator;
 			this.parentExecutor = parentExecutor;
 			this.setParentExecutorHelper( parentIterator.getExecutorHelper( ) );
+		}
+		
+		public IResultIterator getParentIterator()
+		{
+			return this.parentIterator;
 		}
 		
 		/*

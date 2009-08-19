@@ -56,6 +56,7 @@ import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.PreparedSubquery.SubQueryExecutor;
 import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
@@ -208,11 +209,25 @@ public class ResultIterator implements IResultIterator
 			FileSecurity.fileMakeDirs( tmpDir );
 		}
 		String id = resultService.getQueryResults( ).getID( );
+		int currentParentQueryRowId = 0;
 		if( this.resultService!= null && this.resultService.getQueryDefn( ) instanceof ISubqueryDefinition )
 		{
+			if( this.resultService.getQueryResults( ) instanceof QueryResults )
+			{
+				QueryResults results = (QueryResults) this.resultService.getQueryResults();
+				if( results.getQueryService( ).getQueryExecutor( ) instanceof ISubQueryExecutor )
+				{
+					SubQueryExecutor executor = (SubQueryExecutor) results.getQueryService( )
+							.getQueryExecutor( );
+					if( executor.getParentIterator( )!= null )
+					{
+						currentParentQueryRowId = executor.getParentIterator( ).getCurrentResultIndex( );
+					}
+				}
+			}
 			id = QuerySharingUtil.getSubQueryID( id,
 					this.resultService.getQueryDefn( ).getName( ),
-					rawIdStartingValue );
+					currentParentQueryRowId );
 		}
 		metaOutputStream = new BufferedOutputStream( FileSecurity.createFileOutputStream(  ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
 				 id ) ),

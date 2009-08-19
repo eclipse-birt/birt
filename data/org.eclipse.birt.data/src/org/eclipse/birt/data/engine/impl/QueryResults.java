@@ -280,6 +280,10 @@ public class QueryResults implements IQueryResults, IQueryService
 		return queryService.getGroupLevel( );
 	}
 	
+	public IServiceForQueryResults getQueryService()
+	{
+		return this.queryService;
+	}
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#isClosed()
 	 */

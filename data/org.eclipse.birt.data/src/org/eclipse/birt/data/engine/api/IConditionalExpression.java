@@ -104,8 +104,8 @@ public interface IConditionalExpression extends IBaseExpression
 	
 	/**
 	 * The Like operator. Evaluates to true if the left operand is a String that matches the 
-	 * pattern string provided as right operand. the pattern uses �%� to match 0 or 
-	 * more of any characters, �_� to match exactly one character, and �\� as escape character. 
+	 * pattern string provided as right operand. the pattern uses "%" to match 0 or 
+	 * more of any characters, "_" to match exactly one character, and "/" as escape character. 
 	 * All other characters are matched case-sensitively.
 	 */
 	public static final int	OP_LIKE 		  = 13; 
