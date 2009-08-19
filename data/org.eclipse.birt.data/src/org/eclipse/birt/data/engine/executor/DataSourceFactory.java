@@ -24,8 +24,11 @@ import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
  */
 public class DataSourceFactory implements IDataSourceFactory
 {
-	/** */
-	private static DataSourceFactory instance = null;
+	/** 
+	 * volatile modifier is used here to ensure the DataSourceFactory, when being constructed by JVM, will be locked
+	 * by current thread until the finish of construction.
+	 */
+	private static volatile DataSourceFactory instance = null;
 	
 	/**
 	 * @return

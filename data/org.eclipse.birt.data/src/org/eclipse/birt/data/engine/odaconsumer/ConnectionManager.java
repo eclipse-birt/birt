@@ -40,7 +40,11 @@ import com.ibm.icu.util.ULocale;
  */
 public class ConnectionManager
 {
-	private static ConnectionManager sm_instance = null;
+	/** 
+	 * volatile modifier is used here to ensure the ConnectionManager, when being constructed by JVM, will be locked
+	 * by current thread until the finish of construction.
+	 */
+	private static volatile ConnectionManager sm_instance = null;
     
     private static final String DTP_CONN_PROFILE_APPL_ID = Constants.CONN_PROFILE_APPL_ID;
 	
