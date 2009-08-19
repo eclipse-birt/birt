@@ -94,6 +94,10 @@ public class DataSetProcessorImpl extends DataSetAdapter
 					continue;
 				}
 				d = ( (Number) o ).doubleValue( );
+				if ( Double.isNaN( d ) || Double.isInfinite( dMax ) )
+				{
+					continue;
+				}
 				if ( !bAnyNonNull )
 				{
 					dMax = d;
@@ -189,6 +193,10 @@ public class DataSetProcessorImpl extends DataSetAdapter
 					continue;
 				}
 				d = ( (Number) o ).doubleValue( );
+				if ( Double.isNaN( d ) || Double.isInfinite( d ) )
+				{
+					continue;
+				}
 				if ( !bAnyNonNull )
 				{
 					dMin = d;
