@@ -262,6 +262,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				dataProvider.update( ChartUIConstants.COPY_SERIES_DEFINITION, null );
 			}
 			
+			// clear all old exceptions
+			ChartWizard.clearExceptions( );
+
 			if ( eih.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
 					&& !ChartReportItemUtil.isContainerInheritable( eih ) )
 			{
