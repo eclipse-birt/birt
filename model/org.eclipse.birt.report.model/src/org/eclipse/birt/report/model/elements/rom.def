@@ -1576,6 +1576,10 @@
     <Member displayNameID="Structure.AggregationArgument.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.2" type="string" valueRequired="true"/>
     <Member displayNameID="Structure.AggregationArgument.value" isIntrinsic="true" name="value" runtimeSettable="false" since="2.2" type="expression"/>
   </Structure>
+  <Structure displayNameID="Structure.IncludedDataMart" name="IncludedDataMart" since="2.5">
+    <Member displayNameID="Structure.IncludedDataMart.fileName" isIntrinsic="true" name="fileName" since="2.5" type="string"/>
+    <Member displayNameID="Structure.IncludedDataMart.namespace" isIntrinsic="true" name="namespace" since="2.5" type="string"/>
+  </Structure>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.Module.subject" name="subject" runtimeSettable="false" since="2.3" type="string"/>

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -22,7 +21,7 @@ import org.eclipse.birt.report.model.util.XMLParserHandler;
  * 
  */
 
-class ParametersState extends SlotState
+public class ParametersState extends SlotState
 {
 
 	/**

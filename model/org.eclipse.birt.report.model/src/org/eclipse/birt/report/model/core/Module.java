@@ -1889,9 +1889,9 @@ public abstract class Module extends DesignElement
 	 * @return The parameter, if found, otherwise null.
 	 */
 
-	public DesignElement findParameter( String name )
+	public final DesignElement findParameter( String name )
 	{
-		return null;
+		return resolveNativeElement( name, PARAMETER_NAME_SPACE );
 	}
 
 	/**

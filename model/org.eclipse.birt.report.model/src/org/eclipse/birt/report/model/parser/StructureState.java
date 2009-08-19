@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedDataMart;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
@@ -594,6 +595,9 @@ public class StructureState extends AbstractPropertyState
 				AggregationArgument.class );
 		structDict.put( SortHint.SORT_HINT_STRUCT.toLowerCase( ),
 				SortHint.class );
+		structDict.put(
+				IncludedDataMart.INCLUDED_DATAMART_STRUCT.toLowerCase( ),
+				IncludedDataMart.class );
 
 	}
 }

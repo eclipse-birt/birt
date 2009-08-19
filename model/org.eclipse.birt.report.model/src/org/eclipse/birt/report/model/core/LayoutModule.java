@@ -163,17 +163,6 @@ public abstract class LayoutModule extends Module
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Module#findParameter(java.lang.String)
-	 */
-	public DesignElement findParameter( String name )
-	{
-		return resolveNativeElement( name, PARAMETER_NAME_SPACE );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.core.Module#prepareToSave()
 	 */
 	public void prepareToSave( )
