@@ -295,6 +295,31 @@ public class DataAdapterUtil
 							.addResultSetHint( new ColumnAdapter( modelColumnHint ) );
 			}
 		}
+		
+		// Populate the data set design column hints so that each entry within
+		// contains data type info for future processing.
+		// Meanwhile remove the position info for it
+		if ( modelDataSet instanceof OdaDataSetHandle )
+		{
+			elmtIter = modelDataSet.resultSetIterator( );
+			if ( elmtIter != null )
+			{
+				while ( elmtIter.hasNext( ) )
+				{
+					OdaResultSetColumnHandle modelColumn = (OdaResultSetColumnHandle) elmtIter.next( );
+					ColumnDefinition columnDefn = findColumnDefn( dteDataSet.getResultSetHints( ),
+							modelColumn.getColumnName( ) );
+					if ( columnDefn != null )
+						columnDefn.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( modelColumn.getDataType( ) ) );
+					else
+					{
+						ColumnAdapter adapter = new ColumnAdapter( (ResultSetColumnHandle) modelColumn );
+						adapter.setColumnPosition( 0 );
+						dteDataSet.addResultSetHint( adapter );
+					}
+				}
+			}
+		}
 	}
 	
 	public static void updateColumnDefn( ColumnDefinition dteColumn,
