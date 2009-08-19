@@ -48,6 +48,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -1198,6 +1199,8 @@ public class ResultIterator implements IResultIterator
 		 */
 		private boolean needsSaveToDoc( )
 		{
+			if ( ((BaseQueryDefinition)this.queryDefn).isTempQuery( ))
+				return false;
 			if ( this.odiResult == null )
 				return false;
 			

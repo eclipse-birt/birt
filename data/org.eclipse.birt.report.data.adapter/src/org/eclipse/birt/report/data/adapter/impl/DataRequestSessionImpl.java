@@ -1542,6 +1542,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 		if( metaList == null )
 			metaList = new ArrayList();
 		QueryDefinition query = new QueryDefinition( );
+		//Ensure the query execution result would not be save to report document.
+		query.setAsTempQuery( );
 	
 		query.setUsesDetails( false );
 		query.setDataSetName( cubeHandle.getDataSet( ).getQualifiedName( ) );
@@ -1674,6 +1676,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		assert metaList!= null;
 		QueryDefinition query = new QueryDefinition( );
+		//Ensure the query execution result would not be save to report document.
+		query.setAsTempQuery( );
 		query.setUsesDetails( false );
 		
 		query.setDataSetName( DataRequestSessionImpl.getDataSet ( hierHandle ) );

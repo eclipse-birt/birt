@@ -298,7 +298,8 @@ public class DataAdapterUtil
 		
 		// Populate the data set design column hints so that each entry within
 		// contains data type info for future processing.
-		// Meanwhile remove the position info for it
+		// Meanwhile remove the position info for the newly added column hint only serve as
+		// hint for acquiring data type, rather than indicator of column names. 
 		if ( modelDataSet instanceof OdaDataSetHandle )
 		{
 			elmtIter = modelDataSet.resultSetIterator( );

@@ -49,6 +49,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	private 	Map bindingMap = new LinkedHashMap();
 	private IQueryExecutionHints queryExecutionHints = new QueryExecutionHints();
 	private String name;
+	private boolean isTempQuery = false;;
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
@@ -277,5 +278,14 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	{
 		this.name = name;
 		
+	}
+	
+	public void setAsTempQuery()
+	{
+		this.isTempQuery = true;
+	}
+	public boolean isTempQuery()
+	{
+		return this.isTempQuery ;
 	}
 }
