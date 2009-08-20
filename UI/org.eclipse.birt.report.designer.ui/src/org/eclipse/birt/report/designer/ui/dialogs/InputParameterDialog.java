@@ -35,7 +35,6 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ListViewer;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.FocusEvent;
@@ -408,7 +407,7 @@ public class InputParameterDialog extends Dialog
 				{
 				}
 			}
-			if ( !contains )
+			if ( !contains && defaultValue != null )
 			{
 				IParameterSelectionChoice choice = new IParameterSelectionChoice( ) {
 
