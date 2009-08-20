@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r22a_v20071101 Build &lt;2.2.1.v20071101-1439></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.1.v20090819-0630 Build &lt;2.5.1.v20090819-0630></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <list-property name="propertyBindings">
@@ -23,26 +23,24 @@
             <property name="id">17</property>
         </structure>
     </list-property>
+    <property name="layoutPreference">auto layout</property>
     <parameters>
         <scalar-parameter name="p1_string" id="6">
             <property name="valueType">static</property>
-            <property name="dataType">string</property>
             <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">abc</value>
+            </simple-property-list>
             <property name="controlType">text-box</property>
-            <property name="defaultValue">abc</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="p2_static_dt" id="7">
             <property name="valueType">static</property>
-            <property name="dataType">dateTime</property>
             <property name="isRequired">true</property>
-            <property name="controlType">list-box</property>
-            <property name="mustMatch">true</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
+            <property name="dataType">dateTime</property>
             <list-property name="selectionList">
                 <structure>
                     <property name="value">05/11/2004 12:00:00 AM</property>
@@ -51,17 +49,24 @@
                     <property name="value">05/18/2004 12:00:00 AM</property>
                 </structure>
             </list-property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
         </scalar-parameter>
         <scalar-parameter name="p3_dynamic_int" id="8">
             <property name="valueType">dynamic</property>
-            <property name="dataType">integer</property>
             <property name="isRequired">true</property>
-            <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set</property>
             <expression name="valueExpr">dataSetRow["ORDERNUMBER"]</expression>
             <expression name="labelExpr">dataSetRow["ORDERNUMBER"]</expression>
+            <property name="dataType">integer</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">10251</value>
+            </simple-property-list>
+            <property name="controlType">list-box</property>
             <property name="mustMatch">false</property>
-            <property name="defaultValue">10251</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -70,20 +75,24 @@
             <parameters>
                 <scalar-parameter name="p41_decimal" id="10">
                     <property name="valueType">static</property>
-                    <property name="dataType">decimal</property>
                     <property name="isRequired">true</property>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="defaultValue">
+                        <value type="constant">2.35</value>
+                    </simple-property-list>
                     <property name="controlType">text-box</property>
-                    <property name="defaultValue">2.35</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="p42_float" id="11">
                     <property name="valueType">static</property>
-                    <property name="dataType">float</property>
                     <property name="isRequired">true</property>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="defaultValue">
+                        <value type="constant">87.16</value>
+                    </simple-property-list>
                     <property name="controlType">text-box</property>
-                    <property name="defaultValue">87.16</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -97,18 +106,18 @@
                 <scalar-parameter name="p51" id="13">
                     <property name="valueType">dynamic</property>
                     <property name="isRequired">false</property>
-                    <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["STATUS"]</expression>
+                    <property name="controlType">list-box</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="p52" id="14">
                     <property name="valueType">dynamic</property>
-                    <property name="dataType">integer</property>
                     <property name="isRequired">true</property>
-                    <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["ORDERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="controlType">list-box</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -121,9 +130,9 @@
                 <scalar-parameter name="p61_country" id="19">
                     <property name="valueType">dynamic</property>
                     <property name="isRequired">false</property>
-                    <property name="controlType">list-box</property>
                     <property name="dataSetName">ds1</property>
                     <expression name="valueExpr">row["COUNTRY"]</expression>
+                    <property name="controlType">list-box</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -131,26 +140,38 @@
                 <scalar-parameter name="p62_customernumber" id="20">
                     <property name="valueType">dynamic</property>
                     <property name="isRequired">false</property>
-                    <property name="controlType">list-box</property>
                     <property name="dataSetName">ds2</property>
                     <expression name="valueExpr">row["CUSTOMERNUMBER"]</expression>
+                    <property name="controlType">list-box</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="p63_orderno" id="21">
                     <property name="valueType">dynamic</property>
-                    <property name="dataType">integer</property>
                     <property name="isRequired">false</property>
-                    <property name="controlType">list-box</property>
                     <property name="dataSetName">ds3</property>
                     <expression name="valueExpr">row["ORDERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="controlType">list-box</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
                 </scalar-parameter>
             </parameters>
         </cascading-parameter-group>
+        <scalar-parameter name="p_list_empty" id="22">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="sample" id="4">
@@ -262,8 +283,8 @@
                     <property name="nativeDataType">4</property>
                 </structure>
             </list-property>
-            <property name="queryText">select *
-from CLASSICMODELS.ORDERS</property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.ORDERS]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds1" id="15">
             <structure name="cachedMetaData">
@@ -316,8 +337,8 @@ from CLASSICMODELS.ORDERS</property>
                 </list-property>
             </structure>
             <property name="dataSource">sample</property>
-            <property name="queryText">select *
-from OFFICES</property>
+            <xml-property name="queryText"><![CDATA[select *
+from OFFICES]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds2" id="16">
             <structure name="cachedMetaData">
@@ -483,10 +504,10 @@ from OFFICES</property>
                     <property name="nativeDataType">8</property>
                 </structure>
             </list-property>
-            <property name="queryText">select *
+            <xml-property name="queryText"><![CDATA[select *
 from CUSTOMERS
 
-</property>
+]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>1.0</Version>
@@ -798,10 +819,10 @@ from CUSTOMERS
                     <property name="nativeDataType">4</property>
                 </structure>
             </list-property>
-            <property name="queryText">select *
+            <xml-property name="queryText"><![CDATA[select *
 from ORDERS
 
-</property>
+]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>1.0</Version>
@@ -928,6 +949,10 @@ from ORDERS
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>

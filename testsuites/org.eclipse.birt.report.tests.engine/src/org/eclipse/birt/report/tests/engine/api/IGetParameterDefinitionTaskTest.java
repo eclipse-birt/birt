@@ -75,7 +75,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		boolean includeParameterGroups = true;
 		ArrayList params = (ArrayList) task
 				.getParameterDefns( includeParameterGroups );
-		assertEquals( 6, params.size( ) );
+		assertEquals( 7, params.size( ) );
 		assertTrue( params.get( 0 ) instanceof IScalarParameterDefn );
 		assertTrue( params.get( 1 ) instanceof IScalarParameterDefn );
 		assertTrue( params.get( 2 ) instanceof IScalarParameterDefn );
@@ -85,7 +85,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 
 		includeParameterGroups = false;
 		params = (ArrayList) task.getParameterDefns( includeParameterGroups );
-		assertEquals( 10, params.size( ) );
+		assertEquals( 11, params.size( ) );
 
 		for ( int i = 0; i < params.size( ); i++ )
 		{
@@ -112,6 +112,9 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 				.getName( ) );
 		assertEquals( "p61_country", ( (IScalarParameterDefn) params.get( 7 ) )
 				.getName( ) );
+		// 282501
+		assertEquals( 2, ( (IScalarParameterDefn) params.get( 10 ) )
+				.getSelectionListType() );
 	}
 
 	/**
@@ -200,7 +203,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		HashMap values = task.getDefaultValues( );
 
 		assertNotNull( values );
-		assertEquals( 10, values.size( ) );
+		assertEquals( 11, values.size( ) );
 		assertEquals( "abc", values.get( "p1_string" ) );
 
 		assertEquals( "10251", values.get( "p3_dynamic_int" ).toString( ) );
