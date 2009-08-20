@@ -113,7 +113,9 @@ public class QueryUtil
 					if ( query instanceof ISubqueryDefinition )
 					{
 						String queryName = query.getName( );
-						sb.insert( 0, "R" + rowid + "S" + queryName );
+						sb.insert( 0, "{" );
+						sb.append( "}." ).append( rowid ).append( "." ).append(
+								queryName );
 					}
 					else
 					{

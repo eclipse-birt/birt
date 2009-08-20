@@ -143,8 +143,8 @@ public class QueryResultSet implements IQueryResultSet
 			// dont handle this exception because this works in most cases
 		}
 		StringBuilder sb = new StringBuilder( );
-		sb.append( 'R' ).append( rowid ).append( 'S' ).append(
-				queryDefn.getName( ) ).append( queryResults.getID( ) );
+		sb.append( "{" ).append( parent.getQueryResultsID( ) ).append( "}." )
+				.append( rowid ).append( "." ).append( queryDefn.getName( ) );
 		this.queryResultsID = sb.toString( );
 		initializeRowIdOfGroups( queryDefn.getGroups( ).size( ) );
 	}
