@@ -51,6 +51,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisScaleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTitleSheet;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
@@ -823,7 +824,12 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			if ( !( data instanceof DateTimeDataElement ) )
 			{
-				data = DateTimeDataElementImpl.create( 0 );
+				data = DateTimeDataElementImpl.create( new CDateTime( 1970,
+						1,
+						1,
+						0,
+						0,
+						0 ) );
 			}
 			return new DateTimeDataElementComposite( parent,
 					SWT.BORDER,
