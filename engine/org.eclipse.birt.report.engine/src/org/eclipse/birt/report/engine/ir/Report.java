@@ -109,6 +109,8 @@ public class Report
 
 	private String scriptLanguage = Expression.SCRIPT_JAVASCRIPT;
 
+	private String reportLocale;
+
 	/**
 	 * default constructor.
 	 */
@@ -475,5 +477,15 @@ public class Report
 	public void setScriptLanguage( String defaultScript )
 	{
 		this.scriptLanguage = defaultScript;
+	}
+
+	public String getLocale( )
+	{
+		return reportLocale;
+	}
+
+	public void setLocale( String loc )
+	{
+		reportLocale = loc;
 	}
 }

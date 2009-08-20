@@ -69,6 +69,9 @@ public class EngineIRWriter implements IOConstants
 		IOUtil.writeShort( dos, FIELD_REPORT_VERSION );
 		IOUtil.writeString( dos, design.getVersion( ) );
 
+		IOUtil.writeShort( dos, FIELD_REPORT_LOCALE );
+		IOUtil.writeString( dos, design.getLocale( ) );
+
 		// write report styles and rootStyle
 		IOUtil.writeShort( dos, FIELD_REPORT_STYLES );
 		writeReportStyles( dos, design );

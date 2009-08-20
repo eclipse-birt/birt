@@ -184,6 +184,10 @@ public class EngineIRReaderImpl implements IOConstants
 				case FIELD_REPORT_SCRIPT_LANGUAGE :
 					scriptLanguage = IOUtil.readString( dis );
 					break;
+				case FIELD_REPORT_LOCALE :
+					String locale = IOUtil.readString( dis );
+					reportDesign.setLocale( locale );
+					break;
 				default :
 					throw new IOException( "unknow report segment type:" + reportSegmentType ); //$NON-NLS-1$
 			}

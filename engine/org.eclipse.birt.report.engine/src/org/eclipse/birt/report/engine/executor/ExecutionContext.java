@@ -194,10 +194,17 @@ public class ExecutionContext
 	private IRenderOption renderOption;
 
 	/**
-	 * the current locale, used to localize the report content
+	 * the locale from user level.
 	 */
 	private ULocale ulocale;
-	
+
+	/**
+	 * the locale defined in report level
+	 */
+	private ULocale rlocale;
+
+	private static final String USER_LOCALE = "user_locale";
+
 	/**
 	 * define a time zone
 	 */
@@ -759,6 +766,9 @@ public class ExecutionContext
 	 */
 	public Locale getLocale( )
 	{
+		if ( rlocale != null )
+			return rlocale.toLocale( );
+
 		return ulocale.toLocale( );
 	}
 
@@ -769,7 +779,8 @@ public class ExecutionContext
 	public void setLocale( ULocale ulocale )
 	{
 		this.ulocale = ulocale;
-		this.getScriptContext( ).setLocale( ulocale.toLocale( ) );
+		if ( rlocale == null )
+			this.getScriptContext( ).setLocale( ulocale.toLocale( ) );
 	}
 	
 	public TimeZone getTimeZone()
@@ -1546,6 +1557,26 @@ public class ExecutionContext
 		this.presentationMode = mode;
 	}
 
+	private ULocale determineLocale( String locale )
+	{
+		ULocale loc = null;
+		if ( locale == null )
+		{
+			if ( rlocale == null )
+				loc = ulocale;
+			else
+				loc = rlocale;
+		}
+		else
+		{
+			if ( USER_LOCALE.equals( locale ) )
+				loc = ulocale;
+			else
+				loc = new ULocale( locale );
+		}
+		return loc;
+	}
+
 	/**
 	 * get a string formatter object
 	 * 
@@ -1564,9 +1595,8 @@ public class ExecutionContext
 		StringFormatter fmt = stringFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new StringFormatter( pattern, locale == null
-					? ulocale
-					: new ULocale( locale ) );
+			ULocale loc = determineLocale( locale );
+			fmt = new StringFormatter( pattern, loc );
 			stringFormatters.put( key, fmt );
 		}
 		return fmt;
@@ -1590,9 +1620,8 @@ public class ExecutionContext
 		NumberFormatter fmt = numberFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new NumberFormatter( pattern, locale == null
-					? ulocale
-					: new ULocale( locale ) );
+			ULocale loc = determineLocale( locale );
+			fmt = new NumberFormatter( pattern, loc );
 			numberFormatters.put( key, fmt );
 		}
 		return fmt;
@@ -1616,9 +1645,8 @@ public class ExecutionContext
 		DateFormatter fmt = dateFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new DateFormatter( pattern, locale == null
-					? ulocale
-					: new ULocale( locale ), timeZone );
+			ULocale loc = determineLocale( locale );
+			fmt = new DateFormatter( pattern, loc, timeZone );
 			dateFormatters.put( key, fmt );
 		}
 
@@ -2062,6 +2090,7 @@ public class ExecutionContext
 		{
 			reportIR = new ReportParser( ).parse( (ReportDesignHandle) runnable
 					.getDesignHandle( ) );
+			setupFromReport( );
 		}
 		return reportIR;
 	}
@@ -2069,6 +2098,17 @@ public class ExecutionContext
 	public void setReport( Report reportIR )
 	{
 		this.reportIR = reportIR;
+		setupFromReport( );
+	}
+
+	private void setupFromReport( )
+	{
+		String locale = reportIR.getLocale( );
+		if ( locale != null )
+		{
+			rlocale = new ULocale( locale );
+			this.getScriptContext( ).setLocale( rlocale.toLocale( ) );
+		}
 	}
 	
 	public URL getResource( String resourceName )

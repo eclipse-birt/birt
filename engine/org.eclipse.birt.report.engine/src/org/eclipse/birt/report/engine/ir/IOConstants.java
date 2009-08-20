@@ -184,6 +184,9 @@ public interface IOConstants
 	static final short FIELD_USER_PROPERTIES = 253;
 	static final short FIELD_REPORT_USER_PROPERTIES = 254;
 	
+	//added from V11
+	static final short FIELD_REPORT_LOCALE = 255;
+	
 	static final long ENGINE_IR_VERSION_0 = 0L;
 	// Version 1: remove write isBookmark of ActionDesign.
 	static final long ENGINE_IR_VERSION_1 = 1L;

@@ -308,6 +308,10 @@ public class EngineIRVisitor extends DesignVisitor
 		// INCLUDE SCRIPT
 		// CODE MODULES
 
+		ULocale locale = handle.getLocale( );
+		if ( locale != null )
+			report.setLocale( locale.toString( ) );
+
 		// Sets the report default style
 		createReportDefaultStyles( handle );
 
