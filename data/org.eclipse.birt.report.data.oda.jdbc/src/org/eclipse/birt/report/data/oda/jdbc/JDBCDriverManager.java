@@ -151,7 +151,7 @@ public class JDBCDriverManager
 	public Connection getConnection( String driverClass, String url, 
 			Properties connectionProperties, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
-        validateConnectionUrl( url,null );
+		validateConnectionProperties( driverClass, url, null );
 		if ( logger.isLoggable( Level.FINE ) )
 		{
 			logger.fine( "Request JDBC Connection: driverClass="
@@ -173,7 +173,7 @@ public class JDBCDriverManager
 	public  Connection getConnection( String driverClass, String url, 
 			String user, String password, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
-        validateConnectionUrl( url,null );
+		validateConnectionProperties( driverClass, url, null );
 		if ( logger.isLoggable( Level.FINE ) )
 			logger.fine( "Request JDBC Connection: driverClass="
 					+ ( driverClass == null ? "" : driverClass ) + "; url="
@@ -185,7 +185,7 @@ public class JDBCDriverManager
         
         return doConnect( driverClass, url, null, props, driverClassPath );
 	}
-    
+
     /**
      * Gets a JDBC connection from the specified JNDI data source URL, or
      * if not available, directly from the specified driver and JDBC driver url.
@@ -203,7 +203,7 @@ public class JDBCDriverManager
                                 Properties connectionProperties, Collection<String> driverClassPath ) 
         throws SQLException, OdaException
     {
-        validateConnectionUrl( url, jndiNameUrl);
+		validateConnectionProperties( driverClass, url, jndiNameUrl );
         if ( logger.isLoggable( Level.FINE ) )
             logger.fine( "Request JDBC Connection: driverClass=" + driverClass +  //$NON-NLS-1$
                         "; url=" + LogUtil.encryptURL( url )+            //$NON-NLS-1$
@@ -351,15 +351,18 @@ public class JDBCDriverManager
 			connProps.setProperty( JDBC_PASSWORD_PROP_NAME, password );
 		return connProps;
 	}       
-	
-    /**
-	 * Validate the URL & Jndi properties.
+    
+   /**
+	 * Validate the driver class name, URL & Jndi properties.
 	 * 
 	 * @param url
 	 * @param jndiNameUrl
 	 */
-	private void validateConnectionUrl( String url, String jndiNameUrl )
+	private void validateConnectionProperties( String driverClass, String url, String jndiNameUrl )
 	{
+		if ( isBlank( driverClass ) )
+			throw new NullPointerException( this.resourceHandle.getMessage( ResourceConstants.EMPTYDRIVERCLASS ) );
+		
 		if ( isBlank( url ) && isBlank( jndiNameUrl ) )
 			throw new NullPointerException( this.resourceHandle.getMessage( ResourceConstants.MISSEDURLANDJNDI ) );
 	}
