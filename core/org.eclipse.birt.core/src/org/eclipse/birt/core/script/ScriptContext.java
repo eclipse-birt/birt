@@ -63,16 +63,31 @@ public class ScriptContext implements IScriptContext
 
 	public ClassLoader getApplicationClassLoader( )
 	{
+		if ( parent != null )
+		{
+			return parent.getApplicationClassLoader( );
+		}
 		return applicationClassLoader;
 	}
 
+	/**
+	 * the user can only set the application class loader to the top most
+	 * context.
+	 */
 	public void setApplicationClassLoader( ClassLoader loader )
 	{
-		this.applicationClassLoader = loader;
-		Collection<IScriptEngine> engineSet = engines.values( );
-		for ( IScriptEngine engine : engineSet )
+		if ( parent != null )
 		{
-			engine.setApplicationClassLoader( loader );
+			parent.setApplicationClassLoader( loader );
+		}
+		else
+		{
+			this.applicationClassLoader = loader;
+			Collection<IScriptEngine> engineSet = engines.values( );
+			for ( IScriptEngine engine : engineSet )
+			{
+				engine.setApplicationClassLoader( loader );
+			}
 		}
 	}
 
@@ -223,7 +238,7 @@ public class ScriptContext implements IScriptContext
 		IScriptEngine scriptEngine = factory.createScriptEngine( );
 		scriptEngine.setLocale( locale );
 		scriptEngine.setTimeZone( timeZone );
-		scriptEngine.setApplicationClassLoader( applicationClassLoader );
+		scriptEngine.setApplicationClassLoader( getApplicationClassLoader( ) );
 		engines.put( factory.getScriptLanguage( ), scriptEngine );
 		return scriptEngine;
 	}
