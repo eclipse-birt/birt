@@ -24,6 +24,8 @@ public interface CSSConstants {
     String CSS_BACKGROUND_COLOR_PROPERTY = "background-color";
     String CSS_BACKGROUND_IMAGE_PROPERTY = "background-image";
     String CSS_BACKGROUND_REPEAT_PROPERTY = "background-repeat";
+    String CSS_BACKGROUND_REPEAT_X_PROPERTY = "background-repeat-x";
+    String CSS_BACKGROUND_REPEAT_Y_PROPERTY = "background-repeat-y";
 	String CSS_BACKGROUND_HEIGHT_PROPERTY = "background-height";
 	String CSS_BACKGROUND_WIDTH_PROPERTY = "background-width";
     

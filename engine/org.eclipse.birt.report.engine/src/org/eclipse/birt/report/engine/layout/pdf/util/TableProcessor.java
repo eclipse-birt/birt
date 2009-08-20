@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
+import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.executor.buffermgr.Cell;
 import org.eclipse.birt.report.engine.executor.buffermgr.Row;
 import org.eclipse.birt.report.engine.executor.buffermgr.Table;
@@ -31,7 +32,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class TableProcessor
+public class TableProcessor implements HTMLConstants
 {
 
 	private static final String ATTRIBUTE_COLSPAN = "colspan";
@@ -40,8 +41,9 @@ public class TableProcessor
 
 	// FIXME code review: extract two method so that the logic will be more
 	// clear.
-	public static void processTable( Element ele, Map cssStyles,
-			IContent content, ActionContent action )
+	public static void processTable( Element ele,
+			Map<Element, StyleProperties> cssStyles, IContent content,
+			ActionContent action )
 	{
 		// FIXME code review: this block is used to parse table content. extract
 		// a method parseTable().
@@ -118,11 +120,12 @@ public class TableProcessor
 	{
 
 		protected Element element;
-		protected Map cssStyles;
+		protected Map<Element, StyleProperties> cssStyles;
 		protected IContent content;
 		protected ActionContent action;
 
-		public State( Element element, Map cssStyles, ActionContent action )
+		public State( Element element, Map<Element, StyleProperties> cssStyles,
+				ActionContent action )
 		{
 			this.element = element;
 			this.cssStyles = cssStyles;
@@ -149,7 +152,8 @@ public class TableProcessor
 		private int rowCount;
 		private List columnWidth;
 
-		public TableState( Element element, Map cssStyles, IContent parent,
+		public TableState( Element element,
+				Map<Element, StyleProperties> cssStyles, IContent parent,
 				ActionContent action )
 		{
 			super( element, cssStyles, action );
@@ -157,9 +161,57 @@ public class TableProcessor
 					.createTableContent( );
 			setParent( parent );
 			content.setWidth( PropertyUtil.getDimensionAttribute( element,
-					"width" ) );
+					PROPERTY_WIDTH ) );
 			HTML2Content.handleStyle( element, cssStyles, content );
+			processCellStyle( element, cssStyles );
 			columnWidth = new ArrayList( );
+		}
+
+		private void processCellStyle( Element element,
+				Map<Element, StyleProperties> cssStyles )
+		{
+			String border = element.getAttribute( PROPERTY_BORDER );
+			String padding = element.getAttribute( PROPERTY_CELLPADDING );
+			boolean hasBorder = border != null && border.length( ) > 0;
+			boolean hasPadding = padding != null && padding.length( ) > 0;
+			if ( hasBorder || hasPadding )
+			{
+				for ( Node node = element.getFirstChild( ); node != null; node = node
+						.getNextSibling( ) )
+				{
+					Element r = (Element) node;
+					if ( TAG_TR.equals( r.getTagName( ) ) )
+					{
+						for ( Node n = r.getFirstChild( ); n != null; n = n
+								.getNextSibling( ) )
+						{
+							Element c = (Element) n;
+							if ( TAG_TD.equals( c.getTagName( ) ) )
+							{
+								StyleProperties sp = cssStyles.get( c );
+								if ( sp == null )
+								{
+									sp = new StyleProperties(
+											new StyleDeclaration( content
+													.getCSSEngine( ) ) );
+									cssStyles.put( c, sp );
+								}
+								if ( hasBorder )
+								{
+									PropertiesProcessor.process(
+											PROPERTY_BORDER, border, sp );
+								}
+								if ( hasPadding )
+								{
+									PropertiesProcessor.process(
+											PROPERTY_CELLPADDING, border, sp );
+								}
+							}
+						}
+					}
+				}
+			}
+
 		}
 
 		public void processNodes( )
@@ -223,11 +275,13 @@ public class TableProcessor
 
 		private int columnCount;
 
-		public RowState( Element element, Map cssStyles, IContent parent,
+		public RowState( Element element,
+				Map<Element, StyleProperties> cssStyles, IContent parent,
 				ActionContent action )
 		{
 			super( element, cssStyles, action );
-			content = (RowContent)parent.getReportContent( ).createRowContent( );
+			content = (RowContent) parent.getReportContent( )
+					.createRowContent( );
 			setParent( parent );
 			HTML2Content.handleStyle( element, cssStyles, content );
 			content.setHeight( PropertyUtil.getDimensionAttribute( element,
@@ -261,11 +315,12 @@ public class TableProcessor
 
 		private CellContent cell;
 
-		public CellState( Element element, Map cssStyles, IContent parent,
+		public CellState( Element element,
+				Map<Element, StyleProperties> cssStyles, IContent parent,
 				ActionContent action )
 		{
 			super( element, cssStyles, action );
-			cell = (CellContent)parent.getReportContent( ).createCellContent( );
+			cell = (CellContent) parent.getReportContent( ).createCellContent( );
 			content = cell;
 			setParent( parent );
 			HTML2Content.handleStyle( element, cssStyles, content );

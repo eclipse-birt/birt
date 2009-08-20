@@ -120,6 +120,16 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
         return vm.getDefaultValue();
     }
     
+    public Parser getParser()
+    {
+    	return parser;
+    }
+    
+    public PropertyManagerFactory getPropertyManagerFactory()
+    {
+    	return pm;
+    }
+    
     /**
 	 * Parses and creates a style declaration.
 	 * 

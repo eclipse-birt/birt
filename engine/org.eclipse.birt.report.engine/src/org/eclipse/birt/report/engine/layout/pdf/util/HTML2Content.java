@@ -51,154 +51,215 @@ import org.w3c.dom.css.CSSValue;
 /**
  * Class <code>HTML2Content</code> encapsulates the logic of converting a
  * section of HTML text to report content. Currently the supported tags are:
- * <table>
+ * <table border=1>
  * <tr>
  * <td><b>Tag Name</b></td>
  * <td><b>Supported Attributes</b></td>
  * </tr>
  * <tr>
  * <td>"a"</td>
- * <td>id, name, href, target</td>
+ * <td>id, name, href, target, style</td>
  * </tr>
  * <tr>
  * <td>"address"</td>
+ * <td>style
+ * <td>
  * </tr>
  * <tr>
  * <td>"b"</td>
- * </tr>
- * <tr>
- * <td>"body"</td>
- * </tr>
- * <tr>
- * <td>"center"</td>
- * </tr>
- * <tr>
- * <td>"code"</td>
- * </tr>
- * <tr>
- * <td>"col"</td>
- * <td>width</td>
- * </tr>
- * <tr>
- * <td>"del"</td>
- * </tr>
- * <tr>
- * <td>"dd"</td>
- * </tr>
- * <tr>
- * <td>"div"</td>
- * </tr>
- * <tr>
- * <td>"dl"</td>
- * </tr>
- * <tr>
- * <td>"dt"</td>
- * </tr>
- * <tr>
- * <td>"em"</td>
- * </tr>
- * <tr>
- * <td>"embed"</td>
- * <td>src, alt, height, width</td>
- * </tr>
- * <tr>
- * <td>"font"</td>
- * <td>size, color, face</td>
- * </tr>
- * <tr>
- * <td>"h1"</td>
- * </tr>
- * <tr>
- * <td>"h2"</td>
- * </tr>
- * <tr>
- * <td>"h3"</td>
- * </tr>
- * <tr>
- * <td>"h4"</td>
- * </tr>
- * <tr>
- * <td>"h5"</td>
- * </tr>
- * <tr>
- * <td>"h6"</td>
- * </tr>
- * <tr>
- * <td>"i"</td>
- * </tr>
- * <tr>
- * <td>"img"</td>
- * <td>src, alt, height, width</td>
- * </tr>
- * <tr>
- * <td>"ins"</td>
- * </tr>
- * <tr>
- * <td>"li"</td>
- * </tr>
- * <tr>
- * <td>"ol"</td>
- * </tr>
- * <tr>
- * <td>"p"</td>
- * </tr>
- * <tr>
- * <td>"pre"</td>
- * </tr>
- * <tr>
- * <td>"span"</td>
- * </tr>
- * <tr>
- * <td>"strong"</td>
- * </tr>
- * <tr>
- * <td>"strike"</td>
+ * <td>style
+ * <td>
  * </tr>
  * <tr>
  * <td>"big"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"center"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"code"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"col"</td>
+ * <td>width, style</td>
+ * </tr>
+ * <tr>
+ * <td>"del"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"dd"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"div"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"dl"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"dt"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"em"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"font"</td>
+ * <td>size, color, face, style</td>
+ * </tr>
+ * <tr>
+ * <td>"h1"</td>
+ * <td>align, style</td>
+ * </tr>
+ * <tr>
+ * <td>"h2"</td>
+ * <td>align, style</td>
+ * </tr>
+ * <tr>
+ * <td>"h3"</td>
+ * <td>align, style</td>
+ * </tr>
+ * <tr>
+ * <td>"h4"</td>
+ * <td>align, style</td>
+ * </tr>
+ * <tr>
+ * <td>"h5"</td>
+ * <td>align, style</td>
+ * </tr>
+ * <tr>
+ * <td>"h6"</td>
+ * <td>align, style</td>
+ * </tr>
+ * <tr>
+ * <td>"hr"</td>
+ * <td>width, style</td>
+ * </tr>
+ * <tr>
+ * <td>"i"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"img"</td>
+ * <td>src, alt, height, width, border, style</td>
+ * </tr>
+ * <tr>
+ * <td>"ins"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"li"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"object"</td>
+ * <td>width, height, align, border, style</td>
+ * </tr>
+ * <tr>
+ * <td>"ol"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"p"</td>
+ * <td>align, style</td>
+ * </tr>
+ * <tr>
+ * <td>"pre"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"span"</td>
+ * <td>align, style</td>
+ * </tr>
+ * <tr>
+ * <td>"strong"</td>
+ * <td>style
+ * <td>
+ * </tr>
+ * <tr>
+ * <td>"strike"</td>
+ * <td>style
+ * <td>
  * </tr>
  * <tr>
  * <td>"small"</td>
+ * <td>style
+ * <td>
  * </tr>
  * <tr>
  * <td>"sub"</td>
+ * <td>style
+ * <td>
  * </tr>
  * <tr>
  * <td>"sup"</td>
+ * <td>style
+ * <td>
  * </tr>
  * <tr>
  * <td>"table"</td>
- * <td>width</td>
+ * <td>width, border, bgcolor, cellpadding, style</td>
  * </tr>
  * <tr>
  * <td>"tbody"</td>
+ * <td></td>
  * </tr>
  * <tr>
  * <td>"td"</td>
- * <td>rowspan, colspan</td>
+ * <td>rowspan, colspan, align, valign, bgcolor, style</td>
  * </tr>
  * <tr>
  * <td>"tfoot"</td>
+ * <td></td>
  * </tr>
  * <tr>
  * <td>"thead"</td>
+ * <td></td>
  * </tr>
  * <tr>
- * <td>"tr"width</td>
+ * <td>"tr"</td>
+ * <td>align, valign, bgcolor, height, style</td>
  * </tr>
  * <tr>
  * <td>"tt"</td>
+ * <td>style
+ * <td>
  * </tr>
  * <tr>
  * <td>"u"</td>
+ * <td>style
+ * <td>
  * </tr>
  * <tr>
  * <td>"ul"</td>
+ * <td>style
+ * <td>
  * </tr>
  * </table>
  * All the supported HTML tags can use attribute "style" to specify HTML inline
  * style information. The syntax of the style attribute value is CSS inline
- * style syntax. The supported CSS properties are listed below:<br> 
+ * style syntax. The supported CSS properties are listed below:<br>
  * <b>Text and Fonts</b>
  * <ul>
  * <li>font-family</li>
@@ -222,6 +283,7 @@ import org.w3c.dom.css.CSSValue;
  * </ul>
  * <b>The Box Model - dimensions, padding, margin and borders</b>
  * <ul>
+ * <li>width, height</li>
  * <li>padding-top, padding-right, padding-bottom, padding-left</li>
  * <li>border-top, border-right, border-bottom, border-left</li>
  * <li>border-top-style, border-right-style, border-bottom-style,
@@ -237,9 +299,53 @@ import org.w3c.dom.css.CSSValue;
  * <li>display</li>
  * <li>visibility</li>
  * </ul>
- * Please note: the CSS shorthand properties are not supported.
+ * 
+ * Supported css shorthand as following
+ * <table border=1>
+ * <tr>
+ * <td><b>Shorthand</b></td>
+ * <td><b>Comments</b></td>
+ * </tr>
+ * <tr>
+ * <td><b>font</b></td>
+ * <td>support font-style, font-weight, font-size, line-height, font-family in
+ * font shorthand, can not support system fonts such as caption, icon, menu etc</td>
+ * </tr>
+ * <tr>
+ * <td><b>background</b></td>
+ * <td>support background-color and background-image in background shorthand</td>
+ * </tr>
+ * <tr>
+ * <td><b>border</b></td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td><b>border-left</b></td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td><b>border-right</b></td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td><b>border-top</b></td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td><b>border-bottom</b></td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td><b>padding</b></td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td><b>margin</b></td>
+ * <td></td>
+ * </tr>
+ * </table>
  */
-public class HTML2Content
+public class HTML2Content implements HTMLConstants
 {
 
 	protected static final HashSet htmlBlockDisplay = new HashSet( );
@@ -250,53 +356,53 @@ public class HTML2Content
 
 	static
 	{
-		htmlInlineDisplay.add( "i" );
-		htmlInlineDisplay.add( "font" );
-		htmlInlineDisplay.add( "b" );
-		htmlInlineDisplay.add( "a" );
-		htmlInlineDisplay.add( "code" );
-		htmlInlineDisplay.add( "em" );
-		htmlInlineDisplay.add( "object" );
-		htmlInlineDisplay.add( "img" );
-		htmlInlineDisplay.add( "ins" );
-		htmlInlineDisplay.add( "span" );
-		htmlInlineDisplay.add( "strong" );
-		htmlInlineDisplay.add( "sub" );
-		htmlInlineDisplay.add( "sup" );
-		htmlInlineDisplay.add( "tt" );
-		htmlInlineDisplay.add( "u" );
-		htmlInlineDisplay.add( "del" );
-		htmlInlineDisplay.add( "strike" );
-		htmlInlineDisplay.add( "s" );
-		htmlInlineDisplay.add( "big" );
-		htmlInlineDisplay.add( "small" );
+		htmlInlineDisplay.add( TAG_I );
+		htmlInlineDisplay.add( TAG_FONT );
+		htmlInlineDisplay.add( TAG_B );
+		htmlInlineDisplay.add( TAG_A );
+		htmlInlineDisplay.add( TAG_CODE );
+		htmlInlineDisplay.add( TAG_EM );
+		htmlInlineDisplay.add( TAG_OBJECT );
+		htmlInlineDisplay.add( TAG_IMG );
+		htmlInlineDisplay.add( TAG_INS );
+		htmlInlineDisplay.add( TAG_SPAN );
+		htmlInlineDisplay.add( TAG_STRONG );
+		htmlInlineDisplay.add( TAG_SUB );
+		htmlInlineDisplay.add( TAG_SUP );
+		htmlInlineDisplay.add( TAG_TT );
+		htmlInlineDisplay.add( TAG_U );
+		htmlInlineDisplay.add( TAG_DEL );
+		htmlInlineDisplay.add( TAG_STRIKE );
+		htmlInlineDisplay.add( TAG_S );
+		htmlInlineDisplay.add( TAG_BIG );
+		htmlInlineDisplay.add( TAG_SMALL );
 	}
 
 	static
 	{
 		// block-level elements
-		htmlBlockDisplay.add( "dd" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "div" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "dl" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "dt" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "h1" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "h2" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "h3" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "h4" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "h5" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "h6" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "hr" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "ol" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "p" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "pre" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "ul" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "li" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "address" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "body" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "center" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "table" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "td" ); //$NON-NLS-1$
-		htmlBlockDisplay.add( "tr" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_DD ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_DIV ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_DL ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_DT ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_H1 ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_H2 ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_H3 ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_H4 ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_H5 ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_H6 ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_HR ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_OL ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_P ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_PRE ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_UL ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_LI ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_ADDRESS ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_BODY ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_CENTER ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_TABLE ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_TD ); //$NON-NLS-1$
+		htmlBlockDisplay.add( TAG_TR ); //$NON-NLS-1$
 
 		textTypeMapping.put( IForeignContent.HTML_TYPE,
 				TextParser.TEXT_TYPE_HTML );
@@ -363,6 +469,19 @@ public class HTML2Content
 		}
 	}
 
+	protected static ILabelContent createLabel( String text, IContent parent )
+	{
+		ILabelContent label = parent.getReportContent( ).createLabelContent( );
+		addChild( parent, label );
+		label.setText( text );
+		StyleDeclaration inlineStyle = new StyleDeclaration( parent
+				.getCSSEngine( ) );
+		inlineStyle.setProperty( IStyle.STYLE_DISPLAY,
+				CSSValueConstants.INLINE_VALUE );
+		label.setInlineStyle( inlineStyle );
+		return label;
+	}
+
 	/**
 	 * Visits the children nodes of the specific node
 	 * 
@@ -382,7 +501,7 @@ public class HTML2Content
 		for ( Node node = ele.getFirstChild( ); node != null; node = node
 				.getNextSibling( ) )
 		{
-			if ( node.getNodeName( ).equals( "value-of" ) ) //$NON-NLS-1$
+			if ( node.getNodeName( ).equals( TAG_VALUEOF ) ) //$NON-NLS-1$
 			{
 				if ( node.getFirstChild( ) instanceof Element )
 				{
@@ -390,7 +509,7 @@ public class HTML2Content
 							content, action );
 				}
 			}
-			else if ( node.getNodeName( ).equals( "image" ) ) //$NON-NLS-1$
+			else if ( node.getNodeName( ).equals( TAG_IMAGE ) ) //$NON-NLS-1$
 			{
 				if ( node.getFirstChild( ) instanceof Element )
 				{
@@ -398,28 +517,21 @@ public class HTML2Content
 							content, action );
 				}
 			}
-			else if ( node.getNodeName( ).equals( "script" ) ) //$NON-NLS-1$
+			else if ( node.getNodeName( ).equals( TAG_SCRIPT ) ) //$NON-NLS-1$
 			{
 				continue;
 			}
 			else if ( node.getNodeType( ) == Node.TEXT_NODE )
 			{
-				ILabelContent label = content.getReportContent( )
-						.createLabelContent( );
-				addChild( content, label );
-				label.setText( node.getNodeValue( ) );
-				StyleDeclaration inlineStyle = new StyleDeclaration( content
-						.getCSSEngine( ) );
-				inlineStyle.setProperty( IStyle.STYLE_DISPLAY,
-						CSSValueConstants.INLINE_VALUE );
-				label.setInlineStyle( inlineStyle );
+				ILabelContent label = createLabel( node.getNodeValue( ),
+						content );
 				if ( action != null )
 				{
 					label.setHyperlinkAction( action );
 				}
 			}
 			else if ( // supportedHTMLElementTags.contains(node.getNodeName().
-						// toUpperCase())
+			// toUpperCase())
 			// &&
 			node.getNodeType( ) == Node.ELEMENT_NODE )
 			{
@@ -429,13 +541,14 @@ public class HTML2Content
 		}
 	}
 
-	static void handleElement( Element ele, Map cssStyles, IContent content,
+	static void handleElement( Element ele,
+			Map<Element, StyleProperties> cssStyles, IContent content,
 			ActionContent action, int index )
 	{
-		IStyle cssStyle = (IStyle) cssStyles.get( ele );
-		if ( cssStyle != null )
+		StyleProperties sp = cssStyles.get( ele );
+		if ( sp != null )
 		{
-			if ( "none".equals( cssStyle.getDisplay( ) ) ) //$NON-NLS-1$
+			if ( "none".equals( sp.getStyle( ).getDisplay( ) ) ) //$NON-NLS-1$
 			{
 				// Check if the display mode is none.
 				return;
@@ -443,7 +556,7 @@ public class HTML2Content
 		}
 
 		String lTagName = ele.getTagName( ).toLowerCase( );
-		if ( lTagName.equals( "a" ) ) //$NON-NLS-1$
+		if ( lTagName.equals( TAG_A ) ) //$NON-NLS-1$
 		{
 			IContainerContent container = content.getReportContent( )
 					.createContainerContent( );
@@ -452,15 +565,15 @@ public class HTML2Content
 			ActionContent actionContent = handleAnchor( ele, container, action );
 			processNodes( ele, cssStyles, content, actionContent );
 		}
-		else if ( lTagName.equals( "img" ) ) //$NON-NLS-1$
+		else if ( lTagName.equals( TAG_IMG ) ) //$NON-NLS-1$
 		{
 			outputImg( ele, cssStyles, content );
 		}
-		else if ( lTagName.equals( "object" ) ) //$NON-NLS-1$
+		else if ( lTagName.equals( TAG_OBJECT ) ) //$NON-NLS-1$
 		{
 			outputEmbedContent( ele, cssStyles, content );
 		}
-		else if ( lTagName.equals( "br" ) ) //$NON-NLS-1$
+		else if ( lTagName.equals( TAG_BR ) ) //$NON-NLS-1$
 		{
 
 			ILabelContent label = content.getReportContent( )
@@ -473,7 +586,7 @@ public class HTML2Content
 					CSSValueConstants.INLINE_VALUE );
 			label.setInlineStyle( inlineStyle );
 		}
-		else if (lTagName.equals( "ul" ) || lTagName.equals( "ol" ) )//$NON-NLS-1$
+		else if ( lTagName.equals( TAG_UL ) || lTagName.equals( TAG_OL ) )//$NON-NLS-1$
 		{
 			IReportContent report = content.getReportContent( );
 			ITableContent table = report.createTableContent( );
@@ -487,7 +600,7 @@ public class HTML2Content
 			processNodes( ele, cssStyles, table, action );
 
 		}
-		else if ( lTagName.equals( "li" ) //$NON-NLS-1$
+		else if ( lTagName.equals( TAG_LI ) //$NON-NLS-1$
 				&& ele.getParentNode( ).getNodeType( ) == Node.ELEMENT_NODE )
 		{
 			IReportContent report = content.getReportContent( );
@@ -516,11 +629,11 @@ public class HTML2Content
 			addChild( row, orderCell );
 			TextContent text = (TextContent) report.createTextContent( );
 			addChild( orderCell, text );
-			if ( ele.getParentNode( ).getNodeName( ).equals( "ol" ) ) //$NON-NLS-1$
+			if ( ele.getParentNode( ).getNodeName( ).equals( TAG_OL ) ) //$NON-NLS-1$
 			{
 				text.setText( new Integer( index ).toString( ) + "." ); //$NON-NLS-1$
 			}
-			else if ( ele.getParentNode( ).getNodeName( ).equals( "ul" ) ) //$NON-NLS-1$
+			else if ( ele.getParentNode( ).getNodeName( ).equals( TAG_UL ) ) //$NON-NLS-1$
 			{
 				text.setText( new String( new char[]{'\u2022'} ) );
 			}
@@ -535,14 +648,14 @@ public class HTML2Content
 			processNodes( ele, cssStyles, childCell, action );
 		}
 
-		else if ( lTagName.equals( "dd" ) || lTagName.equals( "dt" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+		else if ( lTagName.equals( TAG_DD ) || lTagName.equals( TAG_DT ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			IContainerContent container = content.getReportContent( )
 					.createContainerContent( );
 			addChild( content, container );
 			handleStyle( ele, cssStyles, container );
 
-			if ( lTagName.equals( "dd" ) ) //$NON-NLS-1$
+			if ( lTagName.equals( TAG_DD ) ) //$NON-NLS-1$
 			{
 				StyleDeclaration style = new StyleDeclaration( content
 						.getCSSEngine( ) );
@@ -553,7 +666,7 @@ public class HTML2Content
 				TextContent text = (TextContent) content.getReportContent( )
 						.createTextContent( );
 				addChild( container, text );
-				if ( ele.getParentNode( ).getNodeName( ).equals( "dl" ) ) //$NON-NLS-1$
+				if ( ele.getParentNode( ).getNodeName( ).equals( TAG_DL ) ) //$NON-NLS-1$
 				{
 					text.setText( " " ); //$NON-NLS-1$
 				}
@@ -574,7 +687,7 @@ public class HTML2Content
 			}
 
 		}
-		else if ( "table".equals( lTagName ) ) //$NON-NLS-1$
+		else if ( TAG_TABLE.equals( lTagName ) ) //$NON-NLS-1$
 		{
 			TableProcessor.processTable( ele, cssStyles, content, action );
 		}
@@ -626,18 +739,18 @@ public class HTML2Content
 		// If the "id" attribute is not empty, then use it,
 		// otherwise use the "name" attribute.
 		ActionContent result = defaultAction;
-		if ( ele.getAttribute( "id" ).trim( ).length( ) != 0 ) //$NON-NLS-1$
+		if ( ele.getAttribute( PROPERTY_ID ).trim( ).length( ) != 0 ) //$NON-NLS-1$
 		{
-			content.setBookmark( ele.getAttribute( "id" ) ); //$NON-NLS-1$
+			content.setBookmark( ele.getAttribute( PROPERTY_ID ) ); //$NON-NLS-1$
 		}
 		else
 		{
-			content.setBookmark( ele.getAttribute( "name" ) );//$NON-NLS-1$
+			content.setBookmark( ele.getAttribute( PROPERTY_NAME ) );//$NON-NLS-1$
 		}
 
-		if ( ele.getAttribute( "href" ).length( ) > 0 ) //$NON-NLS-1$
+		if ( ele.getAttribute( PROPERTY_HREF ).length( ) > 0 ) //$NON-NLS-1$
 		{
-			String href = ele.getAttribute( "href" ); //$NON-NLS-1$
+			String href = ele.getAttribute( PROPERTY_HREF ); //$NON-NLS-1$
 			if ( null != href && !"".equals( href ) ) //$NON-NLS-1$
 			{
 				ActionContent action = new ActionContent( );
@@ -647,7 +760,7 @@ public class HTML2Content
 				}
 				else
 				{
-					String target = ele.getAttribute( "target" );
+					String target = ele.getAttribute( PROPERTY_TARGET );
 					if ( "".equals( target ) )
 					{
 						target = "_blank";
@@ -661,48 +774,24 @@ public class HTML2Content
 		return result;
 	}
 
-	static void handleStyle( Element ele, Map cssStyles, IContent content )
+	static void handleStyle( Element ele,
+			Map<Element, StyleProperties> cssStyles, IContent content )
 	{
+		StyleProperties sp = cssStyles.get( ele );
+		if ( sp == null )
+		{
+			sp = new StyleProperties( new StyleDeclaration( content
+					.getCSSEngine( ) ) );
+			cssStyles.put( ele, sp );
+		}
 		String tagName = ele.getTagName( );
-		StyleDeclaration style = new StyleDeclaration( content.getCSSEngine( ) );
-
-		if ( "font".equals( tagName ) ) //$NON-NLS-1$
-		{
-			String attr = ele.getAttribute( "size" ); //$NON-NLS-1$
-			if ( null != attr && !"".equals( attr ) ) //$NON-NLS-1$
-			{
-				style.setFontSize( attr );
-			}
-			attr = ele.getAttribute( "color" ); //$NON-NLS-1$
-			if ( null != attr && !"".equals( attr ) ) //$NON-NLS-1$
-			{
-				style.setColor( attr );
-			}
-			attr = ele.getAttribute( "face" ); //$NON-NLS-1$
-			if ( null != attr && !"".equals( attr ) ) //$NON-NLS-1$
-			{
-				style.setFontFamily( attr );
-			}
-		}
-		if ( htmlBlockDisplay.contains( tagName ) )
-		{
-			style.setDisplay( "block" ); //$NON-NLS-1$
-		}
-		else if ( htmlInlineDisplay.contains( tagName ) )
-		{
-			style.setDisplay( "inline" ); //$NON-NLS-1$
-		}
-		IStyle inlineStyle = (IStyle) cssStyles.get( ele );
-		if ( inlineStyle != null )
-		{
-			style.setProperties( inlineStyle );
-		}
-		StyleProcessor tag2Style = StyleProcessor.getStyleProcess( tagName );
+		Tag2Style tag2Style = Tag2Style.getStyleProcess( tagName );
 		if ( tag2Style != null )
 		{
-			tag2Style.process( style );
+			tag2Style.process( ele, sp );
 		}
-		content.setInlineStyle( style );
+		content.setInlineStyle( sp.getStyle( ) );
+		sp.setProperties( content );
 	}
 
 	/**
@@ -715,8 +804,9 @@ public class HTML2Content
 	protected static void outputEmbedContent( Element ele, Map cssStyles,
 			IContent content )
 	{
-		String classId = ele.getAttribute( "classid" );
-		if ( "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000".equalsIgnoreCase( classId ) )
+		String classId = ele.getAttribute( PROPERTY_CLASSID );
+		if ( "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+				.equalsIgnoreCase( classId ) )
 		{
 			outputFlash( ele, cssStyles, content );
 		}
@@ -734,26 +824,29 @@ public class HTML2Content
 	{
 		String src = null;
 		String flashVars = null;
-		NodeList list = ele.getElementsByTagName( "param" );
-		for ( int i = 0; i< list.getLength( ); i++ )
+		NodeList list = ele.getElementsByTagName( PROPERTY_PARAM );
+		for ( int i = 0; i < list.getLength( ); i++ )
 		{
 			Node node = list.item( i );
 			if ( node instanceof Element )
-			{	
-				if ( "movie".equalsIgnoreCase( ( (Element) node ).getAttribute( "name" ) ) )
+			{
+				if ( "movie".equalsIgnoreCase( ( (Element) node )
+						.getAttribute( PROPERTY_NAME ) ) )
 				{
-					src = ( (Element) node ).getAttribute( "value" );
+					src = ( (Element) node ).getAttribute( PROPERTY_VALUE );
 				}
-				else if ( "flashvars".equalsIgnoreCase( ( (Element) node ).getAttribute( "name" ) ) )
+				else if ( "flashvars".equalsIgnoreCase( ( (Element) node )
+						.getAttribute( PROPERTY_NAME ) ) )
 				{
-					flashVars = ( (Element) node ).getAttribute( "value" );
+					flashVars = ( (Element) node )
+							.getAttribute( PROPERTY_VALUE );
 				}
 			}
 		}
 		if ( src != null )
 		{
 			ObjectContent flash = (ObjectContent) ( (ReportContent) ( content
-					.getReportContent( ) ) ).createObjectContent( );	
+					.getReportContent( ) ) ).createObjectContent( );
 			flash.setExtension( ".swf" );
 			flash.setMIMEType( "application/x-shockwave-flash" );
 			addChild( content, flash );
@@ -787,12 +880,12 @@ public class HTML2Content
 				flash.setWidth( foreign.getWidth( ) );
 				flash.setHeight( foreign.getHeight( ) );
 			}
-			
+
 			if ( flashVars != null && !"".equals( flashVars ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
 				flash.addParam( "FlashVars", flashVars ); //$NON-NLS-1$
 			}
-			String alt = ele.getAttribute( "alt" );
+			String alt = ele.getAttribute( PROPERTY_ALT );
 			if ( alt != null && !"".equals( alt ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
 				flash.setAltText( alt ); //$NON-NLS-1$
@@ -850,19 +943,22 @@ public class HTML2Content
 				image.setURI( src );
 			}
 
-			if ( null != ele.getAttribute( "width" ) && !"".equals( ele.getAttribute( "width" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if ( null != ele.getAttribute( PROPERTY_WIDTH )
+					&& !"".equals( ele.getAttribute( PROPERTY_WIDTH ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
 				image.setWidth( PropertyUtil.getDimensionAttribute( ele,
-						"width" ) ); //$NON-NLS-1$
+						PROPERTY_WIDTH ) ); //$NON-NLS-1$
 			}
-			if ( ele.getAttribute( "height" ) != null && !"".equals( ele.getAttribute( "height" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if ( ele.getAttribute( PROPERTY_HEIGHT ) != null
+					&& !"".equals( ele.getAttribute( PROPERTY_HEIGHT ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
 				image.setHeight( PropertyUtil.getDimensionAttribute( ele,
-						"height" ) ); //$NON-NLS-1$
+						PROPERTY_HEIGHT ) ); //$NON-NLS-1$
 			}
-			if ( ele.getAttribute( "alt" ) != null && !"".equals( ele.getAttribute( "alt" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if ( ele.getAttribute( PROPERTY_ALT ) != null
+					&& !"".equals( ele.getAttribute( PROPERTY_ALT ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setAltText( ele.getAttribute( "alt" ) ); //$NON-NLS-1$
+				image.setAltText( ele.getAttribute( PROPERTY_ALT ) ); //$NON-NLS-1$
 			}
 		}
 	}

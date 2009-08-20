@@ -16,12 +16,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.URIValue;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -36,24 +40,17 @@ import org.w3c.dom.css.CSSValue;
  */
 public class HTMLStyleProcessor
 {
+
 	/** the logger */
-	private static Logger logger = Logger.getLogger( HTMLStyleProcessor.class.getName() );
-	
+	private static Logger logger = Logger.getLogger( HTMLStyleProcessor.class
+			.getName( ) );
+
 	private ReportDesignHandle report;
 
 	/** the CSS2.0 Parser */
 	private CSSEngine cssEngine;
 
-	/** the possible values for property SIZE of HTML element FONT */
-	private static String[] FONT_SIZE = new String[]{
-		"7.5pt",  //$NON-NLS-1$
-		"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
-		"7.5pt", "7.5pt",  //$NON-NLS-1$//$NON-NLS-2$
-		"7.5pt", "10pt", //$NON-NLS-1$ //$NON-NLS-2$
-		"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
-		"10pt", "12pt", //$NON-NLS-1$ //$NON-NLS-2$
-		"13.8pt", "18pt", //$NON-NLS-1$//$NON-NLS-2$
-		"23pt", "36pt"}; //$NON-NLS-1$//$NON-NLS-2$
+	private Pattern pattern;
 
 	/**
 	 * Constructor
@@ -61,102 +58,29 @@ public class HTMLStyleProcessor
 	 * @param context
 	 *            the execution context
 	 */
-	public HTMLStyleProcessor( ReportDesignHandle report)
+	public HTMLStyleProcessor( ReportDesignHandle report )
 	{
-		//Takes the zero-length string as parameter just for keeping to the
+		// Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
-		cssEngine = new BIRTCSSEngine();
+		cssEngine = new BIRTCSSEngine( );
 		this.report = report;
+		pattern = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
 	}
-		
 
-	/**
-	 * Parses the style attribute of the element node and converts the
-	 * deprecated element node in HTML 4.0, and calls it on its children element
-	 * nodes recursively
-	 * 
-	 * @param ele
-	 *            the element node in the DOM tree
-	 * @param text
-	 *            the text content object
-	 */
-	public void execute( Element ele, HashMap styles, Map context )
+	protected void processBackgroundImage( IStyle style, Map context )
 	{
-		
-		StyleDeclaration style = null;
-		StringBuffer strStyle = new StringBuffer(); 
-		
-		//FOR HTML 4.0 COMPATIBILITY
-		if ( "b".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
+		if ( style != null )
 		{
-			appendStyle(strStyle, "font-weight", "bold");  //$NON-NLS-1$//$NON-NLS-2$
-			//Re-points to the element node in the tree
-			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
-		}
-		else if ( "center".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
-		{
-			appendStyle(strStyle, "text-align", "center");  //$NON-NLS-1$//$NON-NLS-2$
-			ele = replaceElement( ele, "div" ); //$NON-NLS-1$
-		}
-		else if ( "font".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
-		{
-			appendStyle(strStyle, "color", ele.getAttribute( "color" )); //$NON-NLS-1$ //$NON-NLS-2$
-			appendStyle(strStyle, "font-family", ele.getAttribute( "face" ));  //$NON-NLS-1$//$NON-NLS-2$
-
-			if ( ele.hasAttribute( "size" ) ) //$NON-NLS-1$
+			CSSValue value = (CSSValue) style
+					.getProperty( StyleConstants.STYLE_BACKGROUND_IMAGE );
+			if ( value != null && value instanceof URIValue )
 			{
-				try
-				{
-					//FIXME
-					int size = Integer.parseInt( ele.getAttribute( "size" ) ); //$NON-NLS-1$
-					appendStyle(strStyle, "font-size", FONT_SIZE[size + 7]); //$NON-NLS-1$
-				}
-				catch ( Exception e )
-				{
-				    logger.log(Level.SEVERE, "There is a invalid value for property SIZE of element FONT in the HTML." ); //$NON-NLS-1$
-				}
-			}
-			//Removes these attributes to avoid for being copied again.
-			ele.removeAttribute( "color" ); //$NON-NLS-1$
-			ele.removeAttribute( "face" ); //$NON-NLS-1$
-			ele.removeAttribute( "size" ); //$NON-NLS-1$
-			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
-		}
-		
-		try
-		{
-			String inlineStyle = ele.getAttribute("style"); //$NON-NLS-1$
-			if(null!=inlineStyle && !"".equals(inlineStyle)) //$NON-NLS-1$
-			{
-				strStyle.append(inlineStyle);
-			}
-			if(strStyle.length()>0)
-			{
-				style = (StyleDeclaration)cssEngine.parseStyleDeclaration(strStyle.toString());
-				styles.put(ele, style);
-			}
-			
-		}
-		catch ( Exception e )
-		{
-			logger.log(Level.SEVERE,"The css statement is:" //$NON-NLS-1$
-					+ ele.getAttribute( "style" ), e ); //$NON-NLS-1$
-		}
-		ele.removeAttribute( "style" ); //$NON-NLS-1$
-		
-		//handle background image
-		if(style!=null)
-		{
-			
-			CSSValue value = (CSSValue)style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE);
-			if(value!=null && value instanceof URIValue)
-			{
-				String bgi = ((URIValue)value).getStringValue();
-				if((null!=bgi )&&( !"".equals(bgi))) //$NON-NLS-1$
+				String bgi = ( (URIValue) value ).getStringValue( );
+				if ( ( null != bgi ) && ( !"".equals( bgi ) ) ) //$NON-NLS-1$
 				{
 					if ( report != null )
 					{
-						if( FileUtil.isLocalResource( bgi ) )
+						if ( FileUtil.isLocalResource( bgi ) )
 						{
 							URL url = report.findResource( bgi,
 									IResourceLocator.IMAGE, context );
@@ -171,29 +95,114 @@ public class HTMLStyleProcessor
 						}
 						else
 						{
-							bgi = "url(" + bgi + ")";  //$NON-NLS-1$//$NON-NLS-2$
+							bgi = "url(" + bgi + ")"; //$NON-NLS-1$//$NON-NLS-2$
 						}
 					}
 					if ( bgi != null )
 					{
-						//Puts the modified URI of the resource
-						style.setBackgroundImage( bgi ); 
+						// Puts the modified URI of the resource
+						style.setBackgroundImage( bgi );
 					}
 					else
 					{
-						//If the resource does not exist, then removes this item.
-						style.removeProperty("background-image"); //$NON-NLS-1$
+						// If the resource does not exist, then removes this
+						// item.
+						style.removeProperty( "background-image" ); //$NON-NLS-1$
 					}
 				}
 			}
 		}
-			
-		if(style!=null)
-		{
-			styles.put(ele, style);
-		}
+	}
 
-		//Walks on its children nodes recursively
+	protected StyleProperties getStyleProperties( Element ele,
+			HashMap<Element, StyleProperties> styles )
+	{
+		StyleProperties sp = styles.get( ele );
+		if ( sp == null )
+		{
+			sp = new StyleProperties( new StyleDeclaration( cssEngine ) );
+			styles.put( ele, sp );
+		}
+		return sp;
+	}
+
+	/**
+	 * Parses the style attribute of the element node and converts the
+	 * deprecated element node in HTML 4.0, and calls it on its children element
+	 * nodes recursively
+	 * 
+	 * @param ele
+	 *            the element node in the DOM tree
+	 * @param text
+	 *            the text content object
+	 */
+	public void execute( Element ele, HashMap<Element, StyleProperties> styles,
+			Map context )
+	{
+
+		StyleDeclaration style = null;
+		StringBuffer strStyle = new StringBuffer( );
+		StyleProperties sp = getStyleProperties( ele, styles );
+		try
+		{
+			String inlineStyle = ele.getAttribute( "style" ); //$NON-NLS-1$
+			if ( null != inlineStyle && !"".equals( inlineStyle ) ) //$NON-NLS-1$
+			{
+				StringBuffer buffer = new StringBuffer( );
+				Matcher matcher = pattern.matcher( inlineStyle );
+				while ( matcher.find( ) )
+				{
+					String name = matcher.group( 1 );
+					String value = matcher.group( 2 );
+					if ( name != null && name.length( ) > 0 && value != null
+							&& value.length( ) > 0 )
+					{
+						ShortHandProcessor.process( buffer, name, value,
+								cssEngine );
+					}
+					if ( StyleProperties.WIDTH.equals( name ) )
+					{
+						if ( value != null && value.length( ) > 0 )
+						{
+							DimensionType d = DimensionType.parserUnit( value );
+							if ( d != null )
+							{
+								sp.addProperty( StyleProperties.WIDTH, d );
+							}
+						}
+					}
+					if ( StyleProperties.HEIGHT.equals( name ) )
+					{
+						if ( value != null && value.length( ) > 0 )
+						{
+							DimensionType d = DimensionType.parserUnit( value );
+							if ( d != null )
+							{
+								sp.addProperty( StyleProperties.HEIGHT, d );
+							}
+						}
+					}
+				}
+				strStyle.append( buffer.toString( ) );
+			}
+			if ( strStyle.length( ) > 0 )
+			{
+				sp.getStyle( ).setProperties(
+						(StyleDeclaration) cssEngine
+								.parseStyleDeclaration( strStyle.toString( ) ) );
+			}
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.SEVERE, "The css statement is:" //$NON-NLS-1$
+					+ ele.getAttribute( "style" ), e ); //$NON-NLS-1$
+		}
+		ele.removeAttribute( "style" ); //$NON-NLS-1$
+
+		// handle background image
+		processBackgroundImage( style, context );
+
+		// Walks on its children nodes recursively
 		for ( int i = 0; i < ele.getChildNodes( ).getLength( ); i++ )
 		{
 			Node child = ele.getChildNodes( ).item( i );
@@ -217,14 +226,14 @@ public class HTMLStyleProcessor
 	private Element replaceElement( Element oldEle, String tag )
 	{
 		Element newEle = oldEle.getOwnerDocument( ).createElement( tag );
-		//Copies the attributes
+		// Copies the attributes
 		for ( int i = 0; i < oldEle.getAttributes( ).getLength( ); i++ )
 		{
 			String attrName = oldEle.getAttributes( ).item( i ).getNodeName( );
 			newEle.setAttribute( attrName, oldEle.getAttribute( attrName ) );
 		}
-		//Copies the children nodes
-		//Note: After the child node is moved to another parent node, then
+		// Copies the children nodes
+		// Note: After the child node is moved to another parent node, then
 		// relationship between it and its sibling is removed. So here calls
 		// <code>Node.getFirstChild()</code>again and again till it is null.
 		for ( Node child = oldEle.getFirstChild( ); child != null; child = oldEle
@@ -235,15 +244,15 @@ public class HTMLStyleProcessor
 		oldEle.getParentNode( ).replaceChild( newEle, oldEle );
 		return newEle;
 	}
-	
-	
-	private void appendStyle(StringBuffer style, String name, String value)
+
+	private void appendStyle( StringBuffer style, String name, String value )
 	{
-		if(name==null || "".equals(name) || value==null || "".equals(value)) //$NON-NLS-1$ //$NON-NLS-2$
+		if ( name == null
+				|| "".equals( name ) || value == null || "".equals( value ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			return;
 		}
-		style.append(name + ":" + value + ";");  //$NON-NLS-1$//$NON-NLS-2$
+		style.append( name + ":" + value + ";" ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 }
