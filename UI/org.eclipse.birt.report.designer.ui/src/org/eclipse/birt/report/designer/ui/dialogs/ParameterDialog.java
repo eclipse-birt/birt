@@ -638,8 +638,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				changeDataType( );
 				updateCheckBoxArea( );
 				refreshColumns( true );
-				
-				//Reset control type status
+
+				// Reset control type status
 				handleControlTypeSelectionEvent( );
 			}
 		} );
@@ -1705,8 +1705,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		updateMessageLine( );
 		boolean radioEnable = false;
 		if ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) )
-				|| ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) 
-						&& !DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) ) )
+				|| ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) && !DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) ) )
 		{
 			radioEnable = true;
 		}
@@ -3737,12 +3736,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		String choiceValue = choice.getValue( );
 		// String defaultValue = convertToStandardFormat( this.defaultValue );
-		if ( canBeNull( )
-				&& choiceValue == null
-				&& defaultValueList != null
-				&& defaultValueList.contains( null ) )
+		if ( canBeNull( ) && choiceValue == null && defaultValueList != null )
 		{
-			return true;
+			if ( defaultValueList.contains( null ) )
+				return true;
+			else if ( defaultValueList.contains( new Expression( null,
+					ExpressionType.CONSTANT ) ) )
+				return true;
 		}
 		return choiceValue != null
 				&& defaultValueList != null
