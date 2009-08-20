@@ -54,7 +54,7 @@ public class PDFImageLMTest extends PDFLayoutTest
 	 */
 	public void testPdfChartLegend( ) throws EngineException
 	{
-		String designFile = "org/eclipse/birt/report/engine/layout/pdf/PDFChartLegendTest.xml";
+		String designFile = "org/eclipse/birt/report/engine/layout/pdf/PDFChartLegendTest.rptdesign";
 		IReportRunnable report = openReportDesign( designFile );
 		List pageAreas = getPageAreas( report );
 
@@ -64,13 +64,13 @@ public class PDFImageLMTest extends PDFLayoutTest
 		ContainerArea blockContainer = (ContainerArea) logicContainers.next( );
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
 		{
-			checkChart( 162302, 40057, 39729, 11219, "#bookmark", null, null,
+			checkChart( 158313, 72290, 44270, 11221, "#bookmark", null, null,
 					blockContainer );
 			logicContainers.next( );
-			checkChart( 162302, 40057, 39729, 11219,
+			checkChart( 158313, 72290, 44270, 11221,
 					"run\\?__report=.*120358.rptdesign&__overwrite=true", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
-			checkChart( 162302, 40057, 39729, 11219, "120358.rptdesign", null,
+			checkChart( 158313, 72290, 44270, 11221, "120358.rptdesign", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
 		}
 	}
