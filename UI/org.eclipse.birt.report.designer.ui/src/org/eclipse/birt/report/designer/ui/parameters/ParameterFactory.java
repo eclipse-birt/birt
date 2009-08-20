@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -102,7 +103,15 @@ public class ParameterFactory
 			{
 				// build parameter group
 				ParameterGroupHandle groupHandle = (ParameterGroupHandle) handle;
-				IParameterGroup group = new ParameterGroup( groupHandle );
+				IParameterGroup group;
+				if ( handle instanceof CascadingParameterGroupHandle )
+				{
+					group = new CascadingParameterGroup( groupHandle );
+				}
+				else
+				{
+					group = new ParameterGroup( groupHandle );
+				}
 				childrenList.add( group );
 
 				createParameterGroup( group, groupHandle, includeHidden );
