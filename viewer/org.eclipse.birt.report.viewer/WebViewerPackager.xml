@@ -582,7 +582,10 @@
 		</fileset>
         <fileset dir="../org.eclipse.birt.report.engine.emitter.config">
             <include name="emitterconfig.jar" />
-        </fileset>		
+        </fileset>
+        <fileset dir="../org.eclipse.birt.chart.reportitem">
+            <include name="chartitemapi.jar" />
+        </fileset>
 		<fileset dir="../org.mozilla.rhino/lib">
 			<include name="*.jar" />
 		</fileset>
