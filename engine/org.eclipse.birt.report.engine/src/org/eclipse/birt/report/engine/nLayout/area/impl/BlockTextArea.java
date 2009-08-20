@@ -135,10 +135,10 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 	{
 		if ( parent != null )
 		{
-			if ( context.isFixedLayout( ) && height > specifiedHeight
+			if ( context.isFixedLayout( ) && getContentHeight( ) > specifiedHeight
 					&& specifiedHeight > 0 )
 			{
-				setHeight( specifiedHeight );
+				setContentHeight( specifiedHeight );
 				setNeedClip( true );
 			}
 			if ( !isInInlineStacking && context.isAutoPageBreak( ) )

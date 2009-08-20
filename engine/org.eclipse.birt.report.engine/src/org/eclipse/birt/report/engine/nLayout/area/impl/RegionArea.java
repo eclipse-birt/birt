@@ -40,11 +40,11 @@ public class RegionArea extends BlockContainerArea implements IContainerArea
 	{
 		if ( specifiedHeight > currentBP )
 		{
-			height = specifiedHeight;
+			setContentHeight( specifiedHeight );
 		}
 		else
 		{
-			height = currentBP;
+			setContentHeight( currentBP );
 		}
 		finished = true;
 	}
