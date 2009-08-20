@@ -936,7 +936,7 @@ public class ChartUtil
 				&& baseSD.getGrouping( ).isEnabled( ) )
 		{
 			SeriesGrouping grouping = orthSD.getGrouping( );
-			if ( grouping.isEnabled( ) )
+			if ( grouping != null && grouping.isEnabled( ) )
 			{
 				if ( orthQuery != null && orthQuery.getGrouping( ) != null )
 				{

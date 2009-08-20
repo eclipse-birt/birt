@@ -152,21 +152,20 @@ public class AggregateEditorComposite extends Composite implements
 	{
 		this.query = query;
 		this.fSeriesDefi = sd;
-		if ( query.getGrouping( ) == null )
+		fGrouping = null;
+		if ( sd.getGrouping( ) != null && sd.getGrouping( ).isEnabled( ) )
 		{
-			if ( sd.getGrouping( ) != null )
-			{
-				fGrouping = sd.getGrouping( ).copyInstance( );
-			}
-			else
-			{
-				fGrouping = SeriesGroupingImpl.create( );
-			}
+			fGrouping = sd.getGrouping( ).copyInstance( );
 		}
-		else
+		if ( query.getGrouping( ) != null && query.getGrouping( ).isEnabled( ) )
 		{
 			fGrouping = query.getGrouping( ).copyInstance( );
 		}
+		if ( fGrouping == null )
+		{
+			fGrouping = SeriesGroupingImpl.create( );
+		}
+
 	}
 	
 	/* (non-Javadoc)
@@ -720,6 +719,7 @@ public class AggregateEditorComposite extends Composite implements
 				{
 					query.setGrouping( fGrouping );
 					query.getGrouping( ).eAdapters( ).addAll( query.eAdapters( ) );
+					fSeriesDefi.setGrouping( null );
 				}
 				else
 				{
