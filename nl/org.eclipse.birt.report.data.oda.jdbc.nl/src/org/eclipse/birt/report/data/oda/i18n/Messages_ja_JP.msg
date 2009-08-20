@@ -78,6 +78,8 @@ odajdbc.PrepareStatement.CannotGetParameterType=パラメタのメタデータからパラメタ
 odajdbc.CannotGetParameterMetadata=パラメタのメタデータを取得できません。
 odajdbc.ClearParametersError=現在のパラメタ値をクリアする際にエラーが発生しました。
 odajdbc.missedUrlAndJndi=GetConnection: url と jndiNameUrl がいずれも NULL 値です。
+odajdbc.error.emptyDriverClass=GetConnection: The driver class name is of null value.
+
 #used in assert error
 odajdbc.driver.ConnNotOpen=接続が開いていません。
 odajdbc.driver.DriverMissingProperties=Connection.open(Properties) のプロパティが見つかりません。

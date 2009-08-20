@@ -78,6 +78,8 @@ odajdbc.PrepareStatement.CannotGetParameterType=Impossible d'obtenir le type de 
 odajdbc.CannotGetParameterMetadata=Impossible de récupérer les métadonnées du paramètre.
 odajdbc.ClearParametersError=Erreur d'effacement de la valeur actuelle du paramètre.
 odajdbc.missedUrlAndJndi=GetConnection : les valeurs d'url et de jndiNameUrl sont toutes les deux nulles.
+odajdbc.error.emptyDriverClass=GetConnection: The driver class name is of null value.
+
 #used in assert error
 odajdbc.driver.ConnNotOpen=La connexion n'est pas ouverte.
 odajdbc.driver.DriverMissingProperties=Propriétés manquantes dans Connection.open(Properties).

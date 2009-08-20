@@ -78,6 +78,8 @@ odajdbc.PrepareStatement.CannotGetParameterType=无法从参数元数据中获得参数类型。
 odajdbc.CannotGetParameterMetadata=无法检索参数元数据。
 odajdbc.ClearParametersError=清除当前参数值时出错。
 odajdbc.missedUrlAndJndi=GetConnection: url 和 jndiNameUrl 均为空值。
+odajdbc.error.emptyDriverClass=GetConnection: The driver class name is of null value.
+
 #used in assert error
 odajdbc.driver.ConnNotOpen=连接未打开。
 odajdbc.driver.DriverMissingProperties=Connection.open(Properties) 缺少属性。
