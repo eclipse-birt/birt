@@ -35,6 +35,7 @@ public class TotalTest extends TestCase
     private String[] str3 = {"4", "-43", "4o", "23", "-15", "-6", "4", "-6", "3", "63", "33", "-6", "-23", "34"};
     private double[] doubleArray4 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     private double[] doubleArray5 = {1, 2, 2, 3, 1, 3, 4, 1, 2};
+    private double[] doubleArray6 = {1, 2, 2, 3, 1, 3, 4, 2, 1};
     private Object[] anyObjectArray = { "aa", "bb", null, new Integer( 0 ), null, new Double( 1 ), new Float( 0 ), null };
     private Object[] anyObjectArray2 = { "aa", "bb", null, new Integer( 0 ), null, new Double( 1 ), new Float( 0 ), null, false, new Date(1000000L) };
     
@@ -1021,6 +1022,16 @@ public class TotalTest extends TestCase
         ac.finish();
         assertEquals(new Double(1.0), ac.getValue());
         
+		ac.start( );
+		for ( int i = 0; i < doubleArray6.length; i++ )
+		{
+			ac.onRow( new Double[]{
+				new Double( doubleArray6[i] )
+			} );
+		}
+		ac.finish( );
+		assertEquals( new Double( 1.0 ), ac.getValue( ) );
+
         ac.start();
         for(int i=0; i<str1.length; i++)
         {

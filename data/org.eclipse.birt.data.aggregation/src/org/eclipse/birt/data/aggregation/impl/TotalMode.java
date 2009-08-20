@@ -15,6 +15,7 @@ package org.eclipse.birt.data.aggregation.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
@@ -89,33 +90,21 @@ public class TotalMode extends AggrFunction
     private class MyAccumulator extends SummaryAccumulator
     {
     	// Maps a value (Double) to its count (Integer)
-        private HashMap cacheMap;
-        private HashMap modeMap;//used by for muti-mode storage, return the first appeared mode
+        private LinkedHashMap cacheMap;//used by for muti-mode storage, return the first appeared mode
         private Object mode;
 		private int maxCount;
-		private int rowIndex;
+		private boolean multiMaxValue;
 
 
         public void start()
         {
             super.start();
-            rowIndex = 0;
-            cacheMap = new HashMap();
             maxCount = 0;
             mode = null;
-            modeMap = new HashMap();
+            cacheMap = new LinkedHashMap();
+            multiMaxValue = false;
         }
 
-        class Counter{
-        	int count;  //the frequence 
-        	int firstIndex;//row index for the first appearance
-        	
-        	public Counter( int count, int firstIndex )
-        	{
-        		this.count = count;
-        		this.firstIndex = firstIndex;
-        	}
-        }
         /*
          * (non-Javadoc)
          * 
@@ -127,37 +116,31 @@ public class TotalMode extends AggrFunction
             if (args[0] != null)
             {
             	Object value = getTypedData( args[0] );
-				Counter counter = (Counter) cacheMap.get( value );
-				if ( counter == null )
+            	Object obj =  cacheMap.get( value );
+            	int count = 1;
+            	if( obj != null )
 				{
-					// first occurrence
-					counter = new Counter( 1, rowIndex );
-					cacheMap.put( value, counter );
+            		count = ( (Integer)obj ).intValue( );
+            		count++;
 				}
-				else
-				{
-					counter.count++;
-				}
+        		cacheMap.put( value, count );
 
-				if ( counter.count > maxCount )
+				if ( count > maxCount )
 				{
 					mode = value;
-					maxCount = counter.count;
-					modeMap.clear( );
-					modeMap.put( value, counter );
+					maxCount = count;
+					multiMaxValue = false;
 				}
-				else if ( counter.count == maxCount )
-				{// Keep track of all modes with the maximum count
-					modeMap.put( value, counter );
+				else if ( count == maxCount )
+				{
+					multiMaxValue = true;
 				}
-				rowIndex++;
             }
         }
 
         public void finish() throws DataException
         {
             super.finish();
-            cacheMap = null;
         }
 
         /*
@@ -172,21 +155,21 @@ public class TotalMode extends AggrFunction
 				// no modes; ROM scripting spec says we should return null
 				return null;
 			}
-			else if ( modeMap.isEmpty( ) == false )
-			{// find the mode with the minimum index in all searched modes
-				int minIndex = Integer.MAX_VALUE;
-				for ( Iterator i = modeMap.keySet( ).iterator( ); i.hasNext( ); )
+			if ( multiMaxValue && cacheMap != null && !cacheMap.isEmpty( ) )
+			{
+				// find the mode with the minimum index in all searched modes
+				for ( Iterator i = cacheMap.keySet( ).iterator( ); i.hasNext( ); )
 				{
 					Object key = (Object) i.next( );
-					Counter info = (Counter) modeMap.get( key );
-					if ( info.firstIndex < minIndex )
+					int count = (Integer) cacheMap.get( key );
+					if ( count == maxCount )
 					{
-						minIndex = info.firstIndex;
 						mode = key;
+						break;
 					}
 				}
-				modeMap = null;
 			}
+			cacheMap = null;
         	return mode;
         }
 
