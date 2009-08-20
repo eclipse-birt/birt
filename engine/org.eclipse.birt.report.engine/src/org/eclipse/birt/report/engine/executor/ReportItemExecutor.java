@@ -473,6 +473,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					context.addException( new EngineException(
 							MessageConstants.EXPRESSION_EVALUATION_ERROR, rule
 									.getExpression( ) ) );
+					continue;
 				}
 				boolean isHidden = result.booleanValue( );
 				// The report element appears by default and if the
@@ -505,27 +506,20 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
 				Expression expr = rule.getExpression( );
-				try
+				Boolean result = evaluateBoolean( expr );
+				if ( result == null )
 				{
-					Boolean result = evaluateBoolean( expr );
-					if ( result == null )
-					{
-						throw new EngineException(
-								MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
-								rule.getExpression( ) );
-					}
-					boolean isHidden = ( (Boolean) result ).booleanValue( );
-					// The report element appears by default and if the
-					// result is not hidden, then ignore it.
-					if ( isHidden )
-					{
-						buffer.append( rule.getFormat( ) );
-						buffer.append( "," ); //$NON-NLS-1$
-					}
+					context.addException( new EngineException( MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
+							rule.getExpression( ) ) );
+					continue;
 				}
-				catch ( BirtException ex )
+				boolean isHidden = ( (Boolean) result ).booleanValue( );
+				// The report element appears by default and if the
+				// result is not hidden, then ignore it.
+				if ( isHidden )
 				{
-					context.addException( ex );
+					buffer.append( rule.getFormat( ) );
+					buffer.append( "," ); //$NON-NLS-1$
 				}
 			}
 			if ( buffer.length( ) != 0 )
