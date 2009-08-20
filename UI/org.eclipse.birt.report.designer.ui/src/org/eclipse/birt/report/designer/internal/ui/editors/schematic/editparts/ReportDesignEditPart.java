@@ -47,6 +47,8 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DeselectAllTracker;
+import org.eclipse.ui.IActionFilter;
+import org.eclipse.ui.actions.SimpleWildcardTester;
 
 /**
  * <p>
@@ -54,7 +56,8 @@ import org.eclipse.gef.tools.DeselectAllTracker;
  * other report elements puts on to it
  * </p>
  */
-public class ReportDesignEditPart extends AbstractReportEditPart
+public class ReportDesignEditPart extends AbstractReportEditPart implements
+		IActionFilter
 {
 
 	protected boolean showMargin = true;
@@ -179,16 +182,20 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		Insets initInsets = getMasterPageInsets( masterPageHandle );
 		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
 		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitInsets( initInsets );
-		
-		refreshMarginBorder( (ReportDesignMarginBorder)getFigure( ).getBorder() );
+
+		refreshMarginBorder( (ReportDesignMarginBorder) getFigure( ).getBorder( ) );
 		// getFigure( ).setBounds( bounds );
 
 		int color = getBackgroundColor( masterPageHandle );
 		getFigure( ).setBackgroundColor( getBackGroundColor( color ) );
 
 		refreshBackground( masterPageHandle );
-		((ReportElementFigure)getFigure( )).setBackGroundImageSize( getModelAdapter( ).getBackgroundImageWidth( masterPageHandle, size, getBackImage(masterPageHandle) ),
-				getModelAdapter( ).getBackgroundImageHeight( masterPageHandle, size, getBackImage(masterPageHandle) ));
+		( (ReportElementFigure) getFigure( ) ).setBackGroundImageSize( getModelAdapter( ).getBackgroundImageWidth( masterPageHandle,
+				size,
+				getBackImage( masterPageHandle ) ),
+				getModelAdapter( ).getBackgroundImageHeight( masterPageHandle,
+						size,
+						getBackImage( masterPageHandle ) ) );
 	}
 
 	public void refreshMarginBorder( ReportDesignMarginBorder border )
@@ -215,7 +222,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 	{
 		super.activate( );
 
-		//getFigure( ).setFocusTraversable( false );
+		// getFigure( ).setFocusTraversable( false );
 
 		getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
 
@@ -325,7 +332,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 
 				( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
 
-				//figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
+				// figure.setBorder( new ReportDesignMarginBorder(
+				// getMasterPageInsets( masterPageHandle ) ) );
 				refreshMarginBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
 
 				figure.setBounds( bounds.getCopy( ) );
@@ -338,4 +346,25 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		return DEUtil.getPadding( handle, retValue );
 	}
 
+	public boolean testAttribute( Object target, String name, String value )
+	{
+		if ( name.equals( "extension" ) )
+		{
+			return SimpleWildcardTester.testWildcardIgnoreCase( value,
+					getExtension( getModelAdapter( ).getReportDesignHandle( )
+							.getModule( )
+							.getFileName( ) ) );
+		}
+		return false;
+	}
+
+	private String getExtension( String filename )
+	{
+		int index = filename.lastIndexOf( '.' );
+		if ( index == -1 )
+			return "";//$NON-NLS-1$
+		if ( index == ( filename.length( ) - 1 ) )
+			return ""; //$NON-NLS-1$
+		return filename.substring( index + 1 );
+	}
 }
