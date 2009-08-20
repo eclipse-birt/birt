@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.plugin;
 
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
@@ -22,7 +23,7 @@ public class ChartReportItemPlugin extends Plugin
 {
 
 	/** Plugin ID */
-	public static final String ID = "org.eclipse.birt.chart.reportitem"; //$NON-NLS-1$
+	public static final String ID = ChartReportItemConstants.ID;
 
 	/**
 	 * The shared instance.

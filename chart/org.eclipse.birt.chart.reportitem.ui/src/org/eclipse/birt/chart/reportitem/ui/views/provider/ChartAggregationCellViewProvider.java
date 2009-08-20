@@ -29,11 +29,11 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.reportitem.ChartInXTabStatusManager;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
-import org.eclipse.birt.chart.reportitem.ui.ChartInXTabStatusManager;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -97,7 +97,7 @@ public class ChartAggregationCellViewProvider extends
 			}
 
 			// Create the ExtendedItemHandle with default chart model
-			ExtendedItemHandle chartHandle = ChartXTabUIUtil.createChartHandle( cell.getModelHandle( ),
+			ExtendedItemHandle chartHandle = ChartXTabUtil.createChartHandle( cell.getModelHandle( ),
 					ChartReportItemConstants.TYPE_PLOT_CHART,
 					null );
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
@@ -105,11 +105,11 @@ public class ChartAggregationCellViewProvider extends
 			cell.addContent( chartHandle, 0 );
 
 			// Update xtab direction for multiple measure case
-			ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
+			ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
 					cm.isTransposed( ) );
 
 			// Set span and add axis cell
-			ChartXTabUIUtil.addAxisChartInXTab( cell,
+			ChartXTabUtil.addAxisChartInXTab( cell,
 					cm,
 					chartHandle,
 					info.isNew( ) );
@@ -164,7 +164,7 @@ public class ChartAggregationCellViewProvider extends
 			}
 
 			// Remove axis chart
-			ChartXTabUIUtil.removeAxisChartInXTab( cell,
+			ChartXTabUtil.removeAxisChartInXTab( cell,
 					ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 					true );
 			// Plot chart will be removed by designer itself
@@ -407,7 +407,7 @@ public class ChartAggregationCellViewProvider extends
 		}
 
 		// Use the direction of first chart in multiple measure case
-		List<ExtendedItemHandle> chartInOtherMeasure = ChartXTabUIUtil.findChartInOtherMeasures( cell,
+		List<ExtendedItemHandle> chartInOtherMeasure = ChartXTabUtil.findChartInOtherMeasures( cell,
 				true );
 		if ( !chartInOtherMeasure.isEmpty( ) )
 		{
@@ -498,7 +498,7 @@ public class ChartAggregationCellViewProvider extends
 
 					if ( type == CHANGE_ORIENTATION_TYPE )
 					{
-						ChartXTabUIUtil.updateXTabForAxis( cell,
+						ChartXTabUtil.updateXTabForAxis( cell,
 								handle,
 								cm.isTransposed( ),
 								cmNew );
@@ -506,10 +506,10 @@ public class ChartAggregationCellViewProvider extends
 					else
 					{
 						// Replace date item with axis chart
-						ChartXTabUIUtil.updateAxisChart( cell, cmNew, handle );
+						ChartXTabUtil.updateAxisChart( cell, cmNew, handle );
 
 						// Update xtab direction for multiple measure case
-						ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
+						ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
 								cmNew.isTransposed( ) );
 					}
 
@@ -531,7 +531,7 @@ public class ChartAggregationCellViewProvider extends
 						ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 
 						// Update xtab direction for multiple measure case
-						ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
+						ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
 								cm.isTransposed( ) );
 					}
 				}
@@ -568,7 +568,8 @@ public class ChartAggregationCellViewProvider extends
 				return false;
 			}
 
-			// If axis chart in total cell, don't allow to switch it to Chart view.
+			// If axis chart in total cell, don't allow to switch it to Chart
+			// view.
 			Object content = ChartXTabUtil.getFirstContent( cell );
 			if ( ChartXTabUtil.isAxisChart( ( (DesignElementHandle) content ) ) )
 			{
