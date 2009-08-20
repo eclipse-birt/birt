@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
+import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -42,7 +43,7 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 	
 	protected IReportContext reportContext;
 
-	private JSMethodRunner runner;
+	private HashMap<Scriptable, JSMethodRunner>  runner = new HashMap<Scriptable, JSMethodRunner>();
 
 	public DtEScriptExecutor( ExecutionContext context ) throws BirtException
 	{
@@ -57,13 +58,22 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 			this.reportContext = null;
 	}
 
-	protected JSMethodRunner getRunner( Scriptable scope, String type, String name )
+	protected JSMethodRunner getRunner( Scriptable scope, String type,
+			String name )
 	{
-		if( runner!= null )
-			return runner;
+		if ( scope == null )
+			return new JSMethodRunner( context.getScriptContext( ), scope, name );
+		JSMethodRunner result = runner.get( scope );
+		if ( result != null )
+			return result;
+
 		String scopeName = type + "[" + name + "]";
-		runner = new JSMethodRunner(context.getScriptContext( ), scope, scopeName );
-		return runner;
+
+		result = new JSMethodRunner( context.getScriptContext( ),
+				scope,
+				scopeName );
+		runner.put( scope, result );
+		return result;
 	}
 
 	protected ScriptStatus handleJS( Scriptable scope,

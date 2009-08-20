@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
+import java.util.HashMap;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
@@ -42,10 +44,9 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	private boolean useFetchEventHandler = false;
 	private boolean useCloseEventHandler = false;
 	private boolean useDescribeEventHandler = false;
-	private Scriptable sharedScope = null;
 	
 	private String fetchScript = null;
-	
+	private HashMap<IDataSetInstanceHandle, Scriptable> sharedScopes = new HashMap<IDataSetInstanceHandle,Scriptable>();
 	public ScriptDataSetScriptExecutor( ScriptDataSetHandle dataSetHandle,
 			ExecutionContext context ) throws BirtException
 	{
@@ -184,14 +185,16 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	
 	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet ) throws DataException
 	{
-		if( this.sharedScope!= null )
-			return this.sharedScope;
+		Scriptable result = this.sharedScopes.get( dataSet );
+		if( result!= null )
+			return result;
 		
-		this.sharedScope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
+		result = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
 				this.scope);
-		this.sharedScope.setParentScope( this.scope );
-		this.sharedScope.setPrototype( dataSet.getScriptScope( ) );
-		return this.sharedScope;
+		result.setParentScope( this.scope );
+		result.setPrototype( dataSet.getScriptScope( ) );
+		this.sharedScopes.put( dataSet, result );
+		return result;
 	}
 
 }
