@@ -405,8 +405,10 @@ class ComputedColumnHelperInstance
 							String exprText = expr.getText( );
 							if ( exprText != null )
 							{
-								ICompiledScript cs = cx.compile( expr.getScriptId( ) , null, 0, exprText );
-								expr.setHandle( cs );
+								if( expr.getHandle( ) == null )
+								{
+									expr.setHandle( cx.compile( expr.getScriptId( ) , null, 0, exprText ) );
+								}
 								value = ScriptEvalUtil.evalExpr( expr, cx, null, 0 );
 							}
 						}
