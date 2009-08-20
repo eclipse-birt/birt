@@ -1,7 +1,8 @@
-﻿﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.3.0.v20080627-0952 Build &lt;2.3.1.v20080627-0952></property>
     <property name="units">in</property>
+    <property name="layoutPreference">auto layout</property>
     <list-property name="configVars">
         <structure>
             <property name="name">NewParameter2</property>
@@ -22,29 +23,25 @@
             <property name="dataSetMode">multiple</property>
             <parameters>
                 <scalar-parameter name="NewParameter2" id="17">
-                    <property name="dataSet">Data Set1</property>
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
-                    <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["EMPLOYEENUMBER"]</expression>
+                    <property name="controlType">list-box</property>
                     <structure name="format">
                         <property name="pattern">Unformatted</property>
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter3" id="18">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
-                    <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["CUSTOMERNAME"]</expression>
+                    <property name="controlType">list-box</property>
                     <structure name="format">
                         <property name="pattern">Unformatted</property>
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter4" id="19">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
-                    <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["CONTACTFIRSTNAME"]</expression>
+                    <property name="controlType">list-box</property>
                     <structure name="format">
                         <property name="pattern">Unformatted</property>
                     </structure>
@@ -57,28 +54,112 @@
             <parameters>
                 <scalar-parameter name="ParamCountry" id="22">
                     <property name="valueType">dynamic</property>
-                    <property name="dataType">string</property>
                     <property name="isRequired">true</property>
-                    <property name="controlType">list-box</property>
                     <property name="dataSetName">Data Set</property>
                     <expression name="valueExpr">row["COUNTRY"]</expression>
-                    <property name="fixedOrder">false</property>
                     <expression name="sortByColumn">dataSetRow["CUSTOMERNUMBER"]</expression>
                     <property name="sortDirection">asc</property>
+                    <property name="dataType">string</property>
+                    <property name="controlType">list-box</property>
+                    <property name="fixedOrder">false</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="ParamState" id="23">
                     <property name="valueType">dynamic</property>
-                    <property name="dataType">string</property>
                     <property name="isRequired">true</property>
-                    <property name="controlType">list-box</property>
                     <property name="dataSetName">Data Set</property>
                     <expression name="valueExpr">row["STATE"]</expression>
-                    <property name="fixedOrder">false</property>
                     <expression name="sortByColumn">dataSetRow["CUSTOMERNUMBER"]</expression>
                     <property name="sortDirection">desc</property>
+                    <property name="dataType">string</property>
+                    <property name="controlType">list-box</property>
+                    <property name="fixedOrder">false</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </cascading-parameter-group>
+        <cascading-parameter-group name="MultiValueSingleDatasetCPG" id="24">
+            <property name="dataSet">Data Set</property>
+            <property name="dataSetMode">single</property>
+            <parameters>
+                <scalar-parameter name="country" id="25">
+                    <property name="valueType">dynamic</property>
+                    <property name="isRequired">true</property>
+                    <property name="dataSetName">Data Set</property>
+                    <expression name="valueExpr">row["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="controlType">list-box</property>
+                    <property name="fixedOrder">true</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="state" id="26">
+                    <property name="valueType">dynamic</property>
+                    <property name="isRequired">true</property>
+                    <property name="dataSetName">Data Set</property>
+                    <expression name="valueExpr">row["STATE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="controlType">list-box</property>
+                    <property name="fixedOrder">true</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="city" id="27">
+                    <property name="valueType">dynamic</property>
+                    <property name="isRequired">true</property>
+                    <property name="dataSetName">Data Set</property>
+                    <expression name="valueExpr">row["CITY"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="controlType">list-box</property>
+                    <property name="fixedOrder">true</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </cascading-parameter-group>
+        <cascading-parameter-group name="MultiValueMultiDatasetCPG" id="28">
+            <property name="dataSet">Data Set</property>
+            <property name="dataSetMode">multiple</property>
+            <parameters>
+                <scalar-parameter name="ds_country" id="29">
+                    <property name="valueType">dynamic</property>
+                    <property name="isRequired">true</property>
+                    <property name="dataSetName">Data Set</property>
+                    <expression name="valueExpr">row["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="controlType">list-box</property>
+                    <property name="fixedOrder">true</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="ds_state" id="30">
+                    <property name="valueType">dynamic</property>
+                    <property name="isRequired">true</property>
+                    <property name="dataSetName">Data Set</property>
+                    <expression name="valueExpr">row["STATE"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="controlType">list-box</property>
+                    <property name="fixedOrder">true</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="ds_city" id="31">
+                    <property name="valueType">dynamic</property>
+                    <property name="isRequired">true</property>
+                    <property name="dataSetName">Data Set</property>
+                    <expression name="valueExpr">row["CITY"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="controlType">list-box</property>
+                    <property name="fixedOrder">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -167,8 +248,8 @@
                 </list-property>
             </structure>
             <property name="dataSource">Data Source</property>
-            <property name="queryText">select *
-from CLASSICMODELS.CUSTOMERS</property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.CUSTOMERS]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set1" id="20">
             <structure name="cachedMetaData">
@@ -216,12 +297,16 @@ from CLASSICMODELS.CUSTOMERS</property>
                 </list-property>
             </structure>
             <property name="dataSource">Data Source</property>
-            <property name="queryText">select *
-from CLASSICMODELS.EMPLOYEES</property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.EMPLOYEES]]></xml-property>
         </oda-data-set>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>

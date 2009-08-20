@@ -631,12 +631,6 @@ public class GetParameterDefinitionTask extends EngineTask
 			return Collections.EMPTY_LIST;
 		}
 
-		for ( int i = 0; i < groupKeyValues.length; i++ )
-		{
-			String parameterName = (( ScalarParameterHandle ) slotHandle.get( i )).getName( );
-			setParameterValue( parameterName, groupKeyValues[ i ] );
-		}
-
 		ScalarParameterHandle requestedParam = (ScalarParameterHandle) slotHandle
 				.get( groupKeyValues.length ); // The parameters in
 		// parameterGroup must be scalar
@@ -648,7 +642,103 @@ public class GetParameterDefinitionTask extends EngineTask
 					parameterGroupName ) );
 			return Collections.EMPTY_LIST;
 		}
-		return this.getSelectionList( requestedParam.getName( ) );
+		// return this.getSelectionList( requestedParam.getName( ) );
+		Collection res = null;
+		ValuePopper popper = new ValuePopper( groupKeyValues );
+		while ( popper.hasNext( ) )
+		{
+			Object[] paramValues = popper.next( );
+			for ( int i = 0; i < paramValues.length; i++ )
+			{
+				String paramName = ( (ScalarParameterHandle) slotHandle.get( i ) )
+						.getName( );
+				setParameterValue( paramName, paramValues[i] );
+			}
+			Collection tmp = this.getSelectionList( requestedParam.getName( ) );
+			if ( res == null )
+			{
+				res = tmp;
+			}
+			else
+			{
+				res.addAll( tmp );
+			}
+		}
+		return res;
+	}
+
+	static class ValuePopper
+	{
+
+		Object[] values;
+		boolean[] types; // true for Object[], false for Object
+		int[] lengths;
+		int[] indexes;
+		int size;
+		int cur;
+		Object[] tempValues; // not thread safe
+
+		public ValuePopper( Object[] values )
+		{
+			this.values = new Object[values.length];
+			System.arraycopy( values, 0, this.values, 0, values.length );
+			lengths = new int[values.length];
+			indexes = new int[values.length];
+			types = new boolean[values.length];
+			size = 1;
+			for ( int index = 0; index < values.length; index++ )
+			{
+				if ( values[index] instanceof Object[] )
+				{
+					lengths[index] = ( (Object[]) values[index] ).length;
+					types[index] = true;
+					size *= lengths[index];
+				}
+			}
+			tempValues = new Object[values.length];
+		}
+
+		public Object[] next( )
+		{
+			int last = values.length - 1;
+			for ( ; last >= 0; last-- )
+			{
+				if ( !types[last] )
+				{
+					tempValues[last] = values[last];
+				}
+				else
+				{
+					tempValues[last] = ( (Object[]) values[last] )[indexes[last]];
+				}
+			}
+			return tempValues;
+		}
+
+		public boolean hasNext( )
+		{
+			boolean has = cur < size;
+			if ( cur > 0 && has )
+			{
+				int last = indexes.length - 1;
+				for ( ; last >= 0; last-- )
+				{
+					if ( !types[last] || lengths[last] == 1 )
+						continue;
+					if ( indexes[last] + 1 < lengths[last] )
+					{
+						indexes[last]++;
+						break;
+					}
+					else
+					{
+						indexes[last] = 0;
+					}
+				}
+			}
+			cur++;
+			return has;
+		}
 	}
 
 	public Collection getSelectionTreeForCascadingGroup(

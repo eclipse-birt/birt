@@ -13,8 +13,8 @@
         	<property name="displayType">advanced</property>
         	<property name="listLimit">3</property>
             <simple-property-list name="filterOperator">
-            	<value>value1</value>
-            	<value>value2</value>
+            	<value>ge</value>
+            	<value>le</value>
             </simple-property-list>
             <property name="dataSet">Data Set1</property>
                     <property name="valueType">dynamic</property>

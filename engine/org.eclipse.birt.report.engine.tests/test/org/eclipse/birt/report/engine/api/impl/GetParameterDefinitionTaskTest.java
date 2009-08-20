@@ -119,4 +119,40 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		else
 			fail( );
 	}
+
+	public void testMultipleValues( ) throws EngineException
+	{
+		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
+		IReportRunnable runnable = engine.openReportDesign( REPORT_DESIGN );
+		IGetParameterDefinitionTask task = engine
+				.createGetParameterDefinitionTask( runnable );
+
+		/** test the MultiValueSingleDatasetCPG
+		 *  USA
+		 *  		NV
+		 *  				Las Vegas
+		 *  		NY
+		 *  				NYC
+		 *  				White Plains
+		 *  		PA
+		 *  				Allentown
+		 *  				Philadelphia
+		 *  Japan
+		 *  		Osaka
+		 *  				Kita-ku
+		 *  		Tokyo
+		 *  				Minato-ku
+		 */
+		String cpg1 = "MultiValueSingleDatasetCPG";
+		String[][] values = {{"USA"}, {"NV", "PA"}};
+		Collection col = task.getSelectionListForCascadingGroup( cpg1, values );
+		assertEquals( 3, col.size( ) );
+		values = new String[][]{{"USA", "Japan"},
+				{"NV", "NY", "PA", "Osaka", "Tokyo"}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values );
+		assertEquals( 7, col.size( ) );
+		values = new String[][]{{"USA", "Japan"}, {"PA"}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values );
+		assertEquals( 2, col.size( ) );
+	}
 }
