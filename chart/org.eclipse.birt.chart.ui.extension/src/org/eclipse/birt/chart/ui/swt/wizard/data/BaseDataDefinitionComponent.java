@@ -820,8 +820,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					.get( 0 );
 
 			SeriesGrouping sg = null;
-			if ( baseSd.getGrouping( ) != null
-					&& baseSd.getGrouping( ).isEnabled( ) )
+			boolean baseEnabled = baseSd.getGrouping( ) != null
+					&& baseSd.getGrouping( ).isEnabled( );
+			if ( baseEnabled )
 			{
 				sg = baseSd.getGrouping( );
 				if ( seriesdefinition.getGrouping( ) != null
@@ -829,11 +830,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				{
 					sg = seriesdefinition.getGrouping( );
 				}
-				if ( query.getGrouping( ) != null
-						&& query.getGrouping( ).isEnabled( ) )
-				{
-					sg = query.getGrouping( );
-				}
+			}
+			if ( query.getGrouping( ) != null
+					&& query.getGrouping( ).isEnabled( ) )
+			{
+				sg = query.getGrouping( );
 			}
 
 			if ( sg != null )
@@ -853,6 +854,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					// Since the aggFuncName might be null, so we don't display
 					// the
 					// exception to user, it is true.
+				}
+
+				if ( !baseEnabled
+						&& aFunc != null
+						&& aFunc.getType( ) == IAggregateFunction.SUMMARY_AGGR )
+				{
+					return queryText;
 				}
 
 				int count = aFunc != null ? aFunc.getParametersCount( )
