@@ -1633,27 +1633,31 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			
 			List<String> operators = handle.getFilterOperatorList( );
-			if( operators != null )
+			if ( operators != null )
 			{
 				List<String> filters = new ArrayList<String>( );
+				List<String> locFilters = new ArrayList<String>( );
 				for ( String operator : operators )
 				{
+					filters.add( operator );
 					IFilterExprDefinition expr = OdaFilterExprHelper
 							.getFilterExpressionDefn( operator, null, null );
 					if ( expr != null )
 					{
-						filters.add( expr.getBirtFilterExprDisplayName( ) );
+						locFilters.add( expr.getBirtFilterExprDisplayName( ) );
 					}
 					else
 					{
-						filters.add( operator );
+						locFilters.add( null );
 					}
 				}
 				parameter.setFilterOperatorList( filters );
+				parameter.setFilterOperatorDisplayList( locFilters );
 			}
 			else
 			{
 				parameter.setFilterOperatorList( null );
+				parameter.setFilterOperatorDisplayList( null );
 			}
 			
 			currentElement = parameter;

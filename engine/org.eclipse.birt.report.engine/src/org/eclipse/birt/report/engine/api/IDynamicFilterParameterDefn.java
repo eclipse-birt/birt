@@ -28,4 +28,6 @@ public interface IDynamicFilterParameterDefn extends IParameterDefn
 	public String getColumn( );
 
 	public List<String> getFilterOperatorList( );
+
+	public List<String> getFilterOperatorDisplayList( );
 }

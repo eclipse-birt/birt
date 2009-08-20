@@ -23,6 +23,7 @@ public class DynamicFilterParameterDefn extends ParameterDefn
 	private String column;
 	private int displayType;
 	private List<String> operators;
+	private List<String> localizedOperators;
 
 	public String getColumn( )
 	{
@@ -39,6 +40,11 @@ public class DynamicFilterParameterDefn extends ParameterDefn
 		return operators;
 	}
 
+	public List<String> getFilterOperatorDisplayList( )
+	{
+		return localizedOperators;
+	}
+
 	public void setColumn( String column )
 	{
 		this.column = column;
@@ -52,5 +58,10 @@ public class DynamicFilterParameterDefn extends ParameterDefn
 	public void setFilterOperatorList( List<String> operators )
 	{
 		this.operators = operators;
+	}
+
+	public void setFilterOperatorDisplayList( List<String> operators )
+	{
+		this.localizedOperators = operators;
 	}
 }
