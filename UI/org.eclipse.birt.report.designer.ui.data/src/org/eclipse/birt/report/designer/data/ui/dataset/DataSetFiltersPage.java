@@ -20,11 +20,11 @@ import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionProp
 import org.eclipse.birt.report.designer.data.ui.util.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -57,8 +57,6 @@ import org.eclipse.swt.widgets.TableColumn;
  */
 
 public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
-		implements
-			ITableLabelProvider
 {
 
 	private transient PropertyHandleTableViewer viewer = null;
@@ -72,12 +70,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 			Messages.getString( "dataset.editor.title.value1" ),//$NON-NLS-1$
 			Messages.getString( "dataset.editor.title.value2" )//$NON-NLS-1$
 	};
-	private static String[] cellProperties = new String[]{
-			FilterCondition.EXPR_MEMBER,
-			FilterCondition.OPERATOR_MEMBER,
-			FilterCondition.VALUE1_MEMBER,
-			FilterCondition.VALUE2_MEMBER
-	};
+
 	private static String[] operators;
 	private static String[] operatorDisplayNames;
 	static
@@ -157,7 +150,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 
 					}
 				} );
-		viewer.getViewer( ).setLabelProvider( this );
+		viewer.getViewer( ).setLabelProvider( new FilterTableProvider( ) );
 		viewer.getViewer( ).setInput( filters );
 		addListeners( );
 		setToolTips( );
@@ -274,17 +267,35 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 
 	private void doEdit( Object structureOrHandle )
 	{
-		FilterConditionBuilder dlg = new FilterConditionBuilder( structureOrHandle  );
-		dlg.setTitle( this.getTitle( structureOrHandle ) );
-		dlg.setDataSetColumns( this.columnExpressions );
-		dlg.setExpressionProvider((DesignElementHandle) getContainer( ).getModel( ) );
-		dlg.setBindingParams( ((DataSetHandle) getContainer( ).getModel( ) ).paramBindingsIterator( ));
+		FilterConditionBuilder dlg = new FilterConditionBuilder( ( (DataSetEditor) getContainer( ) ).getShell( ),
+				this.getTitle( structureOrHandle ),
+				this.getTitle( structureOrHandle ) );
+		dlg.setDataSetHandle( (DataSetHandle) getContainer( ).getModel( ) );
+		dlg.setBindingParams( getParamBindingHandleArray( ) );
 		if ( dlg.open( ) == Window.OK )
 		{
 			update( structureOrHandle );
 		}
 	}
 
+	private ParamBindingHandle[] getParamBindingHandleArray( )
+	{
+		Iterator parameters = ( (DataSetHandle) getContainer( ).getModel( ) ).paramBindingsIterator( );
+		List params = new ArrayList( );
+		
+		while ( parameters.hasNext( ) )
+		{
+			params.add( parameters.next( ) );
+		}
+
+		ParamBindingHandle[] bindingParams = new ParamBindingHandle[params.size( )];
+		for ( int i = 0; i < bindingParams.length; i++ )
+		{
+			bindingParams[i] = (ParamBindingHandle) params.get( i );
+		}
+		return bindingParams;
+	}
+	
 	private String getTitle( Object structureOrHandle )
 	{
 		if ( structureOrHandle instanceof FilterCondition )
@@ -297,15 +308,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	{
 		if ( structureOrHandle instanceof FilterCondition )
 		{
-			try
-			{
-				filters.addItem( (FilterCondition) structureOrHandle );
-				viewer.getViewer( ).refresh( );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-			}
+			viewer.getViewer( ).refresh( );
 		}
 		else
 		{
@@ -455,132 +458,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 		viewer.getRemoveAllMenuItem( ).setEnabled( filterConditionExists );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object,
-	 *      int)
-	 */
-	public Image getColumnImage( Object element, int columnIndex )
-	{
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
-	 *      int)
-	 */
-	public String getColumnText( Object element, int columnIndex )
-	{
-		String value = null;
-		FilterCondition filterCondition = getStructure( element );
-
-		try
-		{
-			switch ( columnIndex )
-			{
-				case 0 :
-				{
-					value = filterCondition.getExpr( );
-					break;
-				}
-				case 1 :
-				{
-					value = getOperatorDisplayName( filterCondition.getOperator( ) ); 
-					break;
-				}
-				case 2 :
-				{
-					value = getValue1String( filterCondition );
-					break;
-				}
-				case 3 :
-				{
-					value = filterCondition.getValue2( );
-					break;
-				}
-			}
-		}
-		catch ( Exception ex )
-		{
-			ExceptionHandler.handle( ex );
-		}
-		if ( value == null )
-		{
-			value = ""; //$NON-NLS-1$
-		}
-
-		return value;
-	}
-
-	/**
-	 * get the the filter 
-	 * @param filterCondition
-	 * @return
-	 */
-	private String getValue1String( FilterCondition filterCondition )
-	{
-		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filterCondition.getOperator( ) )
-				|| DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( filterCondition.getOperator( ) ) )
-		{
-			List value1List = filterCondition.getValue1List( );
-			StringBuffer buf = new StringBuffer( );
-			for ( Iterator i = value1List.iterator( ); i.hasNext( ); )
-			{
-				String value = (String) i.next( );
-				buf.append( value + "; " ); //$NON-NLS-1$
-			}
-			if ( buf.length( ) > 1 )
-			{
-				buf.delete( buf.length( ) - 2, buf.length( ) );
-			}
-			return buf.toString( );
-		}
-		else
-		{
-			return filterCondition.getValue1( );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
-	 */
-	public void addListener( ILabelProviderListener listener )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
-	 */
-	public void dispose( )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object,
-	 *      java.lang.String)
-	 */
-	public boolean isLabelProperty( Object element, String property )
-	{
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
-	 */
-	public void removeListener( ILabelProviderListener listener )
-	{
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -590,6 +467,146 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	public String getPageDescription( )
 	{
 		return Messages.getString( "DataSetFiltersPage.description" ); //$NON-NLS-1$
+	}
+	
+	private class FilterTableProvider implements ITableLabelProvider
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
+		 * .lang.Object, int)
+		 */
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
+		 * lang.Object, int)
+		 */
+		public String getColumnText( Object element, int columnIndex )
+		{
+			String value = null;
+			FilterCondition filterCondition = getStructure( element );
+
+			try
+			{
+				switch ( columnIndex )
+				{
+					case 0 :
+					{
+						value = filterCondition.getExpr( );
+						break;
+					}
+					case 1 :
+					{
+						value = getOperatorDisplayName( filterCondition.getOperator( ) );
+						break;
+					}
+					case 2 :
+					{
+						value = getValue1String( filterCondition );
+						break;
+					}
+					case 3 :
+					{
+						value = filterCondition.getValue2( );
+						break;
+					}
+				}
+			}
+			catch ( Exception ex )
+			{
+				ExceptionHandler.handle( ex );
+			}
+			if ( value == null )
+			{
+				value = ""; //$NON-NLS-1$
+			}
+
+			return value;
+		}
+
+		/**
+		 * get the the filter
+		 * 
+		 * @param filterCondition
+		 * @return
+		 */
+		private String getValue1String( FilterCondition filterCondition )
+		{
+			if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filterCondition.getOperator( ) )
+					|| DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( filterCondition.getOperator( ) ) )
+			{
+				List value1List = filterCondition.getValue1List( );
+				StringBuffer buf = new StringBuffer( );
+				for ( Iterator i = value1List.iterator( ); i.hasNext( ); )
+				{
+					String value = (String) i.next( );
+					buf.append( value + "; " ); //$NON-NLS-1$
+				}
+				if ( buf.length( ) > 1 )
+				{
+					buf.delete( buf.length( ) - 2, buf.length( ) );
+				}
+				return buf.toString( );
+			}
+			else
+			{
+				return filterCondition.getValue1( );
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
+		 */
+		public void addListener( ILabelProviderListener listener )
+		{
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+		 */
+		public void dispose( )
+		{
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
+		 * .lang.Object, java.lang.String)
+		 */
+		public boolean isLabelProperty( Object element, String property )
+		{
+			return false;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
+		 */
+		public void removeListener( ILabelProviderListener listener )
+		{
+		}
+
 	}
 
 	private class ViewerSelectionListener implements ISelectionChangedListener
