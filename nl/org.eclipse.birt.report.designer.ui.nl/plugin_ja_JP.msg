@@ -47,7 +47,7 @@ preference.commenttemplates=コメントテンプレート
 #hcg_bidi
 preference.bidiproperties=双方向プロパティ
 preference.layout=レイアウト
-preference.expressionsyntax=Expression Syntax
+preference.expressionsyntax=式構文
 
 designer.action.undo.label=元に戻す
 designer.action.redo.label=やり直し

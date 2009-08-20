@@ -2278,15 +2278,15 @@ Element.MultiViews=Vistas múltiples
 Element.VariableElement=Variable
 Element.DataGroup=Grupo de datos
 Element.DerivedDataSet=Conjunto de datos derivados
-Element.DashboardElement=Dashboard
-Element.TabElement=Tab
+Element.DashboardElement=Tablero de mandos
+Element.TabElement=Ficha
 Element.SectionElement=Sección
-Element.GadgetItem=Gadget Item
-Element.EventSubscriber=Event Subscriber
-Element.GadgetContent=Gadget Content
-Element.ExternalElementRef=External Element Reference
-Element.DataSelectorItem=Data Selector
-Element.DataViewItem=Data View
+Element.GadgetItem=Elemento de gadget
+Element.EventSubscriber=Suscriptor de evento
+Element.GadgetContent=Contenido de gadget
+Element.ExternalElementRef=Referencia de elemento externo
+Element.DataSelectorItem=Selector de datos
+Element.DataViewItem=Vista de datos
 Element.DataMart=Data Mart
 
 ###########################################################
@@ -3272,12 +3272,12 @@ Element.DynamicFilterParameter.filterOperator=Operador de filtro
 Element.DynamicFilterParameter.column=Columna
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
-Element.DashboardElement.tabs=Tabs
+Element.DashboardElement.tabs=Fichas
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=Título
-Element.TabElement.sections=Sections
-Element.TabElement.freeFormGadgets=Free form gadgets
+Element.TabElement.sections=Secciones
+Element.TabElement.freeFormGadgets=Gadgets de formularios libres
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=Ancho
@@ -3287,34 +3287,34 @@ Element.SectionElement.gadgets=Gadgets
 Element.GadgetItem.x=X
 Element.GadgetItem.y=Y
 Element.GadgetItem.height=Altura
-Element.GadgetItem.cssStyleClass=CSS style class
+Element.GadgetItem.cssStyleClass=Clase de estilo CSS
 Element.GadgetItem.title=Título
-Element.GadgetItem.inlineStyle=Inline style
-Element.GadgetItem.externalGadgetURI=External gadget URI
-Element.GadgetItem.externalGadgetRefType=External gadget reference type
-Element.GadgetItem.projectName=Project name
+Element.GadgetItem.inlineStyle=Estilo incrustado
+Element.GadgetItem.externalGadgetURI=URI de gadget externo
+Element.GadgetItem.externalGadgetRefType=Tipo de referencia de gadget externo
+Element.GadgetItem.projectName=Nombre de proyecto
 Element.GadgetItem.content=Contenido
-Element.GadgetItem.subscribeTo=Subscribe to
-Element.GadgetItem.observers=Observers
+Element.GadgetItem.subscribeTo=Suscribirse a
+Element.GadgetItem.observers=Observadores
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
-Element.EventSubscriber.eventName=Event name
-Element.EventSubscriber.subscribedGadgets=Subscribed gadgets
+Element.EventSubscriber.eventName=Nombre de evento
+Element.EventSubscriber.subscribedGadgets=Gadgets suscritos
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=Cubo
-Element.GadgetContent.externalContentRef=External content reference
+Element.GadgetContent.externalContentRef=Referencia de contenido externo
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
-Element.ExternalElementRef.sourceFile=Source file
-Element.ExternalElementRef.targetBookmark=Target book mark
+Element.ExternalElementRef.sourceFile=Archivo fuente
+Element.ExternalElementRef.targetBookmark=Marcador de destino
 
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=Columnas de datos enlazados
 Element.DataSelectorItem.type=Tipo
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
-Element.DataViewItem.internalReportLetRef=Internal reportLet reference
+Element.DataViewItem.internalReportLetRef=Referencia de informe interno
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=Fuentes de datos

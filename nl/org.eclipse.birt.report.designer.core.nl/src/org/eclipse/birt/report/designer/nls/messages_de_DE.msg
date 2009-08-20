@@ -629,8 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=Berechnete Spalte nach oben verschiebe
 DataSetComputedColumnsPage.toolTipText.Remove=Berechnete Spalte entfernen.
 DataSetComputedColumnsPage.toolTipText.New=Neue berechnete Spalte.
 DataSetComputedColumnsPage.toolTipText.Edit=Berechnete Spalte bearbeiten.
-DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
-DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
+DataSetComputedColumnsPage.InputDialog.title.New=Neue berechnete Spalte
+DataSetComputedColumnsPage.InputDialog.title.Edit=Berechnete Spalte bearbeiten
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Berechnete Spalte
 
 ###########################################################
@@ -708,8 +708,8 @@ datasource.new.defaultName=Datenquelle
 datasource.new=Neue Datenquelle
 datasource.action.new=Neue Datenq&uelle
 datasource.wizard.label.dataSourceName=&Datenquellenname:
-datasource.wizard.label.datasources=Create from a &data source type in the following list
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
+datasource.wizard.label.datasources=Aus einem &Datenquellentyp aus der folgenden Liste erstellen
+datasource.wizard.label.connectionfile=Aus einem &Verbindungsprofil im Profilspeicher erstellen
 datasource.wizard.message.selectType=Geben Sie alle Einstellungen für eine neue Datenquelle an, oder wählen Sie ein vordefiniertes Verbindungsprofil.
 datasource.wizard.title.select=Wählen Sie einen Datenquellentyp, oder wählen Sie ein Verbindungsprofil.
 datasource.editor.property=Eigenschaftenbindung
@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=&Daten
 DesignerActionBarContributor.menu.element-EditGroup=Gruppe b&earbeiten
 DesignerActionBarContributor.menu.element-LayoutMode=Layout-Mo&dus
 DesignerActionBarContributor.menu.element-showRuler=&Lineale anzeigen
-DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
+DesignerActionBarContributor.menu.element.editDataBinding=Daten&bindung bearbeiten...
 DesignerActionBarContributor.menu.element=Ele&ment
 DesignerActionBarContributor.menu.format=Format
 DesignerActionBarContributor.menu.insert=E&infügen
@@ -1778,14 +1778,14 @@ GeneralPreferencePage.label.nameEmpty=Leerer Stilname ist nicht zulässig.
 ###########################################################
 #GridEditPart properties
 
-GraphicalEditorWithFlyoutPalette_Redo.Text0=&Wiederherstellen
-GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.Text0=&Wiederholen
+GraphicalEditorWithFlyoutPalette_Redo.Text1=&Wiederholen: {0}
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=Wiederherstellen
-GraphicalEditorWithFlyoutPalette_Redo.ToolTip1={0} wiederherstellen
+GraphicalEditorWithFlyoutPalette_Redo.ToolTip1=Wiederherstellen: {0}
 GraphicalEditorWithFlyoutPalette_Undo.Text0=&Rückgängig
-GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.Text1=&Rückgängig: {0}
 GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=Rückgängig
-GraphicalEditorWithFlyoutPalette_Undo.ToolTip1={0} rückgängig machen
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip1=Rückgängig: {0}
 GridEditPart.GUIDEHANDLE_TEXT = Raster
 
 ###########################################################
@@ -2442,7 +2442,7 @@ MapRuleBuilderDialog.text.NE=ist nicht gleich
 MapRuleBuilderDialog.text.NotBetween=ist nicht zwischen
 MapRuleBuilderDialog.text.NotNull=ist nicht Null
 MapRuleBuilderDialog.text.Null=ist Null
-MapRuleBuilderDialog.text.Title=Zuordnung
+MapRuleBuilderDialog.text.Title=Übersicht
 MapRuleBuilderDialog.MsgDlg.Title=Warnung
 MapRuleBuilderDialog.MsgDlg.Msg=Der Wert darf nicht leer sein.
 
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=Verweis zurücksetzen
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column...
+ChangeDataColumnAction.text=Datenspalte än&dern...
 
 ###########################################################
 #ThumbnailBuilder properties

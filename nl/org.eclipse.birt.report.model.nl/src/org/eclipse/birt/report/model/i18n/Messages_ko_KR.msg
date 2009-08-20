@@ -2278,15 +2278,15 @@ Element.MultiViews=다중 보기
 Element.VariableElement=변수
 Element.DataGroup=데이터 그룹
 Element.DerivedDataSet=파생 데이터 집합
-Element.DashboardElement=Dashboard
-Element.TabElement=Tab
+Element.DashboardElement=대시보드
+Element.TabElement=탭
 Element.SectionElement=섹션
-Element.GadgetItem=Gadget Item
-Element.EventSubscriber=Event Subscriber
-Element.GadgetContent=Gadget Content
-Element.ExternalElementRef=External Element Reference
-Element.DataSelectorItem=Data Selector
-Element.DataViewItem=Data View
+Element.GadgetItem=가젯 항목
+Element.EventSubscriber=이벤트 구독자
+Element.GadgetContent=가젯 콘텐츠
+Element.ExternalElementRef=외부 요소 참조
+Element.DataSelectorItem=데이터 선택기
+Element.DataViewItem=데이터 뷰
 Element.DataMart=Data Mart
 
 ###########################################################
@@ -3272,49 +3272,49 @@ Element.DynamicFilterParameter.filterOperator=필터 연산자
 Element.DynamicFilterParameter.column=열
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
-Element.DashboardElement.tabs=Tabs
+Element.DashboardElement.tabs=탭
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=제목
-Element.TabElement.sections=Sections
-Element.TabElement.freeFormGadgets=Free form gadgets
+Element.TabElement.sections=섹션
+Element.TabElement.freeFormGadgets=자유 형식 가젯
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=너비
-Element.SectionElement.gadgets=Gadgets
+Element.SectionElement.gadgets=가젯
 
 #72 GadgetItem ( prefix  Element.GadgetItem )
 Element.GadgetItem.x=X
 Element.GadgetItem.y=Y
 Element.GadgetItem.height=높이
-Element.GadgetItem.cssStyleClass=CSS style class
+Element.GadgetItem.cssStyleClass=CSS 스타일 클래스
 Element.GadgetItem.title=제목
-Element.GadgetItem.inlineStyle=Inline style
-Element.GadgetItem.externalGadgetURI=External gadget URI
-Element.GadgetItem.externalGadgetRefType=External gadget reference type
-Element.GadgetItem.projectName=Project name
+Element.GadgetItem.inlineStyle=인라인 스타일
+Element.GadgetItem.externalGadgetURI=외부 가젯 URI
+Element.GadgetItem.externalGadgetRefType=외부 가젯 참조 형식
+Element.GadgetItem.projectName=프로젝트 이름
 Element.GadgetItem.content=내용
-Element.GadgetItem.subscribeTo=Subscribe to
-Element.GadgetItem.observers=Observers
+Element.GadgetItem.subscribeTo=구독 대상
+Element.GadgetItem.observers=감시자
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
-Element.EventSubscriber.eventName=Event name
-Element.EventSubscriber.subscribedGadgets=Subscribed gadgets
+Element.EventSubscriber.eventName=이벤트 이름
+Element.EventSubscriber.subscribedGadgets=구독한 가젯
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=큐브
-Element.GadgetContent.externalContentRef=External content reference
+Element.GadgetContent.externalContentRef=외부 콘텐츠 참조
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
-Element.ExternalElementRef.sourceFile=Source file
-Element.ExternalElementRef.targetBookmark=Target book mark
+Element.ExternalElementRef.sourceFile=원본 파일
+Element.ExternalElementRef.targetBookmark=대상 책갈피
 
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=바인딩된 데이터 열
 Element.DataSelectorItem.type=형식
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
-Element.DataViewItem.internalReportLetRef=Internal reportLet reference
+Element.DataViewItem.internalReportLetRef=내부 리포틀릿 참조
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=데이터 원본

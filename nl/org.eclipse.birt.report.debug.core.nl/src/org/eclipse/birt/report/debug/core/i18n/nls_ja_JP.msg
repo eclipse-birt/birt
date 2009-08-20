@@ -32,7 +32,7 @@ ReportVMClient.RequestIgnored.ServerShuttingDown=[クライアント] サーバをシャット
 ########################################
 #ReportVMServer
 ReportVMServer.ClientAccpted=[サーバ] クライアントが受け付けました。
-ReportVMServer.ClientDisconnected=[サーバ] クライアントはすでに切断されています。
+ReportVMServer.ClientDisconnected=[サーバ] クライアントが切断されました。
 ReportVMServer.ServerShutDown=[サーバ] サーバをシャットダウンしています。
 ReportVMServer.EnterRequestDispatching=[サーバ] リクエストディスパッチングを入力してください。
 ReportVMServer.ReceivedRequest=[サーバ] リクエストを受け付けました: 

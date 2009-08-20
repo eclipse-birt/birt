@@ -629,8 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=Déplacer la colonne de calcul vers le 
 DataSetComputedColumnsPage.toolTipText.Remove=Supprimer la colonne de calcul.
 DataSetComputedColumnsPage.toolTipText.New=Nouvelle colonne de calcul.
 DataSetComputedColumnsPage.toolTipText.Edit=Modifier la colonne de calcul.
-DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
-DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
+DataSetComputedColumnsPage.InputDialog.title.New=Nouvelle colonne de calcul
+DataSetComputedColumnsPage.InputDialog.title.Edit=Modifier la colonne de calcul
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Colonne de calcul
 
 ###########################################################
@@ -708,8 +708,8 @@ datasource.new.defaultName=Source de données
 datasource.new=Nouvelle source de données
 datasource.action.new=Nouvelle &source de données
 datasource.wizard.label.dataSourceName=No&m de la source de données :
-datasource.wizard.label.datasources=Create from a &data source type in the following list
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
+datasource.wizard.label.datasources=Créer à partir d'un type de source de &données de la liste suivante
+datasource.wizard.label.connectionfile=Créer à partir d'un profil de &connexion de l'emplacement de stockage des profils
 datasource.wizard.message.selectType=Indiquer tous les paramètres pour une nouvelle source de données ou choisir un profil de connexion prédéfini.
 datasource.wizard.title.select=Sélectionner un type de source de données ou choisir un profil de connexion.
 datasource.editor.property=Liaison de propriété
@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=&Données
 DesignerActionBarContributor.menu.element-EditGroup=&Modifier le groupe
 DesignerActionBarContributor.menu.element-LayoutMode=Mode de mise en &page
 DesignerActionBarContributor.menu.element-showRuler=Afficher les &règles
-DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
+DesignerActionBarContributor.menu.element.editDataBinding=Modifier la liaison de &données...
 DesignerActionBarContributor.menu.element=E&lément
 DesignerActionBarContributor.menu.format=Format
 DesignerActionBarContributor.menu.insert=&Insérer
@@ -1779,11 +1779,11 @@ GeneralPreferencePage.label.nameEmpty=Nom de style vide non autorisé.
 #GridEditPart properties
 
 GraphicalEditorWithFlyoutPalette_Redo.Text0=&Rétablir
-GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.Text1=&Rétablir {0}
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=Rétablir
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip1=Rétablir {0}
 GraphicalEditorWithFlyoutPalette_Undo.Text0=&Annuler
-GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.Text1=Ann&uler {0}
 GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=Annuler
 GraphicalEditorWithFlyoutPalette_Undo.ToolTip1=Annuler {0}
 GridEditPart.GUIDEHANDLE_TEXT = Grille
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=Réinitialiser la référence
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column...
+ChangeDataColumnAction.text=&Modifier la colonne de données...
 
 ###########################################################
 #ThumbnailBuilder properties

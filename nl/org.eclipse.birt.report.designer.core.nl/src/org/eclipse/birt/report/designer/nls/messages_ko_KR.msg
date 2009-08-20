@@ -629,8 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=계산 열을 위로 이동
 DataSetComputedColumnsPage.toolTipText.Remove=계산 열 제거
 DataSetComputedColumnsPage.toolTipText.New=계산 열 새로 만들기
 DataSetComputedColumnsPage.toolTipText.Edit=계산 열 편집
-DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
-DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
+DataSetComputedColumnsPage.InputDialog.title.New=계산 열 새로 만들기
+DataSetComputedColumnsPage.InputDialog.title.Edit=계산 열 편집
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=계산 열
 
 ###########################################################
@@ -708,8 +708,8 @@ datasource.new.defaultName=데이터 원본
 datasource.new=새 데이터 원본 
 datasource.action.new=새 데이터 원본(&S)
 datasource.wizard.label.dataSourceName=데이터 원본 이름(&M):
-datasource.wizard.label.datasources=Create from a &data source type in the following list
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
+datasource.wizard.label.datasources=다음 목록에 있는 데이터 원본 형식으로 생성(&D)
+datasource.wizard.label.connectionfile=프로필 저장소에 있는 연결 프로필로 생성(&C)
 datasource.wizard.message.selectType=새 데이터 원본에 대해 모든 설정을 제공하거나 미리 정의된 연결 프로필을 선택합니다.
 datasource.wizard.title.select=데이터 원본 형식을 선택하거나 연결 프로필을 선택합니다.
 datasource.editor.property=속성 바인딩
@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=데이터(&D)
 DesignerActionBarContributor.menu.element-EditGroup=그룹 편집(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=레이아웃 모드(&D)
 DesignerActionBarContributor.menu.element-showRuler=눈금자 표시(&R)
-DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
+DesignerActionBarContributor.menu.element.editDataBinding=데이터 바인딩 편집(&B)...
 DesignerActionBarContributor.menu.element=요소(&L)
 DesignerActionBarContributor.menu.format=서식
 DesignerActionBarContributor.menu.insert=삽입(&I)
@@ -1779,11 +1779,11 @@ GeneralPreferencePage.label.nameEmpty=스타일 이름은 필수 입력 항목입니다.
 #GridEditPart properties
 
 GraphicalEditorWithFlyoutPalette_Redo.Text0=다시 실행(&R)
-GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.Text1={0} 다시 실행(&R)
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=다시 실행
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip1={0} 다시 실행
 GraphicalEditorWithFlyoutPalette_Undo.Text0=실행 취소(&U)
-GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.Text1={0} 실행 취소(&U)
 GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=실행 취소
 GraphicalEditorWithFlyoutPalette_Undo.ToolTip1={0} 실행 취소
 GridEditPart.GUIDEHANDLE_TEXT = 눈금
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column...
+ChangeDataColumnAction.text=데이터 열 변경(&G)...
 
 ###########################################################
 #ThumbnailBuilder properties

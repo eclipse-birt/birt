@@ -106,4 +106,4 @@ CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=指定的列索引 {0} 无
 CustomPreviewTable.Exception.RowIndexGreaterThan0=行索引必须大于或等于 0\!
 
 
-ExprEditComposite.InvokeExpressionBuilder=Invoke Expression Builder
+ExprEditComposite.InvokeExpressionBuilder=调用表达式生成器

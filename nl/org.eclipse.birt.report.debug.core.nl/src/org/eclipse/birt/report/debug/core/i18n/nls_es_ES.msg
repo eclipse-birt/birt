@@ -32,7 +32,7 @@ ReportVMClient.RequestIgnored.ServerShuttingDown=El servidor [Cliente] se está c
 ########################################
 #ReportVMServer
 ReportVMServer.ClientAccpted=El cliente [Servidor] ha sido aceptado
-ReportVMServer.ClientDisconnected=El cliente [Servidor] ya está desconectado
+ReportVMServer.ClientDisconnected=El cliente [Servidor] se ha desconectado
 ReportVMServer.ServerShutDown=El servidor [Servidor] está cerrado
 ReportVMServer.EnterRequestDispatching=[Servidor] introduce la distribución de solicitudes
 ReportVMServer.ReceivedRequest=[Servidor] ha recibido la solicitud: 

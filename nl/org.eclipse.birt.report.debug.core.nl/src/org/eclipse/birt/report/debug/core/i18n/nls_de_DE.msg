@@ -32,7 +32,7 @@ ReportVMClient.RequestIgnored.ServerShuttingDown=[Client] Server wird herunterge
 ########################################
 #ReportVMServer
 ReportVMServer.ClientAccpted=[Server] Client akzeptiert
-ReportVMServer.ClientDisconnected=[Server] Client-Verbindung bereits getrennt
+ReportVMServer.ClientDisconnected=[Server] Client-Verbindung getrennt
 ReportVMServer.ServerShutDown=[Server] Server ist heruntergefahren
 ReportVMServer.EnterRequestDispatching=[Server] hat Auftrags-Dispatch eingeleitet
 ReportVMServer.ReceivedRequest=[Server] hat Auftrag erhalten: 

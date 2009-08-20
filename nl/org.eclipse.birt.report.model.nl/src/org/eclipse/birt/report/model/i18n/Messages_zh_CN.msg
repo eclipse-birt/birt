@@ -2278,15 +2278,15 @@ Element.MultiViews=多个视图
 Element.VariableElement=变量
 Element.DataGroup=数据组
 Element.DerivedDataSet=衍生数据集
-Element.DashboardElement=Dashboard
-Element.TabElement=Tab
+Element.DashboardElement=仪表板
+Element.TabElement=选项卡
 Element.SectionElement=区域
-Element.GadgetItem=Gadget Item
-Element.EventSubscriber=Event Subscriber
-Element.GadgetContent=Gadget Content
-Element.ExternalElementRef=External Element Reference
-Element.DataSelectorItem=Data Selector
-Element.DataViewItem=Data View
+Element.GadgetItem=小工具项目
+Element.EventSubscriber=事件预订者
+Element.GadgetContent=小工具内容
+Element.ExternalElementRef=外部元素引用
+Element.DataSelectorItem=数据选择器
+Element.DataViewItem=数据视图
 Element.DataMart=Data Mart
 
 ###########################################################
@@ -2392,7 +2392,7 @@ Element.ReportDesign.onContentUpdate.toolTip=在报表内容更新时调用。
 Element.ReportDesign.onContentUpdate.this=报表设计
 Element.ReportDesign.onPageStart=页面启动时
 Element.ReportDesign.onPageEnd=页面终止时
-Element.ReportDesign.infoView=InfoView
+Element.ReportDesign.infoView=信息视图
 Element.ReportDesign.dataMarts=DataMarts
 
 #2. Report Element ( Prefix = Element.ReportElement )
@@ -3272,49 +3272,49 @@ Element.DynamicFilterParameter.filterOperator=筛选运算符
 Element.DynamicFilterParameter.column=列
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
-Element.DashboardElement.tabs=Tabs
+Element.DashboardElement.tabs=选项卡
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=标题
-Element.TabElement.sections=Sections
-Element.TabElement.freeFormGadgets=Free form gadgets
+Element.TabElement.sections=部分
+Element.TabElement.freeFormGadgets=自由格式小工具
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=宽度
-Element.SectionElement.gadgets=Gadgets
+Element.SectionElement.gadgets=小工具
 
 #72 GadgetItem ( prefix  Element.GadgetItem )
 Element.GadgetItem.x=X
 Element.GadgetItem.y=Y
 Element.GadgetItem.height=高度
-Element.GadgetItem.cssStyleClass=CSS style class
+Element.GadgetItem.cssStyleClass=CSS 样式类
 Element.GadgetItem.title=标题
-Element.GadgetItem.inlineStyle=Inline style
-Element.GadgetItem.externalGadgetURI=External gadget URI
-Element.GadgetItem.externalGadgetRefType=External gadget reference type
-Element.GadgetItem.projectName=Project name
+Element.GadgetItem.inlineStyle=内嵌样式
+Element.GadgetItem.externalGadgetURI=外部小工具 URI
+Element.GadgetItem.externalGadgetRefType=外部小工具引用类型
+Element.GadgetItem.projectName=项目名称
 Element.GadgetItem.content=内容
-Element.GadgetItem.subscribeTo=Subscribe to
-Element.GadgetItem.observers=Observers
+Element.GadgetItem.subscribeTo=预订
+Element.GadgetItem.observers=观察程序
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
-Element.EventSubscriber.eventName=Event name
-Element.EventSubscriber.subscribedGadgets=Subscribed gadgets
+Element.EventSubscriber.eventName=事件名称
+Element.EventSubscriber.subscribedGadgets=预订的小工具
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=多维数据集
-Element.GadgetContent.externalContentRef=External content reference
+Element.GadgetContent.externalContentRef=外部内容引用
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
-Element.ExternalElementRef.sourceFile=Source file
-Element.ExternalElementRef.targetBookmark=Target book mark
+Element.ExternalElementRef.sourceFile=源文件
+Element.ExternalElementRef.targetBookmark=目标书签
 
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=绑定的数据列
 Element.DataSelectorItem.type=类型
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
-Element.DataViewItem.internalReportLetRef=Internal reportLet reference
+Element.DataViewItem.internalReportLetRef=内部 reportLet 引用
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=数据源

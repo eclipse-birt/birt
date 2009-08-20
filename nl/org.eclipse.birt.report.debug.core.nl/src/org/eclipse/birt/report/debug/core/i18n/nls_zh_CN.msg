@@ -32,7 +32,7 @@ ReportVMClient.RequestIgnored.ServerShuttingDown=[客户端] 服务器正在关闭，已忽略
 ########################################
 #ReportVMServer
 ReportVMServer.ClientAccpted=[服务器] 客户端已接受
-ReportVMServer.ClientDisconnected=[服务器] 客户端已断开连接
+ReportVMServer.ClientDisconnected=[Server] 客户端已断开连接
 ReportVMServer.ServerShutDown=[服务器] 服务器已关闭
 ReportVMServer.EnterRequestDispatching=[服务器] 进入请求调度
 ReportVMServer.ReceivedRequest=[服务器] 接收的请求: 

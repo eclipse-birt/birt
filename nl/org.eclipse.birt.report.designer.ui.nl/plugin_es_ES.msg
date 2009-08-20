@@ -47,7 +47,7 @@ preference.commenttemplates=Plantilla de comentario
 #hcg_bidi
 preference.bidiproperties=Propiedades bidireccionales
 preference.layout=Diseño
-preference.expressionsyntax=Expression Syntax
+preference.expressionsyntax=Sintaxis de expresión
 
 designer.action.undo.label=Deshacer
 designer.action.redo.label=Rehacer

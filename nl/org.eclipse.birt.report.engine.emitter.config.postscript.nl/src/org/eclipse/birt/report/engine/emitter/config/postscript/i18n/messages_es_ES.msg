@@ -24,7 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=Ajustar a tamaño de página
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Salida de varias páginas
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Aumentar tamaño de página
 OptionDisplayValue.FontSubstitution=Sustitución de fuente
-OptionDisplayValue.Copies=Número de copias
+OptionDisplayValue.Copies=Número de copias:
 OptionDisplayValue.Collate=Intercalar
 OptionDisplayValue.Duplex=Doble cara:
 OptionDisplayValue.PaperSize=Tamaño de papel
@@ -33,7 +33,7 @@ OptionDisplayValue.PaperTray=Bandeja de papel
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=Se utiliza el procesamiento de BIDI.
-OptionDescription.TextWrapping=The text should be wrap.
+OptionDescription.TextWrapping=El texto debe autoajustarse.
 OptionDescription.PageOverFlow=Controle cómo se va a mostrar el contenido.
 OptionDescription.FontSubstitution=Debe comprobar si el carácter existe en la fuente seleccionada.
 OptionDescription.Copies=Número de copias.

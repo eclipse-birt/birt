@@ -106,4 +106,4 @@ CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=잘못된 열 인덱스 {0
 CustomPreviewTable.Exception.RowIndexGreaterThan0=행 인덱스는 0보다 크거나 같아야 합니다\!
 
 
-ExprEditComposite.InvokeExpressionBuilder=Invoke Expression Builder
+ExprEditComposite.InvokeExpressionBuilder=식 빌더 호출

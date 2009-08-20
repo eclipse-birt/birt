@@ -32,7 +32,7 @@ ReportVMClient.RequestIgnored.ServerShuttingDown=[클라이언트] 서버를 종료하고 있
 ########################################
 #ReportVMServer
 ReportVMServer.ClientAccpted=[서버] 클라이언트가 수락되었습니다.
-ReportVMServer.ClientDisconnected=[서버] 클라이언트 연결이 이미 끊겼습니다.
+ReportVMServer.ClientDisconnected=[Server] 클라이언트 연결이 끊겼습니다.
 ReportVMServer.ServerShutDown=[서버] 서버를 종료합니다.
 ReportVMServer.EnterRequestDispatching=[서버]에서 발송 중인 요청을 입력합니다.
 ReportVMServer.ReceivedRequest=[서버]에서 받은 요청: 

@@ -28,6 +28,6 @@ OptionDisplayValue.FontSubstitution=Sustitución de fuente
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=Se utiliza el procesamiento de BIDI.
-OptionDescription.TextWrapping=The text should be wrap.
+OptionDescription.TextWrapping=El texto debe autoajustarse.
 OptionDescription.PageOverFlow=Controle cómo se va a mostrar el contenido.
 OptionDescription.FontSubstitution=Debe comprobar si el carácter existe en la fuente seleccionada.

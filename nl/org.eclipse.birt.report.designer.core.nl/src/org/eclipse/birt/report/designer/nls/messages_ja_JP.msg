@@ -629,8 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=計算列を上に移動します。
 DataSetComputedColumnsPage.toolTipText.Remove=計算列を削除します。
 DataSetComputedColumnsPage.toolTipText.New=新しい計算列を作成します。
 DataSetComputedColumnsPage.toolTipText.Edit=計算列を編集します。
-DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
-DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
+DataSetComputedColumnsPage.InputDialog.title.New=計算列の新規作成
+DataSetComputedColumnsPage.InputDialog.title.Edit=計算列の編集
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=計算列
 
 ###########################################################
@@ -708,8 +708,8 @@ datasource.new.defaultName=データソース
 datasource.new=新規データソース
 datasource.action.new=新規データソース(&S)
 datasource.wizard.label.dataSourceName=データソース名(&M) :
-datasource.wizard.label.datasources=Create from a &data source type in the following list
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
+datasource.wizard.label.datasources=次の一覧のデータソース型を使って作成する(&D)
+datasource.wizard.label.connectionfile=プロファイルストアの接続プロファイルを使って作成する(&C)
 datasource.wizard.message.selectType=新しいデータソースのすべての設定を指定するか、定義済みの接続プロファイルを選択してください。
 datasource.wizard.title.select=データソースの種類または接続プロファイルを選択します。
 datasource.editor.property=プロパティのバインド
@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=データ(&D)
 DesignerActionBarContributor.menu.element-EditGroup=グループの編集(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=レイアウトモード(&D)
 DesignerActionBarContributor.menu.element-showRuler=ルーラの表示(&R) :
-DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
+DesignerActionBarContributor.menu.element.editDataBinding=データバインドの編集(&B)...
 DesignerActionBarContributor.menu.element=要素(&l)
 DesignerActionBarContributor.menu.format=書式
 DesignerActionBarContributor.menu.insert=挿入(&I)
@@ -1779,11 +1779,11 @@ GeneralPreferencePage.label.nameEmpty=スタイル名を空白にすることはできません。
 #GridEditPart properties
 
 GraphicalEditorWithFlyoutPalette_Redo.Text0=やり直し(&R)
-GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.Text1={0} をやり直し(&R)
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=やり直し
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip1={0} をやり直し
 GraphicalEditorWithFlyoutPalette_Undo.Text0=元に戻す(&U)
-GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.Text1={0} を元に戻す(&U)
 GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=元に戻す
 GraphicalEditorWithFlyoutPalette_Undo.ToolTip1={0} を元に戻す
 GridEditPart.GUIDEHANDLE_TEXT = グリッド
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=参照のリセット
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column...
+ChangeDataColumnAction.text=データ列の変更(&G)...
 
 ###########################################################
 #ThumbnailBuilder properties

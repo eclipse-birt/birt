@@ -2278,15 +2278,15 @@ Element.MultiViews=ƒ}ƒ‹ƒ`ƒrƒ…[
 Element.VariableElement=•Ï”
 Element.DataGroup=ƒf[ƒ^ƒOƒ‹[ƒv
 Element.DerivedDataSet=”h¶ƒf[ƒ^ƒZƒbƒg
-Element.DashboardElement=Dashboard
-Element.TabElement=Tab
+Element.DashboardElement=ƒ_ƒbƒVƒ…ƒ{[ƒh
+Element.TabElement=ƒ^ƒu
 Element.SectionElement=ƒZƒNƒVƒ‡ƒ“
-Element.GadgetItem=Gadget Item
-Element.EventSubscriber=Event Subscriber
-Element.GadgetContent=Gadget Content
-Element.ExternalElementRef=External Element Reference
-Element.DataSelectorItem=Data Selector
-Element.DataViewItem=Data View
+Element.GadgetItem=ƒKƒWƒFƒbƒg‚Ì€–Ú
+Element.EventSubscriber=ƒCƒxƒ“ƒg‚Ìw“ÇÒ
+Element.GadgetContent=ƒKƒWƒFƒbƒg‚ÌƒRƒ“ƒeƒ“ƒc
+Element.ExternalElementRef=ŠO•”—v‘f‚ÌQÆ
+Element.DataSelectorItem=ƒf[ƒ^ƒZƒŒƒNƒ^
+Element.DataViewItem=ƒf[ƒ^ƒrƒ…[
 Element.DataMart=Data Mart
 
 ###########################################################
@@ -2392,7 +2392,7 @@ Element.ReportDesign.onContentUpdate.toolTip=ƒŒƒ|[ƒg‚Ì“à—e‚ğXV‚·‚éÛ‚ÉŒÄ‚Ño‚
 Element.ReportDesign.onContentUpdate.this=ƒŒƒ|[ƒgƒfƒUƒCƒ“
 Element.ReportDesign.onPageStart=ƒy[ƒW‚ÌŠJn
 Element.ReportDesign.onPageEnd=ƒy[ƒW‚ÌI—¹
-Element.ReportDesign.infoView=InfoView
+Element.ReportDesign.infoView=î•ñƒrƒ…[
 Element.ReportDesign.dataMarts=DataMarts
 
 #2. Report Element ( Prefix = Element.ReportElement )
@@ -3272,49 +3272,49 @@ Element.DynamicFilterParameter.filterOperator=‰‰Zq
 Element.DynamicFilterParameter.column=—ñ
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
-Element.DashboardElement.tabs=Tabs
+Element.DashboardElement.tabs=ƒ^ƒu
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=ƒ^ƒCƒgƒ‹
-Element.TabElement.sections=Sections
-Element.TabElement.freeFormGadgets=Free form gadgets
+Element.TabElement.sections=ƒZƒNƒVƒ‡ƒ“
+Element.TabElement.freeFormGadgets=©—RŒ`®‚ÌƒKƒWƒFƒbƒg
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=•
-Element.SectionElement.gadgets=Gadgets
+Element.SectionElement.gadgets=ƒKƒWƒFƒbƒg
 
 #72 GadgetItem ( prefix  Element.GadgetItem )
 Element.GadgetItem.x=X
 Element.GadgetItem.y=Y
 Element.GadgetItem.height=‚‚³
-Element.GadgetItem.cssStyleClass=CSS style class
+Element.GadgetItem.cssStyleClass=CSS ƒXƒ^ƒCƒ‹ƒNƒ‰ƒX
 Element.GadgetItem.title=ƒ^ƒCƒgƒ‹
-Element.GadgetItem.inlineStyle=Inline style
-Element.GadgetItem.externalGadgetURI=External gadget URI
-Element.GadgetItem.externalGadgetRefType=External gadget reference type
-Element.GadgetItem.projectName=Project name
+Element.GadgetItem.inlineStyle=ƒCƒ“ƒ‰ƒCƒ“ƒXƒ^ƒCƒ‹
+Element.GadgetItem.externalGadgetURI=ŠO•”ƒKƒWƒFƒbƒg‚Ì URI
+Element.GadgetItem.externalGadgetRefType=ŠO•”ƒKƒWƒFƒbƒg‚ÌQÆŒ^
+Element.GadgetItem.projectName=ƒvƒƒWƒFƒNƒg–¼
 Element.GadgetItem.content=ƒRƒ“ƒeƒ“ƒc
-Element.GadgetItem.subscribeTo=Subscribe to
-Element.GadgetItem.observers=Observers
+Element.GadgetItem.subscribeTo=w“ÇÒ
+Element.GadgetItem.observers=ƒIƒuƒU[ƒo
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
-Element.EventSubscriber.eventName=Event name
-Element.EventSubscriber.subscribedGadgets=Subscribed gadgets
+Element.EventSubscriber.eventName=ƒCƒxƒ“ƒg–¼
+Element.EventSubscriber.subscribedGadgets=w“Ç’†‚ÌƒKƒWƒFƒbƒg
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=ƒLƒ…[ƒu
-Element.GadgetContent.externalContentRef=External content reference
+Element.GadgetContent.externalContentRef=ŠO•”ƒRƒ“ƒeƒ“ƒc‚ÌQÆ
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
-Element.ExternalElementRef.sourceFile=Source file
-Element.ExternalElementRef.targetBookmark=Target book mark
+Element.ExternalElementRef.sourceFile=ƒ\[ƒXƒtƒ@ƒCƒ‹
+Element.ExternalElementRef.targetBookmark=ƒ^[ƒQƒbƒg‚ÌƒuƒbƒNƒ}[ƒN
 
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=ƒoƒCƒ“ƒh‚³‚ê‚½ƒf[ƒ^ƒJƒ‰ƒ€
 Element.DataSelectorItem.type=í—Ş
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
-Element.DataViewItem.internalReportLetRef=Internal reportLet reference
+Element.DataViewItem.internalReportLetRef=“à•” reportLet ‚ÌQÆ
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=ƒf[ƒ^ƒ\[ƒX

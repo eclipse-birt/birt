@@ -33,7 +33,7 @@ OptionDisplayValue.PaperTray=Papierschacht
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=BIDI-Verarbeitung wird verwendet.
-OptionDescription.TextWrapping=The text should be wrap.
+OptionDescription.TextWrapping=Text muss Zeilenumbrüche enthalten.
 OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
 OptionDescription.FontSubstitution=Überprüfung erforderlich, ob die ausgewählte Schriftart das Zeichen unterstützt.
 OptionDescription.Copies=Anzahl der Exemplare.

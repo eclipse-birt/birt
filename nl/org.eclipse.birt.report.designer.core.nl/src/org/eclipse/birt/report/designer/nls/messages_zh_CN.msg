@@ -629,8 +629,8 @@ DataSetComputedColumnsPage.toolTipText.Up=计算列上移。
 DataSetComputedColumnsPage.toolTipText.Remove=删除计算列。
 DataSetComputedColumnsPage.toolTipText.New=新建计算列。
 DataSetComputedColumnsPage.toolTipText.Edit=编辑计算列。
-DataSetComputedColumnsPage.InputDialog.title.New=New Computed Column
-DataSetComputedColumnsPage.InputDialog.title.Edit=Edit Computed Column
+DataSetComputedColumnsPage.InputDialog.title.New=新建计算列
+DataSetComputedColumnsPage.InputDialog.title.Edit=编辑计算列
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
 
 ###########################################################
@@ -708,8 +708,8 @@ datasource.new.defaultName=数据源
 datasource.new=新建数据源
 datasource.action.new=新建数据源(&S)
 datasource.wizard.label.dataSourceName=数据源名称(&M):
-datasource.wizard.label.datasources=Create from a &data source type in the following list
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store
+datasource.wizard.label.datasources=根据以下列表中的数据源类型创建(&D)
+datasource.wizard.label.connectionfile=根据配置文件存储中的连接配置文件创建(&C)
 datasource.wizard.message.selectType=为新数据源提供所有设置，或选择预定义的连接配置文件。
 datasource.wizard.title.select=选择数据源类型，或选择连接配置文件。
 datasource.editor.property=属性绑定
@@ -911,7 +911,7 @@ DesignerActionBarContributor.menu.data=数据(&D)
 DesignerActionBarContributor.menu.element-EditGroup=编辑组(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=布局模式(&D)
 DesignerActionBarContributor.menu.element-showRuler=显示标尺(&R)
-DesignerActionBarContributor.menu.element.editDataBinding=Edit Data &Binding...
+DesignerActionBarContributor.menu.element.editDataBinding=编辑数据绑定(&B)...
 DesignerActionBarContributor.menu.element=元素(&L)
 DesignerActionBarContributor.menu.format=格式
 DesignerActionBarContributor.menu.insert=插入(&I)
@@ -1779,13 +1779,13 @@ GeneralPreferencePage.label.nameEmpty=不允许空样式名称。
 #GridEditPart properties
 
 GraphicalEditorWithFlyoutPalette_Redo.Text0=恢复(&R)
-GraphicalEditorWithFlyoutPalette_Redo.Text1=&Redo {0}
+GraphicalEditorWithFlyoutPalette_Redo.Text1=恢复 {0}(&R)
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip0=恢复
 GraphicalEditorWithFlyoutPalette_Redo.ToolTip1=恢复 {0}
 GraphicalEditorWithFlyoutPalette_Undo.Text0=撤消(&U)
-GraphicalEditorWithFlyoutPalette_Undo.Text1=&Undo {0}
+GraphicalEditorWithFlyoutPalette_Undo.Text1=撤消 {0}(&U)
 GraphicalEditorWithFlyoutPalette_Undo.ToolTip0=撤消
-GraphicalEditorWithFlyoutPalette_Undo.ToolTip1=撤销 {0}
+GraphicalEditorWithFlyoutPalette_Undo.ToolTip1=撤消 {0}
 GridEditPart.GUIDEHANDLE_TEXT = 网格
 
 ###########################################################
@@ -4276,7 +4276,7 @@ DataColumBindingDialog.stackMsg.resetReference=重置引用
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column...
+ChangeDataColumnAction.text=更改数据列(&G)...
 
 ###########################################################
 #ThumbnailBuilder properties

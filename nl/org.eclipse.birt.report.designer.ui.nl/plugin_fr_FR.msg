@@ -47,7 +47,7 @@ preference.commenttemplates=Modèle de commentaire
 #hcg_bidi
 preference.bidiproperties=Propriétés bidirectionnelles
 preference.layout=Mise en page
-preference.expressionsyntax=Expression Syntax
+preference.expressionsyntax=Syntaxe d'expression
 
 designer.action.undo.label=Annuler
 designer.action.redo.label=Rétablir
