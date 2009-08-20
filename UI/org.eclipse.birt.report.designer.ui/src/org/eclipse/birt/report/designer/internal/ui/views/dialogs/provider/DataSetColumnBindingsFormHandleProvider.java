@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
@@ -319,9 +320,11 @@ public class DataSetColumnBindingsFormHandleProvider implements
 					String function = handle.getAggregateFunction( );
 					if ( function != null )
 					{
-						if ( DataUtil.getAggregationManager( )
-								.getAggregation( function ) != null )
-							text = DataUtil.getAggregationManager( )
+						function = DataAdapterUtil.adaptModelAggregationType( function );
+						if ( function != null
+								&& DataUtil.getAggregationManager( )
+										.getAggregation( function ) != null )
+							return DataUtil.getAggregationManager( )
 									.getAggregation( function )
 									.getDisplayName( );
 					}
