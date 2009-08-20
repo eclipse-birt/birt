@@ -100,7 +100,7 @@
 					
 					<TD WIDTH="8px"/>
 					
-					<TD ALIGN="right" WIDTH="<%= 8 * BirtResources.getMessage( "birt.viewer.navbar.lable.goto" ).length()%>"><LABEL for="gotoPage"><b><%= BirtResources.getMessage( "birt.viewer.navbar.lable.goto" )%></b></LABEL></TD>
+					<TD ALIGN="right"><LABEL for="gotoPage"><b><%= BirtResources.getMessage( "birt.viewer.navbar.lable.goto" )%></b></LABEL></TD>
 					<TD WIDTH="2px"/>
 					<TD ALIGN="right" WIDTH="50px">
 						<INPUT ID='gotoPage' TYPE='text' VALUE='' MAXLENGTH="8" SIZE='5' CLASS="birtviewer_navbar_input">
