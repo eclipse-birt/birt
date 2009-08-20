@@ -132,15 +132,18 @@ public abstract class AbstractDataEngine implements IDataEngine
 		for ( int i = 0; i < dataSetList.size( ); i++ )
 		{
 			DataSetHandle dataset = (DataSetHandle) dataSetList.get( i );
-			try
+			if ( dataset.clientsIterator( ).hasNext( ) )
 			{
-				// FIXME: change to use dteSession
-				adapter.defineDataSet( dataset, dteSession );
-			}
-			catch ( BirtException be )
-			{
-				logger.log( Level.SEVERE, be.getMessage( ), be );
-				context.addException( dataset, be );
+				try
+				{
+					// FIXME: change to use dteSession
+					adapter.defineDataSet( dataset, dteSession );
+				}
+				catch ( BirtException be )
+				{
+					logger.log( Level.SEVERE, be.getMessage( ), be );
+					context.addException( dataset, be );
+				}
 			}
 		}
 
