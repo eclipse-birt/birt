@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -31,7 +32,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
-import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -173,8 +173,18 @@ class QueryExecutionHelper
 		{
 			while ( bindingIt != null && bindingIt.hasNext( ) )
 			{
-				IBinding binding = this.modelAdaptor.adaptBinding( (ComputedColumnHandle) bindingIt.next( ) );
-				if( disAllowAggregation && binding.getAggrFunction()!= null )
+				Object computedBinding = bindingIt.next( );
+				IBinding binding = null;
+				if ( computedBinding instanceof ComputedColumnHandle )
+				{
+					binding = this.modelAdaptor.adaptBinding( (ComputedColumnHandle) computedBinding );
+				}
+				else if ( computedBinding instanceof org.eclipse.birt.report.model.api.elements.structures.ComputedColumn )
+				{
+					binding = adaptBinding( (org.eclipse.birt.report.model.api.elements.structures.ComputedColumn) computedBinding );
+				}
+				if ( binding == null
+						|| ( disAllowAggregation && binding.getAggrFunction( ) != null ) )
 					continue;
 				queryDefn.addBinding( binding );
 			}
@@ -196,6 +206,37 @@ class QueryExecutionHelper
 		}
 	}
 
+	/**
+	 * NOTE: This binding is the temp binding, it would not be aggregation. The
+	 * binding is used when select value list for filter expression.
+	 * 
+	 * @param structure
+	 * @return
+	 */
+	private IBinding adaptBinding(
+			org.eclipse.birt.report.model.api.elements.structures.ComputedColumn structure )
+	{
+		try
+		{
+			if ( structure == null )
+				return null;
+			Binding result = new Binding( structure.getName( ) );
+			if ( structure.getExpression( ) != null )
+			{
+				ScriptExpression expr = new ScriptExpression( structure.getExpression( ) );
+				result.setExpression( expr );
+			}
+			result.setDisplayName( structure.getDisplayName( ) );
+			result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( structure.getDataType( ) ) );
+
+			return result;
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param filterIt
