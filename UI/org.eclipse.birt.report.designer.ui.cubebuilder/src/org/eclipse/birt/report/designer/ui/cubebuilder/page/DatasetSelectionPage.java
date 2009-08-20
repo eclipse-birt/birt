@@ -199,6 +199,10 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				}
 				dataSetCombo.setText( datasetName );
 			}
+			if ( dataSetCombo.getSelectionIndex( ) == -1 ){
+				if(dataSetCombo.getItemCount( ) == 2)
+					dataSetCombo.select( 0 );
+			}
 			if ( dataSetCombo.getSelectionIndex( ) == -1 )
 			{
 				builder.setOKEnable( false );
