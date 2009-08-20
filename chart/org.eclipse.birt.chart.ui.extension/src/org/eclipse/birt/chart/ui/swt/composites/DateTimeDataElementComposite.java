@@ -169,12 +169,22 @@ public class DateTimeDataElementComposite extends Composite implements
 			btnDate.setSelection( false );
 			pickerDate.setEnabled( false );
 		}
+		else
+		{
+			btnDate.setSelection( true );
+			pickerDate.setEnabled( true );
+		}
 		if ( calendar.getHour( ) == 0
 				&& calendar.getMinute( ) == 0
 				&& calendar.getSecond( ) == 0 )
 		{
 			btnTime.setSelection( false );
 			pickerTime.setEnabled( false );
+		}
+		else
+		{
+			btnTime.setSelection( true );
+			pickerTime.setEnabled( true );
 		}
 
 		pickerDate.setYear( calendar.getYear( ) );
