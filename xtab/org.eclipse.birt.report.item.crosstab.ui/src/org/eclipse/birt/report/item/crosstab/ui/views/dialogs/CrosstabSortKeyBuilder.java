@@ -23,6 +23,8 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -519,12 +521,15 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 					&& textKey.getItemCount( ) > 0
 					&& textKey.indexOf( newValue ) != -1 )
 			{
-				String value = ExpressionUtil.createJSDataExpression( textKey.getText( ) );
-				if ( value != null )
-					newValue = value;
+				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( textKey );
+				if ( converter != null )
+				{
+					String value = converter.getCubeBindingExpression( newValue );
+					if ( value != null )
+						newValue = value;
+				}
 				textKey.setText( newValue );
 			}
-
 			updateMemberValues( );
 			updateButtons( );
 		}
@@ -869,8 +874,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		{
 			textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( 0 ) ) );
 		}
-
-		ExpressionButtonUtil.initJSExpressionButtonCombo( textKey );
 	}
 
 	private void updateMemberValues( )
@@ -883,14 +886,21 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		}
 
 		boolean enabled = false;
-		for ( int i = 0; i < textKey.getItemCount( ); i++ )
+		String name = null;
+		IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( textKey,
+				false );
+		if ( converter != null )
 		{
-
-			String value = textKey.getText( );
-			String tempValue = ExpressionUtil.createJSDataExpression( textKey.getItem( i ) );
-			if ( value.equals( tempValue ) )
+			for ( int i = 0; i < textKey.getItemCount( ); i++ )
 			{
-				enabled = true;
+
+				String value = textKey.getText( );
+				String tempValue = converter.getCubeBindingExpression( textKey.getItem( i ) );
+				if ( value.equals( tempValue ) )
+				{
+					name = textKey.getItem( i );
+					enabled = true;
+				}
 			}
 		}
 		if ( enabled == false )
@@ -922,7 +932,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelRowMemberValue" ) ); //$NON-NLS-1$
 		}
 
-		String bindingExpr = textKey.getText( );
+		String bindingExpr = ExpressionUtil.createJSDataExpression( name );
 		referencedLevelList = CrosstabUtil.getReferencedLevels( level,
 				bindingExpr );
 		if ( referencedLevelList == null || referencedLevelList.size( ) == 0 )

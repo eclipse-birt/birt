@@ -23,11 +23,13 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -323,28 +325,34 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
-					&& designHandle instanceof DataItemHandle )
+			IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expression );
+			if ( converter != null )
 			{
-				if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
+				String newValue = expression.getText( );
+				String value = null;
+				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
+						&& designHandle instanceof DataItemHandle )
 				{
-					expression.setText( DEUtil.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+					if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
+					{
+						value = ExpressionUtility.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ),
+								converter );
+					}
+					else
+					{
+						value = ExpressionUtility.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ),
+								converter );
+					}
 				}
 				else
 				{
-					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+					value = ExpressionUtility.getExpression( getResultSetColumn( newValue ),
+							converter );
 				}
-
-			}
-			else
-			{
-				String newValue = expression.getText( );
-				String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
 				if ( value != null )
 					newValue = value;
 				expression.setText( newValue );
 			}
-
 			updateButtons( );
 		}
 	};
@@ -434,7 +442,6 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 				getExpressionProvider( ),
 				designHandle,
 				listener );
-		ExpressionButtonUtil.initJSExpressionButtonCombo( expression );
 
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )

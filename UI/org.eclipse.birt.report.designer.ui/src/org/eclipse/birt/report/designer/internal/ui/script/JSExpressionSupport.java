@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.script;
 
+import org.eclipse.birt.report.designer.internal.ui.expressions.AbstractExpressionSupport;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionBuilder;
-import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -23,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * JSExpressionSupport
  */
-public class JSExpressionSupport implements IExpressionSupport
+public class JSExpressionSupport extends AbstractExpressionSupport
 {
 
 	public IExpressionBuilder createBuilder( Shell shl, Object expression )
@@ -46,6 +47,16 @@ public class JSExpressionSupport implements IExpressionSupport
 	public String getName( )
 	{
 		return ExpressionType.JAVASCRIPT;
+	}
+
+	/**
+	 * The stateless singleton renderer instance
+	 */
+	private static final JSExpressionConverter JS_EXPR_RENDERER = new JSExpressionConverter( );
+
+	public IExpressionConverter getConverter( )
+	{
+		return JS_EXPR_RENDERER;
 	}
 
 }

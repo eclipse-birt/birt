@@ -113,4 +113,9 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider {
 				.getExpression());
 	}
 
+	public IExpressionSupport getExpressionSupport( String exprType )
+	{
+		return supports.get(exprType);
+	}
+
 }

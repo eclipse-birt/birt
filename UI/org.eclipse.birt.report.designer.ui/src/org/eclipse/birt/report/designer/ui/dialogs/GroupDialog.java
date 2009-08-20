@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
@@ -39,7 +40,6 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
-import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -70,7 +70,6 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
@@ -465,26 +464,32 @@ public class GroupDialog extends BaseDialog
 			}
 
 		} );
-		keyChooser.addSelectionListener( new SelectionListener( ) {
+
+		keyChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				if ( keyChooser.getSelectionIndex( ) != -1 )
 				{
-					tocEditor.setText( DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) ) );
-					tocEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
-							ExpressionType.JAVASCRIPT );
-					Object button = tocEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
-					if ( button instanceof ExpressionButton )
+					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser );
+					if ( converter != null )
 					{
-						( (ExpressionButton) button ).refresh( );
+						String value = ExpressionUtility.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ),
+								converter );
+						if ( value != null )
+						{
+							tocEditor.setText( value );
+							tocEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
+									ExpressionButtonUtil.getExpression( keyChooser )
+											.getType( ) );
+							ExpressionButton button = ExpressionButtonUtil.getExpressionButton( tocEditor );
+							if ( button != null )
+							{
+								( (ExpressionButton) button ).refresh( );
+							}
+						}
 					}
 				}
-			}
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-
 			}
 		} );
 
@@ -497,18 +502,24 @@ public class GroupDialog extends BaseDialog
 				if ( key != null )
 				{
 					String tocExp = null;
-					if ( keyChooser.indexOf( key ) != -1 )
+					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,false );
+					if ( converter != null )
 					{
-						tocExp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( key ) ) );
-					}
-					else
-					{
-						for ( int i = 0; i < columnList.size( ); i++ )
+						if ( keyChooser.indexOf( key ) != -1 )
 						{
-							if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
+							tocExp = ExpressionUtility.getExpression( columnList.get( keyChooser.indexOf( key ) ),
+									converter );
+						}
+						else
+						{
+							for ( int i = 0; i < columnList.size( ); i++ )
 							{
-								tocExp = DEUtil.getExpression( columnList.get( i ) );
-								break;
+								if ( key.equals( ExpressionUtility.getExpression( columnList.get( i ),
+										converter ) ) )
+								{
+									tocExp = key;
+									break;
+								}
 							}
 						}
 					}
@@ -526,9 +537,10 @@ public class GroupDialog extends BaseDialog
 					}
 
 					tocEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
-							ExpressionType.JAVASCRIPT );
-					Object button = tocEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
-					if ( button instanceof ExpressionButton )
+							ExpressionButtonUtil.getExpression( keyChooser )
+									.getType( ) );
+					ExpressionButton button = ExpressionButtonUtil.getExpressionButton( tocEditor );
+					if ( button != null )
 					{
 						( (ExpressionButton) button ).refresh( );
 					}
@@ -1011,7 +1023,6 @@ public class GroupDialog extends BaseDialog
 			keyChooser.setText( selected );
 		}
 
-		ExpressionButtonUtil.initJSExpressionButtonCombo( keyChooser );
 	}
 
 	private int getPagebreakAfterIndex( String pageBreakAfter )
@@ -1310,7 +1321,9 @@ public class GroupDialog extends BaseDialog
 		}
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			if ( keyValue.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
+			if ( key.equals( ExpressionUtility.getExpression( columnList.get( i ),
+					ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,
+							false ) ) ) )
 			{
 				keyChooser.select( i );
 				return;
@@ -1502,24 +1515,28 @@ public class GroupDialog extends BaseDialog
 		String exp = null;
 		String keyText = UIUtil.convertToModelString( keyChooser.getText( ),
 				true );
-		if ( ExpressionType.JAVASCRIPT.equals( expression.getType( ) ) )
+
+		if ( keyChooser.getSelectionIndex( ) != -1 )
 		{
-			if ( keyChooser.getSelectionIndex( ) != -1 )
-			{
-				exp = DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) );
-			}
-			else if ( keyText != null && keyChooser.indexOf( keyText ) != -1 )
-			{
-				exp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( keyText ) ) );
-			}
-			else
-			{
-				exp = keyChooser.getText( ).trim( );
-			}
+			exp = ExpressionUtility.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ),
+					ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,
+							false ) );
 		}
+		else if ( keyText != null && keyChooser.indexOf( keyText ) != -1 )
+		{
+			exp = ExpressionUtility.getExpression( columnList.get( keyChooser.indexOf( keyText ) ),
+					ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,
+							false ) );
+		}
+		else
+		{
+			exp = keyChooser.getText( ).trim( );
+		}
+
 		if ( exp != null )
 		{
-			expression = new Expression( exp, ExpressionType.JAVASCRIPT );
+			expression = new Expression( exp,
+					ExpressionButtonUtil.getExpression( keyChooser ).getType( ) );
 		}
 		return expression;
 	}

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs.expression;
 
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -30,4 +31,6 @@ public interface IExpressionButtonProvider
 	public String getTooltipText( String exprType );
 
 	public void handleSelectionEvent( String exprType );
+	
+	public IExpressionSupport getExpressionSupport(String exprType);
 }

@@ -16,8 +16,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -171,7 +173,6 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 				new ExpressionProvider( handle ),
 				handle,
 				listener );
-		ExpressionButtonUtil.initJSExpressionButtonCombo( comboKey );
 
 		Label labelDirection = new Label( content, SWT.NONE );
 		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) ); //$NON-NLS-1$
@@ -190,9 +191,16 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 			assert e.widget instanceof Combo;
 			Combo combo = (Combo) e.widget;
 			String newValue = combo.getText( );
-			String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
-			if ( value != null )
-				newValue = value;
+
+			IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( combo );
+			if ( converter != null )
+			{
+				String value = ExpressionUtility.getExpression( getResultSetColumn( newValue ),
+						converter );
+				if ( value != null )
+					newValue = value;
+			}
+
 			combo.setText( newValue );
 			updateButtons( );
 		}

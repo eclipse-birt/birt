@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionBuilder;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MenuButton;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.window.Window;
@@ -126,13 +127,15 @@ public class ExpressionButton
 			helper.setExpression( expression );
 	}
 
-	protected void openExpressionBuilder( IExpressionBuilder builder, String expressionType )
+	protected void openExpressionBuilder( IExpressionBuilder builder,
+			String expressionType )
 	{
 		builder.setExpression( getExpression( ) );
 
 		if ( helper != null )
 		{
-			builder.setExpressionContext( helper.getExpressionContextFactory( ).getContext( expressionType, helper.getContextObject( ) ) );
+			builder.setExpressionContext( helper.getExpressionContextFactory( )
+					.getContext( expressionType, helper.getContextObject( ) ) );
 		}
 
 		if ( builder.open( ) == Window.OK )
@@ -157,6 +160,11 @@ public class ExpressionButton
 	public void setExpressionHelper( IExpressionHelper helper )
 	{
 		this.helper = helper;
+	}
+
+	public IExpressionHelper getExpressionHelper( )
+	{
+		return helper;
 	}
 
 	public void refresh( )
@@ -206,5 +214,23 @@ public class ExpressionButton
 			return Arrays.asList( types ).contains( expressionType );
 		}
 		return false;
+	}
+
+	public IExpressionSupport getExpressionSupport( String exprType )
+	{
+		if ( provider != null )
+		{
+			return provider.getExpressionSupport( exprType );
+		}
+		return null;
+	}
+
+	public IExpressionSupport getCurrentExpressionSupport( )
+	{
+		if ( provider != null )
+		{
+			return provider.getExpressionSupport( getExpressionType( ) );
+		}
+		return null;
 	}
 }

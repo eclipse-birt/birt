@@ -36,6 +36,12 @@ public interface IExpressionSupport
 	Image getImage( );
 
 	/**
+	 * @return Returns the expression converter for this expressoin type if
+	 *         applicable.
+	 */
+	IExpressionConverter getConverter( );
+	
+	/**
 	 * Creates the expression builder.
 	 * 
 	 * @param shl
@@ -46,4 +52,6 @@ public interface IExpressionSupport
 	 *         builder support is available.
 	 */
 	IExpressionBuilder createBuilder( Shell shl, Object expression );
+	
+	
 }

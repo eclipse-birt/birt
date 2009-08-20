@@ -19,11 +19,13 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -313,8 +315,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected DataSetHandle dataSetHandle;
 
-	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "FilterConditionBuilder.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
-
 	protected String[] getDataSetColumns( )
 	{
 		if ( columnList.isEmpty( ) )
@@ -386,24 +386,31 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		GridData gdata = new GridData( );
 		gdata.widthHint = 100;
 		expression.setLayoutData( gdata );
-		expression.addListener( SWT.Selection, comboModify );
+		expression.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expression );
+				if ( converter != null )
+				{
+					if ( expression.getSelectionIndex( ) >= 0 )
+					{
+						String newValue = expression.getItem( expression.getSelectionIndex( ) );
+						String value = ExpressionUtility.getColumnExpression( newValue,
+								converter );
+						if ( value != null )
+							newValue = value;
+						expression.setText( newValue );
+					}
+				}
+				updateButtons( );
+			}
+		} );
 		expression.setItems( getDataSetColumns( ) );
 		if ( expression.getItemCount( ) == 0 )
 		{
 			expression.add( DEUtil.resolveNull( null ) );
 		}
-		expression.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
-						&& designHandle instanceof DataItemHandle )
-				{
-					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
-				}
-				updateButtons( );
-			}
-		} );
 		expression.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -426,8 +433,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				getExpressionProvider( ),
 				designHandle,
 				listener );
-
-		ExpressionButtonUtil.initJSExpressionButtonCombo( expression );
 
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
@@ -1139,22 +1144,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		}
 	};
 
-	protected Listener comboModify = new Listener( ) {
 
-		public void handleEvent( Event e )
-		{
-			assert e.widget instanceof Combo;
-			Combo combo = (Combo) e.widget;
-			String newValue = combo.getText( );
-			String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
-			if ( value != null )
-			{
-				newValue = value;
-			}
-			combo.setText( newValue );
-			updateButtons( );
-		}
-	};
 
 	protected Object getResultSetColumn( String name )
 	{

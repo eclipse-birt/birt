@@ -15,6 +15,8 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.Expressio
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -26,8 +28,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -245,33 +245,6 @@ public class ExpressionButtonUtil
 		return button.isSupportType( ExpressionType.JAVASCRIPT );
 	}
 
-	public static void initJSExpressionButtonCombo( final Combo combo )
-	{
-		Object button = combo.getData( ExpressionButtonUtil.EXPR_BUTTON );
-		if ( button instanceof ExpressionButton && combo instanceof Combo )
-		{
-			if ( !( (ExpressionButton) button ).isSupportType( ExpressionType.JAVASCRIPT ) )
-			{
-				combo.removeAll( );
-			}
-
-			combo.addSelectionListener( new SelectionAdapter( ) {
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					combo.setData( ExpressionButtonUtil.EXPR_TYPE,
-							ExpressionType.JAVASCRIPT );
-					Object button = combo.getData( ExpressionButtonUtil.EXPR_BUTTON );
-					if ( button instanceof ExpressionButton )
-					{
-						( (ExpressionButton) button ).refresh( );
-					}
-				}
-
-			} );
-		}
-	}
-
 	public static void initExpressionButtonControl( Control control,
 			Object element, String property )
 	{
@@ -433,5 +406,55 @@ public class ExpressionButtonUtil
 
 		return new Expression( text.trim( ).length( ) == 0 ? null : text.trim( ),
 				(String) control.getData( EXPR_TYPE ) );
+	}
+
+	public static ExpressionButton getExpressionButton( Control control )
+	{
+		Object button = control.getData( ExpressionButtonUtil.EXPR_BUTTON );
+		if ( button instanceof ExpressionButton )
+		{
+			return ( (ExpressionButton) button );
+		}
+		return null;
+	}
+
+	public static IExpressionConverter getCurrentExpressionConverter(
+			Control control ){
+		return getCurrentExpressionConverter(control, true);
+	}
+	
+	public static IExpressionConverter getCurrentExpressionConverter(
+			Control control, boolean refreshButtonType )
+	{
+		if ( control == null )
+		{
+			return null;
+		}
+		else if ( getExpressionButton( control ) == null )
+		{
+			return null;
+		}
+		else
+		{
+			IExpressionSupport support = ExpressionButtonUtil.getExpressionButton( control )
+					.getCurrentExpressionSupport( );
+			if ( support != null && support.getConverter( ) != null )
+			{
+				return support.getConverter( );
+			}
+			else if(refreshButtonType)
+			{
+				support = ExpressionButtonUtil.getExpressionButton( control )
+						.getExpressionSupport( ExpressionType.JAVASCRIPT );
+				if ( support != null && support.getConverter( ) != null )
+				{
+					control.setData( ExpressionButtonUtil.EXPR_TYPE,
+							ExpressionType.JAVASCRIPT );
+					getExpressionButton( control ).refresh( );
+					return support.getConverter( );
+				}
+			}
+		}
+		return null;
 	}
 }

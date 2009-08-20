@@ -23,11 +23,13 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -342,26 +344,33 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			if ( getExpression( ).equals( VALUE_OF_THIS_DATA_ITEM )
-					&& designHandle instanceof DataItemHandle )
+			IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCombo );
+			if ( converter != null )
 			{
-				if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
+				if ( getExpression( ).equals( VALUE_OF_THIS_DATA_ITEM )
+						&& designHandle instanceof DataItemHandle )
 				{
-					setExpression( DEUtil.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+					if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
+					{
+						setExpression( ExpressionUtility.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ),
+								converter ) );
+					}
+					else
+					{
+						setExpression( ExpressionUtility.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ),
+								converter ) );
+					}
+
 				}
 				else
 				{
-					setExpression( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+					String newValue = getExpression( );
+					String value = ExpressionUtility.getExpression( getResultSetColumn( newValue ),
+							converter );
+					if ( value != null )
+						newValue = value;
+					setExpression( newValue );
 				}
-
-			}
-			else
-			{
-				String newValue = getExpression( );
-				String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
-				if ( value != null )
-					newValue = value;
-				setExpression( newValue );
 			}
 
 			updateButtons( );
@@ -405,7 +414,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 					updateButtons( );
 				}
 			} );
-			ExpressionButtonUtil.initJSExpressionButtonCombo( expressionCombo );
 		}
 		else
 		{

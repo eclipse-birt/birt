@@ -2608,7 +2608,7 @@ public class DEUtil
 		return exp;
 	}
 
-	private static boolean isBindingCube( DesignElementHandle element )
+	public static boolean isBindingCube( DesignElementHandle element )
 	{
 		if ( element == null )
 			return false;

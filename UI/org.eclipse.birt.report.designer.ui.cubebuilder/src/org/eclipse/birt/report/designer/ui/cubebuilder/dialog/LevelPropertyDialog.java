@@ -17,8 +17,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -217,8 +219,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
 			displayKeyCombo.add( Messages.getString( "LevelPropertyDialog.None" ), 0 ); //$NON-NLS-1$
-
-			ExpressionButtonUtil.initJSExpressionButtonCombo( displayKeyCombo );
 
 			ExpressionButtonUtil.initExpressionButtonControl( displayKeyCombo,
 					input,
@@ -841,8 +841,14 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				if ( displayKeyCombo.getSelectionIndex( ) > 0 )
 				{
-					displayKeyCombo.setText( DEUtil.getResultSetColumnExpression( displayKeyCombo.getText( ) ) );
-
+					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( displayKeyCombo );
+					if ( converter != null )
+					{
+						String value = ExpressionUtility.getResultSetColumnExpression( displayKeyCombo.getText( ),
+								converter );
+						if ( value != null )
+							displayKeyCombo.setText( value );
+					}
 				}
 			}
 		} );
