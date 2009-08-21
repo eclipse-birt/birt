@@ -266,7 +266,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartWizard.clearExceptions( );
 
 			if ( eih.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
-					&& !ChartReportItemUtil.isContainerInheritable( eih ) )
+					&& eih.getContainer( ) == null )
 			{
 				String[] dataSets = dataProvider.getAllDataSets( );
 				if ( dataProvider.getAllDataCubes( ).length == 0
