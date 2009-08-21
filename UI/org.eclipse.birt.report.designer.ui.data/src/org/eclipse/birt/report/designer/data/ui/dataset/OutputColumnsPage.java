@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -364,6 +365,30 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				{
 					viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false,
 							false );
+				}
+				
+				if ( ( (DataSetEditor) getContainer( ) ).getHandle( ) instanceof JointDataSetHandle )
+				{
+					PropertyHandle properyHandle = ( (DataSetEditor) getContainer( ) ).getHandle( )
+							.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+
+					if ( properyHandle != null )
+					{
+						for ( int i = 0; i < viewDatas.length; i++ )
+						{
+							for ( Iterator columns = properyHandle.iterator( ); columns.hasNext( ); )
+							{
+								ColumnHintHandle column = (ColumnHintHandle) columns.next( );
+								if ( viewDatas[i].getName( )
+										.equalsIgnoreCase( column.getColumnName( ) ) )
+								{
+									viewDatas[i].setAlias( column.getAlias( ) );
+									break;
+								}
+							}
+						}
+					}
+
 				}
 				viewer.getViewer( ).setInput( viewDatas );
 				engineTask.close( );

@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
@@ -40,6 +42,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -112,7 +115,7 @@ public class JointDataSetPage extends WizardPage
 	private String rightColumnSelection;
 	private String leftDataSetName;
 	private String rightDataSetName;
-
+	
 	private IPropertyPageContainer propertyPageContainer;
 	private Text nameEditor;
 	private Label nameLabel;
@@ -132,6 +135,9 @@ public class JointDataSetPage extends WizardPage
 	final private static int LEFT_DATASET = 0;
 	final private static int RIGHT_DATASET = -1;
 	private PropertyHandle propertyHandle;
+	
+	private PropertyHandle columnHintHandle;
+
 	private static Logger logger = Logger.getLogger( JointDataSetPage.class.getName( ) );
 
 	public JointDataSetPage( String pageName )
@@ -607,7 +613,131 @@ public class JointDataSetPage extends WizardPage
 
 		propertyHandle = dsHandle.getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP );
 		propertyHandle.addItem( createJoinCondition( ) );
+		
+		addColumnHints( dsHandle );
+		
 		return dsHandle;
+	}
+	
+	private void addColumnHints( JointDataSetHandle dsHandle ) throws SemanticException
+	{
+		columnHintHandle = dsHandle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+		if( columnHintHandle == null )
+			return;
+		
+		columnHintHandle.clearValue( );
+		
+		List<ColumnHint> rightColumns = new ArrayList<ColumnHint>( );
+		HashMap<String,ColumnHint> resultMap = new HashMap<String,ColumnHint>( );
+		
+		String leftDsName = this.leftDataSetName;
+		String rightDsName = this.rightDataSetName;
+
+		try
+		{
+			DataSessionContext context;
+			context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					leftHandle.getModuleHandle( ) );
+			DataRequestSession session = DataRequestSession.newSession( context );
+			IResultMetaData leftMetaData = session.getDataSetMetaData( this.leftDataSetName,
+					false );
+			
+			IResultMetaData righMetaData; 
+
+			if( this.leftDataSetName != null && this.leftDataSetName.equalsIgnoreCase( this.rightDataSetName ) )
+			{
+				leftDsName = leftDsName + "1";
+				rightDsName = rightDsName + "2";
+				righMetaData = leftMetaData;
+			}
+			else
+			{
+				righMetaData = session.getDataSetMetaData( this.rightDataSetName, false );
+			}
+			
+			for ( int i = 1; i <= leftMetaData.getColumnCount( ); i++ )
+			{
+				ColumnHint item = createColumnHint( leftMetaData,
+						i,
+						leftDsName );
+				resultMap.put( (String) item.getProperty( null,
+						ColumnHint.ALIAS_MEMBER ), item );
+			}
+
+			for ( int i = 1; i <= righMetaData.getColumnCount( ); i++ )
+			{
+				ColumnHint item = createColumnHint( righMetaData,
+						i,
+						rightDsName );
+				rightColumns.add( item );
+			}
+			session.shutdown( );
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		
+		resetColumnHintAlias( rightColumns, resultMap, leftDsName, rightDsName );
+		
+		for ( Iterator<ColumnHint> iter = resultMap.values( ).iterator( ); iter.hasNext( ); )
+		{
+			ColumnHint item = iter.next( );
+			if ( item != null )
+				columnHintHandle.addItem( item );
+		}
+	}
+
+	private void resetColumnHintAlias( List<ColumnHint> right,
+			HashMap<String, ColumnHint> resultMap, String leftDsName,
+			String rightDsName ) throws SemanticException
+	{
+		for ( int i = 0; i < right.size( ); i++ )
+		{
+			ColumnHint item = right.get( i );
+			String columnAlias = (String) item.getProperty( null,
+					ColumnHint.ALIAS_MEMBER );
+			if ( columnAlias == null )
+				columnAlias = (String) item.getProperty( null,
+						ColumnHint.COLUMN_NAME_MEMBER );
+
+			if ( resultMap.containsKey( columnAlias ) )
+			{
+				ColumnHint oldItem = resultMap.get( columnAlias );
+				if ( oldItem != null )
+				{
+					String newAlias = leftDsName + seperator + columnAlias;
+					oldItem.setProperty( ColumnHint.ALIAS_MEMBER, newAlias );
+					resultMap.put( newAlias, oldItem );
+
+					resultMap.put( columnAlias, null );
+
+					String currentAlias = rightDsName + seperator + columnAlias;
+					item.setProperty( ColumnHint.ALIAS_MEMBER, currentAlias );
+					resultMap.put( currentAlias, item );
+				}
+			}
+			else
+			{
+				item.setProperty( ColumnHint.ALIAS_MEMBER, columnAlias );
+				resultMap.put( columnAlias, item );
+			}
+		}
+	}
+
+	private ColumnHint createColumnHint( IResultMetaData item, int index,
+			String dsName ) throws BirtException
+	{
+		ColumnHint column = new ColumnHint( );
+		column.setProperty( ColumnHint.COLUMN_NAME_MEMBER, dsName
+				+ seperator + item.getColumnName( index ) );
+		column.setProperty( ColumnHint.ALIAS_MEMBER,
+				item.getColumnAlias( index ) == null
+						? item.getColumnName( index )
+						: item.getColumnAlias( index ) );
+		column.setProperty( ColumnHint.DISPLAY_NAME_MEMBER, dsName
+				+ seperator + item.getColumnName( index ) );
+		return column;
 	}
 
 	/**
@@ -1001,6 +1131,8 @@ public class JointDataSetPage extends WizardPage
 			}
 			setParameters( handle );
 		}
+		addColumnHints( handle );
+
 		if ( propertyHandle != null )
 		{
 			JoinCondition condition = createJoinCondition( );
