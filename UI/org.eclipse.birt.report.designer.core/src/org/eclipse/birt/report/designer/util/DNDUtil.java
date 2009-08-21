@@ -1101,7 +1101,25 @@ public final class DNDUtil
 			{
 				DesignElementHandle childHandle = ( (IElementCopy) transferData ).getHandle( SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( ) );
-
+				
+				if ( targetObj instanceof SlotHandle )
+				{
+					SlotHandle targetHandle = (SlotHandle) targetObj;
+					return CopyUtil.canPaste( (IElementCopy) transferData,
+							targetHandle.getElementHandle( ),
+							targetHandle.getSlotID( ) ) ? CONTAIN_THIS
+							: CONTAIN_NO;
+				}
+				
+				if ( targetObj instanceof PropertyHandle )
+				{
+					PropertyHandle targetHandle = (PropertyHandle) targetObj;
+					return CopyUtil.canPaste( (IElementCopy) transferData,
+							targetHandle.getElementHandle( ),
+							targetHandle.getPropertyDefn( ).getName( ) ) ? CONTAIN_THIS
+							: CONTAIN_NO;
+				}
+				
 				return handleValidateTargetCanContainByContainer( targetObj,
 						childHandle,
 						validateContainer );
