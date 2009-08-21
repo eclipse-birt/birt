@@ -34,8 +34,11 @@ public class VariableNodeProvider extends DefaultNodeProvider
 	@Override
 	public Object getParent( Object model )
 	{
-		return ( (VariableElementHandle) model ).getRoot( )
-				.getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP );
+		if ( model != null
+				&& ( (VariableElementHandle) model ).getRoot( ) != null )
+			return ( (VariableElementHandle) model ).getRoot( )
+					.getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP );
+		return null;
 	}
 
 	public Object[] getChildren( Object model )
