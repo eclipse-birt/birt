@@ -23,11 +23,13 @@ import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.report.engine.api.impl.BookmarkInfo;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.v2.DocumentIndexReaderV2;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 import com.ibm.icu.util.ULocale;
 
@@ -117,5 +119,45 @@ public class DocumentUtil
 				indexReader.close( );
 			}
 		}
+	}
+
+	/**
+	 * Judge whether it's a cube based on instance id
+	 * 
+	 * @param document
+	 *            a report document
+	 * @param instanceId
+	 *            an instance id
+	 * @return
+	 */
+	public static boolean isCube( IReportDocument document,
+			InstanceID instanceId )
+	{
+		assert document != null;
+		assert instanceId != null;
+
+		ReportDesignHandle report = document.getReportDesign( );
+		InstanceID iid = instanceId;
+		while ( iid != null )
+		{
+			long id = iid.getComponentID( );
+			DesignElementHandle handle = report.getElementByID( id );
+			if ( handle instanceof ReportItemHandle )
+			{
+				ReportItemHandle rhandle = (ReportItemHandle) handle;
+				DataSetHandle dsHandle = rhandle.getDataSet( );
+				CubeHandle cbHandle = rhandle.getCube( );
+				if ( dsHandle != null )
+				{
+					return false;
+				}
+				if ( cbHandle != null )
+				{
+					return true;
+				}
+			}
+			iid = iid.getParentID( );
+		}
+		return false;
 	}
 }
