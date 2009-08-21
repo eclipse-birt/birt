@@ -851,7 +851,7 @@ public final class AxesRenderHelper
 					}
 				}
 
-				addAxisLabelIA( x, y );
+				addAxisLabelIA( lo.getX( ), lo.getY( ) );
 
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_AXIS_LABEL,
@@ -1142,7 +1142,7 @@ public final class AxesRenderHelper
 					}
 				}
 
-				addAxisLabelIA( x, y );
+				addAxisLabelIA( lo.getX( ), lo.getY( ) );
 
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_AXIS_LABEL,
