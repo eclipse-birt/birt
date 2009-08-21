@@ -750,7 +750,9 @@ public abstract class ContainerArea extends AbstractArea
 		if ( !isInInlineStacking && context.isAutoPageBreak( ) )
 		{
 			int aHeight = getAllocatedHeight( );
-			while ( aHeight + parent.getAbsoluteBP( ) > context.getMaxBP( ) )
+			// When table resolves its bottom border, the total height may exceed the page body height. 
+			// We add 3pt to avoid unexpected page break. 
+			while ( aHeight + parent.getAbsoluteBP( ) > context.getMaxBP( ) + 3000 )
 			{
 				parent.autoPageBreak( );
 				aHeight = getAllocatedHeight( );

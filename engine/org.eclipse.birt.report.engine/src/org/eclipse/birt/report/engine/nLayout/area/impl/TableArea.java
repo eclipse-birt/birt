@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -34,7 +33,6 @@ import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
-import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
@@ -45,7 +43,7 @@ public class TableArea extends RepeatableArea
 	protected transient TableLayoutInfo layoutInfo;
 
 	protected transient TableLayout layout;
-	
+
 	protected RowArea unresolvedRow;
 
 	protected int startCol;
@@ -229,7 +227,8 @@ public class TableArea extends RepeatableArea
 		captionCell.initialize( );
 		captionCell.isDummy = true;
 		captionRow.children.add( captionCell );
-		BlockTextArea captionText = new BlockTextArea( captionCell, context, captionLabel );
+		BlockTextArea captionText = new BlockTextArea( captionCell, context,
+				captionLabel );
 		captionText.isDummy = true;
 		captionText.layout( );
 		int h = captionText.getAllocatedHeight( );
@@ -302,10 +301,10 @@ public class TableArea extends RepeatableArea
 		relayoutChildren( );
 		return result;
 	}
-	
-	private UnresolvedRowHint convertRowToHint ( RowArea row )
+
+	private UnresolvedRowHint convertRowToHint( RowArea row )
 	{
-		IRowContent rowContent = (IRowContent)row.getContent( );
+		IRowContent rowContent = (IRowContent) row.getContent( );
 		ITableContent table = rowContent.getTable( );
 		InstanceID tableId = table.getInstanceID( );
 		InstanceID rowId = rowContent.getInstanceID( );
@@ -463,7 +462,7 @@ public class TableArea extends RepeatableArea
 				int delta = row.getHeight( ) - rh;
 				if ( delta > 0 )
 				{
-					//need update all ancestor?
+					// need update all ancestor?
 					ContainerArea rowParent = row.getParent( );
 					if ( rowParent != null )
 					{
@@ -494,7 +493,7 @@ public class TableArea extends RepeatableArea
 		int borderHeight = 0;
 		if ( layout != null )
 		{
-			int height = layout.resolveAll( getLastRow() );
+			int height = layout.resolveAll( getLastRow( ) );
 			if ( 0 != height )
 			{
 				currentBP = currentBP + height;
@@ -509,7 +508,7 @@ public class TableArea extends RepeatableArea
 			boolean pb = checkPageBreak( );
 			if ( pb )
 			{
-				int height = layout.resolveAll( getLastRow() );
+				int height = layout.resolveAll( getLastRow( ) );
 				if ( 0 != height )
 				{
 					currentBP = currentBP + height;
