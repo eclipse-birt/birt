@@ -1734,7 +1734,7 @@ public class GetParameterDefinitionTask extends EngineTask
 							.getFilterExpressionDefn( operator, null, null );
 					if ( expr != null )
 					{
-						locFilters.add( expr.getBirtFilterExprDisplayName( ) );
+						locFilters.add( expr.getBirtFilterExprDisplayName( ulocale ) );
 					}
 					else
 					{
