@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.plugin.OdaExtensionLoader;
 
 /**
  * Represents the extension manager which is responsible to load all extensions
@@ -34,7 +35,7 @@ public final class ExtensionManager
 	/**
 	 * the singleton instance
 	 */
-	
+
 	private static ExtensionManager instance;
 
 	/**
@@ -102,6 +103,9 @@ public final class ExtensionManager
 		new PeerExtensionLoader( ).load( );
 		new ScriptableObjectExtensionLoader( ).load( );
 
+		// load all the oda data sources and oda data sets
+		OdaExtensionLoader.load( );
+
 	}
 
 	/**
@@ -128,7 +132,7 @@ public final class ExtensionManager
 	/**
 	 * Release all the resources in this class.
 	 */
-	
+
 	static void releaseInstance( )
 	{
 		instance = null;
@@ -143,7 +147,7 @@ public final class ExtensionManager
 	 *         dictionary.
 	 */
 
-	public IElementDefn getElement( String name )
+	public synchronized IElementDefn getElement( String name )
 	{
 		IElementDefn defn = peerExtensionNameMap.get( name );
 		return defn == null ? odaExtensionNameMap.get( name ) : defn;
@@ -337,8 +341,8 @@ public final class ExtensionManager
 	 * @param extensionID
 	 * @param extDefn
 	 */
-	void cacheOdaExtension( String extensionID, ExtensionElementDefn extDefn )
-			throws MetaDataException
+	synchronized void cacheOdaExtension( String extensionID,
+			ExtensionElementDefn extDefn ) throws MetaDataException
 	{
 		odaExtensionNameMap.put( extensionID, extDefn );
 		if ( !extDefn.isBuilt )

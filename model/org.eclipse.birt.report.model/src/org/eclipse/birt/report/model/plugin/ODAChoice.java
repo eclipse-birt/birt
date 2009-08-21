@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.plugin;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.datatools.connectivity.oda.util.manifest.PropertyChoice;
 
 import com.ibm.icu.util.ULocale;

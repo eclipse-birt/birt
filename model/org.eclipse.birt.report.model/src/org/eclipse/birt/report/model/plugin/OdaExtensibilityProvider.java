@@ -67,6 +67,10 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 			throw new IllegalArgumentException( "element can not be null!" ); //$NON-NLS-1$
 
 		this.extensionID = extensionID;
+		cachedExtDefn = extensionID == null
+				? null
+				: (ExtensionElementDefn) MetaDataDictionary.getInstance( )
+						.getElement( extensionID );
 	}
 
 	/*
@@ -137,81 +141,6 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 
 	public ExtensionElementDefn getExtDefn( )
 	{
-		if ( extensionID == null )
-			return null;
-
-		if ( cachedExtDefn == null )
-		{
-			cachedExtDefn = (ExtensionElementDefn) MetaDataDictionary
-					.getInstance( ).getElement( extensionID );
-			if ( cachedExtDefn == null )
-			{
-
-				cachedExtDefn = new ODAExtensionElementDefn( element.getDefn( ) );
-
-				try
-				{
-					Property[] properties = null;
-					Properties visibilities = null;
-
-					if ( element instanceof OdaDataSource )
-					{
-						ExtensionManifest manifest = ODAManifestUtil
-								.getDataSourceExtension( extensionID );
-
-						if ( manifest != null )
-						{
-							properties = manifest.getProperties( );
-							visibilities = manifest.getPropertiesVisibility( );
-						}
-
-					}
-					else if ( element instanceof OdaDataSet )
-					{
-						DataSetType dataSetType = ODAManifestUtil
-								.getDataSetExtension( extensionID );
-
-						if ( dataSetType != null )
-						{
-							properties = ODAManifestUtil.getDataSetExtension(
-									extensionID ).getProperties( );
-							visibilities = ODAManifestUtil.getDataSetExtension(
-									extensionID ).getPropertiesVisibility( );
-						}
-					}
-
-					if ( properties != null )
-					{
-						for ( int i = 0; i < properties.length; i++ )
-						{
-							ODAPropertyDefn propDefn = new ODAPropertyDefn(
-									properties[i] );
-
-							cachedExtDefn.addProperty( propDefn );
-						}
-
-						if ( visibilities != null )
-						{
-							for ( Iterator<Object> iter = visibilities.keySet( )
-									.iterator( ); iter.hasNext( ); )
-							{
-								String key = (String) iter.next( );
-								cachedExtDefn.addPropertyVisibility( key,
-										visibilities.getProperty( key ) );
-							}
-						}
-					}
-
-					MetaDataDictionary.getInstance( ).cacheOdaExtension(
-							extensionID, cachedExtDefn );
-				}
-				catch ( MetaDataException e )
-				{
-					return null;
-				}
-			}
-		}
-
 		return cachedExtDefn;
 	}
 
