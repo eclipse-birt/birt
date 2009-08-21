@@ -1014,4 +1014,14 @@ public class ActivityStack implements CommandStack
 	{
 		return ++transCount;
 	}
+	
+	/**
+	 * Returns the last element from transaction stack 
+	 * 
+	 * @return
+	 */
+	public CompoundRecord getTopTransaction( )
+	{
+		return this.transStack.lastElement( );
+	}
 }
