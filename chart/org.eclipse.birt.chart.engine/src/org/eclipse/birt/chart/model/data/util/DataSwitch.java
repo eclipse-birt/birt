@@ -190,6 +190,16 @@ public class DataSwitch<T>
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case DataPackage.MULTIPLE_ACTIONS :
+			{
+				MultipleActions multipleActions = (MultipleActions) theEObject;
+				T result = caseMultipleActions( multipleActions );
+				if ( result == null )
+					result = caseAction( multipleActions );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case DataPackage.NULL_DATA_SET :
 			{
 				NullDataSet nullDataSet = (NullDataSet) theEObject;
@@ -435,6 +445,22 @@ public class DataSwitch<T>
 	 * @generated
 	 */
 	public T caseGanttDataSet( GanttDataSet object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multiple Actions</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multiple Actions</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultipleActions( MultipleActions object )
 	{
 		return null;
 	}

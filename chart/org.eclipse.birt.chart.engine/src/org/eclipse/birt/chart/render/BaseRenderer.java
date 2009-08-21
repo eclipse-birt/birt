@@ -99,6 +99,8 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.layout.Block;
@@ -2556,7 +2558,32 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	private<T> void assembleURLs( Trigger tg, T valueHints )
 	{
-		if ( tg.getAction( ).getValue( ) instanceof MultiURLValues )
+		if ( tg.getAction( ) instanceof MultipleActions )
+		{
+			MultipleActions mas = (MultipleActions) tg.getAction( );
+			int size = mas.getActions( ).size( );
+			if ( size == 0 )
+			{
+				return;
+			}
+			if ( size == 1
+					&& mas.getActions( ).get( 0 ).getValue( ) instanceof URLValue )
+			{
+				buildURI( valueHints, (URLValue) mas.getActions( )
+						.get( 0 )
+						.getValue( ) );
+			}
+			else
+			{
+				for ( Action subAction : mas.getActions( ) )
+				{
+					if ( subAction.getValue( ) instanceof URLValue )
+						buildMultiURL( valueHints,
+								(URLValue) subAction.getValue( ) );
+				}
+			}
+		}
+		else if ( tg.getAction( ).getValue( ) instanceof MultiURLValues )
 		{
 			MultiURLValues muv = (MultiURLValues) tg.getAction( )
 					.getValue( );
@@ -2581,6 +2608,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			final URLValue uv = (URLValue) tg.getAction( ).getValue( );
 			buildURI( valueHints, uv );
 		}
+		
 	}
 
 	/**

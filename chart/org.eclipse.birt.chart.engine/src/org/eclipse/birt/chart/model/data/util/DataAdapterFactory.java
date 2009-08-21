@@ -149,6 +149,12 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 		}
 
 		@Override
+		public Adapter caseMultipleActions( MultipleActions object )
+		{
+			return createMultipleActionsAdapter( );
+		}
+
+		@Override
 		public Adapter caseNullDataSet( NullDataSet object )
 		{
 			return createNullDataSetAdapter( );
@@ -364,6 +370,21 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createGanttDataSetAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.data.MultipleActions <em>Multiple Actions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.data.MultipleActions
+	 * @generated
+	 */
+	public Adapter createMultipleActionsAdapter( )
 	{
 		return null;
 	}

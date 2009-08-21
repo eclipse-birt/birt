@@ -314,7 +314,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue/text"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue/accessibility"/>
     </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//ActionValue"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//ActionValue">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//ActionValue/label"/>
+    </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Angle3D">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/xAngle"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/yAngle"/>
@@ -506,140 +508,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//URLValue/valueParameterName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//URLValue/seriesParameterName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//URLValue/tooltip"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//URLValue/label"/>
-    </genClasses>
-  </genPackages>
-  <genPackages prefix="Data" basePackage="org.eclipse.birt.chart.model" resource="XML"
-      ecorePackage="org.eclipse.birt.chart.model.data.ecore#/">
-    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.data.ecore#//Data"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Action">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Action/type"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Action/value"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//BaseSampleData">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//BaseSampleData/dataSetRepresentation"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//BubbleDataSet"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DataElement"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DataSet">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//DataSet/values"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DateTimeDataElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//DateTimeDataElement/value"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DateTimeDataSet"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DifferenceDataSet"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//GanttDataSet"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//NullDataSet"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//NumberDataElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//NumberDataElement/value"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//NumberDataSet"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//OrthogonalSampleData">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//OrthogonalSampleData/dataSetRepresentation"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//OrthogonalSampleData/seriesDefinitionIndex"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Query">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Query/definition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Query/rules"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Query/grouping"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Rule">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Rule/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Rule/value"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//SampleData">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SampleData/baseSampleData"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SampleData/orthogonalSampleData"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SampleData/ancillarySampleData"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/query"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/seriesPalette"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/seriesDefinitions"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/formatSpecifier"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/series"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/grouping"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/sorting"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/sortKey"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/zOrder"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/enabled"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingUnit"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingOrigin"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingInterval"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateExpression"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateParameters"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//StockDataSet"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//TextDataSet"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Trigger">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Trigger/condition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Trigger/action"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Trigger/triggerFlow"/>
-    </genClasses>
-  </genPackages>
-  <genPackages prefix="Type" basePackage="org.eclipse.birt.chart.model" resource="XML"
-      disposableProviderFactory="true" ecorePackage="org.eclipse.birt.chart.model.type.ecore#/">
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//AreaSeries"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//BarSeries">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//BarSeries/riser"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//BarSeries/riserOutline"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//BubbleSeries">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//BubbleSeries/accLineAttributes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//BubbleSeries/accOrientation"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//DialSeries">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//DialSeries/dial"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//DialSeries/needle"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//DifferenceSeries">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//DifferenceSeries/negativeMarkers"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//DifferenceSeries/negativeLineAttributes"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//GanttSeries">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/startMarker"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/startMarkerPosition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/endMarker"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/endMarkerPosition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/connectionLine"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/outline"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/outlineFill"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/useDecorationLabelValue"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/decorationLabel"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/decorationLabelPosition"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/paletteLineColor"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//LineSeries">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/markers"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/marker"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/lineAttributes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/paletteLineColor"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/curve"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/shadowColor"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/connectMissingValue"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//PieSeries">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/explosion"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/explosionExpression"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//PieSeries/title"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/titlePosition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//PieSeries/leaderLineAttributes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/leaderLineStyle"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/leaderLineLength"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//PieSeries/sliceOutline"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/ratio"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/rotation"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//ScatterSeries"/>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//StockSeries">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//StockSeries/fill"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//StockSeries/lineAttributes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//StockSeries/showAsBarStick"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//StockSeries/stickLength"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Component" basePackage="org.eclipse.birt.chart.model" resource="XML"
@@ -774,6 +642,143 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Series/translucent"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//Series/curveFitting"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//Series/cursor"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Data" basePackage="org.eclipse.birt.chart.model" resource="XML"
+      ecorePackage="org.eclipse.birt.chart.model.data.ecore#/">
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.data.ecore#//Data"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Action">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Action/type"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Action/value"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//BaseSampleData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//BaseSampleData/dataSetRepresentation"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//BubbleDataSet"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DataElement"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DataSet">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//DataSet/values"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DateTimeDataElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//DateTimeDataElement/value"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DateTimeDataSet"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DifferenceDataSet"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//GanttDataSet"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//MultipleActions">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//MultipleActions/actions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//MultipleActions/propertiesMap"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//NullDataSet"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//NumberDataElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//NumberDataElement/value"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//NumberDataSet"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//OrthogonalSampleData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//OrthogonalSampleData/dataSetRepresentation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//OrthogonalSampleData/seriesDefinitionIndex"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Query">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Query/definition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Query/rules"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Query/grouping"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Rule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Rule/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Rule/value"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//SampleData">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SampleData/baseSampleData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SampleData/orthogonalSampleData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SampleData/ancillarySampleData"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/query"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/seriesPalette"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/seriesDefinitions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/formatSpecifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/series"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/grouping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/sorting"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/sortKey"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/zOrder"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/enabled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingUnit"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingOrigin"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingInterval"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateExpression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateParameters"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//StockDataSet"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//TextDataSet"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Trigger">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Trigger/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Trigger/action"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Trigger/triggerFlow"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Type" basePackage="org.eclipse.birt.chart.model" resource="XML"
+      disposableProviderFactory="true" ecorePackage="org.eclipse.birt.chart.model.type.ecore#/">
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//AreaSeries"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//BarSeries">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//BarSeries/riser"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//BarSeries/riserOutline"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//BubbleSeries">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//BubbleSeries/accLineAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//BubbleSeries/accOrientation"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//DialSeries">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//DialSeries/dial"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//DialSeries/needle"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//DifferenceSeries">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//DifferenceSeries/negativeMarkers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//DifferenceSeries/negativeLineAttributes"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//GanttSeries">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/startMarker"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/startMarkerPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/endMarker"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/endMarkerPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/connectionLine"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/outline"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/outlineFill"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/useDecorationLabelValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//GanttSeries/decorationLabel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/decorationLabelPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//GanttSeries/paletteLineColor"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//LineSeries">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/markers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/marker"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/lineAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/paletteLineColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/curve"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/shadowColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/connectMissingValue"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//PieSeries">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/explosion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/explosionExpression"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//PieSeries/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/titlePosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//PieSeries/leaderLineAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/leaderLineStyle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/leaderLineLength"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//PieSeries/sliceOutline"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/ratio"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/rotation"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//ScatterSeries"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//StockSeries">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//StockSeries/fill"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//StockSeries/lineAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//StockSeries/showAsBarStick"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//StockSeries/stickLength"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Layout" basePackage="org.eclipse.birt.chart.model" resource="XML"

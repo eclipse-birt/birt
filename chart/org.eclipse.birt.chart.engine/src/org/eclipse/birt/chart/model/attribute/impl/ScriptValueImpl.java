@@ -200,12 +200,13 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	public ScriptValue copyInstance( )
 	{
 		ScriptValueImpl dest = new ScriptValueImpl( );
-		dest.script = getScript( );
+		dest.set( this );
 		return dest;
 	}
 
 	protected void set( ScriptValue src )
 	{
+		super.set( src );
 		script = src.getScript( );
 	}
 

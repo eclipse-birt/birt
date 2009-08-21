@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.DifferenceDataSet;
 import org.eclipse.birt.chart.model.data.GanttDataSet;
+import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
@@ -116,6 +117,13 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	 * @generated
 	 */
 	private EClass ganttDataSetEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multipleActionsEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -240,8 +248,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 			return (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 
 		// Obtain or create and register package
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.get( eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.get( eNS_URI )
 				: new DataPackageImpl( ) );
 
 		isInited = true;
@@ -250,35 +257,30 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
-				: TypePackage.eINSTANCE );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+				: TypePackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theDataPackage.createPackageContents( );
 		theAttributePackage.createPackageContents( );
-		theTypePackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
+		theTypePackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
 		theModelPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theDataPackage.initializePackageContents( );
 		theAttributePackage.initializePackageContents( );
-		theTypePackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
+		theTypePackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
 		theModelPackage.initializePackageContents( );
 
@@ -419,6 +421,38 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	public EClass getGanttDataSet( )
 	{
 		return ganttDataSetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMultipleActions( )
+	{
+		return multipleActionsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultipleActions_Actions( )
+	{
+		return (EReference) multipleActionsEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultipleActions_PropertiesMap( )
+	{
+		return (EReference) multipleActionsEClass.getEStructuralFeatures( )
+				.get( 1 );
 	}
 
 	/**
@@ -889,6 +923,11 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 		ganttDataSetEClass = createEClass( GANTT_DATA_SET );
 
+		multipleActionsEClass = createEClass( MULTIPLE_ACTIONS );
+		createEReference( multipleActionsEClass, MULTIPLE_ACTIONS__ACTIONS );
+		createEReference( multipleActionsEClass,
+				MULTIPLE_ACTIONS__PROPERTIES_MAP );
+
 		nullDataSetEClass = createEClass( NULL_DATA_SET );
 
 		numberDataElementEClass = createEClass( NUMBER_DATA_ELEMENT );
@@ -996,6 +1035,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		dateTimeDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
 		differenceDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
 		ganttDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
+		multipleActionsEClass.getESuperTypes( ).add( this.getAction( ) );
 		nullDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
 		numberDataElementEClass.getESuperTypes( ).add( this.getDataElement( ) );
 		numberDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
@@ -1054,6 +1094,18 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		initEClass( ganttDataSetEClass,
 				GanttDataSet.class,
 				"GanttDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+
+		initEClass( multipleActionsEClass,
+				MultipleActions.class,
+				"MultipleActions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getMultipleActions_Actions( ),
+				this.getAction( ),
+				null,
+				"actions", null, 0, -1, MultipleActions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getMultipleActions_PropertiesMap( ),
+				theAttributePackage.getEStringToStringMapEntry( ),
+				null,
+				"propertiesMap", null, 0, -1, MultipleActions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( nullDataSetEClass,
 				NullDataSet.class,
@@ -1291,6 +1343,20 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				"name", "GanttDataSet", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( multipleActionsEClass, source, new String[]{
+				"name", "MultipleActions", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMultipleActions_Actions( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Actions" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMultipleActions_PropertiesMap( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "PropertiesMap" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( nullDataSetEClass, source, new String[]{
 				"name", "NullDataSet", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

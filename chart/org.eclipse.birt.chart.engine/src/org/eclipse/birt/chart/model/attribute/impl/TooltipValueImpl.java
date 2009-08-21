@@ -306,14 +306,13 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	public TooltipValue copyInstance( )
 	{
 		TooltipValueImpl dest = new TooltipValueImpl( );
-		dest.text = getText( );
-		dest.delay = getDelay( );
-		dest.delayESet = isSetDelay( );
+		dest.set( this );
 		return dest;
 	}
 
 	protected void set( TooltipValue src )
 	{
+		super.set( src );
 		text = src.getText( );
 		delay = src.getDelay( );
 		delayESet = src.isSetDelay( );

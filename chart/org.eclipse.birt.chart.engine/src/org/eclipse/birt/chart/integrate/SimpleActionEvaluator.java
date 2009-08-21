@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.MultipleActions;
 
 /**
  * Simple implementation for IActionEvaluator
@@ -32,7 +33,26 @@ public class SimpleActionEvaluator extends ActionEvaluatorAdapter
 
 	public String[] getActionExpressions( Action action, StructureSource source )
 	{
-		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
+		if ( action instanceof MultipleActions )
+		{
+			List<String> expList = new ArrayList<String>( );
+			for ( Action subAction : ( (MultipleActions) action ).getActions( ) )
+			{
+				ActionType at = subAction.getType( );
+				if ( at == ActionType.URL_REDIRECT_LITERAL
+						&& subAction.getValue( ) instanceof URLValue )
+				{
+					String sa = ( (URLValue) subAction.getValue( ) ).getBaseUrl( );
+					SimpleActionHandle handle = SimpleActionUtil.deserializeAction( sa );
+					expList.add( handle.getURI( ) );
+				}
+			}
+			if ( expList.size( ) > 0 )
+			{
+				return (String[]) expList.toArray( new String[expList.size( )] );
+			}
+		}
+		else if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
 			List<String> expList = new ArrayList<String>( );
 			if ( action.getValue( ) instanceof URLValue )
@@ -52,7 +72,7 @@ public class SimpleActionEvaluator extends ActionEvaluatorAdapter
 					expList.add( handle.getURI( ) );
 				}
 			}
-
+			
 			if ( expList.size( ) > 0 )
 			{
 				return (String[]) expList.toArray( new String[expList.size( )] );

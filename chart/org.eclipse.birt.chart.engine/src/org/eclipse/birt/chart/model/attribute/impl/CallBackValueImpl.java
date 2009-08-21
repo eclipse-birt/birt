@@ -199,12 +199,13 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	public CallBackValue copyInstance( )
 	{
 		CallBackValueImpl dest = new CallBackValueImpl( );
-		dest.identifier = getIdentifier( );
+		dest.set( this );
 		return dest;
 	}
 
 	protected void set( CallBackValue src )
 	{
+		super.set( src );
 		identifier = src.getIdentifier( );
 	}
 

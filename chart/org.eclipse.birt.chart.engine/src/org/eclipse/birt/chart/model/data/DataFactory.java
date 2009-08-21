@@ -106,6 +106,15 @@ public interface DataFactory extends EFactory
 	GanttDataSet createGanttDataSet( );
 
 	/**
+	 * Returns a new object of class '<em>Multiple Actions</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multiple Actions</em>'.
+	 * @generated
+	 */
+	MultipleActions createMultipleActions( );
+
+	/**
 	 * Returns a new object of class '<em>Null Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

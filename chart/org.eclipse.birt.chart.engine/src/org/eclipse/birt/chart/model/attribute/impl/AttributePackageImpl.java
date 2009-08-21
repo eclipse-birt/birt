@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import java.util.Map;
+
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionType;
@@ -117,9 +118,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class AttributePackageImpl extends EPackageImpl
-		implements
-			AttributePackage
+public class AttributePackageImpl extends EPackageImpl implements
+		AttributePackage
 {
 
 	/**
@@ -897,8 +897,7 @@ public class AttributePackageImpl extends EPackageImpl
 			return (AttributePackage) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
 
 		// Obtain or create and register package
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.get( eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.get( eNS_URI )
 				: new AttributePackageImpl( ) );
 
 		isInited = true;
@@ -907,35 +906,30 @@ public class AttributePackageImpl extends EPackageImpl
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
-				: TypePackage.eINSTANCE );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+				: DataPackage.eINSTANCE );
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+				: TypePackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theAttributePackage.createPackageContents( );
+		theComponentPackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
-		theComponentPackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
 		theModelPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theAttributePackage.initializePackageContents( );
+		theComponentPackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
-		theComponentPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
 		theModelPackage.initializePackageContents( );
 
@@ -997,6 +991,16 @@ public class AttributePackageImpl extends EPackageImpl
 	public EClass getActionValue( )
 	{
 		return actionValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getActionValue_Label( )
+	{
+		return (EReference) actionValueEClass.getEStructuralFeatures( ).get( 0 );
 	}
 
 	/**
@@ -2468,16 +2472,6 @@ public class AttributePackageImpl extends EPackageImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getURLValue_Label( )
-	{
-		return (EReference) urlValueEClass.getEStructuralFeatures( ).get( 6 );
-	}
-
-	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -3197,6 +3191,7 @@ public class AttributePackageImpl extends EPackageImpl
 				ACCESSIBILITY_VALUE__ACCESSIBILITY );
 
 		actionValueEClass = createEClass( ACTION_VALUE );
+		createEReference( actionValueEClass, ACTION_VALUE__LABEL );
 
 		angle3DEClass = createEClass( ANGLE3_D );
 		createEAttribute( angle3DEClass, ANGLE3_D__XANGLE );
@@ -3413,7 +3408,6 @@ public class AttributePackageImpl extends EPackageImpl
 		createEAttribute( urlValueEClass, URL_VALUE__VALUE_PARAMETER_NAME );
 		createEAttribute( urlValueEClass, URL_VALUE__SERIES_PARAMETER_NAME );
 		createEAttribute( urlValueEClass, URL_VALUE__TOOLTIP );
-		createEReference( urlValueEClass, URL_VALUE__LABEL );
 
 		// Create enums
 		actionTypeEEnum = createEEnum( ACTION_TYPE );
@@ -3521,8 +3515,8 @@ public class AttributePackageImpl extends EPackageImpl
 
 		// Obtain other dependent packages
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
-		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 		ComponentPackage theComponentPackage = (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
+		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 
 		// Create type parameters
 
@@ -3569,6 +3563,10 @@ public class AttributePackageImpl extends EPackageImpl
 		initEClass( actionValueEClass,
 				ActionValue.class,
 				"ActionValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getActionValue_Label( ),
+				theComponentPackage.getLabel( ),
+				null,
+				"label", null, 1, 1, ActionValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( angle3DEClass,
 				Angle3D.class,
@@ -4090,10 +4088,6 @@ public class AttributePackageImpl extends EPackageImpl
 		initEAttribute( getURLValue_Tooltip( ),
 				theXMLTypePackage.getString( ),
 				"tooltip", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
-		initEReference( getURLValue_Label( ),
-				theComponentPackage.getLabel( ),
-				null,
-				"label", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Initialize enums and add enum literals
 		initEEnum( actionTypeEEnum, ActionType.class, "ActionType" ); //$NON-NLS-1$
@@ -4589,7 +4583,11 @@ public class AttributePackageImpl extends EPackageImpl
 		} );
 		addAnnotation( actionValueEClass, source, new String[]{
 				"name", "ActionValue", //$NON-NLS-1$ //$NON-NLS-2$
-				"kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getActionValue_Label( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( anchorEEnum, source, new String[]{
 				"name", "Anchor" //$NON-NLS-1$ //$NON-NLS-2$
@@ -5508,10 +5506,6 @@ public class AttributePackageImpl extends EPackageImpl
 		addAnnotation( getURLValue_Tooltip( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Tooltip" //$NON-NLS-1$ //$NON-NLS-2$
-		} );
-		addAnnotation( getURLValue_Label( ), source, new String[]{
-				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( verticalAlignmentEEnum, source, new String[]{
 				"name", "VerticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$

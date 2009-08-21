@@ -113,6 +113,8 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 				return (EObject) createDifferenceDataSet( );
 			case DataPackage.GANTT_DATA_SET :
 				return (EObject) createGanttDataSet( );
+			case DataPackage.MULTIPLE_ACTIONS :
+				return (EObject) createMultipleActions( );
 			case DataPackage.NULL_DATA_SET :
 				return (EObject) createNullDataSet( );
 			case DataPackage.NUMBER_DATA_ELEMENT :
@@ -267,6 +269,17 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	{
 		GanttDataSetImpl ganttDataSet = new GanttDataSetImpl( );
 		return ganttDataSet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MultipleActions createMultipleActions( )
+	{
+		MultipleActionsImpl multipleActions = new MultipleActionsImpl( );
+		return multipleActions;
 	}
 
 	/**

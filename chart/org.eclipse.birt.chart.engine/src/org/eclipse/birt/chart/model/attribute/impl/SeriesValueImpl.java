@@ -200,12 +200,13 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 	public SeriesValue copyInstance( )
 	{
 		SeriesValueImpl dest = new SeriesValueImpl( );
-		dest.name = getName( );
+		dest.set( this );
 		return dest;
 	}
 
 	protected void set( SeriesValue src )
 	{
+		super.set( src );
 		name = src.getName( );
 	}
 

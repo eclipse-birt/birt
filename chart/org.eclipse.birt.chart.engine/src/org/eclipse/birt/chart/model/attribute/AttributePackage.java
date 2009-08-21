@@ -78,12 +78,21 @@ public interface AttributePackage extends EPackage
 	int ACTION_VALUE = 1;
 
 	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_VALUE__LABEL = 0;
+
+	/**
 	 * The number of structural features of the '<em>Action Value</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_VALUE_FEATURE_COUNT = 0;
+	int ACTION_VALUE_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.AccessibilityValueImpl <em>Accessibility Value</em>}' class.
@@ -94,6 +103,15 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 */
 	int ACCESSIBILITY_VALUE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESSIBILITY_VALUE__LABEL = ACTION_VALUE__LABEL;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -273,6 +291,15 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 */
 	int CALL_BACK_VALUE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CALL_BACK_VALUE__LABEL = ACTION_VALUE__LABEL;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FillImpl <em>Fill</em>}' class.
@@ -1470,6 +1497,15 @@ public interface AttributePackage extends EPackage
 	int MULTI_URL_VALUES = 29;
 
 	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_URL_VALUES__LABEL = ACTION_VALUE__LABEL;
+
+	/**
 	 * The feature id for the '<em><b>URL Values</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1593,6 +1629,15 @@ public interface AttributePackage extends EPackage
 	int ROTATION3_D_FEATURE_COUNT = 1;
 
 	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCRIPT_VALUE__LABEL = ACTION_VALUE__LABEL;
+
+	/**
 	 * The feature id for the '<em><b>Script</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1608,6 +1653,15 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int SCRIPT_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERIES_VALUE__LABEL = ACTION_VALUE__LABEL;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute. <!--
@@ -1817,6 +1871,15 @@ public interface AttributePackage extends EPackage
 	int TEXT_ALIGNMENT_FEATURE_COUNT = 2;
 
 	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOOLTIP_VALUE__LABEL = ACTION_VALUE__LABEL;
+
+	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1841,6 +1904,15 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int TOOLTIP_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int URL_VALUE__LABEL = ACTION_VALUE__LABEL;
 
 	/**
 	 * The feature id for the '<em><b>Base Url</b></em>' attribute. <!--
@@ -1894,21 +1966,12 @@ public interface AttributePackage extends EPackage
 	int URL_VALUE__TOOLTIP = ACTION_VALUE_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>Label</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int URL_VALUE__LABEL = ACTION_VALUE_FEATURE_COUNT + 6;
-
-	/**
 	 * The number of structural features of the '<em>URL Value</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int URL_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 7;
+	int URL_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}' enum.
@@ -2641,6 +2704,17 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 */
 	EClass getActionValue( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.ActionValue#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Label</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.ActionValue#getLabel()
+	 * @see #getActionValue()
+	 * @generated
+	 */
+	EReference getActionValue_Label( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.Angle3D <em>Angle3 D</em>}'.
@@ -4181,17 +4255,6 @@ public interface AttributePackage extends EPackage
 	EAttribute getURLValue_Tooltip( );
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.URLValue#getLabel <em>Label</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Label</em>'.
-	 * @see org.eclipse.birt.chart.model.attribute.URLValue#getLabel()
-	 * @see #getURLValue()
-	 * @generated
-	 */
-	EReference getURLValue_Label( );
-
-	/**
 	 * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Action Type</em>'.
@@ -5018,6 +5081,14 @@ public interface AttributePackage extends EPackage
 		 * @generated
 		 */
 		EClass ACTION_VALUE = eINSTANCE.getActionValue( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ACTION_VALUE__LABEL = eINSTANCE.getActionValue_Label( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl <em>Angle3 D</em>}' class.
@@ -6316,14 +6387,6 @@ public interface AttributePackage extends EPackage
 		 * @generated
 		 */
 		EAttribute URL_VALUE__TOOLTIP = eINSTANCE.getURLValue_Tooltip( );
-
-		/**
-		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference URL_VALUE__LABEL = eINSTANCE.getURLValue_Label( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}' enum.

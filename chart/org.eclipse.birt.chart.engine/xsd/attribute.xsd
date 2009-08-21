@@ -475,7 +475,9 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			This type defines the value of an action.
 			</xsd:documentation>
 		</xsd:annotation>
-		<xsd:sequence/>
+		<xsd:sequence>
+			<xsd:element name="Label" type="component:Label"></xsd:element>
+		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ScriptValue">
 		<xsd:annotation>
@@ -563,8 +565,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 								be displayed when mouse is over.
 							</xsd:documentation>
 						</xsd:annotation>
-					</xsd:element>
-					<xsd:element name="Label" type="component:Label"></xsd:element>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -1678,4 +1679,5 @@ mouse cursor will become the specified cursor.</xsd:documentation>
     		</xsd:extension>
     	</xsd:complexContent>
     </xsd:complexType>
+
 </xsd:schema>

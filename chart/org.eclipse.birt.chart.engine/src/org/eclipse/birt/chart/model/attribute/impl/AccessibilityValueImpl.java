@@ -252,13 +252,13 @@ public class AccessibilityValueImpl extends ActionValueImpl implements
 	public AccessibilityValue copyInstance( )
 	{
 		AccessibilityValueImpl dest = new AccessibilityValueImpl( );
-		dest.text = getText( );
-		dest.accessibility = getAccessibility( );
+		dest.set( this );
 		return dest;
 	}
 
 	protected void set( AccessibilityValue src )
 	{
+		super.set( src );
 		text = src.getText( );
 		accessibility = src.getAccessibility( );
 	}
