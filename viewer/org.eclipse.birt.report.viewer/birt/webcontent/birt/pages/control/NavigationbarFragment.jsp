@@ -47,7 +47,7 @@
 				<TR><TD></TD></TR>
 				<TR>
 					<TD WIDTH="6px"/>
-					<TD>
+					<TD NOWRAP>
 						<B>
 						<%
 							if ( attributeBean.getBookmark( ) != null )
@@ -73,7 +73,7 @@
 						%>
 						</B>
 					</TD>
-					
+					<TD WIDTH="1000px"/>
 					<TD WIDTH="15px">
 						<INPUT TYPE="image" SRC="<%= imagesPath + (attributeBean.isRtl()?"LastPage":"FirstPage") + "_disabled.gif" %>" NAME='first'
 							ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.first" )%>" 
@@ -100,7 +100,7 @@
 					
 					<TD WIDTH="8px"/>
 					
-					<TD ALIGN="right"><LABEL for="gotoPage"><b><%= BirtResources.getMessage( "birt.viewer.navbar.lable.goto" )%></b></LABEL></TD>
+					<TD ALIGN="right" NOWRAP><LABEL for="gotoPage"><b><%= BirtResources.getMessage( "birt.viewer.navbar.lable.goto" )%></b></LABEL></TD>
 					<TD WIDTH="2px"/>
 					<TD ALIGN="right" WIDTH="50px">
 						<INPUT ID='gotoPage' TYPE='text' VALUE='' MAXLENGTH="8" SIZE='5' CLASS="birtviewer_navbar_input">
