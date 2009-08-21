@@ -13,6 +13,7 @@ package org.eclipse.birt.core.ui.frameworks.errordisplay;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.MessageComposite;
 import org.eclipse.birt.core.ui.i18n.Messages;
+import org.eclipse.birt.core.ui.utils.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -27,8 +28,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
-import org.eclipse.birt.core.ui.utils.UIHelper;
 
 /**
  * ErrorDialog
@@ -140,8 +139,8 @@ public class ErrorDialog implements SelectionListener
 		cmpContainer = new Composite( shell, SWT.NONE );
 		{
 			// CONTAINER LAYOUT
-			GridLayout glDialog = new GridLayout( );
-			glDialog.numColumns = 3;
+			GridLayout glDialog = new GridLayout( 3, false );
+			// glDialog.numColumns = 3;
 			glDialog.marginWidth = 6;
 			glDialog.marginHeight = 6;
 			glDialog.horizontalSpacing = 5;
@@ -162,16 +161,16 @@ public class ErrorDialog implements SelectionListener
 		// ICON
 		lblImage = new Label( cmpContainer, SWT.NONE );
 		lblImage.setImage( display.getSystemImage( SWT.ICON_ERROR ) );
-		lblImage.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+		// lblImage.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
 
 		// PROBLEMS LABEL
 		grpProblems = new Group( cmpContainer, SWT.NONE );
 		{
-			GridData gdGrpProblems = new GridData( GridData.FILL_BOTH );
+			GridData gdGrpProblems = new GridData( GridData.FILL_HORIZONTAL );
 			gdGrpProblems.horizontalSpan = 2;
-			 gdGrpProblems.heightHint = 90;
+			gdGrpProblems.heightHint = 60;
 			grpProblems.setLayoutData( gdGrpProblems );
-			FillLayout layout = new FillLayout( );
+			GridLayout layout = new GridLayout( );
 			layout.marginWidth = 2;
 			layout.marginHeight = 2;
 			grpProblems.setLayout( layout );
@@ -180,6 +179,7 @@ public class ErrorDialog implements SelectionListener
 		txtProblems = new Text( grpProblems, SWT.WRAP | SWT.V_SCROLL );
 		{
 			txtProblems.setEditable( false );
+			txtProblems.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		}
 
 		// DETAILS BUTTON
