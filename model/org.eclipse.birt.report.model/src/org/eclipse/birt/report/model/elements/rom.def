@@ -1299,7 +1299,9 @@
     <Member displayNameID="Structure.SortKey.locale" isIntrinsic="true" name="locale" runtimeSettable="false" since="2.5" type="locale"/>
   </Structure>
   <Structure displayNameID="Structure.FilterCondition" name="FilterCondition" since="1.0">
-    <Member detailType="filterOperator" displayNameID="Structure.FilterCondition.operator" name="operator" runtimeSettable="false" since="1.0" type="choice"/>    
+    <Member detailType="filterOperator" displayNameID="Structure.FilterCondition.operator" name="operator" runtimeSettable="false" since="1.0" type="choice">
+    	<Default>eq</Default>
+    </Member>    
     <Member displayNameID="Structure.FilterCondition.expr" name="expr" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
     <Member displayNameID="Structure.FilterCondition.value1" name="value1" returnType="any" runtimeSettable="false" since="1.0" subType="expression" type="list"/>
     <Member displayNameID="Structure.FilterCondition.value2" name="value2" returnType="any" runtimeSettable="false" since="1.0" type="expression"/>
