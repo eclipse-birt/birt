@@ -64,7 +64,7 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		// report has total 8 segments now.
-		IOUtil.writeShort( dos, (short) 8 );
+		IOUtil.writeShort( dos, (short) 9 );
 
 		IOUtil.writeShort( dos, FIELD_REPORT_VERSION );
 		IOUtil.writeString( dos, design.getVersion( ) );
