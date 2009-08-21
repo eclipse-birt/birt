@@ -349,9 +349,7 @@ public class PostscriptWriter
 		int originalHeight = imageSource.getHeight( );
 		try
 		{
-			ByteArrayOutputStream byteOut = new ByteArrayOutputStream( );
-			DeflaterOutputStream deflateOut = new DeflaterOutputStream(
-					byteOut, new Deflater( Deflater.DEFAULT_COMPRESSION ) );
+			ByteArrayOutputStream originalSource = new ByteArrayOutputStream( );
 			for ( int i = 0; i < originalHeight; i++ )
 			{
 				for ( int j = 0; j < originalWidth; j++ )
@@ -361,21 +359,31 @@ public class PostscriptWriter
 					int red = ( pixel >> 16 ) & 0xff;
 					int green = ( pixel >> 8 ) & 0xff;
 					int blue = pixel & 0xff;
-					deflateOut.write( transferColor( alpha, red ) );
-					deflateOut.write( transferColor( alpha, green ) );
-					deflateOut.write( transferColor( alpha, blue ) );
+					originalSource.write( transferColor( alpha, red ) );
+					originalSource.write( transferColor( alpha, green ) );
+					originalSource.write( transferColor( alpha, blue ) );
 				}
 			}
-			deflateOut.finish( );
-			deflateOut.close( );
-			byte[] byteArray = byteOut.toByteArray( );
-			byteOut.close( );
+			byte[] byteArray = deflate( originalSource.toByteArray( ) );
 			out.print( Util.toHexString( byteArray )+">" );
 		}
 		catch ( IOException e )
 		{
 			e.printStackTrace( );
 		}
+	}
+
+	private byte[] deflate( byte[] source ) throws IOException
+	{
+		ByteArrayOutputStream deflateSource = new ByteArrayOutputStream( );
+		DeflaterOutputStream deflateOut = new DeflaterOutputStream(
+				deflateSource, new Deflater( Deflater.DEFAULT_COMPRESSION ) );
+		deflateOut.write( source );
+		deflateOut.finish( );
+		deflateOut.close( );
+		byte[] byteArray = deflateSource.toByteArray( );
+		deflateSource.close( );
+		return byteArray;
 	}
 
 	private int transferColor( int alpha, int color )
