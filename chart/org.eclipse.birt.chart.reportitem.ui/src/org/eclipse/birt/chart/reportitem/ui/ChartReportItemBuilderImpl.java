@@ -56,6 +56,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -266,7 +267,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartWizard.clearExceptions( );
 
 			if ( eih.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
-					&& eih.getContainer( ) == null )
+					&& eih.getContainer( ) instanceof ModuleHandle )
 			{
 				String[] dataSets = dataProvider.getAllDataSets( );
 				if ( dataProvider.getAllDataCubes( ).length == 0
