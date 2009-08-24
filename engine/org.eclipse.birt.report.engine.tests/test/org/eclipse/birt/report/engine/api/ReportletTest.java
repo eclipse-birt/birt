@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +97,7 @@ public class ReportletTest extends EngineCase
 				
 				assertTrue( render.getErrors( ).isEmpty( ) );
 				render.close( );
-				assertTrue( out.toString( "utf-8" ).length( ) > 2048 );
+				assertTrue( out.toString( "utf-8" ).length( ) > 1500 );
 			}
 		}
 

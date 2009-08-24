@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<report root-style-name="style_0">
+<report root-style-name="style_0" script-language="javascript">
    <contents>
       <table id="6" is-repeat-header="true" page-break-interval="200" width="100%">
          <columns>
