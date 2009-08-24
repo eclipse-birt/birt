@@ -526,7 +526,13 @@ public class PreparedDummyQuery implements IPreparedQuery
 				String exprName = (String) entry.getKey( );
 				IBaseExpression baseExpr = (IBaseExpression) entry.getValue( );
 				Object exprValue = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
-						queryScope, session.getEngineContext( ).getScriptContext( ) );
+						queryScope,
+						session.getEngineContext( ).getScriptContext( ) );
+				IBinding binding = exprManager.getBinding( exprName );
+				if ( binding.getDataType( ) != baseExpr.getDataType( ) )
+					exprValue = DataTypeUtil.convert( exprValue,
+							binding.getDataType( ) );
+
 				exprValueMap.put( exprName, exprValue );
 			}
 
