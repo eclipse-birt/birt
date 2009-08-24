@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.tests.engine.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -9,6 +10,7 @@ import java.util.Locale;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.ICascadingParameterGroup;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
@@ -75,7 +77,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		boolean includeParameterGroups = true;
 		ArrayList params = (ArrayList) task
 				.getParameterDefns( includeParameterGroups );
-		assertEquals( 7, params.size( ) );
+		assertEquals( 8, params.size( ) );
 		assertTrue( params.get( 0 ) instanceof IScalarParameterDefn );
 		assertTrue( params.get( 1 ) instanceof IScalarParameterDefn );
 		assertTrue( params.get( 2 ) instanceof IScalarParameterDefn );
@@ -85,7 +87,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 
 		includeParameterGroups = false;
 		params = (ArrayList) task.getParameterDefns( includeParameterGroups );
-		assertEquals( 11, params.size( ) );
+		assertEquals( 14, params.size( ) );
 
 		for ( int i = 0; i < params.size( ); i++ )
 		{
@@ -203,7 +205,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		HashMap values = task.getDefaultValues( );
 
 		assertNotNull( values );
-		assertEquals( 11, values.size( ) );
+		assertEquals( 14, values.size( ) );
 		assertEquals( "abc", values.get( "p1_string" ) );
 
 		assertEquals( "10251", values.get( "p3_dynamic_int" ).toString( ) );
@@ -312,6 +314,86 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		se = (IParameterSelectionChoice) selist.get( 0 );
 		assertEquals( "10110", se.getValue( ).toString( ) );
 
+	}
+	public void testGetSelectionListForCascadingMultiple( ) throws EngineException
+	{
+
+		/** #16721
+		 *  Australia
+		 *  		Victoria
+		 *  				Melbourne
+		 *  Denmark
+		 *  		NULL
+		 *  				Kobenhavn
+		 *  France
+		 *  		NULL
+		 *  				Nantes
+		 *  				Lyon
+		 *  Germany
+		 *  		NULL
+		 *  				Frankfurt
+		 *  Norway
+		 *  		NULL
+		 *  				Stavern
+		 *  Poland
+		 *  		NULL
+		 *  				Warszawa 
+		 *  Singapore
+		 *  		NULL
+		 *  				Singapore
+ 		 *  Spain
+		 *  		NULL
+		 *  				Madrid
+		 *  Sweden
+		 *  		NULL
+		 *  				Lulea
+		 *  USA
+		 *  		CA
+		 *  				San Francisco
+		 *  				San Rafael
+		 *  		NV
+		 *  				Las Vegas
+		 *  		NY
+		 *  				NYC	
+
+		 */
+		String cpg1 = "NewCascadingParameterGroup";
+				
+		String[][] values1 = new String[][] {{"USA"}};
+		Collection col;
+		col= task.getSelectionListForCascadingGroup( cpg1, values1 );
+		assertEquals( 3, col.size( ) );
+		values1 = new String[][]{{"France", "USA"}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values1 );
+		assertEquals( 4, col.size( ) );
+		values1 = new String[][]{{"France", "Germany", "Singapore", "USA"}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values1 );
+		assertEquals( 6, col.size( ) );
+		
+		String[][] values2 = {{"USA"}, {"CA", "NV"}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values2 );
+		assertEquals( 3, col.size( ) );
+		values2 = new String[][]{{"France", "USA"},
+				{"CA", "NV", null}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values2 );
+		assertEquals( 5, col.size( ) );
+		values2 = new String[][]{{"France", "Germany", "USA"}, {"CA", "NV", null}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values2 );
+		assertEquals( 6, col.size( ) );
+		
+		String[][] values3 = {{"France", "USA"}, {"CA", "NV"}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values3 );
+		assertEquals( 3, col.size( ) );
+		values3 = new String[][]{{"France", "USA"},
+				{null}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values3 );
+		assertEquals( 2, col.size( ) );
+		values3 = new String[][]{{"France", "Germany", "USA"}, {null}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values3 );
+		assertEquals( 3, col.size( ) );
+		values3 = new String[][]{{"USA"}, {null}};
+		col = task.getSelectionListForCascadingGroup( cpg1, values3 );
+		assertEquals( 0, col.size( ) );
 	}
 
 	public void testEvaluateQuery( ) throws Exception
