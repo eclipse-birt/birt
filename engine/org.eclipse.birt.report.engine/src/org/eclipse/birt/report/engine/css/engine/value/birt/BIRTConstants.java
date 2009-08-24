@@ -32,12 +32,15 @@ public interface BIRTConstants extends CSSConstants {
 	String BIRT_TEXT_LINETHROUGH_PROPERTY = "text-linethrough"; //$NON-NLS-1$
 	String BIRT_VISIBLE_FORMAT_PROPERTY = "visible-format";
 	String BIRT_STYLE_DATA_FORMAT = "data-format";
-	
-//	String BIRT_DATE_TIME_FORMAT_PROPERTY = "date-format"; //$NON-NLS-1$
-//	String BIRT_TIME_FORMAT_PROPERTY = "sql-time-format"; //$NON-NLS-1$
-//	String BIRT_DATE_FORMAT_PROPERTY = "sql-date-format"; //$NON-NLS-1$
-//	String BIRT_NUMBER_FORMAT_PROPERTY = "number-format"; //$NON-NLS-1$
-//	String BIRT_STRING_FORMAT_PROPERTY = "string-format"; //$NON-NLS-1$
+
+	///////////////////////////////////////////////////////////////////////
+	// Deprecated format constants, they are replaced by data-format
+	//////////////////////////////////////////////////////////////////////
+	String BIRT_DATE_TIME_FORMAT_PROPERTY = "date-format"; //$NON-NLS-1$
+	String BIRT_TIME_FORMAT_PROPERTY = "sql-time-format"; //$NON-NLS-1$
+	String BIRT_DATE_FORMAT_PROPERTY = "sql-date-format"; //$NON-NLS-1$
+	String BIRT_NUMBER_FORMAT_PROPERTY = "number-format"; //$NON-NLS-1$
+	String BIRT_STRING_FORMAT_PROPERTY = "string-format"; //$NON-NLS-1$
 	
     /////////////////////////////////////////////////////////////////////////
     // BIRT attribute value

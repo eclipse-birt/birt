@@ -1968,26 +1968,27 @@ abstract public class AbstractStyle implements IStyle
 			if ( index == -1 )
 			{
 				String propertyCssText = IOUtil.readString( in );
-				if ( Style.STRING_FORMAT_PROP.equalsIgnoreCase( propertyName ) )
+				if ( IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY
+						.equalsIgnoreCase( propertyName ) )
 				{
 					this.setStringFormat( propertyCssText );
 				}
-				else if ( Style.NUMBER_FORMAT_PROP
+				else if ( IStyle.BIRT_NUMBER_FORMAT_PROPERTY
 						.equalsIgnoreCase( propertyName ) )
 				{
 					this.setNumberFormat( propertyCssText );
 				}
-				else if ( Style.DATE_FORMAT_PROP
+				else if ( IStyle.BIRT_DATE_FORMAT_PROPERTY
 						.equalsIgnoreCase( propertyName ) )
 				{
 					this.setDateFormat( propertyCssText );
 				}
-				else if ( Style.TIME_FORMAT_PROP
+				else if ( IStyle.BIRT_TIME_FORMAT_PROPERTY
 						.equalsIgnoreCase( propertyName ) )
 				{
 					this.setTimeFormat( propertyCssText );
 				}
-				else if ( Style.DATE_TIME_FORMAT_PROP
+				else if ( IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY
 						.equalsIgnoreCase( propertyName ) )
 				{
 					this.setDateTimeFormat( propertyCssText );
