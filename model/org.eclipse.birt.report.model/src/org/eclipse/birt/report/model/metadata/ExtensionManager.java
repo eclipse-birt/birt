@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.extension.oda.OdaExtensionLoaderFactory;
 import org.eclipse.birt.report.model.plugin.OdaExtensionLoader;
 
 /**
@@ -104,7 +105,9 @@ public final class ExtensionManager
 		new ScriptableObjectExtensionLoader( ).load( );
 
 		// load all the oda data sources and oda data sets
-		OdaExtensionLoader.load( );
+		// OdaExtensionLoader.load( );
+		OdaExtensionLoaderFactory.getInstance( ).createOdaExtensionLoader( )
+				.load( );
 
 	}
 
