@@ -351,8 +351,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements
 		if ( name.equals( "extension" ) )
 		{
 			return SimpleWildcardTester.testWildcardIgnoreCase( value,
-					getExtension( getModelAdapter( ).getReportDesignHandle( )
-							.getModule( )
+					getExtension( getModelAdapter( ).getModuleHandle( )
 							.getFileName( ) ) );
 		}
 		return false;
