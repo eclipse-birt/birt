@@ -125,6 +125,16 @@ public class EmitterUtil
 			this.closeOutputStreamOnExit = closeOutputStreamOnExit;
 		}
 
+		public void write( byte[] b ) throws IOException
+		{
+			out.write( b );
+		}
+
+		public void write( byte[] b, int off, int len ) throws IOException
+		{
+			out.write( b, off, len );
+		}
+
 		public void close( ) throws IOException
 		{
 			try
