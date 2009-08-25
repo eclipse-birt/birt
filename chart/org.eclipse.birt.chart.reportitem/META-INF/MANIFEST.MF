@@ -7,6 +7,7 @@ Bundle-Activator: org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.reportitem,
+ org.eclipse.birt.chart.reportitem.api,
  org.eclipse.birt.chart.reportitem.i18n,
  org.eclipse.birt.chart.reportitem.plugin,
  org.eclipse.birt.chart.script.api,
