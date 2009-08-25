@@ -53,6 +53,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -597,7 +598,7 @@ public class ModuleUtil
 	private static List<IVersionInfo> checkVersion( InputStream streamData,
 			String filename ) throws DesignFileException
 	{
-		DesignSession session = new DesignSession( ULocale.ENGLISH );
+		DesignSession session = new DesignSession( ThreadResources.getLocale() );
 		byte[] buf = new byte[512];
 		int len;
 
