@@ -166,13 +166,14 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		else
 		{
 			buildProperties( content, context );
-			if ( specifiedWidth > 0 )
-			{
-				setContentWidth( specifiedWidth );
-			}
 			if ( specifiedHeight > 0 )
 			{
 				setContentHeight( specifiedHeight );
+			}
+			
+			if ( specifiedWidth > 0 )
+			{
+				setContentWidth( specifiedWidth );
 			}
 			else
 			{
