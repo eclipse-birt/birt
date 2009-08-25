@@ -23,10 +23,12 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -290,13 +292,18 @@ public class ParameterUtil
 		// use its handle to getValue() from outerResultIterator
 		// else use Rhino to evaluate in corresponding scope
 		Object evaluateResult = null;
-		Scriptable evaluateScope = scope;
 		
 		try
 		{
-			evaluateResult = ExprEvaluateUtil.evaluateRawExpression2( iParamBind.getExpr( ),
-					this.outerScope == null ? evaluateScope
-							: this.outerScope, context );
+			if (iParamBind.getExpr() instanceof IScriptExpression) {
+
+				ScriptContext evalContext = this.outerScope == null ? context : context.newContext( this.outerScope );
+				ICompiledScript compiledScript = evalContext.compile("javascript",
+						null, 0, ((IScriptExpression) iParamBind.getExpr())
+								.getText());
+				evaluateResult = evalContext.evaluate(compiledScript);
+
+			}
 		}
 		catch ( BirtException e )
 		{
