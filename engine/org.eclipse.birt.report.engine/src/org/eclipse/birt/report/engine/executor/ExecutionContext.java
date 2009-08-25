@@ -2103,6 +2103,8 @@ public class ExecutionContext
 
 	private void setupFromReport( )
 	{
+		if ( reportIR == null )
+			return;
 		String locale = reportIR.getLocale( );
 		if ( locale != null )
 		{
