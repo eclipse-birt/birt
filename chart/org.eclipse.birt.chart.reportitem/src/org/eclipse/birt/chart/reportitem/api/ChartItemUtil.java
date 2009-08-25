@@ -25,18 +25,15 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -104,23 +101,6 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return null;
 	}
 
-	/**
-	 * Checks if shared scale is needed when computation
-	 * 
-	 * @param eih
-	 *            handle
-	 * @param cm
-	 *            chart model
-	 * @return shared binding needed or not
-	 * @since 2.3
-	 */
-	public static boolean canScaleShared( ReportItemHandle eih, Chart cm )
-	{
-		return cm instanceof ChartWithAxes
-				&& eih.getDataSet( ) == null
-				&& getBindingHolder( eih ) != null
-				&& ChartXTabUtil.isInXTabMeasureCell( eih );
-	}
 
 	/**
 	 * @return Returns if current eclipse environment is RtL.
@@ -851,49 +831,6 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			}
 		}
 		return retValue;
-	}
-
-	/**
-	 * Creates the default bounds for chart model.
-	 * 
-	 * @param eih
-	 *            chart handle
-	 * @param cm
-	 *            chart model
-	 * @return default bounds
-	 * @since 2.3
-	 */
-	public static Bounds createDefaultChartBounds( ExtendedItemHandle eih,
-			Chart cm )
-	{
-		// Axis chart case
-		if ( ChartXTabUtil.isAxisChart( eih ) )
-		{
-			// Axis chart must be ChartWithAxes
-			ChartWithAxes cmWA = (ChartWithAxes) cm;
-			if ( cmWA.isTransposed( ) )
-			{
-				return BoundsImpl.create( 0,
-						0,
-						DEFAULT_CHART_BLOCK_WIDTH,
-						DEFAULT_AXIS_CHART_BLOCK_SIZE );
-			}
-			else
-			{
-				return BoundsImpl.create( 0,
-						0,
-						DEFAULT_AXIS_CHART_BLOCK_SIZE,
-						DEFAULT_CHART_BLOCK_HEIGHT );
-			}
-		}
-		// Plot or ordinary chart case
-		else
-		{
-			return BoundsImpl.create( 0,
-					0,
-					DEFAULT_CHART_BLOCK_WIDTH,
-					DEFAULT_CHART_BLOCK_HEIGHT );
-		}
 	}
 
 	/**
