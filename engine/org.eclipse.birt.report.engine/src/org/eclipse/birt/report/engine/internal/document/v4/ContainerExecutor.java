@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -194,19 +194,22 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 						}
 					}
 
-					if ( leftOffset != -1 )
+					while ( leftOffset != -1 )
 					{
 						IContent leftContent = reader.loadContent( leftOffset );
 						InstanceID contentId = leftContent.getInstanceID( );
-						if ( isSameInstance( contentId, leftId ) )
+						if ( compare( leftId, contentId ) <= 0 )
 						{
-							nextOffset = leftIndex.getOffset( );
+							break;
 						}
-						else
-						{
-							nextOffset = leftOffset;
-						}
+						DocumentExtension docExt = (DocumentExtension) leftContent
+								.getExtension( IContent.DOCUMENT_EXTENSION );
+						assert docExt != null;
+						leftOffset = docExt.getNext( );
+						reader.unloadContent( leftOffset );
 					}
+
+					nextOffset = leftOffset;
 					doSkipToExecutor( leftId, nextOffset );
 					uniqueId = leftId.getUniqueID( );
 				}

@@ -32,7 +32,6 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
@@ -279,7 +278,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					if ( !isSameInstance( instanceId, id ) )
 					{
 						content = doCreateContent( );
-						content.setInstanceID( instanceId );
 					}
 				}
 				else
@@ -565,6 +563,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 		return instanceId;
 	}	
+
+	protected int compare( InstanceID a, InstanceID b )
+	{
+		return (int) ( a.getUniqueID( ) - b.getUniqueID( ) );
+	}
 
 	protected boolean isSameInstance( InstanceID a, InstanceID b )
 	{
