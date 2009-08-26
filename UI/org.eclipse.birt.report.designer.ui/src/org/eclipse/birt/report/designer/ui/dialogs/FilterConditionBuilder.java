@@ -431,7 +431,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		ExpressionButtonUtil.createExpressionButton( condition,
 				expression,
 				getExpressionProvider( ),
-				designHandle,
+				dataSetHandle != null ? dataSetHandle : designHandle,
 				listener );
 
 		operator = new Combo( condition, SWT.READ_ONLY );
