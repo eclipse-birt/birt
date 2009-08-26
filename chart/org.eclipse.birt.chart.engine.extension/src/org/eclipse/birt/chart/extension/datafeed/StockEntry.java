@@ -149,34 +149,40 @@ public final class StockEntry implements IDataPointEntry
 		String str = null;
 		try
 		{
+			double dValue = Double.NaN;
 			if ( StockDataPointDefinition.TYPE_HIGH.equals( type ) )
 			{
-				str = ValueFormatter.format( new Double( dHigh ),
-						formatter,
-						locale,
-						null );
+				dValue = dHigh;
 			}
 			else if ( StockDataPointDefinition.TYPE_LOW.equals( type ) )
 			{
-				str = ValueFormatter.format( new Double( dLow ),
-						formatter,
-						locale,
-						null );
+				dValue = dLow;
 			}
 			else if ( StockDataPointDefinition.TYPE_OPEN.equals( type ) )
 			{
-				str = ValueFormatter.format( new Double( dOpen ),
-						formatter,
-						locale,
-						null );
+				dValue = dOpen;
 			}
 			else if ( StockDataPointDefinition.TYPE_CLOSE.equals( type ) )
+			{
+				dValue = dClose;
+			}
+			else
+			{
+				return null;
+			}
+
+			if ( formatter == null )
+			{
+				str = Double.toString( dValue );
+			}
+			else
 			{
 				str = ValueFormatter.format( new Double( dClose ),
 						formatter,
 						locale,
 						null );
 			}
+
 		}
 		catch ( ChartException e )
 		{
@@ -188,19 +194,24 @@ public final class StockEntry implements IDataPointEntry
 
 	public String getFormattedString( FormatSpecifier formatter, ULocale locale )
 	{
-		String strHigh = getFormattedString( StockDataPointDefinition.TYPE_HIGH,
+		StringBuilder sb = new StringBuilder( );
+		sb.append( 'H' );
+		sb.append( getFormattedString( StockDataPointDefinition.TYPE_HIGH,
 				formatter,
-				locale );
-		String strLow = getFormattedString( StockDataPointDefinition.TYPE_LOW,
+				locale ) );
+		sb.append( " L" ); //$NON-NLS-1$
+		sb.append( getFormattedString( StockDataPointDefinition.TYPE_LOW,
 				formatter,
-				locale );
-		String strOpen = getFormattedString( StockDataPointDefinition.TYPE_OPEN,
+				locale ) );
+		sb.append( " O" ); //$NON-NLS-1$
+		sb.append( getFormattedString( StockDataPointDefinition.TYPE_OPEN,
 				formatter,
-				locale );
-		String strClose = getFormattedString( StockDataPointDefinition.TYPE_CLOSE,
+				locale ) );
+		sb.append( " C" ); //$NON-NLS-1$
+		sb.append( getFormattedString( StockDataPointDefinition.TYPE_CLOSE,
 				formatter,
-				locale );
-		return "H" + strHigh + " L" + strLow + " O" + strOpen + " C" + strClose; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+				locale ) );
+		return sb.toString( );
 	}
 
 	public boolean isValid( )
