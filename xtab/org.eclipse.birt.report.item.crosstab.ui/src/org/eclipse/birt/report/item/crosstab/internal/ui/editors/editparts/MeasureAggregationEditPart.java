@@ -102,7 +102,7 @@ public class MeasureAggregationEditPart extends DataEditPart
 			return session.getCubeQueryUtil( )
 					.getReferencedMeasureName( DataUtil.getAggregationExpression( bindingColumn ) );
 		}
-		catch ( BirtException e )
+		catch ( Exception e )
 		{
 			return null;
 		}

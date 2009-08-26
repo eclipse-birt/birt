@@ -1066,7 +1066,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 									return;
 								}
 							}
-							catch ( BirtException e )
+							catch ( Exception e )
 							{
 							}
 							finally
