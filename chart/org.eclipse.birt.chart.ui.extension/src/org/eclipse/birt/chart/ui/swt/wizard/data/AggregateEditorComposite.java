@@ -153,7 +153,8 @@ public class AggregateEditorComposite extends Composite implements
 		this.query = query;
 		this.fSeriesDefi = sd;
 		fGrouping = null;
-		if ( sd.getGrouping( ) != null && sd.getGrouping( ).isEnabled( ) )
+		if ( sd != null
+				&& sd.getGrouping( ) != null && sd.getGrouping( ).isEnabled( ) )
 		{
 			fGrouping = sd.getGrouping( ).copyInstance( );
 		}
@@ -719,7 +720,10 @@ public class AggregateEditorComposite extends Composite implements
 				{
 					query.setGrouping( fGrouping );
 					query.getGrouping( ).eAdapters( ).addAll( query.eAdapters( ) );
-					fSeriesDefi.setGrouping( null );
+					if ( fSeriesDefi != null )
+					{
+						fSeriesDefi.setGrouping( null );
+					}
 				}
 				else
 				{
