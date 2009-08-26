@@ -49,7 +49,7 @@ import org.eclipse.swt.widgets.Text;
 public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 {
 
-	private static final String NEW_DATA_SET = Messages.getString("DatasetSelectionPage.Combo.NewDataSet0"); //$NON-NLS-1$
+	private static final String NEW_DATA_SET = Messages.getString( "DatasetSelectionPage.Combo.NewDataSet0" ); //$NON-NLS-1$
 	private CubeHandle input;
 	private Combo dataSetCombo;
 	private Text nameText;
@@ -106,36 +106,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( dataSetCombo.getItemCount( ) == 0 )
-					return;
-				String datasetName = dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) );
-				if ( NEW_DATA_SET.equals( datasetName ) )
-				{
-
-					IColleague colleague = new IColleague( ) {
-
-						public void performRequest( ReportRequest request )
-						{
-							handleRequest( request );
-						}
-
-					};
-
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.addGlobalColleague( colleague );
-
-					dataSetCombo.removeAll( );
-					refresh( );
-
-					DataService.getInstance( ).createDataSet( );
-
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.removeGlobalColleague( colleague );
-					return;
-				}
-				setDataset( datasetName );
+				handleDatasetComboSelectedEvent( );
 			}
 
 		} );
@@ -199,9 +170,16 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				}
 				dataSetCombo.setText( datasetName );
 			}
-			if ( dataSetCombo.getSelectionIndex( ) == -1 ){
-				if(dataSetCombo.getItemCount( ) == 2)
+			if ( dataSetCombo.getSelectionIndex( ) == -1 )
+			{
+				if ( dataSetCombo.getItemCount( ) == 2 )
+				{
 					dataSetCombo.select( 0 );
+					if ( ( (TabularCubeHandle) input ).getDataSet( ) == null )
+					{
+						handleDatasetComboSelectedEvent( );
+					}
+				}
 			}
 			if ( dataSetCombo.getSelectionIndex( ) == -1 )
 			{
@@ -261,6 +239,40 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				setDataset( dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) ) );
 			}
 		}
+	}
+
+	private void handleDatasetComboSelectedEvent( )
+	{
+		if ( dataSetCombo.getItemCount( ) == 0 )
+			return;
+		String datasetName = dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) );
+		if ( NEW_DATA_SET.equals( datasetName ) )
+		{
+
+			IColleague colleague = new IColleague( ) {
+
+				public void performRequest( ReportRequest request )
+				{
+					handleRequest( request );
+				}
+
+			};
+
+			SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.addGlobalColleague( colleague );
+
+			dataSetCombo.removeAll( );
+			refresh( );
+
+			DataService.getInstance( ).createDataSet( );
+
+			SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.removeGlobalColleague( colleague );
+			return;
+		}
+		setDataset( datasetName );
 	}
 
 }
