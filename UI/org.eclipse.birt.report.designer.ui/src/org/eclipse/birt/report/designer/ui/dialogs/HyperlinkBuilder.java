@@ -1029,6 +1029,7 @@ public class HyperlinkBuilder extends BaseDialog
 		ExpressionButtonUtil.createExpressionButton( parent,
 				text,
 				getExpressionProvider( ),
+				inputHandle,
 				true,
 				SWT.PUSH );
 	}
