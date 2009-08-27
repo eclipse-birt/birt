@@ -479,6 +479,7 @@ public class ImageBuilder extends BaseDialog
 			ExpressionButtonUtil.createExpressionButton( inputArea,
 					uriEditor,
 					new ExpressionProvider( inputImage ),
+					inputImage,
 					listener,
 					true,
 					SWT.PUSH );
@@ -501,6 +502,7 @@ public class ImageBuilder extends BaseDialog
 			ExpressionButtonUtil.createExpressionButton( inputArea,
 					uriEditor,
 					new ExpressionProvider( inputImage ),
+					inputImage,
 					listener,
 					true,
 					SWT.PUSH);
