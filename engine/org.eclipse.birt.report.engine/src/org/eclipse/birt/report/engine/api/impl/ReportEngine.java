@@ -763,11 +763,15 @@ public class ReportEngine implements IReportEngine
 	{
 		return openedDocuments.iterator( );
 	}
-	
+
 	void cacheOpenedDocument( ReportDocumentReader document )
 	{
-		LinkedEntry<ReportDocumentReader> entry = openedDocuments.add( document );
-		document.setEngineCacheEntry( entry );
+		synchronized ( openedDocuments )
+		{
+			LinkedEntry<ReportDocumentReader> entry = openedDocuments
+					.add( document );
+			document.setEngineCacheEntry( entry );
+		}
 	}
 	
 	public String getVersion( )
