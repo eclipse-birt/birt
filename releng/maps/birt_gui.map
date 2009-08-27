@@ -3,7 +3,7 @@ plugin@org.eclipse.birt.report.debug.core=v20090821,:pserver:anonymous@dev.eclip
 plugin@org.eclipse.birt.report.debug.ui=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.debug.ui
 plugin@org.eclipse.birt.report.designer.core=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.core
 plugin@org.eclipse.birt.report.designer.samplereports=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.samplereports
-plugin@org.eclipse.birt.report.designer.ui=v20090826,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui
+plugin@org.eclipse.birt.report.designer.ui=v20090827,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui
 plugin@org.eclipse.birt.report.designer.ui.cubebuilder=v20090826,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.cubebuilder
 plugin@org.eclipse.birt.report.designer.ui.data=v20090826,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.data
 plugin@org.eclipse.birt.report.designer.ui.editor.script=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.editor.script
@@ -20,6 +20,6 @@ plugin@org.eclipse.birt.report.designer.ui.rcp=v20090821,:pserver:anonymous@dev.
 plugin@org.eclipse.birt.report.designer.ui.samples.ide=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.samples.ide
 plugin@org.eclipse.birt.report.designer.ui.samples.rcp=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.samples.rcp
 plugin@org.eclipse.birt.report.designer.ui.samplesview=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.samplesview
-plugin@org.eclipse.birt.report.designer.ui.views=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.views
+plugin@org.eclipse.birt.report.designer.ui.views=v20090827,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.views
 
 plugin@org.eclipse.birt.report.designer.tests=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.tests
