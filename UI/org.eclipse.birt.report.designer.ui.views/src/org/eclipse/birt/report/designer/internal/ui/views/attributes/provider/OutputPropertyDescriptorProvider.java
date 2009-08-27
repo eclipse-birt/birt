@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -23,7 +33,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 public class OutputPropertyDescriptorProvider extends
 		AbstractDescriptorProvider
@@ -239,10 +248,9 @@ public class OutputPropertyDescriptorProvider extends
 		return visibilities;
 	}
 
-	public boolean shareSameVisibility( )
+	public boolean isEnabled( )
 	{
-		return DEUtil.getGroupElementHandle( DEUtil.getInputElements( input ) )
-				.shareSameValue( IReportItemModel.VISIBILITY_PROP );
+		return DEUtil.getInputSize( input ) == 1;
 	}
 
 	private String[] typeInfo;
@@ -388,7 +396,7 @@ public class OutputPropertyDescriptorProvider extends
 
 	public ExpressionProvider getExpressionProvider( )
 	{
-		if ( shareSameVisibility( ) )
+		if ( isEnabled( ) )
 			return new ExpressionProvider( getFirstElementHandle( ) );
 		else
 			return new ExpressionProvider( );

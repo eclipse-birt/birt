@@ -13,20 +13,21 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ExpressionPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -42,13 +43,13 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 
 	protected Text text;
 
-	protected Button button;
-
 	private Composite containerPane;
 
 	private Expression deValue;
 
 	private String newValue;
+
+	private ExpressionButton exprButton;
 
 	/**
 	 * The constructor.
@@ -74,6 +75,13 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	 */
 	public void load( )
 	{
+		ExpressionPropertyHelper helper = (ExpressionPropertyHelper) exprButton.getExpressionHelper( );
+		helper.setContextObject( DEUtil.getInputFirstElement( this.getInput( ) ) );
+		if ( getDescriptorProvider( ) instanceof ExpressionPropertyDescriptorProvider )
+		{
+			helper.setProvider( ( (ExpressionPropertyDescriptorProvider) getDescriptorProvider( ) ).getExpressionProvider( ) );
+		}
+
 		Object value = getDescriptorProvider( ).load( );
 		if ( value == null || value instanceof Expression )
 		{
@@ -176,13 +184,15 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 				}
 
 			};
-			ExpressionProvider provider = ( (ExpressionPropertyDescriptorProvider) getDescriptorProvider( ) ).getExpressionProvider( );
-			ExpressionButtonUtil.createExpressionButton( containerPane,
+
+			exprButton = ExpressionButtonUtil.createExpressionButton( containerPane,
 					text,
-					provider,
+					null,
+					null,
 					listener,
 					false,
-					isFormStyle( ) ? SWT.FLAT : SWT.PUSH );
+					isFormStyle( ) ? SWT.FLAT : SWT.PUSH,
+					new ExpressionPropertyHelper( ) );
 		}
 
 		return containerPane;
@@ -232,8 +242,7 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 		{
 			text.setText( UIUtil.convertToGUIString( deValue == null ? null
 					: deValue.getStringExpression( ) ) );
-			WidgetUtil.processError( text.getShell( ), e1 );
-
+			ExceptionHandler.handle( e1 );
 		}
 
 	}
@@ -257,5 +266,19 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	public void setVisible( boolean isVisible )
 	{
 		containerPane.setVisible( isVisible );
+	}
+
+	class ExpressionPropertyHelper extends ExpressionHelper
+	{
+
+		public void setContextObject( Object contextObject )
+		{
+			super.setContextObject( contextObject );
+		}
+
+		protected void setProvider( IExpressionProvider provider )
+		{
+			super.setProvider( provider );
+		}
 	}
 }

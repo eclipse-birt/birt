@@ -106,7 +106,7 @@ public class ExpressionButtonUtil
 			control.setData( EXPR_TYPE, exprType );
 		}
 
-		private void setProvider( IExpressionProvider provider )
+		protected void setProvider( IExpressionProvider provider )
 		{
 			this.provider = provider;
 		}
@@ -131,7 +131,7 @@ public class ExpressionButtonUtil
 			return contextObject;
 		}
 
-		private void setContextObject( Object contextObject )
+		protected void setContextObject( Object contextObject )
 		{
 			this.contextObject = contextObject;
 		}

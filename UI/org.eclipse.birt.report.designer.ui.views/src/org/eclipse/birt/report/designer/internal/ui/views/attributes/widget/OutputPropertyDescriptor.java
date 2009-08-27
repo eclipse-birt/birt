@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -84,7 +85,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 					}
 					catch ( Exception e1 )
 					{
-						WidgetUtil.processError( container.getShell( ), e1 );
+						ExceptionHandler.handle( e1 );
 					}
 				}
 			}
@@ -227,8 +228,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( );
-				WidgetUtil.processError( container.getShell( ), e );
+				ExceptionHandler.handle( e );
 			}
 		}
 		else
@@ -250,7 +250,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			}
 			catch ( Exception e )
 			{
-				WidgetUtil.processError( container.getShell( ), e );
+				ExceptionHandler.handle( e );
 			}
 			hideCheckbox.setSelection( true );
 			setOutputEnable( true );
@@ -436,12 +436,14 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 	{
 		setExpressionProvider( );
 
-		if ( !outputDescriptorProvider.shareSameVisibility( ) )
+		if ( !outputDescriptorProvider.isEnabled( ) )
 		{
 			hideCheckbox.setSelection( false );
+			hideCheckbox.setEnabled( false );
 			setOutputEnable( false );
 			return;
 		}
+		else hideCheckbox.setEnabled( true );
 
 		if ( needResetUI( ) )
 		{
@@ -530,9 +532,12 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 	{
 		ExpressionProvider provider = outputDescriptorProvider.getExpressionProvider( );
 		allExpression.setExpressionProvider( provider );
+		allExpression.setInput( this.getInput( ) );
 		for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
 		{
-			( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpressionProvider( provider );
+			ExpressionComposite expressionComposite = ( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) );
+			expressionComposite.setExpressionProvider( provider );
+			expressionComposite.setInput( this.getInput( ) );
 		}
 	}
 

@@ -14,7 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
@@ -76,14 +78,23 @@ public class ExpressionComposite extends Composite
 			}
 
 		};
-		ExpressionButtonUtil.createExpressionButton( this,
+
+		button = ExpressionButtonUtil.createExpressionButton( this,
 				text,
-				provider,
+				null,
+				null,
 				listener,
 				false,
-				isFormStyle ? SWT.FLAT : SWT.PUSH );
+				isFormStyle ? SWT.FLAT : SWT.PUSH,
+				new VisibilityExpressionHelper( ) );
 
 		initAccessible( );
+	}
+
+	public void setInput( Object input )
+	{
+		VisibilityExpressionHelper helper = (VisibilityExpressionHelper) button.getExpressionHelper( );
+		helper.setContextObject( DEUtil.getInputFirstElement( input ) );
 	}
 
 	void initAccessible( )
@@ -201,11 +212,26 @@ public class ExpressionComposite extends Composite
 		super.setEnabled( enabled );
 	}
 
-	private IExpressionProvider provider;
+	private ExpressionButton button;
 
 	public void setExpressionProvider( IExpressionProvider provider )
 	{
-		this.provider = provider;
+		VisibilityExpressionHelper helper = (VisibilityExpressionHelper) button.getExpressionHelper( );
+		helper.setProvider( provider );
+	}
+
+	class VisibilityExpressionHelper extends ExpressionHelper
+	{
+
+		public void setContextObject( Object contextObject )
+		{
+			super.setContextObject( contextObject );
+		}
+
+		protected void setProvider( IExpressionProvider provider )
+		{
+			super.setProvider( provider );
+		}
 	}
 
 }
