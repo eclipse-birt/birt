@@ -639,7 +639,7 @@ public class JointDataSetPage extends WizardPage
 			context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 					leftHandle.getModuleHandle( ) );
 			DataRequestSession session = DataRequestSession.newSession( context );
-			IResultMetaData leftMetaData = session.getDataSetMetaData( this.leftDataSetName,
+			IResultMetaData leftMetaData = session.getDataSetMetaData( leftHandle,
 					false );
 			
 			IResultMetaData righMetaData; 
@@ -652,7 +652,7 @@ public class JointDataSetPage extends WizardPage
 			}
 			else
 			{
-				righMetaData = session.getDataSetMetaData( this.rightDataSetName, false );
+				righMetaData = session.getDataSetMetaData( rightHandle, false );
 			}
 			
 			for ( int i = 1; i <= leftMetaData.getColumnCount( ); i++ )
