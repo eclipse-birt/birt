@@ -39,182 +39,196 @@ import org.eclipse.datatools.connectivity.oda.IBlob;
  */
 public class SelectValueFetcher
 {
+
 	/**
 	 * private constructor
 	 */
 	private SelectValueFetcher( )
 	{
 	}
-	
+
 	public static List getSelectValueList( String expression,
 			DataSetHandle dataSetHandle, boolean inclFilter )
 			throws BirtException
 	{
-		boolean startsWithRow = ExpressionUtility.isColumnExpression( expression,
-				true );
-		boolean startsWithDataSetRow = ExpressionUtility.isColumnExpression( expression,
-				false );
-		if ( !startsWithRow && !startsWithDataSetRow )
+		try
 		{
-			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) ); //$NON-NLS-1$
-		}
+			boolean startsWithRow = ExpressionUtility.isColumnExpression( expression,
+					true );
+			boolean startsWithDataSetRow = ExpressionUtility.isColumnExpression( expression,
+					false );
+			if ( !startsWithRow && !startsWithDataSetRow )
+			{
+				throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) ); //$NON-NLS-1$
+			}
 
-		String columnName = null;
-		if ( startsWithDataSetRow )
+			String columnName = null;
+			if ( startsWithDataSetRow )
+			{
+				columnName = ExpressionUtil.getColumnName( expression );
+			}
+			else
+			{
+				columnName = ExpressionUtil.getColumnBindingName( expression );
+			}
+
+			Collection result = null;
+			DataRequestSession session = null;
+			if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
+			{
+				EngineConfig config = new EngineConfig( );
+
+				config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+						DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
+								.getContextClassLoader( ),
+								dataSetHandle.getModuleHandle( ) ) );
+
+				ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
+
+				DummyEngineTask engineTask = new DummyEngineTask( engine,
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
+								? null : dataSetHandle.getModuleHandle( ) ) ),
+						dataSetHandle.getModuleHandle( ) );
+
+				session = engineTask.getDataSession( );
+
+				engineTask.run( );
+
+				result = session.getColumnValueSet( dataSetHandle,
+						dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
+								.iterator( ),
+						null,
+						columnName );
+
+				engineTask.close( );
+				engine.destroy( );
+			}
+			else
+			{
+				session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+						dataSetHandle == null ? null
+								: dataSetHandle.getModuleHandle( ) ) );
+
+				result = session.getColumnValueSet( dataSetHandle,
+						dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
+								.iterator( ),
+						null,
+						columnName );
+				session.shutdown( );
+			}
+
+			assert result != null;
+			if ( result.isEmpty( ) )
+				return Collections.EMPTY_LIST;
+
+			Object resultProtoType = result.iterator( ).next( );
+			if ( resultProtoType instanceof IBlob
+					|| resultProtoType instanceof byte[] )
+				return Collections.EMPTY_LIST;
+
+			return new ArrayList( result );
+		}
+		catch ( Exception e )
 		{
-			columnName = ExpressionUtil.getColumnName( expression );
+			throw new BirtException( e.getMessage( ), e );
 		}
-		else
-		{
-			columnName = ExpressionUtil.getColumnBindingName( expression );
-		}
-
-		Collection result = null;
-		DataRequestSession session = null;
-		if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
-		{
-			EngineConfig config = new EngineConfig( );
-
-			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-					DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
-							.getContextClassLoader( ),
-							dataSetHandle.getModuleHandle( ) ) );
-
-			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
-
-			DummyEngineTask engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
-							? null : dataSetHandle.getModuleHandle( ) ) ),
-					dataSetHandle.getModuleHandle( ) );
-
-			session = engineTask.getDataSession( );
-
-			engineTask.run( );
-
-			result = session.getColumnValueSet( dataSetHandle,
-					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
-							.iterator( ),
-					null,
-					columnName );
-
-			engineTask.close( );
-			engine.destroy( );
-		}
-		else
-		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSetHandle == null ? null
-							: dataSetHandle.getModuleHandle( ) ) );
-
-			result = session.getColumnValueSet( dataSetHandle,
-					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
-							.iterator( ),
-					null,
-					columnName );
-			session.shutdown( );
-		}
-
-		assert result != null;
-		if ( result.isEmpty( ) )
-			return Collections.EMPTY_LIST;
-
-		Object resultProtoType = result.iterator( ).next( );
-		if ( resultProtoType instanceof IBlob
-				|| resultProtoType instanceof byte[] )
-			return Collections.EMPTY_LIST;
-
-		return new ArrayList( result );
 	}
-	
-	
+
 	public static List getSelectValueFromBinding( String expression,
 			DataSetHandle dataSetHandle, Iterator binding, boolean inclFilter )
 			throws BirtException
 	{
-		boolean startsWithRow = ExpressionUtility.isColumnExpression( expression,
-				true );
-		boolean startsWithDataSetRow = ExpressionUtility.isColumnExpression( expression,
-				false );
+		try
+		{
+			boolean startsWithRow = ExpressionUtility.isColumnExpression( expression,
+					true );
+			boolean startsWithDataSetRow = ExpressionUtility.isColumnExpression( expression,
+					false );
 
-		List bindingList = null;
-		String columnName = null;
-		if ( startsWithDataSetRow )
-		{
-			columnName = ExpressionUtil.getColumnName( expression );
-		}
-		else if ( startsWithRow )
-		{
-			columnName = ExpressionUtil.getColumnBindingName( expression );
-		}
-		else
-		{
-			bindingList = new ArrayList( );
-
-			while ( binding.hasNext( ) )
+			List bindingList = null;
+			String columnName = null;
+			if ( startsWithDataSetRow )
 			{
-				bindingList.add( binding.next( ) );
+				columnName = ExpressionUtil.getColumnName( expression );
 			}
-			ComputedColumn handle = new ComputedColumn( );
-			columnName = "TEMP_" + expression;
-			handle.setExpression( expression );
-			handle.setName( columnName );
-			bindingList.add( handle );
+			else if ( startsWithRow )
+			{
+				columnName = ExpressionUtil.getColumnBindingName( expression );
+			}
+			else
+			{
+				bindingList = new ArrayList( );
+
+				while ( binding.hasNext( ) )
+				{
+					bindingList.add( binding.next( ) );
+				}
+				ComputedColumn handle = new ComputedColumn( );
+				columnName = "TEMP_" + expression;
+				handle.setExpression( expression );
+				handle.setName( columnName );
+				bindingList.add( handle );
+			}
+
+			Collection result = null;
+			DataRequestSession session = null;
+			if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
+			{
+				EngineConfig config = new EngineConfig( );
+
+				config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+						DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
+								.getContextClassLoader( ),
+								dataSetHandle.getModuleHandle( ) ) );
+
+				ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
+
+				DummyEngineTask engineTask = new DummyEngineTask( engine,
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
+								? null : dataSetHandle.getModuleHandle( ) ) ),
+						dataSetHandle.getModuleHandle( ) );
+
+				session = engineTask.getDataSession( );
+
+				engineTask.run( );
+				result = session.getColumnValueSet( dataSetHandle,
+						dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
+								.iterator( ),
+						bindingList == null ? binding : bindingList.iterator( ),
+						columnName );
+
+				engineTask.close( );
+				engine.destroy( );
+			}
+			else
+			{
+				session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+						dataSetHandle == null ? null
+								: dataSetHandle.getModuleHandle( ) ) );
+
+				result = session.getColumnValueSet( dataSetHandle,
+						dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
+								.iterator( ),
+						bindingList == null ? binding : bindingList.iterator( ),
+						columnName );
+				session.shutdown( );
+			}
+
+			assert result != null;
+			if ( result.isEmpty( ) )
+				return Collections.EMPTY_LIST;
+
+			Object resultProtoType = result.iterator( ).next( );
+			if ( resultProtoType instanceof IBlob
+					|| resultProtoType instanceof byte[] )
+				return Collections.EMPTY_LIST;
+
+			return new ArrayList( result );
 		}
-		
-		Collection result = null;
-		DataRequestSession session = null;
-		if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
+		catch ( Exception e )
 		{
-			EngineConfig config = new EngineConfig( );
-
-			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-					DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
-							.getContextClassLoader( ),
-							dataSetHandle.getModuleHandle( ) ) );
-
-			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
-
-			DummyEngineTask engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
-							? null : dataSetHandle.getModuleHandle( ) ) ),
-					dataSetHandle.getModuleHandle( ) );
-
-			session = engineTask.getDataSession( );
-
-			engineTask.run( );
-			result = session.getColumnValueSet( dataSetHandle,
-					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
-							.iterator( ),
-					bindingList == null ? binding : bindingList.iterator( ),
-					columnName );
-
-			engineTask.close( );
-			engine.destroy( );
+			throw new BirtException( e.getMessage( ), e );
 		}
-		else
-		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSetHandle == null ? null
-							: dataSetHandle.getModuleHandle( ) ) );
-
-			result = session.getColumnValueSet( dataSetHandle,
-					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
-							.iterator( ),
-					bindingList == null ? binding : bindingList.iterator( ),
-					columnName );
-			session.shutdown( );
-		}
-		
-		assert result != null;
-		if ( result.isEmpty( ) )
-			return Collections.EMPTY_LIST;
-
-		Object resultProtoType = result.iterator( ).next( );
-		if ( resultProtoType instanceof IBlob
-				|| resultProtoType instanceof byte[] )
-			return Collections.EMPTY_LIST;
-
-		return new ArrayList( result );
 	}
 
 	/**

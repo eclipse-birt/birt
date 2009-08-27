@@ -117,7 +117,7 @@ public class ColumnValueIterator implements IColumnValueIterator
 				return;
 			resultIterator = queryResults.getResultIterator( );
 		}
-		if( resultIterator == null )
+		if( resultIterator == null || resultIterator.isEmpty( ) )
 		{
 			return;
 		}

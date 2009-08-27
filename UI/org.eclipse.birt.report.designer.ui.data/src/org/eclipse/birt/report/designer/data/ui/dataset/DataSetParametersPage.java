@@ -2126,7 +2126,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			{
 				enableComposite( defaultValueComposite,
 						linkToSalarParameter.isEnabled( ) );
-				defaultValue.setText( defaultValueString );
+				defaultValue.setText( NONE_DEFAULT_VALUE.equals( defaultValueString )
+						? "" : defaultValueString );
 			}
 			else
 			{

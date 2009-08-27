@@ -154,7 +154,7 @@ public class ModelAdapter implements IModelAdapter
 	 */
 	public ScriptExpression adaptExpression( Expression expr, String dataType )
 	{
-		if( expr == null )
+		if( expr == null || expr.getStringExpression( ) == null )
 			return null;
 		return new ExpressionAdapter( expr, dataType );
 	}
@@ -378,7 +378,7 @@ public class ModelAdapter implements IModelAdapter
 
 	public ScriptExpression adaptExpression( Expression expr )
 	{
-		if( expr == null )
+		if( expr == null || expr.getStringExpression( ) == null)
 			return null;
 		return new ExpressionAdapter( expr );
 	}
