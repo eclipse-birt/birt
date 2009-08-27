@@ -307,12 +307,12 @@ public class PPTWriter
 		green = green.length( ) == 1 ? "0" + green : green; //$NON-NLS-1$
 		blue = blue.length( ) == 1 ? "0" + blue : blue; //$NON-NLS-1$
 
-		println( "<v:shape id=3D't" + ( ++shapeCount ) + "' type=3D'#r'" ); //$NON-NLS-1$ //$NON-NLS-2$
+		println( "<v:shape id=3D\"_x0000_s" + ( ++shapeCount ) + "\" type=3D\"#_x0000_t202\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 		println( " style=3D'position:absolute;left:" + textX + "pt;top:" + textY + "pt;width:" + width + "pt;height:" + height + "pt;v-text-anchor:top;mso-wrap-style:square;'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
 		println( "<v:textbox style=3D'mso-fit-shape-to-text:f;' inset=3D'0.00pt 0.00pt 0.00pt 0.00pt'/>" ); //$NON-NLS-1$
 		println( "</v:shape>" ); //$NON-NLS-1$
-		println( "<div v:shape=3D't" + shapeCount + "'>" ); //$NON-NLS-1$ //$NON-NLS-2$
+		println( "<div v:shape=3D\"_x0000_s" + shapeCount + "\">" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		println( "<div style=3D'mso-text-indent-alt:" //$NON-NLS-1$
 				+ 0 + ";text-align:left;'>" //$NON-NLS-1$
