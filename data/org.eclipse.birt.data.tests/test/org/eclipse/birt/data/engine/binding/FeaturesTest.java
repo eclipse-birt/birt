@@ -26,7 +26,6 @@ import org.eclipse.birt.data.engine.api.IParameterMetaData;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
@@ -1077,8 +1076,7 @@ public class FeaturesTest extends APITestCase
 	}
 	
 	/**
-	 * A standard report, test feature of: 
-	 * 		group, sort, filter.
+	 * A summary table
 	 */
 	public void testSummaryTable( ) throws Exception
 	{
@@ -1121,6 +1119,80 @@ public class FeaturesTest extends APITestCase
 				bindingExprRow );
 		query.setIsSummaryQuery( true );
 		executeQuery( query, bindingNameRow );
+		checkOutputFile( );
+	}
+	
+	/**
+	 * A summary table
+	 */
+	public void testSummaryTableWithSub( ) throws Exception
+	{
+		// --- begin binding
+		String[] bindingNameGroup = new String[2];
+		bindingNameGroup[0] = "GROUP_COUNTRY";
+		bindingNameGroup[1] = "GROUP_CITY";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" )
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
+		
+		String[] bindingNameRow = new String[6];
+		bindingNameRow[0] = "ROW_0";
+		bindingNameRow[1] = "ROW_rowPosition";
+		bindingNameRow[2] = "ROW_COUNTRY";
+		bindingNameRow[3] = "ROW_CITY";
+		bindingNameRow[4] = "ROW_SALE_DATE";
+		bindingNameRow[5] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[6];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow[0]" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow._rowPosition" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		
+		QueryDefinition query = createQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+		query.setIsSummaryQuery( true );
+		SubqueryDefinition sub = new SubqueryDefinition("Sub", query);
+		sub.addBinding( new Binding("b1",bindingExprRow[2] ) );
+		query.addSubquery( sub );
+		
+		IResultIterator resultIt = executeQuery( query );
+		testPrintln( "*****A new Report Start!*****" );
+		while ( resultIt.next( ) )
+		{
+			testPrint( "S:" );
+			testPrint( Integer.toString( resultIt.getStartingGroupLevel( ) ) );
+			testPrint( " E:" );
+			testPrint( Integer.toString( resultIt.getEndingGroupLevel( ) ) );
+			testPrint( " " );
+			for ( int i = 0; i < bindingNameRow.length; i++ )
+			{
+				testPrint( evalAsString( bindingNameRow[i], resultIt ) );
+				testPrint( "    " );
+			}
+			testPrintln( "" );
+			IResultIterator subIt = resultIt.getSecondaryIterator( null, "Sub" );
+			while( subIt.next( ))
+			{
+				testPrintln("          "+ subIt.getValue( "ROW_COUNTRY" ));
+			}
+			subIt.close( );
+		}
+		testPrintln( "" );
+		
 		checkOutputFile( );
 	}
 	/**

@@ -1,0 +1,20 @@
+*****A new Report Start!*****
+S:0 E:1 0    0    CHINA    Beijing    2004-01-01 00:00:00.0    7000    
+          CHINA
+          CHINA
+          CHINA
+          CHINA
+          US
+          US
+          US
+          US
+S:1 E:0 4    4    US    New York    2004-05-01 00:00:00.0    100    
+          CHINA
+          CHINA
+          CHINA
+          CHINA
+          US
+          US
+          US
+          US
+

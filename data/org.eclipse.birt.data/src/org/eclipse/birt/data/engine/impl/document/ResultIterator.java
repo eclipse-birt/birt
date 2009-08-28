@@ -138,6 +138,13 @@ public class ResultIterator implements IResultIterator
 	 */
 	public IResultMetaData getResultMetaData( ) throws BirtException
 	{
+		//If it is summary table, we do not save result metadata.
+		if ( this.queryResults.getPreparedQuery( ) != null
+				&& this.queryResults.getPreparedQuery( ).getReportQueryDefn( ) != null
+				&& this.queryResults.getPreparedQuery( )
+						.getReportQueryDefn( )
+						.isSummaryQuery( ) )
+			return null;
 		return this.queryResults.getResultMetaData( );
 	}
 	
