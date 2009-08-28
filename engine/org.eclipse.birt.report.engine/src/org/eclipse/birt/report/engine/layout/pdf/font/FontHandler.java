@@ -252,6 +252,10 @@ public class FontHandler
 		BaseFont font = (BaseFont) fonts.get( physicalFont );
 		if ( font == null )
 		{
+			if ( fonts.keySet( ).contains( physicalFont ) )
+			{
+				return null;
+			}
 			font = fontManager.createFont( physicalFont, fontStyle );
 			fonts.put( physicalFont, font );
 		}
