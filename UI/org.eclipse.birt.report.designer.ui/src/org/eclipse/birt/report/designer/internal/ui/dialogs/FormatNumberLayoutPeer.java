@@ -568,9 +568,27 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 					if ( !cSymPosChoice.isEnabled( ) )
 					{
 						cSymPosChoice.setEnabled( true );
-						cSymPosChoice.select( 1 );
+
+						// update to default setting according to current locale
+						String defaultPosition = FormatCurrencyNumPattern.getDefaultSymbolPosition( getLocale( ) );
+						if ( defaultPosition != null )
+						{
+							cSymPosChoice.setText( defaultPosition );
+						}
+						else
+						{
+							cSymPosChoice.select( 1 );
+						}
 					}
-					cUseSpace.setEnabled( true );
+
+					if ( !cUseSpace.isEnabled( ) )
+					{
+						cUseSpace.setEnabled( true );
+
+						// update to default setting according to current locale
+						boolean defaultUseSpace = FormatCurrencyNumPattern.getDefaultUsingSymbolSpace( getLocale( ) );
+						cUseSpace.setSelection( defaultUseSpace );
+					}
 				}
 				updatePreview( );
 				notifyFormatChange( );
