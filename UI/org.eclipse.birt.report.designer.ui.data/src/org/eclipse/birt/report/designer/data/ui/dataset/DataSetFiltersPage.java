@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetExpressionProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
@@ -270,7 +271,8 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 		FilterConditionBuilder dlg = new FilterConditionBuilder( ( (DataSetEditor) getContainer( ) ).getShell( ),
 				this.getTitle( structureOrHandle ),
 				this.getTitle( structureOrHandle ) );
-		dlg.setDataSetHandle( (DataSetHandle) getContainer( ).getModel( ) );
+		dlg.setDataSetHandle( (DataSetHandle) getContainer( ).getModel( ),
+				new DataSetExpressionProvider( (DataSetHandle) getContainer( ).getModel( ) ) );
 		dlg.setBindingParams( getParamBindingHandleArray( ) );
 		dlg.setInput( structureOrHandle );
 		if ( dlg.open( ) == Window.OK )
