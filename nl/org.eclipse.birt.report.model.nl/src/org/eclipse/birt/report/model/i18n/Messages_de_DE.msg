@@ -2192,8 +2192,8 @@ Structure.SortHint.nullValueOrdering=Nullwert-Reihenfolge
 Structure.SortHint.isOptional=Optional
 
 #37. IncludedDataMart
-Structure.IncludedDataMart=Included DataMart
-Structure.IncludedDataMart.fileName=File Name
+Structure.IncludedDataMart=Enthaltener DataMart
+Structure.IncludedDataMart.fileName=Dateiname
 Structure.IncludedDataMart.namespace=Namespace
 
 ###########################################################

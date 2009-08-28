@@ -2192,9 +2192,9 @@ Structure.SortHint.nullValueOrdering=Null 値の順序
 Structure.SortHint.isOptional=オプション
 
 #37. IncludedDataMart
-Structure.IncludedDataMart=Included DataMart
-Structure.IncludedDataMart.fileName=File Name
-Structure.IncludedDataMart.namespace=名前空間
+Structure.IncludedDataMart=含まれる DataMart
+Structure.IncludedDataMart.fileName=ファイル名
+Structure.IncludedDataMart.namespace=ネームスペース
 
 ###########################################################
 # Element names

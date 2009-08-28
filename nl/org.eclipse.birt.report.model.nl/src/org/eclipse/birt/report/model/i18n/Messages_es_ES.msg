@@ -2192,8 +2192,8 @@ Structure.SortHint.nullValueOrdering=Orden de valor nulo
 Structure.SortHint.isOptional=Opcional
 
 #37. IncludedDataMart
-Structure.IncludedDataMart=Included DataMart
-Structure.IncludedDataMart.fileName=File Name
+Structure.IncludedDataMart=Data Mart incluido
+Structure.IncludedDataMart.fileName=Nombre de archivo
 Structure.IncludedDataMart.namespace=Espacio de nombres
 
 ###########################################################
@@ -2393,7 +2393,7 @@ Element.ReportDesign.onContentUpdate.this=Diseño de informe
 Element.ReportDesign.onPageStart=Al inicio de la página
 Element.ReportDesign.onPageEnd=Al final de la página
 Element.ReportDesign.infoView=InfoView
-Element.ReportDesign.dataMarts=DataMarts
+Element.ReportDesign.dataMarts=Data Marts
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla

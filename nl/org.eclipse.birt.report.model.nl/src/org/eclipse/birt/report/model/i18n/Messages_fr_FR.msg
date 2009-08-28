@@ -2192,8 +2192,8 @@ Structure.SortHint.nullValueOrdering=Commande valeur nulle
 Structure.SortHint.isOptional=Facultatif
 
 #37. IncludedDataMart
-Structure.IncludedDataMart=Included DataMart
-Structure.IncludedDataMart.fileName=File Name
+Structure.IncludedDataMart=DataMart inclus
+Structure.IncludedDataMart.fileName=Nom de fichier
 Structure.IncludedDataMart.namespace=Espace nom
 
 ###########################################################
@@ -2287,7 +2287,7 @@ Element.GadgetContent=Contenu de gadget
 Element.ExternalElementRef=Référence d'élément externe
 Element.DataSelectorItem=Dispositif de sélection de données
 Element.DataViewItem=Vue de données
-Element.DataMart=Data Mart
+Element.DataMart=DataMart
 
 ###########################################################
 # Element property names

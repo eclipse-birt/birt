@@ -2192,9 +2192,9 @@ Structure.SortHint.nullValueOrdering=空值顺序
 Structure.SortHint.isOptional=可选
 
 #37. IncludedDataMart
-Structure.IncludedDataMart=Included DataMart
-Structure.IncludedDataMart.fileName=File Name
-Structure.IncludedDataMart.namespace=名称空间
+Structure.IncludedDataMart=包括的 DataMart
+Structure.IncludedDataMart.fileName=文件名
+Structure.IncludedDataMart.namespace=命名空间
 
 ###########################################################
 # Element names
