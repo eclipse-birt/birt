@@ -263,10 +263,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					.getActiveShell( ),
 					input );
 
-			if ( expressionProvider == null )
-				dialog.setExpressionProvider( new ExpressionProvider( designHandle ) );
-			else
-				dialog.setExpressionProvider( expressionProvider );
+			setProviderForExpressionBuilder(dialog);
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -296,10 +293,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					.getActiveShell( ),
 					input );
 
-			if ( expressionProvider == null )
-				dialog.setExpressionProvider( new ExpressionProvider( designHandle ) );
-			else
-				dialog.setExpressionProvider( expressionProvider );
+			setProviderForExpressionBuilder(dialog);
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -1267,26 +1261,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
 					initValue );
 
-			if ( designHandle != null )
-			{
-				if ( expressionProvider == null )
-				{
-					if ( designHandle instanceof TabularCubeHandle
-							|| designHandle instanceof TabularHierarchyHandle )
-					{
-						expressionBuilder.setExpressionProvider( new BindingExpressionProvider( designHandle,
-								null ) );
-					}
-					else
-					{
-						expressionBuilder.setExpressionProvider( new ExpressionProvider( designHandle ) );
-					}
-				}
-				else
-				{
-					expressionBuilder.setExpressionProvider( expressionProvider );
-				}
-			}
+			setProviderForExpressionBuilder(expressionBuilder);
+			
 			if ( expressionBuilder.open( ) == OK )
 			{
 				String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
