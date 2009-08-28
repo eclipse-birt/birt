@@ -1656,16 +1656,6 @@ public class EngineIRReaderImpl implements IOConstants
 		ActionDesign action = readAction( in );
 		String tooltip = IOUtil.readString( in );
 		action.setTooltip( tooltip );
-		if ( version < ENGINE_IR_VERSION_7 )
-		{
-			// before V7, this action is saved
-			String fileType = IOUtil.readString( in );
-			DrillThroughActionDesign drill = action.getDrillThrough( );
-			if ( drill != null )
-			{
-				drill.setTargetFileType( fileType );
-			}
-		}
 		return action;
 	}
 

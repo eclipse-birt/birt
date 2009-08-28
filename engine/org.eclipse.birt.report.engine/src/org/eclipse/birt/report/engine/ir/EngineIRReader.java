@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -361,6 +362,19 @@ public class EngineIRReader implements IOConstants
 			for ( int i = 0; i < children.size( ); i++ )
 			{
 				( (ReportItemDesign) children.get( i ) ).accept( this, null );
+			}
+			return value;
+		}
+
+		public Object visitImageItem( ImageItemDesign image, Object value )
+		{
+			linkReportElement( image );
+			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_NAME
+					&& image.getImageName( ) == null )
+			{
+				ImageHandle imageHandle = (ImageHandle) image.getHandle( );
+				image.setImageName( Expression.newConstant( imageHandle
+						.getImageName( ) ) );
 			}
 			return value;
 		}
