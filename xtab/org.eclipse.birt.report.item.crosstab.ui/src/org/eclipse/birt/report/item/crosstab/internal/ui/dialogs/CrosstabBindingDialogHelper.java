@@ -1218,11 +1218,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else if ( left == null && right != null )
 		{
-			return false;
+			return right.getExpression( ) == null;
 		}
 		else if ( left != null && right == null )
 		{
-			return false;
+			return left.getExpression( ) == null;
 		}
 		else if ( left.getStringExpression( ) == null
 				&& right.getStringExpression( ) == null )
