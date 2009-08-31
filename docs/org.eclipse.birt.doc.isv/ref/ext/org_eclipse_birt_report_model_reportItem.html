@@ -2,8 +2,8 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>BIRT Report Item Extension Point</title>
-<style type="text/css">@import url("file:/C:/Program Files/BIRT_2_5_0/S20090609/eclipse/plugins/org.eclipse.platform_3.3.200.v200906051444/book.css");</style>
-<style type="text/css">@import url("file:/C:/Program Files/BIRT_2_5_0/S20090609/eclipse/configuration/org.eclipse.osgi/bundles/165/1/.cp/schema.css");</style>
+<style type="text/css">@import url("file:/C:/JAHT/eclipse/plugins/org.eclipse.platform_3.3.200.v200908070800/book.css");</style>
+<style type="text/css">@import url("file:/C:/JAHT/eclipse/configuration/org.eclipse.osgi/bundles/170/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
 <H1 style="text-align:center">BIRT Report Item Extension Point</H1>
@@ -236,6 +236,21 @@ JavaDoc for the method in CDATA format.</p>
 
 </span></pre>
 </p>
+<p></p>
+
+<h6 class="CaptionFigColumn SchemaHeader">API Information: </h6>If the extended Report Item stores properties in its own model; i.e its own way of storing data then it must satisfy the following requirements<br>
+- serialize/deserialize as part of the report design file<br>
+- support undo/redo<br>
+- support generic property sheet<br>
+<br>
+In order to acheive this, the report item extension must implement some of the interfaces defined in the <i>org.eclipse.birt.report.model.api.extension</i> package. See the package's JavaDoc documentation and API interfaces for more information.<br>
+ <br>
+The classes/interfaces to be extend/implement are:<br>
+- ReportItem ( required )<br>
+- ReportItemFactory ( required )<br>
+- ElementCommand ( optional, extend this class to suport undo/redo operation ). Extend ElementCommand class and integrate with the command stack in the  IReportItem::setProperty() method implementation<br>
+- IPropertyDefinition, IChoiceDefinition ( optional, implement this class to integrate with the generic property sheet in the designer )<br>
+- IMessages ( optional, implement this class to support externalized strings )<br>
 <p></p>
 
 <h6 class="CaptionFigColumn SchemaHeader">Supplied Implementation: </h6>The plugin org.eclipse.birt.chart.reportitem, supplied with the BIRT installation, provides a good example for implementing an report item extension.

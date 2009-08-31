@@ -571,6 +571,13 @@ Specify the BIRT server and port values. The default Tomcat server runs under Ec
 </context>
 
 
+<context id="ResourceFilterDialog_ID" title="Report Elements Filter">
+<!-- SEQUENCE: select an item in layout, right-click and choose export to library, type a name, choose OK, choose the arrow to filter the list of resource folders. no relevant link jaht 20090828 updated 20090828 -->
+<description>Selected items do not appear in the resource folder tree in Browse resource folders.
+</description>
+</context>
+
+
 <context id="ExportToLibrary_ID" title="Export">
 <!--  SEQUENCE: Right-click an element in layout, select Export to Library. no relevant link khahn 20090605 updated 20090611 -->
 <description>Type a name for the item you want to export to a library, or choose OK to use the default name.
@@ -653,8 +660,8 @@ Assign an existing resource key to a label or text element. Browse to and select
 </context>
 
 
-<context id="Preference_BIRT_CrossTab_ID">
-<!--  no relevant link, Diana  20090612 -->
+<context id="Preference_BIRT_CrossTab_ID" title="Preferences - Crosstab">
+<!--  no relevant link, Diana  20090612 title added JAHT 20090830 -->
    <description>Set options to control the behavior of the cross tab builder.
    
 In Filter Limit, specify the number of values to retrieve from the data source when selecting values for a filter.
@@ -664,8 +671,8 @@ In Prompt, select whether to display the informational message about how to crea
 You can also choose how the report designer treats unused data bindings after you change the structure of a crosstab.</description>
 </context>
 
-<context id="Preference_BIRT_GENERAL_ID">
-<!-- SEQUENCE: Window>Preferences>Report Design  no relevant link, Diana  20090612 -->
+<context id="Preference_BIRT_GENERAL_ID" title="Preferences - Report Design">
+<!-- SEQUENCE: Window>Preferences>Report Design  no relevant link, Diana  20090612 title added JAHT-->
    <description>Set the appearance of a selected item in the report layout editor.
 
 To display a selected item with an animated highlight, select Enable animated selection.
@@ -675,8 +682,8 @@ To display a selected item with a gradient highlight that is not animated, desel
 To display a selected item with a simple outline with handles, deselect both Enable animated selection and Enable gradient selection.</description>
 </context>
 
-<context id="Preference_BIRT_Preview_DATA_ID">
-<!--  SEQUENCE: Window>Preference>REport Design>Preview>Data no relevant link, Diana 20090612 -->
+<context id="Preference_BIRT_Preview_DATA_ID" title="Preferences - Data">
+<!--  SEQUENCE: Window>Preference>REport Design>Preview>Data no relevant link, Diana 20090612 title added JAHT-->
    <description>Specify the maximum amount of data that a report displays in the Preview page of the report editor. Reducing any of these values makes the report preview faster. Increasing these values produces a report preview that contains more of the data in your data set.
 
 To display all the rows returned by the data set, select No limits on the number of rows to display. To set the maximum number of rows, type a value in Number of rows to display.
@@ -714,6 +721,17 @@ To limit the size of a data cube structure in memory, type the  number of megaby
 <context id="DimensionBuilderDialog_ID" title="Dimension Builder">
 <!-- SEQUENCE: cannot find this topic. no relevant link, not updated. khahn 20090605 -->
 <description>In Measure, type the size of the property that you selected to edit. In Units, select the unit of measure for the size. 
+</description>
+</context>
+
+
+<context id="AddComputedSummaryDialog_ID" title="Derived Measure">
+<!-- SEQUENCE: In layout editor, open the context menu of a cross-tab aggregation cell, choose Add Derived Measure. no relevant link, not updated. jaht 20090828 -->
+<description>A derived measure gets its values from an expression rather than a column in the data cube.
+
+In Name, type a unique name for the derived measure.
+In Data Type, select an appropriate data type, such as Float or Integer.
+In Expression, type an expression that uses column bindings defined in the cross tab, or use the expression builder.
 </description>
 </context>
 
@@ -974,6 +992,21 @@ Publish a cascading style sheet (CSS) file to the resource folder.
 <!--  linked khahn 20090605 updated 20090612 -->
 <description>
 Select a cascading style sheet (CSS) file from the list of CSS styles. If your selection includes any CSS styles that are invalid in BIRT, a notification appears.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.4.html" label="How to link a CSS file"/> 
+</context>
+
+
+<context id="VariableDialog_ID" title="Variable">
+<!-- SEQUENCE: From Data Explorer, right-click Variables, choose New, or double-click an existing variable. No relevant link JAHT 20090830 created 20090830 -->
+<description>
+Use a variable to store a value from an expression or a data field for later use in the report.
+
+Provide a unique name for the variable. Type an expression or use the expression builder to set the initial value of the variable.
+
+For more information about using variables, use a web browser to go to:
+        http://www.eclipse.org/birt/phoenix/project/notable2.5.php#jump_4
+<topic href="http://www.eclipse.org/birt/phoenix/project/notable2.5.php#jump_4" label="Page-level variables and events"/>
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.4.html" label="How to link a CSS file"/> 
 </context>

@@ -2,8 +2,8 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Extended Item Presentation-Time Support</title>
-<style type="text/css">@import url("file:/C:/Program Files/BIRT_2_5_0/S20090609/eclipse/plugins/org.eclipse.platform_3.3.200.v200906051444/book.css");</style>
-<style type="text/css">@import url("file:/C:/Program Files/BIRT_2_5_0/S20090609/eclipse/configuration/org.eclipse.osgi/bundles/165/1/.cp/schema.css");</style>
+<style type="text/css">@import url("file:/C:/JAHT/eclipse/plugins/org.eclipse.platform_3.3.200.v200908070800/book.css");</style>
+<style type="text/css">@import url("file:/C:/JAHT/eclipse/configuration/org.eclipse.osgi/bundles/170/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
 <H1 style="text-align:center">Extended Item Presentation-Time Support</H1>
@@ -44,6 +44,31 @@ name=</span><span class="code SchemaCstring">&quot;chart presentation extension&
  &lt;/extension&gt;
  </span></pre>
  <p>
+<p></p>
+
+<h6 class="CaptionFigColumn SchemaHeader">API Information: </h6>The value of the class attribute must be the fully qualified name of a class that implements <code>org.eclipse.birt.engine.extension.IReportItemPresentation</code>. The interface provides the following functions:
+
+<ul>
+<li><code>public void setModelObject(ExtendedItemHandle handle)</code> ---- 
+ passes the model object to the extension provider. </li>
+<li><code>public void setResolution(int dpi)</code> ---- 
+passes the rendering environment resolution (dpi, i.e., dot per inch) to extension provider.</li>
+<li><code>public void setOutputFormat(String outputFormat)</code> ---- 
+passes the output format, i.e., HTMl, PDF, etc. to extension provider.</li>
+<li><code>public void setSupportedImageFormats(String supportedImageFormats)</code> ---- 
+passes the supported image formats in the rendering environments to the extension provider. Image formats are separated by semi-colon. For example, the argument could be JPG;PNG;BMP;SVG</li>
+<li><code>public void setLocale(Locale locale)</code> ---- passes the rendering locale to the extension provider.</li>
+<li><code>public Object onRowSets(IRowSet[] rowSets) throws BirtException</code> ---- 
+processes the extended item in report presentation environment. The data that the report item needs is passed in through the rowSets array. The return value captures the presentation time output of the report item, and differs for different rendering primitives. </li>
+<li><code>public void deserialize(InputStream istream)</code> ---- 
+deserializes the report item generation time state</li>
+<li><code>public int getOutputType(String mimeType)</code> ---- 
+returns the output type, which could be one of the supported primitive, i.e., image, string, html segment, etc.</li>
+<li><code>public void Size getSize()</code> ---- 
+gets the size of the extended item. The size is a Dimension object. The width and height can only be in absolute units (inch, mm, etc.) or pixel. It can not be a relative size such as 150% or 1.2em. An extended item can obtain its design-time size information by querying DE. This function is needed because the actual size may not be the same as the design-time size.</li>
+<li><code>public void finish()</code> ---- 
+performs cleanup jobs</li><p>
+</ul>
 <p></p>
 
 <h6 class="CaptionFigColumn SchemaHeader">Supplied Implementation: </h6>Chart as an extended item
