@@ -38,6 +38,7 @@ import javax.imageio.event.IIOWriteWarningListener;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IImageMapEmitter;
 import org.eclipse.birt.chart.device.ImageWriterFactory;
@@ -49,6 +50,7 @@ import org.eclipse.birt.chart.device.util.CSSHelper;
 import org.eclipse.birt.chart.device.util.HTMLAttribute;
 import org.eclipse.birt.chart.device.util.HTMLTag;
 import org.eclipse.birt.chart.device.util.ScriptUtil;
+import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -65,6 +67,7 @@ import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
+import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -345,21 +348,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			TriggerCondition condition, HTMLAttribute htmlAttr )
 	{
 		tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-		final DataPointHints dph;
-		if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
-				.getType( ) ) )
-		{
-			dph = (DataPointHints) sa.getSource( ).getSource( );
-		}
-		else
-		{
-			dph = null;
-		}
 		StringBuffer callbackFunction = new StringBuffer( getJSMethodName( condition,
 				sa ) );
-		callbackFunction.append( "(event" );//$NON-NLS-1$
-		ScriptUtil.script( callbackFunction, dph );
-		callbackFunction.append( ");" ); //$NON-NLS-1$
+		addCallBackScript( sa, callbackFunction );
 		tag.addAttribute( htmlAttr,
 				eval2JS( callbackFunction.toString( ), true ) );
 	}
@@ -460,21 +451,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					}
 					return false;
 				case ActionType.INVOKE_SCRIPT :
-					final DataPointHints dph;
-					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
-							.getType( ) ) )
-					{
-						dph = (DataPointHints) sa.getSource( ).getSource( );
-					}
-					else
-					{
-						dph = null;
-					}
 					StringBuffer callbackFunction = new StringBuffer( getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL,
 							sa ) );
-					callbackFunction.append( "(event" ); //$NON-NLS-1$
-					ScriptUtil.script( callbackFunction, dph );
-					callbackFunction.append( ");" ); //$NON-NLS-1$
+					addCallBackScript( sa, callbackFunction );
 					tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
 							eval2JS( callbackFunction.toString(), true ) );
 					return true;
@@ -1137,8 +1116,23 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private String wrapJSMethod( String functionName, String functionContent )
 	{
 		return "<Script>" //$NON-NLS-1$
-				+ "function " + functionName + "(evt," + ScriptHandler.BASE_VALUE + ", " + ScriptHandler.ORTHOGONAL_VALUE + ", " + ScriptHandler.SERIES_VALUE + "){" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$  //$NON-NLS-5$
-				+ eval2JS( functionContent, true ) + "};</Script>"; //$NON-NLS-1$
+				+ "function " //$NON-NLS-1$
+				+ functionName
+				+ "(evt,"//$NON-NLS-1$
+				+ ScriptHandler.BASE_VALUE
+				+ ", "//$NON-NLS-1$
+				+ ScriptHandler.ORTHOGONAL_VALUE
+				+ ", "//$NON-NLS-1$
+				+ ScriptHandler.SERIES_VALUE
+				+ ", "//$NON-NLS-1$
+				+ IActionRenderer.LEGEND_ITEM_TEXT
+				+ ", "//$NON-NLS-1$
+				+ IActionRenderer.LEGEND_ITEM_VALUE
+				+ ", "//$NON-NLS-1$
+				+ IActionRenderer.AXIS_LABEL
+				+ "){"//$NON-NLS-1$
+				+ eval2JS( functionContent, true )
+				+ "};</Script>"; //$NON-NLS-1$
 	}
 	
 	private String getJSMethodName( TriggerCondition tc, ShapedAction sa )
@@ -1157,6 +1151,41 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			return "userCallBack" //$NON-NLS-1$
 					+ Integer.MAX_VALUE;
 		}
-
+	}
+	
+	private void addCallBackScript( ShapedAction sa,
+			StringBuffer callbackFunction )
+	{
+		StructureSource source = sa.getSource( );
+		final DataPointHints dph;
+		final LegendItemHints lerh;
+		final String axisLabel;
+		if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+		{
+			dph = (DataPointHints) source.getSource( );
+		}
+		else
+		{
+			dph = null;
+		}
+		if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
+		{
+			lerh = (LegendItemHints) source.getSource( );
+		}
+		else
+		{
+			lerh = null;
+		}
+		if ( StructureType.AXIS_LABEL.equals( source.getType( ) ) )
+		{
+			axisLabel = (String) source.getSource( );
+		}
+		else
+		{
+			axisLabel = null;
+		}
+		callbackFunction.append( "(event" );//$NON-NLS-1$
+		ScriptUtil.script( callbackFunction, dph, lerh, axisLabel );
+		callbackFunction.append( ");" ); //$NON-NLS-1$
 	}
 }

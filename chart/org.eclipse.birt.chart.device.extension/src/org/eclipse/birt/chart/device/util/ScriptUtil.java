@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.device.util;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 
@@ -26,24 +27,49 @@ public class ScriptUtil
 	 * 
 	 * @param str
 	 * @param dph
-	 * @return the output script
 	 */
-	public static void script( StringBuffer str, DataPointHints dph )
+	public static void script( StringBuffer str, DataPointHints dph,
+			LegendItemHints lerh, String axisLabel )
 	{
+		// ScriptHandler.BASE_VALUE
+		// ScriptHandler.ORTHOGONAL_VALUE
+		// ScriptHandler.SERIES_VALUE
 		if ( dph != null )
 		{
-			str.append( "," );
+			str.append( "," ); //$NON-NLS-1$
 			str.append( addDataValueToScript( dph.getBaseValue( ) ) );
-			str.append(  "," ); //$NON-NLS-1$
+			str.append( "," ); //$NON-NLS-1$
 			str.append( addDataValueToScript( dph.getOrthogonalValue( ) ) );
-			str.append(  "," ); //$NON-NLS-1$
-			str.append(  addDataValueToScript( dph.getSeriesValue( ) ) );
+			str.append( "," ); //$NON-NLS-1$
+			str.append( addDataValueToScript( dph.getSeriesValue( ) ) );
 		}
 		else
 		{
-			str.append( ",null,null,null");
+			str.append( ",null,null,null" ); //$NON-NLS-1$
 		}
-		
+		// IActionRenderer.LEGEND_ITEM_TEXT
+		// IActionRenderer.LEGEND_ITEM_VALUE
+		if ( lerh != null )
+		{
+			str.append( "," ); //$NON-NLS-1$
+			str.append( addDataValueToScript( lerh.getItemText( ) ) );
+			str.append( "," ); //$NON-NLS-1$
+			str.append( addDataValueToScript( lerh.getValueText( ) ) );
+		}
+		else
+		{
+			str.append( ",null,null" ); //$NON-NLS-1$
+		}
+		// IActionRenderer.AXIS_LABEL
+		if ( axisLabel != null )
+		{
+			str.append( "," ); //$NON-NLS-1$
+			str.append( addDataValueToScript( axisLabel ) );
+		}
+		else
+		{
+			str.append( ",null" ); //$NON-NLS-1$
+		}
 	}
 
 	/**

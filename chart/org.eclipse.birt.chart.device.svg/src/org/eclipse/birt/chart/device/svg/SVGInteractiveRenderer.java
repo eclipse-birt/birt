@@ -20,6 +20,7 @@ import java.util.Vector;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.image.MultiActionValuesScriptGenerator;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
@@ -55,6 +56,8 @@ import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.render.IActionRenderer;
+import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
@@ -659,18 +662,9 @@ public class SVGInteractiveRenderer
 			
 			String callbackContent = getMultiActionsCallbackContent( action );
 			StringBuffer callbackFunction = generateScriptCallbackFunctionName( callbackContent );
-			String funcName= callbackFunction.toString( );
-			
-			callbackFunction.append( "(evt," ); //$NON-NLS-1$
-			callbackFunction.append( src.getSource( )
-					.hashCode( ) );
-			if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
-			{
-				final DataPointHints dph = (DataPointHints) src.getSource( );
-				ScriptUtil.script( callbackFunction,
-						dph );
-			}
-			
+			String funcName= callbackFunction.toString( );			
+			addCallBackScript( src, callbackFunction, false );
+						
 			boolean multipleTypes = false;
 			for ( Action subAction : subActions )
 			{
@@ -695,7 +689,7 @@ public class SVGInteractiveRenderer
 			}
 			if ( multipleTypes )
 			{
-				callbackFunction.append( this.getJSCodeFunctionSuffix( src ) );
+				callbackFunction.append( getJSCodeFunctionSuffix( src ) );
 			}
 			else
 			{
@@ -717,7 +711,8 @@ public class SVGInteractiveRenderer
 			// function into 'script' element.
 			if ( !( scripts.contains( callbackContent ) ) )
 			{
-				svg_g2d.addScript( "function " + funcName + "( evt,source,categoryData,valueData,valueSeriesName, id, compList, labelList )" + "{" + callbackContent + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				svg_g2d.addScript( generateCallBackMethodName( funcName )
+						+ "{" + callbackContent + "}" ); //$NON-NLS-1$ //$NON-NLS-2$
 				scripts.add( callbackContent );
 			}
 		}
@@ -818,17 +813,7 @@ public class SVGInteractiveRenderer
 			StringBuffer callbackFunction = generateScriptCallbackFunctionName( script );
 			
 			String funcName = callbackFunction.toString( );
-			callbackFunction.append( "(evt," ); //$NON-NLS-1$
-			callbackFunction.append( src.getSource( )
-					.hashCode( ) );
-
-			if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
-			{
-				final DataPointHints dph = (DataPointHints) src.getSource( );
-				ScriptUtil.script( callbackFunction,
-						dph );
-			}
-			callbackFunction.append( ");" ); //$NON-NLS-1$
+			addCallBackScript( src, callbackFunction, true );
 			
 			// Add callback function in element.
 			elm.setAttribute( scriptEvent,
@@ -838,7 +823,8 @@ public class SVGInteractiveRenderer
 			// Add content definition of callbak function.
 			if ( !( scripts.contains( script ) ) )
 			{
-				svg_g2d.addScript( "function " +  funcName + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				svg_g2d.addScript( generateCallBackMethodName( funcName )
+						+ "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ 
 				scripts.add( script );
 			}
 		}
@@ -965,7 +951,7 @@ public class SVGInteractiveRenderer
 		}
 
 		MultiActionValuesScriptGenerator.appendInteractivityVariables( sb );
-	
+
 		sb.append( "\n"); //$NON-NLS-1$
 		sb.append( "  BirtChartActionsMenu.show( evt, source, menuInfo ); "); //$NON-NLS-1$
 		
@@ -994,9 +980,7 @@ public class SVGInteractiveRenderer
 			sb = MultiActionValuesScriptGenerator.getURLValueJS( sb, i, uv );
 			i++;
 		}
-
 		MultiActionValuesScriptGenerator.appendInteractivityVariables( sb );
-
 		sb.append( "\n"); //$NON-NLS-1$
 		sb.append( "  BirtChartActionsMenu.show( evt, source, menuInfo ); "); //$NON-NLS-1$
 		
@@ -1005,17 +989,7 @@ public class SVGInteractiveRenderer
 		StringBuffer callbackFunction = generateScriptCallbackFunctionName( script );
 		
 		String funcName = callbackFunction.toString( );
-		callbackFunction.append( "(evt," ); //$NON-NLS-1$
-		callbackFunction.append( src.getSource( )
-				.hashCode( ) );
-
-		if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
-		{
-			final DataPointHints dph = (DataPointHints) src.getSource( );
-			ScriptUtil.script( callbackFunction,
-					dph );
-		}
-		callbackFunction.append( ");" ); //$NON-NLS-1$
+		addCallBackScript( src, callbackFunction, true );
 
 		// Write JS callback function in element.
 		elm.setAttribute( scriptEvent,
@@ -1026,7 +1000,8 @@ public class SVGInteractiveRenderer
 		// function into 'script' element.
 		if ( !( scripts.contains( script ) ) )
 		{
-			svg_g2d.addScript( "function " + funcName + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			svg_g2d.addScript( generateCallBackMethodName( funcName )
+					+ "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$
 			scripts.add( script );
 		}
 	}
@@ -1810,5 +1785,65 @@ public class SVGInteractiveRenderer
 		{
 			elm.setAttribute( "style", style + value );//$NON-NLS-1$
 		}
+	}
+	
+	private void addCallBackScript( StructureSource src,
+			StringBuffer callbackFunction, boolean hasEndTag )
+	{
+		callbackFunction.append( "(evt," ); //$NON-NLS-1$
+		callbackFunction.append( src.getSource( ).hashCode( ) );
+
+		final DataPointHints dph;
+		final LegendItemHints lerh;
+		final String axisLabel;
+		if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
+		{
+			dph = (DataPointHints) src.getSource( );
+		}
+		else
+		{
+			dph = null;
+		}
+		if ( StructureType.LEGEND_ENTRY.equals( src.getType( ) ) )
+		{
+			lerh = (LegendItemHints) src.getSource( );
+		}
+		else
+		{
+			lerh = null;
+		}
+		if ( StructureType.AXIS_LABEL.equals( src.getType( ) ) )
+		{
+			axisLabel = (String) src.getSource( );
+		}
+		else
+		{
+			axisLabel = null;
+		}
+		ScriptUtil.script( callbackFunction, dph, lerh, axisLabel );
+
+		if ( hasEndTag )
+		{
+			callbackFunction.append( ");" ); //$NON-NLS-1$
+		}
+	}
+
+	private String generateCallBackMethodName( String funcName )
+	{
+		return "function " //$NON-NLS-1$
+				+ funcName
+				+ "(evt,source,"//$NON-NLS-1$
+				+ ScriptHandler.BASE_VALUE
+				+ ","//$NON-NLS-1$
+				+ ScriptHandler.ORTHOGONAL_VALUE
+				+ ","//$NON-NLS-1$
+				+ ScriptHandler.SERIES_VALUE
+				+ ","//$NON-NLS-1$
+				+ IActionRenderer.LEGEND_ITEM_TEXT
+				+ ","//$NON-NLS-1$
+				+ IActionRenderer.LEGEND_ITEM_VALUE
+				+ ","//$NON-NLS-1$
+				+ IActionRenderer.AXIS_LABEL
+				+ ")";//$NON-NLS-1$
 	}
 }

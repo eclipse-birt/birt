@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
@@ -85,7 +84,6 @@ import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -186,7 +184,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * Internally used to simulate a translucent shadow
 	 */
-	public static final ColorDefinition SHADOW = goFactory.createColorDefinition( 64,
+	protected static final ColorDefinition SHADOW = goFactory.createColorDefinition( 64,
 			64,
 			64,
 			127 );
@@ -222,7 +220,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/** The manager assures correct paint z-order of series for 2D case. */
 	protected DeferredCacheManager fDeferredCacheManager;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
+	private static final  ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
 	/** The comparator compares the order of SeriesDefinition objects. */
 	static Comparator<SeriesDefinition> zOrderComparatorImpl = new Comparator<SeriesDefinition>( ) {
@@ -1444,8 +1442,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 
 			if ( !elTriggers.isEmpty( ) || buildinTg != null )
-			{
-				final StructureSource source;
+			{			
+				StructureSource source;
 				if ( this.cm.getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL )
 				{
 					final DataPointHints dph = new DataPointHints( la.getCaption( )
@@ -1469,6 +1467,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				{
 					source = StructureSource.createSeries( se );
 				}
+				// If script is used, need to add legend entry data in source,
+				// and put other source in parent, so both of them can be got in
+				// interactivity
+				source = new WrappedStructureSource( source,
+						lih,
+						StructureType.LEGEND_ENTRY );
 				final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( source,
 						InteractionEvent.class );
 				iev.setCursor( lg.getCursor( ) );
@@ -2486,8 +2490,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		return dX;
 	}
 
-	private final Pattern ptnAxisLabel = Pattern.compile( IActionRenderer.AXIS_LABEL );
-
 	/**
 	 * post-process the triggers.
 	 * 
@@ -2510,8 +2512,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL )
 			{
-				// LegendEntryRenderingHints lerh = (LegendEntryRenderingHints)
-				// source.getSource( );
 				LegendItemHints lerh = (LegendItemHints) source.getSource( );
 				
 				// BUILD URI
@@ -2539,17 +2539,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				// BUILD URI
 				assembleURLs( tg, dph );
-			}
-		}
-		else if ( StructureType.AXIS_LABEL.equals( source.getType( ) ) )
-		{
-			if ( tg.getAction( ).getType( ) == ActionType.INVOKE_SCRIPT_LITERAL )
-			{
-				String alValue = '\"' + (String) source.getSource( ) + '\"';
-				ScriptValue scriptValue = (ScriptValue) tg.getAction( )
-						.getValue( );
-				scriptValue.setScript( ptnAxisLabel.matcher( scriptValue.getScript( ) )
-						.replaceAll( alValue ) );
 			}
 		}
 	}
