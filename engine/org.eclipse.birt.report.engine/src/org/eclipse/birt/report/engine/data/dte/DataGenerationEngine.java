@@ -41,7 +41,7 @@ public class DataGenerationEngine extends DteDataEngine
 
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
-				DataSessionContext.MODE_GENERATION, null, context
+				DataSessionContext.MODE_GENERATION, context.getDesign( ), context
 						.getScriptContext( ), context
 						.getApplicationClassLoader( ) );
 		dteSessionContext.setDocumentWriter( writer );
