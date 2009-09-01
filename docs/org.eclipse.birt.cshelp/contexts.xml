@@ -1006,9 +1006,8 @@ Provide a unique name for the variable. Type an expression or use the expression
 
 For more information about using variables, use a web browser to go to:
         http://www.eclipse.org/birt/phoenix/project/notable2.5.php#jump_4
-<topic href="http://www.eclipse.org/birt/phoenix/project/notable2.5.php#jump_4" label="Page-level variables and events"/>
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.4.html" label="How to link a CSS file"/> 
+<topic href="http://www.eclipse.org/birt/phoenix/project/notable2.5.php#jump_4" label="Page-level variables and events"/>
 </context>
 
 </contexts>

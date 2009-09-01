@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">LevelAttribute Structure</p>
 <h1>Structure Overview</h1>
+<div class="section-text">
+Define an attribute for the level element.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -22,16 +24,22 @@
 
 <dl class="section-text">
 <dt><a href="#Property-dataType">dataType</a></dt>
-<dd></dd>
+<dd>Data type of the attribute.</dd>
 <dt><a href="#Property-name">name</a></dt>
-<dd></dd>
+<dd>Name of the attribute.</dd>
 </dl>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>If a level element is defined as 'dynamic' by setting property
+'levelType', you can add level attributes applied to it to filter some
+query result.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-dataType">dataType Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Data type of the attribute.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -93,12 +101,21 @@
 <td>Blob</td>
 <td>blob</td>
 <td></td></tr>
+<tr><td>javaObject</td>
+<td>Java Object</td>
+<td>javaObject</td>
+<td></td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property gives out the data type of the level attribute. If
+you don't set the value, string is read as the default.</p></div>
 
 <hr>
 <h2><a name="Property-name">name Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Name of the attribute.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -118,5 +135,10 @@
 <td>No</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property gives out the name of the level attribute. A level
+attribute has a unique and required name.</p></div>
 </body>
 </html>

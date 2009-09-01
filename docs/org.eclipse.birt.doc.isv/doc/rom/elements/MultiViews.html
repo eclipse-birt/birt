@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">MultiViews Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Describes a container element to use one of its contained extension elements as the "view" element.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,7 +40,7 @@
 
 <dl class="section-text">
 <dt><a href="#Property-views">views</a></dt>
-<dd></dd>
+<dd>Holds a list of extension elements.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -57,11 +59,22 @@
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Report items like table, cross-tab can be the host of the
+multiviews element. The multiview element itself contains multiple
+"view" extension report items. Each time, only one "view" element is
+active. All "view" elements share the same data structure with the host
+element. The data structure properties includes: dataSet,
+boundDataColumns, filters, sorts and paramBindings. etc.</p>
+
+<br></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-views">views Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Holds a list of extension elements.</p>
 <h3>Details</h3>
 
 <table class="detail-table">

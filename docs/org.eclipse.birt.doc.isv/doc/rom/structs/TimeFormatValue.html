@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">TimeFormatValue Structure</p>
 <h1>Structure Overview</h1>
+<div class="section-text">
+Used to format a time value.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -22,18 +24,23 @@
 
 <dl class="section-text">
 <dt><a href="#Property-category">category</a></dt>
-<dd></dd>
+<dd>Provides a list of pre-defined datetime formatter, <i>Long Time</i>, <i>Medium Time</i>, <i>Short Time</i> and <i>Custom Time</i></dd>
 <dt><a href="#Property-locale">locale</a></dt>
-<dd></dd>
+<dd>Locale of the formatter.</dd>
 <dt><a href="#Property-pattern">pattern</a></dt>
-<dd></dd>
+<dd>Pattern of the formatter.</dd>
 </dl>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Provides a set of pre-defined time formatter, or user can define a customized formatter
+given a pattern.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-category">category Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Provides a list of pre-defined datetime formatter, <i>Long Time</i>, <i>Medium Time</i>, <i>Short Time</i> and <i>Custom Time</i></p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -80,11 +87,16 @@
 <td>Custom</td>
 <td></td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Allow user to choose from a list of pre-defined datetime formatter. Use a certain formatter to convert
+a "time" typed value using the given formatter.</p></div>
 
 <hr>
 <h2><a name="Property-locale">locale Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Locale of the formatter.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -104,11 +116,15 @@
 <td>Yes</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The locale of the time formatter.</p></div>
 
 <hr>
 <h2><a name="Property-pattern">pattern Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Pattern of the formatter.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -128,5 +144,9 @@
 <td>Yes</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Pattern of the time formatter.</p></div>
 </body>
 </html>

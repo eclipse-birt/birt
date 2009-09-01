@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">Dimension Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Base element for dimension elements within a cube.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,9 +40,9 @@
 
 <dl class="section-text">
 <dt><a href="#Property-defaultHierarchy">defaultHierarchy</a></dt>
-<dd></dd>
+<dd>Name of the default hierarchy applied to this dimension.</dd>
 <dt><a href="#Property-isTimeType">isTimeType</a></dt>
-<dd></dd>
+<dd>Indicates whether the data type of the dimension is time.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -58,11 +60,17 @@
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The dimension is an abstract element that defines the 
+basic properties of a OLAP dimension element. The derived elements, tabular and ODA dimension
+elements, provide hierarchy contents that are defined in this dimension itself.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-defaultHierarchy">defaultHierarchy Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Name of the default hierarchy applied to this dimension.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -88,11 +96,17 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The hierarchy element can define multiple hierarchy element. This property specified
+the default one to be made query and rendered. If you don't set the value or give the value of
+a non existing hierarchy, the first hierarchy element is read as the default one if existing.</p></div>
 
 <hr>
 <h2><a name="Property-isTimeType">isTimeType Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Indicates whether the data type of the dimension is time.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -118,5 +132,11 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property indicates whether this dimension is a special type of Time. This is used
+to speed up the performance. True if the dimension is time type; otherwise false. By default, the
+value is FALSE.</p></div>
 </body>
 </html>

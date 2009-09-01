@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">DimensionCondition Structure</p>
 <h1>Structure Overview</h1>
+<div class="section-text">
+Defines conditions for the dimension in cube element.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -22,16 +24,20 @@
 
 <dl class="section-text">
 <dt><a href="#Property-hierarchy">hierarchy</a></dt>
-<dd></dd>
+<dd>The name of hierarchy element of which joint condition is defined for the dimension children.</dd>
 <dt><a href="#Property-joinConditions">joinConditions</a></dt>
-<dd></dd>
+<dd>Provides conditions for dimension elements in the hierarchy.</dd>
 </dl>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The dimension condition defines a condition to apply to a tabular cube element.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-hierarchy">hierarchy Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The name of hierarchy element of which joint condition is defined for the dimension children.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -51,11 +57,15 @@
 <td>Yes</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property gives the name of the tabular hierarchy to define some join condition for the dimension element in it. Required.</p></div>
 
 <hr>
 <h2><a name="Property-joinConditions">joinConditions Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Provides conditions for dimension elements in the hierarchy.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -75,5 +85,9 @@
 <td>Yes</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Provides a required list of condition for dimension elements in the tabular hierarchy. Required.</p></div>
 </body>
 </html>

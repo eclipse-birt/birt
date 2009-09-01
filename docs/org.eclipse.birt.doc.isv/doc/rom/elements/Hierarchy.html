@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">Hierarchy Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Base element for hierarchy elements within a dimension.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -37,10 +39,8 @@
 <h3>Property Summary</h3>
 
 <dl class="section-text">
-<dt><a href="#Property-accessControls">accessControls</a></dt>
-<dd></dd>
 <dt><a href="#Property-filter">filter</a></dt>
-<dd></dd>
+<dd>Filter criteria to apply to query result in the hierarchy element.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -58,41 +58,17 @@
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The hierarchy is an abstract element that defines the basic properties of a OLAP hierarchy
+element. The derived elements, tabular and ODA hierarchy elements, provide level contents that
+are defined in this hierarchy itself.</p></div>
 <h1>Property Detail</h1>
 
-<h2><a name="Property-accessControls">accessControls Property</a></h2>
-
-<p class="section-text"></p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td>List of <a href="../types.html#contentElement">contentElement</a>s</td></tr>
-<tr><td>Since:</td>
-<td>2.2</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Access controls</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>None</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>No</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Hidden</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
-
-<hr>
 <h2><a name="Property-filter">filter Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Filter criteria to apply to query result in the hierarchy element.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -118,5 +94,12 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The filter property specifies filter criteria to apply to each row in the 
+data set. The filter can contain BIRT expressions (in JavaScript.) If you want 
+the database to do the filtering, put the filter criteria in the WHERE clause of 
+your query.</p></div>
 </body>
 </html>

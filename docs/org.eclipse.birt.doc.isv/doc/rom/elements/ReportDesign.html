@@ -49,6 +49,8 @@ The report design element represents report as a whole.</div>
 <dd>A string containing the file name of the cheat sheet.</dd>
 <dt><a href="#Property-cssStyleSheets">cssStyleSheets</a></dt>
 <dd></dd>
+<dt><a href="#Property-dataObjects">dataObjects</a></dt>
+<dd></dd>
 <dt><a href="#Property-displayName">displayName</a></dt>
 <dd>Display name of the report design</dd>
 <dt><a href="#Property-displayNameID">displayNameID</a></dt>
@@ -62,6 +64,8 @@ The report design element represents report as a whole.</div>
 <dt><a href="#Property-imageDPI">imageDPI</a></dt>
 <dd></dd>
 <dt><a href="#Property-layoutPreference">layoutPreference</a></dt>
+<dd></dd>
+<dt><a href="#Property-locale">locale</a></dt>
 <dd></dd>
 <dt><a href="#Property-newHandlerOnEachEvent">newHandlerOnEachEvent</a></dt>
 <dd></dd>
@@ -87,6 +91,8 @@ The report design element represents report as a whole.</div>
 <dt><a href="#Method-initialize">initialize</a></dt>
 <dd>Called when the report starts executing in either the 
 Factory or Presentation engine.</dd>
+<dt><a href="#Method-onContentUpdate">onContentUpdate</a></dt>
+<dd></dd>
 <dt><a href="#Method-onPageEnd">onPageEnd</a></dt>
 <dd></dd>
 <dt><a href="#Method-onPageStart">onPageStart</a></dt>
@@ -341,6 +347,36 @@ cannot extend another design.</p>
 
 
 <hr>
+<h2><a name="Property-dataObjects">dataObjects Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../types.html#contentElement">contentElement</a>s</td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Data objects</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-displayName">displayName Property</a></h2>
 
 <p class="section-text">Display name of the report design</p>
@@ -584,6 +620,36 @@ which define the scripting behavior that will be executed at runtime.</p></div>
 </tbody></table><br>
 
 <hr>
+<h2><a name="Property-locale">locale Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#locale">locale</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Locale</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-newHandlerOnEachEvent">newHandlerOnEachEvent Property</a></h2>
 
 <p class="section-text"></p>
@@ -621,7 +687,7 @@ which define the scripting behavior that will be executed at runtime.</p></div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td>List of <a href="../types.html#element">element</a>s</td></tr>
+<td>List of <a href="../types.html#contentElement">contentElement</a>s</td></tr>
 <tr><td>Since:</td>
 <td>2.5</td></tr>
 <tr><td>Required:</td>
@@ -633,7 +699,7 @@ which define the scripting behavior that will be executed at runtime.</p></div>
 <tr><td>Default Value:</td>
 <td>None</td></tr>
 <tr><td>Inherited:</td>
-<td>No</td></tr>
+<td>Yes</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
@@ -934,6 +1000,29 @@ not visa-versa. This is the generally accepted meaning of an include.</p></div>
 <div class="section-text">
 <p>Report Design <code>beforeFactory</code> method</p>
 <p>Report Design <code>beforeRender</code> method</p></div>
+
+<hr>
+<h2><a name="Method-onContentUpdate">onContentUpdate Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onContentUpdate(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Context:</td>
+<td>client</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Method-onPageEnd">onPageEnd Method</a></h2>

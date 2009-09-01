@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">VariableElement Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Represents a report/page variable in the report.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,18 +40,29 @@
 
 <dl class="section-text">
 <dt><a href="#Property-name">name</a></dt>
-<dd></dd>
+<dd>The name for the variable.</dd>
 <dt><a href="#Property-type">type</a></dt>
-<dd></dd>
+<dd>The type for the variable.</dd>
 <dt><a href="#Property-value">value</a></dt>
-<dd></dd>
+<dd>The value for the variable.</dd>
 </dl>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The variable can be defined in the report. There are two types
+of variable: report variable and page variable. Report variable means
+the variable is finalized at the end of report. Page variable means the
+variable is finalized for each page. The variable can be used in
+onPageStart/onPageEnd scripts.
+</p>
+
+<br></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-name">name Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The name for the variable.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -79,7 +92,7 @@
 <hr>
 <h2><a name="Property-type">type Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The type for the variable.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -112,19 +125,19 @@
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
 <tr><td>report</td>
-<td>Report</td>
+<td>Report Variable</td>
 <td>report</td>
-<td></td></tr>
+<td>the report variable.</td></tr>
 <tr><td>page</td>
-<td>Page</td>
+<td>Page Variable</td>
 <td>page</td>
-<td></td></tr>
+<td>the master page variable.</td></tr>
 </tbody></table><br>
 
 <hr>
 <h2><a name="Property-value">value Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The value for the variable.</p>
 <h3>Details</h3>
 
 <table class="detail-table">

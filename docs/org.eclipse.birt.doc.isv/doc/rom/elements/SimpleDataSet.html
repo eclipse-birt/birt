@@ -41,26 +41,31 @@ from an external data provider.</div>
 
 <dl class="section-text">
 <dt><a href="#Property-dataSetRowLimit">dataSetRowLimit</a></dt>
-<dd></dd>
+<dd>Number of rows that will be cached when the data rows are retrieved from DB.</dd>
 <dt><a href="#Property-paramBindings">paramBindings</a></dt>
 <dd>A list of data set parameter binding elements that bind data set input parameters to BIRT expressions.</dd>
 <dt><a href="#Property-refTemplateParameter">refTemplateParameter</a></dt>
-<dd></dd>
+<dd>Name of the template parameter definition.</dd>
 </dl>
 
 <h3>Method Summary</h3>
 
 <dl class="section-text">
 <dt><a href="#Method-afterClose">afterClose</a></dt>
-<dd></dd>
+<dd>Called just after BIRT closes the data set. Allows 
+the application to perform code-based cleanup.</dd>
 <dt><a href="#Method-afterOpen">afterOpen</a></dt>
-<dd></dd>
+<dd>Called just after BIRT opens the data set. Allows the 
+application to perform any code-based initialization required for the data set.</dd>
 <dt><a href="#Method-beforeClose">beforeClose</a></dt>
-<dd></dd>
+<dd>Called just before BIRT closes the data set. Allows 
+the application to perform code-based cleanup.</dd>
 <dt><a href="#Method-beforeOpen">beforeOpen</a></dt>
-<dd></dd>
+<dd>Called just before BIRT opens the data set. Allows 
+the application to customize the data set properties.</dd>
 <dt><a href="#Method-onFetch">onFetch</a></dt>
-<dd></dd>
+<dd>Called just after fetching each row before applying 
+filters or calculating computed columns.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -83,6 +88,7 @@ from an external data provider.</div>
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DataSet.html#Property-resultSetHints">resultSetHints</a>, 
 <a href="DataSet.html#Property-rowFetchLimit">rowFetchLimit</a>, 
+<a href="DataSet.html#Property-sortHints">sortHints</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
@@ -112,7 +118,7 @@ scripting object.</p></div>
 
 <h2><a name="Property-dataSetRowLimit">dataSetRowLimit Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Number of rows that will be cached when the data rows are retrieved from DB.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -138,6 +144,12 @@ scripting object.</p></div>
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Number of rows that will be cached when the data rows are first time retrieved from DB, 
+the cached data will be used after that unless user choose to flush the cache. This will 
+speed up the report developing.</p></div>
 
 <hr>
 <h2><a name="Property-paramBindings">paramBindings Property</a></h2>
@@ -197,7 +209,7 @@ the expression can include any valid JavaScript expression.</p></div>
 <hr>
 <h2><a name="Property-refTemplateParameter">refTemplateParameter Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Name of the template parameter definition.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -223,11 +235,17 @@ the expression can include any valid JavaScript expression.</p></div>
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>when a data set is created from an <i>template data set</i>,
+this property will reference to the base data set. </p></div>
 <h1>Method Detail</h1>
 
 <h2><a name="Method-afterClose">afterClose Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Called just after BIRT closes the data set. Allows 
+the application to perform code-based cleanup.</p>
 <h3>Synopsis
 </h3>
 
@@ -246,11 +264,21 @@ the expression can include any valid JavaScript expression.</p></div>
 <td>None</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just after BIRT closes the data set. Allows the 
+application to perform code-based cleanup.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>beforeClose</code> method</p></div>
 
 <hr>
 <h2><a name="Method-afterOpen">afterOpen Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Called just after BIRT opens the data set. Allows the 
+application to perform any code-based initialization required for the data set.</p>
 <h3>Synopsis
 </h3>
 
@@ -269,11 +297,21 @@ the expression can include any valid JavaScript expression.</p></div>
 <td>None</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just after BIRT opens the data set. Allows the 
+application to perform any code-based initialization required for the data set.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>beforeOpen</code> method</p></div>
 
 <hr>
 <h2><a name="Method-beforeClose">beforeClose Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Called just before BIRT closes the data set. Allows 
+the application to perform code-based cleanup.</p>
 <h3>Synopsis
 </h3>
 
@@ -292,11 +330,21 @@ the expression can include any valid JavaScript expression.</p></div>
 <td>None</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just before BIRT closes the data set. Allows the 
+application to perform code-based cleanup.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>afterClose</code> method</p></div>
 
 <hr>
 <h2><a name="Method-beforeOpen">beforeOpen Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Called just before BIRT opens the data set. Allows 
+the application to customize the data set properties.</p>
 <h3>Synopsis
 </h3>
 
@@ -315,11 +363,21 @@ the expression can include any valid JavaScript expression.</p></div>
 <td>None</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just before BIRT opens the data set. Allows the 
+application to customize the data set properties.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>afterOpen</code> method</p></div>
 
 <hr>
 <h2><a name="Method-onFetch">onFetch Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Called just after fetching each row before applying 
+filters or calculating computed columns.</p>
 <h3>Synopsis
 </h3>
 
@@ -338,5 +396,14 @@ the expression can include any valid JavaScript expression.</p></div>
 <td>None</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called just after fetching each row before applying 
+filters or calculating computed columns.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>DataRow</code> scripting object</p></div>
 </body>
 </html>

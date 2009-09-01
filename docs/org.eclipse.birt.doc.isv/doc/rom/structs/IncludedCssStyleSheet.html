@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">IncludedCssStyleSheet Structure</p>
 <h1>Structure Overview</h1>
+<div class="section-text">
+Links to an external or include a CSS style sheet in report design or the library theme.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -22,16 +24,22 @@
 
 <dl class="section-text">
 <dt><a href="#Property-externalCssURI">externalCssURI</a></dt>
-<dd></dd>
+<dd>The external CSS file used in the output html.</dd>
 <dt><a href="#Property-fileName">fileName</a></dt>
-<dd></dd>
+<dd>To include a set of CSS styles in the given file into the BIRT.</dd>
 </dl>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The report design or a theme can use the CSS style sheet in 2 ways: 1. links to an external CSS. 
+That is, the CSS styles sheet directly outputs in the preview html pages. 2. include a CSS file and 
+parse CSS styles into BIRT style elements.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-externalCssURI">externalCssURI Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The external CSS file used in the output html.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -51,11 +59,15 @@
 <td>Yes</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The CSS styles are transparent to BIRT. This file name outputs in the generated html directly.</p></div>
 
 <hr>
 <h2><a name="Property-fileName">fileName Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">To include a set of CSS styles in the given file into the BIRT.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -75,5 +87,9 @@
 <td>Yes</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The file that contains CSS styles.</p></div>
 </body>
 </html>

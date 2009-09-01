@@ -9,6 +9,9 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">SortElement Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+A sort definition consisting of an expression and sort
+direction.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,18 +41,27 @@
 
 <dl class="section-text">
 <dt><a href="#Property-direction">direction</a></dt>
-<dd></dd>
+<dd>The sort direction: Ascending (the default) or Descending.</dd>
 <dt><a href="#Property-key">key</a></dt>
-<dd></dd>
+<dd>An expression that gives the sort key on which to sort.</dd>
+<dt><a href="#Property-locale">locale</a></dt>
+<dd>The locale for this sort.</dd>
 <dt><a href="#Property-member">member</a></dt>
 <dd></dd>
+<dt><a href="#Property-strength">strength</a></dt>
+<dd>The strength of this sort collation.</dd>
 </dl>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Report sorting and group sorting is defined as a series of
+column, sort direction pairs. Each pair is a Sort Criteria structure.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-direction">direction Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The sort direction: Ascending (the default) or Descending.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -84,17 +96,25 @@
 <tr><td>asc</td>
 <td>Ascending</td>
 <td>asc</td>
-<td></td></tr>
+<td>Sort values from lowest to highest.</td></tr>
 <tr><td>desc</td>
 <td>Descending</td>
 <td>desc</td>
-<td></td></tr>
+<td>Sort values from highest to lowest.</td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The sort direction: Ascending (the default) or Descending.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<br></div>
 
 <hr>
 <h2><a name="Property-key">key Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">An expression that gives the sort key on which to sort.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -124,6 +144,52 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>An expression that gives the sort key on which to sort. The
+simplest case is the name of a column. The expression can also be an
+expression that includes columns. When used for a group, the expression
+can contain an aggregate computed over the group.</p>
+
+<p>Expressions that include only a column name are candidates for
+"pushing" into the data set. However, sort keys that are expressions
+must be evaluated within BIRT, and so the sorting itself must occur
+within BIRT.</p></div>
+
+<hr>
+<h2><a name="Property-locale">locale Property</a></h2>
+
+<p class="section-text">The locale for this sort.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#locale">locale</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Sort locale</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The locale for this sort.</p></div>
 
 <hr>
 <h2><a name="Property-member">member Property</a></h2>
@@ -154,5 +220,39 @@
 <td>Top</td></tr>
 </table>
 
+
+<hr>
+<h2><a name="Property-strength">strength Property</a></h2>
+
+<p class="section-text">The strength of this sort collation.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Sort strength</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>-1</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The strength of this sort collation. The default value is -1.</p></div>
 </body>
 </html>

@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">Measure Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Base element for measure elements within a cube.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,13 +40,13 @@
 
 <dl class="section-text">
 <dt><a href="#Property-dataType">dataType</a></dt>
-<dd></dd>
+<dd>Measure data type property.</dd>
 <dt><a href="#Property-function">function</a></dt>
-<dd></dd>
+<dd>The aggregation function applied to this measure.</dd>
 <dt><a href="#Property-isCalculated">isCalculated</a></dt>
-<dd></dd>
+<dd>Indicate whether this measure is computed by other measures.</dd>
 <dt><a href="#Property-measureExpression">measureExpression</a></dt>
-<dd></dd>
+<dd>The BIRT expression that defines the value of the measure element.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -62,11 +64,19 @@
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The measure is an abstract element that defines the basic properties of a measure element.
+It has two derived elements: tabular and ODA measure elements.</p>
+
+<p>Measure is the quantity that you are interested in measuring, for example, 
+unit sales of a product, or cost price of inventory items.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-dataType">dataType Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Measure data type property.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -134,12 +144,20 @@
 <td>Blob</td>
 <td>blob</td>
 <td></td></tr>
+<tr><td>javaObject</td>
+<td>Java Object</td>
+<td>javaObject</td>
+<td></td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property gives out the data type of the measure resulting data.</p></div>
 
 <hr>
 <h2><a name="Property-function">function Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The aggregation function applied to this measure.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -288,11 +306,15 @@
 <td>rank</td>
 <td></td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property gives out the function that user wants to apply on this measure.</p></div>
 
 <hr>
 <h2><a name="Property-isCalculated">isCalculated Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Indicate whether this measure is computed by other measures.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -318,11 +340,16 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property indicates whether this measure is computed by other measures. True if it is
+calculated by other measures; otherwise false. By default, its value is FALSE.</p></div>
 
 <hr>
 <h2><a name="Property-measureExpression">measureExpression Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The BIRT expression that defines the value of the measure element.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -352,5 +379,11 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The expression that gets evaluated and its resulting value assigned to the measure element.
+If the isCalculated is false, then the value of this property should be a column name. 
+If it is true, the value of this property should be an expression for the computed measure.</p></div>
 </body>
 </html>

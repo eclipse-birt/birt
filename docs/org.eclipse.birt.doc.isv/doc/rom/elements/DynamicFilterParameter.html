@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">DynamicFilterParameter Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Defines a dynamic filter parameter.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,11 +40,11 @@
 
 <dl class="section-text">
 <dt><a href="#Property-column">column</a></dt>
-<dd></dd>
+<dd>Refers to the data set column.</dd>
 <dt><a href="#Property-displayType">displayType</a></dt>
-<dd></dd>
+<dd>The display type for the parameter.</dd>
 <dt><a href="#Property-filterOperator">filterOperator</a></dt>
-<dd></dd>
+<dd>Contains a set of operators.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -55,6 +57,7 @@
 <a href="AbstractScalarParameter.html#Property-defaultValue">defaultValue</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
 <a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
+<a href="AbstractScalarParameter.html#Property-distinct">distinct</a>, 
 <a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="Parameter.html#Property-helpText">helpText</a>, 
@@ -81,11 +84,15 @@
 
 <p class="section-text">
 <a href="Parameter.html#Method-validate">validate</a></p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This element supports dynamic ad hoc parameter feature.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-column">column Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Refers to the data set column.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -111,11 +118,19 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Refers to the data set column.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p>&nbsp;</p></div>
 
 <hr>
 <h2><a name="Property-displayType">displayType Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The display type for the parameter.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -150,17 +165,21 @@
 <tr><td>simple</td>
 <td>Simple</td>
 <td>simple</td>
-<td></td></tr>
+<td>simple type.</td></tr>
 <tr><td>advanced</td>
 <td>Advanced</td>
 <td>advanced</td>
-<td></td></tr>
+<td>advanced type.</td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Identifies it is a simple filter or advanced filter.</p></div>
 
 <hr>
 <h2><a name="Property-filterOperator">filterOperator Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Contains a set of operators.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -186,5 +205,9 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Contains a set of operators.</p></div>
 </body>
 </html>

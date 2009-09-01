@@ -40,20 +40,20 @@ A data set defined in JavaScript.</div>
 
 <dl class="section-text">
 <dt><a href="#Property-dataSource">dataSource</a></dt>
-<dd></dd>
+<dd>The database connection that the data set is used.</dd>
 </dl>
 
 <h3>Method Summary</h3>
 
 <dl class="section-text">
 <dt><a href="#Method-close">close</a></dt>
-<dd></dd>
+<dd>Called by BIRT to close the data set.</dd>
 <dt><a href="#Method-describe">describe</a></dt>
-<dd></dd>
+<dd>Dynamically describes the result set definition in JavaScript.</dd>
 <dt><a href="#Method-fetch">fetch</a></dt>
-<dd></dd>
+<dd>Fetches a row from the data set.</dd>
 <dt><a href="#Method-open">open</a></dt>
-<dd></dd>
+<dd>Opens the data set.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -79,6 +79,7 @@ A data set defined in JavaScript.</div>
 <a href="SimpleDataSet.html#Property-refTemplateParameter">refTemplateParameter</a>, 
 <a href="DataSet.html#Property-resultSetHints">resultSetHints</a>, 
 <a href="DataSet.html#Property-rowFetchLimit">rowFetchLimit</a>, 
+<a href="DataSet.html#Property-sortHints">sortHints</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
@@ -97,16 +98,11 @@ A data set defined in JavaScript.</div>
 providing methods for opening, fetching and closing the data set. It defines 
 the overall properties of the scripted data set including the JavaScript methods 
 themselves and an optional result set definition.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>Script Data Source element</code></p>
-<p><code>DataSet</code> scripting object</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-dataSource">dataSource Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The database connection that the data set is used.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -132,11 +128,20 @@ themselves and an optional result set definition.</p></div>
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Name of the data source, that is the database connection this data set is using.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>DataSetParam structure</code></p>
+<p><code>ParamBinding structure</code></p></div>
 <h1>Method Detail</h1>
 
 <h2><a name="Method-close">close Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Called by BIRT to close the data set.</p>
 <h3>Synopsis
 </h3>
 
@@ -155,11 +160,20 @@ themselves and an optional result set definition.</p></div>
 <td>None</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Closes the data set. Optional.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>beforeClose</code> method</p>
+<p><code>afterClose</code> method</p></div>
 
 <hr>
 <h2><a name="Method-describe">describe Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Dynamically describes the result set definition in JavaScript.</p>
 <h3>Synopsis
 </h3>
 
@@ -178,11 +192,44 @@ themselves and an optional result set definition.</p></div>
 <td>ColumnDefn[]</td></tr>
 </table>
 
+<h3>Return</h3>
+
+<div class="section-text">
+<p>The Describe method can return null, which tells BIRT to use the static 
+definition instead. The script can access the static description using the 
+design object within the script.</p>
+
+<p>If the method returns a column array, then the array must satisfy the 
+following constraints:</p>
+
+<ul>
+  <li>The array must have at least two entries,</li>
+  <li>The entry in position 0 (which represents the row number column) is 
+  ignored.</li>
+  <li>The entry in position 1 must exist.</li>
+  <li>There must be no empty positions in the array.</li>
+  <li>Each position must contain an object of type ResultSetColumn.</li>
+  <li>The column names must be unique within the result set definition.</li>
+  <li>Each column definition in the array must have a one-to-one match with the 
+  corresponding column in the DataRow object returned by the fetch method.</li>
+</ul></div>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Called before BIRT calls the
+<code>beforeOpen</code> method. Creates a 
+runt-time definition of the result set columns. Returns an array of 
+ResultSetColumn objects. Each object describes a column in the expected result 
+set. Optional.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>ResultSetColumn</code> structure</p></div>
 
 <hr>
 <h2><a name="Method-fetch">fetch Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Fetches a row from the data set.</p>
 <h3>Synopsis
 </h3>
 
@@ -201,11 +248,28 @@ themselves and an optional result set definition.</p></div>
 <td>DataRow</td></tr>
 </table>
 
+<h3>Return</h3>
+
+<div class="section-text">
+<p>Returns <code>true</code> if there is another row to fetch, <code>false</code> if there are no more 
+rows. When the data set has returned the last row from the result set, 
+subsequent calls to
+<code>fetch</code> should return <code>false</code>. </p></div>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Fetches a row from the data set on each call, and populates the current row 
+available in the <code>row</code> property.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>onFetch</code> method</p>
+<p><code>DataRow scripting object</code></p></div>
 
 <hr>
 <h2><a name="Method-open">open Method</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Opens the data set.</p>
 <h3>Synopsis
 </h3>
 
@@ -224,5 +288,16 @@ themselves and an optional result set definition.</p></div>
 <td>None</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Opens the external data set. Throws a JavaScript 
+exception if the open fails. Often refers to report parameters or user-defined 
+parameters for information about the data set. Optional.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>beforeOpen</code> method</p>
+<p><code>afterOpen</code> method</p></div>
 </body>
 </html>
