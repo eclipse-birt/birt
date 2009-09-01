@@ -917,8 +917,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			// Set default aggregate function
 			SeriesGrouping aggGrouping = SeriesGroupingImpl.create( );
-			aggGrouping.setAggregateExpression( seriesdefinition.getGrouping( )
+			if ( seriesdefinition.getGrouping( ) != null )
+			{
+				aggGrouping.setAggregateExpression( seriesdefinition.getGrouping( )
 					.getAggregateExpression( ) );
+			}
 			query.setGrouping( aggGrouping );
 		}
 		fAggEditorComposite = new AggregateEditorComposite( composite,
