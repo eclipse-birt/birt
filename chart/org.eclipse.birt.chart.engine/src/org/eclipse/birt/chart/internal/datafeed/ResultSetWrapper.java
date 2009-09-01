@@ -357,14 +357,23 @@ public final class ResultSetWrapper
 			sortValue[1] = Integer.valueOf( endIndex );
 
 			// Initialize aggregation function.
-			iafa.initialize( );
-
-			for ( int j = startIndex; j < endIndex; j++ )
+			try
 			{
-				Object[] oaTuple = (Object[]) workingResultSet.get( j );
-				iafa.accumulate( oaTuple[ySortExprIndex] );
+				iafa.initialize( );
+
+				for ( int j = startIndex; j < endIndex; j++ )
+				{
+					Object[] oaTuple = (Object[]) workingResultSet.get( j );
+					iafa.accumulate( oaTuple[ySortExprIndex] );
+				}
+				sortValue[2] = iafa.getAggregatedValue( );
 			}
-			sortValue[2] = iafa.getAggregatedValue( );
+			catch ( IllegalArgumentException e )
+			{
+				// The sort key is not number, can not use SUM, just select first value of current group as sort value.
+				Object[] oaTuple = (Object[]) workingResultSet.get( startIndex );
+				sortValue[2] = oaTuple[ySortExprIndex];
+			}
 
 			sortGroupsList.add( sortValue );
 		}

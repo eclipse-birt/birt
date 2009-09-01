@@ -407,6 +407,12 @@ public class GroupingLookupHelper
 					}
 				}
 			}
+			
+			if ( fYSortExprIndex < 0 )
+			{
+				addDataExp( ySortKey, "" ); //$NON-NLS-1$
+				fYSortExprIndex = findIndexOfBaseSeries( ySortKey );
+			}
 
 			if ( !bAnyQueries )
 			{
