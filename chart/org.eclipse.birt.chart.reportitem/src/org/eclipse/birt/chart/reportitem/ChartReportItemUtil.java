@@ -11,20 +11,39 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.Serializer;
-import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * Utility class for Chart integration as report item
@@ -33,66 +52,131 @@ import org.eclipse.core.runtime.Platform;
 public class ChartReportItemUtil extends ChartItemUtil
 {
 
+	/**
+	 * The field indicates it will revise chart model under reference report
+	 * item case.
+	 */
+	public static final int REVISE_REFERENCE_REPORT_ITEM = 1;
 
 	/**
-	 * Checks if shared scale is needed when computation
+	 * Revise chart model.
 	 * 
-	 * @param eih
-	 *            handle
+	 * @param reviseType
 	 * @param cm
-	 *            chart model
-	 * @return shared binding needed or not
-	 * @since 2.3
+	 * @param itemHandle
 	 */
-	public static boolean canScaleShared( ReportItemHandle eih, Chart cm )
+	public static void reviseChartModel( int reviseType, Chart cm,
+			ReportItemHandle itemHandle )
 	{
-		return cm instanceof ChartWithAxes
-				&& eih.getDataSet( ) == null
-				&& getBindingHolder( eih ) != null
-				&& ChartXTabUtil.isInXTabMeasureCell( eih );
+		switch ( reviseType )
+		{
+			case REVISE_REFERENCE_REPORT_ITEM :
+				String[] categoryExprs = ChartUtil.getCategoryExpressions( cm );
+				if ( itemHandle.getDataBindingReference( ) != null
+						&& isBaseGroupingDefined( cm )
+						&& !( categoryExprs.length > 0 && isSharedGroupExpression( categoryExprs[0],
+								itemHandle ) ) )
+				{
+					// In older version of chart, it is allowed to set grouping
+					// on category series when sharing report item, but now it
+					// isn't allowed, so this calls will revise chart model to
+					// remove category series grouping flag for the case.
+					SeriesDefinition baseSD = null;
+					if ( cm instanceof ChartWithAxes )
+					{
+						ChartWithAxes cwa = (ChartWithAxes) cm;
+						baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+								.get( 0 );
+					}
+					else if ( cm instanceof ChartWithoutAxes )
+					{
+						ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+						baseSD = cwoa.getSeriesDefinitions( ).get( 0 );
+					}
+					if ( baseSD != null && baseSD.getGrouping( ) != null )
+					{
+						baseSD.getGrouping( ).unsetEnabled( );
+					}
+				}
+				break;
+		}
 	}
 
 	/**
-	 * Creates the default bounds for chart model.
+	 * Checks if chart should use internal grouping or DTE grouping.
 	 * 
-	 * @param eih
-	 *            chart handle
-	 * @param cm
-	 *            chart model
-	 * @return default bounds
-	 * @since 2.3
+	 * @param chartHandle
+	 *            handle with version
+	 * @return true means old report using internal grouping
+	 * @since 2.3.1
 	 */
-	public static Bounds createDefaultChartBounds( ExtendedItemHandle eih,
-			Chart cm )
+	public static boolean isOldChartUsingInternalGroup(
+			ReportItemHandle chartHandle, Chart cm )
 	{
-		// Axis chart case
-		if ( ChartXTabUtil.isAxisChart( eih ) )
+		if ( ChartUtil.compareVersion( cm.getVersion( ), "2.5.0" ) >= 0 ) //$NON-NLS-1$
 		{
-			// Axis chart must be ChartWithAxes
-			ChartWithAxes cmWA = (ChartWithAxes) cm;
-			if ( cmWA.isTransposed( ) )
+			return false;
+		}
+
+		String reportVer = chartHandle.getModuleHandle( ).getVersion( );
+		if ( reportVer == null
+				|| ChartUtil.compareVersion( reportVer, "3.2.16" ) < 0 ) //$NON-NLS-1$
+		{
+			return true;
+		}
+
+		// Since if the chart is serilized into a document, the version number
+		// will always be
+		// the newest, so we can only detect an old chart using internal group
+		// with following facts:
+		// 1. the chart has an gouping on base seriesDefination
+		// 2. shared binding is used.
+		// 3. the shared binding is not grouped.
+		if ( chartHandle.getDataBindingReference( ) != null
+				&& isBaseGroupingDefined( cm )
+				&& !isSharedGroupExpression( ChartUtil.getCategoryExpressions( cm )[0],
+						chartHandle ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if specified expression is a grouping expression of shared report
+	 * item.
+	 * 
+	 * @param expression
+	 * @param handle
+	 * @return group expression or not
+	 */
+	@SuppressWarnings("unchecked")
+	private static boolean isSharedGroupExpression( String expression,
+			ReportItemHandle handle )
+	{
+		ReportItemHandle itemHandle = getReportItemReference( handle );
+		if ( itemHandle instanceof ListingHandle )
+		{
+			List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
+			SlotHandle groups = ( (ListingHandle) itemHandle ).getGroups( );
+			for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
 			{
-				return BoundsImpl.create( 0,
-						0,
-						DEFAULT_CHART_BLOCK_WIDTH,
-						DEFAULT_AXIS_CHART_BLOCK_SIZE );
+				groupList.add( iter.next( ) );
 			}
-			else
+
+			if ( groupList.size( ) == 0 )
 			{
-				return BoundsImpl.create( 0,
-						0,
-						DEFAULT_AXIS_CHART_BLOCK_SIZE,
-						DEFAULT_CHART_BLOCK_HEIGHT );
+				return false;
+			}
+			for ( GroupHandle gh : groupList )
+			{
+				if ( expression.equals( gh.getKeyExpr( ) ) )
+				{
+					return true;
+				}
 			}
 		}
-		// Plot or ordinary chart case
-		else
-		{
-			return BoundsImpl.create( 0,
-					0,
-					DEFAULT_CHART_BLOCK_WIDTH,
-					DEFAULT_CHART_BLOCK_HEIGHT );
-		}
+		return false;
 	}
 
 	/**
@@ -112,7 +196,6 @@ public class ChartReportItemUtil extends ChartItemUtil
 		// TODO add code to check empty for ICubeResultSet
 		return false;
 	}
-	
 
 	public static <T> T getAdapter( Object adaptable, Class<T> adapterClass )
 	{
@@ -136,4 +219,319 @@ public class ChartReportItemUtil extends ChartItemUtil
 			return SerializerImpl.instance( );
 		}
 	}
+
+	/**
+	 * Checks if shared scale is needed when computation
+	 * 
+	 * @param eih
+	 *            handle
+	 * @param cm
+	 *            chart model
+	 * @return shared binding needed or not
+	 * @since 2.3
+	 */
+	public static boolean canScaleShared( ReportItemHandle eih, Chart cm )
+	{
+		return cm instanceof ChartWithAxes
+				&& eih.getDataSet( ) == null
+				&& getBindingHolder( eih ) != null
+				&& ChartCubeUtil.isInXTabMeasureCell( eih );
+	}
+
+	/**
+	 * In some cases, if the expression in subquery is a simple binding, and
+	 * this binding is from parent query, should copy the binding from parent
+	 * and insert into subquery.
+	 * 
+	 * @param query
+	 *            subquery
+	 * @param expr
+	 *            expression
+	 * @throws DataException
+	 * @since 2.3.1 and 2.4.0
+	 */
+	public static void copyAndInsertBindingFromContainer(
+			ISubqueryDefinition query, String expr ) throws DataException
+	{
+		String bindingName = ChartExpressionUtil.getRowBindingName( expr, false );
+		if ( bindingName != null
+				&& !query.getBindings( ).containsKey( bindingName )
+				&& query.getParentQuery( )
+						.getBindings( )
+						.containsKey( bindingName ) )
+		{
+			// Copy the binding from container and insert it into
+			// subquery
+			IBinding parentBinding = (IBinding) query.getParentQuery( )
+					.getBindings( )
+					.get( bindingName );
+			IBinding binding = new Binding( bindingName,
+					parentBinding.getExpression( ) );
+			binding.setAggrFunction( parentBinding.getAggrFunction( ) );
+			binding.setDataType( parentBinding.getDataType( ) );
+			binding.setDisplayName( parentBinding.getDisplayName( ) );
+			binding.setFilter( parentBinding.getFilter( ) );
+			// Exportable is true for new subquery bindings
+			query.addBinding( binding );
+		}
+	}
+
+	/**
+	 * Copy series definition from one chart model to another.
+	 * 
+	 * @param srcCM
+	 * @param targetCM
+	 * @since 2.5
+	 */
+	public static void copyChartSeriesDefinition( Chart srcCM, Chart targetCM )
+	{
+		boolean isSameType = srcCM.getType( ).equals( targetCM.getType( ) );
+		// Copy category series definitions.
+		EList<SeriesDefinition> srcRsds = ChartUtil.getBaseSeriesDefinitions( srcCM );
+		EList<SeriesDefinition> tagRsds = ChartUtil.getBaseSeriesDefinitions( targetCM );
+		for ( int i = 0; i < srcRsds.size( ); i++ )
+		{
+			SeriesDefinition sd = srcRsds.get( i );
+			SeriesDefinition tagSD = null;
+			if ( i >= tagRsds.size( ) )
+			{
+				tagSD = SeriesDefinitionImpl.create( );
+				// Add to target chart model.
+				if ( targetCM instanceof ChartWithAxes )
+				{
+					( (ChartWithAxes) targetCM ).getAxes( )
+							.get( 0 )
+							.getSeriesDefinitions( )
+							.add( tagSD );
+				}
+				else if ( targetCM instanceof ChartWithoutAxes )
+				{
+					( (ChartWithoutAxes) targetCM ).getSeriesDefinitions( )
+							.add( tagSD );
+				}
+			}
+			else
+			{
+				tagSD = tagRsds.get( i );
+			}
+
+			copySDQueryAttributes( sd, tagSD );
+		}
+
+		// Copy Y series definitions.
+		if ( targetCM instanceof ChartWithAxes )
+		{
+			EList<Axis> tagAxisList = ( (ChartWithAxes) targetCM ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( );
+
+			if ( srcCM instanceof ChartWithAxes )
+			{
+				EList<Axis> srcAxisList = ( (ChartWithAxes) srcCM ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( );
+
+				if ( tagAxisList.size( ) > srcAxisList.size( ) )
+				{
+					for ( int i = ( tagAxisList.size( ) - 1 ); i >= srcAxisList.size( ); i-- )
+					{
+						tagAxisList.remove( i );
+					}
+				}
+
+				if ( isSameType )
+				{
+					// If source chart type is equal with target chart type,
+					// copy additional axes from source into target.
+
+					for ( int i = 0; i < srcAxisList.size( ); i++ )
+					{
+						if ( i >= tagAxisList.size( ) )
+						{
+							// src size > target size, copy pending axis from
+							// source to target.
+							tagAxisList.add( srcAxisList.get( i )
+									.copyInstance( ) );
+						}
+
+						srcRsds = srcAxisList.get( i ).getSeriesDefinitions( );
+						tagRsds = tagAxisList.get( i ).getSeriesDefinitions( );
+
+						copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
+					}
+				}
+				else
+				{
+					int minsize = srcAxisList.size( ) > tagAxisList.size( ) ? tagAxisList.size( )
+							: srcAxisList.size( );
+					for ( int i = 0; i < minsize; i++ )
+					{
+						srcRsds = srcAxisList.get( i ).getSeriesDefinitions( );
+						tagRsds = tagAxisList.get( i ).getSeriesDefinitions( );
+
+						copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
+					}
+				}
+			}
+			else
+			{
+				srcRsds = ( (ChartWithoutAxes) srcCM ).getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( );
+				if ( tagAxisList.size( ) > 1 )
+				{
+					for ( int i = 1; i < tagAxisList.size( ); i++ )
+					{
+						tagAxisList.remove( i );
+					}
+				}
+				tagRsds = tagAxisList.get( 0 ).getSeriesDefinitions( );
+
+				copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
+			}
+		}
+		else
+		{
+			tagRsds = ( (ChartWithoutAxes) targetCM ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( );
+			if ( srcCM instanceof ChartWithAxes )
+			{
+				srcRsds = ( (ChartWithAxes) srcCM ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( )
+						.get( 0 )
+						.getSeriesDefinitions( );
+			}
+			else
+			{
+				srcRsds = ( (ChartWithoutAxes) srcCM ).getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( );
+			}
+
+			copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
+		}
+	}
+
+	/**
+	 * @param srcRsds
+	 * @param tagRsds
+	 */
+	private static void copySDListQueryAttributes(
+			EList<SeriesDefinition> srcRsds, EList<SeriesDefinition> tagRsds,
+			boolean sameChartType )
+	{
+		if ( tagRsds.size( ) > srcRsds.size( ) )
+		{
+			for ( int i = ( tagRsds.size( ) - 1 ); i >= srcRsds.size( ); i-- )
+			{
+				tagRsds.remove( i );
+			}
+		}
+
+		if ( sameChartType )
+		{
+			for ( int i = 0; i < srcRsds.size( ); i++ )
+			{
+				if ( i >= tagRsds.size( ) )
+				{
+					// Copy
+					tagRsds.add( srcRsds.get( i ).copyInstance( ) );
+				}
+
+				SeriesDefinition sd = srcRsds.get( i );
+				SeriesDefinition tagSD = tagRsds.get( i );
+				copySDQueryAttributes( sd, tagSD );
+			}
+		}
+		else
+		{
+			int minSDsize = srcRsds.size( ) > tagRsds.size( ) ? tagRsds.size( )
+					: srcRsds.size( );
+			for ( int i = 0; i < minSDsize; i++ )
+			{
+				SeriesDefinition sd = srcRsds.get( i );
+				SeriesDefinition tagSD = tagRsds.get( i );
+				copySDQueryAttributes( sd, tagSD );
+
+			}
+		}
+	}
+
+	/**
+	 * @param sd
+	 * @param tagSD
+	 */
+	private static void copySDQueryAttributes( SeriesDefinition sd,
+			SeriesDefinition tagSD )
+	{
+		if ( sd.getQuery( ) != null )
+		{
+			tagSD.setQuery( sd.getQuery( ).copyInstance( ) );
+		}
+		else
+		{
+			tagSD.setQuery( null );
+		}
+		if ( sd.getGrouping( ) != null )
+		{
+			tagSD.setGrouping( sd.getGrouping( ).copyInstance( ) );
+		}
+		else
+		{
+			tagSD.setGrouping( null );
+		}
+		if ( sd.isSetSorting( ) )
+		{
+			tagSD.setSorting( sd.getSorting( ) );
+		}
+
+		if ( sd.getSortKey( ) != null )
+		{
+			tagSD.setSortKey( sd.getSortKey( ).copyInstance( ) );
+		}
+		else
+		{
+			tagSD.setSortKey( null );
+		}
+		if ( sd.isSetZOrder( ) )
+		{
+			tagSD.setZOrder( sd.getZOrder( ) );
+		}
+		int tagSize = tagSD.getSeries( ).size( );
+		int srcSize = sd.getSeries( ).size( );
+		if ( tagSize > srcSize )
+		{
+			for ( int i = ( tagSize - 1 ); i >= srcSize; i-- )
+				tagSD.getSeries( ).remove( i );
+		}
+
+		// Copy data definitions.
+		int i = 0;
+		for ( ; i < srcSize; i++ )
+		{
+			if ( i >= tagSize )
+			{
+				// New a series and copy data definitions.
+				Series tagSeries = tagSD.getSeries( ).get( 0 ).copyInstance( );
+				tagSD.getSeries( ).add( tagSeries );
+
+				Series srcSeries = sd.getSeries( ).get( i );
+				tagSeries.getDataDefinition( ).clear( );
+				for ( Query q : srcSeries.getDataDefinition( ) )
+					tagSeries.getDataDefinition( ).add( q.copyInstance( ) );
+			}
+			else
+			{
+				// Copy data definitions.
+				Series tagSeries = tagSD.getSeries( ).get( i );
+				Series srcSeries = sd.getSeries( ).get( i );
+				tagSeries.getDataDefinition( ).clear( );
+				for ( Query q : srcSeries.getDataDefinition( ) )
+					tagSeries.getDataDefinition( ).add( q.copyInstance( ) );
+			}
+		}
+	}
+
 }

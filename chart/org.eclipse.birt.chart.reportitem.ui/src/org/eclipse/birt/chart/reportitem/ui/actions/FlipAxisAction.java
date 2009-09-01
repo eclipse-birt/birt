@@ -17,10 +17,9 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
-import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -48,7 +47,7 @@ public class FlipAxisAction extends Action
 
 	private void init( )
 	{
-		Chart cm = ChartXTabUtil.getChartFromHandle( eih );
+		Chart cm = ChartCubeUtil.getChartFromHandle( eih );
 		if ( cm instanceof ChartWithAxes )
 		{
 			this.setChecked( ( (ChartWithAxes) cm ).isTransposed( ) );
@@ -64,14 +63,14 @@ public class FlipAxisAction extends Action
 	{
 		try
 		{
-			if ( ChartXTabUtil.isAxisChart( eih ) )
+			if ( ChartCubeUtil.isAxisChart( eih ) )
 			{
 				// Get plot chart if it's axis chart
 				eih = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
 			}
-			if ( ChartXTabUtil.isPlotChart( eih ) )
+			if ( ChartCubeUtil.isPlotChart( eih ) )
 			{
-				AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
+				AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( eih );
 				if ( containerCell != null )
 				{
 					if ( DEUtil.isLinkedElement( containerCell.getCrosstabHandle( ) ) )
@@ -80,10 +79,10 @@ public class FlipAxisAction extends Action
 						// library
 						return false;
 					}
-					List<String> exprs = ChartXTabUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
+					List<String> exprs = ChartCubeUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
 					// Grand total always supports only one direction
 					return exprs.size( ) == 2
-							&& !ChartXTabUtil.isAggregationCell( containerCell );
+							&& !ChartCubeUtil.isAggregationCell( containerCell );
 				}
 			}
 		}
@@ -99,13 +98,13 @@ public class FlipAxisAction extends Action
 	{
 		try
 		{
-			AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
+			AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( eih );
 			if ( containerCell != null )
 			{
 				ChartReportItemImpl reportItem = (ChartReportItemImpl) eih.getReportItem( );
 				ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 				ChartWithAxes cmNew = cmOld.copyInstance( );
-				List<String> exprs = ChartXTabUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
+				List<String> exprs = ChartCubeUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
 				Query query = cmNew.getAxes( )
 						.get( 0 )
 						.getSeriesDefinitions( )
@@ -121,7 +120,7 @@ public class FlipAxisAction extends Action
 					// axes
 					cmNew.getBaseAxes( )[0].setType( AxisType.TEXT_LITERAL );
 					query.setDefinition( exprs.get( 0 ) );
-					ChartXTabUIUtil.updateXTabForAxis( containerCell,
+					ChartCubeUtil.updateXTabForAxis( containerCell,
 							eih,
 							true,
 							cmNew );
@@ -133,7 +132,7 @@ public class FlipAxisAction extends Action
 					// axes
 					cmNew.getBaseAxes( )[0].setType( AxisType.TEXT_LITERAL );
 					query.setDefinition( exprs.get( 1 ) );
-					ChartXTabUIUtil.updateXTabForAxis( containerCell,
+					ChartCubeUtil.updateXTabForAxis( containerCell,
 							eih,
 							false,
 							cmNew );

@@ -45,6 +45,8 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.IChartReportItem;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.IChartEventHandler;
@@ -75,6 +77,7 @@ import com.ibm.icu.util.ULocale;
  * ChartReportItemImpl
  */
 public final class ChartReportItemImpl extends ReportItem implements
+		IChartReportItem,
 		ICompatibleReportItem,
 		IResourceFinder,
 		IExternalizer
@@ -205,9 +208,6 @@ public final class ChartReportItemImpl extends ReportItem implements
 		this.handle.getModuleHandle( ).getCommandStack( ).execute( command );
 	}
 
-	/**
-	 * Set the new chart through a command for command stack integration
-	 */
 	public void executeSetModelCommand( ExtendedItemHandle eih, Chart oldChart,
 			Chart newChart )
 	{
@@ -246,7 +246,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 		if ( propName != null
 				&& propName.equalsIgnoreCase( ChartReportItemUtil.PROPERTY_XMLPRESENTATION ) )
 		{
-			if ( !ChartXTabUtil.isAxisChart( handle ) )
+			if ( !ChartCubeUtil.isAxisChart( handle ) )
 			{
 				// Do not serialize axis chart, since it always uses reference
 				// as chart model
@@ -274,7 +274,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 			throws ExtendedElementException
 	{
 		if ( propName != null
-				&& propName.equalsIgnoreCase( ChartReportItemConstants.PROPERTY_XMLPRESENTATION ) )
+				&& propName.equalsIgnoreCase( org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants.PROPERTY_XMLPRESENTATION ) )
 		{
 			try
 			{
@@ -635,7 +635,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	private void initHostChart( )
 	{
-		if ( ChartXTabUtil.isAxisChart( handle ) )
+		if ( ChartCubeUtil.isAxisChart( handle ) )
 		{
 			ExtendedItemHandle hostChartHandle = (ExtendedItemHandle) handle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
 			if ( hostChartHandle == null || hostChartHandle == handle )
@@ -801,7 +801,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 		crii.bCopied = true;
 
 		// Do not copy model for axis chart since it uses reference
-		if ( !ChartXTabUtil.isAxisChart( handle ) )
+		if ( !ChartCubeUtil.isAxisChart( handle ) )
 		{
 			crii.cm = cm == null ? null : cm.copyInstance( );
 		}
@@ -906,8 +906,8 @@ public final class ChartReportItemImpl extends ReportItem implements
 		// If chart is from multi-view or xtab part, do not allow to
 		// export to library.
 		if ( handle.getContainer( ) instanceof MultiViewsHandle
-				|| ChartXTabUtil.isPlotChart( handle )
-				|| ChartXTabUtil.isAxisChart( handle ) )
+				|| ChartCubeUtil.isPlotChart( handle )
+				|| ChartCubeUtil.isAxisChart( handle ) )
 		{
 			return false;
 		}

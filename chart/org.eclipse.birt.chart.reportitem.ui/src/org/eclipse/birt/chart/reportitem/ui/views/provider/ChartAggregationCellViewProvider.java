@@ -29,11 +29,11 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
-import org.eclipse.birt.chart.reportitem.ChartInXTabStatusManager;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartInXTabStatusManager;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -77,7 +77,7 @@ public class ChartAggregationCellViewProvider extends
 		if ( handle != null )
 		{
 			// Only return true for plot chart
-			return ChartXTabUtil.isPlotChart( handle );
+			return ChartCubeUtil.isPlotChart( handle );
 		}
 		return false;
 	}
@@ -90,14 +90,14 @@ public class ChartAggregationCellViewProvider extends
 			ChartWithAxes cm = createDefaultChart( info );
 
 			// Get the measure binding expression and drop the DataItemHandle
-			Object content = ChartXTabUtil.getFirstContent( cell );
+			Object content = ChartCubeUtil.getFirstContent( cell );
 			if ( content instanceof DesignElementHandle )
 			{
 				( (DesignElementHandle) content ).dropAndClear( );
 			}
 
 			// Create the ExtendedItemHandle with default chart model
-			ExtendedItemHandle chartHandle = ChartXTabUtil.createChartHandle( cell.getModelHandle( ),
+			ExtendedItemHandle chartHandle = ChartCubeUtil.createChartHandle( cell.getModelHandle( ),
 					ChartReportItemConstants.TYPE_PLOT_CHART,
 					null );
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
@@ -105,11 +105,11 @@ public class ChartAggregationCellViewProvider extends
 			cell.addContent( chartHandle, 0 );
 
 			// Update xtab direction for multiple measure case
-			ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+			ChartCubeUtil.updateXTabDirection( cell.getCrosstab( ),
 					cm.isTransposed( ) );
 
 			// Set span and add axis cell
-			ChartXTabUtil.addAxisChartInXTab( cell,
+			ChartCubeUtil.addAxisChartInXTab( cell,
 					cm,
 					chartHandle,
 					info.isNew( ) );
@@ -134,10 +134,10 @@ public class ChartAggregationCellViewProvider extends
 			}
 
 			ExtendedItemHandle chartHandle = getChartHandle( cell );
-			Chart cm = ChartReportItemUtil.getChartFromHandle( chartHandle );
+			Chart cm = ChartItemUtil.getChartFromHandle( chartHandle );
 
 			// If it's axis chart, only remove axis in chart model
-			if ( ChartXTabUtil.isAxisChart( chartHandle ) )
+			if ( ChartCubeUtil.isAxisChart( chartHandle ) )
 			{
 				Axis yAxis = ( (ChartWithAxes) cm ).getAxes( )
 						.get( 0 )
@@ -150,13 +150,13 @@ public class ChartAggregationCellViewProvider extends
 			}
 
 			// Set null size back
-			CrosstabCellHandle levelCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			CrosstabCellHandle levelCell = ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE );
 			if ( levelCell != null )
 			{
 				cell.getCrosstab( ).setRowHeight( levelCell, null );
 			}
-			levelCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			levelCell = ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.COLUMN_AXIS_TYPE );
 			if ( levelCell != null )
 			{
@@ -164,7 +164,7 @@ public class ChartAggregationCellViewProvider extends
 			}
 
 			// Remove axis chart
-			ChartXTabUtil.removeAxisChartInXTab( cell,
+			ChartCubeUtil.removeAxisChartInXTab( cell,
 					ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 					true );
 			// Plot chart will be removed by designer itself
@@ -199,7 +199,7 @@ public class ChartAggregationCellViewProvider extends
 		cm.getLegend( ).setVisible( false );
 		cm.getTitle( ).setVisible( false );
 
-		String exprMeasure = ChartXTabUtil.generateComputedColumnName( cell );
+		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell );
 		String exprCategory = null;
 
 		// Compute the correct chart direction according to xtab
@@ -209,7 +209,7 @@ public class ChartAggregationCellViewProvider extends
 			cm.setReverseCategory( true );
 
 			// Get the row dimension binding name as Category expression
-			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			Object content = ChartCubeUtil.getFirstContent( ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE ) );
 			if ( content instanceof DataItemHandle )
 			{
@@ -220,7 +220,7 @@ public class ChartAggregationCellViewProvider extends
 		else
 		{
 			// Get the column dimension binding name as Category expression
-			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			Object content = ChartCubeUtil.getFirstContent( ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.COLUMN_AXIS_TYPE ) );
 			if ( content instanceof DataItemHandle )
 			{
@@ -284,14 +284,14 @@ public class ChartAggregationCellViewProvider extends
 			AggregationCellHandle cell )
 	{
 		// Replace the query expression in chart model
-		String exprMeasure = ChartXTabUtil.generateComputedColumnName( cell );
+		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell );
 		String exprCategory = null;
 
 		if ( cm.isTransposed( ) )
 		{
 			// Get the row dimension binding name as Category
 			// expression
-			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			Object content = ChartCubeUtil.getFirstContent( ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE ) );
 			if ( content instanceof DataItemHandle )
 			{
@@ -303,7 +303,7 @@ public class ChartAggregationCellViewProvider extends
 		{
 			// Get the column dimension binding name as Category
 			// expression
-			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			Object content = ChartCubeUtil.getFirstContent( ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.COLUMN_AXIS_TYPE ) );
 			if ( content instanceof DataItemHandle )
 			{
@@ -335,8 +335,8 @@ public class ChartAggregationCellViewProvider extends
 
 	private ExtendedItemHandle getChartHandle( CrosstabCellHandle cell )
 	{
-		Object content = ChartXTabUtil.getFirstContent( cell );
-		if ( ChartXTabUtil.isChartHandle( content ) )
+		Object content = ChartCubeUtil.getFirstContent( cell );
+		if ( ChartCubeUtil.isChartHandle( content ) )
 		{
 			return (ExtendedItemHandle) content;
 		}
@@ -345,7 +345,7 @@ public class ChartAggregationCellViewProvider extends
 
 	private boolean checkTransposed( AggregationCellHandle cell )
 	{
-		if ( ChartXTabUtil.isDetailCell( cell ) )
+		if ( ChartCubeUtil.isDetailCell( cell ) )
 		{
 			// If no column area, transpose chart.
 			if ( cell.getAggregationOnColumn( ) == null )
@@ -367,8 +367,8 @@ public class ChartAggregationCellViewProvider extends
 				if ( cell.getDimensionView( ICrosstabConstants.ROW_AXIS_TYPE ) == otherCell.getDimensionView( ICrosstabConstants.ROW_AXIS_TYPE )
 						&& cell.getLevelView( ICrosstabConstants.ROW_AXIS_TYPE ) == otherCell.getLevelView( ICrosstabConstants.ROW_AXIS_TYPE ) )
 				{
-					Object content = ChartXTabUtil.getFirstContent( otherCell );
-					if ( ChartXTabUtil.isPlotChart( (DesignElementHandle) content ) )
+					Object content = ChartCubeUtil.getFirstContent( otherCell );
+					if ( ChartCubeUtil.isPlotChart( (DesignElementHandle) content ) )
 					{
 						return true;
 					}
@@ -376,13 +376,13 @@ public class ChartAggregationCellViewProvider extends
 			}
 
 			// If chart in measure cell, use the original direction
-			Object content = ChartXTabUtil.getFirstContent( cell );
-			if ( ChartXTabUtil.isPlotChart( (DesignElementHandle) content ) )
+			Object content = ChartCubeUtil.getFirstContent( cell );
+			if ( ChartCubeUtil.isPlotChart( (DesignElementHandle) content ) )
 			{
-				return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( (ExtendedItemHandle) content ) ).isTransposed( );
+				return ( (ChartWithAxes) ChartCubeUtil.getChartFromHandle( (ExtendedItemHandle) content ) ).isTransposed( );
 			}
 		}
-		if ( ChartXTabUtil.isAggregationCell( cell ) )
+		if ( ChartCubeUtil.isAggregationCell( cell ) )
 		{
 			LevelHandle levelRow = cell.getAggregationOnRow( );
 			LevelHandle levelColumn = cell.getAggregationOnColumn( );
@@ -407,11 +407,11 @@ public class ChartAggregationCellViewProvider extends
 		}
 
 		// Use the direction of first chart in multiple measure case
-		List<ExtendedItemHandle> chartInOtherMeasure = ChartXTabUtil.findChartInOtherMeasures( cell,
+		List<ExtendedItemHandle> chartInOtherMeasure = ChartCubeUtil.findChartInOtherMeasures( cell,
 				true );
 		if ( !chartInOtherMeasure.isEmpty( ) )
 		{
-			return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( chartInOtherMeasure.get( 0 ) ) ).isTransposed( );
+			return ( (ChartWithAxes) ChartCubeUtil.getChartFromHandle( chartInOtherMeasure.get( 0 ) ) ).isTransposed( );
 		}
 
 		// Default chart direction is the same with xtab's
@@ -422,14 +422,14 @@ public class ChartAggregationCellViewProvider extends
 
 	private boolean isInSubtotal( AggregationCellHandle cell, int axisType )
 	{
-		int levelCount = ChartXTabUtil.getLevelCount( cell.getCrosstab( ),
+		int levelCount = ChartCubeUtil.getLevelCount( cell.getCrosstab( ),
 				axisType );
 		if ( levelCount > 1 )
 		{
 			LevelViewHandle currentLevel = cell.getLevelView( axisType );
 			for ( int i = 0; i < levelCount; i++ )
 			{
-				LevelViewHandle level = ChartXTabUtil.getLevel( cell.getCrosstab( ),
+				LevelViewHandle level = ChartCubeUtil.getLevel( cell.getCrosstab( ),
 						axisType,
 						i );
 				if ( level == currentLevel )
@@ -445,7 +445,7 @@ public class ChartAggregationCellViewProvider extends
 	@Override
 	public void updateView( AggregationCellHandle cell, int type )
 	{
-		Object contentItem = ChartXTabUtil.getFirstContent( cell );
+		Object contentItem = ChartCubeUtil.getFirstContent( cell );
 
 		if ( contentItem instanceof ExtendedItemHandle )
 		{
@@ -453,7 +453,7 @@ public class ChartAggregationCellViewProvider extends
 
 			try
 			{
-				if ( ChartXTabUtil.isPlotChart( handle ) )
+				if ( ChartCubeUtil.isPlotChart( handle ) )
 				{
 					// Update plot chart
 					// Reset query expressions
@@ -469,7 +469,7 @@ public class ChartAggregationCellViewProvider extends
 					if ( type == CHANGE_ORIENTATION_TYPE
 							&& cell.getAggregationOnColumn( ) != null
 							&& cell.getAggregationOnRow( ) != null
-							&& !ChartXTabUtil.isAggregationCell( cell ) )
+							&& !ChartCubeUtil.isAggregationCell( cell ) )
 					{
 						// If event is from xtab direction and xtab has two
 						// aggregations and not in total cell, change chart's
@@ -498,7 +498,7 @@ public class ChartAggregationCellViewProvider extends
 
 					if ( type == CHANGE_ORIENTATION_TYPE )
 					{
-						ChartXTabUtil.updateXTabForAxis( cell,
+						ChartCubeUtil.updateXTabForAxis( cell,
 								handle,
 								cm.isTransposed( ),
 								cmNew );
@@ -506,16 +506,16 @@ public class ChartAggregationCellViewProvider extends
 					else
 					{
 						// Replace date item with axis chart
-						ChartXTabUtil.updateAxisChart( cell, cmNew, handle );
+						ChartCubeUtil.updateAxisChart( cell, cmNew, handle );
 
 						// Update xtab direction for multiple measure case
-						ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+						ChartCubeUtil.updateXTabDirection( cell.getCrosstab( ),
 								cmNew.isTransposed( ) );
 					}
 
 					ChartInXTabStatusManager.updateGrandItemStatus( cell );
 				}
-				else if ( ChartXTabUtil.isAxisChart( handle ) )
+				else if ( ChartCubeUtil.isAxisChart( handle ) )
 				{
 					// Remove axis chart if host chart does not exist
 					ExtendedItemHandle hostChartHandle = (ExtendedItemHandle) handle.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
@@ -531,7 +531,7 @@ public class ChartAggregationCellViewProvider extends
 						ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 
 						// Update xtab direction for multiple measure case
-						ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+						ChartCubeUtil.updateXTabDirection( cell.getCrosstab( ),
 								cm.isTransposed( ) );
 					}
 				}
@@ -570,8 +570,8 @@ public class ChartAggregationCellViewProvider extends
 
 			// If axis chart in total cell, don't allow to switch it to Chart
 			// view.
-			Object content = ChartXTabUtil.getFirstContent( cell );
-			if ( ChartXTabUtil.isAxisChart( ( (DesignElementHandle) content ) ) )
+			Object content = ChartCubeUtil.getFirstContent( cell );
+			if ( ChartCubeUtil.isAxisChart( ( (DesignElementHandle) content ) ) )
 			{
 				return false;
 			}

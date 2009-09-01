@@ -31,9 +31,7 @@
 		<echo message="make chartitemapi.jar"/>
 		<jar destfile="${basedir}/chartitemapi.jar">
 			<fileset dir="@dot">
-				<include name="org/eclipse/birt/chart/reportitem/api/ChartItemUtil.class" />
-				<include name="org/eclipse/birt/chart/reportitem/*Constants.class" />
-				<include name="org/eclipse/birt/chart/reportitem/ChartInXTabStatusManager.class" />
+				<include name="org/eclipse/birt/chart/reportitem/api/*.class" />
 				<include name="org/eclipse/birt/chart/reportitem/i18n/*.*" />
 			</fileset>
 		</jar>

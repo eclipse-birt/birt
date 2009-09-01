@@ -17,7 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * Utility class for XTab integration in UI
  */
 
-public class ChartXTabUIUtil extends ChartXTabUtil
+public class ChartXTabUIUtil extends ChartCubeUtil
 {
 
 	/**
@@ -75,6 +75,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	 * 
 	 * @since 2.5.1
 	 */
+	@SuppressWarnings("unchecked")
 	public static boolean checkQueryExpression( String checkType, Object data,
 			Map<String, Query[]> queryDefinitionsMap,
 			ExtendedItemHandle itemHandle, ReportDataServiceProvider provider )
@@ -94,17 +95,17 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		// Compare if dimensions between category expression and Y optional
 		// expression are same.
 		Iterator<ComputedColumnHandle> columnBindings = null;
-		if ( ChartXTabUtil.getBindingCube( itemHandle ) != null
+		if ( getBindingCube( itemHandle ) != null
 				&& provider.isInheritanceOnly( )
 				|| provider.isSharedBinding( ) )
 		{
 			ReportItemHandle reportItemHandle = provider.getReportItemHandle( );
 			columnBindings = reportItemHandle.getColumnBindings( ).iterator( );
 		}
-		else if ( ChartXTabUtil.getBindingCube( itemHandle ) != null
+		else if ( getBindingCube( itemHandle ) != null
 				|| ( provider.isInXTabMeasureCell( ) && !provider.isPartChart( ) ) ) // 
 		{
-			columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
+			columnBindings = getAllColumnBindingsIterator( itemHandle );
 		}
 
 		if ( ChartUIConstants.QUERY_OPTIONAL.equals( checkType ) )
