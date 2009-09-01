@@ -317,7 +317,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				ComputedColumnHandle cch = columnList.get( i );
 				columnHeaders[i] = new ColumnBindingInfo( cch.getName( ),
-						cch.getExpression( ),
+						ExpressionUtil.createJSRowExpression( cch.getName( ) ),
 						null,
 						null,
 						cch );
