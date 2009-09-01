@@ -686,6 +686,7 @@ PropertyEditorDialog.Lbl.Value=值
 PropertyEditorDialog.Lbl.Add=添加(&A)
 PropertyEditorDialog.Lbl.Remove=删除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=针头样式:
+HyperlinkEditorDialog.BaseURL.Message=Please set base URL.
 HyperlinkEditorDialog.ErrorMessage.ExistingText=该名称已存在，请修改为其它名称。
 HyperlinkEditorDialog.ErrorMessage.NullText=名称不能为空白\!
 HyperlinkEditorDialog.HyperlinkName.Title.Warning=警告
