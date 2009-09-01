@@ -342,8 +342,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 
 			for ( int i = 0; i < dimCount; i++ )
 			{
-				DimensionViewHandle dv = crosstab.getDimension( srcAxis, offset
-						+ i );
+				DimensionViewHandle dv = crosstab.getDimension( srcAxis, offset );
 
 				dv.getModelHandle( ).moveTo( targetViewHandle,
 						ICrosstabViewConstants.VIEWS_PROP,
