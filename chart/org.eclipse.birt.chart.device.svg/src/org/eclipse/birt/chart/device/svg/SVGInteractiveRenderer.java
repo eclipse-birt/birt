@@ -1844,6 +1844,12 @@ public class SVGInteractiveRenderer
 				+ IActionRenderer.LEGEND_ITEM_VALUE
 				+ ","//$NON-NLS-1$
 				+ IActionRenderer.AXIS_LABEL
+				+ ","//$NON-NLS-1$
+				+ ScriptHandler.ID
+				+ ","//$NON-NLS-1$
+				+ ScriptHandler.COMP_LIST
+				+ ","//$NON-NLS-1$
+				+ ScriptHandler.LABEL_LIST
 				+ ")";//$NON-NLS-1$
 	}
 }
