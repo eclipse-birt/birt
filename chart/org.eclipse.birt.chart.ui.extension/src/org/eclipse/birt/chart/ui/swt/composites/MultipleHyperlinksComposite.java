@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -55,11 +55,11 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 	private Button fBtnEdit;
 	private Button fBtnDelete;
 	private Button fBtnProperties;
-	private Text fTxtTooltip;
+	Text fTxtTooltip;
 
 	private ChartWizardContext fContext;
 
-	private MultiURLValues fMultiURLValues;
+	MultiURLValues fMultiURLValues;
 	private TriggerSupportMatrix fTriggerMatrix;
 	private int fOptionalStyles;
 
@@ -187,6 +187,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 
 		fTxtTooltip = new Text( this, SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.widthHint = 150;
 		fTxtTooltip.setLayoutData( gd );
 	}
 
@@ -242,7 +243,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		java.util.List<String> labels = Arrays.asList( fListHyperlinks.getItems( ) );
 		dialog.setExistingLabels( labels );
 
-		if ( dialog.open( ) == Dialog.OK )
+		if ( dialog.open( ) == Window.OK )
 		{
 			URLValue value = dialog.getURLValue( );
 			fMultiURLValues.getURLValues( ).add( value );
@@ -256,7 +257,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		fListHyperlinks.setSelection( fListHyperlinks.getItemCount( ) - 1 );
 	}
 
-	private void doEdit( )
+	void doEdit( )
 	{
 		int selectionIndex = fListHyperlinks.getSelectionIndex( );
 		if ( selectionIndex < 0 )
@@ -275,7 +276,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		labels.remove( value.getLabel( ).getCaption( ).getValue( ) );
 		dialog.setExistingLabels( labels );
 
-		if ( dialog.open( ) == Dialog.OK )
+		if ( dialog.open( ) == Window.OK )
 		{
 			String text = value.getLabel( ).getCaption( ).getValue( );
 			if ( !oldText.equals( text ) )
