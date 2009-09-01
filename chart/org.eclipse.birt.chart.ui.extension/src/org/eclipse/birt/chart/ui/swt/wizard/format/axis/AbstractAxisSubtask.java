@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -194,6 +195,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			GridData gd = new GridData( );
 			gd.widthHint = 250;
+			gd.horizontalIndent = 5;
 			txtTitle.setLayoutData( gd );
 			txtTitle.addListener( this );
 		}
@@ -216,6 +218,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			{
 				GridData gd = new GridData( );
 				gd.widthHint = 220;
+				gd.horizontalIndent = 5;
 				cmbTypes.setLayoutData( gd );
 				cmbTypes.addSelectionListener( this );
 			}
@@ -245,6 +248,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					GridData gd = new GridData( );
 					gd.widthHint = 220;
 					gd.horizontalSpan = 2;
+					gd.horizontalIndent = 5;
 					cmbOrigin.setLayoutData( gd );
 					cmbOrigin.addSelectionListener( this );
 				}
@@ -271,6 +275,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					GridData gd = new GridData( );
 					gd.widthHint = 245;
 					gd.horizontalSpan = 2;
+					gd.horizontalIndent = 5;
 					txtValue.setLayoutData( gd );
 					txtValue.addListener( this );
 					txtValue.setEnabled( bValueOrigin );
@@ -292,6 +297,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			GridData gdFDCFont = new GridData( );
 			// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 			gdFDCFont.widthHint = 250;
+			gdFDCFont.horizontalIndent = 5;
 			fdcFont.setLayoutData( gdFDCFont );
 			fdcFont.addListener( this );
 		}
@@ -345,10 +351,13 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 			lneLabelSpan = new LocalizedNumberEditorComposite( cmpEditorWithUnit,
 					SWT.BORDER );
+			new TextNumberEditorAssistField( lneLabelSpan.getTextControl( ),
+					null );
 			{
 				lneLabelSpan.setValue( getAxisForProcessing( ).getLabelSpan( ) );
 				lneLabelSpan.addModifyListener( this );
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalIndent = 5;
 				lneLabelSpan.setLayoutData( gd );
 				lneLabelSpan.setEnabled( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
