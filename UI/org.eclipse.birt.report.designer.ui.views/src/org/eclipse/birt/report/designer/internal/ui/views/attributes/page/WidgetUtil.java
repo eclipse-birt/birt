@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
@@ -255,7 +254,7 @@ public class WidgetUtil
 	 */
 	public static void processError( Shell shell, Exception e )
 	{
-		ExceptionHandler.handle( e );
+		ExceptionUtil.handle( e );
 	}
 
 	public static void setExcludeGridData( Control control, boolean exclude )

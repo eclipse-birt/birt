@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.ide.dialog;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.swt.graphics.Image;

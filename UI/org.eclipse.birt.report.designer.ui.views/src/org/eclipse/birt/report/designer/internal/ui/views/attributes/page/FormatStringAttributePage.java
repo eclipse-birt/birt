@@ -14,9 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatChangeListener;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FormatStringDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormatStringSection;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -61,7 +61,7 @@ public class FormatStringAttributePage extends AttributePage
 					}
 					catch ( Exception e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 					if ( event.getCategory( ) != null
 							|| event.getPattern( ) != null

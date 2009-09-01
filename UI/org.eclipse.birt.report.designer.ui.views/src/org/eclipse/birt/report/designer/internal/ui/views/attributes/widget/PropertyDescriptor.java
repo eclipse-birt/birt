@@ -4,8 +4,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.widgets.Control;
@@ -52,7 +52,7 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor
 	 * value == null || value.equals( "" ) ) //$NON-NLS-1$ return value; try {
 	 * DimensionValue dimensionValue = DimensionValue.parse( value ); return
 	 * StringUtil.doubleToString( dimensionValue.getMeasure( ), 3 ); } catch (
-	 * PropertyValueException e ) { ExceptionHandler.handle( e ); } return "";
+	 * PropertyValueException e ) { ExceptionUtil.handle( e ); } return "";
 	 * //$NON-NLS-1$ }
 	 */
 
@@ -72,7 +72,7 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor
 	 * if ( value == null || value.equals( "" ) ) //$NON-NLS-1$ return value;
 	 * try { DimensionValue dimensionValue = DimensionValue.parse( value );
 	 * return dimensionValue.getUnits( ); } catch ( PropertyValueException e ) {
-	 * ExceptionHandler.handle( e ); } return ""; //$NON-NLS-1$ }
+	 * ExceptionUtil.handle( e ); } return ""; //$NON-NLS-1$ }
 	 */
 
 	/*
@@ -125,7 +125,7 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 	}

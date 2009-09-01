@@ -13,11 +13,11 @@ package org.eclipse.birt.report.designer.ui.ide.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
@@ -242,7 +242,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 			{
 				// CoreExceptions are handled above, but unexpected runtime
 				// exceptions and errors may still occur.
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 
 				MessageDialog.openError( getShell( ),
 						Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
@@ -346,12 +346,12 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 			}
 			catch ( JavaModelException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return false;
 			}
 			catch ( CoreException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return false;
 			}
 		}
@@ -440,7 +440,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 				}
 				catch ( CoreException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 		}
 		if ( isJavaProject
@@ -455,7 +455,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 				}
 				catch ( CoreException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 		}
 	}

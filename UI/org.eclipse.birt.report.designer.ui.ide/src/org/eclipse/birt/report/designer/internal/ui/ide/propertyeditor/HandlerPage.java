@@ -3,13 +3,13 @@ package org.eclipse.birt.report.designer.internal.ui.ide.propertyeditor;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.ide.util.ClassFinder;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.LibraryAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndButtonSection;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
@@ -87,7 +87,7 @@ public class HandlerPage extends LibraryAttributePage
 					}
 					catch ( SemanticException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						ExceptionUtil.handle( e1 );
 					}
 				}
 			}

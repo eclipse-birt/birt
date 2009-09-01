@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.ui.views.dialogs.CrosstabHighlightRuleBuilder;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -101,7 +101,7 @@ public class CrosstabHighlightDescriptorProvider extends
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;

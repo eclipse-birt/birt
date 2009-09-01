@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.BuilderPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -66,7 +66,7 @@ public final class UIHelper
 			}
 			catch ( MalformedURLException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		else
@@ -77,7 +77,7 @@ public final class UIHelper
 			}
 			catch ( MalformedURLException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 
@@ -102,7 +102,7 @@ public final class UIHelper
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 
 		// If still can't load, return a dummy image.
@@ -216,7 +216,7 @@ public final class UIHelper
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 

@@ -30,9 +30,9 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -198,7 +198,7 @@ public class LibraryDropListener extends DesignerDropListener
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 					return false;
 				}
 				return true;

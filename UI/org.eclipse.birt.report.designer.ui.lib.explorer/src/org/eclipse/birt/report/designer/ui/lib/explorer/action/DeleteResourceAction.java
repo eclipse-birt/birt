@@ -14,9 +14,9 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
@@ -75,15 +75,15 @@ public class DeleteResourceAction extends ResourceAction
 		}
 		catch ( InvocationTargetException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		catch ( InterruptedException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 }

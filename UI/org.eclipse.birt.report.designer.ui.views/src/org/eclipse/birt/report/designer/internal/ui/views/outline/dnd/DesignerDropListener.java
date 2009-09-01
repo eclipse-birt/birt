@@ -22,9 +22,9 @@ import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -203,12 +203,12 @@ public class DesignerDropListener extends DesignElementDropAdapter
 			GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
 					e,
 					"Library.DND.messages.outofsync" );//$NON-NLS-1$
-			ExceptionHandler.handle( exception );
+			ExceptionUtil.handle( exception );
 			return false;
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return false;
 		}
 		return true;
@@ -261,7 +261,7 @@ public class DesignerDropListener extends DesignElementDropAdapter
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			else
@@ -307,7 +307,7 @@ public class DesignerDropListener extends DesignElementDropAdapter
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			else

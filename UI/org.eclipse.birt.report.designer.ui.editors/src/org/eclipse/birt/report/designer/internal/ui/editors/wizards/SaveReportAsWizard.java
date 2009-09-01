@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.wizards;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -111,7 +111,7 @@ public class SaveReportAsWizard extends Wizard
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		return true;

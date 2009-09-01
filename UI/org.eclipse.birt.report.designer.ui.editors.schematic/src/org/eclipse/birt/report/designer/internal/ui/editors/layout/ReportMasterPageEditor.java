@@ -13,8 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.palette.MasterPagePaletteFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
@@ -73,11 +73,11 @@ public class ReportMasterPageEditor extends
 			}
 			catch ( ContentException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 			catch ( NameException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		else

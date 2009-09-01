@@ -8,7 +8,6 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.BorderInfomation;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.IComboProvider;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.StyleCombo;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderColorDescriptorProvider;
@@ -20,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IT
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -209,7 +209,7 @@ public class BorderPropertyDescriptor implements
 						}
 						catch ( Exception e1 )
 						{
-							ExceptionHandler.handle( e1 );
+							ExceptionUtil.handle( e1 );
 						}
 					}
 					// restoreInfo = (BorderInfomation)
@@ -257,7 +257,7 @@ public class BorderPropertyDescriptor implements
 							}
 							catch ( Exception e1 )
 							{
-								ExceptionHandler.handle( e1 );
+								ExceptionUtil.handle( e1 );
 							}
 						}
 						stack.commit( );
@@ -291,7 +291,7 @@ public class BorderPropertyDescriptor implements
 							}
 							catch ( Exception e1 )
 							{
-								ExceptionHandler.handle( e1 );
+								ExceptionUtil.handle( e1 );
 							}
 						}
 						( (Button) e.widget ).setSelection( true );
@@ -582,7 +582,7 @@ public class BorderPropertyDescriptor implements
 		}
 		catch ( Exception e1 )
 		{
-			ExceptionHandler.handle( e1 );
+			ExceptionUtil.handle( e1 );
 		}
 		checkToggleButtons( );
 
@@ -625,7 +625,7 @@ public class BorderPropertyDescriptor implements
 			}
 			catch ( Exception e1 )
 			{
-				ExceptionHandler.handle( e1 );
+				ExceptionUtil.handle( e1 );
 			}
 			button.setSelection( true );
 			stack.commit( );
@@ -645,7 +645,7 @@ public class BorderPropertyDescriptor implements
 			}
 			catch ( Exception e1 )
 			{
-				ExceptionHandler.handle( e1 );
+				ExceptionUtil.handle( e1 );
 			}
 			stack.commit( );
 		}
@@ -710,7 +710,7 @@ public class BorderPropertyDescriptor implements
 				}
 				catch ( Exception e1 )
 				{
-					ExceptionHandler.handle( e1 );
+					ExceptionUtil.handle( e1 );
 				}
 			}
 		}

@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.actions.PageSetAction;
 import org.eclipse.birt.report.designer.ui.editors.extension.IExtensionConstants;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.action.IAction;
@@ -124,7 +124,7 @@ public class FormPageDef implements IExtensionConstants
 		}
 		catch ( CoreException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		return clazz;
 	}

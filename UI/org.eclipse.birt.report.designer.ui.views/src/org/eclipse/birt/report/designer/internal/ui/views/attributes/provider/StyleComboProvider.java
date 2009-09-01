@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.IComboProvider;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -152,7 +152,7 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 					int customWidth = (int)DimensionValue.parse( key ).getMeasure( );
 					if(DimensionValue.parse( key ).getUnits( ).equals( DesignChoiceConstants.UNITS_PX ))gc.setLineWidth( customWidth );
 				} catch (Exception e) {
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			gc.drawLine( 4, height / 2, width - 4, height / 2 );

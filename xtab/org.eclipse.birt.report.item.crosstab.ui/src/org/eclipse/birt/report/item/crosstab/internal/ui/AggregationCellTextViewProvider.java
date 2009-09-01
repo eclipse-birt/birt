@@ -14,7 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -109,7 +109,7 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 	

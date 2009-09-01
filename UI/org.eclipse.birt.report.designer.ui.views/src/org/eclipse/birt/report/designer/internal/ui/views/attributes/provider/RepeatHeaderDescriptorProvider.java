@@ -1,8 +1,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -41,7 +41,7 @@ public class RepeatHeaderDescriptorProvider extends AbstractDescriptorProvider
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 
 		}

@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage.MessagePageGenerator;
@@ -182,7 +182,7 @@ public class AttributesBuilder
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		return pageGenerator;
 	}

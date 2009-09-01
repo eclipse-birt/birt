@@ -14,10 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -107,7 +107,7 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 			}
 			catch ( Exception e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return;
 			}
 			if ( deUnitValue == null )
@@ -243,7 +243,7 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 		if ( !validateDimensionValue( ) )
 		{
 			setError( );
-			ExceptionHandler.openErrorMessageBox( ERROR_BOX_TITLE,
+			ExceptionUtil.openError( ERROR_BOX_TITLE,
 					ERROR_MESSAGE );
 			load( );
 			clearError( );

@@ -14,8 +14,8 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -146,7 +146,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		catch ( SemanticException e )
 		{
 			rollBack( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return;
 		}
 		transEnd( );

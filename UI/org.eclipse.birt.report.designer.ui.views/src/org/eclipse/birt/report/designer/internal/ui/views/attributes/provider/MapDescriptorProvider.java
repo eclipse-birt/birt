@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleProvider;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -265,7 +265,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		}
 		catch ( SemanticException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 
 		StructureHandle handle = rule.getHandle( phandle, pos );
@@ -332,7 +332,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;
@@ -361,7 +361,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;
@@ -428,7 +428,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;
@@ -454,7 +454,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;
@@ -481,7 +481,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;

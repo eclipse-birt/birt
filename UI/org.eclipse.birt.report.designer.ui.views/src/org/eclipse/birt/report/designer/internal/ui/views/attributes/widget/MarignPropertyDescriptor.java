@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MarignPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -177,7 +177,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		if ( !validateDimensionValue( ) )
 		{
 			setError( );
-			ExceptionHandler.openErrorMessageBox( ERROR_BOX_TITLE,
+			ExceptionUtil.openError( ERROR_BOX_TITLE,
 					ERROR_MESSAGE );
 			load( );
 			clearError( );
@@ -271,7 +271,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 			}
 			catch ( Exception e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 			String unitName = marignProvider.getUnitName( deUnitValue );
 			if ( unitName != null )

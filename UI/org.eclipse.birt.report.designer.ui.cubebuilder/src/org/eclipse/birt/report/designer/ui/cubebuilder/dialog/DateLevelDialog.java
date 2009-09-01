@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -401,7 +401,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return;
 		}
 		super.okPressed( );

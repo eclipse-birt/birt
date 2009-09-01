@@ -17,10 +17,9 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDia
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
@@ -65,63 +64,57 @@ public class AggregationDropAdapter implements IDropAdapter
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		
-		if(target instanceof EditPart)
+
+		if ( target instanceof EditPart )
 		{
-			EditPart editPart = (EditPart)target;
-		
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( "Add Aggregation" ); //$NON-NLS-1$
+			EditPart editPart = (EditPart) target;
 
-		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-				.newDataItem( null );
+			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
+			stack.startTrans( "Add Aggregation" ); //$NON-NLS-1$
 
-		CrosstabCellHandle cellHandle = ( (CrosstabCellAdapter) ( (CrosstabCellEditPart) target ).getModel( ) ).getCrosstabCellHandle( );
-		try
-		{
-			cellHandle.addContent( dataHandle, CellHandle.CONTENT_SLOT );
+			DataItemHandle dataHandle = DesignElementFactory.getInstance( ).newDataItem( null );
 
-			DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
-			dialog.setInput( dataHandle, null, cellHandle );
-			dialog.setAggreate( true );
-
-			if ( dialog.open( ) == Window.OK )
+			CrosstabCellHandle cellHandle = ( (CrosstabCellAdapter) ( (CrosstabCellEditPart) target ).getModel( ) ).getCrosstabCellHandle( );
+			try
 			{
-				CreateRequest request = new CreateRequest( );
+				cellHandle.addContent( dataHandle, CellHandle.CONTENT_SLOT );
 
-				request.getExtendedData( )
-						.put( DesignerConstants.KEY_NEWOBJECT, dataHandle );
-				request.setLocation( location.getPoint( ) );				
-				
-				Command command = editPart.getCommand( request );
-				if ( command != null && command.canExecute( ) )
+				DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+				dialog.setInput( dataHandle, null, cellHandle );
+				dialog.setAggreate( true );
+
+				if ( dialog.open( ) == Window.OK )
 				{
-					dataHandle.setResultSetColumn( dialog.getBindingColumn( )
-							.getName( ) );		
-					
-					editPart.getViewer( )
-					.getEditDomain( )
-					.getCommandStack( )
-					.execute( command );
-					
-					stack.commit( );
-				}else
+					CreateRequest request = new CreateRequest( );
+
+					request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, dataHandle );
+					request.setLocation( location.getPoint( ) );
+
+					Command command = editPart.getCommand( request );
+					if ( command != null && command.canExecute( ) )
+					{
+						dataHandle.setResultSetColumn( dialog.getBindingColumn( ).getName( ) );
+
+						editPart.getViewer( ).getEditDomain( ).getCommandStack( ).execute( command );
+
+						stack.commit( );
+					}
+					else
+					{
+						stack.rollback( );
+					}
+
+				}
+				else
 				{
 					stack.rollback( );
 				}
-		
 			}
-			else
+			catch ( Exception e )
 			{
 				stack.rollback( );
+				ExceptionUtil.handle( e );
 			}
-		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
-			ExceptionHandler.handle( e );
-		}
 		}
 		return true;
 	}

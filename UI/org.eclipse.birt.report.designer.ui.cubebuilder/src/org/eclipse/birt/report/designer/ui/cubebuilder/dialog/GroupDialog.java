@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -14,6 +13,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -308,7 +308,7 @@ public class GroupDialog extends TitleAreaDialog
 		}
 		catch ( NameException e1 )
 		{
-			ExceptionHandler.handle( e1 );
+			ExceptionUtil.handle( e1 );
 		}
 
 		if ( regularButton.getSelection( ) )
@@ -342,7 +342,7 @@ public class GroupDialog extends TitleAreaDialog
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return;
 			}
 		}
@@ -361,7 +361,7 @@ public class GroupDialog extends TitleAreaDialog
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 
 			// remove unused level
@@ -403,7 +403,7 @@ public class GroupDialog extends TitleAreaDialog
 					}
 					catch ( SemanticException e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 			}
@@ -440,7 +440,7 @@ public class GroupDialog extends TitleAreaDialog
 								}
 								catch ( SemanticException e )
 								{
-									ExceptionHandler.handle( e );
+									ExceptionUtil.handle( e );
 								}
 							}
 						}
@@ -460,7 +460,7 @@ public class GroupDialog extends TitleAreaDialog
 						}
 						catch ( SemanticException e )
 						{
-							ExceptionHandler.handle( e );
+							ExceptionUtil.handle( e );
 						}
 					}
 				}

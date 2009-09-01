@@ -73,7 +73,6 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportFlyoutPalettePreferences;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
@@ -91,6 +90,7 @@ import org.eclipse.birt.report.designer.ui.actions.InsertExpressionMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -965,11 +965,11 @@ abstract public class ReportEditorWithPalette extends
 		// }
 		// catch ( IOException e )
 		// {
-		// ExceptionHandler.handle( e );
+		// ExceptionUtil.handle( e );
 		// }
 		// catch ( CoreException e )
 		// {
-		// ExceptionHandler.handle( e );
+		// ExceptionUtil.handle( e );
 		// }
 		// // TODO: fire model changes.
 		// }
@@ -1103,7 +1103,7 @@ abstract public class ReportEditorWithPalette extends
 
 					catch ( Exception e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 			};
@@ -1116,7 +1116,7 @@ abstract public class ReportEditorWithPalette extends
 
 			catch ( Exception e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 

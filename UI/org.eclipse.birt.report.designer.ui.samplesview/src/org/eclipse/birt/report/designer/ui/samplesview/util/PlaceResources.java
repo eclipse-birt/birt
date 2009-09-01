@@ -19,9 +19,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.Enumeration;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleIncludedSourceEntry;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
@@ -42,7 +42,7 @@ public class PlaceResources
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		copy( shell, path, reportName, sampleReportURL );
 	}
@@ -81,7 +81,7 @@ public class PlaceResources
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		finally
 		{
@@ -93,7 +93,7 @@ public class PlaceResources
 				}
 				catch ( IOException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			if ( output != null )
@@ -104,7 +104,7 @@ public class PlaceResources
 				}
 				catch ( IOException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		}
@@ -180,7 +180,7 @@ public class PlaceResources
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 }

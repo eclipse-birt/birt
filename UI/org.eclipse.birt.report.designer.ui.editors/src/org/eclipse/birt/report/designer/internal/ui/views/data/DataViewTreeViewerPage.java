@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEv
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.IReportPageBookViewPage;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.DataViewEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameListener;
@@ -32,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDr
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -446,7 +446,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 					}
 					catch ( SemanticException e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 			}

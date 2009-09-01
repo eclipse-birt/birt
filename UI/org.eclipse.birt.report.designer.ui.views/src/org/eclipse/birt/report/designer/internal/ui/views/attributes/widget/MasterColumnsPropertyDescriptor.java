@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MasterColumnsDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
@@ -153,7 +153,7 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 					}
 					catch ( SemanticException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						ExceptionUtil.handle( e1 );
 					}
 				}
 			}
@@ -221,7 +221,7 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 		}
 		catch ( SemanticException e1 )
 		{
-			ExceptionHandler.handle( e1 );
+			ExceptionUtil.handle( e1 );
 		}
 	}
 

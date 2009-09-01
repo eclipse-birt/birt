@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertEmbeddedImageAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IMenuManager;
@@ -117,7 +117,7 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider
 
 				if ( checkExtensions( fileName ) == false )
 				{
-					ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
+					ExceptionUtil.openError( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
 							Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
 					return false;
 				}
@@ -135,7 +135,7 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider
 			catch ( Throwable e )
 			{
 				stack.rollback( );
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		return false;

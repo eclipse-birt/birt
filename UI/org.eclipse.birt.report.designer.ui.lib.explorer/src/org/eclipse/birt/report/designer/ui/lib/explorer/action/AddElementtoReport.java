@@ -12,10 +12,10 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -233,7 +233,7 @@ public class AddElementtoReport extends Action
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			else
@@ -273,7 +273,7 @@ public class AddElementtoReport extends Action
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			else

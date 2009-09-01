@@ -15,8 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Enumeration;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.samples.nls.Messages;
@@ -24,6 +22,8 @@ import org.eclipse.birt.report.designer.ui.samplesview.action.IOpenSampleReportA
 import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleIncludedSourceEntry;
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
 import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
@@ -172,11 +172,11 @@ public class IDEOpenSampleReportAction extends Action implements
 				}
 				catch ( JavaModelException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 				catch ( CoreException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 
@@ -224,7 +224,7 @@ public class IDEOpenSampleReportAction extends Action implements
 
 			public void handleException( Throwable exception )
 			{
-				ExceptionHandler.handle( exception );
+				ExceptionUtil.handle( exception );
 			}
 		};
 		SafeRunner.run( op );
@@ -257,7 +257,7 @@ public class IDEOpenSampleReportAction extends Action implements
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		} );
@@ -383,7 +383,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		}
 		catch ( InterruptedException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return null;
 		}
 		catch ( InvocationTargetException e )
@@ -411,7 +411,7 @@ public class IDEOpenSampleReportAction extends Action implements
 			{
 				// CoreExceptions are handled above, but unexpected runtime
 				// exceptions and errors may still occur.
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 
 				MessageDialog.openError( composite.getShell( ),
 						Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
@@ -462,7 +462,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 
@@ -486,7 +486,7 @@ public class IDEOpenSampleReportAction extends Action implements
 			}
 			catch ( CoreException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 
 		IFolder outputFolder = project.getFolder( "bin" ); //$NON-NLS-1$
@@ -497,7 +497,7 @@ public class IDEOpenSampleReportAction extends Action implements
 			}
 			catch ( CoreException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 
 	}

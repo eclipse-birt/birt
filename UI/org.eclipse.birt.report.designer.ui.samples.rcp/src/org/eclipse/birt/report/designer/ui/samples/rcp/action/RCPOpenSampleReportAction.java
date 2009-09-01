@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.samples.rcp.action;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -22,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.samplesview.action.IOpenSampleReportAction;
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
 import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.ISafeRunnable;
@@ -101,7 +101,7 @@ public class RCPOpenSampleReportAction extends Action implements
 
 			public void handleException( Throwable exception )
 			{
-				ExceptionHandler.handle( exception );
+				ExceptionUtil.handle( exception );
 			}
 		};
 		SafeRunner.run( op );
@@ -135,7 +135,7 @@ public class RCPOpenSampleReportAction extends Action implements
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		} );

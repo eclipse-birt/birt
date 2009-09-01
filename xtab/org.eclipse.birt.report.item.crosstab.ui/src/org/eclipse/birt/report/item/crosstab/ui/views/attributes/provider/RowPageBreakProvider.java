@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
@@ -501,7 +501,7 @@ public class RowPageBreakProvider extends AbstractFormHandleProvider
 		}
 		catch ( ExtendedElementException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return false;
 		}
 		if ( crossTab == null )

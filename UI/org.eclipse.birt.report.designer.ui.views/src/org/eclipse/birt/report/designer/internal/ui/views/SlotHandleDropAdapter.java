@@ -12,9 +12,9 @@
 package org.eclipse.birt.report.designer.internal.ui.views;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.IElementDropAdapter;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -121,7 +121,7 @@ public class SlotHandleDropAdapter implements IElementDropAdapter
 					}
 					catch ( Exception e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 				else
@@ -164,7 +164,7 @@ public class SlotHandleDropAdapter implements IElementDropAdapter
 					}
 					catch ( Exception e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 				else

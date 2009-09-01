@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -151,7 +151,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		}
 		catch ( ExtendedElementException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return false;
 		}
 		if ( crossTab == null )
@@ -519,7 +519,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		}
 		catch ( ExtendedElementException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return false;
 		}
 		if ( crossTab == null )

@@ -15,11 +15,11 @@ import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -429,13 +429,13 @@ public class WizardResourceSettingPage extends WizardPage
 		{
 			if ( !( new File( fileName ).exists( ) ) )
 			{
-				ExceptionHandler.openErrorMessageBox( Messages.getString( "AddResourceAction.Error.Title" ), //$NON-NLS-1$
+				ExceptionUtil.openError( Messages.getString( "AddResourceAction.Error.Title" ), //$NON-NLS-1$
 						Messages.getFormattedString( "AddResourceAction.Error.FileNotFound", new String[]{fileName} ) ); //$NON-NLS-1$
 				return getFilePath( );
 			}
 			if ( isFileExists( fileName ) )
 			{
-				ExceptionHandler.openErrorMessageBox( Messages.getString( "AddResourceAction.Error.Title" ), //$NON-NLS-1$
+				ExceptionUtil.openError( Messages.getString( "AddResourceAction.Error.Title" ), //$NON-NLS-1$
 						Messages.getString( "AddResourceAction.Error.Message" ) ); //$NON-NLS-1$
 				return getFilePath( );
 			}

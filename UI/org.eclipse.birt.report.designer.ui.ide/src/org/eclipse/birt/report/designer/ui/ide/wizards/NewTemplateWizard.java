@@ -17,11 +17,11 @@ import java.util.Locale;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -204,7 +204,7 @@ public class NewTemplateWizard extends NewReportWizard
 		catch ( InvocationTargetException e )
 		{
 			Throwable realException = e.getTargetException( );
-			ExceptionHandler.handle( realException );
+			ExceptionUtil.handle( realException );
 			return false;
 		}
 		return true;
@@ -279,7 +279,7 @@ public class NewTemplateWizard extends NewReportWizard
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 
 		// to refresh this project, or file does not exist will be told, though
@@ -302,7 +302,7 @@ public class NewTemplateWizard extends NewReportWizard
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		} );

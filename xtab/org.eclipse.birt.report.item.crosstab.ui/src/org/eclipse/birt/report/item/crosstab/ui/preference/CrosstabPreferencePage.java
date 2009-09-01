@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.item.crosstab.ui.preference;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.resource.ImageDescriptor;

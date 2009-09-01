@@ -14,10 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
@@ -75,7 +75,7 @@ public class RunReportAction extends AbstractViewAction
 			}
 			catch ( Exception e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return;
 			}
 		}

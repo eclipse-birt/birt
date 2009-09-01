@@ -21,12 +21,12 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.NewReportPageSupport;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -314,7 +314,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		catch ( InvocationTargetException e )
 		{
 			Throwable realException = e.getTargetException( );
-			ExceptionHandler.handle( realException );
+			ExceptionUtil.handle( realException );
 			return false;
 		}
 		return true;
@@ -339,7 +339,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 
 		if ( container == null )
@@ -404,7 +404,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		} );

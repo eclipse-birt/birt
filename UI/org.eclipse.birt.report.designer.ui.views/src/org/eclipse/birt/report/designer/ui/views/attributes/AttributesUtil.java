@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AlterPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
@@ -388,7 +387,7 @@ public class AttributesUtil
 	 */
 	public static void handleError( Throwable e )
 	{
-		ExceptionHandler.handle( e );
+		ExceptionUtil.handle( e );
 	}
 
 	/**

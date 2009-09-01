@@ -2,8 +2,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -80,7 +80,7 @@ public class AggregateOnBindingsFormHandleProvider extends
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			if ( viewer != null )

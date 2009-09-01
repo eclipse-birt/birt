@@ -19,8 +19,8 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.browsers.custom.CustomBrowser;
@@ -90,9 +90,9 @@ public class PreviewPreferencePage extends PreferencePage implements
 	};
 
 	private static final String BIDI_CHOICE_DISPLAYNAMES[] = new String[]{
-			Messages.getString( "designer.preview.preference.bidiOrientation.auto" ),
-			Messages.getString( "designer.preview.preference.bidiOrientation.ltr" ),
-			Messages.getString( "designer.preview.preference.bidiOrientation.rtl" ),
+			Messages.getString( "designer.preview.preference.bidiOrientation.auto" ), //$NON-NLS-1$
+			Messages.getString( "designer.preview.preference.bidiOrientation.ltr" ), //$NON-NLS-1$
+			Messages.getString( "designer.preview.preference.bidiOrientation.rtl" ), //$NON-NLS-1$
 	};
 
 	public static TreeMap<String, String> timeZoneTable_disKey = null;

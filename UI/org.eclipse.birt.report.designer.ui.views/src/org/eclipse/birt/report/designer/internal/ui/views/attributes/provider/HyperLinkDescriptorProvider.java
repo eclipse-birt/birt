@@ -2,9 +2,9 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -99,7 +99,7 @@ public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider impl
 			catch ( SemanticException e1 )
 			{
 				getActionStack( ).rollback( );
-				ExceptionHandler.handle( e1 );
+				ExceptionUtil.handle( e1 );
 				return false;
 			}
 		}

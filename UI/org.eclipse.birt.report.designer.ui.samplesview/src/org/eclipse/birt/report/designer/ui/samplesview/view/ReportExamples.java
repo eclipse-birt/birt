@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.samplereports.description.DescriptionMessages;
@@ -29,6 +27,8 @@ import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleIncl
 import org.eclipse.birt.report.designer.ui.samplesview.util.SampleReportCanvas;
 import org.eclipse.birt.report.designer.ui.samplesview.util.SampleReportsExplorerProvider;
 import org.eclipse.birt.report.designer.ui.samplesview.util.SampleReportsSorter;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.widget.CSashForm;
 import org.eclipse.birt.report.designer.ui.widget.CSashFormData;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -311,7 +311,7 @@ public class ReportExamples
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		if ( imageStream != null )
 		{

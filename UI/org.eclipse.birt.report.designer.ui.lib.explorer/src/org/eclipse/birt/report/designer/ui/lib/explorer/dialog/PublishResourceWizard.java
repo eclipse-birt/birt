@@ -17,11 +17,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -143,7 +143,7 @@ public class PublishResourceWizard extends Wizard
 
 		if ( !( new File( filePath ).exists( ) ) )
 		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
+			ExceptionUtil.openError( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
 					Messages.getString( "PublishResourceAction.wizard.message.SourceFileNotExist" ) ); //$NON-NLS-1$
 
 			return false;
@@ -153,7 +153,7 @@ public class PublishResourceWizard extends Wizard
 
 		if ( targetFile == null )
 		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
+			ExceptionUtil.openError( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
 					Messages.getString( "PublishResourceAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
 
 			return false;
@@ -161,7 +161,7 @@ public class PublishResourceWizard extends Wizard
 
 		if ( new File( filePath ).compareTo( targetFile ) == 0 )
 		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
+			ExceptionUtil.openError( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
 					Messages.getString( "PublishResourceAction.wizard.message" ) ); //$NON-NLS-1$
 			return false;
 		}
@@ -210,7 +210,7 @@ public class PublishResourceWizard extends Wizard
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 
 		return overwrite != 2;
@@ -243,11 +243,11 @@ public class PublishResourceWizard extends Wizard
 		}
 		catch ( InvocationTargetException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		catch ( InterruptedException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 

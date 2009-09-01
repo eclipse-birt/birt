@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
@@ -36,6 +35,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -338,7 +338,7 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					catch ( Exception e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						ExceptionUtil.handle( e1 );
 					}
 				}
 			}
@@ -602,7 +602,7 @@ public class CubeGroupContent extends Composite implements Listener
 								{
 									stack.rollback( );
 									refresh( );
-									ExceptionHandler.handle( e );
+									ExceptionUtil.handle( e );
 									return;
 								}
 							}
@@ -649,7 +649,7 @@ public class CubeGroupContent extends Composite implements Listener
 								{
 									stack.rollback( );
 									refresh( );
-									ExceptionHandler.handle( e );
+									ExceptionUtil.handle( e );
 									return;
 								}
 							}
@@ -690,7 +690,7 @@ public class CubeGroupContent extends Composite implements Listener
 								{
 									stack.rollback( );
 									refresh( );
-									ExceptionHandler.handle( e );
+									ExceptionUtil.handle( e );
 									return;
 								}
 							}
@@ -753,7 +753,7 @@ public class CubeGroupContent extends Composite implements Listener
 								{
 									stack.rollback( );
 									refresh( );
-									ExceptionHandler.handle( e );
+									ExceptionUtil.handle( e );
 									return;
 								}
 							}
@@ -812,7 +812,7 @@ public class CubeGroupContent extends Composite implements Listener
 								{
 									stack.rollback( );
 									refresh( );
-									ExceptionHandler.handle( e );
+									ExceptionUtil.handle( e );
 									return;
 								}
 							}
@@ -854,7 +854,7 @@ public class CubeGroupContent extends Composite implements Listener
 											}
 											catch ( Exception e1 )
 											{
-												ExceptionHandler.handle( e1 );
+												ExceptionUtil.handle( e1 );
 												stack.rollback( );
 												refresh( );
 												return;
@@ -957,7 +957,7 @@ public class CubeGroupContent extends Composite implements Listener
 								{
 									stack.rollback( );
 									refresh( );
-									ExceptionHandler.handle( e );
+									ExceptionUtil.handle( e );
 									return;
 								}
 								// if ( dataset != input.getDataSet( ) )
@@ -1020,7 +1020,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 							stack.rollback( );
 							refresh( );
-							ExceptionHandler.handle( e );
+							ExceptionUtil.handle( e );
 							return;
 						}
 
@@ -1482,7 +1482,7 @@ public class CubeGroupContent extends Composite implements Listener
 			{
 				stack.rollback( );
 				refresh( );
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		updateButtons( );
@@ -1544,7 +1544,7 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					catch ( SemanticException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						ExceptionUtil.handle( e1 );
 						stack.rollback( );
 					}
 					refresh( );
@@ -1572,7 +1572,7 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					catch ( SemanticException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						ExceptionUtil.handle( e1 );
 						stack.rollback( );
 					}
 					refresh( );
@@ -1604,7 +1604,7 @@ public class CubeGroupContent extends Composite implements Listener
 						catch ( SemanticException e1 )
 						{
 							stack.rollback( );
-							ExceptionHandler.handle( e1 );
+							ExceptionUtil.handle( e1 );
 							refresh( );
 							continue;
 						}
@@ -1623,7 +1623,7 @@ public class CubeGroupContent extends Composite implements Listener
 							}
 							catch ( Exception e1 )
 							{
-								ExceptionHandler.handle( e1 );
+								ExceptionUtil.handle( e1 );
 								stack.rollback( );
 								refresh( );
 								continue;
@@ -1656,7 +1656,7 @@ public class CubeGroupContent extends Composite implements Listener
 						catch ( SemanticException e1 )
 						{
 							stack.rollback( );
-							ExceptionHandler.handle( e1 );
+							ExceptionUtil.handle( e1 );
 							refresh( );
 							continue;
 						}
@@ -1677,7 +1677,7 @@ public class CubeGroupContent extends Composite implements Listener
 							}
 							catch ( Exception e1 )
 							{
-								ExceptionHandler.handle( e1 );
+								ExceptionUtil.handle( e1 );
 								stack.rollback( );
 								refresh( );
 								continue;
@@ -1758,7 +1758,7 @@ public class CubeGroupContent extends Composite implements Listener
 					// }
 					// catch ( SemanticException e )
 					// {
-					// ExceptionHandler.handle( e );
+					// ExceptionUtil.handle( e );
 					// }
 					// }
 					TabularLevelHandle level = DesignElementFactory.getInstance( )
@@ -1777,7 +1777,7 @@ public class CubeGroupContent extends Composite implements Listener
 					{
 						stack.rollback( );
 						refresh( );
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 						continue;
 					}
 					if ( !isValidName )
@@ -1834,7 +1834,7 @@ public class CubeGroupContent extends Composite implements Listener
 								}
 								catch ( Exception e1 )
 								{
-									ExceptionHandler.handle( e1 );
+									ExceptionUtil.handle( e1 );
 									stack.rollback( );
 									refresh( );
 									continue;
@@ -1851,7 +1851,7 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							stack.rollback( );
 							refresh( );
-							ExceptionHandler.handle( e );
+							ExceptionUtil.handle( e );
 							continue;
 						}
 					}
@@ -1894,7 +1894,7 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							stack.rollback( );
 							refresh( );
-							ExceptionHandler.handle( e );
+							ExceptionUtil.handle( e );
 							continue;
 						}
 					}
@@ -1961,7 +1961,7 @@ public class CubeGroupContent extends Composite implements Listener
 					catch ( SemanticException e )
 					{
 						stack.rollback( );
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 					refresh( );
 					return;
@@ -2000,7 +2000,7 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								stack.rollback( );
 								refresh( );
-								ExceptionHandler.handle( e );
+								ExceptionUtil.handle( e );
 								continue;
 							}
 						}
@@ -2041,7 +2041,7 @@ public class CubeGroupContent extends Composite implements Listener
 						catch ( SemanticException e1 )
 						{
 							stack.rollback( );
-							ExceptionHandler.handle( e1 );
+							ExceptionUtil.handle( e1 );
 						}
 						refresh( );
 						return;
@@ -2083,7 +2083,7 @@ public class CubeGroupContent extends Composite implements Listener
 						catch ( SemanticException e1 )
 						{
 							stack.rollback( );
-							ExceptionHandler.handle( e1 );
+							ExceptionUtil.handle( e1 );
 						}
 						refresh( );
 						return;
@@ -2135,7 +2135,7 @@ public class CubeGroupContent extends Composite implements Listener
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		return countFunction;
 	}
@@ -2335,7 +2335,7 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					catch ( NameException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						ExceptionUtil.handle( e1 );
 					}
 				}
 			}

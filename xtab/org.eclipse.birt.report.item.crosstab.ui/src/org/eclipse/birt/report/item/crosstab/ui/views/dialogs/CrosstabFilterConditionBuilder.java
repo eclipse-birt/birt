@@ -25,9 +25,7 @@ import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularDimensionNodeProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularLevelNodeProvider;
@@ -38,6 +36,8 @@ import org.eclipse.birt.report.designer.ui.dialogs.TreeValueDialog;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -1224,7 +1224,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				}
 				catch ( ExtendedElementException ex )
 				{
-					ExceptionHandler.handle( ex );
+					ExceptionUtil.handle( ex );
 				}
 				ICubeQueryDefinition cubeQueryDefn = null;
 				DataRequestSession session = null;
@@ -1548,7 +1548,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				}
 				catch ( ExtendedElementException ex )
 				{
-					ExceptionHandler.handle( ex );
+					ExceptionUtil.handle( ex );
 				}
 				DataRequestSession session = null;
 				try
@@ -2194,7 +2194,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				}
 				catch ( ExtendedElementException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		}
@@ -2431,7 +2431,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 		catch ( ExtendedElementException ex )
 		{
-			ExceptionHandler.handle( ex );
+			ExceptionUtil.handle( ex );
 		}
 		if ( target instanceof LevelViewHandle )
 		{

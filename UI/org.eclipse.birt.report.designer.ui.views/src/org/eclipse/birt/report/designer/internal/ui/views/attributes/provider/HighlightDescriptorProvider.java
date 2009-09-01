@@ -8,10 +8,10 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -292,7 +292,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		}
 		catch ( SemanticException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 
 		StructureHandle handle = rule.getHandle( phandle, pos );
@@ -361,7 +361,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;
@@ -390,7 +390,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;
@@ -457,7 +457,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;
@@ -483,7 +483,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;
@@ -509,7 +509,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;

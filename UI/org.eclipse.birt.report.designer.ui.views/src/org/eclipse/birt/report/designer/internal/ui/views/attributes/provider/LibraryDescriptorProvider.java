@@ -4,7 +4,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 import java.io.File;
 import java.net.URL;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;

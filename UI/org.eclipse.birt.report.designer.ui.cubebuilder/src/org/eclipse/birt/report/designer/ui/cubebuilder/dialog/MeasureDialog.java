@@ -21,7 +21,6 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -29,6 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -159,7 +159,7 @@ public class MeasureDialog extends TitleAreaDialog
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return null;
 		}
 	}
@@ -174,7 +174,7 @@ public class MeasureDialog extends TitleAreaDialog
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return new IAggrFunction[0];
 		}
 	}
@@ -237,7 +237,7 @@ public class MeasureDialog extends TitleAreaDialog
 			}
 			catch ( AdapterException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 
 			ExpressionButtonUtil.initExpressionButtonControl( expressionText,
@@ -301,7 +301,7 @@ public class MeasureDialog extends TitleAreaDialog
 		}
 		catch ( SemanticException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return;
 		}
 		super.okPressed( );
@@ -420,7 +420,7 @@ public class MeasureDialog extends TitleAreaDialog
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 
@@ -437,7 +437,7 @@ public class MeasureDialog extends TitleAreaDialog
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		int parameterLength = function.getParameterDefn( ).length;
 		expressionText.setEnabled( parameterLength > 0 );

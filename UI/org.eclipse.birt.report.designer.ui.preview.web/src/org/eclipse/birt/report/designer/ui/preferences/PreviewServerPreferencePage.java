@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.ui.preferences;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.utilities.AppServerWrapper;
 import org.eclipse.core.runtime.Preferences;

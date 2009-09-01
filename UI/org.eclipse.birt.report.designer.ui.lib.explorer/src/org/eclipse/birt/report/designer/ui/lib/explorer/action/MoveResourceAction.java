@@ -18,10 +18,10 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dialog.MoveResourceDialog;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -65,7 +65,7 @@ public class MoveResourceAction extends ResourceAction
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 
 		if ( files == null || files.isEmpty( ) )
@@ -94,15 +94,15 @@ public class MoveResourceAction extends ResourceAction
 				}
 				catch ( IOException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 				catch ( InvocationTargetException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 				catch ( InterruptedException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		}

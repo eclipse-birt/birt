@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 import java.io.ByteArrayOutputStream;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DualRadioButtonPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Tex
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ThumbnailBuilder;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -120,7 +120,7 @@ public class ReportPage extends ModulePage
 						}
 						catch ( SemanticException e1 )
 						{
-							ExceptionHandler.handle( e1 );
+							ExceptionUtil.handle( e1 );
 						}
 
 						image.dispose( );
@@ -142,7 +142,7 @@ public class ReportPage extends ModulePage
 						}
 						catch ( SemanticException e1 )
 						{
-							ExceptionHandler.handle( e1 );
+							ExceptionUtil.handle( e1 );
 						}
 
 					}

@@ -12,7 +12,6 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
@@ -20,6 +19,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -74,7 +74,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		return scrollPane;
 	}
 
-	/***************************************************************************
+	/**
 	 * Returns the Children for this Edit Part. It returns a List of
 	 * ColumnEditParts
 	 * 
@@ -171,7 +171,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		}
 		catch ( SemanticException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		return x;
 	}
@@ -187,7 +187,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		}
 		catch ( SemanticException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		return y;
 	}

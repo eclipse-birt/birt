@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -269,7 +269,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			}
 			catch ( ExtendedElementException e1 )
 			{
-				ExceptionHandler.handle( e1 );
+				ExceptionUtil.handle( e1 );
 			}
 
 			if ( measureViewHandle instanceof ComputedMeasureViewHandle )
@@ -405,7 +405,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			}
 			catch ( ExtendedElementException e1 )
 			{
-				ExceptionHandler.handle( e1 );
+				ExceptionUtil.handle( e1 );
 			}
 
 			if ( measureViewHandle instanceof ComputedMeasureViewHandle )

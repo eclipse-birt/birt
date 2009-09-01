@@ -14,9 +14,9 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -184,7 +184,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 		catch ( SemanticException e )
 		{
 			rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		load( );
 	}

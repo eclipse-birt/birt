@@ -15,9 +15,9 @@ import java.io.File;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.rcp.nls.DesignerWorkbenchMessages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
@@ -145,7 +145,7 @@ public class OpenFileAction extends Action implements
 					}
 					catch ( Exception e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 				else

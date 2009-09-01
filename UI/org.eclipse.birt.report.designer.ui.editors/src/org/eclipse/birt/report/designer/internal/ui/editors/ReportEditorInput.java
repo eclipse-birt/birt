@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -181,7 +181,7 @@ public class ReportEditorInput implements
 			}
 			catch ( FileNotFoundException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return null;
 			}
 		}

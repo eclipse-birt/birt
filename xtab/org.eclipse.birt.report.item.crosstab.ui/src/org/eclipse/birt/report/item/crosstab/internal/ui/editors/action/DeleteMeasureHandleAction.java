@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -115,7 +115,7 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 			catch ( SemanticException e )
 			{
 				rollBack( );
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return;
 			}
 			transEnd( );

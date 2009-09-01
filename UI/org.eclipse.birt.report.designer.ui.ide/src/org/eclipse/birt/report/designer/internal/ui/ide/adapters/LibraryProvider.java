@@ -16,13 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.core.resources.IFile;
@@ -136,7 +136,7 @@ public class LibraryProvider implements ILibraryProvider
 			}
 			catch ( DesignFileException e )
 			{
-				ExceptionHandler.handle( e,
+				ExceptionUtil.handle( e,
 						MSG_OPEN_DEFINED_LIBRARY_ERROR_TITLE,
 						MSG_OPEN_DEFINED_LIBRARY_ERROR_MSG );
 			}

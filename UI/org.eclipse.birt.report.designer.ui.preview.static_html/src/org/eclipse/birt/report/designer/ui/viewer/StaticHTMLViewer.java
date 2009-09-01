@@ -20,12 +20,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.controller.InputParameterDialog;
 import org.eclipse.birt.report.designer.ui.preview.editors.SWTAbstractViewer;
 import org.eclipse.birt.report.designer.ui.preview.parameter.AbstractParamGroup;
 import org.eclipse.birt.report.designer.ui.preview.parameter.ScalarParam;
 import org.eclipse.birt.report.designer.ui.preview.static_html.StaticHTMLPrviewPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.viewer.job.AbstractJob;
 import org.eclipse.birt.report.designer.ui.viewer.job.AbstractUIJob;
 import org.eclipse.birt.report.designer.ui.viewer.job.RenderJobRule;
@@ -529,7 +529,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 					}
 					catch ( EngineException e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 			}
@@ -554,7 +554,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				}
 				catch ( EngineException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			this.isTocUpdate = true;

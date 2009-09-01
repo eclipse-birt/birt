@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -42,7 +42,7 @@ public class CrosstabCellHeightProvider extends UnitPropertyDescriptorProvider
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		if ( text == null )
 			return "";
@@ -66,7 +66,7 @@ public class CrosstabCellHeightProvider extends UnitPropertyDescriptorProvider
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 }

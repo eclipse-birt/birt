@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Preferences;
@@ -91,7 +91,7 @@ public class ReportProjectPreference extends Preferences
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 				finally
 				{
@@ -124,7 +124,7 @@ public class ReportProjectPreference extends Preferences
 			}
 			catch ( Exception e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				flag = false;
 			}
 			finally

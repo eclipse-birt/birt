@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -47,7 +47,7 @@ public class ShowPropertiesViewMenu implements IMenuListener
 			}
 			catch ( PartInitException e )
 			{
-				ExceptionHandler.handle( e,
+				ExceptionUtil.handle( e,
 						Messages.getString( "ShowPropertiesViewMenu.ErrorTitle" ), Messages.getString( "ShowPropertiesViewMenu.ErrorMessage" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}

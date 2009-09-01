@@ -16,10 +16,10 @@ import java.util.Arrays;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ComplexUnit;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.IDimensionValueChangedListener;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -131,7 +131,7 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor
 	{
 		if ( !validateDimensionValue( value, unit ) )
 		{
-			ExceptionHandler.openErrorMessageBox( ERROR_BOX_TITLE,
+			ExceptionUtil.openError( ERROR_BOX_TITLE,
 					ERROR_MESSAGE );
 			load( );
 			return;
@@ -190,7 +190,7 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor
 			}
 			catch ( Exception e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return;
 			}
 			if ( deUnitValue == null )

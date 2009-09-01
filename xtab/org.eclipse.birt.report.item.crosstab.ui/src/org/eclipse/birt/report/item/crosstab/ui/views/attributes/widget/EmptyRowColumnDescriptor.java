@@ -14,8 +14,8 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.EmptyRowColumnProvider;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -98,7 +98,7 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 					}
 					catch ( SemanticException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						ExceptionUtil.handle( e1 );
 					}
 				}
 			}
@@ -146,7 +146,7 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 		}
 		catch ( SemanticException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 
@@ -236,7 +236,7 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.CSSUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -32,7 +32,7 @@ public class MarignPropertyDescriptorProvider extends
 		}
 		catch ( PropertyValueException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		return ""; //$NON-NLS-1$
 	}

@@ -30,11 +30,11 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizard;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizardDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -220,7 +220,7 @@ public class FileReportProvider implements IReportProvider
 							}
 							catch ( IOException e )
 							{
-								ExceptionHandler.handle( e );
+								ExceptionUtil.handle( e );
 							}
 						}
 					};
@@ -275,7 +275,7 @@ public class FileReportProvider implements IReportProvider
 
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 

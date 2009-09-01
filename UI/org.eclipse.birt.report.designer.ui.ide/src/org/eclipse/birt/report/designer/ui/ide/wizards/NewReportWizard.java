@@ -19,12 +19,12 @@ import java.util.Locale;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -206,7 +206,7 @@ public class NewReportWizard extends Wizard implements
 		catch ( InvocationTargetException e )
 		{
 			Throwable realException = e.getTargetException( );
-			ExceptionHandler.handle( realException );
+			ExceptionUtil.handle( realException );
 			return false;
 		}
 		return true;
@@ -468,7 +468,7 @@ public class NewReportWizard extends Wizard implements
 			}
 			catch ( CoreException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 
@@ -622,7 +622,7 @@ public class NewReportWizard extends Wizard implements
 				}
 				catch ( Exception e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		} );

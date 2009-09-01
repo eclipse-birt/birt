@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 
@@ -57,7 +57,7 @@ public class CategoryPage implements ICategoryPage
 		}
 		catch ( Exception e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return null;
 		}
 	}

@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.ide.navigator;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
@@ -95,7 +95,7 @@ public class SetupReportProjectAction implements IViewActionDelegate
 			}
 			catch ( CoreException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 
 		}

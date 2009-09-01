@@ -18,7 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -27,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -196,7 +196,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				catch ( SemanticException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 
@@ -324,7 +324,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return;
 			}
 
@@ -348,7 +348,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 				return;
 			}
 
@@ -612,7 +612,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					}
 					catch ( SemanticException e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 				else
@@ -632,7 +632,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					}
 					catch ( SemanticException e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 				refreshDynamicViewer( );
@@ -708,7 +708,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					}
 					catch ( SemanticException e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 				}
 				refreshStaticViewer( );
@@ -773,7 +773,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				catch ( SemanticException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			refreshStaticViewer( );
@@ -991,7 +991,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				catch ( PropertyValueException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		}
@@ -1012,7 +1012,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				catch ( PropertyValueException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 		}
@@ -1040,7 +1040,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				catch ( SemanticException e1 )
 				{
-					ExceptionHandler.handle( e1 );
+					ExceptionUtil.handle( e1 );
 				}
 
 				updateButtonStatus( dynamicButton );
@@ -1058,7 +1058,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				catch ( SemanticException e1 )
 				{
-					ExceptionHandler.handle( e1 );
+					ExceptionUtil.handle( e1 );
 				}
 
 				updateButtonStatus( staticButton );
@@ -1083,7 +1083,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		else if ( button == staticButton )
@@ -1098,7 +1098,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		this.getShell( ).layout( );

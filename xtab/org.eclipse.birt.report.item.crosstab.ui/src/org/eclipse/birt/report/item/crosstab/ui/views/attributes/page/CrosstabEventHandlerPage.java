@@ -14,11 +14,11 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.ide.util.ClassFinder;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndButtonSection;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -77,7 +77,7 @@ public class CrosstabEventHandlerPage extends AttributePage {
 					}
 					catch ( SemanticException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						ExceptionUtil.handle( e1 );
 					}
 				}
 			}

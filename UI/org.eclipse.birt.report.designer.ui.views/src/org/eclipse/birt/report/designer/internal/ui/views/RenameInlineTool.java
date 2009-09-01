@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -289,13 +289,13 @@ public class RenameInlineTool
 		}
 		catch ( NameException e )
 		{
-			ExceptionHandler.handle( e, ERROR_TITLE, e.getLocalizedMessage( ) );
+			ExceptionUtil.handle( e, ERROR_TITLE, e.getLocalizedMessage( ) );
 			stack.rollback( );
 			return false;
 		}
 		catch ( SemanticException e )
 		{
-			ExceptionHandler.handle( e, ERROR_TITLE, e.getLocalizedMessage( ) );
+			ExceptionUtil.handle( e, ERROR_TITLE, e.getLocalizedMessage( ) );
 			stack.rollback( );
 			// If set EmbeddedImage name error, then use former name;
 			return true;

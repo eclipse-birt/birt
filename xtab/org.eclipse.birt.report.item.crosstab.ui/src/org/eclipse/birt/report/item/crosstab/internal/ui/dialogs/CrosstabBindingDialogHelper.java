@@ -36,9 +36,9 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -335,7 +335,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		catch ( ExtendedElementException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 
@@ -419,7 +419,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		catch ( AdapterException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		// List args = getFunctionArgs( functionString );
 		// bindingColumn.argumentsIterator( )
@@ -480,7 +480,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return null;
 		}
 	}
@@ -495,7 +495,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			return new IAggrFunction[0];
 		}
 	}
@@ -942,7 +942,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			catch ( BirtException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		else
@@ -987,7 +987,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		return null;
 	}

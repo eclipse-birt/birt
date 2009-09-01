@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.ui.views.dialogs.CrosstabMapRuleBuilder;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -81,7 +81,7 @@ public class CrosstabMapDescriptorProvider extends MapDescriptorProvider
 		catch ( Exception e )
 		{
 			stack.rollback( );
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 			result = false;
 		}
 		return result;

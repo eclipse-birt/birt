@@ -13,9 +13,9 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.views.provider;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -69,7 +69,7 @@ public class CrossTabNodeProvider extends DefaultNodeProvider
 		}
 		catch ( ExtendedElementException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 		list.add( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP ) );
 		return list.toArray( );

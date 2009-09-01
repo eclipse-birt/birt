@@ -14,9 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -53,7 +53,7 @@ public class OutputPropertyDescriptorProvider extends
 				}
 				catch ( SemanticException e )
 				{
-					ExceptionHandler.handle( e );
+					ExceptionUtil.handle( e );
 				}
 			}
 			else
@@ -85,7 +85,7 @@ public class OutputPropertyDescriptorProvider extends
 					}
 					catch ( PropertyValueException e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 					return true;
 				}
@@ -174,7 +174,7 @@ public class OutputPropertyDescriptorProvider extends
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionUtil.handle( e );
 			}
 		}
 		return true;
@@ -306,7 +306,7 @@ public class OutputPropertyDescriptorProvider extends
 					}
 					catch ( Exception e )
 					{
-						ExceptionHandler.handle( e );
+						ExceptionUtil.handle( e );
 					}
 					if ( !flag )
 					{
