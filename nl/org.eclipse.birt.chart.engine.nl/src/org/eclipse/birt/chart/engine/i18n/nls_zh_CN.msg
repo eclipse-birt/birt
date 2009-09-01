@@ -365,6 +365,12 @@ Cursor.SResize.displayName=南
 Cursor.WResize.displayName=西
 Cursor.Custom.displayName=自定义
 
+ActionType.URLRedirect.DisplayName=URL Redirect
+ActionType.InvokeScript.DisplayName=调用脚本
+ActionType.Highlight.DisplayName=突出显示
+ActionType.ToggleVisibility.DisplayName=切换可见性
+ActionType.ToggleDataPointVisibility.DisplayName=Toggle Data Point Visibility
+
 # End of Attributes
 ##################################################
 
