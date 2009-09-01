@@ -722,11 +722,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			dY += dSeriesThickness;
 			dH -= dSeriesThickness;
 			dW -= dSeriesThickness;
-
-			boPlot.setHeight( dH );
-			boPlot.setTop( dY );
-			boPlot.setWidth( dW );
 		}
+
+		boPlot.setTop( dY );
+		boPlot.setHeight( Math.max( dH, 0 ) );
+		boPlot.setWidth( Math.max( dW, 0 ) );
 	}
 
 	/**
