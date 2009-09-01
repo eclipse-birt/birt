@@ -388,6 +388,16 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 			return;
 		}
 		
+		if ( fsBaseURL == null )
+		{
+			MessageBox mb = new MessageBox( Display.getDefault( )
+					.getActiveShell( ), SWT.ICON_WARNING);
+			mb.setText( Messages.getString("HyperlinkEditorDialog.HyperlinkName.Title.Warning") ); //$NON-NLS-1$
+			mb.setMessage( Messages.getString("HyperlinkEditorDialog.BaseURL.Message") ); //$NON-NLS-1$
+			mb.open( );
+			fTxtHyperlinkLabel.setFocus( );
+			return;
+		}
 		fURLValue.getLabel( )
 				.getCaption( )
 				.setValue( fTxtHyperlinkLabel.getText( ).trim( ) );
