@@ -170,6 +170,13 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	public static final String SERIES_VALUE = "valueSeriesName"; //$NON-NLS-1$
 
 
+	/** The variable names for highlight and toggle visibility functions. */
+	public static final String ID = "id";//$NON-NLS-1$
+	
+	public static final String COMP_LIST = "compList";//$NON-NLS-1$
+	
+	public static final String LABEL_LIST = "labelList";//$NON-NLS-1$
+
 	private transient Chart cmDesignTime = null;
 
 	private transient Chart cmRunTime = null;
