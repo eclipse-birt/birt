@@ -538,6 +538,19 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	{
 		return seriesDefn.getDesignTimeSeries( );
 	}
+	
+	private AxisType getAxisType( int type )
+	{
+		if ( type == IConstants.NUMERICAL )
+		{
+			return AxisType.LINEAR_LITERAL;
+		}
+		if ( type == IConstants.DATE_TIME )
+		{
+			return AxisType.DATE_TIME_LITERAL;
+		}
+		return AxisType.TEXT_LITERAL;
+	}
 
 	private AxisType getAxisType( DataPointComponentType dpct )
 	{
@@ -753,7 +766,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private void setDataPointComponentFormatSpecifier( int iComponentIndex )
 	{
-		DataPointComponent dpc = (DataPointComponent) getSeriesForProcessing( ).getDataPoint( )
+		DataPointComponent dpc = getSeriesForProcessing( ).getDataPoint( )
 				.getComponents( )
 				.get( getIndexOfListItem( iComponentIndex ) );
 		FormatSpecifier formatspecifier = dpc.getFormatSpecifier( );
@@ -766,18 +779,22 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 		FormatSpecifierDialog editor = null;
 		AxisType axisType = getAxisType( dpc.getType( ) );
-		boolean isAnyType = false;
-		if ( mapDataPointNames != null && mapDataPointNames.size( ) > 0 )
+		if ( axisType != null )
 		{
-			int iType = foDataPointDefinition.getCompatibleDataType( mapDataPointNames.get( lstComponents.getItem( iComponentIndex ) ) );
-			isAnyType = ( ( iType & IConstants.DATE_TIME )
-					* ( iType & IConstants.NUMERICAL ) != 0 );
-		}
-		if ( axisType != null && !isAnyType )
+			if ( mapDataPointNames != null && mapDataPointNames.size( ) > 0 )
+			{
+				int iType = foDataPointDefinition.getCompatibleDataType( mapDataPointNames.get( lstComponents.getItem( iComponentIndex ) ) );
+				if ( iType > 0 )
+				{
+					// Use the data type of current component
+					axisType = getAxisType( iType );
+				}
+			}
 			editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					formatspecifier,
 					axisType,
 					sContext );
+		}
 		else
 		{
 			editor = new FormatSpecifierDialog( cmpContent.getShell( ),

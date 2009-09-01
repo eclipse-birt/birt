@@ -737,7 +737,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 */
 	public void setTooltipForInputControl( )
 	{
-		getInputControl( ).setToolTipText( getTooltipForDataText( getExpression( getInputControl( ) ) ) );
+		Control control = getInputControl( );
+		if ( control != null && !control.isDisposed( ) )
+		{
+			getInputControl( ).setToolTipText( getTooltipForDataText( getExpression( control ) ) );
+		}
 	}
 
 	/**

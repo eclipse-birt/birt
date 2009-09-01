@@ -234,6 +234,9 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet
 				cmpTop.dispose( );
 			}
 			getUI( parent );
+			// Refresh popup sheet
+			parent.layout( );
+			// Resize popup sheet using preferred size.
 			parent.pack( );
 		}
 	}
