@@ -234,14 +234,13 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			Expression nameExpr = ( (ImageItemDesign) generateBy )
 					.getImageName( );
-			if ( nameExpr != null && nameExpr.getType( ) == Expression.CONSTANT )
+			if ( nameExpr != null )
 			{
 				return nameExpr.getScriptText( );
 			}
 		}
 		return null;
 	}
-
 
 	private void setImageURI( String uri )
 	{
@@ -277,7 +276,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		if ( generateBy instanceof ImageItemDesign )
 		{
 			Expression uriExpr = ( (ImageItemDesign) generateBy ).getImageUri( );
-			if ( uriExpr != null && uriExpr.getType( ) == Expression.CONSTANT )
+			if ( uriExpr != null )
 			{
 				return uriExpr.getScriptText( );
 			}
