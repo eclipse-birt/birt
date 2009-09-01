@@ -53,6 +53,8 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.render.IActionRenderer;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
@@ -88,7 +90,8 @@ import org.mozilla.javascript.EvaluatorException;
  * Base presentation implementation for Chart. This class can be extended for
  * various implementation.
  */
-public class ChartReportItemPresentationBase extends ReportItemPresentationBase
+public class ChartReportItemPresentationBase extends ReportItemPresentationBase implements
+		org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants
 {
 
 	protected InputStream fis = null;
@@ -112,6 +115,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	private Bounds boundsRuntime = null;
+	
+	private boolean hasDataBound = false;
 
 	static
 	{
@@ -182,19 +187,19 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		{
 			return;
 		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
+		cm = (Chart) item.getProperty( PROPERTY_CHART );
 
 		// #269935
 		// If it is sharing chart case, copy expressions settings from referred
 		// chart model into current.
 		if ( cm != null
 				&& eih.getDataBindingReference( ) != null
-				&& ChartReportItemUtil.isChartHandle( eih.getDataBindingReference( ) ) )
+				&& ChartItemUtil.isChartHandle( eih.getDataBindingReference( ) ) )
 		{
-			ExtendedItemHandle refHandle = ChartReportItemUtil.getChartReferenceItemHandle( eih );
+			ExtendedItemHandle refHandle = ChartItemUtil.getChartReferenceItemHandle( eih );
 			if ( refHandle != null )
 			{
-				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
+				ChartReportItemUtil.copyChartSeriesDefinition( ChartItemUtil.getChartFromHandle( refHandle ),
 						cm );
 			}
 		}
@@ -204,13 +209,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	protected void setChartModelObject( IReportItem item )
 	{
-		Object of = modelHandle.getProperty( ChartReportItemConstants.PROPERTY_OUTPUT );
+		Object of = modelHandle.getProperty( PROPERTY_OUTPUT );
 		if ( of instanceof String )
 		{
 			outputChartFormat = (String) of;
 		}
 
-		of = item.getProperty( ChartReportItemConstants.PROPERTY_SCALE );
+		of = item.getProperty( PROPERTY_SCALE );
 		if ( of instanceof SharedScaleContext )
 		{
 			if ( rtc == null )
@@ -481,6 +486,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			idr.dispose( );
 			idr = null;
 		}
+		hasDataBound = false;
 
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemPresentationImpl.log.finishEnd" ) ); //$NON-NLS-1$
@@ -519,17 +525,17 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			}
 
 			boolean isSharingChart = modelHandle.getDataBindingReference( ) != null
-					&& ChartReportItemUtil.isChartHandle( modelHandle.getDataBindingReference( ) );
+					&& ChartItemUtil.isChartHandle( modelHandle.getDataBindingReference( ) );
 			// Here, we must use chart model to check if grouping is defined. we
 			// can't use grouping definitions in IQueryResultSet to check it,
 			// because maybe chart inherits data set from container and the data
 			// set contains grouping, but chart doesn't define grouping.
-			if ( ChartReportItemUtil.isGroupingDefined( cm )
-					|| ChartReportItemUtil.hasAggregation( cm )
+			if ( ChartItemUtil.isGroupingDefined( cm )
+					|| ChartItemUtil.hasAggregation( cm )
 					|| isSharingChart )
 			{
 				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set,
-						ChartReportItemUtil.isSetSummaryAggregation( cm ),
+						ChartItemUtil.isSetSummaryAggregation( cm ),
 						isSubQuery( ),
 						cm,
 						modelHandle );
@@ -538,8 +544,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		else if ( set instanceof ICubeResultSet )
 		{
-			if ( ChartXTabUtil.isPlotChart( modelHandle )
-					|| ChartXTabUtil.isAxisChart( modelHandle ) )
+			if ( ChartCubeUtil.isPlotChart( modelHandle )
+					|| ChartCubeUtil.isAxisChart( modelHandle ) )
 			{
 				return new BIRTChartXtabResultSetEvaluator( (ICubeResultSet) set,
 						modelHandle );
@@ -547,8 +553,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 			// Fixed ED 28
 			// Sharing case/Multiple view case
-			ReportItemHandle itemHandle = ChartReportItemUtil.getReportItemReference( modelHandle );
-			boolean isChartCubeReference = ChartReportItemUtil.isChartReportItemHandle( itemHandle );
+			ReportItemHandle itemHandle = ChartItemUtil.getReportItemReference( modelHandle );
+			boolean isChartCubeReference = ChartItemUtil.isChartReportItemHandle( itemHandle );
 			if ( itemHandle != null && !isChartCubeReference )
 			{
 				return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
@@ -572,10 +578,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		if ( baseResultSet instanceof IQueryResultSet )
 		{
 			Object min = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-					+ ChartReportItemConstants.QUERY_MIN
+					+ QUERY_MIN
 					+ "\"]" ); //$NON-NLS-1$
 			Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-					+ ChartReportItemConstants.QUERY_MAX
+					+ QUERY_MAX
 					+ "\"]" ); //$NON-NLS-1$
 			return SharedScaleContext.createInstance( min, max );
 		}
@@ -598,10 +604,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 						.get( 0 );
 				String bindingValue = ChartExpressionUtil.getCubeBindingName( queryValue.getDefinition( ),
 						false );
-				String maxBindingName = ChartReportItemConstants.QUERY_MAX
-						+ bindingValue;
-				String minBindingName = ChartReportItemConstants.QUERY_MIN
-						+ bindingValue;
+				String maxBindingName = QUERY_MAX + bindingValue;
+				String minBindingName = QUERY_MIN + bindingValue;
 				Object min = baseResultSet.evaluate( ExpressionUtil.createJSDataExpression( minBindingName ) );
 				Object max = baseResultSet.evaluate( ExpressionUtil.createJSDataExpression( maxBindingName ) );
 				if ( min != null && max != null )
@@ -660,6 +664,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	protected boolean bindData( IDataRowExpressionEvaluator rowAdapter,
 			IActionEvaluator evaluator ) throws BirtException
 	{
+		if ( hasDataBound )
+		{
+			// Do not bind data twice
+			return true;
+		}
 		boolean bNotEmpty = true;
 		try
 		{
@@ -682,6 +691,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 
 		rtc.putState( RunTimeContext.StateKey.DATA_EMPTY_KEY, !bNotEmpty );
+		hasDataBound = true;
 		return bNotEmpty;
 	}
 
@@ -701,7 +711,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 		// Display alt text if binding is not complete
 		if ( resultSet == null
-				|| !ChartReportItemUtil.checkChartBindingComplete( cm ) )
+				|| !ChartItemUtil.checkChartBindingComplete( cm ) )
 		{
 			// Returns an object array for engine to display alt text instead of
 			// image when result set is null.
@@ -742,13 +752,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			boolean isSharingQuery = false;
 			if ( modelHandle.getDataBindingReference( ) != null
 					|| modelHandle.getContainer( ) instanceof MultiViewsHandle
-					|| ChartReportItemUtil.isChartInheritGroups( modelHandle ) )
+					|| ChartItemUtil.isChartInheritGroups( modelHandle ) )
 			{
 				isSharingQuery = true;
 				// Here we will set isSharingQuery to false if it is sharing
 				// chart case to ensure that chart generates correct expressions
 				// to do evaluating in chart generator phase.
-				isSharingQuery &= !ChartReportItemUtil.isChartHandle( modelHandle.getDataBindingReference( ) );
+				isSharingQuery &= !ChartItemUtil.isChartHandle( modelHandle.getDataBindingReference( ) );
 			}
 			rtc.setSharingQuery( isSharingQuery );
 
