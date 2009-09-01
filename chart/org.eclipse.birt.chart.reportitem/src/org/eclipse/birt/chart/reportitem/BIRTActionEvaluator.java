@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
@@ -49,7 +50,23 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 	 */
 	public String[] getActionExpressions( Action action, StructureSource source )
 	{
-		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
+		if ( action instanceof MultipleActions )
+		{
+			List<String> expList = new ArrayList<String>( );
+			for ( Action subAction : ( (MultipleActions) action ).getActions( ) )
+			{
+				if ( subAction.getValue( ) instanceof URLValue )
+				{
+					getURLValueExpressions( expList,
+							(URLValue) subAction.getValue( ) );
+				}
+			}
+			if ( expList.size( ) > 0 )
+			{
+				return (String[]) expList.toArray( new String[expList.size( )] );
+			}
+		}
+		else if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
 			List<String> expList = new ArrayList<String>( );
 			
@@ -65,6 +82,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 					getURLValueExpressions( expList, uv );	
 				}
 			}
+			
 			
 			if ( expList.size( ) > 0 )
 			{

@@ -67,6 +67,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
@@ -98,6 +99,7 @@ import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
@@ -2577,6 +2579,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				for ( Action subAction : mas.getActions( ) )
 				{
+					ActionValue av = subAction.getValue( );
+					if ( av.getLabel( ) == null
+							|| av.getLabel( ).getCaption( ).getValue( ) == null
+							|| "".equals( av.getLabel( ).getCaption( ).getValue( ) ) ) //$NON-NLS-1$
+					{
+						String expr = "ActionType." + subAction.getType( ).getName( ) + ".DisplayName"; //$NON-NLS-1$ //$NON-NLS-2$
+						String displayName = Messages.getString( expr );
+						if ( displayName != null )
+						{
+							Label l = LabelImpl.create( );
+							l.getCaption( ).setValue( displayName );
+							av.setLabel( l );
+						}
+					}
 					if ( subAction.getValue( ) instanceof URLValue )
 						buildMultiURL( valueHints,
 								(URLValue) subAction.getValue( ) );

@@ -17,10 +17,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
-import org.eclipse.birt.chart.device.image.MultiURLValuesScriptGenerator;
+import org.eclipse.birt.chart.device.image.MultiActionValuesScriptGenerator;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.svg.i18n.Messages;
 import org.eclipse.birt.chart.device.util.CSSHelper;
@@ -50,6 +51,8 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.util.SecurityUtil;
@@ -551,179 +554,423 @@ public class SVGInteractiveRenderer
 						bDblClick = true;
 					}
 					
-					switch ( tg.getAction( ).getType( ).getValue( ) )
+					Action action = tg.getAction( );
+					
+					if ( action instanceof MultipleActions )
 					{
-						case ActionType.SHOW_TOOLTIP :
-
-							String tooltipText = ( (TooltipValue) tg.getAction( )
-									.getValue( ) ).getText( );
-							// make sure the tooltip text is not empty
-							if ( ( tooltipText != null )
-									&& ( tooltipText.trim( ).length( ) > 0 ) )
-							{
-								Element title = svg_g2d.dom.createElement( "title" ); //$NON-NLS-1$
-								title.appendChild( svg_g2d.dom.createTextNode( tooltipText ) );
-								elm.appendChild( title );
-								// on mouse over is actually two events to show
-								// the tooltip
-								String componentId = null;
-								if (src instanceof WrappedStructureSource){
-									componentId = findFirstComponentId((WrappedStructureSource)src);
-								}
-								
-								if ( scriptEvent.equals( "onmouseover" ) ) {//$NON-NLS-1$
-									elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
-									if (componentId != null)
-										elm.setAttribute( "onmousemove", "TM.show(evt,"+componentId+")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-									else
-										elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
-								}
-								else
-								{
-									if ( componentId != null )
-									{
-										elm.setAttribute( scriptEvent,
-												wrapJS( bDblClick,
-														"TM.toggleToolTip(evt," + componentId + ")" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-									}
-									else
-									{
-										elm.setAttribute( scriptEvent,
-												wrapJS( bDblClick,
-														"TM.toggleToolTip(evt)" ) ); //$NON-NLS-1$
-									}
-								}
-							}
-							break;
-						case ActionType.URL_REDIRECT :
-							ActionValue av = tg.getAction( ).getValue( );
-							if ( av instanceof URLValue )
-							{
-								URLValue urlValue = (URLValue) av;
-								// See if this is an internal anchor link
-								setURLValueAttributes( urlValue,
-										elm,
-										src,
-										scriptEvent,
-										bDblClick );
-							}
-							else if ( av instanceof MultiURLValues )
-							{
-								MultiURLValues muv = (MultiURLValues) av;
-								List<URLValue> validURLValues = MultiURLValuesScriptGenerator.getValidURLValues( muv );
-								int size = validURLValues.size( );
-								if ( size == 0 )
-								{
-									setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
-									break;
-								}
-								if ( size == 1 )
-								{
-									setURLValueAttributes( validURLValues.get( 0 ),
-											elm,
-											src,
-											scriptEvent,
-											bDblClick );
-									
-									setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
-								}
-								else
-								{
-									setMultiURLValuesAttributes( muv,
-											elm,
-											src,
-											scriptEvent,
-											bDblClick );
-								}
-								
-								setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
-							}
-							break;
-
-						case ActionType.TOGGLE_VISIBILITY :
-						case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
-						case ActionType.HIGHLIGHT :
-							addJSCodeOnElement( src,
-									tg,
-									elm,
-									scriptEvent,
-									tg.getAction( ).getType( ).getValue( ),
-									bDblClick );
-							break;
-
-						case ActionType.INVOKE_SCRIPT :
-
-							// lets see if we need to add accessibility
-							if ( tg.getCondition( )
-									.equals( TriggerCondition.ACCESSIBILITY_LITERAL ) )
-							{
-								AccessibilityValue accessValue = ( (AccessibilityValue) tg.getAction( )
-										.getValue( ) );
-								if ( accessValue.getText( ) != null )
-								{
-									Element title = svg_g2d.createElement( "title" ); //$NON-NLS-1$
-									title.appendChild( svg_g2d.dom.createTextNode( accessValue.getText( ) ) );
-									elm.appendChild( title );
-								}
-								if ( accessValue.getAccessibility( ) != null )
-								{
-									Element description = svg_g2d.createElement( "desc" ); //$NON-NLS-1$
-									description.appendChild( svg_g2d.dom.createTextNode( accessValue.getAccessibility( ) ) );
-									elm.appendChild( description );
-								}
-
-							}
-							else
-							{
-								// Add categoryData, valueData, valueSeriesName
-								// in callback
-								String script = ( (ScriptValue) tg.getAction( )
-										.getValue( ) ).getScript( );
-
-								StringBuffer callbackFunction = new StringBuffer( "callback" );//$NON-NLS-1$
-								int hashCode = script.hashCode( );
-								if ( hashCode != Integer.MIN_VALUE )
-								{
-									callbackFunction.append( Math.abs( hashCode ) );
-								}
-								else
-								{
-									callbackFunction.append( Integer.MAX_VALUE );
-								}
-
-								callbackFunction.append( "(evt," ); //$NON-NLS-1$
-								callbackFunction.append(  src.getSource( ).hashCode( ) ); 
-
-								if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
-								{
-									final DataPointHints dph = (DataPointHints) src.getSource( );
-									ScriptUtil.script( callbackFunction,
-											dph );
-								}
-								callbackFunction.append( ");" ); //$NON-NLS-1$
-								elm.setAttribute( scriptEvent,
-										wrapJS( bDblClick,
-												callbackFunction.toString() ) );
-								if ( !( scripts.contains( script ) ) )
-								{
-									if ( hashCode != Integer.MIN_VALUE )
-									{
-										svg_g2d.addScript( "function callback" + Math.abs( hashCode ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-									}
-									else
-									{
-										svg_g2d.addScript( "function callback" + Integer.MAX_VALUE + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-									}
-									scripts.add( script );
-								}
-							}
-							break;
+						addMultiActionsJSCode( elm,
+								src,
+								tg,
+								scriptEvent,
+								bDblClick,
+								(MultipleActions) action );
+						
+					}
+					else
+					{
+						addActionJSCode( elm,
+								src,
+								tg,
+								scriptEvent,
+								bDblClick,
+								action );
 					}
 				}
 			}
 		}
 	}
 
+	/**
+	 * @param elm
+	 * @param src
+	 * @param tg
+	 * @param scriptEvent
+	 * @param bDblClick
+	 * @param action
+	 */
+	private void addActionJSCode( Element elm, StructureSource src, Trigger tg,
+			String scriptEvent, boolean bDblClick, Action action )
+	{
+		switch ( action.getType( ).getValue( ) )
+		{
+			case ActionType.SHOW_TOOLTIP :
+
+				addTooltipJSCode( elm,
+						src,
+						scriptEvent,
+						bDblClick,
+						action );
+				break;
+			case ActionType.URL_REDIRECT :
+				addURLRedirectJSCode( elm,
+						src,
+						scriptEvent,
+						bDblClick,
+						action );
+				break;
+
+			case ActionType.TOGGLE_VISIBILITY :
+			case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+			case ActionType.HIGHLIGHT :
+				addJSCodeOnElement( src,
+						tg,
+						elm,
+						scriptEvent,
+						action.getType( ).getValue( ),
+						bDblClick );
+				break;
+
+			case ActionType.INVOKE_SCRIPT :
+
+				addInvokeScriptJSCode( elm,
+						src,
+						tg,
+						scriptEvent,
+						bDblClick,
+						action );
+				break;
+		}
+	}
+
+	/**
+	 * @param elm
+	 * @param src
+	 * @param tg
+	 * @param scriptEvent
+	 * @param bDblClick
+	 * @param action
+	 */
+	private void addMultiActionsJSCode( Element elm, StructureSource src,
+			Trigger tg, String scriptEvent, boolean bDblClick, MultipleActions action )
+	{
+		List<Action> subActions = MultiActionValuesScriptGenerator.getValidActions( action );
+		if ( subActions.size( ) == 1 )
+		{
+			Action subAction = subActions.get( 0 );
+			addActionJSCode( elm,
+					src,
+					tg,
+					scriptEvent,
+					bDblClick,
+					subAction );
+		}
+		else if ( subActions.size( ) > 1 )
+		{
+			
+			String callbackContent = getMultiActionsCallbackContent( action );
+			StringBuffer callbackFunction = generateScriptCallbackFunctionName( callbackContent );
+			String funcName= callbackFunction.toString( );
+			
+			callbackFunction.append( "(evt," ); //$NON-NLS-1$
+			callbackFunction.append( src.getSource( )
+					.hashCode( ) );
+			if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
+			{
+				final DataPointHints dph = (DataPointHints) src.getSource( );
+				ScriptUtil.script( callbackFunction,
+						dph );
+			}
+			
+			boolean multipleTypes = false;
+			for ( Action subAction : subActions )
+			{
+				if ( subAction instanceof MultipleActions )
+				{
+					continue;
+				}
+				
+				// Add callback function in element.
+				int typeValue = subAction.getType( ).getValue( );
+
+				switch( typeValue )
+				{
+					case ActionType.TOGGLE_VISIBILITY :
+					case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+					case ActionType.HIGHLIGHT :
+						multipleTypes = true;
+						break;
+				}
+				if ( multipleTypes )
+					break;
+			}
+			if ( multipleTypes )
+			{
+				callbackFunction.append( this.getJSCodeFunctionSuffix( src ) );
+			}
+			else
+			{
+				callbackFunction.append( ")" ); //$NON-NLS-1$
+			}
+			
+			String jsFunction = callbackFunction.toString( );
+			elm.setAttribute( scriptEvent, wrapJS( bDblClick,
+					 jsFunction ) );	
+
+			// Add callback function in element.
+			if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
+			{
+				elm.setAttribute( "onmouseout", //$NON-NLS-1$
+						jsFunction ); 
+			}
+			
+			// Add script definition of callbak function.
+			// function into 'script' element.
+			if ( !( scripts.contains( callbackContent ) ) )
+			{
+				svg_g2d.addScript( "function " + funcName + "( evt,source,categoryData,valueData,valueSeriesName, id, compList, labelList )" + "{" + callbackContent + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				scripts.add( callbackContent );
+			}
+		}
+	}
+
+	/**
+	 * @param elm
+	 * @param src
+	 * @param scriptEvent
+	 * @param bDblClick
+	 * @param action
+	 */
+	private void addTooltipJSCode( Element elm, StructureSource src,
+			String scriptEvent, boolean bDblClick, Action action )
+	{
+		String tooltipText = ( (TooltipValue) action
+				.getValue( ) ).getText( );
+		// make sure the tooltip text is not empty
+		if ( ( tooltipText != null )
+				&& ( tooltipText.trim( ).length( ) > 0 ) )
+		{
+			Element title = svg_g2d.dom.createElement( "title" ); //$NON-NLS-1$
+			title.appendChild( svg_g2d.dom.createTextNode( tooltipText ) );
+			elm.appendChild( title );
+			// on mouse over is actually two events to
+			// show
+			// the tooltip
+			String componentId = null;
+			if ( src instanceof WrappedStructureSource )
+			{
+				componentId = findFirstComponentId( (WrappedStructureSource) src );
+			}
+
+			if ( scriptEvent.equals( "onmouseover" ) ) {//$NON-NLS-1$
+				elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
+				if ( componentId != null )
+					elm.setAttribute( "onmousemove", "TM.show(evt," + componentId + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				else
+					elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			else
+			{
+				if ( componentId != null )
+				{
+					elm.setAttribute( scriptEvent,
+							wrapJS( bDblClick,
+									"TM.toggleToolTip(evt," + componentId + ")" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				else
+				{
+					elm.setAttribute( scriptEvent,
+							wrapJS( bDblClick,
+									"TM.toggleToolTip(evt)" ) ); //$NON-NLS-1$
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param elm
+	 * @param src
+	 * @param tg
+	 * @param scriptEvent
+	 * @param bDblClick
+	 * @param action
+	 */
+	private void addInvokeScriptJSCode( Element elm, StructureSource src,
+			Trigger tg, String scriptEvent, boolean bDblClick, Action action )
+	{
+		// lets see if we need to add accessibility
+		if ( tg.getCondition( )
+				.equals( TriggerCondition.ACCESSIBILITY_LITERAL ) )
+		{
+			AccessibilityValue accessValue = ( (AccessibilityValue) action
+					.getValue( ) );
+			if ( accessValue.getText( ) != null )
+			{
+				Element title = svg_g2d.createElement( "title" ); //$NON-NLS-1$
+				title.appendChild( svg_g2d.dom.createTextNode( accessValue.getText( ) ) );
+				elm.appendChild( title );
+			}
+			if ( accessValue.getAccessibility( ) != null )
+			{
+				Element description = svg_g2d.createElement( "desc" ); //$NON-NLS-1$
+				description.appendChild( svg_g2d.dom.createTextNode( accessValue.getAccessibility( ) ) );
+				elm.appendChild( description );
+			}
+
+		}
+		else
+		{
+			// Add categoryData, valueData,
+			// valueSeriesName
+			// in callback
+			String script = ( (ScriptValue) action
+					.getValue( ) ).getScript( );
+
+			StringBuffer callbackFunction = generateScriptCallbackFunctionName( script );
+			
+			String funcName = callbackFunction.toString( );
+			callbackFunction.append( "(evt," ); //$NON-NLS-1$
+			callbackFunction.append( src.getSource( )
+					.hashCode( ) );
+
+			if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
+			{
+				final DataPointHints dph = (DataPointHints) src.getSource( );
+				ScriptUtil.script( callbackFunction,
+						dph );
+			}
+			callbackFunction.append( ");" ); //$NON-NLS-1$
+			
+			// Add callback function in element.
+			elm.setAttribute( scriptEvent,
+					wrapJS( bDblClick,
+							callbackFunction.toString( ) ) );
+			
+			// Add content definition of callbak function.
+			if ( !( scripts.contains( script ) ) )
+			{
+				svg_g2d.addScript( "function " +  funcName + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				scripts.add( script );
+			}
+		}
+	}
+
+	/**
+	 * @param elm
+	 * @param src
+	 * @param scriptEvent
+	 * @param bDblClick
+	 * @param action
+	 */
+	private void addURLRedirectJSCode( Element elm, StructureSource src,
+			String scriptEvent, boolean bDblClick, Action action )
+	{
+		ActionValue av = action.getValue( );
+		if ( av instanceof URLValue )
+		{
+			URLValue urlValue = (URLValue) av;
+			// See if this is an internal anchor link
+			setURLValueAttributes( urlValue,
+					elm,
+					src,
+					scriptEvent,
+					bDblClick );
+		}
+		else if ( av instanceof MultiURLValues )
+		{
+			MultiURLValues muv = (MultiURLValues) av;
+			List<URLValue> validURLValues = MultiActionValuesScriptGenerator.getValidURLValues( muv );
+			int size = validURLValues.size( );
+			if ( size == 1 )
+			{
+				setURLValueAttributes( validURLValues.get( 0 ),
+						elm,
+						src,
+						scriptEvent,
+						bDblClick );
+			}
+			else if ( size > 1 )
+			{
+				setMultiURLValuesAttributes( muv,
+						elm,
+						src,
+						scriptEvent,
+						bDblClick );
+			}
+			
+			setTooltipForURLRedirect( elm,
+					src,
+					muv.getTooltip( ) );
+		}
+	}
+	/**
+	 * @param sb
+	 * @param propMap
+	 */
+	private static StringBuilder getPropertiesJS( 
+			EMap<String, String> propMap )
+	{
+		StringBuilder sb = new StringBuilder();
+		for ( Entry<String, String> entry : propMap.entrySet( ) )
+		{
+			String key = entry.getKey();
+			String properties = entry.getValue( );
+			if ( MenuStylesKeyType.MENU.getName().equals( key ) )
+			{
+				sb.append( "\t menuInfo.menuStyles = '" + CSSHelper.getStylingHyphenFormat( properties ) + "';\n");//$NON-NLS-1$//$NON-NLS-2$
+			}
+			else if ( MenuStylesKeyType.MENU_ITEM.getName( ).equals( key  ) )
+			{
+				sb.append( "\t menuInfo.menuItemStyles = '" + CSSHelper.getStylingHyphenFormat( properties ) + "';\n");//$NON-NLS-1$//$NON-NLS-2$
+			}
+			else if ( MenuStylesKeyType.ON_MOUSE_OVER.getName( ).equals(key))
+			{
+				sb.append( "\t menuInfo.mouseOverStyles = '" + CSSHelper.getStylingHyphenFormat( properties ) + "';\n");//$NON-NLS-1$//$NON-NLS-2$
+			}
+			else if (MenuStylesKeyType.ON_MOUSE_OUT.getName( ).equals(key)) 
+			{
+				sb.append( "\tmenuInfo.mouseOutStyles = '" + CSSHelper.getStylingHyphenFormat( properties )  + "';\n");//$NON-NLS-1$//$NON-NLS-2$
+			}
+		}
+		return sb;
+	}
+	
+	/**
+	 * Returns the callback content of multiple actions.
+	 * 
+	 * @param actions
+	 * @return
+	 */
+	private String getMultiActionsCallbackContent( MultipleActions actions )
+	{
+		StringBuilder sb = new StringBuilder( );
+
+		sb.append( "\n\t var menuInfo = new BirtChartMenuInfo();\n" ); //$NON-NLS-1$
+
+		EMap<String, String> propMap = actions.getPropertiesMap( );
+		sb.append( getPropertiesJS( propMap ).toString( ) );
+		int i = 0;
+		
+		for ( Action subAction : MultiActionValuesScriptGenerator.getValidActions( actions ) )
+		{
+			int typeValue = subAction.getType( ).getValue( );
+			switch ( typeValue )
+			{
+				case ActionType.URL_REDIRECT:
+					sb = MultiActionValuesScriptGenerator.getURLValueJS( sb, i, (URLValue) subAction.getValue( ) );
+					break;
+				case ActionType.INVOKE_SCRIPT:
+					sb = MultiActionValuesScriptGenerator.getScriptValueJS( sb, i, (ScriptValue) subAction.getValue( ) );
+					break;
+				case ActionType.TOGGLE_VISIBILITY :
+					sb = MultiActionValuesScriptGenerator.getVisualJS( sb, i, subAction.getValue( ), "BirtChartInteractivityActions.TOGGLE_VISIBILITY" ); //$NON-NLS-1$ 
+					break;
+				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+					sb = MultiActionValuesScriptGenerator.getVisualJS( sb, i, subAction.getValue( ), "BirtChartInteractivityActions.TOGGLE_DATA_POINT_VISIBILITY" ); //$NON-NLS-1$ 
+					break;
+				case ActionType.HIGHLIGHT :
+					sb = MultiActionValuesScriptGenerator.getVisualJS( sb, i, subAction.getValue( ), "BirtChartInteractivityActions.HIGHLIGHT" ); //$NON-NLS-1$ 
+					break;
+			}
+			i++;		
+		}
+
+		MultiActionValuesScriptGenerator.appendInteractivityVariables( sb );
+	
+		sb.append( "\n"); //$NON-NLS-1$
+		sb.append( "  BirtChartActionsMenu.show( evt, source, menuInfo ); "); //$NON-NLS-1$
+		
+		return sb.toString( );
+	}
 	/**
 	 * Set SVG attributes for multiple URL values.
 	 * 
@@ -733,65 +980,31 @@ public class SVGInteractiveRenderer
 	 * @param scriptEvent
 	 * @param bDblClick
 	 */
-	private void setMultiURLValuesAttributes( MultiURLValues muv, Element elm,
+	private void setMultiURLValuesAttributes( MultiURLValues values, Element elm,
 			StructureSource src, String scriptEvent, boolean bDblClick )
 	{
-		// Add categoryData, valueData,
-		// valueSeriesName in callback
-		// Create scripts;
-		List<URLValue> validURLValues = MultiURLValuesScriptGenerator.getValidURLValues( muv );
-		StringBuilder sb = new StringBuilder();
-		sb.append( "\n"); //$NON-NLS-1$
-		sb.append( "    var hyperlinks = new Array(" + validURLValues.size( ) + ");\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append( "    var linkEntry;\n"); //$NON-NLS-1$
-		sb.append( "    var count = 0;\n"); //$NON-NLS-1$
-		for ( URLValue uv :  validURLValues )
+		StringBuilder sb = new StringBuilder( );
+		sb.append( "\n\t var menuInfo = new BirtChartMenuInfo();\n" ); //$NON-NLS-1$
+
+		EMap<String, String> propMap = values.getPropertiesMap( );
+		sb.append( getPropertiesJS( propMap ).toString( ) );
+		int i = 0;
+		for ( URLValue uv : MultiActionValuesScriptGenerator.getValidURLValues( values ) )
 		{
-			sb.append( "\n" ); //$NON-NLS-1$
-			String url = uv.getBaseUrl( );
-			if ( !( url.startsWith( "\"" ) || url.endsWith( "\"" ) ) )//$NON-NLS-1$ //$NON-NLS-2$
-			{
-				url = "\"" + url + "\"";//$NON-NLS-1$ //$NON-NLS-2$
-			}
-			String text = uv.getLabel( ).getCaption( ).getValue( );
-			
-			sb.append( "    linkEntry = new Array(4);\n"); //$NON-NLS-1$
-			sb.append( "    linkEntry[0] = \"" + text + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			sb.append( "    linkEntry[1] = " + url + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			sb.append( "    linkEntry[2] = '" + uv.getTarget( ) + "';\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			if ( uv.getTooltip( ) != null )
-				sb.append( "    linkEntry[3] = '" + uv.getTooltip( ) + "';\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			
-			sb.append( "    hyperlinks[count++] = linkEntry;\n"); //$NON-NLS-1$
+			sb = MultiActionValuesScriptGenerator.getURLValueJS( sb, i, uv );
+			i++;
 		}
-		sb.append( "\n" ); //$NON-NLS-1$
-		
-		EMap<String, String> stylesMap = muv.getPropertiesMap( );
-		String menuStyle = CSSHelper.getStylingHyphenFormat( stylesMap.get( MenuStylesKeyType.MENU.getName( ) ) ); 
-		String textStyle = CSSHelper.getStylingHyphenFormat( stylesMap.get( MenuStylesKeyType.MENU_ITEM.getName( ) ) );
-		String onmouseoverStyle = CSSHelper.getStylingHyphenFormat( stylesMap.get( MenuStylesKeyType.ON_MOUSE_OVER.getName( ) ) );
-		String onmouseoutStyle =  CSSHelper.getStylingHyphenFormat( stylesMap.get( MenuStylesKeyType.ON_MOUSE_OUT.getName( ) ) );
-		sb.append( " 	var menuStyles = new Array(4); \n"); //$NON-NLS-1$
-		sb.append( "	menuStyles[0] = \"" + menuStyle  + "\";\n") //$NON-NLS-1$ //$NON-NLS-2$
-		  .append( "	menuStyles[1] = \"" +  textStyle + "\";\n") //$NON-NLS-1$ //$NON-NLS-2$
-		  .append( "	menuStyles[2] = \"" +  onmouseoverStyle + "\";\n") //$NON-NLS-1$ //$NON-NLS-2$
-		  .append( "	menuStyles[3] = \"" +  onmouseoutStyle + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		MultiActionValuesScriptGenerator.appendInteractivityVariables( sb );
+
 		sb.append( "\n"); //$NON-NLS-1$
-		sb.append( "    HM.show( evt, source, categoryData, valueData, valueSeriesName, hyperlinks, menuStyles ); "); //$NON-NLS-1$
+		sb.append( "  BirtChartActionsMenu.show( evt, source, menuInfo ); "); //$NON-NLS-1$
 		
 		String script = sb.toString( );
 		
-		StringBuffer callbackFunction = new StringBuffer( "callback" );//$NON-NLS-1$
-
-		int hashCode = script.hashCode( );
-		if ( hashCode != Integer.MIN_VALUE )
-		{
-			callbackFunction.append( Math.abs( hashCode ) );
-		}
-		else
-		{
-			callbackFunction.append( Integer.MAX_VALUE );
-		}
+		StringBuffer callbackFunction = generateScriptCallbackFunctionName( script );
+		
+		String funcName = callbackFunction.toString( );
 		callbackFunction.append( "(evt," ); //$NON-NLS-1$
 		callbackFunction.append( src.getSource( )
 				.hashCode( ) );
@@ -813,16 +1026,29 @@ public class SVGInteractiveRenderer
 		// function into 'script' element.
 		if ( !( scripts.contains( script ) ) )
 		{
-			if ( hashCode != Integer.MIN_VALUE )
-			{
-				svg_g2d.addScript( "function callback" + Math.abs( hashCode ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			}
-			else
-			{
-				svg_g2d.addScript( "function callback" + Integer.MAX_VALUE + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			}
+			svg_g2d.addScript( "function " + funcName + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			scripts.add( script );
 		}
+	}
+
+	/**
+	 * @param script
+	 * @return
+	 */
+	private StringBuffer generateScriptCallbackFunctionName( String script )
+	{
+		StringBuffer callbackFunction = new StringBuffer( "callback" );//$NON-NLS-1$
+
+		int hashCode = script.hashCode( );
+		if ( hashCode != Integer.MIN_VALUE )
+		{
+			callbackFunction.append( Math.abs( hashCode ) );
+		}
+		else
+		{
+			callbackFunction.append( Integer.MAX_VALUE );
+		}
+		return callbackFunction;
 	}
 
 	/**
@@ -1241,6 +1467,129 @@ public class SVGInteractiveRenderer
 		return null;
 	}
 	
+	private String getJSCodeFunctionSuffix( StructureSource src )
+	{
+		String jsFunction = null;
+
+		final Series seRT = (Series) getElementFromSource( src,
+				StructureType.SERIES );
+		if ( seRT != null )
+		{
+			Series seDT = null;
+			String groupIdentifier = null;
+
+			// Create Group identifiers. Differs for color by categories or
+			// series
+			if ( isColoredByCategories( ) )
+			{
+				seDT = findCategorySeries( seRT );
+				final int baseIndex = ( (DataPointHints) src.getSource( ) ).getIndex( );
+				StringBuffer sb = new StringBuffer( );
+				sb.append( "'" );//$NON-NLS-1$
+				sb.append( seDT.hashCode( ) );
+				sb.append( "index" ); //$NON-NLS-1$
+				sb.append( baseIndex );
+				sb.append( "'" );//$NON-NLS-1$
+				groupIdentifier = sb.toString( );
+			}
+			else
+			{
+				try
+				{
+					seDT = findDesignTimeSeries( seRT );
+				}
+				catch ( ChartException e )
+				{
+					logger.log( e );
+					return null;
+				}
+				groupIdentifier = String.valueOf( seDT.hashCode( ) );
+			}
+			
+			boolean includeLabels = true;
+			boolean includeGraphics = true;
+
+			if ( includeGraphics || includeLabels )
+			{
+				StringBuffer sb = new StringBuffer( );
+				sb.append( ", " );//$NON-NLS-1$
+				sb.append( groupIdentifier );
+
+				sb.append( ",new Array(" ); //$NON-NLS-1$
+
+				List<String> labelComponents = labelPrimitives.get( seDT );
+				List<String> components = componentPrimitives.get( seDT );
+
+				Iterator<String> iter = null;
+				// Apply action to graphics
+				if ( includeGraphics && components != null )
+				{
+					iter = components.iterator( );
+					appendArguments( sb, iter );
+					if ( includeLabels && labelComponents != null )
+					{
+						sb.append( "), new Array(" ); //$NON-NLS-1$
+					}
+				}
+				// Apply action to labels
+				if ( includeLabels && labelComponents != null )
+				{
+					iter = labelComponents.iterator( );
+					appendArguments( sb, iter );
+				}
+
+				sb.append( ")" ); //$NON-NLS-1$
+
+				jsFunction = sb.toString( ) + ")";//$NON-NLS-1$	
+			}
+		}
+		else
+		{
+			// the source is not a series object. It may be a title, plot area
+			// or axis
+			Object designObject = null;
+			// check to see if this is the title block
+			if ( getElementFromSource( src, StructureType.TITLE ) != null )
+			{
+				designObject = src.getSource( );
+			}
+			else if ( getElementFromSource( src, StructureType.PLOT ) != null )
+			{
+				designObject = src.getSource( );
+			}
+			else if ( getElementFromSource( src, StructureType.CHART_BLOCK ) != null )
+			{
+				designObject = src.getSource( );
+			}
+			else if ( getElementFromSource( src, StructureType.AXIS ) != null )
+			{
+				designObject = src.getSource( );
+			}
+			if ( designObject != null )
+			{
+				List<String> components = componentPrimitives.get( designObject );
+
+				Iterator<String> iter = null;
+				// Apply action to graphics
+				if ( components != null )
+				{
+					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
+					StringBuffer sb = new StringBuffer( );
+					sb.append( ", " ); //$NON-NLS-1$
+					sb.append( groupIdentifier );
+
+					sb.append( ",new Array(" ); //$NON-NLS-1$
+					iter = components.iterator( );
+					appendArguments( sb, iter );
+
+					sb.append( ")" ); //$NON-NLS-1$
+					jsFunction = sb.toString( ) + ")";//$NON-NLS-1$
+				}
+			}
+		}
+		return jsFunction;
+	}
+	
 	private void addJSCodeOnElement( StructureSource src, Trigger tg,
 			Element elm, String scriptEvent, int type, boolean bDblClick )
 	{
@@ -1285,21 +1634,22 @@ public class SVGInteractiveRenderer
 			switch ( type )
 			{
 				case ActionType.TOGGLE_VISIBILITY :
-					jsFunction = "toggleVisibility(evt, "; //$NON-NLS-1$
+					jsFunction = "toggleVisibility(evt"; //$NON-NLS-1$
 					includeLabels = true;
 					includeGraphics = true;
 					break;
 				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
-					jsFunction = "toggleLabelsVisibility(evt, "; //$NON-NLS-1$
+					jsFunction = "toggleLabelsVisibility(evt"; //$NON-NLS-1$
 					includeLabels = true;
 					includeGraphics = false;
 					break;
 				case ActionType.HIGHLIGHT :
-					jsFunction = "highlight(evt, "; //$NON-NLS-1$
+					jsFunction = "highlight(evt"; //$NON-NLS-1$
 					includeLabels = true;
 					includeGraphics = true;
 					break;
 			}
+
 			if ( jsFunction == null )
 			{
 				assert false;
@@ -1309,6 +1659,7 @@ public class SVGInteractiveRenderer
 			if ( includeGraphics || includeLabels )
 			{
 				StringBuffer sb = new StringBuffer( );
+				sb.append( ", " );//$NON-NLS-1$
 				sb.append( groupIdentifier );
 
 				sb.append( ",new Array(" ); //$NON-NLS-1$
@@ -1335,14 +1686,15 @@ public class SVGInteractiveRenderer
 				}
 
 				sb.append( ")" ); //$NON-NLS-1$
-
+				
+				jsFunction += sb.toString( ) + ")" ;//$NON-NLS-1$	
 				elm.setAttribute( scriptEvent, wrapJS( bDblClick,
-						jsFunction + sb.toString( ) + ")" ) ); //$NON-NLS-1$		
+						jsFunction ) ); 	
 
 				if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
 				{
 					elm.setAttribute( "onmouseout", //$NON-NLS-1$
-							jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
+							jsFunction ); 		
 				}
 			}
 		}
@@ -1374,10 +1726,10 @@ public class SVGInteractiveRenderer
 				switch ( type )
 				{
 					case ActionType.TOGGLE_VISIBILITY :
-						jsFunction = "toggleVisibility(evt, "; //$NON-NLS-1$
+						jsFunction = "toggleVisibility(evt"; //$NON-NLS-1$
 						break;
 					case ActionType.HIGHLIGHT :
-						jsFunction = "highlight(evt, ";//$NON-NLS-1$
+						jsFunction = "highlight(evt";//$NON-NLS-1$
 						break;
 				}
 				if ( jsFunction == null )
@@ -1385,7 +1737,6 @@ public class SVGInteractiveRenderer
 					assert false;
 					return;
 				}
-
 				List<String> components = componentPrimitives.get( designObject );
 
 				Iterator<String> iter = null;
@@ -1394,6 +1745,7 @@ public class SVGInteractiveRenderer
 				{
 					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
 					StringBuffer sb = new StringBuffer( );
+					sb.append( ", " ); //$NON-NLS-1$
 					sb.append( groupIdentifier );
 
 					sb.append( ",new Array(" ); //$NON-NLS-1$
@@ -1412,7 +1764,6 @@ public class SVGInteractiveRenderer
 					}
 				}
 			}
-
 		}
 	}
 

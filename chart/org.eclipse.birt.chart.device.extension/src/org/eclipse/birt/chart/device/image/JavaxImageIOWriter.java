@@ -64,6 +64,7 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -236,53 +237,86 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		Action ac = sa.getActionForCondition( condition );
 		if ( checkSupportedAction( ac ) )
 		{
-			switch ( ac.getType( ).getValue( ) )
+			if ( ac instanceof MultipleActions )
 			{
-				case ActionType.URL_REDIRECT :
-					if ( ac.getValue( ) instanceof MultiURLValues )
+				List<Action> validActions = MultiActionValuesScriptGenerator.getValidActions( (MultipleActions) ac );
+				int size = validActions.size( );
+				if ( size == 0 )
+				{
+					return false;
+				}
+				else if ( size == 1 )
+				{
+					Action subAction = validActions.get( 0 );
+					if ( subAction.getValue( ) instanceof URLValue )
 					{
-						List<URLValue> validURLValues = MultiURLValuesScriptGenerator.getValidURLValues( (MultiURLValues) ac.getValue( ) );
-						int size = validURLValues.size( );
-						if ( size == 0 )
+						setURLValueAttributes( tag,
+								condition,
+								htmlAttr,
+								(URLValue) subAction.getValue( ) );
+						return true;
+					}
+					else if ( subAction.getValue( ) instanceof ScriptValue )
+					{
+						setAttributesWithScript( sa, tag, condition, htmlAttr );
+						return true;
+					}
+				}
+				else
+				{
+					setAttributesWithScript( sa, tag, condition, htmlAttr );
+					return true;
+				}
+			}
+			else
+			{
+				switch ( ac.getType( ).getValue( ) )
+				{
+					case ActionType.URL_REDIRECT :
+						if ( ac.getValue( ) instanceof MultiURLValues )
 						{
-							setTooltipAttribute( tag,
-									( (MultiURLValues) ac.getValue( ) ).getTooltip( ) );
-							return false;
-						}
-						else if ( size == 1 )
-						{
-							URLValue uv = validURLValues.get( 0 );
-							setURLValueAttributes( tag, condition, htmlAttr, uv );
-							setTooltipAttribute( tag, uv.getTooltip( ) );
-							return true;
+							List<URLValue> validURLValues = MultiActionValuesScriptGenerator.getValidURLValues( (MultiURLValues) ac.getValue( ) );
+							int size = validURLValues.size( );
+							if ( size == 0 )
+							{
+								setTooltipAttribute( tag,
+										( (MultiURLValues) ac.getValue( ) ).getTooltip( ) );
+								return false;
+							}
+							else if ( size == 1 )
+							{
+								URLValue uv = validURLValues.get( 0 );
+								setURLValueAttributes( tag,
+										condition,
+										htmlAttr,
+										uv );
+								return true;
+							}
+							else
+							{
+								setTooltipAttribute( tag,
+										( (MultiURLValues) ac.getValue( ) ).getTooltip( ) );
+								setAttributesWithScript( sa,
+										tag,
+										condition,
+										htmlAttr );
+								return true;
+							}
 						}
 						else
 						{
-							setTooltipAttribute( tag,
-									( (MultiURLValues) ac.getValue( ) ).getTooltip( ) );
-							setAttributesWithScript( sa,
-									tag,
-									condition,
-									htmlAttr );
+							URLValue uv = (URLValue) ac.getValue( );
+							setURLValueAttributes( tag, condition, htmlAttr, uv );
 							return true;
 						}
-					}
-					else
-					{
-						URLValue uv = (URLValue) ac.getValue( );
-						setURLValueAttributes( tag, condition, htmlAttr, uv );
+
+					case ActionType.SHOW_TOOLTIP :
+						// for onmouseover only.
+						return false;
+					case ActionType.INVOKE_SCRIPT :
+						setAttributesWithScript( sa, tag, condition, htmlAttr );
 						return true;
-					}
-					
-				case ActionType.SHOW_TOOLTIP :
-					// for onmouseover only.
-					return false;
-				case ActionType.INVOKE_SCRIPT :
-					setAttributesWithScript( sa,
-							tag,
-							condition,
-							htmlAttr );
-					return true;
+				}
 			}
 		}
 		return false;
@@ -950,7 +984,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		// Insert chart menu scripts.
 		if ( hasMultipleMenu && !hasAddedMenuLib )
 		{
-			sb.insert( 0, "<Script>" + MultiURLValuesScriptGenerator.getBirtChartMenuLib( ) + "</Script>"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.insert( 0, "<Script>" + MultiActionValuesScriptGenerator.getBirtChartMenuLib( ) + "</Script>"); //$NON-NLS-1$ //$NON-NLS-2$
 			hasAddedMenuLib = true;
 		}
 	}
@@ -977,9 +1011,16 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		if ( ac != null )
 		{
+			if ( ac instanceof MultipleActions )
+			{
+				if ( ((MultipleActions)ac).getActions( ).size( ) > 1) 
+				{
+					sb.append( wrapJSMethod( functionName, generateJSContent( ac ) ) );
+				}			
+			}
 			// Do not use callback methods for URL_redirect since the target
 			// method may be in another page
-			if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
+			else if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
 			{
 				sb.append( wrapJSMethod( functionName, generateJSContent( ac ) ) );
 			}
@@ -1002,24 +1043,62 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			return ""; //$NON-NLS-1$
 		}
 		
-		if ( ! (ac.getValue( ) instanceof MultiURLValues ) )
+		if ( ac instanceof MultipleActions )
 		{
-			return generateJSContent( ac );
+			List<Action> subActions = ( (MultipleActions) ac).getActions( );
+			if ( subActions.size( ) <= 1 ) {
+				return generateJSContent( subActions.get( 0 ) );
+			}
+			
+			// Generate a unique JS key for multiple URL values.
+			return MultiActionValuesScriptGenerator.getJSKey( (MultipleActions)ac ) + this.hashCode( );
 		}
-		MultiURLValues values = (MultiURLValues) ac.getValue( );
-		if( values.getURLValues( ).size( ) <= 1 ) {
-			return generateJSContent( ac );
+		else if ( ac.getValue( ) instanceof MultiURLValues )
+		{
+			MultiURLValues values = (MultiURLValues) ac.getValue( );
+			if( values.getURLValues( ).size( ) <= 1 ) {
+				return generateJSContent( ac );
+			}
+			
+			// Generate a unique JS key for multiple URL values.
+			return MultiActionValuesScriptGenerator.getJSKey( values ) + this.hashCode( );
 		}
 		
-		// Generate a unique JS key for multiple URL values.
-		return new MultiURLValuesScriptGenerator( values ).getJSKey( ) + this.hashCode( );
+		return generateJSContent( ac );
+		
 	}
 	
 	private String generateJSContent( Action ac )
 	{
 		if ( ac != null )
 		{
-			if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
+			if ( ac instanceof MultipleActions )
+			{
+					List<Action> validActions = MultiActionValuesScriptGenerator.getValidActions( (MultipleActions) ac );
+					if ( validActions.size( ) == 0 )
+					{
+						return ""; //$NON-NLS-1$
+					}
+					else if ( validActions.size( ) == 1 )
+					{
+						ActionValue av = validActions.get( 0 ).getValue( );
+						if ( av instanceof URLValue )
+						{
+							return getJsURLRedirect( (URLValue)av );
+						}
+						else if (  av instanceof ScriptValue )
+						{
+							return ( (ScriptValue) av ).getScript( );
+						}
+					}
+					else
+					{
+						// Return multiple menu javascript.
+						hasMultipleMenu = true;
+						return MultiActionValuesScriptGenerator.getJSContent( (MultipleActions) ac );
+					}
+			}
+			else if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
 			{
 				ScriptValue sv = (ScriptValue) ac.getValue( );
 				return sv.getScript( );
@@ -1034,7 +1113,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				}
 				else if ( value instanceof MultiURLValues )
 				{
-					List<URLValue> validURLValues = MultiURLValuesScriptGenerator.getValidURLValues( (MultiURLValues) value );
+					List<URLValue> validURLValues = MultiActionValuesScriptGenerator.getValidURLValues( (MultiURLValues) value );
 					if ( validURLValues.size( ) == 0 )
 					{
 						return ""; //$NON-NLS-1$
@@ -1047,7 +1126,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					{
 						// Return multiple menu javascript.
 						hasMultipleMenu  = true;
-						return new MultiURLValuesScriptGenerator((MultiURLValues)value ).getJSContent( );
+						return MultiActionValuesScriptGenerator.getJSContent( value );
 					}
 				}
 			}

@@ -117,6 +117,7 @@
 		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
 			<fileset dir="${dir.bin}">
 				<include name="**/*.class"/>
+				<include name="**/*.js"/>
 				<include name="**/*.txt"/>
 				<include name="**/*.xml"/>
 				<include name="**/*.def"/>
@@ -189,6 +190,7 @@
 		<!-- copy any resource file we needed into the dir.bin directory-->
 		<copy todir="${dir.bin}">
 			<fileset dir="${dir.src}">
+                <include name="**/*.js"/>
 				<include name="**/*.txt"/>
 				<include name="**/*.xml"/>
 				<include name="**/*.properties"/>

@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.chart.render.ActionRendererAdapter;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -245,7 +246,17 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	 */
 	public void processAction( Action action, StructureSource source )
 	{
-		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
+		if ( action instanceof MultipleActions )
+		{
+			for ( Action subAction : ( (MultipleActions) action ).getActions( ) )
+			{
+				if ( subAction.getValue( ) instanceof URLValue )
+				{
+					generateURLValue( source, (URLValue) subAction.getValue( ) );
+				}
+			}
+		}
+		else if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
 			if ( action.getValue( ) instanceof URLValue )
 			{
