@@ -36,6 +36,11 @@ import org.eclipse.swt.widgets.Text;
 public class ExprEditComposite extends Composite implements Listener
 {
 
+	/**
+	 * Text modified event.
+	 */
+	public static final int TEXT_MODIFIED = 49;
+
 	private IChartWizardContext fContext;
 	private Text text;
 	private Button btnExprDlg;
@@ -109,6 +114,8 @@ public class ExprEditComposite extends Composite implements Listener
 	private void initListeners( )
 	{
 		text.addListener( SWT.Modify, this );
+		text.addListener( SWT.FocusOut, this );
+		text.addListener( SWT.KeyUp, this );
 		btnExprDlg.addListener( SWT.Selection, this );
 	}
 
@@ -119,10 +126,17 @@ public class ExprEditComposite extends Composite implements Listener
 			if ( event.type == SWT.Modify )
 			{
 				save( );
-				Event eventNew = new Event( );
-				eventNew.widget = this;
-				eventNew.type = SWT.Modify;
-				this.notifyListeners( SWT.Modify, eventNew );
+			}
+			else if ( event.type == SWT.FocusOut )
+			{
+				fireEvent( );
+			}
+			else if ( event.type == SWT.KeyUp )
+			{
+				if ( event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR )
+				{
+					fireEvent( );
+				}
 			}
 		}
 		else if ( event.widget == btnExprDlg )
@@ -135,6 +149,7 @@ public class ExprEditComposite extends Composite implements Listener
 								fContext.getExtendedItem( ),
 								sTitle );
 				text.setText( sExpr );
+				fireEvent( );
 			}
 			catch ( ChartException e )
 			{
@@ -142,6 +157,14 @@ public class ExprEditComposite extends Composite implements Listener
 			}
 		}
 
+	}
+
+	private void fireEvent( )
+	{
+		Event eventNew = new Event( );
+		eventNew.widget = this;
+		eventNew.type = TEXT_MODIFIED;
+		this.notifyListeners( TEXT_MODIFIED, eventNew );
 	}
 
 	public String getText( )
