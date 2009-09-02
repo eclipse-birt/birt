@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.w3c.dom.css.CSSValue;
@@ -184,7 +185,15 @@ abstract public class AbstractContent extends AbstractElement
 
 	public String getName( )
 	{
-		return name;
+		if ( name != null )
+		{
+			return name;
+		}
+		else if ( generateBy instanceof ReportElementDesign )
+		{
+			return ( (ReportElementDesign) generateBy ).getName( );
+		}
+		return null;
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
