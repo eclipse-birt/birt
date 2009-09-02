@@ -663,32 +663,38 @@ public class OSGILauncher
 			return resource;
 		}
 
-		protected synchronized Class loadClass( String name, boolean resolve )
+		protected Class<?> loadClass( String name, boolean resolve )
 				throws ClassNotFoundException
 		{
-			Class clazz = findLoadedClass( name );
-			if ( clazz == null )
+			Class<?> clazz = null;
+			synchronized ( ChildFirstURLClassLoader.class )
 			{
-				try
+				clazz = findLoadedClass( name );
+				if ( clazz == null )
 				{
-					clazz = findClass( name );
-				}
-				catch ( ClassNotFoundException e )
-				{
-					ClassLoader parent = getParent( );
-					if ( parent != null )
-						clazz = parent.loadClass( name );
-					else
-						clazz = getSystemClassLoader( ).loadClass( name );
+					try
+					{
+						clazz = findClass( name );
+					}
+					catch ( ClassNotFoundException e )
+					{
+					}
 				}
 			}
-
+			if ( clazz == null )
+			{
+				ClassLoader parent = getParent( );
+				if ( parent != null )
+					clazz = parent.loadClass( name );
+				else
+					clazz = getSystemClassLoader( ).loadClass( name );
+			}
 			if ( resolve )
+			{
 				resolveClass( clazz );
-
+			}
 			return clazz;
 		}
-
 	}
 	
 	protected void setupSecurityPolicy( ) throws FrameworkException
