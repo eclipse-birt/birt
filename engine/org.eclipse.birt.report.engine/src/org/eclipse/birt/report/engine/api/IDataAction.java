@@ -43,4 +43,12 @@ public interface IDataAction extends IAction
 	 * @return The instance ID
 	 */
 	InstanceID getInstanceID( );
+	
+	/**
+	 * Returns true if current action is to get cube data.
+	 * 
+	 * @return
+	 * @since 2.5.1
+	 */
+	boolean isCube( );
 }

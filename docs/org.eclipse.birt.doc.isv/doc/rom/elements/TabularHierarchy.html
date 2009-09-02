@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">TabularHierarchy Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Represents a derived element of Tabular Hierarchy element.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,17 +40,16 @@
 
 <dl class="section-text">
 <dt><a href="#Property-dataSet">dataSet</a></dt>
-<dd></dd>
+<dd>A dataSet of the tabular hierarchy element.</dd>
 <dt><a href="#Property-levels">levels</a></dt>
-<dd></dd>
+<dd>Identifier of the slot that holds all the level elements.</dd>
 <dt><a href="#Property-primaryKeys">primaryKeys</a></dt>
-<dd></dd>
+<dd>A list of primary keys.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
 
 <p class="section-text">
-<a href="Hierarchy.html#Property-accessControls">accessControls</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
@@ -62,11 +63,17 @@
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Represents a derived element of Hierarchy element. Hierarchy contains list of Level elements.
+Hierarchy also can define its own dataSet which can join with the outer dataSet 
+defined on the cube by the foreign key defined on dimension.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-dataSet">dataSet Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">A dataSet of the tabular hierarchy element.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -92,11 +99,19 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>A dataSet of the tabular hierarchy element. This property specifies the dataSet in cube element.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>DataSet</code> element.</p></div>
 
 <hr>
 <h2><a name="Property-levels">levels Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Identifier of the slot that holds all the level elements.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -122,11 +137,19 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Identifier of the slot that holds all the level elements.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>TabularLevel</code> element.</p></div>
 
 <hr>
 <h2><a name="Property-primaryKeys">primaryKeys Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">A list of primary keys.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -152,5 +175,9 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>A list of primary keys. This property refers a list of column name from the dataSets defined in this hierarchy.</p></div>
 </body>
 </html>

@@ -20,11 +20,6 @@
 <td><a href="structs/TOCStructure.html">TOCStructure</a> Structure
 </td>
 
-<tr><td>accessControls</td>
-<td><a href="elements/Cube.html">Cube</a> Element, 
-<a href="elements/Hierarchy.html">Hierarchy</a> Element
-</td>
-
 <tr><td>action</td>
 <td><a href="elements/Data.html">Data</a> Element, 
 <a href="elements/Image.html">Image</a> Element, 
@@ -156,6 +151,13 @@
 </td>
 
 <tr><td>bookmark</td>
+<td><a href="elements/Cell.html">Cell</a> Element, 
+<a href="elements/ListingGroup.html">ListingGroup</a> Element, 
+<a href="elements/ReportItem.html">ReportItem</a> Element, 
+<a href="elements/Row.html">Row</a> Element
+</td>
+
+<tr><td>bookmarkDisplayName</td>
 <td><a href="elements/Cell.html">Cell</a> Element, 
 <a href="elements/ListingGroup.html">ListingGroup</a> Element, 
 <a href="elements/ReportItem.html">ReportItem</a> Element, 
@@ -306,6 +308,7 @@
 
 <tr><td>columnName</td>
 <td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
+<a href="structs/SortHint.html">SortHint</a> Structure, 
 <a href="elements/TabularLevel.html">TabularLevel</a> Element
 </td>
 
@@ -378,6 +381,10 @@
 
 <tr><td>dataBindingRef</td>
 <td><a href="elements/ReportItem.html">ReportItem</a> Element
+</td>
+
+<tr><td>dataObjects</td>
+<td><a href="elements/ReportDesign.html">ReportDesign</a> Element
 </td>
 
 <tr><td>dataSet</td>
@@ -497,6 +504,7 @@
 
 <tr><td>direction</td>
 <td><a href="elements/SortElement.html">SortElement</a> Element, 
+<a href="structs/SortHint.html">SortHint</a> Structure, 
 <a href="structs/SortKey.html">SortKey</a> Structure
 </td>
 
@@ -542,7 +550,7 @@
 </td>
 
 <tr><td>distinct</td>
-<td><a href="elements/ScalarParameter.html">ScalarParameter</a> Element
+<td><a href="elements/AbstractScalarParameter.html">AbstractScalarParameter</a> Element
 </td>
 
 <tr><td>drop</td>
@@ -617,6 +625,7 @@
 <tr><td>fileName</td>
 <td><a href="structs/IncludeScript.html">IncludeScript</a> Structure, 
 <a href="structs/IncludedCssStyleSheet.html">IncludedCssStyleSheet</a> Structure, 
+<a href="structs/IncludedDataMart.html">IncludedDataMart</a> Structure, 
 <a href="structs/IncludedLibrary.html">IncludedLibrary</a> Structure
 </td>
 
@@ -847,7 +856,8 @@
 <td><a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
 <a href="structs/FilterCondition.html">FilterCondition</a> Structure, 
 <a href="elements/FilterConditionElement.html">FilterConditionElement</a> Element, 
-<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
+<a href="structs/SortHint.html">SortHint</a> Structure
 </td>
 
 <tr><td>isOutput</td>
@@ -857,6 +867,10 @@
 
 <tr><td>isRequired</td>
 <td><a href="elements/AbstractScalarParameter.html">AbstractScalarParameter</a> Element
+</td>
+
+<tr><td>isSummaryTable</td>
+<td><a href="elements/Table.html">Table</a> Element
 </td>
 
 <tr><td>isTimeType</td>
@@ -961,6 +975,9 @@
 <a href="structs/DateTimeFormatValue.html">DateTimeFormatValue</a> Structure, 
 <a href="structs/NumberFormatValue.html">NumberFormatValue</a> Structure, 
 <a href="structs/ParameterFormatValue.html">ParameterFormatValue</a> Structure, 
+<a href="elements/ReportDesign.html">ReportDesign</a> Element, 
+<a href="elements/SortElement.html">SortElement</a> Element, 
+<a href="structs/SortKey.html">SortKey</a> Structure, 
 <a href="structs/StringFormatValue.html">StringFormatValue</a> Structure, 
 <a href="structs/TimeFormatValue.html">TimeFormatValue</a> Structure
 </td>
@@ -1049,7 +1066,8 @@
 </td>
 
 <tr><td>namespace</td>
-<td><a href="structs/IncludedLibrary.html">IncludedLibrary</a> Structure
+<td><a href="structs/IncludedDataMart.html">IncludedDataMart</a> Structure, 
+<a href="structs/IncludedLibrary.html">IncludedLibrary</a> Structure
 </td>
 
 <tr><td>nativeDataType</td>
@@ -1081,6 +1099,10 @@
 <a href="elements/Row.html">Row</a> Element
 </td>
 
+<tr><td>nullValueOrdering</td>
+<td><a href="structs/SortHint.html">SortHint</a> Structure
+</td>
+
 <tr><td>numberAlign</td>
 <td><a href="structs/HighlightRule.html">HighlightRule</a> Structure, 
 <a href="elements/Style.html">Style</a> Element, 
@@ -1091,6 +1113,10 @@
 <td><a href="structs/HighlightRule.html">HighlightRule</a> Structure, 
 <a href="elements/Style.html">Style</a> Element, 
 <a href="structs/TOCStructure.html">TOCStructure</a> Structure
+</td>
+
+<tr><td>onColumnLayout</td>
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure
 </td>
 
 <tr><td>operator</td>
@@ -1185,15 +1211,12 @@
 <a href="structs/TimeFormatValue.html">TimeFormatValue</a> Structure
 </td>
 
-<tr><td>permission</td>
-<td><a href="elements/AccessControl.html">AccessControl</a> Element
-</td>
-
 <tr><td>position</td>
 <td><a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
 <a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
 <a href="structs/OdaResultSetColumn.html">OdaResultSetColumn</a> Structure, 
-<a href="structs/ResultSetColumn.html">ResultSetColumn</a> Structure
+<a href="structs/ResultSetColumn.html">ResultSetColumn</a> Structure, 
+<a href="structs/SortHint.html">SortHint</a> Structure
 </td>
 
 <tr><td>primaryKeys</td>
@@ -1225,7 +1248,8 @@
 
 <tr><td>pushDown</td>
 <td><a href="structs/FilterCondition.html">FilterCondition</a> Structure, 
-<a href="elements/FilterConditionElement.html">FilterConditionElement</a> Element
+<a href="elements/FilterConditionElement.html">FilterConditionElement</a> Element, 
+<a href="elements/ReportItem.html">ReportItem</a> Element
 </td>
 
 <tr><td>queryText</td>
@@ -1292,10 +1316,6 @@
 
 <tr><td>rightMargin</td>
 <td><a href="elements/MasterPage.html">MasterPage</a> Element
-</td>
-
-<tr><td>roles</td>
-<td><a href="elements/AccessControl.html">AccessControl</a> Element
 </td>
 
 <tr><td>rowFetchLimit</td>
@@ -1374,6 +1394,10 @@
 <a href="elements/ListingGroup.html">ListingGroup</a> Element
 </td>
 
+<tr><td>sortHints</td>
+<td><a href="elements/DataSet.html">DataSet</a> Element
+</td>
+
 <tr><td>sortType</td>
 <td><a href="elements/DataGroup.html">DataGroup</a> Element, 
 <a href="elements/ListingGroup.html">ListingGroup</a> Element
@@ -1397,6 +1421,11 @@
 
 <tr><td>staticValues</td>
 <td><a href="elements/Level.html">Level</a> Element
+</td>
+
+<tr><td>strength</td>
+<td><a href="elements/SortElement.html">SortElement</a> Element, 
+<a href="structs/SortKey.html">SortKey</a> Structure
 </td>
 
 <tr><td>stringFormat</td>
@@ -1547,10 +1576,6 @@
 <a href="elements/Image.html">Image</a> Element
 </td>
 
-<tr><td>userNames</td>
-<td><a href="elements/AccessControl.html">AccessControl</a> Element
-</td>
-
 <tr><td>userProperties</td>
 <td><a href="elements/DesignElement.html">DesignElement</a> Element
 </td>
@@ -1579,10 +1604,6 @@
 <a href="structs/MapRule.html">MapRule</a> Structure
 </td>
 
-<tr><td>valueAccessControls</td>
-<td><a href="elements/Level.html">Level</a> Element
-</td>
-
 <tr><td>valueExpr</td>
 <td><a href="elements/AbstractScalarParameter.html">AbstractScalarParameter</a> Element, 
 <a href="structs/HideRule.html">HideRule</a> Structure, 
@@ -1592,10 +1613,6 @@
 
 <tr><td>valueType</td>
 <td><a href="elements/AbstractScalarParameter.html">AbstractScalarParameter</a> Element
-</td>
-
-<tr><td>values</td>
-<td><a href="elements/ValueAccessControl.html">ValueAccessControl</a> Element
 </td>
 
 <tr><td>version</td>

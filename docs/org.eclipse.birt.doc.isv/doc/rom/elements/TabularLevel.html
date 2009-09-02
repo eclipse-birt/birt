@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">TabularLevel Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Represents a derived element of Level element.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,11 +40,11 @@
 
 <dl class="section-text">
 <dt><a href="#Property-attributes">attributes</a></dt>
-<dd></dd>
+<dd>A list of attributes defined for this level element.</dd>
 <dt><a href="#Property-columnName">columnName</a></dt>
-<dd></dd>
+<dd>Refers a column name in the dataSet.</dd>
 <dt><a href="#Property-displayColumnName">displayColumnName</a></dt>
-<dd></dd>
+<dd>Defines the display column expression.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -67,14 +69,17 @@
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="Level.html#Property-staticValues">staticValues</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
-<a href="Level.html#Property-valueAccessControls">valueAccessControls</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Represents a derived element of Level element. Level is the real element which defines the column expression from the dataSet.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-attributes">attributes Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">A list of attributes defined for this level element.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -100,11 +105,19 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>A list of attributes defined for this level element. Each attribute inside is a string which refers to a dataSet column name.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>LevelAttribute</code> structure.</p></div>
 
 <hr>
 <h2><a name="Property-columnName">columnName Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Refers a column name in the dataSet.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -130,11 +143,15 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Refers a column name in the dataSet.</p></div>
 
 <hr>
 <h2><a name="Property-displayColumnName">displayColumnName Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Defines the display column expression.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -164,5 +181,9 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Defines the display column expression.</p></div>
 </body>
 </html>

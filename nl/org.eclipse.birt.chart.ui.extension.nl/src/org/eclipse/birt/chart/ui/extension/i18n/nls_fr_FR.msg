@@ -686,6 +686,7 @@ PropertyEditorDialog.Lbl.Value=Valeur
 PropertyEditorDialog.Lbl.Add=&Ajouter
 PropertyEditorDialog.Lbl.Remove=&Supprimer
 HeadStyleAttributeComposite.Lbl.HeadStyle=Style de pointe :
+HyperlinkEditorDialog.BaseURL.Message=Please set base URL.
 HyperlinkEditorDialog.ErrorMessage.ExistingText=Le nom existe déjà, veuillez le modifier.
 HyperlinkEditorDialog.ErrorMessage.NullText=Le nom ne doit pas rester vierge.
 HyperlinkEditorDialog.HyperlinkName.Title.Warning=Avertissement

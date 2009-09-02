@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">Level Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Base element for level elements within a hierarchy.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,25 +40,25 @@
 
 <dl class="section-text">
 <dt><a href="#Property-dataType">dataType</a></dt>
-<dd></dd>
+<dd>Level data type property.</dd>
 <dt><a href="#Property-dateTimeFormat">dateTimeFormat</a></dt>
-<dd></dd>
+<dd>Date time format applied on this level element.</dd>
 <dt><a href="#Property-dateTimeLevelType">dateTimeLevelType</a></dt>
-<dd></dd>
+<dd>Date time type.</dd>
 <dt><a href="#Property-defaultValue">defaultValue</a></dt>
-<dd></dd>
+<dd>Default value expression applied on this level.</dd>
 <dt><a href="#Property-interval">interval</a></dt>
-<dd></dd>
+<dd>When creating intervals, this property allows grouping on a range
+of contiguous values.</dd>
 <dt><a href="#Property-intervalBase">intervalBase</a></dt>
-<dd></dd>
+<dd>In conjunction with Interval and IntervalRange, determines how
+data is divided into groups.</dd>
 <dt><a href="#Property-intervalRange">intervalRange</a></dt>
-<dd></dd>
+<dd>Number of contiguous groups to merge to create a single group.</dd>
 <dt><a href="#Property-levelType">levelType</a></dt>
-<dd></dd>
+<dd>Type of the level.</dd>
 <dt><a href="#Property-staticValues">staticValues</a></dt>
-<dd></dd>
-<dt><a href="#Property-valueAccessControls">valueAccessControls</a></dt>
-<dd></dd>
+<dd>Series of rules applied on this level.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -74,11 +76,22 @@
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The Level is an abstract element that defines the basic
+properties of a OLAP level element. It has two derived classes, one is
+tabular level and another is ODA level.</p>
+
+<p>Level is the real element which defined the column expression
+from the dataset. You can set sort, filter, TOC on the level. The column
+expression defined on the level could be dynamic reference to a dataset,
+also it could be static that user defined on the level by a value list.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-dataType">dataType Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Level data type property.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -146,12 +159,21 @@
 <td>Blob</td>
 <td>blob</td>
 <td></td></tr>
+<tr><td>javaObject</td>
+<td>Java Object</td>
+<td>javaObject</td>
+<td></td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property gives out the data type of the level resulting
+data.</p></div>
 
 <hr>
 <h2><a name="Property-dateTimeFormat">dateTimeFormat Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Date time format applied on this level element.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -177,11 +199,19 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property defines how to format the value if the data type of
+the level is date time.It contains the format pattern, category and
+locale. If the the data type of the level is date time and you don't set
+this property, the output is the general string calling toString method
+in Object.</p></div>
 
 <hr>
 <h2><a name="Property-dateTimeLevelType">dateTimeLevelType Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Date time type.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -258,11 +288,16 @@
 <td>second</td>
 <td></td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property specifies the detail type if the level is date
+time. This is used to speed up the performance.</p></div>
 
 <hr>
 <h2><a name="Property-defaultValue">defaultValue Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Default value expression applied on this level.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -292,11 +327,16 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property defines.</p></div>
 
 <hr>
 <h2><a name="Property-interval">interval Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">When creating intervals, this property allows grouping on a range
+of contiguous values.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -331,21 +371,38 @@
 <tr><td>none</td>
 <td>No Interval</td>
 <td>none</td>
-<td></td></tr>
+<td>Group on individual values.</td></tr>
 <tr><td>prefix</td>
 <td>Prefix</td>
 <td>prefix</td>
-<td></td></tr>
+<td>Group on a string prefix</td></tr>
 <tr><td>interval</td>
 <td>Interval</td>
 <td>interval</td>
-<td></td></tr>
+<td>Group on a numeric interval.</td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property allows the level element to include a range of contiguous
+values. For example, a monthly sales report may want to summarize a list
+of individual transactions, each of which has a transaction date. Using
+the Month interval, BIRT will cause a break to occur each time the
+transaction dates move into a different calendar month.</p>
+<p>Use this property with the <code> intervalRange</code> property
+to select a set of contiguous values. For example, a bi-monthly report
+would use the Month <code>interval</code> with an <code>intervalRange</code>
+of 2.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>intervalRange</code> Property</p></div>
 
 <hr>
 <h2><a name="Property-intervalBase">intervalBase Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">In conjunction with Interval and IntervalRange, determines how
+data is divided into groups.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -371,11 +428,16 @@
 <td>Interval</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>In conjunction with Interval and IntervalRange, determines how
+data is divided into groups.</p></div>
 
 <hr>
 <h2><a name="Property-intervalRange">intervalRange Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Number of contiguous groups to merge to create a single group.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -401,11 +463,45 @@
 <td>Interval</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>When creating intervals, this attribute allows grouping on a
+range of contiguous values. For example, to show data over the span of
+three hours, set the grouping interval to hours and the range to 3. The
+user enters the interval range here.</p>
+<p>The following shows the meaning of the range for each interval
+type.</p>
+<table class="section-table">
+	<thead>
+		<tr>
+			<td>Interval</td>
+			<td>Meaning of Range</td>
+		</tr>
+	</thead>
+	<tr>
+		<td>None</td>
+		<td>&nbsp;Ignored</td>
+	</tr>
+	<tr>
+		<td>Prefix</td>
+		<td>&nbsp;The number of characters in the prefix.</td>
+	</tr>
+	<tr>
+		<td>Date/Time</td>
+		<td>&nbsp;The number of the units.</td>
+	</tr>
+	<tr>
+		<td>Interval</td>
+		<td>&nbsp;The numeric interval</td>
+	</tr>
+</table>
+<p></p></div>
 
 <hr>
 <h2><a name="Property-levelType">levelType Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Type of the level.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -440,17 +536,27 @@
 <tr><td>dynamic</td>
 <td>Dynamic</td>
 <td>dynamic</td>
-<td></td></tr>
+<td>get the query result from data base directly</td></tr>
 <tr><td>mirrored</td>
 <td>Mirrored</td>
 <td>mirrored</td>
-<td></td></tr>
+<td>get the query result from the data base and then do
+	some mirror handling</td></tr>
 </tbody></table><br>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>This property indicates whether this level is dynamic or
+mirrored. If the level is dynamic, you can define a list of level
+attribute on it to do filter operation on the query result from data
+base. If the level is mirrored, you can define a list of rules as static
+values to do mirroring and set an BIRT expression as the default value,
+which is used as default during mirroring.</p></div>
 
 <hr>
 <h2><a name="Property-staticValues">staticValues Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Series of rules applied on this level.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -476,35 +582,11 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
 
-<hr>
-<h2><a name="Property-valueAccessControls">valueAccessControls Property</a></h2>
-
-<p class="section-text"></p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td>List of <a href="../types.html#contentElement">contentElement</a>s</td></tr>
-<tr><td>Since:</td>
-<td>2.2</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Value access controls</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>None</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>No</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Hidden</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
+<div class="section-text">
+<p>This property defines a list of rules. If the level type is
+mirrored, you can add a list of rule structures as the static values to
+do mirroring.</p></div>
 </body>
 </html>

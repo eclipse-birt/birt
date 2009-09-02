@@ -5,7 +5,7 @@ plugin@org.eclipse.birt.sdk=v20090407,:pserver:anonymous@dev.eclipse.org:/cvsroo
 feature@org.eclipse.birt=v20090708,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
 plugin@org.eclipse.birt=v20090623,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
-feature@org.eclipse.birt.osgi.runtime=v20090708,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
+feature@org.eclipse.birt.osgi.runtime=v20090902,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
 feature@org.eclipse.birt.osgi.runtime.sdk=v20090706,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime.sdk
 
 !*************** DOC ***********

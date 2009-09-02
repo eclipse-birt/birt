@@ -44,7 +44,7 @@ Represents a data set joined by serveral data sets on respective join conditions
 <dt><a href="#Property-joinConditions">joinConditions</a></dt>
 <dd>The join conditions on which the source data sets joined.</dd>
 <dt><a href="#Property-resultSet">resultSet</a></dt>
-<dd></dd>
+<dd>Defines the columns of the expected result set.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -67,6 +67,7 @@ Represents a data set joined by serveral data sets on respective join conditions
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="DataSet.html#Property-resultSetHints">resultSetHints</a>, 
 <a href="DataSet.html#Property-rowFetchLimit">rowFetchLimit</a>, 
+<a href="DataSet.html#Property-sortHints">sortHints</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
@@ -145,11 +146,16 @@ Represents a data set joined by serveral data sets on respective join conditions
 Each join condition specify two data sets, which join on this condition, and the type of this join.
 The left expression, right expression and operator constitute the condition.</p>
 </p></p></p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>DataSetParam structure</code></p>
+<p><code>ParamBinding structure</code></p></div>
 
 <hr>
 <h2><a name="Property-resultSet">resultSet Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Defines the columns of the expected result set.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -175,5 +181,13 @@ The left expression, right expression and operator constitute the condition.</p>
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Defines the data access attributes of&nbsp;the list of columns in the expected primary result set. This is an optional list of result set column definitions, used only when the underlying data provider cannot provide this information.&nbsp;When contradicting meta-data are found between those provided dynamically by a data provider and&nbsp;those specified in a data set definition, the data provider&iuml;&iquest;&frac12;s meta-data takes precedence.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>ResultSetColumn structure</code></p></div>
 </body>
 </html>

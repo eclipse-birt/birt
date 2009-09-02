@@ -42,6 +42,8 @@ report-related data attributes about a result set column.</div>
 <dd>The optional localizable descriptive text that explains the column to the end user.</dd>
 <dt><a href="#Property-helpTextID">helpTextID</a></dt>
 <dd></dd>
+<dt><a href="#Property-onColumnLayout">onColumnLayout</a></dt>
+<dd></dd>
 <dt><a href="#Property-parentLevel">parentLevel</a></dt>
 <dd>Specifies the parent of the column when exporting the data to an OLAP cube.</dd>
 <dt><a href="#Property-searching">searching</a></dt>
@@ -93,7 +95,7 @@ report. Useful if the column names are awkward. Optional.</p></div>
 <tr><td>Type:</td>
 <td><a href="../types.html#choice">choice</a> (analysisType)</td></tr>
 <tr><td>Since:</td>
-<td>reserved</td></tr>
+<td>2.5.1</td></tr>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
@@ -101,7 +103,7 @@ report. Useful if the column names are awkward. Optional.</p></div>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
-<td>auto</td></tr>
+<td>None</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>No</td></tr>
 </table>
@@ -112,30 +114,21 @@ report. Useful if the column names are awkward. Optional.</p></div>
 <thead><tr><td>Name</td><td>Display Name</td>
 <td>Value</td><td>Description</td></tr></thead>
 <tbody>
-<tr><td>auto</td>
-<td>Auto</td>
-<td>auto</td>
-<td>BIRT will attempt to guess the proper use of the 
-    column.</td></tr>
 <tr><td>dimension</td>
 <td>Dimension</td>
 <td>dimension</td>
 <td>The column is a dimension. Use the Parent Dimension 
     property to define the dimension hierarchy.</td></tr>
+<tr><td>attribute</td>
+<td>Attribute</td>
+<td>attribute</td>
+<td>The column provides additional information about a 
+    level. Use the Parent level property to define the level for 
+    which this column is a detail.</td></tr>
 <tr><td>measure</td>
 <td>Measure</td>
 <td>measure</td>
 <td>The column is numeric measure.</td></tr>
-<tr><td>detail</td>
-<td>Detail</td>
-<td>detail</td>
-<td>The column provides additional information about a 
-    dimension. Use the Parent Dimension property to define the dimension for 
-    which this column is a detail.</td></tr>
-<tr><td>none</td>
-<td>No Analysis Type</td>
-<td>none</td>
-<td>The column should not be exported for use with OLAP.</td></tr>
 </tbody></table><br>
 <h3>Description</h3>
 
@@ -216,7 +209,7 @@ itself is displayed instead.</p></div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#string">string</a></td></tr>
+<td><a href="../types.html#resourceKey">resourceKey</a></td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>
@@ -355,7 +348,7 @@ The help text can be localized.</p></div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#string">string</a></td></tr>
+<td><a href="../types.html#resourceKey">resourceKey</a></td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>
@@ -368,6 +361,30 @@ The help text can be localized.</p></div>
 <td>None</td></tr>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-onColumnLayout">onColumnLayout Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>On Column Layout</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
 </table>
 
 

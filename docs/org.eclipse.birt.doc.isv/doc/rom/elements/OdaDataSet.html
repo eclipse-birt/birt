@@ -41,7 +41,7 @@ implements the Open Data Access (ODA) interfaces.</div>
 
 <dl class="section-text">
 <dt><a href="#Property-dataSource">dataSource</a></dt>
-<dd></dd>
+<dd>The database connection that the data set is used.</dd>
 <dt><a href="#Property-designerState">designerState</a></dt>
 <dd></dd>
 <dt><a href="#Property-designerValues">designerValues</a></dt>
@@ -54,7 +54,7 @@ attributes specific to the ODA data set query.</dd>
 <dt><a href="#Property-queryText">queryText</a></dt>
 <dd>The static query text to execute.</dd>
 <dt><a href="#Property-resultSet">resultSet</a></dt>
-<dd></dd>
+<dd>Defines the columns of the expected result set.</dd>
 <dt><a href="#Property-resultSetName">resultSetName</a></dt>
 <dd>Identifies which result set to access if a query returns multiple result
 sets.</dd>
@@ -83,6 +83,7 @@ sets.</dd>
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="SimpleDataSet.html#Property-refTemplateParameter">refTemplateParameter</a>, 
 <a href="DataSet.html#Property-rowFetchLimit">rowFetchLimit</a>, 
+<a href="DataSet.html#Property-sortHints">sortHints</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
@@ -143,7 +144,7 @@ data source extension plug-in manifest.</p></div>
 
 <h2><a name="Property-dataSource">dataSource Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">The database connection that the data set is used.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -169,6 +170,10 @@ data source extension plug-in manifest.</p></div>
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Name of the data source, that is the database connection this data set is using.</p></div>
 
 <hr>
 <h2><a name="Property-designerState">designerState Property</a></h2>
@@ -313,7 +318,8 @@ properties.</p></div>
 <h3>See Also</h3>
 
 <div class="section-text">
-<p><code>ExtendedProperty</code> structure</p></div>
+<p><code>DataSetParam structure</code></p>
+<p><code>ParamBinding structure</code></p></div>
 
 <hr>
 <h2><a name="Property-queryText">queryText Property</a></h2>
@@ -354,7 +360,7 @@ driver to prepare a query for execution.</p></div>
 <hr>
 <h2><a name="Property-resultSet">resultSet Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Defines the columns of the expected result set.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -380,6 +386,14 @@ driver to prepare a query for execution.</p></div>
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Defines the data access attributes of&nbsp;the list of columns in the expected primary result set. This is an optional list of result set column definitions, used only when the underlying data provider cannot provide this information.&nbsp;When contradicting meta-data are found between those provided dynamically by a data provider and&nbsp;those specified in a data set definition, the data provider&iuml;&iquest;&frac12;s meta-data takes precedence.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>ResultSetColumn structure</code></p></div>
 
 <hr>
 <h2><a name="Property-resultSetName">resultSetName Property</a></h2>

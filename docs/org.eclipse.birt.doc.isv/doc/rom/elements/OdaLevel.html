@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">OdaLevel Element</p>
 <h1>Element Overview</h1>
+<div class="section-text">
+Level elements within an ODA hierarchy.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -38,7 +40,7 @@
 
 <dl class="section-text">
 <dt><a href="#Property-attributes">attributes</a></dt>
-<dd></dd>
+<dd>List of attributes defined for this level element.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -63,14 +65,20 @@
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
 <a href="Level.html#Property-staticValues">staticValues</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
-<a href="Level.html#Property-valueAccessControls">valueAccessControls</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The ODA level is an element that defined the column expression
+from the ODA dataset.You can also set sort, filter, TOC on the level. The column
+expression defined on the level could be dynamic reference to a dataset,
+also it could be static that user defined on the level by a value list.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-attributes">attributes Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">List of attributes defined for this level element.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -96,5 +104,10 @@
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>List of attributes defined for this level element. 
+Each attribute inside is a string which refer to an ODA dataset column name.</p></div>
 </body>
 </html>

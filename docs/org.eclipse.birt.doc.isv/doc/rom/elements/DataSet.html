@@ -50,11 +50,13 @@ Parent of simple data set and joint data set.</div>
 <dt><a href="#Property-needsCache">needsCache</a></dt>
 <dd></dd>
 <dt><a href="#Property-parameters">parameters</a></dt>
-<dd></dd>
+<dd>Defines the data access attributes of the list of input and/or output parameters.</dd>
 <dt><a href="#Property-resultSetHints">resultSetHints</a></dt>
 <dd></dd>
 <dt><a href="#Property-rowFetchLimit">rowFetchLimit</a></dt>
 <dd></dd>
+<dt><a href="#Property-sortHints">sortHints</a></dt>
+<dd>List of sort hints which support row ordering.</dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -223,10 +225,6 @@ issues a fatal runtime error.</p></div>
 <p>A computed column is a user-defined column produced as an 
 expression of other columns within the data set�s primary result set. It is not 
 of the columns retrieved directly from the underlying data provider.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>ComputedColumn</span> structure</p></div>
 
 <hr>
 <h2><a name="Property-filter">filter Property</a></h2>
@@ -307,7 +305,7 @@ property</p></div>
 <hr>
 <h2><a name="Property-parameters">parameters Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Defines the data access attributes of the list of input and/or output parameters.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -333,6 +331,15 @@ property</p></div>
 <td>Top</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Many data sets allow parameters, which can be of input and/or output modes. For some, the user must define the parameters as part of the data set definition. For other data sets, the driver itself can provide the set of parameter definitions from the information available in a data set query. In the latter case, parameter definitions are derived data and <i>are not</i> stored in the parameter definition.</p>
+<p>Some drivers refer to a parameter by position. Others can refer to a parameter by name. Also, for some data sets, the data set definition can omit parameter definitions for optional parameters not used within the report. &nbsp;Not all parameter properties are required. If a property is omitted. BIRT assumes that the data set implementation can provide it at run time. If the driver cannot provide the information, then a runtime error occurs.&nbsp;This is an optional list of data set parameter definitions, used only when the underlying data provider cannot provide this information.&nbsp;When contradicting meta-data are found between those provided dynamically by a data provider and&nbsp;those specified in a data set definition, the data provider&iuml;&iquest;&frac12;s meta-data takes precedence.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>ComputedColumn</span> structure</p></div>
 
 <hr>
 <h2><a name="Property-resultSetHints">resultSetHints Property</a></h2>
@@ -393,5 +400,43 @@ property</p></div>
 <td>Top</td></tr>
 </table>
 
+
+<hr>
+<h2><a name="Property-sortHints">sortHints Property</a></h2>
+
+<p class="section-text">List of sort hints which support row ordering.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/SortHint.html">SortHint</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Sort hints</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>List of sort hints which support row ordering.Sort hint can be mapped to ODA corresponding values.</p></div>
+<h3>See Also</h3>
+
+<div class="section-text">
+<p><code>SortHint</span> structure</p></div>
 </body>
 </html>

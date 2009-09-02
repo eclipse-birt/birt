@@ -686,6 +686,7 @@ PropertyEditorDialog.Lbl.Value=값
 PropertyEditorDialog.Lbl.Add=추가(&A)
 PropertyEditorDialog.Lbl.Remove=제거(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=헤드 스타일:
+HyperlinkEditorDialog.BaseURL.Message=Please set base URL.
 HyperlinkEditorDialog.ErrorMessage.ExistingText=이름이 이미 있습니다. 다른 이름으로 수정하십시오.
 HyperlinkEditorDialog.ErrorMessage.NullText=이름은 비워둘 수 없습니다\!
 HyperlinkEditorDialog.HyperlinkName.Title.Warning=경고

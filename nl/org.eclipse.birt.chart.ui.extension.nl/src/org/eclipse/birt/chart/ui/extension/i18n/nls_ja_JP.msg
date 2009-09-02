@@ -686,6 +686,7 @@ PropertyEditorDialog.Lbl.Value=値
 PropertyEditorDialog.Lbl.Add=追加(&A)
 PropertyEditorDialog.Lbl.Remove=削除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=針の先端 :
+HyperlinkEditorDialog.BaseURL.Message=Please set base URL.
 HyperlinkEditorDialog.ErrorMessage.ExistingText=同じ名前が既に存在します。別の名前に変更してください。
 HyperlinkEditorDialog.ErrorMessage.NullText=名前は空白にできません\!
 HyperlinkEditorDialog.HyperlinkName.Title.Warning=警告
