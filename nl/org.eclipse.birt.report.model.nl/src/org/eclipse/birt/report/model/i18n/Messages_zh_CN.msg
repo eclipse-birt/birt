@@ -2484,6 +2484,7 @@ Element.ScalarParameter.getDefaultValueList.toolTip=·µ»Ø²ÎÊıµÄÄ¬ÈÏÖµÁĞ±í
 Element.ScalarParameter.getSelectionValueList=»ñµÃÑ¡ÔñÖµÁĞ±í
 Element.ScalarParameter.getSelectionValueList.reportContext=±¨±íÉÏÏÂÎÄ
 Element.ScalarParameter.getSelectionValueList.toolTip=Èç¹û²ÎÊı¿ØÖÆÀàĞÍÎª¡°list¡±»ò¡°combo¡±Ôò·µ»ØÑ¡ÔñÖµÁĞ±í
+Element.ScalarParameter.defaultValue=Ä¬ÈÏÖµ
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=¿ªÊ¼Õ¹¿ª
@@ -3261,7 +3262,6 @@ Element.AbstractScalarParameter.sortDirection=ÅÅĞò·½Ïò
 Element.AbstractScalarParameter.sortBy=ÅÅĞòÒÀ¾İ
 Element.AbstractScalarParameter.valueType=ÖµÀàĞÍ
 Element.AbstractScalarParameter.sortByColumn=°´ÁĞÅÅĞò
-Element.AbstractScalarParameter.defaultValue=Ä¬ÈÏÖµ
 Element.AbstractScalarParameter.selectionList=Ñ¡ÔñÁĞ±í
 Element.AbstractScalarParameter.dataType=Êı¾İÀàĞÍ
 Element.AbstractScalarParameter.distinct=ÌØÒì
@@ -3270,6 +3270,7 @@ Element.AbstractScalarParameter.distinct=ÌØÒì
 Element.DynamicFilterParameter.displayType=ÏÔÊ¾ÀàĞÍ
 Element.DynamicFilterParameter.filterOperator=É¸Ñ¡ÔËËã·û
 Element.DynamicFilterParameter.column=ÁĞ
+Element.DynamicFilterParameter.defaultValue=Ä¬ÈÏÖµ
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Ñ¡Ïî¿¨
@@ -3847,3 +3848,8 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =Éè¼Æ/¿â¿ÉÄÜÒÑ±»¸ü¸Ä£¬ÒòÎª¶ÔÕıÔÚ´ò¿ªµÄÉ
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} ÖĞµÄÊôĞÔ {1} ²»¿É¼ÓÃÜ£¬Òò´Ë²»ÄÜ¸ü¸Ä¼ÓÃÜ¡£
 Error.EncryptionException.INVALID_ENCRYPTION=¼ÓÃÜ ID¡°{0}¡±ÎŞĞ§£¬ÒòÎª²»´æÔÚ´ËÀà¼ÓÃÜ¡£
+
+#DataMartException
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
+Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.

@@ -2484,6 +2484,7 @@ Element.ScalarParameter.getDefaultValueList.toolTip=매개 변수의 기본값 목록을 반
 Element.ScalarParameter.getSelectionValueList=선택값 목록 가져오기
 Element.ScalarParameter.getSelectionValueList.reportContext=보고서 컨텍스트
 Element.ScalarParameter.getSelectionValueList.toolTip=매개 변수 컨트롤 형식이 "목록" 또는 "콤보"인 경우 선택값을 반환합니다.
+Element.ScalarParameter.defaultValue=기본값
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨
@@ -3261,7 +3262,6 @@ Element.AbstractScalarParameter.sortDirection=정렬 방향
 Element.AbstractScalarParameter.sortBy=정렬 기준
 Element.AbstractScalarParameter.valueType=값 형식
 Element.AbstractScalarParameter.sortByColumn=열을 기준으로 정렬
-Element.AbstractScalarParameter.defaultValue=기본값
 Element.AbstractScalarParameter.selectionList=선택 목록
 Element.AbstractScalarParameter.dataType=데이터 형식
 Element.AbstractScalarParameter.distinct=고유
@@ -3270,6 +3270,7 @@ Element.AbstractScalarParameter.distinct=고유
 Element.DynamicFilterParameter.displayType=표시 형식
 Element.DynamicFilterParameter.filterOperator=필터 연산자
 Element.DynamicFilterParameter.column=열
+Element.DynamicFilterParameter.defaultValue=기본값
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=탭
@@ -3847,3 +3848,8 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =열린 디자인/라이브러리 또는 포함된 라�
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0}의 속성 {1}이(가) 암호화 가능 상태가 아니므로 암호화를 변경할 수 없습니다.
 Error.EncryptionException.INVALID_ENCRYPTION=암호화 ID "{0}"이(가) 잘못되었습니다. 존재하지 않는 암호화입니다.
+
+#DataMartException
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
+Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.

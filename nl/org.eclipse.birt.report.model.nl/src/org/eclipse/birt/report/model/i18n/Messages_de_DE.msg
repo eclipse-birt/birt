@@ -2484,6 +2484,7 @@ Element.ScalarParameter.getDefaultValueList.toolTip=Gibt die Standardwerteliste 
 Element.ScalarParameter.getSelectionValueList=Auswahlwerteliste abrufen
 Element.ScalarParameter.getSelectionValueList.reportContext=Berichtkontext
 Element.ScalarParameter.getSelectionValueList.toolTip=Gibt die Auswahlwerteliste aus, wenn der Parameter-Steuerelementtyp 'Liste' oder 'Kombination' ist.
+Element.ScalarParameter.defaultValue=Standardwert
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Erweiterte starten
@@ -3261,7 +3262,6 @@ Element.AbstractScalarParameter.sortDirection=Sortierreihenfolge
 Element.AbstractScalarParameter.sortBy=Sortieren nach
 Element.AbstractScalarParameter.valueType=Werttyp
 Element.AbstractScalarParameter.sortByColumn=Nach Spalten sortieren
-Element.AbstractScalarParameter.defaultValue=Standardwert
 Element.AbstractScalarParameter.selectionList=Auswahlliste
 Element.AbstractScalarParameter.dataType=Datentyp
 Element.AbstractScalarParameter.distinct=Distinct
@@ -3270,6 +3270,7 @@ Element.AbstractScalarParameter.distinct=Distinct
 Element.DynamicFilterParameter.displayType=Anzeigetyp
 Element.DynamicFilterParameter.filterOperator=Filteroperator
 Element.DynamicFilterParameter.column=Spalte
+Element.DynamicFilterParameter.defaultValue=Standardwert
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Register
@@ -3847,3 +3848,8 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =Das Design/die Bibliothek kann geänder
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=Die Eigenschaft {1} in {0} kann nicht verschlüsselt werden. Daher kann die Verschlüsselung nicht geändert werden.
 Error.EncryptionException.INVALID_ENCRYPTION=Die Verschlüsselungs-ID '{0}' ist ungültig, da keine entsprechende Verschlüsselung existiert.
+
+#DataMartException
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
+Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.

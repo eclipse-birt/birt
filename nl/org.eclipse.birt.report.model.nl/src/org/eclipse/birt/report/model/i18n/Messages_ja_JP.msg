@@ -2484,6 +2484,7 @@ Element.ScalarParameter.getDefaultValueList.toolTip=パラメタのデフォルト値リスト
 Element.ScalarParameter.getSelectionValueList=選択値リストの取得
 Element.ScalarParameter.getSelectionValueList.reportContext=レポートのコンテキスト
 Element.ScalarParameter.getSelectionValueList.toolTip=パラメタコントロール型が [リスト] または [コンボ] のときに、選択値リストを返します。
+Element.ScalarParameter.defaultValue=デフォルト値
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開
@@ -3261,7 +3262,6 @@ Element.AbstractScalarParameter.sortDirection=ソート方向
 Element.AbstractScalarParameter.sortBy=方向
 Element.AbstractScalarParameter.valueType=値の型
 Element.AbstractScalarParameter.sortByColumn=列を基準に並べ替える
-Element.AbstractScalarParameter.defaultValue=デフォルト値
 Element.AbstractScalarParameter.selectionList=選択リスト
 Element.AbstractScalarParameter.dataType=データ型
 Element.AbstractScalarParameter.distinct=Distinct
@@ -3270,6 +3270,7 @@ Element.AbstractScalarParameter.distinct=Distinct
 Element.DynamicFilterParameter.displayType=表示型
 Element.DynamicFilterParameter.filterOperator=演算子
 Element.DynamicFilterParameter.column=列
+Element.DynamicFilterParameter.defaultValue=デフォルト値
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=タブ
@@ -3847,3 +3848,8 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =開いているデザインやライブラリまたはそ
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} のプロパティ {1} は暗号化できないため、暗号化を変更できません。
 Error.EncryptionException.INVALID_ENCRYPTION=この暗号は存在しないため、暗号化 ID "{0}" は無効です。
+
+#DataMartException
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
+Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.

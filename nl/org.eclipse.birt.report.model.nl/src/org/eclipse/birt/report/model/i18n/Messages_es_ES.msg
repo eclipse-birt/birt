@@ -2484,6 +2484,7 @@ Element.ScalarParameter.getDefaultValueList.toolTip=Devuelve la lista de valores
 Element.ScalarParameter.getSelectionValueList=Obtener lista de valores de selección
 Element.ScalarParameter.getSelectionValueList.reportContext=Contexto de informe
 Element.ScalarParameter.getSelectionValueList.toolTip=Devuelve la lista de valores de selección si el tipo de control del parámetro es 'lista' o 'combinado'
+Element.ScalarParameter.defaultValue=Valor predeterminado
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Iniciar expandido
@@ -3261,7 +3262,6 @@ Element.AbstractScalarParameter.sortDirection=Dirección de orden
 Element.AbstractScalarParameter.sortBy=Ordenar por
 Element.AbstractScalarParameter.valueType=Tipo de valor
 Element.AbstractScalarParameter.sortByColumn=Ordenar por columna
-Element.AbstractScalarParameter.defaultValue=Valor predeterminado
 Element.AbstractScalarParameter.selectionList=Lista de selección
 Element.AbstractScalarParameter.dataType=Tipo de datos
 Element.AbstractScalarParameter.distinct=Diferenciación
@@ -3270,6 +3270,7 @@ Element.AbstractScalarParameter.distinct=Diferenciación
 Element.DynamicFilterParameter.displayType=Mostrar tipo
 Element.DynamicFilterParameter.filterOperator=Operador de filtro
 Element.DynamicFilterParameter.column=Columna
+Element.DynamicFilterParameter.defaultValue=Valor predeterminado
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Fichas
@@ -3847,3 +3848,8 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =Puede que diseño/librería hayan cambia
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=La propiedad {1} de {0} no se puede cifrar, por lo que no se puede cambiar el cifrado.
 Error.EncryptionException.INVALID_ENCRYPTION=El id del cifrado "{0}" no es válido, ya que no existe tal cifrado.
+
+#DataMartException
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
+Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.
