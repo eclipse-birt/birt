@@ -29,10 +29,12 @@ import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -44,6 +46,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -85,44 +88,45 @@ import org.eclipse.emf.common.util.EList;
  * Query helper for cube query definition
  */
 
-public class ChartCubeQueryHelper
+public class ChartCubeQueryHelper implements
+		org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants
 {
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
-	private final ExtendedItemHandle handle;
-	private final Chart cm;
+	protected final ExtendedItemHandle handle;
+	protected final Chart cm;
 
 	/**
 	 * Maps for registered column bindings.<br>
 	 * Key: binding name, value: Binding
 	 */
-	private Map<String, IBinding> registeredBindings = new HashMap<String, IBinding>( );
+	protected Map<String, IBinding> registeredBindings = new HashMap<String, IBinding>( );
 	/**
 	 * Maps for registered queries.<br>
 	 * Key: binding name, value: raw query expression
 	 */
-	private Map<String, String> registeredQueries = new HashMap<String, String>( );
+	protected Map<String, String> registeredQueries = new HashMap<String, String>( );
 
 	/**
 	 * Maps for registered level definitions.<br>
 	 * Key: Binding name of query, value: ILevelDefinition
 	 */
-	private Map<String, ILevelDefinition> registeredLevels = new HashMap<String, ILevelDefinition>( );
+	protected Map<String, ILevelDefinition> registeredLevels = new HashMap<String, ILevelDefinition>( );
 
 	/**
 	 * Maps for registered measure definitions.<br>
 	 * Key: Binding name of query, value: IMeasureDefinition
 	 */
-	private Map<String, IMeasureDefinition> registeredMeasures = new HashMap<String, IMeasureDefinition>( );
+	protected Map<String, IMeasureDefinition> registeredMeasures = new HashMap<String, IMeasureDefinition>( );
 
 	/**
 	 * Maps for registered level handles.<br>
 	 * Key: LevelHandle, value: ILevelDefinition
 	 */
-	private Map<LevelHandle, ILevelDefinition> registeredLevelHandles = new HashMap<LevelHandle, ILevelDefinition>( );
+	protected Map<LevelHandle, ILevelDefinition> registeredLevelHandles = new HashMap<LevelHandle, ILevelDefinition>( );
 
-	private String rowEdgeDimension;
+	protected String rowEdgeDimension;
 
 	/**
 	 * Indicates if used for single chart case, such as Live preview in chart
@@ -132,10 +136,32 @@ public class ChartCubeQueryHelper
 	 */
 	private boolean bSingleChart = false;
 
+	private static ICubeElementFactory cubeFactory = null;
+
 	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm )
 	{
 		this.handle = handle;
 		this.cm = cm;
+	}
+
+	public synchronized static ICubeElementFactory getCubeElementFactory( )
+			throws BirtException
+	{
+		if ( cubeFactory != null )
+		{
+			return cubeFactory;
+		}
+
+		try
+		{
+			Class<?> cls = Class.forName( ICubeElementFactory.CUBE_ELEMENT_FACTORY_CLASS_NAME );
+			cubeFactory = (ICubeElementFactory) SecurityUtil.newClassInstance( cls );
+		}
+		catch ( Exception e )
+		{
+			throw new ChartException( ID, BirtException.ERROR, e );
+		}
+		return cubeFactory;
 	}
 
 	/**
@@ -158,7 +184,7 @@ public class ChartCubeQueryHelper
 		if ( cubeHandle == null )
 		{
 			// Create sub query for chart in xtab
-			cubeHandle = ChartXTabUtil.getBindingCube( handle );
+			cubeHandle = ChartCubeUtil.getBindingCube( handle );
 			if ( cubeHandle == null )
 			{
 				throw new ChartException( ChartReportItemPlugin.ID,
@@ -172,7 +198,7 @@ public class ChartCubeQueryHelper
 				ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
 				if ( subQuery != null )
 				{
-					if ( ChartXTabUtil.isPlotChart( handle ) )
+					if ( ChartCubeUtil.isPlotChart( handle ) )
 					{
 						// Adds min and max binding to parent query definition
 						// for shared scale. Only added for plot chart
@@ -186,8 +212,7 @@ public class ChartCubeQueryHelper
 			}
 		}
 
-		cubeQuery = ChartXTabUtil.getCubeElementFactory( )
-				.createCubeQuery( cubeHandle.getQualifiedName( ) );
+		cubeQuery = getCubeElementFactory( ).createCubeQuery( cubeHandle.getQualifiedName( ) );
 
 		// Add column bindings from handle
 		initBindings( cubeQuery, cubeHandle );
@@ -253,16 +278,16 @@ public class ChartCubeQueryHelper
 
 	private ISubCubeQueryDefinition createSubCubeQuery( ) throws BirtException
 	{
-		String queryName = ChartReportItemConstants.CHART_SUBQUERY;
-		AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( handle );
+		String queryName = CHART_SUBQUERY;
+		AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( handle );
 		if ( containerCell == null )
 		{
 			return null;
 		}
 		CrosstabReportItemHandle xtab = containerCell.getCrosstab( );
-		int columnLevelCount = ChartXTabUtil.getLevelCount( xtab,
+		int columnLevelCount = ChartCubeUtil.getLevelCount( xtab,
 				ICrosstabConstants.COLUMN_AXIS_TYPE );
-		int rowLevelCount = ChartXTabUtil.getLevelCount( xtab,
+		int rowLevelCount = ChartCubeUtil.getLevelCount( xtab,
 				ICrosstabConstants.ROW_AXIS_TYPE );
 		if ( cm instanceof ChartWithAxes )
 		{
@@ -270,16 +295,15 @@ public class ChartCubeQueryHelper
 			{
 				if ( columnLevelCount >= 1 )
 				{
-					ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
-							.createSubCubeQuery( queryName );
-					subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+					ISubCubeQueryDefinition subCubeQuery = getCubeElementFactory( ).createSubCubeQuery( queryName );
+					subCubeQuery.setStartingLevelOnColumn( ChartCubeUtil.createDimensionExpression( ChartCubeUtil.getLevel( xtab,
 							ICrosstabConstants.COLUMN_AXIS_TYPE,
 							columnLevelCount - 1 )
 							.getCubeLevel( ) ) );
 					if ( rowLevelCount > 1 )
 					{
 						// Only add another level in multiple levels case
-						subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+						subCubeQuery.setStartingLevelOnRow( ChartCubeUtil.createDimensionExpression( ChartCubeUtil.getLevel( xtab,
 								ICrosstabConstants.ROW_AXIS_TYPE,
 								rowLevelCount - 2 )
 								.getCubeLevel( ) ) );
@@ -290,9 +314,8 @@ public class ChartCubeQueryHelper
 				{
 					// No column level and multiple row levels, use the top
 					// row level
-					ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
-							.createSubCubeQuery( queryName );
-					subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+					ISubCubeQueryDefinition subCubeQuery = getCubeElementFactory( ).createSubCubeQuery( queryName );
+					subCubeQuery.setStartingLevelOnRow( ChartCubeUtil.createDimensionExpression( ChartCubeUtil.getLevel( xtab,
 							ICrosstabConstants.ROW_AXIS_TYPE,
 							rowLevelCount - 2 )
 							.getCubeLevel( ) ) );
@@ -305,16 +328,15 @@ public class ChartCubeQueryHelper
 			{
 				if ( rowLevelCount >= 1 )
 				{
-					ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
-							.createSubCubeQuery( queryName );
-					subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+					ISubCubeQueryDefinition subCubeQuery = getCubeElementFactory( ).createSubCubeQuery( queryName );
+					subCubeQuery.setStartingLevelOnRow( ChartCubeUtil.createDimensionExpression( ChartCubeUtil.getLevel( xtab,
 							ICrosstabConstants.ROW_AXIS_TYPE,
 							rowLevelCount - 1 )
 							.getCubeLevel( ) ) );
 					if ( columnLevelCount > 1 )
 					{
 						// Only add another level in multiple levels case
-						subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+						subCubeQuery.setStartingLevelOnColumn( ChartCubeUtil.createDimensionExpression( ChartCubeUtil.getLevel( xtab,
 								ICrosstabConstants.COLUMN_AXIS_TYPE,
 								columnLevelCount - 2 )
 								.getCubeLevel( ) ) );
@@ -325,9 +347,8 @@ public class ChartCubeQueryHelper
 				{
 					// No row level and multiple column levels, use the top
 					// column level
-					ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
-							.createSubCubeQuery( queryName );
-					subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+					ISubCubeQueryDefinition subCubeQuery = getCubeElementFactory( ).createSubCubeQuery( queryName );
+					subCubeQuery.setStartingLevelOnColumn( ChartCubeUtil.createDimensionExpression( ChartCubeUtil.getLevel( xtab,
 							ICrosstabConstants.COLUMN_AXIS_TYPE,
 							columnLevelCount - 2 )
 							.getCubeLevel( ) ) );
@@ -359,10 +380,8 @@ public class ChartCubeQueryHelper
 				.get( 0 );
 		String bindingValue = ChartExpressionUtil.getCubeBindingName( queryValue.getDefinition( ),
 				false );
-		String maxBindingName = ChartReportItemConstants.QUERY_MAX
-				+ bindingValue;
-		String minBindingName = ChartReportItemConstants.QUERY_MIN
-				+ bindingValue;
+		String maxBindingName = QUERY_MAX + bindingValue;
+		String minBindingName = QUERY_MIN + bindingValue;
 
 		for ( Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
@@ -381,8 +400,7 @@ public class ChartCubeQueryHelper
 				minBinding.setExportable( false );
 
 				// create adding nest aggregations operation
-				ICubeOperation op = ChartXTabUtil.getCubeElementFactory( )
-						.getCubeOperationFactory( )
+				ICubeOperation op = getCubeElementFactory( ).getCubeOperationFactory( )
 						.createAddingNestAggregationsOperation( new IBinding[]{
 								maxBinding, minBinding
 						} );
@@ -396,6 +414,7 @@ public class ChartCubeQueryHelper
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initBindings( ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
@@ -476,13 +495,12 @@ public class ChartCubeQueryHelper
 			if ( registeredLevels.containsKey( sortKeyBinding ) )
 			{
 				// Add sorting on dimension
-				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
-						.createCubeSortDefinition( sortKey,
-								registeredLevels.get( sortKeyBinding ),
-								null,
-								null,
-								sd.getSorting( ) == SortOption.ASCENDING_LITERAL ? ISortDefinition.SORT_ASC
-										: ISortDefinition.SORT_DESC );
+				ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( sortKey,
+						registeredLevels.get( sortKeyBinding ),
+						null,
+						null,
+						sd.getSorting( ) == SortOption.ASCENDING_LITERAL ? ISortDefinition.SORT_ASC
+								: ISortDefinition.SORT_DESC );
 				cubeQuery.addSort( sortDef );
 			}
 			else if ( registeredMeasures.containsKey( sortKeyBinding ) )
@@ -508,13 +526,12 @@ public class ChartCubeQueryHelper
 				aggBinding.setExportable( false );
 				cubeQuery.addBinding( aggBinding );
 
-				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
-						.createCubeSortDefinition( ExpressionUtil.createJSDataExpression( aggBinding.getBindingName( ) ),
-								registeredLevels.get( targetBindingName ),
-								null,
-								null,
-								sd.getSorting( ) == SortOption.ASCENDING_LITERAL ? ISortDefinition.SORT_ASC
-										: ISortDefinition.SORT_DESC );
+				ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( ExpressionUtil.createJSDataExpression( aggBinding.getBindingName( ) ),
+						registeredLevels.get( targetBindingName ),
+						null,
+						null,
+						sd.getSorting( ) == SortOption.ASCENDING_LITERAL ? ISortDefinition.SORT_ASC
+								: ISortDefinition.SORT_DESC );
 				cubeQuery.addSort( sortDef );
 			}
 		}
@@ -592,8 +609,7 @@ public class ChartCubeQueryHelper
 			}
 			else
 			{
-				hieDef = (IHierarchyDefinition) ( (IDimensionDefinition) edge.getDimensions( )
-						.get( 0 ) ).getHierarchy( ).get( 0 );
+				hieDef = edge.getDimensions( ).get( 0 ).getHierarchy( ).get( 0 );
 			}
 
 			// Create level
@@ -684,10 +700,11 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private List<FilterConditionElementHandle> getCubeFiltersFromHandle(
+	@SuppressWarnings("unchecked")
+	protected List<FilterConditionElementHandle> getCubeFiltersFromHandle(
 			ReportItemHandle itemHandle )
 	{
-		PropertyHandle propHandle = itemHandle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
+		PropertyHandle propHandle = itemHandle.getPropertyHandle( PROPERTY_CUBE_FILTER );
 		if ( propHandle == null )
 		{
 			return Collections.emptyList( );
@@ -730,7 +747,8 @@ public class ChartCubeQueryHelper
 		else if ( ChartReportItemUtil.getReportItemReference( handle ) != null )
 		{
 			ReportItemHandle rih = ChartReportItemUtil.getReportItemReference( handle );
-			if ( rih instanceof ExtendedItemHandle && ( (ExtendedItemHandle) rih ).getReportItem( ) instanceof CrosstabReportItemHandle )
+			if ( rih instanceof ExtendedItemHandle
+					&& ( (ExtendedItemHandle) rih ).getReportItem( ) instanceof CrosstabReportItemHandle )
 			{
 				// It is sharing crosstab case.
 				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) rih ).getReportItem( );
@@ -791,17 +809,17 @@ public class ChartCubeQueryHelper
 						.getText( ),
 						true ) );
 			}
-			ICubeFilterDefinition filterDef = ChartXTabUtil.getCubeElementFactory( )
-					.creatCubeFilterDefinition( filterCondExpr,
-							levelDefinition,
-							qualifyLevels,
-							qualifyValues );
+			ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
+					levelDefinition,
+					qualifyLevels,
+					qualifyValues );
 
 			cubeQuery.addFilter( filterDef );
 
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<FilterConditionElementHandle> getFiltersFromXtab(
 			CrosstabReportItemHandle crossTab )
 	{
@@ -838,6 +856,7 @@ public class ChartCubeQueryHelper
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<FilterConditionElementHandle> getLevelOnCrosstab(
 			ExtendedItemHandle handle )
 	{
