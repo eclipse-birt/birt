@@ -8,39 +8,39 @@ export CVS_RSH
 ##-DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true
 
 echo "================== Tagging third party =======================" > third.log
-ant -f src/fetch_org.eclipse.birt.thirdparty.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true>> third.log
+#ant -f src/fetch_org.eclipse.birt.thirdparty.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true>> third.log
 
 echo "================== Tagging sdk feature =======================" > tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true >> tagSDK.log
 
 echo "================== Tagging birt feature =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 
 echo "================== Tagging example feature =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.example.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.example.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 
 echo "================== Tagging chart.cshelp feature =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.chart.cshelp.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.chart.cshelp.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.cshelp feature =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.cshelp.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.cshelp.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.doc feature =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.doc feature =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.chart.doc feature =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.chart.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.chart.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.chart feature =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.chart.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.chart.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.designer feature ONLY =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.report.designer.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.report.designer.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging chart.runtime feature ONLY =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.chart.runtime.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.chart.runtime.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging org.eclipse.birt.report.designer.debug feature ONLY =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.report.designer.debug.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.report.designer.debug.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging org.eclipse.birt.crosstab feature ONLY =======================" >> tagSDK.log
-#ant -f src/fetch_org.eclipse.birt.crosstab.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f src/fetch_org.eclipse.birt.crosstab.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging OSGI feature ONLY =======================" > tagOSGI.log
-#ant -f src/fetch_org.eclipse.birt.osgi.runtime.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagOSGI.log
+ant -f src/fetch_org.eclipse.birt.osgi.runtime.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagOSGI.log
 
 
 
