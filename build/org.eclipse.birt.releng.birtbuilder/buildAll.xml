@@ -300,7 +300,6 @@
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
 	
-
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
@@ -426,13 +425,13 @@
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/plugins"/>
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/features"/>
 		<copy todir="${postingDirectory}/${buildId}/UpdateSite/plugins">
-			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
+			<fileset dir="${updateJarWorkingDir}/site/plugins">
 				<include name="**"/>
 			</fileset>
 		</copy>
 		
 		<copy todir="${postingDirectory}/${buildId}/UpdateSite/features">
-			<fileset dir="${updateJarWorkingDir}/eclipse/features">
+			<fileset dir="${updateJarWorkingDir}/site/features">
 				<include name="**"/>
 			</fileset>
 		</copy>
