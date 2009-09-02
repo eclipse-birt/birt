@@ -1,0 +1,46 @@
+<project default="main">
+   
+   <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+   <property name="tagdir" value="/home/adb/farrah/cvsTag"/>
+   
+   <target name="main">
+
+     <antcall target="replaceCvsTarget_birt"/>
+
+     <antcall target="replaceCvsTarget_dtp"/>
+
+   </target>
+
+   <target name="replaceCvsTarget_birt">
+     <echo message="start replace for BIRT"/>
+     <for param="file">
+       <fileset dir="${tagdir}/src" includes="fetch*"/>
+       <sequential>
+         <replace file="@{file}" 
+		  token='cvs command="export -d ${elementName}" cvsRoot="${cvsRoot}" dest="${destinationFolder}" package="${module}" tag="${tag}" quiet="${quiet}" reallyquiet="${reallyquiet}" taskname="CVS - ${module}"'
+		  value='ant antfile="${tagdir}/ModifyFetchFile.xml" target="FetchFromCVS"'
+		  summary="true"/>
+       </sequential>
+     </for>  
+   </target>
+   
+   <target name="replaceCvsTarget_dtp">
+     <echo message="start replace for DTP"/>
+     <for param="file">
+       <fileset dir="${tagdir}/src" includes="fetch*"/>
+       <sequential>
+         <replace file="@{file}"
+                  token='cvs command="export -d ${elementName}" cvsRoot="${cvsRoot}" dest="${destinationFolder}" package="${module}" tag="${tag}" quiet="${quiet}" taskname="CVS - ${module}"'
+                  value='ant antfile="${tagdir}/ModifyFetchFile.xml" target="FetchFromCVS"'
+                  summary="true"/>
+       </sequential>
+     </for>
+   </target>
+   
+   <target name="FetchFromCVS">
+     <cvs cvsRoot="${cvsRoot}" package="${module}" dest="${destinationFolder}" command="checkout" tag="${tag}" quiet="${quiet}" taskname="CVS - ${module}"  failonerror="yes" />
+     <echo message="tag name is ${tag.name}"/>
+     <cvs dest="${destinationFolder}/${module}" command="tag ${tag.name}" />
+   </target>
+
+</project>
