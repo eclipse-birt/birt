@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
@@ -38,17 +37,14 @@ import org.eclipse.birt.report.model.command.CustomMsgCommand;
 import org.eclipse.birt.report.model.command.LibraryCommand;
 import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
 import org.eclipse.birt.report.model.command.ThemeCommand;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -602,7 +598,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			throws DesignFileException, SemanticException
 	{
 		LibraryCommand command = new LibraryCommand( module );
-		command.addLibrary( libraryFileName, namespace );
+		command.addModule( libraryFileName, namespace );
 	}
 
 	/*
@@ -619,7 +615,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			return;
 
 		LibraryCommand command = new LibraryCommand( module );
-		command.dropLibrary( (Library) library.getElement( ) );
+		command.dropModule( (Library) library.getElement( ) );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
@@ -711,7 +707,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			else
 			{
 				LibraryCommand cmd = new LibraryCommand( module );
-				cmd.reloadLibrary( lib.getFileName( ), lib.getNamespace( ) );
+				cmd.reloadModule( lib.getFileName( ), lib.getNamespace( ) );
 			}
 
 		}
@@ -781,7 +777,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			return;
 
 		LibraryCommand command = new LibraryCommand( module );
-		command.dropLibraryAndBreakExtends( (Library) library.getElement( ) );
+		command.dropModuleAndBreakExtends( (Library) library.getElement( ) );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )

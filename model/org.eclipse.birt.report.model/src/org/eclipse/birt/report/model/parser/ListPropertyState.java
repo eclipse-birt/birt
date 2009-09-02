@@ -84,7 +84,7 @@ public class ListPropertyState extends AbstractPropertyState
 	 * The definition of the property of this list property.
 	 */
 
-	PropertyDefn propDefn = null;
+	protected PropertyDefn propDefn = null;
 
 	/**
 	 * Constructs the design parse state with the design file parser handler.
@@ -97,7 +97,8 @@ public class ListPropertyState extends AbstractPropertyState
 	 *            the element which holds this property
 	 */
 
-	ListPropertyState( ModuleParserHandler theHandler, DesignElement element )
+	protected ListPropertyState( ModuleParserHandler theHandler,
+			DesignElement element )
 	{
 		super( theHandler, element );
 	}
@@ -353,6 +354,12 @@ public class ListPropertyState extends AbstractPropertyState
 				return state;
 			}
 		}
+
+		AbstractParseState state = ParseStateFactory.getInstance( )
+				.createGeneralJumpStructureListState( handler, element,
+						nameValue );
+		if ( state != null )
+			return state;
 
 		return super.generalJumpTo( );
 	}

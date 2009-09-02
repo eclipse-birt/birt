@@ -1106,7 +1106,7 @@ public abstract class Module extends DesignElement
 	 *            exception list to set
 	 */
 
-	protected final void setAllExceptions( List<Exception> allExceptions )
+	public final void setAllExceptions( List<Exception> allExceptions )
 	{
 		this.allExceptions = allExceptions;
 	}
@@ -2038,7 +2038,7 @@ public abstract class Module extends DesignElement
 
 	public Module findOutermostModule( )
 	{
-		return null;
+		return this;
 	}
 
 	/**

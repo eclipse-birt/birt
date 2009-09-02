@@ -226,6 +226,15 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public boolean markLineNumber( )
+	{
+		return this.markLineNumber;
+	}
+
+	/**
 	 * Overrides the super method. This method first parses attributes of the
 	 * current state, and then query whether to use a new state or the current
 	 * one according to the attributes value.

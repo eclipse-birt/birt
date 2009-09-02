@@ -346,17 +346,6 @@ public abstract class LayoutModule extends Module
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Module#findOutermostModule()
-	 */
-
-	public LayoutModule findOutermostModule( )
-	{
-		return this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Module#loadLibrary(java.lang.String,
 	 * java.lang.String, java.util.Map, java.net.URL)
@@ -365,7 +354,7 @@ public abstract class LayoutModule extends Module
 			Map<String, Library> reloadLibs, URL url )
 			throws DesignFileException
 	{
-		LayoutModule outermostModule = findOutermostModule( );
+		LayoutModule outermostModule = (LayoutModule) findOutermostModule( );
 
 		// find the corresponding library instance
 
@@ -959,18 +948,7 @@ public abstract class LayoutModule extends Module
 		}
 		image.setName( name.trim( ) );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.Module#getNamespace()
-	 */
-
-	public String getNamespace( )
-	{
-		return null;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

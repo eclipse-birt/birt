@@ -189,8 +189,8 @@ public class StructureState extends AbstractPropertyState
 	 *            the structure list
 	 */
 
-	StructureState( ModuleParserHandler theHandler, DesignElement element,
-			PropertyDefn propDefn )
+	protected StructureState( ModuleParserHandler theHandler,
+			DesignElement element, PropertyDefn propDefn )
 	{
 		super( theHandler, element );
 

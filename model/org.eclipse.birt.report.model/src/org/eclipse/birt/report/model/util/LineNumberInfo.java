@@ -16,6 +16,7 @@ import java.util.HashMap;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedDataMart;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -115,6 +116,10 @@ public class LineNumberInfo
 		{
 			includeLibStructMap.put( ( (IncludedLibrary) obj ).getNamespace( ),
 					lineNo );
+		}
+		else if ( obj instanceof IncludedDataMart )
+		{
+			// do nothing
 		}
 		else if ( obj instanceof EmbeddedImage )
 		{

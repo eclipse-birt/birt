@@ -230,4 +230,18 @@ class ParseStateFactoryImpl
 		return createParseState( elementName, handler, container, propName );
 	}
 
+	/**
+	 * Creates a general jump state for structure list state.
+	 * 
+	 * @param handler
+	 * @param element
+	 * @param propNameValue
+	 * @return
+	 */
+	public AbstractParseState createGeneralJumpStructureListState(
+			ModuleParserHandler handler, DesignElement element, int propNameValue )
+	{
+		return null;
+	}
+
 }

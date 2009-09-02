@@ -47,20 +47,20 @@ public class LibraryException extends SemanticException
 	 */
 
 	final public static String DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY = MessageConstants.LIBRARY_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY;
-	
+
 	/**
 	 * Indicates that library has descendents in the current module.
 	 */
-	
+
 	final public static String DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS = MessageConstants.LIBRARY_EXCEPTION_LIBRARY_HAS_DESCENDENTS;
-	
+
 	/**
-	 * Indicates that library is already included, a library can not be added twice.
+	 * Indicates that library is already included, a library can not be added
+	 * twice.
 	 */
-	
+
 	final public static String DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED = MessageConstants.LIBRARY_EXCEPTION_LIBRARY_ALREADY_INCLUDED;
-	
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -91,32 +91,30 @@ public class LibraryException extends SemanticException
 		super( module, values, errCode );
 	}
 
-
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	
+
 	public String getLocalizedMessage( )
 	{
 		if ( DESIGN_EXCEPTION_LIBRARY_NOT_FOUND == sResourceKey
-				|| DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY == sResourceKey )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{(String) oaMessageArguments[0]} );
-		}
-		else if ( DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE == sResourceKey || DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED == sResourceKey )
+				|| DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY == sResourceKey
+				|| DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE == sResourceKey
+				|| DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED == sResourceKey )
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{(String) oaMessageArguments[0]} );
 		}
 		else if ( DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS == sResourceKey )
 		{
-			LibraryHandle libHandle = (LibraryHandle)element.getHandle( (Module)element );
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{ libHandle.getNamespace(), (String) oaMessageArguments[0]} );
+			LibraryHandle libHandle = (LibraryHandle) element
+					.getHandle( (Module) element );
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					libHandle.getNamespace( ), (String) oaMessageArguments[0]} );
 		}
-		
+
 		return ModelMessages.getMessage( sResourceKey );
 	}
 }
