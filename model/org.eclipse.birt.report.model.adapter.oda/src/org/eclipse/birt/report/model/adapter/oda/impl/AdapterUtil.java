@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -233,11 +235,11 @@ public class AdapterUtil
 		if ( defaultValues == null || reportParam == null )
 			return;
 
-		List<String> newValues = null;
+		List<Expression> newValues = null;
 
 		if ( defaultValues != null )
 		{
-			newValues = new ArrayList<String>( );
+			newValues = new ArrayList<Expression>( );
 			List<Object> tmpValues = defaultValues.getValues( );
 
 			for ( int i = 0; i < tmpValues.size( ); i++ )
@@ -247,7 +249,8 @@ public class AdapterUtil
 				// only update when the value is not internal value.
 
 				if ( !DataSetParameterAdapter.BIRT_JS_EXPR.equals( tmpValue ) )
-					newValues.add( tmpValue );
+					newValues.add( new Expression( tmpValue,
+							ExpressionType.CONSTANT ) );
 			}
 		}
 
