@@ -1,20 +1,21 @@
-<project default="main">
+<project name="cvstag">
    
    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
    <property name="tagdir" value="${workingDir}"/>
    
-   <target name="main">
-
-     <antcall target="replaceCvsTarget_birt"/>
-
-     <antcall target="replaceCvsTarget_dtp"/>
-
-   </target>
-
    <target name="init">
 	<mkdir dir="${tagdir}/src"/>
 	<copy todir="${tagdir}/src">
 		<fileset dir="${scriptSrc}">
+			<include name="fetch_*.xml"/>
+		</fileset>
+	</copy>
+   </target>
+
+   <target name="init.dtp">
+	<mkdir dir="${tagdir}/src"/>
+	<copy todir="${tagdir}/src">
+		<fileset dir="${dtp.scriptSrc}">
 			<include name="fetch_*.xml"/>
 		</fileset>
 	</copy>
@@ -34,14 +35,14 @@
      </for>  
    </target>
    
-   <target name="replaceCvsTarget_dtp" depends="init">
+   <target name="replaceCvsTarget_dtp" depends="init.dtp">
      <echo message="start replace for DTP"/>
      <for param="file">
        <fileset dir="${tagdir}/src" includes="fetch*"/>
        <sequential>
          <replace file="@{file}"
                   token='cvs command="export -d ${elementName}" cvsRoot="${cvsRoot}" dest="${destinationFolder}" package="${module}" tag="${tag}" quiet="${quiet}" taskname="CVS - ${module}"'
-                  value='ant antfile="${tagdir}/ModifyFetchFile.xml" target="FetchFromCVS"'
+                  value='ant antfile="${tagdir}/ModifyFetchFile.xml" target="FetchFromCVS.DTP"'
                   summary="true"/>
        </sequential>
      </for>
@@ -49,6 +50,12 @@
    
    <target name="FetchFromCVS">
      <cvs cvsRoot="${cvsRoot}" package="${module}" dest="${destinationFolder}" command="checkout" tag="${tag}" quiet="${quiet}" taskname="CVS - ${module}"  failonerror="yes" />
+     <echo message="tag name is ${tag.name}"/>
+     <cvs dest="${destinationFolder}/${module}" command="tag ${tag.name}" />
+   </target>
+
+   <target name="FetchFromCVS.DTP">
+     <cvs cvsRoot="${cvsRoot.dtp}" package="${module}" dest="${destinationFolder}" command="checkout" tag="${tag}" quiet="${quiet}" taskname="CVS - ${module}"  failonerror="yes" />
      <echo message="tag name is ${tag.name}"/>
      <cvs dest="${destinationFolder}/${module}" command="tag ${tag.name}" />
    </target>
