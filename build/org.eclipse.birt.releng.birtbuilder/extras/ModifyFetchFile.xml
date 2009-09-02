@@ -1,7 +1,7 @@
 <project default="main">
    
    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
-   <property name="tagdir" value="/home/adb/farrah/cvsTag"/>
+   <property name="tagdir" value="${workingDir}"/>
    
    <target name="main">
 
