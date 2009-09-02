@@ -11,7 +11,17 @@
 
    </target>
 
-   <target name="replaceCvsTarget_birt">
+   <target name="init">
+	<mkdir dir="${tagdir}/src"/>
+	<copy todir="${tagdir}/src">
+		<fileset dir="${scriptSrc}">
+			<include name="fetch_*.xml"/>
+		</fileset>
+	</copy>
+   </target>
+   
+
+   <target name="replaceCvsTarget_birt" depends="init">
      <echo message="start replace for BIRT"/>
      <for param="file">
        <fileset dir="${tagdir}/src" includes="fetch*"/>
@@ -24,7 +34,7 @@
      </for>  
    </target>
    
-   <target name="replaceCvsTarget_dtp">
+   <target name="replaceCvsTarget_dtp" depends="init">
      <echo message="start replace for DTP"/>
      <for param="file">
        <fileset dir="${tagdir}/src" includes="fetch*"/>
