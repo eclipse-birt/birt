@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 public interface IQueryContext
@@ -19,8 +20,13 @@ public interface IQueryContext
 
 	/**
 	 * delegate to report engine to build query, the extened item may call this
-	 * api to build children¡¯s query
+	 * api to build childrenï¿½ï¿½s query
 	 */
 	IDataQueryDefinition[] createQuery( IDataQueryDefinition parent,
 			ReportElementHandle handle );
+
+	/**
+	 * return a data session
+	 */
+	DataRequestSession getDataRequestSession( );
 }

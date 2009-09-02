@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.extension.internal;
 
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.ReportQueryBuilder;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IQueryContext;
@@ -42,6 +44,16 @@ public class QueryContext implements IQueryContext
 	{
 		design = report.findDesign( handle );
 		return builder.build( parent, design );
+	}
+
+	public DataRequestSession getDataRequestSession( )
+	{
+		if ( context != null )
+		{
+			IDataEngine dataEngine = context.getDataEngine( );
+			return dataEngine.getDTESession( );
+		}
+		return null;
 	}
 
 }
