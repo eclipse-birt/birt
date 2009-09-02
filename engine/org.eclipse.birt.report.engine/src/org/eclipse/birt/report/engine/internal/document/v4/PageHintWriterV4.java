@@ -114,6 +114,7 @@ public class PageHintWriterV4 implements IPageHintWriter
 		writeBuffer.reset( );
 		writePageVariables( hintBuffer, variables );
 		hintsStream.write( writeBuffer.toByteArray( ) );
+		hintsStream.flush( );
 		indexStream.seek( 8 );
 		indexStream.writeLong( offset );
 	}
