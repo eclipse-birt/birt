@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.SortHintHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -287,12 +288,13 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		// assertFalse( parameter.isRequired( ) );
 		assertEquals( setHandle.getName( ), parameter.getDataSetName( ) );
 		assertEquals( COLUMNS[2], parameter.getColumn( ) );
-		List defaultValues = parameter.getDefaultValueList( );
+		List<Expression> defaultValues = parameter.getDefaultValueList( );
 		assertNotNull( defaultValues );
 		assertEquals( 3, defaultValues.size( ) );
 		for ( int i = 0; i < 3; i++ )
 		{
-			assertEquals( "value" + ( i + 1 ), defaultValues.get( i ) ); //$NON-NLS-1$
+			assertEquals( "value" + ( i + 1 ), defaultValues.get( i )  //$NON-NLS-1$
+					.getExpression( ) );
 		}
 
 		save( );
