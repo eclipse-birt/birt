@@ -356,7 +356,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Dupilicates the extended element of this design element.
+	 * Duplicates the extended element of this design element.
 	 */
 
 	void duplicateExtendedElement( )

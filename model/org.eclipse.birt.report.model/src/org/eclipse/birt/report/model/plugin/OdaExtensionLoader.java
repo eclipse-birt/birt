@@ -15,8 +15,6 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
-import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
@@ -27,7 +25,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.eclipse.datatools.connectivity.oda.util.manifest.Property;
 
 /**
- * The loader for scriptable object class info extensions.
+ * The loader for ODA meta information.
  */
 
 public class OdaExtensionLoader

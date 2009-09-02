@@ -19,7 +19,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
  * The utility class for get ODA extension.
  */
 
-public class ODAManifestUtil
+class ODAManifestUtil
 {
 
 	/**

@@ -410,7 +410,6 @@ public class DesignSessionImpl
 		initializeOptions( options );
 		Module module = GenericModuleReader.getInstance( ).read( this,
 				fileName, is, options );
-		assert module instanceof Library || module instanceof ReportDesign;
 
 		if ( module instanceof ReportDesign )
 			designs.add( (ReportDesign) module );
