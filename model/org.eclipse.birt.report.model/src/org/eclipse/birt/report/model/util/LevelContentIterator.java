@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -103,11 +104,15 @@ public class LevelContentIterator implements Iterator<DesignElement>
 			return;
 
 		ElementDefn defn = (ElementDefn) element.getDefn( );
-		// build slot
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+
+		// slots
+		Iterator<ISlotDefn> slots = defn.slotsIterator( );
+		while ( slots.hasNext( ) )
 		{
-			buildContentsList( module, new ContainerContext( element, i ),
-					level );
+			ISlotDefn iSlotDefn = slots.next( );
+
+			buildContentsList( module, new ContainerContext( element, iSlotDefn
+					.getSlotID( ) ), level );
 		}
 
 		// build properties
