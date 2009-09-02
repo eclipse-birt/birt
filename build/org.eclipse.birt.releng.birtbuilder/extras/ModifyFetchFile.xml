@@ -4,10 +4,10 @@
    <property name="tagdir" value="${workingDir}"/>
    
    <target name="init">
-	<mkdir dir="${tagdir}/src"/>
+	<mkdir dir="${buildDirectory}"/>
 	<echo message="copy fetch script from: ${scriptSrc}"/>
-	<echo message="copy fetch script to:   ${tagdir}/src"/>
-	<copy todir="${tagdir}/src">
+	<echo message="copy fetch script to:   ${buildDirectory}"/>
+	<copy todir="${buildDirectory}">
 		<fileset dir="${scriptSrc}">
 			<include name="fetch_*.xml"/>
 		</fileset>
@@ -15,8 +15,8 @@
    </target>
 
    <target name="init.dtp">
-	<mkdir dir="${tagdir}/src"/>
-	<copy todir="${tagdir}/src">
+	<mkdir dir="${buildDirectory}"/>
+	<copy todir="${buildDirectory}">
 		<fileset dir="${dtp.scriptSrc}">
 			<include name="fetch_*.xml"/>
 		</fileset>
@@ -25,9 +25,9 @@
    
 
    <target name="replaceCvsTarget_birt" depends="init">
-     <echo message="start replace for BIRT under ${tagdir}/src"/>
+     <echo message="start replace for BIRT under ${buildDirectory}"/>
      <for param="file">
-       <fileset dir="${tagdir}/src" includes="fetch*"/>
+       <fileset dir="${buildDirectory}" includes="fetch*"/>
        <sequential>
          <replace file="@{file}" summary="true">
 		<replacetoken><![CDATA[cvs command="export -d ${elementName}" cvsRoot="${cvsRoot}" dest="${destinationFolder}" package="${module}" tag="${tag}" quiet="${quiet}" reallyquiet="${reallyquiet}" taskname="CVS - ${module}"]]></replacetoken>
@@ -40,12 +40,12 @@
    <target name="replaceCvsTarget_dtp" depends="init.dtp">
      <echo message="start replace for DTP"/>
      <for param="file">
-       <fileset dir="${tagdir}/src" includes="fetch*"/>
+       <fileset dir="${buildDirectory}" includes="fetch*"/>
        <sequential>
-         <replace file="@{file}"
-                  token='cvs command="export -d ${elementName}" cvsRoot="${cvsRoot}" dest="${destinationFolder}" package="${module}" tag="${tag}" quiet="${quiet}" taskname="CVS - ${module}"'
-                  value='ant antfile="${tagdir}/ModifyFetchFile.xml" target="FetchFromCVS.DTP"'
-                  summary="true"/>
+        <replace file="@{file}" summary="true">
+		<replacetoken><![CDATA[cvs command="export -d ${elementName}" cvsRoot="${cvsRoot}" dest="${destinationFolder}" package="${module}" tag="${tag}" quiet="${quiet}" reallyquiet="${reallyquiet}" taskname="CVS - ${module}"]]></replacetoken>
+		<replacevalue><![CDATA[ant antfile="${workingDir}/ModifyFetchFile.xml" target="FetchFromCVS.DTP"]]></replacevalue>
+		</replace>
        </sequential>
      </for>
    </target>
