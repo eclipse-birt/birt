@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -28,14 +27,12 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -77,28 +74,6 @@ public class ChartCubeUtil extends ChartItemUtil
 			DesignChoiceConstants.UNITS_PT );
 	public final static DimensionValue DEFAULT_ROW_HEIGHT = new DimensionValue( 30,
 			DesignChoiceConstants.UNITS_PT );
-
-	private static ICubeElementFactory cubeFactory = null;
-
-	public synchronized static ICubeElementFactory getCubeElementFactory( )
-			throws BirtException
-	{
-		if ( cubeFactory != null )
-		{
-			return cubeFactory;
-		}
-
-		try
-		{
-			Class<?> cls = Class.forName( ICubeElementFactory.CUBE_ELEMENT_FACTORY_CLASS_NAME );
-			cubeFactory = (ICubeElementFactory) SecurityUtil.newClassInstance( cls );
-		}
-		catch ( Exception e )
-		{
-			throw new ChartException( ID, BirtException.ERROR, e );
-		}
-		return cubeFactory;
-	}
 
 	/**
 	 * Returns the binding cube if the element or its container has cube binding
