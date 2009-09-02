@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
@@ -2940,10 +2941,12 @@ public abstract class DesignElement
 		if ( slotCount == 0 )
 			return;
 
+		Iterator<ISlotDefn> iter1 = ( (ElementDefn) cachedDefn ).slotsIterator( );
+
 		slots = new ContainerSlot[slotCount];
 		for ( int i = 0; i < slotCount; i++ )
 		{
-			SlotDefn slot = (SlotDefn) cachedDefn.getSlot( i );
+			SlotDefn slot = (SlotDefn) iter1.next( );
 			if ( slot.isMultipleCardinality( ) )
 				slots[i] = new MultiElementSlot( );
 			else
@@ -3661,5 +3664,18 @@ public abstract class DesignElement
 	public PropertySearchStrategy getPropertySearchStrategy( )
 	{
 		return this.cachedPropStrategy;
+	}
+
+	/**
+	 * Returns the slot index in the slots array. The slot ID may be discrete.
+	 * 
+	 * @param slotID
+	 *            the slot id
+	 * @return the index based on 0
+	 */
+
+	public int getSlotIndex( int slotID )
+	{
+		return slotID;
 	}
 }

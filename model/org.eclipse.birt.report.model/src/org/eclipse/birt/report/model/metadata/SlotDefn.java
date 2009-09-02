@@ -50,12 +50,12 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 {
 
 	/**
-	 * The slot ID. The ID is unique to an element type. In implemenation, it
+	 * The slot ID. The ID is unique to an element type. In implementation, it
 	 * may give the position of the slot within an array of slots. Each element
 	 * class defines the list of slot IDs for that element.
 	 */
 
-	protected int slotID = 0;
+	protected int slotID = DesignElement.NO_SLOT;
 
 	/**
 	 * Slot cardinality. True if the cardinality is multiple, false if the

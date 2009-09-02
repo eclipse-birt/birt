@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
@@ -69,6 +71,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -146,12 +149,16 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		}
 
+		Iterator<ISlotDefn> iter1 = ( (ElementDefn) getDefn( ) )
+				.slotsIterator( );
+
 		if ( slotHandles == null )
 		{
 			slotHandles = new SlotHandle[slotCount];
 			for ( int i = 0; i < slotCount; i++ )
 			{
-				slotHandles[i] = new SlotHandle( this, i );
+				slotHandles[i] = new SlotHandle( this, iter1.next( )
+						.getSlotID( ) );
 			}
 		}
 	}
@@ -1419,14 +1426,30 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public SlotHandle getSlot( int slotID )
 	{
-		int slotCount = getDefn( ).getSlotCount( );
-
-		if ( slotID < 0 || slotID >= slotCount )
+		if ( slotID < 0 || slotHandles == null )
 		{
 			return null;
 		}
 
-		return slotHandles[slotID];
+		int index = getElement( ).getSlotIndex( slotID );
+		if ( index == -1 )
+			return null;
+		return slotHandles[index];
+	}
+
+	/**
+	 * Returns the iterator for slot defined on the element.
+	 * 
+	 * @return the iterator for <code>SlotHandle</code>
+	 * 
+	 */
+
+	public Iterator<SlotHandle> slotsIterator( )
+	{
+		if ( slotHandles == null )
+			return Collections.<SlotHandle> emptyList( ).iterator( );
+
+		return Arrays.asList( slotHandles ).iterator( );
 	}
 
 	/**

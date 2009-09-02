@@ -250,8 +250,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * .lang.String, org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
-	public final ElementRefValue resolve( String elementName,
-			PropertyDefn propDefn, IElementDefn elementDefn )
+	public ElementRefValue resolve( String elementName, PropertyDefn propDefn,
+			IElementDefn elementDefn )
 	{
 		assert isValidReferenceProperty( propDefn );
 
@@ -291,7 +291,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
-	public final ElementRefValue resolve( DesignElement element,
+	public ElementRefValue resolve( DesignElement element,
 			PropertyDefn propDefn, IElementDefn elementDefn )
 	{
 		if ( element == null )
@@ -549,8 +549,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		{
 			INameHelper nameHelper = new NameExecutor( element )
 					.getNameHelper( getElement( ).getRoot( ) );
-			return nameHelper == null ? null : nameHelper
-					.getUniqueName( element, namePrefix );
+			return nameHelper == null ? null : nameHelper.getUniqueName(
+					element, namePrefix );
 		}
 
 		String name = element.getName( );
@@ -570,7 +570,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			return null;
 
 		if ( eDefn.getNameOption( ) == MetaDataConstants.OPTIONAL_NAME
-				&& name == null && getElement( ).getRoot( ) instanceof ReportDesign )
+				&& name == null
+				&& getElement( ).getRoot( ) instanceof ReportDesign )
 			return null;
 
 		// If the element already has a unique name, return it.
@@ -601,7 +602,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			name = baseName + ++index;
 		}
 
-		return name;	
+		return name;
 	}
 
 	/*

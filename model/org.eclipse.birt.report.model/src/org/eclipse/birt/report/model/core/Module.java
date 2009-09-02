@@ -958,8 +958,13 @@ public abstract class Module extends DesignElement
 
 	public final ContainerSlot getSlot( int slot )
 	{
-		assert slot >= 0 && slot < getSlotCount( );
-		return slots[slot];
+		assert slot >= 0;
+
+		int index = getSlotIndex( slot );
+		if ( index == -1 )
+			return null;
+
+		return slots[index];
 	}
 
 	/**

@@ -344,7 +344,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * implements.
 	 */
 
-	protected ArrayList<ISlotDefn> slots = null;
+	protected List<ISlotDefn> slots = null;
 
 	/**
 	 * Whether this element can be extended. If true, elements of this type can
@@ -410,6 +410,12 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * Configuration information about the element name management.
 	 */
 	protected NameConfig nameConfig = new NameConfig( );
+
+	/**
+	 * Whether the slot id is defined by slot definition in ROM.
+	 */
+
+	private boolean isSlotIDSpecifiedByROM = false;
 
 	/**
 	 * Sets the Java class which implements this element.
@@ -911,11 +917,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		// Cache all triggers which are defined in slot definition.
 
-		int slotCount = getSlotCount( );
-		for ( int i = 0; i < slotCount; i++ )
+		Iterator<ISlotDefn> iter1 = slotsIterator( );
+		while ( iter1.hasNext( ) )
 		{
-			SlotDefn slotDefn = (SlotDefn) getSlot( i );
-
+			SlotDefn slotDefn = (SlotDefn) iter1.next( );
 			mergeTriggerDefnSet( slotDefn.getTriggerDefnSet( ) );
 		}
 	}
@@ -1397,7 +1402,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		for ( int i = 0; i < slots.size( ); i++ )
 		{
 			SlotDefn slot = (SlotDefn) slots.get( i );
-			slot.setSlotID( i );
+			if ( slot.getSlotID( ) == DesignElement.NO_SLOT )
+				slot.setSlotID( i );
+			else
+				isSlotIDSpecifiedByROM = true;
 			slot.build( );
 		}
 	}
@@ -1578,9 +1586,21 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	public boolean hasSlot( int slotID )
 	{
+		return getSlot( slotID ) != null;
+	}
+
+	/**
+	 * Returns the iterator for slot defined on the element.
+	 * 
+	 * @return the iterator for <code>ISlotDefn</code>
+	 * 
+	 */
+
+	public Iterator<ISlotDefn> slotsIterator( )
+	{
 		if ( slots == null )
-			return false;
-		return slotID >= 0 && slotID < slots.size( );
+			return Collections.<ISlotDefn> emptyList( ).iterator( );
+		return slots.iterator( );
 	}
 
 	/**
@@ -1597,9 +1617,29 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	{
 		if ( slots == null )
 			return null;
-		if ( slotID < 0 || slotID >= slots.size( ) )
+		if ( slotID < 0 )
 			return null;
-		return slots.get( slotID );
+
+		if ( !isSlotIDSpecifiedByROM )
+		{
+			if ( slotID >= slots.size( ) )
+				return null;
+
+			return slots.get( slotID );
+		}
+
+		// need to find the slot id since the slot id is not continuous in such
+		// case
+
+		for ( int i = 0; i < slots.size( ); i++ )
+		{
+			ISlotDefn tmpSlotDefn = slots.get( i );
+			if ( tmpSlotDefn.getSlotID( ) == slotID )
+				return tmpSlotDefn;
+		}
+
+		assert false;
+		return null;
 	}
 
 	/**

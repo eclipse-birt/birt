@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -113,6 +114,12 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	private static final String MODULES_ATTRIB = "modules"; //$NON-NLS-1$
 	private static final String IS_BIDI_PROPERTY_ATTRIB = "isBidiProperty"; //$NON-NLS-1$
 	private static final String ALLOW_EXPRESSION_ATTRIB = "allowExpression"; //$NON-NLS-1$
+
+	/**
+	 * The unique id for the slot.
+	 */
+
+	private static final String ID_ATTRIB = "id"; //$NON-NLS-1$
 
 	private static final String THIS_KEYWORD = "this"; //$NON-NLS-1$ 
 
@@ -686,6 +693,11 @@ class MetaDataHandlerImpl extends XMLParserHandler
 									nameSpace );
 				}
 			}
+			else if ( NameSpaceFactory.getInstance( ).getNameSpaceID(
+					ReportDesignConstants.MODULE_ELEMENT, ns ) != -1 )
+				elementDefn.setNameSpaceID( NameSpaceFactory.getInstance( )
+						.getNameSpaceID( ReportDesignConstants.MODULE_ELEMENT,
+								ns ) );
 			else
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -1509,6 +1521,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
 			String multipleCardinality = attrs
 					.getValue( MULTIPLE_CARDINALITY_ATTRIB );
+			String tmpID = attrs.getValue( ID_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( StringUtil.isBlank( name ) )
@@ -1546,6 +1559,18 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			slotDefn.setSelector( attrs.getValue( SELECTOR_ATTRIB ) );
 			slotDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
 			slotDefn.setXmlName( attrs.getValue( XML_NAME_ATTRIB ) );
+			if ( !StringUtil.isBlank( tmpID ) )
+			{
+				try
+				{
+					slotDefn.setSlotID( Integer.parseInt( tmpID ) );
+				}
+				catch ( NumberFormatException e )
+				{
+					// just ignore the error. the slot id is reset later.
+				}
+			}
+
 			elementDefn.addSlot( slotDefn );
 		}
 
