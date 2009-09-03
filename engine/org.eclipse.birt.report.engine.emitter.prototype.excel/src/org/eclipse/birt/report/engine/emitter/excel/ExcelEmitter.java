@@ -308,7 +308,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		IStyle style = data.getComputedStyle( );
 		DataFormatValue dataformat = style.getDataFormat( );
 		MapDesign map = null;
-		if(generateBy instanceof DataItemDesign )
+		if ( generateBy instanceof DataItemDesign )
 		{
 			DataItemDesign design = (DataItemDesign) generateBy;
 			map = design.getMap( );
@@ -414,6 +414,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		engine.complete( );
 		try
 		{
+			// TODO: style ranges.
+			// writer.start( report, engine.getStyleMap( ), engine
+			// .getStyleRanges( ), engine.getAllBookmarks( ) );
 			writer.start( report, engine.getStyleMap( ), engine
 					.getAllBookmarks( ) );
 			outputCacheData( );

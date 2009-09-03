@@ -10,6 +10,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
+import java.awt.Color;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -436,7 +437,7 @@ public class ExcelXmlWriter implements IExcelWriter
 	}
 
 	private void writeBorder( String position, String lineStyle, String weight,
-			String color )
+			Color color )
 	{
 		writer.openTag( "Border" );
 		writer.attribute( "ss:Position", position );
@@ -450,9 +451,9 @@ public class ExcelXmlWriter implements IExcelWriter
 			writer.attribute( "ss:Weight", weight );
 		}
 
-		if ( isValid( color ) )
+		if ( color != null )
 		{
-			writer.attribute( "ss:Color", color );
+			writer.attribute( "ss:Color", toString( color ) );
 		}
 
 		writer.closeTag( "Border" );
@@ -460,7 +461,7 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	private void writeFont( String fontName, Integer size, Boolean bold,
 			Boolean italic, Boolean strikeThrough, Boolean underline,
-			String color )
+			Color color )
 	{
 		writer.openTag( "Font" );
 
@@ -494,17 +495,19 @@ public class ExcelXmlWriter implements IExcelWriter
 			writer.attribute( "ss:Underline", "Single" );
 		}
 
-		if ( isValid( color ) )
+		if ( color != null )
 		{
-			writer.attribute( "ss:Color", color );
+			writer.attribute( "ss:Color", toString( color ) );
 		}
 
 		writer.closeTag( "Font" );
 	}
 
-	private void writeBackGroudColor( String bgColor )
+	private void writeBackGroudColor( StyleEntry style )
 	{
-		if ( isValid( bgColor ) )
+		Color bgColor = (Color) style
+				.getProperty( StyleConstant.BACKGROUND_COLOR_PROP );
+		if ( bgColor != null )
 		{
 			writer.openTag( "Interior" );
 			writer.attribute( "ss:Color", bgColor );
@@ -545,7 +548,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.V_ALIGN_PROP );
 			writeAlignment( horizontalAlign, verticalAlign, direction, wrapText );
 			writer.openTag( "Borders" );
-			String bottomColor = (String) style
+			Color bottomColor = (Color) style
 					.getProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP );
 			String bottomLineStyle = (String) style
 					.getProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP );
@@ -553,7 +556,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
 			writeBorder( "Bottom", bottomLineStyle, bottomWeight, bottomColor );
 
-			String topColor = (String) style
+			Color topColor = (Color) style
 					.getProperty( StyleConstant.BORDER_TOP_COLOR_PROP );
 			String topLineStyle = (String) style
 					.getProperty( StyleConstant.BORDER_TOP_STYLE_PROP );
@@ -561,7 +564,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_TOP_WIDTH_PROP );
 			writeBorder( "Top", topLineStyle, topWeight, topColor );
 
-			String leftColor = (String) style
+			Color leftColor = (Color) style
 					.getProperty( StyleConstant.BORDER_LEFT_COLOR_PROP );
 			String leftLineStyle = (String) style
 					.getProperty( StyleConstant.BORDER_LEFT_STYLE_PROP );
@@ -569,7 +572,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP );
 			writeBorder( "Left", leftLineStyle, leftWeight, leftColor );
 
-			String rightColor = (String) style
+			Color rightColor = (Color) style
 					.getProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP );
 			String rightLineStyle = (String) style
 					.getProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP );
@@ -577,7 +580,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP );
 			writeBorder( "Right", rightLineStyle, rightWeight, rightColor );
 
-			String diagonalColor = (String) style
+			Color diagonalColor = (Color) style
 					.getProperty( StyleConstant.BORDER_DIAGONAL_COLOR_PROP );
 			String diagonalStyle = (String) style
 					.getProperty( StyleConstant.BORDER_DIAGONAL_STYLE_PROP );
@@ -600,13 +603,10 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.TEXT_LINE_THROUGH_PROP );
 			Boolean underline = (Boolean) style
 					.getProperty( StyleConstant.TEXT_UNDERLINE_PROP );
-			String color = (String) style
-					.getProperty( StyleConstant.COLOR_PROP );
+			Color color = (Color) style.getProperty( StyleConstant.COLOR_PROP );
 			writeFont( fontName, size, fontWeight, fontStyle, strikeThrough,
 					underline, color );
-			String bgColor = (String) style
-					.getProperty( StyleConstant.BACKGROUND_COLOR_PROP );
-			writeBackGroudColor( bgColor );
+			writeBackGroudColor( style );
 		}
 
 		writeDataFormat( style );
@@ -614,13 +614,29 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Style" );
 	}
 
+	private String toString( Color color )
+	{
+		if ( color == null )
+			return null;
+		return "#" + toHexString( color.getRed( ) )
+				+ toHexString( color.getGreen( ) )
+				+ toHexString( color.getBlue( ) );
+	}
+
+	private static String toHexString( int c )
+	{
+		String result = Integer.toHexString( c );
+		if ( result.length( ) < 2 )
+		{
+			result = "0" + result;
+		}
+		return result;
+	}
+
 	private void writeDataFormat( StyleEntry style )
 	{
-		String typeString = (String) style
+		Integer type = (Integer) style
 				.getProperty( StyleConstant.DATA_TYPE_PROP );
-		if ( typeString == null )
-			return;
-		int type = Integer.parseInt( typeString );
 		if ( type == SheetData.DATE
 				&& style.getProperty( StyleConstant.DATE_FORMAT_PROP ) != null )
 		{
@@ -630,8 +646,7 @@ public class ExcelXmlWriter implements IExcelWriter
 			writer.closeTag( "NumberFormat" );
 
 		}
-
-		if ( type == Data.NUMBER
+		else if ( type == Data.NUMBER
 				&& style.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) != null )
 		{
 			writer.openTag( "NumberFormat" );
@@ -683,7 +698,9 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", "HyperlinkId" );
 		writer.attribute( "ss:Name", "Hyperlink" );
-		writeFont( null, null, null, null, null, true, "#0000FF" );
+		writer.openTag( "Font" );
+		writer.attribute( "ss:Color", "#0000ff" );
+		writer.closeTag( "Font" );
 		writer.closeTag( "Style" );
 	}
 
@@ -847,6 +864,8 @@ public class ExcelXmlWriter implements IExcelWriter
 	}
 
 	public void start( IReportContent report, Map<StyleEntry, Integer> styles,
+	// TODO: style ranges.
+			// List<ExcelRange> styleRanges,
 			HashMap<String, BookmarkDef> bookmarkList )
 	{
 		writeDeclarations( );

@@ -11,14 +11,18 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 /**
  * This class is used to caculate styles for Excel.
@@ -35,6 +39,10 @@ public class StyleEngine
 	private Hashtable<StyleEntry,Integer> style2id = new Hashtable<StyleEntry,Integer>( );
 	private ExcelLayoutEngine engine;
 	private Stack<StyleEntry> containerStyles = new Stack<StyleEntry>( );
+
+	// TODO: style ranges.
+	// private List<ExcelRange> styleRanges;
+
 	/**
 	 * 
 	 * @param dataMap
@@ -47,6 +55,8 @@ public class StyleEngine
 
 		style2id.put( getDefaultEntry( DEFAULT_DATE_STYLE ), new Integer(
 				DEFAULT_DATE_STYLE ) );
+		// TODO: style ranges.
+		// styleRanges = new ArrayList<ExcelRange>( );
 	}
 	
 	public StyleEntry getDefaultEntry( int id )
@@ -56,8 +66,7 @@ public class StyleEngine
 		{
 			entry.setProperty( StyleConstant.DATE_FORMAT_PROP,
 					"yyyy-M-d HH:mm:ss AM/PM" );
-			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
-					.toString( SheetData.DATE ) );
+			entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.DATE );
 		}
 		return entry;
 	}
@@ -85,8 +94,9 @@ public class StyleEngine
 		else
 			entry = initStyle( style, sizeInfo );
 
-		StyleBuilder.applyDiagonalLine( entry, diagonalLineColor,
-				diagonalLineStyle, diagonalLineWidth );
+		StyleBuilder.applyDiagonalLine( entry, PropertyUtil
+				.getColor( diagonalLineColor ), diagonalLineStyle,
+				diagonalLineWidth );
 
 		return entry;
 	}
@@ -123,23 +133,47 @@ public class StyleEngine
 		return initStyle( style, rule );
 	}
 
-	public int getStyleID( StyleEntry entry )
+	public int getStyleID( SheetData data )
 	{
+		StyleEntry entry = data.getStyle( );
 		if ( entry == null )
 		{
 			return 0;
 		}
+		int styleId = 0;
 		if ( style2id.get( entry ) != null )
 		{
-			return style2id.get( entry ).intValue( );
+			styleId = style2id.get( entry ).intValue( );
 		}
 		else
 		{
-			int styleId = styleID;
+			styleId = styleID;
 			style2id.put( entry, new Integer( styleId ) );
 			styleID++;
-			return styleId;
 		}
+		// TODO: style ranges.
+		// if ( styleId >= RESERVE_STYLE_ID )
+		// {
+		// int rangeIndex = styleId - RESERVE_STYLE_ID;
+		// ExcelRange range = null;
+		// if ( rangeIndex < styleRanges.size( ) )
+		// {
+		// range = styleRanges.get( rangeIndex );
+		// }
+		// else
+		// {
+		// range = new ExcelRange( );
+		// styleRanges.add( range );
+		// }
+		// int row = data.getRowIndex( );
+		// int rowSpan = data.getRowSpan( );
+		// Span span = data.getSpan( );
+		// int col = span.getCol( );
+		// int colSpan = span.getColSpan( );
+		// ExcelArea area = new ExcelArea( row, col, rowSpan, colSpan );
+		// range.addArea( area );
+		// }
+		return styleId;
 	}	
 
 	public Map<StyleEntry,Integer> getStyleIDMap( )
@@ -230,6 +264,78 @@ public class StyleEngine
 			{
 				StyleBuilder.applyBottomBorder( entry, data.style );
 			}
+		}
+	}
+
+	// TODO: style ranges.
+	// public List<ExcelRange> getStyleRanges( )
+	// {
+	// return Collections.unmodifiableList( styleRanges );
+	// }
+
+	public static class ExcelRange
+	{
+
+		private Set<ExcelArea> areas;
+
+		public ExcelRange( )
+		{
+			areas = new HashSet<ExcelArea>( );
+		}
+
+		public void addArea( ExcelArea area )
+		{
+			areas.add( area );
+		}
+
+		public Set<ExcelArea> getAreas( )
+		{
+			return Collections.unmodifiableSet( areas );
+		}
+	}
+
+	public static class ExcelArea
+	{
+
+		public int row;
+
+		public int col;
+
+		public int rowSpan;
+
+		public int colSpan;
+
+		public ExcelArea( int row, int col, int rowSpan, int colSpan )
+		{
+			this.row = row;
+			this.col = col;
+			this.rowSpan = rowSpan;
+			this.colSpan = colSpan;
+		}
+
+		public int hashCode( )
+		{
+			int result = 0;
+			result = 31 * result + row;
+			result = 31 * result + col;
+			result = 31 * result + rowSpan;
+			result = 31 * result + colSpan;
+			return result;
+		}
+
+		public boolean equals( Object obj )
+		{
+			if ( obj == this )
+			{
+				return true;
+			}
+			if ( !( obj instanceof ExcelArea ) )
+			{
+				return false;
+			}
+			ExcelArea area = (ExcelArea) obj;
+			return row == area.row && col == area.col
+					&& rowSpan == area.rowSpan && colSpan == area.colSpan;
 		}
 	}
 }

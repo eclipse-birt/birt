@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
+import java.awt.Color;
+
 import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 
@@ -24,6 +26,7 @@ public abstract class SheetData
 	public static final int CALENDAR = 3;
 	public static final int CDATETIME = 4;
 	public static final int IMAGE = 5;
+	public static final int BOOLEAN = 6;
 
 	int rspan = 0;
 
@@ -31,7 +34,7 @@ public abstract class SheetData
 
 	int rowIndex;
 
-	private static final String HYPERLINK_COLOR = "#0000FF";
+	private static final Color HYPERLINK_COLOR = Color.blue;
 
 	public Object getValue( )
 	{

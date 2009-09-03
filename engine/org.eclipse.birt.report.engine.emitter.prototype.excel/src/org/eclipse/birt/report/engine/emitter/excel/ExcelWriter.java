@@ -77,10 +77,14 @@ public class ExcelWriter implements IExcelWriter
 	}
 
 	public void start( IReportContent report, Map<StyleEntry, Integer> styles,
+	// TODO: style ranges.
+			// List<ExcelRange> styleRanges,
 			HashMap<String, BookmarkDef> bookmarkList ) throws IOException
 	{
 		writer = new ExcelXmlWriter( out, context, isRTLSheet );
 		writer.setSheetIndex( sheetIndex );
+		// TODO: style ranges.
+		// writer.start( report, styles, styleRanges, bookmarkList );
 		writer.start( report, styles, bookmarkList );
 		copyOutputData( );
 	}

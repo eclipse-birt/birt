@@ -34,6 +34,8 @@ public interface IExcelWriter
 {
 
 	public void start( IReportContent report, Map<StyleEntry, Integer> styles,
+	// TODO: style ranges.
+			// List<ExcelRange> styleRanges,
 			HashMap<String, BookmarkDef> bookmarkList ) throws IOException;
 
 	public void end( ) throws IOException;

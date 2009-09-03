@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.w3c.dom.css.CSSValue;
 
 public class StyleBuilder
 {
@@ -32,14 +35,14 @@ public class StyleBuilder
 	{
 		StyleEntry entry = new StyleEntry( );
 
-		entry.setProperty( StyleConstant.BACKGROUND_COLOR_PROP,
-				convertColor( style.getBackgroundColor( ) ) );
+		populateColor( style, StyleConstants.STYLE_BACKGROUND_COLOR, entry,
+				StyleConstant.BACKGROUND_COLOR_PROP );
 
 		float width = Float.parseFloat( style.getBorderBottomWidth( ) );
 		if ( width > 0 )
 		{
-			entry.setProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP,
-					convertColor( style.getBorderBottomColor( ) ) );
+			populateColor( style, StyleConstants.STYLE_BORDER_BOTTOM_COLOR,
+					entry, StyleConstant.BORDER_BOTTOM_COLOR_PROP );
 
 			entry.setProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP,
 					convertBorderStyle( style.getBorderBottomStyle( ) ) );
@@ -51,8 +54,8 @@ public class StyleBuilder
 		width = Float.parseFloat( style.getBorderTopWidth( ) );
 		if ( width > 0 )
 		{
-			entry.setProperty( StyleConstant.BORDER_TOP_COLOR_PROP,
-					convertColor( style.getBorderTopColor( ) ) );
+			populateColor( style, StyleConstants.STYLE_BORDER_TOP_COLOR, entry,
+					StyleConstant.BORDER_TOP_COLOR_PROP );
 
 			entry.setProperty( StyleConstant.BORDER_TOP_STYLE_PROP,
 					convertBorderStyle( style.getBorderTopStyle( ) ) );
@@ -64,8 +67,8 @@ public class StyleBuilder
 		width = Float.parseFloat( style.getBorderLeftWidth( ) );
 		if ( width > 0 )
 		{
-			entry.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP,
-					convertColor( style.getBorderLeftColor( ) ) );
+			populateColor( style, StyleConstants.STYLE_BORDER_LEFT_COLOR,
+					entry, StyleConstant.BORDER_LEFT_COLOR_PROP );
 
 			entry.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP,
 					convertBorderStyle( style.getBorderLeftStyle( ) ) );
@@ -77,8 +80,8 @@ public class StyleBuilder
 		width = Float.parseFloat( style.getBorderRightWidth( ) );
 		if ( width > 0 )
 		{
-			entry.setProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP,
-					convertColor( style.getBorderRightColor( ) ) );
+			populateColor( style, StyleConstants.STYLE_BORDER_RIGHT_COLOR,
+					entry, StyleConstant.BORDER_RIGHT_COLOR_PROP );
 
 			entry.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP,
 					convertBorderStyle( style.getBorderRightStyle( ) ) );
@@ -87,8 +90,8 @@ public class StyleBuilder
 					convertBorderWeight( style.getBorderRightWidth( ) ) );
 		}
 		
-		entry.setProperty( StyleConstant.COLOR_PROP, convertColor( style
-				.getColor( ) ) );
+		populateColor( style, StyleConstants.STYLE_COLOR, entry,
+				StyleConstant.COLOR_PROP );
 
 		entry.setProperty( StyleConstant.FONT_FAMILY_PROP, ExcelUtil
 				.getValue( style.getFontFamily( ) ) );
@@ -144,13 +147,12 @@ public class StyleBuilder
 		return entry;
 	}
 
-	public static StyleEntry applyDiagonalLine( StyleEntry entry, String color,
+	public static StyleEntry applyDiagonalLine( StyleEntry entry, Color color,
 			String style, int width )
 	{
 		if ( width > 0 )
 		{
-			entry.setProperty( StyleConstant.BORDER_DIAGONAL_COLOR_PROP,
-					convertColor( color ) );
+			entry.setProperty( StyleConstant.BORDER_DIAGONAL_COLOR_PROP, color );
 			entry.setProperty( StyleConstant.BORDER_DIAGONAL_STYLE_PROP,
 					convertBorderStyle( style ) );
 			entry.setProperty( StyleConstant.BORDER_DIAGONAL_WIDTH_PROP,
@@ -159,18 +161,11 @@ public class StyleBuilder
 		return entry;
 	}
 
-	public static String convertColor( String value )
+	private static void populateColor( IStyle style, int styleIndex,
+			StyleEntry entry, int index )
 	{
-		value = EmitterUtil.parseColor( ExcelUtil.getValue( value ) );
-
-		if ( value == null )
-		{
-			return StyleConstant.NULL;
-		}
-		else
-		{
-			return "#" + value;
-		}
+		CSSValue value = style.getProperty( styleIndex );
+		entry.setProperty( index, PropertyUtil.getColor( value ) );
 	}
 
 	public static Integer convertFontSize( String size )

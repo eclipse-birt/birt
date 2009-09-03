@@ -546,8 +546,7 @@ public class ExcelLayoutEngine
 			style.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP, null );
 			style.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP, null );
 			addEmptyDataToContainer( style, parent, childEndCoordinate,
-					parentEndCoordinate -
-					childEndCoordinate );
+					parentEndCoordinate - childEndCoordinate );
 		}
 		if ( childStartCoordinate > parentStartCoordinate )
 		{
@@ -556,15 +555,14 @@ public class ExcelLayoutEngine
 			style.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP, null );
 			style.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP, null );
 			addEmptyDataToContainer( style, parent, childStartCoordinate,
-					parentStartCoordinate-childStartCoordinate );
+					parentStartCoordinate - childStartCoordinate );
 		}
 	}
 
 	private void addEmptyDataToContainer( StyleEntry style,
 			XlsContainer parent, int startCoordinate, int width )
 	{
-		Data data = createData( EMPTY, style, Data.STRING,
-				parent );
+		Data data = createData( EMPTY, style, Data.STRING, parent );
 		data.setSizeInfo( new ContainerSizeInfo( startCoordinate, width ) );
 		addData( data );
 	}
@@ -637,8 +635,7 @@ public class ExcelLayoutEngine
 	private SheetData createImageData( IImageContent image, StyleEntry entry, XlsContainer container )
 	{
 		int type = SheetData.IMAGE;
-		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
-				.toString( type ) );
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
 		String uri = image.getURI( );
 		String mimeType = image.getMIMEType( );
 		String extension = image.getExtension( );
@@ -661,8 +658,7 @@ public class ExcelLayoutEngine
 			byte[] data = imageInfo.getData( );
 			if ( data != null )
 			{
-				return createData( image, entry, container,
-						type, imageInfo );
+				return createData( image, entry, container, type, imageInfo );
 			}
 			else
 			{
@@ -756,8 +752,7 @@ public class ExcelLayoutEngine
 			type = Data.DATE;
 		}
 
-		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
-				.toString( type ) );
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
 
 		return createData( txt, entry, type, getCurrentContainer( ) );
 	}
@@ -769,8 +764,7 @@ public class ExcelLayoutEngine
 		timeFormat = ExcelUtil.parse( txt, timeFormat, dateLocale );
 		timeFormat = DateTimeUtil.formatDateTime( timeFormat, dateLocale );
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
-		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
-				.toString( SheetData.DATE ) );
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.DATE );
 		return createData( txt, entry, SheetData.DATE, getCurrentContainer( ) );
 	}
 
@@ -859,6 +853,12 @@ public class ExcelLayoutEngine
 		return engine.getStyleIDMap( );
 	}
 
+	// TODO: style ranges.
+	// public List<ExcelRange> getStyleRanges( )
+	// {
+	// return engine.getStyleRanges( );
+	// }
+
 	public int[] getCoordinates( )
 	{
 		int[] coord = axis.getColumnWidths( );
@@ -911,8 +911,6 @@ public class ExcelLayoutEngine
 					continue;
 				}
 
-				int styleid = engine.getStyleID( data.getStyle( ) );
-				data.setStyleId( styleid );
 				ContainerSizeInfo rule = data.getSizeInfo( );
 
 				// Excel Cell Starts From 1
@@ -935,6 +933,8 @@ public class ExcelLayoutEngine
 						setLinkedBookmark( data, hyperLink );
 					}
 				}
+				int styleid = engine.getStyleID( data );
+				data.setStyleId( styleid );
 			}
 			calculateRowHeight( rowData );
 		}
