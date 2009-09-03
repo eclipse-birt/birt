@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
@@ -503,9 +504,13 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		String name = content.getName( );
 		// check whether style name is valid for css2 spec
-		if ( content instanceof StyleElement )
+		if ( content instanceof StyleElement && name != null )
 		{
-			if ( !NameCommand.styleNamePattern.matcher( name ).matches( ) )
+			// if the name is null. the tmpMatcher may be null;
+			
+			Matcher tmpMatcher = NameCommand.styleNamePattern.matcher( name );
+			
+			if ( tmpMatcher != null && !tmpMatcher.matches( ) )
 			{
 				if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
 				{
