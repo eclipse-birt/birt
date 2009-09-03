@@ -3288,12 +3288,14 @@ Element.SectionElement.gadgets=가젯
 Element.GadgetItem.x=X
 Element.GadgetItem.y=Y
 Element.GadgetItem.height=높이
+Element.GadgetItem.width=너비
 Element.GadgetItem.cssStyleClass=CSS 스타일 클래스
 Element.GadgetItem.title=제목
 Element.GadgetItem.inlineStyle=인라인 스타일
 Element.GadgetItem.externalGadgetURI=외부 가젯 URI
 Element.GadgetItem.externalGadgetRefType=외부 가젯 참조 형식
 Element.GadgetItem.projectName=프로젝트 이름
+Element.GadgetItem.showTitle=Show title
 Element.GadgetItem.content=내용
 Element.GadgetItem.subscribeTo=구독 대상
 Element.GadgetItem.observers=감시자
@@ -3322,7 +3324,8 @@ Element.DataMart.slot.dataSources=데이터 원본
 Element.DataMart.slot.dataSets=데이터 집합
 Element.DataMart.slot.cubes=큐브
 Element.DataMart.slot.parameters=매개 변수
-
+Element.DataMart.enableACL=ACL 사용
+Element.DataMart.ACLExpression=ACL 식
 
 ###########################################################
 # Predefined style

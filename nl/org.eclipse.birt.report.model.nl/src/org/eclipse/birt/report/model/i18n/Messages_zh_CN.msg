@@ -3288,12 +3288,14 @@ Element.SectionElement.gadgets=小工具
 Element.GadgetItem.x=X
 Element.GadgetItem.y=Y
 Element.GadgetItem.height=高度
+Element.GadgetItem.width=宽度
 Element.GadgetItem.cssStyleClass=CSS 样式类
 Element.GadgetItem.title=标题
 Element.GadgetItem.inlineStyle=内嵌样式
 Element.GadgetItem.externalGadgetURI=外部小工具 URI
 Element.GadgetItem.externalGadgetRefType=外部小工具引用类型
 Element.GadgetItem.projectName=项目名称
+Element.GadgetItem.showTitle=Show title
 Element.GadgetItem.content=内容
 Element.GadgetItem.subscribeTo=预订
 Element.GadgetItem.observers=观察程序
@@ -3322,7 +3324,8 @@ Element.DataMart.slot.dataSources=数据源
 Element.DataMart.slot.dataSets=数据集
 Element.DataMart.slot.cubes=多维数据集
 Element.DataMart.slot.parameters=参数
-
+Element.DataMart.enableACL=启用e ACL
+Element.DataMart.ACLExpression=ACL 表达式
 
 ###########################################################
 # Predefined style

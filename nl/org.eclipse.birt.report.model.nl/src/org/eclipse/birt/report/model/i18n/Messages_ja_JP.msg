@@ -3288,12 +3288,14 @@ Element.SectionElement.gadgets=ガジェット
 Element.GadgetItem.x=X
 Element.GadgetItem.y=Y
 Element.GadgetItem.height=高さ
+Element.GadgetItem.width=幅
 Element.GadgetItem.cssStyleClass=CSS スタイルクラス
 Element.GadgetItem.title=タイトル
 Element.GadgetItem.inlineStyle=インラインスタイル
 Element.GadgetItem.externalGadgetURI=外部ガジェットの URI
 Element.GadgetItem.externalGadgetRefType=外部ガジェットの参照型
 Element.GadgetItem.projectName=プロジェクト名
+Element.GadgetItem.showTitle=Show title
 Element.GadgetItem.content=コンテンツ
 Element.GadgetItem.subscribeTo=購読者
 Element.GadgetItem.observers=オブザーバ
@@ -3322,7 +3324,8 @@ Element.DataMart.slot.dataSources=データソース
 Element.DataMart.slot.dataSets=データセット
 Element.DataMart.slot.cubes=キューブ
 Element.DataMart.slot.parameters=パラメタ
-
+Element.DataMart.enableACL=ACLを有効にする
+Element.DataMart.ACLExpression=ACL 式
 
 ###########################################################
 # Predefined style

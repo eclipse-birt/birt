@@ -3288,12 +3288,14 @@ Element.SectionElement.gadgets=Gadgets
 Element.GadgetItem.x=X
 Element.GadgetItem.y=Y
 Element.GadgetItem.height=Altura
+Element.GadgetItem.width=Ancho
 Element.GadgetItem.cssStyleClass=Clase de estilo CSS
 Element.GadgetItem.title=Título
 Element.GadgetItem.inlineStyle=Estilo incrustado
 Element.GadgetItem.externalGadgetURI=URI de gadget externo
 Element.GadgetItem.externalGadgetRefType=Tipo de referencia de gadget externo
 Element.GadgetItem.projectName=Nombre de proyecto
+Element.GadgetItem.showTitle=Show title
 Element.GadgetItem.content=Contenido
 Element.GadgetItem.subscribeTo=Suscribirse a
 Element.GadgetItem.observers=Observadores
@@ -3322,7 +3324,8 @@ Element.DataMart.slot.dataSources=Fuentes de datos
 Element.DataMart.slot.dataSets=Conjuntos de datos
 Element.DataMart.slot.cubes=Cubos
 Element.DataMart.slot.parameters=Parámetros
-
+Element.DataMart.enableACL=Activar ACL
+Element.DataMart.ACLExpression=Expresión ACL
 
 ###########################################################
 # Predefined style
