@@ -127,11 +127,11 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	protected void finalize() throws Throwable
-	{
-		inputStream.close( );
-		super.finalize();
-	}
+//	protected void finalize() throws Throwable
+//	{
+//		inputStream.close( );
+//		super.finalize();
+//	}
 	
 	/*
 	 * (non-Javadoc)
