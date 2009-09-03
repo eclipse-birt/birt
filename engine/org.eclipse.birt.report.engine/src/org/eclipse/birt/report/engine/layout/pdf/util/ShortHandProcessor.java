@@ -40,6 +40,40 @@ public abstract class ShortHandProcessor
 
 	static
 	{
+		processorMap.put( "text-decoration", //$NON-NLS-1$
+				new ShortHandProcessor( ) {
+
+					public void process( StringBuffer buffer, String value,
+							CSSEngine engine )
+					{
+						String[] vs = value.split( " " );
+						for ( int i = 0; i < vs.length; i++ )
+						{
+							if ( CSSConstants.CSS_UNDERLINE_VALUE
+									.equals( vs[i] ) )
+							{
+								appendStyle( buffer,
+										IStyle.BIRT_TEXT_UNDERLINE_PROPERTY,
+										"true" );
+							}
+							else if ( CSSConstants.CSS_LINE_THROUGH_VALUE
+									.equals( vs[i] ) )
+							{
+								appendStyle( buffer,
+										IStyle.BIRT_TEXT_LINETHROUGH_PROPERTY,
+										"true" );
+							}
+							else if ( CSSConstants.CSS_OVERLINE_VALUE
+									.equals( vs[i] ) )
+							{
+								appendStyle( buffer,
+										IStyle.BIRT_TEXT_OVERLINE_PROPERTY,
+										"true" );
+							}
+
+						}
+					}
+				} );
 		processorMap.put( "margin", //$NON-NLS-1$
 				new ShortHandProcessor( ) {
 
@@ -227,21 +261,6 @@ public abstract class ShortHandProcessor
 					}
 				} );
 
-	}
-
-	public static void main( String[] args )
-	{
-		// String family = "\"San serif\", Arial, arial, \"test a\", test,";
-		String family = "x-large/110% \"New Century Schoolbook\", serif";
-		// Pattern pattern = Pattern.compile(
-		// "(\\S+)\\s+[(\"[^\"]+\"|\\S+),]*(\"[^\"]+\"|\\S+)" );
-		Pattern pattern = Pattern
-				.compile( "((?:(?:\"[^\",]+\")|(?:[^\",\\s]+))(?:,\\s*(?:(?:\"[^\",]+\")|(?:[^\",\\s]+)))*)" );
-		Matcher matcher = pattern.matcher( family );
-		while ( matcher.find( ) )
-		{
-			System.out.println( matcher.group( 1 ) );
-		}
 	}
 
 	protected static void appendStyle( StringBuffer buffer, String name,
@@ -477,8 +496,9 @@ public abstract class ShortHandProcessor
 				}
 				else if ( type == LexicalUnit.SAC_IDENT )
 				{
-					if ( isIdentifier( values[i],
-							IStyle.STYLE_BORDER_TOP_WIDTH, engine ) )
+					if ( CSSConstants.CSS_MEDIUM_VALUE.equals( values[i] )
+							|| CSSConstants.CSS_THICK_VALUE.equals( values[i] )
+							|| CSSConstants.CSS_THIN_VALUE.equals( values[i] ) )
 					{
 						return values[i];
 					}
