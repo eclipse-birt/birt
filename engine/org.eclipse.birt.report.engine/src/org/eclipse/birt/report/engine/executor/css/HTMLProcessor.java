@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.report.engine.executor.css;
 
-import java.io.StringReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -42,21 +43,19 @@ public class HTMLProcessor
 	protected ReportDesignHandle design;
 	protected String rootPath;
 
-	/** the CSS2.0 Parser */
-	private CssParser cssParser;
-	
 	private Map appContext;
 
 	/** the possible values for property SIZE of HTML element FONT */
-	private static String[] FONT_SIZE = new String[]{
-			"7.5pt",  //$NON-NLS-1$
+	private static String[] FONT_SIZE = new String[]{"7.5pt", //$NON-NLS-1$
 			"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
-			"7.5pt", "7.5pt",  //$NON-NLS-1$//$NON-NLS-2$
+			"7.5pt", "7.5pt", //$NON-NLS-1$//$NON-NLS-2$
 			"7.5pt", "10pt", //$NON-NLS-1$ //$NON-NLS-2$
 			"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
 			"10pt", "12pt", //$NON-NLS-1$ //$NON-NLS-2$
 			"13.8pt", "18pt", //$NON-NLS-1$//$NON-NLS-2$
 			"23pt", "36pt"}; //$NON-NLS-1$//$NON-NLS-2$
+
+	private Pattern pattern;
 
 	// private static String[] FONT_SIZE = new String[]{"xx-small", "x-small",
 	// //$NON-NLS-1$ //$NON-NLS-2$
@@ -76,8 +75,8 @@ public class HTMLProcessor
 		this.rootPath = null;
 		// Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
-		cssParser = new CssParser( new StringReader( "" ) ); //$NON-NLS-1$
 		this.appContext = context;
+		pattern = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
 	}
 
 	public HTMLProcessor( String rootPath )
@@ -86,7 +85,6 @@ public class HTMLProcessor
 		this.rootPath = rootPath;
 		// Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
-		cssParser = new CssParser( new StringReader( "" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -101,167 +99,175 @@ public class HTMLProcessor
 	 */
 	public void execute( Element ele, HashMap styles )
 	{
-		HashMap cssStyle = null;
-		if ( !ele.hasAttribute( "style" ) ) //$NON-NLS-1$
+		HashMap cssStyle = new HashMap( );
+		if ( ele.hasAttribute( "style" ) ) //$NON-NLS-1$
 		{
-			cssStyle = new HashMap( );
-		}
-		else
-		{
-			cssParser.ReInit( new StringReader( ele.getAttribute( "style" ) ) ); //$NON-NLS-1$
-			cssParser.setCssStatement( ele.getAttribute( "style" ) ); //$NON-NLS-1$
-			try
+			String inlineStyle = ele.getAttribute( "style" ); //$NON-NLS-1$
+			if ( null != inlineStyle && !"".equals( inlineStyle ) ) //$NON-NLS-1$
 			{
-				cssParser.parse( );
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.SEVERE, "The css statement is:" //$NON-NLS-1$
-						+ ele.getAttribute( "style" ), e ); //$NON-NLS-1$
-			}
-			cssStyle = cssParser.getCssProperties( );
-			ele.removeAttribute( "style" ); //$NON-NLS-1$
-			// If the background image is a local resource, then get its global
-			// URI.
-			String src = (String) cssStyle.get( "background-image" ); //$NON-NLS-1$
-			if ( src != null )
-			{
-				// The resource is surrounded with "url(" and ")", or "\"", or
-				// "\'". Removes them.
-				if ( src.startsWith( "url(" ) && src.length( ) > 5 ) //$NON-NLS-1$
+				StringBuffer buffer = new StringBuffer( );
+				Matcher matcher = pattern.matcher( inlineStyle );
+				while ( matcher.find( ) )
 				{
-					src = src.substring( 4, src.length( ) - 1 );
-				}
-				else if ( ( src.startsWith( "\"" ) || src.startsWith( "\'" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-						&& src.length( ) > 2 )
-				{
-					src = src.substring( 1, src.length( ) - 1 );
-				}
-				if ( design != null )
-				{
-					URL url = design.findResource( src, IResourceLocator.IMAGE,
-							appContext );
-					if ( url != null )
+					String name = matcher.group( 1 );
+					String value = matcher.group( 2 );
+					if ( name != null && name.length( ) > 0 && value != null
+							&& value.length( ) > 0 )
 					{
-						src = url.toExternalForm( );
+						cssStyle.put( name, value );
 					}
 				}
-				if (rootPath != null)
-				{
-					//Checks if the resource is local
-					if ( FileUtil.isLocalResource( src ) )
-					{
-						src = FileUtil.getAbsolutePath( rootPath, src );
-					}
-				}
+				ele.removeAttribute( "style" ); //$NON-NLS-1$
+				// If the background image is a local resource, then get its
+				// global
+				// URI.
+				String src = (String) cssStyle.get( "background-image" ); //$NON-NLS-1$
 				if ( src != null )
 				{
-					// Puts the modified URI of the resource
-					cssStyle.put( "background-image", src ); //$NON-NLS-1$
-				}
-				else
-				{
-					// If the resource does not exist, then removes this item.
-					cssStyle.remove( "background-image" ); //$NON-NLS-1$
+					// The resource is surrounded with "url(" and ")", or "\"",
+					// or
+					// "\'". Removes them.
+					if ( src.startsWith( "url(" ) && src.length( ) > 5 ) //$NON-NLS-1$
+					{
+						src = src.substring( 4, src.length( ) - 1 );
+					}
+					else if ( ( src.startsWith( "\"" ) || src.startsWith( "\'" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+							&& src.length( ) > 2 )
+					{
+						src = src.substring( 1, src.length( ) - 1 );
+					}
+					if ( design != null )
+					{
+						URL url = design.findResource( src,
+								IResourceLocator.IMAGE, appContext );
+						if ( url != null )
+						{
+							src = url.toExternalForm( );
+						}
+					}
+					if ( rootPath != null )
+					{
+						// Checks if the resource is local
+						if ( FileUtil.isLocalResource( src ) )
+						{
+							src = FileUtil.getAbsolutePath( rootPath, src );
+						}
+					}
+					if ( src != null )
+					{
+						// Puts the modified URI of the resource
+						cssStyle.put( "background-image", src ); //$NON-NLS-1$
+					}
+					else
+					{
+						// If the resource does not exist, then removes this
+						// item.
+						cssStyle.remove( "background-image" ); //$NON-NLS-1$
+					}
 				}
 			}
-		}
 
-		// FOR HTML 4.0 COMPATIBILITY
-		if ( "b".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
-		{
-			addToStyle( cssStyle, "font-weight", "bold" ); //$NON-NLS-1$//$NON-NLS-2$
-			// Re-points to the element node in the tree
-			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
-		}
-		else if ( "center".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
-		{
-			addToStyle( cssStyle, "text-align", "center" ); //$NON-NLS-1$ //$NON-NLS-2$
-			ele = replaceElement( ele, "div" ); //$NON-NLS-1$
-		}
-		else if ( "font".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
-		{
-			addToStyle( cssStyle, "color", ele.getAttribute( "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			addToStyle( cssStyle, "font-family", ele.getAttribute( "face" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			if ( ele.hasAttribute( "size" ) ) //$NON-NLS-1$
+			// FOR HTML 4.0 COMPATIBILITY
+			if ( "b".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
 			{
-				try
-				{
-					int size = Integer.parseInt( ele.getAttribute( "size" ) ); //$NON-NLS-1$
-					addToStyle( cssStyle, "font-size", FONT_SIZE[size + 7] ); //$NON-NLS-1$
-				}
-				catch ( Exception e )
-				{
-					logger
-							.log( Level.SEVERE,
-									"There is a invalid value for property SIZE of element FONT in the HTML." ); //$NON-NLS-1$
-				}
+				addToStyle( cssStyle, "font-weight", "bold" ); //$NON-NLS-1$//$NON-NLS-2$
+				// Re-points to the element node in the tree
+				ele = replaceElement( ele, "span" ); //$NON-NLS-1$
 			}
-			// Removes these attributes to avoid for being copied again.
-			ele.removeAttribute( "color" ); //$NON-NLS-1$
-			ele.removeAttribute( "face" ); //$NON-NLS-1$
-			ele.removeAttribute( "size" ); //$NON-NLS-1$
-			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
-		}
-		else if ( "i".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
-		{
-			addToStyle( cssStyle, "font-style", "italic" ); //$NON-NLS-1$ //$NON-NLS-2$
-			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
-		}
-		else if ( "u".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
-		{
-			String decoration = (String) cssStyle.get( "text-decoration" ); //$NON-NLS-1$
-			// The property "text-decoration" is made of more than one token.
-			if ( decoration != null && decoration.indexOf( "underline" ) == -1 //$NON-NLS-1$
-					&& decoration.indexOf( "none" ) == -1 //$NON-NLS-1$
-					&& decoration.indexOf( "inherit" ) == -1 ) //$NON-NLS-1$
+			else if ( "center".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
 			{
-				decoration = decoration + " underline"; //$NON-NLS-1$
+				addToStyle( cssStyle, "text-align", "center" ); //$NON-NLS-1$ //$NON-NLS-2$
+				ele = replaceElement( ele, "div" ); //$NON-NLS-1$
 			}
-			else if ( decoration == null )
+			else if ( "font".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
 			{
-				decoration = "underline"; //$NON-NLS-1$
-			}
-			cssStyle.put( "text-decoration", decoration ); //$NON-NLS-1$
-			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
-		}
-		else if ( "img".equals( ele.getTagName( ) ) )
-		{
-			String src = ele.getAttribute( "src" ); //$NON-NLS-1$
-			if ( src != null )
-			{
-				// The resource is surrounded with "url(" and ")", or "\"", or
-				// "\'". Removes them.
-				if ( ( src.startsWith( "\"" ) || src.startsWith( "\'" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-						&& src.length( ) > 2 )
+				addToStyle( cssStyle, "color", ele.getAttribute( "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				addToStyle( cssStyle, "font-family", ele.getAttribute( "face" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				if ( ele.hasAttribute( "size" ) ) //$NON-NLS-1$
 				{
-					src = src.substring( 1, src.length( ) - 1 );
-				}
-				if ( design != null )
-				{
-					URL url = design.findResource( src, IResourceLocator.IMAGE, appContext );
-					if ( url != null )
+					try
 					{
-						src = url.toExternalForm( );
+						int size = Integer
+								.parseInt( ele.getAttribute( "size" ) ); //$NON-NLS-1$
+						addToStyle( cssStyle, "font-size", FONT_SIZE[size + 7] ); //$NON-NLS-1$
+					}
+					catch ( Exception e )
+					{
+						logger
+								.log( Level.SEVERE,
+										"There is a invalid value for property SIZE of element FONT in the HTML." ); //$NON-NLS-1$
 					}
 				}
-				if (rootPath != null)
+				// Removes these attributes to avoid for being copied again.
+				ele.removeAttribute( "color" ); //$NON-NLS-1$
+				ele.removeAttribute( "face" ); //$NON-NLS-1$
+				ele.removeAttribute( "size" ); //$NON-NLS-1$
+				ele = replaceElement( ele, "span" ); //$NON-NLS-1$
+			}
+			else if ( "i".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
+			{
+				addToStyle( cssStyle, "font-style", "italic" ); //$NON-NLS-1$ //$NON-NLS-2$
+				ele = replaceElement( ele, "span" ); //$NON-NLS-1$
+			}
+			else if ( "u".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
+			{
+				String decoration = (String) cssStyle.get( "text-decoration" ); //$NON-NLS-1$
+				// The property "text-decoration" is made of more than one
+				// token.
+				if ( decoration != null
+						&& decoration.indexOf( "underline" ) == -1 //$NON-NLS-1$
+						&& decoration.indexOf( "none" ) == -1 //$NON-NLS-1$
+						&& decoration.indexOf( "inherit" ) == -1 ) //$NON-NLS-1$
 				{
-					//Checks if the resource is local
-					if ( FileUtil.isLocalResource( src ) )
-					{
-						src = FileUtil.getAbsolutePath( rootPath, src );
-					}
+					decoration = decoration + " underline"; //$NON-NLS-1$
 				}
+				else if ( decoration == null )
+				{
+					decoration = "underline"; //$NON-NLS-1$
+				}
+				cssStyle.put( "text-decoration", decoration ); //$NON-NLS-1$
+				ele = replaceElement( ele, "span" ); //$NON-NLS-1$
+			}
+			else if ( "img".equals( ele.getTagName( ) ) )
+			{
+				String src = ele.getAttribute( "src" ); //$NON-NLS-1$
 				if ( src != null )
 				{
-					// Puts the modified URI of the resource
-					ele.removeAttribute( "src" ); //$NON-NLS-1$
-					ele.setAttribute( "src", src );
+					// The resource is surrounded with "url(" and ")", or "\"",
+					// or
+					// "\'". Removes them.
+					if ( ( src.startsWith( "\"" ) || src.startsWith( "\'" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+							&& src.length( ) > 2 )
+					{
+						src = src.substring( 1, src.length( ) - 1 );
+					}
+					if ( design != null )
+					{
+						URL url = design.findResource( src,
+								IResourceLocator.IMAGE, appContext );
+						if ( url != null )
+						{
+							src = url.toExternalForm( );
+						}
+					}
+					if ( rootPath != null )
+					{
+						// Checks if the resource is local
+						if ( FileUtil.isLocalResource( src ) )
+						{
+							src = FileUtil.getAbsolutePath( rootPath, src );
+						}
+					}
+					if ( src != null )
+					{
+						// Puts the modified URI of the resource
+						ele.removeAttribute( "src" ); //$NON-NLS-1$
+						ele.setAttribute( "src", src );
+					}
 				}
 			}
+			styles.put( ele, cssStyle );
 		}
-		styles.put( ele, cssStyle );
 
 		// Walks on its children nodes recursively
 		for ( int i = 0; i < ele.getChildNodes( ).getLength( ); i++ )
@@ -272,6 +278,7 @@ public class HTMLProcessor
 				execute( (Element) child, styles );
 			}
 		}
+
 	}
 
 	/**

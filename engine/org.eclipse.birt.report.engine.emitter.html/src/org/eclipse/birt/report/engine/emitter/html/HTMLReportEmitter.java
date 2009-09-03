@@ -71,6 +71,7 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.html.util.DiagonalLineImage;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
+import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -78,9 +79,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.layout.pdf.util.HTMLStyleProcessor;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
-import org.eclipse.birt.report.engine.layout.pdf.util.StyleProperties;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.SvgFile;
@@ -2566,9 +2565,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				TextParser.TEXT_TYPE_HTML );
 		ReportDesignHandle design = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-		HTMLStyleProcessor htmlProcessor = new HTMLStyleProcessor( design );
+		HTMLProcessor htmlProcessor = new HTMLProcessor( design, reportContext
+				.getAppContext( ) );
 
-		HashMap<Element, StyleProperties> styleMap = new HashMap<Element, StyleProperties>( );
+		HashMap styleMap = new HashMap( );
 
 		Element body = null;
 		if ( doc != null )
@@ -2581,7 +2581,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		if ( body != null )
 		{
-			htmlProcessor.execute( body, styleMap,  reportContext.getAppContext( )  );
+			htmlProcessor.execute( body, styleMap );
 			processNodes( body, styleMap );
 		}
 		writer.setIndent( bIndent );
@@ -2595,7 +2595,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @param ele
 	 *            the specific node
 	 */
-	private void processNodes( Element ele, HashMap<Element, StyleProperties> cssStyles )
+	private void processNodes( Element ele, HashMap cssStyles )
 	{
 		for ( Node node = ele.getFirstChild( ); node != null; node = node
 				.getNextSibling( ) )
@@ -2665,11 +2665,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return false;
 	}
 
-	public void startNode( Node node,
-			HashMap<Element, StyleProperties> cssStyles )
+	public void startNode( Node node, HashMap cssStyles )
 	{
 		String nodeName = node.getNodeName( );
-		StyleProperties cssStyle = cssStyles.get( node );
+		HashMap cssStyle = (HashMap) cssStyles.get( node );
 		writer.openTag( nodeName );
 		NamedNodeMap attributes = node.getAttributes( );
 		if ( attributes != null )
@@ -2698,7 +2697,37 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( cssStyle != null )
 		{
 			StringBuffer buffer = new StringBuffer( );
-			cssStyle.toString( buffer );
+			Iterator ite = cssStyle.entrySet( ).iterator( );
+			while ( ite.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) ite.next( );
+				Object keyObj = entry.getKey( );
+				Object valueObj = entry.getValue( );
+				if ( keyObj == null || valueObj == null )
+				{
+					continue;
+				}
+				String key = keyObj.toString( );
+				String value = valueObj.toString( );
+				buffer.append( key );
+				buffer.append( ":" );
+				if ( "background-image".equalsIgnoreCase( key ) )
+				{
+					String valueTrue = handleStyleImage( value, true );
+					if ( valueTrue != null )
+					{
+						value = valueTrue;
+					}
+					buffer.append( "url(" );
+					buffer.append( value );
+					buffer.append( ")" );
+				}
+				else
+				{
+					buffer.append( value );
+				}
+				buffer.append( ";" );
+			}
 			if ( buffer.length( ) != 0 )
 			{
 				writer.attribute( "style", buffer.toString( ) );
