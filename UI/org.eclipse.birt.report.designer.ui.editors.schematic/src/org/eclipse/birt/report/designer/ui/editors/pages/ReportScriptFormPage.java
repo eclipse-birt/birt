@@ -97,8 +97,14 @@ public class ReportScriptFormPage extends ReportFormPage
 	protected void hookModelEventManager( Object model )
 	{
 		getModelEventManager( ).hookRoot( model );
-
-		getModelEventManager( ).hookCommandStack( new WrapperCommandStack( ) );
+		if (model instanceof ModuleHandle)
+		{
+			getModelEventManager( ).hookCommandStack( new WrapperCommandStack(((ModuleHandle)model ).getCommandStack( ) ));
+		}
+		else
+		{
+			getModelEventManager( ).hookCommandStack( new WrapperCommandStack( ) );
+		}
 	}
 
 	protected void unhookModelEventManager( Object model )

@@ -237,7 +237,7 @@ public class SessionHandleAdapter
 			}
 		}
 		SimpleMasterPageHandle masterPage = null;
-		if ( handle.getMasterPages( ).getCount( ) == 0 )
+		if ( handle.getMasterPages( ) != null && handle.getMasterPages( ).getCount( ) == 0 )
 		{
 			masterPage = handle.getElementFactory( ).newSimpleMasterPage( null );
 			try

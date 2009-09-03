@@ -182,7 +182,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 					}
 				}
 			}
-			else
+			else if (path.toOSString( )
+					.endsWith( IReportEditorContants.DESIGN_FILE_EXTENTION)
+					|| path.toOSString( )
+					.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION))
 			{
 				ReportDesignHandle report = null;
 				try
@@ -190,6 +193,34 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 					report = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
 							.openDesign( path.toOSString( ),
+							// No need to close the stream here, the report
+							// design parser will automaically close it.
+									new FileInputStream( path.toFile( ) ) );
+					if ( checkReport )
+					{
+						return getErrorLineFromModuleHandle( report );
+					}
+				}
+				catch ( DesignFileException e )
+				{
+					return getExpetionErrorLine( e );
+				}
+				finally
+				{
+					if ( report != null )
+					{
+						report.close( );
+					}
+				}
+			}
+			else
+			{
+				ModuleHandle report = null;
+				try
+				{
+					report = SessionHandleAdapter.getInstance( )
+							.getSessionHandle( )
+							.openModule( path.toOSString( ),
 							// No need to close the stream here, the report
 							// design parser will automaically close it.
 									new FileInputStream( path.toFile( ) ) );
