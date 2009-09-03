@@ -1013,6 +1013,12 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		return IChartType.THREE_DIMENSION_TYPE.equals( sDimension );
 	}
+	
+	private boolean isMultiAxisSupported()
+	{
+		boolean bOutXtab = !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART );
+		return bOutXtab &&!is3D() && !(IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( sDimension )&&ChartUIConstants.TYPE_AREA.equals( sType )); 
+	}
 
 	private void changeOverlaySeriesType( )
 	{
@@ -1382,8 +1388,8 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			if ( cbMultipleY != null )
 			{
-				lblMultipleY.setEnabled( bOutXtab && !is3D( ) );
-				cbMultipleY.setEnabled( bOutXtab && !is3D( ) );
+				lblMultipleY.setEnabled( isMultiAxisSupported( ) );
+				cbMultipleY.setEnabled( isMultiAxisSupported( ) );
 			}
 			if ( cbSeriesType != null )
 			{
