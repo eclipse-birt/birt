@@ -154,6 +154,14 @@ public class LayoutEngine extends LayoutEmitterAdapter
 					.setFixedLayout( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
 							.equals( reportLayoutPreference ) );
 		}
+		if ( context.getHtmlLayoutContext( ) != null )
+		{
+			if ( context.isFixedLayout( ) )
+			{
+				context.setAutoPageBreak( context.getHtmlLayoutContext( )
+						.allowPageBreak( ) );
+			}
+		}
 	}
 	
 	public void createPageHintGenerator( )
