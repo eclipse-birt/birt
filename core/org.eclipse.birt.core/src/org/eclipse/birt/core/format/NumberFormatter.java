@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +33,8 @@ import com.ibm.icu.util.ULocale;
  */
 public class NumberFormatter
 {
+
+	private static final String DIGIT_SUBSTITUTION = "DigitSubstitution";
 
 	/**
 	 * logger used to log syntax errors.
@@ -82,6 +85,11 @@ public class NumberFormatter
 	private int roundPrecision;
 	
 	private String realPattern;
+
+	/**
+	 * used to indicate whether to use ICU symbols
+	 */
+	private boolean digitSubstitution;
 
 	/**
 	 * constructor with no argument
@@ -168,6 +176,7 @@ public class NumberFormatter
 	{
 		try
 		{
+			patternStr = processPatternAttributes( patternStr );
 			this.formatPattern = patternStr;
 			hexFlag = false;
 			roundPrecision = -1;
@@ -186,6 +195,7 @@ public class NumberFormatter
 				decimalFormat.setMinimumIntegerDigits( 1 );
 				decimalFormat.setGroupingUsed( false );
 				roundPrecision = getRoundPrecision( numberFormat );
+				applyPatternAttributes( );
 				return;
 			}
 
@@ -194,17 +204,69 @@ public class NumberFormatter
 			{
 				handleSingleCharFormatString( patternStr.charAt( 0 ) );
 				roundPrecision = getRoundPrecision( numberFormat );
+				applyPatternAttributes( );
 				return;
 			}
 
 			// Named formats and arbitrary format string
 			handleNamedFormats( patternStr );
 			roundPrecision = getRoundPrecision( numberFormat );
+			applyPatternAttributes( );
 		}
 		catch ( Exception illeagueE )
 		{
 			logger.log( Level.WARNING, illeagueE.getMessage( ), illeagueE );
 		}
+	}
+
+	private String processPatternAttributes( String pattern )
+	{
+		if ( pattern == null || pattern.length( ) <= 3 ) // pattern must have {?}
+			return pattern;
+
+		int length = pattern.length( );
+		if ( pattern.charAt( length - 1 ) == '}' )
+		{
+			// end up with '}'
+			int begin = pattern.lastIndexOf( '{' );
+			if ( begin >= 0 )
+			{
+				ArrayList<String> names = new ArrayList<String>( );
+				ArrayList<String> values = new ArrayList<String>( );
+				String properties = pattern.substring( begin + 1, length - 1 );
+				String[] attributes = properties.split( ";" );
+				boolean wellForm = true;
+				for ( String attribute : attributes )
+				{
+					int delimit = attribute.indexOf( '=' );
+					if ( delimit == -1 )
+					{
+						wellForm = false;
+						break;
+					}
+					names.add( attribute.substring( 0, delimit ) );
+					values.add( attribute.substring( delimit + 1 ) );
+				}
+				if ( wellForm )
+				{
+					// process attributes
+					int size = names.size( );
+					for ( int index = 0; index < size; index++ )
+					{
+						if ( DIGIT_SUBSTITUTION.equalsIgnoreCase( names.get(
+								index ).trim( ) ) )
+						{
+							String value = values.get( index ).trim( );
+							digitSubstitution = Boolean.valueOf( value );
+						}
+					}
+					if ( begin == 0 )
+						return null;
+					return pattern.substring( 0, begin );
+				}
+			}
+		}
+		return pattern;
 	}
 
 	/**
@@ -390,6 +452,48 @@ public class NumberFormatter
 				numberFormat = new DecimalFormat( str,
 						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
+			}
+		}
+	}
+
+	private DecimalFormatSymbols getICUDecimalSymbols( Locale locale )
+	{
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols( locale );
+		com.ibm.icu.text.DecimalFormatSymbols icuSymbols = new com.ibm.icu.text.DecimalFormatSymbols(
+				locale );
+		symbols.setCurrencySymbol( icuSymbols.getCurrencySymbol( ) );
+		symbols.setDecimalSeparator( icuSymbols.getDecimalSeparator( ) );
+		symbols.setDigit( icuSymbols.getDigit( ) );
+		symbols.setGroupingSeparator( icuSymbols.getGroupingSeparator( ) );
+		symbols.setInfinity( icuSymbols.getInfinity( ) );
+		symbols.setInternationalCurrencySymbol( icuSymbols
+				.getInternationalCurrencySymbol( ) );
+		symbols.setMinusSign( icuSymbols.getMinusSign( ) );
+		symbols.setMonetaryDecimalSeparator( icuSymbols
+				.getMonetaryDecimalSeparator( ) );
+		symbols.setNaN( icuSymbols.getNaN( ) );
+		symbols.setPatternSeparator( icuSymbols.getPatternSeparator( ) );
+		symbols.setPercent( icuSymbols.getPercent( ) );
+		symbols.setPerMill( icuSymbols.getPerMill( ) );
+		symbols.setZeroDigit( icuSymbols.getZeroDigit( ) );
+		return symbols;
+	}
+
+	private void applyPatternAttributes( )
+	{
+		if ( digitSubstitution )
+		{
+			DecimalFormatSymbols symbols = getICUDecimalSymbols( locale
+					.toLocale( ) );
+			if ( decimalFormat instanceof DecimalFormat )
+			{
+				( (DecimalFormat) decimalFormat )
+						.setDecimalFormatSymbols( symbols );
+			}
+			if ( numberFormat instanceof DecimalFormat )
+			{
+				( (DecimalFormat) numberFormat )
+						.setDecimalFormatSymbols( symbols );
 			}
 		}
 	}
