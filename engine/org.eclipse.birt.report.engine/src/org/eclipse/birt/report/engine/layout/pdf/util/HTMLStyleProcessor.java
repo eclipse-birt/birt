@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.batik.util.CSSConstants;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
@@ -95,7 +96,7 @@ public class HTMLStyleProcessor
 						}
 						else
 						{
-							bgi = "url(" + bgi + ")"; //$NON-NLS-1$//$NON-NLS-2$
+							//bgi = "url(" + bgi + ")"; //$NON-NLS-1$//$NON-NLS-2$
 						}
 					}
 					if ( bgi != null )
@@ -140,7 +141,6 @@ public class HTMLStyleProcessor
 			Map context )
 	{
 
-		StyleDeclaration style = null;
 		StringBuffer strStyle = new StringBuffer( );
 		StyleProperties sp = getStyleProperties( ele, styles );
 		try
@@ -182,6 +182,37 @@ public class HTMLStyleProcessor
 							}
 						}
 					}
+					//support text-decoration
+					if(CSSConstants.CSS_TEXT_DECORATION_PROPERTY.equals( name ))
+					{
+						if ( value != null && value.length( ) > 0 )
+						{
+							IStyle style = sp.getStyle( );
+							String[] vs = value.split( " " );
+							for ( int i = 0; i < vs.length; i++ )
+							{
+								if ( CSSConstants.CSS_UNDERLINE_VALUE
+										.equals( vs[i] ) )
+								{
+									style
+											.setTextUnderline( CSSConstants.CSS_UNDERLINE_VALUE );
+								}
+								else if ( CSSConstants.CSS_LINE_THROUGH_VALUE
+										.equals( vs[i] ) )
+								{
+									style
+											.setTextLineThrough( CSSConstants.CSS_LINE_THROUGH_VALUE );
+								}
+								else if ( CSSConstants.CSS_OVERLINE_VALUE
+										.equals( vs[i] ) )
+								{
+									style
+											.setTextOverline( CSSConstants.CSS_OVERLINE_VALUE );
+								}
+
+							}
+						}
+					}
 				}
 				strStyle.append( buffer.toString( ) );
 			}
@@ -200,7 +231,7 @@ public class HTMLStyleProcessor
 		ele.removeAttribute( "style" ); //$NON-NLS-1$
 
 		// handle background image
-		processBackgroundImage( style, context );
+		processBackgroundImage( sp.getStyle( ), context );
 
 		// Walks on its children nodes recursively
 		for ( int i = 0; i < ele.getChildNodes( ).getLength( ); i++ )

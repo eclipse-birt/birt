@@ -91,29 +91,4 @@ public class StyleProperties
 			buffer.append( ";" );
 		}
 	}
-
-	public void toString( StringBuffer buffer )
-	{
-		if ( style != null )
-		{
-			// write the style's property
-			( (StyleDeclaration) style ).toString( buffer );
-		}
-		Object w = properties.get( WIDTH );
-		if ( w != null )
-		{
-			buffer.append( WIDTH );
-			buffer.append( ":" );
-			buffer.append( w );
-			buffer.append( ";" );
-		}
-		Object h = properties.get( HEIGHT );
-		if ( w != null )
-		{
-			buffer.append( HEIGHT );
-			buffer.append( ":" );
-			buffer.append( h );
-			buffer.append( ";" );
-		}
-	}
 }

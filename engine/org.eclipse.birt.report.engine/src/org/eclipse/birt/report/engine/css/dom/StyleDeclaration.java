@@ -114,21 +114,6 @@ public class StyleDeclaration extends AbstractStyle
 		return false;
 	}
 	
-	public void toString(StringBuffer buffer)
-	{
-		for ( int i = 0; i < values.length; i++ )
-		{
-			CSSValue value = values[i];
-			if ( null != value )
-			{
-				String propertyName = engine.getPropertyName( i );
-				buffer.append( propertyName );
-				buffer.append( ":" );
-				buffer.append( value.getCssText( ) );
-				buffer.append( ";" );
-			}
-		}
-	}
 
 	public void write( DataOutputStream out ) throws IOException
 	{
