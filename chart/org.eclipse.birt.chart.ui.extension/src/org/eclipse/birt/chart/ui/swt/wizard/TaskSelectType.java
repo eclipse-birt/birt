@@ -1601,6 +1601,8 @@ public class TaskSelectType extends SimpleTask implements
 
 					if ( isValidatedAxis( dataType, axis.getType( ) ) )
 					{
+						ChartWizard.removeException( ChartWizard.CheckSeriesBindingType_ID
+								+ series.eContainer( ).hashCode( ) );
 						break;
 					}
 
