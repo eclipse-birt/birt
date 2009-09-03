@@ -349,13 +349,14 @@ public class DataSetMetaDataHelper
 				if ( dataSetHandle.getCachedMetaDataHandle( ) != null )
 				{
 					List resultSetColumnHandles = getResultSetColumnHandles( dataSetHandle.getCachedMetaDataHandle( ) );
-					if ( resultSetColumnHandles.size( ) == columnList.size( ) )
+					int i = 0;
+					for ( ; i<columnList.size( ); i++ )
 					{
-						//update if needed, avoid writing "any" type to Model if old report contains "any" type
-						for ( int i=0; i<resultSetColumnHandles.size( ); i++ )
+						ResultSetColumn rsc = (ResultSetColumn)columnList.get( i );
+						if ( i < resultSetColumnHandles.size( ) )
 						{
+							//update if needed, avoid writing "any" type to Model if old report contains "any" type
 							ResultSetColumnHandle rsh = (ResultSetColumnHandle)resultSetColumnHandles.get( i );
-							ResultSetColumn rsc = (ResultSetColumn)columnList.get( i );
 							if ( !rsh.getColumnName( ).equals( rsc.getColumnName( ) ) )
 							{
 								rsh.setColumnName( rsc.getColumnName( ) );
@@ -365,26 +366,31 @@ public class DataSetMetaDataHelper
 								rsh.setDataType( rsc.getDataType( ) );
 							}
 						}
-						return rsMeta;
+						else
+						{
+							//some columns are to be added
+							dataSetHandle.getCachedMetaDataHandle( ).getResultSet( ).addItem( rsc );
+						}
 					}
-					else
+					if ( i < resultSetColumnHandles.size( ) )
 					{
-						dataSetHandle.getCachedMetaDataHandle( )
-								.getResultSet( )
-								.clearValue( );
+						//some columns are to be removed
+						List toRemoved =  resultSetColumnHandles.subList( i, resultSetColumnHandles.size( ) );
+						dataSetHandle.getCachedMetaDataHandle( ).getResultSet( ).removeItems( toRemoved );
 					}
 				}
 				else
 				{
 					dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
+
+					for ( int i = 0; i < columnList.size( ); i++ )
+					{
+						dataSetHandle.getCachedMetaDataHandle( )
+								.getResultSet( )
+								.addItem( (ResultSetColumn) columnList.get( i ) );
+					}
 				}
 
-				for ( int i = 0; i < columnList.size( ); i++ )
-				{
-					dataSetHandle.getCachedMetaDataHandle( )
-							.getResultSet( )
-							.addItem( (ResultSetColumn) columnList.get( i ) );
-				}
 			}
 		}
 		return rsMeta;
