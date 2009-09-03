@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <list-property name="propertyBindings">
+         <structure>
+        	<property name="name">test</property>
+        	<property name="id">30</property>
+        	<encrypted-property name="value" encryptionID="oneEncryptionHelper">_ab_setNewPassword</encrypted-property>
+        </structure>
+        <structure>
+            <property name="name">pswd</property>
+            <property name="id">30</property>
+            <expression name="value" type="javascript">test</expression>
+        </structure>
+    </list-property>
+    <body>
+    	<extended-item extensionName="TestingTable" name="item_1" id="30">
+            <encrypted-property name="pswd" encryptionID="base64">TmV3IFBhc3N3b3Jk</encrypted-property>
+        </extended-item>
+    </body>
+</report>

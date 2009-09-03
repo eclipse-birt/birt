@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -270,5 +271,71 @@ public class PropertyBindingTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "PropertyBindingTest_golden_2.xml" ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Tests get intrinsic value. If the expression type is javascript the value
+	 * will not be encrypted.
+	 * 
+	 * @throws Exception
+	 */
+	public void testIntrinsicValue( ) throws Exception
+	{
+		openDesign( "PropertyBindingTest_1.xml" ); //$NON-NLS-1$
+		assertNotNull( designHandle );
+
+		List bindingList = designHandle
+				.getListProperty( Module.PROPERTY_BINDINGS_PROP );
+		assertEquals( 2, bindingList.size( ) );
+
+		PropertyBinding binding = (PropertyBinding) bindingList.get( 0 );
+
+		assertEquals( "test", binding.getName( ) ); //$NON-NLS-1$
+		assertEquals( 30, binding.getID( ).longValue( ) );
+		assertEquals( "setNewPassword", binding.getValue( ) ); //$NON-NLS-1$
+
+		Expression expression = binding
+				.getExpressionProperty( PropertyBinding.VALUE_MEMBER );
+		assertEquals( ExpressionType.CONSTANT, expression.getType( ) );
+
+		binding = (PropertyBinding) bindingList.get( 1 );
+
+		assertEquals( PROP_NAME, binding.getName( ) );
+		assertEquals( 30, binding.getID( ).longValue( ) );
+		assertEquals( "test", binding.getValue( ) ); //$NON-NLS-1$
+
+		expression = binding
+				.getExpressionProperty( PropertyBinding.VALUE_MEMBER );
+		assertEquals( ExpressionType.JAVASCRIPT, expression.getType( ) );
+
+		designHandle.getPropertyHandle( Module.PROPERTY_BINDINGS_PROP )
+				.removeItem( binding );
+
+		bindingList = designHandle
+				.getListProperty( Module.PROPERTY_BINDINGS_PROP );
+		assertEquals( 1, bindingList.size( ) );
+
+		binding = new PropertyBinding( );
+		binding.setName( PROP_NAME );
+		binding.setID( 30 );
+		binding.setEncryption( "base64" ); //$NON-NLS-1$
+		expression = new Expression( "123456", //$NON-NLS-1$
+				ExpressionType.JAVASCRIPT );
+		binding.setProperty( PropertyBinding.VALUE_MEMBER, expression );
+		designHandle.getPropertyHandle( Module.PROPERTY_BINDINGS_PROP )
+				.addItem( binding );
+
+		bindingList = designHandle
+				.getListProperty( Module.PROPERTY_BINDINGS_PROP );
+		assertEquals( 2, bindingList.size( ) );
+		binding = (PropertyBinding) bindingList.get( 1 );
+
+		expression = binding
+				.getExpressionProperty( PropertyBinding.VALUE_MEMBER );
+		assertEquals( "123456", expression.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( ExpressionType.JAVASCRIPT, expression.getType( ) );
+
+		save( );
+		assertTrue( compareFile( "PropertyBindingTest_1_golden.xml" ) ); //$NON-NLS-1$
 	}
 }

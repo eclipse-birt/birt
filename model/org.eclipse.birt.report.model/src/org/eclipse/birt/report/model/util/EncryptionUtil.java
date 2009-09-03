@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.util;
 import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
@@ -43,12 +44,8 @@ public class EncryptionUtil
 		String encryption = element.getEncryptionID( propDefn );
 		if ( encryption == null )
 			return value;
-		String str = null;
-		if ( value instanceof String )
-			str = (String) value;
-		else if ( value instanceof Expression )
-			str = ( (Expression) value ).getStringExpression( );
-		return EncryptionUtil.decrypt( propDefn, encryption, str );
+
+		return decrypt( propDefn, encryption, value );
 	}
 
 	/**
@@ -70,11 +67,21 @@ public class EncryptionUtil
 		if ( !( value instanceof String || value instanceof Expression )
 				|| ( !propDefn.isEncryptable( ) && !isPropertyBindingValueMember( propDefn ) ) )
 			return value;
+
 		String str = null;
 		if ( value instanceof String )
+		{
 			str = (String) value;
-		else
+		}
+		else if ( ExpressionType.CONSTANT.equals( ( (Expression) value )
+				.getType( ) ) )
+		{
 			str = ( (Expression) value ).getStringExpression( );
+		}
+		else
+		{
+			return ( (Expression) value ).getExpression( );
+		}
 		IEncryptionHelper helper = MetaDataDictionary.getInstance( )
 				.getEncryptionHelper( encryptionID );
 		return helper == null ? value : helper.decrypt( str );
