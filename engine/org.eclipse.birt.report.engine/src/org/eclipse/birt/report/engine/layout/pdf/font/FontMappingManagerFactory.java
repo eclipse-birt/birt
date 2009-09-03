@@ -456,6 +456,10 @@ public class FontMappingManagerFactory
 			BaseFont font = (BaseFont) baseFonts.get( key );
 			if ( font == null )
 			{
+				if ( baseFonts.containsKey( key ) )
+				{
+					return null;
+				}
 				try
 				{
 					String fontEncoding = (String) fontEncodings
@@ -469,13 +473,11 @@ public class FontMappingManagerFactory
 					font = FontFactory.getFont( familyName, fontEncoding,
 							BaseFont.EMBEDDED, 14, fontStyle )
 							.getBaseFont( );
-					if ( font != null )
-					{
-						baseFonts.put( key, font );
-					}
+					baseFonts.put( key, font );
 				}
 				catch ( Throwable de )
 				{
+					baseFonts.put( key, font );
 					return null;
 				}
 			}
