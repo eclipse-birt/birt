@@ -367,32 +367,41 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	private boolean nextSegment( ) throws IOException
 	{
-		if ( stopSign.isStopped( ) )
+		while ( true )
 		{
-			return false;
-		}
-		if ( !traversalor.next( ) )
-		{
-			return false;
-		}
-		currentSubDim = traversalor.getIntArray( );
-		currentSegment = factTable.getDocumentManager( )
-				.openDocumentObject( FTSUDocumentObjectNamingUtil.getDocumentObjectName( 
-						NamingUtil.getFactTableName(factTable.getName( )),
-						getSubDimensionIndex( ) ) );
-		for ( int i = 0; i < dimensionIndex.length; i++ )
-		{
-			if ( dimensionIndex[i] != -1 )
+			if ( stopSign.isStopped( ) )
 			{
-				SelectedSubDimension selectedSubDimension = ( (SelectedSubDimension) selectedSubDim[i].get( currentSubDim[i] ) );
-				selectedPosOfCurSegment[i] = new int[selectedSubDimension.end
-						- selectedSubDimension.start + 1];
-				for ( int j = 0; j < selectedSubDimension.end
-						- selectedSubDimension.start + 1; j++ )
+				return false;
+			}
+			if ( !traversalor.next( ) )
+			{
+				return false;
+			}
+			currentSubDim = traversalor.getIntArray( );
+			String FTSUDocName = FTSUDocumentObjectNamingUtil.getDocumentObjectName( NamingUtil.getFactTableName( factTable.getName( ) ),
+					getSubDimensionIndex( ) );
+			if ( !factTable.getDocumentManager( ).exist( FTSUDocName ) )
+			{
+				continue;
+			}
+			currentSegment = factTable.getDocumentManager( ).openDocumentObject( FTSUDocName );
+			
+			for ( int i = 0; i < dimensionIndex.length; i++ )
+			{
+				if ( dimensionIndex[i] != -1 )
 				{
-					selectedPosOfCurSegment[i][j] = ( (Integer) selectedPos[dimensionIndex[i]].get( selectedSubDimension.start + j ) ).intValue( );
+					SelectedSubDimension selectedSubDimension = ( (SelectedSubDimension) selectedSubDim[i].get( currentSubDim[i] ) );
+					selectedPosOfCurSegment[i] = new int[selectedSubDimension.end
+							- selectedSubDimension.start + 1];
+					for ( int j = 0; j < selectedSubDimension.end
+							- selectedSubDimension.start + 1; j++ )
+					{
+						selectedPosOfCurSegment[i][j] = ( (Integer) selectedPos[dimensionIndex[i]].get( selectedSubDimension.start
+								+ j ) ).intValue( );
+					}
 				}
 			}
+			break;
 		}
 		return true;
 	}
