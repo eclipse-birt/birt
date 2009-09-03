@@ -203,6 +203,34 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		return cube.getQualifiedName( );
 	}
+	
+	/**
+	 * Gets data cube from chart container
+	 * 
+	 * @return data cube name
+	 */
+	String getInheritedCube( )
+	{
+		CubeHandle cube = null;
+		DesignElementHandle container = itemHandle.getContainer( );
+		while ( container != null )
+		{
+			if ( container instanceof ReportItemHandle )
+			{
+				cube = ( (ReportItemHandle) container ).getCube( );
+				if ( cube != null )
+				{
+					break;
+				}
+			}
+			container = container.getContainer( );
+		}
+		if ( cube == null )
+		{
+			return null;
+		}
+		return cube.getQualifiedName( );
+	}
 
 	void setDataCube( String cubeName )
 	{
@@ -2966,6 +2994,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( getDataCube( ) != null )
 		{
 			states |= HAS_CUBE;
+		}
+		if ( getReportDataSet( ) != null )
+		{
+			states |= INHERIT_DATA_SET;
+		}
+		if ( getInheritedCube( ) != null )
+		{
+			states |= INHERIT_CUBE;
 		}
 		if ( itemHandle.getDataBindingReference( ) != null )
 		{

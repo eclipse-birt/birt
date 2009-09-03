@@ -26,8 +26,14 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 public interface IDataServiceProvider
 {
 
+	/**
+	 * Indicates if chart has data set
+	 */
 	public static final int HAS_DATA_SET = 1;
 
+	/**
+	 * Indicates if chart has data cube
+	 */
 	public static final int HAS_CUBE = 1 << 1;
 
 	public static final int DATA_BINDING_REFERENCE = 1 << 2;
@@ -51,12 +57,23 @@ public interface IDataServiceProvider
 	public static final int SHARE_TABLE_QUERY = 1 << 7;
 
 	public static final int SHARE_CROSSTAB_QUERY = 1 << 8;
-	
+
 	public static final int INHERIT_COLUMNS_ONLY = 1 << 9;
-	
+
 	public static final int INHERIT_COLUMNS_GROUPS = 1 << 10;
 
 	public static final int SHARE_CHART_QUERY = 1 << 11;
+
+	/**
+	 * Indicates if chart inherits data set from container
+	 */
+	public static final int INHERIT_DATA_SET = 1 << 12;
+
+	/**
+	 * Indicates if chart inherits data cube from container
+	 */
+	public static final int INHERIT_CUBE = 1 << 13;
+
 	/**
 	 * Returns all available style names.
 	 */
