@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage.MessagePageGenerator;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage.ModelClassWrapper;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -84,74 +85,65 @@ public class AttributesBuilder
 		{
 			pageGeneratorClass = getGeneratorClass( selection.get( 0 ) );
 
-			if ( selection.get( 0 ) instanceof ExtendedItemHandle
-					|| selection.get( 0 ) instanceof TabularCubeHandle
-					|| selection.get( 0 ) instanceof DynamicFilterParameterHandle )
+			Object element = null;
+			element = selection.get( 0 );
+			Object adapter = ElementAdapterManager.getAdapter( element,
+					IPageGenerator.class );
+			if ( adapter instanceof IPageGenerator )
 			{
+				if ( element instanceof ExtendedItemHandle )
+					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
+				IPageGenerator ng = (IPageGenerator) adapter;
 
-				Object element = null;
-				element = selection.get( 0 );
-				Object adapter = ElementAdapterManager.getAdapter( element,
-						IPageGenerator.class );
-				if ( adapter instanceof IPageGenerator )
+				boolean change = false;
+				if ( pageGenerator == null
+						|| ( ng != null && pageGenerator.getClass( ) != ng.getClass( ) ) )
 				{
-					if ( element instanceof ExtendedItemHandle )
-						typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
-					IPageGenerator ng = (IPageGenerator) adapter;
-
-					boolean change = false;
-					if ( pageGenerator == null
-							|| ( ng != null && pageGenerator.getClass( ) != ng.getClass( ) ) )
+					change = true;
+				}
+				else if ( pageGenerator != null )
+				{
+					Object input = pageGenerator.getInput( );
+					if ( input != null )
+					{
+						input = DEUtil.getInputFirstElement( input );
+					}
+					if ( input == null )
 					{
 						change = true;
 					}
-					else if ( pageGenerator != null )
+					else if ( element instanceof ExtendedItemHandle
+							&& input instanceof ExtendedItemHandle )
 					{
-						Object input = pageGenerator.getInput( );
-						if ( input != null && input instanceof List )
-						{
-							input = ( (List) input ).get( 0 );
-						}
-
-						if ( input == null )
+						if ( !( (ExtendedItemHandle) element ).getExtensionName( )
+								.equals( ( (ExtendedItemHandle) input ).getExtensionName( ) ) )
 						{
 							change = true;
-						}
-						else if ( element instanceof ExtendedItemHandle
-								&& input instanceof ExtendedItemHandle )
-						{
-							if ( !( (ExtendedItemHandle) element ).getExtensionName( )
-									.equals( ( (ExtendedItemHandle) input ).getExtensionName( ) ) )
-							{
-								change = true;
-							}
-						}
-						else if ( ( element instanceof TabularCubeHandle && !( input instanceof TabularCubeHandle ) )
-								|| ( input instanceof TabularCubeHandle && !( element instanceof TabularCubeHandle ) ) )
-							change = true;
-						else if ( ( element instanceof DynamicFilterParameterHandle && !( input instanceof DynamicFilterParameterHandle ) )
-								|| ( input instanceof DynamicFilterParameterHandle && !( element instanceof DynamicFilterParameterHandle ) ) )
-							change = true;
-					}
-
-					if ( change )
-					{
-						if ( pageGenerator != null
-								&& pageGenerator.getControl( ) != null
-								&& !pageGenerator.getControl( ).isDisposed( ) )
-						{
-							pageGenerator.getControl( ).dispose( );
-						}
-						pageGenerator = ng;
-						if ( pageGenerator instanceof TabPageGenerator )
-						{
-							( (TabPageGenerator) pageGenerator ).setSelectedTabText( selectedTabText );
 						}
 					}
-					return pageGenerator;
+					else if ( element.getClass( ) != input.getClass( ) )
+					{
+						change = true;
+					}
 				}
 
+				if ( change )
+				{
+					if ( pageGenerator != null
+							&& pageGenerator.getControl( ) != null
+							&& !pageGenerator.getControl( ).isDisposed( ) )
+					{
+						pageGenerator.getControl( ).dispose( );
+					}
+					pageGenerator = ng;
+					if ( pageGenerator instanceof TabPageGenerator )
+					{
+						( (TabPageGenerator) pageGenerator ).setSelectedTabText( selectedTabText );
+					}
+				}
+				return pageGenerator;
 			}
+
 		}
 		try
 		{
