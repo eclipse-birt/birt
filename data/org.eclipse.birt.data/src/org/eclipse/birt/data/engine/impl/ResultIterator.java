@@ -153,11 +153,13 @@ public class ResultIterator implements IResultIterator
 				throw new DataException( ResourceConstants.CREATE_CACHE_TEMPFILE_ERROR );
 			}
 		}
-		addEngineShutdownListener( );
 		
 		this.start( );
 		prepareBindingColumnsEvalUtil( );
 		prepareCurrentRow();
+
+		// add shutdown listener when initial work has been done.
+		addEngineShutdownListener( );
 		
 		logger.exiting( ResultIterator.class.getName( ), "ResultIterator" );
 	}
