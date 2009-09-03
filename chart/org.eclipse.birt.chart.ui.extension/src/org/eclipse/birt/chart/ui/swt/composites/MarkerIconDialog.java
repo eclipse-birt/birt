@@ -25,6 +25,8 @@ import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -108,6 +110,8 @@ public class MarkerIconDialog extends TrayDialog
 
 	protected Control createContents( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_MARKER_ICON );
+
 		getShell( ).setText( Messages.getString( "MarkerIconDialog.Title.MarkerIconSelector" ) ); //$NON-NLS-1$
 		Control c = super.createContents( parent );
 		

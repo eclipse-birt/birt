@@ -171,6 +171,8 @@ public class ChartHelpContextIds
 	public static final String DIALOG_GROUP_AND_SORT = PREFIX
 			+ "GroupAndSort_ID"; //$NON-NLS-1$
 
+	public static final String DIALOG_MARKER_ICON = PREFIX + "MarkerIcon_ID"; //$NON-NLS-1$
+
 	/*----------PREFERENCE----------*/
 	public static final String PREFERENCE_CHART = PREFIX
 			+ "Preferences_BIRTChart_ID"; //$NON-NLS-1$
