@@ -381,17 +381,20 @@ public class ExcelLayoutEngine
 							upstair
 									.setRowSpan( upstair.getRowSpan( )
 											+ rowspan );
+							if ( !isInContainer( blankData, rowContainer ) )
+							{
+								upstair.decreasRowSpanInDesign( );
+							}
 						}
 						blankType = blankData.getType( );
 					}
 					else
 					{
 						upstair.setRowSpan( upstair.getRowSpan( ) + rowspan );
-					}
-					SheetData realData = getRealData( upstair );
-					if ( !isInContainer( upstair, rowContainer ) )
-					{
-						realData.decreasRowSpanInDesign( );
+						if ( !isInContainer( upstair, rowContainer ) )
+						{
+							upstair.decreasRowSpanInDesign( );
+						}
 					}
 					int rowIndex = upstair.getRowIndex( );
 					for ( int p = 1; p <= rowspan; p++ )
