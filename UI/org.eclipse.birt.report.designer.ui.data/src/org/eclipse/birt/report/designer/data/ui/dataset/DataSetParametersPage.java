@@ -1617,7 +1617,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		private Text dataSetParamName = null, nativeParameterName = null;
 		private Combo dataType = null;
 		private Combo direction = null; 
-		private Text defaultValue = null;
+		private Text defaultValueText = null;
 		private Combo linkToSalarParameter = null;
 		private boolean inputChanged = modelChanged, isOdaDataSetHandle = false;
 		
@@ -1758,14 +1758,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 			defaultValueComposite = ControlProvider.getDefaultComposite( parent );
 			defaultValueString = Utility.getNonNullString( structureHandle.getDefaultValue( ) );
-			defaultValue = ControlProvider.createText( defaultValueComposite,
+			defaultValueText = ControlProvider.createText( defaultValueComposite,
 					defaultValueString );
-			defaultValue.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
-			defaultValue.addModifyListener( new ModifyListener( ) {
+			defaultValueText.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
+			defaultValueText.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
-					if ( defaultValue.isEnabled( ) )
+					if ( defaultValueText.isEnabled( ) )
 					{
 						validateSyntax( );
 					}
@@ -1777,12 +1777,12 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 				public void widgetSelected( SelectionEvent event )
 				{
-					ExpressionBuilder expressionBuilder = new ExpressionBuilder( defaultValue.getText( ) );
+					ExpressionBuilder expressionBuilder = new ExpressionBuilder( defaultValueText.getText( ) );
 					expressionBuilder.setExpressionProvier( null );
 
 					if ( expressionBuilder.open( ) == OK )
 					{
-						defaultValue.setText( expressionBuilder.getResult( )
+						defaultValueText.setText( expressionBuilder.getResult( )
 								.trim( ) );
 					}
 				}
@@ -1790,13 +1790,13 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 			ExpressionProvider provider = new ExpressionProvider( (DataSetHandle) getContainer( ).getModel( ) );
 			ExpressionButtonUtil.createExpressionButton( defaultValueComposite,
-					defaultValue,
+					defaultValueText,
 					provider,
 					(DataSetHandle) getContainer( ).getModel( ),
 					true,
 					SWT.PUSH );
 
-			ExpressionButtonUtil.initExpressionButtonControl( defaultValue,
+			ExpressionButtonUtil.initExpressionButtonControl( defaultValueText,
 					structureHandle,
 					DataSetParameter.DEFAULT_VALUE_MEMBER );
 
@@ -1971,9 +1971,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				structureHandle.setName( dataSetParamName.getText( ) );
 				structureHandle.setParameterDataType( ParameterPageUtil.getTypeName( dataType.getText( ) ) );
 				setDirection( direction.getText( ) );
-				ExpressionButtonUtil.saveExpressionButtonControl( defaultValue,
-						structureHandle,
-						DataSetParameter.DEFAULT_VALUE_MEMBER );
+				if ( defaultValueText.isEnabled( ) )
+					ExpressionButtonUtil.saveExpressionButtonControl( defaultValueText,
+							structureHandle,
+							DataSetParameter.DEFAULT_VALUE_MEMBER );
 
 				if ( isOdaDataSetHandle )
 					( (OdaDataSetParameterHandle) structureHandle ).setParamName( Utility.findIndex( linkToSalarParameter.getItems( ),
@@ -2093,7 +2094,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			if ( isOutputParameter( ) )
 			{
 				enableComposite( defaultValueComposite, false );
-				defaultValue.setText( "" ); //$NON-NLS-1$
+				defaultValueText.setText( "" ); //$NON-NLS-1$
 				defaultValueString = ""; //$NON-NLS-1$
 
 				if ( isOdaDataSetHandle )
@@ -2126,18 +2127,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			{
 				enableComposite( defaultValueComposite,
 						linkToSalarParameter.isEnabled( ) );
-				defaultValue.setText( NONE_DEFAULT_VALUE.equals( defaultValueString )
-						? "" : defaultValueString );
+				defaultValueText.setText( defaultValueString );
 			}
 			else
 			{
-				// in case users select report params more than once
-				if ( defaultValue.isEnabled( ) )
-					defaultValueString = defaultValue.getText( );
+				if ( defaultValueText.isEnabled( ) )
+					defaultValueString = defaultValueText.getText( );
 
-				structureHandle.setDefaultValue( "" ); //$NON-NLS-1$
 				enableComposite( defaultValueComposite, false );
-				defaultValue.setText( NONE_DEFAULT_VALUE );
+				defaultValueText.setText( NONE_DEFAULT_VALUE );
 			}
 		}
 
