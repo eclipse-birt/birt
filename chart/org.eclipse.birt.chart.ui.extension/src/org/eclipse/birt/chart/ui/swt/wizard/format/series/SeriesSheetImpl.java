@@ -438,7 +438,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					spnZOrder.setMinimum( 0 );
 					spnZOrder.setMaximum( 10 );
 					if ( getChart( ) instanceof ChartWithAxes
-							&& !( getContext( ).getChartType( ) instanceof BubbleChart ) )
+							&& !( getContext( ).getChartType( ) instanceof BubbleChart ) 
+							&& getChart( ).getDimension( )==ChartDimension.TWO_DIMENSIONAL_LITERAL)
 					{
 						// Bubble chart has special z order
 						spnZOrder.setSelection( seriesDefn.getZOrder( ) );
