@@ -3122,7 +3122,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * @param obj
 	 */
 
-	void markLineNumber( Object obj )
+	protected void markLineNumber( Object obj )
 	{
 		if ( markLineNumber )
 		{
