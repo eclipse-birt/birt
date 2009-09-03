@@ -180,7 +180,7 @@ public class TableProcessor implements HTMLConstants
 						.getNextSibling( ) )
 				{
 					Element r = (Element) node;
-					if ( TAG_TR.equals( r.getTagName( ) ) )
+					if ( TAG_TR.equals( r.getTagName( ) ) ||  TAG_TH.equals( r.getTagName( ) ))
 					{
 						for ( Node n = r.getFirstChild( ); n != null; n = n
 								.getNextSibling( ) )

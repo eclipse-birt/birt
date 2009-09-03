@@ -48,6 +48,7 @@ public interface HTMLConstants
 	public final static String TAG_TABLE = "table"; //$NON-NLS-1$
 	public final static String TAG_TD = "td"; //$NON-NLS-1$
 	public final static String TAG_TR = "tr"; //$NON-NLS-1$
+	public final static String TAG_TH = "th"; //$NON-NLS-1$
 
 	public final static String TAG_BR = "br";//$NON-NLS-1$
 	public final static String TAG_VALUEOF = "value-of";//$NON-NLS-1$
