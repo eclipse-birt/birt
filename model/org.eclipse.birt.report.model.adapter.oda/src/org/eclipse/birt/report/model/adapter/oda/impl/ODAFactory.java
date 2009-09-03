@@ -99,6 +99,8 @@ class ODAFactory implements IODAFactory
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
 			case DataType.BLOB_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB;
+			case DataType.JAVA_OBJECT_TYPE:
+				return DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT;
 			case DataType.BINARY_TYPE :
 			case DataType.ANY_TYPE :
 			default :
@@ -126,6 +128,8 @@ class ODAFactory implements IODAFactory
 				return DesignChoiceConstants.PARAM_TYPE_FLOAT;
 			case DataType.BOOLEAN_TYPE :
 				return DesignChoiceConstants.PARAM_TYPE_BOOLEAN;
+			case DataType.JAVA_OBJECT_TYPE:
+				return DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT;
 			case DataType.ANY_TYPE :
 			case DataType.BLOB_TYPE :
 			case DataType.BINARY_TYPE :
