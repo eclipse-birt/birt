@@ -32,11 +32,13 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl
 	 *            oda datasource extension id.
 	 *@param odaDataSourceExtensionId
 	 *            oda dataset extension id.
+	 *@param filterType
+	 *            the filter type
 	 * @return List of IFilterExprDefinition instance.
 	 */
 
 	public static List<IFilterExprDefinition> getMappedFilterExprDefinitions(
-			String dataSetExtId, String dataSourceExtId )
+			String dataSetExtId, String dataSourceExtId, int filterType )
 	{
 		return birtFilterExprDefList;
 	}

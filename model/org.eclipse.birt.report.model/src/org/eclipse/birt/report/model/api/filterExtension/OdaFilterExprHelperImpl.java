@@ -51,7 +51,12 @@ class OdaFilterExprHelperImpl
 			birtPredefinedFilterConstants
 					.add( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN );
 			addToList( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN );
-
+			birtPredefinedFilterConstants
+					.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N );
+			addToList( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N );
+			birtPredefinedFilterConstants
+					.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT );
+			addToList( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT );
 			birtPredefinedFilterConstants
 					.add( DesignChoiceConstants.FILTER_OPERATOR_FALSE );
 			addToList( DesignChoiceConstants.FILTER_OPERATOR_FALSE );
@@ -98,7 +103,13 @@ class OdaFilterExprHelperImpl
 			birtPredefinedFilterConstants
 					.add( DesignChoiceConstants.FILTER_OPERATOR_NULL );
 			addToList( DesignChoiceConstants.FILTER_OPERATOR_NULL );
+			birtPredefinedFilterConstants
+					.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_N );
+			addToList( DesignChoiceConstants.FILTER_OPERATOR_TOP_N );
+			birtPredefinedFilterConstants
+					.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT );
 
+			addToList( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT );
 			birtPredefinedFilterConstants
 					.add( DesignChoiceConstants.FILTER_OPERATOR_TRUE );
 
