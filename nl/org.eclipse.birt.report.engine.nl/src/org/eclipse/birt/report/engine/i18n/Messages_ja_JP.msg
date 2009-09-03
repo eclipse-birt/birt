@@ -107,7 +107,7 @@ Error.FailedToInitializeEmitter = エミッターを初期化できませんでした。
 PDFCreator = BIRT レポートエンジン {0} (iText {1} を使用)
 
 ###########################################################
-Error.FlashObjectNotSupported = Flash オブジェクトのレポート項目は、このレポート形式ではサポートされていません。
-Error.ReportItemNotSupported = 現在のレポート項目は、このレポート形式ではサポートされていません。
+Error.FlashObjectNotSupported = Flash object report items are not supported in this report format.
+Error.ReportItemNotSupported = Current report item is not supported in this report format.
 
 
