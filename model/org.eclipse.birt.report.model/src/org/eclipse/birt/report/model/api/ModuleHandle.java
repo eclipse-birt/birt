@@ -2887,7 +2887,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		// Sort element in namespace
 
-		List modules = new ArrayList( );
+		List<ModuleHandle> modules = new ArrayList<ModuleHandle>( );
 		if ( nameSpaceList.size( ) == 0 )
 			return modules;
 
@@ -2918,15 +2918,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the list contains sorted design elements.
 	 */
 
-	private List checkVisibleElements( List nameSpaceList, List modules,
-			int slotID )
+	private List checkVisibleElements( List nameSpaceList,
+			List<ModuleHandle> modules, int slotID )
 	{
 		assert modules != null;
 		List resultList = new ArrayList( );
 
 		for ( int i = 0; i < modules.size( ); ++i )
 		{
-			LayoutModuleHandle handle = (LayoutModuleHandle) modules.get( i );
+			ModuleHandle handle = modules.get( i );
 			SlotHandle slotHandle = handle.getSlot( slotID );
 			for ( int j = 0; j < slotHandle.getCount( ); ++j )
 			{
