@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea.TableLayoutInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSValue;
 
@@ -730,6 +731,11 @@ public class TableLayout
 		int emptyCellColID = cellContent.getColumn( );
 		int emptyCellColSpan = cellContent.getColSpan( );
 		CellArea emptyCell = upperCell.cloneArea( );
+		//clear border
+		BoxStyle bs = emptyCell.getBoxStyle( );
+		bs.setRightBorder( null );
+		bs.setBottomBorder( null );
+		
 		emptyCell.setHeight( 0 );
 		emptyCell.setRowSpan( rowSpan );
 		
