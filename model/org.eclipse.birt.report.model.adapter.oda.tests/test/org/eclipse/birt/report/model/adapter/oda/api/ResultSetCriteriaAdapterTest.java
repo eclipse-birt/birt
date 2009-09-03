@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.adapter.oda.api;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.adapter.oda.impl.ResultSetCriteriaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
@@ -111,7 +112,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 				.createResultSetCriteria( ) );
 		ResultSetColumns resultSetColumns = DesignFactory.eINSTANCE
 				.createResultSetColumns( );
-		for ( int i = 0; i < 3; i++ )
+		for ( int i = 0; i < COLUMNS.length; i++ )
 		{
 			ColumnDefinition column = DesignFactory.eINSTANCE
 					.createColumnDefinition( );
@@ -142,7 +143,8 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 
 		// create different types of dynamic filters
 
-		// a required dynamic filter with no expression argument
+		// a required dynamic filter with no expression argument: expects to be
+		// ignored
 		DynamicFilterExpression dynamicFilter1 = DesignFactory.eINSTANCE
 				.createDynamicFilterExpression( );
 		dynamicFilter1.setContextVariable( DesignUtil.createFilterVariable(
@@ -155,10 +157,10 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		dynamicFilter2.setContextVariable( DesignUtil.createFilterVariable(
 				resultSetDefn.getResultSetColumns( ), 1 ) );
 		dynamicFilter2.setIsOptional( true );
-
 		dynamicFilter2.setContextArguments( DesignFactory.eINSTANCE
 				.createExpressionArguments( ) );
 		ExpressionArguments exprArgs2 = dynamicFilter2.getContextArguments( );
+		exprArgs2.addDynamicParameter( createParameterDefinition( 1, false ) );
 		exprArgs2.addStaticParameter( new Integer( 100 ) ); // Column1 has
 		// integer type
 		exprArgs2.getExpressionParameterDefinitions( ).get( 0 ).addStaticValue(
@@ -169,30 +171,12 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		// a dynamic parameter takes precedence over a static parameter
 		DynamicFilterExpression dynamicFilter3 = DesignFactory.eINSTANCE
 				.createDynamicFilterExpression( );
-		dynamicFilter3.setContextVariable( DesignUtil.createFilterVariable(
-				resultSetDefn.getResultSetColumns( ), 2 ) );
-
 		dynamicFilter3.setContextArguments( DesignFactory.eINSTANCE
 				.createExpressionArguments( ) );
-		ExpressionArguments exprArgs3 = dynamicFilter3.getContextArguments( );
-		exprArgs3.addDynamicParameter( createParameterDefinition( ) );
-		// adds static value for testing, expects to be ignored by
-		// ExpressionParameterDefinition#hasEffectiveStaticValues()
-		exprArgs3.getExpressionParameterDefinitions( ).get( 0 ).addStaticValue(
-				"dummy" ); //$NON-NLS-1$
-
-		// a required dynamic filter with expression definition containing
-		// dynamic input ExpressionParameterDefinition;
-		// a dynamic parameter takes precedence over a static parameter
-		DynamicFilterExpression dynamicFilter4 = DesignFactory.eINSTANCE
-				.createDynamicFilterExpression( );
-		dynamicFilter4.setContextVariable( DesignUtil.createFilterVariable(
-				resultSetDefn.getResultSetColumns( ), 2 ) );
-
-		dynamicFilter4.setContextArguments( DesignFactory.eINSTANCE
-				.createExpressionArguments( ) );
+		dynamicFilter3.setIsOptional( false );
 		ExpressionArguments exprArgs4 = dynamicFilter3.getContextArguments( );
-		exprArgs4.addDynamicParameter( createParameterDefinition( ) );
+		exprArgs4.addDynamicParameter( createParameterDefinition( 2, false ) );
+		exprArgs4.addDynamicParameter( createParameterDefinition( 3, true ) );
 		// adds static value for testing, expects to be ignored by
 		// ExpressionParameterDefinition#hasEffectiveStaticValues()
 		exprArgs4.getExpressionParameterDefinitions( ).get( 0 ).addStaticValue(
@@ -200,15 +184,13 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 
 		// add individual filter expressions to the root
 
-		CompositeFilterExpression filterExprRoot = DesignFactory.eINSTANCE
-				.createCompositeFilterExpression( );
+		AndExpression filterExprRoot = DesignFactory.eINSTANCE.createAndExpression( );
 		filterExprRoot.add( customStaticExpr );
 		filterExprRoot.add( dynamicFilter1 );
 
 		AndExpression andExpr = DesignFactory.eINSTANCE.createAndExpression( );
 		andExpr.add( dynamicFilter2 );
 		andExpr.add( dynamicFilter3 );
-		andExpr.add( dynamicFilter4 );
 		filterExprRoot.add( andExpr );
 
 		return filterExprRoot;
@@ -217,7 +199,8 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 	/**
 	 * Creates filter parameters for test
 	 */
-	private ParameterDefinition createParameterDefinition( )
+	private ParameterDefinition createParameterDefinition( int position,
+			boolean containDefaultValue )
 	{
 		ParameterDefinition paramDefn = DesignFactory.eINSTANCE
 				.createParameterDefinition( );
@@ -225,20 +208,24 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		paramDefn.setAttributes( DesignFactory.eINSTANCE
 				.createDataElementAttributes( ) );
 		DataElementAttributes paramAttrs = paramDefn.getAttributes( );
-		paramAttrs.setPosition( 1 );
+		paramAttrs.setName( COLUMNS[position - 1] );
+		paramAttrs.setPosition( position );
 		paramAttrs.setNativeDataTypeCode( java.sql.Types.CHAR );
 		paramAttrs.setNullability( ElementNullability.NULLABLE_LITERAL );
 
-		for ( int i = 1; i <= 3; i++ )
+		if ( containDefaultValue )
 		{
-			paramDefn.addDefaultValue( "value" + i ); //$NON-NLS-1$
-		}
-		InputElementAttributes inputAttrs = paramDefn.getInputAttributes( )
-				.getElementAttributes( );
-		inputAttrs
-				.setUiPromptStyle( InputPromptControlStyle.SELECTABLE_LIST_WITH_TEXT_FIELD_LITERAL );
-		inputAttrs.getUiHints( ).setAutoSuggestThreshold( 3 );
+			for ( int i = 1; i <= 3; i++ )
+			{
+				paramDefn.addDefaultValue( "value" + i ); //$NON-NLS-1$
+			}
+			InputElementAttributes inputAttrs = paramDefn.getInputAttributes( )
+					.getElementAttributes( );
+			inputAttrs
+					.setUiPromptStyle( InputPromptControlStyle.SELECTABLE_LIST_WITH_TEXT_FIELD_LITERAL );
+			inputAttrs.getUiHints( ).setAutoSuggestThreshold( 3 );
 
+		}
 		return paramDefn;
 	}
 
@@ -258,7 +245,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 
 		List filters = setHandle.getListProperty( IDataSetModel.FILTER_PROP );
 
-		assertEquals( 3, filters.size( ) );
+		assertEquals( 4, filters.size( ) );
 
 		// first valid filter expression: custom filter
 		FilterCondition filter = (FilterCondition) filters.get( 0 );
@@ -269,31 +256,32 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		assertEquals( "IdentityEq", filter.getExtensionExprId( ) ); //$NON-NLS-1$
 		assertTrue( filter.pushDown( ) );
 
+		for ( int i = 0; i < COLUMNS.length; i++ )
+		{
+			checkDynamicFilter( setHandle, (FilterCondition) filters
+					.get( i + 1 ), i );
+		}
 		// second valid filter expression: dynamic filter
 		filter = (FilterCondition) filters.get( 1 );
-		assertEquals( COLUMNS[1], filter.getExpr( ) );
 		assertTrue( filter.isOptional( ) );
-		assertNotNull( filter.getDynamicFilterParameter( ) );
+
+		// third valid filter expression: separated dynamic filter
+		filter = (FilterCondition) filters.get( 2 );
+		assertFalse( filter.isOptional( ) );
+
+		// forth valid filter expression: separated dynamic filter with default
+		// values
+		filter = (FilterCondition) filters.get( 3 );
 		DynamicFilterParameterHandle parameter = (DynamicFilterParameterHandle) designHandle
 				.findParameter( filter.getDynamicFilterParameter( ) );
-		assertEquals( setHandle.getName( ), parameter.getDataSetName( ) );
-		assertEquals( COLUMNS[1], parameter.getColumn( ) );
-
-		// third valid filter expression: dynamic filter with default values
-		filter = (FilterCondition) filters.get( 2 );
-		assertEquals( COLUMNS[2], filter.getExpr( ) );
-		assertNotNull( filter.getDynamicFilterParameter( ) );
-		parameter = (DynamicFilterParameterHandle) designHandle
-				.findParameter( filter.getDynamicFilterParameter( ) );
-		// assertFalse( parameter.isRequired( ) );
-		assertEquals( setHandle.getName( ), parameter.getDataSetName( ) );
-		assertEquals( COLUMNS[2], parameter.getColumn( ) );
+		assertFalse( filter.isOptional( ) );
+		assertTrue( parameter.isRequired( ) );
 		List<Expression> defaultValues = parameter.getDefaultValueList( );
 		assertNotNull( defaultValues );
 		assertEquals( 3, defaultValues.size( ) );
 		for ( int i = 0; i < 3; i++ )
 		{
-			assertEquals( "value" + ( i + 1 ), defaultValues.get( i )  //$NON-NLS-1$
+			assertEquals( "value" + ( i + 1 ), defaultValues.get( i ) //$NON-NLS-1$
 					.getExpression( ) );
 		}
 
@@ -307,6 +295,19 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareTextFile( GOLDEN_FILE_ODA ) );
+	}
+
+	private void checkDynamicFilter( OdaDataSetHandle setHandle,
+			FilterCondition filterCondition, int position )
+	{
+		assertEquals( ExpressionUtil
+				.createDataSetRowExpression( COLUMNS[position] ),
+				filterCondition.getExpr( ) );
+		assertNotNull( filterCondition.getDynamicFilterParameter( ) );
+		DynamicFilterParameterHandle parameter = (DynamicFilterParameterHandle) designHandle
+				.findParameter( filterCondition.getDynamicFilterParameter( ) );
+		assertEquals( setHandle.getName( ), parameter.getDataSetName( ) );
+		assertEquals( COLUMNS[position], parameter.getColumn( ) );
 	}
 
 	/**
@@ -349,22 +350,24 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		// second filter: dynamic filter
 		DynamicFilterExpression dynamicFilterExpr = (DynamicFilterExpression) compoisteFilterExpr
 				.getChildren( ).get( 1 );
-		assertEquals( COLUMNS[1], dynamicFilterExpr.getContextVariable( )
-				.getIdentifier( ) );
-		assertTrue( dynamicFilterExpr.isOptional( ) );
-		assertFalse( dynamicFilterExpr.getContextArguments( )
+		DataElementAttributes attrs = dynamicFilterExpr.getContextArguments( )
 				.getExpressionParameterDefinitions( ).get( 0 )
-				.getDynamicInputParameter( ).getAttributes( ).allowsNull( ) );
+				.getDynamicInputParameter( ).getAttributes( );
+		assertEquals( COLUMNS[1], attrs.getName( ) );
+		assertTrue( dynamicFilterExpr.isOptional( ) );
+		assertFalse( attrs.allowsNull( ) );
 
 		// third filter: dynamic filter with default values
 		dynamicFilterExpr = (DynamicFilterExpression) compoisteFilterExpr
 				.getChildren( ).get( 2 );
-		assertEquals( COLUMNS[2], dynamicFilterExpr.getContextVariable( )
-				.getIdentifier( ) );
-		assertFalse( dynamicFilterExpr.isOptional( ) );
 		ExpressionParameterDefinition paramDefn = dynamicFilterExpr
 				.getContextArguments( ).getExpressionParameterDefinitions( )
 				.get( 0 );
+		
+		assertEquals( COLUMNS[2], paramDefn.getDynamicInputParameter( )
+				.getAttributes( ).getName( ) );
+		assertFalse( dynamicFilterExpr.isOptional( ) );
+		
 		// assertTrue( paramDefn.getDynamicInputParameter( ).getAttributes(
 		// ).allowsNull( ) );
 		assertEquals( 3, paramDefn.getDynamicInputParameter( )
@@ -380,6 +383,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		values.setResultSets( setDesign.getResultSets( ) );
 		saveDesignValuesToFile( values );
 
+		saveOutputFile( GOLDEN_FILE_REPORT );
 		assertTrue( compareTextFile( GOLDEN_FILE_REPORT ) );
 	}
 
@@ -567,5 +571,4 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 
 		return setDesign;
 	}
-
 }

@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -30,6 +31,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.datatools.connectivity.oda.design.AndExpression;
 import org.eclipse.datatools.connectivity.oda.design.CompositeFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -78,17 +80,17 @@ public class ResultSetCriteriaAdapter
 	/**
 	 * Constant to seperate date set name and column name.
 	 */
-	private final String SEPERATOR = ":";
+	private final static String SEPERATOR = ":"; //$NON-NLS-1$
 
 	/**
 	 * Prefix constant for custom expression.
 	 */
-	private final String CUSTOM_PREFIX = "#";
+	private final static String CUSTOM_PREFIX = "#"; //$NON-NLS-1$
 
 	/**
 	 * Prefix constant for dynamic expression.
 	 */
-	private final String DYNAMIC_PREFIX = "!";
+	private final static String DYNAMIC_PREFIX = "!"; //$NON-NLS-1$
 
 	/**
 	 * The constructor.
@@ -178,8 +180,8 @@ public class ResultSetCriteriaAdapter
 					filterExpr = filter;
 					break;
 				case 2 :
-					CompositeFilterExpression compositeFilterExp = DesignFactory.eINSTANCE
-							.createCompositeFilterExpression( );
+					AndExpression compositeFilterExp = DesignFactory.eINSTANCE
+							.createAndExpression( );
 					compositeFilterExp.add( filterExpr );
 					filterExpr = compositeFilterExp;
 				default :
@@ -374,7 +376,7 @@ public class ResultSetCriteriaAdapter
 		{
 			return;
 		}
-		Map<String, FilterExpression> filterExprMap = buildFilterExpressionMap( filterExpression );
+		Map<String, Filter> filterExprMap = buildFilterExpressionMap( filterExpression );
 
 		// clears up old filter conditions and finds parameters to refresh
 		cleanUpROMFilterCondition( filterExprMap );
@@ -395,43 +397,52 @@ public class ResultSetCriteriaAdapter
 	 *            the filter expression
 	 * @return the map containing filter expression to convert
 	 */
-	private Map<String, FilterExpression> buildFilterExpressionMap(
+	private Map<String, Filter> buildFilterExpressionMap(
 			FilterExpression filterExpr )
 	{
-		HashMap<String, FilterExpression> filterExpressions = new LinkedHashMap<String, FilterExpression>( );
+		HashMap<String, Filter> filterExpressions = new LinkedHashMap<String, Filter>( );
 		if ( filterExpr != null )
-		{
+		{			
 			if ( filterExpr instanceof CompositeFilterExpression )
-			{
+			{				
 				CompositeFilterExpression compositeFilterExp = (CompositeFilterExpression) filterExpr;
-				for ( FilterExpression child : compositeFilterExp.getChildren( ) )
+				if ( compositeFilterExp instanceof AndExpression ) 
 				{
-					filterExpressions
-							.putAll( buildFilterExpressionMap( child ) );
+					//Convert and expression only now.
+					for ( FilterExpression child : compositeFilterExp.getChildren( ) )
+					{
+						filterExpressions.putAll( buildFilterExpressionMap( child ) );
+					}
 				}
 			}
-			else
+			else if ( filterExpr instanceof CustomFilterExpression )
 			{
-				String key = getMapKey( filterExpr );
+				Filter customFilter = new CustomFilter(
+						(CustomFilterExpression) filterExpr );
+				String key = getMapKey( customFilter );
 				if ( key != null )
 				{
-					if ( filterExpr instanceof CustomFilterExpression )
+					filterExpressions.put( key, customFilter );
+				}
+			}
+			else if ( filterExpr instanceof DynamicFilterExpression )
+			{
+				DynamicFilterExpression dynamicFilterExpr = (DynamicFilterExpression) filterExpr;
+				boolean isOptional = dynamicFilterExpr.isOptional( );
+				ExpressionArguments arguments = dynamicFilterExpr
+						.getContextArguments( );
+				if ( arguments != null
+						&& arguments.getExpressionParameterDefinitions( ) != null )
+				{
+					for ( ExpressionParameterDefinition paramDefn : arguments
+							.getExpressionParameterDefinitions( ) )
 					{
-						filterExpressions.put( key, filterExpr );
-					}
-					else if ( filterExpr instanceof DynamicFilterExpression )
-					{
-						DynamicFilterExpression dynamicFilterExp = (DynamicFilterExpression) filterExpr;
-						ExpressionArguments arguments = dynamicFilterExp
-								.getContextArguments( );
-						if ( arguments != null
-								&& arguments
-										.getExpressionParameterDefinitions( ) != null
-								&& !arguments
-										.getExpressionParameterDefinitions( )
-										.isEmpty( ) )
+						Filter dynamicFilter = new DynamicFilter( paramDefn,
+								isOptional );
+						String key = getMapKey( dynamicFilter );
+						if ( key != null )
 						{
-							filterExpressions.put( key, dynamicFilterExp );
+							filterExpressions.put( key, dynamicFilter );
 						}
 					}
 				}
@@ -441,61 +452,37 @@ public class ResultSetCriteriaAdapter
 	}
 
 	/**
-	 * Returns the map key for the given dynamic filter expression
+	 * Returns the map key for the given filter.
 	 * 
-	 * @param filterExpr
-	 *            the filter expression
-	 * @return the key for the given filter expression
+	 * @param filter
+	 *            the filter
+	 * @return the key for the given filter
 	 */
-	private String getMapKey( FilterExpression filterExpr )
+	private String getMapKey( Filter filter )
 	{
 		String key = null;
-		String columnExpr = getColumnExpr( filterExpr );
-		if ( !StringUtil.isBlank( columnExpr ) )
+		if ( filter instanceof CustomFilter )
 		{
-			if ( filterExpr instanceof CustomFilterExpression )
+			CustomFilter customFilter = (CustomFilter) filter;
+			if ( !StringUtil.isBlank( customFilter.getColumnExpr( ) ) )
 			{
-				key = CUSTOM_PREFIX + filterExpr.toString( );
+				key = CUSTOM_PREFIX + customFilter.customFilterExpr.toString( );
 			}
-			else if ( filterExpr instanceof DynamicFilterExpression )
+		}
+		else if ( filter instanceof DynamicFilter )
+		{
+			String columnExpr = ( (DynamicFilter) filter ).getColumnExpr( );
+			if ( !StringUtil.isBlank( columnExpr ) )
 			{
 				key = DYNAMIC_PREFIX + setHandle.getName( ) + SEPERATOR
 						+ columnExpr;
 			}
-			else
-			{
-				assert false;
-			}
+		}
+		else
+		{
+			assert false;
 		}
 		return key;
-	}
-
-	/**
-	 * Returns the column expression defined in the given filter expression for
-	 * filter condition.
-	 * 
-	 * @param filterExpr
-	 *            the filter expression
-	 * @return the column expression defined in the given filter expression
-	 */
-	private String getColumnExpr( FilterExpression filterExpr )
-	{
-		ExpressionVariable variable = null;
-		if ( filterExpr instanceof CustomFilterExpression )
-		{
-			variable = ( (CustomFilterExpression) filterExpr )
-					.getContextVariable( );
-		}
-		else if ( filterExpr instanceof DynamicFilterExpression )
-		{
-			variable = ( (DynamicFilterExpression) filterExpr )
-					.getContextVariable( );
-		}
-		if ( variable != null )
-		{
-			return variable.getIdentifier( );
-		}
-		return null;
 	}
 
 	/**
@@ -527,32 +514,31 @@ public class ResultSetCriteriaAdapter
 	}
 
 	/**
-	 * Updates existing filter conditions with the given filter expressions
+	 * Updates existing filter conditions with the given filters
 	 * 
-	 * @param filterExpMap
-	 *            the map containing the given filter expressions
+	 * @param filterMap
+	 *            the map containing the filters to update
 	 * @throws SemanticException
 	 */
 	private void updateExistingROMFilterConditions(
-			Map<String, FilterExpression> filterExpMap )
-			throws SemanticException
+			Map<String, Filter> filterMap ) throws SemanticException
 	{
 		for ( Iterator iter = setHandle.filtersIterator( ); iter.hasNext( ); )
 		{
 			FilterConditionHandle filterConditionHandle = (FilterConditionHandle) iter
 					.next( );
 			String key = getMapKey( filterConditionHandle );
-			if ( key != null && filterExpMap.containsKey( key ) )
+			if ( key != null && filterMap.containsKey( key ) )
 			{
 				DynamicFilterParameterHandle dynamicFilterParamHandle = (DynamicFilterParameterHandle) setHandle
 						.getModuleHandle( ).findParameter(
 								filterConditionHandle
 										.getDynamicFilterParameter( ) );
 				updateDynamicFilterCondition( filterConditionHandle,
-						(DynamicFilterExpression) filterExpMap.get( key ),
+						(DynamicFilter) filterMap.get( key ),
 						dynamicFilterParamHandle );
 				// Removes the filter from the map after updated
-				filterExpMap.remove( key );
+				filterMap.remove( key );
 			}
 			else
 			{// not expected
@@ -562,40 +548,39 @@ public class ResultSetCriteriaAdapter
 	}
 
 	/**
-	 * Creates new filter conditions by the given filter expressions
+	 * Creates new filter conditions by the given filters
 	 * 
-	 * @param filterExpMap
-	 *            the map containing filter expressions
+	 * @param filterMap
+	 *            the map containing filters
 	 * @throws SemanticException
 	 */
-	private void createROMFilterConditions(
-			Map<String, FilterExpression> filterExpMap )
+	private void createROMFilterConditions( Map<String, Filter> filterMap )
 			throws SemanticException
 	{
-		for ( FilterExpression filterExpr : filterExpMap.values( ) )
+		for ( Filter filter : filterMap.values( ) )
 		{
 			FilterCondition filterCondition = StructureFactory
 					.createFilterCond( );
-			filterCondition.setExpr( getColumnExpr( filterExpr ) );
+			filterCondition.setExpr( filter.getColumnExpr( ) );
 			FilterConditionHandle filterConditionHandle = (FilterConditionHandle) setHandle
 					.getPropertyHandle( IDataSetModel.FILTER_PROP ).addItem(
 							filterCondition );
-			if ( filterExpr instanceof CustomFilterExpression )
+			if ( filter instanceof CustomFilter )
 			{
-				CustomFilterExpression customFilterExp = (CustomFilterExpression) filterExpr;
+				CustomFilterExpression customFilterExp = ( (CustomFilter) filter ).customFilterExpr;
 				updateCustomFilterCondition( filterConditionHandle,
 						customFilterExp );
 			}
-			else if ( filterExpr instanceof DynamicFilterExpression )
+			else if ( filter instanceof DynamicFilter )
 			{
-				DynamicFilterExpression dynamicFilterExp = (DynamicFilterExpression) filterExpr;
+				DynamicFilter dynamicFilter = (DynamicFilter) filter;
 				// creates new dynamic filter parameter
 				DynamicFilterParameterHandle dynamicFilterParamHandle = setHandle
 						.getModuleHandle( ).getElementFactory( )
 						.newDynamicFilterParameter( null );
 				dynamicFilterParamHandle.setDataSetName( setHandle.getName( ) );
-				dynamicFilterParamHandle.setColumn( dynamicFilterExp
-						.getContextVariable( ).getIdentifier( ) );
+				dynamicFilterParamHandle.setColumn( dynamicFilter
+						.getColumnName( ) );
 				setHandle.getModuleHandle( ).getParameters( ).add(
 						dynamicFilterParamHandle );
 				// sets the reference
@@ -604,7 +589,7 @@ public class ResultSetCriteriaAdapter
 								.getName( ) );
 				// updates the dynamic filter parameter
 				updateDynamicFilterCondition( filterConditionHandle,
-						dynamicFilterExp, dynamicFilterParamHandle );
+						dynamicFilter, dynamicFilterParamHandle );
 			}
 		}
 	}
@@ -630,67 +615,36 @@ public class ResultSetCriteriaAdapter
 	}
 
 	/**
-	 * Updates the filter condition by the given dynamic filter expression
+	 * Updates the filter condition by the given dynamic filter
 	 * 
 	 * @param filterConditionHandle
 	 *            the handle of the filter condition to update
 	 * @param dynamicFilterExpr
-	 *            the dynamic filter expression
+	 *            the dynamic filter
 	 * @throws SemanticException
 	 */
 	private void updateDynamicFilterCondition(
 			FilterConditionHandle filterConditionHandle,
-			DynamicFilterExpression dynamicFilterExpr,
+			DynamicFilter dynamicFilter,
 			DynamicFilterParameterHandle dynamicFilterParamHandle )
 			throws SemanticException
 	{
-		ExpressionVariable variable = dynamicFilterExpr.getContextVariable( );
-		ExpressionArguments arguments = dynamicFilterExpr.getContextArguments( );
-		// Only convert the first parameter
-		ExpressionParameterDefinition paramDefn = arguments
-				.getExpressionParameterDefinitions( ).get( 0 );
-		if ( paramDefn != null )
-		{
-			filterConditionHandle.setOptional( dynamicFilterExpr.isOptional( ) );
-			filterConditionHandle.setExpr( variable.getIdentifier( ) );
-			updateDynamicFilterParameter( dynamicFilterParamHandle, paramDefn );
-		}
-	}
+		filterConditionHandle.setOptional( dynamicFilter.isOptional );
 
-	/**
-	 * Updates the dynamic filter parameter by the given expression parameter.
-	 * 
-	 * @param dynamicFilterParamHandle
-	 *            the handle of the dynamic filter parameter to update
-	 * @param expParamDefn
-	 *            the definition of the given expression parameter
-	 * @throws SemanticException
-	 */
-
-	private void updateDynamicFilterParameter(
-			DynamicFilterParameterHandle dynamicFilterParamHandle,
-			ExpressionParameterDefinition expParamDefn )
-			throws SemanticException
-	{
-		ParameterDefinition paramDefn = expParamDefn.getDynamicInputParameter( );
-		if ( paramDefn == null )
-		{
-			return;
-		}
 		paramAdapter.updateAbstractScalarParameter( dynamicFilterParamHandle,
-				paramDefn, null, setHandle );
+				dynamicFilter.exprParamDefn.getDynamicInputParameter( ), null,
+				setHandle );
 	}
 
 	/**
 	 * Clears up all unnecessary dynamic filter parameter and filter conditions
 	 * 
-	 * @param filterExpMap
-	 *            the map contains filter expressions
+	 * @param filterMap
+	 *            the map contains filters
 	 * @throws SemanticException
 	 * 
 	 */
-	private void cleanUpROMFilterCondition(
-			Map<String, FilterExpression> filterExpMap )
+	private void cleanUpROMFilterCondition( Map<String, Filter> filterMap )
 			throws SemanticException
 	{
 		ArrayList<FilterCondition> dropList = new ArrayList<FilterCondition>( );
@@ -702,7 +656,7 @@ public class ResultSetCriteriaAdapter
 					.getDynamicFilterParameter( );
 			String key = getMapKey( filterHandle );
 			// Check if contains such filter.
-			if ( key != null && !filterExpMap.containsKey( key ) )
+			if ( key != null && !filterMap.containsKey( key ) )
 			{
 				// Remove the filter condition which is not contained.
 				if ( !StringUtil.isBlank( dynamicParameterName ) )
@@ -733,14 +687,16 @@ public class ResultSetCriteriaAdapter
 			FilterConditionHandle filterHandle )
 	{
 		FilterExpression filterExpr = null;
-		ExpressionVariable variable = DesignFactory.eINSTANCE
-				.createExpressionVariable( );
-		variable.setIdentifier( filterHandle.getExpr( ) );
 		if ( !StringUtil.isBlank( filterHandle.getExtensionName( ) ) )
 		{
 			CustomFilterExpression customFilterExpr = DesignFactory.eINSTANCE
 					.createCustomFilterExpression( );
+
+			ExpressionVariable variable = DesignFactory.eINSTANCE
+					.createExpressionVariable( );
+			variable.setIdentifier( filterHandle.getExpr( ) );
 			customFilterExpr.setContextVariable( variable );
+
 			customFilterExpr.setDeclaringExtensionId( filterHandle
 					.getExtensionName( ) );
 			customFilterExpr.setId( filterHandle.getExtensionExprId( ) );
@@ -758,7 +714,6 @@ public class ResultSetCriteriaAdapter
 				DynamicFilterExpression dynamicFilterExpr = DesignFactory.eINSTANCE
 						.createDynamicFilterExpression( );
 				dynamicFilterExpr.setIsOptional( filterHandle.isOptional( ) );
-				dynamicFilterExpr.setContextVariable( variable );
 
 				ExpressionArguments arguments = DesignFactory.eINSTANCE
 						.createExpressionArguments( );
@@ -767,6 +722,9 @@ public class ResultSetCriteriaAdapter
 
 				paramAdapter.updateParameterDefinitionFromReportParam(
 						paramDefn, dynamicParamHandle, setDesign );
+
+				paramDefn.getAttributes( ).setName(
+						dynamicParamHandle.getColumn( ) );
 
 				arguments.addDynamicParameter( paramDefn );
 				dynamicFilterExpr.setContextArguments( arguments );
@@ -777,4 +735,93 @@ public class ResultSetCriteriaAdapter
 		return filterExpr;
 	}
 
+	private static interface Filter
+	{
+
+		/**
+		 * Returns the column expression for the dynamic filter.
+		 * 
+		 * @return the column expression for the dynamic filter.
+		 */
+		String getColumnExpr( );
+	}
+
+	private static class CustomFilter implements Filter
+	{
+
+		public CustomFilterExpression customFilterExpr;
+
+		public CustomFilter( CustomFilterExpression filterExpr )
+		{
+			this.customFilterExpr = filterExpr;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.model.adapter.oda.impl.ResultSetCriteriaAdapter
+		 * .Filter#getColumnExpr()
+		 */
+		public String getColumnExpr( )
+		{
+			ExpressionVariable variable = customFilterExpr.getContextVariable( );
+			if ( variable != null )
+			{
+				return variable.getIdentifier( );
+			}
+			return null;
+		}
+	}
+
+	private static class DynamicFilter implements Filter
+	{
+
+		/**
+		 * Identifies if the filter is optional.
+		 */
+		public boolean isOptional;
+
+		public ExpressionParameterDefinition exprParamDefn;
+
+		public DynamicFilter( ExpressionParameterDefinition exprParamDefn,
+				boolean isOptional )
+		{
+			this.isOptional = isOptional;
+			this.exprParamDefn = exprParamDefn;
+		}
+
+		/**
+		 * Returns the column name for the dynamic filter.
+		 * 
+		 * @return the column name for the dynamic filter.
+		 */
+		public String getColumnName( )
+		{
+			ParameterDefinition paramDefn = exprParamDefn
+					.getDynamicInputParameter( );
+			if ( paramDefn != null && paramDefn.getAttributes( ) != null )
+			{
+				return paramDefn.getAttributes( ).getName( );
+			}
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.model.adapter.oda.impl.ResultSetCriteriaAdapter
+		 * .Filter#getColumnExpr()
+		 */
+		public String getColumnExpr( )
+		{
+			String columnName = getColumnName( );
+			if ( !StringUtil.isBlank( columnName ) )
+			{
+				return ExpressionUtil.createDataSetRowExpression( columnName );
+			}
+			return null;
+		}
+	}
 }
