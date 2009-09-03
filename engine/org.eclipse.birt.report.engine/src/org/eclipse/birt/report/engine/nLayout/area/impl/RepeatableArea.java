@@ -109,9 +109,23 @@ public abstract class RepeatableArea extends BlockContainerArea
 
 	protected boolean isValidResult( List result )
 	{
-		if ( repeatList != null && !inHeaderBand )
+		assert result != null;
+		if ( repeatList != null && !repeatList.isEmpty( ) )
 		{
-			return result.size( ) > repeatList.size( );
+			if ( result.size( ) > repeatList.size( ) )
+			{
+				return true;
+			}
+			else
+			{
+				int index = result.indexOf( repeatList
+						.get( repeatList.size( ) - 1 ) );
+				if ( index != -1 && result.size( ) - 1 >= index )
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 		return super.isValidResult( result );
 	}

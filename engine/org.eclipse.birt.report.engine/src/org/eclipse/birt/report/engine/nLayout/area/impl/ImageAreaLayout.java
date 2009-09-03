@@ -454,6 +454,7 @@ class ConcreteImageLayout implements ILayout
 		ImageArea imageArea = createImageArea( image );
 		imageArea.setParent( root );
 		// implement fitToContainer
+		// the maxHeight is the image's max possible height in an empty page.
 		int maxHeight = root.getMaxAvaHeight( );
 		int maxWidth = root.getMaxAvaWidth( );
 		int cHeight = contentDimension.getHeight( );
