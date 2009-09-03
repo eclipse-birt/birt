@@ -345,6 +345,7 @@ public class ColumnBindingDialog extends BaseDialog
 					{
 						ExceptionHandler.handle( e );
 					}
+					break;
 				case 7 :
 					text = handle.getFilterExpression( );
 					break;
