@@ -19,10 +19,13 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
@@ -52,7 +55,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -1432,15 +1434,24 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					if ( sds != null && sds.size( ) > 0 )
 					{
 						SeriesDefinition base = sds.get( 0 );
+
 						if ( selectDataTypes.get( cmbDataItems.getSelectionIndex( ) )
 								.intValue( ) == SELECT_DATA_SET
 								&& !ChartUIConstants.TYPE_GANTT.equals( getChartModel( ).getType( ) ) )
 						{
+							if ( base.getGrouping( ) == null )
+							{
+								base.setGrouping( SeriesGroupingImpl.create( ) );
+							}
 							base.getGrouping( ).setEnabled( true );
 						}
 						else
 						{
-							base.getGrouping( ).setEnabled( false );
+							if ( base.getGrouping( ) != null )
+							{
+								base.getGrouping( ).setEnabled( false );
+							}
+
 						}
 					}
 				}
@@ -1838,6 +1849,28 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				seriesDefinition.getGrouping( ).setEnabled( isGroupOrAggr );
 			}
+		}
+
+		if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
+		{
+			if ( !dataProvider.checkState( IDataServiceProvider.SHARE_QUERY )
+					&& dataProvider.checkState( IDataServiceProvider.HAS_DATA_SET ) )
+			{
+				if ( dataProvider.getDataType( actualExpr ) == DataType.DATE_TIME_LITERAL )
+				{
+					ChartAdapter.beginIgnoreNotifications( );
+					if ( query.getGrouping( ) == null )
+					{
+						query.setGrouping( DataFactoryImpl.init( )
+								.createSeriesGrouping( ) );
+					}
+					SeriesGrouping group = query.getGrouping( );
+					group.setEnabled( true );
+					group.setAggregateExpression( "First" ); //$NON-NLS-1$
+					ChartAdapter.endIgnoreNotifications( );
+				}
+			}
+
 		}
 
 		query.setDefinition( actualExpr );
