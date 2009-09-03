@@ -107,7 +107,11 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 			}
 			if( area.finished )
 			{
-				list.add( area );
+				if ( list.isEmpty( )
+						|| ( list.size( ) > 0 && !list.get( list.size( ) - 1 ).finished ) )
+				{
+					list.add( area );	
+				}
 			}
 			else
 			{
