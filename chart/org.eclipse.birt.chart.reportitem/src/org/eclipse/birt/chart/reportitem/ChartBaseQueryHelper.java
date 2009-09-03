@@ -33,8 +33,6 @@ import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -43,6 +41,7 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -52,7 +51,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
@@ -70,32 +68,36 @@ import org.eclipse.emf.common.util.EList;
  */
 public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 {
+	protected final IModelAdapter modelAdapter;
 
 	/**
 	 * Constructor of the class.
 	 * 
 	 * @param chart
 	 * @param handle
+	 * @param modelAdapter
 	 */
-	public ChartBaseQueryHelper( ReportItemHandle handle, Chart cm )
+	public ChartBaseQueryHelper( ReportItemHandle handle, Chart cm, IModelAdapter modelAdapter )
 	{
 		// The default behavior is to wrap complex expression as new binding
-		this( handle, cm, true );
+		this( handle, cm, modelAdapter, true );
 	}
 
 	/**
 	 * 
 	 * @param handle
 	 * @param cm
+	 * @param modelAdapter
 	 * @param bCreateBindingForExpression
 	 *            indicates if query definition should create a new binding for
 	 *            the complex expression. If the expression is simply a binding
 	 *            name, always do not add the new binding.
 	 */
 	public ChartBaseQueryHelper( ReportItemHandle handle, Chart cm,
-			boolean bCreateBindingForExpression )
+			IModelAdapter modelAdapter, boolean bCreateBindingForExpression )
 	{
 		super( handle, cm, bCreateBindingForExpression );
+		this.modelAdapter = modelAdapter;
 	}
 	
 	public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent ) throws ChartException
@@ -304,24 +306,25 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	{
 		if ( handle instanceof ExtendedItemHandle )
 		{
-			query.getFilters( )
-					.addAll( createFilters( ( (ExtendedItemHandle) handle ).filtersIterator( ) ) );
+			query.getFilters( ).addAll( createFilters( modelAdapter,
+					( (ExtendedItemHandle) handle ).filtersIterator( ) ) );
 		}
 		else if ( handle instanceof TableHandle )
 		{
-			query.getFilters( )
-					.addAll( createFilters( ( (TableHandle) handle ).filtersIterator( ) ) );
-		}		
+			query.getFilters( ).addAll( createFilters( modelAdapter,
+					( (TableHandle) handle ).filtersIterator( ) ) );
+		}
 	}
 
 	/**
 	 * create a filter array given a filter condition handle iterator
 	 * 
+	 * @param modelAdapter
 	 * @param iter
 	 *            the iterator
 	 * @return filter array
 	 */
-	protected static List<IFilterDefinition> createFilters(
+	protected static List<IFilterDefinition> createFilters( IModelAdapter modelAdapter,
 			Iterator<FilterConditionHandle> iter )
 	{
 		List<IFilterDefinition> filters = new ArrayList<IFilterDefinition>( );
@@ -331,52 +334,11 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			while ( iter.hasNext( ) )
 			{
 				FilterConditionHandle filterHandle = iter.next( );
-				IFilterDefinition filter = createFilter( filterHandle );
+				IFilterDefinition filter = modelAdapter.adaptFilter( filterHandle );
 				filters.add( filter );
 			}
 		}
 		return filters;
-	}
-
-	/**
-	 * create one Filter given a filter condition handle
-	 * 
-	 * @param handle
-	 *            a filter condition handle
-	 * @return the filter
-	 */
-	private static IFilterDefinition createFilter(
-			FilterConditionHandle handle )
-	{
-		String filterExpr = handle.getExpr( );
-		if ( filterExpr == null || filterExpr.length( ) == 0 )
-			return null; // no filter defined
-
-		// converts to DtE exprFilter if there is no operator
-		String filterOpr = handle.getOperator( );
-		if ( filterOpr == null || filterOpr.length( ) == 0 )
-			return new FilterDefinition( new ScriptExpression( filterExpr ) );
-
-		/*
-		 * has operator defined, try to convert filter condition to
-		 * operator/operand style column filter with 0 to 2 operands
-		 */
-
-		String column = filterExpr;
-		int dteOpr = ModelDteApiAdapter.toDteFilterOperator( filterOpr );
-		if ( ModuleUtil.isListFilterValue( handle ) )
-		{
-			List operand1List = handle.getValue1List( );
-			return new FilterDefinition( new ConditionalExpression( column,
-					dteOpr,
-					operand1List ) );
-		}
-		String operand1 = handle.getValue1( );
-		String operand2 = handle.getValue2( );
-		return new FilterDefinition( new ConditionalExpression( column,
-				dteOpr,
-				operand1,
-				operand2 ) );
 	}
 
 	/**
@@ -527,7 +489,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 * processes a table/list group
 	 */
 	public static IGroupDefinition handleGroup( GroupHandle handle,
-			IBaseQueryDefinition query )
+			IBaseQueryDefinition query, IModelAdapter modelAdapter )
 	{
 		GroupDefinition groupDefn = new GroupDefinition( handle.getName( ) );
 		groupDefn.setKeyExpression( handle.getKeyExpr( ) );
@@ -548,7 +510,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		}
 
 		groupDefn.getSorts( ).addAll( createSorts( handle ) );
-		groupDefn.getFilters( ).addAll( createFilters( handle ) );
+		groupDefn.getFilters( ).addAll( createFilters( modelAdapter,handle ) );
 
 		query.getGroups( ).add( groupDefn );
 
@@ -621,13 +583,14 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	/**
 	 * create filter array given a GroupHandle
 	 * 
+	 * @param modelAdapter
 	 * @param group
 	 *            the GroupHandle
 	 * @return filter array
 	 */
-	private static List createFilters( GroupHandle group )
+	private static List<IFilterDefinition> createFilters( IModelAdapter modelAdapter, GroupHandle group )
 	{
-		return createFilters( group.filtersIterator( ) );
+		return createFilters( modelAdapter, group.filtersIterator( ) );
 	}
 
 	/**

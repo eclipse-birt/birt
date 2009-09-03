@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -42,10 +43,11 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	 *            the referred report item handle contains actual
 	 *            bindings/groupings/filters.
 	 * @param chart
+	 * @param modelAdapter
 	 */
-	public ChartSharingQueryHelper( ReportItemHandle handle, Chart cm )
+	public ChartSharingQueryHelper( ReportItemHandle handle, Chart cm, IModelAdapter modelAdapter )
 	{
-		super( handle, cm );
+		super( handle, cm, modelAdapter );
 	}
 
 	/**
@@ -55,15 +57,16 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	 *            the referred report item handle contains actual
 	 *            bindings/groupings/filters.
 	 * @param chart
+	 * @param modelAdapter
 	 * @param bCreateBindingForExpression
 	 *            indicates if query definition should create a new binding for
 	 *            the complex expression. If the expression is simply a binding
 	 *            name, always do not add the new binding.
 	 */
 	public ChartSharingQueryHelper( ReportItemHandle handle, Chart cm,
-			boolean bCreateBindingForExpression )
+			IModelAdapter modelAdapter, boolean bCreateBindingForExpression )
 	{
-		super( handle, cm, bCreateBindingForExpression );
+		super( handle, cm, modelAdapter, bCreateBindingForExpression );
 	}
 
 	/**
@@ -86,7 +89,7 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 		List<GroupHandle> groups = getGroups( );
 		for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
 		{
-			handleGroup( iter.next( ), query );
+			handleGroup( iter.next( ), query, modelAdapter );
 		}
 
 		if ( ChartReportItemUtil.isChartInheritGroups( fReportItemHandle ) )

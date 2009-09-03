@@ -80,6 +80,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -418,7 +419,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						new ScriptExpression( columnExpression[i] ) );
 			}
 
-			handleGroup( queryDefn, itemHandle );
+			handleGroup( queryDefn, itemHandle, session.getModelAdaptor( ) );
 			
 			// Iterate parameter bindings to check if its expression is a
 			// explicit
@@ -504,7 +505,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 *            the item handle contains groups.
 	 */
 	private void handleGroup( QueryDefinition queryDefn,
-			ExtendedItemHandle reportItemHandle )
+			ExtendedItemHandle reportItemHandle, IModelAdapter modelAdapter )
 	{
 		ReportItemHandle handle = ChartReportItemUtil.getBindingHolder( reportItemHandle );
 		if ( handle instanceof ListingHandle )
@@ -512,7 +513,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			SlotHandle groups = ( (ListingHandle) handle ).getGroups( );
 			 for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
 			{
-				ChartBaseQueryHelper.handleGroup( iter.next( ), queryDefn );
+				ChartBaseQueryHelper.handleGroup( iter.next( ), queryDefn, modelAdapter );
 			}
 		}
 	}
@@ -1391,7 +1392,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// expression.
 		resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
 		
-		handleGroup( queryDefn, handle );
+		handleGroup( queryDefn, handle, session.getModelAdaptor( ) );
 		
 		processQueryDefinition( queryDefn );
 

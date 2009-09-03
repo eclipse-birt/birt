@@ -19,6 +19,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
@@ -117,6 +118,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	IDataQueryDefinition createQuery( ExtendedItemHandle handle,
 			IDataQueryDefinition parent ) throws BirtException
 	{
+		IModelAdapter modelAdapter = context.getDataRequestSession( )
+				.getModelAdaptor( );
 		if ( handle.getDataSet( ) != null
 				|| ( handle.getCube( ) == null && parent instanceof IBaseQueryDefinition ) )
 		{
@@ -136,7 +139,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 					if ( container instanceof ListingHandle )
 					{
 						itemHandle = (ListingHandle) container;
-						return new ChartSharingQueryHelper( handle, cm ).createQuery( parent );
+						return new ChartSharingQueryHelper( handle,
+								cm,
+								modelAdapter ).createQuery( parent );
 					}
 					container = container.getContainer( );
 				}
@@ -147,10 +152,10 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			}
 			if ( itemHandle != null )
 			{
-				return new ChartSharingQueryHelper( itemHandle, cm ).createQuery( parent );
+				return new ChartSharingQueryHelper( itemHandle, cm, modelAdapter ).createQuery( parent );
 			}
 
-			return new ChartBaseQueryHelper( handle, cm ).createBaseQuery( parent );
+			return new ChartBaseQueryHelper( handle, cm, modelAdapter ).createBaseQuery( parent );
 		}
 		else if ( handle.getCube( ) != null
 				|| parent instanceof ICubeQueryDefinition )
