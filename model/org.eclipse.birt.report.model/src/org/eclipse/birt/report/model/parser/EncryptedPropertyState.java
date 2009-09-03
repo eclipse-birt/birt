@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
-import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -171,12 +171,11 @@ public class EncryptedPropertyState extends PropertyState
 			if ( struct instanceof PropertyBinding )
 			{
 				PropertyBinding propBinding = (PropertyBinding) struct;
-				// only constant type should support encryption
-				if ( IExpressionType.CONSTANT.equalsIgnoreCase( exprType ) )
-					propBinding.setEncryption( encryptionID );
+				propBinding.setEncryption( encryptionID );
 			}
 			doSetMember( struct, propDefn.getName( ),
-					(StructPropertyDefn) propDefn, valueToSet );
+					(StructPropertyDefn) propDefn, convertToExpression(
+							propDefn, valueToSet ) );
 			return;
 		}
 
@@ -185,6 +184,26 @@ public class EncryptedPropertyState extends PropertyState
 		{
 			element.setEncryptionHelper( name, encryptionID );
 		}
-		doSetProperty( propDefn, valueToSet );
+		doSetProperty( propDefn, convertToExpression( propDefn, valueToSet ) );
+	}
+
+	/**
+	 * Converts input value to expression. If the property type is expression
+	 * and the exprType is not null, the String value will be converted to
+	 * Expression.
+	 * 
+	 * @param defn
+	 *            property definition.
+	 * @param valueToSet
+	 *            the value.
+	 * @return the converted object.
+	 */
+	private Object convertToExpression( PropertyDefn defn, String valueToSet )
+	{
+		if ( defn.allowExpression( ) )
+		{
+			return new Expression( valueToSet, ExpressionType.CONSTANT );
+		}
+		return valueToSet;
 	}
 }

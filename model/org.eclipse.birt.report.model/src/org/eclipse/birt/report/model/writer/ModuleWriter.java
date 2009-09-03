@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -732,20 +733,33 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( xml == null )
 			return;
 
-		String encryptionID = null;
-		if ( propDefn.isEncryptable( ) )
-		{
-			encryptionID = obj.getEncryptionID( (ElementPropertyDefn) propDefn );
-			tag = DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
-			// getLocalProperty will return decrypted value, so encrypt it here
-			xml = (String) EncryptionUtil.encrypt(
-					(ElementPropertyDefn) propDefn, encryptionID, xml );
-		}
-
 		String exprType = null;
 		if ( value instanceof Expression )
 		{
 			exprType = ( (Expression) value ).getUserDefinedType( );
+		}
+
+		String encryptionID = null;
+		if ( propDefn.isEncryptable( ) )
+		{
+			encryptionID = obj.getEncryptionID( (ElementPropertyDefn) propDefn );
+			if ( value instanceof String
+					|| ExpressionType.CONSTANT.equals( exprType ) )
+			{
+				tag = DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
+				// if the property is encryptable, the expression type should be
+				// constant and the expression type will not be written.
+				exprType = null;
+			}
+			else
+			{
+				tag = ModelUtil.getTagByPropertyType( propDefn );
+				encryptionID = null;
+			}
+			// getLocalProperty will return decrypted value, so encrypt it here
+			xml = (String) EncryptionUtil.encrypt(
+					(ElementPropertyDefn) propDefn, encryptionID, xml );
+
 		}
 
 		if ( tag == null )
@@ -1189,8 +1203,12 @@ public abstract class ModuleWriter extends ElementVisitor
 					if ( value == null )
 						break;
 					String encryptionID = propBinding.getEncryption( );
-					if ( encryptionID == null )
+					String type = value.getType( );
+					if ( encryptionID == null
+							|| !ExpressionType.CONSTANT.equals( type ) )
+					{
 						writeMember( struct, memberDefn );
+					}
 					else
 					{
 						String xml = memberDefn.getXmlValue( getModule( ),
@@ -1200,10 +1218,13 @@ public abstract class ModuleWriter extends ElementVisitor
 
 						xml = (String) EncryptionUtil.encrypt( memberDefn,
 								encryptionID, xml );
+						// if the member property is encryptable, the
+						// expression type will not be written.
 						writeEntry(
 								DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG,
 								PropertyBinding.VALUE_MEMBER, encryptionID,
-								value.getUserDefinedType( ), xml, false );
+								null, xml, false );
+
 					}
 
 				}

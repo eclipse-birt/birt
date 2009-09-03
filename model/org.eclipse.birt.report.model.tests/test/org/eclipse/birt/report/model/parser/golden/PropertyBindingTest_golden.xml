@@ -10,7 +10,7 @@
         <structure>
             <property name="name">pswd</property>
             <property name="id">30</property>
-            <encrypted-property name="value" encryptionID="oneEncryptionHelper" type="constant">_ab_setNewPassword</encrypted-property>
+            <encrypted-property name="value" encryptionID="oneEncryptionHelper">_ab_setNewPassword</encrypted-property>
         </structure>
         <structure>
             <property name="name">pswd</property>
