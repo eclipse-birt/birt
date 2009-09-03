@@ -550,27 +550,25 @@ public class ExcelUtil
 		}
 	}
 
-	public static String convertColWith( int width )
+	// change the columnWidth unit from point to characterNumber
+	public static double convertColWidth( int width )
 	{
-		//TODO: more study about the caculation
-		double result = 0.0;
+		// TODO: more study about the caculation
 		if ( width < 0 )
-			return "0.0";
-//		 Convert unit from point to pixel.
-//		result = (double) width * 96 / 72;
-//		double digitalWidth = 7;
-//		 convert from pixel to number of charaters
-//		result = (int) ( ( result - 5 ) / digitalWidth * 100 + 0.5 );
-//		result = result / 100;
-//		convert from number of charaters to number for output
-//		result = (int) ( ( result * digitalWidth + 5 ) / digitalWidth * 256 );
-//		result = result / 256;
+			return 0;
 
-		double digitalWidth = 5.25;
-		result = (int) ( width / digitalWidth * 100 + 0.5 );
-		result = result / 100;
-		return Double.toString( result );
+		double result = 0;
+		// Convert unit from point to pixel.
+		double widthInPixel = width / PX_PT;
+		double digitalWidth = 7;
 
+		// convert from pixel to number of charaters
+		result = (int) ( ( widthInPixel - 5 ) / digitalWidth * 100 + 0.5 );
+		double characterNumber = (double) result / 100;
+
+		// calculate characterNumber
+		result = (int) ( ( characterNumber * digitalWidth + 5 ) / digitalWidth * 256 );
+		return result / 256;
 	}
 
 	public static boolean isBigNumber( Object number )
