@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.PrivateStyleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
@@ -918,6 +920,30 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "CompatiblePageMarginTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Test backward compatibility. If the version is less than 3.2.18, the
+	 * master page locates in report design extends the master page locates in
+	 * library which has the margin value, the master page margin will not be
+	 * set.
+	 * 
+	 * @throws Exception
+	 */
+	public void testExtendedPageMargin( ) throws Exception
+	{
+		openDesign( "CompatibleExtendedPageMarginTest.xml" );//$NON-NLS-1$
+
+		SimpleMasterPageHandle page = (SimpleMasterPageHandle) designHandle
+				.findMasterPage( "NewSimpleMasterPage" ); //$NON-NLS-1$
+
+		assertEquals( "0.1in", page.getTopMargin( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "0.2in", page.getLeftMargin( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "0.3in", page.getBottomMargin( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "0.4in", page.getRightMargin( ).getStringValue( ) ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "CompatibleExtendedPageMarginTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
