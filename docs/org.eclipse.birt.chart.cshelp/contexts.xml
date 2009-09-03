@@ -496,6 +496,15 @@ You can add, format, and remove series markers. BIRT charts support pre-defined 
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
+<context id="MarkerIcon_ID" title="Marker Icon Selector">
+<!-- SEQUENCE: On chart wizard for a chart with axes that supports markers, such as line or scatter, Format Chart, on left, expand Series, then select Value (Y) Series, then choose Markers, then drop down list of markers, then select the image icon JAHT 20090903 -->
+<description>
+BIRT charts support custom series markers from images that you provide.
+Specify the location from which to select the image.
+</description>
+<!-- link updated JAHT 20090903  No available topic -->
+</context>
+
 <context id="MeterChartRegions_ID" title="Regions">
 <!-- SEQUENCE: On chart wizard for a meter chart, Format Chart, expand Series, then select Value Series, then choose Regions JAHT 20090615 -->
 <description>
