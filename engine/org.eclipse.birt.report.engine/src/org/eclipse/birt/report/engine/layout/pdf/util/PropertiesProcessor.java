@@ -66,6 +66,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 		}
 	}
 
+	protected boolean hasProperty( IStyle style, int index )
+	{
+		return style.getProperty( index ) != null;
+	}
+
 	static
 	{
 		properties2Style.put( "cellpadding", //$NON-NLS-1$
@@ -73,16 +78,65 @@ public abstract class PropertiesProcessor implements HTMLConstants
 
 					public void process( String value, StyleProperties sp )
 					{
-						try
+						if ( value != null && value.length( ) > 0 )
 						{
-							int size = Integer.parseInt( value ); //$NON-NLS-1$
-							String padding = size + "px";
-							IStyle style = sp.getStyle( );
-							style.setPadding( padding );
-						}
-						catch ( Exception e )
-						{
+							if ( value.endsWith( "%" ) )
+							{
+								IStyle style = sp.getStyle( );
+								if ( !hasProperty( style,
+										IStyle.STYLE_PADDING_LEFT ) )
+								{
+									style.setPaddingLeft( value );
+								}
+								if ( !hasProperty( style,
+										IStyle.STYLE_PADDING_RIGHT ) )
+								{
+									style.setPaddingRight( value );
+								}
+								if ( !hasProperty( style,
+										IStyle.STYLE_PADDING_TOP ) )
+								{
+									style.setPaddingTop( value );
+								}
+								if ( !hasProperty( style,
+										IStyle.STYLE_PADDING_BOTTOM ) )
+								{
+									style.setPaddingBottom( value );
+								}
+							}
+							else
+							{
+								try
+								{
+									int size = Integer.parseInt( value ); //$NON-NLS-1$
+									String padding = size + "px";
+									IStyle style = sp.getStyle( );
+									if ( !hasProperty( style,
+											IStyle.STYLE_PADDING_LEFT ) )
+									{
+										style.setPaddingLeft( padding );
+									}
+									if ( !hasProperty( style,
+											IStyle.STYLE_PADDING_RIGHT ) )
+									{
+										style.setPaddingRight( padding );
+									}
+									if ( !hasProperty( style,
+											IStyle.STYLE_PADDING_TOP ) )
+									{
+										style.setPaddingTop( padding );
+									}
+									if ( !hasProperty( style,
+											IStyle.STYLE_PADDING_BOTTOM ) )
+									{
+										style.setPaddingBottom( padding );
+									}
+								}
+								catch ( Exception e )
+								{
 
+								}
+							}
 						}
 					}
 				} );
@@ -91,7 +145,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 
 					public void process( String value, StyleProperties sp )
 					{
-						sp.getStyle( ).setBackground( value );
+						IStyle style = sp.getStyle( );
+						if ( !hasProperty( style, IStyle.STYLE_BACKGROUND_COLOR ) )
+						{
+							style.setBackgroundColor( value );
+						}
 					}
 				} );
 		properties2Style.put( "size", //$NON-NLS-1$
@@ -102,8 +160,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 						try
 						{
 							int size = Integer.parseInt( value ); //$NON-NLS-1$
-							sp.getStyle( ).setFontSize(
-									FONT_SIZE[size + 7] + "pt" );
+							IStyle style = sp.getStyle( );
+							if ( !hasProperty( style, IStyle.STYLE_FONT_SIZE ) )
+							{
+								style.setFontSize( FONT_SIZE[size + 7] + "pt" );
+							}
 						}
 						catch ( Exception e )
 						{
@@ -117,7 +178,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 
 					public void process( String value, StyleProperties sp )
 					{
-						sp.getStyle( ).setColor( value );
+						IStyle style = sp.getStyle( );
+						if ( !hasProperty( style, IStyle.STYLE_COLOR ) )
+						{
+							style.setColor( value );
+						}
 					}
 				} );
 
@@ -126,7 +191,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 
 					public void process( String value, StyleProperties sp )
 					{
-						sp.getStyle( ).setColor( value );
+						IStyle style = sp.getStyle( );
+						if ( !hasProperty( style, IStyle.STYLE_COLOR ) )
+						{
+							style.setColor( value );
+						}
 					}
 				} );
 
@@ -135,7 +204,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 
 					public void process( String value, StyleProperties sp )
 					{
-						sp.getStyle( ).setBackgroundColor( value );
+						IStyle style = sp.getStyle( );
+						if ( !hasProperty( style, IStyle.STYLE_BACKGROUND_COLOR ) )
+						{
+							style.setBackgroundColor( value );
+						}
 					}
 				} );
 		properties2Style.put( "border", //$NON-NLS-1$
@@ -149,14 +222,46 @@ public abstract class PropertiesProcessor implements HTMLConstants
 							int size = Integer.parseInt( value ); //$NON-NLS-1$
 							String width = size + "px";
 							IStyle style = sp.getStyle( );
-							style.setBorderTopWidth( width );
-							style.setBorderBottomWidth( width );
-							style.setBorderLeftWidth( width );
-							style.setBorderRightWidth( width );
-							style.setBorderTopStyle( "solid" );
-							style.setBorderBottomStyle( "solid" );
-							style.setBorderLeftStyle( "solid" );
-							style.setBorderRightStyle( "solid" );
+							if ( !hasProperty( style,
+									IStyle.STYLE_BORDER_TOP_WIDTH ) )
+							{
+								style.setBorderTopWidth( width );
+							}
+							if ( !hasProperty( style,
+									IStyle.STYLE_BORDER_BOTTOM_WIDTH ) )
+							{
+								style.setBorderBottomWidth( width );
+							}
+							if ( !hasProperty( style,
+									IStyle.STYLE_BORDER_LEFT_WIDTH ) )
+							{
+								style.setBorderLeftWidth( width );
+							}
+							if ( !hasProperty( style,
+									IStyle.STYLE_BORDER_RIGHT_WIDTH ) )
+							{
+								style.setBorderRightWidth( width );
+							}
+							if ( !hasProperty( style,
+									IStyle.STYLE_BORDER_TOP_STYLE ) )
+							{
+								style.setBorderTopStyle( "solid" );
+							}
+							if ( !hasProperty( style,
+									IStyle.STYLE_BORDER_BOTTOM_STYLE ) )
+							{
+								style.setBorderBottomStyle( "solid" );
+							}
+							if ( !hasProperty( style,
+									IStyle.STYLE_BORDER_LEFT_STYLE ) )
+							{
+								style.setBorderLeftStyle( "solid" );
+							}
+							if ( !hasProperty( style,
+									IStyle.STYLE_BORDER_RIGHT_STYLE ) )
+							{
+								style.setBorderRightStyle( "solid" );
+							}
 						}
 						catch ( Exception e )
 						{
@@ -169,7 +274,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 
 					public void process( String value, StyleProperties sp )
 					{
-						sp.getStyle( ).setFontFamily( value );
+						IStyle style = sp.getStyle( );
+						if ( !hasProperty( style, IStyle.STYLE_FONT_FAMILY ) )
+						{
+							style.setFontFamily( value );
+						}
 					}
 				} );
 		properties2Style.put( "align", //$NON-NLS-1$
@@ -177,7 +286,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 
 					public void process( String value, StyleProperties sp )
 					{
-						sp.getStyle( ).setTextAlign( value );
+						IStyle style = sp.getStyle( );
+						if ( !hasProperty( style, IStyle.STYLE_TEXT_ALIGN ) )
+						{
+							style.setTextAlign( value );
+						}
 					}
 				} );
 
@@ -186,7 +299,11 @@ public abstract class PropertiesProcessor implements HTMLConstants
 
 					public void process( String value, StyleProperties sp )
 					{
-						sp.getStyle( ).setVerticalAlign( value );
+						IStyle style = sp.getStyle( );
+						if ( !hasProperty( style, IStyle.STYLE_VERTICAL_ALIGN ) )
+						{
+							style.setVerticalAlign( value );
+						}
 					}
 				} );
 
