@@ -289,16 +289,39 @@ public class DEUtil
 			list.removeAll( notSupportList );
 		}
 
+		// Append to validate the type according to the context
 		List<IElementDefn> availableList = new ArrayList<IElementDefn>( );
-		for ( Iterator<IElementDefn> iterator = list.iterator( ); iterator.hasNext( ); )
+		List<IElementDefn> extendedList = new ArrayList<IElementDefn>( );
+		for ( IElementDefn elementDefn : list )
 		{
-			IElementDefn type = iterator.next( );
-			if ( propertyHandle.canContain( type.getName( ) ) )
+			if ( propertyHandle.canContain( elementDefn.getName( ) ) )
 			{
-				availableList.add( type );
+				if ( elementDefn.isExtendedElement( ) )
+				{
+					extendedList.add( elementDefn );
+				}
+				else
+				{
+					availableList.add( elementDefn );
+				}
 			}
 		}
+		Collections.sort( availableList, new Comparator<IElementDefn>( ) {
 
+			public int compare( IElementDefn o1, IElementDefn o2 )
+			{
+				return paletteElementList.indexOf( o1.getName( ) )
+						- paletteElementList.indexOf( o2.getName( ) );
+			}
+		} );
+		Collections.sort( extendedList, new Comparator<IElementDefn>( ) {
+
+			public int compare( IElementDefn o1, IElementDefn o2 )
+			{
+				return Collator.getInstance( ).compare( o1.getName( ), o2.getName( ) );
+			}
+		} );
+		availableList.addAll( extendedList );
 		return availableList;
 	}
 
