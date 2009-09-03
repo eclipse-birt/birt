@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3">
+        	<property name="topMargin">0.1in</property>
+            <property name="leftMargin">0.2in</property>
+            <property name="bottomMargin">0.3in</property>
+            <property name="rightMargin">0.4in</property>
+        </simple-master-page>
+    </page-setup>
+</library>

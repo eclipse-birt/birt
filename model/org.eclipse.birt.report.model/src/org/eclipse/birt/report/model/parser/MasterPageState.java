@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
@@ -88,13 +89,16 @@ public abstract class MasterPageState extends ReportElementState
 	 */
 	private void setMargin( String marginProp, double marginValue )
 	{
-		Object value = element
-				.getLocalProperty( element.getRoot( ), marginProp );
+		ElementPropertyDefn prop = element.getPropertyDefn( marginProp );
+
+		Object value = element.getStrategy( ).getPropertyExceptRomDefault(
+				handler.module, element, prop );
+
 		if ( value == null )
 		{
 			DimensionValue dimension = new DimensionValue( marginValue,
 					DesignChoiceConstants.UNITS_IN );
-			element.setProperty( marginProp, dimension );
+			element.setProperty( prop, dimension );
 		}
 	}
 }

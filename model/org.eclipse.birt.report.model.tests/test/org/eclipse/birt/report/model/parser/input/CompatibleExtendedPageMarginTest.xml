@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">CompatibleExtendedPageMarginTest_Lib.xml</property>
+            <property name="namespace">new_library</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="8" extends="new_library.NewSimpleMasterPage"/>
+    </page-setup>
+</report>
