@@ -290,4 +290,42 @@ public class NumberFormatterTest extends TestCase
 		Assert.assertEquals( numFormat.format( smallValues[4] ), "-4.900000E-07" );
 		Assert.assertEquals( numFormat.format( bigValues[4] ), "-5.100000E-07" );
 	}
+
+	public void testPatternAttributes( )
+	{
+		// test DigitSubstitution
+		// Arabic Hindic has different behavior
+		Locale arabic = new Locale( "ar" );
+		Locale english = new Locale( "en" );
+		String[] patterns = {"General Number",
+				"General Number{DigitSubstitution=true}"};
+		double[] values = {123.12, 902.023};
+		String[][] araGoldens = new String[][]{{"123.12", "902.023"},
+				{"Ù¡Ù¢Ù£Ù«Ù¡Ù¢", "Ù©Ù Ù¢Ù«Ù Ù¢Ù£"}};
+		String[][] engGoldens = new String[][]{{"123.12", "902.023"},
+				{"123.12", "902.023"}};
+		NumberFormatter nf = null;
+		for ( int pindex = 0; pindex < patterns.length; pindex++ )
+		{
+			String pattern = patterns[pindex];
+			nf = new NumberFormatter( pattern, arabic );
+			for ( int vindex = 0; vindex < values.length; vindex++ )
+			{
+				double value = values[vindex];
+				String res = nf.format( value );
+				assertTrue( res.equals( araGoldens[pindex][vindex] ) );
+			}
+		}
+		for ( int pindex = 0; pindex < patterns.length; pindex++ )
+		{
+			String pattern = patterns[pindex];
+			nf = new NumberFormatter( pattern, english );
+			for ( int vindex = 0; vindex < values.length; vindex++ )
+			{
+				double value = values[vindex];
+				String res = nf.format( value );
+				assertTrue( res.equals( engGoldens[pindex][vindex] ) );
+			}
+		}
+	}
 }
