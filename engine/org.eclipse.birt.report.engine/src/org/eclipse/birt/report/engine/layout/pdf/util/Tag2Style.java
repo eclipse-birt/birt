@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.css.engine.value.ListValue;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSPrimitiveValue;
+import org.w3c.dom.css.CSSValue;
 
 public abstract class Tag2Style implements HTMLConstants
 {
@@ -28,45 +29,54 @@ public abstract class Tag2Style implements HTMLConstants
 
 	private static Map<String, Tag2Style> tag2Style = new HashMap<String, Tag2Style>( );
 
+	protected void setProperty( IStyle style, int index, CSSValue value )
+	{
+		CSSValue v = style.getProperty( index );
+		if ( v == null )
+		{
+			style.setProperty( index, value );
+		}
+	}
+
 	protected void setHStyle( IStyle style, float fontSize, float margin )
 	{
 		setMarginTopAndBottom( style, margin );
-		style.setProperty( IStyle.STYLE_FONT_SIZE, createEmValue( fontSize ) );
-		style.setProperty( IStyle.STYLE_FONT_WEIGHT, IStyle.BOLD_VALUE );
-		style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER, IStyle.AVOID_VALUE );
+		setProperty( style, IStyle.STYLE_FONT_SIZE, createEmValue( fontSize ) );
+		setProperty( style, IStyle.STYLE_FONT_WEIGHT, IStyle.BOLD_VALUE );
+		setProperty( style, IStyle.STYLE_PAGE_BREAK_AFTER, IStyle.AVOID_VALUE );
 	}
 
 	protected void setMarginTopAndBottom( IStyle style, float margin )
 	{
-		style.setProperty( IStyle.STYLE_MARGIN_TOP, createEmValue( margin ) );
-		style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, createEmValue( margin ) );
+		setProperty( style, IStyle.STYLE_MARGIN_TOP, createEmValue( margin ) );
+		setProperty( style, IStyle.STYLE_MARGIN_BOTTOM, createEmValue( margin ) );
 	}
 
 	protected void setFontFamily( IStyle style, Value font )
 	{
 		ListValue fonts = new ListValue( );
 		fonts.append( font );
-		style.setProperty( IStyle.STYLE_FONT_FAMILY, fonts );
+		setProperty( style, IStyle.STYLE_FONT_FAMILY, fonts );
 	}
 
 	protected void setFontStyle( IStyle style, Value fontStyle )
 	{
-		style.setProperty( IStyle.STYLE_FONT_STYLE, fontStyle );
+		setProperty( style, IStyle.STYLE_FONT_STYLE, fontStyle );
 	}
 
 	protected void setFontWeight( IStyle style, Value fontWeight )
 	{
-		style.setProperty( IStyle.STYLE_FONT_WEIGHT, fontWeight );
+		setProperty( style, IStyle.STYLE_FONT_WEIGHT, fontWeight );
 	}
 
 	protected void setInlineDisplay( IStyle style )
 	{
-		style.setProperty( IStyle.STYLE_DISPLAY, IStyle.INLINE_VALUE );
+		setProperty( style, IStyle.STYLE_DISPLAY, IStyle.INLINE_VALUE );
 	}
 
 	protected void setBlockDisplay( IStyle style )
 	{
-		style.setProperty( IStyle.STYLE_DISPLAY, IStyle.BLOCK_VALUE );
+		setProperty( style, IStyle.STYLE_DISPLAY, IStyle.BLOCK_VALUE );
 	}
 
 	protected void processProperites( String[] properties, Element ele,
@@ -160,7 +170,7 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_TEXT_UNDERLINE,
+				setProperty( sp.getStyle( ), IStyle.STYLE_TEXT_UNDERLINE,
 						IStyle.UNDERLINE_VALUE );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -191,9 +201,9 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_VERTICAL_ALIGN,
+				setProperty( sp.getStyle( ), IStyle.STYLE_VERTICAL_ALIGN,
 						IStyle.BOTTOM_VALUE );
-				sp.getStyle( ).setProperty( IStyle.STYLE_FONT_SIZE,
+				setProperty( sp.getStyle( ), IStyle.STYLE_FONT_SIZE,
 						createPercentageValue( 75 ) );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -203,9 +213,9 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_VERTICAL_ALIGN,
+				setProperty( sp.getStyle( ), IStyle.STYLE_VERTICAL_ALIGN,
 						IStyle.TOP_VALUE );
-				sp.getStyle( ).setProperty( IStyle.STYLE_FONT_SIZE,
+				setProperty( sp.getStyle( ), IStyle.STYLE_FONT_SIZE,
 						createPercentageValue( 75 ) );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -224,7 +234,7 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_TEXT_UNDERLINE,
+				setProperty( sp.getStyle( ), IStyle.STYLE_TEXT_UNDERLINE,
 						IStyle.UNDERLINE_VALUE );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -233,7 +243,7 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_TEXT_LINETHROUGH,
+				setProperty( sp.getStyle( ), IStyle.STYLE_TEXT_LINETHROUGH,
 						IStyle.LINE_THROUGH_VALUE );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -243,7 +253,7 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_TEXT_LINETHROUGH,
+				setProperty( sp.getStyle( ), IStyle.STYLE_TEXT_LINETHROUGH,
 						IStyle.LINE_THROUGH_VALUE );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -252,7 +262,7 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_TEXT_LINETHROUGH,
+				setProperty( sp.getStyle( ), IStyle.STYLE_TEXT_LINETHROUGH,
 						IStyle.LINE_THROUGH_VALUE );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -262,7 +272,7 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_FONT_SIZE,
+				setProperty( sp.getStyle( ), IStyle.STYLE_FONT_SIZE,
 						createPercentageValue( 200 ) );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -272,7 +282,7 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_FONT_SIZE,
+				setProperty( sp.getStyle( ), IStyle.STYLE_FONT_SIZE,
 						createPercentageValue( 50 ) );
 				setInlineDisplay( sp.getStyle( ) );
 			}
@@ -458,7 +468,7 @@ public abstract class Tag2Style implements HTMLConstants
 
 			public void process( Element ele, StyleProperties sp )
 			{
-				sp.getStyle( ).setProperty( IStyle.STYLE_TEXT_ALIGN,
+				setProperty( sp.getStyle( ), IStyle.STYLE_TEXT_ALIGN,
 						IStyle.CENTER_VALUE );
 				setBlockDisplay( sp.getStyle( ) );
 			}
