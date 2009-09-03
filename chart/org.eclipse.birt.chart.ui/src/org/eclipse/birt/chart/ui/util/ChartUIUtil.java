@@ -1513,7 +1513,8 @@ public class ChartUIUtil
 		return ( state & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY
 				&& ( state & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) != IDataServiceProvider.INHERIT_COLUMNS_GROUPS
 				// do not allow group for chart consuming cube
-				&& ( state & IDataServiceProvider.HAS_CUBE ) != IDataServiceProvider.HAS_CUBE;
+				&& ( state & IDataServiceProvider.HAS_CUBE ) != IDataServiceProvider.HAS_CUBE
+				&& ( state & IDataServiceProvider.INHERIT_CUBE ) != IDataServiceProvider.INHERIT_CUBE;
 	}
 
 	private static String checkGroupTypeOnCategory( ChartWizardContext context,

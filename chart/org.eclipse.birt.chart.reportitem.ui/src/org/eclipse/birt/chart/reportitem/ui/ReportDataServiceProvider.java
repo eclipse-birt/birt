@@ -42,10 +42,11 @@ import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.SharedCubeResultSetEvaluator;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
@@ -195,9 +196,42 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return names;
 	}
 
+	/**
+	 * Gets data cube from chart itself
+	 * 
+	 * @return data cube name
+	 */
 	String getDataCube( )
 	{
 		CubeHandle cube = itemHandle.getCube( );
+		if ( cube == null )
+		{
+			return null;
+		}
+		return cube.getQualifiedName( );
+	}
+	
+	/**
+	 * Gets data cube from chart container
+	 * 
+	 * @return data cube name
+	 */
+	String getInheritedCube( )
+	{
+		CubeHandle cube = null;
+		DesignElementHandle container = itemHandle.getContainer( );
+		while ( container != null )
+		{
+			if ( container instanceof ReportItemHandle )
+			{
+				cube = ( (ReportItemHandle) container ).getCube( );
+				if ( cube != null )
+				{
+					break;
+				}
+			}
+			container = container.getContainer( );
+		}
 		if ( cube == null )
 		{
 			return null;
@@ -339,6 +373,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				Comparator<ColumnBindingInfo>,
 				Serializable
 	{
+
+		/**
+		 * Comment for <code>serialVersionUID</code>
+		 */
+		private static final long serialVersionUID = 1L;
 
 		// use JDK String's compare method to map the same sorting logic as
 		// column binding dialog(270079)
@@ -544,12 +583,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		// 2. Get parameters setting from current handle.
-		Iterator iterParams = itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+		Iterator<ParamBindingHandle> iterParams = itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 				.iterator( );
 		Map<String, ParamBindingHandle> pbhMap = new LinkedHashMap<String, ParamBindingHandle>( );
-		for ( ; iterParams.hasNext( ); )
+		while ( iterParams.hasNext( ) )
 		{
-			ParamBindingHandle paramBindingHandle = (ParamBindingHandle) iterParams.next( );
+			ParamBindingHandle paramBindingHandle = iterParams.next( );
 			pbhMap.put( paramBindingHandle.getParamName( ), paramBindingHandle );
 		}
 
@@ -582,7 +621,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return queryDefn;
 	}
 
-	String getBoundDataSet( )
+	/**
+	 * Gets data set from chart itself
+	 * 
+	 * @return data set name
+	 */
+	String getDataSet( )
 	{
 		if ( itemHandle.getDataSet( ) == null )
 		{
@@ -615,7 +659,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return itemHandle.getContainer( ) instanceof MultiViewsHandle;
 	}
 
-	String getReportDataSet( )
+	/**
+	 * Gets data set from chart container
+	 * 
+	 * @return data set name
+	 */
+	String getInheritedDataSet( )
 	{
 		List<DataSetHandle> list = DEUtil.getDataSetList( itemHandle.getContainer( ) );
 		if ( list.size( ) > 0 )
@@ -642,7 +691,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( datasetName == null )
 			{
 
-				if ( getBoundDataSet( ) != null )
+				if ( getDataSet( ) != null )
 				{
 					// Clean old bindings and use container's binding
 					clearBindings( );
@@ -747,19 +796,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
 			// Add levels
-			for ( LevelHandle levelHandle : ChartXTabUtil.getAllLevels( cubeHandle ) )
+			for ( LevelHandle levelHandle : ChartCubeUtil.getAllLevels( cubeHandle ) )
 			{
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
-						ChartXTabUtil.createLevelBindingName( levelHandle ) );
+						ChartCubeUtil.createLevelBindingName( levelHandle ) );
 				column.setDataType( levelHandle.getDataType( ) );
-				column.setExpression( ChartXTabUtil.createDimensionExpression( levelHandle ) );
+				column.setExpression( ChartCubeUtil.createDimensionExpression( levelHandle ) );
 				columnList.add( column );
 			}
 			// Add measures
-			for ( MeasureHandle measureHandle : ChartXTabUtil.getAllMeasures( cubeHandle ) )
+			for ( MeasureHandle measureHandle : ChartCubeUtil.getAllMeasures( cubeHandle ) )
 			{
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
-						ChartXTabUtil.createMeasureBindingName( measureHandle ) );
+						ChartCubeUtil.createMeasureBindingName( measureHandle ) );
 				column.setDataType( measureHandle.getDataType( ) );
 				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureHandle.getName( ) ) );
 				column.setAggregateFunction( measureHandle.getFunction( ) );
@@ -1165,11 +1214,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected String[] getAllReportItemReferences( )
 	{
-		List referenceList = itemHandle.getNamedDataBindingReferenceList( );
+		List<ReportItemHandle> referenceList = itemHandle.getNamedDataBindingReferenceList( );
 		List<String> itemsWithName = new ArrayList<String>( );
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			String qualfiedName = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
+			String qualfiedName = referenceList.get( i ).getQualifiedName( );
 			if ( qualfiedName != null && qualfiedName.length( ) > 0 )
 			{
 				itemsWithName.add( qualfiedName );
@@ -1257,7 +1306,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						itemHandle.getModuleHandle( ) );
 			}
 			
-			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
+			CubeHandle cube = ChartCubeUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
 				if ( isReportDesignHandle( ) )
@@ -1562,11 +1611,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		List<FilterConditionHandle> filterList = new ArrayList<FilterConditionHandle>( );
 		PropertyHandle ph = null;
-		if ( this.getBoundDataSet( ) == null
-				&& this.getReportItemReference( ) == null ) // Inherit case.
+		// Inherit case.
+		if ( getDataSet( ) == null && getReportItemReference( ) == null )
 		{
 			// Get filters on container.
-
 			ReportItemHandle bindingHolder = ChartReportItemUtil.getBindingHolder( itemHandle );
 			ph = bindingHolder == null ? null
 					: bindingHolder.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
@@ -1635,7 +1683,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		IBaseCubeQueryDefinition qd = null;
 
 		ReportItemHandle referredHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
-		boolean isChartCubeReference = isChartReportItemHandle( referredHandle );
+		boolean isChartCubeReference = ChartItemUtil.isChartReportItemHandle( referredHandle );
 		if ( referredHandle != null && !isChartCubeReference )
 		{
 			// If it is 'sharing' case, include sharing crosstab and multiple
@@ -2018,13 +2066,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	boolean isInXTabMeasureCell( )
 	{
-		return ChartXTabUtil.isInXTabMeasureCell( itemHandle );
+		return ChartCubeUtil.isInXTabMeasureCell( itemHandle );
 	}
 
 	boolean isPartChart( )
 	{
-		return ChartXTabUtil.isPlotChart( itemHandle )
-				|| ChartXTabUtil.isAxisChart( itemHandle );
+		return ChartCubeUtil.isPlotChart( itemHandle )
+				|| ChartCubeUtil.isAxisChart( itemHandle );
 	}
 
 	/*
@@ -2046,7 +2094,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	boolean isTableSharedBinding( )
 	{
 		return isSharedBinding( )
-				&& ChartXTabUtil.getBindingCube( itemHandle ) == null;
+				&& ChartCubeUtil.getBindingCube( itemHandle ) == null;
 	}
 
 	/**
@@ -2807,7 +2855,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				String[] levelNames = CubeUtil.splitLevelName( aggOnList.get( 0 ) );
 				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
 						levelNames[1] );
-				List<String> names = ChartXTabUtil.getRelatedBindingNames( dimExpr,
+				List<String> names = ChartCubeUtil.getRelatedBindingNames( dimExpr,
 						bindingMap.values( ) );
 				// Set category.
 				if ( names.size( ) > 0 )
@@ -2827,7 +2875,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				String[] levelNames = CubeUtil.splitLevelName( aggOnList.get( 1 ) );
 				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
 						levelNames[1] );
-				List<String> names = ChartXTabUtil.getRelatedBindingNames( dimExpr,
+				List<String> names = ChartCubeUtil.getRelatedBindingNames( dimExpr,
 						bindingMap.values( ) );
 				// Set Y optional.
 				int size = names.size( );
@@ -2849,7 +2897,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// expression(value series expressions) doesn't contain level
 				// information, so here only update Y optional expression for
 				// sharing with crosstab case.
-				if ( !isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) ) )
+				if ( !ChartItemUtil.isChartReportItemHandle( ChartItemUtil.getReportItemReference( itemHandle ) ) )
 				{
 					for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
 							.iterator( ); iter.hasNext( ); )
@@ -2906,8 +2954,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	boolean hasMultiCubeDimensions( )
 	{
-		CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
-		if ( ChartXTabUtil.getDimensionCount( cube ) > 1 )
+		CubeHandle cube = ChartCubeUtil.getBindingCube( itemHandle );
+		if ( ChartCubeUtil.getDimensionCount( cube ) > 1 )
 		{
 			return true;
 		}
@@ -2919,10 +2967,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		try
 		{
-			AggregationCellHandle cell = ChartXTabUtil.getXtabContainerCell( itemHandle );
+			AggregationCellHandle cell = ChartCubeUtil.getXtabContainerCell( itemHandle );
 			if ( cell != null )
 			{
-				return ChartXTabUtil.isAggregationCell( cell );
+				return ChartCubeUtil.isAggregationCell( cell );
 			}
 		}
 		catch ( BirtException e )
@@ -2960,13 +3008,21 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	public int getState( )
 	{
 		int states = 0;
-		if ( getBoundDataSet( ) != null )
+		if ( getDataSet( ) != null )
 		{
 			states |= HAS_DATA_SET;
 		}
 		if ( getDataCube( ) != null )
 		{
 			states |= HAS_CUBE;
+		}
+		if ( getInheritedDataSet( ) != null )
+		{
+			states |= INHERIT_DATA_SET;
+		}
+		if ( getInheritedCube( ) != null )
+		{
+			states |= INHERIT_CUBE;
 		}
 		if ( itemHandle.getDataBindingReference( ) != null )
 		{
@@ -2984,7 +3040,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				states |= SHARE_CHART_QUERY;
 			}
 			
-			if ( ChartXTabUtil.getBindingCube( itemHandle ) != null )
+			if ( ChartCubeUtil.getBindingCube( itemHandle ) != null )
 			{
 				states |= SHARE_CROSSTAB_QUERY;
 			}
@@ -3122,24 +3178,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( isRecursive )
 		{
 			return isShare
-					&& isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) );
+					&& ChartItemUtil.isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) );
 		}
 		else
 		{
 			return isShare
-					&& isChartReportItemHandle( itemHandle.getDataBindingReference( ) );
+					&& ChartItemUtil.isChartReportItemHandle( itemHandle.getDataBindingReference( ) );
 		}
-	}
-	
-
-	/**
-	 * @param referredHandle
-	 * @return
-	 * @since 2.5.1
-	 */
-	public boolean isChartReportItemHandle( ReportItemHandle referredHandle )
-	{
-		return ChartReportItemUtil.isChartReportItemHandle( referredHandle );
 	}
 	
 	/**
@@ -3153,31 +3198,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			targetCM = (Chart) target;
 		}
-		ExtendedItemHandle refHandle = getChartReferenceItemHandle( );
+		ExtendedItemHandle refHandle = ChartItemUtil.getChartReferenceItemHandle( itemHandle );
 		if ( refHandle != null )
 		{
 			ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
-					(Chart) targetCM );
+					targetCM );
 		}
-	}
-	
-	/**
-	 * @param handle
-	 * @return
-	 * @since 2.5.1
-	 */
-	public Object getChartFromHandle( ExtendedItemHandle handle )
-	{
-		return ChartReportItemUtil.getChartFromHandle( handle );
-	}
-	
-	/**
-	 * @return
-	 * @since 2.5.1
-	 */
-	public ExtendedItemHandle getChartReferenceItemHandle( )
-	{
-		return ChartReportItemUtil.getChartReferenceItemHandle( itemHandle );
 	}
 	
 	/**

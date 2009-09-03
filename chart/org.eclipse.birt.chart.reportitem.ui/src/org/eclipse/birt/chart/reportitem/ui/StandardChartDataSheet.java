@@ -32,7 +32,8 @@ import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
@@ -246,7 +247,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	
 			// Bugzilla#177704 Chart inheriting data from container doesn't
 			// support parameters due to limitation in DtE
-			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
+			btnParameters.setEnabled( getDataServiceProvider( ).getDataSet( ) != null
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnBinding.setEnabled( hasDataSet( )
 					&& ( getDataServiceProvider( ).isInvokingSupported( ) || getDataServiceProvider( ).isSharedBinding( ) ) );
@@ -255,8 +256,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private boolean hasDataSet( )
 	{
-		return getDataServiceProvider( ).getReportDataSet( ) != null
-				|| getDataServiceProvider( ).getBoundDataSet( ) != null;
+		return getDataServiceProvider( ).getInheritedDataSet( ) != null
+				|| getDataServiceProvider( ).getDataSet( ) != null;
 	}
 
 	void fireEvent( Widget widget, int eventType )
@@ -1091,7 +1092,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 
 		// Select data set
-		String sDataSet = getDataServiceProvider( ).getBoundDataSet( );
+		String sDataSet = getDataServiceProvider( ).getDataSet( );
 		if ( sDataSet != null && !getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( true );
@@ -1117,7 +1118,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 
-		cmbInherit.setEnabled( getDataServiceProvider( ).getReportDataSet( ) != null
+		cmbInherit.setEnabled( getDataServiceProvider( ).getInheritedDataSet( ) != null
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
 		if ( !cmbInherit.isEnabled( ) )
 		{
@@ -1136,7 +1137,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		cmbDataItems.setEnabled( false );
 		// Initializes column bindings from container
 		getDataServiceProvider( ).setDataSet( null );
-		String reportDataSet = getDataServiceProvider( ).getReportDataSet( );
+		String reportDataSet = getDataServiceProvider( ).getInheritedDataSet( );
 		if ( reportDataSet != null )
 		{
 			switchDataTable( );
@@ -1163,8 +1164,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		// initialization or event triggering.
 		if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE )
 		{
-			if ( getDataServiceProvider( ).getBoundDataSet( ) != null
-					|| getDataServiceProvider( ).getReportDataSet( ) != null )
+			if ( getDataServiceProvider( ).getDataSet( ) != null
+					|| getDataServiceProvider( ).getInheritedDataSet( ) != null )
 			{
 				if ( event.widget instanceof Button )
 				{
@@ -1249,7 +1250,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					cmbDataItems.select( 0 );
 					currentData = null;
 					cmbDataItems.setEnabled( false );
-					cmbInherit.setEnabled( getDataServiceProvider( ).getReportDataSet( ) != null
+					cmbInherit.setEnabled( getDataServiceProvider( ).getInheritedDataSet( ) != null
 							&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
 					setEnabledForButtons( );
 					updateDragDataSource( );
@@ -1312,8 +1313,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					{
 						case SELECT_DATA_SET :
 							if ( getDataServiceProvider( ).getReportItemReference( ) == null
-									&& getDataServiceProvider( ).getBoundDataSet( ) != null
-									&& getDataServiceProvider( ).getBoundDataSet( )
+									&& getDataServiceProvider( ).getDataSet( ) != null
+									&& getDataServiceProvider( ).getDataSet( )
 											.equals( cmbDataItems.getText( ) ) )
 							{
 								return;
@@ -1504,7 +1505,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private void selectDataSet( )
 	{
-		String currentDS = getDataServiceProvider( ).getBoundDataSet( );
+		String currentDS = getDataServiceProvider( ).getDataSet( );
 		if ( currentDS == null )
 		{
 			cmbDataItems.select( 0 );
@@ -1543,7 +1544,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			// Try to get report data set
 			if ( datasetName == null )
 			{
-				datasetName = getDataServiceProvider( ).getReportDataSet( );
+				datasetName = getDataServiceProvider( ).getInheritedDataSet( );
 			}
 
 			if ( datasetName != null )
@@ -2292,7 +2293,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private boolean isCubeMode( )
 	{
-		boolean bCube = ChartXTabUtil.getBindingCube( itemHandle ) != null;
+		boolean bCube = ChartCubeUtil.getBindingCube( itemHandle ) != null;
 		if ( bCube )
 		{
 			// If current item doesn't support cube, referenced cube should be
@@ -2304,7 +2305,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private CubeHandle getCube( )
 	{
-		return ChartXTabUtil.getBindingCube( itemHandle );
+		return ChartCubeUtil.getBindingCube( itemHandle );
 	}
 
 	/**
@@ -2328,13 +2329,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			ComputedColumnHandle binding = null;
 			if ( treeItem.getData( ) instanceof LevelHandle )
 			{
-				binding = ChartXTabUtil.findBinding( itemHandle,
-						ChartXTabUtil.createDimensionExpression( (LevelHandle) treeItem.getData( ) ) );
+				binding = ChartCubeUtil.findBinding( itemHandle,
+						ChartCubeUtil.createDimensionExpression( (LevelHandle) treeItem.getData( ) ) );
 			}
 			else if ( treeItem.getData( ) instanceof MeasureHandle )
 			{
-				binding = ChartXTabUtil.findBinding( itemHandle,
-						ChartXTabUtil.createMeasureExpression( (MeasureHandle) treeItem.getData( ) ) );
+				binding = ChartCubeUtil.findBinding( itemHandle,
+						ChartCubeUtil.createMeasureExpression( (MeasureHandle) treeItem.getData( ) ) );
 			}
 			if ( binding != null )
 			{
@@ -2461,12 +2462,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			try
 			{
-				CrosstabReportItemHandle xtab = ChartXTabUtil.getXtabContainerCell( itemHandle )
+				CrosstabReportItemHandle xtab = ChartCubeUtil.getXtabContainerCell( itemHandle )
 						.getCrosstab( );
 
 				if ( dataProvider.isPartChart( ) )
 				{
-					List<String> levels = ChartXTabUtil.getAllLevelsBindingExpression( xtab );
+					List<String> levels = ChartCubeUtil.getAllLevelsBindingExpression( xtab );
 					String[] exprs = levels.toArray( new String[levels.size( )] );
 					if ( exprs.length == 2 && dataProvider.isInXTabAggrCell( ) )
 					{
@@ -2489,16 +2490,16 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				}
 				else
 				{
-					Iterator<ComputedColumnHandle> columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
-					List<String> levels = ChartXTabUtil.getAllLevelsBindingExpression( columnBindings );
+					Iterator<ComputedColumnHandle> columnBindings = ChartCubeUtil.getAllColumnBindingsIterator( itemHandle );
+					List<String> levels = ChartCubeUtil.getAllLevelsBindingExpression( columnBindings );
 					String[] exprs = levels.toArray( new String[levels.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 							exprs );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
 							exprs );
 
-					columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
-					List<String> measures = ChartXTabUtil.getAllMeasuresBindingExpression( columnBindings );
+					columnBindings = ChartCubeUtil.getAllColumnBindingsIterator( itemHandle );
+					List<String> measures = ChartCubeUtil.getAllMeasuresBindingExpression( columnBindings );
 					exprs = measures.toArray( new String[measures.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
 							exprs );
@@ -2544,11 +2545,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					{
 						ComputedColumnHandle cch = iter.next( );
 						String dataExpr = ExpressionUtil.createJSDataExpression( cch.getName( ) );
-						if ( ChartXTabUtil.isDimensionExpresion( cch.getExpression( ) ) )
+						if ( ChartCubeUtil.isDimensionExpresion( cch.getExpression( ) ) )
 						{
 							dimensionExprs.add( dataExpr );
 						}
-						else if ( ChartXTabUtil.isMeasureExpresion( cch.getExpression( ) ) )
+						else if ( ChartCubeUtil.isMeasureExpresion( cch.getExpression( ) ) )
 						{
 							// Fixed issue ED 28.
 							// Underlying code was reverted to the earlier than
@@ -2573,12 +2574,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					ReportItemHandle referenceHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
 					ReportDataServiceProvider rdsp = this.getDataServiceProvider( );
 					if ( referenceHandle instanceof ExtendedItemHandle
-							&& rdsp.isChartReportItemHandle( referenceHandle ) )
+							&& ChartItemUtil.isChartReportItemHandle( referenceHandle ) )
 					{
 						// If the final reference handle is cube with other
 						// chart, the valid category and Y optional expressions
 						// only allow those expressions defined in shared chart.
-						Object referenceCM = rdsp.getChartFromHandle( (ExtendedItemHandle) referenceHandle );
+						Object referenceCM = ChartItemUtil.getChartFromHandle( (ExtendedItemHandle) referenceHandle );
 						categoryExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_CATEGORY );
 						yOptionalExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_OPTIONAL );
 						valueExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_VALUE );
@@ -2623,7 +2624,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 //							.iterator( ); iter.hasNext( ); )
 //					{
 //						ComputedColumnHandle cch = iter.next( );
-//						if ( ChartXTabUtil.isMeasureExpresion( cch.getExpression( ) ) )
+//						if ( ChartCubeUtil.isMeasureExpresion( cch.getExpression( ) ) )
 //						{
 //							measureExprs.add( ExpressionUtil.createJSDataExpression( cch.getName( ) ) );
 //						}
@@ -2638,16 +2639,16 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 //				}
 				else
 				{
-					Iterator<ComputedColumnHandle> columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
-					List<String> levels = ChartXTabUtil.getAllLevelsBindingExpression( columnBindings );
+					Iterator<ComputedColumnHandle> columnBindings = ChartCubeUtil.getAllColumnBindingsIterator( itemHandle );
+					List<String> levels = ChartCubeUtil.getAllLevelsBindingExpression( columnBindings );
 					String[] exprs = levels.toArray( new String[levels.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 							exprs );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
 							exprs );
 
-					columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
-					List<String> measures = ChartXTabUtil.getAllMeasuresBindingExpression( columnBindings );
+					columnBindings = ChartCubeUtil.getAllColumnBindingsIterator( itemHandle );
+					List<String> measures = ChartCubeUtil.getAllMeasuresBindingExpression( columnBindings );
 					exprs = measures.toArray( new String[measures.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
 							exprs );
