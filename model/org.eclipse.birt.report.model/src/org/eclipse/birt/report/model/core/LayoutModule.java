@@ -365,6 +365,8 @@ public abstract class LayoutModule extends Module
 			Map<String, Library> reloadLibs, URL url )
 			throws DesignFileException
 	{
+		namespace = StringUtil.trimString( namespace );
+		
 		LayoutModule outermostModule = findOutermostModule( );
 
 		// find the corresponding library instance
