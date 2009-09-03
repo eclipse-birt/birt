@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -515,8 +516,10 @@ class ConcreteImageLayout implements ILayout
 		root.addChild( imageArea );
 		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
 
-		// Adjust the dimension of root.
-		processChartLegend( image, imageArea );
+		if( context.getEngineTaskType( ) != IEngineTask.TASK_RUN )
+		{
+			processChartLegend( image, imageArea );
+		}
 		root.finished = false;
 	}
 
@@ -600,6 +603,10 @@ class ConcreteImageLayout implements ILayout
 				if ( attributes.size( ) > 0 )
 				{
 					int[] area = getArea( attributes.get( "coords" ) );
+					if( area == null )
+					{
+						return;
+					}
 					String url = attributes.get( "href" );
 					String targetWindow = attributes.get( "target" );
 					createImageMap( area, imageArea, url, targetWindow );
@@ -753,12 +760,16 @@ class ConcreteImageLayout implements ILayout
 	private int[] getArea( String string )
 	{
 		String[] rawDatas = string.split( "," );
-		int[] area = new int[4];
-		area[0] = Integer.parseInt( rawDatas[0] );
-		area[1] = Integer.parseInt( rawDatas[1] );
-		area[2] = Integer.parseInt( rawDatas[4] ) - area[0];
-		area[3] = Integer.parseInt( rawDatas[5] ) - area[1];
-		return area;
+		if( rawDatas.length == 8 )
+		{
+			int[] area = new int[4];
+			area[0] = Integer.parseInt( rawDatas[0] );
+			area[1] = Integer.parseInt( rawDatas[1] );
+			area[2] = Integer.parseInt( rawDatas[4] ) - area[0];
+			area[3] = Integer.parseInt( rawDatas[5] ) - area[1];
+			return area;	
+		}
+		return null;
 	}
 
 	protected void close( )
