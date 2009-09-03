@@ -58,9 +58,9 @@ public class ParametersState extends SlotState
 		int tagValue = tagName.toLowerCase( ).hashCode( );
 
 		if ( ParserSchemaConstants.PARAMETER_GROUP_TAG == tagValue )
-			return new ParameterGroupState( handler );
+			return new ParameterGroupState( handler, slotID );
 		if ( ParserSchemaConstants.CASCADING_PARAMETER_GROUP_TAG == tagValue )
-			return new CascadingParameterGroupState( handler );
+			return new CascadingParameterGroupState( handler, slotID );
 		if ( ParserSchemaConstants.SCALAR_PARAMETER_TAG == tagValue )
 			return new ScalarParameterState( handler, container, slotID );
 		if ( ParserSchemaConstants.DYNAMIC_FILTER_PARAMETER_TAG == tagValue )

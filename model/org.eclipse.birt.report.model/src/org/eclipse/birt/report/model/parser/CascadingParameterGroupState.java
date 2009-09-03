@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
-
 
 /**
  * This class parses the cascading parameter group element.
@@ -28,16 +28,21 @@ public class CascadingParameterGroupState extends ParameterGroupState
 	 * Constructor.
 	 * 
 	 * @param handler
+	 *            the design file parser handler
+	 * @param slot
+	 *            the slot ID of the slot where the parameter is stored.
 	 */
-	public CascadingParameterGroupState( ModuleParserHandler handler )
+	public CascadingParameterGroupState( ModuleParserHandler handler, int slot )
 	{
-		super( handler );
+		super( handler, slot );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
