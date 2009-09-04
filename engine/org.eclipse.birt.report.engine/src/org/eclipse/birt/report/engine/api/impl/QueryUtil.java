@@ -241,7 +241,15 @@ public class QueryUtil
 					queries.add( query );
 					if ( dsIID == null )
 					{
-						dsIID = iid;
+						/*
+						 * From BIRT 2.3.0, there is no chance that an instance
+						 * id has both design id and its own data id. But in
+						 * older BIRT exists that an instance id is composed of
+						 * its own data id; at least, Chart generates such
+						 * instance id. So, dsIID jumps one layer up from the
+						 * lowest instance id.
+						 */
+						dsIID = iid.getParentID( );
 					}
 				}
 			}
