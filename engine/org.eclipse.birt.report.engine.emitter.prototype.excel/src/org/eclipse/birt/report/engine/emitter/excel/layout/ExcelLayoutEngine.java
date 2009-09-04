@@ -593,17 +593,18 @@ public class ExcelLayoutEngine
 	}
 
 	public Data addData( Object txt, IStyle style, HyperlinkDef link,
-			BookmarkDef bookmark )
+			BookmarkDef bookmark, double height )
 	{
-		return addData( txt, style, link, bookmark, null );
+		return addData( txt, style, link, bookmark, null, height );
 	}
 
 	public Data addData( Object txt, IStyle style, HyperlinkDef link,
-			BookmarkDef bookmark, String dataLocale )
+			BookmarkDef bookmark, String dataLocale,double height )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
 		Data data = createData( txt, entry, dataLocale );
+		data.setHeight( height );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
 		data.setSizeInfo( rule );
@@ -679,7 +680,7 @@ public class ExcelLayoutEngine
 	}
 
 	public Data addDateTime( Object txt, IStyle style, HyperlinkDef link,
-			BookmarkDef bookmark, String dateTimeLocale )
+			BookmarkDef bookmark, String dateTimeLocale, double height )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
@@ -694,6 +695,7 @@ public class ExcelLayoutEngine
 		{
 			data = createDateData( value, entry, style.getDateTimeFormat( ),
 					dateTimeLocale );
+			data.setHeight( height );
 			data.setHyperlinkDef( link );
 			data.setBookmark( bookmark );
 			data.setSizeInfo( rule );
@@ -703,7 +705,7 @@ public class ExcelLayoutEngine
 		else
 		{
 			return addData( dataContent.getText( ), style, link, bookmark,
-					dateTimeLocale );
+					dateTimeLocale, height );
 		}
 	}
 
