@@ -3299,6 +3299,7 @@ Element.GadgetItem.showTitle=Show title
 Element.GadgetItem.content=Inhalt
 Element.GadgetItem.subscribeTo=Abonnieren:
 Element.GadgetItem.observers=Beobachter
+Element.GadgetItem.zIndex=Z-Index
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=Ereignisname
@@ -3318,6 +3319,7 @@ Element.DataSelectorItem.type=Typ
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Interner reportLet-Verweis
+Element.DataViewItem.gadgetType=Gadget type
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=Datenquellen

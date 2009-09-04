@@ -3299,6 +3299,7 @@ Element.GadgetItem.showTitle=Show title
 Element.GadgetItem.content=コンテンツ
 Element.GadgetItem.subscribeTo=購読者
 Element.GadgetItem.observers=オブザーバ
+Element.GadgetItem.zIndex=重ね順
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=イベント名
@@ -3318,6 +3319,7 @@ Element.DataSelectorItem.type=種類
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet の参照
+Element.DataViewItem.gadgetType=Gadget type
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=データソース

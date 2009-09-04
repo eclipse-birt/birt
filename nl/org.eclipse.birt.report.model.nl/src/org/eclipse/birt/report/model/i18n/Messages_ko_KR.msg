@@ -3299,6 +3299,7 @@ Element.GadgetItem.showTitle=Show title
 Element.GadgetItem.content=내용
 Element.GadgetItem.subscribeTo=구독 대상
 Element.GadgetItem.observers=감시자
+Element.GadgetItem.zIndex=Z 인덱스
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=이벤트 이름
@@ -3318,6 +3319,7 @@ Element.DataSelectorItem.type=형식
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=내부 리포틀릿 참조
+Element.DataViewItem.gadgetType=Gadget type
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=데이터 원본

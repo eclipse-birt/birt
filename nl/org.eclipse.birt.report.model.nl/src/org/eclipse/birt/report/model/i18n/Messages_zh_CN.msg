@@ -3299,6 +3299,7 @@ Element.GadgetItem.showTitle=Show title
 Element.GadgetItem.content=内容
 Element.GadgetItem.subscribeTo=预订
 Element.GadgetItem.observers=观察程序
+Element.GadgetItem.zIndex=Z 索引
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=事件名称
@@ -3318,6 +3319,7 @@ Element.DataSelectorItem.type=类型
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet 引用
+Element.DataViewItem.gadgetType=Gadget type
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=数据源
