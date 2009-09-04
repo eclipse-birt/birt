@@ -270,10 +270,12 @@ public class RowArea extends ContainerArea
 						cell.setHeight( 0 );
 						cell.setRowSpan( rowSpan );
 						cell.setParent( this );
+						cell.isDummy = true;
 						addChildByColumnId( cell );
 					}
 					else
 					{
+						//FIXME how to write page hint in this case
 						SplitResult splitCell = cells[i].split( height, force );
 						CellArea cell = (CellArea) splitCell.getResult( );
 						if ( cell != null )
