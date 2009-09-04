@@ -2883,7 +2883,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the list contains sorted design elements.
 	 */
 
-	protected List sortVisibleElements( List nameSpaceList, int level )
+	protected final List sortVisibleElements( List nameSpaceList, int level )
 	{
 		// Sort element in namespace
 
@@ -2900,10 +2900,23 @@ public abstract class ModuleHandle extends DesignElementHandle
 		assert slotID != IDesignElementModel.NO_SLOT;
 
 		// Libraries
-		modules.add( this );
-		modules.addAll( getLibraries( level ) );
+		modules = getVisibleModules( level );
 
 		return checkVisibleElements( nameSpaceList, modules, slotID );
+	}
+
+	/**
+	 * Gets the visible modules.
+	 * 
+	 * @param level
+	 * @return
+	 */
+	protected List getVisibleModules( int level )
+	{
+		List modules = new ArrayList( );
+		modules.add( this );
+		modules.addAll( getLibraries( level ) );
+		return modules;
 	}
 
 	/**
@@ -2918,15 +2931,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the list contains sorted design elements.
 	 */
 
-	private List checkVisibleElements( List nameSpaceList,
-			List<ModuleHandle> modules, int slotID )
+	private List checkVisibleElements( List nameSpaceList, List modules,
+			int slotID )
 	{
 		assert modules != null;
 		List resultList = new ArrayList( );
 
 		for ( int i = 0; i < modules.size( ); ++i )
 		{
-			ModuleHandle handle = modules.get( i );
+			ModuleHandle handle = (ModuleHandle) modules.get( i );
 			SlotHandle slotHandle = handle.getSlot( slotID );
 			for ( int j = 0; j < slotHandle.getCount( ); ++j )
 			{
