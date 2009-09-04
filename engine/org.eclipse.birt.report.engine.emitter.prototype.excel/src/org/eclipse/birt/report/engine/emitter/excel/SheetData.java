@@ -233,4 +233,9 @@ public abstract class SheetData
 	{
 		this.bookmark = bookmark;
 	}
+
+	public int getElementType( )
+	{
+		return -1;
+	}
 }
