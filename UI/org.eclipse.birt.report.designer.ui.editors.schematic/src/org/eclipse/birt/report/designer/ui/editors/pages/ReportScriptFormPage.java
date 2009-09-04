@@ -234,6 +234,10 @@ public class ReportScriptFormPage extends ReportFormPage
 		try
 		{
 			jsEditor.createPartControl( parent );
+			if (jsEditor instanceof JSEditor)
+			{
+				((JSEditor)jsEditor).connectRoot( getModel() );
+			}
 			Control[] children = parent.getChildren( );
 			control = children[children.length - 1];
 			//

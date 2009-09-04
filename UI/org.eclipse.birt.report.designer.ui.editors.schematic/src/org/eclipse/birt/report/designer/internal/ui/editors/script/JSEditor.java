@@ -50,6 +50,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -676,6 +677,18 @@ public class JSEditor extends EditorPart implements IColleague
 		}
 	}
 
+	/**Connect the root to add the listener
+	 * @param root
+	 */
+	public void connectRoot(ModuleHandle root)
+	{
+		if (root == null)
+		{
+			root = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		}
+		
+		SessionHandleAdapter.getInstance( ).getMediator(root).addColleague( this );
+	}
 	/**
 	 * Sets the status of the text listener.
 	 * 
@@ -2150,4 +2163,5 @@ class JSSubFunctionListProvider implements
 		signature.append( " )\n{\n}\n" ); //$NON-NLS-1$
 		return signature.toString( );
 	}
+	
 }
