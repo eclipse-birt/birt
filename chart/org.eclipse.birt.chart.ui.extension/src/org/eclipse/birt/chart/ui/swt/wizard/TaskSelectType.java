@@ -1832,6 +1832,10 @@ public class TaskSelectType extends SimpleTask implements
 				checkDataTypeForChartWithAxes( chartModel );
 				ChartAdapter.endIgnoreNotifications( );
 			}
+			else
+			{
+				ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
+			}
 			previewPainter.renderModel( chartModel );
 		}
 	}
