@@ -26,7 +26,6 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.TimeZone;
@@ -75,6 +74,11 @@ public class DataEngineContext
 	
 	/** some fields */
 	private int mode;
+	
+	/**
+	 * The generationOption is used for some specific doc generation case.
+	 */
+	private int generationOption;
 	private Scriptable scope;	
 	private IDocArchiveReader reader;
 	private IDocArchiveWriter writer;
@@ -503,6 +507,16 @@ public class DataEngineContext
 		this.tmpDir = tmpdir;
 	}
 
+	public void setDataEngineOption( int option )
+	{
+		this.generationOption = option;
+	}
+	
+	public int getDataEngineOption( )
+	{
+		return this.generationOption;
+	}
+	
 	/**
 	 * Set the classloader.
 	 * 

@@ -156,6 +156,14 @@ public class QueryResults implements IQueryResults, IQueryService
 				this.queryService.validateQuery( );
 
 				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
+				
+				if( queryService.getQueryDefn( ) instanceof IQueryDefinition )
+				{
+					iterator = QueryResultsUtil.processOdiResult( session, odiIterator, ((IQueryDefinition)queryService.getQueryDefn( )).getDataSetName( ));
+					if( iterator!= null )
+						return iterator;
+				}
+				
 				if ( isDummyQuery( odiIterator ) )
 				{
 					iterator = new DummyResultIterator( new ResultService( session,

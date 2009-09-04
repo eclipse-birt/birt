@@ -607,7 +607,9 @@ public abstract class QueryExecutor implements IQueryExecutor
 				int sortIndex = -1;
 				String sortKey = src.getColumn( );
 				if ( sortKey == null )
+				{
 					sortKey = src.getExpression( ).getText( );
+				}
 				else
 				{
 					sortKey = getColumnRefExpression( sortKey );

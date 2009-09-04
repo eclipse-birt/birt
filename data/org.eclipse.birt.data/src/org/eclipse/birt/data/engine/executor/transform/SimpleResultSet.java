@@ -105,17 +105,23 @@ public class SimpleResultSet implements IResultIterator
 					( (RAOutputStream) dataSetStream ).seek( rowCountOffset );
 					IOUtil.writeInt( dataSetStream, rowCount );
 				}
-				OutputStream exprValueStream = this.streamsWrapper.getStreamManager( )
-						.getOutStream( DataEngineContext.EXPR_VALUE_STREAM,
+				if ( this.streamsWrapper.getStreamManager( )
+						.hasOutStream( DataEngineContext.EXPR_VALUE_STREAM,
 								StreamManager.ROOT_STREAM,
-								StreamManager.SELF_SCOPE );
-				if ( exprValueStream instanceof RAOutputStream )
+								StreamManager.SELF_SCOPE ) )
 				{
-					( (RAOutputStream) exprValueStream ).seek( 0 );
-					IOUtil.writeInt( exprValueStream, rowCount );
-				}
+					OutputStream exprValueStream = this.streamsWrapper.getStreamManager( )
+							.getOutStream( DataEngineContext.EXPR_VALUE_STREAM,
+									StreamManager.ROOT_STREAM,
+									StreamManager.SELF_SCOPE );
+					if ( exprValueStream instanceof RAOutputStream )
+					{
+						( (RAOutputStream) exprValueStream ).seek( 0 );
+						IOUtil.writeInt( exprValueStream, rowCount );
+					}
 
-				exprValueStream.close( );
+					exprValueStream.close( );
+				}
 				dataSetStream.close( );
 			}
 			catch ( Exception e )

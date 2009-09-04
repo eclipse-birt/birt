@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.impl;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
@@ -24,13 +23,11 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -101,7 +98,7 @@ public class PreparedQueryUtil
 		assert queryDefn != null;
 		
 		validateQuery(dataEngine, queryDefn);
-		FilterPrepareUtil.prepareFilters( queryDefn.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
+		FilterPrepareUtil.prepareFilters( queryDefn, dataEngine.getContext( ).getScriptContext( ) );
 		IQueryContextVisitor contextVisitor = QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
 				appContext );
 		if ( queryDefn.getSourceQuery( ) != null )
@@ -169,31 +166,13 @@ public class PreparedQueryUtil
 			}
 			else
 			{
-				QuerySpecification querySpec = null;
-				try
-				{
-					Class optimizationUtil = Class.forName( "org.eclipse.birt.data.engine.impl.OdaQueryOptimizationUtil" );
-					Method m = optimizationUtil.getMethod( "optimizeExecution",
-							String.class,
-							IOdaDataSetDesign.class,
-							IQueryDefinition.class,
-							DataEngineSession.class,
-							Map.class,
-							IQueryContextVisitor.class);
-					Object o = optimizationUtil.newInstance( );
-					querySpec = (QuerySpecification) m.invoke( o,
-							dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) )
-									.getExtensionID( ),
-							(IOdaDataSetDesign) dset,
-							queryDefn,
-							dataEngine.getSession( ),
-							appContext,
-							contextVisitor );
-
-				}
-				catch ( Throwable e )
-				{
-				}
+				QuerySpecification querySpec = OdaQueryOptimizationUtil.optimizeExecution( dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) )
+						.getExtensionID( ),
+						(IOdaDataSetDesign) dset,
+						queryDefn,
+						dataEngine.getSession( ),
+						appContext,
+						contextVisitor );
 			 
 				preparedQuery = new PreparedOdaDSQuery( dataEngine,
 						queryDefn,
@@ -858,6 +837,8 @@ public class PreparedQueryUtil
 	 */
 	private static ScriptExpression copyScriptExpr( IBaseExpression expr )
 	{
+		if( expr == null )
+			return null;
 		ScriptExpression se = new ScriptExpression( ( (IScriptExpression) expr ).getText( ),
 				( (IScriptExpression) expr ).getDataType( ) );
 		return se;
