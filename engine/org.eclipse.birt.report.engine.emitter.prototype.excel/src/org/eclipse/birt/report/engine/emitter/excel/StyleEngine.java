@@ -120,7 +120,36 @@ public class StyleEngine
 	public StyleEntry getStyle( IStyle style, ContainerSizeInfo rule )
 	{
 		// This style associated element is not in any container.
-		return initStyle( style, rule );
+		return initStyle( style, null, rule );
+	}
+
+	public StyleEntry getStyle( IStyle style, ContainerSizeInfo childSizeInfo,
+			ContainerSizeInfo parentSizeInfo )
+	{
+		return initStyle( style, childSizeInfo, parentSizeInfo );
+	}
+
+	private StyleEntry initStyle( IStyle style,
+			ContainerSizeInfo childSizeInfo, ContainerSizeInfo parentSizeInfo )
+	{
+		StyleEntry entry = StyleBuilder.createStyleEntry( style );;
+		if ( !containerStyles.isEmpty( ) )
+		{
+			StyleEntry centry = containerStyles.peek( );
+			StyleBuilder.mergeInheritableProp( centry, entry );
+		}
+		if ( engine.getContainers( ).size( ) > 0 )
+		{
+			XlsContainer container = engine.getCurrentContainer( );
+			StyleEntry cEntry = container.getStyle( );
+			StyleBuilder.mergeInheritableProp( cEntry, entry );
+			if ( childSizeInfo == null )
+			{
+				childSizeInfo = container.getSizeInfo( );
+			}
+			applyHBorders( cEntry, entry, childSizeInfo, parentSizeInfo );
+		}
+		return entry;
 	}
 
 	public int getStyleID( StyleEntry entry )
@@ -167,21 +196,7 @@ public class StyleEngine
 
 	private StyleEntry initStyle( IStyle style, ContainerSizeInfo rule )
 	{
-		StyleEntry entry = StyleBuilder.createStyleEntry( style );;
-		if ( !containerStyles.isEmpty( ) )
-		{
-			StyleEntry centry = containerStyles.peek( );
-			StyleBuilder.mergeInheritableProp( centry, entry );
-		}
-		if ( engine.getContainers( ).size( ) > 0 )
-		{
-			XlsContainer container = engine.getCurrentContainer( );
-			StyleEntry cEntry = container.getStyle( );
-			StyleBuilder.mergeInheritableProp( cEntry, entry );
-			applyHBorders( cEntry, entry, container.getSizeInfo( ), rule );
-		}
-
-		return entry;
+		return initStyle( style, null, rule );
 	}
 
 	public void addContainderStyle( IStyle computedStyle )

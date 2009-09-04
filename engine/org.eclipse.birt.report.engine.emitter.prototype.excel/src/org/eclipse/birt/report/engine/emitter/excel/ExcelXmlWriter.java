@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLEncodeUtil;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 
@@ -349,20 +350,28 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	public void outputData( SheetData sheetData )
 	{
-		if ( sheetData.getDataType( ) == SheetData.IMAGE )
-			return;
-		Data d = (Data) sheetData;
-		int type = d.getDataType( );
-		Object value = d.getValue( );
-		StyleEntry style = d.getStyle( );
-		int column = d.span.getCol( );
-		int colSpan = d.span.getColSpan( );
-		int rowSpan = d.getRowSpan( );
-		int styleId = d.styleId;
-		HyperlinkDef hyperLink = d.hyperLink;
-		BookmarkDef linkedBookmark = d.getLinkedBookmark( );
-		outputData( type, value, style, column, colSpan, rowSpan, styleId,
-				hyperLink, linkedBookmark );
+		StyleEntry style = sheetData.getStyle( );
+		int column = sheetData.span.getCol( );
+		int colSpan = sheetData.span.getColSpan( );
+		int rowSpan = sheetData.getRowSpan( );
+		int styleId = sheetData.styleId;
+		int type = sheetData.getDataType( );
+		if ( type == SheetData.IMAGE )
+		{
+			outputData( Data.STRING, ExcelLayoutEngine.EMPTY, sheetData
+					.getStyle( ), sheetData.getSpan( ).getCol( ), sheetData
+					.getSpan( ).getColSpan( ), sheetData.getRowSpan( ),
+					sheetData.getStyleId( ), null, null );
+		}
+		else
+		{
+			Data d = (Data) sheetData;
+			Object value = d.getValue( );
+			HyperlinkDef hyperLink = d.hyperLink;
+			BookmarkDef linkedBookmark = d.getLinkedBookmark( );
+			outputData( type, value, style, column, colSpan, rowSpan, styleId,
+					hyperLink, linkedBookmark );
+		}
 	}
 
 	public void outputData( int col, int row, int type, Object value )

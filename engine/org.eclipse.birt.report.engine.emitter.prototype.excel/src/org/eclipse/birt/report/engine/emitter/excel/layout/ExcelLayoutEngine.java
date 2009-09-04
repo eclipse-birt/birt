@@ -105,8 +105,6 @@ public class ExcelLayoutEngine
 
 	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
 
-	private SheetData lastData = null;
-
 	public ExcelLayoutEngine( ExcelContext context,
 			ExcelEmitter emitter )
 	{
@@ -545,29 +543,23 @@ public class ExcelLayoutEngine
 		if ( childEndCoordinate < parentEndCoordinate )
 		{
 			StyleEntry style = parent.getStyle( );
-			style.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP, null );
-			style.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP, null );
-			style.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP, null );
+			removeLeftBorder( style );
 			addEmptyDataToContainer( style, parent, childEndCoordinate,
-					parentEndCoordinate -
-					childEndCoordinate );
+					parentEndCoordinate - childEndCoordinate );
 		}
 		if ( childStartCoordinate > parentStartCoordinate )
 		{
 			StyleEntry style = parent.getStyle( );
-			style.setProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP, null );
-			style.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP, null );
-			style.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP, null );
+			removeRightBorder( style );
 			addEmptyDataToContainer( style, parent, childStartCoordinate,
-					parentStartCoordinate-childStartCoordinate );
+					parentStartCoordinate - childStartCoordinate );
 		}
 	}
 
 	private void addEmptyDataToContainer( StyleEntry style,
 			XlsContainer parent, int startCoordinate, int width )
 	{
-		Data data = createData( EMPTY, style, Data.STRING,
-				parent );
+		Data data = createEmptyData( parent, style );
 		data.setSizeInfo( new ContainerSizeInfo( startCoordinate, width ) );
 		addData( data );
 	}
@@ -627,12 +619,13 @@ public class ExcelLayoutEngine
 		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( image, parentSizeInfo
 				.getWidth( ) );
 		splitColumns( imageColumnsInfo, parentSizeInfo );
-		StyleEntry entry = engine.getStyle( style, parentSizeInfo );
+		ContainerSizeInfo imageSizeInfo = new ContainerSizeInfo( parentSizeInfo
+				.getStartCoordinate( ), imageColumnsInfo.getTotalWidth( ) );
+		StyleEntry entry = engine.getStyle( style, imageSizeInfo,
+				parentSizeInfo );
 		SheetData data = createImageData( image, entry,container );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
-		ContainerSizeInfo imageSizeInfo = new ContainerSizeInfo( parentSizeInfo
-				.getStartCoordinate( ), imageColumnsInfo.getTotalWidth( ) );
 		data.setSizeInfo( imageSizeInfo );
 		addData( data );
 	}
@@ -801,13 +794,66 @@ public class ExcelLayoutEngine
 			blankData.setType( Type.HORIZONTAL );
 			addDatatoCache( i, blankData );
 		}
-		
+		if ( data.getDataType( ) == SheetData.IMAGE )
+		{
+			addEmptyData( data, container );
+		}
+
 		if ( container instanceof XlsCell )
 		{
 			XlsCell cell = (XlsCell)container;
 			data.setRowSpanInDesign( cell.getRowSpan( ) - 1 );
 		}
-		lastData = data;
+	}
+
+	protected void addEmptyData( SheetData data, XlsContainer container )
+	{
+		int parentStartCoordinate = container.getSizeInfo( )
+				.getStartCoordinate( );
+		int parentEndCoordinate = container.getSizeInfo( ).getEndCoordinate( );
+		int childStartCoordinate = data.getSizeInfo( ).getStartCoordinate( );
+		int childEndCoordinate = data.getSizeInfo( ).getEndCoordinate( );
+		if ( childEndCoordinate < parentEndCoordinate )
+		{
+			StyleEntry style = container.getStyle( );
+			removeLeftBorder( style );
+			int column = axis.getColumnIndexByCoordinate( childEndCoordinate );
+			Data empty = createEmptyData( container, style );
+			empty.setSizeInfo( new ContainerSizeInfo( childEndCoordinate,
+					parentEndCoordinate - childEndCoordinate ) );
+			empty.setRowIndex( data.getRowIndex( ) );
+			addDatatoCache( column, empty );
+		}
+		if ( childStartCoordinate > parentStartCoordinate )
+		{
+			StyleEntry style = container.getStyle( );
+			removeRightBorder( style );
+			int column = axis.getColumnIndexByCoordinate( childStartCoordinate );
+			Data empty = createEmptyData( container, style );
+			empty.setSizeInfo( new ContainerSizeInfo( childStartCoordinate,
+					parentStartCoordinate - childStartCoordinate ) );
+			empty.setRowIndex( data.getRowIndex( ) );
+			addDatatoCache( column, empty );
+		}
+	}
+
+	private void removeRightBorder( StyleEntry style )
+	{
+		style.setProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP, null );
+		style.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP, null );
+		style.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP, null );
+	}
+
+	private void removeLeftBorder( StyleEntry style )
+	{
+		style.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP, null );
+		style.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP, null );
+		style.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP, null );
+	}
+
+	protected Data createEmptyData( XlsContainer container, StyleEntry style )
+	{
+		return createData( EMPTY, style, Data.STRING, container );
 	}
 
 	protected void updataRowIndex( SheetData data, XlsContainer container )
@@ -1070,11 +1116,6 @@ public class ExcelLayoutEngine
 		return this.bookmarkList;
 	}
 
-	public SheetData getLastData( )
-	{
-		return lastData;
-	}
-
 	/**
 	 * @param bookmarkName
 	 * @return generatedBookmarkName
@@ -1106,7 +1147,6 @@ public class ExcelLayoutEngine
 		data.setDataType( dataType );
 		data.setContainer( container );
 		data.setRowSpanInDesign( rowSpanOfDesign );
-		lastData = data;
 		return data;
 	}
 }
