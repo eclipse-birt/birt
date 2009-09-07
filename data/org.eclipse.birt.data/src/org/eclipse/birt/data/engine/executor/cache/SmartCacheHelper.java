@@ -211,7 +211,10 @@ class SmartCacheHelper
 		int oldIndex = resultCache.getCurrentIndex( );
 
 		// In OdiAdapter, it fetches the next row, not current row.
-		resultCache.moveTo( startIndex - 1 );
+		if( startIndex == 0 )
+			resultCache.reset( );
+		else
+			resultCache.moveTo( startIndex - 1 );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 
 		resultCache.moveTo( oldIndex );
