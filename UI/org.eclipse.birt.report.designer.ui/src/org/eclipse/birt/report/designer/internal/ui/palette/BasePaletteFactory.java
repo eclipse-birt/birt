@@ -145,11 +145,15 @@ public class BasePaletteFactory
 					// .getReportDesignHandle( )
 					// .getElementFactory( )
 					// .newTableItem( name, data[1], 1, data[0], 1 );
+					boolean isSummaryTable = data.length > 3
+							&& data[3] != null
+							&& ( (Boolean) data[3] ).booleanValue( );
 					TableHandle table = DesignElementFactory.getInstance( )
 							.newTableItem( null,
 									( (Integer) data[1] ).intValue( ),
 									1,
-									( (Integer) data[0] ).intValue( ),
+									isSummaryTable ? 0
+											: ( (Integer) data[0] ).intValue( ),
 									1 );
 					InsertInLayoutUtil.setInitWidth( table );
 					if ( data[2] != null )
@@ -165,6 +169,17 @@ public class BasePaletteFactory
 							provider.generateAllBindingColumns( );
 						}
 						catch ( Exception e )
+						{
+							ExceptionHandler.handle( e );
+						}
+					}
+					if ( isSummaryTable )
+					{
+						try
+						{
+							table.setIsSummaryTable( ( (Boolean) data[3] ).booleanValue( ) );
+						}
+						catch ( SemanticException e )
 						{
 							ExceptionHandler.handle( e );
 						}
@@ -372,8 +387,9 @@ public class BasePaletteFactory
 			if ( IReportElementConstants.AUTOTEXT_VARIABLE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
 				ModuleHandle reportHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-				if(reportHandle instanceof ReportDesignHandle){
+						.getReportDesignHandle( );
+				if ( reportHandle instanceof ReportDesignHandle )
+				{
 					SelectVariableDialog dialog = new SelectVariableDialog( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 							.getReportDesignHandle( ) );
 					if ( dialog.open( ) == Dialog.OK )
@@ -1091,7 +1107,7 @@ public class BasePaletteFactory
 					if ( newObj instanceof Object[] )
 					{
 						Object[] newObjs = (Object[]) newObj;
-						newObj = UIUtil.getInsertPamaterElements(newObjs);
+						newObj = UIUtil.getInsertPamaterElements( newObjs );
 					}
 
 					Object newHandle = InsertInLayoutUtil.performInsert( newObj,

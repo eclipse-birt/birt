@@ -21,6 +21,8 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.window.Window;
 
@@ -54,7 +56,9 @@ public class TableGridProcessor extends AbstractElementProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#createElement(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor
+	 * #createElement(java.lang.Object)
 	 */
 	public DesignElementHandle createElement( Object extendedData )
 	{
@@ -74,11 +78,15 @@ public class TableGridProcessor extends AbstractElementProcessor
 				// 1,
 				// data[0],
 				// 1 );
+				boolean isSummaryTable = data.length > 3
+						&& data[3] != null
+						&& ( (Boolean) data[3] ).booleanValue( );
 				handle = DesignElementFactory.getInstance( )
 						.newTableItem( getNewName( extendedData ),
 								( (Integer) data[1] ).intValue( ),
 								1,
-								( (Integer) data[0] ).intValue( ),
+								isSummaryTable ? 0
+										: ( (Integer) data[0] ).intValue( ),
 								1 );
 				if ( data[2] != null )
 				{
@@ -93,6 +101,17 @@ public class TableGridProcessor extends AbstractElementProcessor
 						provider.generateAllBindingColumns( );
 					}
 					catch ( Exception e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+				if ( isSummaryTable )
+				{
+					try
+					{
+						( (TableHandle) handle ).setIsSummaryTable( ( (Boolean) data[3] ).booleanValue( ) );
+					}
+					catch ( SemanticException e )
 					{
 						ExceptionHandler.handle( e );
 					}
@@ -118,7 +137,9 @@ public class TableGridProcessor extends AbstractElementProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#editElement(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor
+	 * #editElement(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 	public boolean editElement( DesignElementHandle handle )
 	{

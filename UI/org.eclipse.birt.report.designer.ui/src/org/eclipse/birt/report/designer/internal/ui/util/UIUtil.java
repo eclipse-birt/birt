@@ -1728,6 +1728,28 @@ public class UIUtil
 	}
 
 	/**
+	 * Return the analysis of dataset column
+	 * 
+	 * @param column
+	 * @return
+	 */
+	public static String getColumnAnalysis( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getAnalysis( );
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Convenient method to setup button to invoke expression builder
 	 */
 	public static void setExpressionButtonImage( Button button )

@@ -35,11 +35,13 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -47,6 +49,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -297,6 +300,17 @@ public class ReportTemplateTransferDropTargetListener extends
 				if ( isScalarparameter || isResultSetColumn )
 				{
 					request.setType( ReportRequest.CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN );
+					Object model = getCreateRequest( ).getExtendedData( )
+							.get( DesignerConstants.KEY_NEWOBJECT );
+					if ( model instanceof GroupHandle )
+					{
+						GroupHandle handle = (GroupHandle) model;
+						getCreateRequest( ).getExtendedData( )
+								.put( DesignerConstants.KEY_NEWOBJECT,
+										( (CellHandle) ( (RowHandle) handle.getHeader( )
+												.get( 0 ) ).getCells( ).get( 0 ) ).getContent( )
+												.get( 0 ) );
+					}
 					selectAddedObject( request );
 				}
 				else if ( isEmbeddImage )

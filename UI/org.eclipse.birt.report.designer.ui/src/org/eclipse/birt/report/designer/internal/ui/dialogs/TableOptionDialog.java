@@ -95,6 +95,8 @@ public class TableOptionDialog extends BaseDialog
 
 	private Combo dataSetCombo;
 
+	private Button autoChk;
+
 	/**
 	 * The constructor.
 	 * 
@@ -219,6 +221,12 @@ public class TableOptionDialog extends BaseDialog
 			newList[0] = NONE;
 			dataSetCombo.setItems( newList );
 			dataSetCombo.select( 0 );
+
+			autoChk = new Button( composite, SWT.CHECK );
+			autoChk.setText( "Auto Summarize On" );
+			gdata = new GridData( GridData.FILL_HORIZONTAL );
+			gdata.horizontalSpan = 2;
+			autoChk.setLayoutData( gdata );
 		}
 
 		else
@@ -228,6 +236,7 @@ public class TableOptionDialog extends BaseDialog
 			gdata.horizontalSpan = 2;
 			lb.setLayoutData( gdata );
 		}
+		
 		chkbox = new Button( composite, SWT.CHECK );
 		chkbox.setText( insertTable ? MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES
 				: MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS );
@@ -272,7 +281,8 @@ public class TableOptionDialog extends BaseDialog
 			setResult( new Object[]{
 					Integer.valueOf(rowCount),
 					Integer.valueOf(columnCount),
-					dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) )
+					dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) ),
+					autoChk.getSelection( )
 			} );
 		}
 		else

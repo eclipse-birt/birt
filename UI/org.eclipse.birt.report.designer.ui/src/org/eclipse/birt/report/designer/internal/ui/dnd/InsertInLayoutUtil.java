@@ -17,12 +17,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -32,10 +35,12 @@ import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -61,8 +66,10 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -176,8 +183,9 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 *      .InsertInLayoutRule#insert()
+		 * @see
+		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
+		 * .InsertInLayoutRule#insert()
 		 */
 		public void insert( Object object ) throws SemanticException
 		{
@@ -298,8 +306,9 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 *      .InsertInLayoutRule#insert()
+		 * @see
+		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
+		 * .InsertInLayoutRule#insert()
 		 */
 		public void insert( Object object ) throws SemanticException
 		{
@@ -328,8 +337,9 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 *      .InsertInLayoutRule#canInsert()
+		 * @see
+		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
+		 * .InsertInLayoutRule#canInsert()
 		 */
 		public boolean canInsert( )
 		{
@@ -341,8 +351,9 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 *      .InsertInLayoutRule#getInsertPosition()
+		 * @see
+		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
+		 * .InsertInLayoutRule#getInsertPosition()
 		 */
 		public Object getInsertPosition( )
 		{
@@ -352,8 +363,9 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 *      .InsertInLayoutRule#insert(java.lang.Object)
+		 * @see
+		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
+		 * .InsertInLayoutRule#insert(java.lang.Object)
 		 */
 		public void insert( Object object ) throws SemanticException
 		{
@@ -605,10 +617,11 @@ public class InsertInLayoutUtil
 	 * @return to be inserted data item
 	 * @throws SemanticException
 	 */
-	protected static DataItemHandle performInsertDataSetColumn(
+	protected static DesignElementHandle performInsertDataSetColumn(
 			ResultSetColumnHandle model, Object target, Object targetParent )
 			throws SemanticException
 	{
+
 		/*
 		 * search the target container, if container has the same dataset, add
 		 * the column binding if it does not exist in the container. If the
@@ -619,6 +632,107 @@ public class InsertInLayoutUtil
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
 		DataSetHandle dataSet = (DataSetHandle) model.getElementHandle( );
+
+		if ( targetParent instanceof TableHandle )
+		{
+			TableHandle tableHandle = (TableHandle) targetParent;
+			if ( tableHandle.isSummaryTable( ) )
+			{
+				tableHandle.setDataSet( dataSet );
+				if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( model ) ) )
+				{
+
+					ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
+							model.getColumnName( ) );
+					bindingColumn.setDataType( model.getDataType( ) );
+					bindingColumn.setExpression( DEUtil.getExpression( model ) );
+					bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
+					tableHandle.addColumnBinding( bindingColumn, false );
+					dataHandle.setResultSetColumn( model.getColumnName( ) );
+
+					SlotHandle slotHandle = tableHandle.getGroups( );
+					for ( Object o : slotHandle.getContents( ) )
+					{
+						GroupHandle group = (GroupHandle) o;
+						if ( group.getName( ).equals( model.getColumnName( ) ) )
+							return null;
+					}
+
+					DesignElementFactory factory = DesignElementFactory.getInstance( tableHandle.getModuleHandle( ) );
+					GroupHandle groupHandle = factory.newTableGroup( );
+					int columnCount = tableHandle.getColumnCount( );
+					groupHandle.getHeader( )
+							.add( factory.newTableRow( columnCount ) );
+					groupHandle.getFooter( )
+							.add( factory.newTableRow( columnCount ) );
+					groupHandle.setName( model.getColumnName( ) );
+					Expression newKeyExpr = new Expression( UIUtil.convertToModelString( model.getColumnName( ),
+							true ),
+							"javascript" );
+					groupHandle.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
+							newKeyExpr );
+					slotHandle.add( groupHandle, slotHandle.getCount( ) );
+
+					RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
+							.get( 0 ) );
+					CellHandle cellHandle = (CellHandle) rowHandle.getCells( )
+							.get( 0 );
+					cellHandle.getContent( ).add( dataHandle );
+
+					return groupHandle;
+				}
+				else if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) )
+						|| DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ) )
+				{
+					// check target is a group cell
+					if ( target instanceof CellHandle
+							&& ( (CellHandle) target ).getContainer( )
+									.getContainer( ) instanceof GroupHandle )
+					{
+						CellHandle cellHandle = (CellHandle) target;
+						GroupHandle group = (GroupHandle) cellHandle.getContainer( )
+								.getContainer( );
+
+						ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
+								model.getColumnName( ) );
+						ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
+								column,
+								true );
+						binding.setAggregateOn( group.getName( ) );
+
+						if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) ) )
+							binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
+						else
+							binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
+
+						binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
+						dataHandle.setResultSetColumn( binding.getName( ) );
+
+						InsertInLayoutRule rule = new LabelAddRule( target );
+						if ( rule.canInsert( ) )
+						{
+							// LabelHandle label =
+							// SessionHandleAdapter.getInstance( )
+							// .getReportDesignHandle( )
+							// .getElementFactory( )
+							// .newLabel( null );
+							LabelHandle label = DesignElementFactory.getInstance( )
+									.newLabel( null );
+							label.setText( UIUtil.getColumnDisplayName( model ) );
+							rule.insert( label );
+						}
+
+						rule = new GroupKeySetRule( target, model );
+						if ( rule.canInsert( ) )
+						{
+							rule.insert( model );
+						}
+
+						return dataHandle;
+					}
+				}
+			}
+		}
 
 		dataHandle.setResultSetColumn( model.getColumnName( ) );
 
@@ -1376,28 +1490,28 @@ public class InsertInLayoutUtil
 	 */
 	public static void setInitWidth( Object object )
 	{
-//		int percentAll = 100;
-//		try
-//		{
-//			if ( object instanceof TableHandle )
-//			{
-//				TableHandle table = (TableHandle) object;
-//				table.setWidth( percentAll
-//						+ DesignChoiceConstants.UNITS_PERCENTAGE );
-//			}
-//			else if ( object instanceof GridHandle )
-//			{
-//				GridHandle grid = (GridHandle) object;
-//				grid.setWidth( percentAll
-//						+ DesignChoiceConstants.UNITS_PERCENTAGE );
-//			}
-//			else
-//				return;
-//		}
-//		catch ( SemanticException e )
-//		{
-//			ExceptionHandler.handle( e );
-//		}
+		// int percentAll = 100;
+		// try
+		// {
+		// if ( object instanceof TableHandle )
+		// {
+		// TableHandle table = (TableHandle) object;
+		// table.setWidth( percentAll
+		// + DesignChoiceConstants.UNITS_PERCENTAGE );
+		// }
+		// else if ( object instanceof GridHandle )
+		// {
+		// GridHandle grid = (GridHandle) object;
+		// grid.setWidth( percentAll
+		// + DesignChoiceConstants.UNITS_PERCENTAGE );
+		// }
+		// else
+		// return;
+		// }
+		// catch ( SemanticException e )
+		// {
+		// ExceptionHandler.handle( e );
+		// }
 	}
 
 	protected static boolean isHandleValid( DesignElementHandle handle )
