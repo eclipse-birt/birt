@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -233,9 +234,9 @@ public class TaskSelectType extends SimpleTask implements
 
 		// Update dimension combo and related sub-types in case of axes changed
 		// outside
+		updateDimensionCombo( sType );
 		if ( ( (ChartWizardContext) getContext( ) ).isMoreAxesSupported( ) )
 		{
-			updateDimensionCombo( sType );
 			createAndDisplayTypesSheet( sType );
 			setDefaultSubtypeSelection( );
 			cmpMisc.layout( );
@@ -605,6 +606,11 @@ public class TaskSelectType extends SimpleTask implements
 
 			if ( type.canCombine( ) )
 			{
+				if ( IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( sDimension )
+						&& newSeries instanceof AreaSeries )
+				{
+					continue;
+				}
 				// Horizontal Stock is not supported and can't be mixed with
 				// other charts
 				if ( !( newSeries instanceof StockSeries )
@@ -857,6 +863,7 @@ public class TaskSelectType extends SimpleTask implements
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
 
+				populateSeriesTypesList( );
 				needUpdateModel = true;
 			}
 		}
@@ -866,6 +873,7 @@ public class TaskSelectType extends SimpleTask implements
 			// {
 			needUpdateModel = true;
 			changeOverlaySeriesType( );
+			updateDimensionCombo( sType );
 			// }
 		}
 
@@ -895,6 +903,30 @@ public class TaskSelectType extends SimpleTask implements
 		}
 	}
 
+	private boolean isAreaSeriesMixed( )
+	{
+		boolean hasAreaSeries = false;
+		boolean hasNonAreaSeries = false;
+
+		for ( SeriesDefinition sd : ChartUIUtil.getAllOrthogonalSeriesDefinitions( chartModel ) )
+		{
+			if ( sd.getDesignTimeSeries( ) instanceof AreaSeries )
+			{
+				hasAreaSeries = true;
+			}
+			else
+			{
+				hasNonAreaSeries = true;
+			}
+
+			if ( hasAreaSeries && hasNonAreaSeries )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Updates the dimension combo according to chart type and axes number
 	 * 
@@ -919,6 +951,7 @@ public class TaskSelectType extends SimpleTask implements
 			isOldExist = true;
 		}
 		cbDimension.removeAll( );
+		boolean bAreaSeriesMixed = isAreaSeriesMixed( );
 		for ( int i = 0; i < dimensionArray.length; i++ )
 		{
 			boolean isSupported = chartType.isDimensionSupported( dimensionArray[i],
@@ -927,6 +960,11 @@ public class TaskSelectType extends SimpleTask implements
 					0 );
 			if ( isSupported )
 			{
+				if ( bAreaSeriesMixed
+						&& dimensionArray[i].equals( IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE ) )
+				{
+					continue;
+				}
 				cbDimension.add( dimensionArray[i] );
 			}
 			if ( !isOldExist && sDimension.equals( dimensionArray[i] ) )
