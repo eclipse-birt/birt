@@ -180,13 +180,14 @@ public class TableProcessor implements HTMLConstants
 						.getNextSibling( ) )
 				{
 					Element r = (Element) node;
-					if ( TAG_TR.equals( r.getTagName( ) ) ||  TAG_TH.equals( r.getTagName( ) ))
+					if ( TAG_TR.equals( r.getTagName( ) ) )
 					{
 						for ( Node n = r.getFirstChild( ); n != null; n = n
 								.getNextSibling( ) )
 						{
 							Element c = (Element) n;
-							if ( TAG_TD.equals( c.getTagName( ) ) )
+							if ( TAG_TD.equals( c.getTagName( ) )
+									|| TAG_TH.equals( c.getTagName( ) ) )
 							{
 								StyleProperties sp = cssStyles.get( c );
 								if ( sp == null )
