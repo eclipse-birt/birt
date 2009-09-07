@@ -6,11 +6,11 @@
 <Config>
 	<Policy type = "0">
 		<Driver name = "jTDS Type 4 JDBC Driver for MS SQL Server and Sybase"/>
-		<Driver name = "MySQL-AB JDBC Driver"/>
 		<Driver name = "PostgreSQL Native Driver"/>
 	</Policy>
 	<Policy type = "1">
 		<Driver name = "Oracle JDBC driver"/>
+		<Driver name = "MySQL-AB JDBC Driver"/>
 	</Policy>
 	<Policy type = "2">
 		<Driver name = "jConnect (TM) for JDBC (TM)"/>
