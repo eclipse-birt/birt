@@ -84,12 +84,10 @@ import org.eclipse.swt.widgets.Text;
  * @version $Revision$ $Date$
  */
 public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
-		implements
-			ITableLabelProvider
 {
 
-	private transient PropertyHandle computedColumns = null;
-	private transient PropertyHandleTableViewer viewer = null;
+	protected transient PropertyHandle computedColumns = null;
+	protected transient PropertyHandleTableViewer viewer = null;
 	
 	private static final int COLUMN_NAME_INDEX = 0;
 	private static final int DATA_TYPE_INDEX = 1;
@@ -98,7 +96,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 //	private static final int ARGUMENT_INDEX = 4;
 	private static final int FILTER_INDEX = 5;
 	
-	private static String[] cellLabels = new String[]{
+	protected static String[] cellLabels = new String[]{
 			Messages.getString( "dataset.editor.title.columnName" ),//$NON-NLS-1$
 			Messages.getString( "dataset.editor.title.dataType" ),//$NON-NLS-1$
 			Messages.getString( "dataset.editor.title.expression" ),//$NON-NLS-1$
@@ -107,7 +105,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			Messages.getString( "dataset.editor.title.filter" ) //$NON-NLS-1$
 	};
 
-	private static String[] cellProperties = new String[]{
+	protected static String[] cellProperties = new String[]{
 			ComputedColumn.NAME_MEMBER,
 			ComputedColumn.DATA_TYPE_MEMBER,
 			ComputedColumn.EXPRESSION_MEMBER,
@@ -116,13 +114,13 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			ComputedColumn.FILTER_MEMBER
 	};
 
-	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
+	protected static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( )
 			.getChoices( );
 	
-	private static  String[] dialogLabels = new String[]{
+	protected static  String[] dialogLabels = new String[]{
 		Messages.getString( "dataset.editor.inputDialog.columnName" ),//$NON-NLS-1$
 		Messages.getString( "dataset.editor.inputDialog.dataType" ),//$NON-NLS-1$
 		Messages.getString( "dataset.editor.inputDialog.expression" ),//$NON-NLS-1$
@@ -131,8 +129,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		Messages.getString( "dataset.editor.inputDialog.filter" ) //$NON-NLS-1$
 	};
 
-	private AggregationManager aggregationManager;
-	
+	protected AggregationManager aggregationManager;
+
 	
 
 	/**
@@ -159,6 +157,14 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	public Control createContents( Composite parent )
 	{
 		computedColumns = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.COMPUTED_COLUMNS_PROP );;
+		createTableViewer( parent );
+		addListeners( );
+		setToolTips( );
+		return viewer.getControl( );
+	}
+
+	protected void createTableViewer( Composite parent )
+	{
 		viewer = new PropertyHandleTableViewer( parent, true, true, true );
 		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
 				SWT.LEFT );
@@ -204,11 +210,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 
 					}
 				} );
-		viewer.getViewer( ).setLabelProvider( this );
+		viewer.getViewer( ).setLabelProvider( new TableProvider( ) );
 		viewer.getViewer( ).setInput( computedColumns );
-		addListeners( );
-		setToolTips( );
-		return viewer.getControl( );
 	}
 
 	/*
@@ -280,6 +283,14 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 
 		} );
 
+		addRemoveListeners( );
+
+		viewer.getViewer( )
+				.addSelectionChangedListener( new ViewerSelectionListener( ) );
+	}
+
+	private void addRemoveListeners( )
+	{
 		viewer.getRemoveButton( )
 				.addSelectionListener( new SelectionListener( ) {
 
@@ -324,9 +335,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 						widgetSelected( e );
 					}
 				} );
-
-		viewer.getViewer( )
-				.addSelectionChangedListener( new ViewerSelectionListener( ) );
 	}
 
 	private void doNew( )
@@ -348,17 +356,17 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		doEdit( handle );
 	}
 
-	private void doEdit( Object structureOrHandle )
+	protected void doEdit( Object structureOrHandle )
 	{
 		ComputedColumnInputDialog dlg = new ComputedColumnInputDialog( structureOrHandle );
 
 		if ( dlg.open( ) == Window.OK )
 		{
-			update( structureOrHandle );
+			updateComputedColumn( structureOrHandle );
 		}
 	}
 
-	private void update( Object structureOrHandle )
+	protected void updateComputedColumn( Object structureOrHandle )
 	{
 		if ( structureOrHandle instanceof ComputedColumn )
 		{
@@ -382,7 +390,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 					IMessageProvider.NONE );
 	}
 
-	private ComputedColumn getStructure( Object structureOrHandle )
+	protected ComputedColumn getStructure( Object structureOrHandle )
 	{
 		ComputedColumn structure = null;
 		if ( structureOrHandle instanceof ComputedColumn )
@@ -397,7 +405,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		return structure;
 	}
 
-	private final String getTypeName( String typeDisplayName )
+	protected final String getTypeName( String typeDisplayName )
 	{
 		for ( int i = 0; i < dataTypes.length; i++ )
 		{
@@ -408,7 +416,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		return dataTypes[0].getName( );
 	}
 
-	private final String getTypeDisplayName( String typeName )
+	protected final String getTypeDisplayName( String typeName )
 	{
 		for ( int i = 0; i < dataTypes.length; i++ )
 		{
@@ -438,121 +446,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object,
-	 *      int)
-	 */
-	public Image getColumnImage( Object element, int columnIndex )
-	{
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
-	 *      int)
-	 */
-	public String getColumnText( Object element, int columnIndex )
-	{
-		String value = null;
-		ComputedColumn computedColumn = getStructure( element );
-
-		try
-		{
-			switch ( columnIndex )
-			{
-				case 0 :
-				{
-					value = computedColumn.getName( );
-					break;
-				}
-				case 1 :
-				{
-					value = getTypeDisplayName( computedColumn.getDataType( ) );
-					break;
-				}
-				case 2 :
-				{
-					// fetch the first argument as the expression value for
-					// backward capability
-					ComputedColumnHandle handle = (ComputedColumnHandle) computedColumn.getHandle( computedColumns );
-					Iterator iterator = handle.argumentsIterator( );
-					if ( iterator.hasNext( ) )
-					{
-						AggregationArgumentHandle argHandle = (AggregationArgumentHandle) iterator.next( );
-						value = argHandle.getValue( );
-					}
-					if ( value == null )
-					{
-						value = computedColumn.getExpression( );
-					}
-					break;
-				}
-				case 3 :
-				{
-					value = computedColumn.getAggregateFunction( );
-					IAggrFunction aggrFunc = aggregationManager.getAggregation( value );
-					value = aggrFunc != null ? aggrFunc.getDisplayName( )
-							: value;
-					break;
-				}
-				case 4 :
-				{
-					value = computedColumn.getFilterExpression( );
-					break;
-				}
-
-			}
-		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
-		return ( value == null ? "" : value ); //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
-	 */
-	public void addListener( ILabelProviderListener listener )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
-	 */
-	public void dispose( )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object,
-	 *      java.lang.String)
-	 */
-	public boolean isLabelProperty( Object element, String property )
-	{
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
-	 */
-	public void removeListener( ILabelProviderListener listener )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractDescriptionPropertyPage#getPageDescription()
 	 */
 	public String getPageDescription( )
@@ -572,6 +465,133 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			return super.performOk( );
 		}
 		return false;
+	}
+	
+	private class TableProvider implements ITableLabelProvider
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
+		 * .lang.Object, int)
+		 */
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
+		 * lang.Object, int)
+		 */
+		public String getColumnText( Object element, int columnIndex )
+		{
+			String value = null;
+			ComputedColumn computedColumn = getStructure( element );
+
+			try
+			{
+				switch ( columnIndex )
+				{
+					case 0 :
+					{
+						value = computedColumn.getName( );
+						break;
+					}
+					case 1 :
+					{
+						value = getTypeDisplayName( computedColumn.getDataType( ) );
+						break;
+					}
+					case 2 :
+					{
+						// fetch the first argument as the expression value for
+						// backward capability
+						ComputedColumnHandle handle = (ComputedColumnHandle) computedColumn.getHandle( computedColumns );
+						Iterator iterator = handle.argumentsIterator( );
+						if ( iterator.hasNext( ) )
+						{
+							AggregationArgumentHandle argHandle = (AggregationArgumentHandle) iterator.next( );
+							value = argHandle.getValue( );
+						}
+						if ( value == null )
+						{
+							value = computedColumn.getExpression( );
+						}
+						break;
+					}
+					case 3 :
+					{
+						value = computedColumn.getAggregateFunction( );
+						IAggrFunction aggrFunc = aggregationManager.getAggregation( value );
+						value = aggrFunc != null ? aggrFunc.getDisplayName( )
+								: value;
+						break;
+					}
+					case 4 :
+					{
+						value = computedColumn.getFilterExpression( );
+						break;
+					}
+
+				}
+			}
+			catch ( Exception e )
+			{
+				ExceptionHandler.handle( e );
+			}
+
+			return ( value == null ? "" : value ); //$NON-NLS-1$
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
+		 */
+		public void addListener( ILabelProviderListener listener )
+		{
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+		 */
+		public void dispose( )
+		{
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
+		 * .lang.Object, java.lang.String)
+		 */
+		public boolean isLabelProperty( Object element, String property )
+		{
+			return false;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
+		 */
+		public void removeListener( ILabelProviderListener listener )
+		{
+		}
+
 	}
 
 	private class ViewerSelectionListener implements ISelectionChangedListener
@@ -738,7 +758,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	/**
 	 * 
 	 */
-	private class DummyParamDefn implements IParameterDefn
+	protected class DummyParamDefn implements IParameterDefn
 	{
 		String name;
 		String displayName;
@@ -824,7 +844,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	}
 
 
-	private class ComputedColumnInputDialog extends PropertyHandleInputDialog
+	protected class ComputedColumnInputDialog extends PropertyHandleInputDialog
 	{
 
 		private static final String BLANK = "";//$NON-NLS-1$

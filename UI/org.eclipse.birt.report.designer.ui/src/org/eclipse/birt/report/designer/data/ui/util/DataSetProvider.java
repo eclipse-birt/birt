@@ -213,6 +213,10 @@ public final class DataSetProvider
 			items[i].setComputedColumn( metaData.isComputedColumn( i + 1 ) );
 			items[i].setPosition( i + 1 );
 			items[i].setDataType( metaData.getColumnType( i + 1 ) );
+			ColumnHintHandle hint = findColumnHint( dataSetHandle,
+					items[i].getName( ) );
+			if ( hint != null )
+				items[i].setAnalysis( hint.getAnalysis( ) );
 		}
 		updateModel( dataSetHandle, items );
 		return items;
@@ -241,6 +245,10 @@ public final class DataSetProvider
 			items[i].setComputedColumn( metaData.isComputedColumn( i + 1 ) );
 			items[i].setPosition( i + 1 );
 			items[i].setDataType( metaData.getColumnType( i + 1 ) );
+			ColumnHintHandle hint = findColumnHint( dataSetHandle,
+					items[i].getName( ) );
+			if ( hint != null )
+				items[i].setAnalysis( hint.getAnalysis( ) );
 		}
 		return items;
 	}
@@ -278,6 +286,26 @@ public final class DataSetProvider
 		htColumns.put( dataSet, dsItemModel );
 	}
 	
+	private ColumnHintHandle findColumnHint( DataSetHandle handle,
+			String columnName )
+	{
+		if ( columnName == null || columnName.trim( ).length( ) == 0 )
+			return null;
+
+		ColumnHintHandle hint = null;
+		Iterator iter = handle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			hint = (ColumnHintHandle) iter.next( );
+			if ( columnName.equals( hint.getColumnName( ) ) )
+			{
+				return hint;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * To rollback original datasetHandle, clean unused resultset columm
 	 * 
@@ -792,6 +820,7 @@ public final class DataSetProvider
 						columns[n].setDisplayNameKey( hint.getDisplayNameKey( ) );
 						columns[n].setAlias( hint.getAlias( ) );
 						columns[n].setHelpText( hint.getHelpText( ) );
+						columns[n].setAnalysis( hint.getAnalysis( ) );
 						break;
 					}
 				}

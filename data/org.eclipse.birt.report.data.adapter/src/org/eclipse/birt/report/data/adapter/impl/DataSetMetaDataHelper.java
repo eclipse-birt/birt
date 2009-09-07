@@ -262,20 +262,25 @@ public class DataSetMetaDataHelper
 	 * @param designHandle
 	 * @return
 	 */
-    private boolean isEmpty(ColumnHint hint, ModuleHandle designHandle)
-    {
-        String alias = (String)hint.getProperty(designHandle.getModule(), ColumnHint.ALIAS_MEMBER);
-        String displayName = (String)hint.getProperty(designHandle.getModule(), ColumnHint.DISPLAY_NAME_MEMBER);
-        String displayNameKey = (String) hint.getProperty( designHandle.getModule( ),
+	private boolean isEmpty( ColumnHint hint, ModuleHandle designHandle )
+	{
+		String alias = (String) hint.getProperty( designHandle.getModule( ),
+				ColumnHint.ALIAS_MEMBER );
+		String displayName = (String) hint.getProperty( designHandle.getModule( ),
+				ColumnHint.DISPLAY_NAME_MEMBER );
+		String displayNameKey = (String) hint.getProperty( designHandle.getModule( ),
 				ColumnHint.DISPLAY_NAME_ID_MEMBER );
-        String helpText = (String)hint.getProperty(designHandle.getModule(), ColumnHint.HELP_TEXT_MEMBER);
-        
-        return ( (alias == null || alias.trim().length() == 0) 
-                && ( displayName == null || displayName.trim( ).length( ) == 0 )
+		String helpText = (String) hint.getProperty( designHandle.getModule( ),
+				ColumnHint.HELP_TEXT_MEMBER );
+		String analysis = (String) hint.getProperty( designHandle.getModule( ),
+				ColumnHint.ANALYSIS_MEMBER );
+
+		return ( ( alias == null || alias.trim( ).length( ) == 0 )
+				&& ( displayName == null || displayName.trim( ).length( ) == 0 )
 				&& ( displayNameKey == null || displayNameKey.trim( ).length( ) == 0 )
-                && (helpText == null || helpText.trim().length() == 0)
-                );
-    }
+				&& ( helpText == null || helpText.trim( ).length( ) == 0 ) && ( analysis == null || analysis.trim( )
+				.length( ) == 0 ) );
+	}
     
     /**
 	 * 

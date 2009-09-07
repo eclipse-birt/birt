@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.MenuItem;
 public class PropertyHandleTableViewer
 {
 
-	private TableViewer viewer;
+	protected TableViewer viewer;
 	private Composite mainControl;
 	private MenuItem itmRemove;
 	private MenuItem itmRemoveAll;
@@ -200,7 +200,7 @@ public class PropertyHandleTableViewer
 		separator.setLayoutData( gd );
 	}
 
-	private void doButtonSelected( SelectionEvent e )
+	protected void doButtonSelected( SelectionEvent e )
 	{
 		if ( buttonArray != null )
 		{
@@ -214,7 +214,7 @@ public class PropertyHandleTableViewer
 		}
 	}
 
-	private void doButtonPressed( int index )
+	protected void doButtonPressed( int index )
 	{
 		switch ( index )
 		{
@@ -232,7 +232,7 @@ public class PropertyHandleTableViewer
 		}
 	}
 
-	void doRemove( )
+	protected void doRemove( )
 	{
 		int index = viewer.getTable( ).getSelectionIndex( );
 		PropertyHandle handle = (PropertyHandle) viewer.getInput( );

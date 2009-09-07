@@ -72,20 +72,20 @@ import org.eclipse.swt.widgets.Text;
 /**
  * Property page to edit output columns for all oda data sets.
  */
-public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
+public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		implements
 			Listener
 {
 
-	private transient PropertyHandleTableViewer viewer = null;
+	protected transient PropertyHandleTableViewer viewer = null;
 	// to indicate the status of dataset handle
 	private transient boolean modelChanged = true;
 
-	private String originalAlias = ""; //$NON-NLS-1$
-	private String originalDisplayName = ""; //$NON-NLS-1$
-	private String originalDisplayNameKey = ""; //$NON-NLS-1$
+	protected String originalAlias = ""; //$NON-NLS-1$
+	protected String originalDisplayName = ""; //$NON-NLS-1$
+	protected String originalDisplayNameKey = ""; //$NON-NLS-1$
 
-	private static String[] cellLabels = new String[]{
+	protected static String[] cellLabels = new String[]{
 			Messages.getString( "dataset.editor.title.name" ),//$NON-NLS-1$
 			Messages.getString( "dataset.editor.title.type" ),//$NON-NLS-1$
 			Messages.getString( "dataset.editor.title.alias" ), //$NON-NLS-1$
@@ -93,7 +93,7 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			Messages.getString( "dataset.editor.title.displayNameKey" ) //$NON-NLS-1$
 	};
 
-	private static String[] dialogLabels = new String[]{
+	protected static String[] dialogLabels = new String[]{
 		Messages.getString( "dataset.editor.inputDialog.name" ),//$NON-NLS-1$
 		Messages.getString( "dataset.editor.inputDialog.type" ),//$NON-NLS-1$
 		Messages.getString( "dataset.editor.inputDialog.alias" ), //$NON-NLS-1$
@@ -101,7 +101,7 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		Messages.getString( "dataset.editor.inputDialog.displayNameKey" ) //$NON-NLS-1$
 };
 
-	private static String[] cellProperties = new String[]{
+	protected static String[] cellProperties = new String[]{
 			"name", "dataTypeDisplayName", "alias", "realDisplayName", "displayNameKey"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
@@ -119,6 +119,14 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#createPageControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createContents( Composite parent )
+	{
+		createTableViewer( parent );
+		addListeners( );
+		( (DataSetHandle) getContainer( ).getModel( ) ).addListener( this );
+		return viewer.getControl( );
+	}
+
+	protected void createTableViewer( Composite parent )
 	{
 		viewer = new PropertyHandleTableViewer( parent, false, true, false );
 
@@ -150,9 +158,6 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				.setContentProvider( new OutputColumnsContentProvider( ) );
 		viewer.getViewer( )
 				.setLabelProvider( new OutputColumnsLabelProvider( ) );
-		addListeners( );
-		( (DataSetHandle) getContainer( ).getModel( ) ).addListener( this );
-		return viewer.getControl( );
 	}
 
 	private void addListeners( )
@@ -191,7 +196,7 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		doEdit( data );
 	}
 
-	private void doEdit( DataSetViewData data )
+	protected void doEdit( DataSetViewData data )
 	{
 		OutputColumnInputDialog dlg = new OutputColumnInputDialog( data );
 
@@ -432,11 +437,7 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		viewer.getViewer( ).getTable( ).removeAll( );
 	}
 
-	/**
-	 * 
-	 * 
-	 */
-	private void saveOutputColumns( )
+	protected void saveOutputColumns( )
 	{
 		PropertyHandle handle = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
 		if ( viewer != null
@@ -555,7 +556,7 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	 * @param newValue
 	 * @return
 	 */
-	private boolean isUnique( String newValue )
+	protected boolean isUnique( String newValue )
 	{
 
 		DataSetViewData[] items = null;
@@ -643,7 +644,7 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	 * update message
 	 * 
 	 */
-	private void updateMessage( )
+	protected void updateMessage( )
 	{
 		if ( isValid( ) )
 			getContainer( ).setMessage( Messages.getString( "dataset.editor.outputColumns" ), //$NON-NLS-1$
@@ -655,7 +656,7 @@ public final class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	 * @param model
 	 * @return
 	 */
-	private boolean isColumnHintRequired( DataSetViewData model )
+	protected boolean isColumnHintRequired( DataSetViewData model )
 	{
 		return !( ( model.getRealDisplayName( ) == null || model.getRealDisplayName( )
 				.trim( )

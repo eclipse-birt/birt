@@ -278,7 +278,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		if ( ds instanceof ScriptDataSetHandle )
 		{
 			// Output column is replaced by column definition page
-			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new OutputColumnDefnPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Parameter page
 			addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Parameter is removed
@@ -292,9 +292,9 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		else if ( ds instanceof OdaDataSetHandle )
 		{
 			// Output column page
-			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new OutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Computed column page
-			addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new DataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new AdvancedDataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// flatfile driver need not parameter page to be displayed.
 			if ( includeInputParameterPage )
 				addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$		
@@ -302,7 +302,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			IPropertyPage filterpage = new DataSetFiltersPage();
 			try
 			{
-				filterpage = (IPropertyPage) Class.forName( "org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetFiltersPage" )
+				filterpage = (IPropertyPage) Class.forName( "org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetFiltersPage" ) //$NON-NLS-1$
 						.newInstance( );
 			}
 			catch ( Throwable e )
@@ -332,9 +332,9 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 					new JointDataSetPage( Messages.getString( "dataset.editor.dataSource" ) ) ); //$NON-NLS-1$
 
 			// Output column page
-			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new OutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Computed column page
-			addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new DataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new AdvancedDataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			/*
@@ -356,9 +356,9 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 				{
 					addPageTo( "/", pages[i].getClass( ).getName( ), pages[i].getName( ), null, pages[i] );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$				
 				}
-				addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new OutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				// Computed column page
-				addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new DataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new AdvancedDataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 				/*

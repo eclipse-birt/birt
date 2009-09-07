@@ -47,6 +47,8 @@ public class DataSetViewData
 	
 	private transient String displayNameKey = null;
 
+	private transient String analysis = null;
+
 	/**
 	 * @return the dataType.
 	 */
@@ -292,5 +294,15 @@ public class DataSetViewData
 				return dataTypes[i].getDisplayName( );
 		}
 		return typeName;
+	}
+
+	public void setAnalysis( String analysis )
+	{
+		this.analysis = analysis;
+	}
+
+	public String getAnalysis( )
+	{
+		return analysis;
 	}
 }
