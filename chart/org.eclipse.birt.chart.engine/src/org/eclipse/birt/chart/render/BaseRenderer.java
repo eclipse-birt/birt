@@ -1993,7 +1993,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					}
 				}
 
-				Collections.sort( al, zOrderComparator );
+				if ( cm.getDimension( ) == ChartDimension.TWO_DIMENSIONAL_LITERAL )
+				{
+					Collections.sort( al, zOrderComparator );
+				}
 
 				// CONVERT INTO AN ARRAY AS REQUESTED
 				brna = new BaseRenderer[al.size( )];
