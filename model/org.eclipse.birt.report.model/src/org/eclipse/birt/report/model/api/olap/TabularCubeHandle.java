@@ -199,4 +199,28 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 				.getQualifiedName( );
 		return findDimensionCondition( hierarchyName );
 	}
+
+	/**
+	 * Gets the status whether to generate a primary key for elements that use
+	 * this cube so that user no longer need to set the aggregation for measure.
+	 * 
+	 * @return true if automatically generate the key, otherwise false
+	 */
+	public boolean autoPrimaryKey( )
+	{
+		return getBooleanProperty( AUTO_KEY_PROP );
+	}
+
+	/**
+	 * Sets the status whether to generate a primary key for elements that use
+	 * this cube so that user no longer need to set the aggregation for measure.
+	 * 
+	 * @param autoKey
+	 *            true if automatically generate the key, otherwise false
+	 * @throws SemanticException
+	 */
+	public void setAutoPrimaryKey( boolean autoKey ) throws SemanticException
+	{
+		setBooleanProperty( AUTO_KEY_PROP, autoKey );
+	}
 }

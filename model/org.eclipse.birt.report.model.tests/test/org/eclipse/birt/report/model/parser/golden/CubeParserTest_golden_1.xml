@@ -96,6 +96,7 @@
                 </tabular-measure-group>
             </property>
             <property name="dataSet">firstDataSet</property>
+            <property name="autoKey">true</property>
             <list-property name="dimensionConditions">
                 <structure>
                     <list-property name="joinConditions">
@@ -210,6 +211,7 @@
                 </tabular-measure-group>
             </property>
             <property name="dataSet">firstDataSet</property>
+            <property name="autoKey">true</property>
             <list-property name="dimensionConditions">
                 <structure>
                     <list-property name="joinConditions">

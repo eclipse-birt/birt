@@ -3472,6 +3472,9 @@
   	<Property detailType="DimensionCondition" displayNameID="Element.TabularCube.dimensionConditions" isList="true" name="dimensionConditions" runtimeSettable="false" since="2.2" type="structure" />	  
   	<Property detailType="DataSet" displayNameID="Element.TabularCube.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef">
   	  <Trigger validator="DataSetRequiredValidator"/>
+  	</Property>
+  	<Property displayNameID="Element.TabularCube.autoKey" name="autoKey" runtimeSettable="false" since="2.5" type="boolean">
+  	  <Default>false</Default>
   	</Property>	  
   	<Property displayNameID="Element.TabularCube.dimensions" isList="true" name="dimensions" runtimeSettable="false" since="2.2" type="element" >
   	  <Type name="TabularDimension"/>

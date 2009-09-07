@@ -3875,6 +3875,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitTabularCube( obj );
 
 		property( obj, ITabularCubeModel.DATA_SET_PROP );
+		property( obj, ITabularCubeModel.AUTO_KEY_PROP );
 		writeStructureList( obj, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
 		writer.endElement( );
 

@@ -23,6 +23,7 @@
     	<tabular-cube name="testCube">
     		<property name="dataSet">firstDataSet</property>
     		<property name="defaultMeasureGroup">testMeasureGroup</property>
+    		<property name="autoKey">true</property>
     		<list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>

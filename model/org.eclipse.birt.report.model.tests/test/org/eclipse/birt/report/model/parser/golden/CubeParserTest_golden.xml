@@ -110,6 +110,7 @@
                 <tabular-measure-group name="Summary Field" id="17"/>
             </property>
             <property name="dataSet">secondDataSet</property>
+            <property name="autoKey">false</property>
             <list-property name="dimensionConditions">
                 <structure>
                     <list-property name="joinConditions">

@@ -69,6 +69,8 @@ public class TabularCubeParserTest extends BaseTestCase
 				.findCube( "testCube" ); //$NON-NLS-1$
 		assertEquals(
 				designHandle.findDataSet( "firstDataSet" ), cube.getDataSet( ) ); //$NON-NLS-1$
+		assertTrue( cube.autoPrimaryKey( ) );
+
 		// filter
 		Iterator iter = cube.filtersIterator( );
 		FilterConditionHandle filterConditionHandle = (FilterConditionHandle) iter
@@ -237,6 +239,7 @@ public class TabularCubeParserTest extends BaseTestCase
 				.findCube( "testCube" ); //$NON-NLS-1$
 		cube.setDataSet( designHandle.findDataSet( "secondDataSet" ) ); //$NON-NLS-1$
 		cube.setName( namePrix + cube.getName( ) );
+		cube.setAutoPrimaryKey( false );
 		cube.setDefaultMeasureGroup( factory
 				.newTabularMeasureGroup( "testDefaultMeasureGroup" ) ); //$NON-NLS-1$
 		PropertyHandle propHandle = cube
