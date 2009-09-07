@@ -312,6 +312,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected String htmlIDNamespace;
 	protected int browserVersion;
+	// The browser supports the inline-block or not. The default state is true;
+	protected boolean browserSupportsInlineBlock = true;
 	
 	protected int imageDpi = -1;
 	
@@ -430,6 +432,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					|| browserVersion == HTMLEmitterUtil.BROWSER_IE6 )
 			{
 				needFixTransparentPNG = true;
+				browserSupportsInlineBlock = false;
+			}
+			else if ( browserVersion == HTMLEmitterUtil.BROWSER_IE7
+					|| browserVersion == HTMLEmitterUtil.BROWSER_FIREFOX1
+					|| browserVersion == HTMLEmitterUtil.BROWSER_FIREFOX2 )
+			{
+				browserSupportsInlineBlock = false;
 			}
 		}
 	}
@@ -1647,38 +1656,31 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			DIVWrap = true;
 			writer.attribute( HTMLTags.ATTR_ALIGN, style.getTextAlign( ) );
 		}
-		
-		// implement the inline table
-		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
-		if ( IStyle.INLINE_VALUE == display || IStyle.INLINE_BLOCK_VALUE == display )
+
+		// The IE8, Firefox3, Firefox3.5, Safari4.0, Chrome2.0 have support the
+		// inline-block by themselves.
+		// implement the inline table for old version browser
+		if ( !browserSupportsInlineBlock )
 		{
-			if( !DIVWrap )
+			CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
+			if ( IStyle.INLINE_VALUE == display
+					|| IStyle.INLINE_BLOCK_VALUE == display )
 			{
-				writer.openTag( HTMLTags.TAG_DIV );
-				DIVWrap = true;
-			}
-			// For the IE6 the display value will be "inline", because the IE6
-			// can't identify the "!important".
-			// The IE7, IE8 and Firefox support "!important".
-			// IE7 hasn't impelmented inline-block. So we must output special
-			// diaplsy string for IE7.
-			// For the Firefox 1.5 and 2 the display value will be
-			// "-moz-inline-box", because only the Firefox 3 implement the
-			// "inline-block".
-			// For the Firefox 3 the display value will be "inline-block".
-			if ( browserVersion == HTMLEmitterUtil.BROWSER_IE7 )
-			{
-				// IE7 hasn't impelmented inline-block. 
+				if ( !DIVWrap )
+				{
+					writer.openTag( HTMLTags.TAG_DIV );
+					DIVWrap = true;
+				}
+				// Only the IE5.5, IE6, IE7 can identify the "*+".
+				// only the Firefox1.5 and Firefox2 can identify the
+				// "-moz-inline-box".
+				// For the IE8, Firefox3, Firefox3.5, Safari4.0, Chrome2.0, the
+				// value will be "inline-block".
 				writer.attribute( HTMLTags.ATTR_STYLE,
-						" display:-moz-inline-box !important; display:inline;" );
-			}
-			else
-			{
-				writer.attribute( HTMLTags.ATTR_STYLE,
-						" display:-moz-inline-box !important; display:inline-block !important; display:inline;" );
+						" display:-moz-inline-box; display:inline-block; *+display:inline;" );
 			}
 		}
-		
+
 		tableDIVWrapedFlagStack.push( new Boolean( DIVWrap ) );
 		
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$

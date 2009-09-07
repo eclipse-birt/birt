@@ -258,6 +258,14 @@ public class HTMLEmitterUtil
 		{
 			return BROWSER_IE7;
 		}
+		else if ( userAgent.contains( "Firefox/1" ) )
+		{
+			return BROWSER_FIREFOX1;
+		}
+		else if ( userAgent.contains( "Firefox/2" ) )
+		{
+			return BROWSER_FIREFOX2;
+		}
 		else
 			return BROWSER_UNKNOW;
 	}

@@ -601,14 +601,18 @@ public abstract class HTMLEmitter
 		DimensionType width = container.getWidth( );
 		DimensionType height = container.getHeight( );
 		int display = getElementType( x, y, width, height, container.getStyle( ) );
-		// The display value is pushed in Stack. It will be popped when close the container tag.
+		// The display value is pushed in Stack. It will be popped when
+		// close the container tag.
 		containerDisplayStack.push( new Integer( display ) );
-		if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
-				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+		if ( !reportEmitter.browserSupportsInlineBlock )
 		{
-			// Open the inlineBox tag when implement the inline box.
-			openInlineBoxTag( );
-			//FIXME: code review: We should implement the shrink here.
+			if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
+					|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+			{
+				// Open the inlineBox tag when implement the inline box.
+				openInlineBoxTag( );
+				// FIXME: code review: We should implement the shrink here.
+			}
 		}
 		writer.openTag( HTMLTags.TAG_DIV );
 	}
@@ -620,40 +624,29 @@ public abstract class HTMLEmitter
 	{
 		writer.closeTag( HTMLTags.TAG_DIV );
 		int display = ( (Integer) containerDisplayStack.pop( ) ).intValue( );
-		if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
-				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+		if ( !reportEmitter.browserSupportsInlineBlock )
 		{
-			// Close the inlineBox tag when implement the inline box.
-			closeInlineBoxTag( );
+			if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
+					|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+			{
+				// Close the inlineBox tag when implement the inline box.
+				closeInlineBoxTag( );
+			}
 		}
 	}
 
 	/**
-	 * Open the tag when implement the inline box.
+	 * Open the tag when implement the inline box. This solution only works for
+	 * IE5.5, IE6, IE7, Firefox1.5 and Firefox2.
 	 */
 	protected void openInlineBoxTag( )
 	{
 		writer.openTag( HTMLTags.TAG_DIV );
-		// For the IE6 the display value will be "inline", because the IE6
-		// can't identify the "!important".
-		// The IE7, IE8 and Firefox support "!important".
-		// IE7 hasn't impelmented inline-block. So we must output special
-		// diaplsy string for IE7.
-		// For the Firefox 1.5 and 2 the display value will be
-		// "-moz-inline-box", because only the Firefox 3 implement the
-		// "inline-block".
-		// For the Firefox 3 the display value will be "inline-block".
-		if ( browserVersion == HTMLEmitterUtil.BROWSER_IE7 )
-		{
-			// IE7 hasn't impelmented inline-block. 
-			writer.attribute( HTMLTags.ATTR_STYLE,
-					" display:-moz-inline-box !important; display:inline;" );
-		}
-		else
-		{
-			writer.attribute( HTMLTags.ATTR_STYLE,
-					" display:-moz-inline-box !important; display:inline-block !important; display:inline;" );
-		}
+		// Only the IE5.5, IE6, IE7 can identify the "*+".
+		// only the Firefox1.5 and Firefox2 can identify the
+		// "-moz-inline-box".
+		writer.attribute( HTMLTags.ATTR_STYLE,
+				" display:-moz-inline-box; display:inline-block; *+display:inline;" );
 		writer.openTag( HTMLTags.TAG_TABLE );
 		writer.attribute( HTMLTags.ATTR_STYLE, " display:table !important; display:inline;" );
 		writer.openTag( HTMLTags.TAG_TR );

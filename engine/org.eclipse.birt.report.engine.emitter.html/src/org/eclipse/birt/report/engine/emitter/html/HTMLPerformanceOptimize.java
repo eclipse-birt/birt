@@ -143,9 +143,18 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		{
 			styleBuffer.append( " display: none;" );
 		}
-		else if ( IStyle.INLINE_VALUE == display || IStyle.INLINE_BLOCK_VALUE == display )
+		else if ( IStyle.INLINE_VALUE == display
+				|| IStyle.INLINE_BLOCK_VALUE == display )
 		{
-			styleBuffer.append( " display:table !important; display:inline;" );
+			// implement the inline table for old version browser
+			if ( !reportEmitter.browserSupportsInlineBlock )
+			{
+				styleBuffer.append( " display:table !important; display:inline;" );
+			}
+			else
+			{
+				styleBuffer.append( " display:inline-block;" );
+			}
 		}
 
 		// height
@@ -435,9 +444,15 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 				container.getHeight( ),
 				container.getWidth( ),
 				styleBuffer );
-		setDisplayProperty( display,
-				HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
-				styleBuffer );
+		if ( ( display & HTMLEmitterUtil.DISPLAY_NONE ) > 0 )
+		{
+			styleBuffer.append( "display: none;" ); //$NON-NLS-1$
+		}
+		else if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
+				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+		{
+			styleBuffer.append( "display: inline-block;" ); //$NON-NLS-1$
+		}
 
 		IStyle style = getElementStyle( container );
 		if ( style == null )
