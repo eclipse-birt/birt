@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -654,6 +655,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private void populateSeriesTypes( Collection<IChartType> allChartType,
 				Series series, Orientation orientation )
 		{
+			boolean is25D = getChart( ).getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
+
 			Iterator<IChartType> iterTypes = allChartType.iterator( );
 			while ( iterTypes.hasNext( ) )
 			{
@@ -667,6 +670,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 				if ( type.canCombine( ) )
 				{
+					if ( newSeries instanceof AreaSeries && is25D )
+					{
+						continue;
+					}
 					if ( !( newSeries instanceof StockSeries )
 							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
 					{
