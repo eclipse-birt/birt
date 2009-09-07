@@ -166,6 +166,38 @@ public class TableProcessor implements HTMLConstants
 			processCellStyle( element, cssStyles );
 			columnWidth = new ArrayList( );
 		}
+		
+		protected void processRow( Element element,
+				Map<Element, StyleProperties> cssStyles, String border,
+				String padding )
+		{
+			for ( Node n = element.getFirstChild( ); n != null; n = n
+					.getNextSibling( ) )
+			{
+				Element c = (Element) n;
+				if ( TAG_TD.equals( c.getTagName( ) )
+						|| TAG_TH.equals( c.getTagName( ) ) )
+				{
+					StyleProperties sp = cssStyles.get( c );
+					if ( sp == null )
+					{
+						sp = new StyleProperties( new StyleDeclaration( content
+								.getCSSEngine( ) ) );
+						cssStyles.put( c, sp );
+					}
+					if ( border != null && border.length( ) > 0 )
+					{
+						PropertiesProcessor.process( PROPERTY_BORDER, border,
+								sp );
+					}
+					if ( padding != null && padding.length( ) > 0 )
+					{
+						PropertiesProcessor.process( PROPERTY_CELLPADDING,
+								padding, sp );
+					}
+				}
+			}
+		}
 
 		private void processCellStyle( Element element,
 				Map<Element, StyleProperties> cssStyles )
@@ -182,37 +214,24 @@ public class TableProcessor implements HTMLConstants
 					Element r = (Element) node;
 					if ( TAG_TR.equals( r.getTagName( ) ) )
 					{
+						processRow( r, cssStyles, border, padding );
+					}
+					else if ( "tbody".equals( r.getTagName( ) )
+							|| "thead".equals( r.getTagName( ) )
+							|| "tfoot".equals( r.getTagName( ) ) )
+					{
 						for ( Node n = r.getFirstChild( ); n != null; n = n
 								.getNextSibling( ) )
 						{
 							Element c = (Element) n;
-							if ( TAG_TD.equals( c.getTagName( ) )
-									|| TAG_TH.equals( c.getTagName( ) ) )
+							if ( TAG_TR.equals( c.getTagName( ) ) )
 							{
-								StyleProperties sp = cssStyles.get( c );
-								if ( sp == null )
-								{
-									sp = new StyleProperties(
-											new StyleDeclaration( content
-													.getCSSEngine( ) ) );
-									cssStyles.put( c, sp );
-								}
-								if ( hasBorder )
-								{
-									PropertiesProcessor.process(
-											PROPERTY_BORDER, border, sp );
-								}
-								if ( hasPadding )
-								{
-									PropertiesProcessor.process(
-											PROPERTY_CELLPADDING, border, sp );
-								}
+								processRow( c, cssStyles, border, padding );
 							}
 						}
 					}
 				}
 			}
-
 		}
 
 		public void processNodes( )
