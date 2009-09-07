@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -19,17 +20,19 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
 public abstract class RepeatableArea extends BlockContainerArea
 {
+
 	protected List repeatList = null;
 
 	protected int repeatHeight = 0;
 
 	protected boolean inHeaderBand = false;
-	
+
 	public RepeatableArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
@@ -39,13 +42,13 @@ public abstract class RepeatableArea extends BlockContainerArea
 			repeatList = new ArrayList( );
 		}
 	}
-	
-	public void setInHeaderBand(boolean inHeaderBand)
+
+	public void setInHeaderBand( boolean inHeaderBand )
 	{
 		this.inHeaderBand = inHeaderBand;
 	}
-	
-	protected void addRepeatedItem() throws BirtException
+
+	protected void addRepeatedItem( ) throws BirtException
 	{
 		if ( repeatList != null && repeatList.size( ) > 0 )
 		{
@@ -59,7 +62,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 						ContainerArea cloneRow = row.deepClone( );
 						if ( cloneRow instanceof RowArea )
 						{
-							((RowArea)cloneRow).needResolveBorder = true;
+							( (RowArea) cloneRow ).needResolveBorder = true;
 						}
 						cloneRow.finished = true;
 						children.add( i, cloneRow );
@@ -94,7 +97,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 		}
 		else
 		{
-			if(repeatList!=null)
+			if ( repeatList != null )
 			{
 				for ( int i = 0; i < repeatList.size( ); i++ )
 				{
@@ -105,6 +108,34 @@ public abstract class RepeatableArea extends BlockContainerArea
 			}
 		}
 		return 0;
+	}
+
+	public SplitResult split( int height, boolean force ) throws BirtException
+	{
+		// repeat header can not be split.
+		if ( !force && repeatList != null && repeatList.size( ) > 0 )
+		{
+			Iterator i = children.iterator( );
+			boolean firstHeaderRow = true;
+			while ( i.hasNext( ) )
+			{
+				ContainerArea area = (ContainerArea) i.next( );
+				if ( isInRepeatHeader( area ) )
+				{
+					if ( firstHeaderRow )
+					{
+						area.setPageBreakInside( IStyle.AVOID_VALUE );
+						firstHeaderRow = false;
+					}
+					else
+					{
+						area.setPageBreakInside( IStyle.AVOID_VALUE );
+						area.setPageBreakBefore( IStyle.AVOID_VALUE );
+					}
+				}
+			}
+		}
+		return super.split( height, force );
 	}
 
 	protected boolean isValidResult( List result )
@@ -141,35 +172,41 @@ public abstract class RepeatableArea extends BlockContainerArea
 	{
 		super.add( area );
 		// cache repeat list;
-		if ( repeatList != null )
+		if ( repeatList != null && isInRepeatHeader( area ) )
 		{
-			IContent content = ( (ContainerArea) area ).getContent( );
-			if ( content != null )
+			repeatList.add( area );
+		}
+	}
+
+	private boolean isInRepeatHeader( AbstractArea area )
+	{
+		IContent content = ( (ContainerArea) area ).getContent( );
+		if ( content != null )
+		{
+			IElement parent = content.getParent( );
+			if ( parent != null && parent instanceof IBandContent )
 			{
-				IElement parent = content.getParent( );
-				if ( parent != null && parent instanceof IBandContent )
+				int type = ( (IBandContent) parent ).getBandType( );
+				if ( type == IBandContent.BAND_HEADER
+						|| type == IBandContent.BAND_GROUP_HEADER )
 				{
-					int type = ( (IBandContent) parent ).getBandType( );
-					if ( type == IBandContent.BAND_HEADER
-							|| type == IBandContent.BAND_GROUP_HEADER )
+					if ( content instanceof IRowContent )
 					{
-						if ( content instanceof IRowContent )
+						RowDesign rowDesign = (RowDesign) content
+								.getGenerateBy( );
+						if ( rowDesign == null || rowDesign.getRepeatable( ) )
 						{
-							RowDesign rowDesign = (RowDesign) content
-									.getGenerateBy( );
-							if ( rowDesign == null || rowDesign.getRepeatable( ) )
-							{
-								repeatList.add( area );
-							}
+							return true;
 						}
-						else
-						{
-							repeatList.add( area );
-						}
+					}
+					else
+					{
+						return true;
 					}
 				}
 			}
 		}
+		return false;
 	}
 
 }
