@@ -519,7 +519,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		if ( bgColor != null )
 		{
 			writer.openTag( "Interior" );
-			writer.attribute( "ss:Color", bgColor );
+			writer.attribute( "ss:Color", toString( bgColor ) );
 			writer.attribute( "ss:Pattern", "Solid" );
 			writer.closeTag( "Interior" );
 		}
