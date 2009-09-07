@@ -698,6 +698,29 @@ public class TableLayout
 					rowArea.setCell( dummyCell );
 					i = i + upperCell.getColSpan( ) - 1;
 				}
+				else
+				{
+					CellArea cell = rowArea.getCell( i );
+					if(cell==null)
+					{
+						if ( unresolvedRow != null )
+						{
+							upperCell = unresolvedRow.getCell( i );
+							usedResolvedRow = true;
+						}
+						if ( upperCell != null )
+						{
+							cell = createEmptyCell( upperCell, i, rowArea,
+									lastRow );
+						}
+					}
+
+					if ( cell != null && cell.getRowSpan( ) == 1 )
+					{
+						i = i + cell.getColSpan( ) - 1;
+					}
+
+				}
 			}
 		}
 		if ( usedResolvedRow )
