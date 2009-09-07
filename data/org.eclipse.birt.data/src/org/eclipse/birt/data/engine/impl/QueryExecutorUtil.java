@@ -73,7 +73,7 @@ public final class QueryExecutorUtil
 		dest.setIntervalRange( src.getIntervalRange( ) );
 		dest.setIntervalStart( src.getIntervalStart( ) );
 		dest.setSortDirection( doSortBeforeGrouping ? src.getSortDirection( )
-				: IQuery.NO_SORT_BEFORE_GROUPING );
+				: IGroupDefinition.NO_SORT );
 		dest.setDataType( dataType );
 		dest.setFilters( src.getFilters( ) );
 		if ( src.getSorts( ).size( ) != 0 )

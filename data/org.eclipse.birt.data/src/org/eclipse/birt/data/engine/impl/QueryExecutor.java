@@ -485,10 +485,11 @@ public abstract class QueryExecutor implements IQueryExecutor
 						groupName,
 						-1,
 						dataType,
+						src.getSortDirection( ) == IGroupDefinition.NO_SORT ? false:(
 						this.baseQueryDefn.getQueryExecutionHints( ) == null
 								? true
 								: this.baseQueryDefn.getQueryExecutionHints( )
-										.doSortBeforeGrouping( ) );
+										.doSortBeforeGrouping( ) ));
 				
 				groupSpecs[i] = dest;
 				this.temporaryComputedColumns.add( getComputedColumnInstance( cx,

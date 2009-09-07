@@ -53,7 +53,6 @@ import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 
 public interface IQuery
 {
-	public static final int NO_SORT_BEFORE_GROUPING = -1;
 	/**
 	 * Bind the ordering/sorting specification to the query instance.  
 	 * Specify the ordering of one or more fields in the query result objects.

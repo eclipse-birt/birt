@@ -319,7 +319,7 @@ public class GroupCalculationUtil
 		boolean doGroupSort = false;
 		for( int i = 0; i < groupCount; i++ )
 		{
-			if( groupDefs[i].getGroupSpec( ).getSortDirection( ) != IQuery.NO_SORT_BEFORE_GROUPING )
+			if( groupDefs[i].getGroupSpec( ).getSortDirection( ) != IGroupDefinition.NO_SORT )
 			{
 				doGroupSort = true;
 				break;
