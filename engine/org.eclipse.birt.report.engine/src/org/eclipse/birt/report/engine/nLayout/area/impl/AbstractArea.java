@@ -11,10 +11,15 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.w3c.dom.css.CSSValue;
 
 /**
@@ -270,6 +275,71 @@ public abstract class AbstractArea implements IArea
 		return y;
 	}
 
-
+	public static void debugPrint( IArea area )
+	{
+		if ( area instanceof IContainerArea )
+		{
+			System.out.print( area.getClass( ) + "||" );
+			System.out.println( "x:" + area.getX( ) + " y:" + area.getY( )
+					+ " width:" + area.getWidth( ) + " height:"
+					+ area.getHeight( ) );
+			for ( Iterator<IArea> i = ( (IContainerArea) area ).getChildren( ); i
+					.hasNext( ); )
+			{
+				IArea child = i.next( );
+				debugPrint( child );
+			}
+		}
+		else
+		{
+			if ( area instanceof ITextArea )
+			{
+				System.out.println( ( (ITextArea) area ).getText( ) );
+			}
+			else if ( area instanceof IImageArea )
+			{
+				System.out.println( "[image]" );
+			}
+			else if ( area instanceof ITemplateArea )
+			{
+				System.out.println( "[template]" );
+			}
+		}
+	}
+	
+	public static void debugPrint2( IArea area )
+	{
+		if ( area instanceof IContainerArea )
+		{
+			System.out.print( area.getClass( ) + "||" );
+			System.out.println( "x:" + area.getX( ) + " y:" + area.getY( )
+					+ " width:" + area.getWidth( ) + " height:"
+					+ area.getHeight( ) );
+			for ( Iterator<IArea> i = ( (IContainerArea) area ).getChildren( ); i
+					.hasNext( ); )
+			{
+				IArea child = i.next( );
+				if ( child instanceof TextLineArea )
+				{
+					debugPrint( child );
+				}
+			}
+		}
+		else
+		{
+			if ( area instanceof ITextArea )
+			{
+				System.out.println( ( (ITextArea) area ).getText( ) );
+			}
+			else if ( area instanceof IImageArea )
+			{
+				System.out.println( "[image]" );
+			}
+			else if ( area instanceof ITemplateArea )
+			{
+				System.out.println( "[template]" );
+			}
+		}
+	}
 
 }
