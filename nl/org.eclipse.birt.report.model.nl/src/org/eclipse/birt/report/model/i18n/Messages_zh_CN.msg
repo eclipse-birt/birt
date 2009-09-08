@@ -3167,6 +3167,7 @@ Element.TabularCube.dataSet=数据集
 Element.TabularCube.dimensions=维数
 Element.TabularCube.measureGroups=度量组
 Element.TabularCube.dimensionConditions=维条件
+Element.TabularCube.autoKey=Auto primary key
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=层次结构
@@ -3533,6 +3534,7 @@ Message.CreateTemplateElement=创建模板元素
 Message.TransformToReportItem=转换为报表项
 Message.TransformToDataSet=转换为数据集
 Message.ExportElementToLibrary=元素导出到库
+Message.ExportElementToDataMart=Export Element To DataMart
 
 ###########################################################
 #Element new names.

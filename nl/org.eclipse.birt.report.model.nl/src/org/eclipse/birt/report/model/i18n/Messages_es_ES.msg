@@ -3167,6 +3167,7 @@ Element.TabularCube.dataSet=Conjunto de datos
 Element.TabularCube.dimensions=Dimensiones
 Element.TabularCube.measureGroups=Grupos de medida
 Element.TabularCube.dimensionConditions=Condiciones de dimensiones
+Element.TabularCube.autoKey=Auto primary key
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Jerarquías
@@ -3533,6 +3534,7 @@ Message.CreateTemplateElement=Crear elemento de plantilla
 Message.TransformToReportItem=Transformar en un elemento de informe
 Message.TransformToDataSet=Transformar en un conjunto de datos
 Message.ExportElementToLibrary=Exportar elemento a la librería
+Message.ExportElementToDataMart=Export Element To DataMart
 
 ###########################################################
 #Element new names.

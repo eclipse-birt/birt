@@ -3167,6 +3167,7 @@ Element.TabularCube.dataSet=데이터 집합
 Element.TabularCube.dimensions=크기
 Element.TabularCube.measureGroups=측정값 그룹
 Element.TabularCube.dimensionConditions=차원 조건
+Element.TabularCube.autoKey=Auto primary key
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=계층
@@ -3533,6 +3534,7 @@ Message.CreateTemplateElement=템플릿 요소 생성
 Message.TransformToReportItem=보고서 항목으로 변환
 Message.TransformToDataSet=데이터 집합으로 변환
 Message.ExportElementToLibrary=라이브러리로 요소 내보내기
+Message.ExportElementToDataMart=Export Element To DataMart
 
 ###########################################################
 #Element new names.

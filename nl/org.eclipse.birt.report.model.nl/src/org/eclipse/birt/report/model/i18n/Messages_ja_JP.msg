@@ -3167,6 +3167,7 @@ Element.TabularCube.dataSet=データセット
 Element.TabularCube.dimensions=サイズ
 Element.TabularCube.measureGroups=メジャーグループ
 Element.TabularCube.dimensionConditions=ディメンジョン条件
+Element.TabularCube.autoKey=Auto primary key
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=階層
@@ -3533,6 +3534,7 @@ Message.CreateTemplateElement=テンプレートの要素の作成
 Message.TransformToReportItem=レポート項目に変換
 Message.TransformToDataSet=データセットに変換
 Message.ExportElementToLibrary=要素をライブラリにエクスポート
+Message.ExportElementToDataMart=Export Element To DataMart
 
 ###########################################################
 #Element new names.
