@@ -484,6 +484,21 @@ public interface IScriptStyle
 	void setNumberFormat( String numberFormat );
 
 	/**
+	 * Get the number locale
+	 * 
+	 * @return number locale
+	 */
+	String getNumberLocale( );
+
+	/**
+	 * Set the number locale
+	 * 
+	 * @param locale
+	 *            number locale
+	 */
+	void setNumberLocale( String locale );
+
+	/**
 	 * Get the date format
 	 * 
 	 * @return date format
@@ -498,6 +513,21 @@ public interface IScriptStyle
 	void setDateFormat( String dateTimeFormat );
 
 	/**
+	 * Get the date locale
+	 * 
+	 * @return teh date locale
+	 */
+	String getDateLocale( );
+
+	/**
+	 * Set the date locale
+	 * 
+	 * @param locale
+	 *            the date locale
+	 */
+	void setDateLocale( String locale );
+
+	/**
 	 * Get the string format
 	 * 
 	 * @return the string format
@@ -510,6 +540,21 @@ public interface IScriptStyle
 	 * @param stringFormat
 	 */
 	void setStringFormat( String stringFormat );
+
+	/**
+	 * Get the string locale
+	 * 
+	 * @return the string locale
+	 */
+	String getStringLocale( );
+
+	/**
+	 * Set the string locale
+	 * 
+	 * @param locale
+	 *            string locale
+	 */
+	void setStringLocale( String locale );
 
 	/**
 	 * Get the font family

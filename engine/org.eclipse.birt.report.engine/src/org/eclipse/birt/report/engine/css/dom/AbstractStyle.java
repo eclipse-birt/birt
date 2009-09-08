@@ -958,11 +958,7 @@ abstract public class AbstractStyle implements IStyle
 	
 	private DataFormatValue copyDataFormat( DataFormatValue old )
 	{
-		DataFormatValue newValue = null;
-		if ( old != null )
-			newValue = old.clone( );
-		else
-			newValue = new DataFormatValue( );
+		DataFormatValue newValue = DataFormatValue.createDataFormatValue( old );
 		setDataFormat( newValue );
 		return newValue;
 	}

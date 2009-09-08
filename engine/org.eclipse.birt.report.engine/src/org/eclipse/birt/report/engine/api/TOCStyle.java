@@ -82,6 +82,9 @@ public class TOCStyle implements IScriptStyle, Serializable
 	public static final String VISIBLE_FORMAT = "visible-format";
 	public static final String WHITE_SPACE = "white-space";
 	public static final String WORD_SPACING = "word-spacing";
+	public static final String DATE_LOCALE = "date-locale";
+	public static final String NUMBER_LOCALE = "number-locale";
+	public static final String STRING_LOCALE = "string-locale";
 
 	private HashMap<String, String> properties = new HashMap<String, String>( );
 
@@ -1034,6 +1037,36 @@ public class TOCStyle implements IScriptStyle, Serializable
 	public void setWordSpacing( String wordspacing )
 	{
 		setProperty( WORD_SPACING, wordspacing );
+	}
+
+	public String getDateLocale( )
+	{
+		return (String) properties.get( DATE_LOCALE );
+	}
+
+	public void setDateLocale( String locale )
+	{
+		setProperty( DATE_LOCALE, locale );
+	}
+
+	public String getNumberLocale( )
+	{
+		return (String) properties.get( NUMBER_LOCALE );
+	}
+
+	public void setNumberLocale( String locale )
+	{
+		setProperty( NUMBER_LOCALE, locale );
+	}
+
+	public String getStringLocale( )
+	{
+		return (String) properties.get( STRING_LOCALE );
+	}
+
+	public void setStringLocale( String locale )
+	{
+		setProperty( STRING_LOCALE, locale );
 	}
 
 	/**

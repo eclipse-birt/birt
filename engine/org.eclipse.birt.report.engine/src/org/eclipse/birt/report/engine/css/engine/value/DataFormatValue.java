@@ -219,6 +219,14 @@ public class DataFormatValue extends Value implements Serializable, Cloneable
 		return null;
 	}
 
+	public static DataFormatValue createDataFormatValue(
+			DataFormatValue oldValue )
+	{
+		if ( oldValue == null )
+			return new DataFormatValue( );
+		return oldValue.clone( );
+	}
+
 	// FormatValue class
 	private static class FormatValue
 	{

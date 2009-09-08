@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSValue;
 
@@ -783,6 +784,25 @@ public class StyleInstance implements IScriptStyle
 		style.setNumberFormat( numberFormat );
 	}
 
+	public String getNumberLocale( )
+	{
+		DataFormatValue value = style.getDataFormat( );
+		if ( value == null )
+			return null;
+		return value.getNumberLocale( );
+	}
+
+	public void setNumberLocale( String locale )
+	{
+		checkWritable( );
+		DataFormatValue oldValue = style.getDataFormat( );
+		DataFormatValue value = DataFormatValue
+				.createDataFormatValue( oldValue );
+		style.setDataFormat( value );
+		value.setNumberFormat( oldValue == null ? null : oldValue
+				.getNumberPattern( ), locale );
+	}
+
 	/**
 	 * Get the date format
 	 * 
@@ -790,7 +810,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public String getDateFormat( )
 	{
-		return style.getDateFormat( );
+		return style.getDateTimeFormat( );
 	}
 
 	/**
@@ -801,7 +821,32 @@ public class StyleInstance implements IScriptStyle
 	public void setDateFormat( String dateTimeFormat )
 	{
 		checkWritable( );
-		style.setDateFormat( dateTimeFormat );
+		DataFormatValue oldValue = style.getDataFormat( );
+		DataFormatValue value = DataFormatValue
+				.createDataFormatValue( oldValue );
+		style.setDataFormat( value );
+		value.setDateTimeFormat( dateTimeFormat, oldValue == null
+				? null
+				: oldValue.getDateTimeLocale( ) );
+	}
+
+	public String getDateLocale( )
+	{
+		DataFormatValue value = style.getDataFormat( );
+		if ( value == null )
+			return null;
+		return value.getDateTimeLocale( );
+	}
+
+	public void setDateLocale( String locale )
+	{
+		checkWritable( );
+		DataFormatValue oldValue = style.getDataFormat( );
+		DataFormatValue value = DataFormatValue
+				.createDataFormatValue( oldValue );
+		style.setDataFormat( value );
+		value.setDateTimeFormat( oldValue == null ? null : oldValue
+				.getDateTimePattern( ), locale );
 	}
 
 	/**
@@ -823,6 +868,25 @@ public class StyleInstance implements IScriptStyle
 	{
 		checkWritable( );
 		style.setStringFormat( stringFormat );
+	}
+
+	public String getStringLocale( )
+	{
+		DataFormatValue value = style.getDataFormat( );
+		if ( value == null )
+			return null;
+		return value.getStringLocale( );
+	}
+
+	public void setStringLocale( String locale )
+	{
+		checkWritable( );
+		DataFormatValue oldValue = style.getDataFormat( );
+		DataFormatValue value = DataFormatValue
+				.createDataFormatValue( oldValue );
+		style.setDataFormat( value );
+		value.setStringFormat( oldValue == null ? null : oldValue
+				.getStringPattern( ), locale );
 	}
 
 	public String getFontFamily( )
