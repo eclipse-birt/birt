@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.dnd;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -33,7 +33,7 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 	static class LayoutExtendsUtil extends InsertInLayoutUtil
 	{
 
-		public static DataItemHandle performInsertDataSetColumn(
+		public static DesignElementHandle performInsertDataSetColumn(
 				ResultSetColumnHandle model, Object target, Object targetParent ) throws SemanticException
 		{
 			return InsertInLayoutUtil.performInsertDataSetColumn( model,
