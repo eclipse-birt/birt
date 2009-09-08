@@ -58,8 +58,8 @@
 
    <target name="FetchFromCVS.DTP">
      <cvs cvsRoot="${cvsRoot.dtp}" package="${module}" dest="${destinationFolder}" command="checkout" tag="${tag}" quiet="${quiet}" taskname="CVS - ${module}"  failonerror="yes" />
-     <echo message="tag name is ${tag.name}"/>
-     <cvs dest="${destinationFolder}/${module}" command="tag ${tag.name}" />
+     <echo message="tag name is ${dtp.tag.name}"/>
+     <cvs dest="${destinationFolder}/${module}" command="tag ${dtp.tag.name}" />
    </target>
 
 </project>
