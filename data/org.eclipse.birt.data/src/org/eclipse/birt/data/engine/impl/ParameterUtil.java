@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.mozilla.javascript.Context;
@@ -298,11 +299,11 @@ public class ParameterUtil
 			if (iParamBind.getExpr() instanceof IScriptExpression) {
 
 				ScriptContext evalContext = this.outerScope == null ? context : context.newContext( this.outerScope );
-				ICompiledScript compiledScript = evalContext.compile("javascript",
-						null, 0, ((IScriptExpression) iParamBind.getExpr())
-								.getText());
-				evaluateResult = evalContext.evaluate(compiledScript);
-
+				if( iParamBind.getExpr( ).getHandle( ) == null )
+					iParamBind.getExpr( ).setHandle( evalContext.compile("javascript",
+							null, 0, ((IScriptExpression) iParamBind.getExpr())
+							.getText()) );
+				evaluateResult = ScriptEvalUtil.evalExpr( iParamBind.getExpr(), evalContext, null, 0 );
 			}
 		}
 		catch ( BirtException e )
