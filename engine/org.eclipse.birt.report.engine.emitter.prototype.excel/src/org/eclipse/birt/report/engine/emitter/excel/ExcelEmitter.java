@@ -223,7 +223,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		DimensionType height = row.getHeight( );
 		double rowHeight = height != null ? ExcelUtil.covertDimensionType(
-				height, 0 ) : 0;
+				height, 0 ) / 1000 : 0;
 		engine.endRow( rowHeight );
 	}
 
@@ -360,7 +360,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	private double getContentHeight( IContent content )
 	{
 		return content.getHeight( ) == null ? 0 : ExcelUtil
-				.covertDimensionType( content.getHeight( ), 0 );
+				.covertDimensionType( content.getHeight( ), 0 ) / 1000;
 	}
 	
 	public void startImage( IImageContent image )

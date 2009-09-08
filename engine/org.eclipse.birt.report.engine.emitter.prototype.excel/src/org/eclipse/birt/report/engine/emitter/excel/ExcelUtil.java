@@ -723,22 +723,22 @@ public class ExcelUtil
 	{
 		if ( DimensionType.UNITS_PERCENTAGE.equals( value.getUnits( ) ) )
 		{
-			return (int) (value.getMeasure( ) / 100 * parent);
+			return (int) ( value.getMeasure( ) / 100 * parent * 1000 );
 		}
 		if ( DimensionType.UNITS_PX.equalsIgnoreCase( value.getUnits( ) ) )
 		{
-			return (int) ( value.getMeasure( ) * PX_PT );
+			return (int) ( value.getMeasure( ) * PX_PT * 1000 );
 		}
 
 		// FIXME: We should use font size to calculate the EM/EX
 		if ( DimensionType.UNITS_EM.equalsIgnoreCase( value.getUnits( ) )
 				|| DimensionType.UNITS_EX.equalsIgnoreCase( value.getUnits( ) ) )
 		{
-			return (int) value.getMeasure( ) * 12;
+			return (int) ( value.getMeasure( ) * 12 * 1000 );
 		}
 		else
 		{
-			return (int) (value.convertTo( DimensionType.UNITS_PT ));
+			return (int) ( value.convertTo( DimensionType.UNITS_PT ) * 1000 );
 		}
 	}
 	

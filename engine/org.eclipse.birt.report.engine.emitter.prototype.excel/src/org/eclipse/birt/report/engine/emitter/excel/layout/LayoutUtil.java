@@ -201,6 +201,6 @@ public class LayoutUtil
 
 	private static int resize( int width, int total, int left )
 	{
-		return (int) ( width + (float) width / (float) total * left );
+		return Math.round( width + (float) width / (float) total * left );
 	}
 }
