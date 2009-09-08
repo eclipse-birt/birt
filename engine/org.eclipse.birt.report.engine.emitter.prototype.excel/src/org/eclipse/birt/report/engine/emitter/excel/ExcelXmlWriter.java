@@ -853,17 +853,12 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "WorksheetOptions" );
 	}
 
-	private void startSheet( int sheetIndex, int[] coordinates )
-	{
-		startSheet( "Sheet" + String.valueOf( sheetIndex ), coordinates );
-	}
-
 	public void startSheet( int[] coordinates, String pageHeader,
-			String pageFooter )
+			String pageFooter, String name )
 	{
 		this.pageHeader = pageHeader;
 		this.pageFooter = pageFooter;
-		startSheet( sheetIndex, coordinates );
+		startSheet( name, coordinates );
 		sheetIndex += 1;
 	}
 

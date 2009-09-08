@@ -260,10 +260,10 @@ public class ExcelUtil
 		{
 			return SheetData.CALENDAR;
 		}
-		// else if(val instanceof CDateTime)
-		// {
-		// return Data.CDATETIME;
-		// }
+		else if ( val instanceof Boolean )
+		{
+			return SheetData.BOOLEAN;
+		}
 		else
 		{
 			return SheetData.STRING;
@@ -895,8 +895,8 @@ public class ExcelUtil
 		{
 			return givenValue;
 		}
-
-		if ( isScientific( givenValue ) )
+		
+		if(isScientific(givenValue))
 		{
 			givenValue = givenValue.replace( "E", "E+" );
 			return givenValue;
@@ -982,23 +982,23 @@ public class ExcelUtil
 		if ( currency != null )
 		{
 			String symbol = currency.getSymbol( locale );
-			if ( symbol.equals( "EUR" ) )
-			{
-				symbol = "€";
-			}
-			if ( symbol.equals( "GBP" ) )
-			{
-				symbol = "£";
-			}
-			if ( symbol.equals( "XXX" ) )
-			{
-				symbol = "¤";
-			}
-			if ( symbol == null )
-			{
-				symbol = "$";
-			}
-			return symbol;
+		if ( symbol.equals( "EUR" ) )
+		{
+			symbol = "€";
+		}
+		if ( symbol.equals( "GBP" ) )
+		{
+			symbol = "£";
+		}
+		if ( symbol.equals( "XXX" ) )
+		{
+			symbol = "¤";
+		}
+		if ( symbol == null )
+		{
+			symbol = "$";
+		}
+		return symbol;
 		}
 		return "$";
 	}

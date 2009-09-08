@@ -41,7 +41,7 @@ public interface IExcelWriter
 	public void end( ) throws IOException;
 
 	public void startSheet( int[] coordinates, String pageHeader,
-			String pageFooter ) throws IOException;
+			String pageFooter, String sheetName ) throws IOException;
 
 	public void startSheet( String sheetName ) throws IOException;
 

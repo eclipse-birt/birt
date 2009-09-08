@@ -50,6 +50,7 @@ import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -63,6 +64,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
 	
+	protected static final String DEFAULT_SHEET_NAME = "Report";
 	protected IEmitterServices service = null;
 
 	protected OutputStream out = null;
@@ -75,7 +77,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public ExcelContext context = new ExcelContext( );
 
-	private String orientation = null;
+	protected String orientation = null;
 
 	protected String pageHeader;
 
@@ -83,7 +85,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private boolean outputInMasterPage = false;
 	protected boolean isRTLSheet = false;
-	private int sheetIndex = 1;
+	protected int sheetIndex = 1;
+	protected String sheetName;
+
 	public String getOutputFormat( )
 	{
 		return "xls";
@@ -127,6 +131,18 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
 		engine = createLayoutEngine( context, this );
 		engine.initalize( new PageDef( master, style ) );
+		String reportTitle = report.getDesign( ).getReportDesign( ).getStringProperty(
+				IModuleModel.TITLE_PROP );
+		if ( reportTitle != null )
+		{
+			reportTitle = reportTitle.replace( " ", "_" );
+			reportTitle = reportTitle.replace( "-", "_" );
+			sheetName = reportTitle;
+		}
+		else
+		{
+			sheetName = DEFAULT_SHEET_NAME;
+		}
 		createWriter( );
 	}
 
@@ -451,7 +467,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	 */
 	public void outputCacheData( ) throws IOException
 	{
-		writer.startSheet( engine.getCoordinates( ), pageHeader, pageFooter );
+		writer.startSheet( engine.getCoordinates( ), pageHeader, pageFooter,
+				sheetName );
+		sheetName = DEFAULT_SHEET_NAME + sheetIndex;
 		Iterator<RowData> it = engine.getIterator( );
 		while ( it.hasNext( ) )
 		{

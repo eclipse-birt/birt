@@ -134,13 +134,13 @@ public class ExcelWriter implements IExcelWriter
 	}
 
 	public void startSheet( int[] coordinates, String pageHeader,
-			String pageFooter ) throws IOException
+			String pageFooter, String name ) throws IOException
 	{
 		if ( writer == null )
 		{
 			initializeWriterAsTempWriter( );
 		}
-		writer.startSheet( coordinates, pageHeader, pageFooter );
+		writer.startSheet( coordinates, pageHeader, pageFooter, name );
 		sheetIndex++;
 	}
 
