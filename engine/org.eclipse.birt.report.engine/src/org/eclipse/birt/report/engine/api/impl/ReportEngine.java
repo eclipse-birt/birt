@@ -437,6 +437,8 @@ public class ReportEngine implements IReportEngine
 		{
 			for ( ReportDocumentReader document : openedDocuments )
 			{
+				logger.log( Level.WARNING, "{0} is not closed.", document
+						.getName( ) );
 				document.setEngineCacheEntry( null );
 				document.close( );
 			}
