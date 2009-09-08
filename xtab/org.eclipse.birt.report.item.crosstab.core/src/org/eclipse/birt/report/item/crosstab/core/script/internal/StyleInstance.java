@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.core.script.internal;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSValue;
 
@@ -934,6 +935,63 @@ public class StyleInstance implements IScriptStyle
 	public void setDirection( String dir )
 	{
 		style.setDirection( dir );
+	}
+
+	public String getDateLocale( )
+	{
+		DataFormatValue value = style.getDataFormat( );
+		if ( value == null )
+		{
+			return null;
+		}
+		return value.getDateTimeLocale( );
+	}
+
+	public String getNumberLocale( )
+	{
+		DataFormatValue value = style.getDataFormat( );
+		if ( value == null )
+		{
+			return null;
+		}
+		return value.getNumberLocale( );
+	}
+
+	public String getStringLocale( )
+	{
+		DataFormatValue value = style.getDataFormat( );
+		if ( value == null )
+		{
+			return null;
+		}
+		return value.getStringLocale( );
+	}
+
+	public void setDateLocale( String locale )
+	{
+		DataFormatValue oldValue = style.getDataFormat( );
+		DataFormatValue value = DataFormatValue.createDataFormatValue( oldValue );
+		style.setDataFormat( value );
+		value.setDateTimeFormat( oldValue == null ? null
+				: oldValue.getDateTimePattern( ), locale );
+	}
+
+	public void setNumberLocale( String locale )
+	{
+		DataFormatValue oldValue = style.getDataFormat( );
+		DataFormatValue value = DataFormatValue.createDataFormatValue( oldValue );
+		style.setDataFormat( value );
+		value.setNumberFormat( oldValue == null ? null
+				: oldValue.getNumberPattern( ), locale );
+	}
+
+	public void setStringLocale( String locale )
+	{
+		DataFormatValue oldValue = style.getDataFormat( );
+		DataFormatValue value = DataFormatValue.createDataFormatValue( oldValue );
+		style.setDataFormat( value );
+		value.setStringFormat( oldValue == null ? null
+				: oldValue.getStringPattern( ), locale );
 	}
 
 }
