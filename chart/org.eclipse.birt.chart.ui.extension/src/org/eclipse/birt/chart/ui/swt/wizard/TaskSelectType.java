@@ -1372,7 +1372,16 @@ public class TaskSelectType extends SimpleTask implements
 					this.orientation,
 					this.sDimension,
 					this.chartModel );
-			
+			if ( getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART ) )
+			{
+				// Update model for part chart case
+				ChartWithAxes cwa = (ChartWithAxes) chartModel;
+				cwa.getAxes( ).get( 0 ).setCategoryAxis( true );
+				if ( cwa.isTransposed( ) )
+				{
+					cwa.setReverseCategory( true );
+				}
+			}
 			( (ChartWizardContext) context ).setModel( chartModel );
 			( (ChartWizardContext) context ).setChartType( chartType );
 			
