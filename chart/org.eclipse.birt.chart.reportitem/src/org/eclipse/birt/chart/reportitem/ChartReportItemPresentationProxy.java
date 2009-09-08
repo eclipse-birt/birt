@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.InputStream;
 import java.util.Locale;
 
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
@@ -26,17 +27,14 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.core.runtime.IAdapterManager;
-import org.eclipse.core.runtime.Platform;
 
 /**
  * Proxy class of presentation for Chart. It will delegate to proper
  * implementation class according to Chart's context.
  */
 
-public class ChartReportItemPresentationProxy
-		implements
-			IReportItemPresentation
+public class ChartReportItemPresentationProxy implements
+		IReportItemPresentation
 {
 
 	private IReportItemPresentation impl;
@@ -58,26 +56,20 @@ public class ChartReportItemPresentationProxy
 			IReportItemPresentationInfo info )
 	{
 		ExtendedItemHandle modelHandle = info.getModelObject( );
-		if ( ChartXTabUtil.isInXTabMeasureCell( modelHandle ) )
+		if ( ChartCubeUtil.isInXTabMeasureCell( modelHandle ) )
 		{
 			// // If chart is in cross tab cell, use specific impl
-			if ( ChartXTabUtil.isPlotChart( modelHandle ) )
+			if ( ChartCubeUtil.isPlotChart( modelHandle ) )
 			{
 				return new ChartReportItemPresentationPlotImpl( );
 			}
-			else if ( ChartXTabUtil.isAxisChart( modelHandle ) )
+			else if ( ChartCubeUtil.isAxisChart( modelHandle ) )
 			{
 				return new ChartReportItemPresentationAxisImpl( );
 			}
 		}
-		IAdapterManager adapterManager = Platform.getAdapterManager( );
-		IChartReportItemFactory factory = (IChartReportItemFactory) adapterManager.loadAdapter( modelHandle,
-				IChartReportItemFactory.class.getName( ) );
-		if ( factory != null )
-		{
-			return factory.createReportItemPresentation( info );
-		}
-		return new ChartReportItemPresentationImpl( );
+		return ChartReportItemUtil.instanceReportItemPresentation( modelHandle,
+				info );
 	}
 
 	public void deserialize( InputStream istream )
@@ -122,73 +114,84 @@ public class ChartReportItemPresentationProxy
 	}
 
 	// Follows deprecated methods. Empty implementation
-
+	@SuppressWarnings("deprecation")
 	public Object onRowSets( IRowSet[] rowSets ) throws BirtException
 	{
 		assert false;
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setActionHandler( IHTMLActionHandler ah )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setApplicationClassLoader( ClassLoader loader )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setDynamicStyle( IStyle style )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setExtendedItemContent( IContent content )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setLocale( Locale locale )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setModelObject( ExtendedItemHandle modelHandle )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setOutputFormat( String outputFormat )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setReportQueries( IDataQueryDefinition[] queries )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setResolution( int dpi )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setScriptContext( IReportContext context )
 	{
 		assert false;
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setSupportedImageFormats( String supportedImageFormats )
 	{
 		assert false;

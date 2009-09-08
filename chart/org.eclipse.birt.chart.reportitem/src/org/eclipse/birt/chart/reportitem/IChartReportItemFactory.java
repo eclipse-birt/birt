@@ -12,10 +12,13 @@
 package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -36,4 +39,10 @@ public interface IChartReportItemFactory
 			IReportItemPresentationInfo info );
 
 	Serializer createSerializer( ExtendedItemHandle eih );
+
+	ChartCubeQueryHelper createCubeQueryHelper( ExtendedItemHandle handle,
+			Chart cm );
+
+	IGroupedDataRowExpressionEvaluator createCubeEvaluator( Chart cm,
+			ICubeResultSet set );
 }

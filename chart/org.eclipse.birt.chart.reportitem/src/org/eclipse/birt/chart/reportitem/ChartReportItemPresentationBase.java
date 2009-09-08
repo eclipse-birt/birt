@@ -52,7 +52,6 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
-import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
@@ -66,15 +65,12 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
-import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -82,8 +78,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.core.runtime.IAdapterManager;
-import org.eclipse.core.runtime.Platform;
 import org.mozilla.javascript.EvaluatorException;
 
 /**
@@ -561,7 +555,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 						cm );
 			}
 
-			return new BIRTCubeResultSetEvaluator( (ICubeResultSet) set );
+			return ChartReportItemUtil.instanceCubeEvaluator( modelHandle,
+					cm,
+					(ICubeResultSet) set );
 		}
 		return null;
 	}
@@ -1025,27 +1021,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	}
 
-	private IActionRenderer createActionRenderer( DesignElementHandle eih,
-			IHTMLActionHandler handler, IDataRowExpressionEvaluator evaluator,
-			IReportContext context )
-	{
-		IAdapterManager adapterManager = Platform.getAdapterManager( );
-		IChartReportItemFactory factory = (IChartReportItemFactory) adapterManager.loadAdapter( modelHandle,
-				IChartReportItemFactory.class.getName( ) );
-		if ( factory != null )
-		{
-			return factory.createActionRenderer( eih,
-					handler,
-					evaluator,
-					context );
-		}
-		return new BIRTActionRenderer( eih, handler, evaluator, context );
-	}
-
 	private void initializeRuntimeContext(
 			IDataRowExpressionEvaluator rowAdapter )
 	{
-		rtc.setActionRenderer( createActionRenderer( modelHandle,
+		rtc.setActionRenderer( ChartReportItemUtil.instanceActionRenderer( modelHandle,
 				this.ah,
 				rowAdapter,
 				this.context ) );

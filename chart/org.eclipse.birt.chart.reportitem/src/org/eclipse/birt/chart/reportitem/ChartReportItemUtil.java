@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -24,7 +26,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
-import org.eclipse.birt.chart.model.impl.SerializerImpl;
+import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
@@ -34,8 +36,13 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
+import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -57,6 +64,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 	 * item case.
 	 */
 	public static final int REVISE_REFERENCE_REPORT_ITEM = 1;
+	private static final IChartReportItemFactory baseFactory = new ChartReportItemFactoryBase( );
 
 	/**
 	 * Revise chart model.
@@ -204,20 +212,67 @@ public class ChartReportItemUtil extends ChartItemUtil
 				adapterClass.getName( ) ) );
 	}
 
-	public static Serializer instanceSerializer( ExtendedItemHandle handle )
+	public static IReportItemPresentation instanceReportItemPresentation(
+			ExtendedItemHandle handle, IReportItemPresentationInfo info )
 	{
-
 		IChartReportItemFactory factory = getAdapter( handle,
 				IChartReportItemFactory.class );
+		if ( factory == null )
+		{
+			factory = baseFactory;
+		}
+		return factory.createReportItemPresentation( info );
+	}
 
-		if ( factory != null )
+	public static IActionRenderer instanceActionRenderer(
+			ExtendedItemHandle handle, IHTMLActionHandler handler,
+			IDataRowExpressionEvaluator evaluator, IReportContext context )
+	{
+		IChartReportItemFactory factory = getAdapter( handle,
+				IChartReportItemFactory.class );
+		if ( factory == null )
 		{
-			return factory.createSerializer( handle );
+			factory = baseFactory;
 		}
-		else
+		return factory.createActionRenderer( handle,
+				handler,
+				evaluator,
+				context );
+	}
+
+	public static Serializer instanceSerializer( ExtendedItemHandle handle )
+	{
+		IChartReportItemFactory factory = getAdapter( handle,
+				IChartReportItemFactory.class );
+		if ( factory == null )
 		{
-			return SerializerImpl.instance( );
+			factory = baseFactory;
 		}
+		return factory.createSerializer( handle );
+	}
+
+	public static ChartCubeQueryHelper instanceCubeQueryHelper(
+			ExtendedItemHandle handle, Chart cm )
+	{
+		IChartReportItemFactory factory = getAdapter( handle,
+				IChartReportItemFactory.class );
+		if ( factory == null )
+		{
+			factory = baseFactory;
+		}
+		return factory.createCubeQueryHelper( handle, cm );
+	}
+
+	public static IGroupedDataRowExpressionEvaluator instanceCubeEvaluator(
+			ExtendedItemHandle handle, Chart cm, ICubeResultSet set )
+	{
+		IChartReportItemFactory factory = getAdapter( handle,
+				IChartReportItemFactory.class );
+		if ( factory == null )
+		{
+			factory = baseFactory;
+		}
+		return factory.createCubeEvaluator( cm, set );
 	}
 
 	/**

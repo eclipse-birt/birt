@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -130,7 +131,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			// bindings/groupings/filters/sorts
 			// information from referred report item handle.
 			ReportItemHandle itemHandle = null;
-			if ( ChartReportItemUtil.isChartInheritGroups( handle ) )
+			if ( ChartItemUtil.isChartInheritGroups( handle ) )
 			{
 				// Share groups and aggregations from container
 				DesignElementHandle container = handle.getContainer( );
@@ -148,7 +149,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			}
 			else
 			{
-				itemHandle = ChartReportItemUtil.getReportItemReference( handle );
+				itemHandle = ChartItemUtil.getReportItemReference( handle );
 			}
 			if ( itemHandle != null )
 			{
@@ -166,7 +167,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			if ( handle.getContainer( ) instanceof MultiViewsHandle )
 			{
 				// Sharing crosstab.
-				ExtendedItemHandle bindingHandle = (ExtendedItemHandle) ChartReportItemUtil.getReportItemReference( handle );
+				ExtendedItemHandle bindingHandle = (ExtendedItemHandle) ChartItemUtil.getReportItemReference( handle );
 				IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery( (CrosstabReportItemHandle) bindingHandle.getReportItem( ),
 						parent,
 						true,
@@ -180,7 +181,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 			// Always create cube query definition by chart itself, even if
 			// sharing cross tab's
-			return new ChartCubeQueryHelper( handle, cm ).createCubeQuery( parent );
+			return ChartReportItemUtil.instanceCubeQueryHelper( handle, cm )
+					.createCubeQuery( parent );
 		}
 
 		return null;
