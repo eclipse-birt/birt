@@ -135,14 +135,13 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				IModuleModel.TITLE_PROP );
 		if ( reportTitle != null )
 		{
-			reportTitle = reportTitle.replace( " ", "_" );
-			reportTitle = reportTitle.replace( "-", "_" );
 			sheetName = reportTitle;
 		}
 		else
 		{
 			sheetName = DEFAULT_SHEET_NAME;
 		}
+		sheetName = ExcelUtil.getValidSheetName( sheetName );
 		createWriter( );
 	}
 

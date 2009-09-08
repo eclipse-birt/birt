@@ -1276,4 +1276,19 @@ public class ExcelUtil
 		}
 		return value.toString( );
 	}
+
+	public static String getValidSheetName( String name )
+	{
+		// Make sure the name you entered does not exceed 31 characters.
+		// Make sure the name does not contain any of the following characters:
+		// \ / ? * [ or ]
+		name = name.replaceAll( "[\\\\/?*\\[\\]\\- ]", "_" );
+		if ( name.length( ) > 31 )
+		{
+			logger.log( Level.WARNING, "The sheetName " + name
+					+ " is too long for output." );
+			name = name.substring( 0, 30 );
+		}
+		return name;
+	}
 }
