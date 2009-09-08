@@ -79,6 +79,7 @@ public interface MessageConstants
 	public static final String TRANSFORM_TO_DATA_SET_MESSAGE = "Message.TransformToDataSet"; //$NON-NLS-1$
 
 	public static final String EXPORT_ELEMENT_TO_LIBRARY = "Message.ExportElementToLibrary"; //$NON-NLS-1$
+	public static final String EXPORT_ELEMENT_TO_DATAMART = "Message.ExportElementToDataMart"; //$NON-NLS-1$
 	// Errors
 
 	// ContentException

@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -214,7 +215,7 @@ public class ModelUtil
 		assert source != null;
 		assert destination != null;
 
-		if ( !( ( source instanceof ReportDesignHandle ) && ( destination instanceof LibraryHandle ) ) )
+		if ( !( ( source instanceof ReportDesignHandle ) && ( destination instanceof ModuleHandle ) ) )
 			assert destination.getDefn( ).getName( ).equalsIgnoreCase(
 					source.getDefn( ).getName( ) );
 
