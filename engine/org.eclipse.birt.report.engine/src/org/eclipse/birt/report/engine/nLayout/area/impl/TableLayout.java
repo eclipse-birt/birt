@@ -831,6 +831,7 @@ public class TableLayout
 		}
 		dummyCell.setRowSpan( upperCell.getRowSpan( ) - 1 );
 		dummyCell.setColSpan( upperCell.getColSpan( ) );
+		dummyCell.isDummy = true;
 		return dummyCell;
 	}
 

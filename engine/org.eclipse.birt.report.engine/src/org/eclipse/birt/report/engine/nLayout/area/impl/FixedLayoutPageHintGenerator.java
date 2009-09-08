@@ -139,7 +139,7 @@ public class FixedLayoutPageHintGenerator
 						.getInstanceID( ).toUniqueString( ) );
 			}
 			ContainerArea container = (ContainerArea) area;
-			if ( container.content != null && !container.isDummy )
+			if ( container.content != null && !container.isDummy && container.content.getInstanceID( ) != null )
 			{
 				start( container );
 			}
@@ -161,6 +161,7 @@ public class FixedLayoutPageHintGenerator
 
 	private void start( ContainerArea area )
 	{
+		//AbstractArea.debugPrint2( area );
 		if ( startContent == null )
 		{
 			startContent = createSizeBasedContent( area );

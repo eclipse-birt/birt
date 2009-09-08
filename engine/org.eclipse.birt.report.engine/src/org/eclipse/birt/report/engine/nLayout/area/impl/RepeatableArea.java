@@ -151,7 +151,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 			{
 				int index = result.indexOf( repeatList
 						.get( repeatList.size( ) - 1 ) );
-				if ( index != -1 && result.size( ) - 1 >= index )
+				if ( index != -1 && result.size( ) - 1 > index )
 				{
 					return true;
 				}
