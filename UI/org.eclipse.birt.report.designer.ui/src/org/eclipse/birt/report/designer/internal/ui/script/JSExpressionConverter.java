@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.script;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.expressions.AbstractExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 /**
  * JSExpressionConverter
@@ -62,14 +63,13 @@ public class JSExpressionConverter extends AbstractExpressionConverter
 		}
 		catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 		return null;
 	}
 
 	public String getResultSetColumnExpression( String columnName )
 	{
-		// TODO Auto-generated method stub
 		return ExpressionUtil.createJSDataSetRowExpression( columnName );
 	}
 }

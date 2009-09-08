@@ -200,7 +200,22 @@ public class ExpressionUtility
 			}
 
 		}
+		else if ( model instanceof ResultSetColumnHandle )
+		{
+			return getDataSetRowExpression( ( (ResultSetColumnHandle) model ).getColumnName( ),
+					converter );
+		}
 		return null;
+	}
+
+	public static String getDataSetRowExpression( String columnName,
+			IExpressionConverter converter )
+	{
+		if ( StringUtil.isBlank( columnName ) || converter == null )
+		{
+			return null;
+		}
+		return converter.getResultSetColumnExpression( columnName );
 	}
 
 	/**
