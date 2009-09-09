@@ -677,18 +677,23 @@ public class JSEditor extends EditorPart implements IColleague
 		}
 	}
 
-	/**Connect the root to add the listener
+	/**
+	 * Connect the root to add the listener
+	 * 
 	 * @param root
 	 */
-	public void connectRoot(ModuleHandle root)
+	public void connectRoot( ModuleHandle root )
 	{
-		if (root == null)
+		if ( root == null )
 		{
 			root = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 		}
-		
-		SessionHandleAdapter.getInstance( ).getMediator(root).addColleague( this );
+
+		SessionHandleAdapter.getInstance( )
+				.getMediator( root )
+				.addColleague( this );
 	}
+
 	/**
 	 * Sets the status of the text listener.
 	 * 
@@ -1822,29 +1827,15 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 
 	public Object[] getElements( Object inputElement )
 	{
-		if ( inputElement instanceof ExtendedItemHandle )
-		{
-			ExtendedItemHandle extHandle = (ExtendedItemHandle) inputElement;
-			List methods = extHandle.getMethods( );
-			List returnList = new ArrayList( );
-			for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
-			{
-				IElementPropertyDefn method = (IElementPropertyDefn) iter.next( );
-				if ( extHandle.getMethods( method.getName( ) ) != null )
-				{
-					returnList.add( method );
-				}
-			}
-			return returnList.toArray( );
-		}
-		else if ( inputElement instanceof DesignElementHandle )
+		if ( inputElement instanceof DesignElementHandle )
 		{
 			DesignElementHandle eleHandle = (DesignElementHandle) inputElement;
-			if ( eleHandle.getDefn( ) != null )
+
+			List methods = eleHandle.getMethods( );
+
+			if ( methods != null )
 			{
-				// Add methods only
-				// return eleHandle.getDefn( ).getMethods( ).toArray( );
-				return eleHandle.getMethods( ).toArray( );
+				return methods.toArray( new Object[methods.size( )] );
 			}
 		}
 		return new Object[]{};
@@ -1949,7 +1940,7 @@ class JSSubFunctionListProvider implements
 				ExtendedItemHandle extHandle = (ExtendedItemHandle) inputElement;
 				List methods = extHandle.getMethods( scriptName );
 
-				if ( methods != null )
+				if ( methods != null && methods.size( ) > 0 )
 				{
 					elements.add( 0,
 							Messages.getString( "JSEditor.cmb.NewEventFunction" ) ); //$NON-NLS-1$
@@ -2163,5 +2154,5 @@ class JSSubFunctionListProvider implements
 		signature.append( " )\n{\n}\n" ); //$NON-NLS-1$
 		return signature.toString( );
 	}
-	
+
 }
