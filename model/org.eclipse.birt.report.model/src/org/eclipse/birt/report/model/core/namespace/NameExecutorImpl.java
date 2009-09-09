@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 /**
  * 
  */
-public class NameExecutorImpl
+class NameExecutorImpl
 {
 
 	/**
