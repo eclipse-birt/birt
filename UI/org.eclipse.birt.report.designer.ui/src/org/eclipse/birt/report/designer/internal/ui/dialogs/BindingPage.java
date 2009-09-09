@@ -139,7 +139,11 @@ public class BindingPage extends Composite implements Listener
 			{
 				refreshBinding( );
 				if ( datasetButton.getSelection( )
-						&& getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+						&& getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF
+						&& ( DEUtil.getBindingHolder( getReportItemHandle( ),
+								true ) == null || DEUtil.getBindingHolder( getReportItemHandle( ),
+								true )
+								.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
 					saveBinding( );
 			}
 
@@ -193,6 +197,13 @@ public class BindingPage extends Composite implements Listener
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshBinding( );
+				if ( reportItemButton.getSelection( )
+						&& getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA
+						&& ( DEUtil.getBindingHolder( getReportItemHandle( ),
+								true ) == null || DEUtil.getBindingHolder( getReportItemHandle( ),
+								true )
+								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
+					saveBinding( );
 			}
 
 		} );
@@ -256,6 +267,7 @@ public class BindingPage extends Composite implements Listener
 		}
 		try
 		{
+			this.oldInfo = info;
 			save( info );
 		}
 		catch ( SemanticException e )
@@ -614,6 +626,7 @@ public class BindingPage extends Composite implements Listener
 		columnBindingsFormPage.refresh( );
 	}
 
+	private BindingInfo oldInfo;
 	private void refreshBindingInfo( BindingInfo info )
 	{
 		int type = info.getBindingType( );
@@ -630,23 +643,42 @@ public class BindingPage extends Composite implements Listener
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_NONE :
+				if(oldInfo!=null){
+					if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA){
+						selectDatasetType( value );
+					}
+					else if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF){
+						selectReferenceType( value );
+					}
+					break;
+				}
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				datasetButton.setSelection( true );
-				datasetCombo.setEnabled( true );
-				datasetCombo.setText( value.toString( ) );
-				bindingButton.setEnabled( !value.toString( )
-						.equals( NullDatasetChoice ) );
-				reportItemButton.setSelection( false );
-				reportItemCombo.setEnabled( false );
+				selectDatasetType( value );
 				break;
 			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
-				datasetButton.setSelection( false );
-				datasetCombo.setEnabled( false );
-				bindingButton.setEnabled( false );
-				reportItemButton.setSelection( true );
-				reportItemCombo.setEnabled( true );
-				reportItemCombo.setText( value.toString( ) );
+				selectReferenceType( value );
 		}
+	}
+
+	private void selectReferenceType( Object value )
+	{
+		datasetButton.setSelection( false );
+		datasetCombo.setEnabled( false );
+		bindingButton.setEnabled( false );
+		reportItemButton.setSelection( true );
+		reportItemCombo.setEnabled( true );
+		reportItemCombo.setText( value.toString( ) );
+	}
+
+	private void selectDatasetType( Object value )
+	{
+		datasetButton.setSelection( true );
+		datasetCombo.setEnabled( true );
+		datasetCombo.setText( value.toString( ) );
+		bindingButton.setEnabled( !value.toString( )
+				.equals( NullDatasetChoice ) );
+		reportItemButton.setSelection( false );
+		reportItemCombo.setEnabled( false );
 	}
 
 	public Object loadValue( )
@@ -820,6 +852,13 @@ public class BindingPage extends Composite implements Listener
 
 	private void resetReference( Object value )
 	{
+		if ( value == null
+				&& this.getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+		{
+			resetDataSetReference( null, true );
+		}
+		else
+		{
 		try
 		{
 			startTrans( "Reset Reference" ); //$NON-NLS-1$
@@ -839,6 +878,7 @@ public class BindingPage extends Composite implements Listener
 			ExceptionHandler.handle( e );
 		}
 		load( );
+		}
 	}
 
 }

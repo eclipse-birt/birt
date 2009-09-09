@@ -62,7 +62,11 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 			{
 				refreshBinding( );
 				if ( datasetRadio.getSelection( )
-						&& getProvider( ).isBindingReference( ) )
+						&& getProvider( ).isBindingReference( ) 
+						&& ( DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
+								true ) == null || DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
+								true )
+								.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
 					saveBinding( );
 			}
 
@@ -101,6 +105,13 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshBinding( );
+				if ( reportItemRadio.getSelection( )
+						&& getProvider( ).getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA
+						&& ( DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
+								true ) == null || DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
+								true )
+								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
+					saveBinding( );
 			}
 
 		} );
@@ -142,6 +153,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		}
 		try
 		{
+			this.oldInfo = info;
 			save( info );
 		}
 		catch ( SemanticException e )
@@ -204,6 +216,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		}
 	}
 
+	private BindingInfo oldInfo;
 	private void refreshBindingInfo( BindingInfo info )
 	{
 		int type = info.getBindingType( );
@@ -222,34 +235,53 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_NONE :
+				if(oldInfo!=null){
+					if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA){
+						selectDatasetType( value );
+					}
+					else if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF){
+						selectReferenceType( info, value );
+					}
+					break;
+				}
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				datasetRadio.setSelection( true );
-				datasetCombo.setEnabled( true );
-				datasetCombo.setText( value.toString( ) );
-				bindingButton.setEnabled( getProvider( ).enableBindingButton( ) );
-				reportItemRadio.setSelection( false );
-				reportItemCombo.setEnabled( false );
+				selectDatasetType( value );
 				break;
 			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
-				datasetRadio.setSelection( false );
-				datasetCombo.setEnabled( false );
-				bindingButton.setEnabled( false );
-				
-				reportItemRadio.setSelection( true );
-				reportItemCombo.setEnabled( true );
-				reportItemCombo.setText( value.toString( ) );
-				
-				// From 2.3, Multi-view is supported to create related chart
-				// view with current table/crosstab, the chart query in
-				// multi-view is sharing table/crosstab, so it should be
-				// read-only, disable button status for the case.
-				if ( info.isReadOnly( ) )
-				{
-					datasetRadio.setEnabled( false );
-					reportItemRadio.setEnabled( false );
-					reportItemCombo.setEnabled( false );
-				}
+				selectReferenceType( info, value );
 		}
+	}
+
+	private void selectReferenceType( BindingInfo info, Object value )
+	{
+		datasetRadio.setSelection( false );
+		datasetCombo.setEnabled( false );
+		bindingButton.setEnabled( false );
+		
+		reportItemRadio.setSelection( true );
+		reportItemCombo.setEnabled( true );
+		reportItemCombo.setText( value.toString( ) );
+		
+		// From 2.3, Multi-view is supported to create related chart
+		// view with current table/crosstab, the chart query in
+		// multi-view is sharing table/crosstab, so it should be
+		// read-only, disable button status for the case.
+		if ( info.isReadOnly( ) )
+		{
+			datasetRadio.setEnabled( false );
+			reportItemRadio.setEnabled( false );
+			reportItemCombo.setEnabled( false );
+		}
+	}
+
+	private void selectDatasetType( Object value )
+	{
+		datasetRadio.setSelection( true );
+		datasetCombo.setEnabled( true );
+		datasetCombo.setText( value.toString( ) );
+		bindingButton.setEnabled( getProvider( ).enableBindingButton( ) );
+		reportItemRadio.setSelection( false );
+		reportItemCombo.setEnabled( false );
 	}
 
 	public void save( Object obj ) throws SemanticException
@@ -269,5 +301,10 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 	public BindingGroupDescriptorProvider getProvider( )
 	{
 		return provider;
+	}
+	
+	public void setInput( Object handle )
+	{
+		super.setInput( handle );
 	}
 }

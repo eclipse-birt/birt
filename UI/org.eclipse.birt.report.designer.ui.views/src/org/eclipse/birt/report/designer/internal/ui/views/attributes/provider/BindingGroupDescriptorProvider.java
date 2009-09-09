@@ -341,25 +341,33 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 
 	private void resetReference( Object value )
 	{
-		try
+		if ( value == null
+				&& this.getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 		{
-			startTrans( Messages.getString( "DataColumBindingDialog.stackMsg.resetReference" ) ); //$NON-NLS-1$
-			ReportItemHandle element = null;
-			if ( value != null )
+			resetDataSetReference( null, true );
+		}
+		else
+		{
+			try
 			{
-				element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findElement( value.toString( ) );
+				startTrans( Messages.getString( "DataColumBindingDialog.stackMsg.resetReference" ) ); //$NON-NLS-1$
+				ReportItemHandle element = null;
+				if ( value != null )
+				{
+					element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.findElement( value.toString( ) );
+				}
+				getReportItemHandle( ).setDataBindingReference( element );
+				commit( );
 			}
-			getReportItemHandle( ).setDataBindingReference( element );
-			commit( );
+			catch ( SemanticException e )
+			{
+				rollback( );
+				ExceptionUtil.handle( e );
+			}
+			section.load( );
 		}
-		catch ( SemanticException e )
-		{
-			rollback( );
-			ExceptionUtil.handle( e );
-		}
-		section.load( );
 	}
 
 	public ReportItemHandle getReportItemHandle( )

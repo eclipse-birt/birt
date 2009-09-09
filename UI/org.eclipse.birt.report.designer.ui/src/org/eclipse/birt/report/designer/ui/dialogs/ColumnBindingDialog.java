@@ -1445,7 +1445,9 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 		}
 	}
-
+	
+	private BindingInfo oldInfo;
+	
 	private void refreshBindingInfo( BindingInfo info )
 	{
 		if ( canSelect )
@@ -1460,21 +1462,40 @@ public class ColumnBindingDialog extends BaseDialog
 			switch ( type )
 			{
 				case ReportItemHandle.DATABINDING_TYPE_NONE :
+					if(oldInfo!=null){
+						if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA){
+							selectDatasetType( value );
+						}
+						else if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF){
+							selectReferenceType( value );
+						}
+						break;
+					}
 				case ReportItemHandle.DATABINDING_TYPE_DATA :
-					datasetRadio.setSelection( true );
-					datasetCombo.setEnabled( true );
-					datasetCombo.setText( value.toString( ) );
-					reportItemRadio.setSelection( false );
-					reportItemCombo.setEnabled( false );
+					selectDatasetType( value );
 					break;
 				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
-					datasetRadio.setSelection( false );
-					datasetCombo.setEnabled( false );
-					reportItemRadio.setSelection( true );
-					reportItemCombo.setEnabled( true );
-					reportItemCombo.setText( value.toString( ) );
+					selectReferenceType( value );
 			}
 		}
+	}
+
+	private void selectReferenceType( Object value )
+	{
+		datasetRadio.setSelection( false );
+		datasetCombo.setEnabled( false );
+		reportItemRadio.setSelection( true );
+		reportItemCombo.setEnabled( true );
+		reportItemCombo.setText( value.toString( ) );
+	}
+
+	private void selectDatasetType( Object value )
+	{
+		datasetRadio.setSelection( true );
+		datasetCombo.setEnabled( true );
+		datasetCombo.setText( value.toString( ) );
+		reportItemRadio.setSelection( false );
+		reportItemCombo.setEnabled( false );
 	}
 
 	protected void refreshBindingTable( )
@@ -1682,6 +1703,7 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 		try
 		{
+			this.oldInfo = info;
 			save( info );
 		}
 		catch ( SemanticException e )
