@@ -87,7 +87,7 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 		else
 			titleBar.setBackgroundColor( Fact_BACKGROUND );
 		titleBar.setTextColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_TITLE_FOREGROUND ) );
+				.getSystemColor( SWT.COLOR_WHITE ) );
 		titleBar.setFont( selectedFont );
 	}
 
@@ -102,7 +102,7 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 		else
 			titleBar.setBackgroundColor( Fact_INACTIVE_BACKGROUND );
 		titleBar.setTextColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_TITLE_INACTIVE_FOREGROUND ) );
+				.getSystemColor( SWT.COLOR_GRAY ) );
 		titleBar.setFont( selectedFont );
 	}
 }
