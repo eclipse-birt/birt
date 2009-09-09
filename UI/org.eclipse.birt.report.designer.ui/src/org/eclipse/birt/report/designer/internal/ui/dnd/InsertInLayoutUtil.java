@@ -17,16 +17,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -41,6 +40,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -69,7 +69,6 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.Request;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -887,7 +886,23 @@ public class InsertInLayoutUtil
 			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
-			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			String defaultScriptType = UIUtil.getDefaultScriptType( );
+			IExpressionConverter converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
+			String expression = null;
+			if ( converter != null )
+			{
+				expression = ExpressionUtility.getExpression( model,
+						converter );
+			}
+			else{
+				defaultScriptType = ExpressionType.JAVASCRIPT;
+				converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
+				expression = ExpressionUtility.getExpression( model,
+						converter );
+			}
+			
+			Expression bindingExpression = new Expression(expression, defaultScriptType);
+			bindingColumn.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER, bindingExpression );
 			bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
 			if ( target instanceof DesignElementHandle )
 			{

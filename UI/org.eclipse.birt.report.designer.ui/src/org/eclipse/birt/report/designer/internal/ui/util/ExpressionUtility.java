@@ -15,17 +15,12 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionSupportManager;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.LevelAttributeHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
@@ -262,4 +257,19 @@ public class ExpressionUtility
 		return converter.getResultSetColumnExpression( columnName );
 	}
 
+	public static IExpressionConverter getExpressionConverter( String scriptType )
+	{
+		IExpressionSupport[] exts = ExpressionSupportManager.getExpressionSupports( );
+
+		if ( exts != null )
+		{
+			for ( IExpressionSupport ex : exts )
+			{
+				if ( ex!=null && ex.getName( )!=null && ex.getName( ).equals( scriptType ) )
+					return ex.getConverter( );
+			}
+		}
+		
+		return null;
+	}
 }
