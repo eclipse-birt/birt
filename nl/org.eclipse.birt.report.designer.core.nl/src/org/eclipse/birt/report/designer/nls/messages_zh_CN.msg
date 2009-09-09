@@ -3632,6 +3632,7 @@ TableOptionDialog.text.TableSize=表大小
 TableOptionDialog.title.InsertGrid=插入网格
 TableOptionDialog.title.InsertTable=插入表
 TableOptionDialog.text.DataSet=数据集(&S):
+TableOptionDialog.text.AutoSummary=Auto Su&mmarize On
 
 ###########################################################
 #TablePageGenerator properties

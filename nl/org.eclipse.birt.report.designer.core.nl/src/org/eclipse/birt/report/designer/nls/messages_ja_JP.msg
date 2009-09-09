@@ -3632,6 +3632,7 @@ TableOptionDialog.text.TableSize=テーブルのサイズ
 TableOptionDialog.title.InsertGrid=グリッドの挿入
 TableOptionDialog.title.InsertTable=テーブルの挿入
 TableOptionDialog.text.DataSet=データセット(&S) :
+TableOptionDialog.text.AutoSummary=Auto Su&mmarize On
 
 ###########################################################
 #TablePageGenerator properties

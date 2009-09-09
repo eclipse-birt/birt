@@ -3632,6 +3632,7 @@ TableOptionDialog.text.TableSize=Tabellengröße
 TableOptionDialog.title.InsertGrid=Raster einfügen
 TableOptionDialog.title.InsertTable=Tabelle einfügen
 TableOptionDialog.text.DataSet=&Datensatz:
+TableOptionDialog.text.AutoSummary=Auto Su&mmarize On
 
 ###########################################################
 #TablePageGenerator properties
