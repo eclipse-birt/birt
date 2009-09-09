@@ -300,7 +300,6 @@
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
 	
-
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
@@ -426,13 +425,13 @@
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/plugins"/>
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/features"/>
 		<copy todir="${postingDirectory}/${buildId}/UpdateSite/plugins">
-			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
+			<fileset dir="${updateJarWorkingDir}/site/plugins">
 				<include name="**"/>
 			</fileset>
 		</copy>
 		
 		<copy todir="${postingDirectory}/${buildId}/UpdateSite/features">
-			<fileset dir="${updateJarWorkingDir}/eclipse/features">
+			<fileset dir="${updateJarWorkingDir}/site/features">
 				<include name="**"/>
 			</fileset>
 		</copy>
@@ -629,7 +628,7 @@
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
-			<property name="fetchTag" value="HEAD" />
+			<property name="fetchTag" value="BIRT_2_5_1_Branch" />
 		</ant>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
