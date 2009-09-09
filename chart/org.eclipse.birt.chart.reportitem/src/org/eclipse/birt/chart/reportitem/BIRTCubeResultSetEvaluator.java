@@ -234,16 +234,18 @@ public class BIRTCubeResultSetEvaluator extends
 		{
 			initCubeCursor( );
 
-			mainEdgeCursor.first( );
-			if ( subEdgeCursor != null )
+			if ( mainEdgeCursor.first( ) )
 			{
-				subEdgeCursor.first( );
+				if ( subEdgeCursor != null )
+				{
+					subEdgeCursor.first( );
+				}
+				else
+				{
+					bWithoutSub = true;
+				}
+				return true;
 			}
-			else
-			{
-				bWithoutSub = true;
-			}
-			return true;
 		}
 		catch ( OLAPException e )
 		{

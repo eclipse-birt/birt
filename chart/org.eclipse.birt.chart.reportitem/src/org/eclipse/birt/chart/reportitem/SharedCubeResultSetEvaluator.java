@@ -422,18 +422,20 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		{
 			initCubeCursor( );
 
-			mainEdgeCursor.first( );
-			fMainPositionNodes.updatePosition( );
-			if ( subEdgeCursor != null )
+			if ( mainEdgeCursor.first( ) )
 			{
-				subEdgeCursor.first( );
-				fSubPositionNodes.updatePosition( );
+				fMainPositionNodes.updatePosition( );
+				if ( subEdgeCursor != null )
+				{
+					subEdgeCursor.first( );
+					fSubPositionNodes.updatePosition( );
+				}
+				else
+				{
+					bWithoutSub = true;
+				}
+				return true;
 			}
-			else
-			{
-				bWithoutSub = true;
-			}
-			return true;
 		}
 		catch ( OLAPException e )
 		{
