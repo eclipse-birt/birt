@@ -1288,7 +1288,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						boEllipse,
 						dStart,
 						dExtent,
-						iArcType == ArcRenderEvent.SECTOR,
+						iArcType,
 						tga[i].getAction( ),
 						dTranslateX,
 						dTranslateY,

@@ -11,19 +11,24 @@
 
 package org.eclipse.birt.chart.device.swt;
 
+import java.awt.Shape;
+import java.awt.geom.Arc2D;
+import java.awt.geom.FlatteningPathIterator;
+import java.awt.geom.PathIterator;
+import java.util.ArrayList;
+
 import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
+import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * This class provides a region definition and an associated action that is
@@ -37,19 +42,19 @@ public final class RegionAction
 	private Cursor cursor = null;
 
 	/**
-	 * the bounding box used to describe the RegionAction's working area
+	 * the RegionAction's working area
 	 */
-	private Rectangle _bb;
+	private Region region;
 
 	private final Action _ac;
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
-	private RegionAction( StructureSource source, Rectangle bb, Action ac )
+	private RegionAction( StructureSource source, Region region, Action ac )
 	{
 		this._oSource = source;
 		this._ac = ac;
-		this._bb = bb;
+		this.region = region;
 	}
 
 	/**
@@ -88,8 +93,7 @@ public final class RegionAction
 		}
 		_ac = ac;
 
-		_bb = sh.getBounds( );
-		sh.dispose( );
+		this.region = sh;
 	}
 
 	/**
@@ -133,8 +137,83 @@ public final class RegionAction
 		}
 		_ac = ac;
 
-		_bb = sh.getBounds( );
-		sh.dispose( );
+		this.region = sh;
+	}
+
+	private static final int toSwingArcType( int iArcStyle )
+	{
+		switch ( iArcStyle )
+		{
+			case ArcRenderEvent.OPEN :
+				return Arc2D.OPEN;
+			case ArcRenderEvent.CLOSED :
+				return Arc2D.CHORD;
+			case ArcRenderEvent.SECTOR :
+				return Arc2D.PIE;
+		}
+		return -1;
+	}
+
+	private int[] shape2polyCoords( Shape shape )
+	{
+		if ( shape == null )
+		{
+			return null;
+		}
+
+		ArrayList<Integer> al = new ArrayList<Integer>( );
+
+		FlatteningPathIterator pitr = new FlatteningPathIterator( shape.getPathIterator( null ),
+				1 );
+		double[] data = new double[6];
+
+		while ( !pitr.isDone( ) )
+		{
+			int type = pitr.currentSegment( data );
+
+			switch ( type )
+			{
+				case PathIterator.SEG_MOVETO :
+					al.add( (int) data[0] );
+					al.add( (int) data[1] );
+					break;
+				case PathIterator.SEG_LINETO :
+					al.add( (int) data[0] );
+					al.add( (int) data[1] );
+					break;
+				case PathIterator.SEG_QUADTO :
+					al.add( (int) data[0] );
+					al.add( (int) data[1] );
+					al.add( (int) data[2] );
+					al.add( (int) data[3] );
+					break;
+				case PathIterator.SEG_CUBICTO :
+					al.add( (int) data[0] );
+					al.add( (int) data[1] );
+					al.add( (int) data[2] );
+					al.add( (int) data[3] );
+					al.add( (int) data[4] );
+					al.add( (int) data[5] );
+					break;
+				case PathIterator.SEG_CLOSE :
+					break;
+			}
+
+			pitr.next( );
+		}
+
+		if ( al.size( ) == 0 )
+		{
+			return null;
+		}
+
+		int[] coords = new int[al.size( )];
+
+		for ( int i = 0; i < al.size( ); i++ )
+		{
+			coords[i] = al.get( i );
+		}
+		return coords;
 	}
 
 	/**
@@ -148,7 +227,7 @@ public final class RegionAction
 	 * @param ac
 	 */
 	RegionAction( StructureSource oSource, Bounds boEllipse, double dStart,
-			double dExtent, boolean bSector, Action ac, double dTranslateX,
+			double dExtent, int iArcType, Action ac, double dTranslateX,
 			double dTranslateY, double dScale, Region clipping )
 	{
 		_oSource = oSource;
@@ -157,38 +236,26 @@ public final class RegionAction
 		boEllipse.translate( dTranslateX, dTranslateY );
 		boEllipse.scale( dScale );
 
-		double x = boEllipse.getLeft( );
-		double y = boEllipse.getTop( );
-		double width = boEllipse.getWidth( );
-		double height = boEllipse.getHeight( );
+		Shape shape = new Arc2D.Double( boEllipse.getLeft( ),
+				boEllipse.getTop( ),
+				boEllipse.getWidth( ),
+				boEllipse.getHeight( ),
+				dStart,
+				dExtent,
+				toSwingArcType( iArcType ) );
 
-		Path ph = new Path( Display.getDefault( ) );
-		ph.addArc( (float) x,
-				(float) y,
-				(float) width,
-				(float) height,
-				(float) dStart,
-				(float) dExtent );
-
-		if ( bSector )
-		{
-			ph.lineTo( (float) ( x + width / 2 ), (float) ( y + height / 2 ) );
-		}
-
-		ph.close( );
+		int[] i2a = shape2polyCoords( shape );
+		Region sh = new Region( );
+		sh.add( i2a );
 
 		if ( clipping != null )
 		{
-			// TODO intersect with clipping
+			sh.intersect( clipping );
 		}
 
 		_ac = ac;
+		this.region = sh;
 
-		// use bounding box of Path
-		float[] b = new float[4];
-		ph.getBounds( b );
-		_bb = new Rectangle( (int) b[0], (int) b[1], (int) b[2], (int) b[3] );
-		ph.dispose( );
 	}
 
 	/**
@@ -216,14 +283,7 @@ public final class RegionAction
 	 */
 	public RegionAction copy( )
 	{
-		Rectangle nbb = null;
-
-		if ( _bb != null )
-		{
-			nbb = new Rectangle( _bb.x, _bb.y, _bb.width, _bb.height );
-		}
-
-		return new RegionAction( _oSource, nbb, _ac );
+		return new RegionAction( _oSource, region, _ac );
 	}
 
 	/**
@@ -248,11 +308,9 @@ public final class RegionAction
 	 */
 	public boolean contains( double x, double y, GC gc )
 	{
-		if ( _bb != null )
+		if ( region != null )
 		{
-			// we are operating on pixels (swt), there should be
-			// no problems down-casting to int
-			return _bb.contains( (int) x, (int) y );
+			return region.contains( (int) x, (int) y );
 		}
 
 		return false;
@@ -263,7 +321,10 @@ public final class RegionAction
 	 */
 	public void dispose( )
 	{
-		// empty
+		if ( region != null )
+		{
+			region.dispose( );
+		}
 	}
 
 	/**
@@ -273,9 +334,9 @@ public final class RegionAction
 	 */
 	public boolean isEmpty( )
 	{
-		if ( _bb != null )
+		if ( region != null )
 		{
-			return _bb.isEmpty( );
+			return region.isEmpty( );
 		}
 
 		return true;
