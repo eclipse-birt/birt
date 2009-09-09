@@ -61,14 +61,13 @@
   false drawStrImpl
 }def
 /drawSIStr{
-  true 0 0 4 -2 roll  drawIStrImpl
+  true 0 0 4 -2 roll drawStrImpl
 }def
 /drawSStr {
   false 0 0 4 -2 roll drawStrImpl
 }def
 /drawline{
   gsave
-  9 -3 roll setrgbcolor
   5 index setlinewidth
   6 -2 roll dup dup
   0 eq not{
