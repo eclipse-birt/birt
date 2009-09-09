@@ -112,14 +112,14 @@ public class InputParameterDialog extends Dialog
 			this.paramValues.putAll( paramValues );
 		}
 	}
-	
+
 	@Override
 	protected void okPressed( )
 	{
 		Iterator itr = isRequiredParameters.iterator( );
-		
+
 		Map paramValues = getParameters( );
-		
+
 		while ( itr.hasNext( ) )
 		{
 			String paramName = (String) itr.next( );
@@ -153,8 +153,7 @@ public class InputParameterDialog extends Dialog
 						"The value \"" //$NON-NLS-1$
 								+ paramValue
 								+ "\" is invalid with type " //$NON-NLS-1$
-								+ scalarParameter.getHandle( )
-										.getDataType( ) );
+								+ scalarParameter.getHandle( ).getDataType( ) );
 				return;
 			}
 		}
@@ -374,7 +373,6 @@ public class InputParameterDialog extends Dialog
 				createList( container, listParam );
 				GridData labelLayout = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 				label.setLayoutData( labelLayout );
-
 			}
 			else
 			{
@@ -640,7 +638,7 @@ public class InputParameterDialog extends Dialog
 
 			if ( value != null )
 			{
-				listParam.setSelectionValue( value.toString( ) );
+				listParam.setSelectionValue( value );
 			}
 		}
 

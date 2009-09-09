@@ -54,7 +54,7 @@ public interface IParameter
 	 * @return default value.
 	 */
 
-	public String getDefaultValue( );
+	public Object getDefaultValue( );
 
 	/**
 	 * Sets parameter group
@@ -76,14 +76,14 @@ public interface IParameter
 	 * 
 	 * @param value
 	 */
-	public void setSelectionValue( String value );
+	public void setSelectionValue( Object value );
 
 	/**
 	 * Gets selection value.
 	 * 
 	 * @return selection value.
 	 */
-	public String getSelectionValue( );
+	public Object getSelectionValue( );
 
 	/**
 	 * Gets isRequired property.

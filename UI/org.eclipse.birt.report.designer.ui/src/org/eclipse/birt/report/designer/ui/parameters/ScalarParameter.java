@@ -30,7 +30,7 @@ public abstract class ScalarParameter implements IParameter
 	 */
 	protected IParameterGroup group = null;
 
-	private String selectionValue = null;
+	private Object selectionValue = null;
 
 	/**
 	 * Scalar parameter handle.
@@ -69,7 +69,7 @@ public abstract class ScalarParameter implements IParameter
 	 * 
 	 * @return selection value.
 	 */
-	public String getSelectionValue( )
+	public Object getSelectionValue( )
 	{
 		return selectionValue;
 	}
@@ -79,7 +79,7 @@ public abstract class ScalarParameter implements IParameter
 	 * 
 	 * @param value
 	 */
-	public void setSelectionValue( String value )
+	public void setSelectionValue( Object value )
 	{
 		selectionValue = value;
 	}
@@ -129,6 +129,15 @@ public abstract class ScalarParameter implements IParameter
 
 	public Object converToDataType( Object value ) throws BirtException
 	{
+		if ( value instanceof Object[] )
+		{
+			Object[] values = (Object[]) value;
+			Object[] rtValues = new Object[values.length];
+			for ( int i = 0; i < values.length; i++ )
+				rtValues[i] = ParameterUtil.convert( values[i],
+						handle.getDataType( ) );
+			return rtValues;
+		}
 		return ParameterUtil.convert( value, handle.getDataType( ) );
 	}
 

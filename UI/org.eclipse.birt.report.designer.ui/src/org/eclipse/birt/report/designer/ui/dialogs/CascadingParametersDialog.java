@@ -298,6 +298,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private String OPTION_LABEL_STRING[] = {
 			LABEL_HELP_TEXT, LABEL_FORMAT_AS, LABEL_LIST_LIMIT
 	};
+	private Button isMultiple;
 
 	protected int getMaxStrLength( String string[], Control control )
 	{
@@ -1028,7 +1029,7 @@ public class CascadingParametersDialog extends BaseDialog
 		createLabel( optionsGroup, LABEL_LIST_LIMIT, maxStrLengthOption );
 
 		Composite composite = new Composite( optionsGroup, SWT.NULL );
-		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
+		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 3, true ) );
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Composite limitArea = new Composite( composite, SWT.NULL );
@@ -1087,6 +1088,32 @@ public class CascadingParametersDialog extends BaseDialog
 					try
 					{
 						selectedParameter.setIsRequired( isRequired.getSelection( ) );
+					}
+					catch ( SemanticException e1 )
+					{
+						ExceptionHandler.handle( e1 );
+					}
+				}
+
+			}
+
+		} );
+
+		isMultiple = new Button( composite, SWT.CHECK );
+		isMultiple.setText( "Allow Multiple Values" );
+		isMultiple.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		isMultiple.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( selectedParameter != null )
+				{
+					try
+					{
+						if ( isMultiple.getSelection( ) )
+							selectedParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE );
+						else
+							selectedParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE );
 					}
 					catch ( SemanticException e1 )
 					{
@@ -1652,7 +1679,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		// allowNull.setSelection( selectedParameter.allowNull( ) );
 		isRequired.setSelection( selectedParameter.isRequired( ) );
-
+		isMultiple.setSelection( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( selectedParameter.getParamType( ) ) );
 		changeDataType( selectedParameter.getDataType( ) );
 
 	}
@@ -1967,7 +1994,7 @@ public class CascadingParametersDialog extends BaseDialog
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
 				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
 				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) 
+				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( formatCategroy ) )
 		{
 			return true;
