@@ -356,29 +356,30 @@ public class PostscriptWriter
 	{
 		int originalWidth = imageSource.getWidth( );
 		int originalHeight = imageSource.getHeight( );
+		byte[] buffer = new byte[3 * originalHeight * originalWidth];
+		int index = 0;
+		for ( int i = 0; i < originalHeight; i++ )
+		{
+			for ( int j = 0; j < originalWidth; j++ )
+			{
+				int pixel = imageSource.getRGB( j, i );
+				int alpha = ( pixel >> 24 ) & 0xff;
+				int red = ( pixel >> 16 ) & 0xff;
+				int green = ( pixel >> 8 ) & 0xff;
+				int blue = pixel & 0xff;
+				buffer[index++] = (byte) transferColor( alpha, red );
+				buffer[index++] = (byte) transferColor( alpha, green );
+				buffer[index++] = (byte) transferColor( alpha, blue );
+			}
+		}
 		try
 		{
-			ByteArrayOutputStream originalSource = new ByteArrayOutputStream( );
-			for ( int i = 0; i < originalHeight; i++ )
-			{
-				for ( int j = 0; j < originalWidth; j++ )
-				{
-					int pixel = imageSource.getRGB( j, i );
-					int alpha = ( pixel >> 24 ) & 0xff;
-					int red = ( pixel >> 16 ) & 0xff;
-					int green = ( pixel >> 8 ) & 0xff;
-					int blue = pixel & 0xff;
-					originalSource.write( transferColor( alpha, red ) );
-					originalSource.write( transferColor( alpha, green ) );
-					originalSource.write( transferColor( alpha, blue ) );
-				}
-			}
-			byte[] byteArray = deflate( originalSource.toByteArray( ) );
-			out.print( Util.toHexString( byteArray )+">" );
+			buffer = deflate( buffer );
+			out.print( Util.toHexString( buffer ) + ">" );
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			log.log( Level.WARNING, e.getLocalizedMessage( ), e );
 		}
 	}
 
