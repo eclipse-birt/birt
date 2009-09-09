@@ -1101,13 +1101,12 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return null;
 
 		Module rootElement = getElement( ).getRoot( );
-		if ( rootElement instanceof Library )
-		{
-			String namespace = ( (Library) rootElement ).getNamespace( );
-			return StringUtil.buildQualifiedReference( namespace, name );
-		}
+		String namespace = rootElement.getNamespace( );
 
-		return name;
+		// if the root is library or other else that is included by other
+		// modules, then it will have a unique namespace
+		return StringUtil.buildQualifiedReference( namespace, name );
+
 	}
 
 	/**
