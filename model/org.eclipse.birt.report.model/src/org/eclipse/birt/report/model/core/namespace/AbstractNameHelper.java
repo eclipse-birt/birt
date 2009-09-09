@@ -613,7 +613,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public String getUniqueName( DesignElement element )
+	public final String getUniqueName( DesignElement element )
 	{
 		return getUniqueName( element, null );
 	}
