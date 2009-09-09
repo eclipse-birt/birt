@@ -223,7 +223,7 @@ class QueryExecutionHelper
 			Binding result = new Binding( structure.getName( ) );
 			if ( structure.getExpression( ) != null )
 			{
-				ScriptExpression expr = new ScriptExpression( structure.getExpression( ) );
+				ScriptExpression expr = this.modelAdaptor.adaptExpression( structure.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER ) );
 				result.setExpression( expr );
 			}
 			result.setDisplayName( structure.getDisplayName( ) );
