@@ -26,10 +26,10 @@ echo "================== Tagging birt.cshelp feature =======================" >>
 ant -f $SrcDir/fetch_org.eclipse.birt.cshelp.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.doc feature =======================" >> tagSDK.log
 ant -f $SrcDir/fetch_org.eclipse.birt.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
-echo "================== Tagging birt.doc feature =======================" >> tagSDK.log
-ant -f $SrcDir/fetch_org.eclipse.birt.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+echo "================== Tagging birt.doc.isv feature =======================" >> tagSDK.log
+ant -f $SrcDir/fetch_org.eclipse.birt.doc.isv.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.chart.doc feature =======================" >> tagSDK.log
-ant -f $SrcDir/fetch_org.eclipse.birt.chart.doc.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
+ant -f $SrcDir/fetch_org.eclipse.birt.chart.doc.isv.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.chart feature =======================" >> tagSDK.log
 ant -f $SrcDir/fetch_org.eclipse.birt.chart.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagSDK.log
 echo "================== Tagging birt.designer feature ONLY =======================" >> tagSDK.log
