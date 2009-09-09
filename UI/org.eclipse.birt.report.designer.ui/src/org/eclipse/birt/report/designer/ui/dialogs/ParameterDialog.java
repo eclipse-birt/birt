@@ -298,10 +298,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
 
-	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
-
-	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
-
 	private ScalarParameterHandle inputParameter;
 
 	private boolean loading = true;
@@ -1001,13 +997,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				if ( expressionType != null )
 				{
-					defaultValueChooser.setData( EXPR_TYPE, expressionType );
-					ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
+					defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
+					ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 					if ( button != null )
 						button.refresh( );
 
 				}
-				String type = (String) defaultValueChooser.getData( EXPR_TYPE );
+				String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
 				if ( ExpressionType.CONSTANT.equals( type ) )
 				{
 					defaultValueChooser.setEditable( false );
@@ -1070,8 +1066,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					if ( expressionType != null )
 					{
-						defaultValueChooser.setData( EXPR_TYPE, expressionType );
-						ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
+						defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
+						ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 						if ( button != null )
 							button.refresh( );
 					}
@@ -1087,9 +1083,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					{
 						if ( expressionType != null )
 						{
-							defaultValueChooser.setData( EXPR_TYPE,
+							defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
 									expressionType );
-							ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
+							ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 							if ( button != null )
 								button.refresh( );
 						}
@@ -1164,8 +1160,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			if ( expressionType != null )
 			{
-				defaultValueChooser.setData( EXPR_TYPE, expressionType );
-				ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
+				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
+				ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 				if ( button != null )
 					button.refresh( );
 			}
@@ -1341,7 +1337,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		try
 		{
-			String queryExpr = getExpression( columnChooser, columnChooser.getText( ) );
+			String queryExpr = getExpression(  columnChooser.getText( ) );
 			if ( queryExpr == null || queryExpr.equals( "" ) ) //$NON-NLS-1$
 			{
 				return Collections.EMPTY_LIST;
@@ -1813,7 +1809,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				String type = (String) defaultValueChooser.getData( EXPR_TYPE );
+				String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
 
 				List list = new ArrayList( );
 				list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
@@ -1904,7 +1900,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public String getExpressionType( )
 			{
-				return (String) defaultValueChooser.getData( EXPR_TYPE );
+				return (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
 			}
 
 			public void setExpressionType( String exprType )
@@ -1927,7 +1923,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						value = defaultValueChooser.getText( );
 				}
 
-				defaultValueChooser.setData( EXPR_TYPE, exprType );
+				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, exprType );
 				if ( ExpressionType.CONSTANT.equals( exprType ) )
 				{
 					defaultValueChooser.setEditable( false );
@@ -1990,8 +1986,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
 				SWT.PUSH );
 		expressionButton.setExpressionHelper( helper );
-		defaultValueChooser.setData( EXPR_BUTTON, expressionButton );
-		defaultValueChooser.setData( EXPR_TYPE, ExpressionType.CONSTANT );
+		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_BUTTON, expressionButton );
+		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
 		expressionButton.refresh( );
 	}
 
@@ -2551,7 +2547,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					if ( status == Window.OK )
 					{
 						String selectedValue = dialog.getSelectedValue( );
-						if ( ExpressionType.JAVASCRIPT.equals( defaultValueChooser.getData( EXPR_TYPE ) ) )
+						if ( ExpressionType.JAVASCRIPT.equals( defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) ) )
 							selectedValue = getSelectedExprValue( selectedValue );
 						defaultValueChooser.setText( DEUtil.resolveNull( selectedValue ) );
 					}
@@ -2578,7 +2574,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			public void modifyText( ModifyEvent e )
 			{
 				String value = defaultValueChooser.getText( );
-				String type = (String) defaultValueChooser.getData( EXPR_TYPE );
+				String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
 				// if ( value.equals( CHOICE_NULL_VALUE )
 				// || value.equals( CHOICE_BLANK_VALUE ) )
 				// return;
@@ -2629,12 +2625,12 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public String getExpressionType( )
 			{
-				return (String) defaultValueChooser.getData( EXPR_TYPE );
+				return (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
 			}
 
 			public void setExpressionType( String exprType )
 			{
-				defaultValueChooser.setData( EXPR_TYPE, exprType );
+				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, exprType );
 				defaultValueChooser.notifyListeners( SWT.Modify, new Event( ) );
 			}
 
@@ -2653,8 +2649,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
 				SWT.PUSH );
 		expressionButton.setExpressionHelper( helper );
-		defaultValueChooser.setData( EXPR_BUTTON, expressionButton );
-		defaultValueChooser.setData( EXPR_TYPE, ExpressionType.CONSTANT );
+		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_BUTTON, expressionButton );
+		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
 		expressionButton.refresh( );
 	}
 
@@ -3291,7 +3287,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			try
 			{
 				validateValue( defaultValueChooser.getText( ),
-						(String) defaultValueChooser.getData( EXPR_TYPE ) );
+						(String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
 			}
 			catch ( BirtException e )
 			{
