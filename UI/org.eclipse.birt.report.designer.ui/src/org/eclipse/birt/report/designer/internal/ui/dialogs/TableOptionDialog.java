@@ -223,7 +223,7 @@ public class TableOptionDialog extends BaseDialog
 			dataSetCombo.select( 0 );
 
 			autoChk = new Button( composite, SWT.CHECK );
-			autoChk.setText( "Auto Summarize On" );
+			autoChk.setText( Messages.getString( "TableOptionDialog.text.AutoSummary" ) );
 			gdata = new GridData( GridData.FILL_HORIZONTAL );
 			gdata.horizontalSpan = 2;
 			autoChk.setLayoutData( gdata );
