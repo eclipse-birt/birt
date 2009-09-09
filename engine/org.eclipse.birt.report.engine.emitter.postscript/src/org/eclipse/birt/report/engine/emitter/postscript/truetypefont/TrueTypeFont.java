@@ -1276,12 +1276,14 @@ public class TrueTypeFont
 
 		private Set<TrueTypeGlyph> glyphDefined = new HashSet<TrueTypeGlyph>( );
 
+		private String displayName;
+		
 		public TrueTypeWriter( PrintStream out ) throws IOException
 		{
 			this.out = out;
 		}
 
-		public void initialize( ) throws IOException
+		public void initialize( String displayName ) throws IOException
 		{
 			int[] tableLocation = (int[]) positionTables.get( "loca" );
 			int locaLength = tableLocation[1];
@@ -1308,6 +1310,14 @@ public class TrueTypeFont
 			outputSfnts( out );
 			outputCIDMap( out, glyphCount );
 			out.println( "CIDFontName currentdict end /CIDFont defineresource pop" );
+			this.displayName = displayName.replace( ' ', '_' );
+			out.println( "/" + displayName + " /Identity-H [/" + fontName
+					+ "] composefont pop" );
+		}
+
+		public String getDisplayName( )
+		{
+			return displayName;
 		}
 
 		private String getFontBBox( )
@@ -1349,12 +1359,6 @@ public class TrueTypeFont
 			out.println( ">] def" );
 		}
 
-		public void useDisplayName(String displayName )
-		{
-			out.println( "/" + displayName + " /Identity-H [/" + fontName
-					+ "] composefont pop" );
-		}
-		
 		public void ensureGlyphAvailable( char c ) throws IOException
 		{
 			List<TrueTypeGlyph> charactersToOutput = getCharactersToOutput( c );

@@ -17,21 +17,19 @@
 }def
 /startItalic{simulateItalic{/ctm matrix currentmatrix def italicmatrix setmatrix ctm concat}if}def
 /endItalic{simulateItalic{ctm setmatrix}if} def
-/drawstring {
+/drawStrImpl {
   gsave
   /simulateItalic exch def
-  8 -3 roll setrgbcolor
   5 -2 roll translate
   0 0 moveto startItalic
   3 -1 roll 0 8#40
   5 -1 roll 0 6 -1 roll
   awidthshow stroke endItalic grestore
 }def
-/drawBoldString{
+/drawBStrImpl{
   gsave
   /offset exch def
   /simulateItalic exch def
-  8 -3 roll setrgbcolor
   5 -2 roll translate
   0 0 moveto startItalic
   3 -1 roll 0 8#40
@@ -43,6 +41,30 @@
   gsave 0 offset rmoveto awidthshow stroke grestore
   gsave 0 offset 2 div rmoveto awidthshow stroke grestore
   awidthshow stroke endItalic grestore
+}def
+/drawBIStr{
+  true 2 1 roll drawBStrImpl
+}def
+/drawBStr {
+  false 2 1 roll drawBStrImpl
+}def
+/drawSBIStr{
+  true 2 1 roll 0 0 5 -2 roll drawBStrImpl
+}def
+/drawSBStr {
+  false 2 1 roll 0 0 5 -2 roll drawBStrImpl
+}def
+/drawIStr {
+  true drawStrImpl
+}def
+/drawStr {
+  false drawStrImpl
+}def
+/drawSIStr{
+  true 0 0 4 -2 roll  drawIStrImpl
+}def
+/drawSStr {
+  false 0 0 4 -2 roll drawStrImpl
 }def
 /drawline{
   gsave

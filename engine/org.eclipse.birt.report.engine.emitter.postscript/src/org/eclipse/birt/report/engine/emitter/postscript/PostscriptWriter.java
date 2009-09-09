@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -157,6 +158,12 @@ public class PostscriptWriter
 	
 	private Map<String, String> cachedImageSource;
 	
+	private Stack<Graphic> graphics = new Stack<Graphic>( );
+	
+	private final static String[] stringCommands = {"drawSStr", "drawStr",
+			"drawSBStr", "drawBStr", "drawSIStr", "drawIStr", "drawSBIStr",
+			"drawBIStr"};
+	
 	static
 	{
 		intrinsicFonts.add( COURIER );
@@ -205,11 +212,13 @@ public class PostscriptWriter
 	public void clipSave()
 	{
 		out.println( "gsave" );
+		graphics.push( new Graphic( ) );
 	}
 	
 	public void clipRestore()
 	{
 		out.println( "grestore" );
+		graphics.pop( );
 	}
 	
 	/**
@@ -574,8 +583,10 @@ public class PostscriptWriter
 	{
 		y = transformY( y );
 		String text = str;
-		String drawCommand = "drawstring";
 		boolean needSimulateItalic = false;
+		boolean needSimulateBold = false;
+		boolean hasSpace = wordSpacing != 0 || letterSpacing != 0;
+		float offset = 0;
 		if ( fontInfo != null )
 		{
 			float fontSize = fontInfo.getFontSize( );
@@ -584,8 +595,8 @@ public class PostscriptWriter
 			{
 				if ( fontStyle == Font.BOLD || fontStyle == Font.BOLDITALIC )
 				{
-					float offset = (float) ( fontSize * Math.log10( fontSize ) / 100 );
-					drawCommand = offset + " drawBoldString";
+					offset = (float) ( fontSize * Math.log10( fontSize ) / 100 );
+					needSimulateBold = true;
 				}
 				if ( fontStyle == Font.ITALIC || fontStyle == Font.BOLDITALIC )
 				{
@@ -596,11 +607,30 @@ public class PostscriptWriter
 			String fontName = baseFont.getPostscriptFontName( );
 			text = applyFont( fontName, fontStyle, fontSize, text );
 		}
-		color = color == null ? Color.black : color;
 		outputColor( color );
 		out.print( x + " " + y + " " );
-		out.print( wordSpacing + " " + letterSpacing + " " );
-		out.println( text + " " + needSimulateItalic + " " + drawCommand );
+		if ( hasSpace )
+			out.print( wordSpacing + " " + letterSpacing + " " );
+		out.print( text + " ");
+		if ( needSimulateBold )
+			out.print( offset + " " );
+		String command = getCommand( hasSpace, needSimulateBold,
+				needSimulateItalic );
+		out.println( command );
+	}
+
+	private String getCommand( boolean hasSpace, boolean needSimulateBold,
+			boolean needSimulateItalic )
+	{
+		int index = toInt( hasSpace );
+		index += toInt( needSimulateBold ) << 1;
+		index += toInt( needSimulateItalic ) << 2 ;
+		return stringCommands[index];
+	}
+
+	private int toInt( boolean b )
+	{
+		return b ? 1 : 0;
 	}
 
 	/**
@@ -655,21 +685,27 @@ public class PostscriptWriter
 	public void setColor( Color c )
 	{
 		outputColor( c );
-		out.println( " setrgbcolor" );
 	}
 
 	private void outputColor( Color c )
 	{
 		if ( c == null )
 		{
+			c = Color.black;
+		}
+		Graphic currentGraphic = getCurrentGraphic( );
+		if ( c.equals( currentGraphic.color ) )
+		{
 			return;
 		}
+		currentGraphic.color = c;
 		out.print( c.getRed( ) / 255.0 );
 		out.print( " " );
 		out.print( c.getGreen( ) / 255.0 );
 		out.print( " " );
 		out.print( c.getBlue( ) / 255.0 );
 		out.print( " " );
+		out.println( "setrgbcolor");
 	}
 	
 	public void setFont( Font f )
@@ -683,11 +719,61 @@ public class PostscriptWriter
 		}
 	}
 
-	private void setFont( String psName, float size )
+	private boolean needSetFont( String fontName, float fontSize )
 	{
-		out.println( "/" + psName + " " + size + " usefont" );
+		Graphic graphic = getCurrentGraphic( );
+		float currentFontSize = graphic.fontSize;
+		String currentFont = graphic.font;
+		
+		//If fontSize is changed, set font.
+		if ( fontSize != currentFontSize )
+		{
+			return true;
+		}
+		
+		//If font name is changed, set font.
+		if ( currentFont == null && fontName != null )
+		{
+			return true;
+		}
+		if ( currentFont != null && !currentFont.equals( fontName ) )
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	private void setFont( String font, float size )
+	{
+		if ( needSetFont( font, size) )
+		{
+			setCurrentGraphic( font, size );
+			out.println( "/" + font + " " + size + " usefont" );
+		}
 	}
 
+	private void setCurrentGraphic( String font, float fontSize )
+	{
+		Graphic graphic = getCurrentGraphic( );
+		graphic.font = font;
+		graphic.fontSize = fontSize;
+	}
+	
+	private Graphic getCurrentGraphic( )
+	{
+		Graphic currentGraphic = null;
+		if ( graphics.isEmpty( ) )
+		{
+			currentGraphic = new Graphic( );
+			graphics.push( currentGraphic );
+		}
+		else
+		{
+			currentGraphic = graphics.peek( );
+		}
+		return currentGraphic;
+	}
+	
 	private String applyFont( String fontName, int fontStyle, float fontSize,
 			String text )
 	{
@@ -704,12 +790,12 @@ public class PostscriptWriter
 				{
 					return applyIntrinsicFont( fontName, fontStyle, fontSize, text );
 				}
-				ITrueTypeWriter trueTypeWriter = getTrueTypeFontWriter( fontPath );
+				ITrueTypeWriter trueTypeWriter = getTrueTypeFontWriter(
+						fontPath, fontName );
 				
 				//Space can't be included in a identity.
-				String displayName = fontName.replace( ' ', '_' );
-				trueTypeWriter.useDisplayName( displayName );
 				trueTypeWriter.ensureGlyphsAvailable( text );
+				String displayName = trueTypeWriter.getDisplayName( );
 				setFont( displayName, fontSize );
 				return trueTypeWriter.toHexString( text );
 			}
@@ -747,7 +833,7 @@ public class PostscriptWriter
 		return buffer.toString( );
 	}
 
-	private ITrueTypeWriter getTrueTypeFontWriter( String fontPath )
+	private ITrueTypeWriter getTrueTypeFontWriter( String fontPath, String fontName )
 			throws DocumentException, IOException
 	{
 		File file = new File( fontPath );
@@ -761,7 +847,7 @@ public class PostscriptWriter
 		{
 			TrueTypeFont ttFont = TrueTypeFont.getInstance( fontPath );
 			trueTypeWriter = ttFont.getTrueTypeWriter( out );
-			trueTypeWriter.initialize( );
+			trueTypeWriter.initialize( fontName );
 			trueTypeFontWriters.put( file, trueTypeWriter );
 			return trueTypeWriter;
 		}
@@ -1080,5 +1166,24 @@ public class PostscriptWriter
 	{
 		stopRenderer( );
 		out.close( );
+	}
+
+	private static class Graphic {
+		private String font;
+		
+		private float fontSize;
+	
+		private Color color;
+		
+		public Graphic( )
+		{
+
+		}
+
+		public Graphic( String font, float fontSize )
+		{
+			this.font = font;
+			this.fontSize = fontSize;
+		}
 	}
 }

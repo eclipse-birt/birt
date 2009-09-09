@@ -18,9 +18,9 @@ public interface ITrueTypeWriter
 {
 	void close() throws IOException;
 	
-	void initialize() throws IOException;
+	void initialize( String fontName ) throws IOException;
 	
-	void useDisplayName(String displayName ) throws IOException;
+	String getDisplayName( );
 	
 	void ensureGlyphAvailable( char c ) throws IOException;
 	
