@@ -263,7 +263,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					.getActiveShell( ),
 					input );
 
-			setProviderForExpressionBuilder(dialog);
+			setProviderForExpressionBuilder( dialog );
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -293,7 +293,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					.getActiveShell( ),
 					input );
 
-			setProviderForExpressionBuilder(dialog);
+			setProviderForExpressionBuilder( dialog );
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
@@ -373,10 +373,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 						}
 					}
 				}
-				String expressionString = expression.getText( );
 				try
 				{
-					List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
+					List selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
 							dataSet );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
@@ -509,10 +508,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 						dataSet = ( (TabularHierarchyHandle) designHandle ).getDataSet( );
 					}
 				}
-				String expressionString = expression.getText( );
 				try
 				{
-					List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
+					List selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
 							dataSet );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
@@ -686,7 +684,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	{
 		this( UIUtil.getDefaultShell( ), title, message );
 	}
-
 
 	protected void checkAddButtonStatus( )
 	{
@@ -1261,8 +1258,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
 					initValue );
 
-			setProviderForExpressionBuilder(expressionBuilder);
-			
+			setProviderForExpressionBuilder( expressionBuilder );
+
 			if ( expressionBuilder.open( ) == OK )
 			{
 				String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
@@ -1469,7 +1466,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
 		if ( bindingName != null && reportItem != null )
 		{
-			selectValueList = SelectValueFetcher.getSelectValueList( expression.getText( ),
+			selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
 					reportItem.getDataSet( ),
 					false );
 		}

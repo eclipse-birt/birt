@@ -32,7 +32,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
@@ -857,7 +856,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 
 			if ( selectValueList.size( ) == 0 )
 			{
-				selectValueList = SelectValueFetcher.getSelectValueList( getExpression( ),
+				selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( getExpressionControl( ) ),
 						reportItem.getDataSet( ),
 						false );
 			}
@@ -1755,21 +1754,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		super.okPressed( );
 	}
 
-	protected String getExpression( String resultSet )
-	{
-		if ( provider.getExpressionType( ) == HighlightHandleProvider.EXPRESSION_TYPE_ROW )
-		{
-			return DEUtil.getColumnExpression( resultSet );
-		}
-		else if ( provider.getExpressionType( ) == HighlightHandleProvider.EXPRESSION_TYPE_DATA )
-		{
-			return DEUtil.getDataExpression( resultSet );
-		}
-
-		return null;
-
-	}
-
 	private void initializeProviderType( )
 	{
 		if ( designHandle instanceof DataItemHandle )
@@ -2277,7 +2261,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 				{
 					if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
 					{
-						if ( DEUtil.getDataExpression( columnName )
+						if ( ExpressionUtility.getDataExpression( columnName,
+								getTypeOfExpressionControl( ) )
 								.equals( getExpression( ) ) )
 						{
 							bindingName = columnName;
@@ -2286,7 +2271,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 					}
 					else
 					{
-						if ( DEUtil.getColumnExpression( columnName )
+						if ( ExpressionUtility.getColumnExpression( columnName,
+								getTypeOfExpressionControl( ) )
 								.equals( getExpression( ) ) )
 						{
 							bindingName = columnName;
@@ -2297,7 +2283,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 				}
 				else
 				{
-					String value = DEUtil.getExpression( getResultSetColumn( columnName ) );
+					String value = ExpressionUtility.getExpression( getResultSetColumn( columnName ),
+							getTypeOfExpressionControl( ) );
 					if ( value != null && value.equals( getExpression( ) ) )
 					{
 						bindingName = columnName;
@@ -2351,10 +2338,9 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			else if ( designHandle instanceof TabularCubeHandle )
 			{
 				DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
-				String expressionString = getExpression( );
 				try
 				{
-					List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
+					List selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( getExpressionControl( ) ),
 							dataSet );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
@@ -2398,7 +2384,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			for ( Iterator<ComputedColumnHandle> iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				String columnName = iter.next( ).getName( );
-				if ( DEUtil.getColumnExpression( columnName )
+				if ( ExpressionUtility.getColumnExpression( columnName,
+						getTypeOfExpressionControl( ) )
 						.equals( getExpression( ) ) )
 				{
 					bindingName = columnName;
@@ -2451,7 +2438,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 				{
 					if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
 					{
-						if ( DEUtil.getDataExpression( columnName )
+						if ( ExpressionUtility.getDataExpression( columnName,
+								getTypeOfExpressionControl( ) )
 								.equals( getExpression( ) ) )
 						{
 							bindingName = columnName;
@@ -2460,7 +2448,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 					}
 					else
 					{
-						if ( DEUtil.getColumnExpression( columnName )
+						if ( ExpressionUtility.getColumnExpression( columnName,
+								getTypeOfExpressionControl( ) )
 								.equals( getExpression( ) ) )
 						{
 							bindingName = columnName;
@@ -2471,7 +2460,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 				}
 				else
 				{
-					String value = DEUtil.getExpression( getResultSetColumn( columnName ) );
+					String value = ExpressionUtility.getExpression( getResultSetColumn( columnName ),
+							getTypeOfExpressionControl( ) );
 					if ( value != null && value.equals( getExpression( ) ) )
 					{
 						bindingName = columnName;
@@ -2514,10 +2504,9 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			else if ( designHandle instanceof TabularCubeHandle )
 			{
 				DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
-				String expressionString = getExpression( );
 				try
 				{
-					List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
+					List selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( getExpressionControl( ) ),
 							dataSet );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
@@ -2726,6 +2715,12 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			return expressionCombo;
 		}
 		return null;
+	}
+
+	private IExpressionConverter getTypeOfExpressionControl( )
+	{
+		return ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( getExpressionControl( ) )
+				.getType( ) );
 	}
 
 }

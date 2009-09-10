@@ -997,7 +997,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				if ( expressionType != null )
 				{
-					defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
+					defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+							expressionType );
 					ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 					if ( button != null )
 						button.refresh( );
@@ -1066,7 +1067,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					if ( expressionType != null )
 					{
-						defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
+						defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+								expressionType );
 						ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 						if ( button != null )
 							button.refresh( );
@@ -1125,13 +1127,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						columnValueValue == null
 								|| columnValueValue.getType( ) == null ? UIUtil.getDefaultScriptType( )
 								: (String) columnValueValue.getType( ) );
-				
-				String columnName = getColumnName( columnChooser, inputParameter.getValueExpr( ) );
+
+				String columnName = getColumnName( columnChooser,
+						inputParameter.getValueExpr( ) );
 				if ( columnName != null )
 				{
 					columnChooser.setText( columnName );
 				}
-				
+
 				Object button = columnChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 				if ( button instanceof ExpressionButton )
 				{
@@ -1144,13 +1147,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				displayTextChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
 						columnValue == null || columnValue.getType( ) == null ? UIUtil.getDefaultScriptType( )
 								: (String) columnValue.getType( ) );
-				
-				String columnName = getColumnName( displayTextChooser, inputParameter.getLabelExpr( ) );
+
+				String columnName = getColumnName( displayTextChooser,
+						inputParameter.getLabelExpr( ) );
 				if ( columnName != null )
 				{
 					displayTextChooser.setText( columnName );
 				}
-				
+
 				Object button = displayTextChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 				if ( button instanceof ExpressionButton )
 				{
@@ -1160,7 +1164,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			if ( expressionType != null )
 			{
-				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
+				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+						expressionType );
 				ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 				if ( button != null )
 					button.refresh( );
@@ -1337,15 +1342,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		try
 		{
-			String queryExpr = getExpression(  columnChooser.getText( ) );
-			if ( queryExpr == null || queryExpr.equals( "" ) ) //$NON-NLS-1$
-			{
-				return Collections.EMPTY_LIST;
-			}
-
 			ArrayList valueList = new ArrayList( );
 
-			valueList.addAll( SelectValueFetcher.getSelectValueList( queryExpr,
+			valueList.addAll( SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( columnChooser ),
 					getDataSetHandle( ) ) );
 
 			return valueList;
@@ -1923,7 +1922,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						value = defaultValueChooser.getText( );
 				}
 
-				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, exprType );
+				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+						exprType );
 				if ( ExpressionType.CONSTANT.equals( exprType ) )
 				{
 					defaultValueChooser.setEditable( false );
@@ -1986,8 +1986,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
 				SWT.PUSH );
 		expressionButton.setExpressionHelper( helper );
-		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_BUTTON, expressionButton );
-		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
+		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_BUTTON,
+				expressionButton );
+		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+				ExpressionType.CONSTANT );
 		expressionButton.refresh( );
 	}
 
@@ -2294,7 +2296,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public String getExpression( )
 			{
-				return ParameterDialog.this.getExpression( columnChooser, columnChooser.getText( ) );
+				return ParameterDialog.this.getExpression( columnChooser,
+						columnChooser.getText( ) );
 			}
 
 			public void setExpression( String expression )
@@ -2305,12 +2308,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			public IExpressionProvider getExpressionProvider( )
 			{
 				return new ParameterExpressionProvider( inputParameter,
-						dataSetChooser.getText( )  );
+						dataSetChooser.getText( ) );
 			}
-			
+
 			public IExpressionContextFactory getExpressionContextFactory( )
 			{
-				return new ExpressionContextFactoryImpl( getContextObject( ), getExpressionProvider( ) );
+				return new ExpressionContextFactoryImpl( getContextObject( ),
+						getExpressionProvider( ) );
 			}
 		};
 
@@ -2322,7 +2326,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				false,
 				SWT.PUSH,
 				columnHelper );
-		
+
 		// createLabel( composite, null );
 		createLabel( composite, LABEL_SELECT_DISPLAY_TEXT );
 		// displayTextChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY
@@ -2334,7 +2338,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public String getExpression( )
 			{
-				return ParameterDialog.this.getExpression( displayTextChooser, displayTextChooser.getText( ) );
+				return ParameterDialog.this.getExpression( displayTextChooser,
+						displayTextChooser.getText( ) );
 			}
 
 			public void setExpression( String expression )
@@ -2346,12 +2351,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			public IExpressionProvider getExpressionProvider( )
 			{
 				return new ParameterExpressionProvider( inputParameter,
-						dataSetChooser.getText( )  );
+						dataSetChooser.getText( ) );
 			}
-			
+
 			public IExpressionContextFactory getExpressionContextFactory( )
 			{
-				return new ExpressionContextFactoryImpl( getContextObject( ), getExpressionProvider( ) );
+				return new ExpressionContextFactoryImpl( getContextObject( ),
+						getExpressionProvider( ) );
 			}
 		};
 
@@ -2630,7 +2636,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public void setExpressionType( String exprType )
 			{
-				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, exprType );
+				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+						exprType );
 				defaultValueChooser.notifyListeners( SWT.Modify, new Event( ) );
 			}
 
@@ -2649,8 +2656,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
 				SWT.PUSH );
 		expressionButton.setExpressionHelper( helper );
-		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_BUTTON, expressionButton );
-		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
+		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_BUTTON,
+				expressionButton );
+		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+				ExpressionType.CONSTANT );
 		expressionButton.refresh( );
 	}
 
@@ -2861,7 +2870,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				// inputParameter.setValueExpr( getExpression(
 				// columnChooser.getText( ) ) );
 				{
-					Expression expression = new Expression( getExpression( columnChooser, columnChooser.getText( ) ),
+					Expression expression = new Expression( getExpression( columnChooser,
+							columnChooser.getText( ) ),
 							(String) columnChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
 					inputParameter.setExpressionProperty( ScalarParameterHandle.VALUE_EXPR_PROP,
 							expression );
@@ -2872,7 +2882,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 				else
 				{
-					Expression expression = new Expression( getExpression( displayTextChooser, displayTextChooser.getText( ) ),
+					Expression expression = new Expression( getExpression( displayTextChooser,
+							displayTextChooser.getText( ) ),
 							(String) displayTextChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
 					inputParameter.setExpressionProperty( ScalarParameterHandle.LABEL_EXPR_PROP,
 							expression );
@@ -3166,7 +3177,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					&& !columnChooser.isDisposed( )
 					&& !isStatic( ) )
 			{
-				canFinish &= ( getExpression( columnChooser, columnChooser.getText( ) ).length( ) > 0 );
+				canFinish &= ( getExpression( columnChooser,
+						columnChooser.getText( ) ).length( ) > 0 );
 			}
 		}
 		getOkButton( ).setEnabled( canFinish );
@@ -3772,7 +3784,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		// return null;
 		return columnName;
 	}
-	
+
 	private String getExpression( Control control, String columnName )
 	{
 		if ( columnName.equals( NONE_DISPLAY_TEXT ) )
@@ -3805,14 +3817,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		// return null;
 		return expression;
 	}
-	
+
 	private String getColumnName( Control control, String expression )
 	{
 		IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( control );
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
-			if ( ExpressionUtility.getExpression( cachedColumn, converter ).equals( expression ) )
+			if ( ExpressionUtility.getExpression( cachedColumn, converter )
+					.equals( expression ) )
 			{
 				return cachedColumn.getColumnName( );
 			}
@@ -3889,11 +3902,12 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			chooser.setText( "" ); //$NON-NLS-1$
 			return;
 		}
-		
+
 		IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( chooser );
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			if ( key.equals( ExpressionUtility.getExpression( columnList.get( i ) , converter  )) )
+			if ( key.equals( ExpressionUtility.getExpression( columnList.get( i ),
+					converter ) ) )
 			{
 				// chooser.select( i );
 				chooser.setText( ( (ResultSetColumnHandle) columnList.get( i ) ).getColumnName( ) );

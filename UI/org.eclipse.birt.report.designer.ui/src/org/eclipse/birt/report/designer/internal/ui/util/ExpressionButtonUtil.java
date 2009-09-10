@@ -61,6 +61,10 @@ public class ExpressionButtonUtil
 			{
 				return ( (Combo) control ).getText( );
 			}
+			else if ( control instanceof CCombo )
+			{
+				return ( (CCombo) control ).getText( );
+			}
 			return "";
 		}
 
@@ -109,6 +113,11 @@ public class ExpressionButtonUtil
 		protected void setProvider( IExpressionProvider provider )
 		{
 			this.provider = provider;
+		}
+
+		protected IExpressionProvider getProvider( )
+		{
+			return provider;
 		}
 
 		private void setListener( Listener listener )
@@ -262,69 +271,35 @@ public class ExpressionButtonUtil
 		{
 			value = ( (StructureHandle) element ).getExpressionProperty( property );
 		}
-
-		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
-				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
-				: (String) value.getType( ) );
-
-		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
-
-		if ( control instanceof Text )
-		{
-			( (Text) control ).setText( stringValue );
-		}
-		else if ( control instanceof Combo )
-		{
-			( (Combo) control ).setText( stringValue );
-		}
-		else if ( control instanceof CCombo )
-		{
-			( (CCombo) control ).setText( stringValue );
-		}
-
-		Object button = control.getData( ExpressionButtonUtil.EXPR_BUTTON );
-		if ( button instanceof ExpressionButton )
-		{
-			( (ExpressionButton) button ).refresh( );
-		}
+		
+		initExpressionButtonControl( control, value );
 	}
 
 	public static void saveExpressionButtonControl( Control control,
 			Object element, String property ) throws SemanticException
 	{
-		Expression expression = null;
-		if ( control instanceof Text )
+		ExpressionButton button = getExpressionButton( control );
+		if ( button != null && button.getExpressionHelper( ) != null )
 		{
-			expression = new Expression( ( (Text) control ).getText( ),
-					(String) control.getData( ExpressionButtonUtil.EXPR_TYPE ) );
-		}
-		else if ( control instanceof Combo )
-		{
-			expression = new Expression( ( (Combo) control ).getText( ),
-					(String) control.getData( ExpressionButtonUtil.EXPR_TYPE ) );
-		}
-		else if ( control instanceof CCombo )
-		{
-			expression = new Expression( ( (CCombo) control ).getText( ),
-					(String) control.getData( ExpressionButtonUtil.EXPR_TYPE ) );
-		}
+			Expression expression = new Expression( button.getExpressionHelper( )
+					.getExpression( ),
+					button.getExpressionHelper( ).getExpressionType( ) );
 
-		if ( expression == null )
-			return;
-
-		if ( element instanceof DesignElementHandle )
-		{
-			( (DesignElementHandle) element ).setExpressionProperty( property,
-					expression );
-		}
-		else if ( element instanceof StructureHandle )
-		{
-			( (StructureHandle) element ).setExpressionProperty( property,
-					expression );
-		}
-		else if ( element instanceof Structure )
-		{
-			( (Structure) element ).setExpressionProperty( property, expression );
+			if ( element instanceof DesignElementHandle )
+			{
+				( (DesignElementHandle) element ).setExpressionProperty( property,
+						expression );
+			}
+			else if ( element instanceof StructureHandle )
+			{
+				( (StructureHandle) element ).setExpressionProperty( property,
+						expression );
+			}
+			else if ( element instanceof Structure )
+			{
+				( (Structure) element ).setExpressionProperty( property,
+						expression );
+			}
 		}
 	}
 
@@ -332,80 +307,45 @@ public class ExpressionButtonUtil
 			ExpressionHandle value )
 	{
 
-		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
-				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
-				: (String) value.getType( ) );
-
-		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
-
-		if ( control instanceof Text )
+		ExpressionButton button = getExpressionButton( control );
+		if ( button != null && button.getExpressionHelper( ) != null )
 		{
-			( (Text) control ).setText( stringValue );
-		}
-		else if ( control instanceof Combo )
-		{
-			( (Combo) control ).setText( stringValue );
-		}
-		else if ( control instanceof CCombo )
-		{
-			( (CCombo) control ).setText( stringValue );
-		}
-
-		Object button = control.getData( ExpressionButtonUtil.EXPR_BUTTON );
-		if ( button instanceof ExpressionButton )
-		{
-			( (ExpressionButton) button ).refresh( );
+			button.getExpressionHelper( ).setExpressionType( value == null
+					|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
+					: (String) value.getType( ) );
+			String stringValue = value == null
+					|| value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
+			button.getExpressionHelper( ).setExpression( stringValue );
+			button.refresh( );
 		}
 	}
 
 	public static void initExpressionButtonControl( Control control,
 			Expression value )
 	{
-
-		control.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
-				|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
-				: (String) value.getType( ) );
-
-		String stringValue = value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
-
-		if ( control instanceof Text )
+		ExpressionButton button = getExpressionButton( control );
+		if ( button != null && button.getExpressionHelper( ) != null )
 		{
-			( (Text) control ).setText( stringValue );
-		}
-		else if ( control instanceof Combo )
-		{
-			( (Combo) control ).setText( stringValue );
-		}
-		else if ( control instanceof CCombo )
-		{
-			( (CCombo) control ).setText( stringValue );
-		}
-
-		Object button = control.getData( ExpressionButtonUtil.EXPR_BUTTON );
-		if ( button instanceof ExpressionButton )
-		{
-			( (ExpressionButton) button ).refresh( );
+			button.getExpressionHelper( ).setExpressionType( value == null
+					|| value.getType( ) == null ? UIUtil.getDefaultScriptType( )
+					: (String) value.getType( ) );
+			String stringValue = value == null
+					|| value.getExpression( ) == null ? "" : (String) value.getExpression( ); //$NON-NLS-1$
+			button.getExpressionHelper( ).setExpression( stringValue );
+			button.refresh( );
 		}
 	}
 
 	public static Expression getExpression( Control control )
 	{
-		String text = null;
-		if ( control instanceof Text )
+		ExpressionButton button = getExpressionButton( control );
+		if ( button != null && button.getExpressionHelper( ) != null )
 		{
-			text = ( (Text) control ).getText( );
+			String expression = button.getExpressionHelper( ).getExpression( );
+			String type = button.getExpressionHelper( ).getExpressionType( );
+			return new Expression( expression, type );
 		}
-		else if ( control instanceof Combo )
-		{
-			text = ( (Combo) control ).getText( );
-		}
-		else if ( control instanceof CCombo )
-		{
-			text = ( (CCombo) control ).getText( );
-		}
-
-		return new Expression( text.trim( ).length( ) == 0 ? null : text.trim( ),
-				(String) control.getData( EXPR_TYPE ) );
+		return null;
 	}
 
 	public static ExpressionButton getExpressionButton( Control control )
@@ -419,10 +359,11 @@ public class ExpressionButtonUtil
 	}
 
 	public static IExpressionConverter getCurrentExpressionConverter(
-			Control control ){
-		return getCurrentExpressionConverter(control, true);
+			Control control )
+	{
+		return getCurrentExpressionConverter( control, true );
 	}
-	
+
 	public static IExpressionConverter getCurrentExpressionConverter(
 			Control control, boolean refreshButtonType )
 	{
@@ -442,7 +383,7 @@ public class ExpressionButtonUtil
 			{
 				return support.getConverter( );
 			}
-			else if(refreshButtonType)
+			else if ( refreshButtonType )
 			{
 				support = ExpressionButtonUtil.getExpressionButton( control )
 						.getExpressionSupport( ExpressionType.JAVASCRIPT );

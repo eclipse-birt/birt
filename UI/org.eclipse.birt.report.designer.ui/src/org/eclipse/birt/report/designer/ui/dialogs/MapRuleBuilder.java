@@ -841,7 +841,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 			for ( Iterator<ComputedColumnHandle> iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				String columnName = iter.next( ).getName( );
-				if ( DEUtil.getColumnExpression( columnName )
+				if ( ExpressionUtility.getColumnExpression( columnName,
+						ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+								.getType( ) ) )
 						.equals( expression.getText( ) ) )
 				{
 					bindingName = columnName;
@@ -895,7 +897,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 				{
 					if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
 					{
-						if ( DEUtil.getDataExpression( columnName )
+						if ( ExpressionUtility.getDataExpression( columnName,
+								ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+										.getType( ) ) )
 								.equals( expression.getText( ) ) )
 						{
 							bindingName = columnName;
@@ -904,7 +908,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 					}
 					else
 					{
-						if ( DEUtil.getColumnExpression( columnName )
+						if ( ExpressionUtility.getColumnExpression( columnName,
+								ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+										.getType( ) ) )
 								.equals( expression.getText( ) ) )
 						{
 							bindingName = columnName;
@@ -915,7 +921,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 				}
 				else
 				{
-					String value = DEUtil.getExpression( getResultSetColumn( columnName ) );
+					String value = ExpressionUtility.getExpression( getResultSetColumn( columnName ),
+							ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+									.getType( ) ) );
 					if ( value != null && value.equals( expression.getText( ) ) )
 					{
 						bindingName = columnName;
@@ -958,10 +966,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 			else if ( designHandle instanceof TabularCubeHandle )
 			{
 				DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
-				String expressionString = expression.getText( );
 				try
 				{
-					List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
+					List selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
 							dataSet );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
@@ -1279,7 +1286,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 				{
 					if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
 					{
-						if ( DEUtil.getDataExpression( columnName )
+						if ( ExpressionUtility.getDataExpression( columnName,
+								ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+										.getType( ) ) )
 								.equals( expression.getText( ) ) )
 						{
 							bindingName = columnName;
@@ -1288,7 +1297,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 					}
 					else
 					{
-						if ( DEUtil.getColumnExpression( columnName )
+						if ( ExpressionUtility.getColumnExpression( columnName,
+								ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+										.getType( ) ) )
 								.equals( expression.getText( ) ) )
 						{
 							bindingName = columnName;
@@ -1299,7 +1310,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 				}
 				else
 				{
-					String value = DEUtil.getExpression( getResultSetColumn( columnName ) );
+					String value = ExpressionUtility.getExpression( getResultSetColumn( columnName ),
+							ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+									.getType( ) ) );
 					if ( value != null && value.equals( expression.getText( ) ) )
 					{
 						bindingName = columnName;
@@ -1353,10 +1366,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 			else if ( designHandle instanceof TabularCubeHandle )
 			{
 				DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
-				String expressionString = expression.getText( );
 				try
 				{
-					List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
+					List selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
 							dataSet );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
@@ -1416,7 +1428,7 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 
 			if ( selectValueList.size( ) == 0 )
 			{
-				selectValueList = SelectValueFetcher.getSelectValueList( expression.getText( ),
+				selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
 						reportItem.getDataSet( ),
 						false );
 			}
@@ -2174,22 +2186,6 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 		{
 			resourceKeytext.setText( DEUtil.resolveNull( handle.getDisplayKey( ) ) );
 		}
-
-	}
-
-	protected String getExpression( String resultSet )
-	{
-		if ( provider.getExpressionType( ) == MapHandleProvider.EXPRESSION_TYPE_ROW )
-		{
-			return DEUtil.getColumnExpression( resultSet );
-		}
-		else if ( provider.getExpressionType( ) == MapHandleProvider.EXPRESSION_TYPE_DATA )
-		{
-			return DEUtil.getDataExpression( resultSet );
-		}
-
-		return null;
-
 	}
 
 	private void initializeProviderType( )

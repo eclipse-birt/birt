@@ -19,8 +19,12 @@ import java.util.logging.Level;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
@@ -37,6 +41,7 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -76,24 +81,30 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( getExpression().equals( VALUE_OF_THIS_DATA_ITEM )
-						&& designHandle instanceof DataItemHandle )
+				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( getExpressionControl( ) );
+				if ( converter != null )
 				{
-					setExpression( DEUtil.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
-				}
-				else
-				{
-					String newValue = getExpression();
-					Object computedColumn = getResultSetColumn( newValue );
-					if ( computedColumn != null )
+					if ( getExpression( ).equals( VALUE_OF_THIS_DATA_ITEM )
+							&& designHandle instanceof DataItemHandle )
 					{
-						String value = DEUtil.getDataExpression( ( (ComputedColumnHandle) computedColumn ).getName( ) );
-						if ( value != null )
-							newValue = value;
-						setExpression( newValue );
+						setExpression( ExpressionUtility.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ),
+								converter ) );
 					}
+					else
+					{
+						String newValue = getExpression( );
+						Object computedColumn = getResultSetColumn( newValue );
+						if ( computedColumn != null )
+						{
+							String value = ExpressionUtility.getDataExpression( ( (ComputedColumnHandle) computedColumn ).getName( ),
+									converter );
+							if ( value != null )
+								newValue = value;
+							setExpression( newValue );
+						}
+					}
+					updateButtons( );
 				}
-				updateButtons( );
 			}
 		};
 	}
@@ -268,10 +279,38 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		}
 		if ( cube == null
 				|| ( !( cube instanceof TabularCubeHandle ) )
-				|| getExpression().length( ) == 0 )
+				|| getExpression( ).length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
+
+		String expression = null;
+		IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( getExpressionControl( ) );
+		if ( converter != null )
+		{
+			for ( int i = 0; i < columnList.size( ); i++ )
+			{
+
+				ComputedColumnHandle column = columnList.get( i );
+				if ( column != null )
+				{
+					String value = ExpressionUtility.getDataExpression( column.getName( ),
+							converter );
+					if ( value.equals( getExpression( ) ) )
+					{
+						expression = ExpressionUtility.getDataExpression( column.getName( ),
+								ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) );
+						break;
+					}
+				}
+			}
+		}
+
+		List valueList = new ArrayList( );
+
+		if ( expression == null )
+			return valueList;
+
 		Iterator iter = null;
 
 		// get cubeQueryDefn
@@ -283,7 +322,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 			iter = session.getCubeQueryUtil( )
 					.getMemberValueIterator( (TabularCubeHandle) cube,
-							getExpression(),
+							expression,
 							cubeQueryDefn );
 		}
 		catch ( Exception e )
@@ -291,7 +330,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			// TODO Auto-generated catch block
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
-		List valueList = new ArrayList( );
+
 		int count = 0;
 		int MAX_COUNT = PreferenceFactory.getInstance( )
 				.getPreferences( CrosstabPlugin.getDefault( ),
@@ -314,7 +353,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			}
 
 		}
-		if (session != null)
+		if ( session != null )
 		{
 			session.shutdown( );
 		}
@@ -486,15 +525,15 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		};
 
 	}
-	
-	protected int getHighlightExpCtrType( DesignElementHandle handle)
+
+	protected int getHighlightExpCtrType( DesignElementHandle handle )
 	{
-		if(handle instanceof ExtendedItemHandle )
+		if ( handle instanceof ExtendedItemHandle )
 		{
 			try
 			{
-				Object obj = ((ExtendedItemHandle)handle).getReportItem( );
-				if(obj instanceof CrosstabReportItemHandle)
+				Object obj = ( (ExtendedItemHandle) handle ).getReportItem( );
+				if ( obj instanceof CrosstabReportItemHandle )
 				{
 					return EXPRESSION_CONTROL_TEXT;
 				}
@@ -504,35 +543,35 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 				// TODO Auto-generated catch block
 				return EXPRESSION_CONTROL_COMBO;
 			}
-			
+
 			return EXPRESSION_CONTROL_COMBO;
-			
-		}else
+
+		}
+		else
 		{
 			return EXPRESSION_CONTROL_COMBO;
 		}
 	}
-	
-	
+
 	protected void initilizeDlgDescription( DesignElementHandle handle )
 	{
-		if(!(handle instanceof ExtendedItemHandle))
+		if ( !( handle instanceof ExtendedItemHandle ) )
 		{
 			super.initilizeDlgDescription( handle );
 			return;
 		}
 
 		Class classList[] = new Class[]{
-				CrosstabReportItemHandle.class,CrosstabCellHandle.class,
+				CrosstabReportItemHandle.class, CrosstabCellHandle.class,
 		};
 		String desList[] = new String[]{
 				Messages.getString( "CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab" ),
 				Messages.getString( "CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell" ),
 		};
-		
+
 		try
 		{
-			IReportItem reportItem = ((ExtendedItemHandle)handle).getReportItem( );
+			IReportItem reportItem = ( (ExtendedItemHandle) handle ).getReportItem( );
 			Class handleClass = reportItem.getClass( );
 			for ( int i = 0; i < classList.length; i++ )
 			{
@@ -551,13 +590,12 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 					new Object[]{
 						dlgDescription
 					} );
-			
+
 		}
 		catch ( ExtendedElementException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ExceptionHandler.handle( e );
 		}
-		
+
 	}
 }
