@@ -26,6 +26,8 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.TextDataElement;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
 
@@ -55,6 +57,17 @@ public class DataDefinitionTextManager
 			IQueryExpressionManager queryManager )
 	{
 		textCollection.put( text, queryManager );
+		text.addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				if ( e.widget instanceof Control )
+				{
+					removeDataDefinitionText( (Control) e.widget );
+				}
+
+			}
+		} );
 	}
 
 	public void removeDataDefinitionText( Control text )
@@ -184,8 +197,17 @@ public class DataDefinitionTextManager
 
 			adjustScaleData( queryManager.getQuery( ) );
 
+			// control may be disposed when updating query
+			if ( control.isDisposed( ) )
+			{
+				control = findText( queryManager.getQuery( ) );
+			}
+
 			// Bind color to this data definition
-			updateControlBackground( control, ChartUIUtil.getText( control ) );
+			if ( control != null )
+			{
+				updateControlBackground( control, ChartUIUtil.getText( control ) );
+			}
 		}
 	}
 
@@ -196,7 +218,7 @@ public class DataDefinitionTextManager
 	 * @param expression
 	 * @since 2.5
 	 */
-	public void updateControlBackground( Control control, String expression )
+	private void updateControlBackground( Control control, String expression )
 	{
 		ColorPalette.getInstance( ).putColor( expression );
 		control.setBackground( ColorPalette.getInstance( )

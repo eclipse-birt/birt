@@ -1042,8 +1042,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		String regex = "\\Qrow[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
 		if ( expression.matches( regex ) )
 		{
-			DataDefinitionTextManager.getInstance( )
-					.updateControlBackground( getInputControl( ), expression );
+			DataDefinitionTextManager.getInstance( ).updateText( query );
 
 			final Event e = new Event( );
 			e.data = BaseDataDefinitionComponent.this;
