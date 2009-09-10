@@ -241,8 +241,8 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 			this.context
 					.evaluateString(
 							jsScope,
-							"function writeStatus(msg) { statusHandle.showStatus(msg); }",
-							"inline", -1, null );
+							"function writeStatus(msg) { _statusHandle.showStatus(msg); }",
+							"<inline>", 1, null );
 
 		}
 		Map<String, Object> attrs = context.getAttributes( );

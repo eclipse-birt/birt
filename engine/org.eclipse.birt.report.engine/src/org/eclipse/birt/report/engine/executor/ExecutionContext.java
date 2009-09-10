@@ -385,6 +385,10 @@ public class ExecutionContext
 		if ( task != null )
 		{
 			IStatusHandler handler = task.getStatusHandler( );
+			if ( handler == null )
+			{
+				handler = engine.getConfig( ).getStatusHandler( );
+			}
 			if ( handler != null )
 			{
 				handler.initialize( );
