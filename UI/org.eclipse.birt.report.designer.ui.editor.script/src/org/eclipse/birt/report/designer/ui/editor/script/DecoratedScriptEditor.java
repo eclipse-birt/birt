@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor;
 import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
-import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfiguration;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.schematic.action.TextSaveAction;

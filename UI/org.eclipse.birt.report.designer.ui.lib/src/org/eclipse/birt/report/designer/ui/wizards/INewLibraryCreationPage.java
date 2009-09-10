@@ -16,9 +16,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.IWizardPage;
 
 /**
- * 
+ * INewLibraryCreationPage
  */
-
 public interface INewLibraryCreationPage extends IWizardPage
 {
 
