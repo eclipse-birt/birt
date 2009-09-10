@@ -154,53 +154,6 @@ Use this page to define the run-time attributes of a JDBC data source. Values th
 </description>
 </context>
 
-<context id="Wizard_DataSourcePropertyBinding(org_eclipse_datatools_connectivity_oda_flatfile)_ID" title="Edit Data Source - Flat File Data Source - Property Binding">
-<!-- Obsolete not updated. SEQUENCE 1: In Data Explorer, double-click a flat file data source, select ?. The DTP topic is displayed. SEQUENCE 2: Select Property Binding, select ? The Dialog_DatasourceEdit_ID topic is displayed  khahn 20090505 -->
-<description>
-Use this page to define the run-time attributes of a flat file data source. Values that you set on this page override the values defined on the other pages of Edit Data Source. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
-
-- Home Folder: Type an expression for the path to a folder that contains the flat file to use as a data source.
-- CSV Type: Type an expression for the data format. Valid values are:
-  - CSV for comma-separated values
-  - PSV for pipe-separated values
-  - SSV for space-separated values
-  - TSV for tab-separated values
-- Character Set: Type an expression for the character set that the data values use.
-- Use First Line as Column Name Indicator: Type an expression for a Boolean value. True indicates that the file provides data field names in its first line. False indicates that the first line does not contain data field names.
-- Use Second Line as Data Type Indicator: If the value of Use First Line as Column Name Indicator is false, this field applies to the first line of the flat file, rather than the second line. Type an expression for a Boolean value. True indicates that the file provides data types for the data fields. False indicates that the line does not contain data field types.
-- Connection Profile Name: Type an expression for the name of the connection profile.
-- Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
-</description>
-</context>
-
-<context id="Wizard_DataSourcePropertyBinding(org_eclipse_datatools_enablement_oda_ws)_ID" title="Edit Data Source - Web Service Data Source - Property Binding">
-<!-- Obsolete not updated. khahn 20090505 -->
-<description>
-Use this page to define the run-time attributes of a web service data source. Values that you set on this page override the values defined on the other pages of Edit Data Source. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
-
-- SOAP End Point: Leave this field empty if the descriptor defines the end point or if the WSDL does not require a SOAP end point. If your WSDL does require a SOAP end point, type an expression for the URL here.
-- Connection Class: If you have written a Java class to perform the connection to and of the WSDL data source, type an expression for the fully qualified path to this class. This class must implement the <code>org.eclipse.datatools.enablement.oda.ws.api.IWSDriver</code> interface.
-- Connection Time Out: Type an expression for the length of time, in seconds, to wait for the connection to succeed.
-- WSDL URL: Type an expression for the URL for Web Services data that is a network resource.
-- Driver ClassPath: If you have a custom driver class, type an expression to list the JAR files or folders to search for the class in Driver Class Path. Separate multiple folders and JAR files with semicolon (;) characters in the normal way.
-- Connection Profile Name: Type an expression for the name of the connection profile.
-- Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
-</description>
-</context>
-
-<context id="Wizard_DataSourcePropertyBinding(org_eclipse_datatools_enablement_oda_xml)_ID" title="Edit Data Source - XML Data Source - Property Binding">
-<!-- Obsolete not updated. khahn 20090505 -->
-<description>
-Use this page to define the run-time attributes of a XML data source. Values that you set on this page override the values defined on the other pages of Edit Data Source. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
-
-- XML Data Source File: Type an expression for the full name of the XML file to use as the data source.
-- XML Data Source Encoding: Type an expression for the character encoding that the XML data uses.
-- XML Data Source Schema File: Type an expression for the full name of the schema to use for the XML file.
-- Connection Profile Name: Type an expression for the name of the connection profile.
-- Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.
-</description>
-</context>
-
 <context id="Wizard_DataSetPropertyBinding(org_eclipse_birt_report_data_oda_jdbc)_ID" title="Edit Data Set - JDBC Data Set - Property Binding">
 <!-- Obsolete not updated. khahn 20090505 -->
 <description>
@@ -208,33 +161,6 @@ Use this page to define the run-time attributes of a JDBC data set. Values that 
 
 - Query Text: Type an expression for the SQL statement for the query.
 - Query Time Out: Type an expression for the length of time, in seconds, to wait for the query to return the first data row.
-</description>
-</context>
-
-<context id="Wizard_DataSetPropertyBinding(org_eclipse_datatools_connectivity_oda_flatfile)_ID" title="Edit Data Set - Flat File Data Set - Property Binding">
-<!-- Obsolete not updated. khahn 20090505 -->
-<description>
-Use this page to define the run-time attributes of a flat file data set. Values that you set on this page override the values defined on the other pages of Edit Data Set. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
-
-In Query Text, type an expression for the query. Use the XML source tab in the Report Design Perspective to locate the QueryText element of an existing flat file data set. Use this element as a template for the required syntax.
-</description>
-</context>
-
-<context id="Wizard_DataSetPropertyBinding(org_eclipse_datatools_enablement_oda_ws)_ID" title="Edit Data Set - Web Service Data Set - Property Binding">
-<!-- Obsolete not updated. khahn 20090505 -->
-<description>
-Use this page to define the run-time attributes of a web service data set. Values that you set on this page override the values defined on the other pages of Edit Data Set. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
-
-- Query Text: Type an expression for the SOAP request template for the query. Use the XML source tab in the Report Design Perspective to locate the QueryText element of an existing web service data set. Use this element as a template for the required syntax.
-- XML File: Type an expression for the name of the XML file that contains sample data for the SOAP response.
-- Schema File: Type an expression for the name of the XML schema file for the SOAP response on the file system.
-</description>
-</context>
-
-<context id="Wizard_DataSetPropertyBinding(org_eclipse_datatools_enablement_oda_xml)_ID" title="Edit Data Set - XML Data Set - Property Binding">
-<!-- Obsolete not updated. khahn 20090512 -->
-<description>
-An XML data set does not use any property binding values.
 </description>
 </context>
 
