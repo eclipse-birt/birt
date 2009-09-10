@@ -72,6 +72,13 @@ public class ConditionAdapter extends ConditionalExpression
 				operands );
 	}
 	
+	public ConditionAdapter( IScriptExpression mainExpr, String operator, List operands )
+	{
+		super( mainExpr,
+				org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelFilterOperator( operator ),
+				operands );
+	}
+	
 	public ConditionAdapter( IScriptExpression mainExpr, String operator, IBaseExpression op1, IBaseExpression op2 )
 	{
 		super( mainExpr,

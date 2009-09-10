@@ -264,9 +264,12 @@ public class CachedResultSet implements IResultIterator
 		if ( isSubQuery == false && (!isSummaryQuery(  this.resultSetPopulator.getQuery( ) )) && 
 				streamsWrapper.getStreamForResultClass( ) != null )
 		{
+			//If autobinding is set, all the data set columns should be saved.
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					resultSetPopulator.getEventHandler( )
-							.getAllColumnBindings( ) );
+					( (IQueryDefinition) this.resultSetPopulator.getQuery( )
+							.getQueryDefinition( ) ).needAutoBinding( ) ? null
+							: resultSetPopulator.getEventHandler( )
+									.getAllColumnBindings( ) );
 			try
 			{
 				streamsWrapper.getStreamForResultClass( ).close( );

@@ -22,6 +22,8 @@ import java.util.Set;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -58,6 +60,7 @@ public class SimpleResultSet implements IResultIterator
 	private long offset = 4;
 	private long rowCountOffset = 0;
 	private Set resultSetNameSet = null;
+	private IBaseQueryDefinition query;
 	
 	/**
 	 * 
@@ -82,6 +85,7 @@ public class SimpleResultSet implements IResultIterator
 		this.resultSet = resultSet;
 		this.handler = handler;
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
+		this.query = dataSourceQuery.getQueryDefinition( );
 	}
 
 	/*
@@ -166,7 +170,8 @@ public class SimpleResultSet implements IResultIterator
 		if ( streamsWrapper.getStreamForResultClass( ) != null )
 		{
 			( (ResultClass) getResultClass( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					this.handler.getAllColumnBindings( ) );
+					( this.query instanceof IQueryDefinition && ( (IQueryDefinition) this.query ).needAutoBinding( ) )
+							? null : this.handler.getAllColumnBindings( ) );
 		}
 		try
 		{

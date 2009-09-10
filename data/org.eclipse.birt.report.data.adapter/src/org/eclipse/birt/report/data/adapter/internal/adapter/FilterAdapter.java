@@ -72,7 +72,7 @@ public class FilterAdapter extends FilterDefinition
 					{
 						adaptedExpressions.add( adapter.adaptExpression( expr ) );
 					}
-					setExpression( new ConditionAdapter( filterExpr,
+					setExpression( new ConditionAdapter( adapter.adaptExpression( DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.EXPR_MEMBER ))) ,
 							filterOpr,
 							adaptedExpressions ) );
 				}

@@ -80,6 +80,12 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		this.op2 = null;
 	}
 	
+	public ConditionalExpression( IScriptExpression expr, int operator, List operand )
+	{
+		this.expr = expr;
+		this.operator = operator;
+		this.op1 = new ExpressionCollection( operand );
+	}
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getExpression()
 	 */
