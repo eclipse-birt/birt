@@ -103,24 +103,27 @@ public class DataGenerationEngine extends DteDataEngine
 			throws BirtException
 	{
 		String pRsetId = null; // id of the parent query restuls
-		String rowId = "-1"; // row id of the parent query results
+		String rawId = "-1"; // row id of the parent query results
+		String rowId = "-1";
 		if ( parentResultSet != null )
 		{
 			if ( parentResultSet instanceof QueryResultSet )
 			{
-				pRsetId = ( (QueryResultSet) parentResultSet )
-						.getQueryResultsID( );
+				QueryResultSet qrs = (QueryResultSet) parentResultSet;
+				pRsetId = qrs.getQueryResultsID( );
+				rowId = String.valueOf( qrs.getRowIndex( ) );
 			}
 			else
 			{
-				pRsetId = ( (CubeResultSet) parentResultSet )
-						.getQueryResultsID( );
+				CubeResultSet crs = (CubeResultSet) parentResultSet;
+				pRsetId = crs.getQueryResultsID( );
+				rowId = crs.getCellIndex( );
 			}
-			rowId = parentResultSet.getRawID( );
+			rawId = parentResultSet.getRawID( );
 		}
 		String queryID = (String) queryIDMap.get( query );
-		storeDteMetaInfo( pRsetId, rowId, queryID, resultSet.getQueryResults( )
-				.getID( ) );
+		storeDteMetaInfo( pRsetId, rawId, queryID, resultSet.getQueryResults( )
+				.getID( ), rowId );
 	}
 
 	public void shutdown( )
@@ -144,8 +147,8 @@ public class DataGenerationEngine extends DteDataEngine
 	 * 
 	 * @param key
 	 */
-	private void storeDteMetaInfo( String pRsetId, String rowId,
-			String queryId, String rsetId )
+	private void storeDteMetaInfo( String pRsetId, String rawId,
+			String queryId, String rsetId, String rowId )
 	{
 		try
 		{
@@ -155,11 +158,11 @@ public class DataGenerationEngine extends DteDataEngine
 			{
 				if ( pRsetId == null )
 				{
-					rowId = "-1";
+					rawId = "-1";
 				}
 			}
-			DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rowId, queryId,
-					rsetId );
+			DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rawId, queryId,
+					rsetId, rowId );
 		}
 		catch ( IOException e )
 		{

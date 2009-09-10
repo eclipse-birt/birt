@@ -385,7 +385,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 		
 	}
 
-	public abstract String getResultID( String parent, String rowId,
+	public abstract String getResultID( String parent, String rawId,
+			String queryId );
+
+	public abstract String getResultIDByRowID( String parent, String rowId,
 			String queryId );
 
 	public String getQueryID( IDataQueryDefinition query )

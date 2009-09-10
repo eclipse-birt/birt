@@ -48,12 +48,21 @@ public class DteDataEngine extends AbstractDataEngine
 	/**
 	 * cache the query - result set mapping. 
 	 *
-     * <li>the key is: [parent rset]"." [row id] "." [query id] </li>
+     * <li>the key is: [parent rset]"." [raw id] "." [query id] </li>
      * <li>the value is: result set name </li>
 	 *
      * It is only valid if the  needCache set to true
 	 */
 	protected HashMap<String, String> rsetRelations = new HashMap<String, String>( );
+
+	/**
+	 * similar to rsetRelations.
+	 * Difference is that rsetRelations2 is using row id instead of raw id.
+	 * The mapping is:
+	 * <li>the key is: [parent rset]"."[row id]"."[query id] </li>
+	 * <li>the value is: result set name </li>
+	 */
+	protected HashMap<String, String> rsetRelations2 = new HashMap<String, String>( );
 
 	//FIXME: code review. throw out all exceptions in data engines. And throw exception not return null.	
 
@@ -245,41 +254,66 @@ public class DteDataEngine extends AbstractDataEngine
 			throws BirtException
 	{
 		String pRsetId = null; // id of the parent query restuls
-		String rowId = "-1"; // row id of the parent query results
+		String rawId = "-1"; // row id of the parent query results
+		String rowId = "-1";
 		if ( parentResultSet != null )
 		{
 			if ( parentResultSet instanceof QueryResultSet )
 			{
-				pRsetId = ( (QueryResultSet) parentResultSet )
-						.getQueryResultsID( );
+				QueryResultSet qrs = (QueryResultSet) parentResultSet;
+				pRsetId = qrs.getQueryResultsID( );
+				rowId = String.valueOf( qrs.getRowIndex( ) );
 			}
 			else
 			{
-				pRsetId = ( (CubeResultSet) parentResultSet )
-						.getQueryResultsID( );
+				CubeResultSet crs = (CubeResultSet) parentResultSet;
+				pRsetId = crs.getQueryResultsID( );
+				rowId = crs.getCellIndex( );
 			}
-			rowId = parentResultSet.getRawID( );
+			rawId = parentResultSet.getRawID( );
 		}
 		String queryID = (String) queryIDMap.get( query );
-		addResultID( pRsetId, rowId, queryID, resultSet.getQueryResults( )
-				.getID( ) );
+		addResultID( pRsetId, rawId, queryID, resultSet.getQueryResults( )
+				.getID( ), rowId );
 	}
 
-	protected void addResultID( String pRsetId, String rowId, String queryId,
-			String rsetId )
+	protected void addResultID( String pRsetId, String rawId, String queryId,
+			String rsetId, String rowId )
 	{
+		keyBuffer.setLength( 0 );
+		keyBuffer.append( pRsetId );
+		keyBuffer.append( "." );
+		keyBuffer.append( rawId );
+		keyBuffer.append( "." );
+		keyBuffer.append( queryId );
+		rsetRelations.put( keyBuffer.toString( ), rsetId );
 		keyBuffer.setLength( 0 );
 		keyBuffer.append( pRsetId );
 		keyBuffer.append( "." );
 		keyBuffer.append( rowId );
 		keyBuffer.append( "." );
 		keyBuffer.append( queryId );
-		rsetRelations.put( keyBuffer.toString( ), rsetId );
+		rsetRelations2.put( keyBuffer.toString( ), rsetId );
+		
 	}
 
 	private StringBuffer keyBuffer = new StringBuffer( );
 
-	public String getResultID( String parent, String rowId, String queryId )
+	public String getResultID( String parent, String rawId, String queryId )
+	{
+		keyBuffer.setLength( 0 );
+		keyBuffer.append( parent );
+		keyBuffer.append( "." );
+		keyBuffer.append( rawId );
+		keyBuffer.append( "." );
+		keyBuffer.append( queryId );
+		// try to search the rset id
+		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+		return rsetId;
+	}
+
+	public String getResultIDByRowID( String parent, String rowId,
+			String queryId )
 	{
 		keyBuffer.setLength( 0 );
 		keyBuffer.append( parent );
@@ -288,7 +322,7 @@ public class DteDataEngine extends AbstractDataEngine
 		keyBuffer.append( "." );
 		keyBuffer.append( queryId );
 		// try to search the rset id
-		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+		String rsetId = (String) rsetRelations2.get( keyBuffer.toString( ) );
 		return rsetId;
 	}
 }

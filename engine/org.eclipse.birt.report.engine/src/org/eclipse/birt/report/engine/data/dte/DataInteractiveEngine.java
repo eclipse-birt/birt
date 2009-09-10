@@ -107,8 +107,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	 * 
 	 * @param key
 	 */
-	private void storeDteMetaInfo( String pRsetId, String rowId,
-			String queryId, String rsetId )
+	private void storeDteMetaInfo( String pRsetId, String rawId,
+			String queryId, String rsetId, String rowId )
 	{
 		if ( dos != null )
 		{
@@ -120,11 +120,11 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				{
 					if ( pRsetId == null )
 					{
-						rowId = "-1";
+						rawId = "-1";
 					}
 				}
-				DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rowId, queryId,
-						rsetId );
+				DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rawId, queryId,
+						rsetId, rowId );
 			}
 			catch ( IOException e )
 			{
@@ -156,9 +156,16 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		rsetIndex.addResultSet( queryId, pRsetId, rowId, rsetId );
 	}
 
-	public String getResultID( String pRsetId, String rowId, String queryId )
+	public String getResultID( String pRsetId, String rawId, String queryId )
 	{
-		return rsetIndex.getResultSet( queryId, pRsetId, rowId );
+		return rsetIndex.getResultSet( queryId, pRsetId, rawId );
+	}
+
+	public String getResultIDByRowID( String pRsetId, String rawId,
+			String queryId )
+	{
+		// TODO: not support
+		return null;
 	}
 
 	protected void doPrepareQuery( Report report, Map appContext )
@@ -195,7 +202,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		IBasePreparedQuery pQuery = dteSession.prepare( query, null );
 
 		String pRsetId = null; // id of the parent query restuls
-		String rowId = "-1"; // row id of the parent query results
+		String rawId = "-1"; // row id of the parent query results
+		String rowId = "-1";
 		IBaseQueryResults dteResults = null; // the dteResults of this query
 		QueryResultSet resultSet = null;
 
@@ -221,13 +229,15 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			if ( parentResult instanceof QueryResultSet )
 			{
 				pRsetId = ( (QueryResultSet) parentResult ).getQueryResultsID( );
+				rowId = String.valueOf( ( (QueryResultSet) parentResult )
+						.getRowIndex( ) );
 			}
 			else
 			{
-				pRsetId = ( (CubeResultSet) parentResult )
-				.getQueryResultsID( );
+				pRsetId = ( (CubeResultSet) parentResult ).getQueryResultsID( );
+				rowId = ( (CubeResultSet) parentResult ).getCellIndex( );
 			}
-			rowId = parentResult.getRawID( );
+			rawId = parentResult.getRawID( );
 
 			// this is the nest query, execute the query in the
 			// parent results
@@ -248,7 +258,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		// see DteResultSet
 		resultSet.setBaseRSetID( resultSetID );
 
-		storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
+		storeDteMetaInfo( pRsetId, rawId, queryID, dteResults.getID( ), rowId );
 
 		return resultSet;
 	}
@@ -307,7 +317,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
 
 		String pRsetId = null; // id of the parent query restuls
-		String rowId = "-1"; // row id of the parent query results
+		String rawId = "-1"; // row id of the parent query results
+		String rowId = "-1";
 		IBaseQueryResults dteResults; // the dteResults of this query
 		CubeResultSet resultSet = null;
 
@@ -321,8 +332,18 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 		else
 		{
-			pRsetId = parentResult.getQueryResults( ).getID( );
-			rowId = parentResult.getRawID( );
+			if ( parentResult instanceof QueryResultSet )
+			{
+				pRsetId = ( (QueryResultSet) parentResult ).getQueryResultsID( );
+				rowId = String.valueOf( ( (QueryResultSet) parentResult )
+						.getRowIndex( ) );
+			}
+			else
+			{
+				pRsetId = ( (CubeResultSet) parentResult ).getQueryResultsID( );
+				rowId = ( (CubeResultSet) parentResult ).getCellIndex( );
+			}
+			rawId = parentResult.getRawID( );
 
 			// this is the nest query, execute the query in the
 			// parent results
@@ -334,7 +355,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		// FIXME:
 		// resultSet.setBaseRSetID( resultSetID );
 
-		storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
+		storeDteMetaInfo( pRsetId, rawId, queryID, dteResults.getID( ), rowId );
 
 		// persist the queryResults witch need cached.
 		if ( query.cacheQueryResults( ) )

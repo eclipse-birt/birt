@@ -31,22 +31,30 @@ public class DteMetaInfoIOUtil
 	protected final static String VERSION_1 = "__version__1";
 
 	/**
+	 * In Version 2, the stored information is changed to:
+	 * [parent id] [raw id] [query id] [rset id] [row id]
+	 */
+	protected final static String VERSION_2 = "__version__2";
+
+	/**
 	 * save the metadata into the streams.
 	 * 
 	 * @param key
 	 */
 	static public void storeMetaInfo( DataOutputStream dos, String pRsetId,
-			String rowId, String queryId, String rsetId ) throws IOException
+			String rawId, String queryId, String rsetId, String rowId )
+			throws IOException
 	{
 		IOUtil.writeString( dos, pRsetId );
-		IOUtil.writeString( dos, rowId );
+		IOUtil.writeString( dos, rawId );
 		IOUtil.writeString( dos, queryId );
 		IOUtil.writeString( dos, rsetId );
+		IOUtil.writeString( dos, rowId );
 	}
 
 	static public void startMetaInfo( DataOutputStream dos ) throws IOException
 	{
-		IOUtil.writeString( dos, VERSION_1 );
+		IOUtil.writeString( dos, VERSION_2 );
 	}
 	
 	static public ArrayList loadAllDteMetaInfo( IDocArchiveReader archive)
@@ -127,39 +135,53 @@ public class DteMetaInfoIOUtil
 		{
 			String version = IOUtil.readString( dis );
 			boolean version1 = VERSION_1.equals( version );
+			boolean version2 = VERSION_2.equals( version );
 
 			String pRsetId;
-			String rowId;
+			String rawId;
+			String queryId;
+			String rsetId;
+			String rowId = "-1";
 
-			if ( version1 )
+			if ( version1 || version2 )
 			{
 				pRsetId = IOUtil.readString( dis );
-				rowId = IOUtil.readString( dis );
+				rawId = IOUtil.readString( dis );
 			}
 			else
 			{
 				pRsetId = version;
-				rowId = String.valueOf( IOUtil.readLong( dis ) );
+				rawId = String.valueOf( IOUtil.readLong( dis ) );
 			}
-			String queryId = IOUtil.readString( dis );
-			String rsetId = IOUtil.readString( dis );
 
-			result.add( new String[]{pRsetId, rowId, queryId, rsetId} );
+			queryId = IOUtil.readString( dis );
+			rsetId = IOUtil.readString( dis );
+			if ( version2 )
+			{
+				rowId = IOUtil.readString( dis );
+			}
+			result.add( new String[]{pRsetId, rawId, queryId, rsetId, rowId} );
 
 			while ( true )
 			{
 				pRsetId = IOUtil.readString( dis );
-				if ( version1 )
+				if ( version1 || version2 )
 				{
-					rowId = IOUtil.readString( dis );
+					rawId = IOUtil.readString( dis );
 				}
 				else
 				{
-					rowId = String.valueOf( IOUtil.readLong( dis ) );
+					rawId = String.valueOf( IOUtil.readLong( dis ) );
 				}
 				queryId = IOUtil.readString( dis );
 				rsetId = IOUtil.readString( dis );
-				result.add( new String[]{pRsetId, rowId, queryId, rsetId} );
+				if ( version2 )
+				{
+					rowId = IOUtil.readString( dis );
+				}
+				result
+						.add( new String[]{pRsetId, rawId, queryId, rsetId,
+								rowId} );
 			}
 		}
 		catch ( EOFException eofe )

@@ -48,6 +48,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 	 */
 	protected HashMap rsetRelations = new HashMap( );
 
+	protected HashMap rsetRelations2 = new HashMap( );
+
 	public DataPresentationEngine( ExecutionContext context,
 			IDocArchiveReader reader ) throws Exception
 	{
@@ -104,6 +106,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 				String rawId = rsetRelation[1];
 				String queryId = rsetRelation[2];
 				String rsetId = rsetRelation[3];
+				String rowId = rsetRelation[4];
 				buffer.setLength( 0 );
 				buffer.append( pRsetId );
 				buffer.append( "." );
@@ -111,6 +114,13 @@ public class DataPresentationEngine extends AbstractDataEngine
 				buffer.append( "." );
 				buffer.append( queryId );
 				rsetRelations.put( buffer.toString( ), rsetId );
+				buffer.setLength( 0 );
+				buffer.append( pRsetId );
+				buffer.append( "." );
+				buffer.append( rowId );
+				buffer.append( "." );
+				buffer.append( queryId );
+				rsetRelations2.put( buffer.toString( ), rsetId );
 			}
 		}
 	}
@@ -127,6 +137,20 @@ public class DataPresentationEngine extends AbstractDataEngine
 		keyBuffer.append( queryId );
 		// try to search the rset id
 		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );		
+		return rsetId;
+	}
+
+	public String getResultIDByRowID( String pRsetId, String rowId,
+			String queryId )
+	{
+		keyBuffer.setLength( 0 );
+		keyBuffer.append( pRsetId );
+		keyBuffer.append( "." );
+		keyBuffer.append( rowId );
+		keyBuffer.append( "." );
+		keyBuffer.append( queryId );
+		// try to search the rset id
+		String rsetId = (String) rsetRelations2.get( keyBuffer.toString( ) );		
 		return rsetId;
 	}
 

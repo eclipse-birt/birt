@@ -450,7 +450,12 @@ public class QueryUtil
 		{
 			AbstractDataEngine dataEngine = (AbstractDataEngine) engine;
 			String queryId = dataEngine.getQueryID( query );
-			return dataEngine.getResultID( parent, rowId, queryId );
+			String result = dataEngine.getResultID( parent, rowId, queryId );
+			if ( result == null )
+			{
+				result = dataEngine.getResultIDByRowID( parent, rowId, queryId );
+			}
+			return result;
 		}
 		return null;
 	}
