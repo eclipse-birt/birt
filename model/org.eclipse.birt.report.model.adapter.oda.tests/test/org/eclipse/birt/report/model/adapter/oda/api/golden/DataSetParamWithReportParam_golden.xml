@@ -113,11 +113,6 @@
                     <design:name>queryTimeOut</design:name>
                   </design:nameValue>
                 </design:properties>
-                <design:properties>
-                  <design:nameValue>
-                    <design:name>rowFetchSize</design:name>
-                  </design:nameValue>
-                </design:properties>
               </design:publicProperties>
             </design:dataSetDesign>
             <design:enabled>false</design:enabled>
@@ -222,11 +217,6 @@
                 <design:properties>
                   <design:nameValue>
                     <design:name>queryTimeOut</design:name>
-                  </design:nameValue>
-                </design:properties>
-                <design:properties>
-                  <design:nameValue>
-                    <design:name>rowFetchSize</design:name>
                   </design:nameValue>
                 </design:properties>
               </design:publicProperties>
@@ -335,11 +325,6 @@
                 <design:properties>
                   <design:nameValue>
                     <design:name>queryTimeOut</design:name>
-                  </design:nameValue>
-                </design:properties>
-                <design:properties>
-                  <design:nameValue>
-                    <design:name>rowFetchSize</design:name>
                   </design:nameValue>
                 </design:properties>
               </design:publicProperties>
