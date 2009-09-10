@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1000">
     <property name="author">Report Author</property>
-    <property name="subject">Report Subject</property>
-    <property name="helpGuide">Help guide</property>
-    <property name="createdBy">Report Creator</property>
+    <property name="comments">New comments</property>
+    <text-property name="title" key="New title id">New title</text-property>
+    <html-property name="description" key="New description id">New description</html-property>
     <simple-property-list name="includeResource">
 		<value>new_message</value>
 	</simple-property-list>
-    <text-property name="title" key="New title id">New title</text-property>
-    <property name="comments">New comments</property>
-    <html-property name="description" key="New description id">New description</html-property>
+    <property name="subject">Report Subject</property>
+    <property name="helpGuide">Help guide</property>
+    <property name="createdBy">Report Creator</property>
     <property name="refreshRate">90</property>
     <method name="initialize"><![CDATA[new initialize script]]></method>
     <method name="beforeFactory"><![CDATA[new beforeFactory script]]></method>

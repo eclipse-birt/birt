@@ -1409,13 +1409,11 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitModule(org
-	 * .eclipse.birt.report.model.core.Module)
+	 * org.eclipse.birt.report.model.elements.ElementVisitorImpl#visitModule
+	 * (org.eclipse.birt.report.model.core.Module)
 	 */
-
 	public void visitModule( Module obj )
 	{
-
 		if ( markLineNumber )
 			obj.initLineNoMap( );
 		markLineNumber( obj );
@@ -1426,19 +1424,35 @@ public abstract class ModuleWriter extends ElementVisitor
 				DesignSchemaConstants.REPORT_VERSION );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
 				obj.getID( ) ).toString( ) );
+
 		property( obj, IModuleModel.AUTHOR_PROP );
+		property( obj, IDesignElementModel.COMMENTS_PROP );
+
+		resourceKey( obj, IModuleModel.TITLE_ID_PROP, IModuleModel.TITLE_PROP );
+		resourceKey( obj, IModuleModel.DESCRIPTION_ID_PROP,
+				IModuleModel.DESCRIPTION_PROP );
+
+		writeSimplePropertyList( obj, IModuleModel.INCLUDE_RESOURCE_PROP );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitorImpl#visitLayoutModule
+	 * (org.eclipse.birt.report.model.core.Module)
+	 */
+	public void visitLayoutModule( Module obj )
+	{
+
+		super.visitLayoutModule( obj );
+
 		property( obj, IModuleModel.SUBJECT_PROP );
 		property( obj, IModuleModel.HELP_GUIDE_PROP );
 		property( obj, IModuleModel.CREATED_BY_PROP );
 		property( obj, IModuleModel.UNITS_PROP );
 		property( obj, IModuleModel.BASE_PROP );
-		writeSimplePropertyList( obj, IModuleModel.INCLUDE_RESOURCE_PROP );
-
-		resourceKey( obj, IModuleModel.TITLE_ID_PROP, IModuleModel.TITLE_PROP );
-		property( obj, IDesignElementModel.COMMENTS_PROP );
-
-		resourceKey( obj, IModuleModel.DESCRIPTION_ID_PROP,
-				IModuleModel.DESCRIPTION_PROP );
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );

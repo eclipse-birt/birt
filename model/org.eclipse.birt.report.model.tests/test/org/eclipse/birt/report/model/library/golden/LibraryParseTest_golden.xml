@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
     <property name="author">Report Author</property>
+    <property name="comments">New comments</property>
+    <text-property name="title" key="New title id">New title</text-property>
+    <html-property name="description" key="New description id">New description</html-property>
+    <simple-property-list name="includeResource">
+        <value>new include resource</value>
+    </simple-property-list>
     <property name="helpGuide">Help guide</property>
     <property name="createdBy">Report Creator</property>
     <property name="units">cm</property>
     <property name="base">c:\base</property>
-    <simple-property-list name="includeResource">
-        <value>new include resource</value>
-    </simple-property-list>
-    <text-property name="title" key="New title id">New title</text-property>
-    <property name="comments">New comments</property>
-    <html-property name="description" key="New description id">New description</html-property>
     <list-property name="includeScripts">
         <property>script first</property>
         <property>script second</property>

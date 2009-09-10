@@ -770,9 +770,15 @@ public abstract class Module extends DesignElement
 
 		// find it in the module itself.
 
-		String msg = getTranslationTable( ).getMessage( resourceKey, locale );
-		if ( msg != null )
-			return msg;
+		TranslationTable table = getTranslationTable( );
+		String msg = null;
+
+		if ( table != null )
+		{
+			msg = table.getMessage( resourceKey, locale );
+			if ( msg != null )
+				return msg;
+		}
 
 		// find it in the linked resource file.
 

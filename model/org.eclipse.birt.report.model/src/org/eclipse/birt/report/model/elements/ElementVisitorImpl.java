@@ -311,7 +311,7 @@ class ElementVisitorImpl
 
 	public void visitLibrary( Library obj )
 	{
-		visitModule( obj );
+		visitLayoutModule( obj );
 	}
 
 	/**
@@ -395,7 +395,7 @@ class ElementVisitorImpl
 
 	public void visitReportDesign( ReportDesign obj )
 	{
-		visitModule( obj );
+		visitLayoutModule( obj );
 	}
 
 	/**
@@ -540,12 +540,23 @@ class ElementVisitorImpl
 	}
 
 	/**
-	 * Visits the module.
+	 * Visits the lay out module.
 	 * 
 	 * @param obj
 	 *            the module to traverse
 	 */
 
+	public void visitLayoutModule( Module obj )
+	{
+		visitModule( obj );
+	}
+
+	/**
+	 * Visits the module.
+	 * 
+	 * @param obj
+	 *            the module to traverse.
+	 */
 	public void visitModule( Module obj )
 	{
 		visitDesignElement( obj );

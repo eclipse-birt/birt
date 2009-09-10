@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="26">
     <property name="author">W.C. Fields</property>
-    <property name="helpGuide">http://company.com/reportHelp.html</property>
-    <property name="createdBy">Whiz-Bang Plus</property>
-    <property name="base">c:\</property>
+    <property name="comments">First sample report.</property>
+    <text-property name="title" key="TITLE_ID">Sample Report</text-property>
+    <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>
     <simple-property-list name="includeResource">
         <value>old_message</value>
     </simple-property-list>
-    <text-property name="title" key="TITLE_ID">Sample Report</text-property>
-    <property name="comments">First sample report.</property>
-    <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>
+    <property name="helpGuide">http://company.com/reportHelp.html</property>
+    <property name="createdBy">Whiz-Bang Plus</property>
+    <property name="base">c:\</property>
     <property name="theme">theme1</property>
     <list-property name="libraries">
         <structure>

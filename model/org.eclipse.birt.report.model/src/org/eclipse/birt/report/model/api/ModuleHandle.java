@@ -783,6 +783,28 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Gets comments property value.
+	 * 
+	 * @return the comments property value.
+	 */
+	public final String getComments( )
+	{
+		return getStringProperty( COMMENTS_PROP );
+	}
+
+	/**
+	 * Sets the comments value.
+	 * 
+	 * @param comments
+	 *            the comments.
+	 * @throws SemanticException
+	 */
+	public final void setComments( String comments ) throws SemanticException
+	{
+		setStringProperty( COMMENTS_PROP, comments );
+	}
+
+	/**
 	 * Returns the command stack that manages undo/redo operations for the
 	 * design.
 	 * 
@@ -2452,6 +2474,50 @@ public abstract class ModuleHandle extends DesignElementHandle
 			throws SemanticException
 	{
 		setStringProperty( IModuleModel.DESCRIPTION_ID_PROP, resourceKey );
+	}
+
+	/**
+	 * Gets the title property value.
+	 * 
+	 * @return the title property value.
+	 */
+	public final String getTitle( )
+	{
+		return getStringProperty( IModuleModel.TITLE_PROP );
+	}
+
+	/**
+	 * Sets the title value.
+	 * 
+	 * @param title
+	 *            the title.
+	 * @throws SemanticException
+	 */
+	public final void setTitle( String title ) throws SemanticException
+	{
+		setStringProperty( IModuleModel.TITLE_PROP, title );
+	}
+
+	/**
+	 * Gets the title key.
+	 * 
+	 * @return the title key.
+	 */
+	public final String getTitleKey( )
+	{
+		return getStringProperty( IModuleModel.TITLE_ID_PROP );
+	}
+
+	/**
+	 * Sets the title key.
+	 * 
+	 * @param titleKey
+	 *            the title key.
+	 * @throws SemanticException
+	 */
+	public final void setTitleKey( String titleKey ) throws SemanticException
+	{
+		setStringProperty( IModuleModel.TITLE_ID_PROP, titleKey );
 	}
 
 	/**
