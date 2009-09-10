@@ -114,7 +114,7 @@ public class HTMLProcessor
 					if ( name != null && name.length( ) > 0 && value != null
 							&& value.length( ) > 0 )
 					{
-						cssStyle.put( name, value );
+						cssStyle.put( name, value.trim() );
 					}
 				}
 				ele.removeAttribute( "style" ); //$NON-NLS-1$
