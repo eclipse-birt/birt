@@ -408,7 +408,12 @@ public class GroupingLookupHelper
 				}
 			}
 			
-			if ( fYSortExprIndex < 0 )
+
+			if ( fYSortExprIndex < 0
+					&& qOrthogonalSeriesDefinition.getDefinition( ) != null
+					&& qOrthogonalSeriesDefinition.getDefinition( )
+							.trim( )
+							.length( ) > 0 )
 			{
 				addDataExp( ySortKey, "" ); //$NON-NLS-1$
 				fYSortExprIndex = findIndexOfBaseSeries( ySortKey );
