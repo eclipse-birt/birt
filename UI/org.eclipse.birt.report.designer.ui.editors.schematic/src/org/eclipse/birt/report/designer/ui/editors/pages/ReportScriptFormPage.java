@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
+import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
@@ -51,6 +52,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 public class ReportScriptFormPage extends ReportFormPage
 {
@@ -468,6 +470,12 @@ public class ReportScriptFormPage extends ReportFormPage
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
+		}
+		
+		if ( adapter == IPropertySheetPage.class )
+		{
+			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
+			return sheetPage;
 		}
 		return jsEditor.getAdapter( adapter );
 	}

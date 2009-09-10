@@ -758,6 +758,8 @@ public class JSEditor extends EditorPart implements IColleague
 			{
 				cmbExprListViewer.addSelectionChangedListener( palettePage.getSupport( ) );
 			}
+			
+			palettePage.setViewer( getViewer( ) );
 			return palettePage;
 		}
 

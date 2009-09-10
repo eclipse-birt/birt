@@ -513,10 +513,15 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	private void buildParameterTree( )
 	{
-		for ( Iterator iterator = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getParameters( )
-				.iterator( ); iterator.hasNext( ); )
+		ModuleHandle module = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( module == null )
+		{
+			return;
+		}
+
+		for ( Iterator iterator = module.getParameters( ).iterator( ); iterator.hasNext( ); )
 		{
 			ReportElementHandle handle = (ReportElementHandle) iterator.next( );
 			if ( handle instanceof ParameterHandle )
