@@ -235,6 +235,16 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 		Scriptable jsScope = createJsScope( parentJsScope, scope );
 		JavascriptContext jsContext = new JavascriptContext( context,
 				jsScope );
+		//Register writeStatus method in root context.
+		if ( parent == null )
+		{
+			this.context
+					.evaluateString(
+							jsScope,
+							"function writeStatus(msg) { statusHandle.showStatus(msg); }",
+							"inline", -1, null );
+
+		}
 		Map<String, Object> attrs = context.getAttributes( );
 		for ( Entry<String, Object> entry : attrs.entrySet( ) )
 		{
