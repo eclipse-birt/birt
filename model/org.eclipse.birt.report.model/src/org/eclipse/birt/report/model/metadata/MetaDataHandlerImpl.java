@@ -50,6 +50,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	protected static final String PROPERTY_TAG = "Property"; //$NON-NLS-1$ 
 	protected static final String ELEMENT_TAG = "Element"; //$NON-NLS-1$ 	
 	protected static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
+	protected static final String METHOD_TAG = "Method"; //$NON-NLS-1$
 
 	private static final String ROOT_TAG = "ReportMetaData"; //$NON-NLS-1$ 
 	private static final String STYLE_TAG = "Style"; //$NON-NLS-1$
@@ -66,7 +67,6 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	private static final String MEMBER_TAG = "Member"; //$NON-NLS-1$
 	private static final String VALUE_VALIDATOR_TAG = "ValueValidator"; //$NON-NLS-1$
 	private static final String VALIDATORS_TAG = "Validators"; //$NON-NLS-1$
-	private static final String METHOD_TAG = "Method"; //$NON-NLS-1$
 	private static final String ARGUMENT_TAG = "Argument"; //$NON-NLS-1$
 	private static final String CLASS_TAG = "Class"; //$NON-NLS-1$
 	private static final String CONSTRUCTOR_TAG = "Constructor"; //$NON-NLS-1$
