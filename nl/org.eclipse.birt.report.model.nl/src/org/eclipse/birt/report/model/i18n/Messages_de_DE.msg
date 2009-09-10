@@ -2200,6 +2200,7 @@ Structure.IncludedDataMart.namespace=Namespace
 # Element names
 
 Element.Module=Modul
+Element.LayoutModule=Layout Module
 Element.ReportDesign=Berichtdesign
 Element.DesignElement=Designelement
 Element.ReportElement=Berichtselement
@@ -2294,25 +2295,28 @@ Element.DataMart=Data Mart
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=Verfasser
-Element.Module.subject=Thema
-Element.Module.helpGuide=Hilfe-Handbuch
-Element.Module.createdBy=Erstellt von
 Element.Module.title=Titel
 Element.Module.titleID=Titelschlüssel
 Element.Module.description=Beschreibung
 Element.Module.descriptionID=Beschreibungsschlüssel
 Element.Module.comments=Kommentare
-Element.Module.colorPalette=Farbpalette
-Element.Module.configVars=Konfigurationsvariablen
-Element.Module.images=Bilder
-Element.Module.libraries=Bibliotheken
-Element.Module.includeScripts=Skripte einschließen
 Element.Module.includeResource=Ressourcendatei
-Element.Module.base=Basis
-Element.Module.units=Einheiten
-Element.Module.theme=Design
-Element.Module.propertyBindings=Eigenschaftenbindungen
-Element.Module.scriptLibs=Skriptbibliotheken
+
+# LayoutModule ( Prefix = Element.LayoutModule )
+
+Element.LayoutModule.subject=Thema
+Element.LayoutModule.helpGuide=Hilfe-Handbuch
+Element.LayoutModule.createdBy=Erstellt von
+Element.LayoutModule.colorPalette=Farbpalette
+Element.LayoutModule.configVars=Konfigurationsvariablen
+Element.LayoutModule.images=Bilder
+Element.LayoutModule.libraries=Bibliotheken
+Element.LayoutModule.includeScripts=Skripte einschließen
+Element.LayoutModule.base=Basis
+Element.LayoutModule.units=Einheiten
+Element.LayoutModule.theme=Design
+Element.LayoutModule.propertyBindings=Eigenschaftenbindungen
+Element.LayoutModule.scriptLibs=Skriptbibliotheken
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=Stile

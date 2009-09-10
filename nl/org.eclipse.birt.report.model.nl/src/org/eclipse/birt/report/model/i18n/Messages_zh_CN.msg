@@ -2200,6 +2200,7 @@ Structure.IncludedDataMart.namespace=命名空间
 # Element names
 
 Element.Module=模块
+Element.LayoutModule=Layout Module
 Element.ReportDesign=报表设计
 Element.DesignElement=设计元素
 Element.ReportElement=报表元素
@@ -2294,25 +2295,28 @@ Element.DataMart=Data Mart
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=作者
-Element.Module.subject=主题
-Element.Module.helpGuide=帮助指南
-Element.Module.createdBy=创建者
 Element.Module.title=标题
 Element.Module.titleID=标题关键字
 Element.Module.description=描述
 Element.Module.descriptionID=说明关键字
 Element.Module.comments=备注
-Element.Module.colorPalette=调色板
-Element.Module.configVars=配置变量
-Element.Module.images=图像
-Element.Module.libraries=库
-Element.Module.includeScripts=包含脚本
 Element.Module.includeResource=源文件
-Element.Module.base=基本
-Element.Module.units=单位
-Element.Module.theme=主题
-Element.Module.propertyBindings=属性绑定
-Element.Module.scriptLibs=脚本库
+
+# LayoutModule ( Prefix = Element.LayoutModule )
+
+Element.LayoutModule.subject=主题
+Element.LayoutModule.helpGuide=帮助指南
+Element.LayoutModule.createdBy=创建者
+Element.LayoutModule.colorPalette=调色板
+Element.LayoutModule.configVars=配置变量
+Element.LayoutModule.images=图像
+Element.LayoutModule.libraries=库
+Element.LayoutModule.includeScripts=包含脚本
+Element.LayoutModule.base=基本
+Element.LayoutModule.units=单位
+Element.LayoutModule.theme=主题
+Element.LayoutModule.propertyBindings=属性绑定
+Element.LayoutModule.scriptLibs=脚本库
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=样式

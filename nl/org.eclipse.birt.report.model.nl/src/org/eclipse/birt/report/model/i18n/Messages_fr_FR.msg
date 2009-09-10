@@ -2200,6 +2200,7 @@ Structure.IncludedDataMart.namespace=Espace nom
 # Element names
 
 Element.Module=Module
+Element.LayoutModule=Layout Module
 Element.ReportDesign=Modèle d'état
 Element.DesignElement=Elément de modèle
 Element.ReportElement=Elément d'état
@@ -2294,25 +2295,28 @@ Element.DataMart=DataMart
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=Auteur
-Element.Module.subject=Objet
-Element.Module.helpGuide=Guide d'aide
-Element.Module.createdBy=Création par
 Element.Module.title=Titre
 Element.Module.titleID=Clé de titre
 Element.Module.description=Description
 Element.Module.descriptionID=Clé de description
 Element.Module.comments=Commentaires
-Element.Module.colorPalette=Palette de couleurs
-Element.Module.configVars=Configurer les variables
-Element.Module.images=Images
-Element.Module.libraries=bibliothèques
-Element.Module.includeScripts=Inclure les scripts
 Element.Module.includeResource=Fichier de ressources
-Element.Module.base=Base
-Element.Module.units=Unités
-Element.Module.theme=Thème
-Element.Module.propertyBindings=Liaisons de propriété
-Element.Module.scriptLibs=Bibliothèques de script
+
+# LayoutModule ( Prefix = Element.LayoutModule )
+
+Element.LayoutModule.subject=Objet
+Element.LayoutModule.helpGuide=Guide d'aide
+Element.LayoutModule.createdBy=Création par
+Element.LayoutModule.colorPalette=Palette de couleurs
+Element.LayoutModule.configVars=Configurer les variables
+Element.LayoutModule.images=Images
+Element.LayoutModule.libraries=bibliothèques
+Element.LayoutModule.includeScripts=Inclure les scripts
+Element.LayoutModule.base=Base
+Element.LayoutModule.units=Unités
+Element.LayoutModule.theme=Thème
+Element.LayoutModule.propertyBindings=Liaisons de propriété
+Element.LayoutModule.scriptLibs=Bibliothèques de script
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=Styles

@@ -2200,6 +2200,7 @@ Structure.IncludedDataMart.namespace=ネームスペース
 # Element names
 
 Element.Module=モジュール
+Element.LayoutModule=Layout Module
 Element.ReportDesign=レポートデザイン
 Element.DesignElement=Design 要素
 Element.ReportElement=レポートの要素
@@ -2294,25 +2295,28 @@ Element.DataMart=Data Mart
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=作成者
-Element.Module.subject=件名
-Element.Module.helpGuide=ヘルプガイド
-Element.Module.createdBy=作成者
 Element.Module.title=タイトル
 Element.Module.titleID=タイトルキー
 Element.Module.description=説明
 Element.Module.descriptionID=説明キー
 Element.Module.comments=コメント
-Element.Module.colorPalette=カラーパレット
-Element.Module.configVars=設定変数
-Element.Module.images=イメージ
-Element.Module.libraries=ライブラリ
-Element.Module.includeScripts=インクルードするスクリプト
 Element.Module.includeResource=リソースファイル
-Element.Module.base=基本
-Element.Module.units=単位
-Element.Module.theme=テーマ
-Element.Module.propertyBindings=プロパティのバインド
-Element.Module.scriptLibs=スクリプトライブラリ
+
+# LayoutModule ( Prefix = Element.LayoutModule )
+
+Element.LayoutModule.subject=件名
+Element.LayoutModule.helpGuide=ヘルプガイド
+Element.LayoutModule.createdBy=作成者
+Element.LayoutModule.colorPalette=カラーパレット
+Element.LayoutModule.configVars=設定変数
+Element.LayoutModule.images=イメージ
+Element.LayoutModule.libraries=ライブラリ
+Element.LayoutModule.includeScripts=インクルードするスクリプト
+Element.LayoutModule.base=基本
+Element.LayoutModule.units=単位
+Element.LayoutModule.theme=テーマ
+Element.LayoutModule.propertyBindings=プロパティのバインド
+Element.LayoutModule.scriptLibs=スクリプトライブラリ
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=種類
