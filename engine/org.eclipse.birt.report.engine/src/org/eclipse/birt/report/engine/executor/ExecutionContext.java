@@ -949,7 +949,8 @@ public class ExecutionContext
 	 */
 	public ReportDesignHandle getDesign( )
 	{
-		return (ReportDesignHandle) runnable.getDesignHandle( );
+		return runnable != null
+				? (ReportDesignHandle) runnable.getDesignHandle( ) : null;
 	}
 
 	/**

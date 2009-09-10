@@ -37,6 +37,11 @@ public class HTMLProcessorTest extends TestCase
 		}
 		return null;
 	}
+	
+	protected String getStyleAttribute( Element element, String attribute )
+	{
+		return element.getAttribute( attribute );
+	}
 
 	public void testExecute( ) throws Exception
 	{
@@ -49,10 +54,10 @@ public class HTMLProcessorTest extends TestCase
 		assertEquals( "red", getStyle( styles, iEle, "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Element fontEle = (Element) iEle.getNextSibling( );
-		assertEquals( fontEle.getTagName( ), "span" );
-		assertEquals( "blue", getStyle( styles, fontEle, "color" ) );
-		assertEquals( "13.8pt", getStyle( styles, fontEle, "font-size" ) );
-		assertEquals( "news", getStyle( styles, fontEle, "font-family" ) );
+		assertEquals( fontEle.getTagName( ), "font" );
+		assertEquals( "blue", getStyleAttribute( fontEle, "color" ) );
+		assertEquals( "4", getStyleAttribute( fontEle, "size" ) );
+		assertEquals( "news", getStyleAttribute( fontEle, "face" ) );
 
 		Element uEle = (Element) fontEle.getNextSibling( );
 		assertEquals( uEle.getTagName( ), "span" );
