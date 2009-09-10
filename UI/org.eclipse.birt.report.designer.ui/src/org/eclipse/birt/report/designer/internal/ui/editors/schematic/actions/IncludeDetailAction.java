@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -41,7 +42,7 @@ public class IncludeDetailAction extends InsertRowAction
 	{
 		super( part );
 		setId( ID );
-		//		setChecked( true );
+		// setChecked( true );
 		setText( ACTION_MSG_INCLUDE_DETAIL );
 	}
 
@@ -57,6 +58,7 @@ public class IncludeDetailAction extends InsertRowAction
 			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
 					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
 			return adapt != null
+					&& !( (TableHandle) adapt.getHandle( ) ).isSummaryTable( )
 					&& !adapt.hasSlotHandleRow( TableHandleAdapter.DETAIL );
 		}
 		return false;
@@ -67,20 +69,22 @@ public class IncludeDetailAction extends InsertRowAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
 	 */
-	//	public void update( )
-	//	{
-	//		super.update( );
-	//		if ( getTableEditPart( ) != null )
-	//		{
-	//			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-	//					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
-	//			setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.DETAIL ) );
-	//		}
-	//	}
+	// public void update( )
+	// {
+	// super.update( );
+	// if ( getTableEditPart( ) != null )
+	// {
+	// TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+	// .getTableHandleAdapter( getTableEditPart( ).getModel( ) );
+	// setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.DETAIL ) );
+	// }
+	// }
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAction#getTableEditPart()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * .InsertRowAction#getTableEditPart()
 	 */
 	protected TableEditPart getTableEditPart( )
 	{
