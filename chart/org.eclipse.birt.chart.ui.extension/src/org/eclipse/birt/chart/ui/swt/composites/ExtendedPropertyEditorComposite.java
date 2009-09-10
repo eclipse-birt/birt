@@ -164,10 +164,13 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 		if ( table.getItemCount( ) > 0 )
 		{
 			table.select( 0 );
+			btnRemove.setEnabled( !propDisabledMap.containsKey( table.getItem( 0 )
+					.getText( ) ) );
 		}
 		else
 		{
 			txtNewKey.forceFocus( );
+			btnRemove.setEnabled( false );
 		}
 	}
 

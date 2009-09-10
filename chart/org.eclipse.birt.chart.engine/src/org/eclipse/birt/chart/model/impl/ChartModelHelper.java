@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.model.impl;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -46,8 +46,7 @@ public class ChartModelHelper implements IChartModelHelper
 
 	public void updateExtendedProperties( EList<ExtendedProperty> properties )
 	{
-		ExtendedProperty extendedProperty = AttributeFactory.eINSTANCE
-				.createExtendedProperty( );
+		ExtendedProperty extendedProperty = AttributeFactory.eINSTANCE.createExtendedProperty( );
 		extendedProperty.setName( IDeviceRenderer.AREA_ALT_ENABLED );
 		extendedProperty.setValue( Boolean.FALSE.toString( ) );
 		properties.add( extendedProperty );
@@ -55,7 +54,9 @@ public class ChartModelHelper implements IChartModelHelper
 
 	public List<String> getBuiltInExtendedProperties( )
 	{
-		return Collections.emptyList( );
+		List<String> list = new ArrayList<String>( 3 );
+		list.add( IDeviceRenderer.AREA_ALT_ENABLED );
+		return list;
 	}
 
 }
