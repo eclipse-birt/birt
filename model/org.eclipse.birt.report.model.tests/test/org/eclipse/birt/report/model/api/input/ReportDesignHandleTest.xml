@@ -8,8 +8,7 @@
     <property name="comments">First sample report.</property>
     <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>
     <property name="refreshRate">30</property>
-    <method name="onContentUpdate"><![CDATA[Script here]]></method>
-     <property name="dataObjects">
+    <property name="dataObjects">
         <variable-element name="test">
             <expression name="value">"the test value"</expression>
            

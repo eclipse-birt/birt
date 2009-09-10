@@ -105,7 +105,6 @@ class DesignWriterImpl extends ModuleWriter
 		property( obj, IReportDesignModel.AFTER_RENDER_METHOD );
 		property( obj, IReportDesignModel.ON_PAGE_START_METHOD );
 		property( obj, IReportDesignModel.ON_PAGE_END_METHOD );
-		property( obj, IReportDesignModel.ON_CONTENT_UPDATE_METHOD );
 
 		if ( markLineNumber )
 		{
