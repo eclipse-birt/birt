@@ -1287,7 +1287,7 @@ public class ExcelUtil
 		{
 			logger.log( Level.WARNING, "The sheetName " + name
 					+ " is too long for output." );
-			name = name.substring( 0, 30 );
+			name = name.substring( 0, 31 );
 		}
 		return name;
 	}
