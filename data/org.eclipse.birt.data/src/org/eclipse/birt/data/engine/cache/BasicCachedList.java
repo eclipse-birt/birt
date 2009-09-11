@@ -41,7 +41,7 @@ public class BasicCachedList implements List
 {
 	protected static final int NULL_VALUE = Integer.MAX_VALUE;
 	protected static final int OBJECT_VALUE = 1;
-	protected static final int CACHESIZE = 4000;
+	protected static int CACHESIZE = 4000;
 	private static Logger logger = Logger.getLogger( BasicCachedList.class.getName( ) );
 
 	private int currentCacheNo;
@@ -54,6 +54,15 @@ public class BasicCachedList implements List
 
 	private String tempDir; //should end with File.Seperator
 	protected ClassLoader loader;
+	
+	static
+	{
+		String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
+		if( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) )
+		{
+			CACHESIZE = 2000000;
+		}
+	}
 	
 	/**
 	 * 
