@@ -266,8 +266,8 @@ public class CachedResultSet implements IResultIterator
 		{
 			//If autobinding is set, all the data set columns should be saved.
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					( (IQueryDefinition) this.resultSetPopulator.getQuery( )
-							.getQueryDefinition( ) ).needAutoBinding( ) ? null
+					( this.resultSetPopulator.getQuery( ).getQueryDefinition( )!= null && ((IQueryDefinition) this.resultSetPopulator.getQuery( )
+							.getQueryDefinition( )).needAutoBinding( )) ? null
 							: resultSetPopulator.getEventHandler( )
 									.getAllColumnBindings( ) );
 			try
