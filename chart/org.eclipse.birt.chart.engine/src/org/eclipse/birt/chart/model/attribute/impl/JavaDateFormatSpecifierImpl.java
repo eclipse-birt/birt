@@ -15,7 +15,6 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -194,7 +193,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 * NOTE: Manually written
 	 * 
 	 * @param sJavaPattern
-	 * @return
+	 * @return new instance
 	 */
 	public static JavaDateFormatSpecifier create( String sJavaPattern )
 	{
@@ -212,10 +211,11 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	public String format( Calendar c, ULocale lcl )
 	{
 		// ATTN: LOCALE IS UNUSED WHEN THE FORMAT PATTERN IS SPECIFIED
-		final SimpleDateFormat sdf = new SimpleDateFormat( getPattern( ) );
+		final SimpleDateFormat sdf = new SimpleDateFormat( getPattern( ), lcl );
 		return sdf.format( c.getTime( ) );
 	}
 
+	@SuppressWarnings("deprecation")
 	public String format( Calendar c, Locale lcl )
 	{
 		return format( c, ULocale.forLocale( lcl ) );
