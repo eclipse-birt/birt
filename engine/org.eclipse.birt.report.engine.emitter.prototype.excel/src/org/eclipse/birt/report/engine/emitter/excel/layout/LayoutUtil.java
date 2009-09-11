@@ -94,7 +94,7 @@ public class LayoutUtil
 	{
 		try
 		{
-			width = Math.min( ExcelUtil.covertDimensionType( contentWdith,
+			width = Math.min( ExcelUtil.convertDimensionType( contentWdith,
 					width ), width );
 		}
 		catch ( Exception e )
@@ -121,7 +121,7 @@ public class LayoutUtil
 			}
 			else
 			{				
-				columns[i] = ExcelUtil.covertDimensionType( value, tableWidth );
+				columns[i] = ExcelUtil.convertDimensionType( value, tableWidth );
 				totalAssigned += columns[i];
 			}	
 		}		
@@ -159,7 +159,11 @@ public class LayoutUtil
 			}
 			else
 			{
-				columns[i] = ExcelUtil.covertDimensionType( value, tableWidth );
+				if ( ExcelUtil.convertDimensionType( value, tableWidth ) > 576000 )
+				{
+					System.out.println( "" );
+				}
+				columns[i] = ExcelUtil.convertDimensionType( value, tableWidth );
 				totalAssigned += columns[i];
 			}
 		}

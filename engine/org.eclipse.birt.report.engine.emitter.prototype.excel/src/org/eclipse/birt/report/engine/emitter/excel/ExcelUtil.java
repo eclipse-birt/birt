@@ -719,11 +719,17 @@ public class ExcelUtil
 		return agg || m.matches( );
 	}
 
-	public static int covertDimensionType( DimensionType value, int parent )
+	/**
+	 * @param value
+	 * @param parent
+	 *            with of parent, the unit is 1/1000 point.
+	 * @return
+	 */
+	public static int convertDimensionType( DimensionType value, int parent )
 	{
 		if ( DimensionType.UNITS_PERCENTAGE.equals( value.getUnits( ) ) )
 		{
-			return (int) ( value.getMeasure( ) / 100 * parent * 1000 );
+			return (int) ( value.getMeasure( ) / 100 * parent );
 		}
 		if ( DimensionType.UNITS_PX.equalsIgnoreCase( value.getUnits( ) ) )
 		{
