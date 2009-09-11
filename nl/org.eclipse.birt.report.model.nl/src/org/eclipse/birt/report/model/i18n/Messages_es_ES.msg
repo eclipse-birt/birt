@@ -3864,3 +3864,10 @@ Error.EncryptionException.INVALID_ENCRYPTION=El id del cifrado "{0}" no es válid
 Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
 Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
 Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.
+
+#Dashboard Exporter
+Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.
+Message.ExportTabToSharedTabFile=Export Tab to shared Tab file.
+
+#Dashboard Exception
+Error.ExternalGadgetFileIncludedRecursively=External Gadget included recursively. 
