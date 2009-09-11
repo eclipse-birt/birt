@@ -301,7 +301,7 @@ public class NumberFormatterTest extends TestCase
 				"General Number{DigitSubstitution=true}"};
 		double[] values = {123.12, 902.023};
 		String[][] araGoldens = new String[][]{{"123.12", "902.023"},
-				{"Ù¡Ù¢Ù£Ù«Ù¡Ù¢", "Ù©Ù Ù¢Ù«Ù Ù¢Ù£"}};
+				{"١٢٣٫١٢", "٩٠٢٫٠٢٣"}};
 		String[][] engGoldens = new String[][]{{"123.12", "902.023"},
 				{"123.12", "902.023"}};
 		NumberFormatter nf = null;
