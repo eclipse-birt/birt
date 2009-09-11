@@ -88,6 +88,16 @@ class ElementExporterImpl
 	}
 
 	/**
+	 * Constructs the exporter with the handle of the target of the design.
+	 * 
+	 * @param designHandle
+	 */
+	ElementExporterImpl( ReportDesignHandle designHandle )
+	{
+		this.targetModuleHandle = designHandle;
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	ElementExporterImpl( )
@@ -329,7 +339,7 @@ class ElementExporterImpl
 	 *            the element handle.
 	 * @throws SemanticException
 	 */
-	private void findAndDropDuplicatedElement( DesignElementHandle handle )
+	protected void findAndDropDuplicatedElement( DesignElementHandle handle )
 			throws SemanticException
 	{
 		ContentIterator iter = new ContentIterator( handle.getModule( ), handle
@@ -355,7 +365,7 @@ class ElementExporterImpl
 	 *            the design element
 	 * @throws SemanticException
 	 */
-	private void dropDuplicatedElement( DesignElement element )
+	protected void dropDuplicatedElement( DesignElement element )
 			throws SemanticException
 	{
 
@@ -728,7 +738,7 @@ class ElementExporterImpl
 	 *             into slot.
 	 */
 
-	private DesignElementHandle duplicateElement(
+	protected DesignElementHandle duplicateElement(
 			DesignElementHandle elementHandle, boolean onlyFactoryProperty )
 			throws SemanticException
 	{

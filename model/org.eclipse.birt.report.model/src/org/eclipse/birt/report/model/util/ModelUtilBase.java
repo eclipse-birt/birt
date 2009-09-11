@@ -1,0 +1,45 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.util;
+
+import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
+
+/**
+ * The utility class which provides many static methods used in Model.
+ */
+
+public class ModelUtilBase
+{
+
+	protected static boolean needSkipProperty( String propName )
+	{
+
+		if ( IStyledElementModel.STYLE_PROP.equals( propName )
+				|| IDesignElementModel.EXTENDS_PROP.equals( propName )
+				|| IDesignElementModel.USER_PROPERTIES_PROP.equals( propName )
+				|| IOdaExtendableElementModel.EXTENSION_ID_PROP
+						.equals( propName )
+				|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
+				|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP
+						.equals( propName )
+				|| IDesignElementModel.VIEW_ACTION_PROP.equals( propName )
+				|| IModuleModel.LIBRARIES_PROP.equals( propName ) )
+			return true;
+		else
+			return false;
+	}
+}

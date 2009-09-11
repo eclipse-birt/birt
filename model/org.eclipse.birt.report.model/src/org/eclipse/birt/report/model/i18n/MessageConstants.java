@@ -346,5 +346,10 @@ public interface MessageConstants
 	public static final String DATAMART_EXCEPTION_DUPLICATE_DATAMART_NAMESPACE = "Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE"; //$NON-NLS-1$
 	public static final String DATAMART_EXCEPTION_DATAMART_ALREADY_INCLUDED = "Error.DataMartException.DATAMART_ALREADY_INCLUDED"; //$NON-NLS-1$
 	public static final String DATAMART_EXCEPTION_DATAMART_NOT_FOUND = "Error.DataMartException.DATAMART_NOT_FOUND"; //$NON-NLS-1$
+	
+	//Dashboard exporter
+	public static final String EXPORT_GADGET_TO_SHARED_GADGET_FILE ="Message.ExportGadgetToSharedGadgetFile";
+	public static final String EXPORT_TAB_TO_SHARED_TAB_FILE="Message.ExportTabToSharedTabFile";
+	public static final String DASHBOARD_EXCEPTION_GADGET_INCLUDED_RECURSIVELY = "Error.ExternalGadgetFileIncludedRecursively";
 
 }

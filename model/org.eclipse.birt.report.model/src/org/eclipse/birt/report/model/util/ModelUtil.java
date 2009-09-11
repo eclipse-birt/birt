@@ -105,7 +105,7 @@ import com.ibm.icu.util.ULocale;
  * The utility class which provides many static methods used in Model.
  */
 
-public class ModelUtil
+public class ModelUtil extends ModelUtilBase
 {
 
 	/**
@@ -261,17 +261,7 @@ public class ModelUtil
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( IStyledElementModel.STYLE_PROP.equals( propName )
-					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
-					|| IDesignElementModel.USER_PROPERTIES_PROP
-							.equals( propName )
-					|| IOdaExtendableElementModel.EXTENSION_ID_PROP
-							.equals( propName )
-					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
-					|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP
-							.equals( propName )
-					|| IDesignElementModel.VIEW_ACTION_PROP.equals( propName )
-					|| IModuleModel.LIBRARIES_PROP.equals( propName ) )
+			if ( needSkipProperty( propName ) )
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )
@@ -1688,4 +1678,5 @@ public class ModelUtil
 		assert defn != null;
 		return defn.canInherit( ) || defn.isStyleProperty( );
 	}
+
 }
