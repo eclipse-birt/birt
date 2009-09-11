@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
+import org.eclipse.birt.report.model.api.scripts.ScriptableClassInfo;
 
 /**
  * Represents the definition of class member. The class member defines the
@@ -88,7 +89,8 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 	 */
 	public IClassInfo getClassType( )
 	{
-		return null;
+		IClassInfo tmpInfo =  new ScriptableClassInfo( ).getClass( dataType ); 
+		return tmpInfo;
 	}
 
 }

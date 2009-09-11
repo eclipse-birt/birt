@@ -14,24 +14,31 @@ package org.eclipse.birt.report.engine.api.script;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.scripts.ClassInfo;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
+import org.eclipse.birt.report.model.api.scripts.ScriptableClassInfo;
 
-public class EngineScriptableClassInfo implements IScriptableObjectClassInfo
+public class EngineScriptableClassInfo extends ScriptableClassInfo
+		implements
+			IScriptableObjectClassInfo
 {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo#getScriptableClass(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo#
+	 * getScriptableClass(java.lang.String)
 	 */
 	public IClassInfo getScriptableClass( String className )
 	{
 		try
 		{
 			Class clazz = Class.forName( className );
-			ClassInfo info = new ClassInfo ( clazz );
+			ClassInfo info = new ClassInfo( clazz );
 			return info;
 		}
 		catch ( ClassNotFoundException e )
 		{
-			return null;
+			return getScriptableClass( className );
 		}
 		catch ( RuntimeException e )
 		{

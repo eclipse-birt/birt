@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
+import org.eclipse.birt.report.model.api.scripts.ScriptableClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -137,11 +138,16 @@ public class ArgumentInfo implements IArgumentInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IArgumentInfo#getClassType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IArgumentInfo#getClassType()
 	 */
 
 	public IClassInfo getClassType( )
 	{
+		IClassInfo tmpInfo = new ScriptableClassInfo( ).getClass( type );
+		if ( tmpInfo != null )
+			return tmpInfo;
+
 		if ( elementDefn == null )
 			return null;
 

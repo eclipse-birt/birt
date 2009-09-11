@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
+import org.eclipse.birt.report.model.api.scripts.ScriptableClassInfo;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -274,6 +275,11 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 
 	public IClassInfo getClassReturnType( )
 	{
+		IClassInfo tmpInfo = new ScriptableClassInfo( )
+				.getClass( returnType );
+		if ( tmpInfo != null )
+			return tmpInfo;
+
 		if ( elementDefn == null )
 			return null;
 
