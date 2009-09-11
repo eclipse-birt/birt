@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.core.runtime.IAdapterFactory;
@@ -27,9 +27,9 @@ public class ChartBindingDialogFactory implements IAdapterFactory
 	public Object getAdapter( Object adaptableObject, Class adapterType )
 	{
 		if ( adapterType == IBindingDialogHelper.class
-				&& ChartReportItemUtil.isChartHandle( adaptableObject ) )
+				&& ChartItemUtil.isChartHandle( adaptableObject ) )
 		{
-			if ( ChartXTabUtil.getBindingCube( (ExtendedItemHandle) adaptableObject ) != null )
+			if ( ChartCubeUtil.getBindingCube( (ExtendedItemHandle) adaptableObject ) != null )
 			{
 				return new ChartCubeBindingDialogHelper( );
 			}

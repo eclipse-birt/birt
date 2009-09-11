@@ -30,11 +30,11 @@ import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
@@ -125,10 +125,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 		iInstanceCount++;
 
-		if ( ChartXTabUtil.isAxisChart( eih ) )
+		if ( ChartCubeUtil.isAxisChart( eih ) )
 		{
 			// If this handle hosts another chart, use the host chart directly
-			DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
+			DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
 			this.extendedHandle = (ExtendedItemHandle) hostChart;
 		}
 		else
@@ -167,7 +167,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			commandStack.startTrans( TRANS_NAME );
 
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
-			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
+			final Chart cm = (Chart) crii.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 			final Chart cmClone = ( cm == null ) ? null : cm.copyInstance( );
 			if ( cmClone != null )
 			{
@@ -235,7 +235,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			context.setResourceFinder( crii );
 			context.setExternalizer( crii );
 			
-			Object of = extendedHandle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT );
+			Object of = extendedHandle.getProperty( ChartReportItemConstants.PROPERTY_OUTPUT );
 			if ( of instanceof String )
 			{
 				// GIF is deprecated in favor of PNG. Automatically update
@@ -249,7 +249,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					context.setOutputFormat( (String) of );
 				}
 			}
-			context.setInheritColumnsOnly( extendedHandle.getBooleanProperty( ChartReportItemUtil.PROPERTY_INHERIT_COLUMNS ) );
+			context.setInheritColumnsOnly( extendedHandle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS ) );
 			context.setExtendedItem( extendedHandle );
 			context.setProcessor( new ChartReportStyleProcessor( extendedHandle,
 					false ) );
@@ -303,7 +303,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						contextResult.isInheritColumnsOnly( ) );
 				if ( dataProvider.isPartChart( ) )
 				{
-					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+					ChartXTabUIUtil.updateXTabForAxis( ChartCubeUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(ChartWithAxes) contextResult.getModel( ) );
@@ -326,7 +326,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				if ( dataProvider.isPartChart( ) )
 				{
 					commandStack.startTrans( TRANS_NAME );
-					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+					ChartXTabUIUtil.updateXTabForAxis( ChartCubeUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(ChartWithAxes) applyData[0] );
@@ -387,7 +387,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		try
 		{
 			// update the output format property information.
-			eih.setProperty( ChartReportItemUtil.PROPERTY_OUTPUT, outputFormat );
+			eih.setProperty( ChartReportItemConstants.PROPERTY_OUTPUT, outputFormat );
 			eih.setProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS,
 					bInheritColumnsOnly );
 
@@ -401,7 +401,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					|| cmNew.getBlock( ).getBounds( ).getHeight( ) == 0 )
 			{
 				cmNew.getBlock( )
-						.setBounds( ChartReportItemUtil.createDefaultChartBounds( eih,
+						.setBounds( ChartItemUtil.createDefaultChartBounds( eih,
 								cmNew ) );
 			}
 
@@ -480,7 +480,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		// CHECK FOR UNBOUND DATASET
 		final ExtendedItemHandle eih = (ExtendedItemHandle) oContext;
 		if ( DEUtil.getDataSetList( eih ).size( ) == 0
-				&& ChartXTabUtil.getBindingCube( eih ) == null )
+				&& ChartCubeUtil.getBindingCube( eih ) == null )
 		{
 			alProblems.add( Messages.getString( "ChartReportItemBuilderImpl.problem.hasNotBeenFound" ) ); //$NON-NLS-1$
 		}

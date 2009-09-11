@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
@@ -88,8 +89,7 @@ import org.eclipse.emf.common.util.EList;
  * Query helper for cube query definition
  */
 
-public class ChartCubeQueryHelper implements
-		org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants
+public class ChartCubeQueryHelper
 {
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -159,7 +159,7 @@ public class ChartCubeQueryHelper implements
 		}
 		catch ( Exception e )
 		{
-			throw new ChartException( ID, BirtException.ERROR, e );
+			throw new ChartException( ChartReportItemConstants.ID, BirtException.ERROR, e );
 		}
 		return cubeFactory;
 	}
@@ -278,7 +278,7 @@ public class ChartCubeQueryHelper implements
 
 	private ISubCubeQueryDefinition createSubCubeQuery( ) throws BirtException
 	{
-		String queryName = CHART_SUBQUERY;
+		String queryName = ChartReportItemConstants.NAME_SUBQUERY;
 		AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( handle );
 		if ( containerCell == null )
 		{
@@ -380,8 +380,10 @@ public class ChartCubeQueryHelper implements
 				.get( 0 );
 		String bindingValue = ChartExpressionUtil.getCubeBindingName( queryValue.getDefinition( ),
 				false );
-		String maxBindingName = QUERY_MAX + bindingValue;
-		String minBindingName = QUERY_MIN + bindingValue;
+		String maxBindingName = ChartReportItemConstants.NAME_QUERY_MAX
+				+ bindingValue;
+		String minBindingName = ChartReportItemConstants.NAME_QUERY_MIN
+				+ bindingValue;
 
 		for ( Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
@@ -704,7 +706,7 @@ public class ChartCubeQueryHelper implements
 	protected List<FilterConditionElementHandle> getCubeFiltersFromHandle(
 			ReportItemHandle itemHandle )
 	{
-		PropertyHandle propHandle = itemHandle.getPropertyHandle( PROPERTY_CUBE_FILTER );
+		PropertyHandle propHandle = itemHandle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
 		if ( propHandle == null )
 		{
 			return Collections.emptyList( );

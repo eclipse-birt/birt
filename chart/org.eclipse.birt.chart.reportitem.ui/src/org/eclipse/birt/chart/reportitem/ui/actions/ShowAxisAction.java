@@ -16,9 +16,9 @@ import java.util.Iterator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
@@ -49,7 +49,7 @@ public class ShowAxisAction extends Action
 
 	private void init( )
 	{
-		Chart cm = ChartXTabUtil.getChartFromHandle( eih );
+		Chart cm = ChartCubeUtil.getChartFromHandle( eih );
 		if ( cm instanceof ChartWithAxes )
 		{
 			this.setChecked( hasAxisChart( ) );
@@ -57,7 +57,7 @@ public class ShowAxisAction extends Action
 			{
 				// Not allowed to show/hide axis if xtab is extended from
 				// library
-				AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
+				AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( eih );
 				if ( containerCell != null )
 				{
 					if ( DEUtil.isLinkedElement( containerCell.getCrosstabHandle( ) ) )
@@ -77,22 +77,23 @@ public class ShowAxisAction extends Action
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private boolean hasAxisChart( )
 	{
 		// Check if axis chart is existent
-		if ( ChartXTabUtil.isPlotChart( eih ) )
+		if ( ChartCubeUtil.isPlotChart( eih ) )
 		{
-			for ( Iterator iterator = eih.clientsIterator( ); iterator.hasNext( ); )
+			for ( Iterator<DesignElementHandle> iterator = eih.clientsIterator( ); iterator.hasNext( ); )
 			{
-				DesignElementHandle client = (DesignElementHandle) iterator.next( );
-				if ( ChartXTabUtil.isAxisChart( client ) )
+				DesignElementHandle client = iterator.next( );
+				if ( ChartCubeUtil.isAxisChart( client ) )
 				{
 					return true;
 				}
 			}
 			return false;
 		}
-		if ( ChartXTabUtil.isAxisChart( eih ) )
+		if ( ChartCubeUtil.isAxisChart( eih ) )
 		{
 			return true;
 		}
@@ -109,7 +110,7 @@ public class ShowAxisAction extends Action
 
 			// Update chart model for axis visibility
 			ExtendedItemHandle plotChart = eih;
-			if ( ChartXTabUtil.isAxisChart( eih ) )
+			if ( ChartCubeUtil.isAxisChart( eih ) )
 			{
 				plotChart = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
 			}
@@ -128,7 +129,7 @@ public class ShowAxisAction extends Action
 			}
 
 			// Update axis chart in xtab
-			AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
+			AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( eih );
 			if ( containerCell != null )
 			{
 				if ( isChecked( ) )

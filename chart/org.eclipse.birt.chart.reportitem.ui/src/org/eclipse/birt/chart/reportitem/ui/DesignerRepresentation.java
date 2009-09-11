@@ -36,10 +36,10 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.type.DialSeries;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -150,21 +150,21 @@ public final class DesignerRepresentation extends Figure
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
 			{
-				if ( ChartXTabUtil.isPlotChart( crii.getHandle( ) ) )
+				if ( ChartCubeUtil.isPlotChart( crii.getHandle( ) ) )
 				{
 					// Update model for Plot chart
-					cm = ChartXTabUtil.updateModelToRenderPlot( cm.copyInstance( ),
+					cm = ChartCubeUtil.updateModelToRenderPlot( cm.copyInstance( ),
 							crii.getHandle( ).isDirectionRTL( ) );
 				}
-				else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
+				else if ( ChartCubeUtil.isAxisChart( crii.getHandle( ) ) )
 				{
 					// Update model for Axis chart
-					cm = ChartXTabUtil.updateModelToRenderAxis( cm.copyInstance( ),
+					cm = ChartCubeUtil.updateModelToRenderAxis( cm.copyInstance( ),
 							crii.getHandle( ).isDirectionRTL( ) );
 				}
 
 				// Do not modify size for axis chart
-				if ( !ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
+				if ( !ChartCubeUtil.isAxisChart( crii.getHandle( ) ) )
 				{
 					final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
 					final Bounds bo = cm.getBlock( )
@@ -337,8 +337,7 @@ public final class DesignerRepresentation extends Figure
 			return null;
 		}
 
-		OrthogonalSampleData osd = (OrthogonalSampleData) sd.getOrthogonalSampleData( )
-				.get( 0 );
+		OrthogonalSampleData osd = sd.getOrthogonalSampleData( ).get( 0 );
 
 		String sData = osd.getDataSetRepresentation( );
 
@@ -545,7 +544,7 @@ public final class DesignerRepresentation extends Figure
 			rtc.setExternalizer( crii );
 
 			// Create shared scale if needed
-			boolean bPlotChart = ChartXTabUtil.isPlotChart( crii.getHandle( ) );
+			boolean bPlotChart = ChartCubeUtil.isPlotChart( crii.getHandle( ) );
 			if ( bPlotChart )
 			{
 				rtc.setSharedScale( createSharedScaleFromSampleData( ) );

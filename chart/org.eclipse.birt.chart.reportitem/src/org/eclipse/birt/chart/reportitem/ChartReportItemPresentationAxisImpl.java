@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -34,13 +35,13 @@ public final class ChartReportItemPresentationAxisImpl extends
 	public void setModelObject( ExtendedItemHandle eih )
 	{
 		// Get the host chart handle from host chart
-		modelHandle = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+		modelHandle = (ExtendedItemHandle) eih.getElementProperty( PROPERTY_HOST_CHART );
 		IReportItem item = getReportItem( modelHandle );
 		if ( item == null )
 		{
 			return;
 		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
+		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( PROPERTY_CHART );
 
 		setChartModelObject( item );
 	}
@@ -75,7 +76,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 		super.updateChartModel( );
 		
 		// Update runtime model to render axis only
-		ChartXTabUtil.updateModelToRenderAxis( cm, rtc.isRightToLeft( ) );
+		ChartCubeUtil.updateModelToRenderAxis( cm, rtc.isRightToLeft( ) );
 	}
 
 	@Override

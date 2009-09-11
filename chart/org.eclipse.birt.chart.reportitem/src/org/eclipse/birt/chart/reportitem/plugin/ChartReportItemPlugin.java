@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.plugin;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 

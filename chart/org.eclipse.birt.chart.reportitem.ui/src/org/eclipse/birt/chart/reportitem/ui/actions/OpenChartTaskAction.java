@@ -12,8 +12,8 @@
 package org.eclipse.birt.chart.reportitem.ui.actions;
 
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartReportItemBuilderImpl;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;

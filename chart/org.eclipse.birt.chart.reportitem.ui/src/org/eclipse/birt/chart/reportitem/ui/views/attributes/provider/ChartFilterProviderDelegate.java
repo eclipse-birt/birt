@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.ChartPageGenerator;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
@@ -274,16 +274,16 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 		}
 
 		if ( handle instanceof ReportItemHandle
-				&& ChartXTabUtil.getBindingCube( (DesignElementHandle) handle ) != null )
+				&& ChartCubeUtil.getBindingCube( (DesignElementHandle) handle ) != null )
 
 		{
 			// It is in cube mode.
 			if ( ( (ReportItemHandle) handle ).getCube( ) != null
-					&& ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) || ( (ReportItemHandle) handle ).getDataBindingReference( ) != null ) )
+					&& ( ChartItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) || ( (ReportItemHandle) handle ).getDataBindingReference( ) != null ) )
 			{
 				// Sharing crosstab/multi-view
 				ReportItemHandle ref = ( (ReportItemHandle) handle ).getDataBindingReference( );
-				if ( ChartReportItemUtil.isChartHandle( ref ) )
+				if ( ChartItemUtil.isChartHandle( ref ) )
 				{
 					currentProvider = new ChartShareCubeFiltersHandleProvider( new FilterHandleProvider( ) );
 				}
@@ -301,7 +301,7 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 		else
 		{
 			// It is in table mode.
-			if ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) )
+			if ( ChartItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) )
 			{
 				// Chart is in multi-view.
 				currentProvider = new ChartShareFiltersHandleProvider( baseProvider );

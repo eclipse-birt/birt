@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -37,27 +39,27 @@ public final class ChartReportItemPresentationPlotImpl extends
 
 		try
 		{
-			AggregationCellHandle xtabCell = ChartXTabUtil.getXtabContainerCell( modelHandle );
+			AggregationCellHandle xtabCell = ChartCubeUtil.getXtabContainerCell( modelHandle );
 			if ( xtabCell != null )
 			{
 				if ( xtabCell.getSpanOverOnColumn( ) != null )
 				{
 					// Horizontal direction
-					CrosstabCellHandle columnCell = ChartXTabUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
+					CrosstabCellHandle columnCell = ChartCubeUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
 							ICrosstabConstants.COLUMN_AXIS_TYPE );
 					// Get the column width plus border
-					double dWidth = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstab( )
+					double dWidth = ChartItemUtil.convertToPoints( xtabCell.getCrosstab( )
 							.getColumnWidth( columnCell ),
 							dpi );
 					if ( dWidth == 0 )
 					{
-						dWidth = ChartXTabUtil.DEFAULT_COLUMN_WIDTH.getMeasure( );
+						dWidth = ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( );
 					}
 					StyleHandle style = xtabCell.getModelHandle( )
 							.getPrivateStyle( );
-					double dLeftBorder = ChartReportItemUtil.convertToPoints( style.getBorderLeftWidth( ),
+					double dLeftBorder = ChartItemUtil.convertToPoints( style.getBorderLeftWidth( ),
 							dpi );
-					double dRightBorder = ChartReportItemUtil.convertToPoints( style.getBorderRightWidth( ),
+					double dRightBorder = ChartItemUtil.convertToPoints( style.getBorderRightWidth( ),
 							dpi );
 					// Set negative size to be replaced by actual size
 					// In IE, cell size doesn't include padding, but FF and PDF
@@ -70,20 +72,20 @@ public final class ChartReportItemPresentationPlotImpl extends
 				else if ( xtabCell.getSpanOverOnRow( ) != null )
 				{
 					// Vertical direction plus border
-					CrosstabCellHandle rowCell = ChartXTabUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
+					CrosstabCellHandle rowCell = ChartCubeUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
 							ICrosstabConstants.ROW_AXIS_TYPE );
-					double dHeight = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstab( )
+					double dHeight = ChartItemUtil.convertToPoints( xtabCell.getCrosstab( )
 							.getRowHeight( rowCell ),
 							dpi );
 					if ( dHeight == 0 )
 					{
-						dHeight = ChartXTabUtil.DEFAULT_ROW_HEIGHT.getMeasure( );
+						dHeight = ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( );
 					}
 					StyleHandle style = xtabCell.getModelHandle( )
 							.getPrivateStyle( );
-					double dTopBorder = ChartReportItemUtil.convertToPoints( style.getBorderTopWidth( ),
+					double dTopBorder = ChartItemUtil.convertToPoints( style.getBorderTopWidth( ),
 							dpi );
-					double dBottomBorder = ChartReportItemUtil.convertToPoints( style.getBorderBottomWidth( ),
+					double dBottomBorder = ChartItemUtil.convertToPoints( style.getBorderBottomWidth( ),
 							dpi );
 					// Set negative size to be replaced by actual size
 					// In IE, cell size doesn't include padding, but FF and PDF
@@ -108,9 +110,9 @@ public final class ChartReportItemPresentationPlotImpl extends
 	protected void updateChartModel( )
 	{
 		super.updateChartModel( );
-		
+
 		// Update runtime model to render plot only
-		ChartXTabUtil.updateModelToRenderPlot( cm, rtc.isRightToLeft( ) );
+		ChartCubeUtil.updateModelToRenderPlot( cm, rtc.isRightToLeft( ) );
 	}
 
 	private double roundPointsWithPixels( double points )

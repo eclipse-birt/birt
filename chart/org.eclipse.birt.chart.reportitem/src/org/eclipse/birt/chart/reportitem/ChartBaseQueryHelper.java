@@ -22,6 +22,8 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -151,7 +153,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 					fChartModel ) )
 			{
 				// Add min/max binding to parent query since it's global min/max
-				addMinMaxBinding( ChartReportItemUtil.getBindingHolder( fReportItemHandle ),
+				addMinMaxBinding( ChartItemUtil.getBindingHolder( fReportItemHandle ),
 						parentQuery );
 			}
 
@@ -251,13 +253,13 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			String queryExp = getExpressionOfValueSeries( );
 
 			ComputedColumn ccMin = StructureFactory.newComputedColumn( handle,
-					ChartReportItemUtil.QUERY_MIN );
+					ChartReportItemConstants.NAME_QUERY_MIN );
 			ccMin.setAggregateFunction( DesignChoiceConstants.AGGREGATION_FUNCTION_MIN );
 			ccMin.setExpression( queryExp );
 			addColumBinding( query, handle.addColumnBinding( ccMin, false ) );
 
 			ComputedColumn ccMax = StructureFactory.newComputedColumn( handle,
-					ChartReportItemUtil.QUERY_MAX );
+					ChartReportItemConstants.NAME_QUERY_MAX );
 			ccMax.setAggregateFunction( DesignChoiceConstants.AGGREGATION_FUNCTION_MAX );
 			ccMax.setExpression( queryExp );
 			addColumBinding( query, handle.addColumnBinding( ccMax, false ) );
@@ -283,7 +285,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		else
 		{
 			// create a sub query
-			query = new SubqueryDefinition( ChartReportItemConstants.CHART_SUBQUERY
+			query = new SubqueryDefinition( ChartReportItemConstants.NAME_SUBQUERY
 					+ handle.getElement( ).getID( ),
 					parentQuery );
 			parentQuery.getSubqueries( ).add( query );

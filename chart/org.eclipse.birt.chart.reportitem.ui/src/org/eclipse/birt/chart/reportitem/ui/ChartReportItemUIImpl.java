@@ -21,10 +21,10 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -81,20 +81,22 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			iri.setDesignerRepresentation( dr ); // UPDATE LINK
 
 			// Update the hostChart reference once plot chart is copied
-			if ( iri.isCopied( ) && ChartXTabUtil.isPlotChart( eih ) )
+			if ( iri.isCopied( ) && ChartCubeUtil.isPlotChart( eih ) )
 			{
 				ChartWithAxes cwa = (ChartWithAxes) iri.getProperty( ChartReportItemConstants.PROPERTY_CHART );
-				Axis yAxis = (Axis) ( (Axis) cwa.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+				Axis yAxis = cwa.getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( )
 						.get( 0 );
 				if ( yAxis.getLineAttributes( ).isVisible( )
-						&& ChartXTabUtil.findReferenceChart( eih ) == null )
+						&& ChartCubeUtil.findReferenceChart( eih ) == null )
 				{
 					// Only update axis chart when axis is visible
-					AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
+					AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( eih );
 					AggregationCellHandle grandTotalCell = ChartXTabUIUtil.getGrandTotalAggregationCell( containerCell,
 							cwa.isTransposed( ) );
-					Object content = ChartXTabUtil.getFirstContent( grandTotalCell );
-					if ( ChartXTabUtil.isAxisChart( (DesignElementHandle) content ) )
+					Object content = ChartCubeUtil.getFirstContent( grandTotalCell );
+					if ( ChartCubeUtil.isAxisChart( (DesignElementHandle) content ) )
 					{
 						final ExtendedItemHandle axisChart = (ExtendedItemHandle) content;
 						if ( !axisChart.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART )
@@ -118,7 +120,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 					}
 				}
 			}
-			else if ( ChartXTabUtil.isAxisChart( eih ) )
+			else if ( ChartCubeUtil.isAxisChart( eih ) )
 			{
 				DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
 				if ( hostChart != null )
@@ -160,25 +162,25 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			// UPDATE THE MODEL
 			crii.setHandle( eih );
 
-			final boolean bAxisChart = ChartXTabUtil.isAxisChart( eih );
+			final boolean bAxisChart = ChartCubeUtil.isAxisChart( eih );
 			final ExtendedItemHandle hostChart;
 			final Chart cm;
 			if ( bAxisChart )
 			{
 				hostChart = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
-				cm = ChartXTabUtil.getChartFromHandle( hostChart );
+				cm = ChartCubeUtil.getChartFromHandle( hostChart );
 			}
 			else
 			{
 				hostChart = null;
-				cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
+				cm = (Chart) crii.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 			}
 			if ( cm == null )
 			{
 				return;
 			}
 
-			Bounds defaultBounds = ChartReportItemUtil.createDefaultChartBounds( eih,
+			Bounds defaultBounds = ChartItemUtil.createDefaultChartBounds( eih,
 					cm );
 
 			// Default size for null dimension

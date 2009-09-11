@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -196,7 +196,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 				{
 					List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
 
-					CubeHandle cubeHandle = ChartXTabUtil.getBindingCube( inputElement );
+					CubeHandle cubeHandle = ChartCubeUtil.getBindingCube( inputElement );
 					if ( cubeHandle != null )
 					{
 						if ( inputElement.getCube( ) == null )
@@ -213,23 +213,23 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 							// bindings.
 							
 							// Add levels
-							List<LevelHandle> levels = ChartXTabUtil.getAllLevels( cubeHandle );
+							List<LevelHandle> levels = ChartCubeUtil.getAllLevels( cubeHandle );
 							for ( Iterator<LevelHandle> iter = levels.iterator( ); iter.hasNext( ); )
 							{
 								LevelHandle levelHandle = iter.next( );
 								ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
-										ChartXTabUtil.createLevelBindingName( levelHandle ) );
+										ChartCubeUtil.createLevelBindingName( levelHandle ) );
 								column.setDataType( levelHandle.getDataType( ) );
-								column.setExpression( ChartXTabUtil.createDimensionExpression( levelHandle ) );
+								column.setExpression( ChartCubeUtil.createDimensionExpression( levelHandle ) );
 								columnList.add( column );
 							}
 							// Add measures
-							List<MeasureHandle> measures = ChartXTabUtil.getAllMeasures( cubeHandle );
+							List<MeasureHandle> measures = ChartCubeUtil.getAllMeasures( cubeHandle );
 							for ( Iterator<MeasureHandle> iter = measures.iterator( ); iter.hasNext( ); )
 							{
 								MeasureHandle measureHandle = iter.next( );
 								ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
-										ChartXTabUtil.createMeasureBindingName( measureHandle ) );
+										ChartCubeUtil.createMeasureBindingName( measureHandle ) );
 								column.setDataType( measureHandle.getDataType( ) );
 								column.setExpression( ExpressionUtil.createJSMeasureExpression( measureHandle.getName( ) ) );
 								column.setAggregateFunction( measureHandle.getFunction( ) );
@@ -347,11 +347,11 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	protected List<ComputedColumnHandle> getBindingList(
 			DesignElementHandle inputElement )
 	{
-		Iterator iterator = ChartReportItemUtil.getColumnDataBindings( (ReportItemHandle) inputElement );
+		Iterator<ComputedColumnHandle> iterator = ChartItemUtil.getColumnDataBindings( (ReportItemHandle) inputElement );
 		List<ComputedColumnHandle> list = new ArrayList<ComputedColumnHandle>( );
 		while ( iterator.hasNext( ) )
 		{
-			list.add( (ComputedColumnHandle) iterator.next( ) );
+			list.add( iterator.next( ) );
 		}
 		return list;
 	}

@@ -23,9 +23,8 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeFilterExpressionProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -137,9 +136,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	private ParamBindingHandle[] bindingParams = null;
 
-	private transient boolean refreshItems = true;
+	private boolean refreshItems = true;
 
-	protected transient ReportElementHandle currentItem = null;
+	protected ReportElementHandle currentItem = null;
 
 	protected static final String[] EMPTY_ARRAY = new String[]{};
 
@@ -257,10 +256,14 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		for ( Iterator<SeriesDefinition> iter = sdList.iterator( ); iter.hasNext( ); )
 		{
 			SeriesDefinition sDefintion = iter.next( );
-			for (Iterator i = sDefintion.getDesignTimeSeries( ).getDataDefinition( ).iterator( ); i.hasNext( ); )
+			for ( Iterator<Query> i = sDefintion.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.iterator( ); i.hasNext( ); )
 			{
-				query = (Query) i.next( );
-				if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( )  )) //$NON-NLS-1$
+				query = i.next( );
+				if ( query != null
+						&& query.getDefinition( ) != null
+						&& !"".equals( query.getDefinition( ) ) ) //$NON-NLS-1$
 				{
 					exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
 				}
@@ -315,7 +318,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		{
 			if ( inputHandle == null )
 			{
-				FilterConditionElementHandle filter = DesignElementFactory.getInstance( )
+				FilterConditionElementHandle filter = DesignElementFactory.getInstance( currentItem.getModuleHandle( ) )
 						.newFilterConditionElement( );
 				filter.setProperty( IFilterConditionElementModel.OPERATOR_PROP,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
@@ -350,7 +353,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					}
 				}
 		
-				PropertyHandle propertyHandle = designHandle.getPropertyHandle( ChartReportItemUtil.PROPERTY_CUBE_FILTER );
+				PropertyHandle propertyHandle = designHandle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
 				propertyHandle.add( filter );
 			}
 			else
@@ -1745,10 +1748,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			{
 				ExpressionProvider exprProvider = new ChartCubeFilterExpressionProvider( designHandle,
 						fExprMap.values( ).toArray( new String[]{} ) );
-				expressionBuilder.setExpressionProvier( exprProvider );
+				expressionBuilder.setExpressionProvider( exprProvider );
 			}
 			else
-				expressionBuilder.setExpressionProvier( expressionProvider );
+				expressionBuilder.setExpressionProvider( expressionProvider );
 		}
 
 		if ( expressionBuilder.open( ) == OK )
@@ -1842,7 +1845,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 			else
 			{
-				cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
+				cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
 			}
 			cubeQueryDefn = new ChartCubeQueryHelper( (ExtendedItemHandle) designHandle,
 					cm ).createCubeQuery( null );

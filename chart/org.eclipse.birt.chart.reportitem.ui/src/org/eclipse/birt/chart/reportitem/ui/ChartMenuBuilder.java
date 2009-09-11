@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.actions.FlipAxisAction;
 import org.eclipse.birt.chart.reportitem.ui.actions.OpenChartTaskAction;
 import org.eclipse.birt.chart.reportitem.ui.actions.ShowAxisAction;
@@ -37,7 +37,7 @@ public class ChartMenuBuilder implements IMenuBuilder
 	{
 		if ( selectedList != null
 				&& selectedList.size( ) == 1
-				&& ChartReportItemUtil.isChartHandle( selectedList.get( 0 ) ) )
+				&& ChartItemUtil.isChartHandle( selectedList.get( 0 ) ) )
 		{
 			ExtendedItemHandle handle = (ExtendedItemHandle) selectedList.get( 0 );
 
@@ -69,8 +69,8 @@ public class ChartMenuBuilder implements IMenuBuilder
 							UIHelper.getImage( ChartUIConstants.IMAGE_TASK_FORMAT ),
 							false ) );
 
-			if ( ChartXTabUtil.isPlotChart( handle )
-					|| ChartXTabUtil.isAxisChart( handle ) )
+			if ( ChartCubeUtil.isPlotChart( handle )
+					|| ChartCubeUtil.isAxisChart( handle ) )
 			{
 				menu.appendToGroup( separator.getId( ),
 						new FlipAxisAction( handle ) );

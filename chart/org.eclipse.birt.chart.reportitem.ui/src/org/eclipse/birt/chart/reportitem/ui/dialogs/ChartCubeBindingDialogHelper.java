@@ -21,8 +21,8 @@ import java.util.StringTokenizer;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
@@ -305,7 +305,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
-			chart = ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) handle );
+			chart = ChartItemUtil.getChartFromHandle( (ExtendedItemHandle) handle );
 		}
 
 		SeriesDefinition category = ChartUIUtil.getBaseSeriesDefinitions( chart )
@@ -502,7 +502,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String[] getMesures( )
 	{
-		List<MeasureHandle> mesureList = ChartXTabUtil.getAllMeasures( getBindingHolder( ).getCube( ) );
+		List<MeasureHandle> mesureList = ChartCubeUtil.getAllMeasures( getBindingHolder( ).getCube( ) );
 		String[] mesures = new String[mesureList.size( ) + 1];
 		mesures[0] = ""; //$NON-NLS-1$
 		for ( int i = 1; i < mesures.length; i++ )

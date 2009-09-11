@@ -54,6 +54,7 @@ import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
@@ -85,7 +86,7 @@ import org.mozilla.javascript.EvaluatorException;
  * various implementation.
  */
 public class ChartReportItemPresentationBase extends ReportItemPresentationBase implements
-		org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants
+		ChartReportItemConstants
 {
 
 	protected InputStream fis = null;
@@ -574,10 +575,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		if ( baseResultSet instanceof IQueryResultSet )
 		{
 			Object min = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-					+ QUERY_MIN
+					+ NAME_QUERY_MIN
 					+ "\"]" ); //$NON-NLS-1$
 			Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-					+ QUERY_MAX
+					+ NAME_QUERY_MAX
 					+ "\"]" ); //$NON-NLS-1$
 			return SharedScaleContext.createInstance( min, max );
 		}
@@ -600,8 +601,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 						.get( 0 );
 				String bindingValue = ChartExpressionUtil.getCubeBindingName( queryValue.getDefinition( ),
 						false );
-				String maxBindingName = QUERY_MAX + bindingValue;
-				String minBindingName = QUERY_MIN + bindingValue;
+				String maxBindingName = NAME_QUERY_MAX + bindingValue;
+				String minBindingName = NAME_QUERY_MIN + bindingValue;
 				Object min = baseResultSet.evaluate( ExpressionUtil.createJSDataExpression( minBindingName ) );
 				Object max = baseResultSet.evaluate( ExpressionUtil.createJSDataExpression( maxBindingName ) );
 				if ( min != null && max != null )

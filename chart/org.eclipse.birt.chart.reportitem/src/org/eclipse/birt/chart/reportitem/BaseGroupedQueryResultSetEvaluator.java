@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -149,7 +150,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			// Iterator all sub queries and find chart sub query to get group definitions.
 			for ( int i = 0; i < subQuerys.size( ); i++ )
 			{
-				if ( ( ChartReportItemConstants.CHART_SUBQUERY + handle.getElement( )
+				if ( ( ChartReportItemConstants.NAME_SUBQUERY + handle.getElement( )
 						.getID( ) ).equals( ( (ISubqueryDefinition) subQuerys.get( i ) ).getName( ) ) )
 				{
 					fGroupDefinitions = ( (ISubqueryDefinition) subQuerys.get( i ) ).getGroups( );

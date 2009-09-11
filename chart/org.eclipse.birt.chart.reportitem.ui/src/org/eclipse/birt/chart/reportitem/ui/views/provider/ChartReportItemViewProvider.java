@@ -24,8 +24,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -98,7 +97,7 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 						ChartReportItemConstants.CHART_EXTENSION_NAME );
 
 		itemHandle.getReportItem( )
-				.setProperty( ChartReportItemUtil.PROPERTY_CHART, cm );
+				.setProperty( ChartReportItemConstants.PROPERTY_CHART, cm );
 
 		return itemHandle;
 	}

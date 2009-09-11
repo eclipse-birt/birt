@@ -17,6 +17,7 @@ package org.eclipse.birt.chart.reportitem.api;
 
 public interface ChartReportItemConstants
 {
+
 	public static final String ID = "org.eclipse.birt.chart.reportitem"; //$NON-NLS-1$
 
 	public static final String EXPRESSION_SPLITTOR = "/"; //$NON-NLS-1$
@@ -24,12 +25,14 @@ public interface ChartReportItemConstants
 	/**
 	 * Specified the query expression of min aggregation binding
 	 */
-	public static final String QUERY_MIN = "chart__min"; //$NON-NLS-1$
+	public static final String NAME_QUERY_MIN = "chart__min"; //$NON-NLS-1$
 
 	/**
 	 * Specified the query expression of max aggregation binding
 	 */
-	public static final String QUERY_MAX = "chart__max"; //$NON-NLS-1$
+	public static final String NAME_QUERY_MAX = "chart__max"; //$NON-NLS-1$
+
+	public static final String NAME_SUBQUERY = "chart_subquery"; //$NON-NLS-1$
 
 	public static final String CHART_EXTENSION_NAME = "Chart";//$NON-NLS-1$
 
@@ -66,6 +69,4 @@ public interface ChartReportItemConstants
 	public static final double DEFAULT_CHART_BLOCK_HEIGHT = 130;
 	public static final double DEFAULT_CHART_BLOCK_WIDTH = 212;
 	public static final double DEFAULT_AXIS_CHART_BLOCK_SIZE = 22;
-
-	public static final String CHART_SUBQUERY = "chart_subquery"; //$NON-NLS-1$
 }

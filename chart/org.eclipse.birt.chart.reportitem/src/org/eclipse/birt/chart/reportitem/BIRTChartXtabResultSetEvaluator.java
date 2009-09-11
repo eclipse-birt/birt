@@ -18,6 +18,8 @@ import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -51,10 +53,10 @@ public class BIRTChartXtabResultSetEvaluator
 		cubeCursor = parent;
 		try
 		{
-			AggregationCellHandle cellHandle = ChartXTabUtil.getXtabContainerCell( handle );
+			AggregationCellHandle cellHandle = ChartCubeUtil.getXtabContainerCell( handle );
 			LevelHandle levelAggColumn = cellHandle.getAggregationOnColumn( );
 			LevelHandle levelAggRow = cellHandle.getAggregationOnRow( );
-			Chart cm = ChartReportItemUtil.getChartFromHandle( handle );
+			Chart cm = ChartItemUtil.getChartFromHandle( handle );
 			bTransposed = ( (ChartWithAxes) cm ).isTransposed( );
 			if ( !bTransposed )
 			{
