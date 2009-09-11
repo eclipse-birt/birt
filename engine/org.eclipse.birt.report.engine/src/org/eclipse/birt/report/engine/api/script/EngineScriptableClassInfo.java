@@ -38,7 +38,7 @@ public class EngineScriptableClassInfo extends ScriptableClassInfo
 		}
 		catch ( ClassNotFoundException e )
 		{
-			return getScriptableClass( className );
+			return getClass( className );
 		}
 		catch ( RuntimeException e )
 		{
