@@ -117,8 +117,14 @@ public class LevelFilterHelper
 		for ( int i = 0; i < dimPosition.size( ); i++ )
 		{
 			Integer pos = (Integer) dimPosition.get( i );
-			if ( isDimPositionSelected( pos.intValue( ), dimFilterList ) )
+			if( dimFilterList.size( ) == 0 )
+			{
 				result.add( pos );
+			}
+			else if ( isDimPositionSelected( pos.intValue( ), dimFilterList ) )
+			{
+				result.add( pos );
+			}
 		}
 		return result;
 	}
