@@ -82,34 +82,28 @@ public class HTMLLayoutPageHintManager
 		layoutHint.clear( );
 	}
 	
-	protected HashMap<String, UnresolvedRowHint> currentPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>();	
-	
-	public HashMap<String, UnresolvedRowHint> getCurrentPageUnresolvedRowHints( )
-	{
-		return currentPageUnresolvedRowHints;
-	}
-
-	protected HashMap<String, UnresolvedRowHint> docRangeUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>();
+	protected HashMap<String, UnresolvedRowHint> lastPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
+	protected HashMap<String, UnresolvedRowHint> currentPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
+	protected HashMap<String, UnresolvedRowHint> parallelPagesUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
 	
 	public void generatePageRowHints(Collection<String> keys )
 	{
-		pageRangeUnresolvedRowHints.clear( );
+		lastPageUnresolvedRowHints.clear( );
 		Iterator<String> iter = keys.iterator( );
 		while(iter.hasNext( ))
 		{
 			String key = iter.next( );
-			UnresolvedRowHint hint = docRangeUnresolvedRowHints.get( key );
+			UnresolvedRowHint hint = parallelPagesUnresolvedRowHints.get( key );
 			if ( hint != null )
 			{
-				pageRangeUnresolvedRowHints.add( hint );
+				lastPageUnresolvedRowHints.put( key, hint );
 			}
 		}
 	}
 	
-	ArrayList pageRangeUnresolvedRowHints = new ArrayList();
-	public List<UnresolvedRowHint> getUnresolvedRowHints( )
+	public HashMap<String, UnresolvedRowHint> getUnresolvedRowHints( )
 	{
-		return pageRangeUnresolvedRowHints;
+		return lastPageUnresolvedRowHints;
 	}
 	
 	protected ArrayList columnHints = new ArrayList( );
@@ -131,14 +125,14 @@ public class HTMLLayoutPageHintManager
 
 	public UnresolvedRowHint getUnresolvedRowHint( String key )
 	{
-		if ( docRangeUnresolvedRowHints.size( ) > 0 )
+		if ( parallelPagesUnresolvedRowHints.size( ) > 0 )
 		{
-			return docRangeUnresolvedRowHints.get( key );
+			return parallelPagesUnresolvedRowHints.get( key );
 		}
 		return null;
 	}
 
-	public void addUnresolvedRowHint(String key,  UnresolvedRowHint hint )
+	public void addUnresolvedRowHint(String key, UnresolvedRowHint hint )
 	{
 		currentPageUnresolvedRowHints.put( key, hint );
 	}
@@ -147,15 +141,14 @@ public class HTMLLayoutPageHintManager
 	{
 		columnHints.clear( );
 		pageHints.clear( );
-		
 	}
 	
 	public void resetRowHint()
 	{
 		if ( !context.emptyPage )
 		{
-			docRangeUnresolvedRowHints.clear( );
-			docRangeUnresolvedRowHints.putAll( currentPageUnresolvedRowHints );
+			parallelPagesUnresolvedRowHints.clear( );
+			parallelPagesUnresolvedRowHints.putAll( currentPageUnresolvedRowHints );
 			currentPageUnresolvedRowHints.clear( );
 		}
 	}
@@ -180,7 +173,7 @@ public class HTMLLayoutPageHintManager
 				{
 					UnresolvedRowHint hint = pageHint.getUnresolvedRowHint( i );
 					String key = getHintMapKey(hint.getTableId( ));
-					docRangeUnresolvedRowHints.put( key, hint );
+					parallelPagesUnresolvedRowHints.put( key, hint );
 				}
 			}
 			// size based page break hints

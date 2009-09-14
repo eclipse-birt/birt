@@ -252,6 +252,7 @@ public class PageArea extends BlockContainerArea
 		context.setMaxWidth( body.getWidth( ) );
 		context.setMaxBP( body.getHeight( ) );
 		maxAvaWidth = context.getMaxWidth( );
+		context.resetUnresolvedRowHints( );
 	}
 	
 	protected BackgroundImageInfo createBackgroundImage( String url,
@@ -674,7 +675,6 @@ public class PageArea extends BlockContainerArea
 
 		pageContent.setExtension( IContent.LAYOUT_EXTENSION, this );
 		outputPage( pageContent );
-		context.resetUnresolveRowHints( );
 		finished = true;
 	}
 

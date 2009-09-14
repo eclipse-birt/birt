@@ -817,9 +817,8 @@ public class ReportDocumentBuilder
 					PageSection section = createPageSection( range[0], range[1] );
 					hint.addSection( section );
 				}
-				hint
-						.addUnresolvedRowHints( htmlContext
-								.getPageHintManager( ).getUnresolvedRowHints( ) );
+				hint.addUnresolvedRowHints( htmlContext.getPageHintManager( )
+						.getUnresolvedRowHints( ).values( ) );
 				hint.addTableColumnHints( htmlContext.getPageHintManager( ).getTableColumnHints( ) );
 
 				Collection<PageVariable> vars = getPageVariable( );

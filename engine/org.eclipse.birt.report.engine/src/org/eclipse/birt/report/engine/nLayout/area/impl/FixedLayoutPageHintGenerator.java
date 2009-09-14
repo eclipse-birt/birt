@@ -75,7 +75,6 @@ public class FixedLayoutPageHintGenerator
 			docUnresolvedRowHints.putAll( currentPageUnresolvedRowHints );
 			currentPageUnresolvedRowHints.clear( );
 		}
-		
 	}
 
 	public List<UnresolvedRowHint> getUnresolvedRowHints( )
@@ -111,7 +110,7 @@ public class FixedLayoutPageHintGenerator
 		{
 			reset( );
 			htmlUnresolvedRowHints = htmlLayoutContext.getPageHintManager( )
-					.getCurrentPageUnresolvedRowHints( );
+					.getUnresolvedRowHints( );
 			for ( Iterator<IArea> i = pageArea.getBody( ).getChildren( ); i
 					.hasNext( ); )
 			{
