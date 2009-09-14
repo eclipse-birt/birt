@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -166,7 +167,7 @@ public class RowSaveUtil
 			{
 				Object key = it.next( );
 				Object value = valueMap.get( key );
-				if( value instanceof DataException )
+				if( value instanceof BirtException )
 					value = EXCEPTION_INDICATOR;
 				IOUtil.writeObject( tempDos, value );
 			}

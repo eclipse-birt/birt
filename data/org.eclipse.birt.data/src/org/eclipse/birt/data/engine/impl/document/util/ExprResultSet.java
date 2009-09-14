@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.CacheProvider;
@@ -52,7 +53,9 @@ public class ExprResultSet implements IExprResultSet
 	
 	protected String tempDir;
 	
-	private RDAggrUtil aggrUtil = null;;
+	private RDAggrUtil aggrUtil = null;
+	
+	private IBaseQueryDefinition qd;
 	
 	/**
 	 * @param streamManager
@@ -60,7 +63,8 @@ public class ExprResultSet implements IExprResultSet
 	 * @throws DataException
 	 */
 	public ExprResultSet( String tempDir, StreamManager streamManager, int version,
-			boolean isBasedOnSecondRD,  DataSetResultSet dataSetResultSet, int rowIdStartingIndex ) throws DataException
+			boolean isBasedOnSecondRD,  DataSetResultSet dataSetResultSet, int rowIdStartingIndex,
+			IBaseQueryDefinition qd ) throws DataException
 	{
 		this.tempDir = tempDir;
 		this.streamManager = streamManager;
@@ -68,6 +72,7 @@ public class ExprResultSet implements IExprResultSet
 		this.isBasedOnSecondRD = isBasedOnSecondRD;
 		this.dataSetResultSet = dataSetResultSet;
 		this.rowIdStartingIndex = rowIdStartingIndex;
+		this.qd = qd;
 		this.prepare( );
 		
 		this.rdGroupUtil.setCacheProvider( new CacheProviderImpl( this ) );
@@ -96,7 +101,7 @@ public class ExprResultSet implements IExprResultSet
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE ) )
 			{
-				this.aggrUtil = new RDAggrUtil( streamManager );
+				this.aggrUtil = new RDAggrUtil( streamManager, qd );
 			}
 		}
 		if ( this.isBasedOnSecondRD == false )

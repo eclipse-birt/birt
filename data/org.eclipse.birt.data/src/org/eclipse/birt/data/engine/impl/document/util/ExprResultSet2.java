@@ -35,7 +35,7 @@ public class ExprResultSet2 extends ExprResultSet
 	public ExprResultSet2( String tempDir, StreamManager streamManager, int version,
 			boolean isBasedOnSecondRD, int rowIdStartingIndex ) throws DataException
 	{
-		super( tempDir, streamManager, version, isBasedOnSecondRD, null, rowIdStartingIndex );
+		super( tempDir, streamManager, version, isBasedOnSecondRD, null, rowIdStartingIndex, null );
 	}
 
 	/*

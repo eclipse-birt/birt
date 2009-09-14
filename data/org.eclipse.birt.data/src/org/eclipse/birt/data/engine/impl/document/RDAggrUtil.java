@@ -16,8 +16,12 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -33,9 +37,11 @@ public class RDAggrUtil
 {
 
 	private HashMap<String, RDAggrValueHolder> holders = new HashMap<String, RDAggrValueHolder>( );
-
-	public RDAggrUtil( StreamManager manager ) throws DataException
+	private IBaseQueryDefinition qd;
+	
+	public RDAggrUtil( StreamManager manager, IBaseQueryDefinition qd ) throws DataException
 	{
+		this.qd = qd;
 		try
 		{
 			RAInputStream aggrIndexStream = manager.getInStream( DataEngineContext.AGGR_INDEX_STREAM,
@@ -118,12 +124,24 @@ public class RDAggrUtil
 		{
 			if ( this.contains( aggrName ) )
 			{
-				return holders.get( aggrName ).get( groupInstanceIndex );
+				Object value = holders.get( aggrName ).get( groupInstanceIndex );
+				if ( qd.getBindings( ).containsKey( aggrName ))
+				{
+					IBinding b = (IBinding)qd.getBindings( ).get( aggrName );
+					
+					//convert the value to the target type got from the original binding
+					value = DataTypeUtil.convert( value, b.getDataType( ) );
+				}
+				return value;
 			}
 
 			return null;
 		}
 		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		catch ( BirtException e )
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}

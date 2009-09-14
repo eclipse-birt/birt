@@ -113,12 +113,13 @@ public class RDLoad
 			return new ExprResultSet2( tempDir, streamManager,
 					version,
 					streamManager.isSecondRD( ), rowIdStartingIndex );
-
+		IBaseQueryDefinition qd = loadQueryDefn( StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
 		return new ExprResultSet( tempDir, streamManager,
 				version,
 				streamManager.isSecondRD( ),
 				( streamManager.isSubquery( ) || this.version < VersionManager.VERSION_2_2_1_3 )
-						? null : this.loadDataSetData( ), streamManager.isSubquery( ) ? rowIdStartingIndex:0 );
+						? null : this.loadDataSetData( ), streamManager.isSubquery( ) ? rowIdStartingIndex:0,
+								qd );
 	}
 	
 	/**
