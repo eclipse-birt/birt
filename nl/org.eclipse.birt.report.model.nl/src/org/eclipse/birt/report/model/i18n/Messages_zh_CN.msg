@@ -3300,7 +3300,7 @@ Element.GadgetItem.inlineStyle=内嵌样式
 Element.GadgetItem.externalGadgetURI=外部小工具 URI
 Element.GadgetItem.externalGadgetRefType=外部小工具引用类型
 Element.GadgetItem.projectName=项目名称
-Element.GadgetItem.showTitle=Show title
+Element.GadgetItem.showTitle=显示标题
 Element.GadgetItem.content=内容
 Element.GadgetItem.subscribeTo=预订
 Element.GadgetItem.observers=观察程序
@@ -3324,14 +3324,14 @@ Element.DataSelectorItem.type=类型
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet 引用
-Element.DataViewItem.gadgetType=Gadget type
+Element.DataViewItem.gadgetType=小工具类型
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=数据源
 Element.DataMart.slot.dataSets=数据集
 Element.DataMart.slot.cubes=多维数据集
 Element.DataMart.slot.parameters=参数
-Element.DataMart.enableACL=启用e ACL
+Element.DataMart.enableACL=启用 ACL
 Element.DataMart.ACLExpression=ACL 表达式
 
 ###########################################################
@@ -3861,9 +3861,9 @@ Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} 中的属性 {1} 不可加密
 Error.EncryptionException.INVALID_ENCRYPTION=加密 ID“{0}”无效，因为不存在此类加密。
 
 #DataMartException
-Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
-Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
-Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=数据市场命名空间“{0}”已存在。
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=已包含数据市场“{0}”，一个数据市场不能添加两次。
+Error.DataMartException.DATAMART_NOT_FOUND=未找到具有命名空间“{0}”的数据市场。
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.

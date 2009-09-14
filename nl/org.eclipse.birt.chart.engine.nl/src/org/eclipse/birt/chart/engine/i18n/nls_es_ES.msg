@@ -365,11 +365,11 @@ Cursor.SResize.displayName=Sur
 Cursor.WResize.displayName=Oeste
 Cursor.Custom.displayName=Personalizar
 
-ActionType.URLRedirect.DisplayName=URL Redirect
+ActionType.URLRedirect.DisplayName=Redirección de URL
 ActionType.InvokeScript.DisplayName=Llamar a script
 ActionType.Highlight.DisplayName=Resaltar
 ActionType.ToggleVisibility.DisplayName=Alternar visibilidad
-ActionType.ToggleDataPointVisibility.DisplayName=Toggle Data Point Visibility
+ActionType.ToggleDataPointVisibility.DisplayName=Alternar visibilidad de punto de datos
 
 # End of Attributes
 ##################################################

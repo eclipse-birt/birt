@@ -3300,7 +3300,7 @@ Element.GadgetItem.inlineStyle=Stil im Text
 Element.GadgetItem.externalGadgetURI=Externer Gadget-URI
 Element.GadgetItem.externalGadgetRefType=Externer Gadget-Verweistyp
 Element.GadgetItem.projectName=Projektname
-Element.GadgetItem.showTitle=Show title
+Element.GadgetItem.showTitle=Titel anzeigen
 Element.GadgetItem.content=Inhalt
 Element.GadgetItem.subscribeTo=Abonnieren:
 Element.GadgetItem.observers=Beobachter
@@ -3324,7 +3324,7 @@ Element.DataSelectorItem.type=Typ
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Interner reportLet-Verweis
-Element.DataViewItem.gadgetType=Gadget type
+Element.DataViewItem.gadgetType=Gadget-Typ
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=Datenquellen
@@ -3861,9 +3861,9 @@ Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=Die Eigenschaft {1} in {0
 Error.EncryptionException.INVALID_ENCRYPTION=Die Verschlüsselungs-ID '{0}' ist ungültig, da keine entsprechende Verschlüsselung existiert.
 
 #DataMartException
-Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
-Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
-Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=Der Datamart-Namespace '{0}' ist bereits vorhanden.
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=Der Datamart '{0}' ist bereits enthalten. Datamarts können nicht doppelt hinzugefügt werden.
+Error.DataMartException.DATAMART_NOT_FOUND=Der Datamart mit dem Namespace '{0}' wurde nicht gefunden.
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.

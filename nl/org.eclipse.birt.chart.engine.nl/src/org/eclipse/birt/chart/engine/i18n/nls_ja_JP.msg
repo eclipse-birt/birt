@@ -365,11 +365,11 @@ Cursor.SResize.displayName=南
 Cursor.WResize.displayName=西
 Cursor.Custom.displayName=カスタム
 
-ActionType.URLRedirect.DisplayName=URL Redirect
+ActionType.URLRedirect.DisplayName=URL を転送する
 ActionType.InvokeScript.DisplayName=スクリプトを起動する
-ActionType.Highlight.DisplayName=強調表示
+ActionType.Highlight.DisplayName=強調表示する
 ActionType.ToggleVisibility.DisplayName=表示と非表示を切り替える
-ActionType.ToggleDataPointVisibility.DisplayName=Toggle Data Point Visibility
+ActionType.ToggleDataPointVisibility.DisplayName=データポイントの表示と非表示を切り替える
 
 # End of Attributes
 ##################################################

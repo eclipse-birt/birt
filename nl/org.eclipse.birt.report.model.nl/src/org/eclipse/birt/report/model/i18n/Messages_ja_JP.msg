@@ -3300,7 +3300,7 @@ Element.GadgetItem.inlineStyle=インラインスタイル
 Element.GadgetItem.externalGadgetURI=外部ガジェットの URI
 Element.GadgetItem.externalGadgetRefType=外部ガジェットの参照型
 Element.GadgetItem.projectName=プロジェクト名
-Element.GadgetItem.showTitle=Show title
+Element.GadgetItem.showTitle=タイトルの表示
 Element.GadgetItem.content=コンテンツ
 Element.GadgetItem.subscribeTo=購読者
 Element.GadgetItem.observers=オブザーバ
@@ -3324,14 +3324,14 @@ Element.DataSelectorItem.type=種類
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet の参照
-Element.DataViewItem.gadgetType=Gadget type
+Element.DataViewItem.gadgetType=ガジェットの種類
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=データソース
 Element.DataMart.slot.dataSets=データセット
 Element.DataMart.slot.cubes=キューブ
 Element.DataMart.slot.parameters=パラメタ
-Element.DataMart.enableACL=ACLを有効にする
+Element.DataMart.enableACL=ACL を有効にする
 Element.DataMart.ACLExpression=ACL 式
 
 ###########################################################
@@ -3861,9 +3861,9 @@ Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} のプロパティ {1} は暗
 Error.EncryptionException.INVALID_ENCRYPTION=この暗号は存在しないため、暗号化 ID "{0}" は無効です。
 
 #DataMartException
-Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
-Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
-Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=datamart の "{0}" という名前空間はすでに存在します。
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=datamart "{0}" はすでにインクルードされています。同じ datamart を 2 回追加することはできません。
+Error.DataMartException.DATAMART_NOT_FOUND=名前空間 "{0}" の datamart が見つかりません。
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.
