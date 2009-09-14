@@ -27,11 +27,13 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.CascadingParameterSelectionChoice;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.elements.AbstractScalarParameter;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -161,27 +163,37 @@ public class ParameterHelper
 		Object value = resultIterator.getValue( valueColumnName );
 		return EngineTask.convertParameterType( value, valueType );
 	}
-	
+
 	public static void addParameterBinding( QueryDefinition queryDefn,
-			AbstractScalarParameterHandle parameter ) throws DataException
+			AbstractScalarParameterHandle parameter, IModelAdapter adapter )
+			throws DataException
 	{
 		String labelColumnName = getLabelColumnName( parameter );
 		String valueColumnName = getValueColumnName( parameter );
 		if ( labelColumnName != null )
 		{
-			addBinding( queryDefn, labelColumnName, parameter.getLabelExpr( ) );
+			org.eclipse.birt.report.model.api.Expression mexpr = (org.eclipse.birt.report.model.api.Expression) parameter
+					.getExpressionProperty(
+							AbstractScalarParameter.LABEL_EXPR_PROP )
+					.getValue( );
+			ScriptExpression dexpr = adapter.adaptExpression( mexpr );
+			addBinding( queryDefn, labelColumnName, dexpr );
 		}
-		addBinding( queryDefn, valueColumnName, parameter.getValueExpr( ) );
+		org.eclipse.birt.report.model.api.Expression mexpr = (org.eclipse.birt.report.model.api.Expression) parameter
+				.getExpressionProperty( AbstractScalarParameter.VALUE_EXPR_PROP )
+				.getValue( );
+		ScriptExpression dexpr = adapter.adaptExpression( mexpr, parameter
+				.getDataType( ) );
+		addBinding( queryDefn, valueColumnName, dexpr );
 	}
-	
+
 	public static void addBinding( QueryDefinition queryDefinition,
-			String columnName, String expression ) throws DataException
+			String columnName, ScriptExpression expr ) throws DataException
 	{
-		ScriptExpression labelScriptExpr = new ScriptExpression( expression );
-		IBinding binding = new Binding( columnName, labelScriptExpr );
+		IBinding binding = new Binding( columnName, expr );
 		queryDefinition.addBinding( binding );
 	}
-	
+
 	public static void addParameterSortBy( QueryDefinition queryDefn,
 			AbstractScalarParameterHandle parameter )
 	{

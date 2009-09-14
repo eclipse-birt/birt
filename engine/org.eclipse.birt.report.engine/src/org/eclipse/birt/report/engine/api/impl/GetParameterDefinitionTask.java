@@ -971,7 +971,8 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				// Handle data source and data set
 				QueryDefinition queryDefn = createQueryDefinition( dataSet );
-		
+				DataRequestSession dteSession = createDataSession( dataSet );
+
 				Iterator iter = parameterGroup.getParameters( ).iterator( );
 				while ( iter.hasNext( ) )
 				{
@@ -979,13 +980,13 @@ public class GetParameterDefinitionTask extends EngineTask
 					if ( parameter instanceof ScalarParameterHandle )
 					{
 						ParameterHelper.addParameterBinding( queryDefn,
-								(ScalarParameterHandle) parameter );
+								(ScalarParameterHandle) parameter, dteSession
+										.getModelAdaptor( ) );
 						ParameterHelper.addParameterSortBy( queryDefn,
 								(ScalarParameterHandle) parameter );
 					}
 				}
-		
-				DataRequestSession dteSession = createDataSession( dataSet );
+
 				return executeQuery( dteSession, queryDefn );
 			}
 			catch ( BirtException ex )
@@ -1274,11 +1275,12 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			try
 			{
-				QueryDefinition queryDefn = createQueryDefinition( dataSet );
-				ParameterHelper.addParameterBinding( queryDefn, parameter );
-				ParameterHelper.addParameterSortBy( queryDefn, parameter );
-		
 				DataRequestSession dteSession = createDataSession( dataSet );
+				QueryDefinition queryDefn = createQueryDefinition( dataSet );
+				ParameterHelper.addParameterBinding( queryDefn, parameter,
+						dteSession.getModelAdaptor( ) );
+				ParameterHelper.addParameterSortBy( queryDefn, parameter );
+
 				iterator = executeQuery( dteSession, queryDefn );
 			}
 			catch ( BirtException ex )
