@@ -395,11 +395,11 @@ Choices.filterOperator.le=작거나 같음
 Choices.filterOperator.ge=크거나 같음
 Choices.filterOperator.gt=큼
 Choices.filterOperator.between=사이에 있음
-Choices.filterOperator.notBetween=Not Between
-Choices.filterOperator.isNull=Is Null
-Choices.filterOperator.isNotNull=Is Not Null
-Choices.filterOperator.isTrue=Is True
-Choices.filterOperator.isFalse=Is False
+Choices.filterOperator.notBetween=사이에 있지 않음
+Choices.filterOperator.isNull=Null
+Choices.filterOperator.isNotNull=Null이 아님
+Choices.filterOperator.isTrue=참
+Choices.filterOperator.isFalse=거짓
 Choices.filterOperator.like=유사
 Choices.filterOperator.not-like=유사하지 않음
 Choices.filterOperator.top-n=위쪽 n
@@ -409,8 +409,8 @@ Choices.filterOperator.bottom-percent=아래쪽 퍼센트
 Choices.filterOperator.any=모두
 Choices.filterOperator.match=일치
 Choices.filterOperator.not-match=일치하지 않음
-Choices.filterOperator.in=확대
-Choices.filterOperator.not-in=NOT IN
+Choices.filterOperator.in=포함
+Choices.filterOperator.not-in=포함 안 함
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=변경
