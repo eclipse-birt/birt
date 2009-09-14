@@ -365,11 +365,11 @@ Cursor.SResize.displayName=남
 Cursor.WResize.displayName=서
 Cursor.Custom.displayName=사용자 지정
 
-ActionType.URLRedirect.DisplayName=URL Redirect
+ActionType.URLRedirect.DisplayName=URL 리디렉션
 ActionType.InvokeScript.DisplayName=스크립트 호출
 ActionType.Highlight.DisplayName=강조
 ActionType.ToggleVisibility.DisplayName=표시 유형 전환
-ActionType.ToggleDataPointVisibility.DisplayName=Toggle Data Point Visibility
+ActionType.ToggleDataPointVisibility.DisplayName=데이터 요소 표시 유형 전환
 
 # End of Attributes
 ##################################################

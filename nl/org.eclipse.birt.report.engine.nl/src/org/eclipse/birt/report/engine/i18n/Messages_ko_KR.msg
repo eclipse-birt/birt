@@ -107,7 +107,7 @@ Error.FailedToInitializeEmitter = 이미터를 초기화하지 못했습니다.
 PDFCreator = iText {1}을(를) 사용하는 BIRT 보고서 엔진 {0}
 
 ###########################################################
-Error.FlashObjectNotSupported = Flash object report items are not supported in this report format.
-Error.ReportItemNotSupported = Current report item is not supported in this report format.
+Error.FlashObjectNotSupported = 플래시 개체 보고서 항목은 이 보고서 형식에서 지원되지 않습니다.
+Error.ReportItemNotSupported = 현재 보고서 항목은 이 보고서 형식에서 지원되지 않습니다.
 
 

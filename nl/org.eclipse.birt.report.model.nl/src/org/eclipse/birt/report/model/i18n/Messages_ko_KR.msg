@@ -3300,7 +3300,7 @@ Element.GadgetItem.inlineStyle=인라인 스타일
 Element.GadgetItem.externalGadgetURI=외부 가젯 URI
 Element.GadgetItem.externalGadgetRefType=외부 가젯 참조 형식
 Element.GadgetItem.projectName=프로젝트 이름
-Element.GadgetItem.showTitle=Show title
+Element.GadgetItem.showTitle=제목 표시
 Element.GadgetItem.content=내용
 Element.GadgetItem.subscribeTo=구독 대상
 Element.GadgetItem.observers=감시자
@@ -3324,7 +3324,7 @@ Element.DataSelectorItem.type=형식
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=내부 리포틀릿 참조
-Element.DataViewItem.gadgetType=Gadget type
+Element.DataViewItem.gadgetType=가젯 형식
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=데이터 원본
@@ -3861,9 +3861,9 @@ Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0}의 속성 {1}이(가) 암호
 Error.EncryptionException.INVALID_ENCRYPTION=암호화 ID "{0}"이(가) 잘못되었습니다. 존재하지 않는 암호화입니다.
 
 #DataMartException
-Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=The datamart namespace "{0}" exists already.
-Error.DataMartException.DATAMART_ALREADY_INCLUDED=The datamart "{0}" has already been included, a datamart can not be added twice.
-Error.DataMartException.DATAMART_NOT_FOUND=The datamart with the namespace "{0}" is not found.
+Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=Datamart 네임스페이스 "{0}"이(가) 이미 있습니다.
+Error.DataMartException.DATAMART_ALREADY_INCLUDED=Datamart "{0}"이(가) 이미 포함되어 있으며, Datamart를 두 번 추가할 수 없습니다.
+Error.DataMartException.DATAMART_NOT_FOUND=네임스페이스가 "{0}"인 Datamart를 찾을 수 없습니다.
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.
