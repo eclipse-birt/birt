@@ -177,7 +177,7 @@ public class LayoutUtil
 			for ( int i = 0; i < columnCount; i++ )
 			{
 				if ( columns[i] == -1 )
-					columns[1] = 0;
+					columns[i] = 0;
 				else
 					columns[i] = resize( columns[i], totalAssigned, leftWidth );
 			}
