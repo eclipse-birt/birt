@@ -2533,6 +2533,73 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			populateHighlightStyle( design, highlight, style, propertyName );
 		}
+		createDataFormat( highlight, style );
+	}
+
+	private void createDataFormat( StructureHandle handle, IStyle style )
+	{
+		if ( handle == null )
+			return;
+
+		Set<String> propertyNames = StyleUtil.customName2Index.keySet( );
+		for ( String propertyName : propertyNames )
+		{
+			if ( BIRTConstants.BIRT_STYLE_DATA_FORMAT
+					.equalsIgnoreCase( propertyName ) )
+			{
+				DataFormatValue formatSet = new DataFormatValue( );
+				boolean formatSetValid = false;
+				FormatValue modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.STRING_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setStringFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+				modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.NUMBER_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setNumberFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+				modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.DATE_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setDateFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+				modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.TIME_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setTimeFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+				modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.DATE_TIME_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setDateTimeFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+
+				if ( formatSetValid )
+					style.setProperty( StyleUtil.customName2Index
+							.get( propertyName ), formatSet );
+			}
+		}
 	}
 
 	private void populateHighlightStyle( StyledElementDesign design,
