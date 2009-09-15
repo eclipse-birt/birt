@@ -61,8 +61,6 @@ import org.eclipse.swt.widgets.TableColumn;
  */
 
 public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
-		implements
-			Listener
 {
 
 	private transient PropertyHandleTableViewer viewer = null;
@@ -442,18 +440,14 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	public void pageActivated( )
 	{
 		getContainer( ).setMessage( Messages.getString( "dataset.editor.filters" ), IMessageProvider.NONE ); //$NON-NLS-1$
-		if ( viewer != null && this.modelChanged )
-		{
-			initializeFilters( );
-			initColumnNames( );
-			// The proeprties of the various controls on the page
-			// will be set depending on the filters
-			setPageProperties( );
+		initializeFilters( );
+		initColumnNames( );
+		// The proeprties of the various controls on the page
+		// will be set depending on the filters
+		setPageProperties( );
 
-			viewer.getViewer( ).setInput( filters );
-			viewer.getViewer( ).getTable( ).select( 0 );
-			modelChanged = false;
-		}
+		viewer.getViewer( ).setInput( filters );
+		viewer.getViewer( ).getTable( ).select( 0 );
 	}
 
 	/**
@@ -650,10 +644,5 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	public String getToolTip( )
 	{
 		return Messages.getString( "DataSetFiltersPage.Filter.Tooltip" ); //$NON-NLS-1$
-	}
-
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		modelChanged = true;
 	}
 }
