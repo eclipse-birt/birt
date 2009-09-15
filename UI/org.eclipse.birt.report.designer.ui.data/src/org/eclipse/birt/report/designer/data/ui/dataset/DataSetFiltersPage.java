@@ -23,9 +23,12 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -58,12 +61,16 @@ import org.eclipse.swt.widgets.TableColumn;
  */
 
 public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
+		implements
+			Listener
 {
 
 	private transient PropertyHandleTableViewer viewer = null;
 	private transient DataSetViewData[] columns = null;
 	private transient String[] columnExpressions = null;
 	private transient PropertyHandle filters = null;
+	
+	private boolean modelChanged = true;
 	
 	private static String[] cellLabels = new String[]{
 			Messages.getString( "dataset.editor.title.expression" ),//$NON-NLS-1$
@@ -435,11 +442,18 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	public void pageActivated( )
 	{
 		getContainer( ).setMessage( Messages.getString( "dataset.editor.filters" ), IMessageProvider.NONE ); //$NON-NLS-1$
-		initColumnNames( );
-		// The proeprties of the various controls on the page
-		// will be set depending on the filters
-		setPageProperties( );
-		viewer.getViewer( ).getTable( ).select( 0 );
+		if ( viewer != null && this.modelChanged )
+		{
+			initializeFilters( );
+			initColumnNames( );
+			// The proeprties of the various controls on the page
+			// will be set depending on the filters
+			setPageProperties( );
+
+			viewer.getViewer( ).setInput( filters );
+			viewer.getViewer( ).getTable( ).select( 0 );
+			modelChanged = false;
+		}
 	}
 
 	/**
@@ -636,5 +650,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	public String getToolTip( )
 	{
 		return Messages.getString( "DataSetFiltersPage.Filter.Tooltip" ); //$NON-NLS-1$
+	}
+
+	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+	{
+		modelChanged = true;
 	}
 }
