@@ -255,10 +255,21 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			IDataSourceQuery odiQuery = null;
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
-			odiQuery = odiDataSource.newQuery( dataSetType, dataText, this.fromCache( ) );
-			if( odiQuery instanceof IPreparedDSQuery )
+			//Do not use cached DataSourceQuery when there is push-down operation
+			if ( querySpec != null )
 			{
-				((IPreparedDSQuery)odiQuery).setQuerySpecification( querySpec );
+				odiQuery = odiDataSource.newQuery( dataSetType, dataText, false );
+			}
+			else
+			{
+				odiQuery = odiDataSource.newQuery( dataSetType,
+						dataText,
+						this.fromCache( ) );
+			}
+
+			if ( odiQuery instanceof IPreparedDSQuery )
+			{
+				( (IPreparedDSQuery) odiQuery ).setQuerySpecification( querySpec );
 			}
 			return odiQuery;
 	 	}
