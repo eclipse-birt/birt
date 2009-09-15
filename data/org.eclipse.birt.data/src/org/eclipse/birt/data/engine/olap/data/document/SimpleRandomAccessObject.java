@@ -82,4 +82,13 @@ public class SimpleRandomAccessObject implements IRandomAccessObject
 	{
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read()
+	 */
+	public int read() throws IOException
+	{
+		return randomAccessFile.read( );
+	}
+
 }

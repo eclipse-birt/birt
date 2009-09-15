@@ -121,4 +121,13 @@ public class RAWriter implements IRandomAccessObject
 		outputStream.flush( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read()
+	 */
+	public int read() throws IOException
+	{
+		throw new UnsupportedOperationException( );
+	}
+
 }

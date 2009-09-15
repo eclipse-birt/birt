@@ -102,7 +102,12 @@ public interface IRandomAccessObject
      *             this object has been reached.
      * @exception  IOException  if an I/O error occurs.
      */
-    public int read(byte b[]) throws IOException ;
+    public int read(byte b[]) throws IOException;
+    
+    /*
+     * 
+     */
+    public int read( ) throws IOException;
     
     /**
      * 

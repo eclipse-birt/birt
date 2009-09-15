@@ -596,13 +596,7 @@ public class RandomDataAccessObject implements IRandomDataAccessObject
 	 */
 	public int read( ) throws IOException
 	{
-		byte[] b = new byte[1];
-		int len = delegate.read( b );
-		if ( len < 0 )
-		{
-			return -1;
-		}
-		return b[0] & 0xff;
+		return delegate.read( );
 	}
 
 	/**
@@ -615,8 +609,19 @@ public class RandomDataAccessObject implements IRandomDataAccessObject
 		{
 			start = delegate.getFilePointer( );
 		}
-		byte[] b = new byte[readInt( )];
-		read( b, 0, b.length );
+		int size = readInt( );
+		byte[] b = new byte[size];
+		int totalReadSize = 0;
+		int readSize = read( b, 0, b.length );
+		totalReadSize = readSize;
+		while( readSize != -1 && totalReadSize < size )
+		{
+			readSize = read( b, totalReadSize, size - totalReadSize );
+			if( readSize != -1 )
+			{
+				totalReadSize += readSize;
+			}
+		}
 		return new Bytes( b );
 	}
 	

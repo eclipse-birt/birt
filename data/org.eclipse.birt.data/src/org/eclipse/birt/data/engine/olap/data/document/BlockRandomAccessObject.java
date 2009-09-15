@@ -214,4 +214,19 @@ public class BlockRandomAccessObject implements IRandomAccessObject
 		documentObjectAllocatedTable.setObjectLength( name, length );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read()
+	 */
+	public int read() throws IOException
+	{
+		byte[] b = new byte[1];
+		int len = read( b );
+		if ( len < 0 )
+		{
+			return -1;
+		}
+		return b[0] & 0xff;
+	}
+
 }
