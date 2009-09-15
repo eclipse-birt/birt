@@ -46,7 +46,6 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	 */
 	MetaDataDictionary dictionary = MetaDataDictionary.getInstance( );
 
-	// constants that will be used for both OS and commercial codes
 	protected static final String PROPERTY_TAG = "Property"; //$NON-NLS-1$ 
 	protected static final String ELEMENT_TAG = "Element"; //$NON-NLS-1$ 	
 	protected static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 

@@ -140,4 +140,15 @@ public interface IFilterExprDefinition
 
 	public boolean isNegatedExtExprId( );
 
+	/**
+	 * Indicates whether the given API type is supported by this filter
+	 * operator.
+	 * 
+	 * @param apiDataType
+	 *            the api data type
+	 * @return <code>true</code> if it is supported. Otherwise,
+	 *         <code>false</code>.
+	 */
+	
+	public boolean supportsAPIDataType( int apiDataType );
 }

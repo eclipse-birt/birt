@@ -399,4 +399,16 @@ class FilterExprDefinition implements IFilterExprDefinition
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
+	 * IFilterExprDefinition#supportsAPIDataType(int)
+	 */
+	
+	public boolean supportsAPIDataType( int apiDataType )
+	{	
+		return true;
+	}
+
 }
