@@ -14,18 +14,16 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.QueryDefinitionUtil;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
@@ -106,14 +104,13 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	IExprResultSet loadExprResultSet( int rowIdStartingIndex ) throws DataException
+	IExprResultSet loadExprResultSet( int rowIdStartingIndex, IBaseQueryDefinition qd ) throws DataException
 	{
 		if ( streamManager.isSecondRD( ) == true
 				&& streamManager.isSubquery( ) == true )
 			return new ExprResultSet2( tempDir, streamManager,
 					version,
 					streamManager.isSecondRD( ), rowIdStartingIndex );
-		IBaseQueryDefinition qd = loadQueryDefn( StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
 		return new ExprResultSet( tempDir, streamManager,
 				version,
 				streamManager.isSecondRD( ),
@@ -326,69 +323,7 @@ public class RDLoad
 			return null;
 		IBaseQueryDefinition baseQueryDefn = loadQueryDefn( streamPos,
 				streamScope );
-		return findSubQueryDefinition( subQueryName, baseQueryDefn );
-	}
-
-	/**
-	 * 
-	 * @param subQueryName
-	 * @return
-	 * @throws DataException
-	 */
-	private ISubqueryDefinition findSubQueryDefinition( String subQueryName,
-			IBaseQueryDefinition queryDefn ) throws DataException
-	{
-		if ( queryDefn == null )
-			return null;
-		Collection subQueries = queryDefn.getSubqueries( );
-		ISubqueryDefinition subQueryDefn = null;
-		// search from subQueries list
-		if ( subQueries != null && !subQueries.isEmpty( ) )
-		{
-			Iterator subQueriesIter = subQueries.iterator( );
-			while ( subQueriesIter.hasNext( ) )
-			{
-				ISubqueryDefinition qd = (ISubqueryDefinition) subQueriesIter.next( );
-				if ( qd.getName( ).equals( subQueryName ) )
-				{
-					return qd;
-				}
-				else
-				{
-					subQueryDefn = findSubQueryDefinition( subQueryName, qd );
-				}
-			}
-		}
-
-		// search from groups' subQueries list
-		if ( subQueryDefn == null && queryDefn.getGroups( ) != null )
-		{
-			List group = queryDefn.getGroups( );
-			for ( int i = 0; i < group.size( ); i++ )
-			{
-				Collection groupSubQueries = ( (IBaseTransform) group.get( i ) ).getSubqueries( );
-				if ( groupSubQueries != null && !groupSubQueries.isEmpty( ) )
-				{
-					Iterator subQueriesIter = groupSubQueries.iterator( );
-					while ( subQueriesIter.hasNext( ) )
-					{
-						ISubqueryDefinition qd = (ISubqueryDefinition) subQueriesIter.next( );
-						if ( qd.getName( ).equals( subQueryName ) )
-						{
-							return qd;
-						}
-						else
-						{
-							subQueryDefn = findSubQueryDefinition( subQueryName,
-									qd );
-							if ( subQueryDefn != null )
-								return subQueryDefn;
-						}
-					}
-				}
-			}
-		}
-		return subQueryDefn;
+		return QueryDefinitionUtil.findSubQueryDefinition( subQueryName, baseQueryDefn );
 	}
 	
 }

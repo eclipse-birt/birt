@@ -13,6 +13,7 @@
  */
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -24,8 +25,10 @@ import java.util.Map.Entry;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -162,5 +165,67 @@ public class QueryDefinitionUtil
 		//not an aggregation
 		checked.put( name, false );
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param subQueryName
+	 * @return
+	 * @throws DataException
+	 */
+	public static ISubqueryDefinition findSubQueryDefinition( String subQueryName,
+			IBaseQueryDefinition queryDefn ) throws DataException
+	{
+		if ( queryDefn == null )
+			return null;
+		Collection subQueries = queryDefn.getSubqueries( );
+		ISubqueryDefinition subQueryDefn = null;
+		// search from subQueries list
+		if ( subQueries != null && !subQueries.isEmpty( ) )
+		{
+			Iterator subQueriesIter = subQueries.iterator( );
+			while ( subQueriesIter.hasNext( ) )
+			{
+				ISubqueryDefinition qd = (ISubqueryDefinition) subQueriesIter.next( );
+				if ( qd.getName( ).equals( subQueryName ) )
+				{
+					return qd;
+				}
+				else
+				{
+					subQueryDefn = findSubQueryDefinition( subQueryName, qd );
+				}
+			}
+		}
+
+		// search from groups' subQueries list
+		if ( subQueryDefn == null && queryDefn.getGroups( ) != null )
+		{
+			List group = queryDefn.getGroups( );
+			for ( int i = 0; i < group.size( ); i++ )
+			{
+				Collection groupSubQueries = ( (IBaseTransform) group.get( i ) ).getSubqueries( );
+				if ( groupSubQueries != null && !groupSubQueries.isEmpty( ) )
+				{
+					Iterator subQueriesIter = groupSubQueries.iterator( );
+					while ( subQueriesIter.hasNext( ) )
+					{
+						ISubqueryDefinition qd = (ISubqueryDefinition) subQueriesIter.next( );
+						if ( qd.getName( ).equals( subQueryName ) )
+						{
+							return qd;
+						}
+						else
+						{
+							subQueryDefn = findSubQueryDefinition( subQueryName,
+									qd );
+							if ( subQueryDefn != null )
+								return subQueryDefn;
+						}
+					}
+				}
+			}
+		}
+		return subQueryDefn;
 	}
 }
