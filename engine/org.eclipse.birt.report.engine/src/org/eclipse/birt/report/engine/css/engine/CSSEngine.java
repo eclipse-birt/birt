@@ -171,6 +171,32 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
 			int i = pm.getPropertyIndex( name );
 			if ( i == -1 )
 			{
+				if ( IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY
+						.equalsIgnoreCase( name ) )
+				{
+					styleDeclaration.setStringFormat( value.getStringValue( ) );
+				}
+				else if ( IStyle.BIRT_NUMBER_FORMAT_PROPERTY
+						.equalsIgnoreCase( name ) )
+				{
+					styleDeclaration.setNumberFormat( value.getStringValue( ) );
+				}
+				else if ( IStyle.BIRT_DATE_FORMAT_PROPERTY
+						.equalsIgnoreCase( name ) )
+				{
+					styleDeclaration.setDateFormat( value.getStringValue( ) );
+				}
+				else if ( IStyle.BIRT_TIME_FORMAT_PROPERTY
+						.equalsIgnoreCase( name ) )
+				{
+					styleDeclaration.setTimeFormat( value.getStringValue( ) );
+				}
+				else if ( IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY
+						.equalsIgnoreCase( name ) )
+				{
+					styleDeclaration
+							.setDateTimeFormat( value.getStringValue( ) );
+				}
 				// Unknown property
 				return;
 			}
