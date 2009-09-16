@@ -125,7 +125,7 @@ public class RDAggrUtil
 			if ( this.contains( aggrName ) )
 			{
 				Object value = holders.get( aggrName ).get( groupInstanceIndex );
-				if ( qd.getBindings( ).containsKey( aggrName ))
+				if ( qd != null && qd.getBindings( ).containsKey( aggrName ))
 				{
 					IBinding b = (IBinding)qd.getBindings( ).get( aggrName );
 					
