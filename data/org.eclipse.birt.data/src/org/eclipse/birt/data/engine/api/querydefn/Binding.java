@@ -78,7 +78,8 @@ public class Binding implements IBinding
 	 */
 	public void addArgument( IBaseExpression expr )
 	{
-		this.orderedArgument.add( expr );
+		if( expr!= null )
+			this.orderedArgument.add( expr );
 		
 	}
 	
