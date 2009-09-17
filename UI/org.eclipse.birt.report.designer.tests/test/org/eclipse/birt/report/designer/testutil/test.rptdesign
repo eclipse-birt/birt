@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-        </simple-master-page>
-    </page-setup>
-</report>

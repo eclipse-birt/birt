@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
-    <data-sources>
-        <oda-data-source name="myDataSource" id="2"/>
-        <oda-data-source name="myDataSource2" id="3"/>
-    </data-sources>
-</report>

@@ -1,4 +1,0 @@
-Error.NameException.NAME_REQUIRED                           The name of Table("customerTable") is required.
-Error.NameException.NAME_FORBIDDEN                          The Table("customerTable") is not allowed to have name.
-Error.NameException.DUPLICATE                               The name "customerTable" duplicates an existing name. Please choose a different name.
-Error.NameException.HAS_REFERENCES                          The Table("customerTable") has derived element, the name cannot be cleared.

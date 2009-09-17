@@ -1,3 +1,0 @@
-sub1  sub2  sub3  
-1  400  Chicago  0
-0  700  Chicago  1

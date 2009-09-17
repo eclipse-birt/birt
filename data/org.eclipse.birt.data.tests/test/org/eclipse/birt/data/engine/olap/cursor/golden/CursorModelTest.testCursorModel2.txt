@@ -1,6 +1,0 @@
-
-		CN         CN         CN         CN         CN         CN         CN         CN         JP         JP         JP         JP         UN         UN         UN         US         US         US         US         US         US         US         US         US         
-		BJ         BJ         BJ         HZ         SH         SH         SH         SZ         IL         IL         IL         TK         LD         LD         LP         CS         CS         CS         CS         CS         LA         LA         LA         NY         
-		A1         A1         A4         A2         A1         A1         A1         A1         A4         A4         A4         A4         A1         A3         A3         A2         A3         A4         A4         A4         A2         A2         A2         A1         
-		2000         2001         2002         1998         1998         2000         2002         1998         1999         2000         2002         1999         2001         2002         1998         1998         1999         2000         2001         2002         1998         2001         2002         2002         
-           6.0  7.0  16.0  1.0  2.0  3.0  11.0  61.0  64.0  65.0  56.0  46.0  51.0  36.0  21.0  22.0  23.0  41.0    
