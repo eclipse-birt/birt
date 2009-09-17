@@ -2200,7 +2200,7 @@ Structure.IncludedDataMart.namespace=ÃüÃû¿Õ¼ä
 # Element names
 
 Element.Module=Ä£¿é
-Element.LayoutModule=Layout Module
+Element.LayoutModule=²¼¾ÖÄ£¿é
 Element.ReportDesign=±¨±íÉè¼Æ
 Element.DesignElement=Éè¼ÆÔªËØ
 Element.ReportElement=±¨±íÔªËØ
@@ -3171,7 +3171,7 @@ Element.TabularCube.dataSet=Êı¾İ¼¯
 Element.TabularCube.dimensions=Î¬Êı
 Element.TabularCube.measureGroups=¶ÈÁ¿×é
 Element.TabularCube.dimensionConditions=Î¬Ìõ¼ş
-Element.TabularCube.autoKey=Auto primary key
+Element.TabularCube.autoKey=×Ô¶¯Ö÷¼ü
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=²ã´Î½á¹¹
@@ -3538,7 +3538,7 @@ Message.CreateTemplateElement=´´½¨Ä£°åÔªËØ
 Message.TransformToReportItem=×ª»»Îª±¨±íÏî
 Message.TransformToDataSet=×ª»»ÎªÊı¾İ¼¯
 Message.ExportElementToLibrary=ÔªËØµ¼³öµ½¿â
-Message.ExportElementToDataMart=Export Element To DataMart
+Message.ExportElementToDataMart=½«ÔªËØµ¼³öµ½ DataMart
 
 ###########################################################
 #Element new names.
@@ -3866,8 +3866,8 @@ Error.DataMartException.DATAMART_ALREADY_INCLUDED=ÒÑ°üº¬Êı¾İÊĞ³¡¡°{0}¡±£¬Ò»¸öÊı¾
 Error.DataMartException.DATAMART_NOT_FOUND=Î´ÕÒµ½¾ßÓĞÃüÃû¿Õ¼ä¡°{0}¡±µÄÊı¾İÊĞ³¡¡£
 
 #Dashboard Exporter
-Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.
-Message.ExportTabToSharedTabFile=Export Tab to shared Tab file.
+Message.ExportGadgetToSharedGadgetFile=½«Ğ¡¹¤¾ßµ¼³öµ½¹²ÏíĞ¡¹¤¾ßÎÄ¼ş¡£
+Message.ExportTabToSharedTabFile=½«Ñ¡Ïî¿¨µ¼³öµ½¹²ÏíÑ¡Ïî¿¨ÎÄ¼ş¡£
 
 #Dashboard Exception
-Error.ExternalGadgetFileIncludedRecursively=External Gadget included recursively. 
+Error.ExternalGadgetFileIncludedRecursively=Íâ²¿Ğ¡¹¤¾ßµİ¹é°üÀ¨¡£ 

@@ -3632,7 +3632,7 @@ TableOptionDialog.text.TableSize=테이블 크기
 TableOptionDialog.title.InsertGrid=눈금 삽입
 TableOptionDialog.title.InsertTable=테이블 삽입
 TableOptionDialog.text.DataSet=데이터 집합(&S):
-TableOptionDialog.text.AutoSummary=Auto Su&mmarize On
+TableOptionDialog.text.AutoSummary=자동 요약 대상(&M)
 
 ###########################################################
 #TablePageGenerator properties

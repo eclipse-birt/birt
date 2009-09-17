@@ -2200,7 +2200,7 @@ Structure.IncludedDataMart.namespace=네임스페이스
 # Element names
 
 Element.Module=모듈
-Element.LayoutModule=Layout Module
+Element.LayoutModule=레이아웃 모듈
 Element.ReportDesign=보고서 디자인
 Element.DesignElement=디자인 요소
 Element.ReportElement=보고서 요소
@@ -2306,7 +2306,7 @@ Element.Module.includeResource=리소스 파일: Element.Module.base=기본
 
 Element.LayoutModule.subject=제목
 Element.LayoutModule.helpGuide=도움말 설명서
-Element.LayoutModule.createdBy=만든 사람 
+Element.LayoutModule.createdBy=만든 사람
 Element.LayoutModule.colorPalette=색상표
 Element.LayoutModule.configVars=구성 변수
 Element.LayoutModule.images=이미지
@@ -3171,7 +3171,7 @@ Element.TabularCube.dataSet=데이터 집합
 Element.TabularCube.dimensions=크기
 Element.TabularCube.measureGroups=측정값 그룹
 Element.TabularCube.dimensionConditions=차원 조건
-Element.TabularCube.autoKey=Auto primary key
+Element.TabularCube.autoKey=자동 기본 키
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=계층
@@ -3538,7 +3538,7 @@ Message.CreateTemplateElement=템플릿 요소 생성
 Message.TransformToReportItem=보고서 항목으로 변환
 Message.TransformToDataSet=데이터 집합으로 변환
 Message.ExportElementToLibrary=라이브러리로 요소 내보내기
-Message.ExportElementToDataMart=Export Element To DataMart
+Message.ExportElementToDataMart=DataMart로 요소 내보내기
 
 ###########################################################
 #Element new names.
@@ -3866,8 +3866,8 @@ Error.DataMartException.DATAMART_ALREADY_INCLUDED=Datamart "{0}"이(가) 이미 포함
 Error.DataMartException.DATAMART_NOT_FOUND=네임스페이스가 "{0}"인 Datamart를 찾을 수 없습니다.
 
 #Dashboard Exporter
-Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.
-Message.ExportTabToSharedTabFile=Export Tab to shared Tab file.
+Message.ExportGadgetToSharedGadgetFile=공유 가젯 파일로 가젯을 내보냅니다.
+Message.ExportTabToSharedTabFile=공유 탭 파일로 탭을 내보냅니다.
 
 #Dashboard Exception
-Error.ExternalGadgetFileIncludedRecursively=External Gadget included recursively. 
+Error.ExternalGadgetFileIncludedRecursively=외부 가젯이 재귀적으로 포함되어 있습니다. 

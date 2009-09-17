@@ -2200,7 +2200,7 @@ Structure.IncludedDataMart.namespace=ƒl[ƒ€ƒXƒy[ƒX
 # Element names
 
 Element.Module=ƒ‚ƒWƒ…[ƒ‹
-Element.LayoutModule=Layout Module
+Element.LayoutModule=ƒŒƒCƒAƒEƒgƒ‚ƒWƒ…[ƒ‹
 Element.ReportDesign=ƒŒƒ|[ƒgƒfƒUƒCƒ“
 Element.DesignElement=Design —v‘f
 Element.ReportElement=ƒŒƒ|[ƒg‚Ì—v‘f
@@ -2308,7 +2308,7 @@ Element.LayoutModule.subject=Œ–¼
 Element.LayoutModule.helpGuide=ƒwƒ‹ƒvƒKƒCƒh
 Element.LayoutModule.createdBy=ì¬Ò
 Element.LayoutModule.colorPalette=ƒJƒ‰[ƒpƒŒƒbƒg
-Element.LayoutModule.configVars=İ’è•Ï”
+Element.LayoutModule.configVars=•Ï”‚Ìİ’è
 Element.LayoutModule.images=ƒCƒ[ƒW
 Element.LayoutModule.libraries=ƒ‰ƒCƒuƒ‰ƒŠ
 Element.LayoutModule.includeScripts=ƒCƒ“ƒNƒ‹[ƒh‚·‚éƒXƒNƒŠƒvƒg
@@ -3171,7 +3171,7 @@ Element.TabularCube.dataSet=ƒf[ƒ^ƒZƒbƒg
 Element.TabularCube.dimensions=ƒTƒCƒY
 Element.TabularCube.measureGroups=ƒƒWƒƒ[ƒOƒ‹[ƒv
 Element.TabularCube.dimensionConditions=ƒfƒBƒƒ“ƒWƒ‡ƒ“ğŒ
-Element.TabularCube.autoKey=Auto primary key
+Element.TabularCube.autoKey=©“®ƒvƒ‰ƒCƒ}ƒŠƒL[
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=ŠK‘w
@@ -3538,7 +3538,7 @@ Message.CreateTemplateElement=ƒeƒ“ƒvƒŒ[ƒg‚Ì—v‘f‚Ìì¬
 Message.TransformToReportItem=ƒŒƒ|[ƒg€–Ú‚É•ÏŠ·
 Message.TransformToDataSet=ƒf[ƒ^ƒZƒbƒg‚É•ÏŠ·
 Message.ExportElementToLibrary=—v‘f‚ğƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg
-Message.ExportElementToDataMart=Export Element To DataMart
+Message.ExportElementToDataMart=—v‘f‚ğ DataMart ‚ÉƒGƒNƒXƒ|[ƒg
 
 ###########################################################
 #Element new names.
@@ -3866,8 +3866,8 @@ Error.DataMartException.DATAMART_ALREADY_INCLUDED=datamart "{0}" ‚Í‚·‚Å‚ÉƒCƒ“ƒNƒ
 Error.DataMartException.DATAMART_NOT_FOUND=–¼‘O‹óŠÔ "{0}" ‚Ì datamart ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 
 #Dashboard Exporter
-Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.
-Message.ExportTabToSharedTabFile=Export Tab to shared Tab file.
+Message.ExportGadgetToSharedGadgetFile=ƒKƒWƒFƒbƒg‚ğ‹¤—LƒKƒWƒFƒbƒgƒtƒ@ƒCƒ‹‚ÉƒGƒNƒXƒ|[ƒg‚µ‚Ü‚·B
+Message.ExportTabToSharedTabFile=ƒ^ƒu‚ğ‹¤—Lƒ^ƒuƒtƒ@ƒCƒ‹‚ÉƒGƒNƒXƒ|[ƒg‚µ‚Ü‚·B
 
 #Dashboard Exception
-Error.ExternalGadgetFileIncludedRecursively=External Gadget included recursively. 
+Error.ExternalGadgetFileIncludedRecursively=ŠO•”ƒKƒWƒFƒbƒg‚ªŒJ‚è•Ô‚µŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚·B 

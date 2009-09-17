@@ -3632,7 +3632,7 @@ TableOptionDialog.text.TableSize=Tamaño de tabla
 TableOptionDialog.title.InsertGrid=Insertar cuadrícula
 TableOptionDialog.title.InsertTable=Insertar tabla
 TableOptionDialog.text.DataSet=Conjunto de d&atos:
-TableOptionDialog.text.AutoSummary=Auto Su&mmarize On
+TableOptionDialog.text.AutoSummary=Resumen &automático activado
 
 ###########################################################
 #TablePageGenerator properties

@@ -2200,7 +2200,7 @@ Structure.IncludedDataMart.namespace=Namespace
 # Element names
 
 Element.Module=Modul
-Element.LayoutModule=Layout Module
+Element.LayoutModule=Layout-Modul
 Element.ReportDesign=Berichtdesign
 Element.DesignElement=Designelement
 Element.ReportElement=Berichtselement
@@ -2308,13 +2308,13 @@ Element.LayoutModule.subject=Thema
 Element.LayoutModule.helpGuide=Hilfe-Handbuch
 Element.LayoutModule.createdBy=Erstellt von
 Element.LayoutModule.colorPalette=Farbpalette
-Element.LayoutModule.configVars=Konfigurationsvariablen
+Element.LayoutModule.configVars=Variablen konfigurieren
 Element.LayoutModule.images=Bilder
 Element.LayoutModule.libraries=Bibliotheken
 Element.LayoutModule.includeScripts=Skripte einschließen
 Element.LayoutModule.base=Basis
 Element.LayoutModule.units=Einheiten
-Element.LayoutModule.theme=Design
+Element.LayoutModule.theme=Thema
 Element.LayoutModule.propertyBindings=Eigenschaftenbindungen
 Element.LayoutModule.scriptLibs=Skriptbibliotheken
 
@@ -3171,7 +3171,7 @@ Element.TabularCube.dataSet=Datensatz
 Element.TabularCube.dimensions=Dimensionen
 Element.TabularCube.measureGroups=Maßeinheitsgruppen
 Element.TabularCube.dimensionConditions=Dimensionsbedingungen
-Element.TabularCube.autoKey=Auto primary key
+Element.TabularCube.autoKey=Automatischer Primärschlüssel
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Hierarchien
@@ -3538,7 +3538,7 @@ Message.CreateTemplateElement=Vorlagenelement erstellen
 Message.TransformToReportItem=In Berichtobjekt umwandeln
 Message.TransformToDataSet=In Datensatz umwandeln
 Message.ExportElementToLibrary=Element in Bibliothek exportieren
-Message.ExportElementToDataMart=Export Element To DataMart
+Message.ExportElementToDataMart=Element in DataMart exportieren
 
 ###########################################################
 #Element new names.
@@ -3866,8 +3866,8 @@ Error.DataMartException.DATAMART_ALREADY_INCLUDED=Der Datamart '{0}' ist bereits
 Error.DataMartException.DATAMART_NOT_FOUND=Der Datamart mit dem Namespace '{0}' wurde nicht gefunden.
 
 #Dashboard Exporter
-Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.
-Message.ExportTabToSharedTabFile=Export Tab to shared Tab file.
+Message.ExportGadgetToSharedGadgetFile=Gadget in Datei mit gemeinsamen Gadgets exportieren.
+Message.ExportTabToSharedTabFile=Tab in Datei mit gemeinsamen Tabs exportieren.
 
 #Dashboard Exception
-Error.ExternalGadgetFileIncludedRecursively=External Gadget included recursively. 
+Error.ExternalGadgetFileIncludedRecursively=Externes Gadget rekursiv einbezogen. 

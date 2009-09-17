@@ -2200,7 +2200,7 @@ Structure.IncludedDataMart.namespace=Espace nom
 # Element names
 
 Element.Module=Module
-Element.LayoutModule=Layout Module
+Element.LayoutModule=Module de mise en page
 Element.ReportDesign=Modèle d'état
 Element.DesignElement=Elément de modèle
 Element.ReportElement=Elément d'état
@@ -2308,7 +2308,7 @@ Element.LayoutModule.subject=Objet
 Element.LayoutModule.helpGuide=Guide d'aide
 Element.LayoutModule.createdBy=Création par
 Element.LayoutModule.colorPalette=Palette de couleurs
-Element.LayoutModule.configVars=Configurer les variables
+Element.LayoutModule.configVars=Variables de config
 Element.LayoutModule.images=Images
 Element.LayoutModule.libraries=bibliothèques
 Element.LayoutModule.includeScripts=Inclure les scripts
@@ -3171,7 +3171,7 @@ Element.TabularCube.dataSet=Jeu de données
 Element.TabularCube.dimensions=Dimensions
 Element.TabularCube.measureGroups=Groupes de mesure
 Element.TabularCube.dimensionConditions=Conditions de dimension
-Element.TabularCube.autoKey=Auto primary key
+Element.TabularCube.autoKey=Clé principale automatique
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Hiérarchies
@@ -3538,7 +3538,7 @@ Message.CreateTemplateElement=Créer un élément de modèle
 Message.TransformToReportItem=Transformer en élément d'état
 Message.TransformToDataSet=Transformer en jeu de données
 Message.ExportElementToLibrary=Exporter élément vers bibliothèque
-Message.ExportElementToDataMart=Export Element To DataMart
+Message.ExportElementToDataMart=Exporter un élément vers le DataMart
 
 ###########################################################
 #Element new names.
@@ -3866,8 +3866,8 @@ Error.DataMartException.DATAMART_ALREADY_INCLUDED=Le datamart "{0}" a déjà été i
 Error.DataMartException.DATAMART_NOT_FOUND=Le datamart avec l'espace nom "{0}" est introuvable.
 
 #Dashboard Exporter
-Message.ExportGadgetToSharedGadgetFile=Export gadget to shared gadget file.
-Message.ExportTabToSharedTabFile=Export Tab to shared Tab file.
+Message.ExportGadgetToSharedGadgetFile=Exporter un gadget vers le fichier de gadget partagé.
+Message.ExportTabToSharedTabFile=Exporter l'onglet vers le fichier d'onglet partagé
 
 #Dashboard Exception
-Error.ExternalGadgetFileIncludedRecursively=External Gadget included recursively. 
+Error.ExternalGadgetFileIncludedRecursively=Gadget externe inclus de façon récurrente. 

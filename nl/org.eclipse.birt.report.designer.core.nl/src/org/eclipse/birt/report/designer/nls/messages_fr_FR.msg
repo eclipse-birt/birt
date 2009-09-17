@@ -3632,7 +3632,7 @@ TableOptionDialog.text.TableSize=Taille de la table
 TableOptionDialog.title.InsertGrid=Insérer une grille
 TableOptionDialog.title.InsertTable=Insérer une table
 TableOptionDialog.text.DataSet=Jeu de donnée&s :
-TableOptionDialog.text.AutoSummary=Auto Su&mmarize On
+TableOptionDialog.text.AutoSummary=Résu&mé auto activé
 
 ###########################################################
 #TablePageGenerator properties
