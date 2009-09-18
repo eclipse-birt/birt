@@ -1100,10 +1100,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( name == null )
 			return null;
 
-		Module rootElement = getElement( ).getRoot( );
-		String namespace = null;
-		if ( rootElement != null )
-			namespace = rootElement.getNamespace( );
+		Module rootElement = getModule( );
+		assert rootElement != null;
+
+		String namespace = rootElement.getNamespace( );
 
 		// if the root is library or other else that is included by other
 		// modules, then it will have a unique namespace
