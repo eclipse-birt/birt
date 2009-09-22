@@ -740,7 +740,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				// Here we will set isSharingQuery to false if it is sharing
 				// chart case to ensure that chart generates correct expressions
 				// to do evaluating in chart generator phase.
-				isSharingQuery &= !ChartItemUtil.isChartHandle( modelHandle.getDataBindingReference( ) );
+				isSharingQuery &= !ChartItemUtil.isChartHandle( ChartItemUtil.getReportItemReference( modelHandle ));
 			}
 			rtc.setSharingQuery( isSharingQuery );
 

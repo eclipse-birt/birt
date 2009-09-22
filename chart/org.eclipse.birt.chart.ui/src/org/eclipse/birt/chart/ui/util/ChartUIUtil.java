@@ -580,7 +580,7 @@ public class ChartUIUtil
 		// Here we will set isSharingQuery to false if it is sharing
 		// chart case to ensure that chart generates correct expressions
 		// to do evaluating in chart generator phase.
-		isSharingQuery &= !dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY );
+		isSharingQuery &= !dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY_RECURSIVELY );
 		final List<String> expressions = Generator.instance( )
 				.getRowExpressions( chart, iae, !isSharingQuery );
 

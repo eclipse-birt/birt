@@ -1345,7 +1345,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 								cm )
 						|| isInheritColumnsGroups( ) )
 				{
-					if ( isSharingChart( false ) )
+					if ( isSharingChart( true ) )
 					{
 						evaluator = createBaseEvaluator( (ExtendedItemHandle) itemHandle.getDataBindingReference( ),
 								cm,
@@ -3038,6 +3038,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( isSharingChart( false ) )
 			{
 				states |= SHARE_CHART_QUERY;
+			}
+			
+			if ( isSharingChart( true ) )
+			{
+				states |= SHARE_CHART_QUERY_RECURSIVELY;
 			}
 			
 			if ( ChartCubeUtil.getBindingCube( itemHandle ) != null )

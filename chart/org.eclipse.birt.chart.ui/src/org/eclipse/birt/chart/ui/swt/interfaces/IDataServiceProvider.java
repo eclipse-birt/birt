@@ -75,6 +75,11 @@ public interface IDataServiceProvider
 	public static final int INHERIT_CUBE = 1 << 13;
 
 	/**
+	 * Indicates if the final shared object is chart.
+	 */
+	public static final int SHARE_CHART_QUERY_RECURSIVELY = 1 << 14;
+	
+	/**
 	 * Returns all available style names.
 	 */
 	public String[] getAllStyles( );
