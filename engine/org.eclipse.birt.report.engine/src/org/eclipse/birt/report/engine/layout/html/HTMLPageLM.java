@@ -86,18 +86,17 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			isLastPage = true;
 			return false;
 		}
-		start(isFirstPage);
+		start( isFirstPage );
 		boolean hasNextPage = layoutNodes( );
 		if ( isChildrenFinished( ) )
 		{
 			isLastPage = true;
 		}
 		isFirstPage = false;
-		end(isLastPage );
+		end( isLastPage );
 		context.initilizePage( );
 		return hasNextPage;
 	}
-
 
 	public boolean isFinished( )
 	{
@@ -108,41 +107,40 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			throws BirtException
 	{
 		IContent header = pageContent.getPageHeader( );
-		if(header!=null)
+		if ( header != null )
 		{
-			pageContent.setPageHeader( layoutContent(header) );
+			pageContent.setPageHeader( layoutContent( header ) );
 		}
 		IContent footer = pageContent.getPageFooter( );
-		if(footer!=null)
+		if ( footer != null )
 		{
-			pageContent.setPageFooter( layoutContent(footer) );
+			pageContent.setPageFooter( layoutContent( footer ) );
 		}
-		
+
 	}
-	
+
 	protected IContent layoutContent( IContent content ) throws BirtException
 	{
-		if(content==null)
+		if ( content == null )
 		{
 			return null;
 		}
-		ContentDOMEmitter domEmitter = new ContentDOMEmitter(content, emitter);		
+		ContentDOMEmitter domEmitter = new ContentDOMEmitter( content, emitter );
 		boolean pageBreak = context.allowPageBreak( );
 		IPageBuffer pageBuffer = context.getPageBufferManager( );
-		context.setPageBufferManager( new PageContentBuffer() );
+		context.setPageBufferManager( new PageContentBuffer( ) );
 		context.setAllowPageBreak( false );
-		engine.layout(this, content, domEmitter );
+		engine.layout( this, content, domEmitter );
 		context.setAllowPageBreak( pageBreak );
 		context.setPageBufferManager( pageBuffer );
 		domEmitter.refreshChildren( );
 		return content;
 	}
-	
-	
+
 	protected void start( boolean isFirst ) throws BirtException
 	{
 		context.getBufferFactory( ).refresh( );
-		context.setPageBufferManager( createPageBuffer() );
+		context.setPageBufferManager( createPageBuffer( ) );
 		MasterPageDesign pageDesign = getMasterPage( report );
 		pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
 				context.getPageNumber( ), pageDesign );
@@ -156,65 +154,68 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 					isFirst, emitter, true );
 		}
 	}
-	
-	protected IContent getContent()
+
+	protected IContent getContent( )
 	{
 		return pageContent;
 	}
-	
-	protected IPageBuffer createPageBuffer()
+
+	protected IPageBuffer createPageBuffer( )
 	{
-		IPageBuffer bufferMgr = null; 
-		if(context.allowPageBreak)
+		IPageBuffer bufferMgr = null;
+		if ( context.allowPageBreak )
 		{
-			bufferMgr = new TableBreakBuffer(null, context);
+			bufferMgr = new TableBreakBuffer( null, context );
 		}
 		else
 		{
-			bufferMgr = new DummyPageBuffer(context, reportExecutor);
+			bufferMgr = new DummyPageBuffer( context, reportExecutor );
 		}
 		return bufferMgr;
 	}
-	
+
 	protected void end( boolean finished ) throws BirtException
 	{
-		if ( emitter != null  )
+		if ( !finished )
 		{
-			context.getPageBufferManager( ).endContainer( pageContent, finished, emitter, true );
+			context.getPageHintManager( ).resetRowHint( );
+		}
+		if ( emitter != null )
+		{
+			context.getPageBufferManager( ).endContainer( pageContent,
+					finished, emitter, true );
 			context.getBufferFactory( ).close( );
 		}
-		context.getPageHintManager( ).resetRowHint( );
 		context.setEmptyPage( false );
 	}
-	
+
 	public class ContentDOMEmitter extends ContentEmitterAdapter
 	{
 
-		protected ArrayList nodes = new ArrayList();
+		protected ArrayList nodes = new ArrayList( );
 		protected BufferNode current;
 		protected IContentEmitter emitter;
-		
+
 		public ContentDOMEmitter( IContent root, IContentEmitter emitter )
 		{
 			this.emitter = emitter;
-			current = new BufferNode(root, null);
+			current = new BufferNode( root, null );
 			nodes.add( current );
 		}
-		
+
 		public String getOutputFormat( )
 		{
 			return emitter.getOutputFormat( );
 		}
 
-		
-		public void refreshChildren()
+		public void refreshChildren( )
 		{
-			for(int i=0; i<nodes.size( ); i++)
+			for ( int i = 0; i < nodes.size( ); i++ )
 			{
-				BufferNode node = (BufferNode)nodes.get( i );
+				BufferNode node = (BufferNode) nodes.get( i );
 				node.content.getChildren( ).clear( );
 				node.content.getChildren( ).addAll( node.children );
-				//FIMXE need set parent?
+				// FIMXE need set parent?
 			}
 		}
 
@@ -222,10 +223,10 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		{
 			if ( current != null )
 			{
-				if(content!=null)
+				if ( content != null )
 				{
 					current.children.add( content );
-					current = new BufferNode(content, current);
+					current = new BufferNode( content, current );
 					nodes.add( current );
 				}
 				else
@@ -233,38 +234,40 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 					current = null;
 				}
 			}
-				
+
 		}
 
 		public void endContent( IContent content )
 		{
-			if(current!=null)
+			if ( current != null )
 			{
-				if(content!=null)
+				if ( content != null )
 				{
 					current = current.parent;
 				}
 			}
 		}
 	}
-	
+
 	class BufferNode
 	{
+
 		IContent content;
-		ArrayList children = new ArrayList();
+		ArrayList children = new ArrayList( );
 		BufferNode parent;
-		public BufferNode(IContent content, BufferNode parent)
+
+		public BufferNode( IContent content, BufferNode parent )
 		{
 			this.content = content;
 			this.parent = parent;
 		}
-		
-		public void addChild(IContent child)
+
+		public void addChild( IContent child )
 		{
 			children.add( child );
 		}
 	}
-	
+
 	public class PageContentBuffer implements IPageBuffer
 	{
 
@@ -277,11 +280,10 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		{
 		}
 
-
 		public void endContainer( IContent content, boolean finished,
 				IContentEmitter emitter, boolean visible ) throws BirtException
 		{
-			if(content!=null && visible)
+			if ( content != null && visible )
 			{
 				ContentEmitterUtil.endContent( content, emitter );
 			}
@@ -290,28 +292,28 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		public void startContainer( IContent content, boolean isFirst,
 				IContentEmitter emitter, boolean visible ) throws BirtException
 		{
-			if(content!=null && visible)
+			if ( content != null && visible )
 			{
 				ContentEmitterUtil.startContent( content, emitter );
 			}
-			
+
 		}
 
 		public void startContent( IContent content, IContentEmitter emitter,
 				boolean visible ) throws BirtException
 		{
-			if(content!=null && visible)
+			if ( content != null && visible )
 			{
 				ContentEmitterUtil.startContent( content, emitter );
 				ContentEmitterUtil.endContent( content, emitter );
 			}
-			
+
 		}
 
 		public void closePage( INode[] nodeList )
 		{
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public boolean finished( )
@@ -323,7 +325,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		public void flush( )
 		{
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public INode[] getNodeStack( )
@@ -335,17 +337,15 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		public void openPage( INode[] nodeList )
 		{
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void addTableColumnHint( TableColumnHint hint )
 		{
 			// TODO Auto-generated method stub
-			
+
 		}
 
-
-		
 	}
 
 }

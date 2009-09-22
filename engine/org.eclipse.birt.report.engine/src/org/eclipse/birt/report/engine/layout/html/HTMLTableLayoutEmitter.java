@@ -395,7 +395,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	{
 		layout.resolveDropCells( finished );
 		UnresolvedRowHint hint = layout.getUnresolvedRow( );
-		if(hint!=null)
+		if ( hint != null )
 		{
 			hintMap.put( layout.getKeyString( ), hint );
 			if(context!=null )

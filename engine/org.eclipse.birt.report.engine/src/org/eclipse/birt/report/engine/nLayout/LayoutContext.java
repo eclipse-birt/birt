@@ -469,7 +469,7 @@ public class LayoutContext
 		return pageHintGenerator.getUnresolvedRowHints( );
 	}
 	
-	public void resetUnresolveRowHints()
+	public void resetUnresolvedRowHints()
 	{
 		if ( pageHintGenerator != null )
 		{

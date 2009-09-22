@@ -288,6 +288,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		( (AbstractNode) currentNode ).setFinished( finished );
 		if ( currentNode.isStarted( ) )
 		{
+			context.getPageHintManager( ).generatePageRowHints( getTableKeys() );
 			currentNode.end( );
 			pageBreakEvent( );
 			if ( !finished )
@@ -337,7 +338,6 @@ public class HTMLPageBuffer implements IPageBuffer
 	{
 		context.getPageHintManager( ).setPageHint( generator.getPageHint( ) );
 		//context.addTableColumnHints( columnHints );
-		context.getPageHintManager( ).generatePageRowHints( getTableKeys() );
 		long pageNumber = context.getPageNumber( );
 		ILayoutPageHandler pageHandler = context.getLayoutEngine( )
 				.getPageHandler( );
