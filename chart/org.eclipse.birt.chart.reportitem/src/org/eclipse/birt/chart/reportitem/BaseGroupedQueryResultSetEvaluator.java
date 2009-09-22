@@ -327,6 +327,22 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	}
 
 	/**
+	 * Check if the group between start index and end index is used by chart.
+	 * 
+	 * @param startIndex
+	 * @param endIndex
+	 * @return
+	 */
+	private boolean usedByChart(int startIndex, int endIndex )
+	{
+		for ( int i = startIndex; i <= endIndex; i ++)
+		{
+			if ( faEnabledGroups[i] )
+				return true;
+		}
+		return false;
+	}
+	/**
 	 * Find next available row position. If it has grouped-enabled, should
 	 * ignore non-grouped/non-aggregation row.
 	 * 
@@ -340,7 +356,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			int startIndex = fResultIterator.getStartingGroupLevel( );
 			if ( startIndex > 0 && startIndex <= fGroupCount )
 			{
-				if ( faEnabledGroups[startIndex - 1] ) // it means the group is
+				if ( usedByChart( startIndex - 1, fGroupCount - 1) ) // it means the group is
 														// used by chart.
 				{
 					fCountOfAvaiableRows++;
