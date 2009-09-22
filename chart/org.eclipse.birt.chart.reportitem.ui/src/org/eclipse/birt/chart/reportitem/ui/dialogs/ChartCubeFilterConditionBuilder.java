@@ -1885,15 +1885,16 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			
 			// The equivalent expressions mean the expression is not used by
 			// chart model, it needs add the binding into cube query.
-			if ( getExpression( expression.getText( ) ).equals( expression.getText( ) ) )
+			String expr = getExpression( expression.getText( ) );
+			if ( expr != null && expr.equals( expression.getText( ) ) )
 			{
-				ccqh.bindExpression( getExpression( expression.getText( ) ),
+				ccqh.bindExpression( expr,
 						(ICubeQueryDefinition) cubeQueryDefn,
 						( (ExtendedItemHandle) designHandle ).getCube( ) );
 			}
 			iter = session.getCubeQueryUtil( )
 					.getMemberValueIterator( (TabularCubeHandle) cube,
-							getExpression( expression.getText( ) ),
+							expr,
 							(ICubeQueryDefinition) cubeQueryDefn );
 		}
 		catch ( Exception e )
