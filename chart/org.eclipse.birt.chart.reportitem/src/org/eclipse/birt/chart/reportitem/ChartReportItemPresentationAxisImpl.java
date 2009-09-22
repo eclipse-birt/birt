@@ -19,7 +19,11 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
@@ -56,16 +60,48 @@ public final class ChartReportItemPresentationAxisImpl extends
 		Bounds bounds = originalBounds.copyInstance( );
 		if ( cm instanceof ChartWithAxes )
 		{
-			// Set the dynamic size with zero, which will be replaced by the
-			// real value after computation when building chart
-			ChartWithAxes chart = (ChartWithAxes) cm;
-			if ( chart.isTransposed( ) )
+			try
 			{
-				bounds.setHeight( 0 );
+				// Set the dynamic size with zero, which will be replaced by the
+				// real value after computation when building chart
+				ChartWithAxes chart = (ChartWithAxes) cm;
+				AggregationCellHandle xtabCell = ChartCubeUtil.getXtabContainerCell( modelHandle );
+				if ( chart.isTransposed( ) )
+				{
+					bounds.setHeight( 0 );
+
+					// If user specifies column cell width manually, set the
+					// width to chart model
+					double dWidth = ChartReportItemPresentationPlotImpl.getColumnCellWidth( xtabCell.getCrosstab( ),
+							dpi );
+					if ( !ChartUtil.mathEqual( dWidth, 0 )
+							&& !ChartUtil.mathEqual( dWidth,
+									ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ) ) )
+					{
+						bounds.setWidth( dWidth );
+					}
+				}
+				else
+				{
+					bounds.setWidth( 0 );
+
+					// If user specifies row cell height manually, set the
+					// height to chart model
+					double dHeight = ChartReportItemPresentationPlotImpl.getRowCellHeight( xtabCell.getCrosstab( ),
+							dpi );
+					if ( !ChartUtil.mathEqual( dHeight, 0 )
+							&& !ChartUtil.mathEqual( dHeight,
+									ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) ) )
+					{
+						bounds.setHeight( dHeight );
+					}
+				}
 			}
-			else
+			catch ( BirtException e )
 			{
-				bounds.setWidth( 0 );
+				throw new ChartException( ChartReportItemConstants.ID,
+						ChartException.GENERATION,
+						e );
 			}
 		}
 		return bounds;
@@ -74,7 +110,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 	protected void updateChartModel( )
 	{
 		super.updateChartModel( );
-		
+
 		// Update runtime model to render axis only
 		ChartCubeUtil.updateModelToRenderAxis( cm, rtc.isRightToLeft( ) );
 	}

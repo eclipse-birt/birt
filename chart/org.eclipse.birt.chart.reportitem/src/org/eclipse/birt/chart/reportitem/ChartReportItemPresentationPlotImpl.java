@@ -15,11 +15,13 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
-import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 
 /**
@@ -45,13 +47,10 @@ public final class ChartReportItemPresentationPlotImpl extends
 				if ( xtabCell.getSpanOverOnColumn( ) != null )
 				{
 					// Horizontal direction
-					CrosstabCellHandle columnCell = ChartCubeUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
-							ICrosstabConstants.COLUMN_AXIS_TYPE );
 					// Get the column width plus border
-					double dWidth = ChartItemUtil.convertToPoints( xtabCell.getCrosstab( )
-							.getColumnWidth( columnCell ),
+					double dWidth = getColumnCellWidth( xtabCell.getCrosstab( ),
 							dpi );
-					if ( dWidth == 0 )
+					if ( ChartUtil.mathEqual( dWidth, 0 ) )
 					{
 						dWidth = ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( );
 					}
@@ -68,16 +67,24 @@ public final class ChartReportItemPresentationPlotImpl extends
 					bounds.setWidth( -roundPointsWithPixels( dWidth
 							+ ( dLeftBorder + dRightBorder )
 							/ 2 ) );
+
+					// If user specifies row cell height manually, set the
+					// height to chart model
+					double dHeight = getRowCellHeight( xtabCell.getCrosstab( ),
+							dpi );
+					if ( !ChartUtil.mathEqual( dHeight, 0 )
+							&& !ChartUtil.mathEqual( dHeight,
+									ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) ) )
+					{
+						bounds.setHeight( dHeight );
+					}
 				}
 				else if ( xtabCell.getSpanOverOnRow( ) != null )
 				{
 					// Vertical direction plus border
-					CrosstabCellHandle rowCell = ChartCubeUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
-							ICrosstabConstants.ROW_AXIS_TYPE );
-					double dHeight = ChartItemUtil.convertToPoints( xtabCell.getCrosstab( )
-							.getRowHeight( rowCell ),
+					double dHeight = getRowCellHeight( xtabCell.getCrosstab( ),
 							dpi );
-					if ( dHeight == 0 )
+					if ( ChartUtil.mathEqual( dHeight, 0 ) )
 					{
 						dHeight = ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( );
 					}
@@ -94,12 +101,23 @@ public final class ChartReportItemPresentationPlotImpl extends
 					bounds.setHeight( -roundPointsWithPixels( dHeight
 							+ ( dTopBorder + dBottomBorder )
 							/ 2 ) );
+
+					// If user specifies column cell width manually, set the
+					// width to chart model
+					double dWidth = getColumnCellWidth( xtabCell.getCrosstab( ),
+							dpi );
+					if ( !ChartUtil.mathEqual( dWidth, 0 )
+							&& !ChartUtil.mathEqual( dWidth,
+									ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ) ) )
+					{
+						bounds.setWidth( dWidth );
+					}
 				}
 			}
 		}
 		catch ( BirtException e )
 		{
-			throw new ChartException( ChartReportItemPlugin.ID,
+			throw new ChartException( ChartReportItemConstants.ID,
 					ChartException.GENERATION,
 					e );
 		}
@@ -123,4 +141,21 @@ public final class ChartReportItemPresentationPlotImpl extends
 		return ( (int) ( points / 72 * dpi ) ) * 72 / (double) dpi;
 	}
 
+	static double getColumnCellWidth( CrosstabReportItemHandle xtabHandle,
+			int dpi ) throws BirtException
+	{
+		CrosstabCellHandle columnCell = ChartCubeUtil.getInnermostLevelCell( xtabHandle,
+				ICrosstabConstants.COLUMN_AXIS_TYPE );
+		return ChartItemUtil.convertToPoints( xtabHandle.getColumnWidth( columnCell ),
+				dpi );
+	}
+
+	static double getRowCellHeight( CrosstabReportItemHandle xtabHandle, int dpi )
+			throws BirtException
+	{
+		CrosstabCellHandle rowCell = ChartCubeUtil.getInnermostLevelCell( xtabHandle,
+				ICrosstabConstants.ROW_AXIS_TYPE );
+		return ChartItemUtil.convertToPoints( xtabHandle.getRowHeight( rowCell ),
+				dpi );
+	}
 }
