@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DateFormatISO8601;
 import org.eclipse.birt.core.exception.BirtException;
@@ -410,6 +412,8 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 	private boolean useSorting = false;
 	private Object[] defaultSelection;
 
+	private Map<ToolItem, Integer> toolItemType = new HashMap<ToolItem, Integer>( );
+
 	/**
 	 * Create an expression builder under the given parent shell with the given
 	 * initial expression
@@ -535,71 +539,29 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		final ToolBar toolBar = new ToolBar( parent, SWT.FLAT );
 		toolBar.setLayoutData( new GridData( ) );
 
-		ToolItem copy = new ToolItem( toolBar, SWT.NONE );
+		ToolItem copy = createToolItem( toolBar, ITextOperationTarget.COPY );
 		copy.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_COPY ) );
 		copy.setToolTipText( TOOL_TIP_TEXT_COPY );
-		copy.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				sourceViewer.doOperation( ITextOperationTarget.COPY );
-			}
-		} );
-
-		ToolItem cut = new ToolItem( toolBar, SWT.NONE );
+		ToolItem cut = createToolItem( toolBar, ITextOperationTarget.CUT );
 		cut.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_CUT ) );
 		cut.setToolTipText( TOOL_TIP_TEXT_CUT );
-		cut.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				sourceViewer.doOperation( ITextOperationTarget.CUT );
-			}
-		} );
-
-		ToolItem paste = new ToolItem( toolBar, SWT.NONE );
+		ToolItem paste = createToolItem( toolBar, ITextOperationTarget.PASTE );
 		paste.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_PASTE ) );
 		paste.setToolTipText( TOOL_TIP_TEXT_PASTE );
-		paste.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				sourceViewer.doOperation( ITextOperationTarget.PASTE );
-			}
-		} );
-
-		ToolItem delete = new ToolItem( toolBar, SWT.NONE );
+		ToolItem delete = createToolItem( toolBar, ITextOperationTarget.DELETE );
 		delete.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_DELETE ) );
 		delete.setToolTipText( TOOL_TIP_TEXT_DELETE );
-		delete.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				sourceViewer.doOperation( ITextOperationTarget.DELETE );
-			}
-		} );
-
-		ToolItem undo = new ToolItem( toolBar, SWT.NONE );
+		ToolItem undo = createToolItem( toolBar, ITextOperationTarget.UNDO );
 		undo.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_UNDO ) );
 		undo.setToolTipText( TOOL_TIP_TEXT_UNDO );
-		undo.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				sourceViewer.doOperation( ITextOperationTarget.UNDO );
-			}
-		} );
-
-		ToolItem redo = new ToolItem( toolBar, SWT.NONE );
+		ToolItem redo = createToolItem( toolBar, ITextOperationTarget.REDO );
 		redo.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_REDO ) );
 		redo.setToolTipText( TOOL_TIP_TEXT_REDO );
-		redo.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				sourceViewer.doOperation( ITextOperationTarget.REDO );
-			}
-		} );
 
 		ToolItem validate = new ToolItem( toolBar, SWT.NONE );
 		validate.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_VALIDATE ) );
@@ -631,6 +593,21 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		} );
 	}
 
+	private ToolItem createToolItem( ToolBar toolBar, final int operationType )
+	{
+		final ToolItem item = new ToolItem( toolBar, SWT.NONE );
+		toolItemType.put( item, operationType );
+		item.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sourceViewer.doOperation( operationType );
+				updateToolItems( );
+			}
+		} );
+		return item;
+	}
+
 	private void createExpressionField( Composite parent )
 	{
 		Composite expressionArea = new Composite( parent, SWT.NONE );
@@ -657,6 +634,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 
 			public void keyPressed( KeyEvent e )
 			{
+				updateToolItems( );
 				if ( isUndoKeyPress( e ) )
 				{
 					sourceViewer.doOperation( ITextOperationTarget.UNDO );
@@ -689,6 +667,18 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 						event.segments = UIUtil.getExpressionBidiSegments( event.lineText );
 					}
 				} );
+		updateToolItems( );
+	}
+
+	protected void updateToolItems( )
+	{
+		for ( ToolItem item : toolItemType.keySet( ) )
+		{
+			if ( !item.isDisposed( ) )
+			{
+				item.setEnabled( sourceViewer.canDoOperation( toolItemType.get( item ) ) );
+			}
+		}
 	}
 
 	private void createOperatorsBar( Composite parent )
