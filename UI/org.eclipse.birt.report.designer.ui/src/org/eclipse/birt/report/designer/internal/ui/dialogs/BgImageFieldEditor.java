@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.IResourceContentProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -22,7 +26,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -46,6 +49,12 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 			".ico", //$NON-NLS-1$
 			".svg" //$NON-NLS-1$
 	};
+	
+	private static final String[] IMAGE_FILEFILTERS = new String[]{
+		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
+	};
+	
+	
 	/**
 	 * the text widget.
 	 */
@@ -210,33 +219,30 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 			fButton.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent evt )
-				{
-					String ext[] = new String[]{
-						"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-					};
-					FileDialog fd = new FileDialog( parent.getShell( ),
-							SWT.OPEN );
-					fd.setFilterExtensions( ext );
-					// fd.setFilterNames( new String[]{
-					// "SWT image" + " (gif, jpeg, png, ico, bmp)" //$NON-NLS-1$
-					// //$NON-NLS-2$
-					// } );
+				{	
+					ResourceSelectionValidator validator = new ResourceSelectionValidator( IMAGE_TYPES );
+					ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
+							true,
+							IMAGE_FILEFILTERS );
+					dialog.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
+					dialog.setTitle( Messages.getString( "ImageBuilder.BrowserResourceDialog.Title" ) ); //$NON-NLS-1$
+					dialog.setMessage( Messages.getString( "ImageBuilder.BrowserResourceDialog.Message" ) ); //$NON-NLS-1$
+					dialog.setValidator( validator );
 
-					String file = fd.open( );
-					if ( file != null )
+					if ( dialog.open( ) == Window.OK )
 					{
-						// should check extensions in Linux enviroment
-						if ( checkExtensions( IMAGE_TYPES, file ) == false )
+						String file = dialog.getPath( );
+						if ( file != null )
 						{
-							ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
-									Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
-						}
-						else
-						{
-							getTextControl( null ).setText( file );
+							if ( checkExtensions( IMAGE_TYPES, file ) == false )
+							{
+								ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
+										Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
+								return ;
+							}
+							getTextControl( null ).setText( dialog.getPath( ) );
 							valueChanged( VALUE );
 						}
-
 					}
 				}
 			} );

@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.IResourceContentProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.viewers.DialogCellEditor;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -27,7 +31,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
 
 public class BackgroundImageCellEditor extends DialogCellEditor
@@ -130,24 +133,30 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 		String extensions[] = new String[]{
 			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		};
-		FileDialog fd = new FileDialog( cellEditorWindow.getShell( ), SWT.OPEN );
-		fd.setFilterExtensions( extensions );
-		Object value = getValue( );
-		if ( value != null )
+		
+		ResourceSelectionValidator validator = new ResourceSelectionValidator( IMAGE_TYPES );
+		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
+				true,
+				extensions );
+		dialog.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
+		dialog.setTitle( Messages.getString( "ImageBuilder.BrowserResourceDialog.Title" ) ); //$NON-NLS-1$
+		dialog.setMessage( Messages.getString( "ImageBuilder.BrowserResourceDialog.Message" ) ); //$NON-NLS-1$
+		dialog.setValidator( validator );
+		if ( dialog.open( ) == Window.OK )
 		{
-			fd.setFileName( (String) value );
-		}
-
-		String file = fd.open( );
-		if ( file != null )
-		{
-			if ( checkExtensions( IMAGE_TYPES, file ) == false )
+			String file = dialog.getPath( );
+			if ( file != null )
 			{
-				ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
-						Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
+				if ( checkExtensions( IMAGE_TYPES, file ) == false )
+				{
+					ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
+							Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
+					return null;
+				}
+				return file;
 			}
 		}
-		return file;
+		return null;
 	}
 
 	private boolean checkExtensions( String fileExt[], String fileName )
