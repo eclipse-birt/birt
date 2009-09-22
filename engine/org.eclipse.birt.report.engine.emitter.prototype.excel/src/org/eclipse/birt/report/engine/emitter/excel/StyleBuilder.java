@@ -290,8 +290,8 @@ public class StyleBuilder
 
 	public static boolean isHeritable( int id )
 	{
-		if ( id >= StyleConstant.BORDER_BOTTOM_COLOR_PROP
-				&& id <= StyleConstant.BORDER_RIGHT_WIDTH_PROP )
+		if ( ( id >= StyleConstant.BORDER_BOTTOM_COLOR_PROP && id <= StyleConstant.BORDER_RIGHT_WIDTH_PROP )
+				|| ( id >= StyleConstant.BORDER_DIAGONAL_COLOR_PROP && id <= StyleConstant.BORDER_ANTIDIAGONAL_WIDTH_PROP ) )
 			return false;
 		return true;
 	}

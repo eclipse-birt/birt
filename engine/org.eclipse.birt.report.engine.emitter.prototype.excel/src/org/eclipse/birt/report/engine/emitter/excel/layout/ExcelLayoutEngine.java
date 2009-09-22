@@ -544,6 +544,7 @@ public class ExcelLayoutEngine
 		{
 			StyleEntry style = parent.getStyle( );
 			removeLeftBorder( style );
+			removeDiagonalLine( style );
 			addEmptyDataToContainer( style, parent, childEndCoordinate,
 					parentEndCoordinate - childEndCoordinate );
 		}
@@ -551,6 +552,7 @@ public class ExcelLayoutEngine
 		{
 			StyleEntry style = parent.getStyle( );
 			removeRightBorder( style );
+			removeDiagonalLine( style );
 			addEmptyDataToContainer( style, parent, childStartCoordinate,
 					parentStartCoordinate - childStartCoordinate );
 		}
@@ -847,6 +849,16 @@ public class ExcelLayoutEngine
 		style.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP, null );
 		style.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP, null );
 		style.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP, null );
+	}
+
+	private void removeDiagonalLine( StyleEntry style )
+	{
+		style.setProperty( StyleConstant.BORDER_DIAGONAL_COLOR_PROP, null );
+		style.setProperty( StyleConstant.BORDER_DIAGONAL_STYLE_PROP, null );
+		style.setProperty( StyleConstant.BORDER_DIAGONAL_WIDTH_PROP, null );
+		style.setProperty( StyleConstant.BORDER_ANTIDIAGONAL_COLOR_PROP, null );
+		style.setProperty( StyleConstant.BORDER_ANTIDIAGONAL_STYLE_PROP, null );
+		style.setProperty( StyleConstant.BORDER_ANTIDIAGONAL_WIDTH_PROP, null );
 	}
 
 	protected Data createEmptyData( XlsContainer container, StyleEntry style )
