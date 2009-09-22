@@ -15,7 +15,7 @@ package org.eclipse.birt.report.model.parser;
  * 
  */
 
-public interface ParserSchemaConstants
+interface ParserSchemaConstants
 {
 
 	/* Tags for properties */

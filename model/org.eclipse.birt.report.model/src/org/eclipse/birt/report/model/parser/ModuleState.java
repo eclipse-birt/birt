@@ -199,6 +199,12 @@ public abstract class ModuleState extends DesignParseState
 			{
 				return new OdaDataSourceState( handler, slotID );
 			}
+
+			AbstractParseState state = ParseStateFactory.getInstance( )
+					.createDataSourceState( tagValue, handler, handler.module,
+							slotID );
+			if ( state != null )
+				return state;
 			return super.startElement( tagName );
 		}
 	}
@@ -249,6 +255,12 @@ public abstract class ModuleState extends DesignParseState
 				return new JointDataSetState( handler, handler.module, slotID );
 			if ( ParserSchemaConstants.DERIVED_DATA_SET_TAG == tagValue )
 				return new DerivedDataSetState( handler, handler.module, slotID );
+
+			AbstractParseState state = ParseStateFactory.getInstance( )
+					.createDataSetState( tagValue, handler, handler.module,
+							slotID );
+			if ( state != null )
+				return state;
 			return super.startElement( tagName );
 		}
 	}
@@ -537,6 +549,12 @@ public abstract class ModuleState extends DesignParseState
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ODA_CUBE_TAG ) )
 				return new OdaCubeState( handler, container, slotID );
 
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			AbstractParseState state = ParseStateFactory
+					.getInstance( )
+					.createCubeState( tagValue, handler, handler.module, slotID );
+			if ( state != null )
+				return state;
 			return super.startElement( tagName );
 		}
 

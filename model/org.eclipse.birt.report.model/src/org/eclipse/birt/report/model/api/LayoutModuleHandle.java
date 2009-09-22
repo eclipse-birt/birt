@@ -598,7 +598,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			throws DesignFileException, SemanticException
 	{
 		LibraryCommand command = new LibraryCommand( module );
-		command.addModule( libraryFileName, namespace );
+		command.addLibrary( libraryFileName, namespace );
 	}
 
 	/*
@@ -615,7 +615,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			return;
 
 		LibraryCommand command = new LibraryCommand( module );
-		command.dropModule( (Library) library.getElement( ) );
+		command.dropLibrary( (Library) library.getElement( ) );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
@@ -707,7 +707,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			else
 			{
 				LibraryCommand cmd = new LibraryCommand( module );
-				cmd.reloadModule( lib.getFileName( ), lib.getNamespace( ) );
+				cmd.reloadLibrary( lib.getFileName( ), lib.getNamespace( ) );
 			}
 
 		}
@@ -777,7 +777,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			return;
 
 		LibraryCommand command = new LibraryCommand( module );
-		command.dropModuleAndBreakExtends( (Library) library.getElement( ) );
+		command.dropLibraryAndBreakExtends( (Library) library.getElement( ) );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )

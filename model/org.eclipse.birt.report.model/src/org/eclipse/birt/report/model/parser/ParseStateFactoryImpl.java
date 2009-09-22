@@ -231,17 +231,47 @@ class ParseStateFactoryImpl
 	}
 
 	/**
-	 * Creates a general jump state for structure list state.
+	 * Creates some data set state for some special data set.
 	 * 
+	 * @param tagName
 	 * @param handler
-	 * @param element
-	 * @param propNameValue
+	 * @param container
+	 * @param slotID
 	 * @return
 	 */
-	public AbstractParseState createGeneralJumpStructureListState(
-			ModuleParserHandler handler, DesignElement element, int propNameValue )
+	public AbstractParseState createDataSetState( int tagName,
+			ModuleParserHandler handler, DesignElement container, int slotID )
 	{
 		return null;
 	}
 
+	/**
+	 * Creates some data set state for some special data source.
+	 * 
+	 * @param tagName
+	 * @param handler
+	 * @param container
+	 * @param slotID
+	 * @return
+	 */
+	public AbstractParseState createDataSourceState( int tagName,
+			ModuleParserHandler handler, DesignElement container, int slotID )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates some data set state for some special cube.
+	 * 
+	 * @param tagName
+	 * @param handler
+	 * @param container
+	 * @param slotID
+	 * @return
+	 */
+	public AbstractParseState createCubeState( int tagName,
+			ModuleParserHandler handler, DesignElement container, int slotID )
+	{
+		return null;
+	}
 }

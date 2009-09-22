@@ -355,12 +355,6 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 		}
 
-		AbstractParseState state = ParseStateFactory.getInstance( )
-				.createGeneralJumpStructureListState( handler, element,
-						nameValue );
-		if ( state != null )
-			return state;
-
 		return super.generalJumpTo( );
 	}
 

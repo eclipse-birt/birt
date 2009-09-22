@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
 
 /**
  * The utility class which provides many static methods used in Model.

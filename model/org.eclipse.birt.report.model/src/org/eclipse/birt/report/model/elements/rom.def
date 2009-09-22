@@ -609,6 +609,10 @@
   	<Choice displayNameID="Choices.nullValueOrderingType.nullIsFirst" name="nullIsFirst"/>
   	<Choice displayNameID="Choices.nullValueOrderingType.nullIsLast" name="nullIsLast"/>
   </ChoiceType>
+  <ChoiceType name="dataVersion">
+  	<Choice displayNameID="Choices.dataVersion.transient" name="transient"/>
+  	<Choice displayNameID="Choices.dataVersion.latest" name="latest"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>

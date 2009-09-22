@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-class SimpleDataSetState extends ReportElementState
+public class SimpleDataSetState extends ReportElementState
 {
 
 	/**

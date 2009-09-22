@@ -1117,7 +1117,7 @@ public abstract class Module extends DesignElement
 	 *            exception list to set
 	 */
 
-	public final void setAllExceptions( List<Exception> allExceptions )
+	protected final void setAllExceptions( List<Exception> allExceptions )
 	{
 		this.allExceptions = allExceptions;
 	}

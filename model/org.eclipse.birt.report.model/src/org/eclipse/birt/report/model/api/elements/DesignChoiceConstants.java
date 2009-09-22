@@ -549,7 +549,7 @@ public interface DesignChoiceConstants
 	 */
 
 	public static final String CHOICE_ANALYSIS_TYPE = "analysisType"; //$NON-NLS-1$
-	
+
 	/**
 	 * @deprecated in 2.5.1: this choice is not supported
 	 */
@@ -965,5 +965,12 @@ public interface DesignChoiceConstants
 	public static final String NULL_VALUE_ORDERING_TYPE_UNKNOWN = "unknown"; //$NON-NLS-1$
 	public static final String NULL_VALUE_ORDERING_TYPE_NULLISFIRST = "nullIsFirst"; //$NON-NLS-1$
 	public static final String NULL_VALUE_ORDERING_TYPE_NULLISLAST = "nullIsLast"; //$NON-NLS-1$
+
+	/**
+	 * Choice constants for dataVersion.
+	 */
+	public static final String CHOICE_DATA_VERSION = "dataVersion"; //$NON-NLS-1$
+	public static final String DATA_VERSION_TRANSIENT = "transient"; //$NON-NLS-1$
+	public static final String DATA_VERSION_LATEST = "latest"; //$NON-NLS-1$
 
 };
