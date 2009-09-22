@@ -25,9 +25,11 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The general attribute page of Module element.
  */
-public class ModulePage extends AttributePage
+public abstract class ModulePage extends AttributePage
 {
 
+	public abstract String getElementType();
+	
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
@@ -44,7 +46,7 @@ public class ModulePage extends AttributePage
 		addSection( PageSectionId.MODULE_AUTHOR, authorSection );
 
 		TextPropertyDescriptorProvider createdByProvider = new TextPropertyDescriptorProvider( ModuleHandle.CREATED_BY_PROP,
-				ReportDesignConstants.MODULE_ELEMENT );
+				getElementType() );
 		TextSection createdBySection = new TextSection( createdByProvider.getDisplayName( ),
 				container,
 				true );
@@ -78,7 +80,7 @@ public class ModulePage extends AttributePage
 		addSection( PageSectionId.MODULE_SEPERATOR, seperatorSection );
 
 		SimpleComboPropertyDescriptorProvider themeProvider = new SimpleComboPropertyDescriptorProvider( ModuleHandle.THEME_PROP,
-				ReportDesignConstants.MODULE_ELEMENT );
+				getElementType() );
 		SimpleComboSection themeSection = new SimpleComboSection( themeProvider.getDisplayName( ),
 				container,
 				true );

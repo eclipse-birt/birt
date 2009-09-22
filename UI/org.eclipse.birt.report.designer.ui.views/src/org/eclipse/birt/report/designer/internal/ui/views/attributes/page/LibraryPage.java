@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.LibraryNameSpaceDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -57,6 +58,11 @@ public class LibraryPage extends ModulePage
 //		namespace.setLayoutData( gd );
 //
 //		labels[2]=WidgetUtil.createGridPlaceholder( this, 1, true );
+	}
+
+	public String getElementType( )
+	{
+		return ReportDesignConstants.LIBRARY_ELEMENT;
 	}
 
 //	protected void refreshValues( Set propertiesSet )

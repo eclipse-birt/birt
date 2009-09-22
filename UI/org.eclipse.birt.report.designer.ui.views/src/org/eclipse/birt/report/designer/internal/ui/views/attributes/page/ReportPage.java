@@ -178,4 +178,9 @@ public class ReportPage extends ModulePage
 
 	}
 
+	public String getElementType( )
+	{
+		return ReportDesignConstants.REPORT_DESIGN_ELEMENT;
+	}
+
 }
