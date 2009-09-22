@@ -12,12 +12,14 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.actions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.rcp.nls.DesignerWorkbenchMessages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
@@ -48,7 +50,7 @@ public class OpenFileAction extends Action implements
 	private IWorkbenchWindow fWindow;
 
 	private static String[] filterExtensions;
-
+	private static final int SUPPORT_COUNT ;
 	static
 	{
 		List list = ReportPlugin.getDefault( ).getReportExtensionNameList( );
@@ -61,6 +63,7 @@ public class OpenFileAction extends Action implements
 		filterExtensions[filterExtensions.length - 2] = "*.rpttemplate"; //$NON-NLS-1$
 		filterExtensions[filterExtensions.length - 1] = "*.rptdocument"; //$NON-NLS-1$
 		
+		SUPPORT_COUNT = filterExtensions.length;
 	}
 
 	public OpenFileAction( IWorkbenchWindow window )
@@ -70,6 +73,27 @@ public class OpenFileAction extends Action implements
 		setText( DesignerWorkbenchMessages.Workbench_openFile );
 		setToolTipText( DesignerWorkbenchMessages.Action_openReport );
 		setId( "org.eclipse.birt.report.designer.rcp.internal.ui.actions.OpenFileAction" ); //$NON-NLS-1$
+		
+		if (filterExtensions.length == SUPPORT_COUNT)
+		{
+			Object[] adapters = ElementAdapterManager.getAdapters( this,
+					IExtensionFile.class );
+			List<String> tempList= new ArrayList<String>();
+			for (int i=0; i<filterExtensions.length; i++)
+			{
+				tempList.add( filterExtensions[i] );
+			}
+			if (adapters != null)
+			{
+				for (int i=0; i<adapters.length; i++)
+				{
+					IExtensionFile newFile = (IExtensionFile)adapters[i];
+					tempList.add( newFile.getFileExtension( ) );
+				}
+			}
+			
+			filterExtensions = tempList.toArray( new String[tempList.size( )] );
+		}
 	}
 
 	/*

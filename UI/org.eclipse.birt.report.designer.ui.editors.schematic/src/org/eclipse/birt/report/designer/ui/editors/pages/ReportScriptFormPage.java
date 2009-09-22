@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -143,6 +144,46 @@ public class ReportScriptFormPage extends ReportFormPage
 			reloadEditorInput( );
 			doSave( null );
 		}
+		ModuleHandle newModel = getProvider( ).getReportModuleHandle( getEditorInput( ) );
+		if ( newModel != null && model != null && model != newModel )
+		{	
+			hookModelEventManager( newModel );
+			markPageStale( IPageStaleType.NONE );
+
+			SessionHandleAdapter.getInstance( ).resetReportDesign( model,
+					newModel );
+
+			SessionHandleAdapter.getInstance( ).setReportDesignHandle( newModel );
+			
+			if (jsEditor instanceof JSEditor)
+			{
+				((JSEditor)jsEditor).connectRoot( newModel );
+			}
+			
+
+//			reloadEditorInput( );
+//			UIUtil.processSessionResourceFolder( getEditorInput( ),
+//					UIUtil.getProjectFromInput( getEditorInput( ) ),
+//					getModel( ) );
+
+			IMediatorState state = SessionHandleAdapter.getInstance( )
+					.getMediator(newModel )
+					.getCurrentState( );
+			ReportRequest request = new ReportRequest( state.getSource( ) );
+			List list = new ArrayList();
+			list.add( newModel );
+			request.setSelectionObject( list );
+			request.setType( ReportRequest.SELECTION );
+
+			// SessionHandleAdapter.getInstance().getMediator().pushState();
+			SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.notifyRequest( request );
+			previouPage = prePage;
+			jsEditor.setFocus( );
+			return true;
+
+		}
 		
 		jsEditor.setFocus( );
 		previouPage = prePage;
@@ -248,6 +289,7 @@ public class ReportScriptFormPage extends ReportFormPage
 				onBroughtToTop( previouPage );
 			}
 			hookModelEventManager( getModel( ) );
+			getReportModel( );
 		}
 		catch ( Exception e )
 		{

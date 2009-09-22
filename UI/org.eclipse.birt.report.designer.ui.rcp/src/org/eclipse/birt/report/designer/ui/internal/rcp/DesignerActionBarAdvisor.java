@@ -11,12 +11,18 @@
 
 package org.eclipse.birt.report.designer.ui.internal.rcp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.internal.rcp.actions.IExtensionFile;
+import org.eclipse.birt.report.designer.ui.internal.rcp.actions.INewExtensionFileWorkbenchAction;
 import org.eclipse.birt.report.designer.ui.internal.rcp.actions.NewLibraryAction;
 import org.eclipse.birt.report.designer.ui.internal.rcp.actions.NewReportAction;
 import org.eclipse.birt.report.designer.ui.internal.rcp.actions.NewReportTemplateAction;
 import org.eclipse.birt.report.designer.ui.internal.rcp.actions.OpenFileAction;
 import org.eclipse.birt.report.designer.ui.rcp.nls.DesignerWorkbenchMessages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
@@ -54,6 +60,8 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 	private IWorkbenchAction newReportAction;
 
 	private IWorkbenchAction newLibraryAction;
+	
+	private IWorkbenchAction[] newActios;
 
 	private IWorkbenchAction newReportTemplateAction;
 
@@ -227,6 +235,10 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		newMenu.add(newReportAction);
 		newMenu.add(newLibraryAction);
 		newMenu.add(newReportTemplateAction);
+		for (int i=0; i<newActios.length; i++)
+		{
+			newMenu.add(newActios[i]);
+		}
 		menu.add(newMenu);
 		
 		menu.add(openFileAction);
@@ -356,6 +368,11 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		newReportAction = null;
 		newLibraryAction = null;
 		newReportTemplateAction = null;
+		
+		for (int i=0; i<newActios.length; i++)
+		{
+			newActios[i] = null;
+		}
 		closeAction = null;
 		closeAllAction = null;
 		saveAction = null;
@@ -381,6 +398,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		pinEditorContributionItem = null;
 		introAction = null;
 
+		
 		super.dispose( );
 	}
 
@@ -500,6 +518,33 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 
 		quitAction = ActionFactory.QUIT.create( window );
 		register( quitAction );
+		
+		//regist the new action
+		Object[] adapters = ElementAdapterManager.getAdapters( this,
+				IExtensionFile.class );
+		List<IWorkbenchAction> tempList= new ArrayList<IWorkbenchAction>();
+		
+		if (adapters != null)
+		{
+			for (int i=0; i<adapters.length; i++)
+			{
+				IExtensionFile newFile = (IExtensionFile)adapters[i];
+				INewExtensionFileWorkbenchAction action = newFile.getNewAction( );
+				if (action == null)
+				{
+					continue;
+				}
+				action.init( window );
+				register(action);
+				tempList.add( action );
+			}
+			
+			newActios =  tempList.toArray( new IWorkbenchAction[tempList.size( )] );
+		}
+		else
+		{
+			newActios = new IWorkbenchAction[0];
+		}
 
 		if ( window.getWorkbench( ).getIntroManager( ).hasIntro( ) )
 		{
