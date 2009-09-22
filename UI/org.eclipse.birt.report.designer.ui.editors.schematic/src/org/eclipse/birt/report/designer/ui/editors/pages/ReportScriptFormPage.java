@@ -318,7 +318,7 @@ public class ReportScriptFormPage extends ReportFormPage
 			provider.saveReport( getReportModel( ), getEditorInput( ), monitor );
 			firePropertyChange( PROP_DIRTY );
 		}
-		markPageStale( IPageStaleType.NONE );
+		markPageStale( IPageStaleType.MODEL_CHANGED );
 		getEditor( ).editorDirtyStateChanged( );
 
 		UIUtil.doFinishSava( getReportModel( ) );
