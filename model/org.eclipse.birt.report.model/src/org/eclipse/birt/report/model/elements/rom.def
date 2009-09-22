@@ -1471,7 +1471,7 @@
     <Member detailType="actionBookmarkType" displayNameID="Structure.Action.targetBookmarkType" name="targetBookmarkType" since="2.1" type="choice"/>
     <Member displayNameID="Structure.Action.uri" name="uri" since="1.0" returnType="string" type="expression"/>
     <Member displayNameID="Structure.Action.targetBookmark" name="targetBookmark" returnType="string" since="reserved" type="expression"/>
-    <Member displayNameID="Structure.Action.reportName" name="reportName" since="reserved" type="string"/>
+    <Member displayNameID="Structure.Action.reportName" name="reportName" since="reserved" type="literalString"/>
     <Member detailType="ParamBinding" displayNameID="Structure.Action.paramBindings" isList="true" name="paramBindings" since="reserved" type="structure"/>
     <Member detailType="SearchKey" displayNameID="Structure.Action.search" isList="true" name="search" since="reserved" type="structure"/>
   </Structure>
