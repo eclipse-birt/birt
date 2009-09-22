@@ -205,7 +205,7 @@ public class ThumbnailBuilder extends BaseDialog
 				switchTo( IMPORT_TYPE );
 			}
 		} );
-
+		
 	}
 
 	private void switchTo( int type )
@@ -288,7 +288,6 @@ public class ThumbnailBuilder extends BaseDialog
 		if ( thumbnailData == null || thumbnailData.length == 0 )
 		{
 			btnRemove.setEnabled( false );
-			return true;
 		}
 		else
 		{
