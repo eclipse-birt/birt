@@ -237,7 +237,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			boolean disabled = getDataServiceProvider( ).isInXTabAggrCell( )
 					|| getDataServiceProvider( ).isInXTabMeasureCell( );
 			btnFilters.setEnabled( !disabled );
-			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( )
+			btnBinding.setEnabled( !getDataServiceProvider( ).isInheritColumnsGroups( )
+					&& getDataServiceProvider( ).isInvokingSupported( )
 					|| getDataServiceProvider( ).isSharedBinding( ) );
 			btnParameters.setEnabled( false );
 		}
@@ -250,6 +251,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			btnParameters.setEnabled( getDataServiceProvider( ).getDataSet( ) != null
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnBinding.setEnabled( hasDataSet( )
+					&& !getDataServiceProvider( ).isInheritColumnsGroups( )
 					&& ( getDataServiceProvider( ).isInvokingSupported( ) || getDataServiceProvider( ).isSharedBinding( ) ) );
 		}
 	}
@@ -1284,6 +1286,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				else if ( event.widget == cmbInherit )
 				{
 					getContext( ).setInheritColumnsOnly( cmbInherit.getSelectionIndex( ) == 1 );
+					setEnabledForButtons( );
 
 					// Fire event to update outside UI
 					fireEvent( btnBinding, EVENT_QUERY );
