@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -21,9 +24,17 @@ import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
 /**
  * Utility class for XTab integration in UI
@@ -181,4 +192,90 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 		}
 	}
 
+	/**
+	 * Returns level names in a dimension which is relevant to specified cube
+	 * binding expression.
+	 * 
+	 * @param cubeBinding
+	 *            specified cube binding expressions.
+	 * @param cube
+	 *            cube handle.
+	 * @param includeSelf
+	 *            indicates if the level names should include the level name of
+	 *            specified cube binding.
+	 * @param useFullName
+	 *            indicates if the level names should use full name or simple
+	 *            name.
+	 * @return
+	 * @throws BirtException
+	 *             if the format of specified cube binding expression is
+	 *             illegal.
+	 * @since 2.5.2
+	 */
+	@SuppressWarnings({
+			"unchecked", "static-access"
+	})
+	public static List<String> getLevelNamesInDimension( String cubeBinding,
+			CubeHandle cube, boolean includeSelf, boolean useFullName )
+			throws BirtException
+	{
+		if ( cubeBinding == null || cube == null)
+		{
+			return Collections.emptyList( ); 
+		}
+		
+		List<IColumnBinding> bindings = ExpressionUtil.extractColumnExpressions( cubeBinding,
+				ExpressionUtil.DATA_INDICATOR );
+		if ( bindings.isEmpty( ) )
+		{
+			return Collections.emptyList( );
+		}
+
+		String levelFullName = bindings.get( 0 ).getResultSetColumnName( );
+		String[] names = levelFullName.split( "/" ); //$NON-NLS-1$
+		if ( names.length < 2 )
+		{
+			return Collections.emptyList( );
+		}
+
+		String dimensionName = names[0];
+		if ( cube.getContentCount( ICubeModel.DIMENSIONS_PROP ) <= 0 )
+		{
+			return Collections.emptyList( );
+		}
+
+		List<String> levelNames = new ArrayList<String>( );
+		Iterator<DimensionHandle> dimensions = cube.getContents( ICubeModel.DIMENSIONS_PROP )
+				.iterator( );
+		while ( dimensions.hasNext( ) )
+		{
+			DimensionHandle dimensionHandle = dimensions.next( );
+			if ( dimensionName.equals( dimensionHandle.getName( ) ) )
+			{
+				HierarchyHandle hierarchy = (HierarchyHandle) ( dimensionHandle ).getContent( DimensionHandle.HIERARCHIES_PROP,
+						0 );
+				int count = hierarchy.getLevelCount( );
+				for ( int i = 0; i < count; i++ )
+				{
+					String fullName = hierarchy.getLevel( i ).getFullName( );
+					if ( !includeSelf && fullName.equals( levelFullName ) )
+					{
+						continue;
+					}
+
+					if ( !useFullName )
+					{
+						levelNames.add( hierarchy.getLevel( i ).getName( ) );
+					}
+					else
+					{
+						levelNames.add( fullName );
+					}
+				}
+
+				return levelNames;
+			}
+		}
+		return Collections.emptyList( );
+	}
 }

@@ -643,7 +643,7 @@ public class ChartCubeQueryHelper
 	/**
 	 * Adds measure or row/column edge according to query expression.
 	 */
-	private void bindExpression( String expr, ICubeQueryDefinition cubeQuery,
+	public void bindExpression( String expr, ICubeQueryDefinition cubeQuery,
 			CubeHandle cube ) throws BirtException
 	{
 		if ( expr != null && expr.length( ) > 0 )

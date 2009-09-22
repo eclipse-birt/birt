@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ab
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -175,5 +176,44 @@ public class ChartCubeFilterHandleProvider extends
 		}
 		
 		return super.needRefreshed( event );
+	}
+
+	@Override
+	public void add( int pos ) throws Exception
+	{
+		boolean sucess = false;
+		CommandStack stack = getActionStack( );
+		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
+		try
+		{
+			sucess = doAddItem( pos );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			throw new Exception( e );
+		}
+		if ( sucess )
+		{
+			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
+		}
+	}
+
+	@Override
+	public boolean edit( int pos )
+	{
+		CommandStack stack = getActionStack( );
+		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
+		if ( !doEditItem( pos ) )
+		{
+			stack.rollback( );
+			return false;
+		}
+		stack.commit( );
+		return true;
 	}
 }

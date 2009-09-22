@@ -25,9 +25,12 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeFilterExpressionProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -239,6 +242,21 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( ) )) //$NON-NLS-1$
 		{
 			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
+			
+			try
+			{
+				List<String> levelNames = ChartXTabUIUtil.getLevelNamesInDimension( query.getDefinition( ), handle.getCube( ), false, true );
+				for ( String name : levelNames )
+				{
+					String bindingName = ExpressionUtil.createJSDataExpression( name );
+					exprMap.put( bindingName, bindingName );
+				}
+			}
+			catch ( BirtException e )
+			{
+				// Here we don't do anything, the exception just means the
+				// cube binding expression is illegal.
+			}
 		}
 		
 		List<SeriesDefinition> sdList = ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm );
@@ -251,6 +269,20 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		if ( q != null && q.getDefinition( ) != null && !"".equals( q.getDefinition( ) )) //$NON-NLS-1$
 		{
 			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix" ) + q.getDefinition( ), q.getDefinition( ) ); //$NON-NLS-1$
+			try
+			{
+				List<String> levelNames = ChartXTabUIUtil.getLevelNamesInDimension( q.getDefinition( ), handle.getCube( ), false, true );
+				for ( String name : levelNames )
+				{
+					String bindingName = ExpressionUtil.createJSDataExpression( name );
+					exprMap.put( bindingName, bindingName );
+				}
+			}
+			catch ( BirtException e )
+			{
+				// Here we don't do anything, the exception just means the
+				// cube binding expression is illegal.
+			}
 		}
 		
 		for ( Iterator<SeriesDefinition> iter = sdList.iterator( ); iter.hasNext( ); )
@@ -1847,8 +1879,18 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			{
 				cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
 			}
-			cubeQueryDefn = new ChartCubeQueryHelper( (ExtendedItemHandle) designHandle,
-					cm ).createCubeQuery( null );
+			ChartCubeQueryHelper ccqh = new ChartCubeQueryHelper( (ExtendedItemHandle) designHandle,
+					cm );
+			cubeQueryDefn = ccqh.createCubeQuery( null );
+			
+			// The equivalent expressions mean the expression is not used by
+			// chart model, it needs add the binding into cube query.
+			if ( getExpression( expression.getText( ) ).equals( expression.getText( ) ) )
+			{
+				ccqh.bindExpression( getExpression( expression.getText( ) ),
+						(ICubeQueryDefinition) cubeQueryDefn,
+						( (ExtendedItemHandle) designHandle ).getCube( ) );
+			}
 			iter = session.getCubeQueryUtil( )
 					.getMemberValueIterator( (TabularCubeHandle) cube,
 							getExpression( expression.getText( ) ),
