@@ -18,6 +18,8 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -168,7 +170,9 @@ public class TableOptionDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 
 	protected Control createDialogArea( Composite parent )
@@ -227,8 +231,18 @@ public class TableOptionDialog extends BaseDialog
 			gdata = new GridData( GridData.FILL_HORIZONTAL );
 			gdata.horizontalSpan = 2;
 			autoChk.setLayoutData( gdata );
-		}
+			autoChk.addSelectionListener( new SelectionListener( ) {
 
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+				}
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					rowEditor.setEnabled( !autoChk.getSelection( ) );
+				}
+			} );
+		}
 		else
 		{
 			Label lb = new Label( composite, SWT.NONE );
@@ -236,7 +250,7 @@ public class TableOptionDialog extends BaseDialog
 			gdata.horizontalSpan = 2;
 			lb.setLayoutData( gdata );
 		}
-		
+
 		chkbox = new Button( composite, SWT.CHECK );
 		chkbox.setText( insertTable ? MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES
 				: MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS );
@@ -279,15 +293,15 @@ public class TableOptionDialog extends BaseDialog
 		if ( insertTable )
 		{
 			setResult( new Object[]{
-					Integer.valueOf(rowCount),
-					Integer.valueOf(columnCount),
+					Integer.valueOf( rowCount ),
+					Integer.valueOf( columnCount ),
 					dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) ),
 					autoChk.getSelection( )
 			} );
 		}
 		else
 			setResult( new Object[]{
-					Integer.valueOf(rowCount), Integer.valueOf(columnCount)
+					Integer.valueOf( rowCount ), Integer.valueOf( columnCount )
 			} );
 
 		if ( chkbox.getSelection( ) )
