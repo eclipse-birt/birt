@@ -669,6 +669,10 @@ Choices.nullValueOrderingType.unknown=Inconnu
 Choices.nullValueOrderingType.nullIsFirst=Premier Nul
 Choices.nullValueOrderingType.nullIsLast=Dernier Nul
 
+#83 dataVersion
+Choices.dataVersion.transient=Transient
+Choices.dataVersion.latest=Latest
+
 ###########################################################
 # Classes
 
@@ -2289,6 +2293,9 @@ Element.ExternalElementRef=Référence d'élément externe
 Element.DataSelectorItem=Dispositif de sélection de données
 Element.DataViewItem=Vue de données
 Element.DataMart=DataMart
+Element.DataMartDataSource=Data Mart Data Source
+Element.DataMartDataSet=Data Mart Data Set
+Element.DataMartCube=Data Mart Cube
 
 ###########################################################
 # Element property names
@@ -3276,6 +3283,7 @@ Element.DynamicFilterParameter.displayType=Type d'affichage
 Element.DynamicFilterParameter.filterOperator=Opérateur filtre
 Element.DynamicFilterParameter.column=Colonne
 Element.DynamicFilterParameter.defaultValue=Valeur par défaut
+Element.DynamicFilterParameter.nativeDataType=Native data type
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Onglets
@@ -3284,6 +3292,7 @@ Element.DashboardElement.tabs=Onglets
 Element.TabElement.title=Titre
 Element.TabElement.sections=Sections
 Element.TabElement.freeFormGadgets=Gadgets de forme libre
+Element.TabElement.externalTab=External Tab
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=Largeur
@@ -3333,6 +3342,18 @@ Element.DataMart.slot.cubes=Cubes
 Element.DataMart.slot.parameters=Paramètres
 Element.DataMart.enableACL=Activer ACL
 Element.DataMart.ACLExpression=Expression ACL
+
+#79 DataMartDataSource ( prefix Element.DataMartDataSource )
+Element.DataMartDataSource.datamartURL = Data mart URL
+Element.DataMartDataSource.datamartVersion=Data mart version
+
+#80 DataMartDataSet ( prefix Element.DataMartDataSet )
+Element.DataMartDataSet.dataSource=Source de données
+Element.DataMartDataSet.dataObject=Data object
+
+#81 DataMartCube ( prefix Element.DataMartCube )
+Element.DataMartCube.dataSource=Source de données
+Element.DataMartCube.dataObject=Data object
 
 ###########################################################
 # Predefined style
@@ -3597,6 +3618,11 @@ New.OdaMeasure=Nouvelle mesure ODA
 New.OdaMeasureGroup=Nouveau groupe de mesures ODA
 New.DerivedDataSet=NouveauJeuDeDonnéesDérivées
 New.VariableElement=NouvelElementVariable
+New.DataMartDataSource=NewDataMartDataSource
+New.DataMartDataSet=NewDataMartDataSet
+New.DataMartCube=NewDataMartCube
+New.TabElement=NewTabElement
+New.GadgetItem=NewGadgetItem
 
 ###########################################################
 #Default theme name.
@@ -3859,11 +3885,6 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =Il est possible de modifier la bibliot
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=La propriété {1} dans {0} ne peut pas être chiffrée, vous ne pouvez donc pas modifier le chiffrement.
 Error.EncryptionException.INVALID_ENCRYPTION=L''id de chiffrement "{0}" n''est pas correcte, car un tel chiffrement n''existe pas.
-
-#DataMartException
-Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=L'espace nom du datamart "{0}" existe déjà.
-Error.DataMartException.DATAMART_ALREADY_INCLUDED=Le datamart "{0}" a déjà été inclus, un datamart ne peut pas être ajouté deux fois.
-Error.DataMartException.DATAMART_NOT_FOUND=Le datamart avec l'espace nom "{0}" est introuvable.
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=Exporter un gadget vers le fichier de gadget partagé.

@@ -669,6 +669,10 @@ Choices.nullValueOrderingType.unknown=Î´Öª
 Choices.nullValueOrderingType.nullIsFirst=¿ÕÖµÔÚÇ°
 Choices.nullValueOrderingType.nullIsLast=¿ÕÖµÔÚºó
 
+#83 dataVersion
+Choices.dataVersion.transient=Transient
+Choices.dataVersion.latest=Latest
+
 ###########################################################
 # Classes
 
@@ -2289,6 +2293,9 @@ Element.ExternalElementRef=Íâ²¿ÔªËØÒıÓÃ
 Element.DataSelectorItem=Êı¾İÑ¡ÔñÆ÷
 Element.DataViewItem=Êı¾İÊÓÍ¼
 Element.DataMart=Data Mart
+Element.DataMartDataSource=Data Mart Data Source
+Element.DataMartDataSet=Data Mart Data Set
+Element.DataMartCube=Data Mart Cube
 
 ###########################################################
 # Element property names
@@ -3276,6 +3283,7 @@ Element.DynamicFilterParameter.displayType=ÏÔÊ¾ÀàĞÍ
 Element.DynamicFilterParameter.filterOperator=É¸Ñ¡ÔËËã·û
 Element.DynamicFilterParameter.column=ÁĞ
 Element.DynamicFilterParameter.defaultValue=Ä¬ÈÏÖµ
+Element.DynamicFilterParameter.nativeDataType=Native data type
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Ñ¡Ïî¿¨
@@ -3284,6 +3292,7 @@ Element.DashboardElement.tabs=Ñ¡Ïî¿¨
 Element.TabElement.title=±êÌâ
 Element.TabElement.sections=²¿·Ö
 Element.TabElement.freeFormGadgets=×ÔÓÉ¸ñÊ½Ğ¡¹¤¾ß
+Element.TabElement.externalTab=External Tab
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=¿í¶È
@@ -3333,6 +3342,18 @@ Element.DataMart.slot.cubes=¶àÎ¬Êı¾İ¼¯
 Element.DataMart.slot.parameters=²ÎÊı
 Element.DataMart.enableACL=ÆôÓÃ ACL
 Element.DataMart.ACLExpression=ACL ±í´ïÊ½
+
+#79 DataMartDataSource ( prefix Element.DataMartDataSource )
+Element.DataMartDataSource.datamartURL = Data mart URL
+Element.DataMartDataSource.datamartVersion=Data mart version
+
+#80 DataMartDataSet ( prefix Element.DataMartDataSet )
+Element.DataMartDataSet.dataSource=Êı¾İÔ´
+Element.DataMartDataSet.dataObject=Data object
+
+#81 DataMartCube ( prefix Element.DataMartCube )
+Element.DataMartCube.dataSource=Êı¾İÔ´
+Element.DataMartCube.dataObject=Data object
 
 ###########################################################
 # Predefined style
@@ -3597,6 +3618,11 @@ New.OdaMeasure=ĞÂ½¨ ODA ¶ÈÁ¿
 New.OdaMeasureGroup=ĞÂ½¨ ODA ¶ÈÁ¿×é
 New.DerivedDataSet=ĞÂÑÜÉúÊı¾İ¼¯
 New.VariableElement=NewVariableElement
+New.DataMartDataSource=NewDataMartDataSource
+New.DataMartDataSet=NewDataMartDataSet
+New.DataMartCube=NewDataMartCube
+New.TabElement=NewTabElement
+New.GadgetItem=NewGadgetItem
 
 ###########################################################
 #Default theme name.
@@ -3859,11 +3885,6 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =Éè¼Æ/¿â¿ÉÄÜÒÑ±»¸ü¸Ä£¬ÒòÎª¶ÔÕıÔÚ´ò¿ªµÄÉ
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} ÖĞµÄÊôĞÔ {1} ²»¿É¼ÓÃÜ£¬Òò´Ë²»ÄÜ¸ü¸Ä¼ÓÃÜ¡£
 Error.EncryptionException.INVALID_ENCRYPTION=¼ÓÃÜ ID¡°{0}¡±ÎŞĞ§£¬ÒòÎª²»´æÔÚ´ËÀà¼ÓÃÜ¡£
-
-#DataMartException
-Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=Êı¾İÊĞ³¡ÃüÃû¿Õ¼ä¡°{0}¡±ÒÑ´æÔÚ¡£
-Error.DataMartException.DATAMART_ALREADY_INCLUDED=ÒÑ°üº¬Êı¾İÊĞ³¡¡°{0}¡±£¬Ò»¸öÊı¾İÊĞ³¡²»ÄÜÌí¼ÓÁ½´Î¡£
-Error.DataMartException.DATAMART_NOT_FOUND=Î´ÕÒµ½¾ßÓĞÃüÃû¿Õ¼ä¡°{0}¡±µÄÊı¾İÊĞ³¡¡£
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=½«Ğ¡¹¤¾ßµ¼³öµ½¹²ÏíĞ¡¹¤¾ßÎÄ¼ş¡£

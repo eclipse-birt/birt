@@ -669,6 +669,10 @@ Choices.nullValueOrderingType.unknown=不明
 Choices.nullValueOrderingType.nullIsFirst=最初の Null
 Choices.nullValueOrderingType.nullIsLast=最後の Null
 
+#83 dataVersion
+Choices.dataVersion.transient=Transient
+Choices.dataVersion.latest=Latest
+
 ###########################################################
 # Classes
 
@@ -2289,6 +2293,9 @@ Element.ExternalElementRef=外部要素の参照
 Element.DataSelectorItem=データセレクタ
 Element.DataViewItem=データビュー
 Element.DataMart=Data Mart
+Element.DataMartDataSource=Data Mart Data Source
+Element.DataMartDataSet=Data Mart Data Set
+Element.DataMartCube=Data Mart Cube
 
 ###########################################################
 # Element property names
@@ -3276,6 +3283,7 @@ Element.DynamicFilterParameter.displayType=表示型
 Element.DynamicFilterParameter.filterOperator=演算子
 Element.DynamicFilterParameter.column=列
 Element.DynamicFilterParameter.defaultValue=デフォルト値
+Element.DynamicFilterParameter.nativeDataType=Native data type
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=タブ
@@ -3284,6 +3292,7 @@ Element.DashboardElement.tabs=タブ
 Element.TabElement.title=タイトル
 Element.TabElement.sections=セクション
 Element.TabElement.freeFormGadgets=自由形式のガジェット
+Element.TabElement.externalTab=External Tab
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=幅
@@ -3333,6 +3342,18 @@ Element.DataMart.slot.cubes=キューブ
 Element.DataMart.slot.parameters=パラメタ
 Element.DataMart.enableACL=ACL を有効にする
 Element.DataMart.ACLExpression=ACL 式
+
+#79 DataMartDataSource ( prefix Element.DataMartDataSource )
+Element.DataMartDataSource.datamartURL = Data mart URL
+Element.DataMartDataSource.datamartVersion=Data mart version
+
+#80 DataMartDataSet ( prefix Element.DataMartDataSet )
+Element.DataMartDataSet.dataSource=データソース
+Element.DataMartDataSet.dataObject=Data object
+
+#81 DataMartCube ( prefix Element.DataMartCube )
+Element.DataMartCube.dataSource=データソース
+Element.DataMartCube.dataObject=Data object
 
 ###########################################################
 # Predefined style
@@ -3597,6 +3618,11 @@ New.OdaMeasure=新規ODAメジャー
 New.OdaMeasureGroup=新規ODAメジャーグループ
 New.DerivedDataSet=新しい派生データセット
 New.VariableElement=新しい変数要素
+New.DataMartDataSource=NewDataMartDataSource
+New.DataMartDataSet=NewDataMartDataSet
+New.DataMartCube=NewDataMartCube
+New.TabElement=NewTabElement
+New.GadgetItem=NewGadgetItem
 
 ###########################################################
 #Default theme name.
@@ -3859,11 +3885,6 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =開いているデザインやライブラリまたはそ
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} のプロパティ {1} は暗号化できないため、暗号化を変更できません。
 Error.EncryptionException.INVALID_ENCRYPTION=この暗号は存在しないため、暗号化 ID "{0}" は無効です。
-
-#DataMartException
-Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=datamart の "{0}" という名前空間はすでに存在します。
-Error.DataMartException.DATAMART_ALREADY_INCLUDED=datamart "{0}" はすでにインクルードされています。同じ datamart を 2 回追加することはできません。
-Error.DataMartException.DATAMART_NOT_FOUND=名前空間 "{0}" の datamart が見つかりません。
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=ガジェットを共有ガジェットファイルにエクスポートします。

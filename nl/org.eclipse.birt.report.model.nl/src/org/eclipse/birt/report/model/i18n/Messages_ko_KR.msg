@@ -669,6 +669,10 @@ Choices.nullValueOrderingType.unknown=알 수 없음
 Choices.nullValueOrderingType.nullIsFirst=Nulls First
 Choices.nullValueOrderingType.nullIsLast=Nulls Last
 
+#83 dataVersion
+Choices.dataVersion.transient=Transient
+Choices.dataVersion.latest=Latest
+
 ###########################################################
 # Classes
 
@@ -2289,6 +2293,9 @@ Element.ExternalElementRef=외부 요소 참조
 Element.DataSelectorItem=데이터 선택기
 Element.DataViewItem=데이터 뷰
 Element.DataMart=데이터 마트
+Element.DataMartDataSource=Data Mart Data Source
+Element.DataMartDataSet=Data Mart Data Set
+Element.DataMartCube=Data Mart Cube
 
 ###########################################################
 # Element property names
@@ -3276,6 +3283,7 @@ Element.DynamicFilterParameter.displayType=표시 형식
 Element.DynamicFilterParameter.filterOperator=필터 연산자
 Element.DynamicFilterParameter.column=열
 Element.DynamicFilterParameter.defaultValue=기본값
+Element.DynamicFilterParameter.nativeDataType=Native data type
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=탭
@@ -3284,6 +3292,7 @@ Element.DashboardElement.tabs=탭
 Element.TabElement.title=제목
 Element.TabElement.sections=섹션
 Element.TabElement.freeFormGadgets=자유 형식 가젯
+Element.TabElement.externalTab=External Tab
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=너비
@@ -3333,6 +3342,18 @@ Element.DataMart.slot.cubes=큐브
 Element.DataMart.slot.parameters=매개 변수
 Element.DataMart.enableACL=ACL 사용
 Element.DataMart.ACLExpression=ACL 식
+
+#79 DataMartDataSource ( prefix Element.DataMartDataSource )
+Element.DataMartDataSource.datamartURL = Data mart URL
+Element.DataMartDataSource.datamartVersion=Data mart version
+
+#80 DataMartDataSet ( prefix Element.DataMartDataSet )
+Element.DataMartDataSet.dataSource=데이터 원본
+Element.DataMartDataSet.dataObject=Data object
+
+#81 DataMartCube ( prefix Element.DataMartCube )
+Element.DataMartCube.dataSource=데이터 원본
+Element.DataMartCube.dataObject=Data object
 
 ###########################################################
 # Predefined style
@@ -3597,6 +3618,11 @@ New.OdaMeasure=NewOdaMeasure
 New.OdaMeasureGroup=NewOdaMeasureGroup
 New.DerivedDataSet=새 파생 데이터 집합
 New.VariableElement=NewVariableElement
+New.DataMartDataSource=NewDataMartDataSource
+New.DataMartDataSet=NewDataMartDataSet
+New.DataMartCube=NewDataMartCube
+New.TabElement=NewTabElement
+New.GadgetItem=NewGadgetItem
 
 ###########################################################
 #Default theme name.
@@ -3859,11 +3885,6 @@ Info.VersionInfo.EXTENSION_COMPATIBILITY =열린 디자인/라이브러리 또는 포함된 라�
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0}의 속성 {1}이(가) 암호화 가능 상태가 아니므로 암호화를 변경할 수 없습니다.
 Error.EncryptionException.INVALID_ENCRYPTION=암호화 ID "{0}"이(가) 잘못되었습니다. 존재하지 않는 암호화입니다.
-
-#DataMartException
-Error.DataMartException.DUPLICATE_DATAMART_NAMESPACE=Datamart 네임스페이스 "{0}"이(가) 이미 있습니다.
-Error.DataMartException.DATAMART_ALREADY_INCLUDED=Datamart "{0}"이(가) 이미 포함되어 있으며, Datamart를 두 번 추가할 수 없습니다.
-Error.DataMartException.DATAMART_NOT_FOUND=네임스페이스가 "{0}"인 Datamart를 찾을 수 없습니다.
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=공유 가젯 파일로 가젯을 내보냅니다.
