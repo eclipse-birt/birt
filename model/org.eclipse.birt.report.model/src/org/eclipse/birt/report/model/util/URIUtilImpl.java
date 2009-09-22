@@ -81,6 +81,16 @@ public class URIUtilImpl
 	private static final String URI_SIGNATURE = ":/"; //$NON-NLS-1$
 
 	/**
+	 * Bundle resource schema.
+	 */
+	private static final String BUNDLE_RESOURCE_SCHEMA = "bundleresource"; //$NON-NLS-1$
+
+	/**
+	 * Bundle entry schema.
+	 */
+	private static final String BUNDLE_ENTRY_SCHEMA = "bundleentry"; //$NON-NLS-1$
+
+	/**
 	 * Returns the URL object of the given string. If the input value is in URL
 	 * format, return it. Otherwise, create the corresponding file object then
 	 * return the url of the file object.
@@ -652,5 +662,25 @@ public class URIUtilImpl
 		{
 			return null;
 		}
+	}
+
+	/**
+	 * Checks if the file path is bundleresource or bundleentry protocol.
+	 * 
+	 * @param filePath
+	 *            the file path.
+	 * @return <true> if the the file path is bundleresource or bundleentry
+	 *         protocol, else return <false>.
+	 */
+	public static boolean isBundleProtocol( String filePath )
+	{
+		if ( filePath == null )
+			return false;
+		int sigPos = filePath.indexOf( URIUtilImpl.URL_SIGNATURE );
+		if ( sigPos != -1
+				&& ( filePath.startsWith( BUNDLE_RESOURCE_SCHEMA ) || filePath
+						.startsWith( BUNDLE_ENTRY_SCHEMA ) ) )
+			return true;
+		return false;
 	}
 }

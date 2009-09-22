@@ -90,7 +90,9 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -107,8 +109,9 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -124,23 +127,18 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
+	 * .report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public List validate( Module module, DesignElement element )
 	{
 		ArrayList list = new ArrayList( );
 
-		PropertyDefn memberDefn = (PropertyDefn) getDefn( ).getMember(
-				FILE_NAME_MEMBER );
-		String fileName = (String) getProperty( module, memberDefn );
-		if ( StringUtil.isBlank( fileName ) )
-		{
-			list.add( new PropertyValueException( element, getDefn( )
-					.getMember( FILE_NAME_MEMBER ), fileName,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
+		checkStringMember( fileName, FILE_NAME_MEMBER, element, list );
+		checkStringMember( namespace, NAMESPACE_MEMEBR, element, list );
 
 		return list;
 	}
@@ -186,7 +184,7 @@ public class IncludedLibrary extends Structure
 	 * @param namespace
 	 *            the namespace to set.
 	 */
-	
+
 	public void setNamespace( String namespace )
 	{
 		this.namespace = namespace;
@@ -195,8 +193,9 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

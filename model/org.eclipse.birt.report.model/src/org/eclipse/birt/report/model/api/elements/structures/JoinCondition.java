@@ -407,31 +407,7 @@ public class JoinCondition extends Structure
 		return list;
 	}
 
-	/**
-	 * Checks if a string member is blank. If the member is blank, a smantic
-	 * error is added in to the given error list tolding that the member value
-	 * is required.
-	 * 
-	 * @param value
-	 *            the member
-	 * @param memberName
-	 *            the name of the member
-	 * @param element
-	 *            the element contain's this join condition
-	 * @param errorList
-	 *            the error list
-	 */
 
-	private void checkStringMember( String value, String memberName,
-			DesignElement element, List errorList )
-	{
-		if ( StringUtil.isBlank( value ) )
-		{
-			errorList.add( new PropertyValueException( element, getDefn( )
-					.getMember( memberName ), value,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
-	}
 
 	/**
 	 * Check if a data set is added into this joint data set.

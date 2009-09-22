@@ -335,6 +335,7 @@ public class StructureHandleTest extends BaseTestCase
 
 		IncludedLibrary structure = StructureFactory.createIncludeLibrary( );
 		structure.setFileName( "a.xml" ); //$NON-NLS-1$
+		structure.setNamespace( "a" ); //$NON-NLS-1$
 		propHandle.addItem( structure );
 
 		Iterator iter = propHandle.iterator( );
@@ -460,14 +461,17 @@ public class StructureHandleTest extends BaseTestCase
 
 		IncludedLibrary structure1 = StructureFactory.createIncludeLibrary( );
 		structure1.setFileName( "a.xml" ); //$NON-NLS-1$
+		structure1.setNamespace( "a" ); //$NON-NLS-1$
 		StructureHandle sHandle1 = propHandle.addItem( structure1 );
 
 		IncludedLibrary structure2 = StructureFactory.createIncludeLibrary( );
 		structure2.setFileName( "b.xml" ); //$NON-NLS-1$
+		structure2.setNamespace( "b" ); //$NON-NLS-1$
 		StructureHandle sHandle2 = propHandle.addItem( structure2 );
 
 		IncludedLibrary structure3 = StructureFactory.createIncludeLibrary( );
 		structure3.setFileName( "c.xml" ); //$NON-NLS-1$
+		structure3.setNamespace( "c" ); //$NON-NLS-1$
 		StructureHandle sHandle3 = propHandle.addItem( structure3 );
 
 		// now drop structures
@@ -623,9 +627,9 @@ public class StructureHandleTest extends BaseTestCase
 	}
 
 	/**
-	 * When <code>EmbeddedImage</code> has reference to library embedded
-	 * image, the method hasExtends in <code>EmbeddedImageHandle</code> return
-	 * true, else return false.
+	 * When <code>EmbeddedImage</code> has reference to library embedded image,
+	 * the method hasExtends in <code>EmbeddedImageHandle</code> return true,
+	 * else return false.
 	 * 
 	 * @throws Exception
 	 */

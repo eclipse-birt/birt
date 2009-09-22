@@ -2322,7 +2322,9 @@ public abstract class Module extends DesignElement
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
 			IncludedLibrary incluedLib = libs.get( i );
-			if ( incluedLib.getNamespace( ).equalsIgnoreCase( namespace ) )
+			String tmpNameSpace = incluedLib.getNamespace( );
+			assert tmpNameSpace != null;
+			if ( tmpNameSpace.equalsIgnoreCase( namespace ) )
 			{
 				includedItem = incluedLib;
 				break;

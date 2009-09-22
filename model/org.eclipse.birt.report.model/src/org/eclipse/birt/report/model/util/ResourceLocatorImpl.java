@@ -169,8 +169,8 @@ public class ResourceLocatorImpl implements IResourceLocator
 			try
 			{
 				URL baseURL = new URL( resourcePath );
-				retURL = tryURLSearch( new URL( baseURL, URIUtil
-						.convertFileNameToURLString( fileName ) ) );
+
+				retURL = tryURLSearch( baseURL, fileName );
 			}
 			catch ( MalformedURLException e )
 			{
@@ -193,17 +193,8 @@ public class ResourceLocatorImpl implements IResourceLocator
 		if ( systemId == null )
 			return null;
 
-		try
-		{
-			return tryURLSearch( new URL( systemId, URIUtil
-					.convertFileNameToURLString( fileName ) ) );
-		}
-		catch ( MalformedURLException e )
-		{
-			// ignore the error
-		}
+		return tryURLSearch( systemId, fileName );
 
-		return null;
 	}
 
 	/**
@@ -231,6 +222,44 @@ public class ResourceLocatorImpl implements IResourceLocator
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Search the URL resource.
+	 * 
+	 * @param baseURL
+	 *            the base URL.
+	 * @param fileName
+	 *            the file name.
+	 * @return url of the resource if found, null otherwise.
+	 */
+	private URL tryURLSearch( URL baseURL, String fileName )
+	{
+		assert baseURL != null;
+
+		URL retURL = null;
+		try
+		{
+			// if the url is bundleentry or bundleresource protocol, the file
+			// name will not be converted a valid URL string, otherwise the file
+			// name will be converted a valid URL string.
+			// will not be
+			if ( URIUtilImpl.isBundleProtocol( baseURL.toString( ) ) )
+			{
+				retURL = tryURLSearch( new URL( baseURL, fileName ) );
+			}
+			else
+			{
+				retURL = tryURLSearch( new URL( baseURL, URIUtil
+						.convertFileNameToURLString( fileName ) ) );
+			}
+		}
+		catch ( MalformedURLException e )
+		{
+
+		}
+
+		return retURL;
 	}
 
 	/**

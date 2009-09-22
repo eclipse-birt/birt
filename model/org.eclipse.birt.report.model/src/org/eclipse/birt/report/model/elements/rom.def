@@ -1481,8 +1481,8 @@
     <Member displayNameID="Structure.SelectionChoice.labelID" isIntrinsic="true" name="labelID" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.IncludedLibrary" name="IncludedLibrary" since="1.0">
-    <Member displayNameID="Structure.IncludedLibrary.fileName" isIntrinsic="true" name="fileName" since="1.0" type="string"/>
-    <Member displayNameID="Structure.IncludedLibrary.namespace" isIntrinsic="true" name="namespace" since="2.0" type="string"/>
+    <Member displayNameID="Structure.IncludedLibrary.fileName" isIntrinsic="true" name="fileName" since="1.0" type="literalString" valueRequired="true"/>
+    <Member displayNameID="Structure.IncludedLibrary.namespace" isIntrinsic="true" name="namespace" since="2.0" type="string" valueRequired="true"/>
   </Structure>
   <Structure displayNameID="Structure.IncludedCssStyleSheet" name="IncludedCssStyleSheet" since="2.2">
   	<Member displayNameID="Structure.IncludedCssStyleSheet.fileName" isIntrinsic="true" name="fileName" since="2.2" type="memberKey"/>
@@ -1498,10 +1498,10 @@
    	<Member displayNameID="Structure.PropertyBinding.value" isIntrinsic="true" name="value" returnType="string" since="2.0" type="expression"/>
   </Structure>
   <Structure displayNameID="Structure.JoinCondition" name="JoinCondition" since="2.1">
-    <Member detailType="joinType" displayNameID="Structure.JoinCondition.joinType" isIntrinsic="true" name="joinType" runtimeSettable="true" since="2.1" type="choice">
+    <Member detailType="joinType" displayNameID="Structure.JoinCondition.joinType" isIntrinsic="true" name="joinType" runtimeSettable="true" since="2.1" type="choice" valueRequired="true">
       <Default>inner</Default>
     </Member>
-    <Member detailType="joinOperator" displayNameID="Structure.JoinCondition.joinOperator" isIntrinsic="true" name="joinOperator" runtimeSettable="true" since="2.1" type="choice">
+    <Member detailType="joinOperator" displayNameID="Structure.JoinCondition.joinOperator" isIntrinsic="true" name="joinOperator" runtimeSettable="true" since="2.1" type="choice" valueRequired="true">
       <Default>eq</Default>
     </Member>
     <Member displayNameID="Structure.JoinCondition.leftDataSet" isIntrinsic="true" name="leftDataSet" runtimeSettable="true" since="2.1" type="string" valueRequired="true"/>

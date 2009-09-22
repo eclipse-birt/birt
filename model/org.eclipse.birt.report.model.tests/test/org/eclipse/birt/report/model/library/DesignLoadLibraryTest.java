@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
@@ -1061,6 +1062,27 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		assertEquals( "W.C. Fields", libHandle.getAuthor( ) ); //$NON-NLS-1$
 		pageHandle = libHandle.getMasterPages( ).get( 0 );
 		assertEquals( "My Page", pageHandle.getName( ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests adding library begin with space. The file name of the library
+	 * should not be trimmed and the name space should be trimmed.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAddingLibraryBeginWithSpace( ) throws Exception
+	{
+		openDesign( "DesignWithoutLibrary.xml" ); //$NON-NLS-1$
+
+		// Add one library
+
+		designHandle.includeLibrary( "  Library.xml", "  Lib1" ); //$NON-NLS-1$ //$NON-NLS-2$
+		List<IncludedLibrary> libs = designHandle
+				.getListProperty( IModuleModel.LIBRARIES_PROP );
+		IncludedLibrary lib = libs.get( 0 );
+		assertEquals( "  Library.xml", lib.getFileName( ) ); //$NON-NLS-1$ 
+		assertEquals( "Lib1", lib.getNamespace( ) ); //$NON-NLS-1$ 
+
 	}
 
 	/**

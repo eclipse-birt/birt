@@ -24,6 +24,8 @@ import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -258,7 +260,7 @@ public abstract class Structure implements IStructure
 	public void setProperty( PropertyDefn prop, Object value )
 	{
 		Object updatedValue = getCompatibleValue( prop, value );
-		
+
 		updateReference( prop, updatedValue );
 		setupContext( prop, updatedValue );
 
@@ -691,5 +693,34 @@ public abstract class Structure implements IStructure
 		}
 
 		return value;
+	}
+
+	/**
+	 * Checks if a string member is blank. If the member is blank, a smantic
+	 * error is added in to the given error list tolding that the member value
+	 * is required.
+	 * 
+	 * @param value
+	 *            the member
+	 * @param memberName
+	 *            the name of the member
+	 * @param element
+	 *            the element contain's this join condition
+	 * @param errorList
+	 *            the error list
+	 */
+
+	protected void checkStringMember( String value, String memberName,
+			DesignElement element, List errorList )
+	{
+		PropertyDefn propDefn = (PropertyDefn) getDefn( )
+				.getMember( memberName );
+
+		if ( StringUtil.isBlank( value ) && propDefn.isValueRequired( ) )
+		{
+			errorList.add( new PropertyValueException( element, propDefn,
+					value,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		}
 	}
 }
