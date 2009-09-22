@@ -261,6 +261,12 @@ public class GroupSortingDialog extends TrayDialog
 						.isEclipseModeSupported( ) );
 			}
 		}
+
+		if ( isInheritColumnsGroups( ) )
+		{
+			disableSorting( );
+		}
+
 	}
 
 	protected SeriesDefinition getSeriesDefinitionForProcessing( )
@@ -442,6 +448,27 @@ public class GroupSortingDialog extends TrayDialog
 		}
 
 		return false;
+	}
+
+	protected boolean isInheritColumnsGroups( )
+	{
+		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
+		return ( stateInfo & IDataServiceProvider.HAS_DATA_SET ) == 0
+				&& ( stateInfo & IDataServiceProvider.HAS_CUBE ) == 0
+				&& ( stateInfo & IDataServiceProvider.INHERIT_DATA_SET ) != 0
+				&& ( stateInfo & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) != 0;
+	}
+
+	protected void disableSorting( )
+	{
+		lblSorting.setEnabled( false );
+		cmbSorting.setEnabled( false );
+		lblSortExpr.setEnabled( false );
+		cmbSortExpr.setEnabled( false );
+		if ( btnSortExprBuilder != null )
+		{
+			btnSortExprBuilder.setEnabled( false );
+		}
 	}
 
 	/**

@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
+import java.util.List;
+
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 
 /**
@@ -41,5 +45,21 @@ public class ChartFilterHandleProvider extends ChartFilterProviderDelegate
 
 		return ChartFilterProviderDelegate.createFilterProvider( input,
 				getInput( ) );
+	}
+
+	@Override
+	public boolean isEditable( )
+	{
+		Object handle = null;
+		if ( input instanceof List<?> )
+		{
+			handle = ( (List<?>) input ).get( 0 );
+		}
+		else
+		{
+			handle = input;
+		}
+		ReportItemHandle rih = (ReportItemHandle) handle;
+		return !ChartReportItemUtil.isInheritGroup( rih );
 	}
 }

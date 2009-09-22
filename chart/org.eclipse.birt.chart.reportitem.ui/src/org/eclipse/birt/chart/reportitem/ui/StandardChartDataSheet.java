@@ -236,7 +236,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			// IDataServiceProvider.SHARE_QUERY )
 			boolean disabled = getDataServiceProvider( ).isInXTabAggrCell( )
 					|| getDataServiceProvider( ).isInXTabMeasureCell( );
-			btnFilters.setEnabled( !disabled );
+			btnFilters.setEnabled( !disabled
+					&& !getDataServiceProvider( ).isInheritColumnsGroups( ) );
 			btnBinding.setEnabled( !getDataServiceProvider( ).isInheritColumnsGroups( )
 					&& getDataServiceProvider( ).isInvokingSupported( )
 					|| getDataServiceProvider( ).isSharedBinding( ) );
@@ -244,7 +245,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		else
 		{
-			 btnFilters.setEnabled( hasDataSet( ) );
+			btnFilters.setEnabled( hasDataSet( )
+					&& !getDataServiceProvider( ).isInheritColumnsGroups( ) );
 	
 			// Bugzilla#177704 Chart inheriting data from container doesn't
 			// support parameters due to limitation in DtE

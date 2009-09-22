@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartBindingGroupDescriptorProvider;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartShareBindingsFormHandlerProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
@@ -26,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Bin
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SortingFormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AggregateOnBindingsFormDescriptor;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 public class ChartBindingPage extends BindingPage
 {
@@ -59,14 +59,14 @@ public class ChartBindingPage extends BindingPage
 			return  new AggregateOnBindingsFormHandleProvider( );
 		}
 		
-		final ExtendedItemHandle eih;
+		final ReportItemHandle rih;
 		if ( input instanceof List ) {
-			eih = (ExtendedItemHandle) ( (List) input ).get( 0 );
+			rih = (ExtendedItemHandle) ( (List) input ).get( 0 );
 		} else {
-			eih = (ExtendedItemHandle) input;
+			rih = (ExtendedItemHandle) input;
 		}
 		
-		if ( ChartReportItemUtil.isChildOfMultiViewsHandle( eih ) )
+		if ( ChartReportItemUtil.isChildOfMultiViewsHandle( rih ) )
 		{
 			return new ChartShareBindingsFormHandlerProvider( );
 		}
@@ -76,16 +76,9 @@ public class ChartBindingPage extends BindingPage
 			@Override
 			public boolean isEditable( )
 			{
-				return !isInheritGroup( eih );
+				return !ChartReportItemUtil.isInheritGroup( rih );
 			}
 
 		};
-	}
-
-	protected static boolean isInheritGroup( ExtendedItemHandle eih )
-	{
-		return eih.getDataSet( ) == null
-				&& ChartReportItemUtil.isContainerInheritable( eih )
-				&& !eih.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
 }
