@@ -114,7 +114,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * Provides the list of design elements keyed by their internal names.
 	 */
 
-	private HashMap<String, IElementDefn> elementNameMap = new HashMap<String, IElementDefn>( );
+	private HashMap<String, IElementDefn> elementNameMap = new LinkedHashMap<String, IElementDefn>( );
 
 	/**
 	 * Provides the list of design elements keyed by their xml names.
