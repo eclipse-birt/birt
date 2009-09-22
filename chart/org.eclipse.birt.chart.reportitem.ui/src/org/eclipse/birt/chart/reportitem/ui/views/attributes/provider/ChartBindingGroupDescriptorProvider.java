@@ -303,25 +303,33 @@ public class ChartBindingGroupDescriptorProvider extends
 
 	private void resetReference( Object value, boolean clearHistory )
 	{
-		try
+		if ( value == null
+				&& this.getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 		{
-			startTrans( "" ); //$NON-NLS-1$
-			ReportItemHandle element = null;
-			if ( value != null )
+			resetDataSetReference( null, true );
+		}
+		else
+		{
+			try
 			{
-				element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findElement( value.toString( ) );
+				startTrans( "" ); //$NON-NLS-1$
+				ReportItemHandle element = null;
+				if ( value != null )
+				{
+					element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.findElement( value.toString( ) );
+				}
+				getReportItemHandle( ).setDataBindingReference( element );
+				commit( );
 			}
-			getReportItemHandle( ).setDataBindingReference( element );
-			commit( );
+			catch ( SemanticException e )
+			{
+				rollback( );
+				ExceptionHandler.handle( e );
+			}
+			section.load( );
 		}
-		catch ( SemanticException e )
-		{
-			rollback( );
-			ExceptionHandler.handle( e );
-		}
-		section.load( );
 	}
 
 	public String getText( int key )
