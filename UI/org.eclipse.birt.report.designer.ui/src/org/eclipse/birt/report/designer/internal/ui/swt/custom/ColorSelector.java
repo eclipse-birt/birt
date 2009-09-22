@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.commands.common.EventManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
@@ -268,7 +269,7 @@ public class ColorSelector extends EventManager
 				: fButton.getShell( ), SWT.APPLICATION_MODAL );
 
 		colorDialog.setRGB( fColorValue );
-		colorDialog.setText( "Color" ); //$NON-NLS-1$
+		colorDialog.setText( Messages.getString("ColorSelector.ColorDialog.Title") );  //$NON-NLS-1$
 		RGB newColor = colorDialog.open( );
 		if ( newColor != null )
 		{
