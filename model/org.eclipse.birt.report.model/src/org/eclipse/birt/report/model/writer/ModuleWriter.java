@@ -2495,6 +2495,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, IDynamicFilterParameterModel.COLUMN_PROP );
 		property( obj, IDynamicFilterParameterModel.DSIPLAY_TYPE_PROP );
+		property( obj, IDynamicFilterParameterModel.NATIVE_DATA_TYPE_PROP );
 
 		writeSimplePropertyList( obj,
 				IDynamicFilterParameterModel.FILTER_OPERATOR_PROP );

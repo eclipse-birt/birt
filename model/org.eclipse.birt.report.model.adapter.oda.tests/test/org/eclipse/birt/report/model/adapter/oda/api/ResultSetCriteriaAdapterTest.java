@@ -32,6 +32,7 @@ import org.eclipse.datatools.connectivity.oda.design.CompositeFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DynamicFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
@@ -64,7 +65,21 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 	private final static String INPUT_FILE_REPORT = "OdaDataSetCovertFilterCondition.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE_REPORT = "OdaDataSetCovertFilterCondition_golden.xml"; //$NON-NLS-1$
 
-	private final static String[] COLUMNS = {"name", "date", "id" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private final static String[] COLUMNS = {
+		"name", "date", "id" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$		
+	};
+	
+	private final static int[] TYPES = {
+		java.sql.Types.CHAR,
+		java.sql.Types.DATE, 
+		java.sql.Types.INTEGER,
+	};
+	
+	private final static String[] ROM_TYPES = 
+	{
+		DesignChoiceConstants.PARAM_TYPE_STRING,
+		DesignChoiceConstants.PARAM_TYPE_DATE,
+		DesignChoiceConstants.PARAM_TYPE_INTEGER,
 	};
 
 	/**
@@ -74,6 +89,10 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 	private DataSetDesign createDataSetDesign( )
 	{
 		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign( );
+		setDesign.setOdaExtensionDataSetId( "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" ); //$NON-NLS-1$
+		DataSourceDesign dataSource = DesignFactory.eINSTANCE.createDataSourceDesign( );
+		dataSource.setOdaExtensionDataSourceId( "org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
+		setDesign.setDataSourceDesign( dataSource  );
 		ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE
 				.createResultSetDefinition( );
 
@@ -91,7 +110,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 	 */
 	private DataSetDesign createTestDataSetDesign( boolean containsFilter )
 	{
-		DataSetDesign setDesign = createDataSetDesign( );
+		DataSetDesign setDesign = createDataSetDesign( );			
 		ResultSetDefinition resultSetDefn = setDesign.getPrimaryResultSet( );
 		updateResultSetCriteria( resultSetDefn );
 		if ( containsFilter )
@@ -210,7 +229,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		DataElementAttributes paramAttrs = paramDefn.getAttributes( );
 		paramAttrs.setName( COLUMNS[position - 1] );
 		paramAttrs.setPosition( position );
-		paramAttrs.setNativeDataTypeCode( java.sql.Types.CHAR );
+		paramAttrs.setNativeDataTypeCode( TYPES[position-1] );
 		paramAttrs.setNullability( ElementNullability.NULLABLE_LITERAL );
 
 		if ( containDefaultValue )
@@ -285,7 +304,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 					.getExpression( ) );
 		}
 
-		save( );
+		save( );		
 		assertTrue( compareTextFile( GOLDEN_FILE_ODA ) );
 
 		adapter = new ResultSetCriteriaAdapter( setHandle,
@@ -293,7 +312,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		// Doing nothing expected
 		adapter.updateROMSortAndFilter( );
 
-		save( );
+		save( );		
 		assertTrue( compareTextFile( GOLDEN_FILE_ODA ) );
 	}
 
@@ -308,6 +327,8 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 				.findParameter( filterCondition.getDynamicFilterParameter( ) );
 		assertEquals( setHandle.getName( ), parameter.getDataSetName( ) );
 		assertEquals( COLUMNS[position], parameter.getColumn( ) );
+		assertEquals( TYPES[position], parameter.getNativeDataType( ) );
+		assertEquals( ROM_TYPES[position], parameter.getDataType( ) );
 	}
 
 	/**
@@ -354,6 +375,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 				.getExpressionParameterDefinitions( ).get( 0 )
 				.getDynamicInputParameter( ).getAttributes( );
 		assertEquals( COLUMNS[1], attrs.getName( ) );
+		assertEquals( TYPES[1], attrs.getNativeDataTypeCode( ) );
 		assertTrue( dynamicFilterExpr.isOptional( ) );
 		assertFalse( attrs.allowsNull( ) );
 
@@ -362,10 +384,10 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 				.getChildren( ).get( 2 );
 		ExpressionParameterDefinition paramDefn = dynamicFilterExpr
 				.getContextArguments( ).getExpressionParameterDefinitions( )
-				.get( 0 );
-		
-		assertEquals( COLUMNS[2], paramDefn.getDynamicInputParameter( )
-				.getAttributes( ).getName( ) );
+				.get( 0 );		
+		attrs = paramDefn.getDynamicInputParameter( ).getAttributes( );
+		assertEquals( COLUMNS[2], attrs.getName( ) );
+		assertEquals( TYPES[2], attrs.getNativeDataTypeCode( ) );
 		assertFalse( dynamicFilterExpr.isOptional( ) );
 		
 		// assertTrue( paramDefn.getDynamicInputParameter( ).getAttributes(
@@ -376,7 +398,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		{
 			Object defualtValue = paramDefn.getDynamicInputParameter( )
 					.getDefaultValues( ).getValues( ).get( i );
-			assertEquals( "value" + ( i + 1 ), defualtValue );
+			assertEquals( "value" + ( i + 1 ), defualtValue ); //$NON-NLS-1$
 		}
 
 		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );

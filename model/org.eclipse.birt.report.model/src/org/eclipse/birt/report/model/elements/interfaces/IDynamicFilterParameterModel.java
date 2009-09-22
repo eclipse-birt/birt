@@ -32,4 +32,9 @@ public interface IDynamicFilterParameterModel
 	 */
 	public static final String COLUMN_PROP = "column"; //$NON-NLS-1$
 
+	/**
+	 * Name of the native data type property.
+	 */
+	public static final String NATIVE_DATA_TYPE_PROP = "nativeDataType"; //$NON-NLS-1$
+
 }

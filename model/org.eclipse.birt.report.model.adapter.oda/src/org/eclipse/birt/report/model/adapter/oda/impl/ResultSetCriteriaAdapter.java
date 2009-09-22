@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDynamicFilterParameterModel;
 import org.eclipse.datatools.connectivity.oda.design.AndExpression;
 import org.eclipse.datatools.connectivity.oda.design.CompositeFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
@@ -402,13 +404,13 @@ public class ResultSetCriteriaAdapter
 	{
 		HashMap<String, Filter> filterExpressions = new LinkedHashMap<String, Filter>( );
 		if ( filterExpr != null )
-		{			
+		{
 			if ( filterExpr instanceof CompositeFilterExpression )
-			{				
+			{
 				CompositeFilterExpression compositeFilterExp = (CompositeFilterExpression) filterExpr;
-				if ( compositeFilterExp instanceof AndExpression ) 
+				if ( compositeFilterExp instanceof AndExpression )
 				{
-					//Convert and expression only now.
+					// Convert and expression only now.
 					for ( FilterExpression child : compositeFilterExp.getChildren( ) )
 					{
 						filterExpressions.putAll( buildFilterExpressionMap( child ) );
@@ -581,6 +583,24 @@ public class ResultSetCriteriaAdapter
 				dynamicFilterParamHandle.setDataSetName( setHandle.getName( ) );
 				dynamicFilterParamHandle.setColumn( dynamicFilter
 						.getColumnName( ) );
+				Integer nativeDataType = dynamicFilter.getNativeDataType( );
+				if ( nativeDataType != null )
+				{
+					dynamicFilterParamHandle.setNativeDataType( nativeDataType );
+					try 
+					{
+						dynamicFilterParamHandle.setDataType( NativeDataTypeUtil
+								.getUpdatedDataType( setDesign
+										.getOdaExtensionDataSourceId( ), setDesign
+										.getOdaExtensionDataSetId( ),
+										nativeDataType, null,
+										DesignChoiceConstants.CHOICE_PARAM_TYPE ) );
+					}
+					catch (BirtException e) 
+					{
+						//Do nothing
+					}
+				}									
 				setHandle.getModuleHandle( ).getParameters( ).add(
 						dynamicFilterParamHandle );
 				// sets the reference
@@ -725,6 +745,12 @@ public class ResultSetCriteriaAdapter
 
 				paramDefn.getAttributes( ).setName(
 						dynamicParamHandle.getColumn( ) );
+				if ( dynamicParamHandle
+						.getProperty( IDynamicFilterParameterModel.NATIVE_DATA_TYPE_PROP ) != null )
+				{
+					paramDefn.getAttributes( ).setNativeDataTypeCode( 
+							dynamicParamHandle.getNativeDataType( ) );						
+				}
 
 				arguments.addDynamicParameter( paramDefn );
 				dynamicFilterExpr.setContextArguments( arguments );
@@ -820,6 +846,17 @@ public class ResultSetCriteriaAdapter
 			if ( !StringUtil.isBlank( columnName ) )
 			{
 				return ExpressionUtil.createDataSetRowExpression( columnName );
+			}
+			return null;
+		}
+
+		public Integer getNativeDataType( )
+		{
+			ParameterDefinition paramDefn = exprParamDefn
+					.getDynamicInputParameter( );
+			if ( paramDefn != null && paramDefn.getAttributes( ) != null )
+			{
+				return paramDefn.getAttributes( ).getNativeDataTypeCode( );
 			}
 			return null;
 		}

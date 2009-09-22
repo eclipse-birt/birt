@@ -131,4 +131,27 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 		setProperty( FILTER_OPERATOR_PROP, filterOperatorList );
 	}
 
+	/**
+	 * Gets the native data type of the dynamic parameter.
+	 * 
+	 * @return the native data type of the dynamic parameter.
+	 */
+	public int getNativeDataType( )
+	{
+		return getIntProperty( NATIVE_DATA_TYPE_PROP );
+	}
+
+	/**
+	 * Sets the native data type of the dynamic parameter.
+	 * 
+	 * @param nativeDataType
+	 *            the native data type to set
+	 * @throws SemanticException
+	 */
+	public void setNativeDataType( int nativeDataType )
+			throws SemanticException
+	{
+		setIntProperty( NATIVE_DATA_TYPE_PROP, nativeDataType );
+	}
+
 }
