@@ -187,7 +187,7 @@ public class LayoutUtil
 			{
 				if ( columns[i] == -1 )
 				{
-					columns[1] = 0;
+					columns[i] = 0;
 				}
 				else
 				{
