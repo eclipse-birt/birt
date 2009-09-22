@@ -780,6 +780,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		{
 			writer.openTag( "ss:Column" );
 			writer.attribute( "ss:Width", width[i] / 1000 );
+			writer.attribute( "ss:AutoFitWidth", 0 );
 			writer.closeTag( "ss:Column" );
 		}
 	}
