@@ -361,6 +361,9 @@ from CLASSICMODELS.OFFICES</property>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <page-header>
+                <text id="8"/>
+            </page-header>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>

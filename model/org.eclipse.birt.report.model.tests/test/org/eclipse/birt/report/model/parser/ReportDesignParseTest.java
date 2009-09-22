@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -947,19 +948,19 @@ public class ReportDesignParseTest extends BaseTestCase
 	{
 		openDesign( "LineNumberParseTest.xml" ); //$NON-NLS-1$
 		TableHandle table = (TableHandle) designHandle.findElement( "table1" );//$NON-NLS-1$
-		assertEquals( 373, designHandle.getLineNo( table ) );
+		assertEquals( 376, designHandle.getLineNo( table ) );
 
 		CellHandle cell = (CellHandle) designHandle.getElementByID( 45 );
-		assertEquals( 395, designHandle.getLineNo( cell ) );
+		assertEquals( 398, designHandle.getLineNo( cell ) );
 
 		ExtendedItemHandle chart = (ExtendedItemHandle) designHandle
 				.getElementByID( 34023 );
-		assertEquals( 400, designHandle.getLineNo( chart ) );
+		assertEquals( 403, designHandle.getLineNo( chart ) );
 
 		// test embedded image
 		EmbeddedImageHandle image = (EmbeddedImageHandle) designHandle
 				.getAllImages( ).get( 0 );
-		assertEquals( 407, designHandle.getLineNo( image ) );
+		assertEquals( 410, designHandle.getLineNo( image ) );
 
 		// test include library
 		LibraryHandle library = (LibraryHandle) designHandle.getLibraries( )
@@ -972,14 +973,23 @@ public class ReportDesignParseTest extends BaseTestCase
 
 		// test slot of table
 		SlotHandle footer = table.getFooter( );
-		assertEquals( 392, designHandle.getLineNo( footer ) );
+		assertEquals( 395, designHandle.getLineNo( footer ) );
 
 		// test slot of design
 		SlotHandle body = designHandle.getBody( );
-		assertEquals( 372, designHandle.getLineNo( body ) );
+		assertEquals( 375, designHandle.getLineNo( body ) );
 
 		SlotHandle pages = designHandle.getMasterPages( );
 		assertEquals( 362, designHandle.getLineNo( pages ) );
+
+		SimpleMasterPageHandle page = (SimpleMasterPageHandle) designHandle
+				.findMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
+
+		SlotHandle pageHeader = page.getPageHeader( );
+		assertEquals( 364, designHandle.getLineNo( pageHeader ) );
+
+		SlotHandle pageFooter = page.getPageFooter( );
+		assertEquals( 367, designHandle.getLineNo( pageFooter ) );
 
 	}
 
