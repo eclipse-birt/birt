@@ -396,6 +396,8 @@ CodePageAction.actionText.code=Skript
 
 ColorBuilder.text.Auto=Automatisch
 ColorBuilder.Button.ChooseColor=Farbfeld öffnen
+ColorSelector.ColorDialog.Title=Farbe
+ColorSelector.Name=Color Selector
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -1163,7 +1165,7 @@ Element.Module.base=Basis:
 Element.Module.colorPalette=Farbpalette:
 Element.Module.comments=&Kommentare:
 Element.Module.configVars=Konfigurationsvariablen:
-Element.Module.createdBy=&Erstellt von:
+Element.LayoutModule.createdBy=&Erstellt von:
 Element.Module.description=B&eschreibung: 
 Element.Module.descriptionID=Beschreibungsschlüssel:
 Element.Module.helpGuide=Hilfe-Handbuch:
@@ -1173,7 +1175,7 @@ Element.Module.includeResource=R&essourcendatei:
 Element.Module.includeScripts=Skripte einschließen:
 Element.Module.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.Module.initialize=Initialisieren:
-Element.Module.theme=T&hemen: 
+Element.LayoutModule.theme=T&hemen: 
 Element.Module.title=T&itel: 
 Element.Module.titleID=Titelschlüssel:
 Element.Module.units=&Einheiten:

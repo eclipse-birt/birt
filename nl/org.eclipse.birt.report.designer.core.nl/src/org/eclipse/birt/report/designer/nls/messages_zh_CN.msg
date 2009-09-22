@@ -396,6 +396,8 @@ CodePageAction.actionText.code=脚本
 
 ColorBuilder.text.Auto=自动
 ColorBuilder.Button.ChooseColor=打开色板
+ColorSelector.ColorDialog.Title=颜色
+ColorSelector.Name=Color Selector
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -1163,7 +1165,7 @@ Element.Module.base=基本:
 Element.Module.colorPalette=调色板:
 Element.Module.comments=备注(&C):
 Element.Module.configVars=配置变量:
-Element.Module.createdBy=创建者(&C):
+Element.LayoutModule.createdBy=创建者(&C):
 Element.Module.description=描述(&E): 
 Element.Module.descriptionID=说明关键字:
 Element.Module.helpGuide=帮助指南:
@@ -1173,7 +1175,7 @@ Element.Module.includeResource=资源文件(&E):
 Element.Module.includeScripts=包含脚本:
 Element.Module.initialize.toolTip=开始执行报表时调用。
 Element.Module.initialize=初始化:
-Element.Module.theme=主题(&H): 
+Element.LayoutModule.theme=主题(&H): 
 Element.Module.title=标题(&I): 
 Element.Module.titleID=标题关键字:
 Element.Module.units=单位(&S):
