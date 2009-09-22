@@ -430,6 +430,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				}
 			}
 		}
+		//split height is larger than content height.(cell)
 		if ( result.size( ) == children.size( ) )
 		{
 			status = SplitResult.SPLIT_SUCCEED_WITH_PART;
@@ -504,7 +505,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 
 		if ( status == SplitResult.SPLIT_SUCCEED_WITH_PART )
 		{
-			if ( isValidResult( result ) )
+			if ( isValidResult( result ) || force )
 			{
 				newContainer = getSplitArea( result, contentHeight );
 			}
