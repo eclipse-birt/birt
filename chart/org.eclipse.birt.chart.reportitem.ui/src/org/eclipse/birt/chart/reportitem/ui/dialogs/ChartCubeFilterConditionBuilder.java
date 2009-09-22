@@ -1881,16 +1881,16 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 			ChartCubeQueryHelper ccqh = new ChartCubeQueryHelper( (ExtendedItemHandle) designHandle,
 					cm );
-			cubeQueryDefn = ccqh.createCubeQuery( null );
-			
 			// The equivalent expressions mean the expression is not used by
-			// chart model, it needs add the binding into cube query.
+			// chart model, it needs to add the binding into cube query.
 			String expr = getExpression( expression.getText( ) );
 			if ( expr != null && expr.equals( expression.getText( ) ) )
 			{
-				ccqh.bindExpression( expr,
-						(ICubeQueryDefinition) cubeQueryDefn,
-						( (ExtendedItemHandle) designHandle ).getCube( ) );
+				cubeQueryDefn = ccqh.createCubeQuery( null, new String[]{expr} );
+			}
+			else
+			{
+				cubeQueryDefn = ccqh.createCubeQuery( null );
 			}
 			iter = session.getCubeQueryUtil( )
 					.getMemberValueIterator( (TabularCubeHandle) cube,

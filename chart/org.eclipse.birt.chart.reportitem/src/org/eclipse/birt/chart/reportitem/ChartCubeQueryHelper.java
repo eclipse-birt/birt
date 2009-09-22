@@ -165,7 +165,7 @@ public class ChartCubeQueryHelper
 		}
 		return cubeFactory;
 	}
-
+	
 	/**
 	 * Creates the cube query definition for chart. If parent definition is
 	 * null, it's usually used for Live preview in chart builder. If chart in
@@ -176,7 +176,24 @@ public class ChartCubeQueryHelper
 	 *         ISubCubeQueryDefinition for chart in xtab case
 	 * @throws BirtException
 	 */
-	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
+	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent ) throws BirtException
+	{
+		return createCubeQuery( parent, null );
+	}
+	
+	/**
+	 * Creates the cube query definition for chart. If parent definition is
+	 * null, it's usually used for Live preview in chart builder. If chart in
+	 * xtab, will return sub cube query definition.
+	 * 
+	 * @param parent
+	 * @param expressions the extended expressions.
+	 * @return ICubeQueryDefinition for cube consuming or
+	 *         ISubCubeQueryDefinition for chart in xtab case
+	 * @throws BirtException
+	 * @since 2.5.2
+	 */
+	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent, String[] expressions )
 			throws BirtException
 	{
 		bSingleChart = parent == null;
@@ -242,6 +259,14 @@ public class ChartCubeQueryHelper
 					cubeHandle );
 		}
 
+		if ( expressions != null && expressions.length > 0 )
+		{
+			for ( String expr : expressions )
+			{
+				bindExpression( expr, cubeQuery, cubeHandle );
+			}
+		}
+		
 		// Add sorting
 		// Sorting must be added after measures and dimensions, since sort
 		// key references to measures or dimensions
@@ -643,7 +668,7 @@ public class ChartCubeQueryHelper
 	/**
 	 * Adds measure or row/column edge according to query expression.
 	 */
-	public void bindExpression( String expr, ICubeQueryDefinition cubeQuery,
+	private void bindExpression( String expr, ICubeQueryDefinition cubeQuery,
 			CubeHandle cube ) throws BirtException
 	{
 		if ( expr != null && expr.length( ) > 0 )
