@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
@@ -52,18 +53,19 @@ import com.ibm.icu.util.ULocale;
 
 public class DataUtil
 {
+
 	private static AggregationManager manager;
-	
+
 	public static AggregationManager getAggregationManager( )
 			throws BirtException
 	{
-		if( manager == null )
+		if ( manager == null )
 		{
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			manager = session.getAggregationManager( );
-			session.shutdown( );	
+			session.shutdown( );
 		}
-		
+
 		return manager;
 	}
 
@@ -362,26 +364,34 @@ public class DataUtil
 		if ( bindingColumn.getExpression( ) != null )
 			return bindingColumn.getExpression( );
 		String functionName = bindingColumn.getAggregateFunction( );
-		try
+		if ( functionName != null )
 		{
-			IAggrFunction function = getAggregationManager( ).getAggregation( DataAdapterUtil.adaptModelAggregationType( functionName ));
-			for ( IParameterDefn param : function.getParameterDefn( ) )
+			try
 			{
-				if ( param.isDataField( ) )
+				IAggrFunction function = getAggregationManager( ).getAggregation( DataAdapterUtil.adaptModelAggregationType( functionName ) );
+				if ( function != null )
 				{
-					for ( Iterator iterator = bindingColumn.argumentsIterator( ); iterator.hasNext( ); )
+					for ( IParameterDefn param : function.getParameterDefn( ) )
 					{
-						AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
-						if ( DataAdapterUtil.adaptArgumentName( arg.getName( ) ).equals( param.getName( ) ) )
+						if ( param.isDataField( ) )
 						{
-							return arg.getValue( );
+							for ( Iterator iterator = bindingColumn.argumentsIterator( ); iterator.hasNext( ); )
+							{
+								AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
+								if ( DataAdapterUtil.adaptArgumentName( arg.getName( ) )
+										.equals( param.getName( ) ) )
+								{
+									return arg.getValue( );
+								}
+							}
 						}
 					}
 				}
 			}
-		}
-		catch ( BirtException e )
-		{
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 		return null;
 	}
