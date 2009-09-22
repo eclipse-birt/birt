@@ -110,8 +110,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	private Bounds boundsRuntime = null;
-	
-	private boolean hasDataBound = false;
 
 	static
 	{
@@ -455,9 +453,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	 */
 	public void finish( )
 	{
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemPresentationImpl.log.finishStart" ) ); //$NON-NLS-1$
-
 		// CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
 		try
 		{
@@ -481,10 +476,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			idr.dispose( );
 			idr = null;
 		}
-		hasDataBound = false;
-
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemPresentationImpl.log.finishEnd" ) ); //$NON-NLS-1$
 	}
 
 	protected Bounds computeBounds( ) throws ChartException
@@ -661,11 +652,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	protected boolean bindData( IDataRowExpressionEvaluator rowAdapter,
 			IActionEvaluator evaluator ) throws BirtException
 	{
-		if ( hasDataBound )
-		{
-			// Do not bind data twice
-			return true;
-		}
 		boolean bNotEmpty = true;
 		try
 		{
@@ -688,7 +674,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		}
 
 		rtc.putState( RunTimeContext.StateKey.DATA_EMPTY_KEY, !bNotEmpty );
-		hasDataBound = true;
 		return bNotEmpty;
 	}
 
@@ -785,34 +770,18 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// Bind Data to series
 			if ( !bindData( rowAdapter, evaluator ) && bAutoHide )
 			{
-				// if autohide and data empty
+				// if auto hide and data empty
 				return null;
 			}
 
-			// Prepare Device Renderer
-			prepareDeviceRenderer( );
-
-			// Build the chart
-			GeneratedChartState gcs = buildChart( rowAdapter, externalContext );
-
-			// Render the chart
-			renderToImageFile( gcs );
+			// Render chart
+			Object renderObject = generateRenderObject( rowAdapter,
+					externalContext );
 
 			// Close the dataRow evaluator. It needs to stay opened until the
 			// chart is fully rendered.
 			rowAdapter.close( );
-
-			// Set the scale shared when scale has been computed, and store it
-			// in the ReportItem
-			if ( rtc.getSharedScale( ) != null
-					&& !rtc.getSharedScale( ).isShared( ) )
-			{
-				rtc.getSharedScale( ).setShared( true );
-				( (ChartReportItemImpl) getReportItem( modelHandle ) ).setSharedScale( rtc.getSharedScale( ) );
-			}
-
-			// Returns the content to display (image or image+imagemap)
-			return getImageToDisplay( );
+			return renderObject;
 		}
 		catch ( RuntimeException ex )
 		{
@@ -823,6 +792,39 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 					ChartException.GENERATION,
 					ex );
 		}
+	}
+	
+	/**
+	 * Renders chart and returns the drawable object in emitter
+	 * 
+	 * @param rowAdapter
+	 * @param externalContext
+	 * @return drawable object
+	 * @throws ChartException
+	 */
+	protected Object generateRenderObject(
+			IDataRowExpressionEvaluator rowAdapter,
+			BIRTExternalContext externalContext ) throws ChartException
+	{
+		// Prepare Device Renderer
+		prepareDeviceRenderer( );
+
+		// Build the chart
+		GeneratedChartState gcs = buildChart( rowAdapter, externalContext );
+
+		// Render the chart
+		renderToImageFile( gcs );
+
+		// Set the scale shared when scale has been computed, and store it
+		// in the ReportItem
+		if ( rtc.getSharedScale( ) != null && !rtc.getSharedScale( ).isShared( ) )
+		{
+			rtc.getSharedScale( ).setShared( true );
+			( (ChartReportItemImpl) getReportItem( modelHandle ) ).setSharedScale( rtc.getSharedScale( ) );
+		}
+
+		// Returns the content to display (image or image+imagemap)
+		return getImageToDisplay( );
 	}
 
 	/**
@@ -864,7 +866,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	}
 
 	@SuppressWarnings("deprecation")
-	protected void initializeScriptHandler( BIRTExternalContext externalContext )
+	private void initializeScriptHandler( BIRTExternalContext externalContext )
 			throws ChartException
 	{
 		String javaHandlerClass = modelHandle.getEventHandlerClass( );
@@ -948,7 +950,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			throw new IllegalArgumentException( );
 	}
 
-	protected void renderToImageFile( GeneratedChartState gcs )
+	private void renderToImageFile( GeneratedChartState gcs )
 			throws ChartException
 	{
 		logger.log( ILogger.INFORMATION,
@@ -1040,7 +1042,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		rtc.setExternalizer( crii );
 	}
 
-	protected void prepareDeviceRenderer( ) throws ChartException
+	private void prepareDeviceRenderer( ) throws ChartException
 	{
 		idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
 				+ sExtension.toUpperCase( Locale.US ) );

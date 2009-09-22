@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +33,6 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
-import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.SecurityUtil;
@@ -159,7 +159,9 @@ public class ChartCubeQueryHelper
 		}
 		catch ( Exception e )
 		{
-			throw new ChartException( ChartReportItemConstants.ID, BirtException.ERROR, e );
+			throw new ChartException( ChartReportItemConstants.ID,
+					BirtException.ERROR,
+					e );
 		}
 		return cubeFactory;
 	}
@@ -187,7 +189,7 @@ public class ChartCubeQueryHelper
 			cubeHandle = ChartCubeUtil.getBindingCube( handle );
 			if ( cubeHandle == null )
 			{
-				throw new ChartException( ChartReportItemPlugin.ID,
+				throw new ChartException( ChartReportItemConstants.ID,
 						ChartException.NULL_DATASET,
 						Messages.getString( "ChartCubeQueryHelper.Error.MustBindCube" ) ); //$NON-NLS-1$
 			}
@@ -240,6 +242,27 @@ public class ChartCubeQueryHelper
 					cubeHandle );
 		}
 
+		// Add sorting
+		// Sorting must be added after measures and dimensions, since sort
+		// key references to measures or dimensions
+		for ( int i = 0; i < sdList.size( ); i++ )
+		{
+			SeriesDefinition sd = sdList.get( i );
+			addSorting( cubeQuery, cubeHandle, sd, i );
+		}
+
+		// Add filter
+		// Filter may include new levels and modify level definition, so it
+		// should be added before aggregation.
+		addCubeFilter( cubeQuery, cubeHandle );
+
+		// Sort the level definitions by hierarchy order in multiple levels
+		// case
+		sortLevelDefinition( cubeQuery.getEdge( ICubeQueryDefinition.ROW_EDGE ),
+				cubeHandle );
+		sortLevelDefinition( cubeQuery.getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
+				cubeHandle );
+
 		// Add aggregation list to measure bindings on demand
 		Collection<ILevelDefinition> levelsInOrder = getAllLevelsInHierarchyOrder( cubeHandle,
 				cubeQuery );
@@ -260,18 +283,6 @@ public class ChartCubeQueryHelper
 				}
 			}
 		}
-
-		// Add sorting
-		// Sorting must be added after measures and dimensions, since sort
-		// key references to measures or dimensions
-		for ( int i = 0; i < sdList.size( ); i++ )
-		{
-			SeriesDefinition sd = sdList.get( i );
-			addSorting( cubeQuery, cubeHandle, sd, i );
-		}
-
-		// Add filter
-		addCubeFilter( cubeQuery );
 
 		return cubeQuery;
 	}
@@ -615,7 +626,6 @@ public class ChartCubeQueryHelper
 			}
 
 			// Create level
-			boolean bMultipleLevels = !hieDef.getLevels( ).isEmpty( );
 			ILevelDefinition levelDef = hieDef.createLevel( levels[1] );
 
 			registeredLevels.put( bindingName, levelDef );
@@ -627,20 +637,6 @@ public class ChartCubeQueryHelper
 							+ "/" + levelDef.getName( ) ); //$NON-NLS-1$
 
 			registeredLevelHandles.put( levelHandle, levelDef );
-
-			// Reset the level definitions by hierarchy order in
-			// multiple levels case
-			if ( bMultipleLevels )
-			{
-				Iterator<ILevelDefinition> levelsInOrder = getAllLevelsInHierarchyOrder( cube,
-						cubeQuery ).iterator( );
-				hieDef.getLevels( ).clear( );
-				while ( levelsInOrder.hasNext( ) )
-				{
-					ILevelDefinition level = levelsInOrder.next( );
-					hieDef.createLevel( level.getName( ) );
-				}
-			}
 		}
 	}
 
@@ -714,8 +710,8 @@ public class ChartCubeQueryHelper
 		return propHandle.getListValue( );
 	}
 
-	private void addCubeFilter( ICubeQueryDefinition cubeQuery )
-			throws BirtException
+	private void addCubeFilter( ICubeQueryDefinition cubeQuery,
+			CubeHandle cubeHandle ) throws BirtException
 	{
 		List<ILevelDefinition> levels = new ArrayList<ILevelDefinition>( );
 		List<String> values = new ArrayList<String>( );
@@ -811,6 +807,19 @@ public class ChartCubeQueryHelper
 						.getText( ),
 						true ) );
 			}
+
+			if ( levelDefinition == null )
+			{
+				// If level definition is not found, the level may be not added
+				// into query
+				bindExpression( filterCondExpr.getExpression( ).getText( ),
+						cubeQuery,
+						cubeHandle );
+				levelDefinition = registeredLevels.get( ChartExpressionUtil.getCubeBindingName( filterCondExpr.getExpression( )
+						.getText( ),
+						true ) );
+			}
+
 			ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
 					levelDefinition,
 					qualifyLevels,
@@ -936,64 +945,14 @@ public class ChartCubeQueryHelper
 	{
 		Collection<ILevelDefinition> levelValues = registeredLevels.values( );
 		// Only sort the level for multiple levels case
-		if ( cubeQuery.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) == null
-				&& levelValues.size( ) > 1 )
+		if ( levelValues.size( ) > 1 )
 		{
 			List<ILevelDefinition> levelList = new ArrayList<ILevelDefinition>( levelValues.size( ) );
-			String dimensionName = null;
-			int firstLevelIndex = 0;
-			int i = 0;
-			HierarchyHandle hh = null;
-			for ( Iterator<ILevelDefinition> iterator = levelValues.iterator( ); iterator.hasNext( ); i++ )
+			for ( ILevelDefinition level : levelValues )
 			{
-				ILevelDefinition level = iterator.next( );
-
-				if ( i == 0 )
-				{
-					dimensionName = level.getHierarchy( )
-							.getDimension( )
-							.getName( );
-					hh = cubeHandle.getDimension( dimensionName )
-							.getDefaultHierarchy( );
-					while ( firstLevelIndex < hh.getLevelCount( ) )
-					{
-						if ( hh.getLevel( firstLevelIndex )
-								.getName( )
-								.equals( level.getName( ) ) )
-						{
-							break;
-						}
-						firstLevelIndex++;
-					}
-
-					levelList.add( level );
-				}
-				else
-				{
-					while ( firstLevelIndex < hh.getLevelCount( ) )
-					{
-						if ( hh.getLevel( firstLevelIndex )
-								.getName( )
-								.equals( level.getName( ) ) )
-						{
-							break;
-						}
-						firstLevelIndex++;
-					}
-
-					if ( firstLevelIndex < hh.getLevelCount( ) )
-					{
-						// Ascending order
-						levelList.add( level );
-					}
-					else
-					{
-						// Descending order
-						levelList.add( 0, level );
-					}
-				}
+				levelList.add( level );
 			}
-
+			Collections.sort( levelList, getLevelComparator( cubeHandle, true ) );
 			return levelList;
 		}
 		return levelValues;
@@ -1008,6 +967,55 @@ public class ChartCubeQueryHelper
 		}
 		return this.rowEdgeDimension.equals( dimensionName ) ? ICubeQueryDefinition.ROW_EDGE
 				: ICubeQueryDefinition.COLUMN_EDGE;
+	}
+
+	private Comparator<ILevelDefinition> getLevelComparator(
+			final CubeHandle cubeHandle, final boolean hasDiffEdges )
+	{
+		return new Comparator<ILevelDefinition>( ) {
+
+			public int compare( ILevelDefinition a, ILevelDefinition b )
+			{
+				String dimA = a.getHierarchy( ).getDimension( ).getName( );
+				int edgeA = getEdgeType( dimA );
+				// If edges are the same, do not check again.
+				if ( hasDiffEdges )
+				{
+					// If edges are different, column edge should be latter.
+					String dimB = b.getHierarchy( ).getDimension( ).getName( );
+					int edgeB = getEdgeType( dimB );
+
+					if ( edgeA != edgeB )
+					{
+						return edgeA == ICubeQueryDefinition.COLUMN_EDGE ? 1
+								: -1;
+					}
+				}
+
+				// If the level index is bigger, it should be latter.
+				HierarchyHandle hh = cubeHandle.getDimension( dimA )
+						.getDefaultHierarchy( );
+				return hh.getLevel( a.getName( ) ).getIndex( )
+						- hh.getLevel( b.getName( ) ).getIndex( );
+			}
+		};
+	}
+
+	private void sortLevelDefinition( IEdgeDefinition edge,
+			CubeHandle cubeHandle )
+	{
+		if ( edge != null )
+		{
+			for ( IDimensionDefinition dim : edge.getDimensions( ) )
+			{
+				IHierarchyDefinition hd = dim.getHierarchy( ).get( 0 );
+				if ( hd != null && hd.getLevels( ).size( ) > 1 )
+				{
+					Collections.sort( hd.getLevels( ),
+							getLevelComparator( cubeHandle, false ) );
+				}
+			}
+		}
 	}
 
 	static List<SeriesDefinition> getAllSeriesDefinitions( Chart chart )
