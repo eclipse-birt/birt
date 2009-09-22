@@ -967,7 +967,7 @@ public class PostscriptWriter
 	{
 		if ( paperTray != null )
 		{
-			out.println( "%%%%BeginFeature: *InputSlot " + paperTray );
+			out.println( "%%BeginFeature: *InputSlot " + paperTray );
 			out.println("%%EndFeature");
 		}
 	}
@@ -976,7 +976,7 @@ public class PostscriptWriter
 	{
 		if ( paperSize != null )
 		{
-			out.println( "%%%%BeginFeature: *PageSize " + paperSize );
+			out.println( "%%BeginFeature: *PageSize " + paperSize );
 			out.println( "<</PageSize [" + getPaperSize( paperSize )
 					+ "] /ImagingBBox null>> setpagedevice" );
 			out.println("%%EndFeature");
