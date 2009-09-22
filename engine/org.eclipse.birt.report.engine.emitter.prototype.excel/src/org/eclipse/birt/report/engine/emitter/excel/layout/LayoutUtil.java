@@ -159,10 +159,6 @@ public class LayoutUtil
 			}
 			else
 			{
-				if ( ExcelUtil.convertDimensionType( value, tableWidth ) > 576000 )
-				{
-					System.out.println( "" );
-				}
 				columns[i] = ExcelUtil.convertDimensionType( value, tableWidth );
 				totalAssigned += columns[i];
 			}
