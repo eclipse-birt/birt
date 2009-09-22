@@ -54,7 +54,6 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 				|| ReportDesignConstants.GRID_ITEM.equals( elementName )
 				|| ReportDesignConstants.IMAGE_ITEM.equals( elementName )
 				|| ReportDesignConstants.LABEL_ITEM.equals( elementName )
-				|| ReportDesignConstants.LIBRARY_ELEMENT.equals( elementName )
 				|| ReportDesignConstants.LIST_ITEM.equals( elementName )
 				|| ReportDesignConstants.REPORT_DESIGN_ELEMENT.equals( elementName )
 				|| ReportDesignConstants.ROW_ELEMENT.equals( elementName )

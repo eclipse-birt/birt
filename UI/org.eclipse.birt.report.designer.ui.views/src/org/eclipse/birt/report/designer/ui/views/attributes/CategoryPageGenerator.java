@@ -61,6 +61,11 @@ public class CategoryPageGenerator extends TabPageGenerator
 		}
 	}
 
+	protected ICategoryProviderFactory getCategoryProviderFactory( )
+	{
+		return factory;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
