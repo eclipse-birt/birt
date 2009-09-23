@@ -474,15 +474,16 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * <code>StructureHandle</code> that deal with a <code>ParamBinding</code>
 	 * in the list.
 	 * 
-	 * @return the iterator for parameter binding structure list defined on this
+	 * @return the iterator for parameter binding handle list defined on this
 	 *         data set.
 	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.ParamBinding
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ParamBindingHandle
 	 */
 
 	public Iterator paramBindingsIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( IReportItemModel.PARAM_BINDINGS_PROP );
+
 		if ( propHandle == null )
 			return Collections.EMPTY_LIST.iterator( );
 		return propHandle.iterator( );
