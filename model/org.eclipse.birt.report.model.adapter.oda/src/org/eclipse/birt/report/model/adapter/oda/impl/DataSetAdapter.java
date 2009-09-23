@@ -236,7 +236,8 @@ class DataSetAdapter extends AbstractDataAdapter
 					.updateOdaColumnHints( );
 
 		else if ( OdaDataSetHandle.FILTER_PROP.equalsIgnoreCase( propertyName ) )
-			new ResultSetCriteriaAdapter( setHandle, setDesign ).updateODAResultSetCriteria( );
+			new ResultSetCriteriaAdapter( setHandle, setDesign )
+					.updateODAResultSetCriteria( );
 	}
 
 	public OdaDesignSession createOdaDesignSession(
@@ -406,8 +407,11 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		// set the result sets
 
-		List resultRetColumns = new ResultSetsAdapter( setHandle, setDesign )
-				.newROMResultSets( null );
+		ResultSetsAdapter tmpAdapter = new ResultSetsAdapter( setHandle,
+				setDesign );
+		List resultRetColumns = tmpAdapter.newROMResultSets( null );
+		// add filter condition for the result set
+		tmpAdapter.updateROMFilterCondition( );
 
 		List columns = null;
 		List hints = null;
