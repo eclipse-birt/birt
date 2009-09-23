@@ -75,7 +75,7 @@ public class CubeResultSet implements ICubeResultSet
 		this.context = context;
 		this.dataEngine = dataEngine;
 		this.queryDefn = queryDefn;
-		// TODO: the rset.getID() is null since data do not check the code in
+		this.cube = rsets.getCubeCursor( );
 		if ( rsets.getID( ) != null )
 		{
 			this.id = new DataSetID( rsets.getID( ) );
@@ -84,7 +84,6 @@ public class CubeResultSet implements ICubeResultSet
 		{
 			this.id = new DataSetID( "cube" );
 		}
-		this.cube = rsets.getCubeCursor( );
 		this.queryResults = rsets;
 		this.queryResultsID = rsets.getID( );
 	}
@@ -96,7 +95,7 @@ public class CubeResultSet implements ICubeResultSet
 	{
 		assert parent != null;
 		this.parent = parent;
-		// TODO: the rset.getID() is null since data do not check the code in
+		this.cube = rsets.getCubeCursor( );
 		if ( rsets.getID( ) != null )
 		{
 			this.id = new DataSetID( rsets.getID( ) );
@@ -108,7 +107,6 @@ public class CubeResultSet implements ICubeResultSet
 		this.context = context;
 		this.dataEngine = dataEngine;
 		this.queryDefn = queryDefn;
-		this.cube = rsets.getCubeCursor( );
 		this.queryResults = rsets;
 		this.queryResultsID = rsets.getID( );
 	}
@@ -120,7 +118,7 @@ public class CubeResultSet implements ICubeResultSet
 	{
 		assert parent != null;
 		this.parent = parent;
-		// TODO: the rset.getID() is null since data do not check the code in
+		this.cube = rsets.getCubeCursor( );
 		if ( rsets.getID( ) != null )
 		{
 			this.id = new DataSetID( rsets.getID( ) );
@@ -132,7 +130,6 @@ public class CubeResultSet implements ICubeResultSet
 		this.context = context;
 		this.dataEngine = dataEngine;
 		this.queryDefn = queryDefn;
-		this.cube = rsets.getCubeCursor( );
 		this.queryResults = rsets;
 		this.queryResultsID = rsets.getID( );
 	}

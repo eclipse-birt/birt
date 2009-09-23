@@ -24,7 +24,7 @@ public class QueryTask
 	String cellId;
 	InstanceID iid;
 
-	QueryTask( IDataQueryDefinition query, DataSetID parent, int rowId,
+	public QueryTask( IDataQueryDefinition query, DataSetID parent, int rowId,
 			InstanceID iid )
 	{
 		this.query = query;
@@ -33,7 +33,7 @@ public class QueryTask
 		this.iid = iid;
 	}
 
-	QueryTask( IDataQueryDefinition query, DataSetID parent, String cellId,
+	public QueryTask( IDataQueryDefinition query, DataSetID parent, String cellId,
 			InstanceID iid )
 	{
 		this.query = query;
