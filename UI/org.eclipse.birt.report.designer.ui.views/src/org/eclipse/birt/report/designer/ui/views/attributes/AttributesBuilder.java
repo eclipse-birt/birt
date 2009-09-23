@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -301,6 +302,11 @@ public class AttributesBuilder
 		else if ( type == CascadingParameterGroupHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.CascadingParameterGroup" );
+		}
+		else if(obj instanceof DesignElementHandle)
+		{
+			typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{ ( (DesignElementHandle) obj ).getDefn( )
+					.getDisplayName( )} ); //$NON-NLS-1$
 		}
 		else
 		{
