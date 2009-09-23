@@ -69,7 +69,7 @@ public class LayoutUtil
 				Image imageInfo = EmitterUtil.parseImage( image, image
 						.getImageSource( ), image.getURI( ), image
 						.getMIMEType( ), image.getExtension( ) );
-				width = (int) ( imageInfo.getWidth( ) * ExcelUtil.PX_PT );
+				width = (int) ( imageInfo.getWidth( ) * ExcelUtil.PX_PT * 1000 );
 
 			}
 			catch ( IOException e1 )
