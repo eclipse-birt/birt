@@ -628,7 +628,7 @@
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
-			<property name="fetchTag" value="BIRT_2_5_1_Branch" />
+			<property name="fetchTag" value="HEAD" />
 		</ant>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
