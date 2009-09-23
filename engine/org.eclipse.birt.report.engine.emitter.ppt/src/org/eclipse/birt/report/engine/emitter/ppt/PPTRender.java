@@ -14,7 +14,6 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
@@ -80,7 +79,7 @@ public class PPTRender extends PageDeviceRender
 	public void initialize( IEmitterServices services ) throws EngineException
 	{
 		this.services = services;
-		IReportRunnable reportRunnable = services.getReportRunnable( );
+		reportRunnable = services.getReportRunnable( );
 
 		if ( reportRunnable != null )
 		{
