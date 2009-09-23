@@ -967,6 +967,8 @@ public abstract class AbstractWordXmlWriter
 			{
 				writeAlign( style.getTextAlign( ), direction );
 				writeBackgroundColor( style.getBackgroundColor( ) );
+				writePosition( style.getVerticalAlign( ), style
+						.getProperty( StyleConstants.STYLE_FONT_SIZE ) );
 				writeRunBorders( style );
 			}
 			if ( !isField && bidiLevels[i] == Bidi.DIRECTION_RIGHT_TO_LEFT )
@@ -991,6 +993,20 @@ public abstract class AbstractWordXmlWriter
 			writeField( false );
 		}
 		closeHyperlink( info );
+	}
+
+	private void writePosition( String verticalAlign, CSSValue fontSize )
+	{
+		int size = WordUtil.parseFontSize( ( (FloatValue) fontSize )
+				.getFloatValue( ) );
+		if ( "top".equalsIgnoreCase( verticalAlign ) )
+		{
+			writeAttrTag( "w:position", (int) ( size * 1 / 3 ) );
+		}
+		else if ( "bottom".equalsIgnoreCase( verticalAlign ) )
+		{
+			writeAttrTag( "w:position", (int) ( -size * 1 / 3 ) );
+		}
 	}
 
 	protected void writeRunProperties( IStyle style, String fontFamily,
