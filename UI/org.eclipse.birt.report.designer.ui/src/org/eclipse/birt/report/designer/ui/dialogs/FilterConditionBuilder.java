@@ -341,7 +341,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				updateButtons( );
 				addExpressionValue.setFocus( );
 			}
-
 		}
 
 		public String[] doSelection( String input )
@@ -375,8 +374,14 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				}
 				try
 				{
-					List selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
-							dataSet );
+					List selectValueList = dataSetHandle != null ? SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
+							dataSet,
+							false )
+							: SelectValueFetcher.getSelectValueFromBinding( ExpressionButtonUtil.getExpression( expression ),
+									dataSet,
+									DEUtil.getVisiableColumnBindingsList( designHandle )
+											.iterator( ),
+									false );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
 							.getActiveShell( ),
@@ -416,13 +421,19 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 						columnName = ( (ResultSetColumnHandle) ( obj ) ).getColumnName( );
 					}
 
-					if ( DEUtil.getColumnExpression( columnName )
+					if ( ExpressionUtility.getColumnExpression( columnName,
+							ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+									.getType( ) ) )
 							.equals( expression.getText( ) ) )
 					{
 						bindingName = columnName;
 						break;
 					}
 				}
+
+				if ( bindingName == null
+						&& expression.getText( ).trim( ).length( ) > 0 )
+					bindingName = expression.getText( ).trim( );
 
 				if ( bindingName != null )
 				{
@@ -510,8 +521,14 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				}
 				try
 				{
-					List selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
-							dataSet );
+					List selectValueList = dataSetHandle != null ? SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
+							dataSet,
+							false )
+							: SelectValueFetcher.getSelectValueFromBinding( ExpressionButtonUtil.getExpression( expression ),
+									dataSet,
+									DEUtil.getVisiableColumnBindingsList( designHandle )
+											.iterator( ),
+									false );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
 							.getActiveShell( ),
@@ -538,13 +555,19 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 				{
 					String columnName = getColumnName( iter.next( ) );
-					if ( DEUtil.getColumnExpression( columnName )
+					if ( ExpressionUtility.getColumnExpression( columnName,
+							ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
+									.getType( ) ) )
 							.equals( expression.getText( ) ) )
 					{
 						bindingName = columnName;
 						break;
 					}
 				}
+
+				if ( bindingName == null
+						&& expression.getText( ).trim( ).length( ) > 0 )
+					bindingName = expression.getText( ).trim( );
 
 				if ( bindingName != null )
 				{
@@ -935,7 +958,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					if ( expression.getSelectionIndex( ) >= 0 )
 					{
 						String newValue = expression.getItem( expression.getSelectionIndex( ) );
-						String value = ExpressionUtility.getColumnExpression( newValue,
+						String value = ExpressionUtility.getFilterExpression( dataSetHandle != null ? dataSetHandle
+								: designHandle,
+								newValue,
 								converter );
 						if ( value != null )
 							newValue = value;
@@ -1466,9 +1491,14 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
 		if ( bindingName != null && reportItem != null )
 		{
-			selectValueList = SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
+			selectValueList = dataSetHandle != null ? SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( expression ),
 					reportItem.getDataSet( ),
-					false );
+					false )
+					: SelectValueFetcher.getSelectValueFromBinding( ExpressionButtonUtil.getExpression( expression ),
+							reportItem.getDataSet( ),
+							DEUtil.getVisiableColumnBindingsList( designHandle )
+									.iterator( ),
+							false );
 		}
 		else
 		{

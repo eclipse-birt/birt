@@ -243,7 +243,7 @@ public class ExpressionButtonUtil
 
 		control.setData( EXPR_BUTTON, button );
 		control.setData( ExpressionButtonUtil.EXPR_TYPE,
-				UIUtil.getDefaultScriptType( ) );
+				helper.getExpressionType( ) );
 		button.refresh( );
 
 		return button;

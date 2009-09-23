@@ -100,14 +100,20 @@ public class ExpressionButton
 		if ( helper != null )
 		{
 			type = helper.getExpressionType( );
-		}
-		type = type != null ? type : UIUtil.getDefaultScriptType( );
-
-		if ( provider != null )
-		{
-			List types = Arrays.asList( provider.getExpressionTypes( ) );
-			if ( !types.contains( type ) && types.size( ) > 0 )
-				type = types.get( 0 ).toString( );
+			if ( type == null )
+			{
+				type = UIUtil.getDefaultScriptType( );
+				helper.setExpressionType( type );
+			}
+			if ( provider != null )
+			{
+				List types = Arrays.asList( provider.getExpressionTypes( ) );
+				if ( !types.contains( type ) && types.size( ) > 0 )
+				{
+					type = types.get( 0 ).toString( );
+					helper.setExpressionType( type );
+				}
+			}
 		}
 		return type;
 	}

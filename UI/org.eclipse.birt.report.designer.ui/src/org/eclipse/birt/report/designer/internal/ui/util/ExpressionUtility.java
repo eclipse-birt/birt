@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSuppo
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
@@ -203,6 +204,19 @@ public class ExpressionUtility
 		return null;
 	}
 
+	public static String getFilterExpression( Object model, String value,
+			IExpressionConverter converter )
+	{
+		if ( model instanceof CubeHandle )
+		{
+			return getDataSetRowExpression( value, converter );
+		}
+		else
+		{
+			return getColumnExpression( value, converter );
+		}
+	}
+
 	public static String getDataSetRowExpression( String columnName,
 			IExpressionConverter converter )
 	{
@@ -265,11 +279,13 @@ public class ExpressionUtility
 		{
 			for ( IExpressionSupport ex : exts )
 			{
-				if ( ex!=null && ex.getName( )!=null && ex.getName( ).equals( scriptType ) )
+				if ( ex != null
+						&& ex.getName( ) != null
+						&& ex.getName( ).equals( scriptType ) )
 					return ex.getConverter( );
 			}
 		}
-		
+
 		return null;
 	}
 }
