@@ -3322,6 +3322,7 @@ Element.EventSubscriber.subscribedGadgets=预订的小工具
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=多维数据集
 Element.GadgetContent.externalContentRef=外部内容引用
+Element.GadgetContent.gadgetType=小工具类型
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
 Element.ExternalElementRef.sourceFile=源文件
@@ -3333,7 +3334,6 @@ Element.DataSelectorItem.type=类型
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet 引用
-Element.DataViewItem.gadgetType=小工具类型
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=数据源
@@ -3346,6 +3346,7 @@ Element.DataMart.ACLExpression=ACL 表达式
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = Data mart URL
 Element.DataMartDataSource.datamartVersion=Data mart version
+Element.DataMartDataSource.paramBindings=参数绑定
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=数据源

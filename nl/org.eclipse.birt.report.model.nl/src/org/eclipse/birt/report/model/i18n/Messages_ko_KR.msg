@@ -3322,6 +3322,7 @@ Element.EventSubscriber.subscribedGadgets=구독한 가젯
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=큐브
 Element.GadgetContent.externalContentRef=외부 콘텐츠 참조
+Element.GadgetContent.gadgetType=가젯 형식
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
 Element.ExternalElementRef.sourceFile=원본 파일
@@ -3333,7 +3334,6 @@ Element.DataSelectorItem.type=형식
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=내부 리포틀릿 참조
-Element.DataViewItem.gadgetType=가젯 형식
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=데이터 원본
@@ -3346,6 +3346,7 @@ Element.DataMart.ACLExpression=ACL 식
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = Data mart URL
 Element.DataMartDataSource.datamartVersion=Data mart version
+Element.DataMartDataSource.paramBindings=매개 변수 바인딩
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=데이터 원본

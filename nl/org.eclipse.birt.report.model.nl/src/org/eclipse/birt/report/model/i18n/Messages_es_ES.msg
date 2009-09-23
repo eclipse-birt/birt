@@ -3322,6 +3322,7 @@ Element.EventSubscriber.subscribedGadgets=Gadgets suscritos
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=Cubo
 Element.GadgetContent.externalContentRef=Referencia de contenido externo
+Element.GadgetContent.gadgetType=Tipo de gadget
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
 Element.ExternalElementRef.sourceFile=Archivo fuente
@@ -3333,7 +3334,6 @@ Element.DataSelectorItem.type=Tipo
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Referencia de informe interno
-Element.DataViewItem.gadgetType=Tipo de gadget
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=Fuentes de datos
@@ -3346,6 +3346,7 @@ Element.DataMart.ACLExpression=Expresión ACL
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = Data mart URL
 Element.DataMartDataSource.datamartVersion=Data mart version
+Element.DataMartDataSource.paramBindings=Enlaces de parámetro
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Fuente de datos

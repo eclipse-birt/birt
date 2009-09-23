@@ -3322,6 +3322,7 @@ Element.EventSubscriber.subscribedGadgets=購読中のガジェット
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=キューブ
 Element.GadgetContent.externalContentRef=外部コンテンツの参照
+Element.GadgetContent.gadgetType=ガジェットの種類
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
 Element.ExternalElementRef.sourceFile=ソースファイル
@@ -3333,7 +3334,6 @@ Element.DataSelectorItem.type=種類
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet の参照
-Element.DataViewItem.gadgetType=ガジェットの種類
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=データソース
@@ -3346,6 +3346,7 @@ Element.DataMart.ACLExpression=ACL 式
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = Data mart URL
 Element.DataMartDataSource.datamartVersion=Data mart version
+Element.DataMartDataSource.paramBindings=パラメタバインド
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=データソース
