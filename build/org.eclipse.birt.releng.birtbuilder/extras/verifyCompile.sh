@@ -6,7 +6,7 @@
 
 find $1 -name "*.html" > $1/compile.log
 
-awk -F "/" '{print "mv " $0 " "$1 FS $2 FS $3 FS $4 FS $5 FS $6 FS $7 FS $8 FS $9 FS $10 FS"_compilelog.html"  }' $1/compile.log >  $1/plugins.rename
+awk -F "/" '{print "mv " $0 " "$1 FS $2 FS $3 FS $4 FS $5 FS $6 FS $7 FS $8 FS $9 FS $10 FS $11 FS"_compilelog.html"  }' $1/compile.log >  $1/plugins.rename
 chmod +x $1/plugins.rename
 $1/plugins.rename
 
@@ -31,12 +31,12 @@ count=`awk '{print $1}' $1/error.plugins.count`
 
 if [ $count -gt 0 ] ; then
         echo "#Compile has error in $1" >> $builderDir/monitor.properties
-        awk -F "/" '{print "cp " $0 " "$1 FS $2 FS $3 FS $4 FS $5 FS $6 FS $7 FS $8 FS $9 FS $10 "_compilelog.html"  }' $1/error.plugins >  $1/error.plugins.rename
+        awk -F "/" '{print "cp " $0 " "$1 FS $2 FS $3 FS $4 FS $5 FS $6 FS $7 FS $8 FS $9 FS $10 FS $11 "_compilelog.html"  }' $1/error.plugins >  $1/error.plugins.rename
         chmod +x $1/error.plugins.rename
         $1/error.plugins.rename
 
         #set error plugins or notification
-        awk -F "/" '{print $10}' $1/error.plugins  > $1/notify.list
+        awk -F "/" '{print $11}' $1/error.plugins  > $1/notify.list
         awk -F "_" '{print " "$1"\\n\\"}' $1/notify.list > $1/notify.list.tmp
         mv $1/notify.list.tmp $1/notify.list
 
