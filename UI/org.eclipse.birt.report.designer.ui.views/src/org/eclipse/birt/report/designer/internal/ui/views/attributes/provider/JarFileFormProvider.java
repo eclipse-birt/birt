@@ -147,7 +147,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 
 	public Object[] getElements( Object inputElement )
 	{
-		ArrayList list = new ArrayList( );
+		List list = new ArrayList( );
 		if ( inputElement instanceof List )
 		{
 			inputElement = ( (List) inputElement ).get( 0 );
@@ -155,7 +155,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		if ( inputElement instanceof ModuleHandle )
 		{
 			this.inputElement = (ModuleHandle) inputElement;
-			list = (ArrayList) ( (ModuleHandle) inputElement ).getAllScriptLibs( );
+			list = ( (ModuleHandle) inputElement ).getAllScriptLibs( );
 			if ( list == null || list.size( ) == 0 )
 			{
 				return new ScriptLibHandle[0];
