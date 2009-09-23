@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -303,7 +304,7 @@ public class AttributesBuilder
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.CascadingParameterGroup" );
 		}
-		else if(obj instanceof DesignElementHandle)
+		else if(obj instanceof ModuleHandle)
 		{
 			typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{ ( (DesignElementHandle) obj ).getDefn( )
 					.getDisplayName( )} ); //$NON-NLS-1$
