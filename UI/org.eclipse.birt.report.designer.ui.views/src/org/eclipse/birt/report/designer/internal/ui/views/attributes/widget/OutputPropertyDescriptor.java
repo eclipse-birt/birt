@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -363,9 +364,9 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 		for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
 		{
 			( (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setSelection( false );
-			( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpression( new Expression( "true", UIUtil.getDefaultScriptType( ) ) );//$NON-NLS-1$
+			( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpression( new Expression( "true", ExpressionType.JAVASCRIPT ) );//$NON-NLS-1$
 		}
-		allExpression.setExpression( new Expression( "true", UIUtil.getDefaultScriptType( ) ) );//$NON-NLS-1$
+		allExpression.setExpression( new Expression( "true", ExpressionType.JAVASCRIPT ) );//$NON-NLS-1$
 	}
 
 	/*
@@ -443,7 +444,8 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			setOutputEnable( false );
 			return;
 		}
-		else hideCheckbox.setEnabled( true );
+		else
+			hideCheckbox.setEnabled( true );
 
 		if ( needResetUI( ) )
 		{
@@ -499,7 +501,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
 			{
 				( (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setSelection( false );
-				( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpression( new Expression( "true", UIUtil.getDefaultScriptType( ) ) ); //$NON-NLS-1$
+				( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpression( new Expression( "true", ExpressionType.JAVASCRIPT ) ); //$NON-NLS-1$
 			}
 
 			Iterator visibilities = outputDescriptorProvider.getVisibilityRulesIterator( );
