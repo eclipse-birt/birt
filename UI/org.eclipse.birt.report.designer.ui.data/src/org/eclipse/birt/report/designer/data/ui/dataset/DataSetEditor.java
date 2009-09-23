@@ -278,7 +278,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		if ( ds instanceof ScriptDataSetHandle )
 		{
 			// Output column is replaced by column definition page
-			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new OutputColumnDefnPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Parameter page
 			addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Parameter is removed
