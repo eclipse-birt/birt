@@ -487,18 +487,9 @@ public class ExcelLayoutEngine
 
 	private boolean isInContainer( SheetData data, XlsContainer rowContainer )
 	{
-		XlsContainer container = data.getContainer( );
-		while( container != null )
-		{
-			if ( container == rowContainer )
-			{
-				return true;
-			}
-			container = container.getParent( );
-		}
-		return false;
+		return data.getRowIndex( ) >= rowContainer.getStartRowId( );
 	}
-	
+
 	public void endTable( )
 	{
 		if ( !tables.isEmpty( ) )
@@ -561,7 +552,7 @@ public class ExcelLayoutEngine
 	private void addEmptyDataToContainer( StyleEntry style,
 			XlsContainer parent, int startCoordinate, int width )
 	{
-		Data data = createEmptyData( parent, style );
+		Data data = createEmptyData( style );
 		data.setSizeInfo( new ContainerSizeInfo( startCoordinate, width ) );
 		addData( data );
 	}
@@ -585,8 +576,7 @@ public class ExcelLayoutEngine
 		XlsContainer container = getCurrentContainer( );
 		if ( container.isEmpty( ) )
 		{
-			Data data = createData( EMPTY, container.getStyle( ),
-					Data.STRING, container );
+			Data data = createData( EMPTY, container.getStyle( ), Data.STRING );
 			data.setSizeInfo( container.getSizeInfo( ) );
 			addData( data );
 		}
@@ -601,7 +591,7 @@ public class ExcelLayoutEngine
 	}
 
 	public Data addData( Object txt, IStyle style, HyperlinkDef link,
-			BookmarkDef bookmark, String dataLocale,double height )
+			BookmarkDef bookmark, String dataLocale, double height )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
@@ -756,7 +746,7 @@ public class ExcelLayoutEngine
 
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
 
-		return createData( txt, entry, type, getCurrentContainer( ) );
+		return createData( txt, entry, type );
 	}
 
 	private Data createDateData( Object txt, StyleEntry entry,
@@ -767,7 +757,7 @@ public class ExcelLayoutEngine
 		timeFormat = DateTimeUtil.formatDateTime( timeFormat, dateLocale );
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.DATE );
-		return createData( txt, entry, SheetData.DATE, getCurrentContainer( ) );
+		return createData( txt, entry, SheetData.DATE );
 	}
 
 	private ULocale getLocale( String dlocale )
@@ -818,7 +808,7 @@ public class ExcelLayoutEngine
 			StyleEntry style = container.getStyle( );
 			removeLeftBorder( style );
 			int column = axis.getColumnIndexByCoordinate( childEndCoordinate );
-			Data empty = createEmptyData( container, style );
+			Data empty = createEmptyData( style );
 			empty.setSizeInfo( new ContainerSizeInfo( childEndCoordinate,
 					parentEndCoordinate - childEndCoordinate ) );
 			empty.setRowIndex( data.getRowIndex( ) );
@@ -829,7 +819,7 @@ public class ExcelLayoutEngine
 			StyleEntry style = container.getStyle( );
 			removeRightBorder( style );
 			int column = axis.getColumnIndexByCoordinate( childStartCoordinate );
-			Data empty = createEmptyData( container, style );
+			Data empty = createEmptyData( style );
 			empty.setSizeInfo( new ContainerSizeInfo( childStartCoordinate,
 					parentStartCoordinate - childStartCoordinate ) );
 			empty.setRowIndex( data.getRowIndex( ) );
@@ -861,9 +851,9 @@ public class ExcelLayoutEngine
 		style.setProperty( StyleConstant.BORDER_ANTIDIAGONAL_WIDTH_PROP, null );
 	}
 
-	protected Data createEmptyData( XlsContainer container, StyleEntry style )
+	protected Data createEmptyData( StyleEntry style )
 	{
-		return createData( EMPTY, style, Data.STRING, container );
+		return createData( EMPTY, style, Data.STRING );
 	}
 
 	protected void updataRowIndex( SheetData data, XlsContainer container )
@@ -1148,20 +1138,18 @@ public class ExcelLayoutEngine
 		return new Data( );
 	}
 
-	private Data createData( Object text, StyleEntry style, int type,
-			XlsContainer container )
+	private Data createData( Object text, StyleEntry style, int type )
 	{
-		return createData( text, style, type, container, 0 );
+		return createData( text, style, type, 0 );
 	}
 
 	protected Data createData( Object text, StyleEntry s, int dataType,
-			XlsContainer container, int rowSpanOfDesign )
+			int rowSpanOfDesign )
 	{
 		Data data = createData( );
 		data.setValue( text );
 		data.setStyle( s );
 		data.setDataType( dataType );
-		data.setContainer( container );
 		data.setRowSpanInDesign( rowSpanOfDesign );
 		return data;
 	}

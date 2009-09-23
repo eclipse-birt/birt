@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 
 
 
@@ -24,29 +23,26 @@ public class Data extends SheetData
 
 	public Data( SheetData data )
 	{
-		this( data.getValue( ), data.getStyle( ), data.getDataType( ), data
-				.getContainer( ) );
+		this( data.getValue( ), data.getStyle( ), data.getDataType( ) );
 		this.rowIndex = data.getRowIndex( );
 	}
 	
-	public Data( final Object value, final int datatype, XlsContainer container )
+	public Data( final Object value, final int datatype )
 	{
-		this( value, null, datatype, container );
+		this( value, null, datatype );
+	}
+
+	public Data( final Object value, final StyleEntry s, final int datatype )
+	{
+		this( value, s, datatype, 0 );
 	}
 
 	public Data( final Object value, final StyleEntry s, final int datatype,
-			XlsContainer container )
-	{
-		this( value, s, datatype, container, 0 );
-	}
-
-	public Data( final Object value, final StyleEntry s, final int datatype,
-			XlsContainer container, int rowSpanOfDesign )
+			int rowSpanOfDesign )
 	{
 		this.value = value;
 		this.style = s;
 		this.dataType = datatype;
-		this.container = container;
 		this.rowSpanInDesign = rowSpanOfDesign;
 	}
 

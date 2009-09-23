@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.emitter.excel;
 import java.awt.Color;
 
 import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
-import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 
 public abstract class SheetData
 {
@@ -47,8 +46,6 @@ public abstract class SheetData
 	}
 
 	StyleEntry style;
-
-	XlsContainer container;
 
 	protected int dataType;
 
@@ -110,16 +107,6 @@ public abstract class SheetData
 		this.style = style;
 	}
 
-	public XlsContainer getContainer( )
-	{
-		return container;
-	}
-
-	public void setContainer( XlsContainer container )
-	{
-		this.container = container;
-	}
-
 	public int getDataType( )
 	{
 		return dataType;
@@ -143,11 +130,6 @@ public abstract class SheetData
 	public boolean isBlank( )
 	{
 		return false;
-	}
-
-	public void clearContainer( )
-	{
-		container = null;
 	}
 
 	public int getRowSpanInDesign( )

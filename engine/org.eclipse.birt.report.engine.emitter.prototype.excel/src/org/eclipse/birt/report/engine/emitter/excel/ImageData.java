@@ -38,7 +38,6 @@ public class ImageData extends SheetData
 		altText = image.getAltText( );
 		imageUrl = image.getURI( );
 		this.imageData = imageInfo.getData( );
-		container = currentContainer;
 		rowSpanInDesign = 0;
 		this.imageInfo = imageInfo;
 	}
