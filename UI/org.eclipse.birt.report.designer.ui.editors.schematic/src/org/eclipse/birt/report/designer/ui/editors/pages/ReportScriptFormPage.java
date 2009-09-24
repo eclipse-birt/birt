@@ -201,7 +201,7 @@ public class ReportScriptFormPage extends ReportFormPage
 				.getMediator( )
 				.getCurrentState( );
 		ReportRequest request = new ReportRequest( state.getSource( ) );
-		List list = state.getSelectionObject( );
+		List list = new ArrayList(state.getSelectionObject( ));
 
 		if (list.isEmpty( ))
 		{

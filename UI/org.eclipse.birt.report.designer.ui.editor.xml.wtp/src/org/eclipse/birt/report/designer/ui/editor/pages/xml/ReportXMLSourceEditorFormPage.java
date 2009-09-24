@@ -683,7 +683,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		
 		ReportMediator mediator = SessionHandleAdapter.getInstance( ).getMediator( getModel( ) );
 		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
-		List list = mediator.getCurrentState( ).getSelectionObject( );
+		List list = new ArrayList(mediator.getCurrentState( ).getSelectionObject( ));
 		if (list.isEmpty( ))
 		{
 			list.add( new Object() );
