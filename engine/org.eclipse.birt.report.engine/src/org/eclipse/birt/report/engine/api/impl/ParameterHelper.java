@@ -195,13 +195,18 @@ public class ParameterHelper
 	}
 
 	public static void addParameterSortBy( QueryDefinition queryDefn,
-			AbstractScalarParameterHandle parameter )
+			AbstractScalarParameterHandle parameter, IModelAdapter adapter )
 	{
 		String sortBy = parameter.getSortByColumn( );
 		if ( sortBy != null )
 		{
+			org.eclipse.birt.report.model.api.Expression mexpr = (org.eclipse.birt.report.model.api.Expression) parameter
+					.getExpressionProperty(
+							AbstractScalarParameter.SORT_BY_COLUMN_PROP )
+					.getValue( );
+			ScriptExpression dexpr = adapter.adaptExpression( mexpr );
 			SortDefinition sort = new SortDefinition( );
-			sort.setExpression( sortBy );
+			sort.setExpression( dexpr );
 			boolean direction = "asc".equalsIgnoreCase( parameter
 					.getSortDirection( ) );
 			sort.setSortDirection( direction

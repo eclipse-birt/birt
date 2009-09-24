@@ -983,7 +983,8 @@ public class GetParameterDefinitionTask extends EngineTask
 								(ScalarParameterHandle) parameter, dteSession
 										.getModelAdaptor( ) );
 						ParameterHelper.addParameterSortBy( queryDefn,
-								(ScalarParameterHandle) parameter );
+								(ScalarParameterHandle) parameter, dteSession
+										.getModelAdaptor( ) );
 					}
 				}
 
@@ -1279,7 +1280,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				QueryDefinition queryDefn = createQueryDefinition( dataSet );
 				ParameterHelper.addParameterBinding( queryDefn, parameter,
 						dteSession.getModelAdaptor( ) );
-				ParameterHelper.addParameterSortBy( queryDefn, parameter );
+				ParameterHelper.addParameterSortBy( queryDefn, parameter,
+						dteSession.getModelAdaptor( ) );
 
 				iterator = executeQuery( dteSession, queryDefn );
 			}
