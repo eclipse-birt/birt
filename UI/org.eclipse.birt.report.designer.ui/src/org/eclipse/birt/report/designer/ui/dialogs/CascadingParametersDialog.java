@@ -849,12 +849,19 @@ public class CascadingParametersDialog extends BaseDialog
 							newControlType = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
 							// selectedParameter.setMustMatch( true );
 							selectedParameter.setMustMatch( false );
+							isMultiple.setEnabled( false );
+							selectedParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE );
 						}
 						else if ( PARAM_CONTROL_LIST.equals( newControlType ) )
 						{
 							newControlType = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
 							// selectedParameter.setMustMatch( false );
 							selectedParameter.setMustMatch( true );
+							isMultiple.setEnabled( true );
+							if ( isMultiple.getSelection( ) )
+								selectedParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE );
+							else
+								selectedParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE );
 						}
 						else
 						{
