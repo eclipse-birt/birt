@@ -52,9 +52,11 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -66,6 +68,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.URIUtilImpl;
@@ -2628,9 +2631,18 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void dropScriptLib( ScriptLib scriptLib ) throws SemanticException
+	public final void dropScriptLib( ScriptLib scriptLib )
+			throws SemanticException
 	{
-		throw new IllegalOperationException( );
+		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
+
+		if ( scriptLib == null )
+			return;
+
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
+				scriptLib );
 	}
 
 	/**
@@ -2641,10 +2653,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void dropIncludeScript( IncludeScript includeScript )
+	public final void dropIncludeScript( IncludeScript includeScript )
 			throws SemanticException
 	{
-		throw new IllegalOperationException( );
+		if ( includeScript == null )
+			return;
+
+		ElementPropertyDefn propDefn = module
+				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
+
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
+				includeScript );
 	}
 
 	/**
@@ -2655,10 +2676,18 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void dropScriptLib( ScriptLibHandle scriptLibHandle )
+	public final void dropScriptLib( ScriptLibHandle scriptLibHandle )
 			throws SemanticException
 	{
-		throw new IllegalOperationException( );
+		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
+
+		if ( scriptLibHandle == null )
+			return;
+
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
+				scriptLibHandle.getStructure( ) );
 	}
 
 	/**
@@ -2667,9 +2696,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void dropAllScriptLibs( ) throws SemanticException
+	public final void dropAllScriptLibs( ) throws SemanticException
 	{
-		throw new IllegalOperationException( );
+		List scriptLibs = getFilteredStructureList( SCRIPTLIBS_PROP,
+				ScriptLib.SCRIPTLIB_NAME_MEMBER );
+		if ( scriptLibs == null )
+			return;
+		int count = scriptLibs.size( );
+		for ( int i = count - 1; i >= 0; --i )
+		{
+			ScriptLibHandle scriptLibHandle = (ScriptLibHandle) scriptLibs
+					.get( i );
+			dropScriptLib( scriptLibHandle );
+		}
 	}
 
 	/**
@@ -2738,10 +2777,14 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void shiftScriptLibs( int sourceIndex, int destIndex )
+	public final void shiftScriptLibs( int sourceIndex, int destIndex )
 			throws SemanticException
 	{
-		throw new IllegalOperationException( );
+		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.moveItem( new StructureContext( getElement( ), propDefn, null ),
+				sourceIndex, destIndex );
 	}
 
 	/**
@@ -2759,10 +2802,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void shifIncludeScripts( int sourceIndex, int destIndex )
+	public final void shifIncludeScripts( int sourceIndex, int destIndex )
 			throws SemanticException
 	{
-		throw new IllegalOperationException( );
+		ElementPropertyDefn propDefn = module
+				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.moveItem( new StructureContext( getElement( ), propDefn, null ),
+				sourceIndex, destIndex );
 	}
 
 	/**
@@ -2773,9 +2821,14 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void addScriptLib( ScriptLib scriptLib ) throws SemanticException
+	public final void addScriptLib( ScriptLib scriptLib )
+			throws SemanticException
 	{
-		throw new IllegalOperationException( );
+		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.addItem( new StructureContext( getElement( ), propDefn, null ),
+				scriptLib );
 	}
 
 	/**
@@ -2786,10 +2839,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	public void addIncludeScript( IncludeScript includeScript )
+	public final void addIncludeScript( IncludeScript includeScript )
 			throws SemanticException
 	{
-		throw new IllegalOperationException( );
+		ElementPropertyDefn propDefn = module
+				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.addItem( new StructureContext( getElement( ), propDefn, null ),
+				includeScript );
 	}
 
 	/**

@@ -2,13 +2,17 @@
 <library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="26">
     <property name="author">W.C. Fields</property>
     <property name="comments">First sample report.</property>
+    <property name="createdBy">Whiz-Bang Plus</property>
     <text-property name="title" key="TITLE_ID">Sample Report</text-property>
     <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>
     <simple-property-list name="includeResource">
         <value>old_message</value>
     </simple-property-list>
+    <list-property name="includeScripts">
+        <property>script first</property>
+        <property>script second</property>
+    </list-property>
     <property name="helpGuide">http://company.com/reportHelp.html</property>
-    <property name="createdBy">Whiz-Bang Plus</property>
     <property name="base">c:\</property>
     <property name="theme">theme1</property>
     <list-property name="libraries">
@@ -16,10 +20,6 @@
             <property name="fileName">Library_2.xml</property>
             <property name="namespace">lib2</property>
         </structure>
-    </list-property>
-    <list-property name="includeScripts">
-        <property>script first</property>
-        <property>script second</property>
     </list-property>
     <list-property name="configVars">
         <structure>

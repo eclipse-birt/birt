@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
@@ -1427,12 +1428,22 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, IModuleModel.AUTHOR_PROP );
 		property( obj, IDesignElementModel.COMMENTS_PROP );
+		property( obj, IModuleModel.CREATED_BY_PROP );
 
 		resourceKey( obj, IModuleModel.TITLE_ID_PROP, IModuleModel.TITLE_PROP );
 		resourceKey( obj, IModuleModel.DESCRIPTION_ID_PROP,
 				IModuleModel.DESCRIPTION_PROP );
 
+		writeUserPropertyDefns( obj );
+		writeUserPropertyValues( obj );
+
 		writeSimplePropertyList( obj, IModuleModel.INCLUDE_RESOURCE_PROP );
+
+		writeSimpleStructureList( obj, IModuleModel.INCLUDE_SCRIPTS_PROP,
+				IncludeScript.FILE_NAME_MEMBER );
+
+		// write script libs
+		writeStructureList( obj, IModuleModel.SCRIPTLIBS_PROP );
 
 	}
 
@@ -1450,20 +1461,13 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, IModuleModel.SUBJECT_PROP );
 		property( obj, IModuleModel.HELP_GUIDE_PROP );
-		property( obj, IModuleModel.CREATED_BY_PROP );
 		property( obj, IModuleModel.UNITS_PROP );
 		property( obj, IModuleModel.BASE_PROP );
-
-		writeUserPropertyDefns( obj );
-		writeUserPropertyValues( obj );
 
 		// write property bindings
 
 		writeStructureList( obj, IModuleModel.PROPERTY_BINDINGS_PROP );
 
-		// write script libs
-
-		writeStructureList( obj, IModuleModel.SCRIPTLIBS_PROP );
 	}
 
 	/**

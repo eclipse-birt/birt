@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.writer;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -54,7 +53,9 @@ public class LibraryWriter extends ModuleWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitLibrary(org.eclipse.birt.report.model.elements.Library)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitLibrary(org
+	 * .eclipse.birt.report.model.elements.Library)
 	 */
 	public void visitLibrary( Library obj )
 	{
@@ -75,8 +76,6 @@ public class LibraryWriter extends ModuleWriter
 		// Library including library is not supported.
 		//
 		writeStructureList( obj, IModuleModel.LIBRARIES_PROP );
-		writeSimpleStructureList( obj, IModuleModel.INCLUDE_SCRIPTS_PROP,
-				IncludeScript.FILE_NAME_MEMBER );
 
 		// config variables
 
@@ -116,7 +115,9 @@ public class LibraryWriter extends ModuleWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTheme(org.eclipse.birt.report.model.elements.Theme)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTheme(org.
+	 * eclipse.birt.report.model.elements.Theme)
 	 */
 
 	public void visitTheme( Theme obj )

@@ -1593,12 +1593,14 @@
     <Property canInherit="false" displayNameID="Element.Module.description" name="description" runtimeSettable="false" since="2.0" type="html"/>
     <Property canInherit="false" displayNameID="Element.Module.descriptionID" name="descriptionID" since="2.0" type="resourceKey"/>
     <Property canInherit="false" displayNameID="Element.Module.comments" name="comments" since="1.0" type="html"/>
-    <Property canInherit="false" displayNameID="Element.Module.includeResource" name="includeResource" runtimeSettable="false" since="1.0" subType="string" type="list"/>	
+    <Property canInherit="false" displayNameID="Element.Module.includeResource" name="includeResource" runtimeSettable="false" since="1.0" subType="string" type="list"/>
+    <Property canInherit="false" displayNameID="Element.Module.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
+    <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
+    <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>    
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.LayoutModule" extends="Module" hasStyle="false" isAbstract="true" name="LayoutModule" nameSpace="none" since="2.5">
     <Property canInherit="false" displayNameID="Element.LayoutModule.subject" name="subject" runtimeSettable="false" since="2.3" type="string"/>
     <Property canInherit="false" displayNameID="Element.LayoutModule.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
-    <Property canInherit="false" displayNameID="Element.LayoutModule.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.LayoutModule.base" name="base" runtimeSettable="false" since="reserved" type="string"/>
     <Property canInherit="false" detailType="units" displayNameID="Element.LayoutModule.units" isIntrinsic="true" name="units" since="1.0" type="choice">
       <Allowed>in,cm,mm,pt,pc</Allowed>
@@ -1609,12 +1611,10 @@
     <Property canInherit="false" detailType="IncludedLibrary" displayNameID="Element.LayoutModule.libraries" isList="true" name="libraries" runtimeSettable="false" since="reserved" type="structure">
     	<Trigger validator="IncludedLibraryValidator"/>
     </Property>
-    <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.LayoutModule.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="Theme" displayNameID="Element.LayoutModule.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="elementRef">
     	<Trigger validator="ThemeReferenceValidator"/>
     </Property>	  	  
-    <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.LayoutModule.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="2.0" type="structure"/>    
-    <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.LayoutModule.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>    
+    <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.LayoutModule.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="2.0" type="structure"/>
     <PropertyVisibility name="units" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="LayoutModule" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">

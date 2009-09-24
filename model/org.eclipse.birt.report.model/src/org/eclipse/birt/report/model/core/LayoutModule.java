@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -158,22 +157,6 @@ public abstract class LayoutModule extends Module
 	public DesignElement findPage( String name )
 	{
 		return resolveNativeElement( name, PAGE_NAME_SPACE );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.Module#prepareToSave()
-	 */
-	public void prepareToSave( )
-	{
-		if ( options != null )
-		{
-			String createdBy = (String) options
-					.getProperty( ModuleOption.CREATED_BY_KEY );
-			if ( createdBy != null )
-				setProperty( Module.CREATED_BY_PROP, createdBy );
-		}
 	}
 
 	/*
@@ -355,7 +338,7 @@ public abstract class LayoutModule extends Module
 			throws DesignFileException
 	{
 		namespace = StringUtil.trimString( namespace );
-		
+
 		LayoutModule outermostModule = (LayoutModule) findOutermostModule( );
 
 		// find the corresponding library instance
@@ -950,7 +933,7 @@ public abstract class LayoutModule extends Module
 		}
 		image.setName( name.trim( ) );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

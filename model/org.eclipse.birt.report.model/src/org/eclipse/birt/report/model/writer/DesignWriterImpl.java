@@ -133,8 +133,6 @@ class DesignWriterImpl extends ModuleWriter
 
 		writeStructureList( obj, IModuleModel.LIBRARIES_PROP );
 		writeStructureList( obj, IReportDesignModel.CSSES_PROP );
-		writeSimpleStructureList( obj, IModuleModel.INCLUDE_SCRIPTS_PROP,
-				IncludeScript.FILE_NAME_MEMBER );
 
 		// config variables
 

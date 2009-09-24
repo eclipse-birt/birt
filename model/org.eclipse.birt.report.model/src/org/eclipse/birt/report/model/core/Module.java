@@ -536,7 +536,16 @@ public abstract class Module extends DesignElement
 	 * Prepares to save this module. Sets the modification date.
 	 */
 
-	public abstract void prepareToSave( );
+	public final void prepareToSave( )
+	{
+		if ( options != null )
+		{
+			String createdBy = (String) options
+					.getProperty( ModuleOption.CREATED_BY_KEY );
+			if ( createdBy != null )
+				setProperty( Module.CREATED_BY_PROP, createdBy );
+		}
+	}
 
 	/**
 	 * Records a successful save.
