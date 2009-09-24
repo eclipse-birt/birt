@@ -203,6 +203,10 @@ public class ReportScriptFormPage extends ReportFormPage
 		ReportRequest request = new ReportRequest( state.getSource( ) );
 		List list = state.getSelectionObject( );
 
+		if (list.isEmpty( ))
+		{
+			list.add( new Object() );
+		}
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
