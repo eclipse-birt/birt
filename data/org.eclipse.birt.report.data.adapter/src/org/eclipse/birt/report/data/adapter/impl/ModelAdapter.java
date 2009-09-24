@@ -78,7 +78,7 @@ public class ModelAdapter implements IModelAdapter
 	private static Logger logger = Logger.getLogger( ModelAdapter.class.getName( ) );
 	DataSessionContext context;
 	
-	ModelAdapter( DataSessionContext context)
+	public ModelAdapter( DataSessionContext context)
 	{
 		this.context = context;
 	}
