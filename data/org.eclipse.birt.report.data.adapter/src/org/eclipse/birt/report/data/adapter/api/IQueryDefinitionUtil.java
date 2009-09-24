@@ -43,4 +43,14 @@ public interface IQueryDefinitionUtil
 	 * @throws DataException
 	 */
 	Map<String, IBinding> getAccessibleBindings( IBaseQueryDefinition qd ) throws DataException;
+	
+	/**
+	 * Notice: the name of SubqueryDefinition is not compared
+	 * @param q1
+	 * @param q2
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean isEqualQuery( IBaseQueryDefinition q1,
+			IBaseQueryDefinition q2 ) throws DataException;
 }
