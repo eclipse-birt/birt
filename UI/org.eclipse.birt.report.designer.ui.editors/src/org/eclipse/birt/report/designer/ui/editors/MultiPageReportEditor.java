@@ -1081,21 +1081,23 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 					public void run( )
 					{
-						if (!tempDispatch)
-						{
-							return;
-						}
 						IReportEditorPage curPage = (IReportEditorPage) getActivePageInstance( );
 						if (needReload || needReset)
 						{
 							curPage.markPageStale( IPageStaleType.MODEL_RELOAD );
 							
 						}
-						// UIUtil.resetViewSelection( view, true );
 						if ( getActivePageInstance( ) != null )
 						{
 							curPage.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
 						}
+						if (!tempDispatch)
+						{
+							return;
+						}
+						
+						// UIUtil.resetViewSelection( view, true );
+						
 						if (needReload || needReset)
 						{
 							updateRelatedViews( );
