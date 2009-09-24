@@ -31,7 +31,6 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.LazilyLoadedCtor;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Script;
@@ -266,7 +265,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 			Object value = script.exec( context, getJSScope( scriptContext ) );
 			return jsToJava( value );
 		}
-		catch ( JavaScriptException e )
+		catch ( Throwable e )
 		{
 			throw new BirtException( e.getLocalizedMessage( ) );
 		}
