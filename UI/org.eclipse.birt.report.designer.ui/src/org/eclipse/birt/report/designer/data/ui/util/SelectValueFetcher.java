@@ -53,12 +53,12 @@ public class SelectValueFetcher
 	 *@deprecated
 	 */
 	public static List getSelectValueList( String expression,
-			DataSetHandle dataSetHandle, boolean inclFilter )
+			DataSetHandle dataSetHandle, boolean useDataSetFilter )
 			throws BirtException
 	{
 		Expression jsExpression = new Expression( expression,
 				ExpressionType.JAVASCRIPT );
-		return getSelectValueList( jsExpression, dataSetHandle, inclFilter );
+		return getSelectValueList( jsExpression, dataSetHandle, useDataSetFilter );
 	}
 
 	/**
@@ -66,12 +66,12 @@ public class SelectValueFetcher
 	 * @param jsExpression
 	 * @param dataSetHandle
 	 * @param binding
-	 * @param inclFilter
+	 * @param useDataSetFilter
 	 * @return
 	 * @throws BirtException
 	 */
 	public static List getSelectValueFromBinding( String expression,
-			DataSetHandle dataSetHandle, Iterator binding, boolean inclFilter )
+			DataSetHandle dataSetHandle, Iterator binding, boolean useDataSetFilter )
 			throws BirtException
 	{
 		Expression jsExpression = new Expression( expression,
@@ -79,7 +79,7 @@ public class SelectValueFetcher
 		return getSelectValueFromBinding( jsExpression,
 				dataSetHandle,
 				binding,
-				inclFilter );
+				useDataSetFilter );
 	}
 	
 	/**
@@ -88,12 +88,12 @@ public class SelectValueFetcher
 	 * @param expression
 	 * @param dataSetHandle
 	 * @param binding
-	 * @param inclFilter
+	 * @param useDataSetFilter
 	 * @return
 	 * @throws BirtException
 	 */
 	public static List getSelectValueList( Expression expression,
-			DataSetHandle dataSetHandle, boolean inclFilter )
+			DataSetHandle dataSetHandle, boolean useDataSetFilter )
 			throws BirtException
 	{
 		DataRequestSession session = null;
@@ -161,7 +161,10 @@ public class SelectValueFetcher
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
 							.iterator( ),
 					bindingList.iterator( ),
-					columnName );
+					null,
+					columnName,
+					useDataSetFilter,
+					null );
 
 			assert result != null;
 			if ( result.isEmpty( ) )
@@ -203,12 +206,12 @@ public class SelectValueFetcher
 	 * @param expression
 	 * @param dataSetHandle
 	 * @param binding
-	 * @param inclFilter
+	 * @param useDataSetFilter
 	 * @return
 	 * @throws BirtException
 	 */
 	public static List getSelectValueFromBinding( Expression expression,
-			DataSetHandle dataSetHandle, Iterator binding, boolean inclFilter )
+			DataSetHandle dataSetHandle, Iterator binding, boolean useDataSetFilter )
 			throws BirtException
 	{
 		String columnName = null;
@@ -253,7 +256,10 @@ public class SelectValueFetcher
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
 							.iterator( ),
 					bindingList.iterator( ),
-					columnName );
+					null,
+					columnName,
+					useDataSetFilter,
+					null );
 
 			engineTask.close( );
 			engine.destroy( );
@@ -268,7 +274,10 @@ public class SelectValueFetcher
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
 							.iterator( ),
 					bindingList.iterator( ),
-					columnName );
+					null,
+					columnName,
+					useDataSetFilter,
+					null );
 			session.shutdown( );
 		}
 

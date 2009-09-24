@@ -210,6 +210,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				columnBindings,
 				null,
 				boundColumnName,
+				true,
 				null );
 	}
 	
@@ -226,14 +227,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	private IColumnValueIterator getColumnValueIterator( DataSetHandle dataSet,
 			Iterator inputParamBindings, Iterator columnBindings,
-			Iterator groupDefn, String boundColumnName, IRequestInfo requestInfo )
+			Iterator groupDefn, String boundColumnName, boolean useDataSetFilter, IRequestInfo requestInfo )
 			throws BirtException
 	{
 		IQueryResults queryResults = getQueryResults( dataSet,
 				inputParamBindings,
 				columnBindings,
 				groupDefn,
-				boundColumnName );
+				boundColumnName, useDataSetFilter  );
 		return new ColumnValueIterator( queryResults,
 				boundColumnName,
 				requestInfo );
@@ -253,6 +254,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				columnBindings,
 				null,
 				boundColumnName,
+				true,
 				requestInfo );
 
 		ArrayList values = new ArrayList( );
@@ -281,6 +283,36 @@ public class DataRequestSessionImpl extends DataRequestSession
 				columnBindings,
 				groupDefns,
 				boundColumnName,
+				true,
+				requestInfo );
+
+		ArrayList values = new ArrayList( );
+
+		do
+		{
+			if ( columnValueIterator.getValue( ) != null )
+				values.add( columnValueIterator.getValue( ) );
+		} while ( columnValueIterator.next( ) );
+
+		columnValueIterator.close( );
+		return values;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.util.Iterator, java.lang.String, boolean, org.eclipse.birt.report.data.adapter.api.IRequestInfo)
+	 */
+	public Collection getColumnValueSet( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			Iterator groupDefns, String boundColumnName,
+			boolean useDataSetFilter, IRequestInfo requestInfo )
+			throws BirtException
+	{
+		IColumnValueIterator columnValueIterator = getColumnValueIterator( dataSet,
+				inputParamBindings,
+				columnBindings,
+				groupDefns,
+				boundColumnName, useDataSetFilter,
 				requestInfo );
 
 		ArrayList values = new ArrayList( );
@@ -417,7 +449,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	private IQueryResults getQueryResults( DataSetHandle dataSet,
 			Iterator inputParamBindings, Iterator columnBindings,
-			Iterator groupDefns, String boundColumnName ) throws BirtException
+			Iterator groupDefns, String boundColumnName, boolean useDataSetFilter ) throws BirtException
 	{
 		assert dataSet != null;
 		// TODO: this is the inefficient implementation
@@ -429,10 +461,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 		// retrieve distinct values using the grouping feature
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataSet.getQualifiedName( ) );
-		boolean useDataSetFilter = true;
-		if( columnBindings == null || !columnBindings.hasNext() )
+		if ( columnBindings == null || !columnBindings.hasNext( ) )
 		{
-			query.setAutoBinding(true);
+			query.setAutoBinding( true );
 			useDataSetFilter = false;
 		}
 		
