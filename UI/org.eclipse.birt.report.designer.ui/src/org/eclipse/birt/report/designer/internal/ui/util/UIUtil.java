@@ -1667,7 +1667,15 @@ public class UIUtil
 				break;
 			}
 		}
-
+		if ( input == null )
+		{
+			IEditorPart part = getActiveEditor( true );
+			if (part instanceof IReportEditor)
+			{
+				input = part;
+			}
+		}
+		
 		if ( input == null )
 			return null;
 		Object adapter = input.getAdapter( ModelEventManager.class );
