@@ -887,8 +887,8 @@ designer.preview.preference.server.portDescription=サーバがリスンするポート(&P)\
 designer.preview.preference.server.requireRestart=サーバがすでに実行している場合は、サーバを再起動するまでこれらの設定は\n有効になりません。
 designer.preview.preference.bidiOrientation.label=双方向の向き(&B) : 
 designer.preview.preference.bidiOrientation.auto=自動
-designer.preview.preference.bidiOrientation.ltr=左から右へ
-designer.preview.preference.bidiOrientation.rtl=右から左へ
+designer.preview.preference.bidiOrientation.ltr=左から右
+designer.preview.preference.bidiOrientation.rtl=右から左
 
 designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する
@@ -3182,8 +3182,8 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=レ
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<ここに会社名を入力>>
 #bidi_hcg start
 report.designer.ui.preferences.bidiproperties.defaultdirection=レポートのデフォルトの向き(&O) : 
-report.designer.ui.preferences.bidiproperties.ltrdirection=左から右へ
-report.designer.ui.preferences.bidiproperties.rtldirection=右から左へ
+report.designer.ui.preferences.bidiproperties.ltrdirection=左から右
+report.designer.ui.preferences.bidiproperties.rtldirection=右から左
 #bidi_hcg end
 ###########################################################
 #Resource Preference page properties
@@ -3986,8 +3986,8 @@ WizardTemplateChoicePage.title.MailingLabels=郵便用のラベル
 WizardTemplateChoicePage.title.SideBySideChartListing=グラフとリストの並列表示
 WizardTemplateChoicePage.title.SimpleListing=簡易リスト
 #bidi_hcg start
-WizardTemplateChoicePage.label.rtlBiDiOrientation=右から左へ
-WizardTemplateChoicePage.label.ltrBiDiOrientation=左から右へ
+WizardTemplateChoicePage.label.rtlBiDiOrientation=右から左
+WizardTemplateChoicePage.label.ltrBiDiOrientation=左から右
 WizardTemplateChoicePage.label.chooseBiDiDirection=レポートの向き(&R) :
 WizardTemplateChoicePage.RootDisplayName=標準
 #bidi_hcg end
