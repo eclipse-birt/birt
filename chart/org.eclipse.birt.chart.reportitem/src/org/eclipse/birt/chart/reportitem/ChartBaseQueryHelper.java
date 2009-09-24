@@ -38,7 +38,6 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -177,7 +176,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			while ( iter.hasNext( ) )
 			{
 				ComputedColumnHandle binding = (ComputedColumnHandle) iter.next( );
-				addColumBinding( query, binding );
+				addColumnBinding( query, binding );
 			}
 
 			addSortAndFilter( fReportItemHandle, query );
@@ -185,7 +184,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		return query;
 	}
 
-	protected void addColumBinding( IBaseQueryDefinition transfer,
+	protected void addColumnBinding( IBaseQueryDefinition transfer,
 			ComputedColumnHandle columnBinding ) throws ChartException
 	{
 		String name = columnBinding.getName( );
@@ -199,9 +198,8 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		// binding, because BIRT Data Engine doesn't check empty expr when it
 		// uses the binding to do data query and it will cause error query
 		// result.
-		IBaseExpression dbExpr = ( expr == null ) ? null
-				: new ScriptExpression( expr, dbType );
-		
+		IBaseExpression dbExpr = ChartReportItemUtil.newExpression( expr,
+				columnBinding );
 		IBinding binding = new Binding( name, dbExpr );
 
 		try
@@ -218,7 +216,8 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			String filter = columnBinding.getFilterExpression( );
 			if ( filter != null )
 			{
-				binding.setFilter( new ScriptExpression( filter ) );
+				binding.setFilter( ChartReportItemUtil.newExpression( filter,
+						columnBinding ) );
 			}
 			Iterator arguments = columnBinding.argumentsIterator( );
 			if ( arguments != null )
@@ -229,7 +228,9 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 					String argument = argumentHandle.getValue( );
 					if ( argument != null )
 					{
-						binding.addArgument( new ScriptExpression( argument ) );
+						binding.addArgument( argumentHandle.getName( ),
+								ChartReportItemUtil.newExpression( argument,
+										argumentHandle ) );
 					}
 				}
 			}
@@ -256,13 +257,13 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 					ChartReportItemConstants.NAME_QUERY_MIN );
 			ccMin.setAggregateFunction( DesignChoiceConstants.AGGREGATION_FUNCTION_MIN );
 			ccMin.setExpression( queryExp );
-			addColumBinding( query, handle.addColumnBinding( ccMin, false ) );
+			addColumnBinding( query, handle.addColumnBinding( ccMin, false ) );
 
 			ComputedColumn ccMax = StructureFactory.newComputedColumn( handle,
 					ChartReportItemConstants.NAME_QUERY_MAX );
 			ccMax.setAggregateFunction( DesignChoiceConstants.AGGREGATION_FUNCTION_MAX );
 			ccMax.setExpression( queryExp );
-			addColumBinding( query, handle.addColumnBinding( ccMax, false ) );
+			addColumnBinding( query, handle.addColumnBinding( ccMax, false ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -295,7 +296,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		while ( iter.hasNext( ) )
 		{
 			ComputedColumnHandle binding = (ComputedColumnHandle) iter.next( );
-			addColumBinding( query, binding );
+			addColumnBinding( query, binding );
 		}
 
 		addSortAndFilter( handle, query );
@@ -349,9 +350,10 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 * @param iter
 	 *            parameter bindings iterator
 	 * @return a list of input parameter bindings
+	 * @throws ChartException 
 	 */
 	protected List<IInputParameterBinding> createParamBindings(
-			Iterator<ParamBindingHandle> iter )
+			Iterator<ParamBindingHandle> iter ) throws ChartException
 	{
 		List<IInputParameterBinding> list = new ArrayList<IInputParameterBinding>( );
 		if ( iter != null )
@@ -374,13 +376,15 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 * 
 	 * @param handle
 	 * @return
+	 * @throws ChartException 
 	 */
 	protected IInputParameterBinding createParamBinding(
-			ParamBindingHandle handle )
+			ParamBindingHandle handle ) throws ChartException
 	{
 		if ( handle.getExpression( ) == null )
 			return null; // no expression is bound
-		ScriptExpression expr = new ScriptExpression( handle.getExpression( ) );
+		IBaseExpression expr = ChartReportItemUtil.newExpression( handle.getExpression( ),
+				handle );
 		// model provides binding by name only
 		return new InputParameterBinding( handle.getParamName( ), expr );
 	}

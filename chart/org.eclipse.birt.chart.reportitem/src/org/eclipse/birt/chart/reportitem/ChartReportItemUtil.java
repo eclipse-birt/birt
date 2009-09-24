@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
@@ -36,7 +37,11 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.impl.DataModelAdapter;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -44,11 +49,20 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -597,4 +611,47 @@ public class ChartReportItemUtil extends ChartItemUtil
 				&& !rih.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
 
+	public static ExpressionHandle getScriptExpression( StructureHandle binding )
+	{
+		if ( binding instanceof ComputedColumnHandle )
+		{
+			return binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+		}
+		if ( binding instanceof AggregationArgumentHandle )
+		{
+			return binding.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+		}
+		if ( binding instanceof ParamBindingHandle )
+		{
+			return binding.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
+		}
+		return null;
+	}
+
+	public static ScriptExpression newExpression( String expr,
+			StructureHandle binding ) throws ChartException
+	{
+		if ( expr == null )
+		{
+			return null;
+		}
+		ExpressionHandle eh = getScriptExpression( binding );
+		if ( eh == null )
+		{
+			return null;
+		}
+		try
+		{
+			DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					binding.getModule( ).getModuleHandle( ) );
+			IModelAdapter adapter = new DataModelAdapter( dsc );
+			return adapter.adaptExpression( (Expression) eh.getValue( ) );
+		}
+		catch ( BirtException e )
+		{
+			throw new ChartException( ChartReportItemConstants.ID,
+					ChartException.DATA_BINDING,
+					e );
+		}
+	}
 }

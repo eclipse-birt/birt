@@ -114,7 +114,7 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 					ComputedColumnHandle binding = iterator.next( );
 					if ( binding.getAggregateFunction( ) != null )
 					{
-						addColumBinding( query, binding );
+						addColumnBinding( query, binding );
 					}
 				}
 			}

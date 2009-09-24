@@ -165,7 +165,7 @@ public class ChartCubeQueryHelper
 		}
 		return cubeFactory;
 	}
-	
+
 	/**
 	 * Creates the cube query definition for chart. If parent definition is
 	 * null, it's usually used for Live preview in chart builder. If chart in
@@ -176,24 +176,27 @@ public class ChartCubeQueryHelper
 	 *         ISubCubeQueryDefinition for chart in xtab case
 	 * @throws BirtException
 	 */
-	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent ) throws BirtException
+	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
+			throws BirtException
 	{
 		return createCubeQuery( parent, null );
 	}
-	
+
 	/**
 	 * Creates the cube query definition for chart. If parent definition is
 	 * null, it's usually used for Live preview in chart builder. If chart in
 	 * xtab, will return sub cube query definition.
 	 * 
 	 * @param parent
-	 * @param expressions the extended expressions.
+	 * @param expressions
+	 *            the extended expressions.
 	 * @return ICubeQueryDefinition for cube consuming or
 	 *         ISubCubeQueryDefinition for chart in xtab case
 	 * @throws BirtException
 	 * @since 2.5.2
 	 */
-	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent, String[] expressions )
+	public IBaseCubeQueryDefinition createCubeQuery(
+			IDataQueryDefinition parent, String[] expressions )
 			throws BirtException
 	{
 		bSingleChart = parent == null;
@@ -266,7 +269,7 @@ public class ChartCubeQueryHelper
 				bindExpression( expr, cubeQuery, cubeHandle );
 			}
 		}
-		
+
 		// Add sorting
 		// Sorting must be added after measures and dimensions, since sort
 		// key references to measures or dimensions
@@ -428,12 +431,14 @@ public class ChartCubeQueryHelper
 			{
 				// Create nest total aggregation binding
 				IBinding maxBinding = new Binding( maxBindingName );
-				maxBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
+				maxBinding.setExpression( ChartReportItemUtil.newExpression( queryValue.getDefinition( ),
+						column ) );
 				maxBinding.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
 				maxBinding.setExportable( false );
 
 				IBinding minBinding = new Binding( minBindingName );
-				minBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
+				minBinding.setExpression( ChartReportItemUtil.newExpression( queryValue.getDefinition( ),
+						column ) );
 				minBinding.setAggrFunction( IBuildInAggregation.TOTAL_MIN_FUNC );
 				minBinding.setExportable( false );
 
@@ -477,7 +482,8 @@ public class ChartCubeQueryHelper
 				}
 			}
 			// Even if expression is null, create the script expression
-			binding.setExpression( new ScriptExpression( expression ) );
+			binding.setExpression( ChartReportItemUtil.newExpression( expression,
+					column ) );
 
 			List<String> lstAggOn = column.getAggregateOnList( );
 
