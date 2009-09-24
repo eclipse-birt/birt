@@ -2308,22 +2308,23 @@ Element.Module.description=Beschreibung
 Element.Module.descriptionID=Beschreibungsschlüssel
 Element.Module.comments=Kommentare
 Element.Module.includeResource=Ressourcendatei
+Element.Module.createdBy=Erstellt von
+Element.Module.includeScripts=Skripte einschließen
+Element.Module.scriptLibs=Skriptbibliotheken
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
 Element.LayoutModule.subject=Thema
 Element.LayoutModule.helpGuide=Hilfe-Handbuch
-Element.LayoutModule.createdBy=Erstellt von
 Element.LayoutModule.colorPalette=Farbpalette
 Element.LayoutModule.configVars=Variablen konfigurieren
 Element.LayoutModule.images=Bilder
 Element.LayoutModule.libraries=Bibliotheken
-Element.LayoutModule.includeScripts=Skripte einschließen
 Element.LayoutModule.base=Basis
 Element.LayoutModule.units=Einheiten
 Element.LayoutModule.theme=Thema
 Element.LayoutModule.propertyBindings=Eigenschaftenbindungen
-Element.LayoutModule.scriptLibs=Skriptbibliotheken
+
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=Stile

@@ -2308,22 +2308,23 @@ Element.Module.description=설명
 Element.Module.descriptionID=설명 키
 Element.Module.comments=설명
 Element.Module.includeResource=리소스 파일: Element.Module.base=기본
+Element.Module.createdBy=만든 사람
+Element.Module.includeScripts=스크립트 포함
+Element.Module.scriptLibs=스크립트 라이브러리
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
 Element.LayoutModule.subject=제목
 Element.LayoutModule.helpGuide=도움말 설명서
-Element.LayoutModule.createdBy=만든 사람
 Element.LayoutModule.colorPalette=색상표
 Element.LayoutModule.configVars=구성 변수
 Element.LayoutModule.images=이미지
 Element.LayoutModule.libraries=라이브러리
-Element.LayoutModule.includeScripts=스크립트 포함
 Element.LayoutModule.base=기본
 Element.LayoutModule.units=단위
 Element.LayoutModule.theme=테마
 Element.LayoutModule.propertyBindings=속성 바인딩
-Element.LayoutModule.scriptLibs=스크립트 라이브러리
+
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=스타일

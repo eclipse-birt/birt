@@ -2308,22 +2308,23 @@ Element.Module.description=説明
 Element.Module.descriptionID=説明キー
 Element.Module.comments=コメント
 Element.Module.includeResource=リソースファイル
+Element.Module.createdBy=作成者
+Element.Module.includeScripts=インクルードするスクリプト
+Element.Module.scriptLibs=スクリプトライブラリ
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
 Element.LayoutModule.subject=件名
 Element.LayoutModule.helpGuide=ヘルプガイド
-Element.LayoutModule.createdBy=作成者
 Element.LayoutModule.colorPalette=カラーパレット
 Element.LayoutModule.configVars=変数の設定
 Element.LayoutModule.images=イメージ
 Element.LayoutModule.libraries=ライブラリ
-Element.LayoutModule.includeScripts=インクルードするスクリプト
 Element.LayoutModule.base=基本
 Element.LayoutModule.units=単位
 Element.LayoutModule.theme=テーマ
 Element.LayoutModule.propertyBindings=プロパティのバインド
-Element.LayoutModule.scriptLibs=スクリプトライブラリ
+
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=種類
