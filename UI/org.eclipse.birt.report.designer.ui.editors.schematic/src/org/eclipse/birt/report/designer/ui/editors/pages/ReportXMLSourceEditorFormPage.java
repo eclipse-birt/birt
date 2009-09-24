@@ -536,7 +536,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		// ser the attribute view disedit.
 		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
 		List list = new ArrayList( );
-
+		list.add( new Object() );
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 

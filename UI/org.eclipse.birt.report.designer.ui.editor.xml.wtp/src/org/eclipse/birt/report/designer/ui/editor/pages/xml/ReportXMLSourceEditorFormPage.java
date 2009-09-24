@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
+import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
@@ -673,20 +674,24 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			refreshDocument( );
 			markPageStale( IPageStaleType.NONE );
 		}
+		
 		hookModelEventManager( getModel( ) );
 		//Fix bug 276266
 		SessionHandleAdapter.getInstance( )
 			.getMediator( getProvider( ).getReportModuleHandle( getEditorInput( ) )).addColleague( this );
 		// ser the attribute view disedit.
+		
+		ReportMediator mediator = SessionHandleAdapter.getInstance( ).getMediator( getModel( ) );
 		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
-		List list = new ArrayList( );
-
+		List list = mediator.getCurrentState( ).getSelectionObject( );
+		if (list.isEmpty( ))
+		{
+			list.add( new Object() );
+		}
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
-
-		SessionHandleAdapter.getInstance( )
-				.getMediator( getModel( ) )
-				.notifyRequest( request );
+		
+		mediator.notifyRequest( request );
 
 		reportXMLEditor.setFocus( );
 		return true;
