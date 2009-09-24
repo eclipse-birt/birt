@@ -1068,7 +1068,7 @@
 		<exec executable="unzip" dir="${test.dir}">
 			<arg line="-o -q birt-tests-suite-${package.version}-${build.date}.zip -d ${test.dir}" />
 		</exec>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/${test.framework.dir}">
+		<exec executable="unzip" dir="${postingDirectory}/../../platform/${test.framework.dir}">
 			<arg line="-o -q ${test.framework.name} -d ${test.dir}" />
 		</exec>
 		<delete>
