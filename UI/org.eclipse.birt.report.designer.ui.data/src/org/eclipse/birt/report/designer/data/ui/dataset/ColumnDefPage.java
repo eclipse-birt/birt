@@ -26,10 +26,10 @@ import org.eclipse.swt.widgets.Composite;
 public class ColumnDefPage extends WizardPage
 {
 
-	private ResultSetColumnPage page;
+	protected ResultSetColumnPage page;
 	
 	// message displayed in the top side
-	private final static String Message = Messages.getString( "OutputColumnDefnPage.description" ); //$NON-NLS-1$
+	protected final static String Message = Messages.getString( "OutputColumnDefnPage.description" ); //$NON-NLS-1$
 
 	/**
 	 * @param pageName

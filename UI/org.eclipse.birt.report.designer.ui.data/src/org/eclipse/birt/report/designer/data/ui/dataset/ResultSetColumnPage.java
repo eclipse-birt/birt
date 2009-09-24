@@ -83,15 +83,16 @@ public class ResultSetColumnPage extends Composite
 		void treeChanged( );
 	}
 
-	private static class ResultSetColumnModel
+	protected static class ResultSetColumnModel
 	{
 
-		private String columnName;
-		private String alias;
+		protected String columnName;
+		protected String analysis;
+		protected String alias;
 		//default type is "string"
-		private int dataType = getTypeIndex( DesignChoiceConstants.PARAM_TYPE_STRING );
-		private String displayName;
-		private String helpText;
+		protected int dataType = getTypeIndex( DesignChoiceConstants.PARAM_TYPE_STRING );
+		protected String displayName;
+		protected String helpText;
 
 		public boolean equals( Object obj )
 		{
@@ -112,21 +113,21 @@ public class ResultSetColumnPage extends Composite
 		}
 	}
 
-	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
+	protected static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
 		.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
 		.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 		.getAllowedChoices( )
 		.getChoices( ); 
 	
-	private static String COLUMN_NAME = Messages.getString( "dataset.editor.title.name" ); //$NON-NLS-1$
-	private static String COLUMN_DATA_TYPE = Messages.getString( "dataset.editor.title.type" ); //$NON-NLS-1$
-	private static String COLUMN_ALIAS = Messages.getString( "dataset.editor.title.alias" ); //$NON-NLS-1$
-	private static String COLUMN_DISPLAY_NAME = Messages.getString( "dataset.editor.title.displayName" ); //$NON-NLS-1$
+	protected static String COLUMN_NAME = Messages.getString( "dataset.editor.title.name" ); //$NON-NLS-1$
+	protected static String COLUMN_DATA_TYPE = Messages.getString( "dataset.editor.title.type" ); //$NON-NLS-1$
+	protected static String COLUMN_ALIAS = Messages.getString( "dataset.editor.title.alias" ); //$NON-NLS-1$
+	protected static String COLUMN_DISPLAY_NAME = Messages.getString( "dataset.editor.title.displayName" ); //$NON-NLS-1$
 
-	private ArrayList columnList = new ArrayList( );
-	private ArrayList listenerList = new ArrayList( );
+	protected ArrayList columnList = new ArrayList( );
+	protected ArrayList listenerList = new ArrayList( );
 
-	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
+	protected IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
 		public void dispose( )
 		{
@@ -143,59 +144,10 @@ public class ResultSetColumnPage extends Composite
 		}
 	};
 
-	private ITableLabelProvider labelProvider = new ITableLabelProvider( ) {
+	protected ITableLabelProvider labelProvider;
+	
 
-		public Image getColumnImage( Object element, int columnIndex )
-		{
-			return null;
-		}
-
-		public String getColumnText( Object element, int columnIndex )
-		{
-			ResultSetColumnModel model = (ResultSetColumnModel) element;
-			String text = null;
-			switch ( columnIndex )
-			{
-				case 1 :
-					text = model.columnName;
-					break;
-				case 2 :
-					if ( model.dataType >= 0
-							&& model.dataType < dataTypes.length )
-					{
-						text = dataTypes[model.dataType].getDisplayName( );
-					}
-					break;
-				case 3 :
-					text = model.alias;
-					break;
-				case 4 :
-					text = model.displayName;
-					break;
-			}
-			return Utility.convertToGUIString( text );
-		}
-
-		public void addListener( ILabelProviderListener listener )
-		{
-		}
-
-		public void dispose( )
-		{
-		}
-
-		public boolean isLabelProperty( Object element, String property )
-		{
-			return false;
-		}
-
-		public void removeListener( ILabelProviderListener listener )
-		{
-		}
-
-	};
-
-	private TableViewer columnTable;
+	protected TableViewer columnTable;
 
 	private Button add, edit, up, down, delete;
 	
@@ -219,6 +171,7 @@ public class ResultSetColumnPage extends Composite
 	{
 		super( parent, style );
 		initPageInfos( );
+		initLabelProvider( );
 		setLayout( new GridLayout( 2, false ) );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.widthHint = 650;
@@ -227,6 +180,61 @@ public class ResultSetColumnPage extends Composite
 		createButtonArea( );
 		updateButtons( );
 		initAccessible( );
+	}
+
+	protected void initLabelProvider( )
+	{
+		labelProvider = new ITableLabelProvider( ) {
+
+			public Image getColumnImage( Object element, int columnIndex )
+			{
+				return null;
+			}
+
+			public String getColumnText( Object element, int columnIndex )
+			{
+				ResultSetColumnModel model = (ResultSetColumnModel) element;
+				String text = null;
+				switch ( columnIndex )
+				{
+					case 1 :
+						text = model.columnName;
+						break;
+					case 2 :
+						if ( model.dataType >= 0
+								&& model.dataType < dataTypes.length )
+						{
+							text = dataTypes[model.dataType].getDisplayName( );
+						}
+						break;
+					case 3 :
+						text = model.alias;
+						break;
+					case 4 :
+						text = model.displayName;
+						break;
+				}
+				return Utility.convertToGUIString( text );
+			}
+
+			public void addListener( ILabelProviderListener listener )
+			{
+			}
+
+			public void dispose( )
+			{
+			}
+
+			public boolean isLabelProperty( Object element, String property )
+			{
+				return false;
+			}
+
+			public void removeListener( ILabelProviderListener listener )
+			{
+			}
+
+		};
 	}
 	
 	private void initPageInfos( )
@@ -240,7 +248,7 @@ public class ResultSetColumnPage extends Composite
 
 	}
 
-	private void createTableArea( )
+	protected void createTableArea( )
 	{
 		Table table = new Table( this, SWT.SINGLE
 				| SWT.FULL_SELECTION
@@ -400,10 +408,10 @@ public class ResultSetColumnPage extends Composite
 
 	}
 
-	private void doNew( )
+	protected void doNew( )
 	{
 		ColumnInputDialog inputDialog = new ColumnInputDialog( getShell( ),
-				Messages.getString( "ResultSetColumnPage.inputDialog.newColumn.title" ),
+				Messages.getString( "ResultSetColumnPage.inputDialog.newColumn.title" ), //$NON-NLS-1$
 				new ResultSetColumnModel( ) );
 		if ( inputDialog.open( ) == Window.OK )
 		{
@@ -414,10 +422,10 @@ public class ResultSetColumnPage extends Composite
 		updateButtons( );
 	}
 
-	private void doEdit( )
+	protected void doEdit( )
 	{
 		ColumnInputDialog inputDialog = new ColumnInputDialog( getShell( ),
-				Messages.getString( "ResultSetColumnPage.inputDialog.editColumn.title" ),
+				Messages.getString( "ResultSetColumnPage.inputDialog.editColumn.title" ), //$NON-NLS-1$
 				getSelectedColumn( ) );
 		if ( inputDialog.open( ) == Window.OK )
 		{
@@ -427,7 +435,7 @@ public class ResultSetColumnPage extends Composite
 		updateButtons( );
 	}
 
-	private void buttonPressed( int buttonId )
+	protected void buttonPressed( int buttonId )
 	{
 		ResultSetColumnModel model = getSelectedColumn( );
 		int index = columnList.indexOf( model );
@@ -498,6 +506,7 @@ public class ResultSetColumnPage extends Composite
 							model.columnName );
 					columnHintHandle = (ColumnHintHandle) columnHintPropertyHandle.addItem( columnHint );
 				}
+				columnHintHandle.setAnalysis( model.analysis );
 				columnHintHandle.setAlias( model.alias );
 				columnHintHandle.setDisplayName( model.displayName );
 				columnHintHandle.setHelpText( model.helpText );
@@ -515,7 +524,7 @@ public class ResultSetColumnPage extends Composite
 		return columnList.isEmpty( );
 	}
 
-	private boolean isDuplicatedName( ResultSetColumnModel currentModel,
+	protected boolean isDuplicatedName( ResultSetColumnModel currentModel,
 			String newName )
 	{
 		if ( newName == null || newName.trim( ).length( ) == 0 )
@@ -538,7 +547,7 @@ public class ResultSetColumnPage extends Composite
 		return false;
 	}
 
-	private ResultSetColumnModel getSelectedColumn( )
+	protected ResultSetColumnModel getSelectedColumn( )
 	{
 		return (ResultSetColumnModel) ( (IStructuredSelection) columnTable.getSelection( ) ).getFirstElement( );
 	}
@@ -560,7 +569,7 @@ public class ResultSetColumnPage extends Composite
 		}
 	}
 
-	private void updateButtons( )
+	protected void updateButtons( )
 	{
 		boolean upEnabled, downEnabled, deleteEnabled, editEnabled;
 		upEnabled = downEnabled = deleteEnabled = editEnabled = false;
@@ -674,7 +683,7 @@ public class ResultSetColumnPage extends Composite
 			textData.horizontalSpan = 1;
 			
 			Label columnNameLabel = new Label( composite, SWT.NONE );
-			columnNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.columnName" ) );
+			columnNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.columnName" ) ); //$NON-NLS-1$
 			columnNameLabel.setLayoutData( labelData );
 			
 			final Text columnNameText = new Text( composite, SWT.BORDER );
@@ -691,7 +700,7 @@ public class ResultSetColumnPage extends Composite
 			} );
 			
 			Label typeLabel = new Label( composite, SWT.NONE );
-			typeLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.dataType" ) );
+			typeLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.dataType" ) ); //$NON-NLS-1$
 			typeLabel.setLayoutData( labelData );			
 			
 			final Combo typeCombo = ControlProvider.createCombo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -717,7 +726,7 @@ public class ResultSetColumnPage extends Composite
 			} );
 			
 			Label aliasLabel = new Label( composite, SWT.NONE );
-			aliasLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.alias" ) );
+			aliasLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.alias" ) ); //$NON-NLS-1$
 			aliasLabel.setLayoutData( labelData );
 			
 			final Text  aliasText = new Text( composite, SWT.BORDER );
@@ -734,7 +743,7 @@ public class ResultSetColumnPage extends Composite
 			} );
 			
 			Label displayNameLabel = new Label( composite, SWT.NONE );
-			displayNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.displayName" ) );
+			displayNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.displayName" ) ); //$NON-NLS-1$
 			displayNameLabel.setLayoutData( labelData );
 			
 			final Text displayNameText = new Text( composite, SWT.BORDER );

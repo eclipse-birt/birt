@@ -87,9 +87,9 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	private PropertyHandle columnHints;
 	private ColumnHandles columnHandles;
 	private Map rsColumnMap = new HashMap( );
-	private Map columnHintMap = new HashMap( );
+	protected Map columnHintMap = new HashMap( );
 	
-	private OutputColumnTableViewer viewer;
+	protected OutputColumnTableViewer viewer;
 	private static Logger logger = Logger.getLogger( OutputColumnDefnPage.class.getName( ) );
 
 	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
@@ -104,13 +104,13 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	private static String DISPLAY_NAME = "displayName"; //$NON-NLS-1$
 	private static String HELP_TEXT = "helpText"; //$NON-NLS-1$
 
-	private ColumnDefn newDefn = null;
+	protected ColumnDefn newDefn = null;
 
 	private static String DEFAULT_MESSAGE = Messages.getString( "dataset.editor.outputColumns" );//$NON-NLS-1$
 
-	private String defaultDataTypeDisplayName;
-	private int defaultDataTypeIndex;
-	private String[] displayDataTypes;
+	protected String defaultDataTypeDisplayName;
+	protected int defaultDataTypeIndex;
+	protected String[] displayDataTypes;
 	
 	/**
 	 *  
@@ -135,29 +135,131 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		createCachedMap( );
 		
 		columnHandles = new ColumnHandles( rsColumns, columnHints );
-		viewer = new OutputColumnTableViewer( parent, true, true, true );
-		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
-				SWT.LEFT );
-		column.setText( " " ); //$NON-NLS-1$
-		column.setResizable( false );
-		column.setWidth( 19 );
+		viewer = new OutputColumnTableViewer( parent );
+		createTableColumns( );
 
-		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-		column.setText( Messages.getString( "dataset.editor.title.name" ) ); //$NON-NLS-1$
-		column.setWidth( 100 );
+		setTableContentProvider( );
 
-		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-		column.setText( Messages.getString( "dataset.editor.title.type" ) ); //$NON-NLS-1$
-		column.setWidth( 100 );
+		setTableLabelProvider( );
+		
+		addListeners( );
+		
+		viewer.getViewer( ).setInput( columnHandles );
+		viewer.updateButtons( );
+        
+		( (DataSetHandle) getContainer( ).getModel( ) ).addListener( this );
+		return viewer.getControl( );
+	}
+	
+	protected void addListeners( )
+	{
+		viewer.getAddButton( ).addSelectionListener( new SelectionListener( ) {
 
-		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-		column.setText( Messages.getString( "dataset.editor.title.alias" ) ); //$NON-NLS-1$
-		column.setWidth( 100 );
+			public void widgetSelected( SelectionEvent e )
+			{
+				doNew( );
+			}
 
-		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-		column.setText( Messages.getString( "dataset.editor.title.displayName" ) ); //$NON-NLS-1$
-		column.setWidth( 100 );
+			public void widgetDefaultSelected( SelectionEvent arg0 )
+			{
+			}
 
+		} );
+
+		viewer.getEditButton( ).addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				doEdit( );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent arg0 )
+			{
+			}
+
+		} );
+	}
+	
+	protected void doNew( )
+	{
+		ColumnInputDialog inputDialog = new ColumnInputDialog( viewer.getControl( ).getShell( ),
+				Messages.getString( "ResultSetColumnPage.inputDialog.newColumn.title" ), //$NON-NLS-1$
+				new ColumnDefn( ) );
+		if( inputDialog.open( ) == Window.OK )
+		{
+			ColumnDefn newColumn = inputDialog.getColumnDefn( );
+			try
+			{
+				addNewDefn( newColumn );
+				viewer.getViewer( ).refresh( );
+				updateMessage( );
+			}
+			catch ( SemanticException e )
+			{
+				getContainer( ).setMessage( Messages.getString( "OutputColumnPage.error.createNewColumn" ), IMessageProvider.ERROR ); //$NON-NLS-1$
+				ExceptionHandler.handle( e );
+			}
+		}
+		updateButtons( );
+	}
+	
+	protected void doEdit( )
+	{
+		int index = viewer.getViewer( ).getTable( ).getSelectionIndex( );
+		if ( index >= 0 && index < viewer.getViewer( ).getTable( ).getItemCount( ) )
+		{
+			ColumnDefn currentColumn = (ColumnDefn) viewer.getViewer( ).getTable( )
+					.getItem( index )
+					.getData( );
+			String oldName = currentColumn.getColumnName( );
+			ColumnInputDialog inputDialog = new ColumnInputDialog( viewer.getControl( ).getShell( ),
+					Messages.getString( "ResultSetColumnPage.inputDialog.editColumn.title" ), //$NON-NLS-1$
+					currentColumn );
+			if ( inputDialog.open( ) == Window.OK )
+			{
+				updateColumnDefMap( oldName, inputDialog.getColumnDefn( ) );
+				viewer.getViewer( ).refresh( );
+				updateMessage( );
+			}
+		}
+		else
+		{
+			getContainer( ).setMessage( Messages.getString( "OutputColumnPage.error.invalidSelection" ), IMessageProvider.ERROR ); //$NON-NLS-1$
+		}
+		updateButtons( );
+	}
+
+	/**
+	 * Updates the buttons and menu items
+	 * on this page are set
+	 */
+	protected void updateButtons( )
+	{
+		viewer.getRemoveAllMenuItem( ).setEnabled( viewer.getViewer( ).getTable( )
+				.getItemCount( ) > 0 );
+		if ( viewer.getViewer( ).getTable( ).getSelectionCount( ) == 1 )
+		{
+			viewer.getEditButton( ).setEnabled( true );
+			viewer.getRemoveButton( ).setEnabled( true );
+			viewer.getRemoveMenuItem( ).setEnabled( true );
+
+			int index = viewer.getViewer( ).getTable( ).getSelectionIndex( );
+			viewer.getUpButton( ).setEnabled( index != 0 );
+			viewer.getDownButton( ).setEnabled( index != ( viewer.getViewer( ).getTable( )
+					.getItemCount( ) - 1 ) );
+		}
+		else
+		{
+			viewer.getEditButton( ).setEnabled( false );
+			viewer.getUpButton( ).setEnabled( false );
+			viewer.getRemoveButton( ).setEnabled( false );
+			viewer.getDownButton( ).setEnabled( false );
+			viewer.getRemoveMenuItem( ).setEnabled( false );
+		}
+	}
+
+	protected void setTableContentProvider( )
+	{
 		viewer.getViewer( )
 				.setContentProvider( new IStructuredContentProvider( ) {
 
@@ -180,7 +282,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 					}
 
 				} );
+	}
 
+	protected void setTableLabelProvider( )
+	{
 		viewer.getViewer( ).setLabelProvider( new ITableLabelProvider( ) {
 
 			public Image getColumnImage( Object element, int columnIndex )
@@ -255,15 +360,34 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			{
 			}
 		} );
-		
-		viewer.getViewer( ).setInput( columnHandles );
-		viewer.updateButtons( );
-        
-		( (DataSetHandle) getContainer( ).getModel( ) ).addListener( this );
-		return viewer.getControl( );
+	}
+
+	protected void createTableColumns( )
+	{
+		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
+				SWT.LEFT );
+		column.setText( " " ); //$NON-NLS-1$
+		column.setResizable( false );
+		column.setWidth( 19 );
+
+		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+		column.setText( Messages.getString( "dataset.editor.title.name" ) ); //$NON-NLS-1$
+		column.setWidth( 100 );
+
+		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+		column.setText( Messages.getString( "dataset.editor.title.type" ) ); //$NON-NLS-1$
+		column.setWidth( 100 );
+
+		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+		column.setText( Messages.getString( "dataset.editor.title.alias" ) ); //$NON-NLS-1$
+		column.setWidth( 100 );
+
+		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+		column.setText( Messages.getString( "dataset.editor.title.displayName" ) ); //$NON-NLS-1$
+		column.setWidth( 100 );
 	}
 	
-	private void addNewDefn( ColumnDefn defn ) throws SemanticException
+	protected void addNewDefn( ColumnDefn defn ) throws SemanticException
 	{
 		String name = defn.getColumnName( );
 		if ( rsColumnMap != null )
@@ -285,7 +409,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		}
 	}
 
-	private void updateColumnDefMap( String oldName, ColumnDefn column )
+	protected void updateColumnDefMap( String oldName, ColumnDefn column )
 	{
 		if ( rsColumnMap != null
 				&& oldName != null && rsColumnMap.get( oldName ) != null )
@@ -303,7 +427,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		}
 	}
 
-	private final int getTypeIndex( String dataTypeName )
+	protected final int getTypeIndex( String dataTypeName )
 	{
 		for ( int n = 0; n < dataTypes.length; n++ )
 		{
@@ -316,7 +440,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		return this.defaultDataTypeIndex;
 	}
 
-	private final String getTypeString( int index )
+	protected final String getTypeString( int index )
 	{
 		if ( index > -1 && index < dataTypes.length )
 		{
@@ -326,7 +450,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		return null;
 	}
 
-	private final String getTypeDisplayName( String typeName )
+	protected final String getTypeDisplayName( String typeName )
 	{
 		for ( int n = 0; n < dataTypes.length; n++ )
 		{
@@ -560,7 +684,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		return validate;
 	}
 	
-	private void updateMessage( )
+	protected void updateMessage( )
 	{
 		if ( isValid( ) )
 			getContainer( ).setMessage( Messages.getString( "dataset.editor.outputColumns" ), //$NON-NLS-1$
@@ -714,7 +838,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	 * @author lzhu
 	 *
 	 */
-	private class ColumnDefn
+	protected class ColumnDefn
 	{
 
 		private ResultSetColumnHandle rsColumnHandle;
@@ -784,6 +908,35 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				columnHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER,
 						columnName );
 			}
+		}
+		
+		/**
+		 * Gets the analysis type
+		 * 
+		 * @return
+		 */
+		public String getAnalysis( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getAnalysis( );
+			else
+				return (String) columnHint.getProperty( null,
+						ColumnHint.ANALYSIS_MEMBER );
+		}
+		
+
+		/**
+		 * Sets the analysis type
+		 * 
+		 * @param analysis
+		 * @throws SemanticException
+		 */
+		public void setAnalysis( String analysis ) throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setAnalysis( analysis );
+			else
+				columnHint.setProperty( ColumnHint.ANALYSIS_MEMBER, analysis );
 		}
 
 		/**
@@ -937,7 +1090,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		}
 	}
 	
-	private class OutputColumnTableViewer
+	protected class OutputColumnTableViewer
 	{
 	    private TableViewer viewer;
 	    private Composite mainControl;
@@ -950,21 +1103,21 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	    private MenuItem itmRemoveAll;
 	    private Menu menu;
 
-	    public OutputColumnTableViewer(Composite parent, boolean showMenus, boolean showButtons, boolean enableKeyStrokes)
-	    {
-	        mainControl = new Composite(parent, SWT.NONE);
-	        GridLayout layout = new GridLayout();
-	        layout.numColumns = 2;
-	        mainControl.setLayout(layout);
+		public OutputColumnTableViewer( Composite parent )
+		{
+			mainControl = new Composite( parent, SWT.NONE );
+			GridLayout layout = new GridLayout( );
+			layout.numColumns = 2;
+			mainControl.setLayout( layout );
 
-	        GridData data = null;
+			GridData data = null;
 			viewer = new TableViewer( mainControl, SWT.FULL_SELECTION
 					| SWT.BORDER );
-	        data = new GridData(GridData.FILL_BOTH);
-	        viewer.getControl().setLayoutData(data);
-	        
-	        viewer.getTable( ).setHeaderVisible( true );
-	        viewer.getTable( ).setLinesVisible( true );
+			data = new GridData( GridData.FILL_BOTH );
+			viewer.getControl( ).setLayoutData( data );
+
+			viewer.getTable( ).setHeaderVisible( true );
+			viewer.getTable( ).setLinesVisible( true );
 			viewer.getTable( ).addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -983,155 +1136,122 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				}
 			} );
 
+			Composite btnComposite = new Composite( mainControl, SWT.NONE );
+			data = new GridData( );
+			data.verticalAlignment = SWT.CENTER;
+			btnComposite.setLayoutData( data );
+			GridLayout btnLayout = new GridLayout( );
+			layout.verticalSpacing = 20;
+			btnComposite.setLayout( btnLayout );
 
-	        if(showButtons)
-	        {
-	            Composite btnComposite = new Composite(mainControl, SWT.NONE);
-	            data = new GridData();
-	            data.verticalAlignment = SWT.CENTER;
-	            btnComposite.setLayoutData(data);
-	            GridLayout btnLayout = new GridLayout();
-	            layout.verticalSpacing = 20;
-	            btnComposite.setLayout(btnLayout);
-	            
-				GridData btnData = new GridData( GridData.CENTER );
-				btnData.widthHint = 52;
-	            
-				btnAdd = new Button( btnComposite, SWT.NONE );
-				btnAdd.setText( Messages.getString( "ResultSetColumnPage.button.add" ) ); //$NON-NLS-1$
-				btnAdd.setLayoutData( btnData );
-				btnAdd.setEnabled( true );
-				btnAdd.addSelectionListener(new SelectionListener(){
+			GridData btnData = new GridData( GridData.CENTER );
+			btnData.widthHint = 52;
 
-	                public void widgetSelected(SelectionEvent e)
-	                {
-	                	doNew( );
-	                }
+			btnAdd = new Button( btnComposite, SWT.NONE );
+			btnAdd.setText( Messages.getString( "ResultSetColumnPage.button.add" ) ); //$NON-NLS-1$
+			btnAdd.setLayoutData( btnData );
+			btnAdd.setEnabled( true );
 
-					public void widgetDefaultSelected( SelectionEvent arg0 )
-					{
-					}
-					
-	            } );
+			btnEdit = new Button( btnComposite, SWT.NONE );
+			btnEdit.setText( Messages.getString( "ResultSetColumnPage.button.edit" ) ); //$NON-NLS-1$
+			btnEdit.setLayoutData( btnData );
 
-				btnEdit = new Button( btnComposite, SWT.NONE );
-				btnEdit.setText( Messages.getString( "ResultSetColumnPage.button.edit" ) ); //$NON-NLS-1$
-				btnEdit.setLayoutData( btnData );
-				btnEdit.addSelectionListener( new SelectionListener( ) {
+			btnRemove = new Button( btnComposite, SWT.NONE );
+			btnRemove.setText( Messages.getString( "ResultSetColumnPage.button.delete" ) ); //$NON-NLS-1$
+			btnRemove.setLayoutData( btnData );
+			btnRemove.addSelectionListener( new SelectionListener( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						doEdit( );
-					}
+				public void widgetSelected( SelectionEvent e )
+				{
+					removeSelectedItem( );
+				}
 
-					public void widgetDefaultSelected( SelectionEvent arg0 )
-					{
-					}
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+				}
 
-				} );
+			} );
 
-				btnRemove = new Button( btnComposite, SWT.NONE );
-				btnRemove.setText( Messages.getString( "ResultSetColumnPage.button.delete" ) ); //$NON-NLS-1$
-				btnRemove.setLayoutData( btnData );
-				btnRemove.addSelectionListener( new SelectionListener( ) {
+			btnUp = new Button( btnComposite, SWT.NONE );
+			btnUp.setText( Messages.getString( "ResultSetColumnPage.button.up" ) ); //$NON-NLS-1$
+			btnUp.setLayoutData( btnData );
+			btnUp.addSelectionListener( new SelectionListener( ) {
 
-					public void widgetSelected( SelectionEvent e )
+				public void widgetSelected( SelectionEvent e )
+				{
+					doMoveUp( );
+				}
+
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+				}
+
+			} );
+
+			btnDown = new Button( btnComposite, SWT.NONE );
+			btnDown.setText( Messages.getString( "ResultSetColumnPage.button.down" ) ); //$NON-NLS-1$
+			btnDown.setLayoutData( btnData );
+			btnDown.addSelectionListener( new SelectionListener( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					doMoveDown( );
+				}
+
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+				}
+
+			} );
+
+			menu = new Menu( viewer.getTable( ) );
+			menu.addMenuListener( new MenuAdapter( ) {
+
+				public void menuShown( MenuEvent e )
+				{
+					viewer.cancelEditing( );
+				}
+			} );
+			itmRemove = new MenuItem( menu, SWT.NONE );
+			itmRemove.setText( Messages.getString( "PropertyHandleTableViewer.Menu.Remove" ) ); //$NON-NLS-1$
+			itmRemove.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					removeSelectedItem( );
+				}
+
+			} );
+			itmRemoveAll = new MenuItem( menu, SWT.NONE );
+			itmRemoveAll.setText( Messages.getString( "PropertyHandleTableViewer.Menu.RemoveAll" ) ); //$NON-NLS-1$
+			itmRemoveAll.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					doRemoveAll( );
+				}
+			} );
+
+			viewer.getTable( ).setMenu( menu );
+
+			viewer.getTable( ).addKeyListener( new KeyListener( ) {
+
+				public void keyPressed( KeyEvent e )
+				{
+					viewer.getTable( );
+				}
+
+				public void keyReleased( KeyEvent e )
+				{
+					if ( e.keyCode == SWT.DEL )
 					{
 						removeSelectedItem( );
 					}
+				}
 
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
-					}
+			} );
+		}
 
-				} );
-	            
-				btnUp = new Button( btnComposite, SWT.NONE );
-				btnUp.setText( Messages.getString( "ResultSetColumnPage.button.up" ) ); //$NON-NLS-1$
-				btnUp.setLayoutData( btnData );
-				btnUp.addSelectionListener( new SelectionListener( ) {
-
-					public void widgetSelected( SelectionEvent e )
-					{
-						doMoveUp( );
-					}
-
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
-					}
-
-				} );
-	            
-				btnDown = new Button( btnComposite, SWT.NONE );
-				btnDown.setText( Messages.getString( "ResultSetColumnPage.button.down" ) ); //$NON-NLS-1$
-				btnDown.setLayoutData( btnData );
-				btnDown.addSelectionListener( new SelectionListener( ) {
-
-					public void widgetSelected( SelectionEvent e )
-					{
-						doMoveDown( );
-					}
-
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
-					}
-
-				} );
-	        }
-	        
-	        if(showMenus)
-	        {
-	            menu = new Menu(viewer.getTable());
-	            menu.addMenuListener(new MenuAdapter(){
-	                public void menuShown(MenuEvent e)
-	                {
-	                    viewer.cancelEditing();
-	                }
-	            });
-	            itmRemove = new MenuItem(menu, SWT.NONE);
-	            itmRemove .setText(Messages.getString("PropertyHandleTableViewer.Menu.Remove")); //$NON-NLS-1$
-	            itmRemove .addSelectionListener(new SelectionAdapter(){
-
-	                public void widgetSelected(SelectionEvent e)
-	                {
-	                    removeSelectedItem();
-	                }
-
-	            });
-	            itmRemoveAll = new MenuItem(menu, SWT.NONE);
-	            itmRemoveAll.setText(Messages.getString("PropertyHandleTableViewer.Menu.RemoveAll")); //$NON-NLS-1$
-	            itmRemoveAll.addSelectionListener( new SelectionAdapter( ) {
-
-					public void widgetSelected( SelectionEvent e )
-					{
-						doRemoveAll( );
-					}
-				} );
-
-	            viewer.getTable().setMenu(menu);
-	        }
-	        
-	        if(enableKeyStrokes)
-	        {
-	            viewer.getTable().addKeyListener(new KeyListener(){
-
-	                public void keyPressed(KeyEvent e)
-	                {
-	                	viewer.getTable();
-	                }
-
-	                public void keyReleased(KeyEvent e)
-	                {
-	                    if ( e.keyCode == SWT.DEL )
-	                    {
-	                        removeSelectedItem();
-	                    }
-	                }
-	                
-	            });
-	        }
-	    }
-	    
 		/**
 		 * Updates the buttons and menu items
 		 * on this page are set
@@ -1160,55 +1280,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			}
 		}
 		
-		private void doNew( )
-		{
-			ColumnInputDialog inputDialog = new ColumnInputDialog( mainControl.getShell( ),
-					Messages.getString( "ResultSetColumnPage.inputDialog.newColumn.title" ), //$NON-NLS-1$
-					new ColumnDefn( ) );
-			if( inputDialog.open( ) == Window.OK )
-			{
-				ColumnDefn newColumn = inputDialog.getColumnDefn( );
-				try
-				{
-					addNewDefn( newColumn );
-					viewer.refresh( );
-					updateMessage( );
-				}
-				catch ( SemanticException e )
-				{
-					getContainer( ).setMessage( Messages.getString( "OutputColumnPage.error.createNewColumn" ), IMessageProvider.ERROR ); //$NON-NLS-1$
-					ExceptionHandler.handle( e );
-				}
-			}
-			updateButtons( );
-		}
-
-		private void doEdit( )
-		{
-			int index = viewer.getTable( ).getSelectionIndex( );
-			if ( index >= 0 && index < viewer.getTable( ).getItemCount( ) )
-			{
-				ColumnDefn currentColumn = (ColumnDefn) viewer.getTable( )
-						.getItem( index )
-						.getData( );
-				String oldName = currentColumn.getColumnName( );
-				ColumnInputDialog inputDialog = new ColumnInputDialog( mainControl.getShell( ),
-						Messages.getString( "ResultSetColumnPage.inputDialog.editColumn.title" ), //$NON-NLS-1$
-						currentColumn );
-				if ( inputDialog.open( ) == Window.OK )
-				{
-					updateColumnDefMap( oldName, inputDialog.getColumnDefn( ) );
-					viewer.refresh( );
-					updateMessage( );
-				}
-			}
-			else
-			{
-				getContainer( ).setMessage( Messages.getString( "OutputColumnPage.error.invalidSelection" ), IMessageProvider.ERROR ); //$NON-NLS-1$
-			}
-			updateButtons( );
-		}
-
 	    public TableViewer getViewer()
 	    {
 	        return viewer;
@@ -1218,7 +1289,42 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	    {
 	        return mainControl;
 	    }
+	    
+	    public Button getAddButton( )
+	    {
+	    	return this.btnAdd;
+	    }
 	    	    	    
+	    public Button getEditButton( )
+	    {
+	    	return this.btnEdit;
+	    }
+	    	    	    
+	    public Button getDownButton( )
+	    {
+	    	return this.btnDown;
+	    }
+	    	    	    
+	    public Button getUpButton( )
+	    {
+	    	return this.btnUp;
+	    }
+	    	    	    
+	    public Button getRemoveButton( )
+	    {
+	    	return this.btnRemove;
+	    }
+	    
+	    public MenuItem getRemoveMenuItem( )
+	    {
+	    	return this.itmRemove;
+	    }
+	    	    	    
+	    public MenuItem getRemoveAllMenuItem( )
+	    {
+	    	return this.itmRemoveAll;
+	    }
+	    
 	    private final void removeSelectedItem()
 	    {
 	        int index = viewer.getTable( ).getSelectionIndex( );

@@ -27,7 +27,7 @@ import org.eclipse.swt.SWTException;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.5 $ $Date: 2009/01/19 03:35:14 $
+ * @version $Revision$ $Date$
  */
 
 public class DefaultDataSetWizard extends Wizard
@@ -37,7 +37,7 @@ public class DefaultDataSetWizard extends Wizard
 
 	private transient boolean useTransaction = true;
 	private DataSetBasePage dataSetPage;
-	private ColumnDefPage columnDefPage;
+	private AdvancedColumnDefPage columnDefPage;
 
 	/**
 	 *  
@@ -57,7 +57,7 @@ public class DefaultDataSetWizard extends Wizard
 		dataSetPage.setNewDataSource( dataSourceHandle );
 		setForcePreviousAndNextButtons( true );
 		addPage( dataSetPage );
-		columnDefPage = new ColumnDefPage( );
+		columnDefPage = new AdvancedColumnDefPage( );
 		addPage( columnDefPage );
 	}
 
@@ -68,7 +68,7 @@ public class DefaultDataSetWizard extends Wizard
 	 */
 	public boolean performFinish( )
 	{
-		if ( !canFinish() )
+		if ( !canFinish( ) )
 			return false;
 
 		if ( useTransaction )
