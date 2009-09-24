@@ -19,7 +19,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 public class DataModelAdapter extends ModelAdapter
 {
 
-	DataModelAdapter( DataSessionContext context )
+	public DataModelAdapter( DataSessionContext context )
 	{
 		super( context );
 	}
