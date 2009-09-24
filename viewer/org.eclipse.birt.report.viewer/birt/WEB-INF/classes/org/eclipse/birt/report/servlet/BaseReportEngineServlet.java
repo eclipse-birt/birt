@@ -167,7 +167,7 @@ abstract public class BaseReportEngineServlet extends AxisServlet
 				__handleNonSoapException( request, response, context.getBean( )
 						.getException( ) );
 			}
-			else
+			else if ( session != null )
 			{
 				session.lock();
 				try
