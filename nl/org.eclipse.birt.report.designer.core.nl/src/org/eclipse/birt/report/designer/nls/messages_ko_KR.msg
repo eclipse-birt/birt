@@ -396,6 +396,8 @@ CodePageAction.actionText.code=스크립트
 
 ColorBuilder.text.Auto=자동
 ColorBuilder.Button.ChooseColor=색상판 열기
+ColorSelector.ColorDialog.Title=Color
+ColorSelector.Name=Color Selector
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -1173,7 +1175,7 @@ Element.Module.includeResource=리소스 파일(&E):
 Element.Module.includeScripts=스크립트 포함:
 Element.Module.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.Module.initialize=초기화:
-Element.Module.theme=테마(&H) 
+Element.LayoutModule.theme=테마(&H) 
 Element.Module.title=제목(&I): 
 Element.Module.titleID=제목 키:
 Element.Module.units=단위(&S):

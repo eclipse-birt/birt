@@ -396,6 +396,8 @@ CodePageAction.actionText.code=Script
 
 ColorBuilder.text.Auto=Auto
 ColorBuilder.Button.ChooseColor=Ouvrir la palette des couleurs
+ColorSelector.ColorDialog.Title=Color
+ColorSelector.Name=Color Selector
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -1173,7 +1175,7 @@ Element.Module.includeResource=Fichier de r&essources :
 Element.Module.includeScripts=Inclure les scripts :
 Element.Module.initialize.toolTip=Commande appelée au début de l'exécution de l'état.
 Element.Module.initialize=Initialiser :
-Element.Module.theme=T&hèmes : 
+Element.LayoutModule.theme=T&hèmes : 
 Element.Module.title=T&itre : 
 Element.Module.titleID=Clé de titre :
 Element.Module.units=Unité&s :
