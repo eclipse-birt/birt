@@ -77,6 +77,7 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -312,7 +313,22 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		cubeTreeViewer.getTree( )
 				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		( (GridData) cubeTreeViewer.getTree( ).getLayoutData( ) ).heightHint = 120;
-		ViewsTreeProvider provider = new ViewsTreeProvider( );
+		ViewsTreeProvider provider = new ViewsTreeProvider( ) {
+			/* (non-Javadoc)
+			 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#hasChildren(java.lang.Object)
+			 */
+			public boolean hasChildren( Object element )
+			{
+				// Chart just uses cube level, doesn't support attribute of
+				// level, so return false if current is level handle. 
+				if ( element instanceof TabularLevelHandle )
+				{
+					return false;
+				}
+				
+				return super.hasChildren( element );
+			}
+		};
 		cubeTreeViewer.setLabelProvider( provider );
 		cubeTreeViewer.setContentProvider( provider );
 		cubeTreeViewer.setInput( getCube( ) );
