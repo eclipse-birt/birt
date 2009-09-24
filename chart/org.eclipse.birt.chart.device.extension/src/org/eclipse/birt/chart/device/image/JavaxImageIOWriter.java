@@ -464,18 +464,18 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	protected String getJsURLRedirect( URLValue uv )
 	{
-		if ( uv.getBaseUrl( ).startsWith( "javascript:" ) ) //$NON-NLS-1$
+		String sBaseUrl = uv.getBaseUrl( ) == null ? "" : uv.getBaseUrl( );//$NON-NLS-1$
+		if ( sBaseUrl.startsWith( "javascript:" ) ) //$NON-NLS-1$
 		{
-			return uv.getBaseUrl( );
+			return sBaseUrl;
 		}
-		if ( uv.getBaseUrl( ).startsWith( "#" ) ) //$NON-NLS-1$
+		if ( sBaseUrl.startsWith( "#" ) ) //$NON-NLS-1$
 		{
-			return "window.location='" + eval2HTML( uv.getBaseUrl( ) ) + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+			return "window.location='" + eval2HTML( sBaseUrl ) + "'"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return "window.open('" //$NON-NLS-1$
-				+ eval2HTML( uv.getBaseUrl( ) )
+				+ eval2HTML( sBaseUrl )
 				+ "','" + ( uv.getTarget( ) == null ? "self" : uv.getTarget( ) ) + "')"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
-
 	}
 
 	/**
