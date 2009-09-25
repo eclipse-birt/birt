@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.nl"
       label="%featureName"
-      version="2.5.1.qualifier"
+      version="2.5.2.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -422,7 +422,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.emitter.config.excel.nl"
          download-size="0"
@@ -430,7 +430,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.emitter.config.pdf.nl"
          download-size="0"
@@ -438,7 +438,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.emitter.config.html.nl"
          download-size="0"
@@ -446,7 +446,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.emitter.config.ppt.nl"
          download-size="0"
@@ -454,7 +454,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.emitter.config.postscript.nl"
          download-size="0"
@@ -462,7 +462,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.emitter.config.wpml.nl"
          download-size="0"
@@ -470,13 +470,13 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.data.bidi.utils.nl"
          download-size="0"
          install-size="0"
          version="0.0.0"
          fragment="true"
-         unpack="false"/>       
+         unpack="false"/>
 
 </feature>

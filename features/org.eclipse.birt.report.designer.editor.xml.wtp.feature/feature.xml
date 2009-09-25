@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.report.designer.editor.xml.wtp"
       label="%featureName"
-      version="2.5.1.qualifier"
+      version="2.5.2.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.report.designer.ui.editor.xml.wtp"
       image="eclipse_update_120.jpg">
