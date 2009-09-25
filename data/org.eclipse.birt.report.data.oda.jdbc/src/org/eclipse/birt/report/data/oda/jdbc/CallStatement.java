@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.math.BigDecimal;
+import java.nio.channels.UnsupportedAddressTypeException;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
@@ -2039,8 +2040,7 @@ public class CallStatement implements IAdvancedQuery
      */
     public String getEffectiveQueryText()
     {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException( );
     }
 
 	/*

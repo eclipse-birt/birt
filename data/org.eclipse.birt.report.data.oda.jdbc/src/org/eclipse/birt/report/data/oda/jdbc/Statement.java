@@ -959,8 +959,7 @@ public class Statement implements IQuery
      */
     public String getEffectiveQueryText()
     {
-        // TODO Auto-generated method stub
-        return null;
+    	throw new UnsupportedOperationException( );
     }
 
     public void clearInParameters() throws OdaException
