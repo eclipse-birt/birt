@@ -818,7 +818,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		}
 
 		GridData expgd = new GridData( GridData.FILL_HORIZONTAL );
-		expgd.minimumWidth = 100;
+		expgd.widthHint = 120;
 
 		expressionValue1 = new ValueCombo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( expgd );
