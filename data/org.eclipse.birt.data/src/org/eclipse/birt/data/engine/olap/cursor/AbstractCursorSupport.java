@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.cursor;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -56,6 +57,12 @@ public class AbstractCursorSupport implements
 		this.accessor = accessor;
 	}
 
+	public boolean nextMeasure( ) throws OLAPException, IOException
+	{
+		if( accessor instanceof AggregationAccessor )
+			return ( ( AggregationAccessor ) accessor ).nextMeasure( );
+		return false;
+	}
 	/*
 	 * @see javax.olap.cursor.RowDataAccessor#close()
 	 */

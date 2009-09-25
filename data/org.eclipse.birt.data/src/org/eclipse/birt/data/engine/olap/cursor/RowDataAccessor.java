@@ -11,10 +11,10 @@
 package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.olap.OLAPException;
 
-import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
@@ -478,17 +478,37 @@ public class RowDataAccessor implements IRowDataAccessor
 		}
 		else
 		{
-			for ( int i = 0; i < Math.abs( arg0 ); i++ )
-			{
-				if ( arg0 > 0 )
-					this.edge_next( );
-				else
-					this.edge_previous( );
-			}
+			this.edgeTraverse.currentPosition = position;
+			adjustDimensionPosition( position );
+
 			return true;
 		}
 	}
-
+	
+	private void adjustDimensionPosition( int position )
+	{
+		int index = position;
+		for ( int i = dimAxis.length - 1; i >= 0; i-- )
+		{
+			List edgeInfoList = this.edgeDimensRelation.currentRelation[i];
+			EdgeInfo edgeInfo = (EdgeInfo) edgeInfoList.get( index );
+			int currentPosition = index;
+			int dimPosition = 0;
+			while ( --currentPosition >= 0 )
+			{
+				EdgeInfo previousInfo = (EdgeInfo) edgeInfoList.get( currentPosition );
+				if ( previousInfo.parent == edgeInfo.parent )
+				{
+					dimPosition++;
+				}
+				else
+					break;
+			}
+			this.dimTraverse.setPosition( i, dimPosition );
+			index = edgeInfo.parent;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param position

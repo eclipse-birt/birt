@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
+import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
@@ -50,6 +52,19 @@ public class AggregationAccessor extends Accessor
 	private IResultSet resultSet;
 	private Map relationMap;
 	private int[] currentPosition;
+	
+	private boolean firstNextMeasure = true;
+	private IAggregationResultSet maxAggregationResultSet = null;
+	private EdgeCursor rowEdgeCursor = null;
+	private EdgeCursor columnEdgeCursor = null;
+	private EdgeCursor pageEdgeCursor = null;
+	private Relationship maxRelationship = null;
+	private int[] rowLevelIndexs;
+	private int[] columnLevelIndexs;
+	private int[] pageLevelIndexs;
+	private ComparableObject[] rowCursorObjs;
+	private ComparableObject[] columnCursorObjs;
+	private ComparableObject[] pageCursorObjs;
 	
 	/**
 	 * 
@@ -91,6 +106,88 @@ public class AggregationAccessor extends Accessor
 				//do nothing
 			}
 		}
+		
+		initMeasureNavigator( );
+	}
+
+	/*
+	 * 
+	 */
+	private void initMeasureNavigator( )
+	{
+		IEdgeAxis[] edgeAxises = this.resultSet.getMeasureResult( );
+		int measureMaxSize = 0;
+		for( int i = 0; i < edgeAxises.length; i++ )
+		{
+			if( edgeAxises[i].getQueryResultSet( ).getAllLevels( ) != null &&
+					edgeAxises[i].getQueryResultSet( ).getAllLevels( ).length > measureMaxSize )
+			{
+				maxAggregationResultSet = edgeAxises[i].getQueryResultSet( );
+				measureMaxSize = edgeAxises[i].getQueryResultSet( ).getAllLevels( ).length;
+			}
+		}
+		
+		Iterator iterator = relationMap.values( ).iterator( );
+		int relationMaxLevelSize = 0;
+		
+		while( iterator.hasNext( ) )
+		{
+			Relationship relation = (Relationship)iterator.next( );
+			int levelSize = relation.getLevelListOnColumn( ).size( )
+					+ relation.getLevelListOnPage( ).size( ) 
+					+ relation.getLevelListOnRow( ).size( );
+			if( levelSize > relationMaxLevelSize )
+			{
+				relationMaxLevelSize = levelSize;
+				maxRelationship = relation;
+			}
+		}
+		if ( this.view.getRowEdgeView( ) != null )
+		{
+			rowEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getRowEdgeView( ) ).getEdgeCursor( );
+		}
+		if ( this.view.getColumnEdgeView( ) != null )
+		{
+			columnEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getColumnEdgeView( ) ).getEdgeCursor( );
+		}
+		if ( this.view.getPageEdgeView( ) != null )
+		{
+			pageEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getPageEdgeView( ) ).getEdgeCursor( );
+		}
+		DimLevel[] measureLevels = maxAggregationResultSet.getAllLevels( );
+		
+		rowLevelIndexs = new int[maxRelationship.getLevelListOnRow( ).size( )];
+		for ( int i = 0; i < rowLevelIndexs.length; i++ )
+		{
+			DimLevel level = (DimLevel) maxRelationship.getLevelListOnRow( ).get( i );
+			for ( int j = 0; j < measureLevels.length; j++ )
+			{
+				if ( level.equals( measureLevels[j] ) )
+					rowLevelIndexs[i] = j;
+			}
+		}
+		
+		columnLevelIndexs = new int[maxRelationship.getLevelListOnColumn( ).size( )];
+		for ( int i = 0; i < columnLevelIndexs.length; i++ )
+		{
+			DimLevel level = (DimLevel) maxRelationship.getLevelListOnColumn( ).get( i );
+			for ( int j = 0; j < measureLevels.length; j++ )
+			{
+				if ( level.equals( measureLevels[j] ) )
+					columnLevelIndexs[i] = j;
+			}
+		}
+		
+		pageLevelIndexs = new int[maxRelationship.getLevelListOnPage( ).size( )];
+		for ( int i = 0; i < pageLevelIndexs.length; i++ )
+		{
+			DimLevel level = (DimLevel) maxRelationship.getLevelListOnPage( ).get( i );
+			for ( int j = 0; j < measureLevels.length; j++ )
+			{
+				if ( level.equals( measureLevels[j] ) )
+					pageLevelIndexs[i] = j;
+			}
+		}
 	}
 
 	/*
@@ -130,9 +227,9 @@ public class AggregationAccessor extends Accessor
 		try
 		{
 			String aggrName = this.view.getAggregationRegisterTable( ).getAggrName( arg0 );
-			int index = this.view.getAggregationRegisterTable( ).getAggregationIndex( aggrName );
 			int id = this.view.getAggregationRegisterTable( ).getAggregationResultID( aggrName );
-
+			int index = this.view.getAggregationRegisterTable( ).getAggregationIndex( id, aggrName );
+			
 			if ( synchronizedWithEdge( index,
 					aggrName,
 					getCurrentValueOnEdge( aggrName ) ) )
@@ -166,7 +263,8 @@ public class AggregationAccessor extends Accessor
 			int id = this.view.getAggregationRegisterTable( )
 					.getAggregationResultID( arg0 );
 			int index = this.view.getAggregationRegisterTable( )
-					.getAggregationIndex( arg0 );
+					.getAggregationIndex( id, arg0 );
+
 			if ( synchronizedWithEdge( id, arg0, getCurrentValueOnEdge( arg0 ) ) )
 				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
 						.getAggregationValue( index );
@@ -215,6 +313,116 @@ public class AggregationAccessor extends Accessor
 			//AggregationResultSet for running aggregation
 			return findValueMatcherOneByOne( rs, memberList, valueMap, aggrIndex );
 		}
+	}
+	
+	/*
+	 * 
+	 */
+	public boolean nextMeasure( ) throws IOException, OLAPException
+	{
+		int pos = maxAggregationResultSet.getPosition( );
+		if( firstNextMeasure )
+		{
+			if( pos >= maxAggregationResultSet.length( ) )
+				return false;
+			firstNextMeasure = false;
+		}
+		else
+		{
+			if( pos + 1 >= maxAggregationResultSet.length( ) )
+				return false;
+			maxAggregationResultSet.seek( pos + 1 );
+		}
+		DimLevel[] levels = maxAggregationResultSet.getAllLevels( );
+		Object[] keyValues = new Object[levels.length];
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			keyValues[i] = maxAggregationResultSet.getLevelKeyValue( i )[0];
+		}
+		if ( this.view.getRowEdgeView( ) != null && rowEdgeCursor == null )
+		{
+			rowEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getRowEdgeView( ) ).getEdgeCursor( );
+			rowCursorObjs = fetcheObjects( rowEdgeCursor, maxRelationship.getLevelListOnRow( ) );
+		}
+		if ( this.view.getColumnEdgeView( ) != null && columnEdgeCursor == null )
+		{
+			columnEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getColumnEdgeView( ) ).getEdgeCursor( );
+			columnCursorObjs = fetcheObjects( columnEdgeCursor, maxRelationship.getLevelListOnColumn( ) );
+		}
+		if ( this.view.getPageEdgeView( ) != null && pageEdgeCursor == null )
+		{
+			pageEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getPageEdgeView( ) ).getEdgeCursor( );
+			pageCursorObjs = fetcheObjects( pageEdgeCursor, maxRelationship.getLevelListOnPage( ) );
+		}
+		if ( rowEdgeCursor != null )
+		{
+			moveEdgeCursor( rowEdgeCursor, rowLevelIndexs, rowCursorObjs, levels, keyValues );
+		}
+		if ( columnEdgeCursor != null )
+		{
+			moveEdgeCursor( columnEdgeCursor, columnLevelIndexs, columnCursorObjs, levels, keyValues );
+		}
+		if ( pageEdgeCursor != null )
+		{
+			moveEdgeCursor( pageEdgeCursor, pageLevelIndexs, pageCursorObjs, levels, keyValues );
+		}
+		
+		return true;
+	}
+	
+	
+	private ComparableObject[] fetcheObjects( EdgeCursor edgeCursor, List edgeLevels ) throws OLAPException
+	{
+		ArrayList<ComparableObject> objList = new ArrayList<ComparableObject>( );
+		
+		if( !edgeCursor.first( ) )
+			return new ComparableObject[0];
+		Object[] cursorValues = getCursorValues( edgeCursor, edgeLevels );
+		objList.add( new ComparableObject( cursorValues , edgeCursor.getPosition( ) ) );
+		while( edgeCursor.next( ) )
+		{
+			cursorValues = getCursorValues( edgeCursor, edgeLevels );
+			objList.add( new ComparableObject( cursorValues , edgeCursor.getPosition( ) ) );
+		}
+		
+		ComparableObject[] objArray = objList.toArray( new ComparableObject[0] );
+		Arrays.sort( objArray );
+		return objArray;
+	}
+	
+	private boolean moveEdgeCursor( EdgeCursor cursor, int[] levelIndexs, ComparableObject[] cursorObjs, DimLevel[] levels, Object[] keyValues ) throws OLAPException
+	{
+		Object[] cursorkeyValues = new Object[levelIndexs.length];
+		for ( int i = 0; i < cursorkeyValues.length; i++ )
+		{
+			cursorkeyValues[i] = keyValues[levelIndexs[i]];
+		}
+		
+		int index = Arrays.binarySearch( cursorObjs, new ComparableObject( cursorkeyValues, 0 ) );
+		
+		if( index < 0 )
+		{
+			return false;
+		}
+		else
+		{
+			cursor.setPosition( cursorObjs[index].getIndex( ) );
+			return true;
+		}
+	}
+	
+	
+	private Object[] getCursorValues( EdgeCursor cursor, List edgeLevels ) throws OLAPException
+	{
+		List dimCursors = cursor.getDimensionCursor( );
+		Object[] cursorValue = new Object[edgeLevels.size( )];
+		for ( int i = 0; i < edgeLevels.size( ); i++ )
+		{
+			DimensionCursor dimCursor = (DimensionCursor) dimCursors.get( i );
+			DimLevel level = (DimLevel) edgeLevels.get( i );
+			cursorValue[i] = dimCursor.getObject( level.getLevelName( ) );
+		}
+		return cursorValue;
 	}
 	
 	private Map getCurrentValueOnEdge( String aggrName ) throws OLAPException
@@ -408,7 +616,7 @@ public class AggregationAccessor extends Accessor
 		return find;
 	}
 	
-	private static int compare( Object value1, Object value2 )
+	static int compare( Object value1, Object value2 )
 	{
 		if ( value1 == value2 )
 		{
@@ -429,4 +637,39 @@ public class AggregationAccessor extends Accessor
 		return value1.toString( ).compareTo( value2.toString( ) );
 	}
 
+}
+
+class ComparableObject implements Comparable
+{
+	private Object[] fields;
+	private long index;
+	
+	ComparableObject( Object[] fields, long index )
+	{
+		this.fields = fields;
+		this.index = index;
+	}
+	
+	public int compareTo( Object o )
+	{
+		Object[] oFields = ((ComparableObject)o).getFields( );
+		for ( int i = 0; i < fields.length; i++ )
+		{
+			int result = AggregationAccessor.compare( fields[i], oFields[i] );
+			if( result != 0 )
+				return result;
+		}
+		return 0;
+	}
+	
+	public Object[] getFields( )
+	{
+		return fields;
+	}
+	
+	public long getIndex( )
+	{
+		return index;
+	}
+	
 }

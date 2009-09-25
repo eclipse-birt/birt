@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -98,6 +99,15 @@ public class CubeCursorImpl implements ICubeCursor
 		}
 		
 		this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, new JSCubeBindingObject( this ));
+	}
+	
+	public boolean nextMeasure( ) throws OLAPException, IOException
+	{
+		if( cursor instanceof org.eclipse.birt.data.engine.olap.cursor.CubeCursorImpl )
+		{
+			return ( (org.eclipse.birt.data.engine.olap.cursor.CubeCursorImpl) cursor ).nextMeasure( );
+		}
+		return false;
 	}
 	
 	public List getOrdinateEdge( ) throws OLAPException

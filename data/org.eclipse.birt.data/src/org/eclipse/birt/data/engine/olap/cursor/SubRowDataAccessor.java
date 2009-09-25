@@ -12,6 +12,8 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
 
+import javax.olap.OLAPException;
+
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 
 /**
@@ -73,5 +75,34 @@ public class SubRowDataAccessor extends RowDataAccessor
 		edgeTraverse = new EdgeTraverse( this.parentNavigator.edgeDimensRelation,
 				edgeStart,
 				edgeEnd );
+	}
+	
+	public boolean edge_relative( int arg0 ) throws OLAPException
+	{
+		if ( arg0 == 0 )
+			return true;
+		int position = this.edgeTraverse.currentPosition + arg0;
+		if ( position >= this.edgeDimensRelation.traverseLength )
+		{
+			this.edge_afterLast( );
+			return false;
+		}
+		else if ( position < 0 )
+		{
+			this.dimTraverse.beforeFirst( );
+			this.edgeTraverse.currentPosition = -1;
+			return false;
+		}
+		else
+		{
+			for ( int i = 0; i < Math.abs( arg0 ); i++ )
+			{
+				if ( arg0 > 0 )
+					this.edge_next( );
+				else
+					this.edge_previous( );
+			}
+			return true;
+		}
 	}
 }

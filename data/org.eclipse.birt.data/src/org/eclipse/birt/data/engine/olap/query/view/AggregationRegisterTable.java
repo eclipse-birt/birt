@@ -87,9 +87,8 @@ public class AggregationRegisterTable
 	 * @return
 	 * @throws DataException 
 	 */
-	public int getAggregationIndex( String name ) throws DataException
+	public int getAggregationIndex( int rsID, String name ) throws DataException
 	{
-		int rsID = this.getAggregationResultID( name );
 		int index = 0;
 		if ( rsID >= 0 )
 		{
