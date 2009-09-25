@@ -76,12 +76,20 @@
 	<!-- Steps to do before fetching the build elements -->
 	<!-- ===================================================================== -->
 	<target name="preFetch">
+        <tstamp prefix="timestamp">
+            <format property="start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+     	<echo message="[${timestamp.start}] Fetch birt.dtp.nl component starting"/>
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
+        <tstamp prefix="timestamp">
+            <format property="end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+     	<echo message="[${timestamp.end}] Fetch birt.dtp.nl component ended"/>
 	</target>
 	
 	<!-- ===================================================================== -->
