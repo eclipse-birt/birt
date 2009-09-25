@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
-import org.eclipse.birt.chart.computation.withaxes.AxisTickCoordinates;
 import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -100,15 +99,6 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator
 					},
 					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 		}
-
-		// Only horizontal orientation is supported for gantt series
-		// if ( !isTransposed( ) )
-		// {
-		// throw new ChartException( ChartEngineExtensionPlugin.ID,
-		// ChartException.RENDERING,
-		// "exception.no.transposed.gantt.chart", //$NON-NLS-1$
-		// Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
-		// }
 
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.render.series", //$NON-NLS-1$
@@ -1037,36 +1027,9 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator
 		}
 
 		// this is the primary base axis.
-		final AutoScale as = ax.getScale( );
 		final DataPointHints[] dpha = isrh.getDataPoints( );
-		final AxisTickCoordinates tickCoords = as.getTickCordinates( );
-		final String[] lba = new String[tickCoords.size( ) - 1];
-		final boolean bTransposed = isTransposed( );
-
-		// prepare decoration string
-		for ( int i = 0; i < dpha.length; i++ )
-		{
-			// only consider first match for each tick.
-			Location loc = dpha[i].getLocation( );
-			double dv = bTransposed ? loc.getY( ) : loc.getX( );
-
-			int idx = tickCoords.getTickSlot( dv );
-
-			if ( idx >= 0 && idx < lba.length && lba[idx] == null )
-			{
-				GanttEntry ge = (GanttEntry) dpha[i].getOrthogonalValue( );
-
-				if ( isValidGanttEntry( ge ) &&
-						ge.getStart( ) != null &&
-						ge.getEnd( ) != null )
-				{
-					lba[idx] = ge.getLabel( );
-				}
-			}
-		}
-
+		SeriesRenderingHints srh = (SeriesRenderingHints) isrh;
 		int pos = transposePosition( gs.getDecorationLabelPosition( ) ).getValue( );
-
 		int iOrientation = ax.getOrientation( );
 
 		// translate to runtime constants
@@ -1108,41 +1071,51 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator
 
 		TextRenderEvent tre;
 
-		// render decoration label
-		for ( int i = 0; i < tickCoords.size( ) - 1; i++ )
+		if ( iOrientation == IConstants.VERTICAL )
 		{
-			if ( lba[i] != null )
+			if ( pos == IConstants.LEFT )
 			{
-				la.getCaption( ).setValue( lba[i] );
-				double point = tickCoords.getCoordinate( i );
-				if ( !( as.isCategoryScale( ) && !as.isTickBetweenCategories( ) && i == 0 ) )
-				{
-					point += tickCoords.getStep( ) / 2;
-				}
+				loLabel.setX( dXTick1 );
+			}
+			else
+			{
+				loLabel.setX( dXTick2 );
+			}
+		}
+		else
+		{
+			if ( pos == IConstants.ABOVE )
+			{
+				loLabel.setY( dXTick1 );
+			}
+			else
+			{
+				loLabel.setY( dXTick2 );
+			}
+		}
+
+		// render decoration label
+		for ( int i = 0; i < dpha.length; i++ )
+		{
+			GanttEntry ge = (GanttEntry) dpha[i].getOrthogonalValue( );
+
+			if ( isValidGanttEntry( ge )
+					&& ge.getLabel( ) != null
+					&& ge.getStart( ) != null
+					&& ge.getEnd( ) != null )
+			{
+				la.getCaption( ).setValue( ge.getLabel( ) );
+
+				double fSize = srh.isCategoryScale( ) ? dpha[i].getSize( ) / 2
+						: 0;
 
 				if ( iOrientation == IConstants.VERTICAL )
 				{
-					if ( pos == IConstants.LEFT )
-					{
-						loLabel.setX( dXTick1 );
-					}
-					else
-					{
-						loLabel.setX( dXTick2 );
-					}
-					loLabel.setY( point );
+					loLabel.setY( dpha[i].getLocation( ).getY( ) + fSize );
 				}
 				else
 				{
-					loLabel.setX( point );
-					if ( pos == IConstants.ABOVE )
-					{
-						loLabel.setY( dXTick1 );
-					}
-					else
-					{
-						loLabel.setY( dXTick2 );
-					}
+					loLabel.setX( dpha[i].getLocation( ).getX( ) + fSize );
 				}
 
 				tre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( ax.getModelAxis( ) ),
