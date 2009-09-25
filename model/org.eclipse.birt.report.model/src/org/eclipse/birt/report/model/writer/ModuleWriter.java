@@ -3784,7 +3784,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
 		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
-		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
 
 		writeOverridenPropertyValues( obj );
 	}
@@ -3819,7 +3818,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
 
 		writeContents( obj, IHierarchyModel.LEVELS_PROP );
-		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
 
 		writeOverridenPropertyValues( obj );
 	}

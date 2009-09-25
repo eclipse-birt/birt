@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute;
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousParameterNode;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -96,8 +97,12 @@ class DataSetParametersChecker
 			DataSetParameterChecker oneChecker = new DataSetParameterChecker(
 					paramDefn, existingParamHandle );
 
+			List<IAmbiguousAttribute> attrs = oneChecker.process( );
+			if ( attrs == null || attrs.isEmpty( ) )
+				continue;
+
 			IAmbiguousParameterNode node = new AmbiguousParameterNode(
-					existingParamHandle, oneChecker.process( ) );
+					existingParamHandle, attrs );
 			ambiguousParameters.add( node );
 		}
 

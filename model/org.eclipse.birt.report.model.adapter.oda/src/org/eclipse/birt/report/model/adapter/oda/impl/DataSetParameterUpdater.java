@@ -124,7 +124,9 @@ class DataSetParameterUpdater
 		// also need to be updated.
 
 		String name = newParam.getName( );
-		if ( StringUtil.isBlank( name ) || !name.equalsIgnoreCase( nativeName ) )
+		if ( StringUtil.isBlank( name )
+				|| ( !StringUtil.isBlank( nativeName ) && !name
+						.equalsIgnoreCase( nativeName ) ) )
 		{
 			newParam.setName( nativeName );
 		}
