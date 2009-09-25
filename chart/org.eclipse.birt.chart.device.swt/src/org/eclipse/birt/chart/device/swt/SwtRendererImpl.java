@@ -1209,7 +1209,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						dScale,
 						clipping );
 				ra.setCursor( iev.getCursor( ) );
-				al.add( ra );
+				al.add( 0, ra );
 			}
 		}
 		else if ( pre instanceof RectangleRenderEvent )
@@ -1234,7 +1234,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						dScale,
 						clipping );
 				ra.setCursor( iev.getCursor( ) );
-				al.add( ra );
+				al.add( 0, ra );
 			}
 		}
 		else if ( pre instanceof OvalRenderEvent )
@@ -1261,7 +1261,7 @@ public class SwtRendererImpl extends DeviceAdapter
 							dScale,
 							clipping );
 				ra.setCursor( iev.getCursor( ) );
-				al.add( ra );
+				al.add( 0, ra );
 			}
 		}
 		else if ( pre instanceof ArcRenderEvent )
@@ -1295,7 +1295,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						dScale,
 						clipping );
 				ra.setCursor( iev.getCursor( ) );
-				al.add( ra );
+				al.add( 0, ra );
 			}
 		}
 		else if ( pre instanceof AreaRenderEvent )
@@ -1320,7 +1320,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						dScale,
 						clipping );
 				ra.setCursor( iev.getCursor( ) );
-				al.add( ra );
+				al.add( 0, ra );
 			}
 		}
 
