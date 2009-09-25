@@ -300,6 +300,8 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		fMultiURLValues.getURLValues( ).remove( value );
 
 		fListHyperlinks.remove( index );
+		int last = fListHyperlinks.getItemCount( ) - 1;
+		fListHyperlinks.select( index < last ? index : last );
 	}
 
 
