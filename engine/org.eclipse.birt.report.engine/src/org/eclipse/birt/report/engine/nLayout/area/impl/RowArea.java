@@ -401,6 +401,11 @@ public class RowArea extends ContainerArea
 		}
 		else
 		{
+			//resolve 289645. Repeated row area may be set as page-break-inside: avoid.
+			if ( IStyle.AVOID_VALUE == pageBreakInside )
+			{
+				return true;
+			}
 			if ( content != null )
 			{
 				IStyle style = content.getStyle( );
