@@ -455,25 +455,35 @@ public class EngineIRVisitor extends DesignVisitor
 	private Expression createUserProperty( DesignElementHandle handle,
 			UserPropertyDefn userDef )
 	{
-		String propName = userDef.getName( );
-		String valueExpr = handle.getStringProperty( propName );
 		switch ( userDef.getTypeCode( ) )
 		{
 			case IPropertyType.SCRIPT_TYPE :
 			case IPropertyType.EXPRESSION_TYPE :
-				return createExpression( valueExpr );
+				Object defaultValue = userDef.getDefault( );
+				if ( defaultValue instanceof org.eclipse.birt.report.model.api.Expression )
+				{
+					return createExpression( (org.eclipse.birt.report.model.api.Expression) defaultValue );
+				}
+				else
+				{
+					return null;
+				}
 			case IPropertyType.NUMBER_TYPE :
 			case IPropertyType.INTEGER_TYPE :
 			case IPropertyType.FLOAT_TYPE :
-				return createConstant( DataType.DOUBLE_TYPE, valueExpr );
+				return createConstant( DataType.DOUBLE_TYPE, handle
+						.getStringProperty( userDef.getName( ) ) );
 			case IPropertyType.BOOLEAN_TYPE :
-				return createConstant( DataType.BOOLEAN_TYPE, valueExpr );
+				return createConstant( DataType.BOOLEAN_TYPE, handle
+						.getStringProperty( userDef.getName( ) ) );
 
 			case IPropertyType.DATE_TIME_TYPE :
-				return createConstant( DataType.DATE_TYPE, valueExpr );
+				return createConstant( DataType.DATE_TYPE, handle
+						.getStringProperty( userDef.getName( ) ) );
 
 			default :
-				return createConstant( DataType.STRING_TYPE, valueExpr );
+				return createConstant( DataType.STRING_TYPE, handle
+						.getStringProperty( userDef.getName( ) ) );
 		}
 	}
 
