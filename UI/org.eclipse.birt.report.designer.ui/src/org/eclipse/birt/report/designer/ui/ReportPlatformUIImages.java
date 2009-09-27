@@ -556,6 +556,11 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_HISTORYTOOLBAR_FORWARDENABLED,
 				ICONS_PATH + DATA_PATH + "forward_enabled.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_CHECKED, ICONS_PATH
+				+ DATA_PATH + "checked.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_UNCHECKED, ICONS_PATH
+				+ DATA_PATH + "unchecked.gif" ); //$NON-NLS-1$
+		
 		// ///////////////////attribute image
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_WIDTH,
 				ICONS_PATH + OBJ16_PATH + "bold.gif" ); //$NON-NLS-1$

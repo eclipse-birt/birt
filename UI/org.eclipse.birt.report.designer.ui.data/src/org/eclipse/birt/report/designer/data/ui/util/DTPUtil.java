@@ -15,17 +15,23 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.data.ui.dataset.PromptParameterDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
+import org.eclipse.birt.report.model.adapter.oda.IAmbiguousOption;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
@@ -37,6 +43,7 @@ import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
 import org.eclipse.datatools.connectivity.oda.design.SessionStatus;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * A Utility Class to handle procedures needed to be done <br>
@@ -149,8 +156,46 @@ public class DTPUtil
 				return;
 			try
 			{
+				DataSetDesign design = response.getDataSetDesign( );
+				if ( ReportPlugin.getDefault( )
+						.getPluginPreferences( )
+						.getBoolean( DateSetPreferencePage.PROMPT_ENABLE ) == true )
+				{
+					IAmbiguousOption ambiguousOption = modelOdaAdapter.getAmbiguousOption( design,
+							dataSetHandle );
+					if ( ambiguousOption != null
+							&& !ambiguousOption.getAmbiguousParameters( )
+									.isEmpty( ) )
+					{
+						PromptParameterDialog dialog = new PromptParameterDialog( Messages.getString( "PromptParameterDialog.title" ) );
+						dialog.setInput( ambiguousOption );
+						if ( dialog.open( ) == Dialog.OK )
+						{
+							Object result = dialog.getResult( );
+							if ( result instanceof List )
+							{
+								List<OdaDataSetParameter> selectedParameters = (List) result;
+								updateROMDesignerState( dataSetHandle );
+								modelOdaAdapter.updateDataSetHandle( design,
+										dataSetHandle,
+										selectedParameters,
+										null,
+										isSourceChanged );
+								return;
+							}
+						}
+						else
+						{
+							updateROMDesignerState( dataSetHandle );
+							modelOdaAdapter.updateDataSetHandle( design,
+									dataSetHandle,
+									isSourceChanged );
+							return;
+						}
+					}
+				}
 				updateROMDesignerState( dataSetHandle );
-				modelOdaAdapter.updateDataSetHandle( response.getDataSetDesign( ),
+				modelOdaAdapter.updateDataSetHandle( design,
 						dataSetHandle,
 						isSourceChanged );
 			}
@@ -159,6 +204,7 @@ public class DTPUtil
 				ExceptionHandler.handle( e );
 			}
 		}
+		return;
 	}
 
 	/**
@@ -409,4 +455,9 @@ public class DTPUtil
 					(OdaDataSetHandle) obj );
 	}
 
+	public IAmbiguousOption getAmbiguousOption( DataSetDesign design,
+			OdaDataSetHandle handle )
+	{
+		return modelOdaAdapter.getAmbiguousOption( design, handle );
+	}
 }

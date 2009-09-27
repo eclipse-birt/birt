@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExpressionProvider;
@@ -23,12 +22,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -339,20 +335,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 		return structure;
 	}
 	
-	private String getOperatorName( String displayName )
-	{
-		for ( int i = 0; i < operatorDisplayNames.length; i++ )
-		{
-			if ( operatorDisplayNames[i].equals( displayName ) )
-			{
-				return operators[i];
-			}
-		}
-
-		// should never get here
-		return operators[0];
-	}
-	
 	private String getOperatorDisplayName( String name )
 	{
 		for ( int i = 0; i < operators.length; i++ )
@@ -395,38 +377,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 		}
 	}
 	
-	private boolean isColumnName( String name )
-	{
-		for ( int n = 0; n < columnExpressions.length; n++ )
-		{
-			if ( columnExpressions[n].equals( name ) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private boolean isComputedColumn( String name )
-	{
-		if ( name == null )
-			return false;
-		for ( int i = 0; i < this.columns.length; i++ )
-		{
-			if( name.equals( this.columns[i].getName( ) ) || name.equals( this.columns[i].getAlias( ) ))
-			{
-				return this.columns[i].isComputedColumn( );
-			}
-		}
-		
-		return false;
-	}
-	
-	private String getQualifiedExpression( String expression )
-	{
-		return ExpressionUtil.createJSRowExpression( expression ); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
 	private void initializeFilters( )
 	{
 		filters = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.FILTER_PROP );

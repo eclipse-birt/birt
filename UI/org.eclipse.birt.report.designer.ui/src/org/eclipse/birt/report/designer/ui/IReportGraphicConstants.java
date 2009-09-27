@@ -417,6 +417,9 @@ public interface IReportGraphicConstants
 	public static final String ICON_TEMPLATE_NO_PREVIEW = "no_preview";//$NON-NLS-1$
 
 	public static final String ICON_SCRIPTS_NODE = "Scripts Node"; //$NON-NLS-1$
+	
+	public final static String ICON_CHECKED = "Checked";//$NON-NLS-1$
+	public final static String ICON_UNCHECKED = "UnChecked";//$NON-NLS-1$
 
 	public final static String[] IMAGE_FILTER_NAMES = {
 			Messages.getString( "IReportGraphicConstants.ImageType.All" ), //$NON-NLS-1$

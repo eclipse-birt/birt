@@ -24,6 +24,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -43,9 +44,11 @@ public class DateSetPreferencePage extends PreferencePage implements
 {
 
 	private IntegerFieldEditor maxRowEditor;
+	private Button promptButton;
 
 	/** default value of max number */
 	public static final int DEFAULT_MAX_ROW = 500;
+	public static final boolean DEFAULT_PROMPT_SELECTION = false;
 
 	private static final int MAX_MAX_ROW = Integer.MAX_VALUE;
 
@@ -54,6 +57,8 @@ public class DateSetPreferencePage extends PreferencePage implements
 	public static final String USER_MAX_NUM_OF_SCHEMA = "user_max_num_of_schema"; //$NON-NLS-1$
 	public static final String USER_MAX_NUM_OF_TABLE_EACH_SCHEMA = "user_max_num_of_table_each_schema"; //$NON-NLS-1$
 
+	public static final String PROMPT_ENABLE = "prompt_enable";
+	
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
@@ -114,6 +119,18 @@ public class DateSetPreferencePage extends PreferencePage implements
 			defaultMaxRow = String.valueOf( DEFAULT_MAX_ROW );
 		}
 		maxRowEditor.setStringValue( defaultMaxRow );
+
+		Group promptPageGroup = new Group( mainComposite, SWT.NONE );
+		promptPageGroup.setLayout( new GridLayout( ) );
+		promptPageGroup.setText( Messages.getString( "designer.preview.preference.updateParameter.confirmMessage" ) );
+		promptButton = new Button( promptPageGroup, SWT.CHECK );
+
+		boolean enable = ReportPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getBoolean( PROMPT_ENABLE );
+		promptButton.setSelection( enable );
+		promptButton.setText( Messages.getString( "designer.preview.preference.updateParameter.confirmButton" ) );
+
 		return mainComposite;
 	}
 
@@ -142,6 +159,10 @@ public class DateSetPreferencePage extends PreferencePage implements
 		ReportPlugin.getDefault( )
 				.getPluginPreferences( )
 				.setValue( USER_MAXROW, maxRowEditor.getStringValue( ) );
+		ReportPlugin.getDefault( )
+				.getPluginPreferences( )
+				.setValue( PROMPT_ENABLE, promptButton.getSelection( ) );
+
 		ReportPlugin.getDefault( ).savePluginPreferences( );
 
 		return true;
