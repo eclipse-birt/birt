@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
-public class TemplateAreaLayout implements	ILayout
+public class TemplateAreaLayout implements ILayout
 {
 
 	protected IContent content;
@@ -34,14 +34,6 @@ public class TemplateAreaLayout implements	ILayout
 		this.content = content;
 		this.parent = parent;
 		this.context = context;
-	}
-
-	public void close( )
-	{
-	}
-
-	public void initialize( )
-	{
 	}
 
 	public void layout( ) throws BirtException
@@ -74,7 +66,7 @@ public class TemplateAreaLayout implements	ILayout
 				line.initialize( );
 				addTemplateArea( line, false );
 				line.close( );
-				close();
+				t.close();
 			}
 		}
 
