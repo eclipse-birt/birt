@@ -143,6 +143,15 @@ public class DataCache
 		return ExcelLayoutEngine.DEFAULT_ROW_HEIGHT;
 	}
 
+	public boolean hasRowHeight( int rowIndex )
+	{
+		if ( rowIndex2Height.containsKey( rowIndex )
+				&& rowIndex2Height.get( rowIndex ) != 0 )
+			return true;
+		else
+			return false;
+	}
+
 	/**
 	 * @param index
 	 * @return

@@ -412,43 +412,49 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	private void calculateRowHeight( SheetData[] rowData )
+	private void calculateRowHeight( SheetData[] rowData, boolean isAuto )
 	{
 		double rowHeight = 0;
 		int rowIndex = getRowIndex( rowData );
 		double lastRowHeight = rowIndex > 0
 				? cache.getRowHeight( rowIndex - 1 )
 				: 0;
-		for ( int i = 0; i < rowData.length; i++ )
+		boolean hasCurrentRowHeight = cache.hasRowHeight( rowIndex );
+		if ( !hasCurrentRowHeight || isAuto )
 		{
-			SheetData data = rowData[i];
-			if ( data != null )
+			for ( int i = 0; i < rowData.length; i++ )
 			{
-				if ( data.isBlank( ) )
+				SheetData data = rowData[i];
+				if ( data != null )
 				{
-					// if the data spans last row,then recalculate data height.
-					// if current row is the last row of real data, then adjust
-					// row height.
-					BlankData blankData = (BlankData) data;
-					if ( blankData.getType( ) == Type.VERTICAL )
+					if ( data.isBlank( ) )
 					{
-						data.setHeight( data.getHeight( ) - lastRowHeight );
+						// if the data spans last row,then recalculate data
+						// height.
+						// if current row is the last row of real data, then
+						// adjust
+						// row height.
+						BlankData blankData = (BlankData) data;
+						if ( blankData.getType( ) == Type.VERTICAL )
+						{
+							data.setHeight( data.getHeight( ) - lastRowHeight );
+						}
 					}
-				}
-				SheetData realData = getRealData( data );
-				if ( realData != null )
-				{
-					int realDataRowEnd = realData.getRowIndex( )
-							+ realData.getRowSpan( );
-					if ( realDataRowEnd == data.getRowIndex( ) )
+					SheetData realData = getRealData( data );
+					if ( realData != null )
 					{
-						rowHeight = data.getHeight( ) > rowHeight ? data
-								.getHeight( ) : rowHeight;
+						int realDataRowEnd = realData.getRowIndex( )
+								+ realData.getRowSpan( );
+						if ( realDataRowEnd == data.getRowIndex( ) )
+						{
+							rowHeight = data.getHeight( ) > rowHeight ? data
+									.getHeight( ) : rowHeight;
+						}
 					}
 				}
 			}
+			cache.setRowHeight( rowIndex, rowHeight );
 		}
-		cache.setRowHeight( rowIndex, rowHeight );
 	}
 
 	private int getRowIndex( SheetData[] rowData )
@@ -950,7 +956,7 @@ public class ExcelLayoutEngine
 		cache.addData( col, value );
 	}
 
-	public void complete( )
+	public void complete( boolean isAuto )
 	{
 		engine.applyContainerBottomStyle( containers.get( 0 ) );
 		Iterator<SheetData[]> iterator = cache.getRowIterator( );
@@ -991,7 +997,7 @@ public class ExcelLayoutEngine
 				int styleid = engine.getStyleID( data );
 				data.setStyleId( styleid );
 			}
-			calculateRowHeight( rowData );
+			calculateRowHeight( rowData, isAuto );
 		}
 	}
 

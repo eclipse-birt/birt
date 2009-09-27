@@ -50,7 +50,9 @@ import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -121,11 +123,19 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		setupRenderOptions( );
 		// We can the page size from the design, maybe there is a better way
 		// to get the page definition.
-
-		String reportOrientation = report.getDesign( ).getReportDesign( )
-				.getBidiOrientation( );
+		ReportDesignHandle designHandle = report.getDesign( ).getReportDesign( );
+		String reportOrientation = designHandle.getBidiOrientation( );
 		if ( "rtl".equalsIgnoreCase( reportOrientation ) )
+		{
 			isRTLSheet = true;
+		}
+		String reportLayoutPreference = designHandle.getLayoutPreference( );
+		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+				.equals( reportLayoutPreference ) )
+		{
+			isAuto = false;
+		}
+
 		IStyle style = report.getRoot( ).getComputedStyle( );
 		SimpleMasterPageDesign master = (SimpleMasterPageDesign) report
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
@@ -209,7 +219,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		ContainerSizeInfo sizeInfo = engine.getCurrentContainer( ).getSizeInfo( );
 		int width = sizeInfo.getWidth( );
 		ColumnsInfo info = null;
-		if ( isAuto )
+		// excel now only use "auto" to deal with table's width.
+		boolean isAutoTable = true;
+		if ( isAutoTable )
 		{
 			info = LayoutUtil.createTable( table, width );
 		}
@@ -422,7 +434,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void outputSheet( )
 	{
 		engine.cacheBookmarks( sheetIndex );
-		engine.complete( );
+		engine.complete( isAuto );
 		try
 		{
 			outputCacheData( );
@@ -438,7 +450,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		// Make sure the engine already calculates all data in cache.
 		engine.cacheBookmarks( sheetIndex );
-		engine.complete( );
+		engine.complete( isAuto );
 		try
 		{
 			// TODO: style ranges.
