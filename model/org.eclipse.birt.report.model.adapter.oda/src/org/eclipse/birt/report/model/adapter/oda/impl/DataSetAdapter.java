@@ -158,10 +158,16 @@ class DataSetAdapter extends AbstractDataAdapter
 			designDefinedParams.getParameterDefinitions( ).addAll(
 					userDefinedParams.getParameterDefinitions( ) );
 
-		setDesign.setPrimaryResultSet( new ResultSetsAdapter( setHandle,
-				setDesign ).newOdaResultSetDefinition( ) );
+		new ResultSetsAdapter( setHandle, setDesign )
+				.updateOdaResultSetDefinition( );
 	}
 
+	/**
+	 * @param setHandle
+	 * @param setDesign
+	 * @param propertyName
+	 */
+	
 	void updateDataSetDesign( OdaDataSetHandle setHandle,
 			DataSetDesign setDesign, String propertyName )
 	{
@@ -227,8 +233,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		else if ( OdaDataSetHandle.RESULT_SET_PROP
 				.equalsIgnoreCase( propertyName ) )
-			setDesign.setPrimaryResultSet( new ResultSetsAdapter( setHandle,
-					setDesign ).newOdaResultSetDefinition( ) );
+			new ResultSetsAdapter( setHandle, setDesign )
+					.updateOdaResultSetDefinition( );
 
 		else if ( OdaDataSetHandle.COLUMN_HINTS_PROP
 				.equalsIgnoreCase( propertyName ) )

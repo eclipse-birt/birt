@@ -815,14 +815,24 @@ class ResultSetsAdapter
 	}
 
 	/**
+	 * Updates the ResultSetDefinition with the given ROM ResultSet columns.
+	 * 
+	 */
+
+	void updateOdaResultSetDefinition( )
+	{
+		setDesign.setPrimaryResultSet( newOdaResultSetDefinition( ) );
+
+		filterAdapter.updateODAResultSetCriteria( );
+	}
+
+	/**
 	 * Creates a ResultSetDefinition with the given ROM ResultSet columns.
 	 * 
-	 * @param setHandle
-	 *            the data set handle
 	 * @return the created ResultSetDefinition
 	 */
 
-	ResultSetDefinition newOdaResultSetDefinition( )
+	private ResultSetDefinition newOdaResultSetDefinition( )
 	{
 		Iterator romSets = setDefinedResults.iterator( );
 		String name = setHandle.getResultSetName( );
@@ -885,8 +895,6 @@ class ResultSetsAdapter
 
 		if ( odaSetDefn != null )
 			odaSetDefn.setResultSetColumns( odaSetColumns );
-
-		updateOdaFilterExpression( );
 
 		return odaSetDefn;
 	}

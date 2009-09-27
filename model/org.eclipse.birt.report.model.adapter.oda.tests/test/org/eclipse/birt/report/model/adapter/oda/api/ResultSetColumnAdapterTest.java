@@ -75,9 +75,9 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 	 * Converts ODA result set columns to ROM result set columns.
 	 * 
 	 * <ul>
-	 * <li>no the latest design session reponse, update ROM values.
-	 * <li>if the latest design session reponse changed, update ROM values.
-	 * <li>if the latest design session reponse didn't change and ROM values
+	 * <li>no the latest design session response, update ROM values.
+	 * <li>if the latest design session response changed, update ROM values.
+	 * <li>if the latest design session response didn't change and ROM values
 	 * changed, don't update ROM values.
 	 * </ul>
 	 * 
