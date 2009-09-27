@@ -431,14 +431,12 @@ public class ChartCubeQueryHelper
 			{
 				// Create nest total aggregation binding
 				IBinding maxBinding = new Binding( maxBindingName );
-				maxBinding.setExpression( ChartReportItemUtil.newExpression( queryValue.getDefinition( ),
-						column ) );
+				maxBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
 				maxBinding.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
 				maxBinding.setExportable( false );
 
 				IBinding minBinding = new Binding( minBindingName );
-				minBinding.setExpression( ChartReportItemUtil.newExpression( queryValue.getDefinition( ),
-						column ) );
+				minBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
 				minBinding.setAggrFunction( IBuildInAggregation.TOTAL_MIN_FUNC );
 				minBinding.setExportable( false );
 
