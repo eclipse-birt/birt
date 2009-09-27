@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.parameters.AbstractParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.ComboBoxParameter;
+import org.eclipse.birt.report.designer.ui.parameters.IParameter;
 import org.eclipse.birt.report.designer.ui.parameters.IParameterAdapter;
 import org.eclipse.birt.report.designer.ui.parameters.ListingParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
@@ -75,6 +76,8 @@ public class InputParameterDialog extends Dialog
 	private List dataTypeCheckList = new ArrayList( );
 
 	private boolean performed = false;
+
+	private Map<IParameter, Control> postParamLists = new HashMap<IParameter, Control>( );
 
 	private static IParameterSelectionChoice nullValueChoice = new IParameterSelectionChoice( ) {
 
@@ -602,18 +605,28 @@ public class InputParameterDialog extends Dialog
 					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
 					if ( group.getPostParameter( listParam ) != null )
 					{
-						try
-						{
-							createParameters( );
-						}
-						catch ( RuntimeException e1 )
-						{
-							e1.printStackTrace( );
-						}
+//						try
+//						{
+//							createParameters( );
+//						}
+//						catch ( RuntimeException e1 )
+//						{
+//							e1.printStackTrace( );
+//						}
+						cascadingParamValueChanged(group, listParam);
 					}
 				}
 			}
 		} );
+
+		if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
+		{
+			CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
+			if ( group.getPreParameter( listParam ) != null )
+			{
+				postParamLists.put( group.getPreParameter( listParam ), combo );
+			}
+		}
 	}
 
 	private void createList( Composite container,
@@ -712,6 +725,16 @@ public class InputParameterDialog extends Dialog
 
 		}
 
+		if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
+		{
+			CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
+			if ( group.getPreParameter( listParam ) != null )
+			{
+				postParamLists.put( group.getPreParameter( listParam ),
+						listViewer.getList( ) );
+			}
+		}
+
 		listViewer.getList( ).addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -721,6 +744,7 @@ public class InputParameterDialog extends Dialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) e.getSource( );
+
 				String[] strs = list.getSelection( );
 				if ( strs != null && strs.length > 0 )
 				{
@@ -732,27 +756,92 @@ public class InputParameterDialog extends Dialog
 					}
 					Object[] objs = new Object[array.size( )];
 					array.toArray( objs );
-
 					paramValues.put( listParam.getHandle( ).getName( ), objs );
+				}
+				else
+				{
+					paramValues.remove( listParam.getHandle( ).getName( ) );
 				}
 
 				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
 				{
 					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
-					if ( group.getPostParameter( listParam ) != null )
-					{
-						try
-						{
-							createParameters( );
-						}
-						catch ( RuntimeException e1 )
-						{
-							e1.printStackTrace( );
-						}
-					}
+					 if ( group.getPostParameter( listParam ) != null )
+					 {
+						// try
+						// {
+						// createParameters( );
+						// }
+						// catch ( RuntimeException e1 )
+						// {
+						// e1.printStackTrace( );
+						// }
+						cascadingParamValueChanged(group, listParam);
+					 }
 				}
 			}
 		} );
+	}
+	
+	private void cascadingParamValueChanged(CascadingParameterGroup group, ListingParameter listParam){
+		clearPostParamList( group, listParam );
+		if ( postParamLists.containsKey( listParam )
+				&& paramValues.containsKey( listParam.getHandle( )
+						.getName( ) ) )
+		{
+			Object value = paramValues.get( listParam.getHandle( )
+					.getName( ) );
+			listParam.setSelectionValue( value );
+			ListingParameter postParam = (ListingParameter) group.getPostParameter( listParam );
+			Control control = postParamLists.get( listParam );
+			setControlItems( control, new String[0] );
+			for ( Iterator iterator = postParam.getValueList( )
+					.iterator( ); iterator.hasNext( ); )
+			{
+				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
+				String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
+						: choice.getLabel( ) );
+				if ( label != null )
+				{
+					addControlItem( control, label );
+					control.setData( label, choice.getValue( ) );
+				}
+			}
+		}
+	}
+
+	private void setControlItems( Control control, String[] items )
+	{
+		if ( control instanceof Combo )
+		{
+			( (Combo) control ).setItems( items );
+		}
+		if ( control instanceof org.eclipse.swt.widgets.List )
+		{
+			( (org.eclipse.swt.widgets.List) control ).setItems( items );
+		}
+	}
+
+	private void addControlItem( Control control, String item )
+	{
+		if ( control instanceof Combo )
+		{
+			( (Combo) control ).add( item );
+		}
+		if ( control instanceof org.eclipse.swt.widgets.List )
+		{
+			( (org.eclipse.swt.widgets.List) control ).add( item );
+		}
+	}
+
+	private void clearPostParamList( CascadingParameterGroup group,
+			IParameter param )
+	{
+		if ( postParamLists.containsKey( param ) )
+		{
+			setControlItems( postParamLists.get( param ), new String[0] );
+			clearPostParamList( group, group.getPostParameter( param ) );
+		}
 	}
 
 	protected void configureShell( Shell newShell )
