@@ -170,7 +170,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	protected void cachePropertyHandles( )
 	{
-		List<IElementPropertyDefn> contents = getDefn( ).getProperties( );
+		List<IElementPropertyDefn> contents = getElement( ).getPropertyDefns( );
 		for ( int i = 0; i < contents.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) contents
@@ -1185,7 +1185,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( propDefn.isElementType( )
 				&& !( this instanceof ContentElementHandle ) )
 		{
-			return propHandles.get( propName );
+			PropertyHandle propHandle = propHandles.get( propName );
+			if ( propHandle != null )
+				return propHandle;
+			else
+			{
+				cachePropertyHandles( );
+				return propHandles.get( propName );
+			}
 		}
 
 		return new PropertyHandle( this, propDefn );

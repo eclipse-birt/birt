@@ -12,28 +12,23 @@
 package org.eclipse.birt.report.model.plugin;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataException;
-import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.datatools.connectivity.oda.util.manifest.DataSetType;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
-import org.eclipse.datatools.connectivity.oda.util.manifest.Property;
 
 /**
  * Provides ODA extensibility.
@@ -101,12 +96,13 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	 * (java.lang.String)
 	 */
 
-	public IPropertyDefn getPropertyDefn( String propName )
+	public ElementPropertyDefn getPropertyDefn( String propName )
 	{
 		if ( getExtDefn( ) == null )
 			return null;
 
-		IPropertyDefn propDefn = getExtDefn( ).getProperty( propName );
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) getExtDefn( )
+				.getProperty( propName );
 
 		if ( propDefn == null )
 			propDefn = element.getUserPropertyDefn( propName );

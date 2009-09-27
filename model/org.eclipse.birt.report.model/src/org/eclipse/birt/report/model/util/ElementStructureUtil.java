@@ -282,7 +282,7 @@ public class ElementStructureUtil
 			throw new IllegalArgumentException( "Element can not be null." ); //$NON-NLS-1$
 
 		ElementDefn defn = (ElementDefn) source.getDefn( );
-		if ( defn != target.getDefn( ) )
+		if ( target.getExtendsElement( ) != null && defn != target.getDefn( ) )
 			throw new IllegalArgumentException(
 					"Two element are not the same type." ); //$NON-NLS-1$
 

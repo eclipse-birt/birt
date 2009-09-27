@@ -3782,9 +3782,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
 
-		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
-		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
-
 		writeOverridenPropertyValues( obj );
 	}
 
@@ -3842,7 +3839,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ILevelModel.DEFAULT_VALUE_PROP );
 		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
-		writeContents( obj, ILevelModel.VALUE_ACCESS_CONTROLS_PROP );
 
 	}
 
@@ -3890,6 +3886,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.TABULAR_CUBE_TAG );
 		super.visitTabularCube( obj );
+
+		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
+		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
 
 		property( obj, ITabularCubeModel.DATA_SET_PROP );
 		property( obj, ITabularCubeModel.AUTO_KEY_PROP );
@@ -3989,6 +3988,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.ODA_CUBE_TAG );
 		super.visitOdaCube( obj );
+
+		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
+		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
 
 		property( obj, IOdaOlapElementModel.NATIVE_NAME_PROP );
 		writer.endElement( );

@@ -96,7 +96,7 @@ public final class ContainerContext
 		if ( tmpDefn != null )
 			this.slotDefn = (SlotDefn) tmpDefn.getSlot( containerSlotID );
 		else
-			this.slotDefn = null;
+			throw new IllegalArgumentException( "The slot is not defined." ); //$NON-NLS-1$
 		this.isSlot = true;
 		this.containerProp = null;
 	}
@@ -113,6 +113,10 @@ public final class ContainerContext
 					"The container and property name should not be null" ); //$NON-NLS-1$
 		this.container = theContainer;
 		this.containerProp = propName;
+
+		if ( container.getPropertyDefn( propName ) == null )
+			throw new IllegalArgumentException(
+					"The property \"" + propName + "\" is not defined" ); //$NON-NLS-1$//$NON-NLS-2$
 		this.isSlot = false;
 		this.containerSlotID = DesignElement.NO_SLOT;
 		this.slotDefn = null;

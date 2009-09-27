@@ -165,7 +165,7 @@ public final class DummyPeerExtensibilityProvider
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getPropertyDefn(java.lang.String)
 	 */
-	public IPropertyDefn getPropertyDefn( String propName )
+	public ElementPropertyDefn getPropertyDefn( String propName )
 	{
 		return null;
 	}

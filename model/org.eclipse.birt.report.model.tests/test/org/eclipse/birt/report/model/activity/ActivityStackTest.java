@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
 import org.eclipse.birt.report.model.core.CoreTestUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -46,8 +47,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * Unit test for ActivityStack.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -242,8 +242,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <tr>
  * <td></td>
  * <td>nested transactions , two levels</td>
- * <td>first commit , canUndo still is false after second commit ( outer commit )
- * ,canUndo is true</td>
+ * <td>first commit , canUndo still is false after second commit ( outer commit
+ * ) ,canUndo is true</td>
  * </tr>
  * 
  * <tr>
@@ -2156,7 +2156,7 @@ public class ActivityStackTest extends BaseTestCase
 		 */
 		public String getElementName( )
 		{
-			return null;
+			return ReportDesignConstants.TABLE_ITEM;
 		}
 
 		/*
@@ -2171,6 +2171,7 @@ public class ActivityStackTest extends BaseTestCase
 		{
 			return null;
 		}
+
 	}
 
 	class MyActivityStackListener implements ActivityStackListener

@@ -850,7 +850,7 @@ public abstract class DesignElement
 	 * @return the virtual parent element.
 	 */
 
-	public DesignElement getVirtualParent( )
+	public final DesignElement getVirtualParent( )
 	{
 		if ( !isVirtualElement( ) )
 			return null;
@@ -881,6 +881,56 @@ public abstract class DesignElement
 
 		return parent.getRoot( ).getElementByID( baseId );
 
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public final DesignElement getDynamicVirtualParent( Module module )
+	{
+		if ( !isVirtualElement( ) )
+			return null;
+
+		// Find the out-most child element.
+
+		DesignElement parent = null;
+		DesignElement cur = this;
+
+		while ( cur != null )
+		{
+			DesignElement extendsElement = cur
+					.getDynamicExtendsElement( module );
+			if ( extendsElement != null )
+			{
+				// an element can not define parent as extended element and
+				// dynamic extends element both
+				assert cur.getExtendsElement( ) == null;
+
+				parent = extendsElement;
+				break;
+			}
+
+			cur = cur.getContainer( );
+		}
+
+		// The element is not in the tree.
+
+		if ( parent == null )
+			return null;
+
+		assert parent.getContainer( ) instanceof Module;
+
+		return parent.getRoot( ).getElementByID( baseId );
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public DesignElement getDynamicExtendsElement( Module module )
+	{
+		return null;
 	}
 
 	/**
@@ -2941,7 +2991,8 @@ public abstract class DesignElement
 		if ( slotCount == 0 )
 			return;
 
-		Iterator<ISlotDefn> iter1 = ( (ElementDefn) cachedDefn ).slotsIterator( );
+		Iterator<ISlotDefn> iter1 = ( (ElementDefn) cachedDefn )
+				.slotsIterator( );
 
 		slots = new ContainerSlot[slotCount];
 		for ( int i = 0; i < slotCount; i++ )

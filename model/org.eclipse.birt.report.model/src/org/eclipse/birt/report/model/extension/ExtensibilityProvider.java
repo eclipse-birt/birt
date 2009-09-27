@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
 /**
@@ -92,13 +93,13 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 	 * @return the element property definition with the given name
 	 */
 
-	public IPropertyDefn getPropertyDefn( String propName )
+	public ElementPropertyDefn getPropertyDefn( String propName )
 	{
 		ExtensionElementDefn extDefn = getExtDefn( );
 
 		if ( extDefn != null )
 		{
-			return extDefn.getProperty( propName );
+			return (ElementPropertyDefn) extDefn.getProperty( propName );
 		}
 
 		return null;

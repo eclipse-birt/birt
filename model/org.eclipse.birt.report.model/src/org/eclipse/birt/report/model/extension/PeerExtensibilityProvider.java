@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
@@ -210,9 +209,9 @@ public abstract class PeerExtensibilityProvider
 	 * @return the element property definition with the given name
 	 */
 
-	public IPropertyDefn getPropertyDefn( String propName )
+	public ElementPropertyDefn getPropertyDefn( String propName )
 	{
-		IPropertyDefn propDefn = super.getPropertyDefn( propName );
+		ElementPropertyDefn propDefn = super.getPropertyDefn( propName );
 		if ( propDefn == null )
 		{
 			PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
@@ -475,7 +474,6 @@ public abstract class PeerExtensibilityProvider
 
 		StructureContextUtil.setStructureContext( prop, value, element );
 
-		
 		if ( value != null )
 			extensionPropValues.put( propName, value );
 		else

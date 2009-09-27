@@ -297,9 +297,14 @@ public class PropertySearchStrategy
 		{
 			if ( e.isVirtualElement( ) )
 			{
-				// Does the virtual parent provide the value of this property ?
+				DesignElement cur = e;
 
-				e = e.getVirtualParent( );
+				// Does the virtual parent provide the value of this property ?
+				e = cur.getVirtualParent( );
+
+				// Does the dynamic virtual parent provide the value ?
+				if ( e == null )
+					e = cur.getDynamicVirtualParent( cur.getRoot( ) );
 			}
 			else
 			{
