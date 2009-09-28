@@ -137,6 +137,11 @@ public class ReportEngine implements IReportEngine
 				config );
 		this.helper = new ReportEngineHelper( this );
 		openedDocuments = new LinkedObjectManager<ReportDocumentReader>( );
+		IStatusHandler handler = config.getStatusHandler( );
+		if ( handler != null )
+		{
+			handler.initialize( );
+		}
 	}
 
 	private void mergeConfigToAppContext( )
