@@ -339,7 +339,7 @@
 	</target>
 
         <target name="GenP2CompositeUpdateSite">
-            <property name="compsite.site" value="${postingDirectory}/../../../UpdateSite/${updateSite}" />
+            <property name="compsite.site" value="${postingDirectory}/../../../../UpdateSite/${updateSite}" />
             <property name="repo" value="${compsite.site}/${buildId}" />
             <property name="p2.repo.name" value="BIRT TEST" />
             <mkdir dir="${repo}" />
