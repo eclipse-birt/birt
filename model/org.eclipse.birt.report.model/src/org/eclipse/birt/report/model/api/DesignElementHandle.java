@@ -1965,6 +1965,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canContain( String propName, String type )
 	{
+		if ( StringUtil.isBlank( type ) || StringUtil.isBlank( propName ) )
+			return false;
+
+		IElementPropertyDefn defn = getPropertyDefn( propName );
+
+		if ( defn == null )
+			return false;
+
 		return new ContainerContext( getElement( ), propName ).canContain(
 				getModule( ), type );
 	}
