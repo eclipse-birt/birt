@@ -54,6 +54,8 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 	protected static Logger logger = Logger.getLogger( JavascriptEngine.class
 			.getName( ) );
 
+	private static Script cachedScript;
+
 	/**
 	 * the JavaScript Context
 	 */
@@ -64,6 +66,23 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 	private Map<String, Object> propertyMap = new HashMap<String, Object>( );
 
 	private JavascriptEngineFactory factory;
+
+	static
+	{
+		try
+		{
+			Context context = Context.enter( );
+			cachedScript = context
+					.compileString(
+							"function writeStatus(msg) { _statusHandle.showStatus(msg); }",
+							"<inline>", 1, null );
+			context.exit( );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+		}
+	}
 
 	public JavascriptEngine( JavascriptEngineFactory factory,
 			ScriptableObject root ) throws BirtException
@@ -237,12 +256,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 		//Register writeStatus method in root context.
 		if ( parent == null )
 		{
-			this.context
-					.evaluateString(
-							jsScope,
-							"function writeStatus(msg) { _statusHandle.showStatus(msg); }",
-							"<inline>", 1, null );
-
+			cachedScript.exec( this.context, jsScope );
 		}
 		Map<String, Object> attrs = context.getAttributes( );
 		for ( Entry<String, Object> entry : attrs.entrySet( ) )
