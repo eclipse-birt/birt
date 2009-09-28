@@ -681,6 +681,14 @@ DataSetParameterPage.toolTipText.Down=Parameter nach unten verschieben
 DataSetParameterPage.WarningMessage.updatePosition=Einige oder alle Datensatzparameter besitzen ungültige Positionswerte. Die Positionen werden auf Grundlage der Folgen aktualisiert.
 DataSetParameterPage.warning.UnmatchedParamDataType=Parametertyp des Datensatzes stimmt nicht mit Parametertyp des verknüpften Berichts überein.
 
+PromptParameterDialog.title=Confirm Update Design Attributes
+PromptParameterDialog.okButton.text=Apply
+PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
+PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.parameterGroup.nameColumn=Name
+PromptParameterDialog.parameterGroup.previousValue=Previous Value
+PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+
 ###########################################################
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=Für diese Datenquelle ist keine öffentliche Eigenschaft durch die ODA-Erweiterung definiert.
@@ -889,6 +897,8 @@ designer.preview.preference.bidiOrientation.label=&Bidirektionale Ausrichtung:
 designer.preview.preference.bidiOrientation.auto=Automatisch
 designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
 designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
+designer.preview.preference.updateParameter.confirmMessage=Confirm updating
+designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
 
 designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
 designer.preview.previewaction.label=Bericht als {0} anzeigen

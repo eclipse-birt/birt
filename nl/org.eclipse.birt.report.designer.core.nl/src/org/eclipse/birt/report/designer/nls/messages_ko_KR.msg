@@ -681,6 +681,14 @@ DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
 DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매개 변수에 잘못된 위치값이 지정되었습니다. 순서를 기준으로 위치를 업데이트하고 있습니다.
 DataSetParameterPage.warning.UnmatchedParamDataType=데이터 집합 매개 변수 형식이 연결된 보고서 매개 변수 형식과 일치하지 않습니다.
 
+PromptParameterDialog.title=Confirm Update Design Attributes
+PromptParameterDialog.okButton.text=Apply
+PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
+PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.parameterGroup.nameColumn=이름
+PromptParameterDialog.parameterGroup.previousValue=Previous Value
+PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+
 ###########################################################
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=이 데이터 원본의 ODA 확장명에 정의된 공용 속성이 없습니다.
@@ -889,6 +897,8 @@ designer.preview.preference.bidiOrientation.label=양방향(&B):
 designer.preview.preference.bidiOrientation.auto=자동
 designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
+designer.preview.preference.updateParameter.confirmMessage=Confirm updating
+designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
 
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기

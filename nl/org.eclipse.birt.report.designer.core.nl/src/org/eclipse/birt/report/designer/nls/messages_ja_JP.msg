@@ -681,6 +681,14 @@ DataSetParameterPage.toolTipText.Down=パラメタを下に移動
 DataSetParameterPage.WarningMessage.updatePosition=一部またはすべてのデータセットパラメタの位置の値が無効です。パラメタの順序に従って位置を更新しています。
 DataSetParameterPage.warning.UnmatchedParamDataType=データセットパラメタの型が、リンクされているレポートパラメタの型と一致しません。
 
+PromptParameterDialog.title=Confirm Update Design Attributes
+PromptParameterDialog.okButton.text=Apply
+PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
+PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.parameterGroup.nameColumn=名前
+PromptParameterDialog.parameterGroup.previousValue=Previous Value
+PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+
 ###########################################################
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=このデータソースのパブリックプロパティは、ODA 拡張で定義されていません。
@@ -889,6 +897,8 @@ designer.preview.preference.bidiOrientation.label=双方向の向き(&B) :
 designer.preview.preference.bidiOrientation.auto=自動
 designer.preview.preference.bidiOrientation.ltr=左から右
 designer.preview.preference.bidiOrientation.rtl=右から左
+designer.preview.preference.updateParameter.confirmMessage=Confirm updating
+designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
 
 designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する

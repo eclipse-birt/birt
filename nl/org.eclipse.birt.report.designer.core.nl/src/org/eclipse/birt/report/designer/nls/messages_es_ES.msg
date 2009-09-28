@@ -681,6 +681,14 @@ DataSetParameterPage.toolTipText.Down=Mover parámetro hacia abajo
 DataSetParameterPage.WarningMessage.updatePosition=Algunos o todos los parámetros de conjunto de datos tienen valores de posición no válidos. Actualizando la posiciones según la secuencia.
 DataSetParameterPage.warning.UnmatchedParamDataType=El tipo de parámetro del conjunto de datos no coincide con el tipo de parámetro del informe vinculado.
 
+PromptParameterDialog.title=Confirm Update Design Attributes
+PromptParameterDialog.okButton.text=Apply
+PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
+PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.parameterGroup.nameColumn=Nombre
+PromptParameterDialog.parameterGroup.previousValue=Previous Value
+PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+
 ###########################################################
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=La extensión ODA de esta fuente de datos no ha definido ninguna propiedad pública.
@@ -889,6 +897,8 @@ designer.preview.preference.bidiOrientation.label=&Orientación bidimensional:
 designer.preview.preference.bidiOrientation.auto=Automático
 designer.preview.preference.bidiOrientation.ltr=De izquierda a derecha
 designer.preview.preference.bidiOrientation.rtl=De derecha a izquierda
+designer.preview.preference.updateParameter.confirmMessage=Confirm updating
+designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
 
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}

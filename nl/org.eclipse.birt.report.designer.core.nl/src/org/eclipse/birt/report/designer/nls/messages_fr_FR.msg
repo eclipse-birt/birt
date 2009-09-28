@@ -681,6 +681,14 @@ DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
 DataSetParameterPage.WarningMessage.updatePosition=Les valeurs de position de la totalité ou d'une partie des paramètres du jeu de données sont incorrectes. Mise à jour de leurs positions selon leur séquence.
 DataSetParameterPage.warning.UnmatchedParamDataType=Le type de paramètre du jeu de données ne correspond pas au type de paramètre d'état lié.
 
+PromptParameterDialog.title=Confirm Update Design Attributes
+PromptParameterDialog.okButton.text=Apply
+PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
+PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.parameterGroup.nameColumn=Nom
+PromptParameterDialog.parameterGroup.previousValue=Previous Value
+PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+
 ###########################################################
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=Aucune propriété publique n'est définie par l'extension ODA de cette source de données.
@@ -889,6 +897,8 @@ designer.preview.preference.bidiOrientation.label=Orientation &Bidi :
 designer.preview.preference.bidiOrientation.auto=Auto
 designer.preview.preference.bidiOrientation.ltr=Gauche à droite
 designer.preview.preference.bidiOrientation.rtl=Droite à gauche
+designer.preview.preference.updateParameter.confirmMessage=Confirm updating
+designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
 
 designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualiseur Web
 designer.preview.previewaction.label=Afficher l''état au format {0}

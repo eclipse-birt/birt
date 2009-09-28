@@ -681,6 +681,14 @@ DataSetParameterPage.toolTipText.Down=参数下移
 DataSetParameterPage.WarningMessage.updatePosition=某些或所有数据集参数具有无效的位置值。正在根据其序列更新其位置。
 DataSetParameterPage.warning.UnmatchedParamDataType=数据集类型与链接的报表参数类型不匹配。
 
+PromptParameterDialog.title=Confirm Update Design Attributes
+PromptParameterDialog.okButton.text=Apply
+PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
+PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.parameterGroup.nameColumn=名称
+PromptParameterDialog.parameterGroup.previousValue=Previous Value
+PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+
 ###########################################################
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=ODA 扩展没有为此数据源定义公共属性。
@@ -889,6 +897,8 @@ designer.preview.preference.bidiOrientation.label=双向(&B):
 designer.preview.preference.bidiOrientation.auto=自动
 designer.preview.preference.bidiOrientation.ltr=从左到右
 designer.preview.preference.bidiOrientation.rtl=从右到左
+designer.preview.preference.updateParameter.confirmMessage=Confirm updating
+designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
 
 designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表
 designer.preview.previewaction.label=以 {0} 格式查看报表
