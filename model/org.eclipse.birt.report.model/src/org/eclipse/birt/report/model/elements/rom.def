@@ -613,6 +613,13 @@
   	<Choice displayNameID="Choices.dataVersion.transient" name="transient"/>
   	<Choice displayNameID="Choices.dataVersion.latest" name="latest"/>
   </ChoiceType>
+  <ChoiceType name="selectorType">
+  	<Choice displayNameID="Choices.selectorType.list" name="list"/>
+  	<Choice displayNameID="Choices.selectorType.comboBox" name="comboBox"/>
+  	<Choice displayNameID="Choices.selectorType.slider" name="slider"/>
+  	<Choice displayNameID="Choices.selectorType.checkBox" name="checkBox"/>
+  	<Choice displayNameID="Choices.selectorType.radioButton" name="radioButton"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
