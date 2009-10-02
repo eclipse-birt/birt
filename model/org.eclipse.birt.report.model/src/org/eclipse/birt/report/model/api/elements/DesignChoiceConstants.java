@@ -972,5 +972,14 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_DATA_VERSION = "dataVersion"; //$NON-NLS-1$
 	public static final String DATA_VERSION_TRANSIENT = "transient"; //$NON-NLS-1$
 	public static final String DATA_VERSION_LATEST = "latest"; //$NON-NLS-1$
-
+	
+	/**
+	 * Choice constants for dataSelector type.
+	 */
+	public static final String CHOICE_DATASELECTOR_TYPE_LIST = "list"; //$NON-NLS-1$
+	public static final String CHOICE_DATASELECTOR_TYPE_COMBO_BOX = "comboBox";//$NON-NLS-1$
+	public static final String CHOICE_DATASELECTOR_TYPE_SLIDER = "slider"; //$NON-NLS-1$
+	public static final String CHOICE_DATASELECTOR_TYPE_CHECK_BOX = "checkBox";//$NON-NLS-1$
+	public static final String CHOICE_DATASELECTOR_TYPE_RADIO_BUTTON = "radioButton";//$NON-NLS-1$
+	
 };
