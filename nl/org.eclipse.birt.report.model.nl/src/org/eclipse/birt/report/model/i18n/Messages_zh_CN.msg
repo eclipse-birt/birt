@@ -673,6 +673,13 @@ Choices.nullValueOrderingType.nullIsLast=空值在后
 Choices.dataVersion.transient=Transient
 Choices.dataVersion.latest=Latest
 
+#84 selectorType
+Choices.selectorType.list=列表
+Choices.selectorType.comboBox=ComboBox
+Choices.selectorType.slider=Slider
+Choices.selectorType.checkBox=CheckBox
+Choices.selectorType.radioButton=RadioButton
+
 ###########################################################
 # Classes
 
@@ -3331,7 +3338,7 @@ Element.ExternalElementRef.targetBookmark=目标书签
 
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=绑定的数据列
-Element.DataSelectorItem.type=类型
+Element.DataSelectorItem.selectorType=selectorType
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet 引用

@@ -673,6 +673,13 @@ Choices.nullValueOrderingType.nullIsLast=Nulls Last
 Choices.dataVersion.transient=Transient
 Choices.dataVersion.latest=Latest
 
+#84 selectorType
+Choices.selectorType.list=목록
+Choices.selectorType.comboBox=ComboBox
+Choices.selectorType.slider=Slider
+Choices.selectorType.checkBox=CheckBox
+Choices.selectorType.radioButton=RadioButton
+
 ###########################################################
 # Classes
 
@@ -3331,7 +3338,7 @@ Element.ExternalElementRef.targetBookmark=대상 책갈피
 
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=바인딩된 데이터 열
-Element.DataSelectorItem.type=형식
+Element.DataSelectorItem.selectorType=selectorType
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=내부 리포틀릿 참조

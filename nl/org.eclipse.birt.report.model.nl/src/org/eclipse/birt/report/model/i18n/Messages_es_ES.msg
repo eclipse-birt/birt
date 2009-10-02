@@ -673,6 +673,13 @@ Choices.nullValueOrderingType.nullIsLast=Nulo último
 Choices.dataVersion.transient=Transient
 Choices.dataVersion.latest=Latest
 
+#84 selectorType
+Choices.selectorType.list=Lista
+Choices.selectorType.comboBox=ComboBox
+Choices.selectorType.slider=Slider
+Choices.selectorType.checkBox=CheckBox
+Choices.selectorType.radioButton=RadioButton
+
 ###########################################################
 # Classes
 
@@ -3331,7 +3338,7 @@ Element.ExternalElementRef.targetBookmark=Marcador de destino
 
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=Columnas de datos enlazados
-Element.DataSelectorItem.type=Tipo
+Element.DataSelectorItem.selectorType=selectorType
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Referencia de informe interno

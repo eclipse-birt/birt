@@ -673,6 +673,13 @@ Choices.nullValueOrderingType.nullIsLast=最後の Null
 Choices.dataVersion.transient=Transient
 Choices.dataVersion.latest=Latest
 
+#84 selectorType
+Choices.selectorType.list=リスト
+Choices.selectorType.comboBox=ComboBox
+Choices.selectorType.slider=Slider
+Choices.selectorType.checkBox=CheckBox
+Choices.selectorType.radioButton=RadioButton
+
 ###########################################################
 # Classes
 
@@ -3331,7 +3338,7 @@ Element.ExternalElementRef.targetBookmark=ターゲットのブックマーク
 
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=バインドされたデータカラム
-Element.DataSelectorItem.type=種類
+Element.DataSelectorItem.selectorType=selectorType
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet の参照
