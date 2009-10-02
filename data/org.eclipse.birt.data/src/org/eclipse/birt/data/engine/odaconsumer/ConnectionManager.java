@@ -237,7 +237,7 @@ public class ConnectionManager
      * @return          updated application context object for passing thru
      *                  to the DTP oda.consumer 
      */
-    private Map addProfileProviderService( Map appContext )
+    static Map addProfileProviderService( Map appContext )
     {
         Map providerAppContext = appContext;
         if( providerAppContext == null )

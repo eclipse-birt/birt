@@ -14,13 +14,25 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import java.util.Map;
+import java.util.Properties;
+
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.consumer.services.impl.ProviderUtil;
+import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
+import org.eclipse.datatools.connectivity.oda.spec.ValueExpression;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification.ParameterIdentifier;
 import org.eclipse.datatools.connectivity.oda.spec.manifest.ExtensionContributor;
 import org.eclipse.datatools.connectivity.oda.spec.manifest.ResultExtensionExplorer;
+import org.eclipse.datatools.connectivity.oda.spec.result.AggregateExpression;
 import org.eclipse.datatools.connectivity.oda.spec.result.FilterExpression;
+import org.eclipse.datatools.connectivity.oda.spec.result.ResultProjection;
+import org.eclipse.datatools.connectivity.oda.spec.result.ResultSetSpecification;
+import org.eclipse.datatools.connectivity.oda.spec.result.SortSpecification;
 import org.eclipse.datatools.connectivity.oda.spec.util.QuerySpecificationHelper;
 import org.eclipse.datatools.connectivity.oda.spec.util.ValidatorUtil;
 
@@ -109,20 +121,184 @@ public class QuerySpecHelper
             
         querySpec.setParameterValue( paramIdentifier, inputValue );                    
     }
+
+    /**
+     * Updates the specified validation context with a connection profile instance that contains
+     * the specified connection properties info. 
+     * The updated validation context would then provide the connection context for online validation
+     * of a {@link QuerySpecification}.
+     * @param validationContext the validation context to be updated with a connection profile instance
+     *              for online validation of a query specification
+     * @param odaDataSourceId   an ODA data source id, as specified in an oda.dataSource extension, for 
+     *                          use as the connection profile id
+     * @param connProperties    data source connection properties
+     * @param appContext        an application context provided by an ODA consumer application; 
+     *                          it may contain externalized connection properties info, 
+     *                          which would override those of connProperties if exists;
+     *                          may be null 
+     * @throws OdaException
+     */
+    public static void setConnectionProfileForValidation( ValidationContext validationContext, 
+            String odaDataSourceId, Properties connProperties, Map appContext )
+        throws OdaException
+    {
+        if( validationContext == null )
+            return;
+        
+        // creates a transient connection profile instance to set in the validation context
+        IConnectionProfile connProfile =
+            createTransientProfile( odaDataSourceId, connProperties, appContext );
+        validationContext.setConnectionProfile( connProfile );
+    }
     
     /**
-     * Indicates whether the specified FilterExpression is identified as one of the cause(s) in the specified 
-     * exception caught while preparing or executing an ODA query.
+     * Creates a transient connection profile instance that contains the specified connection properties info.
+     * @param odaDataSourceId   an ODA data source id, as specified in an oda.dataSource extension, for 
+     *                          use as the connection profile id
+     * @param connProperties    data source connection properties
+     * @param appContext        an application context provided by an ODA consumer application; 
+     *                          it may contain externalized connection properties info, 
+     *                          which would override those of connProperties if exists;
+     *                          may be null 
+     * @return  a new instance of transient connection profile; it is the responsibility of the client
+     *              to manage its connection state to avoid having a live connection remain open
+     * @throws OdaException
+     */
+    public static IConnectionProfile createTransientProfile( String odaDataSourceId, 
+            Properties connProperties, Map appContext )
+        throws OdaException
+    {
+        // use a consumer profile provider service to get the appropriate connection properties to apply
+        appContext = ConnectionManager.addProfileProviderService( appContext );
+        Properties effectiveProps = ProviderUtil.getEffectiveProperties( connProperties, appContext );
+
+        // creates a transient connection profile instance based on specified connection info
+        IConnectionProfile connProfile =
+            OdaProfileExplorer.getInstance().createTransientProfile( odaDataSourceId, effectiveProps );        
+        return connProfile;
+    }
+    
+    /**
+     * Indicates whether the specified result set specification is one of the cause(s)
+     * of the specified exception caught while preparing or executing an ODA query.
+     * @param resultSetSpec  a result set specification whose processing might have caused an exception
+     * @param dataEx        the exception caught while preparing or executing an ODA query
+     * @return  true if the specified result set specification is one of the cause(s) in the exception;
+     *          false otherwise
+     */
+    public static boolean isInvalidResultSetSpec( ResultSetSpecification resultSetSpec, DataException dataEx )
+    {
+        if( ! hasOdaException( dataEx ) )
+            return false;
+        
+        return ValidatorUtil.isInvalidResultSetSpec( resultSetSpec, (OdaException)dataEx.getCause() );
+    }
+
+    /**
+     * Indicates whether the specified FilterExpression is identified as one of the cause(s) 
+     * of the specified exception caught while preparing or executing an ODA query.
      * @param filterExpr    a filter expression whose processing might have caused an exception
      * @param dataEx        the exception caught while preparing or executing an ODA query
      * @return  true if the specified FilterExpression is one of the cause(s) in the exception; false otherwise
      */
     public static boolean isInvalidFilterExpression( FilterExpression filterExpr, DataException dataEx )
     {
-        if( dataEx == null || ! (dataEx.getCause() instanceof OdaException) )
+        if( ! hasOdaException( dataEx ) )
             return false;
         
         return ValidatorUtil.isInvalidFilterExpression( filterExpr, (OdaException)dataEx.getCause() );
+    }
+    
+    /**
+     * Indicates whether the specified sort specification is one of the cause(s)
+     * of the specified exception caught while preparing or executing an ODA query.
+     * @param sortSpec  a sort specification whose processing might have caused an exception
+     * @param dataEx        the exception caught while preparing or executing an ODA query
+     * @return  true if the specified sort specification is one of the cause(s) in the exception;
+     *          false otherwise
+     * @see {@link #isInvalidSortKey(int, DataException)}
+     */
+    public static boolean isInvalidSortSpec( SortSpecification sortSpec, DataException dataEx )
+    {
+        if( ! hasOdaException( dataEx ) )
+            return false;
+        
+        return ValidatorUtil.isInvalidSortSpec( sortSpec, (OdaException)dataEx.getCause() );
+    }
+
+    /**
+     * Indicates whether the specified sort key is one of the cause(s)
+     * of the specified exception caught while preparing or executing an ODA query.
+     * @param sortKeySequenceOrder  the sequence ordering position (1-based) of a sort key
+     *                  whose processing might have caused an exception
+     * @param dataEx        the exception caught while preparing or executing an ODA query
+     * @return  true if the specified sort key is one of the cause(s) in the exception;
+     *          false otherwise
+     * @see {@link #isInvalidSortSpec(SortSpecification, DataException)}
+     */
+    public static boolean isInvalidSortKey( int sortKeySequenceOrder, DataException dataEx )
+    {
+        if( ! hasOdaException( dataEx ) )
+            return false;
+        
+        return ValidatorUtil.isInvalidSortKey( sortKeySequenceOrder, (OdaException)dataEx.getCause() );
+    }
+
+    /**
+     * Indicates whether the specified result projection is one of the cause(s)
+     * of the specified exception caught while preparing or executing an ODA query.
+     * @param resultProj  a result projection whose processing might have caused an exception
+     * @param dataEx        the exception caught while preparing or executing an ODA query
+     * @return  true if the specified result projection is one of the cause(s) in the exception;
+     *          false otherwise
+     * @see {@link #isInvalidAggregateExpression(AggregateExpression, DataException)}
+     */
+    public static boolean isInvalidResultProjection( ResultProjection resultProj, DataException dataEx )
+    {
+        if( ! hasOdaException( dataEx ) )
+            return false;
+        
+        return ValidatorUtil.isInvalidResultProjection( resultProj, (OdaException)dataEx.getCause() );
+    }
+
+    /**
+     * Indicates whether the specified aggregate expression is one of the cause(s)
+     * of the specified exception caught while preparing or executing an ODA query.
+     * @param aggrExpr    an aggregate expression whose processing might have caused an exception
+     * @param dataEx      the exception caught while preparing or executing an ODA query
+     * @return  true if the specified aggregate expression is one of the cause(s) in the exception;
+     *          false otherwise
+     * @see {@link #isInvalidResultProjection(ResultProjection, DataException)}
+     */
+    public static boolean isInvalidAggregateExpression( AggregateExpression aggrExpr, DataException dataEx )
+    {
+        if( ! hasOdaException( dataEx ) )
+            return false;
+        
+        return ValidatorUtil.isInvalidAggregateExpression( aggrExpr, (OdaException)dataEx.getCause() );
+    }
+
+    /**
+     * Indicates whether the specified value expression is one of the cause(s)
+     * of the specified exception caught while preparing or executing an ODA query.
+     * @param valueExpr a value expression whose processing might have caused an exception
+     * @param dataEx    the exception caught while preparing or executing an ODA query
+     * @return  true if the specified value expression is one of the cause(s) in the exception;
+     *          false otherwise
+     */
+    public static boolean isInvalidValueExpression( ValueExpression valueExpr, DataException dataEx )
+    {
+        if( ! hasOdaException( dataEx ) )
+            return false;
+        
+        return ValidatorUtil.isInvalidValueExpression( valueExpr, (OdaException)dataEx.getCause() );
+    }
+    
+    private static boolean hasOdaException( DataException dataEx )
+    {
+        if( dataEx == null )
+            return false;
+        return dataEx.getCause() instanceof OdaException;
     }
     
 }
