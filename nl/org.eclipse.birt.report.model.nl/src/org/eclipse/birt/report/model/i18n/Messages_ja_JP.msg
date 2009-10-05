@@ -670,8 +670,8 @@ Choices.nullValueOrderingType.nullIsFirst=最初の Null
 Choices.nullValueOrderingType.nullIsLast=最後の Null
 
 #83 dataVersion
-Choices.dataVersion.transient=Transient
-Choices.dataVersion.latest=Latest
+Choices.dataVersion.transient=一時的
+Choices.dataVersion.latest=最新
 
 #84 selectorType
 Choices.selectorType.list=リスト
@@ -2300,9 +2300,9 @@ Element.ExternalElementRef=外部要素の参照
 Element.DataSelectorItem=データセレクタ
 Element.DataViewItem=データビュー
 Element.DataMart=Data Mart
-Element.DataMartDataSource=Data Mart Data Source
-Element.DataMartDataSet=Data Mart Data Set
-Element.DataMartCube=Data Mart Cube
+Element.DataMartDataSource=Data Mart データソース
+Element.DataMartDataSet=Data Mart データセット
+Element.DataMartCube=Data Mart キューブ
 
 ###########################################################
 # Element property names
@@ -3291,7 +3291,7 @@ Element.DynamicFilterParameter.displayType=表示型
 Element.DynamicFilterParameter.filterOperator=演算子
 Element.DynamicFilterParameter.column=列
 Element.DynamicFilterParameter.defaultValue=デフォルト値
-Element.DynamicFilterParameter.nativeDataType=Native data type
+Element.DynamicFilterParameter.nativeDataType=ネイティブのデータ型
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=タブ
@@ -3300,7 +3300,7 @@ Element.DashboardElement.tabs=タブ
 Element.TabElement.title=タイトル
 Element.TabElement.sections=セクション
 Element.TabElement.freeFormGadgets=自由形式のガジェット
-Element.TabElement.externalTab=External Tab
+Element.TabElement.externalTab=外部タブ
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=幅
@@ -3352,17 +3352,17 @@ Element.DataMart.enableACL=ACL を有効にする
 Element.DataMart.ACLExpression=ACL 式
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
-Element.DataMartDataSource.datamartURL = Data mart URL
-Element.DataMartDataSource.datamartVersion=Data mart version
+Element.DataMartDataSource.datamartURL = Data Mart URL
+Element.DataMartDataSource.datamartVersion=Data Mart バージョン
 Element.DataMartDataSource.paramBindings=パラメタバインド
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=データソース
-Element.DataMartDataSet.dataObject=Data object
+Element.DataMartDataSet.dataObject=データオブジェクト
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=データソース
-Element.DataMartCube.dataObject=Data object
+Element.DataMartCube.dataObject=データオブジェクト
 
 ###########################################################
 # Predefined style
@@ -3627,11 +3627,11 @@ New.OdaMeasure=新規ODAメジャー
 New.OdaMeasureGroup=新規ODAメジャーグループ
 New.DerivedDataSet=新しい派生データセット
 New.VariableElement=新しい変数要素
-New.DataMartDataSource=NewDataMartDataSource
-New.DataMartDataSet=NewDataMartDataSet
-New.DataMartCube=NewDataMartCube
-New.TabElement=NewTabElement
-New.GadgetItem=NewGadgetItem
+New.DataMartDataSource=新規 DataMart データソース
+New.DataMartDataSet=新規 DataMart データセット
+New.DataMartCube=新規 DataMart キューブ
+New.TabElement=新規タブ要素
+New.GadgetItem=新規ガジェットの項目
 
 ###########################################################
 #Default theme name.

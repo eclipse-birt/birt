@@ -670,8 +670,8 @@ Choices.nullValueOrderingType.nullIsFirst=空值在前
 Choices.nullValueOrderingType.nullIsLast=空值在后
 
 #83 dataVersion
-Choices.dataVersion.transient=Transient
-Choices.dataVersion.latest=Latest
+Choices.dataVersion.transient=暂时
+Choices.dataVersion.latest=最新
 
 #84 selectorType
 Choices.selectorType.list=列表
@@ -2300,9 +2300,9 @@ Element.ExternalElementRef=外部元素引用
 Element.DataSelectorItem=数据选择器
 Element.DataViewItem=数据视图
 Element.DataMart=Data Mart
-Element.DataMartDataSource=Data Mart Data Source
-Element.DataMartDataSet=Data Mart Data Set
-Element.DataMartCube=Data Mart Cube
+Element.DataMartDataSource=Data Mart 数据源
+Element.DataMartDataSet=Data Mart 数据集
+Element.DataMartCube=Data Mart 多维数据集
 
 ###########################################################
 # Element property names
@@ -3291,7 +3291,7 @@ Element.DynamicFilterParameter.displayType=显示类型
 Element.DynamicFilterParameter.filterOperator=筛选运算符
 Element.DynamicFilterParameter.column=列
 Element.DynamicFilterParameter.defaultValue=默认值
-Element.DynamicFilterParameter.nativeDataType=Native data type
+Element.DynamicFilterParameter.nativeDataType=本地数据类型
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=选项卡
@@ -3300,7 +3300,7 @@ Element.DashboardElement.tabs=选项卡
 Element.TabElement.title=标题
 Element.TabElement.sections=部分
 Element.TabElement.freeFormGadgets=自由格式小工具
-Element.TabElement.externalTab=External Tab
+Element.TabElement.externalTab=外部表
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=宽度
@@ -3353,16 +3353,16 @@ Element.DataMart.ACLExpression=ACL 表达式
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = Data mart URL
-Element.DataMartDataSource.datamartVersion=Data mart version
+Element.DataMartDataSource.datamartVersion=Data mart 版本
 Element.DataMartDataSource.paramBindings=参数绑定
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=数据源
-Element.DataMartDataSet.dataObject=Data object
+Element.DataMartDataSet.dataObject=数据对象
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=数据源
-Element.DataMartCube.dataObject=Data object
+Element.DataMartCube.dataObject=数据对象
 
 ###########################################################
 # Predefined style

@@ -670,8 +670,8 @@ Choices.nullValueOrderingType.nullIsFirst=Premier Nul
 Choices.nullValueOrderingType.nullIsLast=Dernier Nul
 
 #83 dataVersion
-Choices.dataVersion.transient=Transient
-Choices.dataVersion.latest=Latest
+Choices.dataVersion.transient=Transitoire
+Choices.dataVersion.latest=Dernière
 
 #84 selectorType
 Choices.selectorType.list=Liste
@@ -2300,9 +2300,9 @@ Element.ExternalElementRef=Référence d'élément externe
 Element.DataSelectorItem=Dispositif de sélection de données
 Element.DataViewItem=Vue de données
 Element.DataMart=DataMart
-Element.DataMartDataSource=Data Mart Data Source
-Element.DataMartDataSet=Data Mart Data Set
-Element.DataMartCube=Data Mart Cube
+Element.DataMartDataSource=Source de données du DataMart
+Element.DataMartDataSet=Jeu de données du DataMart
+Element.DataMartCube=Cube du DataMart
 
 ###########################################################
 # Element property names
@@ -3291,7 +3291,7 @@ Element.DynamicFilterParameter.displayType=Type d'affichage
 Element.DynamicFilterParameter.filterOperator=Opérateur filtre
 Element.DynamicFilterParameter.column=Colonne
 Element.DynamicFilterParameter.defaultValue=Valeur par défaut
-Element.DynamicFilterParameter.nativeDataType=Native data type
+Element.DynamicFilterParameter.nativeDataType=Type de données natives
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Onglets
@@ -3300,7 +3300,7 @@ Element.DashboardElement.tabs=Onglets
 Element.TabElement.title=Titre
 Element.TabElement.sections=Sections
 Element.TabElement.freeFormGadgets=Gadgets de forme libre
-Element.TabElement.externalTab=External Tab
+Element.TabElement.externalTab=Onglet externe
 
 #71 SectionElement ( prefix  Element.SectionElement )
 Element.SectionElement.width=Largeur
@@ -3352,17 +3352,17 @@ Element.DataMart.enableACL=Activer ACL
 Element.DataMart.ACLExpression=Expression ACL
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
-Element.DataMartDataSource.datamartURL = Data mart URL
-Element.DataMartDataSource.datamartVersion=Data mart version
+Element.DataMartDataSource.datamartURL = URL du DataMart
+Element.DataMartDataSource.datamartVersion=Version du DataMart
 Element.DataMartDataSource.paramBindings=Liaisons de paramètres
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Source de données
-Element.DataMartDataSet.dataObject=Data object
+Element.DataMartDataSet.dataObject=Objet de données :
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=Source de données
-Element.DataMartCube.dataObject=Data object
+Element.DataMartCube.dataObject=Objet de données :
 
 ###########################################################
 # Predefined style

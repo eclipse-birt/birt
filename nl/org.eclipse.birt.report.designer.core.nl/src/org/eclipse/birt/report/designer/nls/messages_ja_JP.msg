@@ -396,8 +396,8 @@ CodePageAction.actionText.code=スクリプト
 
 ColorBuilder.text.Auto=自動
 ColorBuilder.Button.ChooseColor=カラーパネルを開く
-ColorSelector.ColorDialog.Title=Color
-ColorSelector.Name=Color Selector
+ColorSelector.ColorDialog.Title=カラー
+ColorSelector.Name=カラーセレクタ
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -1185,7 +1185,7 @@ Element.Module.includeResource=リソースファイル(&E) :
 Element.Module.includeScripts=インクルードするスクリプト :
 Element.Module.initialize.toolTip=レポートの実行を開始する際に呼び出されます。
 Element.Module.initialize=初期化 :
-Element.LayoutModule.theme=テーマ(&H) : 
+Element.LayoutModule.theme=テーマ(&H) :
 Element.Module.title=タイトル(&I) : 
 Element.Module.titleID=タイトルキー :
 Element.Module.units=単位(&S) :
