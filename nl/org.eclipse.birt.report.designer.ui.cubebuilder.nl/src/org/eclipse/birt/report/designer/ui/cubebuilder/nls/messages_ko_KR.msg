@@ -1,6 +1,6 @@
 ###########################################################
 #Cube treeNode properties
-DefaultNodeProvider.Tree.Cubes=큐브
+DefaultNodeProvider.Tree.Cubes=데이터 큐브
 cube.new=새 큐브
 cube.action.new=새 데이터 큐브(&C)
 cube.edit=큐브 편집
