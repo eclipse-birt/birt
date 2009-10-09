@@ -1918,6 +1918,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canContain( int slotId, String type )
 	{
+		if ( StringUtil.isBlank( type ) )
+			return false;
+
+		SlotHandle slot = getSlot( slotId );
+
+		if ( slot == null )
+			return false;
+
 		return new ContainerContext( getElement( ), slotId ).canContain(
 				getModule( ), type );
 	}
@@ -1942,6 +1950,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public boolean canContain( int slotId, DesignElementHandle content )
 	{
 		if ( content == null )
+			return false;
+
+		SlotHandle slot = getSlot( slotId );
+
+		if ( slot == null )
 			return false;
 
 		return new ContainerContext( getElement( ), slotId ).canContain(
@@ -1997,6 +2010,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public boolean canContain( String propName, DesignElementHandle content )
 	{
 		if ( content == null )
+			return false;
+
+		if ( StringUtil.isBlank( propName ) )
+			return false;
+
+		IElementPropertyDefn defn = getPropertyDefn( propName );
+
+		if ( defn == null )
 			return false;
 
 		return new ContainerContext( getElement( ), propName ).canContain(

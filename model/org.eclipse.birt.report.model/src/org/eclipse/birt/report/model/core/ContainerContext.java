@@ -93,10 +93,10 @@ public final class ContainerContext
 		this.containerSlotID = slotID;
 
 		IElementDefn tmpDefn = container.getDefn( );
-		if ( tmpDefn != null )
-			this.slotDefn = (SlotDefn) tmpDefn.getSlot( containerSlotID );
-		else
-			throw new IllegalArgumentException( "The slot is not defined." ); //$NON-NLS-1$
+		assert tmpDefn != null;
+
+		this.slotDefn = (SlotDefn) tmpDefn.getSlot( containerSlotID );
+
 		this.isSlot = true;
 		this.containerProp = null;
 	}
