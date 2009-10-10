@@ -178,15 +178,14 @@ public class LineArea extends InlineStackingArea
 			if ( child instanceof TextArea )
 			{
 				TextArea textArea = (TextArea) child;
-				String text = textArea.getText( );
-				int blankNumber = text.split( " " ).length - 1;
-				if ( blankNumber > 0 )
+				int whiteSpaceNumber = textArea.getWhiteSpaceNumber( );
+				if ( whiteSpaceNumber > 0 )
 				{
 					TextStyle style = new TextStyle( textArea.getStyle( ) );
 					int original = style.getWordSpacing( );
 					style.setWordSpacing( original + wordSpacing );
 					textArea.setStyle( style );
-					int spacing = wordSpacing * blankNumber;
+					int spacing = wordSpacing * whiteSpaceNumber;
 					child.setWidth( child.getWidth( ) + spacing );
 					child.setPosition( child.getX( ) + delta, child.getY( ) );
 					delta += spacing;
@@ -246,8 +245,52 @@ public class LineArea extends InlineStackingArea
 		}
 		return delta;
 	}
+	
+	/**
+	 * The last text area in a line. This field is only used for text alignment "justify".
+	 */
+	private TextArea lastTextAreaForJustify = null;
 
-	private int getBlankNumber( ContainerArea area )
+	/**
+	 * Gets the white space number, and the right most white spaces are ignored.
+	 * @param line
+	 * @return
+	 */
+	private int getWhiteSpaceNumber( LineArea line )
+	{
+		int count = getWhiteSpaceRawNumber( line );
+		if ( lastTextAreaForJustify != null )
+		{
+			String text = lastTextAreaForJustify.getText( );
+			if ( null != text )
+			{
+				char[] charArray = text.toCharArray( );
+				int len = charArray.length;
+				while ( len > 0 && ( charArray[len - 1] <= ' ' ) )
+				{
+					len--;
+				}
+				if ( len != charArray.length )
+				{
+					count = count - ( charArray.length - len );
+					lastTextAreaForJustify
+							.setWhiteSpaceNumber( lastTextAreaForJustify
+									.getWhiteSpaceNumber( )
+									- ( charArray.length - len ) );
+					lastTextAreaForJustify.setText( text.substring( 0, len ) );
+					lastTextAreaForJustify = null;
+				}
+			}
+		}
+		return count;
+	}
+	
+	/**
+	 * Gets the white space number.
+	 * @param area
+	 * @return
+	 */
+	private int getWhiteSpaceRawNumber( ContainerArea area )
 	{
 		int count = 0;
 		Iterator iter = area.getChildren( );
@@ -256,12 +299,22 @@ public class LineArea extends InlineStackingArea
 			AbstractArea child = (AbstractArea) iter.next( );
 			if ( child instanceof TextArea )
 			{
+				int innerCount = 0;
 				String text = ( (TextArea) child ).getText( );
-				count = count + text.split( " " ).length - 1;
+				for ( int i = 0; i < text.length( ); i++ )
+				{
+					if ( text.charAt( i ) <= ' ' )
+					{
+						innerCount++;
+					}
+				}
+				count += innerCount;
+				((TextArea) child).setWhiteSpaceNumber( innerCount );
+				lastTextAreaForJustify = (TextArea) child;
 			}
 			else if ( child instanceof ContainerArea )
 			{
-				count += getBlankNumber( (ContainerArea) child );
+				count += getWhiteSpaceRawNumber( (ContainerArea) child );
 			}
 		}
 		return count;
@@ -289,11 +342,13 @@ public class LineArea extends InlineStackingArea
 
 	protected void justify( )
 	{
+		// 1. Gets the white space number. The last white space of a line should not be counted.
+		// 2. adjust the position for every text area in the line and ignore the right most white space by modifying the text.
 		int spacing = width - currentIP;
-		int blankNumber = getBlankNumber( this );
-		if ( blankNumber > 0 )
+		int whiteSpaceNumber = getWhiteSpaceNumber( this );
+		if ( whiteSpaceNumber > 0 )
 		{
-			int wordSpacing = spacing / blankNumber;
+			int wordSpacing = spacing / whiteSpaceNumber;
 			adjustWordSpacing( wordSpacing, this );
 		}
 		else

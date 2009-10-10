@@ -25,6 +25,8 @@ public class TextArea extends AbstractArea implements ITextArea
 {
 
 	protected String text;
+	
+	protected String cachedText = null;
 
 	protected int runLevel;
 
@@ -55,6 +57,13 @@ public class TextArea extends AbstractArea implements ITextArea
 	 * the max width of the TextArea( in 1/1000 points )
 	 */
 	protected int maxWidth;
+
+	/**
+	 * The whiteSpaceNumber indicates the number of white spaces(except for the
+	 * right most white space) in current text area. This field is used to
+	 * justify the textArea.
+	 */
+	protected int whiteSpaceNumber;
 
 	TextArea( TextArea area )
 	{
@@ -180,15 +189,23 @@ public class TextArea extends AbstractArea implements ITextArea
 	 */
 	public String getText( )
 	{
-
-		if ( ( runLevel & 1 ) == 0 )
+		if ( cachedText == null )
 		{
-			return calculateText( );
+			if ( ( runLevel & 1 ) == 0 )
+			{
+				cachedText = calculateText( );
+			}
+			else
+			{
+				cachedText = flip( calculateText( ) );
+			}
 		}
-		else
-		{
-			return flip( calculateText( ) );
-		}
+		return cachedText;
+	}
+	
+	public void setText( String text )
+	{
+		cachedText = text;
 	}
 
 	public void setTextLength( int textLength )
@@ -246,6 +263,16 @@ public class TextArea extends AbstractArea implements ITextArea
 	public TextArea cloneArea( )
 	{
 		return new TextArea( this );
+	}
+	
+	public int getWhiteSpaceNumber( )
+	{
+		return whiteSpaceNumber;
+	}
+	
+	public void setWhiteSpaceNumber( int whiteSpaceNumber )
+	{
+		this.whiteSpaceNumber = whiteSpaceNumber;
 	}
 
 }
