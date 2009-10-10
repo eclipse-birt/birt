@@ -328,14 +328,20 @@ public class LocalizedContentVisitor
 		if ( value instanceof Object[] )
 		{
 			Object[] values = (Object[]) value;
-			if ( values.length > 0 )
+			StringBuilder sb = new StringBuilder( );
+			sb.append( '[' );
+			for ( Object v : values )
 			{
-				value = values[0];
+				sb.append( format( v, style ) );
+				sb.append( ", " );
 			}
-			else
+			if ( sb.length( ) > 1 )
 			{
-				value = null;
+				sb.setLength( sb.length( ) - 2 );
 			}
+			sb.append( ']' );
+			return sb.toString( );
+
 		}
 		if ( value == null )
 		{
