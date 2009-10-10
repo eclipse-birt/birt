@@ -529,7 +529,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 						queryScope,
 						session.getEngineContext( ).getScriptContext( ) );
 				IBinding binding = exprManager.getBinding( exprName );
-				if ( binding.getDataType( ) != baseExpr.getDataType( ) )
+				if ( baseExpr != null && binding.getDataType( ) != baseExpr.getDataType( ) )
 					exprValue = DataTypeUtil.convert( exprValue,
 							binding.getDataType( ) );
 
