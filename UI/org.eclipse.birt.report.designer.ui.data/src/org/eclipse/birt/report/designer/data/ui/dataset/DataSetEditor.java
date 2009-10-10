@@ -80,9 +80,9 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	private ItemModelManager itemModelManager = new ItemModelManager( );
 	private DataSetDesignSession m_designSession = null;
 
-	private boolean includeInputParameterPage = false;
-	private boolean includeOutputParameterPage = false;
-	private boolean needToFocusOnOutput = false;
+	protected boolean includeInputParameterPage = false;
+	protected boolean includeOutputParameterPage = false;
+	protected boolean needToFocusOnOutput = false;
 
 	private transient HistoryToolBar historyBar;
 
@@ -91,15 +91,15 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	// jdbc, xml, flatfile and web service, who's page id are hard-coded for
 	// current workaround.
 	// TODO:Fix me.
-	private static final String DATASET_SETTINGS_PAGE = "org.eclipse.birt.datasource.editor.dataset.settings"; //$NON-NLS-1$
-	private static final String OUTPUT_PARAMETER_PREVIEW_PAGE = "org.eclipse.birt.datasource.editor.dataset.outputparameterpreviewpage"; //$NON-NLS-1$
-	private static final String DATASOURCE_EDITOR_PROPERTY_PAGE = "org.eclipse.birt.datasource.editor.property"; //$NON-NLS-1$
-	private static final String COMPUTED_COLUMNS_PAGE = "org.eclipse.birt.datasource.editor.dataset.computedcolumnspage"; //$NON-NLS-1$
-	private static final String RESULTSET_PREVIEW_PAGE = "org.eclipse.birt.datasource.editor.dataset.resultsetpreviewpage"; //$NON-NLS-1$
-	private static final String FILTERS_PAGE = "org.eclipse.birt.datasource.editor.dataset.filterspage"; //$NON-NLS-1$
-	private static final String PARAMETERS_PAGE = "org.eclipse.birt.datasource.editor.dataset.parameterspage"; //$NON-NLS-1$
-	private static final String OUTPUTCOLUMN_PAGE = "org.eclipse.birt.datasource.editor.dataset.outputcolumnpage"; //$NON-NLS-1$
-	private static final String JOINT_DATA_SET_PAGE = "org.eclipse.birt.datasource.editor.dataset.jointDataSetPage"; //$NON-NLS-1$
+	protected static final String DATASET_SETTINGS_PAGE = "org.eclipse.birt.datasource.editor.dataset.settings"; //$NON-NLS-1$
+	protected static final String OUTPUT_PARAMETER_PREVIEW_PAGE = "org.eclipse.birt.datasource.editor.dataset.outputparameterpreviewpage"; //$NON-NLS-1$
+	protected static final String DATASOURCE_EDITOR_PROPERTY_PAGE = "org.eclipse.birt.datasource.editor.property"; //$NON-NLS-1$
+	protected static final String COMPUTED_COLUMNS_PAGE = "org.eclipse.birt.datasource.editor.dataset.computedcolumnspage"; //$NON-NLS-1$
+	protected static final String RESULTSET_PREVIEW_PAGE = "org.eclipse.birt.datasource.editor.dataset.resultsetpreviewpage"; //$NON-NLS-1$
+	protected static final String FILTERS_PAGE = "org.eclipse.birt.datasource.editor.dataset.filterspage"; //$NON-NLS-1$
+	protected static final String PARAMETERS_PAGE = "org.eclipse.birt.datasource.editor.dataset.parameterspage"; //$NON-NLS-1$
+	protected static final String OUTPUTCOLUMN_PAGE = "org.eclipse.birt.datasource.editor.dataset.outputcolumnpage"; //$NON-NLS-1$
+	protected static final String JOINT_DATA_SET_PAGE = "org.eclipse.birt.datasource.editor.dataset.jointDataSetPage"; //$NON-NLS-1$
 
 	private static final String DATA_SOURCE_SELECTION_PAGE = "org.eclipse.birt.datasource.editor.dataset.datasourceselectionpage"; //$NON-NLS-1$
 
@@ -184,7 +184,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		}
 		// add common pages, just like computedColumn page, parameter page,
 		// output column page etc.
-		addCommonPage( ds );
+		addCommonPages( ds );
+		setPageFocus( );
 
 		// start model manager to process the edit transaction
 		itemModelManager.start( ds );
@@ -272,79 +273,56 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	 * 
 	 * @param ds
 	 */
-	private void addCommonPage( DataSetHandle ds )
+	protected void addCommonPages( DataSetHandle ds )
 	{
 
 		if ( ds instanceof ScriptDataSetHandle )
 		{
-			// Output column is replaced by column definition page
-			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedOutputColumnDefnPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			// Parameter page
-			addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			// Parameter is removed
-			addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, new DataSetFiltersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addOutputColumnsPage( );
+			
+			addParametersPage( );
+			
+			addFiltersPage( );
 			// Setting page
 			addDataSetSettingPage( ds );
-			// Result set preview page
-			addPageTo( "/", RESULTSET_PREVIEW_PAGE, Messages.getString( "dataset.editor.preview" ), null, new ResultSetPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			
+			addResultSetPreviewPage( );
 
 		}
 		else if ( ds instanceof OdaDataSetHandle )
 		{
-			// Output column page
-			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			// Computed column page
-			addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new AdvancedDataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addOutputColumnsPage( );
+			
+			addComputedColumnsPage( );
 			// flatfile driver need not parameter page to be displayed.
 			if ( includeInputParameterPage )
-				addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$		
-			// Filter page
-			IPropertyPage filterpage = new DataSetFiltersPage();
-			try
-			{
-				filterpage = (IPropertyPage) Class.forName( "org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetFiltersPage" ) //$NON-NLS-1$
-						.newInstance( );
-			}
-			catch ( Throwable e )
-			{
-
-			}
-			addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, filterpage );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addParametersPage( );
+			addDataSetFilterPage( );
 			
-			// Property binding page
-			addPageTo( "/", DATASOURCE_EDITOR_PROPERTY_PAGE, Messages.getString( "datasource.editor.property" ), null, new PropertyBindingPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addPropertyBindingPage( );
 
 			// Setting page
 			addDataSetSettingPage( ds );
 			// Output parameters page
 			if ( includeOutputParameterPage )
-				addPageTo( "/", OUTPUT_PARAMETER_PREVIEW_PAGE, Messages.getString( "dataset.editor.outputparameters" ), null, new OutputParameterPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			// Result set preview page
-			addPageTo( "/", RESULTSET_PREVIEW_PAGE, Messages.getString( "dataset.editor.preview" ), null, new ResultSetPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addOutputParameterPreviewPage( );
+
+			addResultSetPreviewPage( );
 
 		}
 		else if ( ds instanceof JointDataSetHandle )
 		{
-			addPageTo( "/", //$NON-NLS-1$
-					JOINT_DATA_SET_PAGE,
-					Messages.getString( "JointDataSetPage.query" ), //$NON-NLS-1$
-					null,
-					new JointDataSetPage( Messages.getString( "dataset.editor.dataSource" ) ) ); //$NON-NLS-1$
+			addJointDataSetPage( );
 
-			// Output column page
-			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			// Computed column page
-			addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new AdvancedDataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addOutputColumnsPage( );
+			
+			addComputedColumnsPage( );
 
-			/*
-			 * // Setting page addDataSetSettingPage( ds );
-			 */
+			addParametersPage( );
 
-			// Filter page
-			addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, new DataSetFiltersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			// Result set preview page
-			addPageTo( "/", RESULTSET_PREVIEW_PAGE, Messages.getString( "dataset.editor.preview" ), null, new ResultSetPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			addFiltersPage( );
+			
+			addResultSetPreviewPage( );
 		}
 		else
 		{
@@ -354,27 +332,90 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			{
 				for ( int i = 0; i < pages.length; i++ )
 				{
-					addPageTo( "/", pages[i].getClass( ).getName( ), pages[i].getName( ), null, pages[i] );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$				
+					addPageTo( "/", pages[i].getClass( ).getName( ), pages[i].getName( ), null, pages[i] );//$NON-NLS-1$
 				}
-				addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				// Computed column page
-				addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new AdvancedDataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addOutputColumnsPage( );
+				addComputedColumnsPage( );
+				addParametersPage( );
 
-				/*
-				 * // Setting page addDataSetSettingPage( ds );
-				 */
-
-				// Filter page
-				addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, new DataSetFiltersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				// Result set preview page
-				addPageTo( "/", RESULTSET_PREVIEW_PAGE, Messages.getString( "dataset.editor.preview" ), null, new ResultSetPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addFiltersPage( );
+				addResultSetPreviewPage( );
 			}
 		}
+	}
+
+	protected void addDataSetFilterPage( )
+	{
+		// Filter page
+		IPropertyPage filterpage = new DataSetFiltersPage();
+		try
+		{
+			filterpage = (IPropertyPage) Class.forName( "org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetFiltersPage" ) //$NON-NLS-1$
+					.newInstance( );
+		}
+		catch ( Throwable e )
+		{
+
+		}
+		addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, filterpage );//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	protected void addOutputParameterPreviewPage( )
+	{
+		addPageTo( "/", OUTPUT_PARAMETER_PREVIEW_PAGE, Messages.getString( "dataset.editor.outputparameters" ), null, new OutputParameterPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	protected void addComputedColumnsPage( )
+	{
+		// Computed column page
+		addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new AdvancedDataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+
+	protected void addResultSetPreviewPage( )
+	{
+		// Result set preview page
+		addPageTo( "/", RESULTSET_PREVIEW_PAGE, Messages.getString( "dataset.editor.preview" ), null, new ResultSetPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	protected void addFiltersPage( )
+	{
+		// Data set filters page
+		addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, new DataSetFiltersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	protected void addParametersPage( )
+	{
+		// Parameter page
+		addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ 
+	}
+
+	protected void addOutputColumnsPage( )
+	{
+		// Output column is replaced by column definition page
+		addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedOutputColumnDefnPage( ) );//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+
+	protected void addJointDataSetPage( )
+	{
+		addPageTo( "/", //$NON-NLS-1$
+				JOINT_DATA_SET_PAGE,
+				Messages.getString( "JointDataSetPage.query" ), //$NON-NLS-1$
+				null,
+				new JointDataSetPage( Messages.getString( "dataset.editor.dataSource" ) ) ); //$NON-NLS-1$
+	}
+
+	protected void addPropertyBindingPage( )
+	{
+		// Property binding page
+		addPageTo( "/", DATASOURCE_EDITOR_PROPERTY_PAGE, Messages.getString( "datasource.editor.property" ), null, new PropertyBindingPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+	
+	private void setPageFocus( )
+	{
 		if ( needToFocusOnOutput )
 			setDefaultNode( OUTPUTCOLUMN_PAGE );
 	}
-
 
 	/**
 	 * add page for org.eclipse.birt.report.designer.ui.odadatasource
@@ -432,7 +473,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	 * 
 	 * @param ds
 	 */
-	private void addDataSetSettingPage( DataSetHandle ds )
+	protected void addDataSetSettingPage( DataSetHandle ds )
 	{
 		IPropertyPage settingPage = new DataSetSettingsPage( );
 		addPageTo( "/", //$NON-NLS-1$

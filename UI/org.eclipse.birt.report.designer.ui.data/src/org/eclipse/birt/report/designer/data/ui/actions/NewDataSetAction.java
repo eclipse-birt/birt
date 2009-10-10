@@ -17,14 +17,13 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DefaultDataSetWizard;
 import org.eclipse.birt.report.designer.data.ui.datasource.DefaultDataSourceWizard;
-import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -258,7 +257,7 @@ public class NewDataSetAction extends Action implements UpdateAction
 		{
 			return false;
 		}
-		DataSetEditor dialog = new DataSetEditor( PlatformUI.getWorkbench( )
+		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), dataSetHandle, true );
 		return ( dialog.open( ) == Window.OK );

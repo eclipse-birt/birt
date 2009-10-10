@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.data.ui.actions;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSourceSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -95,7 +96,7 @@ public class EditDataSetAction extends AbstractElementAction
 			{
 			}
 		}
-		DataSetEditor dialog = new DataSetEditor( PlatformUI.getWorkbench( )
+		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), dsHandle, false );
 		return ( dialog.open( ) == IDialogConstants.OK_ID );

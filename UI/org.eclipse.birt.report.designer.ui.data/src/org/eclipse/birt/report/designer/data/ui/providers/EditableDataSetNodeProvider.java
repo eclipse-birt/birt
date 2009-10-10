@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.data.ui.providers;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.util.WizardUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSourceSelectionDialog;
@@ -91,7 +92,7 @@ public class EditableDataSetNodeProvider extends DataSetNodeProvider
 			{
 			}
 		}
-		DataSetEditor dialog = new DataSetEditor( PlatformUI.getWorkbench( )
+		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), (DataSetHandle) handle, false );
 

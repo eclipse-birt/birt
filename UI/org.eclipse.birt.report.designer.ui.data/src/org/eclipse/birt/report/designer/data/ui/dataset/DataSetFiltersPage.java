@@ -64,8 +64,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	private transient String[] columnExpressions = null;
 	private transient PropertyHandle filters = null;
 	
-	private boolean modelChanged = true;
-	
 	private static String[] cellLabels = new String[]{
 			Messages.getString( "dataset.editor.title.expression" ),//$NON-NLS-1$
 			Messages.getString( "dataset.editor.title.operator" ),//$NON-NLS-1$
@@ -99,7 +97,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#createPageControl(org.eclipse.swt.widgets.Composite)
 	 */

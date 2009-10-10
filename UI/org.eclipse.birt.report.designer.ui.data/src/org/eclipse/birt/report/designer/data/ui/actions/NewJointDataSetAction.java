@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.JointDataSetWizard;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -209,7 +210,7 @@ public class NewJointDataSetAction extends Action
 		{
 			return false;
 		}
-		DataSetEditor dialog = new DataSetEditor( PlatformUI.getWorkbench( )
+		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), dataSetHandle , false );
 		return ( dialog.open( ) == Window.OK );
