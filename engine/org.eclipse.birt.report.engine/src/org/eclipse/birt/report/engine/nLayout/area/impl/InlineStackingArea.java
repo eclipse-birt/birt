@@ -45,7 +45,7 @@ public abstract class InlineStackingArea extends ContainerArea
 		currentIP += area.getAllocatedWidth( );
 	}
 	
-	public  void add(AbstractArea area)
+	public void add(AbstractArea area)
 	{
 		children.add( area );
 		area.setAllocatedPosition( currentIP + getOffsetX( ), currentBP
@@ -98,7 +98,7 @@ public abstract class InlineStackingArea extends ContainerArea
 			setContentWidth( 0 );
 		}
 	}
-	
+
 	protected void verticalAlign( )
 	{
 		Iterator iter = getChildren( );
@@ -116,7 +116,8 @@ public abstract class InlineStackingArea extends ContainerArea
 				spacing = 0;
 			}
 
-			if ( vAlign == null || IStyle.BASELINE_VALUE.equals( vAlign ) )
+			if ( ( vAlign == null && !isImageContainer( child ) )
+					|| IStyle.BASELINE_VALUE.equals( vAlign ) )
 			{
 				// FIXME to implement basline alignment
 				int lineHeight = parent.getLineHeight( );
@@ -140,6 +141,19 @@ public abstract class InlineStackingArea extends ContainerArea
 			{
 				child.setPosition( child.getX( ), child.getY( ) + spacing / 2 );
 			}
+		}
+	}
+	
+	private boolean isImageContainer( AbstractArea area )
+	{
+		if ( area instanceof ImageInlineContainer
+				|| area instanceof ImageBlockContainer )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 	
