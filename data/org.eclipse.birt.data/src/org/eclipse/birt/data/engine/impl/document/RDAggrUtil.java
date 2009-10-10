@@ -172,8 +172,10 @@ public class RDAggrUtil
 			this.groupLevel = IOUtil.readInt( valueStream );
 			this.size = IOUtil.readInt( valueStream );
 			this.valueStream = valueStream;
-			this.currentValue = IOUtil.readObject( valueStream );
-
+			if ( size > 0 )
+			{
+				this.currentValue = IOUtil.readObject( valueStream );
+			}
 		}
 
 		private void populateRunningAggrInfo( DataInputStream valueStream )
