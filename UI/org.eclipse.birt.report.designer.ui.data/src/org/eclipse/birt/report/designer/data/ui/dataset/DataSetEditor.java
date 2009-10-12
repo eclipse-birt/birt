@@ -278,7 +278,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 
 		if ( ds instanceof ScriptDataSetHandle )
 		{
-			addOutputColumnsPage( );
+			addScriptOutputColumnDefnPage( );
 			
 			addParametersPage( );
 			
@@ -389,12 +389,18 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ 
 	}
 
-	protected void addOutputColumnsPage( )
+	protected void addScriptOutputColumnDefnPage( )
 	{
 		// Output column is replaced by column definition page
 		addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedOutputColumnDefnPage( ) );//$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+
+	protected void addOutputColumnsPage( )
+	{
+		// Output column is replaced by column definition page
+		addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new AdvancedDataSetOutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$
+	}
 
 	protected void addJointDataSetPage( )
 	{
