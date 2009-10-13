@@ -310,7 +310,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 									.getTempDir( ),
 									engine.getContext( ),
 									null,
-									queryDefn.getQueryResultsID( ) );
+									queryDefn.getQueryResultsID( ), queryDefn );
 							PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
 									queryDefn.getQueryExecutionHints( )
 											.getTargetGroupInstances( ),
@@ -362,7 +362,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					.getTempDir( ),
 					engine.getContext( ),
 					null,
-					queryDefn.getQueryResultsID( ) );
+					queryDefn.getQueryResultsID( ), queryDefn );
 
 			PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
 					queryDefn.getQueryExecutionHints( )

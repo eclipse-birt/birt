@@ -150,7 +150,6 @@ public class QueryResults implements IQueryResults, IQueryService
 		}
 		catch ( DataException e )
 		{
-
 		}
 		return result;
 	}
@@ -241,7 +240,7 @@ public class QueryResults implements IQueryResults, IQueryService
 							context,
 							this,
 							queryResultID,
-							queryDefn.getGroups( ).size( ), true );
+							queryDefn.getGroups( ).size( ), true, queryDefn );
 				}
 				else if ( queryDefn.usesDetails( ) == true )
 				{
@@ -251,12 +250,12 @@ public class QueryResults implements IQueryResults, IQueryService
 								new ResultIterator( tempDir,
 										context,
 										this,
-										queryResultID ) );
+										queryResultID, queryDefn ) );
 					else
 						resultIterator = new ResultIterator( tempDir,
 								context,
 								this,
-								queryResultID );
+								queryResultID, queryDefn );
 				}
 				else
 				{
@@ -267,13 +266,13 @@ public class QueryResults implements IQueryResults, IQueryService
 										context,
 										this,
 										queryResultID,
-										queryDefn.getGroups( ).size( ), false ) );
+										queryDefn.getGroups( ).size( ), false, queryDefn ) );
 					else
 						resultIterator = new ResultIterator2( tempDir,
 								context,
 								this,
 								queryResultID,
-								queryDefn.getGroups( ).size( ), false );
+								queryDefn.getGroups( ).size( ), false, queryDefn );
 				}
 			}
 			else
@@ -292,7 +291,7 @@ public class QueryResults implements IQueryResults, IQueryService
 							this,
 							queryResultID,
 							subQueryName,
-							currParentIndex );
+							currParentIndex, subQuery );
 				}
 				else
 					resultIterator = new ResultIterator2( tempDir,
@@ -301,7 +300,7 @@ public class QueryResults implements IQueryResults, IQueryService
 							queryResultID,
 							subQueryName,
 							currParentIndex,
-							subQuery.getGroups( ).size( ) );
+							subQuery.getGroups( ).size( ), subQuery );
 
 			}
 		}

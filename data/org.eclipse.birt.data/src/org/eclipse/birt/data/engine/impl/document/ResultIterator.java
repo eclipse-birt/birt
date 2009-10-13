@@ -54,6 +54,7 @@ public class ResultIterator implements IResultIterator
 	
 	private String tempDir;
 
+	private IBaseQueryDefinition qd;
 	
 	/**
 	 * @param context
@@ -62,9 +63,9 @@ public class ResultIterator implements IResultIterator
 	 * @throws DataException 
 	 */
 	public ResultIterator( String tempDir, DataEngineContext context, IQueryResults queryResults,
-			String queryResultID ) throws DataException
+			String queryResultID, IBaseQueryDefinition qd ) throws DataException
 	{
-		this( tempDir, context, queryResults, queryResultID, null, -1 );
+		this( tempDir, context, queryResults, queryResultID, null, -1, qd );
 	}
 	
 	/**
@@ -77,7 +78,7 @@ public class ResultIterator implements IResultIterator
 	 * @throws DataException
 	 */
 	ResultIterator( String tempDir, DataEngineContext context, IQueryResults queryResults,
-			String queryResultID, String subQueryName, int currParentIndex )
+			String queryResultID, String subQueryName, int currParentIndex, IBaseQueryDefinition qd )
 			throws DataException
 	{
 		super( );
@@ -89,6 +90,7 @@ public class ResultIterator implements IResultIterator
 		this.queryResultID = queryResultID;
 		this.subQueryName = subQueryName;
 		this.currParentIndex = currParentIndex;
+		this.qd = qd;
 		
 		this.prepare( );
 	}
@@ -109,13 +111,11 @@ public class ResultIterator implements IResultIterator
 						selfID,
 						this.subQueryName,
 						this.currParentIndex ) );
-		IBaseQueryDefinition qd = this.queryResults.getPreparedQuery( ).getReportQueryDefn( );
 		int rowIdStartingIndex = 0;
 		if ( this.subQueryName != null )
 		{
 			subQueryIndex = valueLoader.getSubQueryIndex( currParentIndex );
 			rowIdStartingIndex = currParentIndex;
-			qd = QueryDefinitionUtil.findSubQueryDefinition( subQueryName, qd );
 		}
 		this.exprResultSet = valueLoader.loadExprResultSet( rowIdStartingIndex, qd );
 	}

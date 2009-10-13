@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -37,9 +38,9 @@ public class ResultIterator2 extends ResultIterator
 	 * @throws DataException
 	 */
 	ResultIterator2( String tempDir, DataEngineContext context, IQueryResults queryResults,
-			String queryResultID, int lowestGroupLevel, boolean isSummary ) throws DataException
+			String queryResultID, int lowestGroupLevel, boolean isSummary, IBaseQueryDefinition qd ) throws DataException
 	{
-		super( tempDir, context, queryResults, queryResultID );
+		super( tempDir, context, queryResults, queryResultID, qd );
 		
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
@@ -64,7 +65,7 @@ public class ResultIterator2 extends ResultIterator
 	
 	public ResultIterator2( String tempDir, DataEngineContext context,
 			QueryResults queryResults, String queryResultID,
-			String subQueryName, int currParentIndex, int lowestGroupLevel )
+			String subQueryName, int currParentIndex, int lowestGroupLevel, IBaseQueryDefinition qd )
 			throws DataException
 	{
 		super( tempDir,
@@ -72,7 +73,7 @@ public class ResultIterator2 extends ResultIterator
 				queryResults,
 				queryResultID,
 				subQueryName,
-				currParentIndex);
+				currParentIndex, qd);
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
 	}
