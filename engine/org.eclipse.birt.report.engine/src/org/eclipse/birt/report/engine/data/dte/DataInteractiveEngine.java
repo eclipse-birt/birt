@@ -198,8 +198,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		((QueryDefinition)query).setQueryResultsID( resultSetID );
 		// invoke the engine extension to process the queries
 		processQueryExtensions( query );
-		
-		IBasePreparedQuery pQuery = dteSession.prepare( query, null );
 
 		String pRsetId = null; // id of the parent query restuls
 		String rawId = "-1"; // row id of the parent query results
@@ -217,6 +215,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			if ( dteResults == null )
 			{
+				IBasePreparedQuery pQuery = dteSession.prepare( query, null );
 				dteResults = dteSession.execute( pQuery, null, context.getScriptContext( ) );
 				putCachedQueryResult( query, dteResults.getID( ) );
 			}
@@ -247,6 +246,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			if ( dteResults == null )
 			{
+				IBasePreparedQuery pQuery = dteSession.prepare( query, null );
 				dteResults = dteSession.execute( pQuery, parentQueryResults, context.getScriptContext( ) );
 				putCachedQueryResult( query, dteResults.getID( ) );
 			}
