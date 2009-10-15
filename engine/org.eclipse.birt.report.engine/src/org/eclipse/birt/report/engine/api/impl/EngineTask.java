@@ -1091,63 +1091,90 @@ public abstract class EngineTask implements IEngineTask
 		{
 			return null;
 		}
-		if ( sparameter != null
-				&& DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
-						.equals( sparameter.getParamType( ) ) )
+		if ( sparameter != null )
 		{
+			if ( !DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+					.equals( sparameter.getParamType( ) ) )
+			{
+				Expression expr = values.get( 0 );
+				if ( expr != null )
+				{
+					return evaluateExpression( expr, parameter.getDataType( ) );
+				}
+				return null;
+			}
+			// multiple values
 			ArrayList results = new ArrayList( );
 			for ( Expression expr : values )
 			{
-				Object value = null;
-				if ( expr == null )
-					continue;
-				if ( ExpressionType.JAVASCRIPT.equals( expr.getType( ) ) )
+				if ( expr != null )
 				{
-					String exprText = (String) expr.getExpression( );
-					try
+					Object value = evaluateExpression( expr, parameter
+							.getDataType( ) );
+					if ( value != null )
 					{
-						value = executionContext.evaluate( exprText );
-					}
-					catch ( BirtException e )
-					{
-						executionContext.addException( e );
-						log.log( Level.FINE, e.getLocalizedMessage( ), e );
-						continue;
+						results.add( value );
 					}
 				}
-				else
-				{
-					value = expr.getExpression( );
-				}
-				results.add( convertToType( value, parameter.getDataType( ) ) );
 			}
 			return results.toArray( );
 		}
 		else
 		{
+			// dynamic filter parameter
 			Expression expr = values.get( 0 );
-			if ( expr == null )
-				return null;
-			Object value = null;
-			if ( ExpressionType.JAVASCRIPT.equals( expr.getType( ) ) )
+			if ( expr != null )
 			{
-				String exprText = (String) expr.getExpression( );
-				try
-				{
-					value = executionContext.evaluate( exprText );
-				}
-				catch ( BirtException e )
-				{
-					executionContext.addException( e );
-					log.log( Level.FINE, e.getLocalizedMessage( ), e );
-				}
+				return evaluateExpression( expr,
+						DesignChoiceConstants.PARAM_TYPE_STRING );
+			}
+			return null;
+		}
+	}
+
+	private Object evaluateExpression( Expression expr, String type )
+	{
+		try
+		{
+			org.eclipse.birt.report.engine.ir.Expression irExpr = createExpression( expr );
+			Object value = executionContext.evaluate( irExpr );
+			return convertToType( value, type );
+		}
+		catch ( BirtException e )
+		{
+			executionContext.addException( e );
+			log.log( Level.FINE, e.getLocalizedMessage( ), e );
+		}
+		return null;
+	}
+
+	private org.eclipse.birt.report.engine.ir.Expression createExpression(
+			Expression expr )
+	{
+		if ( expr != null )
+		{
+			String type = expr.getType( );
+			if ( ExpressionType.CONSTANT.equals( type ) )
+			{
+				String text = expr.getStringExpression( );
+				return org.eclipse.birt.report.engine.ir.Expression
+						.newConstant( -1, text );
 			}
 			else
 			{
-				value = expr.getExpression( );
+				String text = expr.getStringExpression( );
+				if ( text != null )
+				{
+					text = text.trim( );
+					if ( text.length( ) > 0 )
+					{
+						return org.eclipse.birt.report.engine.ir.Expression
+								.newScript( type, text );
+					}
+				}
 			}
-			return convertToType( value, parameter.getDataType( ) );
 		}
+		return null;
 	}
 
 	/*
