@@ -290,6 +290,8 @@
 	<target name="CreateUpdateSite" if="updateSite">
 		
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
+		<property name="compsite.site" value="${postingDirectory}/../../../../UpdateSite/${updateSite}" />
+		<property name="repo" value="${compsite.site}/${buildId}" />
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
@@ -333,14 +335,13 @@
 		<!-- TODO: generate p2 composite update site -->
         <antcall target="GenP2CompositeUpdateSite"/>
                 
-		<!-- TODO: push to local update site -->
-		<antcall target = "pushUpdateSiteLocal"/>
+		<!-- TODO: generate birt-updatesite package -->
+		<antcall target = "GenUpdatesitePackage"/>
+		
 		
 	</target>
 
         <target name="GenP2CompositeUpdateSite">
-            <property name="compsite.site" value="${postingDirectory}/../../../../UpdateSite/${updateSite}" />
-            <property name="repo" value="${compsite.site}/${buildId}" />
             <property name="p2.repo.name" value="BIRT TEST" />
             <mkdir dir="${repo}" />
             
@@ -419,10 +420,21 @@
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.source}" token="@FEATURE.BIRT.WTP.SOURCE@"/>		
 	</target>
 	
-	<target name="pushUpdateSiteLocal" if="createUpdateSite">
+	<target name="GenUpdatesitePackage">
 
+		<zip destfile="${postingDirectory}/${buildId}/birt-updatesite-${package.version}.zip">
+		   <fileset dir="${repo}">
+		       <include name="features/**"/>
+		       <include name="plugins/**"/>
+		   </fileset>
+		</zip>
+		
+		<!-- rename package name -->
+		<move file="${postingDirectory}/${buildId}/birt-updatesite-${package.version}.zip"
+		      tofile="${postingDirectory}/${buildId}/birt-updatesite-${package.version}-${build.date}.zip"/>
+		
 		<!-- push update site to output directory -->
-		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/plugins"/>
+		<!--mkdir dir="${postingDirectory}/${buildId}/UpdateSite/plugins"/>
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/features"/>
 		<copy todir="${postingDirectory}/${buildId}/UpdateSite/plugins">
 			<fileset dir="${updateJarWorkingDir}/site/plugins">
@@ -446,29 +458,8 @@
 	        <fileset dir="${repo}">
 	            <include name="*.jar"/>
 	        </fileset>
-	    </copy>
+	    </copy-->
 		
-		<!-- clean last content -->
-		<!--delete failonerror="false">
-			<fileset dir="${postingDirectory}/../../../UpdateSite/${package.version}">
-				<include name="plugins/**"/>
-				<include name="features/**"/>
-				<include name="site.xml"/>
-			</fileset>
-		</delete-->
-
-		<!-- copy to internal update site -->
-		<!--copy todir="${postingDirectory}/../../../UpdateSite/${package.version}/plugins" overwrite="true">
-			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
-				<include name="**"/>
-			</fileset>
-		</copy>
-		<copy todir="${postingDirectory}/../../../UpdateSite/${package.version}/features" overwrite="true">
-			<fileset dir="${updateJarWorkingDir}/eclipse/features/">
-				<include name="**"/>
-			</fileset>
-		</copy>
-		<copy tofile="${postingDirectory}/../../../UpdateSite/${package.version}/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/-->
 	</target>
 	
 	<target name="runBirtTest" unless="skip.unit.test">
