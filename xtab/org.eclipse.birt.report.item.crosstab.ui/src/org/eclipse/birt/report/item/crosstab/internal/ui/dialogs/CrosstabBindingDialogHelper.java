@@ -53,6 +53,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -955,7 +956,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		setContentSize( composite );
 	}
 
-	private void createExpressionButton( final Composite parent, final Text text )
+	private void createExpressionButton( final Composite parent,
+			final Control control )
 	{
 		if ( expressionProvider == null )
 		{
@@ -967,7 +969,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						this.binding );
 		}
 		ExpressionButtonUtil.createExpressionButton( parent,
-				text,
+				control,
 				expressionProvider,
 				this.bindingHolder );
 	}
@@ -1316,9 +1318,19 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
 					argHandle.setName( arg );
-					ExpressionButtonUtil.saveExpressionButtonControl( paramsMap.get( arg ),
-							argHandle,
-							AggregationArgument.VALUE_MEMBER );
+					if ( ExpressionButtonUtil.getExpressionButton( paramsMap.get( arg ) ) != null )
+					{
+						ExpressionButtonUtil.saveExpressionButtonControl( paramsMap.get( arg ),
+								argHandle,
+								AggregationArgument.VALUE_MEMBER );
+					}
+					else
+					{
+						Expression expression = new Expression( value,
+								ExpressionType.JAVASCRIPT );
+						argHandle.setExpressionProperty( AggregationArgument.VALUE_MEMBER,
+								expression );
+					}
 					binding.addArgument( argHandle );
 				}
 			}
@@ -1336,9 +1348,19 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			binding.setDisplayName( txtDisplayName.getText( ) );
 			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
-			ExpressionButtonUtil.saveExpressionButtonControl( txtExpression,
-					binding,
-					ComputedColumn.EXPRESSION_MEMBER );
+			if ( ExpressionButtonUtil.getExpressionButton( txtExpression ) != null )
+			{
+				ExpressionButtonUtil.saveExpressionButtonControl( txtExpression,
+						binding,
+						ComputedColumn.EXPRESSION_MEMBER );
+			}
+			else
+			{
+				Expression expression = new Expression( getControlValue( txtExpression ),
+						ExpressionType.JAVASCRIPT );
+				binding.setExpressionProperty( AggregationArgument.VALUE_MEMBER,
+						expression );
+			}
 		}
 		return binding;
 	}
