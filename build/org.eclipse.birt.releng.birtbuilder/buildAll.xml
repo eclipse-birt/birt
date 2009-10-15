@@ -290,7 +290,7 @@
 	<target name="CreateUpdateSite" if="updateSite">
 		
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
-		<property name="compsite.site" value="${postingDirectory}/../../../../UpdateSite/${updateSite}" />
+		<property name="compsite.site" value="${buildDirectory}/../../UpdateSite/${updateSite}" />
 		<property name="repo" value="${compsite.site}/${buildId}" />
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
