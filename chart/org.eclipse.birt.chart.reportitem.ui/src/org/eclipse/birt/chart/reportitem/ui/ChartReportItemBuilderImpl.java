@@ -137,7 +137,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			// UI
 			this.extendedHandle = eih;
 		}
-
+		ReportDataServiceProvider dataProvider = null;
 		try
 		{
 			IReportItem item = null;
@@ -187,7 +187,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						.getActiveShell( );
 			}
 			final ChartWizard chartBuilder = new ChartWizard( parentShell );
-			ReportDataServiceProvider dataProvider = new ReportDataServiceProvider( extendedHandle );
+			dataProvider = new ReportDataServiceProvider( extendedHandle );
 			ChartReportItemUIFactory uiFactory = ChartReportItemUIFactory.instance( );
 			IChartDataSheet dataSheet = uiFactory.createDataSheet( extendedHandle,
 					dataProvider );
@@ -349,6 +349,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			this.extendedHandle = null;
 			
 			isChartWizardOpen = false;
+			if ( dataProvider != null )
+			{
+				dataProvider.dispose();
+			}
 		}
 	}
 	

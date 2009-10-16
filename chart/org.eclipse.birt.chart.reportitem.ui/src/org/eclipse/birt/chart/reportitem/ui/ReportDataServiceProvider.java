@@ -156,14 +156,83 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private boolean isErrorFound = false;
 	private IProject project = null;
 
-	public ReportDataServiceProvider( ExtendedItemHandle itemHandle )
+	// These fields are used to execute query for live preview.
+	private DataRequestSession session = null;
+	private ReportEngine engine = null;
+	private DummyEngineTask engineTask = null;
+	private CubeHandle cubeReference = null;
+	
+	public ReportDataServiceProvider( ExtendedItemHandle itemHandle ) throws ChartException
 	{
 		super( );
 		this.itemHandle = itemHandle;
 		project = UIUtil.getCurrentProject( );
-
+		initialize( );
 	}
+	
+	/**
+	 * Initializes some instance handles for query execution.
+	 * 
+	 * @throws ChartException
+	 */
+	public void initialize() throws ChartException
+	{
+		try
+		{
+			if ( isReportDesignHandle( ) )
+			{
+				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
 
+				engineTask = new DummyEngineTask( engine,
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
+						itemHandle.getModuleHandle( ) );
+
+			}
+
+			if ( isReportDesignHandle( ) )
+			{
+				session = prepareDataRequestSession( engineTask,
+						getMaxRow( ),
+						false );
+				engineTask.run( );
+			}
+			else
+			{
+				session = prepareDataRequestSession( getMaxRow( ), false );
+			}
+		}
+		catch ( BirtException e )
+		{
+			if ( engine == null && session != null )
+			{
+				session.shutdown( );
+			}
+			if ( engineTask != null )
+			{
+				engineTask.close( );
+			}
+
+			throw new ChartException( ChartReportItemUIActivator.ID,
+					ChartException.DATA_BINDING,
+					e );
+		}
+	}
+	
+	/**
+	 * Disposes instance handles.
+	 */
+	public void dispose()
+	{
+		if ( engineTask != null )
+		{
+			engineTask.close( );
+		}
+		else if ( session != null )
+		{
+			session.shutdown( );
+		}
+	}
+	
 	public void setWizardContext( ChartWizardContext context )
 	{
 		this.context = context;
@@ -1270,6 +1339,52 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 	}
 
+	/**
+	 * Returns APP context of query session.
+	 * 
+	 * @param maxRow
+	 * @param isCudeMode
+	 * @return
+	 */
+	private Map<String, Integer> getAppContext(  int maxRow, boolean isCudeMode )
+	{
+		Map<String, Integer> appContext = new HashMap<String, Integer>( );
+		// Bugzilla #210225.
+		// If filter is set on report item handle of chart, here should not use
+		// data cache mode and get all valid data firstly, then set row limit on
+		// query(QueryDefinition.setMaxRows) to get required rows.
+		PropertyHandle filterProperty = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+		if ( filterProperty == null
+				|| filterProperty.getListValue( ) == null
+				|| filterProperty.getListValue( ).size( ) == 0 )
+		{
+			if ( !isCudeMode )
+			{
+				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
+						Integer.valueOf( maxRow ) );
+			}
+			else
+			{
+				appContext.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
+						Integer.valueOf( maxRow ) );
+				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
+						Integer.valueOf( maxRow ) );
+			}
+		}
+		return appContext;
+	}
+	
+	/**
+	 * Check it should set cube into query session.
+	 * 
+	 * @param cube
+	 * @return
+	 */
+	private boolean needDefineCube( CubeHandle cube )
+	{
+		return cubeReference != cube;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1292,53 +1407,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
 		
 		IDataRowExpressionEvaluator evaluator = null;
-		DataRequestSession session = null;
-		ReportEngine engine = null;
-		DummyEngineTask engineTask = null;
 
 		try
 		{
-			if ( isReportDesignHandle( ) )
-			{
-				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
-				engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
-						itemHandle.getModuleHandle( ) );
-			}
-			
 			CubeHandle cube = ChartCubeUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
-				if ( isReportDesignHandle( ) )
-				{
-					session = prepareDataRequestSession( engineTask,
-							getMaxRow( ),
-							true );
-					engineTask.run( );
-				}
-				else
-				{
-					session = prepareDataRequestSession( getMaxRow( ), true );
-				}
-
 				// Create evaluator for data cube, even if in multiple view
-				evaluator = createCubeEvaluator( cube, session, engineTask, cm );
+				evaluator = createCubeEvaluator( cube, cm );
+				cubeReference = cube;
 			}
 			else
 			{
-				if ( isReportDesignHandle( ) )
-				{
-
-					session = prepareDataRequestSession( engineTask,
-							getMaxRow( ),
-							false );
-					engineTask.run( );
-				}
-				else
-				{
-					session = prepareDataRequestSession( getMaxRow( ), false );
-				}
-				
+				cubeReference = null;
 				// Create evaluator for data set
 				if ( isSharedBinding( )
 						&& !ChartReportItemUtil.isOldChartUsingInternalGroup( itemHandle,
@@ -1349,25 +1430,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					{
 						evaluator = createBaseEvaluator( (ExtendedItemHandle) itemHandle.getDataBindingReference( ),
 								cm,
-								columnExpression,
-								session,
-								engineTask );
+								columnExpression );
 					}
 					else
 					{
 						evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
-								columnExpression,
-							session,
-							engineTask );
+								columnExpression );
 					}
 				}
 				else
 				{
 					evaluator = createBaseEvaluator( itemHandle,
 							cm,
-							columnExpression,
-							session,
-							engineTask );
+							columnExpression );
 					
 				}
 			}
@@ -1375,14 +1450,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( BirtException e )
 		{
-			if ( engine == null && session != null )
-			{
-				session.shutdown( );
-			}
-			if ( engineTask != null )
-			{
-				engineTask.close( );
-			}
 			
 			throw new ChartException( ChartReportItemUIActivator.ID,
 					ChartException.DATA_BINDING,
@@ -1390,25 +1457,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( RuntimeException e )
 		{
-			if ( engine == null && session != null )
-			{
-				session.shutdown( );
-			}
-			if ( engineTask != null )
-			{
-				engineTask.close( );
-			}
-			
 			throw new ChartException( ChartReportItemUIActivator.ID,
 					ChartException.DATA_BINDING,
 					e );
 		}
 		finally
 		{
-			if ( engine != null )
-			{
-				engine.destroy( );
-			}
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 
@@ -1421,14 +1475,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @param handle
 	 * @param cm
 	 * @param columnExpression
-	 * @param session
-	 * @param engineTask
 	 * @return
 	 * @throws ChartException
 	 */
 	private IDataRowExpressionEvaluator createBaseEvaluator(
-			ExtendedItemHandle handle, Chart cm, List<String> columnExpression,
-			final DataRequestSession session, final EngineTask engineTask )
+			ExtendedItemHandle handle, Chart cm, List<String> columnExpression )
 			throws ChartException
 	{
 		IQueryResults actualResultSet;
@@ -1449,6 +1500,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			Iterator<FilterConditionHandle> filtersIterator = getFiltersIterator( );
 			
+			session.prepare( queryDefn, getAppContext(getMaxRow(), true) );
+			
 			actualResultSet = session.executeQuery( queryDefn,
 					null,
 					filtersIterator,
@@ -1465,29 +1518,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
 							ChartReportItemUtil.isSetSummaryAggregation( cm ),
-							cm ) {
-
-						/*
-						 * (non-Javadoc)
-						 * 
-						 * @seeorg.eclipse.birt.chart.reportitem.
-						 * BaseGroupedQueryResultSetEvaluator#close()
-						 */
-						@Override
-						public void close( )
-						{
-							super.close( );
-							if ( engineTask != null )
-							{
-								engineTask.close( );
-							}
-							else if ( session != null )
-							{
-								session.shutdown( );
-							}
-						}
-
-					};
+							cm );
 				}
 			}
 		}
@@ -1668,13 +1699,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * Creates the evaluator for Cube Live preview.
 	 * 
 	 * @param cube
-	 * @param session
-	 * @param engineTask
+	 * @param cm
 	 * @return
 	 * @throws BirtException
 	 */
 	private IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
-			final DataRequestSession session, final EngineTask engineTask,
 			final Chart cm )
 			throws BirtException
 	{
@@ -1704,10 +1733,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				cm ).createCubeQuery( null );
 		}
 
-		session.defineCube( cube );
-
+		if ( needDefineCube( cube ) )
+		{
+			session.defineCube( cube );
+		}
+		
 		// Always cube query returned
-		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
+		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd , getAppContext(getMaxRow(), true) );
 
 		// Sharing case
 		if ( referredHandle != null && !isChartCubeReference )
@@ -1716,57 +1748,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					null,
 					new ScriptContext( ) ),
 					qd,
-					cm ) {
-
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see
-				 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#
-				 * close()
-				 */
-				@Override
-				public void close( )
-				{
-					super.close( );
-					if ( engineTask != null )
-					{
-						engineTask.close( );
-					}
-					else if ( session != null )
-					{
-						session.shutdown( );
-					}
-				}
-			};
+					cm );
 		}
 
 		return new BIRTCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
 				null,
-				new ScriptContext( ) ) ) {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#
-			 * close()
-			 */
-			@Override
-			public void close( )
-			{
-				super.close( );
-				if ( engineTask != null )
-				{
-					engineTask.close( );
-				}
-				else if ( session != null )
-				{
-					session.shutdown( );
-				}
-			}
-
-		};
+				new ScriptContext( ) ) );
 	}
 
 	/**
@@ -1810,6 +1797,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		DataRequestSession session = engineTask.getDataSession( );
+		
 		return session;
 	}
 
@@ -2300,8 +2288,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * Prepare data expression evaluator for query share with table.
 		 * 
 		 * @param cm
-		 * @param session
-		 * @param engineTask
+		 * @param columnExpression
 		 * @return
 		 * @throws BirtException
 		 * @throws AdapterException
@@ -2309,9 +2296,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws ChartException
 		 */
 		private IDataRowExpressionEvaluator createShareBindingEvaluator(
-				Chart cm, List<String> columnExpression,
-				final DataRequestSession session,
-				final EngineTask engineTask )
+				Chart cm, List<String> columnExpression )
 				throws BirtException,
 				AdapterException, DataException, ChartException
 		{
@@ -2343,6 +2328,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					columnExpression,
 					bindingExprsMap );
 
+			session.prepare( queryDefn, getAppContext( getMaxRow(), false ) );
 			actualResultSet = session.executeQuery( queryDefn,
 					null,
 					getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
@@ -2378,26 +2364,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							sLogger.log( e );
 						}
 						return null;
-					}
-
-					/*
-					 * (non-Javadoc)
-					 * 
-					 * @seeorg.eclipse.birt.chart.reportitem.
-					 * BaseGroupedQueryResultSetEvaluator#close()
-					 */
-					@Override
-					public void close( )
-					{
-						super.close( );
-						if ( engineTask != null )
-						{
-							engineTask.close( );
-						}
-						else if ( session != null )
-						{
-							session.shutdown( );
-						}
 					}
 				};
 			}
