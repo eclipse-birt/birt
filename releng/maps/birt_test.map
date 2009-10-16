@@ -12,8 +12,8 @@ plugin@org.eclipse.birt.report.engine.emitter.postscript.tests=v20091015,:pserve
 plugin@org.eclipse.birt.report.engine.emitter.prototype.excel.tests=v20091015,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel.tests
 
 !**************** model test  *******************
-plugin@org.eclipse.birt.report.model.tests=v20090924,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.tests
-plugin@org.eclipse.birt.report.model.adapter.oda.tests=v20090924,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda.tests
+plugin@org.eclipse.birt.report.model.tests=v20091016,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.tests
+plugin@org.eclipse.birt.report.model.adapter.oda.tests=v20091016,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda.tests
 fragment@org.eclipse.birt.report.model.testhelper=v20090821,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.testhelper
 
 !**************** automated test suite  *******************
