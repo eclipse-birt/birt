@@ -1500,7 +1500,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			Iterator<FilterConditionHandle> filtersIterator = getFiltersIterator( );
 			
-			session.prepare( queryDefn, getAppContext(getMaxRow(), true) );
+			session.prepare( queryDefn, getAppContext(getMaxRow(), false) );
 			
 			actualResultSet = session.executeQuery( queryDefn,
 					null,
