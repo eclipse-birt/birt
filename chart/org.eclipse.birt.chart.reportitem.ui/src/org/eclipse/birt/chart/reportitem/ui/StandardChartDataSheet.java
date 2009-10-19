@@ -72,6 +72,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -1142,8 +1143,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
 		if ( !cmbInherit.isEnabled( ) )
 		{
-			// If container is not inheritable, set inherit column groups.
-			cmbInherit.select( 0 );
+			if ( itemHandle.getContainer( ) instanceof MultiViewsHandle
+					|| itemHandle.getDataBindingReference( ) != null )
+			{
+				// If sharing or multi view, set inherit column groups.
+				cmbInherit.select( 0 );
+			}
+			else
+			{
+				// If container is grid or anything else, set inherit columns
+				// only.
+				cmbInherit.select( 1 );
+			}
 		}
 		btnInherit.setSelection( true );		
 		bIsInheritSelected = true;
