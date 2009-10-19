@@ -1246,7 +1246,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 			{
-				setURI( locationEditor.getText( ).trim( ),
+				setURI( locationEditor.getText( ),
 						(String) locationEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) );
 				if ( bTargetEnabled )
 				{
@@ -1267,7 +1267,7 @@ public class HyperlinkBuilder extends BaseDialog
 				if ( reportDesignButton.getSelection( ) )
 				{
 					inputHandle.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN );
-					inputHandle.setReportName( locationEditor.getText( ).trim( ) );
+					inputHandle.setReportName( locationEditor.getText( ) );
 					for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
 					{
 						inputHandle.addParamBinding( (ParamBinding) iter.next( ) );
@@ -1276,7 +1276,7 @@ public class HyperlinkBuilder extends BaseDialog
 				else if ( reportDocumentButton.getSelection( ) )
 				{
 					inputHandle.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT );
-					inputHandle.setReportName( documentEditor.getText( ).trim( ) );
+					inputHandle.setReportName( documentEditor.getText( ) );
 					for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
 					{
 						inputHandle.addParamBinding( (ParamBinding) iter.next( ) );
@@ -1600,11 +1600,11 @@ public class HyperlinkBuilder extends BaseDialog
 			String newFilename = null;
 			if ( reportDesignButton.getSelection( ) )
 			{
-				newFilename = locationEditor.getText( ).trim( );
+				newFilename = locationEditor.getText( );
 			}
 			else if ( reportDocumentButton.getSelection( ) )
 			{
-				newFilename = documentEditor.getText( ).trim( );
+				newFilename = documentEditor.getText( );
 			}
 			if ( newFilename == null || newFilename.length( ) == 0 )
 			{
