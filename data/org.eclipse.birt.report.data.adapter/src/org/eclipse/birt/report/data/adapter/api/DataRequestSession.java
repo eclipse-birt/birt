@@ -232,6 +232,7 @@ public abstract class DataRequestSession
 	/**
 	 * Prepare a base data query, and return an IBasePreparedQuery instance
 	 * which can be subsequently executed to produce query results.
+	 * @deprecated Should not pass appContext this way, try {@link DataSessionContext#setAppContext(Map)} instead.
 	 */
 
 	public abstract IBasePreparedQuery prepare( IDataQueryDefinition query,
@@ -404,6 +405,7 @@ public abstract class DataRequestSession
 	 * @returnThe <code>IPreparedCubeQuery</code> object that contains a
 	 *            prepared query ready for execution.
 	 * @throws BirtException
+	 * @deprecated Should not pass appContext this way, try {@link DataSessionContext#setAppContext(Map)} instead.
 	 */
 	public abstract IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException;
@@ -414,6 +416,7 @@ public abstract class DataRequestSession
 	 * @param appContext
 	 * @return
 	 * @throws BirtException
+	 * @deprecated Should not pass appContext this way, try {@link DataSessionContext#setAppContext(Map)} instead.
 	 */
 	public abstract IPreparedCubeQuery prepare( ISubCubeQueryDefinition query,
 			Map appContext ) throws BirtException;
@@ -462,6 +465,7 @@ public abstract class DataRequestSession
 	 *         query ready for execution.
 	 * @throws BirtException
 	 *             if error occurs during the preparation of querySpec
+	 * @deprecated Should not pass appContext this way, try {@link DataSessionContext#setAppContext(Map)} instead.
 	 */
 	public abstract IPreparedQuery prepare( IQueryDefinition query,
 			Map appContext ) throws BirtException;
