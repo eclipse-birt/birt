@@ -778,18 +778,13 @@ public abstract class OptionsConfigurationBlock
 
 	public void performDefaults( )
 	{
-
 		for ( int i = 0; i < fAllKeys.length; i++ )
 		{
-			fAllKeys[i].setToDefault( fPref );
+			Key curr = fAllKeys[i];
+			String defValue = fAllKeys[i].getDefaultValue( fPref );
+			setValue( curr, defValue );
 		}
-		try
-		{
-			fPref.save( );
-		}
-		catch ( IOException e )
-		{
-		}
+
 		settingsUpdated( );
 		updateControls( );
 		validateSettings( null, null, null );
