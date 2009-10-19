@@ -96,54 +96,28 @@ public abstract class AbstractLengthManager extends AbstractValueManager
 			switch ( value.getPrimitiveType( ) )
 			{
 				case CSSPrimitiveValue.CSS_NUMBER :
+				case CSSPrimitiveValue.CSS_PX :
+				case CSSPrimitiveValue.CSS_MM :
+				case CSSPrimitiveValue.CSS_CM :
+				case CSSPrimitiveValue.CSS_IN :
+				case CSSPrimitiveValue.CSS_PT :
+				case CSSPrimitiveValue.CSS_PC :
 					return value;
 
-				case CSSPrimitiveValue.CSS_PX :
-					float v = value.getFloatValue( );
-					CSSContext cx = engine.getCSSContext( );
-					float ratio = cx.getPixelUnitToMillimeter( );
-					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER, v
-							* ratio / 25.4f * 72000.0f );
-
-				case CSSPrimitiveValue.CSS_MM :
-					v = value.getFloatValue( );
-					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER,
-							v / 25.4f * 72000.0f );
-
-				case CSSPrimitiveValue.CSS_CM :
-					v = value.getFloatValue( );
-					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER,
-							v / 2.54f * 72000.0f );
-
-				case CSSPrimitiveValue.CSS_IN :
-					v = value.getFloatValue( );
-					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER,
-							v * 72000.0f );
-
-				case CSSPrimitiveValue.CSS_PT :
-					v = value.getFloatValue( );
-					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER,
-							v * 1000.0f );
-
-				case CSSPrimitiveValue.CSS_PC :
-					v = value.getFloatValue( );
-					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER,
-							v * 12.0f * 1000.0f );
-
 				case CSSPrimitiveValue.CSS_EMS :
-					v = value.getFloatValue( );
+					float v = value.getFloatValue( );
 					Value fontSize = (Value) elt.getComputedStyle( )
 							.getProperty( IStyle.STYLE_FONT_SIZE );
 					float fs = fontSize.getFloatValue( );
-					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER, v * fs );
+					return new FloatValue( fontSize.getPrimitiveType( ), v * fs );
 
 				case CSSPrimitiveValue.CSS_EXS :
 					v = value.getFloatValue( );
-					fontSize = (Value) elt.getComputedStyle( ).getProperty(
-							IStyle.STYLE_FONT_SIZE );
+					fontSize = (Value) elt.getComputedStyle( )
+							.getProperty( IStyle.STYLE_FONT_SIZE );
 					fs = fontSize.getFloatValue( );
-					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER, v * fs
-							* 0.5f );
+					return new FloatValue( fontSize.getPrimitiveType( ), v
+							* fs * 0.5f );
 			}
 		}
 		return value;

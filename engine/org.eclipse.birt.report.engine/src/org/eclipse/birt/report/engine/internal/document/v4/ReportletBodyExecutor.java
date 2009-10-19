@@ -15,11 +15,17 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
+import org.w3c.dom.css.CSSValue;
 
 public class ReportletBodyExecutor implements IReportItemExecutor
 {
@@ -56,7 +62,7 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 	protected void doExecute( ) throws BirtException
 	{
 		IReportItemExecutor executor = bodyExecutor;
-		IContent content;
+		IContent content = null;
 		while ( executor.hasNextChild( ) )
 		{
 			executor = executor.getNextChild( );
@@ -76,6 +82,36 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 				}
 			}
 		}
+		IStyle cs = bodyContent.getComputedStyle( );
+		IStyle is = bodyContent.getInlineStyle( );
+		CSSEngine engine = bodyContent.getCSSEngine( );
+		IStyle mergedStyle = ( is != null ? is : new StyleDeclaration( engine ) );
+		for ( int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++ )
+		{
+			if ( isNullValue( mergedStyle.getProperty( i ) )
+					&& engine.isInheritedProperty( i ) )
+			{
+				mergedStyle.setProperty( i, cs.getProperty( i ) );
+			}
+		}
+		bodyContent.setInlineStyle(mergedStyle);
+	}
+	
+	private boolean isNullValue( CSSValue value )
+	{
+		if ( value == null )
+		{
+			return true;
+		}
+
+		if ( value instanceof DataFormatValue )
+		{
+			return true;
+		}
+
+		String cssText = value.getCssText( );
+		return "none".equalsIgnoreCase( cssText )
+				|| "transparent".equalsIgnoreCase( cssText );
 	}
 
 	public IContent execute( )
