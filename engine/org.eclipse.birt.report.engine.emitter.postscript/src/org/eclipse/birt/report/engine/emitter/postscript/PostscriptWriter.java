@@ -211,14 +211,12 @@ public class PostscriptWriter
 
 	public void clipSave()
 	{
-		out.println( "gsave" );
-		graphics.push( new Graphic( ) );
+		gSave( );
 	}
 	
 	public void clipRestore()
 	{
-		out.println( "grestore" );
-		graphics.pop( );
+		gRestore( );
 	}
 	
 	/**
@@ -561,11 +559,13 @@ public class PostscriptWriter
 	private void gRestore( )
 	{
 		out.println( "grestore" );
+		graphics.pop();
 	}
 
 	private void gSave( )
 	{
 		out.println( "gsave" );
+		graphics.push( new Graphic( ) );
 	}
 
 	private Map<File, ITrueTypeWriter> trueTypeFontWriters = new HashMap<File, ITrueTypeWriter>( );
