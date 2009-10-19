@@ -117,7 +117,7 @@ public final class OneAxis
 		bTickBwteenCategories = _bTickBwteenCategories;
 	}
 
-	void setAxisCoordinate( double _dAxisRenderingCoordinate )
+	public void setAxisCoordinate( double _dAxisRenderingCoordinate )
 	{
 		dAxisRenderingCoordinate = _dAxisRenderingCoordinate;
 	}

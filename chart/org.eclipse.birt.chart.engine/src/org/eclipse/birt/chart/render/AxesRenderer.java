@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.computation.withaxes.AllAxes;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
 import org.eclipse.birt.chart.computation.withaxes.AxisTickCoordinates;
 import org.eclipse.birt.chart.computation.withaxes.Grid;
+import org.eclipse.birt.chart.computation.withaxes.IntersectionValue;
 import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
@@ -2137,6 +2138,14 @@ public abstract class AxesRenderer extends BaseRenderer
 			for ( int i = 0; i < iCount - 2; i++ )
 			{
 				oaxa[i + 2] = aax.getOverlay( i );
+				IntersectionValue iv = oaxa[i + 2].getIntersectionValue( );
+
+				if ( iv.getType( ) == IConstants.VALUE )
+				{
+					oaxa[i + 2].setAxisCoordinate( Methods.getLocation( aax.getPrimaryBase( )
+							.getScale( ),
+							iv.getValue( ) ) );
+				}
 			}
 
 			// RENDER THE AXIS LINES FOR EACH AXIS IN THE PLOT
