@@ -11,3 +11,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.birt.report.engine.javascript
 Bundle-Vendor: Eclipse.org
+Bundle-Activator: org.eclipse.birt.report.engine.javascript.plugin.JavaScriptPlugin

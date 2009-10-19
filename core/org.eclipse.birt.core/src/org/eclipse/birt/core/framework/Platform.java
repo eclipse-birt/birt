@@ -100,8 +100,9 @@ public class Platform
 		{
 			launcher.shutdown( );
 			launcher = null;
+			platform = null;
 		}
-		platform = null;
+		
 	}
 
 	/**

@@ -81,8 +81,6 @@ public class ReportEngine implements IReportEngine
 
 	public static final String PROPERTYSEPARATOR = File.pathSeparator;
 	
-	public static final boolean USE_DYNAMIC_SCOPE = true;
-
 	static protected Logger logger = Logger.getLogger( ReportEngine.class
 			.getName( ) );
 
@@ -221,23 +219,6 @@ public class ReportEngine implements IReportEngine
 		EngineLogger.startEngineLogging( logger, dest, file, level );
 	}
 	
-	static class MyFactory extends ContextFactory
-	{
-
-		protected boolean hasFeature( Context cx, int featureIndex )
-		{
-			if ( featureIndex == Context.FEATURE_DYNAMIC_SCOPE )
-			{
-				return USE_DYNAMIC_SCOPE;
-			}
-			return super.hasFeature( cx, featureIndex );
-		}
-	}
-
-	static
-	{
-		ContextFactory.initGlobal( new MyFactory( ) );
-	}
 
 	/**
 	 * get the root scope used by the engine
