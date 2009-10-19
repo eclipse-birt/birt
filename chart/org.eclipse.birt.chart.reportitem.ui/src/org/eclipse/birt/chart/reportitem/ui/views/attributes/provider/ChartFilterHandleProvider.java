@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 
@@ -50,6 +51,8 @@ public class ChartFilterHandleProvider extends ChartFilterProviderDelegate
 	@Override
 	public boolean isEditable( )
 	{
+		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			return false;
 		Object handle = null;
 		if ( input instanceof List<?> )
 		{
