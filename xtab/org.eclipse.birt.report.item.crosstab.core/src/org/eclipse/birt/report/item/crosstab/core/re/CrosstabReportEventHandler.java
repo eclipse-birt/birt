@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.extension.IOnCreateEvent;
 import org.eclipse.birt.report.engine.extension.IOnRenderEvent;
 import org.eclipse.birt.report.engine.extension.IReportEventContext;
 import org.eclipse.birt.report.engine.extension.ReportEventHandlerBase;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.script.internal.handler.CrosstabCreationHandler;
 import org.eclipse.birt.report.item.crosstab.core.script.internal.handler.CrosstabRenderingHandler;
@@ -48,7 +49,8 @@ public class CrosstabReportEventHandler extends ReportEventHandlerBase
 
 		handler.handleCrosstab( crosstab,
 				(ITableContent) event.getContent( ),
-				context );
+				context,
+				RunningState.CREATE );
 	}
 
 	@Override
@@ -70,7 +72,8 @@ public class CrosstabReportEventHandler extends ReportEventHandlerBase
 
 		handler.handleCrosstab( crosstab,
 				(ITableContent) event.getContent( ),
-				context );
+				context,
+				RunningState.RENDER );
 	}
 
 }

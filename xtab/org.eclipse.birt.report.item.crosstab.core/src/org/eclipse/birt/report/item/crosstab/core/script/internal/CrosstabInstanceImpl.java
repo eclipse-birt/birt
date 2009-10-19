@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabInstance;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
@@ -28,12 +29,14 @@ public class CrosstabInstanceImpl implements ICrosstabInstance
 
 	private ITableContent content;
 	private DesignElementHandle modelHandle;
+	private RunningState runningState;
 
 	public CrosstabInstanceImpl( ITableContent content,
-			DesignElementHandle modelHandle )
+			DesignElementHandle modelHandle, RunningState runningState )
 	{
 		this.content = content;
 		this.modelHandle = modelHandle;
+		this.runningState = runningState;
 	}
 
 	public String getCaption( )
@@ -79,7 +82,18 @@ public class CrosstabInstanceImpl implements ICrosstabInstance
 
 	public void setRepeatColumnHeader( boolean repeat )
 	{
-		content.setHeaderRepeat( repeat );
+		if ( runningState == RunningState.CREATE )
+		{
+			content.setHeaderRepeat( repeat );
+		}
+		else if ( runningState == RunningState.RENDER )
+		{
+			throw new UnsupportedOperationException( "Repeat column header can't be set at render time." );
+		}
+		else
+		{
+			throw new UnsupportedOperationException( "Repeat column header can't be set on page break." );
+		}
 	}
 
 	public void setRepeatRowHeader( boolean repeat )
