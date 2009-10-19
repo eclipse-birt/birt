@@ -597,6 +597,7 @@ public class HyperlinkBuilder extends BaseDialog
 		createComplexExpressionButton( buttonArea, locationEditor );
 		createTargetBar( );
 		createTooltipBar( );
+		locationEditor.forceFocus( );
 	}
 
 	private void createTooltipBar( )
