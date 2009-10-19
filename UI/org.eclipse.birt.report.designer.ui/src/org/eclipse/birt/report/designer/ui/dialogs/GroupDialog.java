@@ -206,6 +206,8 @@ public class GroupDialog extends BaseDialog
 
 	private Combo pagebreakInsideCombo;
 
+	private Group sortingGroup;
+
 	/**
 	 * Constructor.
 	 * 
@@ -502,7 +504,8 @@ public class GroupDialog extends BaseDialog
 				if ( key != null )
 				{
 					String tocExp = null;
-					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,false );
+					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,
+							false );
 					if ( converter != null )
 					{
 						if ( keyChooser.indexOf( key ) != -1 )
@@ -676,7 +679,7 @@ public class GroupDialog extends BaseDialog
 		composite.setLayoutData( layoutData );
 		composite.setLayout( new GridLayout( ) );
 
-		Group sortingGroup = new Group( composite, SWT.NONE );
+		sortingGroup = new Group( composite, SWT.NONE );
 		sortingGroup.setText( SORT_GROUP_TITLE );
 		sortingGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		sortingGroup.setLayout( new FillLayout( SWT.VERTICAL ) );
@@ -787,7 +790,7 @@ public class GroupDialog extends BaseDialog
 		filterItem.setControl( filterPage );
 		checkReadOnlyControl( IGroupElementModel.FILTER_PROP, filterPage );
 
-		TabItem sortItem = new TabItem( tab, SWT.NONE );
+		final TabItem sortItem = new TabItem( tab, SWT.NONE );
 		FormPage sortPage = new FormPage( tab,
 				FormPage.FULL_FUNCTION_HORIZONTAL,
 				new SortingHandleProvider( ) {
@@ -804,6 +807,15 @@ public class GroupDialog extends BaseDialog
 		sortItem.setText( TAB_SORTING );
 		sortItem.setControl( sortPage );
 		checkReadOnlyControl( IGroupElementModel.SORT_PROP, sortPage );
+
+		tab.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				ascending.setEnabled( e.item != sortItem );
+				descending.setEnabled( e.item != sortItem );
+			}
+		} );
 	}
 
 	private boolean checkReadOnlyControl( String property, Control control )
