@@ -679,6 +679,8 @@ public abstract class AbstractEmitterImpl
 		String mimeType = image.getMIMEType( );
 		String extension = image.getExtension( );
 		String altText = image.getAltText( );
+		double height = WordUtil.convertImageSize( image.getHeight( ), 0 );
+		double width = WordUtil.convertImageSize( image.getWidth( ), 0 );
 
 		context.addContainer( false );
 
@@ -688,7 +690,7 @@ public abstract class AbstractEmitterImpl
 			{
 				altText = messageFlashObjectNotSupported;
 			}
-			wordWriter.drawImage( null, 0.0, 0.0, null, style, inlineFlag,
+			wordWriter.drawImage( null, height, width, null, style, inlineFlag,
 					altText, uri );
 			return;
 		}
@@ -706,9 +708,9 @@ public abstract class AbstractEmitterImpl
 				return;
 			}
 
-			double height = WordUtil.convertImageSize( image.getHeight( ),
+			height = WordUtil.convertImageSize( image.getHeight( ),
 					imageInfo.getHeight( ) );
-			double width = WordUtil.convertImageSize( image.getWidth( ),
+			width = WordUtil.convertImageSize( image.getWidth( ),
 					imageInfo.getWidth( ) );
 
 			writeBookmark( image );
@@ -720,6 +722,8 @@ public abstract class AbstractEmitterImpl
 		catch ( IOException e )
 		{
 			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			wordWriter.drawImage( null, height, width, null, style, inlineFlag,
+					altText, uri );
 		}
 	}
 
