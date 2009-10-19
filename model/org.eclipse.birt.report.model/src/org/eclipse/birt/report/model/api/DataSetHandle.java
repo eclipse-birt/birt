@@ -194,7 +194,9 @@ public abstract class DataSetHandle extends ReportElementHandle
 	public Iterator resultSetIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( RESULT_SET_PROP );
-		assert propHandle != null;
+		if ( propHandle == null )
+			return null;
+
 		return propHandle.iterator( );
 	}
 
