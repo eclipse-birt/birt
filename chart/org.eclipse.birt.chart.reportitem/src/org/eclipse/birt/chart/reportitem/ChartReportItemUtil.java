@@ -136,11 +136,6 @@ public class ChartReportItemUtil extends ChartItemUtil
 	public static boolean isOldChartUsingInternalGroup(
 			ReportItemHandle chartHandle, Chart cm )
 	{
-		if ( ChartUtil.compareVersion( cm.getVersion( ), "2.5.0" ) >= 0 ) //$NON-NLS-1$
-		{
-			return false;
-		}
-
 		String reportVer = chartHandle.getModuleHandle( ).getVersion( );
 		if ( reportVer == null
 				|| ChartUtil.compareVersion( reportVer, "3.2.16" ) < 0 ) //$NON-NLS-1$
@@ -148,21 +143,34 @@ public class ChartReportItemUtil extends ChartItemUtil
 			return true;
 		}
 
-		// Since if the chart is serilized into a document, the version number
+		// Since if the chart is serialized into a document, the version number
 		// will always be
 		// the newest, so we can only detect an old chart using internal group
 		// with following facts:
-		// 1. the chart has an gouping on base seriesDefination
+		// 1. the chart has an grouping on base seriesDefination
 		// 2. shared binding is used.
-		// 3. the shared binding is not grouped.
+		// 3. whether the chart is sharing data with a table or list
+		// 4. the shared binding is not grouped.
 		if ( chartHandle.getDataBindingReference( ) != null
 				&& isBaseGroupingDefined( cm )
+				&& isSharingTableData( chartHandle )
 				&& !isSharedGroupExpression( ChartUtil.getCategoryExpressions( cm )[0],
 						chartHandle ) )
 		{
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Check whether the reportitem is sharing data with a table or list.
+	 * 
+	 * @param handle
+	 * @return
+	 */
+	private static boolean isSharingTableData( ReportItemHandle handle )
+	{
+		return getReportItemReference( handle ) instanceof ListingHandle;
 	}
 
 	/**
