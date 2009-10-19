@@ -16,7 +16,6 @@ import java.text.Bidi;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo;
@@ -178,8 +177,8 @@ public abstract class AbstractWordXmlWriter
 		String direct = "w10:border" + pos;
 		writer.openTag( direct );
 		writer.attribute( "type", WordUtil.parseImageBorderStyle( style ) );
-		writer.attribute( "width", WordUtil
-				.parseBorderSize( ( (FloatValue) width ).getFloatValue( ) ) );
+		writer.attribute( "width", WordUtil.parseBorderSize( PropertyUtil
+				.getDimensionValue( width ) ) );
 		writer.closeTag( direct );
 	}
 
@@ -314,8 +313,8 @@ public abstract class AbstractWordXmlWriter
 			CSSValue width, int margin )
 	{
 		writer.attribute( "w:val", WordUtil.parseBorderStyle( style ) );
-		writer.attribute( "w:sz", WordUtil
-				.parseBorderSize( ( (FloatValue) width ).getFloatValue( ) ) );
+		writer.attribute( "w:sz", WordUtil.parseBorderSize( PropertyUtil
+				.getDimensionValue( width ) ) );
 		writer.attribute( "w:space", validateBorderSpace( margin ) );
 		writer.attribute( "w:color", WordUtil.parseColor( color ) );
 	}
@@ -463,15 +462,15 @@ public abstract class AbstractWordXmlWriter
 	private void writeSpacing( CSSValue height )
 	{
 		// unit: twentieths of a point(twips)
-		float spacingValue = ( (FloatValue) height ).getFloatValue( );
+		float spacingValue = PropertyUtil.getDimensionValue( height );
 		int spacing = WordUtil.parseSpacing( spacingValue ) / 2;
 		writeSpacing( spacing, spacing );
 	}
 
 	private void writeSpacing( CSSValue top, CSSValue bottom )
 	{
-		float topSpacingValue = ( (FloatValue) top ).getFloatValue( );
-		float bottomSpacingValue = ( (FloatValue) bottom ).getFloatValue( );
+		float topSpacingValue = PropertyUtil.getDimensionValue( top );
+		float bottomSpacingValue = PropertyUtil.getDimensionValue( bottom );
 		writeSpacing( WordUtil.parseSpacing( topSpacingValue ) / 2, WordUtil
 				.parseSpacing( bottomSpacingValue ) / 2 );
 	}
@@ -545,10 +544,9 @@ public abstract class AbstractWordXmlWriter
 
 	private void writeLetterSpacing( IStyle style )
 	{
-		CSSValue letterSpacing = style
-				.getProperty( StyleConstants.STYLE_LETTER_SPACING );
-		writeAttrTag( "w:spacing", WordUtil
-				.parseSpacing( ( (FloatValue) letterSpacing ).getFloatValue( ) ) );
+		int letterSpacing = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_LETTER_SPACING ) );
+		writeAttrTag( "w:spacing", WordUtil.parseSpacing( letterSpacing ) );
 	}
 
 	private void writeHyperlinkStyle( boolean isHyperlink, IStyle style )
@@ -997,8 +995,8 @@ public abstract class AbstractWordXmlWriter
 
 	private void writePosition( String verticalAlign, CSSValue fontSize )
 	{
-		int size = WordUtil.parseFontSize( ( (FloatValue) fontSize )
-				.getFloatValue( ) );
+		int size = WordUtil.parseFontSize( PropertyUtil
+				.getDimensionValue( fontSize ) );
 		if ( "top".equalsIgnoreCase( verticalAlign ) )
 		{
 			writeAttrTag( "w:position", (int) ( size * 1 / 3 ) );

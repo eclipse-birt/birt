@@ -38,7 +38,9 @@ public class StyleBuilder
 		populateColor( style, StyleConstants.STYLE_BACKGROUND_COLOR, entry,
 				StyleConstant.BACKGROUND_COLOR_PROP );
 
-		float width = Float.parseFloat( style.getBorderBottomWidth( ) );
+		CSSValue borderWidth = style
+				.getProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH );
+		int width = PropertyUtil.getDimensionValue( borderWidth );
 		if ( width > 0 )
 		{
 			populateColor( style, StyleConstants.STYLE_BORDER_BOTTOM_COLOR,
@@ -48,10 +50,11 @@ public class StyleBuilder
 					convertBorderStyle( style.getBorderBottomStyle( ) ) );
 
 			entry.setProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP,
-					convertBorderWeight( style.getBorderBottomWidth( ) ) );
+					convertBorderWeight( width ) );
 		}
 
-		width = Float.parseFloat( style.getBorderTopWidth( ) );
+		borderWidth = style.getProperty( IStyle.STYLE_BORDER_TOP_WIDTH );
+		width = PropertyUtil.getDimensionValue( borderWidth );
 		if ( width > 0 )
 		{
 			populateColor( style, StyleConstants.STYLE_BORDER_TOP_COLOR, entry,
@@ -61,10 +64,11 @@ public class StyleBuilder
 					convertBorderStyle( style.getBorderTopStyle( ) ) );
 
 			entry.setProperty( StyleConstant.BORDER_TOP_WIDTH_PROP,
-					convertBorderWeight( style.getBorderTopWidth( ) ) );
+					convertBorderWeight( width ) );
 		}
 
-		width = Float.parseFloat( style.getBorderLeftWidth( ) );
+		borderWidth = style.getProperty( IStyle.STYLE_BORDER_LEFT_WIDTH );
+		width = PropertyUtil.getDimensionValue( borderWidth );
 		if ( width > 0 )
 		{
 			populateColor( style, StyleConstants.STYLE_BORDER_LEFT_COLOR,
@@ -74,10 +78,11 @@ public class StyleBuilder
 					convertBorderStyle( style.getBorderLeftStyle( ) ) );
 
 			entry.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP,
-					convertBorderWeight( style.getBorderLeftWidth( ) ) );
+					convertBorderWeight( width ) );
 		}
 
-		width = Float.parseFloat( style.getBorderRightWidth( ) );
+		borderWidth = style.getProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH );
+		width = PropertyUtil.getDimensionValue( borderWidth );
 		if ( width > 0 )
 		{
 			populateColor( style, StyleConstants.STYLE_BORDER_RIGHT_COLOR,
@@ -87,7 +92,7 @@ public class StyleBuilder
 					convertBorderStyle( style.getBorderRightStyle( ) ) );
 
 			entry.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP,
-					convertBorderWeight( style.getBorderRightWidth( ) ) );
+					convertBorderWeight( width ) );
 		}
 		
 		populateColor( style, StyleConstants.STYLE_COLOR, entry,
@@ -97,7 +102,7 @@ public class StyleBuilder
 				.getValue( style.getFontFamily( ) ) );
 
 		entry.setProperty( StyleConstant.FONT_SIZE_PROP, convertFontSize( style
-				.getFontSize( ) ) );
+				.getProperty( IStyle.STYLE_FONT_SIZE ) ) );
 
 		entry.setProperty( StyleConstant.FONT_STYLE_PROP, "italic"
 				.equalsIgnoreCase( style.getFontStyle( ) ) );
@@ -168,12 +173,13 @@ public class StyleBuilder
 		entry.setProperty( index, PropertyUtil.getColor( value ) );
 	}
 
-	public static Integer convertFontSize( String size )
+	public static Integer convertFontSize( CSSValue fontSize )
 	{
+		int size = PropertyUtil.getDimensionValue( fontSize );
 		Integer fsize = null;
 		try
 		{
-			fsize = Math.round( Float.parseFloat( size ) / 1000 );
+			fsize = Math.round( size / 1000 );
 		}
 		catch ( NumberFormatException e )
 		{
@@ -183,20 +189,7 @@ public class StyleBuilder
 		return fsize;
 	}
 
-	public static String convertBorderWeight( String linestyle )
-	{
-		String w = StyleConstant.NULL;
-
-		if ( linestyle != null && !"0".equalsIgnoreCase( linestyle ) )
-		{
-			linestyle = ExcelUtil.getValue( linestyle );
-			int weight = (int) Double.parseDouble( linestyle );
-			w = convertBorderWeight( weight );
-		}
-		return w;
-	}
-
-	public static String convertBorderWeight( double width )
+	public static String convertBorderWeight( int width )
 	{
 		String w = StyleConstant.NULL;
 		if ( width >= 749 && width < 1499 )

@@ -713,7 +713,8 @@ public class ExcelLayoutEngine
 		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
 		entry.setProperty( StyleEntry.H_ALIGN_PROP, "Center" );
 		entry.setProperty( StyleEntry.FONT_SIZE_PROP, StyleBuilder
-				.convertFontSize( style.getFontSize( ) ) );
+						.convertFontSize( style
+								.getProperty( IStyle.STYLE_FONT_SIZE ) ) );
 		Data data = createData( text, entry );
 		data.setSizeInfo( rule );
 

@@ -1111,8 +1111,10 @@ public abstract class AbstractEmitterImpl
 
 	private int getCellWidth( int cellWidth, IStyle style )
 	{
-		float leftPadding = getPadding( style.getPaddingLeft( ) );
-		float rightPadding = getPadding( style.getPaddingRight( ) );
+		int leftPadding = getPadding( style
+				.getProperty( IStyle.STYLE_PADDING_LEFT ) );
+		int rightPadding = getPadding( style
+				.getProperty( IStyle.STYLE_PADDING_RIGHT ) );
 
 		if ( leftPadding > cellWidth )
 		{
@@ -1132,19 +1134,9 @@ public abstract class AbstractEmitterImpl
 		return (int) ( cellWidth - leftPadding - rightPadding );
 	}
 
-	private float getPadding( String padding )
+	private int getPadding( CSSValue padding )
 	{
-		float value = 0;
-		// Percentage value will be omitted
-		try
-		{
-			value = Float.parseFloat( padding ) / 50;
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-		}
-		return value;
+		return PropertyUtil.getDimensionValue( padding ) / 50;
 	}
 
 	private int[] computeTblColumnWidths( ITableContent table, int tblWidth )

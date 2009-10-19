@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.wpml.HyperlinkInfo;
@@ -31,6 +30,7 @@ import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.InlineFlag;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
 
 public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
@@ -352,8 +352,8 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 	protected void writeFontSize( IStyle style )
 	{
 		CSSValue fontSize = style.getProperty( StyleConstants.STYLE_FONT_SIZE );
-		int size = WordUtil.parseFontSize( ( (FloatValue) fontSize )
-				.getFloatValue( ) );
+		int size = WordUtil.parseFontSize( PropertyUtil
+				.getDimensionValue( fontSize ) );
 		writeAttrTag( "w:sz", size );
 		writeAttrTag( "w:sz-cs", size );
 	}
