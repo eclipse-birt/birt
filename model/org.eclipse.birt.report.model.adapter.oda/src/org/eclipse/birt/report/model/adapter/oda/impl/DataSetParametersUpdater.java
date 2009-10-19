@@ -121,6 +121,9 @@ class DataSetParametersUpdater
 	public void processDataSetParameters( DataSetParameters params )
 			throws SemanticException
 	{
+		if ( params == null )
+			return;
+
 		if ( newParams == null )
 			newParams = new ArrayList<OdaDataSetParameter>( );
 

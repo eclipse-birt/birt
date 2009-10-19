@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
@@ -140,7 +139,7 @@ class ResultSetsAdapter
 	 * @return the newly created column hint
 	 */
 
-	private ColumnHint newROMColumnHintFromColumnDefinition(
+	static ColumnHint newROMColumnHintFromColumnDefinition(
 			ColumnDefinition columnDefn, ColumnDefinition cachedColumnDefn,
 			ColumnHint oldHint, String columnName )
 	{
@@ -208,7 +207,7 @@ class ResultSetsAdapter
 	 *         <code>false</code>.
 	 */
 
-	private boolean hasColumnHintValue( DataElementUIHints dataUIHints,
+	private static boolean hasColumnHintValue( DataElementUIHints dataUIHints,
 			OutputElementAttributes outputAttrs )
 	{
 		if ( dataUIHints == null && outputAttrs == null )
@@ -250,7 +249,7 @@ class ResultSetsAdapter
 	 *            the column hint
 	 */
 
-	private void updateColumnHintFromDataAttrs(
+	private static void updateColumnHintFromDataAttrs(
 			DataElementAttributes dataAttrs,
 			DataElementAttributes cachedDataAttrs, ColumnHint newHint )
 	{
@@ -291,7 +290,7 @@ class ResultSetsAdapter
 	 *            the column hint
 	 */
 
-	private void updateColumnHintFromUsageHints(
+	private static void updateColumnHintFromUsageHints(
 			OutputElementAttributes outputAttrs,
 			OutputElementAttributes cachedOutputAttrs, ColumnHint newHint )
 	{
@@ -332,8 +331,9 @@ class ResultSetsAdapter
 	 * @param newHint
 	 *            the column hint
 	 */
-	private void updateColumnHintFromAxisAttrs( AxisAttributes axisAttributes,
-			AxisAttributes cachedAxisAttributes, ColumnHint newHint )
+	private static void updateColumnHintFromAxisAttrs(
+			AxisAttributes axisAttributes, AxisAttributes cachedAxisAttributes,
+			ColumnHint newHint )
 	{
 		if ( axisAttributes == null )
 			return;
@@ -364,7 +364,7 @@ class ResultSetsAdapter
 	 *            the oda axis type
 	 * @return the rom analysis type, or null if no such type defined in rom
 	 */
-	private String convertAxisTypeToAnalysisType( AxisType axisType )
+	private static String convertAxisTypeToAnalysisType( AxisType axisType )
 	{
 		switch ( axisType )
 		{
@@ -494,17 +494,17 @@ class ResultSetsAdapter
 				setDefinedResults.iterator( ), name, position, nativeDataType );
 
 		if ( tmpParam == null )
-			return convertNativeTypeToROMDataType( dataSourceId, dataSetId,
-					column.getNativeDataType( ).intValue( ), null );
+			return AdapterUtil.convertNativeTypeToROMDataType( dataSourceId,
+					dataSetId, column.getNativeDataType( ).intValue( ), null );
 
 		Integer tmpPosition = tmpParam.getPosition( );
 		if ( tmpPosition == null )
-			return convertNativeTypeToROMDataType( dataSourceId, dataSetId,
-					column.getNativeDataType( ).intValue( ), null );
+			return AdapterUtil.convertNativeTypeToROMDataType( dataSourceId,
+					dataSetId, column.getNativeDataType( ).intValue( ), null );
 
 		if ( !tmpPosition.equals( column.getPosition( ) ) )
-			return convertNativeTypeToROMDataType( dataSourceId, dataSetId,
-					column.getNativeDataType( ).intValue( ), null );
+			return AdapterUtil.convertNativeTypeToROMDataType( dataSourceId,
+					dataSetId, column.getNativeDataType( ).intValue( ), null );
 
 		Integer tmpNativeCodeType = tmpParam.getNativeDataType( );
 		if ( tmpNativeCodeType == null
@@ -512,41 +512,9 @@ class ResultSetsAdapter
 			return tmpParam.getDataType( );
 
 		String oldDataType = tmpParam.getDataType( );
-		return convertNativeTypeToROMDataType( dataSourceId, dataSetId, column
-				.getNativeDataType( ).intValue( ), oldDataType );
-	}
-
-	/**
-	 * Converts the ODA native data type code to rom data type.
-	 * 
-	 * @param dataSourceId
-	 *            the id of the data source
-	 * @param dataSetId
-	 *            the ide of the data set
-	 * @param nativeDataTypeCode
-	 *            the oda data type code
-	 * @param romDataType
-	 *            the rom data type
-	 * @return the rom data type in string
-	 */
-
-	private String convertNativeTypeToROMDataType( String dataSourceId,
-			String dataSetId, int nativeDataTypeCode, String romDataType )
-	{
-		String newRomDataType = null;
-
-		try
-		{
-			newRomDataType = NativeDataTypeUtil.getUpdatedDataType(
-					dataSourceId, dataSetId, nativeDataTypeCode, romDataType,
-					DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE );
-		}
-		catch ( BirtException e )
-		{
-
-		}
-
-		return newRomDataType;
+		return AdapterUtil
+				.convertNativeTypeToROMDataType( dataSourceId, dataSetId,
+						column.getNativeDataType( ).intValue( ), oldDataType );
 	}
 
 	/**
@@ -562,9 +530,8 @@ class ResultSetsAdapter
 	 * @return the matched oda result set column
 	 */
 
-	private static OdaResultSetColumnHandle findOdaResultSetColumn(
-			Iterator columns, String paramName, Integer position,
-			Integer nativeDataType )
+	static OdaResultSetColumnHandle findOdaResultSetColumn( Iterator columns,
+			String paramName, Integer position, Integer nativeDataType )
 	{
 		if ( position == null || nativeDataType == null )
 			return null;
@@ -717,8 +684,8 @@ class ResultSetsAdapter
 							.getOdaExtensionDataSetId( ) );
 
 			ColumnHint oldHint = null;
-			ColumnHintHandle oldHintHandle = findColumnHint( newColumn,
-					setDefinedColumnHints.iterator( ) );
+			ColumnHintHandle oldHintHandle = AdapterUtil.findColumnHint(
+					newColumn, setDefinedColumnHints.iterator( ) );
 			if ( oldHintHandle != null )
 				oldHint = (ColumnHint) oldHintHandle.getStructure( );
 
@@ -743,49 +710,6 @@ class ResultSetsAdapter
 		updateHintsForComputedColumn( );
 
 		return retList;
-	}
-
-	/**
-	 * Returns the matched column hint with the given result set column.
-	 * 
-	 * @param setColumn
-	 *            the result set column
-	 * @param columnHints
-	 *            the iterator that includes column hints
-	 * @return the matched column hint
-	 */
-
-	private static ColumnHintHandle findColumnHint(
-			OdaResultSetColumn setColumn, Iterator columnHints )
-	{
-		assert setColumn != null;
-
-		return findColumnHint( setColumn.getColumnName( ), columnHints );
-	}
-
-	/**
-	 * Returns the matched column hint with the given result set column.
-	 * 
-	 * @param name
-	 *            the name of the column hint
-	 * @param columnHints
-	 *            the iterator that includes column hints
-	 * @return the matched column hint
-	 */
-
-	static ColumnHintHandle findColumnHint( String name, Iterator columnHints )
-	{
-		if ( name == null )
-			return null;
-
-		while ( columnHints.hasNext( ) )
-		{
-			ColumnHintHandle hint = (ColumnHintHandle) columnHints.next( );
-			if ( name.equals( hint.getColumnName( ) ) )
-				return hint;
-		}
-
-		return null;
 	}
 
 	/**
@@ -862,7 +786,7 @@ class ResultSetsAdapter
 
 			// get the colum hint
 
-			ColumnHintHandle hint = findColumnHint(
+			ColumnHintHandle hint = AdapterUtil.findColumnHint(
 					(OdaResultSetColumn) setColumn.getStructure( ),
 					setDefinedColumnHints.iterator( ) );
 
@@ -923,7 +847,7 @@ class ResultSetsAdapter
 	 *            a list containing result set columns
 	 */
 
-	private static void createUniqueResultSetColumnNames(
+	static void createUniqueResultSetColumnNames(
 			List<ResultSetColumnInfo> columnInfo )
 	{
 		if ( columnInfo == null || columnInfo.isEmpty( ) )
@@ -990,8 +914,8 @@ class ResultSetsAdapter
 		for ( int i = 0; i < columnNames.size( ); i++ )
 		{
 			String columnName = columnNames.get( i );
-			ColumnHintHandle hintHandle = findColumnHint( columnName,
-					setDefinedColumnHints.iterator( ) );
+			ColumnHintHandle hintHandle = AdapterUtil.findColumnHint(
+					columnName, setDefinedColumnHints.iterator( ) );
 			if ( hintHandle == null )
 				continue;
 

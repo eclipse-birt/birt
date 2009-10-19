@@ -167,7 +167,7 @@ class DataSetAdapter extends AbstractDataAdapter
 	 * @param setDesign
 	 * @param propertyName
 	 */
-	
+
 	void updateDataSetDesign( OdaDataSetHandle setHandle,
 			DataSetDesign setDesign, String propertyName )
 	{
@@ -976,7 +976,7 @@ class DataSetAdapter extends AbstractDataAdapter
 			for ( int i = 0; i < hints.size( ); i++ )
 			{
 				ColumnHint hint = (ColumnHint) hints.get( i );
-				ColumnHintHandle oldHint = ResultSetsAdapter.findColumnHint(
+				ColumnHintHandle oldHint = AdapterUtil.findColumnHint(
 						(String) hint.getProperty( null,
 								ColumnHint.COLUMN_NAME_MEMBER ), setHandle
 								.columnHintsIterator( ) );

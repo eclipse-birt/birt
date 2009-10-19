@@ -164,7 +164,7 @@ class DataSetParameterAdapter
 	 * Creates an ParameterDefinition with the given ROM data set parameter
 	 * definition.
 	 * 
-	 * @param paramDefn
+	 * @param columnDefn
 	 *            the ROM data set parameter definition.
 	 * @return the created ParameterDefinition
 	 */
@@ -182,8 +182,8 @@ class DataSetParameterAdapter
 			odaParamDefn = (ParameterDefinition) EcoreUtil
 					.copy( lastOdaParamDefn );
 
-		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode( paramHandle
-				.isInput( ), paramHandle.isOutput( ) ) );
+		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode( paramHandle.isInput( ),
+				paramHandle.isOutput( ) ) );
 		odaParamDefn.setAttributes( newDataElementAttrs( paramHandle,
 				odaParamDefn.getAttributes( ) ) );
 

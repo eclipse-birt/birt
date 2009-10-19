@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute;
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousOption;
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousParameterNode;
+import org.eclipse.birt.report.model.adapter.oda.IAmbiguousResultSetNode;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.Expression;
@@ -25,6 +26,9 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
+import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
+import org.eclipse.datatools.connectivity.oda.design.AxisType;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
@@ -38,11 +42,13 @@ import org.eclipse.datatools.connectivity.oda.design.InputElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterUIHints;
 import org.eclipse.datatools.connectivity.oda.design.InputPromptControlStyle;
+import org.eclipse.datatools.connectivity.oda.design.OutputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
 import org.eclipse.datatools.connectivity.oda.design.Properties;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
+import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
 
 public class AdvancedDataSetAdapterTest extends BaseTestCase
 {
@@ -141,27 +147,10 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 
 		setDesign.setParameters( params );
 
-		// create some result set columns
-		ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE
-				.createResultSetDefinition( );
-		ResultSetColumns setColumns = DesignFactory.eINSTANCE
-				.createResultSetColumns( );
-		ColumnDefinition columnDefn = DesignFactory.eINSTANCE
-				.createColumnDefinition( );
-		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
-		dataAttrs.setName( "column1" ); //$NON-NLS-1$
-		dataAttrs.setPosition( 2 );
-		dataAttrs.setNativeDataTypeCode( 3 );
-		columnDefn.setAttributes( dataAttrs );
-		setColumns.getResultColumnDefinitions( ).add( columnDefn );
-		resultSetDefn.setResultSetColumns( setColumns );
-		setDesign.setPrimaryResultSet( resultSetDefn );
-		setDesign.setPrimaryResultSetName( "resultset1" ); //$NON-NLS-1$
-
-		setDesign.setQueryText( "new query text" ); //$NON-NLS-1$
-
 		// create the corresponding data source design
 		setDesign.setDataSourceDesign( createDataSourceDesign( ) );
+
+		setDesign.setQueryText( "new query text" ); //$NON-NLS-1$
 
 		return setDesign;
 	}
@@ -196,7 +185,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests the getAmbiguousParameters in ModelOdaAdapter.
+	 * Tests the getAmbiguousOption in ModelOdaAdapter.
 	 * 
 	 * @throws Exception
 	 */
@@ -209,6 +198,8 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 
 		IAmbiguousOption option = new ModelOdaAdapter( ).getAmbiguousOption(
 				setDesign, setHandle );
+
+		// test ambiguous part for parameters
 		List<IAmbiguousParameterNode> ambiguousParameters = option
 				.getAmbiguousParameters( );
 		assertEquals( 2, ambiguousParameters.size( ) );
@@ -305,6 +296,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 		Expression oldValue = (Expression) attr.getPreviousValue( );
 		assertEquals(
 				"data set param default value 3", oldValue.getStringExpression( ) ); //$NON-NLS-1$
+
 	}
 
 	public void testUpdateDataSetHandle( ) throws Exception
@@ -323,5 +315,186 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 		save( );
 
 		assertTrue( compareTextFile( "AdvancedDataSetAdapterTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Creates a new <code>DataSetDesign</code>.
+	 * 
+	 * @return an object of <code>DataSetDesign</code>.
+	 */
+
+	private DataSetDesign createDataSetDesign_1( )
+	{
+		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign( );
+		setDesign.setName( "myDataSet1" ); //$NON-NLS-1$
+		setDesign.setDisplayName( "data set display name" ); //$NON-NLS-1$
+		setDesign
+				.setOdaExtensionDataSetId( OdaDataSetAdapterTest.DATA_SET_EXTENSIONID );
+
+		// create some result set columns
+		ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE
+				.createResultSetDefinition( );
+		ResultSetColumns setColumns = DesignFactory.eINSTANCE
+				.createResultSetColumns( );
+
+		// this column has matched oda result set column
+		ColumnDefinition columnDefn = DesignFactory.eINSTANCE
+				.createColumnDefinition( );
+		DataElementAttributes dataAttrs = DesignFactory.eINSTANCE
+				.createDataElementAttributes( );
+		dataAttrs.setName( "user-name" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 1 );
+		dataAttrs.setNativeDataTypeCode( 10 );
+		columnDefn.setAttributes( dataAttrs );
+		// set display name
+		DataElementUIHints uiHints = DesignFactory.eINSTANCE
+				.createDataElementUIHints( );
+		uiHints.setDisplayName( "display name for user name" ); //$NON-NLS-1$
+		dataAttrs.setUiHints( uiHints );
+		// set help text and format
+		OutputElementAttributes outAttrs = DesignFactory.eINSTANCE
+				.createOutputElementAttributes( );
+		outAttrs.setHelpText( "help text for user name" ); //$NON-NLS-1$
+		ValueFormatHints formatHints = DesignFactory.eINSTANCE
+				.createValueFormatHints( );
+		formatHints.setDisplayFormat( "##.#" ); //$NON-NLS-1$
+		outAttrs.setFormattingHints( formatHints );
+		columnDefn.setUsageHints( outAttrs );
+		// axis attributes
+		AxisAttributes axisAttrs = DesignFactory.eINSTANCE
+				.createAxisAttributes( );
+		axisAttrs.setAxisType( AxisType.DIMENSION_MEMBER_LITERAL );
+		axisAttrs.setOnColumnLayout( true );
+		columnDefn.setMultiDimensionAttributes( axisAttrs );
+		setColumns.getResultColumnDefinitions( ).add( columnDefn );
+
+		// this column has matched oda result set column too as though the oda
+		// result column has no local native name and native data type
+		columnDefn = DesignFactory.eINSTANCE.createColumnDefinition( );
+		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+		dataAttrs.setName( "user-id" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 2 );
+		dataAttrs.setNativeDataTypeCode( 10 );
+		columnDefn.setAttributes( dataAttrs );
+		// set display name
+		uiHints = DesignFactory.eINSTANCE.createDataElementUIHints( );
+		uiHints.setDisplayName( "display name for user id" ); //$NON-NLS-1$
+		dataAttrs.setUiHints( uiHints );
+		// set help text and format
+		outAttrs = DesignFactory.eINSTANCE.createOutputElementAttributes( );
+		outAttrs.setHelpText( "help text for user id" ); //$NON-NLS-1$
+		formatHints = DesignFactory.eINSTANCE.createValueFormatHints( );
+		formatHints.setDisplayFormat( "#.#" ); //$NON-NLS-1$
+		outAttrs.setFormattingHints( formatHints );
+		columnDefn.setUsageHints( outAttrs );
+		// axis attributes
+		axisAttrs = DesignFactory.eINSTANCE.createAxisAttributes( );
+		axisAttrs.setAxisType( AxisType.DIMENSION_ATTRIBUTE_LITERAL );
+		axisAttrs.setOnColumnLayout( true );
+		columnDefn.setMultiDimensionAttributes( axisAttrs );
+
+		setColumns.getResultColumnDefinitions( ).add( columnDefn );
+
+		// this column has no matched oda result set column
+		columnDefn = DesignFactory.eINSTANCE.createColumnDefinition( );
+		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+		dataAttrs.setName( "credit" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 3 );
+		dataAttrs.setNativeDataTypeCode( 3 );
+		columnDefn.setAttributes( dataAttrs );
+		// set display name
+		uiHints = DesignFactory.eINSTANCE.createDataElementUIHints( );
+		uiHints.setDisplayName( "display name for credit" ); //$NON-NLS-1$
+		dataAttrs.setUiHints( uiHints );
+		// set help text and format
+		outAttrs = DesignFactory.eINSTANCE.createOutputElementAttributes( );
+		outAttrs.setHelpText( "help text for credit" ); //$NON-NLS-1$
+		formatHints = DesignFactory.eINSTANCE.createValueFormatHints( );
+		formatHints.setDisplayFormat( "#.##" ); //$NON-NLS-1$
+		outAttrs.setFormattingHints( formatHints );
+		columnDefn.setUsageHints( outAttrs );
+		// axis attributes
+		axisAttrs = DesignFactory.eINSTANCE.createAxisAttributes( );
+		axisAttrs.setAxisType( AxisType.MEASURE_LITERAL );
+		axisAttrs.setOnColumnLayout( true );
+		columnDefn.setMultiDimensionAttributes( axisAttrs );
+		setColumns.getResultColumnDefinitions( ).add( columnDefn );
+
+		resultSetDefn.setResultSetColumns( setColumns );
+		setDesign.setPrimaryResultSet( resultSetDefn );
+		setDesign.setPrimaryResultSetName( "resultset1" ); //$NON-NLS-1$
+
+		setDesign.setQueryText( "new query text" ); //$NON-NLS-1$
+
+		setDesign.setDataSourceDesign( createDataSourceDesign( ) );
+
+		return setDesign;
+	}
+
+	/**
+	 * Tests the ambiguous result sets part in ambiguous option.
+	 * 
+	 * @throws Exception
+	 */
+	public void testGetAmbiguousResultSets( ) throws Exception
+	{
+		DataSetDesign setDesign = createDataSetDesign_1( );
+		openDesign( "AdvancedDataSetAdapterTest_1.xml" ); //$NON-NLS-1$
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
+				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+
+		IAmbiguousOption option = new ModelOdaAdapter( ).getAmbiguousOption(
+				setDesign, setHandle );
+		List<IAmbiguousResultSetNode> resultSets = option
+				.getAmbiguousResultSets( );
+		assertEquals( 2, resultSets.size( ) );
+
+		// first, different
+		IAmbiguousResultSetNode node = resultSets.get( 0 );
+		assertEquals(
+				"userName", node.getOdaResultSetColumnHandle( ).getColumnName( ) ); //$NON-NLS-1$
+		List<IAmbiguousAttribute> attrs = node.getAmbiguousAttributes( );
+		assertEquals( 1, attrs.size( ) );
+		IAmbiguousAttribute attr = attrs.get( 0 );
+		assertEquals( OdaResultSetColumn.NATIVE_DATA_TYPE_MEMBER, attr
+				.getAttributeName( ) );
+		assertEquals( null, attr.getPreviousValue( ) );
+		assertEquals( 10, attr.getRevisedValue( ) );
+
+		// second, different native name
+		node = resultSets.get( 1 );
+		assertEquals(
+				"customerName", node.getOdaResultSetColumnHandle( ).getColumnName( ) ); //$NON-NLS-1$
+		attrs = node.getAmbiguousAttributes( );
+		assertEquals( 1, attrs.size( ) );
+		attr = attrs.get( 0 );
+		assertEquals( OdaResultSetColumn.NATIVE_NAME_MEMBER, attr
+				.getAttributeName( ) );
+		assertEquals( null, attr.getPreviousValue( ) );
+		assertEquals( "user-id", attr.getRevisedValue( ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests the updating for result set columns and column hints.
+	 * 
+	 * @throws Exception
+	 */
+	public void testUpdateResultSets( ) throws Exception
+	{
+		DataSetDesign setDesign = createDataSetDesign_1( );
+		openDesign( "AdvancedDataSetAdapterTest_1.xml" ); //$NON-NLS-1$
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
+				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+		List<OdaResultSetColumn> columnList = new ArrayList<OdaResultSetColumn>( );
+		List setDefinedColumns = setHandle
+				.getListProperty( OdaDataSetHandle.RESULT_SET_PROP );
+		columnList.add( (OdaResultSetColumn) setDefinedColumns.get( 0 ) );
+
+		new ModelOdaAdapter( ).updateDataSetHandle( setDesign, setHandle, null,
+				columnList, true );
+		save( );
+
+		assertTrue( compareTextFile( "AdvancedDataSetAdapterTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 }

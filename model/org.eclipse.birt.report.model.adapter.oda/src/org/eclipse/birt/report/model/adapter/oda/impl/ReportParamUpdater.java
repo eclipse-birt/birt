@@ -76,7 +76,7 @@ class ReportParamUpdater
 
 			// any type is not support in report parameter data type.
 
-			if ( dataType == null )
+			if ( dataType != null )
 			{
 				if ( !DesignChoiceConstants.PARAM_TYPE_ANY
 						.equalsIgnoreCase( dataType ) )

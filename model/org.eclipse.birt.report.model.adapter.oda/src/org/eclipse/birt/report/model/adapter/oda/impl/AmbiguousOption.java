@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousOption;
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousParameterNode;
+import org.eclipse.birt.report.model.adapter.oda.IAmbiguousResultSetNode;
 
 /**
  * Implements {@link IAmbiguousOption} to give out all the ambiguous information
@@ -27,6 +28,7 @@ class AmbiguousOption implements IAmbiguousOption
 {
 
 	private List<IAmbiguousParameterNode> ambiguousParameters = null;
+	private List<IAmbiguousResultSetNode> ambiguousColumns = null;
 
 	/**
 	 * Default constructor.
@@ -51,6 +53,24 @@ class AmbiguousOption implements IAmbiguousOption
 	void setAmbiguousParameters( List<IAmbiguousParameterNode> parameters )
 	{
 		this.ambiguousParameters = parameters;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousOption#
+	 * getAmbiguousResultSets()
+	 */
+	public List<IAmbiguousResultSetNode> getAmbiguousResultSets( )
+	{
+		if ( ambiguousColumns == null )
+			return Collections.emptyList( );
+		return ambiguousColumns;
+	}
+
+	void setAmbiguousResultSets( List<IAmbiguousResultSetNode> resultSets )
+	{
+		this.ambiguousColumns = resultSets;
 	}
 
 }

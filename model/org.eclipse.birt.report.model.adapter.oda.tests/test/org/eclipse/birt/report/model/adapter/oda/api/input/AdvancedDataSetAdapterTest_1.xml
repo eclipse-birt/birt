@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <property name="dataSource">myDataSource1</property>
+			<text-property name="displayName">My Data Set One</text-property>			
+            <property name="queryTimeOut">30000</property>		
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>queryTimeOut</name>
+                    <value>10000</value>
+                </ex-property>
+            </list-property>			
+			<property name="resultSetName">userid</property>		
+            <list-property name="resultSet">
+				<!--has corresponding hint-->
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">userName</property>
+					<property name="nativeName">user-name</property>
+                    <property name="dataType">string</property>
+                </structure>
+				<!--do not have corresponding hint-->
+                <structure>
+                	<property name="name">customerName</property>
+                    <property name="position">2</property>
+                    <property name="nativeDataType">10</property>
+                </structure>
+                <!--has not matched column definition in data set design-->
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">id</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="columnName">column1</property>
+                    <expression name="expression">expression1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="columnName">column2</property>
+                    <expression name="expression">expression2</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+            	<structure>
+                    <property name="columnName">column1</property>
+                    <property name="alias">user name</property>
+                    <property name="format">##.###</property>
+                    <property name="displayName">User Name</property>
+                    <property name="helpText">Help me!</property>
+                    <property name="helpTextID">message.column-hint.help</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">true</property>
+                </structure>
+                <structure>
+                    <property name="columnName">userName</property>
+                    <property name="alias">user name</property>
+                    <property name="format">##.###</property>
+                    <property name="displayName">User Name</property>
+                    <property name="helpText">Help me!</property>
+                    <property name="helpTextID">message.column-hint.help</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">true</property>
+                </structure>
+                <structure>
+                    <property name="columnName">column2</property>
+                    <property name="alias">user name</property>
+                    <property name="format">##.###</property>
+                    <property name="displayName">User Name</property>
+                    <property name="helpText">Help me!</property>
+                    <property name="helpTextID">message.column-hint.help</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">true</property>
+                </structure>
+            </list-property>	
+        </oda-data-set>
+    </data-sets>   
+</report>

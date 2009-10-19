@@ -17,7 +17,7 @@
                     <property name="dataSetName">myDataSet2</property>
                     <expression name="valueExpr">value column</expression>
                     <expression name="labelExpr">label column</expression>
-                    <property name="dataType">decimal</property>
+                    <property name="dataType">string</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant">default param value</value>
                     </simple-property-list>
@@ -103,7 +103,6 @@
             </list-property>
             <property name="dataSource">myDataSource1</property>
             <xml-property name="queryText"><![CDATA[new query text]]></xml-property>
-            <property name="resultSetName">resultset1</property>
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>queryTimeOut</name>

@@ -13,26 +13,29 @@ package org.eclipse.birt.report.model.adapter.oda;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
+
 /**
- * Interface to give out all the ambiguous information when comparing data set
- * design and data set handle.
+ * Interface to provide the one ambiguous parameter node. It defines the oda
+ * result set column handle and a list of <code>IAmbiguousAttribute</code>.
  * 
  */
-
-public interface IAmbiguousOption
+public interface IAmbiguousResultSetNode
 {
 
 	/**
-	 * Gets all the ambiguous parameter nodes when comparing data set design and
-	 * data set handle.
+	 * Gets the oda result set column handle that has ambiguous information
+	 * compared with that is in data set design.
 	 * 
 	 * @return
 	 */
-	List<IAmbiguousParameterNode> getAmbiguousParameters( );
+	OdaResultSetColumnHandle getOdaResultSetColumnHandle( );
 
 	/**
+	 * Gets a list of ambiguous attributes in the given oda result set column
+	 * handle.
 	 * 
 	 * @return
 	 */
-	List<IAmbiguousResultSetNode> getAmbiguousResultSets( );
+	List<IAmbiguousAttribute> getAmbiguousAttributes( );
 }

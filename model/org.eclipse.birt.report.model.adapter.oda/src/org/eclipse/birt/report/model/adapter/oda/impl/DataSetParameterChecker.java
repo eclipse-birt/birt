@@ -43,9 +43,9 @@ class DataSetParameterChecker
 	OdaDataSetParameterHandle paramHandle;
 
 	/**
-	 * @param setDesign
-	 * @param cachedParameters
-	 * @param setHandle
+	 * 
+	 * @param paramDefn
+	 * @param paramHandle
 	 */
 
 	DataSetParameterChecker( ParameterDefinition paramDefn,

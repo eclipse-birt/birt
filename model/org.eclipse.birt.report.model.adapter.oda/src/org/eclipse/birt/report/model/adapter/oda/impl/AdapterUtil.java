@@ -12,20 +12,25 @@
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
@@ -363,4 +368,80 @@ public class AdapterUtil
 			reportParam.setLabelExpr( value );
 	}
 
+	/**
+	 * Converts the ODA native data type code to rom data type.
+	 * 
+	 * @param dataSourceId
+	 *            the id of the data source
+	 * @param dataSetId
+	 *            the ide of the data set
+	 * @param nativeDataTypeCode
+	 *            the oda data type code
+	 * @param romDataType
+	 *            the rom data type
+	 * @return the rom data type in string
+	 */
+
+	static String convertNativeTypeToROMDataType( String dataSourceId,
+			String dataSetId, int nativeDataTypeCode, String romDataType )
+	{
+		String newRomDataType = null;
+
+		try
+		{
+			newRomDataType = NativeDataTypeUtil.getUpdatedDataType(
+					dataSourceId, dataSetId, nativeDataTypeCode, romDataType,
+					DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE );
+		}
+		catch ( BirtException e )
+		{
+
+		}
+
+		return newRomDataType;
+	}
+
+	/**
+	 * Returns the matched column hint with the given result set column.
+	 * 
+	 * @param setColumn
+	 *            the result set column
+	 * @param columnHints
+	 *            the iterator that includes column hints
+	 * @return the matched column hint
+	 */
+
+	static ColumnHintHandle findColumnHint( OdaResultSetColumn setColumn,
+			Iterator columnHints )
+	{
+		assert setColumn != null;
+
+		return findColumnHint( setColumn.getColumnName( ), columnHints );
+	}
+	
+
+	/**
+	 * Returns the matched column hint with the given result set column.
+	 * 
+	 * @param name
+	 *            the name of the column hint
+	 * @param columnHints
+	 *            the iterator that includes column hints
+	 * @return the matched column hint
+	 */
+
+	static ColumnHintHandle findColumnHint( String name, Iterator columnHints )
+	{
+		if ( name == null )
+			return null;
+
+		while ( columnHints.hasNext( ) )
+		{
+			ColumnHintHandle hint = (ColumnHintHandle) columnHints.next( );
+			if ( name.equals( hint.getColumnName( ) ) )
+				return hint;
+		}
+
+		return null;
+	}
 }

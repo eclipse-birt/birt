@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -195,7 +196,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	{
 		PropertyHandle propHandle = getPropertyHandle( RESULT_SET_PROP );
 		if ( propHandle == null )
-			return null;
+			return Collections.emptyList( ).iterator( );
 
 		return propHandle.iterator( );
 	}
@@ -213,8 +214,13 @@ public abstract class DataSetHandle extends ReportElementHandle
 	public Iterator resultSetHintsIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( RESULT_SET_HINTS_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
+		// assert propHandle != null;
+		// assertion is not satisfied except ODA data set and joint data set,
+		// remove it
+		if ( propHandle != null )
+			return propHandle.iterator( );
+
+		return Collections.emptyList( ).iterator( );
 	}
 
 	/**

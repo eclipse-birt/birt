@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
@@ -280,7 +281,7 @@ public interface IModelOdaAdapter
 
 	public void updateDataSetHandle( DataSetDesign design,
 			OdaDataSetHandle handle, List<OdaDataSetParameter> parameterList,
-			List resultSetList, boolean isSourceChanged )
+			List<OdaResultSetColumn> resultSetList, boolean isSourceChanged )
 			throws SemanticException;
 
 	/**
@@ -291,7 +292,7 @@ public interface IModelOdaAdapter
 
 	public void updateDataSetHandle( OdaDataSetHandle handle,
 			OdaDesignSession completedSession,
-			List<OdaDataSetParameter> parameterList, List resultSetList )
-			throws SemanticException;
+			List<OdaDataSetParameter> parameterList,
+			List<OdaResultSetColumn> resultSetList ) throws SemanticException;
 
 }

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
@@ -50,8 +51,9 @@ class AdvancedDataSetAdapter extends DataSetAdapter
 	 */
 	void updateDataSetHandle( DataSetDesign setDesign,
 			OdaDataSetHandle setHandle,
-			List<OdaDataSetParameter> parameterList, List resultSetList,
-			boolean isSourceChanged ) throws SemanticException
+			List<OdaDataSetParameter> parameterList,
+			List<OdaResultSetColumn> resultSetList, boolean isSourceChanged )
+			throws SemanticException
 	{
 		if ( setDesign == null || setHandle == null )
 			return;
@@ -70,14 +72,14 @@ class AdvancedDataSetAdapter extends DataSetAdapter
 	 */
 	void updateDataSetHandle( OdaDataSetHandle setHandle,
 			OdaDesignSession completedSession,
-			List<OdaDataSetParameter> parameterList, List resultSetList )
-			throws SemanticException
+			List<OdaDataSetParameter> parameterList,
+			List<OdaResultSetColumn> resultSetList ) throws SemanticException
 	{
 		if ( completedSession == null || setHandle == null )
 			return;
 
 		DataSetDesign responseDesign = completedSession
-				.getResponseDataSetDesign( );		
+				.getResponseDataSetDesign( );
 
 		updateDataSetHandle( responseDesign, setHandle, false, parameterList,
 				resultSetList );
@@ -101,9 +103,15 @@ class AdvancedDataSetAdapter extends DataSetAdapter
 		if ( setDesign == null || setHandle == null )
 			return option;
 
+		// check parameters
 		DataSetParametersChecker paramsChecker = new DataSetParametersChecker(
 				setDesign, setHandle );
 		option.setAmbiguousParameters( paramsChecker.process( ) );
+
+		// check result sets
+		ResultSetsChecker resultsetsChecker = new ResultSetsChecker( setDesign,
+				setHandle );
+		option.setAmbiguousResultSets( resultsetsChecker.process( ) );
 		return option;
 	}
 
@@ -122,8 +130,8 @@ class AdvancedDataSetAdapter extends DataSetAdapter
 
 	private void updateDataSetHandle( DataSetDesign setDesign,
 			OdaDataSetHandle setHandle, boolean isSourceChanged,
-			List<OdaDataSetParameter> parameterList, List resultSetList )
-			throws SemanticException
+			List<OdaDataSetParameter> parameterList,
+			List<OdaResultSetColumn> resultSetList ) throws SemanticException
 	{
 		if ( setDesign == null || setHandle == null )
 			return;
@@ -172,16 +180,10 @@ class AdvancedDataSetAdapter extends DataSetAdapter
 				}
 			}
 
-			// ResultSetDefinition cachedResultDefn = null;
-			//
-			// if ( requestResultSets != null
-			// && !requestResultSets.getResultSetDefinitions( ).isEmpty( ) )
-			// cachedResultDefn = (ResultSetDefinition) requestResultSets
-			// .getResultSetDefinitions( ).get( 0 );
-			//
-			// ResultSetsAdapter tmpAdapter = new ResultSetsAdapter( setHandle,
-			// setDesign );
-			// updateROMResultSets( setHandle, tmpAdapter, cachedResultDefn );
+			// update result set column and column hints
+			ResultSetsUpdater resultUpdater = new ResultSetsUpdater( setDesign,
+					setHandle, resultSetList );
+			resultUpdater.processResultSets( setDesign.getResultSets( ) );
 
 			setHandle.setResultSetName( setDesign.getPrimaryResultSetName( ) );
 
@@ -245,4 +247,5 @@ class AdvancedDataSetAdapter extends DataSetAdapter
 
 		stack.commit( );
 	}
+
 }
