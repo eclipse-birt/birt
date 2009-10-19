@@ -1458,7 +1458,7 @@ public class SVGInteractiveRenderer
 			if ( isColoredByCategories( ) )
 			{
 				seDT = findCategorySeries( seRT );
-				final int baseIndex = ( (DataPointHints) src.getSource( ) ).getIndex( );
+				final int baseIndex = getDataPointHints( src ).getIndex( );
 				StringBuffer sb = new StringBuffer( );
 				sb.append( "'" );//$NON-NLS-1$
 				sb.append( seDT.hashCode( ) );
@@ -1580,7 +1580,7 @@ public class SVGInteractiveRenderer
 			if ( isColoredByCategories( ) )
 			{
 				seDT = findCategorySeries( seRT );
-				final int baseIndex = ( (DataPointHints) src.getSource( ) ).getIndex( );
+				final int baseIndex = getDataPointHints( src ).getIndex( );
 				StringBuffer sb = new StringBuffer( );
 				sb.append( "'" );//$NON-NLS-1$
 				sb.append( seDT.hashCode( ) );
@@ -1851,5 +1851,20 @@ public class SVGInteractiveRenderer
 				+ ","//$NON-NLS-1$
 				+ ScriptHandler.LABEL_LIST
 				+ ")";//$NON-NLS-1$
+	}
+	
+	private DataPointHints getDataPointHints( StructureSource src )
+	{
+		if ( src.getType( ) == StructureType.SERIES_DATA_POINT
+				|| src.getType( ) == StructureType.SERIES_ELEMENT )
+		{
+			return (DataPointHints) src.getSource( );
+		}
+		if ( src instanceof WrappedStructureSource )
+		{
+			// Data point hints may be wrapped in legend entry
+			return getDataPointHints( ( (WrappedStructureSource) src ).getParent( ) );
+		}
+		return null;
 	}
 }
