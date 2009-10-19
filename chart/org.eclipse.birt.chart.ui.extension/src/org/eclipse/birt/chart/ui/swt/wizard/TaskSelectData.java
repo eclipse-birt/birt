@@ -122,6 +122,7 @@ public class TaskSelectData extends SimpleTask implements
 				foSashForm.setLayout( layout );
 				GridData gridData = new GridData( GridData.FILL_BOTH );
 				// gridData.heightHint = DEFAULT_HEIGHT;
+				gridData.widthHint = 800;
 				foSashForm.setLayoutData( gridData );
 			}
 			foSashForm.addListener( SWT.Resize, this );
@@ -238,29 +239,23 @@ public class TaskSelectData extends SimpleTask implements
 
 		Composite dataComposite = new Composite( fDataArea, SWT.NONE );
 		{
-			GridLayout gl = new GridLayout( 3, false );
+			GridLayout gl = new GridLayout( 2, false );
+			gl.marginLeft = fLeftSize.x;
 			dataComposite.setLayout( gl );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			dataComposite.setLayoutData( gd );
 		}
 		fDataArea.setContent( dataComposite );
 
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.widthHint = fLeftSize.x;
-		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
 		getDataSheet( ).createDataSelector( dataComposite );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = fRightSize.x;
 		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
 
-		new Label( dataComposite, SWT.NONE );
 		getDataSheet( ).createDataDragSource( dataComposite );
 		getDataSheet( ).createActionButtons( dataComposite );
 
 		new Label( dataComposite, SWT.NONE );
-
-		Point size = dataComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		fDataArea.setMinSize( size );
 	}
 
 	private void createHeadArea( )
