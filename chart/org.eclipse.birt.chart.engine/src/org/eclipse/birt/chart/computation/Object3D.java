@@ -652,19 +652,19 @@ public class Object3D
 	}
 
 	/**
-	 * Tests if two objects overlap in X diretion.
+	 * Tests if two objects overlap in X direction.
 	 */
 	protected boolean testXOverlap( Object3D near )
 	{
-		return !( this.getXMin( ) > near.getXMax( ) || near.getXMin( ) > this.getXMax( ));
+		return !( this.getXMin( ) >= near.getXMax( ) || near.getXMin( ) >= this.getXMax( ) );
 	}
 
 	/**
-	 * Tests if two objects overlap in Y diretion.
+	 * Tests if two objects overlap in Y direction.
 	 */
 	protected boolean testYOverlap( Object3D near )
 	{
-		return !( this.getYMin( ) > near.getYMax( ) || near.getYMin( ) > this.getYMax( ));
+		return !( this.getYMin( ) >= near.getYMax( ) || near.getYMin( ) >= this.getYMax( ) );
 	}
 
 	/**
@@ -701,11 +701,11 @@ public class Object3D
 	}
 
 	/**
-	 * Tests if two objects overlap in Z diretion.
+	 * Tests if two objects overlap in Z direction.
 	 */
 	public boolean testZOverlap( Object3D near )
 	{
-		return !(( this.getZMin( ) > near.getZMax( )) ||(near.getZMin()>this.getZMax()) );
+		return !( ( this.getZMin( ) >= near.getZMax( ) ) || ( near.getZMin( ) >= this.getZMax( ) ) );
 	}
 	
 	/**
