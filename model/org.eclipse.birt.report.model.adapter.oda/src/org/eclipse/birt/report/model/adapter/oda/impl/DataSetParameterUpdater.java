@@ -133,17 +133,17 @@ class DataSetParameterUpdater
 
 		newParam.setNativeName( nativeName );
 
-		newParam.setPosition( new Integer( dataAttrs.getPosition( ) ) );
+		newParam.setPosition( Integer.valueOf( dataAttrs.getPosition( ) ) );
 
 		// if the position is still null. This is possible in the oda design
 		// spec. we should make the position as index+1.
 
-		Integer newPos = new Integer( 0 );
+		Integer newPos = Integer.valueOf( 0 );
 		Integer pos = newParam.getPosition( );
 		if ( pos == null || pos.intValue( ) < 0 )
 			newParam.setPosition( newPos );
 
-		newParam.setNativeDataType( new Integer( dataAttrs
+		newParam.setNativeDataType( Integer.valueOf( dataAttrs
 				.getNativeDataTypeCode( ) ) );
 
 		// boolean is not supported in data set parameter yet.

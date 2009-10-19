@@ -136,8 +136,8 @@ class DataSetParametersUpdater
 			DataElementAttributes dataAttrs = paramDefn.getAttributes( );
 
 			foundParam = findDataSetParameterByName( dataAttrs.getName( ),
-					new Integer( dataAttrs.getPosition( ) ), new Integer(
-							dataAttrs.getNativeDataTypeCode( ) ),
+					Integer.valueOf( dataAttrs.getPosition( ) ), Integer
+							.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
 					toUpdateParams.iterator( ) );
 
 			// if foundParam == null, could be two cases: 1. no need to update;
@@ -146,8 +146,8 @@ class DataSetParametersUpdater
 			if ( foundParam == null )
 			{
 				oldSetParam = findDataSetParameterByName( dataAttrs.getName( ),
-						new Integer( dataAttrs.getPosition( ) ), new Integer(
-								dataAttrs.getNativeDataTypeCode( ) ),
+						Integer.valueOf( dataAttrs.getPosition( ) ), Integer
+								.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
 						setDefinedParams.iterator( ) );
 			}
 

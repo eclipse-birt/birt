@@ -29,7 +29,7 @@ public class ODADesignFactory
 	 * The logger for errors.
 	 */
 
-	protected static Logger errorLogger = Logger
+	protected static final Logger errorLogger = Logger
 			.getLogger( ODADesignFactory.class.getName( ) );
 
 	private static IODADesignFactory factory = null;
@@ -45,15 +45,15 @@ public class ODADesignFactory
 
 		Object adapterFactory = Platform
 				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
-		
+
 		if ( adapterFactory == null )
 		{
 			errorLogger
 					.log( Level.SEVERE,
 							"The platform has not yet been started. Must start it first..." ); //$NON-NLS-1$
-			return null;			
+			return null;
 		}
-		
+
 		if ( adapterFactory instanceof IAdapterFactory )
 		{
 			factory = ( (IAdapterFactory) adapterFactory )

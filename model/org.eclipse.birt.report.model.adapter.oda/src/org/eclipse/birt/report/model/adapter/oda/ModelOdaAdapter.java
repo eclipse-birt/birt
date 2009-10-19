@@ -43,7 +43,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * The logger for errors.
 	 */
 
-	protected static Logger errorLogger = Logger
+	protected static final Logger errorLogger = Logger
 			.getLogger( ModelOdaAdapter.class.getName( ) );
 
 	/**

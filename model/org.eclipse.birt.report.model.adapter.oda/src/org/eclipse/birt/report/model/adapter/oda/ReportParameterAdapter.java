@@ -34,7 +34,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 * The logger for errors.
 	 */
 
-	protected static Logger errorLogger = Logger
+	protected static final Logger errorLogger = Logger
 			.getLogger( ReportParameterAdapter.class.getName( ) );
 
 	/**
@@ -47,7 +47,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
 		if ( factory instanceof IAdapterFactory )
 		{
-			adapter = ( (IAdapterFactory) factory ).createReportParameterAdapter( );
+			adapter = ( (IAdapterFactory) factory )
+					.createReportParameterAdapter( );
 		}
 		if ( adapter == null )
 		{

@@ -84,8 +84,9 @@ class DataSetParametersChecker
 			if ( dataAttrs != null )
 			{
 				existingParamHandle = findDataSetParameterByName( dataAttrs
-						.getName( ), new Integer( dataAttrs.getPosition( ) ),
-						new Integer( dataAttrs.getNativeDataTypeCode( ) ),
+						.getName( ),
+						Integer.valueOf( dataAttrs.getPosition( ) ), Integer
+								.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
 						setDefinedParamIter );
 			}
 

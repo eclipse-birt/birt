@@ -450,7 +450,7 @@ class ResultSetsAdapter
 
 		oldValue = cachedDataAttrs == null ? null : Integer
 				.valueOf( cachedDataAttrs.getPosition( ) );
-		newValue = new Integer( dataAttrs.getPosition( ) );
+		newValue = Integer.valueOf( dataAttrs.getPosition( ) );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
 			newColumn.setPosition( (Integer) newValue );

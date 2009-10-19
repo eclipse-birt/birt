@@ -85,6 +85,11 @@ class DesignerStateAdapter
 				romDesignerState = ( (OdaDataSetHandle) reportElement )
 						.setDesignerState( tmpDesignerState );
 			}
+			else
+			{
+				assert false;
+				return;
+			}
 		}
 
 		romDesignerState.setVersion( designerState.getVersion( ) );
@@ -115,7 +120,8 @@ class DesignerStateAdapter
 		if ( designerState == null )
 			return null;
 
-		DesignerState odaState = ODADesignFactory.getFactory( ).createDesignerState( );
+		DesignerState odaState = ODADesignFactory.getFactory( )
+				.createDesignerState( );
 		odaState.setVersion( designerState.getVersion( ) );
 
 		byte[] blobContent = designerState.getContentAsBlob( );

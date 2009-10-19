@@ -182,8 +182,8 @@ class DataSetParameterAdapter
 			odaParamDefn = (ParameterDefinition) EcoreUtil
 					.copy( lastOdaParamDefn );
 
-		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode( paramHandle.isInput( ),
-				paramHandle.isOutput( ) ) );
+		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode( paramHandle
+				.isInput( ), paramHandle.isOutput( ) ) );
 		odaParamDefn.setAttributes( newDataElementAttrs( paramHandle,
 				odaParamDefn.getAttributes( ) ) );
 
@@ -339,17 +339,17 @@ class DataSetParameterAdapter
 			setParam.setNativeName( (String) newValue );
 		}
 
-		oldValue = cachedDataAttrs == null ? null : new Integer(
-				cachedDataAttrs.getPosition( ) );
-		newValue = new Integer( dataAttrs.getPosition( ) );
+		oldValue = cachedDataAttrs == null ? null : Integer
+				.valueOf( cachedDataAttrs.getPosition( ) );
+		newValue = Integer.valueOf( dataAttrs.getPosition( ) );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
 			setParam.setPosition( (Integer) newValue );
 		}
 
-		oldValue = cachedDataAttrs == null ? null : new Integer(
-				cachedDataAttrs.getNativeDataTypeCode( ) );
-		newValue = new Integer( dataAttrs.getNativeDataTypeCode( ) );
+		oldValue = cachedDataAttrs == null ? null : Integer
+				.valueOf( cachedDataAttrs.getNativeDataTypeCode( ) );
+		newValue = Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) );
 		if ( oldValue == null || !oldValue.equals( newValue )
 				|| setParam.getNativeDataType( ) == null )
 		{
@@ -502,8 +502,9 @@ class DataSetParameterAdapter
 		ModuleHandle module = setHandle.getModuleHandle( );
 
 		OdaDataSetParameterHandle paramDefn = findDataSetParameterByName(
-				dataAttrs.getName( ), new Integer( dataAttrs.getPosition( ) ),
-				new Integer( dataAttrs.getNativeDataTypeCode( ) ),
+				dataAttrs.getName( ), Integer
+						.valueOf( dataAttrs.getPosition( ) ), Integer
+						.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
 				setDefinedParams.iterator( ) );
 		if ( paramDefn != null )
 		{
@@ -863,11 +864,11 @@ class DataSetParameterAdapter
 			if ( dataAttrs != null )
 			{
 				cachedParamDefn = findParameterDefinition(
-						cachedDataSetParameters, dataAttrs.getName( ),
-						new Integer( dataAttrs.getPosition( ) ) );
+						cachedDataSetParameters, dataAttrs.getName( ), Integer
+								.valueOf( dataAttrs.getPosition( ) ) );
 				oldSetParam = findDataSetParameterByName( dataAttrs.getName( ),
-						new Integer( dataAttrs.getPosition( ) ), new Integer(
-								dataAttrs.getNativeDataTypeCode( ) ),
+						Integer.valueOf( dataAttrs.getPosition( ) ), Integer
+								.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
 						setDefinedParams.iterator( ) );
 
 			}
@@ -955,7 +956,7 @@ class DataSetParameterAdapter
 		// if the position is still null. This is possible in the oda design
 		// spec. we should make the position as index+1.
 
-		Integer newPos = new Integer( 0 );
+		Integer newPos = Integer.valueOf( 0 );
 		Integer pos = setParam.getPosition( );
 		if ( pos == null || pos.intValue( ) < 0 )
 		{
@@ -1299,7 +1300,7 @@ class DataSetParameterAdapter
 			if ( dataAttrs == null )
 				continue;
 
-			resultList.add( new Integer( dataAttrs.getPosition( ) ) );
+			resultList.add( Integer.valueOf( dataAttrs.getPosition( ) ) );
 		}
 		return resultList;
 	}
@@ -1334,7 +1335,7 @@ class DataSetParameterAdapter
 
 			int pos = dataAttrs.getPosition( );
 
-			if ( !posList.contains( new Integer( pos ) ) )
+			if ( !posList.contains( Integer.valueOf( pos ) ) )
 			{
 				// driver -defined parameter
 
@@ -1564,10 +1565,10 @@ class DataSetParameterAdapter
 
 			DataElementAttributes tmpAttrs = tmpParam.getAttributes( );
 			OdaDataSetParameterHandle tmpROMParam = findDataSetParameterByName(
-					tmpAttrs.getName( ),
-					new Integer( tmpAttrs.getPosition( ) ), new Integer(
-							tmpAttrs.getNativeDataTypeCode( ) ),
-					setDefinedParams.iterator( ) );
+					tmpAttrs.getName( ), Integer.valueOf( tmpAttrs
+							.getPosition( ) ), Integer.valueOf( tmpAttrs
+							.getNativeDataTypeCode( ) ), setDefinedParams
+							.iterator( ) );
 
 			if ( tmpROMParam == null )
 				continue;
