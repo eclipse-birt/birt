@@ -9,7 +9,7 @@ import org.w3c.css.sac.CSSException;
  * Parses the compound properties of CSS defined, such as background, font, 
  * border, border-width and so on.  
  *
- * @version $Revision: 1.1 $ $Date: 2006/12/28 04:36:47 $
+ * @version $Revision: 1.2 $ $Date: 2007/02/01 10:15:08 $
  */
 
 public class PropertyParser implements PropertyParserConstants {
@@ -1091,10 +1091,9 @@ public class PropertyParser implements PropertyParserConstants {
         /**
 	 * @exception ParseException exception during the parsing
 	 */
-  final public String function() throws ParseException {
-        Token n = new Token();
-        StringBuffer exp;
-    n = jj_consume_token(FUNCTION);
+  final public String function() throws ParseException {    
+    StringBuffer exp;
+    Token n = jj_consume_token(FUNCTION);
     exp = expr();
     jj_consume_token(LPARAN);
                 {if (true) return n.image+exp.toString()+")";}

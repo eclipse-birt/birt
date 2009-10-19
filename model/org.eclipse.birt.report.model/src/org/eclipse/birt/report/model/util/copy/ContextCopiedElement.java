@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
  * 
  */
 
-class ContextCopiedElement implements IElementCopy
+class ContextCopiedElement implements IElementCopy,Cloneable
 {
 
 	private final DesignElement copy;

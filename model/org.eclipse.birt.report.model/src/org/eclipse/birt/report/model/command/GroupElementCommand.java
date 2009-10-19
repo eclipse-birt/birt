@@ -216,9 +216,7 @@ public class GroupElementCommand extends ContentCommand
 				.getInstance( ).getStructure(
 						ComputedColumn.COMPUTED_COLUMN_STRUCT ).getMember(
 						ComputedColumn.AGGREGATEON_MEMBER );
-
-		ElementPropertyDefn propDefn = element
-				.getPropertyDefn( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		
 		try
 		{
 			for ( int i = 0; i < toCleared.size( ); i++ )

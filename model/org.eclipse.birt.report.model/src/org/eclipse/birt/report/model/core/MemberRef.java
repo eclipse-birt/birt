@@ -1150,11 +1150,12 @@ public class MemberRef
 	 */
 	protected boolean equalsIntArray( int[] arrayOne, int[] arrayTwo )
 	{
-		if ( ( arrayOne == null && arrayTwo != null )
-				|| ( arrayOne != null && arrayTwo == null ) )
-			return false;
-		if ( arrayOne == null && arrayTwo == null )
+		if ( arrayOne == arrayTwo )
 			return true;
+		
+		if ( arrayOne == null || arrayTwo == null )
+			return false;
+
 		if ( arrayOne.length != arrayTwo.length )
 			return false;
 		for ( int i = 0; i < arrayOne.length; ++i )
@@ -1176,11 +1177,10 @@ public class MemberRef
 	 */
 	protected boolean equalArray( Object[] arrayOne, Object[] arrayTwo )
 	{
-		if ( arrayOne == null && arrayTwo == null )
+		if ( arrayOne == arrayTwo )
 			return true;
 		
-		if ( ( arrayOne == null && arrayTwo != null )
-				|| ( arrayOne != null && arrayTwo == null ) )
+		if ( arrayOne == null || arrayTwo == null )
 			return false;
 
 		if ( arrayOne.length != arrayTwo.length )

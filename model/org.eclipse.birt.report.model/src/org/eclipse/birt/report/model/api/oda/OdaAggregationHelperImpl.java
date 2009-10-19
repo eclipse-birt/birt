@@ -12,9 +12,9 @@ public class OdaAggregationHelperImpl {
 
 	private static boolean initBirtAggregation = true;
 
-	protected static Set birtPredefinedAggregationConstants = new HashSet();
+	protected final static Set birtPredefinedAggregationConstants = new HashSet();
 
-	protected static List<IAggregationDefn> birtAggregationDefinitions = new ArrayList();
+	protected final static List<IAggregationDefn> birtAggregationDefinitions = new ArrayList();
 
 	static {
 

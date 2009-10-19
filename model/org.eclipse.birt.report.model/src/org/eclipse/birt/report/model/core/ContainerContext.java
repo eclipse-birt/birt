@@ -519,6 +519,19 @@ public final class ContainerContext
 		return false;
 	}
 
+	/*
+	 * (non-Jsdoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		final int prime = 31;
+		int hashCode = container.hashCode( ) * prime;
+		hashCode += isSlot ? containerSlotID : containerProp.hashCode( );
+		return hashCode;
+	}
+
 	/**
 	 * Determines if the slot can contain a given element.
 	 * 

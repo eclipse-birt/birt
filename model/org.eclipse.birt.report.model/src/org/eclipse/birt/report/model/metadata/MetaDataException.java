@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Properties;
 
@@ -57,7 +58,7 @@ public class MetaDataException extends ModelException
 	/**
 	 * Error code indicating the encryption extension already exists.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS = "ENCYRPTION_EXTENSION_EXISTS"; //$NON-NLS-1$
 
 	/**
@@ -443,7 +444,7 @@ public class MetaDataException extends ModelException
 	 */
 
 	public static final String DESIGN_EXCEPTION_MISSING_XML_NAME = "MISSING_XML_NAME"; //$NON-NLS-1$
-	
+
 	/**
 	 * Error code indicates that a concrete element duplicates the xml name.
 	 */
@@ -521,9 +522,10 @@ public class MetaDataException extends ModelException
 		Properties props = new Properties( );
 		try
 		{
-			props
-					.load( MetaDataException.class
-							.getResourceAsStream( fileName ) );
+			InputStream in = MetaDataException.class
+					.getResourceAsStream( fileName );
+			props.load( in );
+			in.close( );
 		}
 		catch ( IOException e )
 		{

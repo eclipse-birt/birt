@@ -77,9 +77,7 @@ class AdvancedDataSetAdapter extends DataSetAdapter
 			return;
 
 		DataSetDesign responseDesign = completedSession
-				.getResponseDataSetDesign( );
-		DataSetDesign requestDesign = completedSession
-				.getRequestDataSetDesign( );
+				.getResponseDataSetDesign( );		
 
 		updateDataSetHandle( responseDesign, setHandle, false, parameterList,
 				resultSetList );

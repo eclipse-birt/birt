@@ -149,7 +149,6 @@ public class ExtendsCommand extends AbstractElementCommand
 			ElementDefn metaData = (ElementDefn) element.getDefn( );
 			PropertyDefn propDefn = (PropertyDefn) metaData
 					.getProperty( IDesignElementModel.EXTENDS_PROP );
-			int ns = metaData.getNameSpaceID( );
 
 			DesignElement resolvedParent = null;
 			Module root = module;

@@ -289,10 +289,10 @@ public class Library extends LayoutModule implements ILibraryModel
 
 			if ( hostModule instanceof Library )
 				hostModule = ( (Library) hostModule ).host;
-
+			
 			// if it is report design, just break;
-
-			break;
+			else 				
+				break;
 		}
 
 		return null;

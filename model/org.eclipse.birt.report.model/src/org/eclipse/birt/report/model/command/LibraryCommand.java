@@ -650,8 +650,9 @@ public class LibraryCommand extends AbstractElementCommand
 		}
 
 		Library library = null;
-
-		if ( reloadLibs.get( toReload.getNamespace( ) ) == null )
+		Library reloadLibrary = reloadLibs.get( toReload.getNamespace( ) ); 
+		
+		if ( reloadLibrary == null )
 		{
 			library = module.loadLibrary( includedLibPath, namespace,
 					reloadLibs, fileURL );
@@ -659,8 +660,7 @@ public class LibraryCommand extends AbstractElementCommand
 		}
 		else
 		{
-			library = reloadLibs.get( library.getNamespace( ) ).contextClone(
-					module );
+			library = reloadLibrary.contextClone( module );
 		}
 
 		library.setReadOnly( );

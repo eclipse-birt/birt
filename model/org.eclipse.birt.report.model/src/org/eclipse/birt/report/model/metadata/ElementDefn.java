@@ -810,8 +810,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			else
 			{
 				// this element has its own name space set
-				nameConfig.holder = nameConfig.holder = MetaDataDictionary
-						.getInstance( ).getElement( nameConfig.holderName );
+				nameConfig.holder = MetaDataDictionary.getInstance( )
+						.getElement( nameConfig.holderName );
 			}
 		}
 		else

@@ -67,7 +67,7 @@ public class LibraryWriter extends ModuleWriter
 		{
 			getModule( ).addLineNo(
 					obj.getPropertyDefn( IModuleModel.THEME_PROP ),
-					new Integer( writer.getLineCounter( ) ) );
+					Integer.valueOf( writer.getLineCounter( ) ) );
 		}
 		property( obj, IModuleModel.THEME_PROP );
 
