@@ -341,5 +341,6 @@ public interface IHelpContextIds
 
 	public static final String VARIABLE_DIALOG_ID = PREFIX
 			+ "VariableDialog_ID"; //$NON-NLS-1$
+	public static final String SELECT_VARIABLE_DIALOG_ID = PREFIX + "SelectVariableDialog_ID"; //$NON-NLS-1$
 
 }

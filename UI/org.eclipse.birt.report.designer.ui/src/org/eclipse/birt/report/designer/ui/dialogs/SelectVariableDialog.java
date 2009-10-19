@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
@@ -65,6 +67,7 @@ public class SelectVariableDialog extends BaseDialog
 				validate( );
 			}
 		} );
+		UIUtil.bindHelp( parent, IHelpContextIds.SELECT_VARIABLE_DIALOG_ID );
 		return content;
 	}
 
