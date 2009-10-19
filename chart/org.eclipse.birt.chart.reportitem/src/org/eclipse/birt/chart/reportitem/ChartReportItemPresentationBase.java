@@ -704,6 +704,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			};
 		}
 		// Display blank if data empty.
+		boolean bEmpty = false;
 		if ( ChartReportItemUtil.isEmpty( resultSet ) )
 		{
 			if ( bAutoHide )
@@ -712,6 +713,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				// is empty.
 				return null;
 			}
+			bEmpty = true;
 		}
 
 		// If width and height of chart is set to 0, doesn't process it.
@@ -776,7 +778,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 			// Render chart
 			Object renderObject = generateRenderObject( rowAdapter,
-					externalContext );
+					externalContext,
+					bEmpty );
 
 			// Close the dataRow evaluator. It needs to stay opened until the
 			// chart is fully rendered.
@@ -799,12 +802,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	 * 
 	 * @param rowAdapter
 	 * @param externalContext
+	 * @param bEmpty
 	 * @return drawable object
 	 * @throws ChartException
 	 */
 	protected Object generateRenderObject(
 			IDataRowExpressionEvaluator rowAdapter,
-			BIRTExternalContext externalContext ) throws ChartException
+			BIRTExternalContext externalContext, boolean bEmpty )
+			throws ChartException
 	{
 		// Prepare Device Renderer
 		prepareDeviceRenderer( );
