@@ -9,7 +9,7 @@ dataset.editor.page.query=查询
 datasource.name=Classic Models Inc. 示例数据库
 select.dataset.name=SQL 选择查询
 jdbc.driver.name=Classic Models Inc. 示例数据库驱动程序
-dataset.property.queryTimeOut=&Query Time Out (in seconds)
+dataset.property.queryTimeOut=查询超时（秒）(&Q)
 #
 oda.data.source.name=Classic Models Inc. 示例数据库
 connection.profile.name=BIRT 示例数据库数据源连接配置文件

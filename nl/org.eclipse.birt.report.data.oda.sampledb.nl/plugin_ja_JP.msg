@@ -9,7 +9,7 @@ dataset.editor.page.query=クエリ
 datasource.name=Classic Models Inc. のサンプルデータベース
 select.dataset.name=SQL Select クエリ
 jdbc.driver.name=Classic Models Inc. SampleDB Driver
-dataset.property.queryTimeOut=&Query Time Out (in seconds)
+dataset.property.queryTimeOut=クエリのタイムアウト (秒)(&Q)
 #
 oda.data.source.name=Classic Models Inc. のサンプルデータベース
 connection.profile.name=BIRT サンプルデータベースのデータソース接続プロファイル

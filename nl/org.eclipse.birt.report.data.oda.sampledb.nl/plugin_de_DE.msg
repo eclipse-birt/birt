@@ -9,7 +9,7 @@ dataset.editor.page.query=Abfrage
 datasource.name=Beispieldatenbank "Classic Models Inc."
 select.dataset.name=SQL-Auswahlabfrage
 jdbc.driver.name=Treiber für Beispieldatenbank Classic Models Inc.
-dataset.property.queryTimeOut=&Query Time Out (in seconds)
+dataset.property.queryTimeOut=Zeitüberschreitung für Ab&frage (in Sekunden)
 #
 oda.data.source.name=Beispieldatenbank "Classic Models Inc."
 connection.profile.name=Verbindungsprofil für BIRT-Beispieldatenbank-Datenquelle

@@ -9,7 +9,7 @@ dataset.editor.page.query=쿼리
 datasource.name=Classic Models Inc. 예제 데이터베이스
 select.dataset.name=SQL 쿼리 선택
 jdbc.driver.name=Classic Models Inc. 예제 데이터베이스 드라이버
-dataset.property.queryTimeOut=&Query Time Out (in seconds)
+dataset.property.queryTimeOut=쿼리 시간 제한(초)(&Q)
 #
 oda.data.source.name=Classic Models Inc. 예제 데이터베이스
 connection.profile.name=BIRT 예제 DB 데이터 원본 연결 프로필
