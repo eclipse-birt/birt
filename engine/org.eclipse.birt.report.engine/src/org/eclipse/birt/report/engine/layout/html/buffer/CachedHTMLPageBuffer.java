@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.html.buffer;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
@@ -127,6 +128,14 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 		this.isRepeated = isRepeated;
 	}
 
+	protected void updatePageNumber( )
+	{
+		if ( page != null )
+		{
+			IPageContent pc = (IPageContent) page.getContent( );
+			pc.setPageNumber( context.getPageNumber( ) );
+		}
+	}
 	public void flush( ) throws BirtException
 	{
 		// current node should be page node
@@ -134,6 +143,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 		{
 			context.getPageHintManager( ).addTableColumnHints( columnHints );
 			context.getPageHintManager( ).generatePageRowHints( getTableKeys() );
+			updatePageNumber();
 			page.flush( );
 			pageBreakEvent( );
 			if ( !page.finished )
