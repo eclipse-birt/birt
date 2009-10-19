@@ -890,12 +890,20 @@ public abstract class ContainerArea extends AbstractArea
 				case CSSPrimitiveValue.CSS_MM :
 					return (int) ( v * 7200 / 2.54 );
 
+				case CSSPrimitiveValue.CSS_PC :
+					return (int) ( v * 12 * 1000 );
+
+				case CSSPrimitiveValue.CSS_PX :
+					float dpi = getResolution( );
+					return (int) ( v / dpi * 72000f );
+
 				case CSSPrimitiveValue.CSS_PT :
 					return (int) ( v * 1000 );
+
 				case CSSPrimitiveValue.CSS_NUMBER :
 					return (int) v;
+				
 				case CSSPrimitiveValue.CSS_PERCENTAGE :
-
 					return (int) ( referenceLength * v / 100.0 );
 			}
 		}

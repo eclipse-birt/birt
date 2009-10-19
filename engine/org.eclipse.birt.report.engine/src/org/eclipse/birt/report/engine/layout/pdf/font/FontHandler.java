@@ -92,8 +92,8 @@ public class FontHandler
 			this.fontStyle |= Font.BOLD;
 		}
 
-		this.fontSize = PropertyUtil.getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_FONT_SIZE ) ) /
+		this.fontSize = PropertyUtil.getDimensionValueConsiderDpi( style
+				.getProperty( StyleConstants.STYLE_FONT_SIZE ), textContent ) /
 				PDFConstants.LAYOUT_TO_PDF_RATIO;
 
 		if ( !fontSubstitution )

@@ -592,8 +592,8 @@ public class TableArea extends RepeatableArea
 								.getUnits( ) ) )
 				{
 					int len = getDimensionValue( table, columns[i],
-							PropertyUtil.getDimensionValue( table
-									.getComputedStyle( ).getProperty(
+							getDimensionValue( table.getComputedStyle( )
+									.getProperty(
 											StyleConstants.STYLE_FONT_SIZE ) ) );
 					resolvedColumnWidth[i] = len;
 					fixedLength += len;

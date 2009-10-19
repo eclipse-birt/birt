@@ -248,10 +248,18 @@ public class PropertyUtil
 
 	public static int getDimensionValue( CSSValue value )
 	{
-		return getDimensionValue( value, 0 );
+		return getDimensionValue( value, 96, 0 );
+	}
+	
+    /**
+     * @deprecated keep for backward compatibility.
+     */
+	public static int getDimensionValue( CSSValue value, int referenceLength )
+	{
+		return getDimensionValue( value, 96, referenceLength );
 	}
 
-	public static int getDimensionValue( CSSValue value, int referenceLength )
+	public static int getDimensionValueConsiderDpi( CSSValue value, IContent content )
 	{
 		if ( value != null && ( value instanceof FloatValue ) )
 		{
@@ -268,12 +276,55 @@ public class PropertyUtil
 				case CSSPrimitiveValue.CSS_MM :
 					return (int) ( v * 7200 / 2.54 );
 
+				case CSSPrimitiveValue.CSS_PC :
+					return (int) ( v * 12 * 1000 );
+
+				case CSSPrimitiveValue.CSS_PX :
+					ReportDesignHandle designHandle = content
+							.getReportContent( ).getDesign( ).getReportDesign( );
+					int dpi = designHandle.getImageDPI( );
+					return (int) ( v / dpi * 72000f );
+
 				case CSSPrimitiveValue.CSS_PT :
 					return (int) ( v * 1000 );
+
 				case CSSPrimitiveValue.CSS_NUMBER :
 					return (int) v;
-				case CSSPrimitiveValue.CSS_PERCENTAGE :
+			}
+		}
+		return 0;
+	}	
 
+	private static int getDimensionValue( CSSValue value, int dpi, int referenceLength )
+	{
+		if ( value != null && ( value instanceof FloatValue ) )
+		{
+			FloatValue fv = (FloatValue) value;
+			float v = fv.getFloatValue( );
+			switch ( fv.getPrimitiveType( ) )
+			{
+				case CSSPrimitiveValue.CSS_CM :
+					return (int) ( v * 72000 / 2.54 );
+
+				case CSSPrimitiveValue.CSS_IN :
+					return (int) ( v * 72000 );
+
+				case CSSPrimitiveValue.CSS_MM :
+					return (int) ( v * 7200 / 2.54 );
+
+				case CSSPrimitiveValue.CSS_PC :
+					return (int) ( v * 12 * 1000 );
+
+				case CSSPrimitiveValue.CSS_PX :
+					return (int) ( v / dpi * 72000f );
+
+				case CSSPrimitiveValue.CSS_PT :
+					return (int) ( v * 1000 );
+
+				case CSSPrimitiveValue.CSS_NUMBER :
+					return (int) v;
+					
+				case CSSPrimitiveValue.CSS_PERCENTAGE :
 					return (int) ( referenceLength * v/100.0 );
 			}
 		}
