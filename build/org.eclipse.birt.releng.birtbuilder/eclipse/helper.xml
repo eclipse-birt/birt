@@ -1103,8 +1103,8 @@
 		<!-- XSLT trasform-->
 		<exec executable="${test.dir}/unitTestReport/processXML.sh"/>
 		<ant dir="${test.dir}/unitTestReport" antfile="build.xml"/>
-		<mkdir dir="${postingDirectory}/../unitTestReport/${package.version}/${buildId}"/>
-		<copy todir="${postingDirectory}/../unitTestReport/${package.version}/${buildId}" overwrite="true">
+		<mkdir dir="${postingDirectory}/../../unitTestReport/${package.version}/${buildId}"/>
+		<copy todir="${postingDirectory}/../../unitTestReport/${package.version}/${buildId}" overwrite="true">
 			<fileset dir="${test.dir}/unitTestReport/html">
 				<include name="*.html"/>
 			</fileset>
