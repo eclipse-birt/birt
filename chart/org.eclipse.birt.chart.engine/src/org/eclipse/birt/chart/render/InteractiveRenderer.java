@@ -191,8 +191,11 @@ public class InteractiveRenderer
 				return String.valueOf( series.hashCode( ) );
 			}
 		}
-		else
-			return null;
+		else if ( src instanceof WrappedStructureSource )
+		{
+			return getSource( ( (WrappedStructureSource) src ).getParent( ) );
+		}
+		return null;
 	}
 
 	private boolean isColoredByCategories( )
@@ -240,10 +243,10 @@ public class InteractiveRenderer
 		}
 		else if ( fill instanceof MultipleFill )
 		{
-			EList list = ( (MultipleFill) fill ).getFills( );
+			EList<Fill> list = ( (MultipleFill) fill ).getFills( );
 			for ( int i = 0; i < list.size( ); i++ )
 			{
-				hideFill( (Fill) list.get( i ) );
+				hideFill( list.get( i ) );
 			}
 		}
 
@@ -305,10 +308,10 @@ public class InteractiveRenderer
 		}
 		else if ( fill instanceof MultipleFill )
 		{
-			EList list = ( (MultipleFill) fill ).getFills( );
+			EList<Fill> list = ( (MultipleFill) fill ).getFills( );
 			for ( int i = 0; i < list.size( ); i++ )
 			{
-				highlightFill( (Fill) list.get( i ) );
+				highlightFill( list.get( i ) );
 			}
 		}
 	}
