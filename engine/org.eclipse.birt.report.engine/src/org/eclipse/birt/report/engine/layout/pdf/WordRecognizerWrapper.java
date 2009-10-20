@@ -27,7 +27,7 @@ public class WordRecognizerWrapper implements IWordRecognizer
 	private int end = 0;
 
 	private static final String KEEP_WITH_NEXT_CHARS = "(<{[（《«“$￥";
-	private static final String KEEP_WITH_LAST_CHARS = ")>}]）》»”,.;:! ，。；：！";
+	private static final String KEEP_WITH_LAST_CHARS = ")>}]）》»”,.;:/!? ，。；：！？";
 	
 	//FIXME: for quotes across chunks, the algorithm has some problem.
 	private static final String KEEP_WITH_DEPENDS = "\"'";
