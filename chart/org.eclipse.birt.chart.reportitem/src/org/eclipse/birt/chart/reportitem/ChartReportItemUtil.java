@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
@@ -39,9 +38,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
-import org.eclipse.birt.report.data.adapter.impl.DataModelAdapter;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -275,7 +272,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 	}
 
 	public static ChartCubeQueryHelper instanceCubeQueryHelper(
-			ExtendedItemHandle handle, Chart cm )
+			ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter )
 	{
 		IChartReportItemFactory factory = getAdapter( handle,
 				IChartReportItemFactory.class );
@@ -283,7 +280,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 		{
 			factory = baseFactory;
 		}
-		return factory.createCubeQueryHelper( handle, cm );
+		return factory.createCubeQueryHelper( handle, cm, modelAdapter );
 	}
 
 	public static IGroupedDataRowExpressionEvaluator instanceCubeEvaluator(
@@ -636,30 +633,14 @@ public class ChartReportItemUtil extends ChartItemUtil
 		return null;
 	}
 
-	public static ScriptExpression newExpression( String expr,
-			StructureHandle binding ) throws ChartException
+	public static ScriptExpression newExpression( IModelAdapter adapter,
+			StructureHandle binding )
 	{
-		if ( expr == null )
-		{
-			return null;
-		}
 		ExpressionHandle eh = getScriptExpression( binding );
-		if ( eh == null )
+		if ( eh == null || eh.getValue( ) == null )
 		{
 			return null;
 		}
-		try
-		{
-			DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					binding.getModule( ).getModuleHandle( ) );
-			IModelAdapter adapter = new DataModelAdapter( dsc );
-			return adapter.adaptExpression( (Expression) eh.getValue( ) );
-		}
-		catch ( BirtException e )
-		{
-			throw new ChartException( ChartReportItemConstants.ID,
-					ChartException.DATA_BINDING,
-					e );
-		}
+		return adapter.adaptExpression( (Expression) eh.getValue( ) );
 	}
 }

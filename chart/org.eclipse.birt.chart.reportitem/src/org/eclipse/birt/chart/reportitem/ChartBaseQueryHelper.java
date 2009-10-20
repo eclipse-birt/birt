@@ -198,7 +198,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		// binding, because BIRT Data Engine doesn't check empty expr when it
 		// uses the binding to do data query and it will cause error query
 		// result.
-		IBaseExpression dbExpr = ChartReportItemUtil.newExpression( expr,
+		IBaseExpression dbExpr = ChartReportItemUtil.newExpression( modelAdapter,
 				columnBinding );
 		IBinding binding = new Binding( name, dbExpr );
 
@@ -216,7 +216,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			String filter = columnBinding.getFilterExpression( );
 			if ( filter != null )
 			{
-				binding.setFilter( ChartReportItemUtil.newExpression( filter,
+				binding.setFilter( ChartReportItemUtil.newExpression( modelAdapter,
 						columnBinding ) );
 			}
 			Iterator arguments = columnBinding.argumentsIterator( );
@@ -229,7 +229,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 					if ( argument != null )
 					{
 						binding.addArgument( argumentHandle.getName( ),
-								ChartReportItemUtil.newExpression( argument,
+								ChartReportItemUtil.newExpression( modelAdapter,
 										argumentHandle ) );
 					}
 				}
@@ -383,7 +383,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	{
 		if ( handle.getExpression( ) == null )
 			return null; // no expression is bound
-		IBaseExpression expr = ChartReportItemUtil.newExpression( handle.getExpression( ),
+		IBaseExpression expr = ChartReportItemUtil.newExpression( modelAdapter,
 				handle );
 		// model provides binding by name only
 		return new InputParameterBinding( handle.getParamName( ), expr );

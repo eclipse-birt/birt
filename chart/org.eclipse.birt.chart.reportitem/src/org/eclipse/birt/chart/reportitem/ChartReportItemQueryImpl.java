@@ -181,8 +181,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 			// Always create cube query definition by chart itself, even if
 			// sharing cross tab's
-			return ChartReportItemUtil.instanceCubeQueryHelper( handle, cm )
-					.createCubeQuery( parent );
+			return ChartReportItemUtil.instanceCubeQueryHelper( handle,
+					cm,
+					modelAdapter ).createCubeQuery( parent );
 		}
 
 		return null;

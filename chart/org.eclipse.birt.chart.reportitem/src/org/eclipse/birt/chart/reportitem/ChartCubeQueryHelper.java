@@ -59,6 +59,9 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.impl.DataModelAdapter;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -137,11 +140,24 @@ public class ChartCubeQueryHelper
 	private boolean bSingleChart = false;
 
 	private static ICubeElementFactory cubeFactory = null;
+	
+	protected final IModelAdapter modelAdapter;
 
 	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm )
+			throws BirtException
 	{
 		this.handle = handle;
 		this.cm = cm;
+		DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+				handle.getModuleHandle( ) );
+		modelAdapter = new DataModelAdapter( dsc );
+	}
+	
+	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter )
+	{
+		this.handle = handle;
+		this.cm = cm;
+		this.modelAdapter = modelAdapter;
 	}
 
 	public synchronized static ICubeElementFactory getCubeElementFactory( )
@@ -480,7 +496,7 @@ public class ChartCubeQueryHelper
 				}
 			}
 			// Even if expression is null, create the script expression
-			binding.setExpression( ChartReportItemUtil.newExpression( expression,
+			binding.setExpression( ChartReportItemUtil.newExpression( modelAdapter,
 					column ) );
 
 			List<String> lstAggOn = column.getAggregateOnList( );

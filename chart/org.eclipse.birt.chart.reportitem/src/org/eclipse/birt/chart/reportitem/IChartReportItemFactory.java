@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.render.IActionRenderer;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -41,7 +42,7 @@ public interface IChartReportItemFactory
 	Serializer createSerializer( ExtendedItemHandle eih );
 
 	ChartCubeQueryHelper createCubeQueryHelper( ExtendedItemHandle handle,
-			Chart cm );
+			Chart cm, IModelAdapter modelAdapter );
 
 	IGroupedDataRowExpressionEvaluator createCubeEvaluator( Chart cm,
 			ICubeResultSet set );
