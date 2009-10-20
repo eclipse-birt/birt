@@ -934,7 +934,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 						rtc,
 						new ChartReportStyleProcessor( modelHandle,
 								true,
-								this.style ) );
+								this.style,
+								this.dpi ) );
 		boundsRuntime = gcs.getChartModel( ).getBlock( ).getBounds( );
 		return gcs;
 	}

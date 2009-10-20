@@ -79,7 +79,9 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 
 	private boolean useCache;
 
-	private org.eclipse.birt.report.engine.content.IStyle dstyle;
+	private final org.eclipse.birt.report.engine.content.IStyle dstyle;
+	
+	private final int dpi;
 
 	private SimpleStyle cache = null;
 
@@ -121,6 +123,13 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	{
 		this( handle, useCache, null );
 	}
+	
+	public ChartReportStyleProcessor( DesignElementHandle handle,
+			boolean useCache,
+			org.eclipse.birt.report.engine.content.IStyle dstyle )
+	{
+		this( handle, useCache, dstyle, 96 );
+	}
 
 	/**
 	 * The constructor. Default not using cache.
@@ -132,11 +141,12 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	 */
 	public ChartReportStyleProcessor( DesignElementHandle handle,
 			boolean useCache,
-			org.eclipse.birt.report.engine.content.IStyle dstyle )
+			org.eclipse.birt.report.engine.content.IStyle dstyle, int dpi )
 	{
 		this.handle = handle;
 		this.useCache = useCache;
 		this.dstyle = dstyle;
+		this.dpi = dpi;
 	}
 
 	/*
@@ -703,9 +713,35 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	
     private int getSize( CSSValue value )
 	{
+		// Copied from
+		// org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil.getDimensionValueConsiderDpi()
 		if ( value != null && ( value instanceof FloatValue ) )
 		{
-			return (int) ( ( (FloatValue) value ).getFloatValue( ) / 1000 );
+			FloatValue fv = (FloatValue) value;
+			float v = fv.getFloatValue( );
+			switch ( fv.getPrimitiveType( ) )
+			{
+				case CSSPrimitiveValue.CSS_CM :
+					return (int) ( v * 72 / 2.54 );
+
+				case CSSPrimitiveValue.CSS_IN :
+					return (int) ( v * 72 );
+
+				case CSSPrimitiveValue.CSS_MM :
+					return (int) ( v * 7.2 / 2.54 );
+
+				case CSSPrimitiveValue.CSS_PC :
+					return (int) ( v * 12 );
+
+				case CSSPrimitiveValue.CSS_PX :
+					return (int) ( v / dpi * 72f );
+
+				case CSSPrimitiveValue.CSS_PT :
+					return (int) v;
+
+				case CSSPrimitiveValue.CSS_NUMBER :
+					return (int) ( v / 1000 );
+			}
 		}
 		return 0;
 	}
@@ -734,6 +770,4 @@ public class ChartReportStyleProcessor implements IStyleProcessor
         }
     	return false;
     }
-
- 
 }
