@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -36,6 +38,7 @@ import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.elements.Style;
@@ -75,74 +78,98 @@ class ContentUtil
 	{
 		ReportElementHandle modelHandle = getReportElementHandle( handle );
 
-		if ( modelHandle == null
-				|| modelHandle.getPrivateStyle( ) == null
-				|| reportContent == null )
+		if ( modelHandle == null || reportContent == null || evaluator == null )
 		{
 			return null;
 		}
 
-		// !!! local style is processed in reprot engine now, just need process
+		// !!! local style is processed in reprot engine now, we only process
 		// highlight here
 
-		// IStyle style = reportContent.createStyle( );
+		Iterator<HighlightRuleHandle> highlightRules = null;
 
-		// if ( styleCache != null && handle instanceof CrosstabCellHandle )
-		// {
-		// // only cache crosstab cell styles
-		// IStyle cachedStyle = (IStyle) styleCache.get( modelHandle );
-		//
-		// if ( cachedStyle != null )
-		// {
-		// style.setProperties( cachedStyle );
-		// }
-		// else
-		// {
-		// setupPrivateStyle( modelHandle, style );
-		//
-		// styleCache.put( modelHandle, style );
-		// }
-		// }
-		// else
-		// {
-		// setupPrivateStyle( modelHandle, style );
-		// }
-
-		IStyle style = null;
-
-		// process highlight
-		if ( evaluator != null )
+		if ( styleCache != null )
 		{
-			style = reportContent.createStyle( );
+			Object[] cachedData = (Object[]) styleCache.get( modelHandle );
 
-			IStyle highlightStyle = reportContent.createStyle( );
-
-			setupHighlightStyle( modelHandle, highlightStyle, evaluator );
-
-			if ( !highlightStyle.isEmpty( ) )
+			if ( cachedData != null )
 			{
-				// get a private style copy and merge highlight styles, this is
-				// to avoid cached style has highlight infos.
-				IStyle newStyle = reportContent.createStyle( );
+				List<HighlightRuleHandle> rules = (List<HighlightRuleHandle>) cachedData[0];
 
-				newStyle.setProperties( style );
-				newStyle.setProperties( highlightStyle );
+				if ( rules != null )
+				{
+					highlightRules = rules.iterator( );
+				}
+			}
+			else
+			{
+				List<HighlightRuleHandle> rules = null;
 
-				return newStyle;
+				StyleHandle privateStyle = modelHandle.getPrivateStyle( );
+
+				if ( privateStyle != null )
+				{
+					rules = new ArrayList<HighlightRuleHandle>( );
+
+					Iterator itr = privateStyle.highlightRulesIterator( );
+
+					while ( itr != null && itr.hasNext( ) )
+					{
+						rules.add( (HighlightRuleHandle) itr.next( ) );
+					}
+
+					if ( rules.isEmpty( ) )
+					{
+						rules = null;
+					}
+					else
+					{
+						highlightRules = rules.iterator( );
+					}
+				}
+
+				styleCache.put( modelHandle, new Object[]{
+					rules
+				} );
+			}
+		}
+		else
+		{
+			StyleHandle privateStyle = modelHandle.getPrivateStyle( );
+
+			if ( privateStyle != null )
+			{
+				highlightRules = privateStyle.highlightRulesIterator( );
 			}
 		}
 
-		return style;
+		if ( highlightRules == null )
+		{
+			return null;
+		}
+
+		IStyle highlightStyle = reportContent.createStyle( );
+
+		setupHighlightStyle( modelHandle,
+				highlightRules,
+				highlightStyle,
+				evaluator );
+
+		if ( !highlightStyle.isEmpty( ) )
+		{
+			return highlightStyle;
+		}
+
+		return null;
 	}
 
 	private static void setupHighlightStyle( ReportElementHandle handle,
-			IStyle style, IBaseResultSet evaluator ) throws BirtException
+			Iterator<HighlightRuleHandle> highlightRules, IStyle style,
+			IBaseResultSet evaluator ) throws BirtException
 	{
-		Iterator itr = handle.getPrivateStyle( ).highlightRulesIterator( );
-
-		while ( itr != null && itr.hasNext( ) )
+		while ( highlightRules.hasNext( ) )
 		{
-			HighlightRuleHandle rule = (HighlightRuleHandle) itr.next( );
+			HighlightRuleHandle rule = highlightRules.next( );
 
 			ConditionalExpression condExpr = null;
 
