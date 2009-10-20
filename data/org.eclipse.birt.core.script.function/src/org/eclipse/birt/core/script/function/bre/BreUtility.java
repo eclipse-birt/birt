@@ -51,7 +51,7 @@ abstract class Function_temp implements IScriptFunctionExecutor
 		}
 		catch ( BirtException e )
 		{
-			throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
+			throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ), e );
 		}
 	}
 	protected abstract Object getValue( Object[] args ) throws BirtException;
