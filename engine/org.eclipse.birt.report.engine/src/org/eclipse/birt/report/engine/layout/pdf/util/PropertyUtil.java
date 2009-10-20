@@ -283,6 +283,10 @@ public class PropertyUtil
 					ReportDesignHandle designHandle = content
 							.getReportContent( ).getDesign( ).getReportDesign( );
 					int dpi = designHandle.getImageDPI( );
+					if( dpi == 0 )
+					{
+						dpi = 96;
+					}
 					return (int) ( v / dpi * 72000f );
 
 				case CSSPrimitiveValue.CSS_PT :
