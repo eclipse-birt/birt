@@ -1,9 +1,9 @@
 !***************  FEATURE CONTRIBUTION  ******************************************************
 feature@org.eclipse.birt.sdk=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
-plugin@org.eclipse.birt.sdk=v20090407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
+plugin@org.eclipse.birt.sdk=v20091020,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
 feature@org.eclipse.birt=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
-plugin@org.eclipse.birt=v20090623,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
+plugin@org.eclipse.birt=v20091020,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
 feature@org.eclipse.birt.osgi.runtime=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
 feature@org.eclipse.birt.osgi.runtime.sdk=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime.sdk
@@ -18,16 +18,16 @@ feature@org.eclipse.birt.example=v20090925,:pserver:anonymous@dev.eclipse.org:/c
 
 !*************** BIRT  ***********
 feature@org.eclipse.birt.chart.runtime=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.runtime.feature
-plugin@org.eclipse.birt.chart.runtime=v20090407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
+plugin@org.eclipse.birt.chart.runtime=v20091020,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
 feature@org.eclipse.birt.chart=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
-plugin@org.eclipse.birt.chart=v20090710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
+plugin@org.eclipse.birt.chart=v20091020,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.feature
 plugin@org.eclipse.birt.report.designer=v20090407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
 
 feature@org.eclipse.birt.report.runtime=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.runtime.feature
-plugin@org.eclipse.birt.report.runtime=v20090407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
+plugin@org.eclipse.birt.report.runtime=v20091020,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
 
 feature@org.eclipse.birt.crosstab=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.crosstab.feature
 feature@org.eclipse.birt.report.designer.editor.xml.wtp=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
