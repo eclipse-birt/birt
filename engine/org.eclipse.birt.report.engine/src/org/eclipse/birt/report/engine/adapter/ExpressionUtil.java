@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -25,6 +26,10 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.impl.DataRequestSessionImpl;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.ir.Expression;
 
@@ -37,7 +42,9 @@ public final class ExpressionUtil
 	private static final String TOTAL_PREFIX = "TOTAL_COLUMN_";
 
 	private int totalColumnSuffix = 0;
-
+	
+	private IModelAdapter adapter = null;
+	
 	public ITotalExprBindings prepareTotalExpressions( List<Expression> exprs, IDataQueryDefinition queryDefn ) throws EngineException
 	{
 		return prepareTotalExpressions( exprs, null, queryDefn );
@@ -53,6 +60,7 @@ public final class ExpressionUtil
 			String groupName, IDataQueryDefinition queryDefn )
 			throws EngineException
 	{
+		
 
 		TotalExprBinding result = new TotalExprBinding( );
 		List l = new ArrayList( );
@@ -535,10 +543,32 @@ public final class ExpressionUtil
 		{
 			tempV2 = value2.getScriptText( );
 		}
-		ConditionalExpression expression = new ConditionalExpression(
-				testExpression.getScriptText( ), DataAdapterUtil
+		
+		if( testExpression instanceof Expression.Script 
+				&& "bre".equals( ( ( Expression.Script )testExpression).getLanguage( ) ) )
+		{
+			ScriptExpression srciptExpr = null;
+			try
+			{
+				srciptExpr = getModelAdapter( ).adaptJSExpression( testExpression.getScriptText( ), 
+						( ( Expression.Script )testExpression).getLanguage( ) );
+			}
+			catch ( Exception e )
+			{
+				
+			}
+			ConditionalExpression expression = new ConditionalExpression(
+					srciptExpr.getText( ), DataAdapterUtil
+							.adaptModelFilterOperator( operator ), tempV1, tempV2 );
+			return ExpressionUtil.transformConditionalExpression( expression );
+		}
+		else
+		{
+			ConditionalExpression expression = new ConditionalExpression(
+					testExpression.getScriptText( ), DataAdapterUtil
 						.adaptModelFilterOperator( operator ), tempV1, tempV2 );
-		return ExpressionUtil.transformConditionalExpression( expression );
+			return ExpressionUtil.transformConditionalExpression( expression );
+		}
 	}
 
 	public IConditionalExpression createConditionExpression(
@@ -550,10 +580,41 @@ public final class ExpressionUtil
 		{
 			values.add( expr.getScriptText( ) );
 		}
-		ConditionalExpression expression = new ConditionalExpression(
+		if( testExpression instanceof Expression.Script 
+				&& "bre".equals( ( ( Expression.Script )testExpression).getLanguage( ) ) )
+		{
+			ScriptExpression srciptExpr = null;
+			try
+			{
+				srciptExpr = getModelAdapter( ).adaptJSExpression( testExpression.getScriptText( ), 
+						(( Expression.Script )testExpression).getLanguage( ) );
+			}
+			catch ( Exception e )
+			{
+				
+			}
+			ConditionalExpression expression = new ConditionalExpression(
+					srciptExpr.getText( ), DataAdapterUtil
+							.adaptModelFilterOperator( operator ), values );
+			return ExpressionUtil.transformConditionalExpression( expression );
+		}
+		else
+		{
+			ConditionalExpression expression = new ConditionalExpression(
 				testExpression.getScriptText( ), DataAdapterUtil
 						.adaptModelFilterOperator( operator ), values );
-		return ExpressionUtil.transformConditionalExpression( expression );
+			return ExpressionUtil.transformConditionalExpression( expression );
+		}
+	}
+	
+	private IModelAdapter getModelAdapter( ) throws BirtException
+	{
+		if ( adapter == null )
+		{
+			DataRequestSession session = new DataRequestSessionImpl( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			adapter = session.getModelAdaptor( );
+		}
+		return adapter;
 	}
 }
 

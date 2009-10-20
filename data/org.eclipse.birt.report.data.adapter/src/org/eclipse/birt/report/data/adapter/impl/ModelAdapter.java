@@ -389,5 +389,12 @@ public class ModelAdapter implements IModelAdapter
 			return null;
 		return new ExpressionAdapter( jsExpr, dataType );
 	}
+
+	public ScriptExpression adaptJSExpression( String jsExpr, String dataType )
+	{
+		if( jsExpr == null )
+			return null;
+		return new ExpressionAdapter( jsExpr, dataType );
+	}
 	
 }

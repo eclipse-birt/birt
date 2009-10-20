@@ -101,6 +101,9 @@ public interface IModelAdapter
 	public ScriptExpression adaptExpression( Expression expr, String dataType );
 	
 	public ScriptExpression adaptExpression( String jsExpr, String dataType );
+	
+	public ScriptExpression adaptJSExpression( String jsExpr, String dataType );
+	
 /*	*//**
 	 * Adapts an expression based on Model computed column handle
 	 *//*
