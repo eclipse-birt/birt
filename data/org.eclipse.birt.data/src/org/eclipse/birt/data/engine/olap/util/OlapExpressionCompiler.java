@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.data.engine.olap.util;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -191,7 +190,7 @@ public class OlapExpressionCompiler
 			return result;
 		}
 
-		return null;
+		return Collections.EMPTY_SET;
 	}
 
 	/**
