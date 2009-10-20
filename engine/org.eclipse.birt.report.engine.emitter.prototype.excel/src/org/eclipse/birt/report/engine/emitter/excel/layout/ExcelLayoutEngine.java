@@ -493,7 +493,7 @@ public class ExcelLayoutEngine
 
 	private boolean isInContainer( SheetData data, XlsContainer rowContainer )
 	{
-		return data.getRowIndex( ) >= rowContainer.getStartRowId( );
+		return data.getRowIndex( ) > rowContainer.getStartRowId( );
 	}
 
 	public void endTable( )
