@@ -311,6 +311,20 @@
 			<fileset dir="${updateJarWorkingDir}/eclipse/features">
 				<include name="org.eclipse.birt.sdk.feature*/**"/>
 				<include name="org.eclipse.birt.integration.wtp.sdk.feature*/**"/>
+				<include name="com.lowagie.itext*/**"/>
+				<include name="org.apache.commons.codec*/**"/>
+				<include name="org.apache.derby.core*/**"/>
+				<include name="org.eclipse.birt.chart.runtime*/**"/>
+				<include name="org.eclipse.birt.crosstab*/**"/>
+			    <include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile*/**"/>
+				<include name="org.eclipse.birt.report.designer.debug*/**"/>
+				<include name="org.eclipse.birt.report.designer_*/**"/>
+				<include name="org.eclipse.birt.report.designer.source_*/**"/>
+				<include name="org.eclipse.birt.report.runtime_*/**"/>
+				<include name="org.eclipse.birt.report.runtime.source_*/**"/>
+				<include name="org.eclipse.birt.thirdparty*/**"/>
+				<include name="org.mozilla.rhino*/**"/>
+				<include name="org.w3c.sac*/**"/>
 			</fileset>
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
 				<include name="*.thirdparty*/**"/>
