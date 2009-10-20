@@ -41,6 +41,10 @@ public class ImageArea extends AbstractArea implements IImageArea
 		super( area );
 		this.url = area.getImageUrl( );
 		this.data = area.getImageData( );
+		this.extension = area.extension;
+		this.helpText = area.helpText;
+		this.mimetype = area.mimetype;
+		this.params = area.params;
 	}
 
 	public void setUrl( String url )
