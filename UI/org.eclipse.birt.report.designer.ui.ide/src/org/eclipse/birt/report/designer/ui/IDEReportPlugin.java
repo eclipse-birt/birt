@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui;
 
 import java.util.Hashtable;
 
+import org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEReportClasspathResolver;
 import org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerView;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
@@ -28,6 +29,7 @@ public class IDEReportPlugin extends AbstractUIPlugin
 {
 
 	private ServiceRegistration syncService;
+	private ServiceRegistration reportClasspathService;
 
 	/*
 	 * (non-Javadoc)
@@ -49,6 +51,11 @@ public class IDEReportPlugin extends AbstractUIPlugin
 		syncService = context.registerService( IReportResourceSynchronizer.class.getName( ),
 				new IDEResourceSynchronizer( ),
 				dict );
+
+		reportClasspathService = context.registerService( IReportClasspathResolver.class.getName( ),
+				new IDEReportClasspathResolver( ),
+				dict );
+
 	}
 
 	@Override
@@ -59,6 +66,12 @@ public class IDEReportPlugin extends AbstractUIPlugin
 		{
 			syncService.unregister( );
 			syncService = null;
+		}
+
+		if ( reportClasspathService != null )
+		{
+			reportClasspathService.unregister( );
+			reportClasspathService = null;
 		}
 
 		super.stop( context );
