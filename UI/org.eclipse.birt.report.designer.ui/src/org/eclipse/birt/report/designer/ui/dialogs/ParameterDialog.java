@@ -1837,24 +1837,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				if ( defaultValueChooser != null )
 				{
-					List list = new ArrayList( );
-					list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
-					String value;
-					switch ( list.indexOf( defaultValueChooser.getText( ) ) )
-					{
-						case 0 :
-							value = null;
-							break;
-						case 1 :
-							value = "true";//$NON-NLS-1$
-							break;
-						case 2 :
-							value = "false";//$NON-NLS-1$
-							break;
-						default :
-							value = defaultValueChooser.getText( );
-					}
-					return value;
+					return getDefaultValueChooserValue( );
 				}
 				else
 					return "";
@@ -1876,25 +1859,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				List list = new ArrayList( );
-				list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
-				String value;
-				switch ( list.indexOf( defaultValueChooser.getText( ) ) )
-				{
-					case 0 :
-						value = null;
-						break;
-					case 1 :
-						value = "true";//$NON-NLS-1$
-						break;
-					case 2 :
-						value = "false";//$NON-NLS-1$
-						break;
-					default :
-						value = defaultValueChooser.getText( );
-				}
 				return new ParameterExpressionProvider( inputParameter,
-						dataSetChooser != null ? value : null );
+						dataSetChooser != null ? getDefaultValueChooserValue( )
+								: null );
 			}
 
 			public String getExpressionType( )
@@ -1904,23 +1871,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public void setExpressionType( String exprType )
 			{
-				List list = new ArrayList( );
-				list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
-				String value;
-				switch ( list.indexOf( defaultValueChooser.getText( ) ) )
-				{
-					case 0 :
-						value = null;
-						break;
-					case 1 :
-						value = "true";//$NON-NLS-1$
-						break;
-					case 2 :
-						value = "false";//$NON-NLS-1$
-						break;
-					default :
-						value = defaultValueChooser.getText( );
-				}
+				String value = getDefaultValueChooserValue( );
 
 				defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
 						exprType );
@@ -1974,12 +1925,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public Object getContextObject( )
 			{
-				return null;
+				return inputParameter;
 			}
 
 			public IExpressionContextFactory getExpressionContextFactory( )
 			{
-				return null;
+				return new ExpressionContextFactoryImpl( getContextObject( ),
+						getExpressionProvider( ) );
 			}
 
 		};
@@ -3298,7 +3250,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			try
 			{
-				validateValue( defaultValueChooser.getText( ),
+				validateValue( getDefaultValueChooserValue( ),
 						(String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
 			}
 			catch ( BirtException e )
@@ -3308,6 +3260,28 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 
 		return null;
+	}
+
+	private String getDefaultValueChooserValue( )
+	{
+		String defaultValue;
+		List list = new ArrayList( );
+		list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
+		switch ( list.indexOf( defaultValueChooser.getText( ) ) )
+		{
+			case 0 :
+				defaultValue = null;
+				break;
+			case 1 :
+				defaultValue = "true";//$NON-NLS-1$
+				break;
+			case 2 :
+				defaultValue = "false";//$NON-NLS-1$
+				break;
+			default :
+				defaultValue = defaultValueChooser.getText( );//$NON-NLS-1$
+		}
+		return defaultValue;
 	}
 
 	private void refreshValueTable( )
