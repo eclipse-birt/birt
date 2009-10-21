@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -81,7 +82,9 @@ public class VariableDropAdapter implements IDropAdapter
 			// FIXME currently variable does not support data type, so just set
 			// string
 			bindingColumn.setDataType( "string" );
-			bindingColumn.setExpression( DEUtil.getExpression( variable ) );
+			ExpressionUtility.setBindingColumnExpression( variable,
+					bindingColumn,
+					true );
 			bindingColumn.setDisplayName( variable.getDisplayLabel( ) );
 			dataHandle.addColumnBinding( bindingColumn, false );
 			dataHandle.setResultSetColumn( bindingColumn.getName( ) );

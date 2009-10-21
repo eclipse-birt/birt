@@ -122,7 +122,8 @@ public class DataUtil
 				ComputedColumn column = StructureFactory.createComputedColumn( );
 				column.setName( resultSetColumn.getColumnName( ) );
 				column.setDataType( resultSetColumn.getDataType( ) );
-				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
+						column);
 				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
 				{
 					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )

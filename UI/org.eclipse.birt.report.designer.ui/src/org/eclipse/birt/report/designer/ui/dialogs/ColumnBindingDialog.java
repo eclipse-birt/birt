@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDia
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -519,7 +520,8 @@ public class ColumnBindingDialog extends BaseDialog
 				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( inputElement,
 						param.getName( ) );
 				bindingColumn.setDataType( param.getDataType( ) );
-				bindingColumn.setExpression( DEUtil.getExpression( param ) );
+				ExpressionUtility.setBindingColumnExpression( param,
+						bindingColumn);
 
 				try
 				{
@@ -570,7 +572,8 @@ public class ColumnBindingDialog extends BaseDialog
 								ComputedColumn bindingColumn = StructureFactory.newComputedColumn( inputElement,
 										element.getColumnName( ) );
 								bindingColumn.setDataType( element.getDataType( ) );
-								bindingColumn.setExpression( DEUtil.getExpression( element ) );
+								ExpressionUtility.setBindingColumnExpression( element,
+										bindingColumn);
 
 								inputElement.addColumnBinding( bindingColumn,
 										false );

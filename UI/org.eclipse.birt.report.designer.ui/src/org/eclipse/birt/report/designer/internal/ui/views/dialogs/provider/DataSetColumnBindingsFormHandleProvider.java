@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -476,7 +477,8 @@ public class DataSetColumnBindingsFormHandleProvider implements
 						String groupType = DEUtil.getGroupControlType( bindingObject );
 						List groupList = DEUtil.getGroups( bindingObject );
 
-						bindingColumn.setExpression( DEUtil.getExpression( element ) );
+						ExpressionUtility.setBindingColumnExpression( element,
+								bindingColumn);
 
 						if ( bindingObject instanceof ReportItemHandle )
 						{
@@ -548,7 +550,8 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				bindingColumn.setDataType( param.getDataType( ) );
 				String groupType = DEUtil.getGroupControlType( bindingObject );
 				List groupList = DEUtil.getGroups( bindingObject );
-				bindingColumn.setExpression( DEUtil.getExpression( param ) );
+				ExpressionUtility.setBindingColumnExpression( param,
+						bindingColumn);
 
 				if ( bindingObject instanceof ReportItemHandle )
 				{

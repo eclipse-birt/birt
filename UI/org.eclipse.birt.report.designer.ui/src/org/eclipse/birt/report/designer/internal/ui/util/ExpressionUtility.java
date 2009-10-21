@@ -20,7 +20,12 @@ import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConve
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -201,6 +206,11 @@ public class ExpressionUtility
 			return getDataSetRowExpression( ( (ResultSetColumnHandle) model ).getColumnName( ),
 					converter );
 		}
+		else if ( model instanceof ParameterHandle )
+		{
+			return getParameterExpression( ( (ParameterHandle) model ).getQualifiedName( ),
+					converter );
+		}
 		return null;
 	}
 
@@ -225,6 +235,16 @@ public class ExpressionUtility
 			return null;
 		}
 		return converter.getResultSetColumnExpression( columnName );
+	}
+
+	public static String getParameterExpression( String columnName,
+			IExpressionConverter converter )
+	{
+		if ( StringUtil.isBlank( columnName ) || converter == null )
+		{
+			return null;
+		}
+		return converter.getParameterExpression( columnName );
 	}
 
 	/**
@@ -287,5 +307,33 @@ public class ExpressionUtility
 		}
 
 		return null;
+	}
+
+	public static void setBindingColumnExpression( Object element,
+			ComputedColumn bindingColumn )
+	{
+		setBindingColumnExpression( element, bindingColumn, false );
+	}
+
+	public static void setBindingColumnExpression( Object element,
+			ComputedColumn bindingColumn, boolean isOnlySupportJS )
+	{
+		String defaultScriptType = UIUtil.getDefaultScriptType( );
+		IExpressionConverter converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
+		String expression = null;
+		if ( converter != null && !isOnlySupportJS )
+		{
+			expression = ExpressionUtility.getExpression( element, converter );
+		}
+		else
+		{
+			defaultScriptType = ExpressionType.JAVASCRIPT;
+			expression = DEUtil.getExpression( element );
+		}
+
+		Expression bindingExpression = new Expression( expression,
+				defaultScriptType );
+		bindingColumn.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+				bindingExpression );
 	}
 }

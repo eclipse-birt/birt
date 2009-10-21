@@ -568,7 +568,7 @@ public class InsertInLayoutUtil
 
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
 				model.getName( ) );
-		bindingColumn.setExpression( DEUtil.getExpression( model ) );
+		ExpressionUtility.setBindingColumnExpression( model, bindingColumn );
 
 		// hardcode
 		// parameter's type datatime is not equals data's.
@@ -644,7 +644,8 @@ public class InsertInLayoutUtil
 					ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
 							model.getColumnName( ) );
 					bindingColumn.setDataType( model.getDataType( ) );
-					bindingColumn.setExpression( DEUtil.getExpression( model ) );
+					ExpressionUtility.setBindingColumnExpression( model,
+							bindingColumn );
 					bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
 					tableHandle.addColumnBinding( bindingColumn, false );
 					dataHandle.setResultSetColumn( model.getColumnName( ) );
@@ -741,7 +742,7 @@ public class InsertInLayoutUtil
 			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
-			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			ExpressionUtility.setBindingColumnExpression( model, bindingColumn );
 			bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
 			if ( target instanceof DesignElementHandle )
 			{
@@ -886,23 +887,7 @@ public class InsertInLayoutUtil
 			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
-			String defaultScriptType = UIUtil.getDefaultScriptType( );
-			IExpressionConverter converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
-			String expression = null;
-			if ( converter != null )
-			{
-				expression = ExpressionUtility.getExpression( model,
-						converter );
-			}
-			else{
-				defaultScriptType = ExpressionType.JAVASCRIPT;
-				converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
-				expression = ExpressionUtility.getExpression( model,
-						converter );
-			}
-			
-			Expression bindingExpression = new Expression(expression, defaultScriptType);
-			bindingColumn.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER, bindingExpression );
+			ExpressionUtility.setBindingColumnExpression( model, bindingColumn );
 			bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
 			if ( target instanceof DesignElementHandle )
 			{
@@ -1468,7 +1453,8 @@ public class InsertInLayoutUtil
 						ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
 								columns[j].getColumnName( ) );
 						bindingColumn.setDataType( columns[j].getDataType( ) );
-						bindingColumn.setExpression( DEUtil.getExpression( columns[j] ) );
+						ExpressionUtility.setBindingColumnExpression( columns[j],
+								bindingColumn );
 						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( columns[j] ) );
 						tableHandle.addColumnBinding( bindingColumn, false );
 					}
