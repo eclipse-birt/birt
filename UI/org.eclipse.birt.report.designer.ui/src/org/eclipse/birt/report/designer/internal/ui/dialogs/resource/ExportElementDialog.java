@@ -391,7 +391,8 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 					}
 				}
 
-				if ( firstElement instanceof ImageHandle )
+				if ( firstElement instanceof ImageHandle
+						&& DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals( ( (ImageHandle) firstElement ).getSource( ) ) )
 				{
 					exportEmbeddedImage( (ImageHandle) firstElement,
 							libraryHandle );
@@ -590,11 +591,9 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 			}
 		}
 		ElementExportUtil.exportElement( (DesignElementHandle) image,
-							libraryHandle,
-							true );
-		ElementExportUtil.exportStructure( embeded,
-							libraryHandle,
-							true );
+				libraryHandle,
+				true );
+		ElementExportUtil.exportStructure( embeded, libraryHandle, true );
 	}
 
 	/**
