@@ -146,6 +146,10 @@ public final class ChartReportItemPresentationPlotImpl extends
 	{
 		CrosstabCellHandle columnCell = ChartCubeUtil.getInnermostLevelCell( xtabHandle,
 				ICrosstabConstants.COLUMN_AXIS_TYPE );
+		if ( columnCell == null )
+		{
+			return 0;
+		}
 		return ChartItemUtil.convertToPoints( xtabHandle.getColumnWidth( columnCell ),
 				dpi );
 	}
@@ -155,6 +159,10 @@ public final class ChartReportItemPresentationPlotImpl extends
 	{
 		CrosstabCellHandle rowCell = ChartCubeUtil.getInnermostLevelCell( xtabHandle,
 				ICrosstabConstants.ROW_AXIS_TYPE );
+		if ( rowCell == null )
+		{
+			return 0;
+		}
 		return ChartItemUtil.convertToPoints( xtabHandle.getRowHeight( rowCell ),
 				dpi );
 	}
