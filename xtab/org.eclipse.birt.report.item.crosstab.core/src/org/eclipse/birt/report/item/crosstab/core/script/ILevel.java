@@ -44,4 +44,20 @@ public interface ILevel
 	void addSortCondition( ISortElement sort ) throws SemanticException;
 
 	void removeSortCondition( ISortElement sort ) throws SemanticException;
+
+	String getPageBreakBefore( );
+
+	String getPageBreakAfter( );
+
+	String getPageBreakInside( );
+
+	int getPageBreakInterval( );
+
+	void setPageBreakBefore( String value ) throws SemanticException;
+
+	void setPageBreakAfter( String value ) throws SemanticException;
+
+	void setPageBreakInside( String value ) throws SemanticException;
+
+	void setPageBreakInterval( int value ) throws SemanticException;
 }

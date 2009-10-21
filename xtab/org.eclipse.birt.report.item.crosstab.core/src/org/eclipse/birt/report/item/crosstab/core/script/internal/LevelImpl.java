@@ -245,4 +245,44 @@ public class LevelImpl implements ILevel
 		}
 		return s1.equals( s2 );
 	}
+
+	public String getPageBreakAfter( )
+	{
+		return lv.getPageBreakAfter( );
+	}
+
+	public String getPageBreakBefore( )
+	{
+		return lv.getPageBreakBefore( );
+	}
+
+	public String getPageBreakInside( )
+	{
+		return lv.getPageBreakInside( );
+	}
+
+	public int getPageBreakInterval( )
+	{
+		return lv.getPageBreakInterval( );
+	}
+
+	public void setPageBreakAfter( String value ) throws SemanticException
+	{
+		lv.setPageBreakAfter( value );
+	}
+
+	public void setPageBreakBefore( String value ) throws SemanticException
+	{
+		lv.setPageBreakBefore( value );
+	}
+
+	public void setPageBreakInside( String value ) throws SemanticException
+	{
+		lv.setPageBreakInside( value );
+	}
+
+	public void setPageBreakInterval( int value ) throws SemanticException
+	{
+		lv.setPageBreakInterval( value );
+	}
 }
