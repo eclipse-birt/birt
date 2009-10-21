@@ -46,6 +46,8 @@ public class TableLayout
 	
 	protected RowArea unresolvedRow;
 	
+	private boolean isRTL = false;
+	
 	public TableLayout( ITableContent tableContent, TableLayoutInfo layoutInfo,
 			int startCol, int endCol )
 	{
@@ -55,7 +57,8 @@ public class TableLayout
 		this.endCol = endCol;
 		if ( tableContent != null )
 		{
-			bcr.setRTL( tableContent.isRTL( ) );
+			isRTL = tableContent.isRTL( );
+		//	bcr.setRTL( isRTL );
 		}
 	}
 
@@ -125,14 +128,38 @@ public class TableLayout
 		rows.resetCursor( );
 	}
 
-	protected IStyle getLeftCellContentStyle( RowArea lastRow, RowArea currentRow, int columnID )
+	protected IStyle getLeftCellContentStyle( RowArea lastRow, CellArea currentCell )
 	{
-		CellArea cell = currentRow.getCell( columnID-1 );
-		if ( cell == null && lastRow!=null )
+		RowArea currentRow = (RowArea) currentCell.getParent( );
+		int columnID = currentCell.getColumnID( ); 
+		CellArea cell = null;
+		if ( isRTL )
 		{
-			cell =  lastRow.getCell( columnID - 1 );
+			cell = currentRow.getCell( columnID + 1 );
+			if ( cell == null && lastRow != null )
+			{
+				cell = lastRow.getCell( columnID + 1 );
+			}
+			if ( cell == null )
+			{
+				// FIXME:
+				// For RtL reports, the left cell of current cell is not
+				// initialized yet. Assume left cell has the same border style
+				// as current style, although the assumption is not always
+				// correct.
+				return currentCell.getContent( ).getComputedStyle( );
+			}
 		}
-		if(cell!=null)
+		else
+		{
+			cell = currentRow.getCell( columnID - 1 );
+			if ( cell == null && lastRow != null )
+			{
+				cell = lastRow.getCell( columnID - 1 );
+			}
+		}
+
+		if ( cell != null )
 		{
 			return cell.getContent( ).getComputedStyle( );
 		}
@@ -175,9 +202,9 @@ public class TableLayout
 				topCellStyle = cell.getContent( ).getComputedStyle( );
 			}
 		}
-		if(columnID>0)
+		if ( ( !isRTL && columnID > startCol ) || ( isRTL && columnID + colSpan - 1 < endCol ) )
 		{
-			leftCellContentStyle = getLeftCellContentStyle( lastRow, (RowArea)cellArea.getParent( ), columnID );
+			leftCellContentStyle = getLeftCellContentStyle( lastRow, cellArea );
 		}
 		// FIXME
 		if ( rows.size( ) == 0 && lastRow == null )
@@ -210,7 +237,8 @@ public class TableLayout
 			}
 
 			// resolve left border
-			if ( columnID == startCol )
+			if ( ( columnID == startCol && !isRTL )
+					|| ( columnID + colSpan - 1 == endCol && isRTL ) )
 			{
 				if ( tableStyle != null || rowStyle != null
 						|| cellContentStyle != null )
@@ -238,8 +266,8 @@ public class TableLayout
 			}
 
 			// resolve right border
-
-			if ( columnID + colSpan - 1 == endCol )
+			if ( ( columnID + colSpan - 1 == endCol && !isRTL )
+					|| ( columnID == startCol && isRTL ) )
 			{
 				if ( tableStyle != null || rowStyle != null
 						|| cellContentStyle != null )
@@ -253,7 +281,6 @@ public class TableLayout
 					}
 				}
 			}
-
 		}
 		else
 		{
@@ -283,7 +310,8 @@ public class TableLayout
 				}
 			}
 			// resolve left border
-			if ( columnID == startCol )
+			if ( ( columnID == startCol && !isRTL )
+					|| ( columnID + colSpan - 1 == endCol && isRTL ) )
 			{
 				// first column
 				if ( tableStyle != null || rowStyle != null
@@ -312,7 +340,8 @@ public class TableLayout
 				}
 			}
 			// resolve right border
-			if ( columnID + colSpan - 1 == endCol )
+			if ( ( columnID + colSpan - 1 == endCol && !isRTL )
+					|| ( columnID == startCol && isRTL ) )
 			{
 				if ( tableStyle != null || rowStyle != null
 						|| cellContentStyle != null )

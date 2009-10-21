@@ -66,9 +66,9 @@ public class BorderConflictResolver
 
 	final static int POSITION_BOTTOM = 3;
 
-	private int POSITION_LEAD = POSITION_LEFT;
-
-	private int POSITION_TRAIL = POSITION_RIGHT;
+//	private int POSITION_LEAD = POSITION_LEFT;
+//
+//	private int POSITION_TRAIL = POSITION_RIGHT;
 
 	static HashMap<Value, Integer> styleMap = null;
 	static
@@ -112,10 +112,10 @@ public class BorderConflictResolver
 			IStyle columnLeft, IStyle cellLeft )
 	{
 		return resolveBorder( tableLeftBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellLeft, POSITION_LEAD ),
-				new BorderStyleInfo( columnLeft, POSITION_LEAD ),
-				new BorderStyleInfo( rowLeft, POSITION_LEAD ),
-				new BorderStyleInfo( tableLeft, POSITION_LEAD )} );
+				new BorderStyleInfo( cellLeft, POSITION_LEFT ),
+				new BorderStyleInfo( columnLeft, POSITION_LEFT ),
+				new BorderStyleInfo( rowLeft, POSITION_LEFT ),
+				new BorderStyleInfo( tableLeft, POSITION_LEFT )} );
 	}
 
 	protected BorderCache tableTopBorderCache = new BorderCache( 4 );
@@ -198,10 +198,10 @@ public class BorderConflictResolver
 			IStyle rowRight, IStyle columnRight, IStyle cellRight )
 	{
 		return resolveBorder( tableRightBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellRight, POSITION_TRAIL ),
-				new BorderStyleInfo( columnRight, POSITION_TRAIL ),
-				new BorderStyleInfo( rowRight, POSITION_TRAIL ),
-				new BorderStyleInfo( tableRight, POSITION_TRAIL )} );
+				new BorderStyleInfo( cellRight, POSITION_RIGHT ),
+				new BorderStyleInfo( columnRight, POSITION_RIGHT ),
+				new BorderStyleInfo( rowRight, POSITION_RIGHT ),
+				new BorderStyleInfo( tableRight, POSITION_RIGHT )} );
 	}
 
 	protected BorderCache cellLeftBorderCache = new BorderCache( 4 );
@@ -220,10 +220,10 @@ public class BorderConflictResolver
 			IStyle columnLeft, IStyle preCellRight, IStyle cellLeft )
 	{
 		return resolveBorder( cellLeftBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( preCellRight, POSITION_TRAIL ),
-				new BorderStyleInfo( cellLeft, POSITION_LEAD ),
-				new BorderStyleInfo( preColumnRight, POSITION_TRAIL ),
-				new BorderStyleInfo( columnLeft, POSITION_LEAD )} );
+				new BorderStyleInfo( preCellRight, POSITION_RIGHT ),
+				new BorderStyleInfo( cellLeft, POSITION_LEFT ),
+				new BorderStyleInfo( preColumnRight, POSITION_RIGHT ),
+				new BorderStyleInfo( columnLeft, POSITION_LEFT )} );
 	}
 
 	protected BorderCache cellTopBorderCache = new BorderCache( 4 );
@@ -334,20 +334,20 @@ public class BorderConflictResolver
 
 	}
 
-	public void setRTL( boolean rtl )
-	{
-		if ( rtl )
-		{
-			POSITION_LEAD = POSITION_RIGHT;
-			POSITION_TRAIL = POSITION_LEFT;
-		}
-		else
-		{
-			// XXX currently useless
-			POSITION_LEAD = POSITION_LEFT;
-			POSITION_TRAIL = POSITION_RIGHT;
-		}
-	}
+//	public void setRTL( boolean rtl )
+//	{
+//		if ( rtl )
+//		{
+//			POSITION_LEAD = POSITION_RIGHT;
+//			POSITION_TRAIL = POSITION_LEFT;
+//		}
+//		else
+//		{
+//			// XXX currently useless
+//			POSITION_LEAD = POSITION_LEFT;
+//			POSITION_TRAIL = POSITION_RIGHT;
+//		}
+//	}
 
 	protected class BorderStyleInfo
 	{

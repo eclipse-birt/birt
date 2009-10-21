@@ -1409,6 +1409,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			int cellRx = cellX + cell.getWidth( );
 			// the y coordinate of the cell's bottom boundary
 			int cellBy = cellY + cell.getHeight( );
+			tb.addColumn( cellX );
 			tb.addColumn( cellRx );
 			tb.addRow( cellBy );
 			if ( null != borders
