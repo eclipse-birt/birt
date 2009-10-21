@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -77,7 +78,7 @@ public class LineArea extends InlineStackingArea
 		if ( currentIP == 0 && !setIndent && content != null )
 		{
 			IStyle contentStyle = content.getComputedStyle( );
-			currentIP =  getDimensionValue( contentStyle
+			currentIP = PropertyUtil.getDimensionValue( contentStyle
 						.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth ) ;
 			setIndent = true;
 		}
