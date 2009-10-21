@@ -15,17 +15,6 @@
 	<!-- Available parameters :                                                -->
 	<!--   build.result.folder - folder to contain the build results           -->
 	<!-- ===================================================================== -->
-	<target name="pre.viewer.jar">
-
-		<property name="basedir" location="." />
-		<property name="birt.dir" value="birt" />
-		<property name="build.result.folder" value="${basedir}" />
-
-		<mkdir dir="${build.result.folder}/viewerservletssrc"/>
-		<copy todir="${build.result.folder}/viewerservletssrc" overwrite="true">
-			<fileset dir="${birt.dir}/WEB-INF/classes/" includes="**/*.java"			/>
-		</copy>
-	</target>
 	
 	<target name="pre.build.jars">
 		<!--Execute native2ascii for *.msg files-->
