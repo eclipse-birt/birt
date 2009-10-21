@@ -2617,8 +2617,8 @@ Element.Style.text.indent=Texteinzug
 Element.Style.text.transform=Textumwandlung
 Element.Style.verticalAlign=Vertikale Anpassung
 Element.Style.whiteSpace=Whitespace
-Element.Style.widows=Hurenkinder
-Element.Style.orphans=Schusterjungen
+Element.Style.widows=Witwe
+Element.Style.orphans=Waisenkinder
 Element.Style.wordSpacing=Wortabstand
 
 #10.ReportItem  ( prefix  Element.ReportItem )
