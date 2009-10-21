@@ -4640,3 +4640,7 @@ VariableDialog.Error.NameDuplicate=名称“{0}”与现有名称重复。请选择一个不同的名
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法:
+
+###########################################################
+#VariableDropAdapter
+VariableDropAdapter.TranasctionName=Create Date Item from Variable

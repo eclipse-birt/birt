@@ -4640,3 +4640,7 @@ VariableDialog.Error.NameDuplicate=이름 \"{0}\"이(가) 기존 이름과 중복됩니다. 다
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문:
+
+###########################################################
+#VariableDropAdapter
+VariableDropAdapter.TranasctionName=Create Date Item from Variable

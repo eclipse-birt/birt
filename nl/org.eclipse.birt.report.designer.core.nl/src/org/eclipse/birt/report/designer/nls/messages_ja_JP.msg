@@ -4640,3 +4640,7 @@ VariableDialog.Error.NameDuplicate=この名前 \"{0}\" は、すでに使用されています。
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文 :
+
+###########################################################
+#VariableDropAdapter
+VariableDropAdapter.TranasctionName=Create Date Item from Variable

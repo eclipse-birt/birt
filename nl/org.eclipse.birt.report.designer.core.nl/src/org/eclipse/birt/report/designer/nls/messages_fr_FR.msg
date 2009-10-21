@@ -4640,3 +4640,7 @@ VariableDialog.Error.NameDuplicate=Le nom \"{0}"\ est le doublon d'un nom exista
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par défaut :
+
+###########################################################
+#VariableDropAdapter
+VariableDropAdapter.TranasctionName=Create Date Item from Variable

@@ -4640,3 +4640,7 @@ VariableDialog.Error.NameDuplicate=Der Name \"{0}\" ist bereits vorhanden. Bitte
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=Standardsyntax:
+
+###########################################################
+#VariableDropAdapter
+VariableDropAdapter.TranasctionName=Create Date Item from Variable
