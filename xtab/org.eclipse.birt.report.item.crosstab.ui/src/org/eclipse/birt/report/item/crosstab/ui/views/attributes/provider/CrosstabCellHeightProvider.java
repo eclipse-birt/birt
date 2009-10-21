@@ -52,9 +52,9 @@ public class CrosstabCellHeightProvider extends UnitPropertyDescriptorProvider
 
 	public void save( Object value ) throws SemanticException
 	{
-		if ( value == null )
-			return;
-		DimensionValue dimensionValue = DimensionValue.parse( value.toString( ) );
+		DimensionValue dimensionValue = null;
+		if ( value != null )
+			dimensionValue = DimensionValue.parse( value.toString( ) );
 		try
 		{
 			ExtendedItemHandle handle = (ExtendedItemHandle) DEUtil.getInputFirstElement( input );

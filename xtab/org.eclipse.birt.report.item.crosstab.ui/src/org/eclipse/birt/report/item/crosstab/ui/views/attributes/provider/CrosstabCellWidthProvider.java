@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
@@ -51,9 +52,9 @@ public class CrosstabCellWidthProvider extends UnitPropertyDescriptorProvider
 
 	public void save( Object value ) throws SemanticException
 	{
-		if ( value == null )
-			return;
-		DimensionValue dimensionValue = DimensionValue.parse( value.toString( ) );
+		DimensionValue dimensionValue = null;
+		if ( value != null )
+			dimensionValue = DimensionValue.parse( value.toString( ) );
 		try
 		{
 			ExtendedItemHandle handle = (ExtendedItemHandle) DEUtil.getInputFirstElement( input );
