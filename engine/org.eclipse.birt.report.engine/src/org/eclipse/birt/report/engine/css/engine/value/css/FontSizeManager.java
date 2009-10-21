@@ -192,6 +192,7 @@ public class FontSizeManager extends AbstractLengthManager {
 					Value fontSize = (Value)style.getProperty(IStyle.STYLE_FONT_SIZE);
 					if (fontSize != null) {
 						fs = fontSize.getFloatValue();
+						return new FloatValue( fontSize.getPrimitiveType( ), fs * scale );
 					}
 				}
 			}
