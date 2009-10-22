@@ -2545,6 +2545,7 @@ Element.Style.background=±³¾°
 Element.Style.background.attachment=±³¾°¸½¼þ
 Element.Style.background.color=±³¾°É«
 Element.Style.background.image=±³¾°Í¼Ïñ
+Element.Style.background.imageType=Background image type
 Element.Style.background.positionX=Ë®Æ½Î»ÖÃ
 Element.Style.background.positionY=´¹Ö±Î»ÖÃ
 Element.Style.background.repeat=±³¾°ÖØ¸´

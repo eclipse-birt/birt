@@ -2545,6 +2545,7 @@ Element.Style.background=Arrière-plan
 Element.Style.background.attachment=Pièce jointe d'arrière-plan
 Element.Style.background.color=Couleur d'arrière-plan
 Element.Style.background.image=Image d'arrière-plan
+Element.Style.background.imageType=Background image type
 Element.Style.background.positionX=Position horizontale
 Element.Style.background.positionY=Position verticale
 Element.Style.background.repeat=Répétition de l'arrière-plan

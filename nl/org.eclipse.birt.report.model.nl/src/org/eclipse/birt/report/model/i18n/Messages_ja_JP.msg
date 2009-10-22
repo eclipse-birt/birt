@@ -2545,6 +2545,7 @@ Element.Style.background=”wŒi
 Element.Style.background.attachment=”wŒi‚Ì“Y•t
 Element.Style.background.color=”wŒiF
 Element.Style.background.image=”wŒiƒCƒ[ƒW
+Element.Style.background.imageType=Background image type
 Element.Style.background.positionX=¶‰E‚ÌˆÊ’u
 Element.Style.background.positionY=ã‰º‚ÌˆÊ’u
 Element.Style.background.repeat=”wŒi‚ğŒJ‚è•Ô‚·

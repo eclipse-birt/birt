@@ -2545,6 +2545,7 @@ Element.Style.background=배경
 Element.Style.background.attachment=배경 첨부
 Element.Style.background.color=배경색
 Element.Style.background.image=배경 이미지
+Element.Style.background.imageType=Background image type
 Element.Style.background.positionX=가로 위치
 Element.Style.background.positionY=세로 위치
 Element.Style.background.repeat=배경 반복

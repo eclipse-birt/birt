@@ -2545,6 +2545,7 @@ Element.Style.background=Hintergrund
 Element.Style.background.attachment=Hintergrundanlage
 Element.Style.background.color=Hintergrundfarbe
 Element.Style.background.image=Hindergrundbild
+Element.Style.background.imageType=Background image type
 Element.Style.background.positionX=Horizontale Position
 Element.Style.background.positionY=Vertikale Position
 Element.Style.background.repeat=Hintergrundwiederholung
