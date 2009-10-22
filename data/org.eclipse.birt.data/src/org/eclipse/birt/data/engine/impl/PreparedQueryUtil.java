@@ -848,6 +848,7 @@ public class PreparedQueryUtil
 abstract class DataSetAdapter implements IBaseDataSetDesign
 {
 	private List computedColumns;
+	private List filters;
 	private IBaseDataSetDesign source;
 
 	public DataSetAdapter( IBaseDataSetDesign source )
@@ -858,6 +859,11 @@ abstract class DataSetAdapter implements IBaseDataSetDesign
 	    {
 	    	this.computedColumns.addAll( this.source.getComputedColumns( ) );
 	    }
+		this.filters = new ArrayList( );
+		if ( this.source.getFilters( ) != null )
+		{
+			this.filters.addAll( this.source.getFilters( ) );
+		}
 	}
 	public String getAfterCloseScript( )
 	{
@@ -897,7 +903,7 @@ abstract class DataSetAdapter implements IBaseDataSetDesign
 	}
 	public List getFilters( )
 	{
-		return this.source.getFilters( );
+		return this.filters;
 	}
 	public Collection getInputParamBindings( )
 	{
