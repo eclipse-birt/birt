@@ -720,7 +720,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		targetLabel = new Label( parentControl, SWT.NONE );
 		targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
-		
+
 		comboGroupLevel = new Combo( parentControl, SWT.READ_ONLY );
 		comboGroupLevel.setLayoutData( GridDataFactory.swtDefaults( ).span( 2,
 				1 ).hint( 295, SWT.DEFAULT ).create( ) );
@@ -2470,7 +2470,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-			if ( target instanceof LevelViewHandle || target instanceof String)
+			if ( target instanceof LevelViewHandle || target instanceof String )
 			{
 				retList = session.getCubeQueryUtil( )
 						.getReferableBindings( targetString,
@@ -2928,54 +2928,47 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						.getDisplay( )
 						.getActiveShell( ),
 						input );
-				if ( groupBtn.getSelection( ) )
-				{
-					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
-				}
-				else
-				{
-					dialog.setExpressionProvier( new CrosstabExpressionProvider( designHandle,
-							null ) {
+				dialog.setExpressionProvier( new CrosstabExpressionProvider( designHandle,
+						null ) {
 
-						protected List getChildrenList( Object parent )
+					protected List getChildrenList( Object parent )
+					{
+						if ( parent instanceof TabularDimensionHandle )
 						{
-							if ( parent instanceof TabularDimensionHandle )
-							{
-								TabularDimensionHandle handle = (TabularDimensionHandle) parent;
-								return Arrays.asList( new TabularDimensionNodeProvider( ).getChildren( handle ) );
-							}
-							else if ( parent instanceof TabularLevelHandle )
-							{
-								TabularLevelHandle handle = (TabularLevelHandle) parent;
-								return Arrays.asList( new TabularLevelNodeProvider( ).getChildren( handle ) );
-							}
-							return super.getChildrenList( parent );
+							TabularDimensionHandle handle = (TabularDimensionHandle) parent;
+							return Arrays.asList( new TabularDimensionNodeProvider( ).getChildren( handle ) );
 						}
-
-						protected void addFilterToProvider( )
+						else if ( parent instanceof TabularLevelHandle )
 						{
-							addFilter( new ExpressionFilter( ) {
+							TabularLevelHandle handle = (TabularLevelHandle) parent;
+							return Arrays.asList( new TabularLevelNodeProvider( ).getChildren( handle ) );
+						}
+						return super.getChildrenList( parent );
+					}
 
-								public boolean select( Object parentElement,
-										Object element )
+					protected void addFilterToProvider( )
+					{
+						addFilter( new ExpressionFilter( ) {
+
+							public boolean select( Object parentElement,
+									Object element )
+							{
+								if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
+										&& ( element instanceof PropertyHandle ) )
 								{
-									if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
-											&& ( element instanceof PropertyHandle ) )
+									PropertyHandle handle = (PropertyHandle) element;
+									if ( handle.getPropertyDefn( )
+											.getName( )
+											.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 									{
-										PropertyHandle handle = (PropertyHandle) element;
-										if ( handle.getPropertyDefn( )
-												.getName( )
-												.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-										{
-											return false;
-										}
+										return false;
 									}
-									return true;
 								}
-							} );
-						}
-					} );
-				}
+								return true;
+							}
+						} );
+					}
+				} );
 				if ( dialog.open( ) == IDialogConstants.OK_ID )
 				{
 					retValue = dialog.getResult( );
