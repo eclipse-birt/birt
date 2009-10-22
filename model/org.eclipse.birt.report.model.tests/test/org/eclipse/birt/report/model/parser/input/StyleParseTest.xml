@@ -7,6 +7,7 @@
             <property name="backgroundAttachment">scroll</property>
             <property name="backgroundColor">red</property>
             <property name="backgroundImage">file</property>
+            <property name="backgroundImageType">embed</property>
             <property name="backgroundPositionX">center</property>
             <property name="backgroundPositionY">top</property>
             <property name="backgroundRepeat">repeat</property>

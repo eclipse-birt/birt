@@ -2091,4 +2091,39 @@ public abstract class StyleHandle extends ReportElementHandle
 		return getDimensionProperty( IStyleModel.BACKGROUND_SIZE_WIDTH );
 	}
 
+	/**
+	 * Returns the type of the background image. The method may return one of
+	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>IMAGE_REF_TYPE_URL</code>
+	 * <li><code>IMAGE_REF_TYPE_EMBED</code>
+	 * </ul>
+	 * 
+	 * @return the type of the background image as a string
+	 */
+
+	public String getBackgroundImageType( )
+	{
+		return getStringProperty( IStyleModel.BACKGROUND_IMAGE_TYPE_PROP );
+	}
+
+	/**
+	 * Sets the type of the background image. The value should be one of
+	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>IMAGE_REF_TYPE_URL</code>
+	 * <li><code>IMAGE_REF_TYPE_EMBED</code>
+	 * </ul>
+	 * 
+	 * @param type
+	 *            the new type of the background image
+	 * @throws SemanticException
+	 *             if the given type is not defined
+	 */
+
+	public void setBackgroundImageType( String type ) throws SemanticException
+	{
+		setStringProperty( IStyleModel.BACKGROUND_IMAGE_TYPE_PROP, type );
+	}
+
 }

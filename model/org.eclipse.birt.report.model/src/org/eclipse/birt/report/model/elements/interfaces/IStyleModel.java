@@ -22,6 +22,7 @@ public interface IStyleModel
 	public static final String BACKGROUND_ATTACHMENT_PROP = "backgroundAttachment"; //$NON-NLS-1$
 	public static final String BACKGROUND_COLOR_PROP = "backgroundColor"; //$NON-NLS-1$
 	public static final String BACKGROUND_IMAGE_PROP = "backgroundImage"; //$NON-NLS-1$
+	public static final String BACKGROUND_IMAGE_TYPE_PROP = "backgroundImageType"; //$NON-NLS-1$
 	public static final String BACKGROUND_POSITION_X_PROP = "backgroundPositionX"; //$NON-NLS-1$
 	public static final String BACKGROUND_POSITION_Y_PROP = "backgroundPositionY"; //$NON-NLS-1$
 	public static final String BACKGROUND_REPEAT_PROP = "backgroundRepeat"; //$NON-NLS-1$

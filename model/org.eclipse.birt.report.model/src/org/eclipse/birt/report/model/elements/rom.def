@@ -2103,6 +2103,10 @@
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.background.color" isStyleProperty="true" name="backgroundColor" since="1.0" type="color"/>
       <Property canInherit="false" displayNameID="Element.Style.background.image" isStyleProperty="true" name="backgroundImage" since="reserved" type="uri"/>
+      <Property canInherit="false" detailType="imageRefType" displayNameID="Element.Style.background.imageType" isStyleProperty="true" name="backgroundImageType" since="2.5.2" type="choice">
+      	<Allowed>url,embed</Allowed>
+      	<Default>url</Default>
+      </Property>
       <Property canInherit="false" detailType="backgroundPositionX" displayNameID="Element.Style.background.positionX" isStyleProperty="true" name="backgroundPositionX" since="reserved" type="dimension">
 		<DefaultUnit>%</DefaultUnit>      
         <Default>0</Default>		        

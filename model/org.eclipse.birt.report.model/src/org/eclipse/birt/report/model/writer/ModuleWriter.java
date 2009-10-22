@@ -2627,6 +2627,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IStyleModel.BACKGROUND_ATTACHMENT_PROP );
 		property( obj, IStyleModel.BACKGROUND_COLOR_PROP );
 		property( obj, IStyleModel.BACKGROUND_IMAGE_PROP );
+		property( obj, IStyleModel.BACKGROUND_IMAGE_TYPE_PROP );
 		property( obj, IStyleModel.BACKGROUND_POSITION_X_PROP );
 		property( obj, IStyleModel.BACKGROUND_POSITION_Y_PROP );
 		property( obj, IStyleModel.BACKGROUND_REPEAT_PROP );

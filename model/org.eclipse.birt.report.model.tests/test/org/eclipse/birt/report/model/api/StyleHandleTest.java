@@ -85,6 +85,21 @@ public class StyleHandleTest extends BaseTestCase
 		styleHandle.setBackgroundImage( "image1" ); //$NON-NLS-1$
 		assertEquals( "image1", styleHandle.getBackgroundImage( ) ); //$NON-NLS-1$
 
+		styleHandle.setBackgroundImageType( DesignChoiceConstants.IMAGE_REF_TYPE_URL );
+		assertEquals( DesignChoiceConstants.IMAGE_REF_TYPE_URL, 
+				styleHandle.getBackgroundImageType( ) );
+		try {
+			styleHandle.setBackgroundImageType( "NonDefindedType" ); //$NON-NLS-1$
+			fail();
+		}
+		catch (SemanticException e) 
+		{
+			assertEquals( PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
+					e.getErrorCode( ) );
+		}
+		assertEquals( DesignChoiceConstants.IMAGE_REF_TYPE_URL, 
+				styleHandle.getBackgroundImageType( ) );
+
 		styleHandle
 				.setBackgroundRepeat( DesignChoiceConstants.BACKGROUND_REPEAT_NO_REPEAT );
 		assertEquals( DesignChoiceConstants.BACKGROUND_REPEAT_NO_REPEAT,
@@ -108,8 +123,8 @@ public class StyleHandleTest extends BaseTestCase
 		}
 		catch ( PropertyValueException e )
 		{
-			assertEquals( e.getErrorCode( ),
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
+			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					e.getErrorCode( ) );
 		}
 
 		colorHandle = styleHandle.getBorderLeftColor( );

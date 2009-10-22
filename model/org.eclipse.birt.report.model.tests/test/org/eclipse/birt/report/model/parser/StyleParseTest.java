@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.FontHandle;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
@@ -335,6 +334,8 @@ public class StyleParseTest extends BaseTestCase
 				"red", style.getStringProperty( design, Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"file", style.getStringProperty( design, Style.BACKGROUND_IMAGE_PROP ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED, style.
+				getStringProperty( design, Style.BACKGROUND_IMAGE_TYPE_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"center", style.getStringProperty( design, Style.BACKGROUND_POSITION_X_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -713,12 +714,13 @@ public class StyleParseTest extends BaseTestCase
 				.setNumberFormat( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC );
 
 		style.setTextDirection( DesignChoiceConstants.BIDI_DIRECTION_LTR );
-
+		style.setBackgroundImageType( DesignChoiceConstants.IMAGE_REF_TYPE_URL );
+		
 		DimensionHandle handle = style.getBackgroundSizeHeight( );
 		handle.setStringValue( "19pt" ); //$NON-NLS-1$
 		handle = style.getBackgroundSizeWidth( );
 		handle.setStringValue( "0.5in" ); //$NON-NLS-1$
-
+		
 		DataItemHandle label = (DataItemHandle) designHandle
 				.findElement( "my data 2" ); //$NON-NLS-1$
 		style = label.getPrivateStyle( );
