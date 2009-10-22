@@ -21,7 +21,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
@@ -60,7 +59,6 @@ class DataSource implements IDataSource
 	private static Logger logger = Logger.getLogger( className ); 
 
 	private DataEngineSession session;
-	private IQueryContextVisitor contextVisitor;
 	/**
 	 * 
 	 * @param driverName
@@ -69,7 +67,7 @@ class DataSource implements IDataSource
 	 * @param info
 	 */
     public DataSource( String driverName, Map connProperties,
-			DataEngineSession session, IQueryContextVisitor contextVisitor )
+			DataEngineSession session )
 	{
     	this.driverName = driverName;
     	if ( connProperties != null )
@@ -78,7 +76,6 @@ class DataSource implements IDataSource
     	this.session = session;
     	
     	this.session.getEngine( ).addShutdownListener( new ShutdownListener( session ));
-    	this.contextVisitor = contextVisitor;
 	}
     private class ShutdownListener implements IShutdownListener
     {
@@ -220,7 +217,7 @@ class DataSource implements IDataSource
     /*
      * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String, java.lang.String)
      */
-    public IDataSourceQuery newQuery(String queryType, String queryText, boolean fromCache ) throws DataException
+    public IDataSourceQuery newQuery(String queryType, String queryText, boolean fromCache, IQueryContextVisitor qcv ) throws DataException
     {
     	if ( fromCache )
 		{
@@ -231,7 +228,9 @@ class DataSource implements IDataSource
 			return new DataSourceQuery( this,
 					queryType,
 					queryText,
-					this.session );
+					this.session, 
+					qcv);
+			
 		}
     }
 
@@ -330,10 +329,6 @@ class DataSource implements IDataSource
 		thread.start( );
 	}
     
-    public IQueryContextVisitor getQueryContextVisitor( )
-    {
-    	return this.contextVisitor;
-    }
     /*
 	 * @see java.lang.Object#finalize()
 	 */

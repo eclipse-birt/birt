@@ -15,7 +15,6 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
 
@@ -60,7 +59,7 @@ public class DataSourceFactory implements IDataSourceFactory
 	public IDataSource getEmptyDataSource( DataEngineSession session )
 	{
 		// TODO: connection pooling
-		return new DataSource( null, null, session, null );
+		return new DataSource( null, null, session );
 	}
 	
 	/*
@@ -70,9 +69,9 @@ public class DataSourceFactory implements IDataSourceFactory
 	 *      org.eclipse.birt.data.engine.api.IBaseDataSetDesign,
 	 *      java.util.Collection, int, int)
 	 */
-	public IDataSource getDataSource( String driverName, Map connProperties, DataEngineSession session, IQueryContextVisitor contextVisitor ) throws DataException
+	public IDataSource getDataSource( String driverName, Map connProperties, DataEngineSession session) throws DataException
 	{
-			return new DataSource( driverName, connProperties, session, contextVisitor );
+			return new DataSource( driverName, connProperties, session );
 	}
 
 }

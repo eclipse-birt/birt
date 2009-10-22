@@ -113,7 +113,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			return DataSourceFactory.getFactory( )
 					.getDataSource( null,
 							null,
-							self.dataEngine.getSession( ), this.contextVisitor);
+							self.dataEngine.getSession( ));
 		}
 	
 		/*

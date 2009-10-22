@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ICancellable;
+import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
 import org.eclipse.birt.data.engine.impl.QueryContextVisitorUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
@@ -164,6 +165,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private ArrayList propValues;
 	
 	private DataEngineSession session;
+	
+	private IQueryContextVisitor qcv;
 
 	/**
 	 * Constructor. 
@@ -172,12 +175,13 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * @param queryType
 	 * @param queryText
 	 */
-    DataSourceQuery( DataSource dataSource, String queryType, String queryText, DataEngineSession session )
+    DataSourceQuery( DataSource dataSource, String queryType, String queryText, DataEngineSession session, IQueryContextVisitor qcv )
     {
         this.dataSource = dataSource;
         this.queryText = queryText;
         this.queryType = queryType;
         this.session = session;
+        this.qcv = qcv;
     }
 
     /*
@@ -765,7 +769,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	this.session.getCancelManager( ).register( queryCanceller );
 		
 		odaStatement.execute( );
-		QueryContextVisitorUtil.populateEffectiveQueryText( dataSource.getQueryContextVisitor( ),
+		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
 				odaStatement.getEffectiveQueryText( ) );
 		
 		if ( queryCanceller.collectException( ) != null )

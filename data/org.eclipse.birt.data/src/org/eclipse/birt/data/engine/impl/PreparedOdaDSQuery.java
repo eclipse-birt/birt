@@ -240,7 +240,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			return DataSourceFactory.getFactory( )
 					.getDataSource( driverName,
 							driverProps,
-							self.dataEngine.getSession( ), this.contextVisitor);
+							self.dataEngine.getSession( ));
 		}
 		
 		/*
@@ -258,13 +258,13 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			//Do not use cached DataSourceQuery when there is push-down operation
 			if ( querySpec != null )
 			{
-				odiQuery = odiDataSource.newQuery( dataSetType, dataText, false );
+				odiQuery = odiDataSource.newQuery( dataSetType, dataText, false, this.contextVisitor );
 			}
 			else
 			{
 				odiQuery = odiDataSource.newQuery( dataSetType,
 						dataText,
-						this.fromCache( ) );
+						this.fromCache( ), this.contextVisitor );
 			}
 
 			if ( odiQuery instanceof IPreparedDSQuery )

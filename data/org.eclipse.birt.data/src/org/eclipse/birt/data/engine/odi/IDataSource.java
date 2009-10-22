@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.odi;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
 
 /**
  *	Data source that represents underlying physical
@@ -91,7 +92,7 @@ public interface IDataSource
      * @return			A new query instance.
      * @throws DataException	if specified query definition has error(s).
      */
-	public IDataSourceQuery newQuery( String queryType, String queryText, boolean fromCache ) 
+	public IDataSourceQuery newQuery( String queryType, String queryText, boolean fromCache, IQueryContextVisitor qcv ) 
 					throws DataException;
 
     /**

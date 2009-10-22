@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.DataSourceRuntime;
+import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
 import org.eclipse.birt.data.engine.impl.QueryExecutor;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -75,7 +76,7 @@ public class NewInstanceHelper
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String,
 			 *      java.lang.String)
 			 */
-			public IDataSourceQuery newQuery( String queryType, String queryText, boolean fromCache )
+			public IDataSourceQuery newQuery( String queryType, String queryText, boolean fromCache, IQueryContextVisitor qcv )
 					throws DataException
 			{
 				return null;
