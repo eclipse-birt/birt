@@ -73,7 +73,7 @@ public class MoveResourceAction extends ResourceAction
 			return;
 		}
 
-		SelectionDialog dialog = new MoveResourceDialog( );
+		SelectionDialog dialog = new MoveResourceDialog( files );
 
 		if ( dialog.open( ) == Window.OK )
 		{
