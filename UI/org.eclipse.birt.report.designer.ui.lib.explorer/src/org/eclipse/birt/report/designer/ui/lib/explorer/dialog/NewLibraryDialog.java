@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -84,7 +85,9 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang.Object[])
+		 * @see
+		 * org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang
+		 * .Object[])
 		 */
 		public IStatus validate( Object[] selection )
 		{
@@ -106,8 +109,7 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 			{
 				return ErrorStatus;
 			}
-			
-			
+
 			return OKStatus;
 		}
 	}
@@ -123,7 +125,7 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 	public String getFileName( )
 	{
 		return filename;
-//		return text.getText( ).trim( ).toLowerCase( );
+		// return text.getText( ).trim( ).toLowerCase( );
 	}
 
 	public NewLibraryDialog( File defaultLibrary )
@@ -142,7 +144,9 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -163,12 +167,14 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+			 * @see
+			 * org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.
+			 * swt.events.ModifyEvent)
 			 */
 			public void modifyText( ModifyEvent e )
 			{
-				updateOKStatus( );
 				filename = text.getText( ).trim( ).toLowerCase( );
+				updateOKStatus( );
 			}
 		} );
 
@@ -239,4 +245,25 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 		}
 		return null;
 	}
+
+	@Override
+	protected void okPressed( )
+	{
+		String path = getPath( );
+
+		if ( path != null )
+		{
+			File file = new File( path );
+			if ( file.exists( )
+					&& !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
+							"Question",
+							Messages.getFormattedString( "NewResourceFileDialog.FileExists",
+									new String[]{
+										file.getName( )
+									} ) ) )
+				return;
+		}
+		super.okPressed( );
+	}
+
 }
