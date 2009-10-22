@@ -530,8 +530,15 @@ public class DateFormatter
 			return ( (SimpleDateFormat) dateFormat ).toPattern( );
 		}
 			
-		SimpleDateFormat dateFormat = getFormatter();
-		return dateFormat.toPattern();
+		SimpleDateFormat format = getFormatter( );
+		if ( format == null )
+		{
+			return ( (SimpleDateFormat) dateFormat ).toPattern( );
+		}
+		else
+		{
+			return format.toPattern( );
+		}
 	}
 	
 	/**
@@ -546,8 +553,15 @@ public class DateFormatter
 			return ( (SimpleDateFormat) dateFormat ).toLocalizedPattern( );
 		}
 			
-		SimpleDateFormat dateFormat = getFormatter();
-		return dateFormat.toLocalizedPattern();
+		SimpleDateFormat format = getFormatter( );
+		if ( format == null )
+		{
+			return ( (SimpleDateFormat) dateFormat ).toPattern( );
+		}
+		else
+		{
+			return format.toLocalizedPattern( );
+		}
 	}
 
 	/**
