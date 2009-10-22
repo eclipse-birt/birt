@@ -20,6 +20,8 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.script.CoreJavaScriptWrapper;
 import org.eclipse.birt.core.script.ICompiledScript;
@@ -272,6 +274,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 			ICompiledScript compiledScript ) throws BirtException
 	{
 		assert ( compiledScript instanceof CompiledJavascript );
+		String source = ( (CompiledJavascript) compiledScript ).getScriptText( );
 		try
 		{
 			Script script = ( (CompiledJavascript) compiledScript )
@@ -281,7 +284,8 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 		}
 		catch ( Throwable e )
 		{
-			throw new BirtException( e.getLocalizedMessage( ) );
+			throw new CoreException( ResourceConstants.JAVASCRIPT_COMMON_ERROR,
+					new Object[]{source, e.getMessage( )}, e );
 		}
 	}
 
