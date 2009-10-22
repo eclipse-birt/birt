@@ -142,6 +142,9 @@ public class BufferedStructureArray implements IDiskArray
 		bufferPos = 0;
 		Arrays.fill( buffer, null );
 		if ( diskList != null )
+		{
 			diskList.clear( );
+			diskList = null;
+		}
 	}
 }
