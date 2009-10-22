@@ -1730,7 +1730,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		else
 		{
 			qd = new ChartCubeQueryHelper( itemHandle,
-				cm ).createCubeQuery( null );
+					cm,
+					session.getModelAdaptor( ) ).createCubeQuery( null );
 		}
 
 		if ( needDefineCube( cube ) )

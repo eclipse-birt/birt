@@ -846,10 +846,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					{
 						IExpressionProvider exprProvider = new ChartCubeFilterExpressionProvider( designHandle,
 								fExprMap.values( ).toArray( new String[]{} ) );
-						dialog.setExpressionProvier( exprProvider );
+						dialog.setExpressionProvider( exprProvider );
 					}
 					else
-						dialog.setExpressionProvier( expressionProvider );
+						dialog.setExpressionProvider( expressionProvider );
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
@@ -1146,9 +1146,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					if ( designHandle != null )
 					{
 						if ( expressionProvider == null )
-							expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+							expressionBuilder.setExpressionProvider( new ExpressionProvider( designHandle ) );
 						else
-							expressionBuilder.setExpressionProvier( expressionProvider );
+							expressionBuilder.setExpressionProvider( expressionProvider );
 					}
 
 					if ( expressionBuilder.open( ) == OK )
@@ -1880,7 +1880,8 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
 			}
 			ChartCubeQueryHelper ccqh = new ChartCubeQueryHelper( (ExtendedItemHandle) designHandle,
-					cm );
+					cm,
+					session.getModelAdaptor( ) );
 			// The equivalent expressions mean the expression is not used by
 			// chart model, it needs to add the binding into cube query.
 			String expr = getExpression( expression.getText( ) );
