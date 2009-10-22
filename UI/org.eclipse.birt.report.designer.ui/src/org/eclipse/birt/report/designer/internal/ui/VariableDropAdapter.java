@@ -54,9 +54,13 @@ public class VariableDropAdapter implements IDropAdapter
 					|| editPart.getModel( ) instanceof DesignElementHandle
 					|| ( editPart.getModel( ) instanceof SlotHandle && ( ( (SlotHandle) editPart.getModel( ) ).getSlotID( ) == ISimpleMasterPageModel.PAGE_HEADER_SLOT || ( (SlotHandle) editPart.getModel( ) ).getSlotID( ) == ISimpleMasterPageModel.PAGE_FOOTER_SLOT ) ) )
 			{
-				if ( editPart.getModel( ) instanceof SlotHandle
-						&& ( (SlotHandle) editPart.getModel( ) ).getCount( ) > 0 )
-					return DNDService.LOGIC_FALSE;
+				if ( editPart.getModel( ) instanceof SlotHandle )
+				{
+					if ( ( (SlotHandle) editPart.getModel( ) ).getCount( ) > 0 )
+						return DNDService.LOGIC_FALSE;
+					else
+						return DNDService.LOGIC_TRUE;
+				}
 				if ( ( (VariableElementHandle) transfer ).getType( )
 						.equals( DesignChoiceConstants.VARIABLE_TYPE_REPORT ) )
 					return DNDService.LOGIC_TRUE;
