@@ -1409,7 +1409,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		if ( !file.isAbsolute( ) )
 		{
-			if ( project != null )
+			if ( project != null && project.getLocation( ) != null )
 			{
 				resourceFolder = project.getLocation( )
 						.append( resourceFolder )
@@ -1417,7 +1417,8 @@ public class ReportPlugin extends AbstractUIPlugin
 			}
 			else
 			{
-				if ( !resourceFolder.startsWith( File.separator ) )
+				if ( resourceFolder != null
+						&& !resourceFolder.startsWith( File.separator ) )
 				{
 					resourceFolder = File.separator + resourceFolder;
 				}
