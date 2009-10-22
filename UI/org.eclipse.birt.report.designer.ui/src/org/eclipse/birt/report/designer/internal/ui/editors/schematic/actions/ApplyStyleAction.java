@@ -120,7 +120,9 @@ public class ApplyStyleAction extends DynamicItemAction
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
-
+		
+		CommandUtils.removeVariable( ICommandParameterNameContants.STYLE_HANDLE_NAME );
+		CommandUtils.removeVariable( ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED );
 	}
 
 	/**
