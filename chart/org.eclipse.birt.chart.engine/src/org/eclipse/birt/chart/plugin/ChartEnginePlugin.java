@@ -15,7 +15,9 @@ import org.eclipse.birt.chart.computation.ChartComputationFactory;
 import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IChartComputationFactory;
 import org.eclipse.birt.chart.device.IImageWriterFactory;
+import org.eclipse.birt.chart.device.IScriptMenuHelper;
 import org.eclipse.birt.chart.device.ImageWriterFactory;
+import org.eclipse.birt.chart.device.ScriptMenuHelper;
 import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
 import org.eclipse.birt.chart.model.IChartModelHelper;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
@@ -43,6 +45,16 @@ public class ChartEnginePlugin extends Plugin
 		initChartComputation( this );
 		initImageWriterFactory( this );
 		initChartModelHelper( this );
+		initChartScriptMenuHelper( this );
+	}
+
+	private static void initChartScriptMenuHelper( ChartEnginePlugin plugin )
+	{
+		IScriptMenuHelper factory = ChartUtil.getAdapter( plugin, IScriptMenuHelper.class );
+		if ( factory != null )
+		{
+			ScriptMenuHelper.initInstance( factory );
+		}
 	}
 
 	private static void initChartComputation( ChartEnginePlugin plugin )

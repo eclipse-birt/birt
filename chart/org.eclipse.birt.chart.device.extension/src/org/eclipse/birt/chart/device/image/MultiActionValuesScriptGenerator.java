@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.eclipse.birt.chart.device.IScriptMenuHelper;
+import org.eclipse.birt.chart.device.ScriptMenuHelper;
 import org.eclipse.birt.chart.device.util.CSSHelper;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -30,7 +32,6 @@ import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.emf.common.util.EMap;
 
 /**
@@ -45,6 +46,7 @@ public class MultiActionValuesScriptGenerator
 	
 	private static String MENU_JS_CODE;
 	
+	private static IScriptMenuHelper SCRIPT_MENU_HELPER = ScriptMenuHelper.instance( );
 	/**
 	 * Returns javascript content.
 	 * 
@@ -172,13 +174,7 @@ public class MultiActionValuesScriptGenerator
 			sb.append( "\t mii = new BirtChartMenuItemInfo();\n" );//$NON-NLS-1$
 		}
 
-		sb.append( "\t mii.text = '" + sv.getLabel( ).getCaption( ).getValue( ) + "';\n" );//$NON-NLS-1$//$NON-NLS-2$
-		sb.append( "\t mii.actionType = BirtChartInteractivityActions.INVOKE_SCRIPTS;\n" ); //$NON-NLS-1$
-		String script = sv.getScript( );
-		sb.append( "\t mii.actionValue = " + JavascriptEvalUtil.transformToJsExpression( script ) + ";\n" ); //$NON-NLS-1$//$NON-NLS-2$
-
-		sb.append( "\t menuInfo.addItemInfo(mii);\n" ); //$NON-NLS-1$
-
+		sb.append( SCRIPT_MENU_HELPER.getScriptValueJS( index, sv ) );
 		return sb;
 	}
 	 
