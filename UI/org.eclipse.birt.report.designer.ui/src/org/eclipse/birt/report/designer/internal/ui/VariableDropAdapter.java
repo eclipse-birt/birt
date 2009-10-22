@@ -20,16 +20,16 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -51,8 +51,12 @@ public class VariableDropAdapter implements IDropAdapter
 		{
 			EditPart editPart = (EditPart) target;
 			if ( editPart.getModel( ) instanceof ReportDesignHandle
-					|| editPart.getModel( ) instanceof DesignElementHandle )
+					|| editPart.getModel( ) instanceof DesignElementHandle
+					|| ( editPart.getModel( ) instanceof SlotHandle && ( ( (SlotHandle) editPart.getModel( ) ).getSlotID( ) == ISimpleMasterPageModel.PAGE_HEADER_SLOT || ( (SlotHandle) editPart.getModel( ) ).getSlotID( ) == ISimpleMasterPageModel.PAGE_FOOTER_SLOT ) ) )
 			{
+				if ( editPart.getModel( ) instanceof SlotHandle
+						&& ( (SlotHandle) editPart.getModel( ) ).getCount( ) > 0 )
+					return DNDService.LOGIC_FALSE;
 				if ( ( (VariableElementHandle) transfer ).getType( )
 						.equals( DesignChoiceConstants.VARIABLE_TYPE_REPORT ) )
 					return DNDService.LOGIC_TRUE;
