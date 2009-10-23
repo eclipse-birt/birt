@@ -3293,6 +3293,7 @@ Element.DynamicFilterParameter.filterOperator=演算子
 Element.DynamicFilterParameter.column=列
 Element.DynamicFilterParameter.defaultValue=デフォルト値
 Element.DynamicFilterParameter.nativeDataType=ネイティブのデータ型
+Element.DynamicFilterParameter.defaultOperator=Default operator
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=タブ

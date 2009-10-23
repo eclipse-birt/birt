@@ -3293,6 +3293,7 @@ Element.DynamicFilterParameter.filterOperator=Opérateur filtre
 Element.DynamicFilterParameter.column=Colonne
 Element.DynamicFilterParameter.defaultValue=Valeur par défaut
 Element.DynamicFilterParameter.nativeDataType=Type de données natives
+Element.DynamicFilterParameter.defaultOperator=Default operator
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Onglets
