@@ -23,6 +23,8 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -50,19 +52,31 @@ public class VariableDropAdapter implements IDropAdapter
 				&& target instanceof EditPart )
 		{
 			EditPart editPart = (EditPart) target;
+			editPart.getRoot( ).getModel( );
 			if ( editPart.getModel( ) instanceof ReportDesignHandle
 					|| editPart.getModel( ) instanceof DesignElementHandle
-					|| ( editPart.getModel( ) instanceof SlotHandle && ( ( (SlotHandle) editPart.getModel( ) ).getSlotID( ) == ISimpleMasterPageModel.PAGE_HEADER_SLOT || ( (SlotHandle) editPart.getModel( ) ).getSlotID( ) == ISimpleMasterPageModel.PAGE_FOOTER_SLOT ) ) )
+					|| ( editPart.getModel( ) instanceof SlotHandle ) )
 			{
 				if ( editPart.getModel( ) instanceof SlotHandle )
 				{
-					if ( ( (SlotHandle) editPart.getModel( ) ).getCount( ) > 0 )
-						return DNDService.LOGIC_FALSE;
-					else
+					int slot_id = ( (SlotHandle) editPart.getModel( ) ).getSlotID( );
+					if ( slot_id == ISimpleMasterPageModel.PAGE_HEADER_SLOT
+							|| slot_id == ISimpleMasterPageModel.PAGE_FOOTER_SLOT )
+					{
+						if ( ( (SlotHandle) editPart.getModel( ) ).getCount( ) > 0 )
+							return DNDService.LOGIC_FALSE;
+						else
+							return DNDService.LOGIC_TRUE;
+					}
+					else if ( slot_id == ISimpleMasterPageModel.PAGE_HEADER_SLOT )
+					{
 						return DNDService.LOGIC_TRUE;
+					}
 				}
-				if ( ( (VariableElementHandle) transfer ).getType( )
-						.equals( DesignChoiceConstants.VARIABLE_TYPE_REPORT ) )
+				// variable can drop to gridin master page, bug 293121
+				if ( getMasterPageHandle( editPart ) != null
+						|| ( (VariableElementHandle) transfer ).getType( )
+								.equals( DesignChoiceConstants.VARIABLE_TYPE_REPORT ) )
 					return DNDService.LOGIC_TRUE;
 				else
 					return DNDService.LOGIC_FALSE;
@@ -70,6 +84,17 @@ public class VariableDropAdapter implements IDropAdapter
 		}
 
 		return DNDService.LOGIC_UNKNOW;
+	}
+
+	private Object getMasterPageHandle( EditPart editPart )
+	{
+		if ( editPart == null )
+			return null;
+		if ( editPart.getParent( ) != null
+				&& ( editPart.getParent( ).getModel( ) instanceof MasterPageHandle || editPart.getParent( )
+						.getModel( ) instanceof ModuleHandle ) )
+			return editPart.getParent( ).getModel( );
+		return getMasterPageHandle( editPart.getParent( ) );
 	}
 
 	public boolean performDrop( Object transfer, Object target, int operation,
