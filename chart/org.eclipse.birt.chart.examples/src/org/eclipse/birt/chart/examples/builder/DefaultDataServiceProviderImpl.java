@@ -252,4 +252,10 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	{
 		return null;
 	}
+
+	public void adaptExpressions( Chart cm )
+	{
+		// TODO Auto-generated method stub
+
+	}
 }
