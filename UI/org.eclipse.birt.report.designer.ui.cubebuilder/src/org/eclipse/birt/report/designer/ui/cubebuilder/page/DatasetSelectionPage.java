@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -124,7 +125,13 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				CommandStack stack = SessionHandleAdapter.getInstance( )
 						.getCommandStack( );
 				stack.startTrans( "" ); //$NON-NLS-1$
-				FilterListDialog dialog = new FilterListDialog( new FilterHandleProvider( ) );
+				
+				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter( builder,
+						FilterHandleProvider.class );
+				if ( provider == null )
+					provider = new FilterHandleProvider( );
+				
+				FilterListDialog dialog = new FilterListDialog( provider );
 				dialog.setInput( input );
 				if ( dialog.open( ) == Window.OK )
 				{

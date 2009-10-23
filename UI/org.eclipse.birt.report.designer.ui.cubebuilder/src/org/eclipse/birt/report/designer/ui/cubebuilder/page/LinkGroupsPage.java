@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNo
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -90,7 +91,13 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 				CommandStack stack = SessionHandleAdapter.getInstance( )
 						.getCommandStack( );
 				stack.startTrans( "" ); //$NON-NLS-1$
-				FilterListDialog dialog = new FilterListDialog( new FilterHandleProvider( ) );
+
+				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter( builder,
+						FilterHandleProvider.class );
+				if ( provider == null )
+					provider = new FilterHandleProvider( );
+
+				FilterListDialog dialog = new FilterListDialog( provider );
 				if ( editPart instanceof DatasetNodeEditPart )
 					dialog.setInput( (ReportElementHandle) ( editPart.getParent( ).getModel( ) ) );
 				else if ( editPart instanceof HierarchyNodeEditPart )
