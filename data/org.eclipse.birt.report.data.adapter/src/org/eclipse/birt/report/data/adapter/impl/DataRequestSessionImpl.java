@@ -86,6 +86,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
@@ -101,6 +102,8 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularLevelModel;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.mozilla.javascript.Scriptable;
 
@@ -1454,8 +1457,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 							DataSetIterator.ColumnMeta.UNKNOWN_TYPE );
 					meta.setDataType( DataType.STRING_TYPE );
 					metaList.add( meta );
-					query.addBinding( new Binding( meta.getName( ),
-							new ScriptExpression( level.getDisplayColumnName( ) ) ) );
+					ExpressionHandle displayExprHandle = level.getExpressionProperty( ITabularLevelModel.DISPLAY_COLUMN_NAME_PROP );
+					if( displayExprHandle != null )
+					{
+						query.addBinding( new Binding( meta.getName( ),
+							modelAdaptor.adaptJSExpression( displayExprHandle.getStringExpression( ), displayExprHandle.getType( ) ) ) );
+					}
 				}
 				
 				String levelName = DataSetIterator.createLevelName( dimName, level.getName( ));
@@ -1495,7 +1502,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException 
 	 * @throws AdapterException 
 	 */
-	private static void prepareMeasure( TabularCubeHandle cubeHandle,
+	private void prepareMeasure( TabularCubeHandle cubeHandle,
 			QueryDefinition query, List metaList ) throws AdapterException
 	{
 		try
@@ -1510,8 +1517,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 					MeasureHandle measure = (MeasureHandle) measures.get( j );
 					String function = measure.getFunction( );
 					String exprText = measure.getMeasureExpression( );
-					IScriptExpression expr = exprText != null
-							? new ScriptExpression( exprText ) : null;
+					ExpressionHandle measureExprHandle = measure.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP );
+					IScriptExpression expr = null;
+					if( exprText != null && measureExprHandle != null )
+					{
+						expr = modelAdaptor.adaptJSExpression( measureExprHandle.getStringExpression( ),
+									measureExprHandle.getType( ) );
+					}
 					if ( query.getGroups( ).size( ) > 0 )
 					{
 						Binding binding = new Binding( measure.getName( ), expr );
@@ -1638,7 +1650,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 		}
 	
-		DataRequestSessionImpl.prepareMeasure( cubeHandle, query, metaList );
+		session.prepareMeasure( cubeHandle, query, metaList );
 		DataRequestSessionImpl.popualteFilter( session, cubeHandle.filtersIterator( ), query );
 		return query;
 	}
