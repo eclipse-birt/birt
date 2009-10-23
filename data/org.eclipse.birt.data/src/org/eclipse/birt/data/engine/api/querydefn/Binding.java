@@ -85,7 +85,14 @@ public class Binding implements IBinding
 	
 	public void addArgument( String name, IBaseExpression expr )
 	{
-		this.argument.put( name, expr );
+		if( "Data Field".equals( name ) )
+		{
+			this.argument.put( "Expression", expr );
+		}
+		else
+		{
+			this.argument.put( name, expr );
+		}
 	}
 
 	/*
