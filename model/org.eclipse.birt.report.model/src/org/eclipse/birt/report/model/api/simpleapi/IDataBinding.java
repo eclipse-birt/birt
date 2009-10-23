@@ -74,7 +74,7 @@ public interface IDataBinding
 	 * 
 	 * @return data type of column binding
 	 */
-	
+
 	public String getDataType( );
 
 	/**
@@ -83,7 +83,7 @@ public interface IDataBinding
 	 * @param dataType
 	 * @exception ScriptException
 	 */
-	
+
 	public void setDataType( String dataType ) throws SemanticException;
 
 	/**
@@ -91,7 +91,7 @@ public interface IDataBinding
 	 * 
 	 * @return aggregateOn of column binding
 	 */
-	
+
 	public String getAggregateOn( );
 
 	/**
@@ -101,7 +101,7 @@ public interface IDataBinding
 	 *            aggregateOn of column binding.
 	 * @exception ScriptException
 	 */
-	
+
 	public void setAggregateOn( String on ) throws SemanticException;
 
 	/**
@@ -111,4 +111,22 @@ public interface IDataBinding
 	 */
 
 	public IStructure getStructure( );
+
+	/**
+	 * Gets the expression type of the column binding.
+	 * 
+	 * @return the expression type of the column binding.
+	 */
+	public String getExpressionType( );
+
+	/**
+	 * Sets the expression type of the column binding.
+	 * 
+	 * @param expressionType
+	 *            the expression type of the column binding.
+	 * @throws SemanticException
+	 */
+	public void setExpressionType( String expressionType )
+			throws SemanticException;
+
 }

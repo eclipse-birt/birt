@@ -59,6 +59,22 @@ public interface IDataBinding
 	public void setExpression( String expression ) throws ScriptException;
 
 	/**
+	 * Gets the expression type of the column binding.
+	 * 
+	 * @return the expression type of the column binding.
+	 */
+	public String getExpressionType( );
+
+	/**
+	 * Sets the expression type of the column binding.
+	 * 
+	 * @param type
+	 *            the expression type of the column binding.
+	 * @throws ScriptException
+	 */
+	public void setExpressionType( String type ) throws ScriptException;
+
+	/**
 	 * Returns data type of column binding.
 	 * 
 	 * <p>
@@ -74,7 +90,7 @@ public interface IDataBinding
 	 * 
 	 * @return data type of column binding
 	 */
-	
+
 	public String getDataType( );
 
 	/**
@@ -83,7 +99,7 @@ public interface IDataBinding
 	 * @param dataType
 	 * @exception ScriptException
 	 */
-	
+
 	public void setDataType( String dataType ) throws ScriptException;
 
 	/**
@@ -91,7 +107,7 @@ public interface IDataBinding
 	 * 
 	 * @return aggregateOn of column binding
 	 */
-	
+
 	public String getAggregateOn( );
 
 	/**
@@ -101,7 +117,7 @@ public interface IDataBinding
 	 *            aggregateOn of column binding.
 	 * @exception ScriptException
 	 */
-	
+
 	public void setAggregateOn( String on ) throws ScriptException;
 
 	/**

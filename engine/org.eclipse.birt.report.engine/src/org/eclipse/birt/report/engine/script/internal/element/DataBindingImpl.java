@@ -26,128 +26,147 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 public class DataBindingImpl implements IDataBinding
 {
 
-    private org.eclipse.birt.report.model.api.simpleapi.IDataBinding dataBindingImpl;
+	private org.eclipse.birt.report.model.api.simpleapi.IDataBinding dataBindingImpl;
 
-    /**
-     * Constructor
-     * 
-     * @param columnHandle
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param columnHandle
+	 */
 
-    public DataBindingImpl()
-    {
-        dataBindingImpl = SimpleElementFactory.getInstance()
-                .createDataBinding();
-    }
-
-    /**
-     * Constructor
-     * 
-     * @param columnHandle
-     */
-
-    public DataBindingImpl( ComputedColumnHandle columnHandle )
+	public DataBindingImpl( )
 	{
-        dataBindingImpl = SimpleElementFactory.getInstance().createDataBinding( columnHandle );
+		dataBindingImpl = SimpleElementFactory.getInstance( )
+				.createDataBinding( );
 	}
 
-    /**
-     * Constructor
-     * 
-     * @param column
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param columnHandle
+	 */
 
-    public DataBindingImpl( ComputedColumn column )
+	public DataBindingImpl( ComputedColumnHandle columnHandle )
 	{
-        dataBindingImpl = SimpleElementFactory.getInstance().createDataBinding( column );
+		dataBindingImpl = SimpleElementFactory.getInstance( )
+				.createDataBinding( columnHandle );
 	}
-    
-    public DataBindingImpl( org.eclipse.birt.report.model.api.simpleapi.IDataBinding columnBindingImpl )
-    {
-        dataBindingImpl = columnBindingImpl;
-    }
 
-    public String getAggregateOn()
-    {
-        return dataBindingImpl.getAggregateOn();
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param column
+	 */
 
-    public String getDataType()
-    {
-        return dataBindingImpl.getDataType();
-    }
+	public DataBindingImpl( ComputedColumn column )
+	{
+		dataBindingImpl = SimpleElementFactory.getInstance( )
+				.createDataBinding( column );
+	}
 
-    public String getExpression()
-    {
-        return dataBindingImpl.getExpression();
-    }
+	public DataBindingImpl(
+			org.eclipse.birt.report.model.api.simpleapi.IDataBinding columnBindingImpl )
+	{
+		dataBindingImpl = columnBindingImpl;
+	}
 
-    public String getName()
-    {
-        return dataBindingImpl.getName();
-    }
+	public String getAggregateOn( )
+	{
+		return dataBindingImpl.getAggregateOn( );
+	}
 
-    public void setAggregateOn( String on )  throws ScriptException
-    {
-    	try
+	public String getDataType( )
+	{
+		return dataBindingImpl.getDataType( );
+	}
+
+	public String getExpression( )
+	{
+		return dataBindingImpl.getExpression( );
+	}
+
+	public String getExpressionType( )
+	{
+		return dataBindingImpl.getExpressionType( );
+	}
+
+	public void setExpressionType( String type ) throws ScriptException
+	{
+		try
 		{
-    		 dataBindingImpl.setAggregateOn( on );
+			dataBindingImpl.setExpressionType( type );
 		}
 		catch ( SemanticException e )
 		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
-       
-    }
+	}
 
-    public void setDataType( String dataType ) throws ScriptException
-    {
-    	try
-		{
-    		dataBindingImpl.setDataType( dataType );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
-		}        
-    }
+	public String getName( )
+	{
+		return dataBindingImpl.getName( );
+	}
 
-    public void setExpression( String expression ) throws ScriptException
-    {
-		
-        // expression is required.
-    	
-    	try
+	public void setAggregateOn( String on ) throws ScriptException
+	{
+		try
 		{
-    		  dataBindingImpl.setExpression( expression );
+			dataBindingImpl.setAggregateOn( on );
 		}
 		catch ( SemanticException e )
 		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
-		}      
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 
-      
-    }
+	}
 
-    public void setName( String name )  throws ScriptException
-    {
-        // name is required.
-    	
-    	try
+	public void setDataType( String dataType ) throws ScriptException
+	{
+		try
 		{
-    		
-            dataBindingImpl.setName( name );
+			dataBindingImpl.setDataType( dataType );
 		}
 		catch ( SemanticException e )
 		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
-		}    
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
 
-    }
+	public void setExpression( String expression ) throws ScriptException
+	{
 
-    public IStructure getStructure()
-    {
-        return dataBindingImpl.getStructure();
-    }
+		// expression is required.
+
+		try
+		{
+			dataBindingImpl.setExpression( expression );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
+	}
+
+	public void setName( String name ) throws ScriptException
+	{
+		// name is required.
+
+		try
+		{
+
+			dataBindingImpl.setName( name );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
+	}
+
+	public IStructure getStructure( )
+	{
+		return dataBindingImpl.getStructure( );
+	}
 
 }

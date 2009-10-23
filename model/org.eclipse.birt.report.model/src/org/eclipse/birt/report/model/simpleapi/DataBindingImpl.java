@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -166,6 +168,64 @@ public class DataBindingImpl extends Structure implements IDataBinding
 	public IStructure getStructure( )
 	{
 		return column;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IDataBinding#getExpressionType
+	 * ()
+	 */
+	public String getExpressionType( )
+	{
+		Expression expression = column
+				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+		if ( expression == null )
+			return null;
+
+		return expression.getType( );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IDataBinding#setExpressionType
+	 * (java.lang.String)
+	 */
+	public void setExpressionType( String type ) throws SemanticException
+	{
+		if ( structureHandle != null )
+		{
+			ExpressionHandle handle = structureHandle
+					.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+			if ( handle != null )
+			{
+				handle.setType( type );
+			}
+			else
+			{
+				Expression newExpression = new Expression( null, type );
+				structureHandle.setExpressionProperty(
+						ComputedColumn.EXPRESSION_MEMBER, newExpression );
+			}
+
+			return;
+		}
+
+		Expression expression = column
+				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+
+		Expression newValue = null;
+		if ( expression != null )
+			newValue = new Expression( expression.getExpression( ), type );
+		else if ( type != null )
+			newValue = new Expression( null, type );
+
+		column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+				newValue );
 	}
 
 }
