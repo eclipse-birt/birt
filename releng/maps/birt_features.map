@@ -49,7 +49,7 @@ feature@org.eclipse.birt.thirdparty=v20090925,:pserver:anonymous@dev.eclipse.org
 plugin@org.eclipse.birt.thirdparty=v20070914,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
 feature@org.eclipse.birt.nl=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
 feature@org.eclipse.birt.dtp.nl=v200902201427,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.nl.feature
-
+feature@org.eclipse.birt.nl1=v20090925,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl1.feature
 
 
 
