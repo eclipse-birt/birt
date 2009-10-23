@@ -154,4 +154,26 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 		setIntProperty( NATIVE_DATA_TYPE_PROP, nativeDataType );
 	}
 
+	/**
+	 * Gets the default operator property of the dynamic parameter.
+	 * 
+	 * @return the default operator property of the dynamic parameter.
+	 */
+	public String getDefaultOperator( )
+	{
+		return getStringProperty( DEFAULT_OPERATOR_PROP );
+	}
+
+	/**
+	 * Sets the default operator property of the dynamic parameter.
+	 * 
+	 * @param operator
+	 *            the default operator property of the dynamic parameter.
+	 * @throws SemanticException
+	 */
+	public void setDefaultOperator( String operator ) throws SemanticException
+	{
+		setStringProperty( DEFAULT_OPERATOR_PROP, operator );
+	}
+
 }
