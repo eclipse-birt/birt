@@ -186,4 +186,11 @@ public interface IDataServiceProvider
 	 * @since 2.3
 	 */
 	public Object checkData( String checkType, Object data );
+
+	/**
+	 * Adapts all expressions in the chart model.
+	 * 
+	 * @param cm
+	 */
+	public void adaptExpressions( Chart cm );
 }

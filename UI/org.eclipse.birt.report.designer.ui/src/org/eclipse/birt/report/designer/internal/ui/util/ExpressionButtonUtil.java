@@ -46,9 +46,9 @@ public class ExpressionButtonUtil
 	{
 
 		private Control control;
-		private Listener listener;
+		protected Listener listener;
 		private IExpressionProvider provider;
-		private ExpressionButton button;
+		protected ExpressionButton button;
 		private Object contextObject;
 
 		public String getExpression( )
@@ -120,7 +120,7 @@ public class ExpressionButtonUtil
 			return provider;
 		}
 
-		private void setListener( Listener listener )
+		protected void setListener( Listener listener )
 		{
 			this.listener = listener;
 		}
@@ -130,7 +130,7 @@ public class ExpressionButtonUtil
 			this.control = control;
 		}
 
-		private void setExpressionButton( ExpressionButton button )
+		protected void setExpressionButton( ExpressionButton button )
 		{
 			this.button = button;
 		}

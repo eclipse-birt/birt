@@ -1075,10 +1075,10 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	public void doPreview( )
 	{
-		ChartUIUtil.prepareLivePreview( getCurrentModelState( ),
+		Chart chartRuntime = ChartUIUtil.prepareLivePreview( getCurrentModelState( ),
 				getDataServiceProvider( ),
 				( (ChartWizardContext) context ).getActionEvaluator( ) );
-		previewPainter.renderModel( getCurrentModelState( ) );
+		previewPainter.renderModel( chartRuntime );
 	}
 
 	public Canvas getPreviewCanvas( )

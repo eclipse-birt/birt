@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
@@ -58,6 +59,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -162,6 +164,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private DummyEngineTask engineTask = null;
 	private CubeHandle cubeReference = null;
 	
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
+
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle ) throws ChartException
 	{
 		super( );
@@ -3204,5 +3209,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		
 		return new String[]{};
+	}
+
+	public void adaptExpressions( Chart cm )
+	{
+		ChartReportItemUtil.adaptExpressions( cm,
+				session.getModelAdaptor( ),
+				exprCodec );
 	}
 }

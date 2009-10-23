@@ -643,4 +643,116 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}
 		return adapter.adaptExpression( (Expression) eh.getValue( ) );
 	}
+	
+	public static ScriptExpression newExpression( IModelAdapter adapter,
+			ExpressionCodec exprCodec, String expr )
+	{
+		exprCodec.decode( expr );
+		return adapter.adaptExpression( new Expression( exprCodec.getExpression( ),
+				exprCodec.getType( ) ) );
+	}
+	
+	public static void adaptExpressions( Chart cm, IModelAdapter adapter,
+			ExpressionCodec exprCodec )
+	{
+		new ExpressionAdaptHelper( adapter, exprCodec ).adapt( cm );
+	}
+
+	private static class ExpressionAdaptHelper
+	{
+
+		private final IModelAdapter adapter;
+		private final ExpressionCodec exprCodec;
+
+		ExpressionAdaptHelper( IModelAdapter adapter, ExpressionCodec exprCodec )
+		{
+			this.adapter = adapter;
+			this.exprCodec = exprCodec;
+		}
+
+		private String adapt( String expr )
+		{
+			exprCodec.decode( expr );
+			return adapter.adaptExpression( new Expression( exprCodec.getExpression( ),
+					exprCodec.getType( ) ) )
+					.getText( );
+		}
+
+		private void adaptQuery( Query query )
+		{
+			if ( query == null )
+			{
+				return;
+			}
+			String expr = query.getDefinition( );
+			if ( expr != null && expr.trim( ).length( ) > 0 )
+			{
+				query.setDefinition( adapt( expr ) );
+			}
+		}
+
+		private void adaptSeries( Series se )
+		{
+			for ( Query query : se.getDataDefinition( ) )
+			{
+				adaptQuery( query );
+			}
+		}
+
+		private void adaptSeriesDefinition( SeriesDefinition sd )
+		{
+			adaptQuery( sd.getQuery( ) );
+			adaptQuery( sd.getSortKey( ) );
+			adaptSeries( sd.getDesignTimeSeries( ) );
+		}
+
+		private void adaptAxis( Axis ax )
+		{
+			for ( SeriesDefinition sd : ax.getSeriesDefinitions( ) )
+			{
+				adaptSeriesDefinition( sd );
+			}
+		}
+
+		private void adapt( ChartWithAxes cwa )
+		{
+			Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
+			adaptAxis( axPrimaryBase );
+
+			for ( Axis axOrthogonal : axPrimaryBase.getAssociatedAxes( ) )
+			{
+				adaptAxis( axOrthogonal );
+			}
+		}
+
+		private void adapt( ChartWithoutAxes cwoa )
+		{
+			if ( cwoa.getSeriesDefinitions( ).size( ) > 0 )
+			{
+				SeriesDefinition sdBase = cwoa.getSeriesDefinitions( ).get( 0 );
+				adaptSeriesDefinition( sdBase );
+
+				for ( SeriesDefinition sd : sdBase.getSeriesDefinitions( ) )
+				{
+					adaptSeriesDefinition( sd );
+				}
+			}
+		}
+
+		public void adapt( Chart cm )
+		{
+			if ( cm instanceof ChartWithAxes )
+			{
+				adapt( (ChartWithAxes) cm );
+			}
+			else
+			{
+				adapt( (ChartWithoutAxes) cm );
+			}
+		}
+
+
+
+	}
+
 }

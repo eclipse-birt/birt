@@ -15,8 +15,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.widgets.Canvas;
 
@@ -36,11 +38,19 @@ public abstract class ChartPreviewPainterBase implements
 
 	protected Canvas preview = null;
 
-	protected Chart chart = null;
+	protected IChartObject chart = null;
 
 	private static boolean enableProcessor = true;
 
 	private static boolean isLivePreview = false;
+
+	protected ChartWizardContext wizardContext;
+
+	protected ChartPreviewPainterBase( ChartWizardContext wizardContext )
+	{
+		this.wizardContext = wizardContext;
+		this.chart = wizardContext.getModel( );
+	}
 
 	public void dispose( )
 	{
@@ -52,13 +62,8 @@ public abstract class ChartPreviewPainterBase implements
 		}
 	}
 
-	public void renderModel( Chart chart )
+	protected void doRenderModel( Chart chart )
 	{
-		if ( chart == null )
-		{
-			return;
-		}
-		this.chart = chart;
 		ignoreNotifications( true );
 
 		// If not use live preview, use sample data to create runtime series
@@ -73,6 +78,17 @@ public abstract class ChartPreviewPainterBase implements
 			repaintChartInTimer( );
 		}
 		ignoreNotifications( false );
+	}
+
+	public void renderModel( IChartObject chart )
+	{
+		if ( chart == null )
+		{
+			return;
+		}
+		this.chart = chart;
+
+		doRenderModel( (Chart) chart );
 	}
 
 	public void setPreview( Canvas previewCanvas )

@@ -256,9 +256,9 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 	 * #handleBuilderAction()
 	 */
 	@Override
-	protected void handleBuilderAction( )
+	protected void handleBuilderAction( String[] data )
 	{
-		super.handleBuilderAction( );
+		super.handleBuilderAction( data );
 
 		ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
 				query.getDefinition( ) );

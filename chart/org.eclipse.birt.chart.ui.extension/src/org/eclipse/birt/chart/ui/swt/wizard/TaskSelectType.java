@@ -1865,7 +1865,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	public void doPreview( )
 	{
-		ChartUIUtil.prepareLivePreview( chartModel,
+		Chart chartRuntime = ChartUIUtil.prepareLivePreview( chartModel,
 				getDataServiceProvider( ),
 				( (ChartWizardContext) context ).getActionEvaluator( ) );
 
@@ -1873,17 +1873,17 @@ public class TaskSelectType extends SimpleTask implements
 		if ( previewPainter != null )
 		{
 			// To update data type after chart type conversion
-			if ( chartModel instanceof ChartWithAxes )
+			if ( chartRuntime instanceof ChartWithAxes )
 			{
 				ChartAdapter.beginIgnoreNotifications( );
-				checkDataTypeForChartWithAxes( chartModel );
+				checkDataTypeForChartWithAxes( chartRuntime );
 				ChartAdapter.endIgnoreNotifications( );
 			}
 			else
 			{
 				ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
 			}
-			previewPainter.renderModel( chartModel );
+			previewPainter.renderModel( chartRuntime );
 		}
 	}
 

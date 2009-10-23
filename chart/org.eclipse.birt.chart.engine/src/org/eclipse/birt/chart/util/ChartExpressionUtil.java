@@ -409,4 +409,43 @@ public class ChartExpressionUtil
 				} ), "" )//$NON-NLS-1$
 				.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
 	}
+
+	public static class ExpressionCodec
+	{
+
+		public static final String JAVASCRIPT = "javascript"; //$NON-NLS-1$
+		protected String sType = JAVASCRIPT;
+		protected String sExpr = "";
+
+		public String encode( )
+		{
+			return sExpr;
+		}
+
+		public void decode( String sExpr )
+		{
+			this.sExpr = sExpr;
+		}
+
+		public String getType( )
+		{
+			return sType;
+		}
+
+		public void setType( String type )
+		{
+			this.sType = type;
+		}
+
+		public String getExpression( )
+		{
+			return sExpr;
+		}
+
+		public void setExpression( String sExpr )
+		{
+			this.sExpr = sExpr;
+		}
+	}
+
 }

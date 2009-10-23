@@ -100,6 +100,7 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider {
 
 	public void handleSelectionEvent(String exprType) {
 		IExpressionSupport spt = supports.get(exprType);
+		String sOldExpr = input.getExpression( );
 
 		if (spt != null) {
 			IExpressionBuilder builder = spt.createBuilder(input.getControl()
@@ -109,8 +110,7 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider {
 				input.openExpressionBuilder(builder, exprType);
 			}
 		}
-		input.notifyExpressionChangeEvent(input.getExpression(), input
-				.getExpression());
+		input.notifyExpressionChangeEvent( sOldExpr, input.getExpression( ) );
 	}
 
 	public IExpressionSupport getExpressionSupport( String exprType )

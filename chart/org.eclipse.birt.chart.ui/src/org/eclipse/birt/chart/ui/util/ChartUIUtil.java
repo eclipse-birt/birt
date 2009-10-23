@@ -571,16 +571,20 @@ public class ChartUIUtil
 	 *            data service provider
 	 * @throws ChartException
 	 */
-	public static void doLivePreview( Chart chart,
+	public static Chart doLivePreview( Chart chart,
 			IDataServiceProvider dataProvider, IActionEvaluator iae )
 			throws ChartException
 	{
+		chart = chart.copyInstance( );
+		dataProvider.adaptExpressions( chart );
+
 		boolean isSharingQuery = dataProvider.checkState( IDataServiceProvider.SHARE_QUERY )
 				|| dataProvider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
 		// Here we will set isSharingQuery to false if it is sharing
 		// chart case to ensure that chart generates correct expressions
 		// to do evaluating in chart generator phase.
 		isSharingQuery &= !dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY_RECURSIVELY );
+
 		final List<String> expressions = Generator.instance( )
 				.getRowExpressions( chart, iae, !isSharingQuery );
 
@@ -606,6 +610,8 @@ public class ChartUIUtil
 		// ADD ALL ADAPTERS...AND REFRESH PREVIEW
 		// newSample.eAdapters( ).addAll( getChartModel( ).eAdapters( ) );
 		// getChartModel( ).setSampleData( newSample );
+
+		return chart;
 	}
 
 	/**
@@ -1679,10 +1685,10 @@ public class ChartUIUtil
 	 * @param dataServiceProvider
 	 * @since BIRT 2.3
 	 */
-	public static void prepareLivePreview( Chart cm,
+	public static Chart prepareLivePreview( Chart cm,
 			IDataServiceProvider dataServiceProvider )
 	{
-		prepareLivePreview( cm, dataServiceProvider, null );
+		return prepareLivePreview( cm, dataServiceProvider, null );
 	}
 
 	/**
@@ -1692,9 +1698,11 @@ public class ChartUIUtil
 	 * @param dataServiceProvider
 	 * @since BIRT 2.3
 	 */
-	public static void prepareLivePreview( Chart cm,
+	public static Chart prepareLivePreview( Chart cm,
 			IDataServiceProvider dataServiceProvider, IActionEvaluator iae )
 	{
+		Chart cmRuntime = null;
+
 		if ( dataServiceProvider.isLivePreviewEnabled( )
 				&& ChartUIUtil.checkDataBinding( cm ) )
 		{
@@ -1706,7 +1714,9 @@ public class ChartUIUtil
 
 			try
 			{
-				ChartUIUtil.doLivePreview( cm, dataServiceProvider, iae );
+				cmRuntime = ChartUIUtil.doLivePreview( cm,
+						dataServiceProvider,
+						iae );
 			}
 			// Includes RuntimeException
 			catch ( Exception e )
@@ -1745,6 +1755,7 @@ public class ChartUIUtil
 			ChartWizard.removeException( ChartWizard.ChartUIUtil_pLiPreview_ID );
 		}
 
+		return cmRuntime != null ? cmRuntime : cm.copyInstance( );
 	}
 
 	public static String getText( Control control )

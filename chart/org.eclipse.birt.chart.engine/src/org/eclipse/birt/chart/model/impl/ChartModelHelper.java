@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.model.IChartModelHelper;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -57,6 +58,11 @@ public class ChartModelHelper implements IChartModelHelper
 		List<String> list = new ArrayList<String>( 3 );
 		list.add( IDeviceRenderer.AREA_ALT_ENABLED );
 		return list;
+	}
+
+	public ExpressionCodec createExpressionCodec( )
+	{
+		return new ExpressionCodec( );
 	}
 
 }

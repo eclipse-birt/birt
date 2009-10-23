@@ -22,6 +22,10 @@ import org.eclipse.birt.chart.model.Chart;
 public interface IUIServiceProvider
 {
 
+	public static enum Command {
+		EXPRESS_BUTTON_CREATE
+	};
+
 	/**
 	 * Constant indicating a fatal error in the model
 	 */
@@ -165,6 +169,18 @@ public interface IUIServiceProvider
 			String sTitle ) throws ChartException;
 	
 	/**
+	 * This method will be used by the Chart Builder UI to invoke numerous
+	 * builder by a specified command.
+	 * 
+	 * @param command
+	 * @param inData
+	 * @return
+	 * @throws ChartException
+	 */
+	public Object invoke( Command command, Object... inData )
+			throws ChartException;
+
+	/**
 	 * Returns whether all outside builder invokings are supported
 	 * @since 2.1
 	 */
@@ -225,4 +241,5 @@ public interface IUIServiceProvider
 	 * @since 2.2
 	 */
 	public boolean isEclipseModeSupported( );
+
 }

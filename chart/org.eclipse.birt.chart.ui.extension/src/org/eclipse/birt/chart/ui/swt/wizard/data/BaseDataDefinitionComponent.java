@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
@@ -41,6 +42,7 @@ import org.eclipse.birt.chart.ui.swt.fieldassist.IContentChangeListener;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.type.GanttChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -50,6 +52,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
@@ -94,7 +97,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	protected Text txtDefinition = null;
 
-	private Button btnBuilder = null;
+	private IExpressionButton btnBuilder = null;
 
 	private Button btnGroup = null;
 
@@ -126,6 +129,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	/** Indicates button for aggregation will be created */
 	public static final int BUTTON_AGGREGATION = 2;
+
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	/**
 	 * 
@@ -342,11 +348,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			gdTXTDefinition.widthHint = 80;
 			gdTXTDefinition.grabExcessHorizontalSpace = true;
 			txtDefinition.setLayoutData( gdTXTDefinition );
-			if ( query != null && query.getDefinition( ) != null )
-			{
-				txtDefinition.setText( query.getDefinition( ) );
-				txtDefinition.setToolTipText( getTooltipForDataText( query.getDefinition( ) ) );
-			}
+			// if ( query != null && query.getDefinition( ) != null )
+			// {
+			// txtDefinition.setText( query.getDefinition( ) );
+			// txtDefinition.setToolTipText( getTooltipForDataText(
+			// query.getDefinition( ) ) );
+			// }
 			txtDefinition.addModifyListener( this );
 			txtDefinition.addFocusListener( this );
 			txtDefinition.addKeyListener( this );
@@ -383,20 +390,49 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		DataDefinitionTextManager.getInstance( )
 				.addDataDefinitionText( dropControl, this );
 
-		btnBuilder = new Button( cmpTop, SWT.PUSH );
+		try
 		{
-			GridData gdBTNBuilder = new GridData( );
-			ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNBuilder );
-			btnBuilder.setLayoutData( gdBTNBuilder );
-			btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-			btnBuilder.addSelectionListener( this );
-			btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
-			btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
-			btnBuilder.setEnabled( context.getUIServiceProvider( )
-					.isInvokingSupported( ) );
-			btnBuilder.setVisible( context.getUIServiceProvider( )
-					.isEclipseModeSupported( ) );
+			btnBuilder = (IExpressionButton) context.getUIServiceProvider( )
+					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
+							cmpTop,
+							getInputControl( ),
+							context.getExtendedItem( ),
+							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
+							new Listener( ) {
+
+								public void handleEvent( Event event )
+								{
+									if ( event.data instanceof String[] )
+									{
+										handleBuilderAction( (String[]) event.data );
+									}
+
+								}
+							} );
+			if ( query != null )
+			{
+				btnBuilder.setExpression( query.getDefinition( ) );
+			}
 		}
+		catch ( ChartException e )
+		{
+			WizardBase.displayException( e );
+		}
+
+// btnBuilder = new Button( cmpTop, SWT.PUSH );
+		// {
+		// GridData gdBTNBuilder = new GridData( );
+		// ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNBuilder );
+		// btnBuilder.setLayoutData( gdBTNBuilder );
+		//			btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
+		// btnBuilder.addSelectionListener( this );
+		//			btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
+		// btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
+		// btnBuilder.setEnabled( context.getUIServiceProvider( )
+		// .isInvokingSupported( ) );
+		// btnBuilder.setVisible( context.getUIServiceProvider( )
+		// .isEclipseModeSupported( ) );
+		// }
 
 		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
 		{
@@ -613,11 +649,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( btnBuilder ) )
-		{
-			handleBuilderAction( );
-		}
-		else if ( e.getSource( ).equals( btnGroup ) )
+		if ( e.getSource( ).equals( btnGroup ) )
 		{
 			handleGroupAction( );
 		}
@@ -661,36 +693,15 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	/**
 	 * Handle builder dialog action.
 	 */
-	protected void handleBuilderAction( )
+	protected void handleBuilderAction( String[] data )
 	{
-		try
+		if ( data.length != 2 )
 		{
-			String oldExpr = getExpression( getInputControl( ) );
-			String sExpr = context.getUIServiceProvider( )
-					.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							oldExpr,
-							context.getExtendedItem( ),
-							sTitle );
-			// do not need to save query if it's not changed, or it may throw a
-			// SWT exception(widget disposed).
-			if ( !oldExpr.equals( sExpr ) )
-			{
-				boolean isSuccess = setUIText( getInputControl( ), sExpr );
-				updateQuery( sExpr );
-
-				if ( !isSuccess )
-				{
-					Event event = new Event( );
-					event.type = IChartDataSheet.EVENT_QUERY;
-					event.data = queryType;
-					context.getDataSheet( ).notifyListeners( event );
-				}
-			}
+			return;
 		}
-		catch ( ChartException e1 )
-		{
-			WizardBase.displayException( e1 );
-		}
+		// String oldExpr = data[0];
+		String newExpr = data[1];
+		updateQuery( newExpr );
 	}
 
 	/**
@@ -956,6 +967,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return false;
 		}
 
+		// btnBuilder.setExpression( expr );
+
 		if ( control instanceof Text )
 		{
 			( (Text) control ).setText( expression );
@@ -1018,7 +1031,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					// from others
 					// ChartWizard.showException( ChartWizard.BaseDataDefCom_ID,
 					//	Messages.getString( "BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden" ) ); //$NON-NLS-1$ 
-					setUIText( getInputControl( ), oldQuery );
+					// setUIText( getInputControl( ), oldQuery );
 					return;
 				}
 				// else
@@ -1188,13 +1201,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 		}
 
+
 		if ( query != null )
 		{
-			query.setDefinition( expression );
+			query.setDefinition( btnBuilder.getExpression( ) );
 		}
 		else
 		{
-			query = QueryImpl.create( expression );
+			query = QueryImpl.create( btnBuilder.getExpression( ) );
 			query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
 			// Since the data query must be non-null, it's created in
 			// ChartUIUtil.getDataQuery(), assume current null is a grouping
@@ -1237,8 +1251,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		else
 		{
-			String expr = query.getDefinition( );
-			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
+			return btnBuilder.getExpressionString( );
 		}
 	}
 

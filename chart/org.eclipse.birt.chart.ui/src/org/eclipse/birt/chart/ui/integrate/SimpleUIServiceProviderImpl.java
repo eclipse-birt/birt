@@ -162,4 +162,10 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 	{
 		return false;
 	}
+
+	public Object invoke( Command command, Object... inData )
+			throws ChartException
+	{
+		return null;
+	}
 }

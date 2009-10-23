@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -36,4 +37,12 @@ public interface IChartModelHelper
 	 * @return extended properties which can't be removed in UI
 	 */
 	List<String> getBuiltInExtendedProperties( );
+
+	/**
+	 * Create an instance of ExpressionCodec.
+	 * 
+	 * @return the ExpressionCodec
+	 */
+	ExpressionCodec createExpressionCodec( );
+
 }

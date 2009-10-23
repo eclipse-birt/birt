@@ -11,20 +11,21 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
-import org.eclipse.birt.chart.model.IChartObject;
-import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.widgets.Canvas;
-
 /**
  * 
  */
 
-public interface IChartPreviewPainter extends ControlListener
+public interface IExpressionButton
 {
 
-	void dispose( );
+	String getExpression( );
 
-	void renderModel( IChartObject chart );
+	void setExpression( String expr );
 
-	void setPreview( Canvas previewCanvas );
+	String getExpressionString( );
+
+	void setEnabled( boolean bEnabled );
+
+	boolean isEnabled( );
+
 }

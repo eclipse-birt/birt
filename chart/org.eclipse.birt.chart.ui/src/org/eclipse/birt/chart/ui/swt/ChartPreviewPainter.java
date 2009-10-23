@@ -42,8 +42,6 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 
 	private Image buffer;
 
-	private ChartWizardContext wizardContext;
-
 	private GeneratedChartState gcs = null;
 
 	private static int X_OFFSET = 3;
@@ -51,8 +49,7 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 
 	public ChartPreviewPainter( ChartWizardContext wizardContext )
 	{
-		super( );
-		this.wizardContext = wizardContext;
+		super( wizardContext );
 	}
 
 	/**
@@ -167,7 +164,7 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 			rtc.setExternalizer( wizardContext.getExternalizer( ) );
 
 			gcs = gr.build( deviceRenderer.getDisplayServer( ),
-					chart,
+					(Chart) chart,
 					bo,
 					null,
 					rtc,
