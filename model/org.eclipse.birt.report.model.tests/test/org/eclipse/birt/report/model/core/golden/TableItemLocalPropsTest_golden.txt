@@ -18,6 +18,7 @@ textLineThrough
 backgroundAttachment
 backgroundColor
 backgroundImage
+backgroundImageType
 backgroundPositionX
 backgroundPositionY
 backgroundRepeat
