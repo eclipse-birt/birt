@@ -14,6 +14,7 @@
     <cubes>
         <tabular-cube name="testCube" id="7">
             <property name="defaultMeasureGroup">testMeasureGroup</property>
+            <expression name="ACLExpression" type="javascript">ACL expression</expression>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -28,6 +29,7 @@
                 <tabular-dimension name="testDimension" id="8">
                     <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">testHierarchy</property>
+                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
                     <property name="hierarchies">
                         <tabular-hierarchy name="testHierarchy" id="9">
                             <list-property name="filter">
@@ -49,6 +51,8 @@
                                     <property name="interval">prefix</property>
                                     <property name="intervalRange">3.0</property>
                                     <property name="levelType">dynamic</property>
+                                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
+                                    <expression name="memberACLExpression" type="javascript">member ACL expression</expression>
                                     <list-property name="staticValues">
                                         <structure>
                                             <expression name="ruleExpre">rule expression</expression>
@@ -91,6 +95,7 @@
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
                             <property name="dataType">string</property>
+                            <expression name="ACLExpression" type="javascript">ACL expression</expression>
                         </tabular-measure>
                     </property>
                 </tabular-measure-group>
@@ -129,6 +134,7 @@
         </tabular-cube>
         <tabular-cube name="testCube1" id="13">
             <property name="defaultMeasureGroup">testMeasureGroup1</property>
+            <expression name="ACLExpression" type="javascript">ACL expression</expression>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -143,6 +149,7 @@
                 <tabular-dimension name="testDimension1" id="14">
                     <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">testHierarchy1</property>
+                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
                     <property name="hierarchies">
                         <tabular-hierarchy name="testHierarchy1" id="15">
                             <list-property name="filter">
@@ -164,6 +171,8 @@
                                     <property name="interval">prefix</property>
                                     <property name="intervalRange">3.0</property>
                                     <property name="levelType">dynamic</property>
+                                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
+                                    <expression name="memberACLExpression" type="javascript">member ACL expression</expression>
                                     <list-property name="staticValues">
                                         <structure>
                                             <expression name="ruleExpre">rule expression</expression>
@@ -206,6 +215,7 @@
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
                             <property name="dataType">string</property>
+                            <expression name="ACLExpression" type="javascript">ACL expression</expression>
                         </tabular-measure>
                     </property>
                 </tabular-measure-group>

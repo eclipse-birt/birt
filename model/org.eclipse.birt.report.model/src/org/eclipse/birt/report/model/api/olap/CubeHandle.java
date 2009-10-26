@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.olap;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -164,5 +165,15 @@ public abstract class CubeHandle extends ReportElementHandle
 	{
 		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
 		propHandle.removeItem( fc );
+	}
+
+	/**
+	 * Gets the expression handle for the <code>ACLExpression</code> property.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getACLExpression( )
+	{
+		return getExpressionProperty( ACL_EXPRESSION_PROP );
 	}
 }

@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -42,6 +44,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
@@ -144,6 +147,17 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.getDesigerStateContentAsString( ) );
 		assertEquals( "content as blob", new String( dataSet //$NON-NLS-1$
 				.getDesigerStateContentAsBlob( ), OdaDesignerState.CHARSET ) );
+
+		// test ACL properties
+		ExpressionHandle expressionHandle = dataSet.getACLExpression( );
+		Expression value = (Expression) expressionHandle.getValue( );
+		assertEquals( "ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( IExpressionType.JAVASCRIPT, value.getType( ) );
+		expressionHandle = dataSet.getRowACLExpression( );
+		value = (Expression) expressionHandle.getValue( );
+		assertEquals( "row ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( IExpressionType.JAVASCRIPT, value.getType( ) );
+
 	}
 
 	/**
@@ -190,6 +204,16 @@ public class OdaDataSetParseTest extends BaseTestCase
 		sortHint
 				.setNullValueOrdering( DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISLAST );
 		sortHint.setOptional( false );
+
+		// ACL properties
+		ExpressionHandle expressionHandle = dataSet.getACLExpression( );
+		expressionHandle
+				.setValue( new Expression(
+						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		expressionHandle = dataSet.getRowACLExpression( );
+		expressionHandle
+				.setValue( new Expression(
+						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
@@ -860,7 +884,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		columnHint.setDisplayName( "new display name" ); //$NON-NLS-1$
 		columnHint.setHelpTextKey( "new help text id" ); //$NON-NLS-1$
 		columnHint.setHelpText( "new help text" ); //$NON-NLS-1$
-		columnHint.setOnColumnLayout( false ); 	
+		columnHint.setOnColumnLayout( false );
 
 	}
 

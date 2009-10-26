@@ -35,4 +35,11 @@ public interface IDimensionModel
 	 */
 
 	static final String HIERARCHIES_PROP = "hierarchies"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the expression to calculate ACL for the
+	 * dimension. This expression is evaluated once during the generation of the
+	 * cube.
+	 */
+	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 }

@@ -17,11 +17,12 @@ package org.eclipse.birt.report.model.elements.interfaces;
 
 public interface ICubeModel
 {
+
 	/**
 	 * Name of the property that defines a list of filter conditions.
 	 */
 	static final String FILTER_PROP = "filter"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property which indicates whether this measure group is
 	 * default in cube.
@@ -39,10 +40,17 @@ public interface ICubeModel
 	 */
 
 	static final String MEASURE_GROUPS_PROP = "measureGroups"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property that specifies a list of privilige of users.
 	 */
 
 	static final String ACCESS_CONTROLS_PROP = "accessControls"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the expression to calculate ACL for the
+	 * measure. This expression is evaluated once during the generation of the
+	 * cube.
+	 */
+	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 }

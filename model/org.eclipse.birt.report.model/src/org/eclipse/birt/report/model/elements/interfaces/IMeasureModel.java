@@ -44,4 +44,11 @@ public interface IMeasureModel
 	 * Name of the property that gives out the data type of this measure.
 	 */
 	static final String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the expression to calculate ACL for the
+	 * measure. This expression is evaluated once during the generation of the
+	 * cube.
+	 */
+	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 }

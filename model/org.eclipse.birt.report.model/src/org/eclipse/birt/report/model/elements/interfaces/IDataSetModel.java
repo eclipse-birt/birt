@@ -77,4 +77,20 @@ public interface IDataSetModel
 	 */
 	String NEEDS_CACHE_PROP = "needsCache"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that defines the expression to calculate ACL for the
+	 * entire data set. This expression is evaluated once for each data set,
+	 * after the data set has been executed but before the first result set row
+	 * has been processed.
+	 */
+	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the expression to calculate ACL for
+	 * result set rows. This expression is evaluated once for each data set row
+	 * after it has been retrieved. The expression has access to all column
+	 * values of the current row.
+	 */
+	String ROW_ACL_EXPRESSION_PROP = "rowACLExpression"; //$NON-NLS-1$
+
 }

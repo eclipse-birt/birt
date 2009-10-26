@@ -1121,4 +1121,23 @@ public abstract class DataSetHandle extends ReportElementHandle
 		return getBooleanProperty( NEEDS_CACHE_PROP );
 	}
 
+	/**
+	 * Gets the expression handle for the <code>ACLExpression</code> property.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getACLExpression( )
+	{
+		return getExpressionProperty( ACL_EXPRESSION_PROP );
+	}
+
+	/**
+	 * Gets the expression handle for the ACL expression for one row.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getRowACLExpression( )
+	{
+		return getExpressionProperty( ROW_ACL_EXPRESSION_PROP );
+	}
 }

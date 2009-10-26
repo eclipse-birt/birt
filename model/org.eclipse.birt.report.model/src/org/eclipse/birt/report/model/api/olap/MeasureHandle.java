@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -164,5 +165,15 @@ public abstract class MeasureHandle extends ReportElementHandle
 	public void setDataType( String dataType ) throws SemanticException
 	{
 		setProperty( DATA_TYPE_PROP, dataType );
+	}
+
+	/**
+	 * Gets the expression handle for the <code>ACLExpression</code> property.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getACLExpression( )
+	{
+		return getExpressionProperty( ACL_EXPRESSION_PROP );
 	}
 }

@@ -14,6 +14,7 @@
     <cubes>
         <tabular-cube name="testCube" id="7">
             <property name="defaultMeasureGroup">testMeasureGroup</property>
+            <expression name="ACLExpression" type="javascript">ACL expression</expression>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -28,6 +29,7 @@
                 <tabular-dimension name="testDimension" id="8">
                     <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">testHierarchy</property>
+                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
                     <property name="hierarchies">
                         <tabular-hierarchy name="testHierarchy" id="9">
                             <list-property name="filter">
@@ -58,6 +60,7 @@
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
                             <property name="dataType">string</property>
+                            <expression name="ACLExpression" type="javascript">ACL expression</expression>
                         </tabular-measure>
                     </property>
                 </tabular-measure-group>

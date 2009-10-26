@@ -1409,6 +1409,7 @@
 		<Default>string</Default>
 	</Member>
     <Member displayNameID="Structure.ResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />
+    <Member displayNameID="Structure.ResultSetColumn.ACLExpression" isIntrinsic="true" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>
   </Structure>
   <Structure displayNameID="Structure.OdaResultSetColumn" name="OdaResultSetColumn" since="2.1.1">
     <Member displayNameID="Structure.OdaResultSetColumn.position" isIntrinsic="true" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
@@ -1418,6 +1419,7 @@
 		<Default>string</Default>
 	</Member>
     <Member displayNameID="Structure.OdaResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />
+    <Member displayNameID="Structure.OdaResultSetColumn.ACLExpression" isIntrinsic="true" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>
   </Structure>
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
     <Member displayNameID="Structure.ComputedColumn.name" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
@@ -1885,6 +1887,8 @@
     </Property>
     <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="SortHint" displayNameID="Element.DataSet.sortHints" isList="true" name="sortHints" since="2.5" type="structure"/>
+    <Property displayNameID="Element.DataSet.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
+    <Property displayNameID="Element.DataSet.RowACLExpression" name="rowACLExpression" since="2.5.2" type="expression"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.SimpleDataSet" extends="DataSet" hasStyle="false" isAbstract="true" isNameRequired="true" name="SimpleDataSet" since="1.0" xmlName="simple-data-set">
     <Method context="factory" displayNameID="Element.SimpleDataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.SimpleDataSet.beforeOpen.toolTip" >
@@ -3483,6 +3487,7 @@
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Cube" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Cube" name="Cube" nameSpace="cube" since="2.2" xmlName="cube">
   	<Property detailType="MeasureGroup" displayNameID="Element.Cube.defaultMeasureGroup" name="defaultMeasureGroup" runtimeSettable="false" since="2.2" type="elementRef"/>
   	<Property detailType="FilterCondition" displayNameID="Element.Cube.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
+  	<Property displayNameID="Element.Cube.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularCube" extends="Cube" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularCube" name="TabularCube" since="2.2" xmlName="tabular-cube"> 
   	<Property detailType="DimensionCondition" displayNameID="Element.TabularCube.dimensionConditions" isList="true" name="dimensionConditions" runtimeSettable="false" since="2.2" type="structure" />	  
@@ -3513,6 +3518,7 @@
   	  <Default>false</Default>
   	</Property>
   	<Property detailType="Hierarchy" displayNameID="Element.Dimension.defaultHierarchy" name="defaultHierarchy" runtimeSettable="false" since="2.2" type="elementRef"/>
+  	<Property displayNameID="Element.Dimension.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularDimension" extends="Dimension" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularDimension" name="TabularDimension" since="2.2" xmlName="tabular-dimension">
     <Property displayNameID="Element.TabularDimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
@@ -3554,7 +3560,9 @@
     </PropertyGroup>
     <Property detailType="levelType" displayNameID="Element.Level.levelType" name="levelType" runtimeSettable="false" since="2.2" type="choice" />
   	<Property detailType="Rule" displayNameID="Element.Level.staticValues" isList="true" name="staticValues" runtimeSettable="false" since="2.2" type="structure"/>
-  	<Property displayNameID="Element.Level.defaultValue" name="defaultValue" since="2.3" type="expression" />	      	
+  	<Property displayNameID="Element.Level.defaultValue" name="defaultValue" since="2.3" type="expression" />
+  	<Property displayNameID="Element.Level.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
+  	<Property displayNameID="Element.Level.MemberACLExpression" name="memberACLExpression" since="2.5.2" type="expression"/>	      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
   	<Property displayNameID="Element.TabularLevel.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />
@@ -3588,6 +3596,7 @@
   	<Property detailType="columnDataType" displayNameID="Element.Measure.dataType" name="dataType" runtimeSettable="false" since="2.2" type="choice">
 		<Default>decimal</Default>
 	</Property>
+	<Property displayNameID="Element.Measure.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularMeasure" name="TabularMeasure" since="2.2" xmlName="tabular-measure">
   </Element>    

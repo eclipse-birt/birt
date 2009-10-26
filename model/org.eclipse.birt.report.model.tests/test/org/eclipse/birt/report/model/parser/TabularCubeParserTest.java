@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
@@ -41,6 +43,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -70,6 +73,10 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals(
 				designHandle.findDataSet( "firstDataSet" ), cube.getDataSet( ) ); //$NON-NLS-1$
 		assertTrue( cube.autoPrimaryKey( ) );
+		ExpressionHandle expressionHandle = cube.getACLExpression( );
+		Expression value = (Expression) expressionHandle.getValue( );
+		assertEquals( "ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( IExpressionType.JAVASCRIPT, value.getType( ) );
 
 		// filter
 		Iterator iter = cube.filtersIterator( );
@@ -118,6 +125,10 @@ public class TabularCubeParserTest extends BaseTestCase
 				TabularCubeHandle.DIMENSIONS_PROP, 0 ) );
 		assertEquals( "testDimension", dimension.getName( ) ); //$NON-NLS-1$
 		assertTrue( dimension.isTimeType( ) );
+		expressionHandle = dimension.getACLExpression( );
+		value = (Expression) expressionHandle.getValue( );
+		assertEquals( "ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( IExpressionType.JAVASCRIPT, value.getType( ) );
 		propHandle = dimension
 				.getPropertyHandle( DimensionHandle.HIERARCHIES_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
@@ -176,6 +187,15 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( "Jan", level.getIntervalBase( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC, level
 				.getLevelType( ) );
+		expressionHandle = level.getACLExpression( );
+		value = (Expression) expressionHandle.getValue( );
+		assertEquals( "ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( IExpressionType.JAVASCRIPT, value.getType( ) );
+		expressionHandle = level.getMemberACLExpression( );
+		value = (Expression) expressionHandle.getValue( );
+		assertEquals( "member ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( IExpressionType.JAVASCRIPT, value.getType( ) );
+
 		iter = level.staticValuesIterator( );
 		RuleHandle rule = (RuleHandle) iter.next( );
 		assertEquals( "rule expression", rule.getRuleExpression( ) ); //$NON-NLS-1$
@@ -219,6 +239,10 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertFalse( measure.isCalculated( ) );
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING, measure
 				.getDataType( ) );
+		expressionHandle = measure.getACLExpression( );
+		value = (Expression) expressionHandle.getValue( );
+		assertEquals( "ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( IExpressionType.JAVASCRIPT, value.getType( ) );
 
 	}
 
@@ -242,6 +266,12 @@ public class TabularCubeParserTest extends BaseTestCase
 		cube.setAutoPrimaryKey( false );
 		cube.setDefaultMeasureGroup( factory
 				.newTabularMeasureGroup( "testDefaultMeasureGroup" ) ); //$NON-NLS-1$
+
+		ExpressionHandle expressionHandle = cube.getACLExpression( );
+		expressionHandle
+				.setValue( new Expression(
+						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+
 		PropertyHandle propHandle = cube
 				.getPropertyHandle( TabularCubeHandle.DIMENSION_CONDITIONS_PROP );
 		propHandle.removeItem( 1 );
@@ -268,6 +298,10 @@ public class TabularCubeParserTest extends BaseTestCase
 		dimension.setTimeType( false );
 		dimension.setDefaultHierarchy( factory
 				.newTabularHierarchy( "testDefaultHierarchy" ) ); //$NON-NLS-1$
+		expressionHandle = dimension.getACLExpression( );
+		expressionHandle
+				.setValue( new Expression(
+						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
 
 		// hierarchy
 		dimension.add( DimensionHandle.HIERARCHIES_PROP, factory
@@ -296,6 +330,14 @@ public class TabularCubeParserTest extends BaseTestCase
 		level.setIntervalRange( 5 );
 		level.setIntervalBase( valuePrix + level.getIntervalBase( ) );
 		level.setLevelType( DesignChoiceConstants.LEVEL_TYPE_MIRRORED );
+		expressionHandle = level.getACLExpression( );
+		expressionHandle
+				.setValue( new Expression(
+						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		expressionHandle = level.getMemberACLExpression( );
+		expressionHandle
+				.setValue( new Expression(
+						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
 		propHandle = level.getPropertyHandle( LevelHandle.STATIC_VALUES_PROP );
 		propHandle.removeItem( 0 );
 		Rule rule = new Rule( );
@@ -328,6 +370,10 @@ public class TabularCubeParserTest extends BaseTestCase
 		measure.setFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
 		measure.setCalculated( true );
 		measure.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
+		expressionHandle = measure.getACLExpression( );
+		expressionHandle
+				.setValue( new Expression(
+						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$

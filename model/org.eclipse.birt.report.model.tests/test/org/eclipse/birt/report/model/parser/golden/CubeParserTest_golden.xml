@@ -14,6 +14,7 @@
     <cubes>
         <tabular-cube name="newtestCube" id="7">
             <property name="defaultMeasureGroup">testDefaultMeasureGroup</property>
+            <expression name="ACLExpression" type="constant">new ACL expression</expression>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -28,6 +29,7 @@
                 <tabular-dimension name="newtestDimension" id="8">
                     <property name="isTimeType">false</property>
                     <property name="defaultHierarchy">testDefaultHierarchy</property>
+                    <expression name="ACLExpression" type="constant">new ACL expression</expression>
                     <property name="hierarchies">
                         <tabular-hierarchy name="newtestHierarchy" id="9">
                             <list-property name="filter">
@@ -49,6 +51,8 @@
                                     <property name="interval">prefix</property>
                                     <property name="intervalRange">5.0</property>
                                     <property name="levelType">mirrored</property>
+                                    <expression name="ACLExpression" type="constant">new ACL expression</expression>
+                                    <expression name="memberACLExpression" type="constant">new member ACL expression</expression>
                                     <list-property name="staticValues">
                                         <structure>
                                             <expression name="ruleExpre">new rule expression</expression>
@@ -103,6 +107,7 @@
                             <property name="isCalculated">true</property>
                             <expression name="measureExpression">updated column</expression>
                             <property name="dataType">boolean</property>
+                            <expression name="ACLExpression" type="constant">new ACL expression</expression>
                         </tabular-measure>
                         <tabular-measure name="NewTabularMeasure" id="18"/>
                     </property>

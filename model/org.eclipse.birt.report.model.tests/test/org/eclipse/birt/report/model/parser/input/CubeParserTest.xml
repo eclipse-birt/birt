@@ -24,6 +24,7 @@
     		<property name="dataSet">firstDataSet</property>
     		<property name="defaultMeasureGroup">testMeasureGroup</property>
     		<property name="autoKey">true</property>
+    		<expression name="ACLExpression" type="javascript">ACL expression</expression>
     		<list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -65,6 +66,7 @@
     			<tabular-dimension name="testDimension">
     				<property name="isTimeType">true</property>
     				<property name="defaultHierarchy">testHierarchy</property>
+    				<expression name="ACLExpression" type="javascript">ACL expression</expression>
     				<property name="hierarchies">
     					<tabular-hierarchy name="testHierarchy">
     						<property name="dataSet">secondDataSet</property>
@@ -92,6 +94,8 @@
                 					<property name="intervalRange">3.0</property>
                 					<property name="intervalBase">Jan</property>
                 					<property name="levelType">dynamic</property>
+                					<expression name="ACLExpression" type="javascript">ACL expression</expression>
+                					<expression name="memberACLExpression" type="javascript">member ACL expression</expression>
     								<list-property name="staticValues">
     									<structure>
             								<property name="ruleExpre">rule expression</property>
@@ -126,6 +130,7 @@
     						<property name="measureExpression">column</property>
     						<property name="isCalculated">false</property>
     						<property name="dataType">string</property>
+    						<expression name="ACLExpression" type="javascript">ACL expression</expression>
     					</tabular-measure>
     				</property>
     			</tabular-measure-group>

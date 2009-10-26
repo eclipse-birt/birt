@@ -79,4 +79,19 @@ public interface ILevelModel
 	 * Name of the property that defines the default value.
 	 */
 	String DEFAULT_VALUE_PROP = "defaultValue"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the expression to calculate ACL for the
+	 * level. This expression is evaluated once during the generation of the
+	 * cube.
+	 */
+	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the expression to calculate ACL for
+	 * each member of the level. This expression is evaluated once for each
+	 * level member during the generation of the cube, and has access to the
+	 * full content of the level member (e.g., its value, attributes, etc.)
+	 */
+	String MEMBER_ACL_EXPRESSION_PROP = "memberACLExpression"; //$NON-NLS-1$
 }

@@ -3166,6 +3166,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitDataSet( obj );
 
+		property( obj, IDataSetModel.ACL_EXPRESSION_PROP );
+		property( obj, IDataSetModel.ROW_ACL_EXPRESSION_PROP );
 		writeStructureList( obj, IDataSetModel.RESULT_SET_HINTS_PROP );
 		writeStructureList( obj, IDataSetModel.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, IDataSetModel.COLUMN_HINTS_PROP );
@@ -3782,6 +3784,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitCube( obj );
 		property( obj, ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
+		property( obj, ICubeModel.ACL_EXPRESSION_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
 
 		writeOverridenPropertyValues( obj );
@@ -3799,6 +3802,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitDimension( obj );
 		property( obj, IDimensionModel.IS_TIME_TYPE_PROP );
 		property( obj, IDimensionModel.DEFAULT_HIERARCHY_PROP );
+		property( obj, IDimensionModel.ACL_EXPRESSION_PROP );
 
 		writeContents( obj, IDimensionModel.HIERARCHIES_PROP );
 		writeOverridenPropertyValues( obj );
@@ -3839,6 +3843,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ILevelModel.INTERVAL_RANGE_PROP );
 		property( obj, ILevelModel.LEVEL_TYPE_PROP );
 		property( obj, ILevelModel.DEFAULT_VALUE_PROP );
+		property( obj, ILevelModel.ACL_EXPRESSION_PROP );
+		property( obj, ILevelModel.MEMBER_ACL_EXPRESSION_PROP );
 		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
 
@@ -3874,6 +3880,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IMeasureModel.IS_CALCULATED_PROP );
 		property( obj, IMeasureModel.MEASURE_EXPRESSION_PROP );
 		property( obj, IMeasureModel.DATA_TYPE_PROP );
+		property( obj, IMeasureModel.ACL_EXPRESSION_PROP );
 	}
 
 	/*

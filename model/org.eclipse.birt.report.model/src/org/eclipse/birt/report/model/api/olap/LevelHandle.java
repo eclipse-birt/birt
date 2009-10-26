@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api.olap;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -37,9 +38,9 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * one of the navigation methods available on other element handles.
 	 * 
 	 * @param module
-	 * 		the module
+	 *            the module
 	 * @param element
-	 * 		the model representation of the element
+	 *            the model representation of the element
 	 */
 
 	public LevelHandle( Module module, DesignElement element )
@@ -83,9 +84,9 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * divided into levels.
 	 * 
 	 * @param intervalBase
-	 * 		interval base property value.
+	 *            interval base property value.
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setIntervalBase( String intervalBase ) throws SemanticException
@@ -135,10 +136,10 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * </ul>
 	 * 
 	 * @param interval
-	 * 		the interval value as a string
+	 *            the interval value as a string
 	 * @throws SemanticException
-	 * 		if the property is locked or the input value is not one of the
-	 * 		above.
+	 *             if the property is locked or the input value is not one of
+	 *             the above.
 	 */
 
 	public void setInterval( String interval ) throws SemanticException
@@ -161,9 +162,9 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * Returns the interval range of this level.
 	 * 
 	 * @param intervalRange
-	 * 		the interval range value as a double
+	 *            the interval range value as a double
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setIntervalRange( double intervalRange )
@@ -176,9 +177,10 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * Sets the interval range of this level.
 	 * 
 	 * @param intervalRange
-	 * 		the interval range value as a string.value is locale dependent.
+	 *            the interval range value as a string.value is locale
+	 *            dependent.
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setIntervalRange( String intervalRange )
@@ -259,9 +261,9 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * </ul>
 	 * 
 	 * @param dataType
-	 * 		the data type to set
+	 *            the data type to set
 	 * @throws SemanticException
-	 * 		if the dataType is not in the choice list.
+	 *             if the dataType is not in the choice list.
 	 */
 
 	public void setDataType( String dataType ) throws SemanticException
@@ -284,9 +286,9 @@ public abstract class LevelHandle extends ReportElementHandle
 
 	/**
 	 * Returns the date-time type of this level. The possible values are defined
-	 * in {@link
-	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
-	 * they are:
+	 * in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>DATE_TIME_LEVEL_TYPE_YEAR
 	 * <li>DATE_TIME_LEVEL_TYPE_MONTH
@@ -322,9 +324,9 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * </ul>
 	 * 
 	 * @param dateTimeType
-	 * 		the date-time type to set
+	 *            the date-time type to set
 	 * @throws SemanticException
-	 * 		if the dateTimeType is not in the choice list.
+	 *             if the dateTimeType is not in the choice list.
 	 */
 
 	public void setDateTimeLevelType( String dateTimeType )
@@ -348,9 +350,9 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * Sets the date-time format of this level.
 	 * 
 	 * @param dateTimeFormat
-	 * 		the date-time format to set
+	 *            the date-time format to set
 	 * @throws SemanticException
-	 * 		if the date-time-format is locked
+	 *             if the date-time-format is locked
 	 */
 
 	public void setDateTimeFormat( String dateTimeFormat )
@@ -363,7 +365,7 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * Sets the default value of this level.
 	 * 
 	 * @param defaultValue
-	 * 		the default value.
+	 *            the default value.
 	 * @throws SemanticException
 	 */
 	public void setDefaultValue( String defaultValue ) throws SemanticException
@@ -379,5 +381,26 @@ public abstract class LevelHandle extends ReportElementHandle
 	public String getDefaultValue( )
 	{
 		return getStringProperty( DEFAULT_VALUE_PROP );
+	}
+
+	/**
+	 * Gets the expression handle for the <code>ACLExpression</code> property.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getACLExpression( )
+	{
+		return getExpressionProperty( ACL_EXPRESSION_PROP );
+	}
+
+	/**
+	 * Gets the expression handle for the ACL expression for any member of this
+	 * level.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getMemberACLExpression( )
+	{
+		return getExpressionProperty( MEMBER_ACL_EXPRESSION_PROP );
 	}
 }

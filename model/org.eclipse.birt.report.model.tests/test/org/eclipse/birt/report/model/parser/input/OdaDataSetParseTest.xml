@@ -9,6 +9,8 @@
             <property name="dataSource">extendedDataSource</property>
             <property name="dataSetRowLimit">666</property>
             <property name="resultSetNumber">2</property>
+            <expression name="ACLExpression" type="javascript">ACL expression</expression>
+            <expression name="rowACLExpression" type="javascript">row ACL expression</expression>
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>
@@ -63,6 +65,7 @@
                     <property name="name">name</property>
                     <property name="dataType">string</property>
 					<property name="nativeDataType">10</property>
+					<expression name="ACLExpression" type="javascript">ACL expression</expression>
                 </structure>
                 <structure>
                     <property name="position">2</property>
