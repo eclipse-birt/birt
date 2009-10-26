@@ -2623,7 +2623,7 @@ Element.Style.text.indent=Texteinzug
 Element.Style.text.transform=Textumwandlung
 Element.Style.verticalAlign=Vertikale Anpassung
 Element.Style.whiteSpace=Whitespace
-Element.Style.widows=Witwe
+Element.Style.widows=Witwen
 Element.Style.orphans=Waisenkinder
 Element.Style.wordSpacing=Wortabstand
 
