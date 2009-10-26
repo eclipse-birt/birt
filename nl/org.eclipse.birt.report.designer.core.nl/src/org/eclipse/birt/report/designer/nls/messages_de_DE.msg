@@ -2675,6 +2675,7 @@ NewReportWizard.wizard.msgDirErr=Das Zielverzeichnis ist nicht vorhanden und kan
 NewResourceFileDialog.label.NewFile=&Neuer Dateiname:
 NewResourceFileDialog.ErrorMessage=Dateiname muss auf ".properties" enden.
 NewResourceFileDialog.ErrorMessageInvalid=Ungültiger Dateiname
+NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
 
 ###########################################################
 #ProjectFileDialog properties

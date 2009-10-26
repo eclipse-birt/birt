@@ -2675,6 +2675,7 @@ NewReportWizard.wizard.msgDirErr=目标目录不存在，但无法创建。
 NewResourceFileDialog.label.NewFile=新文件名称(&N):
 NewResourceFileDialog.ErrorMessage=文件名必须以 .properties 结尾
 NewResourceFileDialog.ErrorMessageInvalid=文件名无效
+NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
 
 ###########################################################
 #ProjectFileDialog properties

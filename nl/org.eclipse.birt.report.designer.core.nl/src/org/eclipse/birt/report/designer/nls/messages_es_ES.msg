@@ -2675,6 +2675,7 @@ NewReportWizard.wizard.msgDirErr=El directorio de destino no existe y no se pued
 NewResourceFileDialog.label.NewFile=&Nuevo nombre de archivo:
 NewResourceFileDialog.ErrorMessage=El nombre de archivo debe terminar en .properties
 NewResourceFileDialog.ErrorMessageInvalid=El nombre de archivo no es válido.
+NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
 
 ###########################################################
 #ProjectFileDialog properties

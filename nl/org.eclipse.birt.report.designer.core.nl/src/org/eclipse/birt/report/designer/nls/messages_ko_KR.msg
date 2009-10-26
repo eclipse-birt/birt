@@ -2675,6 +2675,7 @@ NewReportWizard.wizard.msgDirErr=대상 디렉터리가 없지만 만들 수 없습니다.
 NewResourceFileDialog.label.NewFile=새 파일 이름(&N):
 NewResourceFileDialog.ErrorMessage=파일 이름은 .properties로 끝나야 합니다.
 NewResourceFileDialog.ErrorMessageInvalid=잘못된 파일 이름
+NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
 
 ###########################################################
 #ProjectFileDialog properties

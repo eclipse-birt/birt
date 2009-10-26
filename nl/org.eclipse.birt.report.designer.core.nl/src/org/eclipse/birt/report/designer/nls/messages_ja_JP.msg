@@ -2675,6 +2675,7 @@ NewReportWizard.wizard.msgDirErr=ƒ^[ƒQƒbƒgƒfƒBƒŒƒNƒgƒŠ‚Í‘¶İ‚µ‚Ä‚¢‚Ü‚¹‚ñ‚ªAV‚
 NewResourceFileDialog.label.NewFile=V‹Kƒtƒ@ƒCƒ‹–¼(&N) :
 NewResourceFileDialog.ErrorMessage=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚Í .properties ‚É‚µ‚Ä‚­‚¾‚³‚¢B
 NewResourceFileDialog.ErrorMessageInvalid=ƒtƒ@ƒCƒ‹–¼‚ª–³Œø‚Å‚·B
+NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
 
 ###########################################################
 #ProjectFileDialog properties
