@@ -929,13 +929,7 @@ public class ContentCommand extends AbstractContentCommand
 			extendsCmd.setExtendsName( null );
 		}
 
-		// Remove from name space...
-
-		if ( content.getName( ) != null )
-		{
-			NameCommand nameCmd = new NameCommand( module, content );
-			nameCmd.dropElement( );
-		}
+		removeElementFromNameSpace( content );
 
 		// Drop the property binding
 

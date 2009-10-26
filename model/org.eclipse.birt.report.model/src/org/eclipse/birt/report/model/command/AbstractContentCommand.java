@@ -738,4 +738,21 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		return null;
 	}
+
+	/**
+	 * Remove element from the name space.
+	 * 
+	 * @param element
+	 *            the design element.
+	 */
+	protected void removeElementFromNameSpace( DesignElement element )
+	{
+		assert element != null;
+
+		if ( element.getName( ) != null )
+		{
+			NameCommand nameCmd = new NameCommand( module, element );
+			nameCmd.dropElement( );
+		}
+	}
 }

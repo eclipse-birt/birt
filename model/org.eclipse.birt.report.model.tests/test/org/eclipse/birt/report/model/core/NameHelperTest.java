@@ -111,9 +111,9 @@ public class NameHelperTest extends BaseTestCase
 		INameHelper nameHelper = new NameExecutor( level )
 				.getNameHelper( design );
 		String name = nameHelper.getUniqueName( level, "testLevel" ); //$NON-NLS-1$
-		assertEquals( "testLevel2", name  ); //$NON-NLS-1$
+		assertEquals( "testLevel2", name ); //$NON-NLS-1$
 		level.setName( name );
-		assertEquals( name,nameHelper.getUniqueName( level, "NewTestLevel" ) ); //$NON-NLS-1$ 		
+		assertEquals( name, nameHelper.getUniqueName( level, "NewTestLevel" ) ); //$NON-NLS-1$ 		
 	}
 
 	/**
@@ -268,5 +268,24 @@ public class NameHelperTest extends BaseTestCase
 		assertEquals( "testVariable", handle.getName( ) ); //$NON-NLS-1$
 		assertEquals( "testVariable", handle.getVariableName( ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * If the variable element with name is drop, its name will be removed from
+	 * the name space.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDeleteVariableElement( ) throws Exception
+	{
+		openDesign( ADD_ELEMENT_TEST_FILE );
+
+		DesignElementHandle handle = designHandle
+				.getPageVariable( "testVariable" ); //$NON-NLS-1$
+		handle.drop( );
+
+		handle = designHandle.getPageVariable( "testVariable" ); //$NON-NLS-1$
+
+		assertNull( handle );
 	}
 }

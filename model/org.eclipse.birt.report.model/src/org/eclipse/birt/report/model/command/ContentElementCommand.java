@@ -223,6 +223,8 @@ class ContentElementCommand extends AbstractContentCommand
 	{
 		DesignElement toRemove = makeLocalCompositeValue( content );
 		super.doDelectAction( toRemove );
+
+		removeElementFromNameSpace( toRemove );
 	}
 
 	/**
