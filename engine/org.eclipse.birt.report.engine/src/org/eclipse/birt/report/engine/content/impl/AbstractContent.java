@@ -952,7 +952,10 @@ abstract public class AbstractContent extends AbstractElement
 	public void setParent( IElement parent )
 	{
 		super.setParent( parent );
-		( (IContent) parent ).setHasChildren( true );
+		if ( parent != null )
+		{
+			( (IContent) parent ).setHasChildren( true );
+		}
 	}
 
 	public Map<String, Object> getExtensions( )
