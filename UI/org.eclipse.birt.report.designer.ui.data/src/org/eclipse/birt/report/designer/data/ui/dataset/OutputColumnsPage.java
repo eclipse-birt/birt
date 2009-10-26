@@ -385,7 +385,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							{
 								ColumnHintHandle column = (ColumnHintHandle) columns.next( );
 								if ( viewDatas[i].getName( )
-										.equalsIgnoreCase( column.getColumnName( ) ) )
+										.equals( column.getColumnName( ) ) )
 								{
 									viewDatas[i].setAlias( column.getAlias( ) );
 									break;
