@@ -1973,6 +1973,7 @@ Structure.ResultSetColumn.position=位置
 Structure.ResultSetColumn.name=名称
 Structure.ResultSetColumn.dataType=数据类型
 Structure.ResultSetColumn.nativeDataType=本地数据类型代码
+Structure.ResultSetColumn.ACLExpression=ACL 表达式
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
@@ -2104,6 +2105,7 @@ Structure.OdaResultSetColumn.name=名称
 Structure.OdaResultSetColumn.nativeName=本地名称
 Structure.OdaResultSetColumn.dataType=数据类型
 Structure.OdaResultSetColumn.nativeDataType=本地数据类型代码
+Structure.OdaResultSetColumn.ACLExpression=ACL 表达式
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
@@ -2303,6 +2305,7 @@ Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart 数据源
 Element.DataMartDataSet=Data Mart 数据集
 Element.DataMartCube=Data Mart 多维数据集
+Element.EventObject=Event Object
 
 ###########################################################
 # Element property names
@@ -2443,6 +2446,8 @@ Element.DataSet.rowFetchLimit=从数据集提取的最大行数
 Element.DataSet.needsCache=需要数据引擎缓存
 Element.DataSet.parameters=数据集参数
 Element.DataSet.sortHints=排序提示
+Element.DataSet.ACLExpression=ACL 表达式
+Element.DataSet.RowACLExpression=Row ACL expression
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=打开前
@@ -3153,10 +3158,12 @@ Element.AutoText.pageVariable=页面变量
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=筛选条件
 Element.Cube.defaultMeasureGroup=默认度量组
+Element.Cube.ACLExpression=ACL 表达式
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=是时间类型
 Element.Dimension.defaultHierarchy=默认层次结构
+Element.Dimension.ACLExpression=ACL 表达式
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=筛选条件
@@ -3172,12 +3179,15 @@ Element.Level.intervalRange=间隔范围
 Element.Level.levelType=级别类型
 Element.Level.staticValues=静态值
 Element.Level.defaultValue=默认值
+Element.Level.ACLExpression=ACL 表达式
+Element.Level.MemberACLExpression=Member ACL expression
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数
 Element.Measure.isCalculated=是计算的
 Element.Measure.measureExpression=度量表达式
 Element.Measure.dataType=数据类型
+Element.Measure.ACLExpression=ACL 表达式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=度量
@@ -3327,7 +3337,7 @@ Element.GadgetItem.zIndex=Z 索引
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=事件名称
-Element.EventSubscriber.subscribedGadgets=预订的小工具
+Element.EventSubscriber.eventObjects=Event objects
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=多维数据集
@@ -3365,6 +3375,10 @@ Element.DataMartDataSet.dataObject=数据对象
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=数据源
 Element.DataMartCube.dataObject=数据对象
+
+#82 EventObject (prefix Element.EventObject)
+Element.EventObject.gadget=Gadget
+Element.EventObject.appliedTo=AppliedTo
 
 ###########################################################
 # Predefined style

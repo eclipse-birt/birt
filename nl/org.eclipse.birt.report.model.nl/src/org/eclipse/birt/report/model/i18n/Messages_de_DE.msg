@@ -1973,6 +1973,7 @@ Structure.ResultSetColumn.position=Position
 Structure.ResultSetColumn.name=Name
 Structure.ResultSetColumn.dataType=Datentyp
 Structure.ResultSetColumn.nativeDataType=Programmeigener Datentypcode
+Structure.ResultSetColumn.ACLExpression=Ausdruck 'ACL'
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Spaltenname
@@ -2104,6 +2105,7 @@ Structure.OdaResultSetColumn.name=Name
 Structure.OdaResultSetColumn.nativeName=Programmeigener Name
 Structure.OdaResultSetColumn.dataType=Datentyp
 Structure.OdaResultSetColumn.nativeDataType=Programmeigener Datentypcode
+Structure.OdaResultSetColumn.ACLExpression=Ausdruck 'ACL'
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
@@ -2303,6 +2305,7 @@ Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart-Datenquelle
 Element.DataMartDataSet=Data Mart-Datensatz
 Element.DataMartCube=Data Mart-Cube
+Element.EventObject=Event Object
 
 ###########################################################
 # Element property names
@@ -2443,6 +2446,8 @@ Element.DataSet.rowFetchLimit=Maximale Anzahl an Zeilen, die aus dem Datensatz a
 Element.DataSet.needsCache=Cache wird für Daten-Engine benötigt
 Element.DataSet.parameters=Datensatzparameter
 Element.DataSet.sortHints=Sortierungshinweise
+Element.DataSet.ACLExpression=Ausdruck 'ACL'
+Element.DataSet.RowACLExpression=Row ACL expression
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Vor dem Öffnen
@@ -3153,10 +3158,12 @@ Element.AutoText.pageVariable=Seitenvariable
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=Filterbedingungen
 Element.Cube.defaultMeasureGroup=Standard-Maßeinheitsgruppe
+Element.Cube.ACLExpression=Ausdruck 'ACL'
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Gleich Uhrzeitformat
 Element.Dimension.defaultHierarchy=Standardhierarchie
+Element.Dimension.ACLExpression=Ausdruck 'ACL'
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=Filterbedingungen
@@ -3172,12 +3179,15 @@ Element.Level.intervalRange=Intervallbereich
 Element.Level.levelType=Ebenentyp
 Element.Level.staticValues=Statische Werte
 Element.Level.defaultValue=Standardwert
+Element.Level.ACLExpression=Ausdruck 'ACL'
+Element.Level.MemberACLExpression=Member ACL expression
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Funktion
 Element.Measure.isCalculated=Wird berechnet
 Element.Measure.measureExpression=Ausdruck für Maßeinheit
 Element.Measure.dataType=Datentyp
+Element.Measure.ACLExpression=Ausdruck 'ACL'
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Einheiten
@@ -3327,7 +3337,7 @@ Element.GadgetItem.zIndex=Z-Index
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=Ereignisname
-Element.EventSubscriber.subscribedGadgets=Abonnierte Gadgets
+Element.EventSubscriber.eventObjects=Event objects
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=Quader
@@ -3365,6 +3375,10 @@ Element.DataMartDataSet.dataObject=Datenobjekt
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=Datenquelle
 Element.DataMartCube.dataObject=Datenobjekt
+
+#82 EventObject (prefix Element.EventObject)
+Element.EventObject.gadget=Gadget
+Element.EventObject.appliedTo=AppliedTo
 
 ###########################################################
 # Predefined style

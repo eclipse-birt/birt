@@ -1973,6 +1973,7 @@ Structure.ResultSetColumn.position=位置
 Structure.ResultSetColumn.name=名前
 Structure.ResultSetColumn.dataType=データ型
 Structure.ResultSetColumn.nativeDataType=ネイティブのデータ型コード
+Structure.ResultSetColumn.ACLExpression=ACL 式
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
@@ -2104,6 +2105,7 @@ Structure.OdaResultSetColumn.name=名前
 Structure.OdaResultSetColumn.nativeName=ネイティブの名前
 Structure.OdaResultSetColumn.dataType=データ型
 Structure.OdaResultSetColumn.nativeDataType=ネイティブのデータ型コード
+Structure.OdaResultSetColumn.ACLExpression=ACL 式
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=ODA データセットパラメタ
@@ -2303,6 +2305,7 @@ Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart データソース
 Element.DataMartDataSet=Data Mart データセット
 Element.DataMartCube=Data Mart キューブ
+Element.EventObject=Event Object
 
 ###########################################################
 # Element property names
@@ -2443,6 +2446,8 @@ Element.DataSet.rowFetchLimit=データセットからフェッチする最大行数
 Element.DataSet.needsCache=データエンジン用のキャッシュが必要です。
 Element.DataSet.parameters=データセットのパラメタ
 Element.DataSet.sortHints=ソートのヒント
+Element.DataSet.ACLExpression=ACL 式
+Element.DataSet.RowACLExpression=Row ACL expression
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=開く前
@@ -3153,10 +3158,12 @@ Element.AutoText.pageVariable=ページ変数
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=フィルタ条件
 Element.Cube.defaultMeasureGroup=デフォルトのメジャーグループ
+Element.Cube.ACLExpression=ACL 式
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is time 型
 Element.Dimension.defaultHierarchy=デフォルトの階層
+Element.Dimension.ACLExpression=ACL 式
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=フィルタ条件
@@ -3172,12 +3179,15 @@ Element.Level.intervalRange=間隔の範囲
 Element.Level.levelType=レベルの型
 Element.Level.staticValues=静的な値
 Element.Level.defaultValue=デフォルト値
+Element.Level.ACLExpression=ACL 式
+Element.Level.MemberACLExpression=Member ACL expression
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
 Element.Measure.isCalculated=Is calculated
 Element.Measure.measureExpression=メジャー式
 Element.Measure.dataType=データ型
+Element.Measure.ACLExpression=ACL 式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=メジャー
@@ -3327,7 +3337,7 @@ Element.GadgetItem.zIndex=重ね順
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=イベント名
-Element.EventSubscriber.subscribedGadgets=購読中のガジェット
+Element.EventSubscriber.eventObjects=Event objects
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=キューブ
@@ -3365,6 +3375,10 @@ Element.DataMartDataSet.dataObject=データオブジェクト
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=データソース
 Element.DataMartCube.dataObject=データオブジェクト
+
+#82 EventObject (prefix Element.EventObject)
+Element.EventObject.gadget=Gadget
+Element.EventObject.appliedTo=AppliedTo
 
 ###########################################################
 # Predefined style

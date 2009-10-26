@@ -1973,6 +1973,7 @@ Structure.ResultSetColumn.position=Posición
 Structure.ResultSetColumn.name=Nombre
 Structure.ResultSetColumn.dataType=Tipo de datos
 Structure.ResultSetColumn.nativeDataType=Código de tipo de datos nativo
+Structure.ResultSetColumn.ACLExpression=Expresión ACL
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Nombre de la columna
@@ -2104,6 +2105,7 @@ Structure.OdaResultSetColumn.name=Nombre
 Structure.OdaResultSetColumn.nativeName=Nombre nativo
 Structure.OdaResultSetColumn.dataType=Tipo de datos
 Structure.OdaResultSetColumn.nativeDataType=Código de tipo de datos nativo
+Structure.OdaResultSetColumn.ACLExpression=Expresión ACL
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
@@ -2303,6 +2305,7 @@ Element.DataMart=Data Mart
 Element.DataMartDataSource=Fuente de datos de Data Mart
 Element.DataMartDataSet=Conjunto de datos de Data Mart
 Element.DataMartCube=Cubo de Data Mart
+Element.EventObject=Event Object
 
 ###########################################################
 # Element property names
@@ -2443,6 +2446,8 @@ Element.DataSet.rowFetchLimit=Número máximo de filas que recuperar del conjunto 
 Element.DataSet.needsCache=Caché necesario para el motor de datos
 Element.DataSet.parameters=Parámetros de conjunto de datos
 Element.DataSet.sortHints=Sugerencias de orden
+Element.DataSet.ACLExpression=Expresión ACL
+Element.DataSet.RowACLExpression=Row ACL expression
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Antes de abrir
@@ -3153,10 +3158,12 @@ Element.AutoText.pageVariable=Variable de página
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=Condiciones de filtro
 Element.Cube.defaultMeasureGroup=Grupo de medida predeterminado
+Element.Cube.ACLExpression=Expresión ACL
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Tipo Es tiempo
 Element.Dimension.defaultHierarchy=Jerarquía predeterminada
+Element.Dimension.ACLExpression=Expresión ACL
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=Condiciones de filtro
@@ -3172,12 +3179,15 @@ Element.Level.intervalRange=Rango del intervalo
 Element.Level.levelType=Tipo de nivel
 Element.Level.staticValues=Valores estadísticos
 Element.Level.defaultValue=Valor predeterminado
+Element.Level.ACLExpression=Expresión ACL
+Element.Level.MemberACLExpression=Member ACL expression
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Función
 Element.Measure.isCalculated=Se calcula
 Element.Measure.measureExpression=Expresión de medida
 Element.Measure.dataType=Tipo de datos
+Element.Measure.ACLExpression=Expresión ACL
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Medidas
@@ -3327,7 +3337,7 @@ Element.GadgetItem.zIndex=Índice Z
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=Nombre de evento
-Element.EventSubscriber.subscribedGadgets=Gadgets suscritos
+Element.EventSubscriber.eventObjects=Event objects
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=Cubo
@@ -3365,6 +3375,10 @@ Element.DataMartDataSet.dataObject=Objeto de datos
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=Fuente de datos
 Element.DataMartCube.dataObject=Objeto de datos
+
+#82 EventObject (prefix Element.EventObject)
+Element.EventObject.gadget=Gadget
+Element.EventObject.appliedTo=AppliedTo
 
 ###########################################################
 # Predefined style

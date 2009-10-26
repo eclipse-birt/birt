@@ -1973,6 +1973,7 @@ Structure.ResultSetColumn.position=위치
 Structure.ResultSetColumn.name=이름
 Structure.ResultSetColumn.dataType=데이터 형식
 Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
+Structure.ResultSetColumn.ACLExpression=ACL 식
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=열 이름
@@ -2104,6 +2105,7 @@ Structure.OdaResultSetColumn.name=이름
 Structure.OdaResultSetColumn.nativeName=고유 이름
 Structure.OdaResultSetColumn.dataType=데이터 형식
 Structure.OdaResultSetColumn.nativeDataType=고유 데이터 형식 코드
+Structure.OdaResultSetColumn.ACLExpression=ACL 식
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
@@ -2303,6 +2305,7 @@ Element.DataMart=데이터 마트
 Element.DataMartDataSource=Data Mart 데이터 원본
 Element.DataMartDataSet=Data Mart 데이터 집합
 Element.DataMartCube=Data Mart 큐브
+Element.EventObject=Event Object
 
 ###########################################################
 # Element property names
@@ -2443,6 +2446,8 @@ Element.DataSet.rowFetchLimit=데이터 집합에서 인출할 최대 행 수
 Element.DataSet.needsCache=데이터 엔진용 캐시가 필요합니다.
 Element.DataSet.parameters=데이터 집합 매개 변수
 Element.DataSet.sortHints=힌트 정렬
+Element.DataSet.ACLExpression=ACL 식
+Element.DataSet.RowACLExpression=Row ACL expression
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=열기 이전
@@ -3153,10 +3158,12 @@ Element.AutoText.pageVariable=페이지 변수
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=필터 조건
 Element.Cube.defaultMeasureGroup=기본 측정값 그룹
+Element.Cube.ACLExpression=ACL 식
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=시간 유형 조건
 Element.Dimension.defaultHierarchy=기본 계층 구조
+Element.Dimension.ACLExpression=ACL 식
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=필터 조건
@@ -3172,12 +3179,15 @@ Element.Level.intervalRange=간격 범위
 Element.Level.levelType=수준 형식
 Element.Level.staticValues=정적 값
 Element.Level.defaultValue=기본값
+Element.Level.ACLExpression=ACL 식
+Element.Level.MemberACLExpression=Member ACL expression
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
 Element.Measure.isCalculated=계산 조건
 Element.Measure.measureExpression=측정값 식
 Element.Measure.dataType=데이터 형식
+Element.Measure.ACLExpression=ACL 식
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값
@@ -3327,7 +3337,7 @@ Element.GadgetItem.zIndex=Z 인덱스
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=이벤트 이름
-Element.EventSubscriber.subscribedGadgets=구독한 가젯
+Element.EventSubscriber.eventObjects=Event objects
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=큐브
@@ -3365,6 +3375,10 @@ Element.DataMartDataSet.dataObject=데이터 개체
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=데이터 원본
 Element.DataMartCube.dataObject=데이터 개체
+
+#82 EventObject (prefix Element.EventObject)
+Element.EventObject.gadget=Gadget
+Element.EventObject.appliedTo=AppliedTo
 
 ###########################################################
 # Predefined style
