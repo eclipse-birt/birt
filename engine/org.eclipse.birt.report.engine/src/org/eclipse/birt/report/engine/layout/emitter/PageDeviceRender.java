@@ -116,7 +116,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	public void start( IReportContent rc )
 	{
 		ReportDesignHandle designHandle = rc.getDesign( ).getReportDesign( );
-		String title = designHandle.getStringProperty( IModuleModel.TITLE_PROP );
+		String title = rc.getTitle( );
 		String author = designHandle.getAuthor( );
 		String description = designHandle
 				.getStringProperty( IModuleModel.DESCRIPTION_PROP );

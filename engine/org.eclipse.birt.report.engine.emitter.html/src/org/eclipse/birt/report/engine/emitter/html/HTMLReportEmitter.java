@@ -88,7 +88,6 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -694,7 +693,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_HEAD );
 		
 		// write the title of the report in html.
-		outputReportTitle( designHandle );
+		outputReportTitle( report );
 				
 		writer.openTag( HTMLTags.TAG_META );
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
@@ -812,14 +811,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	/**
 	 * output the report title.
 	 */
-	protected void outputReportTitle( ReportDesignHandle designHandle )
+	protected void outputReportTitle( IReportContent report )
 	{
 		// write the title of the report in HTML.
-		String title = null;
-		if ( designHandle != null )
-		{
-			title = designHandle.getStringProperty( IModuleModel.TITLE_PROP );
-		}
+		String title = report.getTitle( );
 		if ( title == null )
 		{
 			// set the default title

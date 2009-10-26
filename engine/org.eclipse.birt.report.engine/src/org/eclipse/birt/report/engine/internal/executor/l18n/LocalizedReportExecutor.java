@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.internal.executor.l18n;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -52,5 +54,15 @@ public class LocalizedReportExecutor extends WrappedReportExecutor
 	protected void closeWrappedExecutor( IReportItemExecutor executor )
 	{
 		freeExecutors.add( executor );
+	}
+
+	public IReportContent execute( ) throws BirtException
+	{
+		IReportContent report = super.execute( );
+		if ( report != null )
+		{
+			report = l18nVisitor.localizeReport( report );
+		}
+		return report;
 	}
 }

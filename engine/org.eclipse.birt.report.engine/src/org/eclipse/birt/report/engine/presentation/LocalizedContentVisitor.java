@@ -184,6 +184,13 @@ public class LocalizedContentVisitor
 		}
 	}
 
+	public IReportContent localizeReport( IReportContent report )
+			throws BirtException
+	{
+		processReport( report );
+		return report;
+	}
+
 	protected IContent localizeAllChildren( IContent content )
 			throws BirtException
 	{
@@ -464,6 +471,17 @@ public class LocalizedContentVisitor
 		}
 	}
 
+	protected void processReport( IReportContent report )
+	{
+		if ( report.getDesign( ) != null )
+		{
+			ReportDesignHandle handle = report.getDesign( ).getReportDesign( );
+			String title = localize( report, handle.getTitleKey( ), handle
+					.getTitle( ) );
+			report.setTitle( title );
+		}
+	}
+
 	private ITextContent localizeText( ITextContent text )
 	{
 		handleOnRender( text );
@@ -628,6 +646,26 @@ public class LocalizedContentVisitor
 		{
 			DesignElementHandle element = ( (ReportItemDesign) content
 					.getGenerateBy( ) ).getHandle( );
+			if ( key != null && element != null )
+			{
+				String t = ModuleUtil.getExternalizedValue( element, key, text,
+						ULocale.forLocale( locale ) );
+				if ( t != null )
+				{
+					return t;
+				}
+			}
+		}
+		return text;
+	}
+
+	private String localize( IReportContent content, String key, String text )
+	{
+		assert ( content != null );
+		if ( content.getDesign( ) != null )
+		{
+			DesignElementHandle element = content.getDesign( )
+					.getReportDesign( );
 			if ( key != null && element != null )
 			{
 				String t = ModuleUtil.getExternalizedValue( element, key, text,

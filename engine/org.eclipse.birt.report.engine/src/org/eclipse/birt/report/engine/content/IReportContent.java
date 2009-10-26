@@ -259,4 +259,8 @@ public interface IReportContent
 
 	void readContent( DataInputStream in, ClassLoader loader )
 			throws IOException;
+
+	public String getTitle( );
+
+	public void setTitle( String title );
 }
