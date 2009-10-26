@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -73,11 +74,32 @@ public class FillUtil
 	 */
 	public static Fill getDarkerFill( Fill fill )
 	{
+		if ( fill instanceof ColorDefinition )
+		{
+			return goFactory.darker( (ColorDefinition) fill );
+		}
+		if ( fill instanceof Gradient )
+		{
+			ColorDefinition cdStart = ( (Gradient) fill ).getStartColor( );
+			ColorDefinition cdEnd = ( (Gradient) fill ).getEndColor( );
+			return goFactory.createGradient( goFactory.darker( cdStart ),
+					goFactory.darker( cdEnd ) );
+		}
+		if ( fill instanceof MultipleFill )
+		{
+			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
+			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
+			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
+			MultipleFill newFill = MultipleFillImpl.create( );
+			newFill.getFills( ).add( goFactory.darker( cd0 ) );
+			newFill.getFills( ).add( goFactory.darker( cd1 ) );
+			return newFill;
+		}
 		if ( fill instanceof Image )
 		{
 			return fill;
 		}
-		return getDarkerColor( fill );
+		return fill;
 	}
 
 	/**
@@ -135,11 +157,32 @@ public class FillUtil
 	 */
 	public static Fill getBrighterFill( Fill fill )
 	{
+		if ( fill instanceof ColorDefinition )
+		{
+			return goFactory.brighter( (ColorDefinition) fill );
+		}
+		if ( fill instanceof Gradient )
+		{
+			ColorDefinition cdStart = ( (Gradient) fill ).getStartColor( );
+			ColorDefinition cdEnd = ( (Gradient) fill ).getEndColor( );
+			return goFactory.createGradient( goFactory.brighter( cdStart ),
+					goFactory.brighter( cdEnd ) );
+		}
+		if ( fill instanceof MultipleFill )
+		{
+			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
+			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
+			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
+			MultipleFill newFill = MultipleFillImpl.create( );
+			newFill.getFills( ).add( goFactory.brighter( cd0 ) );
+			newFill.getFills( ).add( goFactory.brighter( cd1 ) );
+			return newFill;
+		}
 		if ( fill instanceof Image )
 		{
 			return fill;
 		}
-		return getBrighterColor( fill );
+		return fill;
 	}
 
 	static ColorDefinition getSortedColors( boolean bBrighter,
