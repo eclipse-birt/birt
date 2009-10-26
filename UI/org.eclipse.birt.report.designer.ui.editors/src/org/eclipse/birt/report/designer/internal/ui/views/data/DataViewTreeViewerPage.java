@@ -44,10 +44,12 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.gef.dnd.TemplateTransfer;
@@ -238,7 +240,9 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 				if ( canInsert )
 					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertColumn" ) + text ); //$NON-NLS-1$
 			}
-			if ( object instanceof ParameterHandle )
+			else if ( object instanceof ParameterHandle
+					|| object instanceof VariableElementHandle
+					|| object instanceof CubeHandle )
 			{
 				if ( canInsert )
 					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertParameter" ) ); //$NON-NLS-1$
@@ -368,9 +372,9 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	}
 
 	/**
-	 * The <code>Page</code> implementation of this <code>IPage</code>
-	 * method disposes of this page's control (if it has one and it has not
-	 * already been disposed). Disposes the visitor of the element
+	 * The <code>Page</code> implementation of this <code>IPage</code> method
+	 * disposes of this page's control (if it has one and it has not already
+	 * been disposed). Disposes the visitor of the element
 	 */
 	public void dispose( )
 	{
@@ -485,8 +489,9 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.validators.IValidationListener#elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.report.model.api.validators.ValidationEvent)
+	 * @seeorg.eclipse.birt.report.model.api.validators.IValidationListener#
+	 * elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
+	 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 	 */
 	public void elementValidated( DesignElementHandle targetElement,
 			ValidationEvent ev )
@@ -564,7 +569,8 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DesignerOutlineEventProcessor.IFactConsumerFactory#isDispose()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.
+	 * DesignerOutlineEventProcessor.IFactConsumerFactory#isDispose()
 	 */
 	public boolean isDispose( )
 	{
