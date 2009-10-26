@@ -12,12 +12,15 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
@@ -1369,10 +1372,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected String getColumnName( Object obj )
 	{
-		if ( obj instanceof ComputedColumnHandle )
-			return ( (ComputedColumnHandle) obj ).getName( );
-		else if ( obj instanceof ResultSetColumnHandle )
-			return ( (ResultSetColumnHandle) obj ).getColumnName( );
+		if ( obj instanceof DataSetViewData )
+		{
+			return ( (DataSetViewData) obj ).getName( );
+		}
 		else
 			return ""; //$NON-NLS-1$
 	}
@@ -1745,14 +1748,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	{
 		if ( handle instanceof DataSetHandle )
 		{
-			try
-			{
-				columnList = DataUtil.getColumnList( dataset );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-			}
+			columnList = Arrays.asList( DataSetProvider.getCurrentInstance( )
+					.getColumns( (DataSetHandle) handle, false ) );
 		}
 		else if ( handle instanceof TabularCubeHandle
 				|| handle instanceof TabularHierarchyHandle )
