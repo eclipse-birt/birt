@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.CubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperationFactory;
