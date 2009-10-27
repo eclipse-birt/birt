@@ -51,7 +51,7 @@ public class SortDefinition implements ISortDefinition
 	}
 	
 	/**
-	 * @param keyColumn Name of key column to sorty by
+	 * @param keyColumn Name of key column to sort by
 	 */
 	public void setColumn( String keyColumn ) 
 	{

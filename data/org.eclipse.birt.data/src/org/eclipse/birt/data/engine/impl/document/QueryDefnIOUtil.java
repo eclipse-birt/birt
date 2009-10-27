@@ -449,7 +449,8 @@ public class QueryDefnIOUtil
 			if ( sortKeyColumn != null )
 				sortDefn.setColumn( sortKeyColumn );
 			else
-				sortDefn.setExpression( sortKeyExpr.getText( ) );
+				sortDefn.setExpression( sortKeyExpr );
+				
 			sortDefn.setSortDirection( direction );
 			
 			if ( version >= VersionManager.VERSION_2_3_1 )
