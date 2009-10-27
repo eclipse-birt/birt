@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -26,8 +27,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertyStructure;
 
 /**
- * Represents one computed column. A computed column is a ��virtual�� column
- * produced as an expression of other columns within the data set.
+ * Represents one computed column. A computed column is a ��virtual��
+ * column produced as an expression of other columns within the data set.
  * <p>
  * This is a managed object, meaning that all changes should be made though the
  * command layer so that they can be undone and redone. Each computed column has
@@ -119,6 +120,14 @@ public class ComputedColumn extends PropertyStructure
 	 * Name of the filter member.
 	 */
 	public static final String FILTER_MEMBER = "filterExpr"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that defines expression to calculate ACL for the data
+	 * set column. This expression is evaluated once for each column, after the
+	 * data set has been executed but before the first result set row has been
+	 * processed.
+	 */
+	public static final String ACL_EXPRESSION_MEMBER = "ACLExpression"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -541,5 +550,25 @@ public class ComputedColumn extends PropertyStructure
 			return;
 
 		arguments.remove( argument );
+	}
+
+	/**
+	 * Gets the ACL expression for this result set column.
+	 * 
+	 * @return
+	 */
+	public Expression getACLExpression( )
+	{
+		return (Expression) getProperty( null, ACL_EXPRESSION_MEMBER );
+	}
+
+	/**
+	 * Sets the ACL expression for this result set column.
+	 * 
+	 * @param aclExpression
+	 */
+	public void setACLExpression( Expression aclExpression )
+	{
+		setProperty( ACL_EXPRESSION_MEMBER, aclExpression );
 	}
 }

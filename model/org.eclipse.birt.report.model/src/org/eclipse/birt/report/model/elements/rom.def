@@ -1431,7 +1431,8 @@
     <Member displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="string" >
     </Member>	  	  
     <Member detailType="AggregationArgument" displayNameID="Structure.ComputedColumn.arguments" isList="true" name="arguments" since="2.2" type="structure" />	  	  	  	  
-    <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />	  	  	  	  
+    <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />
+    <Member displayNameID="Structure.ComputedColumn.ACLExpression" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>	  	  	  	  
   </Structure>
   <Structure displayNameID="Structure.ColumnHint" name="ColumnHint" since="1.0">
     <Member displayNameID="Structure.ColumnHint.columnName" name="columnName" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>

@@ -493,4 +493,13 @@ public class ComputedColumnHandle extends StructureHandle
 		setProperty( ComputedColumn.ARGUMENTS_MEMBER, null );
 	}
 
+	/**
+	 * Gets the expression handle for the <code>ACLExpression</code> member.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getACLExpression( )
+	{
+		return getExpressionProperty( ComputedColumn.ACL_EXPRESSION_MEMBER );
+	}
 }

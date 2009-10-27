@@ -19,6 +19,7 @@
                     <property name="name">new column1</property>
                     <expression name="expression">new expression 1</expression>
                     <property name="dataType">decimal</property>
+                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
                 </structure>
                 <structure>
                     <property name="name">new column2</property>

@@ -83,6 +83,7 @@
                     <property name="columnName">column1</property>
                     <expression name="expression">expression1</expression>
                     <property name="dataType">integer</property>
+                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
                 </structure>
                 <structure>
                     <property name="columnName">column2</property>
