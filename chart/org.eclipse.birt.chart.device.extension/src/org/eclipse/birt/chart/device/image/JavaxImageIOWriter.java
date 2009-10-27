@@ -355,6 +355,29 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				eval2JS( callbackFunction.toString( ), true ) );
 	}
 
+	/*
+	 * To remove the surrounding double quotes if there is any.
+	 */
+	private String removeSurroundingQuotes( String sBaseUrl )
+	{
+		if ( sBaseUrl == null )
+		{
+			return null;
+		}
+
+		if ( sBaseUrl.length( ) > 0 )
+		{
+			int iEnd = sBaseUrl.length( ) - 1;
+			if ( sBaseUrl.charAt( 0 ) == '\"'
+					&& sBaseUrl.charAt( iEnd ) == '\"' )
+			{
+				return sBaseUrl.substring( 1, iEnd );
+			}
+		}
+
+		return sBaseUrl;
+	}
+
 	/**
 	 * @param tag
 	 * @param condition
@@ -372,7 +395,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			// only click event uses href to redirect
 			tag.addAttribute( HTMLAttribute.HREF,
-					eval2HTML( uv.getBaseUrl( ) ) );
+					eval2HTML( removeSurroundingQuotes( uv.getBaseUrl( ) ) ) );
 			// #258627: "target" can't be a empty String. You
 			// shouldn't output target when it's empty.
 			if ( uv.getTarget( ) != null )
@@ -465,6 +488,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	protected String getJsURLRedirect( URLValue uv )
 	{
 		String sBaseUrl = uv.getBaseUrl( ) == null ? "" : uv.getBaseUrl( );//$NON-NLS-1$
+		sBaseUrl = removeSurroundingQuotes( sBaseUrl );
 		if ( sBaseUrl.startsWith( "javascript:" ) ) //$NON-NLS-1$
 		{
 			return sBaseUrl;
