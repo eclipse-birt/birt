@@ -1079,4 +1079,24 @@ public class SecurityUtil
 		return piTmp0;
 	}
 
+	/**
+	 * Get the value of a system environment variable.
+	 * 
+	 * @param name
+	 * @return the value
+	 */
+	public static String getSystemEnv( final String name )
+	{
+		String piTmp0 = null;
+		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+
+			public String run( )
+			{
+				return System.getenv( name );
+			}
+		} );
+
+		return piTmp0;
+	}
+
 }
