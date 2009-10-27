@@ -1985,6 +1985,7 @@ Structure.ComputedColumn.aggregateOn=AggregateOn ®
 Structure.ComputedColumn.aggregateFunction=AggregateOn ŠÖ”
 Structure.ComputedColumn.arguments=AggregateOn ŠÖ”‚Ìˆø”
 Structure.ComputedColumn.filterExpr=ƒtƒBƒ‹ƒ^®
+Structure.ComputedColumn.ACLExpression=ACL ®
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=—ñ–¼

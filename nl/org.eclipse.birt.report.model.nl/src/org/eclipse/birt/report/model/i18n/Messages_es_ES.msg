@@ -1985,6 +1985,7 @@ Structure.ComputedColumn.aggregateOn=Expresión de Agregar en
 Structure.ComputedColumn.aggregateFunction=Función AgregarEn
 Structure.ComputedColumn.arguments=Argumentos de la función AgregarEn
 Structure.ComputedColumn.filterExpr=Expresión de filtro
+Structure.ComputedColumn.ACLExpression=Expresión ACL
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Nombre de la columna

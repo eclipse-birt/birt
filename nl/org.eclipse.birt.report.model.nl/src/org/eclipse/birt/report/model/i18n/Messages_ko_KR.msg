@@ -1985,6 +1985,7 @@ Structure.ComputedColumn.aggregateOn=AggregateOn 식
 Structure.ComputedColumn.aggregateFunction=AggregateOn 함수
 Structure.ComputedColumn.arguments=AggregateOn 함수 인수
 Structure.ComputedColumn.filterExpr=필터 식
+Structure.ComputedColumn.ACLExpression=ACL 식
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=열 이름
