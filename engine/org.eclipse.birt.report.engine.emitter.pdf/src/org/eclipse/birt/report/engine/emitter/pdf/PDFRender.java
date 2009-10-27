@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -20,7 +22,6 @@ import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
@@ -34,6 +35,8 @@ import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+
+import com.lowagie.text.pdf.PdfTemplate;
 
 public class PDFRender extends PageDeviceRender
 {
@@ -98,15 +101,33 @@ public class PDFRender extends PageDeviceRender
 		super.visitAutoText( templateArea );
 		int x = currentX + getX( templateArea );
 		int y = currentY + getY( templateArea );
+		//create template according to the page scale
 		createTotalPageTemplate( x, y, getWidth( templateArea ),
-				getHeight( templateArea ) );
+					getHeight( templateArea ), scale );
 	}
 
 	public void setTotalPage( ITextArea totalPage )
 	{
 		super.setTotalPage( totalPage );
 		isTotalPage = true;
-		drawText( totalPage );
+		HashMap<Float, PdfTemplate> map = ( (PDFPageDevice) pageDevice )
+				.getTemplateMap( );
+		if ( !map.isEmpty( ) )
+		{
+			float scaleCache = this.scale;
+			Iterator<Float> iter = map.keySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Float s = iter.next( );
+				PdfTemplate template = map.get( s );
+				if ( template != null )
+				{
+					this.scale = s.floatValue( );
+					drawText( totalPage );
+				}
+			}
+			this.scale = scaleCache;
+		}
 		isTotalPage = false;
 	}
 	
@@ -160,7 +181,7 @@ public class PDFRender extends PageDeviceRender
 		if ( isTotalPage )
 		{
 			currentPage.drawTotalPage( text.getText( ), x, y, width, height,
-					textInfo );
+					textInfo, scale );
 		}
 		else
 		{
@@ -241,15 +262,10 @@ public class PDFRender extends PageDeviceRender
 		currentPageDevice.createTOC(bookmarks);
 	}
 
-	private void createTotalPageTemplate( int x, int y, int width,
-			int height )
+	private void createTotalPageTemplate( int x, int y, int width, int height,
+			float scale )
 	{
-		currentPage.createTotalPageTemplate( x, y, width, height );
+		currentPage.createTotalPageTemplate( x, y, width, height, scale );
 	}
 
-	protected void drawTotalPage( String text, int x, int y, int width,
-			int height, TextStyle textInfo )
-	{
-		currentPage.drawTotalPage( text, x, y, width, height, textInfo );
-	}
 }

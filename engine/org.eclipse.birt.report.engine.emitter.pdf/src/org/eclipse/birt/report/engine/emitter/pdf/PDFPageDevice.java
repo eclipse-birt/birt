@@ -57,7 +57,7 @@ public class PDFPageDevice implements IPageDevice
 
 	private PDFPage currentPage = null;
 	
-	private PdfTemplate totalPageTemplate = null;
+	private HashMap<Float, PdfTemplate> templateMap = new HashMap<Float, PdfTemplate>();
 	
 	private HashMap<String, PdfTemplate> imageMap = new HashMap<String, PdfTemplate>( );
 	
@@ -132,16 +132,26 @@ public class PDFPageDevice implements IPageDevice
 		}
 	}
 	
-	public void setPDFTemplate(PdfTemplate totalPageTemplate)
+	public void setPDFTemplate( Float scale, PdfTemplate totalPageTemplate )
 	{
-		this.totalPageTemplate = totalPageTemplate;
+		templateMap.put( scale, totalPageTemplate );
 	}
-	
-	public PdfTemplate getPDFTemplate()
+
+	public HashMap<Float, PdfTemplate> getTemplateMap( )
 	{
-		return this.totalPageTemplate;
+		return templateMap;
 	}
-	
+
+	public PdfTemplate getPDFTemplate( Float scale )
+	{
+		return templateMap.get( scale );
+	}
+
+	public boolean hasTemplate( Float scale )
+	{
+		return templateMap.containsKey( scale );
+	}
+		
 	public HashMap<String, PdfTemplate> getImageMap( )
 	{
 		return imageMap;

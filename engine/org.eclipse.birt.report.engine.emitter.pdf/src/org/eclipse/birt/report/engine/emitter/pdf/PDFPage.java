@@ -62,8 +62,7 @@ public class PDFPage extends AbstractPage
 
 	private static Logger logger = Logger.getLogger( PDFPage.class.getName( ) );
 
-	//Current text is total page.
-	boolean isTotalPage = false;
+	private float containerHeight;
 	
 	private PDFPageDevice pageDevice;
 	
@@ -73,6 +72,7 @@ public class PDFPage extends AbstractPage
 		super( pageWidth, pageHeight );
 		this.writer = writer;
 		this.pageDevice = pageDevice;
+		this.containerHeight = this.pageHeight;
 		try
 		{
 			Rectangle pageSize = new Rectangle( this.pageWidth, this.pageHeight );
@@ -550,12 +550,17 @@ public class PDFPage extends AbstractPage
 	}
 
 	public void drawTotalPage( String text, int textX, int textY, int width,
-			int height, TextStyle textInfo )
+			int height, TextStyle textInfo, float scale )
 	{
-		if ( pageDevice.getPDFTemplate( ) != null )
+		PdfTemplate template = pageDevice.getPDFTemplate( scale );
+		if ( template != null )
 		{
-			isTotalPage = true;
+			PdfContentByte tempCB = this.contentByte;
+			this.containerHeight = template.getHeight( );
+			this.contentByte = template;
 			drawText( text, textX, textY, width, height, textInfo );
+			this.contentByte = tempCB;
+			this.containerHeight = pageHeight;
 		}
 	}
 
@@ -591,22 +596,28 @@ public class PDFPage extends AbstractPage
 				type ) ) );
 	}
 
-	public void createTotalPageTemplate( int x, int y, int width, int height )
+	public void createTotalPageTemplate( int x, int y, int width, int height, float scale )
 	{
 		createTotalPageTemplate( convertToPoint( x ), convertToPoint( y ),
-				convertToPoint( width ), convertToPoint( height ) );
+				convertToPoint( width ), convertToPoint( height ), scale );
 	}
 
 	private void createTotalPageTemplate( float x, float y, float width,
-			float height )
+			float height, float scale )
 	{
-		if ( pageDevice.getPDFTemplate( ) == null )
+		PdfTemplate template = null;
+		if ( pageDevice.hasTemplate( scale ) )
 		{
-			pageDevice.setPDFTemplate( contentByte.createTemplate( width, height ));
+			template = pageDevice.getPDFTemplate( scale );
+		}
+		else
+		{
+			template = contentByte.createTemplate( width, height );
+			pageDevice.setPDFTemplate( scale, template );
 		}
 		y = transformY( y, height );
 		contentByte.saveState( );
-		contentByte.addTemplate( pageDevice.getPDFTemplate( ), x, y );
+		contentByte.addTemplate( template, x, y );
 		contentByte.restoreState( );
 	}
 
@@ -651,33 +662,26 @@ public class PDFPage extends AbstractPage
 			FontInfo fontInfo, float characterSpacing, float wordSpacing,
 			Color color, CSSValue align )
 	{
-		PdfContentByte currentContentByte = isTotalPage
-				? pageDevice.getPDFTemplate( )
-				: contentByte;
-		float containerHeight = isTotalPage
-				? pageDevice.getPDFTemplate( ).getHeight( )
-				: pageHeight;
-		isTotalPage = false;
-		currentContentByte.saveState( );
+		contentByte.saveState( );
 		// start drawing the text content
-		currentContentByte.beginText( );
+		contentByte.beginText( );
 		if ( null != color && !Color.BLACK.equals( color ) )
 		{
-			currentContentByte.setColorFill( color );
-			currentContentByte.setColorStroke( color );
+			contentByte.setColorFill( color );
+			contentByte.setColorStroke( color );
 		}
 		BaseFont font = fontInfo.getBaseFont( );
 		float fontSize = fontInfo.getFontSize( );
-		currentContentByte.setFontAndSize( font, fontSize );
+		contentByte.setFontAndSize( font, fontSize );
 		if ( characterSpacing != 0 )
 		{
-			currentContentByte.setCharacterSpacing( characterSpacing );
+			contentByte.setCharacterSpacing( characterSpacing );
 		}
 		if ( wordSpacing != 0 )
 		{
-			currentContentByte.setWordSpacing( wordSpacing );
+			contentByte.setWordSpacing( wordSpacing );
 		}
-		setTextMatrix( currentContentByte, fontInfo, textX, transformY( textY, 0, containerHeight ) );
+		setTextMatrix( contentByte, fontInfo, textX, transformY( textY, 0, containerHeight ) );
 		if ( ( font.getFontType( ) == BaseFont.FONT_TYPE_TTUNI )
 				&& IStyle.JUSTIFY_VALUE.equals( align ) && wordSpacing > 0 )
 		{
@@ -696,19 +700,19 @@ public class PDFPage extends AbstractPage
 				}
 				textArray.add( spaceCorrection );
 				textArray.add( text.substring( lastIdx ) );
-				currentContentByte.showText( textArray );
+				contentByte.showText( textArray );
 			}
 			else
 			{
-				currentContentByte.showText( text );
+				contentByte.showText( text );
 			}
 		}
 		else
 		{
-			currentContentByte.showText( text );
+			contentByte.showText( text );
 		}
-		currentContentByte.endText( );
-		currentContentByte.restoreState( );
+		contentByte.endText( );
+		contentByte.restoreState( );
 	}
 
 	/**
