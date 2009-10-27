@@ -32,6 +32,8 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.StructureContextUtil;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Handle to a structure within a list property. List properties contain objects
  * called structures. Structures have <em>members</em> that hold data values.
@@ -349,10 +351,12 @@ public class StructureHandle extends ValueHandle
 	 * Returns externalized message.
 	 * 
 	 * @param textIDProp
-	 *            the display key property name
+	 *            name of the property that defines the message key
 	 * @param textProp
-	 *            the property name
-	 * @return externalized message.
+	 *            name of the property that defines the default non-externalized
+	 *            value if the key is not found in message file
+	 * @return externalized message if found, otherwise return the default
+	 *         non-externalized value defined by property <code>textProp</code>
 	 */
 
 	public String getExternalizedValue( String textIDProp, String textProp )
@@ -360,6 +364,27 @@ public class StructureHandle extends ValueHandle
 		return ModelUtil.getExternalizedStructValue( getElement( ).getRoot( ),
 				getStructure( ), textIDProp, textProp, ThreadResources
 						.getLocale( ) );
+	}
+
+	/**
+	 * Returns the externalized message.
+	 * 
+	 * @param textIDProp
+	 *            name of the property that defines the message key
+	 * @param textProp
+	 *            name of the property that defines the default non-externalized
+	 *            value if the key is not found in message file
+	 * @param locale
+	 *            the user-defined locale
+	 * @return externalized message if found, otherwise return the default
+	 *         non-externalized value defined by property <code>textProp</code>
+	 */
+
+	public String getExternalizedValue( String textIDProp, String textProp,
+			ULocale locale )
+	{
+		return ModelUtil.getExternalizedStructValue( getElement( ).getRoot( ),
+				getStructure( ), textIDProp, textProp, locale );
 	}
 
 	/**
