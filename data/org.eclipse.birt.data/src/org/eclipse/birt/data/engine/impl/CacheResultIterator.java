@@ -127,6 +127,15 @@ public class CacheResultIterator implements IResultIterator
 				1024 ) );
 	}
 
+	/**
+	 * indicate whether the cached file exist.
+	 * @return
+	 */
+	public boolean existCachedFile( )
+	{
+		return this.existCachedFile;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -312,9 +321,17 @@ public class CacheResultIterator implements IResultIterator
 	public IResultIterator getSecondaryIterator( ScriptContext context,
 			String subQueryName ) throws BirtException
 	{
-		return new CachedQueryResults( this.session,
-				QuerySharingUtil.getSubQueryID( this.queryResults.getID( ), subQueryName, this.rowIndex ),
-				this.queryResults.getPreparedQuery( ) ).getResultIterator( );
+		CachedQueryResults rs = new CachedQueryResults( this.session,
+				QuerySharingUtil.getSubQueryID( this.queryResults.getID( ),
+						subQueryName,
+						this.rowIndex ),
+				this.queryResults.getPreparedQuery( ) );
+
+		if ( !rs.existCachedFile( ) )
+		{
+			throw new DataException( ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY );
+		}
+		return rs.getResultIterator( );
 	}
 
 	/*

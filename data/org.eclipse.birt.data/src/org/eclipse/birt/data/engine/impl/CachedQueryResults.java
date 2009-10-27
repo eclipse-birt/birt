@@ -32,6 +32,7 @@ public class CachedQueryResults implements IQueryResults
 	private IPreparedQuery pQuery;
 	private String name;
 	private DataEngineSession session;
+	private boolean existCachedFile = true;
 	
 	private static Logger logger = Logger.getLogger( CachedQueryResults.class.getName( ) );
 
@@ -57,6 +58,7 @@ public class CachedQueryResults implements IQueryResults
 		this.pQuery = preparedQuery;
 		
 		this.resultIterator = new CacheResultIterator( session, tempDir, this );
+		this.existCachedFile = ( (CacheResultIterator) this.resultIterator ).existCachedFile( );
 	
 		logger.exiting( CachedQueryResults.class.getName( ),
 				"CachedQueryResults" );
@@ -113,7 +115,11 @@ public class CachedQueryResults implements IQueryResults
 	public void cancel( )
 	{
 		// TODO Auto-generated method stub
-		
+	}
+	
+	public boolean existCachedFile( )
+	{
+		return this.existCachedFile;
 	}
 
 	/*
