@@ -1204,38 +1204,26 @@
 		<antcall target="createChartViewer">
 			<param name="runtime.tmp" value="${runtime.download.tmp}/DeploymentRuntime"/>
 		</antcall>
+		
+		<!-- unzip chart-viewer-example.war for ChartEngine -->
+		<mkdir dir="${runtime.download.tmp}/DeploymentRuntime/chartviewersample"/>
+		<exec executable="unzip" dir="${runtime.download.tmp}/DeploymentRuntime/">
+			<arg line="-o -q chart-viewer-sample.war -d ${runtime.download.tmp}/DeploymentRuntime/chartviewersample" />
+		</exec>
+		<!-- copy WEB-INF/lib from chart-viewer-example to ChartEngine -->
+		
 		<copy todir="${runtime.download.tmp}/DeploymentRuntime/ChartEngine" flatten="false">
-			<fileset dir="${deposit}/eclipse/plugins">
-				<patternset refid="chart.runtime.jars" />
-				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
-			</fileset>
-			<fileset dir="${baseLocation}/plugins">
-				<include name="org.eclipse.emf.common_*.jar" />
-				<include name="org.eclipse.emf.ecore_*.jar"/>
-				<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
-			</fileset>
-			<fileset dir="${template.dir}/chart.runtime.libs">
-				<include name="*.resources.jar" />
-			</fileset>
-			<fileset dir="${template.dir}/chart.runtime.files">
-				<include name="*.*" />
-			</fileset>
+			<fileset dir="${runtime.download.tmp}/DeploymentRuntime/chartviewersample/WEB-INF/lib">
+				<include name="**/*"/>
+				<exclude name="**/chart-viewer.jar"/>
+			</fileset>	
 		</copy>
+		
+		<delete dir="${runtime.download.tmp}/DeploymentRuntime/chartviewersample" failonerror="false" includeEmptyDirs="true"/>
+		
 		<copy todir="${runtime.download.tmp}/DeploymentRuntime/ChartEngine/docs">
 			<fileset dir="${template.dir}/chart.docs">
 				<include name="*.*" />
-			</fileset>
-		</copy>
-		<copy todir="${runtime.download.tmp}/DeploymentRuntime/ChartEngine" >
-			<fileset dir="${buildDirectory}/plugins">
-				<patternset refid="orbit.include.jars" />
-			</fileset>
-			<fileset dir="${baseLocation}/plugins">
-				<include name="com.ibm.icu_*.jar" />
-                                <include name="org.apache.xerces_*.jar"/>
-                                <include name="org.apache.xml.resolver_*.jar"/>
-                                <include name="javax.xml_*.jar"/>
-                                <include name="org.apache.xml.serializer_*.jar"/>
 			</fileset>
 		</copy>
 		
