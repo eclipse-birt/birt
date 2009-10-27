@@ -27,12 +27,21 @@ public interface IQueryExpressionManager
 	public Query getQuery();
 	
 	/**
-	 * Update query with specified expression.
+	 * Update query with specified expression, which means to update the model
+	 * of query using ui text).
 	 * 
 	 * @param expression
 	 */
 	public void updateQuery( String expression );
-	
+
+	/**
+	 * Update the display text from a query definition string, which means to
+	 * update the ui text using the model of query.
+	 * 
+	 * @param expression
+	 */
+	public void updateText( String expression );
+
 	/**
 	 * Returns display expression.
 	 */

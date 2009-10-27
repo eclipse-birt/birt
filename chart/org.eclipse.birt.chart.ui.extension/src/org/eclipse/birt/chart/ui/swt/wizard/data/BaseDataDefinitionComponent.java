@@ -348,12 +348,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			gdTXTDefinition.widthHint = 80;
 			gdTXTDefinition.grabExcessHorizontalSpace = true;
 			txtDefinition.setLayoutData( gdTXTDefinition );
-			// if ( query != null && query.getDefinition( ) != null )
-			// {
-			// txtDefinition.setText( query.getDefinition( ) );
-			// txtDefinition.setToolTipText( getTooltipForDataText(
-			// query.getDefinition( ) ) );
-			// }
 			txtDefinition.addModifyListener( this );
 			txtDefinition.addFocusListener( this );
 			txtDefinition.addKeyListener( this );
@@ -418,21 +412,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			WizardBase.displayException( e );
 		}
-
-// btnBuilder = new Button( cmpTop, SWT.PUSH );
-		// {
-		// GridData gdBTNBuilder = new GridData( );
-		// ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNBuilder );
-		// btnBuilder.setLayoutData( gdBTNBuilder );
-		//			btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-		// btnBuilder.addSelectionListener( this );
-		//			btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
-		// btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
-		// btnBuilder.setEnabled( context.getUIServiceProvider( )
-		// .isInvokingSupported( ) );
-		// btnBuilder.setVisible( context.getUIServiceProvider( )
-		// .isEclipseModeSupported( ) );
-		// }
 
 		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
 		{
@@ -1377,5 +1356,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return ( (CCombo) control ).getText( );
 		}
 		return ""; //$NON-NLS-1$
+	}
+
+	public void updateText( String expression )
+	{
+		if ( btnBuilder != null )
+		{
+			btnBuilder.setExpression( expression );
+		}
 	}
 }

@@ -134,8 +134,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 {
 
 	private static final String KEY_PREVIEW_DATA = "Preview Data"; //$NON-NLS-1$
-	final private ExtendedItemHandle itemHandle;
-	final private ReportDataServiceProvider dataProvider;
+	final protected ExtendedItemHandle itemHandle;
+	final protected ReportDataServiceProvider dataProvider;
 
 	private Button btnInherit = null;
 	private Button btnUseData = null;
@@ -2053,6 +2053,30 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return actions;
 	}
 	
+	protected Object getMenuForMeasure( Chart chart, String expr )
+	{
+		return getOrthogonalSeriesMenu( getChartModel( ), expr );
+	}
+
+	protected Object getMenuForDimension( Chart chart, String expr )
+	{
+		// bug#220724
+		if ( ( (Boolean) dataProvider.checkData( ChartUIConstants.QUERY_CATEGORY,
+				expr ) ).booleanValue( ) )
+		{
+			return getBaseSeriesMenu( getChartModel( ), expr );
+		}
+
+		if ( dataProvider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS )
+				&& ( (Boolean) dataProvider.checkData( ChartUIConstants.QUERY_OPTIONAL,
+						expr ) ).booleanValue( ) )
+		{
+			return getGroupSeriesMenu( getChartModel( ), expr );
+		}
+
+		return null;
+	}
+
 	private MenuManager createMenuManager( final Object data )
 	{
 		MenuManager menuManager = new MenuManager( );
@@ -2091,8 +2115,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					String expr = createCubeExpression( );
 					if ( expr != null )
 					{
-						addMenu( manager,
-								getOrthogonalSeriesMenu( getChartModel( ), expr ) );
+						addMenu( manager, getMenuForMeasure( getChartModel( ),
+								expr ) );
 					}
 				}
 				else if ( data instanceof LevelHandle )
@@ -2101,24 +2125,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					String expr = createCubeExpression( );
 					if ( expr != null )
 					{
-						// bug#220724
-						if ( ( (Boolean) dataProvider.checkData( ChartUIConstants.QUERY_CATEGORY,
-								expr ) ).booleanValue( ) )
-						{
-							addMenu( manager,
-									getBaseSeriesMenu( getChartModel( ),
-								expr ) );
-						}
-						
-						if ( dataProvider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS )
-								&& ( (Boolean) dataProvider.checkData( ChartUIConstants.QUERY_OPTIONAL,
-										expr ) ).booleanValue( ) )
-						{
-							addMenu( manager,
-									getGroupSeriesMenu( getChartModel( ),
-								expr ) );
-						}
-						
+						addMenu( manager,
+								getMenuForDimension( getChartModel( ), expr ) );
 					}
 				}
 			}
@@ -2488,6 +2496,89 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return items.toArray( new String[items.size( )] );
 	}
 
+	protected void updatePredefinedQueriesForSharingCube( )
+	{
+		// Get all column bindings.
+		List<String> dimensionExprs = new ArrayList<String>( );
+		List<String> measureExprs = new ArrayList<String>( );
+		ReportItemHandle reportItemHandle = dataProvider.getReportItemHandle( );
+		for ( Iterator<ComputedColumnHandle> iter = reportItemHandle.getColumnBindings( )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ComputedColumnHandle cch = iter.next( );
+			String dataExpr = ExpressionUtil.createJSDataExpression( cch.getName( ) );
+			if ( ChartCubeUtil.isDimensionExpresion( cch.getExpression( ) ) )
+			{
+				dimensionExprs.add( dataExpr );
+			}
+			else if ( ChartCubeUtil.isMeasureExpresion( cch.getExpression( ) ) )
+			{
+				// Fixed issue ED 28.
+				// Underlying code was reverted to the earlier than
+				// bugzilla 246683, since we have enhanced it to
+				// support all available measures defined in shared
+				// item.
+
+				// Bugzilla 246683.
+				// Here if it is sharing with crosstab or
+				// multi-view, we just put the measure expression
+				// whose aggregate-ons is most into prepared
+				// expression query. It will keep correct value to
+				// shared crosstab or multi-view.
+				measureExprs.add( dataExpr );
+
+			}
+		}
+		String[] categoryExprs = dimensionExprs.toArray( new String[dimensionExprs.size( )] );
+		String[] yOptionalExprs = categoryExprs;
+		String[] valueExprs = measureExprs.toArray( new String[measureExprs.size( )] );
+
+		ReportItemHandle referenceHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
+		ReportDataServiceProvider rdsp = this.getDataServiceProvider( );
+		if ( referenceHandle instanceof ExtendedItemHandle
+				&& ChartItemUtil.isChartReportItemHandle( referenceHandle ) )
+		{
+			// If the final reference handle is cube with other
+			// chart, the valid category and Y optional expressions
+			// only allow those expressions defined in shared chart.
+			Object referenceCM = ChartItemUtil.getChartFromHandle( (ExtendedItemHandle) referenceHandle );
+			categoryExprs = rdsp.getSeriesExpressionsFrom( referenceCM,
+					ChartUIConstants.QUERY_CATEGORY );
+			yOptionalExprs = rdsp.getSeriesExpressionsFrom( referenceCM,
+					ChartUIConstants.QUERY_OPTIONAL );
+			valueExprs = rdsp.getSeriesExpressionsFrom( referenceCM,
+					ChartUIConstants.QUERY_VALUE );
+
+			Chart cm = this.getContext( ).getModel( );
+			if ( categoryExprs.length > 0 )
+			{
+				updateCategoryExpression( cm, categoryExprs[0] );
+			}
+			if ( yOptionalExprs.length > 0 )
+			{
+				updateYOptionalExpressions( cm, yOptionalExprs[0] );
+			}
+		}
+		else if ( dataProvider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+		{
+			// In sharing query with crosstab, the category
+			// expression and Y optional expression is decided by
+			// value series expression, so here set them to null.
+			// And in UI, when the value series expression is
+			// selected, it will trigger to set correct category and
+			// Y optional expressions.
+			categoryExprs = null;
+			yOptionalExprs = null;
+		}
+
+		getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+				categoryExprs );
+		getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+				yOptionalExprs );
+		getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+				valueExprs );
+	}
+
 	private void updatePredefinedQueries( )
 	{
 		if ( dataProvider.isInXTabMeasureCell( ) )
@@ -2568,82 +2659,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				if ( dataProvider.isInheritanceOnly( )
 						|| dataProvider.isSharedBinding( ) )
 				{
-					// Get all column bindings.
-					List<String> dimensionExprs = new ArrayList<String>( );
-					List<String> measureExprs = new ArrayList<String>( );
-					ReportItemHandle reportItemHandle = dataProvider.getReportItemHandle( );
-					for ( Iterator<ComputedColumnHandle> iter = reportItemHandle.getColumnBindings( )
-							.iterator( ); iter.hasNext( ); )
-					{
-						ComputedColumnHandle cch = iter.next( );
-						String dataExpr = ExpressionUtil.createJSDataExpression( cch.getName( ) );
-						if ( ChartCubeUtil.isDimensionExpresion( cch.getExpression( ) ) )
-						{
-							dimensionExprs.add( dataExpr );
-						}
-						else if ( ChartCubeUtil.isMeasureExpresion( cch.getExpression( ) ) )
-						{
-							// Fixed issue ED 28.
-							// Underlying code was reverted to the earlier than
-							// bugzilla 246683, since we have enhanced it to
-							// support all available measures defined in shared
-							// item.
-
-							// Bugzilla 246683.
-							// Here if it is sharing with crosstab or
-							// multi-view, we just put the measure expression
-							// whose aggregate-ons is most into prepared
-							// expression query. It will keep correct value to
-							// shared crosstab or multi-view.
-							measureExprs.add( dataExpr );
-
-						}
-					}
-					String[] categoryExprs = dimensionExprs.toArray( new String[dimensionExprs.size( )] );
-					String[] yOptionalExprs = categoryExprs;
-					String[] valueExprs = measureExprs.toArray( new String[measureExprs.size( )] );
-
-					ReportItemHandle referenceHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
-					ReportDataServiceProvider rdsp = this.getDataServiceProvider( );
-					if ( referenceHandle instanceof ExtendedItemHandle
-							&& ChartItemUtil.isChartReportItemHandle( referenceHandle ) )
-					{
-						// If the final reference handle is cube with other
-						// chart, the valid category and Y optional expressions
-						// only allow those expressions defined in shared chart.
-						Object referenceCM = ChartItemUtil.getChartFromHandle( (ExtendedItemHandle) referenceHandle );
-						categoryExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_CATEGORY );
-						yOptionalExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_OPTIONAL );
-						valueExprs = rdsp.getSeriesExpressionsFrom( referenceCM, ChartUIConstants.QUERY_VALUE );
-
-						Chart cm = this.getContext( ).getModel( );
-						if ( categoryExprs.length > 0 )
-						{
-							updateCategoryExpression( cm, categoryExprs[0] );
-						}
-						if ( yOptionalExprs.length > 0 )
-						{
-							updateYOptionalExpressions( cm, yOptionalExprs[0] );
-						}
-					}
-					else if ( dataProvider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
-					{
-						// In sharing query with crosstab, the category
-						// expression and Y optional expression is decided by
-						// value series expression, so here set them to null.
-						// And in UI, when the value series expression is
-						// selected, it will trigger to set correct category and
-						// Y optional expressions.
-						categoryExprs = null;
-						yOptionalExprs = null;
-					}
-
-					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-							categoryExprs );
-					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
-							yOptionalExprs );
-					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
-							valueExprs );
+					updatePredefinedQueriesForSharingCube( );
 				}
 				// TODO do we need to handle xtab inheritance case? currently we
 				// just inherit the cube from xtab essentially
