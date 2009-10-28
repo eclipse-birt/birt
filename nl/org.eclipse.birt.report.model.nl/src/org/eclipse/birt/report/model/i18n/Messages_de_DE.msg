@@ -2000,6 +2000,14 @@ Structure.ColumnHint.helpTextID=Hilfetext-Ressourcenschlüssel
 Structure.ColumnHint.displayName=Anzeigename
 Structure.ColumnHint.displayNameID=Anzeigename des Ressourcenschlüssels
 Structure.ColumnHint.onColumnLayout=Spaltenlayout
+Structure.ColumnHint.heading=Heading
+Structure.ColumnHint.headingID=Heading Resource Key
+Structure.ColumnHint.displayLength=Display Length
+Structure.ColumnHint.horizontalAlign=Horizontal Alignment        
+Structure.ColumnHint.wordWrap=Word Wrap
+Structure.ColumnHint.textFormat=Text Format
+Structure.ColumnHint.description=Beschreibung
+Structure.ColumnHint.descriptionID=Description Resource Key	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Auswahl
@@ -2025,6 +2033,14 @@ Structure.DataSetParam.allowNull=Null zulassen
 Structure.DataSetParam.isInput=Ist Eingabeparameter
 Structure.DataSetParam.isOutput=Ist Ausgabeparameter
 Structure.DataSetParam.nativeDataType=Programmeigener Datentypcode
+Structure.DataSetParam.displayName=Anzeigename
+Structure.DataSetParam.displayNameID=Anzeigename des Ressourcenschlüssels
+Structure.DataSetParam.heading=Heading
+Structure.DataSetParam.headingID=Heading Resource Key
+Structure.DataSetParam.helpText=Hilfetext
+Structure.DataSetParam.helpTextID=Hilfetext-Ressourcenschlüssel
+Structure.DataSetParam.description=Beschreibung
+Structure.DataSetParam.descriptionID=Description Resource Key
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=Name
@@ -2121,6 +2137,14 @@ Structure.OdaDataSetParam.isOptional=Ist optional
 Structure.OdaDataSetParam.allowNull=Null zulassen
 Structure.OdaDataSetParam.isInput=Ist Eingabe
 Structure.OdaDataSetParam.isOutput=Ist Ausgabe
+Structure.OdaDataSetParam.displayName=Anzeigename
+Structure.OdaDataSetParam.displayNameID=Anzeigename des Ressourcenschlüssels
+Structure.OdaDataSetParam.heading=Heading
+Structure.OdaDataSetParam.headingID=Heading Resource Key
+Structure.OdaDataSetParam.helpText=Hilfetext
+Structure.OdaDataSetParam.helpTextID=Hilfetext-Ressourcenschlüssel
+Structure.OdaDataSetParam.description=Beschreibung
+Structure.OdaDataSetParam.descriptionID=Description Resource Key
 
 #27. ScriptLib
 Structure.ScriptLib.name =Name der Skriptbibliothek
@@ -3674,6 +3698,8 @@ Error.ContentException.INVALID_TEMPLATE_ELEMENT=Für {0} gibt es keine explizite 
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=Das Element darf nicht in eine Vorlage umgewandelt werden.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element '{0}' gibt Berichtobjekte frei und kann seine Gruppen nicht hinzufügen, entfernen oder verschieben.
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=Die Kopie kann nicht in Feld {1} von {0} eingefügt werden, weil sie ungültig ist.
+Error.ContentException.CONTENT_ALREADY_INSERTED=Element "{0}" is not allowed to be added into the ({2}) of "{1}", for it is already in the design tree.
+Error.ContentException.INVALID_POSITION=The position is out of range and invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Der Ressourcenschlüssel der Übersetzung muss bereitgestellt werden.

@@ -2000,6 +2000,14 @@ Structure.ColumnHint.helpTextID=ヘルプテキストのリソースキー
 Structure.ColumnHint.displayName=表示名
 Structure.ColumnHint.displayNameID=表示名のリソースキー
 Structure.ColumnHint.onColumnLayout=列のレイアウト時
+Structure.ColumnHint.heading=Heading
+Structure.ColumnHint.headingID=Heading Resource Key
+Structure.ColumnHint.displayLength=Display Length
+Structure.ColumnHint.horizontalAlign=Horizontal Alignment        
+Structure.ColumnHint.wordWrap=Word Wrap
+Structure.ColumnHint.textFormat=Text Format
+Structure.ColumnHint.description=説明
+Structure.ColumnHint.descriptionID=Description Resource Key	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
@@ -2025,6 +2033,14 @@ Structure.DataSetParam.allowNull=Null を許可する
 Structure.DataSetParam.isInput=入力パラメタ
 Structure.DataSetParam.isOutput=出力パラメタ
 Structure.DataSetParam.nativeDataType=ネイティブのデータ型コード
+Structure.DataSetParam.displayName=表示名
+Structure.DataSetParam.displayNameID=表示名のリソースキー
+Structure.DataSetParam.heading=Heading
+Structure.DataSetParam.headingID=Heading Resource Key
+Structure.DataSetParam.helpText=ヘルプテキスト
+Structure.DataSetParam.helpTextID=ヘルプテキストのリソースキー
+Structure.DataSetParam.description=説明
+Structure.DataSetParam.descriptionID=Description Resource Key
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=名前
@@ -2121,6 +2137,14 @@ Structure.OdaDataSetParam.isOptional=オプション
 Structure.OdaDataSetParam.allowNull=Null を許可する
 Structure.OdaDataSetParam.isInput=入力
 Structure.OdaDataSetParam.isOutput=出力
+Structure.OdaDataSetParam.displayName=表示名
+Structure.OdaDataSetParam.displayNameID=表示名のリソースキー
+Structure.OdaDataSetParam.heading=Heading
+Structure.OdaDataSetParam.headingID=Heading Resource Key
+Structure.OdaDataSetParam.helpText=ヘルプテキスト
+Structure.OdaDataSetParam.helpTextID=ヘルプテキストのリソースキー
+Structure.OdaDataSetParam.description=説明
+Structure.OdaDataSetParam.descriptionID=Description Resource Key
 
 #27. ScriptLib
 Structure.ScriptLib.name =スクリプトライブラリの名前
@@ -3674,6 +3698,8 @@ Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} にはテンプレートのパラメタが
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=この要素はテンプレートに変換できません。
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=要素 "{0}" には共有のレポート項目があるため、グループの追加、削除、移動は行えません。
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=コピーはできないため、{0} のスロット {1} に貼り付けられません。
+Error.ContentException.CONTENT_ALREADY_INSERTED=Element "{0}" is not allowed to be added into the ({2}) of "{1}", for it is already in the design tree.
+Error.ContentException.INVALID_POSITION=The position is out of range and invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=変換情報のリソースキーが必要です。
