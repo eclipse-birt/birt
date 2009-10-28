@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
@@ -215,6 +216,44 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.setValue( new Expression(
 						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
 
+		// test writint data set parameters new properties
+		PropertyHandle paramters = dataSet
+				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
+
+		DataSetParameterHandle parameter = (DataSetParameterHandle) paramters
+				.getAt( 0 );
+		parameter.setDisplayName( "New Name" ); //$NON-NLS-1$
+		parameter.setDisplayNameKey( "newNameKey" ); //$NON-NLS-1$
+
+		parameter = (DataSetParameterHandle) paramters.getAt( 1 );
+		parameter.setHeading( "New Date Heading" ); //$NON-NLS-1$
+		parameter.setHeadingKey( "newDataKey" ); //$NON-NLS-1$
+
+		parameter = (DataSetParameterHandle) paramters.getAt( 2 );
+		parameter.setHelpText( "New ID Number" ); //$NON-NLS-1$
+		parameter.setHelpTextKey( "newIdKey" ); //$NON-NLS-1$
+
+		parameter = (DataSetParameterHandle) paramters.getAt( 3 );
+		parameter.setDescription( "New Name Description" ); //$NON-NLS-1$
+		parameter.setDescription( "newNameDescriptionKey" ); //$NON-NLS-1$
+
+		// test writing new column hints properties
+
+		PropertyHandle columnHints = dataSet
+				.getPropertyHandle( SimpleDataSet.COLUMN_HINTS_PROP );
+		ColumnHintHandle columnHintHandle = (ColumnHintHandle) columnHints
+				.getAt( 0 );
+		columnHintHandle.setHeading( "newHeading" ); //$NON-NLS-1$
+		columnHintHandle.setHeadingKey( "newHeadingID" ); //$NON-NLS-1$
+		columnHintHandle.setDisplayLength( 10 ); //$NON-NLS-1$
+		columnHintHandle
+				.setHorizontalAlign( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY );
+		columnHintHandle.setWordWrap( false );
+		columnHintHandle
+				.setTextFormat( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE );
+		columnHintHandle.setDescription( "New Description" ); //$NON-NLS-1$
+		columnHintHandle.setDescriptionKey( "newDescriptionKey" ); //$NON-NLS-1$
+
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 	}
@@ -276,6 +315,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertEquals( "default value 1", parameter.getDefaultValue( ) ); //$NON-NLS-1$
 		assertEquals( true, parameter.allowNull( ) );
 		assertEquals( -100, parameter.getNativeDataType( ).intValue( ) );
+		assertEquals( "Name", parameter.getDisplayName( ) ); //$NON-NLS-1$
+		assertEquals( "nameID", parameter.getDisplayNameKey( ) ); //$NON-NLS-1$
 
 		parameter = (OdaDataSetParameter) parameters.get( i++ );
 		assertEquals( 2, parameter.getPosition( ).intValue( ) );
@@ -283,6 +324,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME,
 				parameter.getDataType( ) );
 		assertFalse( parameter.isOptional( ) );
+		assertEquals( "Date", parameter.getHeading( ) ); //$NON-NLS-1$
+		assertEquals( "dateID", parameter.getHeadingKey( ) ); //$NON-NLS-1$
 
 		parameter = (OdaDataSetParameter) parameters.get( i++ );
 		assertEquals( 3, parameter.getPosition( ).intValue( ) );
@@ -297,13 +340,17 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertEquals( "birth", parameter.getName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME,
 				parameter.getDataType( ) );
+		assertEquals( "Birthday", parameter.getHelpText( ) ); //$NON-NLS-1$
+		assertEquals( "birthID", parameter.getHelpTextKey( ) ); //$NON-NLS-1$
 
 		parameter = (OdaDataSetParameter) parameters.get( i++ );
 		assertEquals( "title", parameter.getName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING, parameter
 				.getDataType( ) );
+		assertEquals( "Title", parameter.getDescription( ) ); //$NON-NLS-1$
+		assertEquals( "titleID", parameter.getDescriptionKey( ) ); //$NON-NLS-1$
 
-		// Test "param-bindings" on DataSet
+		// Test "parameter-bindings" on DataSet
 
 		List bindings = (List) dataSet
 				.getProperty( SimpleDataSet.PARAM_BINDINGS_PROP );
@@ -399,6 +446,24 @@ public class OdaDataSetParseTest extends BaseTestCase
 		member = (PropertyDefn) columnHint.getDefn( ).getMember(
 				ColumnHint.HELP_TEXT_MEMBER );
 		assertEquals( "Help me!", columnHint.getProperty( design, member ) ); //$NON-NLS-1$
+
+		// new properties
+		assertEquals( "Heading", columnHint.getProperty( design, //$NON-NLS-1$
+				ColumnHint.HEADING_MEMBER ) );
+		assertEquals( "HeadingID", columnHint.getProperty( design, //$NON-NLS-1$
+				ColumnHint.HEADING_ID_MEMBER ) );
+		assertEquals( 5, columnHint.getProperty( design,
+				ColumnHint.DISPLAY_LENGTH_MEMBER ) );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_CENTER, columnHint
+				.getProperty( design, ColumnHint.HORIZONTAL_ALIGN_MEMBER ) );
+		assertEquals( true, columnHint.getProperty( design,
+				ColumnHint.WORD_WRAP_MEMBER ) );
+		assertEquals( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE,
+				columnHint.getProperty( design, ColumnHint.TEXT_FORMAT_MEMBER ) );
+		assertEquals( "Description", columnHint.getProperty( design, //$NON-NLS-1$
+				ColumnHint.DESCRIPTION_MEMBER ) );
+		assertEquals( "descriptionKey", columnHint.getProperty( design, //$NON-NLS-1$
+				ColumnHint.DESCRIPTION_ID_MEMBER ) );
 
 		// Test "filter" on DataSet
 

@@ -22,6 +22,7 @@
                     <property name="isOutput">false</property>
                     <property name="allowNull">true</property>
 					<property name="nativeDataType">-100</property>
+					<text-property name="displayName" key="nameID">Name</text-property>
                 </structure>
                 <structure>
                     <property name="name">date</property>
@@ -30,23 +31,26 @@
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                     <property name="allowNull">false</property>
+                    <text-property name="heading" key="dateID">Date</text-property>
                 </structure>
                 <structure>
                     <property name="name">id</property>
                     <property name="dataType">integer</property>
                     <property name="position">3</property>
                     <property name="isOptional">true</property>
-                    <property name="isInput">true</property>
+                    <property name="isInput">true</property>                    
                 </structure>
                 <structure>
                     <property name="name">birth</property>
                     <property name="dataType">date-time</property>
                     <property name="isOutput">true</property>
+                    <text-property name="helpText" key="birthID">Birthday</text-property>                    
                 </structure>
                 <structure>
                     <property name="name">title</property>
                     <property name="dataType">string</property>
                     <property name="isOutput">true</property>
+                    <text-property name="description" key="titleID">Title</text-property>
                 </structure>
             </list-property>
             <list-property name="paramBindings">
@@ -108,6 +112,12 @@
                     <property name="displayNameID">message.column-hint.username</property>
                     <property name="helpText">Help me!</property>
                     <property name="helpTextID">message.column-hint.help</property>
+                    <text-property name="heading" key="HeadingID">Heading</text-property>
+                    <property name="displayLength">5</property>
+                    <property name="horizontalAlign">center</property>
+                    <property name="wordWrap">true</property>
+                    <property name="textFormat">></property>
+                    <text-property name="description" key="descriptionKey">Description</text-property>                    
                 </structure>
             </list-property>
             <list-property name="sortHints">

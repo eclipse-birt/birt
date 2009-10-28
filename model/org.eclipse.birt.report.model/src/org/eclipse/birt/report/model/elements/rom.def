@@ -1355,48 +1355,64 @@
     <Member displayNameID="Structure.ExtendedProperty.value" isIntrinsic="true" name="value" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.DataSetParam" name="DataSetParam" since="1.0">
-    <Member displayNameID="Structure.DataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
-    <Member detailType="paramType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
+    <Member displayNameID="Structure.DataSetParam.name" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
+    <Member detailType="paramType" displayNameID="Structure.DataSetParam.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
         <Default>string</Default>
     </Member> 
-	<Member displayNameID="Structure.DataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />            
-    <Member displayNameID="Structure.DataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>
-	<Member context="factory" displayNameID="Structure.DataSetParam.defaultValue" isIntrinsic="true" name="defaultValue" returnType="any" runtimeSettable="false" since="reserved" type="expression"/>    
-    <Member displayNameID="Structure.DataSetParam.isOptional" isIntrinsic="true" name="isOptional" runtimeSettable="false" since="1.0" type="boolean">
+	<Member displayNameID="Structure.DataSetParam.nativeDataType" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />            
+    <Member displayNameID="Structure.DataSetParam.position" name="position" runtimeSettable="false" since="1.0" type="integer"/>
+	<Member context="factory" displayNameID="Structure.DataSetParam.defaultValue" name="defaultValue" returnType="any" runtimeSettable="false" since="reserved" type="expression"/>    
+    <Member displayNameID="Structure.DataSetParam.isOptional" name="isOptional" runtimeSettable="false" since="1.0" type="boolean">
     	<Default>false</Default>
 	</Member>    	
-	<Member displayNameID="Structure.DataSetParam.allowNull" isIntrinsic="true" name="allowNull" runtimeSettable="false" since="1.0" type="boolean">	
+	<Member displayNameID="Structure.DataSetParam.allowNull" name="allowNull" runtimeSettable="false" since="1.0" type="boolean">	
 		<Default>false</Default>	
 	</Member>   		
-	<Member displayNameID="Structure.DataSetParam.isInput" isIntrinsic="true" name="isInput" runtimeSettable="false" since="1.0" type="boolean">
+	<Member displayNameID="Structure.DataSetParam.isInput" name="isInput" runtimeSettable="false" since="1.0" type="boolean">
 		<Default>false</Default>	
 	</Member>   		
-	<Member displayNameID="Structure.DataSetParam.isOutput" isIntrinsic="true" name="isOutput" runtimeSettable="false" since="1.0" type="boolean">			
+	<Member displayNameID="Structure.DataSetParam.isOutput" name="isOutput" runtimeSettable="false" since="1.0" type="boolean">			
 		<Default>false</Default>	
-	</Member>   		
+	</Member>
+	<Member displayNameID="Structure.DataSetParam.displayName" name="displayName" runtimeSettable="false" since="2.5.2" type="string"/>
+	<Member displayNameID="Structure.DataSetParam.displayNameID" name="displayNameID" runtimeSettable="false" since="2.5.2" type="resourceKey"/>
+	<Member displayNameID="Structure.DataSetParam.heading" name="heading" runtimeSettable="false" since="2.5.2" type="string"/>
+	<Member displayNameID="Structure.DataSetParam.headingID" name="headingID" runtimeSettable="false" since="2.5.2" type="resourceKey"/>
+	<Member displayNameID="Structure.DataSetParam.helpText" name="helpText" runtimeSettable="false" since="2.5.2" type="string"/>
+	<Member displayNameID="Structure.DataSetParam.helpTextID" name="helpTextID" runtimeSettable="false" since="2.5.2" type="resourceKey"/>
+	<Member displayNameID="Structure.DataSetParam.description" name="description" runtimeSettable="false" since="2.5.2" type="string"/>
+	<Member displayNameID="Structure.DataSetParam.descriptionID" name="descriptionID" runtimeSettable="false" since="2.5.2" type="resourceKey"/>
   </Structure>
   <Structure displayNameID="Structure.OdaDataSetParam" name="OdaDataSetParam" since="2.1.1">
-    <Member displayNameID="Structure.OdaDataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.1.1" type="string" valueRequired="true"/>
-    <Member displayNameID="Structure.OdaDataSetParam.paramName" isIntrinsic="true" name="paramName" runtimeSettable="true" since="2.1.1" type="string"/>
-	<Member displayNameID="Structure.OdaDataSetParam.nativeName" isIntrinsic="true" name="nativeName " runtimeSettable="true" since="2.1.1" type="literalString"/>
-    <Member detailType="paramType" displayNameID="Structure.OdaDataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
+    <Member displayNameID="Structure.OdaDataSetParam.name" name="name" runtimeSettable="false" since="2.1.1" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.OdaDataSetParam.paramName" name="paramName" runtimeSettable="true" since="2.1.1" type="string"/>
+	<Member displayNameID="Structure.OdaDataSetParam.nativeName" name="nativeName " runtimeSettable="true" since="2.1.1" type="literalString"/>
+    <Member detailType="paramType" displayNameID="Structure.OdaDataSetParam.dataType" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
         <Default>string</Default>
     </Member> 
-	<Member displayNameID="Structure.OdaDataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />            
-    <Member displayNameID="Structure.OdaDataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
-	<Member context="factory" displayNameID="Structure.OdaDataSetParam.defaultValue" isIntrinsic="true" name="defaultValue" returnType="any" runtimeSettable="false" since="reserved" type="expression"/>    
-    <Member displayNameID="Structure.OdaDataSetParam.isOptional" isIntrinsic="true" name="isOptional" runtimeSettable="false" since="2.1.1" type="boolean">
+	<Member displayNameID="Structure.OdaDataSetParam.nativeDataType" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />            
+    <Member displayNameID="Structure.OdaDataSetParam.position" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
+	<Member context="factory" displayNameID="Structure.OdaDataSetParam.defaultValue" name="defaultValue" returnType="any" runtimeSettable="false" since="reserved" type="expression"/>    
+    <Member displayNameID="Structure.OdaDataSetParam.isOptional" name="isOptional" runtimeSettable="false" since="2.1.1" type="boolean">
     	<Default>false</Default>
 	</Member>    	
-	<Member displayNameID="Structure.OdaDataSetParam.allowNull" isIntrinsic="true" name="allowNull" runtimeSettable="false" since="2.1.1" type="boolean">	
+	<Member displayNameID="Structure.OdaDataSetParam.allowNull" name="allowNull" runtimeSettable="false" since="2.1.1" type="boolean">	
 		<Default>false</Default>	
 	</Member>   		
-	<Member displayNameID="Structure.OdaDataSetParam.isInput" isIntrinsic="true" name="isInput" runtimeSettable="false" since="2.1.1" type="boolean">
+	<Member displayNameID="Structure.OdaDataSetParam.isInput" name="isInput" runtimeSettable="false" since="2.1.1" type="boolean">
 		<Default>false</Default>	
 	</Member>   		
-	<Member displayNameID="Structure.OdaDataSetParam.isOutput" isIntrinsic="true" name="isOutput" runtimeSettable="false" since="2.1.1" type="boolean">			
+	<Member displayNameID="Structure.OdaDataSetParam.isOutput" name="isOutput" runtimeSettable="false" since="2.1.1" type="boolean">			
 		<Default>false</Default>	
 	</Member>   		 
+	<Member displayNameID="Structure.OdaDataSetParam.displayName" name="displayName" runtimeSettable="false" since="2.5.2" type="string"/>
+	<Member displayNameID="Structure.OdaDataSetParam.displayNameID" name="displayNameID" runtimeSettable="false" since="2.5.2" type="resourceKey"/>
+	<Member displayNameID="Structure.OdaDataSetParam.heading" name="heading" runtimeSettable="false" since="2.5.2" type="string"/>
+	<Member displayNameID="Structure.OdaDataSetParam.headingID" name="headingID" runtimeSettable="false" since="2.5.2" type="resourceKey"/>
+	<Member displayNameID="Structure.OdaDataSetParam.helpText" name="helpText" runtimeSettable="false" since="2.5.2" type="string"/>
+	<Member displayNameID="Structure.OdaDataSetParam.helpTextID" name="helpTextID" runtimeSettable="false" since="2.5.2" type="resourceKey"/>
+	<Member displayNameID="Structure.OdaDataSetParam.description" name="description" runtimeSettable="false" since="2.5.2" type="string"/>
+	<Member displayNameID="Structure.OdaDataSetParam.descriptionID" name="descriptionID" runtimeSettable="false" since="2.5.2" type="resourceKey"/>	
   </Structure>
   <Structure displayNameID="Structure.ParamBinding" name="ParamBinding" since="1.0">
     <Member displayNameID="Structure.ParamBinding.paramName" isIntrinsic="true" name="paramName" since="1.0" type="name"/>
@@ -1451,6 +1467,14 @@
     <Member displayNameID="Structure.ColumnHint.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Member displayNameID="Structure.ColumnHint.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Member displayNameID="Structure.ColumnHint.onColumnLayout" name="onColumnLayout" runtimeSettable="false" since="2.5.1" type="boolean"/>
+    <Member displayNameID="Structure.ColumnHint.heading" name="heading" runtimeSettable="false" since="2.5.2" type="string"/>
+    <Member displayNameID="Structure.ColumnHint.headingID" name="headingID" since="2.5.2" type="resourceKey"/>
+	<Member displayNameID="Structure.ColumnHint.displayLength" name="displayLength" runtimeSettable="false" since="2.5.2" type="integer"/>
+	<Member detailType="textAlign" displayNameID="Structure.ColumnHint.horizontalAlign" name="horizontalAlign" runtimeSettable="false" since="2.5.2" type="choice"/>        
+	<Member displayNameID="Structure.ColumnHint.wordWrap" name="wordWrap" runtimeSettable="false" since="2.5.2" type="boolean"/>
+	<Member detailType="stringFormat" displayNameID="Structure.ColumnHint.textFormat" name="textFormat" runtimeSettable="false" since="2.5.2" type="choice"/>
+    <Member displayNameID="Structure.ColumnHint.description" name="description" runtimeSettable="false" since="2.5.2" type="string"/>
+    <Member displayNameID="Structure.ColumnHint.descriptionID" name="descriptionID" since="2.5.2" type="resourceKey"/>	
   </Structure>
   <Structure displayNameID="Structure.SortHint" name="SortHint" since="2.5">
   	<Member displayNameID="Structure.SortHint.columnName" name="columnName" since="2.5" type="string" />

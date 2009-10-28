@@ -38,8 +38,8 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * within the result set.</dd>
  * 
  * <dt><strong>Alias </strong></dt>
- * <dd>a column hint has an optional alias. It provides an ¡°alias¡± name used for
- * the column within the report.</dd>
+ * <dd>a column hint has an optional alias. It provides an ¡°alias¡± name used
+ * for the column within the report.</dd>
  * 
  * <dt><strong>Searching </strong></dt>
  * <dd>a column hint has an optional searching. It indicates how the column will
@@ -66,7 +66,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * search results.</dd>
  * 
  * <dt><strong>Display Name </strong></dt>
- * <dd>a column hint has an optional display name. It provides the an optional
+ * <dd>a column hint has an optional display name. It provides an optional
  * localizable display name for the column.</dd>
  * 
  * <dt><strong>Display Name ID </strong></dt>
@@ -74,8 +74,8 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * localize the display name.</dd>
  * 
  * <dt><strong>Help Text </strong></dt>
- * <dd>a column hint has an optional help text. It provides optional localizable
- * descriptive text that explains the column to the end user.</dd>
+ * <dd>a column hint has an optional help text. It provides an optional
+ * localizable descriptive text that explains the column to the end user.</dd>
  * 
  * <dt><strong>Help Text ID </strong></dt>
  * <dd>a column hint has an optional help text ID. It provides the key to
@@ -177,8 +177,8 @@ public class ColumnHint extends PropertyStructure
 	public static final String HELP_TEXT_ID_MEMBER = "helpTextID"; //$NON-NLS-1$
 
 	/**
-	 * Name of the help text member. This member provides Optional localizable
-	 * descriptive text that explains the column to the end user.
+	 * Name of the help text member. This member provides an optional
+	 * localizable descriptive text that explains the column to the end user.
 	 */
 
 	public static final String HELP_TEXT_MEMBER = "helpText"; //$NON-NLS-1$
@@ -189,6 +189,62 @@ public class ColumnHint extends PropertyStructure
 	 */
 
 	public static final String ON_COLUMN_LAYOUT_MEMBER = "onColumnLayout"; //$NON-NLS-1$
+
+	/**
+	 * Name of the heading member. The member provides an optional localizable
+	 * heading of the column.
+	 */
+
+	public static final String HEADING_MEMBER = "heading"; //$NON-NLS-1$
+
+	/**
+	 * Name of the heading id member. The member provides the resource key for
+	 * heading
+	 */
+
+	public static final String HEADING_ID_MEMBER = "headingID"; //$NON-NLS-1$
+
+	/**
+	 * Name of the display length member. This member indicates how long texts
+	 * to display.
+	 */
+
+	public static final String DISPLAY_LENGTH_MEMBER = "displayLength"; //$NON-NLS-1$
+
+	/**
+	 * Name of the horizontal alignment member. This member provides the text
+	 * order of the column.
+	 */
+
+	public static final String HORIZONTAL_ALIGN_MEMBER = "horizontalAlign"; //$NON-NLS-1$
+
+	/**
+	 * Name of the word wrap member. This member indicates if the word need to
+	 * be wrapped.
+	 */
+
+	public static final String WORD_WRAP_MEMBER = "wordWrap"; //$NON-NLS-1$
+
+	/**
+	 * Name of the text format member. This member provides the text format of
+	 * the column.
+	 */
+
+	public static final String TEXT_FORMAT_MEMBER = "textFormat"; //$NON-NLS-1$
+
+	/**
+	 * Name of the description member. The member provides an optional
+	 * localizable description of the column.
+	 */
+
+	public static final String DESCRIPTION_MEMBER = "description"; //$NON-NLS-1$
+
+	/**
+	 * Name of the description id member. The member provides the resource key
+	 * for the description.
+	 */
+
+	public static final String DESCRIPTION_ID_MEMBER = "descriptionID"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)

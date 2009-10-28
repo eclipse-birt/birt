@@ -421,4 +421,233 @@ public class ColumnHintHandle extends StructureHandle
 	{
 		setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, onColumnLayout );
 	}
+
+	/**
+	 * Gets the heading of the column.
+	 * 
+	 * @return the heading
+	 * 
+	 */
+	public String getHeading( )
+	{
+		return getStringProperty( ColumnHint.HEADING_MEMBER );
+	}
+
+	/**
+	 * Sets the heading of the column.
+	 * 
+	 * @param heading
+	 *            the new heading
+	 * 
+	 */
+	public void setHeading( String heading )
+	{
+		setPropertySilently( ColumnHint.HEADING_MEMBER, heading );
+	}
+
+	/**
+	 * Gets the resource key of the heading of the column.
+	 * 
+	 * @return the resource key of the heading
+	 * 
+	 */
+	public String getHeadingKey( )
+	{
+		return getStringProperty( ColumnHint.HEADING_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the heading of the column.
+	 * 
+	 * @param headingID
+	 *            the new resource key of the heading
+	 * 
+	 */
+	public void setHeadingKey( String headingID )
+	{
+		setPropertySilently( ColumnHint.HEADING_ID_MEMBER, headingID );
+	}
+
+	/**
+	 * Gets the display length of the column.
+	 * 
+	 * @return the display length
+	 */
+	public int getDisplayLength( )
+	{
+		Object displayLength = getProperty( ColumnHint.DISPLAY_LENGTH_MEMBER );
+		if ( displayLength instanceof Integer )
+		{
+			return ( (Integer) displayLength ).intValue( );
+		}
+		return 0;
+	}
+
+	/**
+	 * Sets the display length of the column.
+	 * 
+	 * @param displayLength
+	 *            the new display length
+	 */
+	public void setDisplayLength( int displayLength )
+	{
+		setPropertySilently( ColumnHint.DISPLAY_LENGTH_MEMBER, displayLength );
+	}
+
+	/**
+	 * Gets the horizontal alignment of the column. The returned value may be
+	 * one of the constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>TEXT_ALIGN_LEFT</code>
+	 * <li><code>TEXT_ALIGN_RIGHT</code>
+	 * <li><code>TEXT_ALIGN_CENTER</code>
+	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
+	 * </ul>
+	 * 
+	 * @return the horizontal alignment
+	 */
+	public String getHorizontalAlign( )
+	{
+		return getStringProperty( ColumnHint.HORIZONTAL_ALIGN_MEMBER );
+	}
+
+	/**
+	 * Sets the horizontal alignment of the column. The value should be one of
+	 * the constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>TEXT_ALIGN_LEFT</code>
+	 * <li><code>TEXT_ALIGN_RIGHT</code>
+	 * <li><code>TEXT_ALIGN_CENTER</code>
+	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
+	 * </ul>
+	 * 
+	 * @param align
+	 *            the new horizontal alignment
+	 * @throws SemanticException
+	 *             if the align is not defined.
+	 */
+	public void setHorizontalAlign( String align ) throws SemanticException
+	{
+		setProperty( ColumnHint.HORIZONTAL_ALIGN_MEMBER, align );
+	}
+
+	/**
+	 * Gets the hint if the word needs to wrap.
+	 * 
+	 * @return true if the word needs to wrap, otherwise false.
+	 */
+	public boolean wordWrap( )
+	{
+		Boolean isWordWrap = (Boolean) getProperty( ColumnHint.WORD_WRAP_MEMBER );
+		if ( isWordWrap != null )
+		{
+			return isWordWrap.booleanValue( );
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the hint if the word needs to wrap.
+	 * 
+	 * @param wordWrap
+	 *            the hint value indicates if the word needs to wrap.
+	 */
+	public void setWordWrap( boolean wordWrap )
+	{
+		setPropertySilently( ColumnHint.WORD_WRAP_MEMBER, wordWrap );
+	}
+
+	/**
+	 * Gets the text format of the column. The returned value may be one of the
+	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * 
+	 * <ul>
+	 * <li><code>STRING_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>STRING_FORMAT_TYPE_UPPERCASE</code>
+	 * <li><code>STRING_FORMAT_TYPE_LOWERCASE</code>
+	 * <li><code>STRING_FORMAT_TYPE_CUSTOM</code>
+	 * <li><code>STRING_FORMAT_TYPE_ZIP_CODE</code>
+	 * <li><code>STRING_FORMAT_TYPE_ZIP_CODE_4</code>
+	 * <li><code>STRING_FORMAT_TYPE_PHONE_NUMBER</code>
+	 * <li><code>STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
+	 * </ul>
+	 * 
+	 * @return the text format of the column
+	 */
+	public String getTextFormat( )
+	{
+
+		return getStringProperty( ColumnHint.TEXT_FORMAT_MEMBER );
+	}
+
+	/**
+	 * Sets the text format of the column. The value should be one of the
+	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * 
+	 * <ul>
+	 * <li><code>STRING_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>STRING_FORMAT_TYPE_UPPERCASE</code>
+	 * <li><code>STRING_FORMAT_TYPE_LOWERCASE</code>
+	 * <li><code>STRING_FORMAT_TYPE_CUSTOM</code>
+	 * <li><code>STRING_FORMAT_TYPE_ZIP_CODE</code>
+	 * <li><code>STRING_FORMAT_TYPE_ZIP_CODE_4</code>
+	 * <li><code>STRING_FORMAT_TYPE_PHONE_NUMBER</code>
+	 * <li><code>STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
+	 * </ul>
+	 * 
+	 * @param format
+	 *            the new text format
+	 * @throws SemanticException
+	 *             if the format is not defined.
+	 */
+	public void setTextFormat( String format ) throws SemanticException
+	{
+		setProperty( ColumnHint.TEXT_FORMAT_MEMBER, format );
+	}
+
+	/**
+	 * Gets the description of the column.
+	 * 
+	 * @return the description
+	 * 
+	 */
+	public String getDescription( )
+	{
+		return getStringProperty( ColumnHint.DESCRIPTION_MEMBER );
+	}
+
+	/**
+	 * Sets the description of the column.
+	 * 
+	 * @param description
+	 *            the new description
+	 * 
+	 */
+	public void setDescription( String description )
+	{
+		setPropertySilently( ColumnHint.DESCRIPTION_MEMBER, description );
+	}
+
+	/**
+	 * Gets the resource key of the description of the column.
+	 * 
+	 * @return the resource key of the description
+	 * 
+	 */
+	public String getDescriptionKey( )
+	{
+		return getStringProperty( ColumnHint.DESCRIPTION_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the description of the column.
+	 * 
+	 * @param descriptionID
+	 *            the new resource key of the description
+	 * 
+	 */
+	public void setDescriptionKey( String descriptionID )
+	{
+		setPropertySilently( ColumnHint.DESCRIPTION_ID_MEMBER, descriptionID );
+	}
 }

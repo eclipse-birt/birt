@@ -523,4 +523,171 @@ public class DataSetParameterHandle extends StructureHandle
 		}
 	}
 
+	/**
+	 * Gets the display name of this parameter.
+	 * 
+	 * @return the display name of this parameter
+	 */
+	public String getDisplayName( )
+	{
+		return getStringProperty( DataSetParameter.DISPLAY_NAME_MEMBER );
+	}
+
+	/**
+	 * Sets the display name of this parameter.
+	 * 
+	 * @param displayName
+	 *            the new display name of this parameter
+	 */
+	public void setDisplayName( String displayName )
+	{
+		setPropertySilently( DataSetParameter.DISPLAY_NAME_MEMBER, displayName );
+	}
+	
+	/**
+	 * Gets the resource key of the display name of this parameter.
+	 * 
+	 * @return the resource key of the display name
+	 */
+	public String getDisplayNameKey( )
+	{
+		return getStringProperty( DataSetParameter.DISPLAY_NAME_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the display name of this parameter.
+	 * 
+	 * @param displayNameID
+	 *            the new resource key of the display name
+	 */
+	public void setDisplayNameKey( String displayNameID )
+	{
+		setPropertySilently( DataSetParameter.DISPLAY_NAME_ID_MEMBER, displayNameID );
+	}
+
+	/**
+	 * Gets the heading of this parameter.
+	 * 
+	 * @return the heading of this parameter
+	 */
+	public String getHeading( )
+	{
+		return getStringProperty( DataSetParameter.HEADING_MEMBER );
+	}
+
+	/**
+	 * Sets the heading of this parameter.
+	 * 
+	 * @param heading
+	 *            the new heading of this parameter
+	 */
+	public void setHeading( String heading )
+	{
+		setPropertySilently( DataSetParameter.HEADING_MEMBER, heading );
+	}
+	
+	/**
+	 * Gets the resource key of the heading of this parameter.
+	 * 
+	 * @return the resource key of the heading
+	 */
+	public String getHeadingKey( )
+	{
+		return getStringProperty( DataSetParameter.HEADING_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the heading of this parameter.
+	 * 
+	 * @param headingID
+	 *            the new resource key of the heading
+	 */
+	public void setHeadingKey( String headingID )
+	{
+		setPropertySilently( DataSetParameter.HEADING_ID_MEMBER, headingID );
+	}
+
+	/**
+	 * Gets the help text of this parameter.
+	 * 
+	 * @return the help text of this parameter
+	 */
+	public String getHelpText( )
+	{
+		return getStringProperty( DataSetParameter.HELP_TEXT_MEMBER );
+	}
+
+	/**
+	 * Sets the help text of this parameter.
+	 * 
+	 * @param helpText
+	 *            the new help text of this parameter
+	 */
+	public void setHelpText( String helpText )
+	{
+		setPropertySilently( DataSetParameter.HELP_TEXT_MEMBER, helpText );
+	}
+	
+	/**
+	 * Gets the resource key of the help text of this parameter.
+	 * 
+	 * @return the resource key of the help text
+	 */
+	public String getHelpTextKey( )
+	{
+		return getStringProperty( DataSetParameter.HELP_TEXT_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the help text of this parameter.
+	 * 
+	 * @param helpTextID
+	 *            the new resource key of the help text
+	 */
+	public void setHelpTextKey( String helpTextID )
+	{
+		setPropertySilently( DataSetParameter.HELP_TEXT_ID_MEMBER, helpTextID );
+	}
+	
+	/**
+	 * Gets the description of this parameter.
+	 * 
+	 * @return the description of this parameter
+	 */
+	public String getDescription( )
+	{
+		return getStringProperty( DataSetParameter.DESCRIPTION_MEMBER );
+	}
+
+	/**
+	 * Sets the description of this parameter.
+	 * 
+	 * @param description
+	 *            the new description of this parameter
+	 */
+	public void setDescription( String description )
+	{
+		setPropertySilently( DataSetParameter.DESCRIPTION_MEMBER, description );
+	}
+	
+	/**
+	 * Gets the resource key of the description of this parameter.
+	 * 
+	 * @return the resource key of the description
+	 */
+	public String getDescriptionKey( )
+	{
+		return getStringProperty( DataSetParameter.DESCRIPTION_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the description of this parameter.
+	 * 
+	 * @param descriptionID
+	 *            the new resource key of the description
+	 */
+	public void setDescriptoinKey( String descriptionID )
+	{
+		setPropertySilently( DataSetParameter.DESCRIPTION_ID_MEMBER, descriptionID );
+	}	
 }

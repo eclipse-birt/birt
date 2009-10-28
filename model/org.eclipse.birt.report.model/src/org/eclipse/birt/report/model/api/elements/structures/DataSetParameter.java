@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -23,7 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.PropertyStructure;
 import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 
 /**
@@ -60,7 +59,7 @@ import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
  * 
  */
 
-public class DataSetParameter extends Structure
+public class DataSetParameter extends PropertyStructure
 {
 
 	/**
@@ -136,58 +135,44 @@ public class DataSetParameter extends Structure
 	public static final String NATIVE_DATA_TYPE_MEMBER = "nativeDataType"; //$NON-NLS-1$
 
 	/**
-	 * The parameter position.
+	 * Name of the member indicating the display name of the parameter
 	 */
-
-	private Integer position = null;
+	public static final String DISPLAY_NAME_MEMBER = "displayName"; //$NON-NLS-1$	
 
 	/**
-	 * The parameter name.
+	 * Name of the member indicating the display name id of the parameter
 	 */
-
-	private String name = null;
+	public static final String DISPLAY_NAME_ID_MEMBER = "displayNameID"; //$NON-NLS-1$	
 
 	/**
-	 * The parameter data type.
+	 * Name of the member indicating the heading of the parameter
 	 */
-
-	private String dataType = null;
+	public static final String HEADING_MEMBER = "heading"; //$NON-NLS-1$	
 
 	/**
-	 * Whether this parameter is optional.
+	 * Name of the member indicating the heading id of the parameter
 	 */
-
-	private Boolean isOptional;
+	public static final String HEADING_ID_MEMBER = "headingID"; //$NON-NLS-1$	
 
 	/**
-	 * Whether this parameter allows null.
+	 * Name of the member indicating the help text of the parameter
 	 */
-
-	private Boolean allowNull;
+	public static final String HELP_TEXT_MEMBER = "helpText"; //$NON-NLS-1$	
 
 	/**
-	 * Whether this parameter is an input parameter.
+	 * Name of the member indicating the help text id of the parameter
 	 */
-
-	private Boolean isInput;
+	public static final String HELP_TEXT_ID_MEMBER = "helpTextID"; //$NON-NLS-1$	
 
 	/**
-	 * Whether this parameter is an output parameter.
+	 * Name of the member indicating the description of the parameter
 	 */
-
-	private Boolean isOutput;
+	public static final String DESCRIPTION_MEMBER = "description"; //$NON-NLS-1$	
 
 	/**
-	 * The default value of the parameter.
+	 * Name of the member indicating the description id of the parameter
 	 */
-
-	private Expression defaultValue;
-
-	/**
-	 * The native (database) data type.
-	 */
-
-	private Integer nativeDataType;
+	public static final String DESCRIPTION_ID_MEMBER = "descriptionID"; //$NON-NLS-1$	
 
 	/*
 	 * (non-Javadoc)
@@ -198,73 +183,6 @@ public class DataSetParameter extends Structure
 	public String getStructName( )
 	{
 		return STRUCT_NAME;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
-	 * .lang.String)
-	 */
-
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( POSITION_MEMBER.equals( propName ) )
-			return position;
-		if ( NAME_MEMBER.equals( propName ) )
-			return name;
-		if ( DATA_TYPE_MEMBER.equals( propName ) )
-			return dataType;
-		if ( IS_OPTIONAL_MEMBER.equals( propName ) )
-			return isOptional;
-		if ( DEFAULT_VALUE_MEMBER.equals( propName ) )
-			return defaultValue;
-		if ( IS_NULLABLE_MEMBER.equals( propName )
-				|| ALLOW_NULL_MEMBER.equals( propName ) )
-			return allowNull;
-		if ( IS_INPUT_MEMBER.equals( propName ) )
-			return isInput;
-		if ( IS_OUTPUT_MEMBER.equals( propName ) )
-			return isOutput;
-		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
-			return nativeDataType;
-
-		assert false;
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
-	 * .lang.String, java.lang.Object)
-	 */
-
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( POSITION_MEMBER.equals( propName ) )
-			position = (Integer) value;
-		else if ( NAME_MEMBER.equals( propName ) )
-			name = (String) value;
-		else if ( DATA_TYPE_MEMBER.equals( propName ) )
-			dataType = (String) value;
-		else if ( IS_OPTIONAL_MEMBER.equals( propName ) )
-			isOptional = (Boolean) value;
-		else if ( DEFAULT_VALUE_MEMBER.equals( propName ) )
-			defaultValue = (Expression) value;
-		else if ( IS_NULLABLE_MEMBER.equals( propName )
-				|| ALLOW_NULL_MEMBER.equals( propName ) )
-			allowNull = (Boolean) value;
-		else if ( IS_INPUT_MEMBER.equals( propName ) )
-			isInput = (Boolean) value;
-		else if ( IS_OUTPUT_MEMBER.equals( propName ) )
-			isOutput = (Boolean) value;
-		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
-			nativeDataType = (Integer) value;
-		else
-			assert false;
 	}
 
 	/**
@@ -458,7 +376,7 @@ public class DataSetParameter extends Structure
 
 	public String getName( )
 	{
-		return (String) getProperty( null, NAME_MEMBER );
+		return getStringProperty( null, NAME_MEMBER );
 	}
 
 	/**
@@ -573,7 +491,7 @@ public class DataSetParameter extends Structure
 
 	public String getParameterDataType( )
 	{
-		return (String) getProperty( null, DATA_TYPE_MEMBER );
+		return getStringProperty( null, DATA_TYPE_MEMBER );
 	}
 
 	/**
@@ -599,5 +517,173 @@ public class DataSetParameter extends Structure
 	public void setParameterDataType( String dataType )
 	{
 		setProperty( DATA_TYPE_MEMBER, dataType );
+	}
+
+	/**
+	 * Gets the display name of this parameter.
+	 * 
+	 * @return the display name of this parameter
+	 */
+	public String getDisplayName( )
+	{
+		return getStringProperty( null, DISPLAY_NAME_MEMBER );
+	}
+
+	/**
+	 * Sets the display name of this parameter.
+	 * 
+	 * @param displayName
+	 *            the new display name of this parameter
+	 */
+	public void setDisplayName( String displayName )
+	{
+		setProperty( DISPLAY_NAME_MEMBER, displayName );
+	}
+	
+	/**
+	 * Gets the resource key of the display name of this parameter.
+	 * 
+	 * @return the resource key of the display name
+	 */
+	public String getDisplayNameKey( )
+	{
+		return getStringProperty( null, DISPLAY_NAME_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the display name id of this parameter.
+	 * 
+	 * @param displayNameID
+	 *            the new resource key of the display name
+	 */
+	public void setDisplayNameKey( String displayNameID )
+	{
+		setProperty( DISPLAY_NAME_ID_MEMBER, displayNameID );
+	}
+
+	/**
+	 * Gets the heading of this parameter.
+	 * 
+	 * @return the heading of this parameter
+	 */
+	public String getHeading( )
+	{
+		return getStringProperty( null, HEADING_MEMBER );
+	}
+
+	/**
+	 * Sets the heading of this parameter.
+	 * 
+	 * @param heading
+	 *            the new heading of this parameter
+	 */
+	public void setHeading( String heading )
+	{
+		setProperty( HEADING_MEMBER, heading );
+	}
+	
+	/**
+	 * Gets the resource key of the heading of this parameter.
+	 * 
+	 * @return the resource key of the heading
+	 */
+	public String getHeadingKey( )
+	{
+		return getStringProperty( null, HEADING_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the heading of this parameter.
+	 * 
+	 * @param headingID
+	 *            the new resource key of the heading
+	 */
+	public void setHeadingKey( String headingID )
+	{
+		setProperty( HEADING_ID_MEMBER, headingID );
+	}
+
+	/**
+	 * Gets the help text of this parameter.
+	 * 
+	 * @return the help text of this parameter
+	 */
+	public String getHelpText( )
+	{
+		return getStringProperty( null, HELP_TEXT_MEMBER );
+	}
+
+	/**
+	 * Sets the help text of this parameter.
+	 * 
+	 * @param helpText
+	 *            the new help text of this parameter
+	 */
+	public void setHelpText( String helpText )
+	{
+		setProperty( HELP_TEXT_MEMBER, helpText );
+	}
+	
+	/**
+	 * Gets the resource key of the help text of this parameter.
+	 * 
+	 * @return the resource key of the help text
+	 */
+	public String getHelpTextKey( )
+	{
+		return getStringProperty( null, HELP_TEXT_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the help text of this parameter.
+	 * 
+	 * @param helpTextID
+	 *            the new resource key of the heading
+	 */
+	public void setHelpTextKey( String helpTextID )
+	{
+		setProperty( HELP_TEXT_ID_MEMBER, helpTextID );
+	}
+	
+	/**
+	 * Gets the description of this parameter.
+	 * 
+	 * @return the description of this parameter
+	 */
+	public String getDescription( )
+	{
+		return getStringProperty( null, DESCRIPTION_MEMBER );
+	}
+
+	/**
+	 * Sets the description of this parameter.
+	 * 
+	 * @param description
+	 *            the new description of this parameter
+	 */
+	public void setDescription( String description )
+	{
+		setProperty( DESCRIPTION_MEMBER, description );
+	}
+	
+	/**
+	 * Gets the resource key of the description of this parameter.
+	 * 
+	 * @return the resource key
+	 */
+	public String getDescriptionKey( )
+	{
+		return getStringProperty( null, DESCRIPTION_ID_MEMBER );
+	}
+
+	/**
+	 * Sets the resource key of the description of this parameter.
+	 * 
+	 * @param descriptionID
+	 *            the new resource key of the description
+	 */
+	public void setDescriptionKey( String descriptionID )
+	{
+		setProperty( DESCRIPTION_ID_MEMBER, descriptionID );
 	}
 }
