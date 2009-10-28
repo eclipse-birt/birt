@@ -2720,7 +2720,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 * @param expr
 	 *            specified expression.
 	 */
-	private void updateYOptionalExpressions( Chart cm, String expr )
+	protected void updateYOptionalExpressions( Chart cm, String expr )
 	{
 		this.dataProvider.update( ChartUIConstants.QUERY_OPTIONAL, expr );
 	}
@@ -2734,7 +2734,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 * @param expr
 	 *            specified expression.
 	 */
-	private void updateCategoryExpression( Chart cm, String expr )
+	protected void updateCategoryExpression( Chart cm, String expr )
 	{
 		this.dataProvider.update( ChartUIConstants.QUERY_CATEGORY, expr );
 	}
