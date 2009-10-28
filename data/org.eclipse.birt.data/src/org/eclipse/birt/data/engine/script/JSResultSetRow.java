@@ -152,7 +152,11 @@ public class JSResultSetRow extends ScriptableObject
 				}
 				
 				if ( binding.getAggrFunction( )!= null )
-					return this.odiResult.getAggrValue( name );
+				{
+					return JavascriptEvalUtil.convertToJavascriptValue( DataTypeUtil.convert( this.odiResult.getAggrValue( name ),
+							binding.getDataType( ) ),
+							this.scope );
+				}
 				
 				IBaseExpression dataExpr = this.exprManager.getExpr( name );
 				if ( dataExpr == null )
