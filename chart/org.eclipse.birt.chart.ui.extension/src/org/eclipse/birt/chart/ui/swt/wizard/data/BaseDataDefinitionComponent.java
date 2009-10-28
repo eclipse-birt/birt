@@ -1092,7 +1092,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						}
 					}
 				}
-
+				setQueryExpression( expr );
 				if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
 				{
 					if ( isGroupExpr )
@@ -1130,7 +1130,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						}
 					}
 				}
-
+				setQueryExpression( expr );
 				if ( isAggregationExpr )
 				{
 					query.getGrouping( ).setEnabled( true );
@@ -1144,7 +1144,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				}
 			}
 			
-			setQueryExpression( expr );
 
 		}
 		else
