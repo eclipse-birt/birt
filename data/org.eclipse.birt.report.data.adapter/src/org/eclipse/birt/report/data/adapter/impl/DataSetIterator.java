@@ -413,7 +413,7 @@ public class DataSetIterator implements IDatasetIterator
 			this.name = name;
 			this.type = type;
 			this.dataProcessor = ( processor == null )
-					? (IDataProcessor) new DummyDataProcessor( ) : processor;
+					? new DummyDataProcessor( ) : processor;
 		}
 
 		/**
