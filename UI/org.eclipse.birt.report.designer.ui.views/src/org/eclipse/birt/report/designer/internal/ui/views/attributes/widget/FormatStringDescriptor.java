@@ -22,7 +22,7 @@ public class FormatStringDescriptor extends FormatDescriptor
 
 	/**
 	 * Constructs a new instance of format string page, default aligns the page
-	 * virtically.
+	 * vertically.
 	 * 
 	 * @param parent
 	 *            The parent container of the page.
@@ -43,17 +43,37 @@ public class FormatStringDescriptor extends FormatDescriptor
 	 * @param style
 	 *            style of the page
 	 * @param pageAlignment
-	 *            Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
+	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
 	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
 
 	public FormatStringDescriptor( int pageAlignment, boolean isFormStyle )
 	{
+		this( pageAlignment, isFormStyle, true );
+	}
+
+	/**
+	 * Constructs a new instance of format string page.
+	 * 
+	 * @param parent
+	 *            The parent container of the page.
+	 * @param style
+	 *            style of the page
+	 * @param pageAlignment
+	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
+	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param showLocale
+	 *            whether the UI to set locale will be shown
+	 */
+
+	public FormatStringDescriptor( int pageAlignment, boolean isFormStyle,
+			boolean showLocale )
+	{
 		setFormStyle( isFormStyle );
 
 		layoutPeer = new FormatStringLayoutPeer( pageAlignment,
 				isFormStyle,
-				true );
+				showLocale );
 	}
 
 }

@@ -15,11 +15,19 @@ public class FormatStringSection extends Section
 {
 
 	private int style;
+	private final boolean showLocale;
 
 	public FormatStringSection( Composite parent, int style, boolean isFormStyle )
 	{
+		this( parent, style, isFormStyle, true );
+	}
+
+	public FormatStringSection( Composite parent, int style,
+			boolean isFormStyle, boolean showLocale )
+	{
 		super( " ", parent, isFormStyle ); //$NON-NLS-1$
 		this.style = style;
+		this.showLocale = showLocale;
 	}
 
 	protected FormatStringDescriptor format;
@@ -39,7 +47,7 @@ public class FormatStringSection extends Section
 	{
 		if ( format == null )
 		{
-			format = new FormatStringDescriptor( style, isFormStyle );
+			format = new FormatStringDescriptor( style, isFormStyle, showLocale );
 			format.setDescriptorProvider( provider );
 			format.createControl( parent );
 			format.getControl( )

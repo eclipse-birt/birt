@@ -44,18 +44,38 @@ public class FormatDateTimeDescriptor extends FormatDescriptor
 	 * @param style
 	 *            The style of the page
 	 * @param pageAlignment
-	 *            Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
+	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
 	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
 
 	public FormatDateTimeDescriptor( int pageAlignment, boolean isFormStyle )
+	{
+		this( pageAlignment, isFormStyle, true );
+	}
+
+	/**
+	 * Constructs a page for formatting date time.
+	 * 
+	 * @param parent
+	 *            The container
+	 * @param style
+	 *            The style of the page
+	 * @param pageAlignment
+	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
+	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param showLocale
+	 *            whether the UI to set locale will be shown
+	 * 
+	 */
+	public FormatDateTimeDescriptor( int pageAlignment, boolean isFormStyle,
+			boolean showLocale )
 	{
 		setFormStyle( isFormStyle );
 
 		layoutPeer = new FormatDateTimeLayoutPeer( FormatBuilder.DATETIME,
 				pageAlignment,
 				isFormStyle,
-				true );
+				showLocale );
 	}
 
 }

@@ -22,7 +22,7 @@ public class FormatNumberDescriptor extends FormatDescriptor
 
 	/**
 	 * Constructs a page for formatting numbers, default aligns the page
-	 * virtically.
+	 * vertically.
 	 * 
 	 * @param parent
 	 *            The container
@@ -42,16 +42,34 @@ public class FormatNumberDescriptor extends FormatDescriptor
 	 * @param style
 	 *            The style of the page
 	 * @param pageAlignment
-	 *            Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
+	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
 	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
 	public FormatNumberDescriptor( int pageAlignment, boolean isFormStyle )
+	{
+		this( pageAlignment, isFormStyle, true );
+	}
+
+	/**
+	 * Constructs a page for formatting numbers.
+	 * 
+	 * @param parent
+	 *            The container
+	 * @param style
+	 *            The style of the page
+	 * @param pageAlignment
+	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
+	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param showLocale
+	 *            whether the UI to set locale will be shown
+	 */
+	public FormatNumberDescriptor( int pageAlignment, boolean isFormStyle,
+			boolean showLocale )
 	{
 		setFormStyle( isFormStyle );
 
 		layoutPeer = new FormatNumberLayoutPeer( pageAlignment,
 				isFormStyle,
-				true );
+				showLocale );
 	}
-
 }
