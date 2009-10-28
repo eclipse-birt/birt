@@ -201,7 +201,7 @@ public class FontSizeManager extends AbstractLengthManager {
 		
 		if(value.getPrimitiveType() == CSSPrimitiveValue.CSS_NUMBER)
 		{
-			return super.computeValue(elt, engine, idx, new FloatValue(CSSPrimitiveValue.CSS_PT,
+			return super.computeValue(elt, engine, idx, new FloatValue(CSSPrimitiveValue.CSS_NUMBER,
 					value.getFloatValue()));
 		}
 		return super.computeValue(elt, engine, idx, value);
