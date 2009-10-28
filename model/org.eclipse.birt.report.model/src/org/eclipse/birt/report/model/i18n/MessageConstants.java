@@ -101,8 +101,9 @@ public interface MessageConstants
 	public static final String CONTENT_EXCEPTION_INVALID_TEMPLATE_ELEMENT = "Error.ContentException.INVALID_TEMPLATE_ELEMENT"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN = "Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_GROUPS_CHANGE_FORBIDDEN = "Error.ContentException.GROUPS_CHANGE_FORBIDDEN"; //$NON-NLS-1$
-
 	public static final String CONTENT_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED = "Error.ContentException.CONTENT_NOT_ALLOWED_PASTED"; //$NON-NLS-1$
+	public static final String CONTENT_EXCEPTION_CONTENT_ALREADY_INSERTED = "Error.ContentException.CONTENT_ALREADY_INSERTED"; //$NON-NLS-1$
+	public static final String CONTENT_EXCEPTION_INVALID_POSITION = "Error.ContentException.INVALID_POSITION"; //$NON-NLS-1$
 
 	// CustomMsgException
 	public static final String CUSTOM_MSG_EXCEPTION_RESOURCE_KEY_REQUIRED = "Error.CustomMsgException.RESOURCE_KEY_REQUIRED"; //$NON-NLS-1$
@@ -345,5 +346,5 @@ public interface MessageConstants
 	//Dashboard exporter
 	public static final String EXPORT_GADGET_TO_SHARED_GADGET_FILE ="Message.ExportGadgetToSharedGadgetFile"; //$NON-NLS-1$
 	public static final String EXPORT_TAB_TO_SHARED_TAB_FILE="Message.ExportTabToSharedTabFile"; //$NON-NLS-1$
-	public static final String DASHBOARD_EXCEPTION_GADGET_INCLUDED_RECURSIVELY = "Error.ExternalGadgetFileIncludedRecursively"; //$NON-NLS-1$
+	public static final String DASHBOARD_EXCEPTION_GADGET_INCLUDED_RECURSIVELY = "Error.ExternalGadgetFileIncludedRecursively"; //$NON-NLS-1$	
 }

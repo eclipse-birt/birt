@@ -91,6 +91,16 @@ public class ContentExceptionTest extends BaseTestCase
 				new TemplateReportItem( "test" ), //$NON-NLS-1$
 				ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
 		print( error );
+		
+		error = new ContentException( table, TableItem.COLUMN_SLOT,
+				row,
+				ContentException.DESIGN_EXCEPTION_CONTENT_ALREADY_INSERTED );
+		print( error );
+		
+		error = new ContentException( table, TableItem.COLUMN_SLOT,
+				new TemplateReportItem( "test" ), //$NON-NLS-1$
+				ContentException.DESIGN_EXCEPTION_INVALID_POSITION );
+		print( error );
 
 		// System.out.println(error.getLocalizedMessage());
 		os.close( );

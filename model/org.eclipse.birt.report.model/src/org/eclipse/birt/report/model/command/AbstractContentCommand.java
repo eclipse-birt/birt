@@ -112,9 +112,14 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	public final void add( DesignElement content, int newPos )
 			throws ContentException, NameException
 	{
-		assert newPos >= 0 || newPos == -1;
+		if ( newPos < 0 && newPos != -1 )
+			throw ContentExceptionFactory.createContentException( focus,
+					ContentException.DESIGN_EXCEPTION_INVALID_POSITION );;
 
-		assert content.getContainer( ) == null;
+		if ( content.getContainer( ) != null )
+			throw ContentExceptionFactory.createContentException( focus,
+					content,
+					ContentException.DESIGN_EXCEPTION_CONTENT_ALREADY_INSERTED );
 
 		if ( eventTarget != null && !( this instanceof ContentElementCommand ) )
 		{

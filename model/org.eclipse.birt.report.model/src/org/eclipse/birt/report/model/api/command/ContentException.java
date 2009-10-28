@@ -156,6 +156,20 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED = MessageConstants.CONTENT_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED;
 
 	/**
+	 * Error code that indicates that the content can not be inserted twice for
+	 * it is already in the tree.
+	 */
+
+	public static final String DESIGN_EXCEPTION_CONTENT_ALREADY_INSERTED = MessageConstants.CONTENT_EXCEPTION_CONTENT_ALREADY_INSERTED;
+
+	/**
+	 * Error code that indicates that the given position is out of range and
+	 * invalid.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_POSITION = MessageConstants.CONTENT_EXCEPTION_INVALID_POSITION;
+
+	/**
 	 * Constructs the exception with container element, slot id, and error code.
 	 * 
 	 * @param element
@@ -303,25 +317,16 @@ public class ContentException extends SemanticException
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getContainerName( ), getElementName( element )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( content ), element.getElementName( ),
-					getContainerName( )} );
-		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN
 				|| sResourceKey == DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( content ), element.getElementName( ),
-					getContainerName( )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT )
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT
+				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED
+				|| sResourceKey == DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT
+				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_ALREADY_INSERTED )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( content ), getElementName( element ),
