@@ -24,10 +24,10 @@ public class PPTPageDevice implements IPageDevice
 	private PPTPage currentPage;
 
 	public PPTPageDevice( OutputStream output, String title, String author,
-			String description )
+			String description, String subject )
 	{
 		writer = new PPTWriter( output );
-		writer.start( title, author, description );
+		writer.start( title, author, description, subject );
 	}
 
 	public void close( ) throws Exception

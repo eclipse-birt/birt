@@ -51,7 +51,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 	}
 
 	public void start( boolean rtl, String creator, String title,
-			String description )
+			String description, String subject )
 	{
 		this.rtl = rtl;
 		writer.startWriter( );
@@ -71,7 +71,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		writer.attribute( "xmlns:aml",
 				"http://schemas.microsoft.com/aml/2001/core" );
 		writer.attribute( "xml:space", "preserve" );
-		writeCoreProperties( creator, title, description );
+		writeCoreProperties( creator, title, description, subject );
 
 		// style for outline
 		writer.openTag( "w:styles" );
@@ -176,7 +176,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 	}
 
 	private void writeCoreProperties( String creator, String title,
-			String description )
+			String description, String subject )
 	{
 		writer.openTag( "o:DocumentProperties" );
 		writer.openTag( "o:Author" );
@@ -188,6 +188,9 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		writer.openTag( "o:Description" );
 		writer.text( description );
 		writer.closeTag( "o:Description" );
+		writer.openTag( "o:Subject" );
+		writer.text( subject );
+		writer.closeTag( "o:Subject" );
 		writer.closeTag( "o:DocumentProperties" );
 	}
 

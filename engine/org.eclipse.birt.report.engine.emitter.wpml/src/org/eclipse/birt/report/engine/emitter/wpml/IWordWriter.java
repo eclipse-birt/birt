@@ -21,7 +21,8 @@ import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 public interface IWordWriter
 {
 
-	void start( boolean rtl, String creator, String title, String description )
+	void start( boolean rtl, String creator, String title, String description,
+			String subject )
 			throws IOException;
 
 	void drawDocumentBackground( String backgroundColor,

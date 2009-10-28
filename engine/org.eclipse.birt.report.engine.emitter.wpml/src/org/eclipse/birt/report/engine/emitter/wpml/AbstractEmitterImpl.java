@@ -76,7 +76,6 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
@@ -249,18 +248,19 @@ public abstract class AbstractEmitterImpl
 			String creator = null;
 			String title = null;
 			String description = null;
+			String subject = null;
 			if ( reportContent != null )
 			{
 				ReportDesignHandle designHandle = reportContent.getDesign( )
 						.getReportDesign( );
 				creator = designHandle.getAuthor( );
-				title = designHandle
-						.getStringProperty( IModuleModel.TITLE_PROP );
+				title = reportContent.getTitle( );
 				description = designHandle.getDescription( );
+				subject = designHandle.getSubject( );
 				IContent rootContent = reportContent.getRoot( );
 				isRtl = rootContent != null && rootContent.isRTL( );
 			}
-			wordWriter.start( isRtl, creator, title, description );
+			wordWriter.start( isRtl, creator, title, description, subject );
 			drawDocumentBackground( );
 		}
 		computePageProperties( page );

@@ -85,7 +85,8 @@ public class PPTWriter
 	 * @param title 
 	 * 
 	 */
-	public void start( String title, String author, String description )
+	public void start( String title, String author, String description,
+			String subject )
 	{
 		if ( !imageInfos.isEmpty( ) )
 		{
@@ -118,6 +119,7 @@ public class PPTWriter
 		println( "<xml><o:DocumentProperties>" ); //$NON-NLS-1$
 		println( "<o:Author>" + author + "</o:Author>" ); //$NON-NLS-1$
 		println( "<o:Description>" + description + "</o:Description>" ); //$NON-NLS-1$
+		println( "<o:Subject>" + subject + "</o:Subject>" ); //$NON-NLS-1$
 		println( "</o:DocumentProperties></xml><link rel=3DFile-List href=3D'file-list'>" ); //$NON-NLS-1$
 		println( "<link rel=3DPresentation-XML href=3D'presentation'>" ); //$NON-NLS-1$
 		println( "</head></body></html>" ); //$NON-NLS-1$

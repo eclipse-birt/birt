@@ -50,7 +50,8 @@ public class PPTRender extends PageDeviceRender
 	{
 		try
 		{
-			return new PPTPageDevice( pptOutput, title, author, description );
+			return new PPTPageDevice( pptOutput, title, author, description,
+					subject );
 		}
 		catch ( Exception e )
 		{
