@@ -115,10 +115,12 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -2231,6 +2233,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 
+			// Prepare category and Y optional items.
 			// TODO
 			// ? Now(2008/02/18), for share binding case, we use following
 			// rules:
@@ -2238,9 +2241,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// definition in table.
 			// 2. Category series allow to use all grouping definitions and
 			// binding.
-
-			// Prepare category and Y optional items.
-			
 			Object[][] categorys = new Object[0][];
 			Object[][] optionals = new Object[0][];
 		
@@ -2260,15 +2260,88 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// Prepare Y optional items.
-			int size = ( groups.size( ) > 0 ) ? 1 : 0;
-			optionals = new Object[size][2];
-			if ( groups.size( ) > 0 )
+			// (2009/10/27) Rules of inherit colum group: for inheriting column
+			// groups case, the Y optional grouping should allow to use all the
+			// outer groups than current group handle level(include self group).
+			if ( isInheritColumnsGroups( ) )
 			{
-				Entry<String, ColumnBindingInfo> entry = groups.entrySet( ).iterator( ).next( );;
-				optionals[0][0] = entry.getKey( );
-				optionals[0][1] = entry.getValue( );
+				Map<String, ColumnBindingInfo> g = new LinkedHashMap<String, ColumnBindingInfo>(2);
+				DesignElementHandle reh =  itemHandle;
+				while( reh != null )
+				{
+					if ( reh.getContainer( ) instanceof TableGroupHandle )
+					{
+						reh = reh.getContainer( );
+						
+						for ( Entry<String, ColumnBindingInfo> e : groups.entrySet( ) )
+						{
+							g.put( e.getKey( ), e.getValue( ) );
+							if ( reh.getName( ).equals( e.getValue( ).getName( ) ) )
+							{
+								break;
+							}
+						}
+						break;
+					}
+					else if ( reh.getContainer( ) instanceof RowHandle && reh.getContainer( ) != null && !( reh.getContainer( ).getContainer( ) instanceof TableGroupHandle ) )
+					{
+						DesignElementHandle deh = reh;
+						while( deh != null )
+						{
+							if ( deh.getContainer( ) instanceof ListingHandle )
+							{
+								deh = deh.getContainer( );
+								break;
+							}
+							
+							deh = deh.getContainer( );
+						}
+						if ( deh != null && deh instanceof ListingHandle )
+						{
+							if ( ((ListingHandle)deh).getDetail( ).findPosn( reh.getContainer( ) ) >= 0 )
+							{
+								g = groups;
+							}
+							else if ( ((ListingHandle)deh).getHeader( ).findPosn( reh.getContainer( ) ) >= 0 )
+							{
+								String key = groups.keySet( ).toArray( new String[]{} )[0];
+								g.put( key, groups.get( key ) );
+							}
+						}
+						break;
+					}
+					else if ( reh.getContainer( ) instanceof ListingHandle )
+					{
+						
+						reh = null;
+						break;
+					}
+					
+					reh = reh.getContainer( );
+				}
+				
+				optionals = new Object[g.size( )][2];
+				int i = 0;
+				for ( Entry<String, ColumnBindingInfo> e : g.entrySet( ) )
+				{
+					optionals[i][0] = e.getKey( );
+					optionals[i++][1] = e.getValue( );
+				}
 			}
-
+			else
+			{
+				int size = ( groups.size( ) > 0 ) ? 1 : 0;
+				optionals = new Object[size][2];
+				if ( groups.size( ) > 0 )
+				{
+					Entry<String, ColumnBindingInfo> entry = groups.entrySet( )
+							.iterator( )
+							.next( );;
+					optionals[0][0] = entry.getKey( );
+					optionals[0][1] = entry.getValue( );
+				}
+			}
+			
 			// Prepare value items.
 			Object[][] values = new Object[aggs.size( ) + commons.size( )][2];
 			index = 0;

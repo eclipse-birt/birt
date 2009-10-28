@@ -1300,7 +1300,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	public boolean isValidExpression( String expression )
 	{
 		if ( context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.SHARE_QUERY ) )
+				.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
+				.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) )
 		{
 			if ( cmbDefinition == null )
 				return false;

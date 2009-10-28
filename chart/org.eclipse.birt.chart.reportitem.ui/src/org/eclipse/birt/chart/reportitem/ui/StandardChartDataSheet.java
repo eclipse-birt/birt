@@ -1478,7 +1478,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							}
 							base.getGrouping( ).setEnabled( true );
 						}
-						else
+						else if ( ChartUIConstants.TYPE_GANTT.equals( getChartModel( ).getType( ) ) )
 						{
 							if ( base.getGrouping( ) != null )
 							{
@@ -1929,7 +1929,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			setEnabled( DataDefinitionTextManager.getInstance( )
 					.isAcceptableExpression( query,
 							expr,
-							dataProvider.isSharedBinding( ) ) );
+							dataProvider.isSharedBinding( )
+									|| dataProvider.isInheritColumnsGroups( ) ) );
 		}
 
 		public void run( )
@@ -1959,7 +1960,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			setEnabled( DataDefinitionTextManager.getInstance( )
 					.isAcceptableExpression( query,
 							expr,
-							dataProvider.isSharedBinding( ) ) );
+							dataProvider.isSharedBinding( )
+									|| dataProvider.isInheritColumnsGroups( ) ) );
 		}
 
 		public void run( )
@@ -1990,7 +1992,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 			// Grouping expressions can't be set on value series.
 			boolean enabled = true;
-			if ( dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
+			if ( dataProvider.isSharedBinding( )
+					|| dataProvider.isInheritColumnsGroups( ) )
 			{
 				Object obj = getCurrentColumnHeadObject( );
 				if ( obj instanceof ColumnBindingInfo
