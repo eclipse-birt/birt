@@ -53,6 +53,10 @@ public class ExpressionButtonUtil
 
 		public String getExpression( )
 		{
+			if ( control.isDisposed( ) )
+			{
+				return ""; //$NON-NLS-1$
+			}
 			if ( control instanceof Text )
 			{
 				return ( (Text) control ).getText( );
@@ -65,7 +69,7 @@ public class ExpressionButtonUtil
 			{
 				return ( (CCombo) control ).getText( );
 			}
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 
 		public void notifyExpressionChangeEvent( String oldExpression,
@@ -86,6 +90,10 @@ public class ExpressionButtonUtil
 
 		public void setExpression( String expression )
 		{
+			if ( control.isDisposed( ) )
+			{
+				return;
+			}
 			if ( control instanceof Text )
 			{
 				( (Text) control ).setText( DEUtil.resolveNull( expression ) );
@@ -102,12 +110,22 @@ public class ExpressionButtonUtil
 
 		public String getExpressionType( )
 		{
-			return (String) control.getData( EXPR_TYPE );
+			if ( !control.isDisposed( ) )
+			{
+				return (String) control.getData( EXPR_TYPE );
+			}
+			else
+			{
+				return UIUtil.getDefaultScriptType( );
+			}
 		}
 
 		public void setExpressionType( String exprType )
 		{
-			control.setData( EXPR_TYPE, exprType );
+			if ( !control.isDisposed( ) )
+			{
+				control.setData( EXPR_TYPE, exprType );
+			}
 		}
 
 		protected void setProvider( IExpressionProvider provider )
