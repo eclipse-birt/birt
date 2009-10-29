@@ -86,6 +86,15 @@ public class SimpleResultSet implements IResultIterator
 		this.handler = handler;
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
 		this.query = dataSourceQuery.getQueryDefinition( );
+		if( query instanceof IQueryDefinition && ((IQueryDefinition)query).needAutoBinding( ))
+		{
+			for( int i = 1; i <= resultClass.getFieldCount( ); i++ )
+			{
+				this.resultSetNameSet.add( resultClass.getFieldName( i ) );
+				this.resultSetNameSet.add( resultClass.getFieldAlias( i ) );
+			}
+		}
+		
 	}
 
 	/*

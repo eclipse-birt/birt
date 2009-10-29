@@ -81,8 +81,7 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 		}
 		else
 		{
-			throw new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
-					dataSource.getName( ) );
+			return null;
 		}
 	}
 	

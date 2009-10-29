@@ -62,7 +62,7 @@ public class DataEngineImpl extends DataEngine
 	
 	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
 	private HashMap					dataSetDesigns = new HashMap();
-	
+	private HashMap                 dataSourceDesigns = new HashMap();
 	/** Scriptable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 
@@ -201,8 +201,9 @@ public class DataEngineImpl extends DataEngine
 		// the map
 		DataSourceRuntime newDefn = DataSourceRuntime.newInstance( dataSource,
 				this );
-		dataSources.put( newDefn.getName( ), newDefn );
-		
+		if( newDefn!= null )
+			dataSources.put( newDefn.getName( ), newDefn );
+		dataSourceDesigns.put( dataSource.getName( ), dataSource );
 		logger.exiting( DataEngineImpl.class.getName( ), "defineDataSource" );
 	}
 
@@ -257,7 +258,7 @@ public class DataEngineImpl extends DataEngine
 					"defineDataSet",
 					"DataEngine.defineDataSet: " + LogUtil.toString( dataSet ) );
 					
-		DataSetDesignHelper.vailidateDataSetDesign( dataSet, dataSources );
+		DataSetDesignHelper.vailidateDataSetDesign( dataSet, dataSourceDesigns );
 		dataSetDesigns.put( name, dataSet );
 		logger.exiting( DataEngineImpl.class.getName( ), "defineDataSet" );
 	}
@@ -296,6 +297,10 @@ public class DataEngineImpl extends DataEngine
 		return (IBaseDataSetDesign) dataSetDesigns.get( name );
 	}
 
+	public IBaseDataSourceDesign getDataSourceDesign( String name )
+	{
+		return (IBaseDataSourceDesign) dataSourceDesigns.get( name );
+	}
 	/**
 	 * Verifies the elements of a report query spec
 	 * and provides a hint to the query to prepare and optimize 

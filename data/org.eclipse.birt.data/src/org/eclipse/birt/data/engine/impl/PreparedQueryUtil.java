@@ -128,6 +128,13 @@ public class PreparedQueryUtil
 			
 			return newIVInstance( dataEngine, queryDefn, appContext );
 		}
+		IPreparedQuery preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
+				queryDefn,
+				dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ),
+				appContext,
+				contextVisitor );
+		if ( preparedQuery != null )
+			return preparedQuery;
 		
 		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
 		if ( dset == null )
@@ -141,9 +148,10 @@ public class PreparedQueryUtil
 				return new PreparedDummyQuery( queryDefn, dataEngine.getSession( ) );
 		}
 
+		
 		FilterPrepareUtil.prepareFilters( dset.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
 		QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
-		IPreparedQuery preparedQuery;
+		
 
 		if ( dset instanceof IScriptDataSetDesign )
 		{

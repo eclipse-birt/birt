@@ -246,7 +246,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		public IResultMetaData getResultMetaData( ) throws DataException
 		{
 			RDLoad rdLoad = RDUtil.newLoad( engine.getSession( ).getTempDir( ),
-					engine.getContext( ),
+					getEngineContext( ),
 					new QueryResultInfo( realBasedQueryID, null, -1 ) );
 			// TODO: enhanceme
 			return rdLoad.loadResultMetaData( );
@@ -274,10 +274,10 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			{
 				RDLoad rdLoad = RDUtil.newLoad( engine.getSession( )
 						.getTempDir( ),
-						engine.getContext( ),
+						getEngineContext( ),
 						new QueryResultInfo( realBasedQueryID, null, -1 ) );
 				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( );
-				StreamManager manager = new StreamManager( engine.getContext( ),
+				StreamManager manager = new StreamManager( getEngineContext( ),
 						new QueryResultInfo( queryDefn.getQueryResultsID( ),
 								null,
 								0 ) );
@@ -285,7 +285,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 				{
 					if ( PLSUtil.needUpdateDataSet( queryDefn, manager ) )
 					{
-						if ( engine.getContext( ).getDocWriter( ) != null )
+						if ( getEngineContext( ).getDocWriter( ) != null )
 						{
 							// When we can update the data set data.
 							populatePLSDataSetData( eventHandler,
@@ -295,7 +295,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 
 							rdLoad = RDUtil.newLoad( engine.getSession( )
 									.getTempDir( ),
-									engine.getContext( ),
+									getEngineContext( ),
 									new QueryResultInfo( realBasedQueryID,
 											null,
 											-1 ) );
@@ -308,7 +308,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 							// document.
 							org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
 									.getTempDir( ),
-									engine.getContext( ),
+									getEngineContext( ),
 									null,
 									queryDefn.getQueryResultsID( ), queryDefn );
 							PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
@@ -360,7 +360,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		{
 			org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
 					.getTempDir( ),
-					engine.getContext( ),
+					getEngineContext( ),
 					null,
 					queryDefn.getQueryResultsID( ), queryDefn );
 
@@ -410,6 +410,11 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			IOUtil.writeInt( plsGroupLevelStream,
 					PLSUtil.getOutmostPlsGroupLevel( queryDefn ) );
 			plsGroupLevelStream.close( );
+		}
+
+		private DataEngineContext getEngineContext( )
+		{
+			return engine.getContext( );
 		}
 
 		/**
