@@ -949,7 +949,7 @@
 				<include name="org.eclipse.datatools.connectivity.oda.profile.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.design.nl1*.jar" />
 				<include name="org.eclipse.datatools.enablement.oda.xml.nl1*.jar"/>
-				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.viewers.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/platform/plugins">
@@ -975,7 +975,7 @@
 				<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/lib">
-				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.viewers.nl1_*.jar" />
 			</zipfileset>
 		</zip>
 	</target>
