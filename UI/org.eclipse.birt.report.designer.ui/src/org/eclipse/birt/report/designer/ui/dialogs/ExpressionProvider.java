@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
+import org.eclipse.birt.report.designer.ui.expressions.IExpressionFilterSupport;
 import org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
@@ -72,7 +73,9 @@ import org.eclipse.swt.graphics.Image;
  * 
  * @see org.eclipse.birt.report.designer.ui.expressions.AbstractExpressionProvider
  */
-public class ExpressionProvider implements ISortableExpressionProvider
+public class ExpressionProvider implements
+		ISortableExpressionProvider,
+		IExpressionFilterSupport
 {
 
 	/**
@@ -1344,6 +1347,16 @@ public class ExpressionProvider implements ISortableExpressionProvider
 			return;
 		}
 		filterList.clear( );
+	}
+
+	public void setFilters( List<ExpressionFilter> filters )
+	{
+		this.filterList = filters;
+	}
+
+	public List<ExpressionFilter> getFilters( )
+	{
+		return filterList;
 	}
 
 	public boolean hasChildren( Object element )

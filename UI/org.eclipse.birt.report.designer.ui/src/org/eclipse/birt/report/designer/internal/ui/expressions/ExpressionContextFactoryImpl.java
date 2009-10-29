@@ -12,10 +12,13 @@
 package org.eclipse.birt.report.designer.internal.ui.expressions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.script.JSExpressionContext;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
+import org.eclipse.birt.report.designer.ui.expressions.IExpressionFilterSupport;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ExpressionType;
 
@@ -28,13 +31,21 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 
 	private Map<String, IExpressionContext> contexts;
 
+	private List<ExpressionFilter> filters;
+
 	public ExpressionContextFactoryImpl( Object contextObj,
 			IExpressionProvider javaScriptExpressionProvider )
 	{
 		contexts = new HashMap<String, IExpressionContext>( );
 
-		contexts.put( ExpressionType.JAVASCRIPT, new JSExpressionContext( javaScriptExpressionProvider,
-				contextObj ) );
+		contexts.put( ExpressionType.JAVASCRIPT,
+				new JSExpressionContext( javaScriptExpressionProvider,
+						contextObj ) );
+
+		if ( javaScriptExpressionProvider instanceof IExpressionFilterSupport )
+		{
+			filters = ( (IExpressionFilterSupport) javaScriptExpressionProvider ).getFilters( );
+		}
 	}
 
 	public ExpressionContextFactoryImpl(
@@ -56,14 +67,28 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 
 			if ( cxt != null )
 			{
-				return cxt;
+				if ( cxt instanceof IExpressionFilterSupport )
+				{
+					( (IExpressionFilterSupport) cxt ).setFilters( filters );
+				}
+				else
+				{
+					return cxt;
+				}
 			}
 		}
 
 		IExpressionContext cxt = contexts.get( expressionType );
-		if(cxt == null)
-			return new DefaultExpressionContext(contextObj);
-		else return cxt;
+		if ( cxt == null )
+		{
+			DefaultExpressionContext defaultCxt = new DefaultExpressionContext( contextObj );
+			defaultCxt.setFilters( filters );
+			return defaultCxt;
+		}
+		else
+		{
+			return cxt;
+		}
 	}
 
 }

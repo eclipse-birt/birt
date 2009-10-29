@@ -11,14 +11,22 @@
 
 package org.eclipse.birt.report.designer.internal.ui.expressions;
 
-/**
- * 
- */
+import java.util.List;
 
-public class DefaultExpressionContext implements IExpressionContext
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
+import org.eclipse.birt.report.designer.ui.expressions.IExpressionFilterSupport;
+
+/**
+ * DefaultExpressionContext
+ */
+public class DefaultExpressionContext implements
+		IExpressionContext,
+		IExpressionFilterSupport
 {
 
 	private Object contextObject;
+
+	private List<ExpressionFilter> filters;
 
 	public DefaultExpressionContext( Object contextObject )
 	{
@@ -30,4 +38,13 @@ public class DefaultExpressionContext implements IExpressionContext
 		return contextObject;
 	}
 
+	public void setFilters( List<ExpressionFilter> filters )
+	{
+		this.filters = filters;
+	}
+
+	public java.util.List<ExpressionFilter> getFilters( )
+	{
+		return filters;
+	};
 }
