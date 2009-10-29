@@ -37,9 +37,4 @@ public interface IDynamicFilterParameterModel
 	 */
 	public static final String NATIVE_DATA_TYPE_PROP = "nativeDataType"; //$NON-NLS-1$
 
-	/**
-	 * Name of the default operator property.
-	 */
-	public static final String DEFAULT_OPERATOR_PROP = "defaultOperator"; //$NON-NLS-1$
-
 }
