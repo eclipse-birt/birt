@@ -57,23 +57,25 @@ public class CrosstabCellCreateCommand extends Command
 				CrosstabCellHandle handle = cellAdapter.getCrosstabCellHandle( );
 				int pos = findInsertPosition( handle, after );
 				Object obj = getNewObject( );
-				if (obj instanceof DesignElementHandle)
+				if ( obj instanceof DesignElementHandle
+						&& ( (DesignElementHandle) obj ).getContainer( ) == null )
 				{
-					handle.addContent( (DesignElementHandle)obj, pos );
+					handle.addContent( (DesignElementHandle) obj, pos );
 				}
-				else if (obj instanceof Object[])
+				else if ( obj instanceof Object[] )
 				{
-					Object[] objs = (Object[])obj;
-					for (int i=0; i<objs.length; i++)
+					Object[] objs = (Object[]) obj;
+					for ( int i = 0; i < objs.length; i++ )
 					{
-						if (objs[i] instanceof DesignElementHandle)
+						if ( objs[i] instanceof DesignElementHandle )
 						{
-							handle.addContent( (DesignElementHandle)objs[i], pos );
+							handle.addContent( (DesignElementHandle) objs[i],
+									pos );
 							pos = pos + 1;
 						}
 					}
 				}
-				
+
 			}
 		}
 		catch ( SemanticException e )
@@ -88,7 +90,7 @@ public class CrosstabCellCreateCommand extends Command
 
 	private int findInsertPosition( CrosstabCellHandle handle, Object after )
 	{
-		if (after == null)
+		if ( after == null )
 		{
 			return handle.getContents( ).size( );
 		}
@@ -135,6 +137,6 @@ public class CrosstabCellCreateCommand extends Command
 	 */
 	public Object getNewObject( )
 	{
-		return  extendsData.get( DesignerConstants.KEY_NEWOBJECT );
+		return extendsData.get( DesignerConstants.KEY_NEWOBJECT );
 	}
 }

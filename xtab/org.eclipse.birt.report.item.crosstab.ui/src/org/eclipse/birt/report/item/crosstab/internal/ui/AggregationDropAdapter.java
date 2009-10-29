@@ -77,6 +77,8 @@ public class AggregationDropAdapter implements IDropAdapter
 			CrosstabCellHandle cellHandle = ( (CrosstabCellAdapter) ( (CrosstabCellEditPart) target ).getModel( ) ).getCrosstabCellHandle( );
 			try
 			{
+				cellHandle.addContent( dataHandle, CellHandle.CONTENT_SLOT );
+
 				DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
 				dialog.setInput( dataHandle, null, cellHandle );
 				dialog.setAggreate( true );
