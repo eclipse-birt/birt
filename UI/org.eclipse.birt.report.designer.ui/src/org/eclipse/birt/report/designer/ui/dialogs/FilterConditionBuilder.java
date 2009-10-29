@@ -424,13 +424,18 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 						columnName = ( (ResultSetColumnHandle) ( obj ) ).getColumnName( );
 					}
 
-					if ( ExpressionUtility.getColumnExpression( columnName,
-							ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
-									.getType( ) ) )
-							.equals( expression.getText( ) ) )
+					Expression expr = ExpressionButtonUtil.getExpression( expression );
+					if ( expr != null )
 					{
-						bindingName = columnName;
-						break;
+						String exprType = expr.getType( );
+						IExpressionConverter converter = ExpressionUtility.getExpressionConverter( exprType );
+						if ( expression.getText( )
+								.equals( ExpressionUtility.getColumnExpression( columnName,
+										converter ) ) )
+						{
+							bindingName = columnName;
+							break;
+						}
 					}
 				}
 
@@ -558,13 +563,18 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 				{
 					String columnName = getColumnName( iter.next( ) );
-					if ( ExpressionUtility.getColumnExpression( columnName,
-							ExpressionUtility.getExpressionConverter( ExpressionButtonUtil.getExpression( expression )
-									.getType( ) ) )
-							.equals( expression.getText( ) ) )
+					Expression expr = ExpressionButtonUtil.getExpression( expression );
+					if ( expr != null )
 					{
-						bindingName = columnName;
-						break;
+						String exprType = expr.getType( );
+						IExpressionConverter converter = ExpressionUtility.getExpressionConverter( exprType );
+						if ( expression.getText( )
+								.equals( ExpressionUtility.getColumnExpression( columnName,
+										converter ) ) )
+						{
+							bindingName = columnName;
+							break;
+						}
 					}
 				}
 
@@ -1375,6 +1385,14 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		if ( obj instanceof DataSetViewData )
 		{
 			return ( (DataSetViewData) obj ).getName( );
+		}
+		else if ( obj instanceof ComputedColumnHandle )
+		{
+			return ( (ComputedColumnHandle) obj ).getName( );
+		}
+		else if ( obj instanceof ResultSetColumnHandle )
+		{
+			return ( (ResultSetColumnHandle) obj ).getColumnName( );
 		}
 		else
 			return ""; //$NON-NLS-1$
