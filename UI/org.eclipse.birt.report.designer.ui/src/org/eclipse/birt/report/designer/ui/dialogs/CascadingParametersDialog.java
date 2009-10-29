@@ -1689,6 +1689,9 @@ public class CascadingParametersDialog extends BaseDialog
 		isMultiple.setSelection( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( selectedParameter.getParamType( ) ) );
 		changeDataType( selectedParameter.getDataType( ) );
 
+		formatCategroy = selectedParameter.getCategory( );
+		formatPattern = selectedParameter.getPattern( );
+		updateFormatField( );
 	}
 
 	private void clearParamProperties( )
@@ -1960,6 +1963,14 @@ public class CascadingParametersDialog extends BaseDialog
 			formatPattern = (String) ( (Object[]) formatBuilder.getResult( ) )[1];
 			formatLocale = (ULocale) ( (Object[]) formatBuilder.getResult( ) )[2];
 			updateFormatField( );
+			try
+			{
+				saveParameterProperties( );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 	}
 
