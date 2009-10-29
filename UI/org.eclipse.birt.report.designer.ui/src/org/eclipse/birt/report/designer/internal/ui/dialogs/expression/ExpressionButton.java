@@ -175,8 +175,11 @@ public class ExpressionButton
 
 	public void refresh( )
 	{
-		button.setImage( provider.getImage( getExpressionType( ) ) );
-		button.setToolTipText( provider.getTooltipText( getExpressionType( ) ) );
+		if ( !button.isDisposed( ) )
+		{
+			button.setImage( provider.getImage( getExpressionType( ) ) );
+			button.setToolTipText( provider.getTooltipText( getExpressionType( ) ) );
+		}
 	}
 
 	public void setExpressionButtonProvider( IExpressionButtonProvider provider )
