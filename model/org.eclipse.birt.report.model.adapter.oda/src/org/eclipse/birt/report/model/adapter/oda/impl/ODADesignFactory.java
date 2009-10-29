@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
+import org.eclipse.datatools.connectivity.oda.design.AndExpression;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
+import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.DataAccessDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
@@ -25,7 +27,11 @@ import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
 import org.eclipse.datatools.connectivity.oda.design.DesignSessionResponse;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
 import org.eclipse.datatools.connectivity.oda.design.DesignerStateContent;
+import org.eclipse.datatools.connectivity.oda.design.DynamicFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
+import org.eclipse.datatools.connectivity.oda.design.ExpressionArguments;
+import org.eclipse.datatools.connectivity.oda.design.ExpressionVariable;
+import org.eclipse.datatools.connectivity.oda.design.FilterExpressionType;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
@@ -35,14 +41,21 @@ import org.eclipse.datatools.connectivity.oda.design.OutputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.Properties;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
+import org.eclipse.datatools.connectivity.oda.design.ResultSetCriteria;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
+import org.eclipse.datatools.connectivity.oda.design.SortKey;
+import org.eclipse.datatools.connectivity.oda.design.SortSpecification;
 import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
 import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.emf.ecore.EObject;
+
+/**
+ *
+ */
 
 class ODADesignFactory implements IODADesignFactory
 {
@@ -369,9 +382,111 @@ class ODADesignFactory implements IODADesignFactory
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createStaticValues()
 	 */
-	 
+
 	public StaticValues createStaticValues( )
 	{
 		return designFactory.createStaticValues( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createFilterExpressionType()
+	 */
+
+	public FilterExpressionType createFilterExpressionType( )
+	{
+		return designFactory.createFilterExpressionType( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createAndExpression()
+	 */
+	public AndExpression createAndExpression( )
+	{
+		return designFactory.createAndExpression( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createCustomFilterExpression()
+	 */
+	public CustomFilterExpression createCustomFilterExpression( )
+	{
+		return designFactory.createCustomFilterExpression( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDynamicFilterExpression()
+	 */
+	public DynamicFilterExpression createDynamicFilterExpression( )
+	{
+		return designFactory.createDynamicFilterExpression( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createExpressionArguments()
+	 */
+	public ExpressionArguments createExpressionArguments( )
+	{
+		return designFactory.createExpressionArguments( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createExpressionVariable()
+	 */
+	public ExpressionVariable createExpressionVariable( )
+	{
+		return designFactory.createExpressionVariable( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createResultSetCriteria()
+	 */
+	public ResultSetCriteria createResultSetCriteria( )
+	{
+		return designFactory.createResultSetCriteria( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createSortKey
+	 * ()
+	 */
+	public SortKey createSortKey( )
+	{
+		return designFactory.createSortKey( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createSortSpecification()
+	 */
+
+	public SortSpecification createSortSpecification( )
+	{
+		return designFactory.createSortSpecification( );
 	}
 }

@@ -19,6 +19,8 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
+import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -37,12 +39,12 @@ import org.eclipse.datatools.connectivity.oda.design.AndExpression;
 import org.eclipse.datatools.connectivity.oda.design.CompositeFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DynamicFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.ExpressionArguments;
 import org.eclipse.datatools.connectivity.oda.design.ExpressionParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ExpressionVariable;
 import org.eclipse.datatools.connectivity.oda.design.FilterExpression;
+import org.eclipse.datatools.connectivity.oda.design.FilterExpressionType;
 import org.eclipse.datatools.connectivity.oda.design.NullOrderingType;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetCriteria;
@@ -95,6 +97,12 @@ public class ResultSetCriteriaAdapter
 	private final static String DYNAMIC_PREFIX = "!"; //$NON-NLS-1$
 
 	/**
+	 * 
+	 */
+
+	protected final IODADesignFactory designFactory;
+
+	/**
 	 * The constructor.
 	 * 
 	 * @param setHandle
@@ -108,6 +116,8 @@ public class ResultSetCriteriaAdapter
 	{
 		this.setHandle = setHandle;
 		this.setDesign = setDesign;
+
+		designFactory = ODADesignFactory.getFactory( );
 	}
 
 	/**
@@ -147,7 +157,7 @@ public class ResultSetCriteriaAdapter
 		ResultSetCriteria criteria = resultSet.getCriteria( );
 		if ( criteria == null )
 		{
-			criteria = DesignFactory.eINSTANCE.createResultSetCriteria( );
+			criteria = designFactory.createResultSetCriteria( );
 			resultSet.setCriteria( criteria );
 		}
 
@@ -182,7 +192,7 @@ public class ResultSetCriteriaAdapter
 					filterExpr = filter;
 					break;
 				case 2 :
-					AndExpression compositeFilterExp = DesignFactory.eINSTANCE
+					AndExpression compositeFilterExp = designFactory
 							.createAndExpression( );
 					compositeFilterExp.add( filterExpr );
 					filterExpr = compositeFilterExp;
@@ -207,7 +217,7 @@ public class ResultSetCriteriaAdapter
 		// an empty SortSpecification.
 		if ( sortSpec == null )
 		{
-			sortSpec = DesignFactory.eINSTANCE.createSortSpecification( );
+			sortSpec = designFactory.createSortSpecification( );
 			criteria.setRowOrdering( sortSpec );
 		}
 
@@ -221,7 +231,7 @@ public class ResultSetCriteriaAdapter
 		while ( iter.hasNext( ) )
 		{
 			SortHintHandle handle = iter.next( );
-			SortKey key = DesignFactory.eINSTANCE.createSortKey( );
+			SortKey key = designFactory.createSortKey( );
 			key.setColumnName( handle.getColumnName( ) );
 			key.setColumnPosition( handle.getPosition( ) );
 
@@ -411,9 +421,11 @@ public class ResultSetCriteriaAdapter
 				if ( compositeFilterExp instanceof AndExpression )
 				{
 					// Convert and expression only now.
-					for ( FilterExpression child : compositeFilterExp.getChildren( ) )
+					for ( FilterExpression child : compositeFilterExp
+							.getChildren( ) )
 					{
-						filterExpressions.putAll( buildFilterExpressionMap( child ) );
+						filterExpressions
+								.putAll( buildFilterExpressionMap( child ) );
 					}
 				}
 			}
@@ -596,11 +608,11 @@ public class ResultSetCriteriaAdapter
 										nativeDataType, null,
 										DesignChoiceConstants.CHOICE_PARAM_TYPE ) );
 					}
-					catch (BirtException e) 
+					catch ( BirtException e )
 					{
-						//Do nothing
+						// Do nothing
 					}
-				}									
+				}
 				setHandle.getModuleHandle( ).getParameters( ).add(
 						dynamicFilterParamHandle );
 				// sets the reference
@@ -627,9 +639,15 @@ public class ResultSetCriteriaAdapter
 			FilterConditionHandle filterConditionHandle,
 			CustomFilterExpression customFilterExpr ) throws SemanticException
 	{
-		filterConditionHandle.setExtensionName( customFilterExpr
-				.getDeclaringExtensionId( ) );
-		filterConditionHandle.setExtensionExprId( customFilterExpr.getId( ) );
+		FilterExpressionType tmpType = customFilterExpr.getType( );
+		if ( tmpType != null )
+		{
+			filterConditionHandle.setExtensionName( tmpType
+					.getDeclaringExtensionId( ) );
+			filterConditionHandle
+					.setExtensionExprId( tmpType.getId( ) );
+		}
+		
 		filterConditionHandle.setPushDown( true );
 		filterConditionHandle.setOptional( customFilterExpr.isOptional( ) );
 	}
@@ -709,18 +727,30 @@ public class ResultSetCriteriaAdapter
 		FilterExpression filterExpr = null;
 		if ( !StringUtil.isBlank( filterHandle.getExtensionName( ) ) )
 		{
-			CustomFilterExpression customFilterExpr = DesignFactory.eINSTANCE
+			CustomFilterExpression customFilterExpr = designFactory
 					.createCustomFilterExpression( );
 
-			ExpressionVariable variable = DesignFactory.eINSTANCE
+			ExpressionVariable variable = designFactory
 					.createExpressionVariable( );
 			variable.setIdentifier( filterHandle.getExpr( ) );
 			customFilterExpr.setContextVariable( variable );
 
-			customFilterExpr.setDeclaringExtensionId( filterHandle
-					.getExtensionName( ) );
-			customFilterExpr.setId( filterHandle.getExtensionExprId( ) );
+			// update the expression type. The default value.
+
+			if ( filterHandle.getExtensionName( ) != null
+					|| filterHandle.getExtensionExprId( ) != null )
+			{
+				FilterExpressionType tmpType = designFactory
+						.createFilterExpressionType( );
+				tmpType.setDeclaringExtensionId( filterHandle
+						.getExtensionName( ) );
+				tmpType.setId( filterHandle.getExtensionExprId( ) );
+
+				customFilterExpr.setType( tmpType );
+			}
+
 			customFilterExpr.setIsOptional( filterHandle.isOptional( ) );
+
 			filterExpr = customFilterExpr;
 		}
 		else if ( !StringUtil
@@ -731,13 +761,13 @@ public class ResultSetCriteriaAdapter
 			if ( paramHandle instanceof DynamicFilterParameterHandle )
 			{
 				DynamicFilterParameterHandle dynamicParamHandle = (DynamicFilterParameterHandle) paramHandle;
-				DynamicFilterExpression dynamicFilterExpr = DesignFactory.eINSTANCE
+				DynamicFilterExpression dynamicFilterExpr = designFactory
 						.createDynamicFilterExpression( );
 				dynamicFilterExpr.setIsOptional( filterHandle.isOptional( ) );
 
-				ExpressionArguments arguments = DesignFactory.eINSTANCE
+				ExpressionArguments arguments = designFactory
 						.createExpressionArguments( );
-				ParameterDefinition paramDefn = DesignFactory.eINSTANCE
+				ParameterDefinition paramDefn = designFactory
 						.createParameterDefinition( );
 
 				paramAdapter.updateParameterDefinitionFromReportParam(
@@ -748,8 +778,8 @@ public class ResultSetCriteriaAdapter
 				if ( dynamicParamHandle
 						.getProperty( IDynamicFilterParameterModel.NATIVE_DATA_TYPE_PROP ) != null )
 				{
-					paramDefn.getAttributes( ).setNativeDataTypeCode( 
-							dynamicParamHandle.getNativeDataType( ) );						
+					paramDefn.getAttributes( ).setNativeDataTypeCode(
+							dynamicParamHandle.getNativeDataType( ) );
 				}
 
 				arguments.addDynamicParameter( paramDefn );
