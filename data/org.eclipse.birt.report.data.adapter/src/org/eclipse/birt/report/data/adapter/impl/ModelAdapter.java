@@ -296,8 +296,8 @@ public class ModelAdapter implements IModelAdapter
 				expr.setGroupName( handle.getAggregateOn( ) );
 				result.setExpression( expr );
 			}
-			result.setDisplayName( handle.getExternalizedValue( handle.getDisplayNameID( ),
-					handle.getDisplayName( ),
+			result.setDisplayName( handle.getExternalizedValue( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_ID_MEMBER,
+					org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
 					this.context.getDataEngineContext( ).getLocale( ) ) );
 			result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 			result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
