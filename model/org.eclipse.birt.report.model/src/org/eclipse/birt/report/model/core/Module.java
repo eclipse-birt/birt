@@ -2534,4 +2534,27 @@ public abstract class Module extends DesignElement
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public ULocale getLocale( )
+	{
+		// first, read it from module option
+		ModuleOption option = getOptions( );
+		if ( option != null )
+		{
+			ULocale optionLocale = option.getLocale( );
+			if ( optionLocale != null )
+				return optionLocale;
+		}
+
+		// second, read it from session
+		ULocale sessionLocale = session.getLocale( );
+		if ( sessionLocale != null )
+			return sessionLocale;
+
+		return ThreadResources.getLocale( );
+	}
+
 }

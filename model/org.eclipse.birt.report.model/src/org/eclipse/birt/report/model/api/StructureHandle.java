@@ -361,9 +361,10 @@ public class StructureHandle extends ValueHandle
 
 	public String getExternalizedValue( String textIDProp, String textProp )
 	{
-		return ModelUtil.getExternalizedStructValue( getElement( ).getRoot( ),
-				getStructure( ), textIDProp, textProp, ThreadResources
-						.getLocale( ) );
+		return ModelUtil
+				.getExternalizedStructValue( getElement( ).getRoot( ),
+						getStructure( ), textIDProp, textProp, getModule( )
+								.getLocale( ) );
 	}
 
 	/**
