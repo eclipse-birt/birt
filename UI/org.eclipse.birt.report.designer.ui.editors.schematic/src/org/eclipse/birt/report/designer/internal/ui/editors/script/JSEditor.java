@@ -368,10 +368,10 @@ public class JSEditor extends EditorPart implements IColleague
 	{
 		// colorManager.dispose( );
 
-		// remove the mediator listener
-		// SessionHandleAdapter.getInstance( )
-		// .getMediator( )
-		// .removeColleague( this );
+		 //remove the mediator listener
+//		 SessionHandleAdapter.getInstance( )
+//		 .getMediator( root )
+//		 .removeColleague( this );
 		selectionMap.clear( );
 		editingDomainEditor = null;
 
@@ -658,7 +658,7 @@ public class JSEditor extends EditorPart implements IColleague
 		scriptValidator = new ScriptValidator( getViewer( ) );
 
 		// suport the mediator
-		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
+		//SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 
 		disableEditor( );
 
@@ -693,7 +693,24 @@ public class JSEditor extends EditorPart implements IColleague
 				.getMediator( root )
 				.addColleague( this );
 	}
+	
+	/**
+	 * DisConnect the root to add the listener
+	 * 
+	 * @param root
+	 */
+	public void disConnectRoot( ModuleHandle root )
+	{
+		if ( root == null )
+		{
+			root = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		}
 
+		SessionHandleAdapter.getInstance( )
+				.getMediator( root )
+				.removeColleague( this );
+	}
+	
 	/**
 	 * Sets the status of the text listener.
 	 * 

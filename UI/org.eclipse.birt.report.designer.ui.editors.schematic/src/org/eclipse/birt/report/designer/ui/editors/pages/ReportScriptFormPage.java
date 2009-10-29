@@ -477,6 +477,10 @@ public class ReportScriptFormPage extends ReportFormPage
 	public void dispose( )
 	{
 		unhookModelEventManager( getModel( ) );
+		if (jsEditor instanceof JSEditor)
+		{
+			((JSEditor)jsEditor).disConnectRoot( getModel() );
+		}
 		super.dispose( );
 
 		jsEditor.dispose( );
