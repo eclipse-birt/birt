@@ -20,6 +20,9 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -31,6 +34,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
@@ -41,6 +45,7 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 
@@ -167,35 +172,61 @@ class ContentUtil
 			Iterator<HighlightRuleHandle> highlightRules, IStyle style,
 			IBaseResultSet evaluator ) throws BirtException
 	{
-		while ( highlightRules.hasNext( ) )
+		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+
+		try
 		{
-			HighlightRuleHandle rule = highlightRules.next( );
+			IModelAdapter modelAdapter = session.getModelAdaptor( );
 
-			ConditionalExpression condExpr = null;
-
-			if ( ModuleUtil.isListStyleRuleValue( rule ) )
+			while ( highlightRules.hasNext( ) )
 			{
-				condExpr = new ConditionalExpression( rule.getTestExpression( ),
-						DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
-						rule.getValue1List( ) );
-			}
-			else
-			{
-				condExpr = new ConditionalExpression( rule.getTestExpression( ),
-						DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
-						rule.getValue1( ),
-						rule.getValue2( ) );
-			}
+				HighlightRuleHandle rule = highlightRules.next( );
 
-			IConditionalExpression expression = ExpressionUtil.transformConditionalExpression( condExpr );
+				ConditionalExpression condExpr = null;
 
-			Object value = evaluator.evaluate( expression );
+				if ( ModuleUtil.isListStyleRuleValue( rule ) )
+				{
+					condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
+							.getValue( ) ),
+							DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
+							rule.getValue1ExpressionList( ).getListValue( ) );
+				}
+				else
+				{
+					Expression value1 = null;
 
-			if ( value instanceof Boolean && ( (Boolean) value ).booleanValue( ) )
-			{
-				setupRuleStyle( rule, style );
+					List<Expression> val1list = rule.getValue1ExpressionList( )
+							.getListValue( );
+
+					if ( val1list != null && val1list.size( ) > 0 )
+					{
+						value1 = val1list.get( 0 );
+					}
+
+					condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
+							.getValue( ) ),
+							DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
+							modelAdapter.adaptExpression( value1 ),
+							modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( StyleRule.VALUE2_MEMBER )
+									.getValue( ) ) );
+				}
+
+				IConditionalExpression expression = ExpressionUtil.transformConditionalExpression( condExpr );
+
+				Object value = evaluator.evaluate( expression );
+
+				if ( value instanceof Boolean
+						&& ( (Boolean) value ).booleanValue( ) )
+				{
+					setupRuleStyle( rule, style );
+				}
 			}
 		}
+		finally
+		{
+			session.shutdown( );
+		}
+
 	}
 
 	static void processVisibility( IExecutorContext context, IContent content,

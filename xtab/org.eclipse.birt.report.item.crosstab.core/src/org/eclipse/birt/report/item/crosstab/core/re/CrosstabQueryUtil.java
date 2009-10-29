@@ -21,7 +21,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -33,6 +32,9 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
@@ -45,14 +47,19 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.SortElementHandle;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 
 /**
  * CrosstabQueryUtil
@@ -101,129 +108,152 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		List<LevelViewHandle> levelViewList = new ArrayList<LevelViewHandle>( );
 		Map<LevelHandle, ILevelDefinition> levelMapping = new HashMap<LevelHandle, ILevelDefinition>( );
 
-		if ( needMeasure )
+		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+
+		try
 		{
-			// add measure definitions
-			for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
+			IModelAdapter modelAdapter = session.getModelAdaptor( );
+
+			if ( needMeasure )
 			{
-				// TODO check visibility?
-				MeasureViewHandle mv = crosstabItem.getMeasure( i );
-
-				if ( mv instanceof ComputedMeasureViewHandle )
+				// add measure definitions
+				for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
 				{
-					continue;
-				}
+					// TODO check visibility?
+					MeasureViewHandle mv = crosstabItem.getMeasure( i );
 
-				if ( mv.getCubeMeasure( ) == null )
-				{
-					throw new CrosstabException( Messages.getString( "CrosstabQueryHelper.error.invalid.measure", //$NON-NLS-1$
-							mv.getCubeMeasureName( ) ) );
-				}
-
-				IMeasureDefinition mDef = cubeQuery.createMeasure( mv.getCubeMeasure( )
-						.getName( ) );
-				mDef.setAggrFunction( mv.getCubeMeasure( ).getFunction( ) == null ? null
-						: DataAdapterUtil.getRollUpAggregationName( mv.getCubeMeasure( )
-								.getFunction( ) ) );
-
-				// add measure filters
-				addFactTableOrMeasureFilter( mv.filtersIterator( ), cubeQuery );
-			}
-		}
-
-		// add row edge
-		if ( needRowDimension
-				&& crosstabItem.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
-		{
-			addEdgeDefinition( cubeQuery,
-					crosstabItem,
-					ROW_AXIS_TYPE,
-					rowLevelNameList,
-					levelViewList,
-					levelMapping );
-		}
-
-		// add column edge
-		if ( needColumnDimension
-				&& crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
-		{
-			addEdgeDefinition( cubeQuery,
-					crosstabItem,
-					COLUMN_AXIS_TYPE,
-					columnLevelNameList,
-					levelViewList,
-					levelMapping );
-		}
-
-		// add fact table filters on Crosstab
-		addFactTableOrMeasureFilter( crosstabItem.filtersIterator( ), cubeQuery );
-
-		// add sorting/filter
-		if ( needSorting )
-		{
-			addLevelSorting( levelViewList, levelMapping, cubeQuery );
-		}
-
-		if ( needFilter )
-		{
-			addLevelFilter( levelViewList, levelMapping, cubeQuery );
-		}
-
-		if ( needBinding )
-		{
-			// add column binding
-			Iterator bindingItr = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
-			ModuleHandle module = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).getModuleHandle( );
-
-			if ( bindingItr != null )
-			{
-				Map<String, String> cache = new HashMap<String, String>( );
-
-				while ( bindingItr.hasNext( ) )
-				{
-					ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
-
-					Binding binding = new Binding( column.getName( ) );
-					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
-							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-					binding.setExpression( column.getExpression( ) == null ? null
-							: new ScriptExpression( column.getExpression( ) ) );
-					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-
-					if ( column.getFilterExpression( ) != null )
+					if ( mv instanceof ComputedMeasureViewHandle )
 					{
-						binding.setFilter( new ScriptExpression( column.getFilterExpression( ) ) );
+						continue;
 					}
 
-					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+					if ( mv.getCubeMeasure( ) == null )
 					{
-						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-						if ( aah.getValue( ) != null )
-						{
-							binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
-						}
+						throw new CrosstabException( Messages.getString( "CrosstabQueryHelper.error.invalid.measure", //$NON-NLS-1$
+								mv.getCubeMeasureName( ) ) );
 					}
 
-					List aggrList = column.getAggregateOnList( );
+					IMeasureDefinition mDef = cubeQuery.createMeasure( mv.getCubeMeasure( )
+							.getName( ) );
+					mDef.setAggrFunction( mv.getCubeMeasure( ).getFunction( ) == null ? null
+							: DataAdapterUtil.getRollUpAggregationName( mv.getCubeMeasure( )
+									.getFunction( ) ) );
 
-					if ( aggrList != null )
-					{
-						for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
-						{
-							String baseLevel = (String) aggrItr.next( );
-
-							CrosstabUtil.addHierachyAggregateOn( module,
-									binding,
-									baseLevel,
-									rowLevelNameList,
-									columnLevelNameList,
-									cache );
-						}
-					}
-
-					cubeQuery.addBinding( binding );
+					// add measure filters
+					addFactTableOrMeasureFilter( mv.filtersIterator( ),
+							cubeQuery,
+							modelAdapter );
 				}
 			}
+
+			// add row edge
+			if ( needRowDimension
+					&& crosstabItem.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
+			{
+				addEdgeDefinition( cubeQuery,
+						crosstabItem,
+						ROW_AXIS_TYPE,
+						rowLevelNameList,
+						levelViewList,
+						levelMapping );
+			}
+
+			// add column edge
+			if ( needColumnDimension
+					&& crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
+			{
+				addEdgeDefinition( cubeQuery,
+						crosstabItem,
+						COLUMN_AXIS_TYPE,
+						columnLevelNameList,
+						levelViewList,
+						levelMapping );
+			}
+
+			// add fact table filters on Crosstab
+			addFactTableOrMeasureFilter( crosstabItem.filtersIterator( ),
+					cubeQuery,
+					modelAdapter );
+
+			// add sorting/filter
+			if ( needSorting )
+			{
+				addLevelSorting( levelViewList,
+						levelMapping,
+						cubeQuery,
+						modelAdapter );
+			}
+
+			if ( needFilter )
+			{
+				addLevelFilter( levelViewList,
+						levelMapping,
+						cubeQuery,
+						modelAdapter );
+			}
+
+			if ( needBinding )
+			{
+				// add column binding
+				Iterator bindingItr = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
+				ModuleHandle module = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).getModuleHandle( );
+
+				if ( bindingItr != null )
+				{
+					Map<String, String> cache = new HashMap<String, String>( );
+
+					while ( bindingItr.hasNext( ) )
+					{
+						ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
+
+						Binding binding = new Binding( column.getName( ) );
+						binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
+								: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
+						binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
+								.getValue( ) ) );
+						binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+
+						if ( column.getFilterExpression( ) != null )
+						{
+							binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
+									.getValue( ) ) );
+						}
+
+						for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+						{
+							AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+							if ( aah.getValue( ) != null )
+							{
+								binding.addArgument( modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+										.getValue( ) ) );
+							}
+						}
+
+						List aggrList = column.getAggregateOnList( );
+
+						if ( aggrList != null )
+						{
+							for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
+							{
+								String baseLevel = (String) aggrItr.next( );
+
+								CrosstabUtil.addHierachyAggregateOn( module,
+										binding,
+										baseLevel,
+										rowLevelNameList,
+										columnLevelNameList,
+										cache );
+							}
+						}
+
+						cubeQuery.addBinding( binding );
+					}
+				}
+			}
+		}
+		finally
+		{
+			session.shutdown( );
 		}
 
 		return cubeQuery;
@@ -459,7 +489,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 	private static void addLevelSorting( List<LevelViewHandle> levelViews,
 			Map<LevelHandle, ILevelDefinition> levelMapping,
-			ICubeQueryDefinition cubeQuery ) throws BirtException
+			ICubeQueryDefinition cubeQuery, IModelAdapter modelAdapter )
+			throws BirtException
 	{
 		List<ILevelDefinition> levels = new ArrayList<ILevelDefinition>( );
 		List<Object> values = new ArrayList<Object>( );
@@ -494,7 +525,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						qualifyValues = values.toArray( new Object[values.size( )] );
 					}
 
-					ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( sortKey.getKey( ),
+					ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( modelAdapter.adaptExpression( (Expression) sortKey.getExpressionProperty( ISortElementModel.KEY_PROP )
+							.getValue( ) ),
 							levelMapping.get( lv.getCubeLevel( ) ),
 							qualifyLevels,
 							qualifyValues,
@@ -508,7 +540,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 	private static void addLevelFilter( List<LevelViewHandle> levelViews,
 			Map<LevelHandle, ILevelDefinition> levelMapping,
-			ICubeQueryDefinition cubeQuery ) throws BirtException
+			ICubeQueryDefinition cubeQuery, IModelAdapter modelAdapter )
+			throws BirtException
 	{
 		List<ILevelDefinition> levels = new ArrayList<ILevelDefinition>( );
 		List<Object> values = new ArrayList<Object>( );
@@ -547,16 +580,30 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 					if ( ModuleUtil.isListFilterValue( filterCon ) )
 					{
-						filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+						filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
+								.getValue( ) ),
 								DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-								filterCon.getValue1List( ) );
+								filterCon.getValue1ExpressionList( )
+										.getListValue( ) );
 					}
 					else
 					{
-						filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+						Expression value1 = null;
+
+						List<Expression> val1list = filterCon.getValue1ExpressionList( )
+								.getListValue( );
+
+						if ( val1list != null && val1list.size( ) > 0 )
+						{
+							value1 = val1list.get( 0 );
+						}
+
+						filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
+								.getValue( ) ),
 								DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-								filterCon.getValue1( ),
-								filterCon.getValue2( ) );
+								modelAdapter.adaptExpression( value1 ),
+								modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.VALUE2_PROP )
+										.getValue( ) ) );
 					}
 
 					ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
@@ -572,7 +619,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 	private static void addFactTableOrMeasureFilter(
 			Iterator<FilterConditionElementHandle> filters,
-			ICubeQueryDefinition cubeQuery ) throws BirtException
+			ICubeQueryDefinition cubeQuery, IModelAdapter modelAdapter )
+			throws BirtException
 	{
 		if ( filters != null )
 		{
@@ -584,16 +632,29 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 				if ( ModuleUtil.isListFilterValue( filterCon ) )
 				{
-					filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+					filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
+							.getValue( ) ),
 							DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-							filterCon.getValue1List( ) );
+							filterCon.getValue1ExpressionList( ).getListValue( ) );
 				}
 				else
 				{
-					filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+					Expression value1 = null;
+
+					List<Expression> val1list = filterCon.getValue1ExpressionList( )
+							.getListValue( );
+
+					if ( val1list != null && val1list.size( ) > 0 )
+					{
+						value1 = val1list.get( 0 );
+					}
+
+					filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
+							.getValue( ) ),
 							DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-							filterCon.getValue1( ),
-							filterCon.getValue2( ) );
+							modelAdapter.adaptExpression( value1 ),
+							modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.VALUE2_PROP )
+									.getValue( ) ) );
 				}
 
 				ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,

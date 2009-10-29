@@ -22,10 +22,12 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.CubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -38,9 +40,12 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -403,46 +408,60 @@ public class CrosstabUtil implements ICrosstabConstants
 		{
 			Map<String, String> cache = new HashMap<String, String>( );
 
-			while ( bindingItr.hasNext( ) )
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+
+			try
 			{
-				ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
+				IModelAdapter modelAdapter = session.getModelAdaptor( );
 
-				Binding binding = new Binding( column.getName( ) );
-				binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
-						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-				binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
-				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-
-				if ( column.getFilterExpression( ) != null )
+				while ( bindingItr.hasNext( ) )
 				{
-					binding.setFilter( new ScriptExpression( column.getFilterExpression( ) ) );
-				}
+					ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
 
-				for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
-				{
-					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+					Binding binding = new Binding( column.getName( ) );
+					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
+							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
+					binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
+							.getValue( ) ) );
+					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 
-					binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
-				}
-
-				List aggrList = column.getAggregateOnList( );
-
-				if ( aggrList != null )
-				{
-					for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
+					if ( column.getFilterExpression( ) != null )
 					{
-						String baseLevel = (String) aggrItr.next( );
-
-						addHierachyAggregateOn( module,
-								binding,
-								baseLevel,
-								rowLevelNameList,
-								columnLevelNameList,
-								cache );
+						binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
+								.getValue( ) ) );
 					}
-				}
 
-				bindingList.add( binding );
+					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+					{
+						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+
+						binding.addArgument( modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+								.getValue( ) ) );
+					}
+
+					List aggrList = column.getAggregateOnList( );
+
+					if ( aggrList != null )
+					{
+						for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
+						{
+							String baseLevel = (String) aggrItr.next( );
+
+							addHierachyAggregateOn( module,
+									binding,
+									baseLevel,
+									rowLevelNameList,
+									columnLevelNameList,
+									cache );
+						}
+					}
+
+					bindingList.add( binding );
+				}
+			}
+			finally
+			{
+				session.shutdown( );
 			}
 		}
 

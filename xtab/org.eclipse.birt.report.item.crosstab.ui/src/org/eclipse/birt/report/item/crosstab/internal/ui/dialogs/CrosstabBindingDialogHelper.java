@@ -26,12 +26,12 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.CubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
@@ -661,48 +661,61 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			List rowLevelNameList = new ArrayList( );
 			List columnLevelNameList = new ArrayList( );
 
-			while ( bindingItr.hasNext( ) )
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+
+			try
 			{
-				ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
+				IModelAdapter modelAdapter = session.getModelAdaptor( );
 
-				Binding binding = new Binding( column.getName( ) );
-				binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
-						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-				binding.setExpression( column.getExpression( ) == null ? null
-						: new ScriptExpression( column.getExpression( ) ) );
-				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-
-				if ( column.getFilterExpression( ) != null )
+				while ( bindingItr.hasNext( ) )
 				{
-					binding.setFilter( new ScriptExpression( column.getFilterExpression( ) ) );
-				}
+					ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
 
-				for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
-				{
-					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-					if ( aah.getValue( ) != null )
+					Binding binding = new Binding( column.getName( ) );
+					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
+							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
+					binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
+							.getValue( ) ) );
+					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+
+					if ( column.getFilterExpression( ) != null )
 					{
-						binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
+						binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
+								.getValue( ) ) );
 					}
-				}
 
-				List aggrList = column.getAggregateOnList( );
-
-				if ( aggrList != null )
-				{
-					for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
+					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
 					{
-						String baseLevel = (String) aggrItr.next( );
-
-						CrosstabUtil.addHierachyAggregateOn( module,
-								binding,
-								baseLevel,
-								rowLevelNameList,
-								columnLevelNameList,
-								cache );
+						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+						if ( aah.getValue( ) != null )
+						{
+							binding.addArgument( modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+									.getValue( ) ) );
+						}
 					}
+
+					List aggrList = column.getAggregateOnList( );
+
+					if ( aggrList != null )
+					{
+						for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
+						{
+							String baseLevel = (String) aggrItr.next( );
+
+							CrosstabUtil.addHierachyAggregateOn( module,
+									binding,
+									baseLevel,
+									rowLevelNameList,
+									columnLevelNameList,
+									cache );
+						}
+					}
+					bindingList.add( binding );
 				}
-				bindingList.add( binding );
+			}
+			finally
+			{
+				session.shutdown( );
 			}
 		}
 		return bindingList.toArray( new IBinding[bindingList.size( )] );
