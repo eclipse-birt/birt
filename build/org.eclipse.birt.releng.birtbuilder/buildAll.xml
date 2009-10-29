@@ -51,11 +51,10 @@
 		
 		<parallel failonany="true">
 			<sequential>	
-				<antcall target="buildBirtWtpFeature"/>
-				<antcall target="CreateUpdateSite"/>							
+				<antcall target="buildBirtWtpFeature"/>							
 			</sequential>
 			<sequential>
-				<antcall target="buildBirtNLFeature"/>			
+				<antcall target="buildBirtNL1Feature"/>			
 				<antcall target="iPortalSetup"/>			
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
@@ -63,6 +62,7 @@
 			</sequential>
 		</parallel>
 
+		<antcall target="CreateUpdateSite"/>
 		<antcall target="runBirtTest"/>
 		<!--
         <antcall target="runBirtPerformance"/>
@@ -305,7 +305,13 @@
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
-
+		
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+			<arg line="-o -q birt-nl1-${package.version}.zip -d ${updateJarWorkingDir}" />
+		</exec>
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+			<arg line="-o -q birt-dtp-nl1-${package.version}.zip -d ${updateJarWorkingDir}" />
+		</exec>		
 
 		<delete includeemptydirs="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features">
@@ -638,6 +644,20 @@
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
 			<property name="fetchTag" value="HEAD" />
 		</ant>
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
+	</target>
+	
+	<target name="buildBirtNL1Feature">
+        <echo message="BIRT nl1 feature build started"/>
+        <ant antfile="build.xml" dir="${basedir}">
+                <property name="component" value="${eclipse.build.configs}/birt.nl1" />
+        </ant>
+        <echo message="BIRT nl1 feature build finished"/>
+        <echo message="BIRT-DTP nl1 feature build started"/>
+        <ant antfile="build.xml" dir="${basedir}">
+                <property name="component" value="${eclipse.build.configs}/birt.dtp.nl1" />
+        </ant>
+        <echo message="BIRT-DTP nl1 feature build finished"/>		
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
 	

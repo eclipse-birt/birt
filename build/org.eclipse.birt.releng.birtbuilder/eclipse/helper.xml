@@ -1112,14 +1112,19 @@
 	</target>
 	
 	<target name="buildLanguagePack">
-		<antcall target="MakeNLPack1"/>
+		<antcall target="PrePackageNLPack1"/>
 		<antcall target="PackageNLPack1"/>
 	</target>
-	<target name="MakeNLPack1">
-		<echo message="Start Make NL1 Pack" />
-		<ant antfile="LanguagePackBuild.xml" dir="${eclipse.build.configs}/birt.nl/tools" target="main" inheritAll="true">
-			<property name="build.id" value="${buildId}" />
-		</ant>
+	<target name="PrePackageNLPack1">
+		<echo message="Prepare NL1 Package" />
+        <mkdir dir="${buildDirectory}/${buildId}/language_pack"/>
+        <unzip src="${buildDirectory}/${buildId}/birt-nl1-${package.version}.zip" dest="${buildDirectory}/${buildId}/language_pack"/>
+        <unzip src="${buildDirectory}/${buildId}/birt-dtp-nl1-${package.version}.zip" dest="${buildDirectory}/${buildId}/language_pack"/>
+        <move todir="${buildDirectory}/${buildId}/language_pack">
+                <fileset dir="${buildDirectory}/${buildId}/language_pack/eclipse" includes="features/**,plugins/**"/>
+        </move>
+        <ant antfile="LanguagePackBuild.xml" dir="${eclipse.build.configs}/birt.nl1/tools" target="compileFeatureOverlay" inheritAll="true"/>
+        <ant antfile="LanguagePackBuild.xml" dir="${eclipse.build.configs}/birt.nl1/tools" target="exportFeatureOverlay" inheritAll="true"/>
 	</target>
 	
 	<target name="PackageNLPack1" >
