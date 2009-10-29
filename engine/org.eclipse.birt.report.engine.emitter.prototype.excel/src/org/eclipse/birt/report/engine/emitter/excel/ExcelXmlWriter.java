@@ -199,8 +199,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.text( reportContent.getTitle( ) );
 		writer.closeTag( "Title" );
 		writer.openTag( "Description" );
-		writer.text( reportDesign
-				.getStringProperty( IModuleModel.DESCRIPTION_PROP ) );
+		writer.text( reportDesign.getComments( ) );
 		writer.closeTag( "Description" );
 		writer.openTag( "Subject" );
 		writer.text( reportDesign.getSubject( ) );

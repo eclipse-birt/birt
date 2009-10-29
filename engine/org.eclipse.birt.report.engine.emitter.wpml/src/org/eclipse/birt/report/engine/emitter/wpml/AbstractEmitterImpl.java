@@ -247,7 +247,7 @@ public abstract class AbstractEmitterImpl
 			boolean isRtl = false;
 			String creator = null;
 			String title = null;
-			String description = null;
+			String comments = null;
 			String subject = null;
 			if ( reportContent != null )
 			{
@@ -255,12 +255,12 @@ public abstract class AbstractEmitterImpl
 						.getReportDesign( );
 				creator = designHandle.getAuthor( );
 				title = reportContent.getTitle( );
-				description = designHandle.getDescription( );
+				comments = designHandle.getComments( );
 				subject = designHandle.getSubject( );
 				IContent rootContent = reportContent.getRoot( );
 				isRtl = rootContent != null && rootContent.isRTL( );
 			}
-			wordWriter.start( isRtl, creator, title, description, subject );
+			wordWriter.start( isRtl, creator, title, comments, subject );
 			drawDocumentBackground( );
 		}
 		computePageProperties( page );

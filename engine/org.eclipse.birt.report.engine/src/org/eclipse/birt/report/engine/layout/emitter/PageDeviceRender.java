@@ -48,7 +48,6 @@ import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.w3c.dom.css.CSSValue;
 
 public abstract class PageDeviceRender implements IAreaVisitor
@@ -118,12 +117,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		ReportDesignHandle designHandle = rc.getDesign( ).getReportDesign( );
 		String title = rc.getTitle( );
 		String author = designHandle.getAuthor( );
-		String description = designHandle
-				.getStringProperty( IModuleModel.DESCRIPTION_PROP );
+		String comments = designHandle.getComments( );
 		String subject = designHandle.getSubject( );
 		try
 		{
-			pageDevice = createPageDevice( title, author, subject, description, context,
+			pageDevice = createPageDevice( title, author, subject, comments, context,
 					rc );
 		}
 		catch ( Exception e )
