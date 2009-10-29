@@ -1118,11 +1118,7 @@
 	<target name="PrePackageNLPack1">
 		<echo message="Prepare NL1 Package" />
         <mkdir dir="${buildDirectory}/${buildId}/language_pack"/>
-        <unzip src="${buildDirectory}/${buildId}/birt-nl1-${package.version}.zip" dest="${buildDirectory}/${buildId}/language_pack"/>
-        <unzip src="${buildDirectory}/${buildId}/birt-dtp-nl1-${package.version}.zip" dest="${buildDirectory}/${buildId}/language_pack"/>
-        <move todir="${buildDirectory}/${buildId}/language_pack">
-                <fileset dir="${buildDirectory}/${buildId}/language_pack/eclipse" includes="features/**,plugins/**"/>
-        </move>
+        <unzip src="${buildDirectory}/${buildId}/birt-all-nl1-${package.version}.zip" dest="${buildDirectory}/${buildId}/language_pack"/>
         <ant antfile="LanguagePackBuild.xml" dir="${eclipse.build.configs}/birt.nl1/tools" target="compileFeatureOverlay" inheritAll="true"/>
         <ant antfile="LanguagePackBuild.xml" dir="${eclipse.build.configs}/birt.nl1/tools" target="exportFeatureOverlay" inheritAll="true"/>
 	</target>

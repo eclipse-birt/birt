@@ -648,6 +648,7 @@
 	</target>
 	
 	<target name="buildBirtNL1Feature">
+		<property name="NLtmpsite" value="${buildDirectory}/NLtmpsite"/>
         <echo message="BIRT nl1 feature build started"/>
         <ant antfile="build.xml" dir="${basedir}">
                 <property name="component" value="${eclipse.build.configs}/birt.nl1" />
@@ -657,7 +658,17 @@
         <ant antfile="build.xml" dir="${basedir}">
                 <property name="component" value="${eclipse.build.configs}/birt.dtp.nl1" />
         </ant>
-        <echo message="BIRT-DTP nl1 feature build finished"/>		
+        <echo message="BIRT-DTP nl1 feature build finished"/>
+
+		<mkdir dir="${NLtmpsite}"/>
+		<mkdir dir="${NLtmpsite}/new"/>
+		<unzip src="${buildDirectory}/${buildId}/birt-nl1-${package.version}.zip" dest="${NLtmpsite}"/>
+		<unzip src="${buildDirectory}/${buildId}/birt-dtp-nl1-${package.version}.zip" dest="${NLtmpsite}"/>
+		<unpackUpdateJars site="${NLtmpsite}/eclipse" output="${NLtmpsite}/new/eclipse"/>
+		<zip destfile="${buildDirectory}/${buildId}/birt-all-nl1-${package.version}.zip">
+             <fileset dir="${NLtmpsite}/new/eclipse" includes="features/**"/>
+             <fileset dir="${NLtmpsite}/new/eclipse" includes="plugins/**"/>
+        </zip>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
 	
