@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.CubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
@@ -68,13 +70,8 @@ public class CubeElementFactory implements ICubeElementFactory
 			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue,
 			int sortDirection )
 	{
-		CubeSortDefinition cubeSortDefn = new CubeSortDefinition( );
-		cubeSortDefn.setExpression( filterExpr );
-		cubeSortDefn.setTargetLevel( targetLevel );
-		cubeSortDefn.setAxisQualifierLevels( axisQulifierLevel );
-		cubeSortDefn.setAxisQualifierValues( axisQulifierValue );
-		cubeSortDefn.setSortDirection( sortDirection );
-		return cubeSortDefn;
+		return this.createCubeSortDefinition( new ScriptExpression( filterExpr ), 
+				targetLevel, axisQulifierLevel, axisQulifierValue, sortDirection );
 	}
 	
 	/**
@@ -92,6 +89,20 @@ public class CubeElementFactory implements ICubeElementFactory
 	public ICubeOperationFactory getCubeOperationFactory( )
 	{
 		return CubeOperationFactory.getInstance( );
+	}
+
+	public ICubeSortDefinition createCubeSortDefinition(
+			IScriptExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue,
+			int sortDirection )
+	{
+		CubeSortDefinition cubeSortDefn = new CubeSortDefinition( );
+		cubeSortDefn.setExpression( filterExpr );
+		cubeSortDefn.setTargetLevel( targetLevel );
+		cubeSortDefn.setAxisQualifierLevels( axisQulifierLevel );
+		cubeSortDefn.setAxisQualifierValues( axisQulifierValue );
+		cubeSortDefn.setSortDirection( sortDirection );
+		return cubeSortDefn;
 	}
 	
 }

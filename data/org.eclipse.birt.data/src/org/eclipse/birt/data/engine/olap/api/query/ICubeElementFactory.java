@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.api.query;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 
 
@@ -46,6 +47,19 @@ public interface ICubeElementFactory
 			IBaseExpression filterExpr, ILevelDefinition targetLevel,
 			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue );
 
+	/**
+	 * 
+	 * @param filterExpr
+	 * @param targetLevel
+	 * @param axisQulifierLevel
+	 * @param axisQulifierValue
+	 * @param sortDirection
+	 * @return
+	 */
+	public ICubeSortDefinition createCubeSortDefinition( IScriptExpression filterExpr,
+			ILevelDefinition targetLevel, ILevelDefinition[] axisQulifierLevel,
+			Object[] axisQulifierValue, int sortDirection );
+	
 	/**
 	 * 
 	 * @param filterExpr
