@@ -28,6 +28,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -422,13 +423,15 @@ public class CrosstabUtil implements ICrosstabConstants
 					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
 					binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
-							.getValue( ) ) );
+							.getValue( ),
+							ExpressionLocation.CUBE ) );
 					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 
 					if ( column.getFilterExpression( ) != null )
 					{
 						binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
-								.getValue( ) ) );
+								.getValue( ),
+								ExpressionLocation.CUBE ) );
 					}
 
 					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
@@ -436,7 +439,8 @@ public class CrosstabUtil implements ICrosstabConstants
 						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
 
 						binding.addArgument( modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
-								.getValue( ) ) );
+								.getValue( ),
+								ExpressionLocation.CUBE ) );
 					}
 
 					List aggrList = column.getAggregateOnList( );

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -187,7 +188,8 @@ class ContentUtil
 				if ( ModuleUtil.isListStyleRuleValue( rule ) )
 				{
 					condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
-							.getValue( ) ),
+							.getValue( ),
+							ExpressionLocation.CUBE ),
 							DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
 							rule.getValue1ExpressionList( ).getListValue( ) );
 				}
@@ -204,11 +206,14 @@ class ContentUtil
 					}
 
 					condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
-							.getValue( ) ),
+							.getValue( ),
+							ExpressionLocation.CUBE ),
 							DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
-							modelAdapter.adaptExpression( value1 ),
+							modelAdapter.adaptExpression( value1,
+									ExpressionLocation.CUBE ),
 							modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( StyleRule.VALUE2_MEMBER )
-									.getValue( ) ) );
+									.getValue( ),
+									ExpressionLocation.CUBE ) );
 				}
 
 				IConditionalExpression expression = ExpressionUtil.transformConditionalExpression( condExpr );

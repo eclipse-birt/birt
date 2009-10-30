@@ -32,6 +32,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
@@ -675,13 +676,15 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
 					binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
-							.getValue( ) ) );
+							.getValue( ),
+							ExpressionLocation.CUBE ) );
 					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 
 					if ( column.getFilterExpression( ) != null )
 					{
 						binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
-								.getValue( ) ) );
+								.getValue( ),
+								ExpressionLocation.CUBE ) );
 					}
 
 					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
@@ -690,7 +693,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						if ( aah.getValue( ) != null )
 						{
 							binding.addArgument( modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
-									.getValue( ) ) );
+									.getValue( ),
+									ExpressionLocation.CUBE ) );
 						}
 					}
 

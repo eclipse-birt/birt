@@ -35,6 +35,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
@@ -210,13 +211,15 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 								: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
 						binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
-								.getValue( ) ) );
+								.getValue( ),
+								ExpressionLocation.CUBE ) );
 						binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 
 						if ( column.getFilterExpression( ) != null )
 						{
 							binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
-									.getValue( ) ) );
+									.getValue( ),
+									ExpressionLocation.CUBE ) );
 						}
 
 						for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
@@ -225,7 +228,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 							if ( aah.getValue( ) != null )
 							{
 								binding.addArgument( modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
-										.getValue( ) ) );
+										.getValue( ),
+										ExpressionLocation.CUBE ) );
 							}
 						}
 
@@ -526,7 +530,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					}
 
 					ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( modelAdapter.adaptExpression( (Expression) sortKey.getExpressionProperty( ISortElementModel.KEY_PROP )
-							.getValue( ) ),
+							.getValue( ),
+							ExpressionLocation.CUBE ),
 							levelMapping.get( lv.getCubeLevel( ) ),
 							qualifyLevels,
 							qualifyValues,
@@ -581,7 +586,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					if ( ModuleUtil.isListFilterValue( filterCon ) )
 					{
 						filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
-								.getValue( ) ),
+								.getValue( ),
+								ExpressionLocation.CUBE ),
 								DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
 								filterCon.getValue1ExpressionList( )
 										.getListValue( ) );
@@ -599,11 +605,14 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						}
 
 						filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
-								.getValue( ) ),
+								.getValue( ),
+								ExpressionLocation.CUBE ),
 								DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-								modelAdapter.adaptExpression( value1 ),
+								modelAdapter.adaptExpression( value1,
+										ExpressionLocation.CUBE ),
 								modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.VALUE2_PROP )
-										.getValue( ) ) );
+										.getValue( ),
+										ExpressionLocation.CUBE ) );
 					}
 
 					ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
@@ -633,7 +642,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				if ( ModuleUtil.isListFilterValue( filterCon ) )
 				{
 					filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
-							.getValue( ) ),
+							.getValue( ),
+							ExpressionLocation.CUBE ),
 							DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
 							filterCon.getValue1ExpressionList( ).getListValue( ) );
 				}
@@ -650,11 +660,14 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					}
 
 					filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
-							.getValue( ) ),
+							.getValue( ),
+							ExpressionLocation.CUBE ),
 							DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-							modelAdapter.adaptExpression( value1 ),
+							modelAdapter.adaptExpression( value1,
+									ExpressionLocation.CUBE ),
 							modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.VALUE2_PROP )
-									.getValue( ) ) );
+									.getValue( ),
+									ExpressionLocation.CUBE ) );
 				}
 
 				ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
