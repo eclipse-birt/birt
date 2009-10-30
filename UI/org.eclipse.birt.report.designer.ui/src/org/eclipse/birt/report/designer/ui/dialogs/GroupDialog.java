@@ -21,6 +21,8 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
@@ -28,6 +30,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -168,14 +171,6 @@ public class GroupDialog extends BaseDialog
 	final private static IChoice[] intervalChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_INTERVAL )
 			.getChoices( );
-
-	final private static IChoice sortByAscending = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_SORT_DIRECTION )
-			.findChoice( DesignChoiceConstants.SORT_DIRECTION_ASC );
-
-	final private static IChoice sortByDescending = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_SORT_DIRECTION )
-			.findChoice( DesignChoiceConstants.SORT_DIRECTION_DESC );
 
 	final private static String SORT_GROUP_TITLE = DEUtil.getPropertyDefn( ReportDesignConstants.TABLE_GROUP_ELEMENT,
 			GroupHandle.SORT_DIRECTION_PROP )
@@ -551,10 +546,39 @@ public class GroupDialog extends BaseDialog
 			}
 		} );
 
+		ExpressionHelper helper = new ExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				return GroupDialog.this.getKeyExpression( keyChooser,
+						keyChooser.getText( ) );
+			}
+
+			public void setExpression( String expression )
+			{
+				GroupDialog.this.setKeyExpression( keyChooser, expression );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return new ExpressionProvider( inputGroup );
+			}
+
+			public IExpressionContextFactory getExpressionContextFactory( )
+			{
+				return new ExpressionContextFactoryImpl( getContextObject( ),
+						getExpressionProvider( ) );
+			}
+		};
+
 		ExpressionButtonUtil.createExpressionButton( keyArea,
 				keyChooser,
-				new ExpressionProvider( inputGroup ),
-				inputGroup );
+				null,
+				inputGroup,
+				null,
+				false,
+				SWT.PUSH,
+				helper );
 
 		// Creates intervalRange area
 		Composite intervalArea = new Composite( composite, SWT.NONE );
@@ -1197,7 +1221,9 @@ public class GroupDialog extends BaseDialog
 			Expression oldKeyExpr = (Expression) inputGroup.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP )
 					.getValue( );
 
-			Expression newKeyExpr = getKeyExpression( );
+			Expression newKeyExpr = new Expression( getKeyExpression( keyChooser,
+					keyChooser.getText( ) ),
+					(String) keyChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
 			inputGroup.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
 					newKeyExpr );
 			if ( newKeyExpr != null
@@ -1324,6 +1350,12 @@ public class GroupDialog extends BaseDialog
 			( (ExpressionButton) button ).refresh( );
 		}
 
+		if ( key == null )
+		{
+			keyChooser.setText( "" ); //$NON-NLS-1$
+			return;
+		}
+
 		keyChooser.deselectAll( );
 		String keyValue = StringUtil.trimString( key.getStringExpression( ) );
 		if ( StringUtil.isBlank( keyValue ) )
@@ -1333,7 +1365,7 @@ public class GroupDialog extends BaseDialog
 		}
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			if ( key.equals( ExpressionUtility.getExpression( columnList.get( i ),
+			if ( keyValue.equals( ExpressionUtility.getExpression( columnList.get( i ),
 					ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,
 							false ) ) ) )
 			{
@@ -1520,37 +1552,42 @@ public class GroupDialog extends BaseDialog
 		intervalBaseText.setEnabled( bool );
 	}
 
-	private Expression getKeyExpression( )
+	private String getKeyExpression( Combo chooser, String key )
 	{
-		Expression expression = ExpressionButtonUtil.getExpression( keyChooser );
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+		{
+			ComputedColumnHandle cachedColumn = (ComputedColumnHandle) iter.next( );
+			if ( cachedColumn.getName( ).equals( key ) )
+			{
+				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( chooser );
+				return ExpressionUtility.getExpression( cachedColumn, converter );
+			}
+		}
+		return key;
+	}
 
-		String exp = null;
-		String keyText = UIUtil.convertToModelString( keyChooser.getText( ),
-				true );
-
-		if ( keyChooser.getSelectionIndex( ) != -1 )
+	private void setKeyExpression( Combo chooser, String key )
+	{
+		chooser.deselectAll( );
+		key = StringUtil.trimString( key );
+		if ( StringUtil.isBlank( key ) )
 		{
-			exp = ExpressionUtility.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ),
-					ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,
-							false ) );
-		}
-		else if ( keyText != null && keyChooser.indexOf( keyText ) != -1 )
-		{
-			exp = ExpressionUtility.getExpression( columnList.get( keyChooser.indexOf( keyText ) ),
-					ExpressionButtonUtil.getCurrentExpressionConverter( keyChooser,
-							false ) );
-		}
-		else
-		{
-			exp = keyChooser.getText( ).trim( );
+			chooser.setText( "" ); //$NON-NLS-1$
+			return;
 		}
 
-		if ( exp != null )
+		IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( chooser );
+		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			expression = new Expression( exp,
-					ExpressionButtonUtil.getExpression( keyChooser ).getType( ) );
+			if ( key.equals( ExpressionUtility.getExpression( columnList.get( i ),
+					converter ) ) )
+			{
+				// chooser.select( i );
+				chooser.setText( ( (ComputedColumnHandle) columnList.get( i ) ).getName( ) );
+				return;
+			}
 		}
-		return expression;
+		chooser.setText( key );
 	}
 
 }
