@@ -2263,7 +2263,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// (2009/10/27) Rules of inherit colum group: for inheriting column
 			// groups case, the Y optional grouping should allow to use all the
 			// outer groups than current group handle level(include self group).
-			if ( isInheritColumnsGroups( ) )
+			if ( isInheritColumnsGroups( ) && groups.size( ) > 0 )
 			{
 				Map<String, ColumnBindingInfo> g = new LinkedHashMap<String, ColumnBindingInfo>(2);
 				DesignElementHandle reh =  itemHandle;
