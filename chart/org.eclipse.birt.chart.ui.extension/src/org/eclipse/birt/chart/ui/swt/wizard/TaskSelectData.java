@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -43,6 +44,8 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.swt.series.BubbleSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.preview.ChartLivePreviewThread;
+import org.eclipse.birt.chart.ui.swt.wizard.preview.LivePreviewTask;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -787,10 +790,46 @@ public class TaskSelectData extends SimpleTask implements
 
 	public void doPreview( )
 	{
-		Chart chartRuntime = ChartUIUtil.prepareLivePreview( getChartModel( ),
-				getDataServiceProvider( ),
-				( (ChartWizardContext) context ).getActionEvaluator( ) );
-		previewPainter.renderModel( chartRuntime );
+		LivePreviewTask lpt = new LivePreviewTask( Messages.getString( "TaskFormatChart.LivePreviewTask.BindData" ), null ); //$NON-NLS-1$
+		// Add a task to retrieve data and bind data to chart.
+		lpt.addTask( new LivePreviewTask() {
+			public void run()
+			{
+				if ( previewPainter != null )
+				{
+					setParameter( ChartLivePreviewThread.PARAM_CHART_MODEL, ChartUIUtil.prepareLivePreview( getChartModel( ),
+						getDataServiceProvider( ),
+						( (ChartWizardContext) context ).getActionEvaluator( ) ) );
+				}
+			}
+		});
+		
+		// Add a task to render chart.
+		lpt.addTask( new LivePreviewTask() {
+			public void run()
+			{
+				if ( previewCanvas != null
+						&& previewCanvas.getDisplay( ) != null
+						&& !previewCanvas.getDisplay( ).isDisposed( ) )
+				{
+					previewCanvas.getDisplay( ).syncExec( new Runnable( ) {
+
+						public void run( )
+						{
+							// Repaint chart.
+							if ( previewPainter != null )
+							{
+								previewPainter.renderModel( (IChartObject) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL ) );
+							}
+						}
+					} );
+				}
+			}
+		});
+		
+		// Add live preview tasks to live preview thread.
+		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).setParentShell( getPreviewCanvas( ).getShell( ) );
+		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).add( lpt );
 	}
 
 	public Canvas getPreviewCanvas( )

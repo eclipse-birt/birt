@@ -48,6 +48,8 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
+import org.eclipse.birt.chart.ui.swt.wizard.preview.ChartLivePreviewThread;
+import org.eclipse.birt.chart.ui.swt.wizard.preview.LivePreviewTask;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -1865,26 +1867,59 @@ public class TaskSelectType extends SimpleTask implements
 
 	public void doPreview( )
 	{
-		Chart chartRuntime = ChartUIUtil.prepareLivePreview( chartModel,
-				getDataServiceProvider( ),
-				( (ChartWizardContext) context ).getActionEvaluator( ) );
+		LivePreviewTask lpt = new LivePreviewTask( Messages.getString( "TaskFormatChart.LivePreviewTask.BindData" ), null ); //$NON-NLS-1$
+		// Add a task to retrieve data and bind data to chart.
+		lpt.addTask( new LivePreviewTask() {
+			public void run()
+			{
+				if ( previewPainter != null )
+				{
+					setParameter( ChartLivePreviewThread.PARAM_CHART_MODEL, ChartUIUtil.prepareLivePreview( chartModel,
+						getDataServiceProvider( ),
+						( (ChartWizardContext) context ).getActionEvaluator( ) ) );
+				}
+			}
+		});
+		
+		// Add a task to render chart.
+		lpt.addTask( new LivePreviewTask() {
+			public void run()
+			{
+				if ( previewCanvas != null
+						&& previewCanvas.getDisplay( ) != null
+						&& !previewCanvas.getDisplay( ).isDisposed( ) )
+				{
+					previewCanvas.getDisplay( ).syncExec( new Runnable( ) {
 
-		// Repaint chart.
-		if ( previewPainter != null )
-		{
-			// To update data type after chart type conversion
-			if ( chartRuntime instanceof ChartWithAxes )
-			{
-				ChartAdapter.beginIgnoreNotifications( );
-				checkDataTypeForChartWithAxes( chartRuntime );
-				ChartAdapter.endIgnoreNotifications( );
+						public void run( )
+						{
+							// Repaint chart.
+							if ( previewPainter != null )
+							{
+								Chart cm = (Chart) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL );
+								// To update data type after chart type
+								// conversion
+								if ( cm instanceof ChartWithAxes )
+								{
+									ChartAdapter.beginIgnoreNotifications( );
+									checkDataTypeForChartWithAxes( cm );
+									ChartAdapter.endIgnoreNotifications( );
+								}
+								else
+								{
+									ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
+								}
+								previewPainter.renderModel( cm );
+							}
+						}
+					} );
+				}
 			}
-			else
-			{
-				ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
-			}
-			previewPainter.renderModel( chartRuntime );
-		}
+		});
+		
+		// Add live preview tasks to live preview thread.
+		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).setParentShell( getPreviewCanvas( ).getShell( ) );
+		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).add( lpt );
 	}
 
 	public Canvas getPreviewCanvas( )

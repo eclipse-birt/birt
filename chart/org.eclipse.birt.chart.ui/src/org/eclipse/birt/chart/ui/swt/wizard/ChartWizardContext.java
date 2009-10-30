@@ -55,7 +55,12 @@ public class ChartWizardContext implements IChartWizardContext
 	
 	private Boolean isShowingDataPreview = null;
 	private IActionEvaluator actionEvaluator;
-
+	
+	/**
+	 * The thread is responsible to manage live preview.
+	 */
+	private Thread livePreviewThread = null;
+	
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
 	{
@@ -66,6 +71,28 @@ public class ChartWizardContext implements IChartWizardContext
 		this.dataSheet.setContext( this );
 	}
 
+	/**
+	 * Sets live preview thread reference.
+	 * 
+	 * @param thread
+	 * @since 2.5.2
+	 */
+	public void setLivePreviewThread(Thread thread )
+	{
+		livePreviewThread = thread;
+	}
+	
+	/**
+	 * Returns reference of live preview thread.
+	 * 
+	 * @return
+	 * @since 2.5.2
+	 */
+	public Thread getLivePreviewThread()
+	{
+		return this.livePreviewThread;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
