@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.SortKeyHandle;
 
 public interface IModelAdapter
 {
+	public static enum ExpressionLocation{TABLE, CUBE};
 
 	/**
 	 * Adapts a Model data source handle to an equivalent BaseDataSourceDesign.
@@ -92,12 +93,15 @@ public interface IModelAdapter
 	public ConditionalExpression adaptConditionalExpression(
 			Expression mainExpr, String operator,
 			Expression operand1, Expression operand2 );
+
+	public ScriptExpression adaptExpression( Expression expr, ExpressionLocation el );
+	public ScriptExpression adaptExpression( Expression expr );
+	
 	/**
 	 * Constructs an expression with provided text and return data type Data
 	 * type is defined as a Model data type string
 	 */
 
-	public ScriptExpression adaptExpression( Expression expr );
 	public ScriptExpression adaptExpression( Expression expr, String dataType );
 	
 	public ScriptExpression adaptExpression( String jsExpr, String dataType );

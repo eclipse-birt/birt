@@ -15,15 +15,23 @@ package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 public class ExpressionAdapter extends ScriptExpression
 {
+	//private IModelAdapter.ExpressionLocation el = IModelAdapter.ExpressionLocation.TABLE;
+	
 	public ExpressionAdapter( Expression expr )
 	{
 		this( expr, DataType.ANY_TYPE);
+	}
+	public ExpressionAdapter( Expression expr,  IModelAdapter.ExpressionLocation el )
+	{
+		this( expr, DataType.ANY_TYPE);
+		//this.el = el;
 	}
 	
 	public ExpressionAdapter( String expr, String returnType )

@@ -380,9 +380,7 @@ public class ModelAdapter implements IModelAdapter
 
 	public ScriptExpression adaptExpression( Expression expr )
 	{
-		if( expr == null || expr.getStringExpression( ) == null)
-			return null;
-		return new ExpressionAdapter( expr );
+		return adaptExpression( expr, IModelAdapter.ExpressionLocation.TABLE );
 	}
 
 	public ScriptExpression adaptExpression( String jsExpr, String dataType )
@@ -397,6 +395,14 @@ public class ModelAdapter implements IModelAdapter
 		if( jsExpr == null )
 			return null;
 		return new ExpressionAdapter( jsExpr, dataType );
+	}
+
+	public ScriptExpression adaptExpression( Expression expr,
+			ExpressionLocation el )
+	{
+		if( expr == null || expr.getStringExpression( ) == null)
+			return null;
+		return new ExpressionAdapter( expr, el );
 	}
 	
 }
