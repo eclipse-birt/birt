@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.swt.wizard.preview.ChartLivePreviewThread;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -149,6 +150,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			this.extendedHandle = eih;
 		}
 		ReportDataServiceProvider dataProvider = null;
+		ChartLivePreviewThread livePreviewThread = null; 
 		try
 		{
 			IReportItem item = null;
@@ -206,6 +208,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					this,
 					dataProvider,
 					dataSheet );
+			livePreviewThread = new ChartLivePreviewThread();
+			livePreviewThread.start( );
+			context.setLivePreviewThread( livePreviewThread );
+			
 			dataProvider.setWizardContext( context );
 			if ( dataProvider.checkState( IDataServiceProvider.PART_CHART ) )
 			{
@@ -294,7 +300,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartAdapter.endIgnoreNotifications( );
 			
 			isChartWizardOpen = true;
-			
 			ChartWizardContext contextResult = (ChartWizardContext) chartBuilder.open( null,
 					taskId,
 					context );
@@ -358,8 +363,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			// Reset the ExtendedItemHandle instance since it is no
 			// longer needed
 			this.extendedHandle = null;
-			
 			isChartWizardOpen = false;
+			if ( livePreviewThread != null )
+			{
+				livePreviewThread.end( );
+			}
+			
 			if ( dataProvider != null )
 			{
 				dataProvider.dispose();

@@ -67,6 +67,8 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
@@ -193,7 +195,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				engineTask = new DummyEngineTask( engine,
 						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
 						itemHandle.getModuleHandle( ) );
-
 			}
 
 			if ( isReportDesignHandle( ) )
@@ -1505,14 +1506,31 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		try
 		{
+			// Add bindings and filters from report handle.
+			Iterator<?> bindingIt = ChartReportItemUtil.getColumnDataBindings( handle, true );
+			while ( bindingIt != null && bindingIt.hasNext( ) )
+			{
+				Object computedBinding = bindingIt.next( );
+				IBinding binding = session.getModelAdaptor( ).adaptBinding( (ComputedColumnHandle) computedBinding );
+				if ( binding == null  )
+				{
+					continue;
+				}
+				queryDefn.addBinding( binding );
+			}
 			Iterator<FilterConditionHandle> filtersIterator = getFiltersIterator( );
+			if ( filtersIterator != null )
+			{
+				while ( filtersIterator.hasNext( ) )
+				{
+					IFilterDefinition filter = session.getModelAdaptor( )
+							.adaptFilter( filtersIterator.next( ) );
+					queryDefn.addFilter( filter );
+				}
+			}
 			
-			session.prepare( queryDefn, getAppContext(getMaxRow(), false) );
-			
-			actualResultSet = session.executeQuery( queryDefn,
-					null,
-					filtersIterator,
-					ChartReportItemUtil.getColumnDataBindings( handle, true ) );
+			IPreparedQuery pq = session.prepare( queryDefn, getAppContext(getMaxRow(), false) );
+			actualResultSet = (IQueryResults) session.execute( pq, null, new ScriptContext( ) );
 
 			if ( actualResultSet != null )
 			{
@@ -2406,12 +2424,21 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					cm,
 					columnExpression,
 					bindingExprsMap );
-
-			session.prepare( queryDefn, getAppContext( getMaxRow(), false ) );
-			actualResultSet = session.executeQuery( queryDefn,
-					null,
-					getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
-					null );
+			
+			// Add filters from report handle.
+			Iterator<?> filtersIterator = getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) );
+			if ( filtersIterator != null )
+			{
+				while ( filtersIterator.hasNext( ) )
+				{
+					IFilterDefinition filter = session.getModelAdaptor( )
+							.adaptFilter( (FilterConditionHandle) filtersIterator.next( ) );
+					queryDefn.addFilter( filter );
+				}
+			}
+			
+			IPreparedQuery pq = session.prepare( queryDefn, getAppContext( getMaxRow(), false ) );
+			actualResultSet = (IQueryResults) session.execute( pq, null, new ScriptContext( ) ); 
 
 			if ( actualResultSet != null )
 			{
