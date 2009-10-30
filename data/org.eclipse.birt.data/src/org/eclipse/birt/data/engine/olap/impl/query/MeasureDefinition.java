@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.NamedObject;
 
 /**
  * 

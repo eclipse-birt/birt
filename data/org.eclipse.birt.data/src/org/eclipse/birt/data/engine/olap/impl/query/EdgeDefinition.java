@@ -14,11 +14,13 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.olap.api.query.DimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.NamedObject;
 
 /**
  * 

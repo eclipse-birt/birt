@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.NamedObject;
 
 
 /**

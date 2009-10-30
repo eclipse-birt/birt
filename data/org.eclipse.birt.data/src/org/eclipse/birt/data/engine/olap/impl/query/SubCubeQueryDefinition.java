@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.NamedObject;
 
 /**
  * Default implementation of the
