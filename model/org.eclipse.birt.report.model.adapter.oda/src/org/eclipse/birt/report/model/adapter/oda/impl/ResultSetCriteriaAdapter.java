@@ -79,10 +79,10 @@ public class ResultSetCriteriaAdapter
 	/**
 	 * Parameter convert utility
 	 */
-	private final AbstractReportParameterAdapter paramAdapter = new AbstractReportParameterAdapter( );
+	private final DynamicFilterParameterAdapter paramAdapter;
 
 	/**
-	 * Constant to seperate date set name and column name.
+	 * Constant to separate date set name and column name.
 	 */
 	private final static String SEPERATOR = ":"; //$NON-NLS-1$
 
@@ -116,7 +116,8 @@ public class ResultSetCriteriaAdapter
 	{
 		this.setHandle = setHandle;
 		this.setDesign = setDesign;
-
+		this.paramAdapter = new DynamicFilterParameterAdapter( setHandle,
+				setDesign );
 		designFactory = ODADesignFactory.getFactory( );
 	}
 
@@ -452,7 +453,7 @@ public class ResultSetCriteriaAdapter
 							.getExpressionParameterDefinitions( ) )
 					{
 						Filter dynamicFilter = new DynamicFilter( paramDefn,
-								isOptional );
+								dynamicFilterExpr.getDefaultType( ), isOptional );
 						String key = getMapKey( dynamicFilter );
 						if ( key != null )
 						{
@@ -599,14 +600,18 @@ public class ResultSetCriteriaAdapter
 				if ( nativeDataType != null )
 				{
 					dynamicFilterParamHandle.setNativeDataType( nativeDataType );
-					try 
+					try
 					{
-						dynamicFilterParamHandle.setDataType( NativeDataTypeUtil
-								.getUpdatedDataType( setDesign
-										.getOdaExtensionDataSourceId( ), setDesign
-										.getOdaExtensionDataSetId( ),
-										nativeDataType, null,
-										DesignChoiceConstants.CHOICE_PARAM_TYPE ) );
+						dynamicFilterParamHandle
+								.setDataType( NativeDataTypeUtil
+										.getUpdatedDataType(
+												setDesign
+														.getOdaExtensionDataSourceId( ),
+												setDesign
+														.getOdaExtensionDataSetId( ),
+												nativeDataType,
+												null,
+												DesignChoiceConstants.CHOICE_PARAM_TYPE ) );
 					}
 					catch ( BirtException e )
 					{
@@ -644,10 +649,9 @@ public class ResultSetCriteriaAdapter
 		{
 			filterConditionHandle.setExtensionName( tmpType
 					.getDeclaringExtensionId( ) );
-			filterConditionHandle
-					.setExtensionExprId( tmpType.getId( ) );
+			filterConditionHandle.setExtensionExprId( tmpType.getId( ) );
 		}
-		
+
 		filterConditionHandle.setPushDown( true );
 		filterConditionHandle.setOptional( customFilterExpr.isOptional( ) );
 	}
@@ -669,9 +673,8 @@ public class ResultSetCriteriaAdapter
 	{
 		filterConditionHandle.setOptional( dynamicFilter.isOptional );
 
-		paramAdapter.updateAbstractScalarParameter( dynamicFilterParamHandle,
-				dynamicFilter.exprParamDefn.getDynamicInputParameter( ), null,
-				setHandle );
+		paramAdapter.updateROMDynamicFilterParameter( dynamicFilter,
+				dynamicFilterParamHandle );
 	}
 
 	/**
@@ -770,8 +773,8 @@ public class ResultSetCriteriaAdapter
 				ParameterDefinition paramDefn = designFactory
 						.createParameterDefinition( );
 
-				paramAdapter.updateParameterDefinitionFromReportParam(
-						paramDefn, dynamicParamHandle, setDesign );
+				paramAdapter.updateODADynamicFilter( paramDefn,
+						dynamicParamHandle );
 
 				paramDefn.getAttributes( ).setName(
 						dynamicParamHandle.getColumn( ) );
@@ -830,7 +833,7 @@ public class ResultSetCriteriaAdapter
 		}
 	}
 
-	private static class DynamicFilter implements Filter
+	static class DynamicFilter implements Filter
 	{
 
 		/**
@@ -840,11 +843,14 @@ public class ResultSetCriteriaAdapter
 
 		public ExpressionParameterDefinition exprParamDefn;
 
+		public FilterExpressionType defaultType;
+
 		public DynamicFilter( ExpressionParameterDefinition exprParamDefn,
-				boolean isOptional )
+				FilterExpressionType defaultType, boolean isOptional )
 		{
 			this.isOptional = isOptional;
 			this.exprParamDefn = exprParamDefn;
+			this.defaultType = defaultType;
 		}
 
 		/**
@@ -889,6 +895,15 @@ public class ResultSetCriteriaAdapter
 				return paramDefn.getAttributes( ).getNativeDataTypeCode( );
 			}
 			return null;
+		}
+
+		/**
+		 * @return the defaultType
+		 */
+
+		public FilterExpressionType getDefaultType( )
+		{
+			return defaultType;
 		}
 	}
 }

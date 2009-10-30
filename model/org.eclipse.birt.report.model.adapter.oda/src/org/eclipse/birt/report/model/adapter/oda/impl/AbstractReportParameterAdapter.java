@@ -50,7 +50,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * 
  */
 
-class AbstractReportParameterAdapter
+abstract class AbstractReportParameterAdapter
 {
 
 	/**
@@ -419,16 +419,9 @@ class AbstractReportParameterAdapter
 			return;
 
 		// update default values.
-		StaticValues defaultValues = elementAttrs.getDefaultValues( );
-		StaticValues cachedDefaultValues = cachedElementAttrs == null
-				? null
-				: cachedElementAttrs.getDefaultValues( );
 
-		if ( new EcoreUtil.EqualityHelper( ).equals( cachedDefaultValues,
-				defaultValues ) == false )
-		{
-			AdapterUtil.updateROMDefaultValues( defaultValues, reportParam );
-		}
+		updateDefaultValueToReportParam( elementAttrs, cachedElementAttrs,
+				reportParam );
 
 		// update isOptional value
 		Boolean isOptional = Boolean.valueOf( elementAttrs.isOptional( ) );
@@ -477,6 +470,33 @@ class AbstractReportParameterAdapter
 			reportParam
 					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
 
+	}
+
+	/**
+	 * @param elementAttrs
+	 * @param cachedElementAttrs
+	 * @param reportParam
+	 * @throws SemanticException
+	 */
+
+	protected void updateDefaultValueToReportParam(
+			InputElementAttributes elementAttrs,
+			InputElementAttributes cachedElementAttrs,
+			AbstractScalarParameterHandle reportParam )
+			throws SemanticException
+	{
+		// update default values.
+
+		StaticValues defaultValues = elementAttrs.getDefaultValues( );
+		StaticValues cachedDefaultValues = cachedElementAttrs == null
+				? null
+				: cachedElementAttrs.getDefaultValues( );
+
+		if ( new EcoreUtil.EqualityHelper( ).equals( cachedDefaultValues,
+				defaultValues ) == false )
+		{
+			AdapterUtil.updateROMDefaultValues( defaultValues, reportParam );
+		}
 	}
 
 	/**
@@ -600,18 +620,9 @@ class AbstractReportParameterAdapter
 		if ( inputAttrs == null )
 			inputAttrs = designFactory.createInputElementAttributes( );
 
-		StaticValues newValues = null;
-		List<Expression> tmpValues = paramHandle.getDefaultValueList( );
-		if ( tmpValues != null )
-		{
-			for ( int i = 0; i < tmpValues.size( ); i++ )
-			{
-				if ( newValues == null )
-					newValues = designFactory.createStaticValues( );
-				newValues.add( tmpValues.get( i ).getStringExpression( ) );
-			}
-		}
-		inputAttrs.setDefaultValues( newValues );
+		// update default values.
+
+		updateDefaultStaticValues( inputAttrs, paramHandle );
 
 		// inputAttrs.setOptional( paramHandle.allowBlank( ) );
 		inputAttrs.setOptional( getReportParamAllowMumble( paramHandle,
@@ -684,6 +695,31 @@ class AbstractReportParameterAdapter
 
 		retInputParamAttrs.setElementAttributes( inputAttrs );
 		return retInputParamAttrs;
+	}
+
+	/**
+	 * @param inputParamAttrs
+	 * @param paramHandle
+	 */
+
+	protected void updateDefaultStaticValues(
+			InputElementAttributes inputAttrs,
+			AbstractScalarParameterHandle paramHandle )
+	{
+		// update default values.
+
+		StaticValues newValues = null;
+		List<Expression> tmpValues = paramHandle.getDefaultValueList( );
+		if ( tmpValues != null )
+		{
+			for ( int i = 0; i < tmpValues.size( ); i++ )
+			{
+				if ( newValues == null )
+					newValues = designFactory.createStaticValues( );
+				newValues.add( tmpValues.get( i ).getStringExpression( ) );
+			}
+		}
+		inputAttrs.setDefaultValues( newValues );
 	}
 
 	/**

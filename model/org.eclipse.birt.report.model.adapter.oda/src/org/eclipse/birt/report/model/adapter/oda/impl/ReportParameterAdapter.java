@@ -40,7 +40,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * 
  */
 
-public class ReportParameterAdapter extends AbstractReportParameterAdapter
+class ReportParameterAdapter extends AbstractReportParameterAdapter
 		implements
 			IReportParameterAdapter
 {
