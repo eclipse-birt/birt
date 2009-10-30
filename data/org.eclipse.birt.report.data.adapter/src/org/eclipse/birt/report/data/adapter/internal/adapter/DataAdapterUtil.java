@@ -311,11 +311,16 @@ public class DataAdapterUtil
 					ColumnDefinition columnDefn = findColumnDefn( dteDataSet.getResultSetHints( ),
 							modelColumn.getColumnName( ) );
 					if ( columnDefn != null )
+					{
+						columnDefn.setColumnNativeName( modelColumn.getNativeName( ) );
+						columnDefn.setColumnPosition( modelColumn.getPosition( ) );
 						columnDefn.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( modelColumn.getDataType( ) ) );
+					}
 					else
 					{
 						ColumnAdapter adapter = new ColumnAdapter( (ResultSetColumnHandle) modelColumn );
-						adapter.setColumnPosition( 0 );
+						adapter.setColumnNativeName( modelColumn.getNativeName( ) );
+						adapter.setColumnPosition( modelColumn.getPosition( ) );
 						dteDataSet.addResultSetHint( adapter );
 					}
 				}

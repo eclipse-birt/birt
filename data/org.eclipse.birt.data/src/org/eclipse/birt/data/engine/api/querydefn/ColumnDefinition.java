@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
  */
 public class ColumnDefinition implements IColumnDefinition
 {
-	String 		name;
+	String 		name, nativeName;
 	int 		position = -1;
 	int			dataType = DataType.UNKNOWN_TYPE;
     int         nativeDataType = 0;     // unknown
@@ -145,5 +145,19 @@ public class ColumnDefinition implements IColumnDefinition
 	public void setSearchHint(int searchHint) 
 	{
 		this.searchHint = searchHint;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getColumnNativeName()
+	 */
+	public String getColumnNativeName( )
+	{
+		return this.nativeName;
+	}
+	
+
+	public void setColumnNativeName( String nativeName )
+	{
+		this.nativeName = nativeName;
 	}
 }

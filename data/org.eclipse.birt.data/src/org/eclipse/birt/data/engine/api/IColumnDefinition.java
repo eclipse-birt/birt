@@ -39,6 +39,14 @@ public interface IColumnDefinition
 	public String getColumnName();
 	
 	/**
+	 * Gets the column native name. Column native name identifies a column in the meta data.
+	 * 
+	 * @return Native Name of column. If column native name is unnamed, returns null.
+	 */
+	public String getColumnNativeName();
+	
+	
+	/**
 	 * Gets the column position. 
 	 * @return 1-based position of column. If column is identified by name, returns -1.
 	 */

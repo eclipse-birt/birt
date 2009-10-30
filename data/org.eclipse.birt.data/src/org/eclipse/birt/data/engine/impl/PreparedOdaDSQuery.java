@@ -298,19 +298,24 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		  
 		    if ( extDataSet.getResultSetHints() != null )
 		    {
-		    	List source = extDataSet.getResultSetHints(); 
-		    	int count = source.size();
-		    	ArrayList odiHints = new ArrayList( count );
-		    	for ( int i = 0; i < count; i ++)
-		    	{
-		    		IColumnDefinition def = (IColumnDefinition) source.get(i);
-		    		IDataSourceQuery.ResultFieldHint odiHint = 
-		    				new IDataSourceQuery.ResultFieldHint( def.getColumnName());
-		    		odiHint.setPosition( def.getColumnPosition());
-		    		odiHint.setAlias( def.getAlias());
-		    		odiHint.setDataType( def.getDataType());  
-                    odiHint.setNativeDataType( def.getNativeDataType() );
-		    		odiHints.add( odiHint );
+				List source = extDataSet.getResultSetHints( );
+				ArrayList odiHints = new ArrayList( );
+				for ( int i = 0; i < source.size( ); i++ )
+				{
+					IColumnDefinition def = (IColumnDefinition) source.get( i );
+					if ( def.getColumnName( )
+							.equals( def.getColumnNativeName( ) )
+							&& def.getAlias( ) == null )
+					{
+						//not a hint info
+						continue;
+					}
+					IDataSourceQuery.ResultFieldHint odiHint = new IDataSourceQuery.ResultFieldHint( def.getColumnName( ) );
+					odiHint.setPosition( def.getColumnPosition( ) );
+					odiHint.setAlias( def.getAlias( ) );
+					odiHint.setDataType( def.getDataType( ) );
+					odiHint.setNativeDataType( def.getNativeDataType( ) );
+					odiHints.add( odiHint );
 		    	}
 			    odiDSQuery.setResultHints( odiHints );
 		    }	
