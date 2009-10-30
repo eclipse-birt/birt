@@ -767,9 +767,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		if ( isQueryModified )
 		{
-			updateQuery( ChartUIUtil.getText( getInputControl( ) ) );
 			// Refresh color from ColorPalette
 			setColor( );
+			updateQuery( ChartUIUtil.getText( getInputControl( ) ) );
+			
 			if ( !getInputControl( ).isDisposed( ) )
 			{
 				getInputControl( ).getParent( ).layout( );
