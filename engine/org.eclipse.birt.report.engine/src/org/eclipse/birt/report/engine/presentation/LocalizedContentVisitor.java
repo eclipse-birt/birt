@@ -1100,7 +1100,7 @@ public class LocalizedContentVisitor
 				{
 					assert false;
 					logger.log( Level.WARNING,
-							"unsupported image type:{0}", output ); //$NON-NLS-1$
+							"unsupported image type:{0}", imageMIMEType != null ? imageMIMEType : "Unknown" ); //$NON-NLS-1$
 
 				}
 
