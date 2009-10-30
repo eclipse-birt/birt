@@ -745,6 +745,7 @@ TaskSelectData.Label.UseToGroupValueSeries=Usar para agrupar serie del valor
 
 TaskFormatChart.TaskExp=Formato de diagrama
 TaskFormatChart.Label.Preview=Vista previa del diagrama
+TaskFormatChart.LivePreviewTask.BindData=Retrieving and binding data for chart preview
 TaskFormatChart.Task.Description=Realice un ajuste preciso del diagrama definiendo las propiedades de la serie, la interactividad, el diseño, así como el formato general de texto, las sombras, el fondo y los bordes.
 
 CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Se ha especificado un índice de columna {0} no válido o no se han definido aún columnas.
@@ -868,6 +869,7 @@ ChartSheetImpl.Label.Interactivity=Interactividad de área de diagrama
 ChartSheetImpl.Label.InteractivityEnable=&Activar interactividad de diagrama
 ChartSheetImpl.Label.Text=Te&xto:
 ChartLegendSheetImpl.Label.LegendBehaviorType=Compo&rtamiento:
+ChartLivePreviewThread_Text.PleaseWaiting=, please waiting ... 
 SeriesSheetImpl.Label.Type=Tipo
 SeriesSheetImpl.Label.ZOrder=Orden en Z
 LegendTextSheet.Label.Ellipsis=&Elipsis:

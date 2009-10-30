@@ -745,6 +745,7 @@ TaskSelectData.Label.UseToGroupValueSeries=Zum Gruppieren von Wert-Datenreihen v
 
 TaskFormatChart.TaskExp=Diagramm formatieren
 TaskFormatChart.Label.Preview=Diagrammvorschau
+TaskFormatChart.LivePreviewTask.BindData=Retrieving and binding data for chart preview
 TaskFormatChart.Task.Description=Passen Sie das Diagramm weiter an, indem Sie die Datenreiheneigenschaften, Interaktivität, Layout, sowie allgemeine Textformatierung, Schatten, Hintergründe und Rahmen festlegen.
 
 CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Ungültiger Spaltenindex {0} oder Spalten noch nicht definiert\!
@@ -868,6 +869,7 @@ ChartSheetImpl.Label.Interactivity=Interaktivität des Diagrammbereichs
 ChartSheetImpl.Label.InteractivityEnable=Interaktivität für Diagramm aktivi&eren
 ChartSheetImpl.Label.Text=Te&xt:
 ChartLegendSheetImpl.Label.LegendBehaviorType=&Verhalten:
+ChartLivePreviewThread_Text.PleaseWaiting=, please waiting ... 
 SeriesSheetImpl.Label.Type=Typ
 SeriesSheetImpl.Label.ZOrder=Z-Reihenfolge
 LegendTextSheet.Label.Ellipsis=&Ellipse:

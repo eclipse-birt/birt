@@ -745,6 +745,7 @@ TaskSelectData.Label.UseToGroupValueSeries=値系列のグループ化に使用する
 
 TaskFormatChart.TaskExp=グラフの書式設定
 TaskFormatChart.Label.Preview=グラフのプレビュー
+TaskFormatChart.LivePreviewTask.BindData=Retrieving and binding data for chart preview
 TaskFormatChart.Task.Description=系列のプロパティ、相互作用、レイアウト、テキストの書式、影、背景色、枠線などを指定して、グラフを調整します。
 
 CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=指定した列インデックス {0} が無効か、列がまだ定義されていません。
@@ -868,6 +869,7 @@ ChartSheetImpl.Label.Interactivity=グラフ領域の相互作用
 ChartSheetImpl.Label.InteractivityEnable=グラフの相互作用を有効にする(&E)
 ChartSheetImpl.Label.Text=テキスト(&X) :
 ChartLegendSheetImpl.Label.LegendBehaviorType=動作(&O) :
+ChartLivePreviewThread_Text.PleaseWaiting=, please waiting ... 
 SeriesSheetImpl.Label.Type=種類
 SeriesSheetImpl.Label.ZOrder=Z 順序
 LegendTextSheet.Label.Ellipsis=省略記号(&E) :
