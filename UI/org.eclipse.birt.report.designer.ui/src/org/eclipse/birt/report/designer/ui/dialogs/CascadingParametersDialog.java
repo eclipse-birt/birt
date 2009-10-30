@@ -1987,6 +1987,8 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else
 		{
+			if ( formatCategroy == null )
+				return;
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
 			if ( isCustom( ) )
