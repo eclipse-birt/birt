@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -37,14 +38,14 @@ public class DataSetDesignHelper
 	protected static Logger logger = Logger.getLogger( DataSetDesignHelper.class.getName( ) );
 
 	public static void vailidateDataSetDesign( IBaseDataSetDesign design,
-			Map dataSoureRuntime ) throws DataException
+			Map dataSources ) throws DataException
 	{
 		if ( !( design instanceof IJointDataSetDesign ) )
 		{
 			// Sanity check: a data set must have a data source with the proper
 			// type, and the data source must have be defined
 			String dataSourceName = design.getDataSourceName( );
-			DataSourceRuntime dsource = (DataSourceRuntime) dataSoureRuntime.get( dataSourceName );
+			BaseDataSourceDesign dsource = (BaseDataSourceDesign) dataSources.get( dataSourceName );
 			if ( dsource == null )
 			{
 				DataException e = new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE,
@@ -53,34 +54,6 @@ public class DataSetDesignHelper
 						DataEngineImpl.class.getName( ),
 						"defineDataSet",
 						"Data source {" + dataSourceName + "} is not defined",
-						e );
-				throw e;
-			}
-
-			Class dSourceClass;
-			if ( design instanceof IOdaDataSetDesign )
-				dSourceClass = IOdaDataSourceDesign.class;
-			else if ( design instanceof IScriptDataSetDesign )
-				dSourceClass = IScriptDataSourceDesign.class;
-			else
-			{
-				DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
-				logger.logp( Level.WARNING,
-						DataEngineImpl.class.getName( ),
-						"defineDataSet",
-						"Unsupported data set type: " + design.getName( ),
-						e );
-				throw e;
-			}
-
-			if ( !dSourceClass.isInstance( dsource.getDesign( ) ) )
-			{
-				DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
-						dsource.getName( ) );
-				logger.logp( Level.WARNING,
-						DataEngineImpl.class.getName( ),
-						"defineDataSet",
-						"Unsupported data source type: " + dsource.getName( ),
 						e );
 				throw e;
 			}
