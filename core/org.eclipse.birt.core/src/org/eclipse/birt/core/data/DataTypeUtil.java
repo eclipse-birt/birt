@@ -718,7 +718,7 @@ public final class DataTypeUtil
 	public static Date toDate( String source, Locale locale )
 			throws BirtException
 	{
-		return toDate( source );
+		return toDate( source, ULocale.forLocale( locale ) );
 	}
 
 	/**
