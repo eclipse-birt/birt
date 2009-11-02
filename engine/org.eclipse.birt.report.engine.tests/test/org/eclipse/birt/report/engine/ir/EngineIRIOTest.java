@@ -16,33 +16,37 @@ public class EngineIRIOTest extends EngineCase
 	// "org/eclipse/birt/report/engine/ir/ir_io_test.rptdesign";
 
 	
-	public void testIO() throws Exception
+	public void testIO( ) throws Exception
 	{
-		String[] designStreams = new String[]{"ir_io_test.rptdesign",
-				"../parser/action_test.rptdesign",
-				"../parser/bookmark_test.rptdesign",
-				"../parser/cell_test.rptdesign",
-				"../parser/highlight_test.rptdesign",
-				"../parser/image_test.rptdesign",
-				"../parser/map_test.rptdesign",
-				"../parser/report_item_test.rptdesign",
-				"../parser/text_test.rptdesign",
-				"../parser/toc_test.rptdesign",
-				"../parser/user_property_test.rptdesign",
-				"../parser/visibility_test.rptdesign",
-				"../parser/user_property_test.rptdesign"};
+		String[] designStreams = new String[]{
+				"ir_io_test.rptdesign",
+				"action_test.rptdesign",
+				"bookmark_test.rptdesign",
+				"cell_test.rptdesign",
+				"highlight_test.rptdesign",
+				"image_test.rptdesign",
+				"map_test.rptdesign",
+				"report_item_test.rptdesign",
+				"text_test.rptdesign",
+				"toc_test.rptdesign",
+				"user_property_test.rptdesign",
+				"visibility_test.rptdesign"
+		};
 		
 		for (int i = 0; i < designStreams.length; i++)
 		{
-			doTestIO(designStreams[i]);
+			doTestIO( designStreams[i], i );
 		}
 	}
 
-	public void doTestIO( String designName ) throws Exception
+	public void doTestIO( String designName, int i ) throws Exception
 	{
 		// load the report design
-		Report report = new ReportParser( ).parse( ".", this.getClass( )
-				.getResourceAsStream( designName ) );
+		Class<?> clz = i == 0
+				? this.getClass( )
+				: org.eclipse.birt.report.engine.parser.EngineIRParserTest.class;
+		InputStream input = clz.getResourceAsStream( designName );
+		Report report = new ReportParser( ).parse( ".", input );
 		assertTrue( report != null );
 
 		// write it into the stream
