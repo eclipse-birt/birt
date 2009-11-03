@@ -655,7 +655,7 @@
 		
 		<mkdir dir="${NLtmpsite}"/>
 		<mkdir dir="${NLtmpsite}/new"/>
-		<unzip src="${buildDirectory}/${buildId}/birt-nl1-${package.version}.zip" dest="${NLtmpsite}"/>
+		<unzip src="${buildDirectory}/${buildId}/birt-nl-${package.version}.zip" dest="${NLtmpsite}"/>
 		<unzip src="${buildDirectory}/${buildId}/birt-dtp-nl-${package.version}.zip" dest="${NLtmpsite}"/>
 		<unzip src="${buildDirectory}/${buildId}/birt-rcp-nl-${package.version}.zip" dest="${NLtmpsite}"/>
 		<unzip src="${buildDirectory}/${buildId}/birt-dtp-sybase-nl-${package.version}.zip" dest="${NLtmpsite}"/>
