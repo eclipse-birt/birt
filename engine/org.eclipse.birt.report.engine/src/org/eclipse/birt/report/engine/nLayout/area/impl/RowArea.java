@@ -144,6 +144,8 @@ public class RowArea extends ContainerArea
 		// if page-break occurs, need re-add this row into layout
 		if ( pb )
 		{
+			//if page-break occurs, the specified height should not be applied.
+			specifiedHeight = 0;
 			table.addRow( this );
 		}
 		parent.update( this );

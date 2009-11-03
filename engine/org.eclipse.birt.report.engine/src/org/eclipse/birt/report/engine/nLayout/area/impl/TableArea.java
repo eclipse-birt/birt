@@ -289,7 +289,7 @@ public class TableArea extends RepeatableArea
 			{
 				FixedLayoutPageHintGenerator pageHintGenerator = context
 						.getPageHintGenerator( );
-				if ( pageHintGenerator != null )
+				if ( pageHintGenerator != null && unresolvedRow != null )
 				{
 					pageHintGenerator.addUnresolvedRowHint( unresolvedRow
 							.getTableArea( ).getContent( ).getInstanceID( )
