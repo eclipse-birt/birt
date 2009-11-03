@@ -2,7 +2,7 @@
 
 	<property name="postingDirectory" value="${buildDirectory}" />
 	<property name="package.version" value="2_2_0" />
-	<property name="archiveName" value="birt-dtp-nl-${package.version}.zip"/>
+	<property name="archiveName" value="birt-rcp-nl-${package.version}.zip"/>
 
 	
 	<!-- ===================================================================== -->
@@ -11,7 +11,7 @@
 	<target name="allElements">
 		<ant antfile="${genericTargets}" target="${target}" >
 			<property name="type" value="feature" />
-			<property name="id" value="org.eclipse.birt.dtp.nl" />
+			<property name="id" value="org.eclipse.birt.rcp.nl" />
 		</ant>
 	</target>
 
@@ -22,8 +22,8 @@
 	<!-- Add one target for each root element and each configuration -->
 	<!-- ===================================================================== -->
 	
-	<target name="assemble.org.eclipse.birt.dtp.nl">
-		<property name="archiveName" value="birt-dtp-nl-${package.version}.zip"/>
+	<target name="assemble.org.eclipse.birt.rcp.nl">
+		<property name="archiveName" value="birt-rcp-nl-${package.version}.zip"/>
 		<antcall target="assemble" />
 	</target>
 
@@ -79,7 +79,7 @@
         <tstamp prefix="timestamp">
             <format property="start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
         </tstamp>
-     	<echo message="[${timestamp.start}] Fetch birt.dtp.nl component starting"/>
+     	<echo message="[${timestamp.start}] Fetch birt.rcp.nl component starting"/>
 	</target>
 
 	<!-- ===================================================================== -->
@@ -89,7 +89,7 @@
         <tstamp prefix="timestamp">
             <format property="end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
         </tstamp>
-     	<echo message="[${timestamp.end}] Fetch birt.dtp.nl component ended"/>
+     	<echo message="[${timestamp.end}] Fetch birt.rcp.nl component ended"/>
 	</target>
 	
 	<!-- ===================================================================== -->
@@ -155,7 +155,7 @@
 		</antcall>
 	
 		<unzip dest="${postingDirectory}/${buildLabel}/compilelogs" overwrite="true">
-			<fileset dir="${buildDirectory}/features/org.eclipse.birt.dtp.nl">
+			<fileset dir="${buildDirectory}/features/org.eclipse.birt.rcp.nl">
 				<include name="*.log.zip" />
 			</fileset>
 		</unzip>
