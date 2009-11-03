@@ -3317,8 +3317,8 @@ ReportTemplateTransferDropTargetListener.transLabel.createElement=插入元素
 ###########################################################
 #ResourceEditDialog properties
 
-ResourceEditDialog.message.AddNote=快速添加”将关键字保存至当前源文件。
-ResourceEditDialog.message.ResourceFile=源文件: 
+ResourceEditDialog.message.AddNote=“快速添加”将关键字保存至当前资源文件。
+ResourceEditDialog.message.ResourceFile=资源文件:
 ResourceEditDialog.text.Add=添加(&A)
 ResourceEditDialog.text.AddWarningMsg=不允许空白键。
 ResourceEditDialog.text.AddWarningTitle=Warning
