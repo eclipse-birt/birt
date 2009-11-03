@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.birt.nl"
+      id="org.eclipse.birt.rcp.nl"
       label="%featureName"
       version="2.5.2.qualifier"
       provider-name="%providerName"
@@ -168,14 +168,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.debug.ui.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.report.designer.core.nl1"
          download-size="0"
          install-size="0"
@@ -185,14 +177,6 @@
 
    <plugin
          id="org.eclipse.birt.report.designer.ui.editors.schematic.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.report.designer.ui.ide.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -224,6 +208,14 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.birt.report.designer.ui.rcp.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+   <plugin
          id="org.eclipse.birt.report.engine.nl1"
          download-size="0"
          install-size="0"
@@ -248,14 +240,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.integration.wtp.ui.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.report.item.crosstab.core.nl1"
          download-size="0"
          install-size="0"
@@ -265,14 +249,6 @@
 
    <plugin
          id="org.eclipse.birt.report.item.crosstab.ui.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -320,14 +296,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.chart.integration.wtp.ui.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.chart.examples.nl1"
          download-size="0"
          install-size="0"
@@ -352,47 +320,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.designer.ui.editor.script.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.report.designer.ui.editors.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.report.designer.ui.samples.ide.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
