@@ -315,8 +315,8 @@
 
 		<delete includeemptydirs="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features">
-				<include name="org.eclipse.birt.sdk.feature*/**"/>
-				<include name="org.eclipse.birt.integration.wtp.sdk.feature*/**"/>
+				<include name="org.eclipse.birt.sdk*/**"/>
+				<include name="org.eclipse.birt.integration.wtp.sdk*/**"/>
 				<include name="com.lowagie.itext*/**"/>
 				<include name="org.apache.commons.codec*/**"/>
 				<include name="org.apache.derby.core*/**"/>
