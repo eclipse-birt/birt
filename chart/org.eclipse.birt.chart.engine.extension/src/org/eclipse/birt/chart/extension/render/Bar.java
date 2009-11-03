@@ -1329,7 +1329,7 @@ public final class Bar extends AxesRenderer
 					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT_LABEL,
 					laDataPoint );	
-			if ( laDataPoint.isVisible( ) && dHeight != 0 )
+			if ( laDataPoint.isVisible( ) && dHeight != 0 && dWidth != 0 )
 			{
 				// Only render the label that is inside
 				if ( !dpha[i].isOutside( ) )
