@@ -42,6 +42,7 @@ import org.eclipse.datatools.connectivity.oda.design.DesignerState;
 import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
 import org.eclipse.datatools.connectivity.oda.design.SessionStatus;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.Dialog;
 
@@ -326,16 +327,16 @@ public class DTPUtil
 	 * @return
 	 * @throws URISyntaxException
 	 */
-	public URI getReportDesignPath( ) throws URISyntaxException
+	public URI getReportDesignPath( )
 	{
 		if ( Utility.getReportModuleHandle( ) == null
 				|| Utility.getReportModuleHandle( ).getSystemId( ) == null )
 		{
 			return null;
 		}
-		return new URI( Utility.getReportModuleHandle( )
+		return new File( Utility.getReportModuleHandle( )
 				.getSystemId( )
-				.getFile( ) );
+				.getFile( ) ).toURI( );
 	}
 
 	/**
@@ -345,12 +346,7 @@ public class DTPUtil
 	 */
     public URI getBIRTResourcePath( )
 	{
-		if ( Utility.getReportModuleHandle( ) == null
-				|| Utility.getReportModuleHandle( ).getResourceFolder( ) == null )
-		{
-			return null;
-		}
-		return new File( Utility.getReportModuleHandle( ).getResourceFolder( ) ).toURI( );
+		return new File( ReportPlugin.getDefault( ).getResourceFolder( ) ).toURI( );
 	}
 	
 	/**
@@ -459,5 +455,13 @@ public class DTPUtil
 			OdaDataSetHandle handle )
 	{
 		return modelOdaAdapter.getAmbiguousOption( design, handle );
+	}
+	
+	public ResourceIdentifiers createResourceIdentifiers( )
+	{
+		ResourceIdentifiers ri = new ResourceIdentifiers( );
+		ri.setDesignResourceBaseURI( getReportDesignPath() );
+		ri.setApplResourceBaseURI( getBIRTResourcePath() );
+		return ri;
 	}
 }

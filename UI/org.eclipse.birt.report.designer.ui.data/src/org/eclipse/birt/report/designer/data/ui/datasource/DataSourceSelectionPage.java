@@ -78,7 +78,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.19 $ $Date: 2008/08/06 07:11:10 $
+ * @version $Revision$ $Date$
  */
 public class DataSourceSelectionPage extends WizardPage
 {
@@ -397,10 +397,6 @@ public class DataSourceSelectionPage extends WizardPage
 					dataSourceDisplayName,
 					applURI,
 					designURI );
-		}
-		catch ( URISyntaxException e )
-		{
-			ExceptionHandler.handle( e );
 		}
 		catch ( OdaException e )
 		{

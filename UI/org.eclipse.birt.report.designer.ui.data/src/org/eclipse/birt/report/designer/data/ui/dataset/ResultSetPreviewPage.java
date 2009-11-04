@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
@@ -60,6 +61,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -452,6 +454,8 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 									new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) handle ),
 									handle );
 							DataRequestSession session = engineTask.getDataSession( );
+							session.getDataSessionContext( ).getAppContext( ).put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS, 
+									DTPUtil.getInstance( ).createResourceIdentifiers( ));
 
 							Map appContext = new HashMap( );
 							appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
@@ -472,11 +476,14 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 									( (DataSetEditor) getContainer( ) ).getHandle( )
 											.getModuleHandle( ) );
+							
 							DataRequestSession session = DataRequestSession.newSession( context );
 
 							Map appContext = new HashMap( );
 							appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
 									new Integer( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
+							appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS, 
+									DTPUtil.getInstance( ).createResourceIdentifiers( ));
 							if ( context.getAppContext( ) != null )
 							{
 								appContext.putAll( context.getAppContext( ) );

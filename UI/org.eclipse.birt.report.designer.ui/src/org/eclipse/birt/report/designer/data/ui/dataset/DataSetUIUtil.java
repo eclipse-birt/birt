@@ -195,6 +195,8 @@ public final class DataSetUIUtil
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
 		else if( modelDataType == DataType.BOOLEAN_TYPE )
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
+		else if( modelDataType == DataType.JAVA_OBJECT_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT;
 		
 		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
 	}
