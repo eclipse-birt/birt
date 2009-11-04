@@ -2000,14 +2000,14 @@ Structure.ColumnHint.helpTextID=帮助文本资源关键字
 Structure.ColumnHint.displayName=显示名称
 Structure.ColumnHint.displayNameID=显示名称资源关键字
 Structure.ColumnHint.onColumnLayout=在列布局上
-Structure.ColumnHint.heading=Heading
-Structure.ColumnHint.headingID=Heading Resource Key
-Structure.ColumnHint.displayLength=Display Length
-Structure.ColumnHint.horizontalAlign=Horizontal Alignment        
-Structure.ColumnHint.wordWrap=Word Wrap
-Structure.ColumnHint.textFormat=Text Format
-Structure.ColumnHint.description=描述
-Structure.ColumnHint.descriptionID=Description Resource Key	
+Structure.ColumnHint.heading=标题
+Structure.ColumnHint.headingID=标题资源关键字
+Structure.ColumnHint.displayLength=显示长度
+Structure.ColumnHint.horizontalAlign=水平对齐        
+Structure.ColumnHint.wordWrap=文字环绕
+Structure.ColumnHint.textFormat=文本格式
+Structure.ColumnHint.description=说明
+Structure.ColumnHint.descriptionID=说明资源关键字	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -2035,12 +2035,12 @@ Structure.DataSetParam.isOutput=为输出参数
 Structure.DataSetParam.nativeDataType=本地数据类型代码
 Structure.DataSetParam.displayName=显示名称
 Structure.DataSetParam.displayNameID=显示名称资源关键字
-Structure.DataSetParam.heading=Heading
-Structure.DataSetParam.headingID=Heading Resource Key
+Structure.DataSetParam.heading=标题
+Structure.DataSetParam.headingID=标题资源关键字
 Structure.DataSetParam.helpText=帮助文本
 Structure.DataSetParam.helpTextID=帮助文本资源关键字
-Structure.DataSetParam.description=描述
-Structure.DataSetParam.descriptionID=Description Resource Key
+Structure.DataSetParam.description=说明
+Structure.DataSetParam.descriptionID=说明资源关键字
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=名称
@@ -2139,12 +2139,12 @@ Structure.OdaDataSetParam.isInput=输入
 Structure.OdaDataSetParam.isOutput=输出
 Structure.OdaDataSetParam.displayName=显示名称
 Structure.OdaDataSetParam.displayNameID=显示名称资源关键字
-Structure.OdaDataSetParam.heading=Heading
-Structure.OdaDataSetParam.headingID=Heading Resource Key
+Structure.OdaDataSetParam.heading=标题
+Structure.OdaDataSetParam.headingID=标题资源关键字
 Structure.OdaDataSetParam.helpText=帮助文本
 Structure.OdaDataSetParam.helpTextID=帮助文本资源关键字
-Structure.OdaDataSetParam.description=描述
-Structure.OdaDataSetParam.descriptionID=Description Resource Key
+Structure.OdaDataSetParam.description=说明
+Structure.OdaDataSetParam.descriptionID=说明资源关键字
 
 #27. ScriptLib
 Structure.ScriptLib.name =脚本库名称
@@ -3697,8 +3697,8 @@ Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} 没有显式模板参数定义，因此不
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=该元素不能转换为模板。
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=元素“{0}”具有报表项共享，不能添加、删除或移动其组。
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=复制内容不允许粘贴到 {0} 的属性框 {1}，因为它无效。
-Error.ContentException.CONTENT_ALREADY_INSERTED=Element "{0}" is not allowed to be added into the ({2}) of "{1}", for it is already in the design tree.
-Error.ContentException.INVALID_POSITION=The position is out of range and invalid.
+Error.ContentException.CONTENT_ALREADY_INSERTED=不允许将元素“{0}”添加到“{1}”的 ({2})，因为它已经在设计树中。
+Error.ContentException.INVALID_POSITION=位置超出范围且无效。
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=必须提供转换的资源关键字。

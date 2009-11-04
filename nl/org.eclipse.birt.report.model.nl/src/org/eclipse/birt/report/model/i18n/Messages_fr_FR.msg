@@ -2000,14 +2000,14 @@ Structure.ColumnHint.helpTextID=Clé de ressource du texte d'aide
 Structure.ColumnHint.displayName=Nom d'affichage
 Structure.ColumnHint.displayNameID=Clé de ressource du nom d'affichage
 Structure.ColumnHint.onColumnLayout=Présentation de colonne activée
-Structure.ColumnHint.heading=Heading
-Structure.ColumnHint.headingID=Heading Resource Key
-Structure.ColumnHint.displayLength=Display Length
-Structure.ColumnHint.horizontalAlign=Horizontal Alignment        
-Structure.ColumnHint.wordWrap=Word Wrap
-Structure.ColumnHint.textFormat=Text Format
+Structure.ColumnHint.heading=Titre
+Structure.ColumnHint.headingID=Clé de ressource du titre
+Structure.ColumnHint.displayLength=Longueur d'affichage
+Structure.ColumnHint.horizontalAlign=Alignement horizontal        
+Structure.ColumnHint.wordWrap=Retour à la ligne
+Structure.ColumnHint.textFormat=Format du texte
 Structure.ColumnHint.description=Description
-Structure.ColumnHint.descriptionID=Description Resource Key	
+Structure.ColumnHint.descriptionID=Clé de ressource de la description	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection
@@ -2035,12 +2035,12 @@ Structure.DataSetParam.isOutput=Est un paramètre de sortie
 Structure.DataSetParam.nativeDataType=Code de type de données natives
 Structure.DataSetParam.displayName=Nom d'affichage
 Structure.DataSetParam.displayNameID=Clé de ressource du nom d'affichage
-Structure.DataSetParam.heading=Heading
-Structure.DataSetParam.headingID=Heading Resource Key
+Structure.DataSetParam.heading=Titre
+Structure.DataSetParam.headingID=Clé de ressource du titre
 Structure.DataSetParam.helpText=Texte d'aide
 Structure.DataSetParam.helpTextID=Clé de ressource du texte d'aide
 Structure.DataSetParam.description=Description
-Structure.DataSetParam.descriptionID=Description Resource Key
+Structure.DataSetParam.descriptionID=Clé de ressource de la description
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=Nom
@@ -2139,12 +2139,12 @@ Structure.OdaDataSetParam.isInput=Est une entrée
 Structure.OdaDataSetParam.isOutput=Est une sortie
 Structure.OdaDataSetParam.displayName=Nom d'affichage
 Structure.OdaDataSetParam.displayNameID=Clé de ressource du nom d'affichage
-Structure.OdaDataSetParam.heading=Heading
-Structure.OdaDataSetParam.headingID=Heading Resource Key
+Structure.OdaDataSetParam.heading=Titre
+Structure.OdaDataSetParam.headingID=Clé de ressource du titre
 Structure.OdaDataSetParam.helpText=Texte d'aide
 Structure.OdaDataSetParam.helpTextID=Clé de ressource du texte d'aide
 Structure.OdaDataSetParam.description=Description
-Structure.OdaDataSetParam.descriptionID=Description Resource Key
+Structure.OdaDataSetParam.descriptionID=Clé de ressource de la description
 
 #27. ScriptLib
 Structure.ScriptLib.name =Nom de la bibliothèque de scripts
@@ -3697,8 +3697,8 @@ Error.ContentException.INVALID_TEMPLATE_ELEMENT=L''élément {0} ne possède pas de
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=L'élément n'est pas autorisé à être transformé en modèle.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=L''élément "{0}" partage un élément d''état ; il est donc impossible d''ajouter, de supprimer ou de déplacer ses groupes.
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=Vous n'êtes pas autorisé à coller la copie à l'emplacement {1} du {0} car la copie n'est pas valide.
-Error.ContentException.CONTENT_ALREADY_INSERTED=Element "{0}" is not allowed to be added into the ({2}) of "{1}", for it is already in the design tree.
-Error.ContentException.INVALID_POSITION=The position is out of range and invalid.
+Error.ContentException.CONTENT_ALREADY_INSERTED=L'élément "{0}" ne peut pas être ajouté dans ({2}) de "{1}" car il se trouve déjà dans l'arborescence du modèle.
+Error.ContentException.INVALID_POSITION=La position est hors plage ou non valide.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=La clé de ressource de la conversion doit être fournie.

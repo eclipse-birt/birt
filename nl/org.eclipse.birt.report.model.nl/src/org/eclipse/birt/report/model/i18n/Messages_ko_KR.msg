@@ -2000,14 +2000,14 @@ Structure.ColumnHint.helpTextID=도움말 텍스트 리소스 키
 Structure.ColumnHint.displayName=표시 이름
 Structure.ColumnHint.displayNameID=표시 이름 리소스 키
 Structure.ColumnHint.onColumnLayout=열 레이아웃 시
-Structure.ColumnHint.heading=Heading
-Structure.ColumnHint.headingID=Heading Resource Key
-Structure.ColumnHint.displayLength=Display Length
-Structure.ColumnHint.horizontalAlign=Horizontal Alignment        
-Structure.ColumnHint.wordWrap=Word Wrap
-Structure.ColumnHint.textFormat=Text Format
+Structure.ColumnHint.heading=머리글
+Structure.ColumnHint.headingID=머리글 리소스 키
+Structure.ColumnHint.displayLength=표시 길이
+Structure.ColumnHint.horizontalAlign=수평 맞춤        
+Structure.ColumnHint.wordWrap=자동 줄 바꿈
+Structure.ColumnHint.textFormat=텍스트 형식
 Structure.ColumnHint.description=설명
-Structure.ColumnHint.descriptionID=Description Resource Key	
+Structure.ColumnHint.descriptionID=설명 리소스 키	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택
@@ -2035,12 +2035,12 @@ Structure.DataSetParam.isOutput=출력 매개 변수입니다.
 Structure.DataSetParam.nativeDataType=고유 데이터 형식 코드
 Structure.DataSetParam.displayName=표시 이름
 Structure.DataSetParam.displayNameID=표시 이름 리소스 키
-Structure.DataSetParam.heading=Heading
-Structure.DataSetParam.headingID=Heading Resource Key
+Structure.DataSetParam.heading=머리글
+Structure.DataSetParam.headingID=머리글 리소스 키
 Structure.DataSetParam.helpText=도움말 텍스트
 Structure.DataSetParam.helpTextID=도움말 텍스트 리소스 키
 Structure.DataSetParam.description=설명
-Structure.DataSetParam.descriptionID=Description Resource Key
+Structure.DataSetParam.descriptionID=설명 리소스 키
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=이름
@@ -2139,12 +2139,12 @@ Structure.OdaDataSetParam.isInput=입력 여부
 Structure.OdaDataSetParam.isOutput=출력 여부
 Structure.OdaDataSetParam.displayName=표시 이름
 Structure.OdaDataSetParam.displayNameID=표시 이름 리소스 키
-Structure.OdaDataSetParam.heading=Heading
-Structure.OdaDataSetParam.headingID=Heading Resource Key
+Structure.OdaDataSetParam.heading=머리글
+Structure.OdaDataSetParam.headingID=머리글 리소스 키
 Structure.OdaDataSetParam.helpText=도움말 텍스트
 Structure.OdaDataSetParam.helpTextID=도움말 텍스트 리소스 키
 Structure.OdaDataSetParam.description=설명
-Structure.OdaDataSetParam.descriptionID=Description Resource Key
+Structure.OdaDataSetParam.descriptionID=설명 리소스 키
 
 #27. ScriptLib
 Structure.ScriptLib.name =스크립트 Lib 이름
@@ -3697,8 +3697,8 @@ Error.ContentException.INVALID_TEMPLATE_ELEMENT={0}에 명시적인 템플릿 매개 변수 
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=요소를 템플릿으로 바꿀 수 없습니다.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=요소 "{0}"은(는) 보고서 항목을 공유하기 때문에 그룹을 추가, 제거, 또는 이동할 수 없습니다.
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=복사본이 잘못되어 {0}의 슬롯 {1}에 붙여 넣을 수 없습니다.
-Error.ContentException.CONTENT_ALREADY_INSERTED=Element "{0}" is not allowed to be added into the ({2}) of "{1}", for it is already in the design tree.
-Error.ContentException.INVALID_POSITION=The position is out of range and invalid.
+Error.ContentException.CONTENT_ALREADY_INSERTED="{0}" 요소가 이미 디자인 트리에 있으므로 "{1}"의 ({2})에 추가할 수 없습니다.
+Error.ContentException.INVALID_POSITION=위치가 범위를 벗어났으며 잘못되었습니다.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=변환 리소스 키를 제공해야 합니다.

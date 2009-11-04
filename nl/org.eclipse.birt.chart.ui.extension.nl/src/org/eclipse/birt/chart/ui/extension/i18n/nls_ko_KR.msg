@@ -745,7 +745,7 @@ TaskSelectData.Label.UseToGroupValueSeries=값 계열을 그룹화하는 데 사용
 
 TaskFormatChart.TaskExp=차트 형식 지정
 TaskFormatChart.Label.Preview=차트 미리 보기
-TaskFormatChart.LivePreviewTask.BindData=Retrieving and binding data for chart preview
+TaskFormatChart.LivePreviewTask.BindData=차트 미리 보기를 위한 데이트 검색 및 바인딩
 TaskFormatChart.Task.Description=텍스트, 그림자, 배경, 테두리에 대한 전체적인 형식을 지정하는 것 뿐만 아니라 계열 속성, 대화형 작업, 레이아웃을 정의하여 차트의 상세한 부분까지 조정합니다.
 
 CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=잘못된 열 인덱스 {0}이(가) 지정되었거나 열이 아직 정의되지 않았습니다\!
@@ -869,7 +869,7 @@ ChartSheetImpl.Label.Interactivity=차트 영역 대화형 작업
 ChartSheetImpl.Label.InteractivityEnable=차트 대화형 작업 사용(&E)
 ChartSheetImpl.Label.Text=텍스트(&X):
 ChartLegendSheetImpl.Label.LegendBehaviorType=동작(&O):
-ChartLivePreviewThread_Text.PleaseWaiting=, please waiting ... 
+ChartLivePreviewThread_Text.PleaseWaiting=, 잠시 기다려 주십시오... 
 SeriesSheetImpl.Label.Type=형식
 SeriesSheetImpl.Label.ZOrder=Z 순서
 LegendTextSheet.Label.Ellipsis=생략 부호(&E):

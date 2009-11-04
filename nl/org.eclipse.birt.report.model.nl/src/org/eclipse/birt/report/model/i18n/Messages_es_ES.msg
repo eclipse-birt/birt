@@ -2000,14 +2000,14 @@ Structure.ColumnHint.helpTextID=Clave de recursos del texto de ayuda
 Structure.ColumnHint.displayName=Nombre en pantalla
 Structure.ColumnHint.displayNameID=Mostrar clave de recursos del nombre
 Structure.ColumnHint.onColumnLayout=En diseño de columna
-Structure.ColumnHint.heading=Heading
-Structure.ColumnHint.headingID=Heading Resource Key
-Structure.ColumnHint.displayLength=Display Length
-Structure.ColumnHint.horizontalAlign=Horizontal Alignment        
-Structure.ColumnHint.wordWrap=Word Wrap
-Structure.ColumnHint.textFormat=Text Format
+Structure.ColumnHint.heading=Encabezado
+Structure.ColumnHint.headingID=Clave de recursos de encabezado
+Structure.ColumnHint.displayLength=Longitud de visualización
+Structure.ColumnHint.horizontalAlign=Alineación horizontal        
+Structure.ColumnHint.wordWrap=Autoajuste de palabras
+Structure.ColumnHint.textFormat=Formato de texto
 Structure.ColumnHint.description=Descripción
-Structure.ColumnHint.descriptionID=Description Resource Key	
+Structure.ColumnHint.descriptionID=Clave de recursos de descripción	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección
@@ -2035,12 +2035,12 @@ Structure.DataSetParam.isOutput=Es un parámetro de salida
 Structure.DataSetParam.nativeDataType=Código de tipo de datos nativo
 Structure.DataSetParam.displayName=Nombre en pantalla
 Structure.DataSetParam.displayNameID=Mostrar clave de recursos del nombre
-Structure.DataSetParam.heading=Heading
-Structure.DataSetParam.headingID=Heading Resource Key
+Structure.DataSetParam.heading=Encabezado
+Structure.DataSetParam.headingID=Clave de recursos de encabezado
 Structure.DataSetParam.helpText=Texto de ayuda
 Structure.DataSetParam.helpTextID=Clave de recursos del texto de ayuda
 Structure.DataSetParam.description=Descripción
-Structure.DataSetParam.descriptionID=Description Resource Key
+Structure.DataSetParam.descriptionID=Clave de recursos de descripción
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=Nombre
@@ -2139,12 +2139,12 @@ Structure.OdaDataSetParam.isInput=Es de entrada
 Structure.OdaDataSetParam.isOutput=Es de salida
 Structure.OdaDataSetParam.displayName=Nombre en pantalla
 Structure.OdaDataSetParam.displayNameID=Mostrar clave de recursos del nombre
-Structure.OdaDataSetParam.heading=Heading
-Structure.OdaDataSetParam.headingID=Heading Resource Key
+Structure.OdaDataSetParam.heading=Encabezado
+Structure.OdaDataSetParam.headingID=Clave de recursos de encabezado
 Structure.OdaDataSetParam.helpText=Texto de ayuda
 Structure.OdaDataSetParam.helpTextID=Clave de recursos del texto de ayuda
 Structure.OdaDataSetParam.description=Descripción
-Structure.OdaDataSetParam.descriptionID=Description Resource Key
+Structure.OdaDataSetParam.descriptionID=Clave de recursos de descripción
 
 #27. ScriptLib
 Structure.ScriptLib.name =Nombre de la librería de scripts
@@ -3697,8 +3697,8 @@ Error.ContentException.INVALID_TEMPLATE_ELEMENT=El valor {0} no tiene una defini
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=No se permite transformar el elemento a una plantilla.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=El elemento "{0}" tiene elementos de informe para compartir y no puede añadir, eliminar o mover sus grupos.
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=La copia no se puede pegar en el slot {1} de {0} porque no es válida.
-Error.ContentException.CONTENT_ALREADY_INSERTED=Element "{0}" is not allowed to be added into the ({2}) of "{1}", for it is already in the design tree.
-Error.ContentException.INVALID_POSITION=The position is out of range and invalid.
+Error.ContentException.CONTENT_ALREADY_INSERTED=No se permite añadir el elemento "{0}" al ({2}) de "{1}", ya está en el diseño de árbol.
+Error.ContentException.INVALID_POSITION=La posición está fuera de alcance y no es válida.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Hay que proporcionar la clave de recursos de conversión.

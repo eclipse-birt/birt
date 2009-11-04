@@ -745,7 +745,7 @@ TaskSelectData.Label.UseToGroupValueSeries=用来将值系列分组
 
 TaskFormatChart.TaskExp=图表格式
 TaskFormatChart.Label.Preview=图表预览
-TaskFormatChart.LivePreviewTask.BindData=Retrieving and binding data for chart preview
+TaskFormatChart.LivePreviewTask.BindData=正在检索和绑定数据以进行图表预览
 TaskFormatChart.Task.Description=通过定义系列的属性、交互和布局以及文本、阴影、背景和边框的常规格式，对图表进行微调。
 
 CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=指定的列索引 {0} 无效或尚未定义列\!
@@ -869,7 +869,7 @@ ChartSheetImpl.Label.Interactivity=图表区域交互
 ChartSheetImpl.Label.InteractivityEnable=启用图表交互(&E)
 ChartSheetImpl.Label.Text=文本(&X):
 ChartLegendSheetImpl.Label.LegendBehaviorType=行为(&O):
-ChartLivePreviewThread_Text.PleaseWaiting=, please waiting ... 
+ChartLivePreviewThread_Text.PleaseWaiting=，请稍候... 
 SeriesSheetImpl.Label.Type=类型
 SeriesSheetImpl.Label.ZOrder=Z 顺序
 LegendTextSheet.Label.Ellipsis=椭圆形(&E):
