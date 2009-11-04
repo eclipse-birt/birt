@@ -2675,7 +2675,7 @@ NewReportWizard.wizard.msgDirErr=Das Zielverzeichnis ist nicht vorhanden und kan
 NewResourceFileDialog.label.NewFile=&Neuer Dateiname:
 NewResourceFileDialog.ErrorMessage=Dateiname muss auf ".properties" enden.
 NewResourceFileDialog.ErrorMessageInvalid=Ungültiger Dateiname
-NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
+NewResourceFileDialog.FileExists={0} ist bereits vorhanden. Überschreiben?
 
 ###########################################################
 #ProjectFileDialog properties
@@ -4644,4 +4644,4 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Standardsyntax:
 
 ###########################################################
 #VariableDropAdapter
-VariableDropAdapter.TranasctionName=Create Date Item from Variable
+VariableDropAdapter.TranasctionName=Datumsobjekt aus Variablen erstellen

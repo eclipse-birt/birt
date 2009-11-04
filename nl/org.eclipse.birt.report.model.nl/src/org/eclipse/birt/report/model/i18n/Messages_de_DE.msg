@@ -2330,7 +2330,7 @@ Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart-Datenquelle
 Element.DataMartDataSet=Data Mart-Datensatz
 Element.DataMartCube=Data Mart-Cube
-Element.EventObject=Event Object
+Element.EventObject=Ereignisobjekt
 
 ###########################################################
 # Element property names
@@ -2472,7 +2472,7 @@ Element.DataSet.needsCache=Cache wird für Daten-Engine benötigt
 Element.DataSet.parameters=Datensatzparameter
 Element.DataSet.sortHints=Sortierungshinweise
 Element.DataSet.ACLExpression=Ausdruck 'ACL'
-Element.DataSet.RowACLExpression=Row ACL expression
+Element.DataSet.RowACLExpression=Zeilenausdruck 'ACL'
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Vor dem Öffnen
@@ -2575,7 +2575,7 @@ Element.Style.background=Hintergrund
 Element.Style.background.attachment=Hintergrundanlage
 Element.Style.background.color=Hintergrundfarbe
 Element.Style.background.image=Hindergrundbild
-Element.Style.background.imageType=Background image type
+Element.Style.background.imageType=Hintergrundbildtyp
 Element.Style.background.positionX=Horizontale Position
 Element.Style.background.positionY=Vertikale Position
 Element.Style.background.repeat=Hintergrundwiederholung
@@ -3205,7 +3205,7 @@ Element.Level.levelType=Ebenentyp
 Element.Level.staticValues=Statische Werte
 Element.Level.defaultValue=Standardwert
 Element.Level.ACLExpression=Ausdruck 'ACL'
-Element.Level.MemberACLExpression=Member ACL expression
+Element.Level.MemberACLExpression=Mitgliedsausdruck 'ACL'
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Funktion
@@ -3361,7 +3361,7 @@ Element.GadgetItem.zIndex=Z-Index
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=Ereignisname
-Element.EventSubscriber.eventObjects=Event objects
+Element.EventSubscriber.eventObjects=Ereignisobjekte
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=Quader
@@ -3402,7 +3402,7 @@ Element.DataMartCube.dataObject=Datenobjekt
 
 #82 EventObject (prefix Element.EventObject)
 Element.EventObject.gadget=Gadget
-Element.EventObject.appliedTo=AppliedTo
+Element.EventObject.appliedTo=AngewendetAuf
 
 ###########################################################
 # Predefined style

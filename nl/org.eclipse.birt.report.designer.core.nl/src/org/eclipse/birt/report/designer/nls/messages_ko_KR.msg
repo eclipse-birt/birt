@@ -2675,7 +2675,7 @@ NewReportWizard.wizard.msgDirErr=대상 디렉터리가 없지만 만들 수 없습니다.
 NewResourceFileDialog.label.NewFile=새 파일 이름(&N):
 NewResourceFileDialog.ErrorMessage=파일 이름은 .properties로 끝나야 합니다.
 NewResourceFileDialog.ErrorMessageInvalid=잘못된 파일 이름
-NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
+NewResourceFileDialog.FileExists={0}이(가) 있습니다. 덮어쓰시겠습니까?
 
 ###########################################################
 #ProjectFileDialog properties
@@ -4644,4 +4644,4 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문:
 
 ###########################################################
 #VariableDropAdapter
-VariableDropAdapter.TranasctionName=Create Date Item from Variable
+VariableDropAdapter.TranasctionName=변수에서 데이터 항목 생성

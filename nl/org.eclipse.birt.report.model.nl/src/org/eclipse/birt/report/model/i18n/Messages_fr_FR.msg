@@ -2330,7 +2330,7 @@ Element.DataMart=DataMart
 Element.DataMartDataSource=Source de données du DataMart
 Element.DataMartDataSet=Jeu de données du DataMart
 Element.DataMartCube=Cube du DataMart
-Element.EventObject=Event Object
+Element.EventObject=Objet de l'événement
 
 ###########################################################
 # Element property names
@@ -2472,7 +2472,7 @@ Element.DataSet.needsCache=Besoin d'un cache pour le moteur de données
 Element.DataSet.parameters=Paramètres du jeu de données
 Element.DataSet.sortHints=Tri par astuces
 Element.DataSet.ACLExpression=Expression ACL
-Element.DataSet.RowACLExpression=Row ACL expression
+Element.DataSet.RowACLExpression=Expression ACL de la ligne
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Avant l'ouverture
@@ -2575,7 +2575,7 @@ Element.Style.background=Arrière-plan
 Element.Style.background.attachment=Pièce jointe d'arrière-plan
 Element.Style.background.color=Couleur d'arrière-plan
 Element.Style.background.image=Image d'arrière-plan
-Element.Style.background.imageType=Background image type
+Element.Style.background.imageType=Type d'image d'arrière-plan
 Element.Style.background.positionX=Position horizontale
 Element.Style.background.positionY=Position verticale
 Element.Style.background.repeat=Répétition de l'arrière-plan
@@ -3205,7 +3205,7 @@ Element.Level.levelType=Type de niveau
 Element.Level.staticValues=Valeurs statiques
 Element.Level.defaultValue=Valeur par défaut
 Element.Level.ACLExpression=Expression ACL
-Element.Level.MemberACLExpression=Member ACL expression
+Element.Level.MemberACLExpression=Expression ACL du membre
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Fonction
@@ -3361,7 +3361,7 @@ Element.GadgetItem.zIndex=Index Z
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=Nom de l'événement
-Element.EventSubscriber.eventObjects=Event objects
+Element.EventSubscriber.eventObjects=Objets de l'événement
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=Cube

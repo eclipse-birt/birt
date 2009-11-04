@@ -2330,7 +2330,7 @@ Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart 数据源
 Element.DataMartDataSet=Data Mart 数据集
 Element.DataMartCube=Data Mart 多维数据集
-Element.EventObject=Event Object
+Element.EventObject=事件对象
 
 ###########################################################
 # Element property names
@@ -2472,7 +2472,7 @@ Element.DataSet.needsCache=需要数据引擎缓存
 Element.DataSet.parameters=数据集参数
 Element.DataSet.sortHints=排序提示
 Element.DataSet.ACLExpression=ACL 表达式
-Element.DataSet.RowACLExpression=Row ACL expression
+Element.DataSet.RowACLExpression=行 ACL 表达式
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=打开前
@@ -2575,7 +2575,7 @@ Element.Style.background=背景
 Element.Style.background.attachment=背景附件
 Element.Style.background.color=背景色
 Element.Style.background.image=背景图像
-Element.Style.background.imageType=Background image type
+Element.Style.background.imageType=背景图像类型
 Element.Style.background.positionX=水平位置
 Element.Style.background.positionY=垂直位置
 Element.Style.background.repeat=背景重复
@@ -3205,7 +3205,7 @@ Element.Level.levelType=级别类型
 Element.Level.staticValues=静态值
 Element.Level.defaultValue=默认值
 Element.Level.ACLExpression=ACL 表达式
-Element.Level.MemberACLExpression=Member ACL expression
+Element.Level.MemberACLExpression=成员 ACL 表达式
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数
@@ -3361,7 +3361,7 @@ Element.GadgetItem.zIndex=Z 索引
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=事件名称
-Element.EventSubscriber.eventObjects=Event objects
+Element.EventSubscriber.eventObjects=事件对象
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=多维数据集
@@ -3401,7 +3401,7 @@ Element.DataMartCube.dataSource=数据源
 Element.DataMartCube.dataObject=数据对象
 
 #82 EventObject (prefix Element.EventObject)
-Element.EventObject.gadget=Gadget
+Element.EventObject.gadget=小工具
 Element.EventObject.appliedTo=AppliedTo
 
 ###########################################################

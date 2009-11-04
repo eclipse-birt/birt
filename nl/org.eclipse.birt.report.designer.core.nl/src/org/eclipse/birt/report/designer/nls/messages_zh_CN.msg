@@ -2675,7 +2675,7 @@ NewReportWizard.wizard.msgDirErr=目标目录不存在，但无法创建。
 NewResourceFileDialog.label.NewFile=新文件名称(&N):
 NewResourceFileDialog.ErrorMessage=文件名必须以 .properties 结尾
 NewResourceFileDialog.ErrorMessageInvalid=文件名无效
-NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
+NewResourceFileDialog.FileExists={0} 存在。 是否要覆盖?
 
 ###########################################################
 #ProjectFileDialog properties
@@ -4644,4 +4644,4 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法:
 
 ###########################################################
 #VariableDropAdapter
-VariableDropAdapter.TranasctionName=Create Date Item from Variable
+VariableDropAdapter.TranasctionName=使用变量创建数据项

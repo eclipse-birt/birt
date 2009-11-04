@@ -2330,7 +2330,7 @@ Element.DataMart=Data Mart
 Element.DataMartDataSource=Fuente de datos de Data Mart
 Element.DataMartDataSet=Conjunto de datos de Data Mart
 Element.DataMartCube=Cubo de Data Mart
-Element.EventObject=Event Object
+Element.EventObject=Objeto de evento
 
 ###########################################################
 # Element property names
@@ -2472,7 +2472,7 @@ Element.DataSet.needsCache=Caché necesario para el motor de datos
 Element.DataSet.parameters=Parámetros de conjunto de datos
 Element.DataSet.sortHints=Sugerencias de orden
 Element.DataSet.ACLExpression=Expresión ACL
-Element.DataSet.RowACLExpression=Row ACL expression
+Element.DataSet.RowACLExpression=Expresión ACL de fila
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Antes de abrir
@@ -2575,7 +2575,7 @@ Element.Style.background=Fondo
 Element.Style.background.attachment=Fondo adjunto
 Element.Style.background.color=Color de fondo
 Element.Style.background.image=Imagen de fondo
-Element.Style.background.imageType=Background image type
+Element.Style.background.imageType=Tipo de imagen de fondo
 Element.Style.background.positionX=Posición horizontal
 Element.Style.background.positionY=Posición vertical
 Element.Style.background.repeat=Repetición de fondo
@@ -3205,7 +3205,7 @@ Element.Level.levelType=Tipo de nivel
 Element.Level.staticValues=Valores estadísticos
 Element.Level.defaultValue=Valor predeterminado
 Element.Level.ACLExpression=Expresión ACL
-Element.Level.MemberACLExpression=Member ACL expression
+Element.Level.MemberACLExpression=Expresión ACL de miembro
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Función
@@ -3361,7 +3361,7 @@ Element.GadgetItem.zIndex=Índice Z
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=Nombre de evento
-Element.EventSubscriber.eventObjects=Event objects
+Element.EventSubscriber.eventObjects=Objetos de evento
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=Cubo
@@ -3402,7 +3402,7 @@ Element.DataMartCube.dataObject=Objeto de datos
 
 #82 EventObject (prefix Element.EventObject)
 Element.EventObject.gadget=Gadget
-Element.EventObject.appliedTo=AppliedTo
+Element.EventObject.appliedTo=Aplicadoa
 
 ###########################################################
 # Predefined style

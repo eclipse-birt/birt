@@ -2675,7 +2675,7 @@ NewReportWizard.wizard.msgDirErr=ƒ^[ƒQƒbƒgƒfƒBƒŒƒNƒgƒŠ‚Í‘¶İ‚µ‚Ä‚¢‚Ü‚¹‚ñ‚ªAV‚
 NewResourceFileDialog.label.NewFile=V‹Kƒtƒ@ƒCƒ‹–¼(&N) :
 NewResourceFileDialog.ErrorMessage=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚Í .properties ‚É‚µ‚Ä‚­‚¾‚³‚¢B
 NewResourceFileDialog.ErrorMessageInvalid=ƒtƒ@ƒCƒ‹–¼‚ª–³Œø‚Å‚·B
-NewResourceFileDialog.FileExists={0} exists. Do you wish to overwrite?
+NewResourceFileDialog.FileExists={0} ƒtƒ@ƒCƒ‹‚ ‚è‚Ü‚·B ã‘‚«‚µ‚Ü‚·‚© ?
 
 ###########################################################
 #ProjectFileDialog properties
@@ -4644,4 +4644,4 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=ƒfƒtƒHƒ‹ƒg‚Ì\•¶ :
 
 ###########################################################
 #VariableDropAdapter
-VariableDropAdapter.TranasctionName=Create Date Item from Variable
+VariableDropAdapter.TranasctionName=•Ï”‚©‚ç“ú•t€–Ú‚ğì¬

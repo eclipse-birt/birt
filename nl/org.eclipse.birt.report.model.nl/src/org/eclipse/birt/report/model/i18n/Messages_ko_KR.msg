@@ -2330,7 +2330,7 @@ Element.DataMart=데이터 마트
 Element.DataMartDataSource=Data Mart 데이터 원본
 Element.DataMartDataSet=Data Mart 데이터 집합
 Element.DataMartCube=Data Mart 큐브
-Element.EventObject=Event Object
+Element.EventObject=이벤트 개체
 
 ###########################################################
 # Element property names
@@ -2472,7 +2472,7 @@ Element.DataSet.needsCache=데이터 엔진용 캐시가 필요합니다.
 Element.DataSet.parameters=데이터 집합 매개 변수
 Element.DataSet.sortHints=힌트 정렬
 Element.DataSet.ACLExpression=ACL 식
-Element.DataSet.RowACLExpression=Row ACL expression
+Element.DataSet.RowACLExpression=행 ACL 식
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=열기 이전
@@ -2575,7 +2575,7 @@ Element.Style.background=배경
 Element.Style.background.attachment=배경 첨부
 Element.Style.background.color=배경색
 Element.Style.background.image=배경 이미지
-Element.Style.background.imageType=Background image type
+Element.Style.background.imageType=배경 이미지 형식
 Element.Style.background.positionX=가로 위치
 Element.Style.background.positionY=세로 위치
 Element.Style.background.repeat=배경 반복
@@ -3205,7 +3205,7 @@ Element.Level.levelType=수준 형식
 Element.Level.staticValues=정적 값
 Element.Level.defaultValue=기본값
 Element.Level.ACLExpression=ACL 식
-Element.Level.MemberACLExpression=Member ACL expression
+Element.Level.MemberACLExpression=구성원 ACL 식
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
@@ -3361,7 +3361,7 @@ Element.GadgetItem.zIndex=Z 인덱스
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=이벤트 이름
-Element.EventSubscriber.eventObjects=Event objects
+Element.EventSubscriber.eventObjects=이벤트 개체
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=큐브
@@ -3401,7 +3401,7 @@ Element.DataMartCube.dataSource=데이터 원본
 Element.DataMartCube.dataObject=데이터 개체
 
 #82 EventObject (prefix Element.EventObject)
-Element.EventObject.gadget=Gadget
+Element.EventObject.gadget=가젯
 Element.EventObject.appliedTo=AppliedTo
 
 ###########################################################

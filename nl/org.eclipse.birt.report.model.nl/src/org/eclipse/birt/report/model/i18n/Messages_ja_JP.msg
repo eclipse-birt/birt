@@ -2330,7 +2330,7 @@ Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart データソース
 Element.DataMartDataSet=Data Mart データセット
 Element.DataMartCube=Data Mart キューブ
-Element.EventObject=Event Object
+Element.EventObject=イベントオブジェクト
 
 ###########################################################
 # Element property names
@@ -2472,7 +2472,7 @@ Element.DataSet.needsCache=データエンジン用のキャッシュが必要です。
 Element.DataSet.parameters=データセットのパラメタ
 Element.DataSet.sortHints=ソートのヒント
 Element.DataSet.ACLExpression=ACL 式
-Element.DataSet.RowACLExpression=Row ACL expression
+Element.DataSet.RowACLExpression=行の ACL 式
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=開く前
@@ -2575,7 +2575,7 @@ Element.Style.background=背景
 Element.Style.background.attachment=背景の添付
 Element.Style.background.color=背景色
 Element.Style.background.image=背景イメージ
-Element.Style.background.imageType=Background image type
+Element.Style.background.imageType=背景イメージの種類
 Element.Style.background.positionX=左右の位置
 Element.Style.background.positionY=上下の位置
 Element.Style.background.repeat=背景を繰り返す
@@ -3205,7 +3205,7 @@ Element.Level.levelType=レベルの型
 Element.Level.staticValues=静的な値
 Element.Level.defaultValue=デフォルト値
 Element.Level.ACLExpression=ACL 式
-Element.Level.MemberACLExpression=Member ACL expression
+Element.Level.MemberACLExpression=メンバの ACL 式
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
@@ -3361,7 +3361,7 @@ Element.GadgetItem.zIndex=重ね順
 
 #73 EventSubscriber ( prefix  Element.EventSubscriber )
 Element.EventSubscriber.eventName=イベント名
-Element.EventSubscriber.eventObjects=Event objects
+Element.EventSubscriber.eventObjects=イベントオブジェクト
 
 #74 GadgetContent ( prefix  Element.GadgetContent )
 Element.GadgetContent.cube=キューブ
@@ -3401,8 +3401,8 @@ Element.DataMartCube.dataSource=データソース
 Element.DataMartCube.dataObject=データオブジェクト
 
 #82 EventObject (prefix Element.EventObject)
-Element.EventObject.gadget=Gadget
-Element.EventObject.appliedTo=AppliedTo
+Element.EventObject.gadget=ガジェット
+Element.EventObject.appliedTo=適用先
 
 ###########################################################
 # Predefined style
