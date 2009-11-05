@@ -438,9 +438,10 @@ public class CrosstabUtil implements ICrosstabConstants
 					{
 						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
 
-						binding.addArgument( modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
-								.getValue( ),
-								ExpressionLocation.CUBE ) );
+						binding.addArgument( aah.getName( ),
+								modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+										.getValue( ),
+										ExpressionLocation.CUBE ) );
 					}
 
 					List aggrList = column.getAggregateOnList( );

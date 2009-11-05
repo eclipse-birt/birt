@@ -227,9 +227,10 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 							AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
 							if ( aah.getValue( ) != null )
 							{
-								binding.addArgument( modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
-										.getValue( ),
-										ExpressionLocation.CUBE ) );
+								binding.addArgument( aah.getName( ),
+										modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+												.getValue( ),
+												ExpressionLocation.CUBE ) );
 							}
 						}
 
