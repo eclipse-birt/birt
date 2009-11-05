@@ -146,6 +146,8 @@ BirtChartMenuHelper.createPopupMenu = function(evt, menuInfo) {
 	var bcm = new BirtChartMenu(menuInfo);
 	this.menu = bcm;
 
+	menuInfo.evt = evt;
+	
 	// Add menu to document.
 	var htmlBody = document.getElementsByTagName('body')[0];
 	htmlBody.oncontextmenu = bcm.hide;
@@ -244,14 +246,14 @@ BirtChartMenuHelper.executeMenuAction = function(evt, itemInfo, menuInfo) {
 			var f = BirtChartMenuHelper.callScripts;
 			eval(f(scripts, evt, menuInfo.categoryData, menuInfo.valueData,
 					menuInfo.valueSeriesName, menuInfo.legendItemText,
-					menuInfo.legendItemValue, menuInfo.axisLabel));
+					menuInfo.legendItemValue, menuInfo.axisLabel, menuInfo));
 		}
 		break;
 	}
 };
 
 BirtChartMenuHelper.callScripts = function(scripts, evt, categoryData,
-		valueData, valueSeriesName, legendItemText, legendItemValue, axisLabel) {
+		valueData, valueSeriesName, legendItemText, legendItemValue, axisLabel, menuInfo) {
 	eval(scripts);
 };
 
