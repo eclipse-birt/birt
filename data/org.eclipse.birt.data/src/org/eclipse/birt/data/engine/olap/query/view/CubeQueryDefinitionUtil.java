@@ -783,14 +783,27 @@ public class CubeQueryDefinitionUtil
 			{
 				ISortDefinition sortDfn = ( (ISortDefinition) query.getSorts( )
 						.get( i ) );
-				String expr = sortDfn.getExpression( ).getText( );
-			
-				DimLevel info = getDimLevel( expr, query.getBindings( ) );
-
-				if ( level.equals( info ) )
+				DimLevel info = null;
+				if( sortDfn.getExpression( ) == null )
 				{
-					return sortDfn.getSortDirection( );
+					String colName = sortDfn.getColumn( );
+					info = getDimLevelByBindingName( colName, query.getBindings( ) );
+					if ( level.equals( info ) )
+					{
+						return sortDfn.getSortDirection( );
+					}
 				}
+				else
+				{
+					String expr = null;
+					expr = sortDfn.getExpression( ).getText( );
+					info = getDimLevel( expr, query.getBindings( ) );
+
+					if ( level.equals( info ) )
+					{
+						return sortDfn.getSortDirection( );
+					}
+				}	
 			}
 		}
 		return IDimensionSortDefn.SORT_UNDEFINED;
@@ -806,6 +819,17 @@ public class CubeQueryDefinitionUtil
 	private static DimLevel getDimLevel( String expr, List bindings ) throws DataException
 	{
 		String bindingName = OlapExpressionUtil.getBindingName( expr );
+		DimLevel dimLevel = getDimLevelByBindingName( bindingName, bindings );
+		if( dimLevel != null )
+			return null;
+		if ( OlapExpressionUtil.isReferenceToDimLevel( expr ) == false )
+			return null;
+		else 
+			return OlapExpressionUtil.getTargetDimLevel( expr );
+	}
+
+	private static DimLevel getDimLevelByBindingName( String bindingName, List bindings ) throws DataException
+	{
 		if( bindingName != null )
 		{
 			for( int j = 0; j < bindings.size( ); j++ )
@@ -819,10 +843,7 @@ public class CubeQueryDefinitionUtil
 				}
 			}
 		}
-		if ( OlapExpressionUtil.isReferenceToDimLevel( expr ) == false )
-			return null;
-		else 
-			return OlapExpressionUtil.getTargetDimLevel( expr );
+		return null;
 	}
 	
 	/**

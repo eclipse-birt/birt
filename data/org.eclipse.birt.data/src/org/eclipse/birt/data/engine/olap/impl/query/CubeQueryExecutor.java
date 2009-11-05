@@ -311,7 +311,7 @@ public class CubeQueryExecutor
 		for ( int i = 0; i < l.size( ); i++ )
 		{
 			ICubeSortDefinition sort = (ICubeSortDefinition) l.get( i );
-			if ( this.defn.getEdge( edgeType ) != null &&
+			if ( this.defn.getEdge( edgeType ) != null && sort.getTargetLevel( ) != null &&
 					this.defn.getEdge( edgeType )
 							.getDimensions( )
 							.contains( sort.getTargetLevel( )
