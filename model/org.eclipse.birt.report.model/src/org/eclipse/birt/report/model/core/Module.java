@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
@@ -658,6 +659,32 @@ public abstract class Module extends DesignElement
 			for ( int pos = 0; pos < slot.getCount( ); pos++ )
 			{
 				DesignElement innerElement = slot.getContent( pos );
+				buildNameSpaceAndIDMap( module, innerElement );
+			}
+		}
+
+		// handle container properties
+		List<IElementPropertyDefn> properties = defn.getContents( );
+		for ( int i = 0; i < properties.size( ); i++ )
+		{
+			IElementPropertyDefn propDefn = properties.get( i );
+			if ( propDefn.isList( ) )
+			{
+				List<DesignElement> innerElements = (List<DesignElement>) module
+						.getProperty( module, (ElementPropertyDefn) propDefn );
+				if ( innerElements != null && !innerElements.isEmpty( ) )
+				{
+					for ( int j = 0; j < innerElements.size( ); j++ )
+					{
+						DesignElement innerElement = innerElements.get( j );
+						buildNameSpaceAndIDMap( module, innerElement );
+					}
+				}
+			}
+			else
+			{
+				DesignElement innerElement = (DesignElement) module
+						.getProperty( module, (ElementPropertyDefn) propDefn );
 				buildNameSpaceAndIDMap( module, innerElement );
 			}
 		}
