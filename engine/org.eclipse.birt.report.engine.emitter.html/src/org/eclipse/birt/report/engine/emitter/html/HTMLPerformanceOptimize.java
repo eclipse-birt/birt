@@ -451,7 +451,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		else if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
 				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
 		{
-			styleBuffer.append( "display: inline-block;" ); //$NON-NLS-1$
+			styleBuffer.append( "display: inline-block !important; {display: inline; margin: 2px; zoom:1}" ); //$NON-NLS-1$
 		}
 
 		IStyle style = getElementStyle( container );
