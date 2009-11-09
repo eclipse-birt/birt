@@ -630,26 +630,42 @@
 	</target>
 	
 	<target name="buildBirtNLFeature">
+		
 		<property name="NLtmpsite" value="${buildDirectory}/NLtmpsite"/>
+		
         <echo message="BIRT nl feature build started"/>
         <ant antfile="build.xml" dir="${basedir}">
-                <property name="component" value="${eclipse.build.configs}/birt.nl" />
-        </ant>
+        	<property name="component" value="${eclipse.build.configs}/birt.nl" />
+        	<property name="fetchTag" value="HEAD" />
+        	<property name="forceContextQualifier" value="${buildId}"/>
+    		<property name="generateFeatureVersionSuffix" value="false"/>
+        </ant>		
         <echo message="BIRT nl feature build finished"/>
-		<echo message="BIRT rcp nl feature build started"/>
-		        <ant antfile="build.xml" dir="${basedir}">
-		                <property name="component" value="${eclipse.build.configs}/birt.rcp.nl" />
-		        </ant>
-		        <echo message="BIRT nl1 feature build finished"/>
-		<echo message="BIRT rcp nl feature build finished"/>
+		
+		<echo message="BIRT RCP nl feature build started"/>
+		<ant antfile="build.xml" dir="${basedir}">
+			<property name="component" value="${eclipse.build.configs}/birt.rcp.nl" />
+        	<property name="fetchTag" value="HEAD" />
+        	<property name="forceContextQualifier" value="${buildId}"/>
+    		<property name="generateFeatureVersionSuffix" value="false"/>
+		</ant>
+		<echo message="BIRT RCP feature build finished"/>
+		
         <echo message="BIRT-DTP nl feature build started"/>
         <ant antfile="build.xml" dir="${basedir}">
-                <property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
+        	<property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
+        	<property name="fetchTag" value="HEAD" />
+        	<property name="forceContextQualifier" value="${buildId}"/>
+    		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
         <echo message="BIRT-DTP nl feature build finished"/>
+		
         <echo message="BIRT-DTP sybase nl feature build started"/>
         <ant antfile="build.xml" dir="${basedir}">
-                <property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
+        	<property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
+        	<property name="fetchTag" value="HEAD" />
+        	<property name="forceContextQualifier" value="${buildId}"/>
+    		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
         <echo message="BIRT-DTP sybase nl feature build finished"/>
 		
