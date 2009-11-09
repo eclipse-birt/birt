@@ -159,11 +159,37 @@ public abstract class HTMLEmitter
 			{
 				//To solve the problem that IE do not support min-height.
 				//Use this way to make Firefox and IE both work well.
-				content.append( " height: auto !important; height: " );
-				content.append( value.toString( ) );
-				content.append( "; min-height: " );
-				content.append( value.toString( ) );
-				content.append( ';' );
+				if ( fixedReport )
+				{
+					content.append( " height: " );
+					content.append( value.toString( ) );
+					content.append( ';' );
+				}
+				else
+				{
+					content.append( " height: auto !important; height: " );
+					content.append( value.toString( ) );
+					content.append( "; min-height: " );
+					content.append( value.toString( ) );
+					content.append( ';' );
+				}
+			}
+			else if ( HTMLTags.ATTR_MIN_WIDTH.equals( name ) )
+			{
+				if ( fixedReport )
+				{
+					content.append( " width: " );
+					content.append( value.toString( ) );
+					content.append( ';' );
+				}
+				else
+				{
+					content.append( " width: auto !important; width: " );
+					content.append( value.toString( ) );
+					content.append( "; min-width: " );
+					content.append( value.toString( ) );
+					content.append( ';' );
+				}
 			}
 			else
 			{
@@ -691,7 +717,7 @@ public abstract class HTMLEmitter
 			}
 			else if ( ( flag & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 )
 			{
-				styleBuffer.append( "display: inline-block;" ); //$NON-NLS-1$
+				styleBuffer.append( "display: inline-block !important; display: inline; margin: 2px; zoom:1" ); //$NON-NLS-1$
 			}
 			else if ( ( flag & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
 			{
