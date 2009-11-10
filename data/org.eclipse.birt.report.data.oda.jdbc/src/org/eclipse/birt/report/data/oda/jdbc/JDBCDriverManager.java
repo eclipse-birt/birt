@@ -220,7 +220,15 @@ public class JDBCDriverManager
             String jndiNameUrl,
             Properties connectionProperties, Collection<String> driverClassPath ) throws SQLException, OdaException
     {
-		assert ( url != null );
+		// JNDI should take priority when getting connection.If JNDI Data Source
+		// URL is defined, try use name service to get connection
+		Connection jndiDSConnection = getJndiDSConnection( driverClass,
+				jndiNameUrl,
+				connectionProperties );
+
+		if ( jndiDSConnection != null ) // successful
+			return jndiDSConnection; // done
+		
 		IConnectionFactory factory = getDriverConnectionFactory (driverClass);
 		if ( factory != null )
 		{
@@ -231,15 +239,7 @@ public class JDBCDriverManager
 			return factory.getConnection( driverClass, url, connectionProperties );
 		}
         
-        // no driverinfo extension for driverClass connectionFactory
-        
-        // if JNDI Data Source URL is defined, try use name service to get connection
-        Connection jndiDSConnection = 
-            getJndiDSConnection( driverClass, jndiNameUrl, connectionProperties );
-        
-        if ( jndiDSConnection != null )      // successful
-            return jndiDSConnection;         // done
-       
+        // no driverinfo extension for driverClass connectionFactory       
         // no JNDI Data Source URL defined, or 
         // not able to get a JNDI data source connection, 
         // use the JDBC DriverManager instead to get a JDBC connection
