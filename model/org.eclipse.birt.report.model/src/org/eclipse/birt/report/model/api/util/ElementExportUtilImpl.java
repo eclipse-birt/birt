@@ -14,6 +14,7 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -584,8 +585,8 @@ public class ElementExportUtilImpl
 	 *         name as the exported element and its content elements, otherwise
 	 *         return <false>.
 	 */
-	private static boolean checkExportElementByContext(
-			DesignElementHandle handle, LibraryHandle targetLibraryHandle,
+	protected final static boolean checkExportElementByContext(
+			DesignElementHandle handle, ModuleHandle targetLibraryHandle,
 			boolean canOverride )
 	{
 		if ( !checkExportableElementByContext( handle.getElement( ),
@@ -619,7 +620,7 @@ public class ElementExportUtilImpl
 	 *         return <false>.
 	 */
 	private static boolean checkExportableElementByContext(
-			DesignElement element, LibraryHandle targetLibraryHandle,
+			DesignElement element, ModuleHandle targetLibraryHandle,
 			boolean canOverride )
 	{
 		String name = element.getName( );
