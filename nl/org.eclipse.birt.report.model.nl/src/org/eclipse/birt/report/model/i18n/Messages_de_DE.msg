@@ -1973,7 +1973,6 @@ Structure.ResultSetColumn.position=Position
 Structure.ResultSetColumn.name=Name
 Structure.ResultSetColumn.dataType=Datentyp
 Structure.ResultSetColumn.nativeDataType=Programmeigener Datentypcode
-Structure.ResultSetColumn.ACLExpression=Ausdruck 'ACL'
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Spaltenname
@@ -1985,7 +1984,6 @@ Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"
 Structure.ComputedColumn.aggregateFunction=AggregateOn-Funktion
 Structure.ComputedColumn.arguments=AggregateOn-Funktionsargumente
 Structure.ComputedColumn.filterExpr=Filterausdruck
-Structure.ComputedColumn.ACLExpression=Ausdruck 'ACL'
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Spaltenname
@@ -2007,7 +2005,9 @@ Structure.ColumnHint.horizontalAlign=Horizontale Ausrichtung
 Structure.ColumnHint.wordWrap=Zeilenumbruch
 Structure.ColumnHint.textFormat=Textformat
 Structure.ColumnHint.description=Beschreibung
-Structure.ColumnHint.descriptionID=Beschreibungs-Ressourcenschlüssel	
+Structure.ColumnHint.descriptionID=Beschreibungs-Ressourcenschlüssel
+Structure.ColumnHint.action=Aktion
+Structure.ColumnHint.ACLExpression=ACL expression	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Auswahl
@@ -2122,7 +2122,6 @@ Structure.OdaResultSetColumn.name=Name
 Structure.OdaResultSetColumn.nativeName=Programmeigener Name
 Structure.OdaResultSetColumn.dataType=Datentyp
 Structure.OdaResultSetColumn.nativeDataType=Programmeigener Datentypcode
-Structure.OdaResultSetColumn.ACLExpression=Ausdruck 'ACL'
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
@@ -3395,6 +3394,7 @@ Element.DataMartDataSource.paramBindings=Parameterbindungen
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Datenquelle
 Element.DataMartDataSet.dataObject=Datenobjekt
+Element.DataMartDataSet.isVisible=Visible
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=Datenquelle

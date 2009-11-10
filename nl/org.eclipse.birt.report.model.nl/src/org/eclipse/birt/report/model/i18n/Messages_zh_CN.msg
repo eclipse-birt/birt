@@ -1973,7 +1973,6 @@ Structure.ResultSetColumn.position=位置
 Structure.ResultSetColumn.name=名称
 Structure.ResultSetColumn.dataType=数据类型
 Structure.ResultSetColumn.nativeDataType=本地数据类型代码
-Structure.ResultSetColumn.ACLExpression=ACL 表达式
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
@@ -1985,7 +1984,6 @@ Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
 Structure.ComputedColumn.aggregateFunction=AggregateOn 函数
 Structure.ComputedColumn.arguments=AggregateOn 函数参数
 Structure.ComputedColumn.filterExpr=筛选表达式
-Structure.ComputedColumn.ACLExpression=ACL 表达式
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -2007,7 +2005,9 @@ Structure.ColumnHint.horizontalAlign=水平对齐
 Structure.ColumnHint.wordWrap=文字环绕
 Structure.ColumnHint.textFormat=文本格式
 Structure.ColumnHint.description=说明
-Structure.ColumnHint.descriptionID=说明资源关键字	
+Structure.ColumnHint.descriptionID=说明资源关键字
+Structure.ColumnHint.action=操作
+Structure.ColumnHint.ACLExpression=ACL expression	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -2122,7 +2122,6 @@ Structure.OdaResultSetColumn.name=名称
 Structure.OdaResultSetColumn.nativeName=本地名称
 Structure.OdaResultSetColumn.dataType=数据类型
 Structure.OdaResultSetColumn.nativeDataType=本地数据类型代码
-Structure.OdaResultSetColumn.ACLExpression=ACL 表达式
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
@@ -3395,6 +3394,7 @@ Element.DataMartDataSource.paramBindings=参数绑定
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=数据源
 Element.DataMartDataSet.dataObject=数据对象
+Element.DataMartDataSet.isVisible=Visible
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=数据源

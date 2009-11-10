@@ -1973,7 +1973,6 @@ Structure.ResultSetColumn.position=위치
 Structure.ResultSetColumn.name=이름
 Structure.ResultSetColumn.dataType=데이터 형식
 Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
-Structure.ResultSetColumn.ACLExpression=ACL 식
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=열 이름
@@ -1985,7 +1984,6 @@ Structure.ComputedColumn.aggregateOn=AggregateOn 식
 Structure.ComputedColumn.aggregateFunction=AggregateOn 함수
 Structure.ComputedColumn.arguments=AggregateOn 함수 인수
 Structure.ComputedColumn.filterExpr=필터 식
-Structure.ComputedColumn.ACLExpression=ACL 식
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=열 이름
@@ -2007,7 +2005,9 @@ Structure.ColumnHint.horizontalAlign=수평 맞춤
 Structure.ColumnHint.wordWrap=자동 줄 바꿈
 Structure.ColumnHint.textFormat=텍스트 형식
 Structure.ColumnHint.description=설명
-Structure.ColumnHint.descriptionID=설명 리소스 키	
+Structure.ColumnHint.descriptionID=설명 리소스 키
+Structure.ColumnHint.action=작업
+Structure.ColumnHint.ACLExpression=ACL expression	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택
@@ -2122,7 +2122,6 @@ Structure.OdaResultSetColumn.name=이름
 Structure.OdaResultSetColumn.nativeName=고유 이름
 Structure.OdaResultSetColumn.dataType=데이터 형식
 Structure.OdaResultSetColumn.nativeDataType=고유 데이터 형식 코드
-Structure.OdaResultSetColumn.ACLExpression=ACL 식
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
@@ -3395,6 +3394,7 @@ Element.DataMartDataSource.paramBindings=매개 변수 바인딩
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=데이터 원본
 Element.DataMartDataSet.dataObject=데이터 개체
+Element.DataMartDataSet.isVisible=Visible
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=데이터 원본

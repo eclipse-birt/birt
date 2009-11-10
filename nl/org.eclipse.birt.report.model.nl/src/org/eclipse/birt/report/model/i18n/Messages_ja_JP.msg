@@ -1973,7 +1973,6 @@ Structure.ResultSetColumn.position=位置
 Structure.ResultSetColumn.name=名前
 Structure.ResultSetColumn.dataType=データ型
 Structure.ResultSetColumn.nativeDataType=ネイティブのデータ型コード
-Structure.ResultSetColumn.ACLExpression=ACL 式
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
@@ -1985,7 +1984,6 @@ Structure.ComputedColumn.aggregateOn=AggregateOn 式
 Structure.ComputedColumn.aggregateFunction=AggregateOn 関数
 Structure.ComputedColumn.arguments=AggregateOn 関数の引数
 Structure.ComputedColumn.filterExpr=フィルタ式
-Structure.ComputedColumn.ACLExpression=ACL 式
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -2007,7 +2005,9 @@ Structure.ColumnHint.horizontalAlign=横方向の配置
 Structure.ColumnHint.wordWrap=文字列の折り返し
 Structure.ColumnHint.textFormat=テキストの書式
 Structure.ColumnHint.description=説明
-Structure.ColumnHint.descriptionID=説明リソースキー	
+Structure.ColumnHint.descriptionID=説明リソースキー
+Structure.ColumnHint.action=実行
+Structure.ColumnHint.ACLExpression=ACL expression	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
@@ -2122,7 +2122,6 @@ Structure.OdaResultSetColumn.name=名前
 Structure.OdaResultSetColumn.nativeName=ネイティブの名前
 Structure.OdaResultSetColumn.dataType=データ型
 Structure.OdaResultSetColumn.nativeDataType=ネイティブのデータ型コード
-Structure.OdaResultSetColumn.ACLExpression=ACL 式
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=ODA データセットパラメタ
@@ -3395,6 +3394,7 @@ Element.DataMartDataSource.paramBindings=パラメタバインド
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=データソース
 Element.DataMartDataSet.dataObject=データオブジェクト
+Element.DataMartDataSet.isVisible=Visible
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=データソース

@@ -1973,7 +1973,6 @@ Structure.ResultSetColumn.position=Posición
 Structure.ResultSetColumn.name=Nombre
 Structure.ResultSetColumn.dataType=Tipo de datos
 Structure.ResultSetColumn.nativeDataType=Código de tipo de datos nativo
-Structure.ResultSetColumn.ACLExpression=Expresión ACL
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Nombre de la columna
@@ -1985,7 +1984,6 @@ Structure.ComputedColumn.aggregateOn=Expresión de Agregar en
 Structure.ComputedColumn.aggregateFunction=Función AgregarEn
 Structure.ComputedColumn.arguments=Argumentos de la función AgregarEn
 Structure.ComputedColumn.filterExpr=Expresión de filtro
-Structure.ComputedColumn.ACLExpression=Expresión ACL
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Nombre de la columna
@@ -2007,7 +2005,9 @@ Structure.ColumnHint.horizontalAlign=Alineación horizontal
 Structure.ColumnHint.wordWrap=Autoajuste de palabras
 Structure.ColumnHint.textFormat=Formato de texto
 Structure.ColumnHint.description=Descripción
-Structure.ColumnHint.descriptionID=Clave de recursos de descripción	
+Structure.ColumnHint.descriptionID=Clave de recursos de descripción
+Structure.ColumnHint.action=Acción
+Structure.ColumnHint.ACLExpression=ACL expression	
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección
@@ -2122,7 +2122,6 @@ Structure.OdaResultSetColumn.name=Nombre
 Structure.OdaResultSetColumn.nativeName=Nombre nativo
 Structure.OdaResultSetColumn.dataType=Tipo de datos
 Structure.OdaResultSetColumn.nativeDataType=Código de tipo de datos nativo
-Structure.OdaResultSetColumn.ACLExpression=Expresión ACL
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
@@ -3395,6 +3394,7 @@ Element.DataMartDataSource.paramBindings=Enlaces de parámetro
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Fuente de datos
 Element.DataMartDataSet.dataObject=Objeto de datos
+Element.DataMartDataSet.isVisible=Visible
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=Fuente de datos
