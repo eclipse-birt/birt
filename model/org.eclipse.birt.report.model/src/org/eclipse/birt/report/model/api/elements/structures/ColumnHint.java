@@ -246,6 +246,20 @@ public class ColumnHint extends PropertyStructure
 
 	public static final String DESCRIPTION_ID_MEMBER = "descriptionID"; //$NON-NLS-1$
 
+	/**
+	 * Name of the member that defines the action structure of result set column
+	 * and computed column.
+	 */
+	public static final String ACTION_MEMBER = "action"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that defines expression to calculate ACL for the data
+	 * set column. This expression is evaluated once for each column, after the
+	 * data set has been executed but before the first result set row has been
+	 * processed.
+	 */
+	public static final String ACL_EXPRESSION_MEMBER = "ACLExpression"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 

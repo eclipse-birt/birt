@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 
 /**
@@ -649,5 +650,59 @@ public class ColumnHintHandle extends StructureHandle
 	public void setDescriptionKey( String descriptionID )
 	{
 		setPropertySilently( ColumnHint.DESCRIPTION_ID_MEMBER, descriptionID );
+	}
+
+	/**
+	 * Returns a handle to work with the action property, action is a structure
+	 * that defines a hyperlink.
+	 * 
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the column hint; otherwise return null
+	 * @see ActionHandle
+	 */
+
+	public ActionHandle getActionHandle( )
+	{
+		MemberHandle memberHandle = getMember( ColumnHint.ACTION_MEMBER );
+		Action action = (Action) memberHandle.getValue( );
+
+		if ( action == null )
+			return null;
+
+		return (ActionHandle) action.getHandle( memberHandle );
+	}
+
+	/**
+	 * Set an action on the image.
+	 * 
+	 * @param action
+	 *            new action to be set on the image, it represents a bookmark
+	 *            link, hyperlink, and drill through etc.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the image.
+	 * 
+	 * @throws SemanticException
+	 *             if member of the action is not valid.
+	 */
+
+	public ActionHandle setAction( Action action ) throws SemanticException
+	{
+		MemberHandle memberHandle = getMember( ColumnHint.ACTION_MEMBER );
+		memberHandle.setValue( action );
+
+		Action actionValue = (Action) memberHandle.getValue( );
+		if ( actionValue == null )
+			return null;
+		return (ActionHandle) actionValue.getHandle( memberHandle );
+	}
+
+	/**
+	 * Gets the expression handle for the <code>ACLExpression</code> member.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getACLExpression( )
+	{
+		return getExpressionProperty( ColumnHint.ACL_EXPRESSION_MEMBER );
 	}
 }

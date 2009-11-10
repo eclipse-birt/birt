@@ -1425,7 +1425,6 @@
 		<Default>string</Default>
 	</Member>
     <Member displayNameID="Structure.ResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />
-    <Member displayNameID="Structure.ResultSetColumn.ACLExpression" isIntrinsic="true" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>
   </Structure>
   <Structure displayNameID="Structure.OdaResultSetColumn" name="OdaResultSetColumn" since="2.1.1">
     <Member displayNameID="Structure.OdaResultSetColumn.position" isIntrinsic="true" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
@@ -1435,7 +1434,6 @@
 		<Default>string</Default>
 	</Member>
     <Member displayNameID="Structure.OdaResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />
-    <Member displayNameID="Structure.OdaResultSetColumn.ACLExpression" isIntrinsic="true" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>
   </Structure>
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
     <Member displayNameID="Structure.ComputedColumn.name" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
@@ -1447,8 +1445,7 @@
     <Member displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="string" >
     </Member>	  	  
     <Member detailType="AggregationArgument" displayNameID="Structure.ComputedColumn.arguments" isList="true" name="arguments" since="2.2" type="structure" />	  	  	  	  
-    <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />
-    <Member displayNameID="Structure.ComputedColumn.ACLExpression" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>	  	  	  	  
+    <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />  	  	  	  
   </Structure>
   <Structure displayNameID="Structure.ColumnHint" name="ColumnHint" since="1.0">
     <Member displayNameID="Structure.ColumnHint.columnName" name="columnName" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
@@ -1474,7 +1471,9 @@
 	<Member displayNameID="Structure.ColumnHint.wordWrap" name="wordWrap" runtimeSettable="false" since="2.5.2" type="boolean"/>
 	<Member detailType="stringFormat" displayNameID="Structure.ColumnHint.textFormat" name="textFormat" runtimeSettable="false" since="2.5.2" type="choice"/>
     <Member displayNameID="Structure.ColumnHint.description" name="description" runtimeSettable="false" since="2.5.2" type="string"/>
-    <Member displayNameID="Structure.ColumnHint.descriptionID" name="descriptionID" since="2.5.2" type="resourceKey"/>	
+    <Member displayNameID="Structure.ColumnHint.descriptionID" name="descriptionID" since="2.5.2" type="resourceKey"/>
+    <Member detailType="Action" displayNameID="Structure.ColumnHint.action" isList="false" name="action" runtimeSettable="false" since="2.5.2" type="structure"/>
+    <Member displayNameID="Structure.ColumnHint.ACLExpression" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>	
   </Structure>
   <Structure displayNameID="Structure.SortHint" name="SortHint" since="2.5">
   	<Member displayNameID="Structure.SortHint.columnName" name="columnName" since="2.5" type="string" />

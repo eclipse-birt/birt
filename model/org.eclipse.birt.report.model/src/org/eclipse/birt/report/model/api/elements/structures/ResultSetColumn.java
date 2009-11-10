@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.elements.structures;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -80,14 +79,6 @@ public class ResultSetColumn extends Structure
 	public static final String NATIVE_DATA_TYPE_MEMBER = "nativeDataType"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member that defines expression to calculate ACL for the data
-	 * set column. This expression is evaluated once for each column, after the
-	 * data set has been executed but before the first result set row has been
-	 * processed.
-	 */
-	public static final String ACL_EXPRESSION_MEMBER = "ACLExpression"; //$NON-NLS-1$
-
-	/**
 	 * The parameter position.
 	 */
 
@@ -110,11 +101,6 @@ public class ResultSetColumn extends Structure
 	 */
 
 	private Integer nativeDataType;
-
-	/**
-	 * ACL expression for this column.
-	 */
-	private Expression aclExpression = null;
 
 	/*
 	 * (non-Javadoc)
@@ -145,8 +131,6 @@ public class ResultSetColumn extends Structure
 			return dataType;
 		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
 			return nativeDataType;
-		if ( ACL_EXPRESSION_MEMBER.equals( propName ) )
-			return aclExpression;
 
 		assert false;
 		return null;
@@ -170,8 +154,6 @@ public class ResultSetColumn extends Structure
 			dataType = (String) value;
 		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
 			nativeDataType = (Integer) value;
-		else if ( ACL_EXPRESSION_MEMBER.equals( propName ) )
-			aclExpression = (Expression) value;
 		else
 			assert false;
 	}
@@ -302,26 +284,6 @@ public class ResultSetColumn extends Structure
 	public void setNativeDataType( Integer dataType )
 	{
 		setProperty( NATIVE_DATA_TYPE_MEMBER, dataType );
-	}
-
-	/**
-	 * Gets the ACL expression for this result set column.
-	 * 
-	 * @return
-	 */
-	public Expression getACLExpression( )
-	{
-		return (Expression) getProperty( null, ACL_EXPRESSION_MEMBER );
-	}
-
-	/**
-	 * Sets the ACL expression for this result set column.
-	 * 
-	 * @param aclExpression
-	 */
-	public void setACLExpression( Expression aclExpression )
-	{
-		setProperty( ACL_EXPRESSION_MEMBER, aclExpression );
 	}
 
 	/**

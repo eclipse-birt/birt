@@ -68,8 +68,7 @@
                     <property name="position">1</property>
                     <property name="name">name</property>
                     <property name="dataType">string</property>
-					<property name="nativeDataType">10</property>
-					<expression name="ACLExpression" type="javascript">ACL expression</expression>
+					<property name="nativeDataType">10</property>					
                 </structure>
                 <structure>
                     <property name="position">2</property>
@@ -87,7 +86,6 @@
                     <property name="columnName">column1</property>
                     <expression name="expression">expression1</expression>
                     <property name="dataType">integer</property>
-                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
                 </structure>
                 <structure>
                     <property name="columnName">column2</property>
@@ -117,7 +115,8 @@
                     <property name="horizontalAlign">center</property>
                     <property name="wordWrap">true</property>
                     <property name="textFormat">></property>
-                    <text-property name="description" key="descriptionKey">Description</text-property>                    
+                    <text-property name="description" key="descriptionKey">Description</text-property>
+                    <expression name="ACLExpression" type="javascript">ACL expression</expression>                  
                 </structure>
             </list-property>
             <list-property name="sortHints">

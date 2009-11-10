@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+    <property name="author">W.C. Fields</property>
+    <data-sets>
+        <script-data-set name="ds">
+            <list-property name="columnHints">
+              	<structure>
+              		<property name="columnName">c1</property>
+                	<structure name="action">
+						<property name="linkType">hyperlink</property>
+                    	<expression name="uri">www.rock.com.cn/haha/test.html</expression>
+                	</structure>
+           		</structure>
+           		<structure>
+              		<property name="columnName">c2</property>
+                	<structure name="action">
+						<property name="linkType">drill-through</property>
+                        <property name="targetWindow">Window3</property>
+                        <property name="drillThroughReportName">Another report</property>
+                        <list-property name="drillThroughParamBindings">
+                            <structure>
+                                <property name="paramName">param1</property>
+                                <expression name="expression">1+1=3</expression>
+                            </structure>
+                            <structure>
+                                <property name="paramName">param2</property>
+                                <expression name="expression">2*2=6</expression>
+                            </structure>
+                        </list-property>
+                        <expression name="targetBookmark">www.rock.com/bookmarks/1.jsp</expression>
+                    </structure>
+           		</structure>   
+           		<structure>
+              		<property name="columnName">c3</property>
+                	<structure name="action">
+						<property name="linkType">drill-through</property>
+                        <property name="targetWindow">Window3</property>
+                        <property name="drillThroughReportName">iserver/report1</property>
+                        <list-property name="drillThroughParamBindings">
+                            <structure>
+                                <property name="paramName">param1</property>
+                                <expression name="expression">1+1=3</expression>
+                            </structure>
+                            <structure>
+                                <property name="paramName">param2</property>
+                                <expression name="expression">2*2=6</expression>
+                            </structure>
+                        </list-property>
+                        <list-property name="drillThroughSearch">
+                            <structure>
+                                <expression name="expression">searchKey1</expression>
+                            </structure>
+                            <structure>
+                                <expression name="expression">searchKey2</expression>
+                            </structure>
+                        </list-property>
+                    </structure>
+           		</structure>   
+           		<structure>
+              		<property name="columnName">c4</property>
+                	<structure name="action">
+						<property name="linkType">bookmark-link</property>
+                        <expression name="targetBookmark">www.rock.com.cn/haha/index.html/bookmarklink1</expression>
+                    </structure>
+           		</structure>                   
+           	</list-property>           
+        </script-data-set>
+    </data-sets>
+</report>

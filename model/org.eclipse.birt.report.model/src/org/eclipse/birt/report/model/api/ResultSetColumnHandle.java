@@ -167,14 +167,4 @@ public class ResultSetColumnHandle extends StructureHandle
 	{
 		setPropertySilently( ResultSetColumn.NATIVE_DATA_TYPE_MEMBER, dataType );
 	}
-
-	/**
-	 * Gets the expression handle for the <code>ACLExpression</code> member.
-	 * 
-	 * @return
-	 */
-	public ExpressionHandle getACLExpression( )
-	{
-		return getExpressionProperty( ResultSetColumn.ACL_EXPRESSION_MEMBER );
-	}
 }
