@@ -274,8 +274,9 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 
 			// swap the grandtotals
 			CrosstabCellHandle replaced = transferGrandTotal( ROW_AXIS_TYPE,
-					null );
-			transferGrandTotal( COLUMN_AXIS_TYPE, replaced );
+					null,
+					true );
+			transferGrandTotal( COLUMN_AXIS_TYPE, replaced, false );
 
 			// swap the aggregationOn property on measure aggregation cells
 			for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
@@ -356,11 +357,12 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	}
 
 	private CrosstabCellHandle transferGrandTotal( int srcAxis,
-			CrosstabCellHandle oldGT ) throws SemanticException
+			CrosstabCellHandle oldGT, boolean firstMove )
+			throws SemanticException
 	{
 		CrosstabCellHandle srcGT = null;
 
-		if ( oldGT == null )
+		if ( firstMove )
 		{
 			CrosstabViewHandle srcView = crosstab.getCrosstabView( srcAxis );
 			srcGT = srcView != null ? srcView.getGrandTotal( ) : null;
@@ -372,28 +374,27 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 
 		CrosstabCellHandle targetReplaced = null;
 
-		if ( srcGT != null )
+		int targetAxis = CrosstabModelUtil.getOppositeAxisType( srcAxis );
+		CrosstabViewHandle targetView = crosstab.getCrosstabView( targetAxis );
+
+		if ( firstMove )
 		{
-			int targetAxis = CrosstabModelUtil.getOppositeAxisType( srcAxis );
-			CrosstabViewHandle targetView = crosstab.getCrosstabView( targetAxis );
+			targetReplaced = targetView == null ? null
+					: targetView.getGrandTotal( );
 
-			if ( targetView == null )
+			if ( srcGT != null )
 			{
-				targetView = crosstab.addCrosstabView( targetAxis );
-			}
+				// clear grandtotal on source view
+				if ( srcGT.getModelHandle( ).getContainer( ) != null )
+				{
+					CrosstabCellHandle srcClone = (CrosstabCellHandle) CrosstabUtil.getReportItem( srcGT.getModelHandle( )
+							.copy( )
+							.getHandle( crosstab.getModuleHandle( ).getModule( ) ) );
 
-			targetReplaced = targetView.getGrandTotal( );
+					srcGT.getModelHandle( ).drop( );
 
-			// clear grandtotal on source view
-			if ( srcGT.getModelHandle( ).getContainer( ) != null )
-			{
-				CrosstabCellHandle srcClone = (CrosstabCellHandle) CrosstabUtil.getReportItem( srcGT.getModelHandle( )
-						.copy( )
-						.getHandle( crosstab.getModuleHandle( ).getModule( ) ) );
-
-				srcGT.getModelHandle( ).drop( );
-
-				srcGT = srcClone;
+					srcGT = srcClone;
+				}
 			}
 
 			if ( targetReplaced != null )
@@ -406,8 +407,16 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 
 				targetReplaced = targetClone;
 			}
+		}
 
+		if ( srcGT != null )
+		{
 			// add grandtotal to target view
+			if ( targetView == null )
+			{
+				targetView = crosstab.addCrosstabView( targetAxis );
+			}
+
 			PropertyHandle targetPropertyHandle = targetView.getGrandTotalProperty( );
 
 			if ( targetPropertyHandle.getContentCount( ) <= 0 )
