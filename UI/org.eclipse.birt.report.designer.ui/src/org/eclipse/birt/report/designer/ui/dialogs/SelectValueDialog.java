@@ -222,7 +222,7 @@ public class SelectValueDialog extends BaseDialog
 				{
 					exprValue = "new java.math.BigDecimal(\"" //$NON-NLS-1$
 							+ viewerValue
-							+ "\")" ; //$NON-NLS-1$
+							+ "\")"; //$NON-NLS-1$
 				}
 				else
 				{
@@ -293,7 +293,11 @@ public class SelectValueDialog extends BaseDialog
 	{
 		try
 		{
-			getOkButton( ).setEnabled( false );
+			if ( this.getShell( ) == null || this.getShell( ).isDisposed( ) )
+				return;
+			if ( this.getOkButton( ) != null
+					&& !this.getOkButton( ).isDisposed( ) )
+				getOkButton( ).setEnabled( false );
 			selectValueList.removeAll( );
 			viewerValueList.clear( );
 			if ( modelValueList != null )
@@ -340,7 +344,9 @@ public class SelectValueDialog extends BaseDialog
 			if ( selectValueList.getItemCount( ) > 0 )
 			{
 				selectValueList.select( 0 );
-				getOkButton( ).setEnabled( true );
+				if ( this.getOkButton( ) != null
+						&& !this.getOkButton( ).isDisposed( ) )
+					getOkButton( ).setEnabled( true );
 			}
 		}
 		catch ( Exception e )
