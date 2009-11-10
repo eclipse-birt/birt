@@ -15,8 +15,11 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
@@ -44,17 +47,30 @@ public class ChartLivePreviewThread extends Thread
 	private Shell parentShell;
 	
 	PreviewTimerTask timeTask = null;
+
+	private IDataServiceProvider dataProvider;
+
+	private boolean hasDataEngine = false;
 	
 	private static final int DELAY_TIME = 2000;
 	
 	public static final String PARAM_CHART_MODEL = "Chart Model"; //$NON-NLS-1$
-	
+
 	/**
 	 * Constructor.
 	 */
 	public ChartLivePreviewThread(  )
 	{
 		this.setName( "Chart live preview thread" );//$NON-NLS-1$
+	}
+	
+	/**
+	 * Constructor.
+	 */
+	public ChartLivePreviewThread( IDataServiceProvider provider )
+	{
+		this.setName( "Chart live preview thread" );//$NON-NLS-1$
+		dataProvider = provider;
 	}
 	
 	/**
@@ -116,11 +132,12 @@ public class ChartLivePreviewThread extends Thread
 	public void run()
 	{
 		super.run( );
+		initDataEngine( );
 		
     	Timer fPaintTimer = null;
 		timeTask = null;
 		Thread thisThread = Thread.currentThread();
-        while ( blinker == thisThread) {
+        while ( blinker == thisThread ) {
 
 			try
 			{
@@ -132,6 +149,18 @@ public class ChartLivePreviewThread extends Thread
 					tp = remove( );
 				}
 
+				if ( !hasDataEngine )
+				{
+					Display.getDefault( ).asyncExec( new Runnable( ) {
+
+						public void run( )
+						{
+							WizardBase.showException( Messages.getString("ChartLivePreviewThread.ErrorMessage.NoDataEngine") ); //$NON-NLS-1$
+						}
+					} );
+					continue;
+				}
+				
 				fPaintTimer = new Timer( );
 				timeTask = new PreviewTimerTask( tp.getName( ), parentShell );
 				fPaintTimer.schedule( timeTask, DELAY_TIME );
@@ -149,8 +178,8 @@ public class ChartLivePreviewThread extends Thread
 			}
 			catch ( Exception e )
 			{
-				// Don't do nothing, it just avoids unexpected exception.
-//				e.printStackTrace( );
+				// Don't do nothing, it just catches unexpected exception
+				// 'java.lang.InterruptedException' while interrupt this thread.
 			}
 			finally
 			{
@@ -166,8 +195,46 @@ public class ChartLivePreviewThread extends Thread
 			}
 			
 		}
+        
+		disposeDataEngine( );
+	}
+
+	/**
+	 * 
+	 */
+	private void initDataEngine( )
+	{
+		if ( dataProvider != null )
+		{
+			try
+			{
+				dataProvider.initialize( );
+				hasDataEngine = true;
+			}
+			catch ( ChartException e )
+			{
+				final Exception exp = e;
+				Display.getDefault( ).asyncExec( new Runnable(){
+
+					public void run( )
+					{
+						WizardBase.displayException( exp );
+					}} );
+			}
+		}
 	}
 	
+	/**
+	 * 
+	 */
+	private void disposeDataEngine( )
+	{
+		if ( dataProvider != null )
+		{
+			dataProvider.dispose( );
+		}
+	}
+
 	/**
 	 * This timer task is used to show/hide a progress dialog in UI for running task.
 	 */
@@ -261,6 +328,6 @@ public class ChartLivePreviewThread extends Thread
 				}
 			} );
 		}
-	};
+	}
 }
 

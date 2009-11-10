@@ -175,9 +175,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		super( );
 		this.itemHandle = itemHandle;
 		project = UIUtil.getCurrentProject( );
-		initialize( );
-		expAdaptHelper = createExpressionAdaptHelper( );
-		expAdaptHelper.setAdapter( session.getModelAdaptor( ) );
 	}
 	
 	protected ExpressionAdaptHelper createExpressionAdaptHelper( )
@@ -230,6 +227,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					ChartException.DATA_BINDING,
 					e );
 		}
+		
+		expAdaptHelper = createExpressionAdaptHelper( );
+		expAdaptHelper.setAdapter( session.getModelAdaptor( ) );
 	}
 	
 	/**

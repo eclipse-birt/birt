@@ -81,6 +81,17 @@ public interface IDataServiceProvider
 	public static final int SHARE_CHART_QUERY_RECURSIVELY = 1 << 14;
 	
 	/**
+	 * Does some initialization works in this method.
+	 * @throws ChartException
+	 */
+	public void initialize() throws ChartException;
+	
+	/**
+	 * Disposes associated handles in this method.
+	 */
+	public void dispose();
+	
+	/**
 	 * Returns all available style names.
 	 */
 	public String[] getAllStyles( );

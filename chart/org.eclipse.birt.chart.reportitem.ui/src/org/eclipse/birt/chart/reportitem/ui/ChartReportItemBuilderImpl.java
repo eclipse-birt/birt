@@ -208,7 +208,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					this,
 					dataProvider,
 					dataSheet );
-			livePreviewThread = new ChartLivePreviewThread();
+			livePreviewThread = new ChartLivePreviewThread( dataProvider );
 			livePreviewThread.start( );
 			context.setLivePreviewThread( livePreviewThread );
 			
@@ -368,11 +368,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			{
 				livePreviewThread.end( );
 			}
-			
-			if ( dataProvider != null )
-			{
-				dataProvider.dispose();
-			}
+//			
+//			if ( dataProvider != null )
+//			{
+//				dataProvider.dispose();
+//			}
 		}
 	}
 	

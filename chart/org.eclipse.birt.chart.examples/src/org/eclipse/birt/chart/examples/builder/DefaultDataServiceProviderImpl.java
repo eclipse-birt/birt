@@ -259,4 +259,21 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		// TODO Auto-generated method stub
 
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#dispose()
+	 */
+	public void dispose( )
+	{
+		// No code here.
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#initialize()
+	 */
+	public void initialize( ) throws ChartException
+	{
+		// No code here.
+	}
 }
