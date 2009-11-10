@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -27,8 +26,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  */
 public class DataSetExpressionProvider extends ExpressionProvider
 {
-	public static final String DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
-
 	// data set list
 	private List dataSetList;
 

@@ -187,6 +187,7 @@ public class ExpressionProvider implements
 	protected static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
 	protected static final Image IMAGE_LEVEL_ATTRI = getIconImage( IReportGraphicConstants.ICON_LEVEL_ATTRI );
 
+	public static final String DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
 	public static final String CURRENT_CUBE = Messages.getString( "ExpressionProvider.Category.DataCubes" ); //$NON-NLS-1$

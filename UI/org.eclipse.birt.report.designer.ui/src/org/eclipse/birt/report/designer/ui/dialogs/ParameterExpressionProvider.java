@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -34,8 +33,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  */
 public class ParameterExpressionProvider extends ExpressionProvider
 {
-
-	public static final String DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 
 	private DataSetHandle dataSetHandle = null;
 

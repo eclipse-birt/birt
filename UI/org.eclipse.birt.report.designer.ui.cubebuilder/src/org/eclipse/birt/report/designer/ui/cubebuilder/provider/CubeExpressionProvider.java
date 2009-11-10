@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -34,8 +33,6 @@ import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 
 public class CubeExpressionProvider extends ExpressionProvider
 {
-
-	public static final String DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 
 	private DataSetHandle dataSetHandle = null;
 
