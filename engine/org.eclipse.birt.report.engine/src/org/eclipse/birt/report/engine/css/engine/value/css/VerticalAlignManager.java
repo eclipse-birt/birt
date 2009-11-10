@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
+import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -96,7 +97,8 @@ public class VerticalAlignManager extends AbstractLengthManager {
 				} else {
 					fs = lineHeight.getFloatValue();
 				}
-				return new FloatValue(CSSPrimitiveValue.CSS_NUMBER, fs * scale);
+					return new FloatValue( fontSize.getPrimitiveType( ), fs
+							* scale );
 			}
 		}
 		return super.computeValue(elt, engine, idx, value);

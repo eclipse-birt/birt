@@ -403,7 +403,8 @@ public abstract class ContainerArea extends AbstractArea
 		if ( content != null )
 		{
 			IStyle contentStyle = content.getComputedStyle( );
-			return PropertyUtil.getLineHeight( contentStyle.getLineHeight( ) );
+			return PropertyUtil.getDimensionValueConsiderDpi( contentStyle
+					.getProperty( IStyle.STYLE_LINE_HEIGHT ), content );
 		}
 		return 0;
 	}

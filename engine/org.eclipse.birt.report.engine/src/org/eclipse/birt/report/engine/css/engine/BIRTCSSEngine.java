@@ -66,7 +66,7 @@ public class BIRTCSSEngine extends CSSEngine
 		public float getMediumFontSize( )
 		{
 			// 9pt (72pt == 1in)
-			return 9f * 1000.0f;
+			return 9f;
 		}
 
 		/**

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
+import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSContext;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
@@ -132,28 +133,28 @@ public class FontSizeManager extends AbstractLengthManager {
 		float fs = ctx.getMediumFontSize();
 		// absolute size
 		if (value == CSSValueConstants.XX_SMALL_VALUE) {
-			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER,
+			return new FloatValue( CSSPrimitiveValue.CSS_PT,
 					fs / 1.2f / 1.2f / 1.2f);
 		}
 		if (value == CSSValueConstants.X_SMALL_VALUE) {
-			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER,
+			return new FloatValue( CSSPrimitiveValue.CSS_PT,
 					fs / 1.2f / 1.2f);
 		}
 		if (value == CSSValueConstants.SMALL_VALUE) {
-			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER, fs / 1.2f);
+			return new FloatValue( CSSPrimitiveValue.CSS_PT, fs / 1.2f );
 		}
 		if (value == CSSValueConstants.MEDIUM_VALUE) {
-			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER, fs);
+			return new FloatValue( CSSPrimitiveValue.CSS_PT, fs );
 		}
 		if (value == CSSValueConstants.LARGE_VALUE) {
-			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER, fs * 1.2f);
+			return new FloatValue( CSSPrimitiveValue.CSS_PT, fs * 1.2f );
 		}
 		if (value == CSSValueConstants.X_LARGE_VALUE) {
-			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER,
+			return new FloatValue( CSSPrimitiveValue.CSS_PT,
 					fs * 1.2f * 1.2f);
 		}
 		if (value == CSSValueConstants.XX_LARGE_VALUE) {
-			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER,
+			return new FloatValue( CSSPrimitiveValue.CSS_PT,
 					fs * 1.2f * 1.2f * 1.2f);
 		}
 
@@ -196,12 +197,13 @@ public class FontSizeManager extends AbstractLengthManager {
 					}
 				}
 			}
-			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER, fs * scale);
+			return new FloatValue( CSSPrimitiveValue.CSS_PT, fs * scale );
 		}
 		
 		if(value.getPrimitiveType() == CSSPrimitiveValue.CSS_NUMBER)
 		{
-			return super.computeValue(elt, engine, idx, new FloatValue(CSSPrimitiveValue.CSS_NUMBER,
+			return super.computeValue( elt, engine, idx, new FloatValue(
+					CSSPrimitiveValue.CSS_PT,
 					value.getFloatValue()));
 		}
 		return super.computeValue(elt, engine, idx, value);
