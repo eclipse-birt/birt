@@ -207,14 +207,6 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "DocumentProperties" );
 	}
 
-	// If possible, we can pass a format according the data type
-	private void writeText( Data d )
-	{
-		int type = d.getDataType( );
-		StyleEntry style = d.getStyle( );
-		writeText( type, d.getValue( ), style );
-	}
-
 	private void writeText( int type, Object value,
 			StyleEntry style )
 	{
@@ -338,39 +330,23 @@ public class ExcelXmlWriter implements IExcelWriter
 		}
 	}
 
-	public void writeDefaultCell( Data d )
+	public void outputData( SheetData sheetData, StyleEntry style, int column,
+			int colSpan )
 	{
-		writer.openTag( "Cell" );
-
-		if ( d.getStyleId( ) != 0 )
-		{
-			writer.attribute( "ss:StyleID", d.getStyleId( ) );
-		}
-
-		writeText( d );
-		writer.closeTag( "Cell" );
-	}
-
-	public void outputData( SheetData sheetData )
-	{
-		StyleEntry style = sheetData.getStyle( );
-		int column = sheetData.span.getCol( );
-		int colSpan = sheetData.span.getColSpan( );
 		int rowSpan = sheetData.getRowSpan( );
-		int styleId = sheetData.styleId;
+		int styleId = sheetData.getStyleId( );
 		int type = sheetData.getDataType( );
 		if ( type == SheetData.IMAGE )
 		{
-			outputData( Data.STRING, ExcelLayoutEngine.EMPTY, sheetData
-					.getStyle( ), sheetData.getSpan( ).getCol( ), sheetData
-					.getSpan( ).getColSpan( ), sheetData.getRowSpan( ),
+			outputData( Data.STRING, ExcelLayoutEngine.EMPTY, style, column,
+					colSpan, sheetData.getRowSpan( ),
 					sheetData.getStyleId( ), null, null );
 		}
 		else
 		{
 			Data d = (Data) sheetData;
 			Object value = d.getValue( );
-			HyperlinkDef hyperLink = d.hyperLink;
+			HyperlinkDef hyperLink = d.getHyperlinkDef( );
 			BookmarkDef linkedBookmark = d.getLinkedBookmark( );
 			outputData( type, value, style, column, colSpan, rowSpan, styleId,
 					hyperLink, linkedBookmark );

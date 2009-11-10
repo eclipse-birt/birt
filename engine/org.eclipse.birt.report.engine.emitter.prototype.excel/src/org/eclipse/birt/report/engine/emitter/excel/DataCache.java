@@ -39,7 +39,7 @@ public class DataCache
 	private List<BookmarkDef> bookmarks = new ArrayList<BookmarkDef>();
 	private int maxRowIndex = 0;
 
-	private Map<Integer, Double> rowIndex2Height = new HashMap<Integer, Double>( );
+	private Map<Integer, Float> rowIndex2Height = new HashMap<Integer, Float>( );
 
 	public DataCache( int width, int height )
 	{
@@ -128,14 +128,14 @@ public class DataCache
 		return 0;
 	}
 
-	public void setRowHeight( int rowIndex, double height )
+	public void setRowHeight( int rowIndex, float height )
 	{
 		if ( !rowIndex2Height.containsKey( rowIndex )
 				|| height > rowIndex2Height.get( rowIndex ) )
 			rowIndex2Height.put( rowIndex, height );
 	}
 
-	public double getRowHeight( int rowIndex )
+	public float getRowHeight( int rowIndex )
 	{
 		if ( rowIndex2Height.containsKey( rowIndex ) )
 			return Math.max( rowIndex2Height.get( rowIndex ),

@@ -23,25 +23,25 @@ public class Data extends SheetData
 
 	public Data( SheetData data )
 	{
-		this( data.getValue( ), data.getStyle( ), data.getDataType( ) );
+		this( data.getValue( ), data.getStyleId( ), data.getDataType( ) );
 		this.rowIndex = data.getRowIndex( );
 	}
 	
 	public Data( final Object value, final int datatype )
 	{
-		this( value, null, datatype );
+		this( value, 0, datatype );
 	}
 
-	public Data( final Object value, final StyleEntry s, final int datatype )
+	public Data( final Object value, final int styleId, final int datatype )
 	{
-		this( value, s, datatype, 0 );
+		this( value, styleId, datatype, 0 );
 	}
 
-	public Data( final Object value, final StyleEntry s, final int datatype,
+	public Data( final Object value, final int styleId, final int datatype,
 			int rowSpanOfDesign )
 	{
 		this.value = value;
-		this.style = s;
+		this.styleId = styleId;
 		this.dataType = datatype;
 		this.rowSpanInDesign = rowSpanOfDesign;
 	}

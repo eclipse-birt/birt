@@ -71,9 +71,10 @@ public class ExcelWriter implements IExcelWriter
 		writer.endSheet( oritentation );
 	}
 
-	public void outputData( SheetData data ) throws IOException
+	public void outputData( SheetData data, StyleEntry style, int column,
+			int colSpan ) throws IOException
 	{
-		writer.outputData( data );
+		writer.outputData( data, style, column, colSpan );
 	}
 
 	public void start( IReportContent report, Map<StyleEntry, Integer> styles,

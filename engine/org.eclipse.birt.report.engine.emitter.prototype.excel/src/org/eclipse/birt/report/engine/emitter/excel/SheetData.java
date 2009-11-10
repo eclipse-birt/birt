@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-import java.awt.Color;
-
-import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 
 public abstract class SheetData
 {
@@ -27,52 +24,46 @@ public abstract class SheetData
 	public static final int IMAGE = 5;
 	public static final int BOOLEAN = 6;
 
-	int rspan = 0;
+	private int rspan = 0;
 
-	Span span;
+	protected int rowIndex;
 
-	int rowIndex;
+	private int startX;
 
-	private static final Color HYPERLINK_COLOR = Color.blue;
+	private int endX;
+
+	protected int dataType = STRING;
+
+	protected Object value;
+
+	protected int styleId = -1;
+
+	protected int rowSpanInDesign;
+
+	private HyperlinkDef hyperLink;
+	
+	private BookmarkDef bookmark;
+	
+	private BookmarkDef linkedBookmark;
+
+	protected float height;
 
 	public Object getValue( )
 	{
 		return value;
 	}
 
-	public void setValue( Object txt )
+	public void setValue( Object value )
 	{
-		this.value = txt;
+		this.value = value;
 	}
 
-	StyleEntry style;
-
-	protected int dataType;
-
-	Object value;
-
-	protected ContainerSizeInfo sizeInfo;
-
-	int styleId;
-
-	int rowSpanInDesign;
-
-	boolean processed;
-
-	HyperlinkDef hyperLink;
-	
-	BookmarkDef bookmark;
-	
-	BookmarkDef linkedBookmark;
-
-	protected double height;
-
-	public double getHeight( )
+	public float getHeight( )
 	{
 		return Math.max( height, 0 );
 	}
 
-	public void setHeight( double height )
+	public void setHeight( float height )
 	{
 		this.height = height;
 	}
@@ -97,16 +88,6 @@ public abstract class SheetData
 		this.rowIndex = rowIndex;
 	}
 
-	public StyleEntry getStyle( )
-	{
-		return style;
-	}
-
-	public void setStyle( StyleEntry style )
-	{
-		this.style = style;
-	}
-
 	public int getDataType( )
 	{
 		return dataType;
@@ -115,16 +96,6 @@ public abstract class SheetData
 	public void setDataType( int datatype )
 	{
 		this.dataType = datatype;
-	}
-
-	public ContainerSizeInfo getSizeInfo( )
-	{
-		return sizeInfo;
-	}
-
-	public void setSizeInfo( ContainerSizeInfo sizeInfo )
-	{
-		this.sizeInfo = sizeInfo;
 	}
 
 	public boolean isBlank( )
@@ -140,16 +111,6 @@ public abstract class SheetData
 	public void setRowSpanInDesign( int rowSpan )
 	{
 		this.rowSpanInDesign = rowSpan;
-	}
-
-	public boolean isProcessed( )
-	{
-		return processed;
-	}
-
-	public void setProcessed( boolean i )
-	{
-		processed = i;
 	}
 
 	public void setStyleId( int id )
@@ -170,22 +131,6 @@ public abstract class SheetData
 	public void setHyperlinkDef( HyperlinkDef def )
 	{
 		this.hyperLink = def;
-		if ( hyperLink != null )
-		{
-			style.setProperty( StyleConstant.COLOR_PROP, HYPERLINK_COLOR );
-			style.setProperty( StyleConstant.TEXT_UNDERLINE_PROP, true );
-			style.setName( StyleEntry.ENTRYNAME_HYPERLINK );
-		}
-	}
-
-	public void setSpan( Span span )
-	{
-		this.span = span;
-	}
-
-	public Span getSpan( )
-	{
-		return span;
 	}
 
 	public int getRowSpan( )
@@ -219,5 +164,25 @@ public abstract class SheetData
 	public int getElementType( )
 	{
 		return -1;
+	}
+
+	public int getStartX( )
+	{
+		return startX;
+	}
+
+	public void setStartX( int startX )
+	{
+		this.startX = startX;
+	}
+
+	public void setEndX( int endX )
+	{
+		this.endX = endX;
+	}
+
+	public int getEndX( )
+	{
+		return endX;
 	}
 }

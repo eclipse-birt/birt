@@ -55,7 +55,8 @@ public interface IExcelWriter
 
 	public void endRow( );
 
-	public void outputData( SheetData data ) throws IOException;
+	public void outputData( SheetData data, StyleEntry style, int column,
+			int colSpan ) throws IOException;
 
 	void outputData( int col, int row, int type, Object value );
 

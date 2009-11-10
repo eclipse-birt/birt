@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
+import java.awt.Color;
+
 public interface StyleConstant {
     
 	public static final int COUNT = 35;
@@ -65,4 +67,5 @@ public interface StyleConstant {
 
 	public static final String NULL = "NULL";  
 		
+	public static final Color HYPERLINK_COLOR = Color.blue;
 }

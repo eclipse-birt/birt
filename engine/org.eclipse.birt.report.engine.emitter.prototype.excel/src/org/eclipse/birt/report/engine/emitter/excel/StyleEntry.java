@@ -19,6 +19,15 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 
 	public static final String ENTRYNAME_HYPERLINK = "Hyperlink";
 
+	public StyleEntry( StyleEntry entry )
+	{
+		this( );
+		for ( int i = 0; i < props.length; i++ )
+		{
+			props[i] = entry.props[i];
+		}
+	}
+
 	public StyleEntry( )
 	{
 		props = new Object[StyleConstant.COUNT];

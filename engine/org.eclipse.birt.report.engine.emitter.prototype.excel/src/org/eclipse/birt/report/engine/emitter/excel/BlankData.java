@@ -79,7 +79,7 @@ public class BlankData extends Data
 		}
 	}
 
-	public double getHeight( )
+	public float getHeight( )
 	{
 		if ( data != null )
 		{
@@ -88,7 +88,7 @@ public class BlankData extends Data
 		return super.getHeight( );
 	}
 
-	public void setHeight( double height )
+	public void setHeight( float height )
 	{
 		if ( data != null )
 		{

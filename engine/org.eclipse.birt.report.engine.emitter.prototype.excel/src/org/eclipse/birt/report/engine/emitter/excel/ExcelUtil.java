@@ -68,7 +68,7 @@ public class ExcelUtil
 			.getName( ) );
 
 	private static final HashSet<Character> splitChar = new HashSet<Character>( );
-	public final static double INCH_PX;
+	public final static float INCH_PX;
 	static
 	{
 
@@ -81,7 +81,7 @@ public class ExcelUtil
 		splitChar.add( new Character( '\r' ) );
 		splitChar.add( new Character( '\n' ) );
 
-		double Temp_PX;
+		float Temp_PX;
 		try
 		{
 			Temp_PX = java.awt.Toolkit.getDefaultToolkit( )
@@ -94,15 +94,15 @@ public class ExcelUtil
 		INCH_PX = Temp_PX;
 	}
 
-	public final static double INCH_PT = 72;
+	public final static float INCH_PT = 72;
 
-	public final static double PT_TWIPS = 20;
+	public final static float PT_TWIPS = 20;
 
-	public final static double INCH_TWIPS = INCH_PT * PT_TWIPS;
+	public final static float INCH_TWIPS = INCH_PT * PT_TWIPS;
 
-	public final static double PX_TWIPS = INCH_TWIPS / INCH_PX;
+	public final static float PX_TWIPS = INCH_TWIPS / INCH_PX;
 
-	public final static double PX_PT = INCH_PT / INCH_PX;
+	public final static float PX_PT = INCH_PT / INCH_PX;
 
 	public static String ridQuote( String val )
 	{
@@ -1173,7 +1173,7 @@ public class ExcelUtil
 		return columnId;
 	}
 
-	public static double convertImageSize( DimensionType value, int ref )
+	public static float convertImageSize( DimensionType value, int ref )
 	{
 
 		if ( value == null )
@@ -1183,16 +1183,16 @@ public class ExcelUtil
 
 		if ( DimensionType.UNITS_PX.equalsIgnoreCase( value.getUnits( ) ) )
 		{
-			return value.getMeasure( ) * PX_PT;
+			return (float) ( value.getMeasure( ) * PX_PT );
 		}
 		else if ( DimensionType.UNITS_PERCENTAGE.equalsIgnoreCase( value
 				.getUnits( ) ) )
 		{
-			return ( value.getMeasure( ) / 100 ) * ref * PX_PT;
+			return (float) ( ( value.getMeasure( ) / 100 ) * ref * PX_PT );
 		}
 		else
 		{
-			return value.convertTo( DimensionType.UNITS_IN ) * INCH_PT;
+			return (float) ( value.convertTo( DimensionType.UNITS_IN ) * INCH_PT );
 		}
 	}
 	public static String ZIP = "@@@@@-@@@@";

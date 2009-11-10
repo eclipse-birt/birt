@@ -249,7 +249,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void endRow( IRowContent row )
 	{
 		DimensionType height = row.getHeight( );
-		double rowHeight = height != null ? ExcelUtil.convertDimensionType(
+		float rowHeight = height != null ? ExcelUtil.convertDimensionType(
 				height, 0 ) / 1000 : 0;
 		engine.endRow( rowHeight );
 	}
@@ -281,7 +281,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			HyperlinkDef link = parseHyperLink( list );
 			BookmarkDef bookmark = getBookmark( list );
-			double height = getContentHeight( list );
+			float height = getContentHeight( list );
 			engine.addData( ExcelLayoutEngine.EMPTY, list.getComputedStyle( ),
 					link, bookmark, height );
 		}
@@ -318,7 +318,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		HyperlinkDef url = parseHyperLink( text );
 		BookmarkDef bookmark = getBookmark( text );
-		double height = getContentHeight( text );
+		float height = getContentHeight( text );
 		engine.addData( text.getText( ), text.getComputedStyle( ), url,
 				bookmark, height );
 	}
@@ -330,7 +330,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	protected Data addDataContent( IDataContent data )
 	{
-		double height = getContentHeight( data );
+		float height = getContentHeight( data );
 		HyperlinkDef url = parseHyperLink( data );
 		BookmarkDef bookmark = getBookmark( data );
 		Data excelData = null;
@@ -384,7 +384,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		return excelData;
 	}
 
-	private double getContentHeight( IContent content )
+	private float getContentHeight( IContent content )
 	{
 		return content.getHeight( ) == null ? 0 : ExcelUtil
 				.convertDimensionType( content.getHeight( ), 0 ) / 1000;
@@ -416,7 +416,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		// ignore it
 		if ( !( "\n".equalsIgnoreCase( label.getText( ) ) && container instanceof IForeignContent ) )
 		{
-			double height = getContentHeight( label );
+			float height = getContentHeight( label );
 			engine.addData( label.getText( ), label.getComputedStyle( ), url,
 					bookmark, height );
 		}
@@ -426,7 +426,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		HyperlinkDef link = parseHyperLink( autoText );
 		BookmarkDef bookmark = getBookmark( autoText );
-		double height = getContentHeight( autoText );
+		float height = getContentHeight( autoText );
 		engine.addData( autoText.getText( ), autoText.getComputedStyle( ),
 				link, bookmark, height );
 	}
@@ -492,10 +492,15 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	protected void outputRowData( RowData rowData ) throws IOException
 	{
 		writer.startRow( rowData.getHeight( ) );
-		SheetData[] data = rowData.getRowdata( );
-		for ( int i = 0; i < data.length; i++ )
+		SheetData[] datas = rowData.getRowdata( );
+		for ( int i = 0; i < datas.length; i++ )
 		{
-			writer.outputData( data[i] );
+			SheetData data = datas[i];
+			int start = engine.getStartColumn( data );
+			int end = engine.getEndColumn( data );
+			int span = Math.max( 0, end - start - 1 );
+			writer.outputData( data, engine.getStyle( data.getStyleId( ) ),
+					start, span );
 		}
 		writer.endRow( );
 	}

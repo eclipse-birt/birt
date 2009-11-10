@@ -17,6 +17,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
@@ -158,28 +159,27 @@ public class StyleEngine
 				childSizeInfo = container.getSizeInfo( );
 			}
 			applyHBorders( cEntry, entry, childSizeInfo, parentSizeInfo );
+			applyTopBorderStyle( entry );
 		}
 		return entry;
 	}
 
-	public int getStyleID( SheetData data )
+	private void applyTopBorderStyle( StyleEntry childStyle )
 	{
-		StyleEntry entry = data.getStyle( );
-		if ( entry == null )
+		XlsContainer container = engine.getCurrentContainer( );
+		int rowIndex = container.getRowIndex( );
+		XlsContainer parent = container;
+		while ( parent != null && parent.getStartRowId( ) == rowIndex )
 		{
-			return 0;
+			StyleBuilder.applyTopBorder( parent.getStyle( ), childStyle );
+			parent = parent.getParent( );
 		}
-		int styleId = 0;
-		if ( style2id.get( entry ) != null )
-		{
-			styleId = style2id.get( entry ).intValue( );
-		}
-		else
-		{
-			styleId = styleID;
-			style2id.put( entry, new Integer( styleId ) );
-			styleID++;
-		}
+	}
+
+	// public int getStyleID( SheetData data )
+	// {
+	// StyleEntry entry = data.getStyle( );
+	// int styleId = getStyleId( entry );
 		// TODO: style ranges.
 		// if ( styleId >= RESERVE_STYLE_ID )
 		// {
@@ -202,6 +202,26 @@ public class StyleEngine
 		// ExcelArea area = new ExcelArea( row, col, rowSpan, colSpan );
 		// range.addArea( area );
 		// }
+	// return styleId;
+	// }
+
+	public int getStyleId( StyleEntry entry )
+	{
+		if ( entry == null )
+		{
+			return 0;
+		}
+		int styleId = 0;
+		if ( style2id.get( entry ) != null )
+		{
+			styleId = style2id.get( entry ).intValue( );
+		}
+		else
+		{
+			styleId = styleID;
+			style2id.put( entry, new Integer( styleId ) );
+			styleID++;
+		}
 		return styleId;
 	}	
 
@@ -275,11 +295,27 @@ public class StyleEngine
 				continue;
 			}
 
-			if ( data.style != null )
+			int styleId = data.getStyleId( );
+			if ( styleId != -1 )
 			{
-				StyleBuilder.applyBottomBorder( entry, data.style );
+				StyleEntry originalStyle = getStyle( styleId );
+				StyleEntry newStyle = new StyleEntry( originalStyle );
+				StyleBuilder.applyBottomBorder( entry, newStyle );
+				data.setStyleId( getStyleId( newStyle ) );
 			}
 		}
+	}
+
+	public StyleEntry getStyle( int id )
+	{
+		for ( Entry<StyleEntry, Integer> entry : style2id.entrySet( ) )
+		{
+			if ( entry.getValue( ) == id )
+			{
+				return entry.getKey( );
+			}
+		}
+		return null;
 	}
 
 	// TODO: style ranges.
