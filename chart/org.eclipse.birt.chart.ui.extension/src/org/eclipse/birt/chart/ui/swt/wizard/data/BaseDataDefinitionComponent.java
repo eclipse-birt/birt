@@ -318,10 +318,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				}
 			} );
 
-			cmbDefinition.addModifyListener( this );
-			cmbDefinition.addFocusListener( this );
-			cmbDefinition.addKeyListener( this );
-			
 			initComboExprText( );
 		}
 		else
@@ -344,9 +340,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			gdTXTDefinition.widthHint = 80;
 			gdTXTDefinition.grabExcessHorizontalSpace = true;
 			txtDefinition.setLayoutData( gdTXTDefinition );
-			txtDefinition.addModifyListener( this );
-			txtDefinition.addFocusListener( this );
-			txtDefinition.addKeyListener( this );
+
 			// Initialize content assist.
 			if ( hasContentAssist )
 			{
@@ -467,6 +461,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( lblDesc != null && isRequiredField )
 		{
 			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );
+		}
+		
+		// Initialize listeners.
+		if ( cmbDefinition != null )
+		{
+			cmbDefinition.addModifyListener( this );
+			cmbDefinition.addFocusListener( this );
+			cmbDefinition.addKeyListener( this );
+		}
+		else if ( txtDefinition != null )
+		{
+			txtDefinition.addModifyListener( this );
+			txtDefinition.addFocusListener( this );
+			txtDefinition.addKeyListener( this );
 		}
 		return cmpTop;
 	}
@@ -1321,11 +1329,34 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		return ""; //$NON-NLS-1$
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.IQueryExpressionManager#updateText(java.lang.String)
+	 */
 	public void updateText( String expression )
 	{
 		if ( btnBuilder != null )
 		{
+			// Disable 'modify' listener to avoid updating model.
+			if ( cmbDefinition != null )
+			{
+				cmbDefinition.removeModifyListener( this );
+			}
+			else if ( txtDefinition != null )
+			{
+				txtDefinition.removeModifyListener( this );
+			}
+			
 			btnBuilder.setExpression( expression );
+			
+			// Enable 'modify' listener again.
+			if ( cmbDefinition != null )
+			{
+				cmbDefinition.addModifyListener( this );
+			}
+			else if ( txtDefinition != null )
+			{
+				txtDefinition.addModifyListener( this );
+			}
 		}
 	}
 }
