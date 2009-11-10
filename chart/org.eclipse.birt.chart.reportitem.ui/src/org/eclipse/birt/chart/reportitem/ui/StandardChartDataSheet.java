@@ -2051,21 +2051,22 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	protected Object getMenuForDimension( Chart chart, String expr )
 	{
+		List<Object> menus = new ArrayList<Object>( 2 );
 		// bug#220724
 		if ( ( (Boolean) dataProvider.checkData( ChartUIConstants.QUERY_CATEGORY,
 				expr ) ).booleanValue( ) )
 		{
-			return getBaseSeriesMenu( getChartModel( ), expr );
+			menus.add( getBaseSeriesMenu( getChartModel( ), expr ) );
 		}
 
 		if ( dataProvider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS )
 				&& ( (Boolean) dataProvider.checkData( ChartUIConstants.QUERY_OPTIONAL,
 						expr ) ).booleanValue( ) )
 		{
-			return getGroupSeriesMenu( getChartModel( ), expr );
+			menus.add( getGroupSeriesMenu( getChartModel( ), expr ) );
 		}
 
-		return null;
+		return menus;
 	}
 
 	private MenuManager createMenuManager( final Object data )
@@ -2132,6 +2133,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				{
 					manager.add( (IContributionItem) item );
 				}
+				else if ( item instanceof List<?> )
+				{
+					for ( Object o : (List<?>) item )
+					{
+						addMenu( manager, o );
+					}
+				}
 
 				// Do not allow customized query in xtab
 				if ( getDataServiceProvider( ).isPartChart( ) )
@@ -2142,6 +2150,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					}
 				}
 			}
+
 		} );
 		return menuManager;
 	}
