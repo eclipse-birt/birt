@@ -121,6 +121,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	{
 		IModelAdapter modelAdapter = context.getDataRequestSession( )
 				.getModelAdaptor( );
+		ChartReportItemUtil.adaptExpressions( cm, modelAdapter );
 		if ( handle.getDataSet( ) != null
 				|| ( handle.getCube( ) == null && parent instanceof IBaseQueryDefinition ) )
 		{
