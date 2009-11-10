@@ -37,6 +37,7 @@ import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionEditor;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.DefaultParameterDialogControlTypeHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
@@ -52,6 +53,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -80,13 +82,16 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
@@ -94,8 +99,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -119,7 +128,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.ISharedImages;
 
 import com.ibm.icu.util.ULocale;
 
@@ -262,8 +270,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private static final Image DEFAULT_ICON = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DEFAULT );
 
-	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
-
 	private static final String STANDARD_DATE_TIME_PATTERN = ParameterUtil.STANDARD_DATE_TIME_PATTERN;
 
 	public static final String CONTROLTYPE_VALUE = "controltype";//$NON-NLS-1$
@@ -276,11 +282,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	public static final String HELPER_KEY_STARTPOINT = "autoSuggestStartPoint";//$NON-NLS-1$
 
-	public static final String CONTROLTYPE_INPUTVALUE = "controltypeinput";
+	public static final String CONTROLTYPE_INPUTVALUE = "controltypeinput"; //$NON-NLS-1$
 
-	public static final String STARTPOINT_INPUTVALUE = "startpointinput";
+	public static final String STARTPOINT_INPUTVALUE = "startpointinput"; //$NON-NLS-1$
 
-	public static final String STARTPOINT_VALUE = "startpoint";
+	public static final String STARTPOINT_VALUE = "startpoint"; //$NON-NLS-1$
 
 	private boolean allowMultiValueVisible = true;
 
@@ -292,9 +298,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
 			.getProperty( ScalarParameterHandle.DATA_TYPE_PROP )
 			.getAllowedChoices( );
-
-	private static final IChoiceSet CONTROL_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_CONTROL );
 
 	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
 
@@ -329,8 +332,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private Combo dataSetChooser, columnChooser, displayTextChooser,
 			sortKeyChooser, sortDirectionChooser;
 
-	private Button valueColumnExprButton;
-
 	// Label
 	private Label sortKeyLabel, sortDirectionLabel;
 
@@ -350,7 +351,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private List columnList;
 
-	private TableArea tableArea;
+	private TableArea staticTableArea;
 
 	private IDialogHelper controlTypeHelper;
 
@@ -534,11 +535,90 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 	};
 
+	protected IStructuredContentProvider tableContentProvider = new IStructuredContentProvider( ) {
+
+		public void dispose( )
+		{
+		}
+
+		public Object[] getElements( Object inputElement )
+		{
+			if ( inputElement == null )
+			{
+				return new Object[0];
+			}
+			else if ( inputElement instanceof List )
+			{
+				return ( (List) inputElement ).toArray( );
+			}
+			return null;
+		}
+
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
+		{
+		}
+	};
+
+	protected ITableLabelProvider tableLableProvier = new ITableLabelProvider( ) {
+
+		public void addListener( ILabelProviderListener listener )
+		{
+		}
+
+		public void dispose( )
+		{
+		}
+
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return null;
+		}
+
+		public String getColumnText( Object element, int columnIndex )
+		{
+			if ( columnIndex == 0 )
+			{
+				if ( element instanceof Expression )
+				{
+					return ( (Expression) element ).getStringExpression( );
+				}
+				return element.toString( );
+			}
+			return ""; //$NON-NLS-1$
+		}
+
+		public boolean isLabelProperty( Object element, String property )
+		{
+			return false;
+		}
+
+		public void removeListener( ILabelProviderListener listener )
+		{
+		}
+	};
+
 	private Text listLimit;
 
 	private Composite displayArea;
 
 	private boolean isInitialized;
+
+	private TableViewer defaultValueViewer;
+
+	private Button delBtn;
+
+	private Button editBtn;
+
+	private Button delAllBtn;
+
+	private Composite defaultValueComposite;
+
+	private Label dummyLabel;
+
+	private Group valuesDefineSection;
+
+	private Button addButton;
 
 	/**
 	 * Create a new parameter dialog with given title under the active shell
@@ -812,7 +892,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private void createValuesDefineSection( Composite composite )
 	{
-		Group valuesDefineSection = new Group( composite, SWT.NONE );
+		valuesDefineSection = new Group( composite, SWT.NONE );
 		valuesDefineSection.setText( LABEL_LIST_OF_VALUE );
 		valuesDefineSection.setLayout( new GridLayout( 2, false ) );
 		valuesDefineSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -822,24 +902,28 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		choiceArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 4, true ) );
 		staticRadio = new Button( choiceArea, SWT.RADIO );
 		staticRadio.setText( RADIO_STATIC );
-		GridData gd = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+		GridData gd = new GridData( );
+		gd.widthHint = 100;
+		gd.horizontalIndent = 40;
 		staticRadio.setLayoutData( gd );
 		staticRadio.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				switchParamterType( );
+				if ( staticRadio.getSelection( ) )
+					switchParamterType( );
 			}
 
 		} );
 		dynamicRadio = new Button( choiceArea, SWT.RADIO );
 		dynamicRadio.setText( RADIO_DYNAMIC );
-		dynamicRadio.setLayoutData( gd );
+		dynamicRadio.setLayoutData( new GridData( ) );
 		dynamicRadio.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				switchParamterType( );
+				if ( dynamicRadio.getSelection( ) )
+					switchParamterType( );
 			}
 		} );
 
@@ -865,10 +949,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						valueTable.refresh( );
 					}
 				}
+				initDefaultValueViewer( );
 			}
 		} );
-		gd = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		staticRadio.setLayoutData( gd );
 
 		valueArea = new Composite( valuesDefineSection, SWT.NONE );
 		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
@@ -927,8 +1010,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		defaultValueList = inputParameter.getDefaultValueList( );
 
-		if ( PARAM_CONTROL_LIST.endsWith( getSelectedControlType( ) )
-				&& allowMultiValueVisible )
+		if ( enableAllowMultiValueVisible( ) )
 		{
 			allowMultiChoice.setVisible( true );
 			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.endsWith( inputParameter.getParamType( ) ) )
@@ -1109,7 +1191,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					defaultValue = null;
 				}
 			}
-			refreshValueTable( );
+			refreshStaticValueTable( );
 		}
 		else
 		{
@@ -1196,7 +1278,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private void setFirstDefaultValue( String value, String type )
 	{
 		if ( defaultValueList == null )
+		{
 			defaultValueList = new ArrayList<Expression>( );
+			initDefaultValueViewer( );
+		}
 		Expression expression = null;
 		if ( value != null )
 			expression = new Expression( value, type );
@@ -1612,7 +1697,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				|| ( distinct.isEnabled( ) && !distinct.getSelection( ) ) )
 		{
 			makeUniqueAndValid( );
-			refreshValueTable( );
+			refreshStaticValueTable( );
 		}
 		else
 		{
@@ -1840,7 +1925,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					return getDefaultValueChooserValue( );
 				}
 				else
-					return "";
+					return ""; //$NON-NLS-1$
 			}
 
 			public void setExpression( String expression )
@@ -1859,9 +1944,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ParameterExpressionProvider( inputParameter,
-						dataSetChooser != null ? getDefaultValueChooserValue( )
-								: null );
+				return new ExpressionProvider( inputParameter );
 			}
 
 			public String getExpressionType( )
@@ -1952,12 +2035,12 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		tableAreaComposite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		tableAreaComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		tableArea = new TableArea( tableAreaComposite, SWT.SINGLE
+		staticTableArea = new TableArea( tableAreaComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER, tableAreaModifier );
-		tableArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		staticTableArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Table table = tableArea.getTable( );
+		Table table = staticTableArea.getTable( );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
 
@@ -1985,16 +2068,16 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			column.setWidth( columnWidth[i] );
 		}
 
-		valueTable = tableArea.getTableViewer( );
+		valueTable = staticTableArea.getTableViewer( );
 		valueTable.setColumnProperties( columns );
 		valueTable.setContentProvider( contentProvider );
 		valueTable.setLabelProvider( labelProvider );
-		tableArea.setInput( choiceList );
+		staticTableArea.setInput( choiceList );
 		valueTable.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
 			public void selectionChanged( SelectionChangedEvent event )
 			{
-				updateTableButtons( );
+				updateStaticTableButtons( );
 			}
 
 		} );
@@ -2012,7 +2095,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				boolean defaultValueRemoved = true;
 				String type = getSelectedDataType( );
 				List choices = new ArrayList( );
 				Map labelMap = new HashMap( );
@@ -2075,7 +2157,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 								defaultValueList.remove( expression );
 						}
 					}
-					refreshValueTable( );
+					refreshStaticValueTable( );
 				}
 			}
 		} );
@@ -2095,7 +2177,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					// changeDefaultValue( choice.getValue( ) );
 					addDefaultValue( choice.getValue( ) );
 				}
-				refreshValueTable( );
+				refreshStaticValueTable( );
 				changeDefault.getParent( ).layout( );
 			}
 		} );
@@ -2111,7 +2193,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		changeDefault.setLayoutData( gd );
 
 		createPromptLine( tableAreaComposite );
-		updateTableButtons( );
+		updateStaticTableButtons( );
 		createSortingArea( valueArea );
 	}
 
@@ -2259,8 +2341,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ParameterExpressionProvider( inputParameter,
-						dataSetChooser.getText( ) );
+				return new ExpressionProvider( inputParameter );
 			}
 
 			public IExpressionContextFactory getExpressionContextFactory( )
@@ -2323,6 +2404,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				displayTextHelper );
 
 		createDefaultEditor( );
+
 		createSortingArea( valueArea );
 		createLabel( valueArea, null );
 		createPromptLine( valueArea );
@@ -2415,6 +2497,206 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		sortDirectionChooser.setText( CHOICE_ASCENDING );
 	}
 
+	private Composite createMulitipleValueListComposite( Composite parent )
+	{
+		Group group = new Group( parent, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 2;
+		group.setLayout( layout );
+
+		int tableStyle = SWT.SINGLE
+				| SWT.BORDER
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.FULL_SELECTION;
+		Table table = new Table( group, tableStyle );
+		GridData data = new GridData( GridData.FILL_BOTH );
+		table.setLayoutData( data );
+
+		table.setHeaderVisible( false );
+		table.setLinesVisible( true );
+		TableColumn column;
+		int i;
+		String[] columNames = new String[]{
+			Messages.getString( "FilterConditionBuilder.list.item1" ), //$NON-NLS-1$
+		};
+		int[] columLength = new int[]{
+			288
+		};
+		for ( i = 0; i < columNames.length; i++ )
+		{
+			column = new TableColumn( table, SWT.NONE, i );
+			column.setText( columNames[i] );
+			column.setWidth( columLength[i] );
+		}
+		table.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateDynamicTableButtons( );
+			}
+		} );
+
+		table.addKeyListener( new KeyListener( ) {
+
+			public void keyPressed( KeyEvent e )
+			{
+				if ( e.keyCode == SWT.DEL )
+				{
+					delTableValue( );
+				}
+
+			}
+
+			public void keyReleased( KeyEvent e )
+			{
+			}
+
+		} );
+		table.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDoubleClick( MouseEvent e )
+			{
+				editTableValue( );
+			}
+		} );
+
+		defaultValueViewer = new TableViewer( table );
+		defaultValueViewer.setUseHashlookup( true );
+		defaultValueViewer.setColumnProperties( columNames );
+		defaultValueViewer.setLabelProvider( tableLableProvier );
+		defaultValueViewer.setContentProvider( tableContentProvider );
+
+		Composite rightPart = new Composite( group, SWT.NONE );
+		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		rightPart.setLayoutData( data );
+		layout = new GridLayout( );
+		layout.makeColumnsEqualWidth = true;
+		rightPart.setLayout( layout );
+
+		editBtn = new Button( rightPart, SWT.PUSH );
+		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
+		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) ); //$NON-NLS-1$
+		setButtonLayoutData( editBtn );
+		GridData gd = (GridData) editBtn.getLayoutData( );
+		gd.grabExcessVerticalSpace = true;
+		gd.verticalAlignment = SWT.END;
+		editBtn.setLayoutData( gd );
+		editBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				editTableValue( );
+			}
+
+		} );
+
+		delBtn = new Button( rightPart, SWT.PUSH );
+		delBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) ); //$NON-NLS-1$
+		delBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) ); //$NON-NLS-1$
+		setButtonLayoutData( delBtn );
+		delBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				delTableValue( );
+			}
+
+		} );
+
+		delAllBtn = new Button( rightPart, SWT.PUSH );
+		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) ); //$NON-NLS-1$
+		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) ); //$NON-NLS-1$
+		setButtonLayoutData( delAllBtn );
+		gd = (GridData) delAllBtn.getLayoutData( );
+		gd.grabExcessVerticalSpace = true;
+		gd.verticalAlignment = SWT.BEGINNING;
+		delAllBtn.setLayoutData( gd );
+		delAllBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				int count = defaultValueList.size( );
+				if ( count > 0 )
+				{
+					defaultValueList.clear( );
+					defaultValueViewer.refresh( );
+					updateDynamicTableButtons( );
+				}
+				else
+				{
+					delAllBtn.setEnabled( false );
+				}
+			}
+
+		} );
+
+		return group;
+	}
+
+	protected void delTableValue( )
+	{
+		int index = defaultValueViewer.getTable( ).getSelectionIndex( );
+		if ( index > -1 )
+		{
+			defaultValueList.remove( index );
+			defaultValueViewer.refresh( );
+			if ( defaultValueList.size( ) > 0 )
+			{
+				if ( defaultValueList.size( ) <= index )
+				{
+					index = index - 1;
+				}
+				defaultValueViewer.getTable( ).select( index );
+			}
+			updateDynamicTableButtons( );
+		}
+		else
+		{
+			delBtn.setEnabled( false );
+		}
+	}
+
+	protected void editTableValue( )
+	{
+
+		IStructuredSelection selection = (IStructuredSelection) defaultValueViewer.getSelection( );
+		if ( selection.getFirstElement( ) != null
+				&& selection.getFirstElement( ) instanceof Expression )
+		{
+			Expression expression = (Expression) selection.getFirstElement( );
+
+			ExpressionProvider provider = new ExpressionProvider( inputParameter );
+
+			ExpressionEditor editor = new ExpressionEditor( Messages.getString( "ParameterDialog.ExpressionEditor.Title" ) ); //$NON-NLS-1$
+			editor.setInput( inputParameter, provider, true );
+			editor.setExpression( expression );
+			if ( editor.open( ) == OK )
+			{
+				Expression value = editor.getExpression( );
+				if ( DEUtil.resolveNull( value.getStringExpression( ) )
+						.length( ) == 0 )
+				{
+					MessageDialog.openInformation( getShell( ),
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Title" ),//$NON-NLS-1$ 
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Msg" ) ); //$NON-NLS-1$ 
+					return;
+				}
+				int index = defaultValueViewer.getTable( ).getSelectionIndex( );
+				defaultValueList.remove( index );
+				defaultValueList.add( index, value );
+				defaultValueViewer.refresh( );
+				defaultValueViewer.getTable( ).select( index );
+			}
+			updateDynamicTableButtons( );
+		}
+		else
+		{
+			editBtn.setEnabled( false );
+		}
+
+	}
+
 	private void clearDefaultValueText( )
 	{
 		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
@@ -2445,7 +2727,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		GridLayout layout = new GridLayout( );
 		layout.marginWidth = layout.marginHeight = 0;
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		composite.setLayout( layout );
 
 		defaultValueChooser = new CCombo( composite, SWT.BORDER );
@@ -2504,33 +2786,38 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					int status = dialog.open( );
 					if ( status == Window.OK )
 					{
-						String selectedValue = dialog.getSelectedValue( );
-						if ( ExpressionType.JAVASCRIPT.equals( defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) ) )
-							selectedValue = getSelectedExprValue( selectedValue );
-						defaultValueChooser.setText( DEUtil.resolveNull( selectedValue ) );
+						String[] selectedValues = dialog.getSelectedValue( );
+						if ( selectedValues != null )
+						{
+							for ( int i = 0; i < selectedValues.length; i++ )
+							{
+								String selectedValue = selectedValues[i];
+								if ( ExpressionType.JAVASCRIPT.equals( defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) ) )
+									selectedValue = getSelectedExprValue( selectedValue );
+								defaultValueChooser.setText( DEUtil.resolveNull( selectedValue ) );
+								addDynamicDefaultValue( );
+							}
+						}
 					}
 				}
-				else
+				else if ( isStatic( ) )
 				{
-					// if ( selection.equals( CHOICE_NULL_VALUE ) )
-					// {
-					// changeDefaultValue( null );
-					// }
-					// else if ( selection.equals( CHOICE_BLANK_VALUE ) )
-					// {
-					// changeDefaultValue( "" ); //$NON-NLS-1$
-					// }
-					if ( isStatic( ) )
-					{
-						refreshValueTable( );
-					}
+					refreshStaticValueTable( );
 				}
 			}
 		} );
+
 		defaultValueChooser.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
+				if ( !isStatic( )
+						&& enableAllowMultiValueVisible( )
+						&& allowMultiChoice.getSelection( ) )
+				{
+					updateDynamicTableButtons( );
+					return;
+				}
 				String value = defaultValueChooser.getText( );
 				String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
 				// if ( value.equals( CHOICE_NULL_VALUE )
@@ -2545,8 +2832,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 				if ( isStatic( ) )
 				{
-					refreshValueTable( );
+					refreshStaticValueTable( );
 				}
+
 			}
 		} );
 
@@ -2557,7 +2845,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				if ( defaultValueChooser != null )
 					return defaultValueChooser.getText( );
 				else
-					return "";
+					return ""; //$NON-NLS-1$
 			}
 
 			public void setExpression( String expression )
@@ -2576,9 +2864,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ParameterExpressionProvider( inputParameter,
-						dataSetChooser != null ? dataSetChooser.getText( )
-								: null );
+				return new ExpressionProvider( inputParameter );
 			}
 
 			public String getExpressionType( )
@@ -2613,6 +2899,32 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
 				ExpressionType.CONSTANT );
 		expressionButton.refresh( );
+
+		addButton = new Button( composite, SWT.PUSH );
+		addButton.setText( Messages.getString( "ParameterDialog.DefaultValue.Add" ) ); //$NON-NLS-1$
+		GridData gd = new GridData( );
+		gd.widthHint = 60;
+		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		{
+			gd.heightHint = 20;
+		}
+		addButton.setLayoutData( gd );
+		addButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				addDynamicDefaultValue( );
+				updateDynamicTableButtons( );
+			}
+
+		} );
+
+		dummyLabel = new Label( valueArea, SWT.NONE );
+		defaultValueComposite = createMulitipleValueListComposite( valueArea );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		defaultValueComposite.setLayoutData( gd );
+
+		initDefaultValueViewer( );
 	}
 
 	private void createPromptLine( Composite parent )
@@ -3045,7 +3357,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				boolean change = makeUniqueAndValid( );
 				if ( change )
 				{
-					refreshValueTable( );
+					refreshStaticValueTable( );
 				}
 			}
 			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
@@ -3083,9 +3395,32 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 	}
 
-	private void updateTableButtons( )
+	private void updateDynamicTableButtons( )
 	{
-		tableArea.updateButtons( );
+		StructuredSelection selection = (StructuredSelection) defaultValueViewer.getSelection( );
+		boolean enable = ( selection.size( ) == 1 );
+		editBtn.setEnabled( enable );
+		delBtn.setEnabled( !selection.isEmpty( ) );
+		delAllBtn.setEnabled( defaultValueViewer.getTable( ).getItemCount( ) > 0 );
+
+		Expression expression = ExpressionButtonUtil.getExpression( defaultValueChooser );
+		if ( defaultValueChooser.getText( ).trim( ).length( ) == 0 )
+		{
+			addButton.setEnabled( false );
+		}
+		else
+		{
+			if ( defaultValueList != null
+					&& defaultValueList.contains( expression ) )
+				addButton.setEnabled( false );
+			else
+				addButton.setEnabled( true );
+		}
+	}
+
+	private void updateStaticTableButtons( )
+	{
+		staticTableArea.updateButtons( );
 		boolean isEnable = true;
 		SelectionChoice selectedChoice = null;
 
@@ -3284,12 +3619,22 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		return defaultValue;
 	}
 
-	private void refreshValueTable( )
+	private void refreshStaticValueTable( )
 	{
 		if ( valueTable != null && !valueTable.getTable( ).isDisposed( ) )
 		{
 			valueTable.refresh( );
-			updateTableButtons( );
+			updateStaticTableButtons( );
+		}
+	}
+
+	private void refreshDynamicValueTable( )
+	{
+		if ( defaultValueViewer != null
+				&& !defaultValueViewer.getTable( ).isDisposed( ) )
+		{
+			defaultValueViewer.refresh( );
+			updateDynamicTableButtons( );
 		}
 	}
 
@@ -3663,7 +4008,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			updateFormatField( );
 			if ( refresh )
 			{
-				refreshValueTable( );
+				refreshStaticValueTable( );
 			}
 		}
 	}
@@ -3722,23 +4067,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private boolean isStatic( )
 	{
 		return staticRadio.getSelection( );
-	}
-
-	private String convertToStandardFormat( String string )
-	{
-		if ( string != null
-				&& DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-		{
-			try
-			{
-				string = ParameterUtil.convertToStandardFormat( DataTypeUtil.toDate( string,
-						ULocale.US ) );
-			}
-			catch ( BirtException e )
-			{
-			}
-		}
-		return string;
 	}
 
 	private String getExpression( String columnName )
@@ -3806,29 +4134,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		// return null;
 		return expression;
-	}
-
-	private String getInputControlDisplayName( )
-	{
-		String type = getInputControlType( );
-		String displayName = null;
-		if ( CONTROL_TYPE_CHOICE_SET.findChoice( type ) != null )
-		{
-			displayName = CONTROL_TYPE_CHOICE_SET.findChoice( type )
-					.getDisplayName( );
-		}
-		else
-		{
-			if ( PARAM_CONTROL_COMBO.equals( type ) )
-			{
-				displayName = DISPLAY_NAME_CONTROL_COMBO;
-			}
-			else if ( PARAM_CONTROL_LIST.equals( type ) )
-			{
-				displayName = DISPLAY_NAME_CONTROL_LIST;
-			}
-		}
-		return displayName;
 	}
 
 	private String validateChoice( SelectionChoice choice,
@@ -3912,7 +4217,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
 			{
-				exprValue = "new java.math.BigDecimal(\"" + value + "\")";
+				exprValue = "new java.math.BigDecimal(\"" + value + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			else
 			{
@@ -3953,5 +4258,60 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 
 		changeControlType( );
+	}
+
+	private void initDefaultValueViewer( )
+	{
+		if ( defaultValueComposite != null )
+		{
+			if ( !isStatic( ) && ( enableAllowMultiValueVisible( ) ) )
+			{
+				WidgetUtil.setExcludeGridData( dummyLabel,
+						!allowMultiChoice.getSelection( ) );
+				WidgetUtil.setExcludeGridData( defaultValueComposite,
+						!allowMultiChoice.getSelection( ) );
+				WidgetUtil.setExcludeGridData( addButton,
+						!allowMultiChoice.getSelection( ) );
+				if ( allowMultiChoice.getSelection( ) )
+				{
+					defaultValueViewer.setInput( defaultValueList );
+					updateDynamicTableButtons( );
+				}
+			}
+			else
+			{
+				WidgetUtil.setExcludeGridData( dummyLabel, true );
+				WidgetUtil.setExcludeGridData( defaultValueComposite, true );
+				WidgetUtil.setExcludeGridData( addButton, true );
+			}
+
+			addButton.getParent( ).layout( );
+			defaultValueComposite.layout( );
+			defaultValueComposite.getParent( ).layout( );
+
+			Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+			displayArea.setSize( size );
+			displayArea.getParent( ).layout( );
+		}
+	}
+
+	private boolean enableAllowMultiValueVisible( )
+	{
+		return PARAM_CONTROL_LIST.endsWith( getSelectedControlType( ) )
+				&& allowMultiValueVisible;
+	}
+
+	private void addDynamicDefaultValue( )
+	{
+		if ( !isStatic( )
+				&& enableAllowMultiValueVisible( )
+				&& allowMultiChoice.getSelection( ) )
+		{
+			String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
+			String value = UIUtil.convertToModelString( defaultValueChooser.getText( ),
+					false );
+			setFirstDefaultValue( value, type );
+			refreshDynamicValueTable( );
+		}
 	}
 }

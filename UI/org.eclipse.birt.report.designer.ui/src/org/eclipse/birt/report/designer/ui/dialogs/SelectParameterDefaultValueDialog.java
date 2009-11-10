@@ -59,10 +59,9 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		columnValueList.addAll( valueList );
 	}
 
-	public String getSelectedValue( )
+	public String[] getSelectedValue( )
 	{
-		String[] result = (String[]) getResult( );
-		return ( result != null && result.length > 0 ) ? result[0] : null;
+		return (String[]) getResult( );
 	}
 
 	/*
@@ -81,9 +80,9 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		Label label = new Label( composite, SWT.NONE );
 		label.setText( Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
 
-		selectValueList = new List( composite, SWT.SINGLE
-				| SWT.V_SCROLL
-				| SWT.H_SCROLL );
+		selectValueList = new List( composite, SWT.V_SCROLL
+				| SWT.H_SCROLL
+				| SWT.MULTI );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.heightHint = 250;
 		data.widthHint = 300;

@@ -183,9 +183,9 @@ public interface IHelpContextIds
 
 	public static final String ADD_LIBRARY_DIALOG_ID = PREFIX
 			+ "AddLibraryDialog_ID"; //$NON-NLS-1$
-	
+
 	public static final String ADD_RESOURCE_DIALOG_ID = PREFIX
-	+ "AddResourceDialog_ID"; //$NON-NLS-1$
+			+ "AddResourceDialog_ID"; //$NON-NLS-1$
 
 	public static final String COLUMNBINDING_DIALOG_ID = PREFIX
 			+ "ColumnBindingDialog_ID"; //$NON-NLS-1$
@@ -341,6 +341,11 @@ public interface IHelpContextIds
 
 	public static final String VARIABLE_DIALOG_ID = PREFIX
 			+ "VariableDialog_ID"; //$NON-NLS-1$
-	public static final String SELECT_VARIABLE_DIALOG_ID = PREFIX + "SelectVariableDialog_ID"; //$NON-NLS-1$
+	
+	public static final String SELECT_VARIABLE_DIALOG_ID = PREFIX
+			+ "SelectVariableDialog_ID"; //$NON-NLS-1$
+
+	public static final String EXPRESSION_EDITOR_ID = PREFIX
+			+ "ExpressionEditor_ID"; //$NON-NLS-1$;
 
 }
