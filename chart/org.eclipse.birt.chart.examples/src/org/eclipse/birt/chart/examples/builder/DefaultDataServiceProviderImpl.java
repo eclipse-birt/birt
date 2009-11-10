@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
@@ -253,7 +254,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return null;
 	}
 
-	public void adaptExpressions( Chart cm )
+	public void adaptExpressions( IChartObject ico )
 	{
 		// TODO Auto-generated method stub
 

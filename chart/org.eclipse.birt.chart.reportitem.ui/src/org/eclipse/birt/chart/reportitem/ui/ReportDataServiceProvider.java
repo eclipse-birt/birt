@@ -32,12 +32,12 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.SharedCubeResultSetEvaluator;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil.ExpressionAdaptHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
@@ -59,7 +60,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
-import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -163,13 +163,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private IProject project = null;
 
 	// These fields are used to execute query for live preview.
-	private DataRequestSession session = null;
+	protected DataRequestSession session = null;
 	private ReportEngine engine = null;
 	private DummyEngineTask engineTask = null;
 	private CubeHandle cubeReference = null;
 	
-	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-			.createExpressionCodec( );
+	protected ExpressionAdaptHelper expAdaptHelper = null;
 
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle ) throws ChartException
 	{
@@ -177,8 +176,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		this.itemHandle = itemHandle;
 		project = UIUtil.getCurrentProject( );
 		initialize( );
+		expAdaptHelper = createExpressionAdaptHelper( );
+		expAdaptHelper.setAdapter( session.getModelAdaptor( ) );
 	}
 	
+	protected ExpressionAdaptHelper createExpressionAdaptHelper( )
+	{
+		return new ExpressionAdaptHelper( );
+	}
+
 	/**
 	 * Initializes some instance handles for query execution.
 	 * 
@@ -3311,10 +3317,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return new String[]{};
 	}
 
-	public void adaptExpressions( Chart cm )
+	public void adaptExpressions( IChartObject cm )
 	{
-		ChartReportItemUtil.adaptExpressions( cm,
-				session.getModelAdaptor( ),
-				exprCodec );
+		expAdaptHelper.adapt( cm );
 	}
 }

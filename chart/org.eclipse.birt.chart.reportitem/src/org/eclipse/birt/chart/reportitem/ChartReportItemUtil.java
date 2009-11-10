@@ -20,12 +20,14 @@ import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
@@ -652,22 +654,31 @@ public class ChartReportItemUtil extends ChartItemUtil
 				exprCodec.getType( ) ) );
 	}
 	
-	public static void adaptExpressions( Chart cm, IModelAdapter adapter,
-			ExpressionCodec exprCodec )
+	public static void adaptExpressions( Chart cm, IModelAdapter adapter )
 	{
-		new ExpressionAdaptHelper( adapter, exprCodec ).adapt( cm );
+		new ExpressionAdaptHelper( adapter ).adapt( cm );
 	}
 
-	private static class ExpressionAdaptHelper
+	public static class ExpressionAdaptHelper
 	{
 
-		private final IModelAdapter adapter;
-		private final ExpressionCodec exprCodec;
+		protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
 
-		ExpressionAdaptHelper( IModelAdapter adapter, ExpressionCodec exprCodec )
+		protected IModelAdapter adapter = null;
+
+		public ExpressionAdaptHelper( IModelAdapter adapter )
 		{
 			this.adapter = adapter;
-			this.exprCodec = exprCodec;
+		}
+
+		public ExpressionAdaptHelper( )
+		{
+		}
+
+		public void setAdapter( IModelAdapter adapter )
+		{
+			this.adapter = adapter;
 		}
 
 		private String adapt( String expr )
@@ -714,7 +725,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 			}
 		}
 
-		private void adapt( ChartWithAxes cwa )
+		private void adaptChartWithAxes( ChartWithAxes cwa )
 		{
 			Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
 			adaptAxis( axPrimaryBase );
@@ -725,7 +736,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 			}
 		}
 
-		private void adapt( ChartWithoutAxes cwoa )
+		private void daptChartWithoutAxes( ChartWithoutAxes cwoa )
 		{
 			if ( cwoa.getSeriesDefinitions( ).size( ) > 0 )
 			{
@@ -739,15 +750,20 @@ public class ChartReportItemUtil extends ChartItemUtil
 			}
 		}
 
-		public void adapt( Chart cm )
+		public void adapt( IChartObject ico )
 		{
-			if ( cm instanceof ChartWithAxes )
+			if ( adapter == null )
 			{
-				adapt( (ChartWithAxes) cm );
+				return;
 			}
-			else
+			
+			if ( ico instanceof ChartWithAxes )
 			{
-				adapt( (ChartWithoutAxes) cm );
+				adaptChartWithAxes( (ChartWithAxes) ico );
+			}
+			else if ( ico instanceof ChartWithoutAxes )
+			{
+				daptChartWithoutAxes( (ChartWithoutAxes) ico );
 			}
 		}
 
