@@ -69,12 +69,20 @@ public class PathResourceEntry extends BaseResourceEntity
 		this( filePattern, true );
 	}
 
-	public PathResourceEntry(final String[] filePattern, String path)
+	public PathResourceEntry( final String[] filePattern, String path )
 	{
-		this( filePattern);
-		this.path = path;
+		this( filePattern );
 	}
-	
+
+	public PathResourceEntry( final String[] filePattern, String path,
+			String name )
+	{
+		this( filePattern );
+		this.path = path;
+		this.name = name;
+		this.displayName = name;
+	}
+
 	public PathResourceEntry( final String[] filePattern,
 			final boolean showFiles )
 	{
@@ -134,9 +142,9 @@ public class PathResourceEntry extends BaseResourceEntity
 			this.isFolder = file.isDirectory( );
 			this.url = file.toURL( );
 			// If path is empty, then eclipse home directory is used instead
-			if(this.path.length( ) == 0 && this.url != null)
+			if ( this.path.length( ) == 0 && this.url != null )
 			{
-				file = new File(url.getPath( ));
+				file = new File( url.getPath( ) );
 				this.path = file.getPath( );
 				this.isFolder = file.isDirectory( );
 			}
@@ -150,19 +158,19 @@ public class PathResourceEntry extends BaseResourceEntity
 	private void initRoot( )
 	{
 		this.path = ReportPlugin.getDefault( ).getResourceFolder( );
-		
+
 		if ( this.path != null )
 		{
 			try
 			{
-				File file = new File( this.path );				
+				File file = new File( this.path );
 				this.isFolder = file.isDirectory( );
 				this.url = file.toURL( );
-				
+
 				// If path is empty, then eclipse home directory is used instead
-				if(this.path.length( ) == 0 && this.url != null)
+				if ( this.path.length( ) == 0 && this.url != null )
 				{
-					file = new File(url.getPath( ));
+					file = new File( url.getPath( ) );
 					this.path = file.getPath( );
 					this.isFolder = file.isDirectory( );
 				}
@@ -324,7 +332,7 @@ public class PathResourceEntry extends BaseResourceEntity
 		{
 			if ( !this.isFolder && this.cssStyleHandle == null )
 			{
-//				String projectFolder = UIUtil.getProjectFolder( );
+				// String projectFolder = UIUtil.getProjectFolder( );
 
 				try
 				{

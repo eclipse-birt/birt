@@ -235,6 +235,11 @@ public class ResourceFileContentProvider implements IResourceContentProvider
 		this.filter = filter;
 	}
 
+	public ResourceEntry.Filter getFilter( )
+	{
+		return this.filter;
+	}
+
 	private int showEmptyFolderStatus = 0;
 
 	public int getEmptyFolderShowStatus( )

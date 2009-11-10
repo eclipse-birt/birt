@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.resourcelocator;
 
+import java.io.File;
 import java.net.URL;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -54,6 +55,16 @@ public class ResourceLocator
 		return new ResourceEntry[]{
 			new PathResourceEntry( fileNamePattern )
 		};
+	}
+
+	public static ResourceEntry getResourceEntry( String path,
+			String[] fileNamePattern, String name )
+	{
+		return new PathResourceEntry( fileNamePattern,
+				ReportPlugin.getDefault( ).getResourceFolder( )
+						+ File.separator
+						+ path,
+				name );
 	}
 
 	public static String relativize( String filePath )
