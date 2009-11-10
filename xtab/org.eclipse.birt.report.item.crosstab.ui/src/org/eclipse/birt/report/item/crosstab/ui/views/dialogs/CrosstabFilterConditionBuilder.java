@@ -1199,7 +1199,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				}
 				else
 				{
-					expressionCombo.setText( getDimensionStrExpression( comboGroupLevel.getText( ) ) );
+//					expressionCombo.setText( getDimensionStrExpression( comboGroupLevel.getText( ) ) );
 					return;
 				}
 			}
