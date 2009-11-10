@@ -107,8 +107,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	protected ChartWizardContext context = null;
 
-	private String sTitle = null;
-
 	private String description = ""; //$NON-NLS-1$
 
 	private String tooltipWhenBlank = Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
@@ -172,8 +170,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		this.queryType = queryType;
 		this.seriesdefinition = seriesdefinition;
 		this.context = context;
-		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 ) ? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
-				: sTitle;
 		this.style = style;
 	}
 
@@ -585,7 +581,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			Object[] array = (Object[]) data;
 			seriesdefinition = (SeriesDefinition) array[0];
 			query = (Query) array[1];
-			setUIText( getInputControl( ), query.getDefinition( ) );
+			updateText( query.getDefinition( ) );
+			// setUIText( getInputControl( ), query.getDefinition( ) );
 			DataDefinitionTextManager.getInstance( )
 					.addDataDefinitionText( getInputControl( ), this );
 			if ( fAggEditorComposite != null )
@@ -746,7 +743,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	public void focusGained( FocusEvent e )
 	{
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 
 	}
 
@@ -888,7 +885,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	public void keyReleased( KeyEvent e )
 	{
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 
 	}
 
@@ -940,33 +937,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		return getActualExpression( control );
 	}
 
-	private boolean setUIText( Control control, String expression )
-	{
-		if ( control == null || control.isDisposed( ) )
-		{
-			return false;
-		}
-
-		// btnBuilder.setExpression( expr );
-
-		if ( control instanceof Text )
-		{
-			( (Text) control ).setText( expression );
-		}
-		else if ( control instanceof CCombo )
-		{
-			if ( isTableSharedBinding( ) )
-			{
-				setUITextForSharedBinding( (CCombo) control, expression );
-			}
-			else
-			{
-				( (CCombo) control ).setText( expression );
-			}
-		}
-		return true;
-	}
-
 	/**
 	 * @param control
 	 * @param expression
@@ -995,9 +965,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		if ( getInputControl( ) instanceof CCombo )
 		{
-			String oldQuery = query.getDefinition( ) == null
-					? "" : query.getDefinition( ); //$NON-NLS-1$
-
 			Object checkResult = context.getDataServiceProvider( )
 					.checkData( queryType, expression );
 			if ( checkResult != null && checkResult instanceof Boolean )
@@ -1014,11 +981,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					// setUIText( getInputControl( ), oldQuery );
 					return;
 				}
-				// else
-				// {
-				// ChartWizard.removeException(
-				// ChartWizard.BaseDataDefCom_ID );
-				// }
 			}
 		}
 
