@@ -1410,14 +1410,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							cmbDataItems.removeAll( );
 							cmbDataItems.setItems( createDataComboItems( ) );
 							cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
-							if ( currentData == null )
-							{
-								cmbDataItems.select( 0 );
-							}
-							else
-							{
-								cmbDataItems.setText( currentData );
-							}
+							// select the newly created data set for user
+							String[] datasets = getDataServiceProvider( ).getAllDataSets( );
+							currentData = datasets[datasets.length - 1];
+							getDataServiceProvider( ).setDataSet( currentData );
+							cmbDataItems.setText( currentData );
+							setEnabledForButtons( );
+							updateDragDataSource( );
 							break;
 						case SELECT_NEW_DATACUBE :
 							if ( getDataServiceProvider( ).getAllDataSets( ).length == 0 )
@@ -1432,14 +1431,17 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							cmbDataItems.removeAll( );
 							cmbDataItems.setItems( createDataComboItems( ) );
 							cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
-							if ( currentData == null )
-							{
-								cmbDataItems.select( 0 );
-							}
-							else
-							{
-								cmbDataItems.setText( currentData );
-							}
+							// select the newly created data cube for user.
+							String[] datacubes = getDataServiceProvider( ).getAllDataCubes( );
+							currentData = datacubes[datacubes.length - 1];
+							getDataServiceProvider( ).setDataCube( currentData );
+							cmbDataItems.setText( currentData );
+							updateDragDataSource( );
+							setEnabledForButtons( );
+							// Update preview via event
+							DataDefinitionTextManager.getInstance( )
+									.refreshAll( );
+							fireEvent( tablePreview, EVENT_PREVIEW );
 							break;
 					}
 					updatePredefinedQueries( );
