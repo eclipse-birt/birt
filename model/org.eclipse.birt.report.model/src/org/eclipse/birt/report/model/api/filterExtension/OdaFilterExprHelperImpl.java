@@ -27,6 +27,15 @@ class OdaFilterExprHelperImpl
 {
 
 	/**
+	 * The constant for static filter type
+	 */
+	public static int STATIC_FILTER = 0;
+	/**
+	 * The constant for dynamic filter type
+	 */
+	public static int DYNAMIC_FILTER = 1;
+	
+	/**
 	 * The flag to initialize the birt predefined filter operators.
 	 */
 	private static boolean initBirtExpr = false;
