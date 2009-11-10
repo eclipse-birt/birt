@@ -343,7 +343,6 @@
             <command
                   commandId="org.eclipse.birt.report.item.crosstab.ui.createCube"
                   label="%newcube.menu"
-                  mnemonic="%command.mnemonic.c"
                   style="push">
             </command>
       </menuContribution>
