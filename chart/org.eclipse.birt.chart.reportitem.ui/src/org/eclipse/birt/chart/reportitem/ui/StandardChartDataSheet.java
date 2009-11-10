@@ -1120,10 +1120,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			bIsInheritSelected = false;
 			cmbDataItems.setText( sDataSet );
 			currentData = sDataSet;
-			if ( sDataSet != null )
-			{
-				switchDataTable( );
-			}
 			return;
 		}
 
@@ -1168,12 +1164,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		cmbDataItems.setEnabled( false );
 		// Initializes column bindings from container
 		getDataServiceProvider( ).setDataSet( null );
-		String reportDataSet = getDataServiceProvider( ).getInheritedDataSet( );
-		if ( reportDataSet != null )
-		{
-			switchDataTable( );
-		}
-
 	}
 
 	public void handleEvent( Event event )
@@ -1579,14 +1569,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				datasetName = getDataServiceProvider( ).getInheritedDataSet( );
 			}
 
-			if ( datasetName != null )
-			{
-				switchDataTable( );
-			}
-			else
-			{
-				tablePreview.createDummyTable( );
-			}
+			// do not need to update here. updateGragDataSource
+			// if ( datasetName != null )
+			// {
+			// switchDataTable( );
+			// }
+			tablePreview.createDummyTable( );
 			tablePreview.layout( );
 		}
 		catch ( Throwable t )
