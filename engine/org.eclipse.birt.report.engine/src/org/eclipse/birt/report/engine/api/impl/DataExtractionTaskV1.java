@@ -193,8 +193,8 @@ public class DataExtractionTaskV1 extends EngineTask
 		IReportRunnable runnable = getOnPreparedRunnable( reader );
 		setReportRunnable( runnable );
 		IInternalReportDocument internalDoc = (IInternalReportDocument) reader;
-		Report reportIR = internalDoc
-				.getReportIR( executionContext.getDesign( ) );
+		Report reportIR = internalDoc.getReportIR( executionContext
+				.getReportDesign( ) );
 		executionContext.setReport( reportIR );
 		this.report = executionContext.getReport( );
 		// load the report

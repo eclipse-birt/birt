@@ -89,6 +89,7 @@ public class DteDataEngine extends AbstractDataEngine
 					DataSessionContext.MODE_DIRECT_PRESENTATION, context
 							.getDesign( ), context.getScriptContext( ), context
 							.getApplicationClassLoader( ) );
+			dteSessionContext.setAppContext( context.getAppContext( ) );
 			DataEngineContext dteEngineContext = dteSessionContext.getDataEngineContext( );
 			dteEngineContext.setLocale( context.getLocale( ) );
 			dteEngineContext.setTimeZone( context.getTimeZone( ) );

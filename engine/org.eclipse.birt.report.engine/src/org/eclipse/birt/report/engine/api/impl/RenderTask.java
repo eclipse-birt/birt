@@ -494,7 +494,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			LayoutPageHandler layoutPageHandler = new LayoutPageHandler(
 					( (HTMLReportLayoutEngine) layoutEngine ).getContext( ) );
 			
-			ReportDesignHandle design = executionContext.getDesign( );
+			ReportDesignHandle design = executionContext.getReportDesign( );
 			if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
 					.equals( design.getLayoutPreference( ) ) )
 			{
@@ -734,7 +734,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		ULocale ulocale = getULocale( );
 		TimeZone timeZone = getTimeZone( );
-		ReportDesignHandle design = executionContext.getDesign( );
+		ReportDesignHandle design = executionContext.getReportDesign( );
 
 		if ( document instanceof IInternalReportDocument )
 		{

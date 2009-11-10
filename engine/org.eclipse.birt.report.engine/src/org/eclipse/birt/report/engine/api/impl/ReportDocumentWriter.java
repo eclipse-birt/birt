@@ -185,8 +185,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			// design.serialize( out );
 			ReportDesignHandle newDesign = DocumentUtil.serialize( design, out );
 			designName = design.getFileName( );
-			newRunnable = new ReportRunnable( newDesign );
-			newRunnable.setReportEngine( engine );
+			newRunnable = new ReportRunnable( engine, newDesign );
 			newRunnable.setReportName( runnable.getReportName( ) );
 			newRunnable.cachedScripts = runnable.cachedScripts;
 		}

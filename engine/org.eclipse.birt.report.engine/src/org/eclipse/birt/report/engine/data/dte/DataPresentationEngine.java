@@ -60,6 +60,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 						.getScriptContext( ), context
 						.getApplicationClassLoader( ) );
 		dteSessionContext.setDocumentReader( reader );
+		dteSessionContext.setAppContext( context.getAppContext( ) );
 		DataEngineContext dteEngineContext = dteSessionContext
 				.getDataEngineContext( );
 		dteEngineContext.setLocale( context.getLocale( ) );

@@ -27,7 +27,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * This is the high-level report document interface. 
  */
-public interface IReportDocument
+public interface IReportDocument extends IDocument
 {
 	public static int GLOBAL_VARIABLE_OPTION_ALL = 0;
 	public static int GLOBAL_VARIABLE_OPTION_JAVA_ONLY = 1;
@@ -35,11 +35,6 @@ public interface IReportDocument
 
 	public abstract IDocArchiveReader getArchive( );
 	
-	/**
-	 * close the report document, rlease all resources.
-	 */
-	public abstract void close();
-
 	/**
 	 * Get report document version.
 	 * 
@@ -54,11 +49,6 @@ public interface IReportDocument
 	 * @return property
 	 */
 	public String getProperty( String key );
-
-	/**
-	 * @return the report document (archive) name
-	 */
-	public abstract String getName( );
 
 	/**
 	 * @return a report design stream. This is useful for rerunning a report

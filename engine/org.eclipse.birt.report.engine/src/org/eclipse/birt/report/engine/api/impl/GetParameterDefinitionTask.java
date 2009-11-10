@@ -45,9 +45,9 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -92,8 +92,8 @@ public class GetParameterDefinitionTask extends EngineTask
 	 */
 	public Collection getParameterDefns( boolean includeParameterGroups )
 	{
-		DesignElementHandle handle = executionContext.getDesign( );
-		Collection original = getParameters( (ReportDesignHandle)handle, includeParameterGroups );
+		ModuleHandle designHandle = executionContext.getDesign( );
+		Collection original = getParameters( designHandle, includeParameterGroups );
 		Iterator iter = original.iterator( );
 
 		// Clone parameter definitions, fill in locale and report dsign
@@ -116,7 +116,6 @@ public class GetParameterDefinitionTask extends EngineTask
 
 		if ( parameterDefns != null )
 		{
-			ReportDesignHandle designHandle = executionContext.getDesign( );
 			Locale locale = ulocale.toLocale( );
 			iter = parameterDefns.iterator( );
 			while ( iter.hasNext( ) )
@@ -125,20 +124,20 @@ public class GetParameterDefinitionTask extends EngineTask
 				if ( pBase instanceof ScalarParameterDefn )
 				{
 					( (ScalarParameterDefn) pBase )
-							.setReportDesign( designHandle );
+							.setDesign( designHandle );
 					( (ScalarParameterDefn) pBase ).setLocale( locale );
 					( (ScalarParameterDefn) pBase ).evaluateSelectionList( );
 				}
 				else if ( pBase instanceof DynamicFilterParameterDefn )
 				{
 					( (DynamicFilterParameterDefn) pBase )
-							.setReportDesign( designHandle );
+							.setDesign( designHandle );
 					( (DynamicFilterParameterDefn) pBase ).setLocale( locale );
 				}
 				else if ( pBase instanceof ParameterGroupDefn )
 				{
 					( (ParameterGroupDefn) pBase )
-							.setReportDesign( designHandle );
+							.setDesign( designHandle );
 					Iterator iter2 = ( (ParameterGroupDefn) pBase )
 							.getContents( ).iterator( );
 					while ( iter2.hasNext( ) )
@@ -148,7 +147,7 @@ public class GetParameterDefinitionTask extends EngineTask
 						if ( p instanceof ScalarParameterDefn )
 						{
 							( (ScalarParameterDefn) p )
-									.setReportDesign( designHandle );
+									.setDesign( designHandle );
 							( (ScalarParameterDefn) p ).setLocale( locale );
 							( (ScalarParameterDefn) p ).evaluateSelectionList( );
 						}
@@ -181,8 +180,8 @@ public class GetParameterDefinitionTask extends EngineTask
 			return ret;
 		}
 
-		ReportDesignHandle handle = executionContext.getDesign( );
-		Collection original = getParameters( (ReportDesignHandle)handle, true );
+		ModuleHandle designHandle = executionContext.getDesign( );
+		Collection original = getParameters( designHandle, true );
 		
 		Iterator iter = original.iterator( );
 		while ( iter.hasNext( ) )
@@ -199,19 +198,19 @@ public class GetParameterDefinitionTask extends EngineTask
 			if ( ret instanceof ScalarParameterDefn )
 			{
 				( (ScalarParameterDefn) ret )
-						.setReportDesign(handle );
+						.setDesign(designHandle );
 				( (ScalarParameterDefn) ret ).setLocale( locale );
 				( (ScalarParameterDefn) ret ).evaluateSelectionList( );
 			}
 			else if ( ret instanceof DynamicFilterParameterDefn )
 			{
-				( (DynamicFilterParameterDefn) ret ).setReportDesign( handle );
+				( (DynamicFilterParameterDefn) ret ).setDesign( designHandle );
 				( (DynamicFilterParameterDefn) ret ).setLocale( locale );
 			}
 			else if ( ret instanceof ParameterGroupDefn )
 			{
 				( (ParameterGroupDefn) ret )
-						.setReportDesign( handle );
+						.setDesign( designHandle );
 				( (ParameterGroupDefn) ret ).setLocale( locale );
 				Iterator iter2 = ( (ParameterGroupDefn) ret ).getContents( )
 						.iterator( );
@@ -221,13 +220,13 @@ public class GetParameterDefinitionTask extends EngineTask
 					if ( p instanceof ScalarParameterDefn )
 					{
 						( (ScalarParameterDefn) p )
-								.setReportDesign( handle );
+								.setDesign( designHandle );
 						( (ScalarParameterDefn) p ).setLocale( locale );
 						( (ScalarParameterDefn) p ).evaluateSelectionList( );
 					}
 					else if ( p instanceof DynamicFilterParameterDefn )
 					{
-						( (DynamicFilterParameterDefn) p ).setReportDesign( handle );
+						( (DynamicFilterParameterDefn) p ).setDesign( designHandle );
 						( (DynamicFilterParameterDefn) p ).setLocale( locale );
 					}
 				}
@@ -238,14 +237,14 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	public SlotHandle getParameters( )
 	{
-		ReportDesignHandle report = executionContext.getDesign( );
-		return report.getParameters( );
+		ModuleHandle design = executionContext.getDesign( );
+		return design.getParameters( );
 	}
 
 	public ParameterHandle getParameter( String name )
 	{
-		ReportDesignHandle report =  executionContext.getDesign( );
-		return report.findParameter( name );
+		ModuleHandle design =  executionContext.getDesign( );
+		return design.findParameter( name );
 
 	}
 
@@ -297,7 +296,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	public Object getDefaultValue( String name )
 	{
-		ReportDesignHandle report = executionContext.getDesign( );
+		ModuleHandle report = executionContext.getDesign( );
 		AbstractScalarParameterHandle parameter = (AbstractScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
@@ -312,7 +311,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	
 	protected Object refineParameterValue( String name, Object value )
 	{
-		ReportDesignHandle report = executionContext.getDesign( );
+		ModuleHandle report = executionContext.getDesign( );
 		AbstractScalarParameterHandle param = (AbstractScalarParameterHandle) report
 				.findParameter( name );
 		if ( !( param instanceof DynamicFilterParameterHandle ) )
@@ -404,8 +403,8 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		usingParameterValues( );
 
-		ReportDesignHandle report =  executionContext.getDesign( );
-		AbstractScalarParameterHandle parameter = (AbstractScalarParameterHandle) report
+		ModuleHandle design =  executionContext.getDesign( );
+		AbstractScalarParameterHandle parameter = (AbstractScalarParameterHandle) design
 				.findParameter( name );
 		if ( parameter == null )
 		{
@@ -486,7 +485,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				SelectionChoiceHandle choice = (SelectionChoiceHandle) iter
 						.next( );
 
-				String label = report.getMessage( choice.getLabelKey( ),
+				String label = design.getMessage( choice.getLabelKey( ),
 						ulocale.toLocale( ) );
 				if ( label == null )
 				{
@@ -998,13 +997,13 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		return  null;
 	}
-	
+
 	private CascadingParameterGroupHandle getCascadingParameterGroup(
 			String name )
 	{
-		ReportDesignHandle report =  executionContext.getDesign( );
+		ModuleHandle design = executionContext.getDesign( );
 
-		return report.findCascadingParameterGroup( name );
+		return design.findCascadingParameterGroup( name );
 	}
 
 	static class SelectionChoice implements IParameterSelectionChoice
@@ -1269,7 +1268,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			AbstractScalarParameterHandle parameter )
 	{
 		
-		ReportDesignHandle report =  executionContext.getDesign( );
+		ModuleHandle report =  executionContext.getDesign( );
 		DataSetHandle dataSet = report.findDataSet( parameter.getDataSetName( ) );
 		IResultIterator iterator = null;
 		if ( dataSet != null )
@@ -1344,7 +1343,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 *         <code>true</code>; otherwise, returns all the report
 	 *         parameters.
 	 */
-	public ArrayList getParameters( ReportDesignHandle handle,
+	public ArrayList getParameters( ModuleHandle handle,
 			boolean includeParameterGroups )
 	{
 		assert ( handle != null );
@@ -1419,14 +1418,14 @@ public class GetParameterDefinitionTask extends EngineTask
 		/**
 		 * report design handle
 		 */
-		protected ReportDesignHandle handle;
+		protected ModuleHandle handle;
 		
 		/**
 		 * current report element created by visitor
 		 */
 		protected Object currentElement;
 		
-		ParameterIRVisitor( ReportDesignHandle handle )
+		ParameterIRVisitor( ModuleHandle handle )
 		{
 			super( );
 			this.handle = handle;

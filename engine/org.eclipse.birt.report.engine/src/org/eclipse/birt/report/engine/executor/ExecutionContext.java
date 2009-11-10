@@ -65,7 +65,6 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
-import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.executor.optimize.ExecutionOptimize;
@@ -82,6 +81,7 @@ import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
@@ -99,6 +99,7 @@ import com.ibm.icu.util.ULocale;
  */
 public class ExecutionContext
 {
+
 	/**
 	 * how many errors or exceptions will be registered.
 	 */
@@ -155,7 +156,7 @@ public class ExecutionContext
 	 * report runnable used to create the report content
 	 */
 	protected ReportRunnable runnable;
-	
+
 	protected ReportRunnable originalRunnable;
 
 	/**
@@ -175,7 +176,7 @@ public class ExecutionContext
 	private Map<String, PageVariable> pageVariables = new HashMap<String, PageVariable>( );
 
 	private ReportDocumentWriter docWriter;
-	
+
 	private Report reportIR;
 
 	/**
@@ -229,11 +230,11 @@ public class ExecutionContext
 	 * The current content element to be executed or loaded
 	 */
 	private IContent content;
-	
+
 	/**
-	 * the current opened result set 
+	 * the current opened result set
 	 */
-	private IBaseResultSet[] rsets; 
+	private IBaseResultSet[] rsets;
 
 	/**
 	 * A stack of handle objects, with the current one on the top
@@ -264,12 +265,12 @@ public class ExecutionContext
 	 * Flag to indicate whether task is canceled.
 	 */
 	private boolean isCancelled = false;
-	
+
 	/**
 	 * flag to indicate if the task should be canceled on error
 	 */
 	private boolean cancelOnError = false;
-	
+
 	/**
 	 * utilities used in the report execution.
 	 */
@@ -281,44 +282,44 @@ public class ExecutionContext
 
 	private ClassLoader applicationClassLoader;
 	private boolean closeClassLoader;
-	
+
 	private int MAX_ERRORS = 100;
 	/**
 	 * 
 	 */
 	private DocumentDataSource dataSource;
-	
+
 	/**
 	 * All page break listeners.
 	 */
 	private List pageBreakListeners;
-	
+
 	/**
 	 * an instance of ExtendedItemManager
 	 */
 	private ExtendedItemManager extendedItemManager = new ExtendedItemManager( );
-	
+
 	/**
 	 * an instance of engine extension manager
 	 */
-	private EngineExtensionManager engineExtensionManager = new EngineExtensionManager( this );
-	
-	
+	private EngineExtensionManager engineExtensionManager = new EngineExtensionManager(
+			this );
+
 	/**
 	 * max rows per query. An initial value -1 means it is not set
 	 */
 	private int maxRowsPerQuery = -1;
-	
+
 	private EventHandlerManager eventHandlerManager;
-	
+
 	private IProgressMonitor progressMonitor;
 
 	private boolean needOutputResultSet;
-	
+
 	private boolean isFixedLayout = false;
 
 	private IDesignElement element = null;
-	
+
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -335,7 +336,7 @@ public class ExecutionContext
 		if ( engineTask != null )
 		{
 			task = engineTask;
-			engine = (ReportEngine)task.getEngine( );
+			engine = (ReportEngine) task.getEngine( );
 			log = task.getLogger( );
 		}
 		else
@@ -350,7 +351,7 @@ public class ExecutionContext
 
 	private void initializeScriptContext( )
 	{
-		//FIXME: the root scope defined in the report engine is not used.
+		// FIXME: the root scope defined in the report engine is not used.
 		scriptContext = new ScriptContext( );
 		if ( engine != null )
 		{
@@ -398,22 +399,22 @@ public class ExecutionContext
 				scriptContext.setAttribute( "_statusHandle", handler );
 			}
 		}
-		if (transientBeans != null )
+		if ( transientBeans != null )
 		{
 			Iterator entries = transientBeans.entrySet( ).iterator( );
-			while( entries.hasNext( ))
+			while ( entries.hasNext( ) )
 			{
-				Map.Entry entry = (Map.Entry)entries.next( );
+				Map.Entry entry = (Map.Entry) entries.next( );
 				scriptContext.setAttribute( (String) entry.getKey( ), entry
 						.getValue( ) );
 			}
 		}
-		if (persistentBeans != null )
+		if ( persistentBeans != null )
 		{
 			Iterator entries = persistentBeans.entrySet( ).iterator( );
-			while( entries.hasNext( ))
+			while ( entries.hasNext( ) )
 			{
-				Map.Entry entry = (Map.Entry)entries.next( );
+				Map.Entry entry = (Map.Entry) entries.next( );
 				registerInRoot( (String) entry.getKey( ), entry.getValue( ) );
 			}
 		}
@@ -440,7 +441,7 @@ public class ExecutionContext
 			extendedItemManager.close( );
 			extendedItemManager = null;
 		}
-		
+
 		if ( engineExtensionManager != null )
 		{
 			engineExtensionManager.close( );
@@ -474,13 +475,13 @@ public class ExecutionContext
 		{
 			( (ApplicationClassLoader) applicationClassLoader ).close( );
 		}
-		
+
 		IStatusHandler handler = task.getStatusHandler( );
 		if ( handler != null )
 		{
 			handler.finish( );
 		}
-		
+
 		closeClassLoader = false;
 		applicationClassLoader = null;
 	}
@@ -503,12 +504,12 @@ public class ExecutionContext
 	{
 		if ( scriptContext == null )
 		{
-			throw new IllegalStateException();
+			throw new IllegalStateException( );
 		}
 		ScriptContext parent = scriptContext.getParent( );
 		if ( parent == null )
 		{
-			throw new IllegalStateException();
+			throw new IllegalStateException( );
 		}
 		scriptContext = parent;
 	}
@@ -552,7 +553,7 @@ public class ExecutionContext
 	public void registerBean( String name, Object value )
 	{
 		transientBeans.put( name, value );
-		if( scriptContext != null )
+		if ( scriptContext != null )
 		{
 			scriptContext.setAttribute( name, value );
 		}
@@ -561,7 +562,7 @@ public class ExecutionContext
 	public void unregisterBean( String name )
 	{
 		transientBeans.remove( name );
-		if( scriptContext != null )
+		if ( scriptContext != null )
 		{
 			scriptContext.setAttribute( name, null );
 		}
@@ -634,7 +635,7 @@ public class ExecutionContext
 					Expression.Script script = (Expression.Script) expr;
 					ICompiledScript compiledScript = script
 							.getScriptExpression( );
-					if (compiledScript == null)
+					if ( compiledScript == null )
 					{
 						compiledScript = compile( script.getLanguage( ), script
 								.getFileName( ), script.getLineNumber( ),
@@ -653,10 +654,10 @@ public class ExecutionContext
 		return null;
 	}
 
-	/** 
-     * The expression may be evaluated at onPrepare stage, at that time
-     * the reportIR is not initialized.
-     */
+	/**
+	 * The expression may be evaluated at onPrepare stage, at that time the
+	 * reportIR is not initialized.
+	 */
 	protected String getScriptLanguage( )
 	{
 		if ( reportIR != null )
@@ -677,20 +678,21 @@ public class ExecutionContext
 		return evaluate( getScriptLanguage( ), fileName, 1, scriptText );
 	}
 
-	public Object evaluateInlineScript( String language, String scriptText ) throws BirtException
+	public Object evaluateInlineScript( String language, String scriptText )
+			throws BirtException
 	{
 		return evaluate( language, "<inline>", 1, scriptText );
 	}
 
-	public Object evaluate( String language, String fileName , int lineNumber, String scriptText )
-			throws BirtException
+	public Object evaluate( String language, String fileName, int lineNumber,
+			String scriptText ) throws BirtException
 	{
 		if ( scriptText == null )
 		{
 			return null;
 		}
-		ICompiledScript compiledScript = compile( language, fileName, lineNumber,
-					scriptText );
+		ICompiledScript compiledScript = compile( language, fileName,
+				lineNumber, scriptText );
 		return evaluate( compiledScript );
 	}
 
@@ -708,9 +710,10 @@ public class ExecutionContext
 		return compiledScript;
 	}
 
-	private Object evaluate( ICompiledScript compiledScript ) throws BirtException
+	private Object evaluate( ICompiledScript compiledScript )
+			throws BirtException
 	{
-		return getScriptContext().evaluate( compiledScript );
+		return getScriptContext( ).evaluate( compiledScript );
 	}
 
 	/**
@@ -725,7 +728,8 @@ public class ExecutionContext
 	 *            the conditional expression to be evaluated
 	 * @return a boolean value (as an Object)
 	 */
-	public Object evaluateCondExpr( IConditionalExpression expr ) throws BirtException
+	public Object evaluateCondExpr( IConditionalExpression expr )
+			throws BirtException
 	{
 		IScriptExpression testExpr = expr.getExpression( );
 		ScriptContext scriptContext = getScriptContext( );
@@ -733,15 +737,14 @@ public class ExecutionContext
 			return Boolean.FALSE;
 		try
 		{
-			return ScriptEvalUtil.evalExpr( expr,
-					scriptContext,
-					ScriptExpression.defaultID,
-					0 );
+			return ScriptEvalUtil.evalExpr( expr, scriptContext,
+					ScriptExpression.defaultID, 0 );
 		}
 		catch ( Throwable e )
 		{
 			throw new EngineException(
-					MessageConstants.INVALID_EXPRESSION_ERROR, testExpr.getText( ), e );
+					MessageConstants.INVALID_EXPRESSION_ERROR, testExpr
+							.getText( ), e );
 		}
 	}
 
@@ -789,8 +792,8 @@ public class ExecutionContext
 		if ( rlocale == null )
 			this.getScriptContext( ).setLocale( ulocale.toLocale( ) );
 	}
-	
-	public TimeZone getTimeZone()
+
+	public TimeZone getTimeZone( )
 	{
 		return this.timeZone;
 	}
@@ -801,14 +804,13 @@ public class ExecutionContext
 		this.getScriptContext( ).setTimeZone( timeZone );
 	}
 
-
 	public void openDataEngine( )
 	{
 		if ( dataEngine == null )
 		{
 			try
 			{
-				dataEngine = DataEngineFactory.getInstance( ).createDataEngine(
+				dataEngine = engine.getDataEngineFactory( ).createDataEngine(
 						this, needOutputResultSet );
 			}
 			catch ( BirtException bex )
@@ -882,7 +884,7 @@ public class ExecutionContext
 		{
 			return ( (ParameterAttribute) parameter ).getValue( );
 		}
-		return null;		
+		return null;
 	}
 
 	public Map getParameterValues( )
@@ -900,7 +902,7 @@ public class ExecutionContext
 		return result;
 
 	}
-	
+
 	public Map getParameterDisplayTexts( )
 	{
 		Map result = new HashMap( );
@@ -923,9 +925,9 @@ public class ExecutionContext
 		{
 			return ( (ParameterAttribute) parameter ).getDisplayText( );
 		}
-		return null;		
+		return null;
 	}
-	
+
 	public void setParameterDisplayText( String name, String displayText )
 	{
 		Object parameter = params.get( name );
@@ -948,12 +950,24 @@ public class ExecutionContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.IFactoryContext#getReportDesign()
+	 * @see
+	 * org.eclipse.birt.report.engine.executor.IFactoryContext#getReportDesign()
 	 */
-	public ReportDesignHandle getDesign( )
+	public ModuleHandle getDesign( )
 	{
 		return runnable != null
-				? (ReportDesignHandle) runnable.getDesignHandle( ) : null;
+				? (ModuleHandle) runnable.getDesignHandle( )
+				: null;
+	}
+
+	public ReportDesignHandle getReportDesign( )
+	{
+		ModuleHandle design = getDesign( );
+		if ( design instanceof ReportDesignHandle )
+		{
+			return (ReportDesignHandle) design;
+		}
+		return null;
 	}
 
 	/**
@@ -981,14 +995,14 @@ public class ExecutionContext
 	 */
 	public void loadScript( String language, String fileName )
 	{
-		ReportDesignHandle reportDesign = this.getDesign( );
+		ModuleHandle reportDesign = this.getDesign( );
 		URL url = null;
 		if ( reportDesign != null )
 		{
 			url = reportDesign.findResource( fileName,
 					IResourceLocator.LIBRARY, appContext );
 		}
-		if (url == null)
+		if ( url == null )
 		{
 			log.log( Level.SEVERE, "loading external script file " + fileName
 					+ " failed." );
@@ -996,7 +1010,7 @@ public class ExecutionContext
 					MessageConstants.SCRIPT_FILE_LOAD_ERROR, fileName ) ); //$NON-NLS-1$
 			return;
 		}
-		
+
 		// read the script in the URL, and execution.
 		InputStream in = null;
 		try
@@ -1011,8 +1025,8 @@ public class ExecutionContext
 				size = in.read( buffer );
 			}
 			byte[] script = out.toByteArray( );
-			ICompiledScript compiledScript = getScriptContext( ).compile( language,
-					fileName, 1, new String( script, "UTF-8" ) );
+			ICompiledScript compiledScript = getScriptContext( ).compile(
+					language, fileName, 1, new String( script, "UTF-8" ) );
 			execute( compiledScript ); //$NON-NLS-1$
 		}
 		catch ( IOException ex )
@@ -1063,21 +1077,22 @@ public class ExecutionContext
 	{
 		return content;
 	}
-	
-	public void setContent(IContent content)
+
+	public void setContent( IContent content )
 	{
 		this.content = content;
 	}
 
-	public ReportItemDesign getItemDesign()
+	public ReportItemDesign getItemDesign( )
 	{
 		return design;
 	}
-	
-	public void setItemDesign(ReportItemDesign design)
+
+	public void setItemDesign( ReportItemDesign design )
 	{
 		this.design = design;
 	}
+
 	/**
 	 * @param obj
 	 */
@@ -1123,7 +1138,7 @@ public class ExecutionContext
 	}
 
 	protected HashMap elementExceptions = new HashMap( );
-	
+
 	public void addException( ReportElementDesign design, BirtException ex )
 	{
 		DesignElementHandle handle = null;
@@ -1172,7 +1187,7 @@ public class ExecutionContext
 		if ( element != null )
 			engineEx.setElementID( element.getID( ) );
 		exInfo.addException( engineEx );
-		
+
 		if ( cancelOnError && task != null )
 		{
 			task.cancel( );
@@ -1262,13 +1277,13 @@ public class ExecutionContext
 	 */
 	public void setRunnable( IReportRunnable runnable )
 	{
-		this.runnable = (ReportRunnable)runnable;
-		if (scriptContext != null)
+		this.runnable = (ReportRunnable) runnable;
+		if ( scriptContext != null )
 		{
 			registerDesign( runnable );
 		}
 	}
-	
+
 	public void updateRunnable( IReportRunnable newRunnable )
 	{
 		if ( originalRunnable == null )
@@ -1276,14 +1291,14 @@ public class ExecutionContext
 			this.originalRunnable = this.runnable;
 		}
 		this.runnable = (ReportRunnable) newRunnable;
-		if (scriptContext != null)
+		if ( scriptContext != null )
 		{
-			registerDesign(runnable);
+			registerDesign( runnable );
 		}
 		reportIR = null;
 	}
-	
-	public ReportRunnable getOriginalRunnable()
+
+	public ReportRunnable getOriginalRunnable( )
 	{
 		if ( originalRunnable != null )
 		{
@@ -1291,13 +1306,11 @@ public class ExecutionContext
 		}
 		return runnable;
 	}
-	
 
 	private void registerDesign( IReportRunnable runnable )
 	{
-		ReportDesignHandle reportDesign = (ReportDesignHandle) runnable
-			.getDesignHandle( );
-		element = SimpleElementFactory.getInstance( ).getElement( reportDesign );
+		DesignElementHandle design = (ModuleHandle) runnable.getDesignHandle( );
+		element = SimpleElementFactory.getInstance( ).getElement( design );
 	}
 
 	/**
@@ -1390,7 +1403,7 @@ public class ExecutionContext
 			}
 			return element.getName( );
 		}
-		
+
 		public String getID( )
 		{
 			if ( element == null )
@@ -1429,7 +1442,7 @@ public class ExecutionContext
 	public void setReportContext( IReportContext reportContext )
 	{
 		this.reportContext = reportContext;
-		if ( scriptContext != null)
+		if ( scriptContext != null )
 		{
 			getRootContext( ).setAttribute( "reportContext", reportContext );
 		}
@@ -1438,9 +1451,10 @@ public class ExecutionContext
 	public void setPageNumber( long pageNo )
 	{
 		pageNumber = pageNo;
-		if ( scriptContext != null)
+		if ( scriptContext != null )
 		{
-			getRootContext( ).setAttribute( "pageNumber", new Long( pageNumber ) );
+			getRootContext( )
+					.setAttribute( "pageNumber", new Long( pageNumber ) );
 		}
 		if ( totalPage < pageNumber )
 		{
@@ -1461,7 +1475,8 @@ public class ExecutionContext
 			this.totalPage = totalPage;
 			if ( scriptContext != null )
 			{
-				getRootContext( ).setAttribute( "totalPage", new Long( totalPage ) );
+				getRootContext( ).setAttribute( "totalPage",
+						new Long( totalPage ) );
 			}
 			if ( reportContent instanceof ReportContent )
 			{
@@ -1548,7 +1563,7 @@ public class ExecutionContext
 	{
 		this.factoryMode = mode;
 	}
-	
+
 	public boolean getFactoryMode( )
 	{
 		return this.factoryMode;
@@ -1728,7 +1743,7 @@ public class ExecutionContext
 	{
 		return renderOption.getActionHandler( );
 	}
-	
+
 	/**
 	 * @return Returns the action handler.
 	 */
@@ -1736,12 +1751,12 @@ public class ExecutionContext
 	{
 		return renderOption.getImageHandler( );
 	}
-	
 
 	/**
-	 * return application class loader.
-	 * The application class loader is used to load the report item event handle and 
-	 * java classes called in the javascript.
+	 * return application class loader. The application class loader is used to
+	 * load the report item event handle and java classes called in the
+	 * javascript.
+	 * 
 	 * @return class loader
 	 */
 	public ClassLoader getApplicationClassLoader( )
@@ -1778,7 +1793,7 @@ public class ExecutionContext
 			scriptContext.setApplicationClassLoader( applicationClassLoader );
 		}
 	}
-	
+
 	/**
 	 * Set the cancel flag.
 	 */
@@ -1800,29 +1815,30 @@ public class ExecutionContext
 	{
 		return isCancelled;
 	}
-	
+
 	public void setCancelOnError( boolean cancel )
 	{
 		cancelOnError = cancel;
 	}
-	
+
 	public void setDataSource( DocumentDataSource dataSource )
 			throws IOException
 	{
 		this.dataSource = dataSource;
 		this.dataSource.open( );
 	}
-	
-	public DocumentDataSource getDataSource()
+
+	public DocumentDataSource getDataSource( )
 	{
 		return dataSource;
 	}
-	
+
 	public IBaseResultSet executeQuery( IBaseResultSet parent,
-			IDataQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
+			IDataQueryDefinition query, Object queryOwner, boolean useCache )
+			throws BirtException
 	{
 		IDataEngine dataEngine = getDataEngine( );
-		return dataEngine.execute( parent, query, queryOwner, useCache);
+		return dataEngine.execute( parent, query, queryOwner, useCache );
 	}
 
 	public IBaseResultSet getResultSet( )
@@ -1833,7 +1849,7 @@ public class ExecutionContext
 		}
 		return null;
 	}
-	
+
 	public void setResultSet( IBaseResultSet rset )
 	{
 		if ( rset != null )
@@ -1873,7 +1889,7 @@ public class ExecutionContext
 				}
 				catch ( AdapterException e )
 				{
-					log.log(Level.SEVERE, e.getLocalizedMessage( ), e);
+					log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 				}
 			}
 		}
@@ -1886,7 +1902,7 @@ public class ExecutionContext
 			// new ResultIteratorTree( rsets[0] ) );
 		}
 	}
-	
+
 	private class ResultIteratorTree implements ILinkedResult
 	{
 
@@ -1934,6 +1950,7 @@ public class ExecutionContext
 	{
 		return !elementExceptions.isEmpty( );
 	}
+
 	/**
 	 * Returns list or errors, the max count of the errors is
 	 * <code>MAX_ERRORS</code>
@@ -1950,7 +1967,7 @@ public class ExecutionContext
 		}
 		return errors;
 	}
-	
+
 	/**
 	 * Returns all errors.
 	 * 
@@ -1960,7 +1977,7 @@ public class ExecutionContext
 	{
 		List errors = new ArrayList( );
 		Iterator entries = elementExceptions.entrySet( ).iterator( );
-		while( entries.hasNext( ) )
+		while ( entries.hasNext( ) )
 		{
 			Map.Entry entry = (Map.Entry) entries.next( );
 			List elementExceptions = ( (ElementExceptionInfo) entry.getValue( ) )
@@ -1977,37 +1994,38 @@ public class ExecutionContext
 	{
 		return MAX_ERRORS;
 	}
-	
+
 	/**
-	 * @param max_errors the mAX_ERRORS to set
+	 * @param max_errors
+	 *            the mAX_ERRORS to set
 	 */
 	public void setMaxErrors( int maxErrors )
 	{
 		MAX_ERRORS = maxErrors;
 	}
-	
+
 	/**
-	 *  to remember the current report item is in master page or not.
+	 * to remember the current report item is in master page or not.
 	 */
 	boolean isExecutingMasterPage = false;
-	
+
 	/**
-	 * Since the data set in master page will be executed in each page
-	 * and while the data set in report body will only be executed once,
-	 * we need to remember the current report item is in master page or not.
-	 * This will be used to help store the executed resultSetID and load it
-	 * to distinguish them.
+	 * Since the data set in master page will be executed in each page and while
+	 * the data set in report body will only be executed once, we need to
+	 * remember the current report item is in master page or not. This will be
+	 * used to help store the executed resultSetID and load it to distinguish
+	 * them.
 	 */
 	public void setExecutingMasterPage( boolean isExecutingMasterPage )
 	{
 		this.isExecutingMasterPage = isExecutingMasterPage;
 	}
-	
+
 	public boolean isExecutingMasterPage( )
 	{
 		return isExecutingMasterPage;
 	}
-	
+
 	/**
 	 * Add a page break listener.
 	 * 
@@ -2022,7 +2040,7 @@ public class ExecutionContext
 		}
 		pageBreakListeners.add( listener );
 	}
-	
+
 	/**
 	 * Notify page break listeners that page is broken.
 	 */
@@ -2037,7 +2055,7 @@ public class ExecutionContext
 			}
 		}
 	}
-	
+
 	/**
 	 * Remove a page break listener.
 	 * 
@@ -2051,22 +2069,22 @@ public class ExecutionContext
 			pageBreakListeners.remove( listener );
 		}
 	}
-	
-	public IEngineTask getEngineTask()
+
+	public IEngineTask getEngineTask( )
 	{
 		return task;
 	}
-	
+
 	public Logger getLogger( )
 	{
 		return log;
 	}
-	
+
 	public void setLogger( Logger logger )
 	{
 		log = logger;
 	}
-	
+
 	protected ExecutionPolicy executionPolicy;
 
 	public void optimizeExecution( )
@@ -2087,7 +2105,7 @@ public class ExecutionContext
 	{
 		return executionPolicy;
 	}
-	
+
 	public Report getReport( )
 	{
 		if ( reportIR != null )
@@ -2102,7 +2120,7 @@ public class ExecutionContext
 		}
 		return reportIR;
 	}
-	
+
 	public void setReport( Report reportIR )
 	{
 		this.reportIR = reportIR;
@@ -2120,7 +2138,7 @@ public class ExecutionContext
 			this.getScriptContext( ).setLocale( rlocale.toLocale( ) );
 		}
 	}
-	
+
 	public URL getResource( String resourceName )
 	{
 		if ( getDesign( ) != null )
@@ -2130,17 +2148,17 @@ public class ExecutionContext
 		}
 		return null;
 	}
-	
+
 	public ExtendedItemManager getExtendedItemManager( )
 	{
 		return extendedItemManager;
 	}
-	
+
 	public EngineExtensionManager getEngineExtensionManager( )
 	{
 		return engineExtensionManager;
 	}
-	
+
 	public void setMaxRowsPerQuery( int maxRows )
 	{
 		if ( maxRows >= 0 )
@@ -2187,7 +2205,7 @@ public class ExecutionContext
 	{
 		return eventHandlerManager;
 	}
-	
+
 	public void setProgressMonitor( IProgressMonitor monitor )
 	{
 		progressMonitor = new ProgressMonitorProxy( monitor );
@@ -2256,7 +2274,7 @@ public class ExecutionContext
 	{
 		pageVariables.put( var.getName( ), var );
 	}
-	
+
 	public boolean isFixedLayout( )
 	{
 		return isFixedLayout;
@@ -2266,7 +2284,7 @@ public class ExecutionContext
 	{
 		this.isFixedLayout = isFixedLayout;
 	}
-	
+
 	public int getTaskType( )
 	{
 		return task.getTaskType( );
@@ -2275,7 +2293,7 @@ public class ExecutionContext
 	private IScriptContext getRootContext( )
 	{
 		ScriptContext result = scriptContext;
-		while( result.getParent( ) != null )
+		while ( result.getParent( ) != null )
 		{
 			result = result.getParent( );
 		}

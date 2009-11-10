@@ -76,6 +76,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 						.getApplicationClassLoader( ) );
 		dteSessionContext.setDocumentReader( reader );
 		dteSessionContext.setDocumentWriter( writer );
+		dteSessionContext.setAppContext( context.getAppContext( ) );
 		DataEngineContext dteEngineContext = dteSessionContext
 				.getDataEngineContext( );
 		dteEngineContext.setLocale( context.getLocale( ) );

@@ -38,7 +38,7 @@ public class DataEngineFactory
 	/**
 	 * private constractor
 	 */
-	private DataEngineFactory( )
+	protected DataEngineFactory( )
 	{
 	}
 

@@ -19,7 +19,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 
 /**
  * Wraps around a parameter selection choice
@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 public class ParameterSelectionChoice implements IParameterSelectionChoice, Cloneable
 {
 	protected Locale locale;
-	protected ReportDesignHandle design;
+	protected ModuleHandle design;
 	protected String label;
 	protected String labelKey;
 	
@@ -38,7 +38,7 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 	/**
 	 * @param design the report design
 	 */
-	public ParameterSelectionChoice(ReportDesignHandle handle)
+	public ParameterSelectionChoice(ModuleHandle handle)
 	{
 		this.design = handle;
 	}

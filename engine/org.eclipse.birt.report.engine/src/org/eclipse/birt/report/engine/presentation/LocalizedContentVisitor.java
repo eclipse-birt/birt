@@ -79,6 +79,7 @@ import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -114,11 +115,11 @@ public class LocalizedContentVisitor
 		return context.getReportContent( );
 	}
 
-	ReportDesignHandle getReportDesign( )
+	ModuleHandle getReportDesign( )
 	{
 		return context.getDesign( );
 	}
-	
+
 	/**
 	 * Checks the background image property. If it is given as a relative path,
 	 * gets its absolute path and sets it back to the style.
@@ -135,7 +136,7 @@ public class LocalizedContentVisitor
 		if ( image == null )
 			return;
 
-		ReportDesignHandle reportDesign = context.getDesign( );
+		ModuleHandle reportDesign = context.getDesign( );
 		if ( reportDesign != null )
 		{
 			URL url = reportDesign.findResource( image, IResourceLocator.IMAGE,
@@ -687,7 +688,7 @@ public class LocalizedContentVisitor
 		{
 			String strUri = image.getURI( );
 
-			ReportDesignHandle reportDesign = context.getDesign( );
+			ModuleHandle reportDesign = context.getDesign( );
 			URL uri = reportDesign.findResource( strUri,
 					IResourceLocator.IMAGE, context.getAppContext( ) );
 			if ( uri != null )

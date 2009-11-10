@@ -15,12 +15,11 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * A runnable report design (i.e., not modifiable) that can be run in the BIRT engine
  */
-public interface IReportRunnable {
+public interface IReportRunnable extends IRunnable {
 	
 	public static final String TITLE = "title"; //$NON-NLS-1$
 	public static final String AUTHOR = "author"; //$NON-NLS-1$
@@ -71,7 +70,7 @@ public interface IReportRunnable {
 	 * 
 	 * @param handle a new report design handle
 	 */
-	public abstract void setDesignHandle(ReportDesignHandle handle);
+	public abstract void setDesignHandle( DesignElementHandle handle );
 	
 	/**
 	 * returns report name

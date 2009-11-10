@@ -85,6 +85,7 @@ import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -1303,12 +1304,12 @@ public abstract class EngineTask implements IEngineTask
 			return false;
 		}
 
-		boolean visit( ReportDesignHandle report )
+		boolean visit( ModuleHandle report )
 		{
 			return visit( report, null );
 		}
 
-		boolean visit( ReportDesignHandle report, Object value )
+		boolean visit( ModuleHandle report, Object value )
 		{
 			SlotHandle parameters = report.getParameters( );
 			Iterator iter = parameters.iterator( );
@@ -1434,7 +1435,7 @@ public abstract class EngineTask implements IEngineTask
 			{
 				return visitParametersInGroup( group, value );
 			}
-		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ) );
+		}.visit( (ModuleHandle) runnable.getDesignHandle( ) );
 	}
 
 	public void close( )
@@ -1582,7 +1583,7 @@ public abstract class EngineTask implements IEngineTask
 		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable != null )
 		{
-			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			ReportDesignHandle reportDesign = executionContext.getReportDesign( );
 			// execute scripts defined in include-script element of the libraries
 			Iterator iter = reportDesign.includeLibraryScriptsIterator( );
 			while ( iter.hasNext( ) )
@@ -1616,7 +1617,7 @@ public abstract class EngineTask implements IEngineTask
 		ReportRunnable runnable = executionContext.getRunnable( );
 		if( !runnable.prepared)
 		{
-			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			ReportDesignHandle reportDesign = executionContext.getReportDesign( );
 			ScriptedDesignSearcher searcher = new ScriptedDesignSearcher(
 					reportDesign );
 			searcher.apply( reportDesign );
@@ -1626,7 +1627,7 @@ public abstract class EngineTask implements IEngineTask
 				ReportRunnable newRunnable = executionContext.getRunnable( )
 						.cloneRunnable( );
 				executionContext.updateRunnable( newRunnable );
-				ReportDesignHandle newDesign = newRunnable.designHandle;
+				ReportDesignHandle newDesign = newRunnable.getReport( );
 				ScriptedDesignVisitor visitor = new ScriptedDesignHandler(
 						newDesign, executionContext );
 				visitor.apply( newDesign.getRoot( ) );
@@ -1637,14 +1638,14 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void startFactory( )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportDesignHandle reportDesign = executionContext.getReportDesign( );
 		ReportScriptExecutor.handleBeforeFactory( reportDesign,
 				executionContext );
 	}
 
 	protected void closeFactory( )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportDesignHandle reportDesign = executionContext.getReportDesign( );
 		ReportScriptExecutor
 				.handleAfterFactory( reportDesign, executionContext );
 
@@ -1652,14 +1653,14 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void startRender( )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportDesignHandle reportDesign = executionContext.getReportDesign( );
 		ReportScriptExecutor
 				.handleBeforeRender( reportDesign, executionContext );
 	}
 
 	protected void closeRender( )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportDesignHandle reportDesign = executionContext.getReportDesign( );
 		ReportScriptExecutor.handleAfterRender( reportDesign, executionContext );
 	}
 

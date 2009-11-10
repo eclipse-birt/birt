@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.util.FileUtil;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 public class TemplateExecutor implements TextTemplate.Visitor
@@ -191,13 +191,13 @@ public class TemplateExecutor implements TextTemplate.Visitor
 			imageName = node.getImageName( );
 			if ( context != null )
 			{
-				ReportDesignHandle report = context.getDesign( );
-				if ( report != null )
+				ModuleHandle design = context.getDesign( );
+				if ( design != null )
 				{
-					EmbeddedImage image = report.findImage( imageName );
+					EmbeddedImage image = design.findImage( imageName );
 					if ( image != null )
 					{
-						imageContent = image.getData( report.getModule( ) );
+						imageContent = image.getData( design.getModule( ) );
 						imageExt = FileUtil.getExtFromFileName( imageName );
 					}
 				}

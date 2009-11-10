@@ -262,9 +262,8 @@ public class ReportEngineHelper
 					e );
 		}
 		assert ( designHandle != null );
-		ReportRunnable runnable = new ReportRunnable( designHandle );
+		ReportRunnable runnable = new ReportRunnable( engine, designHandle );
 		runnable.setReportName( designName );
-		runnable.setReportEngine( engine );
 		return runnable;
 	}
 
@@ -284,9 +283,8 @@ public class ReportEngineHelper
 	public IReportRunnable openReportDesign( ReportDesignHandle designHandle )
 			throws EngineException
 	{
-		ReportRunnable ret = new ReportRunnable( designHandle );
+		ReportRunnable ret = new ReportRunnable( engine, designHandle );
 		ret.setReportName( ( designHandle ).getFileName( ) );
-		ret.setReportEngine( engine );
 		return ret;
 	}
 

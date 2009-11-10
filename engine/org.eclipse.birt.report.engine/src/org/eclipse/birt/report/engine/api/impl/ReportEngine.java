@@ -46,6 +46,7 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.api.impl.LinkedObjectManager.LinkedEntry;
+import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtensionFactory;
 import org.eclipse.birt.report.engine.util.SecurityUtil;
@@ -57,8 +58,6 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ScriptableObject;
 import org.osgi.framework.Bundle;
 
@@ -868,5 +867,10 @@ public class ReportEngine implements IReportEngine
 			return extension.createEngineTask( taskName );
 		}
 		return null;
+	}
+
+	public DataEngineFactory getDataEngineFactory( )
+	{
+		return DataEngineFactory.getInstance( );
 	}
 }

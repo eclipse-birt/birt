@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandle
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -26,29 +27,30 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 public class ReportScriptExecutor extends ScriptExecutor
 {
 
-	public static void handleInitialize( ReportDesignHandle report,
+	public static void handleInitialize( ModuleHandle design,
 			ExecutionContext context )
 	{
 		try
 		{
-			String scriptText = report.getInitialize( );
+			String scriptText = design.getInitialize( );
 			Expression.Script scriptExpr = null;
 			if ( null != scriptText )
 			{
-				String id = ModuleUtil.getScriptUID( report
+				String id = ModuleUtil.getScriptUID( design
 						.getPropertyHandle( IModuleModel.INITIALIZE_METHOD ) );
 				scriptExpr = Expression.newScript( scriptText );
 				scriptExpr.setFileName( id );
 			}
 			if ( handleScript( null, scriptExpr, context ).didRun( ) )
 				return;
-			IReportEventHandler eh = ( IReportEventHandler ) getInstance(
-					report, context );
+			IReportEventHandler eh = (IReportEventHandler) getInstance( design,
+					context );
 			if ( eh != null )
 				eh.initialize( context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e, report );
+			addException( context, e, design );
 		}
 	}
 

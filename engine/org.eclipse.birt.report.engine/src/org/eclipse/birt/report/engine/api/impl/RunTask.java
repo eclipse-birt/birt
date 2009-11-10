@@ -188,7 +188,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		loadDataSource( );
 		doValidateParameters( );
-		ReportDesignHandle design = executionContext.getDesign( );
+		ReportDesignHandle design = executionContext.getReportDesign( );
 		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
 				.equals( design.getLayoutPreference( ) ) )
 		{

@@ -45,6 +45,7 @@ public class DataGenerationEngine extends DteDataEngine
 						.getScriptContext( ), context
 						.getApplicationClassLoader( ) );
 		dteSessionContext.setDocumentWriter( writer );
+		dteSessionContext.setAppContext( context.getAppContext( ) );
 		DataEngineContext dteEngineContext = dteSessionContext
 				.getDataEngineContext( );
 		dteEngineContext.setLocale( context.getLocale( ) );
