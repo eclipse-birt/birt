@@ -1004,7 +1004,7 @@ public class ExecutionContext
 				size = in.read( buffer );
 			}
 			byte[] script = out.toByteArray( );
-			ICompiledScript compiledScript = scriptContext.compile( language,
+			ICompiledScript compiledScript = getScriptContext().compile( language,
 					fileName, 1, new String( script, "UTF-8" ) );
 			execute( compiledScript ); //$NON-NLS-1$
 		}
