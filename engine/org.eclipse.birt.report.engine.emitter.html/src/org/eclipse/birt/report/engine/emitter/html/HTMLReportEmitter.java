@@ -814,7 +814,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected void outputReportTitle( IReportContent report )
 	{
 		// write the title of the report in HTML.
-		String title = report.getTitle( );
+		String title = null;
+		if ( report != null )
+		{
+			title = report.getTitle( );
+		}
 		if ( title == null )
 		{
 			// set the default title
