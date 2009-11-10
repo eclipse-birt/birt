@@ -363,7 +363,7 @@ public class MenuButton extends Composite
 				int fontHeight = e.gc.textExtent( text, DRAW_FLAGS ).y;
 				left += ( MARGIN_GAP + width );
 				e.gc.drawText( text,
-						size.width - left,
+						( size.width - left ) / 2 + MARGIN_GAP,
 						( size.height - fontHeight ) / 2,
 						DRAW_FLAGS | SWT.DRAW_TRANSPARENT );
 			}

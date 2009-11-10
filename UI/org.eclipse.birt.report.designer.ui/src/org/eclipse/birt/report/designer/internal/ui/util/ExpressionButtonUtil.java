@@ -275,22 +275,21 @@ public class ExpressionButtonUtil
 	public static void initExpressionButtonControl( Control control,
 			Object element, String property )
 	{
-		ExpressionHandle value = null;
-
 		if ( element instanceof DesignElementHandle )
 		{
-			value = ( (DesignElementHandle) element ).getExpressionProperty( property );
+			ExpressionHandle value = ( (DesignElementHandle) element ).getExpressionProperty( property );
+			initExpressionButtonControl( control, value );
 		}
 		else if ( element instanceof StructureHandle )
 		{
-			value = ( (StructureHandle) element ).getExpressionProperty( property );
+			ExpressionHandle value = ( (StructureHandle) element ).getExpressionProperty( property );
+			initExpressionButtonControl( control, value );
 		}
 		else if ( element instanceof Structure )
 		{
-			value = ( (StructureHandle) element ).getExpressionProperty( property );
+			Expression value = ( (Structure) element ).getExpressionProperty( property );
+			initExpressionButtonControl( control, value );
 		}
-		
-		initExpressionButtonControl( control, value );
 	}
 
 	public static void saveExpressionButtonControl( Control control,
