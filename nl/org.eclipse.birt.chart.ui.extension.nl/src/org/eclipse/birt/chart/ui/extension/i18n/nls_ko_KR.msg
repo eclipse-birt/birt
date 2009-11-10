@@ -870,6 +870,7 @@ ChartSheetImpl.Label.InteractivityEnable=차트 대화형 작업 사용(&E)
 ChartSheetImpl.Label.Text=텍스트(&X):
 ChartLegendSheetImpl.Label.LegendBehaviorType=동작(&O):
 ChartLivePreviewThread_Text.PleaseWaiting=, 잠시 기다려 주십시오... 
+ChartLivePreviewThread.ErrorMessage.NoDataEngine=No data engine to process data, please see previous exception for detail.
 SeriesSheetImpl.Label.Type=형식
 SeriesSheetImpl.Label.ZOrder=Z 순서
 LegendTextSheet.Label.Ellipsis=생략 부호(&E):

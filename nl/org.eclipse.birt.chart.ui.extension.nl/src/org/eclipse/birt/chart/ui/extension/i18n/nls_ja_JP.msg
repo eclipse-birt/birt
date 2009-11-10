@@ -870,6 +870,7 @@ ChartSheetImpl.Label.InteractivityEnable=グラフの相互作用を有効にする(&E)
 ChartSheetImpl.Label.Text=テキスト(&X) :
 ChartLegendSheetImpl.Label.LegendBehaviorType=動作(&O) :
 ChartLivePreviewThread_Text.PleaseWaiting=。しばらくお待ちください... 
+ChartLivePreviewThread.ErrorMessage.NoDataEngine=No data engine to process data, please see previous exception for detail.
 SeriesSheetImpl.Label.Type=種類
 SeriesSheetImpl.Label.ZOrder=Z 順序
 LegendTextSheet.Label.Ellipsis=省略記号(&E) :

@@ -870,6 +870,7 @@ ChartSheetImpl.Label.InteractivityEnable=Activer l'int&eractivité du graphique
 ChartSheetImpl.Label.Text=Te&xte :
 ChartLegendSheetImpl.Label.LegendBehaviorType=C&omportement :
 ChartLivePreviewThread_Text.PleaseWaiting=, veuillez patienter... 
+ChartLivePreviewThread.ErrorMessage.NoDataEngine=No data engine to process data, please see previous exception for detail.
 SeriesSheetImpl.Label.Type=Type
 SeriesSheetImpl.Label.ZOrder=Ordre Z
 LegendTextSheet.Label.Ellipsis=Points de susp&ension :

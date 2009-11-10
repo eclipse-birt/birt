@@ -870,6 +870,7 @@ ChartSheetImpl.Label.InteractivityEnable=启用图表交互(&E)
 ChartSheetImpl.Label.Text=文本(&X):
 ChartLegendSheetImpl.Label.LegendBehaviorType=行为(&O):
 ChartLivePreviewThread_Text.PleaseWaiting=，请稍候... 
+ChartLivePreviewThread.ErrorMessage.NoDataEngine=No data engine to process data, please see previous exception for detail.
 SeriesSheetImpl.Label.Type=类型
 SeriesSheetImpl.Label.ZOrder=Z 顺序
 LegendTextSheet.Label.Ellipsis=椭圆形(&E):
