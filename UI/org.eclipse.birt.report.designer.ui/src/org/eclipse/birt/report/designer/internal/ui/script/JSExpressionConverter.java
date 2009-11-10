@@ -13,8 +13,10 @@ package org.eclipse.birt.report.designer.internal.ui.script;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.designer.internal.ui.expressions.AbstractExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * JSExpressionConverter
@@ -22,16 +24,19 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 public class JSExpressionConverter extends AbstractExpressionConverter
 {
 
+	@Override
 	public String getBindingExpression( String bindingName )
 	{
 		return ExpressionUtil.createJSRowExpression( bindingName );
 	}
 
+	@Override
 	public String getCubeBindingExpression( String bindingName )
 	{
 		return ExpressionUtil.createJSDataExpression( bindingName );
 	}
 
+	@Override
 	public String getDimensionExpression( String dimensionName,
 			String levelName, String attributeName )
 	{
@@ -45,16 +50,19 @@ public class JSExpressionConverter extends AbstractExpressionConverter
 				attributeName );
 	}
 
+	@Override
 	public String getMeasureExpression( String measureName )
 	{
 		return ExpressionUtil.createJSMeasureExpression( measureName );
 	}
 
+	@Override
 	public String getParameterExpression( String paramName )
 	{
 		return ExpressionUtil.createJSParameterExpression( paramName );
 	}
 
+	@Override
 	public String getBinding( String expression )
 	{
 		try
@@ -68,8 +76,30 @@ public class JSExpressionConverter extends AbstractExpressionConverter
 		return null;
 	}
 
+	@Override
 	public String getResultSetColumnExpression( String columnName )
 	{
 		return ExpressionUtil.createJSDataSetRowExpression( columnName );
+	}
+
+	@Override
+	public String getConstantExpression( String value, String dataType )
+	{
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
+		{
+			return value;
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
+		{
+			return "new java.math.BigDecimal(\"" + value + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else
+		{
+			return "\"" //$NON-NLS-1$
+					+ JavascriptEvalUtil.transformToJsConstants( value )
+					+ "\""; //$NON-NLS-1$
+		}
 	}
 }

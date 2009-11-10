@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.expressions;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+
 /**
  * IExpressionConverter
  */
@@ -75,4 +77,17 @@ public interface IExpressionConverter
 	 * @return
 	 */
 	String getResultSetColumnExpression( String columnName );
+
+	/**
+	 * Returns the expression as the representation for the given constant value
+	 * and type.
+	 * 
+	 * @param value
+	 *            The constant value string.
+	 * @param dataType
+	 *            The type constants defined as
+	 *            {@link DesignChoiceConstants#CHOICE_COLUMN_DATA_TYPE}
+	 * @return
+	 */
+	String getConstantExpression( String value, String dataType );
 }

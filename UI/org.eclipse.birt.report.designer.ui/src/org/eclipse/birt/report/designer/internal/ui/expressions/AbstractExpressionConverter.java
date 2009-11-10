@@ -54,4 +54,9 @@ public abstract class AbstractExpressionConverter implements
 		return null;
 	}
 
+	public String getConstantExpression( String value, String dataType )
+	{
+		return value;
+	}
+
 }
