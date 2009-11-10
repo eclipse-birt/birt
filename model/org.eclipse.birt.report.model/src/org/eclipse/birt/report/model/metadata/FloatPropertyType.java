@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Represents a double-precision floating point property type. Float property
  * values are stored as <code>java.lang.Double</code>.
@@ -59,7 +61,8 @@ public class FloatPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -70,7 +73,8 @@ public class FloatPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -85,10 +89,8 @@ public class FloatPropertyType extends PropertyType
 	 * <li>Null, meaning to clear the property value.</li>
 	 * <li>A Double, Integer, Float object</li>
 	 * <li>A Boolean object, <code>TRUE</code> will be converted into
-	 * Double(1.0), <code>FALSE</code> will be converted into Double(0.0)
-	 * </li>
-	 * <li>A string object represents a float value in the current locale.
-	 * </li>
+	 * Double(1.0), <code>FALSE</code> will be converted into Double(0.0)</li>
+	 * <li>A string object represents a float value in the current locale.</li>
 	 * </ul>
 	 * <p>
 	 * Float property type is stored as <code>java.lang.Double</code>
@@ -139,7 +141,7 @@ public class FloatPropertyType extends PropertyType
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
-		
+
 		tmpValue = StringUtil.trimString( tmpValue );
 		if ( tmpValue == null )
 			return null;
@@ -149,8 +151,7 @@ public class FloatPropertyType extends PropertyType
 
 	/**
 	 * Converts the float property value into a double. Return its double value
-	 * if the input <code>value</code> is a Double, return 0.0 if value is
-	 * null.
+	 * if the input <code>value</code> is a Double, return 0.0 if value is null.
 	 * 
 	 */
 
@@ -176,8 +177,8 @@ public class FloatPropertyType extends PropertyType
 
 	/**
 	 * Converts the float property value into an integer. Return its integer
-	 * value if the input <code>value</code> is a <code>Double</code>,
-	 * return 0 if value is null.
+	 * value if the input <code>value</code> is a <code>Double</code>, return 0
+	 * if value is null.
 	 * 
 	 */
 
@@ -204,7 +205,9 @@ public class FloatPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
+	 * .lang.Object)
 	 */
 
 	public String toString( Module module, PropertyDefn defn, Object value )
@@ -231,8 +234,10 @@ public class FloatPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat formatter = NumberFormat
-				.getNumberInstance( ThreadResources.getLocale( ).toLocale( ) );
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
+		NumberFormat formatter = NumberFormat.getNumberInstance( locale
+				.toLocale( ) );
 		return formatter.format( ( (Double) value ).doubleValue( ) );
 	}
 
@@ -255,8 +260,10 @@ public class FloatPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat localeFormatter = NumberFormat
-				.getNumberInstance( ThreadResources.getLocale( ).toLocale( ) );
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
+		NumberFormat localeFormatter = NumberFormat.getNumberInstance( locale
+				.toLocale( ) );
 		Number number = null;
 		try
 		{
@@ -275,8 +282,8 @@ public class FloatPropertyType extends PropertyType
 	}
 
 	/**
-	 * Returns a new <code>Double</code> initialized to the value represented
-	 * by the specified <code>String</code>.
+	 * Returns a new <code>Double</code> initialized to the value represented by
+	 * the specified <code>String</code>.
 	 * 
 	 * @param value
 	 *            the string representint a double

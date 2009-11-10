@@ -12,19 +12,19 @@
 package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Test to get a user defined message.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -149,7 +149,10 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 		designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
 
 		// en_US
-		ThreadResources.setLocale( ULocale.US );
+		ModuleOption options = new ModuleOption( );
+		design.setOptions( options );
+
+		options.setLocale( ULocale.US );
 
 		// In default && en_US
 		assertEquals( "en_US for A", designHandle.getMessage( "A" ) ); //$NON-NLS-1$//$NON-NLS-2$
@@ -158,10 +161,10 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 		assertEquals( "en_US for D", designHandle.getMessage( "D" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// Only in en
-		assertEquals("en for C",  designHandle.getMessage( "C" ) ); //$NON-NLS-1$
+		assertEquals( "en for C", designHandle.getMessage( "C" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Only in default
-		assertEquals("default for B", designHandle.getMessage( "B" ) ); //$NON-NLS-1$
+		assertEquals( "default for B", designHandle.getMessage( "B" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// not found
 		assertNull( designHandle.getMessage( "non-exsit-key" ) ); //$NON-NLS-1$
@@ -202,27 +205,31 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-    public void testGetMessageKeys() throws DesignFileException
-    {
-        openDesign( "ReportDesignUserDefinedMessagesTest2.xml", ULocale.ENGLISH ); //$NON-NLS-1$      
-        designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
-        ThreadResources.setLocale( ULocale.US );
-        
-        List keys = design.getMessageKeys();
-        assertEquals( 6, keys.size() );
-       
-        assertTrue( keys.contains( "ResourceKey.ReportDesign.Title" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "ResourceKey.ReportDesign.Description" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "A" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "B" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "C" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "D" ) ); //$NON-NLS-1$
-        
-        designHandle.setIncludeResource( "none-exsit" ); //$NON-NLS-1$
-        keys = designHandle.getMessageKeys();
-        assertEquals( 2, keys.size() );
-        
-    }
+	public void testGetMessageKeys( ) throws DesignFileException
+	{
+		openDesign( "ReportDesignUserDefinedMessagesTest2.xml", ULocale.ENGLISH ); //$NON-NLS-1$      
+		designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
+
+		ModuleOption options = new ModuleOption( );
+		design.setOptions( options );
+
+		options.setLocale( ULocale.US );
+
+		List keys = design.getMessageKeys( );
+		assertEquals( 6, keys.size( ) );
+
+		assertTrue( keys.contains( "ResourceKey.ReportDesign.Title" ) ); //$NON-NLS-1$
+		assertTrue( keys.contains( "ResourceKey.ReportDesign.Description" ) ); //$NON-NLS-1$
+		assertTrue( keys.contains( "A" ) ); //$NON-NLS-1$
+		assertTrue( keys.contains( "B" ) ); //$NON-NLS-1$
+		assertTrue( keys.contains( "C" ) ); //$NON-NLS-1$
+		assertTrue( keys.contains( "D" ) ); //$NON-NLS-1$
+
+		designHandle.setIncludeResource( "none-exsit" ); //$NON-NLS-1$
+		keys = designHandle.getMessageKeys( );
+		assertEquals( 2, keys.size( ) );
+
+	}
 
 	/**
 	 * Test semantic check.

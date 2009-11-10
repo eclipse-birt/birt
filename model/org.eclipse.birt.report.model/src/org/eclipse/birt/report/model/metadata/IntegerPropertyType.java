@@ -20,6 +20,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Represents the integer property type. Integer property values are stored as
  * <code>java.lang.Integer</code> objects.
@@ -117,8 +119,10 @@ public class IntegerPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat localeFormatter = NumberFormat
-				.getIntegerInstance( ThreadResources.getLocale( ).toLocale( ) );
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
+		NumberFormat localeFormatter = NumberFormat.getIntegerInstance( locale
+				.toLocale( ) );
 		Number number = null;
 		try
 		{
@@ -205,8 +209,10 @@ public class IntegerPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat formatter = NumberFormat
-				.getIntegerInstance( ThreadResources.getLocale( ).toLocale( ) );
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
+		NumberFormat formatter = NumberFormat.getIntegerInstance( locale
+				.toLocale( ) );
 		return formatter.format( ( (Integer) value ).doubleValue( ) );
 	}
 

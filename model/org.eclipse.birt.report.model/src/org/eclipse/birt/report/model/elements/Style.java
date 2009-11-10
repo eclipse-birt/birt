@@ -35,6 +35,8 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This class represents a shared style.
  * 
@@ -203,8 +205,11 @@ public class Style extends StyleElement implements IStyleModel
 			if ( msgs == null )
 				return super.getDisplayLabel( module, level );
 
+			ULocale locale = module == null
+					? ThreadResources.getLocale( )
+					: module.getLocale( );
 			displayLabel = msgs.getMessage( selector.getDisplayNameKey( ),
-					ThreadResources.getLocale( ) );
+					locale );
 		}
 		else
 			displayLabel = ModelMessages.getMessage( selector

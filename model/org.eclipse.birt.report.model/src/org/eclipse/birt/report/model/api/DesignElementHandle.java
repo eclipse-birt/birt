@@ -2376,7 +2376,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public String getExternalizedValue( String textIDProp, String textProp )
 	{
 		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
-				textProp, ThreadResources.getLocale( ) );
+				textProp, getModule( ).getLocale( ) );
 	}
 
 	/**

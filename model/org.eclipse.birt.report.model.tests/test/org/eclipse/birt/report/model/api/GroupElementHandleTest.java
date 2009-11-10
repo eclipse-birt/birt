@@ -1018,10 +1018,9 @@ public class GroupElementHandleTest extends BaseTestCase
 
 		ArrayList elements = new ArrayList( );
 
-		SimpleMasterPageHandle page1 = elemFactory
-				.newSimpleMasterPage( "page1" ); //$NON-NLS-1$
-		SimpleMasterPageHandle page2 = elemFactory
-				.newSimpleMasterPage( "page2" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory( );
+		SimpleMasterPageHandle page1 = factory.newSimpleMasterPage( "page1" ); //$NON-NLS-1$
+		SimpleMasterPageHandle page2 = factory.newSimpleMasterPage( "page2" ); //$NON-NLS-1$
 
 		elements.add( page1 );
 		elements.add( page2 );

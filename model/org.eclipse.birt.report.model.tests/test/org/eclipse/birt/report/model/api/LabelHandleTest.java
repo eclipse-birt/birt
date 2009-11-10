@@ -51,10 +51,13 @@ public class LabelHandleTest extends BaseTestCase
 	public void testGetDisplayText( )
 	{
 		LabelHandle label1 = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
-		ThreadResources.setLocale( ULocale.US );
+		ModuleOption options = new ModuleOption( );
+		design.setOptions( options );
+
+		options.setLocale( ULocale.US );
 		assertEquals( "en_US", label1.getDisplayText( ) ); //$NON-NLS-1$
 
-		ThreadResources.setLocale( new ULocale( "en" ) ); //$NON-NLS-1$
+		options.setLocale( new ULocale( "en" ) ); //$NON-NLS-1$
 		assertEquals( "en", label1.getDisplayText( ) ); //$NON-NLS-1$
 
 		LabelHandle label2 = (LabelHandle) designHandle.findElement( "label2" ); //$NON-NLS-1$
@@ -64,7 +67,7 @@ public class LabelHandleTest extends BaseTestCase
 		assertEquals( "label3", label3.getDisplayText( ) ); //$NON-NLS-1$
 
 		LabelHandle label4 = (LabelHandle) designHandle.findElement( "label4" ); //$NON-NLS-1$
-		ThreadResources.setLocale( ULocale.US );
+		options.setLocale( ULocale.US );
 		assertEquals( "label4", label4.getDisplayText( ) ); //$NON-NLS-1$
 	}
 

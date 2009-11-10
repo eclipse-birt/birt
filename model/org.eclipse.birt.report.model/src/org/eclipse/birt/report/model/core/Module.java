@@ -775,7 +775,7 @@ public abstract class Module extends DesignElement
 
 	public final String getMessage( String resourceKey )
 	{
-		return getMessage( resourceKey, ThreadResources.getLocale( ) );
+		return getMessage( resourceKey, getLocale( ) );
 	}
 
 	/**
@@ -802,7 +802,7 @@ public abstract class Module extends DesignElement
 			return null;
 
 		if ( locale == null )
-			locale = ThreadResources.getLocale( );
+			locale = getLocale( );
 
 		// find it in the module itself.
 
@@ -1396,7 +1396,7 @@ public abstract class Module extends DesignElement
 		{
 			String baseName = (String) baseNameList.get( i );
 			keys.addAll( BundleHelper.getHelper( this, baseName )
-					.getMessageKeys( ThreadResources.getLocale( ) ) );
+					.getMessageKeys( getLocale( ) ) );
 		}
 
 		return new ArrayList<String>( keys );

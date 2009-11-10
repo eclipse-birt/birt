@@ -73,6 +73,8 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 import org.eclipse.birt.report.model.validators.ValidationNode;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Base class for all design elements in BIRT. This class provides a number of
  * basic services:
@@ -2776,9 +2778,10 @@ public abstract class DesignElement
 	public String getDisplayLabel( Module module, int level )
 	{
 		// search the externalized resource first
-
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
 		String displayLabel = ModelUtil.searchForExternalizedValue( this,
-				DISPLAY_NAME_ID_PROP, ThreadResources.getLocale( ) );
+				DISPLAY_NAME_ID_PROP, locale );
 
 		// if externalized resource not found, then check static display name
 

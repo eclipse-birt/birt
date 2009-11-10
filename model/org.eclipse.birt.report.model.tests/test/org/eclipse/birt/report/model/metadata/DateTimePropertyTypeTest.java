@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.Date;
-import com.ibm.icu.util.ULocale;
-import com.ibm.icu.util.Calendar;
 
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Test case for DateTimePropertyType.
@@ -43,7 +45,9 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
+	 * ()
 	 */
 	public void testGetTypeCode( )
 	{
@@ -54,7 +58,8 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 	public void testGetName( )
 	{
@@ -64,19 +69,24 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
+	 * ()
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
 		assertEquals( null, type.validateValue( design, propDefn, null ) );
 		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
 
+		ModuleOption options = new ModuleOption( );
+		design.setOptions( options );
+
 		// Date
 		Date date = calendar.getTime( );
 		assertTrue( date == type.validateValue( design, propDefn, date ) );
 
 		// String
-		ThreadResources.setLocale( ULocale.ENGLISH );
+		options.setLocale( ULocale.ENGLISH );
 		Date value = (Date) type.validateValue( design, propDefn, "08/25/2004" ); //$NON-NLS-1$
 
 		calendar.setTime( value );
@@ -84,7 +94,7 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 		assertEquals( 7, calendar.get( Calendar.MONTH ) );
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
 
-		ThreadResources.setLocale( ULocale.CHINA );
+		options.setLocale( ULocale.CHINA );
 		value = (Date) type.validateValue( design, propDefn, "2004-08-25" ); //$NON-NLS-1$
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
 		assertEquals( 7, calendar.get( Calendar.MONTH ) );
@@ -120,15 +130,19 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testValidateInputString()
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
 		assertEquals( null, type.validateInputString( design, propDefn, null ) );
 		assertEquals( null, type.validateInputString( design, propDefn, "" ) ); //$NON-NLS-1$
 
+		ModuleOption options = new ModuleOption( );
+		design.setOptions( options );
+
 		// String
-		ThreadResources.setLocale( ULocale.ENGLISH );
+		options.setLocale( ULocale.ENGLISH );
 		Date value = (Date) type.validateInputString( design, propDefn,
 				"08/25/2004" ); //$NON-NLS-1$
 		calendar.setTime( value );
@@ -136,11 +150,11 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 		assertEquals( 7, calendar.get( Calendar.MONTH ) );
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
 
-		ThreadResources.setLocale( ULocale.CHINA );
+		options.setLocale( ULocale.CHINA );
 		value = (Date) type
 				.validateInputString( design, propDefn, "2004-08-25" ); //$NON-NLS-1$
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
-		assertEquals( 7, calendar.get( Calendar.MONTH ));
+		assertEquals( 7, calendar.get( Calendar.MONTH ) );
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
 
 		try
@@ -159,7 +173,9 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
+	 * ()
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
@@ -170,7 +186,7 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 				"2004-10-18 10:34:22" ); //$NON-NLS-1$
 		calendar.setTime( value );
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
-		assertEquals( 9, calendar.get( Calendar.MONTH ));
+		assertEquals( 9, calendar.get( Calendar.MONTH ) );
 		assertEquals( 18, calendar.get( Calendar.DAY_OF_MONTH ) );
 
 		// wrong value
@@ -190,7 +206,9 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * ()
 	 */
 	public void testToDouble( )
 	{
@@ -199,7 +217,9 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * ()
 	 */
 	public void testToInteger( )
 	{
@@ -208,7 +228,8 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	public void testToXml( )
 	{
@@ -227,7 +248,9 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * ()
 	 */
 	public void testToString( )
 	{
@@ -251,7 +274,8 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testToDisplayString()
 	 */
 	public void testToDisplayString( )
 	{
@@ -269,7 +293,9 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
 	 */
 	public void testToNumber( )
 	{
@@ -278,7 +304,9 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
+	 * ()
 	 */
 	public void testToBoolean( )
 	{

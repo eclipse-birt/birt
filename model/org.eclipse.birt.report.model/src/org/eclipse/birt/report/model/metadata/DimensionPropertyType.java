@@ -25,6 +25,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Dimension property type. Dimension property values have two parts:
  * <p>
@@ -108,14 +110,15 @@ public class DimensionPropertyType extends PropertyType
 	 * Validates the dimension property value, the value can be one of the
 	 * followings:
 	 * <ul>
-	 * <li>Null, meaning to clear the property value.</li> <li>A string with
-	 * optional units. The string is of the form n( *)[u] where n is a decimal
-	 * number with the decimal separator specified by the current locale, ( *)
-	 * is optional white space, and [u] is an optional units specifier. Units
-	 * can be any of the recognized BIRT units: in, cm, mm, pt, pc, px, em, ex
-	 * or % . If the unit specifier is omitted, use the default for the design.
-	 * </li> <li>An <code>Integer</code>,<code>Float</code>, <code>Double</code>
-	 * or <code>BigDecimal</code>. Assume that the units are specified by the
+	 * <li>Null, meaning to clear the property value.</li>
+	 * <li>A string with optional units. The string is of the form n( *)[u]
+	 * where n is a decimal number with the decimal separator specified by the
+	 * current locale, ( *) is optional white space, and [u] is an optional
+	 * units specifier. Units can be any of the recognized BIRT units: in, cm,
+	 * mm, pt, pc, px, em, ex or % . If the unit specifier is omitted, use the
+	 * default for the design.</li>
+	 * <li>An <code>Integer</code>,<code>Float</code>, <code>Double</code> or
+	 * <code>BigDecimal</code>. Assume that the units are specified by the
 	 * design default.</li>
 	 * </ul>
 	 * 
@@ -220,7 +223,7 @@ public class DimensionPropertyType extends PropertyType
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
-		
+
 		DimensionValue dim = StringUtil.parse( tmpValue );
 		if ( dim == null )
 		{
@@ -242,12 +245,13 @@ public class DimensionPropertyType extends PropertyType
 	 * Validates the string value in the locale-dependent way. Possible valid
 	 * property value is one of the following:
 	 * <ul>
-	 * <li>Null or blank string.</li> <li>A string with optional units. The
-	 * string is of the form n( *)[u] where n is a decimal number with the
-	 * decimal separator specified by the current locale, ( *) is optional white
-	 * space, and [u] is an optional units specifier. Units can be any of the
-	 * recognized BIRT units: in, cm, mm, pt, pc, px, em, ex or % . If the unit
-	 * specifier is omitted, use the default for the design.</li>
+	 * <li>Null or blank string.</li>
+	 * <li>A string with optional units. The string is of the form n( *)[u]
+	 * where n is a decimal number with the decimal separator specified by the
+	 * current locale, ( *) is optional white space, and [u] is an optional
+	 * units specifier. Units can be any of the recognized BIRT units: in, cm,
+	 * mm, pt, pc, px, em, ex or % . If the unit specifier is omitted, use the
+	 * default for the design.</li>
 	 * </ul>
 	 * 
 	 * @return object is of type <code>DimensionValue</code> or null.
@@ -257,8 +261,9 @@ public class DimensionPropertyType extends PropertyType
 	public Object validateInputString( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		DimensionValue dim = StringUtil.parseInput( value, ThreadResources
-				.getLocale( ) );
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
+		DimensionValue dim = StringUtil.parseInput( value, locale );
 		if ( dim == null )
 		{
 			return null;

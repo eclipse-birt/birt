@@ -261,13 +261,6 @@ public class DesignSessionImpl
 
 		if ( resourceFolder == null )
 			resourceFolder = options.getResourceFolder( );
-
-		// since the default locale is set, always overwrite locale whenever
-		// there is locale information in options.
-		
-		ULocale tmpLocale = options.getLocale( );		
-		if ( tmpLocale != null )
-			locale = tmpLocale;
 	}
 
 	/**

@@ -20,6 +20,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Number property type. A number is represented internally by a
  * <code>BigDecimal</code> object, and represents money and similar business
@@ -112,11 +114,10 @@ public class NumberPropertyType extends PropertyType
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
 
-		
 		tmpValue = StringUtil.trimString( tmpValue );
 		if ( tmpValue == null )
 			return null;
-		
+
 		try
 		{
 			return new BigDecimal( tmpValue );
@@ -132,7 +133,8 @@ public class NumberPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -143,7 +145,8 @@ public class NumberPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -269,8 +272,10 @@ public class NumberPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat formatter = NumberFormat
-				.getNumberInstance( ThreadResources.getLocale( ).toLocale( ) );
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
+		NumberFormat formatter = NumberFormat.getNumberInstance( locale
+				.toLocale( ) );
 		return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
 	}
 
@@ -291,8 +296,10 @@ public class NumberPropertyType extends PropertyType
 		if ( StringUtil.isBlank( value ) )
 			return null;
 
-		NumberFormat formatter = NumberFormat
-				.getNumberInstance( ThreadResources.getLocale( ).toLocale( ) );
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
+		NumberFormat formatter = NumberFormat.getNumberInstance( locale
+				.toLocale( ) );
 		Number number = null;
 		try
 		{

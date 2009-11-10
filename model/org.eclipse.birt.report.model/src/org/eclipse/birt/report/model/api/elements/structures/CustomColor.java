@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.Translation;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
@@ -44,14 +43,13 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * color name to identify a custom color.</dd>
  * 
  * <dt><strong>color </strong></dt>
- * <dd>The color value of the color, it is preserved as the user typed in.
- * </dd>
+ * <dd>The color value of the color, it is preserved as the user typed in.</dd>
  * 
  * <dt><strong>Resource Key </strong></dt>
  * <dd>a custom color has an optional display name ID to localize the display
  * name.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class CustomColor extends ReferencableStructure
@@ -150,7 +148,9 @@ public class CustomColor extends ReferencableStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String valueName )
@@ -170,8 +170,9 @@ public class CustomColor extends ReferencableStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String valueName, Object value )
@@ -294,8 +295,8 @@ public class CustomColor extends ReferencableStructure
 
 		// 1. use the displayNameID to find the translation.
 
-		Translation translation = module.findTranslation( displayNameID,
-				ThreadResources.getLocale( ).toString( ) );
+		Translation translation = module.findTranslation( displayNameID, module
+				.getLocale( ).toString( ) );
 
 		if ( translation != null )
 		{
@@ -320,8 +321,9 @@ public class CustomColor extends ReferencableStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -358,7 +360,7 @@ public class CustomColor extends ReferencableStructure
 	 * 
 	 * @param colorValue
 	 *            the color value to be set.
-	 *  
+	 * 
 	 */
 
 	public void setColor( String colorValue )
@@ -395,8 +397,8 @@ public class CustomColor extends ReferencableStructure
 
 		if ( StringUtil.isBlank( name ) )
 		{
-			list.add( new PropertyValueException( element,
-					getDefn( ).getMember( NAME_MEMBER ), name,
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( NAME_MEMBER ), name,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
@@ -411,19 +413,25 @@ public class CustomColor extends ReferencableStructure
 		return list;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.ReferencableStructure#isReferencableProperty(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.core.ReferencableStructure#
+	 * isReferencableProperty(java.lang.String)
 	 */
-	
+
 	public boolean isReferencableProperty( String memberName )
 	{
 		return NAME_MEMBER.equalsIgnoreCase( memberName );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
 	 */
-	
+
 	public String getReferencableProperty( )
 	{
 		return name;

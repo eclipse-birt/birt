@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Date-time property type. Date-time property is stored as
@@ -117,7 +118,7 @@ public class DateTimePropertyType extends PropertyType
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
-		
+
 		tmpValue = StringUtil.trimString( tmpValue );
 		if ( tmpValue == null )
 		{
@@ -154,8 +155,10 @@ public class DateTimePropertyType extends PropertyType
 		assert value instanceof Date;
 
 		// Convert to Locale-specific format.
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
 		DateFormat formatter = DateFormat.getDateInstance( DateFormat.SHORT,
-				ThreadResources.getLocale( ) );
+				locale );
 		return formatter.format( (Date) value );
 	}
 
@@ -200,9 +203,10 @@ public class DateTimePropertyType extends PropertyType
 		}
 
 		// Parse the input in locale-dependent way.
-
+		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
+				.getLocale( );
 		DateFormat formatter = DateFormat.getDateInstance( DateFormat.SHORT,
-				ThreadResources.getLocale( ) );
+				locale );
 		try
 		{
 			return formatter.parse( value );
