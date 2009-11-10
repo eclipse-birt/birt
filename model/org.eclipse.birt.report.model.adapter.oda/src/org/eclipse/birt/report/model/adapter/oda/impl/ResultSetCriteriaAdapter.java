@@ -177,10 +177,10 @@ public class ResultSetCriteriaAdapter
 
 		int count = 0;
 		FilterExpression filterExpr = null;
-		for ( Iterator iter = setHandle.filtersIterator( ); iter.hasNext( ); )
+		for ( Iterator<FilterConditionHandle> iter = setHandle
+				.filtersIterator( ); iter.hasNext( ); )
 		{
-			FilterConditionHandle filterHandle = (FilterConditionHandle) iter
-					.next( );
+			FilterConditionHandle filterHandle = iter.next( );
 			FilterExpression filter = createOdaFilterExpression( filterHandle );
 			if ( filter == null )
 			{
@@ -198,7 +198,8 @@ public class ResultSetCriteriaAdapter
 					compositeFilterExp.add( filterExpr );
 					filterExpr = compositeFilterExp;
 				default :
-					( (CompositeFilterExpression) filterExpr ).add( filter );
+					if ( filterExpr instanceof CompositeFilterExpression )
+						( (CompositeFilterExpression) filterExpr ).add( filter );
 			}
 		}
 		criteria.setFilterSpecification( filterExpr );
@@ -728,7 +729,7 @@ public class ResultSetCriteriaAdapter
 			FilterConditionHandle filterHandle )
 	{
 		FilterExpression filterExpr = null;
-		if ( !StringUtil.isBlank( filterHandle.getExtensionName( ) ) )
+		if ( StringUtil.isBlank( filterHandle.getDynamicFilterParameter( ) ) )
 		{
 			CustomFilterExpression customFilterExpr = designFactory
 					.createCustomFilterExpression( );
@@ -766,6 +767,12 @@ public class ResultSetCriteriaAdapter
 				DynamicFilterParameterHandle dynamicParamHandle = (DynamicFilterParameterHandle) paramHandle;
 				DynamicFilterExpression dynamicFilterExpr = designFactory
 						.createDynamicFilterExpression( );
+
+				FilterExpressionType defaultType = designFactory
+						.createFilterExpressionType( );
+				defaultType.setDeclaringExtensionId( filterHandle
+						.getExtensionName( ) );
+
 				dynamicFilterExpr.setIsOptional( filterHandle.isOptional( ) );
 
 				ExpressionArguments arguments = designFactory
@@ -773,7 +780,7 @@ public class ResultSetCriteriaAdapter
 				ParameterDefinition paramDefn = designFactory
 						.createParameterDefinition( );
 
-				paramAdapter.updateODADynamicFilter( paramDefn,
+				paramAdapter.updateODADynamicFilter( paramDefn, defaultType,
 						dynamicParamHandle );
 
 				paramDefn.getAttributes( ).setName(
@@ -788,6 +795,7 @@ public class ResultSetCriteriaAdapter
 				arguments.addDynamicParameter( paramDefn );
 				dynamicFilterExpr.setContextArguments( arguments );
 
+				dynamicFilterExpr.setDefaultType( defaultType );
 				filterExpr = dynamicFilterExpr;
 			}
 		}
@@ -833,19 +841,39 @@ public class ResultSetCriteriaAdapter
 		}
 	}
 
+	/**
+	 *
+	 */
+	
 	static class DynamicFilter implements Filter
 	{
 
 		/**
 		 * Identifies if the filter is optional.
 		 */
-		public boolean isOptional;
+		boolean isOptional;
 
-		public ExpressionParameterDefinition exprParamDefn;
+		/**
+		 * 
+		 */
 
-		public FilterExpressionType defaultType;
+		ExpressionParameterDefinition exprParamDefn;
 
-		public DynamicFilter( ExpressionParameterDefinition exprParamDefn,
+		/**
+		 * 
+		 */
+
+		FilterExpressionType defaultType;
+
+		/**
+		 * The default constructor.
+		 * 
+		 * @param exprParamDefn
+		 * @param defaultType
+		 * @param isOptional
+		 */
+
+		DynamicFilter( ExpressionParameterDefinition exprParamDefn,
 				FilterExpressionType defaultType, boolean isOptional )
 		{
 			this.isOptional = isOptional;
@@ -885,6 +913,12 @@ public class ResultSetCriteriaAdapter
 			}
 			return null;
 		}
+
+		/**
+		 * Returns the native data type code.
+		 * 
+		 * @return the native data type code
+		 */
 
 		public Integer getNativeDataType( )
 		{

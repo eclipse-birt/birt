@@ -54,9 +54,9 @@ import com.ibm.icu.util.ULocale;
  * <li>Open a design file, and store the
  * {@link org.eclipse.birt.report.model.elements.ReportDesign}instance and its
  * handle, {@link org.eclipse.birt.report.model.api.ReportDesignHandle}</li>
- * <li>After opening the design file, if the design file contains some syntax
- * or semantic error, the error list can be accessed by this class. This is to
- * make it easy when developing the test cases</li>
+ * <li>After opening the design file, if the design file contains some syntax or
+ * semantic error, the error list can be accessed by this class. This is to make
+ * it easy when developing the test cases</li>
  * </ul>
  * <p>
  * Note:
@@ -250,7 +250,7 @@ public abstract class BaseTestCase extends TestCase
 					.toString( ) );
 		else
 			designHandle = sessionHandle.openDesign( fileName );
-		
+
 	}
 
 	/**
@@ -487,8 +487,7 @@ public abstract class BaseTestCase extends TestCase
 	 * design file.
 	 * 
 	 * @param e
-	 *            <code>DesignFileException</code> containing syntax error
-	 *            list.
+	 *            <code>DesignFileException</code> containing syntax error list.
 	 */
 
 	protected void printSyntaxError( DesignFileException e )
@@ -564,6 +563,29 @@ public abstract class BaseTestCase extends TestCase
 		os = new ByteArrayOutputStream( );
 		SerializerImpl.instance( ).write( values, os );
 		os.close( );
+	}
+
+	/**
+	 * Parses an input file as the design values instance.
+	 * @param fileName 
+	 * @return 
+	 * @throws IOException 
+	 * 
+	 * 
+	 */
+
+	protected DesignValues readDesignValuesFromFile( String fileName )
+			throws IOException
+	{
+		fileName = INPUT_FOLDER + fileName;
+
+		InputStream is = getResource( fileName ).openStream( );
+
+		DesignValues tmpValues = SerializerImpl.instance( ).read( is );
+		
+		is.close( );
+		
+		return tmpValues;
 	}
 
 	/**

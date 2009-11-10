@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.FilterExpressionType;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 
 /**
@@ -54,11 +55,15 @@ class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter
 	}
 
 	/**
+	 * Updates ODA values with the given BIRT values.
+	 * 
 	 * @param paramDefn
+	 * @param defaultType
 	 * @param dynamicParamHandle
 	 */
-	
+
 	protected void updateODADynamicFilter( ParameterDefinition paramDefn,
+			FilterExpressionType defaultType,
 			DynamicFilterParameterHandle dynamicParamHandle )
 	{
 		updateParameterDefinitionFromReportParam( paramDefn,
@@ -66,6 +71,8 @@ class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter
 	}
 
 	/**
+	 * Updates BIRT dynamic filter parameter with the given ODA dynamic filter.
+	 * 
 	 * @param filterConditionHandle
 	 * @param dynamicFilter
 	 * @param dynamicFilterParamHandle
