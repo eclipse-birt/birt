@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
-import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -64,6 +63,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -671,6 +671,12 @@ public class InsertInLayoutUtil
 							"javascript" );
 					groupHandle.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
 							newKeyExpr );
+					
+					TOC toc = StructureFactory.createTOC( );
+					toc.setExpression( ExpressionUtility.getColumnExpression( model.getColumnName( ),
+							ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ) );
+					groupHandle.addTOC( toc );
+					
 					slotHandle.add( groupHandle, slotHandle.getCount( ) );
 
 					RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
