@@ -1457,6 +1457,7 @@ public class CascadingParametersDialog extends BaseDialog
 			ExceptionHandler.handle( e );
 			return Collections.EMPTY_LIST;
 		}
+		java.util.Collections.sort( valueList );
 		return valueList;
 	}
 

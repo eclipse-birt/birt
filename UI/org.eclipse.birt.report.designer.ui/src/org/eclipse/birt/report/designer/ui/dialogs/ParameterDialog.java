@@ -1431,7 +1431,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			valueList.addAll( SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( columnChooser ),
 					getDataSetHandle( ) ) );
-
+			java.util.Collections.sort( valueList );
 			return valueList;
 		}
 		catch ( Exception e )
