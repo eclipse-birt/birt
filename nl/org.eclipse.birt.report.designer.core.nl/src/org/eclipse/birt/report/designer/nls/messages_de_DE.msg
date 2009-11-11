@@ -327,7 +327,7 @@ SettingsPage.CachePreference.radioBox.numText=&Zwischenspeichern und zuerst verw
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=&Erforderlich
+CascadingParametersDialog.Button.isRequired=er&forderlich
 CascadingParametersDialog.default.preview.string=Beispielzeichenfolge
 CascadingParametersDialog.display.controlType.comboBox=Kombinationsfeld
 CascadingParametersDialog.display.controlType.listBox=Listenfeld
@@ -354,19 +354,22 @@ CascadingParametersDialog.Label.param.name=&Name:
 CascadingParametersDialog.Label.parameters=Parameter
 CascadingParametersDialog.Label.preview=Vorschau mit Format
 CascadingParametersDialog.Label.groupPromptText=&Aufforderungstext:
-CascadingParametersDialog.Label.parameterPromptText=Au&fforderungstext:
+CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
 CascadingParametersDialog.Label.selectDataSet=<Datensatz auswählen>
 CascadingParametersDialog.Label.selectDisplayColumn=<Anzeigenspalte nicht eingestellt>
 CascadingParametersDialog.Label.selectValueColumn=<Wertespalte nicht eingestellt>
 CascadingParametersDialog.Label.values=Werte
-CascadingParametersDialog.Radio.Single=&Einfacher Datensatz
+CascadingParametersDialog.Radio.Single=Si&ngle Data Set
 CascadingParametersDialog.Radio.Mutli=&Mehrfacher Datensatz
 CascadingParametersDialog.Choice.NullValue=Null-Wert
 CascadingParametersDialog.Choice.BlankValue=Leerwert
 CascadingParametersDialog.Choice.SelectValue=<Wert auswählen ...>
 CascadingParametersDialog.Button.Add=&Hinzufügen
-CascadingParametersDialog.Button.Edit=&Bearbeiten
+CascadingParametersDialog.Button.Edit=Ed&it
 CascadingParametersDialog.Button.Delete=&Löschen
+CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
+CascadingParametersDialog.DefalutValue.Add=A&dd
+CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
 CascadingParametersDialog.Title.AddCascadingParameter=Verschachtelungsparametergruppe hinzufügen
 CascadingParametersDialog.Title.EditCascadingParameter=Verschachtelungsparametergruppe bearbeiten
 CascadingParametersDialog.items.None=<keine>
@@ -2828,6 +2831,7 @@ ParameterDialog.Column.Default=Standard
 ParameterDialog.Column.DisplayText=Angezeigter Text
 ParameterDialog.Column.DisplayTextKey=Anzeigentextschlüssel
 ParameterDialog.Column.Value=Wert
+ParameterDialog.DefaultValue.Add=Hinzufügen
 ParameterDialog.DisplayLabel.Combo=Kombinationsfeld
 ParameterDialog.DisplayLabel.List=Listenfeld
 ParameterDialog.ErrorMessage.CanootBeBlank=Der Wert darf nicht leer sein.
@@ -2843,6 +2847,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=Es sind keine Spalten verfügbar.
 ParameterDialog.ErrorMessage.ValueColumnEmpty=Wertespalte muss angegeben werden.
 ParameterDialog.ErrorMessage.NoDefaultValue=Sie müssen einen Standardwert angeben.
 ParameterDialog.ErrorTitle.InvalidListLimit=Listenbegrenzung ungültig
+ParameterDialog.ExpressionEditor.Title=Edit Expression
 ParameterDialog.Flag.Default=Standard
 ParameterDialog.Group.MoreOption=Anzeigen als
 ParameterDialog.Group.Properties=Eigenschaften
@@ -4641,6 +4646,11 @@ VariableDialog.Error.NameDuplicate=Der Name \"{0}\" ist bereits vorhanden. Bitte
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=Standardsyntax:
+
+###########################################################
+#ExpressionEditor
+ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Label.Expression=Ausdruck:
 
 ###########################################################
 #VariableDropAdapter

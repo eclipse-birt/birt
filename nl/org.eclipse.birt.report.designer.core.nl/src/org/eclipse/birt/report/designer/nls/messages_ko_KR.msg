@@ -327,7 +327,7 @@ SettingsPage.CachePreference.radioBox.numText=먼저 캐시 후 사용(&U)
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=필요(&I)
+CascadingParametersDialog.Button.isRequired=필요(&Q)
 CascadingParametersDialog.default.preview.string=내 문자열
 CascadingParametersDialog.display.controlType.comboBox=콤보 상자
 CascadingParametersDialog.display.controlType.listBox=목록 상자
@@ -354,19 +354,22 @@ CascadingParametersDialog.Label.param.name=이름(&N):
 CascadingParametersDialog.Label.parameters=매개 변수
 CascadingParametersDialog.Label.preview=미리보기 형식
 CascadingParametersDialog.Label.groupPromptText=프롬프트 텍스트(&P):
-CascadingParametersDialog.Label.parameterPromptText=프롬프트 텍스트(&M):
+CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
 CascadingParametersDialog.Label.selectDataSet=<데이터 집합 선택>
 CascadingParametersDialog.Label.selectDisplayColumn=<표시 열이 설정되지 않음>
 CascadingParametersDialog.Label.selectValueColumn=<값 열이 설정되지 않음>
 CascadingParametersDialog.Label.values=값
-CascadingParametersDialog.Radio.Single=단일 데이터 집합(&E)
+CascadingParametersDialog.Radio.Single=Si&ngle Data Set
 CascadingParametersDialog.Radio.Mutli=다중 데이터 집합(&U)
 CascadingParametersDialog.Choice.NullValue=널(null) 값
 CascadingParametersDialog.Choice.BlankValue=빈 값
 CascadingParametersDialog.Choice.SelectValue=<값 선택...>
 CascadingParametersDialog.Button.Add=추가(&A)
-CascadingParametersDialog.Button.Edit=편집(&D)
+CascadingParametersDialog.Button.Edit=Ed&it
 CascadingParametersDialog.Button.Delete=삭제(&T)
+CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
+CascadingParametersDialog.DefalutValue.Add=A&dd
+CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
 CascadingParametersDialog.Title.AddCascadingParameter=계단식 매개 변수 그룹 추가
 CascadingParametersDialog.Title.EditCascadingParameter=계단식 매개 변수 그룹 편집
 CascadingParametersDialog.items.None=<없음>
@@ -2828,6 +2831,7 @@ ParameterDialog.Column.Default=기본값
 ParameterDialog.Column.DisplayText=표시 텍스트
 ParameterDialog.Column.DisplayTextKey=표시 텍스트 키
 ParameterDialog.Column.Value=값
+ParameterDialog.DefaultValue.Add=추가
 ParameterDialog.DisplayLabel.Combo=콤보 상자
 ParameterDialog.DisplayLabel.List=목록 상자
 ParameterDialog.ErrorMessage.CanootBeBlank=값을 비워둘 수 없습니다.
@@ -2843,6 +2847,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=사용할 수 있는 열이 없습니다.
 ParameterDialog.ErrorMessage.ValueColumnEmpty=값 열을 지정해야 합니다.
 ParameterDialog.ErrorMessage.NoDefaultValue=기본값을 설정해야 합니다.
 ParameterDialog.ErrorTitle.InvalidListLimit=잘못된 목록 제한
+ParameterDialog.ExpressionEditor.Title=Edit Expression
 ParameterDialog.Flag.Default=기본값
 ParameterDialog.Group.MoreOption=표시
 ParameterDialog.Group.Properties=속성
@@ -4641,6 +4646,11 @@ VariableDialog.Error.NameDuplicate=이름 \"{0}\"이(가) 기존 이름과 중복됩니다. 다
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문:
+
+###########################################################
+#ExpressionEditor
+ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Label.Expression=식:
 
 ###########################################################
 #VariableDropAdapter

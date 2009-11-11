@@ -327,7 +327,7 @@ SettingsPage.CachePreference.radioBox.numText=Mettre en cache et &utiliser en pr
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=&Est requis
+CascadingParametersDialog.Button.isRequired=Est re&quis
 CascadingParametersDialog.default.preview.string=Ma chaîne
 CascadingParametersDialog.display.controlType.comboBox=Zone déroulante
 CascadingParametersDialog.display.controlType.listBox=Liste déroulante
@@ -354,19 +354,22 @@ CascadingParametersDialog.Label.param.name=&Nom :
 CascadingParametersDialog.Label.parameters=Paramètres
 CascadingParametersDialog.Label.preview=Aperçu au format
 CascadingParametersDialog.Label.groupPromptText=&Texte de l'invite :
-CascadingParametersDialog.Label.parameterPromptText=Texte de l'i&nvite :
+CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
 CascadingParametersDialog.Label.selectDataSet=<Sélectionnez un jeu de données>
 CascadingParametersDialog.Label.selectDisplayColumn=<Colonne à afficher non définie>
 CascadingParametersDialog.Label.selectValueColumn=<Colonne de valeur non définie>
 CascadingParametersDialog.Label.values=valeurs
-CascadingParametersDialog.Radio.Single=J&eu de données unique
+CascadingParametersDialog.Radio.Single=Si&ngle Data Set
 CascadingParametersDialog.Radio.Mutli=Jeu de données m&ultiple
 CascadingParametersDialog.Choice.NullValue=Valeur nulle
 CascadingParametersDialog.Choice.BlankValue=Valeur vierge
 CascadingParametersDialog.Choice.SelectValue=<Sélectionner une valeur...>
 CascadingParametersDialog.Button.Add=&Ajouter
-CascadingParametersDialog.Button.Edit=&Modifier
+CascadingParametersDialog.Button.Edit=Ed&it
 CascadingParametersDialog.Button.Delete=Suppri&mer
+CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
+CascadingParametersDialog.DefalutValue.Add=A&dd
+CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
 CascadingParametersDialog.Title.AddCascadingParameter=Ajouter groupe de paramètres en cascade
 CascadingParametersDialog.Title.EditCascadingParameter=Modifier groupe de paramètres en cascade
 CascadingParametersDialog.items.None=<Aucun>
@@ -2828,6 +2831,7 @@ ParameterDialog.Column.Default=Par défaut
 ParameterDialog.Column.DisplayText=Texte d'affichage
 ParameterDialog.Column.DisplayTextKey=Clé de texte à afficher
 ParameterDialog.Column.Value=Valeur
+ParameterDialog.DefaultValue.Add=Ajouter
 ParameterDialog.DisplayLabel.Combo=Zone déroulante
 ParameterDialog.DisplayLabel.List=Liste déroulante
 ParameterDialog.ErrorMessage.CanootBeBlank=La valeur ne peut pas être vide.
@@ -2843,6 +2847,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=Aucune colonne n'est disponible.
 ParameterDialog.ErrorMessage.ValueColumnEmpty=La colonne de valeurs doit être spécifiée.
 ParameterDialog.ErrorMessage.NoDefaultValue=Vous devez définir une valeur par défaut.
 ParameterDialog.ErrorTitle.InvalidListLimit=Limite de liste incorrecte
+ParameterDialog.ExpressionEditor.Title=Edit Expression
 ParameterDialog.Flag.Default=Par défaut
 ParameterDialog.Group.MoreOption=Afficher sous
 ParameterDialog.Group.Properties=Propriétés
@@ -4641,6 +4646,11 @@ VariableDialog.Error.NameDuplicate=Le nom \"{0}"\ est le doublon d'un nom exista
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par défaut :
+
+###########################################################
+#ExpressionEditor
+ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Label.Expression=Expression :
 
 ###########################################################
 #VariableDropAdapter

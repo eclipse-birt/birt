@@ -327,7 +327,7 @@ SettingsPage.CachePreference.radioBox.numText=缓存和使用第一个(&U)
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=必需(&I)
+CascadingParametersDialog.Button.isRequired=必需(&Q)
 CascadingParametersDialog.default.preview.string=我的字符串
 CascadingParametersDialog.display.controlType.comboBox=组合框
 CascadingParametersDialog.display.controlType.listBox=列表框
@@ -354,19 +354,22 @@ CascadingParametersDialog.Label.param.name=名称(&N):
 CascadingParametersDialog.Label.parameters=参数
 CascadingParametersDialog.Label.preview=带格式预览
 CascadingParametersDialog.Label.groupPromptText=提示文本(&P):
-CascadingParametersDialog.Label.parameterPromptText=提示文本(&M):
+CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
 CascadingParametersDialog.Label.selectDataSet=<选择数据集>
 CascadingParametersDialog.Label.selectDisplayColumn=<未设置显示列>
 CascadingParametersDialog.Label.selectValueColumn=<未设置值列>
 CascadingParametersDialog.Label.values=值
-CascadingParametersDialog.Radio.Single=单个数据集(&E)
+CascadingParametersDialog.Radio.Single=Si&ngle Data Set
 CascadingParametersDialog.Radio.Mutli=多个数据集(&U)
 CascadingParametersDialog.Choice.NullValue=空值
 CascadingParametersDialog.Choice.BlankValue=空白值
 CascadingParametersDialog.Choice.SelectValue=<选择值...>
 CascadingParametersDialog.Button.Add=添加(&A)
-CascadingParametersDialog.Button.Edit=编辑(&D)
+CascadingParametersDialog.Button.Edit=Ed&it
 CascadingParametersDialog.Button.Delete=删除(&T)
+CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
+CascadingParametersDialog.DefalutValue.Add=A&dd
+CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
 CascadingParametersDialog.Title.AddCascadingParameter=添加级联参数组
 CascadingParametersDialog.Title.EditCascadingParameter=编辑级联参数组
 CascadingParametersDialog.items.None=<无>
@@ -2828,6 +2831,7 @@ ParameterDialog.Column.Default=默认值
 ParameterDialog.Column.DisplayText=显示文本
 ParameterDialog.Column.DisplayTextKey=显示文本关键字
 ParameterDialog.Column.Value=值
+ParameterDialog.DefaultValue.Add=添加
 ParameterDialog.DisplayLabel.Combo=组合框
 ParameterDialog.DisplayLabel.List=列表框
 ParameterDialog.ErrorMessage.CanootBeBlank=该值不能为空。
@@ -2843,6 +2847,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=没有可用的列。
 ParameterDialog.ErrorMessage.ValueColumnEmpty=应指定值列。
 ParameterDialog.ErrorMessage.NoDefaultValue=必须设置默认值。
 ParameterDialog.ErrorTitle.InvalidListLimit=无效列表限制
+ParameterDialog.ExpressionEditor.Title=Edit Expression
 ParameterDialog.Flag.Default=默认
 ParameterDialog.Group.MoreOption=显示为
 ParameterDialog.Group.Properties=属性
@@ -4641,6 +4646,11 @@ VariableDialog.Error.NameDuplicate=名称“{0}”与现有名称重复。请选择一个不同的名
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法:
+
+###########################################################
+#ExpressionEditor
+ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Label.Expression=表达式:
 
 ###########################################################
 #VariableDropAdapter

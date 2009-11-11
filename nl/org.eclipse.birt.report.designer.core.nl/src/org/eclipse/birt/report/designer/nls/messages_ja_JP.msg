@@ -327,7 +327,7 @@ SettingsPage.CachePreference.radioBox.numText=キャッシュして最初に使用する(&U)
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=必須にする(&I)
+CascadingParametersDialog.Button.isRequired=必須にする(&Q)
 CascadingParametersDialog.default.preview.string=サンプル文字列
 CascadingParametersDialog.display.controlType.comboBox=コンボボックス
 CascadingParametersDialog.display.controlType.listBox=リストボックス
@@ -354,19 +354,22 @@ CascadingParametersDialog.Label.param.name=名前(&N) :
 CascadingParametersDialog.Label.parameters=パラメタ
 CascadingParametersDialog.Label.preview=書式付きプレビュー
 CascadingParametersDialog.Label.groupPromptText=プロンプトテキスト(&P) :
-CascadingParametersDialog.Label.parameterPromptText=プロンプトテキスト(&M) :
+CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
 CascadingParametersDialog.Label.selectDataSet=<データセットの選択>
 CascadingParametersDialog.Label.selectDisplayColumn=<表示列が未設定です>
 CascadingParametersDialog.Label.selectValueColumn=<値列が未設定です>
 CascadingParametersDialog.Label.values=個の値
-CascadingParametersDialog.Radio.Single=単一のデータセット(&E)
+CascadingParametersDialog.Radio.Single=Si&ngle Data Set
 CascadingParametersDialog.Radio.Mutli=複数のデータセット(&U)
 CascadingParametersDialog.Choice.NullValue=NULL 値
 CascadingParametersDialog.Choice.BlankValue=空白値
 CascadingParametersDialog.Choice.SelectValue=<値の選択...>
 CascadingParametersDialog.Button.Add=追加(&A)
-CascadingParametersDialog.Button.Edit=編集(&D)
+CascadingParametersDialog.Button.Edit=Ed&it
 CascadingParametersDialog.Button.Delete=削除(&T)
+CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
+CascadingParametersDialog.DefalutValue.Add=A&dd
+CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
 CascadingParametersDialog.Title.AddCascadingParameter=カスケードパラメタグループの追加
 CascadingParametersDialog.Title.EditCascadingParameter=カスケードパラメタグループの編集
 CascadingParametersDialog.items.None=<なし>
@@ -2828,6 +2831,7 @@ ParameterDialog.Column.Default=デフォルト
 ParameterDialog.Column.DisplayText=表示テキスト
 ParameterDialog.Column.DisplayTextKey=表示テキストキー
 ParameterDialog.Column.Value=値
+ParameterDialog.DefaultValue.Add=追加
 ParameterDialog.DisplayLabel.Combo=コンボボックス
 ParameterDialog.DisplayLabel.List=リストボックス
 ParameterDialog.ErrorMessage.CanootBeBlank=値は空白にできません。
@@ -2843,6 +2847,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=使用できるカラムがありません。
 ParameterDialog.ErrorMessage.ValueColumnEmpty=値列を指定する必要があります。
 ParameterDialog.ErrorMessage.NoDefaultValue=デフォルト値を設定してください。
 ParameterDialog.ErrorTitle.InvalidListLimit=一覧の制限が無効です。
+ParameterDialog.ExpressionEditor.Title=Edit Expression
 ParameterDialog.Flag.Default=デフォルト
 ParameterDialog.Group.MoreOption=次の形式で表示
 ParameterDialog.Group.Properties=プロパティ
@@ -4641,6 +4646,11 @@ VariableDialog.Error.NameDuplicate=この名前 \"{0}\" は、すでに使用されています。
 ###########################################################
 #ExpressionBuilderConfigurationBlock
 ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文 :
+
+###########################################################
+#ExpressionEditor
+ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Label.Expression=式 :
 
 ###########################################################
 #VariableDropAdapter
