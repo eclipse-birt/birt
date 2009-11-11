@@ -106,7 +106,7 @@ public class ReportRunnable extends DesignRunnable implements IReportRunnable
 
 	public void setDesignHandle( DesignElementHandle handle )
 	{
-		if ( handle instanceof ReportDesignHandle )
+		if ( !( handle instanceof ReportDesignHandle ) )
 		{
 			throw new IllegalArgumentException(
 					"the argument must be a instanceof ReportDesignHandle" );
