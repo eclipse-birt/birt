@@ -216,6 +216,7 @@ public class PieChart extends DefaultChartTypeImpl
 			String sNewDimension )
 	{
 		Chart helperModel = currentChart.copyInstance( );
+		helperModel.eAdapters( ).addAll( currentChart.eAdapters( ) );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
@@ -233,6 +234,7 @@ public class PieChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithoutAxesImpl.create( );
+			currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
 			currentChart.setType( getName( ) );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
@@ -331,6 +333,7 @@ public class PieChart extends DefaultChartTypeImpl
 				// Create a new instance of the correct type and set initial
 				// properties
 				currentChart = ChartWithoutAxesImpl.create( );
+				currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
 				currentChart.setType( getName( ) );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );

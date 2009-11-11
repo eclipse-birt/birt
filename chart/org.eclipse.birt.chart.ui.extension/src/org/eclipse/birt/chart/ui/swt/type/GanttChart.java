@@ -220,6 +220,7 @@ public class GanttChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = currentChart.copyInstance( );
+		helperModel.eAdapters( ).addAll( currentChart.eAdapters( ) );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
@@ -316,6 +317,7 @@ public class GanttChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithAxesImpl.create( );
+			currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );

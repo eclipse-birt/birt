@@ -370,6 +370,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = currentChart.copyInstance( );
+		helperModel.eAdapters( ).addAll( currentChart.eAdapters( ) );
 		ChartDimension oldDimension = currentChart.getDimension( );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
@@ -517,6 +518,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithAxesImpl.create( );
+			currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );

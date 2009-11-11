@@ -227,6 +227,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			String sNewDimension )
 	{
 		Chart helperModel = currentChart.copyInstance( );
+		helperModel.eAdapters( ).addAll( currentChart.eAdapters( ) );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
@@ -244,6 +245,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = DialChartImpl.create( );
+			currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
@@ -329,6 +331,7 @@ public class MeterChart extends DefaultChartTypeImpl
 				// Create a new instance of the correct type and set initial
 				// properties
 				currentChart = DialChartImpl.create( );
+				currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
