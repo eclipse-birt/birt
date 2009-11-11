@@ -199,9 +199,9 @@ public class SelectValueFetcher
 			}
 		}
 	}
-	
+
 	/**
-	 * Used in filter select value dialog in layout.
+	 * Used in filter select value dialog in layout without group definition.
 	 * 
 	 * @param expression
 	 * @param dataSetHandle
@@ -211,7 +211,26 @@ public class SelectValueFetcher
 	 * @throws BirtException
 	 */
 	public static List getSelectValueFromBinding( Expression expression,
-			DataSetHandle dataSetHandle, Iterator binding, boolean useDataSetFilter )
+			DataSetHandle dataSetHandle, Iterator binding,
+			boolean useDataSetFilter ) throws BirtException
+	{
+		return getSelectValueFromBinding( expression, dataSetHandle, binding, null, useDataSetFilter );
+	}
+	
+	/**
+	 * Used in filter select value dialog in layout with group definition.
+	 * 
+	 * @param expression
+	 * @param dataSetHandle
+	 * @param binding The iterator of ComputedColumnHandle
+	 * @param groupIterator The iterator of GroupHandle
+	 * @param useDataSetFilter
+	 * @return
+	 * @throws BirtException
+	 */
+	public static List getSelectValueFromBinding( Expression expression,
+			DataSetHandle dataSetHandle, Iterator binding,
+			Iterator groupIterator, boolean useDataSetFilter )
 			throws BirtException
 	{
 		String columnName = null;
@@ -256,7 +275,7 @@ public class SelectValueFetcher
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
 							.iterator( ),
 					bindingList.iterator( ),
-					null,
+					groupIterator,
 					columnName,
 					useDataSetFilter,
 					null );
