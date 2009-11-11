@@ -391,6 +391,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 						try
 						{
 							addPage( pagedef.createPage( ), pagedef.displayName );
+							break;
 						}
 						catch ( Exception e )
 						{
@@ -486,8 +487,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public void doSave( IProgressMonitor monitor )
 	{
 		boolean isReselect = false;
-		if ( ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
-				getModel( ).getVersion( ) ) > 0 )
+		if ( getModel( ) != null
+				&& ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
+						getModel( ).getVersion( ) ) > 0 )
 		{
 			if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
 					Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Message" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$

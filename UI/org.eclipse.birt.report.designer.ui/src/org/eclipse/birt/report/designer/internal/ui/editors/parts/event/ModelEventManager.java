@@ -249,7 +249,10 @@ public class ModelEventManager implements Listener
 	// In the future can know the trans status through the trans listener.
 	public void hookCommandStack( WrapperCommandStack stack )
 	{
-		stack.addCommandStackListener( commandStackListener );
+		if ( stack != null )
+		{
+			stack.addCommandStackListener( commandStackListener );
+		}
 	}
 
 	/**
@@ -259,7 +262,10 @@ public class ModelEventManager implements Listener
 	 */
 	public void unhookCommandStack( WrapperCommandStack stack )
 	{
-		stack.removeCommandStackListener( commandStackListener );
+		if ( stack != null )
+		{
+			stack.removeCommandStackListener( commandStackListener );
+		}
 	}
 
 	/**

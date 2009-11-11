@@ -64,6 +64,14 @@ public class FileReportProvider implements IReportProvider
 
 	private ModuleHandle model;
 	private static final String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#queryReportModuleHandle()
+	 */
+	public ModuleHandle queryReportModuleHandle( )
+	{
+		return model;
+	}
 
 	/*
 	 * (non-Javadoc)

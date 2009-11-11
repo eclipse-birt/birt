@@ -584,7 +584,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 	private WrapperCommandStack getCommandStack( )
 	{
-		return new WrapperCommandStack( getModel( ).getCommandStack( ) );
+		if ( getModel( ) != null )
+		{
+			return new WrapperCommandStack( getModel( ).getCommandStack( ) );
+		}
+		return null;
 	}
 
 	private void reloadEditorInput( )
