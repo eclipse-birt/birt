@@ -32,7 +32,6 @@ import org.eclipse.birt.report.designer.ui.parameters.ScalarParameter;
 import org.eclipse.birt.report.designer.ui.parameters.StaticTextParameter;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ListViewer;
@@ -44,7 +43,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -60,7 +58,7 @@ import org.eclipse.swt.widgets.Text;
  * The dialog for inputting report parameter values when previewing report in
  * new preview prototype
  */
-public class InputParameterDialog extends Dialog
+public class InputParameterDialog extends BaseDialog
 {
 
 	private static final String NULL_VALUE_STR = ParameterUtil.LABEL_NULL;
@@ -108,7 +106,9 @@ public class InputParameterDialog extends Dialog
 
 	public InputParameterDialog( Shell parentShell, List params, Map paramValues )
 	{
-		super( parentShell );
+		super( parentShell,
+				Messages.getString( "InputParameterDialog.msg.title" ) ); //$NON-NLS-1$
+
 		this.params = params;
 		if ( paramValues != null )
 		{
@@ -182,7 +182,10 @@ public class InputParameterDialog extends Dialog
 		scrollPane.setExpandHorizontal( true );
 		scrollPane.setExpandVertical( true );
 
-		scrollPane.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.widthHint = 400;
+		gd.heightHint = 400;
+		scrollPane.setLayoutData( gd );
 
 		createParameters( );
 		performed = true;
@@ -205,9 +208,9 @@ public class InputParameterDialog extends Dialog
 
 		createParametersSection( params, contentPane );
 
-		contentPane.setSize( contentPane.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
-		scrollPane.setMinSize( contentPane.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ) );
+		// contentPane.setSize( contentPane.computeSize( SWT.DEFAULT,
+		// SWT.DEFAULT ) );
+		scrollPane.setMinSize( contentPane.computeSize( 400, SWT.DEFAULT ) );
 	}
 
 	private void createParametersSection( List children, Composite parent )
@@ -338,7 +341,13 @@ public class InputParameterDialog extends Dialog
 
 				IParameterSelectionChoice choice = (IParameterSelectionChoice) list.get( i );
 				Button button = new Button( container, SWT.RADIO );
-				button.setText( choice.getLabel( ) );
+				String choiceLabel = choice.getLabel( );
+				if ( choiceLabel == null )
+				{
+					choiceLabel = choice.getValue( ) == null ? NULL_VALUE_STR
+							: String.valueOf( choice.getValue( ) );
+				}
+				button.setText( choiceLabel );
 				button.setData( choice.getValue( ) );
 
 				if ( choice.getValue( ) != null
@@ -605,15 +614,15 @@ public class InputParameterDialog extends Dialog
 					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
 					if ( group.getPostParameter( listParam ) != null )
 					{
-//						try
-//						{
-//							createParameters( );
-//						}
-//						catch ( RuntimeException e1 )
-//						{
-//							e1.printStackTrace( );
-//						}
-						cascadingParamValueChanged(group, listParam);
+						// try
+						// {
+						// createParameters( );
+						// }
+						// catch ( RuntimeException e1 )
+						// {
+						// e1.printStackTrace( );
+						// }
+						cascadingParamValueChanged( group, listParam );
 					}
 				}
 			}
@@ -766,8 +775,8 @@ public class InputParameterDialog extends Dialog
 				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
 				{
 					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
-					 if ( group.getPostParameter( listParam ) != null )
-					 {
+					if ( group.getPostParameter( listParam ) != null )
+					{
 						// try
 						// {
 						// createParameters( );
@@ -776,27 +785,26 @@ public class InputParameterDialog extends Dialog
 						// {
 						// e1.printStackTrace( );
 						// }
-						cascadingParamValueChanged(group, listParam);
-					 }
+						cascadingParamValueChanged( group, listParam );
+					}
 				}
 			}
 		} );
 	}
-	
-	private void cascadingParamValueChanged(CascadingParameterGroup group, ListingParameter listParam){
+
+	private void cascadingParamValueChanged( CascadingParameterGroup group,
+			ListingParameter listParam )
+	{
 		clearPostParamList( group, listParam );
 		if ( postParamLists.containsKey( listParam )
-				&& paramValues.containsKey( listParam.getHandle( )
-						.getName( ) ) )
+				&& paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
 		{
-			Object value = paramValues.get( listParam.getHandle( )
-					.getName( ) );
+			Object value = paramValues.get( listParam.getHandle( ).getName( ) );
 			listParam.setSelectionValue( value );
 			ListingParameter postParam = (ListingParameter) group.getPostParameter( listParam );
 			Control control = postParamLists.get( listParam );
 			setControlItems( control, new String[0] );
-			for ( Iterator iterator = postParam.getValueList( )
-					.iterator( ); iterator.hasNext( ); )
+			for ( Iterator iterator = postParam.getValueList( ).iterator( ); iterator.hasNext( ); )
 			{
 				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
 				String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
@@ -842,18 +850,6 @@ public class InputParameterDialog extends Dialog
 			setControlItems( postParamLists.get( param ), new String[0] );
 			clearPostParamList( group, group.getPostParameter( param ) );
 		}
-	}
-
-	protected void configureShell( Shell newShell )
-	{
-		super.configureShell( newShell );
-
-		newShell.setText( Messages.getString( "InputParameterDialog.msg.title" ) ); //$NON-NLS-1$
-	}
-
-	protected Point getInitialSize( )
-	{
-		return new Point( 400, 400 );
 	}
 
 	public Map getParameters( )
