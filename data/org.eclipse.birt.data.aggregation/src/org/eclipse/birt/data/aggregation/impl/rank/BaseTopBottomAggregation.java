@@ -45,7 +45,7 @@ abstract class BaseTopBottomAggregation extends AggrFunction
 	 */
 	public int getDataType( )
 	{
-		return DataType.ANY_TYPE;
+		return DataType.BOOLEAN_TYPE;
 	}
 
 	/*
