@@ -462,9 +462,10 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		boolean isModelDirty = false;
 
-		if ( getModel( ) != null )
+		ModuleHandle reportModel = getProvider( ).queryReportModuleHandle( );
+		if ( reportModel != null )
 		{
-			isModelDirty = getModel( ).needsSave( );
+			isModelDirty = reportModel.needsSave( );
 		}
 		return isModelDirty || jsEditor.isDirty( );
 	}

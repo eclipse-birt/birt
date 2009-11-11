@@ -89,6 +89,17 @@ public class IDEFileReportProvider implements IReportProvider
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.editors.IReportProvider#
+	 * queryReportModuleHandle()
+	 */
+	public ModuleHandle queryReportModuleHandle( )
+	{
+		return model;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * getReportModuleHandle(java.lang.Object)
 	 */
 	public ModuleHandle getReportModuleHandle( Object element )
@@ -216,7 +227,8 @@ public class IDEFileReportProvider implements IReportProvider
 					OutputStream out = null;
 					try
 					{
-						out = new BufferedOutputStream(new FileOutputStream( file ), 8192*2);
+						out = new BufferedOutputStream( new FileOutputStream( file ),
+								8192 * 2 );
 						moduleHandle.serialize( out );
 						out.flush( );
 						if ( oldReportPath != null )

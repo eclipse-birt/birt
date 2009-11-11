@@ -499,16 +499,18 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		Control[] children = parent.getChildren( );
 		control = children[children.length - 1];
 
+		ModuleHandle model = getModel( );
+		
 		// suport the mediator
 		SessionHandleAdapter.getInstance( )
-				.getMediator( getModel( ) )
+				.getMediator( model )
 				.addColleague( this );
 
 		// Add Command Stack Listener
-		if ( getModel( ) != null && getModel( ).getCommandStack( ) != null )
+		if ( model != null && model.getCommandStack( ) != null )
 		{
-			getCommandStack( ).addCommandStackListener( getCommandStackListener( ) );
-			hookModelEventManager( getModel( ) );
+			getCommandStack( model ).addCommandStackListener( getCommandStackListener( ) );
+			hookModelEventManager( model );
 		}
 
 		reportXMLEditor.getTextViewer( ).addTextListener( new ITextListener( ) {
@@ -582,11 +584,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		getEditor( ).editorDirtyStateChanged( );
 	}
 
-	private WrapperCommandStack getCommandStack( )
+	private WrapperCommandStack getCommandStack( ModuleHandle model )
 	{
-		if ( getModel( ) != null )
+		if ( model != null )
 		{
-			return new WrapperCommandStack( getModel( ).getCommandStack( ) );
+			return new WrapperCommandStack( model.getCommandStack( ) );
 		}
 		return null;
 	}
@@ -679,13 +681,15 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			markPageStale( IPageStaleType.NONE );
 		}
 		
-		hookModelEventManager( getModel( ) );
+		ModuleHandle model = getModel( );
+		
+		hookModelEventManager( model );
 		//Fix bug 276266
 		SessionHandleAdapter.getInstance( )
-			.getMediator( getProvider( ).getReportModuleHandle( getEditorInput( ) )).addColleague( this );
+			.getMediator( model ).addColleague( this );
 		// ser the attribute view disedit.
 		
-		ReportMediator mediator = SessionHandleAdapter.getInstance( ).getMediator( getModel( ) );
+		ReportMediator mediator = SessionHandleAdapter.getInstance( ).getMediator( model );
 		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
 		List list = new ArrayList(mediator.getCurrentState( ).getSelectionObject( ));
 		if (list.isEmpty( ))
@@ -772,7 +776,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	protected void hookModelEventManager( Object model )
 	{
 		getModelEventManager( ).hookRoot( model );
-		getModelEventManager( ).hookCommandStack( getCommandStack( ) );
+		getModelEventManager( ).hookCommandStack( getCommandStack( getModel( ) ) );
 	}
 
 	protected void unhookModelEventManager( Object model )
@@ -821,25 +825,26 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		IReportProvider provider = getProvider( );
 		if ( provider != null && getErrorLIine( false ) == -1 )
 		{
-			unhookModelEventManager( getModel( ) );
-			getCommandStack( ).removeCommandStackListener( getCommandStackListener( ) );
+			ModuleHandle oldModel = getModel( );
+			unhookModelEventManager( oldModel );
+			getCommandStack( oldModel ).removeCommandStackListener( getCommandStackListener( ) );
 
 			SessionHandleAdapter.getInstance( )
-					.getMediator( getModel( ) )
+					.getMediator( oldModel )
 					.removeColleague( this );
 
-			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
+			ModuleHandle newModel = provider.getReportModuleHandle( getEditorInput( ),
 					true );
-			SessionHandleAdapter.getInstance( ).setReportDesignHandle( model );
+			SessionHandleAdapter.getInstance( ).setReportDesignHandle( newModel );
 			UIUtil.processSessionResourceFolder( getEditorInput( ),
 					UIUtil.getProjectFromInput( getEditorInput( ) ),
-					model );
+					newModel );
 
 			SessionHandleAdapter.getInstance( )
-					.getMediator( model )
+					.getMediator( newModel )
 					.addColleague( this );
 			hookModelEventManager( getModel( ) );
-			getCommandStack( ).addCommandStackListener( getCommandStackListener( ) );
+			getCommandStack( newModel ).addCommandStackListener( getCommandStackListener( ) );
 
 			setIsModified( false );
 			getEditor( ).editorDirtyStateChanged( );
