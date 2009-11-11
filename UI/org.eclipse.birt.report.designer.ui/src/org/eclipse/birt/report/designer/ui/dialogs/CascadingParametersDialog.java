@@ -1417,6 +1417,11 @@ public class CascadingParametersDialog extends BaseDialog
 			mainContent.setSize( size );
 
 			mainContent.getParent( ).layout( );
+
+			if ( isMultiple != null
+					&& isMultiple.isEnabled( )
+					&& isMultiple.getSelection( ) )
+				getShell( ).pack( );
 		}
 	}
 
