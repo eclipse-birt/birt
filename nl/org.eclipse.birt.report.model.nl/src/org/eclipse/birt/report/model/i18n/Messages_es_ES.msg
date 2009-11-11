@@ -675,10 +675,16 @@ Choices.dataVersion.latest=Último
 
 #84 selectorType
 Choices.selectorType.list=Lista
-Choices.selectorType.comboBox=ComboBox
+Choices.selectorType.dropdown=Dropdown
 Choices.selectorType.slider=Slider
 Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
+Choices.selectorType.textBox=TextBox
+Choices.selectorType.calendar=Calendar
+
+#85 thumbType
+Choices.thumbType.single=Single
+Choices.thumbType.dual=Dual
 
 ###########################################################
 # Classes
@@ -2324,6 +2330,13 @@ Element.EventSubscriber=Suscriptor de evento
 Element.GadgetContent=Contenido de gadget
 Element.ExternalElementRef=Referencia de elemento externo
 Element.DataSelectorItem=Selector de datos
+Element.SliderDataSelectorItem=Slider Data Selector
+Element.ListDataSelectorItem=List Data Selector
+Element.DropdownDataSelectorItem=Dropdown Data Selector
+Element.CheckBoxDataSelectorItem=Check Box Data Selector
+Element.RadioDataSelectorItem=Radio Data Selector
+Element.TextBoxDataSelectorItem=Text Box Data Selector
+Element.CalendarDataSelectorItem=Calendar Data Selector
 Element.DataViewItem=Vista de datos
 Element.DataMart=Data Mart
 Element.DataMartDataSource=Fuente de datos de Data Mart
@@ -3366,6 +3379,9 @@ Element.EventSubscriber.eventObjects=Objetos de evento
 Element.GadgetContent.cube=Cubo
 Element.GadgetContent.externalContentRef=Referencia de contenido externo
 Element.GadgetContent.gadgetType=Tipo de gadget
+Element.GadgetContent.dataSet=Conjunto de datos
+Element.GadgetContent.parameterName=Parameter name
+
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
 Element.ExternalElementRef.sourceFile=Archivo fuente
@@ -3374,6 +3390,7 @@ Element.ExternalElementRef.targetBookmark=Marcador de destino
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=Columnas de datos enlazados
 Element.DataSelectorItem.selectorType=selectorType
+Element.DataSelectorItem.title=Título
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Referencia de informe interno
@@ -3403,6 +3420,37 @@ Element.DataMartCube.dataObject=Objeto de datos
 #82 EventObject (prefix Element.EventObject)
 Element.EventObject.gadget=Gadget
 Element.EventObject.appliedTo=Aplicadoa
+
+#83 SliderDataSelectorItem (prefix SliderDataSelectorItem)
+Element.SliderDataSelectorItem.orientation=Orientación
+Element.SliderDataSelectorItem.thumbType=Thumb type
+Element.SliderDataSelectorItem.defaultValue1=Default value 1
+Element.SliderDataSelectorItem.defaultValue2=Default value 2
+Element.SliderDataSelectorItem.width=Ancho
+Element.SliderDataSelectorItem.tickInterval=Tick interval
+Element.SliderDataSelectorItem.minValue=Min value
+Element.SliderDataSelectorItem.maxValue=Max value
+
+#84 ListDataSelectorItem (prefix Element.ListDataSelectorItem)
+Element.ListDataSelectorItem.allowMultiValue=Allow multiple value
+Element.ListDataSelectorItem.enableSearch=Enable search
+Element.ListDataSelectorItem.defaultValue=Valor predeterminado
+Element.ListDataSelectorItem.listLimit=Límite de lista
+
+#85 DropdownDataSelectorItem (prefix Element.DropdownDataSelectorItem)
+Element.DropdownDataSelectorItem.allowTyping=Allow typing
+Element.DropdownDataSelectorItem.autoSuggest=Auto suggest
+Element.DropdownDataSelectorItem.listLimit=Límite de lista
+
+#86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
+Element.CheckBoxDataSelectorItem.orientation=Orientación
+Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
+Element.CheckBoxDataSelectorItem.listLimit=Límite de lista
+
+#87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
+Element.RadioDataSelectorItem.orientation=Orientación
+Element.RadioDataSelectorItem.autoAdjust=Auto adjust
+Element.RadioDataSelectorItem.listLimit=Límite de lista
 
 ###########################################################
 # Predefined style

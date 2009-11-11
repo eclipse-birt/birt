@@ -675,10 +675,16 @@ Choices.dataVersion.latest=最新
 
 #84 selectorType
 Choices.selectorType.list=リスト
-Choices.selectorType.comboBox=ComboBox
+Choices.selectorType.dropdown=Dropdown
 Choices.selectorType.slider=Slider
 Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
+Choices.selectorType.textBox=TextBox
+Choices.selectorType.calendar=Calendar
+
+#85 thumbType
+Choices.thumbType.single=Single
+Choices.thumbType.dual=Dual
 
 ###########################################################
 # Classes
@@ -2324,6 +2330,13 @@ Element.EventSubscriber=イベントの購読者
 Element.GadgetContent=ガジェットのコンテンツ
 Element.ExternalElementRef=外部要素の参照
 Element.DataSelectorItem=データセレクタ
+Element.SliderDataSelectorItem=Slider Data Selector
+Element.ListDataSelectorItem=List Data Selector
+Element.DropdownDataSelectorItem=Dropdown Data Selector
+Element.CheckBoxDataSelectorItem=Check Box Data Selector
+Element.RadioDataSelectorItem=Radio Data Selector
+Element.TextBoxDataSelectorItem=Text Box Data Selector
+Element.CalendarDataSelectorItem=Calendar Data Selector
 Element.DataViewItem=データビュー
 Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart データソース
@@ -3366,6 +3379,9 @@ Element.EventSubscriber.eventObjects=イベントオブジェクト
 Element.GadgetContent.cube=キューブ
 Element.GadgetContent.externalContentRef=外部コンテンツの参照
 Element.GadgetContent.gadgetType=ガジェットの種類
+Element.GadgetContent.dataSet=データセット
+Element.GadgetContent.parameterName=Parameter name
+
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
 Element.ExternalElementRef.sourceFile=ソースファイル
@@ -3374,6 +3390,7 @@ Element.ExternalElementRef.targetBookmark=ターゲットのブックマーク
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=バインドされたデータカラム
 Element.DataSelectorItem.selectorType=selectorType
+Element.DataSelectorItem.title=タイトル
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet の参照
@@ -3403,6 +3420,37 @@ Element.DataMartCube.dataObject=データオブジェクト
 #82 EventObject (prefix Element.EventObject)
 Element.EventObject.gadget=ガジェット
 Element.EventObject.appliedTo=適用先
+
+#83 SliderDataSelectorItem (prefix SliderDataSelectorItem)
+Element.SliderDataSelectorItem.orientation=向き
+Element.SliderDataSelectorItem.thumbType=Thumb type
+Element.SliderDataSelectorItem.defaultValue1=Default value 1
+Element.SliderDataSelectorItem.defaultValue2=Default value 2
+Element.SliderDataSelectorItem.width=幅
+Element.SliderDataSelectorItem.tickInterval=Tick interval
+Element.SliderDataSelectorItem.minValue=Min value
+Element.SliderDataSelectorItem.maxValue=Max value
+
+#84 ListDataSelectorItem (prefix Element.ListDataSelectorItem)
+Element.ListDataSelectorItem.allowMultiValue=Allow multiple value
+Element.ListDataSelectorItem.enableSearch=Enable search
+Element.ListDataSelectorItem.defaultValue=デフォルト値
+Element.ListDataSelectorItem.listLimit=一覧の制限
+
+#85 DropdownDataSelectorItem (prefix Element.DropdownDataSelectorItem)
+Element.DropdownDataSelectorItem.allowTyping=Allow typing
+Element.DropdownDataSelectorItem.autoSuggest=Auto suggest
+Element.DropdownDataSelectorItem.listLimit=一覧の制限
+
+#86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
+Element.CheckBoxDataSelectorItem.orientation=向き
+Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
+Element.CheckBoxDataSelectorItem.listLimit=一覧の制限
+
+#87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
+Element.RadioDataSelectorItem.orientation=向き
+Element.RadioDataSelectorItem.autoAdjust=Auto adjust
+Element.RadioDataSelectorItem.listLimit=一覧の制限
 
 ###########################################################
 # Predefined style

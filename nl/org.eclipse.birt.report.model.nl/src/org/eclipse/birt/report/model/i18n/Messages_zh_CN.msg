@@ -675,10 +675,16 @@ Choices.dataVersion.latest=最新
 
 #84 selectorType
 Choices.selectorType.list=列表
-Choices.selectorType.comboBox=ComboBox
+Choices.selectorType.dropdown=Dropdown
 Choices.selectorType.slider=Slider
 Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
+Choices.selectorType.textBox=TextBox
+Choices.selectorType.calendar=Calendar
+
+#85 thumbType
+Choices.thumbType.single=Single
+Choices.thumbType.dual=Dual
 
 ###########################################################
 # Classes
@@ -2324,6 +2330,13 @@ Element.EventSubscriber=事件预订者
 Element.GadgetContent=小工具内容
 Element.ExternalElementRef=外部元素引用
 Element.DataSelectorItem=数据选择器
+Element.SliderDataSelectorItem=Slider Data Selector
+Element.ListDataSelectorItem=List Data Selector
+Element.DropdownDataSelectorItem=Dropdown Data Selector
+Element.CheckBoxDataSelectorItem=Check Box Data Selector
+Element.RadioDataSelectorItem=Radio Data Selector
+Element.TextBoxDataSelectorItem=Text Box Data Selector
+Element.CalendarDataSelectorItem=Calendar Data Selector
 Element.DataViewItem=数据视图
 Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart 数据源
@@ -3366,6 +3379,9 @@ Element.EventSubscriber.eventObjects=事件对象
 Element.GadgetContent.cube=多维数据集
 Element.GadgetContent.externalContentRef=外部内容引用
 Element.GadgetContent.gadgetType=小工具类型
+Element.GadgetContent.dataSet=数据集
+Element.GadgetContent.parameterName=Parameter name
+
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
 Element.ExternalElementRef.sourceFile=源文件
@@ -3374,6 +3390,7 @@ Element.ExternalElementRef.targetBookmark=目标书签
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=绑定的数据列
 Element.DataSelectorItem.selectorType=selectorType
+Element.DataSelectorItem.title=标题
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet 引用
@@ -3403,6 +3420,37 @@ Element.DataMartCube.dataObject=数据对象
 #82 EventObject (prefix Element.EventObject)
 Element.EventObject.gadget=小工具
 Element.EventObject.appliedTo=AppliedTo
+
+#83 SliderDataSelectorItem (prefix SliderDataSelectorItem)
+Element.SliderDataSelectorItem.orientation=方向
+Element.SliderDataSelectorItem.thumbType=Thumb type
+Element.SliderDataSelectorItem.defaultValue1=Default value 1
+Element.SliderDataSelectorItem.defaultValue2=Default value 2
+Element.SliderDataSelectorItem.width=宽度
+Element.SliderDataSelectorItem.tickInterval=Tick interval
+Element.SliderDataSelectorItem.minValue=Min value
+Element.SliderDataSelectorItem.maxValue=Max value
+
+#84 ListDataSelectorItem (prefix Element.ListDataSelectorItem)
+Element.ListDataSelectorItem.allowMultiValue=Allow multiple value
+Element.ListDataSelectorItem.enableSearch=Enable search
+Element.ListDataSelectorItem.defaultValue=默认值
+Element.ListDataSelectorItem.listLimit=列表限制
+
+#85 DropdownDataSelectorItem (prefix Element.DropdownDataSelectorItem)
+Element.DropdownDataSelectorItem.allowTyping=Allow typing
+Element.DropdownDataSelectorItem.autoSuggest=Auto suggest
+Element.DropdownDataSelectorItem.listLimit=列表限制
+
+#86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
+Element.CheckBoxDataSelectorItem.orientation=方向
+Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
+Element.CheckBoxDataSelectorItem.listLimit=列表限制
+
+#87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
+Element.RadioDataSelectorItem.orientation=方向
+Element.RadioDataSelectorItem.autoAdjust=Auto adjust
+Element.RadioDataSelectorItem.listLimit=列表限制
 
 ###########################################################
 # Predefined style

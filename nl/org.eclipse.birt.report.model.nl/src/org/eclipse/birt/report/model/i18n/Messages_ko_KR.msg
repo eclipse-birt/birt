@@ -675,10 +675,16 @@ Choices.dataVersion.latest=최신
 
 #84 selectorType
 Choices.selectorType.list=목록
-Choices.selectorType.comboBox=ComboBox
+Choices.selectorType.dropdown=Dropdown
 Choices.selectorType.slider=Slider
 Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
+Choices.selectorType.textBox=TextBox
+Choices.selectorType.calendar=Calendar
+
+#85 thumbType
+Choices.thumbType.single=Single
+Choices.thumbType.dual=Dual
 
 ###########################################################
 # Classes
@@ -2324,6 +2330,13 @@ Element.EventSubscriber=이벤트 구독자
 Element.GadgetContent=가젯 콘텐츠
 Element.ExternalElementRef=외부 요소 참조
 Element.DataSelectorItem=데이터 선택기
+Element.SliderDataSelectorItem=Slider Data Selector
+Element.ListDataSelectorItem=List Data Selector
+Element.DropdownDataSelectorItem=Dropdown Data Selector
+Element.CheckBoxDataSelectorItem=Check Box Data Selector
+Element.RadioDataSelectorItem=Radio Data Selector
+Element.TextBoxDataSelectorItem=Text Box Data Selector
+Element.CalendarDataSelectorItem=Calendar Data Selector
 Element.DataViewItem=데이터 뷰
 Element.DataMart=데이터 마트
 Element.DataMartDataSource=Data Mart 데이터 원본
@@ -3366,6 +3379,9 @@ Element.EventSubscriber.eventObjects=이벤트 개체
 Element.GadgetContent.cube=큐브
 Element.GadgetContent.externalContentRef=외부 콘텐츠 참조
 Element.GadgetContent.gadgetType=가젯 형식
+Element.GadgetContent.dataSet=DataSet
+Element.GadgetContent.parameterName=Parameter name
+
 
 #75 ExternalElementRef ( prefix  Element.ExternalElementRef )
 Element.ExternalElementRef.sourceFile=원본 파일
@@ -3374,6 +3390,7 @@ Element.ExternalElementRef.targetBookmark=대상 책갈피
 #76 DataSelectorItem ( prefix  Element.DataSelectorItem )
 Element.DataSelectorItem.boundDataColumns=바인딩된 데이터 열
 Element.DataSelectorItem.selectorType=selectorType
+Element.DataSelectorItem.title=제목
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=내부 리포틀릿 참조
@@ -3403,6 +3420,37 @@ Element.DataMartCube.dataObject=데이터 개체
 #82 EventObject (prefix Element.EventObject)
 Element.EventObject.gadget=가젯
 Element.EventObject.appliedTo=AppliedTo
+
+#83 SliderDataSelectorItem (prefix SliderDataSelectorItem)
+Element.SliderDataSelectorItem.orientation=방향
+Element.SliderDataSelectorItem.thumbType=Thumb type
+Element.SliderDataSelectorItem.defaultValue1=Default value 1
+Element.SliderDataSelectorItem.defaultValue2=Default value 2
+Element.SliderDataSelectorItem.width=너비
+Element.SliderDataSelectorItem.tickInterval=Tick interval
+Element.SliderDataSelectorItem.minValue=Min value
+Element.SliderDataSelectorItem.maxValue=Max value
+
+#84 ListDataSelectorItem (prefix Element.ListDataSelectorItem)
+Element.ListDataSelectorItem.allowMultiValue=Allow multiple value
+Element.ListDataSelectorItem.enableSearch=Enable search
+Element.ListDataSelectorItem.defaultValue=기본값
+Element.ListDataSelectorItem.listLimit=목록 제한
+
+#85 DropdownDataSelectorItem (prefix Element.DropdownDataSelectorItem)
+Element.DropdownDataSelectorItem.allowTyping=Allow typing
+Element.DropdownDataSelectorItem.autoSuggest=Auto suggest
+Element.DropdownDataSelectorItem.listLimit=목록 제한
+
+#86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
+Element.CheckBoxDataSelectorItem.orientation=방향
+Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
+Element.CheckBoxDataSelectorItem.listLimit=목록 제한
+
+#87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
+Element.RadioDataSelectorItem.orientation=방향
+Element.RadioDataSelectorItem.autoAdjust=Auto adjust
+Element.RadioDataSelectorItem.listLimit=목록 제한
 
 ###########################################################
 # Predefined style
