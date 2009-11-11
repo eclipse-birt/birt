@@ -426,7 +426,6 @@ public class CascadingParametersDialog extends BaseDialog
 		UIUtil.bindHelp( parent, IHelpContextIds.CASCADING_PARAMETER_DIALOG_ID );
 
 		GridData data = new GridData( GridData.FILL_BOTH );
-		data.widthHint = 600;
 
 		maxStrLengthProperty = getMaxStrLength( PROPERTY_LABEL_STRING,
 				mainContent );
@@ -456,7 +455,7 @@ public class CascadingParametersDialog extends BaseDialog
 		sc.setContent( mainContent );
 		sc.setExpandHorizontal( true );
 		// sc.setExpandVertical( true );
-		sc.setMinWidth( 600 );
+		sc.setMinWidth( 500 );
 		// sc.setMinHeight( 570 );
 
 		Point size = mainContent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
@@ -670,7 +669,7 @@ public class CascadingParametersDialog extends BaseDialog
 		} );
 
 		int[] columnWidths = new int[]{
-				140, 110, 130, 130,
+				120, 100, 120, 135,
 		};
 		String[] columns = new String[]{
 				COLUMN_NAME, COLUMN_DATA_SET, COLUMN_VALUE, COLUMN_DISPLAY_TEXT
@@ -874,7 +873,8 @@ public class CascadingParametersDialog extends BaseDialog
 		propertiesGroup = new Group( parent, SWT.NULL );
 		propertiesGroup.setText( LABEL_GROUP_PROPERTIES );
 		propertiesGroup.setLayout( new GridLayout( 2, false ) );
-		propertiesGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		propertiesGroup.setLayoutData( gd );
 
 		createLabel( propertiesGroup, LABEL_PARAM_NAME, maxStrLengthProperty );
 
@@ -1148,8 +1148,7 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 
 		};
-		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
-				SWT.PUSH );
+		expressionButton = UIUtil.createExpressionButton( composite, SWT.PUSH );
 		expressionButton.setExpressionHelper( helper );
 		defaultValueChooser.setData( ExpressionButtonUtil.EXPR_BUTTON,
 				expressionButton );
@@ -1159,7 +1158,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		addValueButton = new Button( composite, SWT.PUSH );
 		addValueButton.setText( Messages.getString( "CascadingParametersDialog.DefalutValue.Add" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( );
+		gd = new GridData( );
 		gd.widthHint = 60;
 		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
 		{
@@ -1199,7 +1198,6 @@ public class CascadingParametersDialog extends BaseDialog
 		Table table = new Table( group, tableStyle );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		table.setLayoutData( data );
-
 		table.setHeaderVisible( false );
 		table.setLinesVisible( true );
 		TableColumn column;
@@ -1467,7 +1465,8 @@ public class CascadingParametersDialog extends BaseDialog
 		optionsGroup = new Group( parent, SWT.NULL );
 		optionsGroup.setText( LABEL_GROUP_MORE_OPTIONS );
 		optionsGroup.setLayout( new GridLayout( 2, false ) );
-		optionsGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL ); 
+		optionsGroup.setLayoutData( gd );
 
 		createLabel( optionsGroup, LABEL_HELP_TEXT, maxStrLengthOption );
 
@@ -1511,11 +1510,11 @@ public class CascadingParametersDialog extends BaseDialog
 		createLabel( optionsGroup, LABEL_LIST_LIMIT, maxStrLengthOption );
 
 		Composite composite = new Composite( optionsGroup, SWT.NULL );
-		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 3, true ) );
+		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 3, false ) );
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Composite limitArea = new Composite( composite, SWT.NULL );
-		limitArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
+		limitArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		limitArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		listLimit = new Text( limitArea, SWT.BORDER );
@@ -1689,9 +1688,10 @@ public class CascadingParametersDialog extends BaseDialog
 
 		valueTable.setInput( inputParameterGroup );
 
-		refreshParameterProperties( );
 		initSorttingArea( );
 		updateButtons( );
+
+		refreshParameterProperties( );
 
 		Point size = mainContent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		mainContent.setSize( size );
@@ -1820,12 +1820,18 @@ public class CascadingParametersDialog extends BaseDialog
 			selection = new StructuredSelection( valueTable.getTable( )
 					.getItem( index )
 					.getData( ) );
+			this.selectedParameter = (ScalarParameterHandle) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
 		}
 		else
 		{
 			selection = StructuredSelection.EMPTY;
+			this.selectedParameter = null;
 		}
 		valueTable.setSelection( selection );
+
+		refreshParameterProperties( );
+		initSorttingArea( );
+		updateButtons( );
 	}
 
 	private String[] getDataSetColumns( ScalarParameterHandle handle,
@@ -2072,11 +2078,11 @@ public class CascadingParametersDialog extends BaseDialog
 	private Label dummyLabel;
 	private Composite defaultValueComposite;
 	private TableViewer defaultValueViewer;
-	private Button delAllBtn;
 	private Button addValueButton;
 	private Button editValueBtn;
 	private Button delValueBtn;
 	private Button delAllValuesBtn;
+	private ExpressionButton expressionButton;
 
 	protected int getTableIndex( Object element )
 	{
@@ -2110,6 +2116,7 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			clearParamProperties( );
 			setControlEnabled( false );
+			initDefaultValueViewer( );
 			return;
 		}
 
@@ -2229,6 +2236,10 @@ public class CascadingParametersDialog extends BaseDialog
 		listLimit.setEnabled( enable );
 		changeFormat.setEnabled( enable );
 		isRequired.setEnabled( enable );
+		isMultiple.setEnabled( enable );
+		if ( !isMultiple.isEnabled( ) )
+			isMultiple.setSelection( false );
+		expressionButton.setEnabled( enable );
 	}
 
 	private void changeDataType( String type )
