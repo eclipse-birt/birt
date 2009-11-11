@@ -976,10 +976,19 @@ public interface DesignChoiceConstants
 	/**
 	 * Choice constants for dataSelector type.
 	 */
-	public static final String CHOICE_DATASELECTOR_TYPE_LIST = "list"; //$NON-NLS-1$
-	public static final String CHOICE_DATASELECTOR_TYPE_COMBO_BOX = "comboBox";//$NON-NLS-1$
-	public static final String CHOICE_DATASELECTOR_TYPE_SLIDER = "slider"; //$NON-NLS-1$
-	public static final String CHOICE_DATASELECTOR_TYPE_CHECK_BOX = "checkBox";//$NON-NLS-1$
-	public static final String CHOICE_DATASELECTOR_TYPE_RADIO_BUTTON = "radioButton";//$NON-NLS-1$
+	public static final String CHOICE_DATA_SELECTOR_TYPE = "selectorType"; //$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_LIST = "list"; //$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_DROPDOWN = "dropdown";//$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_SLIDER = "slider"; //$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_CHECK_BOX = "checkBox";//$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_RADIO_BUTTON = "radioButton";//$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_TEXT_BOX = "textBox";//$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_CALENDAR = "calendar";//$NON-NLS-1$
 	
+	/**
+	 * Choice constants for thumb type.
+	 */
+	public static final String CHOICE_THUMB_TYPE = "thumbType"; //$NON-NLS-1$
+	public static final String THUMB_TYPE_SINGLE = "single"; //$NON-NLS-1$
+	public static final String THUMB_TYPE_DUAL = "dual";//$NON-NLS-1$
 };
