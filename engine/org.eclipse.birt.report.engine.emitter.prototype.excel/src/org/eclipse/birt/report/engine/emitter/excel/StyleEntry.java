@@ -22,6 +22,10 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 	public StyleEntry( StyleEntry entry )
 	{
 		this( );
+		if ( entry == null )
+		{
+			return;
+		}
 		for ( int i = 0; i < props.length; i++ )
 		{
 			props[i] = entry.props[i];

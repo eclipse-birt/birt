@@ -1153,11 +1153,16 @@ public class ExcelLayoutEngine
 			int rowSpanOfDesign )
 	{
 		Data data = createData( );
-		Object property = style.getProperty( StyleConstant.DATA_TYPE_PROP );
-		if ( property instanceof Integer )
+		int dataType = SheetData.STRING;
+		if ( style != null )
 		{
-			data.setDataType( (Integer) property );
+			Object property = style.getProperty( StyleConstant.DATA_TYPE_PROP );
+			if ( property instanceof Integer )
+			{
+				dataType = (Integer) property;
+			}
 		}
+		data.setDataType( dataType );
 		data.setValue( text );
 		data.setStyleId( engine.getStyleId( style ) );
 		data.setRowSpanInDesign( rowSpanOfDesign );
