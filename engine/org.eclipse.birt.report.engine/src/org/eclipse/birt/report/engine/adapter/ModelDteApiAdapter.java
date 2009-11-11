@@ -88,7 +88,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -183,15 +182,7 @@ public class ModelDteApiAdapter
 	public IBaseDataSourceDesign createDataSourceDesign(
 			DataSourceHandle dataSource ) throws BirtException
 	{
-		if ( dataSource instanceof OdaDataSourceHandle )
-			return newOdaDataSource( ( OdaDataSourceHandle ) dataSource );
-
-		if ( dataSource instanceof ScriptDataSourceHandle )
-			return newScriptDataSource( ( ScriptDataSourceHandle ) dataSource );
-
-		// any other types are not supported
-		assert false;
-		return null;
+		return this.dteSession.getModelAdaptor( ).adaptDataSource( dataSource );
 	}
 
 	/**
