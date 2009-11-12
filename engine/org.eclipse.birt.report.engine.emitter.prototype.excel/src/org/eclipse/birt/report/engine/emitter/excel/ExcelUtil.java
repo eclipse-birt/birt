@@ -68,7 +68,7 @@ public class ExcelUtil
 			.getName( ) );
 
 	private static final HashSet<Character> splitChar = new HashSet<Character>( );
-	public final static float INCH_PX;
+	public final static float INCH_PX = 96;
 	static
 	{
 
@@ -80,18 +80,6 @@ public class ExcelUtil
 		splitChar.add( new Character( ' ' ) );
 		splitChar.add( new Character( '\r' ) );
 		splitChar.add( new Character( '\n' ) );
-
-		float Temp_PX;
-		try
-		{
-			Temp_PX = java.awt.Toolkit.getDefaultToolkit( )
-					.getScreenResolution( );
-		}
-		catch ( Exception e )
-		{
-			Temp_PX = 96;
-		}
-		INCH_PX = Temp_PX;
 	}
 
 	public final static float INCH_PT = 72;
