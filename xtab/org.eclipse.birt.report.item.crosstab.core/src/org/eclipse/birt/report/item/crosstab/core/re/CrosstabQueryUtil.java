@@ -537,6 +537,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 							qualifyLevels,
 							qualifyValues,
 							DataAdapterUtil.adaptModelSortDirection( sortKey.getDirection( ) ) );
+					
+					sortDef.setSortLocale( sortKey.getLocale( ) );
+					sortDef.setSortStrength( sortKey.getStrength( ) );
 
 					cubeQuery.addSort( sortDef );
 				}
