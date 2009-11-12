@@ -47,14 +47,14 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	 * Column properties.
 	 */
 	private String[] columnKeys = new String[]{
-			SortKey.KEY_MEMBER, SortKey.DIRECTION_MEMBER
+			SortKey.KEY_MEMBER, SortKey.DIRECTION_MEMBER, SortKey.LOCALE_MEMBER, SortKey.STRENGTH_MEMBER
 	};
 
 	/**
 	 * Column widths.
 	 */
 	private static int[] columnWidth = new int[]{
-			250, 250
+			250, 100, 100, 100
 	};
 
 	/**
@@ -108,6 +108,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 			editors = new CellEditor[columnKeys.length];
 			editors[0] = new TextCellEditor( table );
 			editors[1] = new TextCellEditor( table );
+			editors[2] = new TextCellEditor( table );
+			editors[3] = new TextCellEditor( table );
 		}
 		return editors;
 	}

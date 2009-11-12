@@ -12,10 +12,16 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatAdapter;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
@@ -52,6 +58,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
+import com.ibm.icu.text.Collator;
+import com.ibm.icu.util.ULocale;
+
 /**
  * SortkeyBuilder
  */
@@ -80,6 +89,25 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	 */
 	private static final String[] EMPTY = new String[0];
 
+	public static final Map<String, Integer> STRENGTH_MAP;
+
+	static
+	{
+		STRENGTH_MAP = new HashMap<String, Integer>( );
+		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.ASCII" ),
+				ISortDefinition.ASCII_SORT_STRENGTH );
+		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.PRIMARY" ),
+				Collator.PRIMARY );
+		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.SECONDARY" ),
+				Collator.SECONDARY );
+		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.TERTIARY" ),
+				Collator.TERTIARY );
+		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.QUATERNARY" ),
+				Collator.QUATERNARY );
+		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.IDENTICAL" ),
+				Collator.IDENTICAL );
+	}
+
 	/**
 	 * @param title
 	 */
@@ -93,6 +121,10 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	 * @param title
 	 */
 	protected String title, message;
+
+	private Combo comboLocale;
+
+	private Combo comboStrength;
 
 	public SortkeyBuilder( Shell parentShell, String title, String message )
 	{
@@ -182,6 +214,38 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		comboDirection.setItems( displayNames );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		comboDirection.setLayoutData( gdata );
+
+		new Label( content, SWT.NONE );
+		Label labelLocale = new Label( content, SWT.NONE );
+		labelLocale.setText( "Locale" );
+		comboLocale = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		comboLocale.setLayoutData( gdata );
+
+		List<String> localeNames = new ArrayList<String>( );
+		localeNames.add( Messages.getString( "SortkeyBuilder.Locale.Auto" ) );
+		localeNames.addAll( FormatAdapter.LOCALE_TABLE.keySet( ) );
+		comboLocale.setItems( localeNames.toArray( new String[]{} ) );
+		comboLocale.select( 0 );
+
+		new Label( content, SWT.NONE );
+		Label labelStrength = new Label( content, SWT.NONE );
+		labelStrength.setText( "Strength" );
+		comboStrength = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		comboStrength.setLayoutData( gdata );
+
+		List<String> strengthNames = new ArrayList<String>( STRENGTH_MAP.keySet( ) );
+		Collections.sort( strengthNames, new Comparator<String>( ) {
+
+			public int compare( String o1, String o2 )
+			{
+				return STRENGTH_MAP.get( o1 ) - STRENGTH_MAP.get( o2 );
+			}
+		} );
+		comboStrength.setItems( strengthNames.toArray( new String[]{} ) );
+		comboStrength.select( 0 );
+
 		return content;
 	}
 	protected Listener comboKeyModify = new Listener( ) {
@@ -276,6 +340,37 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 			index = index < 0 ? 0 : index;
 			comboDirection.select( index );
 		}
+
+		if ( sortKey.getLocale( ) != null )
+		{
+			String locale = null;
+			for ( Map.Entry<String, ULocale> entry : FormatAdapter.LOCALE_TABLE.entrySet( ) )
+			{
+				if ( sortKey.getLocale( ).equals( entry.getValue( ) ) )
+				{
+					locale = entry.getKey( );
+				}
+			}
+			if ( locale != null )
+			{
+				int index = comboLocale.indexOf( locale );
+				comboLocale.select( index < 0 ? 0 : index );
+			}
+		}
+
+		String strength = null;
+		for ( Map.Entry<String, Integer> entry : STRENGTH_MAP.entrySet( ) )
+		{
+			if ( sortKey.getStrength( ) == entry.getValue( ) )
+			{
+				strength = entry.getKey( );
+			}
+		}
+		if ( strength != null )
+		{
+			int index = comboStrength.indexOf( strength );
+			comboStrength.select( index < 0 ? 0 : index );
+		}
 		updateButtons( );
 		return true;
 	}
@@ -339,9 +434,28 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 					sortKey.setDirection( choice.getName( ) );
 				}
 
+				String locale = comboLocale.getText( );
+				if ( FormatAdapter.LOCALE_TABLE.containsKey( locale ) )
+				{
+					sortKey.setLocale( FormatAdapter.LOCALE_TABLE.get( locale ) );
+				}
+				else
+				{
+					sortKey.setLocale( null );
+				}
+
+				String strength = comboStrength.getText( );
+				if ( STRENGTH_MAP.containsKey( strength ) )
+				{
+					sortKey.setStrength( STRENGTH_MAP.get( strength ) );
+				}
+				else
+				{
+					sortKey.setStrength( ISortDefinition.ASCII_SORT_STRENGTH );
+				}
+
 				PropertyHandle propertyHandle = handle.getPropertyHandle( ListingHandle.SORT_PROP );
 				propertyHandle.addItem( sortKey );
-
 			}
 			else
 			{
@@ -355,7 +469,27 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 					sortKey.setDirection( choice.getName( ) );
 				}
 
+				String locale = comboLocale.getText( );
+				if ( FormatAdapter.LOCALE_TABLE.containsKey( locale ) )
+				{
+					sortKey.setLocale( FormatAdapter.LOCALE_TABLE.get( locale ) );
+				}
+				else
+				{
+					sortKey.setLocale( null );
+				}
+
+				String strength = comboStrength.getText( );
+				if ( STRENGTH_MAP.containsKey( strength ) )
+				{
+					sortKey.setStrength( STRENGTH_MAP.get( strength ) );
+				}
+				else
+				{
+					sortKey.setStrength( ISortDefinition.ASCII_SORT_STRENGTH );
+				}
 			}
+
 			stack.commit( );
 		}
 		catch ( SemanticException e )

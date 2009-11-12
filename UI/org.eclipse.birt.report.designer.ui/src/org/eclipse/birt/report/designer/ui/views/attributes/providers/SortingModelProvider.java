@@ -14,9 +14,12 @@ package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -34,11 +37,14 @@ import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.jface.dialogs.Dialog;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Sort data processor
  */
 public class SortingModelProvider
 {
+
 	protected static Logger logger = Logger.getLogger( SortingModelProvider.class.getName( ) );
 
 	/**
@@ -120,6 +126,34 @@ public class SortingModelProvider
 			IChoice choice = choiceSetDirection.findChoice( value );
 			if ( choice != null )
 				return choice.getDisplayName( );
+		}
+		else if ( key.equals( SortKey.LOCALE_MEMBER )
+				&& element instanceof SortKeyHandle )
+		{
+			SortKeyHandle sortKey = (SortKeyHandle) element;
+			if ( sortKey.getLocale( ) != null )
+			{
+				for ( Map.Entry<String, ULocale> entry : FormatAdapter.LOCALE_TABLE.entrySet( ) )
+				{
+					if ( sortKey.getLocale( ).equals( entry.getValue( ) ) )
+					{
+						return entry.getKey( );
+					}
+				}
+			}
+			return Messages.getString( "SortkeyBuilder.Locale.Auto" );
+		}
+		else if ( key.equals( SortKey.STRENGTH_MEMBER )
+				&& element instanceof SortKeyHandle )
+		{
+			SortKeyHandle sortKey = (SortKeyHandle) element;
+			for ( Map.Entry<String, Integer> entry : SortkeyBuilder.STRENGTH_MAP.entrySet( ) )
+			{
+				if ( sortKey.getStrength( ) == entry.getValue( ) )
+				{
+					return entry.getKey( );
+				}
+			}
 		}
 		else
 			return value;
@@ -284,7 +318,8 @@ public class SortingModelProvider
 		if ( item instanceof DesignElementHandle )
 		{
 			SortkeyBuilder dialog = new SortkeyBuilder( UIUtil.getDefaultShell( ),
-					SortkeyBuilder.DLG_TITLE_NEW,SortkeyBuilder.DLG_MESSAGE_NEW );
+					SortkeyBuilder.DLG_TITLE_NEW,
+					SortkeyBuilder.DLG_MESSAGE_NEW );
 			dialog.setHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
 			if ( dialog.open( ) == Dialog.CANCEL )
@@ -318,7 +353,8 @@ public class SortingModelProvider
 				return false;
 			}
 			SortkeyBuilder dialog = new SortkeyBuilder( UIUtil.getDefaultShell( ),
-					SortkeyBuilder.DLG_TITLE_EDIT , SortkeyBuilder.DLG_MESSAGE_EDIT);
+					SortkeyBuilder.DLG_TITLE_EDIT,
+					SortkeyBuilder.DLG_MESSAGE_EDIT );
 			dialog.setHandle( (DesignElementHandle) item );
 			dialog.setInput( sortKeyHandle );
 			if ( dialog.open( ) == Dialog.CANCEL )

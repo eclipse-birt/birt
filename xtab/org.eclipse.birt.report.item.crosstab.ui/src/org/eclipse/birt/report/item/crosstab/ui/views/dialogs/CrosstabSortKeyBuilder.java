@@ -13,16 +13,21 @@ package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatAdapter;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -89,6 +94,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * CrosstabSortKeyBuilder
  */
@@ -119,6 +126,10 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 	protected List referencedLevelList;
 
 	protected Group group;
+
+	private Combo comboLocale;
+
+	private Combo comboStrength;
 
 	public void setHandle( DesignElementHandle handle )
 	{
@@ -204,6 +215,39 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			index = index < 0 ? 0 : index;
 			comboDirection.select( index );
 		}
+		
+
+		if ( sortElementHandle.getLocale( ) != null )
+		{
+			String locale = null;
+			for ( Map.Entry<String, ULocale> entry : FormatAdapter.LOCALE_TABLE.entrySet( ) )
+			{
+				if ( sortElementHandle.getLocale( ).equals( entry.getValue( ) ) )
+				{
+					locale = entry.getKey( );
+				}
+			}
+			if ( locale != null )
+			{
+				int index = comboLocale.indexOf( locale );
+				comboLocale.select( index < 0 ? 0 : index );
+			}
+		}
+
+		String strength = null;
+		for ( Map.Entry<String, Integer> entry : STRENGTH_MAP.entrySet( ) )
+		{
+			if ( sortElementHandle.getStrength( ) == entry.getValue( ) ) 
+			{
+				strength = entry.getKey( );
+			}
+		}
+		if ( strength != null )
+		{
+			int index = comboStrength.indexOf( strength );
+			comboStrength.select( index < 0 ? 0 : index );
+		}
+		
 		updateButtons( );
 		return true;
 	}
@@ -233,16 +277,16 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			if ( sortElementHandle == null )
 			{
 
-				SortElementHandle sortElement = DesignElementFactory.getInstance( )
+				sortElementHandle = DesignElementFactory.getInstance( )
 						.newSortElement( );
 
 				ExpressionButtonUtil.saveExpressionButtonControl( textKey,
-						sortElement,
+						sortElementHandle,
 						SortElementHandle.KEY_PROP );
 
 				if ( index >= 0 )
 				{
-					sortElement.setDirection( choice.getName( ) );
+					sortElementHandle.setDirection( choice.getName( ) );
 				}
 
 				// test code -- begin --
@@ -266,13 +310,13 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 				if ( referencedLevelList != null
 						&& referencedLevelList.size( ) > 0 )
 				{
-					sortElement.add( ISortElementModel.MEMBER_PROP,
+					sortElementHandle.add( ISortElementModel.MEMBER_PROP,
 							memberValueHandle );
 				}
 
 				DesignElementHandle designElement = level.getModelHandle( );
-				designElement.add( ILevelViewConstants.SORT_PROP, sortElement );
-
+				designElement.add( ILevelViewConstants.SORT_PROP,
+						sortElementHandle );
 			}
 			else
 			// edit
@@ -361,7 +405,26 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 					level.getModelHandle( ).add( ILevelViewConstants.SORT_PROP,
 							sortElement );
 				}
+			}
 
+			String locale = comboLocale.getText( );
+			if ( FormatAdapter.LOCALE_TABLE.containsKey( locale ) )
+			{
+				sortElementHandle.setLocale( FormatAdapter.LOCALE_TABLE.get( locale ) );
+			}
+			else
+			{
+				sortElementHandle.setLocale( null );
+			}
+
+			String strength = comboStrength.getText( );
+			if ( STRENGTH_MAP.containsKey( strength ) )
+			{
+				sortElementHandle.setStrength( STRENGTH_MAP.get( strength ) );
+			}
+			else
+			{
+				sortElementHandle.setStrength( ISortDefinition.ASCII_SORT_STRENGTH );
 			}
 			stack.commit( );
 		}
@@ -459,6 +522,37 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		comboDirection.setLayoutData( gdata );
 		String[] displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
 		comboDirection.setItems( displayNames );
+
+		Label labelLocale = new Label( content, SWT.NONE );
+		labelLocale.setText( "Locale" );
+		comboLocale = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.horizontalSpan = 2;
+		comboLocale.setLayoutData( gdata );
+
+		List<String> localeNames = new ArrayList<String>( );
+		localeNames.add( Messages.getString( "SortkeyBuilder.Locale.Auto" ) );
+		localeNames.addAll( FormatAdapter.LOCALE_TABLE.keySet( ) );
+		comboLocale.setItems( localeNames.toArray( new String[]{} ) );
+		comboLocale.select( 0 );
+
+		Label labelStrength = new Label( content, SWT.NONE );
+		labelStrength.setText( "Strength" );
+		comboStrength = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.horizontalSpan = 2;
+		comboStrength.setLayoutData( gdata );
+
+		List<String> strengthNames = new ArrayList<String>( STRENGTH_MAP.keySet( ) );
+		Collections.sort( strengthNames, new Comparator<String>( ) {
+
+			public int compare( String o1, String o2 )
+			{
+				return STRENGTH_MAP.get( o1 ) - STRENGTH_MAP.get( o2 );
+			}
+		} );
+		comboStrength.setItems( strengthNames.toArray( new String[]{} ) );
+		comboStrength.select( 0 );
 
 		createMemberValuesGroup( content );
 		return content;
