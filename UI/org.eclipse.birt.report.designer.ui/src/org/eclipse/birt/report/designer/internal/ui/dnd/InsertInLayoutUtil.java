@@ -666,17 +666,17 @@ public class InsertInLayoutUtil
 					groupHandle.getFooter( )
 							.add( factory.newTableRow( columnCount ) );
 					groupHandle.setName( model.getColumnName( ) );
-					Expression newKeyExpr = new Expression( UIUtil.convertToModelString( model.getColumnName( ),
-							true ),
-							"javascript" );
+					Expression newKeyExpr = new Expression( ExpressionUtility.getColumnExpression( model.getColumnName( ),
+							ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ),
+							ExpressionType.JAVASCRIPT );
 					groupHandle.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
 							newKeyExpr );
-					
+
 					TOC toc = StructureFactory.createTOC( );
 					toc.setExpression( ExpressionUtility.getColumnExpression( model.getColumnName( ),
 							ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ) );
 					groupHandle.addTOC( toc );
-					
+
 					slotHandle.add( groupHandle, slotHandle.getCount( ) );
 
 					RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
