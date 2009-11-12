@@ -217,7 +217,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 		new Label( content, SWT.NONE );
 		Label labelLocale = new Label( content, SWT.NONE );
-		labelLocale.setText( "Locale" );
+		labelLocale.setText( Messages.getString( "SortkeyBuilder.Label.Locale" ) );
 		comboLocale = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		comboLocale.setLayoutData( gdata );
@@ -230,7 +230,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 		new Label( content, SWT.NONE );
 		Label labelStrength = new Label( content, SWT.NONE );
-		labelStrength.setText( "Strength" );
+		labelStrength.setText( Messages.getString( "SortkeyBuilder.Label.Strength" ) );
 		comboStrength = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		comboStrength.setLayoutData( gdata );

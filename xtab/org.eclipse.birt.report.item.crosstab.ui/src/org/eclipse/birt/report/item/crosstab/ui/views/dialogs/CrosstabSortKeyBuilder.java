@@ -524,7 +524,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		comboDirection.setItems( displayNames );
 
 		Label labelLocale = new Label( content, SWT.NONE );
-		labelLocale.setText( "Locale" );
+		labelLocale.setText( Messages.getString( "SortkeyBuilder.Label.Locale" ) );
 		comboLocale = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
@@ -537,7 +537,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		comboLocale.select( 0 );
 
 		Label labelStrength = new Label( content, SWT.NONE );
-		labelStrength.setText( "Strength" );
+		labelStrength.setText( Messages.getString( "SortkeyBuilder.Label.Strength" ) );
 		comboStrength = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
