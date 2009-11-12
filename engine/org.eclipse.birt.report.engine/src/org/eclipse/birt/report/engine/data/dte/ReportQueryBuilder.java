@@ -986,6 +986,7 @@ public class ReportQueryBuilder
 			QueryExecutionHints executionHints = new QueryExecutionHints( );
 			ListingHandle handle = (ListingHandle) design.getHandle( );
 			executionHints.setSortBeforeGrouping( handle.isSortByGroups( ) );
+			executionHints.setEnablePushDown( handle.pushDown( ) );
 			query.setQueryExecutionHints( executionHints );
 		}
 
