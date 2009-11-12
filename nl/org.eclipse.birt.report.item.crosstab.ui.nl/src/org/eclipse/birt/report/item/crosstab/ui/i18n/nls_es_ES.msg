@@ -96,6 +96,9 @@ CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Destino
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Nivel de &grupo:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Hacer clic para llamar al compilador de expresiones
 SortkeyBuilder.DialogTitle.Label.Direction=Di&rección
+SortkeyBuilder.Label.Locale=&Locale:
+SortkeyBuilder.Label.Strength=&Strength:
+SortkeyBuilder.Locale.Auto=Auto
 
 ###########################################################
 #GrossTabPageGenerator properties
