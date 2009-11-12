@@ -15,11 +15,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.util.Locale;
 
 import junit.framework.TestCase;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -295,9 +297,10 @@ abstract public class ReportItemExecutorTestAbs extends TestCase
 		}
 
 		ExecutionContext context = new ExecutionContext( );
+		setEngine( context, engine );
+
 		context.setLocale( ULocale.forLocale( locale ) );
 		context.setRunnable( runnable );
-
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );
 		DumpEmitter emitter = new DumpEmitter( out );
 		ReportExecutor executor = new ReportExecutor( context );
@@ -306,6 +309,20 @@ abstract public class ReportItemExecutorTestAbs extends TestCase
 		ReportExecutorUtil.execute( executor, emitter );
 		
 		return out.toString( );
+	}
+
+	private void setEngine( ExecutionContext context, ReportEngine engine )
+			throws NoSuchFieldException, IllegalAccessException
+	{
+		Class<?> engineClass = engine.getClass( );
+		Field field = engineClass.getDeclaredField( "engine" );
+		field.setAccessible( true );
+		IReportEngine reportEngine = (IReportEngine) field.get( engine );
+		
+		Class<?> contextClass = context.getClass( );
+		field = contextClass.getDeclaredField( "engine" );
+		field.setAccessible( true );
+		field.set( context, reportEngine );
 	}
 
 	protected String execute( String reportName ) throws Exception
