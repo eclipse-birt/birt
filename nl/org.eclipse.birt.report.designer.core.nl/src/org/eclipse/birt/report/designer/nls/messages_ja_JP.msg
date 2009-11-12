@@ -2470,8 +2470,17 @@ SortkeyBuilder.DialogMessage.Edit=ソートキーを更新するには、次の内容を編集してく
 SortkeyBuilder.DialogTitle.Label.Prompt=ソートキーの入力 :
 SortkeyBuilder.DialogTitle.Label.Key=キー(&K) :
 SortkeyBuilder.DialogTitle.Label.Direction=方向(&D) :
+SortkeyBuilder.Label.Locale=ロケール(&L) :
+SortkeyBuilder.Label.Strength=&Strength:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを開く
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
+SortkeyBuilder.Locale.Auto=自動
+SortkeyBuilder.Strength.ASCII=ASCII
+SortkeyBuilder.Strength.PRIMARY=Primary
+SortkeyBuilder.Strength.SECONDARY=Secondary
+SortkeyBuilder.Strength.TERTIARY=Tertiary
+SortkeyBuilder.Strength.QUATERNARY=Quaternary
+SortkeyBuilder.Strength.IDENTICAL=Identical
 
 ###########################################################
 #FilterConditionBuilder dialog properties

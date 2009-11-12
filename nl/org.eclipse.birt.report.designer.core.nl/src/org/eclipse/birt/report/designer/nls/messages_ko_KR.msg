@@ -2470,8 +2470,17 @@ SortkeyBuilder.DialogMessage.Edit=정렬 키를 업데이트하기 위해 다음 내용을 편집하
 SortkeyBuilder.DialogTitle.Label.Prompt=정렬할 키 입력:
 SortkeyBuilder.DialogTitle.Label.Key=키(&K):
 SortkeyBuilder.DialogTitle.Label.Direction=방향(&D):
+SortkeyBuilder.Label.Locale=로케일(&L):
+SortkeyBuilder.Label.Strength=&Strength:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=식 빌더 열기
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
+SortkeyBuilder.Locale.Auto=자동
+SortkeyBuilder.Strength.ASCII=ASCII
+SortkeyBuilder.Strength.PRIMARY=Primary
+SortkeyBuilder.Strength.SECONDARY=Secondary
+SortkeyBuilder.Strength.TERTIARY=Tertiary
+SortkeyBuilder.Strength.QUATERNARY=Quaternary
+SortkeyBuilder.Strength.IDENTICAL=Identical
 
 ###########################################################
 #FilterConditionBuilder dialog properties

@@ -2470,8 +2470,17 @@ SortkeyBuilder.DialogMessage.Edit=Modifiez le contenu suivant pour mettre à jour
 SortkeyBuilder.DialogTitle.Label.Prompt=Entrez une clé pour le tri :
 SortkeyBuilder.DialogTitle.Label.Key=&Clé :
 SortkeyBuilder.DialogTitle.Label.Direction=&Direction :
+SortkeyBuilder.Label.Locale=&Local :
+SortkeyBuilder.Label.Strength=&Strength:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Ouvrir le Générateur d'expression
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
+SortkeyBuilder.Locale.Auto=Auto
+SortkeyBuilder.Strength.ASCII=ASCII
+SortkeyBuilder.Strength.PRIMARY=Primary
+SortkeyBuilder.Strength.SECONDARY=Secondary
+SortkeyBuilder.Strength.TERTIARY=Tertiary
+SortkeyBuilder.Strength.QUATERNARY=Quaternary
+SortkeyBuilder.Strength.IDENTICAL=Identical
 
 ###########################################################
 #FilterConditionBuilder dialog properties

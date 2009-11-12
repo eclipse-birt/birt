@@ -2470,8 +2470,17 @@ SortkeyBuilder.DialogMessage.Edit=请编辑下列内容以更新排序关键字。
 SortkeyBuilder.DialogTitle.Label.Prompt=输入用作排序依据的关键字:
 SortkeyBuilder.DialogTitle.Label.Key=关键字(&K):
 SortkeyBuilder.DialogTitle.Label.Direction=方向(&D):
+SortkeyBuilder.Label.Locale=区域设置(&L):
+SortkeyBuilder.Label.Strength=&Strength:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=打开表达式生成器
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
+SortkeyBuilder.Locale.Auto=自动
+SortkeyBuilder.Strength.ASCII=ASCII
+SortkeyBuilder.Strength.PRIMARY=Primary
+SortkeyBuilder.Strength.SECONDARY=Secondary
+SortkeyBuilder.Strength.TERTIARY=Tertiary
+SortkeyBuilder.Strength.QUATERNARY=Quaternary
+SortkeyBuilder.Strength.IDENTICAL=Identical
 
 ###########################################################
 #FilterConditionBuilder dialog properties

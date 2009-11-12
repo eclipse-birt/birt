@@ -2470,8 +2470,17 @@ SortkeyBuilder.DialogMessage.Edit=Edite el siguiente contenido para actualizar l
 SortkeyBuilder.DialogTitle.Label.Prompt=Introducir una clave para ordenar según:
 SortkeyBuilder.DialogTitle.Label.Key=&Clave:
 SortkeyBuilder.DialogTitle.Label.Direction=Di&rección
+SortkeyBuilder.Label.Locale=&Configuración regional:
+SortkeyBuilder.Label.Strength=&Strength:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Abrir el compilador de expresiones
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
+SortkeyBuilder.Locale.Auto=Automático
+SortkeyBuilder.Strength.ASCII=ASCII
+SortkeyBuilder.Strength.PRIMARY=Primary
+SortkeyBuilder.Strength.SECONDARY=Secondary
+SortkeyBuilder.Strength.TERTIARY=Tertiary
+SortkeyBuilder.Strength.QUATERNARY=Quaternary
+SortkeyBuilder.Strength.IDENTICAL=Identical
 
 ###########################################################
 #FilterConditionBuilder dialog properties

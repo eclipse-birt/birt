@@ -2470,8 +2470,17 @@ SortkeyBuilder.DialogMessage.Edit=Bearbeiten Sie die folgenden Inhalte, um den S
 SortkeyBuilder.DialogTitle.Label.Prompt=Sortierschlüssel eingeben:
 SortkeyBuilder.DialogTitle.Label.Key=&Schlüssel:
 SortkeyBuilder.DialogTitle.Label.Direction=&Richtung:
+SortkeyBuilder.Label.Locale=&Gebietsschema:
+SortkeyBuilder.Label.Strength=&Strength:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Ausdruckserstellung öffnen
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Fehler
+SortkeyBuilder.Locale.Auto=Automatisch
+SortkeyBuilder.Strength.ASCII=ASCII
+SortkeyBuilder.Strength.PRIMARY=Primary
+SortkeyBuilder.Strength.SECONDARY=Secondary
+SortkeyBuilder.Strength.TERTIARY=Tertiary
+SortkeyBuilder.Strength.QUATERNARY=Quaternary
+SortkeyBuilder.Strength.IDENTICAL=Identical
 
 ###########################################################
 #FilterConditionBuilder dialog properties
