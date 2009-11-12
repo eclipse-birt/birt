@@ -74,4 +74,17 @@ public interface ISortDefinition
      * Return the locale based on which the sort should be done.
      */
     public abstract ULocale getSortLocale();
+    
+    /**
+     * Set the locale of the sort.
+     * 
+     * @param locale
+     */
+    public abstract void setSortLocale( ULocale locale );
+    
+    /**
+     * Set the strength of the sort
+     * @param Strength
+     */
+    public abstract void setSortStrength( int Strength );
 }
