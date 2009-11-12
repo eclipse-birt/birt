@@ -1569,7 +1569,8 @@ public class ChartUIUtil
 			if ( queryDataType != null
 					&& seriesdefinition.getQuery( ).getGrouping( ) != null )
 			{
-				DataType groupDataType = seriesdefinition.getGrouping( )
+				DataType groupDataType = seriesdefinition.getQuery( )
+						.getGrouping( )
 						.getGroupType( );
 				if ( queryDataType == DataType.NUMERIC_LITERAL
 						&& groupDataType == DataType.DATE_TIME_LITERAL )
