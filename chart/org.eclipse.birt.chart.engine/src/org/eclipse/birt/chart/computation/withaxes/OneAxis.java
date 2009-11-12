@@ -127,7 +127,7 @@ public final class OneAxis
 		locAxisRenderingCoordinate = loc3d;
 	}
 
-	void setTitleCoordinate( double _dTitleRenderingCoordinate )
+	public void setTitleCoordinate( double _dTitleRenderingCoordinate )
 	{
 		dTitleRenderingCoordinate = _dTitleRenderingCoordinate;
 	}

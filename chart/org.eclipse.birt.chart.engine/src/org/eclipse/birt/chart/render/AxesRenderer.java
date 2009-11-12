@@ -2142,9 +2142,11 @@ public abstract class AxesRenderer extends BaseRenderer
 
 				if ( iv.getType( ) == IConstants.VALUE )
 				{
-					oaxa[i + 2].setAxisCoordinate( Methods.getLocation( aax.getPrimaryBase( )
-							.getScale( ),
-							iv.getValue( ) ) );
+					double dOrigin = Methods.getLocation( aax.getPrimaryBase( )
+							.getScale( ), iv.getValue( ) );
+					oaxa[i + 2].setAxisCoordinate( dOrigin );
+					oaxa[i + 2].setTitleCoordinate( dOrigin
+							+ oaxa[i + 2].getTitleCoordinate( ) );
 				}
 			}
 

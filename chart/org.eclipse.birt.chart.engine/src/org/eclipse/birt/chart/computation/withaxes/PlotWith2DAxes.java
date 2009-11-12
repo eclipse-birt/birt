@@ -1634,6 +1634,33 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						dX1 -= dDelta;
 					}
 				}
+				else
+				{
+					if ( oaxOverlay.getLabelPosition( ) == RIGHT )
+					{
+						dX2 += Math.max( dAxisLabelsThickness,
+								dDecorationThickness[1] );
+						dX1 -= Math.max( bTicksLeft ? getTickSize( ) : 0,
+								dAppliedYAxisPlotSpacing );
+					}
+					else if ( oaxOverlay.getLabelPosition( ) == LEFT )
+					{
+						dX1 -= Math.max( ( bTicksLeft ? getTickSize( ) : 0 )
+								+ dAxisLabelsThickness,
+								dAppliedYAxisPlotSpacing );
+						dX2 += dDecorationThickness[1];
+					}
+
+					if ( iTitleLocation == LEFT )
+					{
+						dX1 -= dAxisTitleThickness;
+					}
+					else if ( iTitleLocation == RIGHT )
+					{
+						dX2 += dAxisTitleThickness;
+					}
+				}
+
 				dBlockLength -= dX2 - dX1; // SHIFT RIGHT EDGE <<
 
 				double dDelta = 0;
@@ -1668,7 +1695,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					double maxHeight = boPlot.getHeight( ) * AXIS_TITLE_PERCENT;
 					double maxWidth = boPlot.getWidth( );
 
-					// compute width of vetical axis title
+					// compute width of vertical axis title
 					Label laAxisTitleV = aax.getPrimaryOrthogonal( ).getTitle( );
 					if ( laAxisTitleV.isVisible( ) )
 					{
@@ -1823,6 +1850,33 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						dY1 -= dDelta;
 					}
 				}
+				else
+				{
+					if ( oaxOverlay.getLabelPosition( ) == BELOW )
+					{
+						dY2 += Math.max( dAxisLabelsThickness,
+								dDecorationThickness[1] );
+						dY1 -= Math.max( bTicksAbove ? getTickSize( ) : 0,
+								dAppliedXAxisPlotSpacing );
+					}
+					else if ( oaxOverlay.getLabelPosition( ) == ABOVE )
+					{
+						dY1 -= Math.max( ( bTicksAbove ? getTickSize( ) : 0 )
+								+ dAxisLabelsThickness,
+								dAppliedXAxisPlotSpacing );
+						dY2 += dDecorationThickness[1];
+					}
+
+					if ( iTitleLocation == ABOVE )
+					{
+						dY1 -= dAxisTitleThickness;
+					}
+					else if ( iTitleLocation == BELOW )
+					{
+						dY2 += dAxisTitleThickness;
+					}
+				}
+
 				double dDelta = 0;
 				if ( iv.getType( ) == IConstants.MAX )
 				{
@@ -1912,6 +1966,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			scOA.setData( getTypedDataSet( axaOverlayOrthogonal[i],
 					iAxisType,
 					0 ) );
+
 		}
 	}
 
