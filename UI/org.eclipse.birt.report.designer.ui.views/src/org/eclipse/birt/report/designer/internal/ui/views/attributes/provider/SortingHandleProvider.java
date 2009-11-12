@@ -47,7 +47,10 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	 * Column properties.
 	 */
 	private String[] columnKeys = new String[]{
-			SortKey.KEY_MEMBER, SortKey.DIRECTION_MEMBER, SortKey.LOCALE_MEMBER, SortKey.STRENGTH_MEMBER
+			SortKey.KEY_MEMBER,
+			SortKey.DIRECTION_MEMBER,
+			SortKey.LOCALE_MEMBER,
+			SortKey.STRENGTH_MEMBER
 	};
 
 	/**
@@ -75,7 +78,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnNames()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnNames()
 	 */
 	public String[] getColumnNames( )
 	{
@@ -89,7 +93,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getTitle()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getTitle()
 	 */
 	public String getDisplayName( )
 	{
@@ -99,7 +104,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
 	public CellEditor[] getEditors( Table table )
 	{
@@ -117,8 +123,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doMoveItem(int,
-	 *      int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
 	public boolean doMoveItem( int oldPos, int newPos )
 			throws PropertyValueException
@@ -129,7 +135,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doDeleteItem(int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doDeleteItem(int)
 	 */
 	public boolean doDeleteItem( int pos ) throws PropertyValueException
 	{
@@ -139,7 +146,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doAddItem(int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doAddItem(int)
 	 */
 	public boolean doAddItem( int pos ) throws SemanticException
 	{
@@ -149,7 +157,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doEditItem(int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doEditItem(int)
 	 */
 	public boolean doEditItem( int pos )
 	{
@@ -159,8 +168,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnText(java.lang.Object,
-	 *      int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
 	public String getColumnText( Object element, int columnIndex )
 	{
@@ -171,8 +180,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getImagePath(java.lang.Object,
-	 *      int)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
 	public Image getImage( Object element, int columnIndex )
 	{
@@ -182,7 +191,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getElements(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
 	public Object[] getElements( Object inputElement )
 	{
@@ -202,8 +212,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#canModify(java.lang.Object,
-	 *      java.lang.String)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
 	public boolean canModify( Object element, String property )
 	{
@@ -213,8 +223,8 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getValue(java.lang.Object,
-	 *      java.lang.String)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
 	public Object getValue( Object element, String property )
 	{
@@ -227,8 +237,9 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#modify(java.lang.Object,
-	 *      java.lang.String, java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
+	 * java.lang.Object)
 	 */
 	public boolean modify( Object data, String property, Object value )
 			throws NameException, SemanticException
@@ -254,13 +265,17 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 		}
 		else
 			strValue = (String) value;
-		return modelAdapter.setStringValue( contentInput.get( 0 ), data, key, strValue );
+		return modelAdapter.setStringValue( contentInput.get( 0 ),
+				data,
+				key,
+				strValue );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnWidths()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnWidths()
 	 */
 	public int[] getColumnWidths( )
 	{
@@ -270,7 +285,9 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider
+	 * #needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
