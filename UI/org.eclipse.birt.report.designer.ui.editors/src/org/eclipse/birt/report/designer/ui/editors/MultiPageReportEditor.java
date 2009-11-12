@@ -30,7 +30,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.LibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.IResourceEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ImageEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -169,7 +168,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 				public void run( )
 				{
-					confirmSava( );
+					confirmSave( );
 				}
 			});
 		}
@@ -193,7 +192,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		
 	};
 
-	private void confirmSava()
+	private void confirmSave()
 	{
 		
 		if (fIsHandlingActivation)
@@ -402,6 +401,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				return;
 			}
 		}
+		
+		// load the model first here, so consequent pages can directly use it without reloading
+		getProvider( ).getReportModuleHandle( getEditorInput( ) );
 
 		for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
 		{
@@ -528,7 +530,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	private void fireDesignFileChangeEvent( )
 	{
-		UIUtil.doFinishSava( getModel( ) );
+		UIUtil.doFinishSave( getModel( ) );
 	}
 
 	/*
@@ -955,7 +957,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		if ( reportProvider != null )
 		{
-			return reportProvider.getReportModuleHandle( getEditorInput( ) );
+			return reportProvider.queryReportModuleHandle( );
 		}
 
 		return null;
@@ -1014,7 +1016,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( part == this )
 		{
-			confirmSava( );
+			confirmSave( );
 			final ModuleHandle oldHandle = getModel();
 			if (needReset)
 			{
@@ -1049,17 +1051,19 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			{
 				handleActivation( );
 
+				ModuleHandle currentModel = getModel( );
+				
 				SessionHandleAdapter.getInstance( )
-						.setReportDesignHandle( getModel( ) );
+						.setReportDesignHandle( currentModel );
 				String str = SessionHandleAdapter.getInstance( ).getSessionHandle( )
 					.getResourceFolder();
 				UIUtil.processSessionResourceFolder( getEditorInput( ), 
-						UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
+						UIUtil.getProjectFromInput( getEditorInput( ) ), currentModel );
 				
 				if (!str.equals( SessionHandleAdapter.getInstance( ).getSessionHandle( )
 						.getResourceFolder()) && getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette)
 				{
-					EditPart root = ((GraphicalEditorWithFlyoutPalette)getActivePageInstance( )).getGraphicalViewer( ).getRootEditPart( );
+					((GraphicalEditorWithFlyoutPalette)getActivePageInstance( )).getGraphicalViewer( ).getRootEditPart( );
 					refreshGraphicalEditor( );
 				}
 				
@@ -1142,12 +1146,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	
 	private boolean isExistModelFile()
 	{
-		if (getModel() == null)
+		if ( getModel( ) == null )
 		{
 			return true;
 		}
-		File file = new File(getModel( ).getFileName( ));
-		if (file.exists( ) && file.isFile( ))
+		File file = new File( getModel( ).getFileName( ) );
+		if ( file.exists( ) && file.isFile( ) )
 		{
 			return true;
 		}
@@ -1537,26 +1541,26 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void resourceChanged( IReportResourceChangeEvent event )
 	{
-		if ((event.getType( ) == IReportResourceChangeEvent.LibraySaveChange))
+		if ( ( event.getType( ) == IReportResourceChangeEvent.LibraySaveChange ) )
 		{
-			if (event.getSource( ).equals( getModel() ))
+			if ( event.getSource( ).equals( getModel( ) ) )
 			{
 				return;
 			}
-			LibrarySaveChangeEvent libEvent = (LibrarySaveChangeEvent)event;
-			
-			if (getModel( ).getFileName( ).equals( libEvent.getFileName( ) ))
+			LibrarySaveChangeEvent libEvent = (LibrarySaveChangeEvent) event;
+
+			if ( getModel( ).getFileName( ).equals( libEvent.getFileName( ) ) )
 			{
 				needReset = true;
 			}
-			else if (ModuleUtil.isInclude( getModel( ), libEvent.getFileName(  )))
+			else if ( ModuleUtil.isInclude( getModel( ), libEvent.getFileName( ) ) )
 			{
 				needReload = true;
 			}
 		}
-		else if ((event.getType( ) == IReportResourceChangeEvent.ImageResourceChange))
+		else if ( ( event.getType( ) == IReportResourceChangeEvent.ImageResourceChange ) )
 		{
-			refreshGraphicalEditor();
+			refreshGraphicalEditor( );
 		}
 		
 	}

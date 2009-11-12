@@ -55,16 +55,20 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
+/**
+ * ReportScriptFormPage
+ */
 public class ReportScriptFormPage extends ReportFormPage
 {
 
 	protected static final Logger logger = Logger.getLogger( ReportScriptFormPage.class.getName( ) );
 
-	private ModelEventManager manager = getModelEventManager( );
-	public static final String ID = MultiPageReportEditor.ScriptForm_ID; //$NON-NLS-1$
+	public static final String ID = MultiPageReportEditor.ScriptForm_ID;
 
 	protected IEditorPart jsEditor;
 
+	private ModelEventManager manager = getModelEventManager( );
+	
 	private Control control;
 
 	private int staleType;
@@ -76,8 +80,9 @@ public class ReportScriptFormPage extends ReportFormPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#init
+	 * (org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
@@ -100,9 +105,9 @@ public class ReportScriptFormPage extends ReportFormPage
 	protected void hookModelEventManager( Object model )
 	{
 		getModelEventManager( ).hookRoot( model );
-		if (model instanceof ModuleHandle)
+		if ( model instanceof ModuleHandle )
 		{
-			getModelEventManager( ).hookCommandStack( new WrapperCommandStack(((ModuleHandle)model ).getCommandStack( ) ));
+			getModelEventManager( ).hookCommandStack( new WrapperCommandStack( ( (ModuleHandle) model ).getCommandStack( ) ) );
 		}
 		else
 		{
@@ -130,11 +135,12 @@ public class ReportScriptFormPage extends ReportFormPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
+	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
-		// FIXME
 		if ( getEditorInput( ) != prePage.getEditorInput( ) )
 		{
 			setInput( prePage.getEditorInput( ) );
@@ -144,33 +150,38 @@ public class ReportScriptFormPage extends ReportFormPage
 			reloadEditorInput( );
 			doSave( null );
 		}
-		ModuleHandle newModel = getProvider( ).getReportModuleHandle( getEditorInput( ) );
+		ModuleHandle newModel = getModel( );
+		
 		if ( newModel != null && model != null && model != newModel )
-		{	
+		{
 			hookModelEventManager( newModel );
 			markPageStale( IPageStaleType.NONE );
 
 			SessionHandleAdapter.getInstance( ).resetReportDesign( model,
 					newModel );
 
-			SessionHandleAdapter.getInstance( ).setReportDesignHandle( newModel );
+			unhookModelEventManager( model );
 			
-			if (jsEditor instanceof JSEditor)
-			{
-				((JSEditor)jsEditor).connectRoot( newModel );
-			}
+			model = newModel;
 			
+			SessionHandleAdapter.getInstance( )
+					.setReportDesignHandle( newModel );
 
-//			reloadEditorInput( );
-//			UIUtil.processSessionResourceFolder( getEditorInput( ),
-//					UIUtil.getProjectFromInput( getEditorInput( ) ),
-//					getModel( ) );
+			if ( jsEditor instanceof JSEditor )
+			{
+				( (JSEditor) jsEditor ).connectRoot( newModel );
+			}
+
+			// reloadEditorInput( );
+			// UIUtil.processSessionResourceFolder( getEditorInput( ),
+			// UIUtil.getProjectFromInput( getEditorInput( ) ),
+			// getModel( ) );
 
 			IMediatorState state = SessionHandleAdapter.getInstance( )
-					.getMediator(newModel )
+					.getMediator( newModel )
 					.getCurrentState( );
 			ReportRequest request = new ReportRequest( state.getSource( ) );
-			List list = new ArrayList();
+			List list = new ArrayList( );
 			list.add( newModel );
 			request.setSelectionObject( list );
 			request.setType( ReportRequest.SELECTION );
@@ -184,7 +195,7 @@ public class ReportScriptFormPage extends ReportFormPage
 			return true;
 
 		}
-		
+
 		jsEditor.setFocus( );
 		previouPage = prePage;
 		// if ( prePage != null && jsEditor != null )
@@ -201,11 +212,11 @@ public class ReportScriptFormPage extends ReportFormPage
 				.getMediator( )
 				.getCurrentState( );
 		ReportRequest request = new ReportRequest( state.getSource( ) );
-		List list = new ArrayList(state.getSelectionObject( ));
+		List list = new ArrayList( state.getSelectionObject( ) );
 
-		if (list.isEmpty( ))
+		if ( list.isEmpty( ) )
 		{
-			list.add( new Object() );
+			list.add( new Object( ) );
 		}
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
@@ -223,7 +234,9 @@ public class ReportScriptFormPage extends ReportFormPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
+	 * (int)
 	 */
 	public void markPageStale( int type )
 	{
@@ -244,7 +257,9 @@ public class ReportScriptFormPage extends ReportFormPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType
+	 * ()
 	 */
 	public int getStaleType( )
 	{
@@ -274,16 +289,18 @@ public class ReportScriptFormPage extends ReportFormPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createPartControl( Composite parent )
 	{
 		try
 		{
 			jsEditor.createPartControl( parent );
-			if (jsEditor instanceof JSEditor)
+			if ( jsEditor instanceof JSEditor )
 			{
-				((JSEditor)jsEditor).connectRoot( getModel() );
+				( (JSEditor) jsEditor ).connectRoot( getModel( ) );
 			}
 			Control[] children = parent.getChildren( );
 			control = children[children.length - 1];
@@ -292,8 +309,10 @@ public class ReportScriptFormPage extends ReportFormPage
 			{
 				onBroughtToTop( previouPage );
 			}
-			hookModelEventManager( getModel( ) );
-			getReportModel( );
+			
+			model = getModel( );
+			
+			hookModelEventManager( model );
 		}
 		catch ( Exception e )
 		{
@@ -304,13 +323,14 @@ public class ReportScriptFormPage extends ReportFormPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 * @seeorg.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
+	 * IProgressMonitor)
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
-		if (jsEditor instanceof JSEditor)
+		if ( jsEditor instanceof JSEditor )
 		{
-			((JSEditor)jsEditor).doSave( monitor, false );
+			( (JSEditor) jsEditor ).doSave( monitor, false );
 		}
 		else
 		{
@@ -319,29 +339,13 @@ public class ReportScriptFormPage extends ReportFormPage
 		IReportProvider provider = getProvider( );
 		if ( provider != null )
 		{
-			provider.saveReport( getReportModel( ), getEditorInput( ), monitor );
+			provider.saveReport( getModel( ), getEditorInput( ), monitor );
 			firePropertyChange( PROP_DIRTY );
 		}
 		markPageStale( IPageStaleType.MODEL_CHANGED );
 		getEditor( ).editorDirtyStateChanged( );
 
-		UIUtil.doFinishSava( getReportModel( ) );
-	}
-
-	/**
-	 * @return
-	 */
-	protected ModuleHandle getReportModel( )
-	{
-		if ( model == null )
-		{
-			IReportProvider provider = getProvider( );
-			if ( provider != null )
-			{
-				model = provider.getReportModuleHandle( getEditorInput( ) );
-			}
-		}
-		return model;
+		UIUtil.doFinishSave( getModel( ) );
 	}
 
 	/*
@@ -462,7 +466,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		boolean isModelDirty = false;
 
-		ModuleHandle reportModel = getProvider( ).queryReportModuleHandle( );
+		ModuleHandle reportModel = getModel( );
 		if ( reportModel != null )
 		{
 			isModelDirty = reportModel.needsSave( );
@@ -477,10 +481,10 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public void dispose( )
 	{
-		unhookModelEventManager( getModel( ) );
-		if (jsEditor instanceof JSEditor)
+		unhookModelEventManager( model );
+		if ( jsEditor instanceof JSEditor )
 		{
-			((JSEditor)jsEditor).disConnectRoot( getModel() );
+			( (JSEditor) jsEditor ).disConnectRoot( model );
 		}
 		super.dispose( );
 
@@ -505,13 +509,6 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 		if ( adapter == IContentOutlinePage.class )
 		{
-
-			// ( (NonGEFSynchronizerWithMutiPageEditor)
-			// getSelectionSynchronizer( ) ).add( (NonGEFSynchronizer)
-			// outlinePage.getAdapter( NonGEFSynchronizer.class ) );
-
-			// Add JS Editor as a selection listener to Outline view selections.
-			// outlinePage.addSelectionChangedListener( jsEditor );
 			DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( outlinePage.getModelProcessor( ) );
 			return outlinePage;
@@ -522,7 +519,7 @@ public class ReportScriptFormPage extends ReportFormPage
 			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
-		
+
 		if ( adapter == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
@@ -544,17 +541,13 @@ public class ReportScriptFormPage extends ReportFormPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#canLeaveThePage()
+	 * @seeorg.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#
+	 * canLeaveThePage()
 	 */
 	public boolean canLeaveThePage( )
 	{
 		jsEditor.doSave( null );
 		return super.canLeaveThePage( );
-	}
-
-	private IReportProvider getProvider( )
-	{
-		return (IReportProvider) getEditor( ).getAdapter( IReportProvider.class );
 	}
 
 	protected void finalize( ) throws Throwable

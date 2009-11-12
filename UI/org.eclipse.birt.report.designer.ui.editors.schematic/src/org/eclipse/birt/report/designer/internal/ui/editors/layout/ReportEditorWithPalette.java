@@ -149,8 +149,6 @@ abstract public class ReportEditorWithPalette extends
 
 	private ModelEventManager manager = createModelEventManager( );
 
-	private FileReportProvider provider;
-
 	private static final String DLG_ERROR_OPEN_ERROR_MSG = "Can't open file"; //$NON-NLS-1$
 
 	public ReportEditorWithPalette( )
@@ -889,22 +887,22 @@ abstract public class ReportEditorWithPalette extends
 	}
 
 	/**
-	 * Get report modulehandle. if model havn't been set, get the editor input
-	 * modulehandle.
+	 * Get internal report modulehandle cached by current page. if model havn't
+	 * been set, get the editor input modulehandle.
 	 * 
 	 * @return
 	 */
-	protected ModuleHandle getModel( )
+	final protected ModuleHandle getModel( )
 	{
 		if ( model == null )
 		{
 			IReportProvider reportProvider = getProvider( );
-			model = reportProvider.getReportModuleHandle( getEditorInput( ) );
+			model = reportProvider.queryReportModuleHandle( );
 		}
 
 		return model;
 	}
-
+	
 	/**
 	 * Set the report model
 	 * 
@@ -922,15 +920,17 @@ abstract public class ReportEditorWithPalette extends
 	 */
 	public boolean isDirty( )
 	{
-		if (getProvider( ).getReportModuleHandle( getEditorInput( ) ) != model && getProvider( ).getReportModuleHandle( getEditorInput( ) ) != null)
+		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
+		
+		if ( newModel != null && newModel != model )
 		{
-			return getProvider( ).getReportModuleHandle( getEditorInput( ) ).needsSave( );
+			return newModel.needsSave( );
 		}
-		if ( getModel( ) == null )
+		if ( model == null )
 		{
 			return false;
 		}
-		return getModel( ).needsSave( );
+		return model.needsSave( );
 	}
 
 	/*
@@ -983,15 +983,7 @@ abstract public class ReportEditorWithPalette extends
 		}
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		if ( provider == null )
-		{
-			provider = new FileReportProvider( );
-		}
-
-		return provider;
-	}
+	protected abstract IReportProvider getProvider( );
 
 	/*
 	 * (non-Javadoc)

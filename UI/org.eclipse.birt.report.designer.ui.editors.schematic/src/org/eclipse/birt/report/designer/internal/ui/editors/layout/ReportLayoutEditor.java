@@ -36,7 +36,7 @@ import org.eclipse.ui.IEditorPart;
  * Report design layout graphical editor.
  * </p>
  */
-public class ReportLayoutEditor extends ReportEditorWithRuler
+public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 {
 
 	private IEditorPart parentEditorPart;

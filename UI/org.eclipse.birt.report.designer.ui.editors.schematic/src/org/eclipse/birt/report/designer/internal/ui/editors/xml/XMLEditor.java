@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.xml;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.schematic.action.TextSaveAction;
 import org.eclipse.jface.text.source.IAnnotationAccess;
@@ -28,7 +27,10 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.StatusTextEditor;
 
-public class XMLEditor extends StatusTextEditor
+/**
+ * XMLEditor
+ */
+public abstract class XMLEditor extends StatusTextEditor
 {
 
 	/**
@@ -68,7 +70,6 @@ public class XMLEditor extends StatusTextEditor
 //	private final static String CURRENT_LINE_COLOR= AbstractDecoratedTextEditorPreferenceConstants.EDITOR_CURRENT_LINE_COLOR;
 	
 	private ColorManager colorManager;
-	private IReportProvider provider;
 
 	public XMLEditor( )
 	{
@@ -106,12 +107,6 @@ public class XMLEditor extends StatusTextEditor
 		setInput( getEditorInput( ) );
 	}
 
-	protected void firePropertyChange( int property )
-	{
-		// TODO Auto-generated method stub
-		super.firePropertyChange( property );
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
 	 */
@@ -125,16 +120,7 @@ public class XMLEditor extends StatusTextEditor
 		super.init( site, input );
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		if(provider == null)
-		{
-			provider = new FileReportProvider();
-		}
-		
-		return provider;
-		
-	}
+	protected abstract IReportProvider getProvider( );
 	
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#createSourceViewer(Composite, IVerticalRuler, int)

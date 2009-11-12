@@ -36,8 +36,7 @@ public class LibraryMasterPageEditorFormPage extends ReportMasterPageEditorFormP
 			setInput( prePage.getEditorInput( ) );
 		}
 
-		ModuleHandle model = getProvider( ).getReportModuleHandle(
-				getEditorInput( ) );
+		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
 		boolean reload = false;
 		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
 		{
@@ -45,13 +44,13 @@ public class LibraryMasterPageEditorFormPage extends ReportMasterPageEditorFormP
 			doSave( null );
 			reload = true;
 		}
-		if ( (model != null && getModel( ) != model) || reload )
+		if ( (newModel != null && getModel( ) != newModel) || reload )
 		{
 			Object oldModel = getModel( );
 
 			
-			getProvider( ).connect( model );
-			setModel( model );
+			getProvider( ).connect( newModel );
+			setModel( newModel );
 
 			rebuildReportDesign( oldModel );
 			if ( getModel( ) != null )

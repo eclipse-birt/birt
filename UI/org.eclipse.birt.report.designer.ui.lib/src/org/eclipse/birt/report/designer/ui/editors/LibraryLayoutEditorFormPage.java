@@ -203,7 +203,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 		// the three classes has the logic to rebuild the model, should be
 		// refactor.
-		ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ) );
+		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
 		boolean reload = false;
 		if ( getStaleType( ) == IPageStaleType.MODEL_RELOAD )
 		{
@@ -211,11 +211,11 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 			doSave( null );
 			reload = true;
 		}
-		if ( ( model != null && getModel( ) != model ) || reload )
+		if ( ( newModel != null && getModel( ) != newModel ) || reload )
 		{
 			Object oldModel = getModel( );
 
-			setModel( model );
+			setModel( newModel );
 
 			rebuildReportDesign( oldModel );
 			if ( getModel( ) != null )
@@ -257,7 +257,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 				getModel( ) );
 
 		SessionHandleAdapter.getInstance( )
-				.setReportDesignHandle( getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
+				.setReportDesignHandle( getModel( ) );
 		UIUtil.processSessionResourceFolder( getEditorInput( ), 
 				UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
 
@@ -307,13 +307,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
-		if ( provider == null )
-		{
-			provider = super.getProvider( );
-		}
-
-		return provider;
+		return (IReportProvider) editor.getAdapter( IReportProvider.class );
 	}
 
 	/*

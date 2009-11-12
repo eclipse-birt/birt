@@ -28,7 +28,7 @@ import org.eclipse.ui.IEditorPart;
  * Report master page graphical editor.
  * </p>
  */
-public class ReportMasterPageEditor extends
+public abstract class ReportMasterPageEditor extends
 		ReportEditorWithRuler
 {
 

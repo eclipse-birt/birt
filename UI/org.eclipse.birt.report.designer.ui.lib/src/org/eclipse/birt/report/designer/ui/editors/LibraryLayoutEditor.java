@@ -47,7 +47,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 
  * 
  */
-public class LibraryLayoutEditor extends ReportEditorWithPalette
+public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 {
 
 	private IEditorPart parentEditorPart;

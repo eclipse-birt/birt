@@ -275,15 +275,16 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ) );
+		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
 
-		if ( model != null && getModel( ) != model )
+		if ( newModel != null && getModel( ) != newModel )
 		{
 			Object oldModel = getModel( );
 
-			setModel( model );
+			setModel( newModel );
 
 			rebuildReportDesign( oldModel );
+			
 			if ( getModel( ) != null )
 			{
 				this.getGraphicalViewer( ).setContents( getModel( ) );
@@ -335,7 +336,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 				getModel( ) );
 
 		SessionHandleAdapter.getInstance( )
-				.setReportDesignHandle( getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
+				.setReportDesignHandle( getModel( ) );
 
 		UIUtil.processSessionResourceFolder( getEditorInput( ),
 				UIUtil.getProjectFromInput( getEditorInput( ) ),
@@ -372,13 +373,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
-		if ( provider == null )
-		{
-			provider = super.getProvider( );
-		}
-
-		return provider;
+		return (IReportProvider) editor.getAdapter( IReportProvider.class );
 	}
 
 	protected void finalize( ) throws Throwable

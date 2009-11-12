@@ -1949,7 +1949,7 @@ public class UIUtil
 		return list;
 	}
 
-	public static void doFinishSava( ModuleHandle model )
+	public static void doFinishSave( ModuleHandle model )
 	{
 		if ( model instanceof LibraryHandle )
 		{

@@ -45,7 +45,7 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
- * Preview page.
+ * Preview Form Page.
  */
 public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		IReportEditorPage
@@ -120,8 +120,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			return false;
 		isPreviewing = true;
 
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ModuleHandle model = getModel( );
 
 		if ( !UIUtil.canPreviewWithErrors( model ) )
 		{
@@ -184,9 +183,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	private boolean isDirtyModel( )
 	{
-		if ( getModel( ) != null && getModel( ) instanceof ModuleHandle )
+		if ( getModel( ) != null )
 		{
-			return ( (ModuleHandle) getModel( ) ).needsSave( );
+			return getModel( ).needsSave( );
 		}
 		return false;
 	}
@@ -261,14 +260,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
-
-		if ( provider == null )
-		{
-			provider = super.getProvider( );
-		}
-
-		return provider;
+		return (IReportProvider) editor.getAdapter( IReportProvider.class );
 	}
 
 	/*
@@ -406,9 +398,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 * 
 	 * @return Map
 	 */
-	private Map getConfigVars( )
+	private Map<String, ?> getConfigVars( )
 	{
-		HashMap configVars = new HashMap( );
+		Map<String, Object> configVars = new HashMap<String, Object>( );
 
 		// get design config file name
 		String configFileName = getConfigFileName( this.getFileUri( ) );
@@ -553,8 +545,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		List parameters = null;
 
 		// get parameter list from design handle
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ModuleHandle model = getModel( );
 		if ( model != null )
 		{
 			parameters = model.getFlattenParameters( );
@@ -606,8 +597,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		List parameters = null;
 
 		// get parameter list from design handle
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ModuleHandle model = getModel( );
 		if ( model != null )
 		{
 			parameters = model.getFlattenParameters( );
@@ -635,8 +625,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	private boolean hasParameters( )
 	{
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ModuleHandle model = getModel( );
 
 		List parameters = model.getFlattenParameters( );
 
@@ -658,10 +647,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 
 		boolean missingParameter = false;
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		
+		ModuleHandle model = getModel( );
 
-		HashMap params = (HashMap) this.getConfigVars( );
+		Map<String, ?> params = this.getConfigVars( );
 		List parameters = model.getFlattenParameters( );
 		if ( parameters != null )
 		{

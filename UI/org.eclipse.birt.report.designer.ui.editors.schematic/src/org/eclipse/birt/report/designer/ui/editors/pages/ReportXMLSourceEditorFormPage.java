@@ -57,7 +57,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		IReportEditorPage
 {
 
-	public static final String ID = MultiPageReportEditor.XMLSourcePage_ID; //$NON-NLS-1$
+	public static final String ID = MultiPageReportEditor.XMLSourcePage_ID;
 
 	private ActionRegistry registry;
 
@@ -108,7 +108,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			UIUtil.processSessionResourceFolder( getEditorInput( ), 
 					UIUtil.getProjectFromInput( getEditorInput( ) ), model );
 			
-			UIUtil.doFinishSava( getModel( ) );
+			UIUtil.doFinishSave( model );
 		}
 	}
 
@@ -509,7 +509,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
+		if ( getStaleType( ) == IPageStaleType.MODEL_RELOAD )
 		{
 			reloadEditorInput( );
 			doSave( null );
@@ -517,9 +517,11 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		else if ( prePage != this
 				&& ( prePage.isDirty( ) || prePage.getStaleType( ) != IPageStaleType.NONE ) )
 		{
-			ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ), false );
-			if ( ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
-					model.getVersion( ) ) > 0 )
+			ModuleHandle model = getModel( );
+			
+			if ( model != null
+					&& ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
+							model.getVersion( ) ) > 0 )
 			{
 				if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
 						Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Message" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$
@@ -528,7 +530,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 				}
 			}
 			prePage.doSave( null );
-			UIUtil.doFinishSava(getModel( ) );
+			UIUtil.doFinishSave( model );
 			prePage.markPageStale( IPageStaleType.NONE );
 			refreshDocument( );
 			markPageStale( IPageStaleType.NONE );
@@ -555,9 +557,8 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		try
 		{
 			getModel( ).serialize( out );
-			String newInput = out.toString( getModel().getFileEncoding( ));
-			getDocumentProvider( )
-				.getDocument( getEditorInput( ) )
+			String newInput = out.toString( getModel( ).getFileEncoding( ) );
+			getDocumentProvider( ).getDocument( getEditorInput( ) )
 					.set( newInput );
 			
 			getEditor( ).editorDirtyStateChanged( );
@@ -583,7 +584,14 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	 */
 	public ModuleHandle getModel( )
 	{
-		return getReportEditor( ).getModel( );
+		IReportProvider provider = getProvider( );
+
+		if ( provider != null )
+		{
+			return provider.queryReportModuleHandle( );
+		}
+		
+		return null;
 	}
 
 	/*
@@ -649,13 +657,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	 */
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
-		if ( provider == null )
-		{
-			provider = super.getProvider( );
-		}
-
-		return provider;
+		return (IReportProvider) editor.getAdapter( IReportProvider.class );
 	}
 
 	protected void finalize( ) throws Throwable

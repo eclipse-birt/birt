@@ -183,10 +183,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 					}
 				}
 			}
-			else if (path.toOSString( )
-					.endsWith( IReportEditorContants.DESIGN_FILE_EXTENTION)
+			else if ( path.toOSString( )
+					.endsWith( IReportEditorContants.DESIGN_FILE_EXTENTION )
 					|| path.toOSString( )
-					.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION))
+							.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) )
 			{
 				ReportDesignHandle report = null;
 				try
@@ -195,7 +195,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 							.getSessionHandle( )
 							.openDesign( path.toOSString( ),
 							// No need to close the stream here, the report
-							// design parser will automaically close it.
+									// design parser will automaically close it.
 									new FileInputStream( path.toFile( ) ) );
 					if ( checkReport )
 					{
@@ -223,7 +223,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 							.getSessionHandle( )
 							.openModule( path.toOSString( ),
 							// No need to close the stream here, the report
-							// design parser will automaically close it.
+									// design parser will automaically close it.
 									new FileInputStream( path.toFile( ) ) );
 					if ( checkReport )
 					{
@@ -500,7 +500,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		control = children[children.length - 1];
 
 		ModuleHandle model = getModel( );
-		
+
 		// suport the mediator
 		SessionHandleAdapter.getInstance( )
 				.getMediator( model )
@@ -663,9 +663,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		else if ( prePage != this
 				&& ( prePage.isDirty( ) || prePage.getStaleType( ) != IPageStaleType.NONE ) )
 		{
-			ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ),
-					false );
-			if ( ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
+			ModuleHandle model = getModel( );
+			
+			if ( model != null && ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
 					model.getVersion( ) ) > 0 )
 			{
 				if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
@@ -675,30 +675,33 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				}
 			}
 			prePage.doSave( null );
-			UIUtil.doFinishSava( getModel( ) );
+			UIUtil.doFinishSave( getModel( ) );
 			prePage.markPageStale( IPageStaleType.NONE );
 			refreshDocument( );
 			markPageStale( IPageStaleType.NONE );
 		}
-		
+
 		ModuleHandle model = getModel( );
-		
+
 		hookModelEventManager( model );
-		//Fix bug 276266
+		// Fix bug 276266
 		SessionHandleAdapter.getInstance( )
-			.getMediator( model ).addColleague( this );
+				.getMediator( model )
+				.addColleague( this );
 		// ser the attribute view disedit.
-		
-		ReportMediator mediator = SessionHandleAdapter.getInstance( ).getMediator( model );
+
+		ReportMediator mediator = SessionHandleAdapter.getInstance( )
+				.getMediator( model );
 		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
-		List list = new ArrayList(mediator.getCurrentState( ).getSelectionObject( ));
-		if (list.isEmpty( ))
+		List list = new ArrayList( mediator.getCurrentState( )
+				.getSelectionObject( ) );
+		if ( list.isEmpty( ) )
 		{
-			list.add( new Object() );
+			list.add( new Object( ) );
 		}
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
-		
+
 		mediator.notifyRequest( request );
 
 		reportXMLEditor.setFocus( );
@@ -773,13 +776,13 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		return manager;
 	}
 
-	protected void hookModelEventManager( Object model )
+	protected void hookModelEventManager( ModuleHandle model )
 	{
 		getModelEventManager( ).hookRoot( model );
-		getModelEventManager( ).hookCommandStack( getCommandStack( getModel( ) ) );
+		getModelEventManager( ).hookCommandStack( getCommandStack( model ) );
 	}
 
-	protected void unhookModelEventManager( Object model )
+	protected void unhookModelEventManager( ModuleHandle model )
 	{
 		getModelEventManager( ).unhookRoot( model );
 		// getModelEventManager( ).unhookCommandStack( getCommandStack( ) );
@@ -799,11 +802,6 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		setInput( getEditorInput( ) );
 	}
 
-	private IReportProvider getProvider( )
-	{
-		return (IReportProvider) getEditor( ).getAdapter( IReportProvider.class );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -814,7 +812,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	public void doSave( IProgressMonitor progressMonitor )
 	{
 		reportXMLEditor.doSave( progressMonitor );
-		UIUtil.doFinishSava( getModel( ) );
+		UIUtil.doFinishSave( getModel( ) );
 	}
 
 	/**
@@ -833,9 +831,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 					.getMediator( oldModel )
 					.removeColleague( this );
 
+			// refersh the model
 			ModuleHandle newModel = provider.getReportModuleHandle( getEditorInput( ),
 					true );
-			SessionHandleAdapter.getInstance( ).setReportDesignHandle( newModel );
+			SessionHandleAdapter.getInstance( )
+					.setReportDesignHandle( newModel );
 			UIUtil.processSessionResourceFolder( getEditorInput( ),
 					UIUtil.getProjectFromInput( getEditorInput( ) ),
 					newModel );
@@ -843,7 +843,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			SessionHandleAdapter.getInstance( )
 					.getMediator( newModel )
 					.addColleague( this );
-			hookModelEventManager( getModel( ) );
+			hookModelEventManager( newModel );
 			getCommandStack( newModel ).addCommandStackListener( getCommandStackListener( ) );
 
 			setIsModified( false );
@@ -896,6 +896,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		super.dispose( );
 		reportXMLEditor.dispose( );
 		reportXMLEditor = null;
+		
 		unhookModelEventManager( getModel( ) );
 
 		SessionHandleAdapter.getInstance( )

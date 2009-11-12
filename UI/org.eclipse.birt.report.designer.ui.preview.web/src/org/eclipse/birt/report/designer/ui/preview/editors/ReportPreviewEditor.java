@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.preview.editors;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
-import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -63,7 +62,10 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.part.EditorPart;
 
-public class ReportPreviewEditor extends EditorPart
+/**
+ * ReportPreviewEditor
+ */
+public abstract class ReportPreviewEditor extends EditorPart
 {
 
 	private Button bParameter;
@@ -75,10 +77,6 @@ public class ReportPreviewEditor extends EditorPart
 	private ProgressBar progressBar;
 
 	protected InputParameterHtmlDialog parameterDialog;
-
-	private Object model;
-
-	private IReportProvider provider;
 
 	private HashMap<String, String> options;
 
@@ -117,15 +115,7 @@ public class ReportPreviewEditor extends EditorPart
 		return;
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		if ( provider == null )
-		{
-			provider = new FileReportProvider( );
-		}
-
-		return provider;
-	}
+	protected abstract IReportProvider getProvider( );
 
 	/**
 	 * Is editor in dirty mode.
@@ -177,7 +167,7 @@ public class ReportPreviewEditor extends EditorPart
 		final FormText note = new FormText( buttonTray, SWT.NONE );
 		note.setText( getDisplayInfoText( ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
-				.getString( WebViewer.PREVIEW_MAXROW ) ),//$NON-NLS-1$
+				.getString( WebViewer.PREVIEW_MAXROW ) ),
 				true,
 				true );
 		note.setSize( SWT.DEFAULT - 10, SWT.DEFAULT );
@@ -472,9 +462,16 @@ public class ReportPreviewEditor extends EditorPart
 	 * 
 	 * @return model instance
 	 */
-	public Object getModel( )
+	public ModuleHandle getModel( )
 	{
-		return model;
+		IReportProvider provider = getProvider( );
+
+		if ( provider != null )
+		{
+			return provider.queryReportModuleHandle( );
+		}
+		
+		return null;
 	}
 
 	protected void createActions( )
@@ -626,8 +623,6 @@ public class ReportPreviewEditor extends EditorPart
 
 		bParameter = null;
 		browser = null;
-		// progressBar = null;
-		model = null;
 	}
 
 	public void doSaveAs( )
@@ -645,7 +640,6 @@ public class ReportPreviewEditor extends EditorPart
 	{
 		super.setSite( site );
 
-		model = getProvider( ).getReportModuleHandle( input );
 		setInput( input );
 	}
 
