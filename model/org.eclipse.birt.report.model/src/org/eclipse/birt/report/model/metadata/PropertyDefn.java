@@ -235,7 +235,7 @@ public abstract class PropertyDefn
 
 	protected boolean allowExpression;
 
-	static 
+	static
 	{
 		supportedSubTypes = new ArrayList<IPropertyType>( );
 		Iterator<IPropertyType> iter = MetaDataDictionary.getInstance( )
@@ -259,9 +259,9 @@ public abstract class PropertyDefn
 				default :
 					break;
 			}
-		}	
+		}
 	}
-	
+
 	/**
 	 * Constructs a Property Definition.
 	 */
@@ -643,7 +643,6 @@ public abstract class PropertyDefn
 			if ( typeCode == IPropertyType.XML_TYPE
 					|| typeCode == IPropertyType.STRING_TYPE
 					|| typeCode == IPropertyType.HTML_TYPE
-					|| typeCode == IPropertyType.RESOURCE_KEY_TYPE
 					|| typeCode == IPropertyType.URI_TYPE
 					|| typeCode == IPropertyType.MEMBER_KEY_TYPE
 					|| typeCode == IPropertyType.NAME_TYPE )
@@ -652,7 +651,8 @@ public abstract class PropertyDefn
 						| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
 			}
 			else if ( typeCode == IPropertyType.EXPRESSION_TYPE
-					|| typeCode == IPropertyType.SCRIPT_TYPE )
+					|| typeCode == IPropertyType.SCRIPT_TYPE
+					|| typeCode == IPropertyType.RESOURCE_KEY_TYPE )
 			{
 				setTrimOption( TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
 			}

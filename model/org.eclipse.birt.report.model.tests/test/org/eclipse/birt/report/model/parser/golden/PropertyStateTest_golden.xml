@@ -11,7 +11,9 @@
         <graphic-master-page name="My Page" id="4"/>
     </page-setup>
     <body>
-        <label name="label1" id="5"/>
+        <label name="label1" id="5">
+        	 <text-property name="helpText" key=" "></text-property>
+        </label>
         <data name="data1" id="6">
             <property name="resultSetColumn">a</property>
         </data>

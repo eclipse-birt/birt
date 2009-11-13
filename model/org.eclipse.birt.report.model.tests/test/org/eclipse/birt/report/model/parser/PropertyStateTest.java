@@ -107,7 +107,7 @@ public class PropertyStateTest extends BaseTestCase
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "label1" ); //$NON-NLS-1$
 		assertEquals( null, labelHandle.getHelpText( ) );
-		assertEquals( null, labelHandle.getHelpTextKey( ) );
+		assertEquals( " ", labelHandle.getHelpTextKey( ) ); //$NON-NLS-1$
 
 		// Test the expression value
 
@@ -149,9 +149,8 @@ public class PropertyStateTest extends BaseTestCase
 
 		// Save it and compare with golden file
 
-		save(); 
-		assertTrue( compareFile(
-				"PropertyStateTest_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "PropertyStateTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -452,7 +451,7 @@ public class PropertyStateTest extends BaseTestCase
 
 		GraphicMasterPageHandle pageHandle = (GraphicMasterPageHandle) designHandle
 				.findMasterPage( "parent" ); //$NON-NLS-1$
-		assertEquals( 0, pageHandle.getColumnCount( ) ); 
+		assertEquals( 0, pageHandle.getColumnCount( ) );
 
 		FreeFormHandle handle = (FreeFormHandle) designHandle
 				.findElement( "form1" ); //$NON-NLS-1$

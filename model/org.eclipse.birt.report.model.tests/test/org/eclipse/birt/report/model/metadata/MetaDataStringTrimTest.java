@@ -102,8 +102,8 @@ public class MetaDataStringTrimTest extends AbstractMetaTest
 		assertEquals( IPropertyType.RESOURCE_KEY_TYPE_NAME, propDefn.getType( )
 				.getName( ) );
 		assertEquals( "resourceKeyNoTrimOptionValue", propDefn.getName( ) ); //$NON-NLS-1$
-		assertEquals( "test", propDefn.validateValue( design, " test " ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertNull( propDefn.validateValue( design, "   " ) ); //$NON-NLS-1$ 
+		assertEquals( " test ", propDefn.validateValue( design, " test " ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "   ", propDefn.validateValue( design, "   " ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// uri type and trim option is no trim
 		propDefn = (PropertyDefn) propertyList.get( 9 );
