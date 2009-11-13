@@ -782,7 +782,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		}
 
 		ax.getMarkerLines( ).add( ml );
-		if ( ax.getFormatSpecifier( ) != null )
+		if ( ax.getFormatSpecifier( ) != null && !ax.isCategoryAxis( ) )
 		{
 			ml.setFormatSpecifier( ax.getFormatSpecifier( ).copyInstance( ) );
 		}

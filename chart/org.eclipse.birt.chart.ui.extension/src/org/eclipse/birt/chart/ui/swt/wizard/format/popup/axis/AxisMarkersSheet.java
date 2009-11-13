@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.model.data.TextDataElement;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -753,7 +754,9 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			}
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					formatspecifier,
-					getAxisForProcessing( ).getType( ),
+					getDataElementType( getAxisForProcessing( ).getMarkerLines( )
+							.get( getMarkerIndex( ) )
+							.getValue( ) ),
 					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
 			if ( editor.open( ) == Window.OK )
 			{
@@ -804,7 +807,9 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			}
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					formatspecifier,
-					getAxisForProcessing( ).getType( ),
+					getDataElementType( getAxisForProcessing( ).getMarkerRanges( )
+							.get( getMarkerIndex( ) )
+							.getStartValue( ) ),
 					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
 			if ( editor.open( ) == Window.OK )
 			{
@@ -1049,6 +1054,22 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			return DateTimeDataElementImpl.create( c );
 		}
 		return NumberDataElementImpl.create( 0.0 );
+	}
+
+	private AxisType getDataElementType( DataElement de )
+	{
+		if ( de instanceof TextDataElement )
+		{
+			return AxisType.TEXT_LITERAL;
+		}
+		else if ( de instanceof DateTimeDataElement )
+		{
+			return AxisType.DATE_TIME_LITERAL;
+		}
+		else
+		{
+			return AxisType.LINEAR_LITERAL;
+		}
 	}
 
 	private boolean isFlippedAxes( )

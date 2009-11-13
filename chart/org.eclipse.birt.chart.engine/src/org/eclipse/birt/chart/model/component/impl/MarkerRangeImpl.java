@@ -967,7 +967,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 		}
 
 		ax.getMarkerRanges( ).add( mr );
-		if ( ax.getFormatSpecifier( ) != null )
+		if ( ax.getFormatSpecifier( ) != null && !ax.isCategoryAxis( ) )
 		{
 			mr.setFormatSpecifier( ax.getFormatSpecifier( ).copyInstance( ) );
 		}
