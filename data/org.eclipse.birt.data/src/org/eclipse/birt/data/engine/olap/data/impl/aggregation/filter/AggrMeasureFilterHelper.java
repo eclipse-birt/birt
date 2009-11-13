@@ -150,6 +150,9 @@ public class AggrMeasureFilterHelper
 			IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) jsMeasureEvalFilterHelper.get( i );
 			aggregationNames[i] = OlapExpressionCompiler.getReferencedScriptObject( filterHelper.getExpression( ),
 					ScriptConstants.DATA_BINDING_SCRIPTABLE );
+			if( aggregationNames[i] == null )
+				aggregationNames[i] = OlapExpressionCompiler.getReferencedScriptObject( filterHelper.getExpression( ),
+						ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
 		}
 		return aggregationNames;
 	}

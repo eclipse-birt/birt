@@ -60,10 +60,14 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 		if ( hasAggrLevels )
 		{
 			this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, this.dataObj );//$NON-NLS-1$
+			this.scope.put( ScriptConstants.DATA_SET_BINDING_SCRIPTABLE, this.scope, this.dataObj );//$NON-NLS-1$
 		}
 		else
 		{
 			this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE,//$NON-NLS-1$
+					this.scope,
+					new DummyJSDataAccessor( this.outResults, bindings, this.scope, this.cx ) );
+			this.scope.put( ScriptConstants.DATA_SET_BINDING_SCRIPTABLE,//$NON-NLS-1$
 					this.scope,
 					new DummyJSDataAccessor( this.outResults, bindings, this.scope, this.cx ) );
 		}
@@ -88,6 +92,7 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 	public void cleanUp( )
 	{
 		this.scope.delete( ScriptConstants.DATA_BINDING_SCRIPTABLE );//$NON-NLS-1$
+		this.scope.delete( ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
 		this.scope.setParentScope( null );
 	}
 

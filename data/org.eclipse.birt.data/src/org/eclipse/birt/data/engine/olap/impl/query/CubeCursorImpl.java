@@ -99,6 +99,7 @@ public class CubeCursorImpl implements ICubeCursor
 		}
 		
 		this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, new JSCubeBindingObject( this ));
+		this.scope.put( ScriptConstants.DATA_SET_BINDING_SCRIPTABLE, this.scope, new JSCubeBindingObject( this ));
 	}
 	
 	public boolean nextMeasure( ) throws OLAPException, IOException

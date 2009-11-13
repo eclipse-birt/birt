@@ -146,6 +146,11 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 		String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
 				ScriptConstants.DATA_BINDING_SCRIPTABLE );//$NON-NLS-1$
 		if ( bindingName == null )
+		{
+			bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
+					ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );//$NON-NLS-1$
+		}
+		if ( bindingName == null )
 			return null;
 		for ( Iterator it = queryDefn.getBindings( ).iterator( ); it.hasNext( ); )
 		{

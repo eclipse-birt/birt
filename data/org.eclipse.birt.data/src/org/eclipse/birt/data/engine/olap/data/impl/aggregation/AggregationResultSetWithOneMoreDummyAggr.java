@@ -55,6 +55,7 @@ public class AggregationResultSetWithOneMoreDummyAggr implements IAggregationRes
 		this.scope = scope;
 		this.cx = cx;
 		this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, new JSDataObject(  ));
+		this.scope.put( ScriptConstants.DATA_SET_BINDING_SCRIPTABLE, this.scope, new JSDataObject(  ));
 		this.scope.put( ScriptConstants.DIMENSION_SCRIPTABLE, this.scope, new JSDimensionObject( ) );
 	}
 

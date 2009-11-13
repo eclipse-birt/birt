@@ -477,6 +477,11 @@ public class OlapExpressionUtil
 			String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
 					ScriptConstants.DATA_BINDING_SCRIPTABLE );
 			if ( bindingName == null )
+			{
+				bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
+						ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
+			}
+			if ( bindingName == null )
 				return null;
 			else
 			{

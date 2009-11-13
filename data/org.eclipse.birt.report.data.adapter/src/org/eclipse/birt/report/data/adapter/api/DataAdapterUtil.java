@@ -206,6 +206,8 @@ public class DataAdapterUtil
 			{
 				Scriptable scope = ( (ICubeCursor) source.getCurrentResult( ) ).getScope( );
 				targetScope.put( "data", targetScope, scope.get( "data", scope ) );
+				if( scope.get( "data", scope ) != null && scope.get( "data", scope ) instanceof Scriptable )
+					targetScope.put( "row", targetScope, scope.get( "row", scope ) );
 				targetScope.put( "dimension",
 						targetScope,
 						scope.get( "dimension", scope ) );

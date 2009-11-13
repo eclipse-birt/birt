@@ -299,7 +299,8 @@ public class OlapExpressionCompiler
 							result.add( dimLevel );
 					}
 				}
-				else if ( ScriptConstants.DATA_BINDING_SCRIPTABLE.equals( n.getFirstChild( ).getString( ) ) )
+				else if ( ScriptConstants.DATA_BINDING_SCRIPTABLE.equals( n.getFirstChild( ).getString( ) )
+						|| ScriptConstants.DATA_SET_BINDING_SCRIPTABLE.equals( n.getFirstChild( ).getString( ) ) )
 				{
 					if ( n.getLastChild( ) != null )
 					{
