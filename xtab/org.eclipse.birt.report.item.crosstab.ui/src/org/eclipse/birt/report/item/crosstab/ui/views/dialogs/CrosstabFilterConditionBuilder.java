@@ -817,15 +817,15 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			comboGroupLevel.select( 0 );
 
+			String expression = expressionCombo.getText( );
 			expressionCombo.removeAll( );
 			for ( String action : expActions )
 				expressionCombo.add( action );
 			expressionCombo.clearSelectionListeners( );
 			expressionCombo.addSelectionListener( 0, filterByAction );
 			expressionCombo.addSelectionListener( 1, expValueAction );
-			expressionCombo.select( 0 );
+			filterTargetChanged();
 			updateMemberValues( );
-
 		}
 		else if ( measureBtn.getSelection( ) )
 		{
@@ -843,13 +843,14 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			comboGroupLevel.select( 0 );
 
+			String expression = expressionCombo.getText( );
 			expressionCombo.removeAll( );
 			for ( String action : expActions )
 				expressionCombo.add( action );
 			expressionCombo.clearSelectionListeners( );
 			expressionCombo.addSelectionListener( 0, filterByAction );
 			expressionCombo.addSelectionListener( 1, expValueAction );
-			expressionCombo.select( 0 );
+			filterTargetChanged();
 		}
 		// else if ( cubeBtn.getSelection( ) )
 		// {
@@ -1177,91 +1178,97 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		public void handleEvent( Event e )
 		{
-			updateMemberValues( );
+			filterTargetChanged( );
+		}
+	};
 
-			String targetString = null;
-			if ( groupBtn.getSelection( ) )
+	protected void filterTargetChanged( )
+	{
+
+		updateMemberValues( );
+
+		String targetString = null;
+		if ( groupBtn.getSelection( ) )
+		{
+			// use select group level for filter condition
+			if ( groupLevelList != null
+					&& groupLevelList.size( ) > 0
+					&& comboGroupLevel.getSelectionIndex( ) > -1
+					&& comboGroupLevel.getSelectionIndex( ) < groupLevelList.size( ) )
 			{
-				// use select group level for filter condition
-				if ( groupLevelList != null
-						&& groupLevelList.size( ) > 0
-						&& comboGroupLevel.getSelectionIndex( ) > -1
-						&& comboGroupLevel.getSelectionIndex( ) < groupLevelList.size( ) )
+				LevelViewHandle level = (LevelViewHandle) groupLevelList.get( comboGroupLevel.getSelectionIndex( ) );
+				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level.getCubeLevel( ) );
+				targetString = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
+						level.getCubeLevel( ).getName( ) );
+			}
+			else
+			{
+//				expressionCombo.setText( getDimensionStrExpression( comboGroupLevel.getText( ) ) );
+				return;
+			}
+		}
+		else if ( measureBtn.getSelection( ) )
+		{
+			if ( measureList != null
+					&& measureList.size( ) > 0
+					&& comboGroupLevel.getSelectionIndex( ) > -1 )
+			{
+				MeasureViewHandle measure = (MeasureViewHandle) measureList.get( comboGroupLevel.getSelectionIndex( ) );
+				targetString = measure.getCubeMeasure( ).getName( );
+			}
+		}
+
+		if ( targetString != null )
+		{
+			ExtendedItemHandle element = (ExtendedItemHandle) designHandle;
+			CrosstabReportItemHandle crosstab = null;
+			try
+			{
+				crosstab = (CrosstabReportItemHandle) element.getReportItem( );
+			}
+			catch ( ExtendedElementException ex )
+			{
+				ExceptionUtil.handle( ex );
+			}
+			ICubeQueryDefinition cubeQueryDefn = null;
+			DataRequestSession session = null;
+			try
+			{
+				session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+				cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
+				List retList = null;
+				if ( groupBtn.getSelection( ) )
 				{
-					LevelViewHandle level = (LevelViewHandle) groupLevelList.get( comboGroupLevel.getSelectionIndex( ) );
-					DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level.getCubeLevel( ) );
-					targetString = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
-							level.getCubeLevel( ).getName( ) );
+					retList = session.getCubeQueryUtil( )
+							.getReferableBindings( targetString,
+									cubeQueryDefn,
+									false );
 				}
-				else
+				else if ( measureBtn.getSelection( ) )
 				{
-//					expressionCombo.setText( getDimensionStrExpression( comboGroupLevel.getText( ) ) );
-					return;
+					retList = session.getCubeQueryUtil( )
+							.getReferableMeasureBindings( targetString,
+									cubeQueryDefn );
+				}
+				if ( retList.size( ) > 0 )
+				{
+					IBindingMetaInfo meta = (IBindingMetaInfo) retList.get( 0 );
+					expressionCombo.setText( ExpressionUtil.createJSDataExpression( meta.getBindingName( ) ) );
 				}
 			}
-			else if ( measureBtn.getSelection( ) )
+			catch ( Exception ex )
 			{
-				if ( measureList != null
-						&& measureList.size( ) > 0
-						&& comboGroupLevel.getSelectionIndex( ) > -1 )
-				{
-					MeasureViewHandle measure = (MeasureViewHandle) measureList.get( comboGroupLevel.getSelectionIndex( ) );
-					targetString = measure.getCubeMeasure( ).getName( );
-				}
+				logger.log( Level.SEVERE, ex.getMessage( ), ex );
 			}
-
-			if ( targetString != null )
+			finally
 			{
-				ExtendedItemHandle element = (ExtendedItemHandle) designHandle;
-				CrosstabReportItemHandle crosstab = null;
-				try
+				if ( session != null )
 				{
-					crosstab = (CrosstabReportItemHandle) element.getReportItem( );
-				}
-				catch ( ExtendedElementException ex )
-				{
-					ExceptionUtil.handle( ex );
-				}
-				ICubeQueryDefinition cubeQueryDefn = null;
-				DataRequestSession session = null;
-				try
-				{
-					session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-					cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-					List retList = null;
-					if ( groupBtn.getSelection( ) )
-					{
-						retList = session.getCubeQueryUtil( )
-								.getReferableBindings( targetString,
-										cubeQueryDefn,
-										false );
-					}
-					else if ( measureBtn.getSelection( ) )
-					{
-						retList = session.getCubeQueryUtil( )
-								.getReferableMeasureBindings( targetString,
-										cubeQueryDefn );
-					}
-					if ( retList.size( ) > 0 )
-					{
-						IBindingMetaInfo meta = (IBindingMetaInfo) retList.get( 0 );
-						expressionCombo.setText( ExpressionUtil.createJSDataExpression( meta.getBindingName( ) ) );
-					}
-				}
-				catch ( Exception ex )
-				{
-					logger.log( Level.SEVERE, ex.getMessage( ), ex );
-				}
-				finally
-				{
-					if ( session != null )
-					{
-						session.shutdown( );
-					}
+					session.shutdown( );
 				}
 			}
 		}
-	};
+	}
 
 	protected Listener expressionModify = new Listener( ) {
 
