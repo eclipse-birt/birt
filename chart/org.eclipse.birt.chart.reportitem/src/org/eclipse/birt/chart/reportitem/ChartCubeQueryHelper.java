@@ -553,7 +553,7 @@ public class ChartCubeQueryHelper
 			if ( registeredLevels.containsKey( sortKeyBinding ) )
 			{
 				// Add sorting on dimension
-				ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( sortKey,
+				ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( sortKey.trim( ),
 						registeredLevels.get( sortKeyBinding ),
 						null,
 						null,
