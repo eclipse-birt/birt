@@ -179,6 +179,20 @@ public class QuerySpecHelper
     }
     
     /**
+     * A convenience method to obtain the connection profile instance from the specified ValidationContext.
+     * @param validationContext the validation context used for online validation of a query specification      
+     * @return  an {@link IConnectionProfile} instance; may be null if none is available
+     * @since 2.5.2
+     */
+    public static IConnectionProfile getConnectionProfile( ValidationContext validationContext )
+    {
+        if( validationContext == null )
+            return null;
+        Object profile = validationContext.getConnectionProfile();
+        return ( profile instanceof IConnectionProfile ) ? (IConnectionProfile)profile : null;
+    }
+    
+    /**
      * Indicates whether the specified result set specification is one of the cause(s)
      * of the specified exception caught while preparing or executing an ODA query.
      * @param resultSetSpec  a result set specification whose processing might have caused an exception
