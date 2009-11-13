@@ -82,7 +82,7 @@ public class ScriptUtil
 	{
 		if ( oValue instanceof String )
 		{
-			return "'" + (String) oValue + "'";//$NON-NLS-1$ //$NON-NLS-2$
+			return "'" + transformToJsConstants( (String) oValue ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else if ( oValue instanceof Double )
 		{
@@ -108,6 +108,55 @@ public class ScriptUtil
 		{
 			return "'" + oValue.toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
 		}
+	}
+
+	/**
+	 * This method transforms a string to JS string constants.
+	 * 
+	 * @param s
+	 * @return escaped js value
+	 */
+	public static String transformToJsConstants( String s )
+	{
+		if ( s == null )
+			return null;
+
+		StringBuffer buffer = new StringBuffer( );
+		int length = s.length( );
+		for ( int i = 0; i < length; i++ )
+		{
+			char c = s.charAt( i );
+			switch ( c )
+			{
+				case '\\' :
+					buffer.append( "\\\\" );//$NON-NLS-1$
+					break;
+				case '\b' :
+					buffer.append( "\\b" );//$NON-NLS-1$
+					break;
+				case '\t' :
+					buffer.append( "\\t" );//$NON-NLS-1$
+					break;
+				case '\n' :
+					buffer.append( "\\n" );//$NON-NLS-1$
+					break;
+				case '\f' :
+					buffer.append( "\\f" );//$NON-NLS-1$
+					break;
+				case '\r' :
+					buffer.append( "\\r" );//$NON-NLS-1$
+					break;
+				case '"' :
+					buffer.append( "\\\"" );//$NON-NLS-1$
+					break;
+				case '\'' :
+					buffer.append( "\\\'" );//$NON-NLS-1$
+					break;
+				default :
+					buffer.append( c );
+			}
+		}
+		return buffer.toString( );
 	}
 
 }
