@@ -77,7 +77,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	protected IExcelWriter writer;
 
-	public ExcelContext context = new ExcelContext( );
+	protected ExcelContext context;
 
 	protected String orientation = null;
 
@@ -97,6 +97,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	
 	public void initialize( IEmitterServices service ) throws EngineException
 	{
+		this.context = createContext( );
 		this.service = service;
 		if ( service != null )
 		{
@@ -116,6 +117,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			else
 				context.setLocale( ULocale.getDefault( ) );
 		}
+	}
+
+	protected ExcelContext createContext( )
+	{
+		return new ExcelContext( );
 	}
 
 	public void start( IReportContent report )
