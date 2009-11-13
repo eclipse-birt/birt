@@ -52,6 +52,8 @@ public class CallStatement implements IAdvancedQuery
 
 	/** the JDBC callableStatement object */
 	protected CallableStatement callStat;
+	
+	protected java.sql.ResultSet rs; 
 
 	/** the JDBC Connection object */
 	protected java.sql.Connection conn;
@@ -396,7 +398,6 @@ public class CallStatement implements IAdvancedQuery
 		 * first none null result set from callable statement
 		 */
 		//TODO Support multiple result set
-		java.sql.ResultSet rs = null;
 		try
 		{
 			this.callStat.execute( );
@@ -1714,7 +1715,8 @@ public class CallStatement implements IAdvancedQuery
 				return new ResultSet(this.outputParameterResultSetsMap
 						.get(this.resultSetNames[this.resultIndex]));
 			}
-			java.sql.ResultSet rs = callStat.getResultSet();
+			if (!this.isExecuted)
+				rs = callStat.getResultSet();
 			if (rs != null)
 				return new ResultSet(rs);
 			else
