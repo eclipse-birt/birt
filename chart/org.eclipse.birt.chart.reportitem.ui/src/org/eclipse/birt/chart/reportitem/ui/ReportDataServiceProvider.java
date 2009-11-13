@@ -3319,6 +3319,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public void adaptExpressions( IChartObject cm )
 	{
-		expAdaptHelper.adapt( cm );
+		boolean bCube = checkState( IDataServiceProvider.HAS_CUBE )
+				|| checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY );
+		expAdaptHelper.adapt( cm, bCube );
 	}
 }

@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -654,6 +655,12 @@ public class ChartReportItemUtil extends ChartItemUtil
 				exprCodec.getType( ) ) );
 	}
 	
+	public static void adaptExpressions( Chart cm, IModelAdapter adapter,
+			boolean bCube )
+	{
+		new ExpressionAdaptHelper( adapter ).adapt( cm, bCube );
+	}
+
 	public static void adaptExpressions( Chart cm, IModelAdapter adapter )
 	{
 		new ExpressionAdaptHelper( adapter ).adapt( cm );
@@ -666,6 +673,8 @@ public class ChartReportItemUtil extends ChartItemUtil
 				.createExpressionCodec( );
 
 		protected IModelAdapter adapter = null;
+
+		protected boolean bCube = false;
 
 		public ExpressionAdaptHelper( IModelAdapter adapter )
 		{
@@ -681,12 +690,14 @@ public class ChartReportItemUtil extends ChartItemUtil
 			this.adapter = adapter;
 		}
 
-		private String adapt( String expr )
+		protected String adapt( String sExpr )
 		{
-			exprCodec.decode( expr );
-			return adapter.adaptExpression( new Expression( exprCodec.getExpression( ),
-					exprCodec.getType( ) ) )
-					.getText( );
+			exprCodec.decode( sExpr );
+			Expression expr = new Expression( exprCodec.getExpression( ),
+					exprCodec.getType( ) );
+			ExpressionLocation el = bCube ? ExpressionLocation.CUBE
+					: ExpressionLocation.TABLE;
+			return adapter.adaptExpression( expr, el ).getText( );
 		}
 
 		private void adaptQuery( Query query )
@@ -752,11 +763,18 @@ public class ChartReportItemUtil extends ChartItemUtil
 
 		public void adapt( IChartObject ico )
 		{
+			adapt( ico, false );
+		}
+
+		public void adapt( IChartObject ico, boolean bCube )
+		{
 			if ( adapter == null )
 			{
 				return;
 			}
 			
+			this.bCube = bCube;
+
 			if ( ico instanceof ChartWithAxes )
 			{
 				adaptChartWithAxes( (ChartWithAxes) ico );
