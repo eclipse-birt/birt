@@ -447,8 +447,24 @@ public class ScriptEvalUtil
 	
 	private static boolean match( Object source, Object pattern ) throws DataException
 	{
-		String sourceStr = (source == null)? "": source.toString();
-		String patternStr = ( pattern == null )? "" : pattern.toString();
+		String sourceStr = null;
+		try
+		{
+			sourceStr = (source == null)? "": DataTypeUtil.toLocaleNeutralString( source );
+		}
+		catch ( BirtException e1 )
+		{
+			throw new DataException( e1.getLocalizedMessage( ), e1 );
+		}
+		String patternStr;
+		try
+		{
+			patternStr = ( pattern == null )? "" : DataTypeUtil.toLocaleNeutralString( pattern );
+		}
+		catch ( BirtException e1 )
+		{
+			throw new DataException( e1.getLocalizedMessage( ), e1 );
+		}
 
 		// Pattern can be one of the following:
 		// (1)Java regular expression pattern
@@ -495,8 +511,24 @@ public class ScriptEvalUtil
 	 */
 	private static boolean like( Object source, Object pattern ) throws DataException
 	{
-		String sourceStr = (source == null)? "": source.toString();
-		String patternStr = ( pattern == null )? "" : pattern.toString();
+		String sourceStr = null;
+		try
+		{
+			sourceStr = (source == null)? "": DataTypeUtil.toLocaleNeutralString( source );
+		}
+		catch ( BirtException e1 )
+		{
+			throw new DataException( e1.getLocalizedMessage( ), e1 );
+		}
+		String patternStr;
+		try
+		{
+			patternStr = ( pattern == null )? "" : DataTypeUtil.toLocaleNeutralString( pattern );
+		}
+		catch ( BirtException e1 )
+		{
+			throw new DataException( e1.getLocalizedMessage( ), e1 );
+		}
 	
 		// As per Bugzilla 115940, LIKE operator's pattern syntax is SQL-like: it
 		// recognizes '_' and '%'. Backslash '\' escapes the next character.
