@@ -817,14 +817,12 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			comboGroupLevel.select( 0 );
 
-			String expression = expressionCombo.getText( );
 			expressionCombo.removeAll( );
-			expressionCombo.add( expression );
 			for ( String action : expActions )
 				expressionCombo.add( action );
 			expressionCombo.clearSelectionListeners( );
-			expressionCombo.addSelectionListener( 1, filterByAction );
-			expressionCombo.addSelectionListener( 2, expValueAction );
+			expressionCombo.addSelectionListener( 0, filterByAction );
+			expressionCombo.addSelectionListener( 1, expValueAction );
 			expressionCombo.select( 0 );
 			updateMemberValues( );
 
@@ -845,14 +843,12 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			comboGroupLevel.select( 0 );
 
-			String expression = expressionCombo.getText( );
 			expressionCombo.removeAll( );
-			expressionCombo.add( expression );
 			for ( String action : expActions )
 				expressionCombo.add( action );
 			expressionCombo.clearSelectionListeners( );
-			expressionCombo.addSelectionListener( 1, filterByAction );
-			expressionCombo.addSelectionListener( 2, expValueAction );
+			expressionCombo.addSelectionListener( 0, filterByAction );
+			expressionCombo.addSelectionListener( 1, expValueAction );
 			expressionCombo.select( 0 );
 		}
 		// else if ( cubeBtn.getSelection( ) )
