@@ -15,7 +15,7 @@
 <tr><td align="center">Sample chart</td><td align="center">Properties</td></tr>
 <tr>
 <td>
-<chart:renderChart width="500" height="300" model="SampleBar.chart"
+<chart:renderChart width="600" height="300" model="SampleBar.chart"
 	data="<%=SampleHelper.createSampleHeaderEvaluator() %>"
 	runtimeContext="<%=SampleHelper.createSampleRuntimeContext(ULocale.ENGLISH) %>">
 </chart:renderChart>
@@ -32,7 +32,7 @@ Interactivity: Tooltips and Hyperlinks<br>
 </tr>
 <tr>
 <td>
-<chart:renderChart width="500" height="300" output="svg"
+<chart:renderChart width="600" height="300" output="svg"
 	model="<%=SampleHelper.createSampleRuntimeChart() %>"
 	styleProcessor="<%=SampleHelper.getSampleStyleProcessor() %>">
 </chart:renderChart>
@@ -48,7 +48,7 @@ Interactivity: Highlight series
 </tr>
 <tr>
 <td>
-<chart:renderChart width="500" height="300" output="pdf"
+<chart:renderChart width="600" height="300" output="pdf"
 	model="SamplePie.chart">
 </chart:renderChart>
 </td>
