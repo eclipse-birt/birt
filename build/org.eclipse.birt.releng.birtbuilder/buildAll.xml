@@ -116,7 +116,7 @@
 		<echo message="BIRT sdk feature build finished"/>
 	</target>
 
-	<target name="buildBirtOSGI">
+	<target name="buildBirtOSGI" unless="skip.build.OSGI">
 		<echo message="BIRT OSGI sdk feature build started"/>
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.osgi" />
@@ -517,7 +517,7 @@
 		
 	</target>
 	
-	<target name="buildBirtWtpFeature">
+	<target name="buildBirtWtpFeature" unless="skip.build.WTP">
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
 			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
 		</ant>
