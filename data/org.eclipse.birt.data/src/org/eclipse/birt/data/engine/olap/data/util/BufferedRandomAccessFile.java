@@ -193,7 +193,16 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	private void restructMemoryDelegate( )
 	{
-		byte[] tmpBuf = new byte[memoryDelegate.length*2];
+		byte[] tmpBuf = null;
+		if( memoryDelegate.length * 2 < 0 || memoryDelegate.length * 2l > Integer.MAX_VALUE )
+		{
+			tmpBuf = new byte[Integer.MAX_VALUE];
+			this.pureMemory = false;
+		}
+		else
+		{
+			tmpBuf = new byte[memoryDelegate.length * 2];
+		}
 		System.arraycopy( memoryDelegate, 0, tmpBuf, 0, memoryDelegate.length );
 		memoryDelegate = tmpBuf;
 	}

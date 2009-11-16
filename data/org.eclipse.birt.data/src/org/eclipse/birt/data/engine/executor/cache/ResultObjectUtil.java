@@ -144,7 +144,13 @@ public class ResultObjectUtil
 				break;
 			rowLen = IOUtil.readInt( bis );
 			rowDataBytes = new byte[rowLen];
-			bis.read( rowDataBytes );
+			int readSize = bis.read( rowDataBytes );
+			int totalSize = readSize;
+			while( readSize > 0 && totalSize < rowLen )
+			{
+				readSize = bis.read( rowDataBytes, totalSize, rowLen - totalSize );
+				totalSize += readSize;
+			}
 			
 			bais = new ByteArrayInputStream( rowDataBytes );
 			dis = new DataInputStream( bais );

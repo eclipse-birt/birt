@@ -704,8 +704,17 @@ class DimensionDivider
 		DimensionPositionSeeker( IDiskArray member ) throws IOException
 		{
 			IDiskArray members = getSortedDimensionKeys( member );
-			this.memberArray = new DimensionKey[Math.min( Constants.MAX_LIST_BUFFER_SIZE,
-					members.size( ) )];
+			
+			String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
+			if( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) )
+			{
+				this.memberArray = new DimensionKey[members.size( )];
+			}
+			else
+			{
+				this.memberArray = new DimensionKey[Math.min( Constants.MAX_LIST_BUFFER_SIZE,
+						members.size( ) )];
+			}
 			for ( int i = 0; i < memberArray.length; i++ )
 			{
 				memberArray[i] = (DimensionKey) members.get( i );
