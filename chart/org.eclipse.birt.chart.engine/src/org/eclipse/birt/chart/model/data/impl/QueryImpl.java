@@ -103,7 +103,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
 	 */
 	public String getDefinition( )
 	{
@@ -116,7 +115,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setDefinition( String newDefinition )
 	{
