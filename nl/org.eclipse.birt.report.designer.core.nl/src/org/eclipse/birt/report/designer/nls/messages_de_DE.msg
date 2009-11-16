@@ -2899,6 +2899,8 @@ ParameterDialog.Check.AllowMulti=&Mehrere Werte zulassen
 ParameterDialog.checkBox.InputValue=Eingabewert
 ParameterDialog.checkBox.BlankValue=Leerwert
 ParameterDialog.checkBox.NullValue=Null-Wert
+ParameterDialog.emptyColumnValueExpression.title=Invalid Value Column Expression
+ParameterDialog.emptyColumnValueExpression.message=Value Column Expression can't be empty!
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

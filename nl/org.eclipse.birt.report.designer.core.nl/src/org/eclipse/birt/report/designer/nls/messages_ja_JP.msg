@@ -2899,6 +2899,8 @@ ParameterDialog.Check.AllowMulti=複数の値を許可する(&M)
 ParameterDialog.checkBox.InputValue=入力値
 ParameterDialog.checkBox.BlankValue=空白値
 ParameterDialog.checkBox.NullValue=NULL 値
+ParameterDialog.emptyColumnValueExpression.title=Invalid Value Column Expression
+ParameterDialog.emptyColumnValueExpression.message=Value Column Expression can't be empty!
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

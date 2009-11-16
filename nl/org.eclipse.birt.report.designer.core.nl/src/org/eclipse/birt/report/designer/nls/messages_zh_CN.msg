@@ -2899,6 +2899,8 @@ ParameterDialog.Check.AllowMulti=允许多个值(&M)
 ParameterDialog.checkBox.InputValue=输入值
 ParameterDialog.checkBox.BlankValue=空白值
 ParameterDialog.checkBox.NullValue=空值
+ParameterDialog.emptyColumnValueExpression.title=Invalid Value Column Expression
+ParameterDialog.emptyColumnValueExpression.message=Value Column Expression can't be empty!
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
