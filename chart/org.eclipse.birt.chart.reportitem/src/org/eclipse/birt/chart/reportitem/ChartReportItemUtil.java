@@ -718,7 +718,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 			String expr = query.getDefinition( );
 			if ( expr != null && expr.trim( ).length( ) > 0 )
 			{
-				query.setDefinition( adapt( expr ) );
+				query.setDefinition( adapt( expr.trim( ) ) );
 			}
 		}
 
