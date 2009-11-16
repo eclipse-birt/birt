@@ -11,6 +11,7 @@
             <property name="resultSetNumber">2</property>
             <expression name="ACLExpression" type="javascript">ACL expression</expression>
             <expression name="rowACLExpression" type="javascript">row ACL expression</expression>
+            <property name="isVisible">false</property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>

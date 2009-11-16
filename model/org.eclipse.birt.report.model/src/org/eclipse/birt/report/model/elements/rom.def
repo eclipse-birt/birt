@@ -1919,6 +1919,9 @@
     <Property detailType="SortHint" displayNameID="Element.DataSet.sortHints" isList="true" name="sortHints" since="2.5" type="structure"/>
     <Property displayNameID="Element.DataSet.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
     <Property displayNameID="Element.DataSet.RowACLExpression" name="rowACLExpression" since="2.5.2" type="expression"/>
+    <Property displayNameID="Element.DataSet.isVisible" name="isVisible" since="2.5" type="boolean">
+    	<Default>true</Default>
+    </Property>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.SimpleDataSet" extends="DataSet" hasStyle="false" isAbstract="true" isNameRequired="true" name="SimpleDataSet" since="1.0" xmlName="simple-data-set">
     <Method context="factory" displayNameID="Element.SimpleDataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.SimpleDataSet.beforeOpen.toolTip" >

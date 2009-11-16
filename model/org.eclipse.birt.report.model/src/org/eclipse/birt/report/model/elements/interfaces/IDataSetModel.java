@@ -93,4 +93,10 @@ public interface IDataSetModel
 	 */
 	String ROW_ACL_EXPRESSION_PROP = "rowACLExpression"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that indicates whether the data set is visible
+	 * outside of the data mart.
+	 */
+	String IS_VISIBLE_PROP = "isVisible"; //$NON-NLS-1$
+
 }

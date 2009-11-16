@@ -14,6 +14,7 @@
             </list-property>
             <expression name="ACLExpression" type="constant">new ACL expression</expression>
             <expression name="rowACLExpression" type="constant">new row ACL expression</expression>
+            <property name="isVisible">true</property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">new column1</property>

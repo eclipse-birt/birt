@@ -180,6 +180,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 		dataSet.setDesigerStateVersion( "2.1" ); //$NON-NLS-1$
 		dataSet.setDesigerStateContentAsString( "new content as string" ); //$NON-NLS-1$
 
+		dataSet.setIsVisible( true );
+
 		String strBlob = "new content as blob"; //$NON-NLS-1$
 
 		dataSet.setDesigerStateContentAsBlob( strBlob
@@ -297,6 +299,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertEquals( 2, dataSet.getResultSetNumber( ) );
 
 		assertEquals( dataSource, dataSet.getDataSource( ) );
+
+		assertFalse( dataSet.isVisible( ) );
 
 		// Test "input-parameters" on DataSet
 

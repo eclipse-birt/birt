@@ -1140,4 +1140,28 @@ public abstract class DataSetHandle extends ReportElementHandle
 	{
 		return getExpressionProperty( ROW_ACL_EXPRESSION_PROP );
 	}
+
+	/**
+	 * Gets the isVisible property value.
+	 * 
+	 * @return <true> if that data set is visible outside of the datamart,
+	 *         otherwise return <false>.
+	 */
+	public boolean isVisible( )
+	{
+		return getBooleanProperty( IS_VISIBLE_PROP );
+	}
+
+	/**
+	 * Sets the isVisible property value.
+	 * 
+	 * @param isVisible
+	 *            <true> if that data set is visible outside of the datamart,
+	 *            otherwise return <false>.
+	 * @throws SemanticException
+	 */
+	public void setIsVisible( boolean isVisible ) throws SemanticException
+	{
+		setBooleanProperty( IS_VISIBLE_PROP, isVisible );
+	}
 }
