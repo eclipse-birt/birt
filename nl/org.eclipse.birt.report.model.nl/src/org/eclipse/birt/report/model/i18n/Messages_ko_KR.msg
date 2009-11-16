@@ -2485,6 +2485,7 @@ Element.DataSet.parameters=데이터 집합 매개 변수
 Element.DataSet.sortHints=힌트 정렬
 Element.DataSet.ACLExpression=ACL 식
 Element.DataSet.RowACLExpression=행 ACL 식
+Element.DataSet.isVisible=Visible
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=열기 이전
@@ -3411,7 +3412,7 @@ Element.DataMartDataSource.paramBindings=매개 변수 바인딩
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=데이터 원본
 Element.DataMartDataSet.dataObject=데이터 개체
-Element.DataMartDataSet.isVisible=Visible
+
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=데이터 원본

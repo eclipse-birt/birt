@@ -2485,6 +2485,7 @@ Element.DataSet.parameters=Datensatzparameter
 Element.DataSet.sortHints=Sortierungshinweise
 Element.DataSet.ACLExpression=Ausdruck 'ACL'
 Element.DataSet.RowACLExpression=Zeilenausdruck 'ACL'
+Element.DataSet.isVisible=Visible
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Vor dem Öffnen
@@ -3411,7 +3412,7 @@ Element.DataMartDataSource.paramBindings=Parameterbindungen
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Datenquelle
 Element.DataMartDataSet.dataObject=Datenobjekt
-Element.DataMartDataSet.isVisible=Visible
+
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=Datenquelle

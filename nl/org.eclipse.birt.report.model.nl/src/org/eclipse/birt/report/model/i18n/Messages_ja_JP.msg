@@ -2485,6 +2485,7 @@ Element.DataSet.parameters=データセットのパラメタ
 Element.DataSet.sortHints=ソートのヒント
 Element.DataSet.ACLExpression=ACL 式
 Element.DataSet.RowACLExpression=行の ACL 式
+Element.DataSet.isVisible=Visible
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=開く前
@@ -3411,7 +3412,7 @@ Element.DataMartDataSource.paramBindings=パラメタバインド
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=データソース
 Element.DataMartDataSet.dataObject=データオブジェクト
-Element.DataMartDataSet.isVisible=Visible
+
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=データソース

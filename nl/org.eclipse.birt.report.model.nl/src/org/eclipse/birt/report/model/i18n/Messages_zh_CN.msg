@@ -2485,6 +2485,7 @@ Element.DataSet.parameters=数据集参数
 Element.DataSet.sortHints=排序提示
 Element.DataSet.ACLExpression=ACL 表达式
 Element.DataSet.RowACLExpression=行 ACL 表达式
+Element.DataSet.isVisible=Visible
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=打开前
@@ -3411,7 +3412,7 @@ Element.DataMartDataSource.paramBindings=参数绑定
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=数据源
 Element.DataMartDataSet.dataObject=数据对象
-Element.DataMartDataSet.isVisible=Visible
+
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=数据源

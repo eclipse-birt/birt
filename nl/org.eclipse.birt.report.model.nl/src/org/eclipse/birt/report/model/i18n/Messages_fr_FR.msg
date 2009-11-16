@@ -2485,6 +2485,7 @@ Element.DataSet.parameters=Paramètres du jeu de données
 Element.DataSet.sortHints=Tri par astuces
 Element.DataSet.ACLExpression=Expression ACL
 Element.DataSet.RowACLExpression=Expression ACL de la ligne
+Element.DataSet.isVisible=Visible
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Avant l'ouverture
@@ -3411,7 +3412,7 @@ Element.DataMartDataSource.paramBindings=Liaisons de paramètres
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Source de données
 Element.DataMartDataSet.dataObject=Objet de données :
-Element.DataMartDataSet.isVisible=Visible
+
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=Source de données
