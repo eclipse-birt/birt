@@ -1427,6 +1427,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		try
 		{
+			if ( columnChooser.getText( ) == null
+					|| columnChooser.getText( ).equals( "" ) )
+			{
+				MessageDialog.openWarning( getShell( ),
+						Messages.getString( "ParameterDialog.emptyColumnValueExpression.title" ),
+						Messages.getString( "ParameterDialog.emptyColumnValueExpression.message" ) );
+				columnChooser.forceFocus( );
+				return Collections.EMPTY_LIST;
+			}
 			ArrayList valueList = new ArrayList( );
 
 			valueList.addAll( SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( columnChooser ),
