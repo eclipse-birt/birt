@@ -35,10 +35,10 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -110,7 +110,7 @@ public class TriggerDataComposite extends Composite
 
 	private Text txtScript = null;
 
-	private Button btnScriptExpBuilder = null;
+	private IExpressionButton btnScriptExpBuilder = null;
 
 	private Composite cmpTooltip = null;
 
@@ -118,7 +118,7 @@ public class TriggerDataComposite extends Composite
 
 	private Text txtTooltipText = null;
 
-	private Button btnTooltipExpBuilder = null;
+	private IExpressionButton btnTooltipExpBuilder = null;
 
 	private Composite cmpVisiblity = null;
 
@@ -399,33 +399,21 @@ public class TriggerDataComposite extends Composite
 			txtScript.setLayoutData( gd );
 			txtScript.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.InputScript" ) ); //$NON-NLS-1$
 		}
-		btnScriptExpBuilder = new Button( cmpScript, SWT.PUSH );
-		{
-			GridData gd = new GridData( );
-			gd.heightHint = 20;
-			gd.widthHint = 20;
-			gd.verticalAlignment = GridData.BEGINNING;
-			gd.horizontalAlignment = GridData.END;
-			btnScriptExpBuilder.setLayoutData( gd );
-			btnScriptExpBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-			btnScriptExpBuilder.addSelectionListener( this );
-			btnScriptExpBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
-			btnScriptExpBuilder.getImage( )
-					.setBackground( btnScriptExpBuilder.getBackground( ) );
-		}
 
-		// Label lblSeries = new Label( cmpSeries, SWT.NONE );
-		// GridData gdLBLSeries = new GridData( );
-		// gdLBLSeries.horizontalIndent = 2;
-		// lblSeries.setLayoutData( gdLBLSeries );
-		// lblSeries.setText( Messages.getString(
-		// "TriggerDataComposite.Lbl.SeriesDefinition" ) ); //$NON-NLS-1$
-		//
-		// txtSeriesDefinition = new Text( cmpSeries, SWT.BORDER );
-		// GridData gdTXTSeriesDefinition = new GridData(
-		// GridData.FILL_HORIZONTAL );
-		// gdTXTSeriesDefinition.horizontalSpan = 2;
-		// txtSeriesDefinition.setLayoutData( gdTXTSeriesDefinition );
+		try
+		{
+			btnScriptExpBuilder = (IExpressionButton) wizardContext.getUIServiceProvider( )
+					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
+							cmpScript,
+							txtScript,
+							wizardContext.getExtendedItem( ),
+							getExpressionBuilderScriptCommand( ),
+							null );
+		}
+		catch ( ChartException e )
+		{
+			WizardBase.displayException( e );
+		}
 
 		// Composite for tooltip value
 		cmpTooltip = new Composite( grpValue, SWT.NONE );
@@ -467,16 +455,20 @@ public class TriggerDataComposite extends Composite
 			txtTooltipText = new Text( cmpTooltip, SWT.BORDER | SWT.SINGLE );
 			txtTooltipText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-			btnTooltipExpBuilder = new Button( cmpTooltip, SWT.PUSH );
-			GridData gdBTNBuilder = new GridData( );
-			gdBTNBuilder.heightHint = 20;
-			gdBTNBuilder.widthHint = 20;
-			btnTooltipExpBuilder.setLayoutData( gdBTNBuilder );
-			btnTooltipExpBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-			btnTooltipExpBuilder.addSelectionListener( this );
-			btnTooltipExpBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
-			btnTooltipExpBuilder.getImage( )
-					.setBackground( btnTooltipExpBuilder.getBackground( ) );
+			try
+			{
+				btnTooltipExpBuilder = (IExpressionButton) wizardContext.getUIServiceProvider( )
+						.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
+								cmpTooltip,
+								txtTooltipText,
+								wizardContext.getExtendedItem( ),
+								getExpressionBuilderTooltipCommand( ),
+								null );
+			}
+			catch ( ChartException e )
+			{
+				WizardBase.displayException( e );
+			}
 
 			addDescriptionLabel( cmpTooltip,
 					3,
@@ -820,9 +812,9 @@ public class TriggerDataComposite extends Composite
 		txtValueParm.setText( BLANK_STRING );
 		txtSeriesParm.setText( BLANK_STRING );
 		// case INDEX_2_TOOLTIP :
-		txtTooltipText.setText( BLANK_STRING );
+		// txtTooltipText.setText( BLANK_STRING );
 		// case INDEX_4_SCRIPT :
-		txtScript.setText( BLANK_STRING );
+		// txtScript.setText( BLANK_STRING );
 	}
 
 	/**
@@ -888,23 +880,16 @@ public class TriggerDataComposite extends Composite
 				TooltipValue tooltipValue = (TooltipValue) trigger.getAction( )
 						.getValue( );
 				// iscDelay.setSelection( tooltipValue.getDelay( ) );
-				txtTooltipText.setText( ( tooltipValue.getText( ) != null )
-						? tooltipValue.getText( ) : "" ); //$NON-NLS-1$
+				btnTooltipExpBuilder.setExpression( tooltipValue.getText( ) );
 				break;
 			case INDEX_3_TOOGLE_VISABILITY :
 				this.slValues.topControl = cmpVisiblity;
-				// SeriesValue seriesValue = (SeriesValue) trigger.getAction( )
-				// .getValue( );
-				// txtSeriesDefinition.setText( ( seriesValue.getName( ).length(
-				// ) > 0 ) ? seriesValue.getName( )
-				// : "" ); //$NON-NLS-1$
 				break;
 			case INDEX_4_SCRIPT :
 				this.slValues.topControl = cmpScript;
 				ScriptValue scriptValue = (ScriptValue) trigger.getAction( )
 						.getValue( );
-				txtScript.setText( ( scriptValue.getScript( ).length( ) > 0 )
-						? scriptValue.getScript( ) : "" ); //$NON-NLS-1$
+				btnScriptExpBuilder.setExpression( scriptValue.getScript( ) );
 				break;
 			case INDEX_5_HIGHLIGHT :
 				this.slValues.topControl = cmpHighlight;
@@ -947,10 +932,8 @@ public class TriggerDataComposite extends Composite
 				value = multiHyperlinksComposite.getURLValues( );
 				break;
 			case INDEX_2_TOOLTIP :
-				// value = TooltipValueImpl.create( iscDelay.getSelection( ), ""
-				// ); //$NON-NLS-1$
 				value = TooltipValueImpl.create( 200, "" ); //$NON-NLS-1$
-				( (TooltipValue) value ).setText( txtTooltipText.getText( ) );
+				( (TooltipValue) value ).setText( btnTooltipExpBuilder.getExpression( ) );
 				break;
 			case INDEX_3_TOOGLE_VISABILITY :
 				value = AttributeFactory.eINSTANCE.createSeriesValue( );
@@ -958,7 +941,7 @@ public class TriggerDataComposite extends Composite
 				break;
 			case INDEX_4_SCRIPT :
 				value = AttributeFactory.eINSTANCE.createScriptValue( );
-				( (ScriptValue) value ).setScript( txtScript.getText( ) );
+				( (ScriptValue) value ).setScript( btnScriptExpBuilder.getExpression( ) );
 				break;
 			case INDEX_5_HIGHLIGHT :
 				value = AttributeFactory.eINSTANCE.createSeriesValue( );
@@ -1080,40 +1063,6 @@ public class TriggerDataComposite extends Composite
 			grpParameters.setVisible( bAdvanced );
 			this.slValues.topControl = cmpURL;
 			grpValue.layout( true, true );
-		}
-		else if ( e.getSource( ).equals( btnTooltipExpBuilder ) )
-		{
-			try
-			{
-				// Bugzilla#202386: Tooltips never support chart
-				// variables. Use COMMAND_EXPRESSION_TRIGGERS_SIMPLE
-				String sExpr = wizardContext.getUIServiceProvider( )
-						.invoke( getExpressionBuilderTooltipCommand( ),
-								txtTooltipText.getText( ),
-								wizardContext.getExtendedItem( ),
-								null );
-				txtTooltipText.setText( sExpr );
-			}
-			catch ( ChartException e1 )
-			{
-				WizardBase.displayException( e1 );
-			}
-		}
-		else if ( e.getSource( ).equals( btnScriptExpBuilder ) )
-		{
-			try
-			{
-				String sExpr = wizardContext.getUIServiceProvider( )
-						.invoke( getExpressionBuilderScriptCommand( ),
-								txtScript.getText( ),
-								wizardContext.getExtendedItem( ),
-								null );
-				txtScript.setText( sExpr );
-			}
-			catch ( ChartException e1 )
-			{
-				WizardBase.displayException( e1 );
-			}
 		}
 		else if ( e.getSource( ) == cmbCursorType )
 		{

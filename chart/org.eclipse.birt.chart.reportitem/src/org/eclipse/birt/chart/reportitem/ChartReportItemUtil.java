@@ -22,12 +22,19 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.Serializer;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
+import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.ScriptValue;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
@@ -66,6 +73,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * Utility class for Chart integration as report item
@@ -713,11 +722,21 @@ public class ChartReportItemUtil extends ChartItemUtil
 			}
 		}
 
+		private void adaptTrigger( Trigger trigger )
+		{
+			adaptAction( trigger.getAction( ) );
+		}
+
 		private void adaptSeries( Series se )
 		{
 			for ( Query query : se.getDataDefinition( ) )
 			{
 				adaptQuery( query );
+			}
+
+			for ( Trigger trigger : se.getTriggers( ) )
+			{
+				adaptTrigger( trigger );
 			}
 		}
 
@@ -761,9 +780,49 @@ public class ChartReportItemUtil extends ChartItemUtil
 			}
 		}
 
+		private void adaptEObj( EObject eObj, EAttribute eAttr )
+		{
+			Object value = eObj.eGet( eAttr );
+			if ( value instanceof String )
+			{
+				String sExpOld = (String) value;
+				String sExpNew = adapt( sExpOld );
+				if ( !sExpOld.equals( sExpNew ) )
+				{
+					eObj.eSet( eAttr, sExpNew );
+				}
+			}
+		}
+
+		protected void adaptAction( Action action )
+		{
+			if ( action == null )
+			{
+				return;
+			}
+
+			ActionValue av = action.getValue( );
+			if ( av instanceof TooltipValue )
+			{
+				adaptEObj( av, AttributePackage.Literals.TOOLTIP_VALUE__TEXT );
+			}
+			else if ( av instanceof ScriptValue )
+			{
+				adaptEObj( av, AttributePackage.Literals.SCRIPT_VALUE__SCRIPT );
+			}
+		}
+
 		public void adapt( IChartObject ico )
 		{
 			adapt( ico, false );
+		}
+
+		private void adaptLegend( Legend legend )
+		{
+			for ( Trigger trigger : legend.getTriggers( ) )
+			{
+				adaptTrigger( trigger );
+			}
 		}
 
 		public void adapt( IChartObject ico, boolean bCube )
@@ -775,13 +834,18 @@ public class ChartReportItemUtil extends ChartItemUtil
 			
 			this.bCube = bCube;
 
-			if ( ico instanceof ChartWithAxes )
+			if ( ico instanceof Chart )
 			{
-				adaptChartWithAxes( (ChartWithAxes) ico );
-			}
-			else if ( ico instanceof ChartWithoutAxes )
-			{
-				daptChartWithoutAxes( (ChartWithoutAxes) ico );
+				adaptLegend( ( (Chart) ico ).getLegend( ) );
+
+				if ( ico instanceof ChartWithAxes )
+				{
+					adaptChartWithAxes( (ChartWithAxes) ico );
+				}
+				else if ( ico instanceof ChartWithoutAxes )
+				{
+					daptChartWithoutAxes( (ChartWithoutAxes) ico );
+				}
 			}
 		}
 
