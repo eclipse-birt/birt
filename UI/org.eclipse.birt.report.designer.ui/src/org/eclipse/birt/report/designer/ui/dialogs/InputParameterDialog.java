@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.ComboBoxParameter;
 import org.eclipse.birt.report.designer.ui.parameters.IParameter;
 import org.eclipse.birt.report.designer.ui.parameters.IParameterAdapter;
+import org.eclipse.birt.report.designer.ui.parameters.ListBoxParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ListingParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.parameters.RadioParameter;
@@ -648,7 +649,8 @@ public class InputParameterDialog extends BaseDialog
 		Object value = null;
 		try
 		{
-			value = listParam.converToDataType( listParam.getDefaultValue( ) );
+			value = listParam.converToDataType( listParam.getDefaultValues( )
+					.toArray( ) );
 		}
 		catch ( BirtException e )
 		{

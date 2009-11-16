@@ -110,6 +110,11 @@ public abstract class ScalarParameter implements IParameter
 	{
 		return handle.getDefaultValue( );
 	}
+	
+	public List getDefaultValues( )
+	{
+		return handle.getDefaultValueList( );
+	}
 
 	/**
 	 * Get parameter handle.
