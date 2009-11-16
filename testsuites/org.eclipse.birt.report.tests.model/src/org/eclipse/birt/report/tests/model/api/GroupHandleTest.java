@@ -33,8 +33,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Tests GroupHandle.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -82,15 +81,13 @@ public class GroupHandleTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( "GroupHandleTest.xml" , "GroupHandleTest.xml" );
+		copyResource_INPUT( "GroupHandleTest.xml", "GroupHandleTest.xml" );
 	}
 
 	public void tearDown( )
 	{
 		removeResource( );
 	}
-	
-
 
 	/**
 	 * refer to bug #161174, support setIntervalRange(String)
@@ -123,31 +120,42 @@ public class GroupHandleTest extends BaseTestCase
 		}
 		catch ( SemanticException e )
 		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					e.getErrorCode( ) );
+			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode( ) );
 		}
 
-		// Interval range is locale-dependent
-		ThreadResources.setLocale( ULocale.GERMANY );
+	}
+
+	public void testIntervalRangeWithLocale( ) throws SemanticException
+	{
+		createDesign( ULocale.GERMANY );
+		ElementFactory factory = designHandle.getElementFactory( );
+		TableHandle table = factory.newTableItem( "table" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( table );
+
+		TableGroupHandle group = factory.newTableGroup( );
+		table.getGroups( ).add( group );
+
+		group.setKeyExpr( "row[\"abc\"]" ); //$NON-NLS-1$
 		group.setIntervalRange( "1.234567" ); //$NON-NLS-1$
-		assertEquals(
-				"1234567.0", group.getStringProperty( GroupHandle.INTERVAL_RANGE_PROP ) ); //$NON-NLS-1$
+		// Interval range is locale-dependent
+		group.setIntervalRange( "6.0" ); //$NON-NLS-1$
+		assertEquals( "60.0", group.getStringProperty( GroupHandle.INTERVAL_RANGE_PROP ) ); //$NON-NLS-1$
 
 		group.setIntervalRange( "1,234.567" ); //$NON-NLS-1$
 		assertEquals( "1.234", group //$NON-NLS-1$
 				.getStringProperty( GroupHandle.INTERVAL_RANGE_PROP ) );
 
 		group.setIntervalRange( "1234567E-6" ); //$NON-NLS-1$
-		assertEquals(
-				"1.234567", group.getStringProperty( GroupHandle.INTERVAL_RANGE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "1.234567", group.getStringProperty( GroupHandle.INTERVAL_RANGE_PROP ) ); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Test group ACLExpression and cascadeACL used for security
+	 * 
 	 * @throws SemanticException
 	 */
-	public void testACL() throws SemanticException{
+	public void testACL( ) throws SemanticException
+	{
 		createDesign( );
 		ElementFactory factory = designHandle.getElementFactory( );
 		TableHandle table = factory.newTableItem( "table" ); //$NON-NLS-1$
@@ -155,9 +163,9 @@ public class GroupHandleTest extends BaseTestCase
 
 		TableGroupHandle group = factory.newTableGroup( );
 		table.getGroups( ).add( group );
-		
+
 		group.setACLExpression( "group" );
-		assertEquals("group",((GroupHandle)table.getGroups( ).get( 0 )).getACLExpression( ));
-		assertTrue(((GroupHandle)table.getGroups( ).get( 0 )).cascadeACL( ));
+		assertEquals( "group", ( (GroupHandle) table.getGroups( ).get( 0 ) ).getACLExpression( ) );
+		assertTrue( ( (GroupHandle) table.getGroups( ).get( 0 ) ).cascadeACL( ) );
 	}
 }
