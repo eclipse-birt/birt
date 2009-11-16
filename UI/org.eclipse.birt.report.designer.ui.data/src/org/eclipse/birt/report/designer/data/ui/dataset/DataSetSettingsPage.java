@@ -416,39 +416,54 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 			( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setProperty( IOdaDataSetModel.RESULT_SET_NUMBER_PROP,
 					null );
 			( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setResultSetName( null );
-			if ( selectResultSetCheckBox == null )
+			
+			if ( !updateResultSetSetting( ) )
 				return true;
-			if ( selectResultSetCheckBox.getSelection( ) )
-			{
-				if ( resultSetNumber.getSelection( ) )
-				{
-					( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setResultSetNumber( new Integer( this.numberText ) );
-				}
-				else if ( resultSetName.getSelection( ) )
-				{
-					( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setResultSetName( this.nameText );
-				}
-			}
-
-			if ( changed )
-			{
-				Iterator it = ( (DataSetEditor) getContainer( ) ).getHandle( )
-						.resultSetIterator( );
-				while ( it.hasNext( ) )
-				{
-					it.remove( );
-				}
-			}
-			changed = false;
-			if ( canFinish( ) )
-				return super.performOk( );
-			else
-				return false;
+			
+			return canLeavePage( );
 		}
 		catch ( Exception e )
 		{
 			return true;
 		}
+	}
+
+	protected boolean canLeavePage( )
+	{
+		if ( canFinish( ) )
+			return super.performOk( );
+		else
+			return false;
+	}
+
+	protected boolean updateResultSetSetting( ) throws SemanticException
+	{
+		if ( selectResultSetCheckBox == null )
+			return false;
+
+		if ( selectResultSetCheckBox.getSelection( ) )
+		{
+			if ( resultSetNumber.getSelection( ) )
+			{
+				( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setResultSetNumber( new Integer( this.numberText ) );
+			}
+			else if ( resultSetName.getSelection( ) )
+			{
+				( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setResultSetName( this.nameText );
+			}
+		}
+
+		if ( changed )
+		{
+			Iterator it = ( (DataSetEditor) getContainer( ) ).getHandle( )
+					.resultSetIterator( );
+			while ( it.hasNext( ) )
+			{
+				it.remove( );
+			}
+		}
+		changed = false;
+		return true;
 	}
 
 	/**

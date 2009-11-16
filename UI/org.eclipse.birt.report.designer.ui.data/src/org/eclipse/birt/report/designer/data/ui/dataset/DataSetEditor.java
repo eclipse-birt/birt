@@ -481,7 +481,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	 */
 	protected void addDataSetSettingPage( DataSetHandle ds )
 	{
-		IPropertyPage settingPage = new DataSetSettingsPage( );
+		IPropertyPage settingPage = new AdvancedDataSetSettingsPage( );
 		addPageTo( "/", //$NON-NLS-1$
 				DATASET_SETTINGS_PAGE,
 				Messages.getString( "dataset.editor.settings" ), //$NON-NLS-1$
