@@ -19,22 +19,30 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeFilterExpressionProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -50,6 +58,7 @@ import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -165,6 +174,13 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	
 	protected IChoiceSet choiceSet;
 
+	protected IExpressionButton expButton;
+
+	protected DataRequestSession session = null;
+
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
+
 	/**
 	 * @param title
 	 */
@@ -195,6 +211,31 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		tipsForCube = s;
 	}
 	
+	protected synchronized DataRequestSession getDteSession( )
+	{
+		if ( session == null )
+		{
+			try
+			{
+				session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( Level.SEVERE, e.getMessage( ), e );
+			}
+		}
+
+		return session;
+	}
+
+	protected synchronized void shutDownDteSession( )
+	{
+		if ( session != null )
+		{
+			session.shutdown( );
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder#setColumnList(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
@@ -215,6 +256,15 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		}
 		
 		columnList = new ArrayList<String>( );
+	}
+
+	private String adaptExpr( ExpressionCodec exprCodec )
+	{
+		Expression expr = new Expression( exprCodec.getExpression( ),
+				exprCodec.getType( ) );
+		IModelAdapter adapter = getDteSession( ).getModelAdaptor( );
+		return adapter.adaptExpression( expr, ExpressionLocation.CUBE )
+				.getText( );
 	}
 
 	private Map<String, String> getChartExprDefinitions(
@@ -239,13 +289,19 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		{
 			query = sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 		}
+
 		if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( ) )) //$NON-NLS-1$
 		{
-			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
+			exprCodec.decode( query.getDefinition( ) );
+			String sExpr = adaptExpr( exprCodec );
+			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix" ) + exprCodec.getExpression( ), sExpr ); //$NON-NLS-1$
 			
 			try
 			{
-				List<String> levelNames = ChartXTabUIUtil.getLevelNamesInDimension( query.getDefinition( ), handle.getCube( ), false, true );
+				List<String> levelNames = ChartXTabUIUtil.getLevelNamesInDimension( sExpr,
+						handle.getCube( ),
+						false,
+						true );
 				for ( String name : levelNames )
 				{
 					String bindingName = ExpressionUtil.createJSDataExpression( name );
@@ -268,10 +324,15 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		Query q = sdList.get( 0 ).getQuery( );
 		if ( q != null && q.getDefinition( ) != null && !"".equals( q.getDefinition( ) )) //$NON-NLS-1$
 		{
-			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix" ) + q.getDefinition( ), q.getDefinition( ) ); //$NON-NLS-1$
+			exprCodec.decode( q.getDefinition( ) );
+			String sExpr = adaptExpr( exprCodec );
+			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix" ) + exprCodec.getExpression( ), sExpr ); //$NON-NLS-1$
 			try
 			{
-				List<String> levelNames = ChartXTabUIUtil.getLevelNamesInDimension( q.getDefinition( ), handle.getCube( ), false, true );
+				List<String> levelNames = ChartXTabUIUtil.getLevelNamesInDimension( sExpr,
+						handle.getCube( ),
+						false,
+						true );
 				for ( String name : levelNames )
 				{
 					String bindingName = ExpressionUtil.createJSDataExpression( name );
@@ -297,7 +358,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 						&& query.getDefinition( ) != null
 						&& !"".equals( query.getDefinition( ) ) ) //$NON-NLS-1$
 				{
-					exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
+					exprCodec.decode( query.getDefinition( ) );
+					String sExpr = adaptExpr( exprCodec );
+					exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix" ) + exprCodec.getExpression( ), sExpr ); //$NON-NLS-1$
 				}
 			}
 		}
@@ -698,21 +761,29 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 		} );
 
-		Button expBuilder = new Button( condition, SWT.PUSH );
-		// expBuilder.setText( "..." ); //$NON-NLS-1$
-		gdata = new GridData( );
-		gdata.heightHint = 20;
-		gdata.widthHint = 20;
-		expBuilder.setLayoutData( gdata );
-		UIUtil.setExpressionButtonImage( expBuilder );
-		expBuilder.setToolTipText( Messages.getString( "FilterConditionBuilder.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
-		expBuilder.addSelectionListener( new SelectionAdapter( ) {
+		try
+		{
+			expButton = (IExpressionButton) context.getUIServiceProvider( )
+					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
+							condition,
+							expression,
+							context.getExtendedItem( ),
+							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
+							new Listener( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				editValue( expression );
-			}
-		} );
+								public void handleEvent( Event event )
+								{
+									if ( event.data instanceof String[] )
+									{
+										updateButtons( );
+									}
+								}
+							} );
+		}
+		catch ( ChartException e )
+		{
+			WizardBase.displayException( e );
+		}
 
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
@@ -1864,9 +1935,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		// get cubeQueryDefn
 		IBaseCubeQueryDefinition cubeQueryDefn = null;
-		DataRequestSession session = null;
 		try
 		{
+			DataRequestSession session = getDteSession( );
+
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 
 			IReportItem item = ( (ExtendedItemHandle) designHandle ).getReportItem( );
@@ -1916,6 +1988,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 
 		}
+
 		needRefreshList = false;
 		return selValueList;
 	}
@@ -1934,5 +2007,12 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	protected void updateMessage( String s, int type )
 	{
 		super.setMessage( s, type );
+	}
+
+	@Override
+	public boolean close( )
+	{
+		shutDownDteSession( );
+		return super.close( );
 	}
 }
