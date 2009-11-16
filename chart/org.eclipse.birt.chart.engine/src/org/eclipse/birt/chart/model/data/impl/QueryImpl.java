@@ -107,7 +107,11 @@ public class QueryImpl extends EObjectImpl implements Query
 	 */
 	public String getDefinition( )
 	{
-		return definition;
+		if ( definition == null )
+		{
+			return null;
+		}
+		return definition.trim();
 	}
 
 	/**
@@ -116,8 +120,13 @@ public class QueryImpl extends EObjectImpl implements Query
 	 */
 	public void setDefinition( String newDefinition )
 	{
+		String def = newDefinition;
+		if ( def != null )
+		{
+			def = def.trim( );
+		}
 		String oldDefinition = definition;
-		definition = newDefinition;
+		definition = def;
 		if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.SET,

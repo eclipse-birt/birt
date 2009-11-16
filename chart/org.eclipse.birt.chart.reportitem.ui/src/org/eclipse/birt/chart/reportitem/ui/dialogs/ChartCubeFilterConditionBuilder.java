@@ -840,6 +840,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 
 			String express = expression.getText( );
+			if ( express != null )
+			{
+				express = express.trim( );
+			}
 			String bindingName = fExprMap.get( express );
 			if ( bindingName == null )
 			{
