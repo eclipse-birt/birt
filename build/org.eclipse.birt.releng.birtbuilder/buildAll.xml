@@ -51,7 +51,8 @@
 		
 		<parallel failonany="true">
 			<sequential>	
-				<antcall target="buildBirtWtpFeature"/>							
+				<antcall target="buildBirtWtpFeature"/>
+				<antcall target="verifyCompile"/>
 			</sequential>
 			<sequential>
 				<antcall target="buildBirtNLFeature"/>			
@@ -557,10 +558,7 @@
 			<arg line="-q ${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
 		</exec>
 		
-		<!-- verify compile result -->
-		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
-
-        <!--copy all packages to upload area-->
+        <!--copy wtp packages to upload area-->
 		<echo message="start copying birt-wtp-integration-sdk-*.zip to download area..."/>
         <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
 	        <fileset dir="${postingDirectory}/${buildId}" >
@@ -569,6 +567,12 @@
 	    </copy>
 		
 		<antcall target="renameBirtWtpPackage"/>
+			
+	</target>
+	
+	<target name="verifyCompile">
+		<!-- verify compile result -->
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 		
 	</target>
 	
