@@ -165,6 +165,7 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.TEMPLATE_ELEMENT,
 			ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION,
 			"Parameter", //$NON-NLS-1$
+			"AbstractScalarParameter", //$NON-NLS-1$
 			// fix bug 192781
 			ReportDesignConstants.ODA_HIERARCHY_ELEMENT,
 			ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT,
@@ -185,6 +186,7 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.LEVEL_ELEMENT,
 			ReportDesignConstants.TABULAR_DIMENSION_ELEMENT,
 			ReportDesignConstants.DYNAMIC_FILTER_PARAMETER_ELEMENT,
+			ReportDesignConstants.DERIVED_DATA_SET_ELEMENT
 	} );
 
 	private List<String> reportExtensionNames;
