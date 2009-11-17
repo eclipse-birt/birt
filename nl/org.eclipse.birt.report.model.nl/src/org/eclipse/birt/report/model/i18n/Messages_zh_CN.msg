@@ -3716,11 +3716,11 @@ New.OdaMeasure=新建 ODA 度量
 New.OdaMeasureGroup=新建 ODA 度量组
 New.DerivedDataSet=新衍生数据集
 New.VariableElement=NewVariableElement
-New.DataMartDataSource=NewDataMartDataSource
-New.DataMartDataSet=NewDataMartDataSet
-New.DataMartCube=NewDataMartCube
-New.TabElement=NewTabElement
-New.GadgetItem=NewGadgetItem
+New.DataMartDataSource=新DataMart数据源
+New.DataMartDataSet=新DataMart数据集
+New.DataMartCube=新DataMart多维数据集
+New.TabElement=新选项卡元素
+New.GadgetItem=新小工具项
 
 ###########################################################
 #Default theme name.
