@@ -1629,12 +1629,18 @@ public class FormatSpecifierComposite extends Composite
 		{
 			super( parent, SWT.NONE );
 			examples = new HashMap<String, String>( );
-			examples.put( "UpperCase", ">" ); //$NON-NLS-1$ //$NON-NLS-2$
-			examples.put( "LowerCase", "<" ); //$NON-NLS-1$ //$NON-NLS-2$
-			examples.put( "Zip Code +4", "@@@@@-@@@@" ); //$NON-NLS-1$ //$NON-NLS-2$
-			examples.put( "Phone Number", "(@@@)@@@-@@@@" ); //$NON-NLS-1$ //$NON-NLS-2$
-			examples.put( "Social Security Number", "@@@-@@-@@@@" ); //$NON-NLS-1$ //$NON-NLS-2$
-			examples.put( "Preserve white space", "^" ); //$NON-NLS-1$ //$NON-NLS-2$
+			examples.put( Messages.getString( "FormatSpecifierComposite.StringFormat.UpperCase" ), //$NON-NLS-1$
+					">" ); //$NON-NLS-1$ 
+			examples.put( Messages.getString( "FormatSpecifierComposite.StringFormat.LowerCase" ), //$NON-NLS-1$
+					"<" ); //$NON-NLS-1$ 
+			examples.put( Messages.getString( "FormatSpecifierComposite.StringFormat.ZipCode" ), //$NON-NLS-1$
+					"@@@@@-@@@@" ); //$NON-NLS-1$ 
+			examples.put( Messages.getString( "FormatSpecifierComposite.StringFormat.PhoneNumber" ), //$NON-NLS-1$
+					"(@@@)@@@-@@@@" ); //$NON-NLS-1$
+			examples.put( Messages.getString( "FormatSpecifierComposite.StringFormat.SocialSNumber" ), //$NON-NLS-1$
+					"@@@-@@-@@@@" ); //$NON-NLS-1$
+			examples.put( Messages.getString( "FormatSpecifierComposite.StringFormat.WhiteSpace" ), //$NON-NLS-1$
+					"^" ); //$NON-NLS-1$
 			placeComponents( );
 		}
 
