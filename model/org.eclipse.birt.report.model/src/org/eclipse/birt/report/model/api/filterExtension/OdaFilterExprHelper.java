@@ -91,4 +91,20 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl
 	{
 		return false;
 	}
+
+	/**
+	 * Indicates if the given data source and data set support the ODA extension
+	 * Filters.
+	 * 
+	 * @param dataSourceExtId
+	 *            the extension id of the data source
+	 * @param dataSetExtId
+	 *            the extension id of the data set
+	 * @return true if supported, false, if not supported.
+	 */
+	public static boolean supportODAFilterPushDown( String dataSourceExtId,
+			String dataSetExtId )
+	{
+		return false;
+	}
 }
