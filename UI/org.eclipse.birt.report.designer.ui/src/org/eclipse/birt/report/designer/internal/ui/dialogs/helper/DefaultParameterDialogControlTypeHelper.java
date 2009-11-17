@@ -40,6 +40,7 @@ public class DefaultParameterDialogControlTypeHelper extends
 	public void createContent( Composite parent )
 	{
 		controlTypeChooser = new Combo( parent, SWT.READ_ONLY | SWT.DROP_DOWN );
+		controlTypeChooser.setVisibleItemCount( 30 );
 		controlTypeChooser.addListener( SWT.Selection, new Listener( ) {
 
 			public void handleEvent( Event e )

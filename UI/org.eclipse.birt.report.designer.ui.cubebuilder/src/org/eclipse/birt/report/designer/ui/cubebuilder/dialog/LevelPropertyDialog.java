@@ -820,6 +820,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		fieldCombo.setLayoutData( gd );
+		fieldCombo.setVisibleItemCount( 30 );
 		fieldCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -835,6 +836,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		displayKeyCombo.setLayoutData( gd );
+		displayKeyCombo.setVisibleItemCount( 30 );
 		displayKeyCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -862,6 +864,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		dynamicDataTypeCombo = new Combo( groupGroup, SWT.BORDER
 				| SWT.READ_ONLY );
 		dynamicDataTypeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		dynamicDataTypeCombo.setVisibleItemCount( 30 );
 		dynamicDataTypeCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -1159,6 +1162,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		new Label( properties, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.DataType" ) ); //$NON-NLS-1$
 		staticDataTypeCombo = new Combo( properties, SWT.BORDER | SWT.READ_ONLY );
 		staticDataTypeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		staticDataTypeCombo.setVisibleItemCount( 30 );
 		staticDataTypeCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

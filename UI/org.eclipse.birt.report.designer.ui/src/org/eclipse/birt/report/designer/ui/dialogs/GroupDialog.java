@@ -372,6 +372,7 @@ public class GroupDialog extends BaseDialog
 		gd = new GridData( );
 		gd.widthHint = 200;
 		tocStyleType.setLayoutData( gd );
+		tocStyleType.setVisibleItemCount( 30 );
 		tocStyleType.setItems( sytleChoicesAll );
 	}
 
@@ -450,6 +451,7 @@ public class GroupDialog extends BaseDialog
 
 		keyChooser = new Combo( keyArea, SWT.DROP_DOWN );
 		keyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		keyChooser.setVisibleItemCount( 30 );
 		keyChooser.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -603,7 +605,7 @@ public class GroupDialog extends BaseDialog
 		intervalType = new Combo( intervalTypeArea, SWT.READ_ONLY
 				| SWT.DROP_DOWN );
 		intervalType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		intervalType.setVisibleItemCount( 30 );
 		for ( int i = 0; i < intervalChoices.length; i++ )
 		{
 			intervalType.add( intervalChoices[i].getDisplayName( ) );
@@ -734,6 +736,7 @@ public class GroupDialog extends BaseDialog
 			pagebreakBeforeCombo.add( pagebreakBeforeChoicesAll[i].getDisplayName( ) );
 		}
 		pagebreakBeforeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		pagebreakBeforeCombo.setVisibleItemCount( 30 );
 		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );
 		pagebreakBeforeCombo.setData( pagebreakBeforeChoicesAll );
 
@@ -744,6 +747,7 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakAfterCombo.add( pagebreakAfterChoicesAll[i].getDisplayName( ) );
 		}
+		pagebreakAfterCombo.setVisibleItemCount( 30 );
 		pagebreakAfterCombo.setData( pagebreakAfterChoicesAll );
 		pagebreakAfterCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );
@@ -755,6 +759,7 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakInsideCombo.add( pagebreakInsideChoicesAll[i].getDisplayName( ) );
 		}
+		pagebreakInsideCombo.setVisibleItemCount( 30 );
 		pagebreakInsideCombo.setData( pagebreakInsideChoicesAll );
 		pagebreakInsideCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );

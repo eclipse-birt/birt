@@ -208,6 +208,7 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 		} );
 
 		combo = new CCombo( container, SWT.FLAT | SWT.READ_ONLY );
+		combo.setVisibleItemCount( 30 );
 		combo.addSelectionListener( listener );
 
 		GridData data = new GridData( );

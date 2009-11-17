@@ -25,7 +25,6 @@ import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.ComboBoxParameter;
 import org.eclipse.birt.report.designer.ui.parameters.IParameter;
 import org.eclipse.birt.report.designer.ui.parameters.IParameterAdapter;
-import org.eclipse.birt.report.designer.ui.parameters.ListBoxParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ListingParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.parameters.RadioParameter;
@@ -469,7 +468,7 @@ public class InputParameterDialog extends BaseDialog
 		}
 		Combo combo = new Combo( container, style );
 		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		combo.setVisibleItemCount( 30 );
 		List list = new ArrayList( );
 		if ( isStringType && !isRequired )
 		{

@@ -89,7 +89,10 @@ public class FontSizeBuilder extends Composite
 			valueCombo = FormWidgetFactory.getInstance( ).createCCombo( this,
 					false );
 		else
+		{
 			valueCombo = new CCombo( this, SWT.DROP_DOWN );
+			valueCombo.setVisibleItemCount( 30 );
+		}
 		GridData data = new GridData( );
 		data.horizontalAlignment = GridData.FILL;
 		data.grabExcessHorizontalSpace = true;
@@ -98,7 +101,10 @@ public class FontSizeBuilder extends Composite
 		if ( isFormStyle )
 			unitCombo = FormWidgetFactory.getInstance( ).createCCombo( this );
 		else
+		{
 			unitCombo = new CCombo( this, SWT.DROP_DOWN );
+			unitCombo.setVisibleItemCount( 30 );
+		}
 		data = new GridData( );
 		if ( Platform.getOS( ).equals( Platform.OS_LINUX ) )
 		{

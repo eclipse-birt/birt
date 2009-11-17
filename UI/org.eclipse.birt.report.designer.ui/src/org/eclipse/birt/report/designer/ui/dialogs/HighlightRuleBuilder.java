@@ -403,6 +403,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		{
 			expressionCombo = new Combo( condition, SWT.NONE );
 			expressionCombo.setLayoutData( gdata );
+			expressionCombo.setVisibleItemCount( 30 );
 			expressionCombo.setItems( getDataSetColumns( ) );
 			fillExpression( expressionCombo );
 			expressionCombo.addSelectionListener( expSelListener );
@@ -450,6 +451,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		{
 			operator.add( OPERATOR[i][0] );
 		}
+		operator.setVisibleItemCount( 30 );
 		operator.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -620,6 +622,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		gdata.widthHint = 100;
 		gdata.horizontalSpan = 2;
 		stylesChooser.setLayoutData( gdata );
+		stylesChooser.setVisibleItemCount( 30 );
 		fillStyles( stylesChooser );
 		stylesChooser.addSelectionListener( new SelectionAdapter( ) {
 
@@ -645,6 +648,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		gdata = new GridData( );
 		gdata.widthHint = 100;
 		font.setLayoutData( gdata );
+		font.setVisibleItemCount( 30 );
 		IChoiceSet fontSet = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 				StyleHandle.FONT_FAMILY_PROP );
 		font.setData( fontSet );

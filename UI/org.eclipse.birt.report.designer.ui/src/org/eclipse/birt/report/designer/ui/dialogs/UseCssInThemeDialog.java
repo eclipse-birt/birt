@@ -355,6 +355,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 		theme.setText( Messages.getString( "UseCssInReportDialog.Dialog.Label.Theme.Text" ) ); //$NON-NLS-1$
 		themeCombo = new Combo( nameComposite, SWT.READ_ONLY );
 		themeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		themeCombo.setVisibleItemCount( 30 );
 		themeCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

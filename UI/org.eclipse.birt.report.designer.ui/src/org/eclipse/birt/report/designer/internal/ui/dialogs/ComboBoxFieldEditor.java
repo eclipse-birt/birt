@@ -170,6 +170,7 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 				fCombo.add( fEntryNamesAndValues[i][0], i );
 			}
 			fCombo.setFont( parent.getFont( ) );
+			fCombo.setVisibleItemCount( 30 );
 			fCombo.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent evt )

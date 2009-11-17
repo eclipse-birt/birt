@@ -383,6 +383,7 @@ public class TextEditor extends BaseDialog
 		GridData data = new GridData( );
 		data.widthHint = textTypeChoicer.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x + 100;
 		textTypeChoicer.setLayoutData( data );
+		textTypeChoicer.setVisibleItemCount( 30 );
 		textTypeChoicer.setBackground( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
@@ -482,6 +483,7 @@ public class TextEditor extends BaseDialog
 		gdata.widthHint = 200;
 		gdata.horizontalIndent = 5;
 		formatChoicer.setLayoutData( gdata );
+		formatChoicer.setVisibleItemCount( 30 );
 		formatChoicer.setBackground( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
@@ -1152,6 +1154,7 @@ public class TextEditor extends BaseDialog
 				GridData gdata = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
 				gdata.widthHint = 150;
 				combo.setLayoutData( gdata );
+				combo.setVisibleItemCount( 30 );
 				combo.setBackground( PlatformUI.getWorkbench( )
 						.getDisplay( )
 						.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );

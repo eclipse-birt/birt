@@ -240,7 +240,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.minimumWidth = 140;
 		dataFieldCombo.setLayoutData( gdata );
-
+		dataFieldCombo.setVisibleItemCount( 30 );
 		dataFieldCombo.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )

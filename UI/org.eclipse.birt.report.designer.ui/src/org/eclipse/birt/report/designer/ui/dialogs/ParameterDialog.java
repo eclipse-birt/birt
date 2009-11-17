@@ -1898,6 +1898,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		defaultValueChooser.add( BOOLEAN_TRUE );
 		defaultValueChooser.add( BOOLEAN_FALSE );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		defaultValueChooser.setVisibleItemCount( 30 );
 		defaultValueChooser.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -2293,6 +2294,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		createLabel( composite, LABEL_SELECT_DATA_SET );
 		dataSetChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		dataSetChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		dataSetChooser.setVisibleItemCount( 30 );
 		dataSetChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -2327,6 +2329,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		// columnChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		columnChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
 		columnChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		columnChooser.setVisibleItemCount( 30 );
 		columnChooser.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -2375,7 +2378,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		// );
 		displayTextChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
 		displayTextChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		displayTextChooser.setVisibleItemCount( 30 );
 		ExpressionHelper displayTextHelper = new ExpressionHelper( ) {
 
 			public String getExpression( )
@@ -2468,6 +2471,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		sortKeyLabel.setText( LABEL_SORT_KEY );
 		sortKeyChooser = new Combo( sortKeyArea, SWT.BORDER | SWT.READ_ONLY );
 		sortKeyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortKeyChooser.setVisibleItemCount( 30 );
 		// refresSortByItems();
 		sortKeyChooser.addSelectionListener( new SelectionListener( ) {
 
@@ -2501,6 +2505,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		sortDirectionChooser = new Combo( sortDirectionArea, SWT.BORDER
 				| SWT.READ_ONLY );
 		sortDirectionChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortDirectionChooser.setVisibleItemCount( 30 );
 		sortDirectionChooser.add( CHOICE_ASCENDING );
 		sortDirectionChooser.add( CHOICE_DESCENDING );
 		sortDirectionChooser.setText( CHOICE_ASCENDING );
@@ -2741,6 +2746,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		defaultValueChooser = new CCombo( composite, SWT.BORDER );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		defaultValueChooser.setVisibleItemCount( 30 );
 		if ( !isStatic( ) )
 		{
 			defaultValueChooser.add( CHOICE_SELECT_VALUE );

@@ -229,6 +229,7 @@ public class ComboBoxCellEditor extends CellEditor
 		composite.setLayout( new FillLayout( ) );
 
 		comboBox = new CCombo( composite, getStyle( ) );
+		comboBox.setVisibleItemCount( 30 );
 		comboBox.setBackground( bg );
 		comboBox.setFont( cell.getFont( ) );
 

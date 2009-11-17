@@ -184,6 +184,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		preName = new Combo( nameComp, SWT.NULL | SWT.READ_ONLY );
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		preName.setLayoutData( data );
+		preName.setVisibleItemCount( 30 );
 		preName.setItems( getPredefinedStyeNames( ) );
 		preName.addSelectionListener( new SelectionListener( ) {
 

@@ -103,6 +103,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		dateSetLabel.setText( Messages.getString( "DatasetPage.Label.PrimaryDataset" ) ); //$NON-NLS-1$
 		dataSetCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		dataSetCombo.setVisibleItemCount( 30 );
 		dataSetCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

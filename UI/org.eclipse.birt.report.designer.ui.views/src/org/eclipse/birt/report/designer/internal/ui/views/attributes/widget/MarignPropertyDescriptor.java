@@ -90,6 +90,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		};
 
 		valueCombo = new CCombo( container, SWT.FLAT );
+		valueCombo.setVisibleItemCount( 30 );
 		valueCombo.addSelectionListener( listener );
 		valueCombo.addModifyListener( new ModifyListener( ) {
 
@@ -153,7 +154,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 				SWT.DEFAULT ).y )
 			data.heightHint = unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y - 2;
 		valueCombo.setLayoutData( data );
-
+		unitCombo.setVisibleItemCount( 30 );
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		unitCombo.setLayoutData( data );
 

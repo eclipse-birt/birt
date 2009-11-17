@@ -1190,7 +1190,7 @@ public class JSEditor extends EditorPart implements IColleague
 		layoutData.widthHint = 140;
 		layoutData.heightHint = 21;
 		cmbExpList.setLayoutData( layoutData );
-
+		cmbExpList.setVisibleItemCount( 30 );
 		// Create the subfunction combo box
 		cmbSubFunctions = new TextCombo( parent, SWT.NONE );// SWT.DROP_DOWN |
 		// SWT.READ_ONLY );

@@ -314,6 +314,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Type" ) ); //$NON-NLS-1$
 		typeCombo = new Combo( content, SWT.BORDER | SWT.READ_ONLY );
 		typeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		typeCombo.setVisibleItemCount( 30 );
 		typeCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -331,6 +332,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Format" ) ); //$NON-NLS-1$
 		formatCombo = new Combo( content, SWT.BORDER | SWT.READ_ONLY );
 		formatCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		formatCombo.setVisibleItemCount( 30 );
 		formatCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

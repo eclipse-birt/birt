@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
-import com.ibm.icu.util.Calendar;
 import java.util.List;
-import com.ibm.icu.util.TimeZone;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -33,6 +31,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * This class set the Time option ,format,TimeZone ,date and time
@@ -266,7 +267,7 @@ public class TimeOptionDialog extends SelectionStatusDialog
 		String[] items = new String[list.size( )];
 		list.toArray( items );
 		combo.setBounds( 60, 2, 150, 200 );
-
+		combo.setVisibleItemCount( 30 );
 		combo.setItems( items );
 		combo.select( 0 );
 
@@ -275,7 +276,7 @@ public class TimeOptionDialog extends SelectionStatusDialog
 		zoneLabel.setBounds( 0, 102, 60, 30 );
 
 		zoneCombo = new Combo( composite, SWT.READ_ONLY | SWT.SINGLE );
-
+		zoneCombo.setVisibleItemCount( 30 );
 		items = TimeZone.getAvailableIDs( );
 		zoneCombo.setBounds( 60, 102, 150, 1000 );
 		zoneCombo.setItems( items );

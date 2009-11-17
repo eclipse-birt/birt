@@ -14,8 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -23,10 +21,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.swt.SWT;
@@ -171,6 +167,7 @@ public class UserPropertyBuilder extends BaseDialog
 				new Label( composite, SWT.NONE ).setText( LABEL_TYPE );
 				typeChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 				typeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				typeChooser.setVisibleItemCount( 30 );
 				for ( int i = 0; i < PROPERTY_TYPES.length; i++ )
 				{
 					typeChooser.add( PROPERTY_TYPES[i].getDisplayName( ), i );

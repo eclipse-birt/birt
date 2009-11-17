@@ -60,6 +60,7 @@ public class SelectVariableDialog extends BaseDialog
 		new Label( content, SWT.NONE ).setText( Messages.getString("SelectVariableDialog.AvailableVariables") ); //$NON-NLS-1$
 		variablesCombo = new Combo( content, SWT.READ_ONLY );
 		variablesCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		variablesCombo.setVisibleItemCount( 30 );
 		variablesCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

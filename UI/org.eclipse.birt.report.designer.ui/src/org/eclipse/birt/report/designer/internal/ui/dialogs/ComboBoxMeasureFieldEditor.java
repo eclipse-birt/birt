@@ -469,6 +469,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 				fCombo.add( fBoxNamesAndValues[i][0], i );
 			}
 			fCombo.setFont( parent.getFont( ) );
+			fCombo.setVisibleItemCount( 30 );
 			fCombo.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent evt )
@@ -516,6 +517,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 				// fmeasure.select( 0 );
 			}
 			fmeasure.setFont( parent.getFont( ) );
+			fmeasure.setVisibleItemCount( 30 );
 			fmeasure.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )

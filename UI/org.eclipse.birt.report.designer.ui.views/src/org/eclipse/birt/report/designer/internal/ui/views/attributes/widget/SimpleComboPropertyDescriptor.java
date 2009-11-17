@@ -77,7 +77,10 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 			combo = FormWidgetFactory.getInstance( ).createCCombo( parent );
 		}
 		else
+		{
 			combo = new CCombo( parent, style );
+			combo.setVisibleItemCount( 30 );
+		}
 		combo.addControlListener( new ControlListener( ) {
 
 			public void controlMoved( ControlEvent e )

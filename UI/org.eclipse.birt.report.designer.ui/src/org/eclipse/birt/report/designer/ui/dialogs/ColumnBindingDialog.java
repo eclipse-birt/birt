@@ -644,6 +644,7 @@ public class ColumnBindingDialog extends BaseDialog
 			datasetCombo.setBackground( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+			datasetCombo.setVisibleItemCount( 30 );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
 			newList[0] = NullDatasetChoice;
@@ -691,6 +692,7 @@ public class ColumnBindingDialog extends BaseDialog
 			reportItemCombo.setBackground( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+			reportItemCombo.setVisibleItemCount( 30 );
 			gd = new GridData( );
 			gd.widthHint = 250;
 			reportItemCombo.setLayoutData( gd );

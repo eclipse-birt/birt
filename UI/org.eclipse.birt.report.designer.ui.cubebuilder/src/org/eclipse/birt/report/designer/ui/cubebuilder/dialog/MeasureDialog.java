@@ -347,6 +347,7 @@ public class MeasureDialog extends TitleAreaDialog
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		functionCombo.setLayoutData( gd );
+		functionCombo.setVisibleItemCount( 30 );
 		functionCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -363,6 +364,7 @@ public class MeasureDialog extends TitleAreaDialog
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		typeCombo.setLayoutData( gd );
+		typeCombo.setVisibleItemCount( 30 );
 		typeCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

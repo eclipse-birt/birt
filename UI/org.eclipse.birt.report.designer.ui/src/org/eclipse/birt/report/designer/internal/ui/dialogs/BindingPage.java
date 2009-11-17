@@ -150,6 +150,7 @@ public class BindingPage extends Composite implements Listener
 		} );
 
 		datasetCombo = new CCombo( this, SWT.READ_ONLY | SWT.BORDER );
+		datasetCombo.setVisibleItemCount( 30 );
 		datasetCombo.setBackground( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
@@ -227,6 +228,7 @@ public class BindingPage extends Composite implements Listener
 		data.left = new FormAttachment( datasetCombo, 0, SWT.LEFT );
 		data.right = new FormAttachment( datasetCombo, 0, SWT.RIGHT );
 		reportItemCombo.setLayoutData( data );
+		reportItemCombo.setVisibleItemCount( 30 );
 		reportItemCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

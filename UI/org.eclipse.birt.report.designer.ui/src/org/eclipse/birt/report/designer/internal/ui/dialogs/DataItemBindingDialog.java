@@ -159,6 +159,7 @@ public class DataItemBindingDialog extends BaseDialog
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		itemType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		itemType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		itemType.setVisibleItemCount( 30 );
 		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );

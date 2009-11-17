@@ -816,6 +816,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		anchorChooser = new Combo( group, SWT.BORDER | SWT.READ_ONLY );
 		anchorChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		anchorChooser.setVisibleItemCount( 30 );
 		anchorChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -902,6 +903,7 @@ public class HyperlinkBuilder extends BaseDialog
 		targetFormatsChooser = new Combo( formatsGroup, SWT.BORDER
 				| SWT.READ_ONLY );
 		targetFormatsChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		targetFormatsChooser.setVisibleItemCount( 30 );
 		targetFormatsChooser.setItems( supportedFormats );
 		targetFormatsChooser.setEnabled( false );
 		// select format affects getting TOCTree from ReportDocument
@@ -1180,6 +1182,7 @@ public class HyperlinkBuilder extends BaseDialog
 			new Label( displayArea, SWT.NONE ).setText( LABEL_TARGET );
 			targetChooser = new Combo( displayArea, SWT.READ_ONLY | SWT.BORDER );
 			targetChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			targetChooser.setVisibleItemCount( 30 );
 			targetChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( CHOICESET_TARGET ) );
 			UIUtil.createBlankLabel( displayArea );
 		}
@@ -1201,6 +1204,7 @@ public class HyperlinkBuilder extends BaseDialog
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		bookmarkChooser.setLayoutData( gd );
+		bookmarkChooser.setVisibleItemCount( 30 );
 		bookmarkChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

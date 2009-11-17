@@ -417,6 +417,7 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 		gdata = new GridData( );
 		gdata.widthHint = 120;
 		expression.setLayoutData( gdata );
+		expression.setVisibleItemCount( 30 );
 		expression.setItems( getDataSetColumns( ) );
 		fillExpression( expression );
 		expression.addSelectionListener( expSelListener );
@@ -444,6 +445,7 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 				listener );
 
 		operator = new Combo( condition, SWT.READ_ONLY );
+		operator.setVisibleItemCount( 30 );
 		for ( int i = 0; i < OPERATOR.length; i++ )
 		{
 			operator.add( OPERATOR[i][0] );

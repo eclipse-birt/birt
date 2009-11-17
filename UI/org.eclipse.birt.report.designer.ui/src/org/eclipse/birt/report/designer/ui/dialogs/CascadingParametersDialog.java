@@ -899,6 +899,7 @@ public class CascadingParametersDialog extends BaseDialog
 		createLabel( propertiesGroup, LABEL_DATA_TYPE, maxStrLengthProperty );
 		dataTypeChooser = new Combo( propertiesGroup, SWT.DROP_DOWN
 				| SWT.READ_ONLY );
+		dataTypeChooser.setVisibleItemCount( 30 );
 		dataTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		dataTypeChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		dataTypeChooser.addSelectionListener( new SelectionAdapter( ) {
@@ -926,6 +927,7 @@ public class CascadingParametersDialog extends BaseDialog
 		createLabel( propertiesGroup, LABEL_DISPLAY_TYPE, maxStrLengthProperty );
 		displayTypeChooser = new Combo( propertiesGroup, SWT.DROP_DOWN
 				| SWT.READ_ONLY );
+		displayTypeChooser.setVisibleItemCount( 30 );
 		displayTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		displayTypeChooser.setItems( new String[]{
 				DISPLAY_NAME_CONTROL_LIST, DISPLAY_NAME_CONTROL_COMBO
@@ -1002,6 +1004,7 @@ public class CascadingParametersDialog extends BaseDialog
 		composite.setLayout( layout );
 
 		defaultValueChooser = new Combo( composite, SWT.BORDER );
+		defaultValueChooser.setVisibleItemCount( 30 );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		defaultValueChooser.add( CHOICE_SELECT_VALUE );
 		defaultValueChooser.addVerifyListener( new VerifyListener( ) {
@@ -2890,6 +2893,7 @@ public class CascadingParametersDialog extends BaseDialog
 			Label labelDataset = new Label( composite, SWT.NONE );
 			labelDataset.setText( Messages.getString( "AddEditCascadingParameterDialog.label.dataset" ) ); //$NON-NLS-1$
 			dataset = new Combo( composite, SWT.READ_ONLY );
+			dataset.setVisibleItemCount( 30 );
 			dataset.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			dataset.addSelectionListener( new SelectionAdapter( ) {
 
@@ -2932,6 +2936,7 @@ public class CascadingParametersDialog extends BaseDialog
 			labelValue.setText( Messages.getString( "AddEditCascadingParameterDialog.label.value" ) ); //$NON-NLS-1$
 			value = new Combo( composite, SWT.READ_ONLY );
 			value.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			value.setVisibleItemCount( 30 );
 			value.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -2956,6 +2961,7 @@ public class CascadingParametersDialog extends BaseDialog
 			labelDisplayText.setText( Messages.getString( "AddEditCascadingParameterDialog.label.displaytext" ) ); //$NON-NLS-1$
 			displayText = new Combo( composite, SWT.READ_ONLY );
 			displayText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			displayText.setVisibleItemCount( 30 );
 			displayText.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -3179,6 +3185,7 @@ public class CascadingParametersDialog extends BaseDialog
 		sortKeyLabel.setText( LABEL_SORT_KEY );
 		sortKeyChooser = new Combo( sortKeyArea, SWT.BORDER | SWT.READ_ONLY );
 		sortKeyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortKeyChooser.setVisibleItemCount( 30 );
 		// sortKeyChooser.add( CHOICE_NONE );
 		// sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
 		// sortKeyChooser.add( CHOICE_VALUE_COLUMN );
@@ -3214,6 +3221,7 @@ public class CascadingParametersDialog extends BaseDialog
 		sortDirectionChooser = new Combo( sortDirectionArea, SWT.BORDER
 				| SWT.READ_ONLY );
 		sortDirectionChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortDirectionChooser.setVisibleItemCount( 30 );
 		sortDirectionChooser.add( CHOICE_ASCENDING );
 		sortDirectionChooser.add( CHOICE_DESCENDING );
 		sortDirectionChooser.setText( CHOICE_ASCENDING );

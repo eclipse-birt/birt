@@ -350,7 +350,7 @@ public class InputParameterDialog extends Dialog
 
 			Combo combo = new Combo( container, SWT.BORDER );
 			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+			combo.setVisibleItemCount( 30 );
 			List list = new ArrayList( );
 			if ( isStringType && !isRequired )
 			{

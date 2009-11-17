@@ -73,7 +73,7 @@ public class FontSizeBuilder extends Composite
 		data.horizontalAlignment = GridData.FILL;
 		data.grabExcessHorizontalSpace = true;
 		valueCombo.setLayoutData( data );
-
+		valueCombo.setVisibleItemCount( 30 );
 		unitCombo = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
 		data = new GridData( );
 		if ( Platform.getOS( ).equals( Platform.OS_LINUX ) )
@@ -85,7 +85,7 @@ public class FontSizeBuilder extends Composite
 
 		data.horizontalAlignment = GridData.HORIZONTAL_ALIGN_END;
 		unitCombo.setLayoutData( data );
-
+		unitCombo.setVisibleItemCount( 30 );
 		valueCombo.addFocusListener( new FocusListener( ) {
 
 			public void focusGained( org.eclipse.swt.events.FocusEvent e )

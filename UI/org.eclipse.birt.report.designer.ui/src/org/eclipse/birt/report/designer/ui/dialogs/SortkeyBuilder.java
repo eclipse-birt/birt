@@ -178,6 +178,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.widthHint = 240;
 		comboKey.setLayoutData( gdata );
+		comboKey.setVisibleItemCount( 30 );
 		comboKey.setItems( getDataSetColumns( ) );
 		if ( comboKey.getItemCount( ) == 0 )
 		{
@@ -211,6 +212,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 		comboDirection = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		String[] displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
+		comboDirection.setVisibleItemCount( 30 );
 		comboDirection.setItems( displayNames );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		comboDirection.setLayoutData( gdata );
@@ -221,7 +223,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		comboLocale = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		comboLocale.setLayoutData( gdata );
-
+		comboLocale.setVisibleItemCount( 30 );
 		List<String> localeNames = new ArrayList<String>( );
 		localeNames.add( Messages.getString( "SortkeyBuilder.Locale.Auto" ) );
 		localeNames.addAll( FormatAdapter.LOCALE_TABLE.keySet( ) );
@@ -234,7 +236,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		comboStrength = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		comboStrength.setLayoutData( gdata );
-
+		comboStrength.setVisibleItemCount( 30 );
 		List<String> strengthNames = new ArrayList<String>( STRENGTH_MAP.keySet( ) );
 		Collections.sort( strengthNames, new Comparator<String>( ) {
 

@@ -185,6 +185,7 @@ public class ImportValueDialog extends BaseDialog
 		new Label( selectionArea, SWT.NONE ).setText( LABEL_SELECT_DATASET );
 		dataSetChooser = new Combo( selectionArea, SWT.DROP_DOWN
 				| SWT.READ_ONLY );
+		dataSetChooser.setVisibleItemCount( 30 );
 		dataSetChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		dataSetChooser.addSelectionListener( new SelectionAdapter( ) {
 
@@ -203,6 +204,7 @@ public class ImportValueDialog extends BaseDialog
 		new Label( selectionArea, SWT.NONE ).setText( LABEL_SELECT_COLUMN );
 		columnChooser = new Combo( selectionArea, SWT.DROP_DOWN | SWT.READ_ONLY );
 		columnChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		columnChooser.setVisibleItemCount( 30 );
 		columnChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

@@ -389,6 +389,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		bidiGridData.widthHint = 200;
 		bidiGridData.horizontalIndent = 20;
 		directionCombo.setLayoutData( bidiGridData );
+		directionCombo.setVisibleItemCount( 30 );
 		reSelectDirectionCombo( );
 		directionCombo.addSelectionListener( new SelectionListener( ) {
 

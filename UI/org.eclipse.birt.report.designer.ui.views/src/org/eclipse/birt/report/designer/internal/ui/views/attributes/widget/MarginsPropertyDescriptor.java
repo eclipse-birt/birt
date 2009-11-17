@@ -148,7 +148,10 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 		} );
 
 		if ( !isFormStyle( ) )
+		{
 			combo = new CCombo( container, SWT.BORDER | SWT.READ_ONLY );
+			combo.setVisibleItemCount( 30 );
+		}
 		else
 			combo = FormWidgetFactory.getInstance( ).createCCombo( container,
 					true );

@@ -91,6 +91,7 @@ public class ColorBuilder extends Composite
 		} );
 
 		combo = new Combo( this, SWT.DROP_DOWN );
+		combo.setVisibleItemCount( 30 );
 		data = new GridData( );
 		data.horizontalAlignment = GridData.FILL;
 		data.grabExcessHorizontalSpace = true;

@@ -724,7 +724,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		comboGroupLevel = new Combo( parentControl, SWT.READ_ONLY );
 		comboGroupLevel.setLayoutData( GridDataFactory.swtDefaults( ).span( 2,
 				1 ).hint( 295, SWT.DEFAULT ).create( ) );
-
+		comboGroupLevel.setVisibleItemCount( 30 );
 		comboGroupLevel.addListener( SWT.Modify, comboGroupLeveModify );
 
 		Label lb = new Label( parentControl, SWT.NONE );
@@ -742,6 +742,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		expressionCombo.addSelectionListener( 1, expValueAction );
 
 		operator = new Combo( parentControl, SWT.READ_ONLY );
+		operator.setVisibleItemCount( 30 );
 		for ( int i = 0; i < OPERATOR.length; i++ )
 		{
 			operator.add( OPERATOR[i][0] );

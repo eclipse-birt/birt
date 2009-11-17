@@ -100,6 +100,7 @@ public class ComboBoxSelectionDialog extends Dialog
 		GridData gd = new GridData( );
 		gd.widthHint = convertWidthInCharsToPixels( getMaxStringLength( ) );
 		combo.setLayoutData( gd );
+		combo.setVisibleItemCount( 30 );
 		combo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

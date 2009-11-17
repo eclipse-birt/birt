@@ -219,6 +219,7 @@ public class TableOptionDialog extends BaseDialog
 					| SWT.SINGLE
 					| SWT.READ_ONLY );
 			dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			dataSetCombo.setVisibleItemCount( 30 );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
 			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );

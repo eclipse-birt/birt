@@ -81,6 +81,7 @@ public class ComplexUnit extends Canvas
 			textStyle |= SWT.BORDER;
 		text = new Text( this, textStyle );
 		combo = new CCombo( this, textStyle | SWT.READ_ONLY );
+		combo.setVisibleItemCount( 30 );
 
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		text.setLayoutData( gd );

@@ -111,7 +111,10 @@ public class ColorBuilder extends Composite
 		if ( isFormStyle )
 			combo = FormWidgetFactory.getInstance( ).createCCombo( this, false );
 		else
+		{
 			combo = new CCombo( this, SWT.DROP_DOWN );
+			combo.setVisibleItemCount( 30 );
+		}
 		data = new GridData( );
 		data.horizontalAlignment = GridData.FILL;
 		data.grabExcessHorizontalSpace = true;

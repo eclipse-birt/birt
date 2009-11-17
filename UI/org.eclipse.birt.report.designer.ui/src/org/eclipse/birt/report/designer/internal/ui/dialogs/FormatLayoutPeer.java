@@ -929,6 +929,7 @@ public abstract class FormatLayoutPeer implements IFormatPage
 					style |= SWT.READ_ONLY;
 				}
 				cba = new Combo( parent, style );
+				cba.setVisibleItemCount( 30 );
 			}
 		}
 

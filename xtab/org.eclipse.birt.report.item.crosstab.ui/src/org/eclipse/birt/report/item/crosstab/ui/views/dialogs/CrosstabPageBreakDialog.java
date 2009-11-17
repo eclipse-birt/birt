@@ -274,7 +274,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.minimumWidth = 190;
 		levelCombo.setLayoutData( gdata );
-
+		levelCombo.setVisibleItemCount( 30 );
 		levelCombo.addListener( SWT.Selection, updateButtonListener );
 
 		lb = new Label( container, SWT.NONE );
@@ -282,6 +282,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 		pageBreakBeforeCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		pageBreakBeforeCombo.setLayoutData( gdata );
+		pageBreakBeforeCombo.setVisibleItemCount( 30 );
 		pageBreakBeforeCombo.setItems( getPageBreakDisplayNames( PAGE_BREAK_BEFORE ) );
 		pageBreakBeforeCombo.addListener( SWT.Selection, updateButtonListener );
 
@@ -290,6 +291,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 		pageBreakAfterCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		pageBreakAfterCombo.setLayoutData( gdata );
+		pageBreakAfterCombo.setVisibleItemCount( 30 );
 		pageBreakAfterCombo.setItems( getPageBreakDisplayNames( PAGE_BREAK_AFTER ) );
 		pageBreakAfterCombo.addListener( SWT.Selection, updateButtonListener );
 
@@ -301,6 +303,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 			pageBreakInsideCombo = new Combo( container, SWT.BORDER
 					| SWT.READ_ONLY );
 			pageBreakInsideCombo.setLayoutData( gdata );
+			pageBreakInsideCombo.setVisibleItemCount( 30 );
 			pageBreakInsideCombo.setItems( getPageBreakDisplayNames( PAGE_BREAK_INSIDE ) );
 			pageBreakInsideCombo.addListener( SWT.Selection,
 					updateButtonListener );

@@ -158,6 +158,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			cmbName = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 			cmbName.setLayoutData( gd );
+			cmbName.setVisibleItemCount( 30 );
 			cmbName.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -230,6 +231,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		cmbType.setLayoutData( gd );
+		cmbType.setVisibleItemCount( 30 );
 		cmbType.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent arg0 )
@@ -783,7 +785,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		cmbFunction.setLayoutData( gd );
-
+		cmbFunction.setVisibleItemCount( 30 );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		cmbFunction.addSelectionListener( new SelectionAdapter( ) {
@@ -868,7 +870,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 		cmbGroup = new Combo( aggOnComposite, SWT.BORDER | SWT.READ_ONLY );
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		cmbGroup.setVisibleItemCount( 30 );
 		if ( isRef )
 		{
 			txtDisplayName.setEnabled( false );
@@ -1062,7 +1064,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 								SWT.BORDER );
 						cmbDataField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 								| GridData.GRAB_HORIZONTAL ) );
-
+						cmbDataField.setVisibleItemCount( 30 );
 						createExpressionButton( paramsComposite, cmbDataField );
 
 						initDataFields( cmbDataField, param );

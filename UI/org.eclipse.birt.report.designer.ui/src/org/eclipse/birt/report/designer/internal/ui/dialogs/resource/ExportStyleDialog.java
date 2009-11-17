@@ -82,7 +82,7 @@ public class ExportStyleDialog extends BaseDialog
 		themeCombo = new Combo( composite, SWT.BORDER
 				| SWT.SINGLE
 				| SWT.READ_ONLY );
-
+		themeCombo.setVisibleItemCount( 30 );
 		themeCombo.setItems( (String[]) themeMap.keySet( )
 				.toArray( new String[0] ) );
 		gd = new GridData( GridData.FILL_HORIZONTAL );

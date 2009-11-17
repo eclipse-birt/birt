@@ -293,6 +293,7 @@ public class FormWidgetFactory extends FormToolkit
 	public CCombo createCCombo( Composite parent, int comboStyle )
 	{
 		CCombo combo = new CCombo( parent, comboStyle );
+		combo.setVisibleItemCount( 30 );
 		adapt( combo, true, false );
 		return combo;
 	}

@@ -473,6 +473,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
 		comboGroupLevel.setLayoutData( gdata );
+		comboGroupLevel.setVisibleItemCount( 30 );
 		comboGroupLevel.addListener( SWT.Selection, comboGroupLeveModify );
 
 		getLevels( );
@@ -484,6 +485,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		textKey = new Combo( content, SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		textKey.setLayoutData( gdata );
+		textKey.setVisibleItemCount( 30 );
 		textKey.addListener( SWT.Selection, comboKeySelection );
 		textKey.addModifyListener( new ModifyListener( ) {
 
@@ -520,6 +522,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
 		comboDirection.setLayoutData( gdata );
+		comboDirection.setVisibleItemCount( 30 );
 		String[] displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
 		comboDirection.setItems( displayNames );
 
@@ -529,7 +532,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
 		comboLocale.setLayoutData( gdata );
-
+		comboLocale.setVisibleItemCount( 30 );
 		List<String> localeNames = new ArrayList<String>( );
 		localeNames.add( Messages.getString( "SortkeyBuilder.Locale.Auto" ) );
 		localeNames.addAll( FormatAdapter.LOCALE_TABLE.keySet( ) );
@@ -542,7 +545,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
 		comboStrength.setLayoutData( gdata );
-
+		comboStrength.setVisibleItemCount( 30 );
 		List<String> strengthNames = new ArrayList<String>( STRENGTH_MAP.keySet( ) );
 		Collections.sort( strengthNames, new Comparator<String>( ) {
 

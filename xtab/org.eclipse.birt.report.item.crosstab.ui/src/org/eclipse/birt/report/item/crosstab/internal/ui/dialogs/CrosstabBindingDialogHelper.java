@@ -194,6 +194,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		cmbType.setLayoutData( gd );
+		cmbType.setVisibleItemCount( 30 );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		if ( isAggregate( ) )
@@ -807,7 +808,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		cmbFunction.setLayoutData( gd );
-
+		cmbFunction.setVisibleItemCount( 30 );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		cmbFunction.addSelectionListener( new SelectionAdapter( ) {
@@ -847,7 +848,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 2;
 		cmbAggOn.setLayoutData( gridData );
-
+		cmbAggOn.setVisibleItemCount( 30 );
 	}
 
 	private void createCommonSection( Composite composite )
@@ -908,7 +909,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 								.grab( true, false )
 								.span( 2, 1 )
 								.create( ) );
-
+						cmbDataField.setVisibleItemCount( 30 );
 						initDataFields( cmbDataField, param );
 
 						cmbDataField.addModifyListener( new ModifyListener( ) {

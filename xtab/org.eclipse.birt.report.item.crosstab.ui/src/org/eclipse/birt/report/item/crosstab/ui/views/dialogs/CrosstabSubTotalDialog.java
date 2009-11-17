@@ -500,7 +500,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.widthHint = 120;
 		levelCombo.setLayoutData( gdata );
-
+		levelCombo.setVisibleItemCount( 30 );
 		levelCombo.addSelectionListener( updateButtonListener );
 
 		lb = new Label( container, SWT.NONE );
@@ -510,7 +510,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.minimumWidth = 140;
 		dataFieldCombo.setLayoutData( gdata );
-
+		dataFieldCombo.setVisibleItemCount( 30 );
 		dataFieldCombo.addSelectionListener( updateButtonListener );
 
 	}

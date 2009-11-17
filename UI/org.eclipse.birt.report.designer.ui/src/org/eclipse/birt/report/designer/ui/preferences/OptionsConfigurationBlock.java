@@ -504,6 +504,7 @@ public abstract class OptionsConfigurationBlock
 		ControlData data = new ControlData( key, values );
 
 		Combo comboBox = new Combo( composite, SWT.READ_ONLY );
+		comboBox.setVisibleItemCount( 30 );
 		comboBox.setItems( valueLabels );
 		comboBox.setData( data );
 		comboBox.addSelectionListener( getSelectionListener( ) );

@@ -87,6 +87,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		GridData gd = new GridData( );
 		gd.widthHint = 300;
 		datasetCombo.setLayoutData( gd );
+		datasetCombo.setVisibleItemCount( 30 );
 		bindingButton = FormWidgetFactory.getInstance( )
 				.createButton( container, SWT.PUSH, isFormStyle( ) );
 		bindingButton.setText( getProvider( ).getText( 1 ) );
@@ -130,6 +131,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		gd = new GridData( );
 		gd.widthHint = 300;
 		reportItemCombo.setLayoutData( gd );
+		reportItemCombo.setVisibleItemCount( 30 );
 		return container;
 	}
 

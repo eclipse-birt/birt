@@ -206,6 +206,7 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 			{
 				fCombo.add( fEntryNamesAndValues[i][0], i );
 			}
+			fCombo.setVisibleItemCount( 30 );
 			fCombo.setFont( parent.getFont( ) );
 			fCombo.addSelectionListener( new SelectionAdapter( ) {
 

@@ -159,6 +159,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 
 		localeCombo = new Combo( composite, SWT.DROP_DOWN );
 		localeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeCombo.setVisibleItemCount( 30 );
 		assert WebViewer.LocaleTable != null;
 		String[] localeDisplayNames = new String[WebViewer.LocaleTable.size( )];
 		WebViewer.LocaleTable.keySet( ).toArray( localeDisplayNames );
@@ -256,6 +257,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 		new Label( appContextComposite, SWT.NONE );
 		appContextExtCombo = new Combo( appContextComposite, SWT.READ_ONLY
 				| SWT.SINGLE );
+		appContextExtCombo.setVisibleItemCount( 30 );
 		appContextExtCombo.setItems( appExtNames );
 		if ( appContextExt.getSelection( ) )
 		{
@@ -682,7 +684,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 
 		timeZoneCombo = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 		timeZoneCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		timeZoneCombo.setVisibleItemCount( 30 );
 		assert timeZoneTable_disKey != null;
 		String[] timeZoneDisplayNames = new String[timeZoneTable_disKey.size( )];
 		timeZoneTable_disKey.keySet( ).toArray( timeZoneDisplayNames );
@@ -716,6 +718,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.minimumWidth = 100;
 		bidiCombo.setLayoutData( gd );
+		bidiCombo.setVisibleItemCount( 30 );
 		bidiCombo.setItems( BIDI_CHOICE_DISPLAYNAMES );
 
 		String bidiValue = ViewerPlugin.getDefault( )
