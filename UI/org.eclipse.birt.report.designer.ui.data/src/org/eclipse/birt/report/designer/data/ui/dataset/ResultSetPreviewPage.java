@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetExecutorHelper;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
@@ -364,14 +365,14 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				this.previousMaxRow = maxRow;
 				needCache = true;
 			}
-			IQueryResults resultSet = DataSetProvider.getCurrentInstance( )
-					.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-							query,
-							true,
-							true,
-							needCache,
-							context,
-							session );
+			DataSetExecutorHelper helper = new DataSetExecutorHelper( );
+			IQueryResults resultSet = helper.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
+					query,
+					true,
+					true,
+					needCache,
+					context,
+					session );
 			return resultSet;
 		}
 		catch ( BirtException e )

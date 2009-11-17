@@ -31,7 +31,6 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -41,9 +40,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -395,55 +392,27 @@ public final class DataSetProvider
 	}
 
 	/**
-	 * @param dataSet
-	 * @return
-	 * @throws BirtException
-	 */
-	public IQueryResults execute( DataSetHandle dataSet, DataRequestSession session ) throws BirtException
-	{
-		return execute( dataSet, true, true, -1, null, session );
-	}
-	
-	/**
-	 * execute query definition 
-	 * @param dataSet
-	 * @param useColumnHints
+	 * execute query definition
+	 * 
+	 * @param dataSetHandle
+	 * @param dataSetDesign
 	 * @param rowsToReturn
 	 * @return
 	 * @throws BirtException
 	 */
-	public IQueryResults execute( DataSetHandle dataSet,
-			boolean useColumnHints, boolean useFilters, int rowsToReturn , ExecutionContext context,
-			DataRequestSession session ) throws BirtException
+	public IQueryResults execute( DataSetHandle dataSetHandle,
+			IBaseDataSetDesign dataSetDesign, int rowsToReturn,
+			ExecutionContext context, DataRequestSession session )
+			throws BirtException
 	{
+		populateAllOutputColumns( dataSetHandle, session );
 
-	    populateAllOutputColumns( dataSet, session );
-
-		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
-				.adaptDataSet( dataSet );
-
-		if ( !( dataSet instanceof JointDataSetHandle || dataSet instanceof DerivedDataSetHandle ) )
+		if ( !( dataSetHandle instanceof JointDataSetHandle || dataSetHandle instanceof DerivedDataSetHandle ) )
 		{
-			context.setReportContext( new ReportContextImpl( context ) );
-			dataSetDesign = new ModelDteApiAdapter( context ).appendRuntimeInfoToDataSet( dataSet,
-					(BaseDataSetDesign) dataSetDesign );
-		}
-		
-		if ( !useColumnHints )
-		{
-			dataSetDesign.getResultSetHints( ).clear( );
-		}
-		if ( !useFilters )
-		{
-			dataSetDesign.getFilters( ).clear( );
-		}
-		
-		if( !( dataSet instanceof JointDataSetHandle || dataSet instanceof DerivedDataSetHandle ) )
-		{
-			if( dataSet.getDataSource( ) != null )
+			if ( dataSetHandle.getDataSource( ) != null )
 			{
 				session.defineDataSource( session.getModelAdaptor( )
-					.adaptDataSource( dataSet.getDataSource( ) ) );
+						.adaptDataSource( dataSetHandle.getDataSource( ) ) );
 			}
 			session.defineDataSet( dataSetDesign );
 		}
@@ -452,82 +421,37 @@ public final class DataSetProvider
 				rowsToReturn );
 
 		IQueryResults resultSet = executeQuery( session, queryDefn );
-		saveResultToDataItems( dataSet, resultSet );
+		saveResultToDataItems( dataSetHandle, resultSet );
 
 		return resultSet;
 	}
 
 	/**
 	 * 
-	 * @param dataSet
+	 * @param dataSetHandle
+	 * @param dataSetDesign
 	 * @param queryDefn
-	 * @param useColumnHints
-	 * @param useFilters
 	 * @return
 	 * @throws BirtException
 	 */
-	public IQueryResults execute( DataSetHandle dataSet,
-			QueryDefinition queryDefn, boolean useColumnHints,
-			boolean useFilters, DataRequestSession session )
+	public IQueryResults execute( DataSetHandle dataSetHandle,
+			IBaseDataSetDesign dataSetDesign, IQueryDefinition queryDefn,
+			ExecutionContext context, DataRequestSession session )
 			throws BirtException
 	{
-		return this.execute( dataSet,
-				queryDefn,
-				useColumnHints,
-				useFilters,
-				false,
-				null,
-				session );
-	}	
-	
-	/**
-	 * 
-	 * @param dataSet
-	 * @param queryDefn
-	 * @param useColumnHints
-	 * @return
-	 * @throws BirtException
-	 */
-	public IQueryResults execute( DataSetHandle dataSet,
-			IQueryDefinition queryDefn, boolean useColumnHints,
-			boolean useFilters, boolean clearCache, ExecutionContext context,
-			DataRequestSession session ) throws BirtException
-	{
 
-		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
-				.adaptDataSet( dataSet );
-		
-		if( !( dataSet instanceof JointDataSetHandle || dataSet instanceof DerivedDataSetHandle ) && context != null )
+		if ( !( dataSetHandle instanceof JointDataSetHandle || dataSetHandle instanceof DerivedDataSetHandle )
+				&& context != null )
 		{
-			context.setReportContext( new ReportContextImpl(context) );
-			dataSetDesign = new ModelDteApiAdapter( context ).appendRuntimeInfoToDataSet( dataSet, (BaseDataSetDesign)dataSetDesign );
-		}
-		if ( clearCache )
-		{
-			IBaseDataSourceDesign dataSourceDesign = session.getModelAdaptor( )
-					.adaptDataSource( dataSet.getDataSource( ) );
-			session.clearCache( dataSourceDesign, dataSetDesign );
-		}
-		if ( !useColumnHints )
-		{
-			dataSetDesign.getResultSetHints( ).clear( );
-		}
-		if ( !useFilters )
-		{
-			dataSetDesign.getFilters( ).clear( );
-		}
-	
-		if( ! ( dataSet instanceof JointDataSetHandle || dataSet instanceof DerivedDataSetHandle ) && context != null )
-		{
-			if( dataSet.getDataSource( ) != null )
+			if ( dataSetHandle.getDataSource( ) != null )
 			{
 				session.defineDataSource( session.getModelAdaptor( )
-					.adaptDataSource( dataSet.getDataSource( ) ) );
+						.adaptDataSource( dataSetHandle.getDataSource( ) ) );
 			}
 			session.defineDataSet( dataSetDesign );
 		}
 		IQueryResults resultSet = executeQuery( session, queryDefn );
-		saveResultToDataItems( dataSet, resultSet );
+		saveResultToDataItems( dataSetHandle, resultSet );
 
 		return resultSet;
 	}

@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetExecutorHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
@@ -249,12 +249,12 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage
 			outputParameterTable.setLayout( layout );
 			outputParameterTable.layout( true );
 
-			IQueryResults actualResultSet = DataSetProvider.getCurrentInstance( )
-					.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-							query,
-							true,
-							true,
-							session );
+			DataSetExecutorHelper helper = new DataSetExecutorHelper( );
+			IQueryResults actualResultSet = helper.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
+					query,
+					true,
+					true,
+					session );
 			if ( actualResultSet != null )
 			{
 				IResultIterator iter = actualResultSet.getResultIterator( );
