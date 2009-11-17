@@ -28,9 +28,9 @@ import org.eclipse.birt.report.engine.emitter.config.excel.i18n.Messages;
 public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 {
 
-	private static final String TEXT_WRAPPING = "TextWrapping";
+	protected static final String TEXT_WRAPPING = "TextWrapping";
 
-	private IConfigurableOption[] options;
+	protected IConfigurableOption[] options;
 
 	public ExcelEmitterDescriptor( )
 	{
@@ -40,6 +40,13 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 	private void initOptions( )
 	{
 		// Initializes the option for WrappingText.
+		ConfigurableOption wrappingText = initializeWrappingText( );
+
+		options = new IConfigurableOption[]{wrappingText};
+	}
+
+	protected ConfigurableOption initializeWrappingText( )
+	{
 		ConfigurableOption wrappingText = new ConfigurableOption( TEXT_WRAPPING );
 		wrappingText.setDisplayName( Messages
 				.getString( "OptionDisplayValue.WrappingText" ) ); //$NON-NLS-1$
@@ -49,8 +56,7 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 		wrappingText.setToolTip( null );
 		wrappingText.setDescription( Messages
 				.getString( "OptionDescription.WrappingText" ) ); //$NON-NLS-1$
-
-		options = new IConfigurableOption[]{wrappingText};
+		return wrappingText;
 	}
 
 	@Override
