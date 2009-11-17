@@ -1153,11 +1153,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 		if ( query != null )
 		{
-			query.setDefinition( btnBuilder.getExpression( ) );
+			query.setDefinition( btnBuilder.convertExpression( expression ) );
 		}
 		else
 		{
-			query = QueryImpl.create( btnBuilder.getExpression( ) );
+			query = QueryImpl.create( btnBuilder.convertExpression( expression ) );
 			query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
 			// Since the data query must be non-null, it's created in
 			// ChartUIUtil.getDataQuery(), assume current null is a grouping

@@ -17,9 +17,17 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 
 public interface IExpressionButton
 {
-
 	String getExpression( );
 
+	/**
+	 * Converts specified expression to other expression.
+	 * 
+	 * @param expression specified expression.
+	 * @return converted expression.
+	 * @since 2.5.2
+	 */
+	String convertExpression( String expression );
+	
 	void setExpression( String expr );
 
 	String getExpressionString( );

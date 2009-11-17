@@ -145,10 +145,11 @@ public class DataDefinitionTextManager
 	{
 		if ( textCollection.containsKey( text ) )
 		{
-			IQueryExpressionManager query = textCollection.get( text );
-			if (query.getQuery( )!=null)
+			IQueryExpressionManager queryManager = textCollection.get( text );
+			String displayExpr = queryManager.getDisplayExpression( );
+			if ( displayExpr != null )
 			{
-				query.updateText( query.getQuery( ).getDefinition( ) );
+				queryManager.updateText( displayExpr );
 			}
 			Color color = ColorPalette.getInstance( )
 					.getColor( ChartUIUtil.getText( text ) );
@@ -168,9 +169,9 @@ public class DataDefinitionTextManager
 			IQueryExpressionManager queryManager = textCollection.get( text );
 			// Buzilla #229211. Query definition in model may be different from
 			// display expression that is used as the unique id here.
-			queryManager.updateText( query.getDefinition( ) );
 			String displayExpr = queryManager.getDisplayExpression( );
-
+			queryManager.updateText( displayExpr );
+			
 			// Bind color to this data definition
 			updateControlBackground( text, displayExpr );
 		}

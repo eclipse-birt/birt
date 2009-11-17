@@ -53,7 +53,9 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
+import org.eclipse.birt.report.designer.internal.ui.script.JSExpressionSupport;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -813,6 +815,21 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		public String getExpression( )
 		{
 			codec.setExpression( eHelper.getExpression( ) );
+			codec.setType( eHelper.getExpressionType( ) );
+			return codec.encode( );
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton#convertExpression(java.lang.String)
+		 */
+		public String convertExpression( String expression )
+		{
+			if ( UIUtil.getDefaultScriptType( ).equals( eHelper.getExpressionType( ) ) )
+			{
+				return expression;
+			}
+			
+			codec.setExpression( expression );
 			codec.setType( eHelper.getExpressionType( ) );
 			return codec.encode( );
 		}
