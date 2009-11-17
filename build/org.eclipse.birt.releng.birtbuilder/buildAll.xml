@@ -52,19 +52,26 @@
 		<parallel failonany="true">
 			<sequential>	
 				<antcall target="buildBirtWtpFeature"/>
-				<antcall target="verifyCompile"/>
 			</sequential>
 			<sequential>
 				<antcall target="buildBirtNLFeature"/>			
-				<antcall target="iPortalSetup"/>			
+				<antcall target="iPortalSetup"/>
+			</sequential>
+		</parallel>
+
+		<antcall target="verifyCompile"/>
+		<antcall target="CreateUpdateSite"/>
+		
+		<parallel failonany="true">
+			<sequential>
+		        <antcall target="runBirtTest"/>
+			</sequential>
+			<sequential>		
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>   
 			</sequential>
-		</parallel>
-
-		<antcall target="CreateUpdateSite"/>
-		<antcall target="runBirtTest"/>
+		</parallel>	
 		<!--
         <antcall target="runBirtPerformance"/>
 		-->
@@ -218,26 +225,6 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-		
-        <!--copy all packages to upload area-->
-		<echo message="start copying to download area..."/>
-	    <echo message="from dir: ${postingDirectory}/${buildId}"/>
-        <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
-	        <fileset dir="${postingDirectory}/${buildId}" >
-                <include name="*.zip"/>
-                <include name="*.txt"/>
-                <include name="*.gz"/>
-            </fileset>
-	        <fileset dir="${buildDirectory}" >
-                <include name="directory.txt"/>
-		    </fileset>
-            <fileset file="monitor.properties"/>
-	    </copy>
-		
-		<antcall target="renameBirtPackage"/>
-        
-		<antcall target="sendNotification"/> 
-		
 	</target>
 	
 	<target name="renameBirtPackage" unless="skip.rename.package">
@@ -263,6 +250,8 @@
                     tofile="${postingDirectory}/${buildId}/birt-source-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip"
@@ -281,11 +270,6 @@
                     tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-framework-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}-${build.date}.zip"/>
-	</target>
-
-	<target name="renameBirtWtpPackage" unless="skip.rename.package">
-		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
-           tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
 	</target>
 	
 	<target name="CreateUpdateSite" if="updateSite">
@@ -559,14 +543,13 @@
 		</exec>
 		
         <!--copy wtp packages to upload area-->
-		<echo message="start copying birt-wtp-integration-sdk-*.zip to download area..."/>
+		<!--echo message="start copying birt-wtp-integration-sdk-*.zip to download area..."/>
         <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
 	        <fileset dir="${postingDirectory}/${buildId}" >
                 <include name="birt-wtp-integration-sdk-${package.version}.zip"/>
             </fileset>
 	    </copy>
-		
-		<antcall target="renameBirtWtpPackage"/>
+		<antcall target="renameBirtWtpPackage"/-->
 			
 	</target>
 	
@@ -574,6 +557,24 @@
 		<!-- verify compile result -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 		
+        <!--copy all packages to upload area-->
+		<echo message="start copying to download area..."/>
+	    <echo message="from dir: ${postingDirectory}/${buildId}"/>
+        <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
+	        <fileset dir="${postingDirectory}/${buildId}" >
+                <include name="*.zip"/>
+                <include name="*.txt"/>
+                <include name="*.gz"/>
+            </fileset>
+	        <fileset dir="${buildDirectory}" >
+                <include name="directory.txt"/>
+		    </fileset>
+            <fileset file="monitor.properties"/>
+	    </copy>
+		
+		<antcall target="renameBirtPackage"/>
+        
+		<antcall target="sendNotification"/> 
 	</target>
 	
 	<target name="buildBirtThirdPartyFeature">
