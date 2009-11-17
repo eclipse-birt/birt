@@ -779,6 +779,26 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			}
 		}
 
+		@Override
+		public String getExpression( )
+		{
+			if ( control.isDisposed( ) )
+			{
+				return ""; //$NON-NLS-1$
+			}
+			return ChartUIUtil.getText( control );
+		}
+
+		@Override
+		public void setExpression( String expression )
+		{
+			if ( control.isDisposed( ) )
+			{
+				return;
+			}
+			ChartUIUtil.setText( control, DEUtil.resolveNull( expression ) );
+		}
+
 	}
 
 	protected static class ChartExpressionButton implements IExpressionButton

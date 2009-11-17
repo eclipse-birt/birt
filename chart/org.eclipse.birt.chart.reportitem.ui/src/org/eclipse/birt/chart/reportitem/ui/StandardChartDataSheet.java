@@ -1107,7 +1107,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
-			cmbDataItems.setText( sItemRef );
+			ChartUIUtil.setText( cmbDataItems, sItemRef );
 			currentData = sItemRef;
 			return;
 		}
@@ -1118,7 +1118,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
-			cmbDataItems.setText( sDataSet );
+			ChartUIUtil.setText( cmbDataItems, sDataSet );
 			currentData = sDataSet;
 			return;
 		}
@@ -1130,7 +1130,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
-			cmbDataItems.setText( sDataCube );
+			ChartUIUtil.setText( cmbDataItems, sDataCube );
 			currentData = sDataCube;
 			return;
 		}
@@ -1337,19 +1337,19 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							if ( getDataServiceProvider( ).getReportItemReference( ) == null
 									&& getDataServiceProvider( ).getDataSet( ) != null
 									&& getDataServiceProvider( ).getDataSet( )
-											.equals( cmbDataItems.getText( ) ) )
+											.equals( ChartUIUtil.getText( cmbDataItems ) ) )
 							{
 								return;
 							}
-							getDataServiceProvider( ).setDataSet( cmbDataItems.getText( ) );
-							currentData = cmbDataItems.getText( );
-							switchDataSet( cmbDataItems.getText( ) );
+							getDataServiceProvider( ).setDataSet( ChartUIUtil.getText( cmbDataItems ) );
+							currentData = ChartUIUtil.getText( cmbDataItems );
+							switchDataSet( ChartUIUtil.getText( cmbDataItems ) );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
 						case SELECT_DATA_CUBE :
-							getDataServiceProvider( ).setDataCube( cmbDataItems.getText( ) );
-							currentData = cmbDataItems.getText( );
+							getDataServiceProvider( ).setDataCube( ChartUIUtil.getText( cmbDataItems ) );
+							currentData = ChartUIUtil.getText( cmbDataItems );
 							updateDragDataSource( );
 							setEnabledForButtons( );
 							// Update preview via event
@@ -1358,12 +1358,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							fireEvent( tablePreview, EVENT_PREVIEW );
 							break;
 						case SELECT_REPORT_ITEM :
-							if ( cmbDataItems.getText( )
+							if ( ChartUIUtil.getText( cmbDataItems )
 									.equals( getDataServiceProvider( ).getReportItemReference( ) ) )
 							{
 								return;
 							}
-							getDataServiceProvider( ).setReportItemReference( cmbDataItems.getText( ) );
+							getDataServiceProvider( ).setReportItemReference( ChartUIUtil.getText( cmbDataItems ) );
 							
 							// TED 10163
 							// Following calls will revise chart model for
@@ -1387,7 +1387,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 								ChartAdapter.endIgnoreNotifications( );
 							}
 														
-							currentData = cmbDataItems.getText( );
+							currentData = ChartUIUtil.getText( cmbDataItems );
 							// selectDataSet( );
 							// switchDataSet( cmbDataItems.getText( ) );
 
@@ -1414,7 +1414,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							String[] datasets = getDataServiceProvider( ).getAllDataSets( );
 							currentData = datasets[datasets.length - 1];
 							getDataServiceProvider( ).setDataSet( currentData );
-							cmbDataItems.setText( currentData );
+							ChartUIUtil.setText( cmbDataItems, currentData );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
@@ -1435,7 +1435,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							String[] datacubes = getDataServiceProvider( ).getAllDataCubes( );
 							currentData = datacubes[datacubes.length - 1];
 							getDataServiceProvider( ).setDataCube( currentData );
-							cmbDataItems.setText( currentData );
+							ChartUIUtil.setText( cmbDataItems, currentData );
 							updateDragDataSource( );
 							setEnabledForButtons( );
 							// Update preview via event
@@ -1537,7 +1537,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		else
 		{
-			cmbDataItems.setText( currentDS );
+			ChartUIUtil.setText( cmbDataItems, currentDS );
 			currentData = currentDS;
 		}
 	}

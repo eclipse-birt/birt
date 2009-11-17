@@ -45,7 +45,7 @@ public class ExpressionButtonUtil
 	public static class ExpressionHelper implements IExpressionHelper
 	{
 
-		private Control control;
+		protected Control control;
 		protected Listener listener;
 		private IExpressionProvider provider;
 		protected ExpressionButton button;

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.widget;
 import java.util.Arrays;
 
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChoicePropertyDescriptorProvider;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -65,8 +66,15 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor
 	 */
 	public Control createControl( Composite parent )
 	{
-		if(!isFormStyle( ))combo = new CCombo( parent, style | SWT.READ_ONLY );
-		else combo = FormWidgetFactory.getInstance( ).createCCombo( parent, true );
+		if ( !isFormStyle( ) )
+		{
+			combo = new CCombo( parent, style | SWT.READ_ONLY );
+		}
+		else
+		{
+			combo = FormWidgetFactory.getInstance( )
+					.createCCombo( parent, true );
+		}
 		combo.addControlListener( new ControlListener( ) {
 
 			public void controlMoved( ControlEvent e )
@@ -99,7 +107,7 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor
 	 */
 	protected void handleSelectEvent( )
 	{
-		String newValue = combo.getText( );
+		String newValue = ChartUIUtil.getText( combo );
 		if ( ChoiceSetFactory.CHOICE_NONE.equals( newValue ) )
 		{
 			newValue = null;
@@ -112,7 +120,7 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor
 		catch ( SemanticException e )
 		{
 			AttributesUtil.handleError( e );
-			combo.setText( oldValue );
+			ChartUIUtil.setText( combo, oldValue );
 			combo.setSelection( new Point( 0, oldValue.length( ) ) );
 		}
 
@@ -150,7 +158,7 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor
 		{
 			if ( oldValue != null && oldValue.length( ) > 0 )
 			{
-				combo.setText( oldValue );
+				ChartUIUtil.setText( combo, oldValue );
 				return;
 			}
 

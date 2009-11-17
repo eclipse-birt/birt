@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.attribute.impl.StringFormatSpecifierImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -1114,7 +1115,7 @@ public class FormatSpecifierComposite extends Composite
 					{
 						formatspecifier = JavaNumberFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
 					}
-					( (JavaNumberFormatSpecifier) formatspecifier ).setPattern( txtNumberPattern.getText( ) );
+					( (JavaNumberFormatSpecifier) formatspecifier ).setPattern( ChartUIUtil.getText( txtNumberPattern ) );
 
 					bEnableEvents = true;
 
@@ -1137,13 +1138,13 @@ public class FormatSpecifierComposite extends Composite
 				{
 					txtAdvMultiplier.setValue( ( (JavaNumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
 				}
-				txtNumberPattern.setText( str );
+				ChartUIUtil.setText( txtNumberPattern, str );
 			}
 		}
 
 		public FormatSpecifier buildFormatSpecifier( )
 		{
-			FormatSpecifier fs = JavaNumberFormatSpecifierImpl.create( txtNumberPattern.getText( ) );
+			FormatSpecifier fs = JavaNumberFormatSpecifierImpl.create( ChartUIUtil.getText( txtNumberPattern ) );
 			if ( txtAdvMultiplier.isSetValue( ) )
 			{
 				( (JavaNumberFormatSpecifierImpl) fs ).setMultiplier( txtAdvMultiplier.getValue( ) );
@@ -1168,7 +1169,7 @@ public class FormatSpecifierComposite extends Composite
 			{
 				if ( !( formatspecifier instanceof JavaNumberFormatSpecifier ) )
 				{
-					formatspecifier = JavaNumberFormatSpecifierImpl.create( txtNumberPattern.getText( ) );
+					formatspecifier = JavaNumberFormatSpecifierImpl.create( ChartUIUtil.getText( txtNumberPattern ) );
 				}
 				if ( txtAdvMultiplier.isSetValue( ) )
 				{
@@ -1185,7 +1186,7 @@ public class FormatSpecifierComposite extends Composite
 				{
 					formatspecifier = JavaNumberFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
 				}
-				( (JavaNumberFormatSpecifier) formatspecifier ).setPattern( txtNumberPattern.getText( ) );
+				( (JavaNumberFormatSpecifier) formatspecifier ).setPattern( ChartUIUtil.getText( txtNumberPattern ) );
 			}
 			bEnableEvents = true;
 
@@ -1255,7 +1256,7 @@ public class FormatSpecifierComposite extends Composite
 					{
 						formatspecifier = JavaDateFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
 					}
-					( (JavaDateFormatSpecifier) formatspecifier ).setPattern( txtDatePattern.getText( ) );
+					( (JavaDateFormatSpecifier) formatspecifier ).setPattern( ChartUIUtil.getText( txtDatePattern ) );
 
 					bEnableEvents = true;
 
@@ -1273,13 +1274,13 @@ public class FormatSpecifierComposite extends Composite
 				{
 					str = ""; //$NON-NLS-1$
 				}
-				txtDatePattern.setText( str );
+				ChartUIUtil.setText( txtDatePattern, str );
 			}
 		}
 
 		public FormatSpecifier buildFormatSpecifier( )
 		{
-			FormatSpecifier fs = JavaDateFormatSpecifierImpl.create( txtDatePattern.getText( ) );
+			FormatSpecifier fs = JavaDateFormatSpecifierImpl.create( ChartUIUtil.getText( txtDatePattern ) );
 			return fs;
 		}
 
@@ -1300,7 +1301,7 @@ public class FormatSpecifierComposite extends Composite
 				{
 					formatspecifier = JavaDateFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
 				}
-				( (JavaDateFormatSpecifier) formatspecifier ).setPattern( txtDatePattern.getText( ) );
+				( (JavaDateFormatSpecifier) formatspecifier ).setPattern( ChartUIUtil.getText( txtDatePattern ) );
 			}
 			bEnableEvents = true;
 

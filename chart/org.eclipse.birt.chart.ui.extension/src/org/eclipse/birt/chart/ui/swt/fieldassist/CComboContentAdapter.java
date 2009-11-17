@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.fieldassist;
 
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.fieldassist.IControlContentAdapter;
 import org.eclipse.jface.fieldassist.IControlContentAdapter2;
 import org.eclipse.swt.SWT;
@@ -49,7 +50,7 @@ public class CComboContentAdapter implements
 	 */
 	public String getControlContents( Control control )
 	{
-		return ( (CCombo) control ).getText( );
+		return ChartUIUtil.getText( control );
 	}
 
 	/*
@@ -62,7 +63,7 @@ public class CComboContentAdapter implements
 	public void setControlContents( Control control, String text,
 			int cursorPosition )
 	{
-		( (CCombo) control ).setText( text );
+		ChartUIUtil.setText( control, text );
 		( (CCombo) control ).setSelection( new Point( cursorPosition,
 				cursorPosition ) );
 	}
@@ -78,7 +79,7 @@ public class CComboContentAdapter implements
 			int cursorPosition )
 	{
 		CCombo combo = (CCombo) control;
-		String contents = combo.getText( );
+		String contents = ChartUIUtil.getText( combo );
 		Point selection = combo.getSelection( );
 		StringBuffer sb = new StringBuffer( );
 		sb.append( contents.substring( 0, selection.x ) );
@@ -87,7 +88,7 @@ public class CComboContentAdapter implements
 		{
 			sb.append( contents.substring( selection.y, contents.length( ) ) );
 		}
-		combo.setText( sb.toString( ) );
+		ChartUIUtil.setText( combo, sb.toString( ) );
 		selection.x = selection.x + cursorPosition;
 		selection.y = selection.x;
 		combo.setSelection( selection );
@@ -118,7 +119,7 @@ public class CComboContentAdapter implements
 		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=204599
 		CCombo combo = (CCombo) control;
 		int position = combo.getSelection( ).y;
-		String contents = combo.getText( );
+		String contents = ChartUIUtil.getText( combo );
 		GC gc = new GC( combo );
 		gc.setFont( combo.getFont( ) );
 		Point extent = gc.textExtent( contents.substring( 0,

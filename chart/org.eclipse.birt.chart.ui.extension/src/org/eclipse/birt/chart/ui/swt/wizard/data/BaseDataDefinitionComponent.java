@@ -273,7 +273,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				{
 					String oldQuery = query.getDefinition( ) == null ? "" : query.getDefinition( ); //$NON-NLS-1$
 					// Combo may be disposed, so cache the text first
-					String text = cmbDefinition.getText( );
+					String text = ChartUIUtil.getText( cmbDefinition );
 
 					// Do nothing for the same query
 					if ( !isTableSharedBinding( ) && text.equals( oldQuery ) )
@@ -490,7 +490,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		else
 		{
-			cmbDefinition.setText( query.getDefinition( ) );
+			ChartUIUtil.setText( cmbDefinition, query.getDefinition( ) );
 		}
 	}
 
@@ -954,12 +954,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		Object[] data = (Object[]) control.getData( );
 		if ( data == null || data.length == 0 )
 		{
-			control.setText( expression );
+			ChartUIUtil.setText( control, expression );
 		}
 		else
 		{
 			String expr = getDisplayExpressionForSharedBinding( control, expression );
-			control.setText( expr );
+			ChartUIUtil.setText( control, expr );
 		}
 	}
 
@@ -1307,7 +1307,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					&& data.length > 0
 					&& data[0] instanceof ColumnBindingInfo )
 			{
-				String txt = ( (CCombo) control ).getText( );
+				String txt = ChartUIUtil.getText( control );
 				String[] items = ( (CCombo) control ).getItems( );
 				int index = 0;
 				for ( ; items != null
@@ -1324,7 +1324,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					return ( (ColumnBindingInfo) data[index] ).getExpression( );
 				}
 			}
-			return ( (CCombo) control ).getText( );
+			return ChartUIUtil.getText( control );
 		}
 		return ""; //$NON-NLS-1$
 	}
