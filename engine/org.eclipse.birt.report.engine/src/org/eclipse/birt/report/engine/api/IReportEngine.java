@@ -212,7 +212,7 @@ public interface IReportEngine
 	 * @return a run and render report task
 	 */
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
-			IReportRunnable reportRunnable );
+			IRunnable reportRunnable );
 
 	/**
 	 * Returns all supported output formats through BIRT engine emitter

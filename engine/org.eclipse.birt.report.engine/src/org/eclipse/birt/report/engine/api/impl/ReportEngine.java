@@ -44,6 +44,7 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.api.IRunnable;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.api.impl.LinkedObjectManager.LinkedEntry;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
@@ -365,11 +366,15 @@ public class ReportEngine implements IReportEngine
 	 * @return a run and render report task
 	 */
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
-			IReportRunnable reportRunnable )
+			IRunnable reportRunnable )
 	{
-		logger.log( Level.FINE,
-				"ReportEngine.createGetParameterDefinitionTask: reportRunnable={0} ", reportRunnable );
-		return helper.createGetParameterDefinitionTask( reportRunnable );
+		logger
+				.log(
+						Level.FINE,
+						"ReportEngine.createGetParameterDefinitionTask: reportRunnable={0} ",
+						reportRunnable );
+		return helper
+				.createGetParameterDefinitionTask( (ReportRunnable) reportRunnable );
 	}
 
 	/**

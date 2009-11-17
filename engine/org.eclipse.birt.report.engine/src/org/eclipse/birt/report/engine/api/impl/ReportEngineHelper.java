@@ -303,7 +303,7 @@ public class ReportEngineHelper
 	}
 
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
-			IReportRunnable reportRunnable )
+			ReportRunnable reportRunnable )
 	{
 		return new GetParameterDefinitionTask( engine, reportRunnable );
 	}

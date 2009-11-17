@@ -204,7 +204,7 @@ public class ReportEngine implements IReportEngine
 	 * @return a run and render report task
 	 */
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
-			IReportRunnable reportRunnable )
+			IRunnable reportRunnable )
 	{
 		return engine.createGetParameterDefinitionTask( reportRunnable );
 	}
