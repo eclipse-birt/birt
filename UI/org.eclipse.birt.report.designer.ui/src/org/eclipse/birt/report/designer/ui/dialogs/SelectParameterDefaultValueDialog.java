@@ -11,26 +11,37 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.util.ULocale;
@@ -44,7 +55,11 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 {
 
 	//	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
-	private List selectValueList = null;
+	private TableViewer tableViewer = null;
+	private Table table = null;
+	private Object[] selectedItems = null;
+	private int[] selectedIndices = null;
+	private int sortDir = SWT.UP;
 	private java.util.List<Object> columnValueList = new ArrayList<Object>( );
 	private final String NULL_VALUE_DISPLAY = Messages.getString( "SelectValueDialog.SelectValue.NullValue" ); //$NON-NLS-1$
 
@@ -57,11 +72,6 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	{
 		columnValueList.clear( );
 		columnValueList.addAll( valueList );
-	}
-
-	public String[] getSelectedValue( )
-	{
-		return (String[]) getResult( );
 	}
 
 	/*
@@ -77,28 +87,46 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		GridLayout layout = new GridLayout( );
 		composite.setLayout( layout );
 		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		Label label = new Label( composite, SWT.NONE );
-		label.setText( Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
 
-		selectValueList = new List( composite, SWT.V_SCROLL
+		tableViewer = new TableViewer( composite, SWT.V_SCROLL
 				| SWT.H_SCROLL
 				| SWT.MULTI );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.heightHint = 250;
 		data.widthHint = 300;
-		selectValueList.setLayoutData( data );
-		// selectValueList.add( Messages.getString(
-		// "SelectValueDialog.retrieving" ) ); //$NON-NLS-1$
-		selectValueList.addMouseListener( new MouseAdapter( ) {
+
+		table = tableViewer.getTable( );
+		table.setLayoutData( data );
+		table.setHeaderVisible( true );
+
+		final TableColumn column = new TableColumn( table, SWT.NONE );
+		column.setText( Messages.getString( "SelectValueDialog.selectValue" ) ); //$NON-NLS-1$
+		column.setWidth( data.widthHint );
+
+		TableItem item = new TableItem( table, SWT.NONE );
+		item.setText( 0, Messages.getString( "SelectValueDialog.retrieving" ) ); //$NON-NLS-1$
+
+		column.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sortDir = sortDir == SWT.UP ? SWT.DOWN : SWT.UP;
+				table.setSortDirection( sortDir );
+				tableViewer.setSorter( new TableSorter( sortDir ) );
+			}
+		} );
+
+		table.addMouseListener( new MouseAdapter( ) {
 
 			public void mouseDoubleClick( MouseEvent e )
 			{
-				if ( selectValueList.getSelectionCount( ) > 0 )
+				if ( table.getSelectionCount( ) > 0 )
 				{
 					okPressed( );
 				}
 			}
 		} );
+
 
 		PlatformUI.getWorkbench( ).getDisplay( ).asyncExec( new Runnable( ) {
 
@@ -121,42 +149,21 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
-		String[] selection = selectValueList.getSelection( );
-		int index = selectValueList.getSelectionIndex( );
-		if ( selection.length > 0
-				&& NULL_VALUE_DISPLAY.equals( selection[0] )
-				&& columnValueList.get( index ) == null )
+		selectedIndices = table.getSelectionIndices( );
+		if ( columnValueList.get( selectedIndices[0] ) == null )
 		{
 			setResult( null );
-
 		}
 		else
 		{
-			setResult( selectValueList.getSelection( ) );
+			selectedItems = new Object[table.getSelectionCount( )];
+			for ( int i = 0; i < table.getSelectionCount( ); i++ )
+			{
+				selectedItems[i] = table.getSelection( )[i].getData( );
+			}
+			setResult( table.getSelection( ) );
 		}
-
 		super.okPressed( );
-	}
-
-	private String convertToStandardFormat( Date date )
-	{
-		if ( date == null )
-		{
-			return null;
-		}
-		if ( date instanceof java.sql.Date )
-		{
-			return new DateFormatter( "yyyy-MM-dd", ULocale.US ).format( date ); //$NON-NLS-1$
-		}
-		else if ( date instanceof java.sql.Time )
-		{
-			return new DateFormatter( "HH:mm:ss", ULocale.US ).format( date ); //$NON-NLS-1$
-		}
-		else
-		{
-			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date ); //$NON-NLS-1$
-		}
-
 	}
 
 	/**
@@ -166,41 +173,179 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	{
 		try
 		{
-			getOkButton( ).setEnabled( false );
-			selectValueList.removeAll( );
-			selectValueList.deselectAll( );
+			if ( this.getShell( ) == null || this.getShell( ).isDisposed( ) )
+				return;
+			if ( this.getOkButton( ) != null && !this.getOkButton( ).isDisposed( ) )
+				getOkButton( ).setEnabled( false );
+
+			table.removeAll( );
+			table.deselectAll( );
+			tableViewer.setContentProvider( new ContentProvider( ) );
+			tableViewer.setLabelProvider( new TableLabelProvider( ) );
+
 			if ( columnValueList != null )
 			{
-				Iterator<Object> iter = columnValueList.iterator( );
-				while ( iter.hasNext( ) )
-				{
-					Object obj = iter.next( );
-					String candiateValue = null;
-					if ( obj == null )
-					{
-						candiateValue = NULL_VALUE_DISPLAY;
-					}
-					else if ( obj instanceof Date )
-					{
-						candiateValue = convertToStandardFormat( (Date) obj );
-					}
-					else
-					{
-						candiateValue = String.valueOf( obj );
-					}
-
-					selectValueList.add( candiateValue );
-				}
+				tableViewer.setInput( columnValueList );
 			}
-			if ( selectValueList.getItemCount( ) > 0 )
+			else
 			{
-				selectValueList.select( 0 );
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+
+			if ( table.getItemCount( ) > 0 )
+			{
+				table.select( 0 );
 				getOkButton( ).setEnabled( true );
 			}
+			for ( int i = 0; i < table.getItemCount( ); i++ )
+			{
+				table.getItem( i ).setData( columnValueList.get( i ) );
+			}
+
+			table.setSortColumn( table.getColumn( 0 ) );
+			table.setSortDirection( sortDir );
+			tableViewer.setSorter( new TableSorter( sortDir ) );
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
 	}
+
+	public String[] getSelectedValue( )
+	{
+		String[] exprValues = null;
+		if ( selectedIndices != null && selectedIndices.length > 0 )
+		{
+			exprValues = new String[selectedIndices.length];
+			for ( int i = 0; i < selectedIndices.length; i++ )
+			{
+				if ( selectedItems[i] == null )
+				{
+					exprValues[i] = "null"; //$NON-NLS-1$
+				}
+				else
+				{
+					exprValues[i] = String.valueOf( selectedItems[i] );
+				}
+			}
+		}
+		return exprValues;
+	}
+
+	public class TableSorter extends ViewerSorter
+	{
+
+		private int sortDir;
+
+		private TableSorter( int sortDir )
+		{
+			this.sortDir = sortDir;
+		}
+
+		public int compare( Viewer viewer, Object e1, Object e2 )
+		{
+			if ( sortDir == SWT.UP )
+			{
+				if ( e1 instanceof Integer )
+				{
+					return ( (Integer) e1 ).compareTo( (Integer) e2 );
+				}
+				else if ( e1 instanceof Double )
+				{
+					return ( (Double) e1 ).compareTo( (Double) e2 );
+				}
+				else if ( e1 instanceof BigDecimal )
+				{
+					return ( (BigDecimal) e1 ).compareTo( (BigDecimal) e2 );
+				}
+				else
+				{
+					return e1.toString( ).compareTo( e2.toString( ) );
+				}
+			}
+			else if ( sortDir == SWT.DOWN )
+			{
+				if ( e2 instanceof Integer )
+				{
+					return ( (Integer) e2 ).compareTo( (Integer) e1 );
+				}
+				else if ( e2 instanceof Double )
+				{
+					return ( (Double) e2 ).compareTo( (Double) e1 );
+				}
+				else if ( e2 instanceof BigDecimal )
+				{
+					return ( (BigDecimal) e2 ).compareTo( (BigDecimal) e1 );
+				}
+				else
+				{
+					return e2.toString( ).compareTo( e1.toString( ) );
+				}
+			}
+			return 0;
+		}
+	}
+
+	public class ContentProvider implements IStructuredContentProvider
+	{
+
+		public Object[] getElements( Object inputElement )
+		{
+			if ( inputElement instanceof List )
+			{
+				return ( (List) inputElement ).toArray( );
+			}
+			return new Object[0];
+		}
+
+		public void dispose( )
+		{
+		}
+
+		public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
+		{
+		}
+	}
+
+	public class TableLabelProvider extends LabelProvider implements ITableLabelProvider
+	{
+
+		public String getColumnText( Object element, int columnIndex )
+		{
+			DateFormatter formatter = new DateFormatter( ULocale.US );
+
+			if ( columnIndex == 0 )
+			{
+				if ( element != null )
+				{
+					if ( element instanceof java.sql.Date )
+					{
+						formatter.applyPattern( "yyyy-MM-dd" ); //$NON-NLS-1$
+						return formatter.format( (Date) element );
+					}
+					else if ( element instanceof java.sql.Time )
+					{
+						formatter.applyPattern( "HH:mm:ss.SSS" ); //$NON-NLS-1$
+						return formatter.format( (Date) element );
+					}
+					else if ( element instanceof Date )
+					{
+						formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" ); //$NON-NLS-1$
+						return formatter.format( (Date) element );
+					}
+					else
+						return element.toString( );
+				}
+				return NULL_VALUE_DISPLAY;
+			}
+			return null;
+		}
+
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return null;
+		}
+	}
+
 }
