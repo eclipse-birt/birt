@@ -84,35 +84,61 @@ public class Segment
 		SegmentEdge edge = new SegmentEdge( offset, left );
 		edges.add( edge );
 	}
-	
+
 	/**
 	 * @deprecated
-	 * @param offset
+	 * the parameter left and right should be equal, or the LEFT_MOST_EDGE and the RIGHT_MOST_EDGE 
 	 * @param left
+	 * @param right
 	 */
-	void insertEdge( Object offset, boolean left )
+	void insertSection( Object left, Object right )
 	{
 		// drop the normalize result
 		sections = null;
-		// try to find the first segment will less that left
 		SegmentEdge edge = null;
+
+		if ( left == Segment.LEFT_MOST_EDGE && right == Segment.RIGHT_MOST_EDGE )
+		{
+			while ( edges.size( ) > 0 )
+			{
+				edges.remove( );
+			}
+			edge = new SegmentEdge( left, true );
+			edges.add( edge );
+			edge = new SegmentEdge( right, false );
+			edges.add( edge );
+			return;
+		}
+
+		if ( left != right )
+		{
+			return;
+		}
+		// try to find the first segment will less that left
 		ListIterator iter = edges.listIterator( edges.size( ) );
 		while ( iter.hasPrevious( ) )
 		{
 			SegmentEdge next = (SegmentEdge) iter.previous( );
-			if ( comparator.compare( next.offset, offset ) <= 0 )
+			if ( comparator.compare( next.offset, left ) <= 0 )
 			{
 				// insert it after the next
-				edge = new SegmentEdge( offset, left );
-				iter.next( );
-				iter.add( edge );
+				if ( !next.leftEdge )
+				{
+					iter.next( );
+					edge = new SegmentEdge( left, true );
+					iter.add( edge );
+					edge = new SegmentEdge( right, false );
+					iter.add( edge );
+				}
 				return;
 			}
 		}
 		if ( edge == null )
 		{
 			// insert it at the end of the list
-			edge = new SegmentEdge( offset, left );
+			edge = new SegmentEdge( right, false );
+			edges.addFirst( edge );
+			edge = new SegmentEdge( left, true );
 			edges.addFirst( edge );
 		}
 	}

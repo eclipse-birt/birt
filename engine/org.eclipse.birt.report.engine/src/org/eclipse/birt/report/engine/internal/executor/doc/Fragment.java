@@ -145,11 +145,9 @@ public class Fragment
 	 */
 	public void insertFragment( Object offset )
 	{
-		this.segment.insertEdge( offset, true );
-		this.segment.insertEdge( offset, false );
+		this.segment.insertSection( offset, offset );
 		Fragment frag = addChildFragment( offset );
-		frag.segment.insertEdge( Segment.LEFT_MOST_EDGE, true );
-		frag.segment.insertEdge( Segment.RIGHT_MOST_EDGE, false );
+		frag.segment.insertSection( Segment.LEFT_MOST_EDGE, Segment.RIGHT_MOST_EDGE );
 	}
 	
 	/**
