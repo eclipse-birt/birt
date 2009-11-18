@@ -2976,7 +2976,7 @@ parameters.menuItem.reset=重置
 ParametersNodeProvider.dialogue.title.group=新建参数组
 ParametersNodeProvider.dialogue.title.parameter=新建参数
 ParametersNodeProvider.menu.text.cascadingParameter=新建级联参数组(&D)
-ParametersNodeProvider.menu.text.group=新建度量组(&M)
+ParametersNodeProvider.menu.text.group=新建参数组(&M)
 ParametersNodeProvider.menu.text.parameter=新建参数(&A)
 
 ###########################################################
