@@ -44,12 +44,8 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	 */
 	public void open( Properties connProperties ) throws OdaException
 	{
-        // find and load the db profile defined in connection properties;
-        // note: driver class path specified in appContext, if exists, is not relevant
-        // when connecting with the properties defined in a connection profile instance
-	    // (i.e. a profile instance uses its own jarList property)
-	    IConnectionProfile dbProfile = OdaProfileExplorer.getInstance()
-                                        .getProfileByName( connProperties, null );
+        // find and load the db profile defined in connection properties
+	    IConnectionProfile dbProfile = getProfile( connProperties );
 
 	    OdaException originalEx = null;
 	    try
@@ -76,6 +72,11 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
                 throw originalEx;
             throw new OdaException( Messages.connection_openFailed );
         }
+	}
+	
+	protected IConnectionProfile getProfile( Properties connProperties )
+	{
+	    return loadProfileFromProperties( connProperties );
 	}
 	
 	protected void openJdbcConnection( Properties profileProperties ) throws OdaException
@@ -126,6 +127,16 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         return jdbcConn;
     }
     
+    protected static IConnectionProfile loadProfileFromProperties( Properties connProperties )
+    {
+        // find and load the db profile defined in connection properties;
+        // note: driver class path specified in appContext, if exists, is not relevant
+        // when connecting with the properties defined in a connection profile instance
+        // (i.e. a profile instance uses its own jarList property)
+        return OdaProfileExplorer.getInstance()
+                                        .getProfileByName( connProperties, null );
+    }
+    
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
@@ -133,7 +144,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	{
         if( m_dbProfile != null )
         {
-            m_dbProfile.disconnect( null );
+            close( m_dbProfile );
             super.jdbcConn = null;
             return;
         }
@@ -141,6 +152,12 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         super.close();
 	}
 
+	protected static void close( IConnectionProfile dbProfile )
+	{
+        if( dbProfile != null )
+            dbProfile.disconnect( null );   // does nothing if already disconnected
+	}
+	
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
