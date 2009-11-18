@@ -139,7 +139,7 @@ public class SimpleResultSet implements IResultIterator
 			}
 			catch ( Exception e )
 			{
-				
+				throw new DataException( e.getLocalizedMessage( ), e );
 			}
 			dataSetStream = null;
 		}
@@ -173,6 +173,7 @@ public class SimpleResultSet implements IResultIterator
 			}
 			catch ( IOException e )
 			{
+				throw new DataException( e.getLocalizedMessage( ), e );
 			}
 		}
 
@@ -196,6 +197,7 @@ public class SimpleResultSet implements IResultIterator
 		}
 		catch ( IOException e )
 		{
+			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 	}
 
@@ -356,6 +358,7 @@ public class SimpleResultSet implements IResultIterator
 			}
 			catch ( IOException e )
 			{
+				throw new DataException( e.getLocalizedMessage( ), e );
 			}
 		}
 		this.currResultObj = this.rowResultSet.next( );

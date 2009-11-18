@@ -624,7 +624,9 @@ public class IOUtil
 					}
 					catch ( Exception ex )
 					{
-						throw new IOException( ex.getMessage( ) );
+						IOException ie = new IOException( ex.getMessage( ) );
+						ie.initCause( ex );
+						throw ie;
 					}
 				}
 				break;
