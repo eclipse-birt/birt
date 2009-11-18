@@ -58,20 +58,20 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
 public class ReportExecutor implements IReportExecutor
 {
 	// the report execution context
-	private ExecutionContext context;
+	protected ExecutionContext context;
 
 	// the manager used to manage the executors.
-	private ExecutorManager manager;
+	protected ExecutorManager manager;
 
-	private Report report;
+	protected Report report;
 
-	private ReportContent reportContent;
+	protected ReportContent reportContent;
 
-	private long uniqueId;
+	protected long uniqueId;
 	
-	private HashMap pages = new HashMap();
+	protected HashMap pages = new HashMap();
 
-	private ReportletItemExecutor reportletExecutor;
+	protected ReportletItemExecutor reportletExecutor;
 
 	/**
 	 * constructor

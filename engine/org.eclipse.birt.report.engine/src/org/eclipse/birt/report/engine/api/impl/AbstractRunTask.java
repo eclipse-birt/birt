@@ -17,7 +17,7 @@ abstract public class AbstractRunTask extends EngineTask
 		super( engine, runnable, taskType );
 	}
 
-	protected void setupExecutionContext( )
+	/*protected void setupExecutionContext( )
 	{
 		IReportRunnable runnable = executionContext.getRunnable( );
 		// setup runtime configurations
@@ -25,5 +25,5 @@ abstract public class AbstractRunTask extends EngineTask
 		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
 		executionContext.getConfigs( ).putAll(
 				SecurityUtil.getSystemProperties( ) );
-	}
+	}*/
 }

@@ -238,10 +238,9 @@ public class ReportEngineHelper
 			options.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE );
 		}
 	}
-
-	public IReportRunnable openReportDesign( String designName,
-			InputStream designStream, Map options )
-			throws EngineException
+	
+	public ReportDesignHandle getReportDesignHandle( String designName,
+			InputStream designStream, Map options ) throws EngineException
 	{
 		ReportDesignHandle designHandle;
 		try
@@ -262,7 +261,16 @@ public class ReportEngineHelper
 					e );
 		}
 		assert ( designHandle != null );
-		ReportRunnable runnable = new ReportRunnable( engine, designHandle );
+		return designHandle;
+	}
+
+	public IReportRunnable openReportDesign( String designName,
+			InputStream designStream, Map options )
+			throws EngineException
+	{
+		
+		ReportRunnable runnable = new ReportRunnable( engine,
+				getReportDesignHandle( designName, designStream, options ) );
 		runnable.setReportName( designName );
 		return runnable;
 	}

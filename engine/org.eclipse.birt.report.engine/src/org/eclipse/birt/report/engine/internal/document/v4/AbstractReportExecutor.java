@@ -66,7 +66,12 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 
 	protected ExecutorManager manager;
 
-	AbstractReportExecutor( ExecutionContext context ) throws IOException
+	protected AbstractReportExecutor( )
+	{
+		
+	}
+
+	protected AbstractReportExecutor( ExecutionContext context ) throws IOException
 	{
 		assert context.getDesign( ) != null;
 		assert context.getReportDocument( ) != null;
@@ -182,7 +187,7 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 	}
 
 	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign )
+			MasterPageDesign pageDesign ) throws BirtException
 	{
 		return new MasterPageExecutor( manager, pageNumber, pageDesign );
 	}

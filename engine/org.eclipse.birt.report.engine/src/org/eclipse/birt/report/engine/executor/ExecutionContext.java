@@ -177,7 +177,7 @@ public class ExecutionContext
 
 	private ReportDocumentWriter docWriter;
 
-	private Report reportIR;
+	protected Report reportIR;
 
 	/**
 	 * app context
@@ -2127,7 +2127,7 @@ public class ExecutionContext
 		setupFromReport( );
 	}
 
-	private void setupFromReport( )
+	protected void setupFromReport( )
 	{
 		if ( reportIR == null )
 			return;

@@ -180,24 +180,24 @@ public class EngineIRVisitor extends DesignVisitor
 	/**
 	 * The prefix of style name
 	 */
-	static final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
+	protected static final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
 
 	
 	/**
 	 * default master page name.
 	 */
-	static final String DEFAULT_MASTERPAGE_NAME = "NewSimpleMasterPage";
+	protected static final String DEFAULT_MASTERPAGE_NAME = "NewSimpleMasterPage";
 	
 	/**
 	 * The default value of masterPage's margin, in inch.
 	 * See rom.ref in model: <PropertyGroup displayNameID="Element.MasterPage.margin">
 	 */
-	static final double DEFAULT_MASTERPAGE_TOP_MARGIN = 1; 
-	static final double DEFAULT_MASTERPAGE_LEFT_MARGIN = 1.25; 
-	static final double DEFAULT_MASTERPAGE_BOTTOM_MARGIN = 1; 
-	static final double DEFAULT_MASTERPAGE_RIGHT_MARGIN = 1.25;
-	static final double DEFAULT_MASTERPAGE_HEIGHT = 11;
-	static final double DEFAULT_MASTERPAGE_WIDTH = 8.5;
+	protected static final double DEFAULT_MASTERPAGE_TOP_MARGIN = 1; 
+	protected static final double DEFAULT_MASTERPAGE_LEFT_MARGIN = 1.25; 
+	protected static final double DEFAULT_MASTERPAGE_BOTTOM_MARGIN = 1; 
+	protected static final double DEFAULT_MASTERPAGE_RIGHT_MARGIN = 1.25;
+	protected static final double DEFAULT_MASTERPAGE_HEIGHT = 11;
+	protected static final double DEFAULT_MASTERPAGE_WIDTH = 8.5;
 	
 	/**
 	 * logger used to log the error.

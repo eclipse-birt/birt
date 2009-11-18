@@ -113,4 +113,8 @@ public class CachedReportContentReaderV3
 		return reader.getRoot( );
 	}
 
+	public long getCurrentOffset( )
+	{
+		return reader.getOffset( );
+	}
 }

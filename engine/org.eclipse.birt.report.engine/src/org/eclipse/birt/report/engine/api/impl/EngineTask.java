@@ -208,16 +208,21 @@ public abstract class EngineTask implements IEngineTask
 		taskID = id++;
 		this.log = engine.getLogger( );
 
-		// create execution context used by java-script
-		executionContext = new ExecutionContext( this );
-		// Create IReportContext used by java-based script
-		executionContext.setReportContext( new ReportContextImpl(
-				executionContext ) );
+		setupExecutionContext( );
 		// set the default app context
 		setAppContext( null );
 
 		cancelFlag = false;
 		runningStatus = STATUS_NOT_STARTED;
+	}
+	
+	protected void setupExecutionContext()
+	{
+		// create execution context used by java-script
+		executionContext = new ExecutionContext( this );
+		// Create IReportContext used by java-based script
+		executionContext.setReportContext( new ReportContextImpl(
+				executionContext ) );
 	}
 	
 	protected IReportRunnable getOnPreparedRunnable( IReportDocument doc )

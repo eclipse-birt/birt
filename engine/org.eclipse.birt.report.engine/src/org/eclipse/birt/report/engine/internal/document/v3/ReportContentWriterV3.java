@@ -35,11 +35,6 @@ public class ReportContentWriterV3 implements IReportContentWriter
 			.getLogger( IReportContentWriter.class.getName( ) );
 
 	/**
-	 * report document used to save the contents
-	 */
-	protected ReportDocumentWriter document;
-
-	/**
 	 * stream in the document, used to save the contents
 	 */
 	protected RAOutputStream cntStream;
@@ -54,12 +49,10 @@ public class ReportContentWriterV3 implements IReportContentWriter
 	 */
 	protected long rootOffset;
 
-	public ReportContentWriterV3( ReportDocumentWriter document, String name )
+	public ReportContentWriterV3( IDocArchiveWriter writer, String name )
 			throws IOException
 	{
-		this.document = document;
-		IDocArchiveWriter archive = document.getArchive( );
-		cntStream = archive.createRandomAccessStream( name );
+		cntStream = writer.createRandomAccessStream( name );
 		// write the version information
 		cntStream.writeInt( VERSION_1 );
 		cntOffset = 0;
