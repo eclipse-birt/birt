@@ -53,13 +53,13 @@ public class PageContent extends AbstractContent implements IPageContent
 		return PAGE_CONTENT;
 	}
 
-	PageContent( ReportContent report )
+	protected PageContent( ReportContent report )
 	{
 		super( report );
 		children = new ArrayList( );
 	}
 	
-	PageContent(IPageContent page)
+	protected PageContent(IPageContent page)
 	{
 		super(page);
 		this.orientation = page.getOrientation( );
