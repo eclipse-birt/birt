@@ -92,7 +92,8 @@ public class ReportletExecutorV4 extends AbstractReportExecutor
 		System.arraycopy( leftEdge, 0, rightEdge, 0, leftEdge.length );
 		rightEdge[leftEdge.length] = Segment.RIGHT_MOST_EDGE;
 		Fragment fragment = new Fragment( new InstanceIDComparator( ) );
-		fragment.addFragment( leftEdge, rightEdge );
+		fragment.addSection( leftEdge, rightEdge );
+		fragment.build( );
 		return fragment;
 	}
 

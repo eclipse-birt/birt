@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.ListIterator;
+
+import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 
 public class Segment
 {
@@ -31,7 +33,7 @@ public class Segment
 		boolean leftEdge;
 	}
 
-	LinkedList edges = new LinkedList( );
+	LinkedList<SegmentEdge> edges = new LinkedList<SegmentEdge>( );
 	Object[][] sections;
 	Comparator comparator;
 
@@ -78,6 +80,20 @@ public class Segment
 	{
 		// drop the normalize result
 		sections = null;
+		// add the new edge at the end of the list.
+		SegmentEdge edge = new SegmentEdge( offset, left );
+		edges.add( edge );
+	}
+	
+	/**
+	 * @deprecated
+	 * @param offset
+	 * @param left
+	 */
+	void insertEdge( Object offset, boolean left )
+	{
+		// drop the normalize result
+		sections = null;
 		// try to find the first segment will less that left
 		SegmentEdge edge = null;
 		ListIterator iter = edges.listIterator( edges.size( ) );
@@ -101,47 +117,12 @@ public class Segment
 		}
 	}
 
-	static final Object UNCLOSE_EDGE = new String( "UNCLOSE" );
 	public static final Object LEFT_MOST_EDGE = new String( "LEFT" );
 	public static final Object RIGHT_MOST_EDGE = new String( "RIGHT" );
-	private final static int STATUS_INIT = 0;
-	private final static int STATUS_START = 1;
-	private final static int STATUS_CLOSE = 2;
 
-	/**
-	 * <table> <col/> <col width="30%"/> <col width="30%"/> <col width="30%"/>
-	 * <tr>
-	 * <th> STATUS </th>
-	 * <th> LEFT EDGE</th>
-	 * <th>RIGHT EDGE</th>
-	 * <th>TERMINATE</th>
-	 * </tr>
-	 * <tr>
-	 * <th>INIT</th>
-	 * <td> create a section[left, UNBOUND], change to START. </td>
-	 * <td> create a section[-1, right], change status to CLOSE</td>
-	 * <td> set the section to NONE </td>
-	 * </tr>
-	 * <tr>
-	 * <th>START</th>
-	 * <td> skip </td>
-	 * <td> set the section to [left, right], change to END status </td>
-	 * <td> set the section to [left, MAX]</td>
-	 * </tr>
-	 * <tr>
-	 * <th>CLOSE</th>
-	 * <td> if the left is equals to the right, set the right to UNBOUND, change
-	 * to START. Otherwise, save the section, create a new section [left,
-	 * unbound], change to START</td>
-	 * <td>update the section as [left, right]</td>
-	 * <td>save the section</td>
-	 * </tr>
-	 * </table>
-	 * 
-	 * 
-	 */
 	public void normalize( )
 	{
+		LinkedList<Object[]> sects = new LinkedList<Object[]>( );
 		// insert the first open in that segment if there is no open.
 		if ( !edges.isEmpty( ) )
 		{
@@ -159,88 +140,32 @@ public class Segment
 				end = new SegmentEdge( RIGHT_MOST_EDGE, false );
 				edges.addLast( end );
 			}
-		}
+			assert ( edges.size( ) % 2 == 0 );
 
-		ArrayList sects = new ArrayList( );
-		Object leftEdge = UNCLOSE_EDGE;
-		Object rightEdge = UNCLOSE_EDGE;
+			ListIterator<SegmentEdge> edgesIter = edges.listIterator( );
 
-		// insert the last close edge in that segment if there is no close.
-		int status = STATUS_INIT;
-		for ( int i = 0; i < edges.size( ); i++ )
-		{
-			SegmentEdge edge = (SegmentEdge) edges.get( i );
-			switch ( status )
+			while ( edgesIter.hasNext( ) )
 			{
-				case STATUS_INIT :
-					if ( edge.leftEdge )
+				SegmentEdge leftEdge = edgesIter.next( );
+				SegmentEdge rightEdge = edgesIter.next( );
+				if ( sects.size( ) > 0 )
+				{
+					Object[] prevSect = sects.getLast( );
+					if ( leftEdge.offset.equals( prevSect[1] ) )
 					{
-						leftEdge = edge.offset;
-						rightEdge = UNCLOSE_EDGE;
-						status = STATUS_START;
+						prevSect[1] = rightEdge.offset;
+						continue;
 					}
-					else
-					{
-						leftEdge = LEFT_MOST_EDGE;
-						rightEdge = edge.offset;
-						status = STATUS_CLOSE;
-					}
-					break;
-				case STATUS_START :
-					if ( !edge.leftEdge )
-					{
-						rightEdge = edge.offset;
-						status = STATUS_CLOSE;
-					}
-					break;
-				case STATUS_CLOSE :
-					if ( edge.leftEdge )
-					{
-						if ( comparator.compare( edge.offset, rightEdge ) == 0 )
-						{
-							rightEdge = UNCLOSE_EDGE;
-						}
-						else
-						{
-							if ( !isSectEmpty( leftEdge, rightEdge ) )
-							{
-								sects.add( new Object[]{leftEdge, rightEdge} );
-							}
-							leftEdge = edge.offset;
-							rightEdge = UNCLOSE_EDGE;
-						}
-						status = STATUS_START;
-					}
-					else
-					{
-						rightEdge = edge.offset;
-					}
-					break;
+				}
+				if ( !isSectEmpty( leftEdge.offset, rightEdge.offset ) )
+				{
+					sects.add( new Object[]{leftEdge.offset,
+									rightEdge.offset} );
+				}
 			}
 		}
-		// TERMINATE
-		switch ( status )
-		{
-			case STATUS_START :
-				if ( !isSectEmpty( leftEdge, RIGHT_MOST_EDGE ) )
-				{
-					sects.add( new Object[]{leftEdge, RIGHT_MOST_EDGE} );
-				}
-				break;
-			case STATUS_CLOSE :
-				if ( !isSectEmpty( leftEdge, rightEdge ) )
-				{
-					sects.add( new Object[]{leftEdge, rightEdge} );
-				}
-				break;
-		}
 
-		sections = new Object[sects.size( )][];
-		for ( int i = 0; i < sects.size( ); i++ )
-		{
-			Object[] sect = (Object[]) sects.get( i );;
-			sections[i] = sect;
-		}
+		sections = sects.toArray( new Object[sects.size( )][] );
 	}
 
 	private boolean isSectEmpty( Object leftEdge, Object rightEdge )
@@ -251,15 +176,37 @@ public class Segment
 		}
 		return false;
 	}
+	
+//	private boolean isSameEdge( Object edge1, Object edge2 )
+//	{
+//		if ( edge1 == edge2 )
+//		{
+//			return true;
+//		}
+//		if ( edge1 instanceof InstanceIndex && edge2 instanceof InstanceIndex )
+//		{
+//			InstanceID a = ( (InstanceIndex) edge1 ).getInstanceID( );
+//			InstanceID b = ( (InstanceIndex) edge2 ).getInstanceID( );
+//			if ( a == null || b == null )
+//			{
+//				return false;
+//			}
+//			long uid_a = a.getUniqueID( );
+//			long uid_b = b.getUniqueID( );
+//			if ( uid_a == uid_b )
+//			{
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	public String toString( )
 	{
 		StringBuffer buffer = new StringBuffer( );
 
-		if ( sections == null )
-		{
-			normalize( );
-		}
+		normalize( );
+		
 		if ( sections.length == 0 )
 		{
 			return "[NONE]";

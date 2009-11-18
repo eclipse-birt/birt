@@ -136,9 +136,10 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 				PageSection section = pageHint.getSection( i );
 				InstanceIndex[] leftEdges = section.starts;
 				InstanceIndex[] rightEdges = section.ends;
-				fragment.addFragment( leftEdges, rightEdges );
+				fragment.addSection( leftEdges, rightEdges );
 			}
 		}
+		fragment.build( );
 		return fragment;
 	}
 
@@ -152,8 +153,9 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 			PageSection section = pageHint.getSection( i );
 			InstanceIndex[] leftEdges = section.starts;
 			InstanceIndex[] rightEdges = section.ends;
-			fragment.addFragment( leftEdges, rightEdges );
+			fragment.addSection( leftEdges, rightEdges );
 		}
+		fragment.build( );
 		return fragment;
 	}
 	

@@ -61,7 +61,7 @@ public class SegmentTest extends TestCase
 		segment.endSegment( new Long( 3 ) );
 		segment.startSegment( new Long( 6 ) );
 		segment.endSegment( new Long( 10 ) );
-		segment.startSegment( new Long( 7 ) );
+		segment.startSegment( new Long( 10 ) );
 		segment.endSegment( new Long( 12 ) );
 		segment.startSegment( new Long( 15 ) );
 		assertEquals( "[-3][6-12][15-]", segment.toString( ) );

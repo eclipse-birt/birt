@@ -137,9 +137,10 @@ public class ReportPageReader extends AbstractReportReader
 				long right = section.endOffset;
 				Long[] leftEdges = createEdges( left );
 				Long[] rightEdges = createEdges( right );
-				fragment.addFragment( leftEdges, rightEdges );
+				fragment.addSection( leftEdges, rightEdges );
 			}
 		}
+		fragment.build( );
 		return fragment;
 	}
 
@@ -159,7 +160,7 @@ public class ReportPageReader extends AbstractReportReader
 					long right = section.endOffset;
 					Long[] leftEdges = createEdges( left );
 					Long[] rightEdges = createEdges( right );
-					fragment.addFragment( leftEdges, rightEdges );
+					fragment.addSection( leftEdges, rightEdges );
 				}
 				catch ( IOException ex )
 				{
@@ -167,6 +168,7 @@ public class ReportPageReader extends AbstractReportReader
 				}
 			}
 		}
+		fragment.build( );
 		return fragment;
 	}
 

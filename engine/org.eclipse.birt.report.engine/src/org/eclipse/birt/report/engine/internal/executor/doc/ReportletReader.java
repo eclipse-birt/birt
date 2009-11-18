@@ -52,7 +52,8 @@ public class ReportletReader extends AbstractReportReader
 		System.arraycopy( leftEdge, 0, rightEdge, 0, leftEdge.length );
 		rightEdge[leftEdge.length] = Segment.RIGHT_MOST_EDGE;
 		Fragment fragment = new Fragment( new LongComparator( ) );
-		fragment.addFragment( leftEdge, rightEdge );
+		fragment.addSection( leftEdge, rightEdge );
+		fragment.build( );
 		return fragment;
 	}
 

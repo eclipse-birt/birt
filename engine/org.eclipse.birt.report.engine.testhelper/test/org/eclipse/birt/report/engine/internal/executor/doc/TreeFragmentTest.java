@@ -56,14 +56,22 @@ public class TreeFragmentTest extends TestCase
 	{
 		TreeFragment treeFrag = new TreeFragment( tree );
 		treeFrag.addFragment( 1, 6 );
+		treeFrag.build( );
 		String sFrag = treeFrag.toString( );
 		assertEquals( "0,1,2,3,4,5,6,", sFrag );
 
+		treeFrag = new TreeFragment( tree );
+		treeFrag.addFragment( 1, 6 );
 		treeFrag.addFragment( 8, 9 );
+		treeFrag.build( );
 		sFrag = treeFrag.toString( );
 		assertEquals( "0,1,2,3,4,5,6,8,9,", sFrag );
 
+		treeFrag = new TreeFragment( tree );
+		treeFrag.addFragment( 1, 6 );
+		treeFrag.addFragment( 8, 9 );
 		treeFrag.addFragment( 11, 11 );
+		treeFrag.build( );
 		sFrag = treeFrag.toString( );
 		assertEquals( "0,1,2,3,4,5,6,8,9,11,", sFrag );
 	}
@@ -238,7 +246,12 @@ class TreeFragment
 
 		Object[] leftEdges = tree.getEdges( leftNode );
 		Object[] rightEdges = tree.getEdges( rightNode );
-		fragment.addFragment( leftEdges, rightEdges );
+		fragment.addSection( leftEdges, rightEdges );
+	}
+	
+	void build( )
+	{
+		fragment.build( );
 	}
 
 	public String toString( )

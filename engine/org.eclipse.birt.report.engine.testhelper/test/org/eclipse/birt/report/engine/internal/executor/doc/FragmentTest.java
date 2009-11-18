@@ -22,15 +22,17 @@ public class FragmentTest extends TestCase
 		Fragment fragment = new Fragment( new LongComparator( ) );
 		Object[] leftEdge = new Long[]{new Long( 0 )};
 		Object[] rightEdge = new Long[]{new Long( 2 )};
-		fragment.addFragment( leftEdge, rightEdge );
+		fragment.addSection( leftEdge, rightEdge );
 
 		leftEdge = new Long[]{new Long( 4 )};
 		rightEdge = new Long[]{new Long( 5 )};
-		fragment.addFragment( leftEdge, rightEdge );
+		fragment.addSection( leftEdge, rightEdge );
 
 		leftEdge = new Long[]{new Long( 7 )};
 		rightEdge = new Long[]{new Long( 7 )};
-		fragment.addFragment( leftEdge, rightEdge );
+		fragment.addSection( leftEdge, rightEdge );
+		
+		fragment.build( );
 
 		assertTrue( fragment.inFragment( new Long( 0 ) ) );
 		assertTrue( fragment.inFragment( new Long( 1 ) ) );
@@ -71,4 +73,65 @@ public class FragmentTest extends TestCase
 				fragment.getNextFragment( new Long( 6 ) ).index );
 		assertEquals( null, fragment.getNextFragment( new Long( 7 ) ) );
 	}
+
+	public void testEdgeInsert( )
+	{
+		Fragment fragment = new Fragment( new LongComparator( ) );
+		Object[] leftEdge = new Long[]{new Long( 4 )};
+		Object[] rightEdge = new Long[]{new Long( 5 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[4, 5]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 5 )};
+		rightEdge = new Long[]{new Long( 7 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[4, 7]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 10 )};
+		rightEdge = new Long[]{new Long( 15 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[4, 7][10, 15]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 0 )};
+		rightEdge = new Long[]{new Long( 1 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[0, 1][4, 7][10, 15]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 2 )};
+		rightEdge = new Long[]{new Long( 4 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[0, 1][2, 7][10, 15]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 5 )};
+		rightEdge = new Long[]{new Long( 6 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[0, 1][2, 7][10, 15]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 8 )};
+		rightEdge = new Long[]{new Long( 9 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[0, 1][2, 7][8, 9][10, 15]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 6 )};
+		rightEdge = new Long[]{new Long( 9 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[0, 1][2, 9][10, 15]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 17 )};
+		rightEdge = new Long[]{new Long( 19 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[0, 1][2, 9][10, 15][17, 19]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 16 )};
+		rightEdge = new Long[]{new Long( 16 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[0, 1][2, 9][10, 15][16, 16][17, 19]", fragment.printEdges( ) );
+		
+		leftEdge = new Long[]{new Long( 1 )};
+		rightEdge = new Long[]{new Long( 2 )};
+		fragment.addSection( leftEdge, rightEdge );
+		assertEquals( "[0, 9][10, 15][16, 16][17, 19]", fragment.printEdges( ) );
+		
+	}
+
 }

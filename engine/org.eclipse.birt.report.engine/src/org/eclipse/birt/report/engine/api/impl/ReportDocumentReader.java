@@ -1267,8 +1267,9 @@ public class ReportDocumentReader
 					for ( int i = 0; i < sectionCount; i++ )
 					{
 						PageSection section = hint.getSection( i );
-						fragment.addFragment( section.starts, section.ends );
+						fragment.addSection( section.starts, section.ends );
 					}
+					fragment.build( );
 					if ( fragment.inFragment( iid ) )
 					{
 						return pageNumber;

@@ -49,7 +49,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
@@ -395,12 +394,7 @@ public class ReportItemReader implements IReportItemExecutor
 			long headerOffset = docExt.getFirstChild( );
 			if ( headerOffset != -1 )
 			{
-				fragment.addFragment( new Long[]{new Long( headerOffset )},
-						new Long[]{new Long( headerOffset )} );
-				Fragment headerFrag = fragment.getFragment( new Long(
-						headerOffset ) );
-				headerFrag.addFragment( new Object[]{Segment.LEFT_MOST_EDGE},
-						new Object[]{Segment.RIGHT_MOST_EDGE} );
+				fragment.insertFragment( headerOffset );
 				// reset the child offset
 				child = headerOffset;
 			}

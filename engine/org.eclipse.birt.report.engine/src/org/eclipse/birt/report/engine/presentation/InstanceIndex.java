@@ -57,4 +57,28 @@ public class InstanceIndex
 	{
 		return offset;
 	}
+	
+	/**
+	 * Two InstanceIndex are equal when their instanceIDs are equal
+	 */
+	public boolean equals( Object index )
+	{
+		if ( !( index instanceof InstanceIndex ) )
+		{
+			return false;
+		}
+
+		InstanceIndex ii = (InstanceIndex) index;
+		if ( this.iid == null || ii.iid == null )
+		{
+			return false;
+		}
+		long uid_a = this.iid.getUniqueID( );
+		long uid_b = ii.iid.getUniqueID( );
+		if ( uid_a == uid_b )
+		{
+			return true;
+		}
+		return false;
+	}
 }
