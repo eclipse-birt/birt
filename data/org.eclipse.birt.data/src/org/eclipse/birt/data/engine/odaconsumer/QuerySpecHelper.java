@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.services.impl.ProviderUtil;
@@ -123,32 +124,48 @@ public class QuerySpecHelper
     }
 
     /**
-     * Updates the specified validation context with a connection profile instance that contains
-     * the specified connection properties info. 
-     * The updated validation context would then provide the connection context for online validation
-     * of a {@link QuerySpecification}.
-     * @param validationContext the validation context to be updated with a connection profile instance
+     * Updates the specified validation context with the effective connection context
+     * for online validation of a {@link QuerySpecification}.
+     * @param validationContext the validation context to be updated with a connection context 
      *              for online validation of a query specification
-     * @param odaDataSourceId   an ODA data source id, as specified in an oda.dataSource extension, for 
-     *                          use as the connection profile id
      * @param connProperties    data source connection properties
      * @param appContext        an application context provided by an ODA consumer application; 
      *                          it may contain externalized connection properties info, 
      *                          which would override those of connProperties if exists;
      *                          may be null 
-     * @throws OdaException
+     * @throws DataException
+     * @since 2.5.2
      */
-    public static void setConnectionProfileForValidation( ValidationContext validationContext, 
-            String odaDataSourceId, Properties connProperties, Map appContext )
-        throws OdaException
+    public static void setValidationConnectionContext( ValidationContext validationContext, 
+            Properties connProperties, Map appContext )
+        throws DataException
     {
         if( validationContext == null )
-            return;
+            throw new IllegalArgumentException("ValidationContext"); //$NON-NLS-1$
         
-        // creates a transient connection profile instance to set in the validation context
-        IConnectionProfile connProfile =
-            createTransientProfile( odaDataSourceId, connProperties, appContext );
-        validationContext.setConnectionProfile( connProfile );
+        // gets the effective connection properties to set in the validation context
+        Properties effectiveProps = getEffectiveProperties( connProperties, appContext );
+/*  TODO - temporary comment out till related ODA API is included in build
+        if( validationContext.getConnection() != null )
+            validationContext.getConnection().setProperties( effectiveProps );
+        else
+            validationContext.setConnection( validationContext.new Connection( effectiveProps ));
+*/    
+    }
+    
+    private static Properties getEffectiveProperties( Properties connProperties, Map appContext ) 
+        throws DataException
+    {
+        // use a consumer profile provider service to get the appropriate connection properties to apply
+        appContext = ConnectionManager.addProfileProviderService( appContext );
+        try
+        {
+            return ProviderUtil.getEffectiveProperties( connProperties, appContext );
+        }
+        catch( OdaException ex )
+        {
+            throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex );
+        }
     }
     
     /**
@@ -164,32 +181,23 @@ public class QuerySpecHelper
      *              to manage its connection state to avoid having a live connection remain open
      * @throws OdaException
      */
-    public static IConnectionProfile createTransientProfile( String odaDataSourceId, 
+    private static IConnectionProfile createTransientProfile( String odaDataSourceId, 
             Properties connProperties, Map appContext )
-        throws OdaException
+        throws DataException
     {
-        // use a consumer profile provider service to get the appropriate connection properties to apply
-        appContext = ConnectionManager.addProfileProviderService( appContext );
-        Properties effectiveProps = ProviderUtil.getEffectiveProperties( connProperties, appContext );
+        Properties effectiveProps = getEffectiveProperties( connProperties, appContext );
 
         // creates a transient connection profile instance based on specified connection info
-        IConnectionProfile connProfile =
-            OdaProfileExplorer.getInstance().createTransientProfile( odaDataSourceId, effectiveProps );        
+        IConnectionProfile connProfile;
+        try
+        {
+            connProfile = OdaProfileExplorer.getInstance().createTransientProfile( odaDataSourceId, effectiveProps );
+        }
+        catch( OdaException ex )
+        {
+            throw new DataException( "", ex );  // TODO
+        }        
         return connProfile;
-    }
-    
-    /**
-     * A convenience method to obtain the connection profile instance from the specified ValidationContext.
-     * @param validationContext the validation context used for online validation of a query specification      
-     * @return  an {@link IConnectionProfile} instance; may be null if none is available
-     * @since 2.5.2
-     */
-    public static IConnectionProfile getConnectionProfile( ValidationContext validationContext )
-    {
-        if( validationContext == null )
-            return null;
-        Object profile = validationContext.getConnectionProfile();
-        return ( profile instanceof IConnectionProfile ) ? (IConnectionProfile)profile : null;
     }
     
     /**
