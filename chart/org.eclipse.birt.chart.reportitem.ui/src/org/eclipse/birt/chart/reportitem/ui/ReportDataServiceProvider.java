@@ -387,7 +387,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					-1,
 					true );
 		}
-		return getPreviewRowData( getPreviewHeader( true ), -1, true );
+		return getPreviewRowData( getPreviewHeader( false ), -1, true );
 	}
 
 	/**
@@ -495,7 +495,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	protected final List<Object[]> getPreviewRowData(
-			String[] columnExpression, int rowCount, boolean isStringType )
+			String[] bindingNames, int rowCount, boolean isStringType )
 			throws ChartException
 	{
 		List<Object[]> dataList = new ArrayList<Object[]>( );
@@ -535,12 +535,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			queryDefn.setMaxRows( maxRow );
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
 			
-			for ( int i = 0; i < columnExpression.length; i++ )
-			{
-				queryDefn.addResultSetExpression( columnExpression[i],
-						new ScriptExpression( columnExpression[i] ) );
-			}
-
 			handleGroup( queryDefn, itemHandle, session.getModelAdaptor( ) );
 			
 			// Iterate parameter bindings to check if its expression is a
@@ -556,7 +550,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					ChartReportItemUtil.getColumnDataBindings( itemHandle, true ) );
 			if ( actualResultSet != null )
 			{
-				String[] expressions = columnExpression;
+				String[] expressions = bindingNames;
 				int columnCount = expressions.length;
 				IResultIterator iter = actualResultSet.getResultIterator( );
 				while ( iter.next( ) )
@@ -1518,10 +1512,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				Object computedBinding = bindingIt.next( );
 				IBinding binding = session.getModelAdaptor( ).adaptBinding( (ComputedColumnHandle) computedBinding );
-				if ( binding == null  )
+				if ( binding == null || queryDefn.getBindings( ).containsKey( binding.getBindingName( ) ) )
 				{
 					continue;
 				}
+
 				queryDefn.addBinding( binding );
 			}
 			Iterator<FilterConditionHandle> filtersIterator = getFiltersIterator( );
