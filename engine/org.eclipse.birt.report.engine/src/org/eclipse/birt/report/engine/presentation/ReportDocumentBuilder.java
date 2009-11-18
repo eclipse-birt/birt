@@ -371,7 +371,7 @@ public class ReportDocumentBuilder
 		{
 			try
 			{
-				writer = new ReportContentWriterV3( document,
+				writer = new ReportContentWriterV3( document.getArchive( ),
 						ReportDocumentConstants.CONTENT_STREAM );
 				writer.writeReport( report );
 			}
@@ -457,7 +457,7 @@ public class ReportDocumentBuilder
 		{
 			try
 			{
-				pageWriter = new ReportContentWriterV3( document,
+				pageWriter = new ReportContentWriterV3( document.getArchive( ),
 						ReportDocumentConstants.PAGE_STREAM );
 				indexStream = document.getArchive( ).createRandomAccessStream(
 						ReportDocumentConstants.PAGE_INDEX_STREAM );
