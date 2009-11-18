@@ -2823,7 +2823,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					&& ( ( (String) imageMapObject ).length( ) > 0 );
 			if ( hasImageMap )
 			{
-				imageMapId = idGenerator.generateUniqueID( );
+				String id = idGenerator.generateUniqueID( );
+				imageMapId = htmlIDNamespace != null ? htmlIDNamespace + id : id;
 				writer.openTag( HTMLTags.TAG_MAP );
 				writer.attribute( HTMLTags.ATTR_ID, imageMapId );
 				writer.attribute( HTMLTags.ATTR_NAME, imageMapId );
