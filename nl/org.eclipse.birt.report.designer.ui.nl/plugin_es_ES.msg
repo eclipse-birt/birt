@@ -59,3 +59,4 @@ publish.library=Coloca&r la librería en la carpeta de recursos...
 
 ActionSet.Publish=Publicar
 Dummy.label=
+preference.classpath=Classpath

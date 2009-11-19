@@ -59,3 +59,4 @@ publish.library=ライブラリをリソースフォルダに保存(&B)...
 
 ActionSet.Publish=公開
 Dummy.label=
+preference.classpath=Classpath

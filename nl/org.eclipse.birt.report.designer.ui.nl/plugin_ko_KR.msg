@@ -59,3 +59,4 @@ publish.library=리소스 폴더에 라이브러리 배치(&B)...
 
 ActionSet.Publish=게시
 Dummy.label=
+preference.classpath=Classpath

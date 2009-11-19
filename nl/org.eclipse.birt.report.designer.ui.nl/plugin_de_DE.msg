@@ -59,3 +59,4 @@ publish.library=Bi&bliothek in Ressourcenordner aufnehmen...
 
 ActionSet.Publish=Veröffentlichen
 Dummy.label=
+preference.classpath=Classpath
