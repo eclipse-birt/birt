@@ -34,3 +34,4 @@ invalid.data.type=データ型が無効です : {0}
 cube.error.createhierarchy=階層 {0} の作成中にエラーが発生しました。
 cube.error.createdimension=ディメンジョン {0} の作成中にエラーが発生しました。
 cube.error.createmeasure=メジャー要素の作成中にエラーが発生しました。
+cube.error.datasetmiss=The cube cannot be created because the related dataset is missing.

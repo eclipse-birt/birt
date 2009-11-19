@@ -34,3 +34,4 @@ invalid.data.type=Ungültiger Datentyp: {0}.
 cube.error.createhierarchy=Fehler beim Erstellen von Hierarchie:{0}.
 cube.error.createdimension=Fehler beim Erstellen von Dimension:{0}.
 cube.error.createmeasure=Fehler beim Erstellen von Maßeinheit.
+cube.error.datasetmiss=The cube cannot be created because the related dataset is missing.

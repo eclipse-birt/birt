@@ -34,3 +34,4 @@ invalid.data.type=잘못된 데이터 형식: {0}.
 cube.error.createhierarchy=계층 생성 도중 {0} 오류가 발생했습니다.
 cube.error.createdimension=차원 생성 도중 {0} 오류가 발생했습니다.
 cube.error.createmeasure=측정값 생성 도중 오류가 발생했습니다.
+cube.error.datasetmiss=The cube cannot be created because the related dataset is missing.
