@@ -4078,6 +4078,19 @@ ClassFinder.TaskStart=ハンドラクラスを検索中...
 ClassFinder.DialogTitle=クラスの選択
 ClassFinder.DialogMessage=ハンドラクラスの選択(&C) :
 ClassFinder.ErrorMessage=クラスが見つかりません。
+ClassPathBlock_button.addExtFolder=Add External Class &Folder...
+ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.down=下へ
+ClassPathBlock_button.edit=編集(&E)...
+ClassPathBlock_button.remove=削除(&R)
+ClassPathBlock_button.up=上へ
+ClassPathBlock_FileDialog.edit.text=Edit JAR
+ClassPathBlock_FileDialog.jar.text=JAR Selection
+ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
+ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
+ClassPathBlock_FolderDialog.message=Select the location of the class folder:
+ClassPathBlock_FolderDialog.text=External Class Folder Selection
+ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
 
 ###########################################################
 #ListingSectionPage
@@ -4097,6 +4110,23 @@ EventHandlerPage.Browse=参照(&B)...
 
 ###########################################################
 #IDEFileReportProvider
+IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
+IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
+IDEClassPathBlock.button_addJar=Add &JARs...
+IDEClassPathBlock.button_addProject=Add &Projects...
+IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_down=下へ
+IDEClassPathBlock.button_edit=編集(&E)...
+IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_remove=削除(&R)
+IDEClassPathBlock.button_up=上へ
+IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
+IDEClassPathBlock.ProjectDialog_message=Select projects to add:
+IDEClassPathBlock.ProjectDialog_title=Required Project Selection
+IDECPListLabelProvider.folder=(class folder)
+IDECPListLabelProvider.missing=(missing)
+IDECPListLabelProvider.new=(new)
+IDECPListLabelProvider.unknown=unknown element
 IDEFileReportProvider.ReadOnlyEncounter.Title=読み取り専用ファイル
 IDEFileReportProvider.ReadOnlyEncounter.Message=ファイル ''{0}'' は読み取り専用です。先に、このファイルを書き込み可能にしてください。
 IDEResourcePageHelper.Dialog.Prompt=ディレクトリの選択 : 
@@ -4541,6 +4571,7 @@ InputParameterDialog.err.requiredParam=必須パラメタ [{0}] の値が指定されていませ
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=列幅の変更
 ColumnDragTracker.Show.Label=幅 :
+CPListLabelProvider.misssing=(missing)
 RowDragTracker.ResizeRow=行幅の変更
 RowDragTracker.Show.Label=高さ :
 TableDragGuideTracker.Pixels=ピクセル

@@ -4078,6 +4078,19 @@ ClassFinder.TaskStart=Handler-Klasse wird gesucht...
 ClassFinder.DialogTitle=Auswahl der Klasse
 ClassFinder.DialogMessage=Handler-Klasse &wählen:
 ClassFinder.ErrorMessage=Es wurde keine Klasse gefunden.
+ClassPathBlock_button.addExtFolder=Add External Class &Folder...
+ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.down=Nach unten
+ClassPathBlock_button.edit=&Bearbeiten...
+ClassPathBlock_button.remove=&Entfernen
+ClassPathBlock_button.up=Nach oben
+ClassPathBlock_FileDialog.edit.text=Edit JAR
+ClassPathBlock_FileDialog.jar.text=JAR Selection
+ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
+ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
+ClassPathBlock_FolderDialog.message=Select the location of the class folder:
+ClassPathBlock_FolderDialog.text=External Class Folder Selection
+ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
 
 ###########################################################
 #ListingSectionPage
@@ -4097,6 +4110,23 @@ EventHandlerPage.Browse=&Durchsuchen...
 
 ###########################################################
 #IDEFileReportProvider
+IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
+IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
+IDEClassPathBlock.button_addJar=Add &JARs...
+IDEClassPathBlock.button_addProject=Add &Projects...
+IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_down=Nach unten
+IDEClassPathBlock.button_edit=&Bearbeiten...
+IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_remove=&Entfernen
+IDEClassPathBlock.button_up=Nach oben
+IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
+IDEClassPathBlock.ProjectDialog_message=Select projects to add:
+IDEClassPathBlock.ProjectDialog_title=Required Project Selection
+IDECPListLabelProvider.folder=(class folder)
+IDECPListLabelProvider.missing=(missing)
+IDECPListLabelProvider.new=(new)
+IDECPListLabelProvider.unknown=unknown element
 IDEFileReportProvider.ReadOnlyEncounter.Title=Schreibgeschützte Datei gefunden
 IDEFileReportProvider.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschützt. Heben Sie den Schreibschutz auf.
 IDEResourcePageHelper.Dialog.Prompt=Wählen Sie ein Verzeichnis: 
@@ -4541,6 +4571,7 @@ InputParameterDialog.err.requiredParam=Der Wert des erforderlichen Parameters [{
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=Spaltengröße anpassen
 ColumnDragTracker.Show.Label=Breite:
+CPListLabelProvider.misssing=(missing)
 RowDragTracker.ResizeRow=Zeilengröße anpassen
 RowDragTracker.Show.Label=Höhe:
 TableDragGuideTracker.Pixels=Pixel

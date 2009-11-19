@@ -4078,6 +4078,19 @@ ClassFinder.TaskStart=正在搜索处理程序类...
 ClassFinder.DialogTitle=类选择
 ClassFinder.DialogMessage=选择处理程序类(&C):
 ClassFinder.ErrorMessage=未找到类
+ClassPathBlock_button.addExtFolder=Add External Class &Folder...
+ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.down=下移
+ClassPathBlock_button.edit=编辑(&E)...
+ClassPathBlock_button.remove=删除(&R)
+ClassPathBlock_button.up=上移
+ClassPathBlock_FileDialog.edit.text=Edit JAR
+ClassPathBlock_FileDialog.jar.text=JAR Selection
+ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
+ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
+ClassPathBlock_FolderDialog.message=Select the location of the class folder:
+ClassPathBlock_FolderDialog.text=External Class Folder Selection
+ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
 
 ###########################################################
 #ListingSectionPage
@@ -4097,6 +4110,23 @@ EventHandlerPage.Browse=浏览(&B)...
 
 ###########################################################
 #IDEFileReportProvider
+IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
+IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
+IDEClassPathBlock.button_addJar=Add &JARs...
+IDEClassPathBlock.button_addProject=Add &Projects...
+IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_down=下移
+IDEClassPathBlock.button_edit=编辑(&E)...
+IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_remove=删除(&R)
+IDEClassPathBlock.button_up=上移
+IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
+IDEClassPathBlock.ProjectDialog_message=Select projects to add:
+IDEClassPathBlock.ProjectDialog_title=Required Project Selection
+IDECPListLabelProvider.folder=(class folder)
+IDECPListLabelProvider.missing=(missing)
+IDECPListLabelProvider.new=(new)
+IDECPListLabelProvider.unknown=unknown element
 IDEFileReportProvider.ReadOnlyEncounter.Title=遇到只读文件
 IDEFileReportProvider.ReadOnlyEncounter.Message=文件“{0}”为只读，请首先确保它可以写入。
 IDEResourcePageHelper.Dialog.Prompt=选择目录: 
@@ -4541,6 +4571,7 @@ InputParameterDialog.err.requiredParam=未指定所需参数 [{0}] 的值。
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=重新设定列大小
 ColumnDragTracker.Show.Label=宽度:
+CPListLabelProvider.misssing=(missing)
 RowDragTracker.ResizeRow=重新设定行大小
 RowDragTracker.Show.Label=高度:
 TableDragGuideTracker.Pixels=像素

@@ -4078,6 +4078,19 @@ ClassFinder.TaskStart=처리기 클래스 검색 중...
 ClassFinder.DialogTitle=클래스 선택
 ClassFinder.DialogMessage=처리기 클래스 선택(&C):
 ClassFinder.ErrorMessage=클래스를 찾을 수 없음
+ClassPathBlock_button.addExtFolder=Add External Class &Folder...
+ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.down=아래로
+ClassPathBlock_button.edit=편집(&E)...
+ClassPathBlock_button.remove=제거(&R)
+ClassPathBlock_button.up=위로
+ClassPathBlock_FileDialog.edit.text=Edit JAR
+ClassPathBlock_FileDialog.jar.text=JAR Selection
+ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
+ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
+ClassPathBlock_FolderDialog.message=Select the location of the class folder:
+ClassPathBlock_FolderDialog.text=External Class Folder Selection
+ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
 
 ###########################################################
 #ListingSectionPage
@@ -4097,6 +4110,23 @@ EventHandlerPage.Browse=찾아보기(&B)...
 
 ###########################################################
 #IDEFileReportProvider
+IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
+IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
+IDEClassPathBlock.button_addJar=Add &JARs...
+IDEClassPathBlock.button_addProject=Add &Projects...
+IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_down=아래로
+IDEClassPathBlock.button_edit=편집(&E)...
+IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_remove=제거(&R)
+IDEClassPathBlock.button_up=위로
+IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
+IDEClassPathBlock.ProjectDialog_message=Select projects to add:
+IDEClassPathBlock.ProjectDialog_title=Required Project Selection
+IDECPListLabelProvider.folder=(class folder)
+IDECPListLabelProvider.missing=(missing)
+IDECPListLabelProvider.new=(new)
+IDECPListLabelProvider.unknown=unknown element
 IDEFileReportProvider.ReadOnlyEncounter.Title=읽기 전용 파일 발생
 IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 먼저 파일에 쓸 수 있는지 확인하십시오.
 IDEResourcePageHelper.Dialog.Prompt=디렉터리 선택: 
@@ -4541,6 +4571,7 @@ InputParameterDialog.err.requiredParam=필수 매개 변수 [{0}]의 값이 지정되지 않았
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=열 크기 조정
 ColumnDragTracker.Show.Label=너비:
+CPListLabelProvider.misssing=(missing)
 RowDragTracker.ResizeRow=행 크기 조정
 RowDragTracker.Show.Label=높이:
 TableDragGuideTracker.Pixels=픽셀

@@ -4078,6 +4078,19 @@ ClassFinder.TaskStart=Buscando clase de controlador...
 ClassFinder.DialogTitle=Selección de clase
 ClassFinder.DialogMessage=&Seleccionar una clase de controlador:
 ClassFinder.ErrorMessage=No se ha encontrado ninguna clase
+ClassPathBlock_button.addExtFolder=Add External Class &Folder...
+ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.down=Abajo
+ClassPathBlock_button.edit=&Editar...
+ClassPathBlock_button.remove=Quita&r
+ClassPathBlock_button.up=Arriba
+ClassPathBlock_FileDialog.edit.text=Edit JAR
+ClassPathBlock_FileDialog.jar.text=JAR Selection
+ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
+ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
+ClassPathBlock_FolderDialog.message=Select the location of the class folder:
+ClassPathBlock_FolderDialog.text=External Class Folder Selection
+ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
 
 ###########################################################
 #ListingSectionPage
@@ -4097,6 +4110,23 @@ EventHandlerPage.Browse=&Examinar...
 
 ###########################################################
 #IDEFileReportProvider
+IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
+IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
+IDEClassPathBlock.button_addJar=Add &JARs...
+IDEClassPathBlock.button_addProject=Add &Projects...
+IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_down=Abajo
+IDEClassPathBlock.button_edit=&Editar...
+IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_remove=Quita&r
+IDEClassPathBlock.button_up=Arriba
+IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
+IDEClassPathBlock.ProjectDialog_message=Select projects to add:
+IDEClassPathBlock.ProjectDialog_title=Required Project Selection
+IDECPListLabelProvider.folder=(class folder)
+IDECPListLabelProvider.missing=(missing)
+IDECPListLabelProvider.new=(new)
+IDECPListLabelProvider.unknown=unknown element
 IDEFileReportProvider.ReadOnlyEncounter.Title=Se ha encontrado un archivo de sólo lectura
 IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo lectura, asegúrese primero de que se puede escribir en él.
 IDEResourcePageHelper.Dialog.Prompt=Seleccionar un directorio: 
@@ -4541,6 +4571,7 @@ InputParameterDialog.err.requiredParam=No se ha especificado el valor del paráme
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=cambiar tamaño de columna
 ColumnDragTracker.Show.Label=Ancho:
+CPListLabelProvider.misssing=(missing)
 RowDragTracker.ResizeRow=cambiar tamaño de fila
 RowDragTracker.Show.Label=Altura:
 TableDragGuideTracker.Pixels=píxeles
