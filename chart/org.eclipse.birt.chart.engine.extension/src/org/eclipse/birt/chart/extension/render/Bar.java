@@ -365,6 +365,8 @@ public final class Bar extends AxesRenderer
 		double[] faX = new double[dpha.length];
 		double[] faY = new double[dpha.length];
 
+		boolean bShowOutside = isShowOutside( );
+
 		// Iterate each data point of series, compute coordinates/size/bounds
 		// and do renderer.
 		// THE MAIN LOOP THAT WALKS THROUGH THE DATA POINT HINTS ARRAY 'dpha'
@@ -567,7 +569,10 @@ public final class Bar extends AxesRenderer
 							boClientArea.getLeft( ) ) )
 					{
 						// BOTH ARE OUT OF RANGE
-						continue;
+						if ( !bShowOutside )
+						{
+							continue;
+						}
 					}
 					dX = boClientArea.getLeft( );
 				}
@@ -752,12 +757,20 @@ public final class Bar extends AxesRenderer
 					// RANGE CHECK (WITHOUT CLIPPING)
 					if ( dY < plotBaseLocation ) // TOP EDGE
 					{
-						if ( dBaseLocation < plotBaseLocation )
+						if ( bShowOutside )
 						{
-							// BOTH ARE OUT OF RANGE
-							continue;
+							dBaseLocation = plotBaseLocation;
+							dY = plotBaseLocation;
 						}
-						dY = plotBaseLocation; // - This causes
+						else
+						{
+							if ( dBaseLocation < plotBaseLocation )
+							{
+								// BOTH ARE OUT OF RANGE
+								continue;
+							}
+							dY = plotBaseLocation; // - This causes
+						}
 						// clipping in output
 					}
 					else if ( dBaseLocation < plotBaseLocation )
@@ -808,7 +821,10 @@ public final class Bar extends AxesRenderer
 								+ boClientArea.getHeight( ) )
 						{
 							// BOTH ARE OUT OF RANGE
-							continue;
+							if ( !bShowOutside )
+							{
+								continue;
+							}
 						}
 						dY = boClientArea.getTop( ) + boClientArea.getHeight( );
 					}
@@ -1179,7 +1195,7 @@ public final class Bar extends AxesRenderer
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT,
 					dpha[i] );
 
-			if ( dHeight != 0 )
+			if ( dHeight != 0 || bShowOutside )
 			{
 				// Do not render the bar when height is 0. Still keep the label.
 				if ( bRendering3D )
@@ -1329,7 +1345,9 @@ public final class Bar extends AxesRenderer
 					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT_LABEL,
 					laDataPoint );	
-			if ( laDataPoint.isVisible( ) && dHeight != 0 && dWidth != 0 )
+			if ( laDataPoint.isVisible( )
+					&& ( dHeight != 0 || bShowOutside )
+					&& dWidth != 0 )
 			{
 				// Only render the label that is inside
 				if ( !dpha[i].isOutside( ) )
