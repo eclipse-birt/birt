@@ -14,7 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -131,7 +131,7 @@ public class CrosstabExpressionProvider extends BindingExpressionProvider
 	public Image getImage( Object element )
 	{
 		if ( element instanceof LevelViewHandle )
-			return UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
+			return UIHelper.getImage( BuilderConstants.IMAGE_LEVEL );
 		return super.getImage( element );
 	}
 
