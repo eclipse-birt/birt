@@ -74,7 +74,6 @@ public class CComboPropertyDescriptor extends PropertyDescriptor
 		else
 		{
 			combo = new CCombo( parent, style );
-			combo.setVisibleItemCount( 30 );
 		}
 		combo.addControlListener( new ControlListener( ) {
 

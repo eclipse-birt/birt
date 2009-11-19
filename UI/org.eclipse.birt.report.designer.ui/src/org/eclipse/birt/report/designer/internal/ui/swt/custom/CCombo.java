@@ -57,7 +57,7 @@ public final class CCombo extends Composite {
 
 	Text text;
 	List list;
-	int visibleItemCount = 5;
+	int visibleItemCount = 30;
 	Shell popup;
 	Button arrow;
 	boolean hasFocus;

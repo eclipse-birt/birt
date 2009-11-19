@@ -168,7 +168,6 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 		composite.setLayout( new FillLayout( ) );
 
 		comboBox = new CCombo( composite, SWT.NONE );
-		comboBox.setVisibleItemCount( 30 );
 		comboBox.setBackground( bg );
 		comboBox.setFont( cell.getFont( ) );
 		comboBox.addSelectionListener( new SelectionAdapter( ) {

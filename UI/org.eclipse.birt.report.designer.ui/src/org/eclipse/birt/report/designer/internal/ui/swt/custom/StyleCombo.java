@@ -59,7 +59,7 @@ import org.eclipse.swt.widgets.Widget;
 public final class StyleCombo extends Composite
 {
 
-	int visibleItemCount = 4;
+	int visibleItemCount = 29;
 
 	Shell popup;
 

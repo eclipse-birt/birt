@@ -37,6 +37,8 @@ import org.eclipse.swt.widgets.Listener;
 public class ValueCombo extends Combo
 {
 
+	int visibleCount = 30;
+
 	public static interface ISelection
 	{
 
@@ -158,7 +160,6 @@ public class ValueCombo extends Combo
 			selected = false;
 			String eText = e.text;
 			ValueCombo combo = (ValueCombo) e.widget;
-
 			if ( combo.indexOf( eText ) >= 0 )
 			{
 				selected = true;
