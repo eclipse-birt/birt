@@ -160,9 +160,9 @@ public class PreviewPreferencePage extends PreferencePage implements
 		localeCombo = new Combo( composite, SWT.DROP_DOWN );
 		localeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		localeCombo.setVisibleItemCount( 30 );
-		assert WebViewer.LocaleTable != null;
-		String[] localeDisplayNames = new String[WebViewer.LocaleTable.size( )];
-		WebViewer.LocaleTable.keySet( ).toArray( localeDisplayNames );
+		assert WebViewer.LOCALE_TABLE != null;
+		String[] localeDisplayNames = new String[WebViewer.LOCALE_TABLE.size( )];
+		WebViewer.LOCALE_TABLE.keySet( ).toArray( localeDisplayNames );
 		localeCombo.setItems( localeDisplayNames );
 		String defaultLocale = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
@@ -172,9 +172,9 @@ public class PreviewPreferencePage extends PreferencePage implements
 			assert ULocale.getDefault( ) != null;
 			defaultLocale = ULocale.getDefault( ).getDisplayName( );
 		}
-		else if ( WebViewer.LocaleTable.values( ).contains( defaultLocale ) )
+		else if ( WebViewer.LOCALE_TABLE.values( ).contains( defaultLocale ) )
 		{
-			Iterator iter = WebViewer.LocaleTable.entrySet( ).iterator( );
+			Iterator iter = WebViewer.LOCALE_TABLE.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
 				Entry entry = (Entry) iter.next( );
@@ -630,10 +630,10 @@ public class PreviewPreferencePage extends PreferencePage implements
 
 		if ( localeCombo != null )
 		{
-			if ( WebViewer.LocaleTable.containsKey( localeCombo.getText( ) ) )
+			if ( WebViewer.LOCALE_TABLE.containsKey( localeCombo.getText( ) ) )
 			{
 				pref.setValue( WebViewer.USER_LOCALE,
-						WebViewer.LocaleTable.get( localeCombo.getText( ) ) );
+						WebViewer.LOCALE_TABLE.get( localeCombo.getText( ) ) );
 			}
 			else
 				pref.setValue( WebViewer.USER_LOCALE, localeCombo.getText( ) );

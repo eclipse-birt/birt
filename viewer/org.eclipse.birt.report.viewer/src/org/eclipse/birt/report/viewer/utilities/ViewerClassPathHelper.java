@@ -17,10 +17,12 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
+import org.eclipse.birt.report.designer.ui.IReportClasspathResolver;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
@@ -54,8 +56,7 @@ public class ViewerClassPathHelper
 				URL location = new URL( osgiDev );
 				devProperties = load( location );
 				if ( devProperties != null )
-					devDefaultClasspath = getArrayFromList( devProperties
-							.getProperty( "*" ) ); //$NON-NLS-1$
+					devDefaultClasspath = getArrayFromList( devProperties.getProperty( "*" ) ); //$NON-NLS-1$
 			}
 			catch ( MalformedURLException e )
 			{
@@ -90,16 +91,16 @@ public class ViewerClassPathHelper
 	{
 		if ( prop == null || prop.trim( ).equals( "" ) ) //$NON-NLS-1$
 			return new String[0];
-		Vector list = new Vector( );
+		List<String> list = new ArrayList<String>( );
 		StringTokenizer tokens = new StringTokenizer( prop, "," ); //$NON-NLS-1$
 		while ( tokens.hasMoreTokens( ) )
 		{
 			String token = tokens.nextToken( ).trim( );
 			if ( !token.equals( "" ) ) //$NON-NLS-1$
-				list.addElement( token );
+				list.add( token );
 		}
-		return list.isEmpty( ) ? new String[0] : (String[]) list
-				.toArray( new String[list.size( )] );
+		return list.isEmpty( ) ? new String[0]
+				: (String[]) list.toArray( new String[list.size( )] );
 	}
 
 	public static boolean inDevelopmentMode( )
@@ -138,6 +139,8 @@ public class ViewerClassPathHelper
 	 * Gets the workspace classpath
 	 * 
 	 * @return
+	 * 
+	 * @deprecated use {@link #getWorkspaceClassPath(String)}
 	 */
 	public static String getWorkspaceClassPath( )
 	{
@@ -155,11 +158,10 @@ public class ViewerClassPathHelper
 			if ( bundle == null )
 				return null;
 
-			Class clz = bundle.loadClass( FINDER_CLASSNAME );
+			Class<?> clz = bundle.loadClass( FINDER_CLASSNAME );
 
 			// register workspace classpath finder
-			IWorkspaceClasspathFinder finder = (IWorkspaceClasspathFinder) clz
-					.newInstance( );
+			IWorkspaceClasspathFinder finder = (IWorkspaceClasspathFinder) clz.newInstance( );
 			WorkspaceClasspathManager.registerClassPathFinder( finder );
 
 			// return the classpath property
@@ -174,6 +176,44 @@ public class ViewerClassPathHelper
 	}
 
 	/**
+	 * Returns the classpath associated with given report file.
+	 * 
+	 * @param reportFilePath
+	 *            The full path of the report file.
+	 * @return
+	 */
+	public static URL[] getWorkspaceClassPath( String reportFilePath )
+	{
+		ArrayList<URL> urls = new ArrayList<URL>( );
+
+		IReportClasspathResolver provider = ReportPlugin.getDefault( )
+				.getReportClasspathResolverService( );
+
+		if ( provider != null )
+		{
+			String[] classpaths = provider.resolveClasspath( reportFilePath );
+
+			if ( classpaths != null && classpaths.length != 0 )
+			{
+				for ( int j = 0; j < classpaths.length; j++ )
+				{
+					File file = new File( classpaths[j] );
+					try
+					{
+						urls.add( file.toURI( ).toURL( ) );
+					}
+					catch ( MalformedURLException e )
+					{
+						e.printStackTrace( );
+					}
+				}
+			}
+		}
+
+		return urls.toArray( new URL[urls.size( )] );
+	}
+
+	/**
 	 * parse the URLs by input path string
 	 * 
 	 * @param paths
@@ -181,7 +221,7 @@ public class ViewerClassPathHelper
 	 */
 	public static URL[] parseURLs( String paths )
 	{
-		ArrayList urls = new ArrayList( );
+		ArrayList<URL> urls = new ArrayList<URL>( );
 		if ( paths != null && paths.trim( ).length( ) > 0 )
 		{
 			String[] classpaths = paths.split( PROPERTYSEPARATOR, -1 );
@@ -192,7 +232,7 @@ public class ViewerClassPathHelper
 					File file = new File( classpaths[j] );
 					try
 					{
-						urls.add( file.toURL( ) );
+						urls.add( file.toURI( ).toURL( ) );
 					}
 					catch ( MalformedURLException e )
 					{
