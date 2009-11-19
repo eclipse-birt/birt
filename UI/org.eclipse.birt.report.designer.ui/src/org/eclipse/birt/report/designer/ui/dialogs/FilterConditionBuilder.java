@@ -384,6 +384,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 									dataSet,
 									DEUtil.getVisiableColumnBindingsList( designHandle )
 											.iterator( ),
+									DEUtil.getGroups( designHandle ).iterator( ),
 									false );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
@@ -536,6 +537,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 									dataSet,
 									DEUtil.getVisiableColumnBindingsList( designHandle )
 											.iterator( ),
+									DEUtil.getGroups( designHandle ).iterator( ),
 									false );
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
@@ -1521,6 +1523,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 							reportItem.getDataSet( ),
 							DEUtil.getVisiableColumnBindingsList( designHandle )
 									.iterator( ),
+							DEUtil.getGroups( designHandle ).iterator( ),
 							false );
 		}
 		else
