@@ -7,16 +7,24 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
@@ -32,7 +40,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 public class DateLevelDialog extends TitleAreaDialog
@@ -42,6 +52,8 @@ public class DateLevelDialog extends TitleAreaDialog
 	private Text nameText;
 	private Combo typeCombo;
 	private TabularLevelHandle input;
+	private TabularCubeHandle cube;
+	private IDialogHelper helper;
 
 	private static HashMap formatMap = new HashMap( );
 	static
@@ -174,9 +186,10 @@ public class DateLevelDialog extends TitleAreaDialog
 		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
 	}
 
-	public void setInput( TabularLevelHandle level )
+	public void setInput( TabularCubeHandle cube, TabularLevelHandle level )
 	{
 		this.input = level;
+		this.cube = cube;
 	}
 	// private Button noneIntervalButton;
 	// private Button intervalButton;
@@ -243,7 +256,7 @@ public class DateLevelDialog extends TitleAreaDialog
 	public String getDateTypeDisplayName( String name )
 	{
 		if ( name == null )
-			return "";
+			return ""; //$NON-NLS-1$
 		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
 				OlapUtil.getDateTimeLevelTypeChoiceSet( ) );
 	}
@@ -297,11 +310,13 @@ public class DateLevelDialog extends TitleAreaDialog
 		Composite content = new Composite( parent, SWT.NONE );
 		content.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		GridLayout layout = new GridLayout( );
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		content.setLayout( layout );
 		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Name" ) ); //$NON-NLS-1$
 		nameText = new Text( content, SWT.BORDER );
-		nameText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		nameText.setLayoutData( gd );
 		nameText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -313,7 +328,9 @@ public class DateLevelDialog extends TitleAreaDialog
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Type" ) ); //$NON-NLS-1$
 		typeCombo = new Combo( content, SWT.BORDER | SWT.READ_ONLY );
-		typeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		typeCombo.setLayoutData( gd );
 		typeCombo.setVisibleItemCount( 30 );
 		typeCombo.addSelectionListener( new SelectionAdapter( ) {
 
@@ -331,7 +348,9 @@ public class DateLevelDialog extends TitleAreaDialog
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Format" ) ); //$NON-NLS-1$
 		formatCombo = new Combo( content, SWT.BORDER | SWT.READ_ONLY );
-		formatCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		formatCombo.setLayoutData( gd );
 		formatCombo.setVisibleItemCount( 30 );
 		formatCombo.addSelectionListener( new SelectionAdapter( ) {
 
@@ -341,6 +360,36 @@ public class DateLevelDialog extends TitleAreaDialog
 			}
 
 		} );
+
+		createControlTypeChooser( content );
+	}
+
+	private void createControlTypeChooser( Composite parent )
+	{
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( cube,
+				IDialogHelperProvider.class );
+		if ( helperProvider != null )
+		{
+			helper = helperProvider.createHelper( this, null );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+					Messages.getString("DateLevelDialog.Access.Control.List.Expression") ); //$NON-NLS-1$
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+					cube );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+					new CubeExpressionProvider( cube ) );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+					input.getACLExpression( ) );
+			helper.createContent( parent );
+			helper.addListener( SWT.Modify, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					helper.update( false );
+				}
+			} );
+			helper.update( true );
+		}
+
 	}
 
 	protected void createButtonsForButtonBar( Composite parent )
@@ -348,7 +397,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		super.createButtonsForButtonBar( parent );
 		checkOkButtonStatus( );
 	}
-	
+
 	protected void checkOkButtonStatus( )
 	{
 		if ( nameText.getText( ) == null
@@ -399,6 +448,11 @@ public class DateLevelDialog extends TitleAreaDialog
 				else
 					input.setDateTimeFormat( getFormatPatternItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
 							.toString( ) )[formatCombo.getSelectionIndex( ) - 1] );
+			}
+			if ( helper != null )
+			{
+				input.setExpressionProperty( LevelHandle.ACL_EXPRESSION_PROP,
+						(Expression) helper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 			}
 		}
 		catch ( Exception e )

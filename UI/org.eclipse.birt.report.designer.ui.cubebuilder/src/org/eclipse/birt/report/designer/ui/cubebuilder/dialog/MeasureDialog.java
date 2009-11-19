@@ -21,16 +21,21 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -48,12 +53,13 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 public class MeasureDialog extends TitleAreaDialog
@@ -63,7 +69,6 @@ public class MeasureDialog extends TitleAreaDialog
 	private Combo typeCombo;
 	private Text expressionText;
 	private Combo functionCombo;
-	private Button expressionButton;
 
 	private TabularMeasureHandle input;
 	private TabularCubeHandle cube;
@@ -74,6 +79,7 @@ public class MeasureDialog extends TitleAreaDialog
 			.getAllowedChoices( )
 			.getChoices( );
 	private Object result;
+	private IDialogHelper helper;
 
 	public MeasureDialog( boolean newOrEdit )
 	{
@@ -191,7 +197,7 @@ public class MeasureDialog extends TitleAreaDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG );
-		setTitle( Messages.getString( "MeasureDialog.Title.Property" ) );
+		setTitle( Messages.getString( "MeasureDialog.Title.Property" ) ); //$NON-NLS-1$
 
 		Composite area = (Composite) super.createDialogArea( parent );
 
@@ -281,6 +287,11 @@ public class MeasureDialog extends TitleAreaDialog
 							measure,
 							MeasureHandle.MEASURE_EXPRESSION_PROP );
 				}
+				if ( helper != null )
+				{
+					measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+							(Expression) helper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
 				result = measure;
 			}
 			else
@@ -296,8 +307,14 @@ public class MeasureDialog extends TitleAreaDialog
 				}
 				else
 					input.setMeasureExpression( null );
+				if ( helper != null )
+				{
+					input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+							(Expression) helper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
 				result = input;
 			}
+
 		}
 		catch ( SemanticException e )
 		{
@@ -315,7 +332,7 @@ public class MeasureDialog extends TitleAreaDialog
 
 	private Composite createMeasureArea( Composite parent )
 	{
-		getShell( ).setText( Messages.getString( "MeasureDialog.Title.Property" ) );
+		getShell( ).setText( Messages.getString( "MeasureDialog.Title.Property" ) ); //$NON-NLS-1$
 		Group group = new Group( parent, SWT.NONE );
 		GridData gd = new GridData( );
 		gd.grabExcessHorizontalSpace = true;
@@ -395,7 +412,36 @@ public class MeasureDialog extends TitleAreaDialog
 				new CubeExpressionProvider( cube ),
 				cube );
 
+		createControlTypeChooser( group );
 		return group;
+	}
+
+	private void createControlTypeChooser( Composite parent )
+	{
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( cube,
+				IDialogHelperProvider.class );
+		if ( helperProvider != null )
+		{
+			helper = helperProvider.createHelper( this, null );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+					Messages.getString("MeasureDialog.Access.Control.List.Expression") ); //$NON-NLS-1$
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+					cube );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+					new CubeExpressionProvider( cube ) );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+					input.getACLExpression( ) );
+			helper.createContent( parent );
+			helper.addListener( SWT.Modify, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					helper.update( false );
+				}
+			} );
+			helper.update( true );
+		}
+
 	}
 
 	protected void handleTypeSelectEvent( )

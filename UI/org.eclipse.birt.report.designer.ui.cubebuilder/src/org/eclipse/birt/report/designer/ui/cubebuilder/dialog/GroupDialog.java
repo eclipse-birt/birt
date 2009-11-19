@@ -5,17 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -52,7 +57,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -70,10 +77,15 @@ public class GroupDialog extends TitleAreaDialog
 
 	private String dataField;
 	private TabularHierarchyHandle hierarchy;
+	private TabularCubeHandle cube;
+	private IDialogHelper helper;
 	private List levelList = new ArrayList( );
 
-	public void setInput( TabularHierarchyHandle hierarchy, String dataField )
+	public void setInput( TabularCubeHandle cube,
+			TabularHierarchyHandle hierarchy, String dataField )
 	{
+		this.cube = cube;
+		dimension = (DimensionHandle) hierarchy.getContainer( );
 		this.dataField = dataField;
 		this.hierarchy = hierarchy;
 		TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents( IHierarchyModel.LEVELS_PROP )
@@ -146,7 +158,7 @@ public class GroupDialog extends TitleAreaDialog
 		{
 			regularButton.setSelection( true );
 			dateButton.setSelection( false );
-			levelViewer.getTree( ).setVisible( false );
+			WidgetUtil.setExcludeGridData( levelViewer.getTree( ), true );
 			setMessage( "" ); //$NON-NLS-1$
 			isRegularButton = true;
 		}
@@ -156,16 +168,17 @@ public class GroupDialog extends TitleAreaDialog
 			dateButton.setSelection( true );
 			if ( dataField != null )
 			{
-				levelViewer.getTree( ).setVisible( true );
+				WidgetUtil.setExcludeGridData( levelViewer.getTree( ), false );
 				setMessage( Messages.getString( "DateGroupDialog.Message" ) ); //$NON-NLS-1$
 			}
 			else
 			{
-				levelViewer.getTree( ).setVisible( false );
+				WidgetUtil.setExcludeGridData( levelViewer.getTree( ), true );
 				setMessage( "" ); //$NON-NLS-1$
 			}
 			isRegularButton = false;
 		}
+		levelViewer.getTree( ).getParent( ).layout( );
 		checkOKButtonStatus( );
 	}
 
@@ -291,7 +304,7 @@ public class GroupDialog extends TitleAreaDialog
 
 		public Image getImage( Object element )
 		{
-			return UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
+			return UIHelper.getImage( BuilderConstants.IMAGE_LEVEL );
 		}
 
 		public String getText( Object element )
@@ -304,11 +317,23 @@ public class GroupDialog extends TitleAreaDialog
 	{
 		try
 		{
-			hierarchy.getContainer( ).setName( nameText.getText( ).trim( ) );
+			dimension.setName( nameText.getText( ).trim( ) );
 		}
 		catch ( NameException e1 )
 		{
 			ExceptionUtil.handle( e1 );
+		}
+		if ( helper != null )
+		{
+			try
+			{
+				dimension.setExpressionProperty( DimensionHandle.ACL_EXPRESSION_PROP,
+						(Expression) helper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionUtil.handle( e );
+			}
 		}
 
 		if ( regularButton.getSelection( ) )
@@ -495,17 +520,29 @@ public class GroupDialog extends TitleAreaDialog
 	private Button regularButton;
 	private Button dateButton;
 	private boolean isRegularButton = false;
+	private DimensionHandle dimension;
 
 	private void createContentArea( Composite parent )
 	{
 		Composite content = new Composite( parent, SWT.NONE );
 		content.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		GridLayout layout = new GridLayout( );
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		content.setLayout( layout );
-		new Label( content, SWT.NONE ).setText( Messages.getString( "DateGroupDialog.Name" ) ); //$NON-NLS-1$
-		nameText = new Text( content, SWT.BORDER );
-		nameText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Composite nameContainer = new Composite( content, SWT.NONE );
+		layout = new GridLayout( );
+		layout.numColumns = 2;
+		layout.marginWidth = layout.marginHeight = 0;
+		nameContainer.setLayout( layout );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		nameContainer.setLayoutData( gd );
+
+		new Label( nameContainer, SWT.NONE ).setText( Messages.getString( "DateGroupDialog.Name" ) ); //$NON-NLS-1$
+		nameText = new Text( nameContainer, SWT.BORDER );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		nameText.setLayoutData( gd );
 		nameText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -516,8 +553,8 @@ public class GroupDialog extends TitleAreaDialog
 		} );
 
 		levelViewer = new CheckboxTreeViewer( content, SWT.SINGLE | SWT.BORDER );
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.horizontalSpan = 2;
+		gd = new GridData( GridData.FILL_BOTH );
+		gd.horizontalSpan = 3;
 		levelViewer.getTree( ).setLayoutData( gd );
 
 		DateLevelProvider provider = new DateLevelProvider( );
@@ -560,6 +597,36 @@ public class GroupDialog extends TitleAreaDialog
 				}
 			}
 		} );
+
+		createSecurityPart( content );
+	}
+
+	private void createSecurityPart( Composite parent )
+	{
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( cube,
+				IDialogHelperProvider.class );
+		if ( helperProvider != null )
+		{
+			helper = helperProvider.createHelper( this, null );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+					Messages.getString("GroupDialog.Access.Control.List.Expression") ); //$NON-NLS-1$
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+					cube );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+					new CubeExpressionProvider( cube ) );
+			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+					dimension.getACLExpression( ) );
+			helper.createContent( parent );
+			helper.addListener( SWT.Modify, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					helper.update( false );
+				}
+			} );
+			helper.update( true );
+		}
+
 	}
 
 	protected void checkOKButtonStatus( )
@@ -614,17 +681,19 @@ public class GroupDialog extends TitleAreaDialog
 		checkOKButtonStatus( );
 	}
 
-	public void setInput( TabularHierarchyHandle hierarchy )
+	public void setInput( TabularCubeHandle cube,
+			TabularHierarchyHandle hierarchy )
 	{
 		if ( hierarchy.getLevelCount( ) == 0 )
-			setInput( hierarchy, null );
+			setInput( cube, hierarchy, null );
 		else
 		{
 			if ( !isDateType( hierarchy,
 					( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) ) )
-				setInput( hierarchy, null );
+				setInput( cube, hierarchy, null );
 			else
-				setInput( hierarchy,
+				setInput( cube,
+						hierarchy,
 						( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) );
 		}
 

@@ -15,7 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.NewCubeAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -72,6 +72,6 @@ public class CubesNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		return UIHelper.getImage( BuilderConstancts.IMAGE_CUBES );
+		return UIHelper.getImage( BuilderConstants.IMAGE_CUBES );
 	}
 }

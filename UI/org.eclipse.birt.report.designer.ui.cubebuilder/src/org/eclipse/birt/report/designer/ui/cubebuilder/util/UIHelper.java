@@ -137,7 +137,7 @@ public final class UIHelper
 			String key )
 	{
 		UserPropertyDefnHandle property = module.getUserPropertyDefnHandle( id
-				+ BuilderConstancts.PROPERTY_SEPARATOR
+				+ BuilderConstants.PROPERTY_SEPARATOR
 				+ key );
 		if ( property == null )
 			return false;
@@ -150,7 +150,7 @@ public final class UIHelper
 	public static int getIntProperty( ModuleHandle module, String id, String key )
 	{
 		return module.getIntProperty( id
-				+ BuilderConstancts.PROPERTY_SEPARATOR
+				+ BuilderConstants.PROPERTY_SEPARATOR
 				+ key );
 	}
 
@@ -158,14 +158,14 @@ public final class UIHelper
 			String key ) throws UserPropertyException
 	{
 		UserPropertyDefnHandle property = module.getUserPropertyDefnHandle( id
-				+ BuilderConstancts.PROPERTY_SEPARATOR
+				+ BuilderConstants.PROPERTY_SEPARATOR
 				+ key );
 		if ( property != null
 				&& property.getType( ) != PropertyType.INTEGER_TYPE )
 			module.dropUserPropertyDefn( property.getName( ) );
 
 		UserPropertyDefn propertyDefn = new UserPropertyDefn( );
-		propertyDefn.setName( id + BuilderConstancts.PROPERTY_SEPARATOR + key );
+		propertyDefn.setName( id + BuilderConstants.PROPERTY_SEPARATOR + key );
 		propertyDefn.setType( DEUtil.getMetaDataDictionary( )
 				.getPropertyType( PropertyType.INTEGER_TYPE ) );
 		propertyDefn.setVisible( false );
@@ -179,7 +179,7 @@ public final class UIHelper
 		{
 			createIntPropertyDefn( module, id, key );
 		}
-		module.setIntProperty( id + BuilderConstancts.PROPERTY_SEPARATOR + key,
+		module.setIntProperty( id + BuilderConstants.PROPERTY_SEPARATOR + key,
 				value );
 	}
 
@@ -188,15 +188,15 @@ public final class UIHelper
 		if ( model instanceof DataSetHandle )
 		{
 			return carrier.getName( )
-					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ BuilderConstants.PROPERTY_SEPARATOR
 					+ ( ( (DesignElementHandle) model ).getName( ) );
 		}
 		if ( model instanceof HierarchyHandle )
 		{
 			return carrier.getName( )
-					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ BuilderConstants.PROPERTY_SEPARATOR
 					+ ( (HierarchyHandle) model ).getContainer( ).getName( )
-					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ BuilderConstants.PROPERTY_SEPARATOR
 					+ ( ( (DesignElementHandle) model ).getName( ) );
 		}
 		return ""; //$NON-NLS-1$
@@ -209,10 +209,10 @@ public final class UIHelper
 		if(hierarcy == null)return;
 		try
 		{
-			dropProperty( cube, hierarcy, BuilderConstancts.POSITION_X );
-			dropProperty( cube, hierarcy, BuilderConstancts.POSITION_Y );
-			dropProperty( cube, hierarcy, BuilderConstancts.SIZE_WIDTH );
-			dropProperty( cube, hierarcy, BuilderConstancts.SIZE_HEIGHT );
+			dropProperty( cube, hierarcy, BuilderConstants.POSITION_X );
+			dropProperty( cube, hierarcy, BuilderConstants.POSITION_Y );
+			dropProperty( cube, hierarcy, BuilderConstants.SIZE_WIDTH );
+			dropProperty( cube, hierarcy, BuilderConstants.SIZE_HEIGHT );
 		}
 		catch ( Exception e )
 		{
@@ -230,14 +230,14 @@ public final class UIHelper
 		{
 
 			if ( module.getProperty( getId( hierarcy, cube )
-					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ BuilderConstants.PROPERTY_SEPARATOR
 					+ type ) != null )
 				module.clearProperty( getId( hierarcy, cube )
-						+ BuilderConstancts.PROPERTY_SEPARATOR
+						+ BuilderConstants.PROPERTY_SEPARATOR
 						+ type );
 
 			module.dropUserPropertyDefn( getId( hierarcy, cube )
-					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ BuilderConstants.PROPERTY_SEPARATOR
 					+ type );
 
 		}

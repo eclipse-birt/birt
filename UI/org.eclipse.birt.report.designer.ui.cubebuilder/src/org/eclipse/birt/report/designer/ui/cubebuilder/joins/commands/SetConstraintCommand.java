@@ -9,7 +9,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands;
 
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -49,19 +49,19 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command
 			{
 				UIHelper.setIntProperty( module,
 						id,
-						BuilderConstancts.POSITION_X,
+						BuilderConstants.POSITION_X,
 						newPos.x );
 				UIHelper.setIntProperty( module,
 						id,
-						BuilderConstancts.POSITION_Y,
+						BuilderConstants.POSITION_Y,
 						newPos.y );
 				UIHelper.setIntProperty( module,
 						id,
-						BuilderConstancts.SIZE_WIDTH,
+						BuilderConstants.SIZE_WIDTH,
 						newSize.width );
 				UIHelper.setIntProperty( module,
 						id,
-						BuilderConstancts.SIZE_HEIGHT,
+						BuilderConstants.SIZE_HEIGHT,
 						newSize.height );
 			}
 			catch ( SemanticException e )

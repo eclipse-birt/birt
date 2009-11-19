@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures;
 
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.draw2d.AnchorListener;
 import org.eclipse.draw2d.ColorConstants;
@@ -53,7 +53,7 @@ public class ColumnConnection extends PolylineConnection implements
 		joinTypeIcon = new Label( "" ); //$NON-NLS-1$
 		joinTypeIcon.setLabelAlignment( 1 );
 		joinTypeIcon.setTextPlacement( 20 );
-		joinTypeIcon.setIcon( UIHelper.getImage( BuilderConstancts.IMAGE_JOINS ) );
+		joinTypeIcon.setIcon( UIHelper.getImage( BuilderConstants.IMAGE_JOINS ) );
 		this.add( joinTypeIcon );
 		this.setConnectionRouter( null );
 		

@@ -21,7 +21,7 @@ import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeDimensionAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -151,7 +151,7 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		return UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION );
+		return UIHelper.getImage( BuilderConstants.IMAGE_DIMENSION );
 	}
 
 }

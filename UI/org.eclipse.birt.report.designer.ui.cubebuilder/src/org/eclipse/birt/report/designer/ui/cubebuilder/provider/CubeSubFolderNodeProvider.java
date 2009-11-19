@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -32,11 +32,11 @@ public class CubeSubFolderNodeProvider extends DefaultNodeProvider
 		String name = property.getPropertyDefn( ).getName( );
 		if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
 		{
-			return UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION_FOLDER );
+			return UIHelper.getImage( BuilderConstants.IMAGE_DIMENSION_FOLDER );
 		}
 		else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 		{
-			return UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP_FOLDER );
+			return UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP_FOLDER );
 		}
 		return super.getNodeIcon( model );
 	}

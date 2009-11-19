@@ -16,7 +16,7 @@ import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -47,21 +47,21 @@ public class CubeLabelProvider extends LabelProvider
 
 	private static final Image IMG_DATAFIELD = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
 
-	private static final Image IMG_CUBE = UIHelper.getImage( BuilderConstancts.IMAGE_CUBE );
+	private static final Image IMG_CUBE = UIHelper.getImage( BuilderConstants.IMAGE_CUBE );
 
-	private static final Image IMG_DIMENSION = UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION );
+	private static final Image IMG_DIMENSION = UIHelper.getImage( BuilderConstants.IMAGE_DIMENSION );
 
-	private static final Image IMG_DIMENSION_FOLDER = UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION_FOLDER );
+	private static final Image IMG_DIMENSION_FOLDER = UIHelper.getImage( BuilderConstants.IMAGE_DIMENSION_FOLDER );
 
-	private static final Image IMG_MEASUREGROUP_FOLDER = UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP_FOLDER );
+	private static final Image IMG_MEASUREGROUP_FOLDER = UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP_FOLDER );
 
 	private static final Image IMG_MEASURE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
 
-	private static final Image IMG_MEASUREGROUP = UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP );
+	private static final Image IMG_MEASUREGROUP = UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP );
 
-	private static final Image IMG_LEVEL = UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
+	private static final Image IMG_LEVEL = UIHelper.getImage( BuilderConstants.IMAGE_LEVEL );
 
-	private static final Image IMG_OTHER_DATASETS = UIHelper.getImage( BuilderConstancts.IMAGE_OTHER_DATASETS );
+	private static final Image IMG_OTHER_DATASETS = UIHelper.getImage( BuilderConstants.IMAGE_OTHER_DATASETS );
 
 	private TabularCubeHandle input;
 

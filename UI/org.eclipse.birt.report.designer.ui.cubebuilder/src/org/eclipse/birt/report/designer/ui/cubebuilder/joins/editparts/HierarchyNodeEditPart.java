@@ -19,7 +19,7 @@ import java.util.Random;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -141,7 +141,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 		Rectangle r;
 		if ( !UIHelper.existIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
 				UIHelper.getId( getModel( ), cube ),
-				BuilderConstancts.POSITION_X ) )
+				BuilderConstants.POSITION_X ) )
 		{
 			int displayWidth = 500 - 40;
 			int displayHeight = 400 - 20;
@@ -235,7 +235,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	{
 		int width = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
-				BuilderConstancts.SIZE_WIDTH );
+				BuilderConstants.SIZE_WIDTH );
 		return width == 0 ? 150 : width;
 	}
 
@@ -243,7 +243,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	{
 		int height = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
-				BuilderConstancts.SIZE_HEIGHT );
+				BuilderConstants.SIZE_HEIGHT );
 		return height == 0 ? 200 : height;
 	}
 
@@ -251,7 +251,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	{
 		int x = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
-				BuilderConstancts.POSITION_X );
+				BuilderConstants.POSITION_X );
 		return x;
 	}
 
@@ -259,7 +259,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	{
 		int y = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
-				BuilderConstancts.POSITION_Y );
+				BuilderConstants.POSITION_Y );
 		return y;
 	}
 
@@ -269,7 +269,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 		{
 			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
 					UIHelper.getId( getModel( ), cube ),
-					BuilderConstancts.POSITION_X,
+					BuilderConstants.POSITION_X,
 					x );
 		}
 		catch ( SemanticException e )
@@ -285,7 +285,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 		{
 			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
 					UIHelper.getId( getModel( ), cube ),
-					BuilderConstancts.POSITION_Y,
+					BuilderConstants.POSITION_Y,
 					y );
 		}
 		catch ( SemanticException e )
@@ -299,7 +299,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	{
 		return UIHelper.existIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
-				BuilderConstancts.POSITION_X );
+				BuilderConstants.POSITION_X );
 	}
 
 	/*

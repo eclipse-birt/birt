@@ -16,7 +16,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableS
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -108,7 +108,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		Rectangle r;
 		if ( !UIHelper.existIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstancts.POSITION_X ) )
+				BuilderConstants.POSITION_X ) )
 		{
 			int width = getWidth( );
 			int height = getHeight( );
@@ -132,7 +132,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	{
 		int width = UIHelper.getIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstancts.SIZE_WIDTH );
+				BuilderConstants.SIZE_WIDTH );
 		return width == 0 ? 150 : width;
 	}
 
@@ -140,7 +140,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	{
 		int height = UIHelper.getIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstancts.SIZE_HEIGHT );
+				BuilderConstants.SIZE_HEIGHT );
 		return height == 0 ? 200 : height;
 	}
 
@@ -148,7 +148,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	{
 		int x = UIHelper.getIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstancts.POSITION_X );
+				BuilderConstants.POSITION_X );
 		return x;
 	}
 
@@ -156,7 +156,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	{
 		int y = UIHelper.getIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstancts.POSITION_Y );
+				BuilderConstants.POSITION_Y );
 		return y;
 	}
 
@@ -166,7 +166,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		{
 			UIHelper.setIntProperty( cube.getRoot( ),
 					UIHelper.getId( cube.getDataSet( ), cube ),
-					BuilderConstancts.POSITION_X,
+					BuilderConstants.POSITION_X,
 					x );
 		}
 		catch ( SemanticException e )
@@ -182,7 +182,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		{
 			UIHelper.setIntProperty( cube.getRoot( ),
 					UIHelper.getId( cube.getDataSet( ), cube ),
-					BuilderConstancts.POSITION_Y,
+					BuilderConstants.POSITION_Y,
 					y );
 		}
 		catch ( SemanticException e )

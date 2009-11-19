@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
@@ -25,12 +27,15 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
@@ -42,6 +47,8 @@ import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
@@ -67,6 +74,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -74,9 +82,11 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -327,7 +337,30 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				ExceptionUtil.handle( e );
 				return;
 			}
-
+			if ( dynamicLevelHelper != null )
+			{
+				try
+				{
+					input.setExpressionProperty( LevelHandle.ACL_EXPRESSION_PROP,
+							(Expression) dynamicLevelHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionUtil.handle( e );
+				}
+			}
+			if ( dynamicMemberHelper != null )
+			{
+				try
+				{
+					input.setExpressionProperty( LevelHandle.MEMBER_ACL_EXPRESSION_PROP,
+							(Expression) dynamicMemberHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionUtil.handle( e );
+				}
+			}
 		}
 		else if ( staticButton.getSelection( ) )
 		{
@@ -351,8 +384,32 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				ExceptionUtil.handle( e );
 				return;
 			}
-
+			if ( staticLevelHelper != null )
+			{
+				try
+				{
+					input.setExpressionProperty( LevelHandle.ACL_EXPRESSION_PROP,
+							(Expression) staticLevelHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionUtil.handle( e );
+				}
+			}
+			if ( staticMemberHelper != null )
+			{
+				try
+				{
+					input.setExpressionProperty( LevelHandle.MEMBER_ACL_EXPRESSION_PROP,
+							(Expression) staticMemberHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionUtil.handle( e );
+				}
+			}
 		}
+
 		super.okPressed( );
 	}
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
@@ -794,7 +851,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		Group groupGroup = new Group( contents, SWT.NONE );
 		layout = new GridLayout( );
-		layout.numColumns = 4;
+		layout.numColumns = 3;
 		groupGroup.setLayout( layout );
 
 		groupGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -803,7 +860,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		nameLabel.setText( Messages.getString( "LevelPropertyDialog.Name" ) ); //$NON-NLS-1$
 		nameText = new Text( groupGroup, SWT.BORDER );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
+		gd.horizontalSpan = 2;
 		nameText.setLayoutData( gd );
 		nameText.addModifyListener( new ModifyListener( ) {
 
@@ -818,7 +875,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		fieldLabel.setText( Messages.getString( "LevelPropertyDialog.KeyField" ) ); //$NON-NLS-1$
 		fieldCombo = new Combo( groupGroup, SWT.BORDER | SWT.READ_ONLY );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
+		gd.horizontalSpan = 2;
 		fieldCombo.setLayoutData( gd );
 		fieldCombo.setVisibleItemCount( 30 );
 		fieldCombo.addSelectionListener( new SelectionAdapter( ) {
@@ -834,7 +891,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		displayKeyLabel.setText( Messages.getString( "LevelPropertyDialog.DisplayField" ) ); //$NON-NLS-1$
 		displayKeyCombo = new Combo( groupGroup, SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
 		displayKeyCombo.setLayoutData( gd );
 		displayKeyCombo.setVisibleItemCount( 30 );
 		displayKeyCombo.addSelectionListener( new SelectionAdapter( ) {
@@ -874,8 +930,11 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		} );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
+		gd.horizontalSpan = 2;
 		dynamicDataTypeCombo.setLayoutData( gd );
+
+		dynamicLevelHelper = createLevelSecurityPart( groupGroup );
+		dynamicMemberHelper = createMemberSecurityPart( groupGroup );
 
 		dynamicTable = new Table( contents, SWT.SINGLE
 				| SWT.FULL_SELECTION
@@ -909,7 +968,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					}
 					catch ( Exception e1 )
 					{
-						WidgetUtil.processError( getShell( ), e1 );
+						ExceptionUtil.handle( e1 );
 					}
 					refreshDynamicViewer( );
 				}
@@ -931,7 +990,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		{
 			column1.setText( columns[1] );
 		}
-		column1.setWidth( 200 );
+		column1.setWidth( 230 );
 
 		dynamicViewer.setColumnProperties( new String[]{
 				"", prop_Attribute //$NON-NLS-1$
@@ -949,6 +1008,68 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		dynamicViewer.setCellModifier( dynamicCellModifier );
 
 		return contents;
+	}
+
+	private IDialogHelper createLevelSecurityPart( Composite parent )
+	{
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( cube,
+				IDialogHelperProvider.class );
+		if ( helperProvider != null )
+		{
+			final IDialogHelper levelHelper = helperProvider.createHelper( this,
+					null );
+
+			levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+					Messages.getString("LevelPropertyDialog.Access.Control.List.Expression") ); //$NON-NLS-1$
+			levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+					cube );
+			levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+					new CubeExpressionProvider( cube ) );
+			levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+					input.getACLExpression( ) );
+			levelHelper.createContent( parent );
+			levelHelper.addListener( SWT.Modify, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					levelHelper.update( false );
+				}
+			} );
+			levelHelper.update( true );
+			return levelHelper;
+		}
+		return null;
+	}
+
+	private IDialogHelper createMemberSecurityPart( Composite parent )
+	{
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( cube,
+				IDialogHelperProvider.class );
+		if ( helperProvider != null )
+		{
+			final IDialogHelper memberHelper = helperProvider.createHelper( this,
+					null );
+
+			memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+					Messages.getString("LevelPropertyDialog.Member.Access.Control.List.Expression") ); //$NON-NLS-1$
+			memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+					cube );
+			memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+					new CubeExpressionProvider( cube ) );
+			memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+					input.getMemberACLExpression( ) );
+			memberHelper.createContent( parent );
+			memberHelper.addListener( SWT.Modify, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					memberHelper.update( false );
+				}
+			} );
+			memberHelper.update( true );
+			return memberHelper;
+		}
+		return null;
 	}
 
 	String[] attributeItems = new String[0];
@@ -1109,6 +1230,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	}
 
 	private TabularLevelHandle input;
+	private TabularCubeHandle cube;
 	private TableViewer dynamicViewer;
 	private Text nameText;
 
@@ -1134,6 +1256,10 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	private Table defaultValueTable;
 	private TableColumn[] defaultValueColumns;
 	private TableColumn[] staticColumns;
+	private IDialogHelper dynamicLevelHelper;
+	private IDialogHelper dynamicMemberHelper;
+	private IDialogHelper staticLevelHelper;
+	private IDialogHelper staticMemberHelper;
 
 	protected Composite createStaticArea( Composite parent )
 	{
@@ -1145,12 +1271,14 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		Group properties = new Group( container, SWT.NONE );
 		layout = new GridLayout( );
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		properties.setLayout( layout );
 		properties.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		new Label( properties, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.Name" ) ); //$NON-NLS-1$
 		staticNameText = new Text( properties, SWT.BORDER );
-		staticNameText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		staticNameText.setLayoutData( gd );
 		staticNameText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -1161,7 +1289,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		} );
 		new Label( properties, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.DataType" ) ); //$NON-NLS-1$
 		staticDataTypeCombo = new Combo( properties, SWT.BORDER | SWT.READ_ONLY );
-		staticDataTypeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		staticDataTypeCombo.setLayoutData( gd );
 		staticDataTypeCombo.setVisibleItemCount( 30 );
 		staticDataTypeCombo.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1171,6 +1301,10 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 
 		} );
+
+		staticLevelHelper = createLevelSecurityPart( properties );
+		staticMemberHelper = createMemberSecurityPart( properties );
+
 		Group contents = new Group( container, SWT.NONE );
 		layout = new GridLayout( );
 		contents.setLayout( layout );
@@ -1181,7 +1315,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				| SWT.BORDER
 				| SWT.VERTICAL
 				| SWT.HORIZONTAL );
-		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 150;
 		staticTable.setLayoutData( gd );
 		staticTable.setLinesVisible( true );
@@ -1208,7 +1342,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					}
 					catch ( Exception e1 )
 					{
-						WidgetUtil.processError( getShell( ), e1 );
+						ExceptionUtil.handle( e1 );
 					}
 					refreshStaticViewer( );
 				}
@@ -1223,7 +1357,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		};
 
 		int[] widths = new int[]{
-				15, 150, 150
+				15, 180, 180
 		};
 
 		staticColumns = new TableColumn[3];
@@ -1312,9 +1446,10 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 	}
 
-	public void setInput( TabularLevelHandle level )
+	public void setInput( TabularCubeHandle cube, TabularLevelHandle level )
 	{
 		this.input = level;
+		this.cube = cube;
 	}
 
 	public static void setExcludeGridData( Control control, boolean exclude )
@@ -1413,5 +1548,13 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				staticButton.setSelection( true );
 			}
 		}
+	}
+
+	protected Point getInitialSize( )
+	{
+		Point shellSize = super.getInitialSize( );
+		return new Point( Math.max( convertHorizontalDLUsToPixels( 400 ),
+				shellSize.x ), Math.max( convertVerticalDLUsToPixels( 350 ),
+				shellSize.y ) );
 	}
 }
