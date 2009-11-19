@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.data.ui.util;
 
 import java.io.File;
@@ -64,7 +65,7 @@ import org.osgi.framework.Bundle;
 /**
  * 
  * Utility class to get meta data and data from data set
- *
+ * 
  */
 public final class DataSetProvider
 {
@@ -105,6 +106,7 @@ public final class DataSetProvider
 
 	/**
 	 * get columns data by data set name
+	 * 
 	 * @param dataSetName
 	 * @param refresh
 	 * @return
@@ -122,6 +124,7 @@ public final class DataSetProvider
 
 	/**
 	 * get column data by data set handle
+	 * 
 	 * @param dataSet
 	 * @param refresh
 	 * @return
@@ -179,12 +182,12 @@ public final class DataSetProvider
 		if ( columns == null )
 		{
 			columns = new DataSetViewData[]{};
-			//updateModel( dataSet, columns );
+			// updateModel( dataSet, columns );
 			htColumns.put( dataSet, columns );
 		}
 		return columns;
 	}
-    
+
 	/**
 	 * populate all output columns in viewer display. The output columns is
 	 * retrieved from oda dataset handles's RESULT_SET_PROP and
@@ -193,11 +196,12 @@ public final class DataSetProvider
 	 * @throws BirtException
 	 */
 	public DataSetViewData[] populateAllOutputColumns(
-			DataSetHandle dataSetHandle, DataRequestSession session ) throws BirtException
+			DataSetHandle dataSetHandle, DataRequestSession session )
+			throws BirtException
 	{
 		IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
 				false );
-		if( metaData == null )
+		if ( metaData == null )
 			return new DataSetViewData[0];
 		DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
 
@@ -218,7 +222,7 @@ public final class DataSetProvider
 		updateModel( dataSetHandle, items );
 		return items;
 	}
-	
+
 	/**
 	 * get Cached metadata
 	 * 
@@ -249,9 +253,10 @@ public final class DataSetProvider
 		}
 		return items;
 	}
-	
+
 	/**
-	 * update the columns of the DataSetHandle and put the new DataSetViewData[] into htColumns
+	 * update the columns of the DataSetHandle and put the new DataSetViewData[]
+	 * into htColumns
 	 * 
 	 * @param dataSet
 	 * @param dsItemModel
@@ -263,7 +268,7 @@ public final class DataSetProvider
 			return;
 		htColumns.put( dataSet, dsItemModel );
 	}
-	
+
 	/**
 	 * This function should be called very carefully. Presently it is only
 	 * called in DataSetEditorDialog#performCancel.
@@ -282,7 +287,7 @@ public final class DataSetProvider
 		cleanUnusedComputedColumn( dataSet, dsItemModel );
 		htColumns.put( dataSet, dsItemModel );
 	}
-	
+
 	private ColumnHintHandle findColumnHint( DataSetHandle handle,
 			String columnName )
 	{
@@ -416,7 +421,7 @@ public final class DataSetProvider
 			}
 			session.defineDataSet( dataSetDesign );
 		}
-		
+
 		QueryDefinition queryDefn = getQueryDefinition( dataSetDesign,
 				rowsToReturn );
 
@@ -455,7 +460,7 @@ public final class DataSetProvider
 
 		return resultSet;
 	}
-	
+
 	/**
 	 * 
 	 * @param dataSet
@@ -515,7 +520,7 @@ public final class DataSetProvider
 		updateModel( dataSet, columns );
 		htColumns.put( dataSet, columns );
 	}
-	
+
 	/**
 	 * 
 	 * @param ds
@@ -552,7 +557,7 @@ public final class DataSetProvider
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param session
@@ -564,7 +569,9 @@ public final class DataSetProvider
 			IQueryDefinition queryDefn ) throws BirtException
 	{
 		IPreparedQuery preparedQuery = session.prepare( queryDefn );
-		IQueryResults resultSet = (IQueryResults) session.execute( preparedQuery, null, new ScriptContext( ) );
+		IQueryResults resultSet = (IQueryResults) session.execute( preparedQuery,
+				null,
+				new ScriptContext( ) );
 		return resultSet;
 	}
 
@@ -615,7 +622,7 @@ public final class DataSetProvider
 	{
 		return getQueryDefinition( dataSetDesign, bindingParams, -1 );
 	}
-	
+
 	/**
 	 * @param dataSetDesign
 	 * @param bindingParams
@@ -671,10 +678,12 @@ public final class DataSetProvider
 			// name conflict or no name,give this column a unique name
 			if ( columnName == null || columnName.trim( ).length( ) == 0 )
 				newColumnName = UNNAME_PREFIX
-						+ RENAME_SEPARATOR + String.valueOf( index + 1 );
+						+ RENAME_SEPARATOR
+						+ String.valueOf( index + 1 );
 			else
 				newColumnName = columnName
-						+ RENAME_SEPARATOR + String.valueOf( index + 1 );
+						+ RENAME_SEPARATOR
+						+ String.valueOf( index + 1 );
 
 			int i = 1;
 			while ( orgColumnNameSet.contains( newColumnName )
@@ -783,7 +792,7 @@ public final class DataSetProvider
 
 		return session.getModelAdaptor( ).adaptDataSource( dataSource );
 	}
-	
+
 	/**
 	 * Get cached data set item model. If none is cached, return null;
 	 * 
@@ -803,7 +812,7 @@ public final class DataSetProvider
 						ds.getModuleHandle( ) );
 				session = DataRequestSession.newSession( context );
 				result = this.populateAllOutputColumns( ds, session );
-				session.shutdown();
+				session.shutdown( );
 				return result;
 			}
 			catch ( BirtException e )
@@ -813,7 +822,7 @@ public final class DataSetProvider
 		}
 		return result;
 	}
-	
+
 	/**
 	 * @param dataSetType
 	 * @param dataSourceType
@@ -839,7 +848,7 @@ public final class DataSetProvider
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @param dataSourceType
 	 * @return
@@ -878,7 +887,7 @@ public final class DataSetProvider
 		}
 		return element;
 	}
-	
+
 	/**
 	 * 
 	 * @param dataSet
@@ -894,7 +903,10 @@ public final class DataSetProvider
 		{
 			DataRequestSession session = getDataRequestSession( dataSet );
 
-			return getDataSetDesign( dataSet, useColumnHints, useFilters, session );
+			return getDataSetDesign( dataSet,
+					useColumnHints,
+					useFilters,
+					session );
 		}
 		return null;
 	}
@@ -908,16 +920,20 @@ public final class DataSetProvider
 	 * @return
 	 * @throws BirtException
 	 */
-	private IBaseDataSetDesign getDataSetDesign( DataRequestSession session,DataSetHandle dataSet,
-			boolean useColumnHints, boolean useFilters ) throws BirtException
+	private IBaseDataSetDesign getDataSetDesign( DataRequestSession session,
+			DataSetHandle dataSet, boolean useColumnHints, boolean useFilters )
+			throws BirtException
 	{
 		if ( dataSet != null )
 		{
-			return getDataSetDesign( dataSet, useColumnHints, useFilters, session );
+			return getDataSetDesign( dataSet,
+					useColumnHints,
+					useFilters,
+					session );
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @param dataSet
 	 * @param useColumnHints
@@ -926,7 +942,9 @@ public final class DataSetProvider
 	 * @return
 	 * @throws BirtException
 	 */
-	private IBaseDataSetDesign getDataSetDesign( DataSetHandle dataSet, boolean useColumnHints, boolean useFilters, DataRequestSession session ) throws BirtException
+	private IBaseDataSetDesign getDataSetDesign( DataSetHandle dataSet,
+			boolean useColumnHints, boolean useFilters,
+			DataRequestSession session ) throws BirtException
 	{
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
@@ -953,15 +971,15 @@ public final class DataSetProvider
 		session.defineDataSet( dataSetDesign );
 		return dataSetDesign;
 	}
-	
 
 	/**
 	 * @param dataSet
 	 * @param dataSetDesign
 	 * @throws BirtException
 	 */
-	private void defineSourceDataSets( DataRequestSession session, DataSetHandle dataSet,
-			IBaseDataSetDesign dataSetDesign ) throws BirtException
+	private void defineSourceDataSets( DataRequestSession session,
+			DataSetHandle dataSet, IBaseDataSetDesign dataSetDesign )
+			throws BirtException
 	{
 		List dataSets = dataSet.getModuleHandle( ).getAllDataSets( );
 		for ( int i = 0; i < dataSets.size( ); i++ )
@@ -974,7 +992,7 @@ public final class DataSetProvider
 						|| dsHandle.getName( )
 								.equals( ( (IJointDataSetDesign) dataSetDesign ).getRightDataSetDesignName( ) ) )
 				{
-					getDataSetDesign( session,dsHandle, true, true );
+					getDataSetDesign( session, dsHandle, true, true );
 				}
 			}
 		}
@@ -1001,7 +1019,7 @@ public final class DataSetProvider
 			return session;
 		}
 	}
-	
+
 	/**
 	 * @param dataSet
 	 * @return
@@ -1012,7 +1030,7 @@ public final class DataSetProvider
 	{
 		return prepareQuery( dataSet ).getParameterMetaData( );
 	}
-	
+
 	/**
 	 * 
 	 * @param dataSet
@@ -1031,7 +1049,7 @@ public final class DataSetProvider
 		QueryDefinition queryDefn = getQueryDefinition( dataSetDesign, -1 );
 		return session.prepare( queryDefn, null );
 	}
-	
+
 	/**
 	 * 
 	 * @param dataSet
@@ -1046,7 +1064,7 @@ public final class DataSetProvider
 		getDataSetDesign( dataSet, true, true );
 		return session.prepare( query, null );
 	}
-	
+
 	/**
 	 * 
 	 * @param dataSet
@@ -1062,7 +1080,7 @@ public final class DataSetProvider
 		getDataSetDesign( dataSet, useColumnHints, useFilters );
 		return session.prepare( query, null );
 	}
-	
+
 	/**
 	 * Gets prepared query, given Data set, Parameter binding, and
 	 * useColumnHints, useFilters information.
@@ -1096,16 +1114,18 @@ public final class DataSetProvider
 	 * @param parent
 	 * @return
 	 */
-	public static ClassLoader getCustomScriptClassLoader( ClassLoader parent, ModuleHandle handle )
+	public static ClassLoader getCustomScriptClassLoader( ClassLoader parent,
+			ModuleHandle handle )
 	{
-		List<URL> urls = getClassPathURLs( );
+		List<URL> urls = getClassPathURLs( handle == null ? null
+				: handle.getFileName( ) );
 
 		loadResourceFolderScriptLibs( handle, urls );
-		
-		if( urls.size() == 0 )
+
+		if ( urls.size( ) == 0 )
 			return parent;
-		
-		return new URLClassLoader( urls.toArray( new URL[0]), parent);
+
+		return new URLClassLoader( urls.toArray( new URL[0] ), parent );
 	}
 
 	private static void loadResourceFolderScriptLibs( ModuleHandle handle,
@@ -1122,74 +1142,54 @@ public final class DataSetProvider
 		}
 	}
 
-	private static List<URL> getClassPathURLs( )
+	private static List<URL> getClassPathURLs( String reportFilePath )
 	{
-		List<URL> urls = new ArrayList<URL>();
-		urls.addAll( getDefaultViewerScriptLibURLs());
-		urls.addAll( getWorkspaceProjectURLs());
+		List<URL> urls = new ArrayList<URL>( );
+		urls.addAll( getDefaultViewerScriptLibURLs( ) );
+		urls.addAll( getWorkspaceProjectURLs( reportFilePath ) );
 		return urls;
 	}
-	
+
 	/**
 	 * Return the URLs of ScriptLib jars.
 	 * 
 	 * @return
 	 */
-	private static List<URL> getDefaultViewerScriptLibURLs()
+	private static List<URL> getDefaultViewerScriptLibURLs( )
 	{
 		List<URL> urls = new ArrayList<URL>( );
 		try
 		{
 			Bundle bundle = Platform.getBundle( VIEWER_NAMESPACE );
-			
+
 			// Prepare ScriptLib location
 			Enumeration bundleFile = bundle.getEntryPaths( BIRT_SCRIPTLIB );
-			while( bundleFile.hasMoreElements())
+			while ( bundleFile.hasMoreElements( ) )
 			{
 				String o = bundleFile.nextElement( ).toString( );
 				if ( o.endsWith( ".jar" ) )
 					urls.add( bundle.getResource( o ) );
 			}
 			URL classes = bundle.getEntry( BIRT_CLASSES );
-			if( classes!= null )
+			if ( classes != null )
 			{
 				urls.add( classes );
 			}
 		}
 		catch ( Exception e )
 		{
-			
+
 		}
 		return urls;
 	}
-	
+
 	/**
 	 * Return the URLs of Workspace projects.
 	 * 
 	 * @return
 	 */
-	private static List<URL> getWorkspaceProjectURLs()
+	private static List<URL> getWorkspaceProjectURLs( String reportFilePath )
 	{
-		List<URL> urls = new ArrayList<URL>();
-		
-		String classPath = DatasetClassPathHelper.getWorkspaceClassPath( );
-		if ( classPath == null || classPath.length( ) == 0  )
-			return urls;
-
-		String[] classPathArray = classPath.split( File.pathSeparator, -1 );
-		
-		int count = classPathArray.length; 
-		for ( int i = 0; i < count; i++ )
-		{
-			File file = new File( classPathArray[i] );
-			try
-			{
-				urls.add( file.toURL( ));
-			} catch ( MalformedURLException e )
-			{
-				
-			}
-		}
-		return urls;
+		return DatasetClassPathHelper.getWorkspaceClassPath( reportFilePath );
 	}
 }
