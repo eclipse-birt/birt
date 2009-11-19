@@ -313,7 +313,20 @@ public class ReportPlatformUIImages
 				+ "library.gif" ); //$NON-NLS-1$		
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY_REFERENCED,
-				ICONS_PATH + OBJ16_PATH + "library_referenced.gif" ); //$NON-NLS-1$		
+				ICONS_PATH + OBJ16_PATH + "library_referenced.gif" ); //$NON-NLS-1$
+		
+		//Class path preference page
+		declareImage( IReportGraphicConstants.ICON_NODE_VARIABLE,
+				ICONS_PATH + OBJ16_PATH + "envvar_obj.gif" ); //$NON-NLS-1$	
+		declareImage( IReportGraphicConstants.ICON_NODE_EXTJAR,
+				ICONS_PATH + OBJ16_PATH + "jar_l_obj.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_NODE_EXTFOL,
+				ICONS_PATH + OBJ16_PATH + "cf_src_obj.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_NODE_JAR,
+				ICONS_PATH + OBJ16_PATH + "jar_obj.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_NODE_FOL,
+				ICONS_PATH + OBJ16_PATH + "packagefolder_obj.gif" ); //$NON-NLS-1$
+		
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_THEME, ICONS_PATH
 				+ OBJ16_PATH

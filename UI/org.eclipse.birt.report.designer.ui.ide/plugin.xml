@@ -206,6 +206,16 @@
               type="org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider">
         </adapter>
      </adaptable>
+     <adaptable
+           class="org.eclipse.birt.report.designer.ui.preferences.ClassPathPreferencesPage">
+        <adapter
+              class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEIClassPathHelperProvider"
+              id="org.eclipse.birt.report.designer.ui.ide.classpath"
+              priority="3"
+              singleton="true"
+              type="org.eclipse.birt.report.designer.internal.ui.preferences.IClassPathHelperProvider">
+        </adapter>
+     </adaptable>
    </extension>
    
 	<extension point="org.eclipse.ui.popupMenus"> 
@@ -313,6 +323,7 @@
     <super
           type="org.eclipse.core.resources.problemmarker">
     </super>
- </extension>	 
+ </extension>
+ 
 
 </plugin>

@@ -504,4 +504,11 @@ public interface IReportGraphicConstants
 	public static final String ICON_LAYOUT_FIXED = "LayoutFixed"; //$NON-NLS-1$
 
 	public static final String ICON_LAYOUT_PREFERENCE = "LayoutPreference"; //$NON-NLS-1$
+	
+	//add for classpath node
+	public static final String ICON_NODE_VARIABLE = "VariableNodel"; //$NON-NLS-1$
+	public static final String ICON_NODE_EXTJAR = "ExtJar"; //$NON-NLS-1$
+	public static final String ICON_NODE_EXTFOL = "ExtFol"; //$NON-NLS-1$
+	public static final String ICON_NODE_JAR = "JAR"; //$NON-NLS-1$
+	public static final String ICON_NODE_FOL = "FOL"; //$NON-NLS-1$
 }

@@ -140,6 +140,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String LIBRARY_WARNING_PREFERENCE = "designer.library.preference.libraries.warning.preferencestore"; //$NON-NLS-1$
 	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
+	public static final String CLASSPATH_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.classpath"; //$NON-NLS-1$
 	public static final String COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
@@ -279,6 +280,8 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default Resource
 		setDefaultResourcePreference( );
+		
+		setDefaultClassPathPreference( );
 
 		// set default Preference
 		setDefaultCommentPreference( );
@@ -1083,7 +1086,16 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getPreferences( this )
 				.getDefaultString( RESOURCE_PREFERENCE );
 	}
-
+	
+	/**
+	 * 
+	 */
+	public void setDefaultClassPathPreference( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( CLASSPATH_PREFERENCE, "" ); //$NON-NLS-1$
+	}
 	/**
 	 * Return resource preference
 	 * 

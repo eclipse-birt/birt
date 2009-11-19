@@ -12,16 +12,14 @@
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.report.designer.ui.IReportClasspathResolver;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -51,23 +49,115 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 	public String[] resolveClasspath( Object adaptable )
 	{
 		IProject project = adaptProject( adaptable );
-
-		if ( project == null )
+		List<String> strs = new ArrayList<String>();
+		
+		IWorkspace space = ResourcesPlugin.getWorkspace( );
+		IWorkspaceRoot root = space.getRoot( );
+		String value = PreferenceFactory.getInstance( )
+			.getPreferences( ReportPlugin.getDefault( ), project )
+				.getString( ReportPlugin.CLASSPATH_PREFERENCE );
+		
+		List<IClasspathEntry> list = IDEClassPathBlock.getEntries( value );
+		strs = getAllClassPathFromEntries( list );
+		
+		try
 		{
-			// TODO return global settings
-
-			return null;
+			if ( project == null || !project.hasNature( JavaCore.NATURE_ID ))
+			{
+				return strs.toArray( new String[strs.size( )] );
+			}
 		}
+		catch ( CoreException e )
+		{
+			return strs.toArray( new String[strs.size( )] );
+		}
+		
+		//Set<String> paths = getProjectClasspath( project );
 
-		Set<String> paths = getProjectClasspath( project );
-
-		return paths.toArray( new String[paths.size( )] );
+		List<String> temp = getProjectClasspath( project, true, true );
+		for (int i=0; i<temp.size( ); i++)
+		{
+			addToList( strs, temp.get( i ) );
+		}
+		return strs.toArray( new String[strs.size( )] );
 	}
 
+	private List<String> getAllClassPathFromEntries(List<IClasspathEntry> list)
+	{
+		List<String> retValue = new ArrayList();
+		IWorkspace space = ResourcesPlugin.getWorkspace( );
+		IWorkspaceRoot root = space.getRoot( );
+		
+		
+		for (int i=0; i<list.size( ); i++)
+		{
+			IClasspathEntry curr = list.get( i );
+			boolean inWorkSpace = true;
+			
+			if ( space == null || space.getRoot( ) == null )
+			{
+				inWorkSpace = false;
+			}
+
+			IPath path = curr.getPath( );
+			if (curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE)
+			{
+				path = JavaCore.getClasspathVariable( path.segment( 0 ) );
+			}
+			else
+			{
+				path = JavaCore.getResolvedClasspathEntry( curr ).getPath( );
+			}
+			
+			if (curr.getEntryKind( ) == IClasspathEntry.CPE_PROJECT)
+			{
+				if (root.findMember( path ) instanceof IProject)
+				{
+					List<String> strs = getProjectClasspath( (IProject)root.findMember( path ),false, true );
+					for (int j=0; j<strs.size( ); j++)
+					{
+						addToList( retValue, strs.get( j ) );
+					}
+				}
+			}
+			else
+			{
+				if ( root.findMember( path ) == null )
+				{
+					inWorkSpace = false;
+				}
+	
+				if ( inWorkSpace )
+				{
+					String absPath = getFullPath( path,
+							root.findMember( path ).getProject( ) );
+	
+					//retValue.add( absPath );
+					addToList( retValue, absPath );
+				}
+				else
+				{
+					//retValue.add( path.toFile( ).getAbsolutePath( ));
+					addToList( retValue, path.toFile( ).getAbsolutePath( ) );
+				}
+			}
+		
+			//strs.add( JavaCore.getResolvedClasspathEntry( entry ).getPath( ).toFile( ).getAbsolutePath( ) );
+		}
+		return retValue;
+	}
+	
+	private void addToList(List<String> list, String str)
+	{
+		if (!list.contains( str ))
+		{
+			list.add( str );
+		}
+	}
+	
+	
 	private IProject adaptProject( Object adaptable )
 	{
-		// TODO support other adaptable types
-
 		if ( adaptable instanceof IProject )
 		{
 			return (IProject) adaptable;
@@ -116,33 +206,33 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 		return null;
 	}
 
-	private Set<String> getProjectClasspath( IProject project )
+	private List<String> getProjectClasspath( IProject project,boolean needExported, boolean needDepend )
 	{
+		
+
+		List<String> retValue = new ArrayList<String>( );
 		if ( project == null )
 		{
-			return Collections.emptySet( );
+			return Collections.emptyList( );
 		}
 
-		Set<String> retValue = new HashSet<String>( );
-
-		List<URL> paths = getProjectDependentClasspath( project );
-
-		for ( int j = 0; j < paths.size( ); j++ )
+		if (needDepend)
 		{
-			URL url = paths.get( j );
-			if ( url != null )
+			List<String> paths = getProjectDependentClasspath( project, needExported );
+	
+			for ( int j = 0; j < paths.size( ); j++ )
 			{
-				retValue.add( url.getPath( ) );
+				addToList( retValue, paths.get( j ) );	
 			}
 		}
 
 		String url = getProjectOutputClassPath( project );
 		if ( url != null )
 		{
-			retValue.add( url );
+			//retValue.add( url );
+			addToList( retValue, url );
 		}
 
-		// TODO read other project specific settings
 
 		return retValue;
 	}
@@ -174,14 +264,14 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 		return null;
 	}
 
-	private List<URL> getProjectDependentClasspath( IProject project )
+	private List<String> getProjectDependentClasspath( IProject project, boolean needExported )
 	{
 		if ( !hasJavaNature( project ) )
 		{
 			return Collections.emptyList( );
 		}
 
-		List<URL> retValue = new ArrayList<URL>( );
+		List<String> retValue = new ArrayList<String>( );
 
 		IJavaProject fCurrJProject = JavaCore.create( project );
 		IClasspathEntry[] classpathEntries = null;
@@ -198,34 +288,55 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 
 		if ( classpathEntries != null )
 		{
-			retValue = resolveClasspathEntries( classpathEntries );
+			retValue = resolveClasspathEntries( classpathEntries, needExported );
 		}
 
 		return retValue;
 	}
 
-	private List<URL> resolveClasspathEntries(
-			IClasspathEntry[] classpathEntries )
+	private List<String> resolveClasspathEntries(
+			IClasspathEntry[] classpathEntries, boolean needExported )
 	{
-		ArrayList<URL> newClassPath = new ArrayList<URL>( );
-
+		ArrayList<String> newClassPath = new ArrayList<String>( );
+		IWorkspace space = ResourcesPlugin.getWorkspace( );
+		IWorkspaceRoot root = space.getRoot( );
 		for ( int i = 0; i < classpathEntries.length; i++ )
 		{
 			IClasspathEntry curr = classpathEntries[i];
-			if ( curr.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY )
+			if (!needExported && !curr.isExported( ))
 			{
-				try
+				continue;
+			}
+			IPath path = curr.getPath( );
+			if (curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE)
+			{
+				path = JavaCore.getClasspathVariable( path.segment( 0 ) );
+			}
+			else
+			{
+				path = JavaCore.getResolvedClasspathEntry( curr ).getPath( );
+			}
+			
+			if (curr.getEntryKind( ) == IClasspathEntry.CPE_PROJECT)
+			{
+				if (root.findMember( path ) instanceof IProject)
 				{
+					List<String> strs = getProjectClasspath( (IProject)root.findMember( path ),false, false );
+					for (int j=0; j<strs.size( ); j++)
+					{
+						addToList( newClassPath, strs.get( j ) );
+					}
+				}
+			}
+			else if ( curr.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY || curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE)
+			{
+				
 					boolean inWorkSpace = true;
-					IWorkspace space = ResourcesPlugin.getWorkspace( );
 					if ( space == null || space.getRoot( ) == null )
 					{
 						inWorkSpace = false;
 					}
-
-					IWorkspaceRoot root = ResourcesPlugin.getWorkspace( )
-							.getRoot( );
-					IPath path = curr.getPath( );
+					
 					if ( root.findMember( path ) == null )
 					{
 						inWorkSpace = false;
@@ -236,23 +347,23 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 						String absPath = getFullPath( path,
 								root.findMember( path ).getProject( ) );
 
-						URL url = new URL( "file:///" + absPath );//$NON-NLS-1$//file:/
-						newClassPath.add( url );
+						//URL url = new URL( "file:///" + absPath );//$NON-NLS-1$//file:/
+						//newClassPath.add( url.getPath( ) );
+						newClassPath.add( absPath );
 					}
 					else
 					{
+//						newClassPath.add( curr.getPath( )
+//								.toFile( )
+//								.toURI( )
+//								.toURL( ) );
 						newClassPath.add( curr.getPath( )
-								.toFile( )
-								.toURI( )
-								.toURL( ) );
+								.toFile( ).getAbsolutePath( ));
 					}
 
 				}
-				catch ( MalformedURLException e )
-				{
-					// DO nothing
-				}
-			}
+				
+			
 		}
 		return newClassPath;
 	}
@@ -277,6 +388,11 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 		catch ( Exception e )
 		{
 			directPath = project.getLocation( ).toOSString( );
+		}
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
+		if (root.findMember( path) == project)
+		{
+			return directPath;
 		}
 		String curPath = path.toOSString( );
 		int index = curPath.substring( 1 ).indexOf( File.separator );
