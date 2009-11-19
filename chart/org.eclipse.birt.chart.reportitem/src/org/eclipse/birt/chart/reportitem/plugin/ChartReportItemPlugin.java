@@ -11,6 +11,16 @@
 
 package org.eclipse.birt.chart.reportitem.plugin;
 
+import org.eclipse.birt.chart.computation.ChartComputationFactory;
+import org.eclipse.birt.chart.computation.GObjectFactory;
+import org.eclipse.birt.chart.computation.IChartComputationFactory;
+import org.eclipse.birt.chart.device.IImageWriterFactory;
+import org.eclipse.birt.chart.device.IScriptMenuHelper;
+import org.eclipse.birt.chart.device.ImageWriterFactory;
+import org.eclipse.birt.chart.device.ScriptMenuHelper;
+import org.eclipse.birt.chart.model.IChartModelHelper;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
@@ -52,6 +62,10 @@ public class ChartReportItemPlugin extends Plugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
+		initChartComputation( this );
+		initImageWriterFactory( this );
+		initChartModelHelper( this );
+		initChartScriptMenuHelper( this );
 	}
 
 	/*
@@ -63,6 +77,47 @@ public class ChartReportItemPlugin extends Plugin
 	{
 		super.stop( context );
 		plugin = null;
+	}
+
+	private static void initChartScriptMenuHelper( ChartReportItemPlugin plugin )
+	{
+		IScriptMenuHelper factory = ChartReportItemUtil.getAdapter( plugin,
+				IScriptMenuHelper.class );
+		if ( factory != null )
+		{
+			ScriptMenuHelper.initInstance( factory );
+		}
+	}
+
+	private static void initChartComputation( ChartReportItemPlugin plugin )
+	{
+		IChartComputationFactory factory = ChartReportItemUtil.getAdapter( plugin,
+				IChartComputationFactory.class );
+		if ( factory != null )
+		{
+			ChartComputationFactory.initInstance( factory );
+			GObjectFactory.initInstance( factory.createGObjectFactory( ) );
+		}
+	}
+
+	private static void initImageWriterFactory( ChartReportItemPlugin plugin )
+	{
+		IImageWriterFactory factory = ChartReportItemUtil.getAdapter( plugin,
+				IImageWriterFactory.class );
+		if ( factory != null )
+		{
+			ImageWriterFactory.initInstance( factory );
+		}
+	}
+
+	private static void initChartModelHelper( ChartReportItemPlugin plugin )
+	{
+		IChartModelHelper factory = ChartReportItemUtil.getAdapter( plugin,
+				IChartModelHelper.class );
+		if ( factory != null )
+		{
+			ChartModelHelper.initInstance( factory );
+		}
 	}
 
 }
