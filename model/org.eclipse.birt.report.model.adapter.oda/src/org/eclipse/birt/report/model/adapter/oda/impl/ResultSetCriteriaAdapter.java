@@ -731,6 +731,11 @@ public class ResultSetCriteriaAdapter
 		FilterExpression filterExpr = null;
 		if ( StringUtil.isBlank( filterHandle.getDynamicFilterParameter( ) ) )
 		{
+			if ( filterHandle.getExtensionName( ) == null
+					|| filterHandle.getExtensionExprId( ) == null )
+			{ // Both extension name and extension id should not be null
+				return null;
+			}
 			CustomFilterExpression customFilterExpr = designFactory
 					.createCustomFilterExpression( );
 
@@ -739,19 +744,12 @@ public class ResultSetCriteriaAdapter
 			variable.setIdentifier( filterHandle.getExpr( ) );
 			customFilterExpr.setContextVariable( variable );
 
-			// update the expression type. The default value.
+			FilterExpressionType tmpType = designFactory
+					.createFilterExpressionType( );
+			tmpType.setDeclaringExtensionId( filterHandle.getExtensionName( ) );
+			tmpType.setId( filterHandle.getExtensionExprId( ) );
 
-			if ( filterHandle.getExtensionName( ) != null
-					|| filterHandle.getExtensionExprId( ) != null )
-			{
-				FilterExpressionType tmpType = designFactory
-						.createFilterExpressionType( );
-				tmpType.setDeclaringExtensionId( filterHandle
-						.getExtensionName( ) );
-				tmpType.setId( filterHandle.getExtensionExprId( ) );
-
-				customFilterExpr.setType( tmpType );
-			}
+			customFilterExpr.setType( tmpType );
 
 			customFilterExpr.setIsOptional( filterHandle.isOptional( ) );
 
@@ -844,7 +842,7 @@ public class ResultSetCriteriaAdapter
 	/**
 	 *
 	 */
-	
+
 	static class DynamicFilter implements Filter
 	{
 
