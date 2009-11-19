@@ -181,6 +181,9 @@ abstract class AbstractExpressionCompiler
 		CompiledExpression expr;
 		if ( tree.getFirstChild( ) == tree.getLastChild( ) )
 		{
+			if( tree.getFirstChild( ) == null )
+				throw new DataException( "Expression parse error: first child is null. The expression is " + expression,
+						expression );
 			// A single expression
 			if ( tree.getFirstChild( ).getType( ) != Token.EXPR_RESULT
 					&& tree.getFirstChild( ).getType( ) != Token.EXPR_VOID
