@@ -37,4 +37,5 @@ public class ResourceConstants
 	public final static String CUBE_HIERARCHY_CREATION_ERROR = "cube.error.createhierarchy";
 	public final static String CUBE_DIMENSION_CREATION_ERROR = "cube.error.createdimension";
 	public final static String CUBE_MEASURE_CREATION_ERROR = "cube.error.createmeasure";
+	public final static String CUBE_MISS_DATASET_ERROR = "cube.error.datasetmiss";
 }

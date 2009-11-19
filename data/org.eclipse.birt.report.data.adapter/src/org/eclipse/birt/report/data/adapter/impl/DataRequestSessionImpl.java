@@ -79,6 +79,7 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
+import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.ColumnMeta;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.IDataProcessor;
@@ -1695,6 +1696,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 		query.setAsTempQuery( );
 	
 		query.setUsesDetails( false );
+		
+		if( cubeHandle.getDataSet( ) == null )
+			throw new AdapterException(AdapterResourceHandle.getInstance( )
+					.getMessage( ResourceConstants.CUBE_MISS_DATASET_ERROR ));
 		query.setDataSetName( cubeHandle.getDataSet( ).getQualifiedName( ) );
 	
 		List dimensions = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
