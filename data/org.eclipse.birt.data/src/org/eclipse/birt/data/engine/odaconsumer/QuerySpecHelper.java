@@ -145,12 +145,10 @@ public class QuerySpecHelper
         
         // gets the effective connection properties to set in the validation context
         Properties effectiveProps = getEffectiveProperties( connProperties, appContext );
-/*  TODO - temporary comment out till related ODA API is included in build
         if( validationContext.getConnection() != null )
             validationContext.getConnection().setProperties( effectiveProps );
         else
-            validationContext.setConnection( validationContext.new Connection( effectiveProps ));
-*/    
+            validationContext.setConnection( validationContext.new Connection( effectiveProps ));    
     }
     
     private static Properties getEffectiveProperties( Properties connProperties, Map appContext ) 
