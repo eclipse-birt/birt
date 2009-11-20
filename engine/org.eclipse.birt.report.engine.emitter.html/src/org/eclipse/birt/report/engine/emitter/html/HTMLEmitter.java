@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -48,6 +51,8 @@ public abstract class HTMLEmitter
 	 * The <code>containerDisplayStack</code> that stores the display value of container.
 	 */
 	protected Stack containerDisplayStack = new Stack( );
+	private static final DecimalFormat FORMATTER = new DecimalFormat( "#.###",
+			new DecimalFormatSymbols( Locale.ENGLISH ) );
 
 	public HTMLEmitter( HTMLReportEmitter reportEmitter, HTMLWriter writer,
 			boolean fixedReport, boolean enableInlineStyle, int browserVersion )
@@ -155,6 +160,7 @@ public abstract class HTMLEmitter
 	{
 		if ( value != null )
 		{
+			String size = formatSize( value );
 			if ( HTMLTags.ATTR_MIN_HEIGHT.equals( name ) )
 			{
 				//To solve the problem that IE do not support min-height.
@@ -162,15 +168,15 @@ public abstract class HTMLEmitter
 				if ( fixedReport )
 				{
 					content.append( " height: " );
-					content.append( value.toString( ) );
+					content.append( size );
 					content.append( ';' );
 				}
 				else
 				{
 					content.append( " height: auto !important; height: " );
-					content.append( value.toString( ) );
+					content.append( size );
 					content.append( "; min-height: " );
-					content.append( value.toString( ) );
+					content.append( size );
 					content.append( ';' );
 				}
 			}
@@ -179,15 +185,15 @@ public abstract class HTMLEmitter
 				if ( fixedReport )
 				{
 					content.append( " width: " );
-					content.append( value.toString( ) );
+					content.append( size );
 					content.append( ';' );
 				}
 				else
 				{
 					content.append( " width: auto !important; width: " );
-					content.append( value.toString( ) );
+					content.append( size );
 					content.append( "; min-width: " );
-					content.append( value.toString( ) );
+					content.append( size );
 					content.append( ';' );
 				}
 			}
@@ -196,9 +202,29 @@ public abstract class HTMLEmitter
 				content.append( ' ' );
 				content.append( name );
 				content.append( ": " );
-				content.append( value.toString( ) );
+				content.append( size );
 				content.append( ';' );
 			}
+		}
+	}
+
+	/**
+	 * convert the dimension type value into a string. The returned value has
+	 * "#.###" format.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	private String formatSize( DimensionType value )
+	{
+		assert value != null;
+		if ( value.getValueType( ) == DimensionType.TYPE_DIMENSION )
+		{
+			return FORMATTER.format( value.getMeasure( ) ) + value.getUnits( );
+		}
+		else
+		{
+			return value.toString( );
 		}
 	}
 	

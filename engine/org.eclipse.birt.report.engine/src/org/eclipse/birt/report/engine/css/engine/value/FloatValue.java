@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
@@ -21,6 +25,9 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 public class FloatValue extends Value implements CSSPrimitiveValue
 {
 
+	private final static DecimalFormat FORMATTER = new DecimalFormat( "#.###",
+			new DecimalFormatSymbols( Locale.ENGLISH ) );
+
 	/**
 	 * Returns the CSS text associated with the given type/value pair.
 	 */
@@ -30,11 +37,7 @@ public class FloatValue extends Value implements CSSPrimitiveValue
 		{
 			throw new DOMException( DOMException.SYNTAX_ERR, "" );
 		}
-		String s = String.valueOf( value );
-		if ( s.endsWith( ".0" ) )
-		{
-			s = s.substring( 0, s.length( ) - 2 );
-		}
+		String s = FORMATTER.format( value );
 		return s + UNITS[unit - CSSPrimitiveValue.CSS_NUMBER];
 	}
 
