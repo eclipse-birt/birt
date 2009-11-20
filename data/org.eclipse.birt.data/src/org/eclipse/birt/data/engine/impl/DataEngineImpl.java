@@ -71,6 +71,8 @@ public class DataEngineImpl extends DataEngine
 	private DataEngineSession session;
 	private DataSourceManager dataSourceManager;
 	
+	private Map<String, String> cubeDataSourceMap = new HashMap<String, String>();
+	private Map<String, String> cubeDataObjectMap = new HashMap<String, String>();
 	//shut down listener list
 	private List shutdownListenerList = null;
 
@@ -458,6 +460,11 @@ public class DataEngineImpl extends DataEngine
 		return session;
 	}
 	
+	public void defineCube( String cubeName, String dataSourceName, String dataObjectName )
+	{
+		this.cubeDataSourceMap.put( cubeName, dataSourceName );
+		this.cubeDataObjectMap.put( cubeName, dataObjectName );
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.DataEngine#addShutdownListener(org.eclipse.birt.data.engine.api.IShutdownListener)
@@ -627,9 +634,11 @@ public class DataEngineImpl extends DataEngine
 	{
 		ICubeQueryDefinition preparedQuery = new PreparedCubeQueryDefinition( query );
 		adaptCubeQueryDefinition( preparedQuery );
-		return new PreparedCubeQuery( preparedQuery,
-				this.session,
-				this.context,
+		return QueryPrepareUtil.prepareQuery( this.cubeDataSourceMap,
+				this.cubeDataObjectMap,
+				session,
+				context,
+				query,
 				appContext );
 	}
 	
@@ -741,4 +750,5 @@ public class DataEngineImpl extends DataEngine
 	{
 		this.session.getStopSign( ).stop( );
 	}
+	
 }

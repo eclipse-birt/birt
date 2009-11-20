@@ -39,6 +39,7 @@ public class RowResultSet implements IRowResultSet
 	// current row index
 	private int currIndex;
 	
+	private int actualIndex = -1;
 	// distinct value flag
 	private boolean distinctValueFlag;
 	
@@ -106,14 +107,18 @@ public class RowResultSet implements IRowResultSet
 			{
 				break;
 			}
-			else if ( processFetchEvent( odaObject, currIndex ) == true )
+			else 
 			{
-				if ( this.distinctValueFlag == true
-						&& isDuplicatedObject( odaObject ) )
-					continue;
-				
-				currIndex++;
-				break;
+				actualIndex++;
+				if ( processFetchEvent( odaObject, actualIndex ) == true )
+				{
+					if ( this.distinctValueFlag == true
+							&& isDuplicatedObject( odaObject ) )
+						continue;
+
+					currIndex++;
+					break;
+				}
 			}
 		}
 

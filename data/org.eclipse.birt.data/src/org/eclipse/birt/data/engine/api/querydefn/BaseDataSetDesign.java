@@ -13,17 +13,20 @@
  */ 
 package org.eclipse.birt.data.engine.api.querydefn;
 
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IComputedColumn;
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
-import org.eclipse.birt.data.engine.api.IParameterDefinition;
-import org.eclipse.birt.data.engine.api.IColumnDefinition;
-import org.eclipse.birt.data.engine.api.IInputParameterBinding;
-import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
-
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.IParameterDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
 
 /**
@@ -51,6 +54,10 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	
 	private int cacheRowCount;
     private boolean distinctValue;
+    
+    private IScriptExpression dataSetACL;
+    private Map<String, IScriptExpression> columnACL = new HashMap<String, IScriptExpression>();
+    private IScriptExpression rowACL;
     
     
 	/**
@@ -350,4 +357,33 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.fetchRowLimit = max <= 0 ? 0 : max;
 	}
     
+	public IScriptExpression getDataSetColumnACL( String columnName )
+	{
+		return this.columnACL.get( columnName );
+	}
+	
+	public IScriptExpression getDataSetACL( )
+	{
+		return this.dataSetACL;
+	}
+	
+	public IScriptExpression getRowACL( )
+	{
+		return this.rowACL;
+	}
+	
+	public void setDataSetACL( IScriptExpression acl )
+	{
+		this.dataSetACL = acl;
+	}
+	
+	public void setDataSetColumnACL( String columnName, IScriptExpression acl )
+	{
+		this.columnACL.put( columnName, acl );
+	}
+	
+	public void setRowACL( IScriptExpression expr )
+	{
+		this.rowACL = expr;
+	}
 }

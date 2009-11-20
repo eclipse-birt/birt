@@ -137,6 +137,11 @@ public class DataEngineContext
 	
 	public final static int AGGR_VALUE_STREAM = 104;
 	
+	public final static int META_SECURITY_STREAM = 109;
+	
+	public final static int ROW_SECURITY_STREAM = 110;
+	
+	public final static int ACL_COLLECTION_STREAM = 111;
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
@@ -622,6 +627,15 @@ public class DataEngineContext
 				break;
 			case AGGR_VALUE_STREAM:
 				relativePath = "AggrValue";
+				break;
+			case META_SECURITY_STREAM:
+				relativePath = "MetaSecurity";
+				break;
+			case ROW_SECURITY_STREAM:
+				relativePath = "RowSecurity";
+				break;
+			case ACL_COLLECTION_STREAM:
+				relativePath = "ACLCollection";
 				break;
 			default :
 				assert false; // impossible

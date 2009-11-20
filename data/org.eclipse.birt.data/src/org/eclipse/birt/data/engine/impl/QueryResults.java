@@ -159,8 +159,11 @@ public class QueryResults implements IQueryResults, IQueryService
 				
 				if( queryService.getQueryDefn( ) instanceof IQueryDefinition )
 				{
-					iterator = QueryResultsUtil.processOdiResult( session, odiIterator, ((IQueryDefinition)queryService.getQueryDefn( )).getDataSetName( ));
-					if( iterator!= null )
+					iterator = QueryResultsUtil.processOdiResult( session,
+							(IQueryDefinition) queryService.getQueryDefn( ),
+							odiIterator,
+							( (IQueryDefinition) queryService.getQueryDefn( ) ).getDataSetName( ) );
+					if ( iterator != null )
 						return iterator;
 				}
 				

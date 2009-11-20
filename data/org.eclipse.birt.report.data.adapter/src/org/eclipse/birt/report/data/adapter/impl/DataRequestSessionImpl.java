@@ -606,6 +606,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineCube( CubeHandle cubeHandle ) throws BirtException
 	{
+		CubeHandleUtil.defineCube( this.dataEngine,
+				cubeHandle );
 		Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
 		Iterator itr = involvedDataSets.iterator( );
 		while (itr.hasNext( ))
