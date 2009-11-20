@@ -1200,7 +1200,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		else
 		{
-			return btnBuilder.getExpressionString( );
+			String expr = query.getDefinition( );
+			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
 		}
 	}
 

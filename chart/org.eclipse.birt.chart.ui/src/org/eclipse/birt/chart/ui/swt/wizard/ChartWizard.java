@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -289,13 +290,18 @@ public class ChartWizard extends WizardBase
 		return Messages.getString( "ChartWizard.Title.EditChart" ); //$NON-NLS-1$
 	}
 
-	public static void showException( String key, String errorMessage )
+	public static void showException( String key, final String errorMessage )
 	{
 		if ( errorMessage != null )
 		{
 			try
 			{
-				WizardBase.showException( errorMessage );
+				Display.getDefault( ).syncExec( new Runnable( ) {
+					public void run( )
+					{
+						WizardBase.showException( errorMessage );
+					}
+				} );
 			}
 			catch ( Exception e )
 			{
@@ -313,7 +319,12 @@ public class ChartWizard extends WizardBase
 		{
 			try
 			{
-				WizardBase.removeException( );
+				Display.getDefault( ).syncExec( new Runnable( ) {
+					public void run( )
+					{
+						WizardBase.removeException( );
+					}
+				} );
 			}
 			catch ( Exception e )
 			{
@@ -327,8 +338,14 @@ public class ChartWizard extends WizardBase
 		if ( ( removed || WizardBase.getErrors( ) == null )
 				&& errors.size( ) > 0 )
 		{
-			String es = errors.values( ).toArray( new String[errors.size( )] )[0];
-			WizardBase.showException( es );
+			final String es = errors.values( )
+					.toArray( new String[errors.size( )] )[0];
+			Display.getDefault( ).syncExec( new Runnable( ) {
+				public void run( )
+				{
+					WizardBase.showException( es );
+				}
+			} );
 		}
 	}
 
@@ -361,7 +378,13 @@ public class ChartWizard extends WizardBase
 			String e = errors.get( s );
 			if ( e != null && e.equals( WizardBase.getErrors( ) ) )
 			{
-				WizardBase.removeException( );
+				Display.getDefault( ).syncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						WizardBase.removeException( );
+					}
+				} );
 				removed = true;
 			}
 			errors.remove( s );
@@ -371,8 +394,14 @@ public class ChartWizard extends WizardBase
 		if ( ( removed || WizardBase.getErrors( ) == null )
 				&& errors.size( ) > 0 )
 		{
-			String es = errors.values( ).toArray( new String[errors.size( )] )[0];
-			WizardBase.showException( es );
+			final String es = errors.values( )
+					.toArray( new String[errors.size( )] )[0];
+			Display.getDefault( ).syncExec( new Runnable( ) {
+				public void run( )
+				{
+					WizardBase.showException( es );
+				}
+			} );
 		}
 	}
 }
