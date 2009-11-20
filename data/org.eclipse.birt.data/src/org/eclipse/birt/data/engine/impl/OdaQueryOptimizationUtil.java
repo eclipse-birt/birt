@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
 
 /**
  * 
@@ -29,6 +30,7 @@ public class OdaQueryOptimizationUtil
 
 
 	public static QuerySpecification optimizeExecution( String dataSourceId,
+			ValidationContext validationContext,
 			IOdaDataSetDesign dataSetDesign, IQueryDefinition query,
 			DataEngineSession session, Map appContext,
 			IQueryContextVisitor contextVisitor )

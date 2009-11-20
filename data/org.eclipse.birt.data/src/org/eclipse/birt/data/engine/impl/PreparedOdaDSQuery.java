@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -33,6 +34,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odaconsumer.QuerySpecHelper;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -41,6 +43,9 @@ import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
+import org.eclipse.datatools.connectivity.oda.spec.manifest.ExtensionContributor;
+import org.eclipse.datatools.connectivity.oda.spec.manifest.ResultExtensionExplorer;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -49,8 +54,6 @@ import org.mozilla.javascript.Scriptable;
 public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		implements	IPreparedQuery
 {
-	private QuerySpecification querySpec;
-	
 	/**
 	 * @param dataEngine
 	 * @param queryDefn
@@ -58,7 +61,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	PreparedOdaDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn,
-			IBaseDataSetDesign dataSetDesign, Map appContext, QuerySpecification querySpec, IQueryContextVisitor visitor )
+			IBaseDataSetDesign dataSetDesign, Map appContext, IQueryContextVisitor visitor )
 			throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext != null
@@ -66,7 +69,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		Object[] params = {
 				dataEngine, queryDefn, dataSetDesign, appContext
 		};
-		this.querySpec = querySpec;
 		logger.exiting( PreparedOdaDSQuery.class.getName( ),
 				"PreparedOdaDSQuery" );
 	}
@@ -191,6 +193,10 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	{
 		// prepared query
 		private IPreparedDSQuery odiPreparedQuery;
+
+		private ValidationContext validationContext;
+		private QuerySpecification querySpec;
+
 		
 		/**
 		 * @return prepared query
@@ -215,11 +221,46 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		        throw new DataException( ResourceConstants.MISSING_DATASOURCE_EXT_ID,
 		        		extDS.getName( ) );
 		    
-		    // merge public and private driver properties into a single Map
-		    Map driverProps = 
-		        copyProperties( extDS.getPublicProperties(), 
-		        		extDS.getPrivateProperties() );
-		    	    
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			{
+				validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
+				if ( validationContext != null )
+				{
+					validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
+
+					Properties connProperties = new Properties( );
+					// merge public and private driver properties into a single
+					// Map
+					Map driverProps = copyProperties( extDS.getPublicProperties( ),
+							extDS.getPrivateProperties( ) );
+
+					if ( driverProps != null )
+						connProperties.putAll( driverProps );
+					
+					QuerySpecHelper.setValidationConnectionContext( validationContext,
+							connProperties,
+							appContext );
+
+					querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
+							validationContext,
+							(IOdaDataSetDesign) dataSetDesign,
+							queryDefn,
+							dataEngine.getSession( ),
+							appContext,
+							contextVisitor );
+				}
+			}
+
+			Map driverProps;
+			// merge public and private driver properties into a single Map
+			if ( validationContext == null
+					|| validationContext.getConnection( ) == null )
+				driverProps = copyProperties( extDS.getPublicProperties( ),
+						extDS.getPrivateProperties( ) );
+			else
+				driverProps = validationContext.getConnection( )
+						.getProperties( );
+
 		    // calls ODI Data Source Factory to provide an ODI data source
 			// object that matches the given properties
 			return getDataSource( driverName, driverProps );
@@ -236,11 +277,9 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		{
 			PreparedOdaDSQuery self = PreparedOdaDSQuery.this;
 
-			Collection paramHints = null;
-			return DataSourceFactory.getFactory( )
-					.getDataSource( driverName,
-							driverProps,
-							self.dataEngine.getSession( ));
+			return DataSourceFactory.getFactory( ).getDataSource( driverName,
+					driverProps,
+					self.dataEngine.getSession( ) );
 		}
 		
 		/*

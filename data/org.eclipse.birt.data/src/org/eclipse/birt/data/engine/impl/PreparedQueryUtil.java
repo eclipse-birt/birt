@@ -68,7 +68,6 @@ import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
-import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -173,18 +172,11 @@ public class PreparedQueryUtil
 			}
 			else
 			{
-				QuerySpecification querySpec = OdaQueryOptimizationUtil.optimizeExecution( dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) )
-						.getExtensionID( ),
-						(IOdaDataSetDesign) dset,
-						queryDefn,
-						dataEngine.getSession( ),
-						appContext,
-						contextVisitor );
-			 
 				preparedQuery = new PreparedOdaDSQuery( dataEngine,
 						queryDefn,
 						dset,
-						appContext, querySpec, contextVisitor );
+						appContext,
+						contextVisitor );
 			}
 		}
 		else if ( dset instanceof IJointDataSetDesign )
