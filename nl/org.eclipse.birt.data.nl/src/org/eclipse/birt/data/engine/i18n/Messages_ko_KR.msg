@@ -215,6 +215,8 @@ data.engine.emptyResultSet=결과 집합이 비어 있습니다.
 data.engine.errorHappenWhenRetrieveResultSet=결과 집합 "{0}"을(를) 확인하는 중에 오류가 발생했습니다. 지정된 결과 집합이 존재하지 않을 수 있습니다.
 data.engine.invalidAggregationBindingForPLSReport=페이지 수준 보안을 사용하는 경우 집계 바인딩 "{0}"을(를) 사용할 수 없습니다.
 
+data.engine.acl.dataSetCannotBeAccessed=The data set "{0}" cannot be accessed.
+data.engine.acl.dataSetColumnCannotBeAccessed=Some data set column cannot be accessed.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

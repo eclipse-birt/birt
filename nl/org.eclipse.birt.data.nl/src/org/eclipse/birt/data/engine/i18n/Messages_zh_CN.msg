@@ -215,6 +215,8 @@ data.engine.emptyResultSet=结果集为空。
 data.engine.errorHappenWhenRetrieveResultSet=访问结果集“{0}”时出错。指定的结果集可能不存在。
 data.engine.invalidAggregationBindingForPLSReport=启用页面级别安全时，聚合绑定“{0}”无效。
 
+data.engine.acl.dataSetCannotBeAccessed=The data set "{0}" cannot be accessed.
+data.engine.acl.dataSetColumnCannotBeAccessed=Some data set column cannot be accessed.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

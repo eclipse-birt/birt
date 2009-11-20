@@ -215,6 +215,8 @@ data.engine.emptyResultSet=結果セットは空です。
 data.engine.errorHappenWhenRetrieveResultSet=結果セット "{0}" の表示中にエラーが発生しました。指定した結果セットが存在しない可能性があります。
 data.engine.invalidAggregationBindingForPLSReport=ページレベルセキュリティが有効な場合、集計バインド "{0}" は無効です。
 
+data.engine.acl.dataSetCannotBeAccessed=The data set "{0}" cannot be accessed.
+data.engine.acl.dataSetColumnCannotBeAccessed=Some data set column cannot be accessed.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

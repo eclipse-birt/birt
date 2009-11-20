@@ -215,6 +215,8 @@ data.engine.emptyResultSet=El conjunto de resultados está vacío.
 data.engine.errorHappenWhenRetrieveResultSet=Se ha producido un error durante el acceso al conjunto de resultados "{0}". Es posible que el conjunto de resultados no exista.
 data.engine.invalidAggregationBindingForPLSReport=El enlace de agregación "{0}" no es válido cuando la seguridad a nivel de página está activada.
 
+data.engine.acl.dataSetCannotBeAccessed=The data set "{0}" cannot be accessed.
+data.engine.acl.dataSetColumnCannotBeAccessed=Some data set column cannot be accessed.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
