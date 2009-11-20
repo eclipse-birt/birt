@@ -994,7 +994,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 		if ( !isTableSharedBinding( ) )
 		{
-			setQueryExpression( expression );
+			setQueryExpression( expression, false );
 			return;
 		}
 
@@ -1063,7 +1063,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						}
 					}
 				}
-				setQueryExpression( expr );
+				setQueryExpression( expr, true );
 				if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
 				{
 					if ( isGroupExpr )
@@ -1101,7 +1101,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						}
 					}
 				}
-				setQueryExpression( expr );
+				setQueryExpression( expr, true  );
 				if ( isAggregationExpr )
 				{
 					query.getGrouping( ).setEnabled( true );
@@ -1119,11 +1119,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		else
 		{
-			setQueryExpression( expression );
+			setQueryExpression( expression, true );
 		}
 	}
 
-	private void setQueryExpression( String expression )
+	private void setQueryExpression( String expression, boolean isSharing )
 	{
 		if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
 		{
@@ -1153,11 +1153,19 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 		if ( query != null )
 		{
-			query.setDefinition( btnBuilder.convertExpression( expression ) );
+			if ( isSharing )
+			{
+				query.setDefinition( expression );	
+			}
+			else
+			{
+				query.setDefinition( btnBuilder.getExpression( ) );
+			}
+			
 		}
 		else
 		{
-			query = QueryImpl.create( btnBuilder.convertExpression( expression ) );
+			query = QueryImpl.create( expression );
 			query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
 			// Since the data query must be non-null, it's created in
 			// ChartUIUtil.getDataQuery(), assume current null is a grouping

@@ -838,22 +838,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			codec.setType( eHelper.getExpressionType( ) );
 			return codec.encode( );
 		}
-		
-		/* (non-Javadoc)
-		 * @see org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton#convertExpression(java.lang.String)
-		 */
-		public String convertExpression( String expression )
-		{
-			if ( UIUtil.getDefaultScriptType( ).equals( eHelper.getExpressionType( ) ) )
-			{
-				return expression;
-			}
-			
-			codec.setExpression( expression );
-			codec.setType( eHelper.getExpressionType( ) );
-			return codec.encode( );
-		}
-
+	
 		public void setExpression( String expr )
 		{
 			codec.decode( expr );
