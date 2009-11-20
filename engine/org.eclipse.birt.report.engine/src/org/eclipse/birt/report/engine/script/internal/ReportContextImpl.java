@@ -227,6 +227,16 @@ public class ReportContextImpl implements IReportContext
 		}
 		return null;
 	}
+
+	public Object evaluate( String language, String script )
+			throws BirtException
+	{
+		if ( null != script && script.length( ) > 0 )
+		{
+			return context.evaluateInlineScript( language, script );
+		}
+		return null;
+	}
 	
 	public ClassLoader getApplicationClassLoader( )
 	{

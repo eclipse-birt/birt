@@ -237,8 +237,25 @@ public interface IReportContext
 	 */
 	String getResourceRenderURL( String resourceName );
 	
-	Object evaluate(String script) throws BirtException;
-	
+	/**
+	 * evaluate the script with default script language.
+	 * 
+	 * @param script
+	 * @return
+	 * @throws BirtException
+	 */
+	Object evaluate( String script ) throws BirtException;
+
+	/**
+	 * evaluate the script with specified script language.
+	 * 
+	 * @param language
+	 * @param script
+	 * @return
+	 * @throws BirtException
+	 */
+	Object evaluate( String language, String script ) throws BirtException;
+
 	/**
 	 * get the application classLoader of the current report context
 	 * 
