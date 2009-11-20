@@ -1439,7 +1439,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			ArrayList valueList = new ArrayList( );
 
 			valueList.addAll( SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( columnChooser ),
-					getDataSetHandle( ) ) );
+					getDataSetHandle( ),
+					false ) );
 			java.util.Collections.sort( valueList );
 			return valueList;
 		}
@@ -3479,8 +3480,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					&& !columnChooser.isDisposed( )
 					&& !isStatic( ) )
 			{
-				canFinish &= ( getExpression( columnChooser,
-						columnChooser.getText( ) ).length( ) > 0 );
+				canFinish = canFinish
+						&& ( getExpression( columnChooser,
+								columnChooser.getText( ) ).length( ) > 0 );
 			}
 		}
 		getOkButton( ).setEnabled( canFinish );
