@@ -3344,6 +3344,7 @@ Element.DynamicFilterParameter.nativeDataType=고유 데이터 형식
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=탭
+Element.DashboardElement.activeTab=Active tab
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=제목
@@ -3392,6 +3393,7 @@ Element.ExternalElementRef.targetBookmark=대상 책갈피
 Element.DataSelectorItem.boundDataColumns=바인딩된 데이터 열
 Element.DataSelectorItem.selectorType=selectorType
 Element.DataSelectorItem.title=제목
+Element.DataSelectorItem.columnNames=Column names
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=내부 리포틀릿 참조
@@ -3428,7 +3430,9 @@ Element.SliderDataSelectorItem.thumbType=Thumb type
 Element.SliderDataSelectorItem.defaultValue1=Default value 1
 Element.SliderDataSelectorItem.defaultValue2=Default value 2
 Element.SliderDataSelectorItem.width=너비
+Element.SliderDataSelectorItem.autoAdjustTickMarks=Auto adjust tick marks
 Element.SliderDataSelectorItem.tickInterval=Tick interval
+Element.SliderDataSelectorItem.autoRange=Auto range
 Element.SliderDataSelectorItem.minValue=Min value
 Element.SliderDataSelectorItem.maxValue=Max value
 
@@ -3446,11 +3450,13 @@ Element.DropdownDataSelectorItem.listLimit=목록 제한
 #86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
 Element.CheckBoxDataSelectorItem.orientation=방향
 Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
+Element.CheckBoxDataSelectorItem.autoAdjustNumber=Auto adjust number
 Element.CheckBoxDataSelectorItem.listLimit=목록 제한
 
 #87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
 Element.RadioDataSelectorItem.orientation=방향
 Element.RadioDataSelectorItem.autoAdjust=Auto adjust
+Element.RadioDataSelectorItem.autoAdjustNumber=Auto adjust number
 Element.RadioDataSelectorItem.listLimit=목록 제한
 
 ###########################################################

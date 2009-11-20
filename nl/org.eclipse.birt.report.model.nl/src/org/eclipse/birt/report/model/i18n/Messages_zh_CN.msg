@@ -3344,6 +3344,7 @@ Element.DynamicFilterParameter.nativeDataType=本地数据类型
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=选项卡
+Element.DashboardElement.activeTab=Active tab
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=标题
@@ -3392,6 +3393,7 @@ Element.ExternalElementRef.targetBookmark=目标书签
 Element.DataSelectorItem.boundDataColumns=绑定的数据列
 Element.DataSelectorItem.selectorType=selectorType
 Element.DataSelectorItem.title=标题
+Element.DataSelectorItem.columnNames=Column names
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet 引用
@@ -3428,7 +3430,9 @@ Element.SliderDataSelectorItem.thumbType=Thumb type
 Element.SliderDataSelectorItem.defaultValue1=Default value 1
 Element.SliderDataSelectorItem.defaultValue2=Default value 2
 Element.SliderDataSelectorItem.width=宽度
+Element.SliderDataSelectorItem.autoAdjustTickMarks=Auto adjust tick marks
 Element.SliderDataSelectorItem.tickInterval=Tick interval
+Element.SliderDataSelectorItem.autoRange=Auto range
 Element.SliderDataSelectorItem.minValue=Min value
 Element.SliderDataSelectorItem.maxValue=Max value
 
@@ -3446,11 +3450,13 @@ Element.DropdownDataSelectorItem.listLimit=列表限制
 #86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
 Element.CheckBoxDataSelectorItem.orientation=方向
 Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
+Element.CheckBoxDataSelectorItem.autoAdjustNumber=Auto adjust number
 Element.CheckBoxDataSelectorItem.listLimit=列表限制
 
 #87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
 Element.RadioDataSelectorItem.orientation=方向
 Element.RadioDataSelectorItem.autoAdjust=Auto adjust
+Element.RadioDataSelectorItem.autoAdjustNumber=Auto adjust number
 Element.RadioDataSelectorItem.listLimit=列表限制
 
 ###########################################################
