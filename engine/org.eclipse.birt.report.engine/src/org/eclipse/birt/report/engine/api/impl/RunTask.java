@@ -19,6 +19,8 @@ import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.FolderArchive;
 import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.archive.compound.ArchiveWriter;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IProgressMonitor;
@@ -45,9 +47,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 {
 
 	private String documentName;
-	private IDocArchiveWriter archive;
+	private IDocArchiveWriter archiveWriter;
 	private ReportDocumentWriter writer;
 	private ReportDocumentBuilder documentBuilder;
+	private IArchiveFile archive;
 
 	/**
 	 * @param engine
@@ -104,7 +107,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				throw new EngineException(
 						MessageConstants.REPORT_ARCHIVE_ERROR ); //$NON-NLS-1$
 			}
-			this.archive = archive;
+			this.archiveWriter = archive;
 			doRun( );
 		}
 		finally
@@ -116,27 +119,32 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 	private void openArchive( ) throws IOException
 	{
+		if ( archive != null )
+		{
+			archiveWriter = new ArchiveWriter( archive );
+			return;
+		}
 		File file = new File( documentName );
 		if ( file.exists( ) )
 		{
 			if ( file.isDirectory( ) )
 			{
-				archive = new FolderArchiveWriter( documentName );
+				archiveWriter = new FolderArchiveWriter( documentName );
 			}
 			else
 			{
-				archive = new FileArchiveWriter( documentName );
+				archiveWriter = new FileArchiveWriter( documentName );
 			}
 		}
 		else
 		{
 			if ( documentName.endsWith( "\\" ) || documentName.endsWith( "/" ) )
 			{
-				archive = new FolderArchiveWriter( documentName );
+				archiveWriter = new FolderArchiveWriter( documentName );
 			}
 			else
 			{
-				archive = new FileArchiveWriter( documentName );
+				archiveWriter = new FileArchiveWriter( documentName );
 			}
 		}
 	}
@@ -145,12 +153,12 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		try
 		{
-			if ( archive == null )
+			if ( archiveWriter == null )
 			{
 				openArchive( );
 			}
 			String[] exts = executionContext.getEngineExtensions( );
-			writer = new ReportDocumentWriter( engine, archive, exts );
+			writer = new ReportDocumentWriter( engine, archiveWriter, exts );
 			executionContext.setReportDocWriter( writer );
 			DocumentDataSource ds = executionContext.getDataSource( );
 			if ( ds != null )
@@ -171,6 +179,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		writer.close( );
 		writer = null;
 		archive = null;
+		archiveWriter = null;
 		documentName = null;
 	}
 
@@ -325,5 +334,30 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	public void enableProgressiveViewing( boolean enabled )
 	{
 		executionContext.enableProgressiveViewing( enabled );
+	}
+
+	public void setReportDocument( IArchiveFile archive )
+	{
+		this.archive = archive;
+	}
+
+	public void setReportDocument( String name )
+	{
+		documentName = name;
+	}
+
+	public void run( ) throws EngineException
+	{
+		try
+		{
+			switchToOsgiClassLoader( );
+			changeStatusToRunning( );
+			doRun( );
+		}
+		finally
+		{
+			changeStatusToStopped( );
+			switchClassLoaderBack( );
+		}
 	}
 }

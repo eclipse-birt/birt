@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api;
 
 import org.eclipse.birt.core.archive.FolderArchive;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 
 /**
  * An engine task that runs a report and generates a report document.
@@ -70,4 +71,28 @@ public interface IRunTask extends IEngineTask
 	 *            false the render task must wait for the run task.
 	 */
 	public void enableProgressiveViewing( boolean enable );
+
+	/**
+	 * set report document. This archive takes precedence over a report document
+	 * name
+	 * 
+	 * @param archive
+	 *            the archive file
+	 */
+	public void setReportDocument( IArchiveFile archive );
+
+	/**
+	 * set report document name
+	 * 
+	 * @param name
+	 *            report document name
+	 */
+	public void setReportDocument( String name );
+
+	/**
+	 * run this task.
+	 * 
+	 * @throws EngineException
+	 */
+	public void run( ) throws EngineException;
 }
