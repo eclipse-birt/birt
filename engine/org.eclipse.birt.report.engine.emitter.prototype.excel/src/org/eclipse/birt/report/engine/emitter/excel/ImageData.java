@@ -26,11 +26,12 @@ public class ImageData extends SheetData
 			Image imageInfo, XlsContainer currentContainer )
 	{
 		super( );
-		this.styleId = styleId;
 		this.dataType = datatype;
-		height = ExcelUtil.convertImageSize( image.getHeight( ),
-				(int) ( imageInfo.getHeight( ) * ExcelUtil.PX_PT ) );
-		int imageWidth = (int) ExcelUtil.convertImageSize( image.getWidth( ),
+		this.styleId = styleId;
+		height = ExcelUtil.convertDimensionType( image.getHeight( ),
+				(int) ( imageInfo.getHeight( ) * ExcelUtil.PX_PT ) ) / 1000;
+		int imageWidth = (int) ExcelUtil.convertDimensionType(
+				image.getWidth( ),
 				(int) ( imageInfo.getWidth( ) * ExcelUtil.PX_PT ) );
 		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ),
 				imageWidth );
@@ -85,4 +86,11 @@ public class ImageData extends SheetData
 	{
 		this.width = width;
 	}
+
+	@Override
+	public int getEndX( )
+	{
+		return getStartX( ) + width;
+	}
+
 }

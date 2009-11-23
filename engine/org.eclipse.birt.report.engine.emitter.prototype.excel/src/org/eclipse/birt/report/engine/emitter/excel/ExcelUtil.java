@@ -1161,28 +1161,6 @@ public class ExcelUtil
 		return columnId;
 	}
 
-	public static float convertImageSize( DimensionType value, int ref )
-	{
-
-		if ( value == null )
-		{
-			return ref * PX_PT;
-		}
-
-		if ( DimensionType.UNITS_PX.equalsIgnoreCase( value.getUnits( ) ) )
-		{
-			return (float) ( value.getMeasure( ) * PX_PT );
-		}
-		else if ( DimensionType.UNITS_PERCENTAGE.equalsIgnoreCase( value
-				.getUnits( ) ) )
-		{
-			return (float) ( ( value.getMeasure( ) / 100 ) * ref * PX_PT );
-		}
-		else
-		{
-			return (float) ( value.convertTo( DimensionType.UNITS_IN ) * INCH_PT );
-		}
-	}
 	public static String ZIP = "@@@@@-@@@@";
 	public static String PHONE = "(@@@)@@@-@@@@";
 	public static String SOCIAL = "@@@-@@-@@@@";
