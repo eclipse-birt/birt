@@ -19,7 +19,9 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptExpression;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -40,8 +42,9 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 	 *    If null, property binding is not resolved
 	 * @throws BirtException
 	 */
-	public OdaDataSetAdapter( OdaDataSetHandle modelDataSet, Scriptable propBindingScope, ModelAdapter adapter ) 
-		throws BirtException
+	public OdaDataSetAdapter( OdaDataSetHandle modelDataSet,
+			Scriptable propBindingScope, ModelAdapter adapter,
+			DataEngineContext dtContext )		throws BirtException
 	{
 		super( modelDataSet.getQualifiedName( ) );
 
@@ -56,8 +59,9 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 		// use static design
 		String queryTextBinding = modelDataSet
 				.getPropertyBinding( OdaDataSet.QUERY_TEXT_PROP );
-		if ( propBindingScope != null && queryTextBinding != null
-				&& queryTextBinding.length( ) > 0 )
+		if ( propBindingScope != null
+				&& queryTextBinding != null && queryTextBinding.length( ) > 0
+				&& DataSessionContext.MODE_UPDATE != dtContext.getMode( ) )
 		{
 			String queryText = JavascriptEvalUtil.evaluateScript( null,
 					propBindingScope,
@@ -65,7 +69,8 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 					ScriptExpression.defaultID,
 					0 ).toString( );
 			setQueryText( queryText );
-		} else
+		}
+		else
 		{
 			setQueryText( modelDataSet.getQueryText( ) );
 		}

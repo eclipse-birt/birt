@@ -20,8 +20,10 @@ import org.eclipse.birt.core.data.Constants;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptExpression;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -41,7 +43,8 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 	 * @param propBindingScope Javascript scope in which to evaluate property bindings. If null,
 	 *   property bindings are not evaluated.
 	 */
-	public OdaDataSourceAdapter( OdaDataSourceHandle source, Scriptable propBindingScope) 
+	public OdaDataSourceAdapter( OdaDataSourceHandle source,
+			Scriptable propBindingScope, DataEngineContext dtCotnext )
 		throws BirtException
 	{
 		super(source.getQualifiedName());
@@ -72,20 +75,23 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 				assert ( propName != null );
 	
 				String propValue;
-				// If property binding expression exists, use its evaluation
-				// result
+				// If property binding expression exists and the mode is not
+				// UPDATE mode, use its evaluation result
 				String bindingExpr = source.getPropertyBinding( propName );
-				if ( bindingScope != null && bindingExpr != null
-						&& bindingExpr.length( ) > 0 )
+				if ( bindingScope != null
+						&& bindingExpr != null
+						&& bindingExpr.length( ) > 0
+						&& DataSessionContext.MODE_UPDATE != dtCotnext.getMode( ) )
 				{
 					propValue = JavascriptEvalUtil.evaluateScript( null,
 							bindingScope,
 							bindingExpr,
 							ScriptExpression.defaultID,
 							0 ).toString( );
-				} else
+				}
+				else
 				{
-					propValue = ( String ) staticProps.get( propName );
+					propValue = (String) staticProps.get( propName );
 				}
 				addPublicProperty( propName, propValue );
 			}

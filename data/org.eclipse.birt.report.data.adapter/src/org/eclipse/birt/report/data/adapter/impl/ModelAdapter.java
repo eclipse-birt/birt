@@ -98,7 +98,8 @@ public class ModelAdapter implements IModelAdapter
 			Scriptable propBindingScope = context.hasExternalScope( )
 					? context.getTopScope( ) : null;
 			return new OdaDataSourceAdapter( (OdaDataSourceHandle) handle,
-					propBindingScope );
+					propBindingScope,
+					context.getDataEngineContext( ) );
 		}
 
 		if ( handle instanceof ScriptDataSourceHandle )
@@ -127,7 +128,8 @@ public class ModelAdapter implements IModelAdapter
 					? context.getTopScope( ) : null;
 			return new OdaDataSetAdapter( (OdaDataSetHandle) handle,
 					propBindingScope,
-					this );
+					this,
+					context.getDataEngineContext( ) );
 		}
 
 		if ( handle instanceof ScriptDataSetHandle )
