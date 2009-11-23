@@ -638,7 +638,7 @@ public class DataEngineImpl extends DataEngine
 				this.cubeDataObjectMap,
 				session,
 				context,
-				query,
+				preparedQuery,
 				appContext );
 	}
 	
