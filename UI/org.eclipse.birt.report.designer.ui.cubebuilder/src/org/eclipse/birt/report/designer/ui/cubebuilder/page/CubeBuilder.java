@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
 import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -83,6 +84,20 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		addNodeTo( "/", datasetNode ); //$NON-NLS-1$
 		addNodeTo( "/", groupsNode ); //$NON-NLS-1$
 		addNodeTo( "/", linkGroupNode ); //$NON-NLS-1$
+
+		Object[] adapters = ElementAdapterManager.getAdapters( model,
+				ICubePageNodeGenerator.class );
+		if ( adapters != null )
+		{
+			for ( int i = 0; i < adapters.length; i++ )
+			{
+				if ( adapters[i] instanceof ICubePageNodeGenerator )
+				{
+					( (ICubePageNodeGenerator) adapters[i] ).createPropertyNode( this,
+							model );
+				}
+			}
+		}
 	}
 	private String showNodeId;
 
