@@ -715,6 +715,10 @@ public class ExcelUtil
 	 */
 	public static int convertDimensionType( DimensionType value, int parent )
 	{
+		if ( value == null )
+		{
+			return parent * 1000;
+		}
 		if ( DimensionType.UNITS_PERCENTAGE.equals( value.getUnits( ) ) )
 		{
 			return (int) ( value.getMeasure( ) / 100 * parent );
