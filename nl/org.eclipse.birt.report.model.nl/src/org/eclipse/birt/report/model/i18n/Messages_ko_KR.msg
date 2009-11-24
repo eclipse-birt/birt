@@ -3219,6 +3219,7 @@ Element.Level.staticValues=정적 값
 Element.Level.defaultValue=기본값
 Element.Level.ACLExpression=ACL 식
 Element.Level.MemberACLExpression=구성원 ACL 식
+Element.Level.action=작업
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
@@ -3226,6 +3227,7 @@ Element.Measure.isCalculated=계산 조건
 Element.Measure.measureExpression=측정값 식
 Element.Measure.dataType=데이터 형식
 Element.Measure.ACLExpression=ACL 식
+Element.Measure.action=작업
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값

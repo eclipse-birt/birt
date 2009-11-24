@@ -3219,6 +3219,7 @@ Element.Level.staticValues=Valeurs statiques
 Element.Level.defaultValue=Valeur par défaut
 Element.Level.ACLExpression=Expression ACL
 Element.Level.MemberACLExpression=Expression ACL du membre
+Element.Level.action=Action
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Fonction
@@ -3226,6 +3227,7 @@ Element.Measure.isCalculated=Est calculé
 Element.Measure.measureExpression=Expression de mesure
 Element.Measure.dataType=Type de données
 Element.Measure.ACLExpression=Expression ACL
+Element.Measure.action=Action
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Mesures

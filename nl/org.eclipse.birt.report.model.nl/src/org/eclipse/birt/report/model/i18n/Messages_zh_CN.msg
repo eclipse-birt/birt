@@ -3219,6 +3219,7 @@ Element.Level.staticValues=静态值
 Element.Level.defaultValue=默认值
 Element.Level.ACLExpression=ACL 表达式
 Element.Level.MemberACLExpression=成员 ACL 表达式
+Element.Level.action=操作
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数
@@ -3226,6 +3227,7 @@ Element.Measure.isCalculated=是计算的
 Element.Measure.measureExpression=度量表达式
 Element.Measure.dataType=数据类型
 Element.Measure.ACLExpression=ACL 表达式
+Element.Measure.action=操作
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=度量
