@@ -18,7 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.preferences.StatusInfo;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.core.runtime.IStatus;
@@ -46,7 +46,7 @@ public class ExpressionEditor extends BaseDialog
 	private Text exprText;
 	private Object contextObject;
 	private boolean allowConstant;
-	private ExpressionProvider provider;
+	private IExpressionProvider provider;
 	private Expression expression;
 
 	public ExpressionEditor( String title )
@@ -54,7 +54,7 @@ public class ExpressionEditor extends BaseDialog
 		super( title );
 	}
 
-	public void setInput( Object input, ExpressionProvider provider,
+	public void setInput( Object input, IExpressionProvider provider,
 			boolean allowConstant )
 	{
 		this.contextObject = input;
@@ -77,7 +77,7 @@ public class ExpressionEditor extends BaseDialog
 		layout.verticalSpacing = 10;
 		container.setLayout( layout );
 
-		new Label( container, SWT.NONE ).setText( Messages.getString("ExpressionEditor.Label.Expression") ); //$NON-NLS-1$
+		new Label( container, SWT.NONE ).setText( Messages.getString( "ExpressionEditor.Label.Expression" ) ); //$NON-NLS-1$
 		exprText = new Text( container, SWT.BORDER | SWT.SINGLE );
 
 		GridData gd = new GridData( );
@@ -127,7 +127,7 @@ public class ExpressionEditor extends BaseDialog
 		{
 			IStatus status = new StatusInfo( ReportPlugin.REPORT_UI,
 					IStatus.ERROR,
-					Messages.getString("ExpressionEditor.Error.EmptyExpression") ); //$NON-NLS-1$
+					Messages.getString( "ExpressionEditor.Error.EmptyExpression" ) ); //$NON-NLS-1$
 			updateStatus( status );
 			return;
 		}

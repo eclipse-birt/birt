@@ -85,6 +85,8 @@ public class JSExpressionConverter extends AbstractExpressionConverter
 	@Override
 	public String getConstantExpression( String value, String dataType )
 	{
+		if ( dataType == null || value == null )
+			return null;
 		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType )
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )

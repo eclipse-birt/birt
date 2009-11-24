@@ -17,8 +17,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -55,6 +58,7 @@ import com.ibm.icu.util.ULocale;
  */
 public class SelectValueDialog extends BaseDialog
 {
+
 	private boolean multipleSelection = false;
 	private TableViewer tableViewer = null;
 	private Table table = null;
@@ -64,6 +68,7 @@ public class SelectValueDialog extends BaseDialog
 	private java.util.List<Object> modelValueList = new ArrayList<Object>( );
 	private ParamBindingHandle[] bindingParams = null;
 	private final String nullValueDispaly = Messages.getString( "SelectValueDialog.SelectValue.NullValue" ); //$NON-NLS-1$
+
 	// private java.util.List<String> viewerValueList = new ArrayList<String>();
 
 	/**
@@ -212,7 +217,8 @@ public class SelectValueDialog extends BaseDialog
 		{
 			if ( this.getShell( ) == null || this.getShell( ).isDisposed( ) )
 				return;
-			if ( this.getOkButton( ) != null && !this.getOkButton( ).isDisposed( ) )
+			if ( this.getOkButton( ) != null
+					&& !this.getOkButton( ).isDisposed( ) )
 				getOkButton( ).setEnabled( false );
 
 			table.removeAll( );
@@ -230,7 +236,8 @@ public class SelectValueDialog extends BaseDialog
 			if ( table.getItemCount( ) > 0 )
 			{
 				table.select( 0 );
-				if ( this.getOkButton( ) != null && !this.getOkButton( ).isDisposed( ) )
+				if ( this.getOkButton( ) != null
+						&& !this.getOkButton( ).isDisposed( ) )
 					getOkButton( ).setEnabled( true );
 			}
 			for ( int i = 0; i < table.getItemCount( ); i++ )
@@ -357,6 +364,67 @@ public class SelectValueDialog extends BaseDialog
 		return exprValues;
 	}
 
+	/**
+	 * Return expression string value as expression required format. For example
+	 * number type: Integer value 1 to String value "1" Boolean type: Boolean
+	 * value true to String value "true" other types: String value "abc" to
+	 * String value "\"abc\"" Date value "2000-10-10" to String value
+	 * "\"2000-10-10\""
+	 * 
+	 * @return expression value
+	 */
+	public String getSelectedExprValue( IExpressionConverter convert )
+	{
+		String exprValue = null;
+		if ( selectedIndices != null && selectedIndices.length > 0 )
+		{
+			Object modelValue = selectedItems[0];
+			String dataType = null;
+			if ( modelValue != null )
+			{
+				dataType = DataSetUIUtil.toModelDataType( DataTypeUtil.toApiDataType( modelValue.getClass( ) ) );
+				String viewerValue = modelValue.toString( );
+				if ( convert != null )
+					exprValue = convert.getConstantExpression( viewerValue,
+							dataType );
+			}
+		}
+		return exprValue;
+	}
+
+	/**
+	 * Return expression string value as expression required format. For example
+	 * number type: Integer value 1 to String value "1" Boolean type: Boolean
+	 * value true to String value "true" other types: String value "abc" to
+	 * String value "\"abc\"" Date value "2000-10-10" to String value
+	 * "\"2000-10-10\""
+	 * 
+	 * @return expression value
+	 */
+	public String[] getSelectedExprValues( IExpressionConverter convert )
+	{
+		String[] exprValues = null;
+		if ( selectedIndices != null && selectedIndices.length > 0 )
+		{
+			exprValues = new String[selectedIndices.length];
+			for ( int i = 0; i < selectedIndices.length; i++ )
+			{
+				Object modelValue = selectedItems[i];
+				String dataType = null;
+				if ( modelValue != null )
+				{
+					dataType = DataSetUIUtil.toModelDataType( DataTypeUtil.toApiDataType( modelValue.getClass( ) ) );
+					String viewerValue = modelValue.toString( );
+					if ( convert != null )
+						exprValues[i] = convert.getConstantExpression( viewerValue,
+								dataType );
+				}
+
+			}
+		}
+		return exprValues;
+	}
+
 	public class TableSorter extends ViewerSorter
 	{
 
@@ -427,13 +495,16 @@ public class SelectValueDialog extends BaseDialog
 		{
 		}
 
-		public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
 		{
 		}
 	}
 
-	public class TableLabelProvider extends LabelProvider implements ITableLabelProvider
+	public class TableLabelProvider extends LabelProvider implements
+			ITableLabelProvider
 	{
+
 		public String getColumnText( Object element, int columnIndex )
 		{
 			DateFormatter formatter = new DateFormatter( ULocale.US );
@@ -464,6 +535,7 @@ public class SelectValueDialog extends BaseDialog
 			}
 			return null;
 		}
+
 		public Image getColumnImage( Object element, int columnIndex )
 		{
 			return null;
