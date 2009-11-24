@@ -58,6 +58,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.CubeCreationQueryDefinition;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -1693,7 +1694,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		if( metaList == null )
 			metaList = new ArrayList();
-		QueryDefinition query = new QueryDefinition( );
+		QueryDefinition query = new CubeCreationQueryDefinition( );
 		//Ensure the query execution result would not be save to report document.
 		query.setAsTempQuery( );
 	
@@ -1852,7 +1853,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			List metaList ) throws BirtException
 	{
 		assert metaList!= null;
-		QueryDefinition query = new QueryDefinition( );
+		QueryDefinition query = new CubeCreationQueryDefinition( );
 		//Ensure the query execution result would not be save to report document.
 		query.setAsTempQuery( );
 		query.setUsesDetails( false );
