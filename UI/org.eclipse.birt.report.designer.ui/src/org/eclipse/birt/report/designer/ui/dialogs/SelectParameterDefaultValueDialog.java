@@ -90,7 +90,8 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 
 		tableViewer = new TableViewer( composite, SWT.V_SCROLL
 				| SWT.H_SCROLL
-				| SWT.MULTI );
+				| SWT.MULTI
+				| SWT.FULL_SELECTION );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.heightHint = 250;
 		data.widthHint = 300;

@@ -140,15 +140,14 @@ public class SelectValueDialog extends BaseDialog
 		tableViewer = new TableViewer( composite,
 				( isMultipleSelection( ) ? SWT.MULTI : SWT.SINGLE )
 						| SWT.V_SCROLL
-						| SWT.H_SCROLL );
-
+						| SWT.H_SCROLL 
+						| SWT.FULL_SELECTION);
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.heightHint = 250;
 		data.widthHint = 300;
 		table = tableViewer.getTable( );
 		table.setLayoutData( data );
 		table.setHeaderVisible( true );
-
 		final TableColumn column = new TableColumn( table, SWT.NONE );
 		column.setText( Messages.getString( "SelectValueDialog.selectValue" ) ); //$NON-NLS-1$
 		column.setWidth( data.widthHint );
