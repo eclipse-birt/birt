@@ -219,13 +219,14 @@ public class LineArea extends InlineStackingArea
 			{
 				TextArea textArea = (TextArea) child;
 				String text = textArea.getText( );
-				int letterNumber = ( text.length( ) > 1
+				int letterSpacingNumber = ( text.length( ) > 1
 						? ( text.length( ) - 1 )
 						: 0 );
-				TextStyle style = textArea.getStyle( );
+				TextStyle style = new TextStyle( textArea.getStyle( ) );
 				int original = style.getLetterSpacing( );
 				style.setLetterSpacing( original + letterSpacing );
-				int spacing = letterSpacing * letterNumber;
+				textArea.setStyle( style );
+				int spacing = letterSpacing * letterSpacingNumber;
 				child.setWidth( child.getWidth( ) + spacing );
 				child.setPosition( child.getX( ) + delta, child.getY( ) );
 				delta += spacing;
@@ -331,7 +332,7 @@ public class LineArea extends InlineStackingArea
 			if ( child instanceof TextArea )
 			{
 				String text = ( (TextArea) child ).getText( );
-				count = ( text.length( ) > 1 ? ( text.length( ) - 1 ) : 0 ) - 1;
+				count = text.length( );
 			}
 			else if ( child instanceof ContainerArea )
 			{
@@ -357,7 +358,7 @@ public class LineArea extends InlineStackingArea
 			int letterNumber = getLetterNumber( this );
 			if ( letterNumber > 0 )
 			{
-				int letterSpacing = spacing / letterNumber;
+				int letterSpacing = spacing / ( letterNumber - 1 );
 				adjustLetterSpacing( letterSpacing, this );
 			}
 		}
