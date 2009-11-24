@@ -51,4 +51,11 @@ public interface IMeasureModel
 	 * cube.
 	 */
 	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
+
+	/**
+	 * Name of the action property, which defines what action can be performed
+	 * when clicking the measure.
+	 */
+
+	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
 }

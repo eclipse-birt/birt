@@ -61,6 +61,9 @@
                             <expression name="measureExpression">column</expression>
                             <property name="dataType">string</property>
                             <expression name="ACLExpression" type="javascript">ACL expression</expression>
+                            <structure name="action">
+                            	<expression name="uri">http://localhost:8080/bluehero</expression>
+                            </structure>
                         </tabular-measure>
                     </property>
                 </tabular-measure-group>

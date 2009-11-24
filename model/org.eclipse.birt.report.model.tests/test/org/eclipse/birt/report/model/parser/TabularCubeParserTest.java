@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
@@ -25,12 +26,14 @@ import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
@@ -214,6 +217,9 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, attribute
 				.getDataType( ) );
 
+		ActionHandle action = level.getActionHandle( );
+		assertEquals( "http://localhost:8080/bluehero", action.getURI( ) ); //$NON-NLS-1$
+
 		// measure group
 		propHandle = cube
 				.getPropertyHandle( TabularCubeHandle.MEASURE_GROUPS_PROP );
@@ -243,6 +249,9 @@ public class TabularCubeParserTest extends BaseTestCase
 		value = (Expression) expressionHandle.getValue( );
 		assertEquals( "ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
 		assertEquals( IExpressionType.JAVASCRIPT, value.getType( ) );
+
+		action = measure.getActionHandle( );
+		assertEquals( "http://localhost:8080/bluehero", action.getURI( ) ); //$NON-NLS-1$
 
 	}
 
@@ -352,6 +361,9 @@ public class TabularCubeParserTest extends BaseTestCase
 		config.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 		propHandle.insertItem( config, 0 );
 
+		Action action = StructureFactory.createAction( );
+		level.setAction( action );
+
 		// measure group
 		cube.add( TabularCubeHandle.MEASURE_GROUPS_PROP, factory
 				.newTabularMeasureGroup( null ) );
@@ -374,6 +386,9 @@ public class TabularCubeParserTest extends BaseTestCase
 		expressionHandle
 				.setValue( new Expression(
 						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+
+		action = StructureFactory.createAction( );
+		measure.setAction( action );
 
 		save( );
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$

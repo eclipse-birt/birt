@@ -13,13 +13,16 @@ package org.eclipse.birt.report.model.api.olap;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a level element.
@@ -402,5 +405,42 @@ public abstract class LevelHandle extends ReportElementHandle
 	public ExpressionHandle getMemberACLExpression( )
 	{
 		return getExpressionProperty( MEMBER_ACL_EXPRESSION_PROP );
+	}
+
+	/**
+	 * Returns a handle to work with the action property, action is a structure
+	 * that defines a hyperlink.
+	 * 
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the level.
+	 * @see ActionHandle
+	 */
+
+	public ActionHandle getActionHandle( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( ACTION_PROP );
+		Action action = (Action) propHandle.getValue( );
+
+		if ( action == null )
+			return null;
+		return (ActionHandle) action.getHandle( propHandle );
+	}
+
+	/**
+	 * Set an action on the level.
+	 * 
+	 * @param action
+	 *            new action to be set on the level, it represents a bookmark
+	 *            link, hyper-link, and drill through etc.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the level.
+	 * 
+	 * @throws SemanticException
+	 *             if member of the action is not valid.
+	 */
+
+	public ActionHandle setAction( Action action ) throws SemanticException
+	{
+		return ModelUtil.setAction( this, ACTION_PROP, action );
 	}
 }

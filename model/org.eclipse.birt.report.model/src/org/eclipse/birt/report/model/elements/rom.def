@@ -3594,7 +3594,8 @@
   	<Property detailType="Rule" displayNameID="Element.Level.staticValues" isList="true" name="staticValues" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property displayNameID="Element.Level.defaultValue" name="defaultValue" since="2.3" type="expression" />
   	<Property displayNameID="Element.Level.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
-  	<Property displayNameID="Element.Level.MemberACLExpression" name="memberACLExpression" since="2.5.2" type="expression"/>	      	
+  	<Property displayNameID="Element.Level.MemberACLExpression" name="memberACLExpression" since="2.5.2" type="expression"/>
+  	<Property detailType="Action" displayNameID="Element.Level.action" isList="false" name="action" runtimeSettable="false" since="2.5" type="structure"/>	      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
   	<Property displayNameID="Element.TabularLevel.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />
@@ -3629,6 +3630,7 @@
 		<Default>decimal</Default>
 	</Property>
 	<Property displayNameID="Element.Measure.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
+	<Property detailType="Action" displayNameID="Element.Measure.action" isList="false" name="action" runtimeSettable="false" since="2.5" type="structure"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularMeasure" name="TabularMeasure" since="2.2" xmlName="tabular-measure">
   </Element>    

@@ -3848,6 +3848,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
 
+		writeAction( obj, ILevelModel.ACTION_PROP );
+
 	}
 
 	/*
@@ -3881,6 +3883,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IMeasureModel.MEASURE_EXPRESSION_PROP );
 		property( obj, IMeasureModel.DATA_TYPE_PROP );
 		property( obj, IMeasureModel.ACL_EXPRESSION_PROP );
+
+		writeAction( obj, IMeasureModel.ACTION_PROP );
 	}
 
 	/*

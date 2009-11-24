@@ -94,4 +94,11 @@ public interface ILevelModel
 	 * full content of the level member (e.g., its value, attributes, etc.)
 	 */
 	String MEMBER_ACL_EXPRESSION_PROP = "memberACLExpression"; //$NON-NLS-1$
+
+	/**
+	 * Name of the action property, which defines what action can be performed
+	 * when clicking the level.
+	 */
+
+	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
 }
