@@ -339,11 +339,16 @@ public abstract class AbstractChartBaseQueryGenerator
 		{
 			String exprCategory = ( categorySD.getDesignTimeSeries( )
 					.getDataDefinition( ).get( 0 ) ).getDefinition( );
+			String exprYGroup = orthSD.getQuery( ).getDefinition( );
 			try
 			{
 				if ( !ChartExpressionUtil.isRowBinding( exprCategory, false ) )
 				{
 					addExtraBinding( query, exprCategory );
+				}
+				if ( !ChartExpressionUtil.isRowBinding( exprYGroup, false ) )
+				{
+					addExtraBinding( query, exprYGroup );
 				}
 				if ( query instanceof ISubqueryDefinition )
 				{
@@ -351,6 +356,8 @@ public abstract class AbstractChartBaseQueryGenerator
 					// binding from parent and insert into subquery
 					ChartReportItemUtil.copyAndInsertBindingFromContainer( (ISubqueryDefinition) query,
 							exprCategory );
+					ChartReportItemUtil.copyAndInsertBindingFromContainer( (ISubqueryDefinition) query,
+							exprYGroup );
 
 					if ( !categorySD.getGrouping( ).isEnabled( ) )
 					{
@@ -391,6 +398,10 @@ public abstract class AbstractChartBaseQueryGenerator
 	protected void addExtraBinding( BaseQueryDefinition query,
 			String exprCategory ) throws ChartException
 	{
+		if ( exprCategory == null || exprCategory.trim( ).length( ) == 0 )
+		{
+			return;
+		}
 		try
 		{
 			String bindingName = ChartExpressionUtil.getFullBindingName( exprCategory );
