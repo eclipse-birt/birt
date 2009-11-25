@@ -2895,7 +2895,7 @@ ParameterDialog.toolTipText.OpenExprButton=式ビルダを開く
 ParameterDialog.datetime.prompt=日時は、{0} の形式で入力してください
 ParameterDialog.date.prompt=日付は、{0} の形式で入力してください
 ParameterDialog.time.prompt=時間は、{0} の形式で入力してください
-ParameterDialog.Check.AllowMulti=複数の値を許可する(&M)
+ParameterDialog.Check.AllowMulti=Allow Multiple &Values
 ParameterDialog.checkBox.InputValue=入力値
 ParameterDialog.checkBox.BlankValue=空白値
 ParameterDialog.checkBox.NullValue=NULL 値
@@ -3628,7 +3628,7 @@ TableArea.Button.New=新規作成(&W)...
 TableArea.Button.Edit=編集(&E)...
 TableArea.Button.Remove=削除(&R)
 TableArea.Button.Down=下へ(&O)
-TableArea.Button.RemoveAll=すべて削除(&V) 
+TableArea.Button.RemoveAll=すべて削除(&M)
 
 ###########################################################
 #TableHandleAdapter properties

@@ -2895,7 +2895,7 @@ ParameterDialog.toolTipText.OpenExprButton=Ausdruckserstellung öffnen
 ParameterDialog.datetime.prompt=Datums-/Uhrzeitwerte im folgenden Format eingeben: {0}
 ParameterDialog.date.prompt=Kalenderdatenwerte im folgenden Format eingeben: {0}
 ParameterDialog.time.prompt=Uhrzeitwerte im folgenden Format eingeben: {0}
-ParameterDialog.Check.AllowMulti=&Mehrere Werte zulassen
+ParameterDialog.Check.AllowMulti=Allow Multiple &Values
 ParameterDialog.checkBox.InputValue=Eingabewert
 ParameterDialog.checkBox.BlankValue=Leerwert
 ParameterDialog.checkBox.NullValue=Null-Wert
@@ -3628,7 +3628,7 @@ TableArea.Button.New=N&eu...
 TableArea.Button.Edit=&Bearbeiten...
 TableArea.Button.Remove=&Entfernen
 TableArea.Button.Down=Nach &unten
-TableArea.Button.RemoveAll=&Alle entfernen 
+TableArea.Button.RemoveAll=Alle ent&fernen
 
 ###########################################################
 #TableHandleAdapter properties

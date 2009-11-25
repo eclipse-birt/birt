@@ -2895,7 +2895,7 @@ ParameterDialog.toolTipText.OpenExprButton=Ouvrir le Générateur d'expression
 ParameterDialog.datetime.prompt=Entrez les valeurs de date et d''heure selon le modèle suivant : {0}
 ParameterDialog.date.prompt=Entrez les valeurs de date selon le modèle suivant : {0}
 ParameterDialog.time.prompt=Entrez les valeurs d''heure selon le modèle suivant : {0}
-ParameterDialog.Check.AllowMulti=Autoriser les valeurs &multiples
+ParameterDialog.Check.AllowMulti=Allow Multiple &Values
 ParameterDialog.checkBox.InputValue=Valeur d'entrée
 ParameterDialog.checkBox.BlankValue=Valeur vierge
 ParameterDialog.checkBox.NullValue=Valeur nulle
@@ -3628,7 +3628,7 @@ TableArea.Button.New=&Nouveau...
 TableArea.Button.Edit=&Modifier...
 TableArea.Button.Remove=&Supprimer
 TableArea.Button.Down=Vers le &bas
-TableArea.Button.RemoveAll=Tout suppri&mer 
+TableArea.Button.RemoveAll=Tout suppri&mer
 
 ###########################################################
 #TableHandleAdapter properties

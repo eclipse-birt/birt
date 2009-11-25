@@ -2895,7 +2895,7 @@ ParameterDialog.toolTipText.OpenExprButton=식 빌더 열기
 ParameterDialog.datetime.prompt=날짜/시간 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.date.prompt=날짜 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.time.prompt=시간 값을 다음 형식으로 입력하십시오. {0}
-ParameterDialog.Check.AllowMulti=여러 값 허용(&M)
+ParameterDialog.Check.AllowMulti=Allow Multiple &Values
 ParameterDialog.checkBox.InputValue=입력 값
 ParameterDialog.checkBox.BlankValue=빈 값
 ParameterDialog.checkBox.NullValue=널(Null) 값
@@ -3628,7 +3628,7 @@ TableArea.Button.New=새로 만들기(&W)...
 TableArea.Button.Edit=편집(&E)...
 TableArea.Button.Remove=제거(&R)
 TableArea.Button.Down=아래로(&D)
-TableArea.Button.RemoveAll=모두 제거(&V) 
+TableArea.Button.RemoveAll=모두 제거(&M)
 
 ###########################################################
 #TableHandleAdapter properties
