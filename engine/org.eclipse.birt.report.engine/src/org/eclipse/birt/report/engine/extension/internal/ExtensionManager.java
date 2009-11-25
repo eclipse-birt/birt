@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +26,6 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutorManager;
 import org.eclipse.birt.report.engine.executor.ExtendedGenerateExecutor;
@@ -39,8 +37,6 @@ import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPreparation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.internal.document.PageIndexReader;
 
 /**
  * Manages engine extensions. Currently, engine supports 4 types of extensions: emitters,
@@ -578,18 +574,41 @@ public class ExtensionManager
 		{
 			return;
 		}
-		for ( int i = 0; i < exts.length; i++ ) // loop at emitters level, i.e.,
-												// fo or html
+		for ( int i = 0; i < exts.length; i++ ) 
+		// loop at emitters level, i.e., fo or html
 		{
 			String namespace = exts[i].getNamespace( );
-			IConfigurationElement[] configs = exts[i].getConfigurationElements();
-			for (int j = 0; j < configs.length; j++)	// loop at emitter level 
-			{				
-				String format = configs[j].getAttribute("format");	//$NON-NLS-1$
-				String mimeType = configs[j].getAttribute("mimeType");	//$NON-NLS-1$
-				String id = configs[j].getAttribute("id"); //$NON-NLS-1$
-				String pagination = configs[j].getAttribute("pagination");
-				String supportedImageFormats = configs[j].getAttribute("supportedImageFormats");
+			IConfigurationElement[] configs = exts[i]
+					.getConfigurationElements( );
+			for ( int j = 0; j < configs.length; j++ ) // loop at emitter level
+			{
+				String id = configs[j].getAttribute( "id" ); //$NON-NLS-1$
+				// check if we need to override the existing emitterInfo with
+				// same id.
+				String overridePriority = configs[j]
+						.getAttribute( "overridePriority" );
+				int priority = 0;
+				if ( null != overridePriority )
+				{
+					priority = new Integer( overridePriority ).intValue( );
+				}
+				EmitterInfo info = (EmitterInfo) emitters.get( id );
+				if ( info != null )
+				{
+					if ( info.getOverridePriority( ) >= priority )
+					{
+						continue;
+					}
+					else
+					{
+						emitterExtensions.remove( info );
+					}
+				}
+				String format = configs[j].getAttribute( "format" ); //$NON-NLS-1$
+				String mimeType = configs[j].getAttribute( "mimeType" ); //$NON-NLS-1$
+				String pagination = configs[j].getAttribute( "pagination" );
+				String supportedImageFormats = configs[j]
+						.getAttribute( "supportedImageFormats" );
 				if ( pagination == null )
 				{
 					pagination = PAGE_BREAK_PAGINATION;
@@ -602,16 +621,18 @@ public class ExtensionManager
 				Boolean isHidden = new Boolean( configs[j]
 						.getAttribute( "isHidden" ) );
 				boolean needOutputResultSet = Boolean.valueOf( configs[j]
-						.getAttribute( "needOutputResultSet" ));
+						.getAttribute( "needOutputResultSet" ) );
 				EmitterInfo emitterInfo = new EmitterInfo( format, id,
 						pagination, mimeType, icon, namespace, fileExtension,
 						outDisplayNone, isHidden, supportedImageFormats,
 						needOutputResultSet, configs[j] );
-				emitterExtensions.add(emitterInfo);
-				assert( format != null );
+				emitterInfo.setOverridePriority( priority );
+				emitterExtensions.add( emitterInfo );
+				assert ( format != null );
 				formats.put( format, emitterInfo );
 				emitters.put( id, emitterInfo );
-				logger.log(Level.FINE, "Load {0} emitter {1}", new String[]{format, id}); //$NON-NLS-1$
+				logger.log( Level.FINE,
+						"Load {0} emitter {1}", new String[]{format, id} ); //$NON-NLS-1$
 			}
 		}
 	}
@@ -789,19 +810,14 @@ public class ExtensionManager
 	{
 		if ( emitterId != null )
 		{
-			for ( EmitterInfo emitterInfo : emitterExtensions )
+			EmitterInfo emitterInfo = (EmitterInfo) emitters.get( emitterId );
+			if ( emitterInfo != null )
 			{
-				if ( emitterId.equals( emitterInfo.getID( ) ) )
+				String supportedImageFormats = emitterInfo
+						.getSupportedImageFormats( );
+				if ( null != supportedImageFormats )
 				{
-					String supportedImageFormats = emitterInfo.getSupportedImageFormats( );
-					if ( null != supportedImageFormats )
-					{
-						return supportedImageFormats;
-					}
-					else
-					{
-						return DEFAULT_SUPPORTED_IMAGE_FORMATS;
-					}
+					return supportedImageFormats;
 				}
 			}
 		}

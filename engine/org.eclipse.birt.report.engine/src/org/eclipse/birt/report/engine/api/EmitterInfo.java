@@ -31,6 +31,7 @@ public class EmitterInfo
 	private Boolean isHidden;
 	private String supportedImageFormats;
 	private boolean needOutputResultSet;
+	private int overridePriority;
 
 	/**
 	 * whether emitter need to output the display:none or process it in layout
@@ -180,6 +181,24 @@ public class EmitterInfo
 	public void setNeedOutputResultSet( boolean needOutputResultSet )
 	{
 		this.needOutputResultSet = needOutputResultSet;
+	}
+
+	/**
+	 * Get the emitter override priority.
+	 * @return the override priority.
+	 */
+	public int getOverridePriority( )
+	{
+		return overridePriority;
+	}
+
+	/**
+	 * Set the emitter override priority.
+	 * @param overridePriority
+	 */
+	public void setOverridePriority( int overridePriority )
+	{
+		this.overridePriority = overridePriority;
 	}
 
 }
