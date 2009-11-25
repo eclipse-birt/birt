@@ -713,11 +713,11 @@ public class ExcelUtil
 	 *            with of parent, the unit is 1/1000 point.
 	 * @return
 	 */
-	public static int convertDimensionType( DimensionType value, int parent )
+	public static int convertDimensionType( DimensionType value, float parent )
 	{
 		if ( value == null )
 		{
-			return parent * 1000;
+			return (int) ( parent * 1000 );
 		}
 		if ( DimensionType.UNITS_PERCENTAGE.equals( value.getUnits( ) ) )
 		{
