@@ -355,8 +355,7 @@ public class InputParameterDialog extends BaseDialog
 				{
 					button.setSelection( true );
 				}
-				else if ( value == null
-						&& choice.getLabel( ).equals( NULL_VALUE_STR ) )
+				else if ( value == null && choiceLabel.equals( NULL_VALUE_STR ) )
 				{
 					button.setSelection( true );
 				}
@@ -446,7 +445,8 @@ public class InputParameterDialog extends BaseDialog
 		Object value = null;
 		try
 		{
-			value = listParam.converToDataType( listParam.getDefaultValue( ) );
+			if ( listParam.getDefaultValues( ) != null )
+				value = listParam.converToDataType( listParam.getDefaultValue( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -648,8 +648,8 @@ public class InputParameterDialog extends BaseDialog
 		Object value = null;
 		try
 		{
-			value = listParam.converToDataType( listParam.getDefaultValues( )
-					.toArray( ) );
+			value = listParam.converToDataType( listParam.getDefaultValues( ) == null ? new Object[0]
+					: listParam.getDefaultValues( ).toArray( ) );
 		}
 		catch ( BirtException e )
 		{
