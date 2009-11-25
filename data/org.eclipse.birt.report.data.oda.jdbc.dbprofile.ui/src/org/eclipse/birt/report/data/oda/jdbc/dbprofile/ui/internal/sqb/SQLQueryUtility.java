@@ -51,6 +51,8 @@ import org.eclipse.datatools.modelbase.sql.query.OrderByResultColumn;
 import org.eclipse.datatools.modelbase.sql.query.OrderBySpecification;
 import org.eclipse.datatools.modelbase.sql.query.OrderByValueExpression;
 import org.eclipse.datatools.modelbase.sql.query.OrderingSpecType;
+import org.eclipse.datatools.modelbase.sql.query.QueryExpressionBody;
+import org.eclipse.datatools.modelbase.sql.query.QueryExpressionRoot;
 import org.eclipse.datatools.modelbase.sql.query.QuerySelectStatement;
 import org.eclipse.datatools.modelbase.sql.query.QueryStatement;
 import org.eclipse.datatools.modelbase.sql.query.QueryValueExpression;
@@ -59,6 +61,7 @@ import org.eclipse.datatools.modelbase.sql.query.ValueExpressionColumn;
 import org.eclipse.datatools.modelbase.sql.query.ValueExpressionVariable;
 import org.eclipse.datatools.modelbase.sql.query.helper.DataTypeHelper;
 import org.eclipse.datatools.modelbase.sql.query.helper.StatementHelper;
+import org.eclipse.datatools.modelbase.sql.query.helper.TableHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
@@ -210,6 +213,7 @@ public class SQLQueryUtility
      * Convert any named parameter variables to a '?' parameter marker
      * @param queryStmt a query statement; its contents may get modified by this method
      */
+    @SuppressWarnings("unchecked")
     private static void convertNamedVariablesToMarkers( QueryStatement queryStmt )
     {
         // get all the parameters defined in query
@@ -274,6 +278,7 @@ public class SQLQueryUtility
         }
     }
     
+    @SuppressWarnings("unchecked")
     private static void updateResultSetCriteria( ResultSetDefinition resultSetDefn, 
             final QueryStatement queryStmt )
         throws OdaException
@@ -295,7 +300,8 @@ public class SQLQueryUtility
             for( Iterator<OrderBySpecification> iter = orderBySpecList.iterator(); iter.hasNext(); )
             {
                 OrderBySpecification orderBySpec = iter.next();
-                criteria.addRowSortKey( convertToSortKeyDesignHint( orderBySpec, resultSetDefn ) );
+                criteria.addRowSortKey( convertToSortKeyDesignHint( orderBySpec, resultSetDefn, 
+                                                                    (QuerySelectStatement) queryStmt ) );
             } 
         }
         // else assigns an empty collection of sort keys
@@ -306,7 +312,7 @@ public class SQLQueryUtility
     }
     
     private static SortKey convertToSortKeyDesignHint( OrderBySpecification orderBySpec, 
-            final ResultSetDefinition resultSetDefn )
+            final ResultSetDefinition resultSetDefn, final QuerySelectStatement selectStmt )
         throws OdaException
     {
         if( orderBySpec == null )
@@ -334,7 +340,7 @@ public class SQLQueryUtility
             QueryValueExpression valueExpr = ((OrderByValueExpression)orderBySpec).getValueExpr();
             if( valueExpr != null )
             {
-                String columnExpr = getColumnReferenceName( valueExpr );
+                String columnExpr = getColumnReferenceName( valueExpr, selectStmt );
                 sortKeyHint.setColumnName( columnExpr );
             }
         }
@@ -363,19 +369,40 @@ public class SQLQueryUtility
         if( resultColumn == null )
             return null;
 
-        String columnName = resultColumn.getName();   // column alias
-        if( columnName == null )
-            columnName = getColumnReferenceName( resultColumn.getValueExpr() );    
-        return columnName;
+        // use the result column alias, if exists, to match the name returned by IResultSetMetaData
+        if( resultColumn.getName() != null )   // has column alias
+            return resultColumn.getName();
+        
+        QueryValueExpression valueExpr = resultColumn.getValueExpr();
+        if( valueExpr == null )
+            return null;
+        if( ! (valueExpr instanceof ValueExpressionColumn) )
+            return valueExpr.getSQL();
+
+        // use the non-qualified column name to match the name returned by IResultSetMetaData
+        return valueExpr.getName();
     }
-    
-    private static String getColumnReferenceName( QueryValueExpression valueExpr )
+ 
+    private static String getColumnReferenceName( QueryValueExpression valueExpr, final QuerySelectStatement selectStmt )
     {
         if( valueExpr == null )
             return null;
-        if( valueExpr instanceof ValueExpressionColumn )
-            return valueExpr.getName();     // use the non-qualified name to match the name returned by IResultSetMetaData
-        return valueExpr.getSQL();
+        if( ! (valueExpr instanceof ValueExpressionColumn) )
+            return valueExpr.getSQL();
+
+        String columnName = valueExpr.getName();    // non-qualified column name
+
+        // try find matching result column to look for its alias name, if exists
+        QueryExpressionRoot qRoot = selectStmt.getQueryExpr();
+        QueryExpressionBody qBody = qRoot != null ? qRoot.getQuery() : null;
+        
+        // Note: if "select *" is used in query body, result columns are not expanded yet; 
+        // but that also means the columns do not have alias, so ok to use the raw name in the column expression
+        ResultColumn resultColumn = TableHelper.getResultColumnForAliasOrColumnName( qBody, columnName );
+        if( resultColumn != null && resultColumn.getName() != null )
+            return resultColumn.getName();  // use the result column alias to match the name returned by IResultSetMetaData
+
+        return columnName;
     }
     
     // Returns the column name of the specified ordinal value.
@@ -392,6 +419,7 @@ public class SQLQueryUtility
                 columnDefn.getAttributes().getName() : EMPTY_STRING;
     }
     
+    @SuppressWarnings("unchecked")
     private static void updateParameterDesign( DataSetDesign dataSetDesign, final QueryStatement queryStmt )
     {
         if( dataSetDesign == null || queryStmt == null )
