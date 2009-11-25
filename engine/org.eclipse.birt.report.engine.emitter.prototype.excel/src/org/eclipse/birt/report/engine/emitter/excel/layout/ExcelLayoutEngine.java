@@ -782,7 +782,7 @@ public class ExcelLayoutEngine
 		timeFormat = DateTimeUtil.formatDateTime( timeFormat, dateLocale );
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.DATE );
-		return createData( txt, entry, SheetData.DATE );
+		return createData( txt, entry );
 	}
 
 	private ULocale getLocale( String dlocale )
@@ -877,7 +877,7 @@ public class ExcelLayoutEngine
 
 	protected Data createEmptyData( StyleEntry style )
 	{
-		return createData( EMPTY, style, Data.STRING );
+		return createData( EMPTY, style );
 	}
 
 	protected void updataRowIndex( SheetData data, XlsContainer container )
