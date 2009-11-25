@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,7 +45,11 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
     public Control createDialogArea( Composite parent ) 
     {
         setParentShell( parent.getShell() );
+        
+        String origDialogTitle = parent.getShell().getText();
         Control dialogArea = super.createDialogArea( parent );
+        parent.getShell().setText( origDialogTitle );   // restore the original title overriden by SQB
+        
         getSQLBuilder().addContentChangeListener( this );
         return dialogArea;
     }

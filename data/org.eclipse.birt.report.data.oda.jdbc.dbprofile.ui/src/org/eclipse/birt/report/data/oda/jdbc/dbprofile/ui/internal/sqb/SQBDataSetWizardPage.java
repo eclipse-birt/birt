@@ -36,6 +36,7 @@ import org.eclipse.datatools.sqltools.sqlbuilder.model.IWindowStateInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.model.SQLBuilderConnectionInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.model.WindowStateInfo;
 import org.eclipse.datatools.sqltools.sqleditor.SQLEditorStorage;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -51,6 +52,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 {
     private static final String NEWLINE_CHAR = "\n"; //$NON-NLS-1$
     private static final String EMPTY_STR = ""; //$NON-NLS-1$
+    private static final String DEFAULT_MESSAGE = Messages.sqbWizPage_defaultMessage;
     
     private IConnectionProfile m_dataSourceProfile;
 	private CustomSQLBuilderDialog m_sqbDialog;
@@ -59,6 +61,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	public SQBDataSetWizardPage( String pageName )
 	{
 		super( pageName );	
+        setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
 	}    
 
 	private IConnectionProfile getConnectionProfile( boolean raiseErrorIfNull, boolean refreshProfileStore )

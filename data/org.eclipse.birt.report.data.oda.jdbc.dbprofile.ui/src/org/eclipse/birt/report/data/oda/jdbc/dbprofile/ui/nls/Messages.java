@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,6 +35,7 @@ public class Messages extends NLS
     public static String sqbWizPage_cannotOpenConnectionTitle;
     public static String sqbWizPage_dataSourceDesignError;
     public static String sqbWizPage_dbErrorMsg;
+    public static String sqbWizPage_defaultMessage;
     public static String sqbWizPage_detectExternalSqlTextChangedMsg;
     public static String sqbWizPage_detectSqlTextChangedTitle;
     public static String sqbWizPage_inputFailOnOpenAskUserMessage;
