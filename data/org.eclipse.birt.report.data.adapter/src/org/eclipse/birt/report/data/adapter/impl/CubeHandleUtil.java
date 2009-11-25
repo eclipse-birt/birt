@@ -20,9 +20,9 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 public class CubeHandleUtil
 {	
-	public static void defineCube( DataEngineImpl dataEngine, CubeHandle handle )
+	public static boolean defineCube( DataEngineImpl dataEngine, CubeHandle handle )
 	{
-		
+		return false;
 	}
 
 }
