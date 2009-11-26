@@ -183,7 +183,6 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 					CrosstabFilterConditionBuilder.DLG_TITLE_NEW,
 					CrosstabFilterConditionBuilder.DLG_MESSAGE_NEW );
 			dialog.setDesignHandle( (DesignElementHandle) item );
-			dialog.setInput( null );
 			if ( dialog.open( ) == Dialog.CANCEL )
 			{
 				return false;
