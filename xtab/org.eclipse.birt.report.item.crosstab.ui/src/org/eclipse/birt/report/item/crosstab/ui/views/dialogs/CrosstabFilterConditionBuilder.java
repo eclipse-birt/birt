@@ -3185,7 +3185,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			Expression initValue = (Expression) selection.getFirstElement( );
 
-			ExpressionEditor editor = new ExpressionEditor( Messages.getString( "DynamicFilterParameterDialog.ExpressionEditor.Title" ) ); //$NON-NLS-1$
+			ExpressionEditor editor = new ExpressionEditor( Messages.getString( "CrosstabFilterConditionBuilder.ExpressionEditor.Title" ) ); //$NON-NLS-1$
 			editor.setExpression( initValue );
 			editor.setInput( filterConditionElement,
 					new CrosstabFilterExpressionProvider( designHandle ),
@@ -3199,8 +3199,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 						|| result.getStringExpression( ).length( ) == 0 )
 				{
 					MessageDialog.openInformation( getShell( ),
-							Messages.getString( "DynamicFilterConditionBuilder.MsgDlg.Title" ), //$NON-NLS-1$
-							Messages.getString( "DynamicFilterConditionBuilder.MsgDlg.Msg" ) ); //$NON-NLS-1$
+							Messages.getString( "CrosstabFilterConditionBuilder.MsgDlg.Title" ), //$NON-NLS-1$
+							Messages.getString( "CrosstabFilterConditionBuilder.MsgDlg.Msg" ) ); //$NON-NLS-1$
 					return;
 				}
 				int index = table.getSelectionIndex( );
