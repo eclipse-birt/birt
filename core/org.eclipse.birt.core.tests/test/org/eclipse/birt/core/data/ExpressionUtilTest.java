@@ -182,4 +182,14 @@ public class ExpressionUtilTest extends TestCase
 		assertEquals( ExpressionUtil.createJSDimensionExpression( null, null ), "dimension[\"\"][\"\"]");
 		assertEquals( ExpressionUtil.createJSDimensionExpression( "abc", "def", "ghi"),"dimension[\"abc\"][\"def\"][\"ghi\"]");
 	}
+	
+	public void testReplaceParameterExpression()
+	{
+		assertEquals( ExpressionUtil.replaceParameterName( "params[\"param\"]","param", "PARAM" ), "params[\"PARAM\"]");
+		assertEquals( ExpressionUtil.replaceParameterName( "params[\"param1\"]+ params[\"param2\"]","param2", "PARAM2" ), "params[\"param1\"]+ params[\"PARAM2\"]");
+		assertEquals( ExpressionUtil.replaceParameterName( "123+ params[\"param2\"]","param2", "PARAM2" ), "123+ params[\"PARAM2\"]");
+		assertEquals( ExpressionUtil.replaceParameterName( "params.param1+ params[\"param2\"]","param2", "PARAM2" ), "params.param1+ params[\"PARAM2\"]");
+		assertEquals( ExpressionUtil.replaceParameterName( "params.param1.value+ params.param2.value","param2", "PARAM2" ), "params.param1.value+ params.PARAM2.value");
+		
+	}
 }

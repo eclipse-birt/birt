@@ -464,9 +464,9 @@ public final class ExpressionUtil
 					}
 				}
 			}
-
+	
 		}
-
+	
 		return oldExpression;
 	}
 	
@@ -650,6 +650,26 @@ public final class ExpressionUtil
 	public static String getReferencedMeasure( String expr ) throws CoreException
 	{
 		return OlapExpressionCompiler.getReferencedMeasure( expr );
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @param paramOldName
+	 * @param paramNewName
+	 * @return
+	 */
+	public static String replaceParameterName( String expr,
+			String paramOldName, String paramNewName )
+	{
+		if ( expr == null || paramOldName == null || paramNewName == null )
+			return expr;
+
+		expr = expr.replaceAll( "\\Qparams[\"\\E" + paramOldName + "\\Q\"]\\E",
+				"params[\"" + paramNewName + "\"]" );
+		expr = expr.replaceAll( "\\Qparams.\\E" + paramOldName, "params."
+				+ paramNewName );
+		return expr;
 	}
 }
 
