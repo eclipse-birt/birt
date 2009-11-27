@@ -956,7 +956,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		valueArea = new Composite( valuesDefineSection, SWT.NONE );
 		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 300;
+		gd.heightHint = 320;
 		gd.widthHint = 550;
 		gd.horizontalSpan = 2;
 		valueArea.setLayoutData( gd );
@@ -2583,11 +2583,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		defaultValueViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( group, SWT.NONE );
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		data = new GridData( GridData.FILL_VERTICAL );
 		rightPart.setLayoutData( data );
-		layout = new GridLayout( );
-		layout.makeColumnsEqualWidth = true;
-		rightPart.setLayout( layout );
+		rightPart.setLayout( new GridLayout( ) );
 
 		editBtn = new Button( rightPart, SWT.PUSH );
 		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
@@ -2937,7 +2935,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		dummyLabel = new Label( valueArea, SWT.NONE );
 		defaultValueComposite = createMulitipleValueListComposite( valueArea );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd = new GridData( GridData.FILL_BOTH );
 		defaultValueComposite.setLayoutData( gd );
 
 		initDefaultValueViewer( );
