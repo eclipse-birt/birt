@@ -11,10 +11,25 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
+import org.eclipse.birt.report.model.elements.Parameter;
+import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses the contents of the list of parameters.
@@ -84,4 +99,127 @@ public class ParametersState extends SlotState
 	{
 		return handler;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
+	public void end( ) throws SAXException
+	{
+		super.end( );
+
+		// if the container is module, then do the backward compatibility,
+		// otherwise the container is parameter group, do nothing; for we must
+		// do compatibility until all parameter and parameter group is parsed.
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_21
+				&& container instanceof Module )
+		{
+			checkParameterNames( );
+		}
+	}
+
+	private void checkParameterNames( )
+	{
+		Module module = (Module) container;
+		Iterator<DesignElement> iter = new ContentIterator( module,
+				new ContainerContext( module, Module.PARAMETER_SLOT ) );
+		List<DesignElement> params = new ArrayList<DesignElement>( );
+
+		// build parameter list
+		while ( iter.hasNext( ) )
+		{
+			DesignElement content = iter.next( );
+			if ( content instanceof Parameter
+					|| content instanceof ParameterGroup )
+				params.add( content );
+		}
+
+		if ( !params.isEmpty( ) )
+		{
+			// get the built style name map
+			Map<String, DesignElement> parameterMap = buildNameMap( params );
+
+			for ( int i = 0; i < params.size( ); i++ )
+			{
+				DesignElement param = params.get( i );
+				String oldName = param.getName( );
+
+				NameSpace ns = new NameExecutor( param )
+						.getNameSpace( (Module) container );
+
+				// check the unique
+				String paramName = param.getName( );
+				String lowerCaseName = paramName.toLowerCase( );
+				if ( parameterMap.containsKey( lowerCaseName )
+						&& parameterMap.get( lowerCaseName ) != param )
+				{
+					String baseName = paramName;
+					String name = paramName;
+					int index = 0;
+					// parameter name is case-insensitive
+					while ( parameterMap.containsKey( lowerCaseName )
+							&& parameterMap.get( lowerCaseName ) != param )
+					{
+						name = baseName + ++index;
+						lowerCaseName = name.toLowerCase( );
+					}
+
+					// rename the parameter and then add to the name space
+					param.setName( name );
+					if ( !ns.contains( name.toLowerCase( ) ) )
+						ns.insert( param );
+					// do the cache
+					if ( !parameterMap.containsKey( name.toLowerCase( ) ) )
+						parameterMap.put( name.toLowerCase( ), param );
+					// remove the old name
+					if ( parameterMap.get( paramName.toLowerCase( ) ) == param )
+						parameterMap.remove( paramName.toLowerCase( ) );
+
+					// set-up the oldName/newName map(rename relationship) to
+					// help update the binding in report items
+					Map<String, String> nameMaps = (Map<String, String>) handler.tempValue
+							.get( ModuleParserHandler.PARAMETER_NAME_CACHE_KEY );
+					if ( nameMaps == null )
+					{
+						nameMaps = new HashMap<String, String>( );
+						handler.tempValue.put(
+								ModuleParserHandler.PARAMETER_NAME_CACHE_KEY,
+								nameMaps );
+					}
+					nameMaps.put( oldName, name );
+				}
+				else
+				{
+					if ( !ns.contains( lowerCaseName ) )
+						ns.insert( param );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Builds a map for the style elements. Key is the lower-case name for the
+	 * element and value is the first element that has the with the name for the
+	 * key. If two elements have the same name except the different cases, we
+	 * will store the first element in the map and ignore others.
+	 * 
+	 * @param styles
+	 * @return
+	 */
+	private Map<String, DesignElement> buildNameMap( List<DesignElement> params )
+	{
+		Map<String, DesignElement> paramMap = new HashMap<String, DesignElement>( );
+		for ( int i = 0; i < params.size( ); i++ )
+		{
+			DesignElement param = params.get( i );
+			String styleName = param.getName( );
+			String lowerName = styleName.toLowerCase( );
+			if ( !paramMap.containsKey( lowerName ) )
+				paramMap.put( lowerName, param );
+		}
+
+		return paramMap;
+	}
+
 }

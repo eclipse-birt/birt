@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.core.StyleNameSpace;
+import org.eclipse.birt.report.model.core.CaseInsensitiveNameSpace;
 import org.eclipse.birt.report.model.css.CssNameManager;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
@@ -73,7 +73,7 @@ public class StyleNameContext extends AbstractModuleNameContext
 	 */
 	protected void initNameSpace( )
 	{
-		this.namespace = new StyleNameSpace( );
+		this.namespace = new CaseInsensitiveNameSpace( );
 	}
 
 	/**

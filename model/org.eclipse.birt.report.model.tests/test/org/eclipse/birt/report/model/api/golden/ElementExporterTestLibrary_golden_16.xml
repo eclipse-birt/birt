@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <themes>
         <theme name="defaultTheme" id="4"/>
     </themes>

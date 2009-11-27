@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <parameters>
+        <scalar-parameter name="Param1" id="2"/>
+        <scalar-parameter name="Param2" id="3"/>
+        <scalar-parameter name="param1" id="4"/>
+    </parameters>
+</report>

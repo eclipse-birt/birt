@@ -40,6 +40,7 @@ public class AllCoreTests
 		test.addTestSuite( MultiElementSlotTest.class );
 		test.addTestSuite( NameHelperTest.class );
 		test.addTestSuite( NameSpaceTest.class );
+		test.addTestSuite( ParameterNameTest.class );
 		test.addTestSuite( PropertyStructureCloneTest.class );
 		test.addTestSuite( SingleElementSlotTest.class );
 		test.addTestSuite( StructRefTest.class );

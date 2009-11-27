@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+    <parameters>
+        <scalar-parameter name="Param1"/>
+        <scalar-parameter name="Param2" />
+        <scalar-parameter name="param1" />
+    </parameters>
+    <data-sets>
+        <script-data-set name="scriptDs" >
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">param1</property>
+                    <expression name="expression" type="javascript">params["param1"]</expression>
+                </structure>
+                <structure>
+                    <property name="paramName">param2</property>
+                    <expression name="expression">2*2=6</expression>
+                </structure>
+            </list-property>
+        </script-data-set>
+    </data-sets>
+    <body>
+        <data name="data" >
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">param1</property>
+                    <expression name="expression" >params["param1"]</expression>
+                </structure>
+                <structure>
+                    <property name="paramName">param2</property>
+                    <expression name="expression">2*2=6</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">column1</property>
+                    <expression name="expression" >params["param1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">column2</property>
+                    <expression name="expression">params["Param1"]+11-params["param1"]</expression>
+                </structure>
+            </list-property>
+        </data>
+        <table name="table" >
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">column1</property>
+                    <expression name="expression" >params["param1"]+10+params["param1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">column2</property>
+                    <expression name="expression">params["Param2"]</expression>
+                </structure>
+            </list-property>
+        </table>
+        <image name="Image2">
+            <structure name="action">
+                <property name="linkType">drill-through</property>
+                <property name="reportName">Another report</property>
+                <expression name="targetBookmark">www.rock.com/bookmarks/1.jsp</expression>
+                <property name="targetWindow">Window3</property>
+                <list-property name="paramBindings">
+                    <structure>
+                        <property name="paramName">param1</property>
+                        <expression name="expression" >params["param1"]</expression>
+                    </structure>
+                    <structure>
+                        <property name="paramName">param2</property>
+                        <expression name="expression">2*2=6</expression>
+                    </structure>
+                </list-property>
+            </structure>
+        </image>
+    </body>
+</report>

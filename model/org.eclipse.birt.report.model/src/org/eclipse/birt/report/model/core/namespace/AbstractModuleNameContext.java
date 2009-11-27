@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
+import org.eclipse.birt.report.model.core.CaseInsensitiveNameSpace;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
@@ -38,6 +39,10 @@ public abstract class AbstractModuleNameContext extends AbstractNameContext
 		super( );
 		this.module = module;
 		this.nameSpaceID = nameSpaceID;
+
+		// name of the parameter is case insensitive
+		if ( nameSpaceID == Module.PARAMETER_NAME_SPACE )
+			this.namespace = new CaseInsensitiveNameSpace( );
 	}
 
 	/*

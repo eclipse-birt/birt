@@ -12,12 +12,22 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -33,6 +43,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -275,6 +287,122 @@ public class ListPropertyState extends AbstractPropertyState
 
 	public void end( ) throws SAXException
 	{
+		// since 3.2.21, parameter name is case-insensitive
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_21 )
+		{
+			// update column binding
+			if ( element instanceof ReportItem
+					&& IReportItemModel.BOUND_DATA_COLUMNS_PROP.equals( name ) )
+			{
+				List boundColumns = (List) element.getLocalProperty(
+						handler.module,
+						IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+				if ( boundColumns == null || boundColumns.isEmpty( ) )
+					return;
+				for ( int i = 0; i < boundColumns.size( ); i++ )
+				{
+					ComputedColumn column = (ComputedColumn) boundColumns
+							.get( i );
+					handleBinding( column, ComputedColumn.EXPRESSION_MEMBER );
+				}
+			}
+
+			// update parameter binding
+			if ( propDefn != null
+					&& propDefn.getStructDefn( ) == MetaDataDictionary
+							.getInstance( ).getStructure(
+									ParamBinding.PARAM_BINDING_STRUCT ) )
+			{
+				List paramBindings = null;
+				if ( struct != null )
+				{
+					paramBindings = (List) struct.getProperty( handler.module,
+							propDefn );
+				}
+				else
+				{
+					paramBindings = (List) element.getLocalProperty(
+							handler.module, (ElementPropertyDefn) propDefn );
+				}
+
+				if ( paramBindings != null )
+				{
+					for ( int i = 0; i < paramBindings.size( ); i++ )
+					{
+						ParamBinding paramBinding = (ParamBinding) paramBindings
+								.get( i );
+						handleBinding( paramBinding,
+								ParamBinding.EXPRESSION_MEMBER );
+					}
+				}
+			}
+		}
+	}
+
+	private void handleBinding( Structure binding, String memberName )
+	{
+		assert binding != null;
+		Expression exprObj = binding.getExpressionProperty( memberName );
+		if ( exprObj != null )
+		{
+			if ( IExpressionType.JAVASCRIPT.equals( exprObj.getType( ) ) )
+			{
+				String expression = exprObj.getStringExpression( );
+				if ( expression != null )
+				{
+					try
+					{
+						List columnExprs = ExpressionUtil
+								.extractColumnExpressions( expression,
+										ExpressionUtil.PARAMETER_INDICATOR );
+
+						// set to store all the old name that has been done the
+						// replacement or not any such a name parameter is
+						// renamed in order to do this handling multiple times
+						// for the same name
+						HashSet<String> handledNames = new HashSet<String>( );
+						if ( columnExprs != null )
+						{
+							for ( int i = 0; i < columnExprs.size( ); i++ )
+							{
+								IColumnBinding columnBinding = (IColumnBinding) columnExprs
+										.get( i );
+								String columnName = columnBinding
+										.getResultSetColumnName( );
+								if ( columnName != null
+										&& !handledNames.contains( columnName ) )
+								{
+									handledNames.add( columnName );
+									HashMap paramMap = (HashMap) handler.tempValue
+											.get( ModuleParserHandler.PARAMETER_NAME_CACHE_KEY );
+									if ( paramMap != null
+											&& paramMap
+													.containsKey( columnName ) )
+									{
+										String newParamName = (String) paramMap
+												.get( columnName );
+										assert newParamName != null;
+										String newExpression = ExpressionUtil
+												.replaceParameterName(
+														expression, columnName,
+														newParamName );
+										Expression newExprObj = new Expression(
+												newExpression,
+												IExpressionType.JAVASCRIPT );
+										binding.setExpressionProperty(
+												memberName, newExprObj );
+									}
+								}
+							}
+						}
+					}
+					catch ( BirtException e )
+					{
+						// do nothing
+					}
+				}
+			}
+		}
 	}
 
 	/*

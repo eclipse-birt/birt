@@ -154,6 +154,11 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	protected List<DesignElement> styledElements = null;
 
 	/**
+	 * The key to put the cache for backward compatibility of parameter name.
+	 */
+	protected static final String PARAMETER_NAME_CACHE_KEY = "parameter_name_cache"; //$NON-NLS-1$
+
+	/**
 	 * Constructs the module parser handler with the design session.
 	 * 
 	 * @param theSession

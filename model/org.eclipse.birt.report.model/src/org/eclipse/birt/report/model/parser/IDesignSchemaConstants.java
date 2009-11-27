@@ -25,13 +25,13 @@ interface IDesignSchemaConstants
 	 * The version of report design.
 	 */
 
-	public final static String REPORT_VERSION = "3.2.20"; //$NON-NLS-1$
+	public final static String REPORT_VERSION = "3.2.21"; //$NON-NLS-1$
 
 	/**
 	 * The number representation for the current version string.
 	 */
 
-	final static int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_20;
+	final static int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_21;
 
 	static final String ACCESS_CONTROL_TAG = "access-control"; //$NON-NLS-1$
 	static final String AUTO_TEXT_TAG = "auto-text"; //$NON-NLS-1$

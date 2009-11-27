@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -507,9 +508,9 @@ public abstract class ReportElementState extends DesignParseState
 		if ( content instanceof StyleElement && name != null )
 		{
 			// if the name is null. the tmpMatcher may be null;
-			
+
 			Matcher tmpMatcher = NameCommand.styleNamePattern.matcher( name );
-			
+
 			if ( tmpMatcher != null && !tmpMatcher.matches( ) )
 			{
 				if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
@@ -582,7 +583,8 @@ public abstract class ReportElementState extends DesignParseState
 				{
 					// for some style name, we should do backward
 					// compatibilities
-					if ( handler.versionNumber >= VersionUtil.VERSION_3_2_19 )
+					if ( handler.versionNumber >= VersionUtil.VERSION_3_2_19
+							&& content instanceof Style )
 						handler
 								.getErrorHandler( )
 								.semanticError(
@@ -590,6 +592,20 @@ public abstract class ReportElementState extends DesignParseState
 												content,
 												name,
 												NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+
+					// name of parameter and parameter group is changed to
+					// case-insensitive since version 3.2.21
+					if ( handler.versionNumber >= VersionUtil.VERSION_3_2_21
+							&& ( id == Module.PARAMETER_NAME_SPACE ) )
+					{
+						handler
+								.getErrorHandler( )
+								.semanticError(
+										new NameException(
+												content,
+												name,
+												NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+					}
 				}
 				return;
 			}
