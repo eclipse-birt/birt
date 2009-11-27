@@ -62,6 +62,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	protected IReportItemExecutor executor;
 
 	protected IContentEmitter emitter;
+	
+	protected boolean isVisible;
 
 	protected int status = STATUS_INTIALIZE;
 	
@@ -86,6 +88,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		this.emitter = emitter;
 		this.status = STATUS_INTIALIZE;
 		this.allowPageBreak = null;
+		this.isVisible = true;
 	}
 
 	public HTMLAbstractLM getParent( )
@@ -115,7 +118,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		{
 			case STATUS_INTIALIZE:
 				// this element is in-visible, just as it doesn't exits.
-				// we must tranverse all its children (to let the generate
+				// we must traverse all its children (to let the generate
 				// engine create all the content).
 				if ( handleVisibility( ) )
 				{
@@ -253,7 +256,18 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 			// IStyle.AUTO_VALUE );
 			return true;
 		}
-
+		
+		if ( parent != null && parent instanceof HTMLListingBandLM )
+		{
+			HTMLListingBandLM bandLayout = (HTMLListingBandLM) parent;
+			if ( isVisible && bandLayout.needSoftPageBreak )
+			{
+				if ( pageBreak == null || IStyle.AUTO_VALUE.equals( pageBreak ) )
+				{
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
@@ -353,6 +367,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		if ( LayoutUtil.isHidden( content, emitter.getOutputFormat( ), context
 				.getOutputDisplayNone( ), hiddenMask ) )
 		{
+			isVisible = false;
 			traverse( executor, content );
 			return true;
 		}

@@ -24,11 +24,10 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
-import org.w3c.dom.css.CSSValue;
 
 public class HTMLListingBandLM extends HTMLBlockStackingLM
 {
-
+	protected boolean needSoftPageBreak = false;
 	public HTMLListingBandLM( HTMLLayoutManagerFactory factory )
 	{
 		super( factory );
@@ -46,6 +45,7 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 			throws BirtException
 	{
 		super.initialize( parent, content, executor, emitter );
+		needSoftPageBreak = false;
 		repeatHeader = false;
 		intializeHeaderContent( );
 	}
@@ -145,20 +145,7 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 	{
 		if ( super.needPageBreakBefore( ) )
 		{
-			return true;
-		}
-		int bandType = ( (IBandContent) content ).getBandType( );
-		if ( bandType == IBandContent.BAND_GROUP_HEADER )
-		{
-			IStyle style = content.getStyle( );
-			CSSValue pageBreak = style
-					.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-			if ( IStyle.SOFT_VALUE.equals( pageBreak ) )
-			{
-				style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-						IStyle.AUTO_VALUE );
-				return true;
-			}
+			needSoftPageBreak = true;
 		}
 		return false;
 	}
