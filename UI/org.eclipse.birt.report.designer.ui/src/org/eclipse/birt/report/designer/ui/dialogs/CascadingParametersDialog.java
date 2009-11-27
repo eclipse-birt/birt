@@ -1419,10 +1419,28 @@ public class CascadingParametersDialog extends BaseDialog
 
 			mainContent.getParent( ).layout( );
 
-			if ( isMultiple != null
-					&& isMultiple.isEnabled( )
-					&& isMultiple.getSelection( ) )
-				getShell( ).pack( );
+			int y = getShell( ).computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
+			int screecY = Display.getDefault( ).getClientArea( ).height;
+			if ( y < screecY )
+			{
+				if ( isMultiple != null
+						&& isMultiple.isEnabled( )
+						&& isMultiple.getSelection( ) )
+				{
+					getShell( ).pack( );
+
+					int realY = getShell( ).toDisplay( getShell( ).getBounds( ).width,
+							getShell( ).getBounds( ).height ).y;
+					if ( realY > screecY )
+					{
+						getShell( ).setLocation( getShell( ).getLocation( ).x,
+								getShell( ).getLocation( ).y
+										+ screecY
+										- realY );
+					}
+				}
+			}
+
 		}
 	}
 
@@ -1469,7 +1487,7 @@ public class CascadingParametersDialog extends BaseDialog
 		optionsGroup = new Group( parent, SWT.NULL );
 		optionsGroup.setText( LABEL_GROUP_MORE_OPTIONS );
 		optionsGroup.setLayout( new GridLayout( 2, false ) );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL ); 
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		optionsGroup.setLayoutData( gd );
 
 		createLabel( optionsGroup, LABEL_HELP_TEXT, maxStrLengthOption );
