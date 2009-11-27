@@ -46,15 +46,6 @@ public interface IScalarParameterModel
 	public static final String FORMAT_PROP = "format"; //$NON-NLS-1$
 
 	/**
-	 * Name of the control type property.
-	 * 
-	 * @deprecated use {@link IAbstractScalarParameterModel#CONTROL_TYPE_PROP}
-	 *             instead.
-	 */
-
-	public static final String CONTROL_TYPE_PROP = "controlType"; //$NON-NLS-1$ 
-
-	/**
 	 * Name of the alignment property.
 	 */
 
