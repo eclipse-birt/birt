@@ -5,6 +5,7 @@
         	<property name="column">testColumn</property>
         	<property name="displayType">advanced</property>
         	<property name="listLimit">3</property>
+        	<property name="controlType">text-box</property>
             <simple-property-list name="filterOperator">
             	<value>value1</value>
             	<value>value2</value>

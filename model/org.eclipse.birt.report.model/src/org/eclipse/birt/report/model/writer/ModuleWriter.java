@@ -2438,7 +2438,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.PARAM_TYPE_PROP );
 
 		property( obj, IScalarParameterModel.CONCEAL_VALUE_PROP );
-		property( obj, IScalarParameterModel.CONTROL_TYPE_PROP );
+		property( obj, IAbstractScalarParameterModel.CONTROL_TYPE_PROP );
 		property( obj, IScalarParameterModel.ALIGNMENT_PROP );
 		property( obj, IScalarParameterModel.MUCH_MATCH_PROP );
 		property( obj, IScalarParameterModel.FIXED_ORDER_PROP );
@@ -2500,6 +2500,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IDynamicFilterParameterModel.COLUMN_PROP );
 		property( obj, IDynamicFilterParameterModel.DSIPLAY_TYPE_PROP );
 		property( obj, IDynamicFilterParameterModel.NATIVE_DATA_TYPE_PROP );
+		property( obj, IAbstractScalarParameterModel.CONTROL_TYPE_PROP );
 
 		writeSimplePropertyList( obj,
 				IDynamicFilterParameterModel.FILTER_OPERATOR_PROP );

@@ -101,4 +101,9 @@ public interface IAbstractScalarParameterModel
 
 	public static final String DISTINCT_PROP = "distinct"; //$NON-NLS-1$
 
+	/**
+	 * Name of the control type property.
+	 */
+	public static final String CONTROL_TYPE_PROP = "controlType"; //$NON-NLS-1$
+
 }

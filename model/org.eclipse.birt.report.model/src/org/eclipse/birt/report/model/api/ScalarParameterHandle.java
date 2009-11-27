@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -366,7 +367,7 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 
 	public String getControlType( )
 	{
-		return getStringProperty( CONTROL_TYPE_PROP );
+		return getStringProperty( IAbstractScalarParameterModel.CONTROL_TYPE_PROP );
 	}
 
 	/**
@@ -412,7 +413,8 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 
 	public void setControlType( String controlType ) throws SemanticException
 	{
-		setStringProperty( CONTROL_TYPE_PROP, controlType );
+		setStringProperty( IAbstractScalarParameterModel.CONTROL_TYPE_PROP,
+				controlType );
 	}
 
 	/**

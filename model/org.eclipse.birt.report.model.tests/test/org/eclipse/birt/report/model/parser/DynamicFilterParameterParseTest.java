@@ -41,6 +41,8 @@ public class DynamicFilterParameterParseTest extends BaseTestCase
 		assertEquals( "testColumn", handle.getColumn( ) ); //$NON-NLS-1$ 	
 		assertEquals( DesignChoiceConstants.DYNAMIC_FILTER_ADVANCED, handle
 				.getDisplayType( ) );
+		assertEquals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX, handle
+				.getControlType( ) );
 		assertEquals( 3, handle.getListlimit( ) );
 
 		List<String> list = handle.getFilterOperatorList( );
@@ -69,6 +71,7 @@ public class DynamicFilterParameterParseTest extends BaseTestCase
 		list.add( "test1" ); //$NON-NLS-1$ 
 		list.add( "test2" ); //$NON-NLS-1$ 
 		handle.setFilterOperator( list );
+		handle.setControlType( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX );
 
 		save( );
 

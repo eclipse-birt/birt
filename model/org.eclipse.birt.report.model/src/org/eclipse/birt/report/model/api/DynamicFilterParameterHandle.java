@@ -154,4 +154,39 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 		setIntProperty( NATIVE_DATA_TYPE_PROP, nativeDataType );
 	}
 
+	/**
+	 * Returns the control type for this parameter. Control types are one of
+	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * 
+	 * <ul>
+	 * <li>PARAM_CONTROL_TEXT_BOX
+	 * <li>PARAM_CONTROL_LIST_BOX
+	 * </ul>
+	 * 
+	 * @return the control type of the dynamic filter parameter.
+	 */
+	public String getControlType( )
+	{
+		return getStringProperty( CONTROL_TYPE_PROP );
+	}
+
+	/**
+	 * Sets the control type for this parameter. The value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li>PARAM_CONTROL_TEXT_BOX
+	 * <li>PARAM_CONTROL_LIST_BOX
+	 * 
+	 * </ul>
+	 * 
+	 * @param controlType
+	 *            the control type value.
+	 * @throws SemanticException
+	 */
+	public void setControlType( String controlType ) throws SemanticException
+	{
+		setStringProperty( CONTROL_TYPE_PROP, controlType );
+	}
+
 }

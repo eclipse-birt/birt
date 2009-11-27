@@ -47,6 +47,9 @@ public interface IScalarParameterModel
 
 	/**
 	 * Name of the control type property.
+	 * 
+	 * @deprecated use {@link IAbstractScalarParameterModel#CONTROL_TYPE_PROP}
+	 *             instead.
 	 */
 
 	public static final String CONTROL_TYPE_PROP = "controlType"; //$NON-NLS-1$ 
@@ -75,7 +78,6 @@ public interface IScalarParameterModel
 	 */
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
-
 
 	/**
 	 * Name of the property that indicates the type of this parameter: simple,
