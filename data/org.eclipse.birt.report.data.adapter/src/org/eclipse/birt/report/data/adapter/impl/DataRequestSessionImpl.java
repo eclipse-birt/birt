@@ -1239,7 +1239,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query ) throws BirtException
 	{
-		return this.prepare( query, null );
+		return this.prepare( query, sessionContext.getAppContext( ) );
 	}
 	
 	/*
