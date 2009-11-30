@@ -1265,6 +1265,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					bIsInheritSelected = true;
 
 					getDataServiceProvider( ).setReportItemReference( null );
+					getDataServiceProvider( ).setDataCube( null );
 					getDataServiceProvider( ).setDataSet( null );
 					switchDataSet( null );
 
