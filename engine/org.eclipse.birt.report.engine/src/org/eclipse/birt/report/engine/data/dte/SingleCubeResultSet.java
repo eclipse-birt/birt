@@ -59,6 +59,11 @@ public class SingleCubeResultSet implements ICubeResultSet
 	{
 		return cube.evaluate( expr );
 	}
+	
+	public Object evaluate( String language, String expr ) throws BirtException
+	{
+		return cube.evaluate( language, expr );
+	}
 
 	public String getCellIndex( )
 	{

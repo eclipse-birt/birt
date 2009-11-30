@@ -38,6 +38,16 @@ public interface IBaseResultSet
 	IBaseResultSet getParent( );
 
 	public Object evaluate( String expr ) throws BirtException;
+	
+	/**
+	 * evaluate the expression with specified script language.
+	 * 
+	 * @param language
+	 * @param expr
+	 * @return
+	 * @throws BirtException
+	 */
+	public Object evaluate( String language, String expr ) throws BirtException;
 
 	public Object evaluate( IBaseExpression expr ) throws BirtException;
 

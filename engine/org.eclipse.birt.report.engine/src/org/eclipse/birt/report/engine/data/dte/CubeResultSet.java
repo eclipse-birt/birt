@@ -191,6 +191,11 @@ public class CubeResultSet implements ICubeResultSet
 	{
 		return context.evaluate( expr );
 	}
+	
+	public Object evaluate( String language, String expr ) throws BirtException
+	{
+		return context.evaluateInlineScript( language, expr );
+	}
 
 	public Object evaluate( IBaseExpression expr ) throws BirtException
 	{

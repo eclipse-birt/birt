@@ -330,6 +330,27 @@ public class QueryResultSet implements IQueryResultSet
 		return result;
 	}
 
+	public Object evaluate( String language, String expr ) throws BirtException
+	{
+		if ( expr == null )
+		{
+			return null;
+		}
+		IBaseResultSet oldRSet = context.getResultSet( );
+		if ( oldRSet != this )
+		{
+			context.setResultSet( this );
+		}
+
+		Object result = context.evaluateInlineScript( language, expr );
+
+		if ( oldRSet != this )
+		{
+			context.setResultSet( oldRSet );
+		}
+		return result;
+	}
+
 	public Object evaluate( IBaseExpression expr ) throws BirtException
 	{
 		IBaseResultSet oldRSet = context.getResultSet( );

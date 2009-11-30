@@ -47,6 +47,11 @@ public class BaseResultSetDecorator implements IBaseResultSet
 	{
 		throw new UnsupportedOperationException();
 	}
+	
+	public Object evaluate( String language, String expr ) throws BirtException
+	{
+		throw new UnsupportedOperationException();
+	}
 
 	public Object evaluate( IBaseExpression expr ) throws BirtException
 	{

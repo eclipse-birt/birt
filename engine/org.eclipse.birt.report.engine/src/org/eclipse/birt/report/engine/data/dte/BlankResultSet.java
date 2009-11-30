@@ -141,7 +141,12 @@ public class BlankResultSet extends QueryResultSet
 	{
 		return null;
 	}
-
+	
+	public Object evaluate( String language, String expr ) throws BirtException
+	{
+		return null;
+	}
+	
 	public Object evaluate( IBaseExpression expr ) throws BirtException
 	{
 		return null;

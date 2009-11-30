@@ -95,6 +95,11 @@ public class SingleQueryResultSet extends QueryResultSet
 		return rset.evaluate( expr );
 	}
 
+	public Object evaluate( String language, String expr ) throws BirtException
+	{
+		return rset.evaluate( language, expr );
+	}
+
 	public Object evaluate( IBaseExpression expr ) throws BirtException
 	{
 		return rset.evaluate( expr );
