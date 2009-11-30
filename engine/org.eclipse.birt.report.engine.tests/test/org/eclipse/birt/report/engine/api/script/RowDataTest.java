@@ -234,6 +234,19 @@ public class RowDataTest extends TestCase
 			}
 			return null;
 		}
+		
+		public Object evaluate( String language, String expr ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			try
+			{
+				return rs.getValue( expr );
+			}
+			catch ( BirtException e )
+			{				
+			}
+			return null;
+		}
 
 		public Object evaluate( IBaseExpression expr )
 		{
