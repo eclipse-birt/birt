@@ -3343,6 +3343,7 @@ Element.DynamicFilterParameter.filterOperator=Opérateur filtre
 Element.DynamicFilterParameter.column=Colonne
 Element.DynamicFilterParameter.defaultValue=Valeur par défaut
 Element.DynamicFilterParameter.nativeDataType=Type de données natives
+Element.DynamicFilterParameter.controlType=Type de contrôle
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Onglets

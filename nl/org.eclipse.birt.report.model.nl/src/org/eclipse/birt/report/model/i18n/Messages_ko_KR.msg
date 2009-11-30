@@ -3343,6 +3343,7 @@ Element.DynamicFilterParameter.filterOperator=필터 연산자
 Element.DynamicFilterParameter.column=열
 Element.DynamicFilterParameter.defaultValue=기본값
 Element.DynamicFilterParameter.nativeDataType=고유 데이터 형식
+Element.DynamicFilterParameter.controlType=컨트롤 형식
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=탭

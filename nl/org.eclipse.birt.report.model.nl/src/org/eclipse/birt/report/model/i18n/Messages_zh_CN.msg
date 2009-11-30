@@ -3343,6 +3343,7 @@ Element.DynamicFilterParameter.filterOperator=筛选运算符
 Element.DynamicFilterParameter.column=列
 Element.DynamicFilterParameter.defaultValue=默认值
 Element.DynamicFilterParameter.nativeDataType=本地数据类型
+Element.DynamicFilterParameter.controlType=控件类型
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=选项卡

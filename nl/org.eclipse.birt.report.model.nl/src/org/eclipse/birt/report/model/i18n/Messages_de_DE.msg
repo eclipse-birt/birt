@@ -3343,6 +3343,7 @@ Element.DynamicFilterParameter.filterOperator=Filteroperator
 Element.DynamicFilterParameter.column=Spalte
 Element.DynamicFilterParameter.defaultValue=Standardwert
 Element.DynamicFilterParameter.nativeDataType=Nativer Datentyp
+Element.DynamicFilterParameter.controlType=Steuerelementtyp
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Register
