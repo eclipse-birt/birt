@@ -140,7 +140,7 @@ public class ChartCubeQueryHelper
 	private boolean bSingleChart = false;
 
 	private static ICubeElementFactory cubeFactory = null;
-	
+
 	protected final IModelAdapter modelAdapter;
 
 	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm )
@@ -152,8 +152,9 @@ public class ChartCubeQueryHelper
 				handle.getModuleHandle( ) );
 		modelAdapter = new DataModelAdapter( dsc );
 	}
-	
-	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter )
+
+	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm,
+			IModelAdapter modelAdapter )
 	{
 		this.handle = handle;
 		this.cm = cm;
@@ -245,8 +246,13 @@ public class ChartCubeQueryHelper
 					return subQuery;
 				}
 
-				// If single chart in xtab, use parent to render directly
-				return (ICubeQueryDefinition) parent;
+				// If single chart in xtab and chart doesn't include bindings,
+				// use parent to render directly
+				Iterator<ComputedColumnHandle> bindings = handle.columnBindingsIterator( );
+				if ( !bindings.hasNext( ) )
+				{
+					return (ICubeQueryDefinition) parent;
+				}
 			}
 		}
 
@@ -471,7 +477,6 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void initBindings( ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
@@ -688,14 +693,15 @@ public class ChartCubeQueryHelper
 	/**
 	 * Adds measure or row/column edge according to query expression.
 	 */
-	private void bindExpression( String expression, ICubeQueryDefinition cubeQuery,
-			CubeHandle cube ) throws BirtException
+	private void bindExpression( String expression,
+			ICubeQueryDefinition cubeQuery, CubeHandle cube )
+			throws BirtException
 	{
 		if ( expression == null )
 		{
 			return;
 		}
-		
+
 		String expr = expression.trim( );
 		if ( expr != null && expr.length( ) > 0 )
 		{
