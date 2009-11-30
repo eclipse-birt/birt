@@ -2899,8 +2899,8 @@ ParameterDialog.Check.AllowMulti=Allow Multiple &Values
 ParameterDialog.checkBox.InputValue=入力値
 ParameterDialog.checkBox.BlankValue=空白値
 ParameterDialog.checkBox.NullValue=NULL 値
-ParameterDialog.emptyColumnValueExpression.title=Invalid Value Column Expression
-ParameterDialog.emptyColumnValueExpression.message=Value Column Expression can't be empty!
+ParameterDialog.emptyColumnValueExpression.title=値の列式が無効です。
+ParameterDialog.emptyColumnValueExpression.message=値の列式は空白にできません。
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
@@ -4078,19 +4078,19 @@ ClassFinder.TaskStart=ハンドラクラスを検索中...
 ClassFinder.DialogTitle=クラスの選択
 ClassFinder.DialogMessage=ハンドラクラスの選択(&C) :
 ClassFinder.ErrorMessage=クラスが見つかりません。
-ClassPathBlock_button.addExtFolder=Add External Class &Folder...
-ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.addExtFolder=外部クラスフォルダを追加(&F)...
+ClassPathBlock_button.addExtJars=外部 Jar を追加(&X)...
 ClassPathBlock_button.down=下へ
 ClassPathBlock_button.edit=編集(&E)...
 ClassPathBlock_button.remove=削除(&R)
 ClassPathBlock_button.up=上へ
-ClassPathBlock_FileDialog.edit.text=Edit JAR
-ClassPathBlock_FileDialog.jar.text=JAR Selection
-ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
-ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
-ClassPathBlock_FolderDialog.message=Select the location of the class folder:
-ClassPathBlock_FolderDialog.text=External Class Folder Selection
-ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
+ClassPathBlock_FileDialog.edit.text=JAR の編集
+ClassPathBlock_FileDialog.jar.text=JAR の選択
+ClassPathBlock_FolderDialog.edit.message=クラスフォルダの新しい場所を指定 :
+ClassPathBlock_FolderDialog.edit.text=クラスフォルダの編集
+ClassPathBlock_FolderDialog.message=クラスフォルダの場所の選択 :
+ClassPathBlock_FolderDialog.text=外部クラスフォルダの選択
+ClassPathBlock_label.LibrariesList=レポートの実行パス上の JAR およびクラスフォルダ(&T) :
 
 ###########################################################
 #ListingSectionPage
@@ -4110,23 +4110,23 @@ EventHandlerPage.Browse=参照(&B)...
 
 ###########################################################
 #IDEFileReportProvider
-IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
-IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
-IDEClassPathBlock.button_addJar=Add &JARs...
-IDEClassPathBlock.button_addProject=Add &Projects...
-IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_addExtFolder=外部クラスフォルダを追加(&F)...
+IDEClassPathBlock.button_addEXTJar=外部 Jar を追加(&X)...
+IDEClassPathBlock.button_addJar=JAR を追加(&J)...
+IDEClassPathBlock.button_addProject=プロジェクトを追加(&P)...
+IDEClassPathBlock.button_addVar=変数を追加(&V)...
 IDEClassPathBlock.button_down=下へ
 IDEClassPathBlock.button_edit=編集(&E)...
-IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_folder=クラスフォルダを追加(&C)...
 IDEClassPathBlock.button_remove=削除(&R)
 IDEClassPathBlock.button_up=上へ
-IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
-IDEClassPathBlock.ProjectDialog_message=Select projects to add:
-IDEClassPathBlock.ProjectDialog_title=Required Project Selection
-IDECPListLabelProvider.folder=(class folder)
-IDECPListLabelProvider.missing=(missing)
-IDECPListLabelProvider.new=(new)
-IDECPListLabelProvider.unknown=unknown element
+IDEClassPathBlock.fLibrariesList_text=レポートの実行パス上の JAR およびクラスフォルダ(&T) :
+IDEClassPathBlock.ProjectDialog_message=追加するプロジェクトの選択 :
+IDEClassPathBlock.ProjectDialog_title=必須プロジェクトの選択
+IDECPListLabelProvider.folder=(クラスフォルダ)
+IDECPListLabelProvider.missing=(見つかりません)
+IDECPListLabelProvider.new=(新規)
+IDECPListLabelProvider.unknown=不明な要素
 IDEFileReportProvider.ReadOnlyEncounter.Title=読み取り専用ファイル
 IDEFileReportProvider.ReadOnlyEncounter.Message=ファイル ''{0}'' は読み取り専用です。先に、このファイルを書き込み可能にしてください。
 IDEResourcePageHelper.Dialog.Prompt=ディレクトリの選択 : 
@@ -4571,7 +4571,7 @@ InputParameterDialog.err.requiredParam=必須パラメタ [{0}] の値が指定されていませ
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=列幅の変更
 ColumnDragTracker.Show.Label=幅 :
-CPListLabelProvider.misssing=(missing)
+CPListLabelProvider.misssing=(見つかりません)
 RowDragTracker.ResizeRow=行幅の変更
 RowDragTracker.Show.Label=高さ :
 TableDragGuideTracker.Pixels=ピクセル

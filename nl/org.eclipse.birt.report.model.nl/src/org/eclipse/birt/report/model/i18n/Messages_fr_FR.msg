@@ -3347,7 +3347,7 @@ Element.DynamicFilterParameter.controlType=Type de contrôle
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Onglets
-Element.DashboardElement.activeTab=Active tab
+Element.DashboardElement.activeTab=Onglet actif
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=Titre
@@ -3396,7 +3396,7 @@ Element.ExternalElementRef.targetBookmark=Signet cible
 Element.DataSelectorItem.boundDataColumns=Colonnes de données liées
 Element.DataSelectorItem.selectorType=selectorType
 Element.DataSelectorItem.title=Titre
-Element.DataSelectorItem.columnNames=Column names
+Element.DataSelectorItem.columnNames=Noms de colonnes
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Référence reportLet interne
@@ -3433,9 +3433,9 @@ Element.SliderDataSelectorItem.thumbType=Thumb type
 Element.SliderDataSelectorItem.defaultValue1=Default value 1
 Element.SliderDataSelectorItem.defaultValue2=Default value 2
 Element.SliderDataSelectorItem.width=Largeur
-Element.SliderDataSelectorItem.autoAdjustTickMarks=Auto adjust tick marks
+Element.SliderDataSelectorItem.autoAdjustTickMarks=Ajuster automatiquement les marques de repère
 Element.SliderDataSelectorItem.tickInterval=Tick interval
-Element.SliderDataSelectorItem.autoRange=Auto range
+Element.SliderDataSelectorItem.autoRange=Plage automatique
 Element.SliderDataSelectorItem.minValue=Min value
 Element.SliderDataSelectorItem.maxValue=Max value
 
@@ -3453,13 +3453,13 @@ Element.DropdownDataSelectorItem.listLimit=Limite de liste
 #86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
 Element.CheckBoxDataSelectorItem.orientation=Orientation
 Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
-Element.CheckBoxDataSelectorItem.autoAdjustNumber=Auto adjust number
+Element.CheckBoxDataSelectorItem.autoAdjustNumber=Ajuster automatiquement le nombre
 Element.CheckBoxDataSelectorItem.listLimit=Limite de liste
 
 #87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
 Element.RadioDataSelectorItem.orientation=Orientation
 Element.RadioDataSelectorItem.autoAdjust=Auto adjust
-Element.RadioDataSelectorItem.autoAdjustNumber=Auto adjust number
+Element.RadioDataSelectorItem.autoAdjustNumber=Ajuster automatiquement le nombre
 Element.RadioDataSelectorItem.listLimit=Limite de liste
 
 ###########################################################

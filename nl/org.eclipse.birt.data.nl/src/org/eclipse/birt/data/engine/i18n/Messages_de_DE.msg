@@ -215,8 +215,8 @@ data.engine.emptyResultSet=Das Ergebnis ist leer.
 data.engine.errorHappenWhenRetrieveResultSet=Fehler beim Abrufen von Ergebnis "{0}". Möglicherweise ist das angegebene Ergebnis nicht vorhanden.
 data.engine.invalidAggregationBindingForPLSReport=Aggregatsbindung '{0}' ist bei aktivierter Seitenebenensicherheit ungültig.
 
-data.engine.acl.dataSetCannotBeAccessed=The data set "{0}" cannot be accessed.
-data.engine.acl.dataSetColumnCannotBeAccessed=Some data set column cannot be accessed.
+data.engine.acl.dataSetCannotBeAccessed=Zugriff auf Datensatz '{0}' nicht möglich.
+data.engine.acl.dataSetColumnCannotBeAccessed=Zugriff auf einige Datensatzspalten nicht möglich.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

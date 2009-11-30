@@ -34,4 +34,4 @@ invalid.data.type=无效数据类型: {0}。
 cube.error.createhierarchy=创建层次结构时出现错误: {0}。
 cube.error.createdimension=创建维时出现错误: {0}。
 cube.error.createmeasure=创建度量时出现错误。
-cube.error.datasetmiss=The cube cannot be created because the related dataset is missing.
+cube.error.datasetmiss=由于缺少相关数据集，无法创建多维数据集。

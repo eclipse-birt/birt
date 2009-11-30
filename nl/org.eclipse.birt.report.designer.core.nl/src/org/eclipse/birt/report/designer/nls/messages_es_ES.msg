@@ -2899,8 +2899,8 @@ ParameterDialog.Check.AllowMulti=Allow Multiple &Values
 ParameterDialog.checkBox.InputValue=Valor de entrada
 ParameterDialog.checkBox.BlankValue=Valor en blanco
 ParameterDialog.checkBox.NullValue=Valor nulo
-ParameterDialog.emptyColumnValueExpression.title=Invalid Value Column Expression
-ParameterDialog.emptyColumnValueExpression.message=Value Column Expression can't be empty!
+ParameterDialog.emptyColumnValueExpression.title=La expresión de columna de valor no es válida
+ParameterDialog.emptyColumnValueExpression.message=La expresión de columna de valor no puede estar vacía
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
@@ -4078,19 +4078,19 @@ ClassFinder.TaskStart=Buscando clase de controlador...
 ClassFinder.DialogTitle=Selección de clase
 ClassFinder.DialogMessage=&Seleccionar una clase de controlador:
 ClassFinder.ErrorMessage=No se ha encontrado ninguna clase
-ClassPathBlock_button.addExtFolder=Add External Class &Folder...
-ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.addExtFolder=Añad&ir carpeta de clase externa...
+ClassPathBlock_button.addExtJars=Añadir archivos JAR ex&ternos...
 ClassPathBlock_button.down=Abajo
 ClassPathBlock_button.edit=&Editar...
 ClassPathBlock_button.remove=Quita&r
 ClassPathBlock_button.up=Arriba
-ClassPathBlock_FileDialog.edit.text=Edit JAR
-ClassPathBlock_FileDialog.jar.text=JAR Selection
-ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
-ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
-ClassPathBlock_FolderDialog.message=Select the location of the class folder:
-ClassPathBlock_FolderDialog.text=External Class Folder Selection
-ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
+ClassPathBlock_FileDialog.edit.text=Editar JAR
+ClassPathBlock_FileDialog.jar.text=Selección JAR
+ClassPathBlock_FolderDialog.edit.message=Indique la nueva ubicación de la carpeta de clase:
+ClassPathBlock_FolderDialog.edit.text=Editar carpeta de clase
+ClassPathBlock_FolderDialog.message=Seleccione la ubicación de la carpeta de clase:
+ClassPathBlock_FolderDialog.text=Selección de carpeta de clase externa
+ClassPathBlock_label.LibrariesList=Carpetas de clase y JAR en la ruta de e&jecución del informe:
 
 ###########################################################
 #ListingSectionPage
@@ -4110,23 +4110,23 @@ EventHandlerPage.Browse=&Examinar...
 
 ###########################################################
 #IDEFileReportProvider
-IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
-IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
-IDEClassPathBlock.button_addJar=Add &JARs...
-IDEClassPathBlock.button_addProject=Add &Projects...
-IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_addExtFolder=Añad&ir carpeta de clase externa...
+IDEClassPathBlock.button_addEXTJar=Añadir archivos JAR ex&ternos...
+IDEClassPathBlock.button_addJar=Añadir arc&hivos JAR...
+IDEClassPathBlock.button_addProject=Añadir pro&yectos...
+IDEClassPathBlock.button_addVar=Añadir va&riable...
 IDEClassPathBlock.button_down=Abajo
 IDEClassPathBlock.button_edit=&Editar...
-IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_folder=Añadir c&arpeta de clase...
 IDEClassPathBlock.button_remove=Quita&r
 IDEClassPathBlock.button_up=Arriba
-IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
-IDEClassPathBlock.ProjectDialog_message=Select projects to add:
-IDEClassPathBlock.ProjectDialog_title=Required Project Selection
-IDECPListLabelProvider.folder=(class folder)
-IDECPListLabelProvider.missing=(missing)
-IDECPListLabelProvider.new=(new)
-IDECPListLabelProvider.unknown=unknown element
+IDEClassPathBlock.fLibrariesList_text=Carpetas de clase y JAR en la ruta de e&jecución del informe:
+IDEClassPathBlock.ProjectDialog_message=Seleccione los proyectos que desea añadir:
+IDEClassPathBlock.ProjectDialog_title=Selección de proyectos requerida
+IDECPListLabelProvider.folder=(carpeta de clase)
+IDECPListLabelProvider.missing=(falta)
+IDECPListLabelProvider.new=(nuevo)
+IDECPListLabelProvider.unknown=elemento desconocido
 IDEFileReportProvider.ReadOnlyEncounter.Title=Se ha encontrado un archivo de sólo lectura
 IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo lectura, asegúrese primero de que se puede escribir en él.
 IDEResourcePageHelper.Dialog.Prompt=Seleccionar un directorio: 
@@ -4571,7 +4571,7 @@ InputParameterDialog.err.requiredParam=No se ha especificado el valor del paráme
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=cambiar tamaño de columna
 ColumnDragTracker.Show.Label=Ancho:
-CPListLabelProvider.misssing=(missing)
+CPListLabelProvider.misssing=(falta)
 RowDragTracker.ResizeRow=cambiar tamaño de fila
 RowDragTracker.Show.Label=Altura:
 TableDragGuideTracker.Pixels=píxeles

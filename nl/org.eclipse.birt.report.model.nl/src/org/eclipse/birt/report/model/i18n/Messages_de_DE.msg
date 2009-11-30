@@ -2485,7 +2485,7 @@ Element.DataSet.parameters=Datensatzparameter
 Element.DataSet.sortHints=Sortierungshinweise
 Element.DataSet.ACLExpression=Ausdruck 'ACL'
 Element.DataSet.RowACLExpression=Zeilenausdruck 'ACL'
-Element.DataSet.isVisible=Visible
+Element.DataSet.isVisible=Sichtbar
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Vor dem Öffnen
@@ -3347,7 +3347,7 @@ Element.DynamicFilterParameter.controlType=Steuerelementtyp
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=Register
-Element.DashboardElement.activeTab=Active tab
+Element.DashboardElement.activeTab=Registerkarte 'Aktiv'
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=Titel
@@ -3396,7 +3396,7 @@ Element.ExternalElementRef.targetBookmark=Ziellesezeichen
 Element.DataSelectorItem.boundDataColumns=Gebundene Datenspalten
 Element.DataSelectorItem.selectorType=selectorType
 Element.DataSelectorItem.title=Titel
-Element.DataSelectorItem.columnNames=Column names
+Element.DataSelectorItem.columnNames=Spaltennamen
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=Interner reportLet-Verweis
@@ -3433,9 +3433,9 @@ Element.SliderDataSelectorItem.thumbType=Thumb type
 Element.SliderDataSelectorItem.defaultValue1=Default value 1
 Element.SliderDataSelectorItem.defaultValue2=Default value 2
 Element.SliderDataSelectorItem.width=Breite
-Element.SliderDataSelectorItem.autoAdjustTickMarks=Auto adjust tick marks
+Element.SliderDataSelectorItem.autoAdjustTickMarks=Skalenmarkierungen automatisch anpassen
 Element.SliderDataSelectorItem.tickInterval=Tick interval
-Element.SliderDataSelectorItem.autoRange=Auto range
+Element.SliderDataSelectorItem.autoRange=Automatischer Bereich
 Element.SliderDataSelectorItem.minValue=Min value
 Element.SliderDataSelectorItem.maxValue=Max value
 
@@ -3453,13 +3453,13 @@ Element.DropdownDataSelectorItem.listLimit=Listenbegrenzung
 #86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
 Element.CheckBoxDataSelectorItem.orientation=Ausrichtung
 Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
-Element.CheckBoxDataSelectorItem.autoAdjustNumber=Auto adjust number
+Element.CheckBoxDataSelectorItem.autoAdjustNumber=Zahl automatisch anpassen
 Element.CheckBoxDataSelectorItem.listLimit=Listenbegrenzung
 
 #87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
 Element.RadioDataSelectorItem.orientation=Ausrichtung
 Element.RadioDataSelectorItem.autoAdjust=Auto adjust
-Element.RadioDataSelectorItem.autoAdjustNumber=Auto adjust number
+Element.RadioDataSelectorItem.autoAdjustNumber=Zahl automatisch anpassen
 Element.RadioDataSelectorItem.listLimit=Listenbegrenzung
 
 ###########################################################

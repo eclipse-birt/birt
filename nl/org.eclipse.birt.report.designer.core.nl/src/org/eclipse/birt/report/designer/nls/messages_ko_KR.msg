@@ -2899,8 +2899,8 @@ ParameterDialog.Check.AllowMulti=Allow Multiple &Values
 ParameterDialog.checkBox.InputValue=입력 값
 ParameterDialog.checkBox.BlankValue=빈 값
 ParameterDialog.checkBox.NullValue=널(Null) 값
-ParameterDialog.emptyColumnValueExpression.title=Invalid Value Column Expression
-ParameterDialog.emptyColumnValueExpression.message=Value Column Expression can't be empty!
+ParameterDialog.emptyColumnValueExpression.title=잘못된 값 열 식
+ParameterDialog.emptyColumnValueExpression.message=값 열 식은 비워 둘 수 없습니다!
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
@@ -4078,19 +4078,19 @@ ClassFinder.TaskStart=처리기 클래스 검색 중...
 ClassFinder.DialogTitle=클래스 선택
 ClassFinder.DialogMessage=처리기 클래스 선택(&C):
 ClassFinder.ErrorMessage=클래스를 찾을 수 없음
-ClassPathBlock_button.addExtFolder=Add External Class &Folder...
-ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.addExtFolder=외부 클래스 폴더 추가(&F)...
+ClassPathBlock_button.addExtJars=외부 JAR 추가(&X)...
 ClassPathBlock_button.down=아래로
 ClassPathBlock_button.edit=편집(&E)...
 ClassPathBlock_button.remove=제거(&R)
 ClassPathBlock_button.up=위로
-ClassPathBlock_FileDialog.edit.text=Edit JAR
-ClassPathBlock_FileDialog.jar.text=JAR Selection
-ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
-ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
-ClassPathBlock_FolderDialog.message=Select the location of the class folder:
-ClassPathBlock_FolderDialog.text=External Class Folder Selection
-ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
+ClassPathBlock_FileDialog.edit.text=JAR 편집
+ClassPathBlock_FileDialog.jar.text=JAR 선택
+ClassPathBlock_FolderDialog.edit.message=클래스 폴더의 새 위치 지정:
+ClassPathBlock_FolderDialog.edit.text=클래스 폴더 편집
+ClassPathBlock_FolderDialog.message=클래스 폴더의 위치 지정:
+ClassPathBlock_FolderDialog.text=외부 클래스 폴더 선택
+ClassPathBlock_label.LibrariesList=보고서 실행 경로상의 JAR 및 클래스 폴더(&T):
 
 ###########################################################
 #ListingSectionPage
@@ -4110,23 +4110,23 @@ EventHandlerPage.Browse=찾아보기(&B)...
 
 ###########################################################
 #IDEFileReportProvider
-IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
-IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
-IDEClassPathBlock.button_addJar=Add &JARs...
-IDEClassPathBlock.button_addProject=Add &Projects...
-IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_addExtFolder=외부 클래스 폴더 추가(&F)...
+IDEClassPathBlock.button_addEXTJar=외부 JAR 추가(&X)...
+IDEClassPathBlock.button_addJar=JAR 추가(&J)...
+IDEClassPathBlock.button_addProject=프로젝트 추가(&P)...
+IDEClassPathBlock.button_addVar=변수 추가(&V)...
 IDEClassPathBlock.button_down=아래로
 IDEClassPathBlock.button_edit=편집(&E)...
-IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_folder=클래스 폴더 추가(&C)...
 IDEClassPathBlock.button_remove=제거(&R)
 IDEClassPathBlock.button_up=위로
-IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
-IDEClassPathBlock.ProjectDialog_message=Select projects to add:
-IDEClassPathBlock.ProjectDialog_title=Required Project Selection
-IDECPListLabelProvider.folder=(class folder)
-IDECPListLabelProvider.missing=(missing)
-IDECPListLabelProvider.new=(new)
-IDECPListLabelProvider.unknown=unknown element
+IDEClassPathBlock.fLibrariesList_text=보고서 실행 경로상의 JAR 및 클래스 폴더(&T):
+IDEClassPathBlock.ProjectDialog_message=추가할 프로젝트 선택:
+IDEClassPathBlock.ProjectDialog_title=필요한 프로젝트 선택
+IDECPListLabelProvider.folder=(클래스 폴더)
+IDECPListLabelProvider.missing=(누락)
+IDECPListLabelProvider.new=(새로 만들기)
+IDECPListLabelProvider.unknown=알 수 없는 요소
 IDEFileReportProvider.ReadOnlyEncounter.Title=읽기 전용 파일 발생
 IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 먼저 파일에 쓸 수 있는지 확인하십시오.
 IDEResourcePageHelper.Dialog.Prompt=디렉터리 선택: 
@@ -4571,7 +4571,7 @@ InputParameterDialog.err.requiredParam=필수 매개 변수 [{0}]의 값이 지정되지 않았
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=열 크기 조정
 ColumnDragTracker.Show.Label=너비:
-CPListLabelProvider.misssing=(missing)
+CPListLabelProvider.misssing=(누락)
 RowDragTracker.ResizeRow=행 크기 조정
 RowDragTracker.Show.Label=높이:
 TableDragGuideTracker.Pixels=픽셀

@@ -2899,8 +2899,8 @@ ParameterDialog.Check.AllowMulti=Allow Multiple &Values
 ParameterDialog.checkBox.InputValue=输入值
 ParameterDialog.checkBox.BlankValue=空白值
 ParameterDialog.checkBox.NullValue=空值
-ParameterDialog.emptyColumnValueExpression.title=Invalid Value Column Expression
-ParameterDialog.emptyColumnValueExpression.message=Value Column Expression can't be empty!
+ParameterDialog.emptyColumnValueExpression.title=无效的值列表达式
+ParameterDialog.emptyColumnValueExpression.message=值列表达式不能为空!
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
@@ -4078,19 +4078,19 @@ ClassFinder.TaskStart=正在搜索处理程序类...
 ClassFinder.DialogTitle=类选择
 ClassFinder.DialogMessage=选择处理程序类(&C):
 ClassFinder.ErrorMessage=未找到类
-ClassPathBlock_button.addExtFolder=Add External Class &Folder...
-ClassPathBlock_button.addExtJars=Add E&xternal JARs...
+ClassPathBlock_button.addExtFolder=添加外部类文件夹(&F)...
+ClassPathBlock_button.addExtJars=添加外部 JAR(&X)...
 ClassPathBlock_button.down=下移
 ClassPathBlock_button.edit=编辑(&E)...
 ClassPathBlock_button.remove=删除(&R)
 ClassPathBlock_button.up=上移
-ClassPathBlock_FileDialog.edit.text=Edit JAR
-ClassPathBlock_FileDialog.jar.text=JAR Selection
-ClassPathBlock_FolderDialog.edit.message=Specify the new location of the class folder:
-ClassPathBlock_FolderDialog.edit.text=Edit Class Folder
-ClassPathBlock_FolderDialog.message=Select the location of the class folder:
-ClassPathBlock_FolderDialog.text=External Class Folder Selection
-ClassPathBlock_label.LibrariesList=JARs and class folders on the report execution pa&th:
+ClassPathBlock_FileDialog.edit.text=编辑 JAR
+ClassPathBlock_FileDialog.jar.text=JAR 选择
+ClassPathBlock_FolderDialog.edit.message=指定类文件夹的新位置:
+ClassPathBlock_FolderDialog.edit.text=编辑类文件夹
+ClassPathBlock_FolderDialog.message=选择类文件夹的位置:
+ClassPathBlock_FolderDialog.text=外部类文件夹选择
+ClassPathBlock_label.LibrariesList=报表执行路径上的 JAR 和类文件夹(&T):
 
 ###########################################################
 #ListingSectionPage
@@ -4110,23 +4110,23 @@ EventHandlerPage.Browse=浏览(&B)...
 
 ###########################################################
 #IDEFileReportProvider
-IDEClassPathBlock.button_addExtFolder=Add External Class &Folder...
-IDEClassPathBlock.button_addEXTJar=Add E&xternal JARs...
-IDEClassPathBlock.button_addJar=Add &JARs...
-IDEClassPathBlock.button_addProject=Add &Projects...
-IDEClassPathBlock.button_addVar=Add &Variable...
+IDEClassPathBlock.button_addExtFolder=添加外部类文件夹(&F)...
+IDEClassPathBlock.button_addEXTJar=添加外部 JAR(&X)...
+IDEClassPathBlock.button_addJar=添加 JAR(&J)...
+IDEClassPathBlock.button_addProject=添加项目(&P)...
+IDEClassPathBlock.button_addVar=添加变量(&V)...
 IDEClassPathBlock.button_down=下移
 IDEClassPathBlock.button_edit=编辑(&E)...
-IDEClassPathBlock.button_folder=Add &Class Folder...
+IDEClassPathBlock.button_folder=添加类文件夹(&C)...
 IDEClassPathBlock.button_remove=删除(&R)
 IDEClassPathBlock.button_up=上移
-IDEClassPathBlock.fLibrariesList_text=JARs and class folders on the report execution pa&th:
-IDEClassPathBlock.ProjectDialog_message=Select projects to add:
-IDEClassPathBlock.ProjectDialog_title=Required Project Selection
-IDECPListLabelProvider.folder=(class folder)
-IDECPListLabelProvider.missing=(missing)
-IDECPListLabelProvider.new=(new)
-IDECPListLabelProvider.unknown=unknown element
+IDEClassPathBlock.fLibrariesList_text=报表执行路径上的 JAR 和类文件夹(&T):
+IDEClassPathBlock.ProjectDialog_message=选择要添加的项目:
+IDEClassPathBlock.ProjectDialog_title=需要的项目选择
+IDECPListLabelProvider.folder=(类文件夹)
+IDECPListLabelProvider.missing=(缺少)
+IDECPListLabelProvider.new=(新)
+IDECPListLabelProvider.unknown=未知元素
 IDEFileReportProvider.ReadOnlyEncounter.Title=遇到只读文件
 IDEFileReportProvider.ReadOnlyEncounter.Message=文件“{0}”为只读，请首先确保它可以写入。
 IDEResourcePageHelper.Dialog.Prompt=选择目录: 
@@ -4571,7 +4571,7 @@ InputParameterDialog.err.requiredParam=未指定所需参数 [{0}] 的值。
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=重新设定列大小
 ColumnDragTracker.Show.Label=宽度:
-CPListLabelProvider.misssing=(missing)
+CPListLabelProvider.misssing=(缺少)
 RowDragTracker.ResizeRow=重新设定行大小
 RowDragTracker.Show.Label=高度:
 TableDragGuideTracker.Pixels=像素

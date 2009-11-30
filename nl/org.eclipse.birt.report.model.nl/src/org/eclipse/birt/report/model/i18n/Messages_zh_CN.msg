@@ -2485,7 +2485,7 @@ Element.DataSet.parameters=数据集参数
 Element.DataSet.sortHints=排序提示
 Element.DataSet.ACLExpression=ACL 表达式
 Element.DataSet.RowACLExpression=行 ACL 表达式
-Element.DataSet.isVisible=Visible
+Element.DataSet.isVisible=可见
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=打开前
@@ -3347,7 +3347,7 @@ Element.DynamicFilterParameter.controlType=控件类型
 
 #69. DashboardElement ( prefix  Element.DashboardElement )
 Element.DashboardElement.tabs=选项卡
-Element.DashboardElement.activeTab=Active tab
+Element.DashboardElement.activeTab=激活选项卡
 
 #70. TabElement ( prefix  Element.TabElement )
 Element.TabElement.title=标题
@@ -3396,7 +3396,7 @@ Element.ExternalElementRef.targetBookmark=目标书签
 Element.DataSelectorItem.boundDataColumns=绑定的数据列
 Element.DataSelectorItem.selectorType=selectorType
 Element.DataSelectorItem.title=标题
-Element.DataSelectorItem.columnNames=Column names
+Element.DataSelectorItem.columnNames=列名称
 
 #77 DataViewItem ( prefix  Element.DataViewItem )
 Element.DataViewItem.internalReportLetRef=内部 reportLet 引用
@@ -3433,9 +3433,9 @@ Element.SliderDataSelectorItem.thumbType=Thumb type
 Element.SliderDataSelectorItem.defaultValue1=Default value 1
 Element.SliderDataSelectorItem.defaultValue2=Default value 2
 Element.SliderDataSelectorItem.width=宽度
-Element.SliderDataSelectorItem.autoAdjustTickMarks=Auto adjust tick marks
+Element.SliderDataSelectorItem.autoAdjustTickMarks=自动调整刻度线
 Element.SliderDataSelectorItem.tickInterval=Tick interval
-Element.SliderDataSelectorItem.autoRange=Auto range
+Element.SliderDataSelectorItem.autoRange=自动调整范围
 Element.SliderDataSelectorItem.minValue=Min value
 Element.SliderDataSelectorItem.maxValue=Max value
 
@@ -3453,13 +3453,13 @@ Element.DropdownDataSelectorItem.listLimit=列表限制
 #86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
 Element.CheckBoxDataSelectorItem.orientation=方向
 Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
-Element.CheckBoxDataSelectorItem.autoAdjustNumber=Auto adjust number
+Element.CheckBoxDataSelectorItem.autoAdjustNumber=自动调整数字
 Element.CheckBoxDataSelectorItem.listLimit=列表限制
 
 #87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
 Element.RadioDataSelectorItem.orientation=方向
 Element.RadioDataSelectorItem.autoAdjust=Auto adjust
-Element.RadioDataSelectorItem.autoAdjustNumber=Auto adjust number
+Element.RadioDataSelectorItem.autoAdjustNumber=自动调整数字
 Element.RadioDataSelectorItem.listLimit=列表限制
 
 ###########################################################

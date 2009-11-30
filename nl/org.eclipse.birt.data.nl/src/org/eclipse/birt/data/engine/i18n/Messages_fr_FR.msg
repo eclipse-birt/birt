@@ -215,8 +215,8 @@ data.engine.emptyResultSet=Le jeu de résultats est vide.
 data.engine.errorHappenWhenRetrieveResultSet=Une erreur s'est produite lorsque vous avez consulté le jeu de résultats :"{0}". Il se peut que le jeu de résultats spécifié n'existe pas.
 data.engine.invalidAggregationBindingForPLSReport=La liaison d'agrégation "{0}" est incorrecte lorsque la sécurité de niveau de page est activée.
 
-data.engine.acl.dataSetCannotBeAccessed=The data set "{0}" cannot be accessed.
-data.engine.acl.dataSetColumnCannotBeAccessed=Some data set column cannot be accessed.
+data.engine.acl.dataSetCannotBeAccessed=Impossible d'accéder au jeu de données "{0}".
+data.engine.acl.dataSetColumnCannotBeAccessed=Impossible d'accéder à certaines colonnes de jeu de données.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

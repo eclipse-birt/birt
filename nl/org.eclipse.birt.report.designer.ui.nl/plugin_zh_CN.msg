@@ -59,4 +59,4 @@ publish.library=将库置于资源文件夹(&B)...
 
 ActionSet.Publish=发布
 Dummy.label=
-preference.classpath=Classpath
+preference.classpath=类路径

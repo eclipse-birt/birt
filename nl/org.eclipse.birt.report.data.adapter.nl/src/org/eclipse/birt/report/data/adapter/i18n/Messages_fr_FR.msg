@@ -34,4 +34,4 @@ invalid.data.type=Type de données incorrect : {0}.
 cube.error.createhierarchy=Une erreur s''est produite lors de la création de la hiérarchie : {0}.
 cube.error.createdimension=Une erreur s''est produite lors de la création de la dimension : {0}.
 cube.error.createmeasure=Une erreur s'est produite lors de la création de la mesure.
-cube.error.datasetmiss=The cube cannot be created because the related dataset is missing.
+cube.error.datasetmiss=Le cube ne peut pas être créé car le jeu de données correspondant est manquant.
