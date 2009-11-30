@@ -328,3 +328,9 @@ CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=크로스 탭
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=크로스 탭 셀
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=보고서 요소
 CrosstabHighlightRuleBuilderDialog.text.Description={0}에 조건부 서식을 적용합니다. 조건식 및 서식을 지정하십시오.\n조건식 계산 결과가 True인 경우 서식이 적용됩니다.
+
+###########################################################
+#CrosstabFilterConditionBuilder properties
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.MsgDlg.Msg=경고
+CrosstabFilterConditionBuilder.MsgDlg.Title=값을 입력해야 합니다.

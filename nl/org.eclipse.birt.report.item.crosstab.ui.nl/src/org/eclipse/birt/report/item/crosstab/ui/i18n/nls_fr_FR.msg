@@ -328,3 +328,9 @@ CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=tableau cro
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=cellule du tableau croisé
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=élément d'état
 CrosstabHighlightRuleBuilderDialog.text.Description=Appliquer un formatage conditionnel dans {0}. Spécifier l'expression conditionnelle et le format.\nLe format sera appliqué si l'expression est True.
+
+###########################################################
+#CrosstabFilterConditionBuilder properties
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.MsgDlg.Msg=Avertissement
+CrosstabFilterConditionBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.

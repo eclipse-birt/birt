@@ -328,3 +328,9 @@ CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=交叉表
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=交叉表单元格
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=报表元素
 CrosstabHighlightRuleBuilderDialog.text.Description=向 {0} 应用条件格式。请指定条件表达式和格式。\n如果表达式判定为“真”，则将应用格式。
+
+###########################################################
+#CrosstabFilterConditionBuilder properties
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.MsgDlg.Msg=警告
+CrosstabFilterConditionBuilder.MsgDlg.Title=值不能为空。

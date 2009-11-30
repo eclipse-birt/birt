@@ -328,3 +328,9 @@ CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=クロスタブ
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=クロスタブセル
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=レポート要素
 CrosstabHighlightRuleBuilderDialog.text.Description={0} に条件付き書式を適用します。条件式と書式を指定してください。\n条件式が True と評価されると、書式が適用されます。
+
+###########################################################
+#CrosstabFilterConditionBuilder properties
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.MsgDlg.Msg=警告
+CrosstabFilterConditionBuilder.MsgDlg.Title=値は空にできません。

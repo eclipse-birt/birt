@@ -328,3 +328,9 @@ CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=tabla de re
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=celda de tabla de referencias cruzadas
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=elemento de informe
 CrosstabHighlightRuleBuilderDialog.text.Description=Aplique formato condicional a {0}. Especifique la expresión y el formato condicional.\nEl formato se aplicará si la expresión se evalúa con True.
+
+###########################################################
+#CrosstabFilterConditionBuilder properties
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.MsgDlg.Msg=Advertencia
+CrosstabFilterConditionBuilder.MsgDlg.Title=El valor no puede estar vacío.

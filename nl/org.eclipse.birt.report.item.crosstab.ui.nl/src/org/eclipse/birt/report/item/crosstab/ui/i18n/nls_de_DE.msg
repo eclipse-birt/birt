@@ -328,3 +328,9 @@ CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=Kreuztabell
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=Kreuztabellenzelle
 CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=Berichtselement
 CrosstabHighlightRuleBuilderDialog.text.Description=Bedingte Formatierung anwenden auf {0}. Geben Sie den Bedingungsausdruck und das Format an.\nDas Format wird angewendet, wenn der Ausdruck als TRUE ausgewertet wird.
+
+###########################################################
+#CrosstabFilterConditionBuilder properties
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.MsgDlg.Msg=Warnung
+CrosstabFilterConditionBuilder.MsgDlg.Title=Der Wert darf nicht leer sein.
