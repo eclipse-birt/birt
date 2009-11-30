@@ -1,6 +1,6 @@
 #
 #************************************************************************
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ sqbWizPage_cannotOpenConnectionMsg=SQL 쿼리를 작성하기 위해 연결할 수 없습니다. 
 sqbWizPage_cannotOpenConnectionTitle=연결 오류
 sqbWizPage_dataSourceDesignError=데이터 원본 디자인 오류
 sqbWizPage_dbErrorMsg=데이터베이스 오류 메시지: 
+sqbWizPage_defaultMessage=Build a SQL Select Query.
 sqbWizPage_detectExternalSqlTextChangedMsg=데이터 집합 디자인의 SQL 쿼리 텍스트가 외부에서 변경되었습니다. SQL 쿼리 빌더의 내용을 이 변경 내용으로 바꾸시겠습니까?
 sqbWizPage_detectSqlTextChangedTitle=SQL 쿼리 텍스트 변경
 sqbWizPage_inputFailOnOpenAskUserMessage=계속하시겠습니까?

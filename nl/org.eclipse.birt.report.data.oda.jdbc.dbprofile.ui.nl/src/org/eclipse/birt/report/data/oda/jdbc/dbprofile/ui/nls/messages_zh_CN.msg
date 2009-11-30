@@ -1,6 +1,6 @@
 #
 #************************************************************************
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ sqbWizPage_cannotOpenConnectionMsg=无法建立连接以生成 SQL 查询。请检查数据源连接
 sqbWizPage_cannotOpenConnectionTitle=连接错误
 sqbWizPage_dataSourceDesignError=数据源设计错误
 sqbWizPage_dbErrorMsg=数据库错误消息: 
+sqbWizPage_defaultMessage=Build a SQL Select Query.
 sqbWizPage_detectExternalSqlTextChangedMsg=SQL 查询文本已在数据集设计外部更改。是否要使用这些更改替换 SQL 查询生成器内容?
 sqbWizPage_detectSqlTextChangedTitle=SQL 查询文本已更改
 sqbWizPage_inputFailOnOpenAskUserMessage=是否要继续?

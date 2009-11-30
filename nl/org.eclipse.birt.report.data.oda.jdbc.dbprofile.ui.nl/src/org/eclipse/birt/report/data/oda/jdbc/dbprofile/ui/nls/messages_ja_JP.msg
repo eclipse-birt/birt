@@ -1,6 +1,6 @@
 #
 #************************************************************************
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ sqbWizPage_cannotOpenConnectionMsg=SQL ƒNƒGƒŠ‚ğ\’z‚·‚é‚½‚ß‚ÌÚ‘±‚ªŠm—§‚Å‚«‚Ü‚¹‚
 sqbWizPage_cannotOpenConnectionTitle=Ú‘±ƒGƒ‰[
 sqbWizPage_dataSourceDesignError=ƒf[ƒ^ƒ\[ƒXƒfƒUƒCƒ“ƒGƒ‰[
 sqbWizPage_dbErrorMsg=ƒf[ƒ^ƒx[ƒXƒGƒ‰[ƒƒbƒZ[ƒW : 
+sqbWizPage_defaultMessage=Build a SQL Select Query.
 sqbWizPage_detectExternalSqlTextChangedMsg=SQL ƒNƒGƒŠƒeƒLƒXƒg‚ªAƒf[ƒ^ƒZƒbƒgƒfƒUƒCƒ“‚É‚ÄŠO•”‚Å•ÏX‚³‚ê‚Ü‚µ‚½BSQL ƒNƒGƒŠƒrƒ‹ƒ_‚ÌƒRƒ“ƒeƒ“ƒc‚ğ‚±‚Ì•ÏX“à—e‚Æ’uŠ·‚µ‚Ü‚·‚©H
 sqbWizPage_detectSqlTextChangedTitle=SQL ƒNƒGƒŠƒeƒLƒXƒg‚ª•ÏX‚³‚ê‚Ü‚µ‚½B
 sqbWizPage_inputFailOnOpenAskUserMessage=‘±s‚µ‚Ä‚æ‚ë‚µ‚¢‚Å‚·‚© ?

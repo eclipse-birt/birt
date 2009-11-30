@@ -1,6 +1,6 @@
 #
 #************************************************************************
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ sqbWizPage_cannotOpenConnectionMsg=Aufbau einer Verbindung zur Erstellung einer 
 sqbWizPage_cannotOpenConnectionTitle=Verbindungsfehler
 sqbWizPage_dataSourceDesignError=Datenquellen-Designfehler
 sqbWizPage_dbErrorMsg=Datenbank-Fehlermeldung: 
+sqbWizPage_defaultMessage=Build a SQL Select Query.
 sqbWizPage_detectExternalSqlTextChangedMsg=Der SQL-Abfragetext wurde extern im Datensatz-Design geändert. Möchten Sie die Inhalte der SQL-Abfrageerstellung mit diesen Änderungen ersetzen?
 sqbWizPage_detectSqlTextChangedTitle=SQL-Abfragetext geändert
 sqbWizPage_inputFailOnOpenAskUserMessage=Möchten Sie fortfahren?

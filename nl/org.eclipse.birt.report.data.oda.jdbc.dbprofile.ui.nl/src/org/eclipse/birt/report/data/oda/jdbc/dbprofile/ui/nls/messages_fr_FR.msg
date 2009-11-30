@@ -1,6 +1,6 @@
 #
 #************************************************************************
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ sqbWizPage_cannotOpenConnectionMsg=Impossible d'établir une connexion pour créer
 sqbWizPage_cannotOpenConnectionTitle=Erreur de connexion
 sqbWizPage_dataSourceDesignError=Erreur de conception de la source de données
 sqbWizPage_dbErrorMsg=Message d'erreur de la base de données : 
+sqbWizPage_defaultMessage=Build a SQL Select Query.
 sqbWizPage_detectExternalSqlTextChangedMsg=Le texte de la requête SQL a été modifié en externe dans la conception du jeu de données. Voulez-vous remplacer le contenu du générateur de requête SQL par ces modifications ?
 sqbWizPage_detectSqlTextChangedTitle=Le texte de la requête SQL a été modifié
 sqbWizPage_inputFailOnOpenAskUserMessage=Voulez-vous continuer ?
