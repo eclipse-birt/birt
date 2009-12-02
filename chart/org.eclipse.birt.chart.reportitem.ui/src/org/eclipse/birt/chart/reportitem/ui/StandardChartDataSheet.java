@@ -980,10 +980,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	int invokeNewDataSet( )
 	{
+		int count = getDataServiceProvider( ).getAllDataSets( ).length;
 		DataService.getInstance( ).createDataSet( );
 		
-		// Due to the limitation of the action execution, always return ok
-		return Window.OK;
+		if ( getDataServiceProvider( ).getAllDataSets( ).length == count )
+		{
+			// user cancel this operation
+			return Window.CANCEL;
+		}
+		else
+		{
+			return Window.OK;
+		}
 	}
 
 	int invokeEditFilter( )
@@ -1405,6 +1413,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							int result = invokeNewDataSet( );
 							if ( result == Window.CANCEL )
 							{
+								if ( currentData == null )
+								{
+									cmbDataItems.select( 0 );
+								}
+								else
+								{
+									cmbDataItems.setText( currentData );
+								}
 								return;
 							}
 
@@ -1415,7 +1431,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							String[] datasets = getDataServiceProvider( ).getAllDataSets( );
 							currentData = datasets[datasets.length - 1];
 							getDataServiceProvider( ).setDataSet( currentData );
-							ChartUIUtil.setText( cmbDataItems, currentData );
+							cmbDataItems.setText( currentData );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
@@ -1424,19 +1440,33 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							{
 								invokeNewDataSet( );
 							}
+							int count = getDataServiceProvider( ).getAllDataCubes( ).length;
 							if ( getDataServiceProvider( ).getAllDataSets( ).length != 0 )
 							{
 								new NewCubeAction( ).run( );
 							}
 
+							String[] datacubes = getDataServiceProvider( ).getAllDataCubes( );
 							cmbDataItems.removeAll( );
 							cmbDataItems.setItems( createDataComboItems( ) );
 							cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
+							if ( datacubes.length == count )
+							{
+								if ( currentData == null )
+								{
+									cmbDataItems.select( 0 );
+								}
+								else
+								{
+									cmbDataItems.setText( currentData );
+								}
+								return;
+							}
+
 							// select the newly created data cube for user.
-							String[] datacubes = getDataServiceProvider( ).getAllDataCubes( );
 							currentData = datacubes[datacubes.length - 1];
 							getDataServiceProvider( ).setDataCube( currentData );
-							ChartUIUtil.setText( cmbDataItems, currentData );
+							cmbDataItems.setText( currentData );
 							updateDragDataSource( );
 							setEnabledForButtons( );
 							// Update preview via event
