@@ -237,4 +237,10 @@ public class DummyCubeResultSet implements ICubeResultSet
 		return null;
 	}
 
+	public Object evaluate( String language, String expr ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
