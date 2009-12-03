@@ -100,6 +100,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 		try
 		{
 			/**
+			 * TODO:
 			 * JDBC4.0 specification has clarified that: 
 			 * Calling programs should use ResultSetMetaData.getColumnLabel() to 
 			 * dynamically determine the correct "name" to pass to ResultSet.findColumn() or ResultSet.get...(String)
@@ -107,7 +108,7 @@ public class ResultSetMetaData implements IResultSetMetaData
              * will return the actual name of the column, if it exists, and this name can *not* be used as input to
 			 * ResultSet.findColumn() or ResultSet.get...(String).
 			 */
-			return rsMetadata.getColumnLabel( index );
+			return rsMetadata.getColumnName( index );
 		}
 		catch ( SQLException e )
 		{

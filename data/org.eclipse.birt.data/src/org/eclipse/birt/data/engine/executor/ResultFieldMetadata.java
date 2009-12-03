@@ -40,6 +40,7 @@ public class ResultFieldMetadata
 		m_driverPosition = driverPosition;
 		m_name = name;
 		m_label = label;
+		m_alias = label;
 		m_dataType = dataType;
 		m_nativeTypeName = nativeTypeName;
 		m_isCustom = isCustom;
