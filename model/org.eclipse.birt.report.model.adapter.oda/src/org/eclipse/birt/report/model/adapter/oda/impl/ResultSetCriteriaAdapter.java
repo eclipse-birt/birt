@@ -729,8 +729,9 @@ public class ResultSetCriteriaAdapter
 			FilterConditionHandle filterHandle )
 	{
 		FilterExpression filterExpr = null;
+	
 		if ( StringUtil.isBlank( filterHandle.getDynamicFilterParameter( ) ) )
-		{
+		{			
 			if ( filterHandle.getExtensionName( ) == null
 					|| filterHandle.getExtensionExprId( ) == null )
 			{ // Both extension name and extension id should not be null
@@ -765,12 +766,15 @@ public class ResultSetCriteriaAdapter
 				DynamicFilterParameterHandle dynamicParamHandle = (DynamicFilterParameterHandle) paramHandle;
 				DynamicFilterExpression dynamicFilterExpr = designFactory
 						.createDynamicFilterExpression( );
-
-				FilterExpressionType defaultType = designFactory
-						.createFilterExpressionType( );
-				defaultType.setDeclaringExtensionId( filterHandle
-						.getExtensionName( ) );
-
+				
+				FilterExpressionType defaultType = null;
+				if ((filterHandle.getExtensionName() != null)
+						&& (filterHandle.getExtensionExprId() != null)) {
+					defaultType = designFactory.createFilterExpressionType();
+					defaultType.setDeclaringExtensionId(filterHandle
+							.getExtensionName());
+					dynamicFilterExpr.setDefaultType( defaultType );
+				}
 				dynamicFilterExpr.setIsOptional( filterHandle.isOptional( ) );
 
 				ExpressionArguments arguments = designFactory
@@ -792,8 +796,7 @@ public class ResultSetCriteriaAdapter
 
 				arguments.addDynamicParameter( paramDefn );
 				dynamicFilterExpr.setContextArguments( arguments );
-
-				dynamicFilterExpr.setDefaultType( defaultType );
+			
 				filterExpr = dynamicFilterExpr;
 			}
 		}
