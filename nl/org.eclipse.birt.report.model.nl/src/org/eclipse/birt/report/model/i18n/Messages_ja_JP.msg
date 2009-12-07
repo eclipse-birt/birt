@@ -3219,7 +3219,7 @@ Element.Level.staticValues=静的な値
 Element.Level.defaultValue=デフォルト値
 Element.Level.ACLExpression=ACL 式
 Element.Level.MemberACLExpression=メンバの ACL 式
-Element.Level.action=実行
+Element.Level.action=アクション
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
@@ -3227,7 +3227,7 @@ Element.Measure.isCalculated=Is calculated
 Element.Measure.measureExpression=メジャー式
 Element.Measure.dataType=データ型
 Element.Measure.ACLExpression=ACL 式
-Element.Measure.action=実行
+Element.Measure.action=アクション
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=メジャー
