@@ -729,9 +729,9 @@ public class ResultSetCriteriaAdapter
 			FilterConditionHandle filterHandle )
 	{
 		FilterExpression filterExpr = null;
-	
+
 		if ( StringUtil.isBlank( filterHandle.getDynamicFilterParameter( ) ) )
-		{			
+		{
 			if ( filterHandle.getExtensionName( ) == null
 					|| filterHandle.getExtensionExprId( ) == null )
 			{ // Both extension name and extension id should not be null
@@ -756,8 +756,7 @@ public class ResultSetCriteriaAdapter
 
 			filterExpr = customFilterExpr;
 		}
-		else if ( !StringUtil
-				.isBlank( filterHandle.getDynamicFilterParameter( ) ) )
+		else
 		{
 			ParameterHandle paramHandle = setHandle.getModuleHandle( )
 					.findParameter( filterHandle.getDynamicFilterParameter( ) );
@@ -766,14 +765,14 @@ public class ResultSetCriteriaAdapter
 				DynamicFilterParameterHandle dynamicParamHandle = (DynamicFilterParameterHandle) paramHandle;
 				DynamicFilterExpression dynamicFilterExpr = designFactory
 						.createDynamicFilterExpression( );
-				
+
 				FilterExpressionType defaultType = null;
-				if ((filterHandle.getExtensionName() != null)
-						&& (filterHandle.getExtensionExprId() != null)) {
-					defaultType = designFactory.createFilterExpressionType();
-					defaultType.setDeclaringExtensionId(filterHandle
-							.getExtensionName());
-					dynamicFilterExpr.setDefaultType( defaultType );
+				if ( filterHandle.getExtensionName( ) != null
+						&& filterHandle.getExtensionExprId( ) != null )
+				{
+					defaultType = designFactory.createFilterExpressionType( );
+					defaultType.setDeclaringExtensionId( filterHandle
+							.getExtensionName( ) );
 				}
 				dynamicFilterExpr.setIsOptional( filterHandle.isOptional( ) );
 
@@ -796,7 +795,10 @@ public class ResultSetCriteriaAdapter
 
 				arguments.addDynamicParameter( paramDefn );
 				dynamicFilterExpr.setContextArguments( arguments );
-			
+
+				if ( defaultType != null && defaultType.getId( ) != null )
+					dynamicFilterExpr.setDefaultType( defaultType );
+
 				filterExpr = dynamicFilterExpr;
 			}
 		}
