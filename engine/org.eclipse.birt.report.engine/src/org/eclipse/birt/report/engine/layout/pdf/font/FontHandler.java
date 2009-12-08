@@ -271,13 +271,29 @@ public class FontHandler
 	{
 		if ( fontStyle != Font.NORMAL )
 		{
-			String[][] familyNames = bf.getFamilyFontName( );
 			String[][] fullNames = bf.getFullFontName( );
-
-			String familyName = getEnglishName( familyNames );
 			String fullName = getEnglishName( fullNames );
+			String lcf = fullName.toLowerCase( );
+			
+			int fs = Font.NORMAL;
+			if ( lcf.indexOf( "bold" ) != -1 )
+			{
+				fs |= Font.BOLD;
+			}
+			if ( lcf.indexOf( "italic" ) != -1
+					|| lcf.indexOf( "oblique" ) != -1 )
+			{
+				fs |= Font.ITALIC;
+			}
+			if ( ( fontStyle & Font.BOLDITALIC ) == fs )
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 
-			return familyName.equals( fullName );
 		}
 		return false;
 	}

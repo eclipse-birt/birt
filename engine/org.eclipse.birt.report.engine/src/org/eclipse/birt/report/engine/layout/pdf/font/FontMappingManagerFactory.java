@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
+import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.pdf.BaseFont;
 
@@ -440,7 +441,7 @@ public class FontMappingManagerFactory
 	}
 
 	private HashMap baseFonts = new HashMap( );
-
+	
 	/**
 	 * Creates iText BaseFont with the given font family name.
 	 * 
@@ -451,15 +452,15 @@ public class FontMappingManagerFactory
 	public BaseFont createFont( String familyName, int fontStyle )
 	{
 		String key = familyName + fontStyle;
+		BaseFont bf = null;
 		synchronized ( baseFonts )
 		{
-			BaseFont font = (BaseFont) baseFonts.get( key );
-			if ( font == null )
+			if ( baseFonts.containsKey( key ) )
 			{
-				if ( baseFonts.containsKey( key ) )
-				{
-					return null;
-				}
+				bf = (BaseFont) baseFonts.get( key );	
+			}
+			else
+			{
 				try
 				{
 					String fontEncoding = (String) fontEncodings
@@ -468,21 +469,21 @@ public class FontMappingManagerFactory
 					{
 						fontEncoding = BaseFont.IDENTITY_H;
 					}
-					// FIXME: code view verify if BaseFont.NOT_EMBEDDED or
-					// BaseFont.EMBEDDED should be used.
-					font = FontFactory.getFont( familyName, fontEncoding,
-							BaseFont.EMBEDDED, 14, fontStyle )
-							.getBaseFont( );
-					baseFonts.put( key, font );
+					bf = FontFactory.getFont( familyName, fontEncoding,
+							BaseFont.EMBEDDED, 14, fontStyle ).getBaseFont( );
 				}
 				catch ( Throwable de )
 				{
-					baseFonts.put( key, font );
-					return null;
+					logger.log( Level.WARNING, de.getMessage( ), de );
 				}
+				baseFonts.put( key, bf );	
 			}
-			return font;
+			if ( bf == null && fontStyle != Font.NORMAL )
+			{
+				return createFont( familyName, Font.NORMAL );
+			}
 		}
+		return bf;
 	}
 
 	private void registerFontPath( final String fontPath )
