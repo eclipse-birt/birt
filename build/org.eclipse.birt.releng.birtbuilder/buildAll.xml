@@ -501,7 +501,7 @@
 		</ant>
 	</target>
 	
-	<target name="buildBirtTestFeature">
+	<target name="buildBirtTestFeature" unless="skip.build.testsuite">
         <tstamp prefix="timestamp">
             <format property="testsuite.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
         </tstamp>
