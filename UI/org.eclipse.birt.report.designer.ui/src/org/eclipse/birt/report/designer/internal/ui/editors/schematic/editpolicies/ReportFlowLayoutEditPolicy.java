@@ -442,7 +442,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		fb.setPoint( p2, 1 );
 	}
 
-	private boolean isEditPartFigureBlock( EditPart editPart )
+	protected boolean isEditPartFigureBlock( EditPart editPart )
 	{
 		if ( editPart == null
 				|| !( editPart.getModel( ) instanceof ReportItemHandle ) )

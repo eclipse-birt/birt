@@ -166,7 +166,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 		return minorSpacing;
 	}
 
-	private Insets getFigureMargin( IFigure f )
+	protected Insets getFigureMargin( IFigure f )
 	{
 		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint( f );
 		Insets margin = INSETS_SINGLETON;

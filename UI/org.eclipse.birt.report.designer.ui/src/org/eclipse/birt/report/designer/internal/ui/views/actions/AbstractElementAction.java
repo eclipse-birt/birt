@@ -99,9 +99,17 @@ public abstract class AbstractElementAction extends AbstractViewAction
 			stack.rollbackAll( );
 			handleException( e );
 		}
+		finally
+		{
+			postDoAction( );
+		}
 
 	}
 
+	protected void postDoAction()
+	{
+		
+	}
 	/**
 	 * Gets the activity stack of the report
 	 * 

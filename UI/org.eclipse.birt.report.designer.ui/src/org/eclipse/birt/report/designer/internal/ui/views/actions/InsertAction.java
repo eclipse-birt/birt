@@ -47,6 +47,8 @@ public class InsertAction extends AbstractElementAction
 	private final static String TEXT = Messages.getString( "InsertAction.text" ); //$NON-NLS-1$
 
 	private SlotHandle slotHandle;
+	private boolean isDone;
+	private Object createElement;
 
 	protected SlotHandle getSlotHandle( )
 	{
@@ -204,24 +206,11 @@ public class InsertAction extends AbstractElementAction
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
 				position );
 		request.setExtendedData( extendsData );
-		boolean bool = ProviderFactory.createProvider( getSelection( ) )
+		isDone = ProviderFactory.createProvider( getSelection( ) )
 				.performRequest( getSelection( ), request );
-		if ( bool )
-		{
-			List list = new ArrayList( );
-
-			list.add( request.getExtendedData( )
-					.get( IRequestConstants.REQUEST_KEY_RESULT ) );
-			ReportRequest r = new ReportRequest( );
-			r.setType( ReportRequest.CREATE_ELEMENT );
-
-			r.setSelectionObject( list );
-			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.notifyRequest( r );
-
-		}
-		return bool;
+		createElement = request.getExtendedData( ).get( IRequestConstants.REQUEST_KEY_RESULT );
+		
+		return isDone;
 
 		// CommandUtils.getHandlerService( )
 		// .getCurrentState( )
@@ -242,5 +231,27 @@ public class InsertAction extends AbstractElementAction
 		// .removeVariable( "type" );
 		//
 		// return Boolean.TRUE.equals( returnVlaue );
+	}
+	
+	@Override
+	protected void postDoAction( )
+	{
+		super.postDoAction( );
+		if ( isDone && createElement != null)
+		{
+			List list = new ArrayList( );
+
+			list.add( createElement );
+			ReportRequest r = new ReportRequest( );
+			r.setType( ReportRequest.CREATE_ELEMENT );
+
+			r.setSelectionObject( list );
+			SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.notifyRequest( r );
+
+		}
+		
+		createElement = null;
 	}
 }

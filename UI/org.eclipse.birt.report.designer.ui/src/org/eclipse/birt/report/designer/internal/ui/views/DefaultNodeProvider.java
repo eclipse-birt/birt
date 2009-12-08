@@ -148,10 +148,13 @@ public class DefaultNodeProvider implements INodeProvider
 
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
 		// Rename action
-		RenameAction renameAction = new RenameAction( sourceViewer );
-		if ( renameAction.isEnabled( ) )
-		{// if can rename,add to menu
-			menu.add( renameAction );
+		if (sourceViewer != null)
+		{
+			RenameAction renameAction = new RenameAction( sourceViewer );
+			if ( renameAction.isEnabled( ) )
+			{// if can rename,add to menu
+				menu.add( renameAction );
+			}
 		}
 		// Delete action
 		DeleteAction deleteAction = new DeleteAction( object );

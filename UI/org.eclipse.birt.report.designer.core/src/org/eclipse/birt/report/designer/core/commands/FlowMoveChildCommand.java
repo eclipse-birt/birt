@@ -86,6 +86,13 @@ public class FlowMoveChildCommand extends Command
 				pos = DEUtil.findInsertPosition( containerHandle,
 						(DesignElementHandle) after,
 						slotID );
+				int cur = DEUtil.findInsertPosition( containerHandle,
+						(DesignElementHandle) child,
+						slotID );
+				if (cur < pos)
+				{
+					pos --;
+				}
 			}
 
 			// for real node that contains design element handle
