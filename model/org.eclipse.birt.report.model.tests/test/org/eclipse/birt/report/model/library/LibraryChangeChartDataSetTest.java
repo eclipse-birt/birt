@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.library;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -50,9 +51,35 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase
 				.findElement( "NewTable" );//$NON-NLS-1$
 		assertNotNull( tableHandle );
 
-		int count = getColumnBindingsCount( tableHandle.columnBindingsIterator( ) );
-		assertEquals( 7 , count );
-		
+		int count = getColumnBindingsCount( tableHandle
+				.columnBindingsIterator( ) );
+		assertEquals( 7, count );
+
+		// if the column has the same filter expression as the original column,
+		// the column will not be added.
+		ComputedColumn column = StructureFactory.newComputedColumn(
+				tableHandle, "test" ); //$NON-NLS-1$
+		List<ComputedColumn> columns = tableHandle
+				.getListProperty( ReportItemHandle.BOUND_DATA_COLUMNS_PROP );
+
+		column.setFilterExpression( columns.get( 6 ).getFilterExpression( ) );
+		column.setExpression( columns.get( 6 ).getExpression( ) );
+		tableHandle.addColumnBinding( column, false );
+
+		columns = tableHandle
+				.getListProperty( ReportItemHandle.BOUND_DATA_COLUMNS_PROP );
+
+		assertEquals( 7, columns.size( ) );
+
+		// if the column does not have the same filter expression as the orginal
+		// column, the column will be added.
+		column.setFilterExpression( "new expression" ); //$NON-NLS-1$
+		tableHandle.addColumnBinding( column, false );
+		columns = tableHandle
+				.getListProperty( ReportItemHandle.BOUND_DATA_COLUMNS_PROP );
+
+		assertEquals( 8, columns.size( ) );
+
 		DataSetHandle newDsHandle = (DataSetHandle) designHandle
 				.getElementByID( 6 );
 		assertNotNull( newDsHandle );
@@ -80,7 +107,7 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase
 	 *            column bindings iterator.
 	 * @return count of column bindings
 	 */
-	
+
 	private int getColumnBindingsCount( Iterator iterator )
 	{
 		int count = 0;
@@ -105,10 +132,10 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase
 		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
 				.findElement( "NewTestingMatrix" ); //$NON-NLS-1$
 		assertNotNull( itemHandle );
-		
+
 		int count = getColumnBindingsCount( itemHandle.columnBindingsIterator( ) );
-		assertEquals( 5 , count );
-		
+		assertEquals( 5, count );
+
 		DataSetHandle newDsHandle = (DataSetHandle) designHandle
 				.getElementByID( 7 );
 		assertNotNull( newDsHandle );

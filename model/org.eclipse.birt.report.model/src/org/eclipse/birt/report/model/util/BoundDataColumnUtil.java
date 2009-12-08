@@ -223,29 +223,36 @@ public class BoundDataColumnUtil
 	 * given list.
 	 * 
 	 * @param columns
-	 *            the binding columns
-	 * @param expression
-	 *            the old value expression in BIRT 2.1M5
-	 * @param function
-	 * @param aggregateOnList
-	 *            the aggregateOn value
-	 * @return the bound column
+	 *            the binding columns.
+	 * @param addColumn
+	 *            the added column.
+	 * @return the bound column.
 	 */
-
 	public static ComputedColumn getColumn( List<ComputedColumn> columns,
-			String expression, String function, List<String> aggregateOnList )
+			ComputedColumn addColumn )
 	{
 		if ( ( columns == null ) || ( columns.size( ) == 0 ) )
 			return null;
 
+		assert addColumn != null;
+
+		String expression = addColumn.getExpression( );
+		String function = addColumn.getAggregateFunction( );
+		String filterExpression = addColumn.getFilterExpression( );
+		List<String> aggregateOnList = addColumn.getAggregateOnList( );
+
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
 			ComputedColumn column = columns.get( i );
-			if ( ( ( expression == null && column.getExpression( ) == null ) || ( expression != null && expression
-					.equals( column.getExpression( ) ) ) )
-					&& ( ( function != null && function.equals( column
-							.getAggregateFunction( ) ) ) || ( function == null && column
-							.getAggregateFunction( ) == null ) ) )
+			String tmpExpression = column.getExpression( );
+			String tmpFunction = column.getAggregateFunction( );
+			String tmpFilterExpression = column.getFilterExpression( );
+
+			if ( ( ( expression == null && tmpExpression == null ) || ( expression != null && expression
+					.equals( tmpExpression ) ) )
+					&& ( ( function != null && function.equals( tmpFunction ) ) || ( function == null && tmpFunction == null ) )
+					&& ( ( filterExpression == null && tmpFilterExpression == null ) || ( filterExpression != null && filterExpression
+							.equals( tmpFilterExpression ) ) ) )
 			{
 				List tempAggregateOnList = column.getAggregateOnList( );
 				boolean isEmptyA = aggregateOnList == null

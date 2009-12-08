@@ -223,6 +223,7 @@ from CLASSICMODELS.ORDERS</property>
                 <structure>
                     <property name="name">New Binding</property>
                     <expression name="expression">dataSetRow["ORDERNUMBER"]</expression>
+                    <expression name="filterExpr">test expression</expression>
                 </structure>
             </list-property>
         </table>

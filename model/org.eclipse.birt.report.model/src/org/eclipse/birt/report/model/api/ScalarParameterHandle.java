@@ -694,15 +694,12 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 		if ( addColumn == null )
 			return null;
 
-		String expr = addColumn.getExpression( );
-
 		List columns = (List) getProperty( BOUND_DATA_COLUMNS_PROP );
 		if ( columns == null )
 			return (ComputedColumnHandle) getPropertyHandle(
 					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
-		ComputedColumn column = BoundDataColumnUtil.getColumn( columns, expr,
-				addColumn.getAggregateFunction( ), addColumn
-						.getAggregateOnList( ) );
+		ComputedColumn column = BoundDataColumnUtil.getColumn( columns,
+				addColumn );
 		if ( column != null && !inForce )
 		{
 			return (ComputedColumnHandle) column.handle(
