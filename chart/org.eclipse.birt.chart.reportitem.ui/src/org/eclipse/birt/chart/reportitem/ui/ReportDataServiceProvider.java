@@ -3179,7 +3179,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				|| ChartUIConstants.QUERY_CATEGORY.equals( checkType ) )
 		{
 			// Only check query for Cube/Crosstab sharing cases.
-			if ( checkState( IDataServiceProvider.HAS_CUBE )
+			if ( checkState( IDataServiceProvider.INHERIT_CUBE ) 
+					|| checkState( IDataServiceProvider.HAS_CUBE )
 					|| checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
 			{
 				return Boolean.valueOf( ChartXTabUIUtil.checkQueryExpression( checkType,
