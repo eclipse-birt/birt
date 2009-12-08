@@ -26,6 +26,8 @@ import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
@@ -42,6 +44,9 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	/*
 	 * (non-Javadoc)
@@ -138,7 +143,10 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 			}
 			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
 			{
-				exp = handle.getTargetBookmark( );
+				ExpressionHandle exprHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.TARGET_BOOKMARK_MEMBER );
+				exprCodec.setExpression( exprHandle.getStringValue( ) );
+				exprCodec.setType( exprHandle.getType( ) );
+				exp = exprCodec.encode( );
 
 				if ( !expList.contains( exp ) )
 				{

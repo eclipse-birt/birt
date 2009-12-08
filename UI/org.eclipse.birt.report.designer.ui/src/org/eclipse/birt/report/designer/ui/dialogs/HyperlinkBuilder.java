@@ -61,6 +61,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.CellEditor;
@@ -1209,7 +1211,15 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				bookmarkEditor.setText( bookmarkChooser.getText( ) );
+				Expression expr = (Expression) bookmarkChooser.getData( bookmarkChooser.getText( ) );
+				bookmarkEditor.setText( expr.getStringExpression( ) );
+				bookmarkEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
+						expr.getType( ) );
+				ExpressionButton exprButton = ExpressionButtonUtil.getExpressionButton( bookmarkEditor );
+				if ( exprButton != null )
+				{
+					exprButton.refresh( );
+				}
 				updateButtons( );
 			}
 
@@ -1700,13 +1710,26 @@ public class HyperlinkBuilder extends BaseDialog
 		paramBindingTable.refresh( );
 	}
 
+	private List<Object> getAllBookMarkExpressions(
+			ReportDesignHandle reportDesignHandle )
+	{
+		ReportDesign reportDesign = (ReportDesign) reportDesignHandle.getModule( );
+		return reportDesign.collectPropValues( reportDesignHandle.getBody( )
+				.getSlotID( ), IReportItemModel.BOOKMARK_PROP );
+	}
+
 	private void initBookmarkList( Object handle )
 	{
 		bookmarkChooser.removeAll( );
 		if ( handle != null && handle instanceof ReportDesignHandle )
 		{
-			bookmarkChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllBookmarks( )
-					.toArray( new String[0] ) );
+			List<Object> expressions = getAllBookMarkExpressions( (ReportDesignHandle) handle );
+			for ( Object obj : expressions )
+			{
+				Expression expr = (Expression) obj;
+				bookmarkChooser.add( expr.getStringExpression( ) );
+				bookmarkChooser.setData( expr.getStringExpression( ), expr );
+			}
 			bookmarkChooser.setText( bookmarkEditor.getText( ) );
 		}
 		bookmarkChooser.setEnabled( bookmarkChooser.getItemCount( ) > 0 );
