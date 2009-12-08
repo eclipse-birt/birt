@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.api.util.Rectangle;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.MasterPageContextContainmentValidator;
 import org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator;
 import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
@@ -132,6 +133,29 @@ public abstract class MasterPage extends StyledElement
 			// dimension value should have be validated.
 
 			assert false;
+		}
+		catch ( IllegalArgumentException e )
+		{
+			if ( !DesignChoiceConstants.PAGE_SIZE_CUSTOM
+					.equalsIgnoreCase( type ) )
+				throw e;
+
+			// if the page is custom type and the page size cannot be converted
+			
+			try
+			{
+				DimensionValue dimWidth = StringUtil.parseInput( width, module
+						.getLocale( ) );
+				DimensionValue dimHeight = StringUtil.parseInput( height,
+						module.getLocale( ) );
+
+				size.x = dimWidth.getMeasure( );
+				size.y = dimHeight.getMeasure( );
+			}
+			catch ( PropertyValueException e2 )
+			{
+				return null;
+			}
 		}
 
 		return size;
