@@ -35,9 +35,14 @@ public class BuilderConstants
 	public static final String PROPERTY_SEPARATOR = "."; //$NON-NLS-1$
 	public static final String IMAGE_OTHER_DATASETS = "icons/obj16/folder.gif"; //$NON-NLS-1$
 
-	public static final String SECURITY_EXPRESSION_PROVIDER = "Security Expression Provider";
-	public static final String SECURITY_EXPRESSION_CONTEXT = "Security Expression Context";
-	public static final String SECURITY_EXPRESSION_LABEL = "Security Label";
-	public static final String SECURITY_HELPER_KEY = "Security Helper";
-	public static final String SECURITY_EXPRESSION_PROPERTY = "Security Expression Property";
+	public static final String SECURITY_EXPRESSION_PROVIDER = "Security Expression Provider"; //$NON-NLS-1$
+	public static final String SECURITY_EXPRESSION_CONTEXT = "Security Expression Context"; //$NON-NLS-1$
+	public static final String SECURITY_EXPRESSION_LABEL = "Security Label"; //$NON-NLS-1$
+	public static final String SECURITY_HELPER_KEY = "Security Helper"; //$NON-NLS-1$
+	public static final String SECURITY_EXPRESSION_PROPERTY = "Security Expression Property"; //$NON-NLS-1$
+
+	public static final String HYPERLINK_HELPER_KEY = "HyperLink Helper"; //$NON-NLS-1$
+	public static final String HYPERLINK_LABEL = "HyperLink Label"; //$NON-NLS-1$
+	public static final String HYPERLINK_REPORT_ITEM_HANDLE = "HyperLink Report Item Handle"; //$NON-NLS-1$
+	public static final String HYPERLINK_BUTTON_TEXT = "HyperLink Button Text"; //$NON-NLS-1$
 }

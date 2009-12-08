@@ -603,28 +603,37 @@ public class GroupDialog extends TitleAreaDialog
 
 	private void createSecurityPart( Composite parent )
 	{
-		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
 				IDialogHelperProvider.class );
-		if ( helperProvider != null )
+		if ( helperProviders != null )
 		{
-			helper = helperProvider.createHelper( this, null );
-			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
-					Messages.getString("GroupDialog.Access.Control.List.Expression") ); //$NON-NLS-1$
-			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-					cube );
-			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-					new CubeExpressionProvider( cube ) );
-			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
-					dimension.getACLExpression( ) );
-			helper.createContent( parent );
-			helper.addListener( SWT.Modify, new Listener( ) {
-
-				public void handleEvent( Event event )
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null
+						&& helperProvider.canCreateHelper( BuilderConstants.SECURITY_HELPER_KEY ) )
 				{
-					helper.update( false );
+					helper = helperProvider.createHelper( this,
+							BuilderConstants.SECURITY_HELPER_KEY );
+					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+							Messages.getString( "GroupDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
+					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+							cube );
+					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+							new CubeExpressionProvider( cube ) );
+					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+							dimension.getACLExpression( ) );
+					helper.createContent( parent );
+					helper.addListener( SWT.Modify, new Listener( ) {
+
+						public void handleEvent( Event event )
+						{
+							helper.update( false );
+						}
+					} );
+					helper.update( true );
 				}
-			} );
-			helper.update( true );
+			}
 		}
 
 	}

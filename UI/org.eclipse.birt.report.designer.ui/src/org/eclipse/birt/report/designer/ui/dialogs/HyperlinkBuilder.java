@@ -434,6 +434,13 @@ public class HyperlinkBuilder extends BaseDialog
 		this.isIDE = isIDE;
 	}
 
+	private boolean showBookMark = true;
+
+	public void showBookMard( boolean showBookMark )
+	{
+		this.showBookMark = showBookMark;
+	}
+
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
@@ -506,12 +513,15 @@ public class HyperlinkBuilder extends BaseDialog
 				&& !typeFilterList.contains( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK ) )
 		{
 
-			UIUtil.createBlankLabel( composite );
+			if ( showBookMark )
+			{
+				UIUtil.createBlankLabel( composite );
 
-			bookmarkRadio = new Button( composite, SWT.RADIO );
-			bookmarkRadio.setText( RADIO_BOOKMARK );
-			addRadioListener( bookmarkRadio,
-					DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
+				bookmarkRadio = new Button( composite, SWT.RADIO );
+				bookmarkRadio.setText( RADIO_BOOKMARK );
+				addRadioListener( bookmarkRadio,
+						DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
+			}
 		}
 
 		if ( !typeFilterList.contains( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH ) )
@@ -563,7 +573,8 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			switchToURI( );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( type ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( type )
+				&& showBookMark )
 		{
 			switchToBookmark( );
 		}
@@ -1269,7 +1280,8 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 				saveTooltip( );
 			}
-			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
+			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType )
+					&& showBookMark )
 			{
 				ExpressionButtonUtil.saveExpressionButtonControl( bookmarkEditor,
 						inputHandle,
@@ -1399,7 +1411,8 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			uriRadio.setSelection( true );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType )
+				&& showBookMark )
 		{
 			bookmarkRadio.setSelection( true );
 		}
@@ -1457,7 +1470,8 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			loadTooltip( );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType )
+				&& showBookMark )
 		{
 			if ( inputHandle.getTargetBookmark( ) != null )
 			{
@@ -1858,7 +1872,8 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			okEnable = !StringUtil.isBlank( locationEditor.getText( ) );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType )
+				&& showBookMark )
 		{
 			okEnable = !StringUtil.isBlank( bookmarkEditor.getText( ) );
 		}
@@ -2000,7 +2015,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private String resolvePath( String file_path )
 	{
 		String rootPath = null;
-		if ( file_path.startsWith( "/" ) )
+		if ( file_path.startsWith( "/" ) ) //$NON-NLS-1$
 		{
 			rootPath = getProjectFolder( );
 		}

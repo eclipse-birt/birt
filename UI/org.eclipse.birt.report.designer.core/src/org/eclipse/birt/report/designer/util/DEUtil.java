@@ -87,6 +87,8 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -318,7 +320,8 @@ public class DEUtil
 
 			public int compare( IElementDefn o1, IElementDefn o2 )
 			{
-				return Collator.getInstance( ).compare( o1.getName( ), o2.getName( ) );
+				return Collator.getInstance( ).compare( o1.getName( ),
+						o2.getName( ) );
 			}
 		} );
 		availableList.addAll( extendedList );
@@ -1157,8 +1160,8 @@ public class DEUtil
 		if ( model instanceof VariableElementHandle )
 		{
 			VariableElementHandle variable = (VariableElementHandle) model;
-			
-			return "vars[\""+variable.getName( )+"\"]";
+
+			return "vars[\"" + variable.getName( ) + "\"]";
 		}
 		return null;
 	}
@@ -1582,7 +1585,8 @@ public class DEUtil
 	 *            Sort comparator.
 	 * @return font names.
 	 */
-	synchronized public static String[] getSystemFontNames( Comparator comparator )
+	synchronized public static String[] getSystemFontNames(
+			Comparator comparator )
 	{
 		if ( scalable_system_fonts == null )
 		{
@@ -1953,7 +1957,7 @@ public class DEUtil
 	 * @return the handle of the action, or null if the element is not a proper
 	 *         type
 	 */
-	public static ActionHandle getActionHandle( ReportItemHandle element )
+	public static ActionHandle getActionHandle( ReportElementHandle element )
 	{
 		ActionHandle actionHandle = null;
 		if ( element instanceof LabelHandle )
@@ -1967,6 +1971,14 @@ public class DEUtil
 		else if ( element instanceof ImageHandle )
 		{
 			actionHandle = ( (ImageHandle) element ).getActionHandle( );
+		}
+		else if ( element instanceof TabularLevelHandle )
+		{
+			actionHandle = ( (TabularLevelHandle) element ).getActionHandle( );
+		}
+		else if ( element instanceof TabularMeasureHandle )
+		{
+			actionHandle = ( (TabularMeasureHandle) element ).getActionHandle( );
 		}
 		return actionHandle;
 	}
@@ -1984,7 +1996,7 @@ public class DEUtil
 	 * 
 	 * @throws SemanticException
 	 */
-	public static ActionHandle setAction( ReportItemHandle element,
+	public static ActionHandle setAction( ReportElementHandle element,
 			Action action ) throws SemanticException
 	{
 		ActionHandle actionHandle = null;
@@ -1999,6 +2011,14 @@ public class DEUtil
 		else if ( element instanceof ImageHandle )
 		{
 			actionHandle = ( (ImageHandle) element ).setAction( action );
+		}
+		else if ( element instanceof TabularLevelHandle )
+		{
+			actionHandle = ( (TabularLevelHandle) element ).setAction( action );
+		}
+		else if ( element instanceof TabularMeasureHandle )
+		{
+			actionHandle = ( (TabularMeasureHandle) element ).setAction( action );
 		}
 		return actionHandle;
 	}
@@ -3093,27 +3113,31 @@ public class DEUtil
 		else
 			return null;
 	}
-	
-	/**If the layout is fix.
+
+	/**
+	 * If the layout is fix.
+	 * 
 	 * @param model
 	 * @return
 	 */
-	public static boolean isFixLayout(Object model)
+	public static boolean isFixLayout( Object model )
 	{
-		if (!(model instanceof DesignElementHandle))
+		if ( !( model instanceof DesignElementHandle ) )
 		{
 			return false;
 		}
-		ModuleHandle handle = ((DesignElementHandle)model).getModuleHandle( );
-		if (!(handle instanceof ReportDesignHandle))
+		ModuleHandle handle = ( (DesignElementHandle) model ).getModuleHandle( );
+		if ( !( handle instanceof ReportDesignHandle ) )
 		{
 			return false;
 		}
-		
-		return DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(((ReportDesignHandle)handle).getLayoutPreference( ) );
+
+		return DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( ( (ReportDesignHandle) handle ).getLayoutPreference( ) );
 	}
-	
-	/**Gets the padding
+
+	/**
+	 * Gets the padding
+	 * 
 	 * @param handle
 	 * @param retValue
 	 * @return

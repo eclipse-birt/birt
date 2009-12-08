@@ -412,36 +412,82 @@ public class MeasureDialog extends TitleAreaDialog
 				new CubeExpressionProvider( cube ),
 				cube );
 
-		createControlTypeChooser( group );
+		createSecurityPart( group );
+		createHyperLinkPart( group );
 		return group;
 	}
 
-	private void createControlTypeChooser( Composite parent )
+	private IDialogHelper createHyperLinkPart( Composite parent )
 	{
-		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
 				IDialogHelperProvider.class );
-		if ( helperProvider != null )
+		if ( helperProviders != null )
 		{
-			helper = helperProvider.createHelper( this, null );
-			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
-					Messages.getString("MeasureDialog.Access.Control.List.Expression") ); //$NON-NLS-1$
-			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-					cube );
-			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-					new CubeExpressionProvider( cube ) );
-			helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
-					input.getACLExpression( ) );
-			helper.createContent( parent );
-			helper.addListener( SWT.Modify, new Listener( ) {
-
-				public void handleEvent( Event event )
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null
+						&& helperProvider.canCreateHelper( BuilderConstants.HYPERLINK_HELPER_KEY ) )
 				{
-					helper.update( false );
-				}
-			} );
-			helper.update( true );
-		}
+					final IDialogHelper hyperLinkHelper = helperProvider.createHelper( this,
+							BuilderConstants.HYPERLINK_HELPER_KEY );
 
+					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_LABEL,
+							Messages.getString("MeasureDialog.Label.LinkTo") ); //$NON-NLS-1$
+					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_BUTTON_TEXT,
+							Messages.getString("MeasureDialog.Button.Text.Edit") ); //$NON-NLS-1$
+					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_REPORT_ITEM_HANDLE,
+							input );
+					hyperLinkHelper.createContent( parent );
+					hyperLinkHelper.addListener( SWT.Modify, new Listener( ) {
+
+						public void handleEvent( Event event )
+						{
+							hyperLinkHelper.update( false );
+						}
+					} );
+					hyperLinkHelper.update( true );
+					return hyperLinkHelper;
+				}
+			}
+		}
+		return null;
+	}
+
+	private void createSecurityPart( Composite parent )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+				IDialogHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null
+						&& helperProvider.canCreateHelper( BuilderConstants.SECURITY_HELPER_KEY ) )
+				{
+					helper = helperProvider.createHelper( this,
+							BuilderConstants.SECURITY_HELPER_KEY );
+					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+							Messages.getString( "MeasureDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
+					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+							cube );
+					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+							new CubeExpressionProvider( cube ) );
+					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+							input.getACLExpression( ) );
+					helper.createContent( parent );
+					helper.addListener( SWT.Modify, new Listener( ) {
+
+						public void handleEvent( Event event )
+						{
+							helper.update( false );
+						}
+					} );
+					helper.update( true );
+				}
+			}
+		}
 	}
 
 	protected void handleTypeSelectEvent( )

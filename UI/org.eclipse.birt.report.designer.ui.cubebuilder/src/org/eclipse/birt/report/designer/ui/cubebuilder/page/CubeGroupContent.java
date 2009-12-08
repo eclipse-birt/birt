@@ -2188,12 +2188,20 @@ public class CubeGroupContent extends Composite implements Listener
 				// .equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 				if ( ( (DimensionHandle) level.getContainer( ).getContainer( ) ).isTimeType( ) )
 				{
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( "" ); //$NON-NLS-1$
 					DateLevelDialog dialog = new DateLevelDialog( );
 					dialog.setInput( input, level );
 					if ( dialog.open( ) == Window.OK )
 					{
+						stack.commit( );
 						refresh( );
-					};
+					}
+					else
+					{
+						stack.rollback( );
+					}
 				}
 				else
 				{
@@ -2216,22 +2224,40 @@ public class CubeGroupContent extends Composite implements Listener
 			else if ( obj instanceof TabularMeasureHandle )
 			{
 				TabularMeasureHandle level = (TabularMeasureHandle) obj;
+				CommandStack stack = SessionHandleAdapter.getInstance( )
+						.getCommandStack( );
+				stack.startTrans( "" ); //$NON-NLS-1$
 				MeasureDialog dialog = new MeasureDialog( false );
 				dialog.setInput( input, level );
 				if ( dialog.open( ) == Window.OK )
 				{
+					stack.commit( );
 					refresh( );
-				};
+				}
+				else
+				{
+					stack.rollback( );
+				}
 			}
 			else if ( obj instanceof DimensionHandle
 					&& ( (DimensionHandle) obj ).isTimeType( )
 					&& ( (DimensionHandle) obj ).getDefaultHierarchy( )
 							.getLevelCount( ) > 0 )
 			{
+				CommandStack stack = SessionHandleAdapter.getInstance( )
+						.getCommandStack( );
+				stack.startTrans( "" ); //$NON-NLS-1$
 				GroupDialog dialog = new GroupDialog( false );
 				dialog.setInput( input,
 						(TabularHierarchyHandle) ( (DimensionHandle) obj ).getDefaultHierarchy( ) );
-				dialog.open( );
+				if ( dialog.open( ) == Window.OK )
+				{
+					stack.commit( );
+				}
+				else
+				{
+					stack.rollback( );
+				}
 			}
 			else
 			{
@@ -2241,10 +2267,20 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					title = Messages.getString( "CubeGroupContent.Group.Edit.Title" ); //$NON-NLS-1$
 					message = Messages.getString( "CubeGroupContent.Group.Edit.Message" ); //$NON-NLS-1$
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( "" ); //$NON-NLS-1$
 					GroupRenameDialog inputDialog = createRenameDialog( (DimensionHandle) obj,
 							title,
 							message );
-					inputDialog.open( );
+					if ( inputDialog.open( ) == Window.OK )
+					{
+						stack.commit( );
+					}
+					else
+					{
+						stack.rollback( );
+					}
 				}
 				else if ( obj instanceof MeasureGroupHandle )
 				{
