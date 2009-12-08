@@ -871,21 +871,35 @@ public class ChartCubeUtil extends ChartItemUtil
 					ChartWithAxes cwa = updateChartModelWhenTransposing( chartInOtherMeasure,
 							cmNew );
 					AggregationCellHandle cellAgg = getXtabContainerCell( chartInOtherMeasure );
-					removeAxisChartInXTab( cellAgg, bTransOld, true );
-					bNewTotalJustAdded = addAxisChartInXTab( cellAgg,
-							cwa,
-							chartInOtherMeasure,
-							bNewTotalJustAdded );
+					if ( removeAxisChartInXTab( cellAgg, bTransOld, true ) )
+					{
+						bNewTotalJustAdded = addAxisChartInXTab( cellAgg,
+								cwa,
+								chartInOtherMeasure,
+								bNewTotalJustAdded );
+					}
+					else
+					{
+						// If axis chart is not deleted, just update cells
+						updateAxisChartCells( cell, cmNew );
+					}
 				}
 			}
 
 			// Delete grand total only once, since assume that multiple
 			// measures will have the same grand total
-			removeAxisChartInXTab( cell, bTransOld, true );
-			addAxisChartInXTab( cell,
-					cmNew,
-					hostChartHandle,
-					bNewTotalJustAdded );
+			if ( removeAxisChartInXTab( cell, bTransOld, true ) )
+			{
+				addAxisChartInXTab( cell,
+						cmNew,
+						hostChartHandle,
+						bNewTotalJustAdded );
+			}
+			else
+			{
+				// If axis chart is not deleted, just update cells
+				updateAxisChartCells( cell, cmNew );
+			}
 		}
 	}
 
@@ -997,9 +1011,10 @@ public class ChartCubeUtil extends ChartItemUtil
 	 * @param bTransposed
 	 * @param bCleanSpan
 	 *            indicates if column and row span need to clean
+	 * @return if axis chart is removed
 	 * @throws BirtException
 	 */
-	public static void removeAxisChartInXTab( AggregationCellHandle cell,
+	public static boolean removeAxisChartInXTab( AggregationCellHandle cell,
 			boolean bTransposed, boolean bCleanSpan ) throws BirtException
 	{
 		if ( bCleanSpan )
@@ -1024,7 +1039,9 @@ public class ChartCubeUtil extends ChartItemUtil
 				cell.getCrosstab( )
 						.removeGrandTotal( getXTabAxisType( bTransposed ) );
 			}
+			return true;
 		}
+		return false;
 	}
 
 	public static AggregationCellHandle getGrandTotalAggregationCell(
@@ -1081,63 +1098,20 @@ public class ChartCubeUtil extends ChartItemUtil
 			ChartWithAxes cwa, ExtendedItemHandle hostChartHandle,
 			boolean bNewTotalJustAdded ) throws BirtException
 	{
-		boolean bTransposed = cwa.isTransposed( );
-		int axisType = getXTabAxisType( bTransposed );
-		if ( bTransposed )
+		// Update cells that contain axis charts
+		if ( !updateAxisChartCells( cell, cwa ) )
 		{
-			// Set cell span
-			cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
-			cell.setSpanOverOnColumn( null );
-			CrosstabCellHandle rowCell = ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
-					ICrosstabConstants.ROW_AXIS_TYPE );
-			if ( rowCell == null )
-			{
-				return false;
-			}
-			if ( rowCell.getHeight( ) == null
-					|| rowCell.getHeight( ).getMeasure( ) == 0 )
-			{
-				// Set a default height for cell to fit with chart
-				cell.getCrosstab( ).setRowHeight( rowCell, DEFAULT_ROW_HEIGHT );
-			}
-			// Set 0 padding to level cell to avoid size difference between
-			// browsers
-			removeCellPadding( rowCell, bTransposed );
+			return false;
 		}
-		else
-		{
-			// Set cell span
-			cell.setSpanOverOnColumn( cell.getAggregationOnColumn( ) );
-			cell.setSpanOverOnRow( null );
-			CrosstabCellHandle columnCell = ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
-					ICrosstabConstants.COLUMN_AXIS_TYPE );
-			if ( columnCell == null )
-			{
-				return false;
-			}
-			if ( columnCell.getWidth( ) != null
-					|| columnCell.getWidth( ).getMeasure( ) == 0 )
-			{
-				// Set a default width for cell to fit with chart
-				cell.getCrosstab( ).setColumnWidth( columnCell,
-						DEFAULT_COLUMN_WIDTH );
-			}
-			// Set 0 padding to level cell to avoid size difference between
-			// browsers
-			removeCellPadding( columnCell, bTransposed );
-		}
-		// Set 0 padding to all related aggregation cells to avoid size
-		// difference between browsers
-		removeCellPadding( cell, bTransposed );
-		removeCellPadding( getGrandTotalAggregationCell( cell, !bTransposed ),
-				bTransposed );
-		removeCellPadding( getMeasureAggregationCell( cell ), bTransposed );
 
 		if ( !isYAxisVisible( cwa ) )
 		{
 			// Do not add axis chart if Y axis is invisible
 			return bNewTotalJustAdded;
 		}
+
+		boolean bTransposed = cwa.isTransposed( );
+		int axisType = getXTabAxisType( bTransposed );
 
 		// Create grand total cell on demand
 		// If just added, even if grand total is not added this time, delete
@@ -1194,6 +1168,73 @@ public class ChartCubeUtil extends ChartItemUtil
 				cwa,
 				hostChartHandle,
 				!ChartInXTabStatusManager.hasGrandItem( hostChartHandle ) );
+	}
+
+	/**
+	 * Updates cells that contains axis chart
+	 * 
+	 * @param cell
+	 *            cell that contains axis chart
+	 * @param cwa
+	 *            chart model
+	 * @return if cell is updated completely
+	 * @throws BirtException
+	 */
+	private static boolean updateAxisChartCells( AggregationCellHandle cell,
+			ChartWithAxes cwa ) throws BirtException
+	{
+		boolean bTransposed = cwa.isTransposed( );
+		if ( bTransposed )
+		{
+			// Set cell span
+			cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
+			cell.setSpanOverOnColumn( null );
+			CrosstabCellHandle rowCell = ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.ROW_AXIS_TYPE );
+			if ( rowCell == null )
+			{
+				return false;
+			}
+			if ( rowCell.getHeight( ) == null
+					|| rowCell.getHeight( ).getMeasure( ) == 0 )
+			{
+				// Set a default height for cell to fit with chart
+				cell.getCrosstab( ).setRowHeight( rowCell, DEFAULT_ROW_HEIGHT );
+			}
+			// Set 0 padding to level cell to avoid size difference between
+			// browsers
+			removeCellPadding( rowCell, bTransposed );
+		}
+		else
+		{
+			// Set cell span
+			cell.setSpanOverOnColumn( cell.getAggregationOnColumn( ) );
+			cell.setSpanOverOnRow( null );
+			CrosstabCellHandle columnCell = ChartCubeUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.COLUMN_AXIS_TYPE );
+			if ( columnCell == null )
+			{
+				return false;
+			}
+			if ( columnCell.getWidth( ) != null
+					|| columnCell.getWidth( ).getMeasure( ) == 0 )
+			{
+				// Set a default width for cell to fit with chart
+				cell.getCrosstab( ).setColumnWidth( columnCell,
+						DEFAULT_COLUMN_WIDTH );
+			}
+			// Set 0 padding to level cell to avoid size difference between
+			// browsers
+			removeCellPadding( columnCell, bTransposed );
+		}
+		// Set 0 padding to all related aggregation cells to avoid size
+		// difference between browsers
+		removeCellPadding( cell, bTransposed );
+		removeCellPadding( getGrandTotalAggregationCell( cell, !bTransposed ),
+				bTransposed );
+		removeCellPadding( getMeasureAggregationCell( cell ), bTransposed );
+
+		return true;
 	}
 
 	/**
