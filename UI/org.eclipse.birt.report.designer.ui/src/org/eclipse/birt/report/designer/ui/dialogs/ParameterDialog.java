@@ -82,7 +82,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -612,13 +611,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private Button delAllBtn;
 
-	private Composite defaultValueComposite;
-
-	private Label dummyLabel;
-
 	private Group valuesDefineSection;
 
 	private Button addButton;
+
+	private Composite rightPart;
 
 	/**
 	 * Create a new parameter dialog with given title under the active shell
@@ -956,7 +953,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		valueArea = new Composite( valuesDefineSection, SWT.NONE );
 		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 320;
+		gd.minimumHeight = 320;
 		gd.widthHint = 550;
 		gd.horizontalSpan = 2;
 		valueArea.setLayoutData( gd );
@@ -1428,11 +1425,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		try
 		{
 			if ( columnChooser.getText( ) == null
-					|| columnChooser.getText( ).equals( "" ) )
+					|| columnChooser.getText( ).equals( "" ) ) //$NON-NLS-1$
 			{
 				MessageDialog.openWarning( getShell( ),
-						Messages.getString( "ParameterDialog.emptyColumnValueExpression.title" ),
-						Messages.getString( "ParameterDialog.emptyColumnValueExpression.message" ) );
+						Messages.getString( "ParameterDialog.emptyColumnValueExpression.title" ), //$NON-NLS-1$
+						Messages.getString( "ParameterDialog.emptyColumnValueExpression.message" ) ); //$NON-NLS-1$
 				columnChooser.forceFocus( );
 				return Collections.EMPTY_LIST;
 			}
@@ -1880,6 +1877,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		valueArea.layout( );
 		initValueArea( );
 		updateCheckBoxArea( );
+
+		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		displayArea.setSize( size );
+		displayArea.getParent( ).layout( );
 	}
 
 	private void switchToCheckBox( )
@@ -2287,13 +2288,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private void switchToDynamic( )
 	{
 		changeControlType( );
-		Composite composite = new Composite( valueArea, SWT.NONE );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		composite.setLayoutData( gd );
-		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 3, false ) );
-		createLabel( composite, LABEL_SELECT_DATA_SET );
-		dataSetChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+		createLabel( valueArea, LABEL_SELECT_DATA_SET );
+
+		Composite dataSetArea = createExprArea( );
+
+		dataSetChooser = new Combo( dataSetArea, SWT.BORDER | SWT.READ_ONLY );
 		dataSetChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		dataSetChooser.setVisibleItemCount( 30 );
 		dataSetChooser.addSelectionListener( new SelectionAdapter( ) {
@@ -2312,7 +2311,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 
 		);
-		createDataSet = new Button( composite, SWT.PUSH );
+		createDataSet = new Button( dataSetArea, SWT.PUSH );
 		createDataSet.setText( BUTTON_CREATE_DATA_SET );
 		setButtonLayoutData( createDataSet );
 		createDataSet.addSelectionListener( new SelectionAdapter( ) {
@@ -2326,9 +2325,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		} );
 
-		createLabel( composite, LABEL_SELECT_VALUE_COLUMN );
+		createLabel( valueArea, LABEL_SELECT_VALUE_COLUMN );
+
+		Composite columnArea = createExprArea( );
 		// columnChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		columnChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
+		columnChooser = new Combo( columnArea, SWT.BORDER | SWT.DROP_DOWN );
 		columnChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		columnChooser.setVisibleItemCount( 30 );
 		columnChooser.addModifyListener( new ModifyListener( ) {
@@ -2364,7 +2365,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 		};
 
-		ExpressionButtonUtil.createExpressionButton( composite,
+		ExpressionButtonUtil.createExpressionButton( columnArea,
 				columnChooser,
 				null,
 				inputParameter,
@@ -2374,10 +2375,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				columnHelper );
 
 		// createLabel( composite, null );
-		createLabel( composite, LABEL_SELECT_DISPLAY_TEXT );
+		createLabel( valueArea, LABEL_SELECT_DISPLAY_TEXT );
 		// displayTextChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY
 		// );
-		displayTextChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
+		Composite displayArea = createExprArea( );
+		displayTextChooser = new Combo( displayArea, SWT.BORDER | SWT.DROP_DOWN );
 		displayTextChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		displayTextChooser.setVisibleItemCount( 30 );
 		ExpressionHelper displayTextHelper = new ExpressionHelper( ) {
@@ -2407,7 +2409,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 		};
 
-		ExpressionButtonUtil.createExpressionButton( composite,
+		ExpressionButtonUtil.createExpressionButton( displayArea,
 				displayTextChooser,
 				null,
 				inputParameter,
@@ -2422,6 +2424,17 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		createLabel( valueArea, null );
 		createPromptLine( valueArea );
 		listLimit.setEnabled( true );
+	}
+
+	private Composite createExprArea( )
+	{
+		Composite exprArea = new Composite( valueArea, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 2;
+		layout.marginWidth = layout.marginWidth = 0;
+		exprArea.setLayout( layout );
+		exprArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		return exprArea;
 	}
 
 	private void refreshSortByItems( )
@@ -2512,20 +2525,17 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		sortDirectionChooser.setText( CHOICE_ASCENDING );
 	}
 
-	private Composite createMulitipleValueListComposite( Composite parent )
+	private void createMulitipleValueListComposite( Composite parent )
 	{
-		Group group = new Group( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
-		layout.numColumns = 2;
-		group.setLayout( layout );
-
 		int tableStyle = SWT.SINGLE
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
-		Table table = new Table( group, tableStyle );
+		Table table = new Table( parent, tableStyle );
 		GridData data = new GridData( GridData.FILL_BOTH );
+		data.horizontalSpan = 2;
+		data.heightHint = 100;
 		table.setLayoutData( data );
 
 		table.setHeaderVisible( false );
@@ -2582,19 +2592,17 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		defaultValueViewer.setLabelProvider( tableLableProvier );
 		defaultValueViewer.setContentProvider( tableContentProvider );
 
-		Composite rightPart = new Composite( group, SWT.NONE );
+		rightPart = new Composite( parent, SWT.NONE );
 		data = new GridData( GridData.FILL_VERTICAL );
 		rightPart.setLayoutData( data );
-		rightPart.setLayout( new GridLayout( ) );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 0;
+		rightPart.setLayout( layout );
 
 		editBtn = new Button( rightPart, SWT.PUSH );
 		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
 		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( editBtn );
-		GridData gd = (GridData) editBtn.getLayoutData( );
-		gd.grabExcessVerticalSpace = true;
-		gd.verticalAlignment = SWT.END;
-		editBtn.setLayoutData( gd );
 		editBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -2621,7 +2629,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) ); //$NON-NLS-1$
 		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delAllBtn );
-		gd = (GridData) delAllBtn.getLayoutData( );
+		GridData gd = (GridData) delAllBtn.getLayoutData( );
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.BEGINNING;
 		delAllBtn.setLayoutData( gd );
@@ -2643,8 +2651,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 
 		} );
-
-		return group;
 	}
 
 	protected void delTableValue( )
@@ -2733,7 +2739,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private void createDefaultEditor( )
 	{
-		createLabel( valueArea, LABEL_DEFAULT_VALUE );
+		Label label = createLabel( valueArea, LABEL_DEFAULT_VALUE );
+		GridData gd = (GridData) label.getLayoutData( );
+		gd.verticalAlignment = SWT.BEGINNING;
+		label.setLayoutData( gd );
 
 		Composite composite = new Composite( valueArea, SWT.NONE );
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -2916,12 +2925,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		addButton = new Button( composite, SWT.PUSH );
 		addButton.setText( Messages.getString( "ParameterDialog.DefaultValue.Add" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( );
-		gd.widthHint = 60;
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
-		{
-			gd.heightHint = 20;
-		}
+		gd = new GridData( );
+		gd.horizontalAlignment = SWT.FILL;
 		addButton.setLayoutData( gd );
 		addButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -2933,10 +2938,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		} );
 
-		dummyLabel = new Label( valueArea, SWT.NONE );
-		defaultValueComposite = createMulitipleValueListComposite( valueArea );
-		gd = new GridData( GridData.FILL_BOTH );
-		defaultValueComposite.setLayoutData( gd );
+		createMulitipleValueListComposite( composite );
 
 		initDefaultValueViewer( );
 	}
@@ -3322,7 +3324,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		super.okPressed( );
 	}
 
-	private void createLabel( Composite parent, String content )
+	private Label createLabel( Composite parent, String content )
 	{
 		Label label = new Label( parent, SWT.NONE );
 		if ( content != null )
@@ -3330,6 +3332,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			label.setText( content );
 		}
 		setLabelLayoutData( label );
+		return label;
 	}
 
 	private void setLabelLayoutData( Label label )
@@ -4277,13 +4280,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private void initDefaultValueViewer( )
 	{
-		if ( defaultValueComposite != null )
+		if ( defaultValueViewer != null )
 		{
 			if ( !isStatic( ) && ( enableAllowMultiValueVisible( ) ) )
 			{
-				WidgetUtil.setExcludeGridData( dummyLabel,
+				WidgetUtil.setExcludeGridData( defaultValueViewer.getTable( ),
 						!allowMultiChoice.getSelection( ) );
-				WidgetUtil.setExcludeGridData( defaultValueComposite,
+				WidgetUtil.setExcludeGridData( rightPart,
 						!allowMultiChoice.getSelection( ) );
 				WidgetUtil.setExcludeGridData( addButton,
 						!allowMultiChoice.getSelection( ) );
@@ -4295,14 +4298,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 			else
 			{
-				WidgetUtil.setExcludeGridData( dummyLabel, true );
-				WidgetUtil.setExcludeGridData( defaultValueComposite, true );
+				WidgetUtil.setExcludeGridData( defaultValueViewer.getTable( ),
+						true );
+				WidgetUtil.setExcludeGridData( rightPart, true );
 				WidgetUtil.setExcludeGridData( addButton, true );
 			}
 
 			addButton.getParent( ).layout( );
-			defaultValueComposite.layout( );
-			defaultValueComposite.getParent( ).layout( );
+			defaultValueViewer.getTable( ).getParent( ).layout( );
+			valueArea.layout( );
 
 			Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 			displayArea.setSize( size );

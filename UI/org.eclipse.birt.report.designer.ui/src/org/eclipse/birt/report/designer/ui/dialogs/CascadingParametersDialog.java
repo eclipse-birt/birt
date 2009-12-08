@@ -1162,11 +1162,7 @@ public class CascadingParametersDialog extends BaseDialog
 		addValueButton = new Button( composite, SWT.PUSH );
 		addValueButton.setText( Messages.getString( "CascadingParametersDialog.DefalutValue.Add" ) ); //$NON-NLS-1$
 		gd = new GridData( );
-		gd.widthHint = 60;
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
-		{
-			gd.heightHint = 20;
-		}
+		gd.horizontalAlignment = SWT.FILL;
 		addValueButton.setLayoutData( gd );
 		addValueButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1178,28 +1174,22 @@ public class CascadingParametersDialog extends BaseDialog
 
 		} );
 
-		dummyLabel = new Label( propertiesGroup, SWT.NONE );
-		defaultValueComposite = createMulitipleValueListComposite( propertiesGroup );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		defaultValueComposite.setLayoutData( gd );
+		createMulitipleValueListComposite( composite );
 
 		initDefaultValueViewer( );
 	}
 
-	private Composite createMulitipleValueListComposite( Composite parent )
+	private void createMulitipleValueListComposite( Composite parent )
 	{
-		Group group = new Group( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
-		layout.numColumns = 2;
-		group.setLayout( layout );
-
 		int tableStyle = SWT.SINGLE
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
-		Table table = new Table( group, tableStyle );
+		Table table = new Table( parent, tableStyle );
 		GridData data = new GridData( GridData.FILL_BOTH );
+		data.horizontalSpan = 2;
+		data.heightHint = 100;
 		table.setLayoutData( data );
 		table.setHeaderVisible( false );
 		table.setLinesVisible( true );
@@ -1255,21 +1245,17 @@ public class CascadingParametersDialog extends BaseDialog
 		defaultValueViewer.setLabelProvider( tableLableProvier );
 		defaultValueViewer.setContentProvider( tableContentProvider );
 
-		Composite rightPart = new Composite( group, SWT.NONE );
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		rightPart.setLayoutData( data );
-		layout = new GridLayout( );
-		layout.makeColumnsEqualWidth = true;
-		rightPart.setLayout( layout );
+		rightButtonsPart = new Composite( parent, SWT.NONE );
+		data = new GridData( GridData.FILL_VERTICAL );
+		rightButtonsPart.setLayoutData( data );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 0;
+		rightButtonsPart.setLayout( layout );
 
-		editValueBtn = new Button( rightPart, SWT.PUSH );
+		editValueBtn = new Button( rightButtonsPart, SWT.PUSH );
 		editValueBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
 		editValueBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( editValueBtn );
-		GridData gd = (GridData) editValueBtn.getLayoutData( );
-		gd.grabExcessVerticalSpace = true;
-		gd.verticalAlignment = SWT.END;
-		editValueBtn.setLayoutData( gd );
 		editValueBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -1279,7 +1265,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		} );
 
-		delValueBtn = new Button( rightPart, SWT.PUSH );
+		delValueBtn = new Button( rightButtonsPart, SWT.PUSH );
 		delValueBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) ); //$NON-NLS-1$
 		delValueBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delValueBtn );
@@ -1292,14 +1278,10 @@ public class CascadingParametersDialog extends BaseDialog
 
 		} );
 
-		delAllValuesBtn = new Button( rightPart, SWT.PUSH );
+		delAllValuesBtn = new Button( rightButtonsPart, SWT.PUSH );
 		delAllValuesBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) ); //$NON-NLS-1$
 		delAllValuesBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delAllValuesBtn );
-		gd = (GridData) delAllValuesBtn.getLayoutData( );
-		gd.grabExcessVerticalSpace = true;
-		gd.verticalAlignment = SWT.BEGINNING;
-		delAllValuesBtn.setLayoutData( gd );
 		delAllValuesBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -1318,8 +1300,6 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 
 		} );
-
-		return group;
 	}
 
 	protected void delTableValue( )
@@ -1387,13 +1367,13 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void initDefaultValueViewer( )
 	{
-		if ( defaultValueComposite != null )
+		if ( defaultValueViewer != null )
 		{
 			if ( isMultiple != null && isMultiple.isEnabled( ) )
 			{
-				WidgetUtil.setExcludeGridData( dummyLabel,
+				WidgetUtil.setExcludeGridData( defaultValueViewer.getTable( ),
 						!isMultiple.getSelection( ) );
-				WidgetUtil.setExcludeGridData( defaultValueComposite,
+				WidgetUtil.setExcludeGridData( rightButtonsPart,
 						!isMultiple.getSelection( ) );
 				WidgetUtil.setExcludeGridData( addValueButton,
 						!isMultiple.getSelection( ) );
@@ -1405,14 +1385,14 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 			else
 			{
-				WidgetUtil.setExcludeGridData( dummyLabel, true );
-				WidgetUtil.setExcludeGridData( defaultValueComposite, true );
+				WidgetUtil.setExcludeGridData( defaultValueViewer.getTable( ),
+						true );
+				WidgetUtil.setExcludeGridData( rightButtonsPart, true );
 				WidgetUtil.setExcludeGridData( addValueButton, true );
 			}
 
 			addValueButton.getParent( ).layout( );
-			defaultValueComposite.layout( );
-			defaultValueComposite.getParent( ).layout( );
+			defaultValueViewer.getTable( ).getParent( ).layout( );
 
 			Point size = mainContent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 			mainContent.setSize( size );
@@ -1434,9 +1414,7 @@ public class CascadingParametersDialog extends BaseDialog
 					if ( realY > screecY )
 					{
 						getShell( ).setLocation( getShell( ).getLocation( ).x,
-								getShell( ).getLocation( ).y
-										+ screecY
-										- realY );
+								getShell( ).getLocation( ).y + screecY - realY );
 					}
 				}
 			}
@@ -2096,15 +2074,13 @@ public class CascadingParametersDialog extends BaseDialog
 
 	};
 	private Composite mainContent;
-	private Button addButton;
-	private Label dummyLabel;
-	private Composite defaultValueComposite;
 	private TableViewer defaultValueViewer;
 	private Button addValueButton;
 	private Button editValueBtn;
 	private Button delValueBtn;
 	private Button delAllValuesBtn;
 	private ExpressionButton expressionButton;
+	private Composite rightButtonsPart;
 
 	protected int getTableIndex( Object element )
 	{
