@@ -29,9 +29,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 
 /**
  * IDEReportClasspathResolver
@@ -288,14 +290,14 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 
 		if ( classpathEntries != null )
 		{
-			retValue = resolveClasspathEntries( classpathEntries, needExported );
+			retValue = resolveClasspathEntries( classpathEntries, needExported, fCurrJProject );
 		}
 
 		return retValue;
 	}
 
 	private List<String> resolveClasspathEntries(
-			IClasspathEntry[] classpathEntries, boolean needExported )
+			IClasspathEntry[] classpathEntries, boolean needExported, IJavaProject project )
 	{
 		ArrayList<String> newClassPath = new ArrayList<String>( );
 		IWorkspace space = ResourcesPlugin.getWorkspace( );
@@ -317,6 +319,35 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 				path = JavaCore.getResolvedClasspathEntry( curr ).getPath( );
 			}
 			
+			if (project != null && curr.getEntryKind( ) == IClasspathEntry.CPE_CONTAINER)
+			{
+				try
+				{
+					IClasspathContainer contianer = JavaCore.getClasspathContainer( path, project );
+					if (contianer.getKind( ) == IClasspathContainer.K_APPLICATION)
+					{
+						IClasspathEntry[] entrys = contianer.getClasspathEntries( );
+						List<String> list = resolveClasspathEntries( entrys, needExported, project );
+						for (int j=0; j<list.size( ); j++)
+						{
+							addToList( newClassPath, list.get( j ) );
+						}
+					}
+				}
+				catch ( JavaModelException e )
+				{
+					//do nothing
+				}
+				continue;
+			}
+			if (curr.getEntryKind( ) == IClasspathEntry.CPE_SOURCE)
+			{
+				path = curr.getOutputLocation( );
+			}
+			if (path == null)
+			{
+				continue;
+			}
 			if (curr.getEntryKind( ) == IClasspathEntry.CPE_PROJECT)
 			{
 				if (root.findMember( path ) instanceof IProject)
@@ -328,7 +359,9 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 					}
 				}
 			}
-			else if ( curr.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY || curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE)
+			else if ( curr.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY || 
+					curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE
+					|| curr.getEntryKind( ) == IClasspathEntry.CPE_SOURCE)
 			{
 				
 					boolean inWorkSpace = true;
@@ -363,7 +396,6 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 
 				}
 				
-			
 		}
 		return newClassPath;
 	}
