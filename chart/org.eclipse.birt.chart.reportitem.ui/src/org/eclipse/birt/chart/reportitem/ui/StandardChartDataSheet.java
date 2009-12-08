@@ -903,6 +903,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			final ColumnBindingInfo[] headerInfo,
 			final List<?> data )
 	{
+		if ( tableViewerColumns.getTable().isDisposed() )
+		{
+			return;
+		}
 		// Set input.
 		tableViewerColumns.setInput( headerInfo );
 		tableViewerColumns.setData( KEY_PREVIEW_DATA, data );

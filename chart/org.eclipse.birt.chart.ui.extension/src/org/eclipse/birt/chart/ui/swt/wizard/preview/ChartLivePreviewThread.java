@@ -88,8 +88,9 @@ public class ChartLivePreviewThread extends Thread
 	 */
 	public void start()
 	{
-		super.start( );
 		blinker = this;
+		super.start( );
+
 	}
 	
 	/**
@@ -131,9 +132,8 @@ public class ChartLivePreviewThread extends Thread
 	 */
 	public void run()
 	{
-		super.run( );
 		initDataEngine( );
-		
+		super.run( );
     	Timer fPaintTimer = null;
 		timeTask = null;
 		Thread thisThread = Thread.currentThread();
