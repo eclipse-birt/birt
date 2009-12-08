@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 
@@ -199,10 +198,4 @@ public interface IDataServiceProvider
 	 */
 	public Object checkData( String checkType, Object data );
 
-	/**
-	 * Adapts all expressions in the chart model.
-	 * 
-	 * @param ico
-	 */
-	public void adaptExpressions( IChartObject ico );
 }

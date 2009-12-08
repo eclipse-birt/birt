@@ -11,12 +11,18 @@
 
 package org.eclipse.birt.chart.factory;
 
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+
 /**
  * An adapter class for IDataRowExpressionEvaluator
  */
 public class DataRowExpressionEvaluatorAdapter implements
 		IDataRowExpressionEvaluator
 {
+
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	/*
 	 * (non-Javadoc)

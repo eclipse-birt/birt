@@ -20,21 +20,12 @@ import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.Serializer;
-import org.eclipse.birt.chart.model.attribute.ActionValue;
-import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.ScriptValue;
-import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
-import org.eclipse.birt.chart.model.impl.ChartModelHelper;
-import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
@@ -43,6 +34,7 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -73,8 +65,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * Utility class for Chart integration as report item
@@ -664,193 +654,12 @@ public class ChartReportItemUtil extends ChartItemUtil
 				exprCodec.getType( ) ) );
 	}
 	
-	public static void adaptExpressions( Chart cm, IModelAdapter adapter,
-			boolean bCube )
+	public static IScriptExpression adaptExpression( ExpressionCodec exprCodec,
+			IModelAdapter modelAdapter, boolean bCube )
 	{
-		new ExpressionAdaptHelper( adapter ).adapt( cm, bCube );
-	}
-
-	public static void adaptExpressions( Chart cm, IModelAdapter adapter )
-	{
-		new ExpressionAdaptHelper( adapter ).adapt( cm );
-	}
-
-	public static class ExpressionAdaptHelper
-	{
-
-		protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-				.createExpressionCodec( );
-
-		protected IModelAdapter adapter = null;
-
-		protected boolean bCube = false;
-
-		public ExpressionAdaptHelper( IModelAdapter adapter )
-		{
-			this.adapter = adapter;
-		}
-
-		public ExpressionAdaptHelper( )
-		{
-		}
-
-		public void setAdapter( IModelAdapter adapter )
-		{
-			this.adapter = adapter;
-		}
-
-		protected String adapt( String sExpr )
-		{
-			exprCodec.decode( sExpr );
-			Expression expr = new Expression( exprCodec.getExpression( ),
-					exprCodec.getType( ) );
-			ExpressionLocation el = bCube ? ExpressionLocation.CUBE
-					: ExpressionLocation.TABLE;
-			return adapter.adaptExpression( expr, el ).getText( );
-		}
-
-		private void adaptQuery( Query query )
-		{
-			if ( query == null )
-			{
-				return;
-			}
-			String expr = query.getDefinition( );
-			if ( expr != null && expr.trim( ).length( ) > 0 )
-			{
-				query.setDefinition( adapt( expr.trim( ) ) );
-			}
-		}
-
-		private void adaptTrigger( Trigger trigger )
-		{
-			adaptAction( trigger.getAction( ) );
-		}
-
-		private void adaptSeries( Series se )
-		{
-			for ( Query query : se.getDataDefinition( ) )
-			{
-				adaptQuery( query );
-			}
-
-			for ( Trigger trigger : se.getTriggers( ) )
-			{
-				adaptTrigger( trigger );
-			}
-		}
-
-		private void adaptSeriesDefinition( SeriesDefinition sd )
-		{
-			adaptQuery( sd.getQuery( ) );
-			adaptQuery( sd.getSortKey( ) );
-			adaptSeries( sd.getDesignTimeSeries( ) );
-		}
-
-		private void adaptAxis( Axis ax )
-		{
-			for ( SeriesDefinition sd : ax.getSeriesDefinitions( ) )
-			{
-				adaptSeriesDefinition( sd );
-			}
-		}
-
-		private void adaptChartWithAxes( ChartWithAxes cwa )
-		{
-			Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
-			adaptAxis( axPrimaryBase );
-
-			for ( Axis axOrthogonal : axPrimaryBase.getAssociatedAxes( ) )
-			{
-				adaptAxis( axOrthogonal );
-			}
-		}
-
-		private void daptChartWithoutAxes( ChartWithoutAxes cwoa )
-		{
-			if ( cwoa.getSeriesDefinitions( ).size( ) > 0 )
-			{
-				SeriesDefinition sdBase = cwoa.getSeriesDefinitions( ).get( 0 );
-				adaptSeriesDefinition( sdBase );
-
-				for ( SeriesDefinition sd : sdBase.getSeriesDefinitions( ) )
-				{
-					adaptSeriesDefinition( sd );
-				}
-			}
-		}
-
-		private void adaptEObj( EObject eObj, EAttribute eAttr )
-		{
-			Object value = eObj.eGet( eAttr );
-			if ( value instanceof String )
-			{
-				String sExpOld = (String) value;
-				String sExpNew = adapt( sExpOld );
-				if ( !sExpOld.equals( sExpNew ) )
-				{
-					eObj.eSet( eAttr, sExpNew );
-				}
-			}
-		}
-
-		protected void adaptAction( Action action )
-		{
-			if ( action == null )
-			{
-				return;
-			}
-
-			ActionValue av = action.getValue( );
-			if ( av instanceof TooltipValue )
-			{
-				adaptEObj( av, AttributePackage.Literals.TOOLTIP_VALUE__TEXT );
-			}
-			else if ( av instanceof ScriptValue )
-			{
-				adaptEObj( av, AttributePackage.Literals.SCRIPT_VALUE__SCRIPT );
-			}
-		}
-
-		public void adapt( IChartObject ico )
-		{
-			adapt( ico, false );
-		}
-
-		private void adaptLegend( Legend legend )
-		{
-			for ( Trigger trigger : legend.getTriggers( ) )
-			{
-				adaptTrigger( trigger );
-			}
-		}
-
-		public void adapt( IChartObject ico, boolean bCube )
-		{
-			if ( adapter == null )
-			{
-				return;
-			}
-			
-			this.bCube = bCube;
-
-			if ( ico instanceof Chart )
-			{
-				adaptLegend( ( (Chart) ico ).getLegend( ) );
-
-				if ( ico instanceof ChartWithAxes )
-				{
-					adaptChartWithAxes( (ChartWithAxes) ico );
-				}
-				else if ( ico instanceof ChartWithoutAxes )
-				{
-					daptChartWithoutAxes( (ChartWithoutAxes) ico );
-				}
-			}
-		}
-
-
-
+		return modelAdapter.adaptExpression( new Expression( exprCodec.getExpression( ),
+				exprCodec.getType( ) ),
+				bCube ? ExpressionLocation.CUBE : ExpressionLocation.TABLE );
 	}
 
 }

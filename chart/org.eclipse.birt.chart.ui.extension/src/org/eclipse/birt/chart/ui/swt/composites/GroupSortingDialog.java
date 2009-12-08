@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -28,26 +28,25 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -60,10 +59,7 @@ import org.eclipse.swt.widgets.Shell;
  * The dialog is responsible to set grouping and sort condition.
  */
 
-public class GroupSortingDialog extends TrayDialog
-		implements
-			Listener,
-			SelectionListener
+public class GroupSortingDialog extends TrayDialog implements Listener
 {
 
 	protected static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
@@ -80,15 +76,15 @@ public class GroupSortingDialog extends TrayDialog
 
 	protected Combo cmbSortExpr;
 
-	protected Button btnSortExprBuilder;
+	private IExpressionButton btnSortExprBuilder;
 
 	/** The field indicates if the aggregation composite should be enabled. */
 	protected boolean fEnableAggregation = true;
 
-	/** The field indicates if Expression builder button is enabled. */
-	private boolean fHasExprBuilder = true;
-
 	protected SeriesGroupingComposite fGroupingComposite;
+
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
 			SeriesDefinition sd )
@@ -99,14 +95,12 @@ public class GroupSortingDialog extends TrayDialog
 	}
 
 	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
-			SeriesDefinition sd, boolean disableAggregation,
-			boolean hasExprBuilder )
+			SeriesDefinition sd, boolean disableAggregation )
 	{
 		super( shell );
 		this.wizardContext = wizardContext;
 		this.sd = sd;
 		this.fEnableAggregation = disableAggregation;
-		this.fHasExprBuilder = hasExprBuilder;
 	}
 
 	/*
@@ -235,31 +229,42 @@ public class GroupSortingDialog extends TrayDialog
 
 			public void focusLost( FocusEvent e )
 			{
-				String sExpr = cmbSortExpr.getText( );
+				String sExpr = btnSortExprBuilder.getExpression( );
 				registerSortKey( sExpr );
 				getSeriesDefinitionForProcessing( ).getSortKey( )
 						.setDefinition( sExpr );
 			}
 		} );
 
-		if ( fHasExprBuilder )
+		try
 		{
-			btnSortExprBuilder = new Button( cmpSortArea, SWT.PUSH );
+			btnSortExprBuilder = (IExpressionButton) wizardContext.getUIServiceProvider( )
+					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
+							cmpSortArea,
+							cmbSortExpr,
+							wizardContext.getExtendedItem( ),
+							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
+							new Listener( ) {
+
+								public void handleEvent( Event event )
+								{
+									if ( event.data instanceof String[] )
+									{
+										handleBuilderAction( (String[]) event.data );
+									}
+
+								}
+							} );
+
+			Query query = getSeriesDefinitionForProcessing( ).getSortKey( );
+			if ( query != null )
 			{
-				GridData gdBTNBuilder = new GridData( );
-				gdBTNBuilder.heightHint = 20;
-				gdBTNBuilder.widthHint = 20;
-				btnSortExprBuilder.setLayoutData( gdBTNBuilder );
-				btnSortExprBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-				btnSortExprBuilder.addSelectionListener( this );
-				btnSortExprBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
-				btnSortExprBuilder.getImage( )
-						.setBackground( btnSortExprBuilder.getBackground( ) );
-				btnSortExprBuilder.setEnabled( wizardContext.getUIServiceProvider( )
-						.isInvokingSupported( ) );
-				btnSortExprBuilder.setVisible( wizardContext.getUIServiceProvider( )
-						.isEclipseModeSupported( ) );
+				btnSortExprBuilder.setExpression( query.getDefinition( ) );
 			}
+		}
+		catch ( ChartException e )
+		{
+			WizardBase.displayException( e );
 		}
 
 		if ( isInheritColumnsGroups( ) )
@@ -269,15 +274,37 @@ public class GroupSortingDialog extends TrayDialog
 
 	}
 
+	/**
+	 * Handle builder dialog action.
+	 */
+	protected void handleBuilderAction( String[] data )
+	{
+		if ( data.length != 2 )
+		{
+			return;
+		}
+		String newExpr = data[1];
+		getSeriesDefinitionForProcessing( ).getQuery( ).setDefinition( newExpr );
+	}
+
 	protected SeriesDefinition getSeriesDefinitionForProcessing( )
 	{
 		return sd;
 	}
 
 	/**
-	 * Populate sort direction list.
+	 * All combo lists
 	 */
 	protected void populateLists( )
+	{
+		populateSortList( );
+		populateSortKeyList( );
+	}
+
+	/**
+	 * Populate sort direction list.
+	 */
+	protected void populateSortList( )
 	{
 		// populate sorting combo
 		cmbSorting.add( UNSORTED_OPTION );
@@ -289,7 +316,7 @@ public class GroupSortingDialog extends TrayDialog
 		}
 
 		// Select value
-		if ( !getSeriesDefinitionForProcessing( ).eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
+		if ( !getSeriesDefinitionForProcessing( ).isSetSorting( ) )
 		{
 			cmbSorting.select( 0 );
 		}
@@ -301,6 +328,58 @@ public class GroupSortingDialog extends TrayDialog
 		}
 
 		diableSortKeySelectionStateBySortDirection( );
+
+	}
+
+	protected void populateSortKeyList( )
+	{
+		initSortKey( );
+		Set<String> exprSet = new LinkedHashSet<String>( );
+		String sortExpr = null;
+
+		if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
+		{
+			getSeriesDefinitionForProcessing( ).unsetSorting( );
+			exprSet.add( "" ); //$NON-NLS-1$
+		}
+		else
+		{
+			exprSet = getSortKeySet( );
+
+			sortExpr = this.getSeriesDefinitionForProcessing( )
+					.getSortKey( )
+					.getDefinition( );
+		}
+
+		updateSortKeySelectionState( );
+
+		if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
+		{
+			exprSet.add( sortExpr );
+		}
+
+		cmbSortExpr.removeAll( );
+
+		for ( String expr : exprSet )
+		{
+			exprCodec.decode( expr );
+			cmbSortExpr.add( exprCodec.getExpression( ) );
+			cmbSortExpr.setData( exprCodec.getExpression( ), expr );
+		}
+
+		if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
+		{
+			registerSortKey( sortExpr );
+		}
+		else
+		{
+			cmbSortExpr.select( 0 );
+			sortExpr = (String) cmbSortExpr.getData( cmbSortExpr.getText( ) );
+		}
+
+		btnSortExprBuilder.setExpression( sortExpr );
+
+		setSortKeyInModel( );
 	}
 
 	/*
@@ -312,69 +391,49 @@ public class GroupSortingDialog extends TrayDialog
 	{
 		if ( event.widget == cmbSorting )
 		{
-			diableSortKeySelectionStateBySortDirection( );
+			if ( event.type == SWT.Selection )
+			{
+				diableSortKeySelectionStateBySortDirection( );
 
-			if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
-			{
-				getSeriesDefinitionForProcessing( ).eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-				getSeriesDefinitionForProcessing( ).getSortKey( )
-						.setDefinition( null );
-			}
-			else
-			{
-				getSeriesDefinitionForProcessing( ).setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
+				if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
+				{
+					getSeriesDefinitionForProcessing( ).eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
+					getSeriesDefinitionForProcessing( ).getSortKey( )
+							.setDefinition( null );
+				}
+				else
+				{
+					getSeriesDefinitionForProcessing( ).setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
+				}
+
+				populateSortKeyList( );
 			}
 		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
-		;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.getSource( ).equals( btnSortExprBuilder ) )
+		else if ( event.widget == cmbSortExpr )
 		{
-			try
+			if ( event.type == SWT.Selection )
 			{
-				String sExpr = wizardContext.getUIServiceProvider( )
-						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-								cmbSortExpr.getText( ),
-								wizardContext.getExtendedItem( ),
-								"" ); //$NON-NLS-1$
-
-				registerSortKey( sExpr );
-				cmbSortExpr.setText( sExpr );
-
-				getSeriesDefinitionForProcessing( ).getSortKey( )
-						.setDefinition( sExpr );
-			}
-			catch ( ChartException e1 )
-			{
-				WizardBase.displayException( e1 );
+				selectSortKey( );
 			}
 		}
+
+	}
+
+	protected void selectSortKey( )
+	{
+		btnSortExprBuilder.setExpression( (String) cmbSortExpr.getData( cmbSortExpr.getText( ) ) );
 	}
 
 	private void registerSortKey( String sExpr )
 	{
+		exprCodec.decode( sExpr );
+		String exprText = exprCodec.getExpression( );
+
 		String items[] = cmbSortExpr.getItems( );
 		boolean contains = false;
 		for ( int i = 0; i < items.length; i++ )
 		{
-			if ( items[i].equals( sExpr ) )
+			if ( items[i].equals( exprText ) )
 			{
 				contains = true;
 				break;
@@ -382,7 +441,8 @@ public class GroupSortingDialog extends TrayDialog
 		}
 		if ( !contains )
 		{
-			cmbSortExpr.add( sExpr );
+			cmbSortExpr.add( exprText );
+			cmbSortExpr.setData( exprText, sExpr );
 		}
 	}
 
@@ -400,6 +460,11 @@ public class GroupSortingDialog extends TrayDialog
 		{
 			btnSortExprBuilder.setEnabled( enabled );
 		}
+	}
+
+	protected void updateSortKeySelectionState( )
+	{
+		setSortKeySelectionState( !UNSORTED_OPTION.equals( cmbSorting.getText( ) ) );
 	}
 
 	/**
@@ -513,20 +578,20 @@ public class GroupSortingDialog extends TrayDialog
 	 * @return
 	 * @since BIRT 2.3
 	 */
-	protected Set getBaseSeriesExpression( )
+	protected Set<String> getBaseSeriesExpression( )
 	{
-		Set exprList = new LinkedHashSet( );
+		Set<String> exprList = new LinkedHashSet<String>( );
 		Chart chart = wizardContext.getModel( );
 		if ( chart instanceof ChartWithAxes )
 		{
 			// Add the expression of base series.
 			final Axis axPrimaryBase = ( (ChartWithAxes) chart ).getPrimaryBaseAxes( )[0];
-			EList elSD = axPrimaryBase.getSeriesDefinitions( );
+			EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
 			if ( elSD != null && elSD.size( ) >= 1 )
 			{
-				SeriesDefinition baseSD = (SeriesDefinition) elSD.get( 0 );
+				SeriesDefinition baseSD = elSD.get( 0 );
 				final Series seBase = baseSD.getDesignTimeSeries( );
-				EList elBaseSeries = seBase.getDataDefinition( );
+				EList<Query> elBaseSeries = seBase.getDataDefinition( );
 				if ( elBaseSeries != null && elBaseSeries.size( ) >= 1 )
 				{
 					String baseSeriesExpression = ( (Query) elBaseSeries.get( 0 ) ).getDefinition( );
@@ -536,26 +601,17 @@ public class GroupSortingDialog extends TrayDialog
 		}
 		else
 		{
-			EList lstSDs = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( );
+			EList<SeriesDefinition> lstSDs = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( );
 			for ( int i = 0; i < lstSDs.size( ); i++ )
 			{
 				// Add base expression.
 				SeriesDefinition sd = (SeriesDefinition) lstSDs.get( i );
 				Series series = sd.getDesignTimeSeries( );
-				EList seriesList = series.getDataDefinition( );
-				if ( seriesList.size( ) > 0 )
+				for ( Query qSeries : series.getDataDefinition( ) )
 				{
-					for ( int j = 0; j < seriesList.size( ); j++ )
+					if ( qSeries != null && qSeries.getDefinition( ) != null )
 					{
-						Query qSeries = (Query) seriesList.get( j );
-						if ( qSeries == null ) // NPE PROTECTION
-						{
-							continue;
-						}
-						if ( qSeries.getDefinition( ) != null )
-						{
-							exprList.add( qSeries.getDefinition( ) );
-						}
+						exprList.add( qSeries.getDefinition( ) );
 					}
 				}
 			}
@@ -569,40 +625,32 @@ public class GroupSortingDialog extends TrayDialog
 	 * @return
 	 * @since BIRT 2.3
 	 */
-	protected Set getValueSeriesExpressions( )
+	protected Set<String> getValueSeriesExpressions( )
 	{
-		Set exprList = new LinkedHashSet( );
+		Set<String> exprList = new LinkedHashSet<String>( );
 		Chart chart = wizardContext.getModel( );
 		if ( chart instanceof ChartWithAxes )
 		{
-			final Axis axPrimaryBase = ( (ChartWithAxes) chart ).getPrimaryBaseAxes( )[0];
+			ChartWithAxes cwa = (ChartWithAxes) chart;
+			final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
 
 			// Add expressions of value series.
-			final Axis[] axaOrthogonal = ( (ChartWithAxes) chart ).getOrthogonalAxes( axPrimaryBase,
-					true );
-			for ( int j = 0; j < axaOrthogonal.length; j++ )
+			for ( Axis axOrthogonal : cwa.getOrthogonalAxes( axPrimaryBase,
+					true ) )
 			{
-				EList lstOrthogonalSDs = axaOrthogonal[j].getSeriesDefinitions( );
-				for ( int k = 0; k < lstOrthogonalSDs.size( ); k++ )
+				for ( SeriesDefinition orthoSD : axOrthogonal.getSeriesDefinitions( ) )
 				{
-					SeriesDefinition orthoSD = (SeriesDefinition) lstOrthogonalSDs.get( k );
-
 					Series seOrthogonal = orthoSD.getDesignTimeSeries( );
-					EList elOrthogonalSeries = seOrthogonal.getDataDefinition( );
-					if ( elOrthogonalSeries.size( ) > 0 )
+					for ( Query qOrthogonalSeries : seOrthogonal.getDataDefinition( ) )
 					{
-						for ( int i = 0; i < elOrthogonalSeries.size( ); i++ )
+						if ( qOrthogonalSeries == null ) // NPE
+						// PROTECTION
 						{
-							Query qOrthogonalSeries = (Query) elOrthogonalSeries.get( i );
-							if ( qOrthogonalSeries == null ) // NPE
-							// PROTECTION
-							{
-								continue;
-							}
-							if ( qOrthogonalSeries.getDefinition( ) != null )
-							{
-								exprList.add( qOrthogonalSeries.getDefinition( ) );
-							}
+							continue;
+						}
+						if ( qOrthogonalSeries.getDefinition( ) != null )
+						{
+							exprList.add( qOrthogonalSeries.getDefinition( ) );
 						}
 					}
 				}
@@ -610,32 +658,24 @@ public class GroupSortingDialog extends TrayDialog
 		}
 		else
 		{
-			EList lstSDs = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( );
-			for ( int i = 0; i < lstSDs.size( ); i++ )
+			ChartWithoutAxes cwoa = (ChartWithoutAxes) chart;
+
+			for ( SeriesDefinition sd : cwoa.getSeriesDefinitions( ) )
 			{
-				SeriesDefinition sd = (SeriesDefinition) lstSDs.get( i );
-
 				// Add value series expressions.
-				EList orthSDs = sd.getSeriesDefinitions( );
-				for ( Iterator iter = orthSDs.iterator( ); iter.hasNext( ); )
+				for ( SeriesDefinition orthSD : sd.getSeriesDefinitions( ) )
 				{
-
-					SeriesDefinition orthSD = (SeriesDefinition) iter.next( );;
 					Series orthSeries = orthSD.getDesignTimeSeries( );
-					EList orthSeriesList = orthSeries.getDataDefinition( );
-					if ( orthSeriesList.size( ) > 0 )
+
+					for ( Query qSeries : orthSeries.getDataDefinition( ) )
 					{
-						for ( int j = 0; j < orthSeriesList.size( ); j++ )
+						if ( qSeries == null ) // NPE PROTECTION
 						{
-							Query qSeries = (Query) orthSeriesList.get( j );
-							if ( qSeries == null ) // NPE PROTECTION
-							{
-								continue;
-							}
-							if ( qSeries.getDefinition( ) != null )
-							{
-								exprList.add( qSeries.getDefinition( ) );
-							}
+							continue;
+						}
+						if ( qSeries.getDefinition( ) != null )
+						{
+							exprList.add( qSeries.getDefinition( ) );
 						}
 					}
 				}
@@ -645,12 +685,17 @@ public class GroupSortingDialog extends TrayDialog
 		return exprList;
 	}
 
+	protected Set<String> getSortKeySet( )
+	{
+		return Collections.emptySet( );
+	}
+
 	/**
 	 * Set SortKey attribute by UI value.
 	 */
 	protected void setSortKeyInModel( )
 	{
-		String sortKey = cmbSortExpr.getText( );
+		String sortKey = btnSortExprBuilder.getExpression( );
 		if ( "".equals( sortKey ) ) //$NON-NLS-1$
 		{
 			sortKey = null;

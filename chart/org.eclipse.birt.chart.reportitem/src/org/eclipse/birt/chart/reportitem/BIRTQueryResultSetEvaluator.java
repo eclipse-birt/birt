@@ -50,7 +50,9 @@ public final class BIRTQueryResultSetEvaluator
 	{
 		try
 		{
-			return set.evaluate( expression );
+			exprCodec.decode( expression );
+			return set.evaluate( exprCodec.getType( ),
+					exprCodec.getExpression( ) );
 		}
 		catch ( BirtException e )
 		{

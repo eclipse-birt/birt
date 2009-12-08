@@ -124,7 +124,6 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		if ( handle.getDataSet( ) != null
 				|| ( handle.getCube( ) == null && parent instanceof IBaseQueryDefinition ) )
 		{
-			ChartReportItemUtil.adaptExpressions( cm, modelAdapter );
 			// If chart is sharing query or in multiple view, it means chart
 			// shares
 			// bindings/groupings/filters from referred report item handle,
@@ -162,7 +161,6 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		else if ( handle.getCube( ) != null
 				|| parent instanceof ICubeQueryDefinition )
 		{
-			ChartReportItemUtil.adaptExpressions( cm, modelAdapter, true );
 			// Fixed ED 28
 			// Here we just check multiple view, because chart doesn't need
 			// create query for sharing xtab case.

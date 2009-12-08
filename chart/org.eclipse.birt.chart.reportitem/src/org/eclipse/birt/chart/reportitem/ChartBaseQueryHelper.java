@@ -69,8 +69,6 @@ import org.eclipse.emf.common.util.EList;
  */
 public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 {
-	protected final IModelAdapter modelAdapter;
-
 	/**
 	 * Constructor of the class.
 	 * 
@@ -97,8 +95,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	public ChartBaseQueryHelper( ReportItemHandle handle, Chart cm,
 			IModelAdapter modelAdapter, boolean bCreateBindingForExpression )
 	{
-		super( handle, cm, bCreateBindingForExpression );
-		this.modelAdapter = modelAdapter;
+		super( handle, cm, bCreateBindingForExpression, modelAdapter );
 	}
 	
 	public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent ) throws ChartException

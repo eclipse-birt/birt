@@ -30,10 +30,12 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -48,6 +50,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.emf.common.util.EList;
@@ -75,17 +78,21 @@ public abstract class AbstractChartBaseQueryGenerator
 	 */
 	protected final boolean bCreateBindingForExpression;
 
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
+
+	protected final IModelAdapter modelAdapter;
+
 	/**
 	 * Constructor of the class.
 	 * 
 	 * @param chart
 	 * @param handle
 	 */
-	public AbstractChartBaseQueryGenerator( ReportItemHandle handle, Chart cm )
+	public AbstractChartBaseQueryGenerator( ReportItemHandle handle, Chart cm,
+			IModelAdapter modelAdapter )
 	{
-		fChartModel = cm;
-		fReportItemHandle = handle;
-		this.bCreateBindingForExpression = false;
+		this( handle, cm, false, modelAdapter );
 	}
 
 	/**
@@ -100,11 +107,12 @@ public abstract class AbstractChartBaseQueryGenerator
 	 *            always do not add the new binding.
 	 */
 	public AbstractChartBaseQueryGenerator( ReportItemHandle handle, Chart cm,
-			boolean bCreateBindingForExpression )
+			boolean bCreateBindingForExpression, IModelAdapter modelAdapter )
 	{
 		fChartModel = cm;
 		fReportItemHandle = handle;
 		this.bCreateBindingForExpression = bCreateBindingForExpression;
+		this.modelAdapter = modelAdapter;
 	}
 
 	/**
@@ -226,7 +234,10 @@ public abstract class AbstractChartBaseQueryGenerator
 						{
 							// Direct setting expression for simple expression
 							// case.
-							colBinding.setExpression( new ScriptExpression( expr ) );
+							exprCodec.decode( expr );
+							colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+									modelAdapter,
+									false ) );
 						}
 
 					}
@@ -342,14 +353,18 @@ public abstract class AbstractChartBaseQueryGenerator
 			String exprYGroup = orthSD.getQuery( ).getDefinition( );
 			try
 			{
-				if ( !ChartExpressionUtil.isRowBinding( exprCategory, false ) )
+				exprCodec.decode( exprCategory );
+				if ( !exprCodec.isRowBinding( false ) )
 				{
-					addExtraBinding( query, exprCategory );
+					addExtraBinding( query, exprCodec );
 				}
-				if ( !ChartExpressionUtil.isRowBinding( exprYGroup, false ) )
+
+				exprCodec.decode( exprYGroup );
+				if ( !exprCodec.isRowBinding( false ) )
 				{
-					addExtraBinding( query, exprYGroup );
+					addExtraBinding( query, exprCodec );
 				}
+
 				if ( query instanceof ISubqueryDefinition )
 				{
 					// If the binding expression is not in subquery, copy the
@@ -396,21 +411,23 @@ public abstract class AbstractChartBaseQueryGenerator
 	}
 
 	protected void addExtraBinding( BaseQueryDefinition query,
-			String exprCategory ) throws ChartException
+			ExpressionCodec exprCodec ) throws ChartException
 	{
-		if ( exprCategory == null || exprCategory.trim( ).length( ) == 0 )
+		String bindingName = exprCodec.getExpression( );
+		if ( bindingName == null || bindingName.trim( ).length( ) == 0 )
 		{
 			return;
 		}
 		try
 		{
-			String bindingName = ChartExpressionUtil.getFullBindingName( exprCategory );
 			if ( !query.getBindings( ).containsKey( bindingName ) )
 			{
 				IBinding colBinding = new Binding( bindingName );
 				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 				colBinding.setExportable( false );
-				colBinding.setExpression( new ScriptExpression( exprCategory ) );
+				colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+						modelAdapter,
+						false ) );
 				query.addBinding( colBinding );
 			}
 		}
@@ -431,7 +448,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	private void bindSortOnCategorySeries( BaseQueryDefinition query,
 			SeriesDefinition categorySD,
 			GroupDefinition categoryGroupDefinition,
-			Map<String, String[]> valueExprMap )
+			Map<String, String[]> valueExprMap ) throws ChartException
 	{
 		String baseSortExpr = getValidSortExpr( categorySD );
 		if ( !categorySD.isSetSorting( ) || baseSortExpr == null )
@@ -448,34 +465,96 @@ public abstract class AbstractChartBaseQueryGenerator
 
 		sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
 
+		String sortExpr = baseSortExpr;
+
 		if ( ChartReportItemUtil.isBaseGroupingDefined( categorySD ) )
 		{
+			categoryGroupDefinition.addSort( sd );
+
 			// If base series set group, add sort on group definition.
-			String baseExpr = ( categorySD.getDesignTimeSeries( )
-					.getDataDefinition( ).get( 0 ) ).getDefinition( );
+			String baseExpr = categorySD.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 )
+					.getDefinition( );
 			if ( baseExpr.equals( getValidSortExpr( categorySD ) ) )
 			{
-				sd.setExpression( baseExpr );
+				// sortExpr = baseExpr;
+				sd.setExpression( categoryGroupDefinition.getKeyExpression( ) );
+				return;
 			}
 			else
 			{
 				String[] nameNewExprArray = valueExprMap.get( baseSortExpr );
 				if ( nameNewExprArray != null && nameNewExprArray.length == 2 )
 				{
-					sd.setExpression( nameNewExprArray[1] );
+					sortExpr = nameNewExprArray[1];
+
+					exprCodec.decode( sortExpr );
+					sd.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+							modelAdapter,
+							false ) );
+					return;
 				}
 				else
 				{
-					sd.setExpression( baseSortExpr );
+					sortExpr = baseSortExpr;
+
+					exprCodec.decode( sortExpr );
+					String name = generateUniqueBindingName( exprCodec.getExpression( ) );
+					Binding binding = new Binding( name );
+					try
+					{
+						query.addBinding( binding );
+						binding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+								modelAdapter,
+								false ) );
+						binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+						binding.addAggregateOn( categoryGroupDefinition.getName( ) );
+						binding.setExportable( false );
+					}
+					catch ( DataException e )
+					{
+						throw new ChartException( ChartReportItemPlugin.ID,
+								ChartException.DATA_BINDING,
+								e );
+					}
+
+					String baseAggFunExpr = categorySD.getGrouping( )
+							.getAggregateExpression( );
+
+					binding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( baseAggFunExpr ) );
+
+					IAggregateFunction aFunc = PluginSettings.instance( )
+							.getAggregateFunction( baseAggFunExpr );
+
+					if ( aFunc.getParametersCount( ) > 0 )
+					{
+						String[] parameters = categorySD.getGrouping( )
+								.getAggregateParameters( )
+								.toArray( new String[1] );
+
+						for ( int i = 0; i < parameters.length
+								&& i < aFunc.getParametersCount( ); i++ )
+						{
+							String param = parameters[i];
+							binding.addArgument( new ScriptExpression( param ) );
+						}
+					}
+
+					sd.setExpression( ExpressionUtil.createRowExpression( binding.getBindingName( ) ) );
 				}
 			}
 
-			categoryGroupDefinition.addSort( sd );
 		}
 		else
 		{
-			sd.setExpression( baseSortExpr );
+			sortExpr = baseSortExpr;
 			query.addSort( sd );
+
+			exprCodec.decode( sortExpr );
+			sd.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+					modelAdapter,
+					false ) );
 		}
 	}
 
@@ -591,12 +670,15 @@ public abstract class AbstractChartBaseQueryGenerator
 			else
 			{
 				// Add additional sort on the grouping.
-				String name = generateUniqueBindingName( sortKey );
+				exprCodec.decode( sortKey );
+				String name = generateUniqueBindingName( exprCodec.getExpression( ) );
 				Binding binding = new Binding( name );
 				try
 				{
 					query.addBinding( binding );
-					binding.setExpression( new ScriptExpression( sortKey ) );
+					binding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+							modelAdapter,
+							false ) );
 					binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 					binding.addAggregateOn( yGroupingDefinition.getName( ) );
 					binding.setExportable( false );
@@ -685,11 +767,15 @@ public abstract class AbstractChartBaseQueryGenerator
 				groupIntervalRange = yGroupingInterval.getGroupingInterval( );
 			}
 
-			String name = generateUniqueBindingName( yGroupExpr );
+			exprCodec.decode( yGroupExpr );
+
+			String name = generateUniqueBindingName( exprCodec.getExpression( ) );
 
 			GroupDefinition yGroupDefinition = new GroupDefinition( name );
 
-			yGroupDefinition.setKeyExpression( yGroupExpr );
+			yGroupDefinition.setKeyExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+					modelAdapter,
+					false ) );
 
 			yGroupDefinition.setInterval( ChartReportItemUtil.convertToDtEGroupUnit( dataType,
 					groupUnit,
@@ -731,11 +817,15 @@ public abstract class AbstractChartBaseQueryGenerator
 					.get( 0 )
 					.getDefinition( );
 
-			String name = generateUniqueBindingName( baseExpr );
+			exprCodec.decode( baseExpr );
+
+			String name = generateUniqueBindingName( exprCodec.getExpression( ) );
 
 			GroupDefinition baseGroupDefinition = new GroupDefinition( name );
 
-			baseGroupDefinition.setKeyExpression( baseExpr );
+			baseGroupDefinition.setKeyExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+					modelAdapter,
+					false ) );
 			baseGroupDefinition.setInterval( ChartReportItemUtil.convertToDtEGroupUnit( dataType,
 					groupUnit,
 					groupIntervalRange ) );
@@ -888,9 +978,12 @@ public abstract class AbstractChartBaseQueryGenerator
 		IAggrFunction dteAggFunc = AggregationManager.getInstance( )
 				.getAggregation( ChartReportItemUtil.convertToDtEAggFunction( chartAggFunName ) );
 		IParameterDefn[] parameters = dteAggFunc.getParameterDefn( );
+		exprCodec.decode( expression );
 		if ( parameters != null && parameters.length > 0 )
 		{
-			binding.setExpression( new ScriptExpression( expression ) );
+			binding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+					modelAdapter,
+					false ) );
 		}
 	}
 }

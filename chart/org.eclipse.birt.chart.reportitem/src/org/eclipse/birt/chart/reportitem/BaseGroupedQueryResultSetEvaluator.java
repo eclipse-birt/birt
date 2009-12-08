@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
@@ -23,11 +24,11 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
-import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -66,6 +67,9 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 */
 	protected boolean fHasSummaryAggregation = false;
 
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
+
 	/**
 	 * Constructor.
 	 * 
@@ -94,6 +98,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			{
 				faGroupBreaks[i] = new ArrayList<Integer>( );
 			}
+
 
 			updateEnabledGroupIndexes( cm, fGroupDefinitions );
 		}
@@ -247,10 +252,12 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 */
 	public Object evaluate( String expression )
 	{
+
 		try
 		{
 			// Here, the expression should be binding name.
-			return fResultIterator.getValue( expression );
+			exprCodec.decode( expression );
+			return fResultIterator.getValue( exprCodec.getExpression( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -443,6 +450,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			Query q = sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 			String expr = q.getDefinition( );
 			int index = getGroupIndex( expr, groupDefinitions );
+
 			if ( index >= 0 )
 			{
 				faEnabledGroups[index] = true;
@@ -483,47 +491,37 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	private int getGroupIndex( String expr,
 			List<IGroupDefinition> groupDefinitions ) throws ChartException
 	{
-		try
+		if (expr==null)
 		{
-			// Check if the expression is grouping expression.
-			for ( int i = 0; i < groupDefinitions.size( ); i++ )
+			return -1;
+		}
+		
+		exprCodec.decode( expr );
+		Set<String> bindingNameSet = exprCodec.getRowBindingNameSet( );
+		
+		if (bindingNameSet.isEmpty( ))
+		{
+			return -1;
+		}
+		
+		// Check if the expression is grouping expression.
+		for ( int i = 0; i < groupDefinitions.size( ); i++ )
 
+		{
+			// First to check if the expression is a grouping expression.
+			IGroupDefinition gd = groupDefinitions.get( i );
+			String exprGroupKey = gd.getKeyExpression( );
+			Set<String> grpBindings = ChartExpressionUtil.getRowBindingNameSet( exprGroupKey );
+
+			for ( String grpBinding : grpBindings )
 			{
-				IGroupDefinition gd = groupDefinitions.get( i );
-				// First to check if the expression is a grouping expression.
-				if ( expr.contains( gd.getKeyExpression( ) ) )
+				if ( bindingNameSet.contains( grpBinding ) )
 				{
 					return i;
 				}
 			}
+		}
 			
-			// Check if the expression contains a grouping expression.
-			for ( int i = 0; i < groupDefinitions.size( ); i++ )
-			{
-				IGroupDefinition gd = groupDefinitions.get( i );
-				List<IColumnBinding> expressionList = ExpressionUtil.extractColumnExpressions( gd.getKeyExpression( ) );
-				if ( expressionList == null || expressionList.size( ) == 0 )
-				{
-					continue;
-				}
-
-				for ( IColumnBinding cb : expressionList )
-				{
-					String regex = ChartUtil.createRegularRowExpression( cb.getResultSetColumnName( ),
-							true );
-					if ( expr.matches( regex ) )
-					{
-						return i;
-					}
-				}
-			}
-		}
-		catch ( BirtException e )
-		{
-			throw new ChartException( ChartReportItemPlugin.ID,
-					ChartException.DATA_BINDING,
-					e );
-		}
 		return -1;
 	}
 }

@@ -30,12 +30,13 @@ import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.SecurityUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -142,6 +143,9 @@ public class ChartCubeQueryHelper
 	private static ICubeElementFactory cubeFactory = null;
 
 	protected final IModelAdapter modelAdapter;
+
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm )
 			throws BirtException
@@ -552,13 +556,14 @@ public class ChartCubeQueryHelper
 		String sortKey = sd.getSortKey( ).getDefinition( );
 		if ( sd.isSetSorting( ) && sortKey != null && sortKey.length( ) > 0 )
 		{
-			String sortKeyBinding = ChartExpressionUtil.getCubeBindingName( sd.getSortKey( )
-					.getDefinition( ),
-					true );
+			exprCodec.decode( sortKey );
+			String sortKeyBinding = exprCodec.getCubeBindingName( true );
 			if ( registeredLevels.containsKey( sortKeyBinding ) )
 			{
 				// Add sorting on dimension
-				ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( sortKey.trim( ),
+				ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( ChartReportItemUtil.adaptExpression( exprCodec,
+						modelAdapter,
+						true ),
 						registeredLevels.get( sortKeyBinding ),
 						null,
 						null,
@@ -569,13 +574,16 @@ public class ChartCubeQueryHelper
 			else if ( registeredMeasures.containsKey( sortKeyBinding ) )
 			{
 				// Add sorting on measures
+				IMeasureDefinition mDef = registeredMeasures.get( sortKeyBinding );
+
 				Query targetQuery = i > 0 ? sd.getQuery( )
 						: (Query) sd.getDesignTimeSeries( )
 								.getDataDefinition( )
 								.get( 0 );
-				IMeasureDefinition mDef = registeredMeasures.get( sortKeyBinding );
-				String targetBindingName = ChartExpressionUtil.getCubeBindingName( targetQuery.getDefinition( ),
-						true );
+				ExpressionCodec exprCodecTarget = ChartModelHelper.instance( )
+						.createExpressionCodec( );
+				exprCodecTarget.decode( targetQuery.getDefinition( ) );
+				String targetBindingName = exprCodecTarget.getCubeBindingName( true );
 
 				// Find measure binding
 				IBinding measureBinding = registeredBindings.get( sortKeyBinding );
@@ -705,27 +713,31 @@ public class ChartCubeQueryHelper
 		String expr = expression.trim( );
 		if ( expr != null && expr.length( ) > 0 )
 		{
+			exprCodec.decode( expression );
+
 			String bindingName = null;
 			IBinding colBinding = null;
-			if ( ChartExpressionUtil.isCubeBinding( expr, false ) )
+			if ( exprCodec.isCubeBinding( false ) )
 			{
 				// Simple binding name case
-				bindingName = ChartExpressionUtil.getCubeBindingName( expr,
-						false );
+				bindingName = exprCodec.getCubeBindingName( false );
 				colBinding = registeredBindings.get( bindingName );
 			}
 			else
 			{
 				// Complex expression case
-				bindingName = ChartUtil.escapeSpecialCharacters( expr );
+				// bindingName = ChartUtil.escapeSpecialCharacters( expr );
+				bindingName = exprCodec.getExpression( );
 
 				// Create new binding
 				colBinding = new Binding( bindingName );
 				colBinding.setDataType( DataType.ANY_TYPE );
-				colBinding.setExpression( new ScriptExpression( expr ) );
+				colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+						modelAdapter,
+						true ) );
 				cubeQuery.addBinding( colBinding );
 
-				List<String> nameList = ChartExpressionUtil.getCubeBindingNameList( expr );
+				List<String> nameList = exprCodec.getCubeBindingNameList( );
 				if ( nameList.size( ) == 0 )
 				{
 					// Constant case

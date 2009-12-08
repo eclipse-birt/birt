@@ -80,8 +80,7 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 		return new YOptionalGroupSortingDialog( cmpTop.getShell( ),
 				context,
 				sdBackup,
-				false,
-				true );
+				false );
 	}
 	
 	protected void handleGroupAction( )

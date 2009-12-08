@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -43,102 +40,28 @@ public class BaseGroupSortingDialog extends GroupSortingDialog
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog#handleEvent(org.eclipse.swt.widgets.Event)
-	 */
-	public void handleEvent( Event event )
+	@Override
+	protected Set<String> getSortKeySet( )
 	{
-		super.handleEvent( event );
-		
-		if ( event.widget == cmbSorting )
-		{
-			if ( !cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
-			{
-				if ( onlyCategoryExprAsCategorySortKey() )
-				{
-					// Select base series expression.
-					cmbSortExpr.setText( (String) getBaseSeriesExpression().toArray( )[0] );
-				}
-			}
-			
-			populateSortKeyList( );
-		}
-		else if ( event.widget == cmbSortExpr )
-		{
-			getSeriesDefinitionForProcessing( ).getSortKey( )
-					.setDefinition( cmbSortExpr.getText( ) );
-		}
-	}
+		Set<String> exprSet = new LinkedHashSet<String>( );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog#populateLists()
-	 */
-	protected void populateLists( )
-	{
-		super.populateLists( );
-		populateSortKeyList( );
-	}
-
-	/**
-	 * Populate SortKey list.
-	 */
-	private void populateSortKeyList( )
-	{
-		initSortKey( );
-		
-		Set exprList = new LinkedHashSet( );
-		String sortExpr = null;
-		
-		if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
+		if ( onlyCategoryExprAsCategorySortKey( ) )
 		{
-			getSeriesDefinitionForProcessing( ).eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-			exprList.add( "" ); //$NON-NLS-1$
+			exprSet.add( (String) getBaseSeriesExpression( ).toArray( )[0] );
 		}
 		else
 		{
-			exprList.addAll( getBaseSeriesExpression( ) );
-			if ( !onlyCategoryExprAsCategorySortKey( ) )
-			{
-				exprList.addAll( getValueSeriesExpressions( ) );
-			}
-
-			if ( !onlyCategoryExprAsCategorySortKey( ) )
-			{
-				sortExpr = this.getSeriesDefinitionForProcessing( )
-						.getSortKey( )
-						.getDefinition( );
-				setSortKeySelectionState( true );
-			}
-			else
-			{
-				setSortKeySelectionState( false );
-			}
+			exprSet.addAll( getBaseSeriesExpression( ) );
+			exprSet.addAll( getValueSeriesExpressions( ) );
 		}
 
-		if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
-		{
-			exprList.add( sortExpr );
-		}
-
-		cmbSortExpr.removeAll( );
-		for ( Iterator iter = exprList.iterator( ); iter.hasNext( ); )
-		{
-			cmbSortExpr.add( (String) iter.next( ) );
-		}
-
-		if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
-		{
-			cmbSortExpr.setText( sortExpr );
-		}
-		else
-		{
-			cmbSortExpr.select( 0 );
-		}
-		
-		setSortKeyInModel( );
+		return exprSet;
 	}
+
+	protected void updateSortKeySelectionState( )
+	{
+		setSortKeySelectionState( !UNSORTED_OPTION.equals( cmbSorting.getText( ) )
+				&& !onlyCategoryExprAsCategorySortKey( ) );
+	}
+
 }

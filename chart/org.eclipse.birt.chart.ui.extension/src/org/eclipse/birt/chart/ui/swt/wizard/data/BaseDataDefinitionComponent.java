@@ -281,6 +281,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						return;
 					}
 
+					btnBuilder.setExpression( text );
 					updateQuery( text );
 
 					// Set category/Y optional expression by value series
@@ -361,19 +362,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			}
 		}
 
-		// Listener for handling dropping of custom table header
-		Control dropControl = getInputControl( );
-		DropTarget target = new DropTarget( dropControl, DND.DROP_COPY );
-		Transfer[] types = new Transfer[]{
-			SimpleTextTransfer.getInstance( )
-		};
-		target.setTransfer( types );
-		// Add drop support
-		target.addDropListener( new DataTextDropListener( dropControl ) );
-		// Add color manager
-		DataDefinitionTextManager.getInstance( )
-				.addDataDefinitionText( dropControl, this );
-
 		try
 		{
 			btnBuilder = (IExpressionButton) context.getUIServiceProvider( )
@@ -402,6 +390,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			WizardBase.displayException( e );
 		}
+
+		// Listener for handling dropping of custom table header
+		Control dropControl = getInputControl( );
+		DropTarget target = new DropTarget( dropControl, DND.DROP_COPY );
+		Transfer[] types = new Transfer[]{
+			SimpleTextTransfer.getInstance( )
+		};
+		target.setTransfer( types );
+		// Add drop support
+		target.addDropListener( new DataTextDropListener( dropControl,
+				btnBuilder ) );
+		// Add color manager
+		DataDefinitionTextManager.getInstance( )
+				.addDataDefinitionText( dropControl, this );
 
 		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
 		{

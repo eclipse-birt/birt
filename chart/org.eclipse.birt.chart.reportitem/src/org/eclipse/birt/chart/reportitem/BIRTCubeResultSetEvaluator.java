@@ -24,8 +24,6 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
@@ -109,25 +107,26 @@ public class BIRTCubeResultSetEvaluator extends
 		Object result = null;
 		try
 		{
+			exprCodec.decode( expression );
 			if ( rs != null )
 			{
 				// If not binding name, evaluate it via report engine
-				result = rs.evaluate( expression );
+				result = rs.evaluate( exprCodec.getType( ),
+						exprCodec.getExpression( ) );
 			}
 			else
 			{
 				// DTE only supports evaluating data binding name, so chart
 				// engine must check if it's binding name.
 				final String bindingName;
-				if ( ChartExpressionUtil.isCubeBinding( expression, false ) )
+				if ( exprCodec.isCubeBinding( false ) )
 				{
-					bindingName = ChartExpressionUtil.getCubeBindingName( expression,
-							false );
+					bindingName = exprCodec.getCubeBindingName( false );
 				}
 				else
 				{
 					// Directly use the binding created in query definition
-					bindingName = ChartUtil.escapeSpecialCharacters( expression );
+					bindingName = exprCodec.getExpression( );
 				}
 				result = cubeCursor.getObject( bindingName );
 			}

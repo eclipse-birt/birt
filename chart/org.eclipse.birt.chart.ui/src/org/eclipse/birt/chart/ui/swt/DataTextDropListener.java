@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.dnd.DND;
@@ -25,12 +26,15 @@ import org.eclipse.swt.widgets.Text;
 public class DataTextDropListener extends DropTargetAdapter
 {
 
-	private Control txtDataDefn = null;
+	private final Control txtDataDefn;
+	private final IExpressionButton btnBuilder;
 
-	public DataTextDropListener( Control txtDataDefn )
+	public DataTextDropListener( Control txtDataDefn,
+			IExpressionButton btnBuilder )
 	{
 		super( );
 		this.txtDataDefn = txtDataDefn;
+		this.btnBuilder = btnBuilder;
 		assert txtDataDefn instanceof Text
 				|| txtDataDefn instanceof Combo
 				|| txtDataDefn instanceof CCombo;
@@ -93,7 +97,7 @@ public class DataTextDropListener extends DropTargetAdapter
 			return;
 		}
 
-		ChartUIUtil.setText( txtDataDefn, expression );
+		btnBuilder.setExpression( expression );
 
 		DataDefinitionTextManager.getInstance( ).updateQuery( txtDataDefn );
 

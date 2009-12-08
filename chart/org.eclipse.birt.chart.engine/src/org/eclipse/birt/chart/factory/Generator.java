@@ -1754,6 +1754,17 @@ public final class Generator implements IGenerator
 
 					
 						bAnyQueries = true;
+
+						String fullAggExpr = ChartUtil.getFullAggregateExpression( sd,
+								categorySD,
+								qOrthogonalSeries );
+
+						// Value series with aggregation will be handled separately.
+						if ( fullAggExpr != null )
+						{
+							continue;
+						}
+
 						if ( !alExpressions.contains( sExpression ) )
 						{
 							alExpressions.add( sExpression ); // APPEND AT END

@@ -12,6 +12,8 @@
 package org.eclipse.birt.chart.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -98,21 +100,10 @@ public class ChartExpressionUtil
 		return null;
 	}
 
-	/**
-	 * Gets the binding name list in complex expression like data["year"]+"
-	 * Q"+data["quarter"]
-	 * 
-	 * @param indicator
-	 *            indicator like row or data
-	 * @param expr
-	 *            expression
-	 * @return binding name list or empty list
-	 */
 	@SuppressWarnings("unchecked")
-	protected static List<String> getBindingNameList( String indicator,
-			String expr )
+	private static void fillBindingNameCollection( Collection<String> names,
+			String indicator, String expr )
 	{
-		List<String> names = new ArrayList<String>( );
 		try
 		{
 			List<IColumnBinding> bindings = ExpressionUtil.extractColumnExpressions( expr,
@@ -126,7 +117,23 @@ public class ChartExpressionUtil
 		{
 			logger.log( e );
 		}
+	}
 
+	/**
+	 * Gets the binding name list in complex expression like data["year"]+"
+	 * Q"+data["quarter"]
+	 * 
+	 * @param indicator
+	 *            indicator like row or data
+	 * @param expr
+	 *            expression
+	 * @return binding name list or empty list
+	 */
+	protected static List<String> getBindingNameList( String indicator,
+			String expr )
+	{
+		List<String> names = new ArrayList<String>( );
+		fillBindingNameCollection( names, indicator, expr );
 		return names;
 	}
 
@@ -195,6 +202,13 @@ public class ChartExpressionUtil
 	public static List<String> getCubeBindingNameList( String expr )
 	{
 		return getBindingNameList( ExpressionUtil.DATA_INDICATOR, expr );
+	}
+
+	public static Set<String> getRowBindingNameSet( String expr )
+	{
+		Set<String> names = new HashSet<String>( );
+		fillBindingNameCollection( names, ExpressionUtil.ROW_INDICATOR, expr );
+		return names;
 	}
 
 	/**
@@ -415,7 +429,7 @@ public class ChartExpressionUtil
 
 		public static final String JAVASCRIPT = "javascript"; //$NON-NLS-1$
 		protected String sType = JAVASCRIPT;
-		protected String sExpr = "";
+		protected String sExpr = ""; //$NON-NLS-1$
 
 		public String encode( )
 		{
@@ -446,6 +460,73 @@ public class ChartExpressionUtil
 		{
 			this.sExpr = sExpr;
 		}
+
+		public boolean isCubeBinding( boolean hasOperation )
+		{
+			return ChartExpressionUtil.isCubeBinding( sExpr, hasOperation );
+		}
+
+		public boolean isCubeBinding( String expr, boolean hasOperation )
+		{
+			decode( expr );
+			return isCubeBinding( hasOperation );
+		}
+
+		public String getCubeBindingName( boolean hasOperation )
+		{
+			return ChartExpressionUtil.getCubeBindingName( sExpr, hasOperation );
+		}
+
+		public String getCubeBindingName( String expr, boolean hasOperation )
+		{
+			decode( expr );
+			return getCubeBindingName( hasOperation );
+		}
+
+		public List<String> getCubeBindingNameList( )
+		{
+			return ChartExpressionUtil.getCubeBindingNameList( sExpr );
+		}
+
+		public List<String> getCubeBindingNameList( String expr )
+		{
+			decode( expr );
+			return getCubeBindingNameList( );
+		}
+
+		public boolean isRowBinding( boolean hasOperation )
+		{
+			return ChartExpressionUtil.isRowBinding( sExpr, hasOperation );
+		}
+
+		public boolean isRowBinding( String expr, boolean hasOperation )
+		{
+			decode( expr );
+			return isRowBinding( hasOperation );
+		}
+
+		public String getRowBindingName( boolean hasOperation )
+		{
+			return ChartExpressionUtil.getRowBindingName( sExpr, hasOperation );
+		}
+
+		public String getRowBindingName( String expr, boolean hasOperation )
+		{
+			decode( expr );
+			return getRowBindingName( hasOperation );
+		}
+
+		public Set<String> getRowBindingNameSet( )
+		{
+			return ChartExpressionUtil.getRowBindingNameSet( sExpr );
+		}
+
+		public Set<String> getRowBindingNameSet( String expr )
+		{
+			decode( expr );
+			return getRowBindingNameSet( );
+		}
+
 	}
 
 }

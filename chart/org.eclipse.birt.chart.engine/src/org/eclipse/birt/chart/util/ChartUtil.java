@@ -59,6 +59,8 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
@@ -819,7 +821,12 @@ public class ChartUtil
 			Query orthQuery, SeriesDefinition orthoSD,
 			SeriesDefinition categorySD ) throws ChartException
 	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
 		String returnExpr = orthQuery.getDefinition( );
+		exprCodec.decode( returnExpr );
+		returnExpr = exprCodec.getExpression( );
+
 		if ( ChartExpressionUtil.isCubeBinding( returnExpr, true ) )
 		{
 			if ( ChartExpressionUtil.isCubeBinding( returnExpr, false ) )
@@ -855,13 +862,18 @@ public class ChartUtil
 		String fullAggExpr = getFullAggregateExpression( orthoSD,
 				categorySD,
 				orthQuery );
+
 		if ( fullAggExpr == null )
 		{
 			return orthQuery.getDefinition( );
 		}
 		else
 		{
-			return ExpressionUtil.createRowExpression( escapeSpecialCharacters( ( orthQuery.getDefinition( )
+			ExpressionCodec exprCodec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+			exprCodec.decode( orthQuery.getDefinition( ) );
+			String expr = exprCodec.getExpression( );
+			return ExpressionUtil.createRowExpression( escapeSpecialCharacters( ( expr
 					+ "_" + fullAggExpr ) ) ); //$NON-NLS-1$
 		}
 	}
@@ -938,14 +950,14 @@ public class ChartUtil
 			SeriesGrouping grouping = orthSD.getGrouping( );
 			if ( grouping != null && grouping.isEnabled( ) )
 			{
-				if ( orthQuery != null && orthQuery.getGrouping( ) != null )
-				{
-					return orthQuery.getGrouping( )
-							.getAggregateParameters( )
-							.toArray( new String[0] );
-				}
 				// Set own group
 				return grouping.getAggregateParameters( )
+						.toArray( new String[0] );
+			}
+			else if ( orthQuery != null && orthQuery.getGrouping( ) != null )
+			{
+				return orthQuery.getGrouping( )
+						.getAggregateParameters( )
 						.toArray( new String[0] );
 			}
 

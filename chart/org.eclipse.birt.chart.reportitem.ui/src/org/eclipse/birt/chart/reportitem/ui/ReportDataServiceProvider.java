@@ -32,12 +32,12 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
@@ -45,7 +45,6 @@ import org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.SharedCubeResultSetEvaluator;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil.ExpressionAdaptHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
@@ -60,6 +59,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -168,8 +168,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private DummyEngineTask engineTask = null;
 	private CubeHandle cubeReference = null;
 	
-	protected ExpressionAdaptHelper expAdaptHelper = null;
-
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle ) throws ChartException
 	{
 		super( );
@@ -177,11 +175,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		project = UIUtil.getCurrentProject( );
 	}
 	
-	protected ExpressionAdaptHelper createExpressionAdaptHelper( )
-	{
-		return new ExpressionAdaptHelper( );
-	}
-
 	/**
 	 * Initializes some instance handles for query execution.
 	 * 
@@ -228,8 +221,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					e );
 		}
 		
-		expAdaptHelper = createExpressionAdaptHelper( );
-		expAdaptHelper.setAdapter( session.getModelAdaptor( ) );
 	}
 	
 	/**
@@ -1888,7 +1879,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Used query expressions have been wrapped as bindings, so do not
 			// wrap them again.
-			super( handle, chart, false );
+			super( handle, chart, false, session.getModelAdaptor( ) );
 		}
 
 		/**
@@ -1912,19 +1903,27 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			for ( int i = 0; i < columnExpression.size( ); i++ )
 			{
 				String expr = columnExpression.get( i );
-				Binding colBinding = new Binding( expr );
-				colBinding.setExpression( new ScriptExpression( expr ) );
-				try
+				exprCodec.decode( expr );
+				String name = exprCodec.getExpression( );
+				if ( !fNameSet.contains( name ) )
 				{
-					queryDefn.addBinding( colBinding );
+					Binding colBinding = new Binding( name );
+					colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+							modelAdapter,
+							false ) );
+
+					try
+					{
+						queryDefn.addBinding( colBinding );
+					}
+					catch ( DataException e )
+					{
+						throw new ChartException( ChartReportItemPlugin.ID,
+								ChartException.DATA_BINDING,
+								e );
+					}
+					fNameSet.add( name );
 				}
-				catch ( DataException e )
-				{
-					throw new ChartException( ChartReportItemPlugin.ID,
-							ChartException.DATA_BINDING,
-							e );
-				}
-				fNameSet.add( expr );
 			}
 
 			generateExtraBindings( queryDefn );
@@ -1977,9 +1976,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					}
 
 					// Get a unique name.
-					String name = ChartUtil.generateBindingNameOfValueSeries( qry,
+					String bindingName = ChartUtil.generateBindingNameOfValueSeries( qry,
 							orthSD,
 							baseSD );
+					String name = ExpressionUtil.createRowExpression( bindingName );
 					if ( fNameSet.contains( name ) )
 					{
 						query.getBindings( ).remove( name );
@@ -2045,7 +2045,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					else
 					{
 						// Direct setting expression for non-aggregation case.
-						colBinding.setExpression( new ScriptExpression( expr ) );
+						exprCodec.decode( expr );
+						colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+								modelAdapter,
+								false ) );
 					}
 
 					String newExpr = getExpressionForEvaluator( name );
@@ -2062,7 +2065,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					}
 
 					valueExprMap.put( expr, new String[]{
-							name, newExpr
+							expr, newExpr
 					} );
 				}
 			}
@@ -2181,6 +2184,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	class ShareBindingQueryHelper
 	{
+
+		protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+
 		/**
 		 * Set predefined expressions for UI selections.
 		 * 
@@ -2509,11 +2516,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				if ( expr.length( ) > 0 &&
 						!bindingExprsMap.containsKey( expr ) )
 				{
+					exprCodec.decode( expr );
 					String name = StructureFactory.newComputedColumn( itemHandle,
-							ChartUtil.escapeSpecialCharacters( expr ) )
+							ChartUtil.escapeSpecialCharacters( exprCodec.getExpression( ) ) )
 							.getName( );
 					queryDefn.addBinding( new Binding( name,
-							new ScriptExpression( expr ) ) );
+							ChartReportItemUtil.adaptExpression( exprCodec,
+									session.getModelAdaptor( ),
+									false ) ) );
 
 					bindingExprsMap.put( expr, name );
 				}
@@ -3312,10 +3322,4 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return new String[]{};
 	}
 
-	public void adaptExpressions( IChartObject cm )
-	{
-		boolean bCube = checkState( IDataServiceProvider.HAS_CUBE )
-				|| checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY );
-		expAdaptHelper.adapt( cm, bCube );
-	}
 }

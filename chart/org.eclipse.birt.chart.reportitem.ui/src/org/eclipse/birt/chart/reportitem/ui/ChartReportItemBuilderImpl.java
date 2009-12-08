@@ -53,9 +53,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
-import org.eclipse.birt.report.designer.internal.ui.script.JSExpressionSupport;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -65,6 +63,7 @@ import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -824,6 +823,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					false,
 					SWT.PUSH,
 					(ChartExpressionHelper) eHelper );
+			ExpressionButtonUtil.initExpressionButtonControl( control,
+					(Expression) null );
 		}
 
 		public ChartExpressionButton( ExpressionButton eb )
@@ -841,9 +842,16 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	
 		public void setExpression( String expr )
 		{
-			codec.decode( expr );
-			eHelper.setExpressionType( codec.getType( ) );
-			eHelper.setExpression( codec.getExpression( ) );
+			if ( expr != null && expr.length( ) > 0 )
+			{
+				codec.decode( expr );
+				eHelper.setExpression( codec.getExpression( ) );
+				eHelper.setExpressionType( codec.getType( ) );
+			}
+			else
+			{
+				eHelper.setExpression( codec.getExpression( ) );
+			}
 			eb.refresh( );
 		}
 

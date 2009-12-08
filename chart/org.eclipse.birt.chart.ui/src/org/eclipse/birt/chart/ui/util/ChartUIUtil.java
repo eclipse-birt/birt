@@ -575,9 +575,6 @@ public class ChartUIUtil
 			IDataServiceProvider dataProvider, IActionEvaluator iae )
 			throws ChartException
 	{
-		chart = chart.copyInstance( );
-		dataProvider.adaptExpressions( chart );
-
 		boolean isSharingQuery = dataProvider.checkState( IDataServiceProvider.SHARE_QUERY )
 				|| dataProvider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
 		// Here we will set isSharingQuery to false if it is sharing
