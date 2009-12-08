@@ -38,14 +38,19 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
+import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -53,6 +58,7 @@ import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
+import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
@@ -1900,5 +1906,50 @@ public class ChartUtil
 	{
 		IAdapterManager adapterManager = Platform.getAdapterManager( );
 		return type.cast( adapterManager.loadAdapter( adaptable, type.getName( ) ) );
+	}
+	
+	/**
+	 * Creates default format specifier according to series grouping
+	 * 
+	 * @param sg
+	 *            series grouping
+	 * @return default format or null
+	 */
+	public static FormatSpecifier createDefaultFormat( SeriesGrouping sg )
+	{
+		if ( sg == null )
+		{
+			return null;
+		}
+		FormatSpecifier fs = null;
+		if ( sg.getGroupType( ) == DataType.DATE_TIME_LITERAL )
+		{
+			switch ( sg.getGroupingUnit( ).getValue( ) )
+			{
+				case GroupingUnitType.YEARS :
+					fs = JavaDateFormatSpecifierImpl.create( "yyyy" ); //$NON-NLS-1$
+					break;
+				case GroupingUnitType.QUARTERS :
+				case GroupingUnitType.MONTHS :
+					fs = JavaDateFormatSpecifierImpl.create( "MMM yyyy" ); //$NON-NLS-1$
+					break;
+				case GroupingUnitType.WEEKS :
+				case GroupingUnitType.DAYS :
+					fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
+					( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.DATE_LITERAL );
+					( (DateFormatSpecifier) fs ).setType( DateFormatType.MEDIUM_LITERAL );
+					break;
+				case GroupingUnitType.HOURS :
+					fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
+					( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.DATE_TIME_LITERAL );
+					( (DateFormatSpecifier) fs ).setType( DateFormatType.MEDIUM_LITERAL );
+					break;
+				case GroupingUnitType.MINUTES :
+				case GroupingUnitType.SECONDS :
+					fs = JavaDateFormatSpecifierImpl.create( "HH:mm:ss" ); //$NON-NLS-1$
+					break;
+			}
+		}
+		return fs;
 	}
 }
