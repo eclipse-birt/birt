@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
@@ -43,6 +45,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -408,10 +411,41 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					ExceptionUtil.handle( e );
 				}
 			}
+			
+			ActionHandle handle = getActionHandle( );
+			if ( handle != null )
+			{
+				try
+				{
+					handle.setToolTip( null );
+					handle.setExpressionProperty( Action.URI_MEMBER, null );
+					handle.setTargetBookmark( null );
+					handle.setTargetBookmarkType( null );
+					handle.setTargetWindow( null );
+					handle.setTargetFileType( null );
+					handle.setReportName( null );
+					handle.setFormatType( null );
+					handle.getMember( Action.PARAM_BINDINGS_MEMBER )
+							.setValue( null );
+					input.setProperty( LevelHandle.ACTION_PROP, null );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+			
+
 		}
 
 		super.okPressed( );
 	}
+	
+	private ActionHandle getActionHandle( )
+	{
+		return DEUtil.getActionHandle( input );
+	}
+	
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -1357,7 +1391,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		staticLevelHelper = createLevelSecurityPart( properties );
 		staticMemberHelper = createMemberSecurityPart( properties );
-		createHyperLinkPart( properties );
 		
 		Group contents = new Group( container, SWT.NONE );
 		layout = new GridLayout( );
