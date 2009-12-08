@@ -2192,7 +2192,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return menuManager;
 	}
 
-	private Object getBaseSeriesMenu( Chart chart, String expr )
+	protected Object getBaseSeriesMenu( Chart chart, String expr )
 	{
 		EList<SeriesDefinition> sds = ChartUIUtil.getBaseSeriesDefinitions( chart );
 		if ( sds.size( ) == 1 )
@@ -2202,7 +2202,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return null;
 	}
 
-	private Object getGroupSeriesMenu( Chart chart, String expr )
+	protected Object getGroupSeriesMenu( Chart chart, String expr )
 	{
 		IMenuManager topManager = new MenuManager( getGroupSeriesTitle( getChartModel( ) ) );
 		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chart );
@@ -2231,7 +2231,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return topManager;
 	}
 
-	private Object getOrthogonalSeriesMenu( Chart chart, String expr )
+	protected Object getOrthogonalSeriesMenu( Chart chart, String expr )
 	{
 		IMenuManager topManager = new MenuManager( getOrthogonalSeriesTitle( getChartModel( ) ) );
 		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chart );

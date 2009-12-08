@@ -35,7 +35,7 @@ public class DefaultChartDataSheet implements IChartDataSheet
 
 	private List<Listener> listeners = new ArrayList<Listener>( 2 );
 	private Chart cm;
-	private ChartWizardContext context;
+	protected ChartWizardContext context;
 
 	public void addListener( Listener listener )
 	{
