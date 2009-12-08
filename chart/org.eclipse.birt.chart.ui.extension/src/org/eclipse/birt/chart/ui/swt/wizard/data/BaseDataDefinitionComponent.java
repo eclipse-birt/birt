@@ -1026,7 +1026,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		else
 		{
-			getInputControl( ).setBackground( null );
+			DataDefinitionTextManager.getInstance( )
+					.findText( query )
+					.setBackground( null );
 		}
 	}
 
