@@ -260,6 +260,7 @@ public class LocalizedNumberEditorComposite extends Composite
 		if ( sText == null || sText.trim( ).length( ) == 0 )
 		{
 			bValueIsSet = false;
+			dValue = 0d;
 		}
 		else
 		{

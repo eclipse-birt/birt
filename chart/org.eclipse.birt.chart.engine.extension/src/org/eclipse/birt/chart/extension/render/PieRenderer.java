@@ -340,9 +340,11 @@ public final class PieRenderer
 
 			}
 
+			String extSliceLabel = pie.getRunTimeContext( )
+					.externalizedMessage( cwoa.getMinSliceLabel( ) );
 			if ( dphPos != null )
 			{
-				dphPos.setBaseValue( cwoa.getMinSliceLabel( ) );
+				dphPos.setBaseValue( extSliceLabel );
 				dphPos.setIndex( orginalSliceCount );
 				// neg and pos "other" slice share the same palette color
 				pieSliceList.add( new PieSlice( residualPos,
@@ -352,7 +354,7 @@ public final class PieRenderer
 			}
 			if ( dphNeg != null )
 			{
-				dphNeg.setBaseValue( cwoa.getMinSliceLabel( ) );
+				dphNeg.setBaseValue( extSliceLabel );
 				dphNeg.setIndex( orginalSliceCount );
 				pieSliceList.add( new PieSlice( residualNeg,
 						dphNeg,
