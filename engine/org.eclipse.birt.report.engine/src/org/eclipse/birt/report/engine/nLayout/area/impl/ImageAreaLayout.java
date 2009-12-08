@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
@@ -205,6 +206,8 @@ class ConcreteImageLayout implements ILayout
 	protected ContainerArea root;
 
 	private Dimension intrinsic;
+	
+	private static int screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
 
 	private static final String BOOKMARK_PREFIX = "javascript:catchBookmark('";
 
@@ -234,7 +237,6 @@ class ConcreteImageLayout implements ILayout
 	 * get intrinsic dimension of image in pixels. Now only support png, bmp,
 	 * jpg, gif.
 	 * 
-	 * @param in
 	 * @return
 	 * @throws IOException
 	 * @throws MalformedURLException
@@ -248,11 +250,17 @@ class ConcreteImageLayout implements ILayout
 			// The DPI resolution of the image.
 			// the preference of the DPI setting is:
 			// 1. the resolution in image file.
-			// 2. the DPI in report designHandle.
-			// 3. use the DPI in render options.
-			// 4. the default DPI (96).
+			// 2. use the DPI in render options.
+			// 3. the DPI in report designHandle.
+			// 4. the JRE screen resolution.
+			// 5. the default DPI (96).
 			resolutionX = image.getDpiX( );
 			resolutionY = image.getDpiY( );
+			if ( 0 == resolutionX || 0 == resolutionY )
+			{
+				resolutionX = context.getDpi( );
+				resolutionY = context.getDpi( );
+			}
 			if ( 0 == resolutionX || 0 == resolutionY )
 			{
 				ReportDesignHandle designHandle = content.getReportContent( )
@@ -260,10 +268,14 @@ class ConcreteImageLayout implements ILayout
 				resolutionX = designHandle.getImageDPI( );
 				resolutionY = designHandle.getImageDPI( );
 			}
+			
 			if ( 0 == resolutionX || 0 == resolutionY )
 			{
-				resolutionX = context.getDpi( );
-				resolutionY = context.getDpi( );
+				if ( screenDpi >= 96 && screenDpi <= 120 )
+				{
+					resolutionX = screenDpi;
+					resolutionY = screenDpi;
+				}
 			}
 			if ( 0 == resolutionX || 0 == resolutionY )
 			{

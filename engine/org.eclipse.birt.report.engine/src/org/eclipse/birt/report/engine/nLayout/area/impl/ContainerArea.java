@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -783,17 +784,23 @@ public abstract class ContainerArea extends AbstractArea
 		return 0;
 	}
 	
+	private static int screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
 	
 	protected int getResolution( )
 	{
-		int resolution = 0;
-		ReportDesignHandle designHandle = content.getReportContent( )
-				.getDesign( ).getReportDesign( );
-		resolution = designHandle.getImageDPI( );
-
+		int resolution = context.getDpi( );
 		if ( 0 == resolution )
 		{
-			resolution = context.getDpi( );
+			ReportDesignHandle designHandle = content.getReportContent( )
+					.getDesign( ).getReportDesign( );
+			resolution = designHandle.getImageDPI( );
+		}
+		if ( 0 == resolution )
+		{
+			if ( screenDpi >= 96 && screenDpi <= 120 )
+			{
+				resolution = screenDpi;
+			}
 		}
 		if ( 0 == resolution )
 		{

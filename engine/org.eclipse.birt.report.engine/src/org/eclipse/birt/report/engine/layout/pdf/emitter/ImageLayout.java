@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -56,7 +57,8 @@ public class ImageLayout extends Layout
 	private int objectType = TYPE_IMAGE_OBJECT;
 	private boolean withFlashVars = false;
 
-	private static final HashMap<Integer, ArrayList<String>> unsupportedFormats = new HashMap<Integer, ArrayList<String>>( );
+	private static HashMap<Integer, ArrayList<String>> unsupportedFormats = new HashMap<Integer, ArrayList<String>>( );
+	
 	static
 	{
 		ArrayList<String> flashUnsupportedFormatList = new ArrayList<String>( );
@@ -189,6 +191,8 @@ class ConcreteImageLayout extends Layout
 	protected ContainerArea root;
 
 	private Dimension intrinsic;
+	
+	private static int screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
 
 	private static final String BOOKMARK_PREFIX = "javascript:catchBookmark('";
 	
@@ -212,7 +216,6 @@ class ConcreteImageLayout extends Layout
 	 * get intrinsic dimension of image in pixels. Now only support png, bmp,
 	 * jpg, gif.
 	 * 
-	 * @param in
 	 * @return
 	 * @throws IOException
 	 * @throws MalformedURLException
@@ -228,9 +231,10 @@ class ConcreteImageLayout extends Layout
 			// the preference of the DPI setting is:
 			// 1. the resolution restored in content.
 			// 2. the resolution in image file.
-			// 3. the DPI in report designHandle.
-			// 4. use the DPI in render options.
-			// 5. the default DPI (96).
+			// 3. use the DPI in render options.
+			// 4. the DPI in report designHandle.
+			// 5. the JRE screen resolution.
+			// 6. the default DPI (96).
 			int contentResolution = content.getResolution( );
 			if ( contentResolution != 0 )
 			{
@@ -244,6 +248,11 @@ class ConcreteImageLayout extends Layout
 				resolutionY = image.getDpiY( );
 				if ( 0 == resolutionX || 0 == resolutionY )
 				{
+					resolutionX = context.getDpi( );
+					resolutionY = context.getDpi( );
+				}
+				if ( 0 == resolutionX || 0 == resolutionY )
+				{
 					ReportDesignHandle designHandle = content
 							.getReportContent( ).getDesign( ).getReportDesign( );
 					resolutionX = designHandle.getImageDPI( );
@@ -251,8 +260,11 @@ class ConcreteImageLayout extends Layout
 				}
 				if ( 0 == resolutionX || 0 == resolutionY )
 				{
-					resolutionX = context.getDpi( );
-					resolutionY = context.getDpi( );
+					if ( screenDpi >= 96 && screenDpi <= 120 )
+					{
+						resolutionX = screenDpi;
+						resolutionY = screenDpi;
+					}
 				}
 				if ( 0 == resolutionX || 0 == resolutionY )
 				{
