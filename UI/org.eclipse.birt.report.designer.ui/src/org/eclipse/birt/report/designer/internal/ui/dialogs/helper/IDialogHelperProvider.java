@@ -25,4 +25,7 @@ public interface IDialogHelperProvider
 	 * @return
 	 */
 	IDialogHelper createHelper( Object container, String helperKey );
+
+	boolean canCreateHelper( String helperKey );
+
 }
