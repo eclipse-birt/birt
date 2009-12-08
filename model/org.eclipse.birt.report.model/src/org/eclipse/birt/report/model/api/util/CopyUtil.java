@@ -245,7 +245,10 @@ public class CopyUtil
 	public static boolean canPaste( IElementCopy copy,
 			DesignElementHandle container, int slotID )
 	{
-		if ( slotID >= container.getDefn( ).getSlotCount( ) )
+		int tmpIndex = container.getElement( ).getSlotIndex( slotID );
+		
+		// no such slot ID		
+		if ( tmpIndex == -1 )
 			return false;
 
 		return ContextCopyPastePolicy.getInstance( ).isValidCopy(
