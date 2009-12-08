@@ -13,7 +13,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.Attribute
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
-import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.LevelEditPart;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyColumnEditPart;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
@@ -81,25 +81,17 @@ public class AddJoinConditionCommand extends Command
 
 		DimensionJoinCondition joinCondition = StructureFactory.createDimensionJoinCondition( );
 		joinCondition.setCubeKey( target.getColumnName( ) );
-		if ( source instanceof LevelEditPart )
-			joinCondition.setHierarchyKey( ( (LevelEditPart) source ).getLevelColumnName( ) );
-		else if ( source instanceof AttributeEditPart )
-		{
-			joinCondition.setHierarchyKey( ( (AttributeEditPart) source ).getColumnName( ) );
-		}
+		if ( source instanceof HierarchyColumnEditPart )
+			joinCondition.setHierarchyKey( ( (HierarchyColumnEditPart) source ).getColumnName( ) );
+
 		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (HierarchyNodeEditPart) source.getParent( ) ).getModel( );
 
 		try
 		{
 			TabularCubeHandle cube = ( (DatasetNodeEditPart) target.getParent( ) ).getCube( );
-			DimensionJoinConditionHandle handle = getDimensionCondition( cube,
+			getDimensionCondition( cube,
 					hierarchy ).addJoinCondition( joinCondition );
-			if ( source instanceof AttributeEditPart )
-			{
-				LevelAttributeHandle levelAttribute = (LevelAttributeHandle) ( (AttributeEditPart) source ).getModel( );
-				LevelHandle level = (LevelHandle) levelAttribute.getElementHandle( );
-				handle.setLevel( level );
-			}
+
 		}
 		catch ( Exception e )
 		{

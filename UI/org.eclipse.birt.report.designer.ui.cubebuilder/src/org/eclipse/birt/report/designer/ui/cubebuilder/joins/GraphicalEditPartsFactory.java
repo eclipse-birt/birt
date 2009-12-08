@@ -17,14 +17,13 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.CubeEditP
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.JoinConditionEditPart;
-import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.LevelEditPart;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyColumnEditPart;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
@@ -47,7 +46,18 @@ public class GraphicalEditPartsFactory implements EditPartFactory
 
 		if ( model instanceof ResultSetColumnHandle )
 		{
-			return new ColumnEditPart( context, (ResultSetColumnHandle) model );
+			if ( context instanceof DatasetNodeEditPart )
+			{
+				return new ColumnEditPart( context,
+						(ResultSetColumnHandle) model );
+			}
+			else if ( context instanceof HierarchyNodeEditPart )
+			{
+				return new HierarchyColumnEditPart( context,
+						(ResultSetColumnHandle) model );
+			}
+			else
+				return null;
 		}
 
 		if ( model instanceof TabularCubeHandle )
@@ -66,18 +76,11 @@ public class GraphicalEditPartsFactory implements EditPartFactory
 					(DimensionJoinConditionHandle) model );
 		}
 
-		if ( model instanceof TabularLevelHandle )
+		if ( model instanceof LevelAttributeHandle )
 		{
-			return new LevelEditPart( context,
-					(TabularLevelHandle) model );
-		}
-		
-		if( model instanceof LevelAttributeHandle){
-			return new AttributeEditPart(context,
-					(LevelAttributeHandle) model);
+			return new AttributeEditPart( context, (LevelAttributeHandle) model );
 		}
 
 		return null;
 	}
-
 }

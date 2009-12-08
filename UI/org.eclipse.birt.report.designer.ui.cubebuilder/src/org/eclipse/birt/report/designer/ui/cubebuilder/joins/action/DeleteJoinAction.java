@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.action;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
@@ -56,15 +58,20 @@ public class DeleteJoinAction extends AbstractViewAction
 
 				Iterator conditionIter = condition.getJoinConditions( )
 						.iterator( );
+
+				List<DimensionJoinCondition> conditionList = new ArrayList<DimensionJoinCondition>( );
 				while ( conditionIter.hasNext( ) )
 				{
 					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
 					if ( joinCondition.equals( editPart.getModel( ) ) )
 					{
-						condition.removeJoinCondition( (DimensionJoinCondition) joinCondition.getStructure( ) );
+						conditionList.add( (DimensionJoinCondition) joinCondition.getStructure( ) );
 					}
 				}
-
+				for ( int i = 0; i < conditionList.size( ); i++ )
+				{
+					condition.removeJoinCondition( conditionList.get( i ) );
+				}
 			}
 			editPart.setFocus( false );
 			editPart.setSelected( 0 );
