@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.extension.aggregate;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
+import org.eclipse.birt.core.data.DataType;
 
 /**
  * @since BIRT 2.3
@@ -24,5 +25,11 @@ public class PercentRank extends AggregateFunctionAdapter
 	public int getType( )
 	{
 		return RUNNING_AGGR;
+	}
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.DOUBLE_TYPE;
 	}
 }

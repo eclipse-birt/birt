@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.extension.aggregate;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
+import org.eclipse.birt.core.data.DataType;
 
 
 /**
@@ -25,5 +26,11 @@ public class RunningCount extends AggregateFunctionAdapter
 	public int getType( )
 	{
 		return RUNNING_AGGR;
+	}
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.INTEGER_TYPE;
 	}
 }

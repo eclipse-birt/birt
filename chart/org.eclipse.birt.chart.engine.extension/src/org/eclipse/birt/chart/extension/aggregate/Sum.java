@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.core.data.DataType;
 
 /**
  *  
@@ -97,6 +98,12 @@ public class Sum extends AggregateFunctionAdapter
 			default :
 				return oSum;
 		}
+	}
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.DOUBLE_TYPE;
 	}
 
 }

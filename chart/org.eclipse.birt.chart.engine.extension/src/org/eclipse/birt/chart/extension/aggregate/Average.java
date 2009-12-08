@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.core.data.DataType;
 
 /**
  *  
@@ -116,6 +117,12 @@ public class Average extends AggregateFunctionAdapter
 			default :
 				return null; // THIS CONDITION SHOULD NEVER ARISE
 		}
+	}
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.DOUBLE_TYPE;
 	}
 
 }

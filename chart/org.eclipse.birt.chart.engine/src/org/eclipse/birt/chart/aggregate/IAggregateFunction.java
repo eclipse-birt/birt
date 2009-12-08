@@ -80,4 +80,12 @@ public interface IAggregateFunction
 	 * @since BIRT 2.3
 	 */
 	public int getType( );
+
+	/**
+	 * Returns the aggregation data type defined by BIRT.
+	 * 
+	 * @since BIRT 2.5.2
+	 * @return The aggregation data type defined by BIRT.
+	 */
+	public int getBIRTDataType( );
 }

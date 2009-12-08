@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.extension.aggregate;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.chart.engine.extension.i18n.Messages;
+import org.eclipse.birt.core.data.DataType;
 
 /**
  * @since BIRT 2.3
@@ -33,5 +34,11 @@ public class WeightedAverage extends AggregateFunctionAdapter
 	public int getParametersCount( )
 	{
 		return 1;
+	}
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.DOUBLE_TYPE;
 	}
 }

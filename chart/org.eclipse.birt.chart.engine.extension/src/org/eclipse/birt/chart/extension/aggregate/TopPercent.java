@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.extension.aggregate;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.chart.engine.extension.i18n.Messages;
+import org.eclipse.birt.core.data.DataType;
 
 
 /**
@@ -42,5 +43,11 @@ public class TopPercent extends AggregateFunctionAdapter
 	public int getType( )
 	{
 		return RUNNING_AGGR;
+	}
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.BOOLEAN_TYPE;
 	}
 }

@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.extension.aggregate;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
+import org.eclipse.birt.core.data.DataType;
 
 
 /**
@@ -19,4 +20,10 @@ import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
  */
 public class Variance extends AggregateFunctionAdapter
 {
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.DOUBLE_TYPE;
+	}
 }

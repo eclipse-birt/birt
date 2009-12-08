@@ -16,6 +16,7 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.core.data.DataType;
 
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
@@ -197,5 +198,10 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	public int getType( )
 	{
 		return SUMMARY_AGGR;
+	}
+
+	public int getBIRTDataType( )
+	{
+		return DataType.UNKNOWN_TYPE;
 	}
 }

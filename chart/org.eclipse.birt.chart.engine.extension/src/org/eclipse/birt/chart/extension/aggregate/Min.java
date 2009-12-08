@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.extension.aggregate;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
+import org.eclipse.birt.core.data.DataType;
 
 /**
  * 
@@ -43,6 +44,12 @@ public class Min extends AggregateFunctionAdapter
 	public void initialize( )
 	{
 		min = null;
+	}
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.ANY_TYPE;
 	}
 }
 

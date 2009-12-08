@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
+import org.eclipse.birt.core.data.DataType;
 
 /**
  * 
@@ -37,6 +38,12 @@ public class DistinctCount extends AggregateFunctionAdapter
 	public void initialize( )
 	{
 		uniqueValues = new HashSet<Object>( );
+	}
+
+	@Override
+	public int getBIRTDataType( )
+	{
+		return DataType.INTEGER_TYPE;
 	}
 
 }
