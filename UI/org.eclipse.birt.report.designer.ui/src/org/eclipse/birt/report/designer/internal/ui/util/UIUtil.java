@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.Bidi;
@@ -29,6 +30,11 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageInputStream;
 
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -169,6 +175,8 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ILayoutExtension;
 import org.osgi.framework.Bundle;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.ibm.icu.text.Collator;
 
@@ -1670,12 +1678,12 @@ public class UIUtil
 		if ( input == null )
 		{
 			IEditorPart part = getActiveEditor( true );
-			if (part instanceof IReportEditor)
+			if ( part instanceof IReportEditor )
 			{
 				input = part;
 			}
 		}
-		
+
 		if ( input == null )
 			return null;
 		Object adapter = input.getAdapter( ModelEventManager.class );
@@ -2647,18 +2655,95 @@ public class UIUtil
 		}
 		return embeddedBrowserAvailable;
 	}
-	
-	/**Add the createby property to the mudule handle 
+
+	/**
+	 * Add the createby property to the mudule handle
+	 * 
 	 * @param handles
 	 */
-	public static void addCreateBy(ModuleHandle handle)
+	public static void addCreateBy( ModuleHandle handle )
 	{
 		String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 		String designerVersion = MessageFormat.format( VERSION_MESSAGE,
 				new String[]{
-						ReportPlugin.getVersion( ),
-						ReportPlugin.getBuildInfo( )
+						ReportPlugin.getVersion( ), ReportPlugin.getBuildInfo( )
 				} );
 		handle.setCreatedBy( designerVersion );
+	}
+
+	/**
+	 * Returns the DPI info of current display environment.
+	 * 
+	 * @return the DPI values in format of {hdpi, vdpi}.
+	 */
+	public static int[] getScreenResolution( )
+	{
+		int[] dpi = {
+				0, 0
+		};
+
+		Display current = Display.getCurrent( );
+
+		if ( current != null )
+		{
+			Point p = current.getDPI( );
+
+			dpi[0] = p.x;
+			dpi[1] = p.y;
+		}
+
+		return dpi;
+	}
+
+	/**
+	 * Returns the DPI info of given image if applicable.
+	 * 
+	 * @param imageStream
+	 * @return the DPI values in format of {hdpi, vdpi}.
+	 */
+	public static int[] getImageResolution( InputStream imageStream )
+	{
+		int[] dpi = {
+				0, 0
+		};
+
+		if ( imageStream != null )
+		{
+			try
+			{
+				ImageInputStream iis = ImageIO.createImageInputStream( imageStream );
+				Iterator<ImageReader> i = ImageIO.getImageReaders( iis );
+				ImageReader r = i.next( );
+				r.setInput( iis );
+				r.read( 0 );
+
+				IIOMetadata meta = r.getImageMetadata( 0 );
+
+				if ( meta != null )
+				{
+					double mm2inch = 25.4;
+
+					NodeList lst;
+					Element node = (Element) meta.getAsTree( "javax_imageio_1.0" ); //$NON-NLS-1$
+					lst = node.getElementsByTagName( "HorizontalPixelSize" ); //$NON-NLS-1$
+					if ( lst != null && lst.getLength( ) == 1 )
+					{
+						dpi[0] = (int) ( mm2inch / Float.parseFloat( ( (Element) lst.item( 0 ) ).getAttribute( "value" ) ) ); //$NON-NLS-1$
+					}
+
+					lst = node.getElementsByTagName( "VerticalPixelSize" ); //$NON-NLS-1$
+					if ( lst != null && lst.getLength( ) == 1 )
+					{
+						dpi[1] = (int) ( mm2inch / Float.parseFloat( ( (Element) lst.item( 0 ) ).getAttribute( "value" ) ) ); //$NON-NLS-1$
+					}
+				}
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace( );
+			}
+		}
+
+		return dpi;
 	}
 }
