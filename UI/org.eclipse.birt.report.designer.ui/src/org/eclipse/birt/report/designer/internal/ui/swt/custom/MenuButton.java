@@ -398,7 +398,7 @@ public class MenuButton extends Composite
 						0,
 						imageTemp.getImageData( ).width,
 						imageTemp.getImageData( ).height,
-						size.width - left,
+						( size.width - left ) / 2 + MARGIN_GAP,
 						Math.round( ( (float) ( size.height - imageHeight ) / 2 ) ),
 						imageWidth,
 						imageHeight );
