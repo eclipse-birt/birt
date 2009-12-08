@@ -114,6 +114,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 						ChartException.ALL_NULL_DATASET,
 						"exception.null.values", //$NON-NLS-1$
 						Messages.getResourceBundle( getULocale( ) ) ) );
+				return null;
 			}
 			return new Double( dMax );
 		}
@@ -213,6 +214,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 						ChartException.ALL_NULL_DATASET,
 						"exception.null.values", //$NON-NLS-1$
 						Messages.getResourceBundle( getULocale( ) ) ) );
+				return null;
 			}
 			return new Double( dMin );
 		}
