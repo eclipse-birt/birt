@@ -354,22 +354,22 @@ CascadingParametersDialog.Label.param.name=名称(&N):
 CascadingParametersDialog.Label.parameters=参数
 CascadingParametersDialog.Label.preview=带格式预览
 CascadingParametersDialog.Label.groupPromptText=提示文本(&P):
-CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
+CascadingParametersDialog.Label.parameterPromptText=提示文本(&X):
 CascadingParametersDialog.Label.selectDataSet=<选择数据集>
 CascadingParametersDialog.Label.selectDisplayColumn=<未设置显示列>
 CascadingParametersDialog.Label.selectValueColumn=<未设置值列>
 CascadingParametersDialog.Label.values=值
-CascadingParametersDialog.Radio.Single=Si&ngle Data Set
+CascadingParametersDialog.Radio.Single=单个数据集(&N)
 CascadingParametersDialog.Radio.Mutli=多个数据集(&U)
 CascadingParametersDialog.Choice.NullValue=空值
 CascadingParametersDialog.Choice.BlankValue=空白值
 CascadingParametersDialog.Choice.SelectValue=<选择值...>
 CascadingParametersDialog.Button.Add=添加(&A)
-CascadingParametersDialog.Button.Edit=Ed&it
+CascadingParametersDialog.Button.Edit=编辑(&I)
 CascadingParametersDialog.Button.Delete=删除(&T)
-CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
-CascadingParametersDialog.DefalutValue.Add=A&dd
-CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
+CascadingParametersDialog.Button.IsMultiple=允许多个值(&W)
+CascadingParametersDialog.DefalutValue.Add=添加(&D)
+CascadingParametersDialog.ExpressionEditor.Title=编辑表达式
 CascadingParametersDialog.Title.AddCascadingParameter=添加级联参数组
 CascadingParametersDialog.Title.EditCascadingParameter=编辑级联参数组
 CascadingParametersDialog.items.None=<无>
@@ -2471,16 +2471,16 @@ SortkeyBuilder.DialogTitle.Label.Prompt=输入用作排序依据的关键字:
 SortkeyBuilder.DialogTitle.Label.Key=关键字(&K):
 SortkeyBuilder.DialogTitle.Label.Direction=方向(&D):
 SortkeyBuilder.Label.Locale=区域设置(&L):
-SortkeyBuilder.Label.Strength=&Strength:
+SortkeyBuilder.Label.Strength=强度(&S):
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=打开表达式生成器
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 SortkeyBuilder.Locale.Auto=自动
 SortkeyBuilder.Strength.ASCII=ASCII
-SortkeyBuilder.Strength.PRIMARY=Primary
-SortkeyBuilder.Strength.SECONDARY=Secondary
-SortkeyBuilder.Strength.TERTIARY=Tertiary
-SortkeyBuilder.Strength.QUATERNARY=Quaternary
-SortkeyBuilder.Strength.IDENTICAL=Identical
+SortkeyBuilder.Strength.PRIMARY=第一
+SortkeyBuilder.Strength.SECONDARY=第二
+SortkeyBuilder.Strength.TERTIARY=第三
+SortkeyBuilder.Strength.QUATERNARY=第四
+SortkeyBuilder.Strength.IDENTICAL=相同
 
 ###########################################################
 #FilterConditionBuilder dialog properties
@@ -2856,7 +2856,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=没有可用的列。
 ParameterDialog.ErrorMessage.ValueColumnEmpty=应指定值列。
 ParameterDialog.ErrorMessage.NoDefaultValue=必须设置默认值。
 ParameterDialog.ErrorTitle.InvalidListLimit=无效列表限制
-ParameterDialog.ExpressionEditor.Title=Edit Expression
+ParameterDialog.ExpressionEditor.Title=编辑表达式
 ParameterDialog.Flag.Default=默认
 ParameterDialog.Group.MoreOption=显示为
 ParameterDialog.Group.Properties=属性
@@ -4691,7 +4691,7 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法:
 
 ###########################################################
 #ExpressionEditor
-ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Error.EmptyExpression=表达式不能为空。
 ExpressionEditor.Label.Expression=表达式:
 
 ###########################################################

@@ -354,22 +354,22 @@ CascadingParametersDialog.Label.param.name=&Nom :
 CascadingParametersDialog.Label.parameters=Paramètres
 CascadingParametersDialog.Label.preview=Aperçu au format
 CascadingParametersDialog.Label.groupPromptText=&Texte de l'invite :
-CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
+CascadingParametersDialog.Label.parameterPromptText=Te&xte de l'invite :
 CascadingParametersDialog.Label.selectDataSet=<Sélectionnez un jeu de données>
 CascadingParametersDialog.Label.selectDisplayColumn=<Colonne à afficher non définie>
 CascadingParametersDialog.Label.selectValueColumn=<Colonne de valeur non définie>
 CascadingParametersDialog.Label.values=valeurs
-CascadingParametersDialog.Radio.Single=Si&ngle Data Set
+CascadingParametersDialog.Radio.Single=Jeu de données u&nique
 CascadingParametersDialog.Radio.Mutli=Jeu de données m&ultiple
 CascadingParametersDialog.Choice.NullValue=Valeur nulle
 CascadingParametersDialog.Choice.BlankValue=Valeur vierge
 CascadingParametersDialog.Choice.SelectValue=<Sélectionner une valeur...>
 CascadingParametersDialog.Button.Add=&Ajouter
-CascadingParametersDialog.Button.Edit=Ed&it
+CascadingParametersDialog.Button.Edit=Mod&ifier
 CascadingParametersDialog.Button.Delete=Suppri&mer
-CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
-CascadingParametersDialog.DefalutValue.Add=A&dd
-CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
+CascadingParametersDialog.Button.IsMultiple=Auto&riser les valeurs multiples
+CascadingParametersDialog.DefalutValue.Add=&Ajouter
+CascadingParametersDialog.ExpressionEditor.Title=Modifier l'expression
 CascadingParametersDialog.Title.AddCascadingParameter=Ajouter groupe de paramètres en cascade
 CascadingParametersDialog.Title.EditCascadingParameter=Modifier groupe de paramètres en cascade
 CascadingParametersDialog.items.None=<Aucun>
@@ -2471,16 +2471,16 @@ SortkeyBuilder.DialogTitle.Label.Prompt=Entrez une clé pour le tri :
 SortkeyBuilder.DialogTitle.Label.Key=&Clé :
 SortkeyBuilder.DialogTitle.Label.Direction=&Direction :
 SortkeyBuilder.Label.Locale=&Local :
-SortkeyBuilder.Label.Strength=&Strength:
+SortkeyBuilder.Label.Strength=&Intensité :
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Ouvrir le Générateur d'expression
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
 SortkeyBuilder.Locale.Auto=Auto
 SortkeyBuilder.Strength.ASCII=ASCII
-SortkeyBuilder.Strength.PRIMARY=Primary
-SortkeyBuilder.Strength.SECONDARY=Secondary
-SortkeyBuilder.Strength.TERTIARY=Tertiary
-SortkeyBuilder.Strength.QUATERNARY=Quaternary
-SortkeyBuilder.Strength.IDENTICAL=Identical
+SortkeyBuilder.Strength.PRIMARY=Primaire
+SortkeyBuilder.Strength.SECONDARY=Secondaire
+SortkeyBuilder.Strength.TERTIARY=Tertiaire
+SortkeyBuilder.Strength.QUATERNARY=Quaternaire
+SortkeyBuilder.Strength.IDENTICAL=Identique
 
 ###########################################################
 #FilterConditionBuilder dialog properties
@@ -2856,7 +2856,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=Aucune colonne n'est disponible.
 ParameterDialog.ErrorMessage.ValueColumnEmpty=La colonne de valeurs doit être spécifiée.
 ParameterDialog.ErrorMessage.NoDefaultValue=Vous devez définir une valeur par défaut.
 ParameterDialog.ErrorTitle.InvalidListLimit=Limite de liste incorrecte
-ParameterDialog.ExpressionEditor.Title=Edit Expression
+ParameterDialog.ExpressionEditor.Title=Modifier l'expression
 ParameterDialog.Flag.Default=Par défaut
 ParameterDialog.Group.MoreOption=Afficher sous
 ParameterDialog.Group.Properties=Propriétés
@@ -4691,7 +4691,7 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par défaut :
 
 ###########################################################
 #ExpressionEditor
-ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Error.EmptyExpression=L'expression doit être renseignée.
 ExpressionEditor.Label.Expression=Expression :
 
 ###########################################################

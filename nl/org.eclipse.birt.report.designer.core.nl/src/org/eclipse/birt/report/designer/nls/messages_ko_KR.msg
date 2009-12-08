@@ -354,22 +354,22 @@ CascadingParametersDialog.Label.param.name=이름(&N):
 CascadingParametersDialog.Label.parameters=매개 변수
 CascadingParametersDialog.Label.preview=미리보기 형식
 CascadingParametersDialog.Label.groupPromptText=프롬프트 텍스트(&P):
-CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
+CascadingParametersDialog.Label.parameterPromptText=프롬프트 텍스트(&X):
 CascadingParametersDialog.Label.selectDataSet=<데이터 집합 선택>
 CascadingParametersDialog.Label.selectDisplayColumn=<표시 열이 설정되지 않음>
 CascadingParametersDialog.Label.selectValueColumn=<값 열이 설정되지 않음>
 CascadingParametersDialog.Label.values=값
-CascadingParametersDialog.Radio.Single=Si&ngle Data Set
+CascadingParametersDialog.Radio.Single=단일 데이터 집합(&N)
 CascadingParametersDialog.Radio.Mutli=다중 데이터 집합(&U)
 CascadingParametersDialog.Choice.NullValue=널(null) 값
 CascadingParametersDialog.Choice.BlankValue=빈 값
 CascadingParametersDialog.Choice.SelectValue=<값 선택...>
 CascadingParametersDialog.Button.Add=추가(&A)
-CascadingParametersDialog.Button.Edit=Ed&it
+CascadingParametersDialog.Button.Edit=편집(&I)
 CascadingParametersDialog.Button.Delete=삭제(&T)
-CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
-CascadingParametersDialog.DefalutValue.Add=A&dd
-CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
+CascadingParametersDialog.Button.IsMultiple=여러 값 허용(&W)
+CascadingParametersDialog.DefalutValue.Add=추가(&D)
+CascadingParametersDialog.ExpressionEditor.Title=식 편집
 CascadingParametersDialog.Title.AddCascadingParameter=계단식 매개 변수 그룹 추가
 CascadingParametersDialog.Title.EditCascadingParameter=계단식 매개 변수 그룹 편집
 CascadingParametersDialog.items.None=<없음>
@@ -2471,16 +2471,16 @@ SortkeyBuilder.DialogTitle.Label.Prompt=정렬할 키 입력:
 SortkeyBuilder.DialogTitle.Label.Key=키(&K):
 SortkeyBuilder.DialogTitle.Label.Direction=방향(&D):
 SortkeyBuilder.Label.Locale=로케일(&L):
-SortkeyBuilder.Label.Strength=&Strength:
+SortkeyBuilder.Label.Strength=수준(&S):
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=식 빌더 열기
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
 SortkeyBuilder.Locale.Auto=자동
 SortkeyBuilder.Strength.ASCII=ASCII
-SortkeyBuilder.Strength.PRIMARY=Primary
-SortkeyBuilder.Strength.SECONDARY=Secondary
-SortkeyBuilder.Strength.TERTIARY=Tertiary
-SortkeyBuilder.Strength.QUATERNARY=Quaternary
-SortkeyBuilder.Strength.IDENTICAL=Identical
+SortkeyBuilder.Strength.PRIMARY=주
+SortkeyBuilder.Strength.SECONDARY=보조
+SortkeyBuilder.Strength.TERTIARY=3차
+SortkeyBuilder.Strength.QUATERNARY=4차
+SortkeyBuilder.Strength.IDENTICAL=동일
 
 ###########################################################
 #FilterConditionBuilder dialog properties
@@ -2856,7 +2856,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=사용할 수 있는 열이 없습니다.
 ParameterDialog.ErrorMessage.ValueColumnEmpty=값 열을 지정해야 합니다.
 ParameterDialog.ErrorMessage.NoDefaultValue=기본값을 설정해야 합니다.
 ParameterDialog.ErrorTitle.InvalidListLimit=잘못된 목록 제한
-ParameterDialog.ExpressionEditor.Title=Edit Expression
+ParameterDialog.ExpressionEditor.Title=식 편집
 ParameterDialog.Flag.Default=기본값
 ParameterDialog.Group.MoreOption=표시
 ParameterDialog.Group.Properties=속성
@@ -4691,7 +4691,7 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문:
 
 ###########################################################
 #ExpressionEditor
-ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Error.EmptyExpression=식은 비어 있으면 안 됩니다.
 ExpressionEditor.Label.Expression=식:
 
 ###########################################################

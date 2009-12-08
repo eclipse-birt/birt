@@ -354,22 +354,22 @@ CascadingParametersDialog.Label.param.name=名前(&N) :
 CascadingParametersDialog.Label.parameters=パラメタ
 CascadingParametersDialog.Label.preview=書式付きプレビュー
 CascadingParametersDialog.Label.groupPromptText=プロンプトテキスト(&P) :
-CascadingParametersDialog.Label.parameterPromptText=Prompt te&xt:
+CascadingParametersDialog.Label.parameterPromptText=プロンプトテキスト(&X) :
 CascadingParametersDialog.Label.selectDataSet=<データセットの選択>
 CascadingParametersDialog.Label.selectDisplayColumn=<表示列が未設定です>
 CascadingParametersDialog.Label.selectValueColumn=<値列が未設定です>
 CascadingParametersDialog.Label.values=個の値
-CascadingParametersDialog.Radio.Single=Si&ngle Data Set
+CascadingParametersDialog.Radio.Single=単一のデータセット(&N)
 CascadingParametersDialog.Radio.Mutli=複数のデータセット(&U)
 CascadingParametersDialog.Choice.NullValue=NULL 値
 CascadingParametersDialog.Choice.BlankValue=空白値
 CascadingParametersDialog.Choice.SelectValue=<値の選択...>
 CascadingParametersDialog.Button.Add=追加(&A)
-CascadingParametersDialog.Button.Edit=Ed&it
+CascadingParametersDialog.Button.Edit=編集(&I)
 CascadingParametersDialog.Button.Delete=削除(&T)
-CascadingParametersDialog.Button.IsMultiple=Allo&w Multiple Values
-CascadingParametersDialog.DefalutValue.Add=A&dd
-CascadingParametersDialog.ExpressionEditor.Title=Edit Expression
+CascadingParametersDialog.Button.IsMultiple=複数の値を許可する(&W)
+CascadingParametersDialog.DefalutValue.Add=追加(&D)
+CascadingParametersDialog.ExpressionEditor.Title=式の編集
 CascadingParametersDialog.Title.AddCascadingParameter=カスケードパラメタグループの追加
 CascadingParametersDialog.Title.EditCascadingParameter=カスケードパラメタグループの編集
 CascadingParametersDialog.items.None=<なし>
@@ -2471,16 +2471,16 @@ SortkeyBuilder.DialogTitle.Label.Prompt=ソートキーの入力 :
 SortkeyBuilder.DialogTitle.Label.Key=キー(&K) :
 SortkeyBuilder.DialogTitle.Label.Direction=方向(&D) :
 SortkeyBuilder.Label.Locale=ロケール(&L) :
-SortkeyBuilder.Label.Strength=&Strength:
+SortkeyBuilder.Label.Strength=優先順位(&S) : 
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを開く
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 SortkeyBuilder.Locale.Auto=自動
 SortkeyBuilder.Strength.ASCII=ASCII
-SortkeyBuilder.Strength.PRIMARY=Primary
-SortkeyBuilder.Strength.SECONDARY=Secondary
-SortkeyBuilder.Strength.TERTIARY=Tertiary
-SortkeyBuilder.Strength.QUATERNARY=Quaternary
-SortkeyBuilder.Strength.IDENTICAL=Identical
+SortkeyBuilder.Strength.PRIMARY=プライマリ
+SortkeyBuilder.Strength.SECONDARY=セカンダリ
+SortkeyBuilder.Strength.TERTIARY=サード
+SortkeyBuilder.Strength.QUATERNARY=フォース
+SortkeyBuilder.Strength.IDENTICAL=同じ
 
 ###########################################################
 #FilterConditionBuilder dialog properties
@@ -2856,7 +2856,7 @@ ParameterDialog.ErrorMessage.NoAvailableColumn=使用できるカラムがありません。
 ParameterDialog.ErrorMessage.ValueColumnEmpty=値列を指定する必要があります。
 ParameterDialog.ErrorMessage.NoDefaultValue=デフォルト値を設定してください。
 ParameterDialog.ErrorTitle.InvalidListLimit=一覧の制限が無効です。
-ParameterDialog.ExpressionEditor.Title=Edit Expression
+ParameterDialog.ExpressionEditor.Title=式の編集
 ParameterDialog.Flag.Default=デフォルト
 ParameterDialog.Group.MoreOption=次の形式で表示
 ParameterDialog.Group.Properties=プロパティ
@@ -4691,7 +4691,7 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文 :
 
 ###########################################################
 #ExpressionEditor
-ExpressionEditor.Error.EmptyExpression=Expression must not be empty.
+ExpressionEditor.Error.EmptyExpression=式は空白にできません。
 ExpressionEditor.Label.Expression=式 :
 
 ###########################################################
