@@ -1543,12 +1543,12 @@ public class TaskSelectType extends SimpleTask implements
 		doPreview( );
 	}
 
-	private void checkDataTypeForChartWithAxes( Chart cm )
+	private void checkDataTypeForChartWithAxes( )
 	{
 		// To check the data type of base series and orthogonal series in chart
 		// with axes
 		List<SeriesDefinition> sdList = new ArrayList<SeriesDefinition>( );
-		sdList.addAll( ChartUIUtil.getBaseSeriesDefinitions( cm ) );
+		sdList.addAll( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ) );
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
 			SeriesDefinition sd = sdList.get( i );
@@ -1558,7 +1558,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 
 		sdList.clear( );
-		sdList.addAll( ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm ) );
+		sdList.addAll( ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChartModel( ) ) );
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
 			SeriesDefinition sd = sdList.get( i );
@@ -1902,7 +1902,9 @@ public class TaskSelectType extends SimpleTask implements
 								if ( cm instanceof ChartWithAxes )
 								{
 									ChartAdapter.beginIgnoreNotifications( );
-									checkDataTypeForChartWithAxes( cm );
+									// should use design time model rather than
+									// runtime model.
+									checkDataTypeForChartWithAxes( );
 									ChartAdapter.endIgnoreNotifications( );
 								}
 								else
