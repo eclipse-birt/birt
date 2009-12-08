@@ -13,10 +13,12 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.Expression;
@@ -24,7 +26,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.SWT;
@@ -40,7 +41,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class GroupRenameDialog extends Dialog
+public class GroupRenameDialog extends BaseDialog
 {
 
 	/**
@@ -76,8 +77,8 @@ public class GroupRenameDialog extends Dialog
 	public GroupRenameDialog( Shell parentShell, String dialogTitle,
 			String dialogMessage )
 	{
-		super( parentShell );
-		this.title = dialogTitle;
+		super( dialogTitle );
+		// this.title = dialogTitle;
 		message = dialogMessage;
 	}
 
@@ -182,6 +183,7 @@ public class GroupRenameDialog extends Dialog
 		setErrorMessage( errorMessage );
 
 		applyDialogFont( composite );
+		UIUtil.bindHelp( parent, IHelpContextIds.GROUP_RENAME_DIALOG_ID );
 		return composite;
 	}
 

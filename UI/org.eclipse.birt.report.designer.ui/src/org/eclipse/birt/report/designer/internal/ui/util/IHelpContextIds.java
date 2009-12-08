@@ -348,4 +348,6 @@ public interface IHelpContextIds
 	public static final String EXPRESSION_EDITOR_ID = PREFIX
 			+ "ExpressionEditor_ID"; //$NON-NLS-1$;
 
+	public static final String GROUP_RENAME_DIALOG_ID = PREFIX + "GroupRenameDialog_ID"; //$NON-NLS-1$;
+
 }
