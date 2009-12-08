@@ -587,8 +587,12 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		// image size
 		buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, image.getWidth( ) ); //$NON-NLS-1$
 		buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, image.getHeight( ) ); //$NON-NLS-1$
-		// build the none value of display
-		setDisplayProperty( display, 0, styleBuffer );
+		// build the value of display
+		// An image is indeed inline by default, and align itself on the text
+        // baseline with room for descenders. That caused the gap and extra height,
+        // and the gap/height will change with font-resizing.	 Set "display:block" to  
+		// get rid of space at the top and bottom.
+		setDisplayProperty( display, HTMLEmitterUtil.DISPLAY_BLOCK, styleBuffer );
 		
 		IStyle style = image.getStyle( );
 		String verticalAlign = style.getVerticalAlign( );
