@@ -21,10 +21,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
-import org.eclipse.datatools.connectivity.oda.spec.manifest.ExtensionContributor;
-import org.eclipse.datatools.connectivity.oda.spec.manifest.ResultExtensionExplorer;
 
 /**
  * Encapulates the runtime definition of a generic extended (ODA) data set.
@@ -55,27 +52,10 @@ public class OdaDataSetRuntime extends DataSetRuntime
         publicProperties = new HashMap();
         publicProperties.putAll( dataSet.getPublicProperties() );
         
-		ResultExtensionExplorer extensionExplorer = ResultExtensionExplorer.getInstance( );
-		ExtensionContributor[] contributors = null;
-		try
-		{
-			OdaDataSourceRuntime dataSourceRuntime = (OdaDataSourceRuntime) ( (DataEngineImpl) session.getEngine( ) ).getDataSourceRuntime( dataSet.getDataSourceName( ) );
-
-			contributors = extensionExplorer.getContributorsOfDataSet( dataSourceRuntime.getExtensionID( ),
-					dataSet.getExtensionID( ) );
-		}
-		catch ( IllegalArgumentException e )
-		{
-		}
-		catch ( OdaException e )
-		{
-		}
-		ExtensionContributor contributor = null;
-		if ( contributors != null && contributors.length > 0 )
-		{
-			contributor = contributors[0];
-			validationContext = new ValidationContext( contributor );
-		}
+		DataEngineImpl de = (DataEngineImpl) session.getEngine( );
+		validationContext = de.getValidationContext( 
+				de.getDataSourceRuntime( dataSet.getDataSourceName( ) ).getExtensionID( ), 
+				dataSet.getExtensionID( )  );
         
 		logger.exiting( OdaDataSetRuntime.class.getName( ), "OdaDataSetRuntime" );
 		logger.log( Level.FINER, "OdaDataSetRuntime starts up" );
@@ -160,11 +140,6 @@ public class OdaDataSetRuntime extends DataSetRuntime
 	 */
 	public void close( ) throws DataException
 	{
-		if ( this.validationContext != null
-				&& validationContext.getConnection( ) != null )
-		{
-			validationContext.getConnection( ).close( );
-		}
 		super.close( );
 	}
 }

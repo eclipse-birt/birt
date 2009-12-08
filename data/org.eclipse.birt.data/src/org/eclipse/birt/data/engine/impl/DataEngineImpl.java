@@ -44,12 +44,15 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
-import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedSubCubeQuery;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.JSDataSources;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
+import org.eclipse.datatools.connectivity.oda.spec.manifest.ExtensionContributor;
+import org.eclipse.datatools.connectivity.oda.spec.manifest.ResultExtensionExplorer;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -77,6 +80,9 @@ public class DataEngineImpl extends DataEngine
 	private List shutdownListenerList = null;
 
 	private IEngineExecutionHints queryExecutionHints;
+	
+	private Map<DataSourceAndDataSetExtensionIds, ValidationContext> validationContextMap
+		= new HashMap<DataSourceAndDataSetExtensionIds, ValidationContext>();
 	
 
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
@@ -532,6 +538,8 @@ public class DataEngineImpl extends DataEngine
 		
 		this.dataSourceManager.close( );
 		
+		releaseValidationContexts( );
+		
 		if ( shutdownListenerList != null )
 		{
 			for ( int i = 0; i < shutdownListenerList.size( ); i++ )
@@ -751,4 +759,101 @@ public class DataEngineImpl extends DataEngine
 		this.session.getStopSign( ).stop( );
 	}
 	
+	public ValidationContext getValidationContext( String dataSourceExtensionId, String dataSetExtensionId )
+	{
+		DataSourceAndDataSetExtensionIds key = new DataSourceAndDataSetExtensionIds(
+				dataSourceExtensionId, dataSetExtensionId );
+		if ( !validationContextMap.containsKey( key ))
+		{
+			ExtensionContributor[] contributors = null;
+			try
+			{
+				contributors = ResultExtensionExplorer.getInstance( ).getContributorsOfDataSet( 
+						dataSourceExtensionId,
+						dataSetExtensionId );
+			}
+			catch ( IllegalArgumentException e )
+			{
+				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+			}
+			catch ( OdaException e )
+			{
+				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+			}
+			ValidationContext vc = null;
+			if ( contributors != null && contributors.length > 0 )
+			{
+				vc = new ValidationContext( contributors[0] );
+			}
+			validationContextMap.put( key, vc );
+		}
+		return validationContextMap.get( key );
+	}
+	
+	private void releaseValidationContexts( )
+	{
+		for ( ValidationContext vc : validationContextMap.values( ) )
+		{
+			if ( vc != null && vc.getConnection( ) != null )
+			{
+				vc.getConnection( ).close( );
+			}
+		}
+		validationContextMap = null;
+	}
+	
+	public static class DataSourceAndDataSetExtensionIds 
+	{
+		private String dataSourceExtensionId;
+		private String dataSetExtensionId;
+		public DataSourceAndDataSetExtensionIds( String dataSourceExtensionId,
+				String dataSetExtensionId )
+		{
+			super( );
+			this.dataSourceExtensionId = dataSourceExtensionId;
+			this.dataSetExtensionId = dataSetExtensionId;
+		}
+		@Override
+		public int hashCode( )
+		{
+			final int prime = 31;
+			int result = 1;
+			result = prime
+					* result
+					+ ( ( dataSetExtensionId == null ) ? 0
+							: dataSetExtensionId.hashCode( ) );
+			result = prime
+					* result
+					+ ( ( dataSourceExtensionId == null ) ? 0
+							: dataSourceExtensionId.hashCode( ) );
+			return result;
+		}
+		@Override
+		public boolean equals( Object obj )
+		{
+			if ( this == obj )
+				return true;
+			if ( obj == null )
+				return false;
+			if ( getClass( ) != obj.getClass( ) )
+				return false;
+			DataSourceAndDataSetExtensionIds other = (DataSourceAndDataSetExtensionIds) obj;
+			if ( dataSetExtensionId == null )
+			{
+				if ( other.dataSetExtensionId != null )
+					return false;
+			}
+			else if ( !dataSetExtensionId.equals( other.dataSetExtensionId ) )
+				return false;
+			if ( dataSourceExtensionId == null )
+			{
+				if ( other.dataSourceExtensionId != null )
+					return false;
+			}
+			else if ( !dataSourceExtensionId.equals( other.dataSourceExtensionId ) )
+				return false;
+			return true;
+		}
+		
+	}
 }
