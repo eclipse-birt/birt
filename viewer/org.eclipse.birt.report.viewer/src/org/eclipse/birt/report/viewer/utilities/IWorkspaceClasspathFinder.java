@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 /**
  * Interface used to find classpath based on projects or workspace
  * 
+ * @deprecated
  */
 public interface IWorkspaceClasspathFinder
 {

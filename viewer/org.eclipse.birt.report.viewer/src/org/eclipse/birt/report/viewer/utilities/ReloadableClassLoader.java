@@ -12,7 +12,8 @@
 package org.eclipse.birt.report.viewer.utilities;
 
 import java.net.URL;
-import java.net.URLClassLoader;
+
+import org.eclipse.birt.core.framework.URLClassLoader;
 
 /**
  * This class can reload the class by specifying URL.
@@ -43,6 +44,10 @@ public class ReloadableClassLoader extends ClassLoader
 	 */
 	public void reload( )
 	{
+		if ( this.loader != null )
+		{
+			this.loader.close( );
+		}
 		this.loader = new URLClassLoader( this.urls, this.parent );
 	}
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.viewer.utilities;
 /** 
  * A class used to get a workspace classpath
  * 
+ * @deprecated
  */
 public class WorkspaceClasspathManager
 {
