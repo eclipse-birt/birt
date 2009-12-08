@@ -264,6 +264,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 			{
 				if ( pageBreak == null || IStyle.AUTO_VALUE.equals( pageBreak ) )
 				{
+					bandLayout.needSoftPageBreak = false; // reset page break
 					return true;
 				}
 			}
