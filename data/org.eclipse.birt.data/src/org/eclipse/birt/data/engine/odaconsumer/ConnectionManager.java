@@ -157,26 +157,11 @@ public class ConnectionManager
 
 			// before calling getConnection, passes application context
 			// to the oda driver, which in turn takes care of 
-			// passing thru to the driver's connection(s) and quer(ies)
+			// passing thru to the driver's connection(s) and quer(ies);
+            // locale setting in appContext is handled by DTP ODA consumer component during #open
 			driverHelper.setAppContext( appContext );
 			
 			IConnection connection = driverHelper.getConnection( dataSourceId );
-
-			ULocale locale = toULocale( appContext.get( "AppRuntimeLocale" ) ); //$NON-NLS-1$
-			if( locale != null )
-			{
-				try
-				{
-					connection.setLocale( locale );
-				}
-				catch( UnsupportedOperationException ex )
-				{
-				    // log and ignore 
-		            getLogger().logp( Level.FINE, sm_className, methodName, 
-                            "Unable to set locale.", ex ); //$NON-NLS-1$
-				}
-			}
-
 			connection.open( connectionProperties );
 			
 			Connection ret = new Connection( connection, dataSourceElementId );
@@ -202,31 +187,6 @@ public class ConnectionManager
 		}
 	}
 	
-	/**
-	 * Converts the specified locale object to ULocale.
-	 * @param localeValue  
-	 * @return the converted ULocale object; may be null if not convertible
-	 */
-	static ULocale toULocale( Object localeValue )
-	{
-		if( localeValue == null )
-			return null;
-		if( localeValue instanceof ULocale )
-		{
-			return (ULocale) localeValue;
-		}
-		else if( localeValue instanceof Locale )
-		{
-			return ULocale.forLocale( ( Locale ) localeValue );
-		}
-		else if( localeValue instanceof String )
-		{
-			return new ULocale( (String) localeValue );
-		}
-		
-		return null;
-	}
-
     /**
      * Adds default connection profile property provider service, if none
      * is already defined in the appContext object.
