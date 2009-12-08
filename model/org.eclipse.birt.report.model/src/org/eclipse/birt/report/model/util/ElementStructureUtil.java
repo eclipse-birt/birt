@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -308,9 +309,9 @@ public class ElementStructureUtil
 
 		// do some special handle for cube and dimension
 
-		if ( target instanceof Cube )
+		if ( target instanceof TabularCube )
 		{
-			Cube targetCube = (Cube) target;
+			TabularCube targetCube = (TabularCube) target;
 			Cube sourceCube = (Cube) source;
 			Module sourceRoot = sourceCube.getRoot( );
 
