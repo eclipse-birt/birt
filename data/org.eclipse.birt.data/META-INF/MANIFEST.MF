@@ -53,7 +53,7 @@ Export-Package: javax.olap,
  org.eclipse.birt.data.engine.plugin,
  org.eclipse.birt.data.engine.script
 Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)";visibility:=reexport,
- org.eclipse.datatools.connectivity.oda.consumer;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
+ org.eclipse.datatools.connectivity.oda.consumer;bundle-version="[3.2.2,4.0.0)";visibility:=reexport,
  org.mozilla.rhino;bundle-version="[1.6.0,2.0.0)";visibility:=reexport,
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.0,4.0.0)"
 Eclipse-LazyStart: true
