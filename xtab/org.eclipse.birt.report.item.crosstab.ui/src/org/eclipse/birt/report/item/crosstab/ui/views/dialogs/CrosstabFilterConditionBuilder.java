@@ -1723,7 +1723,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				if ( retList.size( ) > 0 )
 				{
 					IBindingMetaInfo meta = (IBindingMetaInfo) retList.get( 0 );
-					expressionCombo.setText( ExpressionUtil.createJSDataExpression( meta.getBindingName( ) ) );
+					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCombo );
+					expressionCombo.setText( converter.getCubeBindingExpression( meta.getBindingName( ) ) );
 				}
 			}
 			catch ( Exception ex )
