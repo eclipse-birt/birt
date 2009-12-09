@@ -197,6 +197,13 @@ public class ElementRefPropertyType extends PropertyType
 			ElementDefn targetDefn, PropertyDefn propDefn, DesignElement target )
 			throws PropertyValueException
 	{
+		// if this element has no name, it is invalid
+		if ( StringUtil.isBlank( target.getName( ) ) )
+		{
+			throw new PropertyValueException( target.getIdentifier( ),
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					IPropertyType.ELEMENT_REF_TYPE );
+		}
 		ElementRefValue refValue = module.getNameHelper( ).resolve( target,
 				propDefn, null );
 

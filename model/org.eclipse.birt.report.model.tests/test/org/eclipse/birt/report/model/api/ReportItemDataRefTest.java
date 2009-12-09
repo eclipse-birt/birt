@@ -18,14 +18,14 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test ReportItemHandle.
  * 
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -72,6 +72,22 @@ public class ReportItemDataRefTest extends BaseTestCase
 		columns = newData.columnBindingsIterator( );
 		column = (ComputedColumnHandle) columns.next( );
 		verifyColumnValues( column );
+
+		// set binding reference to a no-name element
+		DataItemHandle noNameData = designHandle.getElementFactory( )
+				.newDataItem( null );
+		assertNull( noNameData.getName( ) );
+		try
+		{
+			newData.setDataBindingReference( noNameData );
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
+		}
 
 		try
 		{
@@ -329,7 +345,8 @@ public class ReportItemDataRefTest extends BaseTestCase
 	 * Cases:
 	 * 
 	 * <ul>
-	 * <li>table refers to the table <li>list refers to the table
+	 * <li>table refers to the table
+	 * <li>list refers to the table
 	 * </ul>
 	 * 
 	 * @throws Exception

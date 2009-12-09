@@ -817,11 +817,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		if ( value instanceof DesignElementHandle )
 		{
-			DesignElementHandle elementHandle = (DesignElementHandle) value;
+			/*DesignElementHandle elementHandle = (DesignElementHandle) value;
 			Module root = elementHandle.getModule( );
 
 			input = ReferenceValueUtil.needTheNamespacePrefix( elementHandle
-					.getElement( ), root, module );
+					.getElement( ), root, module );*/
+			input = ((DesignElementHandle) value).getElement( );
 		}
 
 		Object retValue = null;

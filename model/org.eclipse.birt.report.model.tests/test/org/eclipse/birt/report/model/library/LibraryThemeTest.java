@@ -342,7 +342,7 @@ public class LibraryThemeTest extends BaseTestCase
 		{
 			assertEquals( ThemeException.DESIGN_EXCEPTION_NOT_FOUND, e
 					.getErrorCode( ) );
-			assertEquals( "Theme3", e.getTheme( ) ); //$NON-NLS-1$
+			assertEquals( "Theme.Theme3", e.getTheme( ) ); //$NON-NLS-1$
 		}
 
 	}

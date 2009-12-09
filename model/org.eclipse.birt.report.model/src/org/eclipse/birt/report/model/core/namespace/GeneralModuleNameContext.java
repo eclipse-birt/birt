@@ -179,6 +179,12 @@ public class GeneralModuleNameContext extends AbstractModuleNameContext
 		}
 
 		Module root = element.getRoot( );
+		// if the root is null, the module of the element should be used
+		// to get the namespace.
+		if ( root == null )
+		{
+			root = element.getHandle( module ).getModule( );
+		}
 		String namespace = null;
 
 		if ( root instanceof Library )
@@ -186,9 +192,6 @@ public class GeneralModuleNameContext extends AbstractModuleNameContext
 
 		if ( !isFound )
 			return new ElementRefValue( namespace, element.getFullName( ) );
-
-		// TODO: if the root is null, the module of the element should be used
-		// to get the namespace.
 
 		return new ElementRefValue( namespace, element );
 	}
