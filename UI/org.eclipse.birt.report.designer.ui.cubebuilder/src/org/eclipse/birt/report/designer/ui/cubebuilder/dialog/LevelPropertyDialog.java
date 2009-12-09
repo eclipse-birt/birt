@@ -411,7 +411,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					ExceptionUtil.handle( e );
 				}
 			}
-			
+
 			ActionHandle handle = getActionHandle( );
 			if ( handle != null )
 			{
@@ -434,18 +434,17 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					ExceptionHandler.handle( e );
 				}
 			}
-			
 
 		}
 
 		super.okPressed( );
 	}
-	
+
 	private ActionHandle getActionHandle( )
 	{
 		return DEUtil.getActionHandle( input );
 	}
-	
+
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -1054,30 +1053,31 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			for ( int i = 0; i < helperProviders.length; i++ )
 			{
 				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
-				if ( helperProvider != null
-						&& helperProvider.canCreateHelper( BuilderConstants.SECURITY_HELPER_KEY ) )
+				if ( helperProvider != null )
 				{
 					final IDialogHelper levelHelper = helperProvider.createHelper( this,
 							BuilderConstants.SECURITY_HELPER_KEY );
+					if ( levelHelper != null )
+					{
+						levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+								Messages.getString( "LevelPropertyDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
+						levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+								cube );
+						levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+								new CubeExpressionProvider( cube ) );
+						levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+								input.getACLExpression( ) );
+						levelHelper.createContent( parent );
+						levelHelper.addListener( SWT.Modify, new Listener( ) {
 
-					levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
-							Messages.getString( "LevelPropertyDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
-					levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-							cube );
-					levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-							new CubeExpressionProvider( cube ) );
-					levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
-							input.getACLExpression( ) );
-					levelHelper.createContent( parent );
-					levelHelper.addListener( SWT.Modify, new Listener( ) {
-
-						public void handleEvent( Event event )
-						{
-							levelHelper.update( false );
-						}
-					} );
-					levelHelper.update( true );
-					return levelHelper;
+							public void handleEvent( Event event )
+							{
+								levelHelper.update( false );
+							}
+						} );
+						levelHelper.update( true );
+						return levelHelper;
+					}
 				}
 			}
 		}
@@ -1093,30 +1093,31 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			for ( int i = 0; i < helperProviders.length; i++ )
 			{
 				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
-				if ( helperProvider != null
-						&& helperProvider.canCreateHelper( BuilderConstants.SECURITY_HELPER_KEY ) )
+				if ( helperProvider != null )
 				{
 					final IDialogHelper memberHelper = helperProvider.createHelper( this,
 							BuilderConstants.SECURITY_HELPER_KEY );
+					if ( memberHelper != null )
+					{
+						memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+								Messages.getString( "LevelPropertyDialog.Member.Access.Control.List.Expression" ) ); //$NON-NLS-1$
+						memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+								cube );
+						memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+								new CubeExpressionProvider( cube ) );
+						memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+								input.getMemberACLExpression( ) );
+						memberHelper.createContent( parent );
+						memberHelper.addListener( SWT.Modify, new Listener( ) {
 
-					memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
-							Messages.getString( "LevelPropertyDialog.Member.Access.Control.List.Expression" ) ); //$NON-NLS-1$
-					memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-							cube );
-					memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-							new CubeExpressionProvider( cube ) );
-					memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
-							input.getMemberACLExpression( ) );
-					memberHelper.createContent( parent );
-					memberHelper.addListener( SWT.Modify, new Listener( ) {
-
-						public void handleEvent( Event event )
-						{
-							memberHelper.update( false );
-						}
-					} );
-					memberHelper.update( true );
-					return memberHelper;
+							public void handleEvent( Event event )
+							{
+								memberHelper.update( false );
+							}
+						} );
+						memberHelper.update( true );
+						return memberHelper;
+					}
 				}
 			}
 		}
@@ -1132,28 +1133,30 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			for ( int i = 0; i < helperProviders.length; i++ )
 			{
 				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
-				if ( helperProvider != null
-						&& helperProvider.canCreateHelper( BuilderConstants.HYPERLINK_HELPER_KEY ) )
+				if ( helperProvider != null )
 				{
 					final IDialogHelper hyperLinkHelper = helperProvider.createHelper( this,
 							BuilderConstants.HYPERLINK_HELPER_KEY );
+					if ( hyperLinkHelper != null )
+					{
+						hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_LABEL,
+								Messages.getString( "LevelPropertyDialog.Label.LinkTo" ) ); //$NON-NLS-1$
+						hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_BUTTON_TEXT,
+								Messages.getString( "LevelPropertyDialog.Button.Text.Edit" ) ); //$NON-NLS-1$
+						hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_REPORT_ITEM_HANDLE,
+								input );
+						hyperLinkHelper.createContent( parent );
+						hyperLinkHelper.addListener( SWT.Modify,
+								new Listener( ) {
 
-					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_LABEL,
-							Messages.getString("LevelPropertyDialog.Label.LinkTo") ); //$NON-NLS-1$
-					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_BUTTON_TEXT,
-							Messages.getString("LevelPropertyDialog.Button.Text.Edit") ); //$NON-NLS-1$
-					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_REPORT_ITEM_HANDLE,
-							input );
-					hyperLinkHelper.createContent( parent );
-					hyperLinkHelper.addListener( SWT.Modify, new Listener( ) {
-
-						public void handleEvent( Event event )
-						{
-							hyperLinkHelper.update( false );
-						}
-					} );
-					hyperLinkHelper.update( true );
-					return hyperLinkHelper;
+									public void handleEvent( Event event )
+									{
+										hyperLinkHelper.update( false );
+									}
+								} );
+						hyperLinkHelper.update( true );
+						return hyperLinkHelper;
+					}
 				}
 			}
 		}
@@ -1391,7 +1394,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		staticLevelHelper = createLevelSecurityPart( properties );
 		staticMemberHelper = createMemberSecurityPart( properties );
-		
+
 		Group contents = new Group( container, SWT.NONE );
 		layout = new GridLayout( );
 		contents.setLayout( layout );

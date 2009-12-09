@@ -11,15 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.AbstractDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.ui.preferences.ResourceConfigurationBlock;
 
 /**
  * 
  */
 
-public class ResourcePageHelperProvider extends AbstractDialogHelperProvider
+public class ResourcePageHelperProvider implements IDialogHelperProvider
 {
 
 	/*
@@ -30,13 +30,22 @@ public class ResourcePageHelperProvider extends AbstractDialogHelperProvider
 	 */
 	public IDialogHelper createHelper( Object container, String helperKey )
 	{
+		if ( canCreateHelper( container, helperKey ) )
+		{
+			return new IDEResourcePageHelper( );
+		}
+		return null;
+	}
+
+	private boolean canCreateHelper( Object container, String helperKey )
+	{
 		if ( container instanceof ResourceConfigurationBlock )
 		{
 			if ( ResourceConfigurationBlock.BUTTON_KEY.equals( helperKey ) )
 			{
-				return new IDEResourcePageHelper( );
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 }

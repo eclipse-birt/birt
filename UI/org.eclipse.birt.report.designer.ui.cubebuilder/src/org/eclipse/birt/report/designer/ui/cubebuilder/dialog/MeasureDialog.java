@@ -426,28 +426,30 @@ public class MeasureDialog extends TitleAreaDialog
 			for ( int i = 0; i < helperProviders.length; i++ )
 			{
 				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
-				if ( helperProvider != null
-						&& helperProvider.canCreateHelper( BuilderConstants.HYPERLINK_HELPER_KEY ) )
+				if ( helperProvider != null )
 				{
 					final IDialogHelper hyperLinkHelper = helperProvider.createHelper( this,
 							BuilderConstants.HYPERLINK_HELPER_KEY );
+					if ( hyperLinkHelper != null )
+					{
+						hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_LABEL,
+								Messages.getString( "MeasureDialog.Label.LinkTo" ) ); //$NON-NLS-1$
+						hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_BUTTON_TEXT,
+								Messages.getString( "MeasureDialog.Button.Text.Edit" ) ); //$NON-NLS-1$
+						hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_REPORT_ITEM_HANDLE,
+								input );
+						hyperLinkHelper.createContent( parent );
+						hyperLinkHelper.addListener( SWT.Modify,
+								new Listener( ) {
 
-					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_LABEL,
-							Messages.getString("MeasureDialog.Label.LinkTo") ); //$NON-NLS-1$
-					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_BUTTON_TEXT,
-							Messages.getString("MeasureDialog.Button.Text.Edit") ); //$NON-NLS-1$
-					hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_REPORT_ITEM_HANDLE,
-							input );
-					hyperLinkHelper.createContent( parent );
-					hyperLinkHelper.addListener( SWT.Modify, new Listener( ) {
-
-						public void handleEvent( Event event )
-						{
-							hyperLinkHelper.update( false );
-						}
-					} );
-					hyperLinkHelper.update( true );
-					return hyperLinkHelper;
+									public void handleEvent( Event event )
+									{
+										hyperLinkHelper.update( false );
+									}
+								} );
+						hyperLinkHelper.update( true );
+						return hyperLinkHelper;
+					}
 				}
 			}
 		}
@@ -463,28 +465,30 @@ public class MeasureDialog extends TitleAreaDialog
 			for ( int i = 0; i < helperProviders.length; i++ )
 			{
 				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
-				if ( helperProvider != null
-						&& helperProvider.canCreateHelper( BuilderConstants.SECURITY_HELPER_KEY ) )
+				if ( helperProvider != null && helper == null )
 				{
 					helper = helperProvider.createHelper( this,
 							BuilderConstants.SECURITY_HELPER_KEY );
-					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
-							Messages.getString( "MeasureDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
-					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-							cube );
-					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-							new CubeExpressionProvider( cube ) );
-					helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
-							input.getACLExpression( ) );
-					helper.createContent( parent );
-					helper.addListener( SWT.Modify, new Listener( ) {
+					if ( helper != null )
+					{
+						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+								Messages.getString( "MeasureDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
+						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+								cube );
+						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+								new CubeExpressionProvider( cube ) );
+						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+								input.getACLExpression( ) );
+						helper.createContent( parent );
+						helper.addListener( SWT.Modify, new Listener( ) {
 
-						public void handleEvent( Event event )
-						{
-							helper.update( false );
-						}
-					} );
-					helper.update( true );
+							public void handleEvent( Event event )
+							{
+								helper.update( false );
+							}
+						} );
+						helper.update( true );
+					}
 				}
 			}
 		}
