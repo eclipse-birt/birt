@@ -33,6 +33,11 @@ public class StyleBuilder
 
 	public static StyleEntry createStyleEntry( IStyle style )
 	{
+		return createStyleEntry( style, null );
+	}
+
+	public static StyleEntry createStyleEntry( IStyle style, StyleEntry parent )
+	{
 		StyleEntry entry = new StyleEntry( );
 
 		populateColor( style, StyleConstants.STYLE_BACKGROUND_COLOR, entry,
@@ -119,8 +124,8 @@ public class StyleBuilder
 		entry.setProperty( StyleConstant.H_ALIGN_PROP, convertHAlign( style
 				.getTextAlign( ), style.getDirection( ) ) );
 
-		entry.setProperty( StyleConstant.V_ALIGN_PROP, convertVAlign( style
-				.getVerticalAlign( ) ) );
+		entry.setProperty( StyleConstant.V_ALIGN_PROP,
+							convertVAlign( parent, style.getVerticalAlign( ) ) );
        
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, style
 				.getDateFormat( ) );
@@ -264,21 +269,23 @@ public class StyleBuilder
 		return ha;
 	}
 
-	public static String convertVAlign( String align )
+	public static String convertVAlign( StyleEntry parent, String align )
 	{
-		String va = "Top";
 		align = ExcelUtil.getValue( align );
 
 		if ( "bottom".equalsIgnoreCase( align ) )
 		{
-			va = "Bottom";
+			return "Bottom";
 		}
 		else if ( "middle".equalsIgnoreCase( align ) )
 		{
-			va = "Center";
+			return "Center";
 		}
-
-		return va;
+		else if ( "baseline".equalsIgnoreCase( align ) && parent != null )
+		{
+			return (String) parent.getProperty( StyleConstant.V_ALIGN_PROP );
+		}
+		return "Top";
 	}
 
 	public static boolean isHeritable( int id )

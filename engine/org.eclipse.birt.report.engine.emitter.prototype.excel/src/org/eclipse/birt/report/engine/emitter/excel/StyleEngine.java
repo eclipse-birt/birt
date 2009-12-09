@@ -72,20 +72,21 @@ public class StyleEngine
 		return entry;
 	}
 
-	public StyleEntry createEntry(ContainerSizeInfo sizeInfo, IStyle style)
+	public StyleEntry createEntry( ContainerSizeInfo sizeInfo, IStyle style,
+			StyleEntry parent )
 	{
 		if ( style == null )
 		{
 			return StyleBuilder.createEmptyStyleEntry( );
 		}	
 		
-		StyleEntry entry = initStyle( style, sizeInfo );
+		StyleEntry entry = initStyle( style, sizeInfo, parent );
 		return entry;
 	}
 
 	public StyleEntry createCellEntry( ContainerSizeInfo sizeInfo,
 			IStyle style, String diagonalLineColor, String diagonalLineStyle,
-			int diagonalLineWidth )
+			int diagonalLineWidth, StyleEntry parent )
 	{
 		StyleEntry entry;
 		if ( style == null )
@@ -93,7 +94,7 @@ public class StyleEngine
 			entry = StyleBuilder.createEmptyStyleEntry( );
 		}
 		else
-			entry = initStyle( style, sizeInfo );
+			entry = initStyle( style, sizeInfo, parent );
 
 		StyleBuilder.applyDiagonalLine( entry, PropertyUtil
 				.getColor( diagonalLineColor ), diagonalLineStyle,
@@ -128,22 +129,25 @@ public class StyleEngine
 		return entry;
 	}
 
-	public StyleEntry getStyle( IStyle style, ContainerSizeInfo rule )
+	public StyleEntry getStyle( IStyle style, ContainerSizeInfo rule,
+			StyleEntry parent )
 	{
 		// This style associated element is not in any container.
-		return initStyle( style, null, rule );
+		return initStyle( style, null, rule, parent );
 	}
 
 	public StyleEntry getStyle( IStyle style, ContainerSizeInfo childSizeInfo,
-			ContainerSizeInfo parentSizeInfo )
+			ContainerSizeInfo parentSizeInfo, StyleEntry parent )
 	{
-		return initStyle( style, childSizeInfo, parentSizeInfo );
+		return initStyle( style, childSizeInfo, parentSizeInfo, parent );
 	}
 
 	private StyleEntry initStyle( IStyle style,
-			ContainerSizeInfo childSizeInfo, ContainerSizeInfo parentSizeInfo )
+			ContainerSizeInfo childSizeInfo, ContainerSizeInfo parentSizeInfo,
+			StyleEntry parent )
 	{
-		StyleEntry entry = StyleBuilder.createStyleEntry( style );;
+
+		StyleEntry entry = StyleBuilder.createStyleEntry( style, parent );;
 		if ( !containerStyles.isEmpty( ) )
 		{
 			StyleEntry centry = containerStyles.peek( );
@@ -248,14 +252,16 @@ public class StyleEngine
 		}
 	}
 
-	private StyleEntry initStyle( IStyle style, ContainerSizeInfo rule )
+	private StyleEntry initStyle( IStyle style, ContainerSizeInfo rule,
+			StyleEntry parent )
 	{
-		return initStyle( style, null, rule );
+		return initStyle( style, null, rule, parent );
 	}
 
-	public void addContainderStyle( IStyle computedStyle )
+	public void addContainderStyle( IStyle computedStyle, StyleEntry parent )
 	{
-		StyleEntry entry = StyleBuilder.createStyleEntry( computedStyle );
+		StyleEntry entry = StyleBuilder
+				.createStyleEntry( computedStyle, parent );
 		if ( !containerStyles.isEmpty( ) )
 		{
 			StyleEntry centry = containerStyles.peek( );

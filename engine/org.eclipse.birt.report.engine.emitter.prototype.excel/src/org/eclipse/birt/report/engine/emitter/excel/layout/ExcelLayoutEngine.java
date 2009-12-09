@@ -188,11 +188,17 @@ public class ExcelLayoutEngine
 				- leftCordinate;
 		ContainerSizeInfo sizeInfo = new ContainerSizeInfo( leftCordinate,
 				width );
-		StyleEntry styleEntry = engine.createEntry( sizeInfo, style );
+		StyleEntry styleEntry = engine.createEntry( sizeInfo, style,
+													getParentStyle( ) );
 		XlsTable table = new XlsTable( tableInfo, styleEntry,
 				sizeInfo, currentContainer );
 		tables.push( table );
 		addContainer( table );
+	}
+
+	protected StyleEntry getParentStyle( )
+	{
+		return getParentStyle( getCurrentContainer( ) );
 	}
 
 	private void splitColumns( int startCoordinate, int endCoordinate,
@@ -274,7 +280,8 @@ public class ExcelLayoutEngine
 	{
 		XlsTable table = tables.peek( );
 		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, colSpan );
-		XlsCell cell = new XlsCell( engine.createEntry( cellSizeInfo, style ),
+		XlsCell cell = new XlsCell( engine.createEntry( cellSizeInfo, style,
+														getParentStyle( ) ),
 				cellSizeInfo, getCurrentContainer( ), rowSpan );
 		addContainer( cell );
 	}
@@ -293,11 +300,15 @@ public class ExcelLayoutEngine
 			int diagonalWidth = PropertyUtil.getDimensionValue( cellcontent,
 					cellcontent.getDiagonalWidth( ), cellSizeInfo.getWidth( ) );
 			cellStyleEntry = engine.createCellEntry( cellSizeInfo, style,
-					diagonalColor, diagonalStyle, diagonalWidth );
+														diagonalColor,
+														diagonalStyle,
+														diagonalWidth,
+														getParentStyle( ) );
 		}
 		else
 		{
-			cellStyleEntry = engine.createEntry( cellSizeInfo, style );
+			cellStyleEntry = engine.createEntry( cellSizeInfo, style,
+													getParentStyle( ) );
 		}
 		XlsCell cell = new XlsCell( cellStyleEntry, cellSizeInfo,
 				getCurrentContainer( ), rowSpan );
@@ -508,8 +519,14 @@ public class ExcelLayoutEngine
 	{
 		XlsContainer parent = getCurrentContainer( );
 		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
-		StyleEntry entry = engine.createEntry( sizeInfo, style );
+		StyleEntry entry = engine.createEntry( sizeInfo, style,
+												getParentStyle( parent ) );
 		addContainer( new XlsContainer( entry, sizeInfo, parent ) );
+	}
+
+	private StyleEntry getParentStyle( XlsContainer parent )
+	{
+		return parent == null ? null : parent.getStyle( );
 	}
 
 	private void addContainer( XlsContainer child )
@@ -601,8 +618,10 @@ public class ExcelLayoutEngine
 	public Data addData( Object value, IStyle style, HyperlinkDef link,
 			BookmarkDef bookmark, String locale, float height )
 	{
-		ContainerSizeInfo containerSize = getCurrentContainer( ).getSizeInfo( );
-		StyleEntry entry = engine.getStyle( style, containerSize );
+		XlsContainer container = getCurrentContainer( );
+		ContainerSizeInfo containerSize = container.getSizeInfo( );
+		StyleEntry entry = engine.getStyle( style, containerSize,
+											getParentStyle( container ) );
 		setDataType( entry, value, locale );
 		setlinkStyle( entry, link );
 		Data data = createData( value, entry );
@@ -620,7 +639,7 @@ public class ExcelLayoutEngine
 		if ( link != null )
 		{
 			entry.setProperty( StyleConstant.COLOR_PROP,
-					StyleConstant.HYPERLINK_COLOR );
+								StyleConstant.HYPERLINK_COLOR );
 			entry.setProperty( StyleConstant.TEXT_UNDERLINE_PROP, true );
 			entry.setName( StyleEntry.ENTRYNAME_HYPERLINK );
 		}
@@ -631,13 +650,13 @@ public class ExcelLayoutEngine
 	{
 		XlsContainer container = getCurrentContainer( );
 		ContainerSizeInfo parentSizeInfo = container.getSizeInfo( );
-		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( image,
-				parentSizeInfo.getWidth( ) );
+		ColumnsInfo imageColumnsInfo = LayoutUtil
+				.createImage( image, parentSizeInfo.getWidth( ) );
 		splitColumns( imageColumnsInfo, parentSizeInfo );
 		ContainerSizeInfo imageSize = new ContainerSizeInfo( parentSizeInfo
 				.getStartCoordinate( ), imageColumnsInfo.getTotalWidth( ) );
-		StyleEntry entry = engine.getStyle( style, imageSize,
-				parentSizeInfo );
+		StyleEntry entry = engine.getStyle( style, imageSize, parentSizeInfo,
+											getParentStyle( container ) );
 		setlinkStyle( entry, link );
 		SheetData data = createImageData( image, entry, container );
 		data.setHyperlinkDef( link );
@@ -661,7 +680,8 @@ public class ExcelLayoutEngine
 			{
 				altText = messageFlashObjectNotSupported; 
 			}
-			return createData( altText, entry);
+			entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.STRING );
+			return createData( altText, entry );
 		}
 
 		try
@@ -699,8 +719,10 @@ public class ExcelLayoutEngine
 	public Data addDateTime( Object txt, IStyle style, HyperlinkDef link,
 			BookmarkDef bookmark, String dateTimeLocale, float height )
 	{
-		ContainerSizeInfo containerSize = getCurrentContainer( ).getSizeInfo( );
-		StyleEntry entry = engine.getStyle( style, containerSize );
+		XlsContainer currentContainer = getCurrentContainer( );
+		ContainerSizeInfo containerSize = currentContainer.getSizeInfo( );
+		StyleEntry entry = engine.getStyle( style, containerSize,
+											getParentStyle( currentContainer ) );
 		setlinkStyle( entry, link );
 		Data data = null;
 		
@@ -900,15 +922,17 @@ public class ExcelLayoutEngine
 	public XlsContainer createContainer( ContainerSizeInfo sizeInfo,
 			IStyle style, XlsContainer parent )
 	{
-		return new XlsContainer( engine.createEntry( sizeInfo, style ),
+		return new XlsContainer( engine
+				.createEntry( sizeInfo, style, getParentStyle( parent ) ),
 				sizeInfo, parent );
 	}
 
 	public XlsContainer createCellContainer( IStyle style, XlsContainer parent, int rowSpan )
 	{
 		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
-		return new XlsCell( engine.createEntry( sizeInfo, style ), sizeInfo,
-				parent, rowSpan );
+		return new XlsCell( engine.createEntry( sizeInfo, style,
+												getParentStyle( parent ) ),
+				sizeInfo, parent, rowSpan );
 	}
 
 	public Map<StyleEntry,Integer> getStyleMap( )
@@ -1043,7 +1067,7 @@ public class ExcelLayoutEngine
 
 	public void addContainerStyle( IStyle computedStyle )
 	{
-		engine.addContainderStyle(computedStyle);	
+		engine.addContainderStyle( computedStyle, getParentStyle( ) );
 	}
 
 	public void removeContainerStyle( )
