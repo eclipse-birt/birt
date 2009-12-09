@@ -598,61 +598,55 @@
 			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
 			<include name="org.eclipse.emf.ecore_*.jar" />
 		</fileset>
-	</copy>
-	<copy todir="${export.dir}/lib">
-		<fileset dir="${integrate.dir}/plugins" />
-		<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
-	</copy>
+		</copy>
 	
-	<copy todir="${export.dir}/lib">
-		<fileset dir="${baseLocation}/plugins" >
-			<include name="javax.servlet*.jar"/>
-		</fileset>
-		<fileset dir="${buildDirectory}/plugins">
-			<include name="org.w3c.css.sac_*.jar"/>
-			<include name="org.apache.commons.codec_*.jar"/>
-		</fileset>
-	</copy>
-
-
-
-	<!-- creating manifest.mf.template for org.eclipse.birt.api -->
-    <path id="javasrc.classpath">
-        <fileset dir="${eclipse.build.configs}/../../extras/" includes="org.eclipse.birt.build_*.jar"/>
-    </path>
-	<java classname="org.eclipse.birt.build.ExportManifestUtils" 
-		output="../org.eclipse.birt.report.engine/sdk/mf.template">
-        <classpath refid="javasrc.classpath" />
-        <arg value="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
-    </java>
-	<delete>
-		<fileset dir="${export.dir}/lib">
-			<include name="javax.servlet*.jar"/>
-		</fileset>
-	</delete>
-	<antcall target="replaceManifest"/>
+		<copy todir="${export.dir}/lib">
+			<fileset dir="${integrate.dir}/plugins" />
+			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+		</copy>
 	
-	<!-- framework extension fragment -->
-	<jar destfile="${export.dir}/plugins/org.eclipse.birt.api_1.0.0.jar" 
-		manifest="../org.eclipse.birt.report.engine/sdk/manifest.mf.template"/>
-
+		<copy todir="${export.dir}/lib">			
+			<!-- copy javax.servlet jar for generate birt.api fragment -->
+			<fileset dir="${baseLocation}/plugins" >
+				<include name="javax.servlet*.jar"/>
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins">
+				<include name="org.w3c.css.sac_*.jar"/>
+				<include name="org.apache.commons.codec_*.jar"/>
+			</fileset>
+		</copy>
+	
+		<antcall target="replaceManifest"/>
+		
+		<!-- copy javax.servlet jar for generate birt.api fragment -->
+		<delete>
+			<fileset dir="${export.dir}/lib">
+				<include name="javax.servlet*.jar"/>
+			</fileset>
+		</delete>
+	
+		<!-- framework extension fragment -->
+		<jar destfile="${export.dir}/plugins/org.eclipse.birt.api_1.0.0.jar" 
+			manifest="../org.eclipse.birt.report.engine/sdk/manifest.mf.template"/>
+	
     </target>
-	<target name="checkOS">
-        <condition property="generator" value="templateGenerator.sh">
-                <equals arg1="${osgi.os}" arg2="linux" />
-        </condition>
-		<!--
-        <condition property="generator" value="templateGenerator.bat">
-                <equals arg1="${osgi.os}" arg2="windows" />
-        </condition>
-        -->
-	</target>
 	
-	<target name="replaceManifest" depends="checkOS" if="generator" >
-        <exec executable="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/${generator}">
-                <arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk" />
-                <arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/manifest.mf" />
-        		<arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/manifest.mf.template" />
-        </exec>
+	<!-- the task only execute in headless daily build -->
+	<target name="replaceManifest" if="buildDirectory" >
+		
+		<path id="javasrc.classpath">
+			<fileset dir="${eclipse.build.configs}/../../extras/" includes="org.eclipse.birt.build_*.jar"/>
+		</path>			
+		<!-- Create Export-Packages for manifest according to ReportEngine/lib contents -->		
+		<java classname="org.eclipse.birt.build.ExportManifestUtils" output="../org.eclipse.birt.report.engine/sdk/mf.template">
+			<classpath refid="javasrc.classpath" />
+			<arg value="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
+		</java>
+		<!-- Generate manifest.mf.template to overwrite the default one -->
+        <concat destfile="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/manifest.mf.template">
+            <filelist dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk" files="manifest.mf"/>
+            <filelist dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk" files="mf.template"/>
+        </concat>
+
 	</target>
 </project>
