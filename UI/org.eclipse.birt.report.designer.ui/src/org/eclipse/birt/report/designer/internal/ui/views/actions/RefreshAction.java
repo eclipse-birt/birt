@@ -59,6 +59,11 @@ public class RefreshAction extends AbstractViewerAction
 	 */
 	public boolean isEnabled( )
 	{
+		if (!(getSelection( ) instanceof TreeViewer))
+		{
+			return false;
+		}
+		
 		Object obj = getSelectedObjects( ).getFirstElement( );
 		if ( obj instanceof DataSetHandle )
 		{
