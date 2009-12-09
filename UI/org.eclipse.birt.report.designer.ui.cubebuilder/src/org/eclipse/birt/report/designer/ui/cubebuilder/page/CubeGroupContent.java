@@ -840,15 +840,18 @@ public class CubeGroupContent extends Composite implements Listener
 												.newTabularDimension( null );
 										input.add( CubeHandle.DIMENSIONS_PROP,
 												dimension );
-										GroupRenameDialog inputDialog = createRenameDialog( dimension,
-												Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
-												Messages.getString( "CubeGroupContent.Group.Add.Message" ) //$NON-NLS-1$
-										);
-										if ( inputDialog.open( ) != Window.OK )
+										if ( !isDateType( dataField.getDataType( ) ) )
 										{
-											stack.rollback( );
-											refresh( );
-											return;
+											GroupRenameDialog inputDialog = createRenameDialog( dimension,
+													Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
+													Messages.getString( "CubeGroupContent.Group.Add.Message" ) //$NON-NLS-1$
+											);
+											if ( inputDialog.open( ) != Window.OK )
+											{
+												stack.rollback( );
+												refresh( );
+												return;
+											}
 										}
 									}
 									else
@@ -1780,15 +1783,18 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							input.add( CubeHandle.DIMENSIONS_PROP, dimension );
 
-							GroupRenameDialog inputDialog = createRenameDialog( dimension,
-									Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
-									Messages.getString( "CubeGroupContent.Group.Add.Message" ) //$NON-NLS-1$
-							);
-							if ( inputDialog.open( ) != Window.OK )
+							if ( !isDateType( dataField.getDataType( ) ) )
 							{
-								stack.rollback( );
-								refresh( );
-								continue;
+								GroupRenameDialog inputDialog = createRenameDialog( dimension,
+										Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
+										Messages.getString( "CubeGroupContent.Group.Add.Message" ) //$NON-NLS-1$
+								);
+								if ( inputDialog.open( ) != Window.OK )
+								{
+									stack.rollback( );
+									refresh( );
+									continue;
+								}
 							}
 						}
 						catch ( SemanticException e )
