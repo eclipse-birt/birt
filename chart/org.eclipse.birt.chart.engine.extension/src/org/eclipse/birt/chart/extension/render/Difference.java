@@ -108,6 +108,7 @@ public class Difference extends Line
 
 		if ( !ds.isVisible( ) )
 		{
+			restoreClipping( ipr );
 			return;
 		}
 

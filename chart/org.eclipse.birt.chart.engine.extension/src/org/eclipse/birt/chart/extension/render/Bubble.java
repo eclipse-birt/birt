@@ -110,6 +110,7 @@ public class Bubble extends Scatter
 
 		if ( !bs.isVisible( ) )
 		{
+			restoreClipping( ipr );
 			return;
 		}
 

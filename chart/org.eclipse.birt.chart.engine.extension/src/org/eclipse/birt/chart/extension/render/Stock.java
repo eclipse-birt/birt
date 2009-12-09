@@ -143,6 +143,7 @@ public final class Stock extends AxesRenderer
 		// TEST VISIBILITY
 		if ( !ss.isVisible( ) )
 		{
+			restoreClipping( ipr );
 			return;
 		}
 

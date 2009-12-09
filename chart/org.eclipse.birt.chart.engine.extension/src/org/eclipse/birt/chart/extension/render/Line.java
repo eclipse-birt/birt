@@ -171,6 +171,7 @@ public class Line extends AxesRenderer
 		LineSeries ls = (LineSeries) getSeries( );
 		if ( !ls.isVisible( ) )
 		{
+			restoreClipping( ipr );
 			return;
 		}
 

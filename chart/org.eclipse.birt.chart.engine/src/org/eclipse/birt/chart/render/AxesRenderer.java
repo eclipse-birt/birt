@@ -3438,7 +3438,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			throws ChartException
 	{
 		// Only restore clipping in the last renderer
-		final boolean bLastInSequence = isLastVisibleSeries( );
+		final boolean bLastInSequence = iSeriesIndex == ( iSeriesCount - 1 );
 		if ( bLastInSequence && !isDimension3D( )
 				&& ( !isShowOutside( ) || !baseIsShowOutside( ) ) )
 		{

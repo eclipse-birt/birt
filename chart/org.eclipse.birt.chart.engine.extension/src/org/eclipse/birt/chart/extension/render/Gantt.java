@@ -115,6 +115,7 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator
 		// TEST VISIBILITY
 		if ( !gs.isVisible( ) )
 		{
+			restoreClipping( ipr );
 			return;
 		}
 		

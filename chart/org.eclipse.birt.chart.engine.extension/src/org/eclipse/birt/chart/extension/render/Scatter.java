@@ -96,6 +96,7 @@ public class Scatter extends Line
 
 		if ( !ss.isVisible( ) )
 		{
+			restoreClipping( ipr );
 			return;
 		}
 
