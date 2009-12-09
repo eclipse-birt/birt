@@ -43,7 +43,6 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
-import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.MapDesign;
@@ -90,6 +89,12 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	protected int sheetIndex = 1;
 	protected String sheetName;
 
+	protected int pageWidth;
+
+	protected int pageHeight;
+
+	protected int contentwidth;
+
 	public String getOutputFormat( )
 	{
 		return "xls";
@@ -130,25 +135,20 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		// We can the page size from the design, maybe there is a better way
 		// to get the page definition.
 		ReportDesignHandle designHandle = report.getDesign( ).getReportDesign( );
-		String reportOrientation = designHandle.getBidiOrientation( );
-		if ( "rtl".equalsIgnoreCase( reportOrientation ) )
-		{
-			isRTLSheet = true;
-		}
-		String reportLayoutPreference = designHandle.getLayoutPreference( );
-		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
-				.equals( reportLayoutPreference ) )
-		{
-			isAuto = false;
-		}
-
+		parseReportOrientation( designHandle );
+		parseReportLayout( designHandle );
+		parseSheetName( designHandle );
+		parsePageSize( report );
 		IStyle style = report.getRoot( ).getComputedStyle( );
-		SimpleMasterPageDesign master = (SimpleMasterPageDesign) report
-				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
 		engine = createLayoutEngine( context, this );
-		engine.initalize( new PageDef( master, style ) );
-		String reportTitle = report.getDesign( ).getReportDesign( ).getStringProperty(
-				IModuleModel.TITLE_PROP );
+		engine.initalize( contentwidth, style );
+		createWriter( );
+	}
+
+	private void parseSheetName( ReportDesignHandle designHandle )
+	{
+		String reportTitle = designHandle
+				.getStringProperty( IModuleModel.TITLE_PROP );
 		if ( reportTitle != null )
 		{
 			sheetName = reportTitle;
@@ -158,7 +158,40 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			sheetName = DEFAULT_SHEET_NAME;
 		}
 		sheetName = ExcelUtil.getValidSheetName( sheetName );
-		createWriter( );
+	}
+
+	private void parseReportLayout( ReportDesignHandle designHandle )
+	{
+		String reportLayoutPreference = designHandle.getLayoutPreference( );
+		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+				.equals( reportLayoutPreference ) )
+		{
+			isAuto = false;
+		}
+	}
+
+	private void parseReportOrientation( ReportDesignHandle designHandle )
+	{
+		String reportOrientation = designHandle.getBidiOrientation( );
+		if ( "rtl".equalsIgnoreCase( reportOrientation ) )
+		{
+			isRTLSheet = true;
+		}
+	}
+
+	private void parsePageSize( IReportContent report )
+	{
+		SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) report
+				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
+		this.pageWidth = ExcelUtil.convertDimensionType( masterPage
+				.getPageWidth( ), 0 );
+		int leftmargin = ExcelUtil.convertDimensionType( masterPage
+				.getLeftMargin( ), pageWidth );
+		int rightmargin = ExcelUtil.convertDimensionType( masterPage
+				.getRightMargin( ), pageWidth );
+		this.contentwidth = pageWidth - leftmargin - rightmargin;
+		this.pageHeight = ExcelUtil.convertDimensionType( masterPage
+				.getPageHeight( ), 0 );
 	}
 
 	protected ExcelLayoutEngine createLayoutEngine( ExcelContext context,
@@ -490,7 +523,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			outputRowData( it.next( ) );
 		}
-		writer.endSheet( orientation );
+		writer.endSheet( orientation, pageWidth, pageHeight );
 	}
 
 	protected void outputRowData( RowData rowData ) throws IOException

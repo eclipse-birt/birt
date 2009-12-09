@@ -115,17 +115,17 @@ public class ExcelLayoutEngine
 				.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
 	}
 	
-	public void initalize( PageDef page )
+	public void initalize( int contentWidth, IStyle style )
 	{
 		axis = new AxisProcessor( );		
-		axis.addCoordinate( page.contentwidth );
+		axis.addCoordinate( contentWidth );
 
 		setCacheSize();
 		
-		ContainerSizeInfo rule = new ContainerSizeInfo( 0, page.contentwidth );
+		ContainerSizeInfo rule = new ContainerSizeInfo( 0, contentWidth );
 		cache = createDataCache( maxCol, maxRow );
 		engine = new StyleEngine( this );
-		containers.push( createContainer( rule, page.style, null ) );
+		containers.push( createContainer( rule, style, null ) );
 	}
 
 	protected DataCache createDataCache( int maxColumn, int maxRow )

@@ -66,9 +66,9 @@ public class ExcelWriter implements IExcelWriter
 		writer.endRow( );
 	}
 
-	public void endSheet( String oritentation )
+	public void endSheet( String oritentation, int pageWidth, int pageHeight )
 	{
-		writer.endSheet( oritentation );
+		writer.endSheet( oritentation, pageWidth, pageHeight );
 	}
 
 	public void outputData( SheetData data, StyleEntry style, int column,

@@ -41,7 +41,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		return writer;
 	}
 
-	private String pageHeader, pageFooter, orientation;
+	private String pageHeader, pageFooter;
 	private int sheetIndex = 1;
 
 	static class XLSEncodeUtil extends XMLEncodeUtil
@@ -800,35 +800,42 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Row" );
 	}
 
-	private void declareWorkSheetOptions( String orientation,
-			String pageHeader, String pageFooter )
+	private void declareWorkSheetOptions( String orientation, int pageWidth,
+			int pageHeight )
 	{
 		writer.openTag( "WorksheetOptions" );
 		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:excel" );
 		writer.openTag( "PageSetup" );
 
-		if(orientation!=null)
+		if ( orientation != null )
 		{
 			writer.openTag( "Layout" );
 			writer.attribute( "x:Orientation", orientation );
 			writer.closeTag( "Layout" );
 		}
 
-		if(pageHeader!=null)
+		if ( pageHeader != null )
 		{
 			writer.openTag( "Header" );
 			writer.attribute( "x:Data", pageHeader );
 			writer.closeTag( "Header" );
 		}
 
-		if(pageFooter!=null)
+		if ( pageFooter != null )
 		{
 			writer.openTag( "Footer" );
 			writer.attribute( "x:Data", pageFooter );
 			writer.closeTag( "Footer" );
 		}
-
 		writer.closeTag( "PageSetup" );
+		writer.openTag( "Print" );
+		writer.openTag( "PaperSizeIndex" );
+		int index = ExcelUtil.getPageSizeIndex( pageWidth / 1000,
+				pageHeight / 1000 );
+		writer.text( String.valueOf( index ) );
+		writer.closeTag( "PaperSizeIndex" );
+		writer.closeTag( "Print" );
+
 		writer.closeTag( "WorksheetOptions" );
 	}
 
@@ -841,10 +848,10 @@ public class ExcelXmlWriter implements IExcelWriter
 		sheetIndex += 1;
 	}
 
-	public void endSheet( String orientation )
+	public void endSheet( String orientation, int pageWidth, int pageHeight )
 	{
 		endTable( );
-		declareWorkSheetOptions( orientation, pageHeader, pageFooter );
+		declareWorkSheetOptions( orientation, pageWidth, pageHeight );
 		closeSheet( );
 	}
 
@@ -891,7 +898,7 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	public void endSheet( )
 	{
-		endSheet( null );
+		endSheet( null, 0, 0 );
 	}
 
 	public void startRow( )

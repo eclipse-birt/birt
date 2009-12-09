@@ -92,6 +92,27 @@ public class ExcelUtil
 
 	public final static float PX_PT = INCH_PT / INCH_PX;
 
+	public final static int PAPER_LETTER = 1;// 8.5in*11in
+	public final static int PAPER_TABLOID = 3;// 11in*17in
+	public final static int PAPER_LEGAL = 5;// 8.5in*14in
+	public final static int PAPER_STATEMENT = 6;// 5.5in*8.5in
+	public final static int PAPER_EXECUTIVE = 7;// 7.25in*10.5in
+
+	public final static int PAPER_A3 = 8;// 297mm*420mm
+	public final static int PAPER_A4 = 9;// 210mm*297mm
+	public final static int PAPER_A5 = 11;// 148mm*210mm
+	public final static int PAPER_B4 = 12;// 250mm*353mm
+	public final static int PAPER_B5 = 13;// 176mm*250mm
+
+	public final static int PAPER_FOLIO = 14;// 8.5in*13in
+	public final static int PAPER_10_ENVELOP = 20;// 4.125in*9.5in;
+	public final static int PAPER_DL_ENVELOPE = 27;// 110mm*220mm
+	public final static int PAPER_C5_ENVELOPE = 28;// 162mm*229mm
+	public final static int PAPER_B5_ENVELOPE = 34;// 176mm*250mm
+	public final static int PAPER_MONARCH_ENVELOPE = 37;// 3.875in*7.5in
+	public final static int PAPER_ISOB4 = 42;// 250mm*353mm;
+
+
 	public static String ridQuote( String val )
 	{
 		if ( val.charAt( 0 ) == '"' && val.charAt( val.length( ) - 1 ) == '"' )
@@ -1266,5 +1287,67 @@ public class ExcelUtil
 			name = name.substring( 0, 31 );
 		}
 		return name;
+	}
+
+	private static final double POINTS_PER_INCH = 72;
+	private static final double CM_PER_INCH = 2.54;
+	private static final double POINTS_PER_CM = POINTS_PER_INCH / CM_PER_INCH;
+
+	public static int getPageSizeIndex( int pageWidth, int pageHeight )
+	{
+		if ( pageHeight == 8.5 * ExcelUtil.INCH_PT
+				&& pageWidth == 11 * ExcelUtil.INCH_PT )
+			return PAPER_LETTER;
+		if ( pageHeight == 11 * ExcelUtil.INCH_PT
+				&& pageWidth == 17 * ExcelUtil.INCH_PT )
+			return PAPER_TABLOID;
+		if ( pageHeight == 8.5 * ExcelUtil.INCH_PT
+				&& pageWidth == 14 * ExcelUtil.INCH_PT )
+			return PAPER_LEGAL;
+		if ( pageHeight == 5.5 * ExcelUtil.INCH_PT
+				&& pageWidth == 8.5 * ExcelUtil.INCH_PT )
+			return PAPER_STATEMENT;
+		if ( pageHeight == 7.25 * ExcelUtil.INCH_PT
+				&& pageWidth == 10.5 * ExcelUtil.INCH_PT )
+			return PAPER_EXECUTIVE;
+
+		if ( pageHeight == 297 / 10 * POINTS_PER_CM
+				&& pageWidth == 420 / 10 * POINTS_PER_CM )
+			return PAPER_A3;
+		if ( pageHeight == 210 / 10 * POINTS_PER_CM
+				&& pageWidth == 297 / 10 * POINTS_PER_CM )
+			return PAPER_A4;
+		if ( pageHeight == 148 / 10 * POINTS_PER_CM
+				&& pageWidth == 210 / 10 * POINTS_PER_CM )
+			return PAPER_A5;
+		if ( pageHeight == 250 / 10 * POINTS_PER_CM
+				&& pageWidth == 353 / 10 * POINTS_PER_CM )
+			return PAPER_B4;
+		if ( pageHeight == 176 / 10 * POINTS_PER_CM
+				&& pageWidth == 250 / 10 * POINTS_PER_CM )
+			return PAPER_B5;
+
+		if ( pageHeight == 8.5 * ExcelUtil.INCH_PT
+				&& pageWidth == 13 * ExcelUtil.INCH_PT )
+			return PAPER_FOLIO;
+		if ( pageHeight == 4.125 * ExcelUtil.INCH_PT
+				&& pageWidth == 9.5 * ExcelUtil.INCH_PT )
+			return PAPER_10_ENVELOP;
+		if ( pageHeight == 110 / 10 * POINTS_PER_CM
+				&& pageWidth == 220 / 10 * POINTS_PER_CM )
+			return PAPER_DL_ENVELOPE;
+		if ( pageHeight == 162 / 10 * POINTS_PER_CM
+				&& pageWidth == 229 / 10 * POINTS_PER_CM )
+			return PAPER_C5_ENVELOPE;
+		if ( pageHeight == 176 / 10 * POINTS_PER_CM
+				&& pageWidth == 250 / 10 * POINTS_PER_CM )
+			return PAPER_B5_ENVELOPE;
+		if ( pageHeight == 3.875 * ExcelUtil.INCH_PT
+				&& pageWidth == 7.5 * ExcelUtil.INCH_PT )
+			return PAPER_MONARCH_ENVELOPE;
+		if ( pageHeight == 250 / 10 * POINTS_PER_CM
+				&& pageWidth == 353 / 10 * POINTS_PER_CM )
+			return PAPER_ISOB4;
+		return PAPER_A4;
 	}
 }

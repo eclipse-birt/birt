@@ -45,7 +45,7 @@ public interface IExcelWriter
 
 	public void startSheet( String sheetName ) throws IOException;
 
-	public void endSheet( String orientation );
+	public void endSheet( String orientation, int pageWidth, int pageHeight );
 
 	public void endSheet( );
 
