@@ -194,6 +194,7 @@ public class DateLevelDialog extends TitleAreaDialog
 	// private Button noneIntervalButton;
 	// private Button intervalButton;
 	private Combo formatCombo;
+	private Text fieldText;
 
 	private List getDateTypeNames( IChoice[] choices )
 	{
@@ -293,6 +294,7 @@ public class DateLevelDialog extends TitleAreaDialog
 	private void initLevelDialog( )
 	{
 		nameText.setText( input.getName( ) );
+		fieldText.setText( input.getColumnName( ) );
 		typeCombo.setItems( getAvailableDateTypeDisplayNames( ) );
 		typeCombo.setText( getDateTypeDisplayName( input.getDateTimeLevelType( ) ) );
 		if ( typeCombo.getSelectionIndex( ) > -1 )
@@ -325,6 +327,12 @@ public class DateLevelDialog extends TitleAreaDialog
 			}
 
 		} );
+
+		new Label( content, SWT.NONE ).setText( Messages.getString("DateLevelDialog.KeyField") );  //$NON-NLS-1$
+		fieldText = new Text( content, SWT.BORDER | SWT.READ_ONLY );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		fieldText.setLayoutData( gd );
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Type" ) ); //$NON-NLS-1$
 		typeCombo = new Combo( content, SWT.BORDER | SWT.READ_ONLY );
