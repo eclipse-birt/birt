@@ -704,7 +704,8 @@ public class Bubble extends Scatter
 						continue;
 					}					
 					
-					// Check if the bubble center is in the scale bound.
+					// Check if the value of bubble center is in the scale
+					// bound.
 					if ( checkEntryByType( scaleOrth,
 							dpha[j].getOrthogonalValue( ) ) == 0
 							&& checkEntryByType( scaleBase,
@@ -730,12 +731,18 @@ public class Bubble extends Scatter
 						hasEntryChecked = true;
 
 						// Check if the bubble is inbound
-						if ( !checkInbound( plotBounds,
-								faX,
-								faY,
-								Math.abs( be.getSize( ) ) * dCoeff ) )
+						// Check if position of the bubble center is outbound.
+						// It seems a bug when the value is inbound but the
+						// position is outbound
+						if ( checkInbound( plotBounds, faX, faY, 0 ) )
 						{
-							return false;
+							if ( !checkInbound( plotBounds,
+									faX,
+									faY,
+									Math.abs( be.getSize( ) ) * dCoeff ) )
+							{
+								return false;
+							}
 						}
 					}
 				}
