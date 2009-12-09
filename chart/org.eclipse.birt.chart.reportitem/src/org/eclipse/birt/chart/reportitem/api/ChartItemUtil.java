@@ -12,10 +12,13 @@
 package org.eclipse.birt.chart.reportitem.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
@@ -34,6 +37,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -1040,7 +1044,6 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return false;
 	}
 
-
 	/**
 	 * Checks if chart inherits groupings and aggregations from container
 	 * 
@@ -1193,5 +1196,77 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 					DEFAULT_CHART_BLOCK_WIDTH,
 					DEFAULT_CHART_BLOCK_HEIGHT );
 		}
+	}
+
+	/**
+	 * Checks if chart model in handle uses the bindings in the list.
+	 * 
+	 * @param handle
+	 *            item handle that contains chart model
+	 * @param bindingNames
+	 *            binding list
+	 * @return true if chart contains one or more bindings in list.
+	 */
+	public static boolean checkBindingsUsed( ExtendedItemHandle handle,
+			List<String> bindingNames )
+	{
+		if ( bindingNames != null && !bindingNames.isEmpty( ) )
+		{
+			Chart cm = getChartFromHandle( handle );
+			if ( cm == null )
+			{
+				return false;
+			}
+			Set<String> usedBindings = new HashSet<String>( );
+			SeriesDefinition bsd = ChartUtil.getBaseSeriesDefinitions( cm )
+					.get( 0 );
+
+			// Add X series
+			Series xSeries = bsd.getRunTimeSeries( ).get( 0 );
+			usedBindings.add( xSeries.getDataDefinition( )
+					.get( 0 )
+					.getDefinition( ) );
+
+			// Add Y series
+			for ( SeriesDefinition vsd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+			{
+				usedBindings.add( vsd.getQuery( ).getDefinition( ) );
+				for ( Series vs : vsd.getRunTimeSeries( ) )
+				{
+					for ( Query query : vs.getDataDefinition( ) )
+					{
+						usedBindings.add( query.getDefinition( ) );
+					}
+				}
+			}
+
+			ExpressionCodec ec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+			for ( String strQuery : usedBindings )
+			{
+				if ( strQuery.trim( ).length( ) > 0 )
+				{
+					ec.decode( strQuery );
+					Collection<String> names = ec.getRowBindingNameSet( );
+					if ( names.isEmpty( ) )
+					{
+						names = ec.getCubeBindingNameList( );
+					}
+					if ( names.isEmpty( ) )
+					{
+						continue;
+					}
+
+					for ( String bindingName : bindingNames )
+					{
+						if ( names.contains( bindingName ) )
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
