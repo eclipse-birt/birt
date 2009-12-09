@@ -158,6 +158,7 @@ DateGroupDialog.Name=&Nom :
 DateLevelDialog.Name=&Nom :
 DateLevelDialog.Type=&Type :
 DateLevelDialog.Format=&Format :
+DateLevelDialog.KeyField=Key Field:
 DateLevelDialog.Label.LinkTo=&Link To:
 DateLevelDialog.None=Aucun
 

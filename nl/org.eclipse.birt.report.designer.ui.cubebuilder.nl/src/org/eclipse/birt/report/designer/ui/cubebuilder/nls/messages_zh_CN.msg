@@ -158,6 +158,7 @@ DateGroupDialog.Name=名称(&N):
 DateLevelDialog.Name=名称(&N):
 DateLevelDialog.Type=类型(&T):
 DateLevelDialog.Format=格式(&F):
+DateLevelDialog.KeyField=Key Field:
 DateLevelDialog.Label.LinkTo=&Link To:
 DateLevelDialog.None=无
 

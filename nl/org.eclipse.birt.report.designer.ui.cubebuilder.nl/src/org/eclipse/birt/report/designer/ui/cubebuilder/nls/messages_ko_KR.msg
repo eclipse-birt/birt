@@ -158,6 +158,7 @@ DateGroupDialog.Name=이름(&N):
 DateLevelDialog.Name=이름(&N):
 DateLevelDialog.Type=형식(&T):
 DateLevelDialog.Format=서식(&F):
+DateLevelDialog.KeyField=Key Field:
 DateLevelDialog.Label.LinkTo=&Link To:
 DateLevelDialog.None=없음
 

@@ -158,6 +158,7 @@ DateGroupDialog.Name=–¼‘O(&N) :
 DateLevelDialog.Name=–¼‘O(&N) :
 DateLevelDialog.Type=Œ^(&T) :
 DateLevelDialog.Format=Œ`Ž®(&F) :
+DateLevelDialog.KeyField=Key Field:
 DateLevelDialog.Label.LinkTo=&Link To:
 DateLevelDialog.None=‚È‚µ
 
