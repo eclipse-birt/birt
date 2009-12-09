@@ -81,6 +81,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private Label lblGridStepNum;
 
+	private Label lblColor;
+
 	/**
 	 * @param title
 	 *            popup title
@@ -159,8 +161,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		cmpGeneral.setLayoutData( gdCMPGeneral );
 		cmpGeneral.setLayout( glGeneral );
 
-		// Axis Line Color
-		Label lblColor = new Label( cmpGeneral, SWT.NONE );
+		lblColor = new Label( cmpGeneral, SWT.NONE );
 		GridData gdLBLColor = new GridData( GridData.FILL );
 		lblColor.setLayoutData( gdLBLColor );
 		lblColor.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.AxisLineColor" ) ); //$NON-NLS-1$
@@ -185,6 +186,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gdFCCLine.grabExcessVerticalSpace = false;
 		fccLine.setLayoutData( gdFCCLine );
 		fccLine.addListener( this );
+		lblColor.setEnabled( !cbHidden.getSelection( ) );
+		fccLine.setEnabled( !cbHidden.getSelection( ) );
 
 		lblGridStepNum = new Label( cmpGeneral, SWT.NONE );
 		GridData gdLblGridStepNum = new GridData( GridData.FILL );
@@ -451,6 +454,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 			// Process hiding showing of axis
 			getAxisForProcessing( ).getLineAttributes( )
 					.setVisible( !cbHidden.getSelection( ) );
+			lblColor.setEnabled( !cbHidden.getSelection( ) );
+			fccLine.setEnabled( !cbHidden.getSelection( ) );
 		}
 		else if ( oSource.equals( cbTickBetweenCategory ) )
 		{
