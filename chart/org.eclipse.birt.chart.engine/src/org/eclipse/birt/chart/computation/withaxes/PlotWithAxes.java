@@ -138,7 +138,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	 * @param ax
 	 * @return
 	 */
-	static final int getAxisType( Axis ax )
+	public static final int getAxisType( Axis ax )
 	{
 		int iAxisType = UNDEFINED;
 		final AxisType at = ax.getType( );
@@ -485,6 +485,22 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	protected final DataSetIterator getTypedDataSet( Series se, int iType )
 			throws ChartException, IllegalArgumentException
 	{
+		DataSetIterator dsi = checkDataType( se, iType, rtc );
+
+		// Reverse the series categories if needed.
+		dsi.reverse( getModel( ).isReverseCategory( ) );
+		return dsi;
+	}
+
+	/**
+	 * @param se
+	 * @param iType
+	 * @return
+	 * @throws ChartException
+	 */
+	public static DataSetIterator checkDataType( Series se, int iType, RunTimeContext rtc )
+			throws ChartException
+	{
 		DataSetIterator dsi = new DataSetIterator( se.getDataSet( ) );
 
 		if ( ( dsi.getDataType( ) & TEXT ) == TEXT )
@@ -522,9 +538,6 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
-
-		// Reverse the series categories if needed.
-		dsi.reverse( getModel( ).isReverseCategory( ) );
 		return dsi;
 	}
 
