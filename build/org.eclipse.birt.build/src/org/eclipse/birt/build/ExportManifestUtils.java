@@ -9,6 +9,7 @@ import java.util.jar.JarFile;
 
 public class ExportManifestUtils
 {
+	static int package_count = 0;
 	static final String[] API_JAR_PATTERNS = new String[]{
 		"chartengineapi.jar",
 		"com.ibm.icu.*.jar",
@@ -75,9 +76,18 @@ public class ExportManifestUtils
 		{
 			if ( isApiJar( jarFiles[i] ) )
 			{
-				exportPackages( jarFiles[i] );
+				countPackages( jarFiles[i]);
 			}
 		}
+		//System.out.println(package_count);
+		for ( int i = 0; i < jarFiles.length; i++ )
+		{
+			if ( isApiJar( jarFiles[i] ) )
+			{
+				exportPackages( jarFiles[i]);
+			}
+		}
+		
 	}
 
 	static boolean isApiJar( File jarFile )
@@ -106,9 +116,31 @@ public class ExportManifestUtils
 		return null;
 	}
 
-	static void exportPackages( File jarFile ) throws IOException
+	static void countPackages( File jarFile) throws IOException
 	{
-		System.out.println( "#" + jarFile.getName( ) );
+		//System.out.println( "#" + jarFile.getName( ) );
+		JarFile jar = new JarFile( jarFile );
+		Entry root = new Entry( );
+		String fileName = jarFile.getName();
+		root.hasVersion = getVersion(jarFile);
+			
+		Enumeration entries = jar.entries( );
+		
+		while ( entries.hasMoreElements( ) )
+		{
+			JarEntry entry = (JarEntry) entries.nextElement( );
+			createEntry( root, entry );
+		}
+
+		for ( int i = 0; i < root.children.size(); i++ )
+		{
+			countEntry( (Entry) root.children.get( i ), "");
+		}
+	}
+	
+	static void exportPackages( File jarFile) throws IOException
+	{
+		//System.out.println( "#" + jarFile.getName( ) );
 		JarFile jar = new JarFile( jarFile );
 		Entry root = new Entry( );
 		String fileName = jarFile.getName();
@@ -127,14 +159,16 @@ public class ExportManifestUtils
 		}
 		
 		Enumeration entries = jar.entries( );
+		
 		while ( entries.hasMoreElements( ) )
 		{
 			JarEntry entry = (JarEntry) entries.nextElement( );
 			createEntry( root, entry );
 		}
-		for ( int i = 0; i < root.children.size( ); i++ )
+
+		for ( int i = 0; i < root.children.size(); i++ )
 		{
-			outputEntry( (Entry) root.children.get( i ), "" );
+			outputEntry( (Entry) root.children.get( i ), "");
 		}
 	}
 
@@ -148,31 +182,67 @@ public class ExportManifestUtils
 		ArrayList children = new ArrayList( );
 	}
 
-	static void outputEntry( Entry entry, String prefix )
+	static void countEntry( Entry entry, String prefix)
 	{
-		if ( entry.hasFiles )
+		if ( entry.hasFiles && !entry.name.equals("META-INF")&& prefix!="")
+			package_count++;
+
+		if (entry.children.size() > 0)
 		{
-			if (entry.hasVersion){
-				System.out.println( " " + prefix + "." + entry.name + ";version=\""+ entry.version +"\"," );
+			if ( prefix != null && prefix.length()!= 0 )
+			{
+				prefix = prefix + "." + entry.name;
 			}
 			else
 			{
-				System.out.println( " " + prefix + "." + entry.name + "," );
+				prefix = entry.name;
 			}
 		}
+		
+		for ( int i = 0; i <entry.children.size(); i++ )
+		{
+			countEntry( (Entry) entry.children.get(i), prefix );
+		}			
+	}
+	
+	static void outputEntry( Entry entry, String prefix)
+	{
+		if ( entry.hasFiles && !entry.name.equals("META-INF")&& prefix!="")
+		{
+			package_count--;
+			
+			String output = " ";
+			if (entry.hasVersion ){
+				output = output + prefix + "." + entry.name + ";version=\""+ entry.version +"\"" ;
+			}
+			else
+			{
+				output = output + prefix + "." + entry.name ;
+			}
+			if (package_count ==0)
+				System.out.println(output);
+			else
+				System.out.println(output+",");
+			
+			
+		}
 
-		if ( prefix != null && prefix.length( ) != 0 )
+		if (entry.children.size() > 0)
 		{
-			prefix = prefix + "." + entry.name;
+			if ( prefix != null && prefix.length()!= 0 )
+			{
+				prefix = prefix + "." + entry.name;
+			}
+			else
+			{
+				prefix = entry.name;
+			}
 		}
-		else
+		
+		for ( int i = 0; i <entry.children.size(); i++ )
 		{
-			prefix = entry.name;
-		}
-		for ( int i = 0; i < entry.children.size( ); i++ )
-		{
-			outputEntry( (Entry) entry.children.get( i ), prefix );
-		}
+			outputEntry( (Entry) entry.children.get(i), prefix );
+		}			
 	}
 
 	static void createEntry( Entry root, JarEntry entry )
