@@ -1675,7 +1675,7 @@ public abstract class EngineTask implements IEngineTask
 		setDataSource( dataSource, null );
 	}
 
-	private IDocArchiveReader dataSource;
+	protected IDocArchiveReader dataSource;
 	private String dataSourceReportlet;
 
 	public void setDataSource( IDocArchiveReader dataSource, String reportlet )
