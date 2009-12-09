@@ -354,10 +354,13 @@ public class InputParameterDialog extends BaseDialog
 						&& choice.getValue( ).equals( value ) )
 				{
 					button.setSelection( true );
+					paramValues.put( radioParameter.getHandle( ).getName( ),
+							button.getData( ) );
 				}
 				else if ( value == null && choiceLabel.equals( NULL_VALUE_STR ) )
 				{
 					button.setSelection( true );
+					paramValues.remove( radioParameter.getHandle( ).getName( ) );
 				}
 
 				button.addSelectionListener( new SelectionListener( ) {
