@@ -170,8 +170,18 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 			public int compare( ShapedAction o1, ShapedAction o2 )
 			{
-
-				return o2.getZOrder( ) - o1.getZOrder( );
+				// z-order value is marker size, not the z-order in series
+				// definition.
+				if ( o1.getZOrder( ) == 0 || o2.getZOrder( ) == 0 )
+				{
+					// do not need to sort for which marker size is 0 since its
+					// sequence will be correct after reverse later.
+					return 0; 
+				}
+				else
+				{
+					return o2.getZOrder( ) - o1.getZOrder( );
+				}
 			}
 
 		} );
