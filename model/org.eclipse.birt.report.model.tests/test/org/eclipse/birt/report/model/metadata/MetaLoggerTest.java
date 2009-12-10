@@ -337,9 +337,8 @@ public class MetaLoggerTest extends AbstractMetaTest
 		// //$NON-NLS-1$
 		loadMeta( "romTest6.def" ); //$NON-NLS-1$ 
 		assertEquals( 1, errorList.size( ) );
-		assertErrorCode(
-				MetaDataParserException.DESIGN_EXCEPTION_INVALID_NAME_SPACE, 0,
-				METAREADER_EXCEPTION );
+		assertErrorCode( MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE,
+				0, METAREADER_EXCEPTION );
 	}
 
 	/**
@@ -422,7 +421,6 @@ public class MetaLoggerTest extends AbstractMetaTest
 	 * 
 	 * 
 	 * public void test_BUILD_FAILED( ) { }
-	 * 
 	 */
 
 	/**
@@ -879,8 +877,8 @@ public class MetaLoggerTest extends AbstractMetaTest
 	}
 
 	/**
-	 * The PropertyType of the property has not been set. ( propDefn.getType() ==
-	 * null )
+	 * The PropertyType of the property has not been set. ( propDefn.getType()
+	 * == null )
 	 * 
 	 */
 
