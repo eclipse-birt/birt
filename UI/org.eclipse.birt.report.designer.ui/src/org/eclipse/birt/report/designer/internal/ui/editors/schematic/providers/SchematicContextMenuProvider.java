@@ -261,7 +261,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			if ( ( (IAdaptable) firstSelectedElement ).getAdapter( DesignElementHandle.class ) instanceof ExtendedItemHandle )
 				isExtended = true;
 		}
-		
+
 		if ( selectedElements instanceof ReportDesignHandle )
 		{
 			createLayoutPrefMenu( (ReportDesignHandle) selectedElements,
@@ -316,7 +316,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		else if ( firstSelectedElement instanceof DesignElementHandle
 				|| isExtended )
 		{
-			
+
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
@@ -357,11 +357,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 							action );
 					if ( element instanceof ImageEditPart )
 					{
-//						action = getAction( ResetImageSizeAction.ID );
-//						menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-//								action );
-						
-						createImageMenu((ImageHandle)((ImageEditPart)element).getModel( ),menuManager, GEFActionConstants.GROUP_EDIT );
+						// action = getAction( ResetImageSizeAction.ID );
+						// menuManager.appendToGroup(
+						// GEFActionConstants.GROUP_EDIT,
+						// action );
+
+						createImageMenu( (ImageHandle) ( (ImageEditPart) element ).getModel( ),
+								menuManager,
+								GEFActionConstants.GROUP_EDIT );
 					}
 
 				}
@@ -879,34 +882,37 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT ) );
 		menuManager.appendToGroup( group_name, menu );
 	}
-	
-	
+
 	private void createImageMenu( ImageHandle imageHandle,
 			IMenuManager menuManager, String group_name )
 	{
-		MenuManager menu = new MenuManager( "Reset Size" );
+		MenuManager menu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.label.ResetSize" ) ); //$NON-NLS-1$
 
-		IAction action = new ResetImageOriginalSizeAction( imageHandle, "in Original Pixels", ResetImageOriginalSizeAction.BYORIGINAL );
-		if (action.isEnabled( ))
+		IAction action = new ResetImageOriginalSizeAction( imageHandle,
+				Messages.getString( "SchematicContextMenuProvider.label.RestToOrginalPixels" ), ResetImageOriginalSizeAction.BYORIGINAL ); //$NON-NLS-1$
+		if ( action.isEnabled( ) )
 		{
 			menu.add( action );
 		}
-		action = new ResetImageOriginalSizeAction( imageHandle, "in Image Resolution", ResetImageOriginalSizeAction.BYIMAGEDPI );
-		if (action.isEnabled( ))
+		action = new ResetImageOriginalSizeAction( imageHandle,
+				Messages.getString( "SchematicContextMenuProvider.label.ResetToImageDPI" ), ResetImageOriginalSizeAction.BYIMAGEDPI ); //$NON-NLS-1$
+		if ( action.isEnabled( ) )
 		{
 			menu.add( action );
 		}
-		action = new ResetImageOriginalSizeAction( imageHandle, "in Report Resolution", ResetImageOriginalSizeAction.BYREPORTDPI );
-		if (action.isEnabled( ))
+		action = new ResetImageOriginalSizeAction( imageHandle,
+				Messages.getString( "SchematicContextMenuProvider.label.ResetToReportDPI" ), ResetImageOriginalSizeAction.BYREPORTDPI ); //$NON-NLS-1$
+		if ( action.isEnabled( ) )
 		{
 			menu.add( action );
 		}
-		action = new ResetImageOriginalSizeAction( imageHandle, "in Screen Resolution", ResetImageOriginalSizeAction.BYSCREENDPI );
-		if (action.isEnabled( ))
+		action = new ResetImageOriginalSizeAction( imageHandle,
+				Messages.getString( "SchematicContextMenuProvider.label.ResetToScreenDPI" ), ResetImageOriginalSizeAction.BYSCREENDPI ); //$NON-NLS-1$
+		if ( action.isEnabled( ) )
 		{
 			menu.add( action );
 		}
-		
+
 		menuManager.appendToGroup( group_name, menu );
 	}
 
