@@ -11,6 +11,7 @@ ELEMENT_PARENT_NOT_FOUND=No se ha encontrado el principal [{0}] para el elemento
 ILLEGAL_STYLE_PROPS=Se han definido propiedades de estilo no válidas en el elemento [{0}]. Dos posibles razones: 1. El atributo "hasStyle" de un elemento devuelve false, pero tiene definidas StyleProperties. 2. El atributo "hasStyle" de un elemento devuelve true, y es un contenedor(recuento de slot>0), pero tiene definidas StyleProperties.  
 ILLEGAL_ABSTRACT_ELEMENT=El elemento [{0}] es abstracto. Su principal [{1}] también debe serlo.
 INVALID_NAME_OPTION=Opción de nombre no válida para el elemento [{0}].
+INVALID_NAME_SPACE=Invalid name space.
 INVALID_STYLE_PROP_OPTION=Se ha producido un error al comprobar la validez. El elemento [{0}] no puede definir las propiedades de estilo [{1}] a menos que sea el elemento de estilo.
 STYLE_PROP_NOT_FOUND=No se ha encontrado la propiedad de estilo [{0}] para el elemento [{1}] en el elemento de estilo.
 PROP_TYPE_ERROR=No se ha ajustado PropertyType de la propiedad [{0}]. ( propDefn.getType() == null )

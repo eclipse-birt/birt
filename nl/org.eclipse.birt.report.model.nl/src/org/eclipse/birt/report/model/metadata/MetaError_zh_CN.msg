@@ -11,6 +11,7 @@ ELEMENT_PARENT_NOT_FOUND=未找到元素 [{1}] 的父元素 [{0}]。
 ILLEGAL_STYLE_PROPS=在元素 [{0}] 上定义了非法样式属性。 可能有两个原因：1. 元素的 "hasStyle" 属性为假，但在该元素上定义了 StyleProperties。 2. 元素的 "hasStyle" 属性为真，并且该元素是一个容器（属性框计数大于 0），但在该元素上定义了StyleProperties。  
 ILLEGAL_ABSTRACT_ELEMENT=元素 [{0}] 属于抽象类型，其父元素 [{1}] 也必须属于抽象类型。
 INVALID_NAME_OPTION=元素 [{0}] 的名称选项无效。
+INVALID_NAME_SPACE=Invalid name space.
 INVALID_STYLE_PROP_OPTION=语义检查失败。 不能在元素 [{0}] 上定义样式属性 [{1}]，除非该元素是样式元素。
 STYLE_PROP_NOT_FOUND=样式元素中未找到元素 [{1}] 的样式属性 [{0}]。
 PROP_TYPE_ERROR=未设置属性 [{0}] 的属性类型。 ( propDefn.getType() == null )
