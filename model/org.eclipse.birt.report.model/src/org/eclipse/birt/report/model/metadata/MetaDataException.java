@@ -56,6 +56,12 @@ public class MetaDataException extends ModelException
 	protected String message = null;
 
 	/**
+	 * Error code constant indicating that name space attribute is invalid.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_NAME_SPACE = "INVALID_NAME_SPACE"; //$NON-NLS-1$
+
+	/**
 	 * Error code indicating the encryption extension already exists.
 	 */
 

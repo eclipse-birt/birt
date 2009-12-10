@@ -11,12 +11,18 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * 
@@ -72,11 +78,48 @@ class NameExecutorImpl
 
 		if ( holderDefn == null )
 			return null;
+		IElementDefn moduleDefn = MetaDataDictionary.getInstance( ).getElement(
+				ReportDesignConstants.MODULE_ELEMENT );
 
 		// if hold is not module, then search the name container
-		if ( !ReportDesignConstants.MODULE_ELEMENT.equalsIgnoreCase( holderDefn
-				.getName( ) ) )
+		if ( !holderDefn.isKindOf( moduleDefn ) )
 		{
+			if ( holderDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
+			{
+				if ( module instanceof ReportDesign )
+				{
+					ElementPropertyDefn targetProperty = (ElementPropertyDefn) elementDefn
+							.getNameConfig( ).getNameProperty( );
+					if ( targetProperty == null )
+						return null;
+
+					Object value = module.getProperty( module, targetProperty );
+					if ( value == null )
+						return null;
+
+					if ( value instanceof DesignElement )
+					{
+						assert value instanceof INameContainer;
+						return ( (INameContainer) value ).getNameHelper( );
+					}
+					else if ( value instanceof List )
+					{
+						List valueList = (List) value;
+						if ( valueList.isEmpty( ) )
+							return null;
+						Object item = valueList.get( 0 );
+						assert item instanceof INameContainer;
+						return ( (INameContainer) item ).getNameHelper( );
+					}
+
+					return null;
+				}
+				else
+				{
+					return null;
+				}
+			}
+
 			while ( e != null )
 			{
 				if ( e.getDefn( ).isKindOf( holderDefn ) )

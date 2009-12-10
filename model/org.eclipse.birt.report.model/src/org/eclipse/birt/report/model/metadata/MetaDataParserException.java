@@ -81,13 +81,7 @@ public class MetaDataParserException extends XMLParserException
 	 * Property or Member.
 	 */
 
-	public static final String DESIGN_EXCEPTION_TYPE_REQUIRED = "TYPE_REQUIRED"; //$NON-NLS-1$
-
-	/**
-	 * Error code constant indicating that name space attribute is invalid.
-	 */
-
-	public static final String DESIGN_EXCEPTION_INVALID_NAME_SPACE = "INVALID_NAME_SPACE"; //$NON-NLS-1$
+	public static final String DESIGN_EXCEPTION_TYPE_REQUIRED = "TYPE_REQUIRED"; //$NON-NLS-1$	
 
 	/**
 	 * Error code constant indicating that name attribute is required for a

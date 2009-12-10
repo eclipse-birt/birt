@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -50,6 +51,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	protected static final String ELEMENT_TAG = "Element"; //$NON-NLS-1$ 	
 	protected static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
 	protected static final String METHOD_TAG = "Method"; //$NON-NLS-1$
+	protected static final String PROPERTY_GROUP_TAG = "PropertyGroup"; //$NON-NLS-1$
 
 	private static final String ROOT_TAG = "ReportMetaData"; //$NON-NLS-1$ 
 	private static final String STYLE_TAG = "Style"; //$NON-NLS-1$
@@ -57,8 +59,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	private static final String SLOT_TAG = "Slot"; //$NON-NLS-1$ 
 	private static final String TYPE_TAG = "Type"; //$NON-NLS-1$
 	private static final String DEFAULT_TAG = "Default"; //$NON-NLS-1$
-	private static final String CHOICE_TAG = "Choice"; //$NON-NLS-1$
-	private static final String PROPERTY_GROUP_TAG = "PropertyGroup"; //$NON-NLS-1$
+	private static final String CHOICE_TAG = "Choice"; //$NON-NLS-1$	
 	private static final String CHOICE_TYPE_TAG = "ChoiceType"; //$NON-NLS-1$
 	private static final String STRUCTURE_TAG = "Structure"; //$NON-NLS-1$
 	private static final String ALLOWED_TAG = "Allowed"; //$NON-NLS-1$
@@ -616,8 +617,10 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			if ( !ok )
 				return;
 
-			elementDefn = new ElementDefn( );
-			elementDefn.setName( name );
+			// use this method to create element definition instance and handle
+			// the name, this will help to override and change the behavior for
+			// different requirements
+			createElementDefn( name );
 			elementDefn.setAbstract( getBooleanAttrib( attrs,
 					IS_ABSTRACT_ATTRIB, false ) );
 			elementDefn.setDisplayNameKey( displayNameID );
@@ -642,66 +645,147 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			}
 
 			String ns = attrs.getValue( NAME_SPACE_ATTRIB );
+			IElementDefn moduleDefn = dictionary
+					.getElement( ReportDesignConstants.MODULE_ELEMENT );
 			if ( ns == null || ns.trim( ).length( ) == 0 )
 			{
 				// Inherit default name space
 			}
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.STYLE_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.STYLE_NAME_SPACE );
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.STYLE_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+			}
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.THEME_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.THEME_NAME_SPACE );
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.THEME_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+			}
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.DATA_SET_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.DATA_SET_NAME_SPACE );
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.DATA_SET_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+			}
 			else if ( ns
 					.equalsIgnoreCase( NameSpaceFactory.DATA_SOURCE_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.DATA_SOURCE_NAME_SPACE );
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.DATA_SOURCE_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+			}
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.ELEMENT_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.ELEMENT_NAME_SPACE );
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.ELEMENT_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+			}
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.PARAMETER_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.PARAMETER_NAME_SPACE );
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.PARAMETER_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+			}
 			else if ( ns
 					.equalsIgnoreCase( NameSpaceFactory.MASTER_PAGE_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.PAGE_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( NameSpaceFactory.NO_NS_NAME ) )
-				elementDefn.setNameSpaceID( MetaDataConstants.NO_NAME_SPACE );
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.PAGE_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+			}
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.CUBE_NS_NAME ) )
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.CUBE_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+
+			}
 			else if ( ns
 					.equalsIgnoreCase( NameSpaceFactory.TEMPLATE_PARAMETER_DEFINITION_NS_NAME ) )
-				elementDefn
-						.setNameSpaceID( Module.TEMPLATE_PARAMETER_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( NameSpaceFactory.CUBE_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.CUBE_NAME_SPACE );
+			{
+				elementDefn.nameConfig.nameSpaceID = Module.TEMPLATE_PARAMETER_NAME_SPACE;
+				elementDefn.nameConfig.holder = moduleDefn;
+			}
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.NO_NS_NAME ) )
+			{
+				elementDefn.nameConfig.nameSpaceID = MetaDataConstants.NO_NAME_SPACE;
+			}
 			else if ( ns.startsWith( "(" ) && ns.endsWith( ")" ) ) //$NON-NLS-1$//$NON-NLS-2$
 			{
 				String nsValue = ns.substring( 1, ns.length( ) - 1 );
-				int index = nsValue.indexOf( "," ); //$NON-NLS-1$
-				if ( index == -1 )
+				String[] splitStrings = nsValue.split( "," ); //$NON-NLS-1$
+				if ( splitStrings == null
+						|| !( splitStrings.length == 2 || splitStrings.length == 3 ) )
 				{
 					errorHandler
-							.semanticError( new MetaDataParserException(
-									MetaDataParserException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
+							.semanticError( new MetaDataException(
+									MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
 				}
 				else
 				{
-					String holderName = StringUtil.trimString( nsValue
-							.substring( 0, index ) );
-					String nameSpace = StringUtil.trimString( nsValue
-							.substring( index + 1, nsValue.length( ) ) );
-					elementDefn.nameConfig.holderName = holderName;
-					elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
-							.getInstance( ).getNameSpaceID( holderName,
-									nameSpace );
+					int length = splitStrings.length;
+					assert length == 2 || length == 3;
+					String holderName = StringUtil.trimString( splitStrings[0] );
+					String nameSpace = StringUtil.trimString( splitStrings[1] );
+					ElementDefn holderDefn = (ElementDefn) dictionary
+							.getElement( holderName );
+					if ( holderDefn == null )
+					{
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
+					}
+					else
+					{
+						if ( length == 2 )
+						{
+
+							// the name holder must be existing and name
+							// required element or the module type
+							elementDefn.nameConfig.holder = holderDefn;
+							elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
+									.getInstance( ).getNameSpaceID( holderName,
+											nameSpace );
+						}
+						else if ( length == 3 )
+						{
+							String targetProperty = StringUtil
+									.trimString( splitStrings[2] );
+							ElementPropertyDefn propDefn = (ElementPropertyDefn) dictionary
+									.getElement(
+											ReportDesignConstants.REPORT_DESIGN_ELEMENT )
+									.getProperty( targetProperty );
+							if ( propDefn == null )
+							{
+								elementDefn.nameConfig.holder = holderDefn;
+								elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
+										.getInstance( ).getNameSpaceID(
+												holderName, nameSpace );
+								elementDefn.nameConfig.targetPropertyName = targetProperty;
+							}
+							else
+							{
+								elementDefn.nameConfig.holder = holderDefn;
+								elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
+										.getInstance( ).getNameSpaceID(
+												holderName, nameSpace );
+								elementDefn.nameConfig.targetProperty = propDefn;
+							}
+						}
+						else
+						{
+							assert false;
+							errorHandler
+									.semanticError( new MetaDataParserException(
+											MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
+						}
+					}
 				}
 			}
-			else if ( NameSpaceFactory.getInstance( ).getNameSpaceID(
-					ReportDesignConstants.MODULE_ELEMENT, ns ) != -1 )
-				elementDefn.setNameSpaceID( NameSpaceFactory.getInstance( )
-						.getNameSpaceID( ReportDesignConstants.MODULE_ELEMENT,
-								ns ) );
 			else
 				errorHandler
 						.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
+								MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
 
+			addElementDefn( );
+		}
+
+		protected void addElementDefn( )
+		{
 			try
 			{
 				dictionary.addElementDefn( elementDefn );
@@ -713,6 +797,12 @@ class MetaDataHandlerImpl extends XMLParserHandler
 								e,
 								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 			}
+		}
+
+		protected void createElementDefn( String name )
+		{
+			elementDefn = new ElementDefn( );
+			elementDefn.setName( name );
 		}
 
 		public AbstractParseState startElement( String tagName )
@@ -973,7 +1063,10 @@ class MetaDataHandlerImpl extends XMLParserHandler
 					detailName = null;
 			}
 
-			propDefn = new SystemPropertyDefn( );
+			// call the method to create property definition rather than create
+			// it using constructor directly to satisfy different requirements
+			// in different use-cases
+			createPropertyDefn( );
 
 			propDefn.setName( name );
 			propDefn.setDisplayNameID( displayNameID );
@@ -1032,6 +1125,19 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				propDefn.setDetails( struct );
 			else if ( detailName != null )
 				propDefn.setDetails( detailName );
+
+			// add it to dictionary
+			addPropertyDefn( );
+
+		}
+
+		protected void createPropertyDefn( )
+		{
+			propDefn = new SystemPropertyDefn( );
+		}
+
+		protected void addPropertyDefn( )
+		{
 			try
 			{
 				elementDefn.addProperty( propDefn );
@@ -1731,7 +1837,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	class ElementMethodState extends AbstractMethodState
 	{
 
-		SystemPropertyDefn localPropDefn = new SystemPropertyDefn( );
+		SystemPropertyDefn localPropDefn = null;;
 
 		/*
 		 * (non-Javadoc)
@@ -1748,6 +1854,12 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		ElementMethodState( Object obj )
 		{
 			super( obj );
+			createLocalPropertyDefn( );
+		}
+
+		protected void createLocalPropertyDefn( )
+		{
+			localPropDefn = new SystemPropertyDefn( );;
 		}
 
 		/*
@@ -1774,7 +1886,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		 * AbstractMethodState#addDefnTo()
 		 */
 
-		void addDefnTo( )
+		final void addDefnTo( )
 		{
 			assert owner instanceof ElementDefn;
 
@@ -1792,6 +1904,12 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			localPropDefn.setIntrinsic( false );
 			localPropDefn.setStyleProperty( false );
 			localPropDefn.setDetails( methodInfo );
+
+			addPropertyDefn( );
+		}
+
+		protected void addPropertyDefn( )
+		{
 			try
 			{
 				( (ElementDefn) owner ).addProperty( localPropDefn );

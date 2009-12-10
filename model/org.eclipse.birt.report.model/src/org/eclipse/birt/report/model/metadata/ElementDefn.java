@@ -801,7 +801,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				// is set
 				nameConfig.nameSpaceID = parent.getNameSpaceID( );
 				nameConfig.holder = parent.nameConfig.holder;
-				nameConfig.holderName = parent.nameConfig.holderName;
 			}
 			else if ( !isExtendedElement( )
 					&& parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
@@ -810,14 +809,53 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			else
 			{
 				// this element has its own name space set
-				nameConfig.holder = MetaDataDictionary.getInstance( )
-						.getElement( nameConfig.holderName );
+				if ( nameConfig.holder == null )
+					nameConfig.holder = MetaDataDictionary.getInstance( )
+							.getElement( ReportDesignConstants.MODULE_ELEMENT );
+				if ( nameConfig.targetPropertyName != null )
+				{
+					nameConfig.targetProperty = (ElementPropertyDefn) MetaDataDictionary
+							.getInstance( )
+							.getElement(
+									ReportDesignConstants.REPORT_DESIGN_ELEMENT )
+							.getProperty( nameConfig.targetPropertyName );
+					if ( nameConfig.targetProperty == null )
+						throw new MetaDataException(
+								MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
+				}
 			}
 		}
 		else
 		{
-			nameConfig.holder = MetaDataDictionary.getInstance( ).getElement(
-					nameConfig.holderName );
+			// the name holder must be existing and name
+			// required element or the module type
+			if ( nameConfig.holder == null )
+			{
+				nameConfig.holder = MetaDataDictionary.getInstance( )
+						.getElement( ReportDesignConstants.MODULE_ELEMENT );
+			}
+			if ( nameConfig.targetPropertyName != null )
+			{
+				nameConfig.targetProperty = (ElementPropertyDefn) MetaDataDictionary
+						.getInstance( )
+						.getElement(
+								ReportDesignConstants.REPORT_DESIGN_ELEMENT )
+						.getProperty( nameConfig.targetPropertyName );
+				if ( nameConfig.targetProperty == null )
+					throw new MetaDataException(
+							MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
+			}
+			if ( nameConfig.targetProperty == null
+					&& nameConfig.holder != null
+					&& !( nameConfig.holder.getNameOption( ) == MetaDataConstants.REQUIRED_NAME || nameConfig.holder
+							.isKindOf( MetaDataDictionary
+									.getInstance( )
+									.getElement(
+											ReportDesignConstants.MODULE_ELEMENT ) ) ) )
+			{
+				throw new MetaDataException(
+						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
+			}
 		}
 
 		// Validate that the name and name space options are consistent.
@@ -2067,12 +2105,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		protected IElementDefn holder = null;
 
 		/**
-		 * Name of the element where the name resides. By default, all the name
-		 * resides in module.
-		 */
-		protected String holderName = ReportDesignConstants.MODULE_ELEMENT;
-
-		/**
 		 * Name option: one of following defined in MetaDataConstants:
 		 * {@link MetaDataConstants#NO_NAME NO_NAME},
 		 * {@link MetaDataConstants#OPTIONAL_NAME OPTIONAL_NAME}, or
@@ -2080,6 +2112,12 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		 */
 
 		protected int nameOption = MetaDataConstants.OPTIONAL_NAME;
+
+		protected IElementPropertyDefn targetProperty = null;
+
+		protected String targetPropertyName = null;
+
+		protected String configString = null;
 
 		/**
 		 * 
@@ -2110,6 +2148,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		public IElementDefn getNameContainer( )
 		{
 			return holder;
+		}
+
+		public IElementPropertyDefn getNameProperty( )
+		{
+			return targetProperty;
 		}
 	}
 }

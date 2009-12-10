@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
@@ -277,6 +278,14 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			return getNameContext( id ).resolve( elementName, propDefn );
 		}
 
+		// if the name container has no name, it must define a target property
+		// in report design to find the name host
+		if ( nameContainerDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
+		{
+			return resolveNameInNonameHost( elementName, propDefn, targetDefn,
+					nameContainerDefn );
+		}
+
 		// the current element is not a valid name container for the target, we
 		// will have to do the search by the root
 		return resolveName( elementName, propDefn, targetDefn );
@@ -332,6 +341,13 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		{
 			int id = targetDefn.getNameSpaceID( );
 			return getNameContext( id ).resolve( element, propDefn );
+		}
+
+		// if the name container has no name, it must define a target property
+		// in report design to find the name host
+		if ( nameContainerDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
+		{
+			// TODO
 		}
 
 		// the current element is not a valid name container for the target, we
@@ -416,6 +432,46 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 				.getNameHelper( getElement( ).getRoot( ) );
 		return nameHelper == null ? null : nameHelper.resolve( element,
 				propDefn, elementDefn );
+	}
+
+	private ElementRefValue resolveNameInNonameHost( String elementName,
+			PropertyDefn propDefn, ElementDefn elementDefn,
+			IElementDefn nameContainerDefn )
+	{
+		assert elementName != null;
+		assert elementDefn != null;
+		assert nameContainerDefn != null;
+		Module root = getElement( ).getRoot( );
+
+		if ( root != null && root instanceof ReportDesign )
+		{
+			ElementPropertyDefn targetProperty = (ElementPropertyDefn) elementDefn
+					.getNameConfig( ).getNameProperty( );
+			if ( targetProperty != null )
+			{
+				Object value = root.getProperty( root, targetProperty );
+				if ( value instanceof DesignElement )
+				{
+					assert value instanceof INameContainer;
+					return ( (INameContainer) value ).getNameHelper( ).resolve(
+							elementName, propDefn, elementDefn );
+				}
+				else if ( value instanceof List )
+				{
+					List valueList = (List) value;
+					if ( !valueList.isEmpty( ) )
+					{
+						Object item = valueList.get( 0 );
+						assert item instanceof INameContainer;
+						return ( (INameContainer) item ).getNameHelper( )
+								.resolve( elementName, propDefn, elementDefn );
+					}
+				}
+			}
+		}
+
+		return new ElementRefValue( StringUtil.extractNamespace( elementName ),
+				StringUtil.extractName( elementName ) );
 	}
 
 	/**

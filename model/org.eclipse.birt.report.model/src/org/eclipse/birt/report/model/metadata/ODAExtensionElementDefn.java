@@ -85,11 +85,14 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 		isBuilt = true;
 	}
 
-	/**
-	 * Sets up the xml name of the definition.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ExtensionElementDefn#buildXmlName
+	 * ()
 	 */
-
-	private void buildXmlName( )
+	protected void buildXmlName( )
 	{
 		String tmpXmlName = null;
 

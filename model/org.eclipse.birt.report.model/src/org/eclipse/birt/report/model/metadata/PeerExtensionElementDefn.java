@@ -398,4 +398,19 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			}
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ExtensionElementDefn#buildXmlName
+	 * ()
+	 */
+	protected void buildXmlName( )
+	{
+		// set the xml-name to that of ExtendedItem
+		ElementDefn defn = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.EXTENDED_ITEM );
+		setXmlName( defn.getXmlName( ) );
+	}
 }

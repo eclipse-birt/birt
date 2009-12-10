@@ -59,10 +59,7 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 		buildContainerProperties( );
 
-		// set the xml-name to that of ExtendedItem
-		ElementDefn defn = (ElementDefn) MetaDataDictionary.getInstance( )
-				.getElement( ReportDesignConstants.EXTENDED_ITEM );
-		setXmlName( defn.getXmlName( ) );
+		buildXmlName( );
 
 		// build slot
 		buildSlots( );
@@ -79,6 +76,11 @@ public abstract class ExtensionElementDefn extends ElementDefn
 		}
 
 		isBuilt = true;
+	}
+
+	protected void buildXmlName( )
+	{
+
 	}
 
 	/**

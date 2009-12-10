@@ -2847,17 +2847,23 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, containerInfor
 				.getPropertyName( ) );
 
+		writeChildren( list );
+
+		if ( tag != null )
+			writer.endElement( );
+	}
+
+	protected void writeChildren( List<DesignElement> contents )
+	{
 		// Iterate over the contents using this visitor to write each one.
 		// Note that this may result in a recursive call back into this
 		// method as we do a depth-first traversal of the design tree.
 
-		Iterator<DesignElement> iter = list.iterator( );
+		Iterator<DesignElement> iter = contents.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			( iter.next( ) ).apply( this );
 		}
-		if ( tag != null )
-			writer.endElement( );
 	}
 
 	/**

@@ -347,4 +347,5 @@ public interface MessageConstants
 	public static final String EXPORT_GADGET_TO_SHARED_GADGET_FILE ="Message.ExportGadgetToSharedGadgetFile"; //$NON-NLS-1$
 	public static final String EXPORT_TAB_TO_SHARED_TAB_FILE="Message.ExportTabToSharedTabFile"; //$NON-NLS-1$
 	public static final String DASHBOARD_EXCEPTION_GADGET_INCLUDED_RECURSIVELY = "Error.ExternalGadgetFileIncludedRecursively"; //$NON-NLS-1$	
+	public static final String DASHBOARD_EXCEPTION_NOT_FOUND_EXPORTER = "Error.NotFoundExporter"; //$NON-NLS-1$
 }

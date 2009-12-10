@@ -55,6 +55,11 @@ public interface IPropertyDefn extends IContainerDefn
 	public static final int ODA_PROPERTY = 4;
 
 	/**
+	 * Type code for a property defined for commercial element implementation.
+	 */
+	public static final int COMMERCIAL_PROPERTY = 5;
+
+	/**
 	 * Indicates whether this property is a list. It is useful only when the
 	 * property type is a structure type.
 	 * 

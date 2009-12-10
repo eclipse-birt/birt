@@ -90,7 +90,7 @@ class DesignWriterImpl extends ModuleWriter
 	 * @see org.eclipse.birt.report.model.writer.ModuleWriter#getModule()
 	 */
 
-	protected Module getModule( )
+	public Module getModule( )
 	{
 		return design;
 	}

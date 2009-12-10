@@ -87,6 +87,19 @@ public abstract class ExtensionLoader
 	/**
 	 * Logs the exceptions when extension pointers can't be found.
 	 * 
+	 * @param e
+	 *            the extension exception.
+	 */
+
+	protected void handleError( MetaDataParserException e )
+	{
+		logger.log( Level.SEVERE, e.getMessage( ) );
+		MetaLogManager.log( "Delta Metadata parsing error", e ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Logs the exceptions when extension pointers can't be found.
+	 * 
 	 * @param message
 	 *            the log message
 	 */

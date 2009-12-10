@@ -300,7 +300,10 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IElementDefn getElementByXmlName( String name )
 	{
-		return elementXmlNameMap.get( name );
+
+		return elementXmlNameMap.get( name ) == null ? ExtensionManager
+				.getInstance( ).getElementByXmlName( name ) : elementXmlNameMap
+				.get( name );
 	}
 
 	/**
@@ -339,9 +342,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			String tmpXmlName = tmpDefn.getXmlName( );
 
 			// TODO: also check the validation of the element XML name and
-			// whether it
-			// is an extended item. If it is ROM elements, throw exception.
-			// Otherwise, just ignore extension XML name.
+			// whether it is an extended item. If it is ROM elements, throw
+			// exception.Otherwise, just ignore extension XML name.
 
 			elementXmlNameMap.put( tmpXmlName, tmpDefn );
 		}
@@ -1092,7 +1094,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 	public static void releaseExtension( )
 	{
-		ExtensionManager.getInstance( ).releaseInstance( );
+		ExtensionManager.releaseInstance( );
 		isiniatializedExtensionManager = false;
 	}
 
