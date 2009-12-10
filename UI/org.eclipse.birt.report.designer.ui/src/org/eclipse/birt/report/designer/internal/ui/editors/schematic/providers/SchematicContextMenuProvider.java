@@ -42,7 +42,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ResetImageSizeAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ResetImageOriginalSizeAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToReportItemPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
@@ -95,6 +95,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
@@ -315,6 +316,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		else if ( firstSelectedElement instanceof DesignElementHandle
 				|| isExtended )
 		{
+			
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
@@ -355,9 +357,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 							action );
 					if ( element instanceof ImageEditPart )
 					{
-						action = getAction( ResetImageSizeAction.ID );
-						menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-								action );
+//						action = getAction( ResetImageSizeAction.ID );
+//						menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+//								action );
+						
+						createImageMenu((ImageHandle)((ImageEditPart)element).getModel( ),menuManager, GEFActionConstants.GROUP_EDIT );
 					}
 
 				}
@@ -873,6 +877,36 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT ) );
 		menu.add( new ApplyLayoutPreferenceAction( handle,
 				DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT ) );
+		menuManager.appendToGroup( group_name, menu );
+	}
+	
+	
+	private void createImageMenu( ImageHandle imageHandle,
+			IMenuManager menuManager, String group_name )
+	{
+		MenuManager menu = new MenuManager( "Reset Size" );
+
+		IAction action = new ResetImageOriginalSizeAction( imageHandle, "in Original Pixels", ResetImageOriginalSizeAction.BYORIGINAL );
+		if (action.isEnabled( ))
+		{
+			menu.add( action );
+		}
+		action = new ResetImageOriginalSizeAction( imageHandle, "in Image Resolution", ResetImageOriginalSizeAction.BYIMAGEDPI );
+		if (action.isEnabled( ))
+		{
+			menu.add( action );
+		}
+		action = new ResetImageOriginalSizeAction( imageHandle, "in Report Resolution", ResetImageOriginalSizeAction.BYREPORTDPI );
+		if (action.isEnabled( ))
+		{
+			menu.add( action );
+		}
+		action = new ResetImageOriginalSizeAction( imageHandle, "in Screen Resolution", ResetImageOriginalSizeAction.BYSCREENDPI );
+		if (action.isEnabled( ))
+		{
+			menu.add( action );
+		}
+		
 		menuManager.appendToGroup( group_name, menu );
 	}
 

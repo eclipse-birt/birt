@@ -2670,6 +2670,19 @@ public class UIUtil
 				} );
 		handle.setCreatedBy( designerVersion );
 	}
+	
+	public static void setDPI(ReportDesignHandle handle)
+	{
+		int[] DPI = getScreenResolution( );
+		try
+		{
+			handle.setImageDPI( DPI[0] );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
 
 	/**
 	 * Returns the DPI info of current display environment.
@@ -2682,16 +2695,30 @@ public class UIUtil
 				0, 0
 		};
 
-		Display current = Display.getCurrent( );
-
-		if ( current != null )
+		Display display = Display.getCurrent( );
+		if (display == null)
 		{
-			Point p = current.getDPI( );
-
+			display = Display.getDefault( );
+		}
+		if ( display.getThread( ).equals( Thread.currentThread( ) ) )
+		{
+			Point p = display.getDPI( );
 			dpi[0] = p.x;
 			dpi[1] = p.y;
+			
+			return dpi;
 		}
-
+		final Point[] points = new Point[]{new Point(0,0)};
+		final Display tempDisplay = display;
+		display.syncExec( new Runnable( ) {
+			
+			public void run( )
+			{
+				points[0] = tempDisplay.getDPI( );
+			}
+		});
+		dpi[0] = points[0].x;
+		dpi[1] = points[0].y;
 		return dpi;
 	}
 

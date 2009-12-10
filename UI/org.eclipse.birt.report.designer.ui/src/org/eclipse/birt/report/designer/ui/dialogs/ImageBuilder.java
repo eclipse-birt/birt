@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,11 +48,14 @@ import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.core.runtime.Platform;
@@ -408,13 +416,19 @@ public class ImageBuilder extends BaseDialog
 
 	private void previewTextEditor( )
 	{
+		preview( getPreviewString() );
+	}
+	
+	private String getPreviewString()
+	{
 		String str = uriEditor.getText( ).trim( );
 		String type = (String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE );
 		if ( !ExpressionType.CONSTANT.equals( type ) )
 		{
 			str = DEUtil.removeQuote( str );
 		}
-		preview( str );
+		
+		return str;
 	}
 
 	private void buildEmbeddedImageList( )
@@ -700,14 +714,105 @@ public class ImageBuilder extends BaseDialog
 				case BLOB_TYPE :
 					inputImage.setValueExpression( uriEditor.getText( ).trim( ) );
 			}
+			
 			// bug 236564
 			Image image = previewCanvas.getSourceImage( );
-			if ( image != null )
+			if (image != null)
 			{
-				inputImage.setWidth( image.getBounds( ).width
-						+ DesignChoiceConstants.UNITS_PX );
-				inputImage.setHeight( image.getBounds( ).height
-						+ DesignChoiceConstants.UNITS_PX );
+				
+				if (DEUtil.isFixLayout( getModuleHandle( ) ))
+				{
+					String defaultUnit = getModuleHandle( ).getDefaultUnits( );
+					InputStream in = null;
+					if (selectedType == EMBEDDED_TYPE)
+					{
+						EmbeddedImage embeddedImage = getModuleHandle( ).findImage( embeddedImageList.getSelection( )[0] );
+						in = new ByteArrayInputStream( embeddedImage.getData( getModuleHandle( ).getModule( )) ) ;
+					}
+					else if (selectedType == URI_TYPE)
+					{
+						URL url = ImageManager.getInstance( ).createURIURL( getPreviewString( ) );
+						if (url != null)
+						{
+							try
+							{
+								in = url.openStream( );
+							}
+							catch ( IOException e )
+							{
+								//do nothing;
+							}
+						}
+					}
+					else if (selectedType == FILE_TYPE)
+					{
+						URL url;
+						try
+						{
+							url = ImageManager.getInstance( ).generateURL( getModuleHandle( ),  getPreviewString( ) );
+						}
+						catch ( MalformedURLException e1 )
+						{
+							url = null;
+						}
+						if (url != null)
+						{
+							try
+							{
+								in = url.openStream( );
+							}
+							catch ( IOException e )
+							{
+								//do nothing;
+							}
+						}
+					}
+					
+					int dpi = UIUtil.getImageResolution( in )[0];
+					if ( dpi == 0)
+					{
+						if (getModuleHandle( ) instanceof ReportDesignHandle)
+						{
+							dpi = ((ReportDesignHandle)getModuleHandle( )).getImageDPI( );
+						}
+					}
+					if (dpi == 0)
+					{
+						dpi=UIUtil.getScreenResolution( )[0];
+					}
+					
+					int width = image.getBounds( ).width;
+					double inch =  ( (double) width ) / dpi ;
+					
+					DimensionValue value = DimensionUtil.convertTo( inch, DesignChoiceConstants.UNITS_IN, defaultUnit );
+					inputImage.getWidth( ).setValue( value );
+					
+					int height = image.getBounds( ).height;
+					inch =  ( (double) height ) / dpi ;
+					value = DimensionUtil.convertTo( inch, DesignChoiceConstants.UNITS_IN, defaultUnit );
+					inputImage.getHeight( ).setValue( value );
+					
+	
+	//				setResult( inputImage );
+					if (in != null)
+					{
+						try
+						{
+							in.close( );
+						}
+						catch ( IOException e )
+						{
+							//do nothing
+						}
+					}
+				}
+				else
+				{
+					inputImage.setWidth( image.getBounds( ).width
+							+ DesignChoiceConstants.UNITS_PX );
+					inputImage.setHeight( image.getBounds( ).height
+							+ DesignChoiceConstants.UNITS_PX );
+				}
 			}
 			setResult( inputImage );
 		}
@@ -715,6 +820,7 @@ public class ImageBuilder extends BaseDialog
 		{
 			ExceptionHandler.handle( e );
 		}
+		
 		super.okPressed( );
 	}
 

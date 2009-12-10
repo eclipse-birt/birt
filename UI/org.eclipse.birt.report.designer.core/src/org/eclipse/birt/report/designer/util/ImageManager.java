@@ -394,7 +394,7 @@ public class ImageManager
 		return CorePlugin.getDefault( ).getImageRegistry( );
 	}
 
-	private URL generateURL( ModuleHandle designHandle, String uri )
+	public URL generateURL( ModuleHandle designHandle, String uri )
 			throws MalformedURLException
 	{
 		try
@@ -474,7 +474,7 @@ public class ImageManager
 		return image;
 	}
 	
-	private URL createURIURL(String uri)
+	public URL createURIURL(String uri)
 	{
 		URL url = null;
 		try

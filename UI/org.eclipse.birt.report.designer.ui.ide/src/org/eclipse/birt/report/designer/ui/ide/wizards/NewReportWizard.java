@@ -573,6 +573,7 @@ public class NewReportWizard extends Wizard implements
 
 			//add the create property
 			UIUtil.addCreateBy( handle );
+			UIUtil.setDPI( handle );
 			// bidi_hcg end
 			handle.saveAs( file.getLocation( ).toOSString( ) );
 			handle.close( );
