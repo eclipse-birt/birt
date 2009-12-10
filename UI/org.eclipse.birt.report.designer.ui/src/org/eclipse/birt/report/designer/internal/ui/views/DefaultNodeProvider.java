@@ -141,7 +141,7 @@ public class DefaultNodeProvider implements INodeProvider
 		menu.add( new Separator( ) );
 
 		InsertInLayoutAction insertAction = new InsertInLayoutAction( object );
-		if ( insertAction.isTypeAvailable( ) )
+		if ( insertAction.isEnabled( ) )
 		{
 			menu.add( insertAction );
 		}
