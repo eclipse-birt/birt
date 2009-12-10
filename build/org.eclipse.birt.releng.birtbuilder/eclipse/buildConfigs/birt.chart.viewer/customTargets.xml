@@ -67,20 +67,18 @@
 	<!-- Steps to do before fetching the build elements -->
 	<!-- ===================================================================== -->
 	<target name="preFetch">
-        <tstamp prefix="timestamp">
-            <format property="start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.start}] Fetch birt.chart.viewer component starting"/>		
+  		<antcall target="logger">
+			<param name="message" value="Start to fetching BIRT chart.viewer plugin source"/>
+		</antcall>
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
-        <tstamp prefix="timestamp">
-            <format property="end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.end}] Fetch birt.chart.viewer component ended"/>		
+  		<antcall target="logger">
+			<param name="message" value="Finish fetching BIRT chart.viewer plugin source"/>
+		</antcall>
 	</target>
 	
 	<!-- ===================================================================== -->
@@ -149,5 +147,15 @@
 	<target name="noDefault">
 		<echo message="You must specify a target when invoking this file" />
 	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Custom target for logging build time                                                       -->
+	<!-- ===================================================================== -->
+    <target name="logger">
+    	<tstamp prefix="timestamp">
+        	<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+        <echo message="[${timestamp.birt}] ${message}${line.separator}" file="${builder.dir}/monitor.log" append="true"/>
+    </target>
 
 </project>

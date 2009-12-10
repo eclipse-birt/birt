@@ -93,11 +93,6 @@
 		-->
 		<delete>
 			<fileset dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-				<!--<include name="org.eclipse.birt.doc_*.jar"/>
-				<include name="org.eclipse.birt.cshelp_*.jar"/>
-				<include name="org.eclipse.birt.doc.isv_*.jar"/>
-				<include name="org.eclipse.birt.chart.doc.isv_*.jar"/>
-				<include name="org.eclipse.birt.chart.cshelp_*.jar"/>-->
 				<include name="org.eclipse.birt.resources_*.jar"/>
 				<include name="org.eclipse.birt.report.engine.fonts_*.jar"/>
 				<include name="org.eclipse.birt.report.viewer_*.jar"/>
@@ -152,20 +147,18 @@
 	<!-- Steps to do before fetching the build elements -->
 	<!-- ===================================================================== -->
 	<target name="preFetch">
-        <tstamp prefix="timestamp">
-            <format property="start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.start}] Fetch birt.rcp component starting"/>
+  		<antcall target="logger">
+			<param name="message" value="Start to fetch BIRT rcp feature source"/>
+		</antcall>
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
-        <tstamp prefix="timestamp">
-            <format property="end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.end}] Fetch birt.rcp component ended"/>
+  		<antcall target="logger">
+			<param name="message" value="Finish fetching BIRT rcp feature source"/>
+		</antcall>
 	</target>
 	
 	<!-- ===================================================================== -->
@@ -254,5 +247,14 @@
 	<target name="noDefault">
 		<echo message="You must specify a target when invoking this file" />
 	</target>
-
+	
+	<!-- ===================================================================== -->
+	<!-- Custom target for logging build time                                                       -->
+	<!-- ===================================================================== -->
+    <target name="logger">
+    	<tstamp prefix="timestamp">
+        	<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+        <echo message="[${timestamp.birt}] ${message}${line.separator}" file="${builder.dir}/monitor.log" append="true"/>
+    </target>
 </project>

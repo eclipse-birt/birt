@@ -36,7 +36,6 @@
     <property name="sign.dir" value="" />
 
 	<target name="main" depends="init">
-		
 		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
 		<antcall target="buildBirtOSGI"/>
@@ -82,18 +81,36 @@
 		
 		<condition property="fetchTag" value="HEAD">
 			<equals arg1="${buildType}" arg2="N" />
-		</condition>
-		
+		</condition>		
 		<condition property="forceContextQualifier" value="${buildId}">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
-		
 		<condition property="generateFeatureVersionSuffix" value="false">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
-		
 		<condition property="createUpdateSite" value="true">
 			<equals arg1="${buildType}" arg2="I" />
+		</condition>
+		
+		<!-- concise build setting -->
+		
+		<condition property="skip.build.OSGI" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+		<condition property="skip.build.WTP" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+		<condition property="skip.build.testsuite" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>	
+		<condition property="skip.unit.test" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+		<condition property="skip.allinone.linux" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+		<condition property="skip.chart.package" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
 		
 		<!--compiler args-->
@@ -113,43 +130,42 @@
 	</target>
 	
 	<target name="buildBirtFeature">
-        <tstamp prefix="timestamp">
-            <format property="sdk.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.sdk.start}]-BIRT sdk feature build started" file="${basedir}/monitor.log"/>
+		<antcall target="logger">
+			<param name="message" value="BIRT sdk feature build started"/>
+		</antcall>
 		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt" />
         </ant>
 		
-        <tstamp prefix="timestamp">
-            <format property="sdk.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.sdk.end}]-BIRT sdk feature build finished" file="${basedir}/monitor.log"/>
+		<antcall target="logger">
+			<param name="message" value="BIRT sdk feature build finished"/>
+		</antcall>
 	</target>
 
 	<target name="buildBirtOSGI" unless="skip.build.OSGI">
-        <tstamp prefix="timestamp">
-            <format property="osgi.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.osgi.start}]-BIRT OSGI sdk feature build started" file="${basedir}/monitor.log"/>
-		
+		<antcall target="logger">
+			<param name="message" value="BIRT OSGI sdk feature build started"/>
+		</antcall>
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.osgi" />
-		</ant>
-		
-        <tstamp prefix="timestamp">
-            <format property="osgi.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-	    <echo message="[${timestamp.osgi.end}]-BIRT OSGI sdk feature build finished" file="${basedir}/monitor.log"/>
+		</ant>		
+		<antcall target="logger">
+			<param name="message" value="BIRT OSGI sdk feature build finished"/>
+		</antcall>
 	</target>
 		
+	<target name="createGenReport" unless="HQ.BIRT.skip">
+		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
+			<arg line="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
+			<arg line="${template.dir}/engine.runtime.bin" />
+		</exec>
+	</target>
 	
 	<target name="CreateDistribute">
-        <tstamp prefix="timestamp">
-            <format property="package.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.package.start}]-Packaging started" file="${basedir}/monitor.log"/>
+ 		<antcall target="logger">
+			<param name="message" value="Packaging started"/>
+		</antcall>
 		
 		<mkdir dir="${postingDirectory}/${buildId}"/>
 		
@@ -161,10 +177,8 @@
 			</fileset>
 		</delete>
 		
-		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
-			<arg line="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
-			<arg line="${template.dir}/engine.runtime.bin" />
-		</exec>
+		<antcall target="createGenReport"/>
+
 		<!-- create Runtime -->
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
@@ -196,10 +210,9 @@
 		<delete file="${temp.dir}/chart-viewer-sample.war" failonerror="false"/>
 		<delete file="${temp.dir}/chart-viewer-sample/WEB-INF/web.xml" failonerror="false"/>
 
-        <exec executable="/bin/sh" dir="${temp.dir}/chart-viewer-sample">
-            <arg value="-c"/>
-            <arg value="zip -r -q ${temp.dir}/chart.zip *" />
-        </exec>
+        <zip destfile="${temp.dir}/chart.zip">
+        	<zipfileset dir="${temp.dir}/chart-viewer-sample" includes="**/*" />
+        </zip>               
 
 		<delete dir="${temp.dir}/chart-viewer-sample" failonerror="false"/>
 
@@ -209,11 +222,9 @@
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 		
-        <tstamp prefix="timestamp">
-            <format property="package.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.package.end}]-Packaging finished" file="${basedir}/monitor.log"/>
-		
+ 		<antcall target="logger">
+			<param name="message" value="Packaging finished"/>
+		</antcall>
 
 	</target>
 
@@ -294,10 +305,11 @@
         <exec executable="unzip" dir="${buildDirectory}">
             <arg line="-o -q birt-all-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
         </exec>
+		<!--
 		<exec executable="unzip" dir="${buildDirectory}">
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
-	
+		-->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
@@ -338,16 +350,10 @@
 				<include name="org.eclipse.birt.report.designer.source_*.jar"/>
 			</fileset>	
 		</delete>
-		
-		<!-- repack update jar -->
-		<replace file="${eclipse.build.configs}/../../extras/pack200" token="@pack200@" value="${jvm15_home}/bin/pack200"/>
-		<chmod file="${eclipse.build.configs}/../../extras/pack200" perm="755"/>
-
-		<exec executable="dos2unix" dir="${eclipse.build.configs}/../../extras">
-			<arg line=" pack200" />
-		</exec>
-		
+			
+		<!-- create site.xml -->
 		<antcall target="generateCategory"/>
+		
 		<!-- TODO: generate p2 composite update site -->
         <antcall target="GenP2CompositeUpdateSite"/>
                 
@@ -357,22 +363,36 @@
 		
 	</target>
 
-        <target name="GenP2CompositeUpdateSite">
+	<target name="generatePack200" unless="HQ.BIRT.skip">
+		<property name="p2.repo.name" value="BIRT TEST" />
+		<mkdir dir="${repo}"/>
+		
+		<replace file="${eclipse.build.configs}/../../extras/pack200" token="@pack200@" value="${jvm15_home}/bin/pack200"/>
+		<chmod file="${eclipse.build.configs}/../../extras/pack200" perm="755"/>
+	
+		<exec executable="dos2unix" dir="${eclipse.build.configs}/../../extras">
+			<arg line=" pack200" />
+		</exec>
+	
+        <java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
+              fork="true"
+              timeout="10800000"
+              jvm="${jvm15_home}/bin/java"
+              failonerror="true"
+              maxmemory="512m"
+              dir="${updateJarWorkingDir}">
+              <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
+              <arg line="-application org.eclipse.update.core.siteOptimizer -verbose"/>
+              <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse"/>
+        </java>
+	</target>
+		
+    <target name="GenP2CompositeUpdateSite">
             <property name="p2.repo.name" value="BIRT TEST" />
             <mkdir dir="${repo}" />
             
             <!-- generate pack200 -->
-            <java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
-                  fork="true"
-                  timeout="10800000"
-                  jvm="${jvm15_home}/bin/java"
-                  failonerror="true"
-                  maxmemory="512m"
-                  dir="${updateJarWorkingDir}">
-                  <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
-                  <arg line="-application org.eclipse.update.core.siteOptimizer -verbose"/>
-                  <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse"/>
-            </java>
+			<antcall target="generatePack200"/>
 
             <!--generator features and plugins metadata -->
             <!--p2.generator source="${repo}" compress="true" append="true" flavor="tooling"
@@ -410,7 +430,7 @@
             <p2.composite.artifact.repository.add location="file://${compsite.site}" child="${buildId}" />
             <p2.composite.metadata.repository.add location="file://${compsite.site}" child="${buildId}" />
 
-        </target>
+    </target>
 	
 	<target name="generateCategory">
 
@@ -445,34 +465,7 @@
 		   </fileset>
 		</zip>
 		
-		<antcall target="renameBirtUpdatesitePackage"/>
-		
-		<!-- push update site to output directory -->
-		<!--mkdir dir="${postingDirectory}/${buildId}/UpdateSite/plugins"/>
-		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/features"/>
-		<copy todir="${postingDirectory}/${buildId}/UpdateSite/plugins">
-			<fileset dir="${updateJarWorkingDir}/site/plugins">
-				<include name="**"/>
-			</fileset>
-		</copy>
-		
-		<copy todir="${postingDirectory}/${buildId}/UpdateSite/features">
-			<fileset dir="${updateJarWorkingDir}/site/features">
-				<include name="**"/>
-			</fileset>
-		</copy>
-		
-		<copy tofile="${postingDirectory}/${buildId}/UpdateSite/site.xml" 
-			file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
-		
-        <property name="compsite.site" value="${postingDirectory}/../../../UpdateSite/${updateSite}" />
-        <property name="repo" value="${compsite.site}/${buildId}" />
-
-	    <copy todir="${postingDirectory}/${buildId}/UpdateSite/">
-	        <fileset dir="${repo}">
-	            <include name="*.jar"/>
-	        </fileset>
-	    </copy-->
+		<antcall target="renameBirtUpdatesitePackage"/>	
 		
 	</target>
 	
@@ -502,20 +495,18 @@
 	</target>
 	
 	<target name="buildBirtTestFeature" unless="skip.build.testsuite">
-        <tstamp prefix="timestamp">
-            <format property="testsuite.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.testsuite.start}]-BIRT test feature build started" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="BIRT test feature build started"/>
+		</antcall>
 		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.tests" />
 		</ant>
 		
-        <tstamp prefix="timestamp">
-            <format property="testsuite.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.testsuite.end}]-BIRT test feature build finished" file="${basedir}/monitor.log"/>
-		
+  		<antcall target="logger">
+			<param name="message" value="BIRT test feature build finished"/>
+		</antcall>
+	
 	</target>
 	
 	<target name="buildBirtWtpFeature" unless="skip.build.WTP">
@@ -557,29 +548,27 @@
 		<exec executable="zip" dir="${wtptmpsite}/new">
 			<arg line="-q ${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
 		</exec>
-		
-        <!--copy wtp packages to upload area-->
-		<!--echo message="start copying birt-wtp-integration-sdk-*.zip to download area..."/>
-        <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
-	        <fileset dir="${postingDirectory}/${buildId}" >
-                <include name="birt-wtp-integration-sdk-${package.version}.zip"/>
-            </fileset>
-	    </copy>
-		<antcall target="renameBirtWtpPackage"/-->
-			
+					
 	</target>
 	
 	<target name="verifyCompile">
 		<!-- verify compile result -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
+
+		<antcall target="copy2UploadArea"/>
+
+		<antcall target="renameBirtPackage"/>
+        
+		<antcall target="sendNotification"/> 
 		
-        <!--copy all packages to upload area-->
-        <tstamp prefix="timestamp">
-            <format property="copy.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.copy.start}]-start copying to download area..." file="${basedir}/monitor.log"/>
-	    <echo message="                          from dir: ${postingDirectory}/${buildId}" file="${basedir}/monitor.log"/>
-        <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
+	</target>
+	
+	<target name="copy2UploadArea" unless="HQ.BIRT.skip">
+		<!--copy all packages to upload area-->
+  		<antcall target="logger">
+			<param name="message" value="start copying to download area"/>
+		</antcall>
+		<copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
 	        <fileset dir="${postingDirectory}/${buildId}" >
                 <include name="*.zip"/>
                 <include name="*.txt"/>
@@ -590,105 +579,88 @@
 		    </fileset>
             <fileset file="monitor.properties"/>
 	    </copy>
-		
-		<antcall target="renameBirtPackage"/>
-        
-		<antcall target="sendNotification"/> 
+  		<antcall target="logger">
+			<param name="message" value="from dir: ${postingDirectory}/${buildId}"/>
+		</antcall>
 	</target>
 	
 	<target name="buildBirtThirdPartyFeature">
-        <tstamp prefix="timestamp">
-            <format property="3rd.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.3rd.start}]-Third party feature building started" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="Third party feature building started"/>
+		</antcall>
+		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.third.party" />
 		</ant>
-        <tstamp prefix="timestamp">
-            <format property="3rd.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[timestamp.3rd.end]-Third party feature building finished" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="Third party feature building finished"/>
+		</antcall>
 	</target>
 	<!-- - - - - - - - - - - - - - - - - - 
           target: buildBirtRCPFeature                      
          - - - - - - - - - - - - - - - - - -->
     <target name="buildBirtRCPFeature">
-        <tstamp prefix="timestamp">
-            <format property="rcp.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-    	<echo message="[${timestamp.rcp.start}]-Export BIRT RCP product started" file="${basedir}/monitor.log"/>
-    	
+  		<antcall target="logger">
+			<param name="message" value="Export BIRT RCP product started"/>
+		</antcall>
     	<ant antfile="productBuild.xml" dir="${eclipse.pdebuild.scripts}/productBuild">
     		<property name="builder" value="${eclipse.build.configs}/birt.rcp"/>
     		<property name="product" value="${buildDirectory}/plugins/org.eclipse.birt.report.designer.ui.rcp/BIRT.product" />
     	</ant>
-        <tstamp prefix="timestamp">
-            <format property="rcp.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-    	<echo message="[${timestamp.rcp.end}]-Export BIRT RCP product finished" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="Export BIRT RCP product finished"/>
+		</antcall>
     </target>
 
 	<target name="fetchBirtWtpFeature">
-        <tstamp prefix="timestamp">
-            <format property="wtp.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.wtp.start}]-Fetch birt wtp integration feature started" file="${basedir}/monitor.log"/>
-		
+  		<antcall target="logger">
+			<param name="message" value="Fetch birt wtp integration feature started"/>
+		</antcall>
         <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
             <property name="builder" value="${eclipse.build.configs}/birt.wtp" />
         </ant>
         <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
             <property name="builder" value="${eclipse.build.configs}/birt.wtp" />
         </ant>
-        <tstamp prefix="timestamp">
-            <format property="wtp.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.wtp.end}]-Fetch birt wtp integration feature finished" file="${basedir}/monitor.log"/>
-	</target>
+  		<antcall target="logger">
+			<param name="message" value="Fetch birt wtp integration feature finished"/>
+		</antcall>
+ 	</target>
 	
 	<target name="fetchRCP">
-        <tstamp prefix="timestamp">
-            <format property="getrcp.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.getrcp.start}]-Fetch birt rcp plugin started" file="${basedir}/monitor.log"/>
-		
+  		<antcall target="logger">
+			<param name="message" value="Fetch birt rcp plugin started"/>
+		</antcall>		
         <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
             <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
         </ant>
         <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
             <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
         </ant>
-		
-        <tstamp prefix="timestamp">
-            <format property="getrcp.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.getrcp.end}]-Fetch birt rcp plugin finished" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="Fetch birt rcp plugin finished"/>
+		</antcall>
 	</target>
 	
 	<target name="BuildChartViewer">
-        <tstamp prefix="timestamp">
-            <format property="getchartviewer.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.getchartviewer.start}]-Fetch birt chart viewer started" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="Fetch birt chart viewer started"/>
+		</antcall>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
 			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
 			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
 		</ant>
-		
-        <tstamp prefix="timestamp">
-            <format property="getchartviewer.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.getchartviewer.end}]-Fetch birt chart viewer finished" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="Fetch birt chart viewer finished"/>
+		</antcall>
 	</target>
 	
 	<target name="buildBirtNLFeature">
-		<tstamp prefix="timestamp">
-            <format property="nl.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-        <echo message="[${timestamp.nl.start}]-BIRT nl feature build started" file="${basedir}/monitor.log"/>
-
+  		<antcall target="logger">
+			<param name="message" value="BIRT nl feature build started"/>
+		</antcall>
 		<property name="NLtmpsite" value="${buildDirectory}/NLtmpsite"/>
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.nl" />
@@ -696,12 +668,12 @@
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>	
-		
-		<tstamp prefix="timestamp">
-            <format property="nl.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>		
-        <echo message="[${timestamp.nl.end}]-BIRT nl feature build finished" file="${basedir}/monitor.log"/>		
-		<echo message="[${timestamp.nl.end}]-BIRT RCP nl feature build started" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="BIRT nl feature build finished"/>
+		</antcall>
+  		<antcall target="logger">
+			<param name="message" value="BIRT RCP nl feature build started"/>
+		</antcall>
 		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.rcp.nl" />
@@ -709,13 +681,13 @@
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
 		</ant>
-		
-		<tstamp prefix="timestamp">
-            <format property="rcp.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-		<echo message="[${timestamp.rcp.end}]-BIRT RCP feature build finished" file="${basedir}/monitor.log"/>		
-        <echo message="[${timestamp.rcp.end}]-BIRT-DTP nl feature build started" file="${basedir}/monitor.log"/>
-		
+  		<antcall target="logger">
+			<param name="message" value="BIRT RCP feature build finished"/>
+		</antcall>
+  		<antcall target="logger">
+			<param name="message" value="DTP nl feature build started"/>
+		</antcall>
+	
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
         	<property name="fetchTag" value="HEAD" />
@@ -723,11 +695,12 @@
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
 		
-		<tstamp prefix="timestamp">
-            <format property="dtp.nl.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-        <echo message="[${timestamp.dtp.nl.end}]-BIRT-DTP nl feature build finished" file="${basedir}/monitor.log"/>		
-        <echo message="[${timestamp.dtp.nl.end}]-BIRT-DTP sybase nl feature build started" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="DTP nl feature build finished"/>
+		</antcall>
+  		<antcall target="logger">
+			<param name="message" value="DTP sybase nl feature build started"/>
+		</antcall>
 		
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
@@ -735,11 +708,9 @@
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
-		
-		<tstamp prefix="timestamp">
-            <format property="sybase.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-        <echo message="[${timestamp.sybase.end}]-BIRT-DTP sybase nl feature build finished" file="${basedir}/monitor.log"/>
+  		<antcall target="logger">
+			<param name="message" value="DTP sybase nl feature build finished"/>
+		</antcall>
 		
 		<mkdir dir="${NLtmpsite}"/>
 		<mkdir dir="${NLtmpsite}/new"/>
@@ -831,43 +802,40 @@
 			<param name="target.name" value="birt-all-${package.version}.sign.zip"/>
 		</antcall>
 		
+		<move file="${buildDirectory}/birt-all-${package.version}.sign.zip"
+		      tofile="${buildDirectory}/birt-all-${package.version}.bak.zip" 
+		      overwrite="true"/>
+		      	
         <delete dir="${tmpsite}" failonerror="false" />
-        <unzip src="${buildDirectory}/birt-all-${package.version}.sign.zip" dest="${tmpsite}"/>
+        <unzip src="${buildDirectory}/birt-all-${package.version}.bak.zip" dest="${tmpsite}"/>
  
 	</target>
 	
     <target name="SignJars">
-    	
-        <tstamp prefix="timestamp">
-            <format property="upload" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.upload}]-Upload ${source.name} to build.eclipse.org started" file="${basedir}/monitor.log"/>
-
+  		<antcall target="logger">
+			<param name="message" value="Upload ${source.name} to build.eclipse.org started"/>
+		</antcall>
     	<scp todir="${username.sign}:${password.sign}@${hostname.sign}:${home.dir}" trust="true">
             <fileset dir="${source.dir}" includes="${source.name}"/>
         </scp>
 
-        <tstamp prefix="timestamp">
-            <format property="sign" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.sign}]-Upload ended. Wait for 30 mins for jarsigning..." file="${basedir}/monitor.log"/>
-
+   		<antcall target="logger">
+			<param name="message" value="Upload ended. Wait for 30 mins for jarsigning..."/>
+		</antcall>
         <sshexec host="${hostname.sign}" username="${username.sign}" password="${password.sign}" trust="true"
              command="cd ${sign.dir};cp ${home.dir}/${source.name} ./;sign  ${source.name} nomail;"/>
         <sleep minutes="30"/>
 
-    	<tstamp prefix="timestamp">
-            <format property="download" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.download}]-Download signed jars started" file="${basedir}/monitor.log"/>
+   		<antcall target="logger">
+			<param name="message" value="Download signed jars started"/>
+		</antcall>
     	
         <scp localtofile="${target.dir}/${target.name}" trust="true"
            file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/${source.name}"/>
 
-    	<tstamp prefix="timestamp">
-            <format property="download.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.download.end}]-Download signed jars ended. Compare signed jars with unsigned." file="${basedir}/monitor.log"/>
+   		<antcall target="logger">
+			<param name="message" value="Download signed jars ended. Compare signed jars with unsigned"/>
+		</antcall>
     	
         <condition property="CompareSignPack" value="true">
             <filesmatch file1="${source.dir}/${source.name}"
@@ -880,35 +848,30 @@
     	    <param name="target.dir" value="${target.dir}"/>
     	</antcall>
 
-    	<tstamp prefix="timestamp">
-            <format property="package" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.package}]-Packaging starts" file="${basedir}/monitor.log"/>
-
+   		<antcall target="logger">
+			<param name="message" value="Packaging starts"/>
+		</antcall>
+ 
     </target>
 
     <target name="DownloadSignedPackAgain" if="CompareSignPack">
+   		<antcall target="logger">
+			<param name="message" value="Compare fails. Wait 10 mins to download again..."/>
+		</antcall>
     	
-    	<tstamp prefix="timestamp">
-            <format property="download.again" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.download.again}]-Compare fails. Wait 10 mins to download again..." file="${basedir}/monitor.log"/>
-
         <sleep minutes="10"/>
     	
-    	<tstamp prefix="timestamp">
-            <format property="download.again.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-        <echo message="[${timestamp.download.again}]-Download signed package started" file="${basedir}/monitor.log"/>
-    	
+   		<antcall target="logger">
+			<param name="message" value="Download signed package started"/>
+		</antcall>
+   	
         <scp localtofile="${target.dir}/${target.name}" trust="true"
              file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/${source.name}"/>
     	
-    	<tstamp prefix="timestamp">
-            <format property="download.again.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-        <echo message="[${timestamp.download.again.end}]-Download signed package ended" file="${basedir}/monitor.log"/>
- 
+   		<antcall target="logger">
+			<param name="message" value="Download signed package ended"/>
+		</antcall>
+
     </target>
 
 	<target name="integrateBirtFeatures" />
@@ -922,15 +885,15 @@
 	</target>
 	
     <target name="buildBirtWebViewer">
-    	<tstamp prefix="timestamp">
-            <format property="webviewer.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-    	<echo message="[${timestamp.webviewer.start}]-Build BIRT web viewer started" file="${basedir}/monitor.log"/>
+   		<antcall target="logger">
+			<param name="message" value="Build BIRT web viewer started"/>
+		</antcall>
+    	
         <ant antfile="${eclipse.build.configs}/../helper.xml" target="BuildWebViewer" />
-    	<tstamp prefix="timestamp">
-            <format property="webviewer.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-    	<echo message="[${timestamp.webviewer.end}]-Build BIRT web viewer finished" file="${basedir}/monitor.log"/>
+    	
+   		<antcall target="logger">
+			<param name="message" value="Build BIRT web viewer finished"/>
+		</antcall>
     </target>
 
 	<target name="generateJavaCrossReference" if="genJavaDoc">
@@ -949,5 +912,10 @@
         <ant antfile="${eclipse.build.configs}/../../extras/antJavadoc.xml"/>
     </target>
 
-	
+    <target name="logger">
+    	<tstamp prefix="timestamp">
+        	<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+        <echo message="[${timestamp.birt}] ${message}${line.separator}" file="${basedir}/monitor.log" append="true"/>
+    </target>
 </project>

@@ -220,46 +220,43 @@
 		<replace file="${postingDirectory}/${buildLabel}/performance/performance.php" token="@buildType@" value="${buildType}" />
 	</target>
 
-	<target name="verifyCompile" if="eclipse.running">
-		<!--
-		<exec executable="${eclipse.build.configs}/../../extras/replaceDTD.sh">
-			<arg line="${postingDirectory}/${buildId}/compilelogs/plugins" />
-		</exec>
-		-->
+	<target name="verifyCompile">
+
 		<echo message="Checking for compile errors..." />
 		<echo message="Log file directory: ${postingDirectory}/${buildId}/compilelogs" />
 		<!--create html output for compile logs-->
 		<eclipse.convert input="${postingDirectory}/${buildId}/compilelogs/plugins" validation="true"/>
-		<!-- Sends email to recipient list in monitor.properties with compile logs attached if errors found-->
+
 		<!-- The shell scripts will gather compile error plugin list into monitor.properties -->
+		<!--
 		<exec executable="${eclipse.build.configs}/../../extras/verifyCompile.sh">
 			<arg value="${postingDirectory}/${buildId}/compilelogs"/>
 		</exec>
+		-->
+		<antcall target="verifyCompileUtil"/>
 		<antcall target="checkCompileError"/>
 		<antcall target="generateCompileSummary"/>
+		
 	</target>
 
-	<target name="rSyncWithSnzZrh" unless="test">
-		<waitfor maxwait="300" maxwaitunit="minute" checkevery="1" checkeveryunit="minute">
-			<available file="${postingDirectory}/${buildId}/eclipse-Automated-Tests-${buildId}.zip" />
-		</waitfor>
-		<antcall target="zrhBuilds" />
-		<antcall target="snzBuilds" />
+	<target name="verifyCompileUtil">
+		<path id="customjar.classpath">
+			<fileset dir="${eclipse.build.configs}/../../extras/">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins">
+				<include name="org.apache.xerces_*.jar"/>
+			</fileset>
+		</path>
+		
+		<!-- Using custom build tools to get failure/error summary of test result -->
+		<java classname="org.eclipse.birt.build.VerifyCompileUtils" output="${eclipse.build.configs}/../../verifyCompile.log">
+			<classpath refid="customjar.classpath" />
+			<arg value="${postingDirectory}/${buildId}/compilelogs/plugins" />
+			<arg value="${eclipse.build.configs}/../../monitor.properties" />
+		</java>
 	</target>
-
-	<target name="snzBuilds">
-		<!--copy drops to local directory for rsync with snz-->
-		<copy todir="/builds/transfer/files/snz">
-			<fileset dir="${postingDirectory}" includes ="${buildId}/eclipse-SDK-*-win32.zip,${buildId}/eclipse-SDK-*-linux-gtk.tar.gz" excludes="${buildId}/eclipse-SDK-examples-*-win32.zip" />
-		</copy>
-	</target>
-
-	<target name="zrhBuilds">
-		<!--copy drops to local directory for rsync with zrh-->
-		<copy todir="/builds/transfer/files/zrh">
-			<fileset dir="${postingDirectory}" includes ="${buildId}/eclipse-SDK-*-macosx-carbon.tar.gz,${buildId}/eclipse-SDK-*-win32.zip,${buildId}/eclipse-SDK-*-linux-*.tar.gz" excludes="${buildId}/eclipse-SDK-examples-*-win32.zip,${buildId}/eclipse-SDK-*-linux-gtk-x86_64.tar.gz,${buildId}/eclipse-SDK-*-linux-gtk-ppc.tar.gz" />
-		</copy>
-	</target>
+	
 	<!-- ===================================================================== -->
 	<!-- Default target                                                        -->
 	<!-- ===================================================================== -->
@@ -1222,15 +1219,7 @@ Have a nice day!
             <arg value="Y"/>
             <arg value="Y"/>
         </java>
-	<!--
-        <java classname="org.eclipse.birt.build.ParseResultCount">
-            <classpath refid="customjar.classpath" />
-            <arg value="${test.dir}/unitTestReport/smokexml" />
-            <arg value="${test.dir}/unitTestReport/html/result.properties" />
-            <arg value="Y"/>
-            <arg value="N"/>
-        </java>
-	-->
+
     	<move file="${test.dir}/unitTestReport/html/result.properties" 
     		tofile="${postingDirectory}/result.properties"/>
     </target>
@@ -1339,7 +1328,7 @@ Have a nice day!
             </mail>
     </target>
 	
-	<target name="generateCompileSummary">
+	<target name="generateCompileSummary" unless="HQ.BIRT.skip">
 		
         <property file="config.properties" />
 	    <property name="compile.log.summary" value="${postingDirectory}/compileSummary.properties"/>

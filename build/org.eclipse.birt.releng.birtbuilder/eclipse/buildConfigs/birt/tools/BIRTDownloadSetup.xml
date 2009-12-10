@@ -234,28 +234,18 @@
 		<antcall target="createBirtFramework" />
 
 		<antcall target="createBirtRuntime" />
-
-		<!--antcall target="createDTPIntegration" /-->
-
-		<!--antcall target="createTestSuite" /-->
 		
 		<antcall target="createSamplePlugin" />
 		
 		<antcall target="createBirtRCP" />
-		
-		<!-- <antcall target="createChartRuntime" /> -->
-		
+			
 		<antcall target="createDatabase" />
 
 		<antcall target="createAllInOne" />
 
-		<!--<antcall target="createAllInOneHQ" />-->
-
 		<antcall target="createAllInOneForLinux" />
 		
 		<antcall target="createBirtSDK"/>
-
-	    <!--<antcall target="createWTPIntegration"/>-->
 		
 		<antcall target="createBirtSourceBuild"/>
 
@@ -517,7 +507,7 @@
 	<!-- - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -
 	This target is used for create All-In-One package for Linux
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-	<target name="createAllInOneForLinux">
+	<target name="createAllInOneForLinux" unless="skip.allinone.linux">
 		<!--  Make birt all-in-one ZIP file-->
 		<mkdir dir="${OutputDir}/temp"/>
 		<mkdir dir="${OutputDir}/temp/eclipse"/>
@@ -1113,7 +1103,7 @@
 
     </target>
 
-	<target name="createChartDownload">
+	<target name="createChartDownload" unless="skip.chart.package">
 		<!-- ===============================================
 		 Eclipse Charting Runtime
 

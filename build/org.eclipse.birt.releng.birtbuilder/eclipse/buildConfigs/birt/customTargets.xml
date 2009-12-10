@@ -84,32 +84,30 @@
 	<!-- Steps to do before fetching the build elements -->
 	<!-- ===================================================================== -->
 	<target name="preFetch">
-        <tstamp prefix="timestamp">
-            <format property="start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.start}] Fetch birt component starting"/>
+   		<antcall target="logger">
+			<param name="message" value="Start to fetch BIRT sdk feature source"/>
+		</antcall>
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
-        <tstamp prefix="timestamp">
-            <format property="end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-     	<echo message="[${timestamp.end}] Fetch birt component ended"/>		
-	        <!-- Repackage latest odadesigneapi.jar and copy to model.adatpter.oda/lib folder-->
-                <copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib">
-                        <fileset dir="${baseLocation}/plugins" />
-                        <mapper type="regexp"  from="org.eclipse.datatools.connectivity.oda.design_.*.jar" to="org.eclipse.datatools.connectivity.oda.design.jar"/>
-                </copy>
+   		<antcall target="logger">
+			<param name="message" value="Finish fetching BIRT sdk feature source"/>
+		</antcall>
+	    <!-- Repackage latest odadesigneapi.jar and copy to model.adatpter.oda/lib folder-->
+        <copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib">
+        	<fileset dir="${baseLocation}/plugins" />
+            <mapper type="regexp"  from="org.eclipse.datatools.connectivity.oda.design_.*.jar" to="org.eclipse.datatools.connectivity.oda.design.jar"/>
+        </copy>
 		
 		<mkdir dir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/temp.folder"/>
-	        <unzip dest="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/temp.folder" overwrite="true">
-                        <fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib">
-                                <include name="org.eclipse.datatools.connectivity.oda.design.jar" />
-                        </fileset>
-                </unzip>
+	    <unzip dest="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/temp.folder" overwrite="true">
+        	<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib">
+            	<include name="org.eclipse.datatools.connectivity.oda.design.jar" />
+            </fileset>
+        </unzip>
 		<delete file="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/org.eclipse.datatools.connectivity.oda.design.jar" failonerror="false"/>
 		<delete file="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/odadesignapi.jar" failonerror="false"/>
 
@@ -189,7 +187,7 @@
 		<replace dir="${buildDirectory}/plugins" value="${BranchVersion}.${buildId}" token="@BUILD@">
 			<include name="**/plugin.properties" />
 		</replace>
-                <chmod file="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/templateGenerator.sh" perm="755"/>
+        <chmod file="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/templateGenerator.sh" perm="755"/>
 	</target>
 
 	<!-- ===================================================================== -->
@@ -251,6 +249,14 @@
 		<echo message="You must specify a target when invoking this file" />
 	</target>
 
-
+	<!-- ===================================================================== -->
+	<!-- Custom target for logging build time                                                       -->
+	<!-- ===================================================================== -->
+    <target name="logger">
+    	<tstamp prefix="timestamp">
+        	<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+        <echo message="[${timestamp.birt}] ${message}${line.separator}" file="${builder.dir}/monitor.log" append="true"/>
+    </target>
 </project>
 
