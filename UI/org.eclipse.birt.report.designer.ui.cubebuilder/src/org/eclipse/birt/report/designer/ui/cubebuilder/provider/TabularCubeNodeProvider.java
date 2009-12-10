@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
@@ -67,7 +68,11 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 				new ShowPropertyAction( object ) );
 
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator( ) ); //$NON-NLS-1$
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new RefreshAction( sourceViewer ) ); //$NON-NLS-1$
+		IAction action = new RefreshAction( sourceViewer );
+		if (action.isEnabled( ))
+		{
+			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", action ); //$NON-NLS-1$
+		}
 	}
 
 	/*
