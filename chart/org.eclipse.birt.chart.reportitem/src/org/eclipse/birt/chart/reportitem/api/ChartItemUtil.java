@@ -1222,7 +1222,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 					.get( 0 );
 
 			// Add X series
-			Series xSeries = bsd.getRunTimeSeries( ).get( 0 );
+			Series xSeries = bsd.getDesignTimeSeries( );
 			usedBindings.add( xSeries.getDataDefinition( )
 					.get( 0 )
 					.getDefinition( ) );
@@ -1231,12 +1231,10 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			for ( SeriesDefinition vsd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 			{
 				usedBindings.add( vsd.getQuery( ).getDefinition( ) );
-				for ( Series vs : vsd.getRunTimeSeries( ) )
+				Series vs = vsd.getDesignTimeSeries( );
+				for ( Query query : vs.getDataDefinition( ) )
 				{
-					for ( Query query : vs.getDataDefinition( ) )
-					{
-						usedBindings.add( query.getDefinition( ) );
-					}
+					usedBindings.add( query.getDefinition( ) );
 				}
 			}
 
