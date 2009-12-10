@@ -3419,6 +3419,11 @@ DirectoryDialog.Question=Pregunta
 
 SchematicContextMenuProvider.ActionText.editData=Editar &valor/expresión... 
 SchematicContextMenuProvider.ActionText.editLabel=&Editar
+SchematicContextMenuProvider.label.ResetSize=Reset Image Si&ze
+SchematicContextMenuProvider.label.ResetToImageDPI=Best Fit &Image Resolution
+SchematicContextMenuProvider.label.ResetToReportDPI=Best Fit &Report Resolution
+SchematicContextMenuProvider.label.ResetToScreenDPI=Best Fit &Screen Resolution
+SchematicContextMenuProvider.label.RestToOrginalPixels=In Original &Pixels
 SchematicContextMenuProvider.Menu.EditGroup=Editar &grupo
 SchematicContextMenuProvider.Menu.Insert=In&sertar
 SchematicContextMenuProvider.Menu.insertElement=I&nsertar
@@ -4587,6 +4592,7 @@ GeneralConfigurationBlock.button.text.prompt=Mostrar &solicitud después de abrir
 
 ###########################################################
 #ResetImageSizeAction
+ResetImageOriginalSizeAction.trans.label=Reset Image Size
 ResetImageSizeAction.label=Restablecer al tama&ño original
 ###########################################################
 #Report document editor

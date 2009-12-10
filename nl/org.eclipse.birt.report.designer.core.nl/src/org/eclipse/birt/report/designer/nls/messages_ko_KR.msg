@@ -3419,6 +3419,11 @@ DirectoryDialog.Question=질문
 
 SchematicContextMenuProvider.ActionText.editData=값/식 편집(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=편집(&E)
+SchematicContextMenuProvider.label.ResetSize=Reset Image Si&ze
+SchematicContextMenuProvider.label.ResetToImageDPI=Best Fit &Image Resolution
+SchematicContextMenuProvider.label.ResetToReportDPI=Best Fit &Report Resolution
+SchematicContextMenuProvider.label.ResetToScreenDPI=Best Fit &Screen Resolution
+SchematicContextMenuProvider.label.RestToOrginalPixels=In Original &Pixels
 SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&G)
 SchematicContextMenuProvider.Menu.Insert=삽입(&I)
 SchematicContextMenuProvider.Menu.insertElement=삽입(&N)
@@ -4587,6 +4592,7 @@ GeneralConfigurationBlock.button.text.prompt=라이브러리 파일을 연 후 프롬프트 표
 
 ###########################################################
 #ResetImageSizeAction
+ResetImageOriginalSizeAction.trans.label=Reset Image Size
 ResetImageSizeAction.label=원본 크기로 재설정(&Z)
 ###########################################################
 #Report document editor

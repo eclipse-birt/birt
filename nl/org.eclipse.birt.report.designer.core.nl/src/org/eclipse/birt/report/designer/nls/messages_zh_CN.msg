@@ -3419,6 +3419,11 @@ DirectoryDialog.Question=问题
 
 SchematicContextMenuProvider.ActionText.editData=编辑值/表达式(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=编辑(&E)
+SchematicContextMenuProvider.label.ResetSize=Reset Image Si&ze
+SchematicContextMenuProvider.label.ResetToImageDPI=Best Fit &Image Resolution
+SchematicContextMenuProvider.label.ResetToReportDPI=Best Fit &Report Resolution
+SchematicContextMenuProvider.label.ResetToScreenDPI=Best Fit &Screen Resolution
+SchematicContextMenuProvider.label.RestToOrginalPixels=In Original &Pixels
 SchematicContextMenuProvider.Menu.EditGroup=编辑组(&G)
 SchematicContextMenuProvider.Menu.Insert=插入(&I)
 SchematicContextMenuProvider.Menu.insertElement=插入(&N)
@@ -4587,6 +4592,7 @@ GeneralConfigurationBlock.button.text.prompt=打开库文件后显示提示(&P)。
 
 ###########################################################
 #ResetImageSizeAction
+ResetImageOriginalSizeAction.trans.label=Reset Image Size
 ResetImageSizeAction.label=置为原始大小(&Z)
 ###########################################################
 #Report document editor
