@@ -594,7 +594,7 @@ public class Bubble extends Scatter
 			{
 				larray[i] = goFactory.createLocation( faX[i], faY[i] );
 			}
-			larray = filterNull( larray );
+			larray = filterNull( larray, isrh.getDataPoints( ) );
 			renderFittingCurve( ipr,
 					larray,
 					getSeries( ).getCurveFitting( ),

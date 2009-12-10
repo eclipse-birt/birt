@@ -514,25 +514,91 @@ public abstract class AxesRenderer extends BaseRenderer
 		return ta;
 	}
 
-	private void sort( double[] a, double[] b, final boolean sortFirstArray )
+	private static class FittingCurveHelper
 	{
-		double[][] sa = new double[a.length][2];
 
-		for ( int i = 0; i < a.length; i++ )
+		private final double[] baseArray;
+		private final double[] orthogonalArray;
+
+		private FittingCurveHelper( double[][] sa, int iSize )
 		{
-			double[] ca = new double[2];
+			iSize = Math.min( iSize, sa.length );
+			baseArray = new double[iSize];
+			orthogonalArray = new double[iSize];
 
-			ca[0] = a[i];
-			ca[1] = b[i];
-
-			sa[i] = ca;
+			for ( int i = 0; i < iSize; i++ )
+			{
+				baseArray[i] = sa[i][0];
+				orthogonalArray[i] = sa[i][1];
+			}
 		}
 
-		Arrays.sort( sa, new Comparator<double[]>( ) {
+		public double[] getBaseArray( )
+		{
+			return baseArray;
+		}
 
-			public int compare( double[] l1, double[] l2 )
+		public double[] getOrthogonalArray( )
+		{
+			return orthogonalArray;
+		}
+
+		public static FittingCurveHelper instance( double[] xArray,
+				double[] yArray,
+				boolean isTransposed )
+		{
+			double[][] sa = sort( xArray, yArray, isTransposed );
+			int iSize = mergeBase( sa, isTransposed );
+
+			return new FittingCurveHelper( sa, iSize );
+		}
+
+		private static int mergeBase( double[][] sa, boolean isTransposed )
+		{
+			int iLen = sa.length;
+			int iDst = 0;
+
+			for ( int iSrc = 0; iSrc < iLen; )
 			{
-				if ( sortFirstArray )
+				int iEq = 1;
+				double dOrthTotal = sa[iSrc][1];
+				double dBase = sa[iSrc][0];
+
+				while ( iSrc + iEq < iLen && sa[iSrc + iEq][0] == dBase )
+				{
+					dOrthTotal += sa[iSrc + iEq][1];
+					iEq++;
+				}
+
+				sa[iDst][1] = dOrthTotal / iEq;
+				sa[iDst][0] = dBase;
+				iDst++;
+				iSrc += iEq;
+			}
+
+			return iDst;
+		}
+
+		private static double[][] sort( double[] a, double[] b,
+				final boolean isTransposed )
+		{
+			double[] baseArray = isTransposed ? b : a;
+			double[] orthogonalArray = isTransposed ? a : b;
+
+			double[][] sa = new double[a.length][2];
+
+			for ( int i = 0; i < a.length; i++ )
+			{
+				double[] ca = new double[2];
+
+				ca[0] = baseArray[i];
+				ca[1] = orthogonalArray[i];
+				sa[i] = ca;
+			}
+
+			Arrays.sort( sa, new Comparator<double[]>( ) {
+
+				public int compare( double[] l1, double[] l2 )
 				{
 					if ( l1[0] == l2[0] )
 					{
@@ -543,28 +609,12 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						return -1;
 					}
+
+					return 1;
 				}
-				else
-				{
-					if ( l1[1] == l2[1] )
-					{
-						return 0;
-					}
+			} );
 
-					if ( l1[1] < l2[1] )
-					{
-						return -1;
-					}
-				}
-
-				return 1;
-			}
-		} );
-
-		for ( int i = 0; i < a.length; i++ )
-		{
-			a[i] = sa[i][0];
-			b[i] = sa[i][1];
+			return sa;
 		}
 
 	}
@@ -603,15 +653,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				yArray[i] = points[i].getY( );
 			}
 
-			sort( xArray, yArray, !isTransposed );
-
-			double[] baseArray = xArray, orthogonalArray = yArray;
-
-			if ( isTransposed )
-			{
-				baseArray = yArray;
-				orthogonalArray = xArray;
-			}
+			FittingCurveHelper fch = FittingCurveHelper.instance( xArray,
+					yArray,
+					isTransposed );
+			double[] baseArray = fch.getBaseArray( );
+			double[] orthogonalArray = fch.getOrthogonalArray( );
 
 			FittingCalculator fc = new FittingCalculator( baseArray,
 					orthogonalArray,
@@ -623,10 +669,8 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			if ( isTransposed )
 			{
+				orthogonalArray = baseArray;
 				baseArray = fitYarray;
-				orthogonalArray = yArray;
-
-				sort( baseArray, orthogonalArray, false );
 			}
 
 			if ( curve.getLineAttributes( ).getColor( ) != null )

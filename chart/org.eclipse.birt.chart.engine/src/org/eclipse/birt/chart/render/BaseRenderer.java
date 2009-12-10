@@ -3161,6 +3161,42 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Filters the Null or invalid entry(contains NaN value) from the array in
+	 * respect of DataPointHints.
+	 * 
+	 * @param ll
+	 * @return
+	 */
+	protected static Location[] filterNull( Location[] ll, DataPointHints[] dpha )
+			throws ChartException
+	{
+		if ( ll == null || dpha == null || ll.length != dpha.length )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					new IllegalArgumentException( ) );
+		}
+
+		int iLen = dpha.length;
+
+		ArrayList<Location> al = new ArrayList<Location>( iLen );
+		for ( int i = 0; i < iLen; i++ )
+		{
+			if ( dpha[i].getBaseValue( ) != null
+					&& dpha[i].getOrthogonalValue( ) != null )
+			{
+				al.add( ll[i] );
+			}
+		}
+
+		if ( ll instanceof Location3D[] )
+		{
+			return al.toArray( new Location3D[al.size( )] );
+		}
+		return al.toArray( new Location[al.size( )] );
+	}
+
+	/**
 	 * Check the if the given value is NaN.
 	 * 
 	 * @param value
