@@ -1879,10 +1879,6 @@ public final class Bar extends AxesRenderer
 	{
 		Location[] loaFrontFace = new Location[4];
 		// NEW INSTANCE CREATED PER DATA POINT
-		dX = Math.round( dX );
-		dY = Math.round( dY );
-		dWidth = Math.round( dWidth );
-		dHeight = Math.round( dHeight );
 		loaFrontFace[0] = goFactory.createLocation( dX, dY );
 		loaFrontFace[1] = goFactory.createLocation( dX, dY + dHeight );
 		loaFrontFace[2] = goFactory.createLocation( dX + dWidth, dY + dHeight );
@@ -2134,10 +2130,6 @@ public final class Bar extends AxesRenderer
 			double dWidth )
 	{
 		Location[] loaFrontFace = new Location[3];
-		dX = Math.round( dX );
-		dY = Math.round( dY );
-		dWidth = Math.round( dWidth );
-		dHeight = Math.round( dHeight );
 		// NEW INSTANCE CREATED PER DATA POINT
 		if ( isTransposed( ) )
 		// TRIANGLE IS ROTATED BY 90 DEGREES
@@ -2294,10 +2286,6 @@ public final class Bar extends AxesRenderer
 			double dWidth )
 	{
 		Location[] loaFrontFace = new Location[4];
-		dX = Math.round( dX );
-		dY = Math.round( dY );
-		dWidth = Math.round( dWidth );
-		dHeight = Math.round( dHeight );
 		// NEW INSTANCE CREATED PER DATA POINT
 		loaFrontFace[0] = goFactory.createLocation( dX, dY );
 		loaFrontFace[1] = goFactory.createLocation( dX, dY + dHeight );
@@ -2416,10 +2404,6 @@ public final class Bar extends AxesRenderer
 			double dWidth )
 	{
 		Location[] loaFrontFace = new Location[3];
-		dX = Math.round( dX );
-		dY = Math.round( dY );
-		dWidth = Math.round( dWidth );
-		dHeight = Math.round( dHeight );
 		// NEW INSTANCE CREATED PER DATA POINT
 		if ( isTransposed( ) ) // TRIANGLE IS ROTATED BY 90
 		// DEGREES
