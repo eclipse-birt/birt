@@ -913,8 +913,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		else
 		{
 			// Other intrinsics properties will be added here.
-
-			assert false;
+			doSetProperty( prop, value );
 		}
 	}
 
