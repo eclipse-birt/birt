@@ -712,14 +712,14 @@ class DimensionDivider
 			}
 			else
 			{
-				this.memberArray = new DimensionKey[Math.min( Constants.FACT_TABLE_BUFFER_SIZE,
+				this.memberArray = new DimensionKey[Math.min( Constants.MAX_DIMENSION_LENGTH,
 						members.size( ) )];
 			}
 			for ( int i = 0; i < memberArray.length; i++ )
 			{
 				memberArray[i] = (DimensionKey) members.get( i );
 			}
-			if ( members.size( ) > Constants.FACT_TABLE_BUFFER_SIZE )
+			if ( members.size( ) > Constants.MAX_DIMENSION_LENGTH )
 			{
 				this.diskMemberArray = members;
 				this.diskPostion = memberArray.length;
