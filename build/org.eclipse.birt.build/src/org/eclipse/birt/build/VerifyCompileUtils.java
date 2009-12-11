@@ -62,6 +62,7 @@ public class VerifyCompileUtils {
 				if(plugins[i].isDirectory())
 				{
 					System.out.println("[VerifyCompile] Processing " + plugins[i].getName());
+					
 					//Get the HTML compile log
 					File[] htmlLogs = plugins[i].listFiles(new FileFilter() {
 						public boolean accept(File pathname) {
@@ -74,6 +75,11 @@ public class VerifyCompileUtils {
 						}
 					}); 
 					
+					if(xmlLogs.length == 0)
+					{
+						System.out.println("[VerifyCompile] Emtpy log directory, continue for next...");
+						continue;
+					}
 					//Parse the xml result file
 					if(checkCompileError(xmlLogs[0])>0)
 					{
