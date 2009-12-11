@@ -408,8 +408,7 @@ public class Connection implements IConnection
 			}
 			catch ( SQLException e )
 			{
-				throw new JDBCException( ResourceConstants.CANNOT_GET_MAXQUERIES,
-						e );
+				return 0;
 			}
 		}
 

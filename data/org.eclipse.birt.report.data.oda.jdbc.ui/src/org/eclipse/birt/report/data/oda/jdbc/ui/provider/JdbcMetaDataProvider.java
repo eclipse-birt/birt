@@ -198,7 +198,7 @@ public class JdbcMetaDataProvider
 			catch ( Exception e1 )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
-				return false;
+				return true;
 			}
 		}
 	}
@@ -222,8 +222,19 @@ public class JdbcMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-				return false;
+				try
+				{
+					ResultSet rs = connection.getMetaData( ).getSchemas( );
+					if( rs != null )
+						return true;
+					else
+						return false;
+				}
+				catch (SQLException e1)
+				{
+					logger.log( Level.WARNING, e.getMessage( ), e );
+					return false;
+				}
 			}
 		}
 		try
@@ -239,8 +250,19 @@ public class JdbcMetaDataProvider
 			}
 			catch ( Exception e1 )
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-				return false;
+				try
+				{
+					ResultSet rs = connection.getMetaData( ).getSchemas( );
+					if( rs != null )
+						return true;
+					else
+						return false;
+				}
+				catch (SQLException e2)
+				{
+					logger.log( Level.WARNING, e.getMessage( ), e1 );
+					return false;
+				}
 			}
 		}
 	}
