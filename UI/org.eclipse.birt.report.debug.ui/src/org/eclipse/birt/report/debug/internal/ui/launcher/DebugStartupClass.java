@@ -14,7 +14,6 @@ package org.eclipse.birt.report.debug.internal.ui.launcher;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy;
 import org.eclipse.birt.report.designer.ui.preview.editors.ReportPreviewFormPage;
@@ -80,7 +79,7 @@ public class DebugStartupClass implements IStartup
 			String str = token.nextToken( );
 			try
 			{
-				DebugUtil.importProject( str );
+				//DebugUtil.importProject( str );
 			}
 			catch ( Exception e1 )
 			{
