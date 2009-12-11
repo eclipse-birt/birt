@@ -215,7 +215,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			index = index < 0 ? 0 : index;
 			comboDirection.select( index );
 		}
-		
 
 		if ( sortElementHandle.getLocale( ) != null )
 		{
@@ -237,7 +236,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		String strength = null;
 		for ( Map.Entry<String, Integer> entry : STRENGTH_MAP.entrySet( ) )
 		{
-			if ( sortElementHandle.getStrength( ) == entry.getValue( ) ) 
+			if ( sortElementHandle.getStrength( ) == entry.getValue( ) )
 			{
 				strength = entry.getKey( );
 			}
@@ -247,7 +246,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			int index = comboStrength.indexOf( strength );
 			comboStrength.select( index < 0 ? 0 : index );
 		}
-		
+
 		updateButtons( );
 		return true;
 	}
@@ -968,7 +967,11 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 		if ( textKey.indexOf( textKey.getText( ) ) < 0 )
 		{
-			textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( 0 ) ) );
+			if ( ExpressionButtonUtil.getCurrentExpressionConverter( textKey ) != null )
+			{
+				textKey.setText( ExpressionButtonUtil.getCurrentExpressionConverter( textKey )
+						.getCubeBindingExpression( textKey.getItem( 0 ) ) );
+			}
 		}
 	}
 
