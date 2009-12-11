@@ -750,7 +750,7 @@ public abstract class Module extends DesignElement
 			ns.insert( element );
 		}
 
-		if ( defn.isContainer( ) )
+		if ( element.isContainer( ) )
 		{
 			Iterator<DesignElement> iter = new LevelContentIterator( this,
 					element, 1 );

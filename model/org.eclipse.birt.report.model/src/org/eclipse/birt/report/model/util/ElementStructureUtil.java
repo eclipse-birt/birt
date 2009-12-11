@@ -99,6 +99,13 @@ public class ElementStructureUtil
 	 * 
 	 */
 
+	/**
+	 * @param childModule
+	 * @param child
+	 * @param parent
+	 * @return
+	 */
+
 	public static boolean updateStructureFromParent( Module childModule,
 			DesignElement child, DesignElement parent )
 	{
@@ -287,7 +294,7 @@ public class ElementStructureUtil
 			throw new IllegalArgumentException(
 					"Two element are not the same type." ); //$NON-NLS-1$
 
-		if ( !defn.isContainer( ) )
+		if ( !source.isContainer( ) )
 			return true;
 
 		// Copies top level slots from cloned element to the target element.
@@ -529,6 +536,29 @@ public class ElementStructureUtil
 		if ( parent == null )
 			return Collections.emptyMap( );
 
+		return getIdMap( module, element, parent );
+	}
+
+	/**
+	 * Returns the id reference relationship between the parent element and the
+	 * child element.
+	 * <p>
+	 * Notice: the element and its parent should have the same structure when
+	 * calling this method. That is the child structure has already been
+	 * refreshed from parent.
+	 * 
+	 * @param module
+	 * 
+	 * @param element
+	 *            the element to setup the id reference
+	 * @param parent
+	 *            the parent element
+	 * @return a map to store the base id and the corresponding child element.
+	 */
+
+	public static Map<Long, DesignElement> getIdMap( Module module,
+			DesignElement element, DesignElement parent )
+	{
 		Map<Long, DesignElement> idMap = new HashMap<Long, DesignElement>( );
 
 		Iterator<DesignElement> parentIter = new ContentIterator( module,

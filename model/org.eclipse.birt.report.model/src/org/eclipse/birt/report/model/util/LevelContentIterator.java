@@ -100,7 +100,7 @@ public class LevelContentIterator implements Iterator<DesignElement>
 	private void buildContentsList( Module module, DesignElement element,
 			int level )
 	{
-		if ( level < 0 || !element.getDefn( ).isContainer( ) )
+		if ( level < 0 || !element.isContainer( ) )
 			return;
 
 		ElementDefn defn = (ElementDefn) element.getDefn( );
@@ -116,7 +116,7 @@ public class LevelContentIterator implements Iterator<DesignElement>
 		}
 
 		// build properties
-		List<IElementPropertyDefn> properties = defn.getContents( );
+		List<IElementPropertyDefn> properties = element.getContents( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			buildContentsList( module, new ContainerContext( element,

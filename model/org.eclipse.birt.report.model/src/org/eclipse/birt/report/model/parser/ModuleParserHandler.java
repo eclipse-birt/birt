@@ -115,7 +115,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * Cached element list whose id is not handle and added to the id map.
 	 */
 
-	protected List<DesignElement> unhandleIDElements = new ArrayList<DesignElement>( );
+	public List<DesignElement> unhandleIDElements = new ArrayList<DesignElement>( );
 
 	/**
 	 * Lists of those extended-item whose name is not allocated.
@@ -466,7 +466,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		{
 			DesignElement element = unhandleIDElements.get( i );
 
-			if ( element.getExtendsElement( ) == null )
+			if ( !element.canContainVirtualElements( ) )
 			{
 				if ( element.getRoot( ) == module )
 				{

@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -81,6 +83,8 @@ public abstract class ReportElementState extends DesignParseState
 	 * type.
 	 */
 	protected String containmentPropName = null;
+
+	protected Map<Long, OverriddenRefValue> overriddenRefValues = null;
 
 	/**
 	 * Constructs the report element state with the design parser handler, the
@@ -637,7 +641,7 @@ public abstract class ReportElementState extends DesignParseState
 	 *            the element contains virtual elements inside.
 	 */
 
-	private void addTheVirualElements2Map( DesignElement element )
+	protected void addTheVirualElements2Map( DesignElement element )
 	{
 		Iterator contentIter = new ContentIterator( handler.module, element );
 		Module module = handler.getModule( );
@@ -765,11 +769,13 @@ public abstract class ReportElementState extends DesignParseState
 		if ( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG
 				.equalsIgnoreCase( tagName ) )
 		{
-			if ( ( defn.getSlotCount( ) > 0 || defn.getContents( ).size( ) > 0 )
-					&& defn.canExtend( ) )
+			if ( ( defn.getSlotCount( ) > 0 || getElement( ).getContents( )
+					.size( ) > 0 )
+					&& getElement( ).canContainVirtualElements( ) )
 			{
 				return new OverriddenValuesState(
-						(ModuleParserHandler) getHandler( ), getElement( ) );
+						(ModuleParserHandler) getHandler( ), getElement( ),
+						this );
 			}
 		}
 		return super.startElement( tagName );
@@ -793,4 +799,44 @@ public abstract class ReportElementState extends DesignParseState
 		getElement( ).getHandle( handler.module );
 	}
 
+	/**
+	 * @param baseID
+	 * @param tmpValue
+	 */
+
+	protected void insertOverriddenRefValue( long baseID,
+			OverriddenRefValue tmpValue )
+	{
+		if ( overriddenRefValues == null )
+			overriddenRefValues = new HashMap<Long, OverriddenRefValue>( );
+
+		overriddenRefValues.put( Long.valueOf( baseID ), tmpValue );
+	}
+
+	/**
+	 * The data structure to store the id/ name pair.
+	 */
+
+	protected static class OverriddenRefValue
+	{
+
+		private long id;
+		private String name;
+
+		OverriddenRefValue( long id, String name )
+		{
+			this.name = name;
+			this.id = id;
+		}
+
+		public String getName( )
+		{
+			return name;
+		}
+
+		public long getID( )
+		{
+			return id;
+		}
+	}
 }

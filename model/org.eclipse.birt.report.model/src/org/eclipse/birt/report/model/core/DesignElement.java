@@ -3732,4 +3732,44 @@ public abstract class DesignElement
 	{
 		return slotID;
 	}
+
+	/**
+	 * Returns the property definitions for this element that can hold other
+	 * elements. Each one in the list is instance of <code>IPropertyDefn</code>.
+	 * 
+	 * @return the list of the property definition that can hold other elements
+	 */
+
+	public List<IElementPropertyDefn> getContents( )
+	{
+		return cachedDefn.getContents( );
+	}
+
+	/**
+	 * Determines if this element acts as a container.
+	 * 
+	 * @return True if this element is a container, false otherwise.
+	 */
+
+	public final boolean isContainer( )
+	{
+		if ( cachedDefn.isContainer( ) )
+			return true;
+
+		if ( !getContents( ).isEmpty( ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Checks whether the element can have virtual elements.
+	 * 
+	 * @return <code>true</code> if can. Otherwise <code>false</code>.
+	 */
+
+	public boolean canContainVirtualElements( )
+	{
+		return getExtendsElement( ) != null;
+	}
 }
