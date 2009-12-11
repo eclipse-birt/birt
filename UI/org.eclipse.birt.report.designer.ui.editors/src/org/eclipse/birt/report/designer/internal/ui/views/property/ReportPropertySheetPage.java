@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
@@ -33,7 +34,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.editors.Activator;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
-import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
@@ -629,23 +629,14 @@ public class ReportPropertySheetPage extends Page implements
 					.createPropertyEditor( tableTree,
 							( (GroupPropertyHandleWrapper) data ).getModel( ) );
 
-			if ( editor instanceof ExpressionDialogCellEditor )
+			if ( editor instanceof ExpressionCellEditor )
 			{
 				Object arrays[] = list.toArray( );
 				int len = arrays.length;
 				if ( len > 0 )
 				{
-					( (ExpressionDialogCellEditor) editor ).setExpressionProvider( new ExpressionProvider( (DesignElementHandle) arrays[0] ) );
+					( (ExpressionCellEditor) editor ).setExpressionInput( new ExpressionProvider( (DesignElementHandle) arrays[0] ) , arrays[0] );
 				}
-				// for ( int i = 1; i < len; i++ )
-				// {
-				// dataSetList.retainAll( DEUtil.getDataSetList(
-				// (DesignElementHandle) arrays[i] ) );
-				// if ( dataSetList.size( ) == 0 )
-				// {
-				// break;
-				// }
-				// }
 			}
 
 		}

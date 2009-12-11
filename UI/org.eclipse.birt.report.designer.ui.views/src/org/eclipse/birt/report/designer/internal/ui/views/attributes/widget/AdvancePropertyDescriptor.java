@@ -10,6 +10,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.AlphabeticallyViewSorter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
@@ -543,11 +544,12 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 					.createPropertyEditor( tableTree,
 							( (GroupPropertyHandleWrapper) data ).getModel( ) );
 
-			if ( editor instanceof ExpressionDialogCellEditor )
+			if ( editor instanceof ExpressionCellEditor )
 			{
 				if ( DEUtil.getInputSize( input ) > 0 )
 				{
-					( (ExpressionDialogCellEditor) editor ).setExpressionProvider( new ExpressionProvider( (DesignElementHandle) DEUtil.getInputFirstElement( input ) ) );
+					( (ExpressionCellEditor) editor ).setExpressionInput( new ExpressionProvider( (DesignElementHandle) DEUtil.getInputFirstElement( input ) ),
+							DEUtil.getInputFirstElement( input ) );
 				}
 			}
 
@@ -735,7 +737,8 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 							{
 								Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
 										MementoElement.Type_Element );
-								elementMemento.getMementoElement( ).setValue( Integer.valueOf( 0 ) );
+								elementMemento.getMementoElement( )
+										.setValue( Integer.valueOf( 0 ) );
 							}
 						}
 						else if ( memento instanceof Memento )
@@ -743,7 +746,8 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 							// expandToDefaultLevel( );
 
 							if ( treeListener != null )
-								viewer.getTree( ).removeTreeListener( treeListener );
+								viewer.getTree( )
+										.removeTreeListener( treeListener );
 							if ( provider.getViewMode( ) != oldViewMode )
 							{
 								viewer.getTree( ).removeAll( );
@@ -848,7 +852,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 
 	private boolean changed = false;
 	private TreeListener treeListener;
-
 
 	public Object getAdapter( Class adapter )
 	{

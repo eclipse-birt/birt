@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.property;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.BackgroundImageCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.ComboBoxColorCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.ComboBoxDimensionCellEditor;
@@ -21,7 +22,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.CTextCellEditor;
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
-import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
@@ -206,8 +206,9 @@ public class PropertyEditorFactory
 		}
 		else if ( handle.isExpressionProperty( o ) )
 		{
-			editor = new ExpressionDialogCellEditor( parent, SWT.READ_ONLY );
-			editor.setValue( value );
+			editor = new ExpressionCellEditor( parent, SWT.READ_ONLY );
+			
+			editor.setValue(  ( (GroupPropertyHandle) o ).getValue( ) );
 		}
 		else if ( handle.isPassProperty( o ) )
 		{

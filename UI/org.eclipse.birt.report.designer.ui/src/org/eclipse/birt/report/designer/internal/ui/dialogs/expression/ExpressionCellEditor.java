@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -30,6 +31,8 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
@@ -114,6 +117,9 @@ public class ExpressionCellEditor extends CellEditor
 
 	private Menu menu;
 
+
+	private ModifyListener modifyListener;
+
 	public ExpressionCellEditor( Composite parent, int style )
 	{
 		super( parent, style );
@@ -128,7 +134,7 @@ public class ExpressionCellEditor extends CellEditor
 
 	protected Control createContents( Composite cell )
 	{
-		editor = new Text( cell, SWT.NONE );
+		editor = new Text( cell, getStyle( ) );
 		editor.addKeyListener( new KeyAdapter( ) {
 
 			public void keyReleased( KeyEvent e )
@@ -170,10 +176,44 @@ public class ExpressionCellEditor extends CellEditor
 			}
 
 		} );
+		
+		 editor.addModifyListener(getModifyListener());
+		 
 		setValueValid( true );
 
 		return editor;
 	}
+
+    private ModifyListener getModifyListener() {
+        if (modifyListener == null) {
+            modifyListener = new ModifyListener() {
+                public void modifyText(ModifyEvent e) {
+                    editOccured(e);
+                }
+            };
+        }
+        return modifyListener;
+    }
+    
+    protected void editOccured(ModifyEvent e) {
+        String value = editor.getText();
+        if (value == null) {
+			value = "";//$NON-NLS-1$
+		}
+        Object typedValue = value;
+        boolean oldValidState = isValueValid();
+        boolean newValidState = isCorrect(typedValue);
+        if (typedValue == null && newValidState) {
+			Assert.isTrue(false,
+                    "Validator isn't limiting the cell editor's type range");//$NON-NLS-1$
+		}
+        if (!newValidState) {
+            // try to insert the current value into the error message.
+            setErrorMessage(MessageFormat.format(getErrorMessage(),
+                    new Object[] { value }));
+        }
+        valueChanged(oldValidState, newValidState);
+    }
 
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
@@ -268,6 +308,10 @@ public class ExpressionCellEditor extends CellEditor
 	 */
 	protected Object doGetValue( )
 	{
+		if(getExpression( ) == null || getExpression( ).trim( ).length( ) == 0){
+			button.setData( ExpressionButtonUtil.EXPR_TYPE, null );
+			return null;
+		}
 		return new Expression(getExpression( ), getExpressionType( ));
 	}
 
@@ -328,6 +372,7 @@ public class ExpressionCellEditor extends CellEditor
 
 	protected void doSetValue( Object value )
 	{
+		editor.removeModifyListener(getModifyListener());
 		if ( editor != null && value != null )
 		{
 			if ( value instanceof Expression )
@@ -350,6 +395,7 @@ public class ExpressionCellEditor extends CellEditor
 			}
 			refresh();
 		}
+		editor.addModifyListener(getModifyListener());
 	}
 
 	protected void setExpressionType( String exprType )
@@ -449,9 +495,10 @@ public class ExpressionCellEditor extends CellEditor
 		{
 
 			Object result = builder.getExpression( );
-			String newExpression = result == null ? null : result.toString( );
+			String newExpression = result == null ? "" : result.toString( );
 			editor.setText( newExpression );
 			button.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
+			markDirty();
 			refresh();
 		}
 
@@ -462,16 +509,16 @@ public class ExpressionCellEditor extends CellEditor
 		return editor.getText( );
 	}
 
-	public void notifyExpressionChangeEvent( String sOldExpr, String expression )
+	public void notifyExpressionChangeEvent( String oldExpr, String newExpr )
 	{
-		if (expression != null) {
-            boolean newValidState = isCorrect(expression);
+		if (oldExpr != null) {
+            boolean newValidState = isCorrect(newExpr);
             if (newValidState) {
                 markDirty();
             } else {
                 // try to insert the current value into the error message.
                 setErrorMessage(MessageFormat.format(getErrorMessage(),
-                        new Object[] { expression.toString() }));
+                        new Object[] { newExpr.toString() }));
             }
             fireApplyEditorValue();
         }
