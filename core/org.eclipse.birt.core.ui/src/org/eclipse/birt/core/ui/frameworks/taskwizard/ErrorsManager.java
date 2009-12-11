@@ -67,6 +67,11 @@ public class ErrorsManager
 	public void showErrors( String errorMessage )
 	{
 		this.errorMessage = errorMessage;
+		if ( wizard.getDialog( ).getShell( ) == null || wizard.getDialog( ).getShell( ).isDisposed( ) )
+		{
+			return;
+		}
+		
 		wizard.getDialog( ).setErrorMessage( errorMessage );
 	}
 

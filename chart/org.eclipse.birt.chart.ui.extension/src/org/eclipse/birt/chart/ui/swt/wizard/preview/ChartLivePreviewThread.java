@@ -98,8 +98,8 @@ public class ChartLivePreviewThread extends Thread
 	 */
 	public synchronized void end()
 	{
-		this.interrupt( );
 		blinker = null;
+		this.interrupt( );
 	}
 	
 	/**
@@ -170,6 +170,10 @@ public class ChartLivePreviewThread extends Thread
 					Object chartModel = null;
 					for ( LivePreviewTask lpt : tp.getTasks( ) )
 					{
+						if ( blinker != thisThread )
+						{
+							break;
+						}
 						lpt.setParameter( PARAM_CHART_MODEL, chartModel );
 						lpt.run( );
 						chartModel = lpt.getParameter( PARAM_CHART_MODEL );
