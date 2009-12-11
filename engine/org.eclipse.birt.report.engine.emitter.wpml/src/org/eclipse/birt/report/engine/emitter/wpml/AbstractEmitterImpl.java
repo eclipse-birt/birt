@@ -58,6 +58,7 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -1033,6 +1034,10 @@ public abstract class AbstractEmitterImpl
 			return true;
 		}
 
+		if ( value instanceof FloatValue )
+		{
+			return false;
+		}
 		String cssText = value.getCssText( );
 		return "none".equalsIgnoreCase( cssText )
 				|| "transparent".equalsIgnoreCase( cssText );
