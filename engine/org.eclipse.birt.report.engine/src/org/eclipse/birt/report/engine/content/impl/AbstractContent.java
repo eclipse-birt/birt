@@ -46,6 +46,8 @@ abstract public class AbstractContent extends AbstractElement
 {
 
 	private static final DimensionType EMPTY_DIMENSION = new DimensionType( "NONE" );
+	
+	private static final String STYLE_EMPTY_CLASS = "__birt__empty_style_class";
 
 	transient protected IReportContent report;
 
@@ -138,7 +140,8 @@ abstract public class AbstractContent extends AbstractElement
 		this.helpText = content.getHelpText( );
 		this.inlineStyle = copyInlineStyle(content);
 		this.generateBy = content.getGenerateBy( );
-		this.styleClass = content.getStyleClass( );
+		this.styleClass = content.getStyleClass( ) != null
+				? content.getStyleClass( ) : STYLE_EMPTY_CLASS;;
 		this.instanceId = content.getInstanceID( );
 		this.toc = content.getTOC( );
 		Object ext = content.getExtension( IContent.DOCUMENT_EXTENSION );
@@ -457,7 +460,7 @@ abstract public class AbstractContent extends AbstractElement
 
 	public void setStyleClass( String name )
 	{
-		this.styleClass = name;
+		this.styleClass = name != null ? name : STYLE_EMPTY_CLASS;
 		this.style = null;
 		this.computedStyle = null;
 	}
@@ -466,7 +469,7 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		if ( styleClass != null )
 		{
-			return styleClass;
+			return STYLE_EMPTY_CLASS.equals( styleClass ) ? null : styleClass;
 		}
 		if ( generateBy instanceof StyledElementDesign )
 		{
