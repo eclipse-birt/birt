@@ -21,6 +21,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -31,7 +32,6 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
-import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -302,7 +302,7 @@ public class HyperlinkBuilder extends BaseDialog
 			Object value = null;
 			if ( COLUMN_VALUE.equals( property ) )
 			{
-				value = paramBinding.getExpression( );
+				value = paramBinding.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
 				if ( value == null )
 				{
 					value = ""; //$NON-NLS-1$
@@ -342,7 +342,7 @@ public class HyperlinkBuilder extends BaseDialog
 			ParamBinding paramBinding = ( (ParamBinding) element );
 			if ( COLUMN_VALUE.equals( property ) )
 			{
-				paramBinding.setExpression( (String) value );
+				paramBinding.setExpressionProperty( ParamBinding.EXPRESSION_MEMBER, (Expression)value );
 			}
 			else if ( COLUMN_PARAMETER.equals( property ) )
 			{
@@ -1002,8 +1002,11 @@ public class HyperlinkBuilder extends BaseDialog
 				new String[0],
 				SWT.NONE );
 
-		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table );
-		valueEditor.setExpressionProvider( getExpressionProvider( ) );
+		
+		
+		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table, SWT.PUSH );
+		valueEditor.setExpressionInput( getExpressionProvider( ), inputHandle.getElementHandle( ) );
+		//valueEditor.setExpressionProvider( getExpressionProvider( ) );
 		paramBindingTable.setCellEditors( new CellEditor[]{
 				parameterChooser, null, null, valueEditor
 		} );
