@@ -42,6 +42,8 @@ public class ParameterFactory
 
 	private static final String CHECK_BOX = DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX;
 
+	private static final String AUTOSUGGEST_BOX = DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST;
+
 	private IGetParameterDefinitionTask task;
 
 	/**
@@ -118,7 +120,8 @@ public class ParameterFactory
 			}
 			else if ( handle instanceof AbstractScalarParameterHandle )
 			{
-				Object adapter = Platform.getAdapterManager( ).getAdapter( handle, IParameterAdapter.class );
+				Object adapter = Platform.getAdapterManager( )
+						.getAdapter( handle, IParameterAdapter.class );
 				if ( adapter != null )
 				{
 					( (IParameterAdapter) adapter ).setHandle( (AbstractScalarParameterHandle) handle );
@@ -214,7 +217,8 @@ public class ParameterFactory
 				param = new ComboBoxParameter( paramHandle, task );
 			}
 		}
-		else if ( controlType.equals( TEXT_BOX ) )
+		else if ( controlType.equals( TEXT_BOX )
+				|| controlType.equals( AUTOSUGGEST_BOX ) )
 		{
 			param = new StaticTextParameter( paramHandle, task );
 		}
