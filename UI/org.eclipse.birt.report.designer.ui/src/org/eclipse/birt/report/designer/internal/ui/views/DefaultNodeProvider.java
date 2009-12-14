@@ -181,6 +181,9 @@ public class DefaultNodeProvider implements INodeProvider
 		// Insert point for refresh action
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-refresh" ) );//$NON-NLS-1$
+		
+		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
+				+ "-export" ) );//$NON-NLS-1$
 
 		ExportElementToLibraryAction exportElementAction = new ExportElementToLibraryAction( object );
 		if ( exportElementAction.isEnabled( ) )

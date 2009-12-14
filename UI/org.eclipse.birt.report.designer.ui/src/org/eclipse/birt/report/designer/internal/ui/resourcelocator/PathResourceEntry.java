@@ -81,6 +81,23 @@ public class PathResourceEntry extends BaseResourceEntity
 		this.path = path;
 		this.name = name;
 		this.displayName = name;
+		try
+		{
+			File file = new File( this.path );
+			this.isFolder = file.isDirectory( );
+			this.url = file.toURL( );
+			// If path is empty, then eclipse home directory is used instead
+			if ( this.path.length( ) == 0 && this.url != null )
+			{
+				file = new File( url.getPath( ) );
+				this.path = file.getPath( );
+				this.isFolder = file.isDirectory( );
+			}
+			this.isFile = file.isFile( );
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	public PathResourceEntry( final String[] filePattern,
