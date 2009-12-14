@@ -711,6 +711,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private void createCube( TabularCubeHandle cubeHandle,
 			CubeMaterializer cubeMaterializer, Map appContext ) throws BirtException
 	{
+		SecurityListener sl = new SecurityListener( this );
+		sl.start( );
+		sl.process( cubeHandle, null );
+		sl.end( );
 		Map<?,?> backupAppContext = new HashMap();
 		if( appContext == null )
 			appContext = new HashMap();

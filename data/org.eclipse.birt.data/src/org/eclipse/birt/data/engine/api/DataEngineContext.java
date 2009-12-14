@@ -142,6 +142,11 @@ public class DataEngineContext
 	public final static int ROW_SECURITY_STREAM = 110;
 	
 	public final static int ACL_COLLECTION_STREAM = 111;
+	
+	public final static int CUBE_META_SECURITY_STREAM = 112;
+	
+	public final static int CUBE_ROW_SECURITY_STREAM = 113;
+	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
@@ -633,6 +638,12 @@ public class DataEngineContext
 				break;
 			case ROW_SECURITY_STREAM:
 				relativePath = "RowSecurity";
+				break;
+			case CUBE_META_SECURITY_STREAM:
+				relativePath ="CubeMetaSecurity";
+				break;
+			case CUBE_ROW_SECURITY_STREAM:
+				relativePath = "CubeRowSecurity";
 				break;
 			case ACL_COLLECTION_STREAM:
 				relativePath = "ACLCollection";
