@@ -691,11 +691,11 @@ public class ExpressionProvider implements
 		{
 			if ( parent instanceof ReportItemHandle )
 			{
-				List nameList = new ArrayList( );
-				Iterator iter = ( (ReportItemHandle) parent ).columnBindingsIterator( );
+				List<String> nameList = new ArrayList<String>( );
+				Iterator<ComputedColumnHandle> iter = getColumnBindings( (ReportItemHandle) parent );
 				while ( iter.hasNext( ) )
 				{
-					ComputedColumnHandle column = (ComputedColumnHandle) iter.next( );
+					ComputedColumnHandle column = iter.next( );
 					childrenList.add( column );
 					nameList.add( column.getName( ) );
 				}
@@ -710,10 +710,10 @@ public class ExpressionProvider implements
 						container = container.getContainer( );
 						if ( !( container instanceof ReportItemHandle ) )
 							continue;
-						Iterator iter1 = ( (ReportItemHandle) container ).columnBindingsIterator( );
+						Iterator<ComputedColumnHandle> iter1 = getColumnBindings( (ReportItemHandle) container );
 						while ( iter1.hasNext( ) )
 						{
-							ComputedColumnHandle column = (ComputedColumnHandle) iter1.next( );
+							ComputedColumnHandle column = iter1.next( );
 							if ( !nameList.contains( column.getName( ) ) )
 							{
 								childrenList.add( new InheritedComputedColumnHandle( column ) );
@@ -1389,4 +1389,16 @@ public class ExpressionProvider implements
 		}
 	}
 
+	/**
+	 * Returns the column binding iterator of selected report item.
+	 * 
+	 * @param handle
+	 *            report item
+	 * @return iterator of ColumnBindingHandle
+	 */
+	protected Iterator<ComputedColumnHandle> getColumnBindings(
+			ReportItemHandle handle )
+	{
+		return handle.columnBindingsIterator( );
+	}
 }

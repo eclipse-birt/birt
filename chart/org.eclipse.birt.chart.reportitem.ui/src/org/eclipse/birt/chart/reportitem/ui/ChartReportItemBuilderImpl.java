@@ -94,9 +94,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 
 	protected static int iInstanceCount = 0;
 
-	protected transient ExtendedItemHandle extendedHandle = null;
+	protected ExtendedItemHandle extendedHandle = null;
+	
+	protected ChartWizardContext wizardContext = null;
 
-	private transient String taskId = null;
+	private String taskId = null;
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -209,6 +211,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					this,
 					dataProvider,
 					dataSheet );
+			this.wizardContext = context;
 			livePreviewThread = new ChartLivePreviewThread( dataProvider );
 			livePreviewThread.start( );
 			context.setLivePreviewThread( livePreviewThread );
@@ -461,7 +464,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	public String invoke( String sExpression, Object oContext, String sTitle )
 	{
 		final ExpressionBuilder eb = new ExpressionBuilder( sExpression );
-		eb.setExpressionProvier( new ExpressionProvider( (ExtendedItemHandle) oContext ) );
+		eb.setExpressionProvider( new ExpressionProvider( (ExtendedItemHandle) oContext ) );
 		if ( sTitle != null )
 		{
 			eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$
@@ -480,7 +483,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			boolean isChartProvider )
 	{
 		final ExpressionBuilder eb = new ExpressionBuilder( sExpression );
-		eb.setExpressionProvier( new ChartExpressionProvider( ) );
+		eb.setExpressionProvider( new ChartExpressionProvider( ) );
 		if ( sTitle != null )
 		{
 			eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$
@@ -616,6 +619,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			String sTitle ) throws ChartException
 	{
 		final ExpressionProvider ep = new ChartExpressionProvider( (ExtendedItemHandle) context,
+				wizardContext,
 				getExpressionBuilderStyle( command ) );
 		Shell shell = null;
 
@@ -888,6 +892,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					Listener listener = (Listener) inData[4];
 
 					IExpressionProvider ep = new ChartExpressionProvider( eih,
+							wizardContext,
 							getExpressionBuilderStyle( iCode ) );
 
 					ChartExpressionButton ceb = new ChartExpressionButton( parent,

@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -63,6 +63,6 @@ public class ChartFilterHandleProvider extends ChartFilterProviderDelegate
 			handle = input;
 		}
 		ReportItemHandle rih = (ReportItemHandle) handle;
-		return !ChartReportItemUtil.isInheritGroup( rih );
+		return !ChartItemUtil.isChartInheritGroups( rih );
 	}
 }

@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
-import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -609,13 +608,6 @@ public class ChartReportItemUtil extends ChartItemUtil
 					tagSeries.getDataDefinition( ).add( q.copyInstance( ) );
 			}
 		}
-	}
-
-	public static boolean isInheritGroup( ReportItemHandle rih )
-	{
-		return rih.getDataSet( ) == null
-				&& ChartReportItemUtil.isContainerInheritable( rih )
-				&& !rih.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
 
 	public static ExpressionHandle getScriptExpression( StructureHandle binding )

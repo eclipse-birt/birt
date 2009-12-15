@@ -12,14 +12,19 @@
 package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.render.IActionRenderer;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
  * Provide a specific expression builder depending on context
@@ -56,15 +61,18 @@ public class ChartExpressionProvider extends ExpressionProvider
 
 	private final int _categoryStyle;
 
+	private final ChartWizardContext wizardContext;
+
 	public ChartExpressionProvider( )
 	{
-		this( null, CATEGORY_BASE );
+		this( null, null, CATEGORY_BASE );
 	}
 
 	public ChartExpressionProvider( DesignElementHandle handle,
-			int categoryStyle )
+			ChartWizardContext wizardContext, int categoryStyle )
 	{
 		super( handle, true );
+		this.wizardContext = wizardContext;
 		this._categoryStyle = categoryStyle;
 		init( );
 	}
@@ -178,4 +186,34 @@ public class ChartExpressionProvider extends ExpressionProvider
 		return super.getDisplayText( element );
 	}
 
+	@Override
+	protected Iterator<ComputedColumnHandle> getColumnBindings(
+			ReportItemHandle handle )
+	{
+		if ( isInheritColumnsOnly( ) )
+		{
+			// If column bindings inherited only, remove aggregations.
+			List<ComputedColumnHandle> bindings = new ArrayList<ComputedColumnHandle>( );
+			Iterator iterator = handle.columnBindingsIterator( );
+			while ( iterator.hasNext( ) )
+			{
+				ComputedColumnHandle cch = (ComputedColumnHandle) iterator.next( );
+				if ( cch.getAggregateFunction( ) == null )
+				{
+					bindings.add( cch );
+				}
+			}
+			return bindings.iterator( );
+		}
+		return super.getColumnBindings( handle );
+	}
+
+	private boolean isInheritColumnsOnly( )
+	{
+		ReportItemHandle itemHandle = (ReportItemHandle) elementHandle;
+		return itemHandle.getDataSet( ) == null
+				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
+				&& wizardContext != null
+				&& wizardContext.isInheritColumnsOnly( );
+	}
 }
