@@ -183,6 +183,7 @@ public class TextPage extends GeneralPage
 
 		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		displayProvider.enableReset( true );
 		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
 				container,
 				true );
