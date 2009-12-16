@@ -109,9 +109,7 @@
 		<condition property="skip.allinone.linux" value="true">
 			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
-		<condition property="skip.chart.package" value="true">
-			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
-		</condition>
+
 		
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
@@ -119,7 +117,7 @@
 		<property name="javacTarget" value="1.5" />
 		<property name="javacDebugInfo" value="true" />
 		<property name="javacFailOnError" value="false" />
-		<property name="javacVerbose" value="false" />
+		<property name="javacVerbose" value="true" />
 		<property name="logExtension" value=".xml" />
 		<!--this property required as of Eclipse 3.0 stream builds > 20031126 -->
 		<property name="buildingOSGi" value="true" />
@@ -301,15 +299,11 @@
 		<property name="repo" value="${compsite.site}/${buildId}" />
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
+		<mkdir dir="${updateJarWorkingDir}/packed"/>
 		
         <exec executable="unzip" dir="${buildDirectory}">
             <arg line="-o -q birt-all-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
         </exec>
-		<!--
-		<exec executable="unzip" dir="${buildDirectory}">
-			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
-		</exec>
-		-->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
@@ -350,6 +344,12 @@
 				<include name="org.eclipse.birt.report.designer.source_*.jar"/>
 			</fileset>	
 		</delete>
+		
+		<copy todir="${updateJarWorkingDir}/packed">
+			<fileset dir="${updateJarWorkingDir}/eclipse">
+				<include name="*/**"/>
+			</fileset>
+		</copy>
 			
 		<!-- create site.xml -->
 		<antcall target="generateCategory"/>
@@ -385,25 +385,25 @@
               <arg line="-application org.eclipse.update.core.siteOptimizer -verbose"/>
               <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse"/>
         </java>
+		
+		<copy todir="${updateJarWorkingDir}/packed" overwrite="true">
+			<fileset dir="${updateJarWorkingDir}/site">
+				<include name="*/**"/>
+			</fileset>
+		</copy>
+		
 	</target>
 		
     <target name="GenP2CompositeUpdateSite">
-            <property name="p2.repo.name" value="BIRT TEST" />
-            <mkdir dir="${repo}" />
+    	<property name="p2.repo.name" value="BIRT TEST" />
+    	<mkdir dir="${repo}" />
             
-            <!-- generate pack200 -->
-			<antcall target="generatePack200"/>
+        <!-- generate pack200 -->
+		<antcall target="generatePack200"/>
 
-            <!--generator features and plugins metadata -->
-            <!--p2.generator source="${repo}" compress="true" append="true" flavor="tooling"
-                          metadataRepository="file:${repo}"
-                          artifactRepository="file:${repo}"
-                          metadataRepositoryName="${p2.repo.name}"
-                          artifactRepositoryName="${p2.repo.name}"
-                          publishArtifacts="true" p2OS="linux" mode="incremental"
-                          site="file:${updateJarWorkingDir}/site/site.xml"/-->
-            <copy file="${updateJarWorkingDir}/site/site.xml" todir="${repo}"/>
-            <java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
+        <copy file="${updateJarWorkingDir}/packed/site.xml" todir="${repo}"/>
+            
+    	<java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
                   fork="true"
                   timeout="10800000"
                   jvm="${jvm15_home}/bin/java"
@@ -412,15 +412,16 @@
                   <arg line="-application org.eclipse.equinox.p2.publisher.UpdateSitePublisher"/>
                   <arg line="-metadataRepository file:${repo}"/>
                   <arg line="-artifactRepository file:${repo}"/>
-                  <arg line="-source ${updateJarWorkingDir}/site"/>
+                  <arg line="-source ${updateJarWorkingDir}/packed"/>
                   <arg line="-configs gtk.linux.x86"/>
                   <arg line="-compress"/>
             	  <arg line="-reusePack200Files"/>
                   <arg line="-publishArtifacts"/>
-            </java>
-        	<copy todir="${repo}/features">
-        	   <fileset dir="${updateJarWorkingDir}/site/features" includes="*.pack.gz"/>
-        	</copy>
+        </java>
+    	
+    	<copy todir="${repo}/features">
+    	   <fileset dir="${updateJarWorkingDir}/packed/features" includes="*.pack.gz"/>
+    	</copy>
             
             <!--try create composite repository-->
             <p2.composite.artifact.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
@@ -437,23 +438,23 @@
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 	    <!-- generate site.xml -->
 	    <property file="${buildDirectory}/finalFeaturesVersions.properties"/>
-	    <copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
+	    <copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/packed/site.xml"/>
 	    <!-- replace the feature version in site.xml -->
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.cshelp}" token="@FEATURE.BIRT.CSHELP@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.example}" token="@FEATURE.BIRT.EXAMPLE@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc.isv}" token="@FEATURE.BIRT.DOC.ISV@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.source}" token="@FEATURE.BIRT.SOURCE@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart}" token="@FEATURE.CHART@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.cshelp}" token="@FEATURE.CHART.CSHELP@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.doc.isv}" token="@FEATURE.CHART.DOC.ISV@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.source}" token="@FEATURE.CHART.SOURCE@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.osgi.runtime.sdk}" token="@FEATURE.OSGI.RUNTIME.SDK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp.source}" token="@FEATURE.CHART.WTP.SOURCE@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.source}" token="@FEATURE.BIRT.WTP.SOURCE@"/>		
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.cshelp}" token="@FEATURE.BIRT.CSHELP@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.example}" token="@FEATURE.BIRT.EXAMPLE@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.doc.isv}" token="@FEATURE.BIRT.DOC.ISV@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.source}" token="@FEATURE.BIRT.SOURCE@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart}" token="@FEATURE.CHART@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.cshelp}" token="@FEATURE.CHART.CSHELP@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.doc.isv}" token="@FEATURE.CHART.DOC.ISV@"/>
+	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.source}" token="@FEATURE.CHART.SOURCE@"/>
+		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.osgi.runtime.sdk}" token="@FEATURE.OSGI.RUNTIME.SDK@"/>
+		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>
+		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.integration.wtp.source}" token="@FEATURE.CHART.WTP.SOURCE@"/>
+		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
+		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.integration.wtp.source}" token="@FEATURE.BIRT.WTP.SOURCE@"/>		
 	</target>
 	
 	<target name="GenUpdatesitePackage">
