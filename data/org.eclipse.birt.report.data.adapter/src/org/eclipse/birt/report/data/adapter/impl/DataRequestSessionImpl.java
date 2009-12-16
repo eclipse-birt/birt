@@ -748,7 +748,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				queryMap, metaMap);
 		String[][] factTableKey = new String[dimensions.length][];
 		String[][] dimensionKey = new String[dimensions.length][];
-
+		boolean fromJoin = false;
 		for ( int i = 0; i < dimensions.length; i++ )
 		{
 			TabularDimensionHandle dim = (TabularDimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
@@ -770,7 +770,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				Iterator it = cubeHandle.joinConditionsIterator( );
 				if ( !it.hasNext() )
 					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
-			
+				fromJoin = true;
 				boolean foundJoinCondition = false;
 				while ( it.hasNext( ) )
 				{
@@ -819,36 +819,55 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 		if ( cubeHandle.autoPrimaryKey( ) )
 		{
-			
-			//append binding in fact table query for temp PK
 			QueryDefinition qd = queryMap.get( cubeHandle );
-			List<ColumnMeta> metas = metaMap.get( cubeHandle );
-			IBinding tempPKBinding = new Binding( DataSetIterator.createLevelName(
-					getCubeTempPKDimensionName( cubeHandle ),
-					getCubeTempPKFieldName( cubeHandle )),
-				new ScriptExpression( "row.__rownum" ) ); //take rownum as the the primary key
-			qd.addBinding( tempPKBinding );
-			DataSetIterator.ColumnMeta cm = new DataSetIterator.ColumnMeta( tempPKBinding.getBindingName( ), null, DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-			cm.setDataType( DataType.INTEGER_TYPE );
-			metas.add( cm );
+			if ( fromJoin )
+			{
+				//clear all groups in query definitions for generating dimension tables
+				List<DimensionHandle> dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
+				List<TabularHierarchyHandle> hiers = null;
+				for ( DimensionHandle dim:dimHandles )
+				{
+					hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
+					for ( TabularHierarchyHandle hier: hiers )
+					{
+						QueryDefinition q =queryMap.get( hier );
+						//need no groups to generate dimension table
+						q.getGroups( ).clear( );
+						q.setUsesDetails( true );
+					}
+				}
+			}
+			else
+			{
+				List<ColumnMeta> metas = metaMap.get( cubeHandle );
+				//append binding in fact table query for temp PK
+				IBinding tempPKBinding = new Binding( DataSetIterator.createLevelName(
+						getCubeTempPKDimensionName( cubeHandle ),
+						getCubeTempPKFieldName( cubeHandle )),
+					new ScriptExpression( "row.__rownum" ) ); //take rownum as the the primary key
+				qd.addBinding( tempPKBinding );
+				DataSetIterator.ColumnMeta cm = new DataSetIterator.ColumnMeta( tempPKBinding.getBindingName( ), null, DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
+				cm.setDataType( DataType.INTEGER_TYPE );
+				metas.add( cm );
+				
+				//append temp PK dimension
+				dimensions = appendArray( dimensions, populateTempPKDimension( cubeMaterializer, cubeHandle, 
+						appContext ));
+				
+				//append fact table key for temp PK dimension
+				factTableKey = appendArray( factTableKey, new String[]{
+						DataSetIterator.createLevelName(
+								getCubeTempPKDimensionName( cubeHandle ),
+								getCubeTempPKFieldName( cubeHandle ))} );
+				
+				//append dimension key for temp PK dimension
+				dimensionKey = appendArray( dimensionKey, new String[]{
+						DataSetIterator.createLevelName(
+								getCubeTempPKDimensionName( cubeHandle ),
+								getCubeTempPKFieldName( cubeHandle ))});
+			}
 			
-			//append temp PK dimension
-			dimensions = appendArray( dimensions, populateTempPKDimension( cubeMaterializer, cubeHandle, 
-					appContext ));
-			
-			//append fact table key for temp PK dimension
-			factTableKey = appendArray( factTableKey, new String[]{
-					DataSetIterator.createLevelName(
-							getCubeTempPKDimensionName( cubeHandle ),
-							getCubeTempPKFieldName( cubeHandle ))} );
-			
-			//append dimension key for temp PK dimension
-			dimensionKey = appendArray( dimensionKey, new String[]{
-					DataSetIterator.createLevelName(
-							getCubeTempPKDimensionName( cubeHandle ),
-							getCubeTempPKFieldName( cubeHandle ))});
-			
-			//need no goup in this case, clear all groups
+			//need no goups in the query definition for generating cube fact table
 			qd.getGroups( ).clear( );
 			qd.setUsesDetails( true );
 			
