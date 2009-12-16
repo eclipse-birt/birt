@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
@@ -206,8 +205,6 @@ class ConcreteImageLayout implements ILayout
 	protected ContainerArea root;
 
 	private Dimension intrinsic;
-	
-	private static int screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
 
 	private static final String BOOKMARK_PREFIX = "javascript:catchBookmark('";
 
@@ -268,14 +265,11 @@ class ConcreteImageLayout implements ILayout
 				resolutionX = designHandle.getImageDPI( );
 				resolutionY = designHandle.getImageDPI( );
 			}
-			
 			if ( 0 == resolutionX || 0 == resolutionY )
 			{
-				if ( screenDpi >= 96 && screenDpi <= 120 )
-				{
-					resolutionX = screenDpi;
-					resolutionY = screenDpi;
-				}
+				int screenDpi = PropertyUtil.getScreenDpi( );
+				resolutionX = screenDpi;
+				resolutionY = screenDpi;
 			}
 			if ( 0 == resolutionX || 0 == resolutionY )
 			{

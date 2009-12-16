@@ -11,6 +11,8 @@
 package org.eclipse.birt.report.engine.layout.pdf.util;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -245,6 +247,34 @@ public class PropertyUtil
 		}
 		return null;
 	}
+    
+	private static int screenDpi = -1;
+    
+	/**
+	 * Get the screen dpi. If the return value is 0, it means the screen dpi is
+	 * invalid, otherwise it should be between 96 and 120.
+	 * 
+	 * @return the screen dpi.
+	 */
+    public static int getScreenDpi( )
+    {
+    	if( -1 == screenDpi )
+    	{
+    		try
+    		{
+    			screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
+    		}
+    		catch ( HeadlessException e )
+    		{
+    			screenDpi = 0;
+    		}
+    		if ( screenDpi < 96 || screenDpi > 120 )
+    		{
+    			screenDpi = 0;
+    		}
+    	}
+    	return screenDpi;
+    }
 
 	public static int getDimensionValue( CSSValue value )
 	{

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -191,8 +190,6 @@ class ConcreteImageLayout extends Layout
 	protected ContainerArea root;
 
 	private Dimension intrinsic;
-	
-	private static int screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
 
 	private static final String BOOKMARK_PREFIX = "javascript:catchBookmark('";
 	
@@ -260,11 +257,9 @@ class ConcreteImageLayout extends Layout
 				}
 				if ( 0 == resolutionX || 0 == resolutionY )
 				{
-					if ( screenDpi >= 96 && screenDpi <= 120 )
-					{
-						resolutionX = screenDpi;
-						resolutionY = screenDpi;
-					}
+					int screenDpi = PropertyUtil.getScreenDpi( );
+					resolutionX = screenDpi;
+					resolutionY = screenDpi;
 				}
 				if ( 0 == resolutionX || 0 == resolutionY )
 				{
