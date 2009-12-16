@@ -259,6 +259,7 @@ public class SeriesGroupingComposite extends Composite implements
 					| SWT.READ_ONLY );
 			cmbAggregate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			cmbAggregate.addSelectionListener( this );
+			cmbAggregate.setVisibleItemCount( 30 );
 			
 			// Use series queries size to check if UI is needed
 			Series series = fChartContext.getChartType( ).getSeries( );

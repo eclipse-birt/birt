@@ -297,6 +297,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		gdCMBAnchor.horizontalSpan = 2;
 		cmbLineAnchor.setLayoutData( gdCMBAnchor );
 		cmbLineAnchor.addSelectionListener( this );
+		cmbLineAnchor.setVisibleItemCount( 30 );
 
 		grpMarkerLine = new Group( cmpLine, SWT.NONE );
 		GridData gdGRPMarkerLine = new GridData( GridData.FILL_HORIZONTAL );
@@ -381,6 +382,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		gdCMBRangeAnchor.horizontalSpan = 2;
 		cmbRangeAnchor.setLayoutData( gdCMBRangeAnchor );
 		cmbRangeAnchor.addSelectionListener( this );
+		cmbRangeAnchor.setVisibleItemCount( 30 );
 
 		lblRangeFill = new Label( cmpRange, SWT.NONE );
 		GridData gdLBLRangeFill = new GridData( );

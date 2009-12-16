@@ -119,6 +119,7 @@ public class TitleBlockSheet extends AbstractPopupSheet
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
+		cmbAnchor.setVisibleItemCount( 30 );
 
 		Label lblStretch = new Label( cmpGeneralTop, SWT.NONE );
 		GridData gdLBLStretch = new GridData( );

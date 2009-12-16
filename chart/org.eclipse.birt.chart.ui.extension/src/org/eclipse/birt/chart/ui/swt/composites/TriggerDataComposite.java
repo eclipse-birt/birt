@@ -331,6 +331,7 @@ public class TriggerDataComposite extends Composite
 		GridData gdCMBCursorType = new GridData( GridData.FILL_HORIZONTAL );
 		cmbCursorType.setLayoutData( gdCMBCursorType );
 		cmbCursorType.addSelectionListener( this );
+		cmbCursorType.setVisibleItemCount( 30 );
 		
 		btnCursorImage = new Button( this, SWT.NONE );
 		btnCursorImage.setText( Messages.getString("TriggerDataComposite.Lbl.Image") ); //$NON-NLS-1$

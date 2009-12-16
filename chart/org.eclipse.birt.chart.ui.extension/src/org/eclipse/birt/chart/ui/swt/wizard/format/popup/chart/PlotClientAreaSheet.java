@@ -127,6 +127,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		gdCBAnchor.horizontalSpan = 2;
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
+		cmbAnchor.setVisibleItemCount( 30 );
 
 		Label lblStretch = new Label( leftComp, SWT.NONE );
 		{

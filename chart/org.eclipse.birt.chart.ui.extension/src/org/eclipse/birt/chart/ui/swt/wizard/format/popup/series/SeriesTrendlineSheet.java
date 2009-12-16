@@ -144,6 +144,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
+		cmbAnchor.setVisibleItemCount( 30 );
 
 		// btnTriggers = new Button( cmpLeft, SWT.PUSH );
 		// GridData gdBTNTriggers = new GridData( );

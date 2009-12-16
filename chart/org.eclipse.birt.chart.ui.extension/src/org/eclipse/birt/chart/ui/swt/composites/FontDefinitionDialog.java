@@ -171,6 +171,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 		gdCMBFontNames.horizontalSpan = 8;
 		cmbFontNames.setLayoutData( gdCMBFontNames );
 		cmbFontNames.addSelectionListener( this );
+		cmbFontNames.setVisibleItemCount( 30 );
 
 		Label lblSize = new Label( cmpContent, SWT.NONE );
 		GridData gdLSize = new GridData( );
@@ -188,6 +189,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			cmbFontSizes.setLayoutData( gdISCFontSizes );
 			cmbFontSizes.addSelectionListener( this );
 			cmbFontSizes.addFocusListener( this );
+			cmbFontSizes.setVisibleItemCount( 30 );
 		}
 
 		Label lblForeground = new Label( cmpContent, SWT.NONE );

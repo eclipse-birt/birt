@@ -462,6 +462,7 @@ public class AggregateEditorComposite extends Composite implements
 			fCmbAggregate.removeAll( );
 
 			populateAggregationCombo( fCmbAggregate );
+			fCmbAggregate.setVisibleItemCount( 30 );
 			
 			if ( fGrouping.isEnabled( ) && fGrouping.getAggregateExpression( ) != null )
 			{
