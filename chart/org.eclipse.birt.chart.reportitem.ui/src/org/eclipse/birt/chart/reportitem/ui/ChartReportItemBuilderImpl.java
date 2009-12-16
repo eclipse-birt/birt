@@ -98,7 +98,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	
 	protected ChartWizardContext wizardContext = null;
 
-	private String taskId = null;
+	protected final String taskId;
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -107,7 +107,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	 */
 	public ChartReportItemBuilderImpl( )
 	{
-		super( );
+		this( null );
 	}
 
 	/**
