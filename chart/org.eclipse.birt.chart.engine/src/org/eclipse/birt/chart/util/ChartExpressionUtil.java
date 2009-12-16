@@ -527,6 +527,49 @@ public class ChartExpressionUtil
 			return getRowBindingNameSet( );
 		}
 
+		/**
+		 * Returns a full binding name for cube or row expression, no matter if
+		 * expression is complex or simple. If expression is complex, will
+		 * create a new binding name with special characters escaped.
+		 * 
+		 * @return binding name
+		 */
+		public String getFullBindingName( )
+		{
+			if ( this.isRowBinding( true ) )
+			{
+				if ( this.isRowBinding( false ) )
+				{
+					return getRowBindingName( false );
+				}
+				return escapeSpecialCharacters( sExpr );
+			}
+			else if ( this.isCubeBinding( true ) )
+			{
+				if ( this.isCubeBinding( false ) )
+				{
+					return this.getCubeBindingName( false );
+				}
+				return escapeSpecialCharacters( sExpr );
+			}
+			return sExpr;
+		}
+
+		/**
+		 * Returns a full binding name for cube or row expression, no matter if
+		 * expression is complex or simple. If expression is complex, will
+		 * create a new binding name with special characters escaped.
+		 * 
+		 * @param expr
+		 *            expression
+		 * @return binding name
+		 */
+		public String getFullBindingName( String expr )
+		{
+			decode( expr );
+			return getFullBindingName( );
+		}
+
 	}
 
 }
