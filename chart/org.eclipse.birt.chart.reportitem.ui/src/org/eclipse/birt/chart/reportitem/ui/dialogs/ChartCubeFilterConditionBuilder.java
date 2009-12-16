@@ -748,19 +748,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 
 		} );
-		expression.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				updateButtons( );
-				if ( !expression.getText( ).equals( fCurrentExpr ) )
-				{
-					needRefreshList = true;
-					fCurrentExpr = expression.getText( );
-				}
-			}
-		} );
-
 		try
 		{
 			expButton = (IExpressionButton) context.getUIServiceProvider( )
@@ -801,6 +788,19 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
 		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		expression.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				updateButtons( );
+				if ( !expression.getText( ).equals( fCurrentExpr ) )
+				{
+					needRefreshList = true;
+					fCurrentExpr = expression.getText( );
+				}
+			}
+		} );
 	}
 
 	protected Listener expValueVerifyListener = new Listener( ) {
