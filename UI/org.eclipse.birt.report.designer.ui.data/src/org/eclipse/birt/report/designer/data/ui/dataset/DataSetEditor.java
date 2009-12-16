@@ -589,10 +589,15 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		String title = Messages.getFormattedString( "dataset.edit", new String[]{getHandle( ).getName( )} );//$NON-NLS-1$
 		getShell( ).setText( title );
 
-		Control control = super.createContents( parent );
-		Utility.setSystemHelp( control, IHelpConstants.CONEXT_ID_DATASET_EDIT );
+		Control control = super.createContents( parent );		
+		setPageHelpContent( control );
 
 		return control;
+	}
+
+	protected void setPageHelpContent( Control control )
+	{
+		Utility.setSystemHelp( control, IHelpConstants.CONEXT_ID_DATASET_EDIT );
 	}
 
 	/**
