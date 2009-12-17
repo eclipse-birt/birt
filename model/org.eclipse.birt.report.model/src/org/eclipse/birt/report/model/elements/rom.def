@@ -622,6 +622,11 @@
   	<Choice displayNameID="Choices.selectorType.textBox" name="textBox"/>
   	<Choice displayNameID="Choices.selectorType.calendar" name="calendar"/>
   </ChoiceType>
+  <ChoiceType name="accessType">
+  	<Choice displayNameID="Choices.accessType.transient" name="transient"/>
+  	<Choice displayNameID="Choices.accessType.latest" name="latest"/>
+  	<Choice displayNameID="Choices.accessType.specificVersion" name="specificVersion"/>
+  </ChoiceType>
   <ChoiceType name="thumbType">
   	<Choice displayNameID="Choices.thumbType.single" name="single"/>
   	<Choice displayNameID="Choices.thumbType.dual" name="dual"/>
