@@ -11,35 +11,15 @@
 
 package org.eclipse.birt.report.engine.api;
 
-import java.io.OutputStream;
 
-public interface IDataExtractionOption extends ITaskOption
+public interface IDataExtractionOption extends IExtractionOption
 {
-
-	public static final String OUTPUT_FORMAT = "Format"; //$NON-NLS-1$
-
-	public static final String OUTPUT_FILE_NAME = "outputFile"; //$NON-NLS-1$
-
-	public static final String OUTPUT_STREAM = "outputStream"; //$NON-NLS-1$
-
 	public static final String EXTENSION = "extension"; //$NON-NLS-1$
 	public static final String INSTANCE_ID = "instanceId";//$NON-NLS-1$
 	public static final String IMAGE_HANDLER = IHTMLRenderOption.IMAGE_HANDLER;
 	public static final String ACTION_HANDLER = IHTMLRenderOption.ACTION_HANDLER;
 	public static final String LOCALE = "locale"; //$NON-NLS-1$
 
-	/**
-	 * Set output format.
-	 * 
-	 * @param format
-	 *            output format.
-	 */
-	void setOutputFormat( String format );
-
-	/**
-	 * Get output format.
-	 */
-	String getOutputFormat( );
 
 	/**
 	 * Set extension id.
@@ -53,32 +33,6 @@ public interface IDataExtractionOption extends ITaskOption
 	 * Get extension.
 	 */
 	String getExtension( );
-
-	/**
-	 * Set output stream.
-	 * 
-	 * @param out
-	 *            output stream.
-	 */
-	void setOutputStream( OutputStream out );
-
-	/**
-	 * Get output stream.
-	 */
-	OutputStream getOutputStream( );
-
-	/**
-	 * Set output file.
-	 * 
-	 * @param filename
-	 *            name of the output file.
-	 */
-	void setOutputFile( String filename );
-
-	/**
-	 * Get output file name.
-	 */
-	String getOutputFile( );
 
 	void setInstanceID( InstanceID iid );
 

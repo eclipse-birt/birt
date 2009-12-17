@@ -22,8 +22,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
+import org.eclipse.birt.report.engine.api.IExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -263,7 +263,7 @@ public class DataExtractionTask implements IDataExtractionTask
 		task.setLogger( logger );
 	}
 
-	public void extract( IDataExtractionOption option ) throws BirtException
+	public void extract( IExtractionOption option ) throws BirtException
 	{
 		task.extract( option );
 	}

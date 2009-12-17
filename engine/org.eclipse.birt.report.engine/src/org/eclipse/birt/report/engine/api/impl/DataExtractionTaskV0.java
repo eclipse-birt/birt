@@ -35,12 +35,14 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -857,8 +859,17 @@ public class DataExtractionTaskV0 extends EngineTask
 		this.maxRows = maxRows;
 	}
 
-	public void extract( IDataExtractionOption option ) throws BirtException
+	public void extract( IExtractionOption options ) throws BirtException
 	{
+		DataExtractionOption option = null;
+		if ( options == null )
+		{
+			option = new DataExtractionOption( );
+		}
+		else
+		{
+			option = new DataExtractionOption( options.getOptions( ) );
+		}
 		IDataExtractionExtension dataExtraction = getDataExtractionExtension( option );
 		try
 		{

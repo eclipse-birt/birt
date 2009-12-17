@@ -17,7 +17,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
  * metadata, he can select additional columns, add filter conditions, or specify
  * sorting conditions.
  */
-public interface IDataExtractionTask extends IEngineTask
+public interface IDataExtractionTask extends IExtractionTask
 {
 	// public static int SORT_DIRECTION_ASCENDING = 0;
 	// public static int SORT_DIRECTION_DESCENDING = 1;	
@@ -85,20 +85,6 @@ public interface IDataExtractionTask extends IEngineTask
 	 *            name of the column to be included in the data set
 	 */
 	public void selectColumns( String[] columnNames );
-	
-	/**
-	 * @param simpleFilterExpression
-	 *            add one filter condition to the extraction. Only simple filter
-	 *            expressions are supported for now, i.e., LHS must be a column
-	 *            name, only <, >, = and startWith is supported.
-	 */
-	public void setFilters( IFilterDefinition[] simpleFilterExpression );
-	
-	/**
-	 * @param simpleSortExpression
-	 *            add one sort condition to the extraction
-	 */
-	public void setSorts( ISortDefinition[] simpleSortExpression );
 
 	/**
 	 * @param maxRows
@@ -117,10 +103,7 @@ public interface IDataExtractionTask extends IEngineTask
 	public void setDistinctValuesOnly( boolean distinct );
 	
 	/**
-	 * @return an object of type IExtractionResults, from which data iterators
-	 *         can be obtained and data can be retrieved
+	 * Redeclare this method in order to return IExtractionResults.
 	 */
 	public IExtractionResults extract() throws EngineException;
-
-	public void extract( IDataExtractionOption option ) throws BirtException;
 }

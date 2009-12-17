@@ -56,6 +56,7 @@ import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IEngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -1308,8 +1309,17 @@ public class DataExtractionTaskV1 extends EngineTask
 		this.maxRows = maxRows;
 	}
 
-	public void extract( IDataExtractionOption option ) throws BirtException
+	public void extract( IExtractionOption options ) throws BirtException
 	{
+		DataExtractionOption option = null;
+		if ( options == null )
+		{
+			option = new DataExtractionOption( );
+		}
+		else
+		{
+			option = new DataExtractionOption( options.getOptions( ) );
+		}
 		IDataExtractionOption extractOption = setupExtractOption( option );
 		IDataExtractionExtension dataExtraction = getDataExtractionExtension( extractOption );
 		try
