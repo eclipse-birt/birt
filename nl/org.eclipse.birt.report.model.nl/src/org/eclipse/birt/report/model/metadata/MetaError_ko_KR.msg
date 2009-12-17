@@ -69,3 +69,4 @@ INVALID_CHOICE_PROPERTY=상세 정보 형식과 그 고유의 선택 목록 모두를 정의하므로 "
 EXTENDED_ITEM_MISSING=메타데이터 사전 내의 누락된 확장 항목
 DEFAULT_ENCRYPTION_EXIST=기본 암호화 "{1}"이(가) 존재하므로 암호화 "{0}"은(는) 기본값으로 설정될 수 없습니다.
 DEFAULT_EMPTY_STYLE_NAME=The default style for extension element	"{0}" should not be empty.
+EMPTY_DELTA_ROM_STREAM=The returned delta-rom input steam by class "{1}" from extension element "{0}" should not be empty.

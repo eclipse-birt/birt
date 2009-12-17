@@ -69,3 +69,4 @@ INVALID_CHOICE_PROPERTY=Auswahleigenschaft "{0}" in der Erweiterung "{1}" ist un
 EXTENDED_ITEM_MISSING=In der Metadatensammlung fehlt ein erweitertes Element.
 DEFAULT_ENCRYPTION_EXIST=Verschlüsselung "{0}" kann nicht als Standard eingestellt werden, da die Standardverschlüsselung "{1}" bereits vorhanden ist.
 DEFAULT_EMPTY_STYLE_NAME=The default style for extension element	"{0}" should not be empty.
+EMPTY_DELTA_ROM_STREAM=The returned delta-rom input steam by class "{1}" from extension element "{0}" should not be empty.
