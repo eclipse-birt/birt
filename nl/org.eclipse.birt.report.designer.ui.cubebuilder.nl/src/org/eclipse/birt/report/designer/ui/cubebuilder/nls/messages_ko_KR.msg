@@ -48,7 +48,7 @@ DateGroupDialog.Title=그룹 수준 추가/편집
 DateGroupDialog.Message.NumericName=그룹 이름에 숫자만 입력하면 안 됩니다.
 DateGroupDialog.Message.BlankName=그룹 이름은 비워 둘 수 없습니다.
 DateLevelDialog.Access.Control.List.Expression=액세스 제어 목록 식(&A):
-DateLevelDialog.Button.Text.Edit=편집(&E)...
+DateLevelDialog.Button.Text.Edit=&Edit...
 DateLevelDialog.Title=날짜 수준 편집
 DatasetPage.Label.PrimaryDataset=기본 데이터 집합(&P):
 DatasetPage.Button.Filter=필터(&F)...
@@ -96,7 +96,7 @@ LevelDialog.Label.Info=선택된 키:
 LevelDialog.Label.Add=그룹 수준 추가
 LevelDialog.Label.Edit=그룹 수준 편집
 MeasureDialog.Access.Control.List.Expression=액세스 제어 목록 식(&A):
-MeasureDialog.Button.Text.Edit=편집(&E)...
+MeasureDialog.Button.Text.Edit=&Edit...
 MeasureDialog.Title=속성
 MeasureDialog.Label.Name=이름(&N):
 MeasureDialog.Label.Function=함수(&F):
@@ -125,7 +125,7 @@ LevelPropertyDialog.Button.Static=정적(&S)
 LevelPropertyDialog.DisplayField=표시 필드(&D):
 LevelPropertyDialog.Button.None=없음
 LevelPropertyDialog.Button.Prefix=접두사
-LevelPropertyDialog.Button.Text.Edit=편집(&E)...
+LevelPropertyDialog.Button.Text.Edit=&Edit...
 LevelPropertyDialog.Interval.Base=간격에 고정된 기본값 사용:
 LevelPropertyDialog.Label.Property=수준 속성
 LevelPropertyDialog.Label.Attribute=특성
@@ -165,6 +165,7 @@ DateLevelDialog.None=없음
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=데이터 큐브
+NewCubeAction.trans.cube.new=Create Cube
 
 ###########################################################
 #CubePageGenerator properties

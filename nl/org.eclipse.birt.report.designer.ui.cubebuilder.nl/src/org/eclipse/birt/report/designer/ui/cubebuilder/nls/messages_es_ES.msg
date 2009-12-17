@@ -48,7 +48,7 @@ DateGroupDialog.Title=Agregar/editar nivel de grupo
 DateGroupDialog.Message.NumericName=El nombre de grupo no puede ser un número puro
 DateGroupDialog.Message.BlankName=El nombre de grupo no puede estar en blanco
 DateLevelDialog.Access.Control.List.Expression=Ex&presión de lista de control de acceso:
-DateLevelDialog.Button.Text.Edit=&Editar...
+DateLevelDialog.Button.Text.Edit=&Edit...
 DateLevelDialog.Title=Editar nivel de fecha
 DatasetPage.Label.PrimaryDataset=&Conjunto de datos primario:
 DatasetPage.Button.Filter=&Filtro...
@@ -96,7 +96,7 @@ LevelDialog.Label.Info=Tecla seleccionada:
 LevelDialog.Label.Add=Agregar nivel de grupo
 LevelDialog.Label.Edit=Editar nivel de grupo
 MeasureDialog.Access.Control.List.Expression=Ex&presión de lista de control de acceso:
-MeasureDialog.Button.Text.Edit=&Editar...
+MeasureDialog.Button.Text.Edit=&Edit...
 MeasureDialog.Title=Propiedades
 MeasureDialog.Label.Name=&Nombre:
 MeasureDialog.Label.Function=&Función:
@@ -125,7 +125,7 @@ LevelPropertyDialog.Button.Static=&Estático
 LevelPropertyDialog.DisplayField=Visualizar c&ampo:
 LevelPropertyDialog.Button.None=Ninguno
 LevelPropertyDialog.Button.Prefix=Prefijo
-LevelPropertyDialog.Button.Text.Edit=&Editar...
+LevelPropertyDialog.Button.Text.Edit=&Edit...
 LevelPropertyDialog.Interval.Base=Utilizar un valor de base fijo para el intervalo:
 LevelPropertyDialog.Label.Property=Propiedad de nivel
 LevelPropertyDialog.Label.Attribute=Atributo
@@ -165,6 +165,7 @@ DateLevelDialog.None=Ninguno
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=Cubo de datos
+NewCubeAction.trans.cube.new=Create Cube
 
 ###########################################################
 #CubePageGenerator properties

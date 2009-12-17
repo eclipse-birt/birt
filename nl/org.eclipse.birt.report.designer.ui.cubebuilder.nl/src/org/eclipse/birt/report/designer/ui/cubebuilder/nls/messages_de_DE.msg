@@ -48,7 +48,7 @@ DateGroupDialog.Title=Gruppenebene hinzufügen/bearbeiten
 DateGroupDialog.Message.NumericName=Gruppenname darf keine reine Zahl sein.
 DateGroupDialog.Message.BlankName=Gruppenname darf nicht leer sein.
 DateLevelDialog.Access.Control.List.Expression=Zugriffssteuerlisten-&Ausdruck:
-DateLevelDialog.Button.Text.Edit=&Bearbeiten...
+DateLevelDialog.Button.Text.Edit=&Edit...
 DateLevelDialog.Title=Datumsebene bearbeiten
 DatasetPage.Label.PrimaryDataset=&Primärdatensatz:
 DatasetPage.Button.Filter=&Filter...
@@ -96,7 +96,7 @@ LevelDialog.Label.Info=Ausgewählter Schlüssel:
 LevelDialog.Label.Add=Gruppenebene hinzufügen
 LevelDialog.Label.Edit=Gruppenebene bearbeiten
 MeasureDialog.Access.Control.List.Expression=Zugriffssteuerlisten-&Ausdruck:
-MeasureDialog.Button.Text.Edit=&Bearbeiten...
+MeasureDialog.Button.Text.Edit=&Edit...
 MeasureDialog.Title=Eigenschaften
 MeasureDialog.Label.Name=&Name:
 MeasureDialog.Label.Function=&Funktion:
@@ -125,7 +125,7 @@ LevelPropertyDialog.Button.Static=&Statisch
 LevelPropertyDialog.DisplayField=&Anzeigefeld:
 LevelPropertyDialog.Button.None=Ohne
 LevelPropertyDialog.Button.Prefix=Präfix
-LevelPropertyDialog.Button.Text.Edit=&Bearbeiten...
+LevelPropertyDialog.Button.Text.Edit=&Edit...
 LevelPropertyDialog.Interval.Base=Festen Basiswert für Intervall verwenden:
 LevelPropertyDialog.Label.Property=Ebeneneigenschaft
 LevelPropertyDialog.Label.Attribute=Attribut
@@ -165,6 +165,7 @@ DateLevelDialog.None=Ohne
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=Datenquader
+NewCubeAction.trans.cube.new=Create Cube
 
 ###########################################################
 #CubePageGenerator properties

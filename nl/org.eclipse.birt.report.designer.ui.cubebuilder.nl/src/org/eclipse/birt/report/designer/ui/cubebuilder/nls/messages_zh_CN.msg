@@ -48,7 +48,7 @@ DateGroupDialog.Title=添加/编辑组级别
 DateGroupDialog.Message.NumericName=组名不能为纯数
 DateGroupDialog.Message.BlankName=组名不能为空白
 DateLevelDialog.Access.Control.List.Expression=访问控制列表表达式(&A):
-DateLevelDialog.Button.Text.Edit=编辑(&E)...
+DateLevelDialog.Button.Text.Edit=&Edit...
 DateLevelDialog.Title=编辑日期级别
 DatasetPage.Label.PrimaryDataset=主数据集(&P):
 DatasetPage.Button.Filter=筛选器(&F)...
@@ -96,7 +96,7 @@ LevelDialog.Label.Info=选择的关键字:
 LevelDialog.Label.Add=添加组级别
 LevelDialog.Label.Edit=编辑组级别
 MeasureDialog.Access.Control.List.Expression=访问控制列表表达式(&A):
-MeasureDialog.Button.Text.Edit=编辑(&E)...
+MeasureDialog.Button.Text.Edit=&Edit...
 MeasureDialog.Title=属性
 MeasureDialog.Label.Name=名称(&N):
 MeasureDialog.Label.Function=函数(&F):
@@ -125,7 +125,7 @@ LevelPropertyDialog.Button.Static=静态(&S)
 LevelPropertyDialog.DisplayField=显示字段(&D):
 LevelPropertyDialog.Button.None=无
 LevelPropertyDialog.Button.Prefix=前缀
-LevelPropertyDialog.Button.Text.Edit=编辑(&E)...
+LevelPropertyDialog.Button.Text.Edit=&Edit...
 LevelPropertyDialog.Interval.Base=对间隔使用固定基值:
 LevelPropertyDialog.Label.Property=级别属性
 LevelPropertyDialog.Label.Attribute=属性
@@ -165,6 +165,7 @@ DateLevelDialog.None=无
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=多维数据集
+NewCubeAction.trans.cube.new=Create Cube
 
 ###########################################################
 #CubePageGenerator properties

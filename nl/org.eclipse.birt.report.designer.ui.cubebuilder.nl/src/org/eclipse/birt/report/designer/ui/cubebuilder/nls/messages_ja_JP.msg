@@ -48,7 +48,7 @@ DateGroupDialog.Title=グループレベルの追加と編集
 DateGroupDialog.Message.NumericName=グループ名に数字のみを指定することはできません。
 DateGroupDialog.Message.BlankName=グループ名は空白にできません。
 DateLevelDialog.Access.Control.List.Expression=アクセスコントロールリストの式(&A) :
-DateLevelDialog.Button.Text.Edit=編集(&E)...
+DateLevelDialog.Button.Text.Edit=&Edit...
 DateLevelDialog.Title=日付レベルの編集
 DatasetPage.Label.PrimaryDataset=プライマリデータセット(&P) :
 DatasetPage.Button.Filter=フィルタ(&F)...
@@ -96,7 +96,7 @@ LevelDialog.Label.Info=選択済みのキー :
 LevelDialog.Label.Add=グループレベルの追加
 LevelDialog.Label.Edit=グループレベルの編集
 MeasureDialog.Access.Control.List.Expression=アクセスコントロールリストの式(&A) :
-MeasureDialog.Button.Text.Edit=編集(&E)...
+MeasureDialog.Button.Text.Edit=&Edit...
 MeasureDialog.Title=プロパティ
 MeasureDialog.Label.Name=名前(&N) :
 MeasureDialog.Label.Function=関数(&F) :
@@ -125,7 +125,7 @@ LevelPropertyDialog.Button.Static=静的(&S)
 LevelPropertyDialog.DisplayField=表示フィールド(&D) :
 LevelPropertyDialog.Button.None=なし
 LevelPropertyDialog.Button.Prefix=接頭辞
-LevelPropertyDialog.Button.Text.Edit=編集(&E)...
+LevelPropertyDialog.Button.Text.Edit=&Edit...
 LevelPropertyDialog.Interval.Base=丸めた数値を間隔の基準値として使用する :
 LevelPropertyDialog.Label.Property=レベルのプロパティ
 LevelPropertyDialog.Label.Attribute=属性
@@ -165,6 +165,7 @@ DateLevelDialog.None=なし
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=データキューブ
+NewCubeAction.trans.cube.new=Create Cube
 
 ###########################################################
 #CubePageGenerator properties
