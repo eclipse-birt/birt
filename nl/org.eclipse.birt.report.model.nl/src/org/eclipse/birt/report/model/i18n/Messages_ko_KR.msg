@@ -4006,3 +4006,4 @@ Message.ExportTabToSharedTabFile=공유 탭 파일로 탭을 내보냅니다.
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=외부 가젯이 재귀적으로 포함되어 있습니다. 
+Error.NotFoundExporter=Can not find the dashboard exporter.

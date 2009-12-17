@@ -4006,3 +4006,4 @@ Message.ExportTabToSharedTabFile=Tab in Datei mit gemeinsamen Tabs exportieren.
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=Externes Gadget rekursiv einbezogen. 
+Error.NotFoundExporter=Can not find the dashboard exporter.
