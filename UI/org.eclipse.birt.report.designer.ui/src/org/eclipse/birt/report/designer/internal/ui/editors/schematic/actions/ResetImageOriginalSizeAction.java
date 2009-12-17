@@ -127,20 +127,20 @@ public class ResetImageOriginalSizeAction extends Action
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
-			if ( URIUtil.isValidResourcePath( url ) )
-			{
-				temp = ImageManager.getInstance( )
-						.createURIURL( URIUtil.getLocalPath( url ) );
-
-			}
-			else
-			{
-				temp = ImageManager.getInstance( )
-						.createURIURL(  url  );
-			}
-
 			try
 			{
+				if ( URIUtil.isValidResourcePath( url ) )
+				{
+					temp = ImageManager.getInstance( )
+							.generateURL( imageHandle.getModuleHandle( ), URIUtil.getLocalPath( url ) );
+	
+				}
+				else
+				{
+					temp = ImageManager.getInstance( )
+							.generateURL(imageHandle.getModuleHandle( ),  url  );
+				}
+
 				in = temp.openStream( );
 			}
 			catch ( IOException e )
