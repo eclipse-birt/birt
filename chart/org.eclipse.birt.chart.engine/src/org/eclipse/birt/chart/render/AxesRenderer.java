@@ -3482,7 +3482,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			throws ChartException
 	{
 		// Only restore clipping in the last renderer
-		final boolean bLastInSequence = iSeriesIndex == ( iSeriesCount - 1 );
+		final boolean bLastInSequence = isLastSeries( );
 		if ( bLastInSequence && !isDimension3D( )
 				&& ( !isShowOutside( ) || !baseIsShowOutside( ) ) )
 		{
@@ -3752,7 +3752,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.render.BaseRenderer#isLastVisibleSeries()
 	 */
-	protected boolean isLastVisibleSeries( )
+	protected boolean isLastSeries( )
 	{
 		//The study layout for multiple Y axes, we just check if the series is
 		// last visible in current axes.
@@ -3769,16 +3769,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			BaseRenderer renderer = getRenderer( iSeriesIndex );
 			Series s = renderer.getSeries( );
-			for ( int i = ( seList.size( ) - 1 ); i >= 0; i-- )
-			{
-				Series series = seList.get( i );
-				if ( !series.isVisible( ) )
-				{
-					continue;
-				}
-
-				return ( s == series );
-			}
+			return ( s == seList.get( seList.size( ) - 1 ) );
 		}
 		else
 		{
@@ -3786,15 +3777,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				return false;
 			}
-			for ( int i = iSeriesCount - 1; i > 0; i-- )
-			{
-				BaseRenderer renderer = getRenderer( i );
-				if ( renderer.getSeries( ).isVisible( ) )
-				{
-					return ( i == iSeriesIndex );
-				}
-			}
+			return iSeriesIndex == ( iSeriesCount - 1 );
 		}
-		return false;
 	}
 }

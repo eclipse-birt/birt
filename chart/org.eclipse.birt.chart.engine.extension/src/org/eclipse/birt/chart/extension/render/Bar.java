@@ -524,22 +524,18 @@ public final class Bar extends AxesRenderer
 						// Adjusts last position for the study layout.
 						au = ssl.getUnit( bs, i ); // UNIT POSITIONS (MAX, MIN) FOR
 						// INDEX = 'i'
-						dValue = isNaN( dpha[i].getOrthogonalValue( ) ) ? 0
-								: ( (Double) dpha[i].getOrthogonalValue( ) ).doubleValue( );
-						dStart = Methods.asDouble( srh.getOrthogonalScale( ).getMinimum( ) ).doubleValue( );
-						dEnd = dValue;
-
+						dValue = Methods.asDouble( dpha[i].getOrthogonalValue( ) );
 						try
 						{
 							// Calculate orthogonal X position
 							// and save it as next base location.
-							double dMargin = srh.getLocationOnOrthogonal( new Double( dEnd ) )
-									- srh.getLocationOnOrthogonal( new Double( dStart ) );
+							double dMargin = srh.getLocationOnOrthogonal( dpha[i].getOrthogonalValue( ) )
+									- srh.getLocationOnOrthogonal( srh.getOrthogonalScale( ).getMinimum( ));
 							double lastPosition = au.getLastPosition( dValue );
 							double precisionDelta = 0.00000001d;
 							if ( Double.isNaN( lastPosition ) )
 							{
-								dBaseLocation = srh.getLocationOnOrthogonal( new Double( dStart ) ) - precisionDelta;
+								dBaseLocation = srh.getLocationOnOrthogonal( srh.getOrthogonalScale( ).getMinimum( )) - precisionDelta;
 							}
 							else
 							{
@@ -717,21 +713,19 @@ public final class Bar extends AxesRenderer
 						// Adjusts last position for the study layout.
 						au = ssl.getUnit( bs, i ); // UNIT POSITIONS (MAX, MIN) FOR
 						// INDEX = 'i'
-						dValue = isNaN( dpha[i].getOrthogonalValue( ) ) ? 0
-								: ( (Double) dpha[i].getOrthogonalValue( ) ).doubleValue( );
-						dStart = Methods.asDouble( srh.getOrthogonalScale( ).getMinimum( ) ).doubleValue( );
-						dEnd = dValue;
-						
+						dValue = Methods.asDouble( dpha[i].getOrthogonalValue( ) );
 						try
 						{
 							// Calculate orthogonal Y position and save it as next
 							// base location.
-							double dMargin = srh.getLocationOnOrthogonal( new Double( dEnd ) )
-									- srh.getLocationOnOrthogonal( new Double( dStart ) );
+							double dMargin = srh.getLocationOnOrthogonal( dpha[i].getOrthogonalValue( ) )
+									- srh.getLocationOnOrthogonal( srh.getOrthogonalScale( )
+											.getMinimum( ) );
 							double lastPosition = au.getLastPosition( dValue );
 							if ( Double.isNaN( lastPosition ) )
 							{
-								dBaseLocation = srh.getLocationOnOrthogonal( new Double( dStart ) );
+								dBaseLocation = srh.getLocationOnOrthogonal( srh.getOrthogonalScale( )
+										.getMinimum( ) );
 							}
 							else
 							{

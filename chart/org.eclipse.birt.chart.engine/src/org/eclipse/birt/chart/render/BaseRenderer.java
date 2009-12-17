@@ -3447,21 +3447,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		return false;
 	}
 
-	protected boolean isLastVisibleSeries( )
+	protected boolean isLastSeries( )
 	{
 		if ( iSeriesIndex == 0 )
 		{
 			return false;
 		}
-		for ( int i = iSeriesCount - 1; i > 0; i-- )
-		{
-			BaseRenderer renderer = getRenderer( i );
-			if ( renderer.getSeries( ).isVisible( ) )
-			{
-				return i == iSeriesIndex;
-			}
-		}
-		return false;
+		return ( iSeriesIndex == iSeriesCount - 1 );
 	}
 
 	protected Label getExternalizedCopy( Label la )
