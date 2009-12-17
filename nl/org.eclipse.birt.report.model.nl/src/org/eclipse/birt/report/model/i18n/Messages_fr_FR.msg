@@ -686,6 +686,11 @@ Choices.selectorType.calendar=Calendar
 Choices.thumbType.single=Single
 Choices.thumbType.dual=Dual
 
+#86
+Choices.accessType.transient=Transitoire
+Choices.accessType.latest=Dernière
+Choices.accessType.specificVersion=SpecificVersion
+
 ###########################################################
 # Classes
 
@@ -4001,4 +4006,3 @@ Message.ExportTabToSharedTabFile=Exporter l'onglet vers le fichier d'onglet part
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=Gadget externe inclus de façon récurrente. 
-Error.NotFoundExporter=Can not find the dashboard exporter.

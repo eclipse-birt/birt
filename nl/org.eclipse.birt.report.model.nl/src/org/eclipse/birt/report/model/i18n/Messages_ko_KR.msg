@@ -686,6 +686,11 @@ Choices.selectorType.calendar=Calendar
 Choices.thumbType.single=Single
 Choices.thumbType.dual=Dual
 
+#86
+Choices.accessType.transient=임시
+Choices.accessType.latest=최신
+Choices.accessType.specificVersion=SpecificVersion
+
 ###########################################################
 # Classes
 
@@ -4001,4 +4006,3 @@ Message.ExportTabToSharedTabFile=공유 탭 파일로 탭을 내보냅니다.
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=외부 가젯이 재귀적으로 포함되어 있습니다. 
-Error.NotFoundExporter=Can not find the dashboard exporter.

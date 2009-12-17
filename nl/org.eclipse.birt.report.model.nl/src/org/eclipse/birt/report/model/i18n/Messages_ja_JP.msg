@@ -686,6 +686,11 @@ Choices.selectorType.calendar=Calendar
 Choices.thumbType.single=Single
 Choices.thumbType.dual=Dual
 
+#86
+Choices.accessType.transient=一時的
+Choices.accessType.latest=最新
+Choices.accessType.specificVersion=SpecificVersion
+
 ###########################################################
 # Classes
 
@@ -4001,4 +4006,3 @@ Message.ExportTabToSharedTabFile=タブを共有タブファイルにエクスポートします。
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=外部ガジェットが繰り返し含まれています。 
-Error.NotFoundExporter=Can not find the dashboard exporter.

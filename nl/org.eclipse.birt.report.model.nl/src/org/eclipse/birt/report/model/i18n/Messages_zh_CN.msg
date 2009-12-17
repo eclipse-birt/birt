@@ -686,6 +686,11 @@ Choices.selectorType.calendar=Calendar
 Choices.thumbType.single=Single
 Choices.thumbType.dual=Dual
 
+#86
+Choices.accessType.transient=暂时
+Choices.accessType.latest=最新
+Choices.accessType.specificVersion=SpecificVersion
+
 ###########################################################
 # Classes
 
@@ -4001,4 +4006,3 @@ Message.ExportTabToSharedTabFile=将选项卡导出到共享选项卡文件。
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=外部小工具递归包括。 
-Error.NotFoundExporter=Can not find the dashboard exporter.
