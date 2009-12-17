@@ -193,6 +193,13 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 				null );
 	}
 	
+	protected void updateSortKey( )
+	{
+		String sExpr = btnSortExprBuilder.getExpression( );
+		registerSortKey( sExpr );
+		getSeriesDefinitionForProcessing( ).getSortKey( ).setDefinition( sExpr );
+	}
+
 	/**
 	 * Create composite of sort area.
 	 * 
@@ -229,10 +236,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 			public void focusLost( FocusEvent e )
 			{
-				String sExpr = btnSortExprBuilder.getExpression( );
-				registerSortKey( sExpr );
-				getSeriesDefinitionForProcessing( ).getSortKey( )
-						.setDefinition( sExpr );
+				updateSortKey( );
 			}
 		} );
 
@@ -279,12 +283,11 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	 */
 	protected void handleBuilderAction( String[] data )
 	{
-		if ( data.length != 2 )
+		if ( data.length != 2 || data[1].equals( data[0] ) )
 		{
 			return;
 		}
-		String newExpr = data[1];
-		getSeriesDefinitionForProcessing( ).getQuery( ).setDefinition( newExpr );
+		updateSortKey( );
 	}
 
 	protected SeriesDefinition getSeriesDefinitionForProcessing( )
