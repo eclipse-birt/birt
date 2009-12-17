@@ -237,7 +237,7 @@ public class LayoutUtil
 
 		// the maximum level for a cell to find the table container is 3.
 
-		int maxLevel = 3;
+		int maxLevel = 4;
 
 		for ( int i = 0; i < maxLevel; i++ )
 		{
