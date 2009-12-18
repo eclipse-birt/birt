@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.parameters.AbstractParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.designer.ui.parameters.RadioParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ScalarParameter;
 import org.eclipse.birt.report.designer.ui.parameters.StaticTextParameter;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -143,7 +145,7 @@ public class InputParameterDialog extends BaseDialog
 		while ( itr.hasNext( ) )
 		{
 			ScalarParameter scalarParameter = (ScalarParameter) itr.next( );
-			String paramValue = (String) paramValues.get( scalarParameter.getHandle( )
+			Object paramValue = paramValues.get( scalarParameter.getHandle( )
 					.getName( ) );
 			try
 			{
@@ -152,14 +154,31 @@ public class InputParameterDialog extends BaseDialog
 			}
 			catch ( BirtException e )
 			{
-				MessageDialog.openError( getShell( ), "Invalid value type", //$NON-NLS-1$
-						"The value \"" //$NON-NLS-1$
-								+ paramValue
-								+ "\" is invalid with type " //$NON-NLS-1$
-								+ scalarParameter.getHandle( ).getDataType( ) );
+				MessageDialog.openError( getShell( ), Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
+						Messages.getFormattedString( "InputParameterDialog.err.invalidValue",
+								new String[]{
+										paramValue.toString( ),
+										scalarParameter.getHandle( )
+												.getDataType( )
+								} ) );
 				return;
 			}
 		}
+
+		for ( IParameterAdapter adapter : this.paramAdatpers )
+		{
+			try
+			{
+				adapter.validate( );
+			}
+			catch ( BirtException e )
+			{
+				MessageDialog.openError( getShell( ), Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
+						e.getMessage( ) );
+				return;
+			}
+		}
+
 		super.okPressed( );
 	}
 
@@ -312,6 +331,7 @@ public class InputParameterDialog extends BaseDialog
 		{
 			final RadioParameter radioParameter = (RadioParameter) param;
 			Object value = null;
+			dataTypeCheckList.add( radioParameter );
 
 			try
 			{

@@ -13,9 +13,9 @@ package org.eclipse.birt.report.designer.ui.parameters;
 
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -70,8 +70,9 @@ public interface IParameterAdapter
 	/**
 	 * test the the input parameter value is valid
 	 * @return
+	 * @throws BirtException 
 	 */
-	public boolean validate();
+	public boolean validate() throws BirtException;
 
 	public abstract class ParameterAdapter implements IParameterAdapter
 	{
