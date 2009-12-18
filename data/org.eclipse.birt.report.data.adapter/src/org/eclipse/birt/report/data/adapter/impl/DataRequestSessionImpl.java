@@ -85,6 +85,7 @@ import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.ColumnMeta;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.IDataProcessor;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -95,6 +96,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -820,24 +822,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		if ( cubeHandle.autoPrimaryKey( ) )
 		{
 			QueryDefinition qd = queryMap.get( cubeHandle );
-			if ( fromJoin )
-			{
-				//clear all groups in query definitions for generating dimension tables
-				List<DimensionHandle> dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
-				List<TabularHierarchyHandle> hiers = null;
-				for ( DimensionHandle dim:dimHandles )
-				{
-					hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
-					for ( TabularHierarchyHandle hier: hiers )
-					{
-						QueryDefinition q =queryMap.get( hier );
-						//need no groups to generate dimension table
-						q.getGroups( ).clear( );
-						q.setUsesDetails( true );
-					}
-				}
-			}
-			else
+			if ( !fromJoin )
 			{
 				List<ColumnMeta> metas = metaMap.get( cubeHandle );
 				//append binding in fact table query for temp PK
@@ -866,10 +851,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 								getCubeTempPKDimensionName( cubeHandle ),
 								getCubeTempPKFieldName( cubeHandle ))});
 			}
-			
-			//need no goups in the query definition for generating cube fact table
-			qd.getGroups( ).clear( );
-			qd.setUsesDetails( true );
 			
 			//does not need aggregation to define measures in this case, clear all aggregations on measures
 			for ( Object measureName : measureNames )
@@ -925,6 +906,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>();
 		QueryDefinition query =  createQuery( this, cubeHandle, metaList );
+		if ( cubeHandle.autoPrimaryKey( ) )
+		{
+			//need no groups in query definition for generating fact table
+			query.setUsesDetails( true );
+			query.getGroups( ).clear( );
+		}
 		queryDefns.add( query );
 		queryMap.put( cubeHandle, query );
 		metaMap.put( cubeHandle, metaList );
@@ -937,6 +924,25 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				metaList = new ArrayList<ColumnMeta>();
 				query =  createQuery( this,  hier, metaList );
+				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
+				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
+				{
+					for ( String key : jointHierarchyKeys )
+					{
+						//add bindings for dummy level based on joint hierarchy keys
+						String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
+						query.addBinding( new Binding( key, new ScriptExpression(exprString) ) );
+						DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( key,
+								null,
+								DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
+						temp.setDataType( getColumnDataType( hier, key ) );
+						metaList.add( temp );
+					}
+					
+					//need no groups in query definition for generating dimension table
+					query.setUsesDetails( true );
+					query.getGroups( ).clear( );
+				}
 				queryDefns.add( query );
 				queryMap.put( hier, query );
 				metaMap.put( hier, metaList );
@@ -1118,8 +1124,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 						},
 						this.toStringArray( levelKeys ) );
 			}
-
-			createLeafLevel( levels, levelInHier, leafLevelKeyColumn );
+			String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hierhandle );
+			if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
+			{
+				createLeafLevel( levels, levelInHier, jointHierarchyKeys );
+			}
+			else
+			{
+				createLeafLevel( levels, levelInHier, leafLevelKeyColumn );
+			}
 			Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
 			try
 			{
@@ -1169,6 +1182,32 @@ public class DataRequestSessionImpl extends DataRequestSession
 					e,
 					dim.getName( ) );
 		}
+	}
+	
+	
+	private String[] getJointHierarchyKeys( TabularCubeHandle cubeHandle, TabularHierarchyHandle hier )
+	{
+		List<String> hierarchyKeys = new ArrayList( );
+		if ( hier.getDataSet( ) != null && !hier.getDataSet( ).equals(cubeHandle.getDataSet( )))
+		{
+			Iterator it = cubeHandle.joinConditionsIterator( );
+			while ( it.hasNext( ) )
+			{
+				DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
+				if ( dimCondHandle.getHierarchy( ).getName( ).equals( hier.getName( ) ) )
+				{
+					Iterator conditionIt = dimCondHandle.getJoinConditions( )
+							.iterator( );
+					while ( conditionIt.hasNext( ) )
+					{
+						DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
+						String key = joinCondition.getHierarchyKey( );
+						hierarchyKeys.add( key );
+					}
+				}
+			}
+		}
+		return hierarchyKeys.toArray( new String[0] );
 	}
 	
 	/**
@@ -1920,5 +1959,21 @@ public class DataRequestSessionImpl extends DataRequestSession
 		System.arraycopy( src, 0, result, 0, src.length );
 		result[src.length] = v;
 		return result;
+	}
+	
+	private static int getColumnDataType( TabularHierarchyHandle thh, String jointHierarchyKey )
+	{
+		DataSetHandle dsh = thh.getDataSet( );
+		CachedMetaDataHandle cmdh = dsh.getCachedMetaDataHandle( );
+		Iterator itr = cmdh.getResultSet( ).iterator( );
+		while ( itr.hasNext( ) )
+		{
+			ResultSetColumnHandle rsch = (ResultSetColumnHandle)itr.next( );
+			if ( rsch.getColumnName( ).equals( jointHierarchyKey ))
+			{
+				return org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( rsch.getDataType( ) ); 
+			}
+		}
+		return DataType.STRING_TYPE;
 	}
 }
