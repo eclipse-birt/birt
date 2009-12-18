@@ -697,12 +697,15 @@ public class ExcelLayoutEngine
 			}
 			else
 			{
+				entry.setProperty( StyleConstant.DATA_TYPE_PROP,
+						SheetData.STRING );
 				return createData( image.getAltText( ), entry );
 			}
 		}
 		catch ( IOException e )
 		{
 			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.STRING );
 			return createData( image.getAltText( ), entry );
 		}
 	}
