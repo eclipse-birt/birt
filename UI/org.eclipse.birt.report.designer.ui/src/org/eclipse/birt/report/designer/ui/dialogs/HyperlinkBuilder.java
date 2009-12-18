@@ -436,7 +436,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private boolean showBookMark = true;
 
-	public void showBookMard( boolean showBookMark )
+	public void showBookMark( boolean showBookMark )
 	{
 		this.showBookMark = showBookMark;
 	}
