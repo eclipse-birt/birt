@@ -205,19 +205,23 @@ public class CubeQueryResults implements ICubeQueryResults
 	private IDocumentManager getDocumentManager( CubeQueryExecutor executor )
 			throws DataException, IOException
 	{
+		IDocumentManager manager = null;
 		if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION
 				|| executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
-			return DocManagerMap.getDocManagerMap( ).get
-					( String.valueOf( executor.getSession( ).getEngine( ).hashCode( ) ),
-							executor.getSession( ).getTempDir( ) +
-							executor.getCubeQueryDefinition( ).getName( ) );
+			manager = DocManagerMap.getDocManagerMap( )
+					.get( String.valueOf( executor.getSession( )
+							.getEngine( )
+							.hashCode( ) ),
+							executor.getSession( ).getTempDir( )
+									+ executor.getCubeQueryDefinition( )
+											.getName( ) );
 		}
-		else
-		{
-			return DocumentManagerFactory.createRADocumentManager( executor.getContext( )
+		if ( manager != null )
+			return manager;
+		
+		return DocumentManagerFactory.createRADocumentManager( executor.getContext( )
 					.getDocReader( ) );
-		}
 	}
 
 	/**
