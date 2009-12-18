@@ -64,7 +64,7 @@ public class MetaDataPopulator
 		}
 		else
 		{
-			return null;
+			resultSetList = MetaDataUtil.getResultPropertyHandle( dataSetHandle );
 		}
 
 		List computedList = (List) dataSetHandle.getProperty( OdaDataSetHandle.COMPUTED_COLUMNS_PROP );

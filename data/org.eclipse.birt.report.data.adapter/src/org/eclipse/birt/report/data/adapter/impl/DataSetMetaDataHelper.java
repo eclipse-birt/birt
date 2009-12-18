@@ -136,28 +136,33 @@ public class DataSetMetaDataHelper
 		IResultMetaData metaData = MetaDataPopulator.retrieveResultMetaData( dataSetHandle );
 
 		if ( metaData == null )
+			metaData = getRuntimeMetaData( dataSetHandle );
+
+		if ( metaData != null
+				&& !( dataSetHandle instanceof ScriptDataSetHandle ) )
+			clearUnusedData( dataSetHandle, metaData );
+		return metaData;
+	}
+	
+	private IResultMetaData getRuntimeMetaData( DataSetHandle dataSetHandle ) throws BirtException
+	{
+		QueryDefinition query = new QueryDefinition( );
+		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
+		query.setMaxRows( 1 );
+		query.setAutoBinding( true );
+
+		IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
+				modelAdaptor,
+				sessionContext,
+				false ).executeQuery( query ).getResultMetaData( );
+		addResultSetColumn( dataSetHandle, metaData );
+		if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
 		{
-			QueryDefinition query = new QueryDefinition( );
-			query.setDataSetName( dataSetHandle.getQualifiedName( ) );
-			query.setMaxRows( 1 );
-			query.setAutoBinding( true );
-			
 			metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
 					sessionContext,
-					false ).executeQuery( query ).getResultMetaData( );
-			addResultSetColumn( dataSetHandle, metaData );
-			if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
-			{
-				metaData = new QueryExecutionHelper( dataEngine,
-						modelAdaptor,
-						sessionContext,
-						true ).executeQuery( query ).getResultMetaData( );
-			}
+					true ).executeQuery( query ).getResultMetaData( );
 		}
-		
-		if ( metaData!= null && !( dataSetHandle instanceof ScriptDataSetHandle ) )
-			clearUnusedData( dataSetHandle, metaData );
 		return metaData;
 	}
 	

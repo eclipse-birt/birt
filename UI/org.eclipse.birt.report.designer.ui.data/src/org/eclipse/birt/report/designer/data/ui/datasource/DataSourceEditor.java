@@ -71,21 +71,32 @@ public class DataSourceEditor extends AbstractPropertyDialog implements
 			assert dataSourceHandle != null;
 
 			dataSourceType = dataSourceHandle.getExtensionID( );
-		}
 
-		if ( DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceType ) )
-		{
-			addCustomPageODAV3( dataSourceHandle );
+			if ( DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceType ) )
+			{
+				addCustomPageODAV3( dataSourceHandle );
+				addPageTo( "/", "org.eclipse.birt.datasource.editor.property", Messages.getString( "datasource.editor.property" ), null, new PropertyBindingPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
+			else
+			{
+				IConfigurationElement element = DataSetProvider.findDataSourceElement( dataSourceType );
+
+				if ( element != null )
+					addCustomPageODAV2( element );
+			}
 		}
 		else
 		{
-			IConfigurationElement element = DataSetProvider.findDataSourceElement( dataSourceType );
-
-			if ( element != null )
-				addCustomPageODAV2( element );
+			IPropertyPage[] pages = DataSourceEditorHelper.getExternalPages( ds );
+			for ( int i = 0; i < pages.length; i++ )
+			{
+				addPageTo( "/", //$NON-NLS-1$
+						pages[i].getName( ),
+						pages[i].getName( ),
+						null,
+						pages[i] );
+			}
 		}
-
-		addPageTo( "/", "org.eclipse.birt.datasource.editor.property", Messages.getString( "datasource.editor.property" ), null, new PropertyBindingPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**

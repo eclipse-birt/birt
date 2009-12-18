@@ -16,8 +16,8 @@ import org.eclipse.birt.report.designer.data.ui.datasource.DataSourceEditor;
 import org.eclipse.birt.report.designer.data.ui.util.WizardUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.DataSourceNodeProvider;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -63,7 +63,7 @@ public class EditableDataSourceNodeProvider extends DataSourceNodeProvider
 	 */
 	protected boolean performEdit( ReportElementHandle handle )
 	{
-		if ( handle instanceof OdaDataSourceHandle && handle.canEdit( ) )
+		if ( !(handle instanceof ScriptDataSourceHandle) && handle.canEdit( ) )
 		{
 			DataSourceEditor dialog = new DataSourceEditor( PlatformUI.getWorkbench( )
 					.getDisplay( )

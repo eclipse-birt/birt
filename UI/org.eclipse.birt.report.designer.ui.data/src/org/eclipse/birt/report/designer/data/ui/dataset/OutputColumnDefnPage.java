@@ -622,6 +622,11 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	 */
 	public boolean performOk( )
 	{
+		if ( !modelChanged )
+		{
+			disposeAll( );
+			return super.performOk( );
+		}
 		if ( isValid( ) )
 		{
 			refreshPositions( );
@@ -716,6 +721,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	 */
 	public boolean canLeave( )
 	{
+		if ( !this.modelChanged )
+			return true;
 		if ( isValid( ) )
 		{
 			refreshPositions( );

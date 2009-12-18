@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
-import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -118,6 +117,8 @@ public class DataSetBasePage extends WizardPage
 	
 	private FilteredTree dataSourceFilteredTree;
 	
+	private DataSetBasePageHelper helper;
+	
 	/**
 	 * Creates a new data set wizard page
 	 * 
@@ -168,6 +169,8 @@ public class DataSetBasePage extends WizardPage
 	 */
 	public void createControl( Composite parent )
 	{
+		helper = new DataSetBasePageHelper( );
+		
 		//initialize the dialog layout
 		Composite composite = new Composite( parent, SWT.NULL );
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -485,6 +488,12 @@ public class DataSetBasePage extends WizardPage
 					sourceType.addDataSource( handle );
 				}
 			}
+			else
+			{
+				useODAV3 = false;
+				helper.addExternalDataSource( sourceTypeMap,
+						handle );
+			}
 		}
 		return sourceTypeMap;
 	}
@@ -718,7 +727,15 @@ public class DataSetBasePage extends WizardPage
 				return newWizard.getStartingPage( );
 			}
 		}
-
+		else
+		{
+			IWizardPage page = helper.getNextPage( getSelectedDataSource( ),
+					dataSetElement );
+			if ( page == null )
+				return super.getNextPage( );
+			else
+				return page;
+		}
 		return super.getNextPage( );
 	}
 
@@ -802,6 +819,8 @@ public class DataSetBasePage extends WizardPage
 		{
 			return true;
 		}
+		else
+			return helper.hasWizard( getSelectedDataSource( ) );
 		return false;
 	}
 
@@ -875,9 +894,9 @@ public class DataSetBasePage extends WizardPage
 			DataSetType dataSetElement = (DataSetType) ( (Object[]) getSelectedDataSet( ) )[0];
 			dataSetTypeName = dataSetElement.getID( );
 		}
-		else
+		else if ( getSelectedDataSet( ) instanceof DataSetTypeElement )
 		{
-			dataSetTypeName = DataUIConstants.DATA_SET_SCRIPT;
+			dataSetTypeName = ( (DataSetTypeElement) getSelectedDataSet( ) ).getDataSetTypeName( );
 		}
 
 		return createDataSet( dataSetTypeName );
@@ -891,17 +910,18 @@ public class DataSetBasePage extends WizardPage
 		{
 			OdaDataSetHandle dsHandle = Utility.newOdaDataSet( getDataSetName( ).trim( ),
 					dataSetType );
-			dsHandle.setDataSource( source.getQualifiedName() );
+			dsHandle.setDataSource( source.getQualifiedName( ) );
 			dsHandle.setQueryText( "" ); //$NON-NLS-1$ //Need a empty query in the dataset.
 			return dsHandle;
 		}
-		if ( source instanceof ScriptDataSourceHandle )
+		else if ( source instanceof ScriptDataSourceHandle )
 		{
 			ScriptDataSetHandle dsHandle = Utility.newScriptDataSet( getDataSetName( ) );
 			dsHandle.setDataSource( source.getName( ) );
 			return dsHandle;
 		}
-		return null;
+		else
+			return helper.createDataSet( getDataSetName( ).trim( ), dataSetType );
 	}
 }
 

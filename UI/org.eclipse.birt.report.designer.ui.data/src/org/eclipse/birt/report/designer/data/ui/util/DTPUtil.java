@@ -334,9 +334,16 @@ public class DTPUtil
 		{
 			return null;
 		}
-		return new File( Utility.getReportModuleHandle( )
-				.getSystemId( )
-				.getFile( ) ).toURI( );
+		try
+		{
+			return new URI( Utility.getReportModuleHandle( )
+					.getSystemId( )
+					.getPath( ) );
+		}
+		catch ( URISyntaxException e )
+		{
+		}
+		return null;
 	}
 
 	/**
@@ -346,7 +353,14 @@ public class DTPUtil
 	 */
     public URI getBIRTResourcePath( )
 	{
-		return new File( ReportPlugin.getDefault( ).getResourceFolder( ) ).toURI( );
+		try
+		{
+			return new URI( ReportPlugin.getDefault( ).getResourceFolder( ) );
+		}
+		catch ( URISyntaxException e )
+		{
+		}
+		return null;
 	}
 	
 	/**

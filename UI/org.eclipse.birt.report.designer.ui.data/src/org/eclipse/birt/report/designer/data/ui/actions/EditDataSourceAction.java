@@ -16,14 +16,14 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.14 $ $Date: 2006/06/22 03:42:14 $
+ * @version $Revision$ $Date$
  */
 public class EditDataSourceAction extends AbstractElementAction
 {
@@ -87,7 +87,10 @@ public class EditDataSourceAction extends AbstractElementAction
 	 */
 	public boolean isEnabled( )
 	{
-		return ( getSelection( ) instanceof OdaDataSourceHandle  && ( (OdaDataSourceHandle) getSelection( ) )
-				.canEdit( ) );
+		if ( !( getSelection( ) instanceof ScriptDataSourceHandle )
+				&& ( (DataSourceHandle) getSelection( ) ).canEdit( ) )
+			return true;
+		
+		return  false;
 	}
 }

@@ -299,7 +299,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 			// Create a new Report Query definition for retrieving the
 			// columns
 			QueryDefinition query = new QueryDefinition( );
-			query.setDataSetName( ( (DataSetEditor) getContainer( ) ).getHandle( )
+			query.setDataSetName( ExternalUIUtil.getQulifiedDataSetHandle( ( (DataSetEditor) getContainer( ) ).getHandle( ) )
 					.getQualifiedName( ) );
 
 			int maxRow = getMaxRowPreference( );
@@ -366,7 +366,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				needCache = true;
 			}
 			DataSetExecutorHelper helper = new DataSetExecutorHelper( );
-			IQueryResults resultSet = helper.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
+			IQueryResults resultSet = helper.execute( ExternalUIUtil.getQulifiedDataSetHandle( ( (DataSetEditor) getContainer( ) ).getHandle( ) ),
 					query,
 					true,
 					true,

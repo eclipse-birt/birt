@@ -137,7 +137,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	{
 		super( parentShell, ds );
 
-		ExtenalUIUtil.validateDataSetHandle( ds );
+		ExternalUIUtil.validateDataSetHandle( ds );
 
 		this.needToFocusOnOutput = needToFocusOnOutput;
 		// get the data source and dataset type from handle
@@ -160,14 +160,14 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		}
 		else
 		{
-			dataSourceType = ExtenalUIUtil.getDataSourceType( ds ); //$NON-NLS-1$
-			dataSetType = ExtenalUIUtil.getDataSetType( ds ); //$NON-NLS-1$
+			dataSourceType = ExternalUIUtil.getDataSourceType( ds ); //$NON-NLS-1$
+			dataSetType = ExternalUIUtil.getDataSetType( ds ); //$NON-NLS-1$
 		}
 
 		// according to the data source type, get the extension point.If
 		// extention is birt, populate birt page. or the ODA Custom page will be
 		// populated.
-		boolean containsDataSource = ExtenalUIUtil.containsDataSource( ds );
+		boolean containsDataSource = ExternalUIUtil.containsDataSource( ds );
 		if ( containsDataSource )
 		{
 			addPageTo( "/", DATA_SOURCE_SELECTION_PAGE, Messages.getString( "dataset.editor.dataSource" ), null, new DataSetDataSourceSelectionPage( ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -326,7 +326,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		}
 		else
 		{
-			IPropertyPage[] pages = ExtenalUIUtil.getCommonPages( ds );
+			IPropertyPage[] pages = ExternalUIUtil.getCommonPages( ds );
 						
 			if ( pages != null && pages.length > 0 )
 			{
@@ -334,11 +334,18 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 				{
 					addPageTo( "/", pages[i].getClass( ).getName( ), pages[i].getName( ), null, pages[i] );//$NON-NLS-1$
 				}
+				if ( !needToFocusOnOutput && pages.length > 0 )
+				{
+					setDefaultNode( pages[0].getClass( ).getName( ) );
+				}
 				addOutputColumnsPage( );
-				addComputedColumnsPage( );
-				addParametersPage( );
-
-				addFiltersPage( );
+				
+				if ( ExternalUIUtil.needUtilityPages( ds ) )
+				{
+					addComputedColumnsPage( );
+					addParametersPage( );
+					addFiltersPage( );
+				}
 				addResultSetPreviewPage( );
 			}
 		}

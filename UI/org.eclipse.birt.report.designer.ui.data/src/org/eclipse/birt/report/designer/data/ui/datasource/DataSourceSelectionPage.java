@@ -12,10 +12,6 @@
 package org.eclipse.birt.report.designer.data.ui.datasource;
 
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,8 +45,6 @@ import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSource
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession.IDesignNameValidator;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
-import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
-import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer.Filter;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -84,7 +78,6 @@ public class DataSourceSelectionPage extends WizardPage
 {
 
 	private transient ListViewer dataSourceList = null;
-	private transient Hashtable htDataSourceWizards = new Hashtable( 10 );
 	private transient Label dataSourceNameLabel = null;
 	private transient Text dataSourceName = null;
 	private transient Button dsChoiceListRadio = null;
@@ -93,13 +86,9 @@ public class DataSourceSelectionPage extends WizardPage
 	private transient DesignElementHandle parentHandle = null;
 	private transient SlotHandle slotHandle = null;
 	
-	private static final String ODA_EXTENSION_ID = "id"; //$NON-NLS-1$
 	private static final String EMPTY_NAME = Messages.getString( "error.DataSource.emptyName" );//$NON-NLS-1$
 	private static final String DUPLICATE_NAME = Messages.getString( "error.duplicateName" );//$NON-NLS-1$
 	private static final String CREATE_DATA_SOURCE_TRANS_NAME = Messages.getString( "wizard.transaction.createDataSource" ); //$NON-NLS-1$
-	private static final String SCRIPT_DATA_SOURCE_DISPLAY_NAME = Messages.getString( "DataSourceSelectionPage.ScriptDataSource.DisplayName" ); //$NON-NLS-1$
-    private static final String DTP_ODA_EXT_POINT = 
-        "org.eclipse.datatools.connectivity.oda.dataSource"; //$NON-NLS-1$
 
 	private Object prevSelectedDataSourceType = null;
 
@@ -110,6 +99,8 @@ public class DataSourceSelectionPage extends WizardPage
 	// be clear and simple.
 	private boolean dataSourceIsCreated = false;
 	private boolean useODAV3 = false;
+	private DataSourceSelectionHelper helper;
+	
 	private static Logger logger = Logger.getLogger( DataSourceSelectionPage.class.getName( ) );
 	
 	/**
@@ -141,6 +132,7 @@ public class DataSourceSelectionPage extends WizardPage
 	 */
 	public void createControl( Composite parent )
 	{
+		helper = new DataSourceSelectionHelper( );
 		Composite composite = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
@@ -158,7 +150,7 @@ public class DataSourceSelectionPage extends WizardPage
 
 			public Object[] getElements( Object inputElement )
 			{
-				return appendScriptDS( (Object[]) inputElement );
+				return (Object[]) inputElement;
 			}
 
 			public void dispose( )
@@ -169,22 +161,6 @@ public class DataSourceSelectionPage extends WizardPage
 					Object newInput )
 			{
 			}
-
-			private Object[] appendScriptDS( Object[] array )
-			{
-				if ( array == null )
-				{
-					array = new Object[0];
-				}
-				Object[] newArray = new Object[array.length + 1];
-				for ( int i = 0; i < array.length; i++ )
-				{
-					newArray[i] = array[i];
-				}
-				newArray[array.length] = SCRIPT_DATA_SOURCE_DISPLAY_NAME;
-				return newArray;
-			}
-
 		} );
 
 		dataSourceList.setLabelProvider( new LabelProvider( ) {
@@ -207,21 +183,16 @@ public class DataSourceSelectionPage extends WizardPage
 			}
 		} );
 
-        Filter aFilter = ManifestExplorer.createFilter();
-        aFilter.setMissingDataSetTypesFilter( true );
-        aFilter.setDeprecatedFilter( true ); 
-        ExtensionManifest[] dataSources = ManifestExplorer.getInstance( ).
-                                            getExtensionManifests( DTP_ODA_EXT_POINT, aFilter );
-
-		dataSourceList.setInput( getFilteredDataSourceArray( dataSources ) );
+		dataSourceList.setInput( helper.getFilteredDataSourceArray( ) );
 
 		dataSourceList.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
 			public void selectionChanged( SelectionChangedEvent event )
 			{
-				setPageComplete( !hasWizard( ) && getMessageType( ) != ERROR );
+				prevSelectedDataSourceType = getSelectedDataSource( );
+				setPageComplete( !helper.hasNextPage( prevSelectedDataSourceType )
+						&& getMessageType( ) != ERROR );
 			}
-
 		} );
 
 		dataSourceList.setSorter( new ViewerSorter( ) );
@@ -269,7 +240,8 @@ public class DataSourceSelectionPage extends WizardPage
 				{
 					setMessage( Messages.getString( "datasource.wizard.message.selectType" ) ); //$NON-NLS-1$
 				}
-				setPageComplete( !hasWizard( ) && getMessageType( ) != ERROR );
+				setPageComplete( !helper.hasNextPage( getSelectedDataSource( ) )
+						&& getMessageType( ) != ERROR );
 			}
 		} );
 
@@ -278,22 +250,7 @@ public class DataSourceSelectionPage extends WizardPage
 		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASOURCE_NEW );
 	}
-	
-	/**
-	 * 
-	 * @param extensionManifest
-	 * @return
-	 */
-	private Object[] getFilteredDataSourceArray(
-			ExtensionManifest[] extensionManifest )
-	{
-		Map extensionPointMap = new HashMap( );
-		for ( int i = 0; i < extensionManifest.length; i++ )
-			extensionPointMap.put( extensionManifest[i].getDataSourceElementID( ),
-					extensionManifest[i] );
-		return extensionManifest;
-	}
-	
+		
 	/**
 	 * Setup DSChoiceListRadio layout
 	 * 
@@ -321,7 +278,7 @@ public class DataSourceSelectionPage extends WizardPage
 				enableNonCP( dsChoiceListRadio.getSelection( ) );
 
 				if ( dsChoiceListRadio.getSelection( ) )
-					setPageComplete( !hasWizard( )
+					setPageComplete( !helper.hasNextPage( getSelectedDataSource( ) )
 							&& getMessageType( ) != ERROR );
 			}
 
@@ -384,37 +341,39 @@ public class DataSourceSelectionPage extends WizardPage
 			return getNextPageCP( );
 
 		prevSelectedDataSourceType = getSelectedDataSource( );
-		String dataSourceElementID = ( (ExtensionManifest) prevSelectedDataSourceType ).getDataSourceElementID( );
-		String dataSourceDisplayName = ( (ExtensionManifest) prevSelectedDataSourceType ).getDataSourceDisplayName( );
-		String dataSourceExtensionID = ( (ExtensionManifest) prevSelectedDataSourceType ).getExtensionID( );
-		DesignSessionRequest request = null;
-		try
+		if ( prevSelectedDataSourceType instanceof ExtensionManifest )
 		{
-			URI applURI = DTPUtil.getInstance( ).getBIRTResourcePath( );
-			URI designURI = DTPUtil.getInstance( ).getReportDesignPath( );
-			request = DesignSessionUtil.createNewDataSourceRequest( dataSourceExtensionID,
-					dataSourceElementID,
-					dataSourceDisplayName,
-					applURI,
-					designURI );
-		}
-		catch ( OdaException e )
-		{
-			ExceptionHandler.handle( e );
-		}
+			String dataSourceElementID = ( (ExtensionManifest) prevSelectedDataSourceType ).getDataSourceElementID( );
+			String dataSourceDisplayName = ( (ExtensionManifest) prevSelectedDataSourceType ).getDataSourceDisplayName( );
+			String dataSourceExtensionID = ( (ExtensionManifest) prevSelectedDataSourceType ).getExtensionID( );
+			DesignSessionRequest request = null;
+			try
+			{
+				URI applURI = DTPUtil.getInstance( ).getBIRTResourcePath( );
+				URI designURI = DTPUtil.getInstance( ).getReportDesignPath( );
+				request = DesignSessionUtil.createNewDataSourceRequest( dataSourceExtensionID,
+						dataSourceElementID,
+						dataSourceDisplayName,
+						applURI,
+						designURI );
+			}
+			catch ( OdaException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 
-		if ( DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceElementID ) )
-		{
-			return getNextPageODAV3( dataSourceElementID, request );
-		}
+			if ( DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceElementID ) )
+			{
+				return getNextPageODAV3( dataSourceElementID, request );
+			}
 
-		IConfigurationElement dataSourceElement = DataSetProvider.findDataSourceElement( dataSourceElementID );
-		if ( dataSourceElement != null )
-		{
-			return getNextPageODAV2( dataSourceElement );
+			IConfigurationElement dataSourceElement = DataSetProvider.findDataSourceElement( dataSourceElementID );
+			if ( dataSourceElement != null )
+			{
+				return getNextPageODAV2( dataSourceElement );
+			}
 		}
-
-		return super.getNextPage( );
+		return helper.getNextPage( prevSelectedDataSourceType );
 	}
 	
 	/**
@@ -568,42 +527,6 @@ public class DataSourceSelectionPage extends WizardPage
 	}
 
 	/**
-	 * To check if there exists a wizard for the selected data source type
-	 * 
-	 * @return
-	 */
-	private boolean hasWizard( )
-	{
-		Object dataSourceObj = getSelectedDataSource( );
-		if ( dataSourceObj instanceof ExtensionManifest )
-		{
-			// ODA3 check
-			if ( DesignSessionUtil.hasValidOdaDesignUIExtension( ( (ExtensionManifest) dataSourceObj ).getDataSourceElementID( ) ) )
-				return true;
-			
-			// ODA2 check
-			IConfigurationElement dataSourceElement = DataSetProvider.findDataSourceElement( ( (ExtensionManifest) dataSourceObj ).getExtensionID( ) );
-			if ( dataSourceElement != null )
-			{
-				AbstractDataSourceConnectionWizard connectionWizard = (AbstractDataSourceConnectionWizard) htDataSourceWizards.get( dataSourceElement.getAttribute( ODA_EXTENSION_ID ) ); //$NON-NLS-1$
-				if ( connectionWizard != null )
-				{
-					return true;
-				}
-				// Get the new Data source wizard element
-				IConfigurationElement[] elements = dataSourceElement.getChildren( "newDataSourceWizard" );//$NON-NLS-1$
-				if ( elements != null && elements.length > 0 )
-				{
-					return true;
-				}
-			}
-		}
-		
-		// Scripted data source
-		return false;
-	}
-
-	/**
 	 * checks if the name is duplicate
 	 * 
 	 * @return Returns true if the name is duplicate,and false if it is
@@ -628,8 +551,7 @@ public class DataSourceSelectionPage extends WizardPage
 		if ( isCPSelected( ) )
 			return;
 		
-		if ( visible
-				&& ( (ExtensionManifest[]) ( dataSourceList.getInput( ) ) ).length > 0 )
+		if ( visible && dataSourceList.getInput( ) != null )
 		{
 			if ( prevSelectedDataSourceType == null )
 			{
@@ -655,14 +577,15 @@ public class DataSourceSelectionPage extends WizardPage
 	 */
 	public boolean createSelectedDataSource( )
 	{
-        createSelectedDataSourceInit( );
+		createSelectedDataSourceInit( );
 
 		if ( isCPSelected( ) )
 			return createSelectedDataSourceODAV3( );
 
 		if ( !( getSelectedDataSource( ) instanceof ExtensionManifest ) )
-			return createSelectedDataSourceScipt( );
-
+		{
+				return createNoneODASelectedDataSource( );
+		}
 		if ( useODAV3 )
 			return createSelectedDataSourceODAV3( );
 		else
@@ -703,12 +626,25 @@ public class DataSourceSelectionPage extends WizardPage
 	 * 
 	 * @return
 	 */
-	private boolean createSelectedDataSourceScipt( )
+	private boolean createNoneODASelectedDataSource( )
 	{
-		String driverName = DataUIConstants.DATA_SOURCE_SCRIPT;
-		Class classType = ScriptDataSourceHandle.class;
+		DataSourceHandle dsHandle = null;
+		if ( helper.SCRIPT_DATA_SOURCE_DISPLAY_NAME.equals( prevSelectedDataSourceType.toString( ) ) )
+		{
+			String driverName = DataUIConstants.DATA_SOURCE_SCRIPT;
+			Class classType = ScriptDataSourceHandle.class;
 
-		DataSourceHandle dsHandle = createDataSource( classType, driverName );
+			dsHandle = helper.createDataSource( classType,
+					dataSourceName.getText( ),
+					driverName );
+		}
+		else
+		{
+			dsHandle = helper.createNoneOdaDataSourceHandle( dataSourceName.getText( ),
+					prevSelectedDataSourceType );
+		}
+		if( dsHandle == null )
+			return false;
 		try
 		{
 			slotHandle.add( dsHandle );
@@ -784,7 +720,9 @@ public class DataSourceSelectionPage extends WizardPage
 
 		try
 		{
-			DataSourceHandle dsHandle = createDataSource( classType, driverName );
+			DataSourceHandle dsHandle = helper.createDataSource( classType,
+					dataSourceName.getText( ),
+					driverName );
 			slotHandle.add( dsHandle );
 
 			createSelectedDataSourceTearDown( );
@@ -799,29 +737,6 @@ public class DataSourceSelectionPage extends WizardPage
 		}
 	}	
 
-	/**
-	 * Creation procedure for ODA2 and Script data sources
-	 * 
-	 * @param classType
-	 * @param dataSourceType
-	 * @return
-	 */
-	private DataSourceHandle createDataSource( Class classType,
-			String dataSourceType )
-	{
-		if ( classType == OdaDataSourceHandle.class )
-		{
-			OdaDataSourceHandle dsHandle = Utility.newOdaDataSource( dataSourceName.getText( ),
-					dataSourceType );
-			return dsHandle;
-		}
-		if ( classType == ScriptDataSourceHandle.class )
-		{
-			ScriptDataSourceHandle dsHandle = Utility.newScriptDataSource( dataSourceName.getText( ) );
-			return dsHandle;
-		}
-		return null;
-	}	
 	
 	/**
 	 * Commit to Model
