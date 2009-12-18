@@ -608,14 +608,7 @@ public class InputParameterDialog extends BaseDialog
 					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
 					if ( group.getPostParameter( listParam ) != null )
 					{
-						try
-						{
-							createParameters( );
-						}
-						catch ( RuntimeException e1 )
-						{
-							e1.printStackTrace( );
-						}
+						cascadingParamValueChanged( group, listParam );
 					}
 				}
 			}
