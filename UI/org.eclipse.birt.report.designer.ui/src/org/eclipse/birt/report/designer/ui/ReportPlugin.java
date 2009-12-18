@@ -161,8 +161,8 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.REPORT_ITEM,
 			ReportDesignConstants.SCRIPT_DATA_SET,
 			ReportDesignConstants.SCRIPT_DATA_SOURCE,
-			ReportDesignConstants.DATAMART_DATA_SET,
-			ReportDesignConstants.DATAMART_DATA_SOURCE,
+			"DataMart",//ReportDesignConstants.DATAMART_DATA_SET
+			"DataMartDataSource",//ReportDesignConstants.DATAMART_DATA_SOURCE
 			ReportDesignConstants.SIMPLE_DATA_SET_ELEMENT,
 			ReportDesignConstants.TEMPLATE_DATA_SET,
 			ReportDesignConstants.TEMPLATE_ELEMENT,

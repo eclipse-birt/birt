@@ -68,9 +68,10 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE = ReportDesignConstants.SCRIPT_DATA_SOURCE;
 
-	public final static String ICON_ELEMENT_DATAMART_DATA_SET = ReportDesignConstants.DATAMART_DATA_SET;
+	//ReportDesignConstants.DATAMART_DATA_SET,	ReportDesignConstants.DATAMART_DATA_SOURCE
+	public final static String ICON_ELEMENT_DATAMART_DATA_SET = "DataMart";
 	
-	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE = ReportDesignConstants.DATAMART_DATA_SOURCE;
+	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE = "DataMartDataSource";
 
 	public final static String ICON_ELEMENT_JOINT_DATA_SET = ReportDesignConstants.JOINT_DATA_SET;
 
@@ -199,11 +200,12 @@ public interface IReportGraphicConstants
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 	
-	public final static String ICON_ELEMENT_DATAMART_DATA_SET_LINK = ReportDesignConstants.DATAMART_DATA_SET
+	//ReportDesignConstants.DATAMART_DATA_SET, ReportDesignConstants.DATAMART_DATA_SOURCE
+	public final static String ICON_ELEMENT_DATAMART_DATA_SET_LINK = "DataMart"
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE_LINK = ReportDesignConstants.DATAMART_DATA_SOURCE
+	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE_LINK = "DataMartDataSource"
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 
