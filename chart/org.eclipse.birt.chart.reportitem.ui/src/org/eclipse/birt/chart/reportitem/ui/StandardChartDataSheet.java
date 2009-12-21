@@ -971,6 +971,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				| SWT.BORDER );
 		cmbDataItems.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbDataItems.addListener( SWT.Selection, this );
+		cmbDataItems.setVisibleItemCount( 30 );
 
 		initDataSelector( );
 		updatePredefinedQueries( );
@@ -1109,7 +1110,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		cmbInherit.setEnabled( false );
 		
 		cmbDataItems.setItems( createDataComboItems( ) );
-		cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
 
 		// Select report item reference
 		// Since handle may have data set or data cube besides reference, always
@@ -1430,7 +1430,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 							cmbDataItems.removeAll( );
 							cmbDataItems.setItems( createDataComboItems( ) );
-							cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
 							// select the newly created data set for user
 							String[] datasets = getDataServiceProvider( ).getAllDataSets( );
 							currentData = datasets[datasets.length - 1];
@@ -1453,7 +1452,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							String[] datacubes = getDataServiceProvider( ).getAllDataCubes( );
 							cmbDataItems.removeAll( );
 							cmbDataItems.setItems( createDataComboItems( ) );
-							cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
 							if ( datacubes.length == count )
 							{
 								if ( currentData == null )
