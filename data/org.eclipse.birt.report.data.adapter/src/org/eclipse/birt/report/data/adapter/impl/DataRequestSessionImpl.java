@@ -925,23 +925,33 @@ public class DataRequestSessionImpl extends DataRequestSession
 				metaList = new ArrayList<ColumnMeta>();
 				query =  createQuery( this,  hier, metaList );
 				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
-				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
+				if ( jointHierarchyKeys.length > 0 )
 				{
 					for ( String key : jointHierarchyKeys )
 					{
 						//add bindings for dummy level based on joint hierarchy keys
-						String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
-						query.addBinding( new Binding( key, new ScriptExpression(exprString) ) );
-						DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( key,
-								null,
-								DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-						temp.setDataType( getColumnDataType( hier, key ) );
-						metaList.add( temp );
+						if ( !query.getBindings( ).containsKey( key ))
+						{
+							String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
+							query.addBinding( new Binding( key, new ScriptExpression(exprString) ) );
+							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( key,
+									null,
+									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
+							temp.setDataType( getColumnDataType( hier, key ) );
+							metaList.add( temp );
+							
+							GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
+							gd.setKeyExpression( ExpressionUtil.createJSRowExpression( key ) );
+							query.addGroup( gd );
+						}
 					}
 					
 					//need no groups in query definition for generating dimension table
-					query.setUsesDetails( true );
-					query.getGroups( ).clear( );
+					if ( cubeHandle.autoPrimaryKey( ) )
+					{
+						query.setUsesDetails( true );
+						query.getGroups( ).clear( );
+					}
 				}
 				queryDefns.add( query );
 				queryMap.put( hier, query );
@@ -1093,13 +1103,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) hiers.get( 0 );
 			List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 
-			ILevelDefn[] levelInHier = null;
-			if ( hierhandle.getLevelCount( ) == 1 )
-				levelInHier = new ILevelDefn[1];
-			else
-				levelInHier = new ILevelDefn[hierhandle.getLevelCount( ) + 1];
-
-			String[] leafLevelKeyColumn = new String[levels.size( )];
+			List<ILevelDefn> levelInHier = new ArrayList<ILevelDefn>( );
+			List<String> leafLevelKeyColumn = new ArrayList<String>( );
 			for ( int k = 0; k < levels.size( ); k++ )
 			{
 				TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
@@ -1116,22 +1121,43 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 					levelKeys.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
 				}
-				leafLevelKeyColumn[k] = level.getName( );
+				leafLevelKeyColumn.add(level.getName( ));
 
-				levelInHier[k] = CubeElementFactory.createLevelDefinition( level.getName( ),
+				levelInHier.add(CubeElementFactory.createLevelDefinition( level.getName( ),
 						new String[]{
 							level.getName( )
 						},
-						this.toStringArray( levelKeys ) );
+						this.toStringArray( levelKeys ) ));
 			}
 			String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hierhandle );
-			if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
+			for ( String jointKey : jointHierarchyKeys )
 			{
-				createLeafLevel( levels, levelInHier, jointHierarchyKeys );
+				boolean asLevel = false;
+				for ( String level : leafLevelKeyColumn )
+				{
+					if ( level.equals( jointKey ))
+					{
+						asLevel = true;
+						break;
+					}
+				}
+				if ( !asLevel )
+				{
+					//append dummy level
+					leafLevelKeyColumn.add( jointKey );
+					levelInHier.add( CubeElementFactory.createLevelDefinition( jointKey,
+						new String[]{
+							jointKey
+						},
+						new String[0] ));
+				}
 			}
-			else
+			//create leaf level
+			if ( levelInHier.size( ) > 1 )
 			{
-				createLeafLevel( levels, levelInHier, leafLevelKeyColumn );
+				levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
+						leafLevelKeyColumn.toArray( new String[0] ),
+					    new String[0] ));
 			}
 			Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
 			try
@@ -1147,7 +1173,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 									queryMap.get( hierhandle ),
 									metaMap.get( hierhandle ),
 									appContext ),
-							levelInHier,
+							levelInHier.toArray( new ILevelDefn[0] ),
 							dataEngine.getSession( ).getStopSign( ) ) );
 					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, rowLimit );
 				}
@@ -1159,7 +1185,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 									queryMap.get( hierhandle ),
 									metaMap.get( hierhandle ),
 									appContext ),
-							levelInHier,
+							levelInHier.toArray( new ILevelDefn[0] ),
 							dataEngine.getSession( ).getStopSign( ) ) );
 				}
 			}
@@ -1264,22 +1290,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 	}
 
-	/**
-	 * 
-	 * @param levels
-	 * @param levelInHier
-	 * @param leafLevelKeyColumn
-	 */
-	private void createLeafLevel( List levels, ILevelDefn[] levelInHier,
-			String[] leafLevelKeyColumn )
-	{
-		if( levelInHier.length > levels.size() )
-		{
-			levelInHier[levelInHier.length-1] = CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
-				leafLevelKeyColumn,
-			    new String[0] );
-		}
-	}
+
 	
 	/**
 	 * 
