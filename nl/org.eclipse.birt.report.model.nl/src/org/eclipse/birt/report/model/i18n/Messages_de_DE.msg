@@ -2348,6 +2348,7 @@ Element.DataMartDataSource=Data Mart-Datenquelle
 Element.DataMartDataSet=Data Mart-Datensatz
 Element.DataMartCube=Data Mart-Cube
 Element.EventObject=Ereignisobjekt
+Element.ParamSetting=Parameter Setting
 
 ###########################################################
 # Element property names
@@ -3418,6 +3419,7 @@ Element.DataMart.ACLExpression=Ausdruck 'ACL'
 Element.DataMartDataSource.datamartURL = Data Mart-URL
 Element.DataMartDataSource.datamartVersion=Data Mart-Version
 Element.DataMartDataSource.paramBindings=Parameterbindungen
+Element.DataMartDataSource.accessType=Access Type
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Datenquelle
@@ -3467,6 +3469,10 @@ Element.RadioDataSelectorItem.autoAdjust=Auto adjust
 Element.RadioDataSelectorItem.autoAdjustNumber=Zahl automatisch anpassen
 Element.RadioDataSelectorItem.listLimit=Listenbegrenzung
 
+#88 ParameSetting
+Element.ParamSetting.paramName=Parametername
+Element.ParamSetting.value=Wert
+Element.ParamSetting.isHidden=Is Hidden
 ###########################################################
 # Predefined style
 Style.Report=Bericht

@@ -2348,6 +2348,7 @@ Element.DataMartDataSource=Data Mart 데이터 원본
 Element.DataMartDataSet=Data Mart 데이터 집합
 Element.DataMartCube=Data Mart 큐브
 Element.EventObject=이벤트 개체
+Element.ParamSetting=Parameter Setting
 
 ###########################################################
 # Element property names
@@ -3418,6 +3419,7 @@ Element.DataMart.ACLExpression=ACL 식
 Element.DataMartDataSource.datamartURL = Data Mart URL
 Element.DataMartDataSource.datamartVersion=Data Mart 버전
 Element.DataMartDataSource.paramBindings=매개 변수 바인딩
+Element.DataMartDataSource.accessType=Access Type
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=데이터 원본
@@ -3467,6 +3469,10 @@ Element.RadioDataSelectorItem.autoAdjust=Auto adjust
 Element.RadioDataSelectorItem.autoAdjustNumber=숫자 자동 조정
 Element.RadioDataSelectorItem.listLimit=목록 제한
 
+#88 ParameSetting
+Element.ParamSetting.paramName=매개 변수 이름
+Element.ParamSetting.value=값
+Element.ParamSetting.isHidden=Is Hidden
 ###########################################################
 # Predefined style
 Style.Report=보고서

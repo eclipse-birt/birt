@@ -2348,6 +2348,7 @@ Element.DataMartDataSource=Data Mart データソース
 Element.DataMartDataSet=Data Mart データセット
 Element.DataMartCube=Data Mart キューブ
 Element.EventObject=イベントオブジェクト
+Element.ParamSetting=Parameter Setting
 
 ###########################################################
 # Element property names
@@ -3418,6 +3419,7 @@ Element.DataMart.ACLExpression=ACL 式
 Element.DataMartDataSource.datamartURL = Data Mart URL
 Element.DataMartDataSource.datamartVersion=Data Mart バージョン
 Element.DataMartDataSource.paramBindings=パラメタバインド
+Element.DataMartDataSource.accessType=Access Type
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=データソース
@@ -3467,6 +3469,10 @@ Element.RadioDataSelectorItem.autoAdjust=Auto adjust
 Element.RadioDataSelectorItem.autoAdjustNumber=自動調整番号
 Element.RadioDataSelectorItem.listLimit=一覧の制限
 
+#88 ParameSetting
+Element.ParamSetting.paramName=パラメタ名
+Element.ParamSetting.value=値
+Element.ParamSetting.isHidden=Is Hidden
 ###########################################################
 # Predefined style
 Style.Report=レポート

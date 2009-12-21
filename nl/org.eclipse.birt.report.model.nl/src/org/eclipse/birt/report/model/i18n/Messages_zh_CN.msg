@@ -2348,6 +2348,7 @@ Element.DataMartDataSource=Data Mart 数据源
 Element.DataMartDataSet=Data Mart 数据集
 Element.DataMartCube=Data Mart 多维数据集
 Element.EventObject=事件对象
+Element.ParamSetting=Parameter Setting
 
 ###########################################################
 # Element property names
@@ -3418,6 +3419,7 @@ Element.DataMart.ACLExpression=ACL 表达式
 Element.DataMartDataSource.datamartURL = Data mart URL
 Element.DataMartDataSource.datamartVersion=Data mart 版本
 Element.DataMartDataSource.paramBindings=参数绑定
+Element.DataMartDataSource.accessType=Access Type
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=数据源
@@ -3467,6 +3469,10 @@ Element.RadioDataSelectorItem.autoAdjust=Auto adjust
 Element.RadioDataSelectorItem.autoAdjustNumber=自动调整数字
 Element.RadioDataSelectorItem.listLimit=列表限制
 
+#88 ParameSetting
+Element.ParamSetting.paramName=参数名称
+Element.ParamSetting.value=值
+Element.ParamSetting.isHidden=Is Hidden
 ###########################################################
 # Predefined style
 Style.Report=报表
