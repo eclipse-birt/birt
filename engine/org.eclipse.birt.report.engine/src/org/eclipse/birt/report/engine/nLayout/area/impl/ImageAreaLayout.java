@@ -115,6 +115,7 @@ public class ImageAreaLayout implements ILayout
 			return null;
 		}
 		ITextContent altTextContent = report.createTextContent( imageContent );
+		altTextContent.setParent( imageContent.getParent( ) );
 		String alt = imageContent.getAltText( );
 		if ( null == alt )
 		{
