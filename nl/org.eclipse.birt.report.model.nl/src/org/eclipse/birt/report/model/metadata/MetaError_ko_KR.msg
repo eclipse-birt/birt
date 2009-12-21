@@ -11,7 +11,7 @@ ELEMENT_PARENT_NOT_FOUND=요소 [{1}]에 대한 상위 [{0}]이(가) 없습니다.
 ILLEGAL_STYLE_PROPS=요소 [{0}]에 요소에서 정의된 잘못된 스타일 속성이 있습니다. 가능한 실패 원인 두 가지: 1. 요소의 "hasStyle" 특성은 거짓 값이지만 요소에서 정의된 StyleProperties가 있습니다. 2. 요소의 "hasStyle" 특성이 참 값이며 컨테이너(슬롯 수>0)이지만 요소에서 정의된 StyleProperties가 있습니다.  
 ILLEGAL_ABSTRACT_ELEMENT=요소 [{0}]은(는) 추상이며 상위 [{1}]도 추상이어야 합니다.
 INVALID_NAME_OPTION=요소 [{0}]에 대한 이름 옵션이 잘못되었습니다.
-INVALID_NAME_SPACE=Invalid name space.
+INVALID_NAME_SPACE=잘못된 네임스페이스입니다.
 INVALID_STYLE_PROP_OPTION=온전성 검사에 실패했습니다. 요소가 스타일 요소가 아닐 경우 요소 [{0}]은(는) 스타일 속성 [{1}]을(를) 정의할 수 없습니다.
 STYLE_PROP_NOT_FOUND=스타일 요소에 요소 [{1}]에 대한 스타일 속성 [{0}]이(가) 없습니다.
 PROP_TYPE_ERROR=속성 [{0}]의 PropertyType이 설정되지 않았습니다. ( propDefn.getType() == null )

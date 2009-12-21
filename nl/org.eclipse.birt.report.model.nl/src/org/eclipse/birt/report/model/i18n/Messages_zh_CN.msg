@@ -4012,4 +4012,4 @@ Message.ExportTabToSharedTabFile=将选项卡导出到共享选项卡文件。
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=外部小工具递归包括。 
-Error.NotFoundExporter=Can not find the dashboard exporter.
+Error.NotFoundExporter=无法找到仪表板导出器。

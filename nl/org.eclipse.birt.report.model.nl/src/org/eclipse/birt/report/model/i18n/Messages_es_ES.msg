@@ -4012,4 +4012,4 @@ Message.ExportTabToSharedTabFile=Exportar tabulación a archivo de tabulación com
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=Gadget externo incluido recursivamente. 
-Error.NotFoundExporter=Can not find the dashboard exporter.
+Error.NotFoundExporter=No se puede encontrar el exportador del tablero de mandos.

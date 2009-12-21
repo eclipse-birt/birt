@@ -4012,4 +4012,4 @@ Message.ExportTabToSharedTabFile=タブを共有タブファイルにエクスポートします。
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=外部ガジェットが繰り返し含まれています。 
-Error.NotFoundExporter=Can not find the dashboard exporter.
+Error.NotFoundExporter=ダッシュボードエクスポータが見つかりません。

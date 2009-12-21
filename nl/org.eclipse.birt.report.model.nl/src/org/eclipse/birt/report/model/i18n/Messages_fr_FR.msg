@@ -4012,4 +4012,4 @@ Message.ExportTabToSharedTabFile=Exporter l'onglet vers le fichier d'onglet part
 
 #Dashboard Exception
 Error.ExternalGadgetFileIncludedRecursively=Gadget externe inclus de façon récurrente. 
-Error.NotFoundExporter=Can not find the dashboard exporter.
+Error.NotFoundExporter=Impossible de trouver l'exportateur du tableau de bord.

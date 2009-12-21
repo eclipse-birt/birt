@@ -11,7 +11,7 @@ ELEMENT_PARENT_NOT_FOUND=Übergeordnetes Element [{0}] für Element [{1}] wurde ni
 ILLEGAL_STYLE_PROPS=Für Element [{0}] wurden unzulässige Stileigenschaften festgelegt. Hierfür kann es zwei Gründe geben: 1. Das Attribut "hasStyle" des Elements lautet "False", doch es sind trotzdem Parameter für "StyleProperties" für das Element vorhanden. 2. Das Attribut "hasStyle" des Elements lautet "True", und es fungiert als Container (Anzahl der Felder ist größer als 0), doch es sind trotzdem "StyleProperties" für das Element vorhanden.  
 ILLEGAL_ABSTRACT_ELEMENT=Das Element [{0}] ist abstrakt, somit muss das übergeordnete Element [{1}] ebenfalls abstrakt sein.
 INVALID_NAME_OPTION=Unzulässige Namensoption für Element [{0}].
-INVALID_NAME_SPACE=Invalid name space.
+INVALID_NAME_SPACE=Ungültiger Namensraum.
 INVALID_STYLE_PROP_OPTION=Überprüfung fehlgeschlagen. Element [{0}] kann nicht zur Festlegung von Stileigenschaften [{1}] dienen, es sei denn, es fungiert als Stilelement.
 STYLE_PROP_NOT_FOUND=Stileigenschaft [{0}] für Element [{1}] konnte nicht im Stilelement gefunden werden.
 PROP_TYPE_ERROR=Der Parameter "PropertyType" für Eigenschaft [{0}] ist nicht angegeben. ( propDefn.getType() == Null )

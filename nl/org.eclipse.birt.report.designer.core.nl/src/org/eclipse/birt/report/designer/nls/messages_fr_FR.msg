@@ -3419,11 +3419,11 @@ DirectoryDialog.Question=Question
 
 SchematicContextMenuProvider.ActionText.editData=Modifier &Valeur/Expression... 
 SchematicContextMenuProvider.ActionText.editLabel=&Modifier
-SchematicContextMenuProvider.label.ResetSize=Reset Image Si&ze
-SchematicContextMenuProvider.label.ResetToImageDPI=Best Fit &Image Resolution
-SchematicContextMenuProvider.label.ResetToReportDPI=Best Fit &Report Resolution
-SchematicContextMenuProvider.label.ResetToScreenDPI=Best Fit &Screen Resolution
-SchematicContextMenuProvider.label.RestToOrginalPixels=In Original &Pixels
+SchematicContextMenuProvider.label.ResetSize=Réinitialiser la tai&lle de l'image
+SchematicContextMenuProvider.label.ResetToImageDPI=Ajuster la résolution de l'&image
+SchematicContextMenuProvider.label.ResetToReportDPI=Ajuster la résolution de l'&état
+SchematicContextMenuProvider.label.ResetToScreenDPI=Ajuster la résolution de l'é&cran
+SchematicContextMenuProvider.label.RestToOrginalPixels=En nombre de &pixels d'origine
 SchematicContextMenuProvider.Menu.EditGroup=Modifier le &groupe
 SchematicContextMenuProvider.Menu.Insert=&Insérer
 SchematicContextMenuProvider.Menu.insertElement=I&nsérer
@@ -4597,7 +4597,7 @@ GeneralConfigurationBlock.button.text.prompt=Afficher l'&invite après ouverture 
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageOriginalSizeAction.trans.label=Reset Image Size
+ResetImageOriginalSizeAction.trans.label=Réinitialiser la taille de l'image
 ResetImageSizeAction.label=Réinitialiser à la &taille d'origine
 ###########################################################
 #Report document editor

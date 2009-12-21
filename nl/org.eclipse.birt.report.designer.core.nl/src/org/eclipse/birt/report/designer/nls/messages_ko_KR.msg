@@ -3419,11 +3419,11 @@ DirectoryDialog.Question=질문
 
 SchematicContextMenuProvider.ActionText.editData=값/식 편집(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=편집(&E)
-SchematicContextMenuProvider.label.ResetSize=Reset Image Si&ze
-SchematicContextMenuProvider.label.ResetToImageDPI=Best Fit &Image Resolution
-SchematicContextMenuProvider.label.ResetToReportDPI=Best Fit &Report Resolution
-SchematicContextMenuProvider.label.ResetToScreenDPI=Best Fit &Screen Resolution
-SchematicContextMenuProvider.label.RestToOrginalPixels=In Original &Pixels
+SchematicContextMenuProvider.label.ResetSize=이미지 크기 원래대로(&Z)
+SchematicContextMenuProvider.label.ResetToImageDPI=최적 이미지 해상도(&I)
+SchematicContextMenuProvider.label.ResetToReportDPI=최적 보고서 해상도(&R)
+SchematicContextMenuProvider.label.ResetToScreenDPI=최적 화면 해상도(&S)
+SchematicContextMenuProvider.label.RestToOrginalPixels=원래 픽셀로(&P)
 SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&G)
 SchematicContextMenuProvider.Menu.Insert=삽입(&I)
 SchematicContextMenuProvider.Menu.insertElement=삽입(&N)
@@ -4597,7 +4597,7 @@ GeneralConfigurationBlock.button.text.prompt=라이브러리 파일을 연 후 프롬프트 표
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageOriginalSizeAction.trans.label=Reset Image Size
+ResetImageOriginalSizeAction.trans.label=이미지 크기 원래대로
 ResetImageSizeAction.label=원본 크기로 재설정(&Z)
 ###########################################################
 #Report document editor

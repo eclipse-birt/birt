@@ -3419,11 +3419,11 @@ DirectoryDialog.Question=Frage
 
 SchematicContextMenuProvider.ActionText.editData=&Wert/Ausdruck bearbeiten... 
 SchematicContextMenuProvider.ActionText.editLabel=&Bearbeiten
-SchematicContextMenuProvider.label.ResetSize=Reset Image Si&ze
-SchematicContextMenuProvider.label.ResetToImageDPI=Best Fit &Image Resolution
-SchematicContextMenuProvider.label.ResetToReportDPI=Best Fit &Report Resolution
-SchematicContextMenuProvider.label.ResetToScreenDPI=Best Fit &Screen Resolution
-SchematicContextMenuProvider.label.RestToOrginalPixels=In Original &Pixels
+SchematicContextMenuProvider.label.ResetSize=Bildgröße zurückset&zen
+SchematicContextMenuProvider.label.ResetToImageDPI=B&ildauflösung optimal anpassen
+SchematicContextMenuProvider.label.ResetToReportDPI=Be&richtauflösung optimal anpassen
+SchematicContextMenuProvider.label.ResetToScreenDPI=Bild&schirmauflösung optimal anpassen
+SchematicContextMenuProvider.label.RestToOrginalPixels=Ursprüngliche &Pixel
 SchematicContextMenuProvider.Menu.EditGroup=&Gruppe bearbeiten
 SchematicContextMenuProvider.Menu.Insert=E&infügen
 SchematicContextMenuProvider.Menu.insertElement=Ei&nfügen
@@ -4597,7 +4597,7 @@ GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen de
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageOriginalSizeAction.trans.label=Reset Image Size
+ResetImageOriginalSizeAction.trans.label=Bildgröße zurücksetzen
 ResetImageSizeAction.label=Auf Original&größe zurücksetzen
 ###########################################################
 #Report document editor

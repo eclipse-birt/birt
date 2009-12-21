@@ -3419,11 +3419,11 @@ DirectoryDialog.Question=问题
 
 SchematicContextMenuProvider.ActionText.editData=编辑值/表达式(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=编辑(&E)
-SchematicContextMenuProvider.label.ResetSize=Reset Image Si&ze
-SchematicContextMenuProvider.label.ResetToImageDPI=Best Fit &Image Resolution
-SchematicContextMenuProvider.label.ResetToReportDPI=Best Fit &Report Resolution
-SchematicContextMenuProvider.label.ResetToScreenDPI=Best Fit &Screen Resolution
-SchematicContextMenuProvider.label.RestToOrginalPixels=In Original &Pixels
+SchematicContextMenuProvider.label.ResetSize=重置图像大小(&Z):
+SchematicContextMenuProvider.label.ResetToImageDPI=最佳图像分辨率(&I)
+SchematicContextMenuProvider.label.ResetToReportDPI=最佳报表分辨率(&R)
+SchematicContextMenuProvider.label.ResetToScreenDPI=最佳屏幕分辨率(&S)
+SchematicContextMenuProvider.label.RestToOrginalPixels=单位为原始像素(&P)
 SchematicContextMenuProvider.Menu.EditGroup=编辑组(&G)
 SchematicContextMenuProvider.Menu.Insert=插入(&I)
 SchematicContextMenuProvider.Menu.insertElement=插入(&N)
@@ -4597,7 +4597,7 @@ GeneralConfigurationBlock.button.text.prompt=打开库文件后显示提示(&P)。
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageOriginalSizeAction.trans.label=Reset Image Size
+ResetImageOriginalSizeAction.trans.label=重置图像大小
 ResetImageSizeAction.label=置为原始大小(&Z)
 ###########################################################
 #Report document editor

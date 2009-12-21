@@ -11,7 +11,7 @@ ELEMENT_PARENT_NOT_FOUND=要素 [{1}] の親 [{0}] が見つかりません。
 ILLEGAL_STYLE_PROPS=要素 [{0}] に定義されているスタイルのプロパティが無効です。考えられる原因は次の 2 つあります : 1. 要素の "hasStyle" 属性が False になっているのに、StyleProperties が定義されている。2. 要素の "hasStyle" 属性は True で、1 つ以上のスロットを持つコンテナとなっているのに、StyleProperties が定義されている。  
 ILLEGAL_ABSTRACT_ELEMENT=要素 [{0}] は抽象のため、その親 [{1}] も抽象である必要があります。
 INVALID_NAME_OPTION=要素 [{0}] の名前オプションが無効です。
-INVALID_NAME_SPACE=Invalid name space.
+INVALID_NAME_SPACE=名前領域が無効です。
 INVALID_STYLE_PROP_OPTION=サニティチェックを行えませんでした。スタイル要素でない要素 [{0}] には、スタイルのプロパティ [{1}] を定義できません。
 STYLE_PROP_NOT_FOUND=要素 [{1}] のスタイルのプロパティ [{0}] が、スタイル要素に見つかりませんでした。
 PROP_TYPE_ERROR=プロパティ [{0}] の PropertyType は設定されていません (propDefn.getType() == null)。
