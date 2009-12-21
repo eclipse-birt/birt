@@ -4572,6 +4572,11 @@ CreateChartHandler.text=차트 보기 생성
 InputParameterDialog.msg.title=입력 매개 변수
 InputParameterDialog.msg.requiredParam=별표(*)가 있는 매개 변수는 필수 항목입니다.
 InputParameterDialog.err.requiredParam=필수 매개 변수 [{0}]의 값이 지정되지 않았습니다.
+InputParameterDialog.err.invalidValueTitle=Invalid Value
+InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
+InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
+InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=열 크기 조정

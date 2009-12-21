@@ -4572,6 +4572,11 @@ CreateChartHandler.text=グラフビューの作成
 InputParameterDialog.msg.title=入力パラメタ
 InputParameterDialog.msg.requiredParam=アスタリスク (*) が付いているパラメタは必須項目です。
 InputParameterDialog.err.requiredParam=必須パラメタ [{0}] の値が指定されていません。
+InputParameterDialog.err.invalidValueTitle=Invalid Value
+InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
+InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
+InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=列幅の変更

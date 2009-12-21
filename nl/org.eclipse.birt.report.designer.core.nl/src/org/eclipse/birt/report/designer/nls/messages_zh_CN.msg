@@ -4572,6 +4572,11 @@ CreateChartHandler.text=创建图表视图
 InputParameterDialog.msg.title=输入参数
 InputParameterDialog.msg.requiredParam=带有 * 的参数为必需参数。
 InputParameterDialog.err.requiredParam=未指定所需参数 [{0}] 的值。
+InputParameterDialog.err.invalidValueTitle=Invalid Value
+InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
+InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
+InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=重新设定列大小

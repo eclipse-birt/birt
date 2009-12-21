@@ -4572,6 +4572,11 @@ CreateChartHandler.text=Crear vista de diagrama
 InputParameterDialog.msg.title=Parámetros de entrada
 InputParameterDialog.msg.requiredParam=Los parámetros marcados con * son obligatorios.
 InputParameterDialog.err.requiredParam=No se ha especificado el valor del parámetro necesario [{0}].
+InputParameterDialog.err.invalidValueTitle=Invalid Value
+InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
+InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
+InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+
 ###########################################################
 #Crosstab drag tracker
 ColumnDragTracker.ResizeColumn=cambiar tamaño de columna
