@@ -530,45 +530,48 @@ public final class ExpressionUtil
 		return true;
 	}
 
+	private String getTextFromScript( Expression expr )
+	{
+		if ( expr instanceof Expression.Script
+				&& "bre".equals( ( (Expression.Script) expr ).getLanguage( ) ) )
+		{
+			ScriptExpression scriptExpr = null;
+			try
+			{
+				scriptExpr = getModelAdapter( ).adaptJSExpression(
+						expr.getScriptText( ),
+						( (Expression.Script) expr ).getLanguage( ) );
+			}
+			catch ( Exception ex )
+			{
+
+			}
+			return scriptExpr.getText( );
+		}
+		return expr.getScriptText( );
+	}
+
 	public IConditionalExpression createConditionalExpression(
 			Expression testExpression, String operator, Expression value1,
 			Expression value2 )
 	{
-		String tempV1 = null, tempV2 = null;
+		String expr = null, tempV1 = null, tempV2 = null;
+		if ( testExpression != null )
+		{
+			expr = getTextFromScript( testExpression );
+		}
 		if ( value1 != null )
 		{
-			tempV1 = value1.getScriptText( );
+			tempV1 = getTextFromScript( value1 );
 		}
 		if ( value2 != null )
 		{
-			tempV2 = value2.getScriptText( );
+			tempV2 = getTextFromScript( value2 );
 		}
-		
-		if( testExpression instanceof Expression.Script 
-				&& "bre".equals( ( ( Expression.Script )testExpression).getLanguage( ) ) )
-		{
-			ScriptExpression srciptExpr = null;
-			try
-			{
-				srciptExpr = getModelAdapter( ).adaptJSExpression( testExpression.getScriptText( ), 
-						( ( Expression.Script )testExpression).getLanguage( ) );
-			}
-			catch ( Exception e )
-			{
-				
-			}
-			ConditionalExpression expression = new ConditionalExpression(
-					srciptExpr.getText( ), DataAdapterUtil
-							.adaptModelFilterOperator( operator ), tempV1, tempV2 );
-			return ExpressionUtil.transformConditionalExpression( expression );
-		}
-		else
-		{
-			ConditionalExpression expression = new ConditionalExpression(
-					testExpression.getScriptText( ), DataAdapterUtil
-						.adaptModelFilterOperator( operator ), tempV1, tempV2 );
-			return ExpressionUtil.transformConditionalExpression( expression );
-		}
+		ConditionalExpression expression = new ConditionalExpression( expr,
+				DataAdapterUtil.adaptModelFilterOperator( operator ), tempV1,
+				tempV2 );
+		return ExpressionUtil.transformConditionalExpression( expression );
 	}
 
 	public IConditionalExpression createConditionExpression(
@@ -578,35 +581,18 @@ public final class ExpressionUtil
 		ArrayList<String> values = new ArrayList<String>( valueList.size( ) );
 		for ( Expression expr : valueList )
 		{
-			values.add( expr.getScriptText( ) );
+			values.add( getTextFromScript( expr ) );
 		}
-		if( testExpression instanceof Expression.Script 
-				&& "bre".equals( ( ( Expression.Script )testExpression).getLanguage( ) ) )
+		String expr = null;
+		if ( testExpression != null )
 		{
-			ScriptExpression srciptExpr = null;
-			try
-			{
-				srciptExpr = getModelAdapter( ).adaptJSExpression( testExpression.getScriptText( ), 
-						(( Expression.Script )testExpression).getLanguage( ) );
-			}
-			catch ( Exception e )
-			{
-				
-			}
-			ConditionalExpression expression = new ConditionalExpression(
-					srciptExpr.getText( ), DataAdapterUtil
-							.adaptModelFilterOperator( operator ), values );
-			return ExpressionUtil.transformConditionalExpression( expression );
+			expr = getTextFromScript( testExpression );
 		}
-		else
-		{
-			ConditionalExpression expression = new ConditionalExpression(
-				testExpression.getScriptText( ), DataAdapterUtil
-						.adaptModelFilterOperator( operator ), values );
-			return ExpressionUtil.transformConditionalExpression( expression );
-		}
+		ConditionalExpression expression = new ConditionalExpression( expr,
+				DataAdapterUtil.adaptModelFilterOperator( operator ), values );
+		return ExpressionUtil.transformConditionalExpression( expression );
 	}
-	
+
 	private IModelAdapter getModelAdapter( ) throws BirtException
 	{
 		if ( adapter == null )
