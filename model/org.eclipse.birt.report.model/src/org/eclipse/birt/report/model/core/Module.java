@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
@@ -649,9 +650,14 @@ public abstract class Module extends DesignElement
 		// build name space and id map
 
 		IElementDefn defn = module.getDefn( );
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+
+		// slots
+		Iterator<ISlotDefn> slots = ( (ElementDefn) defn ).slotsIterator( );
+		while ( slots.hasNext( ) )
 		{
-			ContainerSlot slot = module.getSlot( i );
+			ISlotDefn iSlotDefn = slots.next( );
+
+			ContainerSlot slot = module.getSlot( iSlotDefn.getSlotID( ) );
 
 			if ( slot == null )
 				continue;
