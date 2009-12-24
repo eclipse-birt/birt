@@ -172,6 +172,8 @@ public abstract class AbstractEmitterImpl
 
 	private boolean fixedLayout;
 
+	private int reportDpi;
+
 	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		if ( service != null )
@@ -208,6 +210,7 @@ public abstract class AbstractEmitterImpl
 
 	public void start( IReportContent report )
 	{
+		reportDpi = PropertyUtil.getRenderDpi( report, 0 );
 		this.reportContent = report;
 		if ( null == layoutPreference )
 		{
@@ -305,18 +308,21 @@ public abstract class AbstractEmitterImpl
 
 	public void computePageProperties( IPageContent page )
 	{
-		pageWidth = WordUtil.convertTo( page.getPageWidth( ), 0 );
+		pageWidth = WordUtil.convertTo( page.getPageWidth( ), 0, reportDpi );
 		// 11 inch * 1440
-		pageHeight = WordUtil.convertTo( page.getPageHeight( ), 0 );
+		pageHeight = WordUtil.convertTo( page.getPageHeight( ), 0, reportDpi );
 
-		footerHeight = WordUtil.convertTo( page.getFooterHeight( ), 0 );
-		headerHeight = WordUtil.convertTo( page.getHeaderHeight( ), 0 );
+		footerHeight = WordUtil.convertTo( page.getFooterHeight( ), 0,
+				reportDpi );
+		headerHeight = WordUtil.convertTo( page.getHeaderHeight( ), 0,
+				reportDpi );
 
-		topMargin = WordUtil.convertTo( page.getMarginTop( ), 0 );
-		bottomMargin = WordUtil.convertTo( page.getMarginBottom( ), 0 );
+		topMargin = WordUtil.convertTo( page.getMarginTop( ), 0, reportDpi );
+		bottomMargin = WordUtil.convertTo( page.getMarginBottom( ), 0,
+				reportDpi );
 
-		leftMargin = WordUtil.convertTo( page.getMarginLeft( ), 0 );
-		rightMargin = WordUtil.convertTo( page.getMarginRight( ), 0 );
+		leftMargin = WordUtil.convertTo( page.getMarginLeft( ), 0, reportDpi );
+		rightMargin = WordUtil.convertTo( page.getMarginRight( ), 0, reportDpi );
 
 		contentWidth = pageWidth - leftMargin - rightMargin;
 
@@ -397,7 +403,7 @@ public abstract class AbstractEmitterImpl
 				isHeader = true;
 			}
 
-			double height = WordUtil.convertTo( row.getHeight( ) );
+			double height = WordUtil.convertTo( row.getHeight( ), reportDpi );
 
 			wordWriter.startTableRow( height, isHeader, row.getTable( )
 					.isHeaderRepeat( ), fixedLayout );
@@ -460,7 +466,8 @@ public abstract class AbstractEmitterImpl
 	{
 		if ( cellWidth == 0 )
 			return;
-		int cellHeight = WordUtil.convertTo( getCellHeight( cell ), 0 ) / 20;
+		int cellHeight = WordUtil.convertTo( getCellHeight( cell ), 0,
+				reportDpi ) / 20;
 		if ( cellHeight == 0 )
 			return;
 
@@ -520,7 +527,7 @@ public abstract class AbstractEmitterImpl
 		}
 
 		int width = WordUtil.convertTo( table.getWidth( ), context
-				.getCurrentWidth( ) );
+				.getCurrentWidth( ), reportDpi );
 		width = Math.min( width, context.getCurrentWidth( ) );
 		int[] cols = computeTblColumnWidths( table, width );
 		wordWriter
@@ -680,9 +687,10 @@ public abstract class AbstractEmitterImpl
 		String mimeType = image.getMIMEType( );
 		String extension = image.getExtension( );
 		String altText = image.getAltText( );
-		double height = WordUtil.convertImageSize( image.getHeight( ), 0 );
-		double width = WordUtil.convertImageSize( image.getWidth( ), 0 );
-
+		double height = WordUtil.convertImageSize( image.getHeight( ),
+				0, reportDpi );
+		double width = WordUtil.convertImageSize( image.getWidth( ), 0,
+				reportDpi );
 		context.addContainer( false );
 
 		if ( FlashFile.isFlash( mimeType, uri, extension ) )
@@ -709,10 +717,18 @@ public abstract class AbstractEmitterImpl
 				return;
 			}
 
-			height = WordUtil.convertImageSize( image.getHeight( ),
-					imageInfo.getHeight( ) );
-			width = WordUtil.convertImageSize( image.getWidth( ),
-					imageInfo.getWidth( ) );
+			int imageFileWidthDpi = imageInfo.getPhysicalWidthDpi( ) == -1
+					? 0
+					: imageInfo.getPhysicalWidthDpi( );
+			int imageFileHeightDpi = imageInfo.getPhysicalHeightDpi( ) == -1
+					? 0
+					: imageInfo.getPhysicalHeightDpi( );
+			height = WordUtil.convertImageSize( image.getHeight( ), imageInfo
+					.getHeight( ), PropertyUtil.getImageDpi( image,
+					imageFileHeightDpi, 0 ) );
+			width = WordUtil.convertImageSize( image.getWidth( ), imageInfo
+					.getWidth( ), PropertyUtil.getImageDpi( image,
+					imageFileWidthDpi, 0 ) );
 
 			writeBookmark( image );
 			writeToc( image );
@@ -1160,7 +1176,8 @@ public abstract class AbstractEmitterImpl
 			}
 			else
 			{
-				tblColumns[i] = WordUtil.convertTo( col.getWidth( ), tblWidth );
+				tblColumns[i] = WordUtil.convertTo( col.getWidth( ), tblWidth,
+						reportDpi );
 				total += tblColumns[i];
 			}
 		}

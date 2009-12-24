@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.emitter.wpml;
 
 import java.util.HashSet;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -31,8 +30,6 @@ public class WordUtil
 
 	private static final String LINESTYLE_SINGLE = "single";
 
-	private static Logger logger = Logger.getLogger( WordUtil.class.getName( ) );
-
 	private static HashSet<Character> splitChar = new HashSet<Character>( );
 
 	static
@@ -42,33 +39,11 @@ public class WordUtil
 		splitChar.add( new Character( '\n' ) );
 	};
 
-	private static double Temp_PX;
-	public final static double INCH_PX;
-	static
-	{
+	public static final double INCH_PT = 72;
 
-		try
-		{
-			Temp_PX = java.awt.Toolkit
-					.getDefaultToolkit( )
-					.getScreenResolution( );
-		}
-		catch ( Exception e )
-		{
-			Temp_PX = 96;
-		}
-		INCH_PX = Temp_PX;
-	}
+	public static final double PT_TWIPS = 20;
 
-	public final static double INCH_PT = 72;
-
-	public final static double PT_TWIPS = 20;
-
-	public final static double INCH_TWIPS = INCH_PT * PT_TWIPS;
-
-	public final static double PX_TWIPS = INCH_TWIPS / INCH_PX;
-
-	public final static double PX_PT = INCH_PT / INCH_PX;
+	public static final double INCH_TWIPS = INCH_PT * PT_TWIPS;
 
 	// Bookmark names must begin with a letter and can contain numbers.
 	// spaces can not be included in a bookmark name,
@@ -81,7 +56,7 @@ public class WordUtil
 	}
 
 	// convert from DimensionType to twips according to prefValue
-	public static int convertTo( DimensionType value, int prefValue )
+	public static int convertTo( DimensionType value, int prefValue, int dpi )
 	{
 		if ( value == null )
 		{
@@ -94,11 +69,14 @@ public class WordUtil
 			return (int) ( prefValue * value.getMeasure( ) / 100 );
 		}
 
-		return (int) convertTo( value );
+		return (int) convertTo( value, dpi );
 	}
 
-	public static double convertTo( DimensionType value )
+	public static double convertTo( DimensionType value, int dpi )
 	{
+		double INCH_PX = dpi;
+		double PX_TWIPS = INCH_TWIPS / INCH_PX;
+
 		if ( value == null
 				|| DimensionType.UNITS_PERCENTAGE.equalsIgnoreCase( value
 						.getUnits( ) ) )
@@ -124,8 +102,10 @@ public class WordUtil
 	}
 
 	// convert image's size from DimensionType to pt according to ref
-	public static double convertImageSize( DimensionType value, int ref )
+	public static double convertImageSize( DimensionType value, int ref, int dpi )
 	{
+		double INCH_PX = dpi;
+		double PX_PT = INCH_PT / INCH_PX;
 
 		if ( value == null )
 		{

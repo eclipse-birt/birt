@@ -104,6 +104,8 @@ public class ExcelLayoutEngine
 
 	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
 
+	protected int reportDpi;
+
 	public ExcelLayoutEngine( ExcelContext context,
 			ExcelEmitter emitter )
 	{
@@ -115,7 +117,7 @@ public class ExcelLayoutEngine
 				.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
 	}
 	
-	public void initalize( int contentWidth, IStyle style )
+	public void initalize( int contentWidth, IStyle style, int dpi )
 	{
 		axis = new AxisProcessor( );		
 		axis.addCoordinate( contentWidth );
@@ -126,6 +128,7 @@ public class ExcelLayoutEngine
 		cache = createDataCache( maxCol, maxRow );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, style, null ) );
+		this.reportDpi = dpi;
 	}
 
 	protected DataCache createDataCache( int maxColumn, int maxRow )
@@ -648,17 +651,43 @@ public class ExcelLayoutEngine
 	public void addImageData( IImageContent image, IStyle style,
 			HyperlinkDef link, BookmarkDef bookmark )
 	{
+		int imageWidthDpi;
+		int imageHeightDpi;
+		try
+		{
+			Image imageInfo = EmitterUtil.parseImage( image, image
+					.getImageSource( ), image.getURI( ), image.getMIMEType( ),
+					image.getExtension( ) );
+			int imageFileWidthDpi = imageInfo.getPhysicalWidthDpi( ) == -1
+					? 0
+					: imageInfo.getPhysicalWidthDpi( );
+			int imageFileHeightDpi = imageInfo.getPhysicalHeightDpi( ) == -1
+					? 0
+					: imageInfo.getPhysicalHeightDpi( );
+			imageWidthDpi = PropertyUtil.getImageDpi( image, imageFileWidthDpi,
+					0 );
+			imageHeightDpi = PropertyUtil.getImageDpi( image,
+					imageFileHeightDpi, 0 );
+
+		}
+		catch ( IOException ex )
+		{
+			imageWidthDpi = reportDpi;
+			imageHeightDpi = reportDpi;
+		}
+
 		XlsContainer container = getCurrentContainer( );
 		ContainerSizeInfo parentSizeInfo = container.getSizeInfo( );
-		ColumnsInfo imageColumnsInfo = LayoutUtil
-				.createImage( image, parentSizeInfo.getWidth( ) );
+		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( image,
+				parentSizeInfo.getWidth( ), imageWidthDpi );
 		splitColumns( imageColumnsInfo, parentSizeInfo );
 		ContainerSizeInfo imageSize = new ContainerSizeInfo( parentSizeInfo
 				.getStartCoordinate( ), imageColumnsInfo.getTotalWidth( ) );
 		StyleEntry entry = engine.getStyle( style, imageSize, parentSizeInfo,
 											getParentStyle( container ) );
 		setlinkStyle( entry, link );
-		SheetData data = createImageData( image, entry, container );
+		SheetData data = createImageData( image, entry, container,
+				imageHeightDpi, imageWidthDpi );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
 		data.setStartX( imageSize.getStartCoordinate( ) );
@@ -666,7 +695,8 @@ public class ExcelLayoutEngine
 		addData( data );
 	}
 
-	private SheetData createImageData( IImageContent image, StyleEntry entry, XlsContainer container )
+	private SheetData createImageData( IImageContent image, StyleEntry entry,
+			XlsContainer container, int imageHeightDpi, int imageWidhtDpi )
 	{
 		int type = SheetData.IMAGE;
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
@@ -693,7 +723,8 @@ public class ExcelLayoutEngine
 			byte[] data = imageInfo.getData( );
 			if ( data != null )
 			{
-				return createData( image, entry, container, type, imageInfo );
+				return createData( image, entry, container, type, imageInfo,
+						imageHeightDpi, imageWidhtDpi );
 			}
 			else
 			{
@@ -711,11 +742,12 @@ public class ExcelLayoutEngine
 	}
 
 	protected SheetData createData( IImageContent image, StyleEntry entry,
-			XlsContainer container, int type, Image imageInfo )
+			XlsContainer container, int type, Image imageInfo,
+			int imageHeightDpi, int imageWidthDpi )
 	{
 		int styleId = engine.getStyleId( entry );
 		SheetData imageData = new ImageData( image, styleId, type, imageInfo,
-				container );
+				container, imageHeightDpi, imageWidthDpi );
 		return imageData;
 	}
 

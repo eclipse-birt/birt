@@ -48,6 +48,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -95,6 +96,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	protected int contentwidth;
 
+	protected int reportDpi;
+
 	public String getOutputFormat( )
 	{
 		return "xls";
@@ -141,7 +144,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		parsePageSize( report );
 		IStyle style = report.getRoot( ).getComputedStyle( );
 		engine = createLayoutEngine( context, this );
-		engine.initalize( contentwidth, style );
+		engine.initalize( contentwidth, style, reportDpi );
 		createWriter( );
 	}
 
@@ -181,17 +184,18 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private void parsePageSize( IReportContent report )
 	{
+		reportDpi = PropertyUtil.getRenderDpi( report, 0 );
 		SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) report
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
 		this.pageWidth = ExcelUtil.convertDimensionType( masterPage
-				.getPageWidth( ), 0 );
+				.getPageWidth( ), 0, reportDpi );
 		int leftmargin = ExcelUtil.convertDimensionType( masterPage
-				.getLeftMargin( ), pageWidth );
+				.getLeftMargin( ), pageWidth, reportDpi );
 		int rightmargin = ExcelUtil.convertDimensionType( masterPage
-				.getRightMargin( ), pageWidth );
+				.getRightMargin( ), pageWidth, reportDpi );
 		this.contentwidth = pageWidth - leftmargin - rightmargin;
 		this.pageHeight = ExcelUtil.convertDimensionType( masterPage
-				.getPageHeight( ), 0 );
+				.getPageHeight( ), 0, reportDpi );
 	}
 
 	protected ExcelLayoutEngine createLayoutEngine( ExcelContext context,
@@ -262,12 +266,12 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		boolean isAutoTable = true;
 		if ( isAutoTable )
 		{
-			info = LayoutUtil.createTable( table, width );
+			info = LayoutUtil.createTable( table, width, reportDpi );
 		}
 		else
 		{
 			int[] columns = LayoutUtil.createFixedTable( table, LayoutUtil
-					.getElementWidth( table, width ) );
+					.getElementWidth( table, width, reportDpi ), reportDpi );
 			info = new ColumnsInfo( columns );
 		}
 		if ( info == null )
@@ -288,7 +292,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void endRow( IRowContent row )
 	{
 		DimensionType height = row.getHeight( );
-		float rowHeight = ExcelUtil.convertDimensionType( height, 0 ) / 1000;
+		float rowHeight = ExcelUtil.convertDimensionType( height, 0, reportDpi ) / 1000;
 		engine.endRow( rowHeight );
 	}
 
@@ -312,7 +316,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void startList( IListContent list )
 	{		
 		ContainerSizeInfo size = engine.getCurrentContainer( ).getSizeInfo( );
-		ColumnsInfo table = LayoutUtil.createTable( list, size.getWidth( ) );
+		ColumnsInfo table = LayoutUtil.createTable( list, size.getWidth( ),
+				reportDpi );
 		engine.addTable( list, table, size );
 		
 		if ( list.getChildren( ) == null )
@@ -424,7 +429,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private float getContentHeight( IContent content )
 	{
-		return ExcelUtil.convertDimensionType( content.getHeight( ), 0 ) / 1000;
+		return ExcelUtil.convertDimensionType( content.getHeight( ), 0,
+				reportDpi ) / 1000;
 	}
 	
 	public void startImage( IImageContent image )

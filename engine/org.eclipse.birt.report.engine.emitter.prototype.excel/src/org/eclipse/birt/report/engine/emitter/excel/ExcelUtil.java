@@ -68,7 +68,6 @@ public class ExcelUtil
 			.getName( ) );
 
 	private static final HashSet<Character> splitChar = new HashSet<Character>( );
-	public final static float INCH_PX = 96;
 	static
 	{
 
@@ -87,10 +86,6 @@ public class ExcelUtil
 	public final static float PT_TWIPS = 20;
 
 	public final static float INCH_TWIPS = INCH_PT * PT_TWIPS;
-
-	public final static float PX_TWIPS = INCH_TWIPS / INCH_PX;
-
-	public final static float PX_PT = INCH_PT / INCH_PX;
 
 	public final static int PAPER_LETTER = 1;// 8.5in*11in
 	public final static int PAPER_TABLOID = 3;// 11in*17in
@@ -560,8 +555,9 @@ public class ExcelUtil
 	}
 
 	// change the columnWidth unit from point to characterNumber
-	public static double convertColWidth( int width )
+	public static double convertColWidth( int width, int dpi )
 	{
+		float PX_PT = INCH_PT / dpi;
 		// TODO: more study about the caculation
 		if ( width < 0 )
 			return 0;
@@ -734,8 +730,11 @@ public class ExcelUtil
 	 *            with of parent, the unit is 1/1000 point.
 	 * @return
 	 */
-	public static int convertDimensionType( DimensionType value, float parent )
+	public static int convertDimensionType( DimensionType value, float parent,
+			float dpi )
 	{
+		float INCH_PX = dpi;
+		float PX_PT = INCH_PT / INCH_PX;
 		if ( value == null )
 		{
 			return (int) ( parent * 1000 );

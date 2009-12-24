@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
@@ -275,13 +276,13 @@ public class PropertyUtil
 	 * @param renderOptionDpi
 	 * @return
 	 */
-	public static int getRenderDpi( IContent content, int renderOptionDpi )
+	public static int getRenderDpi( IReportContent content, int renderOptionDpi )
 	{
 		int resolution = renderOptionDpi;
 		if ( 0 == resolution )
 		{
-			ReportDesignHandle designHandle = content.getReportContent( )
-					.getDesign( ).getReportDesign( );
+			ReportDesignHandle designHandle = content.getDesign( )
+					.getReportDesign( );
 			resolution = designHandle.getImageDPI( );
 		}
 		if ( 0 == resolution )
@@ -293,6 +294,12 @@ public class PropertyUtil
 			resolution = 96;
 		}
 		return resolution;
+	}
+
+	public static int getRenderDpi( IContent content, int renderOptionDpi )
+	{
+		return getRenderDpi( content.getReportContent( ), renderOptionDpi );
+
 	}
     
 	private static int screenDpi = -1;

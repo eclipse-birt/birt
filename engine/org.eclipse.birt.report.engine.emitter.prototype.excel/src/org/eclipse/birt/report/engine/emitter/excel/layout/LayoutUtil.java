@@ -26,41 +26,45 @@ public class LayoutUtil
 	public static ColumnsInfo createTable( int col, int width )
 	{
 		return new ColumnsInfo( col, width );
-	}	
-	
-	public static ColumnsInfo createTable( IListContent list, int width )
+	}
+
+	public static ColumnsInfo createTable( IListContent list, int width, int dpi )
 	{
-		width = getElementWidth(list, width);
-		int[] column = new int[] {width};
+		width = getElementWidth( list, width, dpi );
+		int[] column = new int[]{width};
 		return new ColumnsInfo( column );
 	}
 
-	public static ColumnsInfo createChart( IForeignContent content, int width )
+	public static ColumnsInfo createChart( IForeignContent content, int width,
+			int dpi )
 	{
 		ExtendedItemDesign design = (ExtendedItemDesign) content
 				.getGenerateBy( );
 		DimensionType value = design.getWidth( );
 		if ( value != null )
 		{
-			width = getElementWidth( value, width );
+			width = getElementWidth( value, width, dpi );
 		}
 		int[] column = new int[]{width};
 		return new ColumnsInfo( column );
 	}
-	
-	public static ColumnsInfo createImage( IImageContent image, int width )
+
+	public static ColumnsInfo createImage( IImageContent image, int width,
+			int imageWidthDpi )
 	{
-		width = getImageWidth( image, width );
+		width = getImageWidth( image, width, imageWidthDpi );
 		int[] column = new int[]{width};
 		return new ColumnsInfo( column );
 	}
 
-	public static int getImageWidth( IImageContent image, int width )
+	public static int getImageWidth( IImageContent image, int width,
+			int imageWidthDpi )
 	{
+		int dpi = imageWidthDpi;
 		DimensionType value = image.getWidth( );
 		if ( value != null )
 		{
-			width = getElementWidth( value, width );
+			width = getElementWidth( value, width, dpi );
 		}
 		else
 		{
@@ -69,8 +73,7 @@ public class LayoutUtil
 				Image imageInfo = EmitterUtil.parseImage( image, image
 						.getImageSource( ), image.getURI( ), image
 						.getMIMEType( ), image.getExtension( ) );
-				width = (int) ( imageInfo.getWidth( ) * ExcelUtil.PX_PT * 1000 );
-
+				width = (int) ( imageInfo.getWidth( ) * ExcelUtil.INCH_PT / dpi * 1000 );
 			}
 			catch ( IOException e1 )
 			{
@@ -80,22 +83,23 @@ public class LayoutUtil
 		return width;
 	}
 
-	public static int getElementWidth( IContent content, int width )
+	public static int getElementWidth( IContent content, int width, int dpi )
 	{
 		DimensionType value = content.getWidth( );
 		if ( value != null )
 		{
-			return getElementWidth( value, width );
+			return getElementWidth( value, width, dpi );
 		}
 		return width;
 	}
 
-	private static int getElementWidth( DimensionType contentWdith, int width )
+	private static int getElementWidth( DimensionType contentWidth, int width,
+			int dpi )
 	{
 		try
 		{
-			width = Math.min( ExcelUtil.convertDimensionType( contentWdith,
-					width ), width );
+			width = Math.min( ExcelUtil.convertDimensionType( contentWidth,
+					width, dpi ), width );
 		}
 		catch ( Exception e )
 		{
@@ -103,9 +107,10 @@ public class LayoutUtil
 		}
 		return width;
 	}
-	
-	public static int[] createFixedTable( ITableContent table, int tableWidth )
-	{		
+
+	public static int[] createFixedTable( ITableContent table, int tableWidth,
+			int dpi )
+	{
 		int columnCount = table.getColumnCount( );
 		int[] columns = new int[columnCount];
 		int unassignedCount = 0;
@@ -120,8 +125,9 @@ public class LayoutUtil
 				unassignedCount++;
 			}
 			else
-			{				
-				columns[i] = ExcelUtil.convertDimensionType( value, tableWidth );
+			{
+				columns[i] = ExcelUtil.convertDimensionType( value, tableWidth,
+						dpi );
 				totalAssigned += columns[i];
 			}	
 		}		
@@ -135,9 +141,10 @@ public class LayoutUtil
 				unassignedCount, totalAssigned );
 	}
 
-	public static ColumnsInfo createTable( ITableContent table, int width )
+	public static ColumnsInfo createTable( ITableContent table, int width,
+			int dpi )
 	{
-		int tableWidth = getElementWidth( table, width );
+		int tableWidth = getElementWidth( table, width, dpi );
 
 		int columnCount = table.getColumnCount( );
 		if ( columnCount == 0 )
@@ -159,7 +166,8 @@ public class LayoutUtil
 			}
 			else
 			{
-				columns[i] = ExcelUtil.convertDimensionType( value, tableWidth );
+				columns[i] = ExcelUtil.convertDimensionType( value, tableWidth,
+						dpi );
 				totalAssigned += columns[i];
 			}
 		}
