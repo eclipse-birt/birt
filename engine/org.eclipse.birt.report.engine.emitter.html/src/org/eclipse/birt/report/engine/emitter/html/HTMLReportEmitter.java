@@ -698,7 +698,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_META );
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
 		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=utf-8" ); //$NON-NLS-1$ 
-		writer.closeTag( HTMLTags.TAG_META );
+		
+		if ( !OUTPUT_FORMAT_HTML.equals( getOutputFormat( ) ) )
+		{// bugzilla 295062: ignore writing the close tag in HTML format
+			writer.closeTag( HTMLTags.TAG_META );
+		}
 
 		outputCSSStyles( reportDesign, designHandle );
 
