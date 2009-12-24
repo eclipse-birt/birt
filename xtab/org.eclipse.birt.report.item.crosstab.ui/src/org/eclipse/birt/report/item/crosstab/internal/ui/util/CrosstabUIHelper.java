@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -236,7 +237,7 @@ public class CrosstabUIHelper
 	
 
 	public static ICubeQueryDefinition createBindingQuery(
-			CrosstabReportItemHandle crosstabItem ) throws Exception
+			CrosstabReportItemHandle crosstabItem ) throws BirtException
 	{
 		return CrosstabQueryUtil.createCubeQuery( crosstabItem,
 				null,
