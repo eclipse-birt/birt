@@ -43,8 +43,9 @@ import com.ibm.icu.util.ULocale;
  * 
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: collapse" * bordercolor="#111111">
- * <th width="20%">Method</th> <th width="40%">Test Case</th> <th
- * width="40%">Expected</th>
+ * <th width="20%">Method</th>
+ * <th width="40%">Test Case</th>
+ * <th * width="40%">Expected</th>
  * 
  * <tr>
  * <td>{@link #testCreateOpenAndClose()}</td>
@@ -603,7 +604,7 @@ public class SessionHandleTest extends BaseTestCase
 		session.setColorFormat( ColorUtil.CSS_RELATIVE_FORMAT );
 		assertEquals( ColorUtil.CSS_RELATIVE_FORMAT, session.getColorFormat( ) );
 
-		IResourceLocator testLocator = new IResourceLocator( ) {
+		IResourceLocator testLocator = new DefaultResourceLocator( ) {
 
 			/**
 			 * 

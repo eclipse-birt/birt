@@ -15,7 +15,11 @@ import java.net.URL;
 import java.util.Map;
 
 
-public interface IResourceLocatorBase {
+/**
+ *
+ */
+
+interface IResourceLocatorBase {
 	
 	/**
 	 * The host name of the fragments where inner resources are located.
