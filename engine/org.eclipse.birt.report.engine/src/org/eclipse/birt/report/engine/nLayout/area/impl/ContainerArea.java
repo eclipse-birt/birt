@@ -785,22 +785,7 @@ public abstract class ContainerArea extends AbstractArea
 	
 	protected int getResolution( )
 	{
-		int resolution = context.getDpi( );
-		if ( 0 == resolution )
-		{
-			ReportDesignHandle designHandle = content.getReportContent( )
-					.getDesign( ).getReportDesign( );
-			resolution = designHandle.getImageDPI( );
-		}
-		if ( 0 == resolution )
-		{
-			resolution = PropertyUtil.getScreenDpi( );
-		}
-		if ( 0 == resolution )
-		{
-			resolution = 96;
-		}
-		return resolution;
+		return PropertyUtil.getRenderDpi( content, context.getDpi( ) );
 	}
 
 	protected int getDimensionValue( IContent content, DimensionType d )

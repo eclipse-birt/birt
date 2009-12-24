@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
@@ -247,16 +248,62 @@ public class PropertyUtil
 		}
 		return null;
 	}
+	
+	public static int getImageDpi( IImageContent content, int imageFileDpi,
+			int renderOptionDpi )
+	{
+		// The DPI resolution of the image.
+		// the preference of the DPI setting is:
+		// 1. the resolution in image file.
+		// 2. use the render DPI.
+		int resolution = imageFileDpi;
+		if ( 0 == resolution )
+		{
+			resolution = getRenderDpi( content, renderOptionDpi );
+		}
+		return resolution;
+	}
+	
+	/**
+	 * The DPI resolution used in render.
+	 * the preference of the DPI setting is:
+	 * 1. use the DPI in render options.
+	 * 2. the DPI in report designHandle.
+	 * 3. the JRE screen resolution.
+	 * 4. the default DPI (96).
+	 * @param content
+	 * @param renderOptionDpi
+	 * @return
+	 */
+	public static int getRenderDpi( IContent content, int renderOptionDpi )
+	{
+		int resolution = renderOptionDpi;
+		if ( 0 == resolution )
+		{
+			ReportDesignHandle designHandle = content.getReportContent( )
+					.getDesign( ).getReportDesign( );
+			resolution = designHandle.getImageDPI( );
+		}
+		if ( 0 == resolution )
+		{
+			resolution = getScreenDpi( );
+		}
+		if ( 0 == resolution )
+		{
+			resolution = 96;
+		}
+		return resolution;
+	}
     
 	private static int screenDpi = -1;
-    
+	
 	/**
-	 * Get the screen dpi. If the return value is 0, it means the screen dpi is
+	 * Get the screen DPI. If the return value is 0, it means the screen dpi is
 	 * invalid, otherwise it should be between 96 and 120.
 	 * 
-	 * @return the screen dpi.
+	 * @return the screen DPI.
 	 */
-    public static int getScreenDpi( )
+    private static int getScreenDpi( )
     {
     	if( -1 == screenDpi )
     	{

@@ -30,7 +30,6 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.ObjectContent;
-import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -40,7 +39,6 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.util.FlashFile;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.BadElementException;
@@ -188,8 +186,10 @@ class ConcreteImageLayout implements ILayout
 
 	protected static Logger logger = Logger
 			.getLogger( ConcreteImageLayout.class.getName( ) );
+	
 	/** The DpiX */
 	private int resolutionX = 0;
+	
 	/** The DpiY */
 	private int resolutionY = 0;
 
@@ -245,38 +245,6 @@ class ConcreteImageLayout implements ILayout
 	{
 		if ( image != null )
 		{
-			// The DPI resolution of the image.
-			// the preference of the DPI setting is:
-			// 1. the resolution in image file.
-			// 2. use the DPI in render options.
-			// 3. the DPI in report designHandle.
-			// 4. the JRE screen resolution.
-			// 5. the default DPI (96).
-			resolutionX = image.getDpiX( );
-			resolutionY = image.getDpiY( );
-			if ( 0 == resolutionX || 0 == resolutionY )
-			{
-				resolutionX = context.getDpi( );
-				resolutionY = context.getDpi( );
-			}
-			if ( 0 == resolutionX || 0 == resolutionY )
-			{
-				ReportDesignHandle designHandle = content.getReportContent( )
-						.getDesign( ).getReportDesign( );
-				resolutionX = designHandle.getImageDPI( );
-				resolutionY = designHandle.getImageDPI( );
-			}
-			if ( 0 == resolutionX || 0 == resolutionY )
-			{
-				int screenDpi = PropertyUtil.getScreenDpi( );
-				resolutionX = screenDpi;
-				resolutionY = screenDpi;
-			}
-			if ( 0 == resolutionX || 0 == resolutionY )
-			{
-				resolutionX = 96;
-				resolutionY = 96;
-			}
 			return new Dimension( (int) ( image.plainWidth( ) * 1000
 					/ resolutionX * 72 ), (int) ( image.plainHeight( ) * 1000
 					/ resolutionY * 72 ) );
@@ -284,28 +252,22 @@ class ConcreteImageLayout implements ILayout
 		return null;
 	}
 
-	protected int getResolution( )
-	{
-		int resolution = 0;
-		ReportDesignHandle designHandle = image.getReportContent( ).getDesign( )
-				.getReportDesign( );
-		resolution = designHandle.getImageDPI( );
-
-		if ( 0 == resolution )
-		{
-			resolution = context.getDpi( );
-		}
-		if ( 0 == resolution )
-		{
-			resolution = 96;
-		}
-		return resolution;
-	}
-
 	protected Dimension getSpecifiedDimension( IImageContent content,
 			int pWidth, boolean scale )
 	{
-		Dimension dim = new Dimension( DEFAULT_WIDHT, DEFAULT_HEIGHT );
+		// prepare the DPI for the image.
+		int imageFileDpiX = 0;
+		int imageFileDpiY = 0;
+		if ( imageObject != null )
+		{
+			imageFileDpiX = imageObject.getDpiX( );
+			imageFileDpiY = imageObject.getDpiY( );
+		}
+		resolutionX = PropertyUtil.getImageDpi( content, imageFileDpiX, context
+				.getDpi( ) );
+		resolutionY = PropertyUtil.getImageDpi( content, imageFileDpiY, context
+				.getDpi( ) );
+		
 		try
 		{
 			intrinsic = getIntrinsicDimension( content, imageObject );
@@ -314,11 +276,12 @@ class ConcreteImageLayout implements ILayout
 		{
 			logger.log( Level.SEVERE, e.getLocalizedMessage( ) );
 		}
-		int dpi = getResolution( );
 		int specifiedWidth = PropertyUtil.getDimensionValue( content, content
-				.getWidth( ), dpi, pWidth );
+				.getWidth( ), resolutionX, pWidth );
 		int specifiedHeight = PropertyUtil.getDimensionValue( content, content
-				.getHeight( ), dpi, 0 );
+				.getHeight( ), resolutionY, 0 );
+		
+		Dimension dim = new Dimension( DEFAULT_WIDHT, DEFAULT_HEIGHT );
 		if ( intrinsic == null )
 		{
 			dim.setDimension( specifiedWidth == 0
@@ -666,7 +629,7 @@ class ConcreteImageLayout implements ILayout
 	private void createImageMapContainer( int x, int y, int width, int height,
 			IHyperlinkAction link )
 	{
-		ReportContent reportContent = (ReportContent) image.getReportContent( );
+		//ReportContent reportContent = (ReportContent) image.getReportContent( );
 		// IContainerContent mapContent = reportContent.createContainerContent(
 		// );
 		// mapContent.setHyperlinkAction( link );

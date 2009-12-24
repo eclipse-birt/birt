@@ -39,7 +39,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FlashFile;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
@@ -240,32 +239,10 @@ class ConcreteImageLayout extends Layout
 			}
 			else
 			{
-				// the image is set to auto dpi from designer.
-				resolutionX = image.getDpiX( );
-				resolutionY = image.getDpiY( );
-				if ( 0 == resolutionX || 0 == resolutionY )
-				{
-					resolutionX = context.getDpi( );
-					resolutionY = context.getDpi( );
-				}
-				if ( 0 == resolutionX || 0 == resolutionY )
-				{
-					ReportDesignHandle designHandle = content
-							.getReportContent( ).getDesign( ).getReportDesign( );
-					resolutionX = designHandle.getImageDPI( );
-					resolutionY = designHandle.getImageDPI( );
-				}
-				if ( 0 == resolutionX || 0 == resolutionY )
-				{
-					int screenDpi = PropertyUtil.getScreenDpi( );
-					resolutionX = screenDpi;
-					resolutionY = screenDpi;
-				}
-				if ( 0 == resolutionX || 0 == resolutionY )
-				{
-					resolutionX = 96;
-					resolutionY = 96;
-				}
+				resolutionX = PropertyUtil.getImageDpi( content, image
+						.getDpiX( ), context.getDpi( ) );
+				resolutionY = PropertyUtil.getImageDpi( content, image
+						.getDpiY( ), context.getDpi( ) );
 			}
 			return new Dimension( (int) ( image.plainWidth( ) * 1000
 					/ resolutionX * 72 ), (int) ( image.plainHeight( ) * 1000
