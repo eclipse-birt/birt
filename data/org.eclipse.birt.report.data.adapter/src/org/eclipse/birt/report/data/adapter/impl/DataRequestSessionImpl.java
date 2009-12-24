@@ -769,10 +769,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			else
 			{
+				fromJoin = true;
 				Iterator it = cubeHandle.joinConditionsIterator( );
 				if ( !it.hasNext() )
 					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
-				fromJoin = true;
 				boolean foundJoinCondition = false;
 				while ( it.hasNext( ) )
 				{
@@ -800,7 +800,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 							}
 							else
 							{
-								dimensionKeys.add( joinCondition.getHierarchyKey( ) );
+								String existLevelName = getLevelName( hier, joinCondition.getHierarchyKey( ));
+								if ( existLevelName != null )
+								{
+									//joint hierarchy key is the key column name of one level
+									dimensionKeys.add( existLevelName );
+								}
+								else
+								{
+									dimensionKeys.add( getDummyLevelNameForJointHierarchyKey(joinCondition.getHierarchyKey( )) );
+								}
 							}
 							factTableKeys.add( OlapExpressionUtil.getQualifiedLevelName( dimensions[i].getName( ),
 									joinCondition.getCubeKey( ) ) );
@@ -890,7 +899,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 	}
 	
-	
+	private String getLevelName( TabularHierarchyHandle hierhandle, String columnName )
+	{
+		List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+		for ( int k = 0; k < levels.size( ); k++ )
+		{
+			TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
+			if ( columnName.equals( level.getColumnName( ) ))
+			{
+				return level.getName( );
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * 
@@ -922,6 +943,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 			List<TabularHierarchyHandle> hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
 			for ( TabularHierarchyHandle hier: hiers )
 			{
+				Set<String> columnNamesForLevels = new HashSet<String>( );
+				// Use same data set as cube fact table
+				List levels = hier.getContents( TabularHierarchyHandle.LEVELS_PROP );
+				for ( int j = 0; j < levels.size( ); j++ )
+				{
+					TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
+					columnNamesForLevels.add( level.getColumnName( ) );
+				}
 				metaList = new ArrayList<ColumnMeta>();
 				query =  createQuery( this,  hier, metaList );
 				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
@@ -930,18 +959,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 					for ( String key : jointHierarchyKeys )
 					{
 						//add bindings for dummy level based on joint hierarchy keys
-						if ( !query.getBindings( ).containsKey( key ))
+						if ( !columnNamesForLevels.contains( key ) )
 						{
 							String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
-							query.addBinding( new Binding( key, new ScriptExpression(exprString) ) );
-							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( key,
+							query.addBinding( new Binding( getDummyLevelNameForJointHierarchyKey( key ), new ScriptExpression(exprString) ) );
+							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( getDummyLevelNameForJointHierarchyKey( key ),
 									null,
 									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
 							temp.setDataType( getColumnDataType( hier, key ) );
 							metaList.add( temp );
 							
 							GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
-							gd.setKeyExpression( ExpressionUtil.createJSRowExpression( key ) );
+							gd.setKeyExpression( ExpressionUtil.createJSRowExpression( getDummyLevelNameForJointHierarchyKey( key ) ) );
 							query.addGroup( gd );
 						}
 					}
@@ -961,6 +990,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 		this.dataEngine.registerQueries( queryDefns.toArray( new IDataQueryDefinition[0] ) );
 	} 
+
+	
 
 	/**
 	 * 
@@ -1105,9 +1136,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 			List<ILevelDefn> levelInHier = new ArrayList<ILevelDefn>( );
 			List<String> leafLevelKeyColumn = new ArrayList<String>( );
+			Set<String> columnNamesForLevels = new HashSet<String>( );
 			for ( int k = 0; k < levels.size( ); k++ )
 			{
 				TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
+				columnNamesForLevels.add(  level.getColumnName( ) );
 				List levelKeys = new ArrayList( );
 				Iterator it = level.attributesIterator( );
 				while ( it.hasNext( ) )
@@ -1132,22 +1165,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 			String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hierhandle );
 			for ( String jointKey : jointHierarchyKeys )
 			{
-				boolean asLevel = false;
-				for ( String level : leafLevelKeyColumn )
-				{
-					if ( level.equals( jointKey ))
-					{
-						asLevel = true;
-						break;
-					}
-				}
-				if ( !asLevel )
+				if (  !columnNamesForLevels.contains( jointKey ))
 				{
 					//append dummy level
-					leafLevelKeyColumn.add( jointKey );
-					levelInHier.add( CubeElementFactory.createLevelDefinition( jointKey,
+					leafLevelKeyColumn.add( getDummyLevelNameForJointHierarchyKey( jointKey ) );
+					levelInHier.add( CubeElementFactory.createLevelDefinition( getDummyLevelNameForJointHierarchyKey( jointKey ),
 						new String[]{
-							jointKey
+						getDummyLevelNameForJointHierarchyKey( jointKey )
 						},
 						new String[0] ));
 				}
@@ -1527,6 +1551,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		try
 		{
+			Set<String> columnNamesForLevels = new HashSet<String>( );
 			// Use same data set as cube fact table
 			List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 	
@@ -1536,7 +1561,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
 	
 				DataSetIterator.ColumnMeta temp = null;
-	
+				columnNamesForLevels.add( level.getColumnName( ) );
 				String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
 	
 				int type = DataAdapterUtil.adaptModelDataType( level.getDataType( ) );
@@ -1986,5 +2011,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 		}
 		return DataType.STRING_TYPE;
+	}
+	
+	private String getDummyLevelNameForJointHierarchyKey( String hierarchyKey )
+	{
+		return hierarchyKey + "_Dummy" + this.hashCode( );
 	}
 }
