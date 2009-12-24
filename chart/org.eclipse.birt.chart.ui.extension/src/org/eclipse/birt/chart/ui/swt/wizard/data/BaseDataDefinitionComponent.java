@@ -685,8 +685,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			return;
 		}
-		// String oldExpr = data[0];
-		String newExpr = data[1];
+		String newExpr = btnBuilder.getExpression( );
 		updateQuery( newExpr );
 	}
 
