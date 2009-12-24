@@ -2252,4 +2252,38 @@ public class Style implements IStyle
 		cmdStack.commit( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getOverflow()
+	 */
+	public String getOverflow( )
+	{
+		return style.getOverflow( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setOverflow(java.lang
+	 * .String)
+	 */
+	public void setOverflow( String value ) throws SemanticException
+	{
+		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			style.setOverflow( value );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+	}
 }

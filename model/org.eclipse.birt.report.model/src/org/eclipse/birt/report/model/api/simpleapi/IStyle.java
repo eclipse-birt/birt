@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.model.api.simpleapi;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -69,8 +70,7 @@ public interface IStyle
 
 	/**
 	 * Returns the pattern of the repeat for a background image. The return
-	 * value is defined in <code>DesignChoiceConstants</code> and can be one
-	 * of:
+	 * value is defined in <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>
 	 * <li>BACKGROUND_REPEAT_REPEAT
 	 * <li>BACKGROUND_REPEAT_REPEAT_X
@@ -324,8 +324,8 @@ public interface IStyle
 	String getStringFormatCategory( );
 
 	/**
-	 * Sets the category of a string format. The <code>pattern</code> can be
-	 * one of:
+	 * Sets the category of a string format. The <code>pattern</code> can be one
+	 * of:
 	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED</code>
@@ -425,8 +425,8 @@ public interface IStyle
 	String getDateTimeFormatCategory( );
 
 	/**
-	 * Sets the category of a number format. The <code>pattern</code> can be
-	 * one of:
+	 * Sets the category of a number format. The <code>pattern</code> can be one
+	 * of:
 	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED</code>
@@ -646,11 +646,10 @@ public interface IStyle
 
 	/**
 	 * Tests whether to show this frame even if it is empty, or all its data
-	 * elements are empty. If <code>false</code>, the section is
-	 * automatically hidden when empty.
+	 * elements are empty. If <code>false</code>, the section is automatically
+	 * hidden when empty.
 	 * 
-	 * @return <code>true</code> if show-if-blank, otherwise
-	 *         <code>false</code>
+	 * @return <code>true</code> if show-if-blank, otherwise <code>false</code>
 	 * @see #setShowIfBlank(boolean)
 	 */
 
@@ -661,8 +660,7 @@ public interface IStyle
 	 * elements are empty.
 	 * 
 	 * @param value
-	 *            <code>true</code> if show the frame. <code>false</code>
-	 *            not.
+	 *            <code>true</code> if show the frame. <code>false</code> not.
 	 * @throws SemanticException
 	 *             if the property is locked
 	 * @see #getShowIfBlank()
@@ -827,8 +825,8 @@ public interface IStyle
 
 	/**
 	 * Returns the value of the vertical align property for inline elements. The
-	 * return value is defined in <code>DesignChoiceConstants</code> and can
-	 * be one of:
+	 * return value is defined in <code>DesignChoiceConstants</code> and can be
+	 * one of:
 	 * <ul>
 	 * <li>VERTICAL_ALIGN_BASELINE
 	 * <li>VERTICAL_ALIGN_SUB
@@ -932,6 +930,7 @@ public interface IStyle
 
 	/**
 	 * Get the font color.
+	 * 
 	 * @return color
 	 * 
 	 */
@@ -939,14 +938,16 @@ public interface IStyle
 
 	/**
 	 * Set the font color.
+	 * 
 	 * @param color
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 * 
 	 */
 	void setColor( String color ) throws SemanticException;
 
 	/**
 	 * Get the background color.
+	 * 
 	 * @return background color
 	 * 
 	 */
@@ -954,14 +955,16 @@ public interface IStyle
 
 	/**
 	 * Set the background color.
+	 * 
 	 * @param color
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 * 
 	 */
 	void setBackgroundColor( String color ) throws SemanticException;
 
 	/**
 	 * Get the color of the top side of the border.
+	 * 
 	 * @return color of top border
 	 * 
 	 */
@@ -969,14 +972,16 @@ public interface IStyle
 
 	/**
 	 * Set the color of the top side of the border.
+	 * 
 	 * @param color
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 * 
 	 */
 	void setBorderTopColor( String color ) throws SemanticException;
 
 	/**
 	 * Get the color of the left side of the border.
+	 * 
 	 * @return color of left side of border
 	 * 
 	 */
@@ -984,300 +989,346 @@ public interface IStyle
 
 	/**
 	 * Set the color of the left side of the border.
+	 * 
 	 * @param color
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 * 
 	 */
 	void setBorderLeftColor( String color ) throws SemanticException;
 
 	/**
 	 * Get the color of the right side of the border.
+	 * 
 	 * @return color of right side of border
 	 */
 	String getBorderRightColor( );
 
 	/**
 	 * Set the color of the right side of the border.
+	 * 
 	 * @param color
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setBorderRightColor( String color ) throws SemanticException;
 
 	/**
 	 * Get the color of the bottom side of the border.
+	 * 
 	 * @return color of bottom side of border
 	 */
 	String getBorderBottomColor( );
 
 	/**
 	 * Set the color of the bottom side of the border.
+	 * 
 	 * @param color
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setBorderBottomColor( String color ) throws SemanticException;
 
 	/**
 	 * Get the x position for the background.
+	 * 
 	 * @return x position
 	 */
 	String getBackGroundPositionX( );
 
 	/**
 	 * Set the x position for the background.
+	 * 
 	 * @param x
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setBackGroundPositionX( String x ) throws SemanticException;
 
 	/**
 	 * Get the y position for the background.
+	 * 
 	 * @return y position
 	 */
 	String getBackGroundPositionY( );
 
 	/**
 	 * Set the y position for the background.
+	 * 
 	 * @param y
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setBackGroundPositionY( String y ) throws SemanticException;
 
 	/**
 	 * Get the spacing between individual letters.
+	 * 
 	 * @return spacing
 	 */
 	String getLetterSpacing( );
 
 	/**
 	 * Set the spacing between individual letters.
+	 * 
 	 * @param spacing
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setLetterSpacing( String spacing ) throws SemanticException;
 
 	/**
 	 * Get the height of a line. Implies spacing between lines.
+	 * 
 	 * @return height of a line
 	 */
 	String getLineHeight( );
 
 	/**
 	 * Set the height of a line. Implies spacing between lines.
+	 * 
 	 * @param height
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setLineHeight( String height ) throws SemanticException;
 
 	/**
 	 * Get the text indent.
+	 * 
 	 * @return text indent
 	 */
 	String getTextIndent( );
 
 	/**
 	 * Set the text indent.
+	 * 
 	 * @param indent
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setTextIndent( String indent ) throws SemanticException;
 
 	/**
 	 * Get the spacing between two words.
+	 * 
 	 * @return spacing
 	 */
 	String getWordSpacing( );
 
 	/**
 	 * Set the spacing between two words.
+	 * 
 	 * @param spacing
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setWordSpacing( String spacing ) throws SemanticException;
 
 	/**
 	 * Get the width of the top side of the border.
+	 * 
 	 * @return width of top side of border
 	 */
 	String getBorderTopWidth( );
 
 	/**
 	 * Set the width of the top side of the border.
+	 * 
 	 * @param width
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setBorderTopWidth( String width ) throws SemanticException;
 
 	/**
 	 * Get the width of left side of the border.
+	 * 
 	 * @return width of left side of border
 	 */
 	String getBorderLeftWidth( );
 
 	/**
 	 * Set the width of left side of the border.
+	 * 
 	 * @param width
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setBorderLeftWidth( String width ) throws SemanticException;
 
 	/**
 	 * Get the width of right side of the border.
+	 * 
 	 * @return width of right side of border
 	 */
 	String getBorderRightWidth( );
 
 	/**
 	 * Set the width of the right side of the border.
+	 * 
 	 * @param width
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setBorderRightWidth( String width ) throws SemanticException;
 
 	/**
 	 * Get the width of the bottom side of the border.
+	 * 
 	 * @return width of bottom side of border
 	 */
 	String getBorderBottomWidth( );
 
 	/**
 	 * Set the width of the bottom side of the border.
+	 * 
 	 * @param width
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setBorderBottomWidth( String width ) throws SemanticException;
 
 	/**
 	 * Get the margin of the top side.
+	 * 
 	 * @return margin of top side.
 	 */
 	String getMarginTop( );
 
 	/**
 	 * Set the margin of the top side.
+	 * 
 	 * @param margin
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setMarginTop( String margin ) throws SemanticException;
 
 	/**
 	 * Get the margin of the right side.
+	 * 
 	 * @return margin of right side
 	 */
 	String getMarginRight( );
 
 	/**
 	 * Set the margin of the right side.
+	 * 
 	 * @param margin
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setMarginRight( String margin ) throws SemanticException;
 
 	/**
 	 * Get the margin of the left side.
+	 * 
 	 * @return margin of left side
 	 */
 	String getMarginLeft( );
 
 	/**
 	 * Set the margin of the left side.
+	 * 
 	 * @param margin
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setMarginLeft( String margin ) throws SemanticException;
 
 	/**
 	 * Get the margin of the bottom side.
+	 * 
 	 * @return margin of bottom side
 	 */
 	String getMarginBottom( );
 
 	/**
 	 * Set the margin of the bottom side.
+	 * 
 	 * @param margin
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setMarginBottom( String margin ) throws SemanticException;
 
 	/**
 	 * Get the padding of the top side.
+	 * 
 	 * @return padding of top side
 	 */
 	String getPaddingTop( );
 
 	/**
 	 * Set the padding of the top side.
+	 * 
 	 * @param padding
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setPaddingTop( String padding ) throws SemanticException;
 
 	/**
 	 * Get the padding of the right side.
+	 * 
 	 * @return padding of right side
 	 */
 	String getPaddingRight( );
 
 	/**
 	 * Set the padding of the right side.
+	 * 
 	 * @param padding
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setPaddingRight( String padding ) throws SemanticException;
 
 	/**
 	 * Get the padding of the left side.
+	 * 
 	 * @return padding of left side
 	 */
 	String getPaddingLeft( );
 
 	/**
 	 * Set the padding of the left side.
+	 * 
 	 * @param padding
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setPaddingLeft( String padding ) throws SemanticException;
 
 	/**
 	 * Get the padding of the bottom side.
+	 * 
 	 * @return padding of bottom side
 	 */
 	String getPaddingBottom( );
 
 	/**
 	 * Set the padding of the bottom side.
+	 * 
 	 * @param padding
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setPaddingBottom( String padding ) throws SemanticException;
 
 	/**
 	 * Get the font size.
-	 * @return font size 
+	 * 
+	 * @return font size
 	 */
 	String getFontSize( );
 
 	/**
 	 * Set the font size.
+	 * 
 	 * @param fontSize
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setFontSize( String fontSize ) throws SemanticException;
 
 	/**
 	 * Get the font family.
+	 * 
 	 * @return font family
 	 */
 	String getFontFamily( );
 
 	/**
 	 * Set the font family.
+	 * 
 	 * @param fontFamily
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	void setFontFamily( String fontFamily ) throws SemanticException;
 
 	/**
 	 * Get the weight of the font.
+	 * 
 	 * @return weight of font
 	 */
 	String getFontWeight( );
@@ -1375,7 +1426,7 @@ public interface IStyle
 	 * 
 	 * @return the value of direction property
 	 */
-	
+
 	public String getTextDirection( );
 
 	/**
@@ -1390,8 +1441,38 @@ public interface IStyle
 	 *            the new direction value
 	 * @throws SemanticException
 	 *             if the value is not one of the above.
-	 *
+	 * 
 	 */
-	
+
 	public void setTextDirection( String value ) throws SemanticException;
+
+	/**
+	 * Returns the value of overflow property. The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>OVERFLOW_AUTO</code>
+	 * <li><code>OVERFLOW_HIDDEN</code>
+	 * <li><code>OVERFLOW_SCROLL</code>
+	 * <li><code>OVERFLOW_VISIBLE</code>
+	 * </ul>
+	 * 
+	 * @return the value of overflow property.
+	 */
+	public String getOverflow( );
+
+	/**
+	 * Sets the value of overflow property. The input value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>OVERFLOW_AUTO</code>
+	 * <li><code>OVERFLOW_HIDDEN</code>
+	 * <li><code>OVERFLOW_SCROLL</code>
+	 * <li><code>OVERFLOW_VISIBLE</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the new overflow value
+	 * @throws SemanticException
+	 */
+	public void setOverflow( String value ) throws SemanticException;
 }

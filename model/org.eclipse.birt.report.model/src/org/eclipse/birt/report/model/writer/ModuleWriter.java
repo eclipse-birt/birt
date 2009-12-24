@@ -2712,6 +2712,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		// Write the direction property.
 		property( obj, IStyleModel.TEXT_DIRECTION_PROP ); // bidi_hcg
 
+		// Overflow
+		property( obj, IStyleModel.OVERFLOW_PROP );
+
 		// Highlight
 
 		List list = (ArrayList) obj.getLocalProperty( getModule( ),
@@ -2810,6 +2813,7 @@ public abstract class ModuleWriter extends ElementVisitor
 			}
 			writer.endElement( );
 		}
+		
 	}
 
 	/**

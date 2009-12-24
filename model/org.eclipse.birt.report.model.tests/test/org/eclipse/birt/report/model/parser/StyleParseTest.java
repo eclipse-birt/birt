@@ -59,8 +59,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Test cases for style parsing, writing and referring.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -82,8 +81,7 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the style property value set in element's predefined style.
- * </td>
+ * <td>Test getting the style property value set in element's predefined style.</td>
  * <td>The property value should be from this element's predefined style.</td>
  * </tr>
  * <tr>
@@ -93,8 +91,7 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the style property value set in element's private style.
- * </td>
+ * <td>Test getting the style property value set in element's private style.</td>
  * <td>The property value should be from this element's private style.</td>
  * </tr>
  * <tr>
@@ -111,14 +108,12 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the unset style property value whose "canInherit" is false.
- * </td>
+ * <td>Test getting the unset style property value whose "canInherit" is false.</td>
  * <td>The property value should be default value, if possible.</td>
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the unset style property value whose "canInherit" is true.
- * </td>
+ * <td>Test getting the unset style property value whose "canInherit" is true.</td>
  * <td>The property value should be default value, if possible.</td>
  * </tr>
  * <tr>
@@ -141,15 +136,15 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the style property value that is set on the predefined
- * style of one element's container/slot combination.</td>
+ * <td>Test getting the style property value that is set on the predefined style
+ * of one element's container/slot combination.</td>
  * <td>The property value should be from the predefined style of this element's
  * container/slot combination.</td>
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the style property value that is set on the predefined
- * style of the slot in which one element's.</td>
+ * <td>Test getting the style property value that is set on the predefined style
+ * of the slot in which one element's.</td>
  * <td>The property value should be from the predefined style of the slot in
  * which this element's.</td>
  * </tr>
@@ -162,8 +157,8 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the style property value that is set on the predefined
- * style of one element's container.</td>
+ * <td>Test getting the style property value that is set on the predefined style
+ * of one element's container.</td>
  * <td>The property value should be from the predefined style of one element's
  * container.</td>
  * </tr>
@@ -197,14 +192,14 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * <tr>
  * <td>{@link #testReadHighlightRules()}</td>
- * <td>Test highlight property. Get the member value to see if they're
- * identical to those defined in the input file.</td>
+ * <td>Test highlight property. Get the member value to see if they're identical
+ * to those defined in the input file.</td>
  * <td>The member values should be identical to those in the input file</td>
  * </tr>
  * <tr>
  * <td>{@link #testWriteHighlightRules()}</td>
- * <td>Test highlight property. Set the member value to see if they're
- * identical to those defined in the golden file.</td>
+ * <td>Test highlight property. Set the member value to see if they're identical
+ * to those defined in the golden file.</td>
  * <td>Output file matches the golden file.</td>
  * </tr>
  * <tr>
@@ -225,11 +220,10 @@ import com.ibm.icu.util.ULocale;
  * <tr>
  * <td>{@link #testSemanticError()}</td>
  * <td>Test semantic errors with the design file input.</td>
- * <td>The errors are collected, such as the font-size and width is negative.
- * </td>
+ * <td>The errors are collected, such as the font-size and width is negative.</td>
  * </tr>
- * </table> >>>> ORIGINAL StyleParseTest.java#7 ==== THEIRS
- * StyleParseTest.java#8
+ * </table>
+ * >>>> ORIGINAL StyleParseTest.java#7 ==== THEIRS StyleParseTest.java#8
  * 
  * @see org.eclipse.birt.report.model.core.StyledElement ==== YOURS
  *      StyleParseTest.java < < < <
@@ -334,8 +328,8 @@ public class StyleParseTest extends BaseTestCase
 				"red", style.getStringProperty( design, Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"file", style.getStringProperty( design, Style.BACKGROUND_IMAGE_PROP ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED, style.
-				getStringProperty( design, Style.BACKGROUND_IMAGE_TYPE_PROP ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED, style
+				.getStringProperty( design, Style.BACKGROUND_IMAGE_TYPE_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"center", style.getStringProperty( design, Style.BACKGROUND_POSITION_X_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -420,6 +414,10 @@ public class StyleParseTest extends BaseTestCase
 		NameSpace ns = design.getNameHelper( ).getNameSpace(
 				Module.STYLE_NAME_SPACE );
 		assertEquals( 19, ns.getCount( ) );
+
+		// Overflow
+		assertEquals( DesignChoiceConstants.OVERFLOW_SCROLL, style
+				.getStringProperty( design, IStyleModel.OVERFLOW_PROP ) );
 
 		// Predefined style is defined by user.
 		StyleElement predefinedStyle = design.findStyle( "table-detail" ); //$NON-NLS-1$
@@ -715,11 +713,14 @@ public class StyleParseTest extends BaseTestCase
 
 		style.setTextDirection( DesignChoiceConstants.BIDI_DIRECTION_LTR );
 		style.setBackgroundImageType( DesignChoiceConstants.IMAGE_REF_TYPE_URL );
-		
+
 		DimensionHandle handle = style.getBackgroundSizeHeight( );
 		handle.setStringValue( "19pt" ); //$NON-NLS-1$
 		handle = style.getBackgroundSizeWidth( );
 		handle.setStringValue( "0.5in" ); //$NON-NLS-1$
+
+		// Overflow
+		style.setOverflow( DesignChoiceConstants.OVERFLOW_AUTO );
 		
 		DataItemHandle label = (DataItemHandle) designHandle
 				.findElement( "my data 2" ); //$NON-NLS-1$
@@ -733,7 +734,7 @@ public class StyleParseTest extends BaseTestCase
 		setLocale( style, IStyleModel.DATE_FORMAT_PROP, ULocale.US );
 		setLocale( style, IStyleModel.TIME_FORMAT_PROP, ULocale.FRANCE );
 		setLocale( style, IStyleModel.NUMBER_FORMAT_PROP, ULocale.JAPANESE );
-		setLocale( style, IStyleModel.STRING_FORMAT_PROP, ULocale.ENGLISH );
+		setLocale( style, IStyleModel.STRING_FORMAT_PROP, ULocale.ENGLISH );		
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

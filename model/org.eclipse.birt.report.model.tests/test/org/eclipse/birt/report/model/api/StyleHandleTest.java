@@ -350,6 +350,8 @@ public class StyleHandleTest extends BaseTestCase
 		styleHandle.setBackgroundImage( "new background image" ); //$NON-NLS-1$
 		assertEquals( "new background image", styleHandle.getBackgroundImage( ) ); //$NON-NLS-1$
 
+		styleHandle.setOverflow( DesignChoiceConstants.OVERFLOW_HIDDEN );
+		assertEquals( DesignChoiceConstants.OVERFLOW_HIDDEN, styleHandle.getOverflow( ) );
 	}
 
 	/**

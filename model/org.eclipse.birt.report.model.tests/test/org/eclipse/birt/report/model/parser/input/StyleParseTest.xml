@@ -197,6 +197,7 @@
                     <text-property name="display">Unknown</text-property>
                 </structure>
             </list-property>
+            <property name="overflow">scroll</property>
         </style>
         <style name="label">
             <property name="fontWeight">bolder</property>

@@ -2126,4 +2126,40 @@ public abstract class StyleHandle extends ReportElementHandle
 		setStringProperty( IStyleModel.BACKGROUND_IMAGE_TYPE_PROP, type );
 	}
 
+	/**
+	 * Returns the value of overflow property. The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>OVERFLOW_AUTO</code>
+	 * <li><code>OVERFLOW_HIDDEN</code>
+	 * <li><code>OVERFLOW_SCROLL</code>
+	 * <li><code>OVERFLOW_VISIBLE</code>
+	 * </ul>
+	 * 
+	 * @return the value of overflow property.
+	 */
+	public String getOverflow( )
+	{
+		return getStringProperty( OVERFLOW_PROP );
+	}
+
+	/**
+	 * Sets the value of overflow property. The input value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>OVERFLOW_AUTO</code>
+	 * <li><code>OVERFLOW_HIDDEN</code>
+	 * <li><code>OVERFLOW_SCROLL</code>
+	 * <li><code>OVERFLOW_VISIBLE</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the new overflow value
+	 * @throws SemanticException
+	 */
+	public void setOverflow( String value ) throws SemanticException
+	{
+		setStringProperty( OVERFLOW_PROP, value );
+	}
+
 }

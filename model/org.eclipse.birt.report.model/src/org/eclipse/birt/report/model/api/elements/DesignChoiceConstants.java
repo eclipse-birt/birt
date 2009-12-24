@@ -999,5 +999,13 @@ public interface DesignChoiceConstants
 	public static final String ACCESS_TYPE_TRANSIENT = "transient"; //$NON-NLS-1$
 	public static final String ACCESS_TYPE_SPECIFIC_VERSION = "specificVersion"; //$NON-NLS-1$
 	public static final String ACCESS_TYPE_LATEST = "latest"; //$NON-NLS-1$
-	
+
+	/**
+	 * Choice constants for overflow.
+	 */
+	public static final String CHOICE_OVERFLOW = "overflow"; //$NON-NLS-1$
+	public static final String OVERFLOW_VISIBLE = "visible"; //$NON-NLS-1$
+	public static final String OVERFLOW_HIDDEN = "hidden"; //$NON-NLS-1$
+	public static final String OVERFLOW_SCROLL = "scroll"; //$NON-NLS-1$
+	public static final String OVERFLOW_AUTO = "auto"; //$NON-NLS-1$
 };

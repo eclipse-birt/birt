@@ -87,3 +87,4 @@ stringFormat
 canShrink
 mapRules
 highlightRules
+overflow

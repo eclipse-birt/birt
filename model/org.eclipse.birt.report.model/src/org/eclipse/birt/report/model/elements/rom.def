@@ -631,6 +631,12 @@
   	<Choice displayNameID="Choices.thumbType.single" name="single"/>
   	<Choice displayNameID="Choices.thumbType.dual" name="dual"/>
   </ChoiceType>
+  <ChoiceType name="overflow">
+  	<Choice displayNameID="Choices.overflow.visible" name="visible"/>
+  	<Choice displayNameID="Choices.overflow.hidden" name="hidden"/>
+  	<Choice displayNameID="Choices.overflow.scroll" name="scroll"/>
+  	<Choice displayNameID="Choices.overflow.auto" name="auto"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -2315,6 +2321,9 @@
     </Property>
     <Property detailType="MapRule" displayNameID="Element.Style.map.rules" isList="true" isStyleProperty="true" name="mapRules" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="HighlightRule" displayNameID="Element.Style.highlight.rules" isList="true" isStyleProperty="true" name="highlightRules" since="1.0" type="structure"/>
+    <Property canInherit="false" detailType="overflow" displayNameID="Element.Style.overflow" isStyleProperty="true" name="overflow" since="2.5.2" type="choice">
+        <Default>visible</Default>
+    </Property>    
     <PropertyVisibility name="backgroundAttachment" visibility="hide"/>          
     <PropertyVisibility name="backgroundImage" visibility="hide"/>      
     <PropertyVisibility name="backgroundPositionX" visibility="hide"/>      

@@ -80,6 +80,7 @@
             <property name="showIfBlank">true</property>
             <property name="canShrink">true</property>
             <property name="bidiTextDirection">ltr</property>
+            <property name="overflow">auto</property>
             <list-property name="highlightRules">
                 <structure>
                     <property name="operator">eq</property>
@@ -203,7 +204,7 @@
                     <property name="operator">not-between</property>
                     <text-property name="display">Unknown</text-property>
                 </structure>
-            </list-property>
+            </list-property>            
         </style>
         <style name="label" id="3">
             <property name="backgroundColor">gray</property>
