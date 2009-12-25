@@ -2322,7 +2322,7 @@
     <Property detailType="MapRule" displayNameID="Element.Style.map.rules" isList="true" isStyleProperty="true" name="mapRules" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="HighlightRule" displayNameID="Element.Style.highlight.rules" isList="true" isStyleProperty="true" name="highlightRules" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="overflow" displayNameID="Element.Style.overflow" isStyleProperty="true" name="overflow" since="2.5.2" type="choice">
-        <Default>visible</Default>
+        <Default>hidden</Default>
     </Property>    
     <PropertyVisibility name="backgroundAttachment" visibility="hide"/>          
     <PropertyVisibility name="backgroundImage" visibility="hide"/>      
@@ -2554,6 +2554,7 @@
     <StyleProperty name="marginRight"/>
     <StyleProperty name="masterPage"/>
     <StyleProperty name="numberFormat"/>
+    <StyleProperty name="overflow"/>
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
@@ -2630,6 +2631,7 @@
     <StyleProperty name="marginLeft"/>
     <StyleProperty name="marginRight"/>
     <StyleProperty name="masterPage"/>
+    <StyleProperty name="overflow"/>    
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
@@ -2730,6 +2732,7 @@
     <StyleProperty name="masterPage"/>
     <StyleProperty name="numberFormat"/>
     <StyleProperty name="numberAlign"/>
+    <StyleProperty name="overflow"/>    
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
@@ -2810,6 +2813,7 @@
     <StyleProperty name="marginRight"/>
     <StyleProperty name="marginBottom"/>
     <StyleProperty name="masterPage"/>
+    <StyleProperty name="overflow"/>    
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
@@ -3134,6 +3138,7 @@
     <StyleProperty name="marginBottom"/>
     <StyleProperty name="marginLeft"/>
     <StyleProperty name="marginRight"/>
+    <StyleProperty name="overflow"/>    
     <PropertyVisibility name="viewAction" visibility="hide"/> 
     <PropertyVisibility name="repeat" visibility="hide"/>      
   </Element>
@@ -3337,6 +3342,7 @@
     <StyleProperty name="marginLeft"/>
     <StyleProperty name="marginRight"/>
     <StyleProperty name="masterPage"/>
+    <StyleProperty name="overflow"/>    
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
@@ -3480,6 +3486,7 @@
     <StyleProperty name="marginLeft"/>
     <StyleProperty name="marginRight"/>
     <StyleProperty name="masterPage"/>
+    <StyleProperty name="overflow"/>    
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
