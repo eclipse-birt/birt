@@ -44,8 +44,6 @@ import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
-import org.eclipse.datatools.connectivity.oda.spec.manifest.ExtensionContributor;
-import org.eclipse.datatools.connectivity.oda.spec.manifest.ResultExtensionExplorer;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -194,7 +192,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		// prepared query
 		private IPreparedDSQuery odiPreparedQuery;
 
-		private ValidationContext validationContext;
 		private QuerySpecification querySpec;
 
 		
@@ -220,37 +217,28 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		    if ( driverName == null || driverName.length() == 0 )
 		        throw new DataException( ResourceConstants.MISSING_DATASOURCE_EXT_ID,
 		        		extDS.getName( ) );
-		    
+
+		    ValidationContext validationContext = null;
 			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
 				validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
 				if ( validationContext != null )
 				{
-					validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
-
 					Properties connProperties = new Properties( );
 					// merge public and private driver properties into a single
 					// Map
-					Map driverProps = copyProperties( extDS.getPublicProperties( ),
-							extDS.getPrivateProperties( ) );
+					Map driverProps = copyProperties( ( (OdaDataSourceRuntime) dataSource ).getPublicProperties( ),
+							( (OdaDataSourceRuntime) dataSource ).getPrivateProperties( ) );
 
 					if ( driverProps != null )
 						connProperties.putAll( driverProps );
-					
+
 					QuerySpecHelper.setValidationConnectionContext( validationContext,
 							connProperties,
 							appContext );
-
-					querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
-							validationContext,
-							(IOdaDataSetDesign) dataSetDesign,
-							queryDefn,
-							dataEngine.getSession( ),
-							appContext,
-							contextVisitor );
 				}
 			}
-
+		    
 			Map driverProps;
 			// merge public and private driver properties into a single Map
 			if ( validationContext == null
@@ -294,6 +282,25 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			IDataSourceQuery odiQuery = null;
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
+			
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			{
+				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
+
+				if ( validationContext != null )
+				{
+					validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
+
+					querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
+							validationContext,
+							(IOdaDataSetDesign) dataSetDesign,
+							queryDefn,
+							dataEngine.getSession( ),
+							appContext,
+							contextVisitor );
+				}
+			}
+			
 			//Do not use cached DataSourceQuery when there is push-down operation
 			if ( querySpec != null )
 			{

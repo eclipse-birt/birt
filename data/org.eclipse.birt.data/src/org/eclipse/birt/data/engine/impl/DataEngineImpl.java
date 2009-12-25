@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -81,8 +82,8 @@ public class DataEngineImpl extends DataEngine
 
 	private IEngineExecutionHints queryExecutionHints;
 	
-	private Map<DataSourceAndDataSetExtensionIds, ValidationContext> validationContextMap
-		= new HashMap<DataSourceAndDataSetExtensionIds, ValidationContext>();
+	private Map<DataSourceAndDataSetNames, ValidationContext> validationContextMap
+		= new HashMap<DataSourceAndDataSetNames, ValidationContext>();
 	
 
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
@@ -759,18 +760,18 @@ public class DataEngineImpl extends DataEngine
 		this.session.getStopSign( ).stop( );
 	}
 	
-	public ValidationContext getValidationContext( String dataSourceExtensionId, String dataSetExtensionId )
+	public ValidationContext getValidationContext( DataSourceRuntime dataSource, IOdaDataSetDesign dataSet )
 	{
-		DataSourceAndDataSetExtensionIds key = new DataSourceAndDataSetExtensionIds(
-				dataSourceExtensionId, dataSetExtensionId );
+		DataSourceAndDataSetNames key = new DataSourceAndDataSetNames(
+				dataSource.getName( ), dataSet.getName( ) );
 		if ( !validationContextMap.containsKey( key ))
 		{
 			ExtensionContributor[] contributors = null;
 			try
 			{
-				contributors = ResultExtensionExplorer.getInstance( ).getContributorsOfDataSet( 
-						dataSourceExtensionId,
-						dataSetExtensionId );
+				contributors = ResultExtensionExplorer.getInstance( )
+						.getContributorsOfDataSet( dataSource.getExtensionID( ),
+								dataSet.getExtensionID( ) );
 			}
 			catch ( IllegalArgumentException e )
 			{
@@ -802,16 +803,16 @@ public class DataEngineImpl extends DataEngine
 		validationContextMap = null;
 	}
 	
-	public static class DataSourceAndDataSetExtensionIds 
+	public static class DataSourceAndDataSetNames 
 	{
-		private String dataSourceExtensionId;
-		private String dataSetExtensionId;
-		public DataSourceAndDataSetExtensionIds( String dataSourceExtensionId,
-				String dataSetExtensionId )
+		private String dataSourceName;
+		private String dataSetName;
+		public DataSourceAndDataSetNames( String dataSource,
+				String dataSet )
 		{
 			super( );
-			this.dataSourceExtensionId = dataSourceExtensionId;
-			this.dataSetExtensionId = dataSetExtensionId;
+			this.dataSourceName = dataSource;
+			this.dataSetName = dataSet;
 		}
 		@Override
 		public int hashCode( )
@@ -820,12 +821,12 @@ public class DataEngineImpl extends DataEngine
 			int result = 1;
 			result = prime
 					* result
-					+ ( ( dataSetExtensionId == null ) ? 0
-							: dataSetExtensionId.hashCode( ) );
+					+ ( ( dataSetName == null ) ? 0
+							: dataSetName.hashCode( ) );
 			result = prime
 					* result
-					+ ( ( dataSourceExtensionId == null ) ? 0
-							: dataSourceExtensionId.hashCode( ) );
+					+ ( ( dataSourceName == null ) ? 0
+							: dataSourceName.hashCode( ) );
 			return result;
 		}
 		@Override
@@ -837,20 +838,20 @@ public class DataEngineImpl extends DataEngine
 				return false;
 			if ( getClass( ) != obj.getClass( ) )
 				return false;
-			DataSourceAndDataSetExtensionIds other = (DataSourceAndDataSetExtensionIds) obj;
-			if ( dataSetExtensionId == null )
+			DataSourceAndDataSetNames other = (DataSourceAndDataSetNames) obj;
+			if ( dataSetName == null )
 			{
-				if ( other.dataSetExtensionId != null )
+				if ( other.dataSetName != null )
 					return false;
 			}
-			else if ( !dataSetExtensionId.equals( other.dataSetExtensionId ) )
+			else if ( !dataSetName.equals( other.dataSetName ) )
 				return false;
-			if ( dataSourceExtensionId == null )
+			if ( dataSourceName == null )
 			{
-				if ( other.dataSourceExtensionId != null )
+				if ( other.dataSourceName != null )
 					return false;
 			}
-			else if ( !dataSourceExtensionId.equals( other.dataSourceExtensionId ) )
+			else if ( !dataSourceName.equals( other.dataSourceName ) )
 				return false;
 			return true;
 		}

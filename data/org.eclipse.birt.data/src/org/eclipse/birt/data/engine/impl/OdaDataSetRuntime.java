@@ -54,8 +54,8 @@ public class OdaDataSetRuntime extends DataSetRuntime
         
 		DataEngineImpl de = (DataEngineImpl) session.getEngine( );
 		validationContext = de.getValidationContext( 
-				de.getDataSourceRuntime( dataSet.getDataSourceName( ) ).getExtensionID( ), 
-				dataSet.getExtensionID( )  );
+				de.getDataSourceRuntime( dataSet.getDataSourceName( ) ), 
+				dataSet );
         
 		logger.exiting( OdaDataSetRuntime.class.getName( ), "OdaDataSetRuntime" );
 		logger.log( Level.FINER, "OdaDataSetRuntime starts up" );
