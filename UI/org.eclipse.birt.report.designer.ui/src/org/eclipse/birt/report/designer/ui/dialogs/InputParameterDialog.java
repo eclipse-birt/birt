@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.parameters.AbstractParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
+import org.eclipse.birt.report.designer.ui.parameters.CheckBoxParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ComboBoxParameter;
 import org.eclipse.birt.report.designer.ui.parameters.IParameter;
 import org.eclipse.birt.report.designer.ui.parameters.IParameterAdapter;
@@ -36,6 +37,8 @@ import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -154,7 +157,8 @@ public class InputParameterDialog extends BaseDialog
 			}
 			catch ( BirtException e )
 			{
-				MessageDialog.openError( getShell( ), Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
+				MessageDialog.openError( getShell( ),
+						Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
 						Messages.getFormattedString( "InputParameterDialog.err.invalidValue",
 								new String[]{
 										paramValue.toString( ),
@@ -173,7 +177,8 @@ public class InputParameterDialog extends BaseDialog
 			}
 			catch ( BirtException e )
 			{
-				MessageDialog.openError( getShell( ), Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
+				MessageDialog.openError( getShell( ),
+						Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
 						e.getMessage( ) );
 				return;
 			}
@@ -397,6 +402,68 @@ public class InputParameterDialog extends BaseDialog
 					}
 				} );
 			}
+		}
+		else if ( param instanceof CheckBoxParameter )
+		{
+			final CheckBoxParameter cbParameter = (CheckBoxParameter) param;
+			Object value = null;
+
+			try
+			{
+				value = cbParameter.converToDataType( cbParameter.getDefaultValue( ) );
+			}
+			catch ( BirtException e )
+			{
+			}
+
+			if ( paramValues.containsKey( cbParameter.getHandle( ).getName( ) ) )
+			{
+				value = paramValues.get( cbParameter.getHandle( ).getName( ) );
+			}
+
+			paramValues.put( cbParameter.getHandle( ).getName( ), true );
+
+			container.setLayout( GridLayoutFactory.fillDefaults( )
+					.numColumns( 2 )
+					.create( ) );
+			label.setLayoutData( GridDataFactory.fillDefaults( )
+					.span( 2, 1 )
+					.create( ) );
+
+			Button btnTrue = new Button( container, SWT.RADIO );
+			btnTrue.setText( Messages.getString( "InputParameterDialog.boolean.true" ) );
+			btnTrue.setData( true );
+			btnTrue.setSelection( true );
+			btnTrue.addSelectionListener( new SelectionListener( ) {
+
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+				}
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					Button button = (Button) e.getSource( );
+					paramValues.put( cbParameter.getHandle( ).getName( ),
+							button.getData( ) );
+				}
+			} );
+
+			Button btnFalse = new Button( container, SWT.RADIO );
+			btnFalse.setText( Messages.getString( "InputParameterDialog.boolean.false" ) );
+			btnFalse.setData( false );
+			btnFalse.addSelectionListener( new SelectionListener( ) {
+
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+				}
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					Button button = (Button) e.getSource( );
+					paramValues.put( cbParameter.getHandle( ).getName( ),
+							button.getData( ) );
+				}
+			} );
 		}
 		else if ( param instanceof ListingParameter )
 		{
