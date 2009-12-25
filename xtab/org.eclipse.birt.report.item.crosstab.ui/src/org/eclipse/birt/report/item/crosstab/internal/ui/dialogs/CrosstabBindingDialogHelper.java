@@ -569,9 +569,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 							if ( items[i].equals( arg.getValue( ) ) )
 							{
 								cmbDataField.select( i );
-								break;
+								return;
 							}
 						}
+						cmbDataField.setText( arg.getValue( ) );
 						return;
 					}
 				}
