@@ -78,6 +78,11 @@ public final class ChartReportItemPresentationPlotImpl extends
 					{
 						bounds.setHeight( dHeight );
 					}
+					else if ( !bounds.isSetHeight( ) || ChartUtil.mathEqual( bounds.getHeight( ), 0 ) )
+					{
+						bounds.setHeight( ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) );
+					}
+					
 				}
 				else if ( xtabCell.getSpanOverOnRow( ) != null )
 				{
@@ -111,6 +116,10 @@ public final class ChartReportItemPresentationPlotImpl extends
 									ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ) ) )
 					{
 						bounds.setWidth( dWidth );
+					}
+					else if ( !bounds.isSetWidth( ) || ChartUtil.mathEqual( bounds.getWidth( ), 0 ) )
+					{
+						bounds.setWidth( ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ) );
 					}
 				}
 			}

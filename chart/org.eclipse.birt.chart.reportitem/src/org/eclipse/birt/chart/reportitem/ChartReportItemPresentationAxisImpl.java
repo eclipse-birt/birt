@@ -80,6 +80,10 @@ public final class ChartReportItemPresentationAxisImpl extends
 					{
 						bounds.setWidth( dWidth );
 					}
+					else if ( !bounds.isSetWidth( ) || ChartUtil.mathEqual( bounds.getWidth( ), 0 ) )
+					{
+						bounds.setWidth( ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ) );
+					}
 				}
 				else
 				{
@@ -94,6 +98,10 @@ public final class ChartReportItemPresentationAxisImpl extends
 									ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) ) )
 					{
 						bounds.setHeight( dHeight );
+					}
+					else if ( !bounds.isSetHeight( ) || ChartUtil.mathEqual( bounds.getHeight( ), 0 ) )
+					{
+						bounds.setHeight( ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) );
 					}
 				}
 			}
