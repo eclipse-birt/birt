@@ -3674,7 +3674,7 @@
     </Property>
     <Property displayNameID="Element.SortElement.locale" name="locale" runtimeSettable="false" since="2.5" type="locale"/>
   </Element>
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.FilterConditionElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.FilterConditionElement" name="FilterConditionElement" nameSpace="none" since="2.2" xmlName="filter-condition-element">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.FilterConditionElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.FilterConditionElement" name="FilterConditionElement" nameSpace="none" since="2.2" xmlName="filter-condition-element">
     <Property detailType="filterOperator" displayNameID="Element.FilterConditionElement.operator" name="operator" runtimeSettable="false" since="2.2" type="choice"/>
     <Property displayNameID="Element.FilterConditionElement.isOptional" name="isOptional" runtimeSettable="false" since="2.2" type="boolean">
       <Default>false</Default>
@@ -3694,6 +3694,8 @@
     	<Default>false</Default>
     </Property>
     <Property displayNameID="Element.FilterConditionElement.dynamicFilterParameter" name="dynamicFilterParameter" runtimeSettable="false" since="2.5" type="string"/>
+    <Property detailType="UserProperty" displayNameID="Element.DesignElement.userProperties" isList="true" name="userProperties" runtimeSettable="false" since="reserved" type="structure"/>
+    <PropertyVisibility name="userProperties" visibility="hide"/>
   </Element>    	
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateParameterDefinition" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateParameterDefinition" name="TemplateParameterDefinition" nameSpace="templateParameterDefinition" since="2.0" xmlName="template-parameter-definition">
   	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>

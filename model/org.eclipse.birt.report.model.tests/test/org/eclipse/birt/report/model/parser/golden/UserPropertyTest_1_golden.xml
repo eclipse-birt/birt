@@ -6,7 +6,6 @@
                 <structure>
                     <property name="name">TestProperty</property>
                     <property name="type">expression</property>
-                    <property name="isVisible">true</property>
                     <expression name="default" type="javascript">new Date()</expression>
                 </structure>
             </list-property>

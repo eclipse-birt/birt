@@ -9,7 +9,6 @@
                 <structure>
                     <property name="name">hello</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                 </structure>
             </list-property>
             <expression name="ACLExpression" type="constant">new ACL expression</expression>

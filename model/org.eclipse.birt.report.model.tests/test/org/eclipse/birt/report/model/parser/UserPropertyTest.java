@@ -140,6 +140,7 @@ public class UserPropertyTest extends BaseTestCase
 		Expression expr = new Expression( "new Date()",IExpressionType.JAVASCRIPT ); //$NON-NLS-1$
 		defn.setDefault( expr );
 		label.addUserPropertyDefn( defn );
+		assertTrue( defn.isVisible( ) );
 		
 		save( );
 		assertTrue( compareFile( "UserPropertyTest_1_golden.xml" ) ); //$NON-NLS-1$

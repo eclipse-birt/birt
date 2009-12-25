@@ -6,15 +6,12 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.StyleException;
-import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.Listener;
-import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
@@ -67,18 +64,6 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	 */
 
 	public final void addListener( Listener obj )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.DesignElementHandle#addUserPropertyDefn
-	 * (org.eclipse.birt.report.model.api.core.UserPropertyDefn)
-	 */
-	public final void addUserPropertyDefn( UserPropertyDefn prop )
-			throws UserPropertyException
 	{
 	}
 
@@ -219,30 +204,6 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	 */
 
 	public final String getQualifiedName( )
-	{
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.DesignElementHandle#getUserProperties()
-	 */
-
-	public final List getUserProperties( )
-	{
-		return Collections.EMPTY_LIST;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.birt.report.model.api.DesignElementHandle#
-	 * getUserPropertyDefnHandle(java.lang.String)
-	 */
-	public final UserPropertyDefnHandle getUserPropertyDefnHandle(
-			String propName )
 	{
 		return null;
 	}

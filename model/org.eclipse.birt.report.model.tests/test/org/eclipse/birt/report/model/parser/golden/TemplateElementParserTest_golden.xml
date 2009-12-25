@@ -71,12 +71,10 @@
                 <structure>
                     <property name="name">myProp1</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                 </structure>
                 <structure>
                     <property name="name">myProp2</property>
                     <property name="type">choice</property>
-                    <property name="isVisible">true</property>
                     <text-property name="displayName" key="abc"></text-property>
                     <list-property name="choices">
                         <structure>

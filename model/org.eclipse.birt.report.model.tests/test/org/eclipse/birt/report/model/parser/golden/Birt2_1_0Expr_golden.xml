@@ -56,7 +56,6 @@
                 <structure>
                     <property name="name">prop1</property>
                     <property name="type">expression</property>
-                    <property name="isVisible">true</property>
                     <text-property name="displayName" key="abcde"></text-property>
                 </structure>
             </list-property>

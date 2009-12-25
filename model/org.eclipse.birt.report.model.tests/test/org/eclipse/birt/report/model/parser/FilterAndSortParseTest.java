@@ -23,8 +23,11 @@ import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -197,5 +200,42 @@ public class FilterAndSortParseTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "FilterAndSortParseTest_golden.xml" ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Tests the cases for supporting user properties in FilterConditionElement.
+	 * 
+	 * @throws Exception
+	 */
+	public void testUserProperties( ) throws Exception
+	{
+		openDesign( "FilterAndSortParseTest_1.xml" ); //$NON-NLS-1$
+		DesignElementHandle testTable = designHandle.findElement( "testTable" ); //$NON-NLS-1$
+		assertNotNull( testTable );
+
+		// test user property in filter condition element
+		List valueList = testTable.getListProperty( "filter" ); //$NON-NLS-1$
+		assertEquals( 2, valueList.size( ) );
+		FilterConditionElementHandle filter = (FilterConditionElementHandle) valueList
+				.get( 0 );
+		List<UserPropertyDefn> userProps = filter.getUserProperties( );
+		assertEquals( 1, userProps.size( ) );
+		UserPropertyDefn userProp = userProps.get( 0 );
+		assertEquals( userProp, filter.getPropertyDefn( userProp.getName( ) ) );
+		assertEquals(
+				"valueProp1", filter.getStringProperty( userProp.getName( ) ) ); //$NON-NLS-1$
+
+		// add user property in filter condition element
+		filter = (FilterConditionElementHandle) valueList.get( 1 );
+		userProp = new UserPropertyDefn( );
+		userProp.setName( "userProp2" ); //$NON-NLS-1$
+		userProp.setType( MetaDataDictionary.getInstance( ).getPropertyType(
+				IPropertyType.INTEGER_TYPE ) );
+		filter.addUserPropertyDefn( userProp );
+		filter.setIntProperty( userProp.getName( ), 12 );
+
+		// save and test writer
+		save( );
+		assertTrue( compareFile( "FilterAndSortParseTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 }

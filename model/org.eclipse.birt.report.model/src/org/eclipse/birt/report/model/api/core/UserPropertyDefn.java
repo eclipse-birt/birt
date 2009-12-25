@@ -62,7 +62,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	/**
 	 * Mark property is visible or not.
 	 */
-	private Boolean isVisible = Boolean.valueOf( true );
+	private Boolean isVisible = null;
 
 	/**
 	 * Name of the type member.
@@ -181,7 +181,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 	public Object getProperty( Module module, PropertyDefn prop )
 	{
-		return getLocalProperty( module, prop );
+		Object value = getLocalProperty( module, prop );
+		return value == null ? prop.getDefault( ) : value;
 	}
 
 	/**
@@ -228,7 +229,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			assert value instanceof Boolean;
 			isVisible = (Boolean) value;
 		}
-		else if ( memberName.equals( DEFAULT_MEMBER ) ) 
+		else if ( memberName.equals( DEFAULT_MEMBER ) )
 		{
 			setDefault( value );
 		}
@@ -640,11 +641,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 	public boolean isVisible( )
 	{
-		if ( isVisible != null )
-		{
-			return isVisible.booleanValue( );
-		}
-		return true;
+		Boolean value = (Boolean) getProperty( null, ISVISIBLE_MEMBER );
+		return value == null ? true : value.booleanValue( );
 	}
 
 	/**

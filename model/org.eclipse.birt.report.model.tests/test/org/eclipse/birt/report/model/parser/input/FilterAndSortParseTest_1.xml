@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+    <body>
+    	<extended-item extensionName="TestingTable" name="testTable">
+    		<property name="filter">
+    			<filter-condition-element>
+    				<property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+                    <list-property name="userProperties">
+                		<structure>
+                    		<property name="name">uProp1</property>
+                    		<property name="type">string</property>
+                    		<text-property name="displayName" key="abcde"></text-property>
+                		</structure>
+            		</list-property>
+            		<property name="uProp1">valueProp1</property>               
+    			</filter-condition-element>
+    			<filter-condition-element>
+    				<property name="operator">lt</property>
+    			</filter-condition-element>
+    		</property>    		
+    	</extended-item>    	
+    </body>
+</report>

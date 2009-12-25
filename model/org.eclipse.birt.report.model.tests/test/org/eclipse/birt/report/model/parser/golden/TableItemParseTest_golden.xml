@@ -248,7 +248,6 @@
                             <structure>
                                 <property name="name">hello</property>
                                 <property name="type">string</property>
-                                <property name="isVisible">true</property>
                             </structure>
                         </list-property>
                         <label id="33">

@@ -12,7 +12,6 @@
                 <structure>
                     <property name="name">tmpVar</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                 </structure>
             </list-property>
             <property name="tmpVar">1</property>        

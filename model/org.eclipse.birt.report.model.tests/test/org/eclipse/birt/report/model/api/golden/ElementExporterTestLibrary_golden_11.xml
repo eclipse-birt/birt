@@ -17,7 +17,6 @@
                 <structure>
                     <property name="name">myProp1</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                     <text-property name="displayName" key="abc"></text-property>
                 </structure>
             </list-property>
