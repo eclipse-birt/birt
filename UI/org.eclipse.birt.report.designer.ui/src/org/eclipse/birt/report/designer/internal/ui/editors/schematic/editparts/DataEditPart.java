@@ -12,12 +12,14 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.jface.dialogs.Dialog;
@@ -32,6 +34,7 @@ public class DataEditPart extends LabelEditPart
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "DataEditPart.Figure.Dafault" ); //$NON-NLS-1$
 	protected static final String AGGREGATE_ON = Messages.getString( "DataEditPart.text.AggregateOn" ); //$NON-NLS-1$
 	protected static final String PREFIX = "\u2211"; //$NON-NLS-1$
+
 	/**
 	 * Constructor
 	 * 
@@ -62,74 +65,60 @@ public class DataEditPart extends LabelEditPart
 	{
 		DataItemHandle handle = (DataItemHandle) getModel( );
 		/*
-		 Object dialogAdapter = ElementAdapterManager.getAdapter( handle, AbstractDataBindingDialog.class );
-		 if ( dialogAdapter != null )
-		 {
-		 AbstractDataBindingDialog dialog = (AbstractDataBindingDialog) dialogAdapter;
-		 dialog.setTitle( "Edit data item binding" );
-		 dialog.setInput( handle );
-		 dialog.setBindingHolder( getBindingHolder(handle) );
-		 dialog.setBindingHandle( DEUtil.getInputBinding( handle,
-		 handle.getResultSetColumn( ) ) );
-		 dialog.setEdit( true );
-		 handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
-		 if ( dialog.open( ) == Dialog.OK )
-		 {
-		 try
-		 {
-		 if ( dialog.getBindingColumn( ) != null )
-		 {
-		 handle.setResultSetColumn( dialog.getBindingColumn( )
-		 .getName( ) );
-		 }
-		 handle.getModuleHandle( ).getCommandStack( ).commit( );
-		 }
-		 catch ( SemanticException e )
-		 {
-		 ExceptionHandler.handle( e );
-		 handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
-		 }
-		 }
-		 else
-		 {
-		 handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
-		 }
-		 }
+		 * Object dialogAdapter = ElementAdapterManager.getAdapter( handle,
+		 * AbstractDataBindingDialog.class ); if ( dialogAdapter != null ) {
+		 * AbstractDataBindingDialog dialog = (AbstractDataBindingDialog)
+		 * dialogAdapter; dialog.setTitle( "Edit data item binding" );
+		 * dialog.setInput( handle ); dialog.setBindingHolder(
+		 * getBindingHolder(handle) ); dialog.setBindingHandle(
+		 * DEUtil.getInputBinding( handle, handle.getResultSetColumn( ) ) );
+		 * dialog.setEdit( true ); handle.getModuleHandle( ).getCommandStack(
+		 * ).startTrans( null ); if ( dialog.open( ) == Dialog.OK ) { try { if (
+		 * dialog.getBindingColumn( ) != null ) { handle.setResultSetColumn(
+		 * dialog.getBindingColumn( ) .getName( ) ); } handle.getModuleHandle(
+		 * ).getCommandStack( ).commit( ); } catch ( SemanticException e ) {
+		 * ExceptionHandler.handle( e ); handle.getModuleHandle(
+		 * ).getCommandStack( ).rollbackAll( ); } } else {
+		 * handle.getModuleHandle( ).getCommandStack( ).rollbackAll( ); } }
 		 */
-		handle.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
+		handle.getModuleHandle( )
+				.getCommandStack( )
+				.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( handle.getResultSetColumn( ) == null );
 		if ( handle.getResultSetColumn( ) != null )
 		{
-			//			DataItemBindingAggregateOnProvider provider;
-			//			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
-			//					handle.getResultSetColumn( ) );
-			//			if ( bindingColumn == null )
-			//			{
-			//				provider = new NODataItemBindingAggregateOnProvider( );
-			//				dialog.setProvider( provider );
-			//			}
-			//			else
-			//			{
-			//				Object obj = bindingColumn.getElementHandle( );
-			//				EditPart part = (EditPart) getViewer( ).getEditPartRegistry( )
-			//						.get( obj );
+			// DataItemBindingAggregateOnProvider provider;
+			// ComputedColumnHandle bindingColumn = DEUtil.getInputBinding(
+			// handle,
+			// handle.getResultSetColumn( ) );
+			// if ( bindingColumn == null )
+			// {
+			// provider = new NODataItemBindingAggregateOnProvider( );
+			// dialog.setProvider( provider );
+			// }
+			// else
+			// {
+			// Object obj = bindingColumn.getElementHandle( );
+			// EditPart part = (EditPart) getViewer( ).getEditPartRegistry( )
+			// .get( obj );
 			//
-			//				if ( part == null )
-			//				{
-			//					provider = new NODataItemBindingAggregateOnProvider( );
-			//				}
-			//				else
-			//				{
-			//					provider = (DataItemBindingAggregateOnProvider) part.getAdapter( DataItemBindingAggregateOnProvider.class );
-			//				}
-			//				if ( provider == null )
-			//				{
-			//					provider = new NODataItemBindingAggregateOnProvider( );
-			//				}
-			//				provider.setDataItemHandle( handle );
+			// if ( part == null )
+			// {
+			// provider = new NODataItemBindingAggregateOnProvider( );
+			// }
+			// else
+			// {
+			// provider = (DataItemBindingAggregateOnProvider) part.getAdapter(
+			// DataItemBindingAggregateOnProvider.class );
+			// }
+			// if ( provider == null )
+			// {
+			// provider = new NODataItemBindingAggregateOnProvider( );
+			// }
+			// provider.setDataItemHandle( handle );
 			//
-			////				dialog.setProvider( provider );
-			//			}
+			// // dialog.setProvider( provider );
+			// }
 			dialog.setInput( handle, DEUtil.getInputBinding( handle,
 					handle.getResultSetColumn( ) ) );
 		}
@@ -169,7 +158,9 @@ public class DataEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
 	{
@@ -181,7 +172,9 @@ public class DataEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#getText()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .LabelEditPart#getText()
 	 */
 	protected String getText( )
 	{
@@ -192,8 +185,8 @@ public class DataEditPart extends LabelEditPart
 		}
 		else
 		{
-			String displayName = getDisplayName();
-			if(displayName != null && displayName.length( ) > 0)
+			String displayName = getDisplayName( );
+			if ( displayName != null && displayName.length( ) > 0 )
 			{
 				text = displayName;
 			}
@@ -208,59 +201,77 @@ public class DataEditPart extends LabelEditPart
 			// handle them correctly.
 			if ( BidiUIUtils.INSTANCE.isDirectionRTL( getModel( ) ) )
 				text = BidiUIUtils.LRE + "[" + BidiUIUtils.RLE + text + //$NON-NLS-1$
-					BidiUIUtils.PDF + "]" + BidiUIUtils.PDF; //$NON-NLS-1$
+						BidiUIUtils.PDF
+						+ "]" + BidiUIUtils.PDF; //$NON-NLS-1$
 			else
-			// bidi_hcg end
+				// bidi_hcg end
 				text = "[" + text + "]"; //$NON-NLS-1$//$NON-NLS-2$
 		}
-		if (hasBindingFunction( ))
+		if ( hasBindingFunction( ) )
 		{
-			((LabelFigure)getFigure( )).setSpecialPREFIX( PREFIX );
+			( (LabelFigure) getFigure( ) ).setSpecialPREFIX( PREFIX );
 			text = PREFIX + text;
 		}
 		return text;
 	}
 
-	protected boolean hasBindingFunction()
+	protected boolean hasBindingFunction( )
 	{
 		DataItemHandle handle = (DataItemHandle) getModel( );
 		String name = handle.getResultSetColumn( );
-		if (name == null)
+		if ( name == null )
 		{
 			return false;
 		}
-		ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle, name );
-		if (bindingColumn == null)
+		ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
+				name );
+		if ( bindingColumn == null )
 		{
 			return false;
 		}
-		if (bindingColumn.getAggregateFunction( ) != null)
+		if ( bindingColumn.getAggregateFunction( ) != null )
 		{
 			return true;
 		}
 		return false;
 	}
-	
-	protected String getDisplayName()
+
+	protected String getDisplayName( )
 	{
 		DataItemHandle handle = (DataItemHandle) getModel( );
 		String name = handle.getResultSetColumn( );
-		if (name == null)
+		if ( name == null )
 		{
 			return null;
 		}
-		ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle, name );
-		if (bindingColumn == null)
+		ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
+				name );
+		if ( bindingColumn == null )
 		{
 			return null;
 		}
-
-		return bindingColumn.getDisplayName( );
+		String displayName = null;
+		if ( bindingColumn.getDisplayName( ) == null
+				&& bindingColumn.getDisplayNameID( ) != null )
+		{
+			displayName = bindingColumn.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+					ColumnHint.DISPLAY_NAME_MEMBER );
+		}
+		else
+		{
+			displayName = bindingColumn.getDisplayName( );
+		}
+		if ( displayName == null )
+			displayName = bindingColumn.getColumnName( );
+		return displayName;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#hasText()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .LabelEditPart#hasText()
 	 */
 	protected boolean hasText( )
 	{

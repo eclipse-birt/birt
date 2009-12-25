@@ -647,6 +647,9 @@ public class InsertInLayoutUtil
 					ExpressionUtility.setBindingColumnExpression( model,
 							bindingColumn );
 					bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
+					String displayKey = UIUtil.getColumnDisplayNameKey( model );
+					if ( displayKey != null )
+						bindingColumn.setDisplayNameID( displayKey );
 					tableHandle.addColumnBinding( bindingColumn, false );
 					dataHandle.setResultSetColumn( model.getColumnName( ) );
 
@@ -750,6 +753,9 @@ public class InsertInLayoutUtil
 			bindingColumn.setDataType( model.getDataType( ) );
 			ExpressionUtility.setBindingColumnExpression( model, bindingColumn );
 			bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
+			String displayKey = UIUtil.getColumnDisplayNameKey( model );
+			if ( displayKey != null )
+				bindingColumn.setDisplayNameID( displayKey );
 			if ( target instanceof DesignElementHandle )
 			{
 				if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
@@ -895,6 +901,9 @@ public class InsertInLayoutUtil
 			bindingColumn.setDataType( model.getDataType( ) );
 			ExpressionUtility.setBindingColumnExpression( model, bindingColumn );
 			bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
+			String displayKey = UIUtil.getColumnDisplayNameKey( model );
+			if ( displayKey != null )
+				bindingColumn.setDisplayNameID( displayKey );
 			if ( target instanceof DesignElementHandle )
 			{
 				if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
@@ -1462,6 +1471,9 @@ public class InsertInLayoutUtil
 						ExpressionUtility.setBindingColumnExpression( columns[j],
 								bindingColumn );
 						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( columns[j] ) );
+						String displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
+						if ( displayKey != null )
+							bindingColumn.setDisplayNameID( displayKey );
 						tableHandle.addColumnBinding( bindingColumn, false );
 					}
 				}

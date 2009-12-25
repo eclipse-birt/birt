@@ -1731,16 +1731,41 @@ public class UIUtil
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
 					|| column.getColumnName( ).equals( element.getAlias( ) ) )
 			{
-				if ( element.getDisplayNameKey( ) != null )
+				if ( element.getDisplayName( ) == null
+						&& element.getDisplayNameKey( ) != null )
 				{
-					return element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
 							ColumnHint.DISPLAY_NAME_MEMBER );
+					if ( displayName != null )
+						return displayName;
 				}
 				return element.getDisplayName( ) == null ? column.getColumnName( )
 						: element.getDisplayName( );
 			}
 		}
 		return column.getColumnName( );
+	}
+
+	/**
+	 * Return the display name of dataset column
+	 * 
+	 * @param column
+	 * @return
+	 */
+	public static String getColumnDisplayNameKey( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getDisplayNameKey( );
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -2670,8 +2695,8 @@ public class UIUtil
 				} );
 		handle.setCreatedBy( designerVersion );
 	}
-	
-	public static void setDPI(ReportDesignHandle handle)
+
+	public static void setDPI( ReportDesignHandle handle )
 	{
 		int[] DPI = getScreenResolution( );
 		try
@@ -2696,7 +2721,7 @@ public class UIUtil
 		};
 
 		Display display = Display.getCurrent( );
-		if (display == null)
+		if ( display == null )
 		{
 			display = Display.getDefault( );
 		}
@@ -2705,18 +2730,20 @@ public class UIUtil
 			Point p = display.getDPI( );
 			dpi[0] = p.x;
 			dpi[1] = p.y;
-			
+
 			return dpi;
 		}
-		final Point[] points = new Point[]{new Point(0,0)};
+		final Point[] points = new Point[]{
+			new Point( 0, 0 )
+		};
 		final Display tempDisplay = display;
 		display.syncExec( new Runnable( ) {
-			
+
 			public void run( )
 			{
 				points[0] = tempDisplay.getDPI( );
 			}
-		});
+		} );
 		dpi[0] = points[0].x;
 		dpi[1] = points[0].y;
 		return dpi;
