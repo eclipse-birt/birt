@@ -228,7 +228,7 @@ public class ParameterFactory
 		}
 		else if ( controlType.equals( CHECK_BOX ) )
 		{
-			param = new StaticTextParameter( paramHandle, task );
+			param = new CheckBoxParameter( paramHandle, task );
 		}
 
 		return param;

@@ -406,20 +406,6 @@ public class InputParameterDialog extends BaseDialog
 		else if ( param instanceof CheckBoxParameter )
 		{
 			final CheckBoxParameter cbParameter = (CheckBoxParameter) param;
-			Object value = null;
-
-			try
-			{
-				value = cbParameter.converToDataType( cbParameter.getDefaultValue( ) );
-			}
-			catch ( BirtException e )
-			{
-			}
-
-			if ( paramValues.containsKey( cbParameter.getHandle( ).getName( ) ) )
-			{
-				value = paramValues.get( cbParameter.getHandle( ).getName( ) );
-			}
 
 			paramValues.put( cbParameter.getHandle( ).getName( ), true );
 
