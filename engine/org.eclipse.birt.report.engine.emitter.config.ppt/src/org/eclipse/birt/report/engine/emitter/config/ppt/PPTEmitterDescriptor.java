@@ -32,6 +32,7 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor
 	protected static final String FONT_SUBSTITUTION = "FontSubstitution";
 	protected static final String BIDI_PROCESSING = "BIDIProcessing";
 	protected static final String TEXT_WRAPPING = "TextWrapping";
+	protected static final String CHART_DPI = "ChartDpi";
 
 	private IConfigurableOption[] options;
 
@@ -105,8 +106,20 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor
 		pageOverFlow.setDescription( Messages
 				.getString( "OptionDescription.PageOverFlow" ) ); //$NON-NLS-1$
 
+		// Initializes the option for chart DPI.
+		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
+		chartDpi.setDisplayName( Messages
+				.getString( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
+		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
+		chartDpi
+				.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		chartDpi.setDefaultValue( new Integer( 192 ) );
+		chartDpi.setToolTip( null );
+		chartDpi.setDescription( Messages
+				.getString( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow,};
+				fontSubstitution, pageOverFlow, chartDpi};
 	}
 
 	@Override
@@ -162,6 +175,10 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( FONT_SUBSTITUTION.equals( name ) )
 		{
 			return IPDFRenderOption.PDF_FONT_SUBSTITUTION;
+		}
+		if ( CHART_DPI.equals( name ) )
+		{
+			return IRenderOption.CHART_DPI;
 		}
 		return name;
 	}

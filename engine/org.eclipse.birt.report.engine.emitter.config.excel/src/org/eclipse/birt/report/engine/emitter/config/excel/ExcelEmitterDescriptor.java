@@ -29,6 +29,7 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 {
 
 	protected static final String TEXT_WRAPPING = "TextWrapping";
+	protected static final String CHART_DPI = "ChartDpi";
 
 	protected IConfigurableOption[] options;
 
@@ -41,8 +42,20 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 	{
 		// Initializes the option for WrappingText.
 		ConfigurableOption wrappingText = initializeWrappingText( );
-
-		options = new IConfigurableOption[]{wrappingText};
+		
+		// Initializes the option for chart DPI.
+		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
+		chartDpi.setDisplayName( Messages
+				.getString( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
+		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
+		chartDpi
+				.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		chartDpi.setDefaultValue( new Integer( 192 ) );
+		chartDpi.setToolTip( null );
+		chartDpi.setDescription( Messages
+				.getString( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+		
+		options = new IConfigurableOption[]{wrappingText, chartDpi};
 	}
 
 	protected ConfigurableOption initializeWrappingText( )
@@ -106,6 +119,10 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 		{
 			return IExcelRenderOption.WRAPPING_TEXT;
 		}
+		if ( CHART_DPI.equals( name ) )
+		{
+			return IRenderOption.CHART_DPI;
+		}
 		return name;
 	}
 
@@ -126,7 +143,6 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 
 			renderOption.setEmitterID( getID( ) );
 			renderOption.setOutputFormat( "xls" ); //$NON-NLS-1$
-
 			
 			for ( IOptionValue optionValue : values )
 			{

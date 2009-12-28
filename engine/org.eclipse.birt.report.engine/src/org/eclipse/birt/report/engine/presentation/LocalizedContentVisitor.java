@@ -74,6 +74,7 @@ import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.script.internal.OnRenderScriptVisitor;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -797,46 +798,50 @@ public class LocalizedContentVisitor
 		return outputFormat;
 	}
 	
-	/**
-	 * @return whether the output format is for printing
-	 */
-	protected boolean isForPrinting( )
-	{
-		String outputFormat = getOutputFormat( );
-		if ( "FO".equalsIgnoreCase( outputFormat )
-				|| "PDF".equalsIgnoreCase( outputFormat )
-				||"POSTSCRIPT".equalsIgnoreCase( outputFormat ))
-			return true;
-		return false;
-	}
+//	private static final String PRINTING_FORMATS = "pdf;postscript;ppt;doc;xls";
+//	/**
+//	 * @return whether the output format is for printing
+//	 */
+//	protected boolean isForPrinting( )
+//	{
+//		String outputFormat = getOutputFormat( );
+//		if ( PRINTING_FORMATS.indexOf( outputFormat.toLowerCase( ) ) != -1 )
+//			return true;
+//		return false;
+//	}
 	
-	private int getChartResolution( )
+	private int getChartResolution( IContent content )
 	{
-		Map appContext = context.getAppContext( );
 		int resolution = 0;
-		if ( appContext != null )
+		Object chartDpi = context.getRenderOption( ).getOption(
+				IRenderOption.CHART_DPI );
+		if ( chartDpi != null && chartDpi instanceof Number )
 		{
-			Object tmp = appContext
-					.get( EngineConstants.APPCONTEXT_CHART_RESOLUTION );
-			if ( tmp != null && tmp instanceof Number )
+			resolution = ( (Number) chartDpi ).intValue( );
+		}
+		if ( resolution == 0 )
+		{
+			Map appContext = context.getAppContext( );
+			if ( appContext != null )
 			{
-				resolution = ( (Number) tmp ).intValue( );
-				if ( resolution < 96 )
+				Object tmp = appContext
+						.get( EngineConstants.APPCONTEXT_CHART_RESOLUTION );
+				if ( tmp != null && tmp instanceof Number )
 				{
-					resolution = 96;
+					resolution = ( (Number) tmp ).intValue( );
 				}
 			}
 		}
-		if ( 0 == resolution )
+		if ( resolution < 96 )
 		{
-			if ( isForPrinting( ) )
+			Object renderOptionDpi = context.getRenderOption( ).getOption(
+					IRenderOption.RENDER_DPI );
+			int dpi = 0;
+			if ( renderOptionDpi != null && renderOptionDpi instanceof Integer )
 			{
-				resolution = 192;
+				dpi = ( (Integer) renderOptionDpi ).intValue( );
 			}
-			else
-			{
-				resolution = 96;
-			}
+			resolution = PropertyUtil.getRenderDpi( content, dpi );
 		}
 		return resolution;
 	}
@@ -856,7 +861,7 @@ public class LocalizedContentVisitor
 	{
 		StringBuffer buffer = new StringBuffer( );
 		buffer.append( content.getInstanceID( ).toUniqueString( ) );
-		buffer.append( getChartResolution( ) );
+		buffer.append( getChartResolution( content ) );
 		buffer.append( getChartFormats( ) );
 		buffer.append( locale );
 		return buffer.toString( );
@@ -946,7 +951,7 @@ public class LocalizedContentVisitor
 							.getApplicationClassLoader( ) );
 			info.setReportContext( context.getReportContext( ) );
 			info.setReportQueries( queries );
-			resolution = getChartResolution( );
+			resolution = getChartResolution( content );
 			info.setResolution( resolution );
 			info.setExtendedItemContent( content );
 			info.setSupportedImageFormats( getChartFormats( ) );

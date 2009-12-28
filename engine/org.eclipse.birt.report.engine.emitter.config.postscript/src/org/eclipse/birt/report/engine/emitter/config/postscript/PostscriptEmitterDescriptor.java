@@ -33,6 +33,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String FONT_SUBSTITUTION = "FontSubstitution";
 	private static final String BIDI_PROCESSING = "BIDIProcessing";
 	private static final String TEXT_WRAPPING = "TextWrapping";
+	private static final String CHART_DPI = "ChartDpi";
 
 	private IConfigurableOption[] options;
 
@@ -176,9 +177,21 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		paperTray.setDescription( Messages
 				.getString( "OptionDescription.PaperTray" ) ); //$NON-NLS-1$
 
+		// Initializes the option for chart DPI.
+		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
+		chartDpi.setDisplayName( Messages
+				.getString( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
+		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
+		chartDpi
+				.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		chartDpi.setDefaultValue( new Integer( 192 ) );
+		chartDpi.setToolTip( null );
+		chartDpi.setDescription( Messages
+				.getString( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
 				fontSubstitution, pageOverFlow, copies, collate, duplex,
-				paperSize, paperTray};
+				paperSize, paperTray, chartDpi};
 	}
 
 	@Override
@@ -234,6 +247,10 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( FONT_SUBSTITUTION.equals( name ) )
 		{
 			return IPDFRenderOption.PDF_FONT_SUBSTITUTION;
+		}
+		if ( CHART_DPI.equals( name ) )
+		{
+			return IRenderOption.CHART_DPI;
 		}
 		return name;
 	}

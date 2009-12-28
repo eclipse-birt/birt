@@ -71,7 +71,7 @@ public interface IPDFRenderOption extends IRenderOption
 	/**
 	 * The customer defined DPI setting for image display. 
 	 */
-	public static final String DPI = "pdfRenderOption.dpi";
+	public static final String DPI = IRenderOption.RENDER_DPI;
 	
 	/**
 	 * @deprecated

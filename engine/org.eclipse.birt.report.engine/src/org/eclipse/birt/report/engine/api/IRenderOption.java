@@ -36,6 +36,12 @@ public interface IRenderOption extends ITaskOption
 
 	public static final String LOCALE = "locale"; //$NON-NLS-1$
 
+	/** The DPI which layout engine uses to convert pixel to an abstract length*/
+	public static final String RENDER_DPI = "RenderDpi";
+	
+	/** The DPI which chart engine uses to generate charts*/
+	public static final String CHART_DPI = "ChartDpi";
+	
 	public static final String SUPPORTED_IMAGE_FORMATS = "supportedImageFormats";
 
 	public static final String BASE_URL = "baseUrl";

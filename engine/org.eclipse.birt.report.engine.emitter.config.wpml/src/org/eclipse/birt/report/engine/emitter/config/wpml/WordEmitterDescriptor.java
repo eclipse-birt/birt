@@ -15,8 +15,10 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
 import org.eclipse.birt.report.engine.emitter.config.AbstractEmitterDescriptor;
+import org.eclipse.birt.report.engine.emitter.config.ConfigurableOption;
 import org.eclipse.birt.report.engine.emitter.config.IConfigurableOption;
 import org.eclipse.birt.report.engine.emitter.config.IConfigurableOptionObserver;
+import org.eclipse.birt.report.engine.emitter.config.IOptionValue;
 import org.eclipse.birt.report.engine.emitter.config.wpml.i18n.Messages;
 
 /**
@@ -24,7 +26,31 @@ import org.eclipse.birt.report.engine.emitter.config.wpml.i18n.Messages;
  */
 public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 {
+	protected static final String CHART_DPI = "ChartDpi";
+	
+	protected IConfigurableOption[] options;
+	
+	public WordEmitterDescriptor( )
+	{
+		initOptions( );
+	}
 
+	private void initOptions( )
+	{
+		// Initializes the option for chart DPI.
+		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
+		chartDpi.setDisplayName( Messages
+				.getString( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
+		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
+		chartDpi
+				.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		chartDpi.setDefaultValue( new Integer( 192 ) );
+		chartDpi.setToolTip( null );
+		chartDpi.setDescription( Messages
+				.getString( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+		
+		options = new IConfigurableOption[]{chartDpi};
+	}
 	@Override
 	public IConfigurableOptionObserver createOptionObserver( )
 	{
@@ -63,6 +89,16 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 	{
 		return "org.eclipse.birt.report.engine.emitter.word"; //$NON-NLS-1$
 	}
+	
+	public String getRenderOptionName( String name )
+	{
+		assert name != null;
+		if ( CHART_DPI.equals( name ) )
+		{
+			return IRenderOption.CHART_DPI;
+		}
+		return name;
+	}
 
 	class WordOptionObserver extends AbstractConfigurableOptionObserver
 	{
@@ -70,7 +106,7 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 		@Override
 		public IConfigurableOption[] getOptions( )
 		{
-			return null;
+			return options;
 		}
 
 		@Override
@@ -81,7 +117,14 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 			renderOption.setEmitterID( getID( ) );
 			renderOption.setOutputFormat( "doc" ); //$NON-NLS-1$
 
-			// TODO set option values
+			for ( IOptionValue optionValue : values )
+			{
+				if ( optionValue != null )
+				{
+					renderOption.setOption( getRenderOptionName( optionValue
+							.getName( ) ), optionValue.getValue( ) );
+				}
+			}
 
 			return renderOption;
 		}

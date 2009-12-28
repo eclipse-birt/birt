@@ -272,8 +272,8 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			Object dpi = options.get( IPDFRenderOption.DPI );
 			if ( dpi != null && dpi instanceof Integer )
 			{
-				int screenDpi = ( (Integer) dpi ).intValue( );
-				context.setDpi( screenDpi );
+				int renderDpi = ( (Integer) dpi ).intValue( );
+				context.setDpi( renderDpi );
 			}
 			
 			Object supportedImageFormats = options.get( IRenderOption.SUPPORTED_IMAGE_FORMATS );

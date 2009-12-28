@@ -33,6 +33,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String BIDI_PROCESSING = "BIDIProcessing";
 	private static final String TEXT_WRAPPING = "TextWrapping";
 	private static final String EMBEDDED_FONT = "EmbeddedFont";
+	private static final String CHART_DPI = "ChartDpi";
 
 	private IConfigurableOption[] options;
 
@@ -121,9 +122,21 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		embeddedFont.setToolTip( null );
 		embeddedFont.setDescription( Messages
 				.getString( "OptionDescription.EmbeddedFont" ) ); //$NON-NLS-1$
+		
+		// Initializes the option for chart DPI.
+		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
+		chartDpi.setDisplayName( Messages
+				.getString( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
+		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
+		chartDpi
+				.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		chartDpi.setDefaultValue( new Integer( 192 ) );
+		chartDpi.setToolTip( null );
+		chartDpi.setDescription( Messages
+				.getString( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow, embeddedFont};
+				fontSubstitution, pageOverFlow, embeddedFont, chartDpi};
 
 	}
 
@@ -184,6 +197,10 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( EMBEDDED_FONT.equals( name ) )
 		{
 			return IPDFRenderOption.IS_EMBEDDED_FONT;
+		}
+		if ( CHART_DPI.equals( name ) )
+		{
+			return IRenderOption.CHART_DPI;
 		}
 		return name;
 	}
