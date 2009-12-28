@@ -1636,6 +1636,12 @@
     <Member displayNameID="Structure.IncludedDataMart.fileName" isIntrinsic="true" name="fileName" since="2.5" type="string"/>
     <Member displayNameID="Structure.IncludedDataMart.namespace" isIntrinsic="true" name="namespace" since="2.5" type="string"/>
   </Structure>
+  <Structure displayNameID="Structure.TimeInterval" name="TimeInterval" since="2.5.2">
+    <Member displayNameID="Structure.TimeInterval.measure" isIntrinsic="true" name="measure" since="2.5.2" type="integer"/>
+    <Member detailType="interval" displayNameID="Structure.TimeInterval.unit" isIntrinsic="true" name="unit" since="2.5.2" type="choice">
+    	<Allowed>hour,minute,second</Allowed>
+    </Member>
+  </Structure>  
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
   	<Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
   	<Property canInherit="false" displayNameID="Element.Module.title" name="title" runtimeSettable="false" since="1.0" type="string"/>

@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.api.elements.structures.TimeInterval;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.Library;
@@ -599,5 +600,15 @@ public class StructureFactory
 	public static SortHint createSortHint( )
 	{
 		return new SortHint( );
+	}
+
+	/**
+	 * Creates a new time interval.
+	 * 
+	 * @return a time interval.
+	 */
+	public static TimeInterval createTimeInterval( )
+	{
+		return new TimeInterval( );
 	}
 }
