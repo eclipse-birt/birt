@@ -17,7 +17,7 @@ import java.io.Serializable;
  * The dummy object to hold tha report paramter attributes
  *
  */
-class DummyParameterAttribute implements Serializable
+public class DummyParameterAttribute implements Serializable
 {
 
 	private static final long serialVersionUID = 29392938327489L;

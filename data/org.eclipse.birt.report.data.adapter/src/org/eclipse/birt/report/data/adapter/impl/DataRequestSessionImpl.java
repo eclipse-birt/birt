@@ -163,6 +163,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineDataSet( IBaseDataSetDesign design ) throws BirtException
 	{
+		if ( design.getDataSourceName( ) != null )
+		{
+			TransientDataMartUtil.prepareDataSet( sessionContext.getAppContext( ),
+					sessionContext.getDataEngineContext( ),
+					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
+					design );
+		}
 		dataEngine.defineDataSet( design );
 	}
 
@@ -610,7 +617,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public void defineCube( CubeHandle cubeHandle ) throws BirtException
 	{
 		if( CubeHandleUtil.defineCube( this.dataEngine,
-				cubeHandle ))
+				cubeHandle, this.sessionContext.getAppContext( ) ))
 			return; 
 		Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
 		Iterator itr = involvedDataSets.iterator( );
@@ -642,7 +649,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param stopSign
 	 * @throws BirtException
 	 */
-	private void materializeCube( CubeHandle cubeHandle, Map appContext ) throws BirtException
+	void materializeCube( CubeHandle cubeHandle, Map appContext ) throws BirtException
 	{
 		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
