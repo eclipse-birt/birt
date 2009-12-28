@@ -41,6 +41,7 @@ marginBottom
 marginLeft
 marginRight
 masterPage
+overflow
 paddingTop
 paddingLeft
 paddingBottom
