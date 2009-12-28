@@ -112,6 +112,14 @@ public class PreparedQueryUtil
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			{
+				IPreparedQuery preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
+						queryDefn,
+						dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ),
+						appContext,
+						contextVisitor );
+				if ( preparedQuery != null )
+					return preparedQuery;
+				
 				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ));
 			}
 			
