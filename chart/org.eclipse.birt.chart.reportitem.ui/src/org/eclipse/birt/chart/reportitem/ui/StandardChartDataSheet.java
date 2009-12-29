@@ -20,12 +20,12 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
-import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
@@ -72,6 +72,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -925,6 +926,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	
 	public Composite createDataSelector( Composite parent )
 	{
+		// select the only data set
+		if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
+				&& itemHandle.getContainer( ) instanceof ModuleHandle )
+		{
+			String[] dataSets = dataProvider.getAllDataSets( );
+			if ( dataProvider.getAllDataCubes( ).length == 0
+					&& dataSets.length == 1 )
+			{
+				dataProvider.setDataSet( dataSets[0] );
+			}
+		}
+
 		Composite cmpDataSet = ChartUIUtil.createCompositeWrapper( parent );
 		{
 			cmpDataSet.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -1486,33 +1499,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					getContext().setShowingDataPreview( Boolean.valueOf( w.getSelection( ) ) );
 					updateDragDataSource( );
 				}
-				if ( event.widget == btnInherit || event.widget == cmbDataItems )
-				{
-					List<SeriesDefinition> sds = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) );
-					if ( sds != null && sds.size( ) > 0 )
-					{
-						SeriesDefinition base = sds.get( 0 );
-
-						if ( selectDataTypes.get( cmbDataItems.getSelectionIndex( ) )
-								.intValue( ) == SELECT_DATA_SET
-								&& !ChartUIConstants.TYPE_GANTT.equals( getChartModel( ).getType( ) ) )
-						{
-							if ( base.getGrouping( ) == null )
-							{
-								base.setGrouping( SeriesGroupingImpl.create( ) );
-							}
-							base.getGrouping( ).setEnabled( true );
-						}
-						else if ( ChartUIConstants.TYPE_GANTT.equals( getChartModel( ).getType( ) ) )
-						{
-							if ( base.getGrouping( ) != null )
-							{
-								base.getGrouping( ).setEnabled( false );
-							}
-
-						}
-					}
-				}
 				checkColBindingForCube( );
 				ChartWizard.removeException( ChartWizard.StaChartDSh_switch_ID );
 			}
@@ -1927,6 +1913,24 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				}
 			}
 
+		}
+		else if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
+		{
+			DataType type = context.getDataServiceProvider( )
+					.getDataType( expr );
+			ChartAdapter.beginIgnoreNotifications( );
+			if ( seriesDefinition.getGrouping( ) == null )
+			{
+				query.setGrouping( DataFactoryImpl.init( )
+						.createSeriesGrouping( ) );
+			}
+			seriesDefinition.getGrouping( ).setGroupType( type );
+			if ( type == DataType.DATE_TIME_LITERAL )
+			{
+				seriesDefinition.getGrouping( )
+						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
+			}
+			ChartAdapter.endIgnoreNotifications( );
 		}
 
 		query.setDefinition( actualExpr );

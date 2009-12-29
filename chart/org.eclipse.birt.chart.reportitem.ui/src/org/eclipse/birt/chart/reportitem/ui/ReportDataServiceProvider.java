@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
@@ -778,6 +779,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					// Clean old bindings and add new bindings
 					clearBindings( );
 					generateBindings( generateComputedColumns( dataset ) );
+
+					// enable default category grouping
+					List<SeriesDefinition> sds = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) );
+					if ( sds != null && sds.size( ) > 0 )
+					{
+						SeriesDefinition base = sds.get( 0 );
+
+						if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( )
+								.getType( ) ) )
+						{
+							if ( base.getGrouping( ) == null )
+							{
+								base.setGrouping( SeriesGroupingImpl.create( ) );
+							}
+							base.getGrouping( ).setEnabled( true );
+						}
+					}
 				}
 			}
 			ChartWizard.removeException( ChartWizard.RepDSProvider_Set_ID );

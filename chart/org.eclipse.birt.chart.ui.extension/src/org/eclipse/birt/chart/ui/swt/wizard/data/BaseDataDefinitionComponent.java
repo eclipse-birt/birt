@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -1151,6 +1152,24 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				}
 			}
 
+		}
+		else if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
+		{
+			DataType type = context.getDataServiceProvider( )
+					.getDataType( expression );
+			ChartAdapter.beginIgnoreNotifications( );
+			if ( seriesdefinition.getGrouping( ) == null )
+			{
+				query.setGrouping( DataFactoryImpl.init( )
+						.createSeriesGrouping( ) );
+			}
+			seriesdefinition.getGrouping( ).setGroupType( type );
+			if ( type == DataType.DATE_TIME_LITERAL )
+			{
+				seriesdefinition.getGrouping( )
+						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
+			}
+			ChartAdapter.endIgnoreNotifications( );
 		}
 
 
