@@ -519,7 +519,6 @@ public class DataProcessor
 				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
 		final Series seBaseRuntimeSeries = seBaseDesignSeries.copyInstance( );
-		sdBase.getSeries( ).add( seBaseRuntimeSeries );
 
 		int iOrthogonalSeriesDefinitionCount = 0;
 		int iBaseColumnIndex = 0;
@@ -560,6 +559,7 @@ public class DataProcessor
 			fillSeriesDataSet( cwoa,
 					seBaseRuntimeSeries,
 					rsw.getSubset( iBaseColumnIndex ) );
+			sdBase.getSeries( ).add( seBaseRuntimeSeries );
 
 			// POPULATE ONE ORTHOGONAL SERIES
 			Series seOrthogonalDesignSeries;
@@ -676,6 +676,7 @@ public class DataProcessor
 			fillSeriesDataSet( (IDataSetProcessor) baseData[1],
 					seBaseRuntimeSeries,
 					(DataSet) baseData[0] );
+			sdBase.getSeries( ).add( seBaseRuntimeSeries );
 
 			int odx = 0;
 
@@ -732,7 +733,6 @@ public class DataProcessor
 				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
 		final Series seBaseRuntimeSeries = seBaseDesignSeries.copyInstance( );
-		sdBase.getSeries( ).add( seBaseRuntimeSeries );
 
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
 		int iOrthogonalSeriesDefinitionCount = 0;
@@ -781,6 +781,7 @@ public class DataProcessor
 			fillSeriesDataSet( cwa,
 					seBaseRuntimeSeries,
 					rsw.getSubset( iBaseColumnIndex ) );
+			sdBase.getSeries( ).add( seBaseRuntimeSeries );
 
 			// POPULATE ONE ORTHOGONAL SERIES
 			Series seOrthogonalDesignSeries;
@@ -907,6 +908,7 @@ public class DataProcessor
 			fillSeriesDataSet( (IDataSetProcessor) baseData[1],
 					seBaseRuntimeSeries,
 					(DataSet) baseData[0] );
+			sdBase.getSeries( ).add( seBaseRuntimeSeries );
 
 			int odx = 0;
 
