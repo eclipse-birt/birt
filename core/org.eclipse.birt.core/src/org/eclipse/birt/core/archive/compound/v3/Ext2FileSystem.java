@@ -256,7 +256,7 @@ public class Ext2FileSystem
 		throw new UnsupportedOperationException( "refresh" );
 	}
 
-	boolean isReadOnly( )
+	public boolean isReadOnly( )
 	{
 		return readOnly;
 	}

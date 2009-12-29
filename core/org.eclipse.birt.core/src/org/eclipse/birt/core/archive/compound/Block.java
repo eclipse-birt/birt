@@ -55,7 +55,7 @@ public class Block implements ArchiveConstants, Cacheable
 		cacheKey = Integer.valueOf( blockId );
 		blockSize = size;
 		blockData = new byte[size];
-		id = -1;
+		id = blockId;
 		dirtyStart = 0;
 		dirtyEnd = 0;
 		dataSize = 0;

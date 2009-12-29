@@ -65,9 +65,13 @@ public class ArchiveEntryInputStream extends RAInputStream
 	 */
 	public int read( ) throws IOException
 	{
-		entry.read( offset, buffer, 0, 1 );
-		offset++;
-		return buffer[0] & 0xff;
+		int size = entry.read( offset, buffer, 0, 1 );
+		if ( size >= 1 )
+		{
+			offset++;
+			return buffer[0] & 0xff;
+		}
+		return -1;
 	}
 
 	public int available( ) throws IOException
@@ -114,16 +118,24 @@ public class ArchiveEntryInputStream extends RAInputStream
 
 	public int readInt( ) throws IOException
 	{
-		entry.read( offset, buffer, 0, 4 );
-		offset += 4;
-		return ArchiveUtil.bytesToInteger( buffer );
+		int size = entry.read( offset, buffer, 0, 4 );
+		if ( size == 4 )
+		{
+			offset += 4;
+			return ArchiveUtil.bytesToInteger( buffer );
+		}
+		throw new EOFException( );
 	}
 
 	public long readLong( ) throws IOException
 	{
-		entry.read( offset, buffer, 0, 8 );
-		offset += 8;
-		return ArchiveUtil.bytesToLong( buffer );
+		int size = entry.read( offset, buffer, 0, 8 );
+		if ( size == 8 )
+		{
+			offset += 8;
+			return ArchiveUtil.bytesToLong( buffer );
+		}
+		throw new EOFException( );
 	}
 
 	public void refresh( ) throws IOException

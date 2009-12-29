@@ -121,8 +121,16 @@ public class ArchiveFileV3 implements IArchiveFile
 		return files;
 	}
 
-	public Object lockEntry( String name ) throws IOException
+	public synchronized Object lockEntry( String name ) throws IOException
 	{
+		if ( !fs.existFile( name ) )
+		{
+			if ( !fs.isReadOnly( ) )
+			{
+				Ext2File file = fs.createFile( name );
+				file.close( );
+			}
+		}
 		Ext2Entry entry = fs.getEntry( name );
 		if ( entry != null )
 		{
@@ -152,7 +160,7 @@ public class ArchiveFileV3 implements IArchiveFile
 		fs.setCacheSize( cacheSize );
 	}
 
-	public void unlockEntry( Object locker ) throws IOException
+	synchronized public void unlockEntry( Object locker ) throws IOException
 	{
 		assert ( locker instanceof Ext2Node );
 	}

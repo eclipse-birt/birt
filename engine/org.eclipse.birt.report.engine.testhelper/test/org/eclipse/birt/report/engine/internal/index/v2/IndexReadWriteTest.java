@@ -43,9 +43,6 @@ public class IndexReadWriteTest extends TestCase
 				writer.close( );
 			}
 
-			System.out.println( entryCount + " size:"
-					+ af.getEntry( ENTRY_NAME ).getLength( ) );
-
 			IndexReader reader = new IndexReader( new ArchiveReader( af ),
 					ENTRY_NAME );
 			try
@@ -90,9 +87,6 @@ public class IndexReadWriteTest extends TestCase
 			{
 				writer.close( );
 			}
-
-			System.out.println( entryCount + " size:"
-					+ af.getEntry( ENTRY_NAME ).getLength( ) );
 
 			IndexReader reader = new IndexReader( new ArchiveReader( af ),
 					ENTRY_NAME );

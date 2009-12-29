@@ -525,14 +525,18 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 */
 	private boolean useNativeLock = false;
 
-	public Object lockEntry( String name ) throws IOException
+	synchronized public Object lockEntry( String name ) throws IOException
 	{
 		assertOpen( );
 
 		ArchiveEntryV2 entry = entries.get( name );
 		if ( entry == null )
 		{
-			throw new FileNotFoundException( name );
+			if ( !isWritable )
+			{
+				throw new FileNotFoundException( name );
+			}
+			entry = (ArchiveEntryV2) createEntry( name );
 		}
 		if ( useNativeLock )
 		{
@@ -546,7 +550,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		return entry;
 	}
 
-	public void unlockEntry( Object locker ) throws IOException
+	synchronized public void unlockEntry( Object locker ) throws IOException
 	{
 		assertOpen( );
 		if ( locker instanceof FileLock )

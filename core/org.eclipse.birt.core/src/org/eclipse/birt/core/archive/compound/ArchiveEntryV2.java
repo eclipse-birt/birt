@@ -34,6 +34,8 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		{
 			index = af.allocTbl.loadEntry( cachId );
 		}
+		cachedBlockId = -1;
+		cachedBlock = null;
 	}
 
 	public void close( ) throws IOException
