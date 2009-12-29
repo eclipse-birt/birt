@@ -407,7 +407,7 @@ public class InputParameterDialog extends BaseDialog
 		{
 			final CheckBoxParameter cbParameter = (CheckBoxParameter) param;
 
-			paramValues.put( cbParameter.getHandle( ).getName( ), true );
+			paramValues.put( cbParameter.getHandle( ).getName( ), false );
 
 			container.setLayout( GridLayoutFactory.fillDefaults( )
 					.numColumns( 2 )
@@ -416,11 +416,9 @@ public class InputParameterDialog extends BaseDialog
 					.span( 2, 1 )
 					.create( ) );
 
-			Button btnTrue = new Button( container, SWT.RADIO );
-			btnTrue.setText( Messages.getString( "InputParameterDialog.boolean.true" ) );
-			btnTrue.setData( true );
-			btnTrue.setSelection( true );
-			btnTrue.addSelectionListener( new SelectionListener( ) {
+			Button btnCheck = new Button( container, SWT.CHECK );
+			btnCheck.setText( Messages.getString( "InputParameterDialog.boolean.checked" ) );
+			btnCheck.addSelectionListener( new SelectionListener( ) {
 
 				public void widgetDefaultSelected( SelectionEvent e )
 				{
@@ -430,26 +428,10 @@ public class InputParameterDialog extends BaseDialog
 				{
 					Button button = (Button) e.getSource( );
 					paramValues.put( cbParameter.getHandle( ).getName( ),
-							button.getData( ) );
+							button.getSelection( ) );
 				}
 			} );
 
-			Button btnFalse = new Button( container, SWT.RADIO );
-			btnFalse.setText( Messages.getString( "InputParameterDialog.boolean.false" ) );
-			btnFalse.setData( false );
-			btnFalse.addSelectionListener( new SelectionListener( ) {
-
-				public void widgetDefaultSelected( SelectionEvent e )
-				{
-				}
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					Button button = (Button) e.getSource( );
-					paramValues.put( cbParameter.getHandle( ).getName( ),
-							button.getData( ) );
-				}
-			} );
 		}
 		else if ( param instanceof ListingParameter )
 		{
