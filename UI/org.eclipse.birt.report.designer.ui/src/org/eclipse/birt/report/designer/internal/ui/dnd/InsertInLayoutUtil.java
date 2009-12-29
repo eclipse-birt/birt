@@ -641,7 +641,7 @@ public class InsertInLayoutUtil
 				if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( model ) ) )
 				{
 
-					ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
+					ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
 							model.getColumnName( ) );
 					bindingColumn.setDataType( model.getDataType( ) );
 					ExpressionUtility.setBindingColumnExpression( model,
@@ -748,7 +748,7 @@ public class InsertInLayoutUtil
 		if ( targetParent instanceof ReportItemHandle )
 		{
 			ReportItemHandle container = (ReportItemHandle) targetParent;
-			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
+			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( container,
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
 			ExpressionUtility.setBindingColumnExpression( model, bindingColumn );
