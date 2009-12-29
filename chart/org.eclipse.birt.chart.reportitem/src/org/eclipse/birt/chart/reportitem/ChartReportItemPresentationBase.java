@@ -487,6 +487,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		// unsets it on its precedent container
 
 		Bounds bounds = originalBounds.copyInstance( );
+		if ( !bounds.isSetHeight( ) )
+		{
+			bounds.setHeight( ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT );
+		}
+		if ( !bounds.isSetWidth( ) )
+		{
+			bounds.setWidth( ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH );
+		}
 		return bounds;
 	}
 
@@ -718,7 +726,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		// If width and height of chart is set to 0, doesn't process it.
 		Bounds bo = cm.getBlock( ).getBounds( );
-		if ( bo.getWidth( ) == 0 && bo.getHeight( ) == 0 )
+		if ( bo.getWidth( ) == 0 && bo.getHeight( ) == 0 && ( bo.isSetHeight( ) || bo.isSetWidth( ) ))
 		{
 			return null;
 		}
