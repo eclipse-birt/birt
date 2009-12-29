@@ -12,14 +12,21 @@
 package org.eclipse.birt.report.engine.internal.presentation;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.archive.compound.ArchiveReader;
+import org.eclipse.birt.core.archive.compound.ArchiveWriter;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -68,7 +75,8 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 	public IReportDocument openReportDocument( ) throws BirtException
 	{
 		IReportEngine engine = context.getEngine( );
-		String documentName = context.getReportDocWriter( ).getName( );
+		ReportDocumentWriter writer = context.getReportDocWriter( );
+		String documentName = writer.getName( );
 		if ( new File( documentName ).isDirectory( ) )
 		{
 			char lastChar = documentName.charAt( documentName.length( ) - 1 );
@@ -76,6 +84,28 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 					&& lastChar != File.separatorChar )
 			{
 				documentName = documentName + File.separatorChar;
+			}
+		}
+		if ( !finished )
+		{
+			IDocArchiveWriter arcWriter = writer.getArchive( );
+			if ( arcWriter instanceof ArchiveWriter )
+			{
+				IArchiveFile archive = ( (ArchiveWriter) arcWriter )
+						.getArchive( );
+				try
+				{
+					IDocArchiveReader arcReader = new ArchiveReader( archive );
+					IReportDocument document = engine.openReportDocument(
+							documentName, arcReader, new HashMap( ) );
+					return new TransientReportDocument( document, context,
+							pageNumber, params, parameterDisplayTexts, beans,
+							finished );
+				}
+				catch ( IOException ex )
+				{
+					return null;
+				}
 			}
 		}
 		IReportDocument document = engine.openReportDocument( documentName );
