@@ -106,6 +106,12 @@ public class ExecutorManager
 	 * array of free list
 	 */
 	protected FastPool[] freeList = new FastPool[NUMBER];
+	
+	/**
+	 * the sequence id of the auto generated bookmarks for the report items that
+	 * with query defined and has no user defined bookmarks.
+	 */
+	private int sequenceID = 0;
 
 	/**
 	 * constructor
@@ -128,6 +134,17 @@ public class ExecutorManager
 	long generateUniqueID( )
 	{
 		return executor.generateUniqueID( );
+	}
+	
+	/**
+	 * generate bookmarks automatically for the report items that with query
+	 * defined and has not user specifed bookmarks.
+	 * 
+	 * @return
+	 */
+	public String nextBookmarkID( )
+	{
+		return "__bookmark_" + ( ++sequenceID );
 	}
 
 	public IExecutorContext getExecutorContext( )
@@ -451,5 +468,8 @@ public class ExecutorManager
 			}
 			return null;
 		}
+		
+		
+		
 	}
 }

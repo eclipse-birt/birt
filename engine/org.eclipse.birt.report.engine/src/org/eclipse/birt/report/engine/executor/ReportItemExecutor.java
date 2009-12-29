@@ -326,7 +326,18 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 */
 	protected void processBookmark( ReportItemDesign item, IContent itemContent )
 	{
-		Object tmp = evaluate( item.getBookmark( ) );
+		Object tmp = null;
+		if ( item.getBookmark( ) == null )
+		{
+			if ( item.getQuery( ) != null )
+			{
+				tmp = this.manager.nextBookmarkID( );
+			}
+		}
+		else
+		{
+			tmp = evaluate( item.getBookmark( ) );
+		}
 		if ( tmp != null && !tmp.equals( "" ) )
 		{
 			String bookmark = tmp.toString( );

@@ -114,10 +114,22 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 					handleOnCreate( content );
 				}
 
+				setupBookmark( );
 				startTOCEntry( content );
 			}
 		}
 		return content;
+	}
+
+	private void setupBookmark( )
+	{
+		if ( content.getBookmark( ) == null )
+		{
+			if ( design != null && design.getQuery( ) != null )
+			{
+				content.setBookmark( manager.nextBookmarkID( ) );
+			}
+		}
 	}
 
 	public boolean hasNextChild( ) throws BirtException
