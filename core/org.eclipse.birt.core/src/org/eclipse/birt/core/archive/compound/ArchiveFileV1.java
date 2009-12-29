@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,9 +8,10 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
- 
+
 package org.eclipse.birt.core.archive.compound;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-class ArchiveFileV1 implements IArchiveFile
+
+public class ArchiveFileV1 implements IArchiveFile
 {
 
 	String archiveName;
@@ -28,9 +30,10 @@ class ArchiveFileV1 implements IArchiveFile
 	/**
 	 * streams in the file. each entry is a stream name and start, end pos pair.
 	 */
-	private HashMap lookupMap = new HashMap( );
+	private HashMap<String, ArchiveEntryV1> lookupMap = new HashMap<String, ArchiveEntryV1>( );
 
-	ArchiveFileV1( String archiveName, RandomAccessFile rf ) throws IOException
+	public ArchiveFileV1( String archiveName, RandomAccessFile rf )
+			throws IOException
 	{
 		this.archiveName = archiveName;
 		this.rf = rf;
@@ -49,7 +52,7 @@ class ArchiveFileV1 implements IArchiveFile
 		}
 	}
 
-	ArchiveFileV1( String archiveName ) throws IOException
+	public ArchiveFileV1( String archiveName ) throws IOException
 	{
 		this( archiveName, null );
 	}
@@ -85,6 +88,7 @@ class ArchiveFileV1 implements IArchiveFile
 	{
 		return archiveName;
 	}
+
 	public String getDependId( )
 	{
 		// Do not implement this api
@@ -110,7 +114,7 @@ class ArchiveFileV1 implements IArchiveFile
 	{
 		// V1 doesn't support the cache size
 	}
-	
+
 	public int getUsedCache( )
 	{
 		return 0;
@@ -120,7 +124,9 @@ class ArchiveFileV1 implements IArchiveFile
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.core.archive.compound.ArchiveFile#createEntry(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.core.archive.compound.ArchiveFile#createEntry(java.lang
+	 * .String)
 	 */
 	public synchronized ArchiveEntry createEntry( String name )
 			throws IOException
@@ -131,7 +137,9 @@ class ArchiveFileV1 implements IArchiveFile
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.core.archive.compound.ArchiveFile#exists(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.core.archive.compound.ArchiveFile#exists(java.lang.String
+	 * )
 	 */
 	public boolean exists( String name )
 	{
@@ -143,18 +151,23 @@ class ArchiveFileV1 implements IArchiveFile
 		throw new IOException( "read only archive" );
 	}
 
-	public ArchiveEntry getEntry( String name )
+	public ArchiveEntry openEntry( String name ) throws IOException
 	{
-		return (ArchiveEntryV1) lookupMap.get( name );
+		ArchiveEntryV1 entry = lookupMap.get( name );
+		if ( entry != null )
+		{
+			return entry;
+		}
+		throw new FileNotFoundException( name );
 	}
 
-	public List listEntries( String namePattern )
+	public List<String> listEntries( String namePattern )
 	{
-		ArrayList list = new ArrayList( );
-		Iterator iter = lookupMap.keySet( ).iterator( );
+		ArrayList<String> list = new ArrayList<String>( );
+		Iterator<String> iter = lookupMap.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String name = (String) iter.next( );
+			String name = iter.next( );
 			if ( namePattern == null || name.startsWith( namePattern ) )
 			{
 				list.add( name );
@@ -172,9 +185,14 @@ class ArchiveFileV1 implements IArchiveFile
 		throw new IOException( "read only archive" );
 	}
 
-	public Object lockEntry( ArchiveEntry entry ) throws IOException
+	public Object lockEntry( String stream ) throws IOException
 	{
-		return entry;
+		ArchiveEntryV1 entry = lookupMap.get( stream );
+		if ( entry != null )
+		{
+			return entry;
+		}
+		throw new FileNotFoundException( "not exist stream " + stream );
 	}
 
 	public void unlockEntry( Object locker ) throws IOException

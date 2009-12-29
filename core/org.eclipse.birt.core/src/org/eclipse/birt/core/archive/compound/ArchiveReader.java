@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -53,9 +53,9 @@ public class ArchiveReader implements IDocArchiveReader
 		}
 
 		archiveName = fd.getCanonicalPath( ); // make sure the file name is an
-		
+
 		// absolute path
-		
+
 		shareArchive = false;
 		archive = new ArchiveFile( archiveName, "r" );
 	}
@@ -90,14 +90,10 @@ public class ArchiveReader implements IDocArchiveReader
 	{
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		ArchiveEntry entry = archive.getEntry( relativePath );
-		if ( entry != null )
-		{
-			return new ArchiveEntryInputStream( entry );
-		}
-		throw new IOException( relativePath + " doesn't exist" );
+		ArchiveEntry entry = archive.openEntry( relativePath );
+		return new ArchiveEntryInputStream( entry );
 	}
-	
+
 	public RAInputStream getInputStream( String relativePath )
 			throws IOException
 	{
@@ -106,7 +102,7 @@ public class ArchiveReader implements IDocArchiveReader
 
 	public List listAllStreams( ) throws IOException
 	{
-		ArrayList list = new ArrayList( );
+		ArrayList<String> list = new ArrayList<String>( );
 		list.addAll( archive.listEntries( "/" ) );
 		return list;
 	}
@@ -136,14 +132,11 @@ public class ArchiveReader implements IDocArchiveReader
 	{
 	}
 
-	public Object lock( String stream ) throws IOException
+	public Object lock( String relativePath ) throws IOException
 	{
-		ArchiveEntry entry = archive.getEntry( stream );
-		if ( entry != null )
-		{
-			return archive.lockEntry( entry );
-		}
-		throw new IOException( "can't find the entry " + stream );
+		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
+		return archive.lockEntry( relativePath );
 	}
 
 	public void unlock( Object locker )

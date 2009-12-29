@@ -18,21 +18,21 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
-
 public class ArchiveViewTest extends TestCase
 {
+
 	static final String TEST_FOLDER = "./utest/";
 	static final String ARCHIVE_FILE = TEST_FOLDER + "archive.rptdocument";
 	static final String VIEW_FILE = TEST_FOLDER + "view.rptdocument";
 	static final String REPORT_DOCUMENT_RESOURCE = "org/eclipse/birt/core/archive/compound/ArchiveViewTest.rptdocument";
-	
+
 	public void setUp( )
-	{	
+	{
 		new File( TEST_FOLDER ).mkdirs( );
-		
+
 		copyResource( REPORT_DOCUMENT_RESOURCE, ARCHIVE_FILE );
 	}
-	
+
 	public void tearDown( )
 	{
 		new File( ARCHIVE_FILE ).delete( );
@@ -40,7 +40,7 @@ public class ArchiveViewTest extends TestCase
 		new File( TEST_FOLDER ).delete( );
 		new File( ARCHIVE_FILE ).delete( );
 	}
-	
+
 	public void testModify( ) throws IOException
 	{
 		final int entryCount = 100;
@@ -51,6 +51,7 @@ public class ArchiveViewTest extends TestCase
 		{
 			ArchiveEntry entry = archive.createEntry( "/entry/" + index );
 			entry.write( 0, mes, 0, index );
+			entry.close( );
 		}
 		archive.flush( );
 		ArchiveFile viewFile = new ArchiveFile( VIEW_FILE, "rw" );
@@ -60,14 +61,14 @@ public class ArchiveViewTest extends TestCase
 		// [1-50] should be what we input. and [51-100] should be null.
 		for ( int index = 1; index <= entryCount / 2; index++ )
 		{
-			ArchiveEntry entry = view.getEntry( "/entry/" + index );
+			ArchiveEntry entry = view.openEntry( "/entry/" + index );
 			assertTrue( entry != null );
-			assertTrue( entry.getLength( ) == index );
+			assertEquals( index, entry.getLength( ) );
+			entry.close( );
 		}
 		for ( int index = entryCount / 2 + 1; index <= entryCount; index++ )
 		{
-			ArchiveEntry entry = view.getEntry( "/entry/" + index );
-			assertTrue( entry == null );
+			assertTrue( !view.exists( "/entry/" + index ) );
 		}
 
 		// 4. modify all 100 entries, and save the data into view document.
@@ -75,30 +76,36 @@ public class ArchiveViewTest extends TestCase
 		{
 			ArchiveEntry entry = view.createEntry( "/entry/" + index );
 			entry.write( 0, mes, 0, index * 2 );
+			entry.close( );
 		}
 
 		// 5. verify the entries in view document
 		for ( int index = 1; index <= entryCount; index++ )
 		{
-			ArchiveEntry entry = view.getEntry( "/entry/" + index );
+			ArchiveEntry entry = view.openEntry( "/entry/" + index );
 			assertTrue( entry != null );
 			assertTrue( entry.getLength( ) == index * 2 );
+			entry.close( );
 		}
+		view.close( );
+		viewFile.close( );
+		archive.close( );
 
 		// 6. verify the entries in archive document
 		archive = new ArchiveFile( ARCHIVE_FILE, "r" );
 		for ( int index = 1; index <= entryCount / 2; index++ )
 		{
-			ArchiveEntry entry = archive.getEntry( "/entry/" + index );
+			ArchiveEntry entry = archive.openEntry( "/entry/" + index );
 			assertTrue( entry != null );
 			assertTrue( entry.getLength( ) == index );
+			entry.close( );
 		}
 	}
-	
-	public void testReadAndWrite() throws IOException
+
+	public void testReadAndWrite( ) throws IOException
 	{
-		ArchiveFile archiveFile = new ArchiveFile(ARCHIVE_FILE,"rw");
-		ArchiveFile viewFile = new ArchiveFile(VIEW_FILE,"rw");
+		ArchiveFile archiveFile = new ArchiveFile( ARCHIVE_FILE, "rw" );
+		ArchiveFile viewFile = new ArchiveFile( VIEW_FILE, "rw" );
 		ArchiveView view = new ArchiveView( viewFile, archiveFile, false );
 		view.setCacheSize( 64 * 1024 );
 		createArchive( view );
@@ -108,7 +115,7 @@ public class ArchiveViewTest extends TestCase
 		view.close( );
 		assertTrue( view.getUsedCache( ) == 0 );
 	}
-	
+
 	public void testReadAndWriteV2( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "r" );
@@ -149,10 +156,10 @@ public class ArchiveViewTest extends TestCase
 		catch ( Exception ex )
 		{
 			ex.printStackTrace( );
-			fail();
+			fail( );
 		}
 	}
-	
+
 	public void createArchive( IArchiveFile archive ) throws IOException
 	{
 		int entryCount = 1024;
@@ -161,6 +168,7 @@ public class ArchiveViewTest extends TestCase
 		{
 			ArchiveEntry entry = archive.createEntry( "/entry/" + i );
 			entry.write( 0, b, 0, i );
+			entry.close( );
 		}
 	}
 
@@ -169,9 +177,16 @@ public class ArchiveViewTest extends TestCase
 		int entryCount = 1024;
 		for ( int i = 0; i < entryCount; i++ )
 		{
-			ArchiveEntry entry = archive.getEntry( "/entry/" + i );
-			assertTrue( entry != null );
-			assertEquals( i, entry.getLength( ) );
+			ArchiveEntry entry = archive.openEntry( "/entry/" + i );
+			try
+			{
+				assertTrue( entry != null );
+				assertEquals( i, entry.getLength( ) );
+			}
+			finally
+			{
+				entry.close( );
+			}
 		}
 	}
 }

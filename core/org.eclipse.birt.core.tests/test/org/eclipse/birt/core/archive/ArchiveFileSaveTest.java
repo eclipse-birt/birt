@@ -39,13 +39,14 @@ public class ArchiveFileSaveTest extends TestCase
 		assertTrue( new File( "test.archive" ).exists( ) );
 
 		file = new ArchiveFile( "new.archive", "r" );
-		entry = file.getEntry( "/name" );
+		entry = file.openEntry( "/name" );
 		assertTrue( entry != null );
 		entry.read( 0, bytes, 0, 255 );
 		for ( int i = 0; i < 255; i++ )
 		{
 			assertEquals( bytes[i], (byte) i );
 		}
+		entry.close( );
 		file.close( );
 
 		new File( "test.archive" ).delete( );

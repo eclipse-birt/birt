@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,11 +15,14 @@ import java.io.IOException;
 
 class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 {
+
 	protected final int BLOCK_SIZE;
 	protected int cachId;
 	protected ArchiveFileV2 af;
 	protected NameEntry entry;
 	protected AllocEntry index;
+	private int cachedBlockId;
+	private Block cachedBlock;
 
 	ArchiveEntryV2( ArchiveFileV2 af, NameEntry entry ) throws IOException
 	{
@@ -31,6 +34,21 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		{
 			index = af.allocTbl.loadEntry( cachId );
 		}
+	}
+
+	public void close( ) throws IOException
+	{
+		if ( cachedBlock != null )
+		{
+			af.unloadBlock( cachedBlock );
+		}
+		cachedBlockId = -1;
+		cachedBlock = null;
+	}
+
+	public String getName( )
+	{
+		return entry.getName( );
 	}
 
 	public synchronized long getLength( ) throws IOException
@@ -52,16 +70,6 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 	public synchronized void refresh( ) throws IOException
 	{
 		// TODO: support refresh in future.
-	}
-
-	public Object lock( ) throws IOException
-	{
-		return af.lockEntry( this );
-	}
-
-	public void unlock( Object lock ) throws IOException
-	{
-		af.unlockEntry( lock );
 	}
 
 	public synchronized int read( long pos, byte[] b, int off, int len )
@@ -92,16 +100,16 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		{
 			readSize = len;
 		}
-		int phyBlockId = index.getBlock( blockId );
-		af.read( phyBlockId, blockOff, b, off, readSize );
+		Block block = loadBlock( blockId );
+		block.read( blockOff, b, off, readSize );
 		int remainSize = len - readSize;
 
 		// read blocks
 		while ( remainSize >= BLOCK_SIZE )
 		{
 			blockId++;
-			phyBlockId = index.getBlock( blockId );
-			af.read( phyBlockId, 0, b, off + readSize, BLOCK_SIZE );
+			block = loadBlock( blockId );
+			block.read( 0, b, off + readSize, BLOCK_SIZE );
 			readSize += BLOCK_SIZE;
 			remainSize -= BLOCK_SIZE;
 		}
@@ -110,8 +118,8 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		if ( remainSize > 0 )
 		{
 			blockId++;
-			phyBlockId = index.getBlock( blockId );
-			af.read( phyBlockId, 0, b, off + readSize, remainSize );
+			block = loadBlock( blockId );
+			block.read( 0, b, off + readSize, remainSize );
 			readSize += remainSize;
 		}
 
@@ -128,22 +136,22 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 			return;
 		}
 		int blockId = (int) ( pos / BLOCK_SIZE );
-		int phyBlockId = index.getBlock( blockId );
 		int blockOff = (int) ( pos % BLOCK_SIZE );
 		int writeSize = BLOCK_SIZE - blockOff;
 		if ( len < writeSize )
 		{
 			writeSize = len;
 		}
-		af.write( phyBlockId, blockOff, b, off, writeSize );
+		Block block = loadBlock( blockId );
+		block.write( blockOff, b, off, writeSize );
 		int remainSize = len - writeSize;
 
 		// write blocks
 		while ( remainSize >= BLOCK_SIZE )
 		{
 			blockId++;
-			phyBlockId = index.getBlock( blockId );
-			af.write( phyBlockId, 0, b, off + writeSize, BLOCK_SIZE );
+			block = loadBlock( blockId );
+			block.write( 0, b, off + writeSize, BLOCK_SIZE );
 			writeSize += BLOCK_SIZE;
 			remainSize -= BLOCK_SIZE;
 		}
@@ -152,8 +160,8 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		if ( remainSize > 0 )
 		{
 			blockId++;
-			phyBlockId = index.getBlock( blockId );
-			af.write( phyBlockId, 0, b, off + writeSize, remainSize );
+			block = loadBlock( blockId );
+			block.write( 0, b, off + writeSize, remainSize );
 		}
 
 		long length = entry.getLength( );
@@ -183,4 +191,22 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 			}
 		}
 	}
+
+	private Block loadBlock( int blockId ) throws IOException
+	{
+		if ( cachedBlockId == blockId )
+		{
+			return cachedBlock;
+		}
+
+		cachedBlockId = blockId;
+		int fileBlockId = index.getBlock( blockId );
+		if ( fileBlockId != -1 )
+		{
+			cachedBlock = af.loadBlock( fileBlockId );
+			return cachedBlock;
+		}
+		throw new IOException( "invalid index at " + blockId );
+	}
+
 }

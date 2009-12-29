@@ -23,7 +23,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.archive.ArchiveUtil;
+import org.eclipse.birt.core.archive.cache.CacheListener;
+import org.eclipse.birt.core.archive.cache.Cacheable;
+import org.eclipse.birt.core.archive.cache.FileCacheManager;
 
 /**
  * the archive file contains following mode:
@@ -32,7 +34,7 @@ import org.eclipse.birt.core.archive.ArchiveUtil;
  * <li> "rw+" open file is open for read/write
  * <li> "rwt" create the trainsnt file, it will be removed after closing.
  */
-class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
+public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 {
 
 	/** the physical file correspond to this compound file system */
@@ -61,9 +63,9 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 * the archive file name.
 	 */
 	protected String archiveName;
-	
+
 	protected String systemId;
-	
+
 	protected String dependId;
 
 	protected int BLOCK_SIZE;
@@ -82,12 +84,12 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	/**
 	 * archive entries in the table
 	 */
-	protected HashMap entries;
+	protected HashMap<String, ArchiveEntryV2> entries;
 
 	/**
 	 * cache manager of the archive file.
 	 */
-	protected BlockManager caches;
+	protected FileCacheManager caches;
 
 	/**
 	 * the total blocks exits in this file
@@ -98,11 +100,6 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 * the total blocks exits in the disk
 	 */
 	protected int totalDiskBlocks;
-
-	/**
-	 * if the caches is enabled, used for debug.
-	 */
-	private boolean enableCache = true;
 
 	/**
 	 * setup the flags used to open the archive.
@@ -168,29 +165,29 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 * @throws IOException
 	 */
 
-	ArchiveFileV2( String fileName, RandomAccessFile rf, String mode )
+	public ArchiveFileV2( String fileName, RandomAccessFile rf, String mode )
 			throws IOException
 	{
 		this( null, null, fileName, rf, mode );
 	}
 
-	ArchiveFileV2( String fileName, String mode )
-			throws IOException
+	public ArchiveFileV2( String fileName, String mode ) throws IOException
 	{
 		this( null, null, fileName, null, mode );
 	}
-	
-	ArchiveFileV2( String systemId, String fileName, String mode )
+
+	public ArchiveFileV2( String systemId, String fileName, String mode )
 			throws IOException
 	{
 		this( systemId, null, fileName, null, mode );
 	}
 
-	ArchiveFileV2( String systemId, String dependId, String fileName,
+	public ArchiveFileV2( String systemId, String dependId, String fileName,
 			String mode ) throws IOException
 	{
 		this( systemId, dependId, fileName, null, mode );
 	}
+
 	/**
 	 * create the archive file.
 	 * 
@@ -200,8 +197,8 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 *            open mode.
 	 * @throws IOException
 	 */
-	ArchiveFileV2( String systemId, String dependId, String fileName, RandomAccessFile rf,
-			String mode ) throws IOException
+	public ArchiveFileV2( String systemId, String dependId, String fileName,
+			RandomAccessFile rf, String mode ) throws IOException
 	{
 		if ( fileName == null || fileName.length( ) == 0 )
 			throw new IOException( "The file name is null or empty string." );
@@ -213,6 +210,9 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		this.rf = rf;
 		this.systemId = systemId;
 		this.dependId = dependId;
+		this.caches = new FileCacheManager( );
+		caches.setCacheListener( new ArchiveFileV2CacheListener( ) );
+		caches.setSystemCacheManager( ArchiveFile.systemCacheManager );
 
 		setupArchiveMode( mode );
 
@@ -251,31 +251,15 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 */
 	public void setCacheSize( int cacheSize )
 	{
-		if ( cacheSize <= 0 )
-		{
-			enableCache = false;
-			caches = null;
-		}
-		else
-		{
-			enableCache = true;
-			if ( caches == null )
-			{
-				caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
-			}
-			caches.setCacheSize( cacheSize );
-		}
+		int cacheBlocks = ( cacheSize + BLOCK_SIZE - 1 ) / BLOCK_SIZE;
+		caches.setMaxCacheSize( cacheBlocks );
 	}
 
 	public int getUsedCache( )
 	{
-		if ( caches != null )
-		{
-			return caches.getUsedCache( );
-		}
-		return 0;
+		return caches.getUsedCacheSize( ) * BLOCK_SIZE;
 	}
-	
+
 	public String getDependId( )
 	{
 		return dependId;
@@ -289,7 +273,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		}
 		return systemId;
 	}
-	
+
 	/**
 	 * open the archive file for read or rw.
 	 * 
@@ -322,11 +306,6 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 				dependId = head.dependId;
 			}
 			BLOCK_SIZE = head.blockSize;
-			if ( enableCache )
-			{
-				caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
-			}
-
 			totalBlocks = (int) ( ( rf.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
 			totalDiskBlocks = totalBlocks;
 			allocTbl = AllocTable.loadTable( this );
@@ -367,10 +346,6 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			}
 
 			BLOCK_SIZE = getDefaultBlockSize( );
-			if ( enableCache )
-			{
-				caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
-			}
 			totalBlocks = 3;
 			totalDiskBlocks = 0;
 			head = new ArchiveHeader( BLOCK_SIZE );
@@ -433,9 +408,9 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		{
 			new File( archiveName ).delete( );
 		}
-		if ( caches!= null )
+		if ( caches != null )
 		{
-			caches.reset( );
+			caches.clear( );
 		}
 		isClosed = true;
 	}
@@ -450,7 +425,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			allocTbl.flush( );
 			if ( caches != null )
 			{
-				caches.flush( );
+				caches.touchAllCaches( new ArchiveFileV2CacheListener( ) );
 			}
 		}
 	}
@@ -484,18 +459,24 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		return entries.containsKey( name );
 	}
 
-	public synchronized ArchiveEntry getEntry( String name )
+	public synchronized ArchiveEntry openEntry( String name )
+			throws IOException
 	{
-		return (ArchiveEntry) entries.get( name );
+		ArchiveEntryV2 entry = entries.get( name );
+		if ( entry != null )
+		{
+			return entry;
+		}
+		throw new FileNotFoundException( name );
 	}
 
 	public synchronized List listEntries( String namePattern )
 	{
-		ArrayList list = new ArrayList( );
-		Iterator iter = entries.keySet( ).iterator( );
+		ArrayList<String> list = new ArrayList<String>( );
+		Iterator<String> iter = entries.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String name = (String) iter.next( );
+			String name = iter.next( );
 			if ( namePattern == null || name.startsWith( namePattern ) )
 			{
 				list.add( name );
@@ -509,10 +490,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	{
 		assertWritable( );
 
-		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
-			name = ArchiveUtil.UNIX_SEPERATOR + name;
-
-		ArchiveEntry entry = (ArchiveEntry) entries.get( name );
+		ArchiveEntryV2 entry = entries.get( name );
 		if ( entry != null )
 		{
 			entry.setLength( 0L );
@@ -527,9 +505,6 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	public synchronized boolean removeEntry( String name ) throws IOException
 	{
 		assertWritable( );
-
-		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
-			name = ArchiveUtil.UNIX_SEPERATOR + name;
 
 		ArchiveEntryV2 entry = (ArchiveEntryV2) entries.get( name );
 		if ( entry != null )
@@ -550,16 +525,21 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 */
 	private boolean useNativeLock = false;
 
-	public Object lockEntry( ArchiveEntry entry ) throws IOException
+	public Object lockEntry( String name ) throws IOException
 	{
 		assertOpen( );
-		ArchiveEntryV2 entryV2 = (ArchiveEntryV2) entry;
+
+		ArchiveEntryV2 entry = entries.get( name );
+		if ( entry == null )
+		{
+			throw new FileNotFoundException( name );
+		}
 		if ( useNativeLock )
 		{
 			if ( !isTransient )
 			{
-				entryV2.ensureSize( 1 );
-				int blockId = entryV2.index.getBlock( 0 );
+				entry.ensureSize( 1 );
+				int blockId = entry.index.getBlock( 0 );
 				return rf.getChannel( ).lock( blockId * BLOCK_SIZE, 1, false );
 			}
 		}
@@ -602,7 +582,8 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		assertOpen( );
 		if ( !isWritable )
 		{
-			throw new IOException( "Archive must be opend for write. System ID: " + systemId );
+			throw new IOException(
+					"Archive must be opend for write. System ID: " + systemId );
 		}
 	}
 
@@ -610,15 +591,16 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	{
 		if ( isClosed )
 		{
-			throw new IOException( "The archive is closed. System ID: " + systemId );
+			throw new IOException( "The archive is closed. System ID: "
+					+ systemId );
 		}
 	}
 
 	/**
 	 * read the data from cache.
 	 * 
-	 * This API read <code>len</code> bytes from <code>blockOff</code> in
-	 * block <code>blockId</code>, store the data into <code>b</code> from
+	 * This API read <code>len</code> bytes from <code>blockOff</code> in block
+	 * <code>blockId</code>, store the data into <code>b</code> from
 	 * <code>off</code>. The read cache is identified by <code>slotId</code>
 	 * 
 	 * @param blockId
@@ -633,29 +615,26 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 *            read length
 	 * @throws IOException
 	 */
-	synchronized void read( int blockId, int blockOff, byte[] b, int off,
-			int len ) throws IOException
+	synchronized int read( int blockId, int blockOff, byte[] b, int off, int len )
+			throws IOException
 	{
 		assertOpen( );
-		if ( enableCache )
+		long pos = (long) blockId * BLOCK_SIZE + blockOff;
+		long fileLength = rf.length( );
+		if ( pos + len > fileLength )
 		{
-			Block block = caches.getBlock( blockId );
-			block.read( blockOff, b, off, len );
+			len = (int) ( fileLength - pos );
 		}
-		else
-		{
-			long pos = (long)blockId * BLOCK_SIZE + blockOff;
-			rf.seek( pos );
-			rf.readFully( b, off, len );
-		}
+		rf.seek( pos );
+		rf.readFully( b, off, len );
+		return len;
 	}
 
 	/**
 	 * write the data into cache.
 	 * 
 	 * The API saves <code>len</code> bytes in <code>b</code> from
-	 * <code>off</code> to block <code>blockId</code> from
-	 * <code>blockOff</code>
+	 * <code>off</code> to block <code>blockId</code> from <code>blockOff</code>
 	 * 
 	 * @param blockId
 	 *            block id.
@@ -673,20 +652,38 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			int len ) throws IOException
 	{
 		assertWritable( );
-		if ( enableCache )
-		{
-			Block block = caches.getBlock( blockId );
-			block.write( blockOff, b, off, len );
-		}
-		else
-		{
-			ensureFileCreated( );
-			long pos = (long)blockId * BLOCK_SIZE + blockOff;
-			rf.seek( pos );
-			rf.write( b, off, len );
-		}
+		ensureFileCreated( );
+		long pos = (long) blockId * BLOCK_SIZE + blockOff;
+		rf.seek( pos );
+		rf.write( b, off, len );
 	}
-	
+
+	synchronized protected Block createBlock( ) throws IOException
+	{
+		int blockId = allocateBlock( );
+		Block block = new Block( this, blockId, BLOCK_SIZE );
+		caches.addCache( block );
+		return block;
+	}
+
+	synchronized protected void unloadBlock( Block block ) throws IOException
+	{
+		caches.releaseCache( block );
+	}
+
+	synchronized Block loadBlock( int blockId ) throws IOException
+	{
+		Object cacheKey = Integer.valueOf( blockId );
+		Block block = (Block) caches.getCache( cacheKey );
+		if ( block == null )
+		{
+			block = new Block( this, blockId, BLOCK_SIZE );
+			block.refresh( );
+			caches.addCache( block );
+		}
+		return block;
+	}
+
 	private void ensureFileCreated( ) throws IOException
 	{
 		if ( rf != null )
@@ -709,32 +706,6 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		if ( parentFile != null && !parentFile.exists( ) )
 		{
 			parentFile.mkdirs( );
-		}
-	}
-
-	class CacheEventAdapter extends BlockManagerEventAdapter
-	{
-
-		public void flush( Block block ) throws IOException
-		{
-			if ( isWritable )
-			{
-				ensureFileCreated( );
-				block.flush( rf );
-				if ( block.id >= totalDiskBlocks )
-				{
-					totalDiskBlocks = block.id + 1;
-				}
-			}
-		}
-
-		public void refresh( Block block ) throws IOException
-		{
-			assertOpen( );
-			if ( block.id < totalDiskBlocks )
-			{
-				block.refresh( rf );
-			}
 		}
 	}
 
@@ -766,6 +737,24 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			}
 		}
 		return DEFAULT_BLOCK_SIZE;
+	}
+
+	static class ArchiveFileV2CacheListener implements CacheListener
+	{
+
+		@Override
+		public void onCacheRelease( Cacheable cache )
+		{
+			Block block = (Block) cache;
+			try
+			{
+				block.flush( );
+			}
+			catch ( IOException ex )
+			{
+				ex.printStackTrace( );
+			}
+		}
 	}
 
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,16 +18,27 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class ArchiveFile implements IArchiveFile, ArchiveConstants
+import org.eclipse.birt.core.archive.cache.SystemCacheManager;
+import org.eclipse.birt.core.archive.compound.v3.Ext2FileSystem;
+
+/**
+ * change the default format to ext2.
+ */
+public class ArchiveFile implements IArchiveFile
 {
+
+	public static final SystemCacheManager systemCacheManager = new SystemCacheManager( );
+
+	static final long ARCHIVE_V2_TAG = ArchiveConstants.DOCUMENT_TAG;
+	static final long ARCHIVE_V3_TAG = Ext2FileSystem.EXT2_MAGIC_TAG;
 
 	/**
 	 * the archive file name.
 	 */
 	protected String archiveName;
-	
+
 	protected String systemId;
-	
+
 	protected IArchiveFile af;
 
 	public ArchiveFile( String fileName, String mode ) throws IOException
@@ -35,8 +46,9 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		// set blank string as the default system id of the archive file.
 		this( null, fileName, mode );
 	}
-	
-	public ArchiveFile( String systemId, String fileName, String mode ) throws IOException
+
+	public ArchiveFile( String systemId, String fileName, String mode )
+			throws IOException
 	{
 		if ( fileName == null || fileName.length( ) == 0 )
 			throw new IOException( "The file name is null or empty string." );
@@ -56,8 +68,10 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			//rwt, rw mode
-			af = new ArchiveFileV2( systemId, fileName, mode );
+			// rwt, rw mode
+			ArchiveFileV3 f3 = new ArchiveFileV3( fileName, mode );
+			f3.setSystemId( systemId );
+			this.af = f3;
 		}
 	}
 
@@ -68,15 +82,21 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		try
 		{
 			long magicTag = rf.readLong( );
-			if ( magicTag != DOCUMENT_TAG )
-			{
-				af = new ArchiveFileV1( archiveName, rf );
-			}
-			else
+			if ( magicTag == ARCHIVE_V2_TAG )
 			{
 				ArchiveFileV2 v2 = new ArchiveFileV2( archiveName, rf, "r" );
 				upgradeSystemId( v2 );
 				af = v2;
+			}
+			else if ( magicTag == ARCHIVE_V3_TAG )
+			{
+				ArchiveFileV3 fs = new ArchiveFileV3( archiveName, rf, "r" );
+				upgradeSystemId( fs );
+				af = fs;
+			}
+			else
+			{
+				af = new ArchiveFileV1( archiveName, rf );
 			}
 		}
 		catch ( IOException ex )
@@ -93,22 +113,26 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		if ( rf.length( ) == 0 )
 		{
 			// this is a empty file
-			af = new ArchiveFileV2( archiveName, rf, "rw" );
+			af = new ArchiveFileV3( archiveName, rf, "rw" );
 		}
 		else
 		{
 			try
 			{
 				long magicTag = rf.readLong( );
-				if ( magicTag == DOCUMENT_TAG )
+				if ( magicTag == ARCHIVE_V2_TAG )
 				{
 					af = new ArchiveFileV2( archiveName, rf, "rw+" );
+				}
+				else if ( magicTag == ARCHIVE_V3_TAG )
+				{
+					af = new ArchiveFileV3( archiveName, rf, "rw+" );
 				}
 				else
 				{
 					rf.close( );
 					upgradeArchiveV1( );
-					af = new ArchiveFileV2( archiveName, "rw+" );
+					af = new ArchiveFileV3( archiveName, "rw+" );
 				}
 				upgradeSystemId( af );
 			}
@@ -131,7 +155,7 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 	{
 		return archiveName;
 	}
-	
+
 	public String getDependId( )
 	{
 		return af.getDependId( );
@@ -182,8 +206,15 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 
 	static public int getTotalUsedCache( )
 	{
-		return BlockManager.totalCacheSize;
+		return systemCacheManager.getUsedCacheSize( ) * 4096;
 	}
+
+	static public void setTotalCacheSize( int size )
+	{
+		int blockCount = ( size + 4095 ) / 4096;
+		systemCacheManager.setMaxCacheSize( blockCount );
+	}
+
 	/**
 	 * save the
 	 * 
@@ -192,17 +223,32 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 	 */
 	public void saveAs( String fileName ) throws IOException
 	{
-		ArchiveFileV2 file = new ArchiveFileV2( this.systemId, fileName, "rw" );
+		ArchiveFileV3 file = new ArchiveFileV3( fileName, "rw" );
 		try
 		{
+			file.setSystemId( systemId );
 			List entries = listEntries( "/" );
 			Iterator iter = entries.listIterator( );
 			while ( iter.hasNext( ) )
 			{
 				String name = (String) iter.next( );
 				ArchiveEntry tgt = file.createEntry( name );
-				ArchiveEntry src = getEntry( name );
-				copyEntry( src, tgt );
+				try
+				{
+					ArchiveEntry src = openEntry( name );
+					try
+					{
+						copyEntry( src, tgt );
+					}
+					finally
+					{
+						src.close( );
+					}
+				}
+				finally
+				{
+					tgt.close( );
+				}
 			}
 		}
 		finally
@@ -223,19 +269,14 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		{
 			af.save( );
 			/*
-			if ( af instanceof ArchiveFileV2 )
-			{
-				( (ArchiveFileV2) af ).save( );
-			}
-			else
-			{
-				af.flush( );
-			}
-			*/
+			 * if ( af instanceof ArchiveFileV2 ) { ( (ArchiveFileV2) af ).save(
+			 * ); } else { af.flush( ); }
+			 */
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed. System ID: " + systemId );
+			throw new IOException(
+					"The archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -261,7 +302,8 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed. System ID: " + systemId );
+			throw new IOException(
+					"The archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -273,7 +315,8 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed. System ID: " + systemId );
+			throw new IOException(
+					"The archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -286,11 +329,12 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		return false;
 	}
 
-	synchronized public ArchiveEntry getEntry( String name ) throws IOException
+	synchronized public ArchiveEntry openEntry( String name )
+			throws IOException
 	{
 		if ( isArchiveFileAvailable( af ) )
 		{
-			return af.getEntry( name );
+			return af.openEntry( name );
 		}
 		else
 		{
@@ -322,7 +366,8 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		else
 		{
 			throw new IOException( "Can not create entry named " + name
-					+ "because the archive file has been closed. System ID: " + systemId );
+					+ "because the archive file has been closed. System ID: "
+					+ systemId );
 		}
 	}
 
@@ -335,13 +380,14 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		else
 		{
 			throw new IOException( "Can not remove entry named " + name
-					+ " because the archive file has been closed. System ID: " + systemId );
+					+ " because the archive file has been closed. System ID: "
+					+ systemId );
 		}
 	}
 
-	public Object lockEntry( ArchiveEntry entry ) throws IOException
+	public Object lockEntry( String name ) throws IOException
 	{
-		return af.lockEntry( entry );
+		return af.lockEntry( name );
 	}
 
 	public void unlockEntry( Object locker ) throws IOException
@@ -352,7 +398,8 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed. System ID: " + systemId );
+			throw new IOException(
+					"The archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -375,9 +422,23 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 			while ( iter.hasNext( ) )
 			{
 				String name = (String) iter.next( );
-				ArchiveEntry src = reader.getEntry( name );
-				ArchiveEntry tgt = writer.createEntry( name );
-				copyEntry( src, tgt );
+				ArchiveEntry src = reader.openEntry( name );
+				try
+				{
+					ArchiveEntry tgt = writer.createEntry( name );
+					try
+					{
+						copyEntry( src, tgt );
+					}
+					finally
+					{
+						tgt.close( );
+					}
+				}
+				finally
+				{
+					src.close( );
+				}
 			}
 			writer.saveAs( archiveName );
 			writer.close( );
@@ -387,7 +448,7 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 			reader.close( );
 		}
 	}
-	
+
 	/**
 	 * upgrade systemId when open/append the current file
 	 * 
@@ -400,9 +461,10 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 			systemId = file.getSystemId( );
 		}
 	}
-	
+
 	/**
-	 * @param af ArchiveFile
+	 * @param af
+	 *            ArchiveFile
 	 * @return whether the ArchiveFile instance is available
 	 */
 	private boolean isArchiveFileAvailable( IArchiveFile af )

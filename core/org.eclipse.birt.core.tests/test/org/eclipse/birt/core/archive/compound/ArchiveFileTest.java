@@ -52,7 +52,7 @@ public class ArchiveFileTest extends TestCase
 		assertEquals( archive.getUsedCache( ), 0 );
 		archive.close( );
 		assertTrue( archive.getUsedCache( ) == 0 );
-		
+
 		archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
 		archive.setCacheSize( 64 * 1024 );
 		createArchive( archive );
@@ -86,19 +86,22 @@ public class ArchiveFileTest extends TestCase
 
 		ArchiveEntry entry = archive.createEntry( "/append" );
 		entry.write( 0, new byte[1], 0, 1 );
+		entry.close( );
 
 		checkArchive( archive );
-		entry = archive.getEntry( "/append" );
+		entry = archive.openEntry( "/append" );
 		assertTrue( entry != null );
 		assertEquals( 1, entry.getLength( ) );
+		entry.close( );
 
 		archive.close( );
 
 		archive = new ArchiveFile( ARCHIVE_FILE, "r" );
 		checkArchive( archive );
-		entry = archive.getEntry( "/append" );
+		entry = archive.openEntry( "/append" );
 		assertTrue( entry != null );
 		assertEquals( 1, entry.getLength( ) );
+		entry.close( );
 		archive.close( );
 	}
 
@@ -123,6 +126,7 @@ public class ArchiveFileTest extends TestCase
 		{
 			ArchiveEntry entry = archive.createEntry( "/entry/" + i );
 			entry.write( 0, b, 0, i );
+			entry.close( );
 		}
 	}
 
@@ -131,9 +135,16 @@ public class ArchiveFileTest extends TestCase
 		int entryCount = 1024;
 		for ( int i = 0; i < entryCount; i++ )
 		{
-			ArchiveEntry entry = archive.getEntry( "/entry/" + i );
-			assertTrue( entry != null );
-			assertEquals( i, entry.getLength( ) );
+			ArchiveEntry entry = archive.openEntry( "/entry/" + i );
+			try
+			{
+				assertTrue( entry != null );
+				assertEquals( i, entry.getLength( ) );
+			}
+			finally
+			{
+				entry.close( );
+			}
 		}
 	}
 }

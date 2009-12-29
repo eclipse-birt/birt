@@ -26,23 +26,23 @@ public interface IArchiveFile
 	public void refresh( ) throws IOException;
 
 	public boolean exists( String name );
-	
+
 	public void setCacheSize( int cacheSize );
-	
+
 	public int getUsedCache( );
 
-	public ArchiveEntry getEntry( String name ) throws IOException;
+	public ArchiveEntry openEntry( String name ) throws IOException;
 
-	public List listEntries( String namePattern );
+	public List<String> listEntries( String namePattern );
 
 	public ArchiveEntry createEntry( String name ) throws IOException;
 
 	public boolean removeEntry( String name ) throws IOException;
 
-	public Object lockEntry( ArchiveEntry entry ) throws IOException;
+	public Object lockEntry( String entry ) throws IOException;
 
 	public void unlockEntry( Object locker ) throws IOException;
-	
+
 	public String getSystemId( );
 
 	public String getDependId( );

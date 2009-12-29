@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007, 2008 Actuate Corporation.
+ * Copyright (c) 2007, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.core.archive.compound;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
 public class ArchiveView implements IArchiveFile
 {
+
 	private boolean sharedArchive = false;
 	private IArchiveFile view = null;
 	private IArchiveFile archive = null;
@@ -32,7 +34,7 @@ public class ArchiveView implements IArchiveFile
 	public ArchiveView( String viewName, String archiveName, String viewMode )
 			throws IOException
 	{
-		this.view = new ArchiveFileV2( viewName, viewMode );
+		this.view = new ArchiveFile( viewName, viewMode );
 		this.archive = new ArchiveFile( archiveName, "r" );
 		sharedArchive = false;
 	}
@@ -40,7 +42,7 @@ public class ArchiveView implements IArchiveFile
 	public ArchiveView( String viewName, IArchiveFile archive, String viewMode )
 			throws IOException
 	{
-		this.view = new ArchiveFileV2( viewName, viewMode );
+		this.view = new ArchiveFile( viewName, viewMode );
 		this.archive = archive;
 		this.sharedArchive = true;
 	}
@@ -69,20 +71,20 @@ public class ArchiveView implements IArchiveFile
 		return false;
 	}
 
-	synchronized public ArchiveEntry getEntry( String name ) throws IOException
+	synchronized public ArchiveEntry openEntry( String name )
+			throws IOException
 	{
-		ArchiveEntry result = view.getEntry( name );
-		if ( result != null )
+		if ( view.exists( name ) )
 		{
-			return result;
+			ArchiveEntry entry = view.openEntry( name );
+			return new ViewEntry( this, name, entry );
 		}
-
-		result = archive.getEntry( name );
-		if ( result != null )
+		if ( archive.exists( name ) )
 		{
-			return new ViewEntry( this, name, result );
+			ArchiveEntry entry = archive.openEntry( name );
+			return new ViewEntry( this, name, entry );
 		}
-		return null;
+		throw new FileNotFoundException( name );
 	}
 
 	synchronized public List listEntries( String namePattern )
@@ -103,14 +105,22 @@ public class ArchiveView implements IArchiveFile
 		return viewList;
 	}
 
-	public Object lockEntry( ArchiveEntry entry ) throws IOException
+	public Object lockEntry( String entry ) throws IOException
 	{
-		return entry;
+		try
+		{
+			return view.lockEntry( entry );
+		}
+		catch ( IOException ex )
+		{
+			return archive.lockEntry( entry );
+		}
 	}
 
 	public void refresh( ) throws IOException
 	{
-		//archive.refresh( ); donot need to refresh archive, because archive in ONLY in r mode
+		// archive.refresh( ); donot need to refresh archive, because archive in
+		// ONLY in r mode
 		view.refresh( );
 	}
 
@@ -119,13 +129,14 @@ public class ArchiveView implements IArchiveFile
 		return view.getSystemId( );
 	}
 
-	public String getDependId()
+	public String getDependId( )
 	{
-		return archive.getSystemId();
+		return archive.getSystemId( );
 	}
 
 	class ViewEntry extends ArchiveEntry
 	{
+
 		IArchiveFile view;
 		boolean writable;
 		ArchiveEntry entry;
@@ -137,6 +148,16 @@ public class ArchiveView implements IArchiveFile
 			this.view = view;
 			this.name = name;
 			this.entry = entry;
+		}
+
+		public String getName( )
+		{
+			return name;
+		}
+
+		public void close( ) throws IOException
+		{
+			entry.close( );
 		}
 
 		public long getLength( ) throws IOException
@@ -237,7 +258,14 @@ public class ArchiveView implements IArchiveFile
 
 	public void unlockEntry( Object locker ) throws IOException
 	{
-		view.unlockEntry( locker );
+		try
+		{
+			view.unlockEntry( locker );
+		}
+		catch ( FileNotFoundException ex )
+		{
+			archive.unlockEntry( locker );
+		}
 	}
 
 	public IArchiveFile getArchive( )

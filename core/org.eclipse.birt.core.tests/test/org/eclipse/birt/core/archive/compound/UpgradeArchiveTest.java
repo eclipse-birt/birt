@@ -44,7 +44,7 @@ public class UpgradeArchiveTest extends TestCase
 
 		for ( int i = 0; i < 128; i++ )
 		{
-			ArchiveEntry entry = af.getEntry( "/" + i );
+			ArchiveEntry entry = af.openEntry( "/" + i );
 			assertEquals( i * 4, entry.getLength( ) );
 			for ( int j = 0; j < i; j++ )
 			{
@@ -52,6 +52,7 @@ public class UpgradeArchiveTest extends TestCase
 				int v = ArchiveUtil.bytesToInteger( buffer );
 				assertEquals( j, v );
 			}
+			entry.close( );
 		}
 
 		af.close( );

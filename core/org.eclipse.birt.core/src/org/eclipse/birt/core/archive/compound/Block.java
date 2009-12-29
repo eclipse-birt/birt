@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,28 +12,28 @@
 package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
+
+import org.eclipse.birt.core.archive.cache.Cacheable;
 
 /**
  * A physical block in a physical compound file, might be stream items block,
  * index block or stream data block.
  */
 
-public class Block implements ArchiveConstants
+public class Block implements ArchiveConstants, Cacheable
 {
 
+	ArchiveFileV2 af;
+	
 	/** The physical ID -- the NO of this block */
 	int id;
-
-	Block prev;
-
-	Block next;
+	
+	Integer cacheKey;
 
 	final int blockSize;
 
 	/** data of the block */
 	byte[] blockData;
-
 
 	private int dataSize;
 
@@ -49,55 +49,32 @@ public class Block implements ArchiveConstants
 	 * @param blockId
 	 *            the block ID
 	 */
-	Block( int size )
+	Block( ArchiveFileV2 af, int blockId, int size )
 	{
+		this.af = af;
+		cacheKey = Integer.valueOf( blockId );
 		blockSize = size;
 		blockData = new byte[size];
 		id = -1;
 		dirtyStart = 0;
 		dirtyEnd = 0;
 		dataSize = 0;
-		prev = null;
-		next = null;
 	}
 
-	void reset( )
+	public void refresh( ) throws IOException
 	{
-		id = -1;
-		dirtyStart = 0;
-		dirtyEnd = 0;
-		dataSize = 0;
-		prev = null;
-		next = null;
-	}
-
-	public void refresh( RandomAccessFile rf ) throws IOException
-	{
-		dataSize = 0;
-		if ( id < 0 )
-		{
-			assert false;
-		}
-		rf.seek( ( (long) id ) * blockSize );
-		do
-		{
-			int size = rf.read( blockData, dataSize, blockSize - dataSize );
-			if ( size < 0 )
-			{
-				break;
-			}
-			dataSize += size;
-		} while ( dataSize < blockSize );
+		dataSize = af.read( id, 0, blockData, 0, blockSize );
 		dirtyStart = 0;
 		dirtyEnd = 0;
 	}
 
-	public void flush( RandomAccessFile file ) throws IOException
+	public void flush( ) throws IOException
 	{
+
 		if ( dirtyEnd != dirtyStart )
 		{
-			file.seek( ( (long) id * blockSize ) + dirtyStart );
-			file.write( blockData, dirtyStart, dirtyEnd - dirtyStart );
+			af.write( id, dirtyStart, blockData, dirtyStart, dirtyEnd
+					- dirtyStart );
 		}
 		dirtyEnd = dirtyStart = 0;
 	}
@@ -138,5 +115,11 @@ public class Block implements ArchiveConstants
 		}
 		System.arraycopy( blockData, src, b, off, size );
 		return size;
+	}
+
+	@Override
+	public Object getCacheKey( )
+	{
+		return cacheKey;
 	}
 }

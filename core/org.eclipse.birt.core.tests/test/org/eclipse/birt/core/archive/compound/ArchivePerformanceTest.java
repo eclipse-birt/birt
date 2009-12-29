@@ -101,21 +101,27 @@ public class ArchivePerformanceTest extends TestCase
 		ArchiveFile archive = new ArchiveFile( "./utest/archive", "r" );
 		for ( int i = 0; i < STREAM_COUNT; i++ )
 		{
-			ArchiveEntry entry = archive.getEntry( "./utest/file/" + i );
-
-			byte[] buffer = new byte[BUFFER_SIZE];
-			long offset = 0;
-			do
+			ArchiveEntry entry = archive.openEntry( "./utest/file/" + i );
+			try
 			{
-				int size = (int) Math.round( Math.random( ) * BUFFER_SIZE );
-				if ( offset + size > STREAM_SIZE )
+				byte[] buffer = new byte[BUFFER_SIZE];
+				long offset = 0;
+				do
 				{
-					size = (int) ( STREAM_SIZE - offset );
-				}
+					int size = (int) Math.round( Math.random( ) * BUFFER_SIZE );
+					if ( offset + size > STREAM_SIZE )
+					{
+						size = (int) ( STREAM_SIZE - offset );
+					}
 
-				entry.read( offset, buffer, 0, size );
-				offset += size;
-			} while ( offset < STREAM_SIZE );
+					entry.read( offset, buffer, 0, size );
+					offset += size;
+				} while ( offset < STREAM_SIZE );
+			}
+			finally
+			{
+				entry.close( );
+			}
 		}
 		archive.close( );
 	}

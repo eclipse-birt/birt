@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
+
 
 public class ArchiveFileFactory implements IArchiveFileFactory
 {
@@ -32,7 +33,9 @@ public class ArchiveFileFactory implements IArchiveFileFactory
 	private IArchiveFile doCreateArchive( String archiveId, String fileName,
 			String mode ) throws IOException
 	{
-		return new ArchiveFileV2( archiveId, fileName, mode );
+		ArchiveFileV3 af = new ArchiveFileV3( fileName, mode );
+		af.setSystemId( archiveId );
+		return af;
 	}
 
 	public IArchiveFile createView( String viewId, IArchiveFile archive )
@@ -52,8 +55,9 @@ public class ArchiveFileFactory implements IArchiveFileFactory
 	private IArchiveFile doCreateView( String viewId, String fileName,
 			IArchiveFile archive, String mode ) throws IOException
 	{
-		ArchiveFileV2 view = new ArchiveFileV2( viewId, archive.getSystemId( ),
-				fileName, mode );
+		ArchiveFileV3 view = new ArchiveFileV3( fileName, mode );
+		view.setSystemId( viewId );
+		view.setDependId( archive.getSystemId( ) );
 		return new ArchiveView( view, archive, true );
 	}
 

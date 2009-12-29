@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ class ArchiveEntryV1 extends ArchiveEntry
 {
 
 	protected ArchiveFileV1 af;
+	protected String name;
 	protected long start;
 	protected long end;
 	protected long length;
@@ -25,8 +26,18 @@ class ArchiveEntryV1 extends ArchiveEntry
 			throws IOException
 	{
 		this.af = af;
+		this.name = name;
 		this.start = start;
 		this.length = length;
+	}
+
+	public void close( ) throws IOException
+	{
+	}
+
+	public String getName( )
+	{
+		return name;
 	}
 
 	public long getLength( ) throws IOException
@@ -46,16 +57,6 @@ class ArchiveEntryV1 extends ArchiveEntry
 
 	public void refresh( ) throws IOException
 	{
-	}
-
-	public Object lock( ) throws IOException
-	{
-		return af.lockEntry( this );
-	}
-
-	public void unlock( Object lock ) throws IOException
-	{
-		af.unlockEntry( lock );
 	}
 
 	public int read( long pos, byte[] b, int off, int len ) throws IOException
