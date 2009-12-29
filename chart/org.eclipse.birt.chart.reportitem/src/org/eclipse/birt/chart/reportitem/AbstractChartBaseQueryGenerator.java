@@ -32,7 +32,6 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
@@ -173,7 +172,7 @@ public abstract class AbstractChartBaseQueryGenerator
 				if ( aggName == null )
 				{
 					if ( !bCreateBindingForExpression
-							|| ChartExpressionUtil.isRowBinding( expr, false ) )
+							|| exprCodec.isRowBinding( expr, false ) )
 					{
 						// If it's complex expression, still create new binding
 						continue;
@@ -251,7 +250,10 @@ public abstract class AbstractChartBaseQueryGenerator
 				else
 				{
 					// Direct setting expression for non-aggregation case.
-					colBinding.setExpression( new ScriptExpression( expr ) );
+					exprCodec.decode( expr );
+					colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+							modelAdapter,
+							false ) );
 				}
 
 				String newExpr = getExpressionForEvaluator( name );
