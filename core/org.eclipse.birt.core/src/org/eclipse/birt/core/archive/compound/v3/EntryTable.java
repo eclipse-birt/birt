@@ -72,7 +72,6 @@ public class EntryTable
 				.toArray( new String[entries.size( )] );
 		Arrays.sort( names, 0, names.length, new Comparator<String>( ) {
 
-			@Override
 			public int compare( String o1, String o2 )
 			{
 

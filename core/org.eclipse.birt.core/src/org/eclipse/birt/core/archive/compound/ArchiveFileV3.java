@@ -63,25 +63,21 @@ public class ArchiveFileV3 implements IArchiveFile
 		fs.setProperty( PROPERTY_DEPEND_ID, id );
 	}
 
-	@Override
 	public ArchiveEntry createEntry( String name ) throws IOException
 	{
 		Ext2File file = fs.createFile( name );
 		return new ArchiveEntryV3( file );
 	}
 
-	@Override
 	public boolean exists( String name )
 	{
 		return fs.existFile( name );
 	}
 
-	@Override
 	public void flush( ) throws IOException
 	{
 	}
 
-	@Override
 	public String getDependId( )
 	{
 		return fs.getProperty( PROPERTY_DEPEND_ID );
@@ -97,25 +93,21 @@ public class ArchiveFileV3 implements IArchiveFile
 		throw new FileNotFoundException( name );
 	}
 
-	@Override
 	public String getName( )
 	{
 		return fs.getFileName( );
 	}
 
-	@Override
 	public String getSystemId( )
 	{
 		return fs.getProperty( PROPERTY_SYSTEM_ID );
 	}
 
-	@Override
 	public int getUsedCache( )
 	{
 		return fs.getUsedCacheSize( ) * 4096;
 	}
 
-	@Override
 	public List listEntries( String namePattern )
 	{
 		ArrayList<String> files = new ArrayList<String>( );
@@ -129,7 +121,6 @@ public class ArchiveFileV3 implements IArchiveFile
 		return files;
 	}
 
-	@Override
 	public Object lockEntry( String name ) throws IOException
 	{
 		Ext2Entry entry = fs.getEntry( name );
@@ -140,32 +131,27 @@ public class ArchiveFileV3 implements IArchiveFile
 		throw new FileNotFoundException( name );
 	}
 
-	@Override
 	public void refresh( ) throws IOException
 	{
 	}
 
-	@Override
 	public boolean removeEntry( String name ) throws IOException
 	{
 		fs.removeFile( name );
 		return true;
 	}
 
-	@Override
 	public void save( ) throws IOException
 	{
 		fs.flush( );
 		fs.setRemoveOnExit( false );
 	}
 
-	@Override
 	public void setCacheSize( int cacheSize )
 	{
 		fs.setCacheSize( cacheSize );
 	}
 
-	@Override
 	public void unlockEntry( Object locker ) throws IOException
 	{
 		assert ( locker instanceof Ext2Node );
