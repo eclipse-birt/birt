@@ -748,26 +748,32 @@ public class InsertInLayoutUtil
 		if ( targetParent instanceof ReportItemHandle )
 		{
 			ReportItemHandle container = (ReportItemHandle) targetParent;
-			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( container,
-					model.getColumnName( ) );
-			bindingColumn.setDataType( model.getDataType( ) );
-			ExpressionUtility.setBindingColumnExpression( model, bindingColumn );
-			bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
-			String displayKey = UIUtil.getColumnDisplayNameKey( model );
-			if ( displayKey != null )
-				bindingColumn.setDisplayNameID( displayKey );
-			if ( target instanceof DesignElementHandle )
-			{
-				if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
-				{
-					String groupType = DEUtil.getGroupControlType( (DesignElementHandle) target );
-					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-						bindingColumn.setAggregateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle) target )
-								.get( 0 ) ).getName( ) );
-					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-						bindingColumn.setAggregateOn( null );
-				}
-			}
+			// ComputedColumn bindingColumn =
+			// StructureFactory.newComputedColumn( container,
+			// model.getColumnName( ) );
+			// bindingColumn.setDataType( model.getDataType( ) );
+			// ExpressionUtility.setBindingColumnExpression( model,
+			// bindingColumn );
+			// bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model
+			// ) );
+			// String displayKey = UIUtil.getColumnDisplayNameKey( model );
+			// if ( displayKey != null )
+			// bindingColumn.setDisplayNameID( displayKey );
+			// if ( target instanceof DesignElementHandle )
+			// {
+			// if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression(
+			// ) ) )
+			// {
+			// String groupType = DEUtil.getGroupControlType(
+			// (DesignElementHandle) target );
+			// if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+			// bindingColumn.setAggregateOn( ( (GroupHandle) DEUtil.getGroups(
+			// (DesignElementHandle) target )
+			// .get( 0 ) ).getName( ) );
+			// else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+			// bindingColumn.setAggregateOn( null );
+			// }
+			// }
 
 			ReportItemHandle root = DEUtil.getBindingRoot( container );
 			if ( root == null )
@@ -777,19 +783,28 @@ public class InsertInLayoutUtil
 				// list handle.
 				if ( container == null )
 				{
+					ComputedColumn bindingColumn = createBindingColumn( target,
+							dataHandle,
+							model );
 					dataHandle.setDataSet( dataSet );
 					dataHandle.addColumnBinding( bindingColumn, false );
 				}
 				else
 				{
+					ComputedColumn bindingColumn = createBindingColumn( target,
+							container,
+							model );
 					container.setDataSet( dataSet );
 					container.addColumnBinding( bindingColumn, false );
 				}
 			}
 			else if ( root.getDataSet( ) == dataSet )
 			{
-				DEUtil.getBindingHolder( container )
-						.addColumnBinding( bindingColumn, false );
+				container = DEUtil.getBindingHolder( container );
+				ComputedColumn bindingColumn = createBindingColumn( target,
+						container,
+						model );
+				container.addColumnBinding( bindingColumn, false );
 			}
 			else
 			{
@@ -798,6 +813,9 @@ public class InsertInLayoutUtil
 						&& DEUtil.getBindingRoot( listingHandle ) == root
 						&& DEUtil.getBindingHolder( listingHandle ) != listingHandle )
 				{
+					ComputedColumn bindingColumn = createBindingColumn( target,
+							listingHandle,
+							model );
 					listingHandle.setDataSet( dataSet );
 					listingHandle.addColumnBinding( bindingColumn, false );
 				}
@@ -951,6 +969,44 @@ public class InsertInLayoutUtil
 		}
 
 		return dataHandle;
+	}
+
+	/**
+	 * create a ComputedColumn object
+	 * 
+	 * @param target
+	 *            where data item will be inserted.
+	 * @param bindingHolder
+	 *            where the ComputedColumn will be inserted.
+	 * @param model
+	 *            column item
+	 * @return
+	 */
+	private static ComputedColumn createBindingColumn( Object target,
+			ReportItemHandle bindingHolder, ResultSetColumnHandle model )
+	{
+
+		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( bindingHolder,
+				model.getColumnName( ) );
+		bindingColumn.setDataType( model.getDataType( ) );
+		ExpressionUtility.setBindingColumnExpression( model, bindingColumn );
+		bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
+		String displayKey = UIUtil.getColumnDisplayNameKey( model );
+		if ( displayKey != null )
+			bindingColumn.setDisplayNameID( displayKey );
+		if ( target instanceof DesignElementHandle )
+		{
+			if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
+			{
+				String groupType = DEUtil.getGroupControlType( (DesignElementHandle) target );
+				if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+					bindingColumn.setAggregateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle) target )
+							.get( 0 ) ).getName( ) );
+				else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+					bindingColumn.setAggregateOn( null );
+			}
+		}
+		return bindingColumn;
 	}
 
 	// private static GroupHandle getGroupHandle( Object target )
