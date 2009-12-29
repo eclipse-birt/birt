@@ -2967,7 +2967,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public final List getAllIncludeScripts( )
 	{
-		return getStructureList( INCLUDE_SCRIPTS_PROP );
+		return getFilteredStructureList( INCLUDE_SCRIPTS_PROP,
+				IncludeScript.FILE_NAME_MEMBER );
 	}
 
 	/*
