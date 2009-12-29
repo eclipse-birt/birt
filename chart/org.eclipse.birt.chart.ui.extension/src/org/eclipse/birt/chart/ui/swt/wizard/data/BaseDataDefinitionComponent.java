@@ -1160,13 +1160,41 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			ChartAdapter.beginIgnoreNotifications( );
 			if ( seriesdefinition.getGrouping( ) == null )
 			{
-				query.setGrouping( DataFactoryImpl.init( )
+				seriesdefinition.setGrouping( DataFactoryImpl.init( )
 						.createSeriesGrouping( ) );
 			}
 			seriesdefinition.getGrouping( ).setGroupType( type );
 			if ( type == DataType.DATE_TIME_LITERAL )
 			{
 				seriesdefinition.getGrouping( )
+						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
+			}
+			ChartAdapter.endIgnoreNotifications( );
+		}
+		else if(ChartUIConstants.QUERY_OPTIONAL.equals( queryType ))
+		{
+			if ( seriesdefinition.getSortKey( ) != null
+					&& seriesdefinition.getSortKey( ).getDefinition( ) != null
+					&& seriesdefinition.getSortKey( )
+							.getDefinition( )
+							.equals( query.getDefinition( ) ) )
+			{
+				ChartAdapter.beginIgnoreNotifications( );
+				seriesdefinition.getSortKey( ).setDefinition( expression );
+				ChartAdapter.endIgnoreNotifications( );
+			}
+			DataType type = context.getDataServiceProvider( )
+					.getDataType( expression );
+			ChartAdapter.beginIgnoreNotifications( );
+			if ( query.getGrouping( ) == null )
+			{
+				query.setGrouping( DataFactoryImpl.init( )
+						.createSeriesGrouping( ) );
+			}
+			query.getGrouping( ).setGroupType( type );
+			if ( type == DataType.DATE_TIME_LITERAL )
+			{
+				query.getGrouping( )
 						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
 			}
 			ChartAdapter.endIgnoreNotifications( );
