@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.3.0.qualifier Build &lt;@BUILD@></property>
-    <property name="units">in</property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.2.v20091207-1500 Build &lt;2.5.2.v20091207-1500></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
     <list-property name="userProperties">
         <structure>
@@ -18,11 +17,14 @@
     </list-property>
     <property name="Customer Cube.Data Set.x">235</property>
     <property name="Customer Cube.Data Set.y">105</property>
-    <method name="beforeFactory"><![CDATA[importPackage( Packages.java.lang );
+    <property name="units">in</property>
+    <method name="beforeFactory"><![CDATA[//importPackage( Packages.java.lang ); TED 14221
+//importPackage( Packages.java.lang.integer );
 rwc1 = new Integer(1);
 reportContext.setPersistentGlobalVariable("rwc", rwc1);]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="6">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
@@ -447,7 +449,7 @@ reportContext.setPersistentGlobalVariable("rwc", rwc1);]]></method>
                     <property name="nativeDataType">8</property>
                 </structure>
             </list-property>
-            <property name="queryText">select *
+            <xml-property name="queryText"><![CDATA[select *
 from 
 CLASSICMODELS.ORDERS,
 CLASSICMODELS.CUSTOMERS,
@@ -460,7 +462,7 @@ CLASSICMODELS.ORDERDETAILS.PRODUCTCODE=CLASSICMODELS.PRODUCTS.PRODUCTCODE
 and
 CLASSICMODELS.CUSTOMERS.CUSTOMERNUMBER=CLASSICMODELS.ORDERS.CUSTOMERNUMBER
 and
-CLASSICMODELS.ORDERS.STATUS = 'Shipped'</property>
+CLASSICMODELS.ORDERS.STATUS = 'Shipped']]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
@@ -595,6 +597,10 @@ CLASSICMODELS.ORDERS.STATUS = 'Shipped'</property>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
@@ -604,7 +610,7 @@ CLASSICMODELS.ORDERS.STATUS = 'Shipped'</property>
         </simple-master-page>
     </page-setup>
     <body>
-        <extended-item extensionName="Crosstab" extensionVersion="2.3.0" id="80">
+        <extended-item extensionName="Crosstab" extensionVersion="2.5.0" id="80">
             <property name="measures">
                 <extended-item extensionName="MeasureView" id="91">
                     <property name="measure">revenue</property>
@@ -718,6 +724,9 @@ CLASSICMODELS.ORDERS.STATUS = 'Shipped'</property>
                     </property>
                     <property name="header">
                         <extended-item extensionName="CrosstabCell" id="93">
+                            <property name="backgroundColor">#808000</property>
+                        </extended-item>
+                        <extended-item extensionName="CrosstabCell" id="120">
                             <property name="backgroundColor">#808000</property>
                         </extended-item>
                     </property>
