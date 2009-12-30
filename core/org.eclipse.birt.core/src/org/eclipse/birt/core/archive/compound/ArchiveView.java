@@ -105,16 +105,17 @@ public class ArchiveView implements IArchiveFile
 		return viewList;
 	}
 
-	public Object lockEntry( String entry ) throws IOException
+	public synchronized Object lockEntry( String entry ) throws IOException
 	{
-		try
+		if ( view.exists( entry ) )
 		{
 			return view.lockEntry( entry );
 		}
-		catch ( IOException ex )
+		if ( archive.exists( entry ) )
 		{
 			return archive.lockEntry( entry );
 		}
+		return view.lockEntry( entry );
 	}
 
 	public void refresh( ) throws IOException
@@ -256,7 +257,7 @@ public class ArchiveView implements IArchiveFile
 		view.setCacheSize( cacheSize );
 	}
 
-	public void unlockEntry( Object locker ) throws IOException
+	synchronized public void unlockEntry( Object locker ) throws IOException
 	{
 		try
 		{

@@ -9,7 +9,7 @@ public class RelativeHyperlinkInReportDocumentTest extends EngineCase
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/empty_page.rptdesign";
 	static final String REPORT_DESIGN = "relative_hyperlink.rptdesign";
-	static final String REPORT_DOCUMENT = "./folder/reportdocument.rptdocument";
+	static final String REPORT_DOCUMENT = "./utest/reportdocument.rptdocument";
 
 	protected IReportEngine engine;
 
