@@ -10,7 +10,8 @@
   3 index 2 index lineto
   pop pop pop pop
 }def
-/italicmatrix [1 0 0.2679492 1 0 0] def
+/xc 0.2679492 matrix currentmatrix 3 get dup abs div mul def
+/italicmatrix [1 0 xc 1 0 0] def
 /RD {string currentfile exch readstring pop} executeonly def
 /rcl{
   rect closepath eoclip newpath
