@@ -269,4 +269,22 @@ public class HTMLEmitterUtil
 		else
 			return BROWSER_UNKNOW;
 	}
+
+	/**
+	 * build overflow style which displays the vertical or horizontal scrollbar
+	 * automatically if content inside the div tag exceed the limit in any
+	 * aspect.
+	 * 
+	 * @param buf
+	 *            - the buffer to build the overflow style
+	 * @param style
+	 *            - the style of current report item
+	 */
+	public static void buildOverflowStyle( StringBuffer buf, IStyle style )
+	{
+		String overflow = style.getOverflow( );
+		buf.append( " overflow:" );
+		buf.append( overflow != null ? overflow : "hidden" );
+		buf.append( ";" );
+	}
 }

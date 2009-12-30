@@ -579,6 +579,7 @@ public abstract class HTMLEmitter
 		{
 			assert false;
 		}
+		HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style );
 		return canShrink;
 	}
 	
@@ -609,7 +610,6 @@ public abstract class HTMLEmitter
 			if ( width != null )
 			{
 				buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
-				styleBuffer.append( " overflow: hidden;" );
 			}
 			if ( !canShrink )
 			{
@@ -629,7 +629,6 @@ public abstract class HTMLEmitter
 				if ( width != null )
 				{
 					buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
-					styleBuffer.append( " overflow: hidden;" );
 				}
 			}
 
@@ -638,6 +637,7 @@ public abstract class HTMLEmitter
 		{
 			assert false;
 		}
+		HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style );
 		return canShrink;
 	}
 	

@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.css.engine.value.css.IntegerManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.LengthManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.LineHeightManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.MarginManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.OverflowManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.PageBreakBeforeAfterManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.PageBreakInsideManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.SpacingManager;
@@ -197,6 +198,7 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 				CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY );
 		
 		vms[StyleConstants.STYLE_DATA_FORMAT] = new DataFormatManager( );
+		vms[StyleConstants.STYLE_OVERFLOW] = new OverflowManager( );
 	}
 
 	public int getNumberOfProperties( )

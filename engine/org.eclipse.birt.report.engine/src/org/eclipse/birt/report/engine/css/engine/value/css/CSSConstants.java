@@ -326,11 +326,19 @@ public interface CSSConstants {
 
     String CSS_THIN_VALUE = "thin";
     //String CSS_MEDIUM_VALUE = "medium";
-    String CSS_THICK_VALUE = "thick";
-    
-    // bidi_hcg: Bidi related
+	String CSS_THICK_VALUE = "thick";
+
+	String CSS_OVERFLOW_AUTO_VALUE = "auto";
+	String CSS_OVERFLOW_VISIBLE_VALUE = "visible";
+	String CSS_OVERFLOW_SCROLL_VALUE = "scroll";
+	String CSS_OVERFLOW_HIDDEN_VALUE = "hidden";
+
+   // bidi_hcg: Bidi related
     // "rtl" and "ltr" values are already specified above.
     // We preserve here the name for direction defined in CSS specs.
     String CSS_DIRECTION_PROPERTY = "direction";
+
+	// overflow property: auto, visible, scroll, hidden
+	String CSS_OVERFLOW_PROPERTY = "overflow";
 
 }

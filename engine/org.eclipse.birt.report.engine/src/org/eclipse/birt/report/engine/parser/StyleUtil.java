@@ -169,6 +169,8 @@ public class StyleUtil
 				StyleConstants.STYLE_WORD_SPACING );
 		styleName2Index.put( Style.TEXT_DIRECTION_PROP,
 				StyleConstants.STYLE_DIRECTION );
+		styleName2Index.put( Style.OVERFLOW_PROP, StyleConstants.STYLE_OVERFLOW );
+
 		colorProperties = new HashSet<String>( );
 		colorProperties.add( Style.BACKGROUND_COLOR_PROP );
 		colorProperties.add( Style.BORDER_BOTTOM_COLOR_PROP );

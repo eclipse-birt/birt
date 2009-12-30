@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
-import org.eclipse.birt.report.model.elements.Style;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSRule;
@@ -1609,12 +1608,12 @@ abstract public class AbstractStyle implements IStyle
 
 	public String getOverflow( )
 	{
-		throw createUnsupportedPropertyException( "text-decoration" );
+		return getCssText( STYLE_OVERFLOW );
 	}
 
 	public void setOverflow( String overflow ) throws DOMException
 	{
-		throw createUnsupportedPropertyException( "text-decoration" );
+		setCssText( STYLE_OVERFLOW, overflow );
 	}
 
 	public String getPadding( )

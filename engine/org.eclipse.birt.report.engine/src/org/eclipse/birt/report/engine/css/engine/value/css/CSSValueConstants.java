@@ -1037,4 +1037,24 @@ public interface CSSValueConstants {
      */
     Value NULL_STRING_VALUE = new StringValue( CSSPrimitiveValue.CSS_STRING, null );
 
+	/**
+	 * the "auto" value for overflow
+	 */
+	Value OVERFLOW_AUTO_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
+			CSSConstants.CSS_OVERFLOW_AUTO_VALUE );
+	/**
+	 * the "visible" value for overflow
+	 */
+	Value OVERFLOW_VISIBLE_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
+			CSSConstants.CSS_OVERFLOW_VISIBLE_VALUE );
+	/**
+	 * the "scroll" value for overflow
+	 */
+	Value OVERFLOW_SCROLL_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
+			CSSConstants.CSS_OVERFLOW_SCROLL_VALUE );
+	/**
+	 * the "hidden" value for overflow
+	 */
+	Value OVERFLOW_HIDDEN_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
+			CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE );
 }
