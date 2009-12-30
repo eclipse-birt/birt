@@ -73,8 +73,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
  
             java.util.Properties connProps = DesignUtil.convertDataSourceProperties( 
                                 getEditingDesign().getDataSourceDesign() );           
-            m_dataSourceProfile = OdaProfileExplorer.getInstance()
-               .getProfileByName( connProps, null );
+            m_dataSourceProfile = loadConnectionProfile( connProps );
             
             if( m_dataSourceProfile == null && raiseErrorIfNull )
                 MessageDialog.openError( getShell(), Messages.sqbWizPage_dataSourceDesignError, 
@@ -84,6 +83,19 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	    return m_dataSourceProfile;
 	}
     
+	private static IConnectionProfile loadConnectionProfile( java.util.Properties connProps )
+	{
+	    try
+        {
+            return Connection.loadProfileFromProperties( connProps );
+        }
+        catch( OdaException ex )
+        {
+            // ignore, let the caller handles null profile
+            return null;
+        }
+	}
+	
     private String getDataSetDesignName()
     {
         return getEditingDesign().getName();
@@ -392,9 +404,8 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
      */
     protected void cleanup()
     {
-         IConnectionProfile connProfile = getConnectionProfile( false, false );
-        if( connProfile != null && connProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE )
-            connProfile.disconnect( null );
+        Connection.closeProfile( m_dataSourceProfile );
+        m_dataSourceProfile = null;
         
         if( m_sqbDialog != null )
         {

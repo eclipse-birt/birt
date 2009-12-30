@@ -6,16 +6,79 @@
          id="%oda.data.source.id"
          point="org.eclipse.datatools.connectivity.oda.dataSource">
       <dataSource
-            driverClass="org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver"
             defaultDisplayName="%data.source.name"
-            setThreadContextClassLoader="false"
-            odaVersion="3.1"
-            id="%oda.data.source.id">
-         <properties></properties>
+            driverClass="org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver"
+            id="%oda.data.source.id"
+            odaVersion="3.2"
+            overrideExplorerFiltering="true"
+            setThreadContextClassLoader="false">
+         <properties>
+            <property
+                  allowsEmptyValueAsNull="false"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.databasename"
+                  isEncryptable="false"
+                  name="databaseName"
+                  type="string">
+            </property>
+            <property
+                  allowsEmptyValueAsNull="false"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.username"
+                  isEncryptable="false"
+                  name="username"
+                  type="string">
+            </property>
+            <property
+                  allowsEmptyValueAsNull="false"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.password"
+                  isEncryptable="true"
+                  name="password"
+                  type="string">
+            </property>
+            <property
+                  allowsEmptyValueAsNull="false"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.jdbcURL"
+                  isEncryptable="false"
+                  name="URL"
+                  type="string">
+            </property>
+            <property
+                  allowsEmptyValueAsNull="false"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.driverClass"
+                  isEncryptable="false"
+                  name="driverClass"
+                  type="string">
+            </property>
+            <property
+                  allowsEmptyValueAsNull="false"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.jarlist"
+                  isEncryptable="false"
+                  name="jarList"
+                  type="string">
+            </property>
+            <property
+                  allowsEmptyValueAsNull="false"
+                  canInherit="true"
+                  isEncryptable="false"
+                  name="connectionProperties"
+                  type="string">
+            </property>
+            <propertyVisibility
+                  name="connectionProperties"
+                  visibility="hide">
+            </propertyVisibility>
+         </properties>
+
          <relationship
                relatedId="org.eclipse.datatools.connectivity.db.category"
                type="wrapperOf">
          </relationship>
+
       </dataSource>
       <dataSet
             defaultDisplayName="%data.set.name"

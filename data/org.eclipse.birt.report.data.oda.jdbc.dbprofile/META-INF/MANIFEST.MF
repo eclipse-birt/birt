@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc.dbprofile;singleton:=true
-Bundle-Version: 2.5.1.qualifier
+Bundle-Version: 2.5.2.qualifier
 Bundle-ClassPath: .,
  src
 Bundle-Activator: org.eclipse.birt.report.data.oda.jdbc.dbprofile.Activator
@@ -12,7 +12,7 @@ Export-Package: org.eclipse.birt.report.data.oda.jdbc.dbprofile,
  org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl;x-internal:=true
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.3.0,4.0.0)",
  org.eclipse.datatools.connectivity.oda;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.0.6,4.0.0)",
+ org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.2,4.0.0)",
  org.eclipse.birt.report.data.oda.jdbc;bundle-version="[2.3.0,3.0.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

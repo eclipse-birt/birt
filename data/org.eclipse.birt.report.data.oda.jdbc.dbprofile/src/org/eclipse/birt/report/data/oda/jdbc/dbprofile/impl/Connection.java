@@ -26,16 +26,21 @@ import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
+import org.eclipse.datatools.connectivity.oda.profile.internal.OdaConnectionProfile;
+import org.eclipse.datatools.connectivity.oda.profile.internal.OdaProfileFactory;
 
 /**
  * Extends the behavior of the oda.jdbc runtime driver to use a database connection profile.
  */
+@SuppressWarnings("restriction")
 public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection 
     implements IConnection
 {
+    protected static final String SQB_DATA_SET_TYPE = "org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqbDataSet"; //$NON-NLS-1$
     private static final String JDBC_CONN_TYPE = "java.sql.Connection"; //$NON-NLS-1$
 
-    private static final Logger sm_logger = Logger.getLogger( Connection.class.getName() );
+    private static final String CLASS_NAME = Connection.class.getName();
+    private static final Logger sm_logger = Logger.getLogger( CLASS_NAME );
 
     private IConnectionProfile m_dbProfile;
     
@@ -44,18 +49,18 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	 */
 	public void open( Properties connProperties ) throws OdaException
 	{
-        // find and load the db profile defined in connection properties
-	    IConnectionProfile dbProfile = getProfile( connProperties );
-
 	    OdaException originalEx = null;
 	    try
         {
+	        // find and load the db profile defined in connection properties
+	        IConnectionProfile dbProfile = getProfile( connProperties );
             open( dbProfile );
         }
         catch( OdaException ex )
         {
             // log warning with connect status
-            sm_logger.log( Level.WARNING, Messages.connection_openFailed, ex );
+            sm_logger.logp( Level.WARNING, CLASS_NAME, "open(Properties)",  //$NON-NLS-1$
+                    Messages.connection_openFailed, ex );
             originalEx = ex;
         }
         
@@ -74,7 +79,8 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         }
 	}
 	
-	protected IConnectionProfile getProfile( Properties connProperties )
+	protected IConnectionProfile getProfile( Properties connProperties ) 
+	    throws OdaException
 	{
 	    return loadProfileFromProperties( connProperties );
 	}
@@ -127,14 +133,37 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         return jdbcConn;
     }
     
-    protected static IConnectionProfile loadProfileFromProperties( Properties connProperties )
+    /**
+     * Returns a connection profile based on the specified connection properties.
+     * If a profile store file is specified, load the referenced profile instance from the profile store.
+     * Otherwise, create a transient profile instance if profile base properties are available.
+     * @param connProperties
+     * @return  the loaded connection profile; may be null if properties are invalid or insufficient
+     * @throws OdaException 
+     */
+    public static IConnectionProfile loadProfileFromProperties( Properties connProperties ) 
+        throws OdaException
     {
         // find and load the db profile defined in connection properties;
         // note: driver class path specified in appContext, if exists, is not relevant
         // when connecting with the properties defined in a connection profile instance
         // (i.e. a profile instance uses its own jarList property)
-        return OdaProfileExplorer.getInstance()
-                                        .getProfileByName( connProperties, null );
+        IConnectionProfile dbProfile =  OdaProfileExplorer.getInstance()
+                                            .getProfileByName( connProperties, null );
+        if( dbProfile != null )
+            return dbProfile;
+        
+        // no persisted profile instance is specified or available;
+        // try create a transient profile if the connection properties contains profile properties
+        return createTransientProfile( connProperties );
+    }
+    
+    private static IConnectionProfile createTransientProfile( Properties connProperties ) 
+        throws OdaException
+    {
+        Properties profileProps = PropertyAdapter.adaptToDbProfilePropertyNames( connProperties );
+        
+        return OdaProfileFactory.createTransientProfile( profileProps );
     }
     
 	/*
@@ -144,7 +173,8 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	{
         if( m_dbProfile != null )
         {
-            close( m_dbProfile );
+            closeProfile( m_dbProfile );
+            m_dbProfile = null;
             super.jdbcConn = null;
             return;
         }
@@ -152,10 +182,30 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         super.close();
 	}
 
+	/**
+	 * Close the specified connection profile.
+	 * @param dbProfile
+	 * @deprecated     As of 2.5.2, replaced by {@link #closeProfile(IConnectionProfile)}
+	 */
 	protected static void close( IConnectionProfile dbProfile )
 	{
-        if( dbProfile != null )
-            dbProfile.disconnect( null );   // does nothing if already disconnected
+	    closeProfile( dbProfile );
+	}
+	
+	/**
+	 * Utility method to close the specified connection profile.
+	 * @param connProfile
+	 * @since 2.5.2
+	 */
+	public static void closeProfile( IConnectionProfile connProfile )
+	{
+        if( connProfile == null )
+            return;     // nothing to close
+        
+        if( connProfile instanceof OdaConnectionProfile )
+            ((OdaConnectionProfile)connProfile).close();
+        else
+            connProfile.disconnect( null );   // does nothing if already disconnected
 	}
 	
 	/*

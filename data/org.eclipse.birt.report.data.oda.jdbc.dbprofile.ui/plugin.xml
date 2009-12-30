@@ -9,7 +9,7 @@
             icon="icons/new_db_element.gif"
             profile="%oda.data.source.id"
             description="%newwizard.description"
-            class="org.eclipse.datatools.connectivity.oda.design.ui.profile.db.wizards.NewDbDataSourceWizard"
+            class="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.datasource.CustomDbDataSourceWizard"
             id="%oda.data.source.id">
       </newWizard>
    </extension>
@@ -17,7 +17,7 @@
          point="org.eclipse.ui.propertyPages">
       <page
             name="%profile.propertypage.name"
-            class="org.eclipse.datatools.connectivity.oda.design.ui.profile.db.wizards.DbProfileEditorPage"
+            class="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.datasource.CustomDbProfileEditorPage"
             id="%oda.data.source.id">
          <enabledWhen>
             <instanceof
@@ -90,6 +90,14 @@
             </and>
          </filterExpression>
       </commonFilter>
+   </extension>
+   
+   <extension
+         point="org.eclipse.datatools.connectivity.oda.consumer.propertyProvider">
+      <dataSourcePropertyService
+            consumerApplicationId="%oda.data.source.id"
+            providerClass="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.datasource.DbProfilePropertyProvider">
+      </dataSourcePropertyService>
    </extension>
 
 </plugin>
