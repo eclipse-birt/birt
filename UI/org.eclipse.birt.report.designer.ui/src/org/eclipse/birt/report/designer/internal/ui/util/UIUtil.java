@@ -2792,7 +2792,7 @@ public class UIUtil
 					}
 				}
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				e.printStackTrace( );
 			}
