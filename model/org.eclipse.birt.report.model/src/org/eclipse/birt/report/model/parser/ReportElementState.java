@@ -769,9 +769,10 @@ public abstract class ReportElementState extends DesignParseState
 		if ( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG
 				.equalsIgnoreCase( tagName ) )
 		{
-			if ( ( defn.getSlotCount( ) > 0 || getElement( ).getContents( )
-					.size( ) > 0 )
-					&& getElement( ).canContainVirtualElements( ) )
+			if ( ( ( defn.getSlotCount( ) > 0 || getElement( ).getContents( )
+					.size( ) > 0 ) && defn.canExtend( ) )
+					|| ( !defn.canExtend( ) && getElement( )
+							.canContainVirtualElements( ) ) )
 			{
 				return new OverriddenValuesState(
 						(ModuleParserHandler) getHandler( ), getElement( ),
