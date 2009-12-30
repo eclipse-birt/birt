@@ -104,22 +104,23 @@ public class PreparedQueryUtil
 			return new PreparedIVDataExtractionQuery( dataEngine,
 					queryDefn,
 					appContext,
-					contextVisitor );
+					contextVisitor );   
 		}
+		
+		IPreparedQuery preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
+				queryDefn,
+				dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ),
+				appContext,
+				contextVisitor );
+		
+		if ( preparedQuery != null ) 
+			return preparedQuery;
 		
 		if ( queryDefn.getQueryResultsID( ) != null )
 		{
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			{
-				IPreparedQuery preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
-						queryDefn,
-						dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ),
-						appContext,
-						contextVisitor );
-				if ( preparedQuery != null )
-					return preparedQuery;
-				
 				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ));
 			}
 			
@@ -135,13 +136,7 @@ public class PreparedQueryUtil
 			
 			return newIVInstance( dataEngine, queryDefn, appContext );
 		}
-		IPreparedQuery preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
-				queryDefn,
-				dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ),
-				appContext,
-				contextVisitor );
-		if ( preparedQuery != null )
-			return preparedQuery;
+	
 		
 		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
 		if ( dset == null )
