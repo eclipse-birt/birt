@@ -29,7 +29,7 @@ public abstract class TextualPropertyType extends PropertyType
 	static final int NO_VALUE = 0;
 
 	/**
-	 * The value of the operation which will trim the input string.
+	 * The value of the operation which won't trim the input string.
 	 */
 	static final int NO_TRIM_VALUE = 1;
 
