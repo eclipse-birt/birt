@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.html.util;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
@@ -279,12 +280,20 @@ public class HTMLEmitterUtil
 	 *            - the buffer to build the overflow style
 	 * @param style
 	 *            - the style of current report item
+	 * @param outputHidden
+	 *            - whether to output the overflow property with hidden value
 	 */
-	public static void buildOverflowStyle( StringBuffer buf, IStyle style )
+	public static void buildOverflowStyle( StringBuffer buf, IStyle style,
+			boolean outputHidden )
 	{
 		String overflow = style.getOverflow( );
-		buf.append( " overflow:" );
-		buf.append( overflow != null ? overflow : "hidden" );
-		buf.append( ";" );
+		if ( outputHidden
+				|| ( overflow != null && !CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE.equals( overflow ) ) )
+		{
+			buf.append( " overflow:" );
+			buf.append( overflow != null ? overflow
+					: CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE );
+			buf.append( ";" );
+		}
 	}
 }

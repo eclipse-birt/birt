@@ -2162,7 +2162,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			styleBuffer.append( " height: " );
 			styleBuffer.append( cellHeight.toString( ) );
 			styleBuffer.append( "; width: 100%; position: absolute; left: 0px;" );
-			HTMLEmitterUtil.buildOverflowStyle( styleBuffer, cell.getStyle( ) );
+			HTMLEmitterUtil.buildOverflowStyle( styleBuffer,
+					cell.getStyle( ),
+					true );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		}
 		else if ( cell.hasDiagonalLine( ) )

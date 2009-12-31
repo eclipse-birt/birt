@@ -579,7 +579,7 @@ public abstract class HTMLEmitter
 		{
 			assert false;
 		}
-		HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style );
+		HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style, false );
 		return canShrink;
 	}
 	
@@ -604,12 +604,13 @@ public abstract class HTMLEmitter
 	{
 		boolean canShrink = style != null
 				&& "true".equalsIgnoreCase( style.getCanShrink( ) ); //$NON-NLS-1$
-
+		boolean outputHidden = false;
 		if ( ( type & HTMLEmitterUtil.DISPLAY_BLOCK ) > 0 )
 		{
 			if ( width != null )
 			{
 				buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+				outputHidden = true;
 			}
 			if ( !canShrink )
 			{
@@ -629,6 +630,7 @@ public abstract class HTMLEmitter
 				if ( width != null )
 				{
 					buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+					outputHidden = true;
 				}
 			}
 
@@ -637,7 +639,7 @@ public abstract class HTMLEmitter
 		{
 			assert false;
 		}
-		HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style );
+		HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style, outputHidden );
 		return canShrink;
 	}
 	
