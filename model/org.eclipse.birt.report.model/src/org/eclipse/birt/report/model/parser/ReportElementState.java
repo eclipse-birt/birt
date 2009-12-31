@@ -815,6 +815,28 @@ public abstract class ReportElementState extends DesignParseState
 	}
 
 	/**
+	 * Inserts a name/value pair for the element with the given id.
+	 * 
+	 * @param id
+	 * @param propName
+	 * @param value
+	 */
+	protected void insertOverridenPropertyValue( long id, String propName,
+			String value )
+	{
+		if ( overriddenRefValues == null )
+			overriddenRefValues = new HashMap<Long, OverriddenRefValue>( );
+
+		OverriddenRefValue refValue = overriddenRefValues.get( Long
+				.valueOf( id ) );
+		if ( refValue == null )
+		{
+			refValue = new OverriddenRefValue( 0, null );
+		}
+		refValue.insertPropertyValue( propName, value );
+	}
+
+	/**
 	 * The data structure to store the id/ name pair.
 	 */
 
@@ -823,6 +845,7 @@ public abstract class ReportElementState extends DesignParseState
 
 		private long id;
 		private String name;
+		Map<String, String> propValues = null;
 
 		OverriddenRefValue( long id, String name )
 		{
@@ -838,6 +861,21 @@ public abstract class ReportElementState extends DesignParseState
 		public long getID( )
 		{
 			return id;
+		}
+		
+		public Map<String, String> getPropertyValues()
+		{
+			return propValues;
+		}
+
+		protected void insertPropertyValue( String propName, String value )
+		{
+			if ( propValues == null )
+			{
+				propValues = new HashMap<String, String>( );
+			}
+
+			propValues.put( propName, value );
 		}
 	}
 }

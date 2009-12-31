@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * Parses overridden values in the element.
@@ -44,7 +45,7 @@ class OverriddenValuesState extends AbstractParseState
 
 	private Map baseIdMap = new HashMap( );
 
-	private ReportElementState partentState;
+	private ReportElementState parentState;
 
 	/**
 	 * Constructs <code>OverriddenValuesState</code> with the given handler and
@@ -61,7 +62,7 @@ class OverriddenValuesState extends AbstractParseState
 	{
 
 		this.handler = handler;
-		this.partentState = partentState;
+		this.parentState = partentState;
 
 		assert element.canContainVirtualElements( );
 		baseIdMap = ElementStructureUtil.getIdMap( handler.module, element );
@@ -178,7 +179,7 @@ class OverriddenValuesState extends AbstractParseState
 			DesignElement virtualChild = getElement( );
 			if ( virtualChild == null )
 			{
-				if ( OverriddenValuesState.this.partentState.getElement( )
+				if ( OverriddenValuesState.this.parentState.getElement( )
 						.getExtendsElement( ) == null )
 				{
 					handleWithParentState = true;
@@ -203,7 +204,6 @@ class OverriddenValuesState extends AbstractParseState
 			}
 
 			long id = 0;
-
 			// handle id
 			try
 			{
@@ -232,7 +232,7 @@ class OverriddenValuesState extends AbstractParseState
 
 					if ( handleWithParentState )
 					{
-						OverriddenValuesState.this.partentState
+						OverriddenValuesState.this.parentState
 								.insertOverriddenRefValue(
 										baseId,
 										new ReportElementState.OverriddenRefValue(
@@ -305,7 +305,73 @@ class OverriddenValuesState extends AbstractParseState
 			if ( !isBaseValid )
 				return new AnyElementState( getHandler( ) );
 
-			return super.startElement( tagName );
+			if ( parentState.getElement( ).getDefn( ).canExtend( ) )
+				return super.startElement( tagName );
+			else
+			{
+				int tagValue = tagName.toLowerCase( ).hashCode( );
+				if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
+					return new PropertyNodeState( handler, baseId );
+				return new AnyElementState( getHandler( ) );
+			}
 		}
+	}
+
+	class PropertyNodeState extends DesignParseState
+	{
+
+		private long id;
+		private String propName = null;
+
+		/**
+		 * Constrcuts <code>PropertyNodeState</code> with the given handler.
+		 * 
+		 * @param handler
+		 *            the handler to parse the file
+		 */
+
+		PropertyNodeState( ModuleParserHandler handler, long id )
+		{
+			super( handler );
+			this.id = id;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.model.parser.DesignParseState#getElement()
+		 */
+		public DesignElement getElement( )
+		{
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+		 */
+		public void end( ) throws SAXException
+		{
+			String value = text.toString( );
+			if ( parentState != null )
+			{
+				parentState.insertOverridenPropertyValue( id, propName, value );
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
+		 */
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			propName = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
+		}
+
 	}
 }
