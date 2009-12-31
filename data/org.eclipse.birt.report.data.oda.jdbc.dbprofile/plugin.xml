@@ -61,17 +61,6 @@
                   name="jarList"
                   type="string">
             </property>
-            <property
-                  allowsEmptyValueAsNull="false"
-                  canInherit="true"
-                  isEncryptable="false"
-                  name="connectionProperties"
-                  type="string">
-            </property>
-            <propertyVisibility
-                  name="connectionProperties"
-                  visibility="hide">
-            </propertyVisibility>
          </properties>
 
          <relationship

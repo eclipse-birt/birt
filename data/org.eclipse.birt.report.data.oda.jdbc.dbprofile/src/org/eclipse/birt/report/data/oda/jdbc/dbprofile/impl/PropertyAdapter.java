@@ -48,8 +48,8 @@ public class PropertyAdapter
         // adapt the property names to the complete names used by a DTP database profile
         adaptToFullPropertyNames( profileProps );
                 
-        /* TODO - temporarily works around the issue with BIRT host that has
-         * converted an empty property value to null
+        /* works around the limitation with BIRT ROM that has
+         * converted an empty property value to null for private property
          */
         String dbConnPropValues = profileProps.getProperty( 
                 IJDBCConnectionProfileConstants.CONNECTION_PROPERTIES_PROP_ID );
@@ -135,8 +135,6 @@ public class PropertyAdapter
                     fullPropName = IJDBCConnectionProfileConstants.URL_PROP_ID;
                     sm_adaptableNames.put( fullPropName, convertToOdaPropertyName( fullPropName ) );
                     fullPropName = IJDBCConnectionProfileConstants.DRIVER_CLASS_PROP_ID;
-                    sm_adaptableNames.put( fullPropName, convertToOdaPropertyName( fullPropName ) );
-                    fullPropName = IJDBCConnectionProfileConstants.CONNECTION_PROPERTIES_PROP_ID;
                     sm_adaptableNames.put( fullPropName, convertToOdaPropertyName( fullPropName ) );
                 }
             }

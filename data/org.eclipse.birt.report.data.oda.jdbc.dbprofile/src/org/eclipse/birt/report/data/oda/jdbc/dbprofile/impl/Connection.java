@@ -151,9 +151,9 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         IConnectionProfile dbProfile =  OdaProfileExplorer.getInstance()
                                             .getProfileByName( connProperties, null );
         if( dbProfile != null )
-            return dbProfile;
-        
-        // no persisted profile instance is specified or available;
+            return dbProfile;   // found referenced external profile instance
+
+        // no external profile instance is specified or available;
         // try create a transient profile if the connection properties contains profile properties
         return createTransientProfile( connProperties );
     }
