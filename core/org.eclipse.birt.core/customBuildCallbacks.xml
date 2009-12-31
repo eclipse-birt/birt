@@ -34,7 +34,9 @@
 		<jar destfile="${basedir}/coreapi.jar">
 			<fileset dir="@dot">
 				<include name="org/eclipse/birt/core/archive/*.class" />
+				<include name="org/eclipse/birt/core/archive/cache/*.class" />
 				<include name="org/eclipse/birt/core/archive/compound/*.class" />
+				<include name="org/eclipse/birt/core/archive/compound/v3/*.class" />
 				<include name="org/eclipse/birt/core/exception/*.class" />
 				<include name="org/eclipse/birt/core/framework/*.class" />
 				<include name="org/eclipse/birt/core/framework/osgi/*.class" />
