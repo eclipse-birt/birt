@@ -19,8 +19,7 @@
     <property name="Customer Cube.Data Set.y">105</property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[//importPackage( Packages.java.lang ); TED 14221
-//importPackage( Packages.java.lang.integer );
-rwc1 = new Integer(1);
+rwc1 = new java.lang.Integer(1);
 reportContext.setPersistentGlobalVariable("rwc", rwc1);]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
