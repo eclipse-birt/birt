@@ -164,7 +164,7 @@ BirtChartMenuHelper.createPopupMenu = function(evt, menuInfo) {
 BirtChartMenuHelper.registerHideTimer = function(time) {
 	if (this.menuHideTimer != undefined)
 		this.unregisterHideTimer();
-	this.menuHideTimer = window.setTimeout('BirtChartMenuHelper.menu.hide();',
+	this.menuHideTimer = window.setTimeout('if ( BirtChartMenuHelper.menu ) BirtChartMenuHelper.menu.hide();',
 			time);
 };
 
