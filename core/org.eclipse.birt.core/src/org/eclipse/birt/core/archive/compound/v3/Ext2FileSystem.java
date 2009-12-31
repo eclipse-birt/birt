@@ -157,12 +157,23 @@ public class Ext2FileSystem
 		readProperties( );
 	}
 
+	private void ensureParentFolderCreated( String fileName )
+	{
+		// try to create the parent folder
+		File parentFile = new File( fileName ).getParentFile( );
+		if ( parentFile != null && !parentFile.exists( ) )
+		{
+			parentFile.mkdirs( );
+		}
+	}
+
 	private void createFileSystem( ) throws IOException
 	{
 		if ( !removeOnExit )
 		{
 			if ( rf == null )
 			{
+				ensureParentFolderCreated( fileName );
 				rf = new RandomAccessFile( fileName, "rw" );
 			}
 			rf.setLength( 0 );
@@ -612,6 +623,7 @@ public class Ext2FileSystem
 			{
 				if ( rf == null )
 				{
+					ensureParentFolderCreated( fileName );
 					rf = new RandomAccessFile( fileName, "rw" );
 					rf.setLength( 0 );
 				}
