@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -543,8 +545,8 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * new OdaDataSet.resultSet.
 	 * <p>
 	 * The rule is by taking 1) the current ResultSet�s column name as the
-	 * �nativeName�, and 2) the ResultSetHints�s column name as the �name�, in
-	 * the merged OdaResultSetColumn structure.
+	 * �nativeName�, and 2) the ResultSetHints�s column name as the
+	 * �name�, in the merged OdaResultSetColumn structure.
 	 * 
 	 * 
 	 * @throws Exception
@@ -787,6 +789,11 @@ public class ParserCompatibilityTest extends BaseTestCase
 	public void testScalarParamSortBy( ) throws Exception
 	{
 		openDesign( "CompatibleSortByParseTest.xml" ); //$NON-NLS-1$
+
+		ScalarParameterHandle paramHandle = (ScalarParameterHandle) designHandle.getParameters( ).get( 0 );
+		ExpressionHandle exprHandle = paramHandle.getExpressionProperty( ScalarParameterHandle.SORT_BY_COLUMN_PROP );
+		assertNotNull( exprHandle );
+		assertTrue( exprHandle.getValue( ) instanceof Expression );
 
 		save( );
 		assertTrue( compareFile( "CompatibleSortByParseTest_golden.xml" ) ); //$NON-NLS-1$

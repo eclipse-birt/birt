@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -157,27 +158,36 @@ public class ScalarParameterState extends AbstractScalarParameterState
 											handler.module,
 											IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP ) ) )
 			{
+				Object oldValue = null;
 				if ( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
 						.equalsIgnoreCase( sortBy ) )
 				{
-					param
-							.setProperty(
-									IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP,
-									param
-											.getStringProperty(
-													handler.module,
-													IAbstractScalarParameterModel.VALUE_EXPR_PROP ) );
+					oldValue = param.getProperty( handler.module,
+							IAbstractScalarParameterModel.VALUE_EXPR_PROP );
 				}
 				else if ( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
 						.equalsIgnoreCase( sortBy ) )
 				{
-					param
-							.setProperty(
-									IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP,
-									param
-											.getStringProperty(
-													handler.module,
-													IAbstractScalarParameterModel.LABEL_EXPR_PROP ) );
+
+					oldValue = param.getProperty( handler.module,
+							IAbstractScalarParameterModel.LABEL_EXPR_PROP );
+				}
+				if ( oldValue != null )
+				{
+					Expression newValue = null;
+					if ( oldValue instanceof Expression )
+					{
+						Expression oldExpr = (Expression) oldValue;
+						newValue = new Expression( oldExpr.getExpression( ),
+								oldExpr.getUserDefinedType( ) );
+					}
+					else
+					{
+						newValue = new Expression( oldValue, null );
+					}
+					param.setProperty(
+							IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP,
+							oldValue );
 				}
 			}
 		}
