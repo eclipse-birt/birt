@@ -29,6 +29,7 @@ OptionDisplayValue.Collate=逐份打印
 OptionDisplayValue.Duplex=双面打印
 OptionDisplayValue.PaperSize=纸张尺寸
 OptionDisplayValue.PaperTray=纸盒
+OptionDisplayValue.ChartDpi=Chart DPI
 
 ###########################################################
 #Option Description
@@ -41,3 +42,4 @@ OptionDescription.Collate=逐份打印。
 OptionDescription.Duplex=双面打印。
 OptionDescription.PaperSize=纸张尺寸。
 OptionDescription.PaperTray=纸盒。
+OptionDescription.ChartDpi=The DPI used to generate chart.

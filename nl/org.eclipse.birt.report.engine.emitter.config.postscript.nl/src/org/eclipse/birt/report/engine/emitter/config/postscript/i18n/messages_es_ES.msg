@@ -29,6 +29,7 @@ OptionDisplayValue.Collate=Intercalar
 OptionDisplayValue.Duplex=Doble cara:
 OptionDisplayValue.PaperSize=Tamaño de papel
 OptionDisplayValue.PaperTray=Bandeja de papel
+OptionDisplayValue.ChartDpi=Chart DPI
 
 ###########################################################
 #Option Description
@@ -41,3 +42,4 @@ OptionDescription.Collate=Intercalar.
 OptionDescription.Duplex=Doble cara.
 OptionDescription.PaperSize=Tamaño de papel.
 OptionDescription.PaperTray=Bandeja de papel.
+OptionDescription.ChartDpi=The DPI used to generate chart.

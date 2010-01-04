@@ -29,6 +29,7 @@ OptionDisplayValue.Collate=部単位で印刷
 OptionDisplayValue.Duplex=両面印刷
 OptionDisplayValue.PaperSize=用紙サイズ
 OptionDisplayValue.PaperTray=用紙トレイ
+OptionDisplayValue.ChartDpi=Chart DPI
 
 ###########################################################
 #Option Description
@@ -41,3 +42,4 @@ OptionDescription.Collate=部単位で印刷。
 OptionDescription.Duplex=両面印刷。
 OptionDescription.PaperSize=用紙サイズ。
 OptionDescription.PaperTray=用紙トレイ。
+OptionDescription.ChartDpi=The DPI used to generate chart.

@@ -29,6 +29,7 @@ OptionDisplayValue.Collate=Assembler
 OptionDisplayValue.Duplex=Recto verso
 OptionDisplayValue.PaperSize=Taille de papier
 OptionDisplayValue.PaperTray=Alimentation papier
+OptionDisplayValue.ChartDpi=Chart DPI
 
 ###########################################################
 #Option Description
@@ -41,3 +42,4 @@ OptionDescription.Collate=Assembler.
 OptionDescription.Duplex=Recto verso.
 OptionDescription.PaperSize=Taille de papier.
 OptionDescription.PaperTray=Alimentation papier.
+OptionDescription.ChartDpi=The DPI used to generate chart.
