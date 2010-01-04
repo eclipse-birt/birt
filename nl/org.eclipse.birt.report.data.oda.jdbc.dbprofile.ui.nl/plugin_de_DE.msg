@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -17,11 +17,11 @@ parent.category.id=org.eclipse.datatools.connectivity.db.category
 ###############################################################################
 # NLS strings
 #
-plugin.name=JDBC Databases Profile Data Source ODA Designer
-newwizard.name=Datenquellenprofil für JDBC-Datenbanken [Prototyp]
+plugin.name=JDBC Database Connection Data Source ODA Designer
+newwizard.name=JDBC Database Connection for Query Builder [Prototype]
 newwizard.description=Verbindungsprofil für JDBC-Datenbanken erstellen
-wizard.window.title=Neues Profil für JDBC-Datenbanken [Prototyp]
-wizard.data.source.page.title=Profil für JDBC-Datenbanken [Prototyp]
+wizard.window.title=New JDBC Database Connection [Prototype]
+wizard.data.source.page.title=JDBC Database Connection [Prototype]
 profile.propertypage.name=JDBC-Treiber- und Verbindungsdetails
 wizard.data.set.window.title=Neue SQL Select-Abfrage [Abfrage-Editor-Prototyp]
 wizard.data.set.page.title=SQL Select-Abfrage

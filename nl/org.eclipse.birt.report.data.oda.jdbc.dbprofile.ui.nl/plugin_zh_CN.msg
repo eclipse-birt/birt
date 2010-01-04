@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -17,11 +17,11 @@ parent.category.id=org.eclipse.datatools.connectivity.db.category
 ###############################################################################
 # NLS strings
 #
-plugin.name=JDBC Databases Profile Data Source ODA Designer
-newwizard.name=JDBC 数据库配置文件数据源 [原型]
+plugin.name=JDBC Database Connection Data Source ODA Designer
+newwizard.name=JDBC Database Connection for Query Builder [Prototype]
 newwizard.description=创建 JDBC 数据库连接配置文件
-wizard.window.title=新建 JDBC 数据库配置文件 [原型]
-wizard.data.source.page.title=JDBC 数据库配置文件 [原型]
+wizard.window.title=New JDBC Database Connection [Prototype]
+wizard.data.source.page.title=JDBC Database Connection [Prototype]
 profile.propertypage.name=JDBC 驱动程序连接详细信息
 wizard.data.set.window.title=新建 SQL 选择查询 [查询生成器原型]
 wizard.data.set.page.title=SQL 选择查询
