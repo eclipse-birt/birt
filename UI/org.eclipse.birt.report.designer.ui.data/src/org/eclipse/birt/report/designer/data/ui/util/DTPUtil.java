@@ -336,14 +336,14 @@ public class DTPUtil
 		}
 		try
 		{
-			return new URI( Utility.getReportModuleHandle( )
+			return new URI( encode( Utility.getReportModuleHandle( )
 					.getSystemId( )
-					.getPath( ) );
+					.getPath( ) ) );
 		}
 		catch ( URISyntaxException e )
 		{
+			return null;
 		}
-		return null;
 	}
 
 	/**
@@ -351,16 +351,31 @@ public class DTPUtil
 	 * 
 	 * @return
 	 */
-    public URI getBIRTResourcePath( )
+	public URI getBIRTResourcePath( )
 	{
 		try
 		{
-			return new URI( ReportPlugin.getDefault( ).getResourceFolder( ) );
+			return new URI( encode( ReportPlugin.getDefault( )
+					.getResourceFolder( ) ) );
 		}
 		catch ( URISyntaxException e )
 		{
+			return null;
 		}
-		return null;
+	}
+    
+	private String encode( String location )
+	{
+		try
+		{
+			return new File( location ).toURI( )
+					.toASCIIString( )
+					.replace( new File( "" ).toURI( ).toASCIIString( ), "" );  //$NON-NLS-1$//$NON-NLS-2$
+		}
+		catch ( Exception e )
+		{
+			return location;
+		}
 	}
 	
 	/**
