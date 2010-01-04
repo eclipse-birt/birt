@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -17,8 +17,14 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc.dbprofile
 # NLS String
 ###############################################################################
 #
-plugin.name=JDBC Databases Profile Data Source ODA Runtime Driver
-data.source.name=Fuente de datos del perfil de bases de datos JDBC BIRT [Prototipo]
+plugin.name=JDBC Database Connection Data Source ODA Runtime Driver
+data.source.name=JDBC Database Connection for Query Builder [Prototype]
 data.set.name=Consulta de selección de SQL [Prototipo de compilador de consultas]
-connection.profile.name=Perfil de conexión de bases de datos JDBC BIRT
+connection.profile.name=BIRT JDBC Database Connection Profile
 dataset.property.parameterMetaData=Metadatos de parámetros JDBC BIRT
+datasource.property.username=User &Name
+datasource.property.password=Pass&word
+datasource.property.jdbcURL=JDBC Driver U&RL
+datasource.property.driverClass=JDBC Driver &Class
+datasource.property.jarlist=JDBC Driver &JAR List using ';' separator
+datasource.property.databasename=&Database
