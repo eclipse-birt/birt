@@ -20,7 +20,9 @@ OptionDisplayValue.WrappingText=텍스트 줄 바꿈 사용
 OptionDisplayValue.OfficeVersion=출력 버전:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
+OptionDisplayValue.ChartDpi=Chart DPI
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=텍스트 줄 바꿈 가능 여부를 나타냅니다.
+OptionDescription.ChartDpi=The DPI used to generate chart.
