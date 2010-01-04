@@ -691,6 +691,12 @@ Choices.accessType.transient=임시
 Choices.accessType.latest=최신
 Choices.accessType.specificVersion=SpecificVersion
 
+#87 overflow
+Choices.overflow.visible=표시
+Choices.overflow.hidden=숨김
+Choices.overflow.scroll=스크롤
+Choices.overflow.auto=자동
+
 ###########################################################
 # Classes
 
@@ -2244,6 +2250,11 @@ Structure.IncludedDataMart=데이터 마트 포함
 Structure.IncludedDataMart.fileName=파일 이름
 Structure.IncludedDataMart.namespace=네임스페이스
 
+#38. TimeInterval
+Structure.TimeInterval=Time Interval
+Structure.TimeInterval.measure=측정
+Structure.TimeInterval.unit=Unit
+
 ###########################################################
 # Element names
 
@@ -2670,6 +2681,7 @@ Element.Style.whiteSpace=공백
 Element.Style.widows=창
 Element.Style.orphans=고아
 Element.Style.wordSpacing=단어 간격
+Element.Style.overflow=Overflow
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=책갈피

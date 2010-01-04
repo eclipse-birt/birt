@@ -691,6 +691,12 @@ Choices.accessType.transient=一時的
 Choices.accessType.latest=最新
 Choices.accessType.specificVersion=SpecificVersion
 
+#87 overflow
+Choices.overflow.visible=表示
+Choices.overflow.hidden=非表示
+Choices.overflow.scroll=スクロール
+Choices.overflow.auto=自動
+
 ###########################################################
 # Classes
 
@@ -2244,6 +2250,11 @@ Structure.IncludedDataMart=含まれる DataMart
 Structure.IncludedDataMart.fileName=ファイル名
 Structure.IncludedDataMart.namespace=ネームスペース
 
+#38. TimeInterval
+Structure.TimeInterval=Time Interval
+Structure.TimeInterval.measure=メジャー
+Structure.TimeInterval.unit=Unit
+
 ###########################################################
 # Element names
 
@@ -2670,6 +2681,7 @@ Element.Style.whiteSpace=スペース
 Element.Style.widows=ウィドウ
 Element.Style.orphans=オーファン
 Element.Style.wordSpacing=単語間の間隔
+Element.Style.overflow=Overflow
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=ブックマーク

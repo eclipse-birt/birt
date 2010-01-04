@@ -691,6 +691,12 @@ Choices.accessType.transient=Tempor‰r
 Choices.accessType.latest=Neueste Version
 Choices.accessType.specificVersion=SpecificVersion
 
+#87 overflow
+Choices.overflow.visible=Sichtbar
+Choices.overflow.hidden=Ausgeblendet
+Choices.overflow.scroll=Scrollen
+Choices.overflow.auto=Autom.
+
 ###########################################################
 # Classes
 
@@ -2244,6 +2250,11 @@ Structure.IncludedDataMart=Enthaltener DataMart
 Structure.IncludedDataMart.fileName=Dateiname
 Structure.IncludedDataMart.namespace=Namespace
 
+#38. TimeInterval
+Structure.TimeInterval=Time Interval
+Structure.TimeInterval.measure=Maﬂeinheit
+Structure.TimeInterval.unit=Unit
+
 ###########################################################
 # Element names
 
@@ -2670,6 +2681,7 @@ Element.Style.whiteSpace=Whitespace
 Element.Style.widows=Witwen
 Element.Style.orphans=Waisenkinder
 Element.Style.wordSpacing=Wortabstand
+Element.Style.overflow=Overflow
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Lesezeichen

@@ -691,6 +691,12 @@ Choices.accessType.transient=暂时
 Choices.accessType.latest=最新
 Choices.accessType.specificVersion=SpecificVersion
 
+#87 overflow
+Choices.overflow.visible=可见
+Choices.overflow.hidden=隐藏
+Choices.overflow.scroll=滚动
+Choices.overflow.auto=自动
+
 ###########################################################
 # Classes
 
@@ -2244,6 +2250,11 @@ Structure.IncludedDataMart=包括的 DataMart
 Structure.IncludedDataMart.fileName=文件名
 Structure.IncludedDataMart.namespace=命名空间
 
+#38. TimeInterval
+Structure.TimeInterval=Time Interval
+Structure.TimeInterval.measure=度量
+Structure.TimeInterval.unit=Unit
+
 ###########################################################
 # Element names
 
@@ -2670,6 +2681,7 @@ Element.Style.whiteSpace=空白
 Element.Style.widows=弧行
 Element.Style.orphans=孤行
 Element.Style.wordSpacing=字间距
+Element.Style.overflow=Overflow
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=书签
