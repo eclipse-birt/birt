@@ -44,7 +44,6 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	private IDiskArray aggregationResultRow;
 	private AggregationResultRow resultObject;
 	private int[] sortType;
-	private DataInputStream inputStream;
 	private String[] aggregationNames;
 	private static Logger logger = Logger.getLogger( CachedAggregationResultSet.class.getName( ) );
 
@@ -69,7 +68,6 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		logger.entering( CachedAggregationResultSet.class.getName( ),
 				"CachedAggregationResultSet",
 				params );
-		this.inputStream = inputStream;
 		this.currentPosition = 0;
 		this.length = length;
 		this.levels = levels;
@@ -91,6 +89,10 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 			}
 		}
 		aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
+		for ( int i = 0; i < length; i++ )
+		{
+			aggregationResultRow.add( AggregationResultSetSaveUtil.loadAggregationRow( inputStream ) );
+		}
 		if ( this.length > 0 )
 			seek( 0 );
 		logger.exiting( CachedAggregationResultSet.class.getName( ),
@@ -409,13 +411,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 			throw new IndexOutOfBoundsException( "Index: "
 					+ index + ", Size: " + length );
 		}
-		if ( index >= aggregationResultRow.size( ) )
-		{
-			for ( int i = 0; i <= index - aggregationResultRow.size( ); i++ )
-			{
-				aggregationResultRow.add( AggregationResultSetSaveUtil.loadAggregationRow( inputStream ) );
-			}
-		}
+		
 		currentPosition = index;
 		resultObject = (AggregationResultRow) aggregationResultRow.get( index );
 	}
@@ -466,7 +462,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 */
 	public void close( ) throws IOException
 	{
-		inputStream.close( );
+		aggregationResultRow.close( );
 	}
 
 	/*
@@ -475,7 +471,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 */
 	public void clear( ) throws IOException
 	{
-		inputStream.close( );
+		aggregationResultRow.clear( );
 		length = 0;
 	}
 
