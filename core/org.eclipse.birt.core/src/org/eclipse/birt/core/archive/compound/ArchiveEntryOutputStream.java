@@ -132,16 +132,26 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 
 	public void close( ) throws IOException
 	{
-		// remove it from the writer
-		writer.unregisterStream( this );
-		try
+		if ( entry != null )
 		{
-			// flush the data into the stream
-			flush( );
-		}
-		finally
-		{
-			super.close( );
+			// remove it from the writer
+			writer.unregisterStream( this );
+			try
+			{
+				// flush the data into the stream
+				flush( );
+			}
+			finally
+			{
+				try
+				{
+					entry.close( );
+				}
+				finally
+				{
+					entry = null;
+				}
+			}
 		}
 	}
 

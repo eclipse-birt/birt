@@ -54,6 +54,21 @@ public class ArchiveEntryInputStream extends RAInputStream
 		this.buffer_offset = 0;
 	}
 
+	public void close( ) throws IOException
+	{
+		if ( entry != null )
+		{
+			try
+			{
+				entry.close( );
+			}
+			finally
+			{
+				entry = null;
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
