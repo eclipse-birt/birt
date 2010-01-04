@@ -1883,6 +1883,19 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz (Schriftgröße =
 
 ###########################################################
 #HighlightRuleBuilderDialog properties
+HightlightRuleBuilder.button.add=&Hinzufügen
+HightlightRuleBuilder.button.add.tooltip=Wert zur Werteliste hinzufügen
+HightlightRuleBuilder.button.delete=Ent&fernen
+HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.deleteall=Alle entf&ernen
+HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.edit=&Bearbeiten...
+HightlightRuleBuilder.button.edit.tooltip=Ausgewählten Wert in Werteliste bearbeiten
+HightlightRuleBuilder.label.value=&Wert:
+HightlightRuleBuilder.list.item1=Wert
+HightlightRuleBuilder.MsgDlg.Msg=Warnung
+HightlightRuleBuilder.MsgDlg.Title=Der Wert darf nicht leer sein.
+HightlightRuleBuilder.text.AND=UND
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=Wert dieses Datenelements
 HighlightRuleBuilderDialog.text.AND=UND
@@ -1957,6 +1970,7 @@ HighlightsPreferencePage.text.Description=Kennzeichnungsliste:
 HighlightsPreferencePage.text.Edit=&Bearbeiten...
 HighlightsPreferencePage.toolTipText.Up=Markierung nach oben verschieben
 HighlightsPreferencePage.toolTipText.Down=Markierung nach unten verschieben
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2161,6 +2175,7 @@ InputParameterDailog.parameter.noparameter=Mit diesem Bericht ist kein Parameter
 InputParameterDialog.ErrorMessage.InvalidFile=Der Bericht ist fehlerhaft.
 InputParameterDailog.parameter.null=Null-Wert
 InputParameterDialog.ErrorTitle.Error=Fehler
+InputParameterDialog.boolean.checked=Ja
 
 ###########################################################
 #InsertAction properties
@@ -2437,12 +2452,25 @@ MapPreferencePage.toolTipText.Down=Zuordnungsregel nach unten verschieben
 ###########################################################
 #MapRuleBuilderDialog properties
 
+MapRuleBuilder.button.add=&Hinzufügen
+MapRuleBuilder.button.add.tooltip=Wert zur Werteliste hinzufügen
+MapRuleBuilder.button.delete=&Entfernen
+MapRuleBuilder.button.delete.tooltip=Ausgewählten Wert aus Liste löschen
+MapRuleBuilder.button.deleteall=Alle entf&ernen
+MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.edit=&Bearbeiten...
+MapRuleBuilder.button.edit.tooltip=Ausgewählten Wert in Werteliste bearbeiten
 MapRuleBuilder.DialogTitle.New=Neue Zuordnungsregel
 MapRuleBuilder.DialogTitle.Edit=Zuordnungsregel bearbeiten
 MapRuleBuilder.Button.ResourceKey=Ressourcen&schlüssel:
 MapRuleBuilder.Button.Reset=&Zurücksetzen
 MapRuleBuilder.Button.Browse=&Durchsuchen...
 MapRuleBuilder.Button.Browse.Tooltip=Durchsuchen und Schlüssel auswählen
+MapRuleBuilder.label.value=&Wert:
+MapRuleBuilder.list.item1=Wert
+MapRuleBuilder.MsgDlg.Msg=Warnung
+MapRuleBuilder.MsgDlg.Title=Der Wert darf nicht leer sein.
+MapRuleBuilder.text.AND=UND
 
 MapRuleBuilderDialog.text.Between=ist zwischen
 MapRuleBuilderDialog.text.Condition=&Wenn folgende Bedingung wahr ist: 
@@ -4703,7 +4731,8 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Standardsyntax:
 ###########################################################
 #ExpressionEditor
 ExpressionEditor.Error.EmptyExpression=Ausdruck darf nicht leer sein.
-ExpressionEditor.Label.Expression=Ausdruck:
+ExpressionEditor.Label.Expression=&Ausdruck:
+ExpressionEditor.Title=Ausdruck bearbeiten
 
 ###########################################################
 #VariableDropAdapter

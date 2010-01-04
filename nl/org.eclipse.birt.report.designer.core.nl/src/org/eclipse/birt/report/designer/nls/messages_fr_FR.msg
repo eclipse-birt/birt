@@ -1883,6 +1883,19 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz (taille de police
 
 ###########################################################
 #HighlightRuleBuilderDialog properties
+HightlightRuleBuilder.button.add=&Ajouter
+HightlightRuleBuilder.button.add.tooltip=Ajouter la valeur à la liste
+HightlightRuleBuilder.button.delete=Suppri&mer
+HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.deleteall=Supprimer t&out
+HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.edit=Modifi&er...
+HightlightRuleBuilder.button.edit.tooltip=Modifier la valeur sélectionnée dans la liste
+HightlightRuleBuilder.label.value=&Valeur :
+HightlightRuleBuilder.list.item1=Valeur
+HightlightRuleBuilder.MsgDlg.Msg=Avertissement
+HightlightRuleBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
+HightlightRuleBuilder.text.AND=ET
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=Valeur de l'élément de données
 HighlightRuleBuilderDialog.text.AND=ET
@@ -1957,6 +1970,7 @@ HighlightsPreferencePage.text.Description=Liste de surbrillance :
 HighlightsPreferencePage.text.Edit=&Modifier...
 HighlightsPreferencePage.toolTipText.Up=Déplacer la mise en surbrillance vers le haut
 HighlightsPreferencePage.toolTipText.Down=Déplacer la mise en surbrillance vers le bas
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2161,6 +2175,7 @@ InputParameterDailog.parameter.noparameter=Aucun paramètre associé à cet état.
 InputParameterDialog.ErrorMessage.InvalidFile=Cet état contient une erreur.
 InputParameterDailog.parameter.null=Valeur nulle
 InputParameterDialog.ErrorTitle.Error=Erreur
+InputParameterDialog.boolean.checked=Oui
 
 ###########################################################
 #InsertAction properties
@@ -2437,12 +2452,25 @@ MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 ###########################################################
 #MapRuleBuilderDialog properties
 
+MapRuleBuilder.button.add=&Ajouter
+MapRuleBuilder.button.add.tooltip=Ajouter la valeur à la liste
+MapRuleBuilder.button.delete=Supp&rimer
+MapRuleBuilder.button.delete.tooltip=Supprimer la valeur sélectionnée de la liste
+MapRuleBuilder.button.deleteall=Supprimer t&out
+MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.edit=Modifi&er...
+MapRuleBuilder.button.edit.tooltip=Modifier la valeur sélectionnée dans la liste
 MapRuleBuilder.DialogTitle.New=Nouvelle règle de mappage
 MapRuleBuilder.DialogTitle.Edit=Modifier la règle de mappage
 MapRuleBuilder.Button.ResourceKey=Clé de &ressource :
 MapRuleBuilder.Button.Reset=&Réinitialiser
 MapRuleBuilder.Button.Browse=&Parcourir...
 MapRuleBuilder.Button.Browse.Tooltip=Parcourir et sélectionner une clé
+MapRuleBuilder.label.value=&Valeur :
+MapRuleBuilder.list.item1=Valeur
+MapRuleBuilder.MsgDlg.Msg=Avertissement
+MapRuleBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
+MapRuleBuilder.text.AND=ET
 
 MapRuleBuilderDialog.text.Between=est compris entre
 MapRuleBuilderDialog.text.Condition=S&i la condition suivante est vraie : 
@@ -4703,7 +4731,8 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par défaut :
 ###########################################################
 #ExpressionEditor
 ExpressionEditor.Error.EmptyExpression=L'expression doit être renseignée.
-ExpressionEditor.Label.Expression=Expression :
+ExpressionEditor.Label.Expression=&Expression :
+ExpressionEditor.Title=Modifier l'expression
 
 ###########################################################
 #VariableDropAdapter

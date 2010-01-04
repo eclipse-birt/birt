@@ -1883,6 +1883,19 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz(글꼴 크기 =
 
 ###########################################################
 #HighlightRuleBuilderDialog properties
+HightlightRuleBuilder.button.add=추가(&A)
+HightlightRuleBuilder.button.add.tooltip=값 목록에 값 추가
+HightlightRuleBuilder.button.delete=제거(&M)
+HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.deleteall=모두 제거(&O)
+HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.edit=편집(&E)...
+HightlightRuleBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
+HightlightRuleBuilder.label.value=값(&V):
+HightlightRuleBuilder.list.item1=값
+HightlightRuleBuilder.MsgDlg.Msg=경고
+HightlightRuleBuilder.MsgDlg.Title=값을 입력해야 합니다.
+HightlightRuleBuilder.text.AND=및
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=이 데이터 항목 값
 HighlightRuleBuilderDialog.text.AND=및
@@ -1957,6 +1970,7 @@ HighlightsPreferencePage.text.Description=강조 목록:
 HighlightsPreferencePage.text.Edit=편집(&D)...
 HighlightsPreferencePage.toolTipText.Up=강조 위로 이동
 HighlightsPreferencePage.toolTipText.Down=강조 아래로 이동
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2161,6 +2175,7 @@ InputParameterDailog.parameter.noparameter=이 보고서와 관련된 매개 변수가 없습니
 InputParameterDialog.ErrorMessage.InvalidFile=보고서에 오류가 있습니다.
 InputParameterDailog.parameter.null=널(null) 값
 InputParameterDialog.ErrorTitle.Error=오류
+InputParameterDialog.boolean.checked=예
 
 ###########################################################
 #InsertAction properties
@@ -2437,12 +2452,25 @@ MapPreferencePage.toolTipText.Down=맵 규칙 아래로 이동
 ###########################################################
 #MapRuleBuilderDialog properties
 
+MapRuleBuilder.button.add=추가(&A)
+MapRuleBuilder.button.add.tooltip=값 목록에 값 추가
+MapRuleBuilder.button.delete=제거(&R)
+MapRuleBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
+MapRuleBuilder.button.deleteall=모두 제거(&O)
+MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.edit=편집(&E)...
+MapRuleBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 MapRuleBuilder.DialogTitle.New=새 맵 규칙
 MapRuleBuilder.DialogTitle.Edit=맵 규칙 편집
 MapRuleBuilder.Button.ResourceKey=리소스 키(&K):
 MapRuleBuilder.Button.Reset=재설정(&R)
 MapRuleBuilder.Button.Browse=찾아보기(&B)...
 MapRuleBuilder.Button.Browse.Tooltip=키를 찾아보고 선택합니다.
+MapRuleBuilder.label.value=값(&V):
+MapRuleBuilder.list.item1=값
+MapRuleBuilder.MsgDlg.Msg=경고
+MapRuleBuilder.MsgDlg.Title=값을 입력해야 합니다.
+MapRuleBuilder.text.AND=및
 
 MapRuleBuilderDialog.text.Between=사이에 있음
 MapRuleBuilderDialog.text.Condition=다음 조건이 참인 경우(&I): 
@@ -4703,7 +4731,8 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문:
 ###########################################################
 #ExpressionEditor
 ExpressionEditor.Error.EmptyExpression=식은 비어 있으면 안 됩니다.
-ExpressionEditor.Label.Expression=식:
+ExpressionEditor.Label.Expression=식(&E):
+ExpressionEditor.Title=식 편집
 
 ###########################################################
 #VariableDropAdapter

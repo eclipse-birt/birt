@@ -1883,6 +1883,19 @@ HighlightHandleProvider.text.Preview=Aa‚ ‚ŸƒAƒ@ˆŸ‰F  (ƒtƒHƒ“ƒgƒTƒCƒY :
 
 ###########################################################
 #HighlightRuleBuilderDialog properties
+HightlightRuleBuilder.button.add=’Ç‰Á(&A)
+HightlightRuleBuilder.button.add.tooltip=’lƒŠƒXƒg‚É’l‚ğ’Ç‰Á‚µ‚Ü‚·B
+HightlightRuleBuilder.button.delete=íœ(&M)
+HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.deleteall=‚·‚×‚Äíœ(&O)
+HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.edit=•ÒW(&E)...
+HightlightRuleBuilder.button.edit.tooltip=’lƒŠƒXƒg‚Å‘I‘ğ‚µ‚½’l‚ğ•ÒW‚µ‚Ü‚·B
+HightlightRuleBuilder.label.value=’l(&V) :
+HightlightRuleBuilder.list.item1=’l
+HightlightRuleBuilder.MsgDlg.Msg=Œx
+HightlightRuleBuilder.MsgDlg.Title=’l‚Í‹ó‚É‚Å‚«‚Ü‚¹‚ñB
+HightlightRuleBuilder.text.AND= `
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=‚±‚Ìƒf[ƒ^€–Ú‚Ì’l
 HighlightRuleBuilderDialog.text.AND= `
@@ -1957,6 +1970,7 @@ HighlightsPreferencePage.text.Description=ƒnƒCƒ‰ƒCƒg‚Ìˆê—— :
 HighlightsPreferencePage.text.Edit=•ÒW(&D)...
 HighlightsPreferencePage.toolTipText.Up=ƒnƒCƒ‰ƒCƒg•”•ª‚ğã‚ÉˆÚ“®
 HighlightsPreferencePage.toolTipText.Down=ƒnƒCƒ‰ƒCƒg•”•ª‚ğ‰º‚ÉˆÚ“®
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2161,6 +2175,7 @@ InputParameterDailog.parameter.noparameter=‚±‚ÌƒŒƒ|[ƒg‚É‚ÍAƒpƒ‰ƒƒ^‚ªŠÖ˜A•t‚¯‚
 InputParameterDialog.ErrorMessage.InvalidFile=‚±‚ÌƒŒƒ|[ƒg‚É‚ÍƒGƒ‰[‚ª‚ ‚è‚Ü‚·B
 InputParameterDailog.parameter.null=NULL ’l
 InputParameterDialog.ErrorTitle.Error=ƒGƒ‰[
+InputParameterDialog.boolean.checked=‚Í‚¢
 
 ###########################################################
 #InsertAction properties
@@ -2437,12 +2452,25 @@ MapPreferencePage.toolTipText.Down=ƒ}ƒbƒv‚Ì‹K‘¥‚ğ‰º‚ÉˆÚ“®
 ###########################################################
 #MapRuleBuilderDialog properties
 
+MapRuleBuilder.button.add=’Ç‰Á(&A)
+MapRuleBuilder.button.add.tooltip=’lƒŠƒXƒg‚É’l‚ğ’Ç‰Á‚µ‚Ü‚·B
+MapRuleBuilder.button.delete=íœ(&R)
+MapRuleBuilder.button.delete.tooltip=ƒŠƒXƒg‚©‚ç‘I‘ğ‚µ‚½’l‚ğíœ‚µ‚Ü‚·B
+MapRuleBuilder.button.deleteall=‚·‚×‚Äíœ(&O)
+MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.edit=•ÒW(&E)...
+MapRuleBuilder.button.edit.tooltip=’lƒŠƒXƒg‚Å‘I‘ğ‚µ‚½’l‚ğ•ÒW‚µ‚Ü‚·B
 MapRuleBuilder.DialogTitle.New=ƒ}ƒbƒv‹K‘¥‚ÌV‹Kì¬
 MapRuleBuilder.DialogTitle.Edit=ƒ}ƒbƒv‹K‘¥‚Ì•ÒW
 MapRuleBuilder.Button.ResourceKey=ƒŠƒ\[ƒXƒL[(&K) :
 MapRuleBuilder.Button.Reset=ƒŠƒZƒbƒg(&R)
 MapRuleBuilder.Button.Browse=QÆ(&B)...
 MapRuleBuilder.Button.Browse.Tooltip=QÆ‚µ‚ÄƒL[‚ğ‘I‘ğ
+MapRuleBuilder.label.value=’l(&V) :
+MapRuleBuilder.list.item1=’l
+MapRuleBuilder.MsgDlg.Msg=Œx
+MapRuleBuilder.MsgDlg.Title=’l‚Í‹ó‚É‚Å‚«‚Ü‚¹‚ñB
+MapRuleBuilder.text.AND= `
 
 MapRuleBuilderDialog.text.Between=’l‚É‹²‚Ü‚ê‚é
 MapRuleBuilderDialog.text.Condition=Ÿ‚ÌğŒ‚ª True ‚Ìê‡(&I) : 
@@ -4703,7 +4731,8 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=ƒfƒtƒHƒ‹ƒg‚Ì\•¶ :
 ###########################################################
 #ExpressionEditor
 ExpressionEditor.Error.EmptyExpression=®‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
-ExpressionEditor.Label.Expression=® :
+ExpressionEditor.Label.Expression=®(&E) :
+ExpressionEditor.Title=®‚Ì•ÒW
 
 ###########################################################
 #VariableDropAdapter

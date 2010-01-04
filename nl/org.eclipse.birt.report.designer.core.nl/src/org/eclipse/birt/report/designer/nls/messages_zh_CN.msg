@@ -1883,6 +1883,19 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz  (font size =
 
 ###########################################################
 #HighlightRuleBuilderDialog properties
+HightlightRuleBuilder.button.add=添加(&A)
+HightlightRuleBuilder.button.add.tooltip=将值添加到值列表
+HightlightRuleBuilder.button.delete=删除(&M)
+HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.deleteall=全部删除(&O)
+HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.edit=编辑(&E)...
+HightlightRuleBuilder.button.edit.tooltip=编辑值列表中的选定值
+HightlightRuleBuilder.label.value=值(&V):
+HightlightRuleBuilder.list.item1=值
+HightlightRuleBuilder.MsgDlg.Msg=警告
+HightlightRuleBuilder.MsgDlg.Title=值不能为空。
+HightlightRuleBuilder.text.AND=与
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=此数据项的值
 HighlightRuleBuilderDialog.text.AND=与
@@ -1957,6 +1970,7 @@ HighlightsPreferencePage.text.Description=突出显示列表:
 HighlightsPreferencePage.text.Edit=编辑(&D)...
 HighlightsPreferencePage.toolTipText.Up=突出显示上移
 HighlightsPreferencePage.toolTipText.Down=突出显示下移
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2161,6 +2175,7 @@ InputParameterDailog.parameter.noparameter=没有与此报表相关联的参数。
 InputParameterDialog.ErrorMessage.InvalidFile=报表包含错误。
 InputParameterDailog.parameter.null=空值
 InputParameterDialog.ErrorTitle.Error=错误
+InputParameterDialog.boolean.checked=是
 
 ###########################################################
 #InsertAction properties
@@ -2437,12 +2452,25 @@ MapPreferencePage.toolTipText.Down=映射规则下移
 ###########################################################
 #MapRuleBuilderDialog properties
 
+MapRuleBuilder.button.add=添加(&A)
+MapRuleBuilder.button.add.tooltip=将值添加到值列表
+MapRuleBuilder.button.delete=删除(&R)
+MapRuleBuilder.button.delete.tooltip=从列表中删除选定值
+MapRuleBuilder.button.deleteall=全部删除(&O)
+MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.edit=编辑(&E)...
+MapRuleBuilder.button.edit.tooltip=编辑值列表中的选定值
 MapRuleBuilder.DialogTitle.New=新建映射规则
 MapRuleBuilder.DialogTitle.Edit=编辑映射规则
 MapRuleBuilder.Button.ResourceKey=资源关键字(&K):
 MapRuleBuilder.Button.Reset=重置(&R)
 MapRuleBuilder.Button.Browse=浏览(&B)...
 MapRuleBuilder.Button.Browse.Tooltip=浏览和选择按键
+MapRuleBuilder.label.value=值(&V):
+MapRuleBuilder.list.item1=值
+MapRuleBuilder.MsgDlg.Msg=警告
+MapRuleBuilder.MsgDlg.Title=值不能为空。
+MapRuleBuilder.text.AND=与
 
 MapRuleBuilderDialog.text.Between=介于
 MapRuleBuilderDialog.text.Condition=如果以下条件为真(&I): 
@@ -4703,7 +4731,8 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法:
 ###########################################################
 #ExpressionEditor
 ExpressionEditor.Error.EmptyExpression=表达式不能为空。
-ExpressionEditor.Label.Expression=表达式:
+ExpressionEditor.Label.Expression=表达式(&E):
+ExpressionEditor.Title=编辑表达式
 
 ###########################################################
 #VariableDropAdapter
