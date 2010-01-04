@@ -24,6 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengröße anpassen
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Mehrere Seiten ausgeben
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrößern
 OptionDisplayValue.FontSubstitution=Schriftart ersetzen
+OptionDisplayValue.ChartDpi=Chart DPI
 
 ###########################################################
 #Option Description
@@ -31,3 +32,4 @@ OptionDescription.BidiProcessing=BIDI-Verarbeitung wird verwendet.
 OptionDescription.TextWrapping=Text muss Zeilenumbrüche enthalten.
 OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
 OptionDescription.FontSubstitution=Überprüfung erforderlich, ob die ausgewählte Schriftart das Zeichen unterstützt.
+OptionDescription.ChartDpi=The DPI used to generate chart.

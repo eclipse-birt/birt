@@ -24,6 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=페이지 크기에 맞추기
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=여러 페이지로 출력
 OptionDisplayValue.ENLARGE_PAGE_SIZE=페이지 크기 확대
 OptionDisplayValue.FontSubstitution=글꼴 대체
+OptionDisplayValue.ChartDpi=Chart DPI
 
 ###########################################################
 #Option Description
@@ -31,3 +32,4 @@ OptionDescription.BidiProcessing=BIDI 처리를 사용합니다.
 OptionDescription.TextWrapping=텍스트를 줄 바꿈합니다.
 OptionDescription.PageOverFlow=내용 출력 방식을 제어합니다.
 OptionDescription.FontSubstitution=선택한 글꼴에 해당 문자가 있는지 확인해야 합니다.
+OptionDescription.ChartDpi=The DPI used to generate chart.
