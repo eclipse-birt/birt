@@ -69,4 +69,4 @@ INVALID_CHOICE_PROPERTY=拡張 "{1}" の choice プロパティ "{0}" が無効です。detail
 EXTENDED_ITEM_MISSING=メタデータディクショナリに拡張項目が見つかりません。
 DEFAULT_ENCRYPTION_EXIST=デフォルトの暗号化はすでに "{1}" に指定されているため、"{0}" をデフォルトの暗号化には設定できません。
 DEFAULT_EMPTY_STYLE_NAME=The default style for extension element	"{0}" should not be empty.
-EMPTY_DELTA_ROM_STREAM=The returned delta-rom input steam by class "{1}" from extension element "{0}" should not be empty.
+EMPTY_DELTA_ROM_STREAM=拡張子要素 "{0}" からクラス "{1}" で返された デルタ ROM 入力ストリームは空白にできません。

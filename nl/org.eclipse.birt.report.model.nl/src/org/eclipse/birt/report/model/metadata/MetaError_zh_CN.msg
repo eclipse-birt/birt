@@ -69,4 +69,4 @@ INVALID_CHOICE_PROPERTY=扩展“{1}”中的选项属性“{0}”无效，因为它同时定义了详细
 EXTENDED_ITEM_MISSING=元数据词典中缺少扩展项。
 DEFAULT_ENCRYPTION_EXIST=加密“{0}”不能设置为默认值，因为默认加密“{1}”存在。
 DEFAULT_EMPTY_STYLE_NAME=The default style for extension element	"{0}" should not be empty.
-EMPTY_DELTA_ROM_STREAM=The returned delta-rom input steam by class "{1}" from extension element "{0}" should not be empty.
+EMPTY_DELTA_ROM_STREAM=类“{1}”从扩展元素“{0}”返回的 delta-rom 输入流不应为空。
