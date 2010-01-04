@@ -13,3 +13,11 @@
 #Word Emitter
 WordEmitter.Description=XML 문서 2003 형식의 보고서 렌더링 옵션을 구성합니다.
 WordEmitter.DisplayName=Word(XML 문서 2003)
+
+###########################################################
+#Option Display Value
+OptionDisplayValue.ChartDpi=Chart DPI
+
+###########################################################
+#Option Description
+OptionDescription.ChartDpi=The DPI used to generate chart.

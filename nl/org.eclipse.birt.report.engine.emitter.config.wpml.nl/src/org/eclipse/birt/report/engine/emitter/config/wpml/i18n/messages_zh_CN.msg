@@ -13,3 +13,11 @@
 #Word Emitter
 WordEmitter.Description=配置用于以 XML Document 2003 格式呈现报表的选项。
 WordEmitter.DisplayName=Word (XML Document 2003)
+
+###########################################################
+#Option Display Value
+OptionDisplayValue.ChartDpi=Chart DPI
+
+###########################################################
+#Option Description
+OptionDescription.ChartDpi=The DPI used to generate chart.

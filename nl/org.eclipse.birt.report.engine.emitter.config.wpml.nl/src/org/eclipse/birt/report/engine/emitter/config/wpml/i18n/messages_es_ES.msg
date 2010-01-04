@@ -13,3 +13,11 @@
 #Word Emitter
 WordEmitter.Description=Configure las opciones para presentar un informe en formato de documento XML 2003.
 WordEmitter.DisplayName=Word (documento XML 2003)
+
+###########################################################
+#Option Display Value
+OptionDisplayValue.ChartDpi=Chart DPI
+
+###########################################################
+#Option Description
+OptionDescription.ChartDpi=The DPI used to generate chart.

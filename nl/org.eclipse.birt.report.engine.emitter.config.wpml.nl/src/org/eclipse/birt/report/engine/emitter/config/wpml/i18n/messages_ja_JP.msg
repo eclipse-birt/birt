@@ -13,3 +13,11 @@
 #Word Emitter
 WordEmitter.Description=XML ドキュメント 2003 形式でレポートをレンダリングするためのオプションを設定します。
 WordEmitter.DisplayName=Word (XML ドキュメント 2003)
+
+###########################################################
+#Option Display Value
+OptionDisplayValue.ChartDpi=Chart DPI
+
+###########################################################
+#Option Description
+OptionDescription.ChartDpi=The DPI used to generate chart.
