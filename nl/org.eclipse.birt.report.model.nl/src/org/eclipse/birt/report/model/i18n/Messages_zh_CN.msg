@@ -689,7 +689,7 @@ Choices.thumbType.dual=Dual
 #86
 Choices.accessType.transient=暂时
 Choices.accessType.latest=最新
-Choices.accessType.specificVersion=SpecificVersion
+Choices.accessType.specificVersion=特定版本
 
 #87 overflow
 Choices.overflow.visible=可见

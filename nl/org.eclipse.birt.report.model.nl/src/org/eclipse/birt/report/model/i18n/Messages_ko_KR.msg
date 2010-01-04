@@ -689,7 +689,7 @@ Choices.thumbType.dual=Dual
 #86
 Choices.accessType.transient=임시
 Choices.accessType.latest=최신
-Choices.accessType.specificVersion=SpecificVersion
+Choices.accessType.specificVersion=특정 버전
 
 #87 overflow
 Choices.overflow.visible=표시

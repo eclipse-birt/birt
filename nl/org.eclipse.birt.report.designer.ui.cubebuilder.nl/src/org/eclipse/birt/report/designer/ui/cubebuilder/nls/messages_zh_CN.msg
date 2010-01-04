@@ -165,7 +165,7 @@ DateLevelDialog.None=无
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=多维数据集
-NewCubeAction.trans.cube.new=Create Cube
+NewCubeAction.trans.cube.new=创建多维数据集
 
 ###########################################################
 #CubePageGenerator properties

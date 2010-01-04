@@ -689,7 +689,7 @@ Choices.thumbType.dual=Dual
 #86
 Choices.accessType.transient=Transitorio
 Choices.accessType.latest=Último
-Choices.accessType.specificVersion=SpecificVersion
+Choices.accessType.specificVersion=Versión específica
 
 #87 overflow
 Choices.overflow.visible=Visible

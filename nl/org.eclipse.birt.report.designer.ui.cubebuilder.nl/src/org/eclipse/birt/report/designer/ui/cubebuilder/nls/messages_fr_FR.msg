@@ -165,7 +165,7 @@ DateLevelDialog.None=Aucun
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=Cube de données
-NewCubeAction.trans.cube.new=Create Cube
+NewCubeAction.trans.cube.new=Créer un cube
 
 ###########################################################
 #CubePageGenerator properties

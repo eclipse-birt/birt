@@ -165,7 +165,7 @@ DateLevelDialog.None=없음
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=데이터 큐브
-NewCubeAction.trans.cube.new=Create Cube
+NewCubeAction.trans.cube.new=큐브 생성
 
 ###########################################################
 #CubePageGenerator properties
