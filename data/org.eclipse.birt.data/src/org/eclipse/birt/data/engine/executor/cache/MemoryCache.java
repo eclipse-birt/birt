@@ -184,7 +184,6 @@ public class MemoryCache implements ResultSetCache
 						resultSetNameSet );
 			}
 
-			dos.close( );
 		}
 		catch ( IOException e )
 		{

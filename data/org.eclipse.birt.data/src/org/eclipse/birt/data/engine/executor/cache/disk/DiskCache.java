@@ -447,7 +447,6 @@ public class DiskCache implements ResultSetCache
 			this.reset( );
 			this.moveTo( currIndex );
 
-			dos.close( );
 		}
 		catch ( IOException e )
 		{

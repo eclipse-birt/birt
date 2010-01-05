@@ -183,7 +183,6 @@ public class AggregationResultSetSaveUtil
 	{
 		saveMetaData( outputStream, resultSet );
 		saveAggregationRowSet( outputStream, resultSet );
-		outputStream.close( );
 	}
 	
 	/**
