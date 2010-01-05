@@ -1932,17 +1932,17 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 			int ret = createValueListComposite( operator.getParent( ) );
 			if ( ret != 0 )
 			{
+				valueList = new ArrayList( );
 				if ( handle != null )
 				{
-					valueList = new ArrayList( );
 					if ( handle.getValue1ExpressionList( ).getListValue( ) != null
 							&& handle.getValue1ExpressionList( )
 									.getListValue( )
 									.size( ) > 0 )
 						valueList.addAll( handle.getValue1ExpressionList( )
 								.getListValue( ) );
-					tableViewer.setInput( valueList );
 				}
+				tableViewer.setInput( valueList );
 			}
 		}
 		else

@@ -452,7 +452,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			operator.add( OPERATOR[i][0] );
 		}
 		operator.setVisibleItemCount( 30 );
-		
 
 		create2ValueComposite( condition );
 
@@ -463,7 +462,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 				operatorChange( );
 			}
 		} );
-		
+
 		createApplyStyleArea( contents );
 
 		Label lb = new Label( contents, SWT.SEPARATOR | SWT.HORIZONTAL );
@@ -514,7 +513,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		{
 			syncViewProperties( );
 		}
-		
+
 		updatePreview( );
 		updateButtons( );
 
@@ -2410,17 +2409,17 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			int ret = createValueListComposite( operator.getParent( ) );
 			if ( ret != 0 )
 			{
+				valueList = new ArrayList( );
 				if ( handle != null )
 				{
-					valueList = new ArrayList( );
 					if ( handle.getValue1ExpressionList( ).getListValue( ) != null
 							&& handle.getValue1ExpressionList( )
 									.getListValue( )
 									.size( ) > 0 )
 						valueList.addAll( handle.getValue1ExpressionList( )
 								.getListValue( ) );
-					tableViewer.setInput( valueList );
 				}
+				tableViewer.setInput( valueList );
 			}
 		}
 		else
