@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -50,10 +51,11 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 	protected HashMap rsetRelations2 = new HashMap( );
 
-	public DataPresentationEngine( ExecutionContext context,
-			IDocArchiveReader reader ) throws Exception
+	public DataPresentationEngine( DataEngineFactory factory,
+			ExecutionContext context, IDocArchiveReader reader )
+			throws Exception
 	{
-		super( context );
+		super( factory, context );
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
 				DataSessionContext.MODE_PRESENTATION, null, context
@@ -77,17 +79,6 @@ public class DataPresentationEngine extends AbstractDataEngine
 		loadDteMetaInfo( reader );
 	}
 
-	/**
-	 * prepare the queries defined in the report.
-	 */
-	public void prepare( Report report, Map appContext )
-	{
-		// build report queries
-		new ReportQueryBuilder( report, context, dteSession ).build( );
-
-		doPrepareQuery( report, appContext );
-	}
-	
 	protected void doPrepareQuery( Report report, Map appContext )
 	{
 		// prepare report queries

@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,6 +34,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -64,11 +65,11 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	
 	protected IBaseResultSet[] reportletResults;
 
-	public DataInteractiveEngine( ExecutionContext context,
-			IDocArchiveReader reader, IDocArchiveWriter writer )
-			throws Exception
+	public DataInteractiveEngine( DataEngineFactory factory,
+			ExecutionContext context, IDocArchiveReader reader,
+			IDocArchiveWriter writer ) throws Exception
 	{
-		super( context );
+		super( factory, context );
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
 				DataSessionContext.MODE_UPDATE, null, context

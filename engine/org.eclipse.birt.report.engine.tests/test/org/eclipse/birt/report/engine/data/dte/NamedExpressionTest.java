@@ -49,7 +49,7 @@ public class NamedExpressionTest extends TestCase
 		if ( mode == MODE_GENERATION )
 		{
 			DataGenerationEngine dataGenEngine = new DataGenerationEngine(
-					context, arch );
+					null, context, arch );
 			dataGenEngine.prepare( report, null );
 			return dataGenEngine;
 		}

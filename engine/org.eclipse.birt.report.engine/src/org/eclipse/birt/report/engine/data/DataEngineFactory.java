@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.data;
 
-import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
@@ -76,14 +75,14 @@ public class DataEngineFactory
 			{
 				archiverWriter = writer.getArchive( );
 			}
-			return new DataInteractiveEngine( context, dataSource
+			return new DataInteractiveEngine( this, context, dataSource
 					.getDataSource( ), archiverWriter );
 		}
 		//if get the report document writer is not null, that means we are in the g
 		ReportDocumentWriter writer = context.getReportDocWriter( );
 		if ( writer != null )
 		{
-			return new DataGenerationEngine( context, context
+			return new DataGenerationEngine( this, context, context
 					.getReportDocWriter( ).getArchive( ) );
 		}
 
@@ -92,12 +91,16 @@ public class DataEngineFactory
 		{
 			if ( context.getEngineTask( ).getTaskType( ) == EngineTask.TASK_DATAEXTRACTION )
 			{
-				return new DataInteractiveEngine( context, context
+				return new DataInteractiveEngine( this, context, context
 						.getReportDocument( ).getArchive( ), null );
 			}
-			return new DataPresentationEngine( context, context
+			return new DataPresentationEngine( this, context, context
 					.getReportDocument( ).getArchive( ) );
 		}
-		return new DteDataEngine( context, needCache  );
+		return new DteDataEngine( this, context, needCache );
+	}
+
+	public void closeDataEngine( IDataEngine dataEngine )
+	{
 	}
 }

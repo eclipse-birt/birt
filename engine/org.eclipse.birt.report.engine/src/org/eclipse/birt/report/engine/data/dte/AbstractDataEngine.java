@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.optimize.QueryCache;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -50,6 +51,8 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 public abstract class AbstractDataEngine implements IDataEngine
 {
 
+	protected DataEngineFactory factory;
+
 	/**
 	 * DTE's api, used to prepare query, execute query.
 	 */
@@ -61,14 +64,13 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected ExecutionContext context;
 
 	/**
-	 * use to find the query IDs.(query, query id) pair.
-	 * get from Report.
+	 * use to find the query IDs.(query, query id) pair. get from Report.
 	 */
 	protected HashMap queryIDMap = new HashMap( );
-	
+
 	/**
-	 * holding the query to result set id's relation. 
-	 * used in result set reference. 
+	 * holding the query to result set id's relation. used in result set
+	 * reference.
 	 */
 	protected HashMap cachedQueryToResults = new HashMap( );
 
@@ -76,15 +78,15 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * application context. used in preparing query. be transfered to dte.
 	 */
 	protected Map appContext;
-	
+
 	/**
 	 * An adapter class used to define data set and data source objects for DTE.
 	 */
 	private ModelDteApiAdapter adapter = null;
-	
+
 	/**
-	 * holding the query and prepared query relation.
-	 * need not be stored in report document.
+	 * holding the query and prepared query relation. need not be stored in
+	 * report document.
 	 */
 	protected HashMap queryMap = new HashMap( );
 
@@ -95,16 +97,20 @@ public abstract class AbstractDataEngine implements IDataEngine
 	/**
 	 * the logger
 	 */
-	protected static Logger logger = Logger.getLogger( IDataEngine.class.getName( ) );
+	protected static Logger logger = Logger.getLogger( IDataEngine.class
+			.getName( ) );
 
-	public AbstractDataEngine( ExecutionContext context ) throws BirtException
+	public AbstractDataEngine( DataEngineFactory factory, ExecutionContext context ) throws BirtException
 	{
+		this.factory = factory;
 		this.context = context;
 		this.adapter = new ModelDteApiAdapter( context );
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.engine.data.IDataEngine#defineDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
+	 * @see
+	 * org.eclipse.birt.report.engine.data.IDataEngine#defineDataSet(org.eclipse
+	 * .birt.report.model.api.DataSetHandle)
 	 */
 	public void defineDataSet( DataSetHandle dataSet )
 	{
@@ -114,14 +120,15 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 		catch ( BirtException e )
 		{
-			//FIXME: code review. throw out the exception.
+			// FIXME: code review. throw out the exception.
 			logger.log( Level.SEVERE, e.getMessage( ) );
 		}
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.engine.data.IDataEngine#prepare(org.eclipse.birt.report.engine.ir.Report,
-	 *      java.util.Map)
+	 * @see
+	 * org.eclipse.birt.report.engine.data.IDataEngine#prepare(org.eclipse.birt
+	 * .report.engine.ir.Report, java.util.Map)
 	 */
 	public void prepare( Report report, Map appContext )
 	{
@@ -178,7 +185,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @param report
 	 * @param appContext
 	 */
-	//abstract protected void doPrepareQuery( Report report, Map appContext );
+	// abstract protected void doPrepareQuery( Report report, Map appContext );
 	protected void doPrepareQuery( Report report, Map appContext )
 	{
 		this.appContext = appContext;
@@ -221,7 +228,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 	/*
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
-	public IBaseResultSet execute( IDataQueryDefinition query ) throws BirtException
+	public IBaseResultSet execute( IDataQueryDefinition query )
+			throws BirtException
 	{
 		return execute( null, query, null, false );
 	}
@@ -231,19 +239,22 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 *      org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
 	public IBaseResultSet execute( IBaseResultSet parent,
-			IDataQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
+			IDataQueryDefinition query, Object queryOwner, boolean useCache )
+			throws BirtException
 	{
 		// FIXME: DTE may provide an API to get the query type.
 		if ( query instanceof ISubqueryDefinition )
 		{
 			if ( parent == null )
 			{
-				//FIXME: code review. for subQuery's parent result can't be null, throw out exception.
+				// FIXME: code review. for subQuery's parent result can't be
+				// null, throw out exception.
 				return null;
 			}
 			else if ( parent instanceof ICubeResultSet )
 			{
-				throw new EngineException( MessageConstants.INCORRECT_PARENT_RESULSET_ERROR //$NON-NLS-1$
+				throw new EngineException(
+						MessageConstants.INCORRECT_PARENT_RESULSET_ERROR //$NON-NLS-1$
 						, ( (ISubqueryDefinition) query ).getName( ) );
 			}
 			return doExecuteSubQuery( (IQueryResultSet) parent,
@@ -264,18 +275,22 @@ public abstract class AbstractDataEngine implements IDataEngine
 			return doExecuteSubCubeQuery( (ICubeResultSet) parent,
 					(ISubCubeQueryDefinition) query );
 		}
-		throw new EngineException( MessageConstants.UNSUPPORTED_QUERY_TYPE_ERROR
-				, query.getClass( ).getName( ) );
+		throw new EngineException(
+				MessageConstants.UNSUPPORTED_QUERY_TYPE_ERROR, query.getClass( )
+						.getName( ) );
 	}
 
 	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent,
-			IQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException;
-	
+			IQueryDefinition query, Object queryOwner, boolean useCache )
+			throws BirtException;
+
 	abstract protected IBaseResultSet doExecuteCube( IBaseResultSet parent,
-			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException;
+			ICubeQueryDefinition query, Object queryOwner, boolean useCache )
+			throws BirtException;
 
 	/**
 	 * get the sub cube query result from the current query.
+	 * 
 	 * @param parent
 	 * @param query
 	 * @return
@@ -291,7 +306,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 				query, (ICubeQueryResults) dteResults );
 		return resultSet;
 	}
-	
+
 	/**
 	 * get the sub query result from the current query.
 	 * 
@@ -332,6 +347,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 		dteSession.shutdown( );
 		queryCache.close( );
+		if ( factory != null )
+		{
+			factory.closeDataEngine( this );
+		}
 	}
 
 	public DataRequestSession getDTESession( )
@@ -366,23 +385,18 @@ public abstract class AbstractDataEngine implements IDataEngine
 		{
 			( (QueryDefinition) query ).setQueryResultsID( (String) rsetId );
 			IBasePreparedQuery pQuery = dteSession.prepare( query, null );
-			return dteSession.execute( pQuery, outer == null ? null : outer.getQueryResults( ), 
-					context.getScriptContext( ) );
+			return dteSession.execute( pQuery, outer == null ? null : outer
+					.getQueryResults( ), context.getScriptContext( ) );
 		}
 		else
 		{
 			return null;
 		}
 	}
-	
+
 	protected void putCachedQueryResult( IBaseQueryDefinition query, String id )
 	{
 		queryCache.putCachedQuery( query, id );
-	}
-	
-	private void regQueries()
-	{
-		
 	}
 
 	public abstract String getResultID( String parent, String rawId,
@@ -395,4 +409,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 		return (String) queryIDMap.get( query );
 	}
+
+	public ExecutionContext getContext( )
+	{
+		return context;
+	}
+
 }

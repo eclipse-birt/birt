@@ -71,7 +71,7 @@ public class DataEngineTest extends TestCase
 			archWriter = new FileArchiveWriter( archivePath );
 			archWriter.initialize( );
 			DataGenerationEngine dataGenEngine = new DataGenerationEngine(
-					context, archWriter );
+					null, context, archWriter );
 			dataGenEngine.prepare( report, null );
 			return dataGenEngine;
 		}
@@ -80,7 +80,7 @@ public class DataEngineTest extends TestCase
 			archReader = new FileArchiveReader( archivePath );
 			archReader.open( );
 			DataPresentationEngine dataPresEngine = new DataPresentationEngine(
-					context, archReader );
+					null, context, archReader );
 			dataPresEngine.prepare( report, null );
 			return dataPresEngine;
 		}

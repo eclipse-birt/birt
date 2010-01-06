@@ -125,9 +125,12 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 
 	public void flush( ) throws IOException
 	{
-		flushBuffer( );
-		entry.flush( );
-		super.flush( );
+		if ( entry != null )
+		{
+			flushBuffer( );
+			entry.flush( );
+			super.flush( );
+		}
 	}
 
 	public void close( ) throws IOException

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -78,9 +79,10 @@ public class DteDataEngine extends AbstractDataEngine
 	 * @param context
 	 * @throws BirtException 
 	 */
-	public DteDataEngine( ExecutionContext context, boolean needCache ) throws BirtException
+	public DteDataEngine( DataEngineFactory factory, ExecutionContext context,
+			boolean needCache ) throws BirtException
 	{
-		super( context );
+		super( factory, context );
 		this.needCache = needCache;
 		try
 		{
@@ -114,9 +116,10 @@ public class DteDataEngine extends AbstractDataEngine
 	 * @param obj
 	 * @throws BirtException 
 	 */
-	protected DteDataEngine( ExecutionContext context, Object obj ) throws BirtException
+	protected DteDataEngine( DataEngineFactory factory,
+			ExecutionContext context, Object obj ) throws BirtException
 	{
-		super( context );
+		super( factory, context );
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 
@@ -34,10 +35,11 @@ public class DataGenerationEngine extends DteDataEngine
 	 */
 	private DataOutputStream dos;
 
-	public DataGenerationEngine( ExecutionContext context,
-			IDocArchiveWriter writer ) throws Exception
+	public DataGenerationEngine( DataEngineFactory factory,
+			ExecutionContext context, IDocArchiveWriter writer )
+			throws Exception
 	{
-		super( context, writer );
+		super( factory, context, writer );
 
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
