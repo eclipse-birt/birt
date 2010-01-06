@@ -174,7 +174,9 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 				{
 					if ( cch.getAggregateFunction( ) == null && !qd.getBindings( ).containsKey( cname )) {
 						addColumnBinding( qd, cch );
-						addReferenceBindings( qd, table, cch.getExpression( ) );
+						ScriptExpression se = ChartReportItemUtil.newExpression( modelAdapter,
+								cch ); 
+						addReferenceBindings( qd, table, se.getText( ) );
 					}
 					break;
 				}
