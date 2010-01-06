@@ -15,11 +15,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -114,7 +120,7 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 					ComputedColumnHandle binding = iterator.next( );
 					if ( binding.getAggregateFunction( ) != null )
 					{
-						addColumnBinding( query, binding );
+						addAggregateBindings( query, binding, table );
 					}
 				}
 			}
@@ -122,6 +128,60 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 		return query;
 	}
 
+	private void addAggregateBindings( IBaseQueryDefinition qd,ComputedColumnHandle binding, ListingHandle table ) throws BirtException {
+		addColumnBinding( qd, binding );
+		Iterator arguments = binding.argumentsIterator( );
+		if ( arguments != null )
+		{
+			while ( arguments.hasNext( ) )
+			{
+				AggregationArgumentHandle argumentHandle = (AggregationArgumentHandle) arguments.next( );
+				String argument = argumentHandle.getValue( );
+				if ( argument != null )
+				{
+					ScriptExpression se = ChartReportItemUtil.newExpression( modelAdapter,
+							argumentHandle ); 
+					addReferenceBindings( qd, table, se.getText( ) );
+				}
+				// The aggregation expression should be the first argument, so break here.
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Adds reference bindings of aggregate binding into query.  
+	 * 
+	 * @param qd
+	 * @param table
+	 * @param expression
+	 * @throws BirtException
+	 * @throws ChartException
+	 */
+	private void addReferenceBindings( IBaseQueryDefinition qd,
+			ListingHandle table, String expression ) throws BirtException,
+			ChartException
+	{
+		List<IColumnBinding> exprs = ExpressionUtil.extractColumnExpressions( expression );
+		for ( Iterator<IColumnBinding> iter = exprs.iterator( ); iter.hasNext( ); )
+		{
+			IColumnBinding cb = iter.next( );
+			String cname = cb.getResultSetColumnName( );
+			for ( Iterator<ComputedColumnHandle> cbIter =  table.columnBindingsIterator( ); cbIter.hasNext( ); )
+			{
+				ComputedColumnHandle cch = cbIter.next( );
+				if ( cch.getName( ).equals( cname ) )
+				{
+					if ( cch.getAggregateFunction( ) == null && !qd.getBindings( ).containsKey( cname )) {
+						addColumnBinding( qd, cch );
+						addReferenceBindings( qd, table, cch.getExpression( ) );
+					}
+					break;
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Returns groups in shared binding.
 	 * 
