@@ -111,7 +111,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube1 );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube1, false  );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -183,7 +183,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube2 );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube2, false  );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -242,7 +242,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube1 );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube1, false  );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -309,7 +309,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube1 );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube1, false  );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );

@@ -77,7 +77,7 @@ public class DateTimeCursorTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube  );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false   );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );
@@ -116,7 +116,7 @@ public class DateTimeCursorTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );
@@ -155,7 +155,7 @@ public class DateTimeCursorTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );
