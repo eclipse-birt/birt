@@ -171,13 +171,14 @@ public class BirtCubeView
 	 * @throws OLAPException
 	 * @throws DataException 
 	 */
-	public CubeCursor getCubeCursor( StopSign stopSign, ICube cube )
+	public CubeCursor getCubeCursor( StopSign stopSign, ICube cube, boolean needSaveToDocWhenUpate )
 			throws OLAPException, DataException
 	{
 		if ( cubeCursor == null )
 			cubeCursor = createCubeCursor( stopSign,
 					this.getCubeQueryDefinition( ),
-					cube );
+					cube,
+					needSaveToDocWhenUpate );
 		return cubeCursor;
 	}
 
@@ -189,12 +190,12 @@ public class BirtCubeView
 	 * @throws OLAPException
 	 */
 	private CubeCursor createCubeCursor( StopSign stopSign,
-			ICubeQueryDefinition query, ICube cube  ) throws DataException, OLAPException
+			ICubeQueryDefinition query, ICube cube, boolean needSaveToDocWhenUpate  ) throws DataException, OLAPException
 	{
 		queryExecutor = new QueryExecutor( );
 		try
 		{
-			parentResultSet = queryExecutor.execute( this, stopSign, cube );
+			parentResultSet = queryExecutor.execute( this, stopSign, cube, needSaveToDocWhenUpate );
 		}
 		catch ( IOException e )
 		{

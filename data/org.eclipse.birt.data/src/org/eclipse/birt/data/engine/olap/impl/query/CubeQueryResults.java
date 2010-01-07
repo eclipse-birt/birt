@@ -93,7 +93,7 @@ public class CubeQueryResults implements ICubeQueryResults
 			IDocumentManager documentManager = getDocumentManager( executor );
 			ICube cube = loadCube( documentManager, executor );
 
-			CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube );
+			CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube, true );
 			ICubeQueryDefinition baseQuery = cubeQueryDefinition;
 
 			DrillQueryHelper helper = new DrillQueryHelper( outResults,

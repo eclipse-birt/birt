@@ -69,7 +69,7 @@ public class QueryExecutor
 	 * @throws BirtException
 	 */
 	public IResultSet execute( BirtCubeView view,
-			StopSign stopSign, ICube cube ) throws IOException, BirtException
+			StopSign stopSign, ICube cube, boolean needSaveToDocWhenUpate ) throws IOException, BirtException
 	{
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		AggregationDefinition[] aggrDefns = prepareCube( executor.getCubeQueryDefinition( ),
@@ -162,10 +162,15 @@ public class QueryExecutor
 				{
 					id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
 				}
-				//save rs back to report document
-				AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
-						.getDocWriter( ) );
-				executor.setQueryResultsId( id );				
+				
+				if ( needSaveToDocWhenUpate )
+				{
+					// save rs back to report document
+					AggregationResultSetSaveUtil.save( id,
+							rs,
+							executor.getContext( ).getDocWriter( ) );
+					executor.setQueryResultsId( id );
+				}
 			}
 		}
 		
