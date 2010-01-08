@@ -76,6 +76,7 @@ public class ArchiveFileV3 implements IArchiveFile
 
 	public void flush( ) throws IOException
 	{
+		fs.flush( );
 	}
 
 	public String getDependId( )

@@ -118,6 +118,19 @@ public class ArchiveFileTest extends TestCase
 
 	}
 
+	public void testFlush( ) throws IOException
+	{
+		ArchiveFile archive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "rwt" );
+		createArchive( archive );
+		archive.flush( );
+
+		ArchiveFile newArchive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "r" );
+
+		checkArchive( newArchive );
+		newArchive.close( );
+		archive.close( );
+	}
+
 	void createArchive( ArchiveFile archive ) throws IOException
 	{
 		int entryCount = 1024;
