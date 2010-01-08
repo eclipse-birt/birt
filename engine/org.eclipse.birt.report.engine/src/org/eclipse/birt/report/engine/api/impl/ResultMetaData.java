@@ -47,6 +47,32 @@ public class ResultMetaData implements IResultMetaData
 		this.parentMetaData = parentMetaData;
 		this.selectedColumns = selectedColumns;
 	}
+	
+	public ResultMetaData(
+			org.eclipse.birt.data.engine.api.IResultMetaData dteMeta )
+	{
+		adaptDTE( dteMeta );
+	}
+
+	private void adaptDTE(
+			org.eclipse.birt.data.engine.api.IResultMetaData dteMeta )
+	{
+		int count = dteMeta.getColumnCount( );
+		for ( int index = 0; index < count; index++ )
+		{
+			try
+			{
+				metaEntries.add( new MetaDataEntry( dteMeta
+						.getColumnName( index ),
+						dteMeta.getColumnLabel( index ), dteMeta
+								.getColumnType( index ) ) );
+			}
+			catch ( BirtException ex )
+			{
+
+			}
+		}
+	}
 
 	protected void initializeMetaData( IBaseQueryDefinition query )
 	{

@@ -27,7 +27,7 @@ public class ExtractionResults implements IExtractionResults
 	protected int startRow;
 	protected int maxRows;
 
-	ExtractionResults( IQueryResults queryResults, IResultMetaData metaData,
+	public ExtractionResults( IQueryResults queryResults, IResultMetaData metaData,
 			String[] selectedColumns, int startRow, int maxRows )
 	{
 		this.queryResults = queryResults;
@@ -43,7 +43,7 @@ public class ExtractionResults implements IExtractionResults
 		this.maxRows = maxRows;
 	}
 
-	ExtractionResults( IResultIterator resultIterator,
+	public ExtractionResults( IResultIterator resultIterator,
 			IResultMetaData metaData, String[] selectedColumns, int startRow,
 			int maxRows )
 	{
