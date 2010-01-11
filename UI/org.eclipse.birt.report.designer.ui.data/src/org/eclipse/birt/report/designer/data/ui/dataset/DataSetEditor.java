@@ -1,5 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation. All rights reserved. This program and
+ * Copyright (c) 2004, 2010 Actuate Corporation. 
+ * All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -102,8 +103,6 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	protected static final String JOINT_DATA_SET_PAGE = "org.eclipse.birt.datasource.editor.dataset.jointDataSetPage"; //$NON-NLS-1$
 
 	private static final String DATA_SOURCE_SELECTION_PAGE = "org.eclipse.birt.datasource.editor.dataset.datasourceselectionpage"; //$NON-NLS-1$
-
-	private static final String SOAP_PARAMETERS_PAGE = "org.eclipse.datatools.enablement.oda.ws.ui.SOAPParametersPage"; //$NON-NLS-1$
 
 	private static Logger logger = Logger.getLogger( DataSetEditor.class.getName( ) );
 	
@@ -244,10 +243,6 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			for ( int i = 0; i < dataSetEditorPages.length; i++ )
 			{
 				DataSetEditorPage dataSetEditorPage = dataSetEditorPages[i];
-
-				// temp solution to screen off ws.SOAPParametersPage
-				if ( SOAP_PARAMETERS_PAGE.equals( dataSetEditorPage.getPageId( ) ) )
-					continue;
 
 				PropertyPageWrapper propertyPageWrapper = new PropertyPageWrapper( dataSetEditorPage,
 						m_designSession );
@@ -758,10 +753,6 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		for ( int i = 0; i < dataSetEditorPages.length; i++ )
 		{
 			DataSetEditorPage dataSetEditorPage = dataSetEditorPages[i];
-			// temp solution to screen off ws.SOAPParametersPage
-			if ( SOAP_PARAMETERS_PAGE.equals( dataSetEditorPage.getPageId( ) ) )
-				continue;
-
 			PropertyPageWrapper propertyPageWrapper = new PropertyPageWrapper( dataSetEditorPage,
 					m_designSession );
 
