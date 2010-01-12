@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Control;
 public class ComboBoxCellEditor extends CellEditor
 {
 
-	private String valueAuto = Messages.getString( "PropertyEditorFactory.Value.Auto");	
+	private String valueAuto = "";//Messages.getString( "PropertyEditorFactory.Value.Auto");	
 	private boolean isAutoAdded = false;
 	/**
 	 * The ComboBox to keep the system defined and customer defined colors
