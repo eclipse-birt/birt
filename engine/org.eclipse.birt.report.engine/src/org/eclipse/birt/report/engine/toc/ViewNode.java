@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 
 public class ViewNode extends TOCNode
 {
@@ -28,6 +27,11 @@ public class ViewNode extends TOCNode
 	ITreeNode node;
 	int level;
 
+	ViewNode( ViewNode parent, ITreeNode node )
+	{
+		this( parent.view, parent, node );
+	}
+
 	ViewNode( TOCView view, ViewNode parent, ITreeNode node )
 	{
 		this.view = view;
@@ -37,7 +41,7 @@ public class ViewNode extends TOCNode
 		this.bookmark = node.getBookmark( );
 
 		this.parent = parent;
-		//setup the fields if the node is not the root.
+		// setup the fields if the node is not the root.
 		if ( parent != null )
 		{
 			this.level = parent.level + 1;
@@ -64,7 +68,7 @@ public class ViewNode extends TOCNode
 	{
 		if ( children == null )
 		{
-			children = createViewChildren( );
+			children = new ViewNodeList( this );;
 		}
 		return children;
 	}
@@ -74,106 +78,4 @@ public class ViewNode extends TOCNode
 		return node.getTOCValue( );
 	}
 
-	private ArrayList<ViewNode> createViewChildren( )
-	{
-		// create the children for this node
-		ArrayList<ViewNode> children = new ArrayList<ViewNode>( );
-		for ( ITreeNode treeNode : node.getChildren( ) )
-		{
-			addViewNode( this, children, treeNode );
-		}
-		return children;
-	}
-
-	private void addViewChildren( ViewNode node, ArrayList<ViewNode> children,
-			ITreeNode tree )
-	{
-		for ( ITreeNode treeNode : tree.getChildren( ) )
-		{
-			addViewNode( node, children, treeNode );
-		}
-	}
-
-	private void addViewNode( ViewNode node, ArrayList<ViewNode> children,
-			ITreeNode treeNode )
-	{
-		if ( isHidden( treeNode ) )
-		{
-			return;
-		}
-
-		if ( !isVisible( treeNode ) )
-		{
-			addViewChildren( node, children, treeNode );
-			return;
-		}
-
-		if ( treeNode.isGroup( ) )
-		{
-			ViewNode group = createGroupNode( node, treeNode );
-			if ( group != null )
-			{
-				children.add( group );
-			}
-			return;
-		}
-
-		if ( treeNode.getTOCValue( ) != null )
-		{
-			ViewNode child = new ViewNode( view, node, treeNode );
-			children.add( child );
-			return;
-		}
-
-		addViewChildren( node, children, treeNode );
-	}
-
-	protected ViewNode createGroupNode( ViewNode parent, ITreeNode treeNode )
-	{
-		ITreeNode labelNode = getFirstNoneNode( treeNode );
-		if ( labelNode != null )
-		{
-			ViewNode groupNode = new ViewNode( view, parent, treeNode );
-			Object groupValue = labelNode.getTOCValue( );
-			IScriptStyle groupStyle = groupNode.getTOCStyle( );
-			String groupLabel = view.localizeValue( groupValue, groupStyle );
-			groupNode.displayString = groupLabel;
-			return groupNode;
-		}
-		return null;
-	}
-
-	private ITreeNode getFirstNoneNode( ITreeNode treeNode )
-	{
-		if ( isHidden( treeNode ) )
-		{
-			return null;
-		}
-		if ( isVisible( treeNode ) )
-		{
-			if ( treeNode.getTOCValue( ) != null )
-			{
-				return treeNode;
-			}
-		}
-		for ( ITreeNode childNode : treeNode.getChildren( ) )
-		{
-			ITreeNode firstNode = getFirstNoneNode( childNode );
-			if ( firstNode != null )
-			{
-				return firstNode;
-			}
-		}
-		return null;
-	}
-
-	protected boolean isHidden( ITreeNode node )
-	{
-		return view.isHidden( node );
-	}
-
-	protected boolean isVisible( ITreeNode node )
-	{
-		return view.isVisible( node );
-	}
 }
