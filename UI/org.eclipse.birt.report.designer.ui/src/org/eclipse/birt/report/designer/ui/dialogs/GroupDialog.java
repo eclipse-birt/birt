@@ -827,7 +827,7 @@ public class GroupDialog extends BaseDialog
 					public int[] getColumnWidths( )
 					{
 						return new int[]{
-								200, 100
+								200, 100, 100, 100
 						};
 					}
 				},

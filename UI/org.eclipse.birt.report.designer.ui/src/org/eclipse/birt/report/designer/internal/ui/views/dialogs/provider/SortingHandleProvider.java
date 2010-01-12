@@ -44,14 +44,14 @@ public class SortingHandleProvider implements IFormHandleProvider
 	 * Column properties.
 	 */
 	private String[] columnKeys = new String[]{
-			SortKey.KEY_MEMBER, SortKey.DIRECTION_MEMBER
+			SortKey.KEY_MEMBER, SortKey.DIRECTION_MEMBER, SortKey.LOCALE_MEMBER, SortKey.STRENGTH_MEMBER
 	};
 
 	/**
 	 * Column widths.
 	 */
 	private static int[] columnWidth = new int[]{
-			250, 250
+			200, 100, 100, 100
 	};
 
 	/**
