@@ -592,6 +592,10 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void switchToURI( )
 	{
+		new Label( displayArea, SWT.NONE );
+		new Label( displayArea, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.Label.Location.hint" ) ); //$NON-NLS-1$
+		new Label( displayArea, SWT.NONE );
+
 		new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK
 				+ LABEL_LOCATION );
 		locationEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
