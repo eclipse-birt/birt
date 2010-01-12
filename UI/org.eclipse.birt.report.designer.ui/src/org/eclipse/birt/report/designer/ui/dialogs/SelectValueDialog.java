@@ -162,7 +162,7 @@ public class SelectValueDialog extends BaseDialog
 				sortDir = sortDir == SWT.UP ? SWT.DOWN : SWT.UP;
 				table.setSortDirection( sortDir );
 				tableViewer.setSorter( new TableSorter( sortDir ) );
-
+				table.setSelection( table.getSelectionIndices( ) );
 			}
 		} );
 
@@ -234,19 +234,21 @@ public class SelectValueDialog extends BaseDialog
 			}
 			if ( table.getItemCount( ) > 0 )
 			{
-				table.select( 0 );
 				if ( this.getOkButton( ) != null
 						&& !this.getOkButton( ).isDisposed( ) )
 					getOkButton( ).setEnabled( true );
-			}
-			for ( int i = 0; i < table.getItemCount( ); i++ )
-			{
-				table.getItem( i ).setData( modelValueList.get( i ) );
-			}
 
-			table.setSortColumn( table.getColumn( 0 ) );
-			table.setSortDirection( sortDir );
-			tableViewer.setSorter( new TableSorter( sortDir ) );
+				for ( int i = 0; i < table.getItemCount( ); i++ )
+				{
+					table.getItem( i ).setData( modelValueList.get( i ) );
+				}
+
+				table.setSortColumn( table.getColumn( 0 ) );
+				table.setSortDirection( sortDir );
+				tableViewer.setSorter( new TableSorter( sortDir ) );
+
+				table.setSelection( 0 );
+			}
 		}
 		catch ( Exception e )
 		{
