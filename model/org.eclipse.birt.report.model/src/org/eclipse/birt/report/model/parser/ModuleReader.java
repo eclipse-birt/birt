@@ -122,8 +122,10 @@ public abstract class ModuleReader
 		}
 		catch ( IOException e )
 		{
-			logger.log( Level.SEVERE, "IO error occurs" //$NON-NLS-1$
-					+ e.getLocalizedMessage( ) );
+			logger.log( Level.SEVERE, "IO error occurs " //$NON-NLS-1$
+					+ e.getLocalizedMessage( )
+					+ " on line " //$NON-NLS-1$
+					+ handler.getCurrentLineNo( ) );
 
 			throw new DesignFileException( handler.getFileName( ), handler
 					.getErrorHandler( ).getErrors( ), e );
@@ -170,7 +172,7 @@ public abstract class ModuleReader
 				if ( url != null )
 				{
 					( (GenericModuleParserHandler) handler ).location = url;
-					in = url.openStream( );					
+					in = url.openStream( );
 				}
 			}
 			else
