@@ -210,7 +210,7 @@ public class DataSetCacheManager
 		DataSetCacheConfig result = DataSetCacheUtil.getJVMDataSetCacheConfig( appContext, context, dataSetDesign );
 		if (result == null)
 		{
-			result = DataSetCacheUtil.getDteDataSetCacheConfig( queryExecutionHints, dataSetDesign, session );
+			result = DataSetCacheUtil.getDteDataSetCacheConfig( queryExecutionHints, dataSetDesign, session, appContext );
 		}
 		return result;
 	}

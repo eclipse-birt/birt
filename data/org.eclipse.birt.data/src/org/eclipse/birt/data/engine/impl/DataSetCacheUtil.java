@@ -51,7 +51,12 @@ public class DataSetCacheUtil
 			if( option != null )
 			{
 				int rowLimit = getIntValueFromString(option);
-				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_MEMORY, rowLimit, null );
+				if ( rowLimit >= 0 )
+				{
+					return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_MEMORY, rowLimit, null );
+				}
+				//DtE level memory cache
+				return null;
 			}
 			
 			option = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
@@ -97,7 +102,7 @@ public class DataSetCacheUtil
 	 */
 	public static DataSetCacheConfig getDteDataSetCacheConfig(IEngineExecutionHints queryExecutionHints,
 			IBaseDataSetDesign dataSetDesign,
-			DataEngineSession session) throws DataException
+			DataEngineSession session, Map appContext ) throws DataException
 	{
 		if( queryExecutionHints == null || dataSetDesign == null )
 		{
@@ -107,6 +112,15 @@ public class DataSetCacheUtil
 		{
 			if (queryExecutionHints.needCacheDataSet( dataSetDesign.getName( ) ))
 			{
+				Object option = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
+				if( option != null )
+				{
+					int rowLimit = getIntValueFromString(option);
+					if ( rowLimit < 0 )
+					{
+						return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_MEMORY, rowLimit, null );
+					}
+				}
 				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, -1, session.getTempDir( ));
 			}
 			else
