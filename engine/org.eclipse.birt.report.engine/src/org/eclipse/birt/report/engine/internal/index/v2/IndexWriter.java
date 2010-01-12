@@ -28,6 +28,8 @@ import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 public class IndexWriter implements IndexConstants
 {
 
+	public static int MAX_INLINE_INDEX_ENTRY = MAX_INLINE_ENTIRES;
+
 	IDocArchiveWriter archive;
 	String name;
 
@@ -50,7 +52,7 @@ public class IndexWriter implements IndexConstants
 			type = BTreeMap.LONG_VALUE;
 			inlineMap = new HashMap<String, Object>( );
 		}
-		if ( inlineMap.size( ) >= MAX_INLINE_ENTIRES )
+		if ( inlineMap.size( ) >= MAX_INLINE_INDEX_ENTRY )
 		{
 			flushBtree( );
 			inlineMap.clear( );
@@ -69,7 +71,7 @@ public class IndexWriter implements IndexConstants
 			type = BTreeMap.BOOKMARK_VALUE;
 			inlineMap = new HashMap<String, Object>( );
 		}
-		if ( inlineMap.size( ) >= MAX_INLINE_ENTIRES )
+		if ( inlineMap.size( ) >= MAX_INLINE_INDEX_ENTRY )
 		{
 			flushBtree( );
 			inlineMap.clear( );
