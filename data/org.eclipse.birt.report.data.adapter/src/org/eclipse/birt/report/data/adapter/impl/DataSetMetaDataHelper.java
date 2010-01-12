@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -26,6 +29,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -176,7 +180,15 @@ public class DataSetMetaDataHelper
 	{
 		if ( meta == null || !( dataSetHandle instanceof OdaDataSetHandle ) )
 			return;
-
+		
+		Set computedColumnNameSet = new HashSet( );
+		Iterator computedIter = dataSetHandle.computedColumnsIterator( );
+		while ( computedIter.hasNext( ) )
+		{
+			ComputedColumnHandle handle = (ComputedColumnHandle) computedIter.next( );
+			computedColumnNameSet.add( handle.getName( ) );
+		}
+		
 		List columnList = new ArrayList( );
 		HashSet orgColumnNameSet = new HashSet( );
 		HashSet uniqueColumnNameSet = new HashSet( );
@@ -185,14 +197,16 @@ public class DataSetMetaDataHelper
 			OdaResultSetColumn rsColumn = new OdaResultSetColumn( );
 
 			String uniqueName;
-			if ( !meta.isComputedColumn( i ) )
+			
+			if ( !computedColumnNameSet.contains( meta.getColumnName( i ) ) )
 			{
 				uniqueName = MetaDataPopulator.getUniqueName( orgColumnNameSet,
 						uniqueColumnNameSet,
 						meta.getColumnName( i ),
 						i - 1 );
 				rsColumn.setColumnName( uniqueName );
-				rsColumn.setDataType( DataAdapterUtil.adapterToModelDataType( meta.getColumnType( i ) ) );
+				if ( meta.getColumnType( i ) != DataType.ANY_TYPE )
+					rsColumn.setDataType( DataAdapterUtil.adapterToModelDataType( meta.getColumnType( i ) ) );
 				rsColumn.setNativeName( meta.getColumnName( i ) );
 				rsColumn.setPosition( new Integer( i ) );
 
@@ -342,7 +356,8 @@ public class DataSetMetaDataHelper
 				{
 					ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
 					rsc.setColumnName( getColumnName( rsMeta, i ) );
-					rsc.setDataType( DataAdapterUtil.adapterToModelDataType( rsMeta.getColumnType( i ) ) );
+					if ( rsMeta.getColumnType( i ) != DataType.ANY_TYPE )
+						rsc.setDataType( DataAdapterUtil.adapterToModelDataType( rsMeta.getColumnType( i ) ) );
 					rsc.setPosition( new Integer( i ) );
 
 					columnList.add( rsc );
