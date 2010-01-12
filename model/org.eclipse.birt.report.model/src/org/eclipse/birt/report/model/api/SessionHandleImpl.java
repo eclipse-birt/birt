@@ -509,6 +509,24 @@ class SessionHandleImpl
 	}
 
 	/**
+	 * Creates a new design based a given template file name and input stream.
+	 * 
+	 * @param templateDesignName
+	 *            The name of the template for the design.
+	 * @return A handle to the report design.
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesignHandle createDesignFromTemplate(
+			String templateDesignName, InputStream is )
+			throws DesignFileException
+	{
+		return session.createDesignFromTemplate( templateDesignName, is )
+				.handle( );
+	}
+
+	/**
 	 * Creates a new library based on a template file.
 	 * 
 	 * @param templateLibraryName

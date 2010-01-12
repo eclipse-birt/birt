@@ -716,6 +716,31 @@ public class DesignSessionImpl
 	}
 
 	/**
+	 * Creates a new design based on a given template file name and input stream.
+	 * 
+	 * @param templateName
+	 *            The name of the template for the design.
+	 * @param is
+	 *            stream to read the design
+	 * @return A handle to the report design.
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public final ReportDesign createDesignFromTemplate( String templateName,
+			InputStream is ) throws DesignFileException
+	{
+		ReportDesign design = openDesign( templateName, is );
+		design.setFileName( null );
+
+		// if the extension side provide predefined style instance, those style
+		// will be added into the new created design tree.
+		addExtensionDefaultStyles( design );
+
+		return design;
+	}
+
+	/**
 	 * Returns styles that should be added to the given design.
 	 * 
 	 * @param design
