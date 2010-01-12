@@ -854,7 +854,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		else
 			ri = new CachedResultSet( this,
 					resultMetadata,
-					new DataSetResultCache( rs, resultMetadata, session ),
+					new DataSetResultCache( rs, resultMetadata, session, this.getFetchEvents( ) ),
 					eventHandler, session );
 		
 		if ( ri != null && ri instanceof CachedResultSet )

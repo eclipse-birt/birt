@@ -110,15 +110,18 @@ public class RowResultSet implements IRowResultSet
 			else 
 			{
 				actualIndex++;
-				if ( processFetchEvent( odaObject, actualIndex ) == true )
+				if ( odiAdpater.isNeedFetchEventsProess( ) 
+						&& !processFetchEvent( odaObject, actualIndex ))
 				{
-					if ( this.distinctValueFlag == true
-							&& isDuplicatedObject( odaObject ) )
-						continue;
-
-					currIndex++;
-					break;
+					continue;
 				}
+				if ( this.distinctValueFlag == true
+							&& isDuplicatedObject( odaObject ) )
+				{
+						continue;
+				}
+				currIndex++;
+				break;
 			}
 		}
 

@@ -674,7 +674,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			else
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
-						new DataSetResultCache( populator, resultClass, dataEngine.getSession( ) ),
+						new DataSetResultCache( populator, resultClass, dataEngine.getSession( ),
+								((BaseQuery) this.odiQuery).getFetchEvents( )),
 						eventHandler, dataEngine.getSession( ));
 		}
 

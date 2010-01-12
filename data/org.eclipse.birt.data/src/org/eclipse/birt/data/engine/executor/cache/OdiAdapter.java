@@ -51,6 +51,8 @@ public class OdiAdapter
 	// from Joint data set
 	private IDataSetPopulator populator;
 	
+	private boolean needFetchEventsProess = true;
+	
 	/**
 	 * Construction
 	 * 
@@ -71,6 +73,8 @@ public class OdiAdapter
 	{
 		assert datasetCache != null;
 		this.datasetCache = datasetCache;
+		//Fetch events process should have been done in DataSetResultCache
+		this.needFetchEventsProess = false;
 	}
 
 	/**
@@ -170,6 +174,12 @@ public class OdiAdapter
 		{
 			return resultSetCache.fetch( );
 		}
+	}
+
+	
+	public boolean isNeedFetchEventsProess( )
+	{
+		return needFetchEventsProess;
 	}
 
 }

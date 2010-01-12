@@ -112,7 +112,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 						resultMetadata,
 						new DataSetResultCache( customDataSet,
 								resultMetadata,
-								session ),
+								session, this.getFetchEvents( ) ),
 						eventHandler,
 						session );
 

@@ -95,10 +95,9 @@ public class DataSetCacheConfig
 		return null;
 	}
 	
-	public static class DataSetCacheMode
+	public static enum DataSetCacheMode
 	{
-		private DataSetCacheMode(){};
-		public static final DataSetCacheMode IN_MEMORY = new DataSetCacheMode();
-		public static final DataSetCacheMode IN_DISK = new DataSetCacheMode();
+		IN_MEMORY,
+		IN_DISK
 	}
 }
