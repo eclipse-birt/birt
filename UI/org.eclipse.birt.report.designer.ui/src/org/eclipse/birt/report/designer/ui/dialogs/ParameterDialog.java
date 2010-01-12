@@ -4280,7 +4280,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private void initDefaultValueViewer( )
 	{
-		if ( defaultValueViewer != null )
+		if ( defaultValueViewer != null && !defaultValueViewer.getTable( ).isDisposed( ))
 		{
 			if ( !isStatic( ) && ( enableAllowMultiValueVisible( ) ) )
 			{
