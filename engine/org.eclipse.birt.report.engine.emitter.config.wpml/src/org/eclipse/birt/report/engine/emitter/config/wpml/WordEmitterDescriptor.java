@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.config.wpml;
 
+import java.util.Locale;
+
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
@@ -29,9 +31,16 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 	protected static final String CHART_DPI = "ChartDpi";
 	
 	protected IConfigurableOption[] options;
+	private Locale locale;
 	
 	public WordEmitterDescriptor( )
 	{
+		initOptions( );
+	}
+
+	public WordEmitterDescriptor( Locale locale )
+	{
+		this.locale = locale;
 		initOptions( );
 	}
 
@@ -39,18 +48,21 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 	{
 		// Initializes the option for chart DPI.
 		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
-		chartDpi.setDisplayName( Messages
-				.getString( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
+		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
 		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
-		chartDpi
-				.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		chartDpi.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		chartDpi.setDefaultValue( new Integer( 192 ) );
 		chartDpi.setToolTip( null );
-		chartDpi.setDescription( Messages
-				.getString( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
-		
+		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+
 		options = new IConfigurableOption[]{chartDpi};
 	}
+
+	private String getMessage( String key )
+	{
+		return Messages.getString( key, locale );
+	}
+
 	@Override
 	public IConfigurableOptionObserver createOptionObserver( )
 	{
@@ -65,7 +77,7 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 	 */
 	public String getDescription( )
 	{
-		return Messages.getString( "WordEmitter.Description" ); //$NON-NLS-1$
+		return getMessage( "WordEmitter.Description" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -76,7 +88,7 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "WordEmitter.DisplayName" ); //$NON-NLS-1$
+		return getMessage( "WordEmitter.DisplayName" ); //$NON-NLS-1$
 	}
 
 	/*

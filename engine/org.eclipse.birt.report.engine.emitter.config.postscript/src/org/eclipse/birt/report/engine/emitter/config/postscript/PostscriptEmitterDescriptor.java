@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.config.postscript;
 
+import java.util.Locale;
+
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
@@ -36,9 +38,16 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String CHART_DPI = "ChartDpi";
 
 	private IConfigurableOption[] options;
+	private Locale locale;
 
 	public PostscriptEmitterDescriptor( )
 	{
+		initOptions( );
+	}
+
+	public PostscriptEmitterDescriptor( Locale locale )
+	{
+		this.locale = locale;
 		initOptions( );
 	}
 
@@ -47,151 +56,134 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
 				BIDI_PROCESSING );
-		bidiProcessing.setDisplayName( Messages
-				.getString( "OptionDisplayValue.BidiProcessing" ) ); //$NON-NLS-1$
+		bidiProcessing
+				.setDisplayName( getMessage( "OptionDisplayValue.BidiProcessing" ) ); //$NON-NLS-1$
 		bidiProcessing.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		bidiProcessing.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		bidiProcessing.setDefaultValue( Boolean.TRUE );
 		bidiProcessing.setToolTip( null );
-		bidiProcessing.setDescription( Messages
-				.getString( "OptionDescription.BidiProcessing" ) ); //$NON-NLS-1$
+		bidiProcessing
+				.setDescription( getMessage( "OptionDescription.BidiProcessing" ) ); //$NON-NLS-1$
 
 		// Initializes the option for TextWrapping.
 		ConfigurableOption textWrapping = new ConfigurableOption( TEXT_WRAPPING );
-		textWrapping.setDisplayName( Messages
-				.getString( "OptionDisplayValue.TextWrapping" ) ); //$NON-NLS-1$
+		textWrapping
+				.setDisplayName( getMessage( "OptionDisplayValue.TextWrapping" ) ); //$NON-NLS-1$
 		textWrapping.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		textWrapping.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		textWrapping.setDefaultValue( Boolean.TRUE );
 		textWrapping.setToolTip( null );
-		textWrapping.setDescription( Messages
-				.getString( "OptionDescription.TextWrapping" ) ); //$NON-NLS-1$
+		textWrapping
+				.setDescription( getMessage( "OptionDescription.TextWrapping" ) ); //$NON-NLS-1$
 
 		// Initializes the option for fontSubstitution.
 		ConfigurableOption fontSubstitution = new ConfigurableOption(
 				FONT_SUBSTITUTION );
-		fontSubstitution.setDisplayName( Messages
-				.getString( "OptionDisplayValue.FontSubstitution" ) );
+		fontSubstitution
+				.setDisplayName( getMessage( "OptionDisplayValue.FontSubstitution" ) );
 		fontSubstitution.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		fontSubstitution
 				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		fontSubstitution.setDefaultValue( Boolean.TRUE );
 		fontSubstitution.setToolTip( null );
-		fontSubstitution.setDescription( Messages
-				.getString( "OptionDescription.FontSubstitution" ) ); //$NON-NLS-1$
+		fontSubstitution
+				.setDescription( getMessage( "OptionDescription.FontSubstitution" ) ); //$NON-NLS-1$
 
 		// Initializes the option for PageOverFlow.
 		ConfigurableOption pageOverFlow = new ConfigurableOption(
 				IPDFRenderOption.PAGE_OVERFLOW );
-		pageOverFlow.setDisplayName( Messages
-				.getString( "OptionDisplayValue.PageOverFlow" ) ); //$NON-NLS-1$
+		pageOverFlow
+				.setDisplayName( getMessage( "OptionDisplayValue.PageOverFlow" ) ); //$NON-NLS-1$
 		pageOverFlow.setDataType( IConfigurableOption.DataType.INTEGER );
 		pageOverFlow.setDisplayType( IConfigurableOption.DisplayType.COMBO );
 		pageOverFlow
 				.setChoices( new OptionValue[]{
 						new OptionValue(
 								IPDFRenderOption.CLIP_CONTENT,
-								Messages
-										.getString( "OptionDisplayValue.CLIP_CONTENT" ) ), //$NON-NLS-1$
+								getMessage( "OptionDisplayValue.CLIP_CONTENT" ) ), //$NON-NLS-1$
 						new OptionValue(
 								IPDFRenderOption.FIT_TO_PAGE_SIZE,
-								Messages
-										.getString( "OptionDisplayValue.FIT_TO_PAGE_SIZE" ) ), //$NON-NLS-1$
+								getMessage( "OptionDisplayValue.FIT_TO_PAGE_SIZE" ) ), //$NON-NLS-1$
 						new OptionValue(
 								IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES,
-								Messages
-										.getString( "OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES" ) ), //$NON-NLS-1$
+								getMessage( "OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES" ) ), //$NON-NLS-1$
 						new OptionValue(
 								IPDFRenderOption.ENLARGE_PAGE_SIZE,
-								Messages
-										.getString( "OptionDisplayValue.ENLARGE_PAGE_SIZE" ) ) //$NON-NLS-1$
+								getMessage( "OptionDisplayValue.ENLARGE_PAGE_SIZE" ) ) //$NON-NLS-1$
 				} );
 		pageOverFlow.setDefaultValue( IPDFRenderOption.CLIP_CONTENT );
 		pageOverFlow.setToolTip( null );
-		pageOverFlow.setDescription( Messages
-				.getString( "OptionDescription.PageOverFlow" ) ); //$NON-NLS-1$
+		pageOverFlow
+				.setDescription( getMessage( "OptionDescription.PageOverFlow" ) ); //$NON-NLS-1$
 
 		// Initializes the option for copies.
 		ConfigurableOption copies = new ConfigurableOption(
 				PostscriptRenderOption.OPTION_COPIES );
-		copies
-				.setDisplayName( Messages
-						.getString( "OptionDisplayValue.Copies" ) ); //$NON-NLS-1$
+		copies.setDisplayName( getMessage( "OptionDisplayValue.Copies" ) ); //$NON-NLS-1$
 		copies.setDataType( IConfigurableOption.DataType.INTEGER );
 		copies.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		copies.setDefaultValue( 1 );
 		copies.setToolTip( null );
-		copies
-				.setDescription( Messages
-						.getString( "OptionDescription.Copies" ) ); //$NON-NLS-1$
+		copies.setDescription( getMessage( "OptionDescription.Copies" ) ); //$NON-NLS-1$
 
 		// Initializes the option for collate.
 		ConfigurableOption collate = new ConfigurableOption(
 				PostscriptRenderOption.OPTION_COLLATE );
-		collate.setDisplayName( Messages
-				.getString( "OptionDisplayValue.Collate" ) ); //$NON-NLS-1$
+		collate.setDisplayName( getMessage( "OptionDisplayValue.Collate" ) ); //$NON-NLS-1$
 		collate.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		collate.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		collate.setDefaultValue( Boolean.FALSE );
 		collate.setToolTip( null );
-		collate.setDescription( Messages
-				.getString( "OptionDescription.Collate" ) ); //$NON-NLS-1$
+		collate.setDescription( getMessage( "OptionDescription.Collate" ) ); //$NON-NLS-1$
 
 		// Initializes the option for duplex.
 		ConfigurableOption duplex = new ConfigurableOption(
 				PostscriptRenderOption.OPTION_DUPLEX );
-		duplex
-				.setDisplayName( Messages
-						.getString( "OptionDisplayValue.Duplex" ) ); //$NON-NLS-1$
+		duplex.setDisplayName( getMessage( "OptionDisplayValue.Duplex" ) ); //$NON-NLS-1$
 		duplex.setDataType( IConfigurableOption.DataType.STRING );
 		duplex.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		duplex.setDefaultValue( null );
 		duplex.setToolTip( null );
-		duplex
-				.setDescription( Messages
-						.getString( "OptionDescription.Duplex" ) ); //$NON-NLS-1$
+		duplex.setDescription( getMessage( "OptionDescription.Duplex" ) ); //$NON-NLS-1$
 
 		// Initializes the option for paperSize.
 		ConfigurableOption paperSize = new ConfigurableOption(
 				PostscriptRenderOption.OPTION_PAPER_SIZE );
-		paperSize
-				.setDisplayName( Messages
-				.getString( "OptionDisplayValue.PaperSize" ) ); //$NON-NLS-1$
+		paperSize.setDisplayName( getMessage( "OptionDisplayValue.PaperSize" ) ); //$NON-NLS-1$
 		paperSize.setDataType( IConfigurableOption.DataType.STRING );
 		paperSize.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		paperSize.setDefaultValue( "A4" );
 		paperSize.setToolTip( null );
-		paperSize
-				.setDescription( Messages
-				.getString( "OptionDescription.PaperSize" ) ); //$NON-NLS-1$
+		paperSize.setDescription( getMessage( "OptionDescription.PaperSize" ) ); //$NON-NLS-1$
 
 		// Initializes the option for paperTray.
 		ConfigurableOption paperTray = new ConfigurableOption(
 				PostscriptRenderOption.OPTION_PAPER_TRAY );
-		paperTray.setDisplayName( Messages
-				.getString( "OptionDisplayValue.PaperTray" ) ); //$NON-NLS-1$
+		paperTray.setDisplayName( getMessage( "OptionDisplayValue.PaperTray" ) ); //$NON-NLS-1$
 		paperTray.setDataType( IConfigurableOption.DataType.STRING );
 		paperTray.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		paperTray.setDefaultValue( null );
 		paperTray.setToolTip( null );
-		paperTray.setDescription( Messages
-				.getString( "OptionDescription.PaperTray" ) ); //$NON-NLS-1$
+		paperTray.setDescription( getMessage( "OptionDescription.PaperTray" ) ); //$NON-NLS-1$
 
 		// Initializes the option for chart DPI.
 		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
-		chartDpi.setDisplayName( Messages
-				.getString( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
+		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
 		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
 		chartDpi
 				.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		chartDpi.setDefaultValue( new Integer( 192 ) );
 		chartDpi.setToolTip( null );
-		chartDpi.setDescription( Messages
-				.getString( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
 				fontSubstitution, pageOverFlow, copies, collate, duplex,
 				paperSize, paperTray, chartDpi};
+	}
+
+	private String getMessage( String key )
+	{
+		return Messages.getString( key, locale );
 	}
 
 	@Override
@@ -208,7 +200,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 	 */
 	public String getDescription( )
 	{
-		return Messages.getString( "PostscriptEmitter.Description" ); //$NON-NLS-1$
+		return getMessage( "PostscriptEmitter.Description" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -219,7 +211,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "PostscriptEmitter.DisplayName" ); //$NON-NLS-1$
+		return getMessage( "PostscriptEmitter.DisplayName" ); //$NON-NLS-1$
 	}
 
 	/*

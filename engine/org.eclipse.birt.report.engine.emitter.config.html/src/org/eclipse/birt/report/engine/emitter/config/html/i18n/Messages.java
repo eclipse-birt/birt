@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.engine.emitter.config.html.i18n;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -25,7 +28,7 @@ public class Messages
 
 	/** The resource bundle. */
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
-
+	private static Map<Locale, ResourceBundle> localeToBundle = new HashMap<Locale, ResourceBundle>( );
 	/**
 	 * Constructor of this class.
 	 */
@@ -45,6 +48,26 @@ public class Messages
 	}
 
 	/**
+	 * Returns the resource bundle.
+	 * 
+	 * @return the resource bundle.
+	 */
+	public static ResourceBundle getReportResourceBundle( Locale locale )
+	{
+		ResourceBundle bundle = getReportResourceBundle( );
+		if ( locale != null )
+		{
+			bundle = localeToBundle.get( locale );
+			if ( bundle == null )
+			{
+				bundle = ResourceBundle.getBundle( BUNDLE_NAME, locale );
+				localeToBundle.put( locale, bundle );
+			}
+		}
+		return bundle == null ? RESOURCE_BUNDLE : bundle;
+	}
+
+	/**
 	 * Returns common translation for current local.
 	 * 
 	 * @param key
@@ -54,9 +77,21 @@ public class Messages
 
 	public static String getString( String key )
 	{
+		return getString( key, Locale.getDefault( ) );
+	}
+
+	/**
+	 * Returns common translation for current local.
+	 * 
+	 * @param key
+	 *            the key to translate.
+	 * @return translated value string.
+	 */
+	public static String getString( String key, Locale locale )
+	{
 		try
 		{
-			String result = RESOURCE_BUNDLE.getString( key );
+			String result = getReportResourceBundle( locale ).getString( key );
 			return result;
 		}
 		catch ( Exception e )
@@ -75,7 +110,20 @@ public class Messages
 	 */
 	public static String getFormattedString( String key, Object[] arguments )
 	{
-		return MessageFormat.format( getString( key ), arguments );
+		return getFormattedString( key, arguments, Locale.getDefault( ) );
+	}
+
+	/**
+	 * Returns formatted translation for current local.
+	 * 
+	 * @param key
+	 *            the key to translate.
+	 * @return translated value string.
+	 */
+	public static String getFormattedString( String key, Object[] arguments,
+			Locale locale )
+	{
+		return MessageFormat.format( getString( key, locale ), arguments );
 	}
 
 	/**

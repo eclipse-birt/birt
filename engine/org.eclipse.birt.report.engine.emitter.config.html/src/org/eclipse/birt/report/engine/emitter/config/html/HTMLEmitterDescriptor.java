@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.config.html;
 
+import java.util.Locale;
+
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
@@ -24,6 +26,18 @@ import org.eclipse.birt.report.engine.emitter.config.html.i18n.Messages;
  */
 public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor
 {
+
+	Locale locale;
+
+	public HTMLEmitterDescriptor( )
+	{
+
+	}
+
+	public HTMLEmitterDescriptor( Locale locale )
+	{
+		this.locale = locale;
+	}
 
 	@Override
 	public IConfigurableOptionObserver createOptionObserver( )
@@ -40,7 +54,7 @@ public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor
 	 */
 	public String getDescription( )
 	{
-		return Messages.getString( "HTMLEmitter.Description" ); //$NON-NLS-1$
+		return getMessage( "HTMLEmitter.Description" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -52,7 +66,12 @@ public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "HTMLEmitter.DisplayName" ); //$NON-NLS-1$
+		return getMessage( "HTMLEmitter.DisplayName" ); //$NON-NLS-1$
+	}
+
+	private String getMessage( String key )
+	{
+		return Messages.getString( key, locale );
 	}
 
 	/*
