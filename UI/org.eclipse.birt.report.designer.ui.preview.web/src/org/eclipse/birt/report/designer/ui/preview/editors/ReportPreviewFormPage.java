@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
+import org.eclipse.birt.report.designer.internal.ui.editors.IAdvanceReportEditorPage;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
@@ -48,7 +49,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
  * Preview Form Page.
  */
 public class ReportPreviewFormPage extends ReportPreviewEditor implements
-		IReportEditorPage
+		IAdvanceReportEditorPage
 {
 
 	protected static final Logger logger = Logger.getLogger( ReportPreviewFormPage.class.getName( ) );
@@ -765,5 +766,13 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			System.out.println( "Report preview page finalized" ); //$NON-NLS-1$
 		}
 		super.finalize( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IAdvanceReportEditorPage#isSensitivePartChange()
+	 */
+	public boolean isSensitivePartChange( )
+	{
+		return false;
 	}
 }

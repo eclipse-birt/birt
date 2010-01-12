@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.IAdvanceReportEditorPage;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.LibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
@@ -1095,7 +1096,17 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 						}
 						if ( getActivePageInstance( ) != null )
 						{
-							curPage.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+							if (curPage instanceof IAdvanceReportEditorPage)
+							{
+								if (((IAdvanceReportEditorPage)curPage).isSensitivePartChange( ))
+								{
+									curPage.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+								}
+							}
+							else
+							{
+								curPage.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+							}
 						}
 						if (!tempDispatch)
 						{
