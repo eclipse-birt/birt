@@ -62,9 +62,9 @@ public class JDBCPropertyPage extends DataSourceEditorPage
 		if ( m_pageHelper == null )
 			m_pageHelper = new JDBCSelectionPageHelper( this );
 
-		m_pageHelper.createCustomControl( parent);
+		Composite content = m_pageHelper.createCustomControl( parent );
 		//bidi_hcg: add "Bidi Settings..." button to "Edit Data Source dialog"
-		m_pageHelper.addBidiSettingsButton(parent, profileProps);
+		m_pageHelper.addBidiSettingsButton( content, profileProps );
 		this.setPingButtonVisible( false );
 		m_pageHelper.initCustomControl( profileProps );
 	}

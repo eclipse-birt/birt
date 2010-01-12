@@ -46,10 +46,13 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -65,13 +68,14 @@ import org.eclipse.swt.widgets.Text;
  */
 public class JDBCSelectionPageHelper
 {
-    private WizardPage m_wizardPage;
-    private PreferencePage m_propertyPage;
-    //bidi_hcg: Bidi Object containing Bidi formats definitions
-    private BidiSettingsSupport bidiSupportObj;
-    
-    private static final String EMPTY_STRING = ""; //$NON-NLS-1$
-   
+
+	private WizardPage m_wizardPage;
+	private PreferencePage m_propertyPage;
+	// bidi_hcg: Bidi Object containing Bidi formats definitions
+	private BidiSettingsSupport bidiSupportObj;
+
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
 	// combo viewer to show candidate driver class
 	private ComboViewer driverChooserCombo;
 
@@ -80,51 +84,59 @@ public class JDBCSelectionPageHelper
 
 	// Button of manage driver and test connection
 	private Button manageButton, testButton;
-	
-    private String DEFAULT_MESSAGE;
+
+	private String DEFAULT_MESSAGE;
 
 	// constant string
 	final private static String EMPTY_URL = JdbcPlugin.getResourceString( "error.emptyDatabaseUrl" );//$NON-NLS-1$
 
-	private final String JDBC_EXTENSION_ID="org.eclipse.birt.report.data.oda.jdbc";
-    
-    JDBCSelectionPageHelper( WizardPage page )
+	private final String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
+
+	JDBCSelectionPageHelper( WizardPage page )
 	{
-		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "wizard.message.createDataSource" );
+		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "wizard.message.createDataSource" ); //$NON-NLS-1$
 		m_wizardPage = page;
-		if (page instanceof JDBCSelectionWizardPage) //bidi_hcg
-			bidiSupportObj = ((JDBCSelectionWizardPage)page).getBidiSupport();
+		if ( page instanceof JDBCSelectionWizardPage ) // bidi_hcg
+			bidiSupportObj = ( (JDBCSelectionWizardPage) page ).getBidiSupport( );
 	}
 
 	JDBCSelectionPageHelper( PreferencePage page )
 	{
-		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "wizard.message.editDataSource" );
+		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "wizard.message.editDataSource" ); //$NON-NLS-1$
 		m_propertyPage = page;
-		if (page instanceof JDBCPropertyPage) //bidi_hcg
-			bidiSupportObj = ((JDBCPropertyPage)page).getBidiSupport();
+		if ( page instanceof JDBCPropertyPage ) // bidi_hcg
+			bidiSupportObj = ( (JDBCPropertyPage) page ).getBidiSupport( );
 	}
 
-    void createCustomControl( Composite parent )
-    {
-		//create the composite to hold the widgets
-		Composite content = new Composite( parent, SWT.NONE );
-		
+	Composite createCustomControl( Composite parent )
+	{
+		ScrolledComposite scrollContent = new ScrolledComposite( parent,
+				SWT.H_SCROLL | SWT.V_SCROLL );
+
+		scrollContent.setAlwaysShowScrollBars( false );
+		scrollContent.setExpandHorizontal( true );
+
+		scrollContent.setLayout( new FillLayout( ) );
+
+		// create the composite to hold the widgets
+		Composite content = new Composite( scrollContent, SWT.NONE );
+
 		GridLayout layout = new GridLayout( );
-		layout.numColumns = 3;
+		layout.numColumns = 4;
 		layout.verticalSpacing = 10;
 		layout.marginBottom = 10;
 		content.setLayout( layout );
 
 		GridData gridData;
 
-		//List if all supported data bases
+		// List if all supported data bases
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.driverClass" ) );//$NON-NLS-1$
 		driverChooserCombo = new ComboViewer( content, SWT.DROP_DOWN );
 		gridData = new GridData( );
-		gridData.horizontalSpan = 3;                     //bidi_hcg
+		gridData.horizontalSpan = 3; // bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
 		driverChooserCombo.getControl( ).setLayoutData( gridData );
-		//TODO
+
 		List driverList = JdbcToolKit.getJdbcDriversFromODADir( JDBC_EXTENSION_ID );
 		driverChooserCombo.setContentProvider( new IStructuredContentProvider( ) {
 
@@ -168,18 +180,18 @@ public class JDBCSelectionPageHelper
 
 			// store latest driver class name
 			private String driverClassName;
-			
+
 			public void selectionChanged( SelectionChangedEvent event )
-			{				
+			{
 				StructuredSelection selection = (StructuredSelection) event.getSelection( );
 				JDBCDriverInformation info = (JDBCDriverInformation) selection.getFirstElement( );
-				
+
 				String className = ( info != null ) ? info.getDriverClassName( )
 						: EMPTY_STRING;
 				if ( className.equalsIgnoreCase( driverClassName ) == true )
 					return;
 				driverClassName = className;
-				
+
 				if ( info != null )
 				{
 					// do nothing
@@ -192,23 +204,24 @@ public class JDBCSelectionPageHelper
 						jdbcUrl.setText( EMPTY_STRING );
 					}
 				}
-                // TODO - enhance driverinfo extension point and UI to include 
-                // driver-specific JNDI URL template and jndi properties file name
-                jndiName.setText( EMPTY_STRING );
+				// TODO - enhance driverinfo extension point and UI to include
+				// driver-specific JNDI URL template and jndi properties file
+				// name
+				jndiName.setText( EMPTY_STRING );
 
 				// Clear off the user name and passwords
 				userName.setText( EMPTY_STRING );
-				password.setText( EMPTY_STRING ); 
+				password.setText( EMPTY_STRING );
 				updateTestButton( );
 			}
 		} );
 
-		//initialize Database URL editor
+		// initialize Database URL editor
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.url" ) );//$NON-NLS-1$
 
 		jdbcUrl = new Text( content, SWT.BORDER );
 		gridData = new GridData( );
-		gridData.horizontalSpan = 3;                 //bidi_hcg
+		gridData.horizontalSpan = 3; // bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		jdbcUrl.setLayoutData( gridData );
@@ -217,26 +230,26 @@ public class JDBCSelectionPageHelper
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.username" ) );//$NON-NLS-1$
 		userName = new Text( content, SWT.BORDER );
 		gridData = new GridData( );
-		gridData.horizontalSpan = 3;				//bidi_hcg
+		gridData.horizontalSpan = 3; // bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
 		userName.setLayoutData( gridData );
 
-		//Password
+		// Password
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.password" ) );//$NON-NLS-1$
 		password = new Text( content, SWT.BORDER | SWT.PASSWORD );
 		gridData = new GridData( );
-		gridData.horizontalSpan = 3;				//bidi_hcg
+		gridData.horizontalSpan = 3; // bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
 		password.setLayoutData( gridData );
 
-        // JNDI Data Source URL
-        String jndiLabel = JdbcPlugin.getResourceString( "wizard.label.jndiname" ); //$NON-NLS-1$
-        new Label( content, SWT.RIGHT ).setText( jndiLabel );
-        jndiName = new Text( content, SWT.BORDER );
-        gridData = new GridData( );
-        gridData.horizontalSpan = 3;				//bidi_hcg
-        gridData.horizontalAlignment = SWT.FILL;
-        jndiName.setLayoutData( gridData );
+		// JNDI Data Source URL
+		String jndiLabel = JdbcPlugin.getResourceString( "wizard.label.jndiname" ); //$NON-NLS-1$
+		new Label( content, SWT.RIGHT ).setText( jndiLabel );
+		jndiName = new Text( content, SWT.BORDER );
+		gridData = new GridData( );
+		gridData.horizontalSpan = 3; // bidi_hcg
+		gridData.horizontalAlignment = SWT.FILL;
+		jndiName.setLayoutData( gridData );
 
 		// Test connection
 		new Label( content, SWT.NONE );
@@ -247,19 +260,29 @@ public class JDBCSelectionPageHelper
 		testButton = new Button( content, SWT.PUSH );
 		testButton.setText( JdbcPlugin.getResourceString( "wizard.label.testConnection" ) );//$NON-NLS-1$
 		testButton.setLayoutData( new GridData( GridData.CENTER ) );
-		
+
+		Point size = content.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		content.setSize( size.x, size.y );
+
+		scrollContent.setMinWidth( size.x + 10 );
+
+		scrollContent.setContent( content );
+
 		addControlListeners( );
 		updateTestButton( );
 		verifyJDBCProperties( );
-		
-		Utility.setSystemHelp( getControl(),
+
+		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASOURCE_JDBC );
+
+		return content;
 	}
-    
-    /**
-     * populate properties
-     * @param profileProps
-     */
+
+	/**
+	 * populate properties
+	 * 
+	 * @param profileProps
+	 */
 	void initCustomControl( Properties profileProps )
 	{
 		if ( profileProps == null || profileProps.isEmpty( ) )
@@ -285,15 +308,15 @@ public class JDBCSelectionPageHelper
 			odaPassword = EMPTY_STRING;
 		password.setText( odaPassword );
 
-        String odaJndiName = profileProps.getProperty( Constants.ODAJndiName );
-        if ( odaJndiName == null )
-            odaJndiName = EMPTY_STRING;
-        jndiName.setText( odaJndiName );
+		String odaJndiName = profileProps.getProperty( Constants.ODAJndiName );
+		if ( odaJndiName == null )
+			odaJndiName = EMPTY_STRING;
+		jndiName.setText( odaJndiName );
 
-        updateTestButton( );
+		updateTestButton( );
 		verifyJDBCProperties( );
 	}
-    
+
 	/**
 	 * give a certain class name , set the combo selection.
 	 * 
@@ -308,7 +331,7 @@ public class JDBCSelectionPageHelper
 		{
 			selection = new StructuredSelection( jdbcDriverInfo );
 		}
-		else if ( originalDriverClassName.trim( ).length() == 0 )
+		else if ( originalDriverClassName.trim( ).length( ) == 0 )
 		{
 			return;
 		}
@@ -316,91 +339,91 @@ public class JDBCSelectionPageHelper
 		{
 			JDBCDriverInformation driverInfo = JDBCDriverInformation.newInstance( originalDriverClassName );
 			List driverList = sortDriverList( JdbcToolKit.getJdbcDriversFromODADir( JDBC_EXTENSION_ID ) );
-			
+
 			driverList.add( 0, driverInfo );
 			driverChooserCombo.setInput( driverList );
 			selection = new StructuredSelection( driverInfo );
 		}
 		driverChooserCombo.setSelection( selection );
 	}
-	
+
 	/**
 	 * collection all custom properties
+	 * 
 	 * @param props
 	 * @return
 	 */
-    Properties collectCustomProperties( Properties props )
-    {
-        if( props == null )
-            props = new Properties();
-        
-        // set custom driver specific properties
-		props.setProperty( Constants.ODADriverClass,
-				getDriverClass( ) );
-		props.setProperty( Constants.ODAURL,
-				getDriverURL( ) );
-		props.setProperty( Constants.ODAUser,
-				getODAUser( ) );
-		props.setProperty( Constants.ODAPassword,
-				getODAPassword( ) );
-        props.setProperty( Constants.ODAJndiName,
-                getODAJndiName( ) );
-        //bidi_hcg: add Bidi formats settings to props
-        props = bidiSupportObj.addBidiProperties(props);
-		return props;
-    }
-    
-    /**
-     * get user name
-     * @return
-     */
-    private String getODAUser( )
+	Properties collectCustomProperties( Properties props )
 	{
-        if( userName == null )
-            return EMPTY_STRING;
-		return getTrimedString(userName.getText( ));
+		if ( props == null )
+			props = new Properties( );
+
+		// set custom driver specific properties
+		props.setProperty( Constants.ODADriverClass, getDriverClass( ) );
+		props.setProperty( Constants.ODAURL, getDriverURL( ) );
+		props.setProperty( Constants.ODAUser, getODAUser( ) );
+		props.setProperty( Constants.ODAPassword, getODAPassword( ) );
+		props.setProperty( Constants.ODAJndiName, getODAJndiName( ) );
+		// bidi_hcg: add Bidi formats settings to props
+		props = bidiSupportObj.addBidiProperties( props );
+		return props;
 	}
 
-    /**
-     * get password
-     * @return
-     */
+	/**
+	 * get user name
+	 * 
+	 * @return
+	 */
+	private String getODAUser( )
+	{
+		if ( userName == null )
+			return EMPTY_STRING;
+		return getTrimedString( userName.getText( ) );
+	}
+
+	/**
+	 * get password
+	 * 
+	 * @return
+	 */
 	private String getODAPassword( )
 	{
-        if( password == null )
-            return EMPTY_STRING;
-		return getTrimedString(password.getText( ));
+		if ( password == null )
+			return EMPTY_STRING;
+		return getTrimedString( password.getText( ) );
 	}
-    
-    private String getODAJndiName( )
-    {
-        if( jndiName == null )
-            return EMPTY_STRING;
-        return getTrimedString( jndiName.getText( ) );
-    }
+
+	private String getODAJndiName( )
+	{
+		if ( jndiName == null )
+			return EMPTY_STRING;
+		return getTrimedString( jndiName.getText( ) );
+	}
 
 	/**
 	 * get driver url
+	 * 
 	 * @return
 	 */
 	private String getDriverURL( )
 	{
-        if( jdbcUrl == null )
-            return EMPTY_STRING;
-		return getTrimedString(jdbcUrl.getText( ));
+		if ( jdbcUrl == null )
+			return EMPTY_STRING;
+		return getTrimedString( jdbcUrl.getText( ) );
 	}
 
 	/**
 	 * get driver class
+	 * 
 	 * @return
 	 */
 	private String getDriverClass( )
 	{
 		if ( driverChooserCombo == null )
 			return EMPTY_STRING;
-		return getTrimedString(getSelectedDriverClassName( ));
+		return getTrimedString( getSelectedDriverClassName( ) );
 	}
-	
+
 	/**
 	 * 
 	 * @param tobeTrimed
@@ -408,10 +431,11 @@ public class JDBCSelectionPageHelper
 	 */
 	private String getTrimedString( String tobeTrimed )
 	{
-		if( tobeTrimed!= null )
+		if ( tobeTrimed != null )
 			tobeTrimed = tobeTrimed.trim( );
 		return tobeTrimed;
 	}
+
 	/**
 	 * sort the driver list with ascending order
 	 * 
@@ -440,7 +464,7 @@ public class JDBCSelectionPageHelper
 		}
 		return driverList;
 	}
-	
+
 	/**
 	 * Set selected driver in driverChooserViewer combo box
 	 * 
@@ -455,29 +479,29 @@ public class JDBCSelectionPageHelper
 		{
 			return;
 		}
-		
+
 		StructuredSelection selection = null;
 		JDBCDriverInformation jdbcDriverInfo = findJdbcDriverInfo( driverChooserViewer,
-					originalDriverClassName );
-			if ( jdbcDriverInfo != null )
-			{
-				selection = new StructuredSelection( jdbcDriverInfo );
-			}
-			else if ( originalDriverClassName.trim( ).length() == 0 )
-			{
-				return;
-			}
-			else
-			{
-				JDBCDriverInformation driverInfo = JDBCDriverInformation.newInstance( originalDriverClassName );
-				driverList.add( 0, driverInfo );
-				driverChooserViewer.setInput( driverList );
-				selection = new StructuredSelection( driverInfo );
-			}
+				originalDriverClassName );
+		if ( jdbcDriverInfo != null )
+		{
+			selection = new StructuredSelection( jdbcDriverInfo );
+		}
+		else if ( originalDriverClassName.trim( ).length( ) == 0 )
+		{
+			return;
+		}
+		else
+		{
+			JDBCDriverInformation driverInfo = JDBCDriverInformation.newInstance( originalDriverClassName );
+			driverList.add( 0, driverInfo );
+			driverChooserViewer.setInput( driverList );
+			selection = new StructuredSelection( driverInfo );
+		}
 
 		driverChooserViewer.setSelection( selection );
 	}
-	
+
 	/**
 	 * Find specified driver name in driverChooserViewer ComboViewer
 	 * 
@@ -507,7 +531,7 @@ public class JDBCSelectionPageHelper
 
 		return info;
 	}
-	
+
 	/**
 	 * Adds event listeners
 	 */
@@ -522,7 +546,7 @@ public class JDBCSelectionPageHelper
 				{
 					return;
 				}
-                verifyJDBCProperties();
+				verifyJDBCProperties( );
 				updateTestButton( );
 			}
 		} );
@@ -535,7 +559,7 @@ public class JDBCSelectionPageHelper
 				{
 					return;
 				}
-                verifyJDBCProperties();
+				verifyJDBCProperties( );
 				updateTestButton( );
 			}
 		} );
@@ -543,7 +567,7 @@ public class JDBCSelectionPageHelper
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				testButton.setEnabled(false);
+				testButton.setEnabled( false );
 				try
 				{
 					if ( testConnection( ) )
@@ -553,7 +577,7 @@ public class JDBCSelectionPageHelper
 								JdbcPlugin.getResourceString( "connection.success" ) );//$NON-NLS-1$
 					}
 					else
-					{ 
+					{
 						OdaException ex = new OdaException( JdbcPlugin.getResourceString( "connection.failed" ) );
 						ExceptionHandler.showException( getShell( ),
 								JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
@@ -568,11 +592,11 @@ public class JDBCSelectionPageHelper
 							JdbcPlugin.getResourceString( e1.getLocalizedMessage( ) ),
 							e1 );
 				}
-				testButton.setEnabled(true);
+				testButton.setEnabled( true );
 			}
 
 		} );
-		
+
 		manageButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -593,17 +617,17 @@ public class JDBCSelectionPageHelper
 						}
 					} );
 				}
-				
+
 				updateTestButton( );
 				manageButton.setEnabled( true );
 			}
 		} );
 
 	}
-	
+
 	/**
 	 * processes after pressing ok button
-	 *
+	 * 
 	 */
 	private void okPressedProcess( )
 	{
@@ -612,8 +636,7 @@ public class JDBCSelectionPageHelper
 		driverChooserCombo.setInput( sortDriverList( lst ) );
 		setDriverSelection( driverClassName, driverChooserCombo, lst );
 	}
-	
-	
+
 	/**
 	 * Attempts to connect to the Jdbc Data Source using the properties (
 	 * username, password, driver class ) specified.
@@ -622,7 +645,7 @@ public class JDBCSelectionPageHelper
 	 *         displayed if the connection fails.
 	 * 
 	 * @return Returns true if the connection is OK,and false otherwise
-	 * @throws OdaException 
+	 * @throws OdaException
 	 */
 	private boolean testConnection( ) throws OdaException
 	{
@@ -630,35 +653,50 @@ public class JDBCSelectionPageHelper
 		{
 			return false;
 		}
-		
+
 		String url = jdbcUrl.getText( ).trim( );
 		String userid = userName.getText( ).trim( );
 		String passwd = password.getText( );
 		String driverName = getSelectedDriverClassName( );
-        
-        String jndiNameValue = getODAJndiName();
-        if( jndiNameValue.length() == 0 )
-            jndiNameValue = null;
-        
-        //bidi_hcg: if we are running with Bidi settings, then testConnection 
-        //method should perform required Bidi treatment before actually trying to connect
-        if (bidiSupportObj == null) {
-	        if (m_wizardPage instanceof JDBCSelectionWizardPage){
-	        	bidiSupportObj = ((JDBCSelectionWizardPage)m_wizardPage).getBidiSupport();                               
-	        } else if (m_propertyPage instanceof JDBCPropertyPage){
-	        	bidiSupportObj = ((JDBCPropertyPage)m_propertyPage).getBidiSupport();
-	        }
-        }
-        if (bidiSupportObj != null){
-        	return DriverLoader.testConnection( driverName, url, jndiNameValue, userid, passwd, bidiSupportObj.getMetadataBidiFormat().toString() );
-        }
 
-		return DriverLoader.testConnection( driverName, url, jndiNameValue, userid, passwd );
+		String jndiNameValue = getODAJndiName( );
+		if ( jndiNameValue.length( ) == 0 )
+			jndiNameValue = null;
+
+		// bidi_hcg: if we are running with Bidi settings, then testConnection
+		// method should perform required Bidi treatment before actually trying
+		// to connect
+		if ( bidiSupportObj == null )
+		{
+			if ( m_wizardPage instanceof JDBCSelectionWizardPage )
+			{
+				bidiSupportObj = ( (JDBCSelectionWizardPage) m_wizardPage ).getBidiSupport( );
+			}
+			else if ( m_propertyPage instanceof JDBCPropertyPage )
+			{
+				bidiSupportObj = ( (JDBCPropertyPage) m_propertyPage ).getBidiSupport( );
+			}
+		}
+		if ( bidiSupportObj != null )
+		{
+			return DriverLoader.testConnection( driverName,
+					url,
+					jndiNameValue,
+					userid,
+					passwd,
+					bidiSupportObj.getMetadataBidiFormat( ).toString( ) );
+		}
+
+		return DriverLoader.testConnection( driverName,
+				url,
+				jndiNameValue,
+				userid,
+				passwd );
 	}
-	
+
 	/**
-	 * Return selected driver class name of DriverChooserCombo, 
-	 * the info of version and vendor is trimmed.
+	 * Return selected driver class name of DriverChooserCombo, the info of
+	 * version and vendor is trimmed.
 	 * 
 	 * @return selected driver class name
 	 */
@@ -669,10 +707,10 @@ public class JDBCSelectionPageHelper
 		{
 			return ( (JDBCDriverInformation) selection.getFirstElement( ) ).getDriverClassName( );
 		}
-		
+
 		// In case the driver name has been typed in, select this name
-		String driverName = driverChooserCombo.getCombo().getText();
-		
+		String driverName = driverChooserCombo.getCombo( ).getText( );
+
 		// If the typed in driver name existed in selection list
 		if ( driverName != null )
 		{
@@ -686,42 +724,43 @@ public class JDBCSelectionPageHelper
 				}
 			}
 		}
-		
+
 		return driverName;
 	}
-	
+
 	/**
 	 * Validates the data source and updates the window message accordingly
+	 * 
 	 * @return
 	 */
 	private boolean isValidDataSource( )
 	{
-		return !isURLBlank() || !isJNDIBlank( );
+		return !isURLBlank( ) || !isJNDIBlank( );
 	}
 
 	/**
-	 *	Test if the input URL is blank 
-	 *
+	 * Test if the input URL is blank
+	 * 
 	 * @return true url is blank
 	 */
 	private boolean isURLBlank( )
 	{
 		return jdbcUrl == null || jdbcUrl.getText( ).trim( ).length( ) == 0;
 	}
-	
+
 	/**
-	 *	Test if the input JNDI is blank 
-	 *
+	 * Test if the input JNDI is blank
+	 * 
 	 * @return true JNDI is blank
 	 */
 	private boolean isJNDIBlank( )
 	{
 		return jndiName == null || jndiName.getText( ).trim( ).length( ) == 0;
 	}
-	
+
 	/**
-	 *	Check if the driver class is blank 
-	 *
+	 * Check if the driver class is blank
+	 * 
 	 * @return true driver class is blank
 	 */
 	private boolean isDriverClassBlank( )
@@ -729,7 +768,7 @@ public class JDBCSelectionPageHelper
 		return getSelectedDriverClassName( ) == null
 				|| getSelectedDriverClassName( ).trim( ).length( ) == 0;
 	}
-	
+
 	/**
 	 * This method should be called in the following occations: 1. The value of
 	 * selected driver is changed 2. The value of inputed URL is changed 3. When
@@ -750,7 +789,7 @@ public class JDBCSelectionPageHelper
 				testButton.setEnabled( true );
 		}
 	}
-	
+
 	/**
 	 * Reset the testButton and manageButton to "enabled" status
 	 */
@@ -771,7 +810,7 @@ public class JDBCSelectionPageHelper
 		manageButton.setEnabled( true );
 		enableParent( manageButton );
 	}
-	
+
 	/**
 	 * Enable the specific composite
 	 */
@@ -788,7 +827,7 @@ public class JDBCSelectionPageHelper
 		}
 		enableParent( parent );
 	}
-	
+
 	private void verifyJDBCProperties( )
 	{
 		if ( !isDriverClassBlank( ) )
@@ -807,9 +846,10 @@ public class JDBCSelectionPageHelper
 		else
 			setPageComplete( false );
 	}
-	
+
 	/**
 	 * get the Shell from DialogPage
+	 * 
 	 * @return
 	 */
 	private Shell getShell( )
@@ -821,23 +861,25 @@ public class JDBCSelectionPageHelper
 		else
 			return null;
 	}
-	
+
 	/**
 	 * set page complete
+	 * 
 	 * @param complete
 	 */
-    private void setPageComplete( boolean complete )
-    {
-        if( m_wizardPage != null )
-            m_wizardPage.setPageComplete( complete );
-        else if( m_propertyPage != null )
-            m_propertyPage.setValid( complete );
-    }
-	
-    /**
-     * set message
-     * @param message
-     */
+	private void setPageComplete( boolean complete )
+	{
+		if ( m_wizardPage != null )
+			m_wizardPage.setPageComplete( complete );
+		else if ( m_propertyPage != null )
+			m_propertyPage.setValid( complete );
+	}
+
+	/**
+	 * set message
+	 * 
+	 * @param message
+	 */
 	private void setMessage( String message )
 	{
 		if ( m_wizardPage != null )
@@ -848,6 +890,7 @@ public class JDBCSelectionPageHelper
 
 	/**
 	 * set message
+	 * 
 	 * @param message
 	 * @param type
 	 */
@@ -861,22 +904,21 @@ public class JDBCSelectionPageHelper
 
 	public void setDefaultMessage( String message )
 	{
-		this.DEFAULT_MESSAGE = message;	
+		this.DEFAULT_MESSAGE = message;
 	}
-    
-    private Control getControl()
-    {
-        if ( m_wizardPage != null )
-            return m_wizardPage.getControl();
-        assert( m_propertyPage != null );
-        return m_propertyPage.getControl();
-    }
 
-    //bidi_hcg
-	public void addBidiSettingsButton(Composite parent,
-			Properties props) {
-		bidiSupportObj.drawBidiSettingsButton(parent, props);
+	private Control getControl( )
+	{
+		if ( m_wizardPage != null )
+			return m_wizardPage.getControl( );
+		assert ( m_propertyPage != null );
+		return m_propertyPage.getControl( );
+	}
+
+	// bidi_hcg
+	public void addBidiSettingsButton( Composite parent, Properties props )
+	{
+		bidiSupportObj.drawBidiSettingsButton( parent, props );
 	}
 
 }
-    

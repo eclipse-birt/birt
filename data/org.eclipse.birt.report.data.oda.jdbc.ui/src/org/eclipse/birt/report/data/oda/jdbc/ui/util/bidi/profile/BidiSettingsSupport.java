@@ -23,7 +23,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
@@ -47,11 +46,8 @@ public class BidiSettingsSupport
 	public void drawBidiSettingsButton( Composite parent, Properties props )
     {
     	initBidiFormats(props);
-    	Composite content = (Composite)parent.getChildren()[0];
-    	GridLayout layout = (GridLayout)content.getLayout();
-    	layout.numColumns = 4;
 
-    	bidiButton = new Button( content, SWT.PUSH );
+		bidiButton = new Button( parent, SWT.PUSH );
     	bidiButton.setText( JdbcPlugin.getResourceString( "wizard.label.bidiSettings" ) );//$NON-NLS-1$
     	bidiButton.setLayoutData( new GridData( GridData.END ) );
     	bidiButton.addSelectionListener( new SelectionAdapter( ) {
