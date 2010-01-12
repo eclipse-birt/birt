@@ -90,7 +90,13 @@ public class AggregationSortHelper
 	private static IDiskArray getRowsFromBaseResultSet(
 			IAggregationResultSet base ) throws IOException
 	{
-		IDiskArray diskArray = new BufferedStructureArray( AggregationResultRow.getCreator( ), 4096 );
+		int bufferSize = 4096;
+		String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
+		if( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) )
+		{
+			bufferSize = base.length( );
+		}
+		IDiskArray diskArray = new BufferedStructureArray( AggregationResultRow.getCreator( ), bufferSize );
 		for ( int j = 0; j < base.length( ); j++ )
 		{
 			base.seek( j );
