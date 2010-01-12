@@ -401,6 +401,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			cache.doSave( dataSetDataStream,
 					rowLensStream,
 					eventHandler.getAllColumnBindings( ) );
+			dataSetDataStream.flush( );
 			cache.close( );
 
 			DataOutputStream plsGroupLevelStream = new DataOutputStream( manager.getOutStream( DataEngineContext.PLS_GROUPLEVEL_STREAM,

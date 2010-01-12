@@ -40,12 +40,12 @@ DataSet.beforeClose:
   dataSource.extensionID=org.eclipse.birt.report.data.oda.jdbc
   extensionProperties:
   columnDefns:
-    index=1, name=COUNTRY, type=string, nativeType=null, label=COUNTRY, alias=null
-    index=2, name=CITY, type=string, nativeType=null, label=CITY, alias=null
-    index=3, name=SALE_DATE, type=dateTime, nativeType=null, label=SALE_DATE, alias=null
-    index=4, name=AMOUNT, type=integer, nativeType=null, label=AMOUNT, alias=null
-    index=5, name=ORDERED, type=integer, nativeType=null, label=ORDERED, alias=null
-    index=6, name=NULL_COLUMN, type=string, nativeType=null, label=NULL_COLUMN, alias=null
+    index=1, name=COUNTRY, type=string, nativeType=null, label=COUNTRY, alias=COUNTRY
+    index=2, name=CITY, type=string, nativeType=null, label=CITY, alias=CITY
+    index=3, name=SALE_DATE, type=dateTime, nativeType=null, label=SALE_DATE, alias=SALE_DATE
+    index=4, name=AMOUNT, type=integer, nativeType=null, label=AMOUNT, alias=AMOUNT
+    index=5, name=ORDERED, type=integer, nativeType=null, label=ORDERED, alias=ORDERED
+    index=6, name=NULL_COLUMN, type=string, nativeType=null, label=NULL_COLUMN, alias=NULL_COLUMN
 DataSet.afterClose:
   extensionID=org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet
   queryText=select * from ScriptTestTable
