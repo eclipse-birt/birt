@@ -363,6 +363,38 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		getFigure( ).setFocusTraversable( true );
 		
 		updateLayoutPreference( );
+		
+		//FIX BUG 298738
+		Display.getCurrent( ).asyncExec( new Runnable()
+		{
+			public void run( )
+			{
+				if (!(getModel() instanceof DesignElementHandle))
+				{
+					return;
+				}
+				DesignElementHandle handle = (DesignElementHandle)getModel();
+				Object[] backGroundPosition = getBackgroundPosition( handle );
+				Object xPosition = backGroundPosition[0];
+				Object yPosition = backGroundPosition[1];
+				boolean needRefresh = false;
+				
+				if ( xPosition instanceof DimensionValue )
+				{
+					needRefresh = true;
+				}
+				
+				if ( yPosition instanceof DimensionValue )
+				{
+					needRefresh = true;
+				}
+				if (needRefresh)
+				{
+					refreshVisuals( );
+				}
+			}
+		});
+		
 	}
 
 	/*
