@@ -324,7 +324,7 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 				try
 				{
 					IClasspathContainer contianer = JavaCore.getClasspathContainer( path, project );
-					if (contianer.getKind( ) == IClasspathContainer.K_APPLICATION)
+					if (contianer != null && contianer.getKind( ) == IClasspathContainer.K_APPLICATION)
 					{
 						IClasspathEntry[] entrys = contianer.getClasspathEntries( );
 						List<String> list = resolveClasspathEntries( entrys, needExported, project );
