@@ -111,7 +111,9 @@ public class ColorSelector extends EventManager
 					/*
 					 * (non-Javadoc)
 					 * 
-					 * @see org.eclipse.swt.accessibility.AccessibleAdapter#getName(org.eclipse.swt.accessibility.AccessibleEvent)
+					 * @see
+					 * org.eclipse.swt.accessibility.AccessibleAdapter#getName
+					 * (org.eclipse.swt.accessibility.AccessibleEvent)
 					 */
 					public void getName( AccessibleEvent e )
 					{
@@ -138,8 +140,8 @@ public class ColorSelector extends EventManager
 	/**
 	 * Compute the size of the image to be displayed.
 	 * 
-	 * @param window -
-	 *            the window used to calculate
+	 * @param window
+	 *            - the window used to calculate
 	 * @return <code>Point</code>
 	 */
 	private Point computeImageSize( Control window )
@@ -175,8 +177,8 @@ public class ColorSelector extends EventManager
 	}
 
 	/**
-	 * Removes the given listener from this <code>ColorSelector</code>. Has
-	 * no affect if the listener is not registered.
+	 * Removes the given listener from this <code>ColorSelector</code>. Has no
+	 * affect if the listener is not registered.
 	 * 
 	 * @param listener
 	 *            a property change listener
@@ -226,8 +228,11 @@ public class ColorSelector extends EventManager
 
 		if ( fColorValue == null )
 		{
-			gc.setBackground( fButton.getBackground( ) );
-			gc.fillRectangle( 0, 0, fExtent.x, fExtent.y );
+			gc.setForeground( display.getSystemColor( SWT.COLOR_BLACK ) );
+			gc.drawRectangle( 0, 2, fExtent.x - 1, fExtent.y - 4 );
+			gc.setBackground(  fButton.getBackground( ) );
+			gc.fillRectangle( 1, 3, fExtent.x - 2, fExtent.y - 5 );
+			
 		}
 		else
 		{
@@ -252,9 +257,9 @@ public class ColorSelector extends EventManager
 		/*
 		 * Bugzilla #269139 - Issue about color editor dialog in Highlight
 		 * Editor dialog. (After the fixing of Bugizlla #223759, the change is
-		 * not applicable on Linux and causes #269139. The workaround
-		 * is to detect what type the OS is and only appply the change of
-		 * #223759 on Windows.)
+		 * not applicable on Linux and causes #269139. The workaround is to
+		 * detect what type the OS is and only appply the change of #223759 on
+		 * Windows.)
 		 */
 		Shell shell = null;
 		Boolean isWin32 = Platform.getOS( ).equals( Platform.OS_WIN32 );
@@ -269,7 +274,7 @@ public class ColorSelector extends EventManager
 				: fButton.getShell( ), SWT.APPLICATION_MODAL );
 
 		colorDialog.setRGB( fColorValue );
-		colorDialog.setText( Messages.getString("ColorSelector.ColorDialog.Title") );  //$NON-NLS-1$
+		colorDialog.setText( Messages.getString( "ColorSelector.ColorDialog.Title" ) ); //$NON-NLS-1$
 		RGB newColor = colorDialog.open( );
 		if ( newColor != null )
 		{

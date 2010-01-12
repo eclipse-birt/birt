@@ -93,7 +93,7 @@ public class ColorBuilder extends Composite
 
 		colorSelector = new ColorSelector( this );
 		GridData data = new GridData( );
-		data.widthHint = 50;
+		//data.widthHint = 50;
 		data.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
 		colorSelector.getButton( ).setLayoutData( data );
 		

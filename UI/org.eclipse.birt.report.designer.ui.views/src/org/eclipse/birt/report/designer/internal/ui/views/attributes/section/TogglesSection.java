@@ -57,7 +57,8 @@ public class TogglesSection extends Section
 				toggles[i] = toggle;
 				toggle.setDescriptorProvider( providers[i] );
 				toggle.createControl( composite );
-				toggle.getControl( ).setLayoutData( new GridData( ) );
+				GridData gd = new GridData( );
+				toggle.getControl( ).setLayoutData( gd );
 				toggle.getControl( )
 						.addDisposeListener( new DisposeListener( ) {
 
@@ -114,6 +115,7 @@ public class TogglesSection extends Section
 			if ( toggles[i] != null && !toggles[i].getControl( ).isDisposed( ) )
 				toggles[i].load( );
 		}
+		composite.layout( );
 	}
 
 	public void reset( )
