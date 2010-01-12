@@ -33,6 +33,53 @@ public class StyleUtil
 	public static DesignElementHandle copyStyles( DesignElementHandle source,
 			DesignElementHandle target, boolean isCascaded )
 	{
+		return copyStyleProperties( source, target, isCascaded, false );
+	}
+
+	/**
+	 * Gets the design element handle with all the style properties are copied
+	 * to the returned value. The copied style property value will be the
+	 * factory value and not cascaded.
+	 * 
+	 * @param source
+	 * @return
+	 */
+	public static DesignElementHandle copyStyles( DesignElementHandle source,
+			DesignElementHandle target )
+	{
+		return copyStyleProperties( source, target, false, false );
+	}
+
+	/**
+	 * Gets the design element handle with all the style properties are copied
+	 * to the returned value. If <code>isCascaded</code> is set to TRUE, the
+	 * copied style property value will be the cascaded value, otherwise will be
+	 * the factory value.
+	 * 
+	 * @param source
+	 * @param isCascaded
+	 * @return
+	 */
+	public static DesignElementHandle copyLocalStyles(
+			DesignElementHandle source, DesignElementHandle target )
+	{
+		return copyStyleProperties( source, target, false, true );
+	}
+
+	/**
+	 * Gets the design element handle with all the style properties are copied
+	 * to the returned value. If <code>isCascaded</code> is set to TRUE, the
+	 * copied style property value will be the cascaded value, otherwise will be
+	 * the factory value.
+	 * 
+	 * @param source
+	 * @param isCascaded
+	 * @return
+	 */
+	private static DesignElementHandle copyStyleProperties(
+			DesignElementHandle source, DesignElementHandle target,
+			boolean isCascaded, boolean isLocal )
+	{
 		if ( source == null )
 		{
 			return null;
@@ -78,7 +125,11 @@ public class StyleUtil
 				continue;
 
 			Object value = null;
-			if ( isCascaded )
+			if ( isLocal )
+			{
+				value = sourceElement.getLocalProperty( module, propDefn );
+			}
+			else if ( isCascaded )
 			{
 				value = sourceElement.getProperty( module, propDefn );
 			}
@@ -97,17 +148,4 @@ public class StyleUtil
 		return target;
 	}
 
-	/**
-	 * Gets the design element handle with all the style properties are copied
-	 * to the returned value. The copied style property value will be the
-	 * factory value and not cascaded.
-	 * 
-	 * @param source
-	 * @return
-	 */
-	public static DesignElementHandle copyStyles( DesignElementHandle source,
-			DesignElementHandle target )
-	{
-		return copyStyles( source, target, false );
-	}
 }
