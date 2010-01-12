@@ -124,4 +124,10 @@ public class ScriptTreeNodeProvider implements INodeProvider
 		return false;
 	}
 
+	public boolean isReadOnly( Object model )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

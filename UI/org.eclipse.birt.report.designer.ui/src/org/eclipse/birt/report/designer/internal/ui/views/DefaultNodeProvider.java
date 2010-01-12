@@ -817,4 +817,9 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		this.comparator = comparator;
 	}
+
+	public boolean isReadOnly( Object model )
+	{
+		return false;
+	}
 }

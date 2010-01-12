@@ -38,6 +38,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryA
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDragListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
+import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -165,12 +166,24 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 				}
 				else
 				{
-//					Color black = Display.getCurrent( )
-//							.getSystemColor( SWT.COLOR_BLACK );
-					Color black = ReportColorConstants.ReportForeground;
-					if ( !item.getForeground( ).equals( black ) )
+					INodeProvider provider = ProviderFactory.createProvider( event.item.getData( ) );
+					if ( provider != null
+							&& provider.isReadOnly( event.item.getData( ) ) )
 					{
-						item.setForeground( black );
+						Color gray = Display.getCurrent( )
+								.getSystemColor( SWT.COLOR_DARK_GRAY );
+						if ( !item.getForeground( ).equals( gray ) )
+						{
+							item.setForeground( gray );
+						}
+					}
+					else
+					{
+						Color black = ReportColorConstants.ReportForeground;
+						if ( !item.getForeground( ).equals( black ) )
+						{
+							item.setForeground( black );
+						}
 					}
 				}
 			}
@@ -243,7 +256,11 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 						/*
 						 * (non-Javadoc)
 						 * 
-						 * @see org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert#convertSelectionToModelLisr(java.util.List)
+						 * @see
+						 * org.eclipse.birt.report.designer.core.util.mediator
+						 * .request
+						 * .IRequestConvert#convertSelectionToModelLisr(java
+						 * .util.List)
 						 */
 						public List convertSelectionToModelLisr( List list )
 						{
@@ -576,8 +593,9 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.validators.IValidationListener#elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.report.model.api.validators.ValidationEvent)
+	 * @seeorg.eclipse.birt.report.model.api.validators.IValidationListener#
+	 * elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
+	 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 	 */
 	public void elementValidated( DesignElementHandle targetElement,
 			ValidationEvent ev )
@@ -602,13 +620,13 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 
 	public IModelEventProcessor getModelProcessor( )
 	{
-		return new DesignerOutlineEventProcessor( this )
-		{
-			//fix bug 235758
+		return new DesignerOutlineEventProcessor( this ) {
+
+			// fix bug 235758
 			@Override
 			public void clear( )
 			{
-				super.clear( );		
+				super.clear( );
 				if ( isDispose( ) )
 				{
 					return;
@@ -669,7 +687,8 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DesignerOutlineEventProcessor.IFactConsumerFactory#isDispose()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.
+	 * DesignerOutlineEventProcessor.IFactConsumerFactory#isDispose()
 	 */
 	public boolean isDispose( )
 	{

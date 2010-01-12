@@ -63,8 +63,8 @@ public class ViewContextMenuProvider extends ContextMenuProvider
 		TreeViewer treeViewer = (TreeViewer) getViewer( );
 
 		IStructuredSelection selection = (IStructuredSelection) treeViewer.getSelection( );
-		
-		//temporary solution
+
+		// temporary solution
 		Object input = treeViewer.getInput( );
 		if ( input instanceof Object[] )
 		{
@@ -80,13 +80,17 @@ public class ViewContextMenuProvider extends ContextMenuProvider
 				}
 			}
 		}
-		
+
 		if ( selection.size( ) == 1 )
 		{
 			// Create Single Selection Menu
 			Object obj = selection.getFirstElement( );
-			ProviderFactory.createProvider( obj )
-					.createContextMenu( treeViewer, obj, menu );
+			if ( ProviderFactory.createProvider( obj ) != null
+					&& !ProviderFactory.createProvider( obj ).isReadOnly( obj ) )
+			{
+				ProviderFactory.createProvider( obj )
+						.createContextMenu( treeViewer, obj, menu );
+			}
 			if ( Policy.TRACING_MENU_SHOW )
 			{
 				System.out.println( "Menu(for Views) >> Shows for " + ProviderFactory.createProvider( obj ).getNodeDisplayName( obj ) ); //$NON-NLS-1$
@@ -96,8 +100,14 @@ public class ViewContextMenuProvider extends ContextMenuProvider
 		{
 			// Added by ywang on 2004.9.15
 			// Create Multiple Selection Menu
-			ProviderFactory.getDefaultProvider( )
-					.createContextMenu( treeViewer, selection, menu );
+			if ( ProviderFactory.getDefaultProvider( ) != null
+					&& !ProviderFactory.getDefaultProvider( )
+							.isReadOnly( selection ) )
+			{
+				ProviderFactory.getDefaultProvider( )
+						.createContextMenu( treeViewer, selection, menu );
+			}
+
 			if ( Policy.TRACING_MENU_SHOW )
 			{
 				System.out.println( "Menu(for Views) >> Shows for multi-selcetion." ); //$NON-NLS-1$
@@ -114,15 +124,14 @@ public class ViewContextMenuProvider extends ContextMenuProvider
 				return true;
 			}
 		}
-//		else if ( model instanceof ReportElementModel )
-//		{
-//			return ( (ReportElementModel) model ).getElementHandle( )
-//					.getModuleHandle( ) instanceof LibraryHandle;
-//		}
+		// else if ( model instanceof ReportElementModel )
+		// {
+		// return ( (ReportElementModel) model ).getElementHandle( )
+		// .getModuleHandle( ) instanceof LibraryHandle;
+		// }
 		else if ( model instanceof SlotHandle )
 		{
-			return ( (SlotHandle) model ).getElementHandle( )
-					.getModuleHandle( ) instanceof LibraryHandle;
+			return ( (SlotHandle) model ).getElementHandle( ).getModuleHandle( ) instanceof LibraryHandle;
 		}
 		return false;
 

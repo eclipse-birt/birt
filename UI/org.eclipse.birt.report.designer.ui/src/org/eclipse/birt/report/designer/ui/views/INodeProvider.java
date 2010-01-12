@@ -105,4 +105,6 @@ public interface INodeProvider
 
 	public boolean performRequest( Object model, Request request )
 			throws Exception;
+	
+	public  boolean isReadOnly(Object model);
 }

@@ -24,7 +24,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.5 $ $Date: 2007/04/26 05:53:29 $
+ * @version $Revision: 1.6 $ $Date: 2007/06/01 07:05:21 $
  */
 public class EditCubeAction extends AbstractElementAction
 {
@@ -53,7 +53,8 @@ public class EditCubeAction extends AbstractElementAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
 	protected boolean doAction( ) throws Exception
 	{
@@ -87,10 +88,10 @@ public class EditCubeAction extends AbstractElementAction
 	 */
 	public boolean isEnabled( )
 	{
-		if ( getSelection( ) instanceof CubeHandle )
-			return ( (CubeHandle) getSelection( ) ).canEdit( );
+		if ( getSelection( ) instanceof TabularCubeHandle )
+			return ( (TabularCubeHandle) getSelection( ) ).canEdit( );
 		else if ( getSelection( ) instanceof PropertyHandle
-				&& ( (PropertyHandle) getSelection( ) ).getElementHandle( ) instanceof CubeHandle )
+				&& ( (PropertyHandle) getSelection( ) ).getElementHandle( ) instanceof TabularCubeHandle )
 			return true;
 		else
 			return false;
@@ -99,7 +100,8 @@ public class EditCubeAction extends AbstractElementAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#getTransactionLabel()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#getTransactionLabel()
 	 */
 	protected String getTransactionLabel( )
 	{
