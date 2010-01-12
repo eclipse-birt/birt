@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -117,6 +116,6 @@ public abstract class AbstractBindingDialogHelper implements
 	protected void setContentSize( Composite composite )
 	{
 		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		composite.setSize( Math.max( size.x, 400 ),Math.max( size.y, isAggregate( ) ? 250 : 50 ) );
+		composite.setSize( Math.max( size.x, 400 ), Math.max( size.y, isAggregate( ) ? 260 : 50 ) );
 	}
 }

@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialo
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -107,6 +108,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
 	protected static final String DEFAULT_AGGREGATION_NAME = Messages.getString( "BindingDialogHelper.bindingName.aggregation" ); //$NON-NLS-1$
 
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
@@ -127,13 +130,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private CLabel messageLine;
 	private Label lbName, lbDisplayNameID;
 	private Object container;
-	private Button btnDisplayNameID;
+	private Button btnDisplayNameID, btnRemoveDisplayNameID;
 
 	public void createContent( Composite parent )
 	{
 		composite = parent;
 
-		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
+		( (GridLayout) composite.getLayout( ) ).numColumns = 4;
 
 		lbName = new Label( composite, SWT.NONE );
 		lbName.setText( NAME );
@@ -141,7 +144,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		txtName = new Text( composite, SWT.BORDER );
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		gd.widthHint = 250;
 		txtName.setLayoutData( gd );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
@@ -184,10 +187,23 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
+		btnRemoveDisplayNameID = new Button( composite, SWT.NONE );
+		btnRemoveDisplayNameID.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_DELETE ) );
+		btnRemoveDisplayNameID.setToolTipText( Messages.getString( "ResourceKeyDescriptor.button.reset.tooltip" ) ); //$NON-NLS-1$
+		btnRemoveDisplayNameID.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				txtDisplayNameID.setText( EMPTY_STRING );
+				txtDisplayName.setText( EMPTY_STRING );
+				updateRemoveBtnState( );
+			}
+		} );
+
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		txtDisplayName.setLayoutData( gd );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
@@ -224,6 +240,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			String[] result = (String[]) dlg.getDetailResult( );
 			txtDisplayNameID.setText( result[0] );
 			txtDisplayName.setText( result[1] );
+			updateRemoveBtnState( );
 		}
 	}
 
@@ -807,7 +824,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		new Label( composite, SWT.NONE ).setText( FUNCTION );
 		cmbFunction = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		cmbFunction.setLayoutData( gd );
 		cmbFunction.setVisibleItemCount( 30 );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
@@ -829,12 +846,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		GridLayout layout = new GridLayout( );
 		// layout.horizontalSpacing = layout.verticalSpacing = 0;
 		layout.marginWidth = layout.marginHeight = 0;
-		layout.numColumns = 3;
+		layout.numColumns = 4;
 		paramsComposite.setLayout( layout );
+		new Label( composite, SWT.NONE );
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
+		gridData.horizontalSpan = 2;
 		txtFilter.setLayoutData( gridData );
 
 		createExpressionButton( composite, txtFilter );
@@ -847,7 +866,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		cmbAggOn = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
-		gridData.horizontalSpan = 2;
+		gridData.horizontalSpan = 3;
 		cmbAggOn.setLayoutData( gridData );
 		cmbAggOn.setVisibleItemCount( 30 );
 	}
@@ -856,7 +875,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
 		txtExpression = new Text( composite, SWT.BORDER );
-		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		txtExpression.setLayoutData( gd );
 		createExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
 
@@ -1147,6 +1168,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			dialog.setCanFinish( true );
 		}
+		updateRemoveBtnState( );
 	}
 
 	public boolean differs( ComputedColumnHandle binding )
@@ -1420,4 +1442,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				.getIncludeResource( );
 	}
 
+	private void updateRemoveBtnState( )
+	{
+		btnRemoveDisplayNameID.setEnabled( txtDisplayNameID.getText( ).equals( EMPTY_STRING ) ? false
+				: true );
+	}
 }

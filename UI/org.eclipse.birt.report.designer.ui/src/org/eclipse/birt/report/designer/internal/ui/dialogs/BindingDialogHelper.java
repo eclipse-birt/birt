@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
@@ -122,7 +123,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private Text txtName, txtFilter, txtExpression;
 	private Combo cmbType, cmbFunction, cmbGroup;
-	private Button btnGroup, btnDisplayNameID;
+	private Button btnGroup, btnDisplayNameID, btnRemoveDisplayNameID;
 	private Composite paramsComposite;
 
 	private Map<String, Control> paramsMap = new LinkedHashMap<String, Control>( );
@@ -139,6 +140,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private boolean isRef;
 	private Object container;
 
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 	public void createContent( Composite parent )
 	{
 
@@ -146,14 +148,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		isRef = getBindingHolder( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF;
 		composite = parent;
 
-		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
+		( (GridLayout) composite.getLayout( ) ).numColumns = 4;
 
 		lbName = new Label( composite, SWT.NONE );
 		lbName.setText( NAME );
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		gd.widthHint = 200;
+		
 		if ( isRef )
 		{
 			cmbName = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -223,6 +226,19 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
+		btnRemoveDisplayNameID = new Button( composite, SWT.NONE );
+		btnRemoveDisplayNameID.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_DELETE ) );
+		btnRemoveDisplayNameID.setToolTipText( Messages.getString( "ResourceKeyDescriptor.button.reset.tooltip" ) ); //$NON-NLS-1$
+		btnRemoveDisplayNameID.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				txtDisplayNameID.setText( EMPTY_STRING );
+				txtDisplayName.setText( EMPTY_STRING );
+				updateRemoveBtnState( );
+			}
+		} );
+
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
 		txtDisplayName.setLayoutData( gd );
@@ -274,6 +290,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			String[] result = (String[]) dlg.getDetailResult( );
 			txtDisplayNameID.setText( result[0] );
 			txtDisplayName.setText( result[1] );
+			updateRemoveBtnState( );
 		}
 	}
 
@@ -783,7 +800,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		new Label( composite, SWT.NONE ).setText( FUNCTION );
 		cmbFunction = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		cmbFunction.setLayoutData( gd );
 		cmbFunction.setVisibleItemCount( 30 );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
@@ -800,7 +817,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		paramsComposite = new Composite( composite, SWT.NONE );
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalIndent = 0;
-		gridData.horizontalSpan = 3;
+		gridData.horizontalSpan = 4;
 		gridData.exclude = true;
 		paramsComposite.setLayoutData( gridData );
 		GridLayout layout = new GridLayout( );
@@ -811,8 +828,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER );
-		txtFilter.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		gd = new GridData( GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		txtFilter.setLayoutData( gd );
 
 		createExpressionButton( composite, txtFilter );
 
@@ -824,7 +842,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 		Composite aggOnComposite = new Composite( composite, SWT.NONE );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
-		gridData.horizontalSpan = 2;
+		gridData.horizontalSpan = 3;
 		aggOnComposite.setLayoutData( gridData );
 
 		layout = new GridLayout( );
@@ -891,7 +909,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
 		txtExpression = new Text( composite, SWT.BORDER );
-		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		txtExpression.setLayoutData( gd );
 		createExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
 
@@ -1235,6 +1255,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	public void validate( )
 	{
 		verifyInput( );
+		updateRemoveBtnState( );
 	}
 
 	public boolean differs( ComputedColumnHandle binding )
@@ -1659,6 +1680,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getIncludeResource( );
+	}
+
+	private void updateRemoveBtnState( )
+	{
+		btnRemoveDisplayNameID.setEnabled( txtDisplayNameID.getText( ).equals( EMPTY_STRING ) ? false
+				: true );
 	}
 
 }

@@ -66,6 +66,10 @@ public class SelectionChoiceDialog extends BaseDialog
 
 	private Text resourceText;
 
+	private Button removeBtn;
+
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
 	public SelectionChoiceDialog( String title )
 	{
 		this( UIUtil.getDefaultShell( ), title );
@@ -97,7 +101,7 @@ public class SelectionChoiceDialog extends BaseDialog
 				Messages.getString( "ParameterDialog.SelectionDialog.Label.Value" ) //$NON-NLS-1$
 		};
 		Composite composite = (Composite) super.createDialogArea( parent );
-		GridLayout layout = new GridLayout( 3, false );
+		GridLayout layout = new GridLayout( 4, false );
 		layout.marginWidth = 15;
 		layout.marginHeight = 15;
 		composite.setLayout( layout );
@@ -109,6 +113,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		resourceText.setEditable( false );
 		Button resourceBtn = new Button( composite, SWT.PUSH );
 		resourceBtn.setText( Messages.getString( "ParameterDialog.SelectionDialog.Button.Resource" ) ); //$NON-NLS-1$
+		resourceBtn.setToolTipText( Messages.getString( "ParameterDialog.SelectionDialog.Button.Resource.Tooltip" ) ); //$NON-NLS-1$
 		resourceBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -117,17 +122,33 @@ public class SelectionChoiceDialog extends BaseDialog
 			}
 		} );
 		resourceBtn.setEnabled( enableResourceKey( ) );
+
+		removeBtn = new Button( composite, SWT.NONE );
+		removeBtn.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_DELETE ) );
+		removeBtn.setToolTipText( Messages.getString( "ParameterDialog.SelectionDialog.Button.Remove.Tooltip" ) ); //$NON-NLS-1$
+		removeBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				resourceText.setText( EMPTY_STRING );
+				labelEditor.setText( EMPTY_STRING );
+				updateRemoveBtnState( );
+			}
+		} );
+
 		new Label( composite, SWT.NONE ).setText( labels[1] );
 		labelEditor = new Text( composite, SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.minimumWidth = 200;
+		gd.horizontalSpan = 3;
 		labelEditor.setLayoutData( gd );
-		new Label( composite, SWT.NONE );
+
 		new Label( composite, SWT.NONE ).setText( labels[2] );
 		valueEditor = new Text( composite, SWT.BORDER );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
 		valueEditor.setLayoutData( gd );
 		valueEditor.setFocus( );
-		new Label( composite, SWT.NONE );
 
 		final Composite noteContainer = new Composite( composite, SWT.NONE );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -207,6 +228,7 @@ public class SelectionChoiceDialog extends BaseDialog
 			messageLine.setImage( null );
 			getOkButton( ).setEnabled( true );
 		}
+		updateRemoveBtnState( );
 	}
 
 	public void setInput( SelectionChoice selectionChoice )
@@ -280,6 +302,12 @@ public class SelectionChoiceDialog extends BaseDialog
 				resourceText.setText( values[0] );
 			if ( values[1] != null )
 				labelEditor.setText( values[1] );
+			updateRemoveBtnState( );
 		}
+	}
+
+	private void updateRemoveBtnState( )
+	{
+		removeBtn.setEnabled( resourceText.getText( ).equals( EMPTY_STRING ) ? false : true );
 	}
 }
