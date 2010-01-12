@@ -57,9 +57,11 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -224,10 +226,9 @@ public class DataSetBasePage extends WizardPage
 		dataSourceFilteredTree.getViewer( ).getTree( ).addSelectionListener( listener );
 		createDataSetTypeViewer( composite );
 		
-		setDataSourceTreeViewer( );
-		//		GridData gridData;
+		setDataSourceTreeViewer( );		
+		setPageStatus( );
 
-	
 		//initialize name editor
 		new Label( composite, SWT.RIGHT ).setText( Messages.getString( "dataset.wizard.label.datasetName" ) );//$NON-NLS-1$
 		nameEditor = new Text( composite, SWT.BORDER );
@@ -305,8 +306,6 @@ public class DataSetBasePage extends WizardPage
 							types[i] = (DataSourceType) iter.next( );
 							i++;
 						}
-						//This tree is reconstructed, no data source is selected
-						setPageComplete( false );
 						return types;
 					}
 
@@ -389,6 +388,14 @@ public class DataSetBasePage extends WizardPage
 			}
 		} );
 		
+		dataSourceFilteredTree.getViewer( ).addSelectionChangedListener( new ISelectionChangedListener( ) {
+
+			public void selectionChanged( SelectionChangedEvent event )
+			{
+				setPageStatus( );
+			}
+		} );
+		
 		dataSourceFilteredTree.getViewer( )
 				.setComparator( new ViewerComparator( new Comparator( ) {
 
@@ -416,6 +423,15 @@ public class DataSetBasePage extends WizardPage
 			dataSetTypeChooser.getCombo( ).setEnabled( true );
 		}
 		setPageComplete( !hasWizard( ) && ( getMessageType( ) != ERROR ) );
+	}
+	
+	private void setPageStatus( )
+	{
+		if ( dataSourceFilteredTree == null
+				|| dataSourceFilteredTree.getViewer( )
+						.getTree( )
+						.getSelectionCount( ) <= 0 )
+			setPageComplete( false );
 	}
 	
 	private Map getDataSourceMap( )
