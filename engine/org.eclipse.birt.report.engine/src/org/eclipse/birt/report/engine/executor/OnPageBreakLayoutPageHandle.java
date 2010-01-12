@@ -167,7 +167,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 		@Override
 		public void startContent( IContent content ) throws BirtException
 		{
-			OnPageBreakLayoutPageHandle.this.contents.add( content );
+			OnPageBreakLayoutPageHandle.this.addContent( content );
 		}
 	}
 
