@@ -644,7 +644,7 @@ abstract public class ReportEditorWithPalette extends
 	/**
 	 * @param request
 	 */
-	protected void handleCreateElement( ReportRequest request )
+	protected void handleCreateElement( final ReportRequest request )
 	{
 		final GraphicalViewer viewer = getGraphicalViewer( );
 		if ( !viewer.getControl( ).isVisible( ) )
@@ -666,6 +666,7 @@ abstract public class ReportEditorWithPalette extends
 				if ( part instanceof EditPart )
 				{
 					Request directEditRequest = new Request( ReportRequest.CREATE_ELEMENT );
+					directEditRequest.getExtendedData( ).putAll( request.getExtendedData( ) );
 					if ( ( (EditPart) part ).understandsRequest( directEditRequest ) )
 					{
 						( (EditPart) part ).performRequest( directEditRequest );

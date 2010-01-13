@@ -267,7 +267,7 @@ public class ReportCreationTool extends CreationTool
 					list.add( model );
 					ReportRequest r = new ReportRequest( );
 					r.setType( ReportRequest.CREATE_ELEMENT );
-
+					r.getExtendedData( ).putAll( request.getExtendedData( ) );
 					r.setSelectionObject( list );
 					SessionHandleAdapter.getInstance( )
 							.getMediator( )
@@ -350,7 +350,7 @@ public class ReportCreationTool extends CreationTool
 	public static boolean handleValidatePalette( Object objectType,
 			EditPart targetEditPart )
 	{
-		//bug #278597
+		// bug #278597
 		ModuleHandle reportHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 		if ( reportHandle instanceof LibraryHandle
