@@ -94,6 +94,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
@@ -166,7 +168,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	// These fields are used to execute query for live preview.
 	protected DataRequestSession session = null;
 	private ReportEngine engine = null;
-	private DummyEngineTask engineTask = null;
+	private ChartDummyEngineTask engineTask = null;
 	private CubeHandle cubeReference = null;
 	
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle ) throws ChartException
@@ -189,7 +191,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
 
-				engineTask = new DummyEngineTask( engine,
+				engineTask = new ChartDummyEngineTask( engine,
 						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
 						itemHandle.getModuleHandle( ) );
 			}
@@ -1412,6 +1414,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			List<String> columnExpression, int rowCount, boolean isStringType )
 			throws ChartException
 	{
+		try
+		{
+			engineTask.run( );
+		}
+		catch ( EngineException e )
+		{
+			throw new ChartException( ChartReportItemUIActivator.ID,
+					ChartException.DATA_BINDING,
+					e );
+		}
+
 		// Set thread context class loader so Rhino can find POJOs in workspace
 		// projects
 		ClassLoader oldContextLoader = Thread.currentThread( )
@@ -3339,6 +3352,27 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		
 		return new String[]{};
+	}
+
+	/**
+	 * DummyEngineTask implementation for chart live preview.
+	 */
+	protected static class ChartDummyEngineTask extends DummyEngineTask
+	{
+
+		public ChartDummyEngineTask( ReportEngine engine,
+				IReportRunnable runnable, ModuleHandle moduleHandle )
+		{
+			super( engine, runnable, moduleHandle );
+		}
+
+		@Override
+		public void run( ) throws EngineException
+		{
+			parameterChanged = true;
+			super.run( );
+		}
+
 	}
 
 }
