@@ -24,7 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=ページサイズに合わせる
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページに出力
 OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
 OptionDisplayValue.FontSubstitution=フォントの置き換え
-OptionDisplayValue.EmbeddedFont=Embedded Font
+OptionDisplayValue.EmbeddedFont=Embedded font
 OptionDisplayValue.ChartDpi=Chart DPI 
 
 ###########################################################

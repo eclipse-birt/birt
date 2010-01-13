@@ -24,7 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengröße anpassen
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Mehrere Seiten ausgeben
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrößern
 OptionDisplayValue.FontSubstitution=Schriftart ersetzen
-OptionDisplayValue.EmbeddedFont=Embedded Font
+OptionDisplayValue.EmbeddedFont=Embedded font
 OptionDisplayValue.ChartDpi=Chart DPI 
 
 ###########################################################

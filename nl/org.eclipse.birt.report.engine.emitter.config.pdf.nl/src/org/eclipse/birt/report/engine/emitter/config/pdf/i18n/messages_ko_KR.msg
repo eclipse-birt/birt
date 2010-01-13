@@ -24,7 +24,7 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=페이지 크기에 맞추기
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=여러 페이지로 출력
 OptionDisplayValue.ENLARGE_PAGE_SIZE=페이지 크기 확대
 OptionDisplayValue.FontSubstitution=글꼴 대체
-OptionDisplayValue.EmbeddedFont=Embedded Font
+OptionDisplayValue.EmbeddedFont=Embedded font
 OptionDisplayValue.ChartDpi=Chart DPI 
 
 ###########################################################
