@@ -49,6 +49,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -411,6 +412,14 @@ public final class DesignerRepresentation extends Figure
 				 * ida.height; j++) { ida.setPixel(i, j, TRANSPARENT_COLOR); } }
 				 */
 				imgChart = new Image( d, ida );
+				gc = new GC( imgChart );
+			}
+
+			// bug 288169
+			if ( Platform.OS_MACOSX.equals( Platform.getOS( ) )
+					&& gc != null && !gc.isDisposed( ) )
+			{
+				gc.dispose( );
 				gc = new GC( imgChart );
 			}
 
