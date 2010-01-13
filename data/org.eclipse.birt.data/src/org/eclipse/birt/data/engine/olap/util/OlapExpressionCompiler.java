@@ -375,6 +375,9 @@ public class OlapExpressionCompiler
 		result = getScriptObjectName( n.getFirstChild( ), objectName );
 		if ( result == null )
 			result = getScriptObjectName( n.getLastChild( ), objectName );
+		
+		if ( result == null )
+			result = getScriptObjectName( n.getNext(), objectName );
 
 		return result;
 	}

@@ -25,6 +25,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.script.function.i18n.Messages;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
+import org.mozilla.javascript.ScriptableObject;
 
 import com.ibm.icu.text.Collator;
 
@@ -176,8 +177,24 @@ public class BirtComp implements IScriptFunctionExecutor
 			return DataTypeUtil.toDate( obj1 )
 					.compareTo( DataTypeUtil.toDate( obj2 ) );
 		}
-		else
-			throw new IllegalArgumentException( );
+		else 
+		{
+			String object1 = null;
+			String object2 = null;
+			if (obj1 instanceof ScriptableObject)
+				object1 = DataTypeUtil.toString(((ScriptableObject) obj1)
+						.getDefaultValue(null));
+			else
+				object1 = DataTypeUtil.toString(obj1);
+
+			if (obj2 instanceof ScriptableObject)
+				object2 = DataTypeUtil.toString(((ScriptableObject) obj2)
+						.getDefaultValue(null));
+			else
+				object2 = DataTypeUtil.toString(obj2);
+			
+			return compare( object1, object2 );
+		}
 
 	}
 
