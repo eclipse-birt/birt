@@ -537,16 +537,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 
 		for ( int i = 0; i < dimensions.length; i++ )
 		{
-			if ( position[i] == null )
-			{
-				dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-						dimensions[i].findAll( ), stopSign);
-			}
-			else
-			{
-				dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
+			dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
 						position[i], stopSign);
-			}		
 		}
 		
 		return dimResultSet;

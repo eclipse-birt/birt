@@ -75,6 +75,11 @@ public class LevelFilterHelper
 	public IDiskArray getJSFilterResult( List jsFilters,
 			boolean isBreakHierarchy ) throws DataException, IOException
 	{
+		
+		if ((simplelevelFilters == null || simplelevelFilters.size( ) == 0)
+				&& (levelFilters == null || levelFilters.size( ) == 0)
+				&& (jsFilters == null || jsFilters.size( ) == 0))
+			return null;
 		List dimFilterList = new ArrayList( );
 		List topBottomfilterList = new ArrayList( );
 		for ( int j = 0; j < jsFilters.size( ); j++ )

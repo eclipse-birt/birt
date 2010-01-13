@@ -50,10 +50,21 @@ public class DimensionResultIterator implements IDimensionResultIterator
 		this.dimension = dimension;
 		this.dimensionPosition = dimensionPosition;
 		this.levels = dimension.getHierarchy( ).getLevels( );
-		dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition, stopSign );		
 		this.currentPosition = 0;
 		logger.exiting( DimensionResultIterator.class.getName( ),
 				"DimensionResultIterator" );
+	}
+	
+	private void initDimensionRows( ) throws IOException
+	{
+		if( dimensionRows == null )
+		{
+			if( dimensionPosition == null )
+			{
+				dimensionPosition = dimension.findAll( );
+			}
+			dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition, new StopSign( ) );
+		}
 	}
 	
 	/*
@@ -62,8 +73,10 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public void close( ) throws BirtException, IOException
 	{
-		dimensionPosition.close( );
-		dimensionRows.close( );
+		if( dimensionPosition != null )
+			dimensionPosition.close( );
+		if( dimensionRows != null )
+			dimensionRows.close( );
 	}
 
 	/*
@@ -93,6 +106,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	public int getDimesionPosition( )
 			throws BirtException, IOException
 	{
+		initDimensionRows( );
 		return ((Integer)(dimensionPosition.get( currentPosition ))).intValue();
 	}
 
@@ -102,6 +116,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public Object getLevelAttribute( int levelIndex, int attributeIndex ) throws IOException
 	{
+		initDimensionRows( );
 		return ((DimensionRow)dimensionRows.get( currentPosition )).
 			getMembers()[levelIndex].getAttributes()[attributeIndex];
 	}
@@ -174,6 +189,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public Object[] getLevelKeyValue( int levelIndex ) throws IOException
 	{
+		initDimensionRows( );
 		return ((DimensionRow)dimensionRows.get( currentPosition )).
 			getMembers()[levelIndex].getKeyValues();
 	}
@@ -193,7 +209,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public int length( )
 	{
-		return dimensionRows.size( );
+		return dimension.length( );
 	}
 
 	/*
@@ -221,12 +237,14 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public Member getLevelMember( int levelIndex ) throws IOException
 	{
+		initDimensionRows( );
 		return ((DimensionRow)dimensionRows.get( currentPosition )).
 			getMembers()[levelIndex];
 	}
 	
 	public DimensionRow getDimensionRow( ) throws IOException
 	{
+		initDimensionRows( );
 		return (DimensionRow)dimensionRows.get( currentPosition );
 	}
 }
