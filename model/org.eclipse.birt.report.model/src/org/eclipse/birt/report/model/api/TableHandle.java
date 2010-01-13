@@ -19,7 +19,11 @@ import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
@@ -678,20 +682,17 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	/**
 	 * Figures out the column according to the index of the column.
 	 * 
-	 * @param module
-	 *            the report design
-	 * @param columnSlot
-	 *            the slot contains columns
-	 * @param columnNum
-	 *            the 1-based column number to search
+	 * @param columnIndex
+	 *            the 1-based column index
 	 * 
-	 * @return the index of a column.
+	 * @return the handle of the column at the specified position, or null if
+	 *         not found.
 	 */
 
-	public ColumnHandle findColumn( int columnNum )
+	public ColumnHandle findColumn( int columnIndex )
 	{
 		TableColumn targetColumn = ColumnHelper.findColumn( module,
-				getColumns( ).getSlot( ), columnNum );
+				getColumns( ).getSlot( ), columnIndex );
 		return (ColumnHandle) targetColumn.getHandle( module );
 	}
 
@@ -834,4 +835,100 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		setBooleanProperty( IS_SUMMARY_TABLE_PROP, isSummaryTable );
 	}
 
+	/**
+	 * Sets the width of the table to fit columns' widths. The new width value
+	 * will be the sum of the columns' widths.
+	 * 
+	 * @throws SemanticException
+	 *             when width of the table cannot be calculated.
+	 */
+	public void setWidthToFitColumns( ) throws SemanticException
+	{
+		DimensionValue absoluteWidths = null;
+		DimensionValue relativeWidths = null;
+		if ( element.getSlot( COLUMN_SLOT ).getCount( ) == 0 )
+		{
+			throw new SemanticError( element,
+					SemanticError.DESIGN_EXCEPTION_TABLE_NO_COLUMN_FOUND );
+		}
+		List columns = getColumns( ).getContents( );
+		for ( int index = 0; index < columns.size( ); index++ )
+		{
+			ColumnHandle column = (ColumnHandle) columns.get( index );
+			DimensionValue columnWidth = (DimensionValue) column.getWidth( )
+					.getValue( );
+			if ( columnWidth == null )
+			{ // column index is 1-based.
+				throw new SemanticError(
+						element,
+						new String[]{String.valueOf( index + 1 )},
+						SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_WITH_NO_WIDTH );
+			}
+			int repeat = column.getRepeatCount( );
+			if ( repeat > 1 )
+			{ // Process repeat
+				columnWidth = new DimensionValue( columnWidth.getMeasure( )
+						* repeat, columnWidth.getUnits( ) );
+			}
+			if ( DimensionUtil.isAbsoluteUnit( columnWidth.getUnits( ) ) )
+			{
+				absoluteWidths = DimensionUtil.mergeDimension( absoluteWidths,
+						columnWidth );
+			}
+			else
+			{
+				if ( relativeWidths == null )
+				{
+					relativeWidths = columnWidth;
+				}
+				else
+				{
+					relativeWidths = DimensionUtil.mergeDimension(
+							relativeWidths, columnWidth );
+					if ( relativeWidths == null )
+					{ // Fail to merge relative widths
+						throw new SemanticError(
+								element,
+								SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT );
+					}
+				}
+			}
+		}
+		if ( absoluteWidths == null || relativeWidths == null )
+		{ // Only has columns with either absolute or relative widths
+			if ( absoluteWidths == null )
+			{
+				if ( !DesignChoiceConstants.UNITS_PERCENTAGE
+						.equalsIgnoreCase( relativeWidths.getUnits( ) ) )
+				{ // Sum of percentage will not be set
+					getWidth( ).setValue( relativeWidths );
+				}
+			}
+			else
+			{
+				getWidth( ).setValue( absoluteWidths );
+			}
+		}
+		else
+		{ // Has columns with both absolute and relative widths
+			if ( !DesignChoiceConstants.UNITS_PERCENTAGE
+					.equalsIgnoreCase( relativeWidths.getUnits( ) ) )
+			{ // Only percentage is acceptable
+				throw new SemanticError(
+						element,
+						SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE );
+			}
+			double percent = relativeWidths.getMeasure( );
+			if ( Double.compare( percent, 100 ) >= 0 )
+			{ // Out of 100%
+				throw new SemanticError(
+						element,
+						SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_ILLEGAL_PERCENTAGE );
+			}
+			percent /= 100;
+			setWidth( String.valueOf( absoluteWidths.getMeasure( )
+					/ ( 1 - percent ) )
+					+ absoluteWidths.getUnits( ) );
+		}
+	}
 }

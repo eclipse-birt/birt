@@ -24,14 +24,6 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 public class DimensionUtilTest extends TestCase
 {
 
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
 	/**
 	 * Tests whether unit is absolute.
 	 */
@@ -220,5 +212,34 @@ public class DimensionUtilTest extends TestCase
 				10, DesignChoiceConstants.UNITS_PT, dpi ), DimensionUtil
 				.convertTo( 2, DesignChoiceConstants.UNITS_IN,
 						DesignChoiceConstants.UNITS_CM ).getMeasure( ), 0.01 );
+	}
+
+	/**
+	 * Tests for dimension merging.
+	 */
+	public void testMerge( ) throws Exception
+	{
+		DimensionValue cm = DimensionValue.parse( "1cm" );
+		DimensionValue mm = DimensionValue.parse( "10mm" );
+		DimensionValue percentage = DimensionValue.parse( "25%" );
+		DimensionValue px = DimensionValue.parse( "10px" );
+
+		// Merge between same absolute unit.
+		assertEquals( "2cm", DimensionUtil.mergeDimension( cm, cm ).toString( ) );
+		assertEquals( "20mm", DimensionUtil.mergeDimension( mm, mm ).toString( ) );
+		// Merge between different absolute units.
+		assertEquals( "2cm", DimensionUtil.mergeDimension( cm, mm ).toString( ) );
+		assertEquals( "20mm", DimensionUtil.mergeDimension( mm, cm ).toString( ) );
+		// Merge between same relative unit.
+		assertEquals( "50%", DimensionUtil.mergeDimension( percentage, percentage ).toString( ) );
+		assertEquals( "20px", DimensionUtil.mergeDimension( px, px ).toString( ) );
+				
+		// Merge between different relative unit.
+		assertNull( DimensionUtil.mergeDimension( percentage, px ) );
+		// Merge between absolute unit and relative unit.
+		assertNull( DimensionUtil.mergeDimension( cm, percentage ) );
+		assertNull( DimensionUtil.mergeDimension( cm, px ) );
+		assertNull( DimensionUtil.mergeDimension( mm, percentage ) );
+		assertNull( DimensionUtil.mergeDimension( mm, px ) );
 	}
 }

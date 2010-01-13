@@ -14,6 +14,9 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
@@ -152,11 +155,11 @@ public class ColumnHandle extends ReportElementHandle
 			assert false;
 		}
 	}
-	
+
 	/**
 	 * Returns visibility rules defined on the table column. The element in the
-	 * iterator is the corresponding <code>StructureHandle</code> that deal
-	 * with a <code>HideRuleHandle</code> in the list.
+	 * iterator is the corresponding <code>StructureHandle</code> that deal with
+	 * a <code>HideRuleHandle</code> in the list.
 	 * 
 	 * @return the iterator for visibility rules.
 	 * 
@@ -168,5 +171,38 @@ public class ColumnHandle extends ReportElementHandle
 		PropertyHandle propHandle = getPropertyHandle( ITableRowModel.VISIBILITY_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
+	}
+
+	/**
+	 * Converts width of the column to an absolute value if possible.
+	 * 
+	 * @throws SemanticException
+	 */
+	public void convertWidthToAbsoluteValue( ) throws SemanticException
+	{
+		DimensionValue width = (DimensionValue) getWidth( ).getValue( );
+		if ( width == null
+				|| DimensionUtil.isAbsoluteUnit( width.getUnits( ) )
+				|| !DesignChoiceConstants.UNITS_PERCENTAGE
+						.equalsIgnoreCase( width.getUnits( ) ) )
+		{ // Only percentage width can be converted.
+			return;
+		}
+		DesignElementHandle container = getContainer( );
+		if ( container instanceof TableHandle )
+		{
+			DimensionValue parentWidth = (DimensionValue) ( (TableHandle) container )
+					.getWidth( ).getValue( );
+			if ( parentWidth != null
+					&& DimensionUtil.isAbsoluteUnit( parentWidth.getUnits( ) ) )
+			{
+				double newWidth = parentWidth.getMeasure( )
+						* width.getMeasure( ) / 100;
+				getWidth( )
+						.setValue(
+								new DimensionValue( newWidth, parentWidth
+										.getUnits( ) ) );
+			}
+		}
 	}
 }

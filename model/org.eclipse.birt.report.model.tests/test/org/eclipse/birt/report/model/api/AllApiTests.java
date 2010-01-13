@@ -89,6 +89,7 @@ public class AllApiTests
 		test.addTestSuite( ReportDesignCacheTest.class );
 		test.addTestSuite( HighlightRuleHandleTest.class );
 		test.addTestSuite( ExpressionTest.class );
+		test.addTestSuite( ColumnHandleTest.class );
 		
 		return test;
 	}

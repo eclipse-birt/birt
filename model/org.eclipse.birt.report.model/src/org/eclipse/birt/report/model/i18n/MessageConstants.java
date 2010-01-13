@@ -342,10 +342,17 @@ public interface MessageConstants
 	// EncryptionException
 	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY = "Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY"; //$NON-NLS-1$
 	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTION = "Error.EncryptionException.INVALID_ENCRYPTION"; //$NON-NLS-1$
-	
-	//Dashboard exporter
-	public static final String EXPORT_GADGET_TO_SHARED_GADGET_FILE ="Message.ExportGadgetToSharedGadgetFile"; //$NON-NLS-1$
-	public static final String EXPORT_TAB_TO_SHARED_TAB_FILE="Message.ExportTabToSharedTabFile"; //$NON-NLS-1$
+
+	// Dashboard exporter
+	public static final String EXPORT_GADGET_TO_SHARED_GADGET_FILE = "Message.ExportGadgetToSharedGadgetFile"; //$NON-NLS-1$
+	public static final String EXPORT_TAB_TO_SHARED_TAB_FILE = "Message.ExportTabToSharedTabFile"; //$NON-NLS-1$
 	public static final String DASHBOARD_EXCEPTION_GADGET_INCLUDED_RECURSIVELY = "Error.ExternalGadgetFileIncludedRecursively"; //$NON-NLS-1$	
 	public static final String DASHBOARD_EXCEPTION_NOT_FOUND_EXPORTER = "Error.NotFoundExporter"; //$NON-NLS-1$
+
+	// Table width adjustment exceptions
+	public static final String SEMANTIC_ERROR_TABLE_NO_COLUMN_FOUND = "Error.SemanticError.TABLE_NO_COLUMN_FOUND"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_WITH_NO_WIDTH = "Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH"; //$NON-NLS-1$	
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE"; //$NON-NLS-1$	
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT"; //$NON-NLS-1$	
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$
 }
