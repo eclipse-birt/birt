@@ -2007,6 +2007,7 @@ HyperlinkBuilder.DrillThroughParentFrame=&Übergeordneter Rahmen
 HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Parametername doppelt vergeben
 
 HyperlinkBuilder.Label.Location=&Speicherort:
+HyperlinkBuilder.Label.Location.hint=(Examples: http://host/path, folder/file)
 HyperlinkBuilder.Label.Parameters=Berichtparameter:
 HyperlinkBuilder.Label.Report=Bericht:
 HyperlinkBuilder.Label.SelectType=Art des Hyperlinks wählen:
@@ -2910,6 +2911,8 @@ ParameterDialog.SelectionDialog.Label.DisplayTextKey=Anzeigentext&schlüssel:
 ParameterDialog.SelectionDialog.Label.DisplayText=&Anzeigentext:
 ParameterDialog.SelectionDialog.Label.Value=&Wert:
 ParameterDialog.SelectionDialog.Button.Resource=...
+ParameterDialog.SelectionDialog.Button.Resource.Tooltip=Durchsuchen und Schlüssel auswählen
+ParameterDialog.SelectionDialog.Button.Remove.Tooltip=Remove key
 ParameterDialog.SelectionDialog.Label.Note=Hinweis: Um den Anzeigentextschlüssel einzustellen, wählen Sie den Bericht aus, und legen Sie den Namen der Ressourcendatei in der Registerkarte 'Ressourcen' im Eigenschaftseditor fest.
 ParameterDialog.Label.SelectDisplayText=Angezeigten T&ext auswählen:
 ParameterDialog.Label.SelectValueColumn=&Wertespalte auswählen:

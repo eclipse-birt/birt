@@ -2007,6 +2007,7 @@ HyperlinkBuilder.DrillThroughParentFrame=Cadre &parent
 HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Nom de paramètre en double
 
 HyperlinkBuilder.Label.Location=Emp&lacement :
+HyperlinkBuilder.Label.Location.hint=(Examples: http://host/path, folder/file)
 HyperlinkBuilder.Label.Parameters=Paramètres de l'état :
 HyperlinkBuilder.Label.Report=Etat :
 HyperlinkBuilder.Label.SelectType=Sélectionner un type de lien hypertexte :
@@ -2910,6 +2911,8 @@ ParameterDialog.SelectionDialog.Label.DisplayTextKey=Clé de te&xte à afficher :
 ParameterDialog.SelectionDialog.Label.DisplayText=&Texte d'affichage :
 ParameterDialog.SelectionDialog.Label.Value=&Valeur :
 ParameterDialog.SelectionDialog.Button.Resource=...
+ParameterDialog.SelectionDialog.Button.Resource.Tooltip=Parcourir et sélectionner une clé
+ParameterDialog.SelectionDialog.Button.Remove.Tooltip=Remove key
 ParameterDialog.SelectionDialog.Label.Note=Remarque : pour définir la clé de texte à afficher, sélectionnez l'état et définissez le nom du fichier de ressources dans l'onglet Ressources de l'Editeur de propriétés.
 ParameterDialog.Label.SelectDisplayText=Sélectionner t&exte d'affichage :
 ParameterDialog.Label.SelectValueColumn=Sélectionner une colonne de vale&ur :

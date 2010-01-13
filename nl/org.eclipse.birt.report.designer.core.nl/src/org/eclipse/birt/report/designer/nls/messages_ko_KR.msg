@@ -2007,6 +2007,7 @@ HyperlinkBuilder.DrillThroughParentFrame=상위 프레임(&P)
 HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=중복된 매개 변수 이름
 
 HyperlinkBuilder.Label.Location=위치(&L):
+HyperlinkBuilder.Label.Location.hint=(Examples: http://host/path, folder/file)
 HyperlinkBuilder.Label.Parameters=보고서 매개 변수:
 HyperlinkBuilder.Label.Report=보고서:
 HyperlinkBuilder.Label.SelectType=하이퍼링크 형식 선택:
@@ -2910,6 +2911,8 @@ ParameterDialog.SelectionDialog.Label.DisplayTextKey=표시 텍스트 키(&K):
 ParameterDialog.SelectionDialog.Label.DisplayText=표시 텍스트(&T):
 ParameterDialog.SelectionDialog.Label.Value=값(&V):
 ParameterDialog.SelectionDialog.Button.Resource=...
+ParameterDialog.SelectionDialog.Button.Resource.Tooltip=키를 찾아보고 선택합니다.
+ParameterDialog.SelectionDialog.Button.Remove.Tooltip=Remove key
 ParameterDialog.SelectionDialog.Label.Note=참고: 표시 텍스트 키를 설정하려면 속성 편집기의 리소스 탭에서 보고서를 선택하고 리소스 파일 이름을 설정하십시오.
 ParameterDialog.Label.SelectDisplayText=표시 텍스트 선택(&E):
 ParameterDialog.Label.SelectValueColumn=값 열 선택(&U):

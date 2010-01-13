@@ -2007,6 +2007,7 @@ HyperlinkBuilder.DrillThroughParentFrame=父框架(&P)
 HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=重复的参数名称
 
 HyperlinkBuilder.Label.Location=位置(&L):
+HyperlinkBuilder.Label.Location.hint=(Examples: http://host/path, folder/file)
 HyperlinkBuilder.Label.Parameters=报表参数:
 HyperlinkBuilder.Label.Report=报表:
 HyperlinkBuilder.Label.SelectType=选择超级链接类型:
@@ -2910,6 +2911,8 @@ ParameterDialog.SelectionDialog.Label.DisplayTextKey=显示文本关键字(&K):
 ParameterDialog.SelectionDialog.Label.DisplayText=显示文本(&T):
 ParameterDialog.SelectionDialog.Label.Value=值(&V):
 ParameterDialog.SelectionDialog.Button.Resource=...
+ParameterDialog.SelectionDialog.Button.Resource.Tooltip=浏览和选择按键
+ParameterDialog.SelectionDialog.Button.Remove.Tooltip=Remove key
 ParameterDialog.SelectionDialog.Label.Note=注：要设置显示文本关键字，请选择报表，然后在属性编辑器的“资源”选项卡上设置资源文件名称。
 ParameterDialog.Label.SelectDisplayText=选择显示文本(&E):
 ParameterDialog.Label.SelectValueColumn=选择值列(&U):
