@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.computation;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,19 +36,18 @@ public class UserDataSetHints
 	 * @param allSeriesDataSets
 	 * @throws ChartException
 	 */
-	public UserDataSetHints( EMap allSeriesDataSets ) throws ChartException
+	public UserDataSetHints( EMap<String, DataSet> allSeriesDataSets )
+			throws ChartException
 	{
-		List keyList = new ArrayList( );
-		List dsiList = new ArrayList( );
+		List<String> keyList = new ArrayList<String>( );
+		List<DataSetIterator> dsiList = new ArrayList<DataSetIterator>( );
 
-		for ( Iterator itr = allSeriesDataSets.entrySet( ).iterator( ); itr.hasNext( ); )
+		for ( Map.Entry<String, DataSet> entry : allSeriesDataSets.entrySet( ) )
 		{
-			Map.Entry entry = (Map.Entry) itr.next( );
-
 			if ( entry.getKey( ) != null )
 			{
-				String key = (String) entry.getKey( );
-				DataSet ds = (DataSet) entry.getValue( );
+				String key = entry.getKey( );
+				DataSet ds = entry.getValue( );
 				DataSetIterator dsi = new DataSetIterator( ds );
 
 				keyList.add( key );
@@ -57,8 +55,8 @@ public class UserDataSetHints
 			}
 		}
 
-		keys = (String[]) keyList.toArray( new String[keyList.size( )] );
-		dsis = (DataSetIterator[]) dsiList.toArray( new DataSetIterator[dsiList.size( )] );
+		keys = keyList.toArray( new String[keyList.size( )] );
+		dsis = dsiList.toArray( new DataSetIterator[dsiList.size( )] );
 	}
 
 	/**

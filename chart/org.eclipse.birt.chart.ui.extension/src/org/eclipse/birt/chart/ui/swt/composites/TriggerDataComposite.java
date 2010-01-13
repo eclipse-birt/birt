@@ -69,9 +69,8 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  * 
  */
-public class TriggerDataComposite extends Composite
-		implements
-			SelectionListener
+public class TriggerDataComposite extends Composite implements
+		SelectionListener
 {
 
 	public static final int ENABLE_URL_PARAMETERS = 1;
@@ -83,11 +82,11 @@ public class TriggerDataComposite extends Composite
 	public static final int DISABLE_VALUE_SERIES_NAME = 1 << 3;
 
 	public static final int ENABLE_SHOW_TOOLTIP_VALUE = 1 << 4;
-	
+
 	private Group grpValue = null;
 
 	private Composite cmpURL = null;
-	
+
 	private MultipleHyperlinksComposite multiHyperlinksComposite = null;
 
 	// private Text txtBaseURL = null;
@@ -148,11 +147,11 @@ public class TriggerDataComposite extends Composite
 
 	private boolean bAdvanced = false;
 
-	private EList triggersList;
+	private EList<Trigger> triggersList;
 
 	private EObject cursorContainer;
-	
-	private Map triggersMap;
+
+	private Map<String, Trigger> triggersMap;
 
 	private String lastTriggerType;
 
@@ -175,8 +174,10 @@ public class TriggerDataComposite extends Composite
 
 	private Button btnCursorImage;
 
-	public TriggerDataComposite( Composite parent, int style, EList triggers, EObject cursorContainer,
-			ChartWizardContext wizardContext, int iInteractivityType, int optionalStyle )
+	public TriggerDataComposite( Composite parent, int style,
+			EList<Trigger> triggers, EObject cursorContainer,
+			ChartWizardContext wizardContext, int iInteractivityType,
+			int optionalStyle )
 	{
 		super( parent, style );
 		this.wizardContext = wizardContext;
@@ -204,7 +205,8 @@ public class TriggerDataComposite extends Composite
 		} );
 	}
 
-	public TriggerDataComposite( Composite parent, int style, EList triggers, EObject cursorContainer,
+	public TriggerDataComposite( Composite parent, int style,
+			EList<Trigger> triggers, EObject cursorContainer,
 			ChartWizardContext wizardContext, int iInteractivityType,
 			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
 	{
@@ -217,7 +219,7 @@ public class TriggerDataComposite extends Composite
 		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
 				iInteractivityType );
 		init( );
-		
+
 		placeComponents( );
 
 		addDisposeListener( new DisposeListener( ) {
@@ -238,10 +240,10 @@ public class TriggerDataComposite extends Composite
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
 
-		triggersMap = new HashMap( );
+		triggersMap = new HashMap<String, Trigger>( );
 		for ( int i = 0; i < triggersList.size( ); i++ )
 		{
-			Trigger trigger = (Trigger) triggersList.get( i );
+			Trigger trigger = triggersList.get( i );
 			triggersMap.put( LiteralHelper.triggerConditionSet.getDisplayNameByName( trigger.getCondition( )
 					.getName( ) ),
 					trigger );
@@ -292,7 +294,7 @@ public class TriggerDataComposite extends Composite
 			{
 				updateTrigger( lastTriggerType );
 				updateActionTypeItems( );
-				Trigger trigger = (Trigger) triggersMap.get( cmbTriggerType.getText( ) );
+				Trigger trigger = triggersMap.get( cmbTriggerType.getText( ) );
 				// Only display supported trigger
 				if ( trigger != null && triggerMatrix.check( trigger ) )
 				{
@@ -325,21 +327,21 @@ public class TriggerDataComposite extends Composite
 		GridData gdLBLCursorType = new GridData( );
 		gdLBLCursorType.horizontalIndent = 4;
 		lblCursorType.setLayoutData( gdLBLCursorType );
-		lblCursorType.setText( Messages.getString("TriggerDataComposite.Lbl.Cursor") ); //$NON-NLS-1$
+		lblCursorType.setText( Messages.getString( "TriggerDataComposite.Lbl.Cursor" ) ); //$NON-NLS-1$
 
 		cmbCursorType = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBCursorType = new GridData( GridData.FILL_HORIZONTAL );
 		cmbCursorType.setLayoutData( gdCMBCursorType );
 		cmbCursorType.addSelectionListener( this );
 		cmbCursorType.setVisibleItemCount( 30 );
-		
+
 		btnCursorImage = new Button( this, SWT.NONE );
-		btnCursorImage.setText( Messages.getString("TriggerDataComposite.Lbl.Image") ); //$NON-NLS-1$
+		btnCursorImage.setText( Messages.getString( "TriggerDataComposite.Lbl.Image" ) ); //$NON-NLS-1$
 		GridData gdBTNCursorImage = new GridData( );
 		btnCursorImage.setLayoutData( gdBTNCursorImage );
 		btnCursorImage.addSelectionListener( this );
 		btnCursorImage.setEnabled( false );
-		
+
 		grpValue = new Group( this, SWT.NONE );
 		GridData gdGRPValue = new GridData( GridData.FILL_BOTH );
 		gdGRPValue.horizontalSpan = 3;
@@ -393,7 +395,9 @@ public class TriggerDataComposite extends Composite
 			lblScript.setText( Messages.getString( "TriggerDataComposite.Lbl.Script" ) ); //$NON-NLS-1$
 		}
 		txtScript = new Text( cmpScript, SWT.MULTI
-				| SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL );
+				| SWT.BORDER
+				| SWT.V_SCROLL
+				| SWT.H_SCROLL );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.verticalSpan = 2;
@@ -446,10 +450,40 @@ public class TriggerDataComposite extends Composite
 			lblText.setLayoutData( lblGd );
 
 			txtTooltipText = new Text( cmpTooltip, SWT.BORDER
-					| SWT.MULTI | SWT.V_SCROLL );
+					| SWT.MULTI
+					| SWT.V_SCROLL );
 			GridData gdTXTTooltipText = new GridData( GridData.FILL_BOTH );
 			gdTXTTooltipText.horizontalSpan = 3;
 			txtTooltipText.setLayoutData( gdTXTTooltipText );
+
+			// Create the dummy instance to keep consistency
+			btnTooltipExpBuilder = new IExpressionButton( ) {
+
+				public void setExpression( String expr )
+				{
+					txtTooltipText.setText( expr );
+				}
+
+				public void setEnabled( boolean bEnabled )
+				{
+					txtTooltipText.setEnabled( bEnabled );
+				}
+
+				public boolean isEnabled( )
+				{
+					return txtTooltipText.isEnabled( );
+				}
+
+				public String getExpression( )
+				{
+					return txtTooltipText.getText( );
+				}
+
+				public String getDisplayExpression( )
+				{
+					return getExpression( );
+				}
+			};
 		}
 		else
 		{
@@ -478,13 +512,13 @@ public class TriggerDataComposite extends Composite
 
 		// Composite for url value
 		createURLComposite( glURL, glParameter );
-		
+
 		multiHyperlinksComposite = new MultipleHyperlinksComposite( grpValue,
 				SWT.NONE,
 				wizardContext,
 				triggerMatrix,
 				optionalStyle );
-		
+
 		populateLists( );
 	}
 
@@ -645,7 +679,7 @@ public class TriggerDataComposite extends Composite
 		{
 			if ( triggersMap.containsKey( triggerTypes[i] ) )
 			{
-				Trigger trigger = (Trigger) triggersMap.get( triggerTypes[i] );
+				Trigger trigger = triggersMap.get( triggerTypes[i] );
 				// Only display supported trigger
 				if ( triggerMatrix.check( trigger ) )
 				{
@@ -700,7 +734,7 @@ public class TriggerDataComposite extends Composite
 	private void updateCursorTypeItems( )
 	{
 		cmbCursorType.setItems( LiteralHelper.cursorSet.getDisplayNames( ) );
-		Cursor c = getMouseCursor();
+		Cursor c = getMouseCursor( );
 		if ( c != null && c.getType( ) != null )
 		{
 			cmbCursorType.select( c.getType( ).getValue( ) );
@@ -710,7 +744,7 @@ public class TriggerDataComposite extends Composite
 			cmbCursorType.select( 0 );
 		}
 	}
-	
+
 	/**
 	 * Provides a mapper method to switch trigger Combo text to fixed index
 	 * constants.
@@ -813,9 +847,9 @@ public class TriggerDataComposite extends Composite
 		txtValueParm.setText( BLANK_STRING );
 		txtSeriesParm.setText( BLANK_STRING );
 		// case INDEX_2_TOOLTIP :
-		// txtTooltipText.setText( BLANK_STRING );
+		txtTooltipText.setText( BLANK_STRING );
 		// case INDEX_4_SCRIPT :
-		// txtScript.setText( BLANK_STRING );
+		txtScript.setText( BLANK_STRING );
 	}
 
 	/**
@@ -838,32 +872,36 @@ public class TriggerDataComposite extends Composite
 				ActionValue value = trigger.getAction( ).getValue( );
 				if ( value instanceof MultiURLValues )
 				{
-					MultiURLValues urlValues = (MultiURLValues) trigger.getAction( ).getValue( );
+					MultiURLValues urlValues = (MultiURLValues) trigger.getAction( )
+							.getValue( );
 					multiHyperlinksComposite.populateUIValues( urlValues );
 				}
 				else if ( value instanceof URLValue )
 				{
 					ChartAdapter.beginIgnoreNotifications( );
-					
+
 					MultiURLValues muv = MultiURLValuesImpl.create( );
-					URLValue uv = (URLValue) value ;
+					URLValue uv = (URLValue) value;
 					org.eclipse.birt.chart.model.component.Label l = LabelImpl.create( );
-					l.setCaption( TextImpl.create( Messages.getString("TriggerDataComposite.TemporaryName.Hyperlink") ) ); //$NON-NLS-1$
+					l.setCaption( TextImpl.create( Messages.getString( "TriggerDataComposite.TemporaryName.Hyperlink" ) ) ); //$NON-NLS-1$
 					uv.setLabel( l );
 					muv.getURLValues( ).add( uv );
 					muv.setTooltip( uv.getTooltip( ) );
 					muv.eAdapters( ).addAll( value.eAdapters( ) );
 					trigger.getAction( ).setValue( muv );
 					multiHyperlinksComposite.populateUIValues( muv );
-					
+
 					ChartAdapter.endIgnoreNotifications( );
 				}
-				else {
+				else
+				{
 					this.slValues.topControl = cmpURL;
-					URLValue urlValue = (URLValue) trigger.getAction( ).getValue( );
+					URLValue urlValue = (URLValue) trigger.getAction( )
+							.getValue( );
 					sBaseURL = urlValue.getBaseUrl( );
 					// txtBaseURL.setText( sBaseURL );
-					// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0 )
+					// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0
+					// )
 					// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
 					txtBaseParm.setText( ( urlValue.getBaseParameterName( )
 							.length( ) > 0 ) ? urlValue.getBaseParameterName( )
@@ -916,9 +954,9 @@ public class TriggerDataComposite extends Composite
 	}
 
 	/**
-	 * Create related trigger instance according to current UI values.
+	 * Returns the trigger instance according to current UI values.
 	 * 
-	 * @return
+	 * @return trigger from UI values
 	 */
 	public Trigger getTrigger( )
 	{
@@ -956,8 +994,8 @@ public class TriggerDataComposite extends Composite
 		}
 		Action action = ActionImpl.create( ActionType.getByName( LiteralHelper.actionTypeSet.getNameByDisplayName( cmbActionType.getText( ) ) ),
 				value );
-		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( lastTriggerType == null
-				? cmbTriggerType.getText( ) : lastTriggerType ) ),
+		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( lastTriggerType == null ? cmbTriggerType.getText( )
+				: lastTriggerType ) ),
 				action );
 	}
 
@@ -976,14 +1014,16 @@ public class TriggerDataComposite extends Composite
 		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
-				Trigger trigger = (Trigger) triggersMap.get( cmbTriggerType.getText( ) );
-				if ( trigger == null || !( trigger.getAction( ).getValue( ) instanceof MultiURLValues ) )
+				Trigger trigger = triggersMap.get( cmbTriggerType.getText( ) );
+				if ( trigger == null
+						|| !( trigger.getAction( ).getValue( ) instanceof MultiURLValues ) )
 				{
 					multiHyperlinksComposite.populateUIValues( MultiURLValuesImpl.create( ) );
 				}
 				else
 				{
-					multiHyperlinksComposite.populateUIValues( (MultiURLValues) trigger.getAction( ).getValue( ) );
+					multiHyperlinksComposite.populateUIValues( (MultiURLValues) trigger.getAction( )
+							.getValue( ) );
 				}
 				this.slValues.topControl = multiHyperlinksComposite;
 				break;
@@ -1015,7 +1055,9 @@ public class TriggerDataComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -1069,13 +1111,15 @@ public class TriggerDataComposite extends Composite
 		{
 			int index = cmbCursorType.getSelectionIndex( );
 			setMouseCursor( CursorType.get( index ) );
-			updateImageButtonState();
+			updateImageButtonState( );
 		}
 		else if ( e.getSource( ) == btnCursorImage )
 		{
-			Cursor c = getMouseCursor();
+			Cursor c = getMouseCursor( );
 
-			CursorImageDialog  idlg  = new CursorImageDialog( this.getShell( ), wizardContext, c );
+			CursorImageDialog idlg = new CursorImageDialog( this.getShell( ),
+					wizardContext,
+					c );
 			idlg.open( );
 		}
 	}
@@ -1083,7 +1127,7 @@ public class TriggerDataComposite extends Composite
 	private void updateImageButtonState( )
 	{
 		Cursor c = getMouseCursor( );
-		if ( c != null && c.getType() == CursorType.CUSTOM )
+		if ( c != null && c.getType( ) == CursorType.CUSTOM )
 		{
 			btnCursorImage.setEnabled( true );
 			return;
@@ -1094,7 +1138,9 @@ public class TriggerDataComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -1126,8 +1172,8 @@ public class TriggerDataComposite extends Composite
 		}
 		cmbTriggerType.markSelection( triggerType );
 
-		Object oldTrigger = triggersMap.get( triggerType );
-		Object newTrigger = getTrigger( );
+		Trigger oldTrigger = triggersMap.get( triggerType );
+		Trigger newTrigger = getTrigger( );
 		if ( oldTrigger != null )
 		{
 			int index = triggersList.indexOf( oldTrigger );
@@ -1187,25 +1233,26 @@ public class TriggerDataComposite extends Composite
 		}
 		return IUIServiceProvider.COMMAND_HYPERLINK;
 	}
-	
+
 	private Cursor getMouseCursor( )
 	{
-		EStructuralFeature esf = cursorContainer.eClass( ).getEStructuralFeature( "cursor" ); //$NON-NLS-1$
+		EStructuralFeature esf = cursorContainer.eClass( )
+				.getEStructuralFeature( "cursor" ); //$NON-NLS-1$
 		return (Cursor) cursorContainer.eGet( esf );
 	}
-	
+
 	private void setMouseCursor( CursorType type )
 	{
-		Cursor c = getMouseCursor();
+		Cursor c = getMouseCursor( );
 		if ( c == null )
 		{
-			EStructuralFeature esf = cursorContainer.eClass( ).getEStructuralFeature( "cursor" ); //$NON-NLS-1$
+			EStructuralFeature esf = cursorContainer.eClass( )
+					.getEStructuralFeature( "cursor" ); //$NON-NLS-1$
 			c = AttributeFactory.eINSTANCE.createCursor( );
 			cursorContainer.eSet( esf, c );
 			c.eAdapters( ).addAll( cursorContainer.eAdapters( ) );
 		}
-		
-		c.setType( type ); 
+
+		c.setType( type );
 	}
 }
-

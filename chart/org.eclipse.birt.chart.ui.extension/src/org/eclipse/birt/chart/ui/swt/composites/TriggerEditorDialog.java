@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -34,18 +35,18 @@ import org.eclipse.swt.widgets.Shell;
 public class TriggerEditorDialog extends TrayDialog
 {
 
-	private final EList triggers;
-	
+	private final EList<Trigger> triggers;
+
 	private final EObject cursorContainer;
 
-	private final Collection vOriginalTriggers;
+	private final Collection<Trigger> vOriginalTriggers;
 
 	private final ChartWizardContext wizardContext;
 
 	private final boolean bEnableURLParameters;
 
 	private final boolean bEnableShowTooltipValue;
-	
+
 	private final int iInteractivityType;
 
 	private final String sTitle;
@@ -63,10 +64,10 @@ public class TriggerEditorDialog extends TrayDialog
 	 * @param bEnableURLParameters
 	 * @param bEnableShowTooltipValue
 	 */
-	public TriggerEditorDialog( Shell shellParent, EList triggers, EObject cursorContainer,
-			ChartWizardContext wizardContext, String sTitle,
-			int iInteractivityType, boolean bEnableURLParameters,
-			boolean bEnableShowTooltipValue )
+	public TriggerEditorDialog( Shell shellParent, EList<Trigger> triggers,
+			EObject cursorContainer, ChartWizardContext wizardContext,
+			String sTitle, int iInteractivityType,
+			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
 	{
 		super( shellParent );
 		this.triggers = triggers;
@@ -89,7 +90,9 @@ public class TriggerEditorDialog extends TrayDialog
 	protected void setShellStyle( int newShellStyle )
 	{
 		super.setShellStyle( newShellStyle
-				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+				| SWT.DIALOG_TRIM
+				| SWT.RESIZE
+				| SWT.APPLICATION_MODAL );
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -108,7 +111,7 @@ public class TriggerEditorDialog extends TrayDialog
 		return triggerUI;
 	}
 
-	public EList getTriggers( )
+	public EList<Trigger> getTriggers( )
 	{
 		return triggers;
 	}

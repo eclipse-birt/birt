@@ -12,19 +12,48 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 /**
- * 
+ * A utility class to display Expression builder and button
  */
 
 public interface IExpressionButton
 {
+
+	/**
+	 * Returns the expression that's saved in model
+	 * 
+	 * @return the expression that's saved in model
+	 */
 	String getExpression( );
 
+	/**
+	 * Sets the expression that's saved in model
+	 * 
+	 * @param expr
+	 *            the expression that's saved in model
+	 */
 	void setExpression( String expr );
 
-	String getExpressionString( );
+	/**
+	 * Returns the display string in expression builder. This may be different
+	 * from the value saved in model.
+	 * 
+	 * @return the display string in expression builder
+	 */
+	public String getDisplayExpression( );
 
+	/**
+	 * Sets the enabled state
+	 * 
+	 * @param bEnabled
+	 *            enabled state
+	 */
 	void setEnabled( boolean bEnabled );
 
+	/**
+	 * Returns the enabled state
+	 * 
+	 * @return the enabled state
+	 */
 	boolean isEnabled( );
 
 }

@@ -846,7 +846,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			eb.refresh( );
 		}
 
-		public String getExpressionString( )
+		public String getDisplayExpression( )
 		{
 			return eHelper.getExpression( );
 		}
