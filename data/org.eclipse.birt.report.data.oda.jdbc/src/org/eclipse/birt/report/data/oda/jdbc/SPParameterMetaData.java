@@ -96,6 +96,8 @@ public class SPParameterMetaData implements IParameterMetaData
 			result = IParameterMetaData.parameterModeOut;
 		else if ( paramDefn.getParamInOutType( ) == java.sql.ParameterMetaData.parameterModeInOut )
 			result = IParameterMetaData.parameterModeInOut;
+		else if ( paramDefn.getParamInOutType( ) == 5 )
+			result = IParameterMetaData.parameterModeOut;
 		return result;
 	}
 
