@@ -3903,6 +3903,11 @@ Error.SemanticError.INCONSISTENT_DATA_GROUP=La referencia de enlace de datos del
 Error.SemanticError.INVALID_MANIFEST=El elemento {0} tiene un manifiesto no válido.
 Error.SemanticError.VALUE_FORBIDDEN=La propiedad de la lista "{0}" está vacía, no puede tener ningún elemento.
 
+Error.SemanticError.TABLE_NO_COLUMN_FOUND = The width of the table cannot be calculated because no column found.
+Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = The width of the table cannot be calculated because the width of the column at index {0} is not defined.
+Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = The width of the table cannot be calculated because it contains multiple columns in both absolute unit and relative unit other than percentage.
+Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = The width of the table cannot be calculated because it contains multiple columns in different relative units.
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%. 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nombre de elemento duplicado en la librería de destino, no es posible exportar el elemento {0}. Cambie el nombre del elemento exportado.
 

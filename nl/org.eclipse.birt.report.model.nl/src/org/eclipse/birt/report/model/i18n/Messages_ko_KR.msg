@@ -3903,6 +3903,11 @@ Error.SemanticError.INCONSISTENT_DATA_GROUP=요소 {0}의 데이터 바인딩 참조의 그룹
 Error.SemanticError.INVALID_MANIFEST=요소 {0}에 잘못된 매니페스트가 있습니다.
 Error.SemanticError.VALUE_FORBIDDEN=목록 속성 "{0}"이(가) 비어 있어 어떤 항목도 가질 수 없습니다.
 
+Error.SemanticError.TABLE_NO_COLUMN_FOUND = The width of the table cannot be calculated because no column found.
+Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = The width of the table cannot be calculated because the width of the column at index {0} is not defined.
+Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = The width of the table cannot be calculated because it contains multiple columns in both absolute unit and relative unit other than percentage.
+Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = The width of the table cannot be calculated because it contains multiple columns in different relative units.
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%. 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=대상 라이브러리에 중복된 요소 이름이 있습니다. 요소 {0}을(를) 내보낼 수 없습니다. 내보낸 요소 이름을 변경하십시오.
 
