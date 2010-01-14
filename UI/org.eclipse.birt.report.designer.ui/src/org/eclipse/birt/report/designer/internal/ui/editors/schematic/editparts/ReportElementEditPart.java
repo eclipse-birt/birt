@@ -374,6 +374,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 					return;
 				}
 				DesignElementHandle handle = (DesignElementHandle)getModel();
+				if (getModelAdapter( ) == null)
+				{
+					return;
+				}
 				Object[] backGroundPosition = getBackgroundPosition( handle );
 				Object xPosition = backGroundPosition[0];
 				Object yPosition = backGroundPosition[1];
