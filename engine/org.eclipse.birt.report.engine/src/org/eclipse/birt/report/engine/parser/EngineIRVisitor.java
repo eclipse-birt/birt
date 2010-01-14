@@ -388,7 +388,7 @@ public class EngineIRVisitor extends DesignVisitor
 			DimensionType bottom = new DimensionType( DEFAULT_MASTERPAGE_BOTTOM_MARGIN, DimensionType.UNITS_IN );
 			DimensionType right = new DimensionType( DEFAULT_MASTERPAGE_RIGHT_MARGIN, DimensionType.UNITS_IN );		
 			masterPage.setMargin( top, left, bottom, right );	
-			
+			setupElementIDMap( masterPage );
 			pageSetup.addMasterPage( masterPage );
 		}
 		
