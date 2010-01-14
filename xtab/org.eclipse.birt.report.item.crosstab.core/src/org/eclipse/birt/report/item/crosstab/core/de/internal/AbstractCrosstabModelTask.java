@@ -27,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -35,8 +36,11 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * AbstractCrosstabModelTask
@@ -609,9 +613,9 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	/**
 	 * Returns if aggregation is needed on given level on specific axis, this is
 	 * mainly to check if there's any existing aggregation cell on given level
-	 * subtotal or grantotal(if given level view is null). One special case is the
-	 * given axis area is blank(so level view is also null), in this case, we
-	 * need check subtotal and grandtotal on couter axis.
+	 * subtotal or grantotal(if given level view is null). One special case is
+	 * the given axis area is blank(so level view is also null), in this case,
+	 * we need check subtotal and grandtotal on couter axis.
 	 * 
 	 * @param measureView
 	 * @param levelView
@@ -1287,6 +1291,15 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				dataItem.setResultSetColumn( columnHandle.getName( ) );
 			}
 
+			// copy action to dataHandle
+			ActionHandle actionHandle = measureView.getCubeMeasure( ).getActionHandle( );
+			if ( actionHandle != null )
+			{
+				List source = new ArrayList( );
+				source.add( actionHandle.getStructure( ) );
+				List newAction = ModelUtil.cloneStructList( source );
+				dataItem.setAction( (Action) newAction.get( 0 ) );
+			}
 		}
 	}
 

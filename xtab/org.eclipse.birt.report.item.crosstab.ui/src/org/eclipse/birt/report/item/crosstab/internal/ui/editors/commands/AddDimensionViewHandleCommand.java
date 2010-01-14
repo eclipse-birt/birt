@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -20,11 +23,14 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabA
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Add the Dimension handle to the cross tab.When drag the Dimension handle to
@@ -161,6 +167,16 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 					CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
 					cellHandle.addContent( dataHandle );
+					
+					//copy action to dataHandle
+					ActionHandle actionHandle = levelHandle.getActionHandle( );
+					if ( actionHandle != null )
+					{
+						List source = new ArrayList( );
+						source.add( actionHandle.getStructure( ) );
+						List newAction = ModelUtil.cloneStructList( source );
+						dataHandle.setAction( (Action) newAction.get( 0 ) );
+					}
 				}
 
 			}

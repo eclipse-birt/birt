@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
@@ -62,11 +63,13 @@ import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.util.Assert;
@@ -936,6 +939,15 @@ public class InsertInLayoutUtil
 			}
 			dataHandle.addColumnBinding( bindingColumn, false );
 			dataHandle.setDataSet( dataSet );
+		}
+
+		ActionHandle actionHandle = UIUtil.getColumnAction( model );
+		if ( actionHandle != null )
+		{
+			List source = new ArrayList( );
+			source.add( actionHandle.getStructure( ) );
+			List newAction = ModelUtil.cloneStructList( source );
+			dataHandle.setAction( (Action) newAction.get( 0 ) );
 		}
 
 		// if ( !bindingExist )

@@ -81,6 +81,7 @@ import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -1785,6 +1786,28 @@ public class UIUtil
 					|| column.getColumnName( ).equals( element.getAlias( ) ) )
 			{
 				return element.getAnalysis( );
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Return the action property of dataset column from column hint
+	 * 
+	 * @param column
+	 * @return
+	 */
+	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getActionHandle( );
 			}
 		}
 		return null;
