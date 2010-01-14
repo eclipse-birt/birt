@@ -911,12 +911,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						String href = cssStyleSheetHandle.getExternalCssURI( );
 						if ( href != null )
 						{
-							hasCsslinks = true;
-							writer.openTag( HTMLTags.TAG_LINK );
-							writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
-							writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
-							writer.attribute( HTMLTags.ATTR_HREF, href );
-							writer.closeTag( HTMLTags.TAG_LINK );
+							boolean isEmbeddable = new HTMLRenderOption( renderOption ).getEmbeddable( );
+							if ( !isEmbeddable )
+							{// output the CSS link if it is not is embeddable
+								hasCsslinks = true;
+								writer.openTag( HTMLTags.TAG_LINK );
+								writer.attribute( HTMLTags.ATTR_REL,
+										"stylesheet" );
+								writer.attribute( HTMLTags.ATTR_TYPE,
+										"text/css" );
+								writer.attribute( HTMLTags.ATTR_HREF, href );
+								writer.closeTag( HTMLTags.TAG_LINK );
+							}
 						}
 					}
 				}
