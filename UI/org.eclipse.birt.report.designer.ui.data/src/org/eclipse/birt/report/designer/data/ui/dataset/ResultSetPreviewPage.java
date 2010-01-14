@@ -273,14 +273,17 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 			recordList = new ArrayList( );
 		else
 			recordList.clear( );
+		
+		// clear everything else
+		resultSetTable.removeAll( );
+		
 		// Clear the columns
 		TableColumn[] columns = resultSetTable.getColumns( );
 		for ( int n = 0; n < columns.length; n++ )
 		{
 			columns[n].dispose( );
 		}
-		// clear everything else
-		resultSetTable.removeAll( );
+		
 	}
 
 	/**
