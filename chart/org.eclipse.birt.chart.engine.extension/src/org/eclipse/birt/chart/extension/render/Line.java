@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.chart.extension.render;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.withaxes.AxisSubUnit;
@@ -28,7 +25,6 @@ import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.OvalRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
-import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
@@ -36,6 +32,7 @@ import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.extension.render.Line.DataPointsRenderer.Context;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -50,7 +47,6 @@ import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
@@ -1043,281 +1039,14 @@ public class Line extends AxesRenderer
 			return;
 		}
 
-		Location[] loaPlane = null;
-		Location[] loaLine = null;
+		Context context = new Context( this, ipr, srh, dpha, paletteEntry );
+		
+		DataPointsRenderer dpRenderer = isDimension3D( ) ? new LineDataPointsRenderer3D( context,
+				loa,
+				dTapeWidth )
+				: new LineDataPointsRenderer2D( context, loa );
 
-		Location3D[] loa3d = null;
-		Location3D[] loaPlane3d = null;
-		Location3D[] loaLine3d = null;
-
-		Series ls = getSeries( );
-
-		boolean bRendering3D = isDimension3D( );
-
-		LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( ls ),
-				LineRenderEvent.class );
-		PolygonRenderEvent pre = bShowAsTape ? (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( ls ),
-				PolygonRenderEvent.class )
-				: null;
-		Line3DRenderEvent lre3d = ( bRendering3D ) ? (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( ls ),
-				Line3DRenderEvent.class )
-				: null;
-		Polygon3DRenderEvent pre3d = ( bShowAsTape && bRendering3D ) ? (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( ls ),
-				Polygon3DRenderEvent.class )
-				: null;
-
-		DeferredCache dc = getDeferredCache( );
-
-		if ( usePaletteLineColor )
-		{
-			lia = goFactory.copyOf( lia );
-			lia.setColor( FillUtil.getColor( paletteEntry, false ) );
-		}
-
-		if ( !bRendering3D )
-		{
-			dTapeWidth = ( (SeriesRenderingHints) srh ).getSeriesThickness( );
-		}
-
-		List<double[]> points = new ArrayList<double[]>( );
-
-		if ( bRendering3D )
-		{
-			loa3d = (Location3D[]) loa;
-			pre3d.setDoubleSided( true );
-		}
-
-		if ( dpha.length > 0 )
-		{
-
-			for ( int i = 0; i < dpha.length; i++ )
-			{
-				if ( isNaN( dpha[i].getOrthogonalValue( ) ) )
-				{
-					continue;
-				}
-
-				if ( bRendering3D )
-				{
-					points.add( new double[]{
-							loa3d[i].getX( ), loa3d[i].getY( ), loa3d[i].getZ( )
-					} );
-				}
-				else
-				{
-					points.add( new double[]{
-							loa[i].getX( ), loa[i].getY( )
-					} );
-				}
-
-				if ( !( (LineSeries) ls ).isConnectMissingValue( )
-						&& ( ( i == 0 ) || ( ( i > 0 ) && isNaN( dpha[i - 1].getOrthogonalValue( ) ) ) ) )
-				{
-					if ( ( i == dpha.length - 1 )
-							|| isNaN( dpha[i + 1].getOrthogonalValue( ) ) )
-					{
-						double iSize = lia.getThickness( ) * 2.0;
-						PrimitiveRenderEvent event;
-						if ( bRendering3D )
-						{
-							Line3DRenderEvent lre3dValue = ( (EventObjectCache) ipr ).getEventObject( WrappedStructureSource.createSeriesDataPoint( getSeries( ),
-									dpha[i] ),
-									Line3DRenderEvent.class );
-							Location3D[] loa3dValue = new Location3D[2];
-							loa3dValue[0] = goFactory.createLocation3D( loa3d[i].getX( ),
-									loa3d[i].getY( ),
-									loa3d[i].getZ( ) );
-							loa3dValue[1] = goFactory.createLocation3D( loa3d[i].getX( ),
-									loa3d[i].getY( ),
-									loa3d[i].getZ( ) - dTapeWidth );
-							lre3dValue.setStart3D( loa3dValue[0] );
-							lre3dValue.setEnd3D( loa3dValue[1] );
-							lre3dValue.setLineAttributes( lia );
-
-							dc.addLine( lre3dValue );
-							event = lre3dValue;
-						}
-						else
-						{
-							final OvalRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( WrappedStructureSource.createSeriesDataPoint( getSeries( ),
-									dpha[i] ),
-									OvalRenderEvent.class );
-							ore.setBounds( goFactory.createBounds( loa[i].getX( )
-									- iSize
-									/ 2,
-									loa[i].getY( ) - iSize / 2,
-									iSize,
-									iSize ) );
-							ore.setOutline( lia );
-
-							ipr.drawOval( ore );
-							event = ore;
-						}
-						
-						
-						addInteractivity( ipr, dpha[i], event);
-					}
-
-					continue;
-				}
-
-				int pindex = getPreviousNonNullIndex( i, dpha );
-				if ( pindex == -1 )
-				{
-					continue;
-				}
-
-				if ( bRendering3D )
-				{
-					if ( loaLine3d == null )
-					{
-						loaLine3d = new Location3D[2];
-						loaLine3d[0] = goFactory.createLocation3D( loa3d[pindex].getX( ),
-								loa3d[pindex].getY( ),
-								loa3d[pindex].getZ( ) );
-						loaLine3d[1] = goFactory.createLocation3D( loa3d[i].getX( ),
-								loa3d[i].getY( ),
-								loa3d[i].getZ( ) );
-						lre3d.setStart3D( loaLine3d[0] );
-						lre3d.setEnd3D( loaLine3d[1] );
-						lre3d.setLineAttributes( lia );
-						
-					}
-					else
-					{
-						loaLine3d[0].set( loa3d[pindex].getX( ),
-								loa3d[pindex].getY( ),
-								loa3d[pindex].getZ( ) );
-						loaLine3d[1].set( loa3d[i].getX( ),
-								loa3d[i].getY( ),
-								loa3d[i].getZ( ) );
-						lre3d.setStart3D( loaLine3d[0] );
-						lre3d.setEnd3D( loaLine3d[1] );
-					}
-					addInteractivity( ipr, dpha[i], lre3d);
-				}
-				else
-				{
-					if ( loaLine == null )
-					{
-						loaLine = new Location[2];
-						loaLine[0] = goFactory.createLocation( loa[pindex].getX( ),
-								loa[pindex].getY( ) );
-						loaLine[1] = goFactory.createLocation( loa[i].getX( ),
-								loa[i].getY( ) );
-						lre.setStart( loaLine[0] );
-						lre.setEnd( loaLine[1] );
-						lre.setLineAttributes( lia );						
-					}
-					else
-					{
-						loaLine[0].set( loa[pindex].getX( ), loa[pindex].getY( ) );
-						loaLine[1].set( loa[i].getX( ), loa[i].getY( ) );
-					}
-					addInteractivity( ipr, dpha[i], lre);
-				}
-
-				if ( bShowAsTape )
-				{
-					if ( bRendering3D )
-					{
-						if ( loaPlane3d == null )
-						{
-							loaPlane3d = new Location3D[4];
-							loaPlane3d[0] = goFactory.createLocation3D( loa3d[pindex].getX( ),
-									loa3d[pindex].getY( ),
-									loa3d[pindex].getZ( ) );
-							loaPlane3d[1] = goFactory.createLocation3D( loa3d[i].getX( ),
-									loa3d[i].getY( ),
-									loa3d[i].getZ( ) );
-							loaPlane3d[2] = goFactory.createLocation3D( loa3d[i].getX( ),
-									loa3d[i].getY( ),
-									loa3d[i].getZ( ) - dTapeWidth );
-							loaPlane3d[3] = goFactory.createLocation3D( loa3d[pindex].getX( ),
-									loa3d[pindex].getY( ),
-									loa3d[pindex].getZ( ) - dTapeWidth );
-							pre3d.setOutline( null );
-							pre3d.setPoints3D( loaPlane3d );
-							pre3d.setBackground( goFactory.brighter( lia.getColor( ) ) );
-							
-						}
-						else
-						{
-							loaPlane3d[0].set( loa3d[pindex].getX( ),
-									loa3d[pindex].getY( ),
-									loa3d[pindex].getZ( ) );
-							loaPlane3d[1].set( loa3d[i].getX( ),
-									loa3d[i].getY( ),
-									loa3d[i].getZ( ) );
-							loaPlane3d[2].set( loa3d[i].getX( ),
-									loa3d[i].getY( ),
-									loa3d[i].getZ( ) - dTapeWidth );
-							loaPlane3d[3].set( loa3d[pindex].getX( ),
-									loa3d[pindex].getY( ),
-									loa3d[pindex].getZ( ) - dTapeWidth );
-							pre3d.setPoints3D( loaPlane3d );
-							
-						}
-						addInteractivity( ipr, dpha[i], pre3d);
-						dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
-					}
-					else
-					{
-						if ( loaPlane == null )
-						{
-							loaPlane = new Location[4];
-							loaPlane[0] = goFactory.createLocation( loa[pindex].getX( ),
-									loa[pindex].getY( ) );
-							loaPlane[1] = goFactory.createLocation( loa[i].getX( ),
-									loa[i].getY( ) );
-							loaPlane[2] = goFactory.createLocation( loa[i].getX( )
-									+ dTapeWidth, loa[i].getY( ) - dTapeWidth );
-							loaPlane[3] = goFactory.createLocation( loa[pindex].getX( )
-									+ dTapeWidth,
-									loa[pindex].getY( ) - dTapeWidth );
-							pre.setOutline( null );
-							pre.setPoints( loaPlane );
-							pre.setBackground( goFactory.brighter( lia.getColor( ) ) );
-						}
-						else
-						{
-							loaPlane[0].set( loa[pindex].getX( ),
-									loa[pindex].getY( ) );
-							loaPlane[1].set( loa[i].getX( ), loa[i].getY( ) );
-							loaPlane[2].set( loa[i].getX( ) + dTapeWidth,
-									loa[i].getY( ) - dTapeWidth );
-							loaPlane[3].set( loa[pindex].getX( ) + dTapeWidth,
-									loa[pindex].getY( ) - dTapeWidth );
-						}
-						dc.addPlane( pre, PrimitiveRenderEvent.FILL );
-						addInteractivity( ipr, dpha[i], pre);
-					}
-				}
-
-				if ( bRendering3D )
-				{
-					dc.addLine( lre3d );
-				}
-				else
-				{
-					dc.addLine( lre );
-				}
-			}
-
-			points = filterNull( points );
-
-			if ( isLastRuntimeSeriesInAxis( ) )
-			{
-				// clean stack state.
-				getRunTimeContext( ).putState( STACKED_SERIES_LOCATION_KEY,
-						null );
-			}
-			else
-			{
-				getRunTimeContext( ).putState( STACKED_SERIES_LOCATION_KEY,
-						points );
-			}
-		}
+		dpRenderer.render( );
 	}
 
 	
@@ -1344,88 +1073,11 @@ public class Line extends AxesRenderer
 						.getTransparency( )
 				&& lia.isVisible( ) )
 		{
-			Location[] loaShadow = null;
-
-			final Location positionDelta = ( ( (ChartWithAxes) getModel( ) ).isTransposed( ) ) ? goFactory.createLocation( -3,
-					0 )
-					: goFactory.createLocation( 0, 3 );
-			LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( getSeries( ) ),
-					LineRenderEvent.class );
-
-			DeferredCache dc = getDeferredCache( );
-			
-			Series ls = getSeries( );
-
-			if ( dpha.length > 0 )
-			{
-				for ( int i = 0; i < dpha.length; i++ )
-				{
-					if ( isNaN( dpha[i].getOrthogonalValue( ) ) )
-					{
-						continue;
-					}
-
-					if ( !( (LineSeries) ls ).isConnectMissingValue( )
-							&& ( ( i == 0 ) || ( ( i > 0 ) && isNaN( dpha[i - 1].getOrthogonalValue( ) ) ) ) )
-					{
-						if ( ( i == dpha.length - 1 )
-								|| isNaN( dpha[i + 1].getOrthogonalValue( ) ) )
-						{
-							double iSize = lia.getThickness( );
-
-							final OvalRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( WrappedStructureSource.createSeriesDataPoint( getSeries( ),
-									dpha[i] ),
-									OvalRenderEvent.class );
-							ore.setBounds( goFactory.createBounds( loa[i].getX( ),
-									loa[i].getY( ) + 3,
-									iSize,
-									iSize ) );
-							LineAttributes liaShadow = goFactory.copyOf( lia );
-							liaShadow.setColor( cLineShadow );
-							ore.setOutline( liaShadow );
-							ore.setBackground( liaShadow.getColor( ) );
-							ipr.drawOval( ore );
-							ipr.fillOval( ore );
-						}
-
-						continue;
-					}
-
-					int pindex = getPreviousNonNullIndex( i, dpha );
-					if ( pindex == -1 )
-					{
-						continue;
-					}
-
-					if ( loaShadow == null )
-					{
-						loaShadow = new Location[2];
-						loaShadow[0] = goFactory.createLocation( loa[pindex].getX( )
-								+ positionDelta.getX( ), loa[pindex].getY( )
-								+ positionDelta.getY( ) );
-						loaShadow[1] = goFactory.createLocation( loa[i].getX( )
-								+ positionDelta.getX( ), loa[i].getY( )
-								+ positionDelta.getY( ) );
-					}
-					else
-					{
-						loaShadow[0].set( loa[pindex].getX( )
-								+ positionDelta.getX( ), loa[pindex].getY( )
-								+ positionDelta.getY( ) );
-						loaShadow[1].set( loa[i].getX( ) + positionDelta.getX( ),
-								loa[i].getY( ) + positionDelta.getY( ) );
-					}
-					lre.setStart( loaShadow[0] );
-					lre.setEnd( loaShadow[1] );
-					LineAttributes liaShadow = goFactory.copyOf( lia );
-					liaShadow.setColor( cLineShadow );
-					lre.setLineAttributes( liaShadow );
-					dc.addLine( lre );
-				}
-			}
-
+			Context context = new Context( this, ipr, null, dpha, null );
+			LineDataPointsRenderer2DShadow dpRenderer = new LineDataPointsRenderer2DShadow( context,
+					loa );
+			dpRenderer.render( );
 		}
-
 	}
 
 	protected int getPreviousNonNullIndex( int currentIndex,
@@ -1444,39 +1096,785 @@ public class Line extends AxesRenderer
 		return -1;
 	}
 
-	protected int getPreviousNonNullIndex( int currentIndex, Location[] loa )
-	{
-		for ( int i = currentIndex - 1; i >= 0; i-- )
-		{
-			if ( Double.isNaN( loa[i].getX( ) )
-					|| Double.isNaN( loa[i].getY( ) ) )
-			{
-				continue;
-			}
-
-			return i;
-		}
-
-		return -1;
-	}
-
-	protected boolean isNaN( Location lo )
-	{
-		return ( lo == null || Double.isNaN( lo.getX( ) ) || Double.isNaN( lo.getY( ) ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.model.attribute.Bounds,
-	 *      org.eclipse.birt.chart.model.layout.Plot,
-	 *      org.eclipse.birt.chart.render.ISeriesRenderingHints)
-	 */
-
 	public void compute( Bounds bo, Plot p, ISeriesRenderingHints isrh )
 			throws ChartException
 	{
 		// NOTE: This method is not used by the Line Renderer
+	}
+
+	protected static Location3D[] createLocation3DArray( int iSize )
+	{
+		Location3D[] loa3d = new Location3D[iSize];
+		for ( int i = 0; i < iSize; i++ )
+		{
+			loa3d[i] = goFactory.createLocation3D( 0, 0, 0 );
+		}
+		return loa3d;
+	}
+
+	protected static Location[] createLocationArray( int iSize )
+	{
+		Location[] loa = new Location[iSize];
+		for ( int i = 0; i < iSize; i++ )
+		{
+			loa[i] = goFactory.createLocation( 0, 0 );
+		}
+
+		return loa;
+	}
+
+	/**
+	 * DataPointsSeeker, the data points will be accessed one by one.
+	 */
+	protected static class DataPointsSeeker
+	{
+
+		protected final DataPointHints[] dpha;
+		protected final int iSize;
+		protected int index;
+
+		protected DataPointsSeeker( DataPointHints[] dpha )
+		{
+			this.dpha = dpha;
+			if ( dpha != null )
+			{
+				iSize = dpha.length;
+			}
+			else
+			{
+				iSize = 0;
+			}
+
+			reset( );
+		}
+
+		public void reset( )
+		{
+			index = -1;
+		}
+
+		/**
+		 * Seeks to the next datapoint.
+		 * 
+		 * @return True if the seeking succeeds.
+		 */
+		public boolean next( )
+		{
+			if ( index + 1 < iSize )
+			{
+				index++;
+				return true;
+			}
+			return false;
+		}
+
+		public int getIndex( )
+		{
+			return index;
+		}
+
+		public int getPrevIndex( )
+		{
+			return index - 1;
+		}
+
+		public boolean isSingle( )
+		{
+			return false;
+		}
+
+		public DataPointHints getDataPointHints( )
+		{
+			return dpha[index];
+		}
+
+		/**
+		 * Returns the count of all datapoints.
+		 * 
+		 * @return The count of all datapoints.
+		 */
+		public int size( )
+		{
+			return iSize;
+		}
+
+		protected boolean isNull( int index )
+		{
+			return isNaN( dpha[index].getOrthogonalValue( ) );
+		}
+
+		public boolean isNull( )
+		{
+			return isNull( index );
+		}
+
+		public static DataPointsSeeker create( DataPointHints[] dpha,
+				LineSeries ls, boolean bStacked )
+		{
+			if ( ls instanceof AreaSeries )
+			{
+				if ( bStacked )
+				{
+					return new DataPointsSeeker( dpha );
+				}
+				else if ( ls.isConnectMissingValue( ) )
+				{
+					return new DataPointsSeekerConnectNull( dpha );
+				}
+				else
+				{
+					return new DataPointsSeekerTrimmed( dpha );
+				}
+			}
+
+			if ( ls.isConnectMissingValue( ) )
+			{
+				return new DataPointsSeekerConnectNull( dpha );
+			}
+			else
+			{
+				return new DataPointsSeekerSkipNullDS( dpha );
+			}
+		}
+	}
+
+	/**
+	 * This implement of DataPointsSeeker will seek the data points one by one,
+	 * but the nulls at the start and end will be trimmed.
+	 */
+	protected static class DataPointsSeekerTrimmed extends DataPointsSeeker
+	{
+
+		protected final int findex;
+		protected final int lindex;
+
+		protected DataPointsSeekerTrimmed( DataPointHints[] dpha )
+		{
+			super( dpha );
+			findex = initFirstIndex( );
+			lindex = initLastIndex( findex );
+			index = findex - 1;
+		}
+
+		@Override
+		public boolean next( )
+		{
+			if ( index + 1 <= lindex )
+			{
+				index++;
+				return true;
+			}
+			return false;
+		}
+
+		protected int initFirstIndex( )
+		{
+			for ( int i = 0; i < iSize; i++ )
+			{
+				if ( !isNull( i ) )
+				{
+					return i;
+				}
+			}
+
+			return -1;
+		}
+
+		protected int initLastIndex( int findex )
+		{
+			if ( findex >= 0 )
+			{
+				for ( int i = iSize - 1; i > -1; i-- )
+				{
+					if ( !isNull( i ) )
+					{
+						return i;
+					}
+				}
+			}
+			return -2;
+		}
+
+		@Override
+		public void reset( )
+		{
+			index = findex - 1;
+		}
+
+	}
+
+	/**
+	 * DataPointsSeeker implement for case of connecting missing value.
+	 * DataPointsSeekerConnectNull
+	 */
+	protected static class DataPointsSeekerConnectNull extends DataPointsSeeker
+	{
+
+		private int idPrevNonNull;
+
+		DataPointsSeekerConnectNull( DataPointHints[] dpha )
+		{
+			super( dpha );
+		}
+
+		@Override
+		public void reset( )
+		{
+			index = -1;
+			idPrevNonNull = -1;
+		}
+
+		/**
+		 * Seeks to the next non-null datapoint.
+		 * 
+		 * @return true if success.
+		 */
+		@Override
+		public boolean next( )
+		{
+			for ( int newIndex = index + 1; newIndex < dpha.length; newIndex++ )
+			{
+				if ( !isNull( newIndex ) )
+				{
+					idPrevNonNull = index;
+					index = newIndex;
+					return true;
+				}
+			}
+			return false;
+		}
+
+		@Override
+		public int getPrevIndex( )
+		{
+			return idPrevNonNull;
+		}
+
+		@Override
+		public boolean isNull( )
+		{
+			return false;
+		}
+
+	}
+
+	/**
+	 * DataPointsSeekerSkipNullDS is an implement of DataPointsSeeker for case
+	 * of not connecting missing value, but null value will also be skipped, and
+	 * single points will also be detected.
+	 */
+	protected static class DataPointsSeekerSkipNullDS extends DataPointsSeeker
+	{
+
+		private boolean bNextIsNull;
+		private boolean bIsNull;
+		private boolean bPrevIsNull;
+
+		DataPointsSeekerSkipNullDS( DataPointHints[] dpha )
+		{
+			super( dpha );
+		}
+		
+		@Override
+		public void reset()
+		{
+			index = -2;
+			bNextIsNull = true;
+			bIsNull = true;
+		}
+		
+		/**
+		 * Seeks to the next non-null datapoint.
+		 * 
+		 * @return true if success.
+		 */
+		public boolean next()
+		{
+			boolean bPrevIsNull;
+			boolean bIsNull = this.bIsNull;
+			boolean bNextIsNull = this.bNextIsNull;
+
+			for ( int newIndex = index + 1; newIndex < dpha.length; newIndex++ )
+			{
+				bPrevIsNull = bIsNull;
+				bIsNull = bNextIsNull;
+				bNextIsNull = newIndex + 1 < dpha.length ? isNull( newIndex + 1 )
+						: true;
+				if ( !bIsNull )
+				{
+					this.bPrevIsNull = bPrevIsNull;
+					this.bIsNull = bIsNull;
+					this.bNextIsNull = bNextIsNull;
+					index = newIndex;
+					return true;
+				}
+
+			}
+			return false;
+		}
+		
+		@Override
+		public int getPrevIndex( )
+		{
+			return bPrevIsNull ? -1 : index - 1;
+		}
+
+		@Override
+		public boolean isSingle( )
+		{
+			return !bIsNull && bNextIsNull && bPrevIsNull;
+		}
+
+		@Override
+		public boolean isNull( )
+		{
+			return false;
+		}
+
+	}
+
+	protected static enum Transposition {
+		TRANSPOSED {
+
+			@Override
+			public double getX( Location lo )
+			{
+				return lo.getY( );
+			}
+
+			@Override
+			public double getY( Location lo )
+			{
+				return lo.getX( );
+			}
+
+			@Override
+			public void setX( Location lo, double value )
+			{
+				lo.setY( value );
+			}
+
+			@Override
+			public void setY( Location lo, double value )
+			{
+				lo.setX( value );
+			}
+
+			@Override
+			public void set( Location lo, double x, double y )
+			{
+				lo.set( y, x );
+			}
+
+		},
+		NOT_TRANSPOSED {
+
+			@Override
+			public double getX( Location lo )
+			{
+				return lo.getX( );
+			}
+
+			@Override
+			public double getY( Location lo )
+			{
+				return lo.getY( );
+			}
+
+			@Override
+			public void setX( Location lo, double value )
+			{
+				lo.setX( value );
+			}
+
+			@Override
+			public void setY( Location lo, double value )
+			{
+				lo.setY( value );
+			}
+
+			@Override
+			public void set( Location lo, double x, double y )
+			{
+				lo.set( x, y );
+			}
+
+		};
+
+		public abstract double getX( Location lo );
+
+		public abstract double getY( Location lo );
+
+		public abstract void setX( Location lo, double value );
+
+		public abstract void setY( Location lo, double value );
+
+		public abstract void set( Location lo, double x, double y );
+	}
+
+	/**
+	 * DataPointsRenderer is used to render the data points of a line series.
+	 */
+	protected abstract static class DataPointsRenderer
+	{
+
+		/**
+		 * Immutable class to hold common info to instantiate a
+		 * DataPointsRenderer.
+		 */
+		public static class Context
+		{
+
+			protected final Line line;
+			protected final IPrimitiveRenderer ipr;
+			protected final ISeriesRenderingHints isrh;
+			protected final DataPointHints[] dpha;
+			protected final Fill paletteEntry;
+			protected final boolean bStacked;
+
+			public Context( Line line, IPrimitiveRenderer ipr,
+					ISeriesRenderingHints isrh, DataPointHints[] dpha,
+					Fill paletteEntry )
+			{
+				this.line = line;
+				this.ipr = ipr;
+				this.isrh = isrh;
+				this.dpha = dpha;
+				this.paletteEntry = paletteEntry;
+				this.bStacked = line.getSeries( ).isStacked( )
+						|| line.getAxis( ).isPercent( );
+			}
+		}
+
+		protected final Context context;
+		protected final ChartWithAxes cwa;
+		protected final DeferredCache dc;
+		protected final LineSeries ls;
+		protected final LineAttributes lia;
+		protected final EventObjectCache eventObjCache;
+
+		protected DataPointsRenderer( Context context ) throws ChartException
+		{
+			this.context = context;
+			this.dc = context.line.getDeferredCache( );
+			this.ls = (LineSeries) context.line.getSeries( );
+			this.cwa = (ChartWithAxes) context.line.getModel( );
+
+			if ( ls.isPaletteLineColor( ) )
+			{
+				this.lia = ls.getLineAttributes( ).copyInstance( );
+				lia.setColor( FillUtil.getColor( context.paletteEntry ) );
+			}
+			else
+			{
+				this.lia = ls.getLineAttributes( );
+			}
+			this.eventObjCache = (EventObjectCache) context.ipr;
+		}
+
+		/**
+		 * Renders all data points.
+		 */
+		public void render( ) throws ChartException
+		{
+			DataPointsSeeker seeker = DataPointsSeeker.create( context.dpha,
+					ls,
+					context.bStacked );
+
+			if ( seeker.next( ) )
+			{
+				beforeLoop( seeker );
+				while ( seeker.next( ) )
+				{
+					processDataPoint( seeker );
+				}
+				afterLoop( seeker );
+			}
+		}
+
+		/**
+		 * Creates source object for the data point with a certain index.
+		 */
+		protected StructureSource createDataPointSource( int index )
+		{
+			return WrappedStructureSource.createSeriesDataPoint( ls,
+					context.dpha[index] );
+		}
+
+		/**
+		 * Creates source object for the whole series.
+		 */
+		protected StructureSource createSeriesSource( )
+		{
+			return StructureSource.createSeries( ls );
+		}
+
+		protected void addInteractivity( DataPointHints dph,
+				PrimitiveRenderEvent event ) throws ChartException
+		{
+			context.line.addInteractivity( context.ipr, dph, event );
+		}
+
+		/**
+		 * A part of the rendering process, and will be invoked before the loop
+		 * though all data points.
+		 */
+		protected abstract void beforeLoop( DataPointsSeeker seeker )
+				throws ChartException;
+
+		/**
+		 * A part of the rendering process, and will be invoked for each data
+		 * point.
+		 */
+		protected abstract void processDataPoint( DataPointsSeeker seeker )
+				throws ChartException;
+
+		/**
+		 * A part of the rendering process, and will be invoked before the loop
+		 * though all data points.
+		 */
+		protected abstract void afterLoop( DataPointsSeeker seeker )
+				throws ChartException;
+
+	}
+
+	protected static class LineDataPointsRenderer2D extends DataPointsRenderer
+	{
+
+		protected final Location[] loa;
+		protected final LineRenderEvent lre;
+		protected final Bounds boSingle = goFactory.createBounds( 0, 0, 0, 0 );
+
+		protected LineDataPointsRenderer2D( Context context, Location[] loa )
+				throws ChartException
+		{
+			super( context );
+			this.loa = loa;
+			this.lre = eventObjCache.getEventObject( createSeriesSource( ),
+					LineRenderEvent.class );
+			lre.setLineAttributes( lia );
+		}
+
+		protected void drawSinglePoint( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			if ( seeker.isSingle( ) )
+			{
+				int index = seeker.getIndex( );
+				double iSize = lia.getThickness( ) * 2.0;
+				final OvalRenderEvent ore = eventObjCache.getEventObject( createDataPointSource( index ),
+						OvalRenderEvent.class );
+				boSingle.set( loa[index].getX( ) - iSize / 2, loa[index].getY( )
+						- iSize
+						/ 2, iSize, iSize );
+				ore.setBounds( boSingle );
+				ore.setOutline( lia );
+				context.ipr.drawOval( ore );
+				addInteractivity( seeker.getDataPointHints( ), ore );
+			}
+		}
+
+		@Override
+		protected void afterLoop( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			// do nothing
+		}
+
+		@Override
+		protected void beforeLoop( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			drawSinglePoint( seeker );
+		}
+
+		@Override
+		protected void processDataPoint( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			drawSinglePoint( seeker );
+			int pindex = seeker.getPrevIndex( );
+
+			if ( pindex > -1 )
+			{
+				int index = seeker.getIndex( );
+				DataPointHints dph = seeker.getDataPointHints( );
+
+				lre.setStart( loa[pindex] );
+				lre.setEnd( loa[index] );
+				addInteractivity( dph, lre );
+				dc.addLine( lre );
+			}
+		}
+
+	}
+
+	protected static class LineDataPointsRenderer2DShadow extends
+			LineDataPointsRenderer2D
+	{
+
+		private final LineAttributes liaShadow;
+		private final double deltaY = 3;
+		private final Location loStart = goFactory.createLocation( 0, 0 );
+		private final Location loEnd = goFactory.createLocation( 0, 0 );
+
+		protected LineDataPointsRenderer2DShadow( Context context,
+				Location[] loa ) throws ChartException
+		{
+			super( context, loa );
+			ColorDefinition cLineShadow = ls.getShadowColor( );
+			this.liaShadow = lia.copyInstance( );
+			liaShadow.setColor( cLineShadow );
+			lre.setLineAttributes( liaShadow );
+			lre.setStart( loStart );
+			lre.setEnd( loEnd );
+		}
+
+		@Override
+		protected void drawSinglePoint( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			if ( seeker.isSingle( ) )
+			{
+				double iSize = lia.getThickness( );
+				int index = seeker.getIndex( );
+
+				final OvalRenderEvent ore = eventObjCache.getEventObject( createDataPointSource( index ),
+						OvalRenderEvent.class );
+				ore.setOutline( liaShadow );
+				ore.setBackground( liaShadow.getColor( ) );
+				boSingle.set( loa[index].getX( ),
+						loa[index].getY( )
+						+ deltaY, iSize, iSize );
+				ore.setBounds( boSingle );
+				context.ipr.drawOval( ore );
+				context.ipr.fillOval( ore );
+			}
+		}
+
+		@Override
+		protected void processDataPoint( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			drawSinglePoint( seeker );
+			int pindex = seeker.getPrevIndex( );
+
+			if ( pindex > -1 )
+			{
+				int index = seeker.getIndex( );
+				DataPointHints dph = seeker.getDataPointHints( );
+				loStart.set( loa[pindex].getX( ), loa[pindex].getY( ) + deltaY );
+				loEnd.set( loa[index].getX( ), loa[index].getY( ) + deltaY );
+				addInteractivity( dph, lre );
+				dc.addLine( lre );
+			}
+		}
+
+	}
+
+	protected static class LineDataPointsRenderer3D extends DataPointsRenderer
+	{
+
+		private final Location3D[] loa3d;
+		private final Location3D[] loaPlane3d = createLocation3DArray( 4 );
+		private final Line3DRenderEvent lre3d;
+		private final Polygon3DRenderEvent pre3d;
+		private final double dTapeWidth;
+
+		LineDataPointsRenderer3D( Context context, Location[] loa,
+				double dTapeWidth ) throws ChartException
+		{
+			super( context );
+			this.loa3d = (Location3D[]) loa;
+
+			Object sourceObj = createSeriesSource( );
+			this.lre3d = eventObjCache.getEventObject( sourceObj,
+					Line3DRenderEvent.class );
+			lre3d.setLineAttributes( lia );
+
+			this.pre3d = eventObjCache.getEventObject( sourceObj,
+					Polygon3DRenderEvent.class );
+			pre3d.setDoubleSided( true );
+			pre3d.setOutline( null );
+			pre3d.setBackground( goFactory.brighter( lia.getColor( ) ) );
+
+			this.dTapeWidth = dTapeWidth;
+		}
+
+		private void drawSinglePoint( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			if ( seeker.isSingle( ) )
+			{
+				int index = seeker.getIndex( );
+				Line3DRenderEvent lre3dValue = eventObjCache.getEventObject( createDataPointSource( index ),
+						Line3DRenderEvent.class );
+				loaPlane3d[0] = goFactory.createLocation3D( loa3d[index].getX( ),
+						loa3d[index].getY( ),
+						loa3d[index].getZ( ) );
+				loaPlane3d[1] = goFactory.createLocation3D( loa3d[index].getX( ),
+						loa3d[index].getY( ),
+						loa3d[index].getZ( ) - dTapeWidth );
+				lre3dValue.setStart3D( loaPlane3d[0] );
+				lre3dValue.setEnd3D( loaPlane3d[1] );
+				lre3dValue.setLineAttributes( lia );
+
+				dc.addLine( lre3dValue );
+				addInteractivity( seeker.getDataPointHints( ), lre3dValue );
+			}
+		}
+
+		@Override
+		protected void afterLoop( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			// do nothing
+		}
+
+		@Override
+		protected void beforeLoop( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			drawSinglePoint( seeker );
+		}
+
+		@Override
+		protected void processDataPoint( DataPointsSeeker seeker )
+				throws ChartException
+		{
+			drawSinglePoint( seeker );
+
+			int pindex = seeker.getPrevIndex( );
+			if ( pindex > -1 )
+			{
+				int index = seeker.getIndex( );
+				DataPointHints dph = seeker.getDataPointHints( );
+
+				lre3d.setStart3D( loa3d[pindex] );
+				lre3d.setEnd3D( loa3d[index] );
+				addInteractivity( dph, lre3d );
+				dc.addLine( lre3d );
+
+				loaPlane3d[0].set( loa3d[pindex].getX( ),
+						loa3d[pindex].getY( ),
+						loa3d[pindex].getZ( ) );
+				loaPlane3d[1].set( loa3d[index].getX( ),
+						loa3d[index].getY( ),
+						loa3d[index].getZ( ) );
+				loaPlane3d[2].set( loa3d[index].getX( ),
+						loa3d[index].getY( ),
+						loa3d[index].getZ( ) - dTapeWidth );
+				loaPlane3d[3].set( loa3d[pindex].getX( ),
+						loa3d[pindex].getY( ),
+						loa3d[pindex].getZ( ) - dTapeWidth );
+				pre3d.setPoints3D( loaPlane3d );
+
+				addInteractivity( dph, pre3d );
+				dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+			}
+
+		}
+
 	}
 
 }

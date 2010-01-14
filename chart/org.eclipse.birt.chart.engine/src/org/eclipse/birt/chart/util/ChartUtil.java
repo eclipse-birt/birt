@@ -1722,7 +1722,7 @@ public class ChartUtil
 	 */
 	public static boolean XOR( boolean b0, boolean b1 )
 	{
-		return ( !b0 && b1 ) || ( b0 && !b1 );
+		return b0 != b1;
 	}
 
 	/**

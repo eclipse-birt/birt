@@ -202,7 +202,7 @@ public class LineSeriesAttributeComposite extends Composite
 			btnCurve.addSelectionListener( this );
 		}
 
-		if ( !( series instanceof AreaSeries ) )
+		if ( !( series instanceof AreaSeries &&(series.isStacked( ))) )
 		{
 			btnMissingValue = new Button( cmp, SWT.CHECK );
 			{
