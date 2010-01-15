@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IActionFilter;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -42,6 +43,7 @@ public class PathResourceEntry extends BaseResourceEntity
 	protected Logger logger = Logger.getLogger( PathResourceEntry.class.getName( ) );
 
 	private String path;
+
 	private URL url;
 	private String name;
 	private String displayName;
@@ -366,6 +368,27 @@ public class PathResourceEntry extends BaseResourceEntity
 			}
 			return cssStyleHandle;
 		}
+		else if (adapter == IActionFilter.class)
+		{
+			return new IActionFilter()
+			{
+
+				public boolean testAttribute( Object target, String name,
+						String value )
+				{
+					if (target instanceof PathResourceEntry && "extension".equals( name ))
+					{
+						PathResourceEntry entry = (PathResourceEntry)target;
+						if (entry.getURL( ) != null && entry.getURL( ).toString( ).toLowerCase( ).endsWith( value ))
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+				
+			};
+		}
 		return null;
 	}
 
@@ -401,5 +424,10 @@ public class PathResourceEntry extends BaseResourceEntity
 		if ( this.path != null )
 			return this.path.hashCode( );
 		return super.hashCode( );
+	}
+	
+	public String getPath( )
+	{
+		return path;
 	}
 }
