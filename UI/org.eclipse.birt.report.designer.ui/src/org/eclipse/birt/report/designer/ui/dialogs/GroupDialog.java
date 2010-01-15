@@ -40,6 +40,7 @@ import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
@@ -50,7 +51,10 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -97,7 +101,7 @@ import org.eclipse.swt.widgets.Text;
  * Group Properties Dialog
  */
 
-public class GroupDialog extends BaseDialog
+public class GroupDialog extends BaseDialog implements Listener
 {
 
 	private static final String GROUP_DLG_GROUP_FILTER_SORTING = Messages.getString( "GroupDialog.Label.FilterSorting" ); //$NON-NLS-1$
@@ -769,6 +773,13 @@ public class GroupDialog extends BaseDialog
 		GridData data = new GridData( );
 		data.horizontalSpan = 3;
 		repeatHeaderButton.setLayoutData( data );
+
+		PropertyHandle propertyHandle = inputGroup.getPropertyHandle( TableHandle.SORT_PROP );
+		if ( propertyHandle.iterator( ).hasNext( ) )
+		{
+			ascending.setEnabled( false );
+			descending.setEnabled( false );
+		}
 	}
 
 	/**
@@ -832,19 +843,12 @@ public class GroupDialog extends BaseDialog
 					}
 				},
 				true );
+
 		sortPage.setInput( list );
 		sortItem.setText( TAB_SORTING );
 		sortItem.setControl( sortPage );
 		checkReadOnlyControl( IGroupElementModel.SORT_PROP, sortPage );
 
-		tab.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				ascending.setEnabled( e.item != sortItem );
-				descending.setEnabled( e.item != sortItem );
-			}
-		} );
 	}
 
 	private boolean checkReadOnlyControl( String property, Control control )
@@ -1136,7 +1140,10 @@ public class GroupDialog extends BaseDialog
 	public void setInput( Object input )
 	{
 		assert input instanceof GroupHandle;
+		if ( inputGroup != null )
+			inputGroup.removeListener( this );
 		inputGroup = (GroupHandle) input;
+		inputGroup.addListener( this );
 	}
 
 	/**
@@ -1593,6 +1600,28 @@ public class GroupDialog extends BaseDialog
 			}
 		}
 		chooser.setText( key );
+	}
+
+	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+	{
+		PropertyHandle propertyHandle = inputGroup.getPropertyHandle( TableHandle.SORT_PROP );
+		if ( propertyHandle.iterator( ).hasNext( ) )
+		{
+			ascending.setEnabled( false );
+			descending.setEnabled( false );
+		}
+		else
+		{
+			ascending.setEnabled( true );
+			descending.setEnabled( true );
+		}
+	}
+
+	@Override
+	public boolean close( )
+	{
+		inputGroup.removeListener( this );
+		return super.close( );
 	}
 
 }
