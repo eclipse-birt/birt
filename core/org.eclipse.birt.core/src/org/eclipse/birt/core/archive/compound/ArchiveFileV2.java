@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.channels.FileLock;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -84,7 +83,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	/**
 	 * archive entries in the table
 	 */
-	protected HashMap<String, ArchiveEntryV2> entries;
+	protected HashMap<String, NameEntry> entries;
 
 	/**
 	 * cache manager of the archive file.
@@ -285,7 +284,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		{
 			if ( rf == null )
 			{
-				if ( !isWritable && !useNativeLock )
+				if ( !isWritable )
 				{
 					rf = new RandomAccessFile( archiveName, "r" );
 				}
@@ -315,8 +314,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			while ( iter.hasNext( ) )
 			{
 				NameEntry nameEnt = (NameEntry) iter.next( );
-				entries.put( nameEnt.getName( ), new ArchiveEntryV2( this,
-						nameEnt ) );
+				entries.put( nameEnt.getName( ), nameEnt );
 			}
 		}
 		catch ( IOException ex )
@@ -462,10 +460,10 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	public synchronized ArchiveEntry openEntry( String name )
 			throws IOException
 	{
-		ArchiveEntryV2 entry = entries.get( name );
-		if ( entry != null )
+		NameEntry nameEnt = entries.get( name );
+		if ( nameEnt != null )
 		{
-			return entry;
+			return new ArchiveEntryV2( this, nameEnt );
 		}
 		throw new FileNotFoundException( name );
 	}
@@ -490,62 +488,54 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	{
 		assertWritable( );
 
-		ArchiveEntryV2 entry = entries.get( name );
-		if ( entry != null )
+		NameEntry nameEnt = entries.get( name );
+		if ( nameEnt != null )
 		{
+			ArchiveEntryV2 entry = new ArchiveEntryV2( this, nameEnt );
 			entry.setLength( 0L );
 			return entry;
 		}
-		NameEntry nameEnt = entryTbl.createEntry( name );
-		entry = new ArchiveEntryV2( this, nameEnt );
-		entries.put( name, entry );
-		return entry;
+		nameEnt = entryTbl.createEntry( name );
+		entries.put( name, nameEnt );
+		return new ArchiveEntryV2( this, nameEnt );
 	}
 
 	public synchronized boolean removeEntry( String name ) throws IOException
 	{
 		assertWritable( );
 
-		ArchiveEntryV2 entry = (ArchiveEntryV2) entries.get( name );
-		if ( entry != null )
+		NameEntry nameEntry = entries.get( name );
+		if ( nameEntry != null )
 		{
 			entries.remove( name );
-			entryTbl.removeEntry( entry.entry );
-			if ( entry.index != null )
+			entryTbl.removeEntry( nameEntry );
+			int blockId = nameEntry.getBlock( );
+			if ( blockId != -1 )
 			{
-				allocTbl.removeEntry( entry.index );
+				AllocEntry allocEntry = allocTbl.loadEntry( blockId );
+				if ( allocEntry != null )
+				{
+					allocTbl.removeEntry( allocEntry );
+				}
 			}
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * should use the native file lock to synchronize the reader/writer
-	 */
-	private boolean useNativeLock = false;
-
 	synchronized public Object lockEntry( String name ) throws IOException
 	{
 		assertOpen( );
 
-		ArchiveEntryV2 entry = entries.get( name );
+		NameEntry entry = entries.get( name );
 		if ( entry == null )
 		{
 			if ( !isWritable )
 			{
 				throw new FileNotFoundException( name );
 			}
-			entry = (ArchiveEntryV2) createEntry( name );
-		}
-		if ( useNativeLock )
-		{
-			if ( !isTransient )
-			{
-				entry.ensureSize( 1 );
-				int blockId = entry.index.getBlock( 0 );
-				return rf.getChannel( ).lock( blockId * BLOCK_SIZE, 1, false );
-			}
+			entry = entryTbl.createEntry( name );
+			entries.put( name, entry );
 		}
 		return entry;
 	}
@@ -553,12 +543,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	synchronized public void unlockEntry( Object locker ) throws IOException
 	{
 		assertOpen( );
-		if ( locker instanceof FileLock )
-		{
-			FileLock flck = (FileLock) locker;
-			flck.release( );
-		}
-		if ( !( locker instanceof ArchiveEntry ) )
+		if ( !( locker instanceof NameEntry ) )
 		{
 			throw new IOException( "Invalide lock type:" + locker );
 		}

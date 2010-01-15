@@ -26,27 +26,27 @@ public class ArchiveFileCacheTest extends TestCase
 	public void testMemoryCache( ) throws IOException
 	{
 		long used1 = ArchiveFile.getTotalUsedCache( );
-		System.out.println( used1 );
-		ArchiveFile[] afs = new ArchiveFile[100];
+		System.out.println( "INIT:" + used1 );
+		ArchiveFile[] afs = new ArchiveFile[10];
 		for ( int i = 0; i < afs.length; i++ )
 		{
 			afs[i] = createArchiveFile( "utest/arc_" + i );
 		}
 		long used2 = ArchiveFile.getTotalUsedCache( );
-		System.out.println( used2 );
+		System.out.println( "OPEN 10 AFS:" + used2 );
 		ArchiveEntry[] entries = openEntries( afs[0], 100 );
 		long used3 = ArchiveFile.getTotalUsedCache( );
-		System.out.println( used3 );
+		System.out.println( "OPEN ENTRIES:" + used3 );
 
 		closeEntries( entries );
 		long used4 = ArchiveFile.getTotalUsedCache( );
-		System.out.println( used4 );
+		System.out.println( "CLOSE ENTRIES:" + used4 );
 		for ( int i = 0; i < afs.length; i++ )
 		{
 			afs[i].close( );
 		}
 		long used5 = ArchiveFile.getTotalUsedCache( );
-		System.out.println( used5 );
+		System.out.println( "CLOSE FILES:" + used5 );
 	}
 
 	protected ArchiveFile createArchiveFile( String name ) throws IOException
@@ -77,7 +77,8 @@ public class ArchiveFileCacheTest extends TestCase
 		ArchiveEntry[] entries = new ArchiveEntry[size];
 		for ( int i = 0; i < entries.length; i++ )
 		{
-			entries[i] = af.openEntry( "ENTRY_" + i );
+			entries[i] = af.openEntry( "STREAM_" + i );
+			entries[i].read( 0, new byte[13], 0, 13 );
 		}
 		return entries;
 	}
