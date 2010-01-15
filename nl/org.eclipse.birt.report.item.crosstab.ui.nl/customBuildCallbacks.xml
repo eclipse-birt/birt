@@ -40,9 +40,9 @@
 					  dest="." 
 					  ext=".properties"
 					  includes="**/*_ko_KR.msg"/>
-			<move todir=".">
-				<fileset dir="src" includes="org/**"/>
-			</move>
+		<copy todir=".">
+			<fileset dir="src" includes="org/**"/>
+	    </copy>
 			
 	</target>
 
