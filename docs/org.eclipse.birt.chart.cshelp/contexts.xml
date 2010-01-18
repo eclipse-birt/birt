@@ -535,6 +535,15 @@ A gradient merges smoothly from a starting color to an ending color in a specifi
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart's background color"/>
 </context>
 
+<context id="PositiveNegativeColorsEditor_ID" title="Positive and Negative Colors Editor">
+<!-- SEQUENCE: On chart wizard, Format Chart, on left, select Chart Area OR expand Chart Area, then select Plot or Legend, then select the arrow beside Background, then choose Positive/Negative JAHT 20100118 -->
+<description>
+Positive values appear in one selected color and negative values in the other color.
+</description>
+
+<!-- link updated JAHT 20100118  No available topic -->
+</context>
+
 <context id="SelectImage_ID" title="Select Image">
 <!-- SEQUENCE: On chart wizard, Format Chart, on left, select Chart Area OR expand Chart Area, then select Plot, Title, or Legend, then select the arrow beside Background, then choose Image JAHT 20090615 -->
 <description>
