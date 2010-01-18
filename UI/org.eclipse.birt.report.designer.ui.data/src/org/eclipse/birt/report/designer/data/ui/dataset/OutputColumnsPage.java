@@ -132,27 +132,20 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 
 		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
 				SWT.LEFT );
-		column.setText( cellLabels[0] ); //$NON-NLS-1$
+		column.setText( cellLabels[0] );
 		column.setWidth( 100 );
 		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-		column.setText( cellLabels[1] ); //$NON-NLS-1$
+		column.setText( cellLabels[1] );
 		column.setWidth( 100 );
 		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-		column.setText( cellLabels[2] ); //$NON-NLS-1$
+		column.setText( cellLabels[2] ); 
 		column.setWidth( 100 );
 		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-		column.setText( cellLabels[3] ); //$NON-NLS-1$
+		column.setText( cellLabels[3] );
 		column.setWidth( 100 );
 		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-		column.setText( cellLabels[4] ); //$NON-NLS-1$
+		column.setText( cellLabels[4] ); 
 		column.setWidth( 150 );
-
-		// TODO Add support to helpText after release 1
-		// column = new TableColumn( outputColumnsViewer.getViewer( ).getTable(
-		// ), SWT.LEFT );
-		// column.setText( Messages.getString( "dataset.editor.title.helpText" )
-		// ); //$NON-NLS-1$
-		// column.setWidth( 100 );
 
 		viewer.getViewer( )
 				.setContentProvider( new OutputColumnsContentProvider( ) );
@@ -356,9 +349,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 						dataSetMap,
 						dataSourceMap );
 
+				ReportDesignHandle copy = (ReportDesignHandle) ( handle.copy( ).getHandle( null ) );
+
 				DummyEngineTask engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) handle ),
-						handle );
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
+						copy );
 
 				DataRequestSession session = engineTask.getDataSession( );
 
@@ -427,7 +422,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		
 		Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 	}
-
+	
 	/**
 	 * clear output columns table viewer
 	 * 

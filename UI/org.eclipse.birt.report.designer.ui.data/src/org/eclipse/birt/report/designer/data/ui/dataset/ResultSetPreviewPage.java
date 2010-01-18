@@ -430,21 +430,24 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 					ClassLoader parentLoader = oldContextLoader;
 					if ( parentLoader == null )
 						parentLoader = this.getClass( ).getClassLoader( );
-					ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader( parentLoader,
-							( (DataSetEditor) getContainer( ) ).getHandle( )
-									.getModuleHandle( ) );
-					Thread.currentThread( )
-							.setContextClassLoader( newContextLoader );
-
-					Map dataSetBindingMap = new HashMap( );
-					Map dataSourceBindingMap = new HashMap( );
+					
 					ModuleHandle handle;
 					DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
 					handle = dsHandle.getModuleHandle( );
+
+					Map dataSetBindingMap = new HashMap( );
+					Map dataSourceBindingMap = new HashMap( );
 					try
 					{
 						if ( handle instanceof ReportDesignHandle )
 						{
+							ReportDesignHandle copiedReport = (ReportDesignHandle) ( handle.copy( ).getHandle( null ) );
+
+							ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader( parentLoader,
+									copiedReport );
+							Thread.currentThread( )
+									.setContextClassLoader( newContextLoader );
+							
 							EngineConfig ec = new EngineConfig( );
 							ec.getAppContext( )
 									.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -455,8 +458,8 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 									dataSourceBindingMap );
 
 							DummyEngineTask engineTask = new DummyEngineTask( engine,
-									new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) handle ),
-									handle );
+									new ReportEngineHelper( engine ).openReportDesign( copiedReport ),
+									copiedReport );
 							DataRequestSession session = engineTask.getDataSession( );
 							session.getDataSessionContext( ).getAppContext( ).put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS, 
 									DTPUtil.getInstance( ).createResourceIdentifiers( ));

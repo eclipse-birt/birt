@@ -105,18 +105,20 @@ public class SelectValueFetcher
 
 			if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
 			{
+				ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
+						.copy( ).getHandle( null ) );
+				
 				EngineConfig config = new EngineConfig( );
 
 				config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 						DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
 								.getContextClassLoader( ),
-								dataSetHandle.getModuleHandle( ) ) );
+								copy ) );
 				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
 
 				engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
-								? null : dataSetHandle.getModuleHandle( ) ) ),
-						dataSetHandle.getModuleHandle( ) );
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
+						copy );
 				session = engineTask.getDataSession( );
 				
 				engineTask.run( );
@@ -256,17 +258,19 @@ public class SelectValueFetcher
 		{
 			EngineConfig config = new EngineConfig( );
 
+			ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
+					.copy( ).getHandle( null ) );
+
 			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 					DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
 							.getContextClassLoader( ),
-							dataSetHandle.getModuleHandle( ) ) );
+							copy ) );
 
 			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
 
 			DummyEngineTask engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
-							? null : dataSetHandle.getModuleHandle( ) ) ),
-					dataSetHandle.getModuleHandle( ) );
+					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
+					copy );
 
 			session = engineTask.getDataSession( );
 

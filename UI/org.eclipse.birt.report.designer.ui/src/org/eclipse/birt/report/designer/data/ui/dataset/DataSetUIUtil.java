@@ -93,9 +93,13 @@ public final class DataSetUIUtil
 			{
 				EngineConfig ec = new EngineConfig( );
 				ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
+
+				ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
+						.copy( ).getHandle( null ) );
+
 				DummyEngineTask engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) dataSetHandle.getModuleHandle( ) ),
-						dataSetHandle.getModuleHandle( ) );
+						new ReportEngineHelper( engine ).openReportDesign( copy ),
+						copy );
 
 				DataRequestSession session = engineTask.getDataSession( );
 
