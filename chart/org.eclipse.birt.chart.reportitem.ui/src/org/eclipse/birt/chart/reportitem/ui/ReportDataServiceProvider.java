@@ -63,6 +63,7 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -384,6 +385,53 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return getPreviewRowData( getPreviewHeader( false ), -1, true );
 	}
 
+	private void removeIndirectRefOfAggregates(
+			List<ComputedColumnHandle> list,
+			Map<String, ComputedColumnHandle> bindingMap ) throws BirtException
+	{
+		for ( Iterator<ComputedColumnHandle> iter = list.iterator( ); iter.hasNext( ); )
+		{
+			ComputedColumnHandle cch = iter.next( );
+			if ( !isCommonBinding( cch, bindingMap ) )
+			{
+				iter.remove( );
+				continue;
+			}
+		}
+	}
+
+	/**
+	 * Checks if specified column binding is a common binding,excluding aggregation binding.
+	 * 
+	 * @param cch
+	 * @param bindingMap
+	 * @return
+	 * @throws BirtException
+	 */
+	private boolean isCommonBinding( ComputedColumnHandle cch,
+			Map<String, ComputedColumnHandle> bindingMap ) throws BirtException
+	{
+		ScriptExpression se = ChartReportItemUtil.newExpression( session.getModelAdaptor( ),
+				cch );
+		List<IColumnBinding> bindings = ExpressionUtil.extractColumnExpressions( se.getText( ),
+				ExpressionUtil.ROW_INDICATOR );
+		for ( int i = 0; i < bindings.size( ); i++ )
+		{
+			ComputedColumnHandle refCch = bindingMap.get( bindings.get( i )
+					.getResultSetColumnName( ) );
+			if ( refCch.getAggregateFunction( ) != null )
+			{
+				return false;
+			}
+			else if ( refCch.getExpression( ) != null
+					&& !isCommonBinding( refCch, bindingMap ) )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Returns columns header info.
 	 * 
@@ -398,18 +446,35 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			return new ColumnBindingInfo[]{};
 		}
-		
+		Map<String, ComputedColumnHandle> bindingMap = new HashMap<String, ComputedColumnHandle>( );
 		List<ComputedColumnHandle> columnList = new ArrayList<ComputedColumnHandle>( );
 		boolean bInheritColumnsOnly = isInheritColumnsOnly( );
 		while ( iterator.hasNext( ) )
 		{
 			ComputedColumnHandle binding = iterator.next( );
+			bindingMap.put( binding.getName( ), binding );
 			// Remove the aggregation bindings if "inherit columns" used.
 			if ( bInheritColumnsOnly && binding.getAggregateFunction( ) != null )
 			{
 				continue;
 			}
+
 			columnList.add( binding );
+		}
+
+		// Remove indirect reference of aggregation bindings.
+		try
+		{
+			if ( bInheritColumnsOnly )
+			{
+				removeIndirectRefOfAggregates( columnList, bindingMap );
+			}
+		}
+		catch ( BirtException e )
+		{
+			throw new ChartException( ChartReportItemUIActivator.ID,
+					ChartException.DATA_BINDING,
+					e );
 		}
 
 		if ( columnList.size( ) == 0 )

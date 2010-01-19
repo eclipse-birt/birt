@@ -71,10 +71,12 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -1095,31 +1097,39 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private void initDataSelector( )
 	{
+		boolean isInheritingSummaryTable = isInheritingSummaryTable( );
+
 		// create Combo items
-		cmbInherit.setItems( new String[]{
-				Messages.getString( "StandardChartDataSheet.Combo.InheritColumnsGroups" ), //$NON-NLS-1$ 
-				Messages.getString( "StandardChartDataSheet.Combo.InheritColumnsOnly" ) //$NON-NLS-1$ 
-		} );
-		if ( dataProvider.isInheritColumnsSet( ) )
-		{
-			cmbInherit.select( dataProvider.isInheritColumnsOnly( ) ? 1 : 0 );
-		}
-		else
-		{
-			// Set default inheritance value
-			if ( ChartReportItemUtil.hasAggregation( getChartModel( ) ) )
+			cmbInherit.setItems( new String[]{
+					Messages.getString( "StandardChartDataSheet.Combo.InheritColumnsGroups" ), //$NON-NLS-1$ 
+					Messages.getString( "StandardChartDataSheet.Combo.InheritColumnsOnly" ) //$NON-NLS-1$ 
+			} );
+
+			if ( isInheritingSummaryTable )
 			{
-				// If aggregations found, set inherit columns only
-				cmbInherit.select( 1 );
+				cmbInherit.select( 0 );
 				getContext( ).setInheritColumnsOnly( true );
+			}
+			else if ( dataProvider.isInheritColumnsSet( ) )
+			{
+				cmbInherit.select( dataProvider.isInheritColumnsOnly( ) ? 1 : 0 );
 			}
 			else
 			{
-				// Default value is set as Inherit groups
-				cmbInherit.select( 0 );
-				getContext( ).setInheritColumnsOnly( false );
+				// Set default inheritance value
+				if ( ChartReportItemUtil.hasAggregation( getChartModel( ) ) )
+				{
+					// If aggregations found, set inherit columns only
+					cmbInherit.select( 1 );
+					getContext( ).setInheritColumnsOnly( true );
+				}
+				else
+				{
+					// Default value is set as Inherit groups
+					cmbInherit.select( 0 );
+					getContext( ).setInheritColumnsOnly( false );
+				}
 			}
-		}
 		cmbInherit.setEnabled( false );
 		
 		cmbDataItems.setItems( createDataComboItems( ) );
@@ -1160,7 +1170,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 
-		cmbInherit.setEnabled( getDataServiceProvider( ).getInheritedDataSet( ) != null
+		cmbInherit.setEnabled( !isInheritingSummaryTable && getDataServiceProvider( ).getInheritedDataSet( ) != null
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
 		if ( !cmbInherit.isEnabled( ) )
 		{
@@ -1189,6 +1199,33 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		cmbDataItems.setEnabled( false );
 		// Initializes column bindings from container
 		getDataServiceProvider( ).setDataSet( null );
+	}
+
+	/**
+	 * 
+	 */
+	private boolean isInheritingSummaryTable( )
+	{
+		if ( ChartReportItemUtil.isContainerInheritable( itemHandle ) )
+		{
+			// Copy aggregations from table container to chart
+			TableHandle table = null;
+			DesignElementHandle container = itemHandle.getContainer( );
+			while ( container != null )
+			{
+				if ( container instanceof TableHandle )
+				{
+					table = (TableHandle) container;
+					break;
+				}
+				container = container.getContainer( );
+			}
+			if ( table != null )
+			{
+				return table.getBooleanProperty( TableHandle.IS_SUMMARY_TABLE_PROP );
+			}
+		}
+		return false;
 	}
 
 	public void handleEvent( Event event )
@@ -1297,7 +1334,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					cmbDataItems.select( 0 );
 					currentData = null;
 					cmbDataItems.setEnabled( false );
-					cmbInherit.setEnabled( getDataServiceProvider( ).getInheritedDataSet( ) != null
+					cmbInherit.setEnabled( !isInheritingSummaryTable() && getDataServiceProvider( ).getInheritedDataSet( ) != null
 							&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
 					setEnabledForButtons( );
 					updateDragDataSource( );

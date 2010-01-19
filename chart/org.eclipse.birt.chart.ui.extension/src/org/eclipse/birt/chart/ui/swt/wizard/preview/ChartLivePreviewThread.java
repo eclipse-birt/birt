@@ -55,7 +55,8 @@ public class ChartLivePreviewThread extends Thread
 	private static final int DELAY_TIME = 2000;
 	
 	public static final String PARAM_CHART_MODEL = "Chart Model"; //$NON-NLS-1$
-
+	
+	private volatile boolean initFinished = false;
 	/**
 	 * Constructor.
 	 */
@@ -90,7 +91,23 @@ public class ChartLivePreviewThread extends Thread
 	{
 		blinker = this;
 		super.start( );
-
+		
+		// We must wait for some initial work to be finished in this thread and
+		// then return, the initial works include the data engine and data session
+		// initialization.
+		int i = 1; 
+		while( !initFinished && i < 6 )
+		{
+			try
+			{
+				Thread.sleep( i * 10 );
+				i++;
+			}
+			catch ( InterruptedException e )
+			{
+				// Here do not do anything.
+			}
+		}
 	}
 	
 	/**
@@ -133,6 +150,7 @@ public class ChartLivePreviewThread extends Thread
 	public void run()
 	{
 		initDataEngine( );
+		initFinished = true;
 		super.run( );
     	Timer fPaintTimer = null;
 		timeTask = null;
