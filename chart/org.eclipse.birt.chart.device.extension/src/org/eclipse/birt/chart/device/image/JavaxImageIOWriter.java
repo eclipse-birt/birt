@@ -20,7 +20,6 @@ import java.awt.Shape;
 import java.awt.geom.FlatteningPathIterator;
 import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,10 +30,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.event.IIOWriteWarningListener;
+import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
@@ -745,15 +746,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			try
 			{
 				final ImageOutputStream ios = SecurityUtil.newImageOutputStream( o );
-				updateWriterParameters( iw.getDefaultWriteParam( ) ); // SET
-				// ANY
-				// OUTPUT
-				// FORMAT
-				// SPECIFIC
-				// PARAMETERS
-				// IF NEEDED
+				ImageWriteParam iwp = iw.getDefaultWriteParam( );
+				updateWriterParameters( iwp );
 				iw.setOutput( ios );
-				iw.write( (RenderedImage) _img );
+				iw.write( (IIOMetadata) null,
+						new IIOImage( (BufferedImage) _img, null, null ),
+						iwp );
 				ios.close( );
 			}
 			catch ( Exception ex )

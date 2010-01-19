@@ -53,17 +53,16 @@ public final class JpegRendererImpl extends JavaxImageIOWriter
 	
 	protected void updateWriterParameters( ImageWriteParam iwp )
 	{
-		if ( isQualitySet )
-		{
-			iwp.setCompressionMode( ImageWriteParam.MODE_EXPLICIT );
-			iwp.setCompressionQuality( jpegQuality );
-		}
-
+		float quality = isQualitySet ? jpegQuality : 0.95f;
+		iwp.setCompressionMode( ImageWriteParam.MODE_EXPLICIT );
+		iwp.setCompressionQuality( quality );
 	}
+
 	/**
-	 * Set the Jpeg compression quality into the renderer. The value must be 
-	 * between 0 (better compression) and 1 (better quality).
-	 * The default value is 0.75 (no visual loss)
+	 * Set the Jpeg compression quality into the renderer. The value must be
+	 * between 0 (better compression) and 1 (better quality). The default value
+	 * is 0.95 (no visual loss)
+	 * 
 	 * @param jpegQuality
 	 */
 	public void setCompressionQuality( final int jpegQuality )
