@@ -936,4 +936,15 @@ For more information about using variables, use a web browser to go to:
 <topic href="http://www.eclipse.org/birt/phoenix/project/notable2.5.php#jump_4" label="Page-level variables and events"/>
 </context>
 
+<context id="SelectVariableDialog_ID" title="Insert Variable">
+<!-- SEQUENCE: Select Master Page. From AutoText, drag Variable to header or footer. No relevant link JAHT 20090830 created 20090830 -->
+<description>
+A variable stores a value from an expression or a data field for use in the page header or footer.
+
+For more information about using variables, use a web browser to go to:
+        http://www.eclipse.org/birt/phoenix/project/notable2.5.php#jump_4
+</description>
+<topic href="http://www.eclipse.org/birt/phoenix/project/notable2.5.php#jump_4" label="Page-level variables and events"/>
+</context>
+
 </contexts>
