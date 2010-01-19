@@ -106,7 +106,7 @@ CrosstabPageGenerator.List.General=全般
 CrosstabPageGenerator.List.Margin=余白
 CrosstabPageGenerator.List.Font=フォント
 CrosstabPageGenerator.List.Borders=罫線
-CrosstabPageGenerator.List.Section=ページ区切り
+CrosstabPageGenerator.List.Section=改ページ
 CrosstabPageGenerator.List.Visibility=表示/非表示
 CrosstabPageGenerator.List.TOC=目次
 CrosstabPageGenerator.List.Bookmark=ブックマーク
@@ -218,7 +218,7 @@ CrosstabSubToatalProvider.Column.Function=関数
 
 ###########################################################
 #CrosstabPageBreakDialog
-CrosstabPageBreakDialog.Title=ページ区切り
+CrosstabPageBreakDialog.Title=改ページ
 CrosstabPageBreakDialog.Text.GroupLevel=グループレベル(&G) :
 CrosstabPageBreakDialog.Text.PageBreakBefore=次の前で改ページ(&B) :
 CrosstabPageBreakDialog.Text.PageBreakAfter=次の後で改ページ(&A) :
@@ -236,7 +236,7 @@ FormPage.Menu.ModifyProperty=変更
 
 CrosstabPageGenerator.List.SubTotals=小計
 CrosstabPageGenerator.List.GrandTotals=総計
-CrosstabPageGenerator.List.PageBreak=ページ区切り
+CrosstabPageGenerator.List.PageBreak=改ページ
 
 PageLayoutPropertyDescriptorProvider.PageLayout=ページ配置 :
 RowPageBreak.RepeatColumnHeader=列のヘッダの繰り返し(&C)
@@ -331,6 +331,6 @@ CrosstabHighlightRuleBuilderDialog.text.Description={0} に条件付き書式を適用しま
 
 ###########################################################
 #CrosstabFilterConditionBuilder properties
-CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=式エディタ
 CrosstabFilterConditionBuilder.MsgDlg.Msg=警告
-CrosstabFilterConditionBuilder.MsgDlg.Title=値は空にできません。
+CrosstabFilterConditionBuilder.MsgDlg.Title=値は空白にできません。

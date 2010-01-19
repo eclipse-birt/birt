@@ -331,6 +331,6 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Aplique formato condicional 
 
 ###########################################################
 #CrosstabFilterConditionBuilder properties
-CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Editor de expresión
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Advertencia
 CrosstabFilterConditionBuilder.MsgDlg.Title=El valor no puede estar vacío.

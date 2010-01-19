@@ -485,7 +485,7 @@ DataPageGenerator.List.Highlights=ハイライト
 DataPageGenerator.List.HyperLink=ハイパーリンク
 DataPageGenerator.List.Margin=余白
 DataPageGenerator.List.Padding=パディング
-DataPageGenerator.List.Section=ページ区切り
+DataPageGenerator.List.Section=改ページ
 DataPageGenerator.List.TOC=目次
 DataPageGenerator.List.Visibility=可視性
 
@@ -1816,7 +1816,7 @@ GridPageGenerator.List.Borders=罫線
 GridPageGenerator.List.Font=フォント
 GridPageGenerator.List.General=全般
 GridPageGenerator.List.Margin=余白
-GridPageGenerator.List.Section=ページ区切り
+GridPageGenerator.List.Section=改ページ
 GridPageGenerator.List.TOC=目次
 GridPageGenerator.List.Visibility=可視性
 
@@ -1855,7 +1855,7 @@ GroupDialog.Tab.Sorting=ソート
 GroupDialog.RepeatHeader=ヘッダの繰り返し(&P)
 GroupDialog.Title.Edit=グループの編集
 GroupDialog.Title.New=グループの新規作成
-GroupDialog.PageBreak=ページ区切り
+GroupDialog.PageBreak=改ページ
 GroupDialog.buttion.HideDetail=詳細の非表示(&H)
 GroupDialog.toolTipText.openExprButton=式ビルダを開く
 GroupDialog.Button.Ascending=昇順(&S)
@@ -2088,7 +2088,7 @@ ImagePageGenerator.List.Borders=罫線
 ImagePageGenerator.List.General=全般
 ImagePageGenerator.List.HyperLink=ハイパーリンク
 ImagePageGenerator.List.Reference=参照
-ImagePageGenerator.List.Section=ページ区切り
+ImagePageGenerator.List.Section=改ページ
 ImagePageGenerator.List.TOC=目次
 ImagePageGenerator.List.Visibility=可視性
 
@@ -2317,7 +2317,7 @@ LabelPageGenerator.List.HyperLink=ハイパーリンク
 LabelPageGenerator.List.I18n=ローカライゼーション
 LabelPageGenerator.List.Margin=余白
 LabelPageGenerator.List.Padding=パディング
-LabelPageGenerator.List.Section=ページ区切り
+LabelPageGenerator.List.Section=改ページ
 LabelPageGenerator.List.TOC=目次
 LabelPageGenerator.List.Visibility=可視性
 
@@ -2416,7 +2416,7 @@ ListPageGenerator.List.Bookmark=ブックマーク
 ListPageGenerator.List.Borders=罫線
 ListPageGenerator.List.Font=フォント
 ListPageGenerator.List.General=全般
-ListPageGenerator.List.Section=ページ区切り
+ListPageGenerator.List.Section=改ページ
 ListPageGenerator.List.TOC=目次
 ListPageGenerator.List.Visibility=可視性
 
@@ -2822,7 +2822,7 @@ OutputColumnsPage.description=出力列の定義 :
 ###########################################################
 #PageBreakPreferencePage properties
 
-PageBreakPreferencePage.displayname.Title=ページ区切り
+PageBreakPreferencePage.displayname.Title=改ページ
 
 ###########################################################
 #PageSetAction properties
@@ -3419,7 +3419,7 @@ RowHandleAdapter.table.header=ヘッダ行
 
 RowPageGenerator.List.Bookmark=ブックマーク
 RowPageGenerator.List.Borders=罫線
-RowPageGenerator.List.Section=ページ区切り
+RowPageGenerator.List.Section=改ページ
 RowPageGenerator.List.CellPadding=セルのパディング
 RowPageGenerator.List.Font=フォント
 RowPageGenerator.List.General=全般
@@ -3708,7 +3708,7 @@ TablePageGenerator.List.CellPadding=セルのパディング
 TablePageGenerator.List.Font=フォント
 TablePageGenerator.List.General=全般
 TablePageGenerator.List.Marign=余白
-TablePageGenerator.List.Section=ページ区切り
+TablePageGenerator.List.Section=改ページ
 TablePageGenerator.List.TOC=目次
 TablePageGenerator.List.Visibility=可視性
 
@@ -3865,7 +3865,7 @@ TextPageGenerator.List.General=全般
 TextPageGenerator.List.I18n=ローカライゼーション
 TextPageGenerator.List.Margin=余白
 TextPageGenerator.List.Padding=パディング
-TextPageGenerator.List.Section=ページ区切り
+TextPageGenerator.List.Section=改ページ
 TextPageGenerator.List.TOC=目次
 TextPageGenerator.List.Visibility=可視性
 
@@ -3882,7 +3882,7 @@ AutoTextPageGenerator.List.Borders=罫線
 AutoTextPageGenerator.List.General=全般
 AutoTextPageGenerator.List.Margin=余白
 AutoTextPageGenerator.List.Padding=パディング
-AutoTextPageGenerator.List.Section=ページ区切り
+AutoTextPageGenerator.List.Section=改ページ
 AutoTextPageGenerator.List.TOC=目次
 AutoTextPageGenerator.List.Visibility=表示/非表示
 
@@ -4450,7 +4450,7 @@ CrosstabPageGenerator.List.General=全般
 CrosstabPageGenerator.List.Margin=余白
 CrosstabPageGenerator.List.Font=フォント
 CrosstabPageGenerator.List.Borders=罫線
-CrosstabPageGenerator.List.Section=ページ区切り
+CrosstabPageGenerator.List.Section=改ページ
 CrosstabPageGenerator.List.Visibility=表示/非表示
 CrosstabPageGenerator.List.TOC=目次
 CrosstabPageGenerator.List.Bookmark=ブックマーク
@@ -4460,7 +4460,7 @@ CrosstabPageGenerator.List.AdvancedProperty=詳細設定
 
 CrosstabPageGenerator.List.SubTotals=小計
 CrosstabPageGenerator.List.GrandTotals=集計
-CrosstabPageGenerator.List.PageBreak=ページ区切り
+CrosstabPageGenerator.List.PageBreak=改ページ
 
 ###########################################################
 #CubePageGenerator properties

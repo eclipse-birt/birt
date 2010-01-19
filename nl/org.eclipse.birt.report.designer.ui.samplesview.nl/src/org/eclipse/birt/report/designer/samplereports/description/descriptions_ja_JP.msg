@@ -38,7 +38,7 @@ ParameterToDataSetParameter=ここでは、レポートパラメタをデータセットパラメタにリ
 Expressions=ここでは、関数を使った BIRT レポートの作成例を示しています。
 
 #Grouping
-CustomerListAfter_Grouping=この例では、BIRT でグループ化したレポートの構築方法を示すために、顧客を国別にグループ化しています。BIRT の主要機能であるグループ化、ページ区切り、目次、およびグループごとのデータの集計と合計の集計も使用しています。 
+CustomerListAfter_Grouping=この例では、BIRT でグループ化したレポートの構築方法を示すために、顧客を国別にグループ化しています。BIRT の主要機能であるグループ化、改ページ、目次、およびグループごとのデータの集計と合計の集計も使用しています。 
 
 #Highlighting and Conditional Formatting
 ProductListAfter=この例では、BIRT レポートに強調表示や条件付き書式を追加する方法を示します。会社の全製品を一覧にまとめた製品レポートを基に、行の色を交互に変えたり、在庫数が少ない製品を強調表示しています。また、行の onCreate イベントにスクリプトを追加することで、利幅が大きい製品を斜体で示しています。 

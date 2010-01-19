@@ -331,6 +331,6 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Bedingte Formatierung anwend
 
 ###########################################################
 #CrosstabFilterConditionBuilder properties
-CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Ausdrucks-Editor
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Warnung
 CrosstabFilterConditionBuilder.MsgDlg.Title=Der Wert darf nicht leer sein.

@@ -331,6 +331,6 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Appliquer un formatage condi
 
 ###########################################################
 #CrosstabFilterConditionBuilder properties
-CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=Editeur d'expression
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Avertissement
 CrosstabFilterConditionBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.

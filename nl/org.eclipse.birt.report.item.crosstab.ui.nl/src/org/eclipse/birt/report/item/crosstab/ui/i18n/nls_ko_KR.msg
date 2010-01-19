@@ -331,6 +331,6 @@ CrosstabHighlightRuleBuilderDialog.text.Description={0}에 조건부 서식을 적용합니
 
 ###########################################################
 #CrosstabFilterConditionBuilder properties
-CrosstabFilterConditionBuilder.ExpressionEditor.Title=Expression Editor
+CrosstabFilterConditionBuilder.ExpressionEditor.Title=식 편집기
 CrosstabFilterConditionBuilder.MsgDlg.Msg=경고
 CrosstabFilterConditionBuilder.MsgDlg.Title=값을 입력해야 합니다.

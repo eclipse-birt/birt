@@ -44,7 +44,7 @@ Element.choice.after=次の後で改ページ
 Method.onPrepare=準備時
 Method.onCreate=作成時
 Method.onRender=レンダリング時
-Method.onPageBreak=ページ区切り
+Method.onPageBreak=改ページ
 
 ###########################################################
 # Crosstab exception
