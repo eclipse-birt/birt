@@ -246,13 +246,13 @@ Choices.lineType.double=二重
 #25.pageBreakBefore
 Choices.pageBreakBefore.auto=自動
 Choices.pageBreakBefore.always=強制
-Choices.pageBreakBefore.avoid=なし
+Choices.pageBreakBefore.avoid=禁止
 Choices.pageBreakBefore.alwaysExcludingFirst=強制（1ページ目除く）
 
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=自動
 Choices.pageBreakAfter.always=強制
-Choices.pageBreakAfter.avoid=なし
+Choices.pageBreakAfter.avoid=禁止
 Choices.pageBreakAfter.alwaysExcludingLast=強制（最後のページを除く）
 
 #27.actionLinkType
@@ -347,7 +347,7 @@ Choices.display.inline=インライン
 Choices.display.none=表示なし
 
 #43.pageBreakInside
-Choices.pageBreakInside.avoid=なし
+Choices.pageBreakInside.avoid=禁止
 Choices.pageBreakInside.auto=自動
 
 #44.margin
