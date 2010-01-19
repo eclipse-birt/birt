@@ -205,8 +205,8 @@ CrosstabGrandTotalDialog.Text.Function=関数(&F) :
 ###########################################################
 # Crosstab RowArea PageBreak
 CrosstabPageBreakProvider.Column.GroupLevel=グループレベル
-CrosstabPageBreakProvider.Column.Before=次の前で改ページ
-CrosstabPageBreakProvider.Column.After=次の後で改ページ
+CrosstabPageBreakProvider.Column.Before=要素前
+CrosstabPageBreakProvider.Column.After=要素後
 CrosstabPageBreakProvider.Column.Inside=次の途中で改ページ
 CrosstabPageBreakProvider.Column.Interval=間隔
 
@@ -220,8 +220,8 @@ CrosstabSubToatalProvider.Column.Function=関数
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=改ページ
 CrosstabPageBreakDialog.Text.GroupLevel=グループレベル(&G) :
-CrosstabPageBreakDialog.Text.PageBreakBefore=次の前で改ページ(&B) :
-CrosstabPageBreakDialog.Text.PageBreakAfter=次の後で改ページ(&A) :
+CrosstabPageBreakDialog.Text.PageBreakBefore=要素前(&B) :
+CrosstabPageBreakDialog.Text.PageBreakAfter=要素後(&A) :
 CrosstabPageBreakDialog.Text.PageBreakInside=途中で改ページ(&I) :
 CrosstabPageBreakDialog.Text.PageBreakInterval=改ページの間隔(&P) :
 
