@@ -245,15 +245,15 @@ Choices.lineType.double=二重
   
 #25.pageBreakBefore
 Choices.pageBreakBefore.auto=自動
-Choices.pageBreakBefore.always=全ページ
+Choices.pageBreakBefore.always=強制
 Choices.pageBreakBefore.avoid=なし
-Choices.pageBreakBefore.alwaysExcludingFirst=全ページ（1ページ目除く）
+Choices.pageBreakBefore.alwaysExcludingFirst=強制（1ページ目除く）
 
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=自動
-Choices.pageBreakAfter.always=全ページ
+Choices.pageBreakAfter.always=強制
 Choices.pageBreakAfter.avoid=なし
-Choices.pageBreakAfter.alwaysExcludingLast=全ページ（最後のページを除く）
+Choices.pageBreakAfter.alwaysExcludingLast=強制（最後のページを除く）
 
 #27.actionLinkType
 Choices.actionLinkType.none=アクションリンクの種類なし
@@ -440,7 +440,7 @@ Choices.searchType.none=検索の種類なし
 #55. exportType
 Choices.exportType.none=エクスポートの種類なし
 Choices.exportType.if-realized=一致したページ
-Choices.exportType.always=全ページ
+Choices.exportType.always=強制
 
 #56. analysisType
 Choices.analysisType.dimension=ディメンジョン
