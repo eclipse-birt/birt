@@ -765,25 +765,33 @@ Specify the display text and value of the parameter.
 </context>
 
 <context id="CubeBuilderDataSetSelectionPage_ID" title="Data Set Selection Page ">
-<!--  SEQUENCE: In Data Explorer, double-click a data cube. Choose Dataset. Choose ? linked khahn 20090616 -->
+<!--  SEQUENCE: In Data Explorer, double-click a data cube. Choose Dataset. Choose ? linked khahn 20090616 Edited JAHT 20100119 -->
 <description>
-Select a data set to go into the group or summary categories.
+Select the primary data set to use for summary categories.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
 </context>
 
-<context id="CubeBuilderGroupsPage_ID" title="Groups Page">
-<!--  Cannot find this topic. linked khahn 20090605 -->
+<context id="GroupRenameDialog_ID" title="Add Group">
+<!--  SEQUENCE: In Data Explorer, double-click a data cube. Select (Drop a field here to create a group). Choose Add. Added JAHT 20100119 and linked -->
 <description>
-Create a group.
+Type a descriptive name for the group.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
+</context>
+
+<context id="SummaryFieldDialog_ID" title="Add Summary Field">
+<!--  SEQUENCE: In Data Explorer, double-click a data cube. Select (Drop a field here to create a summary field). Choose Add. Added JAHT 20100119 and linked -->
+<description>
+Type a descriptive name for the summary field.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
 </context>
 
 <context id="CubeBuilderLinkGroupsPage_ID" title="Link Groups Page">
-<!--  In Data Explorer, double-click a data cube. Choose Link Groups. Choose ? linked khahn 20090616 -->
+<!--  In Data Explorer, double-click a data cube. Choose Link Groups. Choose ? linked khahn 20090616 Edited JAHT 20100119 -->
 <description>
-Create a group link.
+Create a group link between multiple data sets used by a cube.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.8.html" label="How to create a multi-dataset cube"/> 
 </context>
