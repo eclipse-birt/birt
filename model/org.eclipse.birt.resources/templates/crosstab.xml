@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet title="Creation of Cross-tab Report">
+  <intro href="/org.eclipse.birt.doc/birt/grouping.8.1.html">
+    <description>This tutorial helps you create a cross-tab inside a BIRT report
+    </description>
+  </intro>
+  <item href="/org.eclipse.birt.doc/birt/crosstab.17.4.html"
+  		title="Build a Data Source" skip="true">
+     <description>In Data Explorer, right-click Data Sources and choose New Data Source.<br/>
+     - On New Data Source, Classic Models Inc. Sample Database is selected. Choose Next.<br/>
+     - Choose Finish.
+     </description>
+     <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
+     pluginId="org.eclipse.birt.report.designer.ui.data"/>
+  </item>
+  <item href="/org.eclipse.birt.doc/birt/crosstab.17.5.html"
+  		title="Build a Data Set" skip="true">
+     <description>- In Data Explorer, right-click Data Sets and choose New Data Set.<br/>
+      - On New Data Set, choose Next.<br/>
+      - On Query, in Available Items, expand one or more tables in the ClassicModels database.<br/>
+      - To create a SQL query, drag column names from Available Items to the right pane to write the SELECT and FROM clauses. Then, choose Finish.<br/>
+      - On Edit Data Set, select Preview Results. Then, choose OK.
+     </description>
+     <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction"
+     pluginId="org.eclipse.birt.report.designer.ui.data"/>
+  </item>
+  <item href="/org.eclipse.birt.doc/birt/crosstab.17.6.html"
+  		title="Set up data for the cross tab" skip="true">
+     <description>- In Data Explorer, right-click Data Cubes and choose New Data Cube.<br/>
+      - In Data Set Selection, in Primary Data set, select the data set that you just created. Then, choose Groups and Summaries.<br/>
+      - In Groups and Summaries, drag fields to create Groups (Dimensions) and Summary Fields (Measures).<br/>
+      - Choose OK.
+      </description>
+  </item>
+  <item href="/org.eclipse.birt.doc/birt/crosstab.17.7.html"
+  		title="Add a cross tab to the report" skip="true">
+  	 <description>- Drag group fields from the data cube into row and column cells in the cross tab.<br/>
+         - Drag summary fields from the data cube into the fields to be summarized cell in the cross tab.
+         </description>
+   </item>
+  <item href="/org.eclipse.birt.doc/birt/crosstab.17.8.html"
+  		title="Add grand totals" skip="true">
+  	 <description>In the layout editor, select the cross tab.
+         In the property editor, add totals to the Row Area and Column Area in Sub Totals and Grand Totals.</description>
+   </item>
+</cheatsheet>
