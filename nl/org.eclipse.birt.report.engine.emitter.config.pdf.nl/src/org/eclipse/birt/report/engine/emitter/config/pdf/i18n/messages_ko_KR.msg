@@ -24,14 +24,14 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=페이지 크기에 맞추기
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=여러 페이지로 출력
 OptionDisplayValue.ENLARGE_PAGE_SIZE=페이지 크기 확대
 OptionDisplayValue.FontSubstitution=글꼴 대체
-OptionDisplayValue.EmbeddedFont=Embedded font
-OptionDisplayValue.ChartDpi=Chart DPI 
+OptionDisplayValue.EmbeddedFont=포함 글꼴
+OptionDisplayValue.ChartDpi=차트 DPI 
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Support BIDI.
-OptionDescription.TextWrapping=Wrap the text.
+OptionDescription.BidiProcessing=양방향을 지원합니다.
+OptionDescription.TextWrapping=텍스트를 줄 바꿈합니다.
 OptionDescription.PageOverFlow=내용 출력 방식을 제어합니다.
-OptionDescription.FontSubstitution=Select fonts automatically if the specified font can not display the character.
-OptionDescription.EmbeddedFont=The true-type font should be embedded into the generated PDF file.
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.FontSubstitution=지정된 글꼴이 문자를 표시하지 못하는 경우 자동으로 글꼴을 선택합니다.
+OptionDescription.EmbeddedFont=트루타입 글꼴은 생성된 PDF 파일에 포함되어야 합니다.
+OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.

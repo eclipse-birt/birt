@@ -1886,16 +1886,16 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz (taille de police
 HightlightRuleBuilder.button.add=&Ajouter
 HightlightRuleBuilder.button.add.tooltip=Ajouter la valeur à la liste
 HightlightRuleBuilder.button.delete=Suppri&mer
-HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.delete.tooltip=Supprimer la valeur sélectionnée de la liste
 HightlightRuleBuilder.button.deleteall=Supprimer t&out
-HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.deleteall.tooltip=Supprimer toutes les valeurs de la liste
 HightlightRuleBuilder.button.edit=Modifi&er...
 HightlightRuleBuilder.button.edit.tooltip=Modifier la valeur sélectionnée dans la liste
 HightlightRuleBuilder.label.value=&Valeur :
 HightlightRuleBuilder.list.item1=Valeur
 HightlightRuleBuilder.MsgDlg.Msg=Avertissement
 HightlightRuleBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
-HightlightRuleBuilder.text.AND=ET
+HightlightRuleBuilder.text.AND=AND
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=Valeur de l'élément de données
 HighlightRuleBuilderDialog.text.AND=ET
@@ -2458,7 +2458,7 @@ MapRuleBuilder.button.add.tooltip=Ajouter la valeur à la liste
 MapRuleBuilder.button.delete=Supp&rimer
 MapRuleBuilder.button.delete.tooltip=Supprimer la valeur sélectionnée de la liste
 MapRuleBuilder.button.deleteall=Supprimer t&out
-MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.deleteall.tooltip=Supprimer toutes les valeurs de la liste
 MapRuleBuilder.button.edit=Modifi&er...
 MapRuleBuilder.button.edit.tooltip=Modifier la valeur sélectionnée dans la liste
 MapRuleBuilder.DialogTitle.New=Nouvelle règle de mappage
@@ -2471,7 +2471,7 @@ MapRuleBuilder.label.value=&Valeur :
 MapRuleBuilder.list.item1=Valeur
 MapRuleBuilder.MsgDlg.Msg=Avertissement
 MapRuleBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
-MapRuleBuilder.text.AND=ET
+MapRuleBuilder.text.AND=AND
 
 MapRuleBuilderDialog.text.Between=est compris entre
 MapRuleBuilderDialog.text.Condition=S&i la condition suivante est vraie : 
@@ -4603,10 +4603,10 @@ CreateChartHandler.text=Créer un graphique
 InputParameterDialog.msg.title=Paramètres d'entrée
 InputParameterDialog.msg.requiredParam=Les paramètres précédés d'un astérisque (*) sont obligatoires.
 InputParameterDialog.err.requiredParam=La valeur du paramètre requis [{0}] n'est pas spécifiée.
-InputParameterDialog.err.invalidValueTitle=Invalid Value
-InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
-InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
-InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+InputParameterDialog.err.invalidValueTitle=Valeur non valide
+InputParameterDialog.err.invalidValue=La valeur "{0}" est incorrecte avec le type "{1}".
+InputParameterDialog.err.emptyValue=La valeur d'entrée pour {0} ne peut pas être vide.
+InputParameterDialog.err.emptyValue2=La seconde valeur d'entrée pour {0} ne peut pas être vide.
 
 ###########################################################
 #Crosstab drag tracker

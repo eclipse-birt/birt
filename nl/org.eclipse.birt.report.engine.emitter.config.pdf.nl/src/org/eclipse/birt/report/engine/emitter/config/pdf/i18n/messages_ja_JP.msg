@@ -24,14 +24,14 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=ページサイズに合わせる
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページに出力
 OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
 OptionDisplayValue.FontSubstitution=フォントの置き換え
-OptionDisplayValue.EmbeddedFont=Embedded font
-OptionDisplayValue.ChartDpi=Chart DPI 
+OptionDisplayValue.EmbeddedFont=埋め込みフォント
+OptionDisplayValue.ChartDpi=グラフの DPI 
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Support BIDI.
-OptionDescription.TextWrapping=Wrap the text.
+OptionDescription.BidiProcessing=双方向をサポートします。
+OptionDescription.TextWrapping=テキストを折り返します。
 OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
-OptionDescription.FontSubstitution=Select fonts automatically if the specified font can not display the character.
-OptionDescription.EmbeddedFont=The true-type font should be embedded into the generated PDF file.
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.FontSubstitution=指定されたフォントで表示できない文字がある場合は、フォントを自動的に選択します。
+OptionDescription.EmbeddedFont=生成される PDF ファイルには、TrueType フォントを埋め込んでください。
+OptionDescription.ChartDpi=グラフの生成に使用する DPI です。

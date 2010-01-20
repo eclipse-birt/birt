@@ -16,8 +16,8 @@ WordEmitter.DisplayName=Word (document XML 2003)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.ChartDpi=Chart DPI
+OptionDisplayValue.ChartDpi=DPI de graphique
 
 ###########################################################
 #Option Description
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.

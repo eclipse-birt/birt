@@ -20,9 +20,9 @@ OptionDisplayValue.WrappingText=Activer le retour à la ligne automatique
 OptionDisplayValue.OfficeVersion=Version de sortie :
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
-OptionDisplayValue.ChartDpi=Chart DPI
+OptionDisplayValue.ChartDpi=DPI de graphique
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=Indique si le retour à la ligne est autorisé pour le texte.
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.

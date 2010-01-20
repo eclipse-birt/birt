@@ -1886,16 +1886,16 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz(글꼴 크기 =
 HightlightRuleBuilder.button.add=추가(&A)
 HightlightRuleBuilder.button.add.tooltip=값 목록에 값 추가
 HightlightRuleBuilder.button.delete=제거(&M)
-HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.delete.tooltip=목록에서 선택한 값 제거
 HightlightRuleBuilder.button.deleteall=모두 제거(&O)
-HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.deleteall.tooltip=목록에서 모든 값 제거
 HightlightRuleBuilder.button.edit=편집(&E)...
 HightlightRuleBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 HightlightRuleBuilder.label.value=값(&V):
 HightlightRuleBuilder.list.item1=값
 HightlightRuleBuilder.MsgDlg.Msg=경고
 HightlightRuleBuilder.MsgDlg.Title=값을 입력해야 합니다.
-HightlightRuleBuilder.text.AND=및
+HightlightRuleBuilder.text.AND=AND
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=이 데이터 항목 값
 HighlightRuleBuilderDialog.text.AND=및
@@ -2458,7 +2458,7 @@ MapRuleBuilder.button.add.tooltip=값 목록에 값 추가
 MapRuleBuilder.button.delete=제거(&R)
 MapRuleBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
 MapRuleBuilder.button.deleteall=모두 제거(&O)
-MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.deleteall.tooltip=목록에서 모든 값 제거
 MapRuleBuilder.button.edit=편집(&E)...
 MapRuleBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 MapRuleBuilder.DialogTitle.New=새 맵 규칙
@@ -4603,10 +4603,10 @@ CreateChartHandler.text=차트 보기 생성
 InputParameterDialog.msg.title=입력 매개 변수
 InputParameterDialog.msg.requiredParam=별표(*)가 있는 매개 변수는 필수 항목입니다.
 InputParameterDialog.err.requiredParam=필수 매개 변수 [{0}]의 값이 지정되지 않았습니다.
-InputParameterDialog.err.invalidValueTitle=Invalid Value
-InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
-InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
-InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+InputParameterDialog.err.invalidValueTitle=잘못된 값
+InputParameterDialog.err.invalidValue=값 "{0}"은(는) 형식 {1}에 알맞지 않습니다.
+InputParameterDialog.err.emptyValue={0}에 대한 입력 값을 입력해야 합니다.
+InputParameterDialog.err.emptyValue2={0}에 대한 두 번째 입력 값을 입력해야 합니다.
 
 ###########################################################
 #Crosstab drag tracker

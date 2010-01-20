@@ -16,8 +16,8 @@ WordEmitter.DisplayName=Word (XML ドキュメント 2003)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.ChartDpi=Chart DPI
+OptionDisplayValue.ChartDpi=グラフの DPI
 
 ###########################################################
 #Option Description
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.ChartDpi=グラフの生成に使用する DPI です。

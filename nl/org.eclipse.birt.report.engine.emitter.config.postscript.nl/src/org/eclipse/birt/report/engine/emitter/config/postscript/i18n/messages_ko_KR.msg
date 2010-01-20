@@ -29,7 +29,7 @@ OptionDisplayValue.Collate=한 부씩 인쇄
 OptionDisplayValue.Duplex=양면
 OptionDisplayValue.PaperSize=용지 크기
 OptionDisplayValue.PaperTray=용지함
-OptionDisplayValue.ChartDpi=Chart DPI
+OptionDisplayValue.ChartDpi=차트 DPI
 
 ###########################################################
 #Option Description
@@ -42,4 +42,4 @@ OptionDescription.Collate=한 부씩 인쇄합니다.
 OptionDescription.Duplex=양면 인쇄입니다.
 OptionDescription.PaperSize=용지 크기입니다.
 OptionDescription.PaperTray=용지함입니다.
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.

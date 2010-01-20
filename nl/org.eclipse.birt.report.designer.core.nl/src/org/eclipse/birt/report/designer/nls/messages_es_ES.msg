@@ -1886,16 +1886,16 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz (tamaño de fuente =
 HightlightRuleBuilder.button.add=&Añadir
 HightlightRuleBuilder.button.add.tooltip=Añadir el valor a la lista de valores
 HightlightRuleBuilder.button.delete=Eli&minar
-HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.delete.tooltip=Eliminar el valor seleccionado de la lista
 HightlightRuleBuilder.button.deleteall=Elimi&nar todos
-HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.deleteall.tooltip=Eliminar todos los valores de la lista
 HightlightRuleBuilder.button.edit=&Editar...
-HightlightRuleBuilder.button.edit.tooltip=Editar la selección en lista de valores
+HightlightRuleBuilder.button.edit.tooltip=Editar la selección en la lista de valores
 HightlightRuleBuilder.label.value=&Valor:
 HightlightRuleBuilder.list.item1=Valor
 HightlightRuleBuilder.MsgDlg.Msg=Advertencia
 HightlightRuleBuilder.MsgDlg.Title=El valor no puede estar vacío.
-HightlightRuleBuilder.text.AND=Y
+HightlightRuleBuilder.text.AND=AND
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=Valor de este elemento de datos
 HighlightRuleBuilderDialog.text.AND=Y
@@ -2458,9 +2458,9 @@ MapRuleBuilder.button.add.tooltip=Añadir el valor a la lista de valores
 MapRuleBuilder.button.delete=Quita&r
 MapRuleBuilder.button.delete.tooltip=Eliminar el valor seleccionado de la lista
 MapRuleBuilder.button.deleteall=Elimi&nar todos
-MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.deleteall.tooltip=Eliminar todos los valores de la lista
 MapRuleBuilder.button.edit=&Editar...
-MapRuleBuilder.button.edit.tooltip=Editar la selección en lista de valores
+MapRuleBuilder.button.edit.tooltip=Editar la selección en la lista de valores
 MapRuleBuilder.DialogTitle.New=Nueva regla de asignación
 MapRuleBuilder.DialogTitle.Edit=Editar regla de asignación
 MapRuleBuilder.Button.ResourceKey=Clave de &recursos:
@@ -2471,7 +2471,7 @@ MapRuleBuilder.label.value=&Valor:
 MapRuleBuilder.list.item1=Valor
 MapRuleBuilder.MsgDlg.Msg=Advertencia
 MapRuleBuilder.MsgDlg.Title=El valor no puede estar vacío.
-MapRuleBuilder.text.AND=Y
+MapRuleBuilder.text.AND=AND
 
 MapRuleBuilderDialog.text.Between=está entre
 MapRuleBuilderDialog.text.Condition=Si la siguiente condición es true: 
@@ -4603,10 +4603,10 @@ CreateChartHandler.text=Crear vista de diagrama
 InputParameterDialog.msg.title=Parámetros de entrada
 InputParameterDialog.msg.requiredParam=Los parámetros marcados con * son obligatorios.
 InputParameterDialog.err.requiredParam=No se ha especificado el valor del parámetro necesario [{0}].
-InputParameterDialog.err.invalidValueTitle=Invalid Value
-InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
-InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
-InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+InputParameterDialog.err.invalidValueTitle=Valor no válido
+InputParameterDialog.err.invalidValue=El valor "{0}" no es válido con el tipo {1}.
+InputParameterDialog.err.emptyValue=El valor de entrada para {0} no puede estar vacío.
+InputParameterDialog.err.emptyValue2=El segundo valor de entrada {0} no puede estar vacío.
 
 ###########################################################
 #Crosstab drag tracker

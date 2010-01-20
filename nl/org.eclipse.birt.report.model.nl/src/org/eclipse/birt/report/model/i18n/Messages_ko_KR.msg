@@ -2251,9 +2251,9 @@ Structure.IncludedDataMart.fileName=파일 이름
 Structure.IncludedDataMart.namespace=네임스페이스
 
 #38. TimeInterval
-Structure.TimeInterval=Time Interval
+Structure.TimeInterval=시간 간격
 Structure.TimeInterval.measure=측정
-Structure.TimeInterval.unit=Unit
+Structure.TimeInterval.unit=단위
 
 ###########################################################
 # Element names
@@ -2359,7 +2359,7 @@ Element.DataMartDataSource=Data Mart 데이터 원본
 Element.DataMartDataSet=Data Mart 데이터 집합
 Element.DataMartCube=Data Mart 큐브
 Element.EventObject=이벤트 개체
-Element.ParamSetting=Parameter Setting
+Element.ParamSetting=매개 변수 설정
 
 ###########################################################
 # Element property names
@@ -2681,7 +2681,7 @@ Element.Style.whiteSpace=공백
 Element.Style.widows=창
 Element.Style.orphans=고아
 Element.Style.wordSpacing=단어 간격
-Element.Style.overflow=Overflow
+Element.Style.overflow=오버플로
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=책갈피
@@ -3431,7 +3431,7 @@ Element.DataMart.ACLExpression=ACL 식
 Element.DataMartDataSource.datamartURL = Data Mart URL
 Element.DataMartDataSource.datamartVersion=Data Mart 버전
 Element.DataMartDataSource.paramBindings=매개 변수 바인딩
-Element.DataMartDataSource.accessType=Access Type
+Element.DataMartDataSource.accessType=액세스 유형
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=데이터 원본
@@ -3484,7 +3484,7 @@ Element.RadioDataSelectorItem.listLimit=목록 제한
 #88 ParameSetting
 Element.ParamSetting.paramName=매개 변수 이름
 Element.ParamSetting.value=값
-Element.ParamSetting.isHidden=Is Hidden
+Element.ParamSetting.isHidden=숨김
 ###########################################################
 # Predefined style
 Style.Report=보고서

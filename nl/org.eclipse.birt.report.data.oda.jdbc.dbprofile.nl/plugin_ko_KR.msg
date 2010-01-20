@@ -17,14 +17,14 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc.dbprofile
 # NLS String
 ###############################################################################
 #
-plugin.name=JDBC Database Connection Data Source ODA Runtime Driver
-data.source.name=JDBC Database Connection for Query Builder [Prototype]
+plugin.name=JDBC 데이터베이스 연결 데이터 원본 ODA 런타임 드라이버
+data.source.name=쿼리 빌더[프로토타입]의 JDBC 데이터베이스 연결
 data.set.name=SQL Select 쿼리[쿼리 빌더 프로토타입]
-connection.profile.name=BIRT JDBC Database Connection Profile
+connection.profile.name=BIRT JDBC 데이터베이스 연결 프로필
 dataset.property.parameterMetaData=BIRT JDBC 매개 변수 메타데이터
-datasource.property.username=User &Name
-datasource.property.password=Pass&word
-datasource.property.jdbcURL=JDBC Driver U&RL
-datasource.property.driverClass=JDBC Driver &Class
-datasource.property.jarlist=JDBC Driver &JAR List using ';' separator
-datasource.property.databasename=&Database
+datasource.property.username=사용자 이름(&N)
+datasource.property.password=암호(&W)
+datasource.property.jdbcURL=JDBC 드라이버 URL(&R)
+datasource.property.driverClass=JDBC 드라이버 클래스(&C)
+datasource.property.jarlist=',' 구분 기호를 사용하는 JDBC 드라이버 JAR 목록(&J)
+datasource.property.databasename=데이터베이스(&D)

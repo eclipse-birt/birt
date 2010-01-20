@@ -24,14 +24,14 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter à la taille de la page
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Répartir sur plusieurs pages
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
 OptionDisplayValue.FontSubstitution=Changement de police
-OptionDisplayValue.EmbeddedFont=Embedded font
-OptionDisplayValue.ChartDpi=Chart DPI 
+OptionDisplayValue.EmbeddedFont=Police intégrée
+OptionDisplayValue.ChartDpi=DPI de graphique 
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Support BIDI.
-OptionDescription.TextWrapping=Wrap the text.
+OptionDescription.BidiProcessing=Prise en charge de BIDI.
+OptionDescription.TextWrapping=Retour à la ligne.
 OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
-OptionDescription.FontSubstitution=Select fonts automatically if the specified font can not display the character.
-OptionDescription.EmbeddedFont=The true-type font should be embedded into the generated PDF file.
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.FontSubstitution=Sélectionnez des polices automatiquement si la police spécifiée ne peut pas afficher le caractère.
+OptionDescription.EmbeddedFont=La police TrueType devrait être intégrée au fichier PDF généré.
+OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.

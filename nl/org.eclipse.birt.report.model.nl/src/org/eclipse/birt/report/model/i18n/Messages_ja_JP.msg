@@ -2251,9 +2251,9 @@ Structure.IncludedDataMart.fileName=ファイル名
 Structure.IncludedDataMart.namespace=ネームスペース
 
 #38. TimeInterval
-Structure.TimeInterval=Time Interval
+Structure.TimeInterval=時間の間隔
 Structure.TimeInterval.measure=メジャー
-Structure.TimeInterval.unit=Unit
+Structure.TimeInterval.unit=単位
 
 ###########################################################
 # Element names
@@ -2359,7 +2359,7 @@ Element.DataMartDataSource=Data Mart データソース
 Element.DataMartDataSet=Data Mart データセット
 Element.DataMartCube=Data Mart キューブ
 Element.EventObject=イベントオブジェクト
-Element.ParamSetting=Parameter Setting
+Element.ParamSetting=パラメタ設定
 
 ###########################################################
 # Element property names
@@ -2681,7 +2681,7 @@ Element.Style.whiteSpace=スペース
 Element.Style.widows=ウィドウ
 Element.Style.orphans=オーファン
 Element.Style.wordSpacing=単語間の間隔
-Element.Style.overflow=Overflow
+Element.Style.overflow=オーバーフロー
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=ブックマーク
@@ -3431,7 +3431,7 @@ Element.DataMart.ACLExpression=ACL 式
 Element.DataMartDataSource.datamartURL = Data Mart URL
 Element.DataMartDataSource.datamartVersion=Data Mart バージョン
 Element.DataMartDataSource.paramBindings=パラメタバインド
-Element.DataMartDataSource.accessType=Access Type
+Element.DataMartDataSource.accessType=アクセスの種類
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=データソース
@@ -3484,7 +3484,7 @@ Element.RadioDataSelectorItem.listLimit=一覧の制限
 #88 ParameSetting
 Element.ParamSetting.paramName=パラメタ名
 Element.ParamSetting.value=値
-Element.ParamSetting.isHidden=Is Hidden
+Element.ParamSetting.isHidden=非表示
 ###########################################################
 # Predefined style
 Style.Report=レポート

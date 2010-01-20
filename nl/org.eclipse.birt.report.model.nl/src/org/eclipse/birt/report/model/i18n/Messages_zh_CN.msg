@@ -2251,9 +2251,9 @@ Structure.IncludedDataMart.fileName=文件名
 Structure.IncludedDataMart.namespace=命名空间
 
 #38. TimeInterval
-Structure.TimeInterval=Time Interval
+Structure.TimeInterval=时间间隔
 Structure.TimeInterval.measure=度量
-Structure.TimeInterval.unit=Unit
+Structure.TimeInterval.unit=单位
 
 ###########################################################
 # Element names
@@ -2359,7 +2359,7 @@ Element.DataMartDataSource=Data Mart 数据源
 Element.DataMartDataSet=Data Mart 数据集
 Element.DataMartCube=Data Mart 多维数据集
 Element.EventObject=事件对象
-Element.ParamSetting=Parameter Setting
+Element.ParamSetting=参数设置
 
 ###########################################################
 # Element property names
@@ -2681,7 +2681,7 @@ Element.Style.whiteSpace=空白
 Element.Style.widows=弧行
 Element.Style.orphans=孤行
 Element.Style.wordSpacing=字间距
-Element.Style.overflow=Overflow
+Element.Style.overflow=溢出
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=书签
@@ -3431,7 +3431,7 @@ Element.DataMart.ACLExpression=ACL 表达式
 Element.DataMartDataSource.datamartURL = Data mart URL
 Element.DataMartDataSource.datamartVersion=Data mart 版本
 Element.DataMartDataSource.paramBindings=参数绑定
-Element.DataMartDataSource.accessType=Access Type
+Element.DataMartDataSource.accessType=访问类型
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=数据源
@@ -3484,7 +3484,7 @@ Element.RadioDataSelectorItem.listLimit=列表限制
 #88 ParameSetting
 Element.ParamSetting.paramName=参数名称
 Element.ParamSetting.value=值
-Element.ParamSetting.isHidden=Is Hidden
+Element.ParamSetting.isHidden=隐藏
 ###########################################################
 # Predefined style
 Style.Report=报表

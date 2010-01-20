@@ -1886,16 +1886,16 @@ HighlightHandleProvider.text.Preview=Aaあぁアァ亜宇  (フォントサイズ :
 HightlightRuleBuilder.button.add=追加(&A)
 HightlightRuleBuilder.button.add.tooltip=値リストに値を追加します。
 HightlightRuleBuilder.button.delete=削除(&M)
-HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.delete.tooltip=リストから選択した値を削除します。
 HightlightRuleBuilder.button.deleteall=すべて削除(&O)
-HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.deleteall.tooltip=リストからすべての値を削除します。
 HightlightRuleBuilder.button.edit=編集(&E)...
 HightlightRuleBuilder.button.edit.tooltip=値リストで選択した値を編集します。
 HightlightRuleBuilder.label.value=値(&V) :
 HightlightRuleBuilder.list.item1=値
 HightlightRuleBuilder.MsgDlg.Msg=警告
-HightlightRuleBuilder.MsgDlg.Title=値は空にできません。
-HightlightRuleBuilder.text.AND= ～
+HightlightRuleBuilder.MsgDlg.Title=値は空白にできません。
+HightlightRuleBuilder.text.AND=および
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=このデータ項目の値
 HighlightRuleBuilderDialog.text.AND= ～
@@ -2458,7 +2458,7 @@ MapRuleBuilder.button.add.tooltip=値リストに値を追加します。
 MapRuleBuilder.button.delete=削除(&R)
 MapRuleBuilder.button.delete.tooltip=リストから選択した値を削除します。
 MapRuleBuilder.button.deleteall=すべて削除(&O)
-MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.deleteall.tooltip=リストからすべての値を削除します。
 MapRuleBuilder.button.edit=編集(&E)...
 MapRuleBuilder.button.edit.tooltip=値リストで選択した値を編集します。
 MapRuleBuilder.DialogTitle.New=マップ規則の新規作成
@@ -2470,8 +2470,8 @@ MapRuleBuilder.Button.Browse.Tooltip=参照してキーを選択
 MapRuleBuilder.label.value=値(&V) :
 MapRuleBuilder.list.item1=値
 MapRuleBuilder.MsgDlg.Msg=警告
-MapRuleBuilder.MsgDlg.Title=値は空にできません。
-MapRuleBuilder.text.AND= ～
+MapRuleBuilder.MsgDlg.Title=値は空白にできません。
+MapRuleBuilder.text.AND=および
 
 MapRuleBuilderDialog.text.Between=値に挟まれる
 MapRuleBuilderDialog.text.Condition=次の条件が True の場合(&I) : 
@@ -4603,10 +4603,10 @@ CreateChartHandler.text=グラフビューの作成
 InputParameterDialog.msg.title=入力パラメタ
 InputParameterDialog.msg.requiredParam=アスタリスク (*) が付いているパラメタは必須項目です。
 InputParameterDialog.err.requiredParam=必須パラメタ [{0}] の値が指定されていません。
-InputParameterDialog.err.invalidValueTitle=Invalid Value
-InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
-InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
-InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+InputParameterDialog.err.invalidValueTitle=無効な値
+InputParameterDialog.err.invalidValue=値 "{0}" は、型 {1} では使用できません。
+InputParameterDialog.err.emptyValue={0} の入力値は空白にできません。
+InputParameterDialog.err.emptyValue2={0} の 2 つ目の入力値は空白にできません。
 
 ###########################################################
 #Crosstab drag tracker

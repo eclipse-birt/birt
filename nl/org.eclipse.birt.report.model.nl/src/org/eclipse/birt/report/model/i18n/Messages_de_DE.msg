@@ -695,7 +695,7 @@ Choices.accessType.specificVersion=SpecificVersion
 Choices.overflow.visible=Sichtbar
 Choices.overflow.hidden=Ausgeblendet
 Choices.overflow.scroll=Scrollen
-Choices.overflow.auto=Autom.
+Choices.overflow.auto=Automatisch
 
 ###########################################################
 # Classes
@@ -2251,9 +2251,9 @@ Structure.IncludedDataMart.fileName=Dateiname
 Structure.IncludedDataMart.namespace=Namespace
 
 #38. TimeInterval
-Structure.TimeInterval=Time Interval
-Structure.TimeInterval.measure=Maßeinheit
-Structure.TimeInterval.unit=Unit
+Structure.TimeInterval=Zeitintervall
+Structure.TimeInterval.measure=Messgröße
+Structure.TimeInterval.unit=Einheit
 
 ###########################################################
 # Element names
@@ -2359,7 +2359,7 @@ Element.DataMartDataSource=Data Mart-Datenquelle
 Element.DataMartDataSet=Data Mart-Datensatz
 Element.DataMartCube=Data Mart-Cube
 Element.EventObject=Ereignisobjekt
-Element.ParamSetting=Parameter Setting
+Element.ParamSetting=Parametereinstellung
 
 ###########################################################
 # Element property names
@@ -2681,7 +2681,7 @@ Element.Style.whiteSpace=Whitespace
 Element.Style.widows=Witwen
 Element.Style.orphans=Waisenkinder
 Element.Style.wordSpacing=Wortabstand
-Element.Style.overflow=Overflow
+Element.Style.overflow=Überlauf
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Lesezeichen
@@ -3431,7 +3431,7 @@ Element.DataMart.ACLExpression=Ausdruck 'ACL'
 Element.DataMartDataSource.datamartURL = Data Mart-URL
 Element.DataMartDataSource.datamartVersion=Data Mart-Version
 Element.DataMartDataSource.paramBindings=Parameterbindungen
-Element.DataMartDataSource.accessType=Access Type
+Element.DataMartDataSource.accessType=Zugriffstyp
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Datenquelle
@@ -3484,7 +3484,7 @@ Element.RadioDataSelectorItem.listLimit=Listenbegrenzung
 #88 ParameSetting
 Element.ParamSetting.paramName=Parametername
 Element.ParamSetting.value=Wert
-Element.ParamSetting.isHidden=Is Hidden
+Element.ParamSetting.isHidden=Ist ausgeblendet
 ###########################################################
 # Predefined style
 Style.Report=Bericht

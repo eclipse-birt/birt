@@ -2251,9 +2251,9 @@ Structure.IncludedDataMart.fileName=Nom de fichier
 Structure.IncludedDataMart.namespace=Espace nom
 
 #38. TimeInterval
-Structure.TimeInterval=Time Interval
+Structure.TimeInterval=Intervalle de temps
 Structure.TimeInterval.measure=Mesure
-Structure.TimeInterval.unit=Unit
+Structure.TimeInterval.unit=Unité
 
 ###########################################################
 # Element names
@@ -2359,7 +2359,7 @@ Element.DataMartDataSource=Source de données du DataMart
 Element.DataMartDataSet=Jeu de données du DataMart
 Element.DataMartCube=Cube du DataMart
 Element.EventObject=Objet de l'événement
-Element.ParamSetting=Parameter Setting
+Element.ParamSetting=Réglage du paramètre
 
 ###########################################################
 # Element property names
@@ -2681,7 +2681,7 @@ Element.Style.whiteSpace=Espace
 Element.Style.widows=Veuves
 Element.Style.orphans=Orphelins
 Element.Style.wordSpacing=Espacement des mots
-Element.Style.overflow=Overflow
+Element.Style.overflow=Dépassement
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Signet
@@ -3431,7 +3431,7 @@ Element.DataMart.ACLExpression=Expression ACL
 Element.DataMartDataSource.datamartURL = URL du DataMart
 Element.DataMartDataSource.datamartVersion=Version du DataMart
 Element.DataMartDataSource.paramBindings=Liaisons de paramètres
-Element.DataMartDataSource.accessType=Access Type
+Element.DataMartDataSource.accessType=Type d'accès
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Source de données
@@ -3484,7 +3484,7 @@ Element.RadioDataSelectorItem.listLimit=Limite de liste
 #88 ParameSetting
 Element.ParamSetting.paramName=Nom du paramètre
 Element.ParamSetting.value=Valeur
-Element.ParamSetting.isHidden=Is Hidden
+Element.ParamSetting.isHidden=est masqué(e)
 ###########################################################
 # Predefined style
 Style.Report=Etat

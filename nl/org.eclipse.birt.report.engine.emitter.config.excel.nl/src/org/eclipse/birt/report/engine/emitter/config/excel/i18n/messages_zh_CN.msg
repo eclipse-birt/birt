@@ -20,9 +20,9 @@ OptionDisplayValue.WrappingText=启用自动换行
 OptionDisplayValue.OfficeVersion=输出版本:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
-OptionDisplayValue.ChartDpi=Chart DPI
+OptionDisplayValue.ChartDpi=图表 DPI
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=表示文本是否可自动换行。
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.ChartDpi=DPI 用于生成图表。

@@ -20,9 +20,9 @@ OptionDisplayValue.WrappingText=文字列の折り返しを有効にする
 OptionDisplayValue.OfficeVersion=出力バージョン :
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
-OptionDisplayValue.ChartDpi=Chart DPI
+OptionDisplayValue.ChartDpi=グラフの DPI
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=文字列を折り返すかどうかを示します。
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.ChartDpi=グラフの生成に使用する DPI です。

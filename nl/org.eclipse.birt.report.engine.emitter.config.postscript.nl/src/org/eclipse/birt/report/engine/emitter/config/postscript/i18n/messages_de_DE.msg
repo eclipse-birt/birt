@@ -29,7 +29,7 @@ OptionDisplayValue.Collate=Sortieren
 OptionDisplayValue.Duplex=Duplex
 OptionDisplayValue.PaperSize=Papierformat
 OptionDisplayValue.PaperTray=Papierschacht
-OptionDisplayValue.ChartDpi=Chart DPI
+OptionDisplayValue.ChartDpi=Diagramm-DPI
 
 ###########################################################
 #Option Description
@@ -42,4 +42,4 @@ OptionDescription.Collate=Sortieren.
 OptionDescription.Duplex=Duplex.
 OptionDescription.PaperSize=Papierformat.
 OptionDescription.PaperTray=Papierschacht.
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.

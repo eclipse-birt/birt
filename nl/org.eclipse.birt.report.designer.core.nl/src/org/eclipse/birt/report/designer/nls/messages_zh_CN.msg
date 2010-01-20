@@ -1886,16 +1886,16 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz  (font size =
 HightlightRuleBuilder.button.add=添加(&A)
 HightlightRuleBuilder.button.add.tooltip=将值添加到值列表
 HightlightRuleBuilder.button.delete=删除(&M)
-HightlightRuleBuilder.button.delete.tooltip=Remove the selected value from the list
+HightlightRuleBuilder.button.delete.tooltip=从列表中删除选定值
 HightlightRuleBuilder.button.deleteall=全部删除(&O)
-HightlightRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+HightlightRuleBuilder.button.deleteall.tooltip=从列表中删除所有值
 HightlightRuleBuilder.button.edit=编辑(&E)...
 HightlightRuleBuilder.button.edit.tooltip=编辑值列表中的选定值
 HightlightRuleBuilder.label.value=值(&V):
 HightlightRuleBuilder.list.item1=值
 HightlightRuleBuilder.MsgDlg.Msg=警告
 HightlightRuleBuilder.MsgDlg.Title=值不能为空。
-HightlightRuleBuilder.text.AND=与
+HightlightRuleBuilder.text.AND=AND
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=此数据项的值
 HighlightRuleBuilderDialog.text.AND=与
@@ -2458,7 +2458,7 @@ MapRuleBuilder.button.add.tooltip=将值添加到值列表
 MapRuleBuilder.button.delete=删除(&R)
 MapRuleBuilder.button.delete.tooltip=从列表中删除选定值
 MapRuleBuilder.button.deleteall=全部删除(&O)
-MapRuleBuilder.button.deleteall.tooltip=Remove all the values from the list
+MapRuleBuilder.button.deleteall.tooltip=从列表中删除所有值
 MapRuleBuilder.button.edit=编辑(&E)...
 MapRuleBuilder.button.edit.tooltip=编辑值列表中的选定值
 MapRuleBuilder.DialogTitle.New=新建映射规则
@@ -2471,7 +2471,7 @@ MapRuleBuilder.label.value=值(&V):
 MapRuleBuilder.list.item1=值
 MapRuleBuilder.MsgDlg.Msg=警告
 MapRuleBuilder.MsgDlg.Title=值不能为空。
-MapRuleBuilder.text.AND=与
+MapRuleBuilder.text.AND=AND
 
 MapRuleBuilderDialog.text.Between=介于
 MapRuleBuilderDialog.text.Condition=如果以下条件为真(&I): 
@@ -4603,10 +4603,10 @@ CreateChartHandler.text=创建图表视图
 InputParameterDialog.msg.title=输入参数
 InputParameterDialog.msg.requiredParam=带有 * 的参数为必需参数。
 InputParameterDialog.err.requiredParam=未指定所需参数 [{0}] 的值。
-InputParameterDialog.err.invalidValueTitle=Invalid Value
-InputParameterDialog.err.invalidValue=The value "{0}" is invalid with type {1}.
-InputParameterDialog.err.emptyValue=Input value for {0} can not be empty.
-InputParameterDialog.err.emptyValue2=Second input value for {0} can not be empty.
+InputParameterDialog.err.invalidValueTitle=无效值
+InputParameterDialog.err.invalidValue=具有类型 {1} 的值“{0}”无效。
+InputParameterDialog.err.emptyValue={0}的 输入值不能为空。
+InputParameterDialog.err.emptyValue2={0} 的第二个输入值不能为空。
 
 ###########################################################
 #Crosstab drag tracker

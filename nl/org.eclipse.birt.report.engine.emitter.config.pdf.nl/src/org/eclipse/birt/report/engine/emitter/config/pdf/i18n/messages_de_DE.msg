@@ -24,14 +24,14 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengröße anpassen
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Mehrere Seiten ausgeben
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrößern
 OptionDisplayValue.FontSubstitution=Schriftart ersetzen
-OptionDisplayValue.EmbeddedFont=Embedded font
-OptionDisplayValue.ChartDpi=Chart DPI 
+OptionDisplayValue.EmbeddedFont=Eingebettete Schriftart
+OptionDisplayValue.ChartDpi=Diagramm-DPI 
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Support BIDI.
-OptionDescription.TextWrapping=Wrap the text.
+OptionDescription.BidiProcessing=Bidirektionale Unterstützung.
+OptionDescription.TextWrapping=Text mit Zeilenumbrüchen.
 OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
-OptionDescription.FontSubstitution=Select fonts automatically if the specified font can not display the character.
-OptionDescription.EmbeddedFont=The true-type font should be embedded into the generated PDF file.
-OptionDescription.ChartDpi=The DPI used to generate chart.
+OptionDescription.FontSubstitution=Schriftarten automatisch wählen, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
+OptionDescription.EmbeddedFont=Die TrueType-Schrift muss in die erstellte PDF-Datei eingebettet werden.
+OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.

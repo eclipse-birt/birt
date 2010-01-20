@@ -695,7 +695,7 @@ Choices.accessType.specificVersion=Versión específica
 Choices.overflow.visible=Visible
 Choices.overflow.hidden=Oculto
 Choices.overflow.scroll=Desplazar
-Choices.overflow.auto=Automática
+Choices.overflow.auto=Automático
 
 ###########################################################
 # Classes
@@ -2251,9 +2251,9 @@ Structure.IncludedDataMart.fileName=Nombre de archivo
 Structure.IncludedDataMart.namespace=Espacio de nombres
 
 #38. TimeInterval
-Structure.TimeInterval=Time Interval
+Structure.TimeInterval=Intervalo de tiempo
 Structure.TimeInterval.measure=Medida
-Structure.TimeInterval.unit=Unit
+Structure.TimeInterval.unit=Unidad
 
 ###########################################################
 # Element names
@@ -2359,7 +2359,7 @@ Element.DataMartDataSource=Fuente de datos de Data Mart
 Element.DataMartDataSet=Conjunto de datos de Data Mart
 Element.DataMartCube=Cubo de Data Mart
 Element.EventObject=Objeto de evento
-Element.ParamSetting=Parameter Setting
+Element.ParamSetting=Ajuste de parámetro
 
 ###########################################################
 # Element property names
@@ -2681,7 +2681,7 @@ Element.Style.whiteSpace=Espacio en blanco
 Element.Style.widows=Viudas
 Element.Style.orphans=Huérfanas
 Element.Style.wordSpacing=Separación de palabras
-Element.Style.overflow=Overflow
+Element.Style.overflow=Desbordamiento
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Marcador
@@ -3431,7 +3431,7 @@ Element.DataMart.ACLExpression=Expresión ACL
 Element.DataMartDataSource.datamartURL = URL de Data Mart
 Element.DataMartDataSource.datamartVersion=Versión de Data Mart
 Element.DataMartDataSource.paramBindings=Enlaces de parámetro
-Element.DataMartDataSource.accessType=Access Type
+Element.DataMartDataSource.accessType=Tipo de acceso
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=Fuente de datos
@@ -3484,7 +3484,7 @@ Element.RadioDataSelectorItem.listLimit=Límite de lista
 #88 ParameSetting
 Element.ParamSetting.paramName=Nombre del parámetro
 Element.ParamSetting.value=Valor
-Element.ParamSetting.isHidden=Is Hidden
+Element.ParamSetting.isHidden=Oculto
 ###########################################################
 # Predefined style
 Style.Report=Informe
