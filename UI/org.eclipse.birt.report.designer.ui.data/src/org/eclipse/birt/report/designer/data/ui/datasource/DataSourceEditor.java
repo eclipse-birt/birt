@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation. All rights reserved. This program and
+ * Copyright (c) 2004, 2010 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -33,6 +33,7 @@ import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
@@ -361,8 +362,23 @@ public class DataSourceEditor extends AbstractPropertyDialog implements
 	{
 		PropertyPage propertyPage = getCurrentPropertyPage( );
 		if ( propertyPage != null )
-			setMessage( propertyPage.getMessage( ),
-					propertyPage.getMessageType( ) );
+		{
+		    String message = propertyPage.getMessage( );
+		    int messageType = propertyPage.getMessageType( );
+		    
+            // if error message exists, it takes precedence over page's non-error message
+		    if ( messageType < IMessageProvider.ERROR )
+		    {
+    		    String errMessage = propertyPage.getErrorMessage();
+    		    if ( errMessage != null )
+    		    {
+    		        message = errMessage;
+    		        messageType = IMessageProvider.ERROR;
+    		    }
+		    }
+		    
+			setMessage( message, messageType );
+		}
 	}
 
 	/**
