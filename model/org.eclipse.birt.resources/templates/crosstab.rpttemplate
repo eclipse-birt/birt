@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.5.2.v20100113 Build &lt;2.5.2.v20100119-0630></property>
-    <html-property name="description">Use a tutorial to build a cross-tab report</html-property>
+    <html-property name="description">WizardTemplateChoicePage.message.Crosstab</html-property>
     <property name="units">in</property>
-    <text-property name="displayName">Cross Tab</text-property>
+    <text-property name="displayName">WizardTemplateChoicePage.title.Crosstab</text-property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <property name="iconFile">/templates/crosstab.gif</property>

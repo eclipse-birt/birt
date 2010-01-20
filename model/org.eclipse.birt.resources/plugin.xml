@@ -42,7 +42,11 @@
             contentFile="$nl$/templates/sidebyside_chart_listing.xml"
             name="%cheatsheet.sidebysidechartlisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.sidebysidechartlisting"/>
-       
+      <cheatsheet
+            category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
+            contentFile="$nl$/templates/crosstab.xml"
+            name="%cheatsheet.crosstab"
+            id="org.eclipse.birt.report.designer.ui.cheatsheet.crosstab"/>
    </extension>
 
 </plugin>
