@@ -381,7 +381,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 					part = part.getParent( );
 				}
 				
-				if (getModelAdapter( ) != null || part == null )
+				if (getModelAdapter( ) == null || part == null )
 				{
 					return;
 				}
