@@ -1173,29 +1173,36 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		else if(ChartUIConstants.QUERY_OPTIONAL.equals( queryType ))
 		{
-			if ( seriesdefinition.getSortKey( ) != null
-					&& seriesdefinition.getSortKey( ).getDefinition( ) != null
-					&& seriesdefinition.getSortKey( )
-							.getDefinition( )
-							.equals( query.getDefinition( ) ) )
-			{
-				ChartAdapter.beginIgnoreNotifications( );
-				seriesdefinition.getSortKey( ).setDefinition( expression );
-				ChartAdapter.endIgnoreNotifications( );
-			}
-			DataType type = context.getDataServiceProvider( )
-					.getDataType( expression );
 			ChartAdapter.beginIgnoreNotifications( );
-			if ( query.getGrouping( ) == null )
+			if ( expression == null || expression.trim( ).length( ) == 0 )
 			{
-				query.setGrouping( DataFactoryImpl.init( )
-						.createSeriesGrouping( ) );
+				seriesdefinition.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
+				seriesdefinition.getSortKey( ).setDefinition( null );
 			}
-			query.getGrouping( ).setGroupType( type );
-			if ( type == DataType.DATE_TIME_LITERAL )
+			else
 			{
-				query.getGrouping( )
-						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
+				if ( seriesdefinition.getSortKey( ) != null
+						&& seriesdefinition.getSortKey( ).getDefinition( ) != null
+						&& seriesdefinition.getSortKey( )
+								.getDefinition( )
+								.equals( query.getDefinition( ) ) )
+				{
+					seriesdefinition.getSortKey( ).setDefinition( expression );
+				}
+				DataType type = context.getDataServiceProvider( )
+						.getDataType( expression );
+
+				if ( query.getGrouping( ) == null )
+				{
+					query.setGrouping( DataFactoryImpl.init( )
+							.createSeriesGrouping( ) );
+				}
+				query.getGrouping( ).setGroupType( type );
+				if ( type == DataType.DATE_TIME_LITERAL )
+				{
+					query.getGrouping( )
+							.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
+				}
 			}
 			ChartAdapter.endIgnoreNotifications( );
 		}
