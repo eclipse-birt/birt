@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
@@ -271,13 +272,32 @@ public class DataSourceAndDataSet
 	}
 
 	/**
-	 * Filter does not affect the raw data and metadata
 	 * @param filter1
 	 * @param filter2
 	 * @return
 	 */
-	private boolean isEqualFilters( List filter1, List filter2 )
+	private boolean isEqualFilters( List filters1, List filters2 )
 	{
+		int i = isEqualBasicCol( filters1, filters2 );
+		if ( i == B_TRUE )
+		{
+			return true;
+		}
+		else if ( i == B_FALSE )
+		{
+			return false;
+		}
+		Iterator itr1 = filters1.iterator( );
+		Iterator itr2 = filters2.iterator( );
+		while ( itr1.hasNext( ) )
+		{
+			IFilterDefinition fd1 = (IFilterDefinition)itr1.next( );
+			IFilterDefinition fd2 = (IFilterDefinition)itr2.next( );
+			if ( !isEqualExpression( fd1.getExpression( ), fd2.getExpression( )))
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 
