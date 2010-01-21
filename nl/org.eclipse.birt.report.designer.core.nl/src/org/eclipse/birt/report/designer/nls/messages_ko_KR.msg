@@ -4038,6 +4038,7 @@ WizardTemplateChoicePage.message.Letter=데이터 원본의 필드를 사용하여 개별화된 �
 WizardTemplateChoicePage.message.MailingLabels=전자 우편 레이블
 WizardTemplateChoicePage.message.SideBySideChartListing=그룹화한 보고서를 만들며, 각 그룹은 연속 목록 및 차트를 포함합니다.
 WizardTemplateChoicePage.message.SimpleListing=데이터 원본 필드를 사용하여 목록 보고서를 생성합니다.
+WizardTemplateChoicePage.message.Crosstab=Use a tutorial to build a cross-tab report
 WizardTemplateChoicePage.title.BlankReport=빈 보고서
 WizardTemplateChoicePage.title.ChartListing=차트 및 목록
 WizardTemplateChoicePage.title.DualColumnChartListing=이중 열 차트 및 목록
@@ -4048,6 +4049,7 @@ WizardTemplateChoicePage.title.Letter=레터
 WizardTemplateChoicePage.title.MailingLabels=전자 우편 레이블
 WizardTemplateChoicePage.title.SideBySideChartListing=연속 차트 및 목록
 WizardTemplateChoicePage.title.SimpleListing=간단한 목록
+WizardTemplateChoicePage.title.Crosstab=Cross Tab
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=오른쪽에서 왼쪽
 WizardTemplateChoicePage.label.ltrBiDiOrientation=왼쪽에서 오른쪽

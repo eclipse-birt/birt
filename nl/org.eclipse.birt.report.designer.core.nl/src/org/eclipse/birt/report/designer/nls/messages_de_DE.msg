@@ -4038,6 +4038,7 @@ WizardTemplateChoicePage.message.Letter=Eine Vorlage zur Erstellung personalisie
 WizardTemplateChoicePage.message.MailingLabels=Nachrichtenbeschriftungen
 WizardTemplateChoicePage.message.SideBySideChartListing=Einen gruppierten Bericht mit Diagramm und Liste nebeneinander in jeder Gruppe erstellen.
 WizardTemplateChoicePage.message.SimpleListing=Einen Listenbericht mit Feldern aus einer Datenquelle erstellen.
+WizardTemplateChoicePage.message.Crosstab=Use a tutorial to build a cross-tab report
 WizardTemplateChoicePage.title.BlankReport=Leerer Bericht
 WizardTemplateChoicePage.title.ChartListing=Diagramm & Liste
 WizardTemplateChoicePage.title.DualColumnChartListing=Zwei-Spalten-Diagramm & -Listen
@@ -4048,6 +4049,7 @@ WizardTemplateChoicePage.title.Letter=Letter
 WizardTemplateChoicePage.title.MailingLabels=Nachrichtenbeschriftungen
 WizardTemplateChoicePage.title.SideBySideChartListing=Diagramm & Liste nebeneinander
 WizardTemplateChoicePage.title.SimpleListing=Einfache Liste
+WizardTemplateChoicePage.title.Crosstab=Cross Tab
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=Von rechts nach links
 WizardTemplateChoicePage.label.ltrBiDiOrientation=Von links nach rechts

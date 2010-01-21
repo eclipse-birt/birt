@@ -4038,6 +4038,7 @@ WizardTemplateChoicePage.message.Letter=Créez un modèle permettant de générer de
 WizardTemplateChoicePage.message.MailingLabels=Etiquettes de publipostage
 WizardTemplateChoicePage.message.SideBySideChartListing=Créez un état groupé dans lequel les groupes contiennent chacun un graphique et une liste côte à côte.
 WizardTemplateChoicePage.message.SimpleListing=Créez une liste avec des champs issus de la source de données.
+WizardTemplateChoicePage.message.Crosstab=Use a tutorial to build a cross-tab report
 WizardTemplateChoicePage.title.BlankReport=Etat vierge
 WizardTemplateChoicePage.title.ChartListing=Graphiques et listes
 WizardTemplateChoicePage.title.DualColumnChartListing=Graphiques et listes de colonnes doubles
@@ -4048,6 +4049,7 @@ WizardTemplateChoicePage.title.Letter=Lettre
 WizardTemplateChoicePage.title.MailingLabels=Etiquettes de publipostage
 WizardTemplateChoicePage.title.SideBySideChartListing=Graphiques et listes juxtaposés
 WizardTemplateChoicePage.title.SimpleListing=Listes simples
+WizardTemplateChoicePage.title.Crosstab=Cross Tab
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=Droite à gauche
 WizardTemplateChoicePage.label.ltrBiDiOrientation=Gauche à droite

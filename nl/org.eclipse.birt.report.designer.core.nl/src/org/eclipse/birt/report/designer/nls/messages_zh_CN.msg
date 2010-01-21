@@ -4038,6 +4038,7 @@ WizardTemplateChoicePage.message.Letter=使用数据源中的字段创建一个模板以生成个性
 WizardTemplateChoicePage.message.MailingLabels=邮寄标签
 WizardTemplateChoicePage.message.SideBySideChartListing=创建一个分组报表，其中每个组都并排包含一个图表和一个列表。
 WizardTemplateChoicePage.message.SimpleListing=使用数据源中的字段创建列表报表。
+WizardTemplateChoicePage.message.Crosstab=Use a tutorial to build a cross-tab report
 WizardTemplateChoicePage.title.BlankReport=空白报表
 WizardTemplateChoicePage.title.ChartListing=图表和列表
 WizardTemplateChoicePage.title.DualColumnChartListing=双列图表和列表
@@ -4048,6 +4049,7 @@ WizardTemplateChoicePage.title.Letter=信件
 WizardTemplateChoicePage.title.MailingLabels=邮寄标签
 WizardTemplateChoicePage.title.SideBySideChartListing=并排图表和列表
 WizardTemplateChoicePage.title.SimpleListing=简易列表
+WizardTemplateChoicePage.title.Crosstab=Cross Tab
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=从右到左
 WizardTemplateChoicePage.label.ltrBiDiOrientation=从左到右

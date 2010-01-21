@@ -4038,6 +4038,7 @@ WizardTemplateChoicePage.message.Letter=データソースのフィールドを使用して個人用
 WizardTemplateChoicePage.message.MailingLabels=郵便用のラベル
 WizardTemplateChoicePage.message.SideBySideChartListing=グループ化されたレポートを作成します。それぞれのグループには、グラフとリストが並列表示されます。
 WizardTemplateChoicePage.message.SimpleListing=データソースのフィールドを使用したリストレポートを作成します。
+WizardTemplateChoicePage.message.Crosstab=Use a tutorial to build a cross-tab report
 WizardTemplateChoicePage.title.BlankReport=空のレポート
 WizardTemplateChoicePage.title.ChartListing=グラフとリスト
 WizardTemplateChoicePage.title.DualColumnChartListing=列グラフとリストの同時表示
@@ -4048,6 +4049,7 @@ WizardTemplateChoicePage.title.Letter=レター
 WizardTemplateChoicePage.title.MailingLabels=郵便用のラベル
 WizardTemplateChoicePage.title.SideBySideChartListing=グラフとリストの並列表示
 WizardTemplateChoicePage.title.SimpleListing=簡易リスト
+WizardTemplateChoicePage.title.Crosstab=Cross Tab
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=右から左
 WizardTemplateChoicePage.label.ltrBiDiOrientation=左から右
