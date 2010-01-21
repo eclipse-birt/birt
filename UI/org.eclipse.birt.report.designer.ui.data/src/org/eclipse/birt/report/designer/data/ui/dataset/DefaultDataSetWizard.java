@@ -39,6 +39,8 @@ public class DefaultDataSetWizard extends Wizard
 	private DataSetBasePage dataSetPage;
 	private AdvancedColumnDefPage columnDefPage;
 
+	private DataSetHandle dataSetHandle;
+	
 	/**
 	 *  
 	 */
@@ -76,7 +78,7 @@ public class DefaultDataSetWizard extends Wizard
 			// Start the transaction
 			Utility.getCommandStack( ).startTrans( CREATE_DATA_SET_TRANS_NAME );
 		}
-		DataSetHandle dataSetHandle = dataSetPage.createSelectedDataSet( );
+		dataSetHandle = dataSetPage.createSelectedDataSet( );
 
 		if ( dataSetHandle != null )
 		{
@@ -118,6 +120,11 @@ public class DefaultDataSetWizard extends Wizard
 			return false;
 		}
 		return true;
+	}
+	
+	public DataSetHandle getNewCreateDataSetHandle( )
+	{
+		return this.dataSetHandle;
 	}
 	
 	/**

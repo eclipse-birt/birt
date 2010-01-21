@@ -184,9 +184,6 @@ public class NewDataSetAction extends Action implements UpdateAction
 
 	private void createNewDataSet( )
 	{
-		// Get the list of data sets before inserting a new Data Set
-		List existingDataSets = getDataSets( );
-
 		DefaultDataSetWizard wizard = new DefaultDataSetWizard( );
 		wizard.setWindowTitle( Messages.getString( "dataset.new" ) );//$NON-NLS-1$
 		WizardDialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
@@ -195,9 +192,8 @@ public class NewDataSetAction extends Action implements UpdateAction
 
 		if ( dialog.open( ) == WizardDialog.OK )
 		{
-			// Get the list of data sets after inserting a new Data Set
-			List newDataSets = getDataSets( );
-			if ( editDataSet( existingDataSets, newDataSets ) )
+			DataSetHandle ds = wizard.getNewCreateDataSetHandle( );
+			if ( editDataSet( ds ) )
 			{
 				notifyResult( true );
 			}
@@ -220,32 +216,10 @@ public class NewDataSetAction extends Action implements UpdateAction
 			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
 		}
 	}
-
-	private List getDataSets( )
+	
+	private boolean editDataSet( DataSetHandle ds )
 	{
-
-		List dataSets = HandleAdapterFactory.getInstance( )
-				.getReportDesignHandleAdapter( )
-				.getModuleHandle( )
-				.getVisibleDataSets( );
-
-		return dataSets;
-
-	}
-
-	private boolean editDataSet( List existingDataSets, List newDataSets )
-	{
-		if ( existingDataSets == null || newDataSets == null )
-		{
-			return false;
-		}
-
-		if ( newDataSets.size( ) <= existingDataSets.size( ) )
-		{
-			return false;
-		}
-
-		dataSetHandle = findNewDataSet( existingDataSets, newDataSets );
+		dataSetHandle = ds;
 
 		if ( dataSetHandle == null )
 			return false;
@@ -261,18 +235,5 @@ public class NewDataSetAction extends Action implements UpdateAction
 				.getDisplay( )
 				.getActiveShell( ), dataSetHandle, true );
 		return ( dialog.open( ) == Window.OK );
-	}
-
-	private DataSetHandle findNewDataSet( List existingDataSets,
-			List newDataSets )
-	{
-		for ( int i = 0; i < newDataSets.size( ); i++ )
-		{
-			if ( !existingDataSets.contains( newDataSets.get( i ) ) )
-			{
-				return (DataSetHandle) newDataSets.get( i );
-			}
-		}
-		return null;
 	}
 }
