@@ -376,7 +376,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				}
 				DesignElementHandle handle = (DesignElementHandle)getModel();
 				EditPart part = ReportElementEditPart.this;
-				while(part.getParent( ) != null && !(part instanceof RootEditPart))
+				while(part != null && !(part instanceof RootEditPart))
 				{
 					part = part.getParent( );
 				}
