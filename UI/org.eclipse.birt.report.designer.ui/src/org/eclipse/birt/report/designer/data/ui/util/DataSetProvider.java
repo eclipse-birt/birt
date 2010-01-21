@@ -445,8 +445,7 @@ public final class DataSetProvider
 			throws BirtException
 	{
 
-		if ( !( dataSetHandle instanceof JointDataSetHandle || dataSetHandle instanceof DerivedDataSetHandle )
-				&& context != null )
+		if ( !( dataSetHandle instanceof JointDataSetHandle || dataSetHandle instanceof DerivedDataSetHandle ) )
 		{
 			if ( dataSetHandle.getDataSource( ) != null )
 			{
