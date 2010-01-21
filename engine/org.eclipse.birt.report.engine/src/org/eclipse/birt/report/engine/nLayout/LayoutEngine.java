@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.nLayout;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 
@@ -33,7 +34,6 @@ import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
@@ -333,6 +333,12 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	{
 		_startContainer( container );
 	}
+	
+	public void endContainer( IContainerContent container )
+			throws BirtException
+	{
+		_endContainer( container );
+	}
 
 	protected void setContainer( ContainerArea container )
 			throws BirtException
@@ -350,45 +356,84 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		current = current.getParent( );
 	}
 
+	
+	LinkedList<IContent> unfinishedContents = new LinkedList<IContent>( );
+
 	protected void _startContainer( IContent container ) throws BirtException
 	{
 		boolean isInline = PropertyUtil.isInlineElement( container );
 		if ( isInline )
 		{
-			if (current!=null && current.isInlineStacking( ) )
+			if ( !unfinishedContents.isEmpty( )
+					&& container.getParent( ) == unfinishedContents.peek( ) )
 			{
-
+				IContent parent = unfinishedContents.poll( );
+				_startContainer( parent );
 			}
 			else
 			{
-				setContainer( af.createLineArea( current, context ) );
+				if ( current != null && current.isInlineStacking( ) )
+				{
+
+				}
+				else
+				{
+					setContainer( af.createLineArea( current, context ) );
+				}
 			}
 		}
 		else
 		{
-			if ( current!=null && current.isInlineStacking( ) )
+			while ( current != null && current.isInlineStacking( ) )
 			{
-				while ( current!=null && current.isInlineStacking( ) )
+				if ( null != current.getContent( ) )
 				{
-					closeContainer( );
+					unfinishedContents.add( current.getContent( ) );
 				}
+				closeContainer( );
 			}
 		}
-
 		ContainerArea area = (ContainerArea) af.createArea( current, context,
 				container );
 		setContainer( area );
 	}
 
-	public void endContainer( IContainerContent container )
-			throws BirtException
+	protected void _endContainer( IContent container ) throws BirtException
 	{
-		_endContainer( container );
+		if ( !unfinishedContents.isEmpty( ) )
+		{
+			IContent content = unfinishedContents.peek( );
+			if ( container == content )
+			{
+				unfinishedContents.poll( );
+				return;
+			}
+		}
+		boolean isInline = PropertyUtil.isInlineElement( container );
+		if ( isInline )
+		{
+			if ( current != null && current.isInlineStacking( ) )
+			{
+
+			}
+			else
+			{
+
+			}
+		}
+		else
+		{
+			while ( current != null && current.isInlineStacking( ) )
+			{
+				closeContainer( );
+			}
+		}
+		closeContainer( );
 	}
 	
-	protected void _endCell(ICellContent cell) throws BirtException
+	protected void _endCell( ICellContent cell ) throws BirtException
 	{
-		while(!(current instanceof CellArea))
+		while ( !( current instanceof CellArea ) )
 		{
 			current.close( );
 			current = current.getParent( );
@@ -397,62 +442,40 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		current = current.getParent( );
 	}
 
-	protected void _endContainer( IContent container ) throws BirtException
-	{
-		boolean isInline = PropertyUtil.isInlineElement( container );
-		if ( isInline )
-		{
-			if ( current!=null && current.isInlineStacking( ))
-			{
-
-			}
-			else
-			{
-
-			}
-		}
-		else
-		{
-			if ( current!=null && current.isInlineStacking( ) )
-			{
-				while ( current!=null && current.isInlineStacking( ) )
-				{
-					closeContainer( );
-				}
-			}
-			else
-			{
-
-			}
-		}
-		closeContainer( );
-	}
-
 	public void startContent( IContent content ) throws BirtException
 	{
 		boolean isInline = PropertyUtil.isInlineElement( content );
 		if ( isInline )
 		{
-			if ( current.isInlineStacking( ) )
+			if ( !unfinishedContents.isEmpty( )
+					&& content.getParent( ) == unfinishedContents.peek( ) )
 			{
-				// layout = factory.createLayoutManager( current, content );
+				IContent parent = unfinishedContents.poll( );
+				_startContainer( parent );
 			}
 			else
 			{
-				setContainer( af.createLineArea( current, context ) );
+				if ( current != null && current.isInlineStacking( ) )
+				{
+
+				}
+				else
+				{
+					setContainer( af.createLineArea( current, context ) );
+				}
 			}
 		}
 		else
 		{
-			if ( current.isInlineStacking( ) )
+			while ( current != null && current.isInlineStacking( ) )
 			{
-				while ( current.isInlineStacking( ) )
+				if ( null != current.getContent( ) )
 				{
-					closeContainer( );
+					unfinishedContents.add( current.getContent( ) );
 				}
+				closeContainer( );
 			}
 		}
-
 		ILayout layout = af.createLayout( current, context, content );
 		if ( layout != null )
 		{
@@ -462,7 +485,14 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void endContent( IContent content ) throws BirtException
 	{
-		// do nothing;
+		if ( !unfinishedContents.isEmpty( ) )
+		{
+			IContent c = unfinishedContents.peek( );
+			if ( c == content )
+			{
+				unfinishedContents.poll( );
+			}
+		}
 	}
 
 	public void startListBand( IListBandContent listBand ) throws BirtException
@@ -620,6 +650,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
+		//foreign.getStyle( ).setProperty( IStyle.STYLE_DISPLAY, IStyle.BLOCK_VALUE );
 		_startContainer( foreign );
 		if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
 		{

@@ -11,11 +11,7 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
-import java.util.Iterator;
-
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 
 public class RegionArea extends BlockContainerArea implements IContainerArea
