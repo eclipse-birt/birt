@@ -6,3 +6,4 @@ cheatsheet.chartlisting=Informe de listado y diagrama
 cheatsheet.sidebysidechartlisting=Informe de listado y diagrama en paralelo
 cheatsheet.dualcolumnchartlisting=Informe de listado y diagrama de columna dual
 cheatsheet.firstreport=Mi primer informe
+cheatsheet.crosstab=Crosstab Report
