@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -219,7 +220,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		        		extDS.getName( ) );
 
 		    ValidationContext validationContext = null;
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( )&& !appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
 			{
 				validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
 				if ( validationContext != null )
@@ -283,7 +284,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
 			
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) && !appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
 			{
 				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
 
