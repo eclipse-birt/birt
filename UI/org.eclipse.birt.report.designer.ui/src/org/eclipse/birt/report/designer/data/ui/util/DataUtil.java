@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -28,6 +30,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -35,15 +38,14 @@ import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.util.ULocale;
 
@@ -55,6 +57,7 @@ public class DataUtil
 {
 
 	private static AggregationManager manager;
+	private static Logger logger = Logger.getLogger( DataUtil.class.getName( ) );
 
 	public static AggregationManager getAggregationManager( )
 			throws BirtException
@@ -69,6 +72,33 @@ public class DataUtil
 		return manager;
 	}
 
+	private static IModelAdapter getModelAdapter( )
+	{
+		IModelAdapter modelAdapter = null;
+		try
+		{
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			modelAdapter = session.getModelAdaptor( );
+			session.shutdown( );
+		}
+		catch ( BirtException e1 )
+		{
+			logger.log( Level.WARNING, e1.getMessage( ), e1 );
+		}
+		return modelAdapter;
+	}
+	
+	private static String getAdaptedExprText( IModelAdapter adapter, ComputedColumnHandle target )
+	{
+		ExpressionHandle eh = target.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER );
+		if ( eh == null )
+		{
+			return null;
+		}
+		Expression expr = (Expression)eh.getValue( );
+		return adapter.adaptExpression( expr ).getText( );
+	}
+	
 	/**
 	 * Get all referenced bindings by the given binding in a set of binding
 	 * list.
@@ -80,7 +110,8 @@ public class DataUtil
 	public static Set getReferencedBindings( ComputedColumnHandle target,
 			List allHandleList )
 	{
-		return getReferencedBindings( target, allHandleList, new HashSet( ) );
+		IModelAdapter modelAdapter = getModelAdapter( );
+		return getReferencedBindings( target, allHandleList, new HashSet( ), modelAdapter );
 	}
 
 	/**
@@ -91,15 +122,16 @@ public class DataUtil
 	 * @return
 	 */
 	private static Set getReferencedBindings( ComputedColumnHandle target,
-			List allHandleList, Set prohibitedSet )
+			List allHandleList, Set prohibitedSet, IModelAdapter modelAdapter )
 	{
 		Set result = new HashSet( );
 		if ( target == null
 				|| allHandleList == null
-				|| allHandleList.size( ) == 0 )
+				|| allHandleList.size( ) == 0
+				|| modelAdapter == null )
 			return result;
 		prohibitedSet.add( target.getName( ) );
-		String expr = target.getExpression( );
+		String expr = getAdaptedExprText( modelAdapter, target );
 		try
 		{
 			List referredBindings = ExpressionUtil.extractColumnExpressions( expr );
@@ -126,7 +158,7 @@ public class DataUtil
 				newProhibitedSet.addAll( prohibitedSet );
 				temp.addAll( getReferencedBindings( (ComputedColumnHandle) it.next( ),
 						allHandleList,
-						newProhibitedSet ) );
+						newProhibitedSet, modelAdapter ) );
 			}
 
 			result.addAll( temp );
@@ -148,9 +180,9 @@ public class DataUtil
 	 */
 	public static List getValidGroupKeyBindings( List availableHandles )
 	{
-
 		List result = new ArrayList( );
-		if ( availableHandles == null )
+		IModelAdapter modelAdapter = getModelAdapter( );
+		if ( availableHandles == null || modelAdapter == null )
 			return result;
 		try
 		{
@@ -159,7 +191,7 @@ public class DataUtil
 				ComputedColumnHandle handle = (ComputedColumnHandle) availableHandles.get( i );
 				List originalNames = new ArrayList( );
 				originalNames.add( handle.getName( ) );
-				if ( acceptBinding( handle, availableHandles, originalNames ) )
+				if ( acceptBinding( handle, availableHandles, originalNames, modelAdapter ) )
 					result.add( handle );
 			}
 		}
@@ -275,13 +307,13 @@ public class DataUtil
 	 * @return
 	 */
 	private static boolean acceptBinding( ComputedColumnHandle binding,
-			List bindings, List originalNames )
+			List bindings, List originalNames, IModelAdapter adapter )
 	{
 		try
 		{
 			if ( binding.getAggregateFunction( ) == null )
 			{
-				String expr = binding.getExpression( );
+				String expr = getAdaptedExprText( adapter, binding );
 
 				if ( !ExpressionUtil.hasAggregation( expr ) )
 				{
@@ -291,7 +323,7 @@ public class DataUtil
 					names.addAll( originalNames );
 					if ( acceptindirectReferredBindings( originalNames,
 							bindings,
-							referredBindings ) )
+							referredBindings, adapter ) )
 					{
 						return true;
 					}
@@ -314,7 +346,7 @@ public class DataUtil
 	 */
 	private static boolean acceptindirectReferredBindings(
 			List originalBindingName, List availableHandles,
-			List referredBindings )
+			List referredBindings, IModelAdapter adapter )
 	{
 		try
 		{
@@ -338,7 +370,7 @@ public class DataUtil
 				ComputedColumnHandle handle = (ComputedColumnHandle) candidateBindings.get( i );
 				if ( !acceptBinding( handle,
 						availableHandles,
-						originalBindingName ) )
+						originalBindingName, adapter ) )
 					return false;
 			}
 			return true;
