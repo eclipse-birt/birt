@@ -51,6 +51,7 @@ import org.eclipse.birt.report.data.adapter.internal.adapter.ScriptDataSetAdapte
 import org.eclipse.birt.report.data.adapter.internal.adapter.ScriptDataSourceAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.SortAdapter;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -117,6 +118,7 @@ public class ModelAdapter implements IModelAdapter
 	 */
 	public BaseDataSetDesign adaptDataSet( DataSetHandle handle ) throws BirtException
 	{
+		BaseDataSetDesign design = null;
 		if ( handle instanceof OdaDataSetHandle )
 		{
 			// If an external top level scope is available (i.e., our
@@ -126,17 +128,32 @@ public class ModelAdapter implements IModelAdapter
 			// property bindings are not resolved
 			Scriptable propBindingScope = context.hasExternalScope( )
 					? context.getTopScope( ) : null;
-			return new OdaDataSetAdapter( (OdaDataSetHandle) handle,
+			design = new OdaDataSetAdapter( (OdaDataSetHandle) handle,
 					propBindingScope,
 					this,
 					context.getDataEngineContext( ) );
 		}
 
 		if ( handle instanceof ScriptDataSetHandle )
-			return new ScriptDataSetAdapter( (ScriptDataSetHandle) handle, this );
+			design = new ScriptDataSetAdapter( (ScriptDataSetHandle) handle, this );
 
 		if ( handle instanceof JointDataSetHandle )
-			return new JointDataSetAdapter( (JointDataSetHandle) handle, this );
+			design = new JointDataSetAdapter( (JointDataSetHandle) handle, this );
+		
+		if( design != null )
+		{
+			if( handle.getACLExpression( )!= null )
+				design.setDataSetACL( this.adaptExpression( (Expression) handle.getACLExpression( ).getValue( ) ) );
+			if( handle.getRowACLExpression( )!= null )
+				design.setRowACL( this.adaptExpression( (Expression) handle.getRowACLExpression( ).getValue( ) ) );
+			Iterator columnHintIterator = handle.columnHintsIterator( );
+			while( columnHintIterator.hasNext( ))
+			{
+				ColumnHintHandle ch = (ColumnHintHandle) columnHintIterator.next( );
+				design.setDataSetColumnACL( ch.getColumnName( ), this.adaptExpression( (Expression) ch.getACLExpression( ).getValue( ) ));
+			}
+
+		}
 		logger.warning( "handle type: " + (handle == null ? "" : handle.getClass( ).getName( )) ); //$NON-NLS-1$
 		return null;
 	
