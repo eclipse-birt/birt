@@ -56,7 +56,7 @@ public class SubCubeQueryResults implements ICubeQueryResults
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.ICubeCursor#getSubCubeCursor(java.lang.String, java.lang.String, java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	private ICubeCursor getSubCubeCursor( String startingColumnLevel,
+	protected ICubeCursor getSubCubeCursor( String startingColumnLevel,
 			String startingRowLevel ) throws DataException
 	{
 		ICubeCursor cubeCursorImpl;
