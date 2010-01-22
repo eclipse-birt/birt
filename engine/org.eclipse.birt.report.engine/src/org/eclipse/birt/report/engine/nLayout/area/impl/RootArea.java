@@ -74,11 +74,22 @@ public class RootArea extends BlockContainerArea
 	public void initialize( ) throws BirtException
 	{
 		IPageContent pageContent = (IPageContent) content;
-		if ( context.isAutoPageBreak( ) )
+		
+		if ( context.isAutoPageBreak( )
+				&& !context.isReserveDocumentPageNumbers( ) )
 		{
-			context.setPageNumber( context.getPageNumber() + 1 );
+			context.setPageNumber( context.getPageNumber( ) + 1 );
 			pageContent = createPageContent( pageContent );
 		}
+		else
+		{
+			long number = pageContent.getPageNumber( );
+			if ( number > 0 )
+			{
+				context.setPageNumber( number );
+			}
+		}
+		
 		createNewPage( pageContent );
 		maxAvaWidth = page.getBody( ).getWidth( );
 		//this.height = page.getBody( ).getHeight( );

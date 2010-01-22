@@ -165,9 +165,9 @@ public class InlineContainerArea extends InlineStackingArea
 	
 	public void setTextIndent( ITextContent content )
 	{
-		int pi = lineParent.getCurrentIP( );
+		int ip = lineParent.getCurrentIP( );
 		lineParent.setTextIndent( content );
-		if ( pi != lineParent.getCurrentIP( ) )
+		if ( ip != lineParent.getCurrentIP( ) )
 		{
 			maxAvaWidth = parent.getCurrentMaxContentWidth( );
 		}

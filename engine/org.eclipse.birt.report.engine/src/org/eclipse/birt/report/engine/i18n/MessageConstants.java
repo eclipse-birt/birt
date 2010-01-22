@@ -122,6 +122,8 @@ public class MessageConstants
     // Report Items Not Supported Prompt
     public static final String  FLASH_OBJECT_NOT_SUPPORTED_PROMPT = "Error.FlashObjectNotSupported";
     public static final String  REPORT_ITEM_NOT_SUPPORTED_PROMPT = "Error.ReportItemNotSupported";
+    public static final String  RESOURCE_UNREACHABLE_PROMPT = "Error.ResourceUnreachable";
+    public static final String  UPDATE_USER_AGENT_PROMPT = "Error.UpdateUserAgent";
 }
 
 
