@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.data.dte;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -52,6 +54,10 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	 * output stream used to save the resultset relations
 	 */
 	private DataOutputStream dos;
+	
+	private List<String[]> newMetaInfo = new ArrayList<String[]>();
+	
+	private List<String[]> metaInfo;
 	
 	/**
 	 * store relations of various query ResultSet. Such as relations between
@@ -103,6 +109,72 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 	}
 	
+	protected void updateMetaInfo( )
+	{
+		for ( int i = 0; i < newMetaInfo.size( ); i++ )
+		{
+			String[] info = newMetaInfo.get( i );
+			String pRsetId = info[0];
+			String rawId = info[1];
+			String queryId = info[2];
+			String rsetId = info[3];
+			String rowId = info[4];
+			removeMetaInfo( pRsetId, queryId );
+		}
+		for ( int i = 0; i < metaInfo.size( ); i++ )
+		{
+			String[] info = metaInfo.get( i );
+			storeDteMetaInfo( info[0], info[1], info[2], info[3], info[4] );
+		}
+	}
+	
+	protected void removeMetaInfo( String parentId, String queryId )
+	{
+		ArrayList<String> rsets = new ArrayList<String>( );
+		Iterator<String[]> iter = metaInfo.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String[] info = iter.next( );
+			String pRsetId = info[0];
+			String qId = info[2];
+			String rsetId = info[3];
+			if ( queryId.equals( qId )
+					&& ( parentId == null && pRsetId == null || parentId
+							.equals( pRsetId ) ) )
+			{
+				iter.remove( );
+				rsets.add( rsetId );
+			}
+		}
+
+		while ( rsets.size( ) > 0 )
+		{
+			ArrayList<String> temp = new ArrayList<String>( );
+			for ( int i = 0; i < rsets.size( ); i++ )
+			{
+				temp.addAll( removeMetaInfo( rsets.get( i ) ) );
+			}
+			rsets = temp;
+		}
+	}
+
+	protected List<String> removeMetaInfo( String queryId )
+	{
+		ArrayList<String> rsets = new ArrayList<String>( );
+		Iterator<String[]> iter = metaInfo.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String[] info = iter.next( );
+			String pRsetId = info[0];
+			if ( queryId.equals( pRsetId ) )
+			{
+				iter.remove( );
+				rsets.add( info[3] );
+			}
+		}
+		return rsets;
+	}
+	
 	
 	/**
 	 * save the metadata into the streams.
@@ -127,6 +199,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				}
 				DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rawId, queryId,
 						rsetId, rowId );
+				newMetaInfo.add( new String[]{pRsetId, rawId, queryId,
+						rsetId, rowId } );
 			}
 			catch ( IOException e )
 			{
@@ -137,12 +211,12 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	
 	private void loadDteMetaInfo( IDocArchiveReader reader ) throws IOException
 	{
-		ArrayList result = DteMetaInfoIOUtil.loadAllDteMetaInfo( reader );
-		if ( result != null )
+		metaInfo = DteMetaInfoIOUtil.loadDteMetaInfo( reader );
+		if ( metaInfo != null )
 		{
-			for ( int i = 0; i < result.size( ); i++ )
+			for ( int i = 0; i < metaInfo.size( ); i++ )
 			{
-				String[] rsetRelation = (String[]) result.get( i );
+				String[] rsetRelation = (String[]) metaInfo.get( i );
 				String pRsetId = rsetRelation[0];
 				String rowId = rsetRelation[1];
 				String queryId = rsetRelation[2];
@@ -151,7 +225,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 		}
 	}
-
+	
 	private void addResultSetRelation( String pRsetId, String rowId,
 			String queryId, String rsetId )
 	{
@@ -418,6 +492,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 
 	public void shutdown( )
 	{
+		updateMetaInfo();
 		if ( null != dos )
 		{
 			try
