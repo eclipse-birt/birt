@@ -59,10 +59,13 @@ public class ExcelWriter implements IExcelWriter
 	public void end( ) throws IOException
 	{
 		writer.end( );
-		File file = new File( tempFilePath );
-		if ( file.exists( ) && file.isFile( ) )
+		if ( tempFilePath != null )
 		{
-			file.delete( );
+			File file = new File( tempFilePath );
+			if ( file.exists( ) && file.isFile( ) )
+			{
+				file.delete( );
+			}
 		}
 	}
 
