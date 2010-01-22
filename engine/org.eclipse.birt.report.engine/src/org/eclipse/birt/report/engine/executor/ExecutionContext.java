@@ -481,9 +481,39 @@ public class ExecutionContext
 		{
 			handler.finish( );
 		}
-
-		closeClassLoader = false;
+		// RELEASE ALL THE MEMBERS EXPLICTLY AS THIS OBJECT MAY BE REFERENCED BY
+		// THE SCRIPT OBJECT WHICH IS HOLDED IN THE FININALIZER QUEUE
 		applicationClassLoader = null;
+		engine = null;
+		task = null;
+		executor = null;
+		tocBuilder = null;
+		runnable = null;
+		originalRunnable = null;
+		configs = null;
+		params = null;
+		persistentBeans = null;
+		transientBeans = null;
+		pageVariables = null;
+		docWriter = null;
+		reportIR = null;
+		appContext = null;
+		reportContext = null;
+		renderOption = null;
+		reportDoc = null;
+		reportContent = null;
+		design = null;
+		content = null;
+		rsets = null;
+		reportHandles = null;
+		onPrepareErrors = null;
+		stringFormatters = null;
+		numberFormatters = null;
+		dateFormatters = null;
+		pageBreakListeners = null;
+		eventHandlerManager = null;
+		progressMonitor = null;
+		element = null;
 	}
 
 	/**
