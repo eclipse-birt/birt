@@ -345,6 +345,19 @@ public class LayoutContext
 		this.dpi = dpi;
 	}
 	
+	private boolean reserveDocumentPageNumbers = false;
+
+	public boolean isReserveDocumentPageNumbers( )
+	{
+		return this.reserveDocumentPageNumbers;
+	}
+
+	public void setReserveDocumentPageNumbers(
+			boolean reserveDocumentPageNumbers )
+	{
+		this.reserveDocumentPageNumbers = reserveDocumentPageNumbers;
+	}
+	
 	private int totalPageTemplateWidth;
 	
 	public void setTotalPageTemplateWidth( int totalPageTemplateWidth )

@@ -1578,6 +1578,15 @@ public abstract class EngineTask implements IEngineTask
 						dpi );
 			}
 			
+			Object reserveDocumentPageNumbers = renderOptions
+					.getOption( IPDFRenderOption.RESERVE_DOCUMENT_PAGE_NUMBERS );
+			if ( reserveDocumentPageNumbers != null )
+			{
+				layoutEngine.setOption(
+						IPDFRenderOption.RESERVE_DOCUMENT_PAGE_NUMBERS,
+						reserveDocumentPageNumbers );
+			}
+
 		}
 		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
 		return layoutEngine;

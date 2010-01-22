@@ -281,7 +281,18 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			{
 				context.setSupportedImageFormats( (String)supportedImageFormats );
 			}
-
+			
+			Object reserveDocumentPageNumbers = options
+					.get( IPDFRenderOption.RESERVE_DOCUMENT_PAGE_NUMBERS );
+			if ( reserveDocumentPageNumbers != null
+					&& reserveDocumentPageNumbers instanceof Boolean )
+			{
+				if ( ( (Boolean) reserveDocumentPageNumbers ).booleanValue( ) )
+				{
+					context.setReserveDocumentPageNumbers( true );
+				}
+			}
+			context.setReserveDocumentPageNumbers( true );
 			// Object rtlFlag = options.get( IRenderOption.RTL_FLAG );
 			// if (rtlFlag != null && rtlFlag instanceof Boolean)
 			// {
@@ -527,24 +538,24 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		}
 	}
 
-	public void startPage( IPageContent page ) throws BirtException
-	{
-		super.startPage( page );
-		if ( !context.autoPageBreak )
-		{
-			long number = page.getPageNumber( );
-			if ( number > 0 )
-			{
-				context.pageNumber = number;
-			}
-		}
-	}
-
-	public void endPage( IPageContent page ) throws BirtException
-	{
-		// TODO Auto-generated method stub
-		super.endPage( page );
-	}
+//	public void startPage( IPageContent page ) throws BirtException
+//	{
+//		super.startPage( page );
+//		if ( !context.autoPageBreak )
+//		{
+//			long number = page.getPageNumber( );
+//			if ( number > 0 )
+//			{
+//				context.pageNumber = number;
+//			}
+//		}
+//	}
+//
+//	public void endPage( IPageContent page ) throws BirtException
+//	{
+//		// TODO Auto-generated method stub
+//		super.endPage( page );
+//	}
 
 	protected void startTableContainer( IContainerContent container )
 			throws BirtException
@@ -699,18 +710,16 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			}
 			
 			long totalPageCount = 0;
-			if ( context.autoPageBreak )
+
+			if ( context.isReserveDocumentPageNumbers( ) )
 			{
-				totalPageCount = context.pageCount;
+				totalPageCount = context.totalPage;
 			}
 			else
 			{
-				// FIXME: handle the TOTAL_PAGE and UNFILTERED_TOTAL_PAGE
-				// differently.
-				totalPageCount = context.totalPage > 0
-						? context.totalPage
-						: context.pageCount;
+				totalPageCount = context.pageCount;
 			}
+
 			totalPageContent.setText( nf.format( totalPageCount ) );
 
 			AbstractArea totalPageArea = null;

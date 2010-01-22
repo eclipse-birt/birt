@@ -507,7 +507,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
 						emitter,
 						renderOptions, executionContext.getLocale( ),
-						getTotalPage( ) );
+						getDocumentTotalPage( ) );
 				pdfEmitter.setPageHandler( layoutPageHandler );
 				
 				emitter = pdfEmitter;
@@ -654,7 +654,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executor,
 						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
 						emitter, renderOptions, executionContext.getLocale( ),
-						getTotalPage( ) );
+						getDocumentTotalPage( ) );
 			}
 
 			startRender( );
@@ -766,6 +766,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			return visiblePages.getTotalVisiblePageCount( );
 		}
+		return reportDocument.getPageCount( );
+	}
+	
+	private long getDocumentTotalPage( )
+	{
 		return reportDocument.getPageCount( );
 	}
 
