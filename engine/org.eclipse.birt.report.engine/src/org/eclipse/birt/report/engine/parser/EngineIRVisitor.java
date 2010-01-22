@@ -462,22 +462,22 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			case IPropertyType.SCRIPT_TYPE :
 			case IPropertyType.EXPRESSION_TYPE :
-				if ( valueExpr != null )
+				ExpressionHandle property = handle
+						.getExpressionProperty( propName );
+				if ( property == null )
 				{
-					return createExpression( valueExpr );
+					return null;
 				}
-				else
+				Object expression = property.getExpression( );
+				if ( expression == null )
 				{
-					Object defaultValue = userDef.getDefault( );
-					if ( defaultValue instanceof org.eclipse.birt.report.model.api.Expression )
-					{
-						return createExpression( (org.eclipse.birt.report.model.api.Expression) defaultValue );
-					}
-					else
-					{
-						return null;
-					}
+					expression = userDef.getDefault( );
 				}
+				if ( expression instanceof org.eclipse.birt.report.model.api.Expression )
+				{
+					return createExpression( (org.eclipse.birt.report.model.api.Expression) expression );
+				}
+				return null;
 			case IPropertyType.NUMBER_TYPE :
 			case IPropertyType.INTEGER_TYPE :
 			case IPropertyType.FLOAT_TYPE :
