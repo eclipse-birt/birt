@@ -59,6 +59,11 @@ public class ExcelWriter implements IExcelWriter
 	public void end( ) throws IOException
 	{
 		writer.end( );
+		File file = new File( tempFilePath );
+		if ( file.exists( ) && file.isFile( ) )
+		{
+			file.delete( );
+		}
 	}
 
 	public void endRow( )
@@ -94,6 +99,7 @@ public class ExcelWriter implements IExcelWriter
 	{
 		if ( tempWriter != null )
 		{
+			tempWriter.close( );
 			BufferedReader reader = null;
 			try
 			{
