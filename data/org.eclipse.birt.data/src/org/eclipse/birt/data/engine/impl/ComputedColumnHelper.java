@@ -23,13 +23,13 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
@@ -396,20 +396,42 @@ class ComputedColumnHelperInstance
 						if ( computedColumn[i].getExpression( ).getHandle( ) != null
 								&& computedColumn[i].getExpression( )
 										.getHandle( ) instanceof CompiledExpression )
-							value = ( (CompiledExpression) computedColumn[i].getExpression( )
-									.getHandle( ) ).evaluate( cx,
-									dataSet.getScriptScope( ) );
+						{
+							value = ExprEvaluateUtil.evaluateCompiledExpression( (CompiledExpression) computedColumn[i].getExpression( )
+									.getHandle( ),
+									resultObject,
+									rowIndex,
+									dataSet.getScriptScope( ),
+									cx );
+						}
 						else
 						{
 							IScriptExpression expr = (IScriptExpression) computedColumn[i].getExpression( ); 
 							String exprText = expr.getText( );
 							if ( exprText != null )
 							{
-								if( expr.getHandle( ) == null )
+								if ( expr.getHandle( ) == null )
 								{
-									expr.setHandle( cx.compile( expr.getScriptId( ) , null, 0, exprText ) );
+									expr.setHandle( cx.compile( expr.getScriptId( ),
+											null,
+											0,
+											exprText ) );
 								}
-								value = ScriptEvalUtil.evalExpr( expr, cx, null, 0 );
+
+								if ( expr.getHandle( ) != null
+										&& expr.getHandle( ) instanceof CompiledExpression )
+								{
+									value = ExprEvaluateUtil.evaluateCompiledExpression( (CompiledExpression) expr.getHandle( ),
+											resultObject,
+											rowIndex,
+											dataSet.getScriptScope( ),
+											cx );
+								}
+								else
+									value = ScriptEvalUtil.evalExpr( expr,
+											cx,
+											null,
+											0 );
 							}
 						}
 						if ( computedColumn[i] instanceof GroupComputedColumn )
