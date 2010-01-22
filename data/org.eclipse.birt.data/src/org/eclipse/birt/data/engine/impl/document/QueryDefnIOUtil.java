@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
@@ -159,93 +158,11 @@ public class QueryDefnIOUtil
 					ExprUtil.saveBaseExpr( dos,
 							( (IBinding) entry.getValue( ) ).getExpression( ) );
 				else
-					saveBinding( dos, (IBinding) entry.getValue( ) );
+					BindingIOUtil.saveBinding( dos, (IBinding) entry.getValue( ) );
 			}
 		}
 		
 		dos.flush( );
-	}
-	
-	/**
-	 * 
-	 * @param dos
-	 * @param binding
-	 * @throws DataException
-	 */
-	private static void saveBinding( DataOutputStream dos, IBinding binding ) throws DataException
-	{
-		int type = binding.getDataType( );
-		String name = binding.getBindingName( );
-		String function = binding.getAggrFunction( );
-		IBaseExpression expr = binding.getExpression( );
-		IBaseExpression filter = binding.getFilter( );
-		List arguments = binding.getArguments( );
-		List aggregateOn = binding.getAggregatOns( );
-		
-		try
-		{
-			//First write data type.
-			IOUtil.writeInt( dos, type );
-			
-			//Then write Name
-			IOUtil.writeString( dos, name );
-			
-			//Then write function
-			IOUtil.writeString( dos, function );
-			
-			//Then write base expr
-			ExprUtil.saveBaseExpr( dos, expr );
-			
-			//Then write filter
-			ExprUtil.saveBaseExpr( dos, filter );
-			
-			//Then write argument size
-			IOUtil.writeInt( dos, arguments.size( ) );
-			
-			for( int i = 0; i < arguments.size( ); i++ )
-			{
-				ExprUtil.saveBaseExpr( dos, (IBaseExpression)arguments.get( i ) );
-			}
-			
-			IOUtil.writeInt( dos, aggregateOn.size( ) );
-			
-			for( int i = 0; i < aggregateOn.size( ); i++ )
-			{
-				IOUtil.writeString( dos, aggregateOn.get( i ).toString( ) );
-			}
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( e.getLocalizedMessage( ));
-		}
-	}
-	
-	private static IBinding loadBinding( DataInputStream dis ) throws IOException, DataException
-	{
-		int type = IOUtil.readInt( dis );
-		String name = IOUtil.readString( dis );
-		String function = IOUtil.readString( dis );
-		IBaseExpression expr = ExprUtil.loadBaseExpr( dis );
-		IBaseExpression filter = ExprUtil.loadBaseExpr( dis );
-		
-		Binding binding = new Binding( name );
-		binding.setAggrFunction( function );
-		binding.setDataType( type );
-		binding.setExpression( expr );
-		binding.setFilter( filter );
-		
-		int argSize = IOUtil.readInt( dis );
-		for ( int i = 0; i < argSize; i++ )
-		{
-			binding.addArgument( ExprUtil.loadBaseExpr( dis ) );
-		}
-		
-		int aggrSize = IOUtil.readInt( dis );
-		for( int i = 0; i < aggrSize; i++ )
-		{
-			binding.addAggregateOn( IOUtil.readString( dis ) );
-		}
-		return binding;
 	}
 	
 	/**
@@ -422,7 +339,7 @@ public class QueryDefnIOUtil
 				exprMap.put( exprName, new Binding( exprName,
 						ExprUtil.loadBaseExpr( dis ) ) );
 			else
-				exprMap.put( exprName, loadBinding( dis ) );
+				exprMap.put( exprName, BindingIOUtil.loadBinding( dis ));
 		}
 
 		return exprMap;

@@ -348,7 +348,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @param resultSet
 	 * @throws DataException
 	 */
-	private void applyAggrSort( IAggregationResultSet[] resultSet )
+	public void applyAggrSort( IAggregationResultSet[] resultSet )
 			throws DataException
 	{
 		if ( !this.columnSort.isEmpty( ) )

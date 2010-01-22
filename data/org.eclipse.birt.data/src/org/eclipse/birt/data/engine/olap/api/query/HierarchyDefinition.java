@@ -26,7 +26,7 @@ public class HierarchyDefinition extends NamedObject
 	private List levels;
 	private IDimensionDefinition dim;
 	
-	HierarchyDefinition ( IDimensionDefinition dim, String hierarchyName )
+	public HierarchyDefinition ( IDimensionDefinition dim, String hierarchyName )
 	{
 		super( hierarchyName );
 		this.levels = new ArrayList();

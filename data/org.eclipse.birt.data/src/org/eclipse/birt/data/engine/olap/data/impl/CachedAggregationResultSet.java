@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 public class CachedAggregationResultSet implements IAggregationResultSet
 {
+	private AggregationDefinition ad;
 	private int currentPosition;
 	private int length;
 	private DimLevel[] levels;
@@ -452,8 +453,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	public AggregationDefinition getAggregationDefinition( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return ad;
 	}
 
 	/*
@@ -529,4 +529,10 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		}
 		return resultObject.getLevelMembers( )[levelIndex].getAttributes( );
 	}
+	
+	public void setAggregationDefinition( AggregationDefinition ad )
+	{
+		this.ad = ad;
+	}
+	
 }

@@ -265,16 +265,10 @@ public class AggregationResultSetSaveUtil
 		writeIntArray( outputStream, resultSet.getSortType( ) );
 		
 		//write aggregation
-		AggregationFunctionDefinition[] functions = resultSet.getAggregationDefinition( )
-				.getAggregationFunctions( );
-		String[] aggregationNames = null;
-		if ( functions != null )
+		String[] aggregationNames = new String[resultSet.getAggregationCount( )];
+		for ( int i=0; i < aggregationNames.length; i++)
 		{
-			aggregationNames = new String[functions.length];
-			for ( int i = 0; i < aggregationNames.length; i++ )
-			{
-				aggregationNames[i] = functions[i].getName( );
-			}
+			aggregationNames[i] = resultSet.getAggregationName( i );
 		}
 		writeObjectArray( outputStream, aggregationNames );
 

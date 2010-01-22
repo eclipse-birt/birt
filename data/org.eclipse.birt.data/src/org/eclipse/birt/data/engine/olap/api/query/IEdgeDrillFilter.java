@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
  * This is the the interface to define the edge drilling down/up operation.
  */
 
-public interface IEdgeDrillFilter
+public interface IEdgeDrillFilter extends INamedObject
 {
 	/**
 	 * The hierarchy on which to apply this drill filter

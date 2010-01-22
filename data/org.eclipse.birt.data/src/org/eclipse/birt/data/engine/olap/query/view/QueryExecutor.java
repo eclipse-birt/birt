@@ -38,13 +38,16 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
+import org.eclipse.birt.data.engine.olap.data.impl.CachedAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationsExecutor;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinitionIOUtil;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
+import org.eclipse.birt.data.engine.olap.impl.query.IncrementExecutionHint;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
@@ -148,24 +151,53 @@ public class QueryExecutor
 			}
 			default:
 			{
-				//In Interactive viewing mode, we always re-execute the query.
-				rs = cubeQueryExecutorHelper.execute( aggrDefns, stopSign );
-				CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
-						view.getPreparedCubeOperations( ),
-						view.getCubeQueryExecutor( ).getScope( ),
-						view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
-
-				rs = coe.execute( rs, stopSign );
-				
 				String id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
-				if (id == null) 
+				IncrementExecutionHint ieh = null;
+				if ( CubeQueryDefinitionIOUtil.existStream( 
+						executor.getContext( ).getDocReader( ), id )) 
 				{
-					id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
+					ICubeQueryDefinition savedQuery = CubeQueryDefinitionIOUtil.load( 
+							id, executor.getContext( ).getDocReader( ) );
+					ieh = org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinitionUtil.getIncrementExecutionHint( 
+							savedQuery, executor.getCubeQueryDefinition( ) );
 				}
-				
+				if ( !CubeQueryDefinitionIOUtil.existStream( executor.getContext( ).getDocReader( ), id ) 
+						|| ieh == null
+						
+						//Currently, do not support increment execution when cube operations are involved.
+						|| (!ieh.isNoIncrement( ) && executor.getCubeQueryDefinition( ).getCubeOperations( ).length > 0) 
+				)
+				{
+					//need to re-execute the query.
+					rs = cubeQueryExecutorHelper.execute( aggrDefns, stopSign );
+					CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
+							view.getPreparedCubeOperations( ),
+							view.getCubeQueryExecutor( ).getScope( ),
+							view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
+
+					rs = coe.execute( rs, stopSign );
+				}
+				else
+				{
+					//increment execute the query based on the saved aggregation result sets.
+					rs = AggregationResultSetSaveUtil.load( id,
+							executor.getContext( ).getDocReader( ),
+							new VersionManager( executor.getContext( ) ).getVersion( ) );
+					
+					//Restore{@code AggregationDefinition} info first which are lost during saving aggregation result sets
+					initLoadedAggregationResultSets( rs, aggrDefns );
+					
+					incrementExecute( rs, ieh );
+				}
 				if ( needSaveToDocWhenUpate )
 				{
+					if ( id == null )
+					{
+						id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
+					}
 					// save rs back to report document
+					CubeQueryDefinitionIOUtil.save( id, executor.getContext( )
+							.getDocWriter( ), executor.getCubeQueryDefinition( ) );
 					AggregationResultSetSaveUtil.save( id,
 							rs,
 							executor.getContext( ).getDocWriter( ) );
@@ -175,6 +207,31 @@ public class QueryExecutor
 		}
 		
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
+	}
+	
+	private void initLoadedAggregationResultSets( IAggregationResultSet[] arss, AggregationDefinition[] ads )
+	{
+		assert ads.length <= arss.length;
+		for ( int i=0; i<ads.length; i++)
+		{
+			CachedAggregationResultSet cars = (CachedAggregationResultSet)arss[i];
+			cars.setAggregationDefinition( ads[i] );
+		}
+	}
+	
+	private void incrementExecute( IAggregationResultSet[] baseResultSets, 
+			IncrementExecutionHint ieh ) throws DataException
+	{
+		assert baseResultSets != null && ieh != null;
+		if ( ieh.getSorts( ).length > 0 )
+		{
+			applyIncrementSorts( baseResultSets );
+		}
+	}
+	
+	private void applyIncrementSorts( IAggregationResultSet[] baseResultSets ) throws DataException
+	{
+		cubeQueryExecutorHelper.applyAggrSort( baseResultSets );
 	}
 
 	private IAggregationResultSet[] populateRs( BirtCubeView view,
@@ -222,11 +279,15 @@ public class QueryExecutor
 				//Save to RD using same id.
 				if ( id != null )
 				{
+					CubeQueryDefinitionIOUtil.save( id, executor.getContext( )
+							.getDocWriter( ), executor.getCubeQueryDefinition( ) );
 					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
 						.getDocWriter( ) );
 				}else
 				{
 					id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
+					CubeQueryDefinitionIOUtil.save( id, executor.getContext( )
+							.getDocWriter( ), executor.getCubeQueryDefinition( ) );
 					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
 							.getDocWriter( ) );
 				}
