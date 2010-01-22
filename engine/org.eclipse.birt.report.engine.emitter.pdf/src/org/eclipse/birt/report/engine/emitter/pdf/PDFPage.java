@@ -12,12 +12,18 @@
 package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.print.PrintTranscoder;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
@@ -399,33 +405,35 @@ public class PDFPage extends AbstractPage
 		if ( FlashFile.isFlash( null, null, extension ) )
 		{
 			embedFlash( null, imageData, imageX, imageY, height, width, helpText );
+			return;
+		}
+		if ( SvgFile.isSvg( null, null, extension ) )
+		{
+			transSVG( null, imageData, imageX, imageY, height, width, helpText );
+			return;
+		}
+		if ( imageId == null )
+		{
+			Image image = Image.getInstance( imageData );
+			drawImage( image, imageX, imageY, height, width, helpText );
 		}
 		else
 		{
-			if ( imageId == null )
+			PdfTemplate template = null;
+			if ( pageDevice.getImageMap( ).containsKey( imageId ) )
 			{
-				Image image = Image.getInstance(imageData);
-				drawImage(image, imageX, imageY, height, width, helpText);
+				template = pageDevice.getImageMap( ).get( imageId );
 			}
 			else
 			{
-				PdfTemplate template = null;
-				if ( pageDevice.getImageMap( ).containsKey( imageId ) )
-				{
-					template = pageDevice.getImageMap( ).get( imageId );
-				}
-				else
-				{
-					template = contentByte.createTemplate( width, height );
-					Image image = Image.getInstance( imageData );
-					template.addImage( image, width, 0, 0, height, 0, 0 );
-					pageDevice.getImageMap( ).put( imageId, template );
-				}
-				if ( template != null )
-				{
-					drawImage( template, imageX, imageY, height, width,
-							helpText );
-				}
+				template = contentByte.createTemplate( width, height );
+				Image image = Image.getInstance( imageData );
+				template.addImage( image, width, 0, 0, height, 0, 0 );
+				pageDevice.getImageMap( ).put( imageId, template );
+			}
+			if ( template != null )
+			{
+				drawImage( template, imageX, imageY, height, width, helpText );
 			}
 		}
 	}
@@ -437,33 +445,35 @@ public class PDFPage extends AbstractPage
 		if ( FlashFile.isFlash( null, uri, extension ) )
 		{
 			embedFlash( uri, null, imageX, imageY, height, width, helpText );
+			return;
+		}
+		if ( SvgFile.isSvg( null, uri, extension ) )
+		{
+			transSVG( uri, null, imageX, imageY, height, width, helpText );
+			return;
+		}
+		if ( uri == null )
+		{
+			Image image = Image.getInstance( new URL( uri ) );
+			drawImage( image, imageX, imageY, height, width, helpText );
 		}
 		else
 		{
-			if ( uri == null )
+			PdfTemplate template = null;
+			if ( pageDevice.getImageMap( ).containsKey( uri ) )
 			{
-				Image image = Image.getInstance( new URL( uri ) );
-				drawImage( image, imageX, imageY, height, width, helpText );
+				template = pageDevice.getImageMap( ).get( uri );
 			}
 			else
 			{
-				PdfTemplate template = null;
-				if ( pageDevice.getImageMap( ).containsKey( uri ) )
-				{
-					template = pageDevice.getImageMap( ).get( uri );
-				}
-				else
-				{
-					template = contentByte.createTemplate( width, height );
-					Image image = Image.getInstance( new URL( uri ) );
-					template.addImage( image, width, 0, 0, height, 0, 0 );
-					pageDevice.getImageMap( ).put( uri, template );
-				}
-				if ( template != null )
-				{
-					drawImage( template, imageX, imageY, height, width,
-							helpText );
-				}
+				template = contentByte.createTemplate( width, height );
+				Image image = Image.getInstance( new URL( uri ) );
+				template.addImage( image, width, 0, 0, height, 0, 0 );
+				pageDevice.getImageMap( ).put( uri, template );
+			}
+			if ( template != null )
+			{
+				drawImage( template, imageX, imageY, height, width, helpText );
 			}
 		}
 	}
@@ -1007,5 +1017,33 @@ public class PDFPage extends AbstractPage
 			showHelpText( x, y, width, height, helpText );
 		}
 		contentByte.restoreState( );
+	}
+	
+	private void transSVG( String svgPath, byte[] svgData, float x, float y, float height,
+			float width, String helpText ) throws IOException,
+			DocumentException
+	{
+		PdfTemplate template = contentByte.createTemplate( width, height );
+		Graphics2D g2D = template.createGraphics( width, height );
+
+		PrintTranscoder transcoder = new PrintTranscoder( );
+		if ( null != svgPath )
+		{
+			transcoder.transcode( new TranscoderInput( svgPath ), null );
+		}
+		else if ( null != svgData && svgData.length > 0 )
+		{
+			transcoder.transcode( new TranscoderInput(
+					new ByteArrayInputStream( svgData ) ), null );
+		}
+		PageFormat pg = new PageFormat( );
+		Paper p = new Paper( );
+		p.setSize( width, height );
+		p.setImageableArea( 0, 0, width, height );
+		pg.setPaper( p );
+		transcoder.print( g2D, pg, 0 );
+		g2D.dispose( );
+
+		drawImage( template, x, y, height, width, helpText );
 	}
 }

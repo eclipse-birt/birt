@@ -23,32 +23,36 @@ import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
 
-
 public class SvgFile
 {
+
 	private static Logger logger = Logger.getLogger( SvgFile.class.getName( ) );
-	
+
 	static boolean isSvg = false;
-	
-	public static boolean isSvg(String uri)
+
+	public static boolean isSvg( String uri )
 	{
 		if ( uri != null && uri.endsWith( ".svg" ) )
 		{
 			isSvg = true;
 		}
-		else isSvg = false;
+		else
+		{
+			isSvg = false;
+		}
 		return isSvg;
 	}
 	
-	public static boolean isSvg(String mimeType,String uri,String extension)
+	public static boolean isSvg( String mimeType, String uri, String extension )
 	{
-		isSvg = ( ( mimeType != null ) && mimeType.equalsIgnoreCase( "image/svg+xml" ) ) //$NON-NLS-1$
-				|| ( ( uri != null ) && uri.toLowerCase( )
-						.endsWith( ".svg" ) ) //$NON-NLS-1$
-				|| ( ( extension != null ) && extension.toLowerCase( ).endsWith(".svg" ) ); //$NON-NLS-1$
-	     return isSvg;
+		isSvg = ( ( mimeType != null ) && mimeType
+				.equalsIgnoreCase( "image/svg+xml" ) ) //$NON-NLS-1$
+				|| ( ( uri != null ) && uri.toLowerCase( ).endsWith( ".svg" ) ) //$NON-NLS-1$
+				|| ( ( extension != null ) && extension.toLowerCase( )
+						.endsWith( ".svg" ) ); //$NON-NLS-1$
+		return isSvg;
 	}
-	
+
 	public static byte[] transSvgToArray( String uri ) throws IOException
 	{
 		InputStream in = new URL( uri ).openStream( );

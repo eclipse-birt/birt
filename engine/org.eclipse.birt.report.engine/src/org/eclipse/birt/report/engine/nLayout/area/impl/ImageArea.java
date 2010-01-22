@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 
@@ -22,14 +24,16 @@ public class ImageArea extends AbstractArea implements IImageArea
 	protected String url;
 
 	protected byte[] data;
-	
+
 	protected String extension;
-	
+
 	protected String helpText;
-	
+
 	protected String mimetype;
-	
+
 	protected HashMap<String, String> params;
+
+	protected ArrayList<IImageMap> imageMapDescription;
 
 	public ImageArea( )
 	{
@@ -81,8 +85,8 @@ public class ImageArea extends AbstractArea implements IImageArea
 	{
 		return extension;
 	}
-	
-	public void setExtension(String extension)
+
+	public void setExtension( String extension )
 	{
 		this.extension = extension;
 	}
@@ -91,8 +95,8 @@ public class ImageArea extends AbstractArea implements IImageArea
 	{
 		return helpText;
 	}
-	
-	public void setHelpText(String helpText)
+
+	public void setHelpText( String helpText )
 	{
 		this.helpText = helpText;
 	}
@@ -101,20 +105,60 @@ public class ImageArea extends AbstractArea implements IImageArea
 	{
 		return mimetype;
 	}
-	
-	public void setMIMEType(String mimetype)
+
+	public void setMIMEType( String mimetype )
 	{
 		this.mimetype = mimetype;
 	}
-	
+
 	public HashMap<String, String> getParameters( )
 	{
 		return params;
 	}
-	
+
 	public void setParameters( HashMap<String, String> params )
 	{
 		this.params = params;
 	}
 
+	public void addImageMap( int[] peak, IHyperlinkAction action )
+	{
+		if ( imageMapDescription == null )
+		{
+			imageMapDescription = new ArrayList<IImageMap>( );
+		}
+		ImageMap map = new ImageMap( peak, action );
+		imageMapDescription.add( map );
+	}
+
+	public ArrayList<IImageMap> getImageMapDescription( )
+	{
+		return imageMapDescription;
+	}
+	
+	class ImageMap implements IImageMap
+	{
+		int[] vertices;
+		IHyperlinkAction action;
+		
+		public ImageMap( int[] vertices, IHyperlinkAction action )
+		{
+			this.vertices = vertices;
+			this.action = action;
+		}
+		
+		public int[] getVertices( )
+		{
+			return vertices;
+		}
+		
+		public IHyperlinkAction getAction( )
+		{
+			return action;
+		}
+
+	}
+
 }
+
+

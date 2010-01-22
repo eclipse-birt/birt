@@ -12,9 +12,7 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
@@ -45,8 +43,6 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
-import org.eclipse.birt.report.engine.util.FlashFile;
-import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSValue;
 
@@ -621,8 +617,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		if ( bi != null )
 		{
 			// Draws background image for the new page. if the background image
-			// is
-			// NOT set, draw nothing.
+			// is NOT set, draw nothing.
 			drawBackgroundImage( bi, 0, 0, pageWidth, pageHeight );
 		}
 
@@ -735,8 +730,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			if ( bi != null )
 			{
 				// Draws background image for the container. if the
-				// background
-				// image is NOT set, draws nothing.
+				// background image is NOT set, draws nothing.
 				drawBackgroundImage( bi, startX, startY,
 						width, height );
 			}
@@ -925,77 +919,29 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		int imageX = currentX + getX( image );
 		int imageY = currentY + getY( image );
-		
-		InputStream in = null;
 		int height = getHeight( image );
 		int width = getWidth( image );
 		String helpText = image.getHelpText( );
+
 		try
 		{
 			byte[] data = image.getImageData( );
 			String extension = image.getExtension( );
-			String mimeType = image.getMIMEType( );
 			String uri = image.getImageUrl( );
 			if ( data != null )
 			{
-				in = new ByteArrayInputStream( data );
-
-				if ( FlashFile.isFlash( null, uri, extension ) )
-				{
-					pageGraphic.drawImage( uri, extension, imageX, imageY,
-							height, width, helpText, image.getParameters( ) );
-				}
-				else
-				{
-					if ( SvgFile.isSvg( mimeType, uri, extension ) )
-					{
-						data = SvgFile.transSvgToArray( in );
-					}
-					pageGraphic.drawImage( uri, data, extension, imageX,
-							imageY, height, width, helpText, null );
-				}
+				pageGraphic.drawImage( uri, data, extension, imageX, imageY,
+						height, width, helpText, image.getParameters( ) );
 			}
 			else if ( uri != null )
 			{
-
-				if ( FlashFile.isFlash( null, null, extension ) )
-				{
-					pageGraphic.drawImage( uri, extension, imageX, imageY,
-							height, width, helpText, image.getParameters( ) );
-				}
-				else if ( SvgFile.isSvg( uri ) )
-				{
-					pageGraphic.drawImage( uri, SvgFile.transSvgToArray( uri ),
-							extension, imageX, imageY, height, width, helpText,
-							null );
-				}
-				else
-				{
-					pageGraphic.drawImage( uri, extension, imageX, imageY,
-							height, width, helpText, null );
-				}
+				pageGraphic.drawImage( uri, extension, imageX, imageY,
+						height, width, helpText, image.getParameters( ) );
 			}
-			if ( in == null )
-				return;
 		}
 		catch ( Throwable t )
 		{
 			log( t, Level.WARNING );
-		}
-		finally
-		{
-			if ( in != null )
-			{
-				try
-				{
-					in.close( );
-					in = null;
-				}
-				catch ( IOException e )
-				{
-					log( e, Level.WARNING );
-				}
-			}
 		}
 	}
 

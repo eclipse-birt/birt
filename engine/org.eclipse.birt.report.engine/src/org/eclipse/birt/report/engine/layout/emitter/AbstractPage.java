@@ -82,7 +82,7 @@ public abstract class AbstractPage implements IPage
 				convertToPoint( imageY ), convertToPoint( height ),
 				convertToPoint( width ), helpText, params );
 	}
-
+	
 	public void drawLine( int startX, int startY, int endX, int endY,
 			int width, Color color, int lineStyle )
 	{

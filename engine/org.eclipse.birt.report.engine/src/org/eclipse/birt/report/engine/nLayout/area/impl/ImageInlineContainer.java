@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
-import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea.SplitResult;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
 public class ImageInlineContainer extends InlineContainerArea

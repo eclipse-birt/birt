@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.engine.nLayout.area;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 
 public interface IImageArea extends IArea
 {
@@ -27,5 +30,16 @@ public interface IImageArea extends IArea
 	String getMIMEType( );
 	
 	HashMap<String, String> getParameters( );
-
+	
+	void addImageMap( int[] peak, IHyperlinkAction action );
+	
+	ArrayList<IImageMap> getImageMapDescription( );
+	
+	interface IImageMap
+	{
+		public int[] getVertices( );
+		public IHyperlinkAction getAction( );
+	}
 }
+
+
