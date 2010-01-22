@@ -301,7 +301,8 @@ public class ChartLivePreviewThread extends Thread
 					
 					ImageViewer ic = new ImageViewer( shell, SWT.NO_BACKGROUND | SWT.NO_REDRAW_RESIZE );
 					Label l = new Label( shell, SWT.NONE );
-					l.setText( taskName + Messages.getString("ChartLivePreviewThread_Text.PleaseWaiting") ); //$NON-NLS-1$
+					l.setText( taskName
+							+ Messages.getString( "ChartLivePreviewThread_Text.PleaseWait" ) ); //$NON-NLS-1$
 
 					GridLayout gl = new GridLayout();
 					gl.numColumns = 2;
