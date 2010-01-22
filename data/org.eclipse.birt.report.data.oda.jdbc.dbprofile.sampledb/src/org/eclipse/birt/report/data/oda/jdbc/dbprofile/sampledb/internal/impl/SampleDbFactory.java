@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,7 +37,7 @@ import org.osgi.framework.Bundle;
 /**
  *  The factory class that creates the BIRT SampleDB Derby Embedded Database specified by the 
  *  sample database connection profile.
- *  It is specified as the connectionInitializer in the extension that implements the
+ *  It is specified as the connectionInitializer class in the extension that implements the
  *  org.eclipse.datatools.connectivity.ProfileManagerInitializationProvider extension point.
  */
 public class SampleDbFactory implements IExecutableExtension
@@ -50,6 +50,13 @@ public class SampleDbFactory implements IExecutableExtension
     private static final String SAMPLE_DB_LOG = "log"; //$NON-NLS-1$
     private static final String SAMPLE_DB_SEG = "seg0"; //$NON-NLS-1$
     private static final String PATH_SEPARATOR = "/"; //$NON-NLS-1$
+    
+    // key and name of pre-defined driver definition, as specified in the 
+    // org.eclipse.datatools.connectivity.ProfileManagerInitializationProvider extension
+    private static final String DRIVER_DEFN_NAME_KEY = "%driver.definition.name"; //$NON-NLS-1$
+    private static final String SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME = "BIRT SampleDb Derby Embedded Driver"; //$NON-NLS-1$
+    private static final String SAMPLEDB_DRIVER_DEFN_RESOURCE_KEY = 
+        DRIVER_DEFN_NAME_KEY + " " + SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME; //$NON-NLS-1$
 
     /* (non-Javadoc)
      * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
@@ -64,6 +71,11 @@ public class SampleDbFactory implements IExecutableExtension
         try
         {
             initSampleDb( sampledbBundle, stateLocation );
+            
+            // remove the sampledb driver instance if its jar path is obsolete, so 
+            // a new driver instance with the correct jarList will get created automatically 
+            // by DTP profile manager
+            removeObsoleteDriverDefinition();   
         }
         catch( RuntimeException ex )
         {
@@ -161,5 +173,14 @@ public class SampleDbFactory implements IExecutableExtension
         zipStream.close();
         dbFileStream.close();
     }
+    
+    private void removeObsoleteDriverDefinition()
+    {
+        Bundle myBundle = Platform.getBundle( PLUGIN_ID );
+        String driverDefnName = Platform.getResourceString( myBundle, SAMPLEDB_DRIVER_DEFN_RESOURCE_KEY );
 
+        // remove the driver definition instance if it is invalid
+        ProfileDriverUtil.removeInvalidDriverDefinition( driverDefnName );
+    }
+    
 }
