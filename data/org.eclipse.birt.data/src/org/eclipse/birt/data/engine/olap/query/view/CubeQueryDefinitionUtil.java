@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,7 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -271,14 +275,16 @@ public class CubeQueryDefinitionUtil
 			ICubeQueryDefinition query, IEdgeDrillFilter columnDrill,
 			IEdgeDrillFilter rowDrill, ICube cube ) throws DataException
 	{
-		ICubeQueryDefinition cloneQuery = null;
+		DrillCubeQueryDefinition cloneQuery = null;
 		if( query!= null )
 		{
 			cloneQuery = new DrillCubeQueryDefinition( query.getName( ) );
 			if ( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
 			{
 				if ( columnDrill != null )
-					( (DrillCubeQueryDefinition) cloneQuery ).setTupleOnColumn( columnDrill.getTuple( ) );
+				{
+					( (DrillCubeQueryDefinition) cloneQuery ).setTupleOnColumn( columnDrill.getTuple( ) );					
+				}
 
 				cloneEdgeDefinition( cloneQuery,
 						query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
@@ -289,7 +295,9 @@ public class CubeQueryDefinitionUtil
 			if ( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
 			{
 				if ( rowDrill != null )
+				{
 					( (DrillCubeQueryDefinition) cloneQuery ).setTupleOnRow( rowDrill.getTuple( ) );
+				}
 
 				cloneEdgeDefinition( cloneQuery,
 						query.getEdge( ICubeQueryDefinition.ROW_EDGE ),
@@ -457,7 +465,7 @@ public class CubeQueryDefinitionUtil
 	}
 
 
-	private static void cloneEdgeDefinition( ICubeQueryDefinition cloneQuery,
+	private static void cloneEdgeDefinition( DrillCubeQueryDefinition cloneQuery,
 			IEdgeDefinition edge, int type, IEdgeDrillFilter drill, ICube cube ) throws DataException
 	{
 		IEdgeDefinition cloneEdge = cloneQuery.createEdge( type );
@@ -477,26 +485,6 @@ public class CubeQueryDefinitionUtil
 				if ( drill!= null && hierarchy.getName( ).equals( drill.getTargetHierarchy( )
 						.getName( ) ) )
 				{
-//					if ( DrillType.DRILL_TO_ROOTS.equals( drill.getDrillOperation( ) )
-//							|| DrillType.DRILL_TO_ANCESTORS.equals( drill.getDrillOperation( ) )
-//							|| DrillType.DRILL_TO_PARENT.equals( drill.getDrillOperation( ) ) )
-//					{
-//						Iterator<ILevelDefinition> levels = hierarchy.getLevels( )
-//								.iterator( );
-//						while ( levels.hasNext( ) )
-//						{
-//							ILevelDefinition level = (ILevelDefinition) levels.next( );
-//							ILevelDefinition cloneLevel = cloneHier.createLevel( level.getName( ) );
-//							levelDefnList.add( cloneLevel );
-//
-//							if ( level.getName( )
-//									.equals( drill.getTargetLevel( ) ) )
-//							{
-//								break;
-//							}
-//						}
-//					}
-//					else
 					{
 						IHierarchy cubeHierarchy = findHierarchyFromCube( cube,
 								hierarchy );
@@ -533,26 +521,71 @@ public class CubeQueryDefinitionUtil
 		{
 			Iterator members = drill.getTuple( ).iterator( );
 			Iterator levels = levelDefnList.iterator( );
+			
+			Collection<Object[]> qulifiedTuple = new ArrayList<Object[]>( );
+		
 			while ( members.hasNext( ) && levels.hasNext( ) )
 			{
 				Object[] key = (Object[]) members.next( );
 				if ( key != null && key.length > 0 && key[0] != null )
 				{
+					ILevelDefinition level = (ILevelDefinition) levels.next( );
+					int dataType = getLevelDataType( level, cube );
+
+					Object[] qualifiedKey = new Object[key.length];
 					Object[][] multipleKey = new Object[key.length][];
+
 					for ( int i = 0; i < key.length; i++ )
 					{
-						multipleKey[i] = new Object[]{
-							key[i]
-						};
+						try
+						{
+							Object value = DataTypeUtil.convert( key[i],
+									dataType );
+							qualifiedKey[i] = value;
+							multipleKey[i] = new Object[]{
+								value
+							};
+						}
+						catch ( BirtException e )
+						{
+						}
 					}
+					
+					qulifiedTuple.add( qualifiedKey );
 					ISelection selection = SelectionFactory.createMutiKeySelection( multipleKey );
-					( (DrillCubeQueryDefinition) cloneQuery ).addLevelFilter( new LevelFilter( new DimLevel( (ILevelDefinition) levels.next( ) ),
+					( (DrillCubeQueryDefinition) cloneQuery ).addLevelFilter( new LevelFilter( new DimLevel( (ILevelDefinition) level ),
 							new ISelection[]{
 								selection
 							} ) );
 				}
 			}
+			
+			if ( type == ICubeQueryDefinition.COLUMN_EDGE )
+				cloneQuery.setTupleOnColumn( qulifiedTuple );
+			else
+				cloneQuery.setTupleOnRow( qulifiedTuple );
+			drill.setTuple( qulifiedTuple );
 		}
+	}
+	
+	private static int getLevelDataType( ILevelDefinition level, ICube cube )
+	{
+		IHierarchy hierarchy = findHierarchyFromCube( cube,
+				level.getHierarchy( ) );
+		int dataType = DataType.ANY_TYPE;
+		if ( hierarchy != null )
+		{
+			ILevel[] levelArray = hierarchy.getLevels( );
+			for ( int i = 0; i < levelArray.length; i++ )
+			{
+				if ( levelArray[i].getName( ).equals( level.getName( ) ) )
+				{
+					dataType = levelArray[i].getKeyDataType( level.getName( ) );
+					break;
+				}
+			}
+		}
+		return dataType;
 	}
 
 	private static List findLevelExpressionFromQuery( IEdgeDefinition edge,
