@@ -111,7 +111,7 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 
 			if ( inputDialog.open( ) == Window.OK )
 			{
-				return factory.newTheme( inputDialog.getValue( ).trim( ) );
+				return factory.newTheme( inputDialog.getResult( ).toString( ).trim( ) );
 			}
 			return null;
 		}

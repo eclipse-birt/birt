@@ -11,40 +11,179 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views;
 
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.resource.StringConverter;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * The dialog used to rename action's input
  */
-public class RenameInputDialog extends InputDialog
+public class RenameInputDialog extends BaseDialog
 {
 
-	public RenameInputDialog( Shell shell, String dialogTitle,
-			String dialogMessage, String initialValue, IInputValidator validator )
+	/**
+	 * The message of the dialog.
+	 */
+	private String message;
+
+	/**
+	 * The input value.
+	 */
+	private String value;
+
+	/**
+	 * The help context ID.
+	 */
+	private String helpContextID;
+
+	/**
+	 * Input text widget.
+	 */
+	private Text text;
+
+	/**
+	 * Error message label widget.
+	 */
+	private String errorMessage;
+
+	/**
+	 * Error message label widget.
+	 */
+	private Text errorMessageText;
+
+	public RenameInputDialog( Shell parentShell, String dialogTitle, String dialogMessage,
+			String initialValue, String helpContextID )
 	{
-		super( shell, dialogTitle, dialogMessage, initialValue, validator );
+		super( dialogTitle );
+		this.message = dialogMessage;
+		this.value = initialValue;
+		this.helpContextID = helpContextID;
 	}
 
-	public int open( )
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see
+	// * org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets
+	// * .Shell)
+	// */
+	// protected void configureShell( Shell shell )
+	// {
+	// super.configureShell( shell );
+	// if ( title != null )
+	// {
+	// shell.setText( title );
+	// }
+	// }
+
+
+	protected Control createDialogArea( Composite parent )
 	{
-		getText( ).addModifyListener( new ModifyListener( ) {
+		Composite composite = (Composite) super.createDialogArea( parent );
+
+		Composite container = new Composite( composite, SWT.NONE );
+		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 3;
+		layout.marginWidth = layout.marginHeight = 0;
+		container.setLayout( layout );
+		if ( message != null )
+		{
+			Label label = new Label( container, SWT.WRAP );
+			label.setText( message );
+			label.setLayoutData( new GridData( ) );
+			label.setFont( parent.getFont( ) );
+		}
+		
+		text = new Text( container, SWT.BORDER | SWT.SINGLE );
+		text.setText( value );
+
+		GridData gd = new GridData( GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL );
+		gd.horizontalSpan = 2;
+		gd.widthHint = 250;
+		text.setLayoutData( gd );
+		text.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
-				if ( getText( ).getText( ).trim( ).length( ) == 0 )
+				if ( text.getText( ).trim( ).length( ) == 0 )
+				{
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+					setErrorMessage( Messages.getString( "RenameInputDialog.Message.BlankName" ) ); //$NON-NLS-1$
+				}
 				else
+				{
 					getButton( IDialogConstants.OK_ID ).setEnabled( true );
+					setErrorMessage( null );
+				}
 			}
-
 		} );
-		if ( getText( ).getText( ).trim( ).length( ) == 0 )
-			getButton( IDialogConstants.OK_ID ).setEnabled( false );
-		return super.open( );
+
+		errorMessageText = new Text( container, SWT.READ_ONLY | SWT.WRAP );
+		gd = new GridData( GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL );
+		gd.horizontalSpan = 3;
+		errorMessageText.setLayoutData( gd );
+		errorMessageText.setBackground( errorMessageText.getDisplay( )
+				.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
+
+		setErrorMessage( errorMessage );
+
+		applyDialogFont( composite );
+		
+		UIUtil.bindHelp( parent, helpContextID );
+
+		return composite;
 	}
+
+	public void setErrorMessage( String errorMessage )
+	{
+		this.errorMessage = errorMessage;
+		if ( errorMessageText != null && !errorMessageText.isDisposed( ) )
+		{
+			errorMessageText.setText( errorMessage == null ? " \n " : errorMessage ); //$NON-NLS-1$
+
+			boolean hasError = errorMessage != null
+					&& ( StringConverter.removeWhiteSpaces( errorMessage ) ).length( ) > 0;
+			errorMessageText.setEnabled( hasError );
+			errorMessageText.setVisible( hasError );
+			errorMessageText.getParent( ).update( );
+
+			Control button = getButton( IDialogConstants.OK_ID );
+			if ( button != null )
+			{
+				button.setEnabled( errorMessage == null );
+			}
+		}
+	}
+
+	protected void okPressed( )
+	{
+		setResult( text.getText( ) );
+		super.okPressed( );
+	}
+
+	protected Control createContents( Composite parent )
+	{
+		Control composite = super.createContents( parent );
+		if ( text.getText( ).trim( ).length( ) == 0 )
+		{
+			getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			setErrorMessage( Messages.getString( "RenameInputDialog.Message.BlankName" ) ); //$NON-NLS-1$
+		}
+		return composite;
+	}
+
 }

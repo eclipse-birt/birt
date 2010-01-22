@@ -140,7 +140,7 @@ public class RenameAction extends AbstractViewerAction
 			inputDialog.create( );
 			if ( inputDialog.open( ) == Window.OK )
 			{
-				saveChanges( inputDialog.getValue( ).trim( ) );
+				saveChanges( inputDialog.getResult( ).toString( ).trim( ) );
 			}
 		}
 	}

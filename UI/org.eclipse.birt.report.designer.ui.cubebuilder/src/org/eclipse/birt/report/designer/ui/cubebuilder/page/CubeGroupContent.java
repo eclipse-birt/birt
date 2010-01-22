@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
@@ -1627,13 +1628,14 @@ public class CubeGroupContent extends Composite implements Listener
 								Messages.getString( "CubeGroupContent.Measure.Add.Title" ), //$NON-NLS-1$
 								Messages.getString( "CubeGroupContent.Message.Add.Message" ), //$NON-NLS-1$
 								( (DesignElementHandle) measureGroup ).getName( ),
-								null );
+								IHelpContextIds.SUMMARY_FIELD_DIALOG_ID );
 						inputDialog.create( );
 						if ( inputDialog.open( ) == Window.OK )
 						{
 							try
 							{
-								( (DesignElementHandle) measureGroup ).setName( inputDialog.getValue( )
+								( (DesignElementHandle) measureGroup ).setName( inputDialog.getResult( )
+										.toString( )
 										.trim( ) );
 								stack.commit( );
 							}
@@ -2101,6 +2103,9 @@ public class CubeGroupContent extends Composite implements Listener
 		return inputDialog;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	private InputDialog createInputDialog( ReportElementHandle handle,
 			String title, String message )
 	{
@@ -2290,16 +2295,18 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 				else if ( obj instanceof MeasureGroupHandle )
 				{
-					title = Messages.getString( "CubeGroupContent.Measure.Edit.Title" ); //$NON-NLS-1$
-					message = Messages.getString( "CubeGroupContent.Measure.Edit.Message" ); //$NON-NLS-1$
-					InputDialog inputDialog = createInputDialog( (ReportElementHandle) obj,
-							title,
-							message );
+					RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
+							Messages.getString( "CubeGroupContent.Measure.Edit.Title" ), //$NON-NLS-1$,
+							Messages.getString( "CubeGroupContent.Measure.Edit.Message" ), //$NON-NLS-1$,
+							( (ReportElementHandle) obj ).getName( ),
+							IHelpContextIds.SUMMARY_FIELD_DIALOG_ID );
+					inputDialog.create( );
 					if ( inputDialog.open( ) == Window.OK )
 					{
 						try
 						{
-							( (DesignElementHandle) obj ).setName( inputDialog.getValue( )
+							( (DesignElementHandle) obj ).setName( inputDialog.getResult( )
+									.toString( )
 									.trim( ) );
 						}
 						catch ( NameException e1 )
