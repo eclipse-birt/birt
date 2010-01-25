@@ -155,7 +155,7 @@ public class ModelAdapter implements IModelAdapter
 
 		}
 		logger.warning( "handle type: " + (handle == null ? "" : handle.getClass( ).getName( )) ); //$NON-NLS-1$
-		return null;
+		return design;
 	
 	}
 
