@@ -64,8 +64,8 @@ Error.UnhandledScriptError = 执行脚本时出现未处理的例外。
 ###########################################################
 Error.PageNotFoundError = 未找到页 {0}。
 Error.PageNumberRangeError = 无效页范围: {0}。
-Error.PageHintLoadingError = 无法加载页提示。
-Error.PagesLoadingError = 无法加载页 {0}。
+Error.PageHintLoadingError = Can not load the page hint.
+Error.PagesLoadingError = Can not load the pages {0}.
 
 Error.InvalidGroupError = 无效组: {0}。
 Error.InvalidExtensionError = 无效的扩展: {0} 和无效的格式: {1}。
@@ -81,13 +81,13 @@ Error.SubqueryCreateError = 子查询只能在另一个子查询/查询中创建。
 Error.BindDataRetrivingError = 检索绑定数据错误。
 Error.DataSourceError = 数据集的数据源不能为空。
 Error.UnsupportedQueryDefinitionError = 不支持的查询定义 {0}。
-Error.ReportQueryLoadingError = 无法加载报表查询: {0}。
+Error.ReportQueryLoadingError = Can not load the report query: {0}.
 Error.ExtentionIDMissingError = 数据源定义 {0} 中缺少扩展 ID。
 Error.DataExportionError = 未能按实例 ID 导出数据: {0}。
 Error.UnsupportedDocumentVersionError = 不支持的文档版本: {0}。
 Error.ResultsetIteratorError = 结果集迭代函数必须移动到有效行。
 Error.ReportDesignNotFoundError = 报表文档 {0} 中无法找到报表设计。
-Error.PreparedQueryNotFoundError = 无法找到准备的查询 {0}。
+Error.PreparedQueryNotFoundError = Can not find the prepared query {0}.
 Error.IncorrectParentResultSetError = 子查询的错误父结果集: {0}。
 Error.UnsupportedQueryTypeError = 不支持的查询类型 {0}。
 Error.QueryNotBuiltError = 无法为元素生成查询: {0}。
@@ -109,5 +109,5 @@ PDFCreator = 使用 iText {1} 的 BIRT 报表引擎 {0}。
 ###########################################################
 Error.FlashObjectNotSupported = 此报表格式不支持 Flash 对象报表项。
 Error.ReportItemNotSupported = 此报表格式不支持当前报表项。
-
-
+Error.ResourceUnreachable = The resource of this report item is not reachable.
+Error.UpdateUserAgent = Enable Flash support or download a newer version of the Adobe Reader to view Flash content in PDF files.
