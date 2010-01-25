@@ -4742,3 +4742,7 @@ ExpressionEditor.Title=Modifier l'expression
 ###########################################################
 #VariableDropAdapter
 VariableDropAdapter.TranasctionName=Créer l'élément Date à partir de la variable
+
+###########################################################
+#RenameInputDialog
+RenameInputDialog.Message.BlankName=Name cannot be blank

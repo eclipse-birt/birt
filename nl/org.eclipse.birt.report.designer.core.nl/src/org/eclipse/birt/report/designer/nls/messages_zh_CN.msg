@@ -4742,3 +4742,7 @@ ExpressionEditor.Title=编辑表达式
 ###########################################################
 #VariableDropAdapter
 VariableDropAdapter.TranasctionName=使用变量创建数据项
+
+###########################################################
+#RenameInputDialog
+RenameInputDialog.Message.BlankName=Name cannot be blank

@@ -4742,3 +4742,7 @@ ExpressionEditor.Title=식 편집
 ###########################################################
 #VariableDropAdapter
 VariableDropAdapter.TranasctionName=변수에서 데이터 항목 생성
+
+###########################################################
+#RenameInputDialog
+RenameInputDialog.Message.BlankName=Name cannot be blank

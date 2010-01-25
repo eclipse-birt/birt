@@ -4742,3 +4742,7 @@ ExpressionEditor.Title=Ausdruck bearbeiten
 ###########################################################
 #VariableDropAdapter
 VariableDropAdapter.TranasctionName=Datumsobjekt aus Variablen erstellen
+
+###########################################################
+#RenameInputDialog
+RenameInputDialog.Message.BlankName=Name cannot be blank

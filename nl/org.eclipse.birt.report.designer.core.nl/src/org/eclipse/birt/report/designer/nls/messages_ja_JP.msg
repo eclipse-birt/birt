@@ -4742,3 +4742,7 @@ ExpressionEditor.Title=®‚Ì•ÒW
 ###########################################################
 #VariableDropAdapter
 VariableDropAdapter.TranasctionName=•Ï”‚©‚ç“ú•t€–Ú‚ğì¬
+
+###########################################################
+#RenameInputDialog
+RenameInputDialog.Message.BlankName=Name cannot be blank
