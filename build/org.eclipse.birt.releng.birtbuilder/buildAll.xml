@@ -48,15 +48,9 @@
 		<antcall target="BuildChartViewer"/>
 		<antcall target="CreateDistribute"/>
 		
-		<parallel failonany="true">
-			<sequential>	
-				<antcall target="buildBirtWtpFeature"/>
-			</sequential>
-			<sequential>
-				<antcall target="buildBirtNLFeature"/>			
-				<antcall target="iPortalSetup"/>
-			</sequential>
-		</parallel>
+		<antcall target="buildBirtNLFeature"/>
+		<antcall target="iPortalSetup"/>
+		<antcall target="buildBirtWtpFeature"/>
 
 		<antcall target="verifyCompile"/>
 		<antcall target="CreateUpdateSite"/>
