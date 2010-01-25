@@ -17,6 +17,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class NodeTable
 {
@@ -29,6 +30,7 @@ public class NodeTable
 	Ext2FileSystem fs;
 
 	ArrayList<Ext2Node> nodes = new ArrayList<Ext2Node>( 4 );
+	LinkedList<Ext2Node> freeNodes = new LinkedList<Ext2Node>( );
 
 	NodeTable( Ext2FileSystem fs )
 	{
@@ -81,6 +83,10 @@ public class NodeTable
 				node = new Ext2Node( i );
 				readNode( node, buffer );
 				nodes.add( node );
+				if ( node.getStatus( ) == Ext2Node.STATUS_UNUSED )
+				{
+					freeNodes.add( node );
+				}
 			}
 		}
 		finally
@@ -144,14 +150,11 @@ public class NodeTable
 
 	Ext2Node allocateNode( )
 	{
-		for ( int i = 0; i < nodes.size( ); i++ )
+		if ( !freeNodes.isEmpty( ) )
 		{
-			Ext2Node node = nodes.get( i );
-			if ( node.getStatus( ) == Ext2Node.STATUS_UNUSED )
-			{
-				node.setStatus( Ext2Node.STATUS_USED );
-				return node;
-			}
+			Ext2Node node = freeNodes.removeFirst( );
+			node.setStatus( Ext2Node.STATUS_USED );
+			return node;
 		}
 		Ext2Node node = new Ext2Node( nodes.size( ) );
 		nodes.add( node );
@@ -165,5 +168,6 @@ public class NodeTable
 		Ext2Node freeNode = node.copyFreeNode( );
 		fs.releaseFreeBlocks( freeNode );
 		node.reset( );
+		freeNodes.add( node );
 	}
 }
