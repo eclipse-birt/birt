@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -330,6 +330,7 @@ public class ResourceConstants
     public final static String PARAMETER_NAMES_INFO = "odaconsumer.ParameterNames";
     public final static String INVALID_METHOD_ARGUMENT = "odaconsumer.InvalidArgument";
     public final static String CANNOT_SET_CONN_LOCALE = "odaconsumer.CannotSetConnectionLocale";
+    public final static String CANNOT_CHECK_CONN_ISOPEN = "odaconsumer.CannotCheckOpenConnection";
 
 	//OLAP errors
 	public final static String OLAPDIR_CREATE_FAIL = "data.olap.OlapDirCreateFail";
