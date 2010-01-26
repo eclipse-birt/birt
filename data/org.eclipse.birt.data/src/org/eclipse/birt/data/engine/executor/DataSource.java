@@ -206,7 +206,7 @@ class DataSource implements IDataSource
     	while ( it.hasNext() )
     	{
     		CacheConnection c = (CacheConnection) (it.next());
-    		if ( c.currentStatements < c.maxStatements )
+    		if ( c.odaConn.isOpen( ) && c.currentStatements < c.maxStatements )
     			return c;
     	}
     	
