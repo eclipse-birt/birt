@@ -671,6 +671,42 @@ public final class ExpressionUtil
 				+ paramNewName );
 		return expr;
 	}
+	
+	/**
+	 * Generate a Javascript constant expression by user input string and target BIRT data type.
+	 * @param input user input string.
+	 * @param dataType target BIRT data type. available values defined in {@code org.eclipse.birt.core.data.DataType}
+	 * @return generated Javascript constant expression text
+	 * @throws BIRTException
+	 */
+	public static String generateConstantExpr( String input, int dataType ) throws BirtException
+	{
+		if ( input == null )
+		{
+			return null;
+		}
+		if ( dataType == DataType.DECIMAL_TYPE )
+		{
+			return "new java.math.BigDecimal(\"" + input + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		if ( dataType == DataType.DATE_TYPE )
+		{
+			return "java.text.DateFormat.parse(\"" + input + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		if ( dataType == DataType.SQL_DATE_TYPE )
+		{
+			return "java.sql.Date.valueOf(\"" + input + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		if ( dataType == DataType.SQL_TIME_TYPE )
+		{
+			return "java.sql.Time.valueOf(\"" + input + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		if ( dataType == DataType.STRING_TYPE )
+		{
+			return JavascriptEvalUtil.transformToJsExpression( input );
+		}
+		return input;
+	}
 }
 
 /**
