@@ -27,6 +27,7 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -95,8 +96,12 @@ public class DataUtil
 		{
 			return null;
 		}
-		Expression expr = (Expression)eh.getValue( );
-		return adapter.adaptExpression( expr ).getText( );
+		Expression expr = (Expression) eh.getValue( );
+		ScriptExpression scriptExpr = adapter.adaptExpression( expr );
+
+		if ( scriptExpr == null )
+			return null;
+		return scriptExpr.getText( );
 	}
 	
 	/**
