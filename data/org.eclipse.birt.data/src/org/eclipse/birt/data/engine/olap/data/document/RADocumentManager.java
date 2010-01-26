@@ -58,6 +58,8 @@ public class RADocumentManager implements IDocumentManager
 	 */
 	public boolean exist( String documentObjectName )
 	{
+		if( archiveReader == null )
+			return false;
 		return archiveReader.exists( documentObjectName );
 	}
 
@@ -67,6 +69,8 @@ public class RADocumentManager implements IDocumentManager
 	 */
 	public IDocumentObject openDocumentObject( String documentObjectName ) throws IOException
 	{
+		if( archiveReader == null )
+			return null;
 		RAInputStream inputStream = archiveReader.getStream( documentObjectName );
 		if ( inputStream == null )
 			return null;
