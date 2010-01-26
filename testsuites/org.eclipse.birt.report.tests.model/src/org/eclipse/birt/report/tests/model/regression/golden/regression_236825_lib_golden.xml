@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <property name="units">in</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="5">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
             <property name="odaURL">jdbc:classicmodels:sampledb</property>
             <property name="odaUser">ClassicModels</property>
+            <property name="OdaConnProfileName"></property>
         </oda-data-source>
     </data-sources>
     <data-sets>
