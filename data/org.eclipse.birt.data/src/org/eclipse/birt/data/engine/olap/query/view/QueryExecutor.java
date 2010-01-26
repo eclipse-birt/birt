@@ -189,7 +189,7 @@ public class QueryExecutor
 					
 					incrementExecute( rs, ieh );
 				}
-				if ( needSaveToDocWhenUpate )
+				if ( executor.getContext( ).getDocWriter( ) != null && needSaveToDocWhenUpate )
 				{
 					if ( id == null )
 					{
