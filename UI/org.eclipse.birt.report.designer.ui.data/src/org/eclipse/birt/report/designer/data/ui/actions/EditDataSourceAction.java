@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.data.ui.actions;
 
+import org.eclipse.birt.report.designer.data.ui.datasource.AdvancedDataSourceEditor;
 import org.eclipse.birt.report.designer.data.ui.datasource.DataSourceEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
@@ -62,7 +63,7 @@ public class EditDataSourceAction extends AbstractElementAction
 			System.out.println( "Edit data source action >> Runs ..." ); //$NON-NLS-1$
 		}
 		DataSourceHandle handle = (DataSourceHandle) getSelection( );
-		DataSourceEditor dialog = new DataSourceEditor( PlatformUI
+		DataSourceEditor dialog = new AdvancedDataSourceEditor( PlatformUI
 				.getWorkbench( ).getDisplay( ).getActiveShell( ), handle );
 
 		return ( dialog.open( ) == IDialogConstants.OK_ID );

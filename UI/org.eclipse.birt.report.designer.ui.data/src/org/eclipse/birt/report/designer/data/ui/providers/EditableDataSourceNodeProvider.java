@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.data.ui.providers;
 
 import org.eclipse.birt.report.designer.data.ui.actions.ExportElementToSourceCPStoreAction;
+import org.eclipse.birt.report.designer.data.ui.datasource.AdvancedDataSourceEditor;
 import org.eclipse.birt.report.designer.data.ui.datasource.DataSourceEditor;
 import org.eclipse.birt.report.designer.data.ui.util.WizardUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.DataSourceNodeProvider;
@@ -65,7 +66,7 @@ public class EditableDataSourceNodeProvider extends DataSourceNodeProvider
 	{
 		if ( !(handle instanceof ScriptDataSourceHandle) && handle.canEdit( ) )
 		{
-			DataSourceEditor dialog = new DataSourceEditor( PlatformUI.getWorkbench( )
+			DataSourceEditor dialog = new AdvancedDataSourceEditor( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ),
 					(DataSourceHandle) handle );

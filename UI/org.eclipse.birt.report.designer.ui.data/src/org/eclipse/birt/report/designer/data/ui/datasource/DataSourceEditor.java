@@ -49,8 +49,8 @@ public class DataSourceEditor extends AbstractPropertyDialog implements
 		IPreferencePageContainer
 {
 
-	private DataSourceDesignSession m_designSession = null;
-	private OdaDataSourceHandle dataSourceHandle = null;
+	protected DataSourceDesignSession m_designSession = null;
+	protected OdaDataSourceHandle dataSourceHandle = null;
 
 	protected boolean needRememberLastSize( )
 	{
@@ -65,26 +65,14 @@ public class DataSourceEditor extends AbstractPropertyDialog implements
 	public DataSourceEditor( Shell parentShell, DataSourceHandle ds )
 	{
 		super( parentShell, ds );
-		String dataSourceType = null;
+
 		if ( ds instanceof OdaDataSourceHandle )
 		{
 			dataSourceHandle = (OdaDataSourceHandle) ds;
 			assert dataSourceHandle != null;
 
-			dataSourceType = dataSourceHandle.getExtensionID( );
-
-			if ( DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceType ) )
-			{
-				addCustomPageODAV3( dataSourceHandle );
-				addPageTo( "/", "org.eclipse.birt.datasource.editor.property", Messages.getString( "datasource.editor.property" ), null, new PropertyBindingPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			}
-			else
-			{
-				IConfigurationElement element = DataSetProvider.findDataSourceElement( dataSourceType );
-
-				if ( element != null )
-					addCustomPageODAV2( element );
-			}
+			String dataSourceType = dataSourceHandle.getExtensionID( );
+			addPagesToOdaDataSource( dataSourceType );
 		}
 		else
 		{
@@ -100,6 +88,28 @@ public class DataSourceEditor extends AbstractPropertyDialog implements
 		}
 	}
 
+	protected void addPagesToOdaDataSource( String dataSourceType )
+	{
+		if ( DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceType ) )
+		{
+			addCustomPageODAV3( dataSourceHandle );
+			if ( supportsPropertyBindingPage( ) )
+				addPageTo( "/", "org.eclipse.birt.datasource.editor.property", Messages.getString( "datasource.editor.property" ), null, new PropertyBindingPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+		else
+		{
+			IConfigurationElement element = DataSetProvider.findDataSourceElement( dataSourceType );
+
+			if ( element != null )
+				addCustomPageODAV2( element );
+		}
+	}
+
+	protected boolean supportsPropertyBindingPage( )
+	{
+		return true;		
+	}
+	
 	/**
 	 * 
 	 * @param dataSourceDesign
