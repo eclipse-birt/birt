@@ -292,7 +292,6 @@ public class LayoutEngine extends LayoutEmitterAdapter
 					context.setReserveDocumentPageNumbers( true );
 				}
 			}
-			context.setReserveDocumentPageNumbers( true );
 			// Object rtlFlag = options.get( IRenderOption.RTL_FLAG );
 			// if (rtlFlag != null && rtlFlag instanceof Boolean)
 			// {
