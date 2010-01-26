@@ -1,5 +1,5 @@
 #************************************************************************
-# Copyright (c) 2004, 2009 Actuate Corporation.
+# Copyright (c) 2004, 2010 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -254,7 +254,7 @@ odaconsumer.CannotGetConnectionMetaData=Die Verbindungsmetadaten können nicht ab
 odaconsumer.CannotGetMaxConnections=Die Höchstanzahl von Verbindungen für die Datenquelle kann nicht abgerufen werden.
 odaconsumer.CannotGetMaxStatements=Die Höchstanzahl von Abfragen für die Datenquelle kann nicht abgerufen werden.
 odaconsumer.CannotGetDataSetMetaData=Die Datensatzmetadaten {0} können nicht aus der Datenquelle abgerufen werden.
-odaconsumer.CannotPrepareStatement=Die folgende Abfrage für den Datensatztyp {1} kann nicht vorbereitet werden. \n[{0}]
+odaconsumer.CannotPrepareStatement=Failed to prepare the following query for the data set type ({1}). \n[{0}]
 odaconsumer.CannotCloseConnection=Die Verbindung kann nicht geschlossen werden.
 odaconsumer.CannotOpenConnection=Verbindung für Treiber kann nicht geöffnet werden: {0}.
 odaconsumer.CannotDetermineSupportForMultipleOpenResults=Unterstützung für mehrere offene Ergebnisse kann nicht festgestellt werden.
@@ -327,6 +327,7 @@ odaconsumer.CannotFindLogDirectory=Protokollverzeichnis kann nicht gefunden werd
 odaconsumer.ParameterNames=\nParameter mit Modellnamen ({0}) und über den Treiber definierten Namen ({1}) definiert.
 odaconsumer.InvalidArgument=Die Methode ({0}) wurde mit einem ungültigen Argument ({1}) aufgerufen.
 odaconsumer.CannotSetConnectionLocale=Verbindungsgebietsschema ({0}) kann nicht festgelegt werden.
+odaconsumer.CannotCheckOpenConnection=Unable to check whether the connection is already open.
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=Nach Aufruf von executeQuery() können Ergebnisse nicht nach Namen abgerufen werden.
 odaconsumer.manager.CannotSetParamBeforePrepare=Die Eingabeparameter können erst nach Vorbereitung der Anweisung eingestellt werden.

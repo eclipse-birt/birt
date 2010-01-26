@@ -1,5 +1,5 @@
 #************************************************************************
-# Copyright (c) 2004, 2009 Actuate Corporation.
+# Copyright (c) 2004, 2010 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -254,7 +254,7 @@ odaconsumer.CannotGetConnectionMetaData=No se pueden obtener los metadatos de co
 odaconsumer.CannotGetMaxConnections=No se puede obtener el número máximo de conexiones de la fuente de datos.
 odaconsumer.CannotGetMaxStatements=No se puede obtener el número máximo de consultas para la fuente de datos.
 odaconsumer.CannotGetDataSetMetaData=No se pueden obtener los metadatos del conjunto de datos {0} de la fuente de datos.
-odaconsumer.CannotPrepareStatement=Error al preparar la siguiente consulta para el tipo de conjunto de datos {1}. \n[{0}]
+odaconsumer.CannotPrepareStatement=Failed to prepare the following query for the data set type ({1}). \n[{0}]
 odaconsumer.CannotCloseConnection=No se puede cerrar la conexión.
 odaconsumer.CannotOpenConnection=No se puede abrir la conexión del controlador: {0}.
 odaconsumer.CannotDetermineSupportForMultipleOpenResults=No se puede determinar la asistencia para varios resultados abiertos.
@@ -327,6 +327,7 @@ odaconsumer.CannotFindLogDirectory=No se puede encontrar el directorio de regist
 odaconsumer.ParameterNames=\nParámetro definido con nombre de modelo ({0}) y nombre de definición por controlador ({1}).
 odaconsumer.InvalidArgument=El método ({0}) se solicitó con un argumento no válido ({1}).
 odaconsumer.CannotSetConnectionLocale=No es posible establecer la conexión con la configuración regional ({0}).
+odaconsumer.CannotCheckOpenConnection=Unable to check whether the connection is already open.
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=No se pueden obtener los grupos de resultados por nombre después de que se haya llamado a executeQuery().
 odaconsumer.manager.CannotSetParamBeforePrepare=No se pueden establecer parámetros de salida antes de preparar la sentencia.

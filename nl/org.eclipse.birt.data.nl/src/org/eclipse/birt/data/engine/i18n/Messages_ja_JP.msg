@@ -1,5 +1,5 @@
 #************************************************************************
-# Copyright (c) 2004, 2009 Actuate Corporation.
+# Copyright (c) 2004, 2010 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -254,7 +254,7 @@ odaconsumer.CannotGetConnectionMetaData=接続メタデータを取得できません。
 odaconsumer.CannotGetMaxConnections=データソースの接続の最大数を取得できません。
 odaconsumer.CannotGetMaxStatements=データソースのクエリの最大数を取得できません。
 odaconsumer.CannotGetDataSetMetaData=データセットのメタデータ {0} をデータソースから取得できません。
-odaconsumer.CannotPrepareStatement=データセットの型 {1} に、次のクエリを記述できませんでした。\n[{0}]
+odaconsumer.CannotPrepareStatement=Failed to prepare the following query for the data set type ({1}). \n[{0}]
 odaconsumer.CannotCloseConnection=接続を閉じることができません。
 odaconsumer.CannotOpenConnection=ドライバ {0} の接続を開けません。
 odaconsumer.CannotDetermineSupportForMultipleOpenResults=複数の結果を開けるかどうかを識別できません。
@@ -327,6 +327,7 @@ odaconsumer.CannotFindLogDirectory=ログディレクトリが見つかりません。
 odaconsumer.ParameterNames=\nこのパラメタには、モデル名 ({0}) とドライバで定義された名前 ({1}) が付いています。
 odaconsumer.InvalidArgument=無効な引数 ({1}) でメソッド ({0}) を呼び出しました。
 odaconsumer.CannotSetConnectionLocale=接続ロケール ({0}) を設定できません。
+odaconsumer.CannotCheckOpenConnection=Unable to check whether the connection is already open.
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=executeQuery() を呼び出した後は、結果セットを名前で取得することができません。
 odaconsumer.manager.CannotSetParamBeforePrepare=文を記述する前は入力パラメタを設定できません。

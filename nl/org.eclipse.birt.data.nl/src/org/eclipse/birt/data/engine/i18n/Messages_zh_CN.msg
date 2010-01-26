@@ -1,5 +1,5 @@
 #************************************************************************
-# Copyright (c) 2004, 2009 Actuate Corporation.
+# Copyright (c) 2004, 2010 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -254,7 +254,7 @@ odaconsumer.CannotGetConnectionMetaData=无法获取连接元数据。
 odaconsumer.CannotGetMaxConnections=无法获取数据源的最大连接数。
 odaconsumer.CannotGetMaxStatements=无法获取数据源的最大查询数。
 odaconsumer.CannotGetDataSetMetaData=无法从数据源获得数据集元数据 {0}。
-odaconsumer.CannotPrepareStatement=未能为数据集类型 {1} 准备以下查询。\n[{0}]
+odaconsumer.CannotPrepareStatement=Failed to prepare the following query for the data set type ({1}). \n[{0}]
 odaconsumer.CannotCloseConnection=无法关闭连接。
 odaconsumer.CannotOpenConnection=无法打开驱动程序的连接: {0}。
 odaconsumer.CannotDetermineSupportForMultipleOpenResults=无法确定多个打开结果的支持
@@ -327,6 +327,7 @@ odaconsumer.CannotFindLogDirectory=无法找到日志目录。
 odaconsumer.ParameterNames=\n定义参数时使用了模型名称({0})和驱动程序定义名称({1})。
 odaconsumer.InvalidArgument=使用无效的参数 ({1}) 调用了方法 ({0})。
 odaconsumer.CannotSetConnectionLocale=无法设置连接区域设置 ({0})。
+odaconsumer.CannotCheckOpenConnection=Unable to check whether the connection is already open.
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=调用 executeQuery() 后，无法按名称获得结果集。
 odaconsumer.manager.CannotSetParamBeforePrepare=在语句准备好之前不能设置输入参数。

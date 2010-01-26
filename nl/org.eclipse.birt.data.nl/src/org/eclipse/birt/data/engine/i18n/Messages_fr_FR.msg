@@ -1,5 +1,5 @@
 #************************************************************************
-# Copyright (c) 2004, 2009 Actuate Corporation.
+# Copyright (c) 2004, 2010 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -254,7 +254,7 @@ odaconsumer.CannotGetConnectionMetaData=Impossible d''obtenir les métadonnées de
 odaconsumer.CannotGetMaxConnections=Impossible d''obtenir le nombre maximum de connexions pour la source de données.
 odaconsumer.CannotGetMaxStatements=Impossible d''obtenir le nombre maximum de requêtes pour la source de données.
 odaconsumer.CannotGetDataSetMetaData=Impossible d''obtenir les métadonnées de jeu de données {0} depuis la source de données.
-odaconsumer.CannotPrepareStatement=Echec de préparation de la requête suivante pour le type de jeu de données {1}. \n[{0}]
+odaconsumer.CannotPrepareStatement=Failed to prepare the following query for the data set type ({1}). \n[{0}]
 odaconsumer.CannotCloseConnection=Impossible de fermer la connexion.
 odaconsumer.CannotOpenConnection=Impossible d''établir la connexion pour le pilote : {0}.
 odaconsumer.CannotDetermineSupportForMultipleOpenResults=Impossible de déterminer la prise en charge de plusieurs résultats ouverts.
@@ -327,6 +327,7 @@ odaconsumer.CannotFindLogDirectory=Le répertoire du journal est introuvable.
 odaconsumer.ParameterNames=\nParamètre défini avec le nom de modèle ({0}) et avec le nom défini par le pilote ({1}).
 odaconsumer.InvalidArgument=La méthode ({0}) a été appelée avec un argument non valide ({1}).
 odaconsumer.CannotSetConnectionLocale=Impossible de définir l''endroit de la connexion ({0}).
+odaconsumer.CannotCheckOpenConnection=Unable to check whether the connection is already open.
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=Impossible d''obtenir les jeux de résultats par nom après l'appel de executeQuery().
 odaconsumer.manager.CannotSetParamBeforePrepare=Impossible de définir les paramètres d'entrée avant que l'instruction n'ait été préparée.
