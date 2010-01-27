@@ -16,7 +16,6 @@ import java.text.MessageFormat;
 import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionBuilder;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.MenuButton;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
@@ -64,7 +63,6 @@ public class ExpressionCellEditor extends CellEditor
 	 * The current contents.
 	 */
 	private Control contents;
-
 
 	/**
 	 * The button.
@@ -116,7 +114,6 @@ public class ExpressionCellEditor extends CellEditor
 	}
 
 	private Menu menu;
-
 
 	private ModifyListener modifyListener;
 
@@ -176,44 +173,54 @@ public class ExpressionCellEditor extends CellEditor
 			}
 
 		} );
-		
-		 editor.addModifyListener(getModifyListener());
-		 
+
+		editor.addModifyListener( getModifyListener( ) );
+
 		setValueValid( true );
 
 		return editor;
 	}
 
-    private ModifyListener getModifyListener() {
-        if (modifyListener == null) {
-            modifyListener = new ModifyListener() {
-                public void modifyText(ModifyEvent e) {
-                    editOccured(e);
-                }
-            };
-        }
-        return modifyListener;
-    }
-    
-    protected void editOccured(ModifyEvent e) {
-        String value = editor.getText();
-        if (value == null) {
+	private ModifyListener getModifyListener( )
+	{
+		if ( modifyListener == null )
+		{
+			modifyListener = new ModifyListener( ) {
+
+				public void modifyText( ModifyEvent e )
+				{
+					editOccured( e );
+				}
+			};
+		}
+		return modifyListener;
+	}
+
+	protected void editOccured( ModifyEvent e )
+	{
+		String value = editor.getText( );
+		if ( value == null )
+		{
 			value = "";//$NON-NLS-1$
 		}
-        Object typedValue = value;
-        boolean oldValidState = isValueValid();
-        boolean newValidState = isCorrect(typedValue);
-        if (typedValue == null && newValidState) {
-			Assert.isTrue(false,
-                    "Validator isn't limiting the cell editor's type range");//$NON-NLS-1$
+		Object typedValue = value;
+		boolean oldValidState = isValueValid( );
+		boolean newValidState = isCorrect( typedValue );
+		if ( typedValue == null && newValidState )
+		{
+			Assert.isTrue( false,
+					"Validator isn't limiting the cell editor's type range" );//$NON-NLS-1$
 		}
-        if (!newValidState) {
-            // try to insert the current value into the error message.
-            setErrorMessage(MessageFormat.format(getErrorMessage(),
-                    new Object[] { value }));
-        }
-        valueChanged(oldValidState, newValidState);
-    }
+		if ( !newValidState )
+		{
+			// try to insert the current value into the error message.
+			setErrorMessage( MessageFormat.format( getErrorMessage( ),
+					new Object[]{
+						value
+					} ) );
+		}
+		valueChanged( oldValidState, newValidState );
+	}
 
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
@@ -308,11 +315,13 @@ public class ExpressionCellEditor extends CellEditor
 	 */
 	protected Object doGetValue( )
 	{
-		if(getExpression( ) == null || getExpression( ).trim( ).length( ) == 0){
+		if ( getExpression( ) == null
+				|| getExpression( ).trim( ).length( ) == 0 )
+		{
 			button.setData( ExpressionButtonUtil.EXPR_TYPE, null );
 			return null;
 		}
-		return new Expression(getExpression( ), getExpressionType( ));
+		return new Expression( getExpression( ), getExpressionType( ) );
 	}
 
 	/*
@@ -353,7 +362,6 @@ public class ExpressionCellEditor extends CellEditor
 		return buttonFocusListener;
 	}
 
-
 	private Text editor;
 
 	private IExpressionContextFactory contextFactory;
@@ -372,7 +380,7 @@ public class ExpressionCellEditor extends CellEditor
 
 	protected void doSetValue( Object value )
 	{
-		editor.removeModifyListener(getModifyListener());
+		editor.removeModifyListener( getModifyListener( ) );
 		if ( editor != null && value != null )
 		{
 			if ( value instanceof Expression )
@@ -393,15 +401,15 @@ public class ExpressionCellEditor extends CellEditor
 				button.setData( ExpressionButtonUtil.EXPR_TYPE,
 						UIUtil.getDefaultScriptType( ) );
 			}
-			refresh();
+			refresh( );
 		}
-		editor.addModifyListener(getModifyListener());
+		editor.addModifyListener( getModifyListener( ) );
 	}
 
 	protected void setExpressionType( String exprType )
 	{
 		button.setData( ExpressionButtonUtil.EXPR_TYPE, exprType );
-		refresh();
+		refresh( );
 	}
 
 	protected String getExpressionType( )
@@ -442,7 +450,7 @@ public class ExpressionCellEditor extends CellEditor
 						String exprType = (String) widget.getData( );
 						ExpressionCellEditor.this.provider.handleSelectionEvent( exprType );
 					}
-					else if ( widget instanceof MenuButton )
+					else if ( widget instanceof Button )
 					{
 						ExpressionCellEditor.this.provider.handleSelectionEvent( getExpressionType( ) );
 					}
@@ -461,6 +469,7 @@ public class ExpressionCellEditor extends CellEditor
 			if ( menu.getItemCount( ) <= 1 )
 			{
 				menu = null;
+				button.addSelectionListener( listener );
 			}
 
 			refresh( );
@@ -498,30 +507,37 @@ public class ExpressionCellEditor extends CellEditor
 			String newExpression = result == null ? "" : result.toString( );
 			editor.setText( newExpression );
 			button.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
-			markDirty();
-			refresh();
+			markDirty( );
+			refresh( );
 		}
 
 		editor.setFocus( );
 	}
 
-	public String getExpression(){
+	public String getExpression( )
+	{
 		return editor.getText( );
 	}
 
 	public void notifyExpressionChangeEvent( String oldExpr, String newExpr )
 	{
-		if (oldExpr != null) {
-            boolean newValidState = isCorrect(newExpr);
-            if (newValidState) {
-                markDirty();
-            } else {
-                // try to insert the current value into the error message.
-                setErrorMessage(MessageFormat.format(getErrorMessage(),
-                        new Object[] { newExpr.toString() }));
-            }
-            fireApplyEditorValue();
-        }
+		if ( oldExpr != null )
+		{
+			boolean newValidState = isCorrect( newExpr );
+			if ( newValidState )
+			{
+				markDirty( );
+			}
+			else
+			{
+				// try to insert the current value into the error message.
+				setErrorMessage( MessageFormat.format( getErrorMessage( ),
+						new Object[]{
+							newExpr.toString( )
+						} ) );
+			}
+			fireApplyEditorValue( );
+		}
 	}
 
 	private void showMenu( )
@@ -529,14 +545,15 @@ public class ExpressionCellEditor extends CellEditor
 		if ( menu != null )
 		{
 			Rectangle size = button.getBounds( );
-			menu.setLocation( button.toDisplay( new Point( 0,
-					size.height - 1 ) ) );
-			
-			for(int i=0;i<menu.getItemCount( );i++){
+			menu.setLocation( button.toDisplay( new Point( 0, size.height - 1 ) ) );
+
+			for ( int i = 0; i < menu.getItemCount( ); i++ )
+			{
 				MenuItem item = menu.getItem( i );
-				if(item.getData( ).equals( getExpressionType( ) ))
+				if ( item.getData( ).equals( getExpressionType( ) ) )
 					item.setSelection( true );
-				else item.setSelection( false );
+				else
+					item.setSelection( false );
 			}
 			menu.setVisible( true );
 		}
