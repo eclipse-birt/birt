@@ -23,10 +23,12 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -200,11 +202,48 @@ public class StructureHandle extends ValueHandle
 
 	protected String getStringProperty( String memberName )
 	{
-		MemberHandle handle = getMember( memberName );
-		if ( handle == null )
+		if ( !StructureContextUtil.isValidStructureHandle( this ) )
+		{
+			throw new RuntimeException(
+					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
+		}
+
+		Structure struct = null;
+		Module module = getModule( );
+		DesignElement target = structContext.getElement( );
+		DesignElement element = getElement( );
+		ElementPropertyDefn propDefn = structContext.getElementProp( );
+
+		if ( target == element
+				|| ( propDefn != null && element.getLocalProperty( module,
+						propDefn ) == null ) )
+		{
+			// the structContext cached in this handle is valid: the context
+			// element is the same as this handle element, or this handle
+			// element has no local value
+			struct = (Structure) getStructure( );
+		}
+		else
+		{
+			// the structContext cached in this handle is invalid for some
+			// command change, therefore we must update and get the new context
+			StructureContext targetContext = StructureContextUtil
+					.getLocalStructureContext( module, element, structContext );
+			if ( targetContext != null )
+				struct = targetContext.getStructure( );
+
+		}
+
+		if ( struct == null )
 			return null;
 
-		return handle.getStringValue( );
+		PropertyDefn defn = (PropertyDefn) struct.getMemberDefn( memberName );
+		if ( defn == null )
+			return null;
+		Object value = struct.getProperty( module, defn );
+		if ( value == null )
+			return null;
+		return defn.getStringValue( module, value );
 	}
 
 	/**
