@@ -468,7 +468,7 @@ public class EngineIRVisitor extends DesignVisitor
 				{
 					return null;
 				}
-				Object expression = property.getExpression( );
+				Object expression = property.getValue( );
 				if ( expression == null )
 				{
 					expression = userDef.getDefault( );

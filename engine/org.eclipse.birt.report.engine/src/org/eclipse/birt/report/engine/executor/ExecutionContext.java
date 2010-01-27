@@ -485,11 +485,11 @@ public class ExecutionContext
 		// THE SCRIPT OBJECT WHICH IS HOLDED IN THE FININALIZER QUEUE
 		applicationClassLoader = null;
 		engine = null;
-		task = null;
+		// task = null;
 		executor = null;
 		tocBuilder = null;
-		runnable = null;
-		originalRunnable = null;
+		// runnable = null;
+		// originalRunnable = null;
 		configs = null;
 		params = null;
 		persistentBeans = null;
