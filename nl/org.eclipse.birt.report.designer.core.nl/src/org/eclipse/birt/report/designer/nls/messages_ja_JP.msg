@@ -2007,7 +2007,7 @@ HyperlinkBuilder.DrillThroughParentFrame=親フレーム(&P)
 HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=パラメタ名が重複しています。
 
 HyperlinkBuilder.Label.Location=場所(&L) :
-HyperlinkBuilder.Label.Location.hint=(Examples: http://host/path, folder/file)
+HyperlinkBuilder.Label.Location.hint=(例 : http://host/path、folder/file)
 HyperlinkBuilder.Label.Parameters=レポートパラメタ :
 HyperlinkBuilder.Label.Report=レポート :
 HyperlinkBuilder.Label.SelectType=ハイパーリンクの種類 :
@@ -2912,7 +2912,7 @@ ParameterDialog.SelectionDialog.Label.DisplayText=表示テキスト(&T) :
 ParameterDialog.SelectionDialog.Label.Value=値(&V) :
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Button.Resource.Tooltip=参照してキーを選択
-ParameterDialog.SelectionDialog.Button.Remove.Tooltip=Remove key
+ParameterDialog.SelectionDialog.Button.Remove.Tooltip=キーを削除
 ParameterDialog.SelectionDialog.Label.Note=注 : 表示テキストキーを設定するには、レポートを選択し、[プロパティエディタ] の [リソース] タブでリソースファイルの名前を指定してください。
 ParameterDialog.Label.SelectDisplayText=表示テキストの選択(&E) :
 ParameterDialog.Label.SelectValueColumn=値列を選択(&U) :

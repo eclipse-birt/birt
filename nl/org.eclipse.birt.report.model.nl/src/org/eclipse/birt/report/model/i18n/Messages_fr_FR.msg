@@ -3903,11 +3903,11 @@ Error.SemanticError.INCONSISTENT_DATA_GROUP=Le nombre de groupes de la référence
 Error.SemanticError.INVALID_MANIFEST=L'élément {0} a un manifeste non valide.
 Error.SemanticError.VALUE_FORBIDDEN=La propriété de liste "{0}" est vide, elle ne peut contenir aucun élément.
 
-Error.SemanticError.TABLE_NO_COLUMN_FOUND = The width of the table cannot be calculated because no column found.
-Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = The width of the table cannot be calculated because the width of the column at index {0} is not defined.
-Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = The width of the table cannot be calculated because it contains multiple columns in both absolute unit and relative unit other than percentage.
-Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = The width of the table cannot be calculated because it contains multiple columns in different relative units.
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%. 
+Error.SemanticError.TABLE_NO_COLUMN_FOUND = Impossible de calculer la largeur du tableau, car aucune colonne n'a été détectée.
+Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = Impossible de calculer la largeur du tableau, car la largeur de colonne à l'index {0} n'est pas définie.
+Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = Impossible de calculer la largeur du tableau, car ce dernier contient plusieurs colonnes de valeurs absolues et relatives qui ne sont pas exprimées en pourcentage.
+Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = Impossible de calculer la largeur du tableau, car ce dernier contient plusieurs colonnes dont les valeurs relatives sont différentes.
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = Impossible de calculer la largeur du tableau, car la somme des largeurs des colonnes exprimée en pourcentage est supérieure ou égale à 100 %. 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nom d'élément dupliqué dans la bibliothèque cible, l'élément {0} ne peut pas être exporté. Veuillez renommer l'élément exporté.
 

@@ -2007,7 +2007,7 @@ HyperlinkBuilder.DrillThroughParentFrame=&Frame principal
 HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Nombre del parámetro duplicado
 
 HyperlinkBuilder.Label.Location=&Ubicación:
-HyperlinkBuilder.Label.Location.hint=(Examples: http://host/path, folder/file)
+HyperlinkBuilder.Label.Location.hint=(Ejemplos: http://host/path, folder/file)
 HyperlinkBuilder.Label.Parameters=Parámetros de informe:
 HyperlinkBuilder.Label.Report=Informe:
 HyperlinkBuilder.Label.SelectType=Seleccione tipo de hiperlink:
@@ -2912,7 +2912,7 @@ ParameterDialog.SelectionDialog.Label.DisplayText=Visualizar &texto:
 ParameterDialog.SelectionDialog.Label.Value=&Valor:
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Button.Resource.Tooltip=Examinar y seleccionar una clave
-ParameterDialog.SelectionDialog.Button.Remove.Tooltip=Remove key
+ParameterDialog.SelectionDialog.Button.Remove.Tooltip=Quitar clave
 ParameterDialog.SelectionDialog.Label.Note=Nota: Para establecer la clave de texto, seleccione el informe y defina el nombre del archivo de recursos en la ficha Recursos del editor de propiedades.
 ParameterDialog.Label.SelectDisplayText=Seleccionar te&xto en pantalla:
 ParameterDialog.Label.SelectValueColumn=Seleccionar &columna de valores:

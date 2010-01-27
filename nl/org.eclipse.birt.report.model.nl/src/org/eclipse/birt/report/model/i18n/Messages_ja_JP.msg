@@ -3903,11 +3903,11 @@ Error.SemanticError.INCONSISTENT_DATA_GROUP=—v‘f {0} ‚Ìƒf[ƒ^ƒoƒCƒ“ƒh‚ÌQÆ‚É‚Í
 Error.SemanticError.INVALID_MANIFEST=—v‘f {0} ‚É–³Œø‚Èƒ}ƒjƒtƒFƒXƒg‚ª‚ ‚è‚Ü‚·B
 Error.SemanticError.VALUE_FORBIDDEN=ƒŠƒXƒgŒ^‚ÌƒvƒƒpƒeƒB "{0}" ‚ª‹ó‚Å‚·B€–Ú‚ğg—p‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 
-Error.SemanticError.TABLE_NO_COLUMN_FOUND = The width of the table cannot be calculated because no column found.
-Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = The width of the table cannot be calculated because the width of the column at index {0} is not defined.
-Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = The width of the table cannot be calculated because it contains multiple columns in both absolute unit and relative unit other than percentage.
-Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = The width of the table cannot be calculated because it contains multiple columns in different relative units.
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%. 
+Error.SemanticError.TABLE_NO_COLUMN_FOUND = —ñ‚ªŒ©‚Â‚©‚ç‚È‚¢‚½‚ßAƒe[ƒuƒ‹‚Ì•‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
+Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = ƒCƒ“ƒfƒbƒNƒX {0} ‚Ì—ñ‚Ì•‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßAƒe[ƒuƒ‹‚Ì•‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
+Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = ƒe[ƒuƒ‹‚ÉAŠ„‡ˆÈŠO‚Ìâ‘Î’PˆÊ‚¨‚æ‚Ñ‘Š‘Î’PˆÊ‚Ì•¡”‚Ì—ñ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚½‚ßA•‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
+Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = ƒe[ƒuƒ‹‚ÉAˆÙ‚È‚é‘Š‘Î’PˆÊ‚Ì•¡”‚Ì—ñ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚½‚ßA•‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = —ñ•‚ÌŠ„‡‚Ì‡Œv‚ª 100% ˆÈã‚Å‚ ‚é‚½‚ßAƒe[ƒuƒ‹‚Ì•‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=ƒ^[ƒQƒbƒgƒ‰ƒCƒuƒ‰ƒŠ‚Å—v‘f–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B—v‘f {0} ‚ğƒGƒNƒXƒ|[ƒg‚Å‚«‚Ü‚¹‚ñBƒGƒNƒXƒ|[ƒg‚³‚ê‚½—v‘f–¼‚ğ•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
 
