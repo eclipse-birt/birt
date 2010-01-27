@@ -61,6 +61,8 @@ public abstract class AbstractArea implements IArea
 	protected transient CSSValue vAlign;
 
 	protected String bookmark = null;
+	
+	protected boolean ignoreReordering = false;
 
 	protected transient ContainerArea parent;
 	
@@ -273,6 +275,16 @@ public abstract class AbstractArea implements IArea
 	public int getAllocatedY( )
 	{
 		return y;
+	}
+	
+	public boolean isIgnoreReordering( )
+	{
+		return ignoreReordering;
+	}
+	
+	public void setIgnoreReordering( boolean ignoreReordering )
+	{
+		this.ignoreReordering = ignoreReordering;
 	}
 
 	public static void debugPrint( IArea area )

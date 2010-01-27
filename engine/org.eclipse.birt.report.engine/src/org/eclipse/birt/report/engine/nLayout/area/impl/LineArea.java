@@ -402,14 +402,20 @@ public class LineArea extends InlineStackingArea
 		}
 		if ( n > 1 )
 		{
-			int parentWidth = parent.getContentWidth( );
+			int x = areas[0].getAllocatedX( );
 			Bidi.reorderVisually( levels, 0, areas, 0, n );
-			for ( i = 0; i < n; i++ )
+			for ( i = 0; i < n - 1; i++ )
 			{
-				int x = areas[i].getAllocatedX( );
-				areas[i].setAllocatedPosition( parentWidth - x
-						- areas[i].getAllocatedWidth( ), areas[i]
-						.getAllocatedY( ) );
+				if ( !areas[i].isIgnoreReordering( ) )
+				{
+					areas[i]
+							.setAllocatedPosition( x, areas[i].getAllocatedY( ) );
+					x += areas[i].getAllocatedWidth( );
+				}
+			}
+			if ( !areas[i].isIgnoreReordering( ) )
+			{
+				areas[i].setAllocatedPosition( x, areas[i].getAllocatedY( ) );
 			}
 		}
 	}

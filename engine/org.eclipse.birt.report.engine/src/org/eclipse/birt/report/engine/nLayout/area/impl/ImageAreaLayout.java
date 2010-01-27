@@ -193,6 +193,8 @@ public class ImageAreaLayout implements ILayout
 		}
 		else if ( SvgFile.isSvg( mimeType, uri, extension ) )
 		{
+			image.setMIMEType( "image/svg+xml" );
+			image.setExtension( ".svg" );
 			objectType = TYPE_SVG_OBJECT;
 		}
 		else
@@ -417,6 +419,7 @@ public class ImageAreaLayout implements ILayout
 				innerText.content.getStyle( ).setProperty(
 						IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE );
 				innerText.setVerticalAlign( IStyle.MIDDLE_VALUE );
+				innerText.setIgnoreReordering( true );
 				// save current root status
 				if ( PropertyUtil.isInlineElement( image ) )
 				{
@@ -661,10 +664,6 @@ public class ImageAreaLayout implements ILayout
 		private void processChartLegend( IImageContent imageContent,
 				IImageArea imageArea )
 		{
-			if ( null == intrinsic )
-			{
-				return;
-			}
 			Object imageMapObject = imageContent.getImageMap( );
 			boolean hasImageMap = ( imageMapObject != null )
 					&& ( imageMapObject instanceof String )
@@ -809,15 +808,18 @@ public class ImageAreaLayout implements ILayout
 		 */
 		private int[] getAbsoluteVertices( int[] vertex, IImageArea imageArea )
 		{
-			assert ( intrinsic != null );
-			int[] result = null;
-
-			int imageHeight = imageArea.getHeight( );
-			int imageWidth = imageArea.getWidth( );
-			int intrinsicWidth = intrinsic.getWidth( );
-			int intrinsicHeight = intrinsic.getHeight( );
-			float ratioX = (float) imageWidth / (float) intrinsicWidth;
-			float ratioY = (float) imageHeight / (float) intrinsicHeight;
+			int[] result = null;			
+			float ratioX =1.0f;
+			float ratioY =1.0f;
+			if ( intrinsic != null )
+			{
+				int imageHeight = imageArea.getHeight( );
+				int imageWidth = imageArea.getWidth( );
+				int intrinsicWidth = intrinsic.getWidth( );
+				int intrinsicHeight = intrinsic.getHeight( );
+				ratioX = (float) imageWidth / (float) intrinsicWidth;
+				ratioY = (float) imageHeight / (float) intrinsicHeight;
+			}
 			int imageX = imageArea.getX( );
 			int imageY = imageArea.getY( );
 			
