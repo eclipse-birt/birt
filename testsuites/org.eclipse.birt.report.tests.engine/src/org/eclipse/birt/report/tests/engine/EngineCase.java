@@ -1015,9 +1015,9 @@ public abstract class EngineCase extends TestCase
 
 	protected void setScriptingPath( )
 	{
-		System.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY, this
-				.getClassFolder( )
-				+ "/input/scripts" );
+//		System.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY, this
+//				.getClassFolder( )
+//				+ "/input/scripts" );
 	}
 
 	/**

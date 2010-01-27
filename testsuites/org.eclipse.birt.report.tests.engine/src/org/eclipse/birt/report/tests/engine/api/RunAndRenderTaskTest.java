@@ -89,43 +89,63 @@ public class RunAndRenderTaskTest extends EngineCase
 	public void testCancelRunAndRenderTask( )
 	{
 		String input = this.genInputFile( "pages9.rptdesign" );
-		long bTime, eTime, timeSpan1, timeSpan2, timeSpan3;
+		long bTime, eTime, timeSpan1 = 0, timeSpan2 = 0, timeSpan3 = 0;
 		try
 		{
 			IReportRunnable runnable = engine
 					.openReportDesign( new FileInputStream( new File( input ) ) );
+
 			IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
 			HTMLRenderOption option = new HTMLRenderOption( );
+
 			option.setOutputFormat( "html" );
-			task.setRenderOption( option );
-			task.setAppContext( new HashMap( ) );
+			for ( int i = 0; i < 3; i++ )
+			{
+				task = engine.createRunAndRenderTask( runnable );
+				task.setRenderOption( option );
+				task.setAppContext( new HashMap( ) );
+				task.run( );
+				task.close( );
+			}
 
-			CancelTask cancelThread = new CancelTask( "cancelThread", task );
-			cancelThread.start( );
-			bTime = System.currentTimeMillis( );
-			task.run( );
-			eTime = System.currentTimeMillis( );
-			task.close( );
-			timeSpan1 = eTime - bTime;
+			for ( int i = 0; i < 10; i++ )
+			{
+				task = engine.createRunAndRenderTask( runnable );
+				task.setRenderOption( option );
+				task.setAppContext( new HashMap( ) );
+				engine.getConfig( ).getAppContext( ).put( "taskToCancel", task );
 
-			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask(
-					"cancelWithFlagTask",
-					task );
-			cancelWithFlagTask.start( );
-			bTime = System.currentTimeMillis( );
-			task.run( );
-			eTime = System.currentTimeMillis( );
-			task.close( );
-			timeSpan2 = eTime - bTime;
+				bTime = System.currentTimeMillis( );
+				task.run( );
+				eTime = System.currentTimeMillis( );
+				task.close( );
+				timeSpan1 += eTime - bTime;
 
-			task = engine.createRunAndRenderTask( runnable );
-			task.setRenderOption( option );
-			task.setAppContext( new HashMap( ) );
-			bTime = System.currentTimeMillis( );
-			task.run( );
-			eTime = System.currentTimeMillis( );
-			task.close( );
-			timeSpan3 = eTime - bTime;
+				task = engine.createRunAndRenderTask( runnable );
+				engine.getConfig( ).getAppContext( ).put(
+						"taskToCancelWithSignal",
+						task );
+				task.setRenderOption( option );
+
+				bTime = System.currentTimeMillis( );
+				task.run( );
+				eTime = System.currentTimeMillis( );
+				task.close( );
+				timeSpan2 += eTime - bTime;
+
+				task = engine.createRunAndRenderTask( runnable );
+				engine.getConfig( ).getAppContext( ).put( "taskToCancel", null );
+				engine.getConfig( ).getAppContext( ).put(
+						"taskToCancelWithSignal",
+						null );
+				task.setRenderOption( option );
+
+				bTime = System.currentTimeMillis( );
+				task.run( );
+				eTime = System.currentTimeMillis( );
+				task.close( );
+				timeSpan3 += eTime - bTime;
+			}
 
 			assertTrue( "timeSpan3 > timeSpan1", timeSpan3 > timeSpan1 );
 			assertTrue( "timeSpan3 > timeSpan2", timeSpan3 > timeSpan2 );
