@@ -1,24 +1,471 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.0.0 Build &lt;20060106-0111></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.2.v20100127-0630 Build &lt;2.5.2.v20100127-0630></property>
     <property name="units">in</property>
+    <property name="layoutPreference">auto layout</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
             <property name="odaURL">jdbc:classicmodels:sampledb</property>
             <property name="odaUser">ClassicModels</property>
         </oda-data-source>
+        <script-data-source name="Data Source1" id="534"/>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">OFFICECODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">TERRITORY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <property name="dataSource">Data Source</property>
-            <property name="queryText">select *
-from CLASSICMODELS.OFFICES</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">OFFICECODE</property>
+                    <property name="nativeName">OFFICECODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">TERRITORY</property>
+                    <property name="nativeName">TERRITORY</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.OFFICES]]></xml-property>
         </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set1" id="533">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CUSTOMERNUMBER</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUSTOMERNAME</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONTACTLASTNAME</property>
+                    <text-property name="displayName">CONTACTLASTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONTACTFIRSTNAME</property>
+                    <text-property name="displayName">CONTACTFIRSTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PHONE</property>
+                    <text-property name="displayName">PHONE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESSLINE1</property>
+                    <text-property name="displayName">ADDRESSLINE1</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESSLINE2</property>
+                    <text-property name="displayName">ADDRESSLINE2</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CITY</property>
+                    <text-property name="displayName">CITY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">STATE</property>
+                    <text-property name="displayName">STATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">POSTALCODE</property>
+                    <text-property name="displayName">POSTALCODE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COUNTRY</property>
+                    <text-property name="displayName">COUNTRY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SALESREPEMPLOYEENUMBER</property>
+                    <text-property name="displayName">SALESREPEMPLOYEENUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CREDITLIMIT</property>
+                    <text-property name="displayName">CREDITLIMIT</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="nativeName">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <property name="nativeName">CONTACTLASTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <property name="nativeName">CONTACTFIRSTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <property name="nativeName">SALESREPEMPLOYEENUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">CREDITLIMIT</property>
+                    <property name="nativeName">CREDITLIMIT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.CUSTOMERS]]></xml-property>
+        </oda-data-set>
+        <script-data-set name="Scripted Data Set" id="535">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">column1</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">column2</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">column3</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">column4</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">column5</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">column6</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">column7</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">column1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">column2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">column3</property>
+                </structure>
+                <structure>
+                    <property name="columnName">column4</property>
+                </structure>
+                <structure>
+                    <property name="columnName">column5</property>
+                </structure>
+                <structure>
+                    <property name="columnName">column6</property>
+                </structure>
+                <structure>
+                    <property name="columnName">column7</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">column1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">column2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">column3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">column4</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">column5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">column6</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">column7</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source1</property>
+            <method name="open"><![CDATA[count = 0;]]></method>
+            <method name="fetch"><![CDATA[if ( count < 10000 )
+{
+  dataSetRow["column1"] = "column 1 " + count; 
+  dataSetRow["column2"] = "column 1 " + count; 
+  dataSetRow["column3"] = "column 1 " + count; 
+  dataSetRow["column4"] = "column 1 " + count; 
+  dataSetRow["column5"] = "column 1 " + count; 
+  dataSetRow["column6"] = "column 1 " + count; 
+  dataSetRow["column7"] = "column 1 " + count; 
+  count++;
+return true;
+}
+return false;]]></method>
+        </script-data-set>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-header>
                 <text id="244">
                     <property name="fontWeight">bold</property>
@@ -35,6 +482,56 @@ from CLASSICMODELS.OFFICES</property>
             <property name="pageBreakAfter">always</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+            </list-property>
+            <method name="onCreate"><![CDATA[taskToCancel = reportContext.getAppContext().get("taskToCancel");
+if (taskToCancel != null )
+{
+  taskToCancel.cancel();
+}
+taskToCancelWithSignal = reportContext.getAppContext().get("taskToCancelWithSignal");
+if (taskToCancelWithSignal != null )
+{
+  taskToCancelWithSignal.cancel(new Boolean( false ) );
+}
+]]></method>
+            <property name="pageBreakInterval">50</property>
             <column id="235"/>
             <column id="236"/>
             <column id="237"/>
@@ -97,47 +594,47 @@ from CLASSICMODELS.OFFICES</property>
                 <row id="206">
                     <cell id="207">
                         <data id="208">
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
+                            <property name="resultSetColumn">OFFICECODE</property>
                         </data>
                     </cell>
                     <cell id="209">
                         <data id="210">
-                            <expression name="valueExpr">row["CITY"]</expression>
+                            <property name="resultSetColumn">CITY</property>
                         </data>
                     </cell>
                     <cell id="211">
                         <data id="212">
-                            <expression name="valueExpr">row["PHONE"]</expression>
+                            <property name="resultSetColumn">PHONE</property>
                         </data>
                     </cell>
                     <cell id="213">
                         <data id="214">
-                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
                         </data>
                     </cell>
                     <cell id="215">
                         <data id="216">
-                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
                         </data>
                     </cell>
                     <cell id="217">
                         <data id="218">
-                            <expression name="valueExpr">row["STATE"]</expression>
+                            <property name="resultSetColumn">STATE</property>
                         </data>
                     </cell>
                     <cell id="219">
                         <data id="220">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
+                            <property name="resultSetColumn">COUNTRY</property>
                         </data>
                     </cell>
                     <cell id="221">
                         <data id="222">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
+                            <property name="resultSetColumn">POSTALCODE</property>
                         </data>
                     </cell>
                     <cell id="223">
                         <data id="224">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
+                            <property name="resultSetColumn">TERRITORY</property>
                         </data>
                     </cell>
                 </row>
@@ -148,6 +645,45 @@ from CLASSICMODELS.OFFICES</property>
             <property name="pageBreakAfter">always</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="167"/>
             <column id="168"/>
             <column id="169"/>
@@ -210,47 +746,47 @@ from CLASSICMODELS.OFFICES</property>
                 <row id="138">
                     <cell id="139">
                         <data id="140">
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
+                            <property name="resultSetColumn">OFFICECODE</property>
                         </data>
                     </cell>
                     <cell id="141">
                         <data id="142">
-                            <expression name="valueExpr">row["CITY"]</expression>
+                            <property name="resultSetColumn">CITY</property>
                         </data>
                     </cell>
                     <cell id="143">
                         <data id="144">
-                            <expression name="valueExpr">row["PHONE"]</expression>
+                            <property name="resultSetColumn">PHONE</property>
                         </data>
                     </cell>
                     <cell id="145">
                         <data id="146">
-                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
                         </data>
                     </cell>
                     <cell id="147">
                         <data id="148">
-                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
                         </data>
                     </cell>
                     <cell id="149">
                         <data id="150">
-                            <expression name="valueExpr">row["STATE"]</expression>
+                            <property name="resultSetColumn">STATE</property>
                         </data>
                     </cell>
                     <cell id="151">
                         <data id="152">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
+                            <property name="resultSetColumn">COUNTRY</property>
                         </data>
                     </cell>
                     <cell id="153">
                         <data id="154">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
+                            <property name="resultSetColumn">POSTALCODE</property>
                         </data>
                     </cell>
                     <cell id="155">
                         <data id="156">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
+                            <property name="resultSetColumn">TERRITORY</property>
                         </data>
                     </cell>
                 </row>
@@ -261,6 +797,45 @@ from CLASSICMODELS.OFFICES</property>
             <property name="pageBreakAfter">always</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="284"/>
             <column id="285"/>
             <column id="286"/>
@@ -323,47 +898,47 @@ from CLASSICMODELS.OFFICES</property>
                 <row id="265">
                     <cell id="266">
                         <data id="267">
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
+                            <property name="resultSetColumn">OFFICECODE</property>
                         </data>
                     </cell>
                     <cell id="268">
                         <data id="269">
-                            <expression name="valueExpr">row["CITY"]</expression>
+                            <property name="resultSetColumn">CITY</property>
                         </data>
                     </cell>
                     <cell id="270">
                         <data id="271">
-                            <expression name="valueExpr">row["PHONE"]</expression>
+                            <property name="resultSetColumn">PHONE</property>
                         </data>
                     </cell>
                     <cell id="272">
                         <data id="273">
-                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
                         </data>
                     </cell>
                     <cell id="274">
                         <data id="275">
-                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
                         </data>
                     </cell>
                     <cell id="276">
                         <data id="277">
-                            <expression name="valueExpr">row["STATE"]</expression>
+                            <property name="resultSetColumn">STATE</property>
                         </data>
                     </cell>
                     <cell id="278">
                         <data id="279">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
+                            <property name="resultSetColumn">COUNTRY</property>
                         </data>
                     </cell>
                     <cell id="280">
                         <data id="281">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
+                            <property name="resultSetColumn">POSTALCODE</property>
                         </data>
                     </cell>
                     <cell id="282">
                         <data id="283">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
+                            <property name="resultSetColumn">TERRITORY</property>
                         </data>
                     </cell>
                 </row>
@@ -374,6 +949,45 @@ from CLASSICMODELS.OFFICES</property>
             <property name="pageBreakAfter">always</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="332"/>
             <column id="333"/>
             <column id="334"/>
@@ -436,47 +1050,47 @@ from CLASSICMODELS.OFFICES</property>
                 <row id="313">
                     <cell id="314">
                         <data id="315">
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
+                            <property name="resultSetColumn">OFFICECODE</property>
                         </data>
                     </cell>
                     <cell id="316">
                         <data id="317">
-                            <expression name="valueExpr">row["CITY"]</expression>
+                            <property name="resultSetColumn">CITY</property>
                         </data>
                     </cell>
                     <cell id="318">
                         <data id="319">
-                            <expression name="valueExpr">row["PHONE"]</expression>
+                            <property name="resultSetColumn">PHONE</property>
                         </data>
                     </cell>
                     <cell id="320">
                         <data id="321">
-                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
                         </data>
                     </cell>
                     <cell id="322">
                         <data id="323">
-                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
                         </data>
                     </cell>
                     <cell id="324">
                         <data id="325">
-                            <expression name="valueExpr">row["STATE"]</expression>
+                            <property name="resultSetColumn">STATE</property>
                         </data>
                     </cell>
                     <cell id="326">
                         <data id="327">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
+                            <property name="resultSetColumn">COUNTRY</property>
                         </data>
                     </cell>
                     <cell id="328">
                         <data id="329">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
+                            <property name="resultSetColumn">POSTALCODE</property>
                         </data>
                     </cell>
                     <cell id="330">
                         <data id="331">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
+                            <property name="resultSetColumn">TERRITORY</property>
                         </data>
                     </cell>
                 </row>
@@ -487,6 +1101,45 @@ from CLASSICMODELS.OFFICES</property>
             <property name="pageBreakAfter">always</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="380"/>
             <column id="381"/>
             <column id="382"/>
@@ -549,47 +1202,47 @@ from CLASSICMODELS.OFFICES</property>
                 <row id="361">
                     <cell id="362">
                         <data id="363">
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
+                            <property name="resultSetColumn">OFFICECODE</property>
                         </data>
                     </cell>
                     <cell id="364">
                         <data id="365">
-                            <expression name="valueExpr">row["CITY"]</expression>
+                            <property name="resultSetColumn">CITY</property>
                         </data>
                     </cell>
                     <cell id="366">
                         <data id="367">
-                            <expression name="valueExpr">row["PHONE"]</expression>
+                            <property name="resultSetColumn">PHONE</property>
                         </data>
                     </cell>
                     <cell id="368">
                         <data id="369">
-                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
                         </data>
                     </cell>
                     <cell id="370">
                         <data id="371">
-                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
                         </data>
                     </cell>
                     <cell id="372">
                         <data id="373">
-                            <expression name="valueExpr">row["STATE"]</expression>
+                            <property name="resultSetColumn">STATE</property>
                         </data>
                     </cell>
                     <cell id="374">
                         <data id="375">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
+                            <property name="resultSetColumn">COUNTRY</property>
                         </data>
                     </cell>
                     <cell id="376">
                         <data id="377">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
+                            <property name="resultSetColumn">POSTALCODE</property>
                         </data>
                     </cell>
                     <cell id="378">
                         <data id="379">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
+                            <property name="resultSetColumn">TERRITORY</property>
                         </data>
                     </cell>
                 </row>
@@ -600,6 +1253,45 @@ from CLASSICMODELS.OFFICES</property>
             <property name="pageBreakAfter">always</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="428"/>
             <column id="429"/>
             <column id="430"/>
@@ -662,47 +1354,47 @@ from CLASSICMODELS.OFFICES</property>
                 <row id="409">
                     <cell id="410">
                         <data id="411">
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
+                            <property name="resultSetColumn">OFFICECODE</property>
                         </data>
                     </cell>
                     <cell id="412">
                         <data id="413">
-                            <expression name="valueExpr">row["CITY"]</expression>
+                            <property name="resultSetColumn">CITY</property>
                         </data>
                     </cell>
                     <cell id="414">
                         <data id="415">
-                            <expression name="valueExpr">row["PHONE"]</expression>
+                            <property name="resultSetColumn">PHONE</property>
                         </data>
                     </cell>
                     <cell id="416">
                         <data id="417">
-                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
                         </data>
                     </cell>
                     <cell id="418">
                         <data id="419">
-                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
                         </data>
                     </cell>
                     <cell id="420">
                         <data id="421">
-                            <expression name="valueExpr">row["STATE"]</expression>
+                            <property name="resultSetColumn">STATE</property>
                         </data>
                     </cell>
                     <cell id="422">
                         <data id="423">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
+                            <property name="resultSetColumn">COUNTRY</property>
                         </data>
                     </cell>
                     <cell id="424">
                         <data id="425">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
+                            <property name="resultSetColumn">POSTALCODE</property>
                         </data>
                     </cell>
                     <cell id="426">
                         <data id="427">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
+                            <property name="resultSetColumn">TERRITORY</property>
                         </data>
                     </cell>
                 </row>
@@ -713,6 +1405,45 @@ from CLASSICMODELS.OFFICES</property>
             <property name="pageBreakAfter">always</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="476"/>
             <column id="477"/>
             <column id="478"/>
@@ -775,164 +1506,194 @@ from CLASSICMODELS.OFFICES</property>
                 <row id="457">
                     <cell id="458">
                         <data id="459">
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
+                            <property name="resultSetColumn">OFFICECODE</property>
                         </data>
                     </cell>
                     <cell id="460">
                         <data id="461">
-                            <expression name="valueExpr">row["CITY"]</expression>
+                            <property name="resultSetColumn">CITY</property>
                         </data>
                     </cell>
                     <cell id="462">
                         <data id="463">
-                            <expression name="valueExpr">row["PHONE"]</expression>
+                            <property name="resultSetColumn">PHONE</property>
                         </data>
                     </cell>
                     <cell id="464">
                         <data id="465">
-                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
                         </data>
                     </cell>
                     <cell id="466">
                         <data id="467">
-                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
                         </data>
                     </cell>
                     <cell id="468">
                         <data id="469">
-                            <expression name="valueExpr">row["STATE"]</expression>
+                            <property name="resultSetColumn">STATE</property>
                         </data>
                     </cell>
                     <cell id="470">
                         <data id="471">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
+                            <property name="resultSetColumn">COUNTRY</property>
                         </data>
                     </cell>
                     <cell id="472">
                         <data id="473">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
+                            <property name="resultSetColumn">POSTALCODE</property>
                         </data>
                     </cell>
                     <cell id="474">
                         <data id="475">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
+                            <property name="resultSetColumn">TERRITORY</property>
                         </data>
                     </cell>
                 </row>
             </detail>
         </table>
-        <table id="485">
-            <property name="backgroundColor">gray</property>
-            <property name="pageBreakAfter">always</property>
-            <property name="width">100%</property>
-            <property name="dataSet">Data Set</property>
-            <column id="524"/>
-            <column id="525"/>
-            <column id="526"/>
-            <column id="527"/>
-            <column id="528"/>
-            <column id="529"/>
-            <column id="530"/>
-            <column id="531"/>
-            <column id="532"/>
+        <table id="536">
+            <property name="dataSet">Scripted Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">column1</property>
+                    <text-property name="displayName">column1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["column1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">column2</property>
+                    <text-property name="displayName">column2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["column2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">column3</property>
+                    <text-property name="displayName">column3</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["column3"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">column4</property>
+                    <text-property name="displayName">column4</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["column4"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">column5</property>
+                    <text-property name="displayName">column5</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["column5"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">column6</property>
+                    <text-property name="displayName">column6</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["column6"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">column7</property>
+                    <text-property name="displayName">column7</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["column7"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="575"/>
+            <column id="576"/>
+            <column id="577"/>
+            <column id="578"/>
+            <column id="579"/>
+            <column id="580"/>
+            <column id="581"/>
             <header>
-                <row id="486">
-                    <cell id="487">
-                        <label id="488">
-                            <text-property name="text">OFFICECODE</text-property>
+                <row id="537">
+                    <cell id="538">
+                        <label id="539">
+                            <text-property name="text">column1</text-property>
                         </label>
                     </cell>
-                    <cell id="489">
-                        <label id="490">
-                            <text-property name="text">CITY</text-property>
+                    <cell id="540">
+                        <label id="541">
+                            <text-property name="text">column2</text-property>
                         </label>
                     </cell>
-                    <cell id="491">
-                        <label id="492">
-                            <text-property name="text">PHONE</text-property>
+                    <cell id="542">
+                        <label id="543">
+                            <text-property name="text">column3</text-property>
                         </label>
                     </cell>
-                    <cell id="493">
-                        <label id="494">
-                            <text-property name="text">ADDRESSLINE1</text-property>
+                    <cell id="544">
+                        <label id="545">
+                            <text-property name="text">column4</text-property>
                         </label>
                     </cell>
-                    <cell id="495">
-                        <label id="496">
-                            <text-property name="text">ADDRESSLINE2</text-property>
+                    <cell id="546">
+                        <label id="547">
+                            <text-property name="text">column5</text-property>
                         </label>
                     </cell>
-                    <cell id="497">
-                        <label id="498">
-                            <text-property name="text">STATE</text-property>
+                    <cell id="548">
+                        <label id="549">
+                            <text-property name="text">column6</text-property>
                         </label>
                     </cell>
-                    <cell id="499">
-                        <label id="500">
-                            <text-property name="text">COUNTRY</text-property>
-                        </label>
-                    </cell>
-                    <cell id="501">
-                        <label id="502">
-                            <text-property name="text">POSTALCODE</text-property>
-                        </label>
-                    </cell>
-                    <cell id="503">
-                        <label id="504">
-                            <text-property name="text">TERRITORY</text-property>
+                    <cell id="550">
+                        <label id="551">
+                            <text-property name="text">column7</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
             <detail>
-                <row id="505">
-                    <cell id="506">
-                        <data id="507">
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
+                <row id="552">
+                    <cell id="553">
+                        <data id="554">
+                            <property name="resultSetColumn">column1</property>
                         </data>
                     </cell>
-                    <cell id="508">
-                        <data id="509">
-                            <expression name="valueExpr">row["CITY"]</expression>
+                    <cell id="555">
+                        <data id="556">
+                            <property name="resultSetColumn">column2</property>
                         </data>
                     </cell>
-                    <cell id="510">
-                        <data id="511">
-                            <expression name="valueExpr">row["PHONE"]</expression>
+                    <cell id="557">
+                        <data id="558">
+                            <property name="resultSetColumn">column3</property>
                         </data>
                     </cell>
-                    <cell id="512">
-                        <data id="513">
-                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                    <cell id="559">
+                        <data id="560">
+                            <property name="resultSetColumn">column4</property>
                         </data>
                     </cell>
-                    <cell id="514">
-                        <data id="515">
-                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                    <cell id="561">
+                        <data id="562">
+                            <property name="resultSetColumn">column5</property>
                         </data>
                     </cell>
-                    <cell id="516">
-                        <data id="517">
-                            <expression name="valueExpr">row["STATE"]</expression>
+                    <cell id="563">
+                        <data id="564">
+                            <property name="resultSetColumn">column6</property>
                         </data>
                     </cell>
-                    <cell id="518">
-                        <data id="519">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
-                        </data>
-                    </cell>
-                    <cell id="520">
-                        <data id="521">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
-                        </data>
-                    </cell>
-                    <cell id="522">
-                        <data id="523">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
+                    <cell id="565">
+                        <data id="566">
+                            <property name="resultSetColumn">column7</property>
                         </data>
                     </cell>
                 </row>
             </detail>
+            <footer>
+                <row id="567">
+                    <cell id="568"/>
+                    <cell id="569"/>
+                    <cell id="570"/>
+                    <cell id="571"/>
+                    <cell id="572"/>
+                    <cell id="573"/>
+                    <cell id="574"/>
+                </row>
+            </footer>
         </table>
     </body>
 </report>
