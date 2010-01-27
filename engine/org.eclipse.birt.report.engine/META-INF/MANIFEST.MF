@@ -74,6 +74,7 @@ Export-Package: org.eclipse.birt.report.engine.adapter,
  org.eclipse.birt.report.engine.script.internal.element,
  org.eclipse.birt.report.engine.script.internal.instance,
  org.eclipse.birt.report.engine.toc,
+ org.eclipse.birt.report.engine.toc.document,
  org.eclipse.birt.report.engine.util
 Require-Bundle: org.w3c.css.sac,
  org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)";visibility:=reexport,
