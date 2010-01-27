@@ -499,9 +499,12 @@ public class ChartCubeQueryHelper
 				{
 					AggregationArgumentHandle aah = argItr.next( );
 					expression = aah.getValue( );
-					// Not add expression to arguments
-					// binding.addArgument( new ScriptExpression( expression )
-					// );
+					if ( expression != null )
+					{
+						binding.addArgument( aah.getName( ),
+								ChartReportItemUtil.newExpression( modelAdapter,
+										aah ) );
+					}
 				}
 			}
 			// Even if expression is null, create the script expression
