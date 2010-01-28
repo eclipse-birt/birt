@@ -255,7 +255,7 @@ public class CubeQueryDefinitionUtil
 		{
 			return false;
 		}
-		if ( !(b1.getArguments( ).size( ) == b2.getArguments( ).size( )))
+		if ( b1.getArguments( ).size( ) != b2.getArguments( ).size( ))
 		{
 			return false;
 		}
@@ -304,10 +304,18 @@ public class CubeQueryDefinitionUtil
 		{
 			return false;
 		}
+		if ( dd1.getHierarchy( ).size( ) != dd2.getHierarchy( ).size( ) )
+		{
+			return false;
+		}
 		int i = 0;
 		for ( IHierarchyDefinition hd : dd1.getHierarchy( ) )
 		{
 			if ( !isEqual( hd.getName( ), dd2.getHierarchy( ).get( i ).getName( )))
+			{
+				return false;
+			}
+			if ( hd.getLevels( ).size( ) != dd2.getHierarchy( ).get( i ).getLevels( ).size( ) )
 			{
 				return false;
 			}
@@ -336,6 +344,10 @@ public class CubeQueryDefinitionUtil
 			return false;
 		}
 		if ( !isEqual( hd1.getName( ), hd2.getName( )))
+		{
+			return false;
+		}
+		if ( hd1.getLevels( ).size( ) != hd2.getLevels( ).size( ) )
 		{
 			return false;
 		}
@@ -533,10 +545,10 @@ public class CubeQueryDefinitionUtil
 					return false;
 				}
 			}
-			if (  edf1.getLevelFilter( ).size( ) != edf2.getLevelFilter( ).size( ))
-			{
-				return false;
-			}
+		}
+		if ( edf1.getLevelSort( ).size( ) != edf2.getLevelSort( ).size( ) )
+		{
+			return false;
 		}
 		Iterator<ISortDefinition> itr1 = edf1.getLevelSort( ).iterator( );
 		Iterator<ISortDefinition> itr2 = edf2.getLevelSort( ).iterator( );
