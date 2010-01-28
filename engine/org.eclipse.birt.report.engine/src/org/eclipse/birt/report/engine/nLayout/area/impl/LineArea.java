@@ -356,7 +356,7 @@ public class LineArea extends InlineStackingArea
 		else
 		{
 			int letterNumber = getLetterNumber( this );
-			if ( letterNumber > 0 )
+			if ( letterNumber > 1 )
 			{
 				int letterSpacing = spacing / ( letterNumber - 1 );
 				adjustLetterSpacing( letterSpacing, this );
