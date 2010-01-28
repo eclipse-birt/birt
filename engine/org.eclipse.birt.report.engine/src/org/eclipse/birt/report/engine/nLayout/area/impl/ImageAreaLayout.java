@@ -328,17 +328,17 @@ public class ImageAreaLayout implements ILayout
 			{
 				logger.log( Level.SEVERE, e.getLocalizedMessage( ) );
 			}
-			int specifiedWidth = PropertyUtil.getDimensionValue( content,
+			int specifiedWidth = PropertyUtil.getImageDimensionValue( content,
 					content.getWidth( ), resolutionX, pWidth );
-			int specifiedHeight = PropertyUtil.getDimensionValue( content,
+			int specifiedHeight = PropertyUtil.getImageDimensionValue( content,
 					content.getHeight( ), resolutionY, 0 );
 
 			Dimension dim = new Dimension( DEFAULT_WIDHT, DEFAULT_HEIGHT );
 			if ( intrinsic == null )
 			{
-				dim.setDimension( specifiedWidth == 0
+				dim.setDimension( specifiedWidth == -1
 						? DEFAULT_WIDHT
-						: specifiedWidth, specifiedHeight == 0
+						: specifiedWidth, specifiedHeight == -1
 						? DEFAULT_HEIGHT
 						: specifiedHeight );
 				return dim;
@@ -347,9 +347,9 @@ public class ImageAreaLayout implements ILayout
 			{
 				double ratio = intrinsic.getRatio( );
 
-				if ( specifiedWidth > 0 )
+				if ( specifiedWidth >= 0 )
 				{
-					if ( specifiedHeight > 0 )
+					if ( specifiedHeight >= 0 )
 					{
 						dim.setDimension( specifiedWidth, specifiedHeight );
 					}
@@ -361,7 +361,7 @@ public class ImageAreaLayout implements ILayout
 				}
 				else
 				{
-					if ( specifiedHeight > 0 )
+					if ( specifiedHeight >= 0 )
 					{
 						dim.setDimension( (int) ( specifiedHeight * ratio ),
 								specifiedHeight );
@@ -375,9 +375,9 @@ public class ImageAreaLayout implements ILayout
 			}
 			else
 			{
-				if ( specifiedWidth > 0 )
+				if ( specifiedWidth >= 0 )
 				{
-					if ( specifiedHeight > 0 )
+					if ( specifiedHeight >= 0 )
 					{
 						dim.setDimension( specifiedWidth, specifiedHeight );
 					}
@@ -390,7 +390,7 @@ public class ImageAreaLayout implements ILayout
 				}
 				else
 				{
-					if ( specifiedHeight > 0 )
+					if ( specifiedHeight >= 0 )
 					{
 						dim.setDimension( intrinsic.getWidth( ),
 								specifiedHeight );
