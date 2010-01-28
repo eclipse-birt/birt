@@ -12,8 +12,7 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.core.template.TemplateParser;
-import org.eclipse.birt.core.template.TextTemplate;
+import org.eclipse.birt.core.template.TextTemplate.ExpressionValueNode;
 import org.eclipse.birt.core.template.TextTemplate.ImageNode;
 import org.eclipse.birt.core.template.TextTemplate.TextNode;
 import org.eclipse.birt.core.template.TextTemplate.ValueNode;
@@ -25,6 +24,14 @@ public class TemplateParserTest extends TestCase
 	{
 		String input = "<value-of>script</value-of>";
 		String golden = "<value-of>script</value-of>";
+		TextTemplate template = new TemplateParser( ).parse( input );
+		assertEquals( golden, template );
+	}
+
+	public void testViewTimeValueOf( )
+	{
+		String input = "<viewtime-value-of>script</viewtime-value-of>";
+		String golden = "<viewtime-value-of>script</viewtime-value-of>";
 		TextTemplate template = new TemplateParser( ).parse( input );
 		assertEquals( golden, template );
 	}
@@ -51,7 +58,6 @@ public class TemplateParserTest extends TestCase
 		String golden = "<text>text any text</text>";
 		TextTemplate template = new TemplateParser( ).parse( input );
 		assertEquals( golden, template );
-
 	}
 
 	protected void assertEquals( String golden, TextTemplate template )
@@ -118,6 +124,24 @@ public class TemplateParserTest extends TestCase
 				buffer.append( image.getExpr( ) );
 			}
 			buffer.append( "</image>" );
+			return buffer;
+		}
+
+		@Override
+		public Object visitExpressionValue( ExpressionValueNode node,
+				Object value )
+		{
+			StringBuffer buffer = (StringBuffer) value;
+			buffer.append( "<viewtime-value-of" );
+			if ( node.getFormat( ) != null )
+			{
+				buffer.append( "format='" );
+				buffer.append( node.getFormat( ) );
+				buffer.append( "'" );
+			}
+			buffer.append( ">" );
+			buffer.append( node.getValue( ) );
+			buffer.append( "</viewtime-value-of>" );
 			return buffer;
 		}
 	}
