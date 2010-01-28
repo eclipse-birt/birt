@@ -12,12 +12,11 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Map.Entry;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
@@ -37,7 +36,8 @@ public class StyleEngine
 	public static final int RESERVE_STYLE_ID = 20;
 
 	private int styleID = RESERVE_STYLE_ID;	
-	private Hashtable<StyleEntry,Integer> style2id = new Hashtable<StyleEntry,Integer>( );
+	private HashMap<StyleEntry, Integer> style2id = new HashMap<StyleEntry, Integer>( );
+	private HashMap<Integer, StyleEntry> id2Style = new HashMap<Integer, StyleEntry>( );
 	private ExcelLayoutEngine engine;
 	private Stack<StyleEntry> containerStyles = new Stack<StyleEntry>( );
 
@@ -216,14 +216,16 @@ public class StyleEngine
 			return 0;
 		}
 		int styleId = 0;
-		if ( style2id.get( entry ) != null )
+		Integer id = style2id.get( entry );
+		if ( id != null )
 		{
-			styleId = style2id.get( entry ).intValue( );
+			styleId = id.intValue( );
 		}
 		else
 		{
 			styleId = styleID;
 			style2id.put( entry, new Integer( styleId ) );
+			id2Style.put( new Integer( styleId ), entry );
 			styleID++;
 		}
 		return styleId;
@@ -306,22 +308,17 @@ public class StyleEngine
 			{
 				StyleEntry originalStyle = getStyle( styleId );
 				StyleEntry newStyle = new StyleEntry( originalStyle );
-				StyleBuilder.applyBottomBorder( entry, newStyle );
-				data.setStyleId( getStyleId( newStyle ) );
+				boolean isChanged = StyleBuilder.applyBottomBorder( entry,
+																	newStyle );
+				if ( isChanged )
+					data.setStyleId( getStyleId( newStyle ) );
 			}
 		}
 	}
 
 	public StyleEntry getStyle( int id )
 	{
-		for ( Entry<StyleEntry, Integer> entry : style2id.entrySet( ) )
-		{
-			if ( entry.getValue( ) == id )
-			{
-				return entry.getKey( );
-			}
-		}
-		return null;
+		return id2Style.get( id );
 	}
 
 	// TODO: style ranges.

@@ -341,23 +341,35 @@ public class StyleBuilder
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_TOP_WIDTH_PROP );
 	}
 
-	public static void applyBottomBorder( StyleEntry cEntry, StyleEntry entry )
+	public static boolean applyBottomBorder( StyleEntry cEntry, StyleEntry entry )
 	{
 		if ( entry == null )
 		{
-			return;
+			return false;
 		}
-		overwriteProp( cEntry, entry, StyleConstant.BORDER_BOTTOM_COLOR_PROP );
-		overwriteProp( cEntry, entry, StyleConstant.BORDER_BOTTOM_STYLE_PROP );
-		overwriteProp( cEntry, entry, StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
+		boolean isChanged = false;
+		isChanged |= overwriteProp( cEntry, entry,
+									StyleConstant.BORDER_BOTTOM_COLOR_PROP );
+		isChanged |= overwriteProp( cEntry, entry,
+									StyleConstant.BORDER_BOTTOM_STYLE_PROP );
+		isChanged |= overwriteProp( cEntry, entry,
+									StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
+		return isChanged;
 	}
 
-	private static void overwriteProp( StyleEntry cEntry, StyleEntry entry,
+	private static boolean overwriteProp( StyleEntry cEntry, StyleEntry entry,
 			int id )
 	{
 		if (  StyleEntry.isNull( entry.getProperty( id ) ) )
 		{
-			entry.setProperty( id, cEntry.getProperty( id ) );
+			Object property = cEntry.getProperty( id );
+			if ( property != null )
+			{
+				entry.setProperty( id, property );
+				return true;
+			}
+			return false;
 		}
+		return false;
 	}	
 }

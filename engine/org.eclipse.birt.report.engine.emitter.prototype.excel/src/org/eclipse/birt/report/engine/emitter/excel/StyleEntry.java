@@ -30,6 +30,10 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 		{
 			props[i] = entry.props[i];
 		}
+		if ( entry.hashCode != null )
+		{
+			hashCode = new Integer( entry.hashCode );
+		}
 	}
 
 	public StyleEntry( )
@@ -40,6 +44,7 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 	public void setProperty( int id, Object value )
 	{
 		props[id] = value;
+		hashCode = null;
 	}
 
 	public Object getProperty( int id )
@@ -49,19 +54,14 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 
 	public boolean equals( Object obj )
 	{
-		if ( obj == null )
+		if ( obj == this )
 		{
-			return false;
+			return true;
 		}
 
 		if ( !( obj instanceof StyleEntry ) )
 		{
 			return false;
-		}
-
-		if ( obj == this )
-		{
-			return true;
 		}
 
 		StyleEntry tar = (StyleEntry) obj;
@@ -89,20 +89,19 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 	
 	public int hashCode( )
 	{
-		int code = 0;
-
-		for ( int i = 0; i < StyleConstant.COUNT; i++ )
+		if ( hashCode == null )
 		{
-			int hashCode = props[i] == null ? 0 : props[i].hashCode( );
-			code += hashCode * 2 + 1;
-				
-			if ( Integer.MAX_VALUE == code )
-			{
-				break;
-			}
-		}
+			int code = 0;
 
-		return code;
+			for ( int i = 0; i < StyleConstant.COUNT; i++ )
+			{
+				int hashCode = props[i] == null ? 0 : props[i].hashCode( );
+				code += hashCode * 2 + 1;
+			}
+
+			hashCode = new Integer( code );;
+		}
+		return hashCode.intValue( );
 	}
 
 	public static boolean isNull( Object value )
@@ -144,5 +143,6 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 	private String name = null;
 
 	private Object[] props = null;
+	private Integer hashCode;
 	
 }
