@@ -29,6 +29,8 @@ public class TextTemplate
 		Object visitValue( ValueNode node, Object value );
 
 		Object visitImage( ImageNode image, Object value );
+
+		Object visitExpressionValue( ExpressionValueNode node, Object value );
 	}
 
 	abstract public static class Node
@@ -156,4 +158,12 @@ public class TextTemplate
 		}
 	}
 
+	public static class ExpressionValueNode extends ValueNode
+	{
+
+		public void accept( Visitor visitor, Object value )
+		{
+			visitor.visitExpressionValue( this, value );
+		}
+	}
 }

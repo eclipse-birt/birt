@@ -92,11 +92,13 @@ SKIP :
 
 TOKEN [IGNORE_CASE] :
 {
-	<START_VALUEOF:		"<value-of"			>	: ATTLIST
-|	<END_VALUEOF:		"</value-of"		>	: ATTLIST
-|	<START_IMAGE:		"<image"			>	: ATTLIST
-|	<END_IMAGE:			"</image"			>	: ATTLIST
-|	<TEXT:				( ~["<"] )+	| "<"	>
+	<START_VALUEOF:		        "<value-of"				>	: ATTLIST
+|	<END_VALUEOF:		        "</value-of"			>	: ATTLIST
+|	<START_VIEWTIMEVALUEOF:		"<viewtime-value-of"	>	: ATTLIST
+|	<END_VIEWTIMEVALUEOF:		"</viewtime-value-of"	>	: ATTLIST
+|	<START_IMAGE:		        "<image"				>	: ATTLIST
+|	<END_IMAGE:			        "</image"				>	: ATTLIST
+|	<TEXT:				        ( ~["<"] )+	| "<"		>
 }
 
 <ATTLIST> SKIP :
@@ -159,6 +161,13 @@ void ValueOf() : {}
 	<END_VALUEOF> <TAGC>
 }
 
+void ViewTimeValueOf() : {}
+{
+	<START_VIEWTIMEVALUEOF> ( Attribute() )* <TAGC>
+	Ebody_content()
+	<END_VIEWTIMEVALUEOF> <TAGC>
+}
+
 void Text() : 
 {
 	Token text;
@@ -174,6 +183,7 @@ void Template() : {}
 {
 	( LOOKAHEAD(2)
 		(	LOOKAHEAD(9) ValueOf()
+|			LOOKAHEAD(9) ViewTimeValueOf()
 |			LOOKAHEAD(6) Image()
 |			LOOKAHEAD(2) Text()
 		)

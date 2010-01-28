@@ -25,14 +25,17 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.template.TextTemplate;
+import org.eclipse.birt.core.template.TextTemplate.ExpressionValueNode;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -94,8 +97,20 @@ public class TemplateExecutor implements TextTemplate.Visitor
 			TextTemplate.Node node = (TextTemplate.Node) iter.next( );
 			node.accept( this, null );
 		}
-
 		return buffer.toString( );
+	}
+
+	protected Object evaluate( Expression expr )
+	{
+		try
+		{
+			return context.evaluate( expr );
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
+		}
+		return null;
 	}
 
 	public Object visitNode( TextTemplate.Node node, Object value )
@@ -111,7 +126,6 @@ public class TemplateExecutor implements TextTemplate.Visitor
 
 	public Object visitValue( TextTemplate.ValueNode node, Object value )
 	{
-		String text = "";
 		Object result = null;
 		if ( values != null )
 		{
@@ -123,6 +137,31 @@ public class TemplateExecutor implements TextTemplate.Visitor
 			result = values.get( keyExpr );
 		}
 
+		String text = formatValue( node, result );
+		buffer.append( text );
+		return value;
+	}
+
+	public Object visitExpressionValue( ExpressionValueNode node,
+			Object value )
+	{
+		String expression = node.getValue( );
+		if ( expression != null )
+		{
+			expression = expression.trim( );
+			if ( expression.length( ) > 0 )
+			{
+				Object result = evaluate( Expression.newScript( expression ) );
+				String text = formatValue( node, result );
+				buffer.append( text );
+			}
+		}
+		return value;
+	}
+
+	private String formatValue( TextTemplate.ValueNode node, Object value )
+	{
+		String text = "";
 		String format = node.getFormat( );
 		String formatExpression = node.getFormatExpression( );
 		if ( format == null && formatExpression != null )
@@ -136,40 +175,39 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		}
 		if ( "html".equalsIgnoreCase( format ) )
 		{
-			if ( result != null )
+			if ( value != null )
 			{
-				text = result.toString( );
+				text = value.toString( );
 			}
 		}
 		else
 		{
-			if ( result != null )
+			if ( value != null )
 			{
-				if ( result instanceof Number )
+				if ( value instanceof Number )
 				{
 					NumberFormatter fmt = context.getNumberFormatter( format );
-					text = fmt.format( (Number) result );
+					text = fmt.format( (Number) value );
 				}
-				else if ( result instanceof String )
+				else if ( value instanceof String )
 				{
 					StringFormatter fmt = context.getStringFormatter( format );
-					text = fmt.format( (String) result );
+					text = fmt.format( (String) value );
 
 				}
-				else if ( result instanceof Date )
+				else if ( value instanceof Date )
 				{
 					DateFormatter fmt = context.getDateFormatter( format );
-					text = fmt.format( (Date) result );
+					text = fmt.format( (Date) value );
 				}
 				else
 				{
-					text = result.toString( );
+					text = value.toString( );
 				}
 			}
 			text = encodeHtmlText( text );
 		}
-		buffer.append( text );
-		return value;
+		return text;
 	}
 
 	protected String encodeHtmlText( String text )

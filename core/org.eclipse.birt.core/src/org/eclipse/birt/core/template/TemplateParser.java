@@ -94,6 +94,14 @@ public class TemplateParser
 			return data;
 		}
 
+		public Object visit( ASTViewTimeValueOf node, Object data )
+		{
+			TextTemplate.ExpressionValueNode value = new TextTemplate.ExpressionValueNode( );
+			node.childrenAccept( this, value );
+			template.nodes.add( value );
+			return data;
+		}
+
 		public Object visit( ASTImage node, Object data )
 		{
 			TextTemplate.ImageNode image = new TextTemplate.ImageNode( );
@@ -174,7 +182,6 @@ public class TemplateParser
 			}
 			return value;
 		}
-
 	}
 
 }

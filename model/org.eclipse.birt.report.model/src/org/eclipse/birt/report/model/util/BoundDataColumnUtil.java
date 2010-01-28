@@ -24,6 +24,7 @@ import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.template.TemplateParser;
 import org.eclipse.birt.core.template.TextTemplate;
+import org.eclipse.birt.core.template.TextTemplate.ExpressionValueNode;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -127,6 +128,13 @@ public class BoundDataColumnUtil
 			}
 
 			return value;
+		}
+
+		public Object visitExpressionValue( ExpressionValueNode node,
+				Object value )
+		{
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 		/*
