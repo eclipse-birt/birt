@@ -127,7 +127,6 @@ public class TemplateParserTest extends TestCase
 			return buffer;
 		}
 
-		@Override
 		public Object visitExpressionValue( ExpressionValueNode node,
 				Object value )
 		{
