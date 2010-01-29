@@ -193,8 +193,6 @@ public class ImageAreaLayout implements ILayout
 		}
 		else if ( SvgFile.isSvg( mimeType, uri, extension ) )
 		{
-			image.setMIMEType( "image/svg+xml" );
-			image.setExtension( ".svg" );
 			objectType = TYPE_SVG_OBJECT;
 		}
 		else
@@ -614,10 +612,15 @@ public class ImageAreaLayout implements ILayout
 			if ( SvgFile.isSvg( mimeType, null, extension )
 					&& imageObject != null )
 			{
+				// this SVG has been converted into JPEG.
+				area.setMIMEType( "image/jpeg" );
+				area.setExtension( ".jpg" );
 				area.setData( imageObject.rawData( ) );
 			}
 			else
 			{
+				area.setMIMEType( "image/svg+xml" );
+				area.setExtension( ".svg" );
 				area.setData( content.getData( ) );
 			}
 
