@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache Derby Core Plug-in for Eclipse
 Bundle-SymbolicName: org.apache.derby.core; singleton:=true
-Bundle-Version: 10.5.1.1
+Bundle-Version: 10.5.1.1_qualify
 Bundle-ClassPath: derby.jar
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
