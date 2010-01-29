@@ -6,4 +6,4 @@ cheatsheet.chartlisting=グラフとリストレポート
 cheatsheet.sidebysidechartlisting=グラフとリストの並列表示レポート
 cheatsheet.dualcolumnchartlisting=カラムグラフとリストの同時表示レポート
 cheatsheet.firstreport=はじめてのレポート
-cheatsheet.crosstab=Crosstab Report
+cheatsheet.crosstab=クロスタブレポート
