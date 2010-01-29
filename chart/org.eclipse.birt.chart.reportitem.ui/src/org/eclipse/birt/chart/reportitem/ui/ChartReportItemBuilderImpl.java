@@ -841,7 +841,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			}
 			else
 			{
-				eHelper.setExpression( codec.getExpression( ) );
+				eHelper.setExpression( expr );
 			}
 			eb.refresh( );
 		}
