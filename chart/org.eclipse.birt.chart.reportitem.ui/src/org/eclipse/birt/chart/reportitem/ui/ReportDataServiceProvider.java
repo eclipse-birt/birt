@@ -1479,15 +1479,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			List<String> columnExpression, int rowCount, boolean isStringType )
 			throws ChartException
 	{
-		try
+		if ( engineTask != null )
 		{
-			engineTask.run( );
-		}
-		catch ( EngineException e )
-		{
-			throw new ChartException( ChartReportItemUIActivator.ID,
-					ChartException.DATA_BINDING,
-					e );
+			try
+			{
+				engineTask.run( );
+			}
+			catch ( EngineException e )
+			{
+				throw new ChartException( ChartReportItemUIActivator.ID,
+						ChartException.DATA_BINDING,
+						e );
+			}
 		}
 
 		// Set thread context class loader so Rhino can find POJOs in workspace
