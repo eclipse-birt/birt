@@ -60,7 +60,7 @@ feature@com.lowagie.itext=v20081027,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,sour
 plugin@com.lowagie.itext=v20090305,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
 feature@org.apache.derby.core=v20100115,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature
-plugin@org.apache.derby.core=v20100108,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
+plugin@org.apache.derby.core=v20100129,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
 
 feature@org.mozilla.rhino=v20090521,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
 plugin@org.mozilla.rhino=v20090521,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
