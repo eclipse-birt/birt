@@ -4,10 +4,13 @@ package org.eclipse.birt.report.model.api.util;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -146,6 +149,22 @@ public class StyleUtil
 		}
 
 		return target;
+	}
+
+	/**
+	 * Adds selectors for extended elements to the report design. This action
+	 * will be non-undoable, that is, once the selectors are inserted to the design
+	 * handle, it will not be removed by undo action.
+	 * 
+	 * @param designHandle
+	 */
+	public static void addExtensionSelectors( ReportDesignHandle designHandle )
+	{
+		if ( designHandle == null )
+			return;
+
+		DesignSession.addExtensionDefaultStyles( (ReportDesign) designHandle
+				.getModule( ), true );
 	}
 
 }
