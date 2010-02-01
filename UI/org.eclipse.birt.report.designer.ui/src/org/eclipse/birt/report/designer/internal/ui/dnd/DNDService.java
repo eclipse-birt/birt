@@ -18,7 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionDelta;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -52,20 +55,19 @@ public class DNDService implements IRegistryChangeListener
 	private DNDService( )
 	{
 		/*
-		// DesignElementHandle adapter
-		addDNDAdapter( new DesignElementHandleDNDAdapter( ),
-				IDNDAdapter.CAPABLE_LOW );
-		addDNDAdapter( new CascadingParameterGroupHandleDNDAdapter( ),
-				IDNDAdapter.CAPABLE_HIGH );
-		//		addDNDAdapter( new ParameterGroupHandleDNDAdapter( ),
-		//				IDNDAdapter.CAPABLE_HIGH );
-		addDNDAdapter( new ThemeHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH );
-		addDNDAdapter( new SlotHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH );
-		addDNDAdapter( new EmbeddedImageHandleDNDAdapter( ),
-				IDNDAdapter.CAPABLE_HIGH );
-		addDNDAdapter( new CellHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH );
-		addDNDAdapter( new RowHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH );
-		*/
+		 * // DesignElementHandle adapter addDNDAdapter( new
+		 * DesignElementHandleDNDAdapter( ), IDNDAdapter.CAPABLE_LOW );
+		 * addDNDAdapter( new CascadingParameterGroupHandleDNDAdapter( ),
+		 * IDNDAdapter.CAPABLE_HIGH ); // addDNDAdapter( new
+		 * ParameterGroupHandleDNDAdapter( ), // IDNDAdapter.CAPABLE_HIGH );
+		 * addDNDAdapter( new ThemeHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH
+		 * ); addDNDAdapter( new SlotHandleDNDAdapter( ),
+		 * IDNDAdapter.CAPABLE_HIGH ); addDNDAdapter( new
+		 * EmbeddedImageHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH );
+		 * addDNDAdapter( new CellHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH
+		 * ); addDNDAdapter( new RowHandleDNDAdapter( ),
+		 * IDNDAdapter.CAPABLE_HIGH );
+		 */
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
 		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.DNDServices" ); //$NON-NLS-1$
 		if ( extensionPoint != null )
@@ -81,6 +83,21 @@ public class DNDService implements IRegistryChangeListener
 
 	public boolean validDrag( Object object )
 	{
+		if ( object instanceof IAdaptable )
+		{
+			Object adapter = ( (IAdaptable) object ).getAdapter( DesignElementHandle.class );
+			if ( adapter != null )
+			{
+				object = adapter;
+			}
+			else
+			{
+				adapter = ( (IAdaptable) object ).getAdapter( PropertyHandle.class );
+				if ( adapter != null )
+					object = adapter;
+			}
+		}
+
 		if ( object instanceof Object[] && ( (Object[]) object ).length == 1 )
 		{
 			return validDrag( ( (Object[]) object )[0] );
@@ -100,7 +117,7 @@ public class DNDService implements IRegistryChangeListener
 
 	public Object getDragTransfer( Object object )
 	{
-		//TODO maybe can cache dragAdapter in validDrag call.
+		// TODO maybe can cache dragAdapter in validDrag call.
 		for ( Iterator iterator = this.dragAdapterList.iterator( ); iterator.hasNext( ); )
 		{
 			IDragAdapter dragAdapter = (IDragAdapter) iterator.next( );
@@ -122,6 +139,22 @@ public class DNDService implements IRegistryChangeListener
 					operation,
 					location );
 		}
+
+		if ( transfer instanceof IAdaptable )
+		{
+			Object adapter = ( (IAdaptable) transfer ).getAdapter( DesignElementHandle.class );
+			if ( adapter != null )
+			{
+				transfer = adapter;
+			}
+			else
+			{
+				adapter = ( (IAdaptable) transfer ).getAdapter( PropertyHandle.class );
+				if ( adapter != null )
+					transfer = adapter;
+			}
+		}
+		
 		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
 		{
 			IDropAdapter dropAdapter = (IDropAdapter) iterator.next( );
@@ -149,6 +182,21 @@ public class DNDService implements IRegistryChangeListener
 					location );
 		}
 
+		if ( transfer instanceof IAdaptable )
+		{
+			Object adapter = ( (IAdaptable) transfer ).getAdapter( DesignElementHandle.class );
+			if ( adapter != null )
+			{
+				transfer = adapter;
+			}
+			else
+			{
+				adapter = ( (IAdaptable) transfer ).getAdapter( PropertyHandle.class );
+				if ( adapter != null )
+					transfer = adapter;
+			}
+		}
+
 		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
 		{
 			IDropAdapter dropAdapter = (IDropAdapter) iterator.next( );
@@ -166,41 +214,24 @@ public class DNDService implements IRegistryChangeListener
 	}
 
 	/*
-		public void addDNDAdapter( IDNDAdapter adapter, int priority )
-		{
-			this.adapterList.add( getIndex( priority ), adapter );
-			this.adapterPriorityMap.put( adapter, "" + priority );
-		}
-
-		private int getIndex( int priority )
-		{
-			int index = 0;
-			for ( Iterator iterator = this.adapterPriorityMap.entrySet( )
-					.iterator( ); iterator.hasNext( ); )
-			{
-				Map.Entry entry = (Map.Entry) iterator.next( );
-				if ( Integer.parseInt( entry.getValue( ).toString( ) ) > priority )
-					index++;
-			}
-			return index;
-		}
-
-		public void removeDNDAdapter( IDNDAdapter adapter )
-		{
-			this.adapterList.remove( adapter );
-		}
-
-		private IDNDAdapter getAdapter( final Object object )
-		{
-			for ( Iterator iter = this.adapterList.iterator( ); iter.hasNext( ); )
-			{
-				IDNDAdapter adapter = (IDNDAdapter) iter.next( );
-				if ( adapter.capable( object ) )
-					return adapter;
-			}
-			return null;
-		}
-	*/
+	 * public void addDNDAdapter( IDNDAdapter adapter, int priority ) {
+	 * this.adapterList.add( getIndex( priority ), adapter );
+	 * this.adapterPriorityMap.put( adapter, "" + priority ); }
+	 * 
+	 * private int getIndex( int priority ) { int index = 0; for ( Iterator
+	 * iterator = this.adapterPriorityMap.entrySet( ) .iterator( );
+	 * iterator.hasNext( ); ) { Map.Entry entry = (Map.Entry) iterator.next( );
+	 * if ( Integer.parseInt( entry.getValue( ).toString( ) ) > priority )
+	 * index++; } return index; }
+	 * 
+	 * public void removeDNDAdapter( IDNDAdapter adapter ) {
+	 * this.adapterList.remove( adapter ); }
+	 * 
+	 * private IDNDAdapter getAdapter( final Object object ) { for ( Iterator
+	 * iter = this.adapterList.iterator( ); iter.hasNext( ); ) { IDNDAdapter
+	 * adapter = (IDNDAdapter) iter.next( ); if ( adapter.capable( object ) )
+	 * return adapter; } return null; }
+	 */
 	public void registryChanged( IRegistryChangeEvent event )
 	{
 		IExtensionDelta[] deltas = event.getExtensionDeltas( "org.eclipse.birt.report.designer.ui", //$NON-NLS-1$
@@ -225,7 +256,8 @@ public class DNDService implements IRegistryChangeListener
 		{
 			if ( configElements[i].getName( ).equals( "dragAdapter" ) ) //$NON-NLS-1$
 			{
-				//				int priority = getPriority( configElements[i].getAttribute( "priority" ) );
+				// int priority = getPriority( configElements[i].getAttribute(
+				// "priority" ) );
 				try
 				{
 					IDragAdapter adapter = (IDragAdapter) configElements[i].createExecutableExtension( "adapter" ); //$NON-NLS-1$
@@ -243,7 +275,8 @@ public class DNDService implements IRegistryChangeListener
 			}
 			else if ( configElements[i].getName( ).equals( "dropAdapter" ) ) //$NON-NLS-1$
 			{
-				//				int priority = getPriority( configElements[i].getAttribute( "priority" ) );
+				// int priority = getPriority( configElements[i].getAttribute(
+				// "priority" ) );
 				try
 				{
 					IDropAdapter adapter = (IDropAdapter) configElements[i].createExecutableExtension( "adapter" ); //$NON-NLS-1$
