@@ -83,20 +83,7 @@ public class DNDService implements IRegistryChangeListener
 
 	public boolean validDrag( Object object )
 	{
-		if ( object instanceof IAdaptable )
-		{
-			Object adapter = ( (IAdaptable) object ).getAdapter( DesignElementHandle.class );
-			if ( adapter != null )
-			{
-				object = adapter;
-			}
-			else
-			{
-				adapter = ( (IAdaptable) object ).getAdapter( PropertyHandle.class );
-				if ( adapter != null )
-					object = adapter;
-			}
-		}
+		object = adaptObject( object );
 
 		if ( object instanceof Object[] && ( (Object[]) object ).length == 1 )
 		{
@@ -140,21 +127,8 @@ public class DNDService implements IRegistryChangeListener
 					location );
 		}
 
-		if ( transfer instanceof IAdaptable )
-		{
-			Object adapter = ( (IAdaptable) transfer ).getAdapter( DesignElementHandle.class );
-			if ( adapter != null )
-			{
-				transfer = adapter;
-			}
-			else
-			{
-				adapter = ( (IAdaptable) transfer ).getAdapter( PropertyHandle.class );
-				if ( adapter != null )
-					transfer = adapter;
-			}
-		}
-		
+		transfer = adaptObject( transfer );
+
 		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
 		{
 			IDropAdapter dropAdapter = (IDropAdapter) iterator.next( );
@@ -182,20 +156,7 @@ public class DNDService implements IRegistryChangeListener
 					location );
 		}
 
-		if ( transfer instanceof IAdaptable )
-		{
-			Object adapter = ( (IAdaptable) transfer ).getAdapter( DesignElementHandle.class );
-			if ( adapter != null )
-			{
-				transfer = adapter;
-			}
-			else
-			{
-				adapter = ( (IAdaptable) transfer ).getAdapter( PropertyHandle.class );
-				if ( adapter != null )
-					transfer = adapter;
-			}
-		}
+		transfer = adaptObject( transfer );
 
 		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
 		{
@@ -211,6 +172,41 @@ public class DNDService implements IRegistryChangeListener
 						location );
 		}
 		return false;
+	}
+
+	/**
+	 * Adapt object to DesignElementHandle or PropertyHandle if it can.
+	 * 
+	 * @param adapter
+	 * @return
+	 */
+	private Object adaptObject( Object adapter )
+	{
+		if ( adapter instanceof Object[] && ( (Object[]) adapter ).length > 0 )
+		{
+			Object[] adapters = (Object[]) adapter;
+			//if first one can adapt, then adapt whole array
+			if ( adaptObject( adapters[0] ) != adapters[0] )
+			{
+				Object[] array = new Object[adapters.length];
+				for ( int i = 0; i < array.length; i++ )
+					array[i] = adaptObject( adapters[i] );
+				return array;
+			}
+		}
+		else
+		{
+			if ( adapter instanceof IAdaptable )
+			{
+				Object object = ( (IAdaptable) adapter ).getAdapter( DesignElementHandle.class );
+				if ( object != null )
+					return object;
+				object = ( (IAdaptable) adapter ).getAdapter( PropertyHandle.class );
+				if ( object != null )
+					return object;
+			}
+		}
+		return adapter;
 	}
 
 	/*
