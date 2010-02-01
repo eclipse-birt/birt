@@ -43,6 +43,7 @@ public class BasicCachedList implements List
 	protected static final int OBJECT_VALUE = 1;
 	protected static int CACHESIZE = 4000;
 	private static Logger logger = Logger.getLogger( BasicCachedList.class.getName( ) );
+	private static int UNIQUE_ID;
 
 	private int currentCacheNo;
 	private List currentCache;
@@ -62,6 +63,7 @@ public class BasicCachedList implements List
 		{
 			CACHESIZE = 2000000;
 		}
+		UNIQUE_ID = 0;
 	}
 	
 	/**
@@ -85,10 +87,16 @@ public class BasicCachedList implements List
 	private void setFileNamePrefix( )
 	{
 		this.fileNamePrefix = "CachedList_"
-				+ new Long( System.currentTimeMillis( ) ).toString( ) + "_"
+				+ new Long( System.nanoTime( ) ).toString( ) + "_" + getID( ) + "_"
 				+ Integer.toHexString( hashCode( ) );
 	}
 
+	private synchronized static int getID( )
+	{
+		UNIQUE_ID++;
+		return UNIQUE_ID;
+	}
+	
 	/**
 	 * 
 	 * @param list
