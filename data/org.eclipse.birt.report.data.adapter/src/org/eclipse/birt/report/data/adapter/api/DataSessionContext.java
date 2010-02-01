@@ -227,7 +227,12 @@ public class DataSessionContext
 			this.context.setCacheOption( cacheOption, cacheCount);
 		return this.context;
 	}
-
+	
+	public void setDataEngineContext( DataEngineContext context )
+	{
+		if( context != null )
+			this.context = context;
+	}
 	/**
 	 * Whether a user-provided top scope is used. If return value is false, the adaptor
 	 * has provided its own implementation of a top level scope
