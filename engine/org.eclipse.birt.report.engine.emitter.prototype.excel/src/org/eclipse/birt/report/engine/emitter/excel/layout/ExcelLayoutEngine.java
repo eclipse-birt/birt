@@ -889,22 +889,39 @@ public class ExcelLayoutEngine
 			StyleEntry style = container.getStyle( );
 			removeLeftBorder( style );
 			int column = axis.getColumnIndexByCoordinate( childEndCoordinate );
+			int num = axis.getColumnIndexByCoordinate( parentEndCoordinate )
+					- column - 1;
 			Data empty = createEmptyData( style );
 			empty.setStartX( childEndCoordinate );
 			empty.setEndX( parentEndCoordinate );
 			empty.setRowIndex( data.getRowIndex( ) );
 			addDatatoCache( column, empty );
+			addBlankData( column, num, empty );
 		}
 		if ( childStartCoordinate > parentStartCoordinate )
 		{
 			StyleEntry style = container.getStyle( );
 			removeRightBorder( style );
 			int column = axis.getColumnIndexByCoordinate( childStartCoordinate );
+			int num = column
+					- axis.getColumnIndexByCoordinate( parentStartCoordinate )
+					- 1;
 			Data empty = createEmptyData( style );
 			empty.setStartX( childStartCoordinate );
 			empty.setEndX( parentEndCoordinate );
 			empty.setRowIndex( data.getRowIndex( ) );
 			addDatatoCache( column, empty );
+			addBlankData( column - num - 1, num, empty );
+		}
+	}
+
+	private void addBlankData( int column, int num, Data empty )
+	{
+		for ( int i = 1; i <= num; i++ )
+		{
+			BlankData blank = new BlankData( empty );
+			blank.setRowIndex( empty.getRowIndex( ) );
+			addDatatoCache( column + i, blank );
 		}
 	}
 
