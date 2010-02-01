@@ -7,21 +7,17 @@ plugin@javax.xml.rpc,1.1.0=GET,http://download.eclipse.org/tools/orbit/downloads
 plugin@javax.xml.soap,1.2.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/javax.xml.soap_1.2.0.v200905122109.zip,unpack=true
 plugin@org.apache.axis,1.4.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.axis_1.4.0.v200905122109.zip,unpack=true
 
-!***plugin@org.apache.batik.bridge,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.bridge_1.6.0.v200805290154.jar
 plugin@org.apache.batik.bridge,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.bridge_1.7.0.v200903091627.jar
 
 plugin@org.apache.batik.css,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.css_1.7.0.v200903091627.jar
-!***plugin@org.apache.batik.css,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.css_1.6.0.v200805290154.jar
 
 plugin@org.apache.batik.dom,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.dom_1.7.0.v200903091627.jar
-!***plugin@org.apache.batik.dom,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.dom_1.6.0.v200805290154.jar
 
 plugin@org.apache.batik.dom.svg,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.dom.svg_1.7.0.v200903091627.jar
 
 plugin@org.apache.batik.ext.awt,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.ext.awt_1.7.0.v200903091627.jar
 
 plugin@org.apache.batik.parser,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.parser_1.7.0.v200903091627.jar
-
 
 plugin@org.apache.batik.pdf,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.pdf_1.6.0.v200806031500.jar
 
@@ -30,7 +26,9 @@ plugin@org.apache.batik.svggen,1.7.0=GET,http://download.eclipse.org/tools/orbit
 plugin@org.apache.batik.transcoder,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.transcoder_1.7.0.v200903091627.jar
 
 plugin@org.apache.batik.util,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.util_1.7.0.v200903091627.jar
+
 plugin@org.apache.batik.util.gui,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.util.gui_1.7.0.v200903091627.jar
+
 plugin@org.apache.batik.xml,1.7.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.xml_1.7.0.v200903091627.jar
 
 !***plugin@org.apache.batik.xml,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.xml_1.6.0.v200805290154.jar
@@ -41,6 +39,9 @@ plugin@org.apache.batik.xml,1.7.0=GET,http://download.eclipse.org/tools/orbit/do
 !***plugin@org.apache.batik.parser,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.parser_1.6.0.v200805290154.jar
 !***plugin@org.apache.batik.ext.awt,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.ext.awt_1.6.0.v200805290154.jar
 !***plugin@org.apache.batik.dom.svg,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.dom.svg_1.6.0.v200805290154.jar
+!***plugin@org.apache.batik.bridge,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.bridge_1.6.0.v200805290154.jar
+!***plugin@org.apache.batik.css,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.css_1.6.0.v200805290154.jar
+!***plugin@org.apache.batik.dom,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.batik.dom_1.6.0.v200805290154.jar
 
 
 plugin@org.apache.commons.codec,1.3.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.apache.commons.codec_1.3.0.v20080530-1600.jar
@@ -53,10 +54,6 @@ plugin@org.apache.xml.serializer,2.7.1=GET,http://download.eclipse.org/tools/orb
 !***plugin@org.w3c.css.sac,1.3.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.w3c.css.sac_1.3.0.v200805290154.jar
 plugin@org.w3c.css.sac,1.3.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.w3c.css.sac_1.3.1.v200903091627.jar
 plugin@org.w3c.dom.events,3.0.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.w3c.dom.events_3.0.0.draft20060413_v200905140418.jar
-
-
-
-plugin@org.w3c.css.sac.source,1.3.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.w3c.css.sac.source_1.3.0.v200805290154.jar
 
 plugin@org.w3c.dom.smil,1.0.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/bundles/org.w3c.dom.smil_1.0.0.v200806040011.jar
 
