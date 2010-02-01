@@ -609,21 +609,27 @@ public class ImageAreaLayout implements ILayout
 					break;
 			}
 
-			if ( SvgFile.isSvg( mimeType, null, extension )
-					&& imageObject != null )
+			if ( SvgFile.isSvg( mimeType, null, extension ) )
 			{
-				// this SVG has been converted into JPEG.
-				area.setMIMEType( "image/jpeg" );
-				area.setExtension( ".jpg" );
-				area.setData( imageObject.rawData( ) );
+				if ( imageObject != null )
+				{
+					// this SVG has been converted into JPEG.
+					area.setMIMEType( "image/jpeg" );
+					area.setExtension( ".jpg" );
+					area.setData( imageObject.rawData( ) );
+				}
+				else
+				{
+					area.setMIMEType( "image/svg+xml" );
+					area.setExtension( ".svg" );
+					area.setData( content.getData( ) );
+				}
 			}
 			else
 			{
-				area.setMIMEType( "image/svg+xml" );
-				area.setExtension( ".svg" );
 				area.setData( content.getData( ) );
 			}
-
+			
 			if ( content instanceof ObjectContent )
 			{
 				ObjectContent object = (ObjectContent) content;
