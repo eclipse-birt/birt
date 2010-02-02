@@ -1177,7 +1177,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			if ( expression == null || expression.trim( ).length( ) == 0 )
 			{
 				seriesdefinition.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-				seriesdefinition.getSortKey( ).setDefinition( null );
+				if ( seriesdefinition.getSortKey( ) != null )
+				{
+					seriesdefinition.getSortKey( ).setDefinition( null );
+				}
 			}
 			else
 			{
