@@ -4,7 +4,7 @@ plugin@org.eclipse.birt.chart.tests=v20091022,:ext:xgu@dev.eclipse.org:/cvsroot/
 !**************** engine test *******************
 fragment@org.eclipse.birt.core.testhelper=v20100107,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.testhelper
 plugin@org.eclipse.birt.core.tests=v20100128,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.tests
-plugin@org.eclipse.birt.report.engine.tests=v20100107,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.tests
+plugin@org.eclipse.birt.report.engine.tests=v20100202,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.tests
 fragment@org.eclipse.birt.report.engine.testhelper=v20100107,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.testhelper
 plugin@org.eclipse.birt.report.engine.emitter.html.tests=v20100107,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html.tests
 plugin@org.eclipse.birt.report.engine.emitter.pdf.tests=v20091224,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf.tests
