@@ -722,9 +722,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 			CubeMaterializer cubeMaterializer, Map appContext ) throws BirtException
 	{
 		SecurityListener sl = new SecurityListener( this );
-		sl.start( cubeHandle );
-		
-		
+		sl.start( );
+		sl.process( cubeHandle, null );
+		sl.end( );
 		Map<?,?> backupAppContext = new HashMap();
 		if( appContext == null )
 			appContext = new HashMap();
@@ -755,7 +755,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		IDimension[] dimensions = populateDimensions( cubeMaterializer,
 				cubeHandle,
 				appContext, 
-				queryMap, metaMap, sl );
+				queryMap, metaMap);
 		String[][] factTableKey = new String[dimensions.length][];
 		String[][] dimensionKey = new String[dimensions.length][];
 		boolean fromJoin = false;
@@ -884,9 +884,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			
 		}
-		
-		sl.end( );
-		
 		try
 		{
 			cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
@@ -1115,7 +1112,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private IDimension[] populateDimensions( CubeMaterializer cubeMaterializer,
 			TabularCubeHandle cubeHandle, Map appContext,
 			Map<ReportElementHandle, QueryDefinition> queryMap,
-			Map<ReportElementHandle, List<ColumnMeta>> metaMap, SecurityListener sl ) throws AdapterException
+			Map<ReportElementHandle, List<ColumnMeta>> metaMap ) throws AdapterException
 	{
 		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		List result = new ArrayList( );
@@ -1126,7 +1123,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					cubeHandle,
 					appContext,
 					queryMap,
-					metaMap, sl ) );
+					metaMap ) );
 		}
 		
 		IDimension[] dimArray = new IDimension[dimHandles.size( )];
@@ -1152,7 +1149,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private IDimension populateDimension( CubeMaterializer cubeMaterializer,
 			DimensionHandle dim, TabularCubeHandle cubeHandle, Map appContext,
 			Map<ReportElementHandle, QueryDefinition> queryMap,
-			Map<ReportElementHandle, List<ColumnMeta>> metaMap, SecurityListener sl )
+			Map<ReportElementHandle, List<ColumnMeta>> metaMap )
 			throws AdapterException
 	{
 		List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
