@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -190,7 +191,7 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	 */
 	public Map getUserPropertyValues( )
 	{
-		return null;
+		return Collections.unmodifiableMap( customProperties );
 	}
 
 	/*

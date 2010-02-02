@@ -21,7 +21,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -443,54 +442,14 @@ public class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < propDefns.size( ); i++ )
 		{
 			UserPropertyDefn userDef = (UserPropertyDefn) propDefns.get( i );
-			Expression expr = createUserProperty( handle, userDef );
+			Expression expr = org.eclipse.birt.report.engine.util.ExpressionUtil
+					.createUserProperty( handle, userDef );
 			if ( expr != null )
 			{
 				propExprs.put( userDef.getName( ), expr );
 			}
 		}
 		return propExprs;
-	}
-
-	private Expression createUserProperty( DesignElementHandle handle,
-			UserPropertyDefn userDef )
-	{
-		
-		String propName = userDef.getName( );
-		String valueExpr = handle.getStringProperty( propName );
-		switch ( userDef.getTypeCode( ) )
-		{
-			case IPropertyType.SCRIPT_TYPE :
-			case IPropertyType.EXPRESSION_TYPE :
-				ExpressionHandle property = handle
-						.getExpressionProperty( propName );
-				if ( property == null )
-				{
-					return null;
-				}
-				Object expression = property.getValue( );
-				if ( expression == null )
-				{
-					expression = userDef.getDefault( );
-				}
-				if ( expression instanceof org.eclipse.birt.report.model.api.Expression )
-				{
-					return createExpression( (org.eclipse.birt.report.model.api.Expression) expression );
-				}
-				return null;
-			case IPropertyType.NUMBER_TYPE :
-			case IPropertyType.INTEGER_TYPE :
-			case IPropertyType.FLOAT_TYPE :
-				return createConstant( DataType.DOUBLE_TYPE, valueExpr );
-			case IPropertyType.BOOLEAN_TYPE :
-				return createConstant( DataType.BOOLEAN_TYPE, valueExpr );
-
-			case IPropertyType.DATE_TIME_TYPE :
-				return createConstant( DataType.DATE_TYPE, valueExpr );
-
-			default :
-				return createConstant( DataType.STRING_TYPE, valueExpr );
-		}
 	}
 
 	/**
@@ -783,7 +742,8 @@ public class EngineIRVisitor extends DesignVisitor
 		// Fill in help text
 		data.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
 
-		Expression defaultExpr = createExpression( expr );
+		Expression defaultExpr = org.eclipse.birt.report.engine.util.ExpressionUtil
+				.createExpression( expr );
 		setupHighlight( data, defaultExpr );
 		setupMap( data, defaultExpr );
 
@@ -2850,29 +2810,6 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		newCellId = newCellId - 1;
 		return newCellId;
-	}
-
-	private Expression createConstant( int type, String expr )
-	{
-		// we can't trim the expression as the white space has means in constant
-		if ( expr != null )
-		{
-			return Expression.newConstant( type, expr );
-		}
-		return null;
-	}
-
-	private Expression createExpression( String expr )
-	{
-		if ( expr != null )
-		{
-			expr = expr.trim( );
-			if ( expr.length( ) > 0 )
-			{
-				return Expression.newScript( defaultScriptLanguage, expr );
-			}
-		}
-		return null;
 	}
 
 	private List<Expression> createExpression( ExpressionListHandle exprHandles )

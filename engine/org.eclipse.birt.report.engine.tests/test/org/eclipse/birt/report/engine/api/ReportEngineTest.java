@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
@@ -94,6 +95,16 @@ public class ReportEngineTest extends EngineCase
 			assertTrue( paramDefn instanceof ScalarParameterDefn );
 			assertTrue( IScalarParameterDefn.TEXT_BOX == paramDefn.getParameterType( ) );
 			assertTrue( "defaultValue".equals( paramDefnTask.getDefaultValue( paramDefn ) ));
+			ScalarParameterDefn scalarParameter = (ScalarParameterDefn) paramDefn;
+			Map userProperties = scalarParameter.getUserPropertyValues( );
+			assertEquals( 2, userProperties.size( ) );
+			assertEquals( 5, userProperties.get( "expression" ) );
+			assertEquals( "string", userProperties.get( "string" ) );
+
+			assertEquals( 5, scalarParameter
+					.getUserPropertyValue( "expression" ) );
+			assertEquals( "string", scalarParameter
+					.getUserPropertyValue( "string" ) );
 		}
 		catch( Exception ex )
 		{
@@ -102,6 +113,32 @@ public class ReportEngineTest extends EngineCase
 		}
 	}
 	
+	/**
+	 * API test on IReportEngine.createGetParameterDefinitionTask( ) method
+	 */
+	public void testParameterDefinition( )
+	{
+		try
+		{
+			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
+			IReportRunnable runnable = engine.openReportDesign( REPORT_DESIGN );
+			IGetParameterDefinitionTask paramDefnTask = engine
+					.createGetParameterDefinitionTask( runnable );
+			IParameterDefnBase paramDefn = paramDefnTask
+					.getParameterDefn( "param" );
+			assertTrue( paramDefn instanceof ScalarParameterDefn );
+			assertTrue( IScalarParameterDefn.TEXT_BOX == paramDefn
+					.getParameterType( ) );
+			assertTrue( "defaultValue".equals( paramDefnTask
+					.getDefaultValue( paramDefn ) ) );
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+
 	/**
 	 * API test on IReportEngine.getSupportedFormats( ) method
 	 * test two default supported formats only - "html" and "pdf"

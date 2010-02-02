@@ -6,10 +6,26 @@
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <parameters>
         <scalar-parameter name="param" id="4">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">expression</property>
+                    <property name="type">expression</property>
+                    <property name="isVisible">true</property>
+                    <expression name="default" type="javascript">2 + 3</expression>
+                </structure>
+                <structure>
+                    <property name="name">string</property>
+                    <property name="type">string</property>
+                </structure>
+            </list-property>
+            <property name="string">string</property>
             <property name="valueType">static</property>
+            <property name="isRequired">false</property>
             <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">defaultValue</value>
+            </simple-property-list>
             <property name="controlType">text-box</property>
-            <property name="defaultValue">defaultValue</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>

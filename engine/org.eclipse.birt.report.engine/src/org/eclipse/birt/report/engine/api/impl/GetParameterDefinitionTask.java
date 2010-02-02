@@ -35,10 +35,11 @@ import org.eclipse.birt.report.engine.api.IParameterDefn;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.util.ExpressionUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -1527,8 +1528,11 @@ public class GetParameterDefinitionTask extends EngineTask
 			for ( int i = 0; i < properties.size( ); i++ )
 			{
 				UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
-				scalarParameter.addUserProperty( p.getName( ), handle
-						.getProperty( p.getName( ) ) );
+				Expression expression = ExpressionUtil
+						.createUserProperty( handle, p );
+				Object value = ExpressionUtil.evaluate( executionContext,
+														expression );
+				scalarParameter.addUserProperty( p.getName( ), value );
 			}
 			String align = handle.getAlignment( );
 			if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals( align ) )

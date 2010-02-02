@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
@@ -172,23 +171,6 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	public int getParameterType()
 	{
 		return parameterType;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IParameterDefnBase#getUserPropertyValues()
-	 */
-	public Map getUserPropertyValues()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IParameterDefnBase#getUserPropertyValue(java.lang.String)
-	 */
-	public String getUserPropertyValue(String name)
-	{
-		return null;
 	}
 
 	/**

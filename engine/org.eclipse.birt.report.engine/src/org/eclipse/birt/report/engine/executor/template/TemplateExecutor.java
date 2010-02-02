@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
@@ -36,6 +35,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.util.ExpressionUtil;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -100,19 +100,6 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		return buffer.toString( );
 	}
 
-	protected Object evaluate( Expression expr )
-	{
-		try
-		{
-			return context.evaluate( expr );
-		}
-		catch ( BirtException ex )
-		{
-			context.addException( ex );
-		}
-		return null;
-	}
-
 	public Object visitNode( TextTemplate.Node node, Object value )
 	{
 		return value;
@@ -151,7 +138,8 @@ public class TemplateExecutor implements TextTemplate.Visitor
 			expression = expression.trim( );
 			if ( expression.length( ) > 0 )
 			{
-				Object result = evaluate( Expression.newScript( expression ) );
+				Object result = ExpressionUtil.evaluate( context, Expression
+						.newScript( expression ) );
 				String text = formatValue( node, result );
 				buffer.append( text );
 			}
