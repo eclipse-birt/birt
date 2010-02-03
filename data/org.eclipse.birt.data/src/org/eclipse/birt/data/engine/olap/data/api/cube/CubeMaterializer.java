@@ -148,6 +148,24 @@ public class CubeMaterializer
 	/**
 	 * 
 	 * @param name
+	 * @param hierarchy
+	 * @return
+	 * @throws BirtException
+	 * @throws IOException
+	 */
+	public IDimension createTimeDimension( String name, IHierarchy hierarchy ) throws BirtException, IOException
+	{
+		if (hierarchy instanceof Hierarchy) {
+			return new Dimension(name, documentManager, (Hierarchy) hierarchy,
+					true);
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param name
 	 * @param dimensions
 	 * @param factTable
 	 * @param measureColumns

@@ -20,6 +20,13 @@ import org.eclipse.birt.data.engine.core.DataException;
 public interface IResultRow
 {
 	/**
+	 * 
+	 * @return
+	 */
+	public boolean isTimeDimensionRow( );
+	
+	
+	/**
 	 * get the field value according to the specified field name.
 	 * @param fieldName
 	 * @return

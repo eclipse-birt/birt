@@ -104,6 +104,8 @@ class CubeQueryValidator
 		boolean validate = false;
 		for ( int k = 0; k < cube.getDimesions( ).length; k++ )
 		{
+			if( cube.getDimesions( )[k].isTime( ) )
+				return true;
 			if ( dimensionName.equals( cube.getDimesions( )[k].getName( ) ) )
 			{
 				if ( hierarchyName.equals( cube.getDimesions( )[k].getHierarchy( )

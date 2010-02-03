@@ -12,11 +12,13 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
+import org.eclipse.birt.data.engine.olap.data.api.cube.TimeDimensionUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
@@ -38,7 +40,8 @@ public class DimensionRowAccessor extends AbstractRowAccessor
 	public DimensionRowAccessor( Dimension dimension )
 	{
 		this.dimension = dimension;
-		populateFieldIndexMap( );
+		if( !dimension.isTime( ) )
+			populateFieldIndexMap( );
 	}
 
 	/*
@@ -118,10 +121,22 @@ public class DimensionRowAccessor extends AbstractRowAccessor
 	{
 		if ( dimRow == null )
 			throw new DataException( ResourceConstants.CANNOT_ACCESS_NULL_DIMENSION_ROW );
-		FieldIndex index = (FieldIndex) fieldIndexMap.get( fieldName );
-		return index != null ? index.getValue( ) : null;
+		if( !dimension.isTime( ) )
+		{
+			FieldIndex index = (FieldIndex) fieldIndexMap.get( fieldName );
+			return index != null ? index.getValue( ) : null;
+		}
+		else
+		{
+			return TimeDimensionUtil.getFieldVaule( ( Date )( dimRow.getMembers()[0].getKeyValues( )[0] ), fieldName );
+		}
 	}
 
+	public boolean isTimeDimensionRow( )
+	{
+		return dimension.isTime( );
+	}
+	
 	/**
 	 * 
 	 */

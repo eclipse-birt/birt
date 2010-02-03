@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
+import org.eclipse.birt.data.engine.olap.data.api.cube.TimeDimensionUtil;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
@@ -159,6 +160,11 @@ public interface IJSObjectPopulator
 		 */
 		public Object get( String value, Scriptable scope )
 		{
+			if( this.levels.isTimeDimLevel( ) )
+			{
+				if( TimeDimensionUtil.getFieldIndex( value ) == -1 )
+					throw new RuntimeException( "Invalid level Name:" + value );//$NON-NLS-1$
+			}
 			if ( this.levelNames.contains( value ) )
 			{
 				this.levels.setCurrentKey( value );
@@ -210,9 +216,16 @@ public interface IJSObjectPopulator
 		{
 			try
 			{
-				return resultRow.getFieldValue( OlapExpressionUtil.getAttrReference( this.dimName,
+				if( resultRow.isTimeDimensionRow( ) )
+				{
+					return resultRow.getFieldValue( this.key );
+				}
+				else
+				{
+					return resultRow.getFieldValue( OlapExpressionUtil.getAttrReference( this.dimName,
 						this.key,
 						this.key ) );
+				}
 			}
 			catch ( DataException e )
 			{
@@ -258,6 +271,11 @@ public interface IJSObjectPopulator
 		public void setResultRow( IResultRow result )
 		{
 			this.resultRow = result;
+		}
+		
+		public boolean isTimeDimLevel( )
+		{
+			return resultRow.isTimeDimensionRow( );
 		}
 	}
 

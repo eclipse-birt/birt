@@ -154,4 +154,9 @@ public class AggregationRowAccessor extends AbstractRowAccessor
 			return resultSet.getLevelAttribute( levelIndex, attrIndex );
 		}
 	}
+
+	public boolean isTimeDimensionRow( )
+	{
+		return false;
+	}
 }

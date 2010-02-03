@@ -250,7 +250,11 @@ public class LevelFilterHelper
 		List dimValueArrayList = new ArrayList( ); // 
 		// get target level index, also equals to the length of parent levels
 		int index = getIndex( levels, filter.getTargetLevel( ).getLevelName( ) );
-
+		
+		//for time dimension we ignore target level   
+		if( index < 0 )
+			index = 0;
+		
 		Member[] preMembers = null;
 		Object[] preValue = null;
 		IDiskArray dimValueArray = null;

@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -21,6 +22,8 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
+import org.eclipse.birt.data.engine.olap.data.api.cube.TimeDimensionUtil;
+import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 
@@ -116,6 +119,10 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public Object getLevelAttribute( int levelIndex, int attributeIndex ) throws IOException
 	{
+		if( dimension.isTime( ) )
+		{
+			return null;
+		}
 		initDimensionRows( );
 		return ((DimensionRow)dimensionRows.get( currentPosition )).
 			getMembers()[levelIndex].getAttributes()[attributeIndex];
@@ -127,6 +134,10 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public int getLevelAttributeDataType( String levelName, String attributeName )
 	{
+		if( dimension.isTime( ) )
+		{
+			return -1;
+		}
 		return levels[getLevelIndex(levelName)].getAttributeDataType( attributeName );
 	}
 
@@ -136,6 +147,10 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public int getLevelAttributeIndex( String levelName, String attributeName )
 	{
+		if( dimension.isTime( ) )
+		{
+			return -1;
+		}
 		String[] attributeNames = levels[getLevelIndex( levelName )].getAttributeNames( );
 		for ( int i = 0; i < attributeNames.length; i++ )
 		{
@@ -153,6 +168,10 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public int getLevelIndex( String levelName )
 	{
+		if( dimension.isTime( ) )
+		{
+			return TimeDimensionUtil.getFieldIndex( levelName );
+		}
 		for( int i=0;i<levels.length;i++)
 		{
 			if(levels[i].getName( ).equals( levelName ))
@@ -169,6 +188,10 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public int[] getLevelKeyDataType( String levelName )
 	{
+		if( dimension.isTime( ) )
+		{
+			return new int[]{ DataType.INTEGER_TYPE };
+		}
 		int levelIndex = getLevelIndex(levelName);
 		if ( levelIndex < 0 )
 		{
@@ -190,8 +213,16 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	public Object[] getLevelKeyValue( int levelIndex ) throws IOException
 	{
 		initDimensionRows( );
-		return ((DimensionRow)dimensionRows.get( currentPosition )).
-			getMembers()[levelIndex].getKeyValues();
+		if( dimension.isTime( ) )
+		{
+			Date timeValue = getCurrentTimeValue( );
+			return new Object[]{ TimeDimensionUtil.getFieldVaule( timeValue, levelIndex ) };
+		}
+		else
+		{
+			return ((DimensionRow)dimensionRows.get( currentPosition )).
+				getMembers()[levelIndex].getKeyValues();
+		}
 	}
 
 	/*
@@ -209,7 +240,14 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	 */
 	public int length( )
 	{
-		return dimension.length( );
+		if( dimensionPosition == null )
+		{
+			return dimension.length( );
+		}
+		else
+		{
+			return dimensionPosition.size( );
+		}
 	}
 
 	/*
@@ -238,8 +276,24 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	public Member getLevelMember( int levelIndex ) throws IOException
 	{
 		initDimensionRows( );
-		return ((DimensionRow)dimensionRows.get( currentPosition )).
-			getMembers()[levelIndex];
+		if( dimension.isTime( ) )
+		{
+			Date timeValue = getCurrentTimeValue( );
+			Member member = new Member( );
+			member.setKeyValues( new Object[]{ TimeDimensionUtil.getFieldVaule( timeValue, levelIndex ) } );
+			return member;
+		}
+		else
+		{
+			return ((DimensionRow)dimensionRows.get( currentPosition )).
+				getMembers()[levelIndex];
+		}
+	}
+
+	private Date getCurrentTimeValue( ) throws IOException {
+		Date timeValue = ( Date )((( DimensionRow)dimensionRows.get( currentPosition ) ).
+				getMembers( )[0].getKeyValues( )[0]);
+		return timeValue;
 	}
 	
 	public DimensionRow getDimensionRow( ) throws IOException

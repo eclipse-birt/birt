@@ -508,18 +508,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		return aggregationCalculatorExecutor.execute( stopSign );
 	}
 	
-	private DimensionResultIterator[] populateDimensionResultIterator( StopSign stopSign ) throws DataException, IOException
-	{
-		IDimension[] dimensions = cube.getDimesions( );
-		DimensionResultIterator[] dimResultSet = new DimensionResultIterator[dimensions.length];
-
-		for ( int i = 0; i < dimensions.length; i++ )
-		{
-			dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-						dimensions[i].findAll( ), stopSign);
-		}
-		return dimResultSet;
-	}
 	
 	/**
 	 * 

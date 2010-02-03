@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
+import org.eclipse.birt.data.engine.olap.data.api.cube.TimeDimensionUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
@@ -66,7 +67,14 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 			public String[] getAttributeNames( int dimIndex, int levelIndex )
 			{
 				IDimensionResultIterator itr = dimensionResultIterators[dimIndex];
-				return itr.getDimesion( ).getHierarchy( ).getLevels( )[levelIndex].getAttributeNames( );
+				if( !itr.getDimesion( ).isTime( ) )
+				{
+					return itr.getDimesion( ).getHierarchy( ).getLevels( )[levelIndex].getAttributeNames( );
+				}
+				else
+				{
+					return null;
+				}
 			}
 
 			public ColumnInfo getColumnInfo( DimColumn dimColumn )
@@ -150,7 +158,14 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 			public String[] getKeyNames( int dimIndex, int levelIndex )
 			{
 				IDimensionResultIterator itr = dimensionResultIterators[dimIndex];
-				return itr.getDimesion( ).getHierarchy( ).getLevels( )[levelIndex].getKeyNames( );
+				if( itr.getDimesion( ).isTime( ) )
+				{
+					return new String[]{ TimeDimensionUtil.getFieldName( levelIndex ) };
+				}
+				else
+				{
+					return itr.getDimesion( ).getHierarchy( ).getLevels( )[levelIndex].getKeyNames( );
+				}
 			}
 
 			public int getLevelIndex( String dimensionName, String levelName )
