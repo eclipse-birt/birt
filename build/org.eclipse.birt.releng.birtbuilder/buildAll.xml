@@ -36,6 +36,7 @@
     <property name="sign.dir" value="" />
 
 	<target name="main" depends="init">
+		<antcall target="prepareSrc" />
 		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
 		<antcall target="buildBirtOSGI"/>
@@ -489,6 +490,28 @@
 		</ant>
 	</target>
 	
+	<target name="prepareSrc" if="HQ.BIRT.skip">
+		
+        <cvs command="export -d source" cvsRoot="${mapCvsRoot}" dest="${buildDirectory}" 
+		package="source" tag="${mapVersionTag}" taskname="CVS - source"/>
+
+		<copy todir="${buildDirectory}/plugins">
+			<fileset dir="${buildDirectory}/source">
+				<include name="**" />
+				<exclude name="nl/**" />
+				<exclude name="features/**" />
+				<exclude name="*.tests/**" />
+				<exclude name="*.test/**" />
+				<exclude name="*.tests.*/**" />
+				<exclude name="*.testhelper" />
+				<exclude name="org.eclipse.birt.build" />
+				<exclude name="org.eclipse.birt.releng" />
+				<exclude name="tutorials" />
+			</fileset>
+		</copy>
+		
+	</target>
+		
 	<target name="buildBirtTestFeature" unless="skip.build.testsuite">
   		<antcall target="logger">
 			<param name="message" value="BIRT test feature build started"/>
