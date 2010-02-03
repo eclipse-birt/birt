@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.impl.document.SummaryDataSetPopulator;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.NewInstanceHelper;
@@ -276,68 +277,31 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						.getTempDir( ),
 						getEngineContext( ),
 						new QueryResultInfo( realBasedQueryID, null, -1 ) );
-				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( );
-				StreamManager manager = new StreamManager( getEngineContext( ),
-						new QueryResultInfo( queryDefn.getQueryResultsID( ),
-								null,
-								0 ) );
-				if ( PLSUtil.isPLSEnabled( queryDefn ) )
+				IResultIterator resultIterator = null;
+				if ( queryDefn.isSummaryQuery( ) )
 				{
-					if ( PLSUtil.needUpdateDataSet( queryDefn, manager ) )
-					{
-						if ( getEngineContext( ).getDocWriter( ) != null )
-						{
-							// When we can update the data set data.
-							populatePLSDataSetData( eventHandler,
-									manager );
-
-							dataSetResult.close( );
-
-							rdLoad = RDUtil.newLoad( engine.getSession( )
-									.getTempDir( ),
-									getEngineContext( ),
-									new QueryResultInfo( realBasedQueryID,
-											null,
-											-1 ) );
-
-							dataSetResult = rdLoad.loadDataSetData( );
-						}
-						else
-						{
-							// Indicate that we need not update the report
-							// document.
-							org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
-									.getTempDir( ),
-									getEngineContext( ),
-									null,
-									queryDefn.getQueryResultsID( ), queryDefn );
-							PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
-									queryDefn.getQueryExecutionHints( )
-											.getTargetGroupInstances( ),
-									docIt );
-							IResultIterator resultIterator = new CachedResultSet( query,
-									populateResultClass( populator.getResultClass( ) ),
-									populator,
-									eventHandler,
-									engine.getSession( ) );
-							dataSetResult.close( );
-							cleanUpOldRD( );
-							return resultIterator;
-						}
-					}
-					else
-					{
-						cleanUpOldRD( );
-					}
+					org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator2( engine.getSession( )
+							.getTempDir( ),
+							getEngineContext( ),
+							null,
+							queryDefn.getQueryResultsID( ),
+							queryDefn.getGroups( ).size( ),
+							true,
+							queryDefn );
+					SummaryDataSetPopulator populator = new SummaryDataSetPopulator( queryDefn,
+							docIt,
+							rdLoad.loadExprDataResultSet( ) );
+					resultIterator = new CachedResultSet( query,
+							populateResultClass( populator.getResultClass( ) ),
+							populator,
+							eventHandler,
+							engine.getSession( ) );
 				}
-				
-				IResultClass meta = dataSetResult.getResultClass( );
-				IResultIterator resultIterator = new CachedResultSet( query,
-						populateResultClass( meta ),
-						dataSetResult,
-						eventHandler,
-						engine.getSession( ) );
-				dataSetResult.close( );
+				else
+				{
+					DataSetResultSet dataSetResult = rdLoad.loadDataSetData( );
+					resultIterator = getResultIterator( eventHandler, dataSetResult );
+				}
 
 				return resultIterator;
 			}
@@ -345,6 +309,73 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			{
 				throw new DataException( e.getLocalizedMessage( ) );
 			}
+		}
+
+		private IResultIterator getResultIterator( IEventHandler eventHandler,
+				DataSetResultSet dataSetResult ) throws DataException,
+				IOException
+		{
+			RDLoad rdLoad;
+			StreamManager manager = new StreamManager( getEngineContext( ),
+					new QueryResultInfo( queryDefn.getQueryResultsID( ),
+							null,
+							0 ) );
+			if ( PLSUtil.isPLSEnabled( queryDefn ) )
+			{
+				if ( PLSUtil.needUpdateDataSet( queryDefn, manager ) )
+				{
+					if ( getEngineContext( ).getDocWriter( ) != null )
+					{
+						// When we can update the data set data.
+						populatePLSDataSetData( eventHandler, manager );
+
+						dataSetResult.close( );
+
+						rdLoad = RDUtil.newLoad( engine.getSession( )
+								.getTempDir( ),
+								getEngineContext( ),
+								new QueryResultInfo( realBasedQueryID, null, -1 ) );
+
+						dataSetResult = rdLoad.loadDataSetData( );
+					}
+					else
+					{
+						// Indicate that we need not update the report
+						// document.
+						org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
+								.getTempDir( ),
+								getEngineContext( ),
+								null,
+								queryDefn.getQueryResultsID( ),
+								queryDefn );
+						PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
+								queryDefn.getQueryExecutionHints( )
+										.getTargetGroupInstances( ),
+								docIt );
+						IResultIterator resultIterator = new CachedResultSet( query,
+								populateResultClass( populator.getResultClass( ) ),
+								populator,
+								eventHandler,
+								engine.getSession( ) );
+						dataSetResult.close( );
+						cleanUpOldRD( );
+						return resultIterator;
+					}
+				}
+				else
+				{
+					cleanUpOldRD( );
+				}
+			}
+
+			IResultClass meta = dataSetResult.getResultClass( );
+			IResultIterator resultIterator = new CachedResultSet( query,
+					populateResultClass( meta ),
+					dataSetResult,
+					eventHandler,
+					engine.getSession( ) );
+			dataSetResult.close( );
+			return resultIterator;
 		}
 
 		/**

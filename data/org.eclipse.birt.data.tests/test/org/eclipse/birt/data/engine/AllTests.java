@@ -94,6 +94,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ReportDocumentTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ReportDocumentTest2.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ViewingTest.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.SummaryIVTest.class);
 		
 		/* in package org.eclipse.birt.data.engine.impl */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.AggregationTest.class);

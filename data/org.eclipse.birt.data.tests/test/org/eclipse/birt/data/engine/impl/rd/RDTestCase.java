@@ -255,6 +255,7 @@ public abstract class RDTestCase extends APITestCase
 			try
 			{
 				archiveWriter.finish( );
+				archiveWriter = null;
 			}
 			catch ( IOException e )
 			{
@@ -271,6 +272,7 @@ public abstract class RDTestCase extends APITestCase
 			try
 			{
 				archiveReader.close( );
+				archiveReader = null;
 			}
 			catch ( Exception e )
 			{

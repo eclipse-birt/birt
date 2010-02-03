@@ -1,0 +1,356 @@
+/*******************************************************************************
+ * Copyright (c) 2010 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.data.engine.impl.rd;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
+
+import testutil.ConfigText;
+
+
+public class SummaryIVTest extends RDTestCase
+{
+	private String[] bindingName;
+	
+	private String GEN_queryResultID;
+	private String UPDATE_queryResultID;
+	
+	@Override
+	protected DataSourceInfo getDataSourceInfo( )
+	{
+		return new DataSourceInfo( ConfigText.getString( "Api.TestData.TableName" ),
+				ConfigText.getString( "Api.TestData.TableSQL" ),
+				ConfigText.getString( "Api.TestData.TestDataFileName" ) );
+	}
+
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.APITestCase#setUp()
+	 */
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
+	 */
+	public void tearDown() throws Exception
+	{
+		super.tearDown( );
+	}
+	
+	/**
+	 * With filter
+	 * @throws BirtException
+	 */
+	public void testBasicFilter( ) throws Exception
+	{
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		this.preBasicIV( );
+		this.closeArchiveReader();
+		
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName2 );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		this.updateBasicIVOnFilter( );
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * With filter
+	 * @throws BirtException
+	 */
+	public void testBasicSort( ) throws Exception
+	{
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		this.preBasicIV( );
+		this.closeArchiveReader();
+		
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName2 );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		this.updateBasicIVOnSort( );
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * With filter
+	 * @throws BirtException
+	 */
+	public void testBasicAggregation( ) throws Exception
+	{
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		this.preBasicIV( );
+		this.closeArchiveReader();
+		
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName2 );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		this.updateBasicIVOnAggregation( );
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+
+		this.checkOutputFile( );
+	}
+	
+	private void updateBasicIVOnFilter( ) throws BirtException
+	{
+		IQueryResults qr = null;
+		
+		QueryDefinition qd = newSummaryQuery( );
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		ConditionalExpression condition = new ConditionalExpression( "row[\"SALES\"]",
+				IConditionalExpression.OP_GT,
+				"1000" );
+		FilterDefinition filter = new FilterDefinition( condition );
+		( (GroupDefinition) qd.getGroups( ).get( 1 ) ).addFilter( filter );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			for ( int i = 0; i < bindingName.length; i++ )
+				abc += ri.getValue( this.bindingName[i] ) + "  ";
+
+			this.testPrintln( abc );
+		}
+		this.testPrintln( "\n" );
+
+		ri.close( );
+		qr.close( );
+		myPreDataEngine.shutdown( );
+		myPreDataEngine.clearCache( dataSource, dataSet );
+		myPreDataEngine = null;
+
+	}
+
+	private void updateBasicIVOnAggregation( ) throws BirtException
+	{
+		IQueryResults qr = null;
+		
+		QueryDefinition qd = newSummaryQuery( );
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		IBinding binding = new Binding( "SUM_ON_COUNTRY" );
+		binding.setExpression( new ScriptExpression( "row[\"SALES\"]" ) );
+		binding.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding.addAggregateOn( "countryGroup" );
+
+		qd.addBinding( binding );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			for ( int i = 0; i < bindingName.length; i++ )
+				abc += ri.getValue( this.bindingName[i] ) + "  ";
+
+			abc += ri.getValue( "SUM_ON_COUNTRY" ) + "  ";
+
+			this.testPrintln( abc );
+		}
+		this.testPrintln( "\n" );
+
+		ri.close( );
+		qr.close( );
+		myPreDataEngine.shutdown( );
+		myPreDataEngine.clearCache( dataSource, dataSet );
+		myPreDataEngine = null;
+	}
+	
+	private void updateBasicIVOnSort( ) throws BirtException
+	{
+		IQueryResults qr = null;
+		
+		QueryDefinition qd = newSummaryQuery( );
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row[\"SALES\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		( (GroupDefinition) qd.getGroups( ).get( 1 ) ).addSort( sort );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			for ( int i = 0; i < bindingName.length; i++ )
+				abc += ri.getValue( this.bindingName[i] ) + "  ";
+
+			this.testPrintln( abc );
+		}
+		this.testPrintln( "\n" );
+
+		ri.close( );
+		qr.close( );
+		myPreDataEngine.shutdown( );
+		myPreDataEngine.clearCache( dataSource, dataSet );
+		myPreDataEngine = null;
+	}
+
+	private void preBasicIV( ) throws BirtException
+	{
+		IQueryResults qr = null;
+
+		// here queryResultID needs to set as the data set
+		QueryDefinition qd = newSummaryQuery(  );
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		
+		qr = myPreDataEngine.getQueryResults( this.UPDATE_queryResultID );
+
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			for ( int i = 0; i < bindingName.length; i++ )
+				abc += ri.getValue( this.bindingName[i] ) + "  ";
+
+			this.testPrintln( abc );
+		}
+		this.testPrintln( "\n" );
+
+		ri.close( );
+		qr.close( );
+		myPreDataEngine.shutdown( );
+		myPreDataEngine.clearCache( dataSource, dataSet );
+		myPreDataEngine = null;
+	}
+
+	/**
+	 * @throws BirtException
+	 */
+	private void genBasicIV( ) throws BirtException
+	{
+
+		QueryDefinition qd = newSummaryQuery( );
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+
+		// important step
+		GEN_queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			for ( int i = 0; i < bindingName.length; i++ )
+				abc += ri.getValue( this.bindingName[i] ) + "  ";
+
+			this.testPrintln( abc );
+		}
+		this.testPrintln( "\n" );
+
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+		myGenDataEngine.clearCache( dataSource, dataSet );
+	}
+	
+	
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	private QueryDefinition newSummaryQuery( ) throws DataException
+	{
+		QueryDefinition qd = newReportQuery( );
+		qd.setIsSummaryQuery( true );
+		qd.setUsesDetails( false );
+
+		// add grouping on column1
+		GroupDefinition gd = new GroupDefinition( "countryGroup" );
+		gd.setKeyColumn( "COUNTRY" );
+		qd.addGroup( gd );
+
+		// add grouping on column1
+		GroupDefinition gd2 = new GroupDefinition( "cityGroup" );
+		gd2.setKeyColumn( "CITY" );
+		qd.addGroup( gd2 );
+		
+		this.bindingName = new String[3];
+		this.bindingName[0] = "COUNTRY";
+		this.bindingName[1] = "CITY";
+		this.bindingName[2] = "SALES";
+
+		IBinding[] binding;
+		binding = new Binding[3];
+		binding[0] = new Binding( this.bindingName[0],new ScriptExpression( "dataSetRow.COUNTRY" ) );
+		binding[1] = new Binding( this.bindingName[1], new ScriptExpression( "dataSetRow.CITY" ) );
+		binding[2] = new Binding( this.bindingName[2] );
+		binding[2].setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding[2].setExpression( new ScriptExpression("dataSetRow.AMOUNT") );
+		binding[2].addAggregateOn( "cityGroup" );
+		
+		qd.addBinding( binding[0] );
+		qd.addBinding( binding[1] );
+		qd.addBinding( binding[2] );
+
+		return qd;
+	}
+}

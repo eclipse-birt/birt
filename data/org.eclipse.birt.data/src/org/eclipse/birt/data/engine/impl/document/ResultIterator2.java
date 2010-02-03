@@ -37,7 +37,7 @@ public class ResultIterator2 extends ResultIterator
 	 * @param lowestGroupLevel
 	 * @throws DataException
 	 */
-	ResultIterator2( String tempDir, DataEngineContext context, IQueryResults queryResults,
+	public ResultIterator2( String tempDir, DataEngineContext context, IQueryResults queryResults,
 			String queryResultID, int lowestGroupLevel, boolean isSummary, IBaseQueryDefinition qd ) throws DataException
 	{
 		super( tempDir, context, queryResults, queryResultID, qd );
@@ -77,7 +77,6 @@ public class ResultIterator2 extends ResultIterator
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
 	}
-
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.ResultIterator#next()

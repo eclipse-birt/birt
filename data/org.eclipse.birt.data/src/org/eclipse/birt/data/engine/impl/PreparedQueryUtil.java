@@ -40,8 +40,6 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
@@ -61,13 +59,13 @@ import org.eclipse.birt.data.engine.core.security.URLSecurity;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.document.FilterDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -471,209 +469,38 @@ public class PreparedQueryUtil
 		}
 		else
 		{
+			if ( queryDefn.isSummaryQuery( ) )
+			{
+				IResultClass rsMeta = rdLoad.loadExprDataResultSet( )
+						.getResultClass( );
+				populateSummaryBinding( queryDefn, rsMeta );
+			}
 			return BASED_ON_DATASET;
 		}		
 	}
 	
-	private static boolean isBindingReferenceSort( List sorts )
+	private static void populateSummaryBinding( IQueryDefinition queryDefn, IResultClass rsMeta ) throws DataException
 	{
-		if( sorts == null || sorts.size() == 0 )
-			return true;
-		for( int i = 0; i < sorts.size( ); i++ )
+		Set<String> nameSet = new HashSet<String>( );
+
+		for ( int i = 1; i < rsMeta.getFieldCount( ); i++ )
 		{
-			ISortDefinition sort = (ISortDefinition) sorts.get( i );
-			if( sort.getExpression( )!= null )
+			nameSet.add( rsMeta.getFieldName( i ) );
+		}
+		Iterator<IBinding> bindingIt = queryDefn.getBindings( )
+				.values( )
+				.iterator( );
+		while ( bindingIt.hasNext( ) )
+		{
+			IBinding binding = bindingIt.next( );
+			if ( nameSet.contains( binding.getBindingName( ) ) )
 			{
-				try
-				{
-					if(ExpressionUtil.getColumnBindingName( sort.getExpression().getText( )) == null )
-						return false;
-				}
-				catch ( BirtException e )
-				{
-				}
+				binding.setAggrFunction( null );
+				binding.getAggregatOns( ).clear( );
+				binding.getArguments( ).clear( );
+				binding.setExpression( new ScriptExpression( ExpressionUtil.createDataSetRowExpression( binding.getBindingName( ) ) ) );
 			}
 		}
-		return true;
-	}
-
-	/**
-	 * 
-	 * @param queryDefn
-	 * @return
-	 */
-	private static boolean hasSubQueryInDetail( Collection col )
-	{
-		if( col == null || col.size( ) == 0 )
-			return false;
-		Iterator it = col.iterator( );
-		while( it.hasNext( ) )
-		{
-			ISubqueryDefinition sub = (ISubqueryDefinition)it.next( );
-			if( !sub.applyOnGroup( ) )
-				return true;
-			if( hasSubQueryInDetail( sub.getSubqueries( )))
-				return true;
-		}
-		return false;
-	}
-
-	/**
-	 * 
-	 * @param oldFilter
-	 * @param newFilter
-	 * @return
-	 */
-	private static boolean isFiltersEquals( List oldFilter, List newFilter )
-	{
-		if( oldFilter.size() != newFilter.size( ))
-			return false;
-		for( int i = 0; i < oldFilter.size( ); i++ )
-		{
-			if( !FilterDefnUtil.isEqualFilter( (IFilterDefinition)oldFilter.get(i), (IFilterDefinition)newFilter.get(i )))
-					return false;
-		}	
-		return true;
-	}
-
-	/**
-	 * @param filters
-	 * @return
-	 */
-	private static boolean hasAggregationInFilter( List filters )
-	{
-		if ( filters == null || filters.size( ) == 0 )
-			return false;
-
-		for ( int i = 0; i < filters.size( ); i++ )
-		{
-			Object o = ( (IFilterDefinition) filters.get( i ) ).getExpression( );
-			if ( o instanceof IConditionalExpression )
-			{
-				int type = ( (IConditionalExpression) o ).getOperator( );
-				if ( type == IConditionalExpression.OP_TOP_N
-						|| type == IConditionalExpression.OP_BOTTOM_N
-						|| type == IConditionalExpression.OP_TOP_PERCENT
-						|| type == IConditionalExpression.OP_BOTTOM_PERCENT )
-					return true;
-				if ( ExpressionCompilerUtil.hasAggregationInExpr( (IBaseExpression) o ) )
-					return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * @return
-	 * @throws DataException 
-	 */
-	private static boolean isCompatibleRSMap( Map oldMap, Map newMap ) throws DataException
-	{
-		if ( oldMap == null )
-			return newMap.size( ) == 0;
-		else if ( newMap == null )
-			return oldMap.size( ) == 0;
-
-		if ( newMap.size( ) > oldMap.size( ) )
-			return false;
-		
-		Iterator it = newMap.keySet( ).iterator( );
-		while( it.hasNext( ) )
-		{
-			Object key = it.next( );
-			Object oldObj = oldMap.get( key );
-			Object newObj = newMap.get( key );
-			if ( oldObj != null )
-			{
-				if( !QueryCompUtil.isTwoBindingEqual((IBinding)newObj, (IBinding)oldObj ))
-					return false;
-			}else
-			{
-				return false;
-			}
- 		}
-		return true;
-	}
-
-	
-	/**
-	 * @param oldSubQuery
-	 * @param newSubQuery
-	 * @return
-	 */
-	private static boolean isCompatibleSubQuery( IBaseQueryDefinition oldDefn,
-			IBaseQueryDefinition newDefn )
-	{
-		boolean isComp = QueryCompUtil.isCompatibleSQs( oldDefn.getSubqueries( ),
-				newDefn.getSubqueries( ) );
-
-		if ( isComp == false )
-			return false;
-
-		Iterator oldIt = oldDefn.getGroups( ).iterator( );
-		Iterator newIt = newDefn.getGroups( ).iterator( );
-		while ( newIt.hasNext( ) )
-		{
-			IGroupDefinition oldGroupDefn = (IGroupDefinition) oldIt.next( );
-			IGroupDefinition newGroupDefn = (IGroupDefinition) newIt.next( );
-			isComp = QueryCompUtil.isCompatibleSQs( oldGroupDefn.getSubqueries( ),
-					newGroupDefn.getSubqueries( ) );
-			if ( isComp == false )
-				return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * 
-	 * @param query
-	 * @return
-	 * @throws DataException 
-	 */
-	private static boolean hasAggregationOnRowObjects( Iterator it ) throws DataException
-	{
-		while ( it.hasNext( ) )
-		{
-			IBinding binding = (IBinding)it.next( );
-			if ( ExpressionCompilerUtil.hasAggregationInExpr( binding.getExpression( ) ) )
-			{
-				return true;
-			}
-			if ( binding.getAggrFunction( ) != null )
-				return true;
-		}
-		return false;
-	}
-
-	/**
-	 * 
-	 * @param qd
-	 * @return
-	 */
-	private static boolean hasSubquery( IQueryDefinition qd )
-	{
-		assert qd != null;
-		if ( qd.getSubqueries( ) != null && qd.getSubqueries( ).size( ) > 0 )
-		{
-			return true;
-		}
-
-		if ( qd.getGroups( ) != null )
-		{
-			for ( int i = 0; i < qd.getGroups( ).size( ); i++ )
-			{
-				IGroupDefinition gd = (IGroupDefinition) qd.getGroups( )
-						.get( i );
-				if ( gd.getSubqueries( ) != null
-						&& gd.getSubqueries( ).size( ) > 0 )
-				{
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 	
 	/**

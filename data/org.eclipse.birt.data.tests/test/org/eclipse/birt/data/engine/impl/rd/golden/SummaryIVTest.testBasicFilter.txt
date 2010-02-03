@@ -1,0 +1,16 @@
+CHINA  Beijing  7400.0  
+CHINA  Shanghai  200.0  
+US  Chicago  1100.0  
+US  New York  200.0  
+
+
+CHINA  Beijing  7400.0  
+CHINA  Shanghai  200.0  
+US  Chicago  1100.0  
+US  New York  200.0  
+
+
+CHINA  Beijing  7400.0  
+US  Chicago  1100.0  
+
+
