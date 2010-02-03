@@ -699,9 +699,23 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
 		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=utf-8" ); //$NON-NLS-1$ 
 		
-		if ( !OUTPUT_FORMAT_HTML.equals( getOutputFormat( ) ) )
+		boolean needCloseTag = !OUTPUT_FORMAT_HTML.equals( getOutputFormat( ) );
+		if ( needCloseTag )
 		{// bugzilla 295062: ignore writing the close tag in HTML format
 			writer.closeTag( HTMLTags.TAG_META );
+		}
+
+		// added for mobile device support
+		String viewport = new HTMLRenderOption( renderOption ).getViewportMeta( );
+		if ( viewport != null )
+		{
+			writer.openTag( HTMLTags.TAG_META );
+			writer.attribute( HTMLTags.ATTR_NAME, "viewport" ); //$NON-NLS-1$
+			writer.attribute( HTMLTags.ATTR_CONTENT, viewport ); //$NON-NLS-1$
+			if ( needCloseTag )
+			{
+				writer.closeTag( HTMLTags.TAG_META );
+			}
 		}
 
 		outputCSSStyles( reportDesign, designHandle );

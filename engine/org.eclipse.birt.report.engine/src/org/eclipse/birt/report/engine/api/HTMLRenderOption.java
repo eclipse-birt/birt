@@ -508,5 +508,24 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		}
 		return false;
 	}
+	
+	/**
+	 * set the viewport meta information.
+	 * 
+	 * @param viewport
+	 */
+	public void setViewportMeta( String viewport )
+	{
+		options.put( HTML_VIEWPORT_META, viewport );
+	}
 
+	/**
+	 * 
+	 * @return the viewport meta information.
+	 */
+	public String getViewportMeta( )
+	{
+		return getStringOption( HTML_VIEWPORT_META );
+	}
+	
 }
