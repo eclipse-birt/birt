@@ -1540,7 +1540,10 @@ public class TaskSelectType extends SimpleTask implements
 
 	public void changeTask( Notification notification )
 	{
-		doPreview( );
+		if ( previewPainter != null )
+		{
+			doPreview( );
+		}
 	}
 
 	private void checkDataTypeForChartWithAxes( )
