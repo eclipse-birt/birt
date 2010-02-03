@@ -503,10 +503,12 @@
 				<exclude name="*.tests/**" />
 				<exclude name="*.test/**" />
 				<exclude name="*.tests.*/**" />
-				<exclude name="*.testhelper" />
-				<exclude name="org.eclipse.birt.build" />
-				<exclude name="org.eclipse.birt.releng" />
-				<exclude name="tutorials" />
+				<exclude name="*.testhelper*/**" />
+				<exclude name="org.eclipse.birt.build/**" />
+				<exclude name="org.eclipse.birt.releng/**" />
+				<exclude name="org.eclipse.birt.releng.util/**" />
+				<exclude name="org.eclipse.birt.releng.birtbuilder/**" />
+				<exclude name="tutorials/**" />
 			</fileset>
 		</copy>
 		
