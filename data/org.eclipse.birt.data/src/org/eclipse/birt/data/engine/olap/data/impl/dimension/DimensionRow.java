@@ -81,17 +81,11 @@ public class DimensionRow implements IComparableStructure
 	{
 		assert o!=null;
 		assert o instanceof DimensionRow;
-		int result;
+		int result = 0;
 		DimensionRow other = (DimensionRow) o;
-		for ( int i = 0; i < members.length; i++ )
-		{
-			result = CompareUtil.compare( members[i].getKeyValues(), other.members[i].getKeyValues() );
-			if ( result != 0 )
-			{
-				return result;
-			}
-		}
-		return 0;
+		if( members.length == 0 )
+			return 0;
+		return CompareUtil.compare( members[members.length - 1].getKeyValues(), other.members[members.length - 1].getKeyValues() );
 	}
 
 	/**
