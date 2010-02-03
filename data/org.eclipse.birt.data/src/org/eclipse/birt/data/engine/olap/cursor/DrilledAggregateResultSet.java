@@ -422,7 +422,13 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 
 	public Object getLevelAttribute( int levelIndex, int attributeIndex )
 	{
-		return metaResultSet.getLevelAttribute( levelIndex, attributeIndex );
+		if ( resultObject.getLevelMembers( ) == null
+				|| levelIndex < 0
+				|| levelIndex > resultObject.getLevelMembers( ).length - 1 )
+		{
+			return null;
+		}
+		return resultObject.getLevelMembers( )[levelIndex].getAttributes( )[attributeIndex];
 	}
 
 	public int getLevelAttributeColCount( int levelIndex )
