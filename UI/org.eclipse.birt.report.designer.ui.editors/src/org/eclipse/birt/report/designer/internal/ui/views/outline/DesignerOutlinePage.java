@@ -166,7 +166,11 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 				}
 				else
 				{
-					INodeProvider provider = ProviderFactory.createProvider( event.item.getData( ) );
+					INodeProvider provider = null;
+					if (event.item != null && event.item.getData( ) != null)
+					{
+						provider = ProviderFactory.createProvider( event.item.getData( ) );
+					}
 					if ( provider != null
 							&& provider.isReadOnly( event.item.getData( ) ) )
 					{
