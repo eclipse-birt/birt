@@ -202,10 +202,10 @@ public class DataEngineContext
 				reader,
 				writer,
 				classLoader, context );
-		return result;
+		return result;	
 	}
 	
-	/**
+	/**	
 	 * @param mode
 	 * @param scope
 	 * @param reader
@@ -555,6 +555,10 @@ public class DataEngineContext
 		return this.writer;
 	}
 	
+	public void setDocReader( IDocArchiveReader reader )
+	{
+		this.reader = reader;
+	}
 	/**
 	 * 
 	 * @return
