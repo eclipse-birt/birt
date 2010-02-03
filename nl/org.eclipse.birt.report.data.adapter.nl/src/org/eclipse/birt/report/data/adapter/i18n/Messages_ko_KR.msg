@@ -35,3 +35,4 @@ cube.error.createhierarchy=계층 생성 도중 {0} 오류가 발생했습니다.
 cube.error.createdimension=차원 생성 도중 {0} 오류가 발생했습니다.
 cube.error.createmeasure=측정값 생성 도중 오류가 발생했습니다.
 cube.error.datasetmiss=관련된 데이터 집합이 없어 큐브를 생성할 수 없습니다.
+cube.jointColumnNotInLevels=The joint column "{0}" does not defined as key field of any level in dimension "{1}".

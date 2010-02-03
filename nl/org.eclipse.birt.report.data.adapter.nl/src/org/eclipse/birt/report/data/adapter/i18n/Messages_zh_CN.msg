@@ -35,3 +35,4 @@ cube.error.createhierarchy=创建层次结构时出现错误: {0}。
 cube.error.createdimension=创建维时出现错误: {0}。
 cube.error.createmeasure=创建度量时出现错误。
 cube.error.datasetmiss=由于缺少相关数据集，无法创建多维数据集。
+cube.jointColumnNotInLevels=The joint column "{0}" does not defined as key field of any level in dimension "{1}".

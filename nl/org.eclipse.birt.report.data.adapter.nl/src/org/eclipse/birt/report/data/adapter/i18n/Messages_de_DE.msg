@@ -35,3 +35,4 @@ cube.error.createhierarchy=Fehler beim Erstellen von Hierarchie:{0}.
 cube.error.createdimension=Fehler beim Erstellen von Dimension:{0}.
 cube.error.createmeasure=Fehler beim Erstellen von Maßeinheit.
 cube.error.datasetmiss=Der Quader kann nicht erstellt werden, da der zugehörige Datensatz fehlt.
+cube.jointColumnNotInLevels=The joint column "{0}" does not defined as key field of any level in dimension "{1}".

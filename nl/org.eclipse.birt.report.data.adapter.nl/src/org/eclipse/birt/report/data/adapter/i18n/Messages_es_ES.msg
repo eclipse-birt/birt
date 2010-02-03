@@ -35,3 +35,4 @@ cube.error.createhierarchy=Se produce un error al crear la jerarquía:{0}.
 cube.error.createdimension=Se produce un error al crear la dimensión:{0}.
 cube.error.createmeasure=Se produce un error al crear la medida.
 cube.error.datasetmiss=El cubo no se puede crear porque falta el conjunto de datos relacionado.
+cube.jointColumnNotInLevels=The joint column "{0}" does not defined as key field of any level in dimension "{1}".
