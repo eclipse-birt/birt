@@ -1632,9 +1632,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 			
-			if ( needDefineDataSet( itemHandle.getDataSet( )) )
+			DataSetHandle dataSetHandle = ChartItemUtil.getBindingDataSet( itemHandle );
+			if ( needDefineDataSet( dataSetHandle) )
 			{
-				defineDataSet( itemHandle.getDataSet( ), session, true, false );
+				defineDataSet( dataSetHandle, session, true, false );
 			}
 			
 			IPreparedQuery pq = session.prepare( queryDefn, getAppContext(getMaxRow(), false) );
