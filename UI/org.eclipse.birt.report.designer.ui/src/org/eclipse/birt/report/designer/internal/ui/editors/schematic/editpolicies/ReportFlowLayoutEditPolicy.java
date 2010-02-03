@@ -105,6 +105,10 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		{
 			return UnexecutableCommand.INSTANCE;
 		}
+		if (insertionReference != null && !(insertionReference.getModel( ) instanceof DesignElementHandle))
+		{
+			return UnexecutableCommand.INSTANCE;
+		}
 		return new PasteCommand( (DesignElementHandle) child.getModel( ),
 				parentModel,
 				insertionReference == null ? null
