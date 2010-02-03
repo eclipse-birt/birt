@@ -175,13 +175,23 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	{
 		super.setModelObject( eih );
 
-		IReportItem item = getReportItem( eih );
+		final IReportItem item = getReportItem( eih );
 		if ( item == null )
 		{
 			return;
 		}
 		cm = (Chart) item.getProperty( PROPERTY_CHART );
-
+		
+		// Add lock to avoid concurrent exception from EMF. IReportItem has one
+		// design time chart model that could be shared by multiple
+		// presentation instance, but only allows one copy per item
+		// concurrently.
+		synchronized ( item )
+		{
+			// Must copy model here to generate runtime data later
+			cm = cm.copyInstance( );
+		}
+		
 		// #269935
 		// If it is sharing chart case, copy expressions settings from referred
 		// chart model into current.

@@ -76,6 +76,7 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.graphics.Color;
@@ -565,13 +566,14 @@ public class ChartUIUtil
 	 * Does Live Preview. Need to check all series data binding complete before
 	 * invoking
 	 * 
-	 * @param chart
-	 *            chart model
+	 * @param cmRunTime
+	 *            chart model that can add runtime data
 	 * @param dataProvider
 	 *            data service provider
+	 * @return chart model with runtime data
 	 * @throws ChartException
 	 */
-	public static Chart doLivePreview( Chart chart,
+	public static Chart doLivePreview( Chart cmRunTime,
 			IDataServiceProvider dataProvider, IActionEvaluator iae )
 			throws ChartException
 	{
@@ -583,9 +585,9 @@ public class ChartUIUtil
 		isSharingQuery &= !dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY_RECURSIVELY );
 
 		final List<String> expressions = Generator.instance( )
-				.getRowExpressions( chart, iae, !isSharingQuery );
+				.getRowExpressions( cmRunTime, iae, !isSharingQuery );
 
-		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( chart,
+		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( cmRunTime,
 				expressions,
 				-1,
 				false );
@@ -593,22 +595,14 @@ public class ChartUIUtil
 		RunTimeContext context = new RunTimeContext( );
 		context.setULocale( ULocale.getDefault( ) );
 		context.setSharingQuery( isSharingQuery );
-		Generator.instance( ).bindData( evaluator, iae, chart, context );
+		Generator.instance( ).bindData( evaluator, iae, cmRunTime, context );
 
 		if ( evaluator != null )
 		{
 			evaluator.close( );
 		}
 
-		// Original live preview code: use sample data. See TaskSelectData
-		// oldSample = (SampleData) EcoreUtil.copy( getChartModel(
-		// ).getSampleData( ) );
-		// SampleData newSample = updateSampleData( oldSample );
-		// ADD ALL ADAPTERS...AND REFRESH PREVIEW
-		// newSample.eAdapters( ).addAll( getChartModel( ).eAdapters( ) );
-		// getChartModel( ).setSampleData( newSample );
-
-		return chart;
+		return cmRunTime;
 	}
 
 	/**
@@ -1706,13 +1700,21 @@ public class ChartUIUtil
 		{
 			// Enable live preview
 			ChartPreviewPainterBase.activateLivePreview( true );
-			// Make sure not affect model changed
-			ChartAdapter.beginIgnoreNotifications( );
+
 			boolean bException = false;
 
 			try
 			{
-				cmRuntime = ChartUIUtil.doLivePreview( cm,
+				// Remove adapters to avoid listening caused by runtime model change
+				cmRuntime = cm.copyInstance( );
+				cmRuntime.eAdapters( ).clear( );
+				for ( Iterator<EObject> iterator = cmRuntime.eAllContents( ); iterator.hasNext( ); )
+				{
+					EObject content = iterator.next( );
+					content.eAdapters( ).clear( );
+				}
+
+				cmRuntime = ChartUIUtil.doLivePreview( cmRuntime,
 						dataServiceProvider,
 						iae );
 			}
@@ -1743,7 +1745,6 @@ public class ChartUIUtil
 			{
 				ChartWizard.removeException( ChartWizard.ChartUIUtil_pLiPreview_ID );
 			}
-			ChartAdapter.endIgnoreNotifications( );
 		}
 		else
 		{

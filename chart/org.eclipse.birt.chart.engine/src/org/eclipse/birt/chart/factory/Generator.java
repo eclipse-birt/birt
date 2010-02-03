@@ -737,8 +737,8 @@ public final class Generator implements IGenerator
 	 * 
 	 * @param ids
 	 *            A display server using which the chart may be built.
-	 * @param cmDesignTime
-	 *            The design time chart model (bound to a dataset).
+	 * @param cmRunTime
+	 *            The runtime chart model (bound to a dataset).
 	 * @param scParent
 	 *            A parent script handler that may be attached to the existing
 	 *            chart model script handler.
@@ -757,10 +757,10 @@ public final class Generator implements IGenerator
 	 *             instead.
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
-			Chart cmDesignTime, Scriptable scParent, Bounds bo,
+			Chart cmRunTime, Scriptable scParent, Bounds bo,
 			RunTimeContext rtc ) throws ChartException
 	{
-		return build( ids, cmDesignTime, scParent, bo, rtc, null );
+		return build( ids, cmRunTime, scParent, bo, rtc, null );
 	}
 
 	/**
@@ -769,8 +769,8 @@ public final class Generator implements IGenerator
 	 * 
 	 * @param ids
 	 *            A display server using which the chart may be built.
-	 * @param cmDesignTime
-	 *            The design time chart model (bound to a dataset).
+	 * @param cmRunTime
+	 *            The runtime chart model (bound to a dataset).
 	 * @param scParent
 	 *            A parent script handler that may be attached to the existing
 	 *            chart model script handler.
@@ -791,13 +791,13 @@ public final class Generator implements IGenerator
 	 *             instead.
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
-			Chart cmDesignTime, Scriptable scParent, Bounds bo,
+			Chart cmRunTime, Scriptable scParent, Bounds bo,
 			RunTimeContext rtc, IStyleProcessor externalProcessor )
 			throws ChartException
 	{
 		final Scriptable scriptContext = scParent;
 
-		return build( ids, cmDesignTime, bo, new IExternalContext( ) {
+		return build( ids, cmRunTime, bo, new IExternalContext( ) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -820,8 +820,8 @@ public final class Generator implements IGenerator
 	 * 
 	 * @param ids
 	 *            A display server using which the chart may be built.
-	 * @param cmDesignTime
-	 *            The design time chart model (bound to a dataset).
+	 * @param cmRunTime
+	 *            The runtime chart model (bound to a dataset).
 	 * @param bo
 	 *            The bounds associated with the chart being built.
 	 * @param rtc
@@ -833,10 +833,10 @@ public final class Generator implements IGenerator
 	 * @since 2.2
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
-			Chart cmDesignTime, Bounds bo, RunTimeContext rtc )
+			Chart cmRunTime, Bounds bo, RunTimeContext rtc )
 			throws ChartException
 	{
-		return build( ids, cmDesignTime, bo, null, rtc, null );
+		return build( ids, cmRunTime, bo, null, rtc, null );
 	}
 
 	/**
@@ -845,8 +845,8 @@ public final class Generator implements IGenerator
 	 * 
 	 * @param ids
 	 *            A display server using which the chart may be built.
-	 * @param cmDesignTime
-	 *            The design time chart model (bound to a dataset).
+	 * @param cmRunTime
+	 *            The runtime chart model (bound to a dataset).
 	 * @param externalContext
 	 *            An external context object.
 	 * @param bo
@@ -859,10 +859,10 @@ public final class Generator implements IGenerator
 	 * @throws ChartException
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
-			Chart cmDesignTime, Bounds bo, IExternalContext externalContext,
+			Chart cmRunTime, Bounds bo, IExternalContext externalContext,
 			RunTimeContext rtc ) throws ChartException
 	{
-		return build( ids, cmDesignTime, bo, externalContext, rtc, null );
+		return build( ids, cmRunTime, bo, externalContext, rtc, null );
 	}
 
 	/**
@@ -871,8 +871,8 @@ public final class Generator implements IGenerator
 	 * 
 	 * @param ids
 	 *            A display server using which the chart may be built.
-	 * @param cmDesignTime
-	 *            The design time chart model (bound to a dataset).
+	 * @param cmRunTime
+	 *            The run time chart model (bound to a dataset).
 	 * @param externalContext
 	 *            An external context object.
 	 * @param bo
@@ -888,11 +888,11 @@ public final class Generator implements IGenerator
 	 * @throws ChartException
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
-			Chart cmDesignTime, Bounds bo, IExternalContext externalContext,
+			Chart cmRunTime, Bounds bo, IExternalContext externalContext,
 			RunTimeContext rtc, IStyleProcessor externalProcessor )
 			throws ChartException
 	{
-		if ( ids == null || cmDesignTime == null || bo == null )
+		if ( ids == null || cmRunTime == null || bo == null )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
@@ -921,7 +921,6 @@ public final class Generator implements IGenerator
 		{
 			// re-init chart script context.
 			ChartScriptContext csc = new ChartScriptContext( );
-			Chart cmRunTime = cmDesignTime.copyInstance( );
 			csc.setChartInstance( cmRunTime );
 			csc.setExternalContext( externalContext );
 			csc.setULocale( rtc.getULocale( ) );
@@ -934,19 +933,15 @@ public final class Generator implements IGenerator
 		{
 			// reset logger.
 			( (ChartScriptContext) icsc ).setLogger( logger );
-			Chart cmRuntime = cmDesignTime.copyInstance( );
-			// Chart cmRuntime = (Chart) EcoreUtil.copy( cmDesignTime );
 			// Set runtime bounds to runtime chart model
-			cmRuntime.getBlock( ).setBounds( bo );
-			( (ChartScriptContext) icsc ).setChartInstance( cmRuntime );
+			cmRunTime.getBlock( ).setBounds( bo );
+			( (ChartScriptContext) icsc ).setChartInstance( cmRunTime );
 		}
 
 		if ( externalContext != null && icsc instanceof ChartScriptContext )
 		{
 			( (ChartScriptContext) icsc ).setExternalContext( externalContext );
 		}
-
-		final Chart cmRunTime = icsc.getChartInstance( );
 
 		// INITIALIZE THE SCRIPT HANDLER
 		ScriptHandler sh = (ScriptHandler) rtc.getScriptHandler( );
