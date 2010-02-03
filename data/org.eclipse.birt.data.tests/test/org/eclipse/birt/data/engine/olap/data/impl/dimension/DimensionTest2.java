@@ -226,11 +226,10 @@ public class DimensionTest2 extends TestCase
 		try
 		{
 			testDimensionCreateAndFind3( documentManager );
-			fail( "DataException should be thrown!" );
+//			fail( "DataException should be thrown!" );
 		}
 		catch( DataException e )
 		{
-			
 		}
 		documentManager.close( );
 	}
@@ -307,8 +306,8 @@ public class DimensionTest2 extends TestCase
 				documentManager,
 				new Dataset1( ),
 				levelDefs,
-				true, new StopSign() );
-		assertEquals( dimension.isTime( ), true );
+				false, new StopSign() );
+		assertEquals( dimension.isTime( ), false );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "student" );
 		ILevel[] level = hierarchy.getLevels( );
@@ -347,8 +346,8 @@ public class DimensionTest2 extends TestCase
 		levelDefs[2] = new LevelDefinition("l3", new String[] { "l3" }, null);
 
 		IDimension dimension = DimensionFactory.createDimension("dataset3",
-				documentManager, new Dataset3(), levelDefs, true, new StopSign());
-		assertEquals(dimension.isTime(), true);
+				documentManager, new Dataset3(), levelDefs, false, new StopSign());
+		assertEquals(dimension.isTime(), false);
 		IHierarchy hierarchy = dimension.getHierarchy();
 		assertEquals(hierarchy.getName(), "dataset3");
 		ILevel[] level = hierarchy.getLevels();

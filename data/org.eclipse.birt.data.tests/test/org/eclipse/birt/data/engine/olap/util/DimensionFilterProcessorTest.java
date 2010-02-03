@@ -211,6 +211,12 @@ public class DimensionFilterProcessorTest extends TestCase
 		{
 			return this.nameValuePair.get( name );
 		}
+
+		public boolean isTimeDimensionRow()
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
 		
 	}
 }
