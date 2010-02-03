@@ -27,7 +27,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -854,7 +854,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		else
 			ri = new CachedResultSet( this,
 					resultMetadata,
-					new DataSetResultCache( rs, resultMetadata, session, this.getFetchEvents( ) ),
+					new DataSetToCache( rs, resultMetadata, session),
 					eventHandler, session );
 		
 		if ( ri != null && ri instanceof CachedResultSet )

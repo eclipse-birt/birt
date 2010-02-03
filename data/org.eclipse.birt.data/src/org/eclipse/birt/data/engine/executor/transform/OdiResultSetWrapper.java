@@ -11,7 +11,8 @@
 
 package org.eclipse.birt.data.engine.executor.transform;
 
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -38,7 +39,16 @@ public class OdiResultSetWrapper
 	 * 
 	 * @param rs
 	 */
-	OdiResultSetWrapper( DataSetResultCache rs )
+	OdiResultSetWrapper( DataSetToCache rs )
+	{
+		this.resultSource = rs;
+	}
+	
+	/**
+	 * 
+	 * @param rs
+	 */
+	OdiResultSetWrapper( DataSetFromCache rs )
 	{
 		this.resultSource = rs;
 	}

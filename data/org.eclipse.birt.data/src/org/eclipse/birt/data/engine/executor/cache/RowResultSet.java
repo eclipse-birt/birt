@@ -110,8 +110,7 @@ public class RowResultSet implements IRowResultSet
 			else 
 			{
 				actualIndex++;
-				if ( odiAdpater.isNeedFetchEventsProess( ) 
-						&& !processFetchEvent( odaObject, actualIndex ))
+				if ( !processFetchEvent( odaObject, actualIndex ))
 				{
 					continue;
 				}

@@ -18,7 +18,8 @@ import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.cache.SortSpec;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
@@ -126,14 +127,25 @@ class PassUtil
 					rsMeta,
 					populator.getSession( ));
 		}
-		else if ( resultSource instanceof DataSetResultCache )
+		else if ( resultSource instanceof DataSetToCache )
 		{
 			smartCache = new SmartCache( new CacheRequest( query.getMaxRows( ),
 					query.getFetchEvents( ),
 					sortSpec,
 					populator.getEventHandler( ),
-					false ), // must be true
-					new OdiAdapter( (DataSetResultCache) resultSource ),
+					false ), 
+					new OdiAdapter( (DataSetToCache) resultSource ),
+					rsMeta, populator.getSession( ));
+		}
+		else if ( resultSource instanceof DataSetFromCache )
+		{
+			smartCache = new SmartCache( new CacheRequest( query.getMaxRows( ),
+					//fetch events are needless since data set result set is already prepared in cache
+					null, 
+					sortSpec,
+					populator.getEventHandler( ),
+					false ), 
+					new OdiAdapter( (DataSetFromCache) resultSource ),
 					rsMeta, populator.getSession( ));
 		}
 		else if ( resultSource instanceof IResultIterator )

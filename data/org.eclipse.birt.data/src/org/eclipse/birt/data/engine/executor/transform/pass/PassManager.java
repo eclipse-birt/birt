@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnRoundManager;
 import org.eclipse.birt.data.engine.executor.aggregation.AggregationHelper;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
@@ -33,6 +34,7 @@ import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 
 /**
@@ -183,6 +185,7 @@ public class PassManager
 		
 		removeOnFetchScriptHelper( );
 		handleEndOfDataSetProcess( );
+		saveDataSetResult( odaResultSet );
 	}
 
 	/**
@@ -225,6 +228,23 @@ public class PassManager
 			iccState = new ComputedColumnsState( computedColumnHelper );
 		}
 		doPopulation( odaResultSet, iccState, psController );
+	}
+	
+	/**
+	 * Saves the calculated data set result set to cache if needed
+	 * @param rsWrapper
+	 * @throws DataException
+	 */
+	private void saveDataSetResult( OdiResultSetWrapper rsWrapper ) throws DataException
+	{
+		Object resultSource = rsWrapper.getWrappedOdiResultSet( );
+		assert resultSource != null;
+		if ( resultSource instanceof DataSetToCache )
+		{
+			DataSetToCache dstc = (DataSetToCache) resultSource;
+			IResultIterator itr = populator.getResultIterator( );
+			dstc.saveDataSetResult( itr );
+		}
 	}
 
 	/**
@@ -280,6 +300,8 @@ public class PassManager
 				psController );
 	
 		handleEndOfDataSetProcess( );
+		
+		saveDataSetResult( odaResultSet );
 		//		
 		/****************************Populate Result Set Rows***********************************/
 		this.populator.getExpressionProcessor( ).setDataSetMode( false );

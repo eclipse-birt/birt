@@ -90,7 +90,7 @@ public class DataSourceQuery extends BaseQuery
 	}
 
 	/** */
-	private DataSetResultCache datasetCache;
+	private DataSetFromCache datasetFromCache;
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getResultClass()
@@ -153,10 +153,10 @@ public class DataSourceQuery extends BaseQuery
 	{
 		try
 		{
-			if ( datasetCache != null )
+			if ( datasetFromCache != null )
 			{
-				datasetCache.close( );
-				datasetCache = null;
+				datasetFromCache.close( );
+				datasetFromCache = null;
 			}
 		}
 		catch ( DataException e )
@@ -168,12 +168,12 @@ public class DataSourceQuery extends BaseQuery
 	/**
 	 * @return OdaCacheResultSet
 	 */
-	private DataSetResultCache getOdaCacheResultSet( )
+	private DataSetFromCache getOdaCacheResultSet( )
 	{
-		if ( datasetCache == null )
-			datasetCache = new DataSetResultCache( session );
+		if ( datasetFromCache == null )
+			datasetFromCache = new DataSetFromCache( session );
 
-		return datasetCache;
+		return datasetFromCache;
 	}
 
 	public void setQuerySpecification( QuerySpecification spec )

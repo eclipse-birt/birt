@@ -16,7 +16,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -29,7 +28,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 public class CandidateQuery extends BaseQuery implements ICandidateQuery
 {
 	//
-	private DataSetResultCache datasetCache;
+	private DataSetFromCache datasetFromCache;
 	private DataEngineSession session;
 	
 	public CandidateQuery( DataEngineSession session )
@@ -82,10 +81,10 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 	{
 		try
 		{
-			if ( datasetCache != null )
+			if ( datasetFromCache != null )
 			{
-				datasetCache.close( );
-				datasetCache = null;
+				datasetFromCache.close( );
+				datasetFromCache = null;
 			}
 		}
 		catch ( DataException e )
@@ -106,12 +105,12 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 	/**
 	 * @return OdaCacheResultSet
 	 */
-	private DataSetResultCache getOdaCacheResultSet( )
+	private DataSetFromCache getOdaCacheResultSet( )
 	{
-		if ( datasetCache == null )
-			datasetCache = new DataSetResultCache( session );
+		if ( datasetFromCache == null )
+			datasetFromCache = new DataSetFromCache( session );
 
-		return datasetCache;
+		return datasetFromCache;
 	}
 
 }

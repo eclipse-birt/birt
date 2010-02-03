@@ -12,7 +12,8 @@
 package org.eclipse.birt.data.engine.executor.cache;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -28,8 +29,8 @@ public class OdiAdapter
 	// from Oda
 	private ResultSet odaResultSet;
 	
-	// from oda cache
-	private DataSetResultCache datasetCache;
+	// from data set whose result set needs to be cached
+	private DataSetToCache datasetToCache;
 
 	// from odi
 	private ICustomDataSet customDataSet;
@@ -51,7 +52,9 @@ public class OdiAdapter
 	// from Joint data set
 	private IDataSetPopulator populator;
 	
-	private boolean needFetchEventsProess = true;
+	//from data set whose result is loaded from cache
+	private DataSetFromCache datasetFromCache;
+	
 	
 	/**
 	 * Construction
@@ -69,12 +72,16 @@ public class OdiAdapter
 	 * 
 	 * @param datasetCacheResultSet
 	 */
-	public OdiAdapter( DataSetResultCache datasetCache )
+	public OdiAdapter( DataSetToCache datasetToCache )
 	{
-		assert datasetCache != null;
-		this.datasetCache = datasetCache;
-		//Fetch events process should have been done in DataSetResultCache
-		this.needFetchEventsProess = false;
+		assert datasetToCache != null;
+		this.datasetToCache = datasetToCache;
+	}
+	
+	public OdiAdapter( DataSetFromCache datasetFromCache )
+	{
+		assert datasetFromCache != null;
+		this.datasetFromCache = datasetFromCache;
 	}
 
 	/**
@@ -145,9 +152,13 @@ public class OdiAdapter
 		{
 			return odaResultSet.fetch( );
 		}
-		if ( datasetCache != null )
+		else if ( datasetToCache != null )
 		{
-			return datasetCache.fetch( );
+			return datasetToCache.fetch( );
+		}
+		else if ( datasetFromCache != null )
+		{
+			return datasetFromCache.fetch( );
 		}
 		else if ( customDataSet != null )
 		{
@@ -174,12 +185,6 @@ public class OdiAdapter
 		{
 			return resultSetCache.fetch( );
 		}
-	}
-
-	
-	public boolean isNeedFetchEventsProess( )
-	{
-		return needFetchEventsProess;
 	}
 
 }

@@ -12,7 +12,7 @@
 package org.eclipse.birt.data.engine.executor;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
@@ -110,9 +110,9 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 			else
 				return new CachedResultSet( this,
 						resultMetadata,
-						new DataSetResultCache( customDataSet,
+						new DataSetToCache( customDataSet,
 								resultMetadata,
-								session, this.getFetchEvents( ) ),
+								session ),
 						eventHandler,
 						session );
 

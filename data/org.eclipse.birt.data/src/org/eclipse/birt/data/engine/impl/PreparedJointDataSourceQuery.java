@@ -41,7 +41,7 @@ import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -674,8 +674,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			else
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
-						new DataSetResultCache( populator, resultClass, dataEngine.getSession( ),
-								((BaseQuery) this.odiQuery).getFetchEvents( )),
+						new DataSetToCache( populator, resultClass, dataEngine.getSession( )),
 						eventHandler, dataEngine.getSession( ));
 		}
 

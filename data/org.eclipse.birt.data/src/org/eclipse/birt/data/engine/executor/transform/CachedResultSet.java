@@ -26,7 +26,8 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
@@ -115,12 +116,12 @@ public class CachedResultSet implements IResultIterator
 	/**
 	 * @param query
 	 * @param meta
-	 * @param odaCacheResultSet
+	 * @param dataSetToCache
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
-			DataSetResultCache odaCacheResultSet, IEventHandler eventHandler,
+			DataSetToCache dataSetToCache, IEventHandler eventHandler,
 			DataEngineSession session )
 			throws DataException
 	{
@@ -131,8 +132,25 @@ public class CachedResultSet implements IResultIterator
 				session,
 				eventHandler
 				);
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaCacheResultSet ));
-		odaCacheResultSet.close( );
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( dataSetToCache ));
+		dataSetToCache.close( );
+	}
+	
+	
+	public CachedResultSet( BaseQuery query, IResultClass meta,
+			DataSetFromCache dataSetFromCache, IEventHandler eventHandler,
+			DataEngineSession session )
+			throws DataException
+	{
+		this.handler = eventHandler;
+		this.resultSetPopulator = new ResultSetPopulator( query,
+				meta,
+				this,
+				session,
+				eventHandler
+				);
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( dataSetFromCache ));
+		dataSetFromCache.close( );
 	}
 
 	/**
