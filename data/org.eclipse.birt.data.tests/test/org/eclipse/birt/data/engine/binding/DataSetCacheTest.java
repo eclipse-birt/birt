@@ -27,14 +27,18 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
@@ -87,6 +91,97 @@ public class DataSetCacheTest extends APITestCase
 		super.tearDown( );
 		myDataEngine.clearCache( this.dataSource, this.dataSet );
 		myDataEngine.shutdown( );
+	}
+	
+	public void testCacheIsRealDataSetLevel( ) throws BirtException
+	{
+		this.dataSource.setBeforeOpenScript( "i=0" );
+		this.dataSet.addComputedColumn( new ComputedColumn("cc1", "++i", DataType.INTEGER_TYPE) );
+		this.dataSet.addComputedColumn( new ComputedColumn("cc2", (IScriptExpression)null, DataType.INTEGER_TYPE, "COUNT", null, new ArrayList( )) );
+		this.dataSet.addFilter( new FilterDefinition( new ScriptExpression( "row[\"cc1\"] <= 7")) );
+		this.dataSet.setCacheRowCount( 6 );
+		
+		myDataEngine = newDataEngine( );
+
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
+		QueryDefinition qd = this.newReportQuery( );
+		qd.setAutoBinding( true );
+		
+		IQueryResults qr = myDataEngine.prepare( qd, appContextMap ).execute( null );
+		IResultIterator itr = qr.getResultIterator( );
+		int i = 1;
+		while ( itr.next( ) )
+		{
+			//"cc1" values sequence is {1, 2, 3, 4, 5, 6}
+			assertEquals( i, itr.getInteger( "cc1" ).intValue( ));
+			
+			//row count is 6
+			assertEquals(6, itr.getInteger( "cc2" ).intValue( ));
+			i++;
+		}
+		itr.close( );
+		assertEquals(7, i);
+		
+		qr.close( );
+
+		assertTrue( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
+		
+		
+		//the data set result set for this query is loaded from cache
+		qd.addFilter( new FilterDefinition( new ScriptExpression( "row[\"cc1\"] >= 5 ")) );
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row[\"cc1\"] " );
+		sd.setSortDirection( ISortDefinition.SORT_DESC );
+		qd.addSort( sd );
+		
+		qr = myDataEngine.prepare( qd, appContextMap ).execute( null );
+		itr = qr.getResultIterator( );
+		i = 6;
+		while ( itr.next( ) )
+		{
+			//"cc1" values sequence is {6, 5}
+			assertEquals( i, itr.getInteger( "cc1" ).intValue( ));
+			
+			//"cc2" value is still always 6
+			assertEquals(6, itr.getInteger( "cc2" ).intValue( ));
+			i--;
+		}
+		itr.close( );
+		
+		//row count is 2
+		assertEquals(4, i);
+		qr.close( );
+		
+		assertTrue( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
+		
+		
+		//the data set result set for this query is loaded from cache
+		qd.getFilters( ).clear( );
+		qd.getSorts( ).clear( );
+		
+		qr = myDataEngine.prepare( qd, appContextMap ).execute( null );
+		itr = qr.getResultIterator( );
+		i = 1;
+		while ( itr.next( ) )
+		{
+			//"cc1" values sequence is {1, 2, 3, 4, 5, 6}
+			assertEquals( i, itr.getInteger( "cc1" ).intValue( ));
+			
+			//row count is 6
+			assertEquals(6, itr.getInteger( "cc2" ).intValue( ));
+			i++;
+		}
+		itr.close( );
+		assertEquals(7, i);
+	
+		qr.close( );
+		
+		getDataSetCacheManager( myDataEngine ).resetForTest( );
+		myDataEngine.shutdown( );
+		
 	}
 
 	/*
