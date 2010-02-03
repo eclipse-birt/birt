@@ -67,12 +67,15 @@ import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -107,12 +110,15 @@ import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -170,7 +176,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected DataRequestSession session = null;
 	private ReportEngine engine = null;
 	private ChartDummyEngineTask engineTask = null;
-	private CubeHandle cubeReference = null;
+	private Object dataSetReference = null;
 	
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle ) throws ChartException
 	{
@@ -1466,7 +1472,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	private boolean needDefineCube( CubeHandle cube )
 	{
-		return cubeReference != cube;
+		return dataSetReference != cube;
+	}
+	
+	private boolean needDefineDataSet( DataSetHandle dataSetHandle )
+	{
+		return dataSetReference != dataSetHandle;
 	}
 	
 	/*
@@ -1513,11 +1524,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				// Create evaluator for data cube, even if in multiple view
 				evaluator = createCubeEvaluator( cube, cm );
-				cubeReference = cube;
+				dataSetReference = cube;
 			}
 			else
 			{
-				cubeReference = null;
 				// Create evaluator for data set
 				if ( isSharedBinding( )
 						&& !ChartReportItemUtil.isOldChartUsingInternalGroup( itemHandle,
@@ -1543,6 +1553,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							columnExpression );
 					
 				}
+				
+				dataSetReference = ChartItemUtil.getBindingDataSet( itemHandle );
 			}
 			return evaluator;
 		}
@@ -1593,7 +1605,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		handleGroup( queryDefn, handle, session.getModelAdaptor( ) );
 		
 		processQueryDefinition( queryDefn );
-
+		
 		try
 		{
 			// Add bindings and filters from report handle.
@@ -1618,6 +1630,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							.adaptFilter( filtersIterator.next( ) );
 					queryDefn.addFilter( filter );
 				}
+			}
+			
+			if ( needDefineDataSet( itemHandle.getDataSet( )) )
+			{
+				defineDataSet( itemHandle.getDataSet( ), session, true, false );
 			}
 			
 			IPreparedQuery pq = session.prepare( queryDefn, getAppContext(getMaxRow(), false) );
@@ -1809,6 +1826,91 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		
 		return filterList.isEmpty( ) ? null : filterList.iterator( );
+	}
+	
+	/**
+	 * @param dataSetName
+	 * @throws AdapterException
+	 * @throws BirtException
+	 */
+	private void defineDataSet( DataSetHandle handle,
+			DataRequestSession session, boolean keepDataSetFilter,
+			boolean disAllowAggregation ) throws AdapterException,
+			BirtException
+	{
+
+		if ( handle == null )
+		{
+			return;
+			// throw new AdapterException(
+			// ResourceConstants.DATASETHANDLE_NULL_ERROR );
+		}
+
+		DataSourceHandle dataSourceHandle = handle.getDataSource( );
+		if ( dataSourceHandle != null )
+		{
+			IBaseDataSourceDesign dsourceDesign = session.getModelAdaptor( )
+					.adaptDataSource( dataSourceHandle );
+			session.defineDataSource( dsourceDesign );
+		}
+		if ( handle instanceof JointDataSetHandle )
+		{
+			Iterator iter = ( (JointDataSetHandle) handle ).dataSetsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DataSetHandle dsHandle = (DataSetHandle) iter.next( );
+				if ( dsHandle != null )
+				{
+					defineDataSet( dsHandle, session, true, false );
+				}
+			}
+
+		}
+		if ( handle instanceof DerivedDataSetHandle )
+		{
+			List inputDataSet = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
+			for ( int i = 0; i < inputDataSet.size( ); i++ )
+			{
+				defineDataSet( (DataSetHandle) inputDataSet.get( i ),
+						session,
+						keepDataSetFilter,
+						disAllowAggregation );
+			}
+		}
+
+		BaseDataSetDesign baseDS = session.getModelAdaptor( )
+				.adaptDataSet( handle );
+		
+		if (baseDS == null )
+		{
+			return;
+		}
+		
+		if ( !keepDataSetFilter )
+		{
+			if ( baseDS.getFilters( ) != null )
+				baseDS.getFilters( ).clear( );
+		}
+
+		if ( disAllowAggregation )
+		{
+			List computedColumns = baseDS.getComputedColumns( );
+			if ( computedColumns != null && computedColumns.size( ) != 0 )
+			{
+				for ( int i = 0; i < computedColumns.size( ); i++ )
+				{
+					IComputedColumn computedColumn = (IComputedColumn) computedColumns.get( i );
+					if ( computedColumn.getAggregateFunction( ) != null )
+					{
+						computedColumns.set( i,
+								new org.eclipse.birt.data.engine.api.querydefn.ComputedColumn( computedColumn.getName( ),
+										"null" ) );
+					}
+				}
+			}
+		}
+
+		session.defineDataSet( baseDS );
 	}
 	
 	/**
@@ -2544,6 +2646,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 			
+			DataSetHandle dataSetHandle = ChartItemUtil.getBindingDataSet( itemHandle );
+			if ( needDefineDataSet( dataSetHandle ) )
+			{
+				defineDataSet( dataSetHandle, session, true, false );
+			}
+			
 			IPreparedQuery pq = session.prepare( queryDefn, getAppContext( getMaxRow(), false ) );
 			actualResultSet = (IQueryResults) session.execute( pq, null, new ScriptContext( ) ); 
 
@@ -2942,6 +3050,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				reportItemHandle = findListingInheritance( );
 			}
+		
 			queryDefn.setDataSetName( reportItemHandle.getDataSet( )
 					.getQualifiedName( ) );
 			for ( int i = 0; i < headers.length; i++ )

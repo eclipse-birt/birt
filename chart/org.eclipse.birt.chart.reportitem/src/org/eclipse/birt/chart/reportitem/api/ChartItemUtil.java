@@ -47,6 +47,7 @@ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
@@ -99,6 +100,44 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return null;
 	}
 
+	/**
+	 * Returns the binding data set if the element or its container has data set binding
+	 * or the reference to the data set
+	 * 
+	 * @param element
+	 *            element handle
+	 * @return the binding data set or null
+	 * @since 2.5.2
+	 */
+	public static DataSetHandle getBindingDataSet( DesignElementHandle element )
+	{
+		if ( element == null )
+		{
+			return null;
+		}
+		if ( element instanceof ReportItemHandle )
+		{
+			DataSetHandle dataSet = ( (ReportItemHandle) element ).getDataSet( );
+			if ( dataSet != null )
+			{
+				return dataSet;
+			}
+			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
+				return getBindingDataSet( ( (ReportItemHandle) element ).getDataBindingReference( ) );
+			}
+			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+			{
+				return null;
+			}
+		}
+		if ( element.getContainer( ) != null )
+		{
+			return getBindingDataSet( element.getContainer( ) );
+		}
+		return null;
+	}
+	
 	/**
 	 * @return Returns if current eclipse environment is RtL.
 	 */
