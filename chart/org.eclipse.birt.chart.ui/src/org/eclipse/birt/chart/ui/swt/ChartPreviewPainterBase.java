@@ -26,8 +26,7 @@ import org.eclipse.swt.widgets.Canvas;
  * The class is responsible for computing and painting chart in chart builder.
  */
 
-public abstract class ChartPreviewPainterBase implements
-		IChartPreviewPainter
+public abstract class ChartPreviewPainterBase implements IChartPreviewPainter
 {
 
 	/** The delay millisecond of chart painting. */
@@ -50,6 +49,10 @@ public abstract class ChartPreviewPainterBase implements
 	{
 		this.wizardContext = wizardContext;
 		this.chart = wizardContext.getModel( );
+		if ( this.chart != null )
+		{
+			chart = chart.copyInstance( );
+		}
 	}
 
 	public void dispose( )
@@ -64,8 +67,6 @@ public abstract class ChartPreviewPainterBase implements
 
 	protected void doRenderModel( Chart chart )
 	{
-		ignoreNotifications( true );
-
 		// If not use live preview, use sample data to create runtime series
 		if ( !( isLivePreviewActive( ) && isLivePreviewEnabled( ) ) )
 		{
@@ -77,16 +78,15 @@ public abstract class ChartPreviewPainterBase implements
 			clearPreviewCanvas( );
 			repaintChartInTimer( );
 		}
-		ignoreNotifications( false );
 	}
 
-	public void renderModel( IChartObject chart )
+	public void renderModel( IChartObject cm )
 	{
-		if ( chart == null )
+		if ( cm == null )
 		{
 			return;
 		}
-		this.chart = chart;
+		this.chart = cm.copyInstance( );
 
 		doRenderModel( (Chart) chart );
 	}
