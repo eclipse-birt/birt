@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -962,36 +963,29 @@ public class DataRequestSessionImpl extends DataRequestSession
 			List<TabularHierarchyHandle> hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
 			for ( TabularHierarchyHandle hier: hiers )
 			{
-				Set<String> columnNamesForLevels = new HashSet<String>( );
-				// Use same data set as cube fact table
+				String columnForDeepestLevel = null;
 				List levels = hier.getContents( TabularHierarchyHandle.LEVELS_PROP );
-				for ( int j = 0; j < levels.size( ); j++ )
+				if ( levels.size( ) >= 1 )
 				{
-					TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
-					columnNamesForLevels.add( level.getColumnName( ) );
+					TabularLevelHandle level = (TabularLevelHandle) levels.get( levels.size( ) -1 );
+					columnForDeepestLevel = level.getColumnName( );
 				}
 				metaList = new ArrayList<ColumnMeta>();
 				query =  createQuery( this,  hier, metaList );
 				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
-				if ( jointHierarchyKeys.length > 0 )
+				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0
+						&& !Arrays.deepEquals( jointHierarchyKeys, new String[]{ columnForDeepestLevel} ))
 				{
 					for ( String key : jointHierarchyKeys )
 					{
 						//add bindings for dummy level based on joint hierarchy keys
-						if ( !columnNamesForLevels.contains( key ) )
-						{
-							String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
-							query.addBinding( new Binding( getDummyLevelNameForJointHierarchyKey( key ), new ScriptExpression(exprString) ) );
-							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( getDummyLevelNameForJointHierarchyKey( key ),
-									null,
-									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-							temp.setDataType( getColumnDataType( hier, key ) );
-							metaList.add( temp );
-							
-							GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
-							gd.setKeyExpression( ExpressionUtil.createJSRowExpression( getDummyLevelNameForJointHierarchyKey( key ) ) );
-							query.addGroup( gd );
-						}
+						String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
+						query.addBinding( new Binding( getDummyLevelNameForJointHierarchyKey( key ), new ScriptExpression(exprString) ) );
+						DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( getDummyLevelNameForJointHierarchyKey( key ),
+								null,
+								DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
+						temp.setDataType( getColumnDataType( hier, key ) );
+						metaList.add( temp );
 					}
 					
 					
@@ -1191,25 +1185,36 @@ public class DataRequestSessionImpl extends DataRequestSession
 						this.toStringArray( levelKeys ) ));
 			}
 			String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hierhandle );
-			for ( String jointKey : jointHierarchyKeys )
+			if ( !cubeHandle.autoPrimaryKey( ) )
 			{
-				if (  !columnNamesForLevels.contains( jointKey ))
+				for ( String jointKey : jointHierarchyKeys )
 				{
-					//append dummy level
-					leafLevelKeyColumn.add( getDummyLevelNameForJointHierarchyKey( jointKey ) );
-					levelInHier.add( CubeElementFactory.createLevelDefinition( getDummyLevelNameForJointHierarchyKey( jointKey ),
-						new String[]{
-						getDummyLevelNameForJointHierarchyKey( jointKey )
-						},
-						new String[0] ));
+					if ( !columnNamesForLevels.contains( jointKey ))
+					{
+						throw new AdapterException( ResourceConstants.CUBE_JOINT_COLUMN_NOT_IN_LEVELS, 
+								new String[]{jointKey, dim.getName( )});
+					}
 				}
 			}
 			//create leaf level
-			if ( levelInHier.size( ) > 1 )
+			if ( levelInHier.size( ) >= 1 )
 			{
-				levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
-						leafLevelKeyColumn.toArray( new String[0] ),
-					    new String[0] ));
+				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
+				{
+					if ( !Arrays.deepEquals( jointHierarchyKeys, levelInHier.get( levelInHier.size( ) - 1).getKeyColumns( )))
+					{
+						//need to append joint keys as leaf level
+						levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
+								getDummyLevelNamesForJointHierarchyKeys( jointHierarchyKeys ),
+							    new String[0] ));
+					}
+				}
+				else if ( levelInHier.size( ) > 1 )
+				{
+					levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
+							leafLevelKeyColumn.toArray( new String[0] ),
+						    new String[0] ));
+				}
 			}
 			Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
 			try
@@ -2045,4 +2050,17 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return hierarchyKey + "_Dummy" + this.hashCode( );
 	}
+	
+	private String[] getDummyLevelNamesForJointHierarchyKeys( String[] hierarchyKeys )
+	{
+		String[] result = new String[hierarchyKeys.length];
+		int i = 0;
+		for ( String key : hierarchyKeys )
+		{
+			result[i] = getDummyLevelNameForJointHierarchyKey( key );
+			i++;
+		}
+		return result;
+	}
+	
 }
