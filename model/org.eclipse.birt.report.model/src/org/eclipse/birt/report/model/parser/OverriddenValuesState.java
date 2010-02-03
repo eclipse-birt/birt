@@ -179,8 +179,9 @@ class OverriddenValuesState extends AbstractParseState
 			DesignElement virtualChild = getElement( );
 			if ( virtualChild == null )
 			{
+			//
 				if ( OverriddenValuesState.this.parentState.getElement( )
-						.getExtendsElement( ) == null )
+						.getExtendsName( ) == null )
 				{
 					handleWithParentState = true;
 				}
