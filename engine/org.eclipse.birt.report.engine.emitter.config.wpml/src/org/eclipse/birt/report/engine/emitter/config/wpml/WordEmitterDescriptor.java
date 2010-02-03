@@ -38,10 +38,13 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 		initOptions( );
 	}
 
-	public WordEmitterDescriptor( Locale locale )
+	public void setLocale( Locale locale )
 	{
-		this.locale = locale;
-		initOptions( );
+		if ( this.locale != locale )
+		{
+			this.locale = locale;
+			initOptions( );
+		}
 	}
 
 	private void initOptions( )

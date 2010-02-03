@@ -34,9 +34,12 @@ public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor
 
 	}
 
-	public HTMLEmitterDescriptor( Locale locale )
+	public void setLocale( Locale locale )
 	{
-		this.locale = locale;
+		if ( this.locale != locale )
+		{
+			this.locale = locale;
+		}
 	}
 
 	@Override

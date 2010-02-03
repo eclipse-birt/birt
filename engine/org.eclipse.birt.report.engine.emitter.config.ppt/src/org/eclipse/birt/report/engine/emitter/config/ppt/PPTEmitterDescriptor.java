@@ -44,10 +44,13 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor
 		initOptions( );
 	}
 
-	public PPTEmitterDescriptor( Locale locale )
+	public void setLocale( Locale locale )
 	{
-		this.locale = locale;
-		initOptions( );
+		if ( this.locale != locale )
+		{
+			this.locale = locale;
+			initOptions( );
+		}
 	}
 
 	private void initOptions( )

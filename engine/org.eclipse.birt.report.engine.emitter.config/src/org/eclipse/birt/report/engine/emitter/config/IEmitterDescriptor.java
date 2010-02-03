@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.config;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -47,4 +48,6 @@ public interface IEmitterDescriptor
 	 * Creates the option observer if applicable.
 	 */
 	IConfigurableOptionObserver createOptionObserver( );
+
+	void setLocale( Locale locale );
 }

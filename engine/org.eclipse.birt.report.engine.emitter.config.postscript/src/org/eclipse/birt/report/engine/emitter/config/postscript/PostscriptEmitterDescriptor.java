@@ -45,10 +45,13 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		initOptions( );
 	}
 
-	public PostscriptEmitterDescriptor( Locale locale )
+	public void setLocale( Locale locale )
 	{
-		this.locale = locale;
-		initOptions( );
+		if ( this.locale != locale )
+		{
+			this.locale = locale;
+			initOptions( );
+		}
 	}
 
 	private void initOptions( )

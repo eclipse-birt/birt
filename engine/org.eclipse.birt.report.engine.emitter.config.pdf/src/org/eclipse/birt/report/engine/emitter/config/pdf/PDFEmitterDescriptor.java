@@ -45,10 +45,13 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		initOptions( );
 	}
 
-	public PDFEmitterDescriptor( Locale locale )
+	public void setLocale( Locale locale )
 	{
-		this.locale = locale;
-		initOptions( );
+		if ( this.locale != locale )
+		{
+			this.locale = locale;
+			initOptions( );
+		}
 	}
 
 	private void initOptions( )
