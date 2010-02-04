@@ -42,6 +42,7 @@ public abstract class AbstractCellEditPart extends ReportElementEditPart impleme
 	 */
 	public IFigure getLayer( Object key )
 	{
+		//Because the table layer is special,so gets the layer from the table parent
 		if ( getParent( ) instanceof AbstractTableEditPart )
 		{
 			return ( (AbstractTableEditPart) getParent( ) ).getLayer( key );
@@ -56,6 +57,7 @@ public abstract class AbstractCellEditPart extends ReportElementEditPart impleme
 	 */
 	public Rectangle getBounds( )
 	{
+		//Maybe delete in the future
 		return getFigure( ).getBounds( );
 	}
 		

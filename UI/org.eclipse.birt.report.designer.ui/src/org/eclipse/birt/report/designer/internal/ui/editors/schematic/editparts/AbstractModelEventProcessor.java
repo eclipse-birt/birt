@@ -30,7 +30,6 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 	private IModelEventFactory factory;
 	private IModelEventFilter filter;
 	private ModelEventInfoFactory eventFactory = createModelEventInfoFactory( );
-	//private Comparator postSequence = createPostSequence();
 	/**
 	 * @param factory
 	 */

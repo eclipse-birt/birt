@@ -13,7 +13,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
-import org.eclipse.birt.report.designer.ui.templates.ITemplateProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;

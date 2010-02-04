@@ -15,6 +15,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
  * Check the editor can layout correct.
  */
 //Note this is internal interface, maybe add the method such as getLayouInfomation.The use can extend the AbstractLayoutCheck
+//Now only check the row and column number is regular.
 public interface ILayoutCheck
 {
 	/**Check the layout infomation
