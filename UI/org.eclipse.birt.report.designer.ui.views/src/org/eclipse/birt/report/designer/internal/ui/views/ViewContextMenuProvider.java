@@ -85,8 +85,7 @@ public class ViewContextMenuProvider extends ContextMenuProvider
 		{
 			// Create Single Selection Menu
 			Object obj = selection.getFirstElement( );
-			if ( ProviderFactory.createProvider( obj ) != null
-					&& !ProviderFactory.createProvider( obj ).isReadOnly( obj ) )
+			if ( ProviderFactory.createProvider( obj ) != null )
 			{
 				ProviderFactory.createProvider( obj )
 						.createContextMenu( treeViewer, obj, menu );
@@ -100,9 +99,7 @@ public class ViewContextMenuProvider extends ContextMenuProvider
 		{
 			// Added by ywang on 2004.9.15
 			// Create Multiple Selection Menu
-			if ( ProviderFactory.getDefaultProvider( ) != null
-					&& !ProviderFactory.getDefaultProvider( )
-							.isReadOnly( selection ) )
+			if ( ProviderFactory.getDefaultProvider( ) != null)
 			{
 				ProviderFactory.getDefaultProvider( )
 						.createContextMenu( treeViewer, selection, menu );

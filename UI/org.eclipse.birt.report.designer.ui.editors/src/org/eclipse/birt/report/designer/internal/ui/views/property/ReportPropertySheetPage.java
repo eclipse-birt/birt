@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.CellEditor;
@@ -635,7 +636,8 @@ public class ReportPropertySheetPage extends Page implements
 				int len = arrays.length;
 				if ( len > 0 )
 				{
-					( (ExpressionCellEditor) editor ).setExpressionInput( new ExpressionProvider( (DesignElementHandle) arrays[0] ) , arrays[0] );
+					( (ExpressionCellEditor) editor ).setExpressionInput( new ExpressionProvider( (DesignElementHandle) arrays[0] ),
+							arrays[0] );
 				}
 			}
 
@@ -737,7 +739,8 @@ public class ReportPropertySheetPage extends Page implements
 							{
 								Memento elementMemento = (Memento) viewerMemento.createChild( getInputElementType( ),
 										MementoElement.Type_Element );
-								elementMemento.getMementoElement( ).setValue( Integer.valueOf( 0 ) );
+								elementMemento.getMementoElement( )
+										.setValue( Integer.valueOf( 0 ) );
 							}
 						}
 						else if ( memento instanceof Memento )
@@ -943,6 +946,26 @@ public class ReportPropertySheetPage extends Page implements
 		else
 		{
 			list = structured.toList( );
+			if ( list != null && list.size( ) > 0 )
+			{
+				List modelList = new ArrayList( );
+				for ( int i = 0; i < list.size( ); i++ )
+				{
+					Object obj = list.get( i );
+					if ( obj instanceof IAdaptable )
+					{
+						Object realModel = ( (IAdaptable) obj ).getAdapter( DesignElementHandle.class );
+						if ( realModel != null )
+							modelList.add( realModel );
+						else
+							modelList.add( obj );
+					}
+					else
+						modelList.add( obj );
+				}
+				
+				list = modelList;
+			}
 		}
 		return list;
 	}

@@ -18,7 +18,10 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.INodeProvider;
+import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.SafeRunner;
@@ -30,9 +33,14 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.Page;
 
@@ -55,7 +63,7 @@ public abstract class DataViewPage extends Page implements
 	 * Creates the SWT control for this page under the given parent control.
 	 * 
 	 * @param parent
-	 * 		the parent control
+	 *            the parent control
 	 */
 	public void createControl( Composite parent )
 	{
@@ -68,6 +76,40 @@ public abstract class DataViewPage extends Page implements
 			}
 
 		} );
+
+		treeViewer.getTree( ).addListener( SWT.PaintItem, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				// Fix bug 192094
+				TreeItem item = (TreeItem) event.item;
+
+				INodeProvider provider = null;
+				if ( event.item != null && event.item.getData( ) != null )
+				{
+					provider = ProviderFactory.createProvider( event.item.getData( ) );
+				}
+				if ( provider != null
+						&& provider.isReadOnly( event.item.getData( ) ) )
+				{
+					Color gray = Display.getCurrent( )
+							.getSystemColor( SWT.COLOR_DARK_GRAY );
+					if ( !item.getForeground( ).equals( gray ) )
+					{
+						item.setForeground( gray );
+					}
+				}
+				else
+				{
+					Color black = ReportColorConstants.ReportForeground;
+					if ( !item.getForeground( ).equals( black ) )
+					{
+						item.setForeground( black );
+					}
+				}
+			}
+		} );
+
 		configTreeViewer( );
 		hookTreeViewer( );
 		initPage( );
@@ -140,7 +182,7 @@ public abstract class DataViewPage extends Page implements
 	 * Selects the node
 	 * 
 	 * @param event
-	 * 		the selection changed event
+	 *            the selection changed event
 	 */
 	protected void treeSelect( SelectionChangedEvent event )
 	{
@@ -151,7 +193,7 @@ public abstract class DataViewPage extends Page implements
 	 * Fires a selection changed event.
 	 * 
 	 * @param selection
-	 * 		the new selection
+	 *            the new selection
 	 */
 	protected void fireSelectionChanged( ISelection selection )
 	{
@@ -192,7 +234,7 @@ public abstract class DataViewPage extends Page implements
 	 * Notifies that the selection has changed.
 	 * 
 	 * @param event
-	 * 		event object describing the change
+	 *            event object describing the change
 	 */
 	public void selectionChanged( SelectionChangedEvent event )
 	{
@@ -204,7 +246,7 @@ public abstract class DataViewPage extends Page implements
 	 * effect if an identical listener is already registered.
 	 * 
 	 * @param listener
-	 * 		a selection changed listener
+	 *            a selection changed listener
 	 */
 	public void addSelectionChangedListener( ISelectionChangedListener listener )
 	{
@@ -230,7 +272,7 @@ public abstract class DataViewPage extends Page implements
 	 * Has no affect if an identical listener is not registered.
 	 * 
 	 * @param listener
-	 * 		a selection changed listener
+	 *            a selection changed listener
 	 */
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener )
@@ -242,7 +284,7 @@ public abstract class DataViewPage extends Page implements
 	 * Sets the current selection for this selection provider.
 	 * 
 	 * @param selection
-	 * 		the new selection
+	 *            the new selection
 	 */
 	public void setSelection( ISelection selection )
 	{
@@ -314,7 +356,7 @@ public abstract class DataViewPage extends Page implements
 		{
 			return;
 		}
-		if (getTreeViewer( ) == null)
+		if ( getTreeViewer( ) == null )
 		{
 			return;
 		}
