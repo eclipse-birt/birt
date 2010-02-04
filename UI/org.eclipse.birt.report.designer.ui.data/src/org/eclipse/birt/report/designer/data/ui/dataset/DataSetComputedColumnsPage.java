@@ -1183,12 +1183,9 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			if ( aggrFunc != null )
 			{
 				String dataType = DataAdapterUtil.adapterToModelDataType( aggrFunc.getDataType( ) );
-				Integer index = (Integer) cmbDataType.getData( dataType );
-				cmbDataType.select( index != null ? index.intValue( ) : 0 );
+				cmbDataType.setText( getTypeDisplayName( dataType ) );
 			}
 		}
-		
-		
 		
 
 		/**
