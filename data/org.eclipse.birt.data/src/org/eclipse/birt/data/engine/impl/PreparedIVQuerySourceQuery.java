@@ -24,6 +24,10 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -31,6 +35,7 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
@@ -59,6 +64,8 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 {
 
 	protected DataEngineImpl engine;
+	protected DataEngineImpl preDataEngine;
+	
 	protected IQueryDefinition queryDefn;
 	protected IQueryResults queryResults;
 	
@@ -109,6 +116,33 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	protected abstract void prepareQuery( )
 			throws DataException;
 
+	/**
+	 * @throws BirtException 
+	 * 
+	 */
+	protected void newPreDataEnige( ) throws BirtException
+	{
+		DataEngineContext parentContext = engine.getContext( );
+		DataEngineContext newContext = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				parentContext.getScriptContext( ),
+				parentContext.getDocReader( ),
+				parentContext.getDocWriter( ),
+				parentContext.getClassLoader( ) );
+		String datasetName = ((IQueryDefinition) queryDefn.getSourceQuery( )).getDataSetName( );
+		preDataEngine = (DataEngineImpl) DataEngine.newDataEngine( newContext );
+		IBaseDataSetDesign dataSetDesign = engine.getDataSetDesign( datasetName );
+		if( dataSetDesign != null )
+		{
+			IBaseDataSourceDesign datasourceDesign = engine.getDataSourceDesign( dataSetDesign.getDataSourceName( ) );
+			if( datasourceDesign != null )
+			{
+				preDataEngine.defineDataSource( datasourceDesign );
+			}
+			preDataEngine.defineDataSet( engine.getDataSetDesign( datasetName ) );
+		}
+		
+	}
+	
 	/**
 	 * 
 	 * @param queryDefinition
@@ -356,7 +390,32 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 						.values( ).toArray( new IBinding[0] ) );
 			}
 			if( hasBinding )
-				resultClass = createResultClass( getRefBinding( bindings ), temporaryComputedColumns );
+			{
+				if( queryDefinition.needAutoBinding( ) )
+				{
+					IBinding[] currentBindings = (IBinding[]) queryDefn.getBindings( ).values( ).toArray( new IBinding[0] );
+					bindings = new IBinding[currentBindings.length];
+					for( int i = 0;i<bindings.length;i++)
+					{
+						if ( currentBindings[i].getExpression( ) instanceof ScriptExpression )
+						{
+							try
+							{
+								String columnName = ExpressionUtil.getColumnName( 
+												( (ScriptExpression) currentBindings[i].getExpression( ) ).getText( ) );
+								bindings[i] = new Binding( columnName, currentBindings[i].getExpression( ) );
+							}
+							catch ( BirtException e )
+							{
+								throw DataException.wrap( e );
+							}
+						}
+					}
+					resultClass = createResultClass( bindings, temporaryComputedColumns );
+				}
+				else
+					resultClass = createResultClass( getRefBinding( bindings ), temporaryComputedColumns );
+			}
 			else
 				resultClass = createResultClass( bindings, temporaryComputedColumns );
 
@@ -617,7 +676,8 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		 */
 		public void close( )
 		{
-
+			if( preDataEngine != null )
+				preDataEngine.shutdown( );
 		}
 
 		/**

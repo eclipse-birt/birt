@@ -65,9 +65,19 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 			}
 			else
 			{
-				this.queryResults = PreparedQueryUtil.newInstance( dataEngine,
+				if( ( (IQueryDefinition) queryDefn.getSourceQuery( ) ).getQueryResultsID( ) == null )
+				{
+					newPreDataEnige( );
+					this.queryResults = PreparedQueryUtil.newInstance( preDataEngine,
 						(IQueryDefinition) queryDefn.getSourceQuery( ),
-						null ).execute( null );
+						this.appContext ).execute( null );
+				}
+				else
+				{
+					this.queryResults = PreparedQueryUtil.newInstance( engine,
+							(IQueryDefinition) queryDefn.getSourceQuery( ),
+							null ).execute( null );
+				}
 
 				if ( queryResults != null
 						&& queryResults.getPreparedQuery( ) != null )
