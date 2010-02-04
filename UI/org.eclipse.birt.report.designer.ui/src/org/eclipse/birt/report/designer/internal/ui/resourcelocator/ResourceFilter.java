@@ -7,6 +7,7 @@ public class ResourceFilter
 {
 
 	public static final String FILTER_CVS_RESOURCES = "cvs";//$NON-NLS-1$
+	public static final String FILTER_DATA_RESOURCES = "data";//$NON-NLS-1$
 	public static final String FILTER_DOT_RESOURCES = ".";//$NON-NLS-1$
 	public static final String FILTER_EMPTY_FOLDERS = "empty_folder";//$NON-NLS-1$
 	//public static final String FILTER_FOLDERS_WITHOUTRESOURCE = "folders_withoutresource";//$NON-NLS-1$
@@ -83,6 +84,14 @@ public class ResourceFilter
 				Messages.getString( "ResourceFilter.DisplayName.EmptyFolder" ),//$NON-NLS-1$
 				false,
 				Messages.getString( "ResourceFilter.Description.EmptyFolder" ) );//$NON-NLS-1$
+	}
+	
+	public static ResourceFilter generateDataResourceFilter( )
+	{
+		return new ResourceFilter( ResourceFilter.FILTER_DATA_RESOURCES,
+				Messages.getString( "ResourceFilter.DisplayName.Data" ),//$NON-NLS-1$
+				true,
+				Messages.getString( "ResourceFilter.Description.Data" ) );//$NON-NLS-1$
 	}
 
 	/*

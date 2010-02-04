@@ -161,8 +161,8 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.REPORT_ITEM,
 			ReportDesignConstants.SCRIPT_DATA_SET,
 			ReportDesignConstants.SCRIPT_DATA_SOURCE,
-			"DataMartDataSet",//ReportDesignConstants.DATAMART_DATA_SET
-			"DataMartDataSource",//ReportDesignConstants.DATAMART_DATA_SOURCE
+			"DataMartDataSet",// ReportDesignConstants.DATAMART_DATA_SET
+			"DataMartDataSource",// ReportDesignConstants.DATAMART_DATA_SOURCE
 			ReportDesignConstants.SIMPLE_DATA_SET_ELEMENT,
 			ReportDesignConstants.TEMPLATE_DATA_SET,
 			ReportDesignConstants.TEMPLATE_ELEMENT,
@@ -282,7 +282,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default Resource
 		setDefaultResourcePreference( );
-		
+
 		setDefaultClassPathPreference( );
 
 		// set default Preference
@@ -631,6 +631,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		store.setDefault( DESCRIPTION_PREFERENCE, bufferPreference.toString( ) );
 
 		initFilterMap( store, ResourceFilter.generateCVSFilter( ) );
+		initFilterMap( store, ResourceFilter.generateDataResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateDotResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateEmptyFolderFilter( ) );
 		// initFilterMap( store,
@@ -1088,7 +1089,7 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getPreferences( this )
 				.getDefaultString( RESOURCE_PREFERENCE );
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -1098,6 +1099,7 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getPreferences( this )
 				.setDefault( CLASSPATH_PREFERENCE, "" ); //$NON-NLS-1$
 	}
+
 	/**
 	 * Return resource preference
 	 * 
