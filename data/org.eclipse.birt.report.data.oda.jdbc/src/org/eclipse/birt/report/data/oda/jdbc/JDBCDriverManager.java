@@ -360,7 +360,7 @@ public class JDBCDriverManager
 	 */
 	private void validateConnectionProperties( String driverClass, String url, String jndiNameUrl )
 	{
-		if ( isBlank( driverClass ) )
+		if ( isBlank( jndiNameUrl) && isBlank( driverClass ) )
 			throw new NullPointerException( this.resourceHandle.getMessage( ResourceConstants.EMPTYDRIVERCLASS ) );
 		
 		if ( isBlank( url ) && isBlank( jndiNameUrl ) )

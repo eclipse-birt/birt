@@ -218,26 +218,6 @@ public class ConnectionTest extends TestCase
 
 		}
 
-		/*
-		 * Calling the method open with null class name properties, should use
-		 * default one.
-		 */
-		try
-		{
-			conn = new Connection( );
-
-			props = new Properties( );
-
-			props.setProperty( Connection.Constants.ODAURL, TestUtil.getURL( ) );
-			props.setProperty( Connection.Constants.ODAUser, TestUtil.getUser( ) );
-			props.setProperty( Connection.Constants.ODAPassword, TestUtil.getPassword( ) );
-			conn.open( props );
-			conn.close();
-		}
-		catch ( OdaException e )
-		{
-			fail( "Open Connection should succeed" );
-		}
 
 		/*
 		 * Calling the method open with null user properties, should use the
