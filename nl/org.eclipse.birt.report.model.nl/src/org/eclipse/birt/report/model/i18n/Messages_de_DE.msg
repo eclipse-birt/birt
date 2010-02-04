@@ -34,7 +34,7 @@ Property.xml=XML
 Property.elementRef=Elementverweis
 Property.column=Spalte
 Property.variant=Variante
-Property.structList=Strukturliste
+Property.structList=Structure List
 Property.extends=extends
 Property.script=Skript
 Property.list=Liste
@@ -44,6 +44,7 @@ Property.element=Element
 Property.structRef=Strukturbezug
 Property.contentElement=Element als Eigenschaftswert
 Property.locale=Gebietsschema
+Property.struct=Struktur
 
 ###########################################################
 # Choice values
@@ -2338,28 +2339,10 @@ Element.MultiViews=Mehrfachansichten
 Element.VariableElement=Variable
 Element.DataGroup=Datengruppe
 Element.DerivedDataSet=Abgeleiteter Datensatz
-Element.DashboardElement=Dashboard
-Element.TabElement=Tab
-Element.SectionElement=Bereich
-Element.GadgetItem=Gadget-Objekt
-Element.EventSubscriber=Ereignis-Abonnent
-Element.GadgetContent=Gadget-Inhalt
-Element.ExternalElementRef=Externer Elementverweis
-Element.DataSelectorItem=Datenauswahl
-Element.SliderDataSelectorItem=Slider Data Selector
-Element.ListDataSelectorItem=List Data Selector
-Element.DropdownDataSelectorItem=Dropdown Data Selector
-Element.CheckBoxDataSelectorItem=Check Box Data Selector
-Element.RadioDataSelectorItem=Radio Data Selector
-Element.TextBoxDataSelectorItem=Text Box Data Selector
-Element.CalendarDataSelectorItem=Calendar Data Selector
-Element.DataViewItem=Datenansicht
 Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart-Datenquelle
 Element.DataMartDataSet=Data Mart-Datensatz
 Element.DataMartCube=Data Mart-Cube
-Element.EventObject=Ereignisobjekt
-Element.ParamSetting=Parametereinstellung
 
 ###########################################################
 # Element property names
@@ -2463,12 +2446,8 @@ Element.ReportDesign.imageDPI=Bild-DPI
 Element.ReportDesign.pageVariables=Seitenvariablen
 Element.ReportDesign.dataObjects= Datenobjekte
 Element.ReportDesign.locale=Gebietsschema
-Element.ReportDesign.onContentUpdate= Bei Inhaltsaktualisierung
-Element.ReportDesign.onContentUpdate.toolTip=Wird aufgerufen, wenn der Berichtinhalt aktualisiert wird.
-Element.ReportDesign.onContentUpdate.this=Berichtdesign
 Element.ReportDesign.onPageStart=Am Seitenanfang
 Element.ReportDesign.onPageEnd=Am Seitenende
-Element.ReportDesign.infoView=Info-Ansicht
 Element.ReportDesign.dataMarts=DataMarts
 
 #2. Report Element ( Prefix = Element.ReportElement )
@@ -3363,62 +3342,6 @@ Element.DynamicFilterParameter.defaultValue=Standardwert
 Element.DynamicFilterParameter.nativeDataType=Nativer Datentyp
 Element.DynamicFilterParameter.controlType=Steuerelementtyp
 
-#69. DashboardElement ( prefix  Element.DashboardElement )
-Element.DashboardElement.tabs=Register
-Element.DashboardElement.activeTab=Registerkarte 'Aktiv'
-
-#70. TabElement ( prefix  Element.TabElement )
-Element.TabElement.title=Titel
-Element.TabElement.sections=Abschnitte
-Element.TabElement.freeFormGadgets=Freiform-Gadgets
-Element.TabElement.externalTab=Externe Tabelle
-
-#71 SectionElement ( prefix  Element.SectionElement )
-Element.SectionElement.width=Breite
-Element.SectionElement.gadgets=Gadgets
-
-#72 GadgetItem ( prefix  Element.GadgetItem )
-Element.GadgetItem.x=X
-Element.GadgetItem.y=Y
-Element.GadgetItem.height=Höhe
-Element.GadgetItem.width=Breite
-Element.GadgetItem.cssStyleClass=CSS-Stilklasse
-Element.GadgetItem.title=Titel
-Element.GadgetItem.inlineStyle=Stil im Text
-Element.GadgetItem.externalGadgetURI=Externer Gadget-URI
-Element.GadgetItem.externalGadgetRefType=Externer Gadget-Verweistyp
-Element.GadgetItem.projectName=Projektname
-Element.GadgetItem.showTitle=Titel anzeigen
-Element.GadgetItem.content=Inhalt
-Element.GadgetItem.subscribeTo=Abonnieren:
-Element.GadgetItem.observers=Beobachter
-Element.GadgetItem.zIndex=Z-Index
-
-#73 EventSubscriber ( prefix  Element.EventSubscriber )
-Element.EventSubscriber.eventName=Ereignisname
-Element.EventSubscriber.eventObjects=Ereignisobjekte
-
-#74 GadgetContent ( prefix  Element.GadgetContent )
-Element.GadgetContent.cube=Quader
-Element.GadgetContent.externalContentRef=Externer Inhaltsverweis
-Element.GadgetContent.gadgetType=Gadget-Typ
-Element.GadgetContent.dataSet=DataSet
-Element.GadgetContent.parameterName=Parameter name
-
-
-#75 ExternalElementRef ( prefix  Element.ExternalElementRef )
-Element.ExternalElementRef.sourceFile=Quelldatei
-Element.ExternalElementRef.targetBookmark=Ziellesezeichen
-
-#76 DataSelectorItem ( prefix  Element.DataSelectorItem )
-Element.DataSelectorItem.boundDataColumns=Gebundene Datenspalten
-Element.DataSelectorItem.selectorType=selectorType
-Element.DataSelectorItem.title=Titel
-Element.DataSelectorItem.columnNames=Spaltennamen
-
-#77 DataViewItem ( prefix  Element.DataViewItem )
-Element.DataViewItem.internalReportLetRef=Interner reportLet-Verweis
-
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=Datenquellen
 Element.DataMart.slot.dataSets=Datensätze
@@ -3442,49 +3365,6 @@ Element.DataMartDataSet.dataObject=Datenobjekt
 Element.DataMartCube.dataSource=Datenquelle
 Element.DataMartCube.dataObject=Datenobjekt
 
-#82 EventObject (prefix Element.EventObject)
-Element.EventObject.gadget=Gadget
-Element.EventObject.appliedTo=AngewendetAuf
-
-#83 SliderDataSelectorItem (prefix SliderDataSelectorItem)
-Element.SliderDataSelectorItem.orientation=Ausrichtung
-Element.SliderDataSelectorItem.thumbType=Thumb type
-Element.SliderDataSelectorItem.defaultValue1=Default value 1
-Element.SliderDataSelectorItem.defaultValue2=Default value 2
-Element.SliderDataSelectorItem.width=Breite
-Element.SliderDataSelectorItem.autoAdjustTickMarks=Skalenmarkierungen automatisch anpassen
-Element.SliderDataSelectorItem.tickInterval=Tick interval
-Element.SliderDataSelectorItem.autoRange=Automatischer Bereich
-Element.SliderDataSelectorItem.minValue=Min value
-Element.SliderDataSelectorItem.maxValue=Max value
-
-#84 ListDataSelectorItem (prefix Element.ListDataSelectorItem)
-Element.ListDataSelectorItem.allowMultiValue=Allow multiple value
-Element.ListDataSelectorItem.enableSearch=Enable search
-Element.ListDataSelectorItem.defaultValue=Standardwert
-Element.ListDataSelectorItem.listLimit=Listenbegrenzung
-
-#85 DropdownDataSelectorItem (prefix Element.DropdownDataSelectorItem)
-Element.DropdownDataSelectorItem.allowTyping=Allow typing
-Element.DropdownDataSelectorItem.autoSuggest=Auto suggest
-Element.DropdownDataSelectorItem.listLimit=Listenbegrenzung
-
-#86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
-Element.CheckBoxDataSelectorItem.orientation=Ausrichtung
-Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
-Element.CheckBoxDataSelectorItem.autoAdjustNumber=Zahl automatisch anpassen
-Element.CheckBoxDataSelectorItem.listLimit=Listenbegrenzung
-
-#87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
-Element.RadioDataSelectorItem.orientation=Ausrichtung
-Element.RadioDataSelectorItem.autoAdjust=Auto adjust
-Element.RadioDataSelectorItem.autoAdjustNumber=Zahl automatisch anpassen
-Element.RadioDataSelectorItem.listLimit=Listenbegrenzung
-
-#88 ParameSetting
-Element.ParamSetting.paramName=Parametername
-Element.ParamSetting.value=Wert
-Element.ParamSetting.isHidden=Ist ausgeblendet
 ###########################################################
 # Predefined style
 Style.Report=Bericht

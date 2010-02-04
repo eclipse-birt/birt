@@ -34,7 +34,7 @@ Property.xml=xml
 Property.elementRef=요소 참조
 Property.column=열
 Property.variant=변형
-Property.structList=구조 목록
+Property.structList=Structure List
 Property.extends=extends
 Property.script=스크립트
 Property.list=목록
@@ -44,6 +44,7 @@ Property.element=요소
 Property.structRef=구조 참조
 Property.contentElement=속성 값 요소
 Property.locale=로케일
+Property.struct=구조
 
 ###########################################################
 # Choice values
@@ -2338,28 +2339,10 @@ Element.MultiViews=다중 보기
 Element.VariableElement=변수
 Element.DataGroup=데이터 그룹
 Element.DerivedDataSet=파생 데이터 집합
-Element.DashboardElement=대시보드
-Element.TabElement=탭
-Element.SectionElement=섹션
-Element.GadgetItem=가젯 항목
-Element.EventSubscriber=이벤트 구독자
-Element.GadgetContent=가젯 콘텐츠
-Element.ExternalElementRef=외부 요소 참조
-Element.DataSelectorItem=데이터 선택기
-Element.SliderDataSelectorItem=Slider Data Selector
-Element.ListDataSelectorItem=List Data Selector
-Element.DropdownDataSelectorItem=Dropdown Data Selector
-Element.CheckBoxDataSelectorItem=Check Box Data Selector
-Element.RadioDataSelectorItem=Radio Data Selector
-Element.TextBoxDataSelectorItem=Text Box Data Selector
-Element.CalendarDataSelectorItem=Calendar Data Selector
-Element.DataViewItem=데이터 뷰
 Element.DataMart=데이터 마트
 Element.DataMartDataSource=Data Mart 데이터 원본
 Element.DataMartDataSet=Data Mart 데이터 집합
 Element.DataMartCube=Data Mart 큐브
-Element.EventObject=이벤트 개체
-Element.ParamSetting=매개 변수 설정
 
 ###########################################################
 # Element property names
@@ -2463,12 +2446,8 @@ Element.ReportDesign.imageDPI=이미지 DPI
 Element.ReportDesign.pageVariables=페이지 변수
 Element.ReportDesign.dataObjects= 데이터 개체
 Element.ReportDesign.locale=로케일
-Element.ReportDesign.onContentUpdate= 내용 업데이트 시
-Element.ReportDesign.onContentUpdate.toolTip=보고서 내용 업데이트 시 호출됩니다.
-Element.ReportDesign.onContentUpdate.this=보고서 디자인
 Element.ReportDesign.onPageStart=페이지 시작 시
 Element.ReportDesign.onPageEnd=페이지 종료 시
-Element.ReportDesign.infoView=InfoView
 Element.ReportDesign.dataMarts=데이터 마트
 
 #2. Report Element ( Prefix = Element.ReportElement )
@@ -3363,62 +3342,6 @@ Element.DynamicFilterParameter.defaultValue=기본값
 Element.DynamicFilterParameter.nativeDataType=고유 데이터 형식
 Element.DynamicFilterParameter.controlType=컨트롤 형식
 
-#69. DashboardElement ( prefix  Element.DashboardElement )
-Element.DashboardElement.tabs=탭
-Element.DashboardElement.activeTab=활성 탭
-
-#70. TabElement ( prefix  Element.TabElement )
-Element.TabElement.title=제목
-Element.TabElement.sections=섹션
-Element.TabElement.freeFormGadgets=자유 형식 가젯
-Element.TabElement.externalTab=외부 탭
-
-#71 SectionElement ( prefix  Element.SectionElement )
-Element.SectionElement.width=너비
-Element.SectionElement.gadgets=가젯
-
-#72 GadgetItem ( prefix  Element.GadgetItem )
-Element.GadgetItem.x=X
-Element.GadgetItem.y=Y
-Element.GadgetItem.height=높이
-Element.GadgetItem.width=너비
-Element.GadgetItem.cssStyleClass=CSS 스타일 클래스
-Element.GadgetItem.title=제목
-Element.GadgetItem.inlineStyle=인라인 스타일
-Element.GadgetItem.externalGadgetURI=외부 가젯 URI
-Element.GadgetItem.externalGadgetRefType=외부 가젯 참조 형식
-Element.GadgetItem.projectName=프로젝트 이름
-Element.GadgetItem.showTitle=제목 표시
-Element.GadgetItem.content=내용
-Element.GadgetItem.subscribeTo=구독 대상
-Element.GadgetItem.observers=감시자
-Element.GadgetItem.zIndex=Z 인덱스
-
-#73 EventSubscriber ( prefix  Element.EventSubscriber )
-Element.EventSubscriber.eventName=이벤트 이름
-Element.EventSubscriber.eventObjects=이벤트 개체
-
-#74 GadgetContent ( prefix  Element.GadgetContent )
-Element.GadgetContent.cube=큐브
-Element.GadgetContent.externalContentRef=외부 콘텐츠 참조
-Element.GadgetContent.gadgetType=가젯 형식
-Element.GadgetContent.dataSet=DataSet
-Element.GadgetContent.parameterName=Parameter name
-
-
-#75 ExternalElementRef ( prefix  Element.ExternalElementRef )
-Element.ExternalElementRef.sourceFile=원본 파일
-Element.ExternalElementRef.targetBookmark=대상 책갈피
-
-#76 DataSelectorItem ( prefix  Element.DataSelectorItem )
-Element.DataSelectorItem.boundDataColumns=바인딩된 데이터 열
-Element.DataSelectorItem.selectorType=selectorType
-Element.DataSelectorItem.title=제목
-Element.DataSelectorItem.columnNames=열 이름
-
-#77 DataViewItem ( prefix  Element.DataViewItem )
-Element.DataViewItem.internalReportLetRef=내부 리포틀릿 참조
-
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=데이터 원본
 Element.DataMart.slot.dataSets=데이터 집합
@@ -3442,49 +3365,6 @@ Element.DataMartDataSet.dataObject=데이터 개체
 Element.DataMartCube.dataSource=데이터 원본
 Element.DataMartCube.dataObject=데이터 개체
 
-#82 EventObject (prefix Element.EventObject)
-Element.EventObject.gadget=가젯
-Element.EventObject.appliedTo=AppliedTo
-
-#83 SliderDataSelectorItem (prefix SliderDataSelectorItem)
-Element.SliderDataSelectorItem.orientation=방향
-Element.SliderDataSelectorItem.thumbType=Thumb type
-Element.SliderDataSelectorItem.defaultValue1=Default value 1
-Element.SliderDataSelectorItem.defaultValue2=Default value 2
-Element.SliderDataSelectorItem.width=너비
-Element.SliderDataSelectorItem.autoAdjustTickMarks=눈금 자동 조정
-Element.SliderDataSelectorItem.tickInterval=Tick interval
-Element.SliderDataSelectorItem.autoRange=자동 범위
-Element.SliderDataSelectorItem.minValue=Min value
-Element.SliderDataSelectorItem.maxValue=Max value
-
-#84 ListDataSelectorItem (prefix Element.ListDataSelectorItem)
-Element.ListDataSelectorItem.allowMultiValue=Allow multiple value
-Element.ListDataSelectorItem.enableSearch=Enable search
-Element.ListDataSelectorItem.defaultValue=기본값
-Element.ListDataSelectorItem.listLimit=목록 제한
-
-#85 DropdownDataSelectorItem (prefix Element.DropdownDataSelectorItem)
-Element.DropdownDataSelectorItem.allowTyping=Allow typing
-Element.DropdownDataSelectorItem.autoSuggest=Auto suggest
-Element.DropdownDataSelectorItem.listLimit=목록 제한
-
-#86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
-Element.CheckBoxDataSelectorItem.orientation=방향
-Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
-Element.CheckBoxDataSelectorItem.autoAdjustNumber=숫자 자동 조정
-Element.CheckBoxDataSelectorItem.listLimit=목록 제한
-
-#87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
-Element.RadioDataSelectorItem.orientation=방향
-Element.RadioDataSelectorItem.autoAdjust=Auto adjust
-Element.RadioDataSelectorItem.autoAdjustNumber=숫자 자동 조정
-Element.RadioDataSelectorItem.listLimit=목록 제한
-
-#88 ParameSetting
-Element.ParamSetting.paramName=매개 변수 이름
-Element.ParamSetting.value=값
-Element.ParamSetting.isHidden=숨김
 ###########################################################
 # Predefined style
 Style.Report=보고서

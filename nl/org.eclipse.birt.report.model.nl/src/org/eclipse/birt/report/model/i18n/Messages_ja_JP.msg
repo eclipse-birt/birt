@@ -34,7 +34,7 @@ Property.xml=Xml
 Property.elementRef=要素参照
 Property.column=Column
 Property.variant=Variant
-Property.structList=StructList
+Property.structList=Structure List
 Property.extends=Extends
 Property.script=Script
 Property.list=リスト
@@ -44,6 +44,7 @@ Property.element=要素
 Property.structRef=構造参照
 Property.contentElement=プロパティ値としての要素
 Property.locale=ロケール
+Property.struct=構造
 
 ###########################################################
 # Choice values
@@ -2338,28 +2339,10 @@ Element.MultiViews=マルチビュー
 Element.VariableElement=変数
 Element.DataGroup=データグループ
 Element.DerivedDataSet=派生データセット
-Element.DashboardElement=ダッシュボード
-Element.TabElement=タブ
-Element.SectionElement=セクション
-Element.GadgetItem=ガジェットの項目
-Element.EventSubscriber=イベントの購読者
-Element.GadgetContent=ガジェットのコンテンツ
-Element.ExternalElementRef=外部要素の参照
-Element.DataSelectorItem=データセレクタ
-Element.SliderDataSelectorItem=Slider Data Selector
-Element.ListDataSelectorItem=List Data Selector
-Element.DropdownDataSelectorItem=Dropdown Data Selector
-Element.CheckBoxDataSelectorItem=Check Box Data Selector
-Element.RadioDataSelectorItem=Radio Data Selector
-Element.TextBoxDataSelectorItem=Text Box Data Selector
-Element.CalendarDataSelectorItem=Calendar Data Selector
-Element.DataViewItem=データビュー
 Element.DataMart=Data Mart
 Element.DataMartDataSource=Data Mart データソース
 Element.DataMartDataSet=Data Mart データセット
 Element.DataMartCube=Data Mart キューブ
-Element.EventObject=イベントオブジェクト
-Element.ParamSetting=パラメタ設定
 
 ###########################################################
 # Element property names
@@ -2463,12 +2446,8 @@ Element.ReportDesign.imageDPI=イメージの DPI
 Element.ReportDesign.pageVariables=ページ変数
 Element.ReportDesign.dataObjects= データオブジェクト
 Element.ReportDesign.locale=ロケール
-Element.ReportDesign.onContentUpdate= 内容の更新時
-Element.ReportDesign.onContentUpdate.toolTip=レポートの内容を更新する際に呼び出されます。
-Element.ReportDesign.onContentUpdate.this=レポートデザイン
 Element.ReportDesign.onPageStart=ページの開始時
 Element.ReportDesign.onPageEnd=ページの終了時
-Element.ReportDesign.infoView=情報ビュー
 Element.ReportDesign.dataMarts=DataMarts
 
 #2. Report Element ( Prefix = Element.ReportElement )
@@ -3363,62 +3342,6 @@ Element.DynamicFilterParameter.defaultValue=デフォルト値
 Element.DynamicFilterParameter.nativeDataType=ネイティブのデータ型
 Element.DynamicFilterParameter.controlType=コントロール型
 
-#69. DashboardElement ( prefix  Element.DashboardElement )
-Element.DashboardElement.tabs=タブ
-Element.DashboardElement.activeTab=アクティブなタブ
-
-#70. TabElement ( prefix  Element.TabElement )
-Element.TabElement.title=タイトル
-Element.TabElement.sections=セクション
-Element.TabElement.freeFormGadgets=自由形式のガジェット
-Element.TabElement.externalTab=外部タブ
-
-#71 SectionElement ( prefix  Element.SectionElement )
-Element.SectionElement.width=幅
-Element.SectionElement.gadgets=ガジェット
-
-#72 GadgetItem ( prefix  Element.GadgetItem )
-Element.GadgetItem.x=X
-Element.GadgetItem.y=Y
-Element.GadgetItem.height=高さ
-Element.GadgetItem.width=幅
-Element.GadgetItem.cssStyleClass=CSS スタイルクラス
-Element.GadgetItem.title=タイトル
-Element.GadgetItem.inlineStyle=インラインスタイル
-Element.GadgetItem.externalGadgetURI=外部ガジェットの URI
-Element.GadgetItem.externalGadgetRefType=外部ガジェットの参照型
-Element.GadgetItem.projectName=プロジェクト名
-Element.GadgetItem.showTitle=タイトルの表示
-Element.GadgetItem.content=コンテンツ
-Element.GadgetItem.subscribeTo=購読者
-Element.GadgetItem.observers=オブザーバ
-Element.GadgetItem.zIndex=重ね順
-
-#73 EventSubscriber ( prefix  Element.EventSubscriber )
-Element.EventSubscriber.eventName=イベント名
-Element.EventSubscriber.eventObjects=イベントオブジェクト
-
-#74 GadgetContent ( prefix  Element.GadgetContent )
-Element.GadgetContent.cube=キューブ
-Element.GadgetContent.externalContentRef=外部コンテンツの参照
-Element.GadgetContent.gadgetType=ガジェットの種類
-Element.GadgetContent.dataSet=データセット
-Element.GadgetContent.parameterName=Parameter name
-
-
-#75 ExternalElementRef ( prefix  Element.ExternalElementRef )
-Element.ExternalElementRef.sourceFile=ソースファイル
-Element.ExternalElementRef.targetBookmark=ターゲットのブックマーク
-
-#76 DataSelectorItem ( prefix  Element.DataSelectorItem )
-Element.DataSelectorItem.boundDataColumns=バインドされたデータカラム
-Element.DataSelectorItem.selectorType=selectorType
-Element.DataSelectorItem.title=タイトル
-Element.DataSelectorItem.columnNames=列名
-
-#77 DataViewItem ( prefix  Element.DataViewItem )
-Element.DataViewItem.internalReportLetRef=内部 reportLet の参照
-
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=データソース
 Element.DataMart.slot.dataSets=データセット
@@ -3442,49 +3365,6 @@ Element.DataMartDataSet.dataObject=データオブジェクト
 Element.DataMartCube.dataSource=データソース
 Element.DataMartCube.dataObject=データオブジェクト
 
-#82 EventObject (prefix Element.EventObject)
-Element.EventObject.gadget=ガジェット
-Element.EventObject.appliedTo=適用先
-
-#83 SliderDataSelectorItem (prefix SliderDataSelectorItem)
-Element.SliderDataSelectorItem.orientation=向き
-Element.SliderDataSelectorItem.thumbType=Thumb type
-Element.SliderDataSelectorItem.defaultValue1=Default value 1
-Element.SliderDataSelectorItem.defaultValue2=Default value 2
-Element.SliderDataSelectorItem.width=幅
-Element.SliderDataSelectorItem.autoAdjustTickMarks=目盛の自動調整
-Element.SliderDataSelectorItem.tickInterval=Tick interval
-Element.SliderDataSelectorItem.autoRange=自動範囲
-Element.SliderDataSelectorItem.minValue=Min value
-Element.SliderDataSelectorItem.maxValue=Max value
-
-#84 ListDataSelectorItem (prefix Element.ListDataSelectorItem)
-Element.ListDataSelectorItem.allowMultiValue=Allow multiple value
-Element.ListDataSelectorItem.enableSearch=Enable search
-Element.ListDataSelectorItem.defaultValue=デフォルト値
-Element.ListDataSelectorItem.listLimit=一覧の制限
-
-#85 DropdownDataSelectorItem (prefix Element.DropdownDataSelectorItem)
-Element.DropdownDataSelectorItem.allowTyping=Allow typing
-Element.DropdownDataSelectorItem.autoSuggest=Auto suggest
-Element.DropdownDataSelectorItem.listLimit=一覧の制限
-
-#86 CheckBoxDataSelectorItem (prefix Element.CheckBoxDataSelectorItem)
-Element.CheckBoxDataSelectorItem.orientation=向き
-Element.CheckBoxDataSelectorItem.autoAdjust=Auto adjust
-Element.CheckBoxDataSelectorItem.autoAdjustNumber=自動調整番号
-Element.CheckBoxDataSelectorItem.listLimit=一覧の制限
-
-#87 RadioDataSelectorItem (prefix Element.RadioDataSelectorItem)
-Element.RadioDataSelectorItem.orientation=向き
-Element.RadioDataSelectorItem.autoAdjust=Auto adjust
-Element.RadioDataSelectorItem.autoAdjustNumber=自動調整番号
-Element.RadioDataSelectorItem.listLimit=一覧の制限
-
-#88 ParameSetting
-Element.ParamSetting.paramName=パラメタ名
-Element.ParamSetting.value=値
-Element.ParamSetting.isHidden=非表示
 ###########################################################
 # Predefined style
 Style.Report=レポート
