@@ -79,7 +79,7 @@ public class FlipAxisAction extends Action
 						// library
 						return false;
 					}
-					List<String> exprs = ChartCubeUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
+					List<String> exprs = ChartCubeUtil.getAllLevelsBindingName( containerCell.getCrosstab( ) );
 					// Grand total always supports only one direction
 					return exprs.size( ) == 2
 							&& !ChartCubeUtil.isAggregationCell( containerCell );
@@ -104,7 +104,7 @@ public class FlipAxisAction extends Action
 				ChartReportItemImpl reportItem = (ChartReportItemImpl) eih.getReportItem( );
 				ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 				ChartWithAxes cmNew = cmOld.copyInstance( );
-				List<String> exprs = ChartCubeUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
+				List<String> exprs = ChartCubeUtil.getAllLevelsBindingName( containerCell.getCrosstab( ) );
 				Query query = cmNew.getAxes( )
 						.get( 0 )
 						.getSeriesDefinitions( )
