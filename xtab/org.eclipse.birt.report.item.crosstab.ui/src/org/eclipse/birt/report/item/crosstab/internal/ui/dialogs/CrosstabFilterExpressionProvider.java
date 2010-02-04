@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -42,7 +43,13 @@ public class CrosstabFilterExpressionProvider extends
 
 			public boolean select( Object parentElement, Object element )
 			{
-				// TODO Auto-generated method stub
+
+				if ( ExpressionFilter.CATEGORY.equals( parentElement )
+						&& ExpressionProvider.MEASURE.equals( element ) )
+				{
+					return false;
+				}
+				
 				if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
 						&& ( element instanceof PropertyHandle ) )
 				{

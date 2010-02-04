@@ -573,6 +573,12 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 				{
 					return false;
 				}
+				
+				if ( ExpressionFilter.CATEGORY.equals( parentElement )
+						&& ExpressionProvider.MEASURE.equals( element ) )
+				{
+					return false;
+				}
 
 				if ( ExpressionProvider.CURRENT_CUBE.equals( parentElement ) )
 				{
