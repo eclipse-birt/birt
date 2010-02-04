@@ -452,8 +452,9 @@ public final class DataSetProvider
 				session.defineDataSource( session.getModelAdaptor( )
 						.adaptDataSource( dataSetHandle.getDataSource( ) ) );
 			}
-			session.defineDataSet( dataSetDesign );
+			
 		}
+		session.defineDataSet( dataSetDesign );
 		IQueryResults resultSet = executeQuery( session, queryDefn );
 		saveResultToDataItems( dataSetHandle, resultSet );
 

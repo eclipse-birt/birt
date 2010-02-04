@@ -297,14 +297,16 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		errorList = new ArrayList( );
 		try
 		{
+			
 			metaData = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( );
 			columnCount = metaData == null ? 0 : metaData.length;
 
 			// Create a new Report Query definition for retrieving the
 			// columns
 			QueryDefinition query = new QueryDefinition( );
-			query.setDataSetName( ExternalUIUtil.getQulifiedDataSetHandle( ( (DataSetEditor) getContainer( ) ).getHandle( ) )
-					.getQualifiedName( ) );
+
+			
+			query.setDataSetName( ( (DataSetEditor) getContainer( ) ).getHandle( ).getQualifiedName( ) );
 
 			int maxRow = getMaxRowPreference( );
 			query.setMaxRows( maxRow );
@@ -330,7 +332,8 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				needCache = true;
 			}
 			DataSetExecutorHelper helper = new DataSetExecutorHelper( );
-			IQueryResults resultSet = helper.execute( ExternalUIUtil.getQulifiedDataSetHandle( ( (DataSetEditor) getContainer( ) ).getHandle( ) ),
+			ExternalUIUtil.populateApplicationContext( ( (DataSetEditor) getContainer( ) ).getHandle( ), session );
+			IQueryResults resultSet = helper.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
 					query,
 					true,
 					true,

@@ -9,12 +9,12 @@
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -58,6 +58,9 @@ public class ExternalUIUtil
 			}
 		}
 	}
+	
+	public static void populateApplicationContext( DataSetHandle handle, DataRequestSession session ) throws BirtException
+	{}
 	
 	public static boolean containsDataSource( DataSetHandle ds  )
 	{
