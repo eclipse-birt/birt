@@ -102,7 +102,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 			if ( design != null )
 			{
 				if ( design.getOnPageBreak( ) != null
-						|| design.getClass( ) != null )
+						|| design.getJavaClass( ) != null )
 				{
 					if ( !contents.contains( content ) )
 					{
