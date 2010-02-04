@@ -4748,4 +4748,4 @@ VariableDropAdapter.TranasctionName=使用变量创建数据项
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank
+RenameInputDialog.Message.BlankName=名称不能为空白

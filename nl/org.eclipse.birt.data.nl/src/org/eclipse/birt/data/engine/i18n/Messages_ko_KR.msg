@@ -254,7 +254,7 @@ odaconsumer.CannotGetConnectionMetaData=연결 메타데이터를 가져올 수 없습니다.
 odaconsumer.CannotGetMaxConnections=데이터 원본에 대한 최대 연결 수를 가져올 수 없습니다.
 odaconsumer.CannotGetMaxStatements=데이터 원본에 대한 최대 쿼리 수를 가져올 수 없습니다.
 odaconsumer.CannotGetDataSetMetaData=데이터 원본에서 데이터 집합 매개 변수 {0}을(를) 가져올 수 없습니다.
-odaconsumer.CannotPrepareStatement=Failed to prepare the following query for the data set type ({1}). \n[{0}]
+odaconsumer.CannotPrepareStatement=데이터 집합 형식({1})에 대해 다음 쿼리를 준비하지 못했습니다. \n[{0}]
 odaconsumer.CannotCloseConnection=연결을 닫을 수 없습니다.
 odaconsumer.CannotOpenConnection=드라이버의 연결을 열 수 없습니다: {0}.
 odaconsumer.CannotDetermineSupportForMultipleOpenResults=복수의 공개 결과에 대한 지원을 확인할 수 없습니다.
@@ -327,7 +327,7 @@ odaconsumer.CannotFindLogDirectory=로그 디렉터리를 찾을 수 없습니다.
 odaconsumer.ParameterNames=\n모델 이름({0}) 및 드라이버 정의 이름({1})으로 정의된 매개 변수.
 odaconsumer.InvalidArgument=메서드({0})가 잘못된 인수({1})로 호출되었습니다.
 odaconsumer.CannotSetConnectionLocale=연결 로케일({0})을 설정할 수 없습니다.
-odaconsumer.CannotCheckOpenConnection=Unable to check whether the connection is already open.
+odaconsumer.CannotCheckOpenConnection=연결이 이미 열려 있는지 여부를 확인할 수 없습니다.
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=executeQuery()를 호출한 후 결과 집합을 이름별로 가져올 수 없습니다.
 odaconsumer.manager.CannotSetParamBeforePrepare=입력 매개 변수를 설정하려면 문을 준비해야 합니다.

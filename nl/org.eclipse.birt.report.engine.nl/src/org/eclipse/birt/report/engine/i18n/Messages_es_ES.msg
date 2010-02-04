@@ -64,8 +64,8 @@ Error.UnhandledScriptError = Excepción no controlada al ejecutar el script.
 ###########################################################
 Error.PageNotFoundError = No se encuentra la página {0}.
 Error.PageNumberRangeError = Intervalo de página no válido: {0}.
-Error.PageHintLoadingError = Can not load the page hint.
-Error.PagesLoadingError = Can not load the pages {0}.
+Error.PageHintLoadingError = No se puede cargar la sugerencia de página.
+Error.PagesLoadingError = No se pueden cargar las páginas {0}.
 
 Error.InvalidGroupError = Grupo no válido: {0}.
 Error.InvalidExtensionError = La ID de extensión {0} no es válida y el formato {1} tampoco.
@@ -81,13 +81,13 @@ Error.SubqueryCreateError = Una subconsulta sólo se puede crear dentro de otra s
 Error.BindDataRetrivingError = Recuperando error de datos de enlace.
 Error.DataSourceError = La fuente de datos de un conjunto de datos no puede ser nula.
 Error.UnsupportedQueryDefinitionError = Definición de consulta no admitida {0}.
-Error.ReportQueryLoadingError = Can not load the report query: {0}.
+Error.ReportQueryLoadingError = No se puede cargar la consulta de informe: {0}.
 Error.ExtentionIDMissingError = Falta el ID de extensión en la definición de la fuente de datos {0}.
 Error.DataExportionError = Error al exportar datos mediante ID de instancia: {0}.
 Error.UnsupportedDocumentVersionError = Versión de documento no admitida: {0}.
 Error.ResultsetIteratorError = El iterador de conjunto de resultados se debe mover a una fila válida.
 Error.ReportDesignNotFoundError = No se puede encontrar el diseño de informe en el documento de informe {0}.
-Error.PreparedQueryNotFoundError = Can not find the prepared query {0}.
+Error.PreparedQueryNotFoundError = No se puede encontrar la consulta preparada {0}.
 Error.IncorrectParentResultSetError = Conjunto de resultados principal para subconsulta incorrecto: {0}.
 Error.UnsupportedQueryTypeError = Tipo de consulta no admitido {0}.
 Error.QueryNotBuiltError = Error al crear una consulta para el elemento: {0}.
@@ -109,5 +109,5 @@ PDFCreator = Motor de informes de BIRT {0} usando iText {1}.
 ###########################################################
 Error.FlashObjectNotSupported = Este formato de informe no admite los elementos de informe del objeto Flash.
 Error.ReportItemNotSupported = El elemento de informe actual no es compatible con este formato de informe.
-Error.ResourceUnreachable = The resource of this report item is not reachable.
-Error.UpdateUserAgent = Enable Flash support or download a newer version of the Adobe Reader to view Flash content in PDF files.
+Error.ResourceUnreachable = No se puede alcanzar el recurso de este elemento de informe.
+Error.UpdateUserAgent = Active la compatibilidad con Flash o descargue una versión más reciente de Adobe Reader para ver el contenido Flash en archivos PDF.

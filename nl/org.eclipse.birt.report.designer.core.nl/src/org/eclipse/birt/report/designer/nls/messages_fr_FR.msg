@@ -4748,4 +4748,4 @@ VariableDropAdapter.TranasctionName=Créer l'élément Date à partir de la variable
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank
+RenameInputDialog.Message.BlankName=Le nom doit être spécifié

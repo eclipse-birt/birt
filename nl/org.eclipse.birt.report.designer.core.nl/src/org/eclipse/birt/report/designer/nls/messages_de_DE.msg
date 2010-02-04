@@ -4748,4 +4748,4 @@ VariableDropAdapter.TranasctionName=Datumsobjekt aus Variablen erstellen
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank
+RenameInputDialog.Message.BlankName=Name darf nicht leer sein.

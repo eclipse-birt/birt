@@ -64,8 +64,8 @@ Error.UnhandledScriptError = Exception non traitée lors de l'exécution du script
 ###########################################################
 Error.PageNotFoundError = Page {0} introuvable.
 Error.PageNumberRangeError = Série de pages incorrecte : {0}.
-Error.PageHintLoadingError = Can not load the page hint.
-Error.PagesLoadingError = Can not load the pages {0}.
+Error.PageHintLoadingError = Impossible de charger l'indicateur de page.
+Error.PagesLoadingError = Impossible de charger les pages {0}.
 
 Error.InvalidGroupError = Groupe incorrect : {0}.
 Error.InvalidExtensionError = ID d'extension non valide : {0} et format non valide : {1}.
@@ -81,13 +81,13 @@ Error.SubqueryCreateError = La sous-requête ne peut être créée que dans une autr
 Error.BindDataRetrivingError = Récupération de l'erreur de liaison de données.
 Error.DataSourceError = La source de données du jeu de données ne peut pas être nulle.
 Error.UnsupportedQueryDefinitionError = Définition de requête non prise en charge {0}.
-Error.ReportQueryLoadingError = Can not load the report query: {0}.
+Error.ReportQueryLoadingError = Impossible de charger la requête d'état : {0}.
 Error.ExtentionIDMissingError = ID d'extension manquant dans la définition de la source de données {0}.
 Error.DataExportionError = Echec de l'exportation des données par ID d'instance : {0}.
 Error.UnsupportedDocumentVersionError = N° de version du document non pris en charge : {0}.
 Error.ResultsetIteratorError = L'itérateur du jeu de résultats doit être déplacé dans une ligne valide.
 Error.ReportDesignNotFoundError = Impossible de localiser le modèle d'état dans l'état {0}.
-Error.PreparedQueryNotFoundError = Can not find the prepared query {0}.
+Error.PreparedQueryNotFoundError = Impossible de localiser la requête préparée {0}.
 Error.IncorrectParentResultSetError = Jeu de résultats parents incorrect pour la sous-requête : {0}.
 Error.UnsupportedQueryTypeError = Type de requête non pris en charge {0}.
 Error.QueryNotBuiltError = Echec de la création d'une requête pour l'élément : {0}.
@@ -109,5 +109,5 @@ PDFCreator = Moteur d'états BIRT {0} utilisant iText ({1}).
 ###########################################################
 Error.FlashObjectNotSupported = Les éléments d'état d'objet Flash ne sont pas pris en charge par ce format.
 Error.ReportItemNotSupported = L'élément d'état actuel n'est pas pris en charge par ce format.
-Error.ResourceUnreachable = The resource of this report item is not reachable.
-Error.UpdateUserAgent = Enable Flash support or download a newer version of the Adobe Reader to view Flash content in PDF files.
+Error.ResourceUnreachable = La ressource de cet élément d'état est indisponible.
+Error.UpdateUserAgent = Activer la prise en charge Flash ou télécharger une version plus récente d'Adobe Reader pour afficher le contenu Flash des fichiers PDF.

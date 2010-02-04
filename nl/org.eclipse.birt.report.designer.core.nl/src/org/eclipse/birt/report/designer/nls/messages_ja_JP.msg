@@ -4748,4 +4748,4 @@ VariableDropAdapter.TranasctionName=•Ï”‚©‚ç“ú•t€–Ú‚ğì¬
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank
+RenameInputDialog.Message.BlankName=–¼‘O‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB

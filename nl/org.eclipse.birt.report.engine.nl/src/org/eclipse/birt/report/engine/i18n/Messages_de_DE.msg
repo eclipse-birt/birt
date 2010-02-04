@@ -64,8 +64,8 @@ Error.UnhandledScriptError = Unverarbeitete Ausnahme beim Ausführen des Skripts.
 ###########################################################
 Error.PageNotFoundError = Seite {0} wurde nicht gefunden.
 Error.PageNumberRangeError = Ungültiger Seitenbereich: {0}.
-Error.PageHintLoadingError = Can not load the page hint.
-Error.PagesLoadingError = Can not load the pages {0}.
+Error.PageHintLoadingError = Seitenhinweis kann nicht geladen werden.
+Error.PagesLoadingError = Seiten {0} können nicht geladen werden.
 
 Error.InvalidGroupError = Ungültige Gruppe: {0}.
 Error.InvalidExtensionError = Ungültige Erweiterungs-ID: {0} und ungültiges Format: {1}.
@@ -81,13 +81,13 @@ Error.SubqueryCreateError = Unterabfrage kann nur in einer anderen (Unter-)Abfra
 Error.BindDataRetrivingError = Fehler beim Abrufen der Bindungsdaten.
 Error.DataSourceError = Datenquelle des Datensatzes darf nicht Null sein.
 Error.UnsupportedQueryDefinitionError = Nicht unterstützte Abfragedefinition: {0}.
-Error.ReportQueryLoadingError = Can not load the report query: {0}.
+Error.ReportQueryLoadingError = Berichtabfrage kann nicht geladen werden: {0}.
 Error.ExtentionIDMissingError = Fehlende Erweiterungs-ID in Datenquellendefinition: {0}
 Error.DataExportionError = Daten konnten nicht nach Instanz-ID exportiert werden:{0}.
 Error.UnsupportedDocumentVersionError = Nicht unterstützte Dokumentversion: {0}.
 Error.ResultsetIteratorError = Ergebnisiteration muss in gültige Zeile verschoben werden.
 Error.ReportDesignNotFoundError = Berichtdesign in Berichtdokument nicht gefunden: {0}.
-Error.PreparedQueryNotFoundError = Can not find the prepared query {0}.
+Error.PreparedQueryNotFoundError = Vorbereitete Abfrage {0} nicht gefunden.
 Error.IncorrectParentResultSetError = Falsches übergeordnetes Ergebnis für Unterabfrage: {0}.
 Error.UnsupportedQueryTypeError = Nicht unterstützter Abfragetyp: {0}.
 Error.QueryNotBuiltError = Fehler beim Erstellen der Abfrage für Element: {0}.
@@ -109,5 +109,5 @@ PDFCreator = BIRT-Berichtengine {0} mit iText {1}.
 ###########################################################
 Error.FlashObjectNotSupported = Berichtobjekte aus Flash-Objekten werden in diesem Berichtformat nicht unterstützt.
 Error.ReportItemNotSupported = Das aktuelle Berichtobjekt wird in diesem Berichtformat nicht unterstützt.
-Error.ResourceUnreachable = The resource of this report item is not reachable.
-Error.UpdateUserAgent = Enable Flash support or download a newer version of the Adobe Reader to view Flash content in PDF files.
+Error.ResourceUnreachable = Die Ressource dieses Berichtobjekts ist nicht erreichbar.
+Error.UpdateUserAgent = Aktivieren Sie die Flash-Unterstützung, oder laden Sie eine neuere Version des Adobe Readers herunter, um Flash-Inhalte in PDF-Dateien anzuzeigen.

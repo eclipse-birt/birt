@@ -64,8 +64,8 @@ Error.UnhandledScriptError = ƒXƒNƒŠƒvƒg‚ğÀs’†‚É–¢ˆ—‚Ì—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B
 ###########################################################
 Error.PageNotFoundError = ƒtƒ@ƒCƒ‹ {0} ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 Error.PageNumberRangeError = ƒy[ƒW‚Ì”ÍˆÍ {0} ‚ª–³Œø‚Å‚·B
-Error.PageHintLoadingError = Can not load the page hint.
-Error.PagesLoadingError = Can not load the pages {0}.
+Error.PageHintLoadingError = ƒy[ƒW‚Ìƒqƒ“ƒg‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
+Error.PagesLoadingError = ƒy[ƒW {0} ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
 
 Error.InvalidGroupError = ƒOƒ‹[ƒv {0} ‚ª–³Œø‚Å‚·B
 Error.InvalidExtensionError = Šg’£ ID {0} ‚ÆŒ`® {1} ‚ª–³Œø‚Å‚·B
@@ -81,13 +81,13 @@ Error.SubqueryCreateError = •Ê‚ÌƒTƒuƒNƒGƒŠ/ƒNƒGƒŠ‚Ì’†‚É‚ÍƒTƒuƒNƒGƒŠ‚ğì¬‚Å‚«‚Ü‚
 Error.BindDataRetrivingError = ƒoƒCƒ“ƒhƒf[ƒ^‚Ìæ“¾’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 Error.DataSourceError = ƒf[ƒ^ƒZƒbƒg‚Ìƒf[ƒ^ƒ\[ƒX‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
 Error.UnsupportedQueryDefinitionError = ƒNƒGƒŠ’è‹` {0} ‚ª–³Œø‚Å‚·B
-Error.ReportQueryLoadingError = Can not load the report query: {0}.
+Error.ReportQueryLoadingError = ƒŒƒ|[ƒgƒNƒGƒŠ {0} ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
 Error.ExtentionIDMissingError = ƒf[ƒ^ƒ\[ƒX {0} ‚ÉŠg’£ ID ‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 Error.DataExportionError = ƒCƒ“ƒXƒ^ƒ“ƒX ID {0} ‚Ìƒf[ƒ^‚ğƒGƒNƒXƒ|[ƒg‚Å‚«‚Ü‚¹‚ñB
 Error.UnsupportedDocumentVersionError = •¶‘‚Ìƒo[ƒWƒ‡ƒ“ {0} ‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 Error.ResultsetIteratorError = Œ‹‰ÊƒZƒbƒg‚Ì”½•œq‚ÍA—LŒø‚Ès‚ÉˆÚ“®‚µ‚Ä‚­‚¾‚³‚¢B
 Error.ReportDesignNotFoundError = ƒŒƒ|[ƒg•¶‘ {0} ‚ÉƒŒƒ|[ƒgƒfƒUƒCƒ“‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
-Error.PreparedQueryNotFoundError = Can not find the prepared query {0}.
+Error.PreparedQueryNotFoundError = ‹LqÏ‚İƒNƒGƒŠ {0} ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 Error.IncorrectParentResultSetError = subQuery {0} ‚Ìe‚Ì resultSet ‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB
 Error.UnsupportedQueryTypeError = ƒNƒGƒŠ‚Ìí—Ş {0} ‚ª–³Œø‚Å‚·B
 Error.QueryNotBuiltError = ƒNƒGƒŠ‚ğ\’z‚Å‚«‚È‚¢—v‘f : {0}
@@ -109,5 +109,5 @@ PDFCreator = BIRT ƒŒƒ|[ƒgƒGƒ“ƒWƒ“ {0} (iText {1} ‚ğg—p)
 ###########################################################
 Error.FlashObjectNotSupported = Flash ƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ|[ƒg€–Ú‚ÍA‚±‚ÌƒŒƒ|[ƒgŒ`®‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 Error.ReportItemNotSupported = Œ»İ‚ÌƒŒƒ|[ƒg€–Ú‚ÍA‚±‚ÌƒŒƒ|[ƒgŒ`®‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
-Error.ResourceUnreachable = The resource of this report item is not reachable.
-Error.UpdateUserAgent = Enable Flash support or download a newer version of the Adobe Reader to view Flash content in PDF files.
+Error.ResourceUnreachable = ‚±‚ÌƒŒƒ|[ƒg€–Ú‚ÌƒŠƒ\[ƒX‚ÉƒAƒNƒZƒX‚Å‚«‚Ü‚¹‚ñB
+Error.UpdateUserAgent = Flash ƒTƒ|[ƒg‚ğ—LŒø‚É‚·‚é‚©AV‚µ‚¢ƒo[ƒWƒ‡ƒ“‚Ì Adobe Reader ‚ğƒ_ƒEƒ“ƒ[ƒh‚µ‚Ä PDF ƒtƒ@ƒCƒ‹“à‚Ì Flash ƒRƒ“ƒeƒ“ƒc‚ğ•\¦‚µ‚Ä‚­‚¾‚³‚¢B

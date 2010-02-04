@@ -4748,4 +4748,4 @@ VariableDropAdapter.TranasctionName=변수에서 데이터 항목 생성
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank
+RenameInputDialog.Message.BlankName=이름은 비워둘 수 없습니다.

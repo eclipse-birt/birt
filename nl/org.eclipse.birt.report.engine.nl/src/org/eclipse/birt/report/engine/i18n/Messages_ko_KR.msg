@@ -64,8 +64,8 @@ Error.UnhandledScriptError = 스크립트를 실행하는 중 처리되지 않은 예외가 발생했�
 ###########################################################
 Error.PageNotFoundError = 페이지 {0}을(를) 찾을 수 없습니다.
 Error.PageNumberRangeError = 잘못된 페이지 범위: {0}.
-Error.PageHintLoadingError = Can not load the page hint.
-Error.PagesLoadingError = Can not load the pages {0}.
+Error.PageHintLoadingError = 페이지 힌트를 로드할 수 없습니다.
+Error.PagesLoadingError = 페이지 {0}을(를) 로드할 수 없습니다.
 
 Error.InvalidGroupError = 잘못된 그룹: {0}.
 Error.InvalidExtensionError = 잘못된 식 ID: {0}, 잘못된 형식: {1}.
@@ -81,13 +81,13 @@ Error.SubqueryCreateError = 하위 쿼리는 다른 하위 쿼리/쿼리에서만 만들 수 있습니
 Error.BindDataRetrivingError = 바인딩 데이터 검색 오류
 Error.DataSourceError = 데이터 집합의 데이터 원본은 널(null)일 수 없습니다.
 Error.UnsupportedQueryDefinitionError = 지원되지 않는 쿼리 정의 {0}
-Error.ReportQueryLoadingError = Can not load the report query: {0}.
+Error.ReportQueryLoadingError = 보고서 쿼리를 로드할 수 없습니다: {0}.
 Error.ExtentionIDMissingError = 데이터 원본 정의 {0}에서 확장 ID가 누락되었습니다.
 Error.DataExportionError = 인스턴스 ID로 데이터를 내보내지 못했습니다: {0}.
 Error.UnsupportedDocumentVersionError = 지원되지 않는 문서 버전: {0}.
 Error.ResultsetIteratorError = 결과 집합 반복자를 올바른 행으로 이동해야 합니다.
 Error.ReportDesignNotFoundError = 보고서 문서 {0}에서 보고서 디자인을 찾을 수 없습니다.
-Error.PreparedQueryNotFoundError = Can not find the prepared query {0}.
+Error.PreparedQueryNotFoundError = 준비된 쿼리 {0}을(를) 찾을 수 없습니다.
 Error.IncorrectParentResultSetError = 하위 쿼리에 대한 상위 결과 집합이 잘못되었습니다: {0}.
 Error.UnsupportedQueryTypeError = 지원되지 않는 쿼리 형식 {0}
 Error.QueryNotBuiltError = 요소 {0}에 대한 쿼리를 작성하지 못했습니다.
@@ -109,5 +109,5 @@ PDFCreator = iText {1}을(를) 사용하는 BIRT 보고서 엔진 {0}
 ###########################################################
 Error.FlashObjectNotSupported = 플래시 개체 보고서 항목은 이 보고서 형식에서 지원되지 않습니다.
 Error.ReportItemNotSupported = 현재 보고서 항목은 이 보고서 형식에서 지원되지 않습니다.
-Error.ResourceUnreachable = The resource of this report item is not reachable.
-Error.UpdateUserAgent = Enable Flash support or download a newer version of the Adobe Reader to view Flash content in PDF files.
+Error.ResourceUnreachable = 이 리포트 항목의 리소스에 연결할 수 없습니다.
+Error.UpdateUserAgent = PDF 파일에서 플래시 콘텐츠를 보려면 플래시 지원을 활성화하거나 최신 버전의 Adobe Reader를 다운로드하십시오.
