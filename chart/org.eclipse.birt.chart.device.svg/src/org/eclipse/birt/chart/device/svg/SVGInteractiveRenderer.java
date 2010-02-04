@@ -521,11 +521,7 @@ public class SVGInteractiveRenderer
 			for ( int x = 0; x < triggers.length; x++ )
 			{
 				Trigger tg = triggers[x];
-				if ( tg.getAction( ).getType( ).getValue( ) == ActionType.URL_REDIRECT )
-				{
-					redirect = true;
-					break;
-				}
+				redirect =  MultiActionValuesScriptGenerator.containsRedirection( tg.getAction( ) );
 			}
 			if ( redirect )
 			{

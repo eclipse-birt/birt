@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.device.ScriptMenuHelper;
 import org.eclipse.birt.chart.device.util.CSSHelper;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.MenuStylesKeyType;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
@@ -295,15 +296,49 @@ public class MultiActionValuesScriptGenerator
 		
 		for ( URLValue uv : multiUrlValue.getURLValues( ) )
 		{
-			if ( uv.getBaseUrl( ) == null
-					|| uv.getBaseUrl( ).length( ) <= 0
-					|| uv.getBaseUrl( ).equals( "\"\"" ) )//$NON-NLS-1$
+			if ( !isValidURLValue( uv ) )
 			{
 				continue;
 			}
 			validURLValues.add( uv );
 		}
 		return validURLValues;
+	}
+	
+	private static boolean isValidURLValue( URLValue uv )
+	{
+		return !( uv.getBaseUrl( ) == null || uv.getBaseUrl( ).length( ) <= 0 || uv.getBaseUrl( )
+				.equals( "\"\"" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Check if the specified action contains redirection items.
+	 * 
+	 * @param action
+	 * @return
+	 * @since 2.5.2
+	 */
+	public static boolean containsRedirection( Action action )
+	{
+		if ( action instanceof MultipleActions )
+		{
+			return getValidActions( (MultipleActions) action ).size( ) > 0;
+		}
+		else if ( action.getType( ).getValue( ) == ActionType.URL_REDIRECT )
+		{
+			ActionValue av = action.getValue( );
+			if ( av instanceof URLValue )
+			{
+				return isValidURLValue( (URLValue) av );
+			}
+			else if ( av instanceof MultiURLValues )
+			{
+				return getValidURLValues( (MultiURLValues) av )
+						.size( ) > 0;
+			}
+		}
+
+		return false;
 	}
 	
 	/**
@@ -324,20 +359,15 @@ public class MultiActionValuesScriptGenerator
 			if ( av instanceof URLValue )
 			{
 				URLValue uv = (URLValue) av;
-				if ( uv.getBaseUrl( ) == null
-						|| uv.getBaseUrl( ).length( ) <= 0
-						|| uv.getBaseUrl( ).equals( "\"\"" ) )//$NON-NLS-1$
+				if ( !isValidURLValue( uv ) )
 				{
 					continue;
 				}
-
 			}
 			else if ( av instanceof ScriptValue )
 			{
 				ScriptValue sv = (ScriptValue) av;
-				if ( sv.getScript( ) == null
-						|| sv.getScript( ).length( ) == 0
-						|| sv.getScript( ).equals( "\"\"" ) )//$NON-NLS-1$
+				if ( !isValidScripts( sv ) )
 				{
 					continue;
 				}
@@ -346,6 +376,17 @@ public class MultiActionValuesScriptGenerator
 			validActions.add( subAction );
 		}
 		return validActions;
+	}
+
+	/**
+	 * @param sv
+	 * @return
+	 */
+	private static boolean isValidScripts( ScriptValue sv )
+	{
+		return !( sv.getScript( ) == null
+				|| sv.getScript( ).length( ) == 0
+				|| sv.getScript( ).equals( "\"\"" ) );//$NON-NLS-1$
 	}
 	
 	public static String getBirtChartMenuLib( )
