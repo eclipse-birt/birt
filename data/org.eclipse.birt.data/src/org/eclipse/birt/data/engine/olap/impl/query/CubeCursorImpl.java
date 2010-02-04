@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +29,7 @@ import javax.olap.cursor.Blob;
 import javax.olap.cursor.Clob;
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.Date;
+import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.RowDataMetaData;
 import javax.olap.cursor.Time;
 import javax.olap.cursor.Timestamp;
@@ -36,14 +38,17 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
@@ -69,6 +74,7 @@ public class CubeCursorImpl implements ICubeCursor
 	private Scriptable outerResults;
 	private BirtCubeView cubeView;
 	private ScriptContext cx;
+	private Map<DimLevel, DimensionCursor> dimensionCursorMap;
 	
 	public CubeCursorImpl ( IBaseQueryResults outerResults, CubeCursor cursor, Scriptable scope, ScriptContext cx, ICubeQueryDefinition queryDefn, BirtCubeView view ) throws DataException
 	{
@@ -78,6 +84,8 @@ public class CubeCursorImpl implements ICubeCursor
 		this.cubeView = view;
 		this.cx = cx;
 		
+		this.dimensionCursorMap = new HashMap<DimLevel, DimensionCursor>( );
+		populateDimensionCursor( );
 		this.outerResults = OlapExpressionUtil.createQueryResultsScriptable( outerResults );
 		
 		this.bindingMap = new HashMap( );
@@ -331,7 +339,7 @@ public class CubeCursorImpl implements ICubeCursor
 				return this.outerResults;
 			
 			throw new OLAPException( ResourceConstants.NO_OUTER_RESULTS_EXIST );
-			
+
 		}
 		else
 		{
@@ -343,12 +351,33 @@ public class CubeCursorImpl implements ICubeCursor
 			{
 				try
 				{
-			
 					IBaseExpression expr = (IBaseExpression) this.bindingMap.get( arg0 );
-					result = ScriptEvalUtil.evalExpr( expr,
-							cx.newContext( scope ),
-							ScriptExpression.defaultID,
-							0 );
+					DimLevel dimLevel;
+					try
+					{
+						dimLevel = OlapExpressionUtil.getTargetDimLevel( ( (ScriptExpression) expr ).getText( ) );
+					}
+					catch ( Exception ex )
+					{
+						dimLevel = null;
+					}
+
+					if ( dimLevel != null )
+					{
+						DimensionCursor dimCursor = this.dimensionCursorMap.get( dimLevel );
+						if ( dimCursor != null )
+							result = dimCursor.getObject( dimLevel.getLevelName( ) );
+						else
+							result = ScriptEvalUtil.evalExpr( expr,
+									cx.newContext( scope ),
+									org.eclipse.birt.core.script.ScriptExpression.defaultID,
+									0 );
+					}
+					else
+						result = ScriptEvalUtil.evalExpr( expr,
+								cx.newContext( scope ),
+								org.eclipse.birt.core.script.ScriptExpression.defaultID,
+								0 );
 				}
 				catch ( Exception e )
 				{
@@ -376,6 +405,57 @@ public class CubeCursorImpl implements ICubeCursor
 			}
 		}
 		return result;
+	}
+
+	private void populateDimensionCursor( ) throws OLAPException
+	{
+		if ( this.cubeView.getPageEdgeView( ) != null
+				&& this.queryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE ) != null )
+			populateDimensionObjects( this.queryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE )
+					.getDimensions( ),
+					cubeView.getPageEdgeView( )
+							.getEdgeCursor( )
+							.getDimensionCursor( )
+							.iterator( ) );
+		
+		/*
+		 * Populate Row Edge dimension objects.
+		 */
+		if ( cubeView.getRowEdgeView( ) != null && this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE )!= null )
+			populateDimensionObjects( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE )
+					.getDimensions( ),
+					cubeView.getRowEdgeView( )
+							.getEdgeCursor( )
+							.getDimensionCursor( )
+							.iterator( ) );
+
+		/*
+		 * Populate Column Edge dimension objects.
+		 */
+		if ( cubeView.getColumnEdgeView( ) != null && this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE )!= null)
+			populateDimensionObjects( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE )
+					.getDimensions( ),
+					cubeView.getColumnEdgeView( )
+							.getEdgeCursor( )
+							.getDimensionCursor( )
+							.iterator( ) );
+	}
+
+	private void populateDimensionObjects(
+			List<IDimensionDefinition> dimensions, Iterator iterator )
+	{
+		for ( int i = 0; i < dimensions.size( ); i++ )
+		{
+			IDimensionDefinition dimDefn = (IDimensionDefinition) dimensions.get( i );
+			IHierarchyDefinition hier = (IHierarchyDefinition) dimDefn.getHierarchy( )
+					.get( 0 );
+			for ( int j = 0; j < hier.getLevels( ).size( ); j++ )
+			{
+				dimensionCursorMap.put( new DimLevel( dimDefn.getName( ),
+						hier.getLevels( ).get( j ).getName( ) ),
+						(DimensionCursor) iterator.next( ) );
+			}
+		}
 	}
 
 	public Object getObject( int arg0, Map arg1 ) throws OLAPException
